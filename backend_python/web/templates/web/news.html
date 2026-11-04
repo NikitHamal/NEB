@@ -33,7 +33,7 @@
         <span class="bhero-kicker"><span class="material-symbols-outlined" aria-hidden="true">{% if a.is_pinned %}push_pin{% else %}{{ a.category_icon }}{% endif %}</span>{% if a.is_pinned %}Pinned{% else %}{{ a.category_label }}{% endif %}</span>
         <h2 class="bhero-title">{{ a.title }}</h2>
         {% if a.summary %}<p class="bhero-sum">{{ a.summary }}</p>{% endif %}
-        <div class="bhero-meta"><strong>{{ a.author_name|mention_links_plain }}</strong><span>{{ a.published_at|time_ago }}</span><span>{{ a.view_count|short_number }} views</span></div>
+        <div class="bhero-meta"><strong>{{ a.author_name|mention_links_plain }}{% if a.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}</strong><span>{{ a.published_at|time_ago }}</span><span>{{ a.view_count|short_number }} views</span></div>
       </div>
       <div class="bhero-art">
         {% if a.cover_image_url %}<img src="{{ a.cover_image_url }}" alt="">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>{% endif %}
@@ -51,7 +51,7 @@
         <span class="bcard-cat"><span class="material-symbols-outlined" aria-hidden="true">{{ a.category_icon }}</span>{{ a.category_label }}</span>
         <h2 class="bcard-title">{{ a.title }}</h2>
         {% if a.summary %}<p class="bcard-sum">{{ a.summary }}</p>{% endif %}
-        <div class="bcard-meta"><b>{{ a.author_name|mention_links_plain }}</b><i></i><span>{{ a.published_at|time_ago }}</span><i></i><span><span class="material-symbols-outlined" aria-hidden="true">visibility</span> {{ a.view_count|short_number }}</span></div>
+        <div class="bcard-meta"><b>{{ a.author_name|mention_links_plain }}{% if a.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}</b><i></i><span>{{ a.published_at|time_ago }}</span><i></i><span><span class="material-symbols-outlined" aria-hidden="true">visibility</span> {{ a.view_count|short_number }}</span></div>
       </div>
     </a>
     {% endif %}{% endfor %}
