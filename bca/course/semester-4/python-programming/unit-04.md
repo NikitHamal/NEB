@@ -289,6 +289,121 @@ Monday 02 November 2026 2027-02-10
 ```
 `random.seed(7)` makes the "random" numbers reproducible. Other useful modules: `os` and `pathlib` (files), `sys`, `json`, `csv`, `re`, `sqlite3`, `argparse`, `logging`, `unittest`, `urllib`, `decimal`, `fractions`.
 
+## 4.7 Seeing the ideas: bricks, scopes and the call stack
+
+A function is a brick: a small, named piece that you can build, test and reuse, and a module or package is a box of such bricks. The plate shows real bricks beside the scope rule that decides which names a function can see. The figures then follow a recursive call down and back up the call stack, and show why a naive recursive Fibonacci repeats work that a cache removes.
+
+```photogrid label="4.1" cols="2" ratio="1.0" caption="Small parts, one big program. (a) A heap of plastic bricks: each brick has a standard connector, so any brick can join any other. A function has a standard interface in the same way (its name, parameters and return value), and a module is a labelled box of bricks. (b) The LEGB rule: Python looks for a name first in the Local scope, then in any Enclosing function, then in the Global (module) scope, and last in the Built-in scope, and it uses the first match."
+@ photo id="bca254/lego" cap="Standard bricks, many models"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.5 0.04 0.9 "reusable parts"
+@ svg cap="LEGB: where Python looks for a name"
+f = Fig(300, 300)
+f.box(6, 6, 288, 288, "", fill=SOFT, stroke=SLATE)
+f.text(18, 20, "B  built-in:  len, print, range", size=10.5, color=SLATE, bold=True, anchor="start")
+f.box(18, 34, 264, 244, "", fill=SAND, stroke=AMBER)
+f.text(30, 50, "G  global (module):  x = 'global'", size=10.5, color=AMBER, bold=True, anchor="start")
+f.box(30, 64, 240, 196, "", fill=BLUE, stroke=NAVY)
+f.text(42, 80, "E  enclosing:  y = 'outer'", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(42, 94, 216, 150, "", fill=MINT, stroke=TEAL)
+f.text(54, 110, "L  local:  z = 'inner'", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 150, "print(z, y, x, len)", size=11, color=NAVY, bold=True)
+f.text(150, 172, "z found in L", size=10, color=TEAL)
+f.text(150, 188, "y found in E", size=10, color=NAVY)
+f.text(150, 204, "x found in G", size=10, color=AMBER)
+f.text(150, 220, "len found in B", size=10, color=SLATE)
+```
+
+```svgfig label="4.1" caption="The call stack of factorial(4). Each call pushes a new frame that waits for the call below it. The deepest call, factorial(1), is the base case and returns 1 without calling again; the frames then pop one by one, each multiplying its n by the value that came back. The values on the right are computed by the cell. If the base case were missing, the stack would grow until Python stops it with a RecursionError."
+import math
+f = Fig(580, 214)
+N = 4
+f.text(110, 14, "calls go down (push)", size=10.5, color=NAVY, bold=True)
+f.text(450, 14, "values come back (pop)", size=10.5, color=TEAL, bold=True)
+for i in range(N):
+    n = N - i
+    y = 24 + i * 42
+    fill = MINT if n == 1 else BLUE
+    f.box(30 + i * 22, y, 170, 34, f"factorial({n})", fill=fill, stroke=TEAL if n == 1 else NAVY, size=11.5, bold=True)
+    val = math.factorial(n)
+    rhs = "base case: 1" if n == 1 else f"{n} x {math.factorial(n - 1)} = {val}"
+    f.box(330 + (N - 1 - i) * 0, y, 230, 34, rhs, fill=MINT if n == 1 else SAND, stroke=TEAL if n == 1 else AMBER, size=11, bold=True)
+    if i < N - 1:
+        f.arrow([(115 + i * 22, y + 35), (126 + i * 22, y + 41)], color=NAVY, sw=1.5)
+f.arrow([(318, 188), (266, 188)], color=TEAL, sw=1.5, dash=True)
+f.arrow([(330, 40), (210, 40)], color=TEAL, sw=1.2, dash=True)
+f.text(290, 208, f"depth = {N} frames,  result = {math.factorial(N)}", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="4.2" caption="The call tree of fib(5) with plain recursion. The same sub-problems are solved again and again: fib(3) appears twice, fib(2) three times and fib(1) five times (amber circles are repeats of fib(2)). The cell counts the calls: 15 for fib(5). A cache (functools.lru_cache) remembers each answer after its first computation, so only 6 distinct calls are needed. The gap grows quickly: fib(30) takes 2,692,537 plain calls but only 31 cached ones."
+calls = []
+def build(n, d):
+    node = {"n": n, "d": d, "kids": []}
+    calls.append(node)
+    if n > 1:
+        node["kids"] = [build(n - 1, d + 1), build(n - 2, d + 1)]
+    return node
+root = build(5, 0)
+leaf = [0]
+def place(nd):
+    if not nd["kids"]:
+        nd["x"] = leaf[0]; leaf[0] += 1
+    else:
+        for k in nd["kids"]: place(k)
+        nd["x"] = sum(k["x"] for k in nd["kids"]) / 2
+place(root)
+f = Fig(580, 222)
+def px(nd): return 30 + nd["x"] * 50
+def py(nd): return 26 + nd["d"] * 38
+for nd in calls:
+    for k in nd["kids"]:
+        f.line(px(nd), py(nd), px(k), py(k), color=SLATE, sw=1.2)
+for nd in calls:
+    rep = nd["n"] == 2
+    f.circle(px(nd), py(nd), 13, fill=SAND if rep else BLUE, stroke=AMBER if rep else NAVY, label=f"f{nd['n']}", size=10, color=AMBER if rep else NAVY)
+total = len(calls)
+cnt = {}
+for nd in calls: cnt[nd["n"]] = cnt.get(nd["n"], 0) + 1
+def calls_of(n): return 1 if n < 2 else 1 + calls_of(n - 1) + calls_of(n - 2)
+f.box(414, 40, 160, 120, "", fill=SOFT, stroke=SLATE)
+f.text(494, 56, f"plain calls = {total}", size=11, color=RED, bold=True)
+f.text(494, 76, f"f1 x{cnt[1]}  f0 x{cnt[0]}", size=10.5, color=SLATE)
+f.text(494, 92, f"f2 x{cnt[2]}  f3 x{cnt[3]}", size=10.5, color=SLATE)
+f.text(494, 116, "with a cache: 6 calls", size=11, color=TEAL, bold=True)
+f.text(494, 138, f"fib(30): {calls_of(30):,} vs 31", size=10.5, color=NAVY, bold=True)
+f.text(494, 210, "f2 = fib(2) repeated", size=9.5, color=AMBER, bold=True)
+```
+
+```python
+from functools import lru_cache
+import sys
+
+def fib(n):
+    return n if n < 2 else fib(n - 1) + fib(n - 2)
+
+@lru_cache(maxsize=None)
+def fibc(n):
+    return n if n < 2 else fibc(n - 1) + fibc(n - 2)
+
+print(fib(10), fibc(30), fibc.cache_info().misses)
+print(sys.getrecursionlimit())
+```
+```output
+55 832040 31
+1000
+```
+### 4.7.1 Eight advantages of using functions and modules
+
+1. **Reuse of code.** A function is written once and called many times, so a fee-calculation routine does not have to be copied into five places. When the rule changes, you edit one function. This lowers both the effort and the number of bugs.
+2. **Easier problem solving.** A large program is broken into small, named steps such as `read_marks()`, `average()` and `print_report()`. Each step can be understood on its own. This is the same idea that the Software Engineering book calls modular design.
+3. **Easier testing and debugging.** A small function can be called with known inputs and its output checked at once (Unit 8). When a result is wrong, you know which brick to open. A fault inside one long script is much harder to find.
+4. **Readable programs.** A line such as `total = sum_of_digits(num)` explains itself better than four lines of arithmetic. Good names serve as documentation. A new team member can follow the program from the top-level calls.
+5. **Hiding detail (abstraction).** The caller needs to know what a function does, not how. A Nagarik App style function `verify_citizenship(no)` may change its inside completely without changing the callers. The weakness is that a badly named function hides detail that a reader needs.
+6. **Controlled variables (scope).** Names created inside a function are local, so two functions can both use `i` or `total` without clashing. The LEGB rule decides what each name means. This prevents many accidental changes to global values.
+7. **Teamwork through modules.** Each student writes one module, such as `fees.py` or `report.py`, and the group joins them with `import`. A package groups related modules in a folder with `__init__.py`. Work can go on in parallel with fewer merge problems.
+8. **A huge ready-made library.** `import math`, `datetime`, `random`, `json`, `csv` and `statistics` give hundreds of tested functions for free, and `pip` adds more from PyPI. Using a tested module is faster and safer than writing your own. Check the licence and the version of any third-party package before you depend on it.
+
 ## Formula and fact sheet
 
 - `def f(a, b=1, *args, **kw): return …`; no `return` → `None`.
@@ -382,3 +497,125 @@ work ran
 **7.** Python looks for a name in the Local, then Enclosing, then Global and finally Built-in scope. `nonlocal x` in an inner function makes assignments to `x` change the enclosing function's variable instead of creating a local one.
 **8.** The module-level `__name__` is `"__main__"` only when the file is run directly. The guard lets a file be both a reusable module (imported without side effects) and a runnable script.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Explain the kinds of function arguments in Python with a program. (5 marks)**
+
+A **parameter** is a name in the `def` line; an **argument** is the value passed in the call. Python offers five kinds.
+
+1. **Positional:** matched by position, `area(3, 4)`.
+2. **Keyword:** matched by name, `area(h=4, w=3)`, so the order does not matter.
+3. **Default:** `def area(w, h=1)` uses 1 when `h` is omitted. A default is evaluated once, when the function is defined, so never use a mutable default such as `[]`; use `None` and create the list inside.
+4. **Variable positional `*args`:** collects extra positional arguments into a **tuple**.
+5. **Variable keyword `**kwargs`:** collects extra keyword arguments into a **dictionary**.
+
+The order in a definition is: normal parameters, defaults, `*args`, keyword-only, `**kwargs`. Python passes **object references**: a mutable argument such as a list can be changed inside the function, but rebinding the parameter name does not affect the caller.
+
+```python
+def report(name, marks=0, *extra, **info):
+    print(name, marks, extra, info)
+
+report("Sita")
+report("Ram", 72, 5, 6, section="A", roll=7)
+report(marks=90, name="Hari")
+
+def add_item(item, box=None):
+    box = [] if box is None else box
+    box.append(item)
+    return box
+
+print(add_item(1), add_item(2))
+```
+```output
+Sita 0 () {}
+Ram 72 (5, 6) {'section': 'A', 'roll': 7}
+Hari 90 () {}
+[1] [2]
+```
+**Q2. Explain the scope of variables and the LEGB rule. How do `global` and `nonlocal` work? (5 marks)**
+
+The **scope** of a name is the part of the program where it can be used. Python searches in the order **Local, Enclosing, Global, Built-in** (Plate 4.1b) and stops at the first match.
+
+- **Local:** names assigned inside a function exist only while it runs.
+- **Enclosing:** names of an outer function seen by an inner function (a closure).
+- **Global:** names at the top level of the module.
+- **Built-in:** `len`, `print`, `range` and so on.
+
+Reading a global name inside a function is allowed. **Assigning** to a name inside a function creates a new local one, unless the name is declared. `global x` makes the assignment change the module-level `x`. `nonlocal n` makes it change the variable of the nearest enclosing function. Without the declaration, assigning to a variable that is also read earlier in the function raises `UnboundLocalError`.
+
+```python
+x = "global"
+
+def outer():
+    y = "outer"
+    def inner():
+        nonlocal y
+        y = "changed by inner"
+        z = "inner"
+        return z, y, x, len(x)
+    result = inner()
+    return result, y
+
+def bump():
+    global x
+    x = "global changed"
+
+print(outer())
+bump()
+print(x)
+```
+```output
+(('inner', 'changed by inner', 'global', 6), 'changed by inner')
+global changed
+```
+**Advice:** prefer parameters and return values to global variables, because they make a function easy to test.
+
+**Q3. What is recursion? Explain it with the factorial and Fibonacci programs, the call stack, and compare it with iteration. (10 marks)**
+
+**Introduction.** **Recursion** is a technique in which a function calls itself to solve a smaller copy of the same problem. Every recursive function needs a **base case**, which returns without calling again, and a **recursive case**, which moves towards the base case. Without a base case the calls never stop and Python raises `RecursionError` at its limit (1000 frames by default).
+
+**Factorial.** n! = n x (n-1)!, with 0! = 1! = 1. The call `factorial(4)` pushes four frames; the base case returns 1 and the frames pop, giving 2, 6 and 24 (Fig. 4.1).
+
+**Fibonacci.** fib(n) = fib(n-1) + fib(n-2) with fib(0) = 0 and fib(1) = 1. The plain version calls itself twice, so the same sub-problems are repeated: fib(5) makes 15 calls, and fib(30) makes more than 2.6 million (Fig. 4.2). **Memoisation** with `functools.lru_cache` stores each result and reduces the work to 31 calls for fib(30).
+
+```python
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fib(n):
+    return n if n < 2 else fib(n - 1) + fib(n - 2)
+
+def fib_loop(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+print(factorial(4), factorial(10))
+print([fib(i) for i in range(10)])
+print(fib(20) == fib_loop(20), fib_loop(90))
+```
+```output
+24 3628800
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+True 2880067194370816120
+```
+**The call stack.** Each call stores its parameters, local names and return address in a stack frame. Deep recursion uses a lot of memory, which is the reason for the limit.
+
+**Comparison.**
+
+| Point | Recursion | Iteration |
+|---|---|---|
+| Repetition by | function calls itself | loop statement |
+| Termination | base case | loop condition |
+| Memory | one stack frame per call | constant |
+| Speed | slower (call overhead) | faster |
+| Code | short for trees, divide and conquer | simple for counting |
+| Risk | RecursionError, repeated work | infinite loop |
+
+**Where recursion is natural:** tree and folder traversal, the Tower of Hanoi, quick sort and merge sort, and parsing expressions.
+
+**Conclusion.** Use recursion when the problem is itself defined in terms of smaller copies of itself and the depth is small; otherwise use a loop, or add a cache when sub-problems repeat.
