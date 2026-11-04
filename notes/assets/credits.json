@@ -1884,6 +1884,19 @@
   "source": "Wikimedia Commons",
   "title": "Refreshable Braille display 2010 0123"
  },
+ "bca155/cardboard": {
+  "author": "glacial23",
+  "bytes": 611139,
+  "credit": "Cardboard mockup - 1st draft",
+  "fetched": "2026-11-04",
+  "file": "bca155/cardboard.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SN-Voice_(SN76477_based_noisemaker)_-_Cardboard_mockup_-_1st_draft_(3167680041).jpg",
+  "sha1": "f2451bb7120dc2c4",
+  "source": "Wikimedia Commons",
+  "title": "SN-Voice (SN76477 based noisemaker) - Cardboard mockup - 1st draft (3167680041)"
+ },
  "bca155/colorcharts": {
   "author": "Vyacheslav Argenberg",
   "bytes": 435131,
@@ -1962,6 +1975,19 @@
   "source": "Wikimedia Commons",
   "title": "Amazon Echo Plus 02"
  },
+ "bca155/echodot": {
+  "author": "Pittigrilli",
+  "bytes": 387802,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/echodot.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Amazon_Echo_Dot_(virtual_digital_assistant)_with_normal_coffee_mug_as_size_comparison.jpg",
+  "sha1": "4e17b48a07e23c66",
+  "source": "Wikimedia Commons",
+  "title": "Amazon Echo Dot (virtual digital assistant) with normal coffee mug as size comparison"
+ },
  "bca155/elevator": {
   "author": "Xnatedawgx",
   "bytes": 1550711,
@@ -1988,6 +2014,19 @@
   "source": "Wikimedia Commons",
   "title": "Eyetracking heat map Wikipedia"
  },
+ "bca155/eyetracker": {
+  "author": "Rai S G Bari",
+  "bytes": 251387,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/eyetracker.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Eye_tracker.jpg",
+  "sha1": "98962c560bd890cd",
+  "source": "Wikimedia Commons",
+  "title": "Eye tracker"
+ },
  "bca155/faders": {
   "author": "Rosa y Dani",
   "bytes": 307339,
@@ -2001,6 +2040,45 @@
   "source": "Wikimedia Commons",
   "title": "Mixing with an akiyama II - Flickr - Rosa y Dani"
  },
+ "bca155/gazeplot": {
+  "author": "Tschneidr",
+  "bytes": 688523,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/gazeplot.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gaze_plot_eye_tracking_on_Wikipedia_with_3_participants.png",
+  "sha1": "40362edce6eab73f",
+  "source": "Wikimedia Commons",
+  "title": "Gaze plot eye tracking on Wikipedia with 3 participants"
+ },
+ "bca155/glass": {
+  "author": "Ted Eytan",
+  "bytes": 219665,
+  "credit": "[1] / Flickr",
+  "fetched": "2026-11-04",
+  "file": "bca155/glass.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Google_Glass_Explorer_Edition.jpeg",
+  "sha1": "cf247fa328d8ab78",
+  "source": "Wikimedia Commons",
+  "title": "Google Glass Explorer Edition"
+ },
+ "bca155/gohome": {
+  "author": "MetricSupporter89",
+  "bytes": 877497,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/gohome.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Google_Home_Original.jpg",
+  "sha1": "bb4be502063976c5",
+  "source": "Wikimedia Commons",
+  "title": "Google Home Original"
+ },
  "bca155/gutenberg": {
   "author": "NYC Wanderer (Kevin Eng)",
   "bytes": 423286,
@@ -2013,6 +2091,19 @@
   "sha1": "7fa7d64473acb78f",
   "source": "Wikimedia Commons",
   "title": "Gutenberg Bible, Lenox Copy, New York Public Library, 2009. Pic 01"
+ },
+ "bca155/headset": {
+  "author": "Chuck Kardous",
+  "bytes": 613629,
+  "credit": "NIOSH",
+  "fetched": "2026-11-04",
+  "file": "bca155/headset.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Testing_output_from_call_center_operator_headset.jpg",
+  "sha1": "dd3baf1ef0ad8be9",
+  "source": "Wikimedia Commons",
+  "title": "Testing output from call center operator headset"
  },
  "bca155/ishihara": {
   "author": "Shinobu Ishihara",
@@ -2079,6 +2170,58 @@
   "source": "Wikimedia Commons",
   "title": "Noticias Arabes, año I, n 11"
  },
+ "bca155/paperipad": {
+  "author": "Tobe101",
+  "bytes": 720376,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/paperipad.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Paper_Prototype_on_iPad.jpg",
+  "sha1": "e98fbba2592128f7",
+  "source": "Wikimedia Commons",
+  "title": "Paper Prototype on iPad"
+ },
+ "bca155/paperweb": {
+  "author": "Sage Ross",
+  "bytes": 375916,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/paperweb.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Paper_prototype_of_website_user_interface,_2015-04-16.jpg",
+  "sha1": "9d2fcd57dfb692e3",
+  "source": "Wikimedia Commons",
+  "title": "Paper prototype of website user interface, 2015-04-16"
+ },
+ "bca155/pepper": {
+  "author": "Kukarobot",
+  "bytes": 735579,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/pepper.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pepper_a_humanoid_robot.jpg",
+  "sha1": "f2c4c67ba4779787",
+  "source": "Wikimedia Commons",
+  "title": "Pepper a humanoid robot"
+ },
+ "bca155/pinetime": {
+  "author": "Unnerving duck",
+  "bytes": 655425,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/pinetime.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:PineTime_smartwatch.jpg",
+  "sha1": "a65a2550d2154ab7",
+  "source": "Wikimedia Commons",
+  "title": "PineTime smartwatch"
+ },
  "bca155/restroom": {
   "author": "Iris Tsung",
   "bytes": 267732,
@@ -2105,6 +2248,32 @@
   "source": "Wikimedia Commons",
   "title": "Grey rotary dial telephone"
  },
+ "bca155/storyb": {
+  "author": "Iván López Fuente",
+  "bytes": 957479,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/storyb.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Storyboard_-_Iv%C3%A1n_L%C3%B3pez_Fuente.jpg",
+  "sha1": "a165fdb196c9ceb1",
+  "source": "Wikimedia Commons",
+  "title": "Storyboard - Iván López Fuente"
+ },
+ "bca155/switchpad": {
+  "author": "Evan-Amos",
+  "bytes": 215095,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/switchpad.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Nintendo-Switch-Pro-Controller-FL.jpg",
+  "sha1": "440adc24bcc462d3",
+  "source": "Wikimedia Commons",
+  "title": "Nintendo-Switch-Pro-Controller-FL"
+ },
  "bca155/tiled": {
   "author": "heipei from Deutschland",
   "bytes": 118479,
@@ -2117,6 +2286,71 @@
   "sha1": "8e9b17c6e0f2d526",
   "source": "Wikimedia Commons",
   "title": "I'll just need one window, thanks very much"
+ },
+ "bca155/usab4": {
+  "author": "UMatern",
+  "bytes": 508317,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/usab4.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Usability_4.JPG",
+  "sha1": "d5481a4a19395c4a",
+  "source": "Wikimedia Commons",
+  "title": "Usability 4"
+ },
+ "bca155/uxtest": {
+  "author": "Samuel Mann from Dunedin, New Zealand",
+  "bytes": 438646,
+  "credit": "Project User Experience Testing",
+  "fetched": "2026-11-04",
+  "file": "bca155/uxtest.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Project_User_Experience_Testing_(9719939867).jpg",
+  "sha1": "523ce54c657e7e89",
+  "source": "Wikimedia Commons",
+  "title": "Project User Experience Testing (9719939867)"
+ },
+ "bca155/verplank": {
+  "author": "mayonissen",
+  "bytes": 363370,
+  "credit": "Own work , https://www.flickr.com/photos/dotx3/4758268976/",
+  "fetched": "2026-11-04",
+  "file": "bca155/verplank.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Billverplank_ciid_2010.jpg",
+  "sha1": "1e3282140fac606e",
+  "source": "Wikimedia Commons",
+  "title": "Billverplank ciid 2010"
+ },
+ "bca155/visspeech": {
+  "author": "Clauer73",
+  "bytes": 301297,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/visspeech.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SonogramVisibleSpeech.png",
+  "sha1": "0384d4b56ae4bb19",
+  "source": "Wikimedia Commons",
+  "title": "SonogramVisibleSpeech"
+ },
+ "bca155/watchfit": {
+  "author": "D Eaketts",
+  "bytes": 540821,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/watchfit.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Huawei_Smartwatch_Fit_2.jpg",
+  "sha1": "eea771bd56d7d444",
+  "source": "Wikimedia Commons",
+  "title": "Huawei Smartwatch Fit 2"
  },
  "bca155/wayfind1": {
   "author": "PaulSyms22",
