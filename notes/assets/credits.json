@@ -5940,6 +5940,19 @@
   "source": "Wikimedia Commons",
   "title": "An illustration of the dining philosophers problem"
  },
+ "bca303/doorbell": {
+  "author": "Bjankuloski06",
+  "bytes": 350166,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/doorbell.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Doorbell_button,_Highwic.jpg",
+  "sha1": "63df5903df99c5cb",
+  "source": "Wikimedia Commons",
+  "title": "Doorbell button, Highwic"
+ },
  "bca303/gosling": {
   "author": "Peter Campbell",
   "bytes": 905915,
@@ -5966,6 +5979,58 @@
   "source": "Wikimedia Commons",
   "title": "New York City Gridlock"
  },
+ "bca303/javafx": {
+  "author": "DavidL",
+  "bytes": 59625,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/javafx.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:JavaFX_-_Simple_3D_scene.png",
+  "sha1": "35523891bdf3ed79",
+  "source": "Wikimedia Commons",
+  "title": "JavaFX - Simple 3D scene"
+ },
+ "bca303/lisa": {
+  "author": "Timothy Colegrove",
+  "bytes": 207561,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/lisa.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Apple_Lisa_Computer.jpg",
+  "sha1": "2bed8178015f9b95",
+  "source": "Wikimedia Commons",
+  "title": "Apple Lisa Computer"
+ },
+ "bca303/mac": {
+  "author": "Benoît Prieur",
+  "bytes": 520696,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/mac.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Apple_Museum_(Prague)_Macintosh_128K_(1984)_-_1.jpg",
+  "sha1": "26be58bd55a9b957",
+  "source": "Wikimedia Commons",
+  "title": "Apple Museum (Prague) Macintosh 128K (1984) - 1"
+ },
+ "bca303/reenskaug": {
+  "author": "Trygve Reenskaug",
+  "bytes": 50592,
+  "credit": "Trygve Reenskaug",
+  "fetched": "2026-11-04",
+  "file": "bca303/reenskaug.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Trygve_Reenskaug_(2010).jpg",
+  "sha1": "572864b7a868b510",
+  "source": "Wikimedia Commons",
+  "title": "Trygve Reenskaug (2010)"
+ },
  "bca303/skylake": {
   "author": "Fritzchens Fritz from Berlin",
   "bytes": 1473875,
@@ -5991,6 +6056,32 @@
   "sha1": "ea7d844d924ce438",
   "source": "Wikimedia Commons",
   "title": "The Mansion House at Sun Microsystems Santa Clara headquarters - panoramio"
+ },
+ "bca303/swing1": {
+  "author": "DavidL",
+  "bytes": 16194,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/swing1.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Java_Swing_test_feu_tricolore.png",
+  "sha1": "c0f275e68703b197",
+  "source": "Wikimedia Commons",
+  "title": "Java Swing test feu tricolore"
+ },
+ "bca303/swing2": {
+  "author": "Shuangwhywhy",
+  "bytes": 1042325,
+  "credit": "Screenshot of my own program on my personal computer at home",
+  "fetched": "2026-11-04",
+  "file": "bca303/swing2.png",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Swing_custom_painted_screenshot_1.png",
+  "sha1": "7d66310b906fe241",
+  "source": "Wikimedia Commons",
+  "title": "Swing custom painted screenshot 1"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
