@@ -1585,6 +1585,19 @@
   "source": "Wikimedia Commons",
   "title": "Intel 8086 CPU Die"
  },
+ "bca152/dma8237": {
+  "author": "Deutsches Museum / Johann Detter",
+  "bytes": 252031,
+  "credit": "https://digital.deutsches-museum.de/de/digital-catalogue/collection-object/1989-140T9/",
+  "fetched": "2026-11-04",
+  "file": "bca152/dma8237.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Siemens_SAB8237A5P.jpg",
+  "sha1": "ad0eab525ae22963",
+  "source": "Wikimedia Commons",
+  "title": "Siemens SAB8237A5P"
+ },
  "bca152/ibm360": {
   "author": "Dave Ross",
   "bytes": 501295,
@@ -1597,6 +1610,19 @@
   "sha1": "ed27d191cb13ecb5",
   "source": "Wikimedia Commons",
   "title": "IBM System360 Model 30"
+ },
+ "bca152/lpt": {
+  "author": "Duncan Lithgow",
+  "bytes": 515633,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca152/lpt.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Parallel_computer_printer_port.jpg",
+  "sha1": "08d315f64bd6c60a",
+  "source": "Wikimedia Commons",
+  "title": "Parallel computer printer port"
  },
  "bca152/mark1": {
   "author": "Capvideo",
