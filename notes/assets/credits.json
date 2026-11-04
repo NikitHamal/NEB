@@ -7500,6 +7500,19 @@
   "source": "Wikimedia Commons",
   "title": "Charles Babbage 1860"
  },
+ "bcagk/barcode": {
+  "author": "Network.nt",
+  "bytes": 246568,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/barcode.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:CCD_Barcode_Scanner-1.jpg",
+  "sha1": "7649cceeedaee522",
+  "source": "Wikimedia Commons",
+  "title": "CCD Barcode Scanner-1"
+ },
  "bcagk/bell": {
   "author": "Unknown author Unknown author",
   "bytes": 598600,
@@ -7630,6 +7643,32 @@
   "source": "Wikimedia Commons",
   "title": "Professor Alexander Fleming at work in his laboratory at St Mary's Hospital, London, during the Second World War. D17801 colorized"
  },
+ "bcagk/inkjet": {
+  "author": "Klosito",
+  "bytes": 313901,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/inkjet.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Inkjet_printer,_no_case,_backside.JPG",
+  "sha1": "173ff7ffa99f08bd",
+  "source": "Wikimedia Commons",
+  "title": "Inkjet printer, no case, backside"
+ },
+ "bcagk/joystick": {
+  "author": "Bultro",
+  "bytes": 199340,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/joystick.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Joystick_Flashfire.jpg",
+  "sha1": "cf55b0f619360025",
+  "source": "Wikimedia Commons",
+  "title": "Joystick Flashfire"
+ },
  "bcagk/kanchen": {
   "author": "Sudipto2cool",
   "bytes": 177495,
@@ -7642,6 +7681,32 @@
   "sha1": "79741ef36b301ba3",
   "source": "Wikimedia Commons",
   "title": "Kanchenjunga from Pelling"
+ },
+ "bcagk/laptop": {
+  "author": "André Karwath aka Aka",
+  "bytes": 241405,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/laptop.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_Thinkpad_R51.jpg",
+  "sha1": "09514980010cb8d0",
+  "source": "Wikimedia Commons",
+  "title": "IBM Thinkpad R51"
+ },
+ "bcagk/lightpen": {
+  "author": "Tomwsulcer",
+  "bytes": 249471,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/lightpen.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:SAGE_console_and_light_gun_at_CHM.jpg",
+  "sha1": "0dedd36656095266",
+  "source": "Wikimedia Commons",
+  "title": "SAGE console and light gun at CHM"
  },
  "bcagk/lumbini": {
   "author": "Rangan Datta Wiki",
@@ -7656,6 +7721,58 @@
   "source": "Wikimedia Commons",
   "title": "Lumbini Maya Devi Temple 1"
  },
+ "bcagk/mainframe": {
+  "author": "Agiorgio",
+  "bytes": 236403,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/mainframe.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:System_z_Frames.JPG",
+  "sha1": "a59d774345a4085f",
+  "source": "Wikimedia Commons",
+  "title": "System z Frames"
+ },
+ "bcagk/mem": {
+  "author": "Mister rf",
+  "bytes": 408641,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/mem.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SanDisk_128MB_SD_card.jpg",
+  "sha1": "0c87674e0fcbcf7e",
+  "source": "Wikimedia Commons",
+  "title": "SanDisk 128MB SD card"
+ },
+ "bcagk/mic": {
+  "author": "Nicolas Rück (WMDE)",
+  "bytes": 244595,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/mic.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rode_NT-USB.jpg",
+  "sha1": "2887e3cd958a1094",
+  "source": "Wikimedia Commons",
+  "title": "Rode NT-USB"
+ },
+ "bcagk/micr": {
+  "author": "SRI International",
+  "bytes": 373291,
+  "credit": "SRI International",
+  "fetched": "2026-11-04",
+  "file": "bcagk/micr.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Check_with_MICR.jpg",
+  "sha1": "4c0ebe8f1011cbfe",
+  "source": "Wikimedia Commons",
+  "title": "Check with MICR"
+ },
  "bcagk/monal": {
   "author": "Brian Gratwicke",
   "bytes": 266840,
@@ -7668,6 +7785,19 @@
   "sha1": "56c99546ad1a71fc",
   "source": "Wikimedia Commons",
   "title": "Lophophorus impejanus -Hamilton Zoo-8a"
+ },
+ "bcagk/monitor": {
+  "author": "Lucasbosch",
+  "bytes": 1206349,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/monitor.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:EIZO_Foris_FG2421_VGA_computer_monitor_displaying_test_pattern.png",
+  "sha1": "7c59d6ccf054bdaa",
+  "source": "Wikimedia Commons",
+  "title": "EIZO Foris FG2421 VGA computer monitor displaying test pattern"
  },
  "bcagk/nobel": {
   "author": "Osama Shukir Muhammed Amin FRCP(Glasg)",
@@ -7694,6 +7824,19 @@
   "sha1": "e9a8d3da589a68ba",
   "source": "Wikimedia Commons",
   "title": "Olympic rings on the Eiffel Tower 2024 (5)"
+ },
+ "bcagk/omr": {
+  "author": "The Japan Racing Association",
+  "bytes": 683808,
+  "credit": "Distributed by The Japan Racing Association at Fukushima Racecourse.",
+  "fetched": "2026-11-04",
+  "file": "bcagk/omr.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:JRA_Fukushima_OMR_betting_slip.jpg",
+  "sha1": "14d6103e375e8276",
+  "source": "Wikimedia Commons",
+  "title": "JRA Fukushima OMR betting slip"
  },
  "bcagk/ottawa": {
   "author": "Saffron Blaze",
@@ -7734,6 +7877,19 @@
   "source": "Wikimedia Commons",
   "title": "Shey-Phoksundo Lake in Dolpa"
  },
+ "bcagk/plotter": {
+  "author": "Windell Oskay",
+  "bytes": 58968,
+  "credit": "https://www.flickr.com/photos/oskay/400591106/",
+  "fetched": "2026-11-04",
+  "file": "bcagk/plotter.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HP_Plotter_reporting_for_duty!.jpg",
+  "sha1": "fc6b8d0c4bcee655",
+  "source": "Wikimedia Commons",
+  "title": "HP Plotter reporting for duty!"
+ },
  "bcagk/pns": {
   "author": "Amar Chitrakar",
   "bytes": 743700,
@@ -7746,6 +7902,19 @@
   "sha1": "856e405b41e0bc76",
   "source": "Wikimedia Commons",
   "title": "Amar Chitrakar - Portrait of King Prithvi Narayan Shah"
+ },
+ "bcagk/projector": {
+  "author": "Dave Pape",
+  "bytes": 125440,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/projector.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:InFocus_IN34.jpg",
+  "sha1": "1d21c3cfeb81384f",
+  "source": "Wikimedia Commons",
+  "title": "InFocus IN34"
  },
  "bcagk/rara": {
   "author": "Prabeshsdev with additional fixes by Cart",
@@ -7799,6 +7968,19 @@
   "source": "Wikimedia Commons",
   "title": "Erg Chebbi in the evening light"
  },
+ "bcagk/scanner": {
+  "author": "Bultro",
+  "bytes": 265035,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/scanner.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Trust_Flat_Scan_USB_19200.jpg",
+  "sha1": "175d52e6298d4a47",
+  "source": "Wikimedia Commons",
+  "title": "Trust Flat Scan USB 19200"
+ },
  "bcagk/singha": {
   "author": "Dirgha Man Chitrakar",
   "bytes": 172326,
@@ -7811,6 +7993,19 @@
   "sha1": "648c062e8dac3bb5",
   "source": "Wikimedia Commons",
   "title": "Singha Durbar in 1915"
+ },
+ "bcagk/super": {
+  "author": "Derrick Coetzee from Berkeley, CA, USA",
+  "bytes": 372142,
+  "credit": "Person walking between Hopper Cray XE6 racks Uploaded by Dcoetzee",
+  "fetched": "2026-11-04",
+  "file": "bcagk/super.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Person_walking_between_Hopper_Cray_XE6_racks.jpg",
+  "sha1": "cd8d406af5af97af",
+  "source": "Wikimedia Commons",
+  "title": "Person walking between Hopper Cray XE6 racks"
  },
  "bcagk/tenzing": {
   "author": "Jamling Tenzing Norgay",
@@ -7850,6 +8045,19 @@
   "sha1": "b6d1ee7c87357ea2",
   "source": "Wikimedia Commons",
   "title": "Tilicho lake Manang"
+ },
+ "bcagk/trackball": {
+  "author": "Bobulous",
+  "bytes": 183055,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/trackball.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kensington_Expert_Mouse_Wired_Trackball_64325.jpg",
+  "sha1": "5e45b50f7f3bd492",
+  "source": "Wikimedia Commons",
+  "title": "Kensington Expert Mouse Wired Trackball 64325"
  },
  "bcagk/unhq": {
   "author": "Jakub Hałun",
