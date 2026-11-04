@@ -20,7 +20,8 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
   letter-spacing: -.02em;
 }
 :is(input, textarea, select, [contenteditable]):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 1px; }
-.md-search-bar:focus-within { outline: 2px solid var(--md-primary); outline-offset: 1px; border-color: transparent; }
+:is(input, textarea, select):is([class*="md-"], [class*="neb-"]):focus-visible { outline: none; }
+.md-search-bar:focus-within { outline: none; border-color: var(--md-primary); }
 
 /* ---------- scrollbars: thin, tonal ---------- */
 @media (hover: hover) and (pointer: fine) {

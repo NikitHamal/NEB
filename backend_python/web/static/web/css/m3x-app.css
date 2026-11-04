@@ -37,7 +37,8 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
   letter-spacing: -.02em;
 }
 :is(input, textarea, select, [contenteditable]):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 1px; }
-.md-search-bar:focus-within { outline: 2px solid var(--md-primary); outline-offset: 1px; border-color: transparent; }
+:is(input, textarea, select):is([class*="md-"], [class*="neb-"]):focus-visible { outline: none; }
+.md-search-bar:focus-within { outline: none; border-color: var(--md-primary); }
 
 /* ---------- scrollbars: thin, tonal ---------- */
 @media (hover: hover) and (pointer: fine) {
@@ -129,14 +130,14 @@ a.md-card:active, .md-card[href]:active { transform: scale(.985); }
 .md-chip-active { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .md-chip-active:hover { background: var(--md-primary-container); }
 
-/* ---------- fields: tonal fill, big corners, one clear focus ring ---------- */
+/* ---------- fields: white fill, big corners, one stroke that turns primary on focus (see app-fields.css) ---------- */
 .md-input, .md-select, .md-textarea, .md-text-field {
   border-radius: var(--md-shape-md); font-family: var(--body);
   background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant);
   transition: border-radius .5s var(--spring), border-color .2s, background-color .2s;
 }
 .md-input:hover, .md-select:hover, .md-textarea:hover, .md-text-field:hover { border-color: var(--md-outline); }
-.md-input:focus, .md-select:focus, .md-textarea:focus, .md-text-field:focus { border-color: var(--md-primary); outline: 2px solid var(--md-primary); outline-offset: -1px; }
+.md-input:focus, .md-select:focus, .md-textarea:focus, .md-text-field:focus { border-color: var(--md-primary); outline: none; }
 .md-label { font-family: var(--body); font-weight: 700; }
 
 /* ---------- headings used as page titles get the display voice and a tighter measure ---------- */
@@ -768,14 +769,13 @@ select.neb-sel-native {
 }
 .neb-sel {
   display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 48px; padding: 0 10px 0 16px;
-  background: var(--md-surface-container-high); color: var(--md-on-surface); border: 1px solid var(--md-outline-variant); border-radius: 16px;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface); border: 1.5px solid var(--md-outline-variant); border-radius: 16px;
   font: inherit; font-size: .9375rem; font-weight: 500; text-align: left; cursor: pointer; box-sizing: border-box;
   transition: border-color .15s, background-color .15s, border-radius .45s var(--spring);
 }
 .neb-sel.is-inline { display: inline-flex; width: auto; max-width: 100%; }
 .neb-sel:hover { border-color: var(--md-outline); border-radius: 20px; }
-.neb-sel:focus-visible, .neb-sel.is-open { border-color: var(--md-primary); outline: 2px solid var(--md-primary); outline-offset: -1px; border-radius: 22px; }
-.neb-sel:active { background: var(--md-surface-container-highest); }
+.neb-sel:focus-visible, .neb-sel.is-open { border-color: var(--md-primary); outline: none; border-radius: 22px; }
 .neb-sel:disabled { opacity: .5; cursor: not-allowed; border-radius: 16px; }
 .neb-sel[hidden] { display: none; }
 .neb-sel-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1934,6 +1934,88 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 .profile-page .ov-stat.academic { background: var(--md-primary-container); }
 .profile-page .ov-stat.academic .ov-stat-value,
 .profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
+
+/* ---- m3x/app-fields.css ---- */
+/* One field language. Every text field, picker trigger, select and option card is a white
+   (--x-field) surface with ONE 1.5px stroke. Focus and selection change that stroke's colour and
+   nothing else: no tonal periwinkle well, no outline stacked on a border, no second ring. */
+:root { --x-field: var(--md-surface-container-lowest); --x-field-line: color-mix(in srgb, var(--md-outline) 58%, var(--md-surface)); --x-line-w: 1.5px; }
+
+/* ---------- text fields, pickers, selects ---------- */
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search, .lib-sort-select-wrapper) {
+  background: var(--x-field);
+  color: var(--md-on-surface);
+  border: var(--x-line-w) solid var(--x-field-line);
+  outline: none;
+}
+#homePostForm :is(.hf-identity-trigger, .hf-cat-trigger, .hf-emoji-search-wrap) {
+  background: var(--x-field);
+  color: var(--md-on-surface);
+  border: var(--x-line-w) solid var(--x-field-line);
+}
+#homePostForm :is(.hf-identity-trigger, .hf-cat-trigger):is(:hover, :focus-visible, [aria-expanded="true"]) { border-color: var(--md-primary); background: var(--x-field); }
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search, .lib-sort-select-wrapper):hover:not(:focus):not(:disabled) {
+  border-color: var(--md-outline);
+  background: var(--x-field);
+}
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search):is(:focus, :focus-visible, :focus-within, .is-open, [aria-expanded="true"]) {
+  border-color: var(--md-primary);
+  background: var(--x-field);
+  outline: none;
+}
+:root :is(.neb-sel, .neb-field-trigger):active { background: var(--x-field); }
+:root :is(.neb-field, .md-input, .md-textarea, .md-text-field)[aria-invalid="true"] { border-color: var(--md-error); }
+:root :is(.neb-field, .md-input, .md-textarea, .md-text-field)::placeholder { color: var(--md-on-surface-tertiary); opacity: 1; }
+:root :is(.neb-field-trigger, .neb-sel) .material-symbols-outlined { color: var(--md-on-surface-variant); }
+:root .md-textarea { padding: 14px 16px; line-height: 1.5; min-height: 112px; resize: vertical; }
+
+/* ---------- option cards and tiles: white, one stroke, the stroke turns primary when picked ---------- */
+.form-group label.neb-option, label.neb-option { display: flex; margin-bottom: 0; }
+:root :is(.neb-option, .neb-tile) {
+  background: var(--x-field);
+  border: var(--x-line-w) solid var(--x-field-line);
+  outline: none;
+}
+@media (hover: hover) {
+  :root :is(.neb-option, .neb-tile):not(.is-selected):not([aria-checked="true"]):not(:has(> input:checked)):hover { border-color: var(--md-outline); }
+}
+:root :is(.neb-option:has(> input:checked), .neb-option.is-selected, .neb-option[aria-checked="true"],
+  .neb-tile.is-selected, .neb-tile[aria-checked="true"], .neb-option:has(> input:focus-visible)) {
+  background: var(--x-field);
+  border-color: var(--md-primary);
+}
+:root :is(.neb-option, .neb-tile):focus-visible { outline: none; border-color: var(--md-primary); }
+:root :is(.neb-option, .neb-tile) > .neb-glyph { background: var(--md-surface-container); color: var(--md-on-surface-variant); }
+:root :is(.neb-option:has(> input:checked), .neb-option.is-selected, .neb-option[aria-checked="true"],
+  .neb-tile.is-selected, .neb-tile[aria-checked="true"]) > .neb-glyph { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+/* Explorer is a role like the others: same card, same blue. No dashes, no violet. */
+:root .role-radio-card-explorer,
+:root .role-radio-card-explorer:has(> input:checked),
+:root .role-radio-card-explorer.is-selected { border-style: solid; background: var(--x-field); }
+:root .role-radio-card-explorer { border-color: var(--x-field-line); }
+:root .role-radio-card-explorer:has(> input:checked),
+:root .role-radio-card-explorer.is-selected { border-color: var(--md-primary); }
+:root .role-radio-card-explorer:has(> input:checked) .neb-option-title,
+:root .role-radio-card-explorer.is-selected .neb-option-title { color: var(--md-primary); }
+:root .role-radio-card-explorer:has(> input:checked) > .neb-glyph,
+:root .role-radio-card-explorer.is-selected > .neb-glyph { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+:root .role-radio-card-explorer:has(> input:checked) > .neb-mark::before,
+:root .role-radio-card-explorer.is-selected > .neb-mark::before { background: var(--md-primary); }
+
+/* the radio mark never shrinks inside a card, whatever the row does around it */
+.neb-option > .neb-mark { flex: none; width: 24px; height: 24px; align-self: center; }
+
+/* a text field swapped to a contenteditable by inline-media.js keeps the single stroke: the global
+   [contenteditable] ring would stack a second one on top of the border it copied from the textarea */
+:root .neb-seamless:is(:focus, :focus-visible) { outline: none; }
+:root .neb-seamless.neb-focus { border-color: var(--md-primary) !important; }
 
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
