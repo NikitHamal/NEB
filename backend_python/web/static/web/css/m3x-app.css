@@ -2211,34 +2211,18 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 :root .neb-sheet-close { color: var(--md-on-surface-variant); }
 
 /* ---- m3x/app-badges.css ---- */
-/* Badges, last word: a badge is a glyph and/or a word in an ink colour. It has no fill, no stroke and no
-   shadow. Contrast comes from the ink (every ink below is the on-colour of a tonal pair, so it reads on
-   the plain surface in both themes), never from a patch behind it.
-   The avatar badge sits on the rim of a shaped picture: its glyph is cut out of the surface with a text
-   outline, not boxed in a disc. Count dots (.notif-dot, .notif-popup-badge) are not badges: they are a
-   number on a signal colour and keep their fill. */
+/* Badges, last word. ONLY user / role / verification badges are fill-less: Verified, Admin, Teacher, Moderator,
+   institution, bot and the badge on a profile picture. They are a glyph in an ink colour (the on-colour of a
+   tonal pair, readable on the plain surface in both themes), with no fill, stroke or shadow.
+   Everything else -- chips, category and filter pills, subject tags, reply labels (Answer, Correct, Helpful,
+   Solved), count pills, status pills -- keeps its tonal surface; those rules live in their own modules. */
 
 :root { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
 
-:is(
-  .role-badge, .user-badge, .achieve-status-badge, .achievement-badge, .grade-badge, .sl-space-badge,
-  .tools-card-badge, .syl-hub-badge, .post-card-poll-badge, .upload-details-badge, .news-pin-badge,
-  .news-category-badge, .results-hero-badge, .rcard-badge, .rc-badge, .pf-res-preview-badge,
-  .mkt-showcase-badge, .mkt-plan-badge, .fp-poll-type-badge, .fp-header-badge, .fl-chip, .fl-solved-chip,
-  .leaderboard-rank-badge, .st-badge, .di-badge, .device-badge, .credits-type-badge, .credits-badge
-) {
+:is(.role-badge, .user-badge) {
   background: none !important; border: 0 !important; box-shadow: none !important;
   color: var(--bd-ink);
 }
-.fl-chip, .fl-solved-chip { padding-inline: 2px 6px; }
-.fl-kind-chip { color: var(--md-on-surface-variant); }
-.fl-tone-good { --bd-ink: var(--fl-on-good); }
-.fl-tone-warn { --bd-ink: var(--fl-on-warn); }
-.fl-tone-bad { --bd-ink: var(--fl-on-bad); }
-.fl-tone-info { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
-.fl-label-chip, .fl-solved-chip { color: var(--bd-ink); }
-.fl-solved-chip { --bd-ink: var(--fl-on-good); }
-.fl-solved-chip:hover { }
 
 .role-badge { width: auto; min-width: 0; height: auto; }
 .role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }
@@ -2382,11 +2366,11 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .rq-meta { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 10px 0 0; font-size: .8125rem; font-weight: 500; color: var(--md-on-surface-variant); }
 .rq-meta > span:first-child:not(:last-child) { color: var(--md-primary); font-weight: 600; }
 
-.rq-status { display: inline-flex; align-items: center; gap: 4px; padding-top: 4px; font-size: .8125rem; font-weight: 600; background: none; color: var(--md-on-surface-variant); white-space: nowrap; }
+.rq-status { display: inline-flex; align-items: center; gap: 4px; align-self: start; height: 28px; padding: 0 12px 0 8px; border-radius: 14px; font-size: .8125rem; font-weight: 600; background: var(--md-surface-container-high); color: var(--md-on-surface-variant); white-space: nowrap; }
 .rq-status .material-symbols-outlined { font-size: 18px; }
-.rq-status-open { color: var(--md-primary); }
-.rq-status-fulfilled { color: var(--md-tertiary); }
-.rq-status-closed { color: var(--md-on-surface-variant); }
+.rq-status-open { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.rq-status-fulfilled { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.rq-status-closed { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); }
 
 .rq-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 56px 16px; color: var(--md-on-surface-variant); }
 .rq-empty .material-symbols-outlined { font-size: 48px; color: var(--md-primary); }
@@ -2395,7 +2379,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 @media (max-width: 520px) {
   .rq-page { padding-inline: 12px; }
   .rq-card { grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 14px; }
-  .rq-status { grid-column: 2; padding-top: 0; }
+  .rq-status { grid-column: 2; justify-self: start; }
   .rq-vote { width: 48px; height: 60px; }
   .rq-form-row { grid-template-columns: 1fr; }
 }
