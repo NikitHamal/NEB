@@ -5914,6 +5914,32 @@
   "source": "Wikimedia Commons",
   "title": "Flower in hair, Betty Gumbetter adds glamour to the assembly line 8b07364v"
  },
+ "bca303/barrier": {
+  "author": "ParkingBOXXSolutions",
+  "bytes": 288760,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/barrier.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Parking_boom_barrier_gate_at_night_reflective_arm.jpg",
+  "sha1": "d5814290da4b042c",
+  "source": "Wikimedia Commons",
+  "title": "Parking boom barrier gate at night reflective arm"
+ },
+ "bca303/beans": {
+  "author": "Skitterphoto",
+  "bytes": 383902,
+  "credit": "https://pixabay.com/photos/coffee-beans-coffee-roasted-beans-917613/",
+  "fetched": "2026-11-04",
+  "file": "bca303/beans.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Beans_(42182293175).jpg",
+  "sha1": "09310dacc6f3bafe",
+  "source": "Wikimedia Commons",
+  "title": "Beans (42182293175)"
+ },
  "bca303/boyce": {
   "author": "Aflorzak",
   "bytes": 1054967,
@@ -6017,6 +6043,19 @@
   "sha1": "95a3e0a49cbd7f60",
   "source": "Wikimedia Commons",
   "title": "Sharp MX-7500 photocopier"
+ },
+ "bca303/dash": {
+  "author": "The Car Spy",
+  "bytes": 155021,
+  "credit": "BMW 330Ci Sport Convertible",
+  "fetched": "2026-11-04",
+  "file": "bca303/dash.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:BMW_E46_Instrument_Cluster.jpg",
+  "sha1": "b6cdf048b30f0dc1",
+  "source": "Wikimedia Commons",
+  "title": "BMW E46 Instrument Cluster"
  },
  "bca303/dijkstra": {
   "author": "Andreas F. Borchert",
@@ -6161,6 +6200,19 @@
   "source": "Wikimedia Commons",
   "title": "Australian Dual Socket Outlet and LAN Wall Plate"
  },
+ "bca303/lego": {
+  "author": "Benjamin D. Esham ( bdesham )",
+  "bytes": 738456,
+  "credit": "Taken by bdesham with a Canon PowerShot S3. ● ● From Flickr .",
+  "fetched": "2026-11-04",
+  "file": "bca303/lego.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lego_bricks.jpg",
+  "sha1": "f20d7e736ba35450",
+  "source": "Wikimedia Commons",
+  "title": "Lego bricks"
+ },
  "bca303/lettering": {
   "author": "Central Intelligence Agency from Washington, D.C.",
   "bytes": 447092,
@@ -6225,6 +6277,19 @@
   "sha1": "d4d788aacae3ef21",
   "source": "Wikimedia Commons",
   "title": "Wall-mounted mailboxes at 63½ S Detroit St, Xenia, Ohio · 2025-09-09 (1307)"
+ },
+ "bca303/nbgui": {
+  "author": "Pavel Pscheidl",
+  "bytes": 119068,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/nbgui.png",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Netbeans_8.0_GUI_builder.png",
+  "sha1": "92caedca238f0e35",
+  "source": "Wikimedia Commons",
+  "title": "Netbeans 8.0 GUI builder"
  },
  "bca303/passbook": {
   "author": "Wainuiomartian",
@@ -6407,6 +6472,19 @@
   "sha1": "6a934a1f324518f4",
   "source": "Wikimedia Commons",
   "title": "Wisconsin Bell Telephone Company Switchboard"
+ },
+ "bca303/tins": {
+  "author": "Alex Blokha",
+  "bytes": 764847,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/tins.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Canned_meat._Made_in_Ukraine._Dnipro.jpg",
+  "sha1": "09e6436a3c4b6424",
+  "source": "Wikimedia Commons",
+  "title": "Canned meat. Made in Ukraine. Dnipro"
  },
  "bca303/toll": {
   "author": "Daniel Case",
