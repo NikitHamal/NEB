@@ -454,11 +454,11 @@ f.box(10, 90, 270, 26, "first request  474 ms (translate + compile)", fill=ROSE,
 f.box(10, 122, 270 * 6 / 474 + 2, 26, "", fill=MINT, stroke=TEAL, r=2)
 f.text(10 + 270 * 6 / 474 + 12, 135, "second request  1 ms", size=9.5, color=TEAL, bold=True, anchor="start", vmid=True)
 f.text(145, 168, "ratio = %d (computed)" % (first / second), size=10, color=NAVY, bold=True)
-rows = [("<%= n %> after a scriptlet", "scriptlet=10", AMBER), ("${2+3}", "sum=5", NAVY), ("<c:forEach begin=1 end=3>", "loop=[1][2][3]", TEAL), ("${pageContext.request.method}", "method=GET", RED)]
+rows = [("<%= n %> after a scriptlet", "scriptlet=10", AMBER), ("${2+3}", "sum=5", NAVY), ("<c:forEach begin=1 end=3>", "loop=[1][2][3]", TEAL), ("${pageContext.\nrequest.method}", "method=GET", RED)]
 n = sum(range(1, 5)); assert n == 10
 for i, (a, b, c) in enumerate(rows):
     y = 90 + i * 38
-    f.box(300, y, 150, 30, a, fill="#ffffff", stroke=c, color=SLATE, size=8, r=3)
+    f.box(300, y, 150, 30, a, fill="#ffffff", stroke=c, color=SLATE, size=9, r=3)
     f.arrow([(450, y + 15), (462, y + 15)], color=SLATE, sw=1.2)
     f.box(462, y, 108, 30, b, fill=SOFT, stroke=c, size=9, bold=True, r=3)
 f.box(10, 190, 270, 50, "class name printed by the page:\norg.apache.jsp.demo_jsp", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
