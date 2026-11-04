@@ -1598,6 +1598,45 @@
   "source": "Wikimedia Commons",
   "title": "Siemens SAB8237A5P"
  },
+ "bca152/dramdie": {
+  "author": "ZeptoBars",
+  "bytes": 710267,
+  "credit": "http://zeptobars.ru/en/read/how-to-open-microchip-asic-what-inside",
+  "fetched": "2026-11-04",
+  "file": "bca152/dramdie.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:MT4C1024-HD.jpg",
+  "sha1": "5ff593d4b1bf7623",
+  "source": "Wikimedia Commons",
+  "title": "MT4C1024-HD"
+ },
+ "bca152/eprom": {
+  "author": "Sam LaRussa",
+  "bytes": 3105430,
+  "credit": "EPROM Chip",
+  "fetched": "2026-11-04",
+  "file": "bca152/eprom.png",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:EPROM_Chip_(16504280273).png",
+  "sha1": "7e8c00aeb81cd529",
+  "source": "Wikimedia Commons",
+  "title": "EPROM Chip (16504280273)"
+ },
+ "bca152/eproms": {
+  "author": "yellowcloud from Germany",
+  "bytes": 419277,
+  "credit": "EPROMs 4M, 2M, 256k, 16kbit",
+  "fetched": "2026-11-04",
+  "file": "bca152/eproms.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:EPROMs_4M,_2M,_256k,_16kbit.jpg",
+  "sha1": "66d8155fc0ba6143",
+  "source": "Wikimedia Commons",
+  "title": "EPROMs 4M, 2M, 256k, 16kbit"
+ },
  "bca152/ibm360": {
   "author": "Dave Ross",
   "bytes": 501295,
@@ -1662,6 +1701,19 @@
   "sha1": "502be6ab8a73ac7a",
   "source": "Wikimedia Commons",
   "title": "Intel Pentium MMX die"
+ },
+ "bca152/ppro": {
+  "author": "Klaus Eifert",
+  "bytes": 954122,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca152/ppro.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:CPU_Pentium_Pro.jpg",
+  "sha1": "acac818b40e98408",
+  "source": "Wikimedia Commons",
+  "title": "CPU Pentium Pro"
  },
  "bca152/vonneumann": {
   "author": "Unknown author",
