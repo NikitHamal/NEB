@@ -4341,6 +4341,19 @@
   "source": "Wikimedia Commons",
   "title": "Vint Cerf - 2010"
  },
+ "bca301/containers": {
+  "author": "H. Zell",
+  "bytes": 645095,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/containers.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Container-Terminal_Bremerhaven_02.jpg",
+  "sha1": "8664daf503289043",
+  "source": "Wikimedia Commons",
+  "title": "Container-Terminal Bremerhaven 02"
+ },
  "bca301/dijkstra": {
   "author": "Andreas F. Borchert",
   "bytes": 426122,
@@ -4431,6 +4444,45 @@
   "sha1": "ebef376d98f01217",
   "source": "Wikimedia Commons",
   "title": "Netgear DS108 Hub"
+ },
+ "bca301/jacobson": {
+  "author": "SimonLyall at English Wikipedia",
+  "bytes": 52683,
+  "credit": "http://en.wikipedia.org/wiki/File:Van_Jacobson1.jpg",
+  "fetched": "2026-11-04",
+  "file": "bca301/jacobson.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Van_Jacobson.jpg",
+  "sha1": "936a903c16f5fef8",
+  "source": "Wikimedia Commons",
+  "title": "Van Jacobson"
+ },
+ "bca301/jam": {
+  "author": "John Hill",
+  "bytes": 897214,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/jam.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Traffic_jam_on_the_Rohtang_Pass_between_Manali_and_Spiti.jpg",
+  "sha1": "a9620482166fdb4c",
+  "source": "Wikimedia Commons",
+  "title": "Traffic jam on the Rohtang Pass between Manali and Spiti"
+ },
+ "bca301/kahn": {
+  "author": "Вени Марковски | Veni Markovski",
+  "bytes": 782117,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/kahn.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bob_Kahn.jpg",
+  "sha1": "243bc359a68ced70",
+  "source": "Wikimedia Commons",
+  "title": "Bob Kahn"
  },
  "bca301/landing": {
   "author": "妖精書士",
@@ -4535,6 +4587,19 @@
   "sha1": "036cd0dbf098c0a3",
   "source": "Wikimedia Commons",
   "title": "Jon Postel sitting in office"
+ },
+ "bca301/queue": {
+  "author": "Torstein Frogner",
+  "bytes": 701733,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/queue.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:People_standing_in_ticket_queue_at_Gare_du_Nord,_Paris.jpg",
+  "sha1": "a01cc0e2da1d8063",
+  "source": "Wikimedia Commons",
+  "title": "People standing in ticket queue at Gare du Nord, Paris"
  },
  "bca301/rack": {
   "author": "Dsimic",
