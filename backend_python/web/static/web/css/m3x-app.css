@@ -1068,6 +1068,21 @@ select.neb-sel-native {
 .fl-solved-chip:hover .fl-solved-go { transform: translateY(2px); }
 .fl-dialog .neb-dialog-title, .fl-dialog h2 { margin-bottom: 4px; }
 
+/* ---------- report dialog (js/report-dialog.js) ---------- */
+.rp-reasons { display: flex; flex-wrap: wrap; gap: 8px; }
+.rp-reason {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px 0 12px;
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; background: transparent;
+  color: var(--md-on-surface); font: inherit; font-size: .875rem; font-weight: 600; cursor: pointer;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.rp-reason .material-symbols-outlined { font-size: 20px; }
+.rp-reason:hover { background: var(--md-surface-container-high); border-radius: 24px; }
+.rp-reason:active { transform: scale(.97); }
+.rp-reason[aria-checked="true"] { background: var(--md-error-container); border-color: transparent; color: var(--md-on-error-container); }
+.rp-dialog textarea { resize: none; min-height: 112px; }
+.rp-error { margin: 0; color: var(--md-error); font-size: .875rem; font-weight: 600; }
+
 /* ---- m3x/app-surfaces.css ---- */
 /* m3x surfaces: the feed, rails, resource cards, side navigation, chips and badges, rebuilt on
    the one scheme. Containers are tonal steps of the brand blue (never white-on-white), corners
@@ -1905,6 +1920,20 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
   .profile-page .pf-avatar-overlap-wrap { --av: 96px; }
   .profile-page .pf-card-name { font-size: 1.5rem; }
 }
+
+/* ---------- About tab stat tiles: the same tonal tile as the header, no outline ---------- */
+.profile-page .ov-stat {
+  border: 0; border-radius: 20px; padding: 14px 12px;
+  background: var(--md-surface-container); color: var(--md-on-surface);
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .ov-stat[data-action]:hover { background: var(--md-secondary-container); border-radius: 28px; }
+.profile-page .ov-stat[data-action]:active { transform: scale(.97); }
+.profile-page .ov-stat-value { font-family: var(--display); }
+.profile-page .ov-stat-label { font-size: .75rem; font-weight: 600; }
+.profile-page .ov-stat.academic { background: var(--md-primary-container); }
+.profile-page .ov-stat.academic .ov-stat-value,
+.profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
 
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
