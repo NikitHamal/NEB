@@ -55,5 +55,14 @@
     });
   });
 
+  /* "+N" on a tag row reveals the tags that did not fit the first three */
+  document.addEventListener('click', function (e) {
+    var more = e.target.closest && e.target.closest('[data-tags-more]');
+    if (!more) return;
+    var row = more.parentElement;
+    row.querySelectorAll('.is-extra').forEach(function (t) { t.hidden = false; });
+    more.remove();
+  });
+
   window.NebClamp = { refresh: refresh };
 })();
