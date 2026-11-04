@@ -1507,6 +1507,19 @@
   "source": "Wikimedia Commons",
   "title": "HP 117A - black laser toner cartridge-2407"
  },
+ "bca152/assembly": {
+  "author": "Unknown author Unknown author",
+  "bytes": 477315,
+  "credit": "http://www.gpschools.org/ci/depts/eng/k5/third/fordpic.htm http://toolkit.archives.gov/exhibits/twww/ image https://catalog.archives.gov/id/1633486",
+  "fetched": "2026-11-04",
+  "file": "bca152/assembly.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Ford_assembly_line_-_1913.jpg",
+  "sha1": "8dfca52bab668156",
+  "source": "Wikimedia Commons",
+  "title": "Ford assembly line - 1913"
+ },
  "bca152/baby": {
   "author": "KGGucwa",
   "bytes": 196761,
@@ -1533,6 +1546,19 @@
   "source": "Wikimedia Commons",
   "title": "Intel 4004 on Busicom calculator circuit board"
  },
+ "bca152/cm2": {
+  "author": "Kevin",
+  "bytes": 266663,
+  "credit": "https://www.flickr.com/photos/kham/496880676/",
+  "fetched": "2026-11-04",
+  "file": "bca152/cm2.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Connection_machine_CM-2.jpg",
+  "sha1": "d5a4c19b409e90b9",
+  "source": "Wikimedia Commons",
+  "title": "Connection machine CM-2"
+ },
  "bca152/core": {
   "author": "José Luis Briz Velasco",
   "bytes": 930584,
@@ -1558,6 +1584,19 @@
   "sha1": "b2e624ce7666e6fe",
   "source": "Wikimedia Commons",
   "title": "Cray-1 (1)"
+ },
+ "bca152/crossbar": {
+  "author": "NTT Public Corporation",
+  "bytes": 810192,
+  "credit": "Journal: NTT Public Corporation (1966). 電気通信施設 18(7). ISSN 0285-550X. via the National Diet Library Digital Collections.",
+  "fetched": "2026-11-04",
+  "file": "bca152/crossbar.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:NTT_Model_C400_Crossbar_Exchange.jpg",
+  "sha1": "181c40ecdeac6238",
+  "source": "Wikimedia Commons",
+  "title": "NTT Model C400 Crossbar Exchange"
  },
  "bca152/die8085": {
   "author": "Pdesousa359",
@@ -1636,6 +1675,32 @@
   "sha1": "66d8155fc0ba6143",
   "source": "Wikimedia Commons",
   "title": "EPROMs 4M, 2M, 256k, 16kbit"
+ },
+ "bca152/fermi": {
+  "author": "CINECA",
+  "bytes": 311914,
+  "credit": "\" https://www.flickr.com/photos/cineca/11465999156/in/album-72157638855630373/ \"",
+  "fetched": "2026-11-04",
+  "file": "bca152/fermi.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The_supercomputer_Fermi_in_Cineca.jpg",
+  "sha1": "fd1aecab4ebb92e8",
+  "source": "Wikimedia Commons",
+  "title": "The supercomputer Fermi in Cineca"
+ },
+ "bca152/i5die": {
+  "author": "Cole L",
+  "bytes": 835501,
+  "credit": "Intel i5-2500 40X",
+  "fetched": "2026-11-04",
+  "file": "bca152/i5die.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Intel_i5-2500_40X_(49703147742).jpg",
+  "sha1": "e99b0d42e4042414",
+  "source": "Wikimedia Commons",
+  "title": "Intel i5-2500 40X (49703147742)"
  },
  "bca152/ibm360": {
   "author": "Dave Ross",
