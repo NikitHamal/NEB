@@ -1751,6 +1751,26 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   .neb-scrim[data-open] .neb-dialog { opacity: 1; }
 }
 
+/* ---------- phone hardening ----------
+   A blurred scrim with a transformed child is the combination mobile engines (iOS WebKit, some Android WebViews)
+   composite wrongly: the blur layer paints over the sheet and only the blur is visible. On a phone the scrim is a
+   plain tone, and every sheet / dialog gets its own stacking context above it. vh is the fallback for
+   engines without dvh, which would otherwise drop the max-height rules above entirely. */
+@media (max-width: 600px) {
+  .neb-scrim, .neb-menu-scrim, .neb-fab-scrim, .modal-overlay, .hf-post-dialog::backdrop {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: color-mix(in srgb, var(--md-inverse-surface) 52%, transparent);
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog, .upload-progress-dialog, .neb-sheet, .neb-choice-sheet, .modal-box {
+    z-index: 1; isolation: isolate; backface-visibility: hidden;
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog { max-height: 92vh; max-height: min(92dvh, calc(var(--neb-vh) - 12px)); }
+  .neb-menu.neb-menu-sheet { max-height: 76vh; max-height: min(76dvh, calc(var(--neb-vh) - 24px)); }
+  /* the formula/symbol popup and kind menu never grow wider than the screen or sit off its edge */
+  .fc-pop, .fc-kindmenu { max-width: calc(100vw - 16px); }
+  .hf-emoji-popover { max-width: calc(100vw - 16px); }
+}
+
 /* ---- m3x/app-shapes.css ---- */
 /* m3x avatar shapes and the standard avatar badge.
 
