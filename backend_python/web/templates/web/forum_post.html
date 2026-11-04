@@ -524,6 +524,10 @@ function startEditReply(replyId) {
   var raw = card ? card.getAttribute('data-raw-content') : '';
   var contentEl = document.getElementById('reply-content-' + replyId);
   var text = raw || '';
+  if (!text) {
+    var tr = document.querySelector('.fp-thread-reply[data-reply-id="' + CSS.escape(replyId) + '"]');
+    if (tr) text = tr.getAttribute('data-reply-content') || '';
+  }
   if (!text && contentEl) {
     if (contentEl.querySelector && contentEl.querySelector('.neb-chip')) {
       try { text = window.InlineMedia ? window.InlineMedia.serializeEditor(contentEl) : contentEl.textContent || ''; } catch(_){ text = contentEl.textContent || ''; }
@@ -1051,6 +1055,25 @@ async function loadThreadReplies(replyId) {
   }
 }
 
+function threadMoreMenu(r) {
+  const own = IS_AUTH && (r.isOwner || (r.authorId && r.authorId === USER_ID));
+  const id = escapeHtml(r.id);
+  const item = function (action, icon, label, cls) {
+    return '<button class="more-menu-item' + (cls ? ' ' + cls : '') + '" data-action="' + action + '" data-reply-id="' + id + '"' +
+      (action === 'report-content' ? ' data-target-type="reply" data-target-id="' + id + '"' : '') +
+      '><span class="material-symbols-outlined">' + icon + '</span> ' + label + '</button>';
+  };
+  let items = item('share-reply', 'share', 'Share');
+  if (IS_AUTH && !own) items += item('report-content', 'flag', 'Report');
+  if (own) {
+    items += '<div class="more-menu-divider"></div>' + item('start-edit-reply', 'edit', 'Edit') +
+      item('archive-reply', 'archive', 'Archive') + item('delete-reply', 'delete', 'Delete reply', 'danger');
+  }
+  return '<div class="more-menu-wrapper"><button class="more-btn" type="button" data-action="toggle-more-menu" data-menu-id="thread-menu-' + id +
+    '" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>' +
+    '<div class="more-menu" id="thread-menu-' + id + '" style="display:none;" data-action="stop-propagation">' + items + '</div></div>';
+}
+
 function renderThreadParent(parent) {
   const parentAnon = !parent.authorId;
   const isNeby = parent.authorName === 'neby' || parent.authorIsBot;
@@ -1062,9 +1085,7 @@ function renderThreadParent(parent) {
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && (parent.isOwner || parent.authorId === USER_ID))
-    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
-    : '';
+  const moreMenu = threadMoreMenu(parent);
   const followBtn = (IS_AUTH && !parentAnon && parent.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (parent.authorFollowed ? 'following' : 'not-following') + '" data-user-id="' + parent.authorId + '" data-action="toggle-follow">' + (parent.authorFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
@@ -1083,9 +1104,10 @@ function renderThreadParent(parent) {
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
             (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
             '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</span>' +
-            followBtn + ownerBtns +
+            followBtn +
           '</div>' +
         '</div>' +
+        moreMenu +
       '</div>' +
       '<div class="fp-reply-body">' + mentionContent + '</div>' +
       renderAttachmentsHtml(parent.attachments) +
@@ -1160,9 +1182,7 @@ function renderThreadReply(reply, parentInfo, depth) {
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && (reply.isOwner || reply.authorId === USER_ID))
-    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
-    : '';
+  const moreMenu = threadMoreMenu(reply);
   const followBtn = (IS_AUTH && !isAnon && reply.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (reply.isFollowed ? 'following' : 'not-following') + '" data-user-id="' + reply.authorId + '" data-action="toggle-follow">' + (reply.isFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
@@ -1187,9 +1207,7 @@ function renderThreadReply(reply, parentInfo, depth) {
 
   const flState = (reply.label === 'accepted' ? ' is-accepted' : (reply.label === 'spam' ? ' is-spam' : (reply.label === 'incorrect' ? ' is-incorrect' : '')));
   const flTags = window.ForumLabels ? ForumLabels.tagsHTML(reply) : '';
-  const flMark = (reply.canLabel && !depth)
-    ? '<button type="button" class="fp-reply-action fl-open' + (reply.label ? ' is-set' : '') + '" data-fl-open="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined">new_label</span> Mark</button>'
-    : '';
+  const flMark = (reply.canLabel && !depth && window.ForumLabels) ? ForumLabels.openerButton(reply) : '';
   return '<div class="fp-thread-reply' + flState + '" data-reply-card="' + escapeHtml(reply.id) + '" data-label="' + escapeHtml(reply.label || '') + '" data-kind="' + escapeHtml(reply.kind || 'comment') + '" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
     '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
     '<div class="fp-reply-main">' +
@@ -1204,9 +1222,10 @@ function renderThreadReply(reply, parentInfo, depth) {
             (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
             '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</span>' +
             '<div class="fp-reply-tags" data-reply-tags="' + escapeHtml(reply.id) + '"' + (flTags ? '' : ' hidden') + '>' + flTags + '</div>' +
-            followBtn + ownerBtns +
+            followBtn +
           '</div>' +
         '</div>' +
+        moreMenu +
       '</div>' +
       replyingLine +
       '<div class="fp-reply-body">' + mentionContent + '</div>' +
