@@ -3249,6 +3249,45 @@
   "source": "Wikimedia Commons",
   "title": "Choc-Chip-Cookie"
  },
+ "bca255/crockford": {
+  "author": "Robert Claypool",
+  "bytes": 752468,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca255/crockford.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Douglas_Crockford,_February_2013.jpg",
+  "sha1": "25dbda9c8b9c3487",
+  "source": "Wikimedia Commons",
+  "title": "Douglas Crockford, February 2013"
+ },
+ "bca255/fielding": {
+  "author": "Phil Whitehouse",
+  "bytes": 260946,
+  "credit": "https://www.flickr.com/photos/philliecasablanca/2703971264/",
+  "fetched": "2026-11-04",
+  "file": "bca255/fielding.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Roy_Fielding_(cropped).jpg",
+  "sha1": "47367649c161d6dc",
+  "source": "Wikimedia Commons",
+  "title": "Roy Fielding (cropped)"
+ },
+ "bca255/garrett": {
+  "author": "JD Lasica from Pleasanton, CA, US",
+  "bytes": 104821,
+  "credit": "Jesse James Garrett",
+  "fetched": "2026-11-04",
+  "file": "bca255/garrett.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jesse_James_Garrett_(50182856).jpg",
+  "sha1": "c771a510caa8849a",
+  "source": "Wikimedia Commons",
+  "title": "Jesse James Garrett (50182856)"
+ },
  "bca255/lerdorf": {
   "author": "William Stadtwald Demchick",
   "bytes": 234368,
@@ -3300,6 +3339,19 @@
   "sha1": "b2c5145ff9377948",
   "source": "Wikimedia Commons",
   "title": "19-inch rackmount Ethernet switches and patch panels"
+ },
+ "bca255/waiter": {
+  "author": "Florian Plag",
+  "bytes": 503527,
+  "credit": "Flickr : Serve chilled.",
+  "fetched": "2026-11-04",
+  "file": "bca255/waiter.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Waiter_in_a_restaurant,_Paris_2011.jpg",
+  "sha1": "f233cdf54214ce06",
+  "source": "Wikimedia Commons",
+  "title": "Waiter in a restaurant, Paris 2011"
  },
  "bca256/kanban": {
   "author": "Jeff.lasovski",
