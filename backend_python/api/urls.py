@@ -123,6 +123,7 @@ urlpatterns = [
     # Replies
     path('replies/<str:reply_id>/', views.reply_detail, name='reply-detail'),
     path('replies/<str:reply_id>/like/', views.reply_like, name='reply-like'),
+    path('replies/<str:reply_id>/label/', views.reply_label, name='reply-label'),
 
     # Edit History
     path('edit-history/<str:target_type>/<str:target_id>/', views.edit_history, name='edit-history'),
