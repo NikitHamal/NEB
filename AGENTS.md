@@ -1987,7 +1987,7 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## BCA polish session 38 (Python Programming, in progress)
 
-- **Done:** BCA 254 Python Programming units 1-5 of 9 polished (85 -> 107 pp so far, qa fails=0 warns=2 pre-existing near-empty pages); 12 `bca254/` photos fetched. Exact state and next unit (Unit 6) in `bca/POLISH_STATUS.md`.
+- **Done:** BCA 254 Python Programming units 1-6 of 9 polished (85 -> 113 pp so far, qa fails=0 warns=2 pre-existing near-empty pages); 12 `bca254/` photos fetched. Exact state and next unit (Unit 7) in `bca/POLISH_STATUS.md`.
 - **Setup that worked (no root: use `sudo -n`):** shallow clone (`--depth 1 --single-branch`) with out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` as GIT_ASKPASS (PAT never in the repo; the owner must rotate the PAT pasted in the prompt); `sudo -n apt-get update; sudo -n apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig`; `pip install --user --break-system-packages uv`; `uv venv --python 3.12 /tmp/v`; `uv pip install --python /tmp/v/bin/python weasyprint pymupdf pypdf markdown pygments pillow numpy requests sympy matplotlib fonttools scipy pandas`; `bash notes/pipeline/fonts/install.sh`.
 - **Helpers to recreate in /tmp:** `ins2.py` (insert A before the first of "## Formula and fact sheet"/"## Chapter summary", append B), `view.py` (pymupdf montage into /app/_view, delete before /app validation), `wc.py` (words per `**Q` answer). `fill_script_outputs.py` accepts any md path, so run it on the new /tmp/w files only.
 
