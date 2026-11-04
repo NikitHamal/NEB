@@ -493,6 +493,32 @@ class PostDetailViewModel @Inject constructor(
     private val _mediaAttachments = MutableStateFlow<List<PendingForumAttachment>>(emptyList())
     val mediaAttachments: StateFlow<List<PendingForumAttachment>> = _mediaAttachments.asStateFlow()
 
+    private val _composerKind = MutableStateFlow("comment")
+    val composerKind: StateFlow<String> = _composerKind.asStateFlow()
+
+    fun setComposerKind(kind: String) {
+        _composerKind.value = kind
+    }
+
+    fun labelReply(replyId: String, label: String) {
+        val before = _state.value.replies
+        val current = before.firstOrNull { it.id == replyId } ?: return
+        _state.update { state ->
+            state.copy(replies = state.replies.map {
+                when {
+                    it.id == replyId -> it.copy(label = label)
+                    label == "accepted" && it.label == "accepted" -> it.copy(label = "")
+                    else -> it
+                }
+            })
+        }
+        viewModelScope.launch {
+            forumRepository.labelReply(current.id, label).onFailure { e ->
+                _state.update { it.copy(replies = before, snackbarMessage = ApiErrorMapper.mapException(e)) }
+            }
+        }
+    }
+
     private val _composerAnonymous = MutableStateFlow(false)
     val composerAnonymous: StateFlow<Boolean> = _composerAnonymous.asStateFlow()
 
@@ -658,6 +684,7 @@ class PostDetailViewModel @Inject constructor(
         }
         val attachments: List<ApiMediaAttachmentInput> = staged.mapNotNull { it.uploaded }
         val isAnonymous = _composerAnonymous.value
+        val kind = if (parentReplyId.isNullOrBlank()) _composerKind.value else "comment"
         viewModelScope.launch {
             _isSubmittingReply.value = true
             forumRepository.createReply(
@@ -665,9 +692,11 @@ class PostDetailViewModel @Inject constructor(
                 content = content.trim(),
                 parentReplyId = parentReplyId,
                 isAnonymous = isAnonymous,
-                attachments = attachments
+                attachments = attachments,
+                kind = kind
             ).onSuccess { reply ->
                 _isSubmittingReply.value = false
+                _composerKind.value = "comment"
                 _mediaAttachments.value = emptyList()
                 if (parentReplyId.isNullOrBlank()) {
                     _mainReplyText.value = TextFieldValue("")
