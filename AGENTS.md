@@ -2075,3 +2075,9 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 - **Session 48 addendum 2:** BCA 302 Artificial Intelligence (`bca/course/semester-5/artificial-intelligence`) Unit 1 polished: 8 new `bca302/` photos, Plates 1.1-1.3, Figs 1.1-1.10, eight applications in Nepal, Q1-Q8. **Next: AI Unit 2 (search)**, then Units 3-6, then Advanced Java (see `bca/POLISH_STATUS.md`). Push with `BOOK=course/semester-5/artificial-intelligence PDFKEY=Artificial /tmp/push.sh "msg"`.
 
+## BCA polish session 49 (Artificial Intelligence Unit 2)
+
+- **Done:** BCA 302 AI Unit 2 (problem solving / search): 9 new `bca302/` photos (3 candidates rejected after viewing), Plates 2.1-2.4, Figs 2.1-2.11 (all numbers computed and asserted in the cells), eight uses in Nepal, Q1-Q9. Book 85 pp, qa fails=0. **Next: AI Unit 3**, then Units 4-6, Advanced Java (see `bca/POLISH_STATUS.md`).
+- **Setup that worked:** `/tmp/gitenv.sh` echoes `$NEB_PAT` (PAT never in repo; owner must rotate the PAT pasted in the prompt); shallow clone; `apt-get update` then libpango/poppler/fontconfig; `pip install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12`; install deps incl. requests; `bash notes/pipeline/fonts/install.sh`. Helper `cs.py` (Commons bitmap search with licence column) needs `/tmp/v/bin/python` (requests).
+- **Gotchas:** in a heredoc with a quoted delimiter, write `\n` as a single backslash-n inside figure strings (I had to sed `\\n` -> `\n`). Escape `A\*` in bold question titles or the asterisks break the bold. Fig labels at the bottom edge (h= under a node) clip silently: keep y <= height-10. Row titles of stacked mini-grids need 150 px row spacing.
+
