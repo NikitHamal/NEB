@@ -88,9 +88,12 @@
 
 /* the field itself */
 .fc-field { width: 100%; box-sizing: border-box; }
-.neb-composer .fc-field { min-height: 36px; max-height: 320px; transition: min-height .4s var(--spring); }
-.fc-host.is-open .fc-field { min-height: 84px; }
-.fc-host.is-open.is-tall .fc-field { min-height: 240px; }
+.fc-field[hidden], .fc-preview[hidden] { display: none !important; }
+.fc-field:not([data-autoheight]) { min-height: var(--ah-min, 0); }
+.neb-composer .fc-field { --ah-min: 36px; max-height: 460px; }
+.fc-field[data-autoheight] { transition: height .28s cubic-bezier(.2, 0, 0, 1); }
+.fc-host.is-open .fc-field { --ah-min: 84px; }
+.fc-host.is-open.is-tall .fc-field { --ah-min: 240px; }
 .fc-host.is-tall .fc-preview { min-height: 240px; }
 .fc-preview { min-height: 36px; padding: 8px 2px; border-radius: 12px; color: var(--md-on-surface); overflow-wrap: anywhere; animation: fc-icon-in .35s var(--spring) both; }
 .fc-host.is-open .fc-preview { min-height: 84px; }
@@ -114,6 +117,6 @@
   .fc-pop { grid-template-columns: repeat(6, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fc, .fc-tool, .fc-iconbtn, .fc-iconbtn .material-symbols-outlined, .fc-kindmenu, .fc-kindopt, .fc-pop, .fc-sym, .neb-composer .fc-field,
-  .fc-preview, .fc-loading i, .fc-host.is-open .fc-end .fc-modebtn, .fc-host.is-open .fc-end .fc-growbtn { transition: none; animation: none; }
+  .fc, .fc-tool, .fc-iconbtn, .fc-iconbtn .material-symbols-outlined, .fc-kindmenu, .fc-kindopt, .fc-pop, .fc-sym,
+  .fc-field[data-autoheight], .fc-preview, .fc-loading i, .fc-host.is-open .fc-end .fc-modebtn, .fc-host.is-open .fc-end .fc-growbtn { transition: none; animation: none; }
 }

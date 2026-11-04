@@ -241,6 +241,10 @@
       if (sb) insertText(ta, sb.getAttribute('data-sym'));
     });
 
+    function regrow() {
+      if (window.NebGrow && ta.hasAttribute('data-autoheight')) NebGrow(ta);
+    }
+
     function setOpen(v, focus) {
       state.open = !!v;
       host.classList.toggle('is-open', state.open);
@@ -258,6 +262,7 @@
       } else if (focus) {
         ta.focus();
       }
+      regrow();
       setTimeout(edges, 470);
     }
 
@@ -271,8 +276,8 @@
       growBtn.title = l;
       if (capBase || ta.hasAttribute('data-autoheight-max')) {
         ta.setAttribute('data-autoheight-max', state.tall ? '460' : capBase);
-        ta.dispatchEvent(new Event('input', { bubbles: true }));
       }
+      regrow();
     }
 
     function setMode(mode, silent) {
@@ -290,6 +295,7 @@
       }
       if (!state.preview) {
         preview.hidden = true; ta.hidden = false;
+        regrow();
         if (!silent) ta.focus();
         return;
       }
@@ -411,6 +417,7 @@
         setMode('write', true);
         setKind('comment', true);
         setOpen(!compact);
+        regrow();
         try { localStorage.removeItem(dk); } catch (err) { /* ignore */ }
       }
     };
