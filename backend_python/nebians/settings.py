@@ -99,7 +99,7 @@ MIDDLEWARE = [
     # download. Django masks the CSRF token per response, so the usual BREACH
     # objection to compressing authenticated HTML does not apply here.
     'django.middleware.gzip.GZipMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'nebians.middleware.ResilientWhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'nebians.middleware.AllowedHostMiddleware',

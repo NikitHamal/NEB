@@ -13,7 +13,7 @@ may add `{% block jsonld %}`. Each page keeps its own copy in the view, so a pag
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
 <meta property="og:title" content="{{ seo.title }}">
-<meta property="og:description" content="{{ seo.og_description|default:seo.description }}">
+<meta property="og:description" content="{% firstof seo.og_description seo.description %}">
 <meta property="og:url" content="https://nebians.consica.com.np{{ seo.path }}">
 <meta property="og:image" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
 <meta property="og:image:secure_url" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
@@ -26,7 +26,7 @@ may add `{% block jsonld %}`. Each page keeps its own copy in the view, so a pag
 <meta name="twitter:image" content="https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}">
 <meta name="twitter:image:alt" content="NEBians — Nepal's open learning community">
 <meta name="twitter:title" content="{{ seo.title }}">
-<meta name="twitter:description" content="{{ seo.og_description|default:seo.description }}">
+<meta name="twitter:description" content="{% firstof seo.og_description seo.description %}">
 <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
 <link rel="apple-touch-icon" href="{% static 'web/img/n-logo-180.png' %}">
 <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
