@@ -561,11 +561,18 @@ async function submitEditReply() {
 }
 
 async function askDelete(title, message) {
-  const ok = await NebUI.confirm({ icon: 'delete', destructive: true, title: title, message: message, confirmLabel: 'Delete' });
-  if (ok) confirmDelete();
+  if (deleteTarget.busy) return;
+  deleteTarget.busy = true;
+  try {
+    const ok = await NebUI.confirm({ icon: 'delete', destructive: true, title: title, message: message, confirmLabel: 'Delete' });
+    if (ok) await confirmDelete();
+  } finally {
+    deleteTarget = { type: '', id: '' };
+  }
 }
 
 function deleteReply(replyId) {
+  if (deleteTarget.busy) return;
   deleteTarget = { type: 'reply', id: replyId };
   askDelete('Delete this reply?', 'It will be removed for everyone. This cannot be undone.');
 }
@@ -1332,14 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var btn = e.target.closest('[data-action]');
     if (!btn) return;
     var action = btn.getAttribute('data-action');
-    if (action === 'edit-reply') {
-      var replyId = btn.getAttribute('data-reply-id');
-      var threadReply = btn.closest('.fp-thread-reply');
-      var content = threadReply ? (threadReply.getAttribute('data-reply-content') || '') : '';
-      startEditReply(replyId);
-    } else if (action === 'delete-reply') {
-      deleteReply(btn.getAttribute('data-reply-id'));
-    } else if (action === 'reply-to-author') {
+    if (action === 'reply-to-author') {
       var author = btn.getAttribute('data-author');
       var replyId = btn.getAttribute('data-reply-id') || activeThreadId;
       var threadReply = btn.closest('.fp-thread-reply');
