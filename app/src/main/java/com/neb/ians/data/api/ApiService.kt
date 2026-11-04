@@ -245,8 +245,12 @@ data class ReplyCreateRequest(
     val content: String,
     @SerialName("parentReplyId") val parentReplyId: String? = null,
     val isAnonymous: Boolean = false,
-    val attachments: List<ApiMediaAttachmentInput> = emptyList()
+    val attachments: List<ApiMediaAttachmentInput> = emptyList(),
+    val kind: String = "comment"
 )
+
+@Serializable
+data class ReplyLabelRequest(val label: String)
 
 @Serializable
 data class ReplyUpdateRequest(val content: String)
@@ -652,7 +656,10 @@ data class ApiReply(
     @SerialName("isAnonymous") val isAnonymous: Boolean = false,
     @SerialName("createdAt") val createdAt: Long,
     @SerialName("editedAt") val updatedAt: Long? = null,
-    val attachments: List<ApiMediaAttachment> = emptyList()
+    val attachments: List<ApiMediaAttachment> = emptyList(),
+    val kind: String = "comment",
+    val label: String = "",
+    @SerialName("canLabel") val canLabel: Boolean = false
 )
 
 @Serializable
@@ -1549,6 +1556,13 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("replyId") replyId: String
     ): LikeResponse
+
+    @POST("api/replies/{replyId}/label/")
+    suspend fun labelReply(
+        @Header("Authorization") bearerToken: String,
+        @Path("replyId") replyId: String,
+        @Body body: ReplyLabelRequest
+    ): ApiReply
 
     @POST("api/replies/{replyId}/archive/")
     suspend fun archiveReply(
