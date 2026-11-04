@@ -155,7 +155,7 @@
               {% if profile_user.verification_level and profile_user.verification_level > 0 %}
                 <span class="pf-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified"><span class="material-symbols-outlined">check</span></span>
               {% endif %}
-              {% if badge_info %}
+              {% if badge_info and badge_info.type != 'verified' %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
                 </span>
