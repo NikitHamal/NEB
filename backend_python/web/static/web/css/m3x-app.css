@@ -320,6 +320,8 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
   border-radius: 18px; padding: 14px 22px; font-weight: 500; max-width: min(92vw, 520px);
   animation: m3-snack .55s var(--spring) both;
 }
+#snackbar-container { position: relative; z-index: 6000; pointer-events: none; }
+#snackbar-container .md-snackbar { z-index: 6000; pointer-events: auto; }
 @keyframes m3-snack { from { opacity: 0; transform: translateX(-50%) translateY(24px) scale(.94); } to { opacity: 1; transform: translateX(-50%); } }
 @media (max-width: 768px) { .md-snackbar { bottom: calc(92px + env(safe-area-inset-bottom)); } }
 

@@ -52,7 +52,7 @@
     if (!stack.length) return;
     var top = stack[stack.length - 1].el;
     Array.prototype.forEach.call(document.body.children, function (n) {
-      if (n === top || n.contains(top) || n.hasAttribute('inert') || /^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT)$/.test(n.tagName)) return;
+      if (n === top || n.contains(top) || n.id === 'snackbar-container' || n.hasAttribute('inert') || /^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT)$/.test(n.tagName)) return;
       n.setAttribute('inert', '');
       inerted.push(n);
     });
