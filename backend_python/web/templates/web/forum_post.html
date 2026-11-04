@@ -29,7 +29,7 @@
    the document is found after the browser has already painted, so the page
    lays itself out twice on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261103f">
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261103e">
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261104b">
 <link rel="stylesheet" href="{% static 'web/css/skullet.css' %}">
 <script type="module" src="{% static 'web/js/skullet/element.mjs' %}"></script>
 {% endblock %}
@@ -1196,12 +1196,12 @@ function renderThreadReply(reply, parentInfo, depth) {
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
             (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
             '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</span>' +
+            '<div class="fp-reply-tags" data-reply-tags="' + escapeHtml(reply.id) + '"' + (flTags ? '' : ' hidden') + '>' + flTags + '</div>' +
             followBtn + ownerBtns +
           '</div>' +
         '</div>' +
       '</div>' +
       replyingLine +
-      '<div class="fp-reply-tags" data-reply-tags="' + escapeHtml(reply.id) + '"' + (flTags ? '' : ' hidden') + '>' + flTags + '</div>' +
       '<div class="fp-reply-body">' + mentionContent + '</div>' +
       renderAttachmentsHtml(reply.attachments) +
       '<div class="fp-reply-actions">' +
