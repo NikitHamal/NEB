@@ -4315,6 +4315,19 @@
   "source": "Wikimedia Commons",
   "title": "BBN IMP connected computers to Arpanet (7995221220)"
  },
+ "bca301/berners": {
+  "author": "Paul Clarke",
+  "bytes": 497146,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/berners.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sir_Tim_Berners-Lee.jpg",
+  "sha1": "3378b9edc3988f72",
+  "source": "Wikimedia Commons",
+  "title": "Sir Tim Berners-Lee"
+ },
  "bca301/cat5e": {
   "author": "Richard Wheeler ( Zephyris ) at en.wikipedia ).",
   "bytes": 425665,
@@ -4340,6 +4353,19 @@
   "sha1": "59b82d899da92bb9",
   "source": "Wikimedia Commons",
   "title": "Vint Cerf - 2010"
+ },
+ "bca301/cernrack": {
+  "author": "Hugovanmeijeren",
+  "bytes": 529581,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/cernrack.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cern_datacenter.jpg",
+  "sha1": "8f790c0e6d3fd086",
+  "source": "Wikimedia Commons",
+  "title": "Cern datacenter"
  },
  "bca301/containers": {
   "author": "H. Zell",
@@ -4431,6 +4457,19 @@
   "sha1": "556564a75539792a",
   "source": "Wikimedia Commons",
   "title": "Early Ethernet connector - signed by Bob Metcalfe"
+ },
+ "bca301/filezilla": {
+  "author": "Logevent",
+  "bytes": 100838,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/filezilla.png",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:FileZilla_3.7.3.png",
+  "sha1": "ab31349fc181dd68",
+  "source": "Wikimedia Commons",
+  "title": "FileZilla 3.7.3"
  },
  "bca301/hub": {
   "author": "www.heimnetzwerke.net",
@@ -4536,6 +4575,19 @@
   "source": "Wikimedia Commons",
   "title": "Parabolic antennas on a telecommunications tower on Willans Hill"
  },
+ "bca301/mockapetris": {
+  "author": "Jordiipa",
+  "bytes": 214764,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/mockapetris.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Paul_Mockapetris.JPG",
+  "sha1": "cb310337273a548a",
+  "source": "Wikimedia Commons",
+  "title": "Paul Mockapetris"
+ },
  "bca301/netcore": {
   "author": "Patrick Finnegan from Lafayette, IN, USA",
   "bytes": 574935,
@@ -4561,6 +4613,19 @@
   "sha1": "5f073fc3c5bb1204",
   "source": "Wikimedia Commons",
   "title": "Harry Nyquist minnessten"
+ },
+ "bca301/phonebook": {
+  "author": "© 2010 by Tomasz Sienicki [user: tsca , mail: tomasz.sienicki at gmail.com]",
+  "bytes": 76391,
+  "credit": "Photograph by Tomasz Sienicki ( Own work ) Image intentionally scaled down.",
+  "fetched": "2026-11-04",
+  "file": "bca301/phonebook.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Telefonbog_ubt-1.JPG",
+  "sha1": "4b0e9ba2a425b454",
+  "source": "Wikimedia Commons",
+  "title": "Telefonbog ubt-1"
  },
  "bca301/ports": {
   "author": "Ben Franske",
@@ -4614,6 +4679,19 @@
   "source": "Wikimedia Commons",
   "title": "19-inch rackmount Ethernet switches and patch panels"
  },
+ "bca301/rootk": {
+  "author": "Unknown author",
+  "bytes": 589611,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca301/rootk.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ams-ix.k.root-servers.net.jpg",
+  "sha1": "6072a0f1b35cca6e",
+  "source": "Wikimedia Commons",
+  "title": "Ams-ix.k.root-servers.net"
+ },
  "bca301/sfp": {
   "author": "Joachim Müllerchen ( Jom at de.wikipedia )",
   "bytes": 246944,
@@ -4639,6 +4717,19 @@
   "sha1": "e754a78959c382bd",
   "source": "Wikimedia Commons",
   "title": "Claude Shannon 1958 MIT portrait cropped"
+ },
+ "bca301/sortrack": {
+  "author": "Geof Sheppard",
+  "bytes": 571350,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/sortrack.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:BR_Mk1_POS_W80300_-_sorting_racks.jpg",
+  "sha1": "b338e9f26f894ca1",
+  "source": "Wikimedia Commons",
+  "title": "BR Mk1 POS W80300 - sorting racks"
  },
  "bca301/splice": {
   "author": "U.S. Department of Agriculture",
@@ -4717,6 +4808,45 @@
   "sha1": "f6ec0ad24a97b95c",
   "source": "Wikimedia Commons",
   "title": "100 megabit token ring adapter"
+ },
+ "bca301/tomlinson": {
+  "author": "Roll-Stone",
+  "bytes": 393055,
+  "credit": "Self-photographed",
+  "fetched": "2026-11-04",
+  "file": "bca301/tomlinson.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ray_Tomlinson_(1).jpg",
+  "sha1": "e7cc5323b73833a0",
+  "source": "Wikimedia Commons",
+  "title": "Ray Tomlinson (1)"
+ },
+ "bca301/vt100": {
+  "author": "Jason Scott",
+  "bytes": 487100,
+  "credit": "Flickr : IMG_9976",
+  "fetched": "2026-11-04",
+  "file": "bca301/vt100.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg",
+  "sha1": "1bf4283bb9ed7104",
+  "source": "Wikimedia Commons",
+  "title": "DEC VT100 terminal"
+ },
+ "bca301/wireshark": {
+  "author": "Laurachappell",
+  "bytes": 85499,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/wireshark.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wireshark_Network_Analyzer_Screen.png",
+  "sha1": "501ba4c6e4103c5a",
+  "source": "Wikimedia Commons",
+  "title": "Wireshark Network Analyzer Screen"
  },
  "bca301/wrt54g": {
   "author": "User:Vidarlo ENWP",
