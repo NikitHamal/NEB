@@ -477,6 +477,106 @@ A general-purpose parallel I/O chip with **three 8-bit ports (A, B, C)** and a c
 ```
 Control words: **80H** = all outputs; **90H** = A input, B and C output; **9BH** = all three ports input. (This short program was assembled by the book's assembler but not executed: the simulator has no ports. The control-word values are from the 8255 data sheet.)
 
+## 2.7 Seeing the ideas: opcodes, addressing modes, loops, delays and the stack
+
+An assembly program is only a list of bytes in memory, and every instruction has a fixed size and time. The plate pairs the real 8085 die with the bit layout of an opcode. The figures then show the five addressing modes, a trace of the largest-number program, the delay formula against real T-state counts, and the stack during PUSH, POP, CALL and RET. All listings, results and T-state counts below come from the 8085 simulator in `bca/tools/check_mpca.py`.
+
+```photogrid label="2.1" cols="2" ratio="1.3" caption="From silicon to opcode. (a) The die of the Intel 8085A under a microscope (CC BY-SA 3.0): the instruction decoder and register array are the dense rectangular regions. (b) How the 8-bit opcode of MOV B,C is built: the top two bits 01 say 'move', the next three bits name the destination (B = 000) and the last three name the source (C = 001), giving 0100 0001 = 41H. The same pattern gives MOV A,B = 78H. Every one-byte instruction is decoded this way."
+@ photo id="bca152/die8085" cap="Intel 8085A die"
+fit 1.3
+focus 0.5 0.5
+call 0.35 0.3 0.25 0.12 "decoder"
+@ svg cap="Opcode of MOV B,C"
+f = Fig(300, 230)
+f.text(150, 16, "MOV B,C  =  41H", size=12, color=NAVY, bold=True)
+for i, b in enumerate("01000001"):
+    x = 18 + i * 33
+    f.box(x, 34, 30, 34, b, fill=[SAND, SAND, BLUE, BLUE, BLUE, MINT, MINT, MINT][i], stroke=SLATE, size=13, bold=True, r=2)
+    f.text(x + 15, 82, "D%d" % (7 - i), size=8.5, color=SLATE)
+f.text(51, 108, "01 = MOV", size=10, color=AMBER, bold=True)
+f.text(150, 108, "000 = dest B", size=10, color=NAVY, bold=True)
+f.text(251, 108, "001 = src C", size=10, color=TEAL, bold=True)
+f.text(150, 140, "register codes", size=10, color=SLATE, bold=True)
+f.text(150, 158, "B=000 C=001 D=010 E=011", size=10, color=SLATE)
+f.text(150, 174, "H=100 L=101 M=110 A=111", size=10, color=SLATE)
+f.text(150, 204, "MOV A,B = 01 111 000 = 78H", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="2.1" caption="The five addressing modes of the 8085, each with a real instruction, the bytes it assembles to and the effect when memory 2050H holds 7AH. Immediate: the data is inside the instruction (MVI A,05H = 3E 05). Register: the data is in a register (MOV B,A = 47). Direct: the instruction holds the memory address (LDA 2050H = 3A 50 20, A becomes 7AH). Register indirect: a register pair holds the address (MOV A,M with HL = 2050H = 7E). Implied: the operand is implied by the opcode (CMA = 2F complements A)."
+f = Fig(580, 226)
+f.box(8, 8, 120, 26, "Mode", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(132, 8, 200, 26, "Example and bytes", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(336, 8, 236, 26, "Where the data comes from", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+rows = [("Immediate", "MVI A,05H     3E 05", "inside the instruction (2 bytes)", SAND, AMBER),
+        ("Register", "MOV B,A       47", "a CPU register (1 byte, fastest)", MINT, TEAL),
+        ("Direct", "LDA 2050H   3A 50 20", "memory address in the instruction", BLUE, NAVY),
+        ("Register indirect", "MOV A,M      7E", "memory at the address held in HL", MINT, TEAL),
+        ("Implied", "CMA              2F", "operand fixed by the opcode (A)", SAND, AMBER)]
+for i, (a, b, c, fl, st) in enumerate(rows):
+    y = 40 + i * 34
+    f.box(8, y, 120, 30, a, fill=fl, stroke=st, size=10.5, bold=True, r=3)
+    f.box(132, y, 200, 30, b, fill=SOFT, stroke=SLATE, size=10, r=3, anchor="start")
+    f.box(336, y, 236, 30, c, fill=SOFT, stroke=SLATE, size=10, r=3, anchor="start")
+f.text(8, 220, "bytes in the instruction: 2, 1, 3, 1, 1 -> memory used and fetch time differ", size=10, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="2.2" caption="Trace of the largest-number program of Q3 on the array 34H, 9AH, 12H, F0H, 77H at 2050H-2054H (real simulator run, 199 T-states including HLT). A holds the largest value so far. CMP M computes A minus the array byte without storing it: a borrow (CY = 1) means the array byte is bigger, so it is copied into A. 34H against 9AH borrows, so A = 9AH; 9AH against 12H does not borrow, so A stays; 9AH against F0H borrows, so A = F0H; F0H against 77H does not borrow. The answer F0H is stored at 2060H."
+f = Fig(580, 214)
+f.box(8, 8, 108, 26, "Compare A with", fill=BLUE, stroke=NAVY, size=10, bold=True, r=3)
+f.box(120, 8, 70, 26, "CY after", fill=BLUE, stroke=NAVY, size=10, bold=True, r=3)
+f.box(194, 8, 130, 26, "A after the step", fill=BLUE, stroke=NAVY, size=10, bold=True, r=3)
+f.box(328, 8, 244, 26, "action", fill=BLUE, stroke=NAVY, size=10, bold=True, r=3)
+steps = [("start: A = 34H", "-", "34H", "A = first element"), ("9AH", "1", "9AH", "borrow: copy 9AH into A"), ("12H", "0", "9AH", "no borrow: keep A"),
+         ("F0H", "1", "F0H", "borrow: copy F0H into A"), ("77H", "0", "F0H", "no borrow: keep A")]
+for i, (a, b, c, d) in enumerate(steps):
+    y = 38 + i * 30
+    hit = b == "1"
+    f.box(8, y, 108, 26, a, fill=SOFT, stroke=SLATE, size=10, r=3)
+    f.box(120, y, 70, 26, b, fill=SAND if hit else SOFT, stroke=AMBER if hit else SLATE, size=10.5, bold=True, r=3)
+    f.box(194, y, 130, 26, c, fill=MINT if hit else SOFT, stroke=TEAL if hit else SLATE, size=10.5, bold=True, r=3)
+    f.box(328, y, 244, 26, d, fill=SOFT, stroke=SLATE, size=10, r=3, anchor="start")
+f.text(8, 206, "result: largest = F0H stored at 2060H", size=10.5, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="2.3" caption="Delay of the one-loop routine against the formula T = 14n + 4 (n is the count in B), shown for n = 1, 5, D6H (214) and FFH (255) on a 3 MHz 8085. The simulator counted 18, 74, 3000 and 3574 T-states for the MVI and loop (not counting HLT), matching the formula. The bars are to scale. The count D6H gives exactly 3000 T = 1.000 ms; the largest 8-bit count FFH gives 1.19 ms, which is the longest a single-register loop can wait."
+f = Fig(580, 170)
+data = [("n = 1", 18, "6.0 us"), ("n = 5", 74, "24.7 us"), ("n = D6H", 3000, "1000 us = 1 ms"), ("n = FFH", 3574, "1191 us")]
+for i, (a, t, tm) in enumerate(data):
+    y = 14 + i * 34
+    f.text(8, y + 14, a, size=10.5, color=NAVY, bold=True, anchor="start")
+    w = max(4, 300 * t / 3574)
+    f.box(90, y, w, 26, "", fill=MINT if t == 3000 else BLUE, stroke=TEAL if t == 3000 else NAVY, r=2)
+    f.text(98 + w, y + 13, "%d T = %s" % (t, tm), size=10, color=SLATE, anchor="start", vmid=True)
+f.text(8, 160, "T = 14n + 4 for MVI B,n ; DCR B ; JNZ   (3 MHz: 1 T = 0.333 us)", size=10, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="2.4" caption="The stack during PUSH B, PUSH D, POP B, POP D with SP = 27FFH at the start (real simulator memory). The stack grows downward. PUSH B stores B = 12H at 27FEH and C = 34H at 27FDH and leaves SP = 27FDH. PUSH D stores D = 56H at 27FCH and E = 78H at 27FBH, leaving SP = 27FBH. POP B then takes 5678H, and POP D takes 1234H, so the pairs are exchanged; SP returns to 27FFH. CALL works the same way: CALL at 2005H pushes the return address 2008H (20H at 27FEH, 08H at 27FDH) and RET pops it into PC."
+f = Fig(580, 218)
+cells = [("27FF", "unused", SOFT, SLATE), ("27FE", "12H  (B)", MINT, TEAL), ("27FD", "34H  (C)", MINT, TEAL), ("27FC", "56H  (D)", SAND, AMBER), ("27FB", "78H  (E)", SAND, AMBER)]
+f.text(60, 14, "address", size=10, color=SLATE, bold=True)
+f.text(170, 14, "content", size=10, color=SLATE, bold=True)
+for i, (a, v, fl, st) in enumerate(cells):
+    y = 24 + i * 34
+    f.text(60, y + 15, a, size=10.5, color=NAVY, bold=True, vmid=True)
+    f.box(110, y, 120, 30, v, fill=fl, stroke=st, size=10.5, bold=True, r=2)
+f.text(250, 54, "SP = 27FFH at start", size=10, color=SLATE, anchor="start")
+f.text(250, 88, "after PUSH B: SP = 27FDH", size=10, color=TEAL, bold=True, anchor="start")
+f.text(250, 156, "after PUSH D: SP = 27FBH", size=10, color=AMBER, bold=True, anchor="start")
+f.text(250, 190, "after POP B, POP D: SP = 27FFH", size=10, color=NAVY, bold=True, anchor="start")
+f.text(250, 122, "BC = 5678H, DE = 1234H at the end", size=10, color=SLATE, anchor="start")
+```
+
+### 2.7.1 Eight advantages and uses of assembly language programming
+
+1. **Speed.** Assembly code becomes exactly the bytes you wrote, with no extra instructions added by a compiler. A delay or a data-copy loop therefore takes a known number of T-states (Fig. 2.3). This is why time-critical code is still written in assembly.
+2. **Small memory use.** Programs for the 8085 must fit in a few kilobytes of ROM. A hand-written routine often needs fewer bytes than the same task in a high-level language. Small chips in a washing machine or a smart meter therefore stay cheap.
+3. **Direct control of hardware.** Instructions such as IN, OUT and the interrupt controls talk to ports and chips directly. A BCA student can switch an LED on port 01H and see the result at once. This builds a clear picture of how software drives real devices.
+4. **Understanding the CPU.** Writing assembly shows what registers, flags and addressing modes do (Fig. 2.1). After the flag-setting behaviour of ADD and CMP is understood (Fig. 2.2), the behaviour of C and Java arithmetic becomes easier to explain. It is the best way to learn how a processor really works.
+5. **Predictable timing.** Because each instruction has a fixed T-state count, an engineer can compute execution time on paper. Control programs for motors, traffic lights and meters depend on this. High-level code on a modern operating system cannot promise the same timing.
+6. **Device drivers and boot code.** The first instructions that run when a computer starts, such as the BIOS and boot loader, are assembly. Drivers that handle interrupts use it for the few lines that must be fast. Nepali firmware engineers who repair or write embedded software meet this code often.
+7. **Debugging and reverse engineering.** A programmer who reads assembly can find why a program crashes and can study a virus or a faulty driver. Debuggers show registers and the stack as in Fig. 2.4. Security work, including the cyber-security courses of this programme, depends on this skill.
+8. **Examination and laboratory practice.** TU laboratory sheets ask for programs such as addition, largest number and multiplication. Writing, hand-assembling and testing them on a trainer kit builds careful habits of tracing and checking. These are skills that carry over to every later programming course.
+
 ## Formula and fact sheet
 
 - Instruction length 1–3 bytes; 16-bit values stored low byte first.
@@ -522,3 +622,128 @@ Control words: **80H** = all outputs; **90H** = A input, B and C output; **9BH**
 **9.** At 2005H the CALL (3 bytes) is followed by the instruction at 2008H. CALL pushes 2008H: SP 27FFH → 27FDH; memory 27FEH = 20H (high), 27FDH = 08H (low); PC ← 2100H. RET pops 27FDH/27FEH into PC (= 2008H) and SP returns to 27FFH.
 **10.** Memory-mapped I/O uses memory instructions and the 16-bit address space; I/O-mapped uses IN/OUT with 8-bit port addresses. Control word: D7 = 1, mode 0, A input (D4 = 1), C upper output (D3 = 0), B output (D1 = 0), C lower output (D0 = 0) ⇒ 1001 0000 = **90H**. Program: `MVI A,90H ; OUT 83H ; IN 80H ; OUT 81H ; HLT` copies port A to port B.
 :::
+
+## Model answers for Unit 2
+
+**Q1. Explain the addressing modes of the 8085 with one example of each. (5 marks)**
+
+An **addressing mode** is the way an instruction tells the CPU where its operand is (Fig. 2.1). The 8085 has five modes.
+
+1. **Immediate.** The data is part of the instruction. `MVI A,05H` (bytes 3E 05) loads 05H into A, and `LXI H,2050H` loads a 16-bit value. It is quick to write but the constant is fixed in the program.
+2. **Register.** The operand is in a CPU register. `MOV B,A` (47H) copies A into B. It is a one-byte instruction and the fastest, because no memory access is needed.
+3. **Direct.** The instruction carries the 16-bit memory address. `LDA 2050H` (3A 50 20) loads A from location 2050H, and `STA 2052H` stores A there. It takes three bytes and 13 T-states.
+4. **Register indirect.** A register pair holds the address. After `LXI H,2050H`, the instruction `MOV A,M` (7E) loads A from the address in HL. `LDAX B` and `LDAX D` work the same way. This mode walks through an array by incrementing HL.
+5. **Implied.** The operand is fixed by the opcode itself. `CMA` (2F) complements the accumulator, `RAL` rotates it and `STC` sets the carry flag.
+
+Choosing the mode decides the instruction length (1, 2 or 3 bytes) and the time taken, so the register and indirect modes are preferred inside loops.
+
+**Q2. Write a one-loop delay routine for 1 ms on a 3 MHz 8085 and show the calculation. (5 marks)**
+
+A loop that does no useful work wastes a *known* number of T-states, so it makes a precise delay (Fig. 2.3).
+
+```
+        MVI B,D6H       ; 7 T
+LOOP:   DCR B           ; 4 T
+        JNZ LOOP        ; 10 T taken, 7 T on the last pass
+```
+
+**Formula.** The first pass costs 7 T for `MVI`. Each pass of `DCR B` plus `JNZ` costs 4 + 10 = 14 T, but the last pass costs 4 + 7 = 11 T. For n passes:
+
+T = 7 + 14 (n - 1) + 11 = **14n + 4 T-states**.
+
+**Calculation.** At 3 MHz one T-state is 1 / 3,000,000 s = 0.333 microsecond, so 1 ms = 3000 T-states. Then 14n + 4 = 3000, so n = 2996 / 14 = 214, which is **D6H**. Check: 14 x 214 + 4 = 3000 T = 1.000 ms exactly. The simulator counted 3000 T for this routine (not counting HLT).
+
+**Limit.** The largest count FFH gives 14 x 255 + 4 = 3574 T = 1.19 ms. For longer waits, nest two loops: T = 14BC + 18B + 4. With B = C = FFH this is 914,944 T = about 0.305 s, enough to make an LED blink visibly.
+
+**Q3. Describe the instruction groups of the 8085 with examples, and write a program to find the largest number in an array. (10 marks)**
+
+**Introduction.** The 8085 has 74 instructions (246 opcodes). They are one, two or three bytes long and fall into five functional groups (Section 2.2). The groups and their effect on the flags are summarised below.
+
+| Group | Examples | Flags |
+|---|---|---|
+| Data transfer | `MOV A,B`, `MVI C,05H`, `LDA 2050H`, `STA`, `LXI H,addr`, `XCHG` | none affected |
+| Arithmetic | `ADD B`, `ADI 05H`, `SUB`, `INR`, `DCR`, `DAD D`, `DAA` | all five (INR, DCR leave CY alone; DAD changes only CY) |
+| Logical and compare | `ANA`, `ORA`, `XRA`, `CMP`, `CPI`, `RLC`, `RAL`, `CMA` | per result (CMA none) |
+| Branching | `JMP`, `JZ`, `JNC`, `JM`, `CALL`, `RET`, `PCHL` | none affected (they test flags) |
+| Stack, I/O and control | `PUSH`, `POP`, `IN`, `OUT`, `EI`, `DI`, `RIM`, `SIM`, `HLT`, `NOP` | POP PSW restores flags |
+
+1. **Data transfer** copies bytes between registers, memory and I/O without changing the source or the flags.
+2. **Arithmetic** adds, subtracts, increments and decrements; DAA corrects a BCD sum.
+3. **Logical** instructions work bit by bit; **CMP** subtracts without storing, so only the flags change (CY = 1 if A is smaller).
+4. **Branching** changes the program counter, either always (JMP) or if a flag condition holds (JZ, JNC).
+5. **Stack, I/O and control** handle the stack, ports and interrupts.
+
+**Program: largest number in an array of 5 bytes at 2050H** (result at 2060H). Real assembled listing and run:
+
+```
+2000  21 50 20  LXI H,2050H   ; HL points to the array
+2003  0E 05     MVI C,05H     ; count = 5
+2005  7E        MOV A,M       ; A = first element
+2006  0D        DCR C         ; 4 elements remain
+2007  23        NEXT: INX H   ; next element
+2008  BE        CMP M         ; A - M, CY = 1 if M is bigger
+2009  D2 0D 20  JNC SKIP      ; A bigger: keep it
+200C  7E        MOV A,M       ; else A = M
+200D  0D        SKIP: DCR C
+200E  C2 07 20  JNZ NEXT
+2011  32 60 20  STA 2060H
+2014  76        HLT
+```
+
+With the data 34H, 9AH, 12H, F0H, 77H the program stores **F0H** at 2060H and takes 199 T-states (Fig. 2.2). The loop runs four times because the first element is already in A.
+
+**Conclusion.** The five groups cover everything the CPU can do: move, calculate, decide, call and communicate. A good program mixes them, as the array program above does: transfer (MOV), compare (CMP), branch (JNC, JNZ) and store (STA).
+
+**Q4. Explain the stack of the 8085 and the working of PUSH, POP, CALL and RET with a diagram. (5 marks)**
+
+The **stack** is a last-in, first-out area of RAM addressed by the 16-bit **stack pointer SP**. It grows **downward**, and SP must be set first with `LXI SP,27FFH` (Fig. 2.4).
+
+- **PUSH rp** decrements SP, stores the high byte, decrements SP again and stores the low byte. With SP = 27FFH, `PUSH B` stores B = 12H at 27FEH and C = 34H at 27FDH, so SP = 27FDH.
+- **POP rp** loads the low byte, then the high byte, and increments SP twice.
+- **CALL addr** pushes the address of the *next* instruction on the stack and jumps. A CALL at 2005H pushes 2008H (20H at 27FEH, 08H at 27FDH).
+- **RET** pops two bytes into the PC, so execution continues at 2008H.
+
+Simulator results: after `PUSH B, PUSH D, POP B, POP D` the pairs are exchanged (BC = 5678H, DE = 1234H) and SP returns to 27FFH. A subroutine `DOUBLE: ADD A ; RET` called with A = 05H leaves 0AH. Pushes and pops must match in reverse order, or `RET` will jump to a wrong address. Subroutines also use the stack to save registers they change.
+
+**Q5. Write an 8085 program to multiply two 8-bit numbers by repeated addition. Show a test run and the timing. (10 marks)**
+
+**Introduction.** The 8085 has no multiply instruction. Multiplication is done by adding the multiplicand to itself as many times as the multiplier says: 5 x 3 = 5 + 5 + 5. The result of two 8-bit numbers can need 16 bits (FFH x FFH = FE01H), so the sum is kept in the register pair HL.
+
+**Algorithm.**
+
+1. Load the multiplicand into DE (D = 00H, E = the number).
+2. Load the multiplier into C and clear HL.
+3. If C is zero, store 0000H and stop.
+4. Repeat: `DAD D` adds DE to HL; decrement C until C = 0.
+5. Store HL (low byte at 2052H, high byte at 2053H).
+
+**Program** (data at 2050H and 2051H, result at 2052H-2053H); real listing:
+
+```
+2000  3A 50 20  LDA 2050H     ; multiplicand
+2003  5F        MOV E,A
+2004  16 00     MVI D,00H     ; DE = 00xxH
+2006  3A 51 20  LDA 2051H     ; multiplier
+2009  4F        MOV C,A
+200A  21 00 00  LXI H,0000H   ; sum = 0
+200D  79        MOV A,C
+200E  B7        ORA A         ; sets Z if C = 0
+200F  CA 17 20  JZ STORE
+2012  19        LOOP: DAD D   ; HL = HL + DE
+2013  0D        DCR C
+2014  C2 12 20  JNZ LOOP
+2017  22 52 20  STORE: SHLD 2052H
+201A  76        HLT
+```
+
+**Test runs (real simulator).**
+
+| Multiplicand | Multiplier | Result at 2053H:2052H | T-states |
+|---|---|---|---|
+| F5H (245) | 12H (18) | 113AH (4410) | 516 (172 microseconds) |
+| 05H | 03H | 000FH (15) | 156 |
+| 05H | 00H | 0000H | 90 (JZ skips the loop) |
+
+**Analysis.** Each pass of `DAD D` (10 T), `DCR C` (4 T) and `JNZ` (10 T) costs 24 T, except the last, which costs 21 T. The running time therefore depends on the multiplier: 18 passes take about 430 T, which fits the 516 T measured with the set-up and store instructions. The method is simple but slow for large multipliers; a shift-and-add program needs at most 8 passes whatever the data.
+
+**Conclusion.** The program uses four of the five instruction groups: data transfer (LDA, MOV, LXI), arithmetic (DAD, DCR), logical (ORA to test zero) and branching (JZ, JNZ). The zero test matters, since without it a multiplier of 0 would make DCR C wrap to FFH and loop 256 times.
