@@ -1273,6 +1273,7 @@ def resource_requests_page(request):
         all_subjects=all_subjects,
         all_grades=all_grades,
         current_status=status_filter,
+        status_options=[('open', 'Open'), ('fulfilled', 'Fulfilled'), ('closed', 'Closed'), ('', 'All')],
         current_subject=subject,
         current_grade=grade,
     ))
