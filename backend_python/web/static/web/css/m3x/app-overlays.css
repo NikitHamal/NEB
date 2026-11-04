@@ -29,7 +29,9 @@
   background: var(--x-float); border: 1px solid var(--x-float-line); border-bottom: 0;
   border-radius: 28px 28px 0 0; transition: transform .55s var(--spring);
 }
-.neb-sheet-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
+.neb-sheet-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.neb-sheet-head { gap: 10px; }
+.neb-sheet-head .fp-thread-count { flex: none; }
 .neb-sheet-close { border-radius: 50%; background: var(--md-surface-container); color: var(--md-on-surface); }
 
 /* ---------- menus (neb-menu, more-menu, fab menu, identity menu, profile dropdown) ---------- */
