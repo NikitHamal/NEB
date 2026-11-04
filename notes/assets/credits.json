@@ -4965,6 +4965,19 @@
   "source": "Wikimedia Commons",
   "title": "YubiKey 5C NFC"
  },
+ "bca302/alpr": {
+  "author": "Kobenon",
+  "bytes": 257551,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/alpr.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:ELSAG_Fixed_Plate_Hunter.jpg",
+  "sha1": "71702e87f02edf81",
+  "source": "Wikimedia Commons",
+  "title": "ELSAG Fixed Plate Hunter"
+ },
  "bca302/aristotle": {
   "author": "After Lysippos",
   "bytes": 2244558,
@@ -4990,6 +5003,19 @@
   "sha1": "0b5d31249e7510b1",
   "source": "Wikimedia Commons",
   "title": "Asan Bazaar woman selling vegetables in front of Jwalamai temple Kathmandu Nepal 20Apr2008"
+ },
+ "bca302/bayer": {
+  "author": "Original: Anita Martinz",
+  "bytes": 124624,
+  "credit": "File:Colorful_spring_garden.jpg , originally at Flickr: https://www.flickr.com/photos/15501382@N00/465243421/",
+  "fetched": "2026-11-04",
+  "file": "bca302/bayer.png",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Normal_and_Bayer_Filter_(120px-Colorful_spring_garden).png",
+  "sha1": "b1f317197c595729",
+  "source": "Wikimedia Commons",
+  "title": "Normal and Bayer Filter (120px-Colorful spring garden)"
  },
  "bca302/bayestomb": {
   "author": "Cory Doctorow",
@@ -5055,6 +5081,19 @@
   "sha1": "38bd526921824d52",
   "source": "Wikimedia Commons",
   "title": "Chess game Staunton No. 6 top view"
+ },
+ "bca302/chestxray": {
+  "author": "Mikael Häggström , M.D. Author info - Reusing images - Conflicts of interest: None Mikael Häggström , M.D. Consent note : Written informed consent was obtained ",
+  "bytes": 454394,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/chestxray.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Chest_radiograph_in_influensa_and_H_influenzae,_posteroanterior.jpg",
+  "sha1": "dcb6d1627f722498",
+  "source": "Wikimedia Commons",
+  "title": "Chest radiograph in influensa and H influenzae, posteroanterior"
  },
  "bca302/chomsky": {
   "author": "Hans Peters for Anefo",
@@ -5134,6 +5173,19 @@
   "source": "Wikimedia Commons",
   "title": "2012-06-15 1994 Turing Laureate Ed Feigenbaum"
  },
+ "bca302/fingerprint": {
+  "author": "Flanoz",
+  "bytes": 864584,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/fingerprint.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Fingerprint_reader_2.jpg",
+  "sha1": "d67579cbadc7af1f",
+  "source": "Wikimedia Commons",
+  "title": "Fingerprint reader 2"
+ },
  "bca302/fisher": {
   "author": "Unknown author Unknown author",
   "bytes": 17644,
@@ -5159,6 +5211,19 @@
   "sha1": "a9a880c1a9f23d56",
   "source": "Wikimedia Commons",
   "title": "Gottlob Frege (Emil Tesch)"
+ },
+ "bca302/fundus": {
+  "author": "Ku C Yong, Tan A Kah, Yeap T Ghee, Lim C Siang and Mae-Lynn C Bastion, Department of Ophthalmology, Universiti Kebangsaan Malaysia Medical Centre (UKMMC) and Un",
+  "bytes": 81361,
+  "credit": "License : http://www.biomedcentral.com/1471-2415/11/24 , Picture : http://www.biomedcentral.com/1471-2415/11/24/figure/F1",
+  "fetched": "2026-11-04",
+  "file": "bca302/fundus.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Branch_retinal_vein_occlusion.jpg",
+  "sha1": "84bdc433530fde62",
+  "source": "Wikimedia Commons",
+  "title": "Branch retinal vein occlusion"
  },
  "bca302/highway": {
   "author": "Anup Sadi",
@@ -5199,6 +5264,19 @@
   "source": "Wikimedia Commons",
   "title": "John J. Hopfield, 2024 Nobel Prize Laureate in Physics 1 (cropped)"
  },
+ "bca302/hubel": {
+  "author": "Jimmierock",
+  "bytes": 92651,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/hubel.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hubel%2Bwiesel.jpg",
+  "sha1": "43e3f2febdcc0caf",
+  "source": "Wikimedia Commons",
+  "title": "Hubel+wiesel"
+ },
  "bca302/ibm701": {
   "author": "Dan",
   "bytes": 860812,
@@ -5211,6 +5289,19 @@
   "sha1": "61c9215c220e9ed0",
   "source": "Wikimedia Commons",
   "title": "IBM 701console"
+ },
+ "bca302/icu": {
+  "author": "U.S. Navy photo by Photographer's Mate 1st Class Shane T. McCoy.",
+  "bytes": 1594133,
+  "credit": "This image was released by the United States Navy with the ID 030423-N-6967M-090 (next) . This tag does not indicate the copyright status of the attached work. ",
+  "fetched": "2026-11-04",
+  "file": "bca302/icu.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:US_Navy_030423-N-6967M-090_A_central_computer_system_monitors_the_heart_rates_of_each_patient_in_the_Intensive_Care_Unit_(ICU)_to_ensure_a_quick.jpg",
+  "sha1": "7be27eec88b295ec",
+  "source": "Wikimedia Commons",
+  "title": "US Navy 030423-N-6967M-090 A central computer system monitors the heart rates of each patient in the Intensive Care Unit (ICU) to ensure a quick"
  },
  "bca302/irisset": {
   "author": "Tiia Monto",
@@ -5264,6 +5355,45 @@
   "source": "Wikimedia Commons",
   "title": "Optiebeurs schaakvierkamp Garri Kasparov tegen Anatoli Karpov (rechts), Bestanddeelnr 934-2524"
  },
+ "bca302/ktmfalse": {
+  "author": "NASA World Wind, for Wikipedia -- Thomas Wozniak 11:11, 3 March 2008 (UTC)",
+  "bytes": 1908729,
+  "credit": "NASA World Wind Projekt",
+  "fetched": "2026-11-04",
+  "file": "bca302/ktmfalse.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:World_Wind_Kathmanudtal_pseudoCol.jpg",
+  "sha1": "782ffb8126c5ef05",
+  "source": "Wikimedia Commons",
+  "title": "World Wind Kathmanudtal pseudoCol"
+ },
+ "bca302/ktmtrue": {
+  "author": "NASA World Wind, for Wikipedia -- Thomas Wozniak 11:15, 3 March 2008 (UTC)",
+  "bytes": 958127,
+  "credit": "NASA World Wind Projekt",
+  "fetched": "2026-11-04",
+  "file": "bca302/ktmtrue.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:World_Wind_Kathmanudtal_trueCol.jpg",
+  "sha1": "d136a039af38f050",
+  "source": "Wikimedia Commons",
+  "title": "World Wind Kathmanudtal trueCol"
+ },
+ "bca302/langtang": {
+  "author": "NASA Earth Observatory",
+  "bytes": 422530,
+  "credit": "Landslide in Langtang Valley",
+  "fetched": "2026-11-04",
+  "file": "bca302/langtang.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Landslide_in_Langtang_Valley_(17379967521).jpg",
+  "sha1": "8e6992d7ee1c8a52",
+  "source": "Wikimedia Commons",
+  "title": "Landslide in Langtang Valley (17379967521)"
+ },
  "bca302/lecun": {
   "author": "Jérémy Barande",
   "bytes": 1520331,
@@ -5289,6 +5419,19 @@
   "sha1": "3f7ac4d752294918",
   "source": "Wikimedia Commons",
   "title": "Mark I Perceptron, Figure 2 of operator's manual"
+ },
+ "bca302/massspec": {
+  "author": "Fulvio314",
+  "bytes": 179270,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/massspec.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mass_spectrometer_quadrupole.JPG",
+  "sha1": "ea07e00dbf6ffa60",
+  "source": "Wikimedia Commons",
+  "title": "Mass spectrometer quadrupole"
  },
  "bca302/maze": {
   "author": "Daderot",
@@ -5407,6 +5550,32 @@
   "source": "Wikimedia Commons",
   "title": "Aptenodytes forsteri - Алексей Логинов - 465113420"
  },
+ "bca302/pixels": {
+  "author": "Matthew Rollings at English Wikipedia",
+  "bytes": 52774,
+  "credit": "Transferred from en.wikipedia to Commons by Wdwd using CommonsHelper .",
+  "fetched": "2026-11-04",
+  "file": "bca302/pixels.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nexus_one_screen_microscope.jpg",
+  "sha1": "e6f82e843c1fad66",
+  "source": "Wikimedia Commons",
+  "title": "Nexus one screen microscope"
+ },
+ "bca302/pricescan": {
+  "author": "Luke",
+  "bytes": 426833,
+  "credit": "http://www.public-domain-image.com/public-domain-images-pictures-free-stock-photos/objects-public-domain-images-pictures/electronics-devices-public-domain-image",
+  "fetched": "2026-11-04",
+  "file": "bca302/pricescan.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:An_old_price_scanner_at_a_supermarket.jpg",
+  "sha1": "c5be126b6650b75c",
+  "source": "Wikimedia Commons",
+  "title": "An old price scanner at a supermarket"
+ },
  "bca302/purkinje": {
   "author": "The original uploader was PNG crusade bot at English Wikipedia .",
   "bytes": 51869,
@@ -5523,6 +5692,19 @@
   "sha1": "e754a78959c382bd",
   "source": "Wikimedia Commons",
   "title": "Claude Shannon 1958 MIT portrait cropped"
+ },
+ "bca302/shortliffe": {
+  "author": "Trapwrap",
+  "bytes": 70690,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/shortliffe.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Edward_H._Shortliffe.jpg",
+  "sha1": "a5541512e1fa060e",
+  "source": "Wikimedia Commons",
+  "title": "Edward H. Shortliffe"
  },
  "bca302/siren": {
   "author": "Harrihealey02",
@@ -5641,6 +5823,19 @@
   "source": "Wikimedia Commons",
   "title": "Tic tac toe board"
  },
+ "bca302/trafficktm": {
+  "author": "Bijay Chaurasia",
+  "bytes": 674967,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/trafficktm.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Traffic_Police_officer_during_Maha_Shivaratri_Celebrations_near_Jaya_Bageshwori_Road,_Kathmandu,_Nepal-070A6986.jpg",
+  "sha1": "7ff922c20eff37e3",
+  "source": "Wikimedia Commons",
+  "title": "Traffic Police officer during Maha Shivaratri Celebrations near Jaya Bageshwori Road, Kathmandu, Nepal-070A6986"
+ },
  "bca302/turing": {
   "author": "Elliott & Fry",
   "bytes": 92890,
@@ -5653,6 +5848,19 @@
   "sha1": "286a77a7e24b3139",
   "source": "Wikimedia Commons",
   "title": "Alan Turing (1951)"
+ },
+ "bca302/vax": {
+  "author": "File:LCM - DEC VAX 11-780-5 - 01.jpg : Joe Mabel derivative work: User:Pittigrilli",
+  "bytes": 729688,
+  "credit": "Photo by Joe Mabel",
+  "fetched": "2026-11-04",
+  "file": "bca302/vax.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Computer_DEC_VAX_11-780-5_in_Living_Computer_Museum,_Seattle_(strongly_edited_image).jpg",
+  "sha1": "86fecaa99d4721b8",
+  "source": "Wikimedia Commons",
+  "title": "Computer DEC VAX 11-780-5 in Living Computer Museum, Seattle (strongly edited image)"
  },
  "bca302/waymo": {
   "author": "Grendelkhan",
