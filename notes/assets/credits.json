@@ -7500,6 +7500,19 @@
   "source": "Wikimedia Commons",
   "title": "Bird Aviary - geograph.org.uk - 4358913"
  },
+ "bcaeng/barrage": {
+  "author": "Raiseson",
+  "bytes": 209644,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/barrage.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Koshi_River_Barrage.jpg",
+  "sha1": "d6701632ea93c8d6",
+  "source": "Wikimedia Commons",
+  "title": "Koshi River Barrage"
+ },
  "bcaeng/cake": {
   "author": "Gaurav Dhwaj Khadka",
   "bytes": 697590,
@@ -7512,6 +7525,45 @@
   "sha1": "ce16904952b97e86",
   "source": "Wikimedia Commons",
   "title": "A Piece of Cake"
+ },
+ "bcaeng/gandaki": {
+  "author": "Vyacheslav Argenberg",
+  "bytes": 560018,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/gandaki.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kowang,_Gandaki_River,_Nepal.jpg",
+  "sha1": "fbe414688b1ba3cc",
+  "source": "Wikimedia Commons",
+  "title": "Kowang, Gandaki River, Nepal"
+ },
+ "bcaeng/glacier": {
+  "author": "Vyacheslav Argenberg",
+  "bytes": 988228,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/glacier.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ngozumpa_Glacier,_Nepal,_Himalayas.jpg",
+  "sha1": "b39a11972d552332",
+  "source": "Wikimedia Commons",
+  "title": "Ngozumpa Glacier, Nepal, Himalayas"
+ },
+ "bcaeng/hardhat": {
+  "author": "Mark Ahsmann",
+  "bytes": 548849,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/hardhat.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sign_in_London_Hard_hats_must_be_worn_2011-06-04.jpg",
+  "sha1": "ca799598fb779977",
+  "source": "Wikimedia Commons",
+  "title": "Sign in London Hard hats must be worn 2011-06-04"
  },
  "bcaeng/icebreaker": {
   "author": "Armstrong Mitchell/Whitworth collection; photographer not identified",
@@ -7538,6 +7590,45 @@
   "sha1": "ea912763caf0b8b6",
   "source": "Wikimedia Commons",
   "title": "Samuel Johnson by Joshua Reynolds"
+ },
+ "bcaeng/k2": {
+  "author": "Svy123",
+  "bytes": 272075,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/k2.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:K2_2006b.jpg",
+  "sha1": "36619fca93c1c8c4",
+  "source": "Wikimedia Commons",
+  "title": "K2 2006b"
+ },
+ "bcaeng/kangch": {
+  "author": "Siegmund Stiehler",
+  "bytes": 106744,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/kangch.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Kangchenjunga.JPG",
+  "sha1": "a01f17f51ad40392",
+  "source": "Wikimedia Commons",
+  "title": "Kangchenjunga"
+ },
+ "bcaeng/nosmoke": {
+  "author": "Melenn14",
+  "bytes": 584531,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/nosmoke.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Smoking_prohibition_sign,_The_queen_Victoria,_Llandudno_2023.jpg",
+  "sha1": "a2424bcf7904d57c",
+  "source": "Wikimedia Commons",
+  "title": "Smoking prohibition sign, The queen Victoria, Llandudno 2023"
  },
  "bcaeng/roget": {
   "author": "Thomas Pettigrew",
