@@ -1773,3 +1773,8 @@ All AI agents working on this codebase must maintain a forward-looking, producti
   fetch missing shared libs with `apt-get -o Dir::State::Lists=/tmp/apt/lists -o Dir::Cache=/tmp/apt/cache download <pkg>`,
   `dpkg -x` them into a folder and export `LD_LIBRARY_PATH`.
 - Analytics internals, definitions and deploy steps: `docs/ANALYTICS.md`.
+
+## Dither art and button scale
+
+- `tools/dither/` (numpy + Pillow) renders the dither art set into `web/static/web/art/dither/` plus `art/dither.json`; browse it at `/admin/dither/`. Add a scene in `scenes_*.py` with `@scene(...)`, then `python3 tools/dither/build.py`. `dune-library-bone` also writes `cover-dunes-mask.png`, the alpha mask behind the resource cover (`.vw-cover::before` in `m3x/app-viewer.css`, tinted by the subject colour).
+- Buttons: 40px for page and dialog actions, 32px compact, 28px Follow (`m3x/app-sizing.css`, `m3x/app-follow.css`). Never put an ID selector inside a shared `:is()` list (it lifts the whole list's specificity); wrap it in `:where()`. Flip follow buttons with `nebFollowSet(btn, on)`.
