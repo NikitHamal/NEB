@@ -4328,6 +4328,19 @@
   "source": "Wikimedia Commons",
   "title": "Sir Tim Berners-Lee"
  },
+ "bca301/caesar": {
+  "author": "Wilfredor",
+  "bytes": 714609,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/caesar.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Bust_of_Julius_Caesar.jpg",
+  "sha1": "957638fe418edb15",
+  "source": "Wikimedia Commons",
+  "title": "Bust of Julius Caesar"
+ },
  "bca301/cat5e": {
   "author": "Richard Wheeler ( Zephyris ) at en.wikipedia ).",
   "bytes": 425665,
@@ -4379,6 +4392,32 @@
   "sha1": "8664daf503289043",
   "source": "Wikimedia Commons",
   "title": "Container-Terminal Bremerhaven 02"
+ },
+ "bca301/descrack": {
+  "author": "Unknown author",
+  "bytes": 345009,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca301/descrack.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:DES_Board300.jpg",
+  "sha1": "0b15d6871774bc51",
+  "source": "Wikimedia Commons",
+  "title": "DES Board300"
+ },
+ "bca301/diffie": {
+  "author": "Unknown author",
+  "bytes": 28121,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca301/diffie.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Diffie_and_Hellman.jpg",
+  "sha1": "77784f59dc6e5a8b",
+  "source": "Wikimedia Commons",
+  "title": "Diffie and Hellman"
  },
  "bca301/dijkstra": {
   "author": "Andreas F. Borchert",
@@ -4445,6 +4484,19 @@
   "source": "Wikimedia Commons",
   "title": "MR18R0828BN1-CG6"
  },
+ "bca301/enigma": {
+  "author": "Rama",
+  "bytes": 560474,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/enigma.jpg",
+  "license": "CC BY-SA 2.0 fr",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0/fr/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Enigma-IMG_0487-black.jpg",
+  "sha1": "3a742f8d26566bc7",
+  "source": "Wikimedia Commons",
+  "title": "Enigma-IMG 0487-black"
+ },
  "bca301/ethconn": {
   "author": "Daderot",
   "bytes": 859149,
@@ -4470,6 +4522,19 @@
   "sha1": "ab31349fc181dd68",
   "source": "Wikimedia Commons",
   "title": "FileZilla 3.7.3"
+ },
+ "bca301/firewall": {
+  "author": "Zuzu",
+  "bytes": 743102,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/firewall.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Netgear_ProSafe_Dual_WAN_VPN_Gigabit_Firewall_FVS336G_inside.jpeg",
+  "sha1": "c4a2481d2a781148",
+  "source": "Wikimedia Commons",
+  "title": "Netgear ProSafe Dual WAN VPN Gigabit Firewall FVS336G inside"
  },
  "bca301/hub": {
   "author": "www.heimnetzwerke.net",
@@ -4548,6 +4613,19 @@
   "sha1": "0f62eefd4273c561",
   "source": "Wikimedia Commons",
   "title": "Lc-sc-fiber-connectors"
+ },
+ "bca301/lorenz": {
+  "author": "Farai Gandiya",
+  "bytes": 614540,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/lorenz.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Lorenz_SZ42.jpg",
+  "sha1": "a0a061b2b1017653",
+  "source": "Wikimedia Commons",
+  "title": "Lorenz SZ42"
  },
  "bca301/mast": {
   "author": "Diacius",
@@ -4691,6 +4769,19 @@
   "sha1": "6072a0f1b35cca6e",
   "source": "Wikimedia Commons",
   "title": "Ams-ix.k.root-servers.net"
+ },
+ "bca301/rsatrio": {
+  "author": "Unknown author",
+  "bytes": 268534,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca301/rsatrio.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2017-08-Ron_Rivest_Adi_Shamir_and_Len_Adleman_on_CRYPTO_2017_in_UCSB.jpg",
+  "sha1": "c3e50dd36a506902",
+  "source": "Wikimedia Commons",
+  "title": "2017-08-Ron Rivest Adi Shamir and Len Adleman on CRYPTO 2017 in UCSB"
  },
  "bca301/sfp": {
   "author": "Joachim Müllerchen ( Jom at de.wikipedia )",
@@ -4860,6 +4951,19 @@
   "sha1": "37fa05a43225fbf3",
   "source": "Wikimedia Commons",
   "title": "Linksys WRT54G"
+ },
+ "bca301/yubikey": {
+  "author": "Daniel Aleksandersen",
+  "bytes": 701462,
+  "credit": "https://www.ctrl.blog/entry/security-key-decommission.html ( archive archive )",
+  "fetched": "2026-11-04",
+  "file": "bca301/yubikey.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:YubiKey_5C_NFC.jpg",
+  "sha1": "4d8212090bd02320",
+  "source": "Wikimedia Commons",
+  "title": "YubiKey 5C NFC"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
