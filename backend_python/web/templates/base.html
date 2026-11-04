@@ -164,6 +164,7 @@
      used to block the parser in this same spot for no reason: nothing runs
      before DOMContentLoaded, and they now load at the end of <body>. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-toast.js' %}"></script>
 <!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
   <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
 </head>
@@ -423,15 +424,6 @@
         menu.classList.remove('show');
       }
     });
-
-    function showSnackbar(msg, duration = 3000) {
-      const container = document.getElementById('snackbar-container');
-      const el = document.createElement('div');
-      el.className = 'md-snackbar';
-      el.textContent = msg;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), duration);
-    }
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({
