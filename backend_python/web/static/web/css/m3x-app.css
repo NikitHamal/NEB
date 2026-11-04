@@ -1656,6 +1656,244 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
   :root .nd-action:not(.nd-action-icon):not(.nd-action-primary) { flex: 1; }
 }
 
+/* ---- m3x/app-mobile.css ---- */
+/* m3x mobile overlays. On a phone every dialog is a bottom sheet and every menu is a sheet; both sit
+   above the on-screen keyboard (--neb-kb, written by the viewport tracker in neb-overlays.js) and
+   never grow past the visible viewport (--neb-vh). The body of a dialog scrolls, its head and
+   actions do not, so the buttons are always reachable. Loads after app-overlays.css. */
+
+:root { --neb-kb: 0px; --neb-vh: 100dvh; --neb-vt: 0px; }
+
+.neb-dialog > :is(.neb-dialog-body, .fl-options, .fp-dialog-body) {
+  overflow-y: auto; overscroll-behavior: contain; min-height: 0; flex: 1 1 auto;
+}
+.neb-dialog > :is(.neb-dialog-head, .neb-dialog-actions) { flex: none; }
+.neb-dialog { max-height: min(88dvh, calc(var(--neb-vh) - 24px)); }
+
+@media (max-width: 600px) {
+  .neb-scrim:not(.neb-scrim-side) {
+    padding: 0 0 var(--neb-kb); align-items: flex-end; justify-content: center; box-sizing: border-box;
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog, .upload-progress-dialog {
+    width: 100%; max-width: none; margin: 0;
+    max-height: min(92dvh, calc(var(--neb-vh) - 12px));
+    border-radius: 28px 28px 0 0; border-width: 1px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    opacity: 1; transform: translateY(100%);
+    transition: transform .5s var(--spring);
+  }
+  .neb-scrim[data-open] .neb-dialog { transform: none; }
+  .neb-scrim[data-closing] .neb-dialog { transform: translateY(100%); transition-duration: .22s; }
+  .neb-dialog::before {
+    content: ""; display: block; flex: none; width: 36px; height: 4px; margin: 10px auto 0;
+    border-radius: 2px; background: var(--md-outline-variant);
+  }
+  .neb-dialog-actions { padding-bottom: 16px; }
+
+  .neb-menu.neb-menu-sheet {
+    inset: auto 0 var(--neb-kb) 0;
+    max-height: min(76dvh, calc(var(--neb-vh) - 24px));
+    overflow-y: auto; overscroll-behavior: contain;
+    border-width: 1px 0 0; border-radius: 28px 28px 0 0;
+    background: var(--x-float);
+  }
+  .neb-menu.neb-menu-sheet[data-open] { transform: none; }
+  .neb-menu.neb-menu-sheet .neb-menu-item { min-height: 52px; }
+  .more-menu.neb-menu-sheet { inset: auto 0 var(--neb-kb) 0; max-width: none; max-height: min(76dvh, calc(var(--neb-vh) - 24px)); overflow-y: auto; }
+  .neb-sheet { max-height: min(90dvh, calc(var(--neb-vh) - 12px)); }
+  .modal-overlay { padding-bottom: var(--neb-kb); }
+  .modal-box { max-height: min(92dvh, calc(var(--neb-vh) - 12px)); }
+}
+
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+  .neb-dialog, .fl-dialog, .fp-dialog { transform: none !important; opacity: 0; transition: opacity .15s !important; }
+  .neb-scrim[data-open] .neb-dialog { opacity: 1; }
+}
+
+/* ---- m3x/app-shapes.css ---- */
+/* m3x avatar shapes and the standard avatar badge.
+
+   neb-shapes.js puts data-shape="<name>" on every avatar container, chosen from the username, so a
+   person has one shape on every screen. The polygons come from shapes.css (same point count, so
+   they morph); hovering a shaped avatar, or the link around it, tips it into its neighbour shape.
+
+   A container that carries a badge keeps its own box unclipped (the badge sits on the rim) and
+   shapes the picture inside it instead. */
+
+[data-shape] { --shape: var(--shape-cookie); --alt: var(--shape-flower); }
+[data-shape="cookie"]   { --shape: var(--shape-cookie);   --alt: var(--shape-flower); }
+[data-shape="sunny"]    { --shape: var(--shape-sunny);    --alt: var(--shape-burst); }
+[data-shape="flower"]   { --shape: var(--shape-flower);   --alt: var(--shape-clover); }
+[data-shape="clover"]   { --shape: var(--shape-clover);   --alt: var(--shape-cookie); }
+[data-shape="burst"]    { --shape: var(--shape-burst);    --alt: var(--shape-sunny); }
+[data-shape="pebble"]   { --shape: var(--shape-pebble);   --alt: var(--shape-squircle); }
+[data-shape="squircle"] { --shape: var(--shape-squircle); --alt: var(--shape-circle); }
+
+[data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)) {
+  clip-path: var(--shape); border-color: transparent; border-radius: 0;
+  background-color: var(--md-secondary-container); color: var(--md-on-secondary-container);
+  transition: clip-path .8s var(--spring);
+}
+[data-shape]:has(> .avatar-badge-overlay) > :is(img, div, span):not(.avatar-badge-overlay),
+.pf-avatar-overlap-wrap > .pf-avatar-circle {
+  clip-path: var(--shape); border-radius: 0 !important; border: 0 !important;
+  background-color: var(--md-secondary-container); color: var(--md-on-secondary-container);
+  transition: clip-path .8s var(--spring);
+}
+[data-shape] img { border-radius: 0 !important; }
+
+@media (hover: hover) {
+  a:hover > [data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)),
+  [data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)):hover { clip-path: var(--alt); }
+  a:hover > [data-shape]:has(> .avatar-badge-overlay) > :is(img, div, span):not(.avatar-badge-overlay),
+  [data-shape]:has(> .avatar-badge-overlay):hover > :is(img, div, span):not(.avatar-badge-overlay),
+  .pf-avatar-overlap-wrap:hover > .pf-avatar-circle { clip-path: var(--alt); }
+}
+@media (prefers-reduced-motion: reduce) { [data-shape], [data-shape] > * { transition: none !important; } }
+
+/* ---------- the standard avatar badge ----------
+   A filled disc in the badge colour, a white glyph, and a ring in the colour of whatever the
+   avatar sits on. Bottom-right, on the rim of the shape. */
+.avatar-container-verified { position: relative; overflow: visible; }
+.avatar-badge-overlay {
+  --bd: 16px;
+  position: absolute; right: -2px; bottom: -2px; z-index: 5;
+  width: var(--bd); height: var(--bd); box-sizing: content-box;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; border: 2px solid var(--badge-ring, var(--md-surface));
+  background: var(--badge-bg, var(--md-primary)); color: #fff;
+  line-height: 0; pointer-events: none;
+}
+.avatar-badge-overlay .material-symbols-outlined {
+  font-size: calc(var(--bd) * .66); line-height: 1; color: #fff;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 20;
+}
+.avatar-badge-overlay.is-verified .material-symbols-outlined { font-size: 0; }
+.avatar-badge-overlay.is-verified::after {
+  content: "check"; font-family: 'Material Symbols Outlined'; font-size: calc(var(--bd) * .7);
+  font-weight: 700; line-height: 1; color: #fff; font-variation-settings: 'wght' 700;
+}
+
+/* ---- m3x/app-profile.css ---- */
+/* m3x profile. One tonal card: an inset rounded cover, an avatar in an expressive shape that
+   breaks the cover's edge with a ring cut out of the card colour, one standard badge on its rim,
+   stat tiles, and the tab rail below. The same drawing on a phone and a desktop; only the grid
+   changes. Prefixed .profile-page so it outranks app/ and pages/profile.css. */
+
+.profile-page { --pf-card: var(--md-surface-container-low); --badge-ring: var(--pf-card); }
+.profile-page .pf-compact-card {
+  position: relative; background: var(--pf-card); color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant); border-radius: 32px; padding: 8px 8px 20px; overflow: visible;
+}
+.profile-page .pf-card-banner {
+  height: clamp(140px, 22vw, 192px); border-radius: 26px; overflow: hidden; background: var(--md-primary-container);
+}
+.profile-page .pf-banner-photo-scrim { background: color-mix(in srgb, #000 12%, transparent); }
+.profile-page .pf-banner-actions { top: 10px; right: 10px; gap: 8px; }
+.profile-page .pf-banner-action, .profile-page .pf-card-banner .neb-back {
+  width: 40px; height: 40px; border-radius: 50%; border: 0;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-banner-action:hover, .profile-page .pf-card-banner .neb-back:hover { border-radius: 14px; background: var(--md-surface-container-high); }
+.profile-page .pf-banner-action:active, .profile-page .pf-card-banner .neb-back:active { transform: scale(.92); }
+.profile-page .pf-card-banner .neb-back { position: absolute; top: 10px; left: 10px; }
+
+.profile-page .pf-identity-row { padding: 0 14px; align-items: flex-start; }
+.profile-page .pf-avatar-overlap-wrap {
+  --av: 108px; width: var(--av); height: var(--av); margin-top: calc(var(--av) / -2);
+  overflow: visible; background: none;
+}
+.profile-page .pf-avatar-overlap-wrap::before {
+  content: ""; position: absolute; inset: -6px; background: var(--pf-card);
+  clip-path: var(--shape, var(--shape-cookie)); transition: clip-path .8s var(--spring);
+}
+.profile-page .pf-avatar-overlap-wrap:hover::before { clip-path: var(--alt, var(--shape-flower)); }
+.profile-page .pf-avatar-circle {
+  position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: var(--md-primary-container); color: var(--md-on-primary-container); overflow: hidden; box-sizing: border-box;
+}
+.profile-page .pf-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.profile-page .pf-avatar-initial { font-family: var(--display); font-size: 2.5rem; font-weight: 700; color: inherit; }
+.profile-page .pf-avatar-bot .pf-avatar-circle { background: var(--md-surface-container-high); }
+
+.profile-page .pf-avatar-cam {
+  position: absolute; left: auto; top: auto; right: 2px; bottom: 2px; z-index: 6;
+  width: 34px; height: 34px; border-radius: 50%; box-sizing: border-box;
+  background: var(--md-primary); color: var(--md-on-primary); border: 3px solid var(--pf-card);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: border-radius .5s var(--spring), transform .3s var(--spring);
+}
+.profile-page .pf-avatar-cam:hover { border-radius: 12px; }
+.profile-page .pf-avatar-cam:active { transform: scale(.9); }
+.profile-page .pf-avatar-cam span { font-size: 16px !important; color: var(--md-on-primary) !important; }
+
+.profile-page .pf-identity-action { margin-top: 14px; }
+.profile-page .pf-btn {
+  min-height: 44px; padding: 0 22px; gap: 8px; border-radius: 22px; font-weight: 600; border: 0;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-btn:hover { border-radius: 14px; }
+.profile-page .pf-btn:active { transform: scale(.96); }
+.profile-page .pf-btn-filled { background: var(--md-primary); color: var(--md-on-primary); }
+.profile-page .pf-btn-outlined { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.profile-page .pf-btn .material-symbols-outlined { font-size: 20px; color: inherit; }
+
+.profile-page .pf-card-body { padding: 14px 14px 0; }
+.profile-page .pf-card-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.profile-page .pf-card-name { font-family: var(--display); font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin: 0; color: var(--md-on-surface); }
+.profile-page .pf-verified {
+  width: 24px; height: 24px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--badge-bg, var(--md-primary)); color: #fff;
+}
+.profile-page .pf-verified .material-symbols-outlined { font-size: 16px; color: #fff; font-variation-settings: 'FILL' 1, 'wght' 700; }
+.profile-page .pf-card-username { color: var(--md-on-surface-variant); font-weight: 500; margin-top: 2px; }
+.profile-page .pf-card-headline { color: var(--md-on-secondary-container); font-weight: 600; margin: 12px 0 0; }
+.profile-page .pf-card-bio { color: var(--md-on-surface); line-height: 1.55; margin: 8px 0 0; }
+.profile-page .pf-meta-flow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.profile-page .pf-meta-item {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: 14px;
+  background: var(--md-surface-container); color: var(--md-on-surface-variant); font-size: .8125rem; font-weight: 500;
+}
+.profile-page .pf-meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-on-surface-variant); }
+.profile-page .pf-meta-item a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+
+.profile-page .pf-stats-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+.profile-page .pf-stat-col {
+  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 0; padding: 12px 14px;
+  background: var(--md-surface-container); color: var(--md-on-surface); border-radius: 20px; min-width: 0;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-stat-col[data-action] { cursor: pointer; }
+.profile-page .pf-stat-col[data-action]:hover { background: var(--md-secondary-container); border-radius: 28px; }
+.profile-page .pf-stat-col[data-action]:active { transform: scale(.97); }
+.profile-page .pf-stat-num { font-family: var(--display); font-size: 1.5rem; font-weight: 700; line-height: 1.2; color: var(--md-on-surface); }
+.profile-page .pf-stat-label { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: var(--md-on-surface-variant); }
+.profile-page .pf-buttons-row { display: flex; gap: 8px; margin-top: 12px; }
+.profile-page .pf-buttons-row .pf-btn { flex: 1; justify-content: center; }
+
+.profile-page .pf-private {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px;
+  min-height: 320px; padding: 48px 24px; background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant); border-radius: 32px;
+}
+.profile-page .pf-private-icon {
+  width: 72px; height: 72px; display: grid; place-items: center; margin-bottom: 8px;
+  clip-path: var(--shape-cookie); background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.profile-page .pf-private-icon .material-symbols-outlined { font-size: 34px; }
+.profile-page .pf-private h2 { margin: 0; font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); }
+.profile-page .pf-private p { margin: 0; max-width: 300px; color: var(--md-on-surface-variant); line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .profile-page .profile-grid-container { padding: 12px 12px 112px; }
+  .profile-page .pf-compact-card { border-radius: 28px; }
+  .profile-page .pf-card-banner { border-radius: 22px; }
+  .profile-page .pf-avatar-overlap-wrap { --av: 96px; }
+  .profile-page .pf-card-name { font-size: 1.5rem; }
+}
+
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
    text colour: a saturated hue on a light card or a dark card is 2:1. --ink() mixes the accent

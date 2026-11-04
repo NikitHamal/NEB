@@ -84,7 +84,6 @@
               <div class="neb-art pf-banner-art" data-neb-art="cover"
                    data-neb-role="{{ profile_user.banner_role|default:'MEMBER' }}"
                    data-neb-seed="{{ profile_user.username }}">
-                <div class="pf-banner-sheen" aria-hidden="true"></div>
               </div>
             {% endif %}
             {% url 'web:home' as back_href %}
@@ -111,7 +110,7 @@
           {% comment %} Avatar and primary action, bottom-aligned across the cover's edge.
              Nothing clips here, so the avatar hangs below the art. {% endcomment %}
           <div class="pf-identity-row">
-            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %}" data-avatar-seed="{{ profile_user.username }}">
               <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
                 {% if profile_user.is_bot or profile_user.username == 'neby' %}
                   <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Neby — tap to play"></div>
@@ -121,11 +120,6 @@
                   <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
                 {% endif %}
               </div>
-              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
-                <span class="avatar-badge-overlay is-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
-                  <span class="material-symbols-outlined">verified</span>
-                </span>
-              {% endif %}
               {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
                 <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
                   <span class="material-symbols-outlined">camera_alt</span>
@@ -158,6 +152,9 @@
 
             <div class="pf-card-name-row">
               <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
+              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+                <span class="pf-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified"><span class="material-symbols-outlined">check</span></span>
+              {% endif %}
               {% if badge_info %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
@@ -327,14 +324,10 @@
       <div class="profile-right-col">
         {% if profile_private %}
           <!-- Private Account Lock Placeholder -->
-          <div class="pf-card" style="text-align: center; padding: 64px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; font-family: 'Poppins', sans-serif;">
-            <div style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--md-outline); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <span class="material-symbols-outlined" style="font-size: 36px; color: var(--md-on-surface-variant); opacity: 0.8;">lock</span>
-            </div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 8px;">This Account is Private</h2>
-            <p style="font-size: 0.875rem; color: var(--md-on-surface-variant); max-width: 280px; margin: 0; line-height: 1.5;">
-              Follow this account to see their posts, replies, and resources.
-            </p>
+          <div class="pf-private">
+            <span class="pf-private-icon"><span class="material-symbols-outlined">lock</span></span>
+            <h2>This account is private</h2>
+            <p>Follow this account to see their posts, replies, and resources.</p>
           </div>
         {% else %}
           {% if profile_user.is_bot %}
