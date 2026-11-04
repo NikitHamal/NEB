@@ -2001,6 +2001,19 @@
   "source": "Wikimedia Commons",
   "title": "Mixing with an akiyama II - Flickr - Rosa y Dani"
  },
+ "bca155/gutenberg": {
+  "author": "NYC Wanderer (Kevin Eng)",
+  "bytes": 423286,
+  "credit": "originally posted to Flickr as Gutenberg Bible",
+  "fetched": "2026-11-04",
+  "file": "bca155/gutenberg.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gutenberg_Bible,_Lenox_Copy,_New_York_Public_Library,_2009._Pic_01.jpg",
+  "sha1": "7fa7d64473acb78f",
+  "source": "Wikimedia Commons",
+  "title": "Gutenberg Bible, Lenox Copy, New York Public Library, 2009. Pic 01"
+ },
  "bca155/ishihara": {
   "author": "Shinobu Ishihara",
   "bytes": 1084844,
@@ -2053,6 +2066,19 @@
   "source": "Wikimedia Commons",
   "title": "Replica of prototype Engelbart mouse, circa 1964, Computer History Museum"
  },
+ "bca155/news": {
+  "author": "The Arab League",
+  "bytes": 2821801,
+  "credit": "https://www.mercadolibre.com.ar/noticias-arabes--liga-arabe-bs-as-ano-1-n11-jul-1974-8p-bu/up/MLAU131430546#polycard_client=search-desktop&be_origin=backend&ove",
+  "fetched": "2026-11-04",
+  "file": "bca155/news.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Noticias_Arabes,_a%C3%B1o_I,_n_11.png",
+  "sha1": "2f21245202b56853",
+  "source": "Wikimedia Commons",
+  "title": "Noticias Arabes, año I, n 11"
+ },
  "bca155/restroom": {
   "author": "Iris Tsung",
   "bytes": 267732,
@@ -2091,6 +2117,32 @@
   "sha1": "8e9b17c6e0f2d526",
   "source": "Wikimedia Commons",
   "title": "I'll just need one window, thanks very much"
+ },
+ "bca155/wayfind1": {
+  "author": "PaulSyms22",
+  "bytes": 423310,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/wayfind1.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Airport_wayfinding_signage_example.jpg",
+  "sha1": "612e9ac2d43d75e5",
+  "source": "Wikimedia Commons",
+  "title": "Airport wayfinding signage example"
+ },
+ "bca155/wayfind2": {
+  "author": "Scott Brody",
+  "bytes": 679492,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/wayfind2.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Newark_Airport_Wayfinding_Signage.jpg",
+  "sha1": "f1d1db3cc0c48c64",
+  "source": "Wikimedia Commons",
+  "title": "Newark Airport Wayfinding Signage"
  },
  "bca156/deming": {
   "author": "FDA",
