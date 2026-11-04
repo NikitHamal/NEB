@@ -1,6 +1,6 @@
-/* Profile feed cards. The feed belongs to one person, so a card never repeats that person's
-   avatar, name, badge or Follow button: it opens on the category and the time, then the title,
-   a three-line excerpt and the actions. White surface, one stroke, springy corner on hover. */
+/* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the
+   name with its badge on one line, then category and time beneath. No Follow button here (the
+   profile header owns it). White surface, one stroke, springy corner on hover. */
 .profile-page .activity-list { display: flex; flex-direction: column; gap: 12px; }
 .profile-page .activity-list > .post-card {
   margin: 0; padding: 18px 20px 10px; background: var(--md-surface-container-lowest);
@@ -9,9 +9,15 @@
 }
 @media (hover: hover) { .profile-page .activity-list > .post-card:hover { border-radius: 30px; border-color: var(--md-outline); } }
 .profile-page .activity-list > .post-card:active { transform: scale(.995); }
-.profile-page .activity-list > .post-card .post-card-header { padding: 0; margin: 0 0 10px; gap: 0; }
-.profile-page #tabPosts .post-card-avatar, .profile-page #tabPosts .post-card-meta-top { display: none !important; }
-.profile-page .activity-list .post-card-meta-bottom { margin: 0 !important; gap: 10px !important; }
+.profile-page .activity-list > .post-card .post-card-header { display: flex; align-items: center; padding: 0; margin: 0 0 10px; gap: 10px; }
+.profile-page .activity-list .post-card-avatar { width: 36px; height: 36px; min-width: 36px; flex: none; font-size: .9375rem; }
+.profile-page .activity-list .post-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-page .activity-list .post-card-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.profile-page .activity-list .post-card-meta-top { display: flex; align-items: center; flex-wrap: nowrap; gap: 6px; min-width: 0; font-size: .9375rem; line-height: 1.2; }
+.profile-page .activity-list .post-card-meta-top > a { font-weight: 700; color: var(--md-on-surface); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-page .activity-list .post-card-meta-bottom { display: flex; align-items: center; flex-wrap: nowrap; margin: 0 !important; gap: 8px !important; min-width: 0; color: var(--md-on-surface-variant); }
+.profile-page .activity-list .post-card-cat { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+.profile-page .activity-list .post-card-time { white-space: nowrap; }
 .profile-page .activity-list .post-card-cat {
   padding: 4px 12px; border-radius: 10px; font-size: .75rem; font-weight: 600;
   background: var(--md-primary-container); color: var(--md-on-primary-container);
