@@ -64,7 +64,7 @@ def forum(request):
     user_id = _get_user_id(request)
     sort = request.GET.get('sort', 'hot')
     category = request.GET.get('category', '').strip()
-    if category:
+    if category and not Post.objects.filter(category__iexact=category.strip()).exists():
         category = normalize_category(category)
     search = request.GET.get('q', '').strip()
     page_num = request.GET.get('page', 1)
