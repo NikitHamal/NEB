@@ -213,7 +213,7 @@ f.text(435, 122, "reflective / direct = %.2f" % (r / d), size=11, color=NAVY, bo
 f.box(10, 160, 560, 42, "JSP, EL, form builders and frameworks all call getters and setters this way,\nso a class that follows the naming convention works in all of them", fill=SOFT, stroke="#cbd5e1", color=SLATE, size=9)
 ```
 
-```svgfig label="7.3" caption="Bound properties announce changes, but only real changes. In the run, six setter calls were made on a bean with one PropertyChangeListener: setName(Sita), setName(Sita) again, setMarks(72), setMarks(72) again, setScores(1, 9) and then no more. The listener received exactly three events: name unknown to Sita, marks 0 to 72 and the indexed event scores 0 to 9. PropertyChangeSupport suppresses an event when the old and new values are equal, so a repeated assignment is silent; the events carry the property name, the old value and the new value."
+```svgfig label="7.3" caption="Bound properties announce changes, but only real changes. In the run, five setter calls were made on a bean with one PropertyChangeListener: setName(Sita), setName(Sita) again, setMarks(72), setMarks(72) again, setScores(1, 9). The listener received exactly three events: name unknown to Sita, marks 0 to 72 and the indexed event scores 0 to 9. PropertyChangeSupport suppresses an event when the old and new values are equal, so a repeated assignment is silent; the events carry the property name, the old value and the new value."
 f = Fig(580, 222)
 calls = [("setName\n(Sita)", "name: unknown -> Sita", True), ("setName\n(Sita)", "no event: same value", False), ("setMarks\n(72)", "marks: 0 -> 72", True), ("setMarks\n(72)", "no event: same value", False), ("setScores\n(1, 9)", "scores: 0 -> 9", True)]
 events = sum(1 for c in calls if c[2])
@@ -224,7 +224,7 @@ for i, (a, b, ev) in enumerate(calls):
     f.box(x, 30, 104, 40, a, fill=BLUE, stroke=NAVY, size=9.5, bold=True)
     f.arrow([(x + 52, 70), (x + 52, 96)], color=TEAL if ev else "#94a3b8", dash=not ev)
     f.box(x, 96, 104, 50, b.replace(": ", ":\n"), fill=MINT if ev else SOFT, stroke=TEAL if ev else "#94a3b8", color=TEAL if ev else SLATE, size=9, bold=True)
-f.box(10, 164, 270, 46, "5 setter calls shown, %d events delivered\n(the sixth call, scores, is the third event)" % events, fill=SAND, stroke=AMBER, size=9, bold=True)
+f.box(10, 164, 270, 46, "5 setter calls, %d events delivered\n(2 repeated values fired nothing)" % events, fill=SAND, stroke=AMBER, size=9, bold=True)
 f.box(300, 164, 270, 46, "event = property name + old value + new value\nindexed property: also the index", fill=MINT, stroke=TEAL, size=9, bold=True)
 ```
 
@@ -400,7 +400,7 @@ The property name is the method name without `get` or `set`, with the first lett
 
 **Q2. Distinguish bound and constrained properties with the results of the unit's run. (5 marks)**
 
-A **bound property** announces a change after it has happened. The setter stores the new value and calls `firePropertyChange(name, old, new)`, and each registered `PropertyChangeListener` receives an event with the name, the old value and the new value. In the run, six setter calls produced only three events: `name: unknown -> Sita`, `marks: 0 -> 72` and `scores: 0 -> 9`. Repeating `setName("Sita")` or `setMarks(72)` fired nothing, because the support object ignores equal values (Fig. 7.3).
+A **bound property** announces a change after it has happened. The setter stores the new value and calls `firePropertyChange(name, old, new)`, and each registered `PropertyChangeListener` receives an event with the name, the old value and the new value. In the run, five setter calls produced only three events: `name: unknown -> Sita`, `marks: 0 -> 72` and `scores: 0 -> 9`. Repeating `setName("Sita")` or `setMarks(72)` fired nothing, because the support object ignores equal values (Fig. 7.3).
 
 A **constrained property** asks permission before the change. The setter first calls `fireVetoableChange`, and any `VetoableChangeListener` may throw `PropertyVetoException`, which stops the assignment. The setter must declare `throws PropertyVetoException`. In the run, `setMarks(150)` and `setMarks(-5)` were vetoed with the message `marks must be 0..100`, and the marks stayed 72 (Fig. 7.4).
 
