@@ -1,7 +1,6 @@
 {% load web_extras %}
 <section class="vw-stage" id="vw-stage" data-vw data-state="cover" data-kind="{{ part.kind }}" data-src="{{ part.src }}" data-embed="{{ part.embed_url }}" data-title="{{ part.title }}" data-host="{{ part.host }}" style="--sc: {{ part.subject|split:','|first|subject_color }}">
   <div class="vw-cover" id="vw-cover">
-    <div class="vw-pixels" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="vw-hero">
       <div class="vw-sprite" aria-hidden="true"><span class="px-sprite px-{{ part.sprite }}"></span></div>
       <p class="vw-kind"><span class="material-symbols-outlined" aria-hidden="true">{{ part.icon }}</span>{{ part.label }}{% if part.file_size %}<i></i>{{ part.file_size|file_size_human }}{% endif %}</p>

@@ -16,8 +16,8 @@
 
 .vw-cover {
   position: relative; isolation: isolate; display: grid; place-items: center; text-align: center;
-  min-height: clamp(420px, 62vh, 620px); padding: 48px 24px;
-  background: var(--md-surface-container-low) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M24 0H0V24' fill='none' stroke='%230058df' stroke-opacity='.08'/%3E%3C/svg%3E");
+  min-height: clamp(420px, 62vh, 620px); padding: 48px 24px 88px;
+  background: var(--md-surface-container-low);
 }
 .vw-cover[hidden], .vw-reader[hidden] { display: none; }
 .vw-hero { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 520px; }
@@ -45,31 +45,16 @@
 }
 .vw-cover-note { margin: -4px 0 0; color: var(--md-on-surface-variant); font-size: .9375rem; word-break: break-word; }
 .vw-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-.vw-cta .x-btn { --h: 56px; padding: 0 30px; font-size: 1rem; border-radius: 28px; }
+.vw-cta .x-btn { --h: 40px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
 .vw-cta .x-btn:hover { }
-.vw-read { min-width: 160px; }
+.vw-read { min-width: 0; }
+.vw-cover::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: color-mix(in srgb, var(--sc, var(--md-primary)) 55%, var(--md-on-surface)); opacity: .5;
+  -webkit-mask: url("/static/web/art/dither/cover-dunes-mask.png") center bottom / cover no-repeat;
+          mask: url("/static/web/art/dither/cover-dunes-mask.png") center bottom / cover no-repeat;
+}
 
-.vw-pixels { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.vw-pixels i {
-  position: absolute; bottom: -12px; width: 8px; height: 8px; background: var(--md-primary); opacity: 0;
-  animation: vw-rise 7s steps(14) infinite;
-}
-.vw-pixels i:nth-child(1) { left: 8%; animation-delay: 0s; }
-.vw-pixels i:nth-child(2) { left: 18%; animation-delay: 2.1s; width: 12px; height: 12px; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(3) { left: 29%; animation-delay: 4.3s; }
-.vw-pixels i:nth-child(4) { left: 41%; animation-delay: 1.2s; width: 4px; height: 4px; }
-.vw-pixels i:nth-child(5) { left: 53%; animation-delay: 5.1s; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(6) { left: 64%; animation-delay: .6s; width: 12px; height: 12px; }
-.vw-pixels i:nth-child(7) { left: 74%; animation-delay: 3.2s; }
-.vw-pixels i:nth-child(8) { left: 83%; animation-delay: 5.8s; width: 4px; height: 4px; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(9) { left: 91%; animation-delay: 1.8s; }
-.vw-pixels i:nth-child(10) { left: 3%; animation-delay: 3.9s; width: 4px; height: 4px; }
-@keyframes vw-rise {
-  0% { transform: translateY(0); opacity: 0; }
-  12% { opacity: .5; }
-  80% { opacity: .25; }
-  100% { transform: translateY(-460px); opacity: 0; }
-}
 
 /* ---------- reader ---------- */
 .vw-bar { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); }
@@ -168,7 +153,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   .vw-parts { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .vw-sprite, .vw-pixels i { animation: none; }
+  .vw-sprite { animation: none; }
   .vw-sprite, .vw-part, .vw-part-ico, .vw-image img { transition-duration: .01s; }
 }
 

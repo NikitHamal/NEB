@@ -183,3 +183,12 @@
   };
   window.showSnackbar = function (msg, opts) { return show(msg, opts); };
 })();
+
+/* One place that flips a Follow button, so the class, the label and the tone never disagree. */
+window.nebFollowSet = function (btn, on) {
+  if (!btn) return;
+  btn.classList.remove('following', 'not-following');
+  btn.classList.add(on ? 'following' : 'not-following');
+  btn.textContent = on ? 'Following' : 'Follow';
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+};

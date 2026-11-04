@@ -1,0 +1,16 @@
+/* One size scale for buttons, loaded last. Page actions and dialog actions are 40px, compact controls 32px,
+   follow buttons 28px (app-follow.css). Pills stay finite (radius = half the height). */
+
+.x-btn { --h: 40px; padding: 0 20px; gap: 8px; font-size: .875rem; border-radius: 20px; }
+.x-btn .material-symbols-outlined { font-size: 18px; }
+.x-icon-btn { width: 40px; height: 40px; border-radius: 20px; }
+.x-icon-btn .material-symbols-outlined { font-size: 22px; }
+.md-btn { min-height: 40px; padding: 0 20px; gap: 8px; font-size: .875rem; line-height: 1; }
+.md-btn .material-symbols-outlined { font-size: 18px; }
+.md-btn-small { min-height: 32px; padding: 0 14px; font-size: .8125rem; }
+.neb-dialog-actions .md-btn, .neb-dialog-actions button { min-height: 40px; }
+.neb-sheet .x-btn, .neb-dialog .x-btn { --h: 40px; }
+.ga-sheet .ga-close { align-self: center; min-width: 120px; }
+.profile-page .pf-btn { min-height: 36px; padding: 0 18px; gap: 6px; border-radius: 18px; font-size: .8125rem; }
+.profile-page .pf-btn .material-symbols-outlined { font-size: 18px; }
+.vw-cta .x-btn { --h: 40px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
