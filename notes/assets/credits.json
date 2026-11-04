@@ -3314,6 +3314,32 @@
   "source": "Wikimedia Commons",
   "title": "Michael ”Monty” Widenius at MariaDB’s Developers Unconference 2019 in New York City 06"
  },
+ "bca255/mullenweg": {
+  "author": "Joi",
+  "bytes": 714859,
+  "credit": "https://www.flickr.com/photos/joi/4460587271/sizes/o/in/photostream/",
+  "fetched": "2026-11-04",
+  "file": "bca255/mullenweg.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Matt_Mullenweg_(1).jpg",
+  "sha1": "a820503a4684d145",
+  "source": "Wikimedia Commons",
+  "title": "Matt Mullenweg (1)"
+ },
+ "bca255/otwell": {
+  "author": "Bill Condo",
+  "bytes": 264978,
+  "credit": "https://www.flickr.com/photos/billcondo/8498421543/",
+  "fetched": "2026-11-04",
+  "file": "bca255/otwell.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Taylor_Otwell_at_Laracon_DC_2013_-_2.jpg",
+  "sha1": "30be207b51bd15d0",
+  "source": "Wikimedia Commons",
+  "title": "Taylor Otwell at Laracon DC 2013 - 2"
+ },
  "bca255/padlock": {
   "author": "Trougnouf",
   "bytes": 852921,
@@ -3326,6 +3352,19 @@
   "sha1": "e04db174980bb645",
   "source": "Wikimedia Commons",
   "title": "Solex 99 30 padlock with keys (DSCF2659)"
+ },
+ "bca255/rack": {
+  "author": "NASA Earth RIght Now",
+  "bytes": 1342184,
+  "credit": "24Seven: PO.DAAC Servers 15:00 EDT",
+  "fetched": "2026-11-04",
+  "file": "bca255/rack.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:24Seven-_PO_DAAC_Servers_15-00_EDT_(26508353976).png",
+  "sha1": "8246823999c8957f",
+  "source": "Wikimedia Commons",
+  "title": "24Seven- PO DAAC Servers 15-00 EDT (26508353976)"
  },
  "bca255/switches": {
   "author": "Dsimic",
