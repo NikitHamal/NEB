@@ -3093,6 +3093,19 @@
   "source": "Wikimedia Commons",
   "title": "Lego bricks"
  },
+ "bca254/minard": {
+  "author": "Original author: M. Minard, 1869, Original uploader was Nijeholt at nl.wikibooks",
+  "bytes": 243441,
+  "credit": "Transferred from nl.wikibooks (Original text : http://strangemaps.wordpress.com/2007/12/31/229-vital-statistics-of-a-deadly-campaign-the-minard-map/ . Bestand s",
+  "fetched": "2026-11-04",
+  "file": "bca254/minard.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Minards_chart_Napoleons_Russian_campaign_of_1812_made_in_1869.jpg",
+  "sha1": "88bf3ac503381cdf",
+  "source": "Wikimedia Commons",
+  "title": "Minards chart Napoleons Russian campaign of 1812 made in 1869"
+ },
  "bca254/moth": {
   "author": "Courtesy of the Naval Surface Warfare Center, Dahlgren, VA., 1988.",
   "bytes": 519205,
@@ -3119,6 +3132,19 @@
   "source": "Wikimedia Commons",
   "title": "Nightingale-mortality"
  },
+ "bca254/playfair": {
+  "author": "Playfair, William, 1759-1823",
+  "bytes": 634656,
+  "credit": "Internet Archive identifier : dr_tableau-du-commerce-entre-langleterre-et-lamrique-depuis-1700-jusquen-14319056 https://archive.org/download/dr_tableau-du-comme",
+  "fetched": "2026-11-04",
+  "file": "bca254/playfair.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Tableau_du_commerce_entre_l%27Angleterre_et_l%27Am%C3%A9rique_depuis_1700,_jusqu%27en_1780._W._Playfair_inv._(IA_dr_tableau-du-commerce-entre-langleterre-et-lamrique-depuis-1700-jusquen-14319056).jpg",
+  "sha1": "74645f02f2f1437c",
+  "source": "Wikimedia Commons",
+  "title": "Tableau du commerce entre l'Angleterre et l'Amérique depuis 1700, jusqu'en 1780. W. Playfair inv. (IA dr tableau-du-commerce-entre-langleterre-et-lamrique-depuis-1700-jusquen-14319056)"
+ },
  "bca254/rosetta": {
   "author": "APK",
   "bytes": 1196062,
@@ -3144,6 +3170,19 @@
   "sha1": "23ace14247da524a",
   "source": "Wikimedia Commons",
   "title": "Raspberry Pi 4 Model B - Top"
+ },
+ "bca254/snow": {
+  "author": "after John Snow",
+  "bytes": 253990,
+  "credit": "Unknown source Unknown source Transferred from en.wikipedia to Commons.",
+  "fetched": "2026-11-04",
+  "file": "bca254/snow.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Snow-cholera-map.jpg",
+  "sha1": "d6d6147eee357c26",
+  "source": "Wikimedia Commons",
+  "title": "Snow-cholera-map"
  },
  "bca254/teletype": {
   "author": "Teletype Corporation",
