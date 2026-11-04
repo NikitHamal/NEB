@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,008,098 raw words of study material, counted over the unit files, including code listings and tables):
+**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,135,191 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -14,10 +14,10 @@
 | 1 | BCA 105 | [Professional Communication and Ethics](semester-1/professional-communication-ethics/) | 17,171 | 48 | done |
 | 1 | BCA 106 | [Hardware Workshop](semester-1/hardware-workshop/) | 13,700 | 40 | done |
 | 2 | BCA 151 | [Discrete Structure](semester-2/discrete-structure/) | 19,977 | 49 | done |
-| 2 | BCA 152 | [Microprocessor and Computer Architecture](semester-2/microprocessor-computer-architecture/) | 25,282 | 76 | done |
+| 2 | BCA 152 | [Microprocessor and Computer Architecture](semester-2/microprocessor-computer-architecture/) | 58,561 | 137 | done |
 | 2 | BCA 153 | [OOP in Java](semester-2/oop-in-java/) | 18,901 | 66 | done |
 | 2 | BCA 154 | [Mathematics II](semester-2/mathematics-2/) | 15,187 | 34 | done |
-| 2 | BCA 155 | [UX/UI Design](semester-2/ux-ui-design/) | 22,095 | 71 | done |
+| 2 | BCA 155 | [UX/UI Design](semester-2/ux-ui-design/) | 30,668 | 89 | done |
 | 2 | BCA 156 | [Principles of Management](semester-2/principles-of-management/) | 29,817 | 83 | done |
 | 3 | BCA 201 | [Data Structure and Algorithms](semester-3/data-structure-and-algorithms/) | 47,766 | 125 | done |
 | 3 | BCA 202 | [Database Management System](semester-3/dbms/) | 37,107 | 100 | done |
@@ -25,11 +25,11 @@
 | 3 | BCA 204 | [System Analysis and Design](semester-3/system-analysis-and-design/) | 16,809 | 51 | done |
 | 3 | BCA 205 | [Probability and Statistics](semester-3/probability-and-statistics/) | 22,709 | 57 | done |
 | 3 | BCA 206 | [Applied Economics](semester-3/applied-economics/) | 26,422 | 66 | done |
-| 4 | BCA 251 | [Operating Systems](semester-4/operating-systems/) | 27,698 | 85 | done |
+| 4 | BCA 251 | [Operating Systems](semester-4/operating-systems/) | 58,932 | 147 | done |
 | 4 | BCA 252 | [Software Engineering](semester-4/software-engineering/) | 38,909 | 103 | done |
 | 4 | BCA 253 | [Numerical Methods](semester-4/numerical-methods/) | 25,492 | 66 | done |
-| 4 | BCA 254 | [Python Programming](semester-4/python-programming/) | 15,321 | 79 | done |
-| 4 | BCA 255 | [Web Technology II](semester-4/web-technology-2/) | 15,068 | 64 | done |
+| 4 | BCA 254 | [Python Programming](semester-4/python-programming/) | 40,846 | 138 | done |
+| 4 | BCA 255 | [Web Technology II](semester-4/web-technology-2/) | 43,550 | 124 | done |
 | 4 | BCA 256 | [Project I](semester-4/project-1/) | 16,401 | 49 | done |
 | 5 | BCA 301 | [Computer Network](semester-5/computer-networking/) | 23,727 | 65 | done |
 | 5 | BCA 302 | [Artificial Intelligence](semester-5/artificial-intelligence/) | 20,790 | 59 | done |
