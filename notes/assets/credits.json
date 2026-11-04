@@ -7565,6 +7565,32 @@
   "source": "Wikimedia Commons",
   "title": "Shakespeare"
  },
+ "bcaeng/taj": {
+  "author": "Yann ; edited by King of Hearts",
+  "bytes": 523843,
+  "credit": "Edited version of File:Taj Mahal, Agra, India.jpg",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/taj.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Taj_Mahal,_Agra,_India_edit2.jpg",
+  "sha1": "81f2eb9ecd956813",
+  "source": "Wikimedia Commons",
+  "title": "Taj Mahal, Agra, India edit2"
+ },
+ "bcaeng/umbrella": {
+  "author": "CorraleH",
+  "bytes": 456283,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcaeng/umbrella.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Rain_on_a_blue_umbrella.jpg",
+  "sha1": "f80b08088e89566d",
+  "source": "Wikimedia Commons",
+  "title": "Rain on a blue umbrella"
+ },
  "bcagk/annap": {
   "author": "Wolfgang Beyer",
   "bytes": 465885,
