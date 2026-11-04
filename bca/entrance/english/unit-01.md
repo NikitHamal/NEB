@@ -42,6 +42,30 @@ Vocabulary is worth about 6 of the 40 English marks and is the part that cannot 
 *un-, in-, im-, dis-, non-* usually reverse meaning (indivisible, disagree). *mal-/mis-* means bad (malevolent), *bene-* means good (benevolent), *-cide* means killing (regicide, suicide), *-phobia* means fear.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.25" caption="Two people who made English vocabulary easier to organise. (a) Samuel Johnson (1709-1784), painted by Joshua Reynolds, whose Dictionary of the English Language (1755) was the first great dictionary of English. (b) Peter Mark Roget (1779-1869), a doctor who published his Thesaurus in 1852, a book that groups words by meaning, so that you find synonyms and antonyms side by side (Fig 1.1)."
+@ photo id="bcaeng/johnson" cap="Samuel Johnson: the Dictionary, 1755"
+focus 0.5 0.3
+@ photo id="bcaeng/roget" cap="Roget: the Thesaurus, 1852"
+focus 0.5 0.3
+```
+
+```svgfig label="1.1" caption="Words sit on a scale, not in a box. Each line puts synonyms and antonyms of one idea on a scale from less to more. On the quantity scale scarce and meagre are antonyms of ample, plentiful and abundant; on the attitude scale cruel and malevolent are the opposite of charitable and benevolent; on the clarity scale obscure and vague are the opposite of clear and lucid. Words in the same colour group are synonyms, but the stronger word is further along the scale (abundant is more than ample). Learn the direction of the word, then the shade."
+f = Fig(780, 330)
+scales = [("Quantity", "less", "more", [("scarce", .08), ("meagre", .24), ("ample", .62), ("plentiful", .78), ("abundant", .93)], .42),
+          ("Attitude", "unkind", "kind", [("cruel", .08), ("malevolent", .27), ("charitable", .68), ("benevolent", .90)], .47),
+          ("Clarity", "unclear", "clear", [("obscure", .09), ("vague", .30), ("clear", .66), ("lucid", .88)], .48)]
+assert sum(len(s[3]) for s in scales) == 13
+for i, (nm, lo, hi, ws, cut) in enumerate(scales):
+    y = 70 + i * 100
+    f.text(20, y - 30, nm, size=12, color=NAVY, anchor="start", bold=True)
+    f.arrow([(60, y + 26), (730, y + 26)], color=SLATE, sw=1.6, both=True)
+    f.text(60, y + 44, lo, size=10.5, color=RED, anchor="start", bold=True); f.text(730, y + 44, hi, size=10.5, color=TEAL, anchor="end", bold=True)
+    for w, p in ws:
+        x = 60 + p * 670; wd = len(w) * 7.2 + 20; neg = p < cut
+        f.box(x - wd / 2, y - 12, wd, 28, w, fill=(ROSE if neg else MINT), stroke=(RED if neg else TEAL), color=(RED if neg else TEAL), size=11, bold=True)
+        f.line(x, y + 16, x, y + 26, color=SLATE, sw=1.2)
+```
+
 ## 1.2 One word for a group of words
 
 | Group of words | One word |
@@ -64,6 +88,30 @@ Vocabulary is worth about 6 of the 40 English marks and is the part that cannot 
 | a doctor who treats children | paediatrician |
 | fear of heights / closed spaces | acrophobia / claustrophobia |
 
+```photogrid label="1.2" cols="2" ratio="1.3" caption="Two real places for two one-word substitutions. (a) An apiary is a place where bees are kept: this is a bee house on a bee trail in Germany. (b) An aviary is a place where birds are kept, here a glass aviary in a garden. The prefixes api- (bee) and avi- (bird) with the ending -ary (a place) build both words (Fig 1.2)."
+@ photo id="bcaeng/apiary" cap="Apiary: a place for bees"
+focus 0.5 0.6
+@ photo id="bcaeng/aviary" cap="Aviary: a place for birds"
+focus 0.5 0.5
+```
+
+```svgfig label="1.2" caption="One-word substitutions are built from parts, and the cell joins each pair of parts and checks the result: bi + lingual, phil + anthropist, mis + anthrope, a + theist, regi + cide, sui + cide, api + ary, avi + ary, in + divisible. Once you know that -cide means killing and -ary means a place for something, a word you have never met (like sororicide, the killing of a sister) can be guessed."
+rows = [("bi", "lingual", "bilingual", "two + language"), ("phil", "anthropist", "philanthropist", "love + human being"), ("mis", "anthrope", "misanthrope", "hate + human being"),
+        ("a", "theist", "atheist", "without + god"), ("regi", "cide", "regicide", "king + killing"), ("sui", "cide", "suicide", "self + killing"),
+        ("api", "ary", "apiary", "bee + place for"), ("avi", "ary", "aviary", "bird + place for"), ("in", "divisible", "indivisible", "not + able to be divided")]
+assert all(a + b == c for a, b, c, d in rows) and len(rows) == 9
+f = Fig(780, 330)
+for i, (a, b, c, d) in enumerate(rows):
+    y = 14 + i * 34
+    f.box(20, y, 80, 26, a, fill=SAND, stroke=AMBER, color=AMBER, size=11, bold=True)
+    f.text(112, y + 18, "+", size=13, color=SLATE, bold=True)
+    f.box(126, y, 130, 26, b, fill=BLUE, stroke=NAVY, color=NAVY, size=11, bold=True)
+    f.text(272, y + 18, "=", size=13, color=SLATE, bold=True)
+    f.box(290, y, 150, 26, c, fill=MINT, stroke=TEAL, color=TEAL, size=11, bold=True)
+    f.text(456, y + 18, d, size=10.5, color=SLATE, anchor="start")
+f.text(690, 40, "prefix", size=10.5, color=AMBER, bold=True); f.text(690, 60, "root / ending", size=10.5, color=NAVY, bold=True); f.text(690, 80, "whole word", size=10.5, color=TEAL, bold=True)
+```
+
 ## 1.3 Words often confused
 
 | Pair | Meaning and use |
@@ -75,6 +123,51 @@ Vocabulary is worth about 6 of the 40 English marks and is the part that cannot 
 | advice / advise | noun / verb |
 | lose / loose | misplace / not tight |
 | complement / compliment | completes / praise |
+
+```svgfig label="1.3" caption="Four confusable pairs with a memory hook for each. Affect is the action (verb) and effect is the end result (noun); principal means head or main and principle means rule (both principle and rule end in -le); stationary means standing still, while stationery is writing material (paper and envelope have an e); advice is the noun and advise is the verb. Use the hook in the exam, not the rule from memory."
+f = Fig(780, 330)
+cards = [("affect / effect", ["affect (verb): floods affect farmers", "effect (noun): the effect of the flood", "A = Action, E = End result"]),
+         ("principal / principle", ["principal: head or main (the college principal)", "principle: a rule (a principle of honesty)", "principle and rule both end in -le"]),
+         ("stationary / stationery", ["stationary: not moving (a stationary bus)", "stationery: paper, pens, envelopes", "stationEry = paper, envElope"]),
+         ("advice / advise", ["advice (noun): give good advice", "advise (verb): I advise you to study", "c as in ice = noun; s = verb"])]
+for i, (t, ls) in enumerate(cards):
+    x = 14 + (i % 2) * 390; y = 14 + (i // 2) * 160
+    f.box(x, y, 372, 146, "", fill=SOFT, stroke="#cbd5e1", r=4)
+    f.text(x + 186, y + 26, t, size=13, color=NAVY, bold=True)
+    for j, s in enumerate(ls):
+        f.text(x + 14, y + 62 + j * 28, s, size=11, color=(RED if j == 2 else SLATE), anchor="start", bold=(j == 2))
+```
+
+## 1.4 Eight traps in vocabulary
+
+Vocabulary marks are lost to small shades of meaning. These eight traps explain most of the wrong options in the model paper.
+
+1. **Choose the shade, not just the topic.** *Frugal* and *stingy* both describe a person who spends little, but *frugal* is praise and *stingy* is blame (Fig 1.1). If the sentence is positive, choose the positive word. Ask whether the word shows approval or disapproval before you look at the options.
+2. **Not every word with *in-* is a negative.** *Indivisible* means not able to be divided, but *invaluable* means extremely valuable, not worthless. *Inflammable* means it burns easily, the same as *flammable*. Check the root before you trust the prefix.
+3. **Learn the strong endings.** *-cide* means killing (regicide, suicide), *-phobia* means fear (acrophobia), *-ary* means a place for something (apiary, aviary), and *-ology* means study of. These endings let you build one-word substitutions you have never seen (Fig 1.2).
+4. **Do not mix the two "man" words.** A *philanthropist* loves mankind and gives to people in need, while a *misanthrope* hates mankind. *Phil-* means love and *mis-* means hate. Bilingual (two languages) is different from monolingual (one) and polyglot (many).
+5. **Apiary is bees, aviary is birds.** The two words differ by one letter, so students swap them under time pressure. Remember *api* from *apiculture* (bee keeping) and *avi* from *aviation* (flight, as birds fly). Do the same with *autobiography* (written by oneself) and *biography* (by another).
+6. **Affect is the verb, effect is the noun.** "Load-shedding can *affect* a student" uses a verb; "the *effect* of load-shedding" uses a noun (Fig 1.3). The exception, *effect* as a verb meaning to bring about, is rare in this paper. Use the hook: A for Action, E for End result.
+7. **Principal and principle sound the same.** The *principal* of a campus is a person or the main thing; a *principle* is a rule. If you can replace the word with *rule*, use *principle*. The same two-letter habit separates *stationary* (still) from *stationery* (paper).
+8. **Use the sentence, not the single word.** Many words have two meanings, so *close*, *bank* and *fine* change with the sentence. In an antonym question read the whole sentence and replace the word with each option. The one that changes the meaning to its opposite is correct.
+
+### 1.4.1 Worked checks
+
+**Q. Give one word for "the killing of a king".**
+
+**Answer.** *Regi-* means king and *-cide* means killing, so the word is **regicide** (Fig 1.2). *Suicide* is killing of oneself.
+
+**Q. Choose the antonym of *benevolent*.**
+
+**Answer.** *Benevolent* means kind and wishing good (bene = good). Its opposite is **malevolent** (mal = bad), and *cruel* is also an antonym (Fig 1.1).
+
+**Q. Fill in the blank: "The new rule will not ____ the exam date." (affect / effect)**
+
+**Answer.** A verb is needed, so use **affect** (to influence): "The new rule will not affect the exam date." *Effect* would be a noun, as in "the effect of the rule".
+
+**Q. Name a place where bees are kept and a place where birds are kept.**
+
+**Answer.** A place for bees is an **apiary** (api- = bee) and a place for birds is an **aviary** (avi- = bird), both with the ending *-ary* for a place (Fig 1.2).
 
 ## Formula and fact sheet
 
