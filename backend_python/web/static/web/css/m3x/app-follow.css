@@ -1,48 +1,40 @@
 /* The Follow button: one component for every place a person can be followed (feed, comments, search,
-   people rail, hover card, profile). Two states, told apart by tone and a glyph, not by a stroke:
-     not following -> filled primary, "+"
-     following     -> tonal secondary, tick
-   The shape is a pill in every state; it presses in on tap but never changes shape. */
+   people rail, hover card, profile). Text only, small, two states told apart by tone:
+     not following -> filled primary "Follow"
+     following     -> neutral tonal "Following" (never primary, never a glyph)
+   A pill in every state; it presses in on tap but never changes shape. */
 
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
-  --fh: 34px;
+  --fh: 28px;
   appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
-  display: inline-flex; align-items: center; justify-content: center; gap: 4px; flex: none;
-  height: var(--fh); min-height: var(--fh); padding: 0 14px 0 10px; margin: 0;
-  border: 0 !important; border-radius: 999px; white-space: nowrap;
-  font: 600 .8125rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  height: var(--fh); min-height: var(--fh); width: auto; padding: 0 14px; margin: 0; gap: 0;
+  border: 0 !important; border-radius: 14px; white-space: nowrap;
+  font: 600 .75rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
   background: var(--md-primary); color: var(--md-on-primary);
-  transition: border-radius .5s var(--spring), background-color .2s, color .2s, transform .35s var(--spring);
+  transition: background-color .2s, color .2s, transform .35s var(--spring);
   -webkit-tap-highlight-color: transparent;
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before {
-  content: "add"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 18px; line-height: 1;
-  font-variation-settings: 'wght' 600, 'opsz' 20; font-feature-settings: 'liga'; letter-spacing: 0;
-  transition: transform .4s var(--spring);
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before { content: none !important; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) > .material-symbols-outlined { display: none; }
+
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):is(.following, :not(.not-following)),
+.profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested) {
+  background: var(--md-surface-container-high); color: var(--md-on-surface);
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following,
-.profile-page #btnFollowToggle.pf-btn-outlined {
-  background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+/* a freshly rendered Follow button always carries .not-following; the primary fill is its only other state */
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following) {
+  background: var(--md-primary); color: var(--md-on-primary);
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following::before,
-.profile-page #btnFollowToggle.pf-btn-outlined::before { content: "check"; }
-.profile-page #btnFollowToggle.is-requested::before { content: "pending"; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following)::before { content: none; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following) { padding: 0 14px; }
-.profile-page #btnFollowToggle > .material-symbols-outlined { display: none; }
-.profile-page #btnFollowToggle { --fh: 44px; padding: 0 22px 0 16px; gap: 6px; font-size: .9375rem; }
-.profile-page #btnFollowToggle::before { font-size: 20px; }
+
+.profile-page #btnFollowToggle { --fh: 36px; padding: 0 18px; font-size: .8125rem; border-radius: 18px; }
 
 @media (hover: hover) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):hover { }
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:hover::before,
-  .profile-page #btnFollowToggle.pf-btn-filled:hover::before { transform: rotate(90deg); }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following):hover,
+  .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary) 86%, var(--md-on-primary)); }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
-  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-surface-container-highest); }
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.94); }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 60%, transparent); outline-offset: 2px; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.95); }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
-@media (max-width: 480px) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow) { --fh: 32px; padding: 0 12px 0 8px; }
-}

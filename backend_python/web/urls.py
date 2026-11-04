@@ -249,6 +249,7 @@ urlpatterns = [
     path('admin/themes/', views_admin_themes.admin_site_themes, name='admin_site_themes'),
     path('admin/neby-studio/', views_admin_themes.admin_neby_studio, name='admin_neby_studio'),
     path('admin/art/', views_admin_themes.admin_art_library, name='admin_art_library'),
+    path('admin/dither/', views_admin_themes.admin_dither_art, name='admin_dither_art'),
     path('admin/hero-backgrounds/', RedirectView.as_view(url='/admin/themes/', permanent=True)),
 
     # Study Lab
