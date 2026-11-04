@@ -1871,6 +1871,71 @@
   "source": "Wikimedia Commons",
   "title": "Refreshable Braille display 2010 0123"
  },
+ "bca155/colorcharts": {
+  "author": "Vyacheslav Argenberg",
+  "bytes": 435131,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/colorcharts.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Photo_collage,_Montage,_Color_charts,_Rostov-on-Don,_Russia.jpg",
+  "sha1": "4449cee4c8976283",
+  "source": "Wikimedia Commons",
+  "title": "Photo collage, Montage, Color charts, Rostov-on-Don, Russia"
+ },
+ "bca155/dtgroup": {
+  "author": "Corinna Schuster (WMDE)",
+  "bytes": 1311090,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/dtgroup.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Design_Thinking_Workshop_WMDE_Gruppenarbeit_2.jpg",
+  "sha1": "de19410cfe1dfae7",
+  "source": "Wikimedia Commons",
+  "title": "Design Thinking Workshop WMDE Gruppenarbeit 2"
+ },
+ "bca155/dtproto": {
+  "author": "Corinna Schuster (WMDE)",
+  "bytes": 586305,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/dtproto.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Design_Thinking_Workshop_WMDE_Prototypen.jpg",
+  "sha1": "32e90727796e1455",
+  "source": "Wikimedia Commons",
+  "title": "Design Thinking Workshop WMDE Prototypen"
+ },
+ "bca155/dtwhite1": {
+  "author": "Corinna Schuster (WMDE)",
+  "bytes": 481464,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/dtwhite1.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Design_Thinking_Workshop_WMDE_1.jpg",
+  "sha1": "8f869322fda0757d",
+  "source": "Wikimedia Commons",
+  "title": "Design Thinking Workshop WMDE 1"
+ },
+ "bca155/dtwhite2": {
+  "author": "Corinna Schuster (WMDE)",
+  "bytes": 398423,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/dtwhite2.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Design_Thinking_Workshop_WMDE_2.jpg",
+  "sha1": "d6ddd280067c216b",
+  "source": "Wikimedia Commons",
+  "title": "Design Thinking Workshop WMDE 2"
+ },
  "bca155/echo": {
   "author": "Asivechowdhury",
   "bytes": 194745,
@@ -1883,6 +1948,19 @@
   "sha1": "de4f0ca27d4f8ff7",
   "source": "Wikimedia Commons",
   "title": "Amazon Echo Plus 02"
+ },
+ "bca155/moodboard": {
+  "author": "Vyacheslav Argenberg",
+  "bytes": 475033,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/moodboard.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Photo_collage,_Montage,_Mood_board,_Rostov-on-Don,_Russia.jpg",
+  "sha1": "22ba214052b87f42",
+  "source": "Wikimedia Commons",
+  "title": "Photo collage, Montage, Mood board, Rostov-on-Don, Russia"
  },
  "bca156/deming": {
   "author": "FDA",
