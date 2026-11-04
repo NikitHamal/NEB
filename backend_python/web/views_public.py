@@ -239,6 +239,23 @@ def _home_peer_suggestions(viewer, limit=12):
     cache.set(cache_key, people, 600)
     return people
 
+def _composer_extra_tags(limit=6):
+    from django.core.cache import cache
+    from django.db.models import Count
+    from api.categories import CATEGORIES, TAG_MAX_LEN
+    from api.models import Post
+
+    tags = cache.get('composer_extra_tags_v1')
+    if tags is None:
+        known = {c.lower() for c in CATEGORIES}
+        rows = (Post.objects.filter(is_archived=False).values('category')
+                .annotate(n=Count('id')).order_by('-n')[:40])
+        tags = [r['category'] for r in rows
+                if r['category'] and r['category'].lower() not in known and len(r['category']) <= TAG_MAX_LEN][:limit]
+        cache.set('composer_extra_tags_v1', tags, 300)
+    return tags
+
+
 def home(request):
     user_id = _get_user_id(request)
     needs_profile = False
@@ -390,6 +407,7 @@ def home(request):
         home_unanswered=home_unanswered,
         home_contributors=home_contributors,
         composer_categories=list(CATEGORIES),
+        composer_extra_tags=_composer_extra_tags(),
         feed_next_offset=feed_next_offset,
         feed_has_more=home_stats.get('discussions', 0) > feed_next_offset,
     ))

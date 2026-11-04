@@ -245,7 +245,8 @@ def ajax_create_post(request):
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
     result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
-                                  is_anonymous=is_anonymous, attachments=attachments)
+                                  is_anonymous=is_anonymous, attachments=attachments,
+                                  own_tag=bool(data.get('custom_category')))
     if result:
         _clear_page_cache()
         try:

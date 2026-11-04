@@ -144,14 +144,14 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
 
 
 def create_post(user, title, content, category, image_urls=None, poll_data=None,
-                is_anonymous=False, attachments=None):
+                is_anonymous=False, attachments=None, own_tag=False):
     if not getattr(user, 'email_verified', False):
         return None
     from .categories import normalize_category
 
     title = title.strip()
     content = content.strip()
-    category = normalize_category(category)
+    category = normalize_category(category, own_tag=own_tag)
     if not title or not content or not category:
         return None
     content, _img_ids = _prep_inline_images(content)

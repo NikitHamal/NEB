@@ -213,6 +213,22 @@
               </svg>
             </button>
             {% endfor %}
+            {% for c in composer_extra_tags %}
+            <button type="button" class="hf-cat-menu-item" data-cat-value="{{ c }}" data-custom="1" role="menuitem">
+              <span class="hf-cat-item-hash">#</span>
+              <span class="hf-cat-item-text">{{ c }}</span>
+              <span class="material-symbols-outlined hf-cat-item-check" aria-hidden="true">check</span>
+            </button>
+            {% endfor %}
+            <div class="hf-cat-own">
+              <label class="hf-cat-own-field">
+                <span class="hf-cat-item-hash">#</span>
+                <input type="text" id="homePostCatOwn" maxlength="28" placeholder="Your own tag" autocomplete="off" aria-label="Create your own tag">
+              </label>
+              <button type="button" class="hf-cat-own-add" id="homePostCatOwnAdd" aria-label="Use this tag" title="Use this tag" disabled>
+                <span class="material-symbols-outlined" aria-hidden="true">check</span>
+              </button>
+            </div>
           </div>
         </div>
 

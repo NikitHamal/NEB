@@ -74,22 +74,11 @@
 .fp-user-popup { background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 28px; color: var(--md-on-surface); }
 .fp-user-popup-bio, .fp-user-popup-meta, .fp-user-popup-username { color: var(--md-on-surface-variant); }
 
-/* ---------- snackbar: a pill from the inverse surface, above the bottom bar on phones ---------- */
-.md-snackbar {
-  background: var(--md-inverse-surface); color: var(--md-inverse-on-surface);
-  border-radius: 18px; padding: 14px 22px; font-weight: 500; max-width: min(92vw, 520px);
-  animation: m3-snack .55s var(--spring) both;
-}
-#snackbar-container { position: relative; z-index: 6000; pointer-events: none; }
-#snackbar-container .md-snackbar { z-index: 6000; pointer-events: auto; }
-@keyframes m3-snack { from { opacity: 0; transform: translateX(-50%) translateY(24px) scale(.94); } to { opacity: 1; transform: translateX(-50%); } }
-@media (max-width: 768px) { .md-snackbar { bottom: calc(92px + env(safe-area-inset-bottom)); } }
-
 /* ---------- lightbox / media overlays keep their black scrim ---------- */
 .nebians-lightbox-overlay { background: color-mix(in srgb, #000 88%, transparent); }
 
 @media (prefers-reduced-motion: reduce) {
-  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet, .md-snackbar { transition-duration: .01s; animation-duration: .01s; }
+  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet { transition-duration: .01s; animation-duration: .01s; }
 }
 
 /* ---------- sheets on a wide screen are centred dialogs: the same spring, from the middle ---------- */
