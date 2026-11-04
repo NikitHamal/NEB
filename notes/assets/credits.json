@@ -8254,6 +8254,19 @@
   "source": "Wikimedia Commons",
   "title": "Arthur Cayley"
  },
+ "bcamath/chess": {
+  "author": "Utkarshsingh.1992",
+  "bytes": 171298,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcamath/chess.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chess_board_2.jpg",
+  "sha1": "1f589da93b40ee8c",
+  "source": "Wikimedia Commons",
+  "title": "Chess board 2"
+ },
  "bcamath/clock2": {
   "author": "Chris Woodrich",
   "bytes": 817496,
@@ -8383,6 +8396,19 @@
   "sha1": "db13bee28660c019",
   "source": "Wikimedia Commons",
   "title": "Leonardo da Pisa"
+ },
+ "bcamath/gregory": {
+  "author": "Lavinia Fontana",
+  "bytes": 39134,
+  "credit": "1./2.Unknown source Unknown source 3. Bridgeman Art Library : Object 98598",
+  "fetched": "2026-11-04",
+  "file": "bcamath/gregory.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Gregory_XIII.jpg",
+  "sha1": "106927817d95ec33",
+  "source": "Wikimedia Commons",
+  "title": "Gregory XIII"
  },
  "bcamath/hamilton": {
   "author": "Miscellaneous Items in High Demand, PPOC, Library of Congress",
@@ -8552,6 +8578,19 @@
   "sha1": "f5dfab0f46824796",
   "source": "Wikimedia Commons",
   "title": "2023 Suwak logarytmiczny (1)"
+ },
+ "bcamath/sundial": {
+  "author": "DeFacto",
+  "bytes": 1085933,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcamath/sundial.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sundial_on_the_porch_of_St._Giles_Church,_Chesterton.jpg",
+  "sha1": "c753e4542ffd5224",
+  "source": "Wikimedia Commons",
+  "title": "Sundial on the porch of St. Giles Church, Chesterton"
  },
  "bcamath/sunflower": {
   "author": "George Chernilevsky",
