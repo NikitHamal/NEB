@@ -143,7 +143,6 @@ def about(request):
         'pillars': about_data.PILLARS,
         'steps': about_data.STEPS,
         'promises': about_data.PROMISES,
-        'anchor': '/',
         'current': 'about',
         'og_card_version': CARD_VERSION,
     }
