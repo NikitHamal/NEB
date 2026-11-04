@@ -1712,6 +1712,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .nd-source-btn:hover { opacity: .9; }
 .nd-source-btn .material-symbols-outlined { font-size: 18px; }
 @media (max-width: 520px) { .nd-source-btn { width: 100%; justify-content: center; } }
+.news-detail-content:empty { display: none; }
 
 /* ---- m3x/app-mobile.css ---- */
 /* m3x mobile overlays. On a phone every dialog is a bottom sheet and every menu is a sheet; both sit
