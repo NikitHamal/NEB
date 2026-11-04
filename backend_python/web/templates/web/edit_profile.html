@@ -40,7 +40,7 @@
     {% comment %} Who you are right now, and how much of you is filled in. The meter
        counts the same ten things the app's profileStrength() counts. {% endcomment %}
     <div class="epf-identity">
-      <button type="button" class="epf-identity-avatar" data-action="trigger-photo-upload"
+      <button type="button" class="epf-identity-avatar av-inset" data-avatar-seed="{{ user.username }}" data-action="trigger-photo-upload"
               aria-label="Change your profile photo">
         {% if user.photo_url %}
           <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
