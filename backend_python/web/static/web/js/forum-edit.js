@@ -41,7 +41,7 @@
     f.noValidate = true;
     f.innerHTML =
       (cfg.kind === 'post'
-        ? '<label class="fe-title-wrap"><textarea class="fe-title" rows="1" maxlength="' + TITLE_MAX + '" autocomplete="off" placeholder="Title" aria-label="Title" data-autoheight data-autoheight-max="132"></textarea>' +
+        ? '<label class="fe-title-wrap"><textarea class="fe-title" data-neb-skip rows="1" maxlength="' + TITLE_MAX + '" autocomplete="off" placeholder="Title" aria-label="Title" data-autoheight data-autoheight-max="132"></textarea>' +
           '<span class="fe-count" aria-hidden="true"></span></label>'
         : '') +
       '<div class="fe-body"><textarea class="fe-text" rows="' + (cfg.kind === 'post' ? 6 : 3) + '" data-fc="tools" data-fc-nodraft data-autoheight data-autoheight-max="520" aria-label="' +
