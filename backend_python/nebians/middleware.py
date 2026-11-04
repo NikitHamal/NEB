@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.core.exceptions import DisallowedHost
 from django.http import HttpResponseNotFound
 from django.http.request import validate_host
+from whitenoise.middleware import WhiteNoiseMiddleware
 
 from . import analytics
 
@@ -112,6 +113,25 @@ SENSITIVE_PATHS_404 = (
 
 def csp_nonce_context(request):
     return {'csp_nonce': getattr(request, 'csp_nonce', '')}
+
+
+class ResilientWhiteNoiseMiddleware(WhiteNoiseMiddleware):
+    """WhiteNoise, but a file that vanished mid-deploy is a 404, not a 500.
+
+    WhiteNoise indexes STATIC_ROOT once per process, at worker start.
+    `collectstatic --clear` deletes and rewrites that tree while the LSAPI
+    workers are still serving with the old index, so for those few seconds a
+    request can name a compressed file that is momentarily gone. That is a
+    transient miss, not a server error, and it must never mail the admins.
+    """
+
+    def __call__(self, request):
+        if not request.path_info.startswith(self.static_prefix):
+            return super().__call__(request)
+        try:
+            return super().__call__(request)
+        except FileNotFoundError:
+            return HttpResponseNotFound()
 
 
 class BearerCsrfExemptMiddleware:
