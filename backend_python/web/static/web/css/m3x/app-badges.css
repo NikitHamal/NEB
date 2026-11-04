@@ -1,31 +1,15 @@
-/* Badges, last word: a badge is a glyph and/or a word in an ink colour. It has no fill, no stroke and no
-   shadow. Contrast comes from the ink (every ink below is the on-colour of a tonal pair, so it reads on
-   the plain surface in both themes), never from a patch behind it.
-   The avatar badge sits on the rim of a shaped picture: its glyph is cut out of the surface with a text
-   outline, not boxed in a disc. Count dots (.notif-dot, .notif-popup-badge) are not badges: they are a
-   number on a signal colour and keep their fill. */
+/* Badges, last word. ONLY user / role / verification badges are fill-less: Verified, Admin, Teacher, Moderator,
+   institution, bot and the badge on a profile picture. They are a glyph in an ink colour (the on-colour of a
+   tonal pair, readable on the plain surface in both themes), with no fill, stroke or shadow.
+   Everything else -- chips, category and filter pills, subject tags, reply labels (Answer, Correct, Helpful,
+   Solved), count pills, status pills -- keeps its tonal surface; those rules live in their own modules. */
 
 :root { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
 
-:is(
-  .role-badge, .user-badge, .achieve-status-badge, .achievement-badge, .grade-badge, .sl-space-badge,
-  .tools-card-badge, .syl-hub-badge, .post-card-poll-badge, .upload-details-badge, .news-pin-badge,
-  .news-category-badge, .results-hero-badge, .rcard-badge, .rc-badge, .pf-res-preview-badge,
-  .mkt-showcase-badge, .mkt-plan-badge, .fp-poll-type-badge, .fp-header-badge, .fl-chip, .fl-solved-chip,
-  .leaderboard-rank-badge, .st-badge, .di-badge, .device-badge, .credits-type-badge, .credits-badge
-) {
+:is(.role-badge, .user-badge) {
   background: none !important; border: 0 !important; box-shadow: none !important;
   color: var(--bd-ink);
 }
-.fl-chip, .fl-solved-chip { padding-inline: 2px 6px; }
-.fl-kind-chip { color: var(--md-on-surface-variant); }
-.fl-tone-good { --bd-ink: var(--fl-on-good); }
-.fl-tone-warn { --bd-ink: var(--fl-on-warn); }
-.fl-tone-bad { --bd-ink: var(--fl-on-bad); }
-.fl-tone-info { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
-.fl-label-chip, .fl-solved-chip { color: var(--bd-ink); }
-.fl-solved-chip { --bd-ink: var(--fl-on-good); }
-.fl-solved-chip:hover { }
 
 .role-badge { width: auto; min-width: 0; height: auto; }
 .role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }
