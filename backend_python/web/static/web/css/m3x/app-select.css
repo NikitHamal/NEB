@@ -5,14 +5,13 @@ select.neb-sel-native {
 }
 .neb-sel {
   display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 48px; padding: 0 10px 0 16px;
-  background: var(--md-surface-container-high); color: var(--md-on-surface); border: 1px solid var(--md-outline-variant); border-radius: 16px;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface); border: 1.5px solid var(--md-outline-variant); border-radius: 16px;
   font: inherit; font-size: .9375rem; font-weight: 500; text-align: left; cursor: pointer; box-sizing: border-box;
   transition: border-color .15s, background-color .15s, border-radius .45s var(--spring);
 }
 .neb-sel.is-inline { display: inline-flex; width: auto; max-width: 100%; }
 .neb-sel:hover { border-color: var(--md-outline); border-radius: 20px; }
-.neb-sel:focus-visible, .neb-sel.is-open { border-color: var(--md-primary); outline: 2px solid var(--md-primary); outline-offset: -1px; border-radius: 22px; }
-.neb-sel:active { background: var(--md-surface-container-highest); }
+.neb-sel:focus-visible, .neb-sel.is-open { border-color: var(--md-primary); outline: none; border-radius: 22px; }
 .neb-sel:disabled { opacity: .5; cursor: not-allowed; border-radius: 16px; }
 .neb-sel[hidden] { display: none; }
 .neb-sel-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
