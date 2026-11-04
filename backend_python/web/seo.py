@@ -133,6 +133,7 @@ def is_indexable_post(post: Post) -> bool:
 # on every request is a lie that teaches a crawler to ignore lastmod entirely.
 STATIC_PAGES = (
     ('/', 'daily', '1.0'),
+    ('/about/', 'monthly', '0.8'),
     ('/app/past-papers/', 'daily', '0.9'),
     ('/app/model-questions/', 'daily', '0.9'),
     ('/app/online-learning/', 'weekly', '0.8'),
