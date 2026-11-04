@@ -7643,6 +7643,32 @@
   "source": "Wikimedia Commons",
   "title": "Professor Alexander Fleming at work in his laboratory at St Mary's Hospital, London, during the Second World War. D17801 colorized"
  },
+ "bcagk/guido": {
+  "author": "Mahmoud Hashemi from San Jose, CA, USA",
+  "bytes": 843991,
+  "credit": "With Guido van Rossum, PyCon 2012",
+  "fetched": "2026-11-04",
+  "file": "bcagk/guido.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Guido_van_Rossum_(6984267183)_(cropped).jpg",
+  "sha1": "8ac34de99bdb0047",
+  "source": "Wikimedia Commons",
+  "title": "Guido van Rossum (6984267183) (cropped)"
+ },
+ "bcagk/ibm704": {
+  "author": "NASA",
+  "bytes": 319288,
+  "credit": "Great Images in NASA Description",
+  "fetched": "2026-11-04",
+  "file": "bcagk/ibm704.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_Electronic_Data_Processing_Machine_-_GPN-2000-001881.jpg",
+  "sha1": "cbb7e9389fb50ce2",
+  "source": "Wikimedia Commons",
+  "title": "IBM Electronic Data Processing Machine - GPN-2000-001881"
+ },
  "bcagk/inkjet": {
   "author": "Klosito",
   "bytes": 313901,
@@ -7773,6 +7799,19 @@
   "source": "Wikimedia Commons",
   "title": "Check with MICR"
  },
+ "bcagk/modem": {
+  "author": "Bortzmeyer",
+  "bytes": 318525,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/modem.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Modem-usr-courier-v34-front-online.jpg",
+  "sha1": "601a982c01b2e95f",
+  "source": "Wikimedia Commons",
+  "title": "Modem-usr-courier-v34-front-online"
+ },
  "bcagk/monal": {
   "author": "Brian Gratwicke",
   "bytes": 266840,
@@ -7798,6 +7837,19 @@
   "sha1": "7c59d6ccf054bdaa",
   "source": "Wikimedia Commons",
   "title": "EIZO Foris FG2421 VGA computer monitor displaying test pattern"
+ },
+ "bcagk/nextcube": {
+  "author": "Rama",
+  "bytes": 209380,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/nextcube.jpg",
+  "license": "CC BY-SA 2.0 fr",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0/fr/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:CERN-first-server-p1030757.jpg",
+  "sha1": "5689e761bc940371",
+  "source": "Wikimedia Commons",
+  "title": "CERN-first-server-p1030757"
  },
  "bcagk/nobel": {
   "author": "Osama Shukir Muhammed Amin FRCP(Glasg)",
@@ -7994,6 +8046,19 @@
   "source": "Wikimedia Commons",
   "title": "Singha Durbar in 1915"
  },
+ "bcagk/stroustrup": {
+  "author": "ICPCNews",
+  "bytes": 87802,
+  "credit": "DSC_5591",
+  "fetched": "2026-11-04",
+  "file": "bcagk/stroustrup.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Bjarne_Stroustrup_(2013).jpg",
+  "sha1": "04ba4459b4b87c1e",
+  "source": "Wikimedia Commons",
+  "title": "Bjarne Stroustrup (2013)"
+ },
  "bcagk/super": {
   "author": "Derrick Coetzee from Berkeley, CA, USA",
   "bytes": 372142,
@@ -8097,6 +8162,19 @@
   "sha1": "807d24e279ce3eb8",
   "source": "Wikimedia Commons",
   "title": "FIFA World Cup Trophy (Ank Kumar, Infosys Limited) 03"
+ },
+ "bcagk/wwwbrowser": {
+  "author": "Cern/Tim Berners-Lee",
+  "bytes": 154767,
+  "credit": "worldwideweb.cern.ch/browser",
+  "fetched": "2026-11-04",
+  "file": "bcagk/wwwbrowser.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:W3_First_Website.png",
+  "sha1": "c204dc3a95aa4259",
+  "source": "Wikimedia Commons",
+  "title": "W3 First Website"
  },
  "bio11/agaricus": {
   "author": "Fumikas Sagisavas",
