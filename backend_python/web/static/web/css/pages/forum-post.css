@@ -44,7 +44,7 @@
   .fp-reply{display:flex;align-items:flex-start;gap:12px;background:transparent;border:0;border-bottom:1px solid var(--md-outline-variant);border-radius:0;padding:16px 24px;margin:0;transition:background .15s ease}
   .fp-reply:last-of-type{border-bottom:0}
   .fp-reply:hover{background:color-mix(in srgb, var(--md-on-surface) 2%, transparent)}
-  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex:0 0 32px;margin-top:4px;outline:none;border:none}
+  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex:0 0 32px;margin-top:0;outline:none;border:none}
   .fp-reply-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
   .fp-reply-avatar-letter{font-size:.8125rem;font-weight:700;color:var(--md-on-primary)}
   .fp-reply-main{flex:1;min-width:0;display:flex;flex-direction:column}
