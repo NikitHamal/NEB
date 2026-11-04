@@ -1,0 +1,2229 @@
+{
+ "items": [
+  {
+   "slug": "moon-orb-bone",
+   "title": "Moon orb",
+   "era": "Cosmic",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/moon-orb-bone.png"
+  },
+  {
+   "slug": "moon-orb-ember",
+   "title": "Moon orb",
+   "era": "Cosmic",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/moon-orb-ember.png"
+  },
+  {
+   "slug": "moon-orb-amber",
+   "title": "Moon orb",
+   "era": "Cosmic",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/moon-orb-amber.png"
+  },
+  {
+   "slug": "moon-orb-jade",
+   "title": "Moon orb",
+   "era": "Cosmic",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/moon-orb-jade.png"
+  },
+  {
+   "slug": "torus-rest-bone",
+   "title": "Torus at rest",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torus-rest-bone.png"
+  },
+  {
+   "slug": "torus-rest-lava",
+   "title": "Torus at rest",
+   "era": "Modern",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torus-rest-lava.png"
+  },
+  {
+   "slug": "torus-rest-lime",
+   "title": "Torus at rest",
+   "era": "Modern",
+   "palette": "lime",
+   "colors": [
+    "#0b0c08",
+    "#d8ff3c"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torus-rest-lime.png"
+  },
+  {
+   "slug": "torus-rest-terracotta",
+   "title": "Torus at rest",
+   "era": "Modern",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torus-rest-terracotta.png"
+  },
+  {
+   "slug": "twist-ribbon-bone",
+   "title": "Twist ribbon",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/twist-ribbon-bone.png"
+  },
+  {
+   "slug": "twist-ribbon-rose",
+   "title": "Twist ribbon",
+   "era": "Modern",
+   "palette": "rose",
+   "colors": [
+    "#1a0d12",
+    "#c93f5b",
+    "#f9e7df"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/twist-ribbon-rose.png"
+  },
+  {
+   "slug": "twist-ribbon-amber",
+   "title": "Twist ribbon",
+   "era": "Modern",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "jjn",
+   "method_label": "Jarvis",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/twist-ribbon-amber.png"
+  },
+  {
+   "slug": "melt-spheres-bone",
+   "title": "Melt spheres",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/melt-spheres-bone.png"
+  },
+  {
+   "slug": "melt-spheres-signal",
+   "title": "Melt spheres",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/melt-spheres-signal.png"
+  },
+  {
+   "slug": "melt-spheres-jade",
+   "title": "Melt spheres",
+   "era": "Modern",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/melt-spheres-jade.png"
+  },
+  {
+   "slug": "melt-spheres-sand",
+   "title": "Melt spheres",
+   "era": "Modern",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/melt-spheres-sand.png"
+  },
+  {
+   "slug": "gyroid-cube-bone",
+   "title": "Gyroid cube",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/gyroid-cube-bone.png"
+  },
+  {
+   "slug": "gyroid-cube-lime",
+   "title": "Gyroid cube",
+   "era": "Modern",
+   "palette": "lime",
+   "colors": [
+    "#0b0c08",
+    "#d8ff3c"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/gyroid-cube-lime.png"
+  },
+  {
+   "slug": "gyroid-cube-ember",
+   "title": "Gyroid cube",
+   "era": "Modern",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/gyroid-cube-ember.png"
+  },
+  {
+   "slug": "orb-field-bone",
+   "title": "Orb field",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/orb-field-bone.png"
+  },
+  {
+   "slug": "orb-field-amber",
+   "title": "Orb field",
+   "era": "Modern",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/orb-field-amber.png"
+  },
+  {
+   "slug": "orb-field-rose",
+   "title": "Orb field",
+   "era": "Modern",
+   "palette": "rose",
+   "colors": [
+    "#1a0d12",
+    "#c93f5b",
+    "#f9e7df"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/orb-field-rose.png"
+  },
+  {
+   "slug": "eclipse-bone",
+   "title": "Eclipse",
+   "era": "Cosmic",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/eclipse-bone.png"
+  },
+  {
+   "slug": "eclipse-lava",
+   "title": "Eclipse",
+   "era": "Cosmic",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/eclipse-lava.png"
+  },
+  {
+   "slug": "eclipse-gold",
+   "title": "Eclipse",
+   "era": "Cosmic",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/eclipse-gold.png"
+  },
+  {
+   "slug": "ringed-world-amber",
+   "title": "Ringed world",
+   "era": "Cosmic",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ringed-world-amber.png"
+  },
+  {
+   "slug": "ringed-world-bone",
+   "title": "Ringed world",
+   "era": "Cosmic",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ringed-world-bone.png"
+  },
+  {
+   "slug": "ringed-world-ember",
+   "title": "Ringed world",
+   "era": "Cosmic",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ringed-world-ember.png"
+  },
+  {
+   "slug": "ringed-world-acid",
+   "title": "Ringed world",
+   "era": "Cosmic",
+   "palette": "acid",
+   "colors": [
+    "#050e07",
+    "#17692f",
+    "#7bd84a",
+    "#e4ffb0"
+   ],
+   "method": "jjn",
+   "method_label": "Jarvis",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ringed-world-acid.png"
+  },
+  {
+   "slug": "worm-tunnel-bone",
+   "title": "Worm tunnel",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/worm-tunnel-bone.png"
+  },
+  {
+   "slug": "worm-tunnel-signal",
+   "title": "Worm tunnel",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/worm-tunnel-signal.png"
+  },
+  {
+   "slug": "worm-tunnel-lime",
+   "title": "Worm tunnel",
+   "era": "Modern",
+   "palette": "lime",
+   "colors": [
+    "#0b0c08",
+    "#d8ff3c"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/worm-tunnel-lime.png"
+  },
+  {
+   "slug": "worm-tunnel-sand",
+   "title": "Worm tunnel",
+   "era": "Modern",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/worm-tunnel-sand.png"
+  },
+  {
+   "slug": "liquid-chrome-bone",
+   "title": "Liquid chrome",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/liquid-chrome-bone.png"
+  },
+  {
+   "slug": "liquid-chrome-lava",
+   "title": "Liquid chrome",
+   "era": "Modern",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/liquid-chrome-lava.png"
+  },
+  {
+   "slug": "liquid-chrome-jade",
+   "title": "Liquid chrome",
+   "era": "Modern",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/liquid-chrome-jade.png"
+  },
+  {
+   "slug": "liquid-chrome-gold",
+   "title": "Liquid chrome",
+   "era": "Modern",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/liquid-chrome-gold.png"
+  },
+  {
+   "slug": "ripple-pond-jade",
+   "title": "Ripple pond",
+   "era": "Modern",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ripple-pond-jade.png"
+  },
+  {
+   "slug": "ripple-pond-bone",
+   "title": "Ripple pond",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ripple-pond-bone.png"
+  },
+  {
+   "slug": "ripple-pond-signal",
+   "title": "Ripple pond",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ripple-pond-signal.png"
+  },
+  {
+   "slug": "mandala-gold",
+   "title": "Mandala",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/mandala-gold.png"
+  },
+  {
+   "slug": "mandala-ember",
+   "title": "Mandala",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/mandala-ember.png"
+  },
+  {
+   "slug": "mandala-bone",
+   "title": "Mandala",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/mandala-bone.png"
+  },
+  {
+   "slug": "mandala-rose",
+   "title": "Mandala",
+   "era": "Ancient",
+   "palette": "rose",
+   "colors": [
+    "#1a0d12",
+    "#c93f5b",
+    "#f9e7df"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/mandala-rose.png"
+  },
+  {
+   "slug": "shard-field-bone",
+   "title": "Shard field",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/shard-field-bone.png"
+  },
+  {
+   "slug": "shard-field-ice",
+   "title": "Shard field",
+   "era": "Modern",
+   "palette": "ice",
+   "colors": [
+    "#0b1517",
+    "#4f9d99",
+    "#e4f4ee"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/shard-field-ice.png"
+  },
+  {
+   "slug": "shard-field-lava",
+   "title": "Shard field",
+   "era": "Modern",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/shard-field-lava.png"
+  },
+  {
+   "slug": "contour-hills-moss",
+   "title": "Contour hills",
+   "era": "Modern",
+   "palette": "moss",
+   "colors": [
+    "#0c120a",
+    "#4d6b2a",
+    "#c4c98a",
+    "#f4f1dd"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/contour-hills-moss.png"
+  },
+  {
+   "slug": "contour-hills-bone",
+   "title": "Contour hills",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer2",
+   "method_label": "Ordered 2x2",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/contour-hills-bone.png"
+  },
+  {
+   "slug": "contour-hills-sand",
+   "title": "Contour hills",
+   "era": "Modern",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/contour-hills-sand.png"
+  },
+  {
+   "slug": "moire-bloom-bone",
+   "title": "Moire bloom",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/moire-bloom-bone.png"
+  },
+  {
+   "slug": "moire-bloom-signal",
+   "title": "Moire bloom",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/moire-bloom-signal.png"
+  },
+  {
+   "slug": "moire-bloom-acid",
+   "title": "Moire bloom",
+   "era": "Modern",
+   "palette": "acid",
+   "colors": [
+    "#050e07",
+    "#17692f",
+    "#7bd84a",
+    "#e4ffb0"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/moire-bloom-acid.png"
+  },
+  {
+   "slug": "spiral-galaxy-bone",
+   "title": "Spiral galaxy",
+   "era": "Cosmic",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/spiral-galaxy-bone.png"
+  },
+  {
+   "slug": "spiral-galaxy-ember",
+   "title": "Spiral galaxy",
+   "era": "Cosmic",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/spiral-galaxy-ember.png"
+  },
+  {
+   "slug": "spiral-galaxy-lime",
+   "title": "Spiral galaxy",
+   "era": "Cosmic",
+   "palette": "lime",
+   "colors": [
+    "#0b0c08",
+    "#d8ff3c"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/spiral-galaxy-lime.png"
+  },
+  {
+   "slug": "three-pyramids-sand",
+   "title": "Three pyramids",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/three-pyramids-sand.png"
+  },
+  {
+   "slug": "three-pyramids-amber",
+   "title": "Three pyramids",
+   "era": "Ancient",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/three-pyramids-amber.png"
+  },
+  {
+   "slug": "three-pyramids-ember",
+   "title": "Three pyramids",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/three-pyramids-ember.png"
+  },
+  {
+   "slug": "three-pyramids-bone",
+   "title": "Three pyramids",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/three-pyramids-bone.png"
+  },
+  {
+   "slug": "ziggurat-night-gold",
+   "title": "Ziggurat at night",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ziggurat-night-gold.png"
+  },
+  {
+   "slug": "ziggurat-night-bone",
+   "title": "Ziggurat at night",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ziggurat-night-bone.png"
+  },
+  {
+   "slug": "ziggurat-night-terracotta",
+   "title": "Ziggurat at night",
+   "era": "Ancient",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ziggurat-night-terracotta.png"
+  },
+  {
+   "slug": "ziggurat-night-jade",
+   "title": "Ziggurat at night",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/ziggurat-night-jade.png"
+  },
+  {
+   "slug": "seeing-eye-gold",
+   "title": "Seeing eye",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "radial",
+   "method_label": "Radial",
+   "w": 880,
+   "h": 560,
+   "cells": "220x140",
+   "file": "dither/seeing-eye-gold.png"
+  },
+  {
+   "slug": "seeing-eye-bone",
+   "title": "Seeing eye",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 880,
+   "h": 560,
+   "cells": "220x140",
+   "file": "dither/seeing-eye-bone.png"
+  },
+  {
+   "slug": "seeing-eye-ember",
+   "title": "Seeing eye",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 880,
+   "h": 560,
+   "cells": "220x140",
+   "file": "dither/seeing-eye-ember.png"
+  },
+  {
+   "slug": "seeing-eye-jade",
+   "title": "Seeing eye",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 880,
+   "h": 560,
+   "cells": "220x140",
+   "file": "dither/seeing-eye-jade.png"
+  },
+  {
+   "slug": "fluted-column-sand",
+   "title": "Fluted column",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/fluted-column-sand.png"
+  },
+  {
+   "slug": "fluted-column-bone",
+   "title": "Fluted column",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/fluted-column-bone.png"
+  },
+  {
+   "slug": "fluted-column-terracotta",
+   "title": "Fluted column",
+   "era": "Ancient",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/fluted-column-terracotta.png"
+  },
+  {
+   "slug": "fluted-column-jade",
+   "title": "Fluted column",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/fluted-column-jade.png"
+  },
+  {
+   "slug": "sun-disc-gold",
+   "title": "Sun disc",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "spiral",
+   "method_label": "Spiral",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/sun-disc-gold.png"
+  },
+  {
+   "slug": "sun-disc-ember",
+   "title": "Sun disc",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/sun-disc-ember.png"
+  },
+  {
+   "slug": "sun-disc-bone",
+   "title": "Sun disc",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "radial",
+   "method_label": "Radial",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/sun-disc-bone.png"
+  },
+  {
+   "slug": "sun-disc-lava",
+   "title": "Sun disc",
+   "era": "Ancient",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/sun-disc-lava.png"
+  },
+  {
+   "slug": "seigaiha-jade",
+   "title": "Seigaiha waves",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 800,
+   "h": 800,
+   "cells": "200x200",
+   "file": "dither/seigaiha-jade.png"
+  },
+  {
+   "slug": "seigaiha-bone",
+   "title": "Seigaiha waves",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 800,
+   "h": 800,
+   "cells": "200x200",
+   "file": "dither/seigaiha-bone.png"
+  },
+  {
+   "slug": "seigaiha-ink-red",
+   "title": "Seigaiha waves",
+   "era": "Ancient",
+   "palette": "ink-red",
+   "colors": [
+    "#15110f",
+    "#d03a28",
+    "#f3ecdd"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 800,
+   "h": 800,
+   "cells": "200x200",
+   "file": "dither/seigaiha-ink-red.png"
+  },
+  {
+   "slug": "seigaiha-amber",
+   "title": "Seigaiha waves",
+   "era": "Ancient",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 800,
+   "h": 800,
+   "cells": "200x200",
+   "file": "dither/seigaiha-amber.png"
+  },
+  {
+   "slug": "square-labyrinth-bone",
+   "title": "Square labyrinth",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/square-labyrinth-bone.png"
+  },
+  {
+   "slug": "square-labyrinth-terracotta",
+   "title": "Square labyrinth",
+   "era": "Ancient",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/square-labyrinth-terracotta.png"
+  },
+  {
+   "slug": "square-labyrinth-gold",
+   "title": "Square labyrinth",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/square-labyrinth-gold.png"
+  },
+  {
+   "slug": "great-wave-jade",
+   "title": "Great wave",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/great-wave-jade.png"
+  },
+  {
+   "slug": "great-wave-bone",
+   "title": "Great wave",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/great-wave-bone.png"
+  },
+  {
+   "slug": "great-wave-ink-red",
+   "title": "Great wave",
+   "era": "Ancient",
+   "palette": "ink-red",
+   "colors": [
+    "#15110f",
+    "#d03a28",
+    "#f3ecdd"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/great-wave-ink-red.png"
+  },
+  {
+   "slug": "great-wave-ice",
+   "title": "Great wave",
+   "era": "Ancient",
+   "palette": "ice",
+   "colors": [
+    "#0b1517",
+    "#4f9d99",
+    "#e4f4ee"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/great-wave-ice.png"
+  },
+  {
+   "slug": "torii-tide-lava",
+   "title": "Torii at tide",
+   "era": "Ancient",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torii-tide-lava.png"
+  },
+  {
+   "slug": "torii-tide-ember",
+   "title": "Torii at tide",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torii-tide-ember.png"
+  },
+  {
+   "slug": "torii-tide-bone",
+   "title": "Torii at tide",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torii-tide-bone.png"
+  },
+  {
+   "slug": "torii-tide-gold",
+   "title": "Torii at tide",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/torii-tide-gold.png"
+  },
+  {
+   "slug": "desert-gate-sand",
+   "title": "Desert gate",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/desert-gate-sand.png"
+  },
+  {
+   "slug": "desert-gate-gold",
+   "title": "Desert gate",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/desert-gate-gold.png"
+  },
+  {
+   "slug": "desert-gate-bone",
+   "title": "Desert gate",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/desert-gate-bone.png"
+  },
+  {
+   "slug": "desert-gate-terracotta",
+   "title": "Desert gate",
+   "era": "Ancient",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/desert-gate-terracotta.png"
+  },
+  {
+   "slug": "obelisk-dusk-amber",
+   "title": "Obelisk at dusk",
+   "era": "Ancient",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/obelisk-dusk-amber.png"
+  },
+  {
+   "slug": "obelisk-dusk-bone",
+   "title": "Obelisk at dusk",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/obelisk-dusk-bone.png"
+  },
+  {
+   "slug": "obelisk-dusk-ember",
+   "title": "Obelisk at dusk",
+   "era": "Ancient",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/obelisk-dusk-ember.png"
+  },
+  {
+   "slug": "obelisk-dusk-sand",
+   "title": "Obelisk at dusk",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/obelisk-dusk-sand.png"
+  },
+  {
+   "slug": "clay-tablet-clay",
+   "title": "Clay tablet",
+   "era": "Ancient",
+   "palette": "clay",
+   "colors": [
+    "#201512",
+    "#8c5a45",
+    "#e2cdb4"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 880,
+   "h": 600,
+   "cells": "220x150",
+   "file": "dither/clay-tablet-clay.png"
+  },
+  {
+   "slug": "clay-tablet-sand",
+   "title": "Clay tablet",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 880,
+   "h": 600,
+   "cells": "220x150",
+   "file": "dither/clay-tablet-sand.png"
+  },
+  {
+   "slug": "clay-tablet-terracotta",
+   "title": "Clay tablet",
+   "era": "Ancient",
+   "palette": "terracotta",
+   "colors": [
+    "#1a0e09",
+    "#ad4528",
+    "#f2dcb8"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 880,
+   "h": 600,
+   "cells": "220x150",
+   "file": "dither/clay-tablet-terracotta.png"
+  },
+  {
+   "slug": "clay-tablet-bone",
+   "title": "Clay tablet",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 880,
+   "h": 600,
+   "cells": "220x150",
+   "file": "dither/clay-tablet-bone.png"
+  },
+  {
+   "slug": "lotus-top-rose",
+   "title": "Lotus from above",
+   "era": "Ancient",
+   "palette": "rose",
+   "colors": [
+    "#1a0d12",
+    "#c93f5b",
+    "#f9e7df"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/lotus-top-rose.png"
+  },
+  {
+   "slug": "lotus-top-gold",
+   "title": "Lotus from above",
+   "era": "Ancient",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/lotus-top-gold.png"
+  },
+  {
+   "slug": "lotus-top-bone",
+   "title": "Lotus from above",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/lotus-top-bone.png"
+  },
+  {
+   "slug": "lotus-top-ice",
+   "title": "Lotus from above",
+   "era": "Ancient",
+   "palette": "ice",
+   "colors": [
+    "#0b1517",
+    "#4f9d99",
+    "#e4f4ee"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/lotus-top-ice.png"
+  },
+  {
+   "slug": "marble-bust-bone",
+   "title": "Marble bust",
+   "era": "Ancient",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/marble-bust-bone.png"
+  },
+  {
+   "slug": "marble-bust-sand",
+   "title": "Marble bust",
+   "era": "Ancient",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/marble-bust-sand.png"
+  },
+  {
+   "slug": "marble-bust-lava",
+   "title": "Marble bust",
+   "era": "Ancient",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/marble-bust-lava.png"
+  },
+  {
+   "slug": "marble-bust-jade",
+   "title": "Marble bust",
+   "era": "Ancient",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "blue",
+   "method_label": "Blue noise",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/marble-bust-jade.png"
+  },
+  {
+   "slug": "sunset-grid-ember",
+   "title": "Sunset grid",
+   "era": "Modern",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/sunset-grid-ember.png"
+  },
+  {
+   "slug": "sunset-grid-lava",
+   "title": "Sunset grid",
+   "era": "Modern",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/sunset-grid-lava.png"
+  },
+  {
+   "slug": "sunset-grid-amber",
+   "title": "Sunset grid",
+   "era": "Modern",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/sunset-grid-amber.png"
+  },
+  {
+   "slug": "sunset-grid-bone",
+   "title": "Sunset grid",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/sunset-grid-bone.png"
+  },
+  {
+   "slug": "rain-city-amber",
+   "title": "Rain city",
+   "era": "Modern",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/rain-city-amber.png"
+  },
+  {
+   "slug": "rain-city-bone",
+   "title": "Rain city",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/rain-city-bone.png"
+  },
+  {
+   "slug": "rain-city-acid",
+   "title": "Rain city",
+   "era": "Modern",
+   "palette": "acid",
+   "colors": [
+    "#050e07",
+    "#17692f",
+    "#7bd84a",
+    "#e4ffb0"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/rain-city-acid.png"
+  },
+  {
+   "slug": "rain-city-lava",
+   "title": "Rain city",
+   "era": "Modern",
+   "palette": "lava",
+   "colors": [
+    "#0b0605",
+    "#a31515",
+    "#ff6a1f",
+    "#ffd36b",
+    "#fff6dc"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 960,
+   "h": 600,
+   "cells": "240x150",
+   "file": "dither/rain-city-lava.png"
+  },
+  {
+   "slug": "data-rain-phosphor",
+   "title": "Data rain",
+   "era": "Modern",
+   "palette": "phosphor",
+   "colors": [
+    "#040a05",
+    "#b9ff7a"
+   ],
+   "method": "bayer2",
+   "method_label": "Ordered 2x2",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/data-rain-phosphor.png"
+  },
+  {
+   "slug": "data-rain-acid",
+   "title": "Data rain",
+   "era": "Modern",
+   "palette": "acid",
+   "colors": [
+    "#050e07",
+    "#17692f",
+    "#7bd84a",
+    "#e4ffb0"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/data-rain-acid.png"
+  },
+  {
+   "slug": "data-rain-amber",
+   "title": "Data rain",
+   "era": "Modern",
+   "palette": "amber",
+   "colors": [
+    "#130b02",
+    "#7d4306",
+    "#f0a321",
+    "#ffe9ad"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/data-rain-amber.png"
+  },
+  {
+   "slug": "data-rain-signal",
+   "title": "Data rain",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 640,
+   "h": 800,
+   "cells": "160x200",
+   "file": "dither/data-rain-signal.png"
+  },
+  {
+   "slug": "vinyl-light-bone",
+   "title": "Vinyl in light",
+   "era": "Modern",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "floyd",
+   "method_label": "Floyd-Steinberg",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/vinyl-light-bone.png"
+  },
+  {
+   "slug": "vinyl-light-signal",
+   "title": "Vinyl in light",
+   "era": "Modern",
+   "palette": "signal",
+   "colors": [
+    "#0b0b0b",
+    "#ff3a2d"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/vinyl-light-signal.png"
+  },
+  {
+   "slug": "vinyl-light-gold",
+   "title": "Vinyl in light",
+   "era": "Modern",
+   "palette": "gold",
+   "colors": [
+    "#0d0b09",
+    "#6a4710",
+    "#dfa82c",
+    "#fcf2d0"
+   ],
+   "method": "atkinson",
+   "method_label": "Atkinson",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/vinyl-light-gold.png"
+  },
+  {
+   "slug": "vinyl-light-jade",
+   "title": "Vinyl in light",
+   "era": "Modern",
+   "palette": "jade",
+   "colors": [
+    "#07130e",
+    "#1d5b47",
+    "#6db38c",
+    "#eaf3da"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 720,
+   "h": 720,
+   "cells": "180x180",
+   "file": "dither/vinyl-light-jade.png"
+  },
+  {
+   "slug": "dune-library-sand",
+   "title": "Dune library",
+   "era": "Cover",
+   "palette": "sand",
+   "colors": [
+    "#25190f",
+    "#a96e34",
+    "#e9c98a",
+    "#fbf1d6"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 1200,
+   "h": 760,
+   "cells": "300x190",
+   "file": "dither/dune-library-sand.png"
+  },
+  {
+   "slug": "dune-library-bone",
+   "title": "Dune library",
+   "era": "Cover",
+   "palette": "bone",
+   "colors": [
+    "#0f0e0d",
+    "#f2ecdc"
+   ],
+   "method": "bayer4",
+   "method_label": "Ordered 4x4",
+   "w": 1200,
+   "h": 760,
+   "cells": "300x190",
+   "file": "dither/dune-library-bone.png"
+  },
+  {
+   "slug": "dune-library-ember",
+   "title": "Dune library",
+   "era": "Cover",
+   "palette": "ember",
+   "colors": [
+    "#120907",
+    "#7c1d10",
+    "#e8602a",
+    "#f8e9c4"
+   ],
+   "method": "bayer8",
+   "method_label": "Ordered 8x8",
+   "w": 1200,
+   "h": 760,
+   "cells": "300x190",
+   "file": "dither/dune-library-ember.png"
+  }
+ ]
+}
