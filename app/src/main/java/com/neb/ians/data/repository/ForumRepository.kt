@@ -348,16 +348,26 @@ class ForumRepository @Inject constructor(
         }
     }
 
+    suspend fun labelReply(replyId: String, label: String): Result<ApiReply> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(apiService.labelReply(token, replyId, com.neb.ians.data.api.ReplyLabelRequest(label)))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun createReply(
         postId: String,
         content: String,
         parentReplyId: String? = null,
         isAnonymous: Boolean = false,
-        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList(),
+        kind: String = "comment"
     ): Result<ApiReply> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId, isAnonymous, attachments))
+            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId, isAnonymous, attachments, kind))
             val current = appCache.postReplies[postId].orEmpty()
             if (current.none { it.id == reply.id }) {
                 val updated = current + reply
