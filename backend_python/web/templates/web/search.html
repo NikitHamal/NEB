@@ -170,11 +170,9 @@
         if (d && d.error) { showSnackbar(d.error); return; }
         if (d) {
           if (d.is_following) {
-            el.textContent = 'Following';
-            el.className = el.className.replace('not-following', 'following');
+            nebFollowSet(el, true);
           } else {
-            el.textContent = 'Follow';
-            el.className = el.className.replace('following', 'not-following');
+            nebFollowSet(el, false);
           }
         }
       } catch (e) {
