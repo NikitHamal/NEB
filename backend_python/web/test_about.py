@@ -51,8 +51,9 @@ class AboutPageTests(TestCase):
         landing = self.client.get('/').content.decode()
         self.assertIn('href="/about/"', landing)
 
-    def test_nav_links_back_to_landing_sections(self):
-        self.assertIn('href="/#inside"', self.html)
+    def test_nav_is_minimal_and_marks_about(self):
+        self.assertIn('<a href="/">Home</a>', self.html)
+        self.assertNotIn('href="/#inside"', self.html)
         self.assertIn('aria-current="true">About</a>', self.html)
 
     def test_photo_slot_uses_photo_when_present(self):
