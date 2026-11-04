@@ -2,7 +2,7 @@
 {% if top_level_replies %}
 <div class="fp-reply-list">
   {% for reply in top_level_replies %}
-  <div class="fp-reply{% if reply.label == 'accepted' %} is-accepted{% elif reply.label == 'spam' %} is-spam{% elif reply.label == 'incorrect' %} is-incorrect{% endif %}" id="reply-card-{{ reply.id }}" data-reply-card="{{ reply.id }}" data-label="{{ reply.label }}" data-kind="{{ reply.kind }}" data-raw-content="{{ reply.content|escape }}">
+  <div class="fp-reply{% if reply.label == 'accepted' %} is-accepted{% elif reply.label == 'spam' %} is-spam{% elif reply.label == 'incorrect' %} is-incorrect{% endif %}" id="reply-card-{{ reply.id }}" data-reply-card="{{ reply.id }}" data-label="{{ reply.label }}" data-kind="{{ reply.kind }}" data-raw-content="{{ reply.content|escape }}" data-media="{{ reply.attachments|json_attr }}">
     <div class="fp-reply-avatar">
       {% if reply.authorName == 'neby' or reply.authorIsBot %}
         <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>

@@ -433,6 +433,51 @@ def ajax_delete_post(request, post_id):
     _rt.broadcast_post_deleted(post_id)
     return JsonResponse({'success': True})
 
+def _parse_edit_attachments(data):
+    """(cleaned, error_response) for the optional ordered `attachments` list of an edit.
+    None means the client did not send the field, so the stored media stays as it is."""
+    if 'attachments' not in data:
+        return None, None
+    raw = data.get('attachments')
+    try:
+        return validate_forum_attachments(raw if raw else []), None
+    except ValidationError as exc:
+        msg = exc.messages[0] if getattr(exc, 'messages', None) else 'Invalid attachments'
+        return None, JsonResponse({'error': msg}, status=400)
+
+
+def _replace_media(target, cleaned, now, user_id):
+    """Swap a post's or reply's PostMedia for `cleaned`, in order, and log it in the edit history.
+    Rows whose url survives keep their id, so a pure reorder never re-creates a file row."""
+    is_post = isinstance(target, Post)
+    rows = PostMedia.objects.filter(**({'post': target} if is_post else {'reply': target})).order_by('order', 'created_at')
+    old = list(rows)
+    if [m.url for m in old] == [a['url'] for a in cleaned]:
+        return False
+    by_url = {m.url: m for m in old}
+    keep = set()
+    for order, a in enumerate(cleaned):
+        row = by_url.get(a['url'])
+        if row:
+            row.order = order
+            row.name = a['name'] or row.name
+            row.save(update_fields=['order', 'name'])
+            keep.add(row.id)
+        else:
+            PostMedia.objects.create(
+                id=uuid_str(), kind=a['kind'], url=a['url'], thumbnail_url=a.get('thumbnail_url', ''),
+                name=a['name'], mime_type=a['mime_type'], size_bytes=a['size_bytes'], order=order, created_at=now,
+                **({'post': target} if is_post else {'reply': target}))
+    for m in old:
+        if m.id not in keep:
+            m.delete()
+    EditHistory.objects.create(
+        id=uuid_str(), target_type='post' if is_post else 'reply', target_id=target.id, field='attachments',
+        old_value='\n'.join(m.url for m in old), new_value='\n'.join(a['url'] for a in cleaned),
+        edited_by_id=user_id, edited_at=now)
+    return True
+
+
 @require_POST
 def ajax_edit_post(request, post_id):
     user_id = _get_user_id(request)
@@ -461,6 +506,9 @@ def ajax_edit_post(request, post_id):
         if len(cleaned_image_urls) > POST_IMAGE_MAX_COUNT:
             return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
 
+    cleaned_media, bad = _parse_edit_attachments(data)
+    if bad:
+        return bad
     now = now_ms()
     if 'title' in data:
         title = str(data['title']).strip()
@@ -500,6 +548,8 @@ def ajax_edit_post(request, post_id):
                 PostImage.objects.create(
                     id=uuid_str(), post=post, image_url=url, order=order, created_at=now
                 )
+    if cleaned_media is not None:
+        _replace_media(post, cleaned_media, now, user_id)
     post.is_edited = True
     post.edited_at = now
     post.save()
@@ -544,10 +594,15 @@ def ajax_edit_reply(request, reply_id):
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
     content = data.get('content', '').strip()
-    if not content:
+    cleaned_media, bad = _parse_edit_attachments(data)
+    if bad:
+        return bad
+    if not content and not (cleaned_media if cleaned_media is not None else PostMedia.objects.filter(reply=reply).exists()):
         return JsonResponse({'error': 'Content required'}, status=400)
-    content = services._prep_inline_images(content)[0]
+    content = services._prep_inline_images(content)[0] if content else ''
     now = now_ms()
+    if cleaned_media is not None:
+        _replace_media(reply, cleaned_media, now, user_id)
     EditHistory.objects.create(
         id=uuid_str(), target_type='reply', target_id=reply.id,
         field='content', old_value=reply.content, new_value=content,

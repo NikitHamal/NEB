@@ -183,7 +183,9 @@ class M3XDesignSystemTests(TestCase):
         for src in (self.shared, self.app):
             self.assertNotRegex(src, r'box-shadow\s*:\s*(?!\s*none)')
             self.assertNotRegex(src, r'(drop|text)-shadow\s*:\s*(?!\s*none)')
-            self.assertNotRegex(src, r'(linear|radial|conic)-gradient')
+            # A gradient may only be a mask (the scroll-edge fade on a toolbar); it never paints a colour.
+            painted = re.sub(r'(?:-webkit-)?mask-image\s*:[^;}]*;?', '', src)
+            self.assertNotRegex(painted, r'(linear|radial|conic)-gradient')
 
     def test_brand_blue_comes_from_the_logo(self):
         self.assertIn('--md-primary: #0058df', self.shared)

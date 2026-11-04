@@ -13,6 +13,7 @@ add_business
 add_card
 add_chart
 add_circle
+add_photo_alternate
 adjust
 admin_panel_settings
 agriculture
@@ -55,6 +56,7 @@ attach_file
 attachment
 attractions
 attribution
+audio_file
 auto_awesome
 auto_fix
 auto_stories
