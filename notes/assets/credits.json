@@ -5927,6 +5927,19 @@
   "source": "Wikimedia Commons",
   "title": "Raymond F Boyce age 25"
  },
+ "bca303/catalog": {
+  "author": "MarkBuckawicki",
+  "bytes": 726166,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/catalog.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Wooden_Card_Catalog_Furniture.jpg",
+  "sha1": "4ec97e0fe3dec3ad",
+  "source": "Wikimedia Commons",
+  "title": "Wooden Card Catalog Furniture"
+ },
  "bca303/chamberlin": {
   "author": "Dicklyon",
   "bytes": 1720747,
@@ -5952,6 +5965,32 @@
   "sha1": "be0187a92791cb5d",
   "source": "Wikimedia Commons",
   "title": "Publix checkout aisle"
+ },
+ "bca303/container": {
+  "author": "Thomas from USA",
+  "bytes": 781835,
+  "credit": "Container Ship",
+  "fetched": "2026-11-04",
+  "file": "bca303/container.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Container_ship_sunshine_spirit.jpg",
+  "sha1": "37fb1454d7b97686",
+  "source": "Wikimedia Commons",
+  "title": "Container ship sunshine spirit"
+ },
+ "bca303/copier": {
+  "author": "Baron Maddock",
+  "bytes": 544823,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/copier.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sharp_MX-7500_photocopier.jpg",
+  "sha1": "95a3e0a49cbd7f60",
+  "source": "Wikimedia Commons",
+  "title": "Sharp MX-7500 photocopier"
  },
  "bca303/dijkstra": {
   "author": "Andreas F. Borchert",
@@ -5992,6 +6031,19 @@
   "source": "Wikimedia Commons",
   "title": "Doorbell button, Highwic"
  },
+ "bca303/dsn": {
+  "author": "NASA",
+  "bytes": 376378,
+  "credit": "Great Images in NASA Description",
+  "fetched": "2026-11-04",
+  "file": "bca303/dsn.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Goldstone_Deep_Space_Communication_Complex_-_GPN-2000-000506.jpg",
+  "sha1": "c8783bfe2ee64c00",
+  "source": "Wikimedia Commons",
+  "title": "Goldstone Deep Space Communication Complex - GPN-2000-000506"
+ },
  "bca303/gosling": {
   "author": "Peter Campbell",
   "bytes": 905915,
@@ -6030,6 +6082,19 @@
   "sha1": "f92e56c645693047",
   "source": "Wikimedia Commons",
   "title": "D. Richard Hipp, 2009年"
+ },
+ "bca303/interp": {
+  "author": "Cpl. John Lamb",
+  "bytes": 486284,
+  "credit": "https://www.dvidshub.net/image/657492",
+  "fetched": "2026-11-04",
+  "file": "bca303/interp.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Staff_planning_classes_120904-M-VK320-050.jpg",
+  "sha1": "0a5beb8e28e44ee5",
+  "source": "Wikimedia Commons",
+  "title": "Staff planning classes 120904-M-VK320-050"
  },
  "bca303/javafx": {
   "author": "DavidL",
@@ -6109,6 +6174,19 @@
   "source": "Wikimedia Commons",
   "title": "Post Office Savings Bank passbook"
  },
+ "bca303/phonebook": {
+  "author": "Ciara Ní Riain",
+  "bytes": 569781,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/phonebook.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rotary_phone_1946_phone_book_Workhouse_Svendborg.jpg",
+  "sha1": "f65905c5554722fb",
+  "source": "Wikimedia Commons",
+  "title": "Rotary phone 1946 phone book Workhouse Svendborg"
+ },
  "bca303/pool": {
   "author": "KeepActive Australia from Melbourne, VIC, Australia",
   "bytes": 1035581,
@@ -6134,6 +6212,45 @@
   "sha1": "572864b7a868b510",
   "source": "Wikimedia Commons",
   "title": "Trygve Reenskaug (2010)"
+ },
+ "bca303/remote": {
+  "author": "Raimond Spekking",
+  "bytes": 447923,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/remote.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Television_remote_control_-_unbranded-4028.jpg",
+  "sha1": "cc3c5173bfc977a9",
+  "source": "Wikimedia Commons",
+  "title": "Television remote control - unbranded-4028"
+ },
+ "bca303/rosetta": {
+  "author": "Hans Hillewaert",
+  "bytes": 1360678,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/rosetta.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rosetta_Stone.JPG",
+  "sha1": "a9ec9b94d1fc0520",
+  "source": "Wikimedia Commons",
+  "title": "Rosetta Stone"
+ },
+ "bca303/rover": {
+  "author": "semeion.photo",
+  "bytes": 1060160,
+  "credit": "Curiosity rover first selfie at Rocknest Sol 85",
+  "fetched": "2026-11-04",
+  "file": "bca303/rover.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Curiosity_rover_first_selfie_at_Rocknest_Sol_85_(53095922486).jpg",
+  "sha1": "646d0d477cff22f5",
+  "source": "Wikimedia Commons",
+  "title": "Curiosity rover first selfie at Rocknest Sol 85 (53095922486)"
  },
  "bca303/skylake": {
   "author": "Fritzchens Fritz from Berlin",
@@ -6212,6 +6329,19 @@
   "sha1": "e9e869068c6d776e",
   "source": "Wikimedia Commons",
   "title": "Toll booth on G6 expressway, Beijing"
+ },
+ "bca303/tube": {
+  "author": "Hexafluoride",
+  "bytes": 631851,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/tube.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pneumatic_tube_system_01.jpg",
+  "sha1": "059efde5c8fb0e19",
+  "source": "Wikimedia Commons",
+  "title": "Pneumatic tube system 01"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
