@@ -4965,6 +4965,58 @@
   "source": "Wikimedia Commons",
   "title": "YubiKey 5C NFC"
  },
+ "bca302/aristotle": {
+  "author": "After Lysippos",
+  "bytes": 2244558,
+  "credit": "Jastrow (2006)",
+  "fetched": "2026-11-04",
+  "file": "bca302/aristotle.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Aristotle_Altemps_Inv8575.jpg",
+  "sha1": "36dba3a15eeaccf6",
+  "source": "Wikimedia Commons",
+  "title": "Aristotle Altemps Inv8575"
+ },
+ "bca302/bayestomb": {
+  "author": "Cory Doctorow",
+  "bytes": 608978,
+  "credit": "Flickr : Tomb of Thomas Bayes, Bunhill Cemetery, London, UK.JPG",
+  "fetched": "2026-11-04",
+  "file": "bca302/bayestomb.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tomb_of_Thomas_Bayes,_Bunhill_Cemetery,_London,_UK.jpg",
+  "sha1": "7f41075b5e364dc5",
+  "source": "Wikimedia Commons",
+  "title": "Tomb of Thomas Bayes, Bunhill Cemetery, London, UK"
+ },
+ "bca302/boole": {
+  "author": "Unknown author Unknown author",
+  "bytes": 118749,
+  "credit": "http://schools.keldysh.ru/sch444/museum/1_17-19.htm",
+  "fetched": "2026-11-04",
+  "file": "bca302/boole.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:George_Boole_color.jpg",
+  "sha1": "eff7958f50dc9ea0",
+  "source": "Wikimedia Commons",
+  "title": "George Boole color"
+ },
+ "bca302/canary": {
+  "author": "Yavor Uzunov",
+  "bytes": 378045,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/canary.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Domestic_canary_2.jpg",
+  "sha1": "90ca2c3092366c6a",
+  "source": "Wikimedia Commons",
+  "title": "Domestic canary 2"
+ },
  "bca302/chess": {
   "author": "Wilfredor",
   "bytes": 726100,
@@ -4978,6 +5030,19 @@
   "source": "Wikimedia Commons",
   "title": "Chess game Staunton No. 6 top view"
  },
+ "bca302/colmerauer": {
+  "author": "Alaindavid2",
+  "bytes": 18880,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/colmerauer.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A-Colmerauer_web-800x423.jpg",
+  "sha1": "40e37948b8cad1d0",
+  "source": "Wikimedia Commons",
+  "title": "A-Colmerauer web-800x423"
+ },
  "bca302/deepblue": {
   "author": "Erik Pitti from San Diego, CA, USA",
   "bytes": 1578008,
@@ -4990,6 +5055,32 @@
   "sha1": "9414337e698e66a0",
   "source": "Wikimedia Commons",
   "title": "Say hello to Deep Blue (2586059148)"
+ },
+ "bca302/feigenbaum": {
+  "author": "orcmid",
+  "bytes": 338293,
+  "credit": "https://www.flickr.com/photos/91555706@N00/9585932369/",
+  "fetched": "2026-11-04",
+  "file": "bca302/feigenbaum.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2012-06-15_1994_Turing_Laureate_Ed_Feigenbaum.jpg",
+  "sha1": "83e17545065579a7",
+  "source": "Wikimedia Commons",
+  "title": "2012-06-15 1994 Turing Laureate Ed Feigenbaum"
+ },
+ "bca302/frege": {
+  "author": "Emil Tesch (1860-1931), German photographer",
+  "bytes": 641800,
+  "credit": "The Open court , vol. 30 (1916), p. 614 https://books.google.com/books?id=mPgaAAAAYAAJ&pg=PA614",
+  "fetched": "2026-11-04",
+  "file": "bca302/frege.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Gottlob_Frege_(Emil_Tesch).png",
+  "sha1": "a9a880c1a9f23d56",
+  "source": "Wikimedia Commons",
+  "title": "Gottlob Frege (Emil Tesch)"
  },
  "bca302/highway": {
   "author": "Anup Sadi",
@@ -5056,6 +5147,32 @@
   "source": "Wikimedia Commons",
   "title": "Marvin Minsky"
  },
+ "bca302/pearl": {
+  "author": "Better Than Bacon",
+  "bytes": 530194,
+  "credit": "Judea Pearl at NIPS 2013",
+  "fetched": "2026-11-04",
+  "file": "bca302/pearl.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Judea_Pearl_at_NIPS_2013_(11781981594).jpg",
+  "sha1": "6bb3e7ded4f5b7d8",
+  "source": "Wikimedia Commons",
+  "title": "Judea Pearl at NIPS 2013 (11781981594)"
+ },
+ "bca302/penguin": {
+  "author": "Алексей Логинов",
+  "bytes": 546355,
+  "credit": "https://www.inaturalist.org/photos/465113420",
+  "fetched": "2026-11-04",
+  "file": "bca302/penguin.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aptenodytes_forsteri_-_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B5%D0%B9_%D0%9B%D0%BE%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2_-_465113420.jpeg",
+  "sha1": "5e99162a734b66df",
+  "source": "Wikimedia Commons",
+  "title": "Aptenodytes forsteri - Алексей Логинов - 465113420"
+ },
  "bca302/roomba": {
   "author": "Larry D. Moore",
   "bytes": 88752,
@@ -5108,6 +5225,19 @@
   "source": "Wikimedia Commons",
   "title": "Claude Shannon 1958 MIT portrait cropped"
  },
+ "bca302/siren": {
+  "author": "Harrihealey02",
+  "bytes": 482492,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/siren.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:1990_Old_vented_Burglar_alarm_security_siren_sounder_with_cover_off.JPG",
+  "sha1": "a7938e0d47fb8f9a",
+  "source": "Wikimedia Commons",
+  "title": "1990 Old vented Burglar alarm security siren sounder with cover off"
+ },
  "bca302/sliding": {
   "author": "Medoingths",
   "bytes": 1015289,
@@ -5120,6 +5250,32 @@
   "sha1": "51b795f46c2281d9",
   "source": "Wikimedia Commons",
   "title": "Sliding Puzzle"
+ },
+ "bca302/socrates": {
+  "author": "Copy of Lysippos (?)",
+  "bytes": 855653,
+  "credit": "Eric Gaba ( User:Sting ), July 2005.",
+  "fetched": "2026-11-04",
+  "file": "bca302/socrates.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Socrates_Louvre.jpg",
+  "sha1": "0dec3066a38ed0e0",
+  "source": "Wikimedia Commons",
+  "title": "Socrates Louvre"
+ },
+ "bca302/testkit": {
+  "author": "Secretlondon",
+  "bytes": 644176,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/testkit.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Innova_lateral_flow_testing_kit_with_lid_off_aug_21.jpg",
+  "sha1": "2056b1474aa6ce29",
+  "source": "Wikimedia Commons",
+  "title": "Innova lateral flow testing kit with lid off aug 21"
  },
  "bca302/thermostat": {
   "author": "Ente75",
