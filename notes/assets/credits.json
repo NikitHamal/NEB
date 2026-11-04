@@ -4289,6 +4289,19 @@
   "source": "Wikimedia Commons",
   "title": "BBN IMP connected computers to Arpanet (7995221220)"
  },
+ "bca301/cat5e": {
+  "author": "Richard Wheeler ( Zephyris ) at en.wikipedia ).",
+  "bytes": 425665,
+  "credit": "Transferred from en.wikipedia to Commons.",
+  "fetched": "2026-11-04",
+  "file": "bca301/cat5e.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:CAT5e_Cable.jpg",
+  "sha1": "3020f26dd3b87779",
+  "source": "Wikimedia Commons",
+  "title": "CAT5e Cable"
+ },
  "bca301/dish": {
   "author": "Chase me ladies, I'm the Cavalry",
   "bytes": 588650,
@@ -4302,6 +4315,84 @@
   "source": "Wikimedia Commons",
   "title": "Goonhilly satellite dish 2"
  },
+ "bca301/dslam": {
+  "author": "Jannis Walter",
+  "bytes": 706429,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/dslam.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Outdoor_DSLAM_Huawei.jpg",
+  "sha1": "bc4c6646299e53f3",
+  "source": "Wikimedia Commons",
+  "title": "Outdoor DSLAM Huawei"
+ },
+ "bca301/dslsplit": {
+  "author": "Michael Bemmerl",
+  "bytes": 517954,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/dslsplit.jpg",
+  "license": "CC BY 3.0 de",
+  "license_url": "https://creativecommons.org/licenses/by/3.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Siemens_DSL-Splitter_BBAE_Telekom.jpg",
+  "sha1": "c30e6b9dff891d3d",
+  "source": "Wikimedia Commons",
+  "title": "Siemens DSL-Splitter BBAE Telekom"
+ },
+ "bca301/lcsc": {
+  "author": "Unknown author",
+  "bytes": 185365,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca301/lcsc.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Lc-sc-fiber-connectors.jpg",
+  "sha1": "0f62eefd4273c561",
+  "source": "Wikimedia Commons",
+  "title": "Lc-sc-fiber-connectors"
+ },
+ "bca301/mast": {
+  "author": "Diacius",
+  "bytes": 957335,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/mast.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mobile_phone_mast.jpg",
+  "sha1": "1c378759cf01b4ff",
+  "source": "Wikimedia Commons",
+  "title": "Mobile phone mast"
+ },
+ "bca301/microwave": {
+  "author": "Bidgee",
+  "bytes": 395666,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/microwave.jpg",
+  "license": "CC BY-SA 2.5 au",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5/au/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Parabolic_antennas_on_a_telecommunications_tower_on_Willans_Hill.jpg",
+  "sha1": "e00942e595518273",
+  "source": "Wikimedia Commons",
+  "title": "Parabolic antennas on a telecommunications tower on Willans Hill"
+ },
+ "bca301/nyquist": {
+  "author": "FredN",
+  "bytes": 2118841,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/nyquist.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Harry_Nyquist_minnessten.jpg",
+  "sha1": "5f073fc3c5bb1204",
+  "source": "Wikimedia Commons",
+  "title": "Harry Nyquist minnessten"
+ },
  "bca301/rack": {
   "author": "Dsimic",
   "bytes": 419601,
@@ -4314,6 +4405,32 @@
   "sha1": "b2c5145ff9377948",
   "source": "Wikimedia Commons",
   "title": "19-inch rackmount Ethernet switches and patch panels"
+ },
+ "bca301/sfp": {
+  "author": "Joachim Müllerchen ( Jom at de.wikipedia )",
+  "bytes": 246944,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/sfp.jpg",
+  "license": "CC BY-SA 2.0 de",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:GBIC_und_SFP.jpg",
+  "sha1": "ba3df1fe93d914da",
+  "source": "Wikimedia Commons",
+  "title": "GBIC und SFP"
+ },
+ "bca301/shannon": {
+  "author": "Unknown photographer, MIT Photo Service",
+  "bytes": 245466,
+  "credit": "MIT Museum, Object ID: GCP-00023018",
+  "fetched": "2026-11-04",
+  "file": "bca301/shannon.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Claude_Shannon_1958_MIT_portrait_cropped.jpg",
+  "sha1": "e754a78959c382bd",
+  "source": "Wikimedia Commons",
+  "title": "Claude Shannon 1958 MIT portrait cropped"
  },
  "bca301/splice": {
   "author": "U.S. Department of Agriculture",
