@@ -97,6 +97,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -281,7 +283,6 @@ fun ForumPostCard(
     onAuthorLongPress: () -> Unit = {}
 ) {
     val category = post.category.ifBlank { "General" }
-    val categoryTheme = getSubjectTheme(category)
     // Card preview carries real markdown formatting (bold/italic/code,
     // colored links, highlighted mentions) instead of plain stripped text.
     val primary = MaterialTheme.colorScheme.primary
@@ -300,9 +301,10 @@ fun ForumPostCard(
     NebCard(
         modifier = modifier.fillMaxWidth(),
         onClick = onClick,
-        shape = WebPanelShape
+        shape = RoundedCornerShape(24.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 16.dp, bottom = 8.dp)) {
             // ----- Meta row: avatar + author + badge + "posted" + category and time -----
             Row(
                 verticalAlignment = Alignment.Top,
@@ -362,22 +364,22 @@ fun ForumPostCard(
                     }
                     Spacer(modifier = Modifier.height(2.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Surface(shape = WebPillShape, color = categoryTheme.container) {
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            modifier = Modifier.weight(1f, fill = false)
+                        ) {
                             Text(
-                                text = category,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                text = "#$category",
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
                                 style = MaterialTheme.typography.labelSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = categoryTheme.onContainer,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
                         }
-                        Text(
-                            text = ",  ",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                        )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = formatTimeAgo(post.createdAt),
                             style = MaterialTheme.typography.labelSmall,
@@ -489,98 +491,104 @@ fun ForumPostCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ----- Action row -----
+            // ----- Action row: ghost buttons, like turns tonal -----
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 LikePill(
                     count = post.thumbsUpCount,
                     liked = post.isThumbedUp,
                     onClick = onLikeClick
                 )
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.ChatBubbleOutline,
-                            contentDescription = null,
-                            modifier = Modifier.size(15.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${post.replyCount} Replies",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
+                PostStatButton(
+                    icon = Icons.Outlined.ChatBubbleOutline,
+                    label = compactCount(post.replyCount),
+                    description = "Comments",
+                    onClick = onClick
+                )
+                if (isOwnPost) {
+                    PostStatButton(
+                        icon = Icons.Outlined.Visibility,
+                        label = compactCount(post.viewCount),
+                        description = "Views",
+                        onClick = null
+                    )
                 }
-
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Visibility,
-                            contentDescription = null,
-                            modifier = Modifier.size(15.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "${compactCount(post.viewCount)} views",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
-                }
-
                 Spacer(modifier = Modifier.weight(1f))
                 NebIconButton(
                     icon = if (bookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
                     contentDescription = if (bookmarked) "Remove bookmark" else "Bookmark",
                     onClick = onBookmarkClick,
                     tint = if (bookmarked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    size = 34.dp
+                    size = 36.dp
+                )
+                NebIconButton(
+                    icon = Icons.Outlined.Share,
+                    contentDescription = "Share",
+                    onClick = onShareClick,
+                    size = 36.dp
                 )
             }
         }
     }
 }
 
-/** Like pill matching web .post-action (ThumbUp + compact count). */
+/** Ghost stat button on a post card (icon + count), same height as [LikePill]. */
+@Composable
+fun PostStatButton(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    description: String,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier
+) {
+    val tone = MaterialTheme.colorScheme.onSurfaceVariant
+    Row(
+        modifier = modifier
+            .clip(WebPillShape)
+            .then(
+                if (onClick != null) Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                ) else Modifier
+            )
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+            .semantics { contentDescription = description },
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(18.dp), tint = tone)
+        Text(text = label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Medium, color = tone)
+    }
+}
+
+/** Like pill: ghost at rest, primary-container tonal when liked. No border, no ripple, spring motion. */
 @Composable
 fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val tactile = rememberTactileFeedback()
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.90f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+        targetValue = if (isPressed) 0.9f else 1.0f,
+        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
         label = "likePillScale"
     )
+    val iconScale by animateFloatAsState(
+        targetValue = if (liked) 1.0f else 0.92f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
+        label = "likePillIcon"
+    )
     val background by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
-        animationSpec = tween(180),
+        targetValue = if (liked) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillBg"
     )
     val contentColor by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-        animationSpec = tween(180),
+        targetValue = if (liked) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillFg"
     )
 
@@ -592,32 +600,29 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
             }
             .clip(WebPillShape)
             .background(background)
-            .border(
-                1.dp,
-                if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
-                WebPillShape
-            )
             .clickable(
                 interactionSource = interactionSource,
-                indication = ripple(bounded = true, color = contentColor),
+                indication = null,
                 onClick = {
                     tactile.perform(if (liked) TactileType.LightTap else TactileType.Success)
                     onClick()
                 }
             )
-            .padding(horizontal = 11.dp, vertical = 6.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
             imageVector = if (liked) Icons.Filled.ThumbUp else Icons.Outlined.ThumbUp,
             contentDescription = if (liked) "Remove like" else "Like",
-            modifier = Modifier.size(15.dp),
+            modifier = Modifier
+                .size(18.dp)
+                .graphicsLayer { scaleX = iconScale; scaleY = iconScale },
             tint = contentColor
         )
         Text(
             text = compactCount(count),
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelLarge,
             fontWeight = if (liked) FontWeight.Bold else FontWeight.Medium,
             color = contentColor
         )
@@ -1170,7 +1175,7 @@ fun MentionSuggestions(
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        shadowElevation = 4.dp
+        shadowElevation = 0.dp
     ) {
         Column {
             users.take(8).forEach { user ->
