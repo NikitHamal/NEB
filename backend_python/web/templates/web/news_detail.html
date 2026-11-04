@@ -63,7 +63,7 @@
           <div class="news-detail-meta">
             <span class="news-card-author">
               {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
-              {{ announcement.author_name|mention_links_plain }}
+              {{ announcement.author_name|mention_links_plain }}{% if announcement.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}
             </span>
             <span class="news-card-dot" aria-hidden="true">·</span>
             <span class="news-card-when">{{ announcement.published_at|time_ago }}</span>
@@ -82,6 +82,32 @@
 
         <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
 
+        {% if announcement.attachments %}
+        <section class="nd-files" aria-label="Attachments">
+          {% for f in announcement.attachments %}
+          <a class="nd-file" href="{{ f.url }}" target="_blank" rel="noopener nofollow">
+            <span class="material-symbols-outlined nd-file-ic" aria-hidden="true">{{ f.icon }}</span>
+            <span class="nd-file-name">{{ f.name }}</span>
+            <span class="nd-file-kind">{{ f.kind }}</span>
+            <span class="material-symbols-outlined nd-file-go" aria-hidden="true">open_in_new</span>
+          </a>
+          {% endfor %}
+        </section>
+        {% endif %}
+
+        {% if announcement.source_name and announcement.external_url %}
+        <aside class="nd-source">
+          <div class="nd-source-who">
+            <strong>{{ announcement.source_name }}{% if announcement.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}</strong>
+            <span>{{ announcement.source_host }}</span>
+          </div>
+          <a class="nd-source-btn" href="{{ announcement.external_url }}" target="_blank" rel="noopener nofollow">
+            {% if announcement.source_official %}Open original{% else %}Read full story{% endif %}
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+        </aside>
+        {% endif %}
+
         <div class="nd-actionbar">
           <button type="button" class="nd-action nd-action-primary" id="share-btn"
                   data-url="{{ request.build_absolute_uri }}" data-title="{{ announcement.title }}">
@@ -94,7 +120,7 @@
             <span class="nd-label-long">Copy link</span>
           </button>
 
-          {% if announcement.external_url %}
+          {% if announcement.external_url and not announcement.source_name %}
           <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="nd-action">
             <span class="material-symbols-outlined">open_in_new</span>
             <span>Source</span>

@@ -2,6 +2,7 @@
 import json
 import re
 import unicodedata
+from urllib.parse import urlparse
 from django.core.cache import cache
 from django.db.models import F
 from django.http import Http404, JsonResponse
@@ -22,6 +23,7 @@ CATEGORY_META = {
     'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626', 'art': 'exam prep'},
     'notice':       {'icon': 'campaign',   'label': 'Notice',       'color': '#2563eb', 'art': 'general'},
     'event':        {'icon': 'event',      'label': 'Event',        'color': '#7c3aed', 'art': 'social studies'},
+    'news':         {'icon': 'newspaper',  'label': 'News',         'color': '#0e7490', 'art': 'social studies'},
     'update':       {'icon': 'upgrade',    'label': 'Update',       'color': '#059669', 'art': 'computer'},
     'alert':        {'icon': 'warning',    'label': 'Alert',        'color': '#d97706', 'art': 'general'},
     'general':      {'icon': 'info',       'label': 'General',      'color': '#6b7280', 'art': 'general'},
@@ -53,6 +55,21 @@ def _read_minutes(text):
     return max(1, round(words / 200))
 
 
+# One icon per attachment kind (services/news_sources.attachment).
+FILE_ICONS = {'pdf': 'picture_as_pdf', 'doc': 'description', 'sheet': 'table_chart',
+              'slides': 'slideshow', 'zip': 'folder_zip', 'file': 'attach_file'}
+
+
+def _files(a):
+    out = []
+    for f in (a.attachments or []):
+        if isinstance(f, dict) and str(f.get('url', '')).startswith('http'):
+            kind = f.get('kind') if f.get('kind') in FILE_ICONS else 'file'
+            out.append({'name': f.get('name') or 'Attachment', 'url': f['url'],
+                        'kind': kind.upper(), 'icon': FILE_ICONS[kind]})
+    return out
+
+
 def _serialize_announcement(a, include_content=False):
     meta = CATEGORY_META.get(a.category, CATEGORY_META['general'])
     data = {
@@ -70,7 +87,12 @@ def _serialize_announcement(a, include_content=False):
         'cover_image_url': a.cover_image_url or '',
         'external_url': a.external_url or '',
         'tags': a.tags or '',
-        'author_name': (a.author.display_name or a.author.username) if a.author else 'NEBians Team',
+        # Auto-imported posts are credited to where they came from.
+        'author_name': a.source_name or ((a.author.display_name or a.author.username) if a.author else 'NEBians Team'),
+        'source_name': a.source_name or '',
+        'source_official': bool(a.source_official),
+        'source_host': urlparse(a.external_url).netloc.removeprefix('www.') if a.source_name else '',
+        'attachments': _files(a),
         'author_photo': _avatar_url(a.author) if a.author else '',
         # The structured data needs a URL for the author, and a name alone is
         # one of the fields Search Console flags.

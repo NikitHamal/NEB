@@ -114,6 +114,7 @@ MIDDLEWARE = [
     'nebians.middleware.PageViewTrackingMiddleware',
     'nebians.middleware.ApiUnhandledExceptionMiddleware',
     'nebians.page_cache.AnonPageCacheMiddleware',
+    'nebians.news_autopilot.NewsAutopilotMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'
@@ -432,3 +433,11 @@ LOGGING = {
     },
     'root': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO')},
 }
+
+
+# Blog autopilot (services/news_sync.py): official notices and education news are
+# pulled in the background every NEWS_SYNC_INTERVAL_MIN minutes. Off under tests;
+# NEWS_AUTOSYNC=0 turns it off anywhere (`manage.py sync_news` still works).
+import sys as _sys
+NEWS_AUTOSYNC = os.environ.get('NEWS_AUTOSYNC', '1') != '0' and 'test' not in _sys.argv
+NEWS_SYNC_INTERVAL_MIN = int(os.environ.get('NEWS_SYNC_INTERVAL_MIN', '120'))
