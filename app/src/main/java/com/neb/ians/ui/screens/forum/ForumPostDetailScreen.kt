@@ -107,6 +107,8 @@ import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
 import com.neb.ians.ui.components.ComposerAnonymousButton
+import com.neb.ians.ui.components.ReplyKindPicker
+import com.neb.ians.ui.components.ReplyLabelSheet
 import com.neb.ians.ui.components.ComposerAttachButton
 import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ForumAttachmentChip
@@ -135,6 +137,15 @@ fun ForumPostDetailScreen(
     val isSubmittingReply by viewModel.isSubmittingReply.collectAsStateWithLifecycle()
     val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
     val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+    val composerKind by viewModel.composerKind.collectAsStateWithLifecycle()
+    var labelTarget by remember { mutableStateOf<com.neb.ians.data.api.ApiReply?>(null) }
+    labelTarget?.let { target ->
+        ReplyLabelSheet(
+            current = target.label,
+            onPick = { viewModel.labelReply(target.id, it) },
+            onDismiss = { labelTarget = null }
+        )
+    }
 
     val composerMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
@@ -228,6 +239,11 @@ fun ForumPostDetailScreen(
                         )
                     }
                 ) {
+                    ReplyKindPicker(
+                        selected = composerKind,
+                        onSelect = viewModel::setComposerKind,
+                        enabled = !isSubmittingReply
+                    )
                     ComposerAttachmentChips(
                         attachments = composerMediaAttachments,
                         onRemoveAttachment = viewModel::removeMediaAttachment
@@ -366,6 +382,7 @@ fun ForumPostDetailScreen(
                             reply = reply,
                             isOwn = reply.isOwner || (uiState.currentUserId != null && reply.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
+                            onLabelClick = { labelTarget = reply },
                             onReplyClick = {
                                 activeThreadParentId = reply.id
                                 activeThreadTargetReply = reply
@@ -552,6 +569,7 @@ fun ForumPostDetailScreen(
                             reply = parent,
                             isOwn = parent.isOwner || (uiState.currentUserId != null && parent.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
+                            onLabelClick = { labelTarget = parent },
                              onReplyClick = {
                                  activeThreadTargetReply = parent
                                  val currentText = threadReplyText.text

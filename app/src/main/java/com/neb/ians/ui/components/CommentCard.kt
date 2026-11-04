@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Reply
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -52,6 +53,7 @@ fun CommentCard(
     onEditClick: (() -> Unit)? = null,
     onArchiveClick: (() -> Unit)? = null,
     onDeleteClick: (() -> Unit)? = null,
+    onLabelClick: (() -> Unit)? = null,
       replyingToUsername: String? = null,
       quotedContent: String? = null,
       children: List<ApiReply> = emptyList(),
@@ -61,12 +63,12 @@ fun CommentCard(
   ) {
     val tactile = rememberTactileFeedback()
     Surface(
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(20.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.fillMaxWidth()
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(14.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -162,6 +164,14 @@ fun CommentCard(
                         onArchive = onArchiveClick ?: {},
                         onDelete = onDeleteClick ?: {}
                     )
+                }
+            }
+
+            if ((reply.kind.isNotBlank() && reply.kind != "comment") || reply.label.isNotBlank()) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    ReplyKindTag(reply.kind)
+                    ReplyLabelTag(reply.label)
                 }
             }
 
@@ -271,6 +281,33 @@ fun CommentCard(
                             text = "Reply",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                if (reply.canLabel && onLabelClick != null) {
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Row(
+                        modifier = Modifier
+                            .clip(WebPillShape)
+                            .clickable(onClick = {
+                                tactile.perform(TactileType.LightTap)
+                                onLabelClick()
+                            })
+                            .padding(horizontal = 8.dp, vertical = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.TaskAlt,
+                            contentDescription = "Mark reply",
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = "Mark",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
