@@ -1595,6 +1595,8 @@ def upload_success(request):
 
 def edit_resource(request, resource_id):
     """Allow signed-in users who uploaded a resource to edit it."""
+    from .views_marketplace import commission_percent
+
     user_id = _get_user_id(request)
     if not user_id:
         return redirect('web:login')
