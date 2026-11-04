@@ -1634,6 +1634,7 @@ class Announcement(models.Model):
         ('event', 'Event'),
         ('update', 'Update'),
         ('alert', 'Alert'),
+        ('news', 'News'),
         ('general', 'General'),
     ]
     STATUS_CHOICES = [
@@ -1657,10 +1658,26 @@ class Announcement(models.Model):
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
     view_count = models.PositiveIntegerField(default=0)
+    # Autopilot imports (services/news_sync.py). `source_key` names the feed in
+    # services/news_sources.py, `source_guid` is the item's stable id there, so
+    # a re-run never creates the same story twice. Hand-written posts leave all
+    # of these empty.
+    source_key = models.CharField(max_length=40, blank=True, default='', db_index=True)
+    source_name = models.CharField(max_length=120, blank=True, default='')
+    source_guid = models.CharField(max_length=300, blank=True, default='')
+    source_official = models.BooleanField(default=False)
+    attachments = models.JSONField(blank=True, default=list)
 
     class Meta:
         db_table = 'announcements'
         ordering = ['-is_pinned', '-published_at', '-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['source_key', 'source_guid'],
+                condition=~models.Q(source_guid=''),
+                name='uniq_announcement_source_item',
+            ),
+        ]
         indexes = [
             models.Index(fields=['status', '-published_at']),
             models.Index(fields=['category', 'status']),
@@ -1669,6 +1686,23 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class NewsSyncState(models.Model):
+    """One row per auto-import source: whether it is on, and how its last run went."""
+    key = models.CharField(max_length=40, primary_key=True)
+    enabled = models.BooleanField(default=True)
+    last_run_at = models.BigIntegerField(default=0)
+    last_ok_at = models.BigIntegerField(default=0)
+    last_status = models.CharField(max_length=300, blank=True, default='')
+    last_new = models.PositiveIntegerField(default=0)
+    total_imported = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'news_sync_state'
+
+    def __str__(self):
+        return self.key
 
 
 class BlogComment(models.Model):
