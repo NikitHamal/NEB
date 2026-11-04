@@ -8917,6 +8917,45 @@
   "source": "Wikimedia Commons",
   "title": "Pune Zero Point 10D"
  },
+ "bcamodel/exam": {
+  "author": "Alison wood",
+  "bytes": 218817,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcamodel/exam.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hand-writing-exam-classroom.jpg",
+  "sha1": "93326121c8fe3781",
+  "source": "Wikimedia Commons",
+  "title": "Hand-writing-exam-classroom"
+ },
+ "bcamodel/stopwatch": {
+  "author": "Ansgar Koreng",
+  "bytes": 252688,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcamodel/stopwatch.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stopwatch,_1810201155,_ako.jpg",
+  "sha1": "101e020b59a86a4b",
+  "source": "Wikimedia Commons",
+  "title": "Stopwatch, 1810201155, ako"
+ },
+ "bcamodel/tu": {
+  "author": "Gaurav_Dhwaj_Khadka",
+  "bytes": 623405,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcamodel/tu.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tribhuvan_University.jpg",
+  "sha1": "a05920f716ed25a2",
+  "source": "Wikimedia Commons",
+  "title": "Tribhuvan University"
+ },
  "bio11/agaricus": {
   "author": "Fumikas Sagisavas",
   "bytes": 410745,
