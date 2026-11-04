@@ -1,0 +1,31 @@
+{% comment %}Landing + About top bar. `anchor` is "" on the landing page and "/" elsewhere, so the section links always work. `current="about"` marks the About page.{% endcomment %}
+<header class="nav" data-nav>
+  {% include "components/_brand.html" with href="/" %}
+  <nav class="m3-pill" data-m3-nav{% if current != "about" %} data-spy{% endif %} aria-label="Main">
+    <a href="{{ anchor }}#inside">Library</a>
+    <a href="{{ anchor }}#levels">Levels</a>
+    <a href="{{ anchor }}#books">Books</a>
+    <a href="{{ anchor }}#community">Community</a>
+    <a href="{{ anchor }}#app">App</a>
+    <a href="{% url 'web:about' %}"{% if current == "about" %} aria-current="true"{% endif %}>About</a>
+  </nav>
+  <div class="nav-end">
+    {% if not signed_in %}<a class="m3-btn m3-btn-text m3-btn-sm nav-signin" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    {% include "components/_theme_toggle.html" %}
+    <a class="m3-btn m3-btn-sm" href="{% url 'web:home' %}"><span>Open app</span>{% include "components/_arrow.html" %}</a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i><i></i></button>
+  </div>
+</header>
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Menu">
+    <a href="{{ anchor }}#inside" style="--i:0">Library</a>
+    <a href="{{ anchor }}#levels" style="--i:1">Levels</a>
+    <a href="{{ anchor }}#books" style="--i:2">Books</a>
+    <a href="{{ anchor }}#community" style="--i:3">Community</a>
+    <a href="{{ anchor }}#app" style="--i:4">App</a>
+    <a href="{% url 'web:about' %}" style="--i:5">About</a>
+    {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:6">Sign in</a>{% endif %}
+    <a class="menu-cta" href="{% url 'web:home' %}" style="--i:7">Open app</a>
+  </nav>
+</div>
+
