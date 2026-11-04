@@ -129,3 +129,18 @@
 .fl-solved-chip .fl-solved-go { font-size: 15px; margin-left: -1px; opacity: .8; transition: transform .4s var(--spring); }
 .fl-solved-chip:hover .fl-solved-go { transform: translateY(2px); }
 .fl-dialog .neb-dialog-title, .fl-dialog h2 { margin-bottom: 4px; }
+
+/* ---------- report dialog (js/report-dialog.js) ---------- */
+.rp-reasons { display: flex; flex-wrap: wrap; gap: 8px; }
+.rp-reason {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px 0 12px;
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; background: transparent;
+  color: var(--md-on-surface); font: inherit; font-size: .875rem; font-weight: 600; cursor: pointer;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.rp-reason .material-symbols-outlined { font-size: 20px; }
+.rp-reason:hover { background: var(--md-surface-container-high); border-radius: 24px; }
+.rp-reason:active { transform: scale(.97); }
+.rp-reason[aria-checked="true"] { background: var(--md-error-container); border-color: transparent; color: var(--md-on-error-container); }
+.rp-dialog textarea { resize: none; min-height: 112px; }
+.rp-error { margin: 0; color: var(--md-error); font-size: .875rem; font-weight: 600; }
