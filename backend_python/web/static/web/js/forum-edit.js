@@ -41,10 +41,10 @@
     f.noValidate = true;
     f.innerHTML =
       (cfg.kind === 'post'
-        ? '<label class="fe-title-wrap"><input class="fe-title" type="text" maxlength="' + TITLE_MAX + '" autocomplete="off" placeholder="Title" aria-label="Title">' +
+        ? '<label class="fe-title-wrap"><textarea class="fe-title" rows="1" maxlength="' + TITLE_MAX + '" autocomplete="off" placeholder="Title" aria-label="Title" data-autoheight data-autoheight-max="132"></textarea>' +
           '<span class="fe-count" aria-hidden="true"></span></label>'
         : '') +
-      '<div class="fe-body"><textarea class="fe-text" rows="' + (cfg.kind === 'post' ? 6 : 3) + '" data-fc="tools" data-fc-nodraft aria-label="' +
+      '<div class="fe-body"><textarea class="fe-text" rows="' + (cfg.kind === 'post' ? 6 : 3) + '" data-fc="tools" data-fc-nodraft data-autoheight data-autoheight-max="520" aria-label="' +
         (cfg.kind === 'post' ? 'Details' : 'Reply') + '"></textarea></div>' +
       '<div class="fe-tray"></div>' +
       '<div class="fe-bar">' +
@@ -177,10 +177,19 @@
       f.classList.remove('is-dropping');
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) { e.preventDefault(); tray.add(e.dataTransfer.files); }
     });
-    if (titleEl) titleEl.addEventListener('input', refreshState);
+    if (titleEl) {
+      titleEl.addEventListener('input', function () {
+        if (/[\r\n]/.test(titleEl.value)) { titleEl.value = titleEl.value.replace(/\s*[\r\n]+\s*/g, ' '); if (window.NebGrow) NebGrow(titleEl); }
+        refreshState();
+      });
+      titleEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.ctrlKey && !e.metaKey && !e.shiftKey) { e.preventDefault(); ta.focus(); }
+      });
+    }
     ta.addEventListener('input', refreshState);
 
     refreshState();
+    if (window.NebGrow) { if (titleEl) NebGrow(titleEl); NebGrow(ta); }
     open = { host: cfg.host, close: close, focus: function () { (titleEl || ta).focus(); } };
     requestAnimationFrame(function () {
       var field = titleEl || ta;
