@@ -1,14 +1,16 @@
 """Admin views for the Announcement (news) system."""
 from .view_helpers import *  # noqa: F401,F403
 from .views_news import _slugify, _unique_slug, CATEGORY_META
-from api.models import Announcement
+from api.models import Announcement, NewsSyncState
+import threading
+from services import news_sources, news_sync
 
 
 def _clear_news_cache():
     """Clear all news-related cache keys (works on both Redis and LocMem)."""
     for key in ('home_latest_news', 'news_list::', 'news_list:exam_results:',
                 'news_list:notice:', 'news_list:event:', 'news_list:update:',
-                'news_list:alert:', 'news_list:general:'):
+                'news_list:alert:', 'news_list:news:', 'news_list:general:'):
         cache.delete(key)
     if hasattr(cache, 'delete_pattern'):
         try:
@@ -31,6 +33,18 @@ def admin_announcements(request):
                 _clear_news_cache()
             except Announcement.DoesNotExist:
                 pass
+            return redirect('web:admin_announcements')
+        if action == 'sync_now':
+            # Same job the autopilot runs, on a thread so the click returns at once.
+            threading.Thread(target=news_sync._worker, name='news-sync-now', daemon=True).start()
+            messages.success(request, 'Fetching the latest notices and news. Refresh in a minute.')
+            return redirect('web:admin_announcements')
+        if action == 'toggle_source':
+            key = request.POST.get('source_key', '')
+            if key in news_sources.SOURCE_BY_KEY:
+                st, _ = NewsSyncState.objects.get_or_create(key=key)
+                st.enabled = not st.enabled
+                st.save(update_fields=['enabled'])
             return redirect('web:admin_announcements')
         if action == 'toggle_pin' and ann_id:
             try:
@@ -62,10 +76,23 @@ def admin_announcements(request):
             'author_name': (a.author.display_name or a.author.username) if a.author else '—',
         })
 
+    states = {st.key: st for st in NewsSyncState.objects.all()}
+    sources = []
+    for src in news_sources.SOURCES:
+        st = states.get(src['key'])
+        sources.append({
+            'key': src['key'], 'name': src['name'], 'official': src['official'],
+            'enabled': st.enabled if st else True,
+            'last_run_at': st.last_run_at if st else 0,
+            'last_status': st.last_status if st else '',
+            'last_new': st.last_new if st else 0,
+            'total': st.total_imported if st else 0,
+        })
     return render(request, 'admin_panel/announcements.html', {
         'is_admin': True,
         'active_page': 'announcements',
         'announcements': items,
+        'sources': sources,
     })
 
 
