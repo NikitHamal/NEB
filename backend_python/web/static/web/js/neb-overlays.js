@@ -849,9 +849,11 @@
    * name above it. This is a real NebDialog that resolves true or false, so a
    * call site changes from `if (confirm(...))` to `if (await NebUI.confirm(...))`
    * and nothing else. */
+  var pendingConfirm = null;
   function confirmDialog(o) {
+    if (pendingConfirm) return pendingConfirm;
     o = o || {};
-    return new Promise(function (resolve) {
+    pendingConfirm = new Promise(function (resolve) {
       var scrim = document.createElement('div');
       scrim.className = 'neb-scrim';
       scrim.hidden = true;
@@ -878,6 +880,7 @@
       function finish(v) {
         if (answered) return;
         answered = true;
+        pendingConfirm = null;
         resolve(v);
         close(scrim, { reason: 'confirm' });
         setTimeout(function () { scrim.remove(); }, 520);
@@ -887,6 +890,7 @@
       scrim.addEventListener('neb:close', function () { finish(false); });
       open(scrim);
     });
+    return pendingConfirm;
   }
 
   function esc(s) {
