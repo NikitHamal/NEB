@@ -19,6 +19,9 @@
 .fc-bar { display: flex; align-items: center; gap: 4px; min-width: 0; padding: 0 0 4px; }
 .fc-tools { display: flex; flex: 1 1 auto; align-items: center; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
 .fc-tools::-webkit-scrollbar { display: none; }
+.fc-tools.can-right { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); }
+.fc-tools.can-left { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent); }
+.fc-tools.can-left.can-right { -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent); }
 .fc-tool {
   flex: none; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
   border: 0; padding: 0; cursor: pointer; border-radius: 50%; background: transparent; color: var(--md-on-surface-variant);

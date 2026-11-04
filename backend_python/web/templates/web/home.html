@@ -716,7 +716,7 @@
         item.addEventListener('click', function (e) {
           e.stopPropagation();
           var val = item.dataset.catValue;
-          if (catHiddenInput) catHiddenInput.value = val;
+          if (catHiddenInput) { catHiddenInput.value = val; catHiddenInput.dataset.custom = item.dataset.custom || ''; }
           if (catLabel) catLabel.textContent = val;
           catDropdown.querySelectorAll('.hf-cat-menu-item').forEach(function (i) {
             i.classList.toggle('is-active', i === item);
@@ -725,6 +725,34 @@
           catTrigger.setAttribute('aria-expanded', 'false');
         });
       });
+
+      var ownInput = document.getElementById('homePostCatOwn');
+      var ownAdd = document.getElementById('homePostCatOwnAdd');
+      function cleanTag(v) {
+        return (v || '').replace(/#/g, ' ').replace(/[^\p{L}\p{N}_ &+.\/'-]/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, 28).trim();
+      }
+      function useOwnTag() {
+        var tag = cleanTag(ownInput.value);
+        if (!tag) return;
+        if (catHiddenInput) { catHiddenInput.value = tag; catHiddenInput.dataset.custom = '1'; }
+        if (catLabel) catLabel.textContent = tag;
+        catDropdown.querySelectorAll('.hf-cat-menu-item').forEach(function (i) {
+          i.classList.toggle('is-active', (i.dataset.catValue || '').toLowerCase() === tag.toLowerCase());
+        });
+        ownInput.value = '';
+        ownAdd.disabled = true;
+        catDropdown.classList.remove('is-open');
+        catTrigger.setAttribute('aria-expanded', 'false');
+        if (typeof showSnackbar === 'function') showSnackbar('Tagged #' + tag, { tone: 'success' });
+      }
+      if (ownInput && ownAdd) {
+        ownInput.addEventListener('input', function () { ownAdd.disabled = !cleanTag(ownInput.value); });
+        ownInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); useOwnTag(); }
+          e.stopPropagation();
+        });
+        ownAdd.addEventListener('click', function (e) { e.stopPropagation(); useOwnTag(); });
+      }
 
       document.addEventListener('click', function (e) {
         if (!catDropdown.contains(e.target)) {
@@ -1773,6 +1801,7 @@
               title: title,
               content: content,
               category: category,
+              custom_category: !!(catHiddenInput && catHiddenInput.dataset.custom === '1'),
               images: finalImageUrls,
               poll: pollPayload,
               isAnonymous: isAnonymous,

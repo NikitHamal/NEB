@@ -207,6 +207,18 @@
       kindMenu = wrap.querySelector('.fc-kindmenu');
     }
 
+    var toolsEl = root.querySelector('.fc-tools');
+    function edges() {
+      toolsEl.classList.toggle('can-right', toolsEl.scrollLeft + toolsEl.clientWidth < toolsEl.scrollWidth - 2);
+      toolsEl.classList.toggle('can-left', toolsEl.scrollLeft > 2);
+    }
+    toolsEl.addEventListener('scroll', edges, { passive: true });
+    window.addEventListener('resize', edges);
+    toolsEl.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && toolsEl.scrollWidth > toolsEl.clientWidth) { toolsEl.scrollLeft += e.deltaY; e.preventDefault(); }
+    }, { passive: false });
+    setTimeout(edges, 480);
+
     function closePop() {
       pop.hidden = true;
       var b = root.querySelector('[data-tool="symbols"]');
@@ -236,6 +248,7 @@
       } else if (focus) {
         ta.focus();
       }
+      setTimeout(edges, 470);
     }
 
     function setTall(v) {

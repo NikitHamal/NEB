@@ -316,22 +316,11 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 .fp-user-popup { background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 28px; color: var(--md-on-surface); }
 .fp-user-popup-bio, .fp-user-popup-meta, .fp-user-popup-username { color: var(--md-on-surface-variant); }
 
-/* ---------- snackbar: a pill from the inverse surface, above the bottom bar on phones ---------- */
-.md-snackbar {
-  background: var(--md-inverse-surface); color: var(--md-inverse-on-surface);
-  border-radius: 18px; padding: 14px 22px; font-weight: 500; max-width: min(92vw, 520px);
-  animation: m3-snack .55s var(--spring) both;
-}
-#snackbar-container { position: relative; z-index: 6000; pointer-events: none; }
-#snackbar-container .md-snackbar { z-index: 6000; pointer-events: auto; }
-@keyframes m3-snack { from { opacity: 0; transform: translateX(-50%) translateY(24px) scale(.94); } to { opacity: 1; transform: translateX(-50%); } }
-@media (max-width: 768px) { .md-snackbar { bottom: calc(92px + env(safe-area-inset-bottom)); } }
-
 /* ---------- lightbox / media overlays keep their black scrim ---------- */
 .nebians-lightbox-overlay { background: color-mix(in srgb, #000 88%, transparent); }
 
 @media (prefers-reduced-motion: reduce) {
-  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet, .md-snackbar { transition-duration: .01s; animation-duration: .01s; }
+  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet { transition-duration: .01s; animation-duration: .01s; }
 }
 
 /* ---------- sheets on a wide screen are centred dialogs: the same spring, from the middle ---------- */
@@ -376,6 +365,70 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 }
 .modal-box .edit-form :is(input[type=text], textarea):focus { outline: 2px solid var(--md-primary); outline-offset: 0; border-color: transparent; }
 .modal-box .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+
+/* ---- m3x/app-toast.css ---- */
+/* m3x toasts (neb-toast.js). A tonal card, not the inverse bar: the surface is the same raised --x-float as menus and
+   dialogs, and only the small icon bubble carries the tone. The stack grows upward from the bottom edge, each slot
+   collapses its own height on exit so the toasts above settle with a spring instead of jumping. No shadows. */
+
+#snackbar-container {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 6000; transform: translateX(-50%);
+  width: min(440px, calc(100vw - 24px)); display: flex; flex-direction: column; pointer-events: none;
+}
+.neb-toast-slot { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s var(--spring), opacity .25s; }
+.neb-toast-slot.is-leaving { grid-template-rows: 0fr; opacity: 0; }
+.neb-toast-fit { min-height: 0; overflow: hidden; padding-top: 8px; }
+
+.neb-toast {
+  --tone-bg: var(--md-secondary-container); --tone-fg: var(--md-on-secondary-container);
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; min-height: 56px; box-sizing: border-box;
+  padding: 8px 8px 8px 10px; border-radius: 28px; pointer-events: auto; touch-action: pan-y;
+  background: var(--x-float); color: var(--md-on-surface); border: 1px solid var(--x-float-line);
+  animation: neb-toast-in .6s var(--spring) both;
+  transition: transform .4s var(--spring), opacity .25s, border-radius .4s var(--spring);
+}
+.neb-toast.is-dragging { transition: none; }
+.neb-toast:hover { border-radius: 22px; }
+.neb-toast[data-tone="success"] { --tone-bg: var(--fl-good, #d3f1de); --tone-fg: var(--fl-on-good, #0a3a1c); }
+.neb-toast[data-tone="error"] { --tone-bg: var(--md-error-container); --tone-fg: var(--md-on-error-container); }
+.neb-toast[data-tone="warn"] { --tone-bg: var(--fl-warn, #fde8bd); --tone-fg: var(--fl-on-warn, #432b00); }
+
+.neb-toast-icon {
+  flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--tone-bg); color: var(--tone-fg);
+  animation: neb-toast-icon .7s .12s var(--spring) both;
+}
+.neb-toast-icon .material-symbols-outlined { font-size: 21px; font-variation-settings: 'FILL' 1; }
+.neb-toast-msg { flex: 1; min-width: 0; padding: 4px 0; font-size: .875rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+.neb-toast-action, .neb-toast-x {
+  flex: none; border: 0; cursor: pointer; font: inherit; color: var(--md-primary); background: transparent;
+  transition: background-color .15s, border-radius .4s var(--spring), transform .2s var(--spring);
+}
+.neb-toast-action { height: 36px; padding: 0 14px; border-radius: 18px; font-size: .8125rem; font-weight: 700; }
+.neb-toast-x { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--md-on-surface-variant); }
+.neb-toast-x .material-symbols-outlined { font-size: 19px; }
+.neb-toast-action:hover, .neb-toast-x:hover { background: var(--md-surface-container-high); border-radius: 12px; }
+.neb-toast-action:active, .neb-toast-x:active { transform: scale(.92); }
+
+.neb-toast-bar {
+  position: absolute; left: 18px; right: 18px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0;
+  background: var(--tone-fg); opacity: .35; transform-origin: left center;
+  animation: neb-toast-bar var(--toast-ms, 3600ms) linear both;
+}
+.neb-toast.is-paused .neb-toast-bar { animation-play-state: paused; }
+.neb-toast.is-bump { animation: neb-toast-bump .5s var(--spring); }
+
+@keyframes neb-toast-in { from { opacity: 0; transform: translateY(28px) scale(.9); } }
+@keyframes neb-toast-icon { from { opacity: 0; transform: scale(.3) rotate(-50deg); } }
+@keyframes neb-toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes neb-toast-bump { 0% { transform: scale(1); } 35% { transform: scale(1.04); } 100% { transform: scale(1); } }
+
+@media (max-width: 768px) {
+  #snackbar-container { bottom: calc(88px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neb-toast, .neb-toast-icon, .neb-toast-slot, .neb-toast-bar { animation: none; transition: none; }
+}
 
 /* ---- m3x/app-composer.css ---- */
 /* m3x composer: the post dialog, its poll builder, the emoji popover.
@@ -540,6 +593,47 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 #homePostForm .hf-chip[aria-pressed="true"] { background: var(--md-primary); color: var(--md-on-primary); }
 #homePostForm .hf-poll-add-opt-btn { background: var(--md-surface-container-lowest); color: var(--md-primary); }
 
+/* ---------- category menu: pick a tag or write your own ---------- */
+#homePostForm .hf-custom-cat-menu {
+  min-width: 232px; max-width: min(86vw, 300px); max-height: min(60vh, 380px); overflow-y: auto; padding: 6px; gap: 2px;
+  background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 22px; box-shadow: none;
+  transform-origin: top right; animation: hfCatMenuIn .4s var(--spring) both;
+}
+#homePostForm .hf-cat-menu-header { padding: 8px 12px 4px; color: var(--md-on-surface-variant); }
+#homePostForm .hf-cat-menu-item {
+  height: 42px; padding: 0 12px; border-radius: 16px; color: var(--md-on-surface);
+  transition: background-color .15s, border-radius .4s var(--spring), transform .2s var(--spring);
+}
+#homePostForm .hf-cat-menu-item:hover { background: var(--md-surface-container-high); border-radius: 22px; }
+#homePostForm .hf-cat-menu-item:active { transform: scale(.98); }
+#homePostForm .hf-cat-menu-item.is-active { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+#homePostForm .hf-cat-menu-item.is-active .hf-cat-item-hash, #homePostForm .hf-cat-menu-item.is-active .hf-cat-item-check { color: inherit; }
+#homePostForm .hf-cat-item-check { font-size: 18px; transform: scale(.4); transition: transform .4s var(--spring); }
+#homePostForm .hf-cat-menu-item.is-active .hf-cat-item-check { transform: none; }
+.hf-cat-own {
+  display: flex; align-items: center; gap: 6px; margin: 6px 0 2px; padding: 6px 0 0; border-top: 1px solid var(--md-outline-variant);
+}
+.hf-cat-own-field {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 20px; cursor: text;
+  background: var(--md-surface-container-high); border: 1px solid transparent;
+  transition: border-color .15s, background-color .15s, border-radius .4s var(--spring);
+}
+.hf-cat-own-field:focus-within { border-color: var(--md-primary); background: var(--md-surface-container-lowest); border-radius: 14px; }
+.hf-cat-own-field input {
+  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--md-on-surface); font: inherit; font-size: .8125rem; font-weight: 500;
+}
+.hf-cat-own-field input::placeholder { color: var(--md-on-surface-variant); }
+.hf-cat-own-add {
+  flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--md-primary); color: var(--md-on-primary);
+  transition: border-radius .4s var(--spring), transform .25s var(--spring), background-color .2s, color .2s, opacity .2s;
+}
+.hf-cat-own-add:hover:not(:disabled) { border-radius: 14px; }
+.hf-cat-own-add:active:not(:disabled) { transform: scale(.9); }
+.hf-cat-own-add:disabled { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); opacity: .7; cursor: default; }
+.hf-cat-own-add .material-symbols-outlined { font-size: 20px; }
+@media (prefers-reduced-motion: reduce) { #homePostForm .hf-custom-cat-menu, #homePostForm .hf-cat-menu-item, .hf-cat-own-add, .hf-cat-own-field { animation: none; transition: none; } }
+
 /* ---- m3x/app-fc.css ---- */
 /* m3x writing tools (.fc). One composer, two states.
    Compact (default): the field is one line and the tools sit beside it as icons; nothing else is drawn.
@@ -562,6 +656,9 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 .fc-bar { display: flex; align-items: center; gap: 4px; min-width: 0; padding: 0 0 4px; }
 .fc-tools { display: flex; flex: 1 1 auto; align-items: center; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
 .fc-tools::-webkit-scrollbar { display: none; }
+.fc-tools.can-right { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); }
+.fc-tools.can-left { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent); }
+.fc-tools.can-left.can-right { -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 36px), transparent); }
 .fc-tool {
   flex: none; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
   border: 0; padding: 0; cursor: pointer; border-radius: 50%; background: transparent; color: var(--md-on-surface-variant);

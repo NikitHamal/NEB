@@ -96,3 +96,14 @@ class HomeAndThreadTests(TestCase):
         self.assertEqual(normalize_category('Mathematics'), 'Math')
         self.assertEqual(normalize_category('Exam/Test'), 'Exam Prep')
         self.assertEqual(normalize_category('Physics'), 'Science')
+
+
+class OwnTagTests(TestCase):
+    def test_own_tag_is_kept_as_typed_not_folded(self):
+        from api.categories import clean_tag
+        self.assertEqual(normalize_category('Physics', own_tag=True), 'Physics')
+        self.assertEqual(normalize_category('science', own_tag=True), 'Science')
+        self.assertEqual(normalize_category('  #Board  exam  tips!! ', own_tag=True), 'Board exam tips')
+        self.assertEqual(len(clean_tag('x' * 80)), 28)
+        self.assertEqual(normalize_category('###', own_tag=True), 'General')
+        self.assertEqual(normalize_category('Physics'), 'Science')
