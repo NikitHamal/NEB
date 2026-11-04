@@ -40,10 +40,6 @@
 .hf-peer { background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg); transition: border-radius .6s var(--spring); }
 @media (hover: hover) { .hf-peer:hover { border-radius: var(--md-shape-xl); } }
 .hf-peer-reason { color: var(--md-on-surface-variant); }
-.hf-peer-follow { background: var(--md-primary); color: var(--md-on-primary); border-radius: 999px; font-weight: 700; transition: border-radius .5s var(--spring), transform .4s var(--spring); }
-.hf-peer-follow:hover { }
-.hf-peer-follow:active { transform: scale(.94); }
-.hf-peer-follow:not(.not-following) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
 /* ---------- tonal "See all" and section heads ---------- */
 .hf-section-more, .hf-see-all, a.see-all { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 999px; font-weight: 700; }
