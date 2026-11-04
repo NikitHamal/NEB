@@ -21,7 +21,7 @@
 :root .news-detail-meta .news-card-author { color: var(--md-on-surface); font-weight: 600; }
 :root .news-detail-meta .news-card-dot { opacity: .5; }
 :root .news-detail-more-btn { width: 44px; height: 44px; border: 0; border-radius: 22px; background: var(--md-surface-container); color: var(--md-on-surface); cursor: pointer; transition: border-radius .45s var(--spring), background-color .2s; }
-:root .news-detail-more-btn:hover { border-radius: 14px; background: var(--md-surface-container-high); }
+:root .news-detail-more-btn:hover { background: var(--md-surface-container-high); }
 :root .news-detail-cover { margin: 24px 0; border-radius: 32px; overflow: hidden; background: var(--md-surface-container); transition: border-radius .7s var(--spring); }
 :root .news-detail-cover:hover { border-radius: 44px; }
 :root .news-detail-cover img { display: block; width: 100%; height: auto; }
@@ -47,7 +47,7 @@
   background: var(--md-surface-container-lowest); color: var(--md-on-surface); font: 600 .9375rem/1 var(--md-font);
   transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s;
 }
-:root .nd-action:hover { border-radius: 16px; background: var(--md-surface-container-high); }
+:root .nd-action:hover { background: var(--md-surface-container-high); }
 :root .nd-action:active { transform: scale(.94); }
 :root .nd-action-primary { background: var(--md-primary); color: var(--md-on-primary); }
 :root .nd-action-primary:hover { background: var(--md-primary); }

@@ -2,7 +2,7 @@
    people rail, hover card, profile). Two states, told apart by tone and a glyph, not by a stroke:
      not following -> filled primary, "+"
      following     -> tonal secondary, tick
-   The shape is a pill that tips into a rounded square on hover and presses in on tap. */
+   The shape is a pill in every state; it presses in on tap but never changes shape. */
 
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
   --fh: 34px;
@@ -34,7 +34,7 @@
 .profile-page #btnFollowToggle::before { font-size: 20px; }
 
 @media (hover: hover) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):hover { border-radius: 12px; }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):hover { }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:hover::before,
   .profile-page #btnFollowToggle.pf-btn-filled:hover::before { transform: rotate(90deg); }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,

@@ -25,7 +25,7 @@
 .fl-tone-info { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
 .fl-label-chip, .fl-solved-chip { color: var(--bd-ink); }
 .fl-solved-chip { --bd-ink: var(--fl-on-good); }
-.fl-solved-chip:hover { border-radius: 14px; }
+.fl-solved-chip:hover { }
 
 .role-badge { width: auto; min-width: 0; height: auto; }
 .role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }

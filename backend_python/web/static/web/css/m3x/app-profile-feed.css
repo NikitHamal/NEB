@@ -36,7 +36,7 @@
   transition: border-radius .5s var(--spring), background-color .15s, color .15s;
 }
 .profile-page .activity-list .post-card-actions :is(button, a) .material-symbols-outlined { font-size: 20px; color: inherit; }
-@media (hover: hover) { .profile-page .activity-list .post-card-actions :is(button, a):hover { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 14px; } }
+@media (hover: hover) { .profile-page .activity-list .post-card-actions :is(button, a):hover { background: var(--md-primary-container); color: var(--md-on-primary-container); } }
 .profile-page .activity-list .post-card-actions .liked, .profile-page .activity-list .post-card-actions .bookmark-active { color: var(--md-primary); }
 
 /* tabs scroll sideways instead of clipping the last one */

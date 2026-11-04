@@ -19,7 +19,7 @@
   display: inline-flex; align-items: center; justify-content: center;
   transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
 }
-.profile-page .pf-banner-action:hover, .profile-page .pf-card-banner .neb-back:hover { border-radius: 14px; background: var(--md-surface-container-high); }
+.profile-page .pf-banner-action:hover, .profile-page .pf-card-banner .neb-back:hover { background: var(--md-surface-container-high); }
 .profile-page .pf-banner-action:active, .profile-page .pf-card-banner .neb-back:active { transform: scale(.92); }
 .profile-page .pf-card-banner .neb-back { position: absolute; top: 10px; left: 10px; }
 
@@ -48,7 +48,7 @@
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   transition: border-radius .5s var(--spring), transform .3s var(--spring);
 }
-.profile-page .pf-avatar-cam:hover { border-radius: 12px; }
+.profile-page .pf-avatar-cam:hover { }
 .profile-page .pf-avatar-cam:active { transform: scale(.9); }
 .profile-page .pf-avatar-cam span { font-size: 16px !important; color: var(--md-on-primary) !important; }
 
@@ -57,7 +57,7 @@
   min-height: 44px; padding: 0 22px; gap: 8px; border-radius: 22px; font-weight: 600; border: 0;
   transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
 }
-.profile-page .pf-btn:hover { border-radius: 14px; }
+.profile-page .pf-btn:hover { }
 .profile-page .pf-btn:active { transform: scale(.96); }
 .profile-page .pf-btn-filled { background: var(--md-primary); color: var(--md-on-primary); }
 .profile-page .pf-btn-outlined { background: var(--md-surface-container-lowest); color: var(--md-primary); border: 1.5px solid var(--md-outline-variant); }
