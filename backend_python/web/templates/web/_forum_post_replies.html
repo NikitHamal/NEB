@@ -29,6 +29,7 @@
             {% endif %}
             <span class="fp-reply-meta-sep">&middot;</span>
             <span class="fp-reply-time">{{ reply.createdAt|time_ago }}</span>
+            <div class="fp-reply-tags" data-reply-tags="{{ reply.id }}"{% if reply.kind == 'comment' and not reply.label %} hidden{% endif %}>{% if reply.kind != 'comment' %}<span class="fl-chip fl-kind-chip"><span class="material-symbols-outlined" aria-hidden="true">{{ reply.kindInfo.icon }}</span>{{ reply.kindInfo.label }}</span>{% endif %}{% if reply.labelInfo %}<span class="fl-chip fl-label-chip fl-tone-{{ reply.labelInfo.tone }}"><span class="material-symbols-outlined" aria-hidden="true">{{ reply.labelInfo.icon }}</span>{{ reply.labelInfo.label }}</span>{% endif %}</div>
           </div>
         </div>
         <div class="more-menu-wrapper">
@@ -63,7 +64,6 @@
           </div>
         </div>
       </div>
-      <div class="fp-reply-tags" data-reply-tags="{{ reply.id }}"{% if reply.kind == 'comment' and not reply.label %} hidden{% endif %}>{% if reply.kind != 'comment' %}<span class="fl-chip fl-kind-chip"><span class="material-symbols-outlined" aria-hidden="true">{{ reply.kindInfo.icon }}</span>{{ reply.kindInfo.label }}</span>{% endif %}{% if reply.labelInfo %}<span class="fl-chip fl-label-chip fl-tone-{{ reply.labelInfo.tone }}"><span class="material-symbols-outlined" aria-hidden="true">{{ reply.labelInfo.icon }}</span>{{ reply.labelInfo.label }}</span>{% endif %}</div>
       <button type="button" class="fl-reveal" data-fl-reveal>Show reply marked as spam</button>
       {% if reply.content %}<div class="fp-reply-body" data-clamp="132" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
       {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
