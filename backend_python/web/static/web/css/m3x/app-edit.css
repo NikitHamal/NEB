@@ -40,6 +40,10 @@
   outline: 0; box-shadow: none; max-height: none;
 }
 .fe .fc-host .fc-field:focus, .fe .fc-host .fc-field:focus-visible, .fe .fe-text:focus, .fe .fe-text:focus-visible { outline: 0; box-shadow: none; border: 0; background: transparent; }
+.fe .neb-seamless, .fe .neb-seamless:focus, .fe .neb-seamless:focus-visible, .fe .neb-seamless.neb-focus {
+  outline: 0 !important; box-shadow: none; border-width: 0 !important; border-color: transparent !important; border-radius: 0; background: transparent;
+  padding: 10px 8px 12px; min-height: var(--ah-min, 96px); color: var(--md-on-surface); font-size: .9375rem; line-height: 1.6;
+}
 .fe .fc-host .fc-field.is-scrolling { overflow-y: auto; }
 .fe .fc-host.is-open .fc-field { --ah-min: 96px; }
 .fe-post .fc-host.is-open .fc-field { --ah-min: 160px; }

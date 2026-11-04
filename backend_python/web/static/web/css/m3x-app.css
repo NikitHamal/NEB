@@ -666,6 +666,7 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 }
 .fc-tool .material-symbols-outlined { font-size: 19px; }
 .fc-tool:hover:not(:disabled) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 11px; }
+.fc-tool:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 .fc-tool:active:not(:disabled) { transform: scale(.88); }
 .fc-tool:disabled { opacity: .38; cursor: default; }
 .fc-tool[aria-expanded="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 11px; }
@@ -726,6 +727,7 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 /* the field itself */
 .fc-field { width: 100%; box-sizing: border-box; }
 .fc-field[hidden], .fc-preview[hidden] { display: none !important; }
+.fc-host.is-previewing > .neb-seamless { display: none !important; }
 .fc-field:not([data-autoheight]) { min-height: var(--ah-min, 0); }
 .neb-composer .fc-field { --ah-min: 36px; max-height: 460px; }
 .fc-field[data-autoheight] { transition: height .28s cubic-bezier(.2, 0, 0, 1); }
@@ -837,6 +839,10 @@ select.neb-sel-native {
   outline: 0; box-shadow: none; max-height: none;
 }
 .fe .fc-host .fc-field:focus, .fe .fc-host .fc-field:focus-visible, .fe .fe-text:focus, .fe .fe-text:focus-visible { outline: 0; box-shadow: none; border: 0; background: transparent; }
+.fe .neb-seamless, .fe .neb-seamless:focus, .fe .neb-seamless:focus-visible, .fe .neb-seamless.neb-focus {
+  outline: 0 !important; box-shadow: none; border-width: 0 !important; border-color: transparent !important; border-radius: 0; background: transparent;
+  padding: 10px 8px 12px; min-height: var(--ah-min, 96px); color: var(--md-on-surface); font-size: .9375rem; line-height: 1.6;
+}
 .fe .fc-host .fc-field.is-scrolling { overflow-y: auto; }
 .fe .fc-host.is-open .fc-field { --ah-min: 96px; }
 .fe-post .fc-host.is-open .fc-field { --ah-min: 160px; }
