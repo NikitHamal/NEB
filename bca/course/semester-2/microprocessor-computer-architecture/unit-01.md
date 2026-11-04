@@ -209,6 +209,102 @@ The 8086 (1978) is a **16-bit** processor with a 16-bit data bus and a **20-bit 
 | Multiply/divide | none (software) | MUL, DIV instructions |
 | Memory model | flat 64 KB | segmented |
 
+## 1.9 Seeing the ideas: real chips, buses, multiplexing, timing and flags
+
+A processor is easy to picture once you have seen the real silicon and watched the signals move. The plate shows four chips from the history of this unit. The figures then show the three buses, how one set of eight pins carries both an address and a data byte, the timing of a real 13 T-state instruction drawn to scale, and the flag register filled in for the worked example of Section 1.4.
+
+```photogrid label="1.1" cols="4" ratio="1.0" caption="Four real chips. (a) A Busicom calculator board of 1971 carrying the Intel 4004 (marked 4004) with its ROM chips (4001), RAM chips (4002) and shifter (4003): the first microprocessor system. (b) The Zilog Z80 (1976), the 8-bit rival of the 8085, in a 40-pin ceramic package. (c) The Intel P8085AH-2, the 5 MHz 8085 of this unit, in a 40-pin plastic DIP; the notch and dot mark pin 1. (d) The die of the 8086 under a microscope: the rectangular blocks are registers, ALU and control logic. Credits are listed in the Picture Credits appendix."
+@ photo id="bca152/busicom" cap="4004 board (1971)"
+fit 1.0
+focus 0.5 0.45
+@ photo id="bca152/z80" cap="Zilog Z80 (1976)"
+fit 1.0
+focus 0.5 0.5
+call 0.1 0.78 0.3 0.9 "pin 1"
+@ photo id="bca152/p8085" cap="Intel 8085 in 40-pin DIP"
+fit 1.0
+focus 0.3 0.5
+call 0.35 0.45 0.5 0.15 "8085"
+@ photo id="bca152/die8086" cap="8086 die (1978)"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="1.1" caption="A microprocessor system and its three buses. The CPU is the only bus master. The address bus is one-way (16 lines for the 8085, so 2^16 = 65,536 locations), the data bus is two-way (8 lines, one byte at a time) and the control bus carries the timing and command signals RD', WR', IO/M' and ALE. ROM, RAM and the I/O interface are slaves: each decodes the address and answers only when it is selected. The arrows show who drives each bus."
+f = Fig(580, 214)
+f.box(8, 8, 120, 56, "CPU\n8085", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(160, 8, 120, 56, "ROM\nprogram, 4 KB", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(300, 8, 120, 56, "RAM\ndata, stack", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(440, 8, 132, 56, "I/O interface\nkeys, display", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+for x in (68, 220, 360, 506):
+    f.arrow([(x, 64), (x, 96)], color=TEAL)
+    f.arrow([(x + 14, 130), (x + 14, 64)], color=SLATE, both=True)
+    f.arrow([(x + 28, 164), (x + 28, 64)], color=AMBER, both=True)
+f.box(8, 96, 564, 24, "Address bus A0-A15 (16 lines, CPU to all, one-way)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(8, 130, 564, 24, "Data bus D0-D7 (8 lines, two-way)", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.box(8, 164, 564, 24, "Control bus: RD', WR', IO/M', ALE, READY, interrupts", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.text(8, 206, "CPU = master: it starts every read and write; memory and I/O only answer", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="1.2" caption="Why AD0-AD7 are multiplexed, and how the 74LS373 latch separates the two uses. In T1 of a machine cycle the pins AD0-AD7 carry the low address byte A0-A7 and ALE is high, so the latch is open and follows it. ALE then falls and the latch freezes the low address byte. From T2 the same pins carry the data byte D0-D7. Memory therefore sees a steady 16-bit address (A8-A15 straight from the CPU plus A0-A7 from the latch) and a data bus on the same eight pins. The idea saves eight pins on a 40-pin package."
+f = Fig(580, 206)
+f.box(8, 30, 110, 110, "8085\nCPU", fill=SAND, stroke=AMBER, size=13, bold=True)
+f.box(236, 70, 100, 70, "74LS373\nlatch", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.arrow([(118, 105), (236, 105)], color=NAVY, label="AD0-AD7", lpos=(177, 94), lsize=9.5)
+f.arrow([(118, 50), (460, 50)], color=TEAL, label="A8-A15 (direct)", lpos=(290, 40), lsize=9.5)
+f.arrow([(336, 105), (460, 105)], color=NAVY, label="A0-A7", lpos=(398, 94), lsize=9.5)
+f.arrow([(177, 105), (177, 160), (460, 160)], color=SLATE, both=True, label="D0-D7 (same pins, later)", lpos=(318, 174), lsize=9.5)
+f.arrow([(118, 128), (150, 128), (150, 190), (286, 190), (286, 140)], color=AMBER, label="ALE", lpos=(220, 200), lsize=9.5)
+f.box(460, 30, 112, 150, "Memory\n16-bit\naddress,\n8-bit data", fill=MINT, stroke=TEAL, size=11, bold=True)
+```
+
+```svgfig label="1.3" caption="LDA 2050H drawn to scale: one box per T-state, 40 px each, 13 T-states in all (4 + 3 + 3 + 3). Machine cycle M1 fetches the opcode 3AH; M2 and M3 read the address bytes 50H and 20H from the next two locations; M4 reads the data byte from location 2050H into the accumulator. At 3 MHz one T-state is 0.333 microsecond, so the instruction takes 13 x 0.333 = 4.33 microseconds. The same instruction would take 4.33 microseconds whatever the data."
+f = Fig(580, 150)
+cycles = [("M1 opcode fetch", 4, BLUE, NAVY, "3AH from 2000H"), ("M2 mem read", 3, MINT, TEAL, "50H from 2001H"), ("M3 mem read", 3, MINT, TEAL, "20H from 2002H"), ("M4 mem read", 3, SAND, AMBER, "data from 2050H")]
+x = 30
+for name, n, fl, st, note in cycles:
+    w = 40 * n
+    f.box(x, 30, w - 2, 34, "", fill=fl, stroke=st, r=2)
+    for i in range(n):
+        f.text(x + 20 + 40 * i, 47, "T%d" % (i + 1), size=10, color=NAVY, bold=True, vmid=True)
+    f.text(x + w / 2, 18, name, size=9.5, color=NAVY, bold=True)
+    f.text(x + w / 2, 80, note, size=9.5, color=SLATE)
+    x += w
+f.line(30, 104, 550, 104, color=SLATE, sw=1)
+for i in range(14):
+    f.line(30 + 40 * i, 100, 30 + 40 * i, 108, color=SLATE, sw=1)
+f.text(30, 122, "0", size=9.5, anchor="middle")
+f.text(550, 122, "13 T = 4.33 us", size=9.5, anchor="end", color=NAVY, bold=True)
+f.text(290, 140, "time to scale: 1 T = 0.333 us at 3 MHz", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="1.4" caption="The flag register after 9BH + 75H, the worked example of Section 1.4. The sum is 1 0001 0000: the result in A is 10H and a carry leaves bit 7. The flags are S = 0 (bit 7 of 10H is 0), Z = 0 (not zero), AC = 1 (the low nibbles B + 5 = 10H carry into bit 4), P = 0 (10H has one 1-bit, an odd count) and CY = 1. The unused bits D5, D3 and D1 are shown grey. Bit positions run from D7 on the left to D0 on the right."
+f = Fig(580, 176)
+f.text(8, 14, "9BH + 75H   =   1001 1011 + 0111 0101   =   1 0001 0000   (A = 10H, carry out)", size=10.5, color=NAVY, bold=True, anchor="start")
+names = ["S", "Z", "-", "AC", "-", "P", "-", "CY"]
+vals = ["0", "0", "x", "1", "x", "0", "x", "1"]
+for i in range(8):
+    x = 40 + i * 62
+    used = names[i] != "-"
+    f.text(x + 28, 38, "D%d" % (7 - i), size=9.5, color=SLATE)
+    f.box(x, 46, 56, 40, names[i] if used else "", fill=(MINT if vals[i] == "1" else BLUE) if used else SOFT, stroke=TEAL if vals[i] == "1" else (NAVY if used else SLATE), size=12, bold=True)
+    f.text(x + 28, 104, vals[i] if used else "unused", size=12 if used else 9.5, color=(RED if vals[i] == "1" else SLATE), bold=used)
+f.text(8, 134, "S = 0: bit 7 is 0    Z = 0: result not zero    P = 0: one 1-bit (odd)", size=10, color=SLATE, anchor="start")
+f.text(8, 150, "AC = 1: low nibble B + 5 = 10H carries into bit 4    CY = 1: carry out of bit 7", size=10, color=SLATE, anchor="start")
+f.text(8, 168, "flag byte = 0001 0001 in the used positions: only AC and CY are set", size=10, color=TEAL, bold=True, anchor="start")
+```
+
+### 1.9.1 Eight applications of microprocessors
+
+1. **Personal computers and laptops.** The CPU of every computer is a microprocessor; the Intel 4004 of the plate started a line that led to the Core and Ryzen chips of today. It fetches and executes billions of instructions a second for browsing, office work and programming. A student in a Kathmandu cyber cafe or a college lab uses one every day.
+2. **Mobile phones.** A phone's system-on-chip puts several ARM processor cores, a graphics unit and a modem on one die. These cores run Android, the camera, the keyboard and apps such as eSewa, Khalti and the Nagarik App. Their low power use lets a battery last a day.
+3. **Banking and ATMs.** An ATM contains a microprocessor that reads the card, checks the PIN, drives the cash dispenser and talks to the bank network. Fonepay terminals and bank POS machines work the same way. The processor must follow the same steps exactly every time, which is why a fixed program in ROM is used.
+4. **Embedded control in home appliances.** Washing machines, microwave ovens, rice cookers and air conditioners use a small microcontroller to read sensors and switch heaters or motors. The program is stored in ROM and runs from the moment the power is switched on. Such chips are cheap, often 8-bit, and need no operating system.
+5. **Automobiles.** A modern car holds dozens of microprocessors: engine control, anti-lock brakes, airbags and the dashboard. A Nepali bus or motorbike with a fuel-injection engine uses an engine control unit that measures air and speed and decides the fuel amount in milliseconds. Real-time response matters more than raw speed here.
+6. **Medical equipment.** Digital thermometers, blood-pressure meters, ECG machines and pulse oximeters use microprocessors to convert sensor signals into numbers. District hospitals and health posts rely on such devices for quick measurement. The processor also checks its own readings and shows an alarm when a value is unsafe.
+7. **Industrial control and power systems.** Programmable controllers and smart meters in factories, hydropower stations and the Nepal Electricity Authority use microprocessors to read voltage, count units and switch loads. They log data and send it to a control room. A fault can be seen and handled in seconds instead of hours.
+8. **Education and training kits.** The 8085 and 8086 trainer kits in college laboratories let a BCA student type hex opcodes, run them and see registers change. Arduino and Raspberry Pi boards play the same role for modern projects. Learning on a small processor makes bigger CPUs, caches and pipelines easier to understand.
+
 ## Formula and fact sheet
 
 - Address lines n → 2ⁿ locations: 16 lines = 64 KB, 20 lines = 1 MB.
@@ -252,3 +348,71 @@ The 8086 (1978) is a **16-bit** processor with a 16-bit data bus and a **20-bit 
 **9.** TRAP (0024H) > RST 7.5 (003CH) > RST 6.5 (0034H) > RST 5.5 (002CH) > INTR (8n via RST n).
 **10.** 1A00H × 16 = 1A000H; + 0250H = **1A250H**. Advantages: 1 MB addressing; 16-bit data bus/prefetch queue; hardware multiply/divide.
 :::
+
+## Model answers for Unit 1
+
+**Q1. Name and explain the three buses of a microprocessor system. Show how the 8085 reads one byte from memory. (5 marks)**
+
+A **bus** is a group of wires shared by the CPU, memory and I/O devices (Fig. 1.1). The microprocessor system has three of them.
+
+1. **Address bus.** It is *one-way*, from the CPU to memory and I/O. The 8085 has 16 address lines, so it can select 2^16 = 65,536 locations, which is 64 KB. The address says *where* the transfer happens.
+2. **Data bus.** It is *two-way*. The 8085 has 8 data lines, so one byte moves at a time. It carries instructions and data, and its width equals the word length.
+3. **Control bus.** It is a mix of single lines such as RD', WR', IO/M', ALE and READY. They say *what* kind of transfer it is (read or write, memory or I/O) and keep the timing.
+
+**Reading a byte from 2050H.** (a) The CPU places 2050H on the address bus (A15-A8 = 20H, AD7-AD0 = 50H). (b) It sets IO/M' low (memory) and then makes RD' low, the memory-read signal. (c) The memory chip that decodes 2050H puts its byte on the data bus. (d) The CPU latches the byte into a register and raises RD'. A write is the same, except that the CPU drives the data bus and uses WR'.
+
+The CPU is the bus master and memory is a slave, so two devices never drive the data bus at the same time.
+
+**Q2. Why are the lines AD0-AD7 of the 8085 multiplexed? Explain the role of ALE and the 74LS373 latch. (5 marks)**
+
+The 8085 is packed in a **40-pin** package. A full design would need 16 address pins and 8 data pins, but the CPU also needs pins for power, clock, interrupts, DMA, serial I/O and control. To save pins the designers used the same eight pins, **AD0-AD7**, for two jobs at different times (Fig. 1.2). This is called **multiplexing**.
+
+- **In T1** of every machine cycle the pins carry the low-order address byte A0-A7. At that moment the CPU raises **ALE (Address Latch Enable)** for one clock.
+- The external **74LS373** is a transparent octal latch. While ALE is high it is open and copies its inputs to its outputs. When ALE falls, the latch **freezes** and keeps A0-A7 steady.
+- **From T2 onward** the same pins carry the data byte D0-D7. The latch ignores them because ALE is low, so the memory still sees a stable address.
+
+The high address byte A8-A15 comes straight from separate pins. Together with the latch outputs it forms the full 16-bit address. Without ALE and the latch, the address would vanish as soon as data appeared on the pins, and the memory could not select a location. The cost of multiplexing is one extra chip and a small delay; the gain is a smaller, cheaper package.
+
+**Q3. Describe the architecture of the Intel 8085 microprocessor with a block explanation of its registers, ALU, flags and control unit. Compare it with the 8086. (10 marks)**
+
+**Introduction.** The **Intel 8085** (1976) is an 8-bit microprocessor in a 40-pin package that works from a single +5 V supply and an on-chip clock generator. It has an 8-bit data bus, a 16-bit address bus (64 KB memory) and 256 I/O ports. Its internal blocks are joined by an internal data bus (Section 1.3; chip photo in Plate 1.1).
+
+**Functional blocks.**
+
+1. **ALU.** It adds, subtracts, ANDs, ORs, XORs, compares, rotates, increments and decrements. One input is the accumulator and the other is a temporary register.
+2. **Accumulator.** An 8-bit register that holds one operand and receives the result.
+3. **Registers.** B, C, D, E, H and L are 8-bit and can be paired as BC, DE and HL. HL also acts as the memory pointer **M**. W and Z are internal temporary registers that the programmer cannot use.
+4. **Program counter (16-bit)** holds the address of the next instruction and is incremented after each fetch. The **stack pointer (16-bit)** points to the top of the stack in RAM.
+5. **Flag register.** Five flags describe the result: **S, Z, AC, P, CY**. Conditional jumps test them (Fig. 1.4).
+6. **Instruction register and decoder.** The opcode is held here and decoded.
+7. **Timing and control unit.** It produces RD', WR', IO/M', ALE and the other signals in step with the clock. A 6 MHz crystal gives a 3 MHz internal clock.
+8. **Interrupt and serial control.** It handles TRAP, RST 7.5, 6.5, 5.5 and INTR, and the serial pins SID and SOD.
+
+**Execution.** Every instruction is an *instruction cycle* made of machine cycles, each of 3-6 T-states; for example LDA 2050H takes 13 T-states (Fig. 1.3).
+
+**Comparison of 8085 and 8086.**
+
+| Point | 8085 | 8086 |
+|---|---|---|
+| Data bus | 8-bit | 16-bit |
+| Address bus / memory | 16-bit, 64 KB | 20-bit, 1 MB (segmented) |
+| Registers | A, B-L, 16-bit PC, SP | AX, BX, CX, DX, SI, DI, BP, SP, segment registers |
+| Pre-fetching | none | 6-byte queue (BIU + EU work in parallel) |
+| Multiply / divide | no instruction | hardware MUL and DIV |
+| Clock | 3-5 MHz | 5-10 MHz |
+| Address/data pins | AD0-AD7 multiplexed | AD0-AD15 multiplexed |
+
+**Conclusion.** The 8085 is simple enough to understand completely: registers feed the ALU, flags record the outcome, and the timing unit sequences every bus cycle. The 8086 keeps the same ideas but adds a wider bus, a prefetch queue and segmentation, which is why it was the base of the PC family.
+
+**Q4. Draw the timing of `LDA 2050H` and find its execution time on a 3 MHz 8085. (5 marks)**
+
+`LDA 2050H` is a three-byte instruction (opcode 3AH, then the low byte 50H and the high byte 20H) that loads the accumulator from memory location 2050H. Suppose it is stored at 2000H. It needs **four machine cycles** (Fig. 1.3):
+
+| Machine cycle | Job | T-states |
+|---|---|---|
+| M1 opcode fetch | read 3AH from 2000H; decode; PC incremented | 4 |
+| M2 memory read | read the low address byte 50H from 2001H | 3 |
+| M3 memory read | read the high address byte 20H from 2002H | 3 |
+| M4 memory read | read the data byte from 2050H into A | 3 |
+
+The total is 4 + 3 + 3 + 3 = **13 T-states**. A 6 MHz crystal gives a 3 MHz clock, so one T-state is 1 / 3 MHz = 0.333 microsecond. The execution time is 13 x 0.333 = **4.33 microseconds**. The opcode-fetch cycle is longer by one T-state because the CPU decodes the opcode during T4. A faster 5 MHz 8085A-2 would need only 13 x 0.2 = 2.6 microseconds for the same instruction.
