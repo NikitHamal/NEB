@@ -49,18 +49,6 @@
   }
   .photo-url-input:focus { border-color: var(--md-primary); }
 
-  /* ── Bot profile (Neby) ── */
-  .pf-bot-tagline {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--md-primary);
-    font-weight: 600;
-    font-size: 0.875rem;
-  }
-  .pf-bot-tagline .material-symbols-outlined {
-    font-size: 18px;
-  }
 
   .pf-explorer-tagline {
     display: inline-flex;
