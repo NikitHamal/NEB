@@ -1858,6 +1858,19 @@
   "source": "Wikimedia Commons",
   "title": "Vizio V6 7603B0-CFE3 Smart TV SOC Die Shot"
  },
+ "bca155/alto": {
+  "author": "The wub",
+  "bytes": 537375,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/alto.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Xerox_Alto_I,_1973,_Computer_History_Museum.jpg",
+  "sha1": "fc1d7f95165315f7",
+  "source": "Wikimedia Commons",
+  "title": "Xerox Alto I, 1973, Computer History Museum"
+ },
  "bca155/braille": {
   "author": "Eddau",
   "bytes": 475913,
@@ -1949,6 +1962,32 @@
   "source": "Wikimedia Commons",
   "title": "Amazon Echo Plus 02"
  },
+ "bca155/eyetrack": {
+  "author": "Tschneidr",
+  "bytes": 207501,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/eyetrack.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Eyetracking_heat_map_Wikipedia.jpg",
+  "sha1": "1c04abbeff073aaf",
+  "source": "Wikimedia Commons",
+  "title": "Eyetracking heat map Wikipedia"
+ },
+ "bca155/ishihara": {
+  "author": "Shinobu Ishihara",
+  "bytes": 1084844,
+  "credit": "https://wellcomeimages.org/indexplus/obf_images/79/e2/83d90c561875829cdc53d4b156a3.jpg Gallery: https://wellcomeimages.org/indexplus/image/L0059155.html Wellcom",
+  "fetched": "2026-11-04",
+  "file": "bca155/ishihara.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Eight_Ishihara_charts_for_testing_colour_blindness,_Europe_Wellcome_L0059155.jpg",
+  "sha1": "5e7930f94fd8a6ab",
+  "source": "Wikimedia Commons",
+  "title": "Eight Ishihara charts for testing colour blindness, Europe Wellcome L0059155"
+ },
  "bca155/moodboard": {
   "author": "Vyacheslav Argenberg",
   "bytes": 475033,
@@ -1961,6 +2000,19 @@
   "sha1": "22ba214052b87f42",
   "source": "Wikimedia Commons",
   "title": "Photo collage, Montage, Mood board, Rostov-on-Don, Russia"
+ },
+ "bca155/mouse": {
+  "author": "The wub",
+  "bytes": 427632,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/mouse.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Replica_of_prototype_Engelbart_mouse,_circa_1964,_Computer_History_Museum.jpg",
+  "sha1": "76a51b6ac1b375c7",
+  "source": "Wikimedia Commons",
+  "title": "Replica of prototype Engelbart mouse, circa 1964, Computer History Museum"
  },
  "bca156/deming": {
   "author": "FDA",
