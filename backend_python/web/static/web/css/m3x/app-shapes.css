@@ -5,7 +5,8 @@
    they morph); hovering a shaped avatar, or the link around it, tips it into its neighbour shape.
 
    A container that carries a badge keeps its own box unclipped (the badge sits on the rim) and
-   shapes the picture inside it instead. */
+   shapes the picture inside it instead. Put .av-inset on any container whose own box must stay
+   whole (a camera badge, a notification dot, a ring) and it behaves the same way. */
 
 [data-shape] { --shape: var(--shape-cookie); --alt: var(--shape-flower); --av-fill: var(--md-secondary-container); --av-ink: var(--md-on-secondary-container); }
 [data-tone="1"] { --av-fill: var(--md-primary-container); --av-ink: var(--md-on-primary-container); }
@@ -18,12 +19,12 @@
 [data-shape="pebble"]   { --shape: var(--shape-pebble);   --alt: var(--shape-squircle); }
 [data-shape="squircle"] { --shape: var(--shape-squircle); --alt: var(--shape-circle); }
 
-[data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)) {
+[data-shape]:not(.pf-avatar-overlap-wrap):not(:is(.av-inset, :has(> .avatar-badge-overlay))) {
   clip-path: var(--shape); border-color: transparent; border-radius: 0;
   background-color: var(--av-fill) !important; color: var(--av-ink) !important;
   transition: clip-path .8s var(--spring);
 }
-[data-shape]:has(> .avatar-badge-overlay) > :is(img, div, span):not(.avatar-badge-overlay),
+[data-shape]:is(.av-inset, :has(> .avatar-badge-overlay)) > :is(img, div, span):not(.avatar-badge-overlay, .notif-dot, .epf-identity-camera),
 .pf-avatar-overlap-wrap > .pf-avatar-circle {
   clip-path: var(--shape); border-radius: 0 !important; border: 0 !important;
   background-color: var(--av-fill) !important; color: var(--av-ink) !important;
@@ -32,10 +33,10 @@
 [data-shape] img { border-radius: 0 !important; }
 
 @media (hover: hover) {
-  a:hover > [data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)),
-  [data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)):hover { clip-path: var(--alt); }
-  a:hover > [data-shape]:has(> .avatar-badge-overlay) > :is(img, div, span):not(.avatar-badge-overlay),
-  [data-shape]:has(> .avatar-badge-overlay):hover > :is(img, div, span):not(.avatar-badge-overlay),
+  a:hover > [data-shape]:not(.pf-avatar-overlap-wrap):not(:is(.av-inset, :has(> .avatar-badge-overlay))),
+  [data-shape]:not(.pf-avatar-overlap-wrap):not(:is(.av-inset, :has(> .avatar-badge-overlay))):hover { clip-path: var(--alt); }
+  a:hover > [data-shape]:is(.av-inset, :has(> .avatar-badge-overlay)) > :is(img, div, span):not(.avatar-badge-overlay, .notif-dot, .epf-identity-camera),
+  [data-shape]:is(.av-inset, :has(> .avatar-badge-overlay)):hover > :is(img, div, span):not(.avatar-badge-overlay, .notif-dot, .epf-identity-camera),
   .pf-avatar-overlap-wrap:hover > .pf-avatar-circle { clip-path: var(--alt); }
 }
 @media (prefers-reduced-motion: reduce) { [data-shape], [data-shape] > * { transition: none !important; } }
@@ -62,3 +63,7 @@
   content: "check"; font-family: 'Material Symbols Outlined'; font-size: calc(var(--bd) * .7);
   font-weight: 700; line-height: 1; color: #fff; font-variation-settings: 'wght' 700;
 }
+
+/* Containers with overlays: the box stays, the ring around it goes, the picture takes the shape. */
+.av-inset[data-shape] { border-color: transparent; background: none !important; }
+.avatar-ring.av-inset[data-shape] { padding: 0; }
