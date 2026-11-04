@@ -1507,6 +1507,19 @@
   "source": "Wikimedia Commons",
   "title": "HP 117A - black laser toner cartridge-2407"
  },
+ "bca152/baby": {
+  "author": "KGGucwa",
+  "bytes": 196761,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca152/baby.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:The-baby-replica-mosi-manchester-gt-britain-1.jpg",
+  "sha1": "c1079fc19877473b",
+  "source": "Wikimedia Commons",
+  "title": "The-baby-replica-mosi-manchester-gt-britain-1"
+ },
  "bca152/busicom": {
   "author": "MaltaGC",
   "bytes": 1776079,
@@ -1572,6 +1585,19 @@
   "source": "Wikimedia Commons",
   "title": "Intel 8086 CPU Die"
  },
+ "bca152/mark1": {
+  "author": "Capvideo",
+  "bytes": 718826,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca152/mark1.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aiken-IBM_Automatic_Sequence_Controlled_Calculator.jpg",
+  "sha1": "381f2957004d5961",
+  "source": "Wikimedia Commons",
+  "title": "Aiken-IBM Automatic Sequence Controlled Calculator"
+ },
  "bca152/p8085": {
   "author": "Stefan506 ( dewiki userpage )",
   "bytes": 265443,
@@ -1597,6 +1623,19 @@
   "sha1": "502be6ab8a73ac7a",
   "source": "Wikimedia Commons",
   "title": "Intel Pentium MMX die"
+ },
+ "bca152/vonneumann": {
+  "author": "Unknown author",
+  "bytes": 545004,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca152/vonneumann.jpg",
+  "license": "Attribution",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.jpg",
+  "sha1": "c7e83971f69a3585",
+  "source": "Wikimedia Commons",
+  "title": "JohnvonNeumann-LosAlamos"
  },
  "bca152/z80": {
   "author": "Gennadiy Shvets",
