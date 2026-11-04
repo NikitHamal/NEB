@@ -893,7 +893,7 @@ fun WebPostCard(
                 tactile.perform(TactileType.LightTap)
                 onClick()
             }),
-        shape = WebPanelShape,
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
