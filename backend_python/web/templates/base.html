@@ -328,7 +328,7 @@
   {% endblock %}
 
   <!-- Snackbar container -->
-  <div id="snackbar-container"></div>
+  <div id="snackbar-container" role="status" aria-live="polite"></div>
 
   <script nonce="{{ csp_nonce }}">
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
