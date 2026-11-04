@@ -295,8 +295,18 @@ def leaderboard(request):
     if contributor_data is None:
         contributor_data = _build_contributors_batch()[:50]
         cache.set('forum_contributors', contributor_data, 300)
+    top_score = max([c.get('score') or 0 for c in contributor_data] or [0]) or 1
+    ranked = []
+    for i, c in enumerate(contributor_data, start=1):
+        row = dict(c)
+        row['rank'] = i
+        row['pct'] = max(4, round(100 * (c.get('score') or 0) / top_score))
+        ranked.append(row)
+    podium = [ranked[i] for i in (1, 0, 2) if i < len(ranked)]
     return render(request, 'web/leaderboard.html', _ctx(request,
-        contributors=contributor_data,
+        contributors=ranked,
+        podium=podium,
+        rest=ranked[3:],
     ))
 
 def forum_post(request, post_id):
