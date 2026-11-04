@@ -52,7 +52,7 @@ $n(n+2)$ is even only when $n$ is even, and $n^2+1$ is not always even. The ques
 
 ```photogrid label="1.1" cols="2" ratio="1.0" caption="Two Greek founders of number theory. (a) Euclid of Alexandria (about 300 BC), shown in the statue at the Oxford University Museum of Natural History: his algorithm, still the fastest way to find an HCF, appears in Book VII of the Elements. (b) Eratosthenes of Cyrene (about 276-194 BC), who gave the sieve for listing primes (Fig 1.1) and measured the size of the Earth."
 @ photo id="bcamath/euclid" cap="Euclid: HCF by repeated division"
-focus 0.5 0.35
+focus 0.5 0.12
 @ photo id="bcamath/erato" cap="Eratosthenes: the sieve of primes"
 focus 0.5 0.35
 ```
