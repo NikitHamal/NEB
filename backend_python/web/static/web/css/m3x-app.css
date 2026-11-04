@@ -2063,6 +2063,10 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 :root .neb-seamless:is(:focus, :focus-visible) { outline: none; }
 :root .neb-seamless.neb-focus { border-color: var(--md-primary) !important; }
 
+/* a two-column form row that collapses to one column: the group margin already spaces the rows,
+   so the grid gap must not add a second one */
+@media (max-width: 600px) { .form-row { row-gap: 0; } }
+
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
    text colour: a saturated hue on a light card or a dark card is 2:1. --ink() mixes the accent
