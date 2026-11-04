@@ -1,0 +1,54 @@
+/* Badges, last word: a badge is a glyph and/or a word in an ink colour. It has no fill, no stroke and no
+   shadow. Contrast comes from the ink (every ink below is the on-colour of a tonal pair, so it reads on
+   the plain surface in both themes), never from a patch behind it.
+   The avatar badge sits on the rim of a shaped picture: its glyph is cut out of the surface with a text
+   outline, not boxed in a disc. Count dots (.notif-dot, .notif-popup-badge) are not badges: they are a
+   number on a signal colour and keep their fill. */
+
+:root { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
+
+:is(
+  .role-badge, .user-badge, .achieve-status-badge, .achievement-badge, .grade-badge, .sl-space-badge,
+  .tools-card-badge, .syl-hub-badge, .post-card-poll-badge, .upload-details-badge, .news-pin-badge,
+  .news-category-badge, .results-hero-badge, .rcard-badge, .rc-badge, .pf-res-preview-badge,
+  .mkt-showcase-badge, .mkt-plan-badge, .fp-poll-type-badge, .fp-header-badge, .fl-chip, .fl-solved-chip,
+  .leaderboard-rank-badge, .st-badge, .di-badge, .device-badge, .credits-type-badge, .credits-badge
+) {
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  color: var(--bd-ink);
+}
+.fl-chip, .fl-solved-chip { padding-inline: 2px 6px; }
+.fl-kind-chip { color: var(--md-on-surface-variant); }
+.fl-tone-good { --bd-ink: var(--fl-on-good); }
+.fl-tone-warn { --bd-ink: var(--fl-on-warn); }
+.fl-tone-bad { --bd-ink: var(--fl-on-bad); }
+.fl-tone-info { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
+.fl-label-chip, .fl-solved-chip { color: var(--bd-ink); }
+.fl-solved-chip { --bd-ink: var(--fl-on-good); }
+.fl-solved-chip:hover { border-radius: 14px; }
+
+.role-badge { width: auto; min-width: 0; height: auto; }
+.role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }
+.role-badge-admin       { --bd-ink: var(--neb-accent-amber); }
+.role-badge-bot         { --bd-ink: var(--neb-accent-violet); }
+.role-badge-moderator   { --bd-ink: var(--neb-accent-brand); }
+.role-badge-teacher     { --bd-ink: var(--neb-accent-green); }
+.role-badge-institution { --bd-ink: var(--neb-accent-indigo); }
+.role-badge-explorer    { --bd-ink: var(--neb-accent-amber); }
+.role-badge-verified    { --bd-ink: var(--neb-accent-brand); }
+
+.avatar-badge-overlay {
+  --bd: 18px; box-sizing: border-box; width: var(--bd); height: var(--bd); border: 0 !important; background: none !important;
+  color: var(--badge-bg, var(--md-primary));
+}
+.avatar-badge-overlay .material-symbols-outlined,
+.avatar-badge-overlay.is-verified::after {
+  color: var(--badge-bg, var(--md-primary)); font-size: var(--bd); line-height: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 20;
+  -webkit-text-stroke: 3px var(--badge-ring, var(--md-surface)); paint-order: stroke fill;
+}
+.avatar-badge-overlay.is-verified .material-symbols-outlined { font-size: 0; -webkit-text-stroke: 0; }
+.avatar-badge-overlay.is-verified::after { content: "verified"; font-size: var(--bd); }
+.pf-verified { background: none !important; border: 0 !important; }
+.profile-page .pf-verified .material-symbols-outlined { color: var(--badge-bg, var(--md-primary)); font-size: 22px; }
+.profile-page .pf-verified { width: auto; height: auto; }
