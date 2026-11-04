@@ -234,6 +234,95 @@ for attempt, guess in enumerate([50, 25, 37], start=1):
 - Modifying a list while iterating over it; iterate over a copy or build a new list.
 - Comparing floats for equality.
 
+## 2.8 Seeing the ideas: choices, loops and a very long trip
+
+Every program is built from three moves: go straight, choose a branch, and go round again. A fork in a road is the plainest picture of a choice, and the plate pairs one with the grade ladder that a Python `if`, `elif` and `else` follows. The figures then show how long a `while` loop can run when you cannot guess the count, and how `break`, `continue` and the loop `else` change the path.
+
+```photogrid label="2.1" cols="2" ratio="1.0" caption="One road splits into several: a choice. (a) A real fork where a signpost sends a traveller left, right or straight on, just as an if/elif/else chain sends control to exactly one branch. (b) The same idea for marks: Python tests from the top and stops at the first true condition, so the order 80, 60, 40 matters (a mark of 85 is also at least 60, but the first test already took it)."
+@ photo id="bca254/fork" cap="A fork in the road"
+fit 1.0
+focus 0.5 0.45
+call 0.52 0.58 0.04 0.9 "choose one way"
+@ svg cap="Grade ladder: first true test wins"
+f = Fig(300, 300)
+rows = [("marks >= 80", "Distinction", MINT, TEAL), ("marks >= 60", "First division", BLUE, NAVY), ("marks >= 40", "Pass", SAND, AMBER), ("else", "Fail", ROSE, RED)]
+for i, (c, r, fl, st) in enumerate(rows):
+    y = 18 + i * 66
+    f.box(12, y, 130, 44, c, fill=fl, stroke=st, size=13, bold=True)
+    f.arrow([(144, y + 22), (176, y + 22)], color=st, sw=1.8)
+    f.box(178, y, 112, 44, r, fill=fl, stroke=st, size=13, bold=True)
+    if i < 3:
+        f.arrow([(77, y + 46), (77, y + 64)], color=SLATE, sw=1.4)
+        f.text(106, y + 56, "False", size=11, color=SLATE)
+```
+
+```svgfig label="2.1" caption="A while loop whose length you cannot guess: the Collatz rule. Start from n = 27; if n is even halve it, otherwise replace it by 3n + 1, and stop at 1. The number of steps and the peak are computed by the loop in the program below, not by hand. A for loop needs a known sequence; a while loop needs only a condition, so it suits problems like this one, validating input until it is correct, or reading until the end of a file."
+seq = [27]
+while seq[-1] != 1:
+    n = seq[-1]
+    seq.append(n // 2 if n % 2 == 0 else 3 * n + 1)
+steps, peak = len(seq) - 1, max(seq)
+pk = seq.index(peak)
+f = Fig(580, 232)
+L, T, W, H = 54, 22, 506, 170
+def X(i): return L + i / steps * W
+def Y(v): return T + H - v / 9500 * H
+f.line(L, T + H, L + W, T + H, color=SLATE, sw=1.2)
+f.line(L, T, L, T + H, color=SLATE, sw=1.2)
+for v in (0, 3000, 6000, 9000):
+    f.line(L - 4, Y(v), L, Y(v), color=SLATE)
+    f.text(L - 8, Y(v) + 3, f"{v:,}", size=9, color=SLATE, anchor="end")
+for i in range(0, steps + 1, 20):
+    f.text(X(i), T + H + 14, str(i), size=9, color=SLATE)
+for i in range(steps):
+    f.line(X(i), Y(seq[i]), X(i + 1), Y(seq[i + 1]), color=NAVY, sw=1.3)
+f.circle(X(pk), Y(peak), 4, fill=RED, stroke=RED)
+f.text(X(pk) - 8, Y(peak) + 3, f"peak {peak:,} at step {pk}", size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(steps), Y(1) - 8, f"reaches 1 at step {steps}", size=10.5, color=TEAL, bold=True, anchor="end")
+f.text(L + W / 2, 224, "step number (one pass through the while loop)", size=10, color=SLATE)
+f.text(14, 14, "value of n", size=9.5, color=SLATE, anchor="start")
+```
+
+```python
+n, steps, peak = 27, 0, 27
+while n != 1:
+    n = n // 2 if n % 2 == 0 else 3 * n + 1
+    steps += 1
+    peak = max(peak, n)
+print(steps, peak)
+```
+```output
+111 9232
+```
+```svgfig label="2.2" caption="How break, continue and else steer a loop. After each test of the condition the body runs. continue jumps straight back to the test, skipping the rest of the body. break jumps out of the loop and skips the else clause. If the condition turns false by itself, the loop ends normally and the else clause runs once. That last rule is why for ... else is the clean way to say 'the search found nothing'."
+f = Fig(580, 214)
+f.box(10, 78, 110, 46, "test the\ncondition", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(170, 78, 120, 46, "run the body", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.arrow([(122, 101), (168, 101)], color=TEAL, sw=1.7, label="true", lpos=(145, 92))
+f.box(340, 20, 130, 40, "continue\n(skip the rest)", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.arrow([(250, 76), (340, 44)], color=AMBER, sw=1.5, dash=True)
+f.arrow([(405, 20), (405, 8), (65, 8), (65, 76)], color=AMBER, sw=1.5, dash=True)
+f.box(340, 150, 130, 40, "break\n(leave at once)", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(250, 126), (340, 168)], color=RED, sw=1.5, dash=True)
+f.arrow([(230, 126), (230, 202), (65, 202), (65, 126)], color=SLATE, sw=1.5)
+f.text(150, 197, "end of body: test again", size=9.5, color=SLATE)
+f.box(490, 78, 84, 46, "after the\nloop", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.arrow([(472, 170), (532, 170), (532, 126)], color=RED, sw=1.6)
+f.box(10, 150, 110, 40, "else clause\n(no break)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(65, 126), (65, 148)], color=TEAL, sw=1.6, label="false", lpos=(88, 138))
+```
+
+### 2.8.1 Eight good habits when writing conditions and loops
+
+1. **Test the most specific case first.** In an `if/elif` chain Python stops at the first true test, so `marks >= 40` placed before `marks >= 80` would give every student only a pass. Write the strictest condition at the top and the general one last. Read the chain once from the top as a check before you run it.
+2. **Use `elif`, not many separate `if` lines, for exclusive choices.** Separate `if` statements are all tested, which wastes time and can print two answers for one input. An `elif` chain runs exactly one branch. A ConnectIPS fee-slab program is a good example of one value falling into exactly one slab.
+3. **Prefer `for` when the sequence is known and `while` when it is not.** `for subject in subjects:` cannot run forever, while a `while` loop that forgets to change its variable can. Use `while` for input validation or for repeating until a goal is reached. This one choice removes most infinite-loop bugs.
+4. **Always change the loop variable in a `while` loop.** The condition must be able to become false, so something inside the body must move towards that. A missing `i += 1` is the most common cause of a program that seems to hang. Press Ctrl+C to stop it, then add the update.
+5. **Use `range` and `enumerate` instead of counting by hand.** `for i, name in enumerate(names, start=1):` gives both the position and the item and cannot go out of range. It is shorter than `range(len(names))` and easier to read. A roll-number list printed from 1 is a typical use.
+6. **Do not change a list while you loop over it.** Removing items from the list you are walking over skips elements, because the positions shift. Loop over a copy such as `for x in items[:]:` or build a new list with a comprehension. This avoids a bug that does not produce any error message.
+7. **Keep nesting shallow.** A loop inside a loop inside an `if` is hard to read, and its running time grows as n x n. Use `continue` to skip unwanted cases early, or move the inner part into a function. Two levels are fine for patterns and tables; more deserves a function.
+8. **Use loop `else` and `break` for searches.** Instead of a flag variable such as `found = False`, put the failure message in the `else` of the `for` loop. The code is shorter and shows the intent: "if no break happened, nothing was found". The weakness is that many beginners do not know this feature, so add a comment.
+
 ## Formula and fact sheet
 
 - `if / elif / else`: first true branch only. `x if cond else y` is an expression.
@@ -354,3 +443,129 @@ for i in range(1, 5):
 ####
 ```
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Explain the `if`, `if-else`, `if-elif-else` and `match` statements of Python with examples. (5 marks)**
+
+A **conditional statement** runs a block only when a condition is true. A block is marked by indentation after a colon.
+
+- **`if`** runs the block when the condition is true and does nothing otherwise.
+- **`if-else`** chooses between two blocks.
+- **`if-elif-else`** chooses one block out of many. Tests are made from the top and the first true one is taken (Plate 2.1b), so the order matters.
+- **Conditional expression:** `result = "Pass" if marks >= 40 else "Fail"` for a two-way value.
+- **`match` (Python 3.10 and later)** compares one value against patterns such as `case 1:`, `case "Sat" | "Sun":` and `case _:` (the default). It is neat for menu choices and for splitting a tuple.
+
+```python
+def grade(marks):
+    if marks >= 80:
+        return "Distinction"
+    elif marks >= 60:
+        return "First division"
+    elif marks >= 40:
+        return "Pass"
+    else:
+        return "Fail"
+
+def day_type(day):
+    match day:
+        case "Sat":
+            return "holiday"
+        case "Sun" | "Mon":
+            return "working (Nepal week starts on Sunday)"
+        case _:
+            return "working"
+
+print([grade(m) for m in (85, 60, 59, 40, 39)])
+print(day_type("Sat"), "|", day_type("Sun"), "|", day_type("Wed"))
+```
+```output
+['Distinction', 'First division', 'Pass', 'Pass', 'Fail']
+holiday | working (Nepal week starts on Sunday) | working
+```
+Boundary marks 60 and 40 are tested on purpose, because `>=` includes the boundary. Conditions can be joined with `and`, `or` and `not`, and a chain such as `0 <= m <= 100` is allowed.
+
+**Q2. Explain `break`, `continue`, `pass` and the `else` clause of a loop with a program. (5 marks)**
+
+These four statements change the normal path of a loop (Fig. 2.2).
+
+- **`break`** ends the innermost loop at once; control goes to the first statement after the loop.
+- **`continue`** abandons the rest of the current pass and goes back to the loop test (for a `for` loop, to the next item).
+- **`pass`** does nothing; it is a placeholder where Python needs a block, such as `class Empty: pass`.
+- **`else` on a loop** runs only when the loop ends **without** `break`. For a search it means "not found".
+
+The program lists the primes below 30 by trial division. `continue` skips the even numbers, `break` stops testing as soon as a divisor is found, and `else` records a prime.
+
+```python
+primes = []
+for n in range(2, 30):
+    if n > 2 and n % 2 == 0:
+        continue
+    for d in range(3, int(n ** 0.5) + 1, 2):
+        if n % d == 0:
+            break
+    else:
+        primes.append(n)
+print(primes, len(primes))
+for _ in range(2):
+    pass
+print("done")
+```
+```output
+[2, 3, 5, 7, 11, 13, 17, 19, 23, 29] 10
+done
+```
+Because the loop only tries odd divisors up to the square root of `n`, a number such as 29 needs just 2 tests (3 and 5), not 27.
+
+**Q3. Explain the `while` and `for` loops of Python with `range`. Write programs for a multiplication table, a star pattern and the digit sum of a number, and compare the two loops. (10 marks)**
+
+**Introduction.** A **loop** repeats a block while a condition holds or for every item of a sequence. Python has two loops: `while`, which repeats on a condition, and `for`, which walks over an iterable. Both can be nested, and both accept `break`, `continue` and `else`.
+
+**The `while` loop.** Syntax: `while condition:` followed by an indented body. The condition is tested **before** every pass, so the body may run zero times. The body must change something so that the condition becomes false, otherwise the loop never ends (Fig. 2.1 shows a `while` loop of 111 passes whose length nobody can guess).
+
+**The `for` loop and `range`.** `for item in sequence:` takes each item in turn from a list, string, tuple, dictionary or `range`. `range(stop)`, `range(start, stop)` and `range(start, stop, step)` produce integers up to, but not including, `stop`. So `range(1, 11)` gives 1 to 10 and `range(10, 0, -3)` gives 10, 7, 4, 1. A `range` stores only its three numbers, not the whole list, so it uses very little memory.
+
+**Programs.**
+
+```python
+n = 7
+for i in range(1, 6):
+    print(f"{n} x {i} = {n * i}")
+
+for row in range(1, 5):
+    print(" " * (4 - row) + "*" * (2 * row - 1))
+
+num, total = 98765, 0
+while num > 0:
+    total += num % 10
+    num //= 10
+print("digit sum =", total)
+```
+```output
+7 x 1 = 7
+7 x 2 = 14
+7 x 3 = 21
+7 x 4 = 28
+7 x 5 = 35
+   *
+  ***
+ *****
+*******
+digit sum = 35
+```
+**Nested loops.** In the star pattern, the outer loop picks the row and the inner work (string repetition) draws its stars; a nested `for` inside a `for` runs the inner body rows x columns times, so 4 rows of 3 columns give 12 passes.
+
+**Comparison.**
+
+| Point | `while` | `for` |
+|---|---|---|
+| Repeats | while a condition is true | once for each item |
+| Count known in advance | not needed | yes (the sequence is fixed) |
+| Loop variable | updated by you | assigned by Python |
+| Risk of an infinite loop | high | very low |
+| Typical use | input validation, convergence | lists, ranges, files |
+| `else` clause | runs when condition becomes false | runs when items are exhausted |
+
+**Common mistakes:** forgetting the update in a `while` loop, expecting `range(5)` to include 5, and changing a list while looping over it.
+
+**Conclusion.** Choose `for` when the items are known and `while` when only the stopping condition is known; use `break`, `continue` and `else` to steer the path, and keep nesting shallow.
