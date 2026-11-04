@@ -231,6 +231,110 @@ RT2 :  PC ← PC + 1,  IEN ← 0,  R ← 0,  SC ← 0
 ```
 So the return address is saved in **location 0** and execution continues at **location 1**, where a `BUN` jumps to the service routine, which must find which device raised the flag (by testing FGI, FGO), service it, re-enable interrupts with `ION` and return with an indirect `BUN 0 I`. IEN is cleared automatically so the routine is not itself interrupted before it finishes.
 
+## 3.7 Seeing the ideas: stored programs, buses, instruction cycle and interrupts
+
+The basic computer is a paper design, but its ideas come from real machines. The plate shows the people and machines behind the stored-program concept and the core memory it ran on. The figures compare the two architectures, show how a direct and an indirect address reach different operands, follow a real three-instruction program clock by clock, and show what the interrupt cycle does to memory. The traces were produced by a register-transfer simulator of the basic computer written for this book.
+
+```photogrid label="3.1" cols="4" ratio="1.0" caption="People and machines of the stored-program idea. (a) John von Neumann (Los Alamos), whose 1945 report described a computer that keeps instructions and data in one memory. (b) A replica of the Manchester 'Baby' (1948), the first machine to run a program from its own electronic memory; a program of 17 instructions found the highest factor of 262,144. (c) The Harvard Mark I (1944), which read instructions from a paper tape and kept data in separate counters: the origin of the name Harvard architecture. (d) A close-up of a magnetic-core memory plane (CC BY-SA 4.0): every tiny ring stores one bit, so this is the 'memory of 4096 words' of the basic computer made real. Credits are in the Picture Credits appendix."
+@ photo id="bca152/vonneumann" cap="John von Neumann"
+fit 1.0
+focus 0.5 0.35
+@ photo id="bca152/baby" cap="Manchester Baby replica"
+fit 1.0
+focus 0.55 0.5
+@ photo id="bca152/mark1" cap="Harvard Mark I (1944)"
+fit 1.0
+focus 0.45 0.45
+@ photo id="bca152/core" cap="Core memory plane"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.55 0.5 0.15 "one ring = 1 bit"
+```
+
+```svgfig label="3.1" caption="Von Neumann and Harvard architectures side by side. In the von Neumann design (left) one memory holds both instructions and data and one bus joins it to the CPU, so an instruction fetch and a data access cannot happen at the same time: this is the von Neumann bottleneck. In the Harvard design (right) instruction memory and data memory have separate buses, so the CPU can fetch the next instruction while it reads or writes data. Modern CPUs mix both: a single main memory, but separate instruction and data caches."
+f = Fig(580, 190)
+f.text(145, 14, "Von Neumann", size=12, color=NAVY, bold=True)
+f.box(8, 28, 100, 56, "CPU", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(190, 28, 100, 56, "one memory\ninstructions\n+ data", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.arrow([(108, 56), (190, 56)], color=SLATE, both=True, label="one bus", lpos=(149, 46), lsize=9.5)
+f.text(145, 108, "fetch and data access share the bus", size=10, color=RED, bold=True)
+f.text(145, 124, "one after the other", size=10, color=RED, bold=True)
+f.line(298, 20, 298, 180, color="#cbd5e1", sw=1)
+f.text(435, 14, "Harvard", size=12, color=NAVY, bold=True)
+f.box(312, 28, 90, 90, "CPU", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(480, 28, 92, 40, "instruction\nmemory", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(480, 78, 92, 40, "data\nmemory", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(402, 48), (480, 48)], color=NAVY, both=True)
+f.arrow([(402, 98), (480, 98)], color=TEAL, both=True)
+f.text(435, 140, "two buses: fetch and data", size=10, color=TEAL, bold=True)
+f.text(435, 156, "can overlap", size=10, color=TEAL, bold=True)
+f.text(8, 180, "used in: PCs, 8085 (von Neumann)    DSPs, many microcontrollers (Harvard)", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.2" caption="Direct and indirect addressing with the worked example of Section 3.2: M[300] = 1350 and M[1350] = 77. With I = 0 (ADD 300) the address field 300 points straight at the operand, which is the word 1350. With I = 1 (ADD I 300) the word at 300 is read first and its contents, 1350, are used as the address of the operand, so the operand is 77. Indirect addressing costs one extra memory read (the idle T3 of the basic computer) but allows pointers and tables. The instruction word has I in bit 15, the opcode in bits 14-12 and the address in bits 11-0."
+f = Fig(580, 180)
+f.text(8, 14, "Instruction word:", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(130, 2, 40, 24, "I", fill=SAND, stroke=AMBER, size=11, bold=True, r=2)
+f.box(172, 2, 70, 24, "opcode", fill=BLUE, stroke=NAVY, size=11, bold=True, r=2)
+f.box(244, 2, 130, 24, "address (12 bits)", fill=MINT, stroke=TEAL, size=11, bold=True, r=2)
+f.text(8, 50, "I = 0   ADD 300", size=11, color=NAVY, bold=True, anchor="start")
+f.box(150, 38, 110, 28, "M[300] = 1350", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.text(280, 56, "operand = 1350", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(8, 108, "I = 1   ADD I 300", size=11, color=NAVY, bold=True, anchor="start")
+f.box(150, 94, 110, 28, "M[300] = 1350", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.arrow([(260, 108), (310, 108)], color=SLATE, label="used as address", lpos=(285, 88), lsize=9.5)
+f.box(310, 94, 110, 28, "M[1350] = 77", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.text(430, 112, "operand = 77", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(8, 160, "indirect = one more memory read, but pointers and tables become possible", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.3" caption="A real three-instruction program, LDA 006, ADD 007, STA 008, then HLT, with M[006] = 0053 and M[007] = 002F, drawn to scale: one box is one clock pulse. LDA takes 6 pulses (T0-T5), ADD 6, STA 5 and HLT 4, so the program takes 6 + 6 + 5 + 4 = 21 clock pulses. The simulator trace of the accumulator is: after LDA AC = 0053, after ADD AC = 0082 (53H + 2FH = 82H, E = 0), after STA the word 0082 is written at address 008. The fetch part T0-T2 is the same for every instruction."
+f = Fig(580, 160)
+parts = [("LDA 006", 6, BLUE, NAVY, "AC = 0053"), ("ADD 007", 6, MINT, TEAL, "AC = 0082"), ("STA 008", 5, SAND, AMBER, "M[008] = 0082"), ("HLT", 4, SOFT, SLATE, "stop")]
+x = 14
+u = 26
+for name, n, fl, st, res in parts:
+    w = u * n
+    f.box(x, 36, w - 2, 30, "", fill=fl, stroke=st, r=2)
+    for i in range(n):
+        f.text(x + u / 2 + i * u, 51, "T%d" % i, size=9, color=NAVY, bold=True, vmid=True)
+    f.text(x + w / 2, 24, name, size=10, color=NAVY, bold=True)
+    f.text(x + w / 2, 84, res, size=9.5, color=SLATE, bold=True)
+    x += w
+f.line(14, 108, 14 + 21 * u, 108, color=SLATE, sw=1)
+for i in range(22):
+    f.line(14 + u * i, 104, 14 + u * i, 112, color=SLATE, sw=1)
+f.text(14, 126, "0", size=9.5)
+f.text(14 + 21 * u, 126, "21 pulses", size=9.5, anchor="end", color=NAVY, bold=True)
+f.text(290, 148, "fetch (T0-T2) is identical for every instruction", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="3.4" caption="What the interrupt cycle does to memory. When an instruction ends and IEN = 1 with a device flag set, R becomes 1 and the normal fetch is replaced. RT0: AR <- 0 and TR <- PC. RT1: M[0] <- TR and PC <- 0. RT2: PC <- 1, IEN <- 0, R <- 0. In the example the interrupted program was about to run address 011, so 011 is saved in location 0 and execution continues at location 1, which holds a BUN to the service routine. The routine ends with ION and the indirect branch BUN 0 I, which reloads PC from location 0."
+f = Fig(580, 170)
+f.box(8, 8, 140, 34, "main program\nnext = address 011", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(200, 8, 130, 34, "interrupt cycle\nRT0, RT1, RT2", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.arrow([(148, 25), (200, 25)], color=SLATE, label="IEN=1, flag", lpos=(174, 14), lsize=9)
+f.box(8, 80, 100, 26, "M[0] = 011", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(8, 108, 100, 26, "M[1] = BUN 400", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.text(116, 96, "return address saved", size=9.5, color=TEAL, anchor="start")
+f.text(116, 124, "PC = 1 starts here", size=9.5, color=SLATE, anchor="start")
+f.box(380, 80, 192, 54, "service routine at 400\nfind flag, serve device\nION ; BUN 0 I", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.arrow([(330, 25), (476, 25), (476, 80)], color=SLATE)
+f.arrow([(380, 120), (300, 120), (300, 62), (110, 62), (78, 62)], color=TEAL, label="BUN 0 I returns to 011", lpos=(200, 54), lsize=9.5)
+f.text(8, 162, "IEN is cleared in RT2 so a new interrupt cannot arrive until ION", size=9.5, color=SLATE, anchor="start")
+```
+
+### 3.7.1 Eight advantages of the stored-program concept
+
+1. **One machine, many jobs.** Because the program is stored in memory, the same hardware can run a payroll, a game or a result-processing job just by loading a different program. Before the Manchester Baby, changing the job meant rewiring plugboards. A college computer lab uses the same PC for programming, accounting and web browsing.
+2. **Fast changes.** To correct or improve a program, only the words in memory change, which takes seconds. A mistake in the Tribhuvan University results program can be fixed and re-run the same day. No hardware needs to be touched.
+3. **Programs are data.** Instructions are stored as numbers like any other data, so a program can be loaded, copied, saved and even modified by another program. This is how compilers, loaders and operating systems work. It also explains how a virus can change code in memory.
+4. **Speed of execution.** Instructions are fetched at electronic speed from memory, not read from slow tape or switches. The Harvard Mark I needed a motor-driven tape; a modern CPU fetches billions of instructions each second. This is the basis of the high speed of every present-day computer.
+5. **Branching and loops.** Since the program counter is just a register that can be changed, instructions such as BUN and ISZ let the program repeat or choose a path. The loop of 5 x 5 in the model answers takes only six instructions. Without this, programs would be as long as the work they do.
+6. **Subroutines and reuse.** A routine written once can be called from many places with BSA (the return address is saved in memory, as Fig. 3.4 shows for interrupts). An ATM, a ConnectIPS page and a Nagarik App form all reuse the same library routines. Reuse saves memory and reduces errors.
+7. **Simple hardware design.** Because instructions and data share one memory and one bus (Fig. 3.1), the hardware has fewer parts and is cheaper. The basic computer needs only a handful of registers and a common bus. This simplicity is why the model suits teaching and early microprocessors like the 8085.
+8. **A universal standard.** Almost every general-purpose computer, from a Raspberry Pi to a bank server, follows this model, so programs and ideas move easily between machines. Textbooks, compilers and operating systems depend on it. Learning the basic computer therefore helps a student with every later machine.
+
 ## Formula and fact sheet
 
 - Basic computer: 4096 × 16 memory; AR, PC 12 bits; DR, AC, IR, TR 16 bits; INPR, OUTR 8 bits; SC 4 bits.
@@ -273,3 +377,103 @@ So the return address is saved in **location 0** and execution continues at **lo
 **9.** When IEN = 1 and a device flag (FGI or FGO) is set, R becomes 1. The next cycle saves PC in M[0], sets PC = 1, clears IEN and R; the program at location 1 branches to the service routine.
 **10.** A layered structure from registers to cache, RAM and disk, balancing cost, capacity and speed; the principle of locality of reference.
 :::
+
+## Model answers for Unit 3
+
+**Q1. Differentiate between the von Neumann and Harvard architectures. (5 marks)**
+
+The **von Neumann architecture** keeps instructions and data in **one memory**, joined to the CPU by **one set of buses**. The **Harvard architecture** uses **separate memories and separate buses** for instructions and data (Fig. 3.1). The two names come from the machines of Plate 3.1: von Neumann described the stored-program computer in 1945, and the Harvard Mark I (1944) read instructions from a paper tape and kept data in counters.
+
+| Point | Von Neumann | Harvard |
+|---|---|---|
+| Memory | single, shared | separate instruction and data memory |
+| Buses | one address and data path | two sets of buses |
+| Fetch and data access | one at a time (bottleneck) | can overlap |
+| Hardware cost | lower, simpler | higher, more pins and buses |
+| Flexibility | programs can be treated as data, so loaders and compilers are easy | instruction memory is often read-only |
+| Used in | PCs, laptops, the 8085 | DSP chips, many microcontrollers |
+
+**Modern practice.** A modern CPU is a mix: main memory is shared (von Neumann), but the L1 cache is split into an instruction cache and a data cache (Harvard) so that fetch and data access can proceed together. The single shared path to main memory is still called the *von Neumann bottleneck*.
+
+**Q2. Explain the instruction format of the basic computer. Differentiate direct and indirect addressing with an example. (5 marks)**
+
+The basic computer has **16-bit instructions** with three fields (Fig. 3.2).
+
+- **I (bit 15)** is the addressing-mode bit: 0 = direct, 1 = indirect.
+- **Opcode (bits 14-12)** has 3 bits, so there are eight codes. Codes 000-110 are the seven memory-reference instructions (AND, ADD, LDA, STA, BUN, BSA, ISZ). Code 111 means register-reference (when I = 0) or input-output (when I = 1).
+- **Address (bits 11-0)** has 12 bits, so memory has 2^12 = 4096 words.
+
+**Direct addressing (I = 0):** the address field is the operand's address. **Indirect addressing (I = 1):** the address field points to a word that *contains* the operand's address.
+
+**Example.** Let M[300] = 1350 and M[1350] = 77. `ADD 300` uses the operand M[300] = **1350**. `ADD I 300` reads M[300] = 1350 as an *address* and uses M[1350] = **77**. Indirect addressing needs one more memory read (done in the otherwise idle T3), but it makes pointers, tables and subroutine returns possible. The same field therefore gives two different operands depending on I.
+
+**Q3. Describe the registers of the basic computer and the common bus system. (10 marks)**
+
+**Introduction.** The basic computer (Mano) has 4096 words of 16 bits, a 16-bit ALU and a small set of registers that exchange data over a **common bus**. Its design is the standard example for the stored-program idea (Plate 3.1, Fig. 3.1).
+
+**Registers.**
+
+1. **AR (12 bits)** holds the address of the memory word being read or written.
+2. **PC (12 bits)** holds the address of the next instruction and is incremented after each fetch.
+3. **DR (16 bits)** holds the operand read from memory.
+4. **AC (16 bits)** is the accumulator; the ALU result is placed here.
+5. **IR (16 bits)** holds the instruction being executed.
+6. **TR (16 bits)** is a temporary register, used in the interrupt cycle.
+7. **INPR and OUTR (8 bits each)** hold one input and one output character.
+8. **SC (4 bits)** counts the timing steps T0, T1, T2 and so on; it is cleared at the end of every instruction.
+
+The single-bit registers are **E** (extension of AC; carry-out), **I** (indirect bit), **R** (interrupt request), **IEN** (interrupt enable) and the flags **FGI** and **FGO**.
+
+**Common bus.** Wiring every register to every other would need far too many wires, so all the registers share one **16-line bus**. Three select lines S2 S1 S0 drive a multiplexer that chooses which source drives the bus: 001 AR, 010 PC, 011 DR, 100 AC, 101 IR, 110 TR, 111 memory. Each destination register has a **load (LD)** input, and also INR (increment) and CLR (clear) where needed, so only the chosen register captures the bus value in a clock pulse. The ALU takes AC and DR (and INPR) and writes its result to AC; AC can also drive the bus.
+
+**Example of a transfer.** For `AR <- PC` the control sets S2S1S0 = 010 and enables LD of AR. For `IR <- M[AR]` it sets S2S1S0 = 111 (memory) and enables LD of IR.
+
+**Comparison with separate wiring.** With seven registers, point-to-point wiring needs about 7 x 6 = 42 links of 16 bits; the common bus needs one set of 16 lines and a multiplexer.
+
+**Conclusion.** The registers hold addresses, data, instructions and flags, and the common bus with select lines lets one register at a time send data. The cost is that only one transfer can happen per clock pulse, which is why the control unit orders every step as T0, T1, T2 and so on.
+
+**Q4. Explain the instruction cycle of the basic computer. Trace a real program through it. (10 marks)**
+
+**Introduction.** Every instruction passes through four phases: **fetch**, **decode**, **read the effective address** (if indirect) and **execute**, then the cycle repeats. The control unit follows the timing signals T0, T1, T2 from the sequence counter SC (Fig. 3.3).
+
+**Fetch and decode** (when R = 0):
+
+```
+R'T0 : AR <- PC
+R'T1 : IR <- M[AR],  PC <- PC + 1
+R'T2 : decode IR(12-14),  AR <- IR(0-11),  I <- IR(15)
+```
+
+**After T2.** If the opcode is 111 and I = 0, a register-reference instruction runs in T3. If it is 111 and I = 1, an input-output instruction runs in T3. For opcodes 000-110, T3 does `AR <- M[AR]` when I = 1 and nothing when I = 0; execution begins at T4.
+
+**Execute phases of the memory-reference instructions.**
+
+| Instruction | Steps | Pulses |
+|---|---|---|
+| AND | T4 DR <- M[AR]; T5 AC <- AC AND DR | 6 |
+| ADD | T4 DR <- M[AR]; T5 AC <- AC + DR, E <- carry | 6 |
+| LDA | T4 DR <- M[AR]; T5 AC <- DR | 6 |
+| STA | T4 M[AR] <- AC | 5 |
+| BUN | T4 PC <- AR | 5 |
+| BSA | T4 M[AR] <- PC, AR <- AR + 1; T5 PC <- AR | 6 |
+| ISZ | T4 DR <- M[AR]; T5 DR <- DR + 1; T6 M[AR] <- DR, skip if zero | 7 |
+
+Every instruction ends with SC <- 0.
+
+**Real trace.** The program `LDA 006`, `ADD 007`, `STA 008`, `HLT` (words 2006, 1007, 3008, 7001) with M[006] = 0053 and M[007] = 002F gave: after LDA, AC = 0053 and PC = 001; after ADD, AC = 0082 and PC = 002; after STA, M[008] = 0082. The clock pulses were 6 + 6 + 5 + 4 = **21**. A second program with `CLA`, `ADD 00A`, `ISZ 00B`, `BUN 001`, `STA 00C`, `HLT`, with M[00A] = 0005 and a counter M[00B] = FFFB (minus 5), added 5 five times and stored **0019** (25), in 98 pulses, because ISZ skips the BUN when the counter reaches zero.
+
+**Conclusion.** The instruction cycle is a fixed rhythm: T0-T2 fetch and decode, T3 for the mode, then execute. Because the rhythm is the same for every instruction, the control unit (Unit 4) only needs to decide which register transfers to enable at each step.
+
+**Q5. What is the interrupt cycle? Explain how the basic computer takes and returns from an interrupt. (5 marks)**
+
+An **interrupt** lets an I/O device call for attention without the CPU waiting. The basic computer sets the flip-flop **R = 1** at the end of an instruction when **IEN = 1** and either flag **FGI** or **FGO** is 1. With R = 1 the normal fetch is replaced by the interrupt cycle (Fig. 3.4):
+
+```
+RT0 : AR <- 0,  TR <- PC
+RT1 : M[AR] <- TR,  PC <- 0
+RT2 : PC <- PC + 1,  IEN <- 0,  R <- 0,  SC <- 0
+```
+
+So the **return address is saved in location 0** and execution continues at **location 1**, where a `BUN` jumps to the service routine. The routine checks FGI and FGO to find the device, serves it and then runs `ION` (set IEN) and `BUN 0 I`, which reloads PC from location 0, so the interrupted program resumes where it stopped.
+
+IEN is cleared in RT2 so that a second interrupt cannot overwrite location 0 until the routine has finished. The cycle takes three pulses, and the program only sees a short pause.
