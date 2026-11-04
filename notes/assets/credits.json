@@ -7487,6 +7487,58 @@
   "source": "Wikimedia Commons",
   "title": "Annapurna I"
  },
+ "bcagk/babbage": {
+  "author": "anonymous",
+  "bytes": 630234,
+  "credit": "The Illustrated London News [2]",
+  "fetched": "2026-11-04",
+  "file": "bcagk/babbage.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Charles_Babbage_1860.jpg",
+  "sha1": "62e941cd50d5c86f",
+  "source": "Wikimedia Commons",
+  "title": "Charles Babbage 1860"
+ },
+ "bcagk/bell": {
+  "author": "Unknown author Unknown author",
+  "bytes": 598600,
+  "credit": "This image is available from the United States Library of Congress 's Prints and Photographs division under the digital ID cph.3a17019 . This tag does not indic",
+  "fetched": "2026-11-04",
+  "file": "bcagk/bell.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexander_Graham_Bell.jpeg",
+  "sha1": "ade6ce71dfdb264e",
+  "source": "Wikimedia Commons",
+  "title": "Alexander Graham Bell"
+ },
+ "bcagk/burj": {
+  "author": "Tim Reckmann from Hamm, Deutschland",
+  "bytes": 419188,
+  "credit": "Dubai Skyline mit Burj Khalifa",
+  "fetched": "2026-11-04",
+  "file": "bcagk/burj.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dubai_Skyline_mit_Burj_Khalifa_(18241030269).jpg",
+  "sha1": "2ec66759d2b26d59",
+  "source": "Wikimedia Commons",
+  "title": "Dubai Skyline mit Burj Khalifa (18241030269)"
+ },
+ "bcagk/canberra": {
+  "author": "Thennicke",
+  "bytes": 144994,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/canberra.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Parliament_House_at_dusk,_Canberra_ACT.jpg",
+  "sha1": "5716360c30b497f3",
+  "source": "Wikimedia Commons",
+  "title": "Parliament House at dusk, Canberra ACT"
+ },
  "bcagk/chitwan": {
   "author": "Charles J. Sharp",
   "bytes": 327341,
@@ -7513,6 +7565,45 @@
   "source": "Wikimedia Commons",
   "title": "Dhaulagiri, Himalaya, Nepal"
  },
+ "bcagk/diffeng": {
+  "author": "Frankie Roberto from Manchester, UK",
+  "bytes": 245304,
+  "credit": "Babbage difference engine nearing completion",
+  "fetched": "2026-11-04",
+  "file": "bcagk/diffeng.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Babbage_difference_engine_nearing_completion_(2333347807).jpg",
+  "sha1": "82a3834e0ceb4036",
+  "source": "Wikimedia Commons",
+  "title": "Babbage difference engine nearing completion (2333347807)"
+ },
+ "bcagk/edison": {
+  "author": "Thomas Edison (reprinted by the Norris Peters Co.)",
+  "bytes": 552028,
+  "credit": "Edited version of Image:Light bulb Edison.jpg . US patent application 223898 , Thomas Alva Edison, \" Electric lamp \" , published 1880-01-27",
+  "fetched": "2026-11-04",
+  "file": "bcagk/edison.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Light_bulb_Edison_2.jpg",
+  "sha1": "9a5582c13d1fe0a4",
+  "source": "Wikimedia Commons",
+  "title": "Light bulb Edison 2"
+ },
+ "bcagk/einstein": {
+  "author": "Herman Mishkin. NY",
+  "bytes": 1283346,
+  "credit": "Christies",
+  "fetched": "2026-11-04",
+  "file": "bcagk/einstein.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_by_Mishkin,_1921.png",
+  "sha1": "9e670703207ef207",
+  "source": "Wikimedia Commons",
+  "title": "Albert Einstein by Mishkin, 1921"
+ },
  "bcagk/everest": {
   "author": "Vyacheslav Argenberg",
   "bytes": 347195,
@@ -7525,6 +7616,19 @@
   "sha1": "9f72500f161b5937",
   "source": "Wikimedia Commons",
   "title": "Everest, Himalayas"
+ },
+ "bcagk/fleming": {
+  "author": "Ministry of Information Photo Division Photographer",
+  "bytes": 1660696,
+  "credit": "File:Professor Alexander Fleming at work in his laboratory at St Mary's Hospital, London, during the Second World War. D17801.jpg",
+  "fetched": "2026-11-04",
+  "file": "bcagk/fleming.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Professor_Alexander_Fleming_at_work_in_his_laboratory_at_St_Mary%27s_Hospital,_London,_during_the_Second_World_War._D17801_colorized.jpg",
+  "sha1": "0feb4c1aa3ccbd40",
+  "source": "Wikimedia Commons",
+  "title": "Professor Alexander Fleming at work in his laboratory at St Mary's Hospital, London, during the Second World War. D17801 colorized"
  },
  "bcagk/kanchen": {
   "author": "Sudipto2cool",
@@ -7564,6 +7668,45 @@
   "sha1": "56c99546ad1a71fc",
   "source": "Wikimedia Commons",
   "title": "Lophophorus impejanus -Hamilton Zoo-8a"
+ },
+ "bcagk/nobel": {
+  "author": "Osama Shukir Muhammed Amin FRCP(Glasg)",
+  "bytes": 266696,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/nobel.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nobel_prize_medal_for_medicine,_Sweden,_1945,_to_Sir_Alexander_Fleming_(1881-1955)_who_discovered_Penicillin._On_display_at_the_National_Museum_of_Scotland.jpg",
+  "sha1": "60841d491e636e50",
+  "source": "Wikimedia Commons",
+  "title": "Nobel prize medal for medicine, Sweden, 1945, to Sir Alexander Fleming (1881-1955) who discovered Penicillin. On display at the National Museum of Scotland"
+ },
+ "bcagk/olymp": {
+  "author": "Ibex73",
+  "bytes": 320389,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/olymp.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Olympic_rings_on_the_Eiffel_Tower_2024_(5).jpg",
+  "sha1": "e9a8d3da589a68ba",
+  "source": "Wikimedia Commons",
+  "title": "Olympic rings on the Eiffel Tower 2024 (5)"
+ },
+ "bcagk/ottawa": {
+  "author": "Saffron Blaze",
+  "bytes": 280169,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/ottawa.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Centre_Block_-_Parliament_Hill.jpg",
+  "sha1": "b0a97e94406badff",
+  "source": "Wikimedia Commons",
+  "title": "Centre Block - Parliament Hill"
  },
  "bcagk/pashu": {
   "author": "Bijay chaurasia",
@@ -7630,6 +7773,32 @@
   "source": "Wikimedia Commons",
   "title": "Arbol de azaleas - Rhododendron arboreum (13086040383)"
  },
+ "bcagk/saarc": {
+  "author": "सृजना",
+  "bytes": 305397,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/saarc.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:SAARC_Secretariat_at_Kathmandu.JPG",
+  "sha1": "7f026f9673106789",
+  "source": "Wikimedia Commons",
+  "title": "SAARC Secretariat at Kathmandu"
+ },
+ "bcagk/sahara": {
+  "author": "Thomas Fuhrmann",
+  "bytes": 136005,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/sahara.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Erg_Chebbi_in_the_evening_light.jpg",
+  "sha1": "17a30793dfeb579b",
+  "source": "Wikimedia Commons",
+  "title": "Erg Chebbi in the evening light"
+ },
  "bcagk/singha": {
   "author": "Dirgha Man Chitrakar",
   "bytes": 172326,
@@ -7656,6 +7825,19 @@
   "source": "Wikimedia Commons",
   "title": "Edmund Hillary and Tenzing Norgay"
  },
+ "bcagk/thimphu": {
+  "author": "Bernard Gagnon",
+  "bytes": 402501,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/thimphu.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tashichho_Dzong,_Bhutan_02.jpg",
+  "sha1": "68b12fe3c6e52973",
+  "source": "Wikimedia Commons",
+  "title": "Tashichho Dzong, Bhutan 02"
+ },
  "bcagk/tilicho": {
   "author": "Santosh Mishra",
   "bytes": 270072,
@@ -7668,6 +7850,45 @@
   "sha1": "b6d1ee7c87357ea2",
   "source": "Wikimedia Commons",
   "title": "Tilicho lake Manang"
+ },
+ "bcagk/unhq": {
+  "author": "Jakub Hałun",
+  "bytes": 496768,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/unhq.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Headquarters_of_the_United_Nations,_New_York_City,_20231001_1103_1006.jpg",
+  "sha1": "533910406aabb7ae",
+  "source": "Wikimedia Commons",
+  "title": "Headquarters of the United Nations, New York City, 20231001 1103 1006"
+ },
+ "bcagk/vatican": {
+  "author": "lafiguradelpadre Congreso",
+  "bytes": 405506,
+  "credit": "https://www.flickr.com/photos/lafiguradelpadre/8659426485",
+  "fetched": "2026-11-04",
+  "file": "bcagk/vatican.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vatican_City_and_St._Peter_Square_evening_twilight_aerial_view.jpg",
+  "sha1": "0833830ba0c83b8c",
+  "source": "Wikimedia Commons",
+  "title": "Vatican City and St. Peter Square evening twilight aerial view"
+ },
+ "bcagk/wcup": {
+  "author": "Ank Kumar",
+  "bytes": 552098,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bcagk/wcup.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:FIFA_World_Cup_Trophy_(Ank_Kumar,_Infosys_Limited)_03.jpg",
+  "sha1": "807d24e279ce3eb8",
+  "source": "Wikimedia Commons",
+  "title": "FIFA World Cup Trophy (Ank Kumar, Infosys Limited) 03"
  },
  "bio11/agaricus": {
   "author": "Fumikas Sagisavas",
