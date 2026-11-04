@@ -43,7 +43,7 @@ may add `{% block jsonld %}`. Each page keeps its own copy in the view, so a pag
 <body class="lp{% block body_class %}{% endblock %}">
 <a class="skip" href="#main">Skip to content</a>
 
-{% include "landing/_nav.html" with anchor=anchor|default:"" current=current %}
+{% include "landing/_nav.html" with current=current %}
 
 <main id="main">
 {% block main %}{% endblock %}
