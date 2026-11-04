@@ -158,6 +158,7 @@ cleaning_services
 clear
 clear_all
 close
+close_fullscreen
 cloud
 cloud_download
 cloud_off
@@ -860,6 +861,7 @@ tenancy
 terminal
 terrain
 text_fields
+text_format
 texture
 thermometer
 thermostat

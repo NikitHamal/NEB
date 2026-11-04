@@ -73,8 +73,8 @@
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
         {% if reply.canLabel %}
-        <button type="button" class="fp-reply-action fl-open{% if reply.label %} is-set{% endif %}" data-fl-open="{{ reply.id }}" aria-label="Mark this reply">
-          <span class="material-symbols-outlined">new_label</span> Mark
+        <button type="button" class="fp-reply-action fl-open{% if reply.label %} is-set{% endif %}" data-fl-open="{{ reply.id }}" aria-label="{% if reply.labelInfo %}Marked as {{ reply.labelInfo.label }}. Change{% else %}Mark this reply{% endif %}"{% if reply.labelInfo %} title="Marked as {{ reply.labelInfo.label }}"{% endif %}>
+          {% if reply.label %}<span class="material-symbols-outlined">check_circle</span> Marked{% else %}<span class="material-symbols-outlined">new_label</span> Mark{% endif %}
         </button>
         {% endif %}
         {% if is_authenticated %}

@@ -127,33 +127,32 @@
     var host = ta.closest('.neb-composer-body') || ta.parentElement;
     var key = opts.key || ta.getAttribute('data-fc-key') || ta.id || ('f' + id);
     var kinds = opts.kinds !== undefined ? opts.kinds : ta.getAttribute('data-fc') === 'kinds';
-    var state = { kind: 'comment', preview: false };
+    var actions = host.querySelector('.neb-composer-actions');
+    var compact = !!(actions && ta.closest('.neb-composer'));
+    var state = { kind: 'comment', preview: false, open: !compact, tall: false };
+    var capBase = ta.getAttribute('data-autoheight-max') || '';
     var root = document.createElement('div');
     root.className = 'fc';
     ta.classList.add('fc-field');
+    host.classList.add('fc-host');
+    host.classList.add(compact ? 'is-compact' : 'is-open');
 
-    var html = '';
-    if (kinds) {
-      html += '<div class="fc-kinds" role="radiogroup" aria-label="What are you posting">' +
-        KINDS.map(function (k) {
-          return '<button type="button" class="fc-kind" role="radio" aria-checked="' + (k.key === 'comment') +
-            '" data-kind="' + k.key + '">' + icon(k.icon) + '<span>' + k.label + '</span></button>';
-        }).join('') + '</div>';
+    function btn(cls, name, label, extra) {
+      return '<button type="button" class="' + cls + '" aria-label="' + label + '" title="' + label + '"' + (extra || '') + '>' + icon(name) + '</button>';
     }
-    html += '<div class="fc-bar" role="toolbar" aria-label="Formatting">' +
-      '<div class="fc-tools">' + TOOLS.map(function (t) {
-        if (t.sep) return '<span class="fc-sep" aria-hidden="true"></span>';
-        return '<button type="button" class="fc-tool" data-tool="' + t.id + '" aria-label="' + t.label +
-          '" title="' + t.label + (t.hint ? ' (' + t.hint + ')' : '') + '">' + icon(t.icon) + '</button>';
-      }).join('') + '</div>' +
-      '<div class="fc-modes" role="tablist" aria-label="Write or preview">' +
-        '<button type="button" class="fc-mode" role="tab" aria-selected="true" data-mode="write">Write</button>' +
-        '<button type="button" class="fc-mode" role="tab" aria-selected="false" data-mode="preview">Preview</button>' +
+
+    root.innerHTML =
+      '<div class="fc-inner"><div class="fc-bar" role="toolbar" aria-label="Formatting">' +
+        '<div class="fc-tools">' + TOOLS.map(function (t) {
+          if (t.sep) return '<span class="fc-sep" aria-hidden="true"></span>';
+          return '<button type="button" class="fc-tool" data-tool="' + t.id + '" aria-label="' + t.label +
+            '" title="' + t.label + (t.hint ? ' (' + t.hint + ')' : '') + '">' + icon(t.icon) + '</button>';
+        }).join('') + '</div>' +
+        (compact ? '' : btn('fc-iconbtn fc-modebtn', 'visibility', 'Preview', ' aria-pressed="false"')) +
       '</div></div>' +
       '<div class="fc-pop" hidden role="menu" aria-label="Symbols">' + SYMBOLS.map(function (c) {
         return '<button type="button" class="fc-sym" role="menuitem" data-sym="' + c + '">' + c + '</button>';
       }).join('') + '</div>';
-    root.innerHTML = html;
     host.insertBefore(root, ta);
 
     var preview = document.createElement('div');
@@ -165,20 +164,47 @@
     var counter = document.createElement('span');
     counter.className = 'fc-count';
     counter.hidden = true;
-    var actions = host.querySelector('.neb-composer-actions');
-    if (actions) actions.insertBefore(counter, actions.querySelector('.reply-send-btn'));
-    else host.appendChild(counter);
 
     var pop = root.querySelector('.fc-pop');
-    var modeBtns = root.querySelectorAll('.fc-mode');
     var toolBtns = root.querySelectorAll('.fc-tool');
-    var modesEl = root.querySelector('.fc-modes');
-    if (actions && modesEl) {
-      actions.insertBefore(modesEl, counter);
-      modesEl.addEventListener('click', function (e) {
-        var mb = e.target.closest('.fc-mode');
-        if (mb) setMode(mb.getAttribute('data-mode'));
-      });
+    var fmtBtn = null, growBtn = null, modeBtn = root.querySelector('.fc-modebtn'), kindBtn = null, kindMenu = null;
+
+    if (compact) {
+      fmtBtn = document.createElement('button');
+      fmtBtn.type = 'button';
+      fmtBtn.className = 'fc-iconbtn fc-fmt';
+      fmtBtn.setAttribute('aria-expanded', 'false');
+      fmtBtn.innerHTML = icon('text_format');
+      actions.insertBefore(fmtBtn, actions.firstChild);
+
+      var end = document.createElement('div');
+      end.className = 'fc-end';
+      end.appendChild(counter);
+      end.insertAdjacentHTML('beforeend',
+        btn('fc-iconbtn fc-modebtn', 'visibility', 'Preview', ' aria-pressed="false"') +
+        btn('fc-iconbtn fc-growbtn', 'open_in_full', 'Taller writing area'));
+      actions.insertBefore(end, actions.querySelector('.reply-send-btn'));
+      modeBtn = end.querySelector('.fc-modebtn');
+      growBtn = end.querySelector('.fc-growbtn');
+    } else {
+      host.appendChild(counter);
+    }
+
+    if (kinds) {
+      var wrap = document.createElement('div');
+      wrap.className = 'fc-kindwrap';
+      wrap.innerHTML =
+        '<button type="button" class="fc-iconbtn fc-kindbtn" aria-haspopup="menu" aria-expanded="false" title="What are you posting">' +
+          icon('chat_bubble') + '<span class="fc-kindlabel"></span></button>' +
+        '<div class="fc-kindmenu" hidden role="menu" aria-label="What are you posting">' +
+          KINDS.map(function (k) {
+            return '<button type="button" class="fc-kindopt" role="menuitemradio" aria-checked="' + (k.key === 'comment') +
+              '" data-kind="' + k.key + '">' + icon(k.icon) + '<span>' + k.label + '</span>' + icon('check') + '</button>';
+          }).join('') + '</div>';
+      if (actions && compact) actions.insertBefore(wrap, actions.querySelector('.fc-end'));
+      else root.querySelector('.fc-bar').insertBefore(wrap, root.querySelector('.fc-tools'));
+      kindBtn = wrap.querySelector('.fc-kindbtn');
+      kindMenu = wrap.querySelector('.fc-kindmenu');
     }
 
     function closePop() {
@@ -187,15 +213,61 @@
       if (b) b.setAttribute('aria-expanded', 'false');
     }
 
-    function setMode(mode) {
+    function closeKindMenu() {
+      if (!kindMenu || kindMenu.hidden) return;
+      kindMenu.hidden = true;
+      kindBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function setOpen(v, focus) {
+      state.open = !!v;
+      host.classList.toggle('is-open', state.open);
+      host.classList.toggle('is-compact', !state.open);
+      if (fmtBtn) {
+        fmtBtn.setAttribute('aria-expanded', String(state.open));
+        var l = state.open ? 'Hide formatting' : 'Show formatting';
+        fmtBtn.setAttribute('aria-label', l);
+        fmtBtn.title = l;
+      }
+      if (!state.open) {
+        closePop();
+        if (state.preview) setMode('write', true);
+        setTall(false);
+      } else if (focus) {
+        ta.focus();
+      }
+    }
+
+    function setTall(v) {
+      state.tall = !!v;
+      host.classList.toggle('is-tall', state.tall);
+      if (!growBtn) return;
+      growBtn.querySelector('.material-symbols-outlined').textContent = state.tall ? 'close_fullscreen' : 'open_in_full';
+      var l = state.tall ? 'Shorter writing area' : 'Taller writing area';
+      growBtn.setAttribute('aria-label', l);
+      growBtn.title = l;
+      if (capBase || ta.hasAttribute('data-autoheight-max')) {
+        ta.setAttribute('data-autoheight-max', state.tall ? '460' : capBase);
+        ta.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+
+    function setMode(mode, silent) {
       state.preview = mode === 'preview';
-      modeBtns.forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-mode') === mode)); });
       toolBtns.forEach(function (b) { b.disabled = state.preview; });
       closePop();
       root.classList.toggle('is-preview', state.preview);
+      host.classList.toggle('is-previewing', state.preview);
+      if (modeBtn) {
+        modeBtn.setAttribute('aria-pressed', String(state.preview));
+        modeBtn.querySelector('.material-symbols-outlined').textContent = state.preview ? 'edit' : 'visibility';
+        var l = state.preview ? 'Back to writing' : 'Preview';
+        modeBtn.setAttribute('aria-label', l);
+        modeBtn.title = l;
+      }
       if (!state.preview) {
         preview.hidden = true; ta.hidden = false;
-        ta.focus();
+        if (!silent) ta.focus();
         return;
       }
       var text = ta.value.trim();
@@ -221,15 +293,23 @@
       var cur = ta.value;
       var untouched = !cur.trim() || (prev && prev.scaffold && cur === prev.scaffold);
       state.kind = nextK.key;
-      root.querySelectorAll('.fc-kind').forEach(function (b) {
+      host.querySelectorAll('.fc-kindopt').forEach(function (b) {
         b.setAttribute('aria-checked', String(b.getAttribute('data-kind') === nextK.key));
       });
-      root.setAttribute('data-kind', nextK.key);
+      host.setAttribute('data-kind', nextK.key);
+      if (kindBtn) {
+        kindBtn.querySelector('.material-symbols-outlined').textContent = nextK.icon;
+        kindBtn.querySelector('.fc-kindlabel').textContent = nextK.key === 'comment' ? '' : nextK.label;
+        kindBtn.classList.toggle('is-set', nextK.key !== 'comment');
+        kindBtn.title = 'Posting as: ' + nextK.label;
+        kindBtn.setAttribute('aria-label', 'Posting as: ' + nextK.label + '. Change');
+      }
       if (!silent && untouched) {
         ta.value = nextK.scaffold;
         ta.dispatchEvent(new Event('input', { bubbles: true }));
-        ta.focus();
         var at = nextK.key === 'formula' ? nextK.scaffold.indexOf('$$\n') + 3 : nextK.scaffold.length;
+        if (nextK.scaffold) setOpen(true);
+        ta.focus();
         ta.setSelectionRange(at, at);
       }
       if (!ta.hasAttribute('data-fc-ph')) ta.setAttribute('data-fc-ph', ta.getAttribute('placeholder') || '');
@@ -240,11 +320,18 @@
       if (ta.hasAttribute('data-autoheight')) ta.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
-    root.addEventListener('click', function (e) {
-      var kb = e.target.closest('.fc-kind');
-      if (kb) { setKind(kb.getAttribute('data-kind')); return; }
-      var mb = e.target.closest('.fc-mode');
-      if (mb) { setMode(mb.getAttribute('data-mode')); return; }
+    host.addEventListener('click', function (e) {
+      var ko = e.target.closest('.fc-kindopt');
+      if (ko) { setKind(ko.getAttribute('data-kind')); closeKindMenu(); return; }
+      if (e.target.closest('.fc-kindbtn')) {
+        var show = kindMenu.hidden;
+        kindMenu.hidden = !show;
+        kindBtn.setAttribute('aria-expanded', String(show));
+        return;
+      }
+      if (e.target.closest('.fc-fmt')) { setOpen(!state.open, true); return; }
+      if (e.target.closest('.fc-growbtn')) { setTall(!state.tall); ta.focus(); return; }
+      if (e.target.closest('.fc-modebtn')) { setMode(state.preview ? 'write' : 'preview'); return; }
       var sb = e.target.closest('.fc-sym');
       if (sb) { insertText(ta, sb.getAttribute('data-sym')); return; }
       var tb = e.target.closest('.fc-tool');
@@ -261,9 +348,12 @@
     });
     document.addEventListener('click', function (e) {
       if (!pop.hidden && !e.target.closest('.fc-pop, [data-tool="symbols"]')) closePop();
+      if (kindMenu && !kindMenu.hidden && !e.target.closest('.fc-kindwrap')) closeKindMenu();
     });
-    root.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !pop.hidden) { e.stopPropagation(); closePop(); }
+    host.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (!pop.hidden) { e.stopPropagation(); closePop(); }
+      else if (kindMenu && !kindMenu.hidden) { e.stopPropagation(); closeKindMenu(); kindBtn.focus(); }
     });
 
     ta.addEventListener('keydown', function (e) {
@@ -303,6 +393,7 @@
         if (d && d.v) {
           ta.value = d.v;
           if (kinds && d.k) setKind(d.k, true);
+          if (compact && (d.v.length > 90 || d.v.indexOf('\n') >= 0)) setOpen(true);
           ta.dispatchEvent(new Event('input', { bubbles: true }));
         }
       } catch (err) { /* ignore a corrupt draft */ }
@@ -312,9 +403,11 @@
     var api = {
       textarea: ta, root: root,
       kind: function () { return state.kind; },
+      open: function (v) { setOpen(v !== false, true); },
       reset: function () {
-        setMode('write');
+        setMode('write', true);
         setKind('comment', true);
+        setOpen(!compact);
         try { localStorage.removeItem(dk); } catch (err) { /* ignore */ }
       }
     };
