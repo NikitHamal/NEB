@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.NebButton
+import com.neb.ians.ui.components.NebChoiceChips
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 import com.neb.ians.ui.components.NebRailTab
@@ -47,7 +48,6 @@ import com.neb.ians.ui.components.nebPressable
 fun PostPollPanel(
     state: CreatePostUiState,
     viewModel: CreatePostViewModel,
-    onOpenDuration: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isQuiz = state.pollType == "mcq"
@@ -152,17 +152,16 @@ fun PostPollPanel(
                     }
                 }
 
-                NebSelectField(
-                    label = "Closes",
-                    values = listOfNotNull(
-                        CreatePostUiState.POLL_DURATIONS
-                            .firstOrNull { it.first == state.pollDurationMs }
-                            ?.second
-                            ?.takeIf { state.pollDurationMs != 0L }
-                    ),
-                    placeholder = "Never",
-                    icon = Icons.Rounded.Schedule,
-                    onClick = onOpenDuration
+                Text(
+                    text = "Closes",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                NebChoiceChips(
+                    options = CreatePostUiState.POLL_DURATIONS.map { it.second },
+                    selectedIndex = CreatePostUiState.POLL_DURATIONS.indexOfFirst { it.first == state.pollDurationMs },
+                    onSelect = { viewModel.onPollDurationChange(CreatePostUiState.POLL_DURATIONS[it].first) },
+                    enabled = !state.isSubmitting
                 )
             }
         }

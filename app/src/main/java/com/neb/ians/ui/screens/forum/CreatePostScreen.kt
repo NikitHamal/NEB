@@ -56,7 +56,7 @@ import com.neb.ians.ui.components.NebSelectField
 import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 import com.neb.ians.ui.components.ZoomableImageDialog
 
-private enum class PostSheet { Category, PollDuration }
+private enum class PostSheet { Category }
 
 /**
  * Writing a discussion, in the order it is written.
@@ -198,8 +198,7 @@ fun CreatePostScreen(
                 )
                 PostPollPanel(
                     state = uiState,
-                    viewModel = viewModel,
-                    onOpenDuration = { sheet = PostSheet.PollDuration }
+                    viewModel = viewModel
                 )
                 PostAnonymousPanel(state = uiState, viewModel = viewModel)
             }
@@ -252,24 +251,6 @@ private fun CreatePostSheets(
                 }
             )
         }
-
-        PostSheet.PollDuration -> NebChoiceSheet(
-            title = "Closes",
-            subtitle = "When the poll stops taking answers",
-            options = CreatePostUiState.POLL_DURATIONS.map { it.second },
-            selected = listOfNotNull(
-                CreatePostUiState.POLL_DURATIONS.firstOrNull { it.first == state.pollDurationMs }?.second
-            ),
-            multiSelect = false,
-            onDismiss = onDismiss,
-            onConfirm = { picked ->
-                val label = picked.firstOrNull()
-                CreatePostUiState.POLL_DURATIONS.firstOrNull { it.second == label }?.let {
-                    viewModel.onPollDurationChange(it.first)
-                }
-                onDismiss()
-            }
-        )
 
         null -> Unit
     }

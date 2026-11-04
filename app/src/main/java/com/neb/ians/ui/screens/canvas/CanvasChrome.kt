@@ -213,7 +213,7 @@ private fun CanvasRail(
         color = if (isDark) MaterialTheme.colorScheme.surfaceContainerHigh else Color.White,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.7f)),
         tonalElevation = 0.dp,
-        shadowElevation = 2.dp
+        shadowElevation = 0.dp
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 3.dp),
