@@ -51,6 +51,27 @@
     return Array.prototype.slice.call(document.querySelectorAll(sel));
   }
 
+  function openerHTML(label) {
+    return label
+      ? '<span class="material-symbols-outlined" aria-hidden="true">check_circle</span> Marked'
+      : '<span class="material-symbols-outlined" aria-hidden="true">new_label</span> Mark';
+  }
+
+  function setOpener(btn, label) {
+    var l = label ? byKey(meta.labels, label) : null;
+    btn.classList.toggle('is-set', !!label);
+    btn.innerHTML = openerHTML(label);
+    btn.setAttribute('aria-label', l ? 'Marked as ' + l.label + '. Change' : 'Mark this reply');
+    if (l) btn.setAttribute('title', 'Marked as ' + l.label); else btn.removeAttribute('title');
+  }
+
+  function openerButton(reply) {
+    var l = reply.label ? byKey(meta.labels, reply.label) : null;
+    return '<button type="button" class="fp-reply-action fl-open' + (reply.label ? ' is-set' : '') + '" data-fl-open="' + esc(reply.id) +
+      '" aria-label="' + esc(l ? 'Marked as ' + l.label + '. Change' : 'Mark this reply') + '"' +
+      (l ? ' title="Marked as ' + esc(l.label) + '"' : '') + '>' + openerHTML(reply.label) + '</button>';
+  }
+
   function paint(id, label) {
     cards(id).forEach(function (c) {
       c.setAttribute('data-label', label || '');
@@ -63,7 +84,7 @@
         tags.hidden = !tags.innerHTML;
       }
       var opener = c.querySelector('[data-fl-open]');
-      if (opener) opener.classList.toggle('is-set', !!label);
+      if (opener) setOpener(opener, label);
     });
   }
 
@@ -185,5 +206,5 @@
     setTimeout(function () { card.classList.remove('is-fresh'); }, 2400);
   });
 
-  window.ForumLabels = { meta: meta, tagsHTML: tagsHTML, open: open, paint: paint };
+  window.ForumLabels = { meta: meta, tagsHTML: tagsHTML, openerButton: openerButton, open: open, paint: paint };
 })();
