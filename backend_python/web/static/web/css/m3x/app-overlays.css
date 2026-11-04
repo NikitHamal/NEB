@@ -19,7 +19,7 @@
 .neb-dialog-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
 .neb-dialog-support { color: var(--md-on-surface-variant); }
 .neb-dialog-icon { border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); transition: border-radius .6s var(--spring); }
-.neb-dialog:hover .neb-dialog-icon { border-radius: 50%; }
+.neb-dialog:hover .neb-dialog-icon { }
 .neb-dialog-icon-danger { background: var(--md-error-container); color: var(--md-on-error-container); }
 .neb-dialog-actions { gap: 8px; }
 .neb-dialog-actions .md-btn, .neb-dialog-actions button { min-height: 44px; }
@@ -54,7 +54,7 @@
 .neb-menu-item:hover, .neb-menu-item:focus-visible, .more-menu-item:hover, .profile-dropdown-menu a:hover {
   background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); border-radius: 22px;
 }
-.neb-menu-item:active, .more-menu-item:active, .profile-dropdown-menu a:active { background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); border-radius: 14px; }
+.neb-menu-item:active, .more-menu-item:active, .profile-dropdown-menu a:active { background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); }
 .neb-menu-item[aria-checked="true"], .profile-dropdown-menu a[aria-current="page"] {
   background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600;
 }

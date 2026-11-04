@@ -1756,7 +1756,6 @@
 /* The corner morph. Expressive squares a ToggleButton off while it is held;
    here the pill is a separate element, so the press is read from the bank. */
 .neb-segmented:has(.neb-segment:active) .neb-segmented-ind {
-  border-radius: var(--md-shape-sm);
 }
 
 .neb-segment {

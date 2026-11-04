@@ -23,3 +23,15 @@ class LeaderboardRequestsScreens(TestCase):
         html = self.client.get(reverse('web:resource_requests')).content.decode()
         self.assertIn('rq-seg', html)
         self.assertIn('rq-empty', html)
+
+
+class AboutLinks(TestCase):
+    def test_about_is_standalone_with_minimal_nav(self):
+        html = self.client.get(reverse('web:about')).content.decode()
+        nav = html.split('data-m3-nav', 1)[1].split('</nav>', 1)[0]
+        self.assertEqual(nav.count('<a '), 3)
+
+    def test_settings_footer_and_hero_link_out(self):
+        landing = self.client.get('/').content.decode()
+        self.assertIn('gp-icon', landing)
+        self.assertIn('play.google.com', landing)

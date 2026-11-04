@@ -46,7 +46,7 @@
 .vw-cover-note { margin: -4px 0 0; color: var(--md-on-surface-variant); font-size: .9375rem; word-break: break-word; }
 .vw-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
 .vw-cta .x-btn { --h: 56px; padding: 0 30px; font-size: 1rem; border-radius: 28px; }
-.vw-cta .x-btn:hover { border-radius: 18px; }
+.vw-cta .x-btn:hover { }
 .vw-read { min-width: 160px; }
 
 .vw-pixels { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
@@ -100,7 +100,7 @@ html.neb-has-overlay .vw-iframe, html.neb-has-overlay .vw-media { visibility: hi
   background: var(--md-surface-container-lowest); color: var(--md-on-surface); border: 1px solid var(--md-outline-variant);
   transition: border-radius .5s var(--spring), background-color .2s, transform .4s var(--spring);
 }
-.vw-part:hover { border-radius: 16px; background: var(--md-surface-container-low); }
+.vw-part:hover { background: var(--md-surface-container-low); }
 .vw-part:active { transform: scale(.97); }
 .vw-part.is-here { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
 .vw-part-ico { flex: none; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); font-size: 24px; transition: border-radius .6s var(--spring); }
@@ -142,7 +142,7 @@ html.neb-has-overlay .vw-iframe, html.neb-has-overlay .vw-media { visibility: hi
   display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 10px 16px 10px 12px; border-radius: 24px; text-decoration: none;
   background: var(--md-surface-container); color: var(--md-on-surface); transition: border-radius .5s var(--spring), background-color .2s;
 }
-a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-high); }
+a.ga-row:hover { background: var(--md-surface-container-high); }
 .ga-ico { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 14px; background: var(--md-primary-container); color: var(--md-on-primary-container); font-size: 22px; }
 .ga-name { flex: 1; text-align: left; font: 600 1rem/1.2 var(--md-font); }
 .ga-row img { display: block; height: 40px; width: auto; border-radius: 6px; }
@@ -185,7 +185,7 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
   border-radius: 28px; background: var(--x-float); border: 1px solid var(--x-float-line); color: var(--md-on-surface);
 }
 .vw-pdf-btn { width: 44px; height: 44px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--md-secondary-container); color: var(--md-on-secondary-container); transition: border-radius .45s var(--spring), transform .3s var(--spring); }
-.vw-pdf-btn:hover { border-radius: 14px; }
+.vw-pdf-btn:hover { }
 .vw-pdf-btn:active { transform: scale(.9); }
 .vw-pdf-count { min-width: 72px; text-align: center; font-weight: 600; font-size: .9375rem; font-variant-numeric: tabular-nums; }
 .vw-pdf-count b { font-weight: 700; }

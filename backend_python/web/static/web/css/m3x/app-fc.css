@@ -28,7 +28,7 @@
   transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .2s var(--spring);
 }
 .fc-tool .material-symbols-outlined { font-size: 19px; }
-.fc-tool:hover:not(:disabled) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 11px; }
+.fc-tool:hover:not(:disabled) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .fc-tool:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 .fc-tool:active:not(:disabled) { transform: scale(.88); }
 .fc-tool:disabled { opacity: .38; cursor: default; }
@@ -42,7 +42,7 @@
   transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .25s var(--spring);
 }
 .fc-iconbtn .material-symbols-outlined { font-size: 20px; transition: transform .4s var(--spring); }
-.fc-iconbtn:hover { background: var(--md-surface-container-high); color: var(--md-primary); border-radius: 12px; }
+.fc-iconbtn:hover { background: var(--md-surface-container-high); color: var(--md-primary); }
 .fc-iconbtn:active { transform: scale(.9); }
 .fc-fmt[aria-expanded="true"], .fc-modebtn[aria-pressed="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 12px; }
 .fc-fmt[aria-expanded="true"] .material-symbols-outlined { transform: rotate(-8deg) scale(1.08); }
@@ -85,7 +85,7 @@
   color: var(--md-on-surface); font: inherit; font-size: 1rem;
   transition: background-color .15s, border-radius .35s var(--spring);
 }
-.fc-sym:hover { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 50%; }
+.fc-sym:hover { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 
 /* the field itself */
 .fc-field { width: 100%; box-sizing: border-box; }
