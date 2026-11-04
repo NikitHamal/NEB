@@ -7,7 +7,9 @@
    A container that carries a badge keeps its own box unclipped (the badge sits on the rim) and
    shapes the picture inside it instead. */
 
-[data-shape] { --shape: var(--shape-cookie); --alt: var(--shape-flower); }
+[data-shape] { --shape: var(--shape-cookie); --alt: var(--shape-flower); --av-fill: var(--md-secondary-container); --av-ink: var(--md-on-secondary-container); }
+[data-tone="1"] { --av-fill: var(--md-primary-container); --av-ink: var(--md-on-primary-container); }
+[data-tone="2"] { --av-fill: var(--md-tertiary-container, var(--md-surface-container-high)); --av-ink: var(--md-on-tertiary-container, var(--md-on-surface)); }
 [data-shape="cookie"]   { --shape: var(--shape-cookie);   --alt: var(--shape-flower); }
 [data-shape="sunny"]    { --shape: var(--shape-sunny);    --alt: var(--shape-burst); }
 [data-shape="flower"]   { --shape: var(--shape-flower);   --alt: var(--shape-clover); }
@@ -18,13 +20,13 @@
 
 [data-shape]:not(.pf-avatar-overlap-wrap):not(:has(> .avatar-badge-overlay)) {
   clip-path: var(--shape); border-color: transparent; border-radius: 0;
-  background-color: var(--md-secondary-container); color: var(--md-on-secondary-container);
+  background-color: var(--av-fill) !important; color: var(--av-ink) !important;
   transition: clip-path .8s var(--spring);
 }
 [data-shape]:has(> .avatar-badge-overlay) > :is(img, div, span):not(.avatar-badge-overlay),
 .pf-avatar-overlap-wrap > .pf-avatar-circle {
   clip-path: var(--shape); border-radius: 0 !important; border: 0 !important;
-  background-color: var(--md-secondary-container); color: var(--md-on-secondary-container);
+  background-color: var(--av-fill) !important; color: var(--av-ink) !important;
   transition: clip-path .8s var(--spring);
 }
 [data-shape] img { border-radius: 0 !important; }
