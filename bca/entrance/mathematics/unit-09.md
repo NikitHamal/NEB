@@ -24,6 +24,35 @@ Coordinate geometry is where most scoring happens for students who like algebra,
 - Centroid: $\left(\frac{x_1+x_2+x_3}{3},\frac{y_1+y_2+y_3}{3}\right)$.
 - Area of a triangle $=\frac{1}{2}\left|x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\right|$; three points are collinear when it is 0.
 
+```photogrid label="9.1" cols="2" ratio="1.0" caption="The two Frenchmen who joined algebra to geometry. (a) Rene Descartes (1596-1650), portrait by Frans Hals: his La Geometrie (1637) gave every point a pair of numbers, which is why we say Cartesian coordinates. (b) Pierre de Fermat (1607-1665), shown in his bust at the Capitole in Toulouse, who found the same idea independently and used it to study lines and curves."
+@ photo id="bcamath/descartes" cap="Rene Descartes, Cartesian coordinates"
+focus 0.5 0.3
+@ photo id="bcamath/fermat" cap="Pierre de Fermat, bust in Toulouse"
+focus 0.5 0.4
+```
+
+```svgfig label="9.1" caption="Distance, midpoint, section and area on the plane, computed. For A(1, 2) and B(7, 10): AB = sqrt(6^2 + 8^2) = 10 (a 3-4-5 triangle scaled by 2), the midpoint is (4, 6), and the point P dividing AB internally in the ratio 1 : 2 is ((1 x 7 + 2 x 1)/3, (1 x 10 + 2 x 2)/3) = (3, 4.67). The triangle (0,0), (4,0), (0,3) has area (1/2)|4 x 3| = 6."
+import math
+from fractions import Fraction as F
+A, B = (1, 2), (7, 10)
+d = math.hypot(B[0] - A[0], B[1] - A[1]); mid = ((A[0] + B[0]) / 2, (A[1] + B[1]) / 2)
+P = (F(1 * B[0] + 2 * A[0], 3), F(1 * B[1] + 2 * A[1], 3))
+assert d == 10 and mid == (4, 6) and P == (3, F(14, 3))
+ar = lambda p, q, r: abs(p[0] * (q[1] - r[1]) + q[0] * (r[1] - p[1]) + r[0] * (p[1] - q[1])) / 2
+assert ar((0, 0), (4, 0), (0, 3)) == 6 and ar((0, 0), (1, 1), (2, 2)) == 0
+f = Fig(780, 320)
+ax = Axes(f, 40, 20, 340, 260, (-1, 9), (-1, 12))
+ax.grid(1, 2, size=10); ax.axes("x", "y")
+f.line(ax.X(1), ax.Y(2), ax.X(7), ax.Y(10), color=NAVY, sw=2.4)
+f.line(ax.X(1), ax.Y(2), ax.X(7), ax.Y(2), color=SLATE, sw=1.2, dash=True); f.line(ax.X(7), ax.Y(2), ax.X(7), ax.Y(10), color=SLATE, sw=1.2, dash=True)
+ax.pt(1, 2, "A(1, 2)", r=5, color=NAVY, dx=8, dy=14); ax.pt(7, 10, "B(7, 10)", r=5, color=NAVY, dx=-8, dy=-8, anchor="end")
+ax.pt(4, 6, "M(4, 6)", r=5, color=RED, dx=10, dy=6); ax.pt(3, 14 / 3, "P(3, 4.67)", r=5, color=TEAL, dx=10, dy=22)
+f.text(ax.X(4), ax.Y(2) + 18, "6", size=11, color=SLATE, bold=True); f.text(ax.X(7) + 12, ax.Y(6), "8", size=11, color=SLATE, bold=True)
+f.text(600, 30, "Formulas, checked", size=11.5, color=NAVY, bold=True)
+for j, (t, c) in enumerate([("AB = sqrt[(x2-x1)^2 + (y2-y1)^2] = 10", NAVY), ("midpoint = ((x1+x2)/2, (y1+y2)/2) = (4, 6)", SLATE), ("internal m : n = 1 : 2", SLATE), ("P = ((m x2 + n x1)/(m+n), (m y2 + n y1)/(m+n))", SLATE), ("P = (3, 14/3)", TEAL), ("external m : n: use (m x2 - n x1)/(m - n)", SLATE), ("area = (1/2)|x1(y2-y3) + x2(y3-y1) + x3(y1-y2)|", NAVY), ("triangle (0,0),(4,0),(0,3): area 6", TEAL), ("area 0 means the 3 points are collinear", RED)]):
+    f.text(430, 64 + j * 27, t, size=10, color=c, anchor="start", bold=(c in (NAVY, RED)))
+```
+
 ## 9.2 Slope and forms of the equation of a line
 
 | Form | Equation |
@@ -36,12 +65,85 @@ Coordinate geometry is where most scoring happens for students who like algebra,
 
 The $x$-axis is $y=0$, the $y$-axis is $x=0$. A line at angle $\theta$ with the $x$-axis has slope $\tan\theta$. "Equally inclined to both axes" means $m=\pm1$.
 
+```svgfig label="9.2" caption="Slope and intercepts. A line through (3, 0) and (0, 2) has slope (2 - 0)/(0 - 3) = -2/3, intercept form x/3 + y/2 = 1 and general form 2x + 3y - 6 = 0 (slope = -a/b = -2/3). On the right the same slope idea for four lines: y = 2x + 1 (steep), y = x (45 degrees), y = 0 (horizontal) and y = -x (falling)."
+import math
+m = (2 - 0) / (0 - 3); assert round(m, 6) == round(-2 / 3, 6) and -2 / 3 == -(2) / 3
+for x, y in [(3, 0), (0, 2), (1.5, 1), (-3, 4)]: assert abs(2 * x + 3 * y - 6) < 1e-9
+assert round(math.degrees(math.atan(1)), 6) == 45 and round(math.degrees(math.atan(2)), 2) == 63.43
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 250, 250, (-2, 5), (-2, 5))
+ax.grid(1, 1, size=10); ax.axes("x", "y")
+ax.curve(lambda x: (6 - 2 * x) / 3, -2, 5, color=NAVY, sw=2.5)
+ax.pt(3, 0, "(3, 0)", r=5, color=RED, dx=6, dy=-10); ax.pt(0, 2, "(0, 2)", r=5, color=RED, dx=8, dy=-8)
+f.text(150, 296, "x/3 + y/2 = 1:  slope -2/3, intercepts 3 and 2", size=10.5, color=NAVY, bold=True)
+ax2 = Axes(f, 330, 20, 250, 250, (-3, 3), (-3, 3))
+ax2.grid(1, 1, size=10); ax2.axes("x", "y")
+for fn, col, nm, lx, ly in [(lambda x: 2 * x + 1, NAVY, "m = 2 (63.4 deg)", 0.0, 2.6), (lambda x: x, TEAL, "m = 1 (45 deg)", 1.0, 2.1), (lambda x: 0, AMBER, "m = 0", -2.9, 0.3), (lambda x: -x, RED, "m = -1 (135 deg)", -2.9, 2.5)]:
+    ax2.curve(fn, -3, 3, color=col, sw=2.3)
+    f.text(ax2.X(lx), ax2.Y(ly), nm, size=10, color=col, bold=True, anchor="start")
+f.text(670, 30, "Forms of a line", size=11.5, color=NAVY, bold=True)
+for j, (t, c) in enumerate([("y = mx + c  (slope, y-intercept)", SLATE), ("y - y1 = m(x - x1)  (point-slope)", SLATE), ("(y-y1)/(y2-y1) = (x-x1)/(x2-x1)", SLATE), ("x/a + y/b = 1  (intercepts a, b)", SLATE), ("ax + by + c = 0:  m = -a/b", NAVY), ("vertical line x = k: slope undefined", RED), ("horizontal line y = k: slope 0", RED)]):
+    f.text(600, 62 + j * 30, t, size=10, color=c, anchor="start", bold=(c in (NAVY, RED)))
+```
+
 ## 9.3 Angle between lines, parallel and perpendicular lines, distance from a point
 
 - $\tan\theta=\left|\frac{m_1-m_2}{1+m_1m_2}\right|$. Parallel: $m_1=m_2$. Perpendicular: $m_1m_2=-1$.
 - Distance of $(x_1,y_1)$ from $Ax+By+C=0$: $\frac{|Ax_1+By_1+C|}{\sqrt{A^2+B^2}}$.
 - Distance between parallel lines $Ax+By+C_1=0$ and $Ax+By+C_2=0$: $\frac{|C_1-C_2|}{\sqrt{A^2+B^2}}$ (make $A,B$ equal first).
 - Intersection of two lines: solve the equations simultaneously.
+
+```svgfig label="9.3" caption="Angle between lines and distance from a point, computed. The lines y = x (m1 = 1) and y = 3x (m2 = 3) meet at the angle with tan t = |(m1 - m2)/(1 + m1 m2)| = 2/4 = 0.5, so t = 26.57 degrees. The distance of (2, 3) from 3x + 4y - 12 = 0 is |6 + 12 - 12|/5 = 6/5 = 1.2, the length of the perpendicular whose foot is (1.28, 2.04)."
+import math
+t = math.degrees(math.atan(abs((1 - 3) / (1 + 1 * 3)))); assert round(t, 2) == 26.57 and round(math.degrees(math.atan(3) - math.atan(1)), 2) == 26.57
+a, b, c = 3, 4, -12; px, py = 2, 3
+d = abs(a * px + b * py + c) / math.hypot(a, b); assert d == 1.2
+k = (a * px + b * py + c) / (a * a + b * b); fx, fy = px - a * k, py - b * k
+assert abs(a * fx + b * fy + c) < 1e-9 and abs(math.hypot(px - fx, py - fy) - 1.2) < 1e-9 and (round(fx, 2), round(fy, 2)) == (1.28, 2.04)
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 250, 250, (-1, 5), (-1, 5))
+ax.grid(1, 1, size=10); ax.axes("x", "y")
+ax.curve(lambda x: x, -1, 5, color=NAVY, sw=2.4); ax.curve(lambda x: 3 * x, -1, 5, color=TEAL, sw=2.4)
+f.text(ax.X(3.7), ax.Y(3.5), "y = x", size=11, color=NAVY, bold=True); f.text(ax.X(0.45), ax.Y(4.4), "y = 3x", size=11, color=TEAL, bold=True)
+f.text(150, 296, "angle between them = 26.57 degrees", size=10.5, color=RED, bold=True)
+ax2 = Axes(f, 330, 20, 250, 250, (-1, 5), (-1, 5))
+ax2.grid(1, 1, size=10); ax2.axes("x", "y")
+ax2.curve(lambda x: (12 - 3 * x) / 4, -1, 5, color=NAVY, sw=2.4)
+f.line(ax2.X(2), ax2.Y(3), ax2.X(fx), ax2.Y(fy), color=RED, sw=2)
+ax2.pt(2, 3, "(2, 3)", r=5, color=RED, dx=8, dy=-8); ax2.pt(fx, fy, "foot", r=4, color=AMBER, dx=-8, dy=18, anchor="end")
+f.text(ax2.X(3.2), ax2.Y(2.1), "3x + 4y = 12", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(ax2.X(2.1), ax2.Y(3.35), "d = 1.2", size=11, color=RED, bold=True, anchor="start")
+f.text(670, 30, "Rules", size=11.5, color=NAVY, bold=True)
+for j, (t, c) in enumerate([("tan t = |(m1 - m2)/(1 + m1 m2)|", NAVY), ("parallel: m1 = m2", SLATE), ("perpendicular: m1 m2 = -1", SLATE), ("distance = |a x1 + b y1 + c| / sqrt(a^2 + b^2)", NAVY), ("(2,3) to 3x+4y-12=0: 6/5 = 1.2", TEAL), ("parallel lines: |c1 - c2| / sqrt(a^2 + b^2)", SLATE), ("3x+4y-12=0 and 3x+4y+3=0: 15/5 = 3", TEAL)]):
+    f.text(600, 62 + j * 32, t, size=10, color=c, anchor="start", bold=(c in (NAVY,)))
+```
+
+## 9.4 Eight traps in the straight line
+
+Coordinate geometry is mostly substitution into formulas, so the marks go to students who choose the right formula and keep the signs. These eight traps appear in the Dean's Office model and in earlier papers.
+
+1. **The distance formula squares the differences, so signs do not matter.** For $A(1,2)$ and $B(7,10)$ we get $\sqrt{6^2+8^2}=10$ (Fig 9.1). Students sometimes forget the square root and answer 100. Check that the answer is the same whichever point you call $A$.
+2. **Section formula: the ratio $m:n$ pairs $m$ with the second point.** For internal division $P=\left(\frac{mx_2+nx_1}{m+n},\frac{my_2+ny_1}{m+n}\right)$, so a ratio of $1:2$ puts $P$ closer to $A$. For external division change the plus signs in the denominator and the numerator to minus. The midpoint is the special case $1:1$.
+3. **Area of a triangle needs the absolute value.** Use $\frac12\left|x_1(y_2-y_3)+x_2(y_3-y_1)+x_3(y_1-y_2)\right|$, so a negative result becomes positive. If the value is zero, the three points are collinear, which is how "show that the points lie on a line" is answered. Check with the triangle $(0,0),(4,0),(0,3)$, area 6.
+4. **Slope is rise over run.** $m=\frac{y_2-y_1}{x_2-x_1}=\tan\theta$, with $\theta$ measured anticlockwise from the positive x-axis (Fig 9.2). A horizontal line has slope 0, while a vertical line has no slope at all, not zero. Do not mix up the order of subtraction in the numerator and denominator.
+5. **Know what each form gives you.** $y=mx+c$ shows slope and y-intercept, and $\frac xa+\frac yb=1$ shows both intercepts, not the slope. For $ax+by+c=0$ the slope is $-\frac ab$ and the y-intercept is $-\frac cb$. The line $2x+3y=6$ has slope $-\frac23$, not $\frac23$.
+6. **Parallel lines share the slope; perpendicular slopes multiply to $-1$.** A line parallel to $3x+4y-12=0$ is $3x+4y+k=0$, with the same $a$ and $b$. A line perpendicular to it is $4x-3y+k=0$: swap $a$ and $b$ and change one sign. Check that $-\frac34\times\frac43=-1$.
+7. **The angle between lines uses the absolute value.** $\tan\theta=\left|\frac{m_1-m_2}{1+m_1m_2}\right|$ gives the acute angle, so for $y=x$ and $y=3x$ it is $\tan^{-1}0.5=26.57^\circ$ (Fig 9.3). If $1+m_1m_2=0$ the lines are perpendicular and the angle is $90^\circ$. The obtuse angle is $180^\circ$ minus the acute one.
+8. **Distance from a point: bring the equation to $ax+by+c=0$ first.** $d=\frac{|ax_1+by_1+c|}{\sqrt{a^2+b^2}}$, so for the point $(2,3)$ and $3x+4y-12=0$ we get $\frac{6}{5}=1.2$. For the distance between two parallel lines, make the coefficients of $x$ and $y$ equal first, then use $\frac{|c_1-c_2|}{\sqrt{a^2+b^2}}$. Forgetting the square root in the denominator is the commonest slip.
+
+### 9.4.1 Worked checks
+
+**Q. Find the distance between $A(1,2)$ and $B(7,10)$, the midpoint, and the point dividing $AB$ internally in the ratio $1:2$.**
+
+**Answer.** $AB=\sqrt{36+64}=10$. Midpoint $=(4,6)$. Ratio $1:2$: $P=\left(\frac{7+2}{3},\frac{10+4}{3}\right)=\left(3,\frac{14}{3}\right)$. $AP=\frac{10}{3}$, one third of $AB$, which agrees.
+
+**Q. Find the equation of the line through $(2,3)$ and $(4,7)$, and its intercepts.**
+
+**Answer.** Slope $=\frac{7-3}{4-2}=2$. Point-slope: $y-3=2(x-2)$, so $y=2x-1$. The y-intercept is $-1$ and the x-intercept is $\frac12$. Check that $(4,7)$ satisfies $7=2(4)-1$.
+
+**Q. Find the distance of $(2,3)$ from $3x+4y-12=0$ and the angle between $y=x$ and $y=3x$.**
+
+**Answer.** $d=\frac{|6+12-12|}{\sqrt{9+16}}=\frac65=1.2$. For the angle, $\tan\theta=\left|\frac{1-3}{1+3}\right|=0.5$, so $\theta=26.57^\circ$. Both results are drawn in Fig 9.3.
 
 ## Formula and fact sheet
 
