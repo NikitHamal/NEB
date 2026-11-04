@@ -37,6 +37,44 @@ The Dean's Office model for 2018 follows exactly this layout: Q1–40 English (e
 A few websites describe a four-section BCA paper (English, Mathematics, Logical Ability, General Knowledge, 25 each), and some describe a computer-science section. **The Faculty's own description and the Dean's Office model papers follow the 40 / 50 / 10 split.** This book prepares for that pattern, and its reasoning chapters cover logical ability inside the mathematics group, where the model paper puts it.
 :::
 
+```photogrid label="1.1" cols="3" ratio="1.0" caption="Three things the paper tests. (a) A candidate marking a bubble-style answer sheet with a pencil: every question is multiple choice, so clear marks and no blank answers matter (Fig 1.3). (b) The main building of Tribhuvan University, Kirtipur, whose Faculty of Humanities and Social Sciences runs the BCA entrance. (c) A vintage stopwatch: 100 questions in 120 minutes means every group has a time budget (Fig 1.1)."
+@ photo id="bcamodel/exam" cap="(a) answer sheet: mark every item"
+focus 0.55 0.4
+@ photo id="bcamodel/tu" cap="(b) TU, Kirtipur"
+focus 0.5 0.6
+@ photo id="bcamodel/stopwatch" cap="(c) the clock decides"
+focus 0.75 0.4
+```
+
+```svgfig label="1.1" caption="The paper in one picture. Top: the 100 marks (English 40, Mathematics 50, General Knowledge and IT 10). Middle: the 120-minute time plan from the text (English 30, GK and IT 5, Mathematics 70, checking 15). Bottom: the seconds per question that this plan gives, which the cell computes: English 45 s, Mathematics 84 s, GK and IT 30 s. Mathematics is half the marks and more than half the time, so it is the group that decides the rank."
+G = [("English", 40, 30), ("Mathematics", 50, 70), ("GK and IT", 10, 5)]
+assert sum(g[1] for g in G) == 100 and sum(g[2] for g in G) + 15 == 120
+sec = {g[0]: g[2] * 60 / g[1] for g in G}
+assert sec["English"] == 45 and sec["Mathematics"] == 84 and sec["GK and IT"] == 30
+f = Fig(780, 314)
+cols = {"English": (NAVY, BLUE), "Mathematics": (TEAL, MINT), "GK and IT": (AMBER, SAND)}
+f.text(14, 14, "Marks (100)", size=11.5, color=NAVY, bold=True, anchor="start")
+x = 14
+for n, q, m in G:
+    w = q * 7.52
+    f.box(x, 24, w - 3, 40, ("GK+IT  10" if n == "GK and IT" else "%s  %d" % (n, q)), fill=cols[n][0], stroke=cols[n][0], color="#ffffff", size=11, bold=True)
+    x += w
+f.text(14, 90, "Minutes (120)", size=11.5, color=NAVY, bold=True, anchor="start")
+x = 14
+for n, q, m in [("English", 40, 30), ("Mathematics", 50, 70), ("GK", 10, 5), ("check", 0, 15)]:
+    w = m * 6.27
+    c = cols.get(n if n != "GK" else "GK and IT", (SLATE, SOFT))
+    f.box(x, 100, w - 3, 40, ("5" if n == "GK" else "%s  %d" % (n, m)), fill=c[0], stroke=c[0], color="#ffffff", size=10.5, bold=True)
+    x += w
+f.text(14, 168, "Seconds per question", size=11.5, color=NAVY, bold=True, anchor="start")
+for i, (n, q, m) in enumerate(G):
+    y = 182 + i * 36
+    f.box(14, y, 110, 28, n, fill=cols[n][1], stroke=cols[n][0], color=cols[n][0], size=11, bold=True)
+    w = sec[n] * 6
+    f.box(130, y, w, 28, "%d s" % sec[n], fill=cols[n][0], stroke=cols[n][0], color="#ffffff", size=11, bold=True)
+f.text(14, 304, "Skip a question that costs more than twice its budget, mark it, and come back in the 15-minute check.", size=10.5, color=SLATE, anchor="start")
+```
+
 ## 1.3 A 12-week plan and a 120-minute time plan
 
 | Weeks | Focus |
@@ -53,6 +91,29 @@ A few websites describe a four-section BCA paper (English, Mathematics, Logical 
 ::: tip The error log
 After every paper write each wrong question, the reason (formula, arithmetic slip, grammar rule, never learnt) and the page of this book that fixes it. Two weeks of this beats two more months of fresh questions.
 :::
+
+```svgfig label="1.2" caption="The 12-week plan from the table, drawn on a 12-week axis. The cell reads the six bands and checks that they cover weeks 1 to 12 exactly once with no gap: 2 + 2 + 2 + 2 + 1 + 3 = 12. Weeks 1 to 8 are for learning units, week 9 for GK and IT, and the last three weeks are for timed papers and the error log."
+bands = [(1, 2, "Mathematics: arithmetic, algebra\nEnglish: vocabulary, prepositions", TEAL),
+         (3, 4, "Sequences, matrices, counting\nArticles, tenses, voice", TEAL),
+         (5, 6, "Trigonometry, line, circle, conics\nClauses and pronouns", TEAL),
+         (7, 8, "Vectors, calculus, reasoning\nReading passages", TEAL),
+         (9, 9, "GK and IT\nformula sheets", AMBER),
+         (10, 12, "Three timed model papers\nthen fix the error log", RED)]
+cover = [w for a, b, _, _ in bands for w in range(a, b + 1)]
+assert cover == list(range(1, 13)) and sum(b - a + 1 for a, b, _, _ in bands) == 12
+f = Fig(780, 330)
+X0, W = 14, 62
+for w in range(1, 13):
+    f.box(X0 + (w - 1) * W, 6, W - 3, 22, "W%d" % w, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+for i, (a, b, t, c) in enumerate(bands):
+    y = 36 + i * 48
+    f.box(X0 + (a - 1) * W, y, (b - a + 1) * W - 3, 42, "", fill=c, stroke=c)
+    if a >= 10:
+        f.text(X0 + (a - 1) * W - 8, y + 21, t, size=10.5, color=c, anchor="end", bold=True, vmid=True)
+    else:
+        f.text(X0 + b * W + 8, y + 21, t, size=10.5, color=c, anchor="start", bold=True, vmid=True)
+f.text(14, 326, "Never skip the last block: timed papers teach pace, and the error log turns mistakes into marks.", size=10.5, color=SLATE, anchor="start")
+```
 
 ## 1.4 What the BCA programme teaches after admission
 
@@ -71,6 +132,43 @@ BCA is a four-year, eight-semester programme under TU FOHSS, taught in English. 
 
 The full 2082-batch course, with a code-by-code map from the old 2074 subjects, is in `bca/course/CURRICULUM.md` of this repository. Under the older 2074 curriculum, C is taught in semester II, and courses such as English I/II, Society and Technology, Scripting Language, DotNet Technology and Operations Research appear. Assessment is 60 % final examination and 40 % internal. **Why this matters for the entrance**: Mathematics I and II, Discrete Structure, Probability and Statistics and Numerical Methods all build on the algebra, sequences, matrices, counting and calculus in this book.
 
+```svgfig label="1.3" caption="Should you guess? The reports found for this paper mention no negative marking (confirm in your year's notice). If that is so, a blank is worth 0 and a guess is worth 1 divided by the number of options left. The cell computes the expected score of a candidate who knows 60 questions for sure and guesses the other 40: blind guesses (4 options) add 10 marks, guesses after removing one option add 13.3, and guesses after removing two options add 20. A seeded simulation of 100 000 sheets agrees with the exact figures to within 0.2 marks."
+import random
+K, U = 60, 40
+exp = {n: K + U / n for n in (4, 3, 2)}
+assert exp[4] == 70 and abs(exp[3] - 73.33) < 0.01 and exp[2] == 80
+rnd = random.Random(7)
+sim = {n: sum(K + sum(rnd.random() < 1 / n for _ in range(U)) for _ in range(20000)) / 20000 for n in (4, 3, 2)}
+assert all(abs(sim[n] - exp[n]) < 0.2 for n in sim), sim
+f = Fig(780, 300)
+f.text(14, 14, "Expected score: 60 known + 40 unknown questions", size=11.5, color=NAVY, bold=True, anchor="start")
+rows = [("leave blank", 60, SLATE), ("guess blind (4 options)", exp[4], AMBER), ("remove 1 option (3 left)", exp[3], TEAL), ("remove 2 options (2 left)", exp[2], NAVY)]
+for i, (lab, v, c) in enumerate(rows):
+    y = 30 + i * 52
+    f.box(14, y, 190, 40, lab, fill=SOFT, stroke=c, color=c, size=11, bold=True)
+    f.box(208, y, v * 5.4, 40, "%.1f" % v if v != int(v) else "%d" % v, fill=c, stroke=c, color="#ffffff", size=12, bold=True)
+f.line(208 + 100 * 5.4, 26, 208 + 100 * 5.4, 238, color=RED, dash=True)
+f.text(208 + 100 * 5.4 - 4, 252, "100", size=10.5, color=RED, anchor="end")
+f.text(14, 276, "Every removed option is worth marks. If the notice announces negative marking, guess only after you can remove two options.", size=10.5, color=SLATE, anchor="start")
+```
+
+```svgfig label="1.4" caption="The eight semesters of the revised BCA curriculum, with the mathematics-related subjects marked in amber. The cell counts the subjects from the semester table (six in each of semesters I to VII and four in semester VIII, including electives, 46 in all) and finds the five mathematics-related ones: Mathematics I, Discrete Structure, Mathematics II, Probability and Statistics and Numerical Methods. Entrance mathematics is therefore the first step of a thread that runs through the first four semesters."
+sem = {"I": 6, "II": 6, "III": 6, "IV": 6, "V": 6, "VI": 6, "VII": 6, "VIII": 4}
+maths = {"I": ["Mathematics I"], "II": ["Discrete Structure", "Mathematics II"], "III": ["Probability and Statistics"],
+         "IV": ["Numerical Methods"], "V": [], "VI": [], "VII": [], "VIII": []}
+assert sum(sem.values()) == 46 and sum(len(v) for v in maths.values()) == 5
+f = Fig(780, 330)
+for i, (s, n) in enumerate(sem.items()):
+    y = 8 + i * 39
+    f.box(14, y, 70, 32, "Sem " + s, fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True)
+    m = len(maths[s])
+    f.box(88, y, (n - m) * 40 - 3, 32, "%d other subjects" % (n - m) if m else "%d subjects" % n, fill=BLUE, stroke=NAVY, color=NAVY, size=10.5)
+    if m:
+        f.box(88 + (n - m) * 40, y, m * 40 - 3, 32, "%d" % m, fill=SAND, stroke=AMBER, color=AMBER, size=11, bold=True, sw=2)
+    f.text(340, y + 16, ", ".join(maths[s]) if m else "", size=11, color=AMBER, anchor="start", bold=True, vmid=True)
+f.text(340, 322, "amber = mathematics-related subject", size=10.5, color=AMBER, anchor="start")
+```
+
 ## 1.5 How to use the books
 
 1. Study each Mathematics unit, then do Sets A–C without notes, then read the explanations of every miss.
@@ -78,6 +176,38 @@ The full 2082-batch course, with a code-by-code map from the old 2074 subjects, 
 3. Revise the GK units from the dated tables; refresh current affairs in the month before the exam.
 4. Take the model papers on paper, with a timer, in one sitting.
 5. Questions in this book are original practice written to the syllabus; none claims to be a past question.
+
+## 1.6 Eight traps in preparing for the paper
+
+Each trap is a habit that costs rank positions; the numbers come from the figures above.
+
+1. **Treating Mathematics as one subject among three.** It carries 50 of the 100 marks and needs 70 of the 120 minutes (Fig 1.1). Start the plan with it and keep it in every week.
+2. **Spending equal time on every question.** The budget is 84 seconds for a mathematics question and 45 seconds for an English one (Fig 1.1). A question that takes twice its budget should be marked and left for the final 15 minutes.
+3. **Leaving answers blank.** If no negative marking applies, a blank is a lost chance: blind guessing earns 10 of 40 and guessing after removing two options earns 20 (Fig 1.3). Confirm the rule in your year's notice.
+4. **Trusting an unverified pass mark.** Sources disagree on 35 or 40, and the TU page lists none. Seats go by merit rank, so plan for a score far above any quoted figure.
+5. **Skipping the last three weeks.** Weeks 10 to 12 hold the timed papers and the error log (Fig 1.2). Students who finish learning at week 12 never train their pace.
+6. **Doing papers without a timer.** A paper taken in pieces tells you nothing about the 120-minute limit. Sit each model paper in one go, on paper, with a stopwatch on the desk (Plate 1.1).
+7. **Not logging the reason for a miss.** Write each wrong question with the cause (formula, slip, rule, never learnt) and the page that fixes it. The same reasons repeat, and that is where the marks are.
+8. **Forgetting what comes after the entrance.** The first four semesters contain five mathematics-related subjects (Fig 1.4). Solid mathematics now makes the first year easier.
+
+### 1.6.1 Worked checks
+
+**Q. A mathematics question gets 70 minutes for 50 questions. How many seconds per question?**
+
+**Answer.** 70 × 60 = 4200 seconds, and 4200 ÷ 50 = **84 seconds** (Fig 1.1).
+
+**Q. A candidate knows 60 answers and guesses the other 40 blindly with 4 options each. What is the expected score?**
+
+**Answer.** Each blind guess is right with probability 1/4, so 40 × 1/4 = 10 and the expected score is 60 + 10 = **70** (Fig 1.3).
+
+**Q. The same candidate removes two wrong options before guessing. What is the expected score now?**
+
+**Answer.** Two options remain, so each guess is right with probability 1/2: 40 × 1/2 = 20 and the expected score is 60 + 20 = **80** (Fig 1.3).
+
+**Q. How many weeks of the plan are for timed papers and the error log?**
+
+**Answer.** Weeks 10 to 12, which is **3 weeks** (Fig 1.2).
+
 
 ## Chapter summary
 
