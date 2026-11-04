@@ -6,7 +6,7 @@
    Finite radius in every state; it presses in on tap but never changes shape.
    The profile button already ships real Material Symbols, so it keeps those. */
 
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):not(#_) {
   --fh: 26px;
   --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z'/%3E%3C/svg%3E");
   appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
@@ -20,11 +20,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 /* the glyph */
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)::before {
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(#_)::before {
   content: "" !important; display: block; flex: none; width: 16px; height: 16px; background: currentColor;
   -webkit-mask: var(--fg) center / contain no-repeat; mask: var(--fg) center / contain no-repeat;
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following {
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:not(#_) {
   --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
   padding: 0 11px 0 7px;
   background: transparent; color: var(--md-on-surface-variant);
@@ -39,9 +39,9 @@
 }
 
 @media (hover: hover) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.following):hover,
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.following, #_):hover,
   .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary-container) 82%, var(--md-primary)); }
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:not(#_):hover,
   .profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested):hover { background: var(--md-surface-container-high); }
 }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):active { transform: scale(.95); }

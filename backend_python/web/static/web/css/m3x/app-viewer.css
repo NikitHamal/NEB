@@ -182,6 +182,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 /* ---------- one balanced pair: while it is a cover, the stage and the details card share one height ---------- */
 @media (min-width: 1081px) {
   .vw-main > .vw-stage { flex: 1 1 auto; }
+  .vw-stage > .vw-cover:not([hidden]) { flex: 1 1 auto; }
   .vw:has(.vw-stage[data-state="cover"]) .vw-card { flex: 1 1 auto; }
   .vw:not(:has(.vw-stage[data-state="cover"])) .vw-side { position: sticky; top: 88px; align-self: start; }
 }

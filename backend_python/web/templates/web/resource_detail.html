@@ -168,8 +168,8 @@
       <div class="vw-card" style="--sc: {{ resource.subject|split:','|first|subject_color }}">
         <div class="rcard-tags">
           {% with subjects=resource.subject|split:"," %}
-          {% for subj in subjects %}<span class="rcard-tag is-subject{% if forloop.counter > 3 %} is-extra{% endif %}" style="--sc: {{ subj|subject_color }}"{% if forloop.counter > 3 %} hidden{% endif %}>{{ subj }}</span>{% endfor %}
-          {% if subjects|length > 3 %}<button type="button" class="rcard-tag rcard-tag-more" data-tags-more aria-expanded="false" aria-label="Show all subjects">+{{ subjects|length|add:"-3" }}</button>{% endif %}
+          {% for subj in subjects %}<span class="rcard-tag is-subject{% if forloop.counter > 2 %} is-extra{% endif %}" style="--sc: {{ subj|subject_color }}"{% if forloop.counter > 2 %} hidden{% endif %}>{{ subj }}</span>{% endfor %}
+          {% if subjects|length > 2 %}<button type="button" class="rcard-tag rcard-tag-more" data-tags-more aria-expanded="false" aria-label="Show all subjects">+{{ subjects|length|add:"-2" }}</button>{% endif %}
           {% endwith %}
           <span class="rcard-tag">{{ resource.type }}</span>
           {% if resource.grade_level %}<span class="rcard-tag">{{ resource.grade_level }}</span>{% endif %}
