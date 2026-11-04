@@ -50,38 +50,51 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
   .site-main { animation: m3-enter .7s var(--spring-soft) backwards; }
 }
 
-/* ---------- top bar: a floating pill, the same bar as the landing page ---------- */
+/* ---------- top bar: a floating pill, the same bar as the landing page ----------
+   One row at every width, by construction: three named areas on a single fixed-height track, so a
+   child that is added, hidden or resized can never push the nav onto a second line. The nav gives way
+   by container width (not viewport width), so zoom, split screens and large system fonts collapse it
+   the same way a narrow phone does. */
 .md-topbar {
-  position: sticky; top: 8px; z-index: 100;
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center; column-gap: 8px;
-  width: min(1280px, calc(100% - 24px)); height: 58px; min-height: 58px; max-height: 58px;
+  --tb-h: 58px;
+  position: sticky; top: 8px; z-index: 100; container-type: inline-size; container-name: topbar;
+  display: grid; align-items: center; column-gap: 8px;
+  grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: var(--tb-h); grid-template-areas: "brand nav actions";
+  grid-auto-rows: 0; overflow: visible;
+  width: min(1280px, calc(100% - 24px)); height: var(--tb-h); min-height: var(--tb-h); max-height: var(--tb-h);
   margin: 8px auto 10px; padding: 0 8px; box-sizing: border-box;
-  border: 1px solid var(--md-outline-variant); border-radius: 29px;
+  border: 1px solid var(--md-outline-variant); border-radius: calc(var(--tb-h) / 2);
   background: color-mix(in srgb, var(--md-surface) 88%, transparent);
   -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
-  transition: background-color .3s, border-color .3s, border-radius .6s var(--spring);
+  transition: background-color .3s, border-color .3s;
   view-transition-name: m3-topbar;
 }
 .md-topbar > * { min-width: 0; }
-.md-topbar .brand { justify-self: start; flex: none; white-space: nowrap; }
+.md-topbar > .brand, .md-topbar > .md-topbar-brand { grid-area: brand; justify-self: start; flex: none; white-space: nowrap; }
+.md-topbar > .md-topbar-nav { grid-area: nav; }
+.md-topbar > .md-topbar-actions { grid-area: actions; }
 .md-topbar .brand-tile { width: 42px; height: 42px; }
 .md-topbar .brand-mark { width: 16px; height: 23px; }
 .md-topbar .brand-name { font-size: 22px; }
-.md-topbar-nav { --h: 42px; position: relative; left: auto; transform: none; justify-self: center; flex-wrap: nowrap; white-space: nowrap; }
+.md-topbar-nav { --h: 42px; position: relative; left: auto; transform: none; justify-self: center; flex-wrap: nowrap; white-space: nowrap; max-width: 100%; }
 .md-topbar-nav > a { padding: 0 18px; font-size: 15px; }
 .md-topbar-nav > a.md-nav-active { background: transparent; color: var(--on-var); }
 .md-topbar-nav > a.md-nav-active.is-target { color: var(--on-pri-c); }
 .md-topbar-actions { justify-self: end; margin-left: 0; display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; }
 .md-topbar-actions .md-btn { min-height: 42px; white-space: nowrap; }
-@media (min-width: 1100px) {
-  .md-topbar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+@container topbar (min-width: 1060px) {
+  .md-topbar-nav { justify-self: center; }
 }
-@media (min-width: 769px) and (max-width: 880px) {
+@container topbar (max-width: 880px) {
   .md-topbar-nav > a { padding: 0 12px; font-size: 14px; }
   .md-topbar .brand-name { font-size: 20px; }
 }
+@container topbar (max-width: 690px) {
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand actions"; }
+  .md-topbar-nav { display: none; }
+}
 @media (max-width: 768px) {
-  .md-topbar { grid-template-columns: minmax(0, 1fr) auto; width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; height: 54px; min-height: 54px; max-height: 54px; }
+  .md-topbar { --tb-h: 54px; width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand actions"; }
   .md-topbar-nav { display: none; }
   .md-topbar .brand-name { font-size: 20px; }
 }
@@ -1145,7 +1158,6 @@ select.neb-sel-native {
 .hf-section-more, .hf-see-all, a.see-all { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 999px; font-weight: 700; }
 
 /* ---------- avatars and badges: the ring is a border, not a shadow ---------- */
-.avatar-ring { border: 2px solid var(--md-outline-variant); }
 .notif-dot { background: var(--md-error); border: 2px solid var(--md-surface); }
 .role-badge { border-radius: 10px; }
 
@@ -2198,3 +2210,59 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 :root .news-card-dot { opacity: 1; color: var(--md-on-surface-variant); }
 :root .neb-field-trigger-placeholder { color: var(--md-on-surface-variant); }
 :root .neb-sheet-close { color: var(--md-on-surface-variant); }
+
+/* ---- m3x/app-badges.css ---- */
+/* Badges, last word: a badge is a glyph and/or a word in an ink colour. It has no fill, no stroke and no
+   shadow. Contrast comes from the ink (every ink below is the on-colour of a tonal pair, so it reads on
+   the plain surface in both themes), never from a patch behind it.
+   The avatar badge sits on the rim of a shaped picture: its glyph is cut out of the surface with a text
+   outline, not boxed in a disc. Count dots (.notif-dot, .notif-popup-badge) are not badges: they are a
+   number on a signal colour and keep their fill. */
+
+:root { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
+
+:is(
+  .role-badge, .user-badge, .achieve-status-badge, .achievement-badge, .grade-badge, .sl-space-badge,
+  .tools-card-badge, .syl-hub-badge, .post-card-poll-badge, .upload-details-badge, .news-pin-badge,
+  .news-category-badge, .results-hero-badge, .rcard-badge, .rc-badge, .pf-res-preview-badge,
+  .mkt-showcase-badge, .mkt-plan-badge, .fp-poll-type-badge, .fp-header-badge, .fl-chip, .fl-solved-chip,
+  .leaderboard-rank-badge, .st-badge, .di-badge, .device-badge, .credits-type-badge, .credits-badge
+) {
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  color: var(--bd-ink);
+}
+.fl-chip, .fl-solved-chip { padding-inline: 2px 6px; }
+.fl-kind-chip { color: var(--md-on-surface-variant); }
+.fl-tone-good { --bd-ink: var(--fl-on-good); }
+.fl-tone-warn { --bd-ink: var(--fl-on-warn); }
+.fl-tone-bad { --bd-ink: var(--fl-on-bad); }
+.fl-tone-info { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
+.fl-label-chip, .fl-solved-chip { color: var(--bd-ink); }
+.fl-solved-chip { --bd-ink: var(--fl-on-good); }
+.fl-solved-chip:hover { border-radius: 14px; }
+
+.role-badge { width: auto; min-width: 0; height: auto; }
+.role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }
+.role-badge-admin       { --bd-ink: var(--neb-accent-amber); }
+.role-badge-bot         { --bd-ink: var(--neb-accent-violet); }
+.role-badge-moderator   { --bd-ink: var(--neb-accent-brand); }
+.role-badge-teacher     { --bd-ink: var(--neb-accent-green); }
+.role-badge-institution { --bd-ink: var(--neb-accent-indigo); }
+.role-badge-explorer    { --bd-ink: var(--neb-accent-amber); }
+.role-badge-verified    { --bd-ink: var(--neb-accent-brand); }
+
+.avatar-badge-overlay {
+  --bd: 18px; box-sizing: border-box; width: var(--bd); height: var(--bd); border: 0 !important; background: none !important;
+  color: var(--badge-bg, var(--md-primary));
+}
+.avatar-badge-overlay .material-symbols-outlined,
+.avatar-badge-overlay.is-verified::after {
+  color: var(--badge-bg, var(--md-primary)); font-size: var(--bd); line-height: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 20;
+  -webkit-text-stroke: 3px var(--badge-ring, var(--md-surface)); paint-order: stroke fill;
+}
+.avatar-badge-overlay.is-verified .material-symbols-outlined { font-size: 0; -webkit-text-stroke: 0; }
+.avatar-badge-overlay.is-verified::after { content: "verified"; font-size: var(--bd); }
+.pf-verified { background: none !important; border: 0 !important; }
+.profile-page .pf-verified .material-symbols-outlined { color: var(--badge-bg, var(--md-primary)); font-size: 22px; }
+.profile-page .pf-verified { width: auto; height: auto; }
