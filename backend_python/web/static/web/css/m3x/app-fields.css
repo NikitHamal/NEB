@@ -78,3 +78,7 @@
    [contenteditable] ring would stack a second one on top of the border it copied from the textarea */
 :root .neb-seamless:is(:focus, :focus-visible) { outline: none; }
 :root .neb-seamless.neb-focus { border-color: var(--md-primary) !important; }
+
+/* a two-column form row that collapses to one column: the group margin already spaces the rows,
+   so the grid gap must not add a second one */
+@media (max-width: 600px) { .form-row { row-gap: 0; } }
