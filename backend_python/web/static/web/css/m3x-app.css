@@ -2140,7 +2140,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
      following     -> neutral tonal "Following" (never primary, never a glyph)
    A pill in every state; it presses in on tap but never changes shape. */
 
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)) {
   --fh: 28px;
   appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; flex: none;
@@ -2151,8 +2151,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   transition: background-color .2s, color .2s, transform .35s var(--spring);
   -webkit-tap-highlight-color: transparent;
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before { content: none !important; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) > .material-symbols-outlined { display: none; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle))::before { content: none !important; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)) > .material-symbols-outlined { display: none; }
 
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):is(.following, :not(.not-following)),
 .profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested) {
@@ -2171,8 +2171,8 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
   .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-surface-container-highest); }
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.95); }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):active { transform: scale(.95); }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
 
 /* ---- m3x/app-contrast.css ---- */
