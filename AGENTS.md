@@ -2030,3 +2030,8 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 - **Done:** MPCA Unit 8 (5 new photos assembly/cm2/i5die/fermi/crossbar, Plates 8.1-8.2, Figs 8.1-8.11, eight uses, Q1-Q8). BCA 152 MPCA is fully polished (137 pp, qa fails=0). **Next: UX/UI Design**, then Computer Networking, AI, Advanced Java.
 - **Gotcha:** when filtering qa_pdf output, do not `grep -v arn` (it hides the word "warns" summary line); filter on "FutureWarning" instead.
+
+## BCA polish session 44 (addendum 2: UX/UI Design Unit 1)
+
+- **Done:** UX/UI Design (BCA 155) Unit 1 polished: 2 new `bca155/` photos, 2 plates, 5 SVG figures (contrast ratios computed inside the svgfig cell), eight benefits, Q1-Q5. **Next: UX/UI Design Unit 2**, then units 3-8, then Computer Networking, AI, Advanced Java (see `bca/POLISH_STATUS.md`).
+- **Gotcha:** an svgfig `f.raw` text is not linted; keep raw text at 10 pt or more or qa_pdf warns 'tiny text' (the figure is scaled to column width). Poly cells: `f.poly(pts, fill, stroke, sw, label, lx, ly, size, color)` works for hexagons.
