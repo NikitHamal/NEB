@@ -5017,6 +5017,19 @@
   "source": "Wikimedia Commons",
   "title": "George Boole color"
  },
+ "bca302/cajal": {
+  "author": "Original photo is anonymous although published by Clark University in 1899. Restoration by Garrondo",
+  "bytes": 2681008,
+  "credit": "Cajal.PNG",
+  "fetched": "2026-11-04",
+  "file": "bca302/cajal.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Santiago_Ram%C3%B3n_y_Cajal_(1852-1934)_portrait_(restored).jpg",
+  "sha1": "c12322cce4db0bb6",
+  "source": "Wikimedia Commons",
+  "title": "Santiago Ramón y Cajal (1852-1934) portrait (restored)"
+ },
  "bca302/canary": {
   "author": "Yavor Uzunov",
   "bytes": 378045,
@@ -5042,6 +5055,19 @@
   "sha1": "38bd526921824d52",
   "source": "Wikimedia Commons",
   "title": "Chess game Staunton No. 6 top view"
+ },
+ "bca302/chomsky": {
+  "author": "Hans Peters for Anefo",
+  "bytes": 1636814,
+  "credit": "Nationaal Archief",
+  "fetched": "2026-11-04",
+  "file": "bca302/chomsky.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Noam_Chomsky_(1977).jpg",
+  "sha1": "7ae586906e1dcc34",
+  "source": "Wikimedia Commons",
+  "title": "Noam Chomsky (1977)"
  },
  "bca302/colmerauer": {
   "author": "Alaindavid2",
@@ -5147,6 +5173,32 @@
   "source": "Wikimedia Commons",
   "title": "Prithvi Highway at Malekhu"
  },
+ "bca302/hinton": {
+  "author": "Arthur Petron",
+  "bytes": 274445,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/hinton.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+  "sha1": "e25cb45e5006d50e",
+  "source": "Wikimedia Commons",
+  "title": "Geoffrey E. Hinton, 2024 Nobel Prize Laureate in Physics (cropped1)"
+ },
+ "bca302/hopfield": {
+  "author": "Arthur Petron",
+  "bytes": 310340,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/hopfield.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:John_J._Hopfield,_2024_Nobel_Prize_Laureate_in_Physics_1_(cropped).jpg",
+  "sha1": "c2c1e90c29603574",
+  "source": "Wikimedia Commons",
+  "title": "John J. Hopfield, 2024 Nobel Prize Laureate in Physics 1 (cropped)"
+ },
  "bca302/ibm701": {
   "author": "Dan",
   "bytes": 860812,
@@ -5212,6 +5264,32 @@
   "source": "Wikimedia Commons",
   "title": "Optiebeurs schaakvierkamp Garri Kasparov tegen Anatoli Karpov (rechts), Bestanddeelnr 934-2524"
  },
+ "bca302/lecun": {
+  "author": "Jérémy Barande",
+  "bytes": 1520331,
+  "credit": "CMAP – Institut DATAIA Data Science Summer School",
+  "fetched": "2026-11-04",
+  "file": "bca302/lecun.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yann_LeCun_-_2018_(cropped).jpg",
+  "sha1": "be5073d42ea83498",
+  "source": "Wikimedia Commons",
+  "title": "Yann LeCun - 2018 (cropped)"
+ },
+ "bca302/mark1": {
+  "author": "John C. Hay, Albert E. Murray",
+  "bytes": 480994,
+  "credit": "https://apps.dtic.mil/sti/tr/pdf/AD0236965.pdf",
+  "fetched": "2026-11-04",
+  "file": "bca302/mark1.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Mark_I_Perceptron,_Figure_2_of_operator%27s_manual.png",
+  "sha1": "3f7ac4d752294918",
+  "source": "Wikimedia Commons",
+  "title": "Mark I Perceptron, Figure 2 of operator's manual"
+ },
  "bca302/maze": {
   "author": "Daderot",
   "bytes": 1304697,
@@ -5263,6 +5341,19 @@
   "sha1": "cca40ef79cef8dce",
   "source": "Wikimedia Commons",
   "title": "Peppered moth (Biston betularia) female"
+ },
+ "bca302/nepkeys": {
+  "author": "Evert Mouw",
+  "bytes": 341154,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/nepkeys.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Devanagari_Nepali_layout_(traditional).jpg",
+  "sha1": "94bacb1139217a2d",
+  "source": "Wikimedia Commons",
+  "title": "Devanagari Nepali layout (traditional)"
  },
  "bca302/overcast": {
   "author": "Eva olive",
@@ -5316,6 +5407,19 @@
   "source": "Wikimedia Commons",
   "title": "Aptenodytes forsteri - Алексей Логинов - 465113420"
  },
+ "bca302/purkinje": {
+  "author": "The original uploader was PNG crusade bot at English Wikipedia .",
+  "bytes": 51869,
+  "credit": "copied from old copy of Gray's Anatomy; Transferred from en.wikipedia to Commons.",
+  "fetched": "2026-11-04",
+  "file": "bca302/purkinje.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Purkinje_cell_by_Cajal.png",
+  "sha1": "d2983b108e176276",
+  "source": "Wikimedia Commons",
+  "title": "Purkinje cell by Cajal"
+ },
  "bca302/puzzlebox": {
   "author": "Jacob Sussman",
   "bytes": 38863,
@@ -5329,6 +5433,19 @@
   "source": "Wikimedia Commons",
   "title": "Puzzle box"
  },
+ "bca302/pyramidal": {
+  "author": "MethoxyRoxy",
+  "bytes": 269500,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/pyramidal.jpg",
+  "license": "CC BY-SA 2.5",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Pyramidal_hippocampal_neuron_40x.jpg",
+  "sha1": "8f12d3370fb21192",
+  "source": "Wikimedia Commons",
+  "title": "Pyramidal hippocampal neuron 40x"
+ },
  "bca302/roomba": {
   "author": "Larry D. Moore",
   "bytes": 88752,
@@ -5341,6 +5458,32 @@
   "sha1": "50d3e0d55fe7a429",
   "source": "Wikimedia Commons",
   "title": "Roomba original"
+ },
+ "bca302/rosenblatt": {
+  "author": "Anonymous Unknown author",
+  "bytes": 79057,
+  "credit": "Heinz Nixdorf MuseumsForum https://blog.hnf.de/frank-rosenblatt-und-das-perceptron/",
+  "fetched": "2026-11-04",
+  "file": "bca302/rosenblatt.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Frank_Rosenblatt.jpg",
+  "sha1": "766d0cda4ecabc8c",
+  "source": "Wikimedia Commons",
+  "title": "Frank Rosenblatt"
+ },
+ "bca302/rosetta": {
+  "author": "Hans Hillewaert",
+  "bytes": 1360678,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/rosetta.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rosetta_Stone.JPG",
+  "sha1": "a9ec9b94d1fc0520",
+  "source": "Wikimedia Commons",
+  "title": "Rosetta Stone"
  },
  "bca302/shakey": {
   "author": "The wub",
@@ -5523,6 +5666,19 @@
   "sha1": "4952f978139a63e2",
   "source": "Wikimedia Commons",
   "title": "Waymo self-driving car front view.gk"
+ },
+ "bca302/weizenbaum": {
+  "author": "Ulrich Hansen, Germany (Journalist).",
+  "bytes": 127243,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/weizenbaum.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Joseph_Weizenbaum.jpg",
+  "sha1": "fc85b2ae859d0b2b",
+  "source": "Wikimedia Commons",
+  "title": "Joseph Weizenbaum"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
