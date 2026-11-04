@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,150,695 raw words of study material, counted over the unit files, including code listings and tables):
+**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (1,308,806 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -17,7 +17,7 @@
 | 2 | BCA 152 | [Microprocessor and Computer Architecture](course/semester-2/microprocessor-computer-architecture/) | 58,561 | 137 | done |
 | 2 | BCA 153 | [OOP in Java](course/semester-2/oop-in-java/) | 18,901 | 66 | done |
 | 2 | BCA 154 | [Mathematics II](course/semester-2/mathematics-2/) | 15,187 | 34 | done |
-| 2 | BCA 155 | [UX/UI Design](course/semester-2/ux-ui-design/) | 46,172 | 115 | done |
+| 2 | BCA 155 | [UX/UI Design](course/semester-2/ux-ui-design/) | 62,924 | 144 | done |
 | 2 | BCA 156 | [Principles of Management](course/semester-2/principles-of-management/) | 29,817 | 83 | done |
 | 3 | BCA 201 | [Data Structure and Algorithms](course/semester-3/data-structure-and-algorithms/) | 47,766 | 125 | done |
 | 3 | BCA 202 | [Database Management System](course/semester-3/dbms/) | 37,107 | 100 | done |
@@ -31,9 +31,9 @@
 | 4 | BCA 254 | [Python Programming](course/semester-4/python-programming/) | 40,846 | 138 | done |
 | 4 | BCA 255 | [Web Technology II](course/semester-4/web-technology-2/) | 43,550 | 124 | done |
 | 4 | BCA 256 | [Project I](course/semester-4/project-1/) | 16,401 | 49 | done |
-| 5 | BCA 301 | [Computer Network](course/semester-5/computer-networking/) | 23,727 | 65 | done |
-| 5 | BCA 302 | [Artificial Intelligence](course/semester-5/artificial-intelligence/) | 20,790 | 59 | done |
-| 5 | BCA 303 | [Advanced Java Programming](course/semester-5/advanced-java/) | 16,715 | 61 | done |
+| 5 | BCA 301 | [Computer Network](course/semester-5/computer-networking/) | 77,065 | 157 | done |
+| 5 | BCA 302 | [Artificial Intelligence](course/semester-5/artificial-intelligence/) | 75,568 | 145 | done |
+| 5 | BCA 303 | [Advanced Java Programming](course/semester-5/advanced-java/) | 49,958 | 125 | done |
 | 5 | BCA 304 | [MIS and e-Business](course/semester-5/mis-and-e-business/) | 28,959 | 77 | done |
 | 5 | BCA 305 | [Society and Technology](course/semester-5/society-and-technology/) | 28,291 | 74 | done |
 | 5 | BCA 306 | [Project II](course/semester-5/project-2/) | 15,586 | 47 | done |
