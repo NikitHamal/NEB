@@ -1858,6 +1858,32 @@
   "source": "Wikimedia Commons",
   "title": "Vizio V6 7603B0-CFE3 Smart TV SOC Die Shot"
  },
+ "bca155/braille": {
+  "author": "Eddau",
+  "bytes": 475913,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/braille.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Refreshable_Braille_display_2010_0123.JPG",
+  "sha1": "d84510c0e4b858ec",
+  "source": "Wikimedia Commons",
+  "title": "Refreshable Braille display 2010 0123"
+ },
+ "bca155/echo": {
+  "author": "Asivechowdhury",
+  "bytes": 194745,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/echo.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Amazon_Echo_Plus_02.jpg",
+  "sha1": "de4f0ca27d4f8ff7",
+  "source": "Wikimedia Commons",
+  "title": "Amazon Echo Plus 02"
+ },
  "bca156/deming": {
   "author": "FDA",
   "bytes": 25200,
