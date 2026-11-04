@@ -22,9 +22,9 @@ class DitherArtTests(SimpleTestCase):
         css = open(os.path.join(CSS, 'm3x-app.css'), encoding='utf-8').read()
         self.assertIn('cover-dunes-mask.png', css)
 
-    def test_follow_button_has_no_glyph_and_is_small(self):
+    def test_follow_button_is_small_with_a_mask_glyph(self):
         css = open(os.path.join(CSS, 'm3x', 'app-follow.css'), encoding='utf-8').read()
-        self.assertIn('content: none !important', css)
-        self.assertNotIn('"add"', css)
-        self.assertRegex(css, r'--fh: 28px')
+        self.assertIn('mask: var(--fg)', css)
+        self.assertRegex(css, r'--fh: 26px')
         self.assertNotRegex(css, r'box-shadow:\s*(?!none)')
+        self.assertNotRegex(css, r'border-radius:\s*0[;\s]')
