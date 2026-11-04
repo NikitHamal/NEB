@@ -193,6 +193,213 @@ Other tools: **position** (top-left first), **whitespace** (isolation emphasises
 
 **Mobile patterns**: bottom **tab bar** (3–5 destinations), **navigation drawer** (hamburger), **gesture navigation** (swipe back), **search-first**, **floating action button**. A navigation test: **tree testing** (users find items in a text-only sitemap) and **card sorting** (users group content), both measure whether the structure matches users' mental models.
 
+## 5.7 Seeing the ideas: grids, Gestalt, colour, type, hierarchy and navigation
+
+Visual design is old craft applied to new screens. Plate 5.1 shows three printed ancestors of every layout rule: a newspaper front page with its column grid and headline hierarchy, the Gutenberg Bible with its two-column text block, and paint-colour swatches that are laid out like a palette. Plate 5.2 shows real navigation: the signs of two airports. The figures then compute a 12-column grid, draw the Gestalt principles, derive colour schemes from the colour wheel, build a type scale, compare a flat and a ranked screen, and draw the six navigation structures.
+
+```photogrid label="5.1" cols="3" ratio="1.2" caption="Print is the ancestor of layout. (a) A newspaper front page (public domain): a masthead, a column grid, and a headline set far larger than the body text, so the eye knows the first thing to read. (b) The Gutenberg Bible, about 1455 (CC BY-SA 2.0): two columns with generous margins and a measure of about 40 characters, the same rules that make a web article readable. (c) Paint-colour swatches over a photo board (CC BY 4.0): a palette is chosen as a small set of related colours, not one at a time."
+@ photo id="bca155/news" cap="Newspaper: grid and headlines"
+fit 1.2
+focus 0.5 0.3
+call 0.45 0.1 0.4 0.62 "headline = largest"
+@ photo id="bca155/gutenberg" cap="Gutenberg Bible: two columns"
+fit 1.2
+focus 0.55 0.5
+@ photo id="bca155/colorcharts" cap="Swatches: a palette"
+fit 1.2
+focus 0.7 0.5
+```
+
+```photogrid label="5.2" cols="2" ratio="1.4" caption="Navigation in the real world (CC BY-SA 4.0 for both photographs). (a) An airport sign: one arrow per line, one icon per place, a clear colour split between the yellow places and the green service, short labels in the traveller's words. (b) Signs hung in a row above the concourse: global navigation, always in the same position and style. Good wayfinding answers three questions: where am I, where can I go, how do I get back? A screen has to answer the same three."
+@ photo id="bca155/wayfind1" cap="One arrow and one label per line"
+fit 1.4
+focus 0.35 0.3
+call 0.45 0.1 0.3 0.7 "icon + short label"
+@ photo id="bca155/wayfind2" cap="Global navigation in a row"
+fit 1.4
+focus 0.55 0.5
+```
+
+```svgfig label="5.1" caption="A 12-column grid, computed and drawn to scale. A 960 px container with 20 px gutters gives columns of (960 - 11 x 20) / 12 = 61.67 px. A box spanning n columns is n x 61.67 + (n - 1) x 20 wide: 3 columns are 225 px (sidebar) and 9 columns are 715 px (main), and 225 + 20 + 715 = 960. Because every box starts and ends on a column edge, the layout looks aligned and tidy."
+f = Fig(580, 212)
+k = 560 / 960.0
+col, gut = (960 - 11 * 20) / 12.0, 20
+X = lambda c: 10 + c * (col + gut) * k
+for c in range(12):
+    f.box(X(c), 18, col * k, 150, "", fill="#fee2e2", stroke="#fecaca", r=0, sw=1)
+    f.text(X(c) + col * k / 2, 10, str(c + 1), size=9.5, color=RED, bold=True)
+w = lambda n: (n * col + (n - 1) * gut) * k
+f.box(X(0), 24, w(12), 28, "Header: 12 columns = 960 px", fill=NAVY, stroke=NAVY, color="#ffffff", size=10, bold=True, r=3)
+f.box(X(0), 58, w(3), 92, "Sidebar", fill=SAND, stroke=AMBER, size=10, bold=True, r=3)
+f.text(X(0) + w(3) / 2, 138, "3 col = 225 px", size=9.5, color=AMBER, bold=True)
+for j in range(3):
+    f.box(X(3 + j * 3), 58, w(3), 92, "Card", fill=BLUE, stroke=NAVY, size=10, bold=True, r=3)
+f.text(X(3) + w(9) / 2, 138, "main: 9 col = 715 px (three cards of 3 col)", size=9.5, color=NAVY, bold=True)
+f.box(X(0), 156, w(12), 8, "", fill="#e2e8f0", stroke="#e2e8f0", r=2)
+f.text(10, 186, "Column 61.67 px, gutter 20 px, container 960 px.", size=10, color=SLATE, bold=True, anchor="start")
+f.text(10, 202, "A 1200 px container with 24 px gutters gives 78 px columns.", size=10, color=SLATE, bold=True, anchor="start")
+```
+
+```svgfig label="5.2" caption="Six Gestalt principles. Proximity: near items form a group (two groups of three). Similarity: items that look alike belong together (the circles form a column). Closure: the mind completes a broken circle. Continuity: the eye follows a smooth line through dots. Common region: a boundary groups what is inside it. Focal point: the one item that differs wins attention, so it should be the primary button."
+f = Fig(580, 150)
+names = ["Proximity", "Similarity", "Closure", "Continuity", "Common region", "Focal point"]
+for i, n in enumerate(names):
+    x = 4 + i * 96
+    f.box(x, 4, 90, 90, "", fill="#ffffff", stroke="#94a3b8", r=5, sw=1.2)
+    f.text(x + 45, 108, n, size=9.5, color=NAVY, bold=True)
+for j in range(3):
+    f.circle(18 + j * 12, 30, 4, fill=NAVY, stroke=NAVY); f.circle(18 + j * 12, 60, 4, fill=NAVY, stroke=NAVY)
+    f.circle(66 + j * 12 + 0, 30, 4, fill=NAVY, stroke=NAVY); f.circle(66 + j * 12, 60, 4, fill=NAVY, stroke=NAVY)
+f.text(49, 80, "", size=9.5)
+for r_ in range(3):
+    for c in range(4):
+        x = 104 + 12 + c * 18
+        y = 16 + r_ * 24
+        if c == 1:
+            f.circle(x + 6, y + 8, 7, fill=TEAL, stroke=TEAL)
+        else:
+            f.box(x, y, 14, 14, "", fill="#94a3b8", stroke="#94a3b8", r=1, sw=1)
+f.raw('<path d="M 245 24 A 24 24 0 1 1 227 76" fill="none" stroke="#1e3a8a" stroke-width="5" stroke-dasharray="12 8"/>')
+f.raw('<polyline points="300,60 316,36 332,60 348,36 364,60 376,50" fill="none" stroke="#94a3b8" stroke-width="2"/>')
+for px, py in [(300, 60), (316, 36), (332, 60), (348, 36), (364, 60)]:
+    f.circle(px, py, 4, fill=NAVY, stroke=NAVY)
+f.box(392, 16, 74, 66, "", fill=BLUE, stroke=NAVY, r=8, sw=1.6)
+f.circle(410, 36, 5, fill=NAVY, stroke=NAVY); f.circle(430, 36, 5, fill=NAVY, stroke=NAVY)
+f.circle(410, 62, 5, fill=SLATE, stroke=SLATE); f.circle(448, 62, 5, fill=SLATE, stroke=SLATE)
+f.circle(474 + 18, 66, 5, fill="#94a3b8", stroke="#94a3b8") if False else None
+for r_ in range(3):
+    for c in range(3):
+        f.circle(504 + c * 22, 24 + r_ * 22, 7, fill=RED if (r_, c) == (1, 1) else "#cbd5e1", stroke=RED if (r_, c) == (1, 1) else "#cbd5e1")
+for i, t in enumerate(["label near its field", "same style = same job", "simple logos, icons", "aligned flows", "cards, panels", "the main button"]):
+    f.text(49 + i * 96, 128, t, size=9, color=SLATE, bold=True)
+```
+
+```svgfig label="5.3" caption="Colour schemes computed from the colour wheel. Hues are angles; the teal at 174 degrees has its complement at 354 degrees (a red), its analogous neighbours at 144 and 204 degrees and a triad at 294 and 54 degrees. Right: each scheme as chips (hex codes computed with the HSL model). Bottom: the 60-30-10 rule: 60 percent neutral, 30 percent secondary, 10 percent accent."
+f = Fig(580, 240)
+import_cs = __import__("colorsys")
+def hx(h, s, l):
+    r, g, b = import_cs.hls_to_rgb((h % 360) / 360.0, l, s)
+    return "#%02x%02x%02x" % (round(r * 255), round(g * 255), round(b * 255))
+cx, cy, R, r0 = 112, 114, 100, 38
+cm = __import__("math")
+for i in range(12):
+    a0, a1 = cm.radians(i * 30 - 90), cm.radians(i * 30 + 30 - 90)
+    p = lambda rad, a: (cx + rad * cm.cos(a), cy + rad * cm.sin(a))
+    P1, P2, P3, P4 = p(R, a0), p(R, a1), p(r0, a1), p(r0, a0)
+    f.raw('<path d="M %.1f %.1f A %d %d 0 0 1 %.1f %.1f L %.1f %.1f A %d %d 0 0 0 %.1f %.1f Z" fill="%s" stroke="#ffffff" stroke-width="1.5"/>' % (P1[0], P1[1], R, R, P2[0], P2[1], P3[0], P3[1], r0, r0, P4[0], P4[1], hx(i * 30 + 15, 0.7, 0.5)))
+for hue, lab in [(174, "174"), (354, "354")]:
+    a = cm.radians(hue - 90)
+    f.circle(cx + 69 * cm.cos(a), cy + 69 * cm.sin(a), 11, fill="#ffffff", stroke=NAVY, sw=2, label=lab, size=9.5, color=NAVY)
+f.line(cx + 69 * cm.cos(cm.radians(84)), cy + 69 * cm.sin(cm.radians(84)), cx + 69 * cm.cos(cm.radians(264)), cy + 69 * cm.sin(cm.radians(264)), color=NAVY, sw=1.2, dash=True)
+f.text(cx, 232, "hue wheel (degrees)", size=9.5, color=SLATE, bold=True)
+rows = [("Monochromatic", [hx(174, 0.8, l) for l in (0.15, 0.28, 0.4, 0.6, 0.85)]), ("Analogous", [hx(h, 0.7, 0.4) for h in (144, 174, 204)]),
+        ("Complementary", [hx(174, 0.7, 0.4), hx(354, 0.7, 0.4)]), ("Triadic", [hx(174, 0.7, 0.4), hx(294, 0.7, 0.4), hx(54, 0.7, 0.4)])]
+for i, (n, cs) in enumerate(rows):
+    y = 12 + i * 38
+    f.text(236, y + 14, n, size=10, color=NAVY, bold=True, anchor="start", vmid=True)
+    for j, c in enumerate(cs):
+        f.box(352 + j * 44, y, 40, 28, "", fill=c, stroke="#ffffff", r=3, sw=1)
+        f.text(372 + j * 44, y + 38 - 8, "", size=9)
+f.text(236, 176, "60 - 30 - 10", size=10, color=NAVY, bold=True, anchor="start")
+f.box(236, 186, 336 * 0.6, 26, "60% neutral", fill="#f1f5f9", stroke="#94a3b8", size=10, color=SLATE, bold=True, r=0)
+f.box(236 + 336 * 0.6, 186, 336 * 0.3, 26, "30% teal", fill="#99f6e4", stroke="#0f766e", size=10, color=TEAL, bold=True, r=0)
+f.box(236 + 336 * 0.9, 186, 336 * 0.1, 26, "10%", fill=AMBER, stroke=AMBER, size=9.5, color="#ffffff", bold=True, r=0)
+f.text(236, 226, "10% accent: the primary button, links and highlights.", size=9.5, color=SLATE, bold=True, anchor="start")
+```
+
+```svgfig label="5.4" caption="A modular type scale and the reading rules. With a 16 px base and the ratio 1.25 (major third) the sizes are 16, 20, 25, 31.25 and 39.06 px, each shown at its true size. Right: the measure should be 45 to 75 characters, the line height 1.4 to 1.6 times the size (more for Devanagari), left-aligned and never all capitals for long text."
+f = Fig(580, 232)
+sizes = [(39.06, "H1  39.06 px"), (31.25, "H2  31.25 px"), (25, "H3  25 px"), (20, "H4  20 px"), (16, "Body  16 px")]
+y = 8
+for s, lab in sizes:
+    f.text(8, y + s * 0.8, "Exam form", size=s, color=NAVY, bold=(s > 16), anchor="start")
+    f.text(262, y + s * 0.8, lab, size=9.5, color=SLATE, bold=True, anchor="start")
+    y += s * 1.28 + 4
+f.text(8, y + 8, "Each step = previous step x 1.25", size=9.5, color=TEAL, bold=True, anchor="start")
+f.box(330, 8, 244, 214, "", fill=SOFT, stroke="#cbd5e1", r=6)
+for j, s in enumerate(["Reading rules", "", "Size: 16 px or more", "Line height: 1.4 to 1.6", "(Devanagari: 1.5 or more)", "Measure: 45 to 75 characters", "(phones: 35 to 50)", "Align: left, not justified", "Weight: 400 body, 600 headings", "Case: sentence case", "Fonts: one or two families"]):
+    f.text(342, 26 + j * 17, s, size=10 if j else 11, color=NAVY if j == 0 else SLATE, bold=(j == 0 or j == 2), anchor="start")
+f.line(342, 214, 342 + 190, 214, color=TEAL, sw=2.2)
+f.text(342, 205, "about 60 characters per line", size=9, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="5.5" caption="Visual hierarchy: the same payment screen flat and ranked. Left: every line has the same size, weight and colour, so nothing is first. Right: size makes the amount the headline, colour and a filled shape make Pay the primary action, grey recedes for the details, and extra space groups the payee with the amount. The squint test would show only the amount and the button, which are the right things."
+f = Fig(580, 214)
+for i, ranked in enumerate([False, True]):
+    x = 8 + i * 290
+    f.box(x, 6, 272, 178, "", fill="#ffffff", stroke=SLATE, r=12, sw=1.6)
+    f.text(x + 136, 200, "Flat: nothing is first" if not ranked else "Ranked: amount, then Pay", size=10.5, color=RED if not ranked else TEAL, bold=True)
+    if not ranked:
+        for j, t in enumerate(["Pay to Hari Shrestha", "Amount Rs 1,250", "From: Main account", "Note: rent for Baisakh", "Fee: Rs 0", "Pay    Cancel"]):
+            f.text(x + 16, 28 + j * 26, t, size=11, color=SLATE, anchor="start", bold=False)
+    else:
+        f.text(x + 16, 26, "Pay to Hari Shrestha", size=10, color="#64748b", anchor="start")
+        f.text(x + 16, 62, "Rs 1,250", size=30, color=NAVY, bold=True, anchor="start")
+        f.text(x + 16, 90, "From Main account  -  Fee Rs 0", size=9.5, color="#64748b", anchor="start")
+        f.text(x + 16, 108, "Note: rent for Baisakh", size=9.5, color="#64748b", anchor="start")
+        f.box(x + 16, 128, 240, 34, "Pay Rs 1,250", fill=NAVY, stroke=NAVY, color="#ffffff", size=12, bold=True, r=8)
+        f.text(x + 136, 175, "Cancel", size=10, color=NAVY, bold=True)
+```
+
+```svgfig label="5.6" caption="The six navigation structures. Hub and spoke: every trip goes through the centre. Fully connected: every page links to every other, which is n(n - 1) / 2 = 10 links for 5 pages and grows quickly. Tree: 4 categories with 4 items each reach 16 pages in two clicks, and 64 in three. Stepwise: a fixed order such as checkout. Pyramid: a sequence with detail pages. Flat: all pages one click from one menu."
+f = Fig(580, 262)
+cm = __import__("math")
+titles = ["Hub and spoke", "Fully connected", "Multilevel tree", "Stepwise", "Pyramid", "Flat"]
+subs = ["phone home screen", "5 pages: 10 links", "4 x 4 x 4 = 64 pages", "wizard, checkout", "course with details", "single menu"]
+for i in range(6):
+    x, y = 4 + (i % 3) * 194, 4 + (i // 3) * 130
+    f.box(x, y, 186, 90, "", fill="#ffffff", stroke="#94a3b8", r=5, sw=1.2)
+    f.text(x + 93, y + 104, titles[i], size=10, color=NAVY, bold=True)
+    f.text(x + 93, y + 118, subs[i], size=9.5, color=SLATE)
+x, y = 4, 4
+for k in range(5):
+    a = cm.radians(k * 72 - 90)
+    px, py = x + 93 + 34 * cm.cos(a), y + 46 + 34 * cm.sin(a)
+    f.line(x + 93, y + 46, px, py, color="#94a3b8", sw=1.6); f.circle(px, py, 8, fill=BLUE, stroke=NAVY)
+f.circle(x + 93, y + 46, 11, fill=SAND, stroke=AMBER, label="H", size=9.5)
+x, y = 198, 4
+pts = [(x + 93 + 34 * cm.cos(cm.radians(k * 72 - 90)), y + 46 + 34 * cm.sin(cm.radians(k * 72 - 90))) for k in range(5)]
+for a in range(5):
+    for b in range(a + 1, 5):
+        f.line(pts[a][0], pts[a][1], pts[b][0], pts[b][1], color="#94a3b8", sw=1.1)
+for p_ in pts:
+    f.circle(p_[0], p_[1], 7, fill=BLUE, stroke=NAVY)
+x, y = 392, 4
+f.circle(x + 93, y + 14, 8, fill=SAND, stroke=AMBER)
+for c in range(3):
+    cxx = x + 36 + c * 57
+    f.line(x + 93, y + 14, cxx, y + 46, color="#94a3b8", sw=1.4); f.circle(cxx, y + 46, 7, fill=BLUE, stroke=NAVY)
+    for d in range(2):
+        dx = cxx - 14 + d * 28
+        f.line(cxx, y + 46, dx, y + 76, color="#94a3b8", sw=1.2); f.circle(dx, y + 76, 5, fill="#ffffff", stroke=NAVY)
+x, y = 4, 134
+for c in range(4):
+    f.circle(x + 26 + c * 45, y + 46, 12, fill=BLUE, stroke=NAVY, label=str(c + 1), size=9.5)
+    if c < 3: f.arrow([(x + 38 + c * 45, y + 46), (x + 59 + c * 45, y + 46)], color=SLATE, sw=1.5)
+x, y = 198, 134
+for c in range(3):
+    f.box(x + 12 + c * 58, y + 12, 50, 22, "L%d" % (c + 1), fill=BLUE, stroke=NAVY, size=9.5, bold=True, r=4)
+    if c < 2: f.arrow([(x + 62 + c * 58, y + 23), (x + 70 + c * 58, y + 23)], color=SLATE, sw=1.3)
+    f.line(x + 37 + c * 58, y + 34, x + 37 + c * 58, y + 52, color="#94a3b8", sw=1.3)
+    f.box(x + 22 + c * 58, y + 52, 30, 16, "", fill="#ffffff", stroke=NAVY, r=3, sw=1.2)
+x, y = 392, 134
+f.box(x + 8, y + 8, 170, 18, "Menu: A  B  C  D  E  F", fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True, r=3)
+for c in range(6):
+    f.box(x + 8 + c * 29, y + 40, 25, 30, "", fill=BLUE, stroke=NAVY, r=3, sw=1.2)
+    f.line(x + 20 + c * 29, y + 26, x + 20 + c * 29, y + 40, color="#94a3b8", sw=1.1)
+```
+
+### 5.7.1 Eight rules for visual design and navigation in Nepal
+
+1. **Build on a grid.** Align every box to a 12-column grid (Fig. 5.1) so that spacing is regular and the page looks calm. A college portal with a header, a 3-column sidebar and a 9-column main area is easy to build and to make responsive. Developers also like it, because the numbers are exact.
+2. **Group by proximity and common region.** Put a label next to its field and more space between sections than inside them (Fig. 5.2). On a Fonepay or eSewa payment screen, the amount, the payee and the Pay button should look like one group. Clear groups let the user read the screen without effort.
+3. **Choose a small palette.** Pick one brand colour and neutral greys, and use the 60-30-10 rule (Fig. 5.3). Keep the accent for the primary button so it stands out. Check that the colours still look right under Nepali sunlight on a cheap phone.
+4. **Never use colour alone.** About 8 percent of men have colour-vision deficiency (Plate 3.2b), and red can mean danger or good luck in Nepal. Add an icon, a text word or a pattern to every status colour. White is purity in some countries but mourning in Nepali culture, so test with local users.
+5. **Set readable type.** Use 16 px or more, a line height of 1.4 to 1.6 and 45 to 75 characters per line (Fig. 5.4). Devanagari needs 1.5 or more because of the shirorekha and the vowel signs, and the font must show conjuncts correctly. Use one or two families and a modular scale.
+6. **Rank the screen.** Decide what is first, second and third, and use size, colour, contrast and space to show it (Fig. 5.5). A newspaper does this with its headline (Plate 5.1a). Try the squint test: if the wrong thing remains visible, change the design.
+7. **Keep navigation predictable.** Put global navigation in the same place on every page, highlight the current place, add breadcrumbs for deep sites and use words that users use (Plate 5.2). A government service site should let a citizen find "Passport" in two clicks, not search through six menus. Test the structure with card sorting and tree testing.
+8. **Choose the structure to fit the task.** Use hub and spoke for a simple app, a stepwise flow for a payment or a form, a tree for a large catalogue and a flat menu for a small site (Fig. 5.6). A fully connected site breaks when it grows, because links grow as n(n - 1) / 2. Add a progress indicator to any stepwise flow.
+
 ## Formula and fact sheet
 
 - Contrast ratio = (L₁ + 0.05)/(L₂ + 0.05); AA: 4.5 : 1 text, 3 : 1 large text and UI; AAA: 7 : 1 / 4.5 : 1.
@@ -237,3 +444,143 @@ Other tools: **position** (top-left first), **whitespace** (isolation emphasises
 **9.** Global: the main menu on every page; local: a section's side menu; utility: login, cart, language; associative: "related articles"; inline: links inside text.
 **10.** (a) Hub and spoke — a central list of independent settings; (b) multilevel/tree with search and breadcrumbs; (c) stepwise with progress indicator; (d) flat (or fully connected) — only five pages.
 :::
+
+## Model answers for Unit 5
+
+**Q1. Explain page layout: grids, reading patterns and the Gestalt principles. (10 marks)**
+
+**Introduction.** **Layout** is the arrangement of elements on a page so that the user sees what matters first and understands how the parts relate. Good layout rests on a grid, on how the eye moves and on how the mind groups things.
+
+**Grids.** A grid divides the page into columns, gutters and margins so that elements align (Fig. 5.1). A common web grid has 12 columns, because 12 divides by 2, 3, 4 and 6. With a 960 px container and 20 px gutters, a column is (960 - 11 x 20) / 12 = 61.67 px. Other grids are the modular grid (cards), the baseline grid (text lines) and the hierarchical grid.
+
+**Reading patterns.** Eye tracking (Plate 3.2c) shows that people scan: the **F-pattern** for text-heavy pages, the **Z-pattern** for simple pages and the **layer-cake** pattern when headings are scanned. Therefore the logo goes top-left, the main call to action where the eye ends, and key information above the fold.
+
+**Gestalt principles (Fig. 5.2).**
+
+| Principle | Meaning | Use |
+|---|---|---|
+| Proximity | near things form a group | label near its field |
+| Similarity | similar things belong together | same style, same job |
+| Closure | the mind completes shapes | simple logos and icons |
+| Continuity | the eye follows lines | aligned items and flows |
+| Figure and ground | subject separates from background | modal over a dimmed page |
+| Common region | a boundary groups its contents | cards and panels |
+| Focal point | the odd one out wins attention | the primary button |
+
+**White space.** White space separates groups, rests the eye and raises perceived quality; crowding makes everything equal and therefore nothing important. Other tools are balance, rhythm, unity, emphasis, the rule of thirds and the golden ratio (a 960 px layout splits into about 593 px and 367 px).
+
+**Worked example.** A result portal uses a 12-column grid with a 3-column sidebar for the exam list and a 9-column main area for marks. The marks table is left-aligned on one strong edge, the heading is the largest item, the Download button is the only filled button, and the space between the filter group and the table is twice the space inside the group. A student who scans the page in an F-shape finds the title, the exam name and the button in under two seconds.
+
+**Conclusion.** A grid gives order, scanning patterns tell where to place content and Gestalt principles tell how to group it. Together they let a user understand a page in a glance.
+
+**Q2. Explain colour schemes, the 60-30-10 rule and the WCAG contrast test. How does culture affect colour? (10 marks)**
+
+**Introduction.** Colour attracts attention, groups items and carries meaning, but it must also be accessible. Screens use the additive **RGB** model (hex #0F766E is R 15, G 118, B 110); designers think in **HSL**: hue (0 to 360 degrees), saturation and lightness. A **tint** adds white, a **shade** adds black and a **tone** adds grey.
+
+**Colour schemes (Fig. 5.3).**
+
+| Scheme | How chosen | Effect |
+|---|---|---|
+| Monochromatic | one hue, different lightness | calm, cohesive |
+| Analogous | neighbouring hues (144, 174, 204 degrees) | harmonious |
+| Complementary | opposite hues (174 and 354 degrees) | strong contrast; use one as an accent |
+| Split-complementary | a hue and the two neighbours of its complement | contrast with less tension |
+| Triadic | three hues 120 degrees apart (174, 294, 54) | colourful; needs balance |
+
+**The 60-30-10 rule.** Use 60 percent neutral (backgrounds), 30 percent secondary colour (surfaces, secondary parts) and 10 percent accent (primary buttons, links). A UI palette also has semantic colours: green success, amber warning, red error, blue information.
+
+**WCAG contrast.** The contrast ratio is (L1 + 0.05) / (L2 + 0.05), where L1 is the relative luminance of the lighter colour and L2 of the darker one. Level AA needs at least 4.5 to 1 for normal text and 3 to 1 for large text and for UI components (Fig. 1.3).
+
+**Culture.** Red means danger but also luck and marriage in Nepal and India; white means purity but also mourning in Nepali culture; green means success; blue means trust. About 8 percent of men and 0.5 percent of women have colour-vision deficiency, so colour must never be the only signal: add an icon or text.
+
+**Worked example.** A fee-payment app chooses teal (174 degrees) as the brand colour. Backgrounds are near-white and grey (60 percent), cards and headers use a pale teal tint (30 percent), and the Pay button is an amber accent (10 percent), which is close to the complement of blue and stands out. White text on the dark teal passes AA at about 5.5 to 1, and every success or error message carries an icon and a word as well as a colour.
+
+**Conclusion.** A good palette is small, follows 60-30-10, passes the contrast test and is tested with local users.
+
+**Q3. State the rules for font selection and typographic controls for screens. (5 marks)**
+
+**Typography** is the art of arranging type so that text is readable, legible and expressive.
+
+**Font selection.**
+
+- Use **one or two families**: for example one sans-serif such as Inter or Poppins for headings and one for body, or one family in several weights.
+- Choose **legibility first**: distinct letters (I, l, 1), a large x-height and open counters, tested on real devices.
+- Match the **brand mood**, check **language coverage** (a Devanagari font such as Noto Sans Devanagari, Mukta or Hind for Nepali) and licensing, and load few web-font files with `font-display: swap`.
+
+**Typographic controls (Fig. 5.4).**
+
+| Property | Guideline |
+|---|---|
+| Size | 16 px or more for body text |
+| Line height | 1.4 to 1.6 times the size; 1.5 or more for Devanagari |
+| Measure | 45 to 75 characters per line (35 to 50 on phones) |
+| Alignment | left; avoid justified text and centred paragraphs |
+| Weight and case | 400 body, 600 to 700 headings; sentence case |
+
+A **modular scale** multiplies a base by a ratio: 16 px with 1.25 gives 16, 20, 25, 31.25 and 39.06 px for body, H4, H3, H2 and H1. Use relative units (rem) so users can enlarge text.
+
+**Q4. What is visual hierarchy? Explain the principles used to create it and the squint test. (5 marks)**
+
+**Visual hierarchy** orders elements by importance so that the eye notices the most important first and the least important last (Fig. 5.5).
+
+- **Size:** larger means more important; the amount is bigger than the note.
+- **Colour:** a saturated or warm colour attracts attention; muted colours recede, so one bright accent marks the primary button.
+- **Contrast:** a difference in tone, weight or fill makes an element stand out; the primary button is filled, secondary ones are outlined.
+- **Alignment:** a strong left edge organises content and makes it look related.
+- **Proximity and white space:** closeness groups items; isolation emphasises.
+- **Texture and elevation:** shadows and borders lift a card above its background.
+- **Time and motion:** what appears first is seen first.
+
+**Squint test.** Blur the design or squint at it: the elements that remain visible have the highest rank. If the remaining elements are not the right ones, change the sizes and colours. Aim for three or four levels of importance only.
+
+**Example.** On a payment screen, the amount (large), Pay (filled) and the payee (grey, small) should survive the squint test; the fee note should fade away.
+
+**Q5. Explain the types of navigation and the navigational models (information structures) with a diagram reference. (10 marks)**
+
+**Introduction.** **Navigation** helps users know where they are, where they can go and how to get back. Good navigation has consistent placement, labels in the users' words, a highlighted current place and shallow depth (Plate 5.2).
+
+**Types of navigation.**
+
+| Type | Description | Example |
+|---|---|---|
+| Global | main links on every page | header menu, bottom tab bar |
+| Local | links inside the current section | side menu of a chapter |
+| Utility | tools: login, cart, language, search | small links at the top-right |
+| Associative | related content | "see also", recommendations |
+| Inline | links inside text | "learn more" in a paragraph |
+| Supplementary | breadcrumbs, sitemap, footer, pagination | Home > Courses > BCA |
+
+**Navigational models (Fig. 5.6).**
+
+| Model | Structure | Best for | Weakness |
+|---|---|---|---|
+| Hub and spoke | a hub links to separate spokes | simple apps, phone home screen | no direct move between spokes |
+| Fully connected | every page links to all others | very small sites | n(n - 1) / 2 links: 10 for 5 pages |
+| Multilevel tree | home, categories, subcategories, items | large catalogues, documentation | deep trees hide content |
+| Stepwise | fixed order 1, 2, 3 | checkout, forms, onboarding | rigid; needs progress and Back |
+| Pyramid | sequence with detail pages | tutorials, courses | less flexible than a tree |
+| Flat | all pages one click from one menu | small sites | does not scale past about 10 items |
+
+**Mobile patterns.** The bottom tab bar (three to five destinations), the navigation drawer, gesture navigation and search-first design.
+
+**Testing.** Card sorting (users group the content) and tree testing (users find items in a text-only tree) show whether the structure matches the users' mental model.
+
+**Choosing a model.** A phone wallet starts as hub and spoke with a bottom tab bar. The payment itself is stepwise: payee, amount, confirm, receipt. The help centre is a tree with breadcrumbs, because it holds hundreds of articles. A fully connected structure would be wrong for any of them, since it needs n(n - 1) / 2 links and confuses the user as the site grows.
+
+**Example.** A college portal uses a global menu (Home, Results, Fees, Help), a local side menu in Results, utility links (Login, Nepali or English), breadcrumbs and a stepwise flow for the fee payment.
+
+**Conclusion.** Choose the structure to fit the task and the size of the site, and always show the user's location and the way back.
+
+**Q6. A page has a 1440 px container, 30 px gutters and 12 columns. Find the column width and the width of boxes spanning 4 and 8 columns. Check with a 960 px grid. (5 marks)**
+
+**Column width.** Column = (container - 11 x gutter) / 12 = (1440 - 11 x 30) / 12 = (1440 - 330) / 12 = 1110 / 12 = **92.5 px**.
+
+**Spanning n columns.** Width = n x column + (n - 1) x gutter.
+
+- 4 columns: 4 x 92.5 + 3 x 30 = 370 + 90 = **460 px**.
+- 8 columns: 8 x 92.5 + 7 x 30 = 740 + 210 = **950 px**.
+- Check: 460 + 30 (gutter) + 950 = 1440 px, so the two boxes fill the container.
+
+**Check with 960 px and 20 px gutters.** Column = (960 - 220) / 12 = 61.67 px. A 3-column box is 3 x 61.67 + 2 x 20 = 225 px, a 9-column box is 9 x 61.67 + 8 x 20 = 715 px, and 225 + 20 + 715 = 960 px (Fig. 5.1).
+
+**Comment.** The same method works for any container, so developers can compute widths exactly. Boxes that start and end on column edges look aligned. On a phone, the 12 columns collapse to 4 and the boxes stack in one column, as in the responsive breakpoints of Fig. 3.6.
