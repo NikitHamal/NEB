@@ -18,7 +18,7 @@ Goal: bring the Android app up to the web's m3x design system (brand blue, Poppi
 
 - Nested replies are always comments (the kind chips live only on the main thread composer, matching the API).
 - Mark sheet shows no label counts yet.
-- Post cards inside profile and search lists use `ForumPostCard`; `WebPostCard` (compact variant) still has the older drawing.
+- `WebPostCard` (search and profile rows) only got the 24dp radius; its inner layout is still the older drawing.
 - Nothing here has been seen on a device. Both `compileModernDebugKotlin` and `compileLegacyDebugKotlin` pass. First thing to do on hardware: splash timing, intro blob morph (assumes MaterialShapes polygons live in the unit box), dark theme.
 
 ## Build
