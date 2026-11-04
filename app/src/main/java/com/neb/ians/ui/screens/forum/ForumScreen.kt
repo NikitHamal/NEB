@@ -154,7 +154,7 @@ fun ForumScreen(
             Surface(
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 1.dp,
-                shadowElevation = 0.5.dp,
+                shadowElevation = 0.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(

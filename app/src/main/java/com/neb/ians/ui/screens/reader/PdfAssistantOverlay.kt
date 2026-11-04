@@ -180,7 +180,7 @@ private fun PdfAiPanel(
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 2.dp,
-        shadowElevation = 10.dp,
+        shadowElevation = 0.dp,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(Modifier.fillMaxSize()) {
@@ -421,7 +421,7 @@ private fun PdfAiPromptBar(
         },
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 4.dp,
-        shadowElevation = 8.dp,
+        shadowElevation = 0.dp,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Row(
