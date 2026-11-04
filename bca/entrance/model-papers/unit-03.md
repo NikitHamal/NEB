@@ -341,3 +341,62 @@ A mountain river in the hills of Nepal turns pale in the dry season because it c
 **99.** (c) — HyperText Markup Language.
 **100.** (b) — James Gosling.
 :::
+
+
+## Score sheet and error analysis
+
+Use the figures and steps below after you finish the paper. Mark your sheet with the answer key, enter the group scores, then work through the error log.
+
+```svgfig label="3.1" caption="Answer-key balance of Model Paper 2. Each bar counts how many correct answers are a, b, c or d in a group. The cell reads the 100-letter key and checks the group sizes (40, 50, 10) and the totals a=24, b=25, c=26, d=25; the longest run of one repeated letter is 2. A balanced key means a pattern guess cannot replace knowledge, so answer each question on its merits."
+KEY = "adcbbdaccabddbcaacdbcbaddcbaabcdabcbdacddbcaadcbbcadbcdacbdabcadabdcbcdaccbdacbdadbccadbadbcadcbdacb"
+G = [("A English", KEY[:40]), ("B Mathematics", KEY[40:90]), ("C GK and IT", KEY[90:])]
+assert [len(g[1]) for g in G] == [40, 50, 10] and len(KEY) == 100
+assert [KEY.count(c) for c in "abcd"] == [24, 25, 26, 25]
+import re
+assert max(len(m.group(0)) for m in re.finditer(r"(.)\1*", KEY)) == 2
+f = Fig(780, 250)
+cl = [NAVY, TEAL, AMBER, RED]
+f.text(14, 14, "Correct answers by letter", size=11.5, color=NAVY, bold=True, anchor="start")
+for i, (name, v) in enumerate(G):
+    y = 30 + i * 52
+    f.box(14, y, 130, 40, name, fill=SOFT, stroke=NAVY, color=NAVY, size=11, bold=True)
+    x = 150
+    for j, c in enumerate("abcd"):
+        k = v.count(c)
+        w = k / len(v) * 560
+        f.box(x, y, w - 3, 40, "%s %d" % (c, k), fill=cl[j], stroke=cl[j], color="#ffffff", size=11, bold=True)
+        x += w
+f.text(14, 196, "Total: " + ",  ".join("%s = %d" % (c, KEY.count(c)) for c in "abcd"), size=11.5, color=SLATE, anchor="start", bold=True)
+f.text(14, 224, "Each letter appears between 20 and 30 times: no letter is 'due'. Never choose by pattern.", size=10.5, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.2" caption="Score sheet for Model Paper 2. Each group has its question count, time budget (English 30 min, Mathematics 70, GK and IT 5, checking 15) and seconds per question, which the cell computes. The right-hand boxes are blank for your own score. The illustrative targets (English 32, Mathematics 35, GK and IT 8, total 75) are study goals chosen by NEBians, not a TU pass mark or cut-off."
+rows = [("A English", 40, 30, 32), ("B Mathematics", 50, 70, 35), ("C GK and IT", 10, 5, 8)]
+assert sum(r[1] for r in rows) == 100 and sum(r[3] for r in rows) == 75
+assert [round(r[2] * 60 / r[1]) for r in rows] == [45, 84, 30]
+f = Fig(780, 250)
+for x, w, h in [(14, 150, "group"), (168, 90, "questions"), (262, 90, "minutes"), (356, 110, "seconds per Q"), (470, 120, "target (goal)"), (594, 172, "my score")]:
+    f.box(x, 8, w, 26, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+for i, (g, q, m, t) in enumerate(rows):
+    y = 40 + i * 44
+    f.box(14, y, 150, 38, g, fill=BLUE, stroke=NAVY, color=NAVY, size=11, bold=True)
+    f.box(168, y, 90, 38, str(q), fill=SOFT, stroke="#cbd5e1", color=SLATE, size=12)
+    f.box(262, y, 90, 38, str(m), fill=SOFT, stroke="#cbd5e1", color=SLATE, size=12)
+    f.box(356, y, 110, 38, "%d s" % round(m * 60 / q), fill=SOFT, stroke="#cbd5e1", color=SLATE, size=12)
+    f.box(470, y, 120, 38, "%d / %d" % (t, q), fill=MINT, stroke=TEAL, color=TEAL, size=12, bold=True)
+    f.box(594, y, 172, 38, "       / %d" % q, fill="#ffffff", stroke=SLATE, color=SLATE, size=12, dash=True)
+y = 40 + 3 * 44
+f.box(14, y, 150, 38, "Total", fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True)
+f.box(168, y, 90, 38, "100", fill=SOFT, stroke="#cbd5e1", color=SLATE, size=12)
+f.box(262, y, 90, 38, "105", fill=SOFT, stroke="#cbd5e1", color=SLATE, size=12)
+f.box(356, y, 110, 38, "(120 with check)", fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10)
+f.box(470, y, 120, 38, "75 / 100", fill=MINT, stroke=TEAL, color=TEAL, size=12, bold=True)
+f.box(594, y, 172, 38, "       / 100", fill="#ffffff", stroke=SLATE, color=SLATE, size=12, dash=True)
+f.text(14, 236, "105 minutes of answering + 15 minutes of checking = 120 minutes.", size=10.5, color=SLATE, anchor="start")
+```
+
+1. **Score each group separately** and compare with the target boxes in Fig 3.2. A low group tells you which units to revisit first.
+2. **Write an error log line for every miss**: question number, the cause (formula, arithmetic slip, grammar rule, never learnt) and the unit that fixes it.
+3. **Redo each missed question after two days**, without looking at the explanation. A question you can now solve is fixed; one you cannot goes back into the log.
+4. **Check your time**: if Mathematics took more than 70 minutes, practise skipping and returning (Fig 3.2).
+5. **Do not read patterns into the key** (Fig 3.1). The letters are spread across a, b, c and d.
