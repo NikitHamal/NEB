@@ -5,6 +5,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -91,6 +93,7 @@ import com.neb.ians.ui.screens.auth.LoginScreen
 import com.neb.ians.ui.screens.auth.EmailAuthScreen
 import com.neb.ians.ui.screens.auth.EmailVerificationScreen
 import com.neb.ians.ui.screens.auth.ForgotPasswordScreen
+import com.neb.ians.ui.screens.onboarding.IntroScreen
 import com.neb.ians.ui.screens.onboarding.OnboardingScreen
 import com.neb.ians.ui.screens.results.ResultCheckerScreen
 import com.neb.ians.ui.screens.results.ToolsScreen
@@ -105,6 +108,7 @@ import com.neb.ians.ui.theme.NebAccents
 
 sealed class Screen(val route: String) {
     data object Splash : Screen("splash")
+    data object Intro : Screen("intro")
     data object Login : Screen("login")
     data object EmailAuth : Screen("email_auth")
     data object EmailVerification : Screen("email_verification/{email}") {
@@ -251,6 +255,7 @@ fun NEBiansNavHost(
                 // Allow Splash to complete its 2-second experience and route to Login naturally
                 if (currentRoute != null &&
                     currentRoute != Screen.Splash.route &&
+                    currentRoute != Screen.Intro.route &&
                     currentRoute != Screen.Login.route &&
                     currentRoute != Screen.EmailAuth.route
                 ) {
@@ -404,6 +409,26 @@ fun NEBiansNavHost(
                     onNavigateToCompleteProfile = {
                         navController.navigate(Screen.CompleteProfile.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToIntro = {
+                        navController.navigate(Screen.Intro.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable(
+                Screen.Intro.route,
+                enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) },
+                exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) }
+            ) {
+                val introScope = rememberCoroutineScope()
+                IntroScreen(
+                    onFinish = {
+                        introScope.launch { settingsViewModel.settingsRepository.setIntroSeen(true) }
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Intro.route) { inclusive = true }
                         }
                     }
                 )
