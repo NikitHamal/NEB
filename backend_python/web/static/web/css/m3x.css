@@ -300,12 +300,12 @@ html[data-site-theme]:not([data-site-theme="everyday"]) {
 .md-btn { cursor: pointer; }
 .md-btn-small { border-radius: var(--md-shape-full); }
 @media (hover: hover) {
-  .m3-btn:hover, .md-btn:hover { border-radius: 18px; }
-  .md-btn-small:hover { border-radius: 14px; }
+  .m3-btn:hover, .md-btn:hover { }
+  .md-btn-small:hover { }
   .m3-btn:hover::before, .md-btn:hover::before { opacity: .08; }
   .m3-btn:hover .arrow { transform: translateX(5px); }
 }
-.m3-btn:active, .md-btn:active { border-radius: 12px; transform: scale(.95); transition-duration: .12s; }
+.m3-btn:active, .md-btn:active { transform: scale(.95); transition-duration: .12s; }
 .m3-btn:active::before, .md-btn:active::before { opacity: .14; }
 .md-btn:disabled, .md-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
 
@@ -313,8 +313,8 @@ html[data-site-theme]:not([data-site-theme="everyday"]) {
 .md-btn-icon, .md-icon-btn {
   width: 42px; height: 42px; transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s, color .2s;
 }
-@media (hover: hover) { .md-btn-icon:hover, .md-icon-btn:hover { border-radius: 14px; background: var(--md-surface-container-high); } }
-.md-btn-icon:active, .md-icon-btn:active { transform: scale(.9); border-radius: 12px; }
+@media (hover: hover) { .md-btn-icon:hover, .md-icon-btn:hover { background: var(--md-surface-container-high); } }
+.md-btn-icon:active, .md-icon-btn:active { transform: scale(.9); }
 
 /* ---------- theme toggle: one button for the landing page and the app (components/_theme_toggle.html) ----------
    Round, squares up (but never to a corner) on hover, squishes on press; the sun turns into the moon. */
@@ -325,8 +325,8 @@ html[data-site-theme]:not([data-site-theme="everyday"]) {
   -webkit-tap-highlight-color: transparent;
   transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s;
 }
-@media (hover: hover) { .theme-btn:hover { border-radius: 15px; background: var(--sf-highest, var(--md-surface-container-highest)); } }
-.theme-btn:active { transform: scale(.9); border-radius: 13px; }
+@media (hover: hover) { .theme-btn:hover { background: var(--sf-highest, var(--md-surface-container-highest)); } }
+.theme-btn:active { transform: scale(.9); }
 .theme-btn svg { grid-area: 1 / 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .6s var(--spring), opacity .25s; }
 .theme-btn .ic-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
 .theme-btn .ic-sun { opacity: 1; }
@@ -356,3 +356,7 @@ html[data-site-theme]:not([data-site-theme="everyday"]) {
   .js [data-reveal] { opacity: 1; transform: none; }
   @view-transition { navigation: none; }
 }
+
+/* Google Play mark inside a button: flat four-colour glyph, no ring, no fill behind it. */
+.gp-btn { gap: 10px; }
+.gp-btn .gp-icon { flex: none; display: block; width: 22px; height: 22px; }

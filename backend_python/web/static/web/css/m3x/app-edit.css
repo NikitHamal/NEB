@@ -61,7 +61,7 @@
   border: 0; border-radius: 50%; cursor: pointer; background: transparent; color: var(--md-on-surface-variant);
   transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .25s var(--spring);
 }
-.fe-icon:hover { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 14px; }
+.fe-icon:hover { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .fe-icon:active { transform: scale(.9); }
 .fe-icon:disabled { opacity: .4; cursor: not-allowed; background: transparent; border-radius: 50%; color: var(--md-on-surface-variant); }
 .fe-badge {
@@ -116,7 +116,7 @@
   transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .25s var(--spring);
 }
 .na-btn .material-symbols-outlined { font-size: 20px; }
-.na-btn:hover { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 12px; }
+.na-btn:hover { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .na-btn[data-na="remove"]:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
 .na-btn:active { transform: scale(.9); }
 .na-btn:disabled { opacity: .35; cursor: not-allowed; background: transparent; border-radius: 50%; }

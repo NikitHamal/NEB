@@ -30,7 +30,7 @@
   background: transparent; color: var(--md-on-surface-variant); cursor: pointer;
   transition: border-radius .45s var(--spring), background-color .2s, color .2s;
 }
-.search-page-bar .bar-actions > :hover { border-radius: 16px; background: var(--md-surface-container-high); color: var(--md-on-surface); }
+.search-page-bar .bar-actions > :hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
 :root .search-page-bar .bar-actions .material-symbols-outlined { font-size: 24px; color: inherit; }
 :root .search-page-bar .bar-actions > button.has-filters { background: var(--md-primary); color: var(--md-on-primary); }
 :root .search-page-bar .bar-actions > button.has-filters:hover { background: var(--md-primary); color: var(--md-on-primary); }
@@ -42,8 +42,7 @@
   font: 600 .875rem/1 var(--md-font); text-decoration: none; cursor: pointer;
   transition: border-radius .45s var(--spring), background-color .2s, color .2s, border-color .2s, transform .4s var(--spring);
 }
-:root :is(.md-chip, .search-filter-chip, .neb-choice-chip, .x-chip):hover {
-  border-radius: 14px; border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 8%, var(--md-surface-container-lowest));
+:root :is(.md-chip, .search-filter-chip, .neb-choice-chip, .x-chip):hover { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 8%, var(--md-surface-container-lowest));
 }
 :root :is(.md-chip, .neb-choice-chip, .x-chip):active { transform: scale(.95); }
 :root :is(.md-chip-active, .neb-choice-chip.is-selected, .neb-choice-chip[aria-pressed="true"], .x-chip[aria-pressed="true"], .x-chip.is-on, .search-filter-chip) {
@@ -64,8 +63,8 @@
   transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s, color .2s;
 }
 .x-btn .material-symbols-outlined { font-size: 20px; }
-.x-btn:hover { border-radius: 16px; }
-.x-btn:active { transform: scale(.94); border-radius: 14px; }
+.x-btn:hover { }
+.x-btn:active { transform: scale(.94); }
 .x-btn-tonal { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .x-btn-ghost { background: transparent; color: var(--md-primary); border: 1.5px solid var(--md-outline-variant); }
 .x-btn-ghost:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); }
@@ -76,7 +75,7 @@
   background: var(--md-surface-container); color: var(--md-on-surface); text-decoration: none;
   transition: border-radius .45s var(--spring), transform .4s var(--spring), background-color .2s, color .2s;
 }
-.x-icon-btn:hover { border-radius: 16px; background: var(--md-surface-container-high); }
+.x-icon-btn:hover { background: var(--md-surface-container-high); }
 .x-icon-btn:active { transform: scale(.92); }
 .x-icon-btn.is-on { background: var(--md-primary); color: var(--md-on-primary); }
 
@@ -147,7 +146,7 @@
   min-width: 48px; height: 48px; padding: 0 6px; display: inline-grid; place-items: center; border-radius: 24px; text-decoration: none; font: 600 .9375rem/1 var(--md-font);
   background: var(--md-surface-container); color: var(--md-on-surface); transition: border-radius .45s var(--spring), background-color .2s;
 }
-.lib-pagination > a:hover { border-radius: 16px; background: var(--md-surface-container-high); }
+.lib-pagination > a:hover { background: var(--md-surface-container-high); }
 .lib-pagination .current { background: var(--md-primary); color: var(--md-on-primary); border-radius: 16px; }
 .lib-pagination .disabled { opacity: .4; }
 
@@ -162,10 +161,10 @@
   background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); font: 600 .9375rem/1.2 var(--md-font);
   transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s, border-color .2s;
 }
-.x-pop-tile:hover { border-radius: 16px; border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 7%, var(--md-surface-container-lowest)); }
+.x-pop-tile:hover { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 7%, var(--md-surface-container-lowest)); }
 .x-pop-tile:active { transform: scale(.96); }
 .x-pop-tile .material-symbols-outlined { width: 40px; height: 40px; display: grid; place-items: center; font-size: 22px; border-radius: 20px; background: var(--md-primary-container); color: var(--md-on-primary-container); transition: border-radius .5s var(--spring); }
-.x-pop-tile:hover .material-symbols-outlined { border-radius: 12px; }
+.x-pop-tile:hover .material-symbols-outlined { }
 #search-results .section { margin-top: 8px; }
 .x-search-wide { max-width: 1280px; }
 

@@ -276,6 +276,10 @@
             <span class="material-symbols-outlined">settings</span>
             <span>Settings</span>
           </a>
+          <a href="{% url 'web:about' %}">
+            <span class="material-symbols-outlined">info</span>
+            <span>About</span>
+          </a>
           <a href="{% url 'web:logout' %}" rel="nofollow" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
             <span>Sign Out</span>
@@ -316,6 +320,7 @@
         <a href="{% url 'web:tools_hub' %}">Tools</a>
         <a href="{% url 'web:news_list' %}">Blog</a>
         <a href="{% url 'web:leaderboard' %}">Leaderboard</a>
+        <a href="{% url 'web:about' %}">About</a>
         <a href="{% url 'web:faq' %}">Help</a>
         <a href="{% url 'web:privacy_policy' %}">Privacy</a>
         <a href="{% url 'web:terms_of_service' %}">Terms</a>
