@@ -2038,7 +2038,7 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## BCA polish session 45 (UX/UI Design, in progress)
 
-- **Done:** BCA 155 UX/UI Design Units 2, 3 and 4 (16 new real photos, 6 plates, 22 SVG figures, eight-point lists, Q1-Q6 each). Next unit: Unit 5 (see `bca/POLISH_STATUS.md`).
+- **Done:** BCA 155 UX/UI Design Units 2, 3, 4 and 5 (20 new real photos, 8 plates, 28 SVG figures, eight-point lists, Q1-Q6 each). Next unit: Unit 6 (see `bca/POLISH_STATUS.md`).
 - **Setup that worked:** shallow clone with out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` as GIT_ASKPASS (PAT never in the repo; the owner must rotate the PAT pasted in the prompt); `sudo -n apt-get update; sudo -n apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig`; `pip install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12`; `uv pip install --python /tmp/v/bin/python weasyprint pymupdf pypdf markdown pygments pillow numpy requests sympy matplotlib fonttools scipy pandas`; fonts via install.sh. Helpers `/tmp/ins2.py`, `/tmp/view.py`, `/tmp/wc.py` recreated (see session 34/40 notes).
 - **Gotcha:** photo `call X Y TX TY`: Y counts from the bottom; label is left-anchored when the target is left of X, right-anchored otherwise; keep it inside the cell.
-
+- **Gotcha:** every svgfig cell runs in its own namespace; re-define helpers like `cm = __import__('math')` inside each cell. Text wider than its slot is clipped silently: shorten labels and check the rendered page.
