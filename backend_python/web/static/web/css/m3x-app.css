@@ -1149,10 +1149,6 @@ select.neb-sel-native {
 .hf-peer { background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg); transition: border-radius .6s var(--spring); }
 @media (hover: hover) { .hf-peer:hover { border-radius: var(--md-shape-xl); } }
 .hf-peer-reason { color: var(--md-on-surface-variant); }
-.hf-peer-follow { background: var(--md-primary); color: var(--md-on-primary); border-radius: 999px; font-weight: 700; transition: border-radius .5s var(--spring), transform .4s var(--spring); }
-.hf-peer-follow:hover { }
-.hf-peer-follow:active { transform: scale(.94); }
-.hf-peer-follow:not(.not-following) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
 /* ---------- tonal "See all" and section heads ---------- */
 .hf-section-more, .hf-see-all, a.see-all { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 999px; font-weight: 700; }
@@ -2135,45 +2131,57 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 
 /* ---- m3x/app-follow.css ---- */
 /* The Follow button: one component for every place a person can be followed (feed, comments, search,
-   people rail, hover card, profile). Text only, small, two states told apart by tone:
-     not following -> filled primary "Follow"
-     following     -> neutral tonal "Following" (never primary, never a glyph)
-   A pill in every state; it presses in on tap but never changes shape. */
+   people rail, user popup, profile). A small tonal pill with a glyph:
+     not following -> primary-container pill, "+" glyph, "Follow"
+     following     -> quiet outlined pill, check glyph, "Following"
+   The glyph is a CSS mask so scripts that rewrite the label with textContent keep working.
+   Finite radius in every state; it presses in on tap but never changes shape.
+   The profile button already ships real Material Symbols, so it keeps those. */
 
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)) {
-  --fh: 28px;
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
+  --fh: 26px;
+  --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z'/%3E%3C/svg%3E");
   appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center; flex: none;
-  height: var(--fh); min-height: var(--fh); width: auto; padding: 0 14px; margin: 0; gap: 0;
-  border: 0 !important; border-radius: 14px; white-space: nowrap;
+  height: var(--fh); min-height: var(--fh); width: auto; max-width: 100%;
+  padding: 0 11px 0 7px; margin: 0; gap: 3px;
+  border: 1px solid transparent !important; border-radius: 13px; white-space: nowrap;
   font: 600 .75rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
-  background: var(--md-primary); color: var(--md-on-primary);
-  transition: background-color .2s, color .2s, transform .35s var(--spring);
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+  transition: background-color .2s, color .2s, border-color .2s, transform .35s var(--spring);
   -webkit-tap-highlight-color: transparent;
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle))::before { content: none !important; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)) > .material-symbols-outlined { display: none; }
+/* the glyph */
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)::before {
+  content: "" !important; display: block; flex: none; width: 16px; height: 16px; background: currentColor;
+  -webkit-mask: var(--fg) center / contain no-repeat; mask: var(--fg) center / contain no-repeat;
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following {
+  --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
+  padding: 0 11px 0 7px;
+  background: transparent; color: var(--md-on-surface-variant);
+  border-color: var(--md-outline-variant) !important;
+}
 
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):is(.following, :not(.not-following)),
+/* profile: bigger hero action, real glyphs, same two tones */
+.profile-page #btnFollowToggle { --fh: 36px; padding: 0 16px 0 12px; gap: 6px; font-size: .8125rem; border-radius: 18px; }
+.profile-page #btnFollowToggle > .material-symbols-outlined { display: inline-block; font-size: 18px; width: 18px; height: 18px; line-height: 18px; }
 .profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested) {
-  background: var(--md-surface-container-high); color: var(--md-on-surface);
+  background: transparent; color: var(--md-on-surface-variant); border-color: var(--md-outline-variant) !important;
 }
-/* a freshly rendered Follow button always carries .not-following; the primary fill is its only other state */
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following) {
-  background: var(--md-primary); color: var(--md-on-primary);
-}
-
-.profile-page #btnFollowToggle { --fh: 36px; padding: 0 18px; font-size: .8125rem; border-radius: 18px; }
 
 @media (hover: hover) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following):hover,
-  .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary) 86%, var(--md-on-primary)); }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.following):hover,
+  .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary-container) 82%, var(--md-primary)); }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
-  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-surface-container-highest); }
+  .profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested):hover { background: var(--md-surface-container-high); }
 }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):active { transform: scale(.95); }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
+
+/* the suggestion rail stacks the pill under the name: it stays compact and centred */
+.hf-peer .hf-peer-follow { align-self: center; margin-top: 2px; }
 
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
