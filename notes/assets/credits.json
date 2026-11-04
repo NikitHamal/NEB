@@ -1962,6 +1962,19 @@
   "source": "Wikimedia Commons",
   "title": "Amazon Echo Plus 02"
  },
+ "bca155/elevator": {
+  "author": "Xnatedawgx",
+  "bytes": 1550711,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/elevator.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:14th_floor_elevator_call_buttons,_the_D_Las_Vegas_2022-03-29.jpg",
+  "sha1": "462ef750cc2abde6",
+  "source": "Wikimedia Commons",
+  "title": "14th floor elevator call buttons, the D Las Vegas 2022-03-29"
+ },
  "bca155/eyetrack": {
   "author": "Tschneidr",
   "bytes": 207501,
@@ -1975,6 +1988,19 @@
   "source": "Wikimedia Commons",
   "title": "Eyetracking heat map Wikipedia"
  },
+ "bca155/faders": {
+  "author": "Rosa y Dani",
+  "bytes": 307339,
+  "credit": "mixing with an akiyama II",
+  "fetched": "2026-11-04",
+  "file": "bca155/faders.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mixing_with_an_akiyama_II_-_Flickr_-_Rosa_y_Dani.jpg",
+  "sha1": "62e04614aee06d16",
+  "source": "Wikimedia Commons",
+  "title": "Mixing with an akiyama II - Flickr - Rosa y Dani"
+ },
  "bca155/ishihara": {
   "author": "Shinobu Ishihara",
   "bytes": 1084844,
@@ -1987,6 +2013,19 @@
   "sha1": "5e7930f94fd8a6ab",
   "source": "Wikimedia Commons",
   "title": "Eight Ishihara charts for testing colour blindness, Europe Wellcome L0059155"
+ },
+ "bca155/lightswitch": {
+  "author": "Gaurav Dhwaj Khadka",
+  "bytes": 940001,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/lightswitch.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Light_Switch_1.jpg",
+  "sha1": "63449fdc711e2ca2",
+  "source": "Wikimedia Commons",
+  "title": "Light Switch 1"
  },
  "bca155/moodboard": {
   "author": "Vyacheslav Argenberg",
@@ -2013,6 +2052,45 @@
   "sha1": "76a51b6ac1b375c7",
   "source": "Wikimedia Commons",
   "title": "Replica of prototype Engelbart mouse, circa 1964, Computer History Museum"
+ },
+ "bca155/restroom": {
+  "author": "Iris Tsung",
+  "bytes": 267732,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/restroom.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:All_gender_restroom_signage_in_Taipei_public_transport_station.jpg",
+  "sha1": "6f3db88283f4fb5d",
+  "source": "Wikimedia Commons",
+  "title": "All gender restroom signage in Taipei public transport station"
+ },
+ "bca155/rotary": {
+  "author": "Wilfredor",
+  "bytes": 281410,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca155/rotary.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grey_rotary_dial_telephone.jpg",
+  "sha1": "44a1897539c036e0",
+  "source": "Wikimedia Commons",
+  "title": "Grey rotary dial telephone"
+ },
+ "bca155/tiled": {
+  "author": "heipei from Deutschland",
+  "bytes": 118479,
+  "credit": "I'll just need one window, thanks very much",
+  "fetched": "2026-11-04",
+  "file": "bca155/tiled.png",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:I%27ll_just_need_one_window,_thanks_very_much.png",
+  "sha1": "8e9b17c6e0f2d526",
+  "source": "Wikimedia Commons",
+  "title": "I'll just need one window, thanks very much"
  },
  "bca156/deming": {
   "author": "FDA",
