@@ -816,7 +816,36 @@
    * dropped when the viewport moves under it. Dropping is the honest answer for
    * a scroll: the trigger has moved, and a menu that follows a scrolling card
    * around is worse than one that closes. */
-  window.addEventListener('resize', function () { closeMenu(); });
+  /* The on-screen keyboard and a collapsing browser bar both fire `resize` with only the height
+   * changed. Closing on those killed the sheet the moment it opened (the scrim stayed, the sheet
+   * did not), so only a real change of width, or of form, drops a menu. */
+  var lastInnerWidth = window.innerWidth;
+  window.addEventListener('resize', function () {
+    var widthChanged = window.innerWidth !== lastInnerWidth;
+    lastInnerWidth = window.innerWidth;
+    if (!openMenu) return;
+    var sheetNow = openMenu.menu.classList.contains('neb-menu-sheet');
+    if (!widthChanged && (sheetNow || asSheet())) return;
+    closeMenu();
+  });
+
+  /* Keep overlays above the keyboard. position:fixed is anchored to the layout viewport, which on
+   * iOS (and Android with overlays-content) does not shrink for the keyboard, so a bottom sheet
+   * pinned to bottom:0 ends up underneath it and only the scrim blur is visible. */
+  (function trackViewport() {
+    var vv = window.visualViewport;
+    var root = document.documentElement;
+    if (!vv) return;
+    function sync() {
+      var kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      root.style.setProperty('--neb-kb', (kb > 40 ? kb : 0) + 'px');
+      root.style.setProperty('--neb-vh', Math.round(vv.height) + 'px');
+      root.style.setProperty('--neb-vt', Math.round(vv.offsetTop) + 'px');
+    }
+    vv.addEventListener('resize', sync);
+    vv.addEventListener('scroll', sync);
+    sync();
+  })();
   window.addEventListener('scroll', function () {
     if (openMenu && openMenu.menu.classList.contains('neb-menu-sheet')) return;
     closeMenu();
