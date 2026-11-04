@@ -173,7 +173,7 @@
           {% if resource.is_paid or resource.isPaid %}<span class="rcard-tag" style="background:var(--md-tertiary);color:var(--md-on-tertiary)">Rs. {{ resource.price|floatformat:"0" }}</span>{% endif %}
         </div>
         <h1 class="vw-title">{{ resource.title }}</h1>
-        {% if resource.description %}<div class="vw-desc rd-description">{{ resource.description|linkify }}</div>{% endif %}
+        {% if resource.description %}<div class="vw-desc rd-description" data-clamp="132">{{ resource.description|linkify }}</div>{% endif %}
         <div class="vw-facts">
           <div class="vw-fact"><b>{{ resource.view_count|format_count }}</b><span>Views</span></div>
           <div class="vw-fact"><b>{{ resource.added_at|time_ago }}</b><span>Added</span></div>
