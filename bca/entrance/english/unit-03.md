@@ -31,9 +31,9 @@ focus 0.5 0.5
 ```
 
 ```svgfig label="3.1" caption="Choosing an article in three questions. First ask whether the listener already knows which one you mean (unique, already mentioned, superlative, river or range): if so use the. If not, ask whether the noun is singular and countable: if it is plural, uncountable, a meal, a language or a game, use no article. Otherwise decide by the first SOUND of the next word: vowel sound gives an, consonant sound gives a. The table applies the sound rule in the cell to seven words, and note that university and one-rupee begin with the consonant sounds yoo and wun."
-snd = {"hour": ("ow-er", True), "honest": ("on-ist", True), "MP": ("em-pee", True), "umbrella": ("um-brel-a", True), "university": ("yoo-ni-ver-si-ti", False), "European": ("yoor-o-pee-an", False), "one-rupee note": ("wun roo-pee", False)}
+snd = {"hour": ("ow-er", True), "honest": ("on-ist", True), "MP": ("em-pee", True), "umbrella": ("um-brel-a", True), "university": ("yoo-ni-ver-si-ti", False), "European": ("yoor-o-pee-an", False), "one-rupee": ("wun roo-pee", False)}
 art = {w: ("an" if v else "a") for w, (s, v) in snd.items()}
-assert art == {"hour": "an", "honest": "an", "MP": "an", "umbrella": "an", "university": "a", "European": "a", "one-rupee note": "a"}
+assert art == {"hour": "an", "honest": "an", "MP": "an", "umbrella": "an", "university": "a", "European": "a", "one-rupee": "a"}
 f = Fig(780, 340)
 f.box(14, 14, 250, 66, "Does the listener know which one?\n(unique, mentioned, superlative,\nriver, range)", fill=BLUE, stroke=NAVY, size=10.5)
 f.box(14, 120, 250, 56, "Is it singular and countable?", fill=BLUE, stroke=NAVY, size=10.5)
