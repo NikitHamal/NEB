@@ -778,3 +778,18 @@ def lines(value):
     if not value:
         return []
     return [line.strip() for line in str(value).splitlines() if line.strip()]
+
+
+@register.filter
+def json_attr(value):
+    """JSON for a data-* attribute (Django escapes the quotes on output)."""
+    try:
+        return json.dumps(value if value is not None else [], separators=(',', ':'))
+    except (TypeError, ValueError):
+        return '[]'
+
+
+@register.filter
+def image_urls_json(images):
+    """A post's image dicts as a JSON list of their urls, for the inline editor."""
+    return json.dumps([i.get('imageUrl') for i in (images or []) if isinstance(i, dict) and i.get('imageUrl')], separators=(',', ':'))
