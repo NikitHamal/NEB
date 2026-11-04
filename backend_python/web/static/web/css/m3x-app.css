@@ -53,26 +53,36 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
 /* ---------- top bar: a floating pill, the same bar as the landing page ---------- */
 .md-topbar {
   position: sticky; top: 8px; z-index: 100;
-  width: min(1280px, calc(100% - 24px)); height: 58px;
-  margin: 8px auto 10px; padding: 0 8px 0 8px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center; column-gap: 8px;
+  width: min(1280px, calc(100% - 24px)); height: 58px; min-height: 58px; max-height: 58px;
+  margin: 8px auto 10px; padding: 0 8px; box-sizing: border-box;
   border: 1px solid var(--md-outline-variant); border-radius: 29px;
   background: color-mix(in srgb, var(--md-surface) 88%, transparent);
   -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
   transition: background-color .3s, border-color .3s, border-radius .6s var(--spring);
   view-transition-name: m3-topbar;
 }
+.md-topbar > * { min-width: 0; }
+.md-topbar .brand { justify-self: start; flex: none; white-space: nowrap; }
 .md-topbar .brand-tile { width: 42px; height: 42px; }
 .md-topbar .brand-mark { width: 16px; height: 23px; }
 .md-topbar .brand-name { font-size: 22px; }
-.md-topbar-nav { --h: 42px; position: absolute; left: 50%; transform: translateX(-50%); }
+.md-topbar-nav { --h: 42px; position: relative; left: auto; transform: none; justify-self: center; flex-wrap: nowrap; white-space: nowrap; }
 .md-topbar-nav > a { padding: 0 18px; font-size: 15px; }
 .md-topbar-nav > a.md-nav-active { background: transparent; color: var(--on-var); }
 .md-topbar-nav > a.md-nav-active.is-target { color: var(--on-pri-c); }
-.md-topbar-actions { gap: 4px; }
-.md-topbar-actions .md-btn { min-height: 42px; }
+.md-topbar-actions { justify-self: end; margin-left: 0; display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; }
+.md-topbar-actions .md-btn { min-height: 42px; white-space: nowrap; }
+@media (min-width: 1100px) {
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+}
+@media (min-width: 769px) and (max-width: 880px) {
+  .md-topbar-nav > a { padding: 0 12px; font-size: 14px; }
+  .md-topbar .brand-name { font-size: 20px; }
+}
 @media (max-width: 768px) {
-  .md-topbar-nav { display: none; }   /* the bottom bar takes over; core.css's .m3-pill would otherwise win */
-  .md-topbar { width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; height: 54px; }
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto; width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; height: 54px; min-height: 54px; max-height: 54px; }
+  .md-topbar-nav { display: none; }
   .md-topbar .brand-name { font-size: 20px; }
 }
 ::view-transition-group(m3-topbar) { animation-duration: 0s; }
@@ -1940,9 +1950,9 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 .profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
 
 /* ---- m3x/app-profile-feed.css ---- */
-/* Profile feed cards. The feed belongs to one person, so a card never repeats that person's
-   avatar, name, badge or Follow button: it opens on the category and the time, then the title,
-   a three-line excerpt and the actions. White surface, one stroke, springy corner on hover. */
+/* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the
+   name with its badge on one line, then category and time beneath. No Follow button here (the
+   profile header owns it). White surface, one stroke, springy corner on hover. */
 .profile-page .activity-list { display: flex; flex-direction: column; gap: 12px; }
 .profile-page .activity-list > .post-card {
   margin: 0; padding: 18px 20px 10px; background: var(--md-surface-container-lowest);
@@ -1951,9 +1961,15 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 }
 @media (hover: hover) { .profile-page .activity-list > .post-card:hover { border-radius: 30px; border-color: var(--md-outline); } }
 .profile-page .activity-list > .post-card:active { transform: scale(.995); }
-.profile-page .activity-list > .post-card .post-card-header { padding: 0; margin: 0 0 10px; gap: 0; }
-.profile-page #tabPosts .post-card-avatar, .profile-page #tabPosts .post-card-meta-top { display: none !important; }
-.profile-page .activity-list .post-card-meta-bottom { margin: 0 !important; gap: 10px !important; }
+.profile-page .activity-list > .post-card .post-card-header { display: flex; align-items: center; padding: 0; margin: 0 0 10px; gap: 10px; }
+.profile-page .activity-list .post-card-avatar { width: 36px; height: 36px; min-width: 36px; flex: none; font-size: .9375rem; }
+.profile-page .activity-list .post-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-page .activity-list .post-card-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.profile-page .activity-list .post-card-meta-top { display: flex; align-items: center; flex-wrap: nowrap; gap: 6px; min-width: 0; font-size: .9375rem; line-height: 1.2; }
+.profile-page .activity-list .post-card-meta-top > a { font-weight: 700; color: var(--md-on-surface); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-page .activity-list .post-card-meta-bottom { display: flex; align-items: center; flex-wrap: nowrap; margin: 0 !important; gap: 8px !important; min-width: 0; color: var(--md-on-surface-variant); }
+.profile-page .activity-list .post-card-cat { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+.profile-page .activity-list .post-card-time { white-space: nowrap; }
 .profile-page .activity-list .post-card-cat {
   padding: 4px 12px; border-radius: 10px; font-size: .75rem; font-weight: 600;
   background: var(--md-primary-container); color: var(--md-on-primary-container);
@@ -2066,6 +2082,90 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 /* a two-column form row that collapses to one column: the group margin already spaces the rows,
    so the grid gap must not add a second one */
 @media (max-width: 600px) { .form-row { row-gap: 0; } }
+
+/* ---- m3x/app-avatars.css ---- */
+/* Avatar frames and badges, last word.
+   1. A picture frame has no stroke, ring or outline: the shape (clip-path) is the only edge.
+      The two rings that stay are cut from the surface colour behind a badge or camera, not drawn
+      around the picture.
+   2. A badge never leaves the line its name is on. Any element that holds a .role-badge next to a
+      name is a single nowrap row; the name truncates, the badge keeps its size. */
+
+:is(
+  .avatar-ring, .profile-dropdown-avatar, .post-card-avatar, .fp-avatar, .fp-reply-avatar, .fp-thread-avatar,
+  .rcard-avatar, .resource-card-avatar, .forum-contributor-avatar, .user-search-avatar, .leaderboard-avatar,
+  .suggest-post-avatar, .pf-reply-card-avatar, .hf-peer-avatar, .hf-side-avatar, .mkt-hero-avatar,
+  .mkt-member-avatar, .study-join-avatar, .behalf-avatar, .fp-identity-option-avatar, .hf-option-avatar,
+  .notif-avatar-real, .who-avatar-wrap, .pf-avatar-overlap-wrap, .pf-avatar-circle, [data-avatar-seed]
+) {
+  border: 0 !important; outline: 0 !important; box-shadow: none !important;
+}
+:is(.avatar-ring, [data-avatar-seed], [data-shape]) > :is(img, span, div):not(.avatar-badge-overlay, .notif-dot) { border: 0 !important; outline: 0 !important; }
+.avatar-ring { padding: 0; background: none; }
+
+/* ---------- badge on one line ---------- */
+.role-badge { display: inline-flex; flex: none; align-items: center; justify-content: center; vertical-align: middle; }
+:is(.post-card-meta-top, .author-line, .leaderboard-username, .profile-dropdown-name-row, .fp-author-line, .pf-reply-card-meta-top, .rcard-author, .hf-peer-name):has(> .role-badge) { white-space: nowrap; }
+:is(.post-card-meta-top, .author-line, .profile-dropdown-name-row):has(> .role-badge) { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; min-width: 0; }
+:is(.post-card-meta-top, .author-line, .profile-dropdown-name-row) > :is(a, span):not(.role-badge) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* profile name: the verified tick and role badge ride the name's line, the name shrinks to fit */
+.profile-page .pf-card-body { container-type: inline-size; }
+.profile-page .pf-card-name-row { flex-wrap: nowrap; align-items: center; gap: 8px; min-width: 0; }
+.profile-page .pf-card-name {
+  min-width: 0; font-size: clamp(1.25rem, 8.4cqi, 1.75rem); overflow-wrap: anywhere; text-wrap: balance;
+}
+.profile-page .pf-card-name-row > :is(.pf-verified, .role-badge) { flex: none; }
+
+/* ---- m3x/app-follow.css ---- */
+/* The Follow button: one component for every place a person can be followed (feed, comments, search,
+   people rail, hover card, profile). Two states, told apart by tone and a glyph, not by a stroke:
+     not following -> filled primary, "+"
+     following     -> tonal secondary, tick
+   The shape is a pill that tips into a rounded square on hover and presses in on tap. */
+
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
+  --fh: 34px;
+  appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px; flex: none;
+  height: var(--fh); min-height: var(--fh); padding: 0 14px 0 10px; margin: 0;
+  border: 0 !important; border-radius: 999px; white-space: nowrap;
+  font: 600 .8125rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
+  background: var(--md-primary); color: var(--md-on-primary);
+  transition: border-radius .5s var(--spring), background-color .2s, color .2s, transform .35s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before {
+  content: "add"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 18px; line-height: 1;
+  font-variation-settings: 'wght' 600, 'opsz' 20; font-feature-settings: 'liga'; letter-spacing: 0;
+  transition: transform .4s var(--spring);
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following,
+.profile-page #btnFollowToggle.pf-btn-outlined {
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following::before,
+.profile-page #btnFollowToggle.pf-btn-outlined::before { content: "check"; }
+.profile-page #btnFollowToggle.is-requested::before { content: "pending"; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following)::before { content: none; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following) { padding: 0 14px; }
+.profile-page #btnFollowToggle > .material-symbols-outlined { display: none; }
+.profile-page #btnFollowToggle { --fh: 44px; padding: 0 22px 0 16px; gap: 6px; font-size: .9375rem; }
+.profile-page #btnFollowToggle::before { font-size: 20px; }
+
+@media (hover: hover) {
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):hover { border-radius: 12px; }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:hover::before,
+  .profile-page #btnFollowToggle.pf-btn-filled:hover::before { transform: rotate(90deg); }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
+  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.94); }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 60%, transparent); outline-offset: 2px; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
+@media (max-width: 480px) {
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow) { --fh: 32px; padding: 0 12px 0 8px; }
+}
 
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a

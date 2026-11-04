@@ -36,26 +36,36 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
 /* ---------- top bar: a floating pill, the same bar as the landing page ---------- */
 .md-topbar {
   position: sticky; top: 8px; z-index: 100;
-  width: min(1280px, calc(100% - 24px)); height: 58px;
-  margin: 8px auto 10px; padding: 0 8px 0 8px;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-auto-flow: column; align-items: center; column-gap: 8px;
+  width: min(1280px, calc(100% - 24px)); height: 58px; min-height: 58px; max-height: 58px;
+  margin: 8px auto 10px; padding: 0 8px; box-sizing: border-box;
   border: 1px solid var(--md-outline-variant); border-radius: 29px;
   background: color-mix(in srgb, var(--md-surface) 88%, transparent);
   -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
   transition: background-color .3s, border-color .3s, border-radius .6s var(--spring);
   view-transition-name: m3-topbar;
 }
+.md-topbar > * { min-width: 0; }
+.md-topbar .brand { justify-self: start; flex: none; white-space: nowrap; }
 .md-topbar .brand-tile { width: 42px; height: 42px; }
 .md-topbar .brand-mark { width: 16px; height: 23px; }
 .md-topbar .brand-name { font-size: 22px; }
-.md-topbar-nav { --h: 42px; position: absolute; left: 50%; transform: translateX(-50%); }
+.md-topbar-nav { --h: 42px; position: relative; left: auto; transform: none; justify-self: center; flex-wrap: nowrap; white-space: nowrap; }
 .md-topbar-nav > a { padding: 0 18px; font-size: 15px; }
 .md-topbar-nav > a.md-nav-active { background: transparent; color: var(--on-var); }
 .md-topbar-nav > a.md-nav-active.is-target { color: var(--on-pri-c); }
-.md-topbar-actions { gap: 4px; }
-.md-topbar-actions .md-btn { min-height: 42px; }
+.md-topbar-actions { justify-self: end; margin-left: 0; display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; }
+.md-topbar-actions .md-btn { min-height: 42px; white-space: nowrap; }
+@media (min-width: 1100px) {
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+}
+@media (min-width: 769px) and (max-width: 880px) {
+  .md-topbar-nav > a { padding: 0 12px; font-size: 14px; }
+  .md-topbar .brand-name { font-size: 20px; }
+}
 @media (max-width: 768px) {
-  .md-topbar-nav { display: none; }   /* the bottom bar takes over; core.css's .m3-pill would otherwise win */
-  .md-topbar { width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; height: 54px; }
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto; width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; height: 54px; min-height: 54px; max-height: 54px; }
+  .md-topbar-nav { display: none; }
   .md-topbar .brand-name { font-size: 20px; }
 }
 ::view-transition-group(m3-topbar) { animation-duration: 0s; }
