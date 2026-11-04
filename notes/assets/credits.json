@@ -1585,6 +1585,19 @@
   "source": "Wikimedia Commons",
   "title": "Intel 8086 CPU Die"
  },
+ "bca152/ibm360": {
+  "author": "Dave Ross",
+  "bytes": 501295,
+  "credit": "Flickr : IBM System/360 Model 30",
+  "fetched": "2026-11-04",
+  "file": "bca152/ibm360.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_System360_Model_30.jpg",
+  "sha1": "ed27d191cb13ecb5",
+  "source": "Wikimedia Commons",
+  "title": "IBM System360 Model 30"
+ },
  "bca152/mark1": {
   "author": "Capvideo",
   "bytes": 718826,
