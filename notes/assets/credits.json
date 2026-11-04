@@ -4965,6 +4965,19 @@
   "source": "Wikimedia Commons",
   "title": "YubiKey 5C NFC"
  },
+ "bca302/chess": {
+  "author": "Wilfredor",
+  "bytes": 726100,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/chess.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6_top_view.jpg",
+  "sha1": "38bd526921824d52",
+  "source": "Wikimedia Commons",
+  "title": "Chess game Staunton No. 6 top view"
+ },
  "bca302/deepblue": {
   "author": "Erik Pitti from San Diego, CA, USA",
   "bytes": 1578008,
@@ -4977,6 +4990,45 @@
   "sha1": "9414337e698e66a0",
   "source": "Wikimedia Commons",
   "title": "Say hello to Deep Blue (2586059148)"
+ },
+ "bca302/highway": {
+  "author": "Anup Sadi",
+  "bytes": 769945,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/highway.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Prithvi_Highway_at_Malekhu.jpg",
+  "sha1": "d33e1589352180a7",
+  "source": "Wikimedia Commons",
+  "title": "Prithvi Highway at Malekhu"
+ },
+ "bca302/kasparov": {
+  "author": "Rob Croes / Anefo",
+  "bytes": 667595,
+  "credit": "http://proxy.handle.net/10648/ad6ab7be-d0b4-102d-bcf8-003048976d84",
+  "fetched": "2026-11-04",
+  "file": "bca302/kasparov.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Optiebeurs_schaakvierkamp_Garri_Kasparov_tegen_Anatoli_Karpov_(rechts),_Bestanddeelnr_934-2524.jpg",
+  "sha1": "368d28dc1a29152b",
+  "source": "Wikimedia Commons",
+  "title": "Optiebeurs schaakvierkamp Garri Kasparov tegen Anatoli Karpov (rechts), Bestanddeelnr 934-2524"
+ },
+ "bca302/maze": {
+  "author": "Daderot",
+  "bytes": 1304697,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/maze.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Maze_-_Glendurgan_Garden_-_Cornwall,_England_-_DSC01814.jpg",
+  "sha1": "77c4dbea88f50096",
+  "source": "Wikimedia Commons",
+  "title": "Maze - Glendurgan Garden - Cornwall, England - DSC01814"
  },
  "bca302/mccarthy": {
   "author": "null0 from Singapore, Singapore",
@@ -5030,6 +5082,45 @@
   "source": "Wikimedia Commons",
   "title": "SRI Shakey robot, 1969, Computer History Museum"
  },
+ "bca302/shakeyteam": {
+  "author": "Dougfairbairn",
+  "bytes": 550219,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/shakeyteam.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IEEE_Shakey_Team_at_dedication_of_IEEE_plaque_commemorating_their_achievement.jpg",
+  "sha1": "244625f955d7c67e",
+  "source": "Wikimedia Commons",
+  "title": "IEEE Shakey Team at dedication of IEEE plaque commemorating their achievement"
+ },
+ "bca302/shannon": {
+  "author": "Unknown photographer, MIT Photo Service",
+  "bytes": 245466,
+  "credit": "MIT Museum, Object ID: GCP-00023018",
+  "fetched": "2026-11-04",
+  "file": "bca302/shannon.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Claude_Shannon_1958_MIT_portrait_cropped.jpg",
+  "sha1": "e754a78959c382bd",
+  "source": "Wikimedia Commons",
+  "title": "Claude Shannon 1958 MIT portrait cropped"
+ },
+ "bca302/sliding": {
+  "author": "Medoingths",
+  "bytes": 1015289,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/sliding.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Sliding_Puzzle.jpg",
+  "sha1": "51b795f46c2281d9",
+  "source": "Wikimedia Commons",
+  "title": "Sliding Puzzle"
+ },
  "bca302/thermostat": {
   "author": "Ente75",
   "bytes": 509257,
@@ -5042,6 +5133,32 @@
   "sha1": "ac83d456f1bfb3cc",
   "source": "Wikimedia Commons",
   "title": "Intertherm Mechanical Thermostat"
+ },
+ "bca302/theseus": {
+  "author": "Daderot",
+  "bytes": 282651,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/theseus.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Theseus_Maze_by_Claude_Shannon,_1952_-_MIT_Museum_-_DSC03702.JPG",
+  "sha1": "6d1b0d19ef699a32",
+  "source": "Wikimedia Commons",
+  "title": "Theseus Maze by Claude Shannon, 1952 - MIT Museum - DSC03702"
+ },
+ "bca302/tictactoe": {
+  "author": "Sram4511",
+  "bytes": 1277818,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/tictactoe.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tic_tac_toe_board.jpg",
+  "sha1": "622ca10fc1258107",
+  "source": "Wikimedia Commons",
+  "title": "Tic tac toe board"
  },
  "bca302/turing": {
   "author": "Elliott & Fry",
