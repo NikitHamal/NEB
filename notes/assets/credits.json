@@ -5888,6 +5888,19 @@
   "source": "Wikimedia Commons",
   "title": "Joseph Weizenbaum"
  },
+ "bca303/adapter": {
+  "author": "Fructibus",
+  "bytes": 714358,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/adapter.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:AC_Converter_Adapter_UK-EU.jpg",
+  "sha1": "2460625ee1d0c50d",
+  "source": "Wikimedia Commons",
+  "title": "AC Converter Adapter UK-EU"
+ },
  "bca303/assembly": {
   "author": "Ann Rosener",
   "bytes": 170446,
@@ -5900,6 +5913,32 @@
   "sha1": "0800a1a2dcaf71ed",
   "source": "Wikimedia Commons",
   "title": "Flower in hair, Betty Gumbetter adds glamour to the assembly line 8b07364v"
+ },
+ "bca303/boyce": {
+  "author": "Aflorzak",
+  "bytes": 1054967,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/boyce.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Raymond_F_Boyce_age_25.png",
+  "sha1": "996f3e0ff3eac70d",
+  "source": "Wikimedia Commons",
+  "title": "Raymond F Boyce age 25"
+ },
+ "bca303/chamberlin": {
+  "author": "Dicklyon",
+  "bytes": 1720747,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/chamberlin.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Don_Chamberlin.jpg",
+  "sha1": "e4ff5790f234b1ef",
+  "source": "Wikimedia Commons",
+  "title": "Don Chamberlin"
  },
  "bca303/checkout": {
   "author": "Nielsoncaetanosalmeron",
@@ -5979,6 +6018,19 @@
   "source": "Wikimedia Commons",
   "title": "New York City Gridlock"
  },
+ "bca303/hipp": {
+  "author": "D. Richard Hipp",
+  "bytes": 291684,
+  "credit": "https://www.flickr.com/photos/47457277@N00/3358466840/",
+  "fetched": "2026-11-04",
+  "file": "bca303/hipp.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:D._Richard_Hipp,_2009%E5%B9%B4.jpg",
+  "sha1": "f92e56c645693047",
+  "source": "Wikimedia Commons",
+  "title": "D. Richard Hipp, 2009年"
+ },
  "bca303/javafx": {
   "author": "DavidL",
   "bytes": 59625,
@@ -6017,6 +6069,32 @@
   "sha1": "26be58bd55a9b957",
   "source": "Wikimedia Commons",
   "title": "Apple Museum (Prague) Macintosh 128K (1984) - 1"
+ },
+ "bca303/passbook": {
+  "author": "Wainuiomartian",
+  "bytes": 1118453,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/passbook.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Post_Office_Savings_Bank_passbook.jpg",
+  "sha1": "2e5132dfaca878e2",
+  "source": "Wikimedia Commons",
+  "title": "Post Office Savings Bank passbook"
+ },
+ "bca303/pool": {
+  "author": "KeepActive Australia from Melbourne, VIC, Australia",
+  "bytes": 1035581,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/pool.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Public_Swimming_Pool_in_Melbourne_VIC_Australia.jpg",
+  "sha1": "06d2f23c044a40c8",
+  "source": "Wikimedia Commons",
+  "title": "Public Swimming Pool in Melbourne VIC Australia"
  },
  "bca303/reenskaug": {
   "author": "Trygve Reenskaug",
@@ -6082,6 +6160,19 @@
   "sha1": "7d66310b906fe241",
   "source": "Wikimedia Commons",
   "title": "Swing custom painted screenshot 1"
+ },
+ "bca303/toll": {
+  "author": "Daniel Case",
+  "bytes": 414415,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/toll.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Toll_booth_on_G6_expressway,_Beijing.jpg",
+  "sha1": "e9e869068c6d776e",
+  "source": "Wikimedia Commons",
+  "title": "Toll booth on G6 expressway, Beijing"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
