@@ -4978,6 +4978,19 @@
   "source": "Wikimedia Commons",
   "title": "Aristotle Altemps Inv8575"
  },
+ "bca302/asanveg": {
+  "author": "Everhard van Eimeren",
+  "bytes": 995510,
+  "credit": "Own work https://everhardvaneimeren.com/photos/woman-selling-potatoes-onions-ginger-and-garlic-at-the-market-kathmandu/",
+  "fetched": "2026-11-04",
+  "file": "bca302/asanveg.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Asan_Bazaar_woman_selling_vegetables_in_front_of_Jwalamai_temple_Kathmandu_Nepal_20Apr2008.jpg",
+  "sha1": "0b5d31249e7510b1",
+  "source": "Wikimedia Commons",
+  "title": "Asan Bazaar woman selling vegetables in front of Jwalamai temple Kathmandu Nepal 20Apr2008"
+ },
  "bca302/bayestomb": {
   "author": "Cory Doctorow",
   "bytes": 608978,
@@ -5043,6 +5056,19 @@
   "source": "Wikimedia Commons",
   "title": "A-Colmerauer web-800x423"
  },
+ "bca302/darwin": {
+  "author": "Julia Margaret Cameron / Adam Cuerden",
+  "bytes": 870720,
+  "credit": "Alfred Steiglitz Collection reference 1949.881 , Art Institute of Chicago",
+  "fetched": "2026-11-04",
+  "file": "bca302/darwin.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Charles_Darwin_by_Julia_Margaret_Cameron,_c._1868.jpg",
+  "sha1": "9e79ec5e7555f4a9",
+  "source": "Wikimedia Commons",
+  "title": "Charles Darwin by Julia Margaret Cameron, c. 1868"
+ },
  "bca302/deepblue": {
   "author": "Erik Pitti from San Diego, CA, USA",
   "bytes": 1578008,
@@ -5056,6 +5082,19 @@
   "source": "Wikimedia Commons",
   "title": "Say hello to Deep Blue (2586059148)"
  },
+ "bca302/dogs": {
+  "author": "David Shankbone",
+  "bytes": 678978,
+  "credit": "David Shankbone (own work)",
+  "fetched": "2026-11-04",
+  "file": "bca302/dogs.jpg",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Great_Danes_and_Chihuahuas_by_David_Shankbone.jpg",
+  "sha1": "189b0d2683766b5e",
+  "source": "Wikimedia Commons",
+  "title": "Great Danes and Chihuahuas by David Shankbone"
+ },
  "bca302/feigenbaum": {
   "author": "orcmid",
   "bytes": 338293,
@@ -5068,6 +5107,19 @@
   "sha1": "83e17545065579a7",
   "source": "Wikimedia Commons",
   "title": "2012-06-15 1994 Turing Laureate Ed Feigenbaum"
+ },
+ "bca302/fisher": {
+  "author": "Unknown author Unknown author",
+  "bytes": 17644,
+  "credit": "https://www.adelaide.edu.au",
+  "fetched": "2026-11-04",
+  "file": "bca302/fisher.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Youngronaldfisher2.JPG",
+  "sha1": "4d63b8fbce88f1a8",
+  "source": "Wikimedia Commons",
+  "title": "Youngronaldfisher2"
  },
  "bca302/frege": {
   "author": "Emil Tesch (1860-1931), German photographer",
@@ -5094,6 +5146,58 @@
   "sha1": "d33e1589352180a7",
   "source": "Wikimedia Commons",
   "title": "Prithvi Highway at Malekhu"
+ },
+ "bca302/ibm701": {
+  "author": "Dan",
+  "bytes": 860812,
+  "credit": "Flickr : IBM 701",
+  "fetched": "2026-11-04",
+  "file": "bca302/ibm701.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_701console.jpg",
+  "sha1": "61c9215c220e9ed0",
+  "source": "Wikimedia Commons",
+  "title": "IBM 701console"
+ },
+ "bca302/irisset": {
+  "author": "Tiia Monto",
+  "bytes": 555377,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/irisset.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Iris_setosa_2.jpg",
+  "sha1": "40bc4803018f88f1",
+  "source": "Wikimedia Commons",
+  "title": "Iris setosa 2"
+ },
+ "bca302/irisver": {
+  "author": "Reinhold Möller Ermell",
+  "bytes": 246663,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/irisver.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Verschiedenfarbige_Schwertlilie_(Iris_versicolor)-20150607-RM-185903.jpg",
+  "sha1": "811e11dd3f735e54",
+  "source": "Wikimedia Commons",
+  "title": "Verschiedenfarbige Schwertlilie (Iris versicolor)-20150607-RM-185903"
+ },
+ "bca302/irisvir": {
+  "author": "Frank Mayfield",
+  "bytes": 498862,
+  "credit": "originally posted to Flickr as Iris virginica shrevei BLUE FLAG",
+  "fetched": "2026-11-04",
+  "file": "bca302/irisvir.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Iris_virginica.jpg",
+  "sha1": "175d78e5de562837",
+  "source": "Wikimedia Commons",
+  "title": "Iris virginica"
  },
  "bca302/kasparov": {
   "author": "Rob Croes / Anefo",
@@ -5147,6 +5251,45 @@
   "source": "Wikimedia Commons",
   "title": "Marvin Minsky"
  },
+ "bca302/moth": {
+  "author": "Charles J. Sharp",
+  "bytes": 882295,
+  "credit": "Own work , from Sharp Photography, sharpphotography.co.uk",
+  "fetched": "2026-11-04",
+  "file": "bca302/moth.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peppered_moth_(Biston_betularia)_female.jpg",
+  "sha1": "cca40ef79cef8dce",
+  "source": "Wikimedia Commons",
+  "title": "Peppered moth (Biston betularia) female"
+ },
+ "bca302/overcast": {
+  "author": "Eva olive",
+  "bytes": 408377,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/overcast.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Overcast_sky_23.jpg",
+  "sha1": "daed4a786025c08f",
+  "source": "Wikimedia Commons",
+  "title": "Overcast sky 23"
+ },
+ "bca302/pavlov": {
+  "author": "Unknown author",
+  "bytes": 393285,
+  "credit": "https://wellcomeimages.org/indexplus/obf_images/f8/89/793ca21e30dd29687f45f36c8078.jpg Gallery: https://wellcomeimages.org/indexplus/image/M0014738.html Wellcom",
+  "fetched": "2026-11-04",
+  "file": "bca302/pavlov.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pavlov_experiments_with_dog_Wellcome_M0014738.jpg",
+  "sha1": "de27f82f9d3e403f",
+  "source": "Wikimedia Commons",
+  "title": "Pavlov experiments with dog Wellcome M0014738"
+ },
  "bca302/pearl": {
   "author": "Better Than Bacon",
   "bytes": 530194,
@@ -5172,6 +5315,19 @@
   "sha1": "5e99162a734b66df",
   "source": "Wikimedia Commons",
   "title": "Aptenodytes forsteri - Алексей Логинов - 465113420"
+ },
+ "bca302/puzzlebox": {
+  "author": "Jacob Sussman",
+  "bytes": 38863,
+  "credit": "http://jacobsussmanpsych100.blogspot.com/2009/11/operant-conditioning-and-schedules-of.html",
+  "fetched": "2026-11-04",
+  "file": "bca302/puzzlebox.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Puzzle_box.jpg",
+  "sha1": "7fd0edf5eb21c826",
+  "source": "Wikimedia Commons",
+  "title": "Puzzle box"
  },
  "bca302/roomba": {
   "author": "Larry D. Moore",
@@ -5263,6 +5419,32 @@
   "sha1": "0dec3066a38ed0e0",
   "source": "Wikimedia Commons",
   "title": "Socrates Louvre"
+ },
+ "bca302/spamtin": {
+  "author": "PaulGorduiz106",
+  "bytes": 763068,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca302/spamtin.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Spam_canned_meat_(03-07-2021).jpg",
+  "sha1": "dfeb083786378a21",
+  "source": "Wikimedia Commons",
+  "title": "Spam canned meat (03-07-2021)"
+ },
+ "bca302/st5": {
+  "author": "Unknown author",
+  "bytes": 71711,
+  "credit": "",
+  "fetched": "2026-11-04",
+  "file": "bca302/st5.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:St_5-xband-antenna.jpg",
+  "sha1": "cec4734da408a454",
+  "source": "Wikimedia Commons",
+  "title": "St 5-xband-antenna"
  },
  "bca302/testkit": {
   "author": "Secretlondon",
