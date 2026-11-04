@@ -10,7 +10,7 @@ select.neb-sel-native {
   transition: border-color .15s, background-color .15s, border-radius .45s var(--spring);
 }
 .neb-sel.is-inline { display: inline-flex; width: auto; max-width: 100%; }
-.neb-sel:hover { border-color: var(--md-outline); border-radius: 20px; }
+.neb-sel:hover { border-color: var(--md-outline); }
 .neb-sel:focus-visible, .neb-sel.is-open { border-color: var(--md-primary); outline: none; border-radius: 22px; }
 .neb-sel:disabled { opacity: .5; cursor: not-allowed; border-radius: 16px; }
 .neb-sel[hidden] { display: none; }

@@ -124,7 +124,7 @@
 @media (prefers-reduced-motion: reduce) { .fp-reply.is-fresh { animation: none; background: var(--md-primary-container); } }
 
 .fl-solved-chip { border: 0; font-family: inherit; cursor: pointer; transition: border-radius .4s var(--spring), transform .25s var(--spring); }
-.fl-solved-chip:hover { border-radius: 8px; }
+.fl-solved-chip:hover { }
 .fl-solved-chip:active { transform: scale(.95); }
 .fl-solved-chip .fl-solved-go { font-size: 15px; margin-left: -1px; opacity: .8; transition: transform .4s var(--spring); }
 .fl-solved-chip:hover .fl-solved-go { transform: translateY(2px); }
