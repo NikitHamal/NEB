@@ -4328,6 +4328,32 @@
   "source": "Wikimedia Commons",
   "title": "CAT5e Cable"
  },
+ "bca301/cerf": {
+  "author": "Вени Марковски Veni Markovski",
+  "bytes": 557274,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/cerf.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vint_Cerf_-_2010.jpg",
+  "sha1": "59b82d899da92bb9",
+  "source": "Wikimedia Commons",
+  "title": "Vint Cerf - 2010"
+ },
+ "bca301/dijkstra": {
+  "author": "Andreas F. Borchert",
+  "bytes": 426122,
+  "credit": "Self-photographed",
+  "fetched": "2026-11-04",
+  "file": "bca301/dijkstra.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Edsger_Dijkstra_1994.jpg",
+  "sha1": "df3155d44a00eca2",
+  "source": "Wikimedia Commons",
+  "title": "Edsger Dijkstra 1994"
+ },
  "bca301/dish": {
   "author": "Chase me ladies, I'm the Cavalry",
   "bytes": 588650,
@@ -4406,6 +4432,19 @@
   "source": "Wikimedia Commons",
   "title": "Netgear DS108 Hub"
  },
+ "bca301/landing": {
+  "author": "妖精書士",
+  "bytes": 628087,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/landing.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:KDDI_CHIKURA_Cable_Landing_Station.jpg",
+  "sha1": "8af286284c234064",
+  "source": "Wikimedia Commons",
+  "title": "KDDI CHIKURA Cable Landing Station"
+ },
  "bca301/lcsc": {
   "author": "Unknown author",
   "bytes": 185365,
@@ -4445,6 +4484,19 @@
   "source": "Wikimedia Commons",
   "title": "Parabolic antennas on a telecommunications tower on Willans Hill"
  },
+ "bca301/netcore": {
+  "author": "Patrick Finnegan from Lafayette, IN, USA",
+  "bytes": 574935,
+  "credit": "Network core",
+  "fetched": "2026-11-04",
+  "file": "bca301/netcore.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Network_core_(13889454740).jpg",
+  "sha1": "4eaa4326d14cf170",
+  "source": "Wikimedia Commons",
+  "title": "Network core (13889454740)"
+ },
  "bca301/nyquist": {
   "author": "FredN",
   "bytes": 2118841,
@@ -4470,6 +4522,19 @@
   "sha1": "5c09705b2ed4849e",
   "source": "Wikimedia Commons",
   "title": "RJ45 Switch Ports"
+ },
+ "bca301/postel": {
+  "author": "Carl Malamud",
+  "bytes": 519729,
+  "credit": "Flickr : Jon Postel",
+  "fetched": "2026-11-04",
+  "file": "bca301/postel.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Jon_Postel_sitting_in_office.jpg",
+  "sha1": "036cd0dbf098c0a3",
+  "source": "Wikimedia Commons",
+  "title": "Jon Postel sitting in office"
  },
  "bca301/rack": {
   "author": "Dsimic",
@@ -4522,6 +4587,19 @@
   "sha1": "aee4d60917c331a7",
   "source": "Wikimedia Commons",
   "title": "Optical fiber fusion splicing - USDA"
+ },
+ "bca301/srx": {
+  "author": "MarcPG",
+  "bytes": 161400,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/srx.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Juniper_srx210_front_view.jpg",
+  "sha1": "2a49346ed46e7ccd",
+  "source": "Wikimedia Commons",
+  "title": "Juniper srx210 front view"
  },
  "bca301/switchint": {
   "author": "Dsimic",
