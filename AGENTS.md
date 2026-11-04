@@ -2053,8 +2053,10 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 - **Done:** BCA 301 Computer Networking (`bca/course/semester-5/computer-networking`) Unit 1 polished: 6 new `bca301/` photos, 3 plates, Figs 1.1-1.7 (all numbers computed in the cells), eight uses in Nepal, Q1-Q6; book 76 pp, qa fails=0. **Next: Computer Networking Unit 2 (Physical layer)**, then Units 3-7, Artificial Intelligence, Advanced Java (see `bca/POLISH_STATUS.md`).
 
-## BCA polish session 47 (Computer Networking, Unit 2 done)
+## BCA polish session 47 (Computer Networking, Units 2-3 done)
 
 - **Done:** BCA 301 Computer Networking Unit 2 (physical layer): 9 new photos, Plates 2.1-2.3, Figs 2.1-2.12 (all numbers computed), eight uses in Nepal, Q1-Q7. Book 89 pp, qa fails=0. **Next: Unit 3 (data link layer)**, then Units 4-7, AI, Advanced Java (see `bca/POLISH_STATUS.md`).
 - **Setup that worked:** out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` as GIT_ASKPASS (PAT never in repo; owner must rotate the PAT pasted in the prompt); shallow clone; `sudo -n apt-get update` THEN install libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig; `pip install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12`; uv pip install deps; `bash notes/pipeline/fonts/install.sh`. Build is ~25 s: `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-5/computer-networking`.
 - **Gotchas:** photo ids are fetched with `assets.py get --width 1400 bca301/NAME "File:Title.jpg"`; svgfig Fig height must cover the last row (a clipped timeline is silent); the file tool only reads inside /app, so view montages from /app/_view and delete it before /app validation.
+
+- **Session 47 addendum:** Unit 3 (data link layer) done: 9 new photos, Plates 3.1-3.3, Figs 3.1-3.12, Q1-Q8; book 102 pp, qa fails=0. **Next: Unit 4 (network layer).** Figures that need monospace-aligned text (CRC division) place each character with its own f.text; a switch-learning table can be simulated inside the svgfig cell.

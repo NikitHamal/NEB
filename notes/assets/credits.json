@@ -4276,6 +4276,32 @@
   "source": "Wikimedia Commons",
   "title": "Scrum task board"
  },
+ "bca301/aloha": {
+  "author": "Ron Hashiro",
+  "bytes": 132938,
+  "credit": "https://www.qsl.net/ah6rh/am-radio/in-hawaii.html",
+  "fetched": "2026-11-04",
+  "file": "bca301/aloha.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Holmes_Hall_Manoa_ALOHAnet_IEEE_Milestone.jpg",
+  "sha1": "0db70f81874aab65",
+  "source": "Wikimedia Commons",
+  "title": "Holmes Hall Manoa ALOHAnet IEEE Milestone"
+ },
+ "bca301/apout": {
+  "author": "Mbrickn",
+  "bytes": 1145732,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/apout.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Outdoors_Wireless_Access_Point.jpg",
+  "sha1": "504bc4a7e3dde2df",
+  "source": "Wikimedia Commons",
+  "title": "Outdoors Wireless Access Point"
+ },
  "bca301/bbnimp": {
   "author": "Don DeBold from San Jose, CA, USA",
   "bytes": 549165,
@@ -4341,6 +4367,45 @@
   "source": "Wikimedia Commons",
   "title": "Siemens DSL-Splitter BBAE Telekom"
  },
+ "bca301/eccdimm": {
+  "author": "Mister rf",
+  "bytes": 566717,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/eccdimm.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:MR18R0828BN1-CG6.jpg",
+  "sha1": "66945f939100324c",
+  "source": "Wikimedia Commons",
+  "title": "MR18R0828BN1-CG6"
+ },
+ "bca301/ethconn": {
+  "author": "Daderot",
+  "bytes": 859149,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/ethconn.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Early_Ethernet_connector_-_signed_by_Bob_Metcalfe.jpg",
+  "sha1": "556564a75539792a",
+  "source": "Wikimedia Commons",
+  "title": "Early Ethernet connector - signed by Bob Metcalfe"
+ },
+ "bca301/hub": {
+  "author": "www.heimnetzwerke.net",
+  "bytes": 229156,
+  "credit": "https://www.heimnetzwerke.net/heimnetzwerk-mediathek/",
+  "fetched": "2026-11-04",
+  "file": "bca301/hub.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Netgear_DS108_Hub.jpg",
+  "sha1": "ebef376d98f01217",
+  "source": "Wikimedia Commons",
+  "title": "Netgear DS108 Hub"
+ },
  "bca301/lcsc": {
   "author": "Unknown author",
   "bytes": 185365,
@@ -4392,6 +4457,19 @@
   "sha1": "5f073fc3c5bb1204",
   "source": "Wikimedia Commons",
   "title": "Harry Nyquist minnessten"
+ },
+ "bca301/ports": {
+  "author": "Ben Franske",
+  "bytes": 506415,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/ports.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:RJ45_Switch_Ports.jpg",
+  "sha1": "5c09705b2ed4849e",
+  "source": "Wikimedia Commons",
+  "title": "RJ45 Switch Ports"
  },
  "bca301/rack": {
   "author": "Dsimic",
@@ -4445,6 +4523,19 @@
   "source": "Wikimedia Commons",
   "title": "Optical fiber fusion splicing - USDA"
  },
+ "bca301/switchint": {
+  "author": "Dsimic",
+  "bytes": 387319,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/switchint.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Internals_of_a_Cisco_small_business_SG300-28_28-port_Gigabit_Ethernet_rackmount_switch.jpg",
+  "sha1": "c01668bec52ef91c",
+  "source": "Wikimedia Commons",
+  "title": "Internals of a Cisco small business SG300-28 28-port Gigabit Ethernet rackmount switch"
+ },
  "bca301/tangled": {
   "author": "Bill Bradford",
   "bytes": 171060,
@@ -4470,6 +4561,32 @@
   "sha1": "a8a3af5d71433729",
   "source": "Wikimedia Commons",
   "title": "Yellowcable mit AMP tranceiver auf AUI P4510208"
+ },
+ "bca301/tokenring": {
+  "author": "Raymangold22",
+  "bytes": 175281,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca301/tokenring.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:100_megabit_token_ring_adapter.JPG",
+  "sha1": "f6ec0ad24a97b95c",
+  "source": "Wikimedia Commons",
+  "title": "100 megabit token ring adapter"
+ },
+ "bca301/wrt54g": {
+  "author": "User:Vidarlo ENWP",
+  "bytes": 309790,
+  "credit": "http://en.wikipedia.org/wiki/Image:Wrt54g.jpg",
+  "fetched": "2026-11-04",
+  "file": "bca301/wrt54g.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Linksys_WRT54G.jpg",
+  "sha1": "37fa05a43225fbf3",
+  "source": "Wikimedia Commons",
+  "title": "Linksys WRT54G"
  },
  "bca304/atm": {
   "author": "Artaxerxes",
