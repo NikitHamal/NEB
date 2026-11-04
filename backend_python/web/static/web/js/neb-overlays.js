@@ -74,7 +74,11 @@
     document.body.style.left = '0';
     document.body.style.right = '0';
     document.body.style.width = '100%';
-    if (bar > 0) document.body.style.paddingRight = bar + 'px';
+    /* html keeps its scrollbar gutter (scrollbar-gutter: stable), so most pages lose no
+     * width when the body is pinned. Measure what was actually lost after locking and
+     * give back only that, or the page jumps sideways each time a dialog opens. */
+    var lost = bar - (window.innerWidth - document.documentElement.clientWidth);
+    if (lost > 0) document.body.style.paddingRight = lost + 'px';
   }
 
   function unlockScroll() {

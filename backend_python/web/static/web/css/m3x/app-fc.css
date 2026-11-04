@@ -64,18 +64,10 @@
 .fc-kindbtn .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
 .fc-kindlabel { font-size: .8125rem; font-weight: 700; }
 .fc-kindlabel:empty { display: none; }
-.fc-kindmenu {
-  position: absolute; left: 0; bottom: calc(100% + 8px); z-index: 40; min-width: 184px; padding: 6px; display: flex; flex-direction: column; gap: 2px;
-  background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 22px;
-  transform-origin: bottom left; animation: fc-menu-in .38s var(--spring) both;
-}
+.fc-kindmenu { min-width: 208px; display: flex; flex-direction: column; gap: 2px; }
 .fc-kindmenu[hidden] { display: none; }
 @keyframes fc-menu-in { from { opacity: 0; transform: scale(.88) translateY(6px); } }
-.fc-kindopt {
-  display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 14px 0 12px; border: 0; border-radius: 16px; cursor: pointer;
-  background: transparent; color: var(--md-on-surface); font: inherit; font-size: .875rem; font-weight: 600; text-align: left;
-  transition: background-color .15s, border-radius .4s var(--spring);
-}
+.fc-kindopt { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; cursor: pointer; background: transparent; font: inherit; font-size: .875rem; font-weight: 600; text-align: left; }
 .fc-kindopt > span:not(.material-symbols-outlined) { flex: 1; }
 .fc-kindopt .material-symbols-outlined { font-size: 20px; color: var(--md-on-surface-variant); }
 .fc-kindopt .material-symbols-outlined:last-child { font-size: 18px; color: var(--md-primary); opacity: 0; transform: scale(.4); transition: opacity .2s, transform .4s var(--spring); }
@@ -85,12 +77,7 @@
 .fc-kindopt[aria-checked="true"] .material-symbols-outlined:last-child { opacity: 1; transform: none; color: inherit; }
 
 /* symbols */
-.fc-pop {
-  position: absolute; left: 0; top: calc(100% + 2px); z-index: 30; padding: 8px; width: min(100%, 300px);
-  display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
-  background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 20px;
-  animation: fc-menu-in .4s var(--spring) both; transform-origin: top left;
-}
+.fc-pop { width: min(300px, calc(100vw - 16px)); padding: 8px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
 .fc-pop[hidden] { display: none; }
 .fc-sym {
   height: 34px; border: 0; border-radius: 12px; cursor: pointer; background: transparent;
