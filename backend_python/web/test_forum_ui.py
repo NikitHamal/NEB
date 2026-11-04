@@ -65,7 +65,7 @@ class HomeAndThreadTests(TestCase):
         response = self.client.get(reverse('web:forum_post', args=[self.post.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'fp-section-count">2')
-        self.assertContains(response, '1 threads')
+        self.assertNotContains(response, '1 threads')
         self.assertContains(response, 'data-action="jump-to-replies"')
 
     def test_unanswered_module_lists_a_thread_with_no_replies(self):
