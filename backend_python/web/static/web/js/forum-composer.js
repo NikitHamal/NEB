@@ -150,7 +150,7 @@
         }).join('') + '</div>' +
         (compact ? '' : btn('fc-iconbtn fc-modebtn', 'visibility', 'Preview', ' aria-pressed="false"')) +
       '</div></div>' +
-      '<div class="fc-pop" hidden role="menu" aria-label="Symbols">' + SYMBOLS.map(function (c) {
+      '<div class="neb-menu fc-pop" hidden role="menu" data-neb-align="start" aria-label="Symbols">' + SYMBOLS.map(function (c) {
         return '<button type="button" class="fc-sym" role="menuitem" data-sym="' + c + '">' + c + '</button>';
       }).join('') + '</div>';
     host.insertBefore(root, ta);
@@ -196,9 +196,9 @@
       wrap.innerHTML =
         '<button type="button" class="fc-iconbtn fc-kindbtn" aria-haspopup="menu" aria-expanded="false" title="What are you posting">' +
           icon('chat_bubble') + '<span class="fc-kindlabel"></span></button>' +
-        '<div class="fc-kindmenu" hidden role="menu" aria-label="What are you posting">' +
+        '<div class="neb-menu fc-kindmenu" hidden role="menu" data-neb-align="start" aria-label="What are you posting">' +
           KINDS.map(function (k) {
-            return '<button type="button" class="fc-kindopt" role="menuitemradio" aria-checked="' + (k.key === 'comment') +
+            return '<button type="button" class="neb-menu-item fc-kindopt" role="menuitemradio" aria-checked="' + (k.key === 'comment') +
               '" data-kind="' + k.key + '">' + icon(k.icon) + '<span>' + k.label + '</span>' + icon('check') + '</button>';
           }).join('') + '</div>';
       if (actions && compact) actions.insertBefore(wrap, actions.querySelector('.fc-end'));
@@ -219,17 +219,27 @@
     }, { passive: false });
     setTimeout(edges, 480);
 
+    /* Both popups are NebUI menus: portaled to <body>, placed in the viewport and
+       flipped or clamped at the edges, so no card, rail or sticky bar can clip them. */
+    function popOpen() { return pop.hasAttribute('data-open'); }
     function closePop() {
-      pop.hidden = true;
-      var b = root.querySelector('[data-tool="symbols"]');
-      if (b) b.setAttribute('aria-expanded', 'false');
+      if (popOpen() && window.NebUI) NebUI.closeMenu();
     }
 
     function closeKindMenu() {
-      if (!kindMenu || kindMenu.hidden) return;
-      kindMenu.hidden = true;
-      kindBtn.setAttribute('aria-expanded', 'false');
+      if (kindMenu && kindMenu.hasAttribute('data-open') && window.NebUI) NebUI.closeMenu();
     }
+    if (kindMenu) kindMenu.addEventListener('click', function (e) {
+      var ko = e.target.closest('.fc-kindopt');
+      if (!ko) return;
+      setKind(ko.getAttribute('data-kind'));
+      closeKindMenu();
+      kindBtn.focus();
+    });
+    pop.addEventListener('click', function (e) {
+      var sb = e.target.closest('.fc-sym');
+      if (sb) insertText(ta, sb.getAttribute('data-sym'));
+    });
 
     function setOpen(v, focus) {
       state.open = !!v;
@@ -334,39 +344,19 @@
     }
 
     host.addEventListener('click', function (e) {
-      var ko = e.target.closest('.fc-kindopt');
-      if (ko) { setKind(ko.getAttribute('data-kind')); closeKindMenu(); return; }
-      if (e.target.closest('.fc-kindbtn')) {
-        var show = kindMenu.hidden;
-        kindMenu.hidden = !show;
-        kindBtn.setAttribute('aria-expanded', String(show));
-        return;
-      }
+      if (e.target.closest('.fc-kindbtn')) { NebUI.menu(kindMenu, kindBtn); return; }
       if (e.target.closest('.fc-fmt')) { setOpen(!state.open, true); return; }
       if (e.target.closest('.fc-growbtn')) { setTall(!state.tall); ta.focus(); return; }
       if (e.target.closest('.fc-modebtn')) { setMode(state.preview ? 'write' : 'preview'); return; }
-      var sb = e.target.closest('.fc-sym');
-      if (sb) { insertText(ta, sb.getAttribute('data-sym')); return; }
       var tb = e.target.closest('.fc-tool');
       if (!tb) return;
       var tool = TOOLS.filter(function (t) { return t.id === tb.getAttribute('data-tool'); })[0];
       if (tool.symbols) {
-        var open = pop.hidden;
-        pop.hidden = !open;
-        tb.setAttribute('aria-expanded', String(open));
+        NebUI.menu(pop, tb);
         return;
       }
       closePop();
       apply(ta, tool);
-    });
-    document.addEventListener('click', function (e) {
-      if (!pop.hidden && !e.target.closest('.fc-pop, [data-tool="symbols"]')) closePop();
-      if (kindMenu && !kindMenu.hidden && !e.target.closest('.fc-kindwrap')) closeKindMenu();
-    });
-    host.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      if (!pop.hidden) { e.stopPropagation(); closePop(); }
-      else if (kindMenu && !kindMenu.hidden) { e.stopPropagation(); closeKindMenu(); kindBtn.focus(); }
     });
 
     ta.addEventListener('keydown', function (e) {
