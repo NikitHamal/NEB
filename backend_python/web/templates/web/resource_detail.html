@@ -167,7 +167,10 @@
     <aside class="vw-side">
       <div class="vw-card" style="--sc: {{ resource.subject|split:','|first|subject_color }}">
         <div class="rcard-tags">
-          {% for subj in resource.subject|split:"," %}<span class="rcard-tag is-subject" style="--sc: {{ subj|subject_color }}">{{ subj }}</span>{% endfor %}
+          {% with subjects=resource.subject|split:"," %}
+          {% for subj in subjects %}<span class="rcard-tag is-subject{% if forloop.counter > 3 %} is-extra{% endif %}" style="--sc: {{ subj|subject_color }}"{% if forloop.counter > 3 %} hidden{% endif %}>{{ subj }}</span>{% endfor %}
+          {% if subjects|length > 3 %}<button type="button" class="rcard-tag rcard-tag-more" data-tags-more aria-expanded="false" aria-label="Show all subjects">+{{ subjects|length|add:"-3" }}</button>{% endif %}
+          {% endwith %}
           <span class="rcard-tag">{{ resource.type }}</span>
           {% if resource.grade_level %}<span class="rcard-tag">{{ resource.grade_level }}</span>{% endif %}
           {% if resource.is_paid or resource.isPaid %}<span class="rcard-tag" style="background:var(--md-tertiary);color:var(--md-on-tertiary)">Rs. {{ resource.price|floatformat:"0" }}</span>{% endif %}

@@ -2,7 +2,7 @@
    only after Read. Contents lists the other files of a bundle. Get-app sheet is the one place Download leads.
    Fill and label are always a role pair; no shadows; every hover shape stays finite. */
 
-.vw { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; align-items: start; }
+.vw { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 380px); gap: 20px; align-items: stretch; }
 .vw-main { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
 
 /* ---------- stage ---------- */
@@ -16,7 +16,7 @@
 
 .vw-cover {
   position: relative; isolation: isolate; display: grid; place-items: center; text-align: center;
-  min-height: clamp(420px, 62vh, 620px); padding: 48px 24px 88px;
+  min-height: clamp(340px, 52vh, 520px); padding: 40px 24px 80px;
   background: var(--md-surface-container-low);
 }
 .vw-cover[hidden], .vw-reader[hidden] { display: none; }
@@ -45,7 +45,7 @@
 }
 .vw-cover-note { margin: -4px 0 0; color: var(--md-on-surface-variant); font-size: .9375rem; word-break: break-word; }
 .vw-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-.vw-cta .x-btn { --h: 40px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
+.vw-cta .x-btn { --h: 40px; flex: 1 1 128px; max-width: 180px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
 .vw-cta .x-btn:hover { }
 .vw-read { min-width: 0; }
 .vw-cover::before {
@@ -100,9 +100,10 @@ html.neb-has-overlay .vw-iframe, html.neb-has-overlay .vw-media { visibility: hi
 .vw-part:hover .vw-part-go { transform: translateX(4px); }
 
 /* ---------- info card ---------- */
-.vw-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 88px; }
+.vw-side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .vw-card { padding: 22px; border-radius: 28px; background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface); }
-.vw-title { margin: 14px 0 6px; font: 700 clamp(1.4rem, 2.2vw, 1.75rem)/1.2 var(--md-font); letter-spacing: -.02em; word-break: break-word; }
+.vw-card { display: flex; flex-direction: column; min-width: 0; }
+.vw-title { margin: 14px 0 0; font: 700 clamp(1.2rem, 1.7vw, 1.45rem)/1.25 var(--md-font); letter-spacing: -.015em; word-break: break-word; text-wrap: balance; }
 .vw-desc { margin: 12px 0 0; color: var(--md-on-surface-variant); line-height: 1.65; font-size: .9375rem; word-break: break-word; }
 .vw-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 18px; }
 .vw-fact { padding: 12px 14px; border-radius: 20px; background: var(--md-surface-container); min-width: 0; }
@@ -111,7 +112,7 @@ html.neb-has-overlay .vw-iframe, html.neb-has-overlay .vw-media { visibility: hi
 .vw-by { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); font-size: .875rem; }
 .vw-by a, .vw-by strong { color: var(--md-on-surface); font-weight: 600; text-decoration: none; }
 .vw-by a:hover { color: var(--md-primary); }
-.vw-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.vw-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 18px; }
 .vw-actions .x-btn { flex: 1; }
 .vw-like.liked { background: var(--md-primary); color: var(--md-on-primary); }
 .vw-below { margin-top: 28px; display: grid; gap: 28px; }
@@ -138,15 +139,15 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 
 @media (max-width: 1080px) {
   .vw { grid-template-columns: 1fr; }
-  .vw-side { position: static; }
+  .vw { align-items: start; }
 }
 @media (max-width: 640px) {
   .vw-stage { border-radius: 24px; }
-  .vw-cover { min-height: 400px; padding: 32px 16px; }
+  .vw-cover { min-height: 320px; padding: 28px 16px 72px; }
   .vw-sprite { min-width: 192px; height: 160px; padding: 0 24px; border-radius: 40px; }
   .vw-sprite .px-sprite { zoom: 1.4; }
-  .vw-cta { width: 100%; flex-direction: column; }
-  .vw-cta .x-btn { width: 100%; }
+  .vw-cta { width: 100%; flex-wrap: nowrap; }
+  .vw-cta .x-btn { flex: 1 1 0; max-width: none; padding: 0 12px; }
   .vw-view { height: 74vh; min-height: 420px; }
   .vw-card { padding: 18px; border-radius: 24px; }
   .vw-facts { grid-template-columns: 1fr 1fr 1fr; }
@@ -177,3 +178,18 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .vw-pdf-count i { font-style: normal; color: var(--md-on-surface-variant); }
 @media (min-width: 640px) { .vw-pdf-scroll { padding-inline: 20px; } }
 @media (prefers-reduced-motion: reduce) { .vw-pdf-page::after { animation: none; } }
+
+/* ---------- one balanced pair: while it is a cover, the stage and the details card share one height ---------- */
+@media (min-width: 1081px) {
+  .vw-main > .vw-stage { flex: 1 1 auto; }
+  .vw:has(.vw-stage[data-state="cover"]) .vw-card { flex: 1 1 auto; }
+  .vw:not(:has(.vw-stage[data-state="cover"])) .vw-side { position: sticky; top: 88px; align-self: start; }
+}
+
+/* ---------- tags: one tidy row of chips, never a wall ---------- */
+.vw-card .rcard-tags { gap: 6px; }
+.vw-card .rcard-tag { max-width: 100%; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; height: 24px; padding: 0 10px; font-size: .71875rem; }
+.vw-card .rcard-tag[hidden] { display: none; }
+.rcard-tag-more { border: 0; cursor: pointer; background: var(--md-secondary-container); color: var(--md-on-secondary-container); transition: background-color .2s, transform .3s var(--spring); }
+.rcard-tag-more:hover { background: color-mix(in srgb, var(--md-secondary-container) 80%, var(--md-on-secondary-container)); }
+.rcard-tag-more:active { transform: scale(.94); }

@@ -4,7 +4,7 @@
     <div class="vw-hero">
       <div class="vw-sprite" aria-hidden="true"><span class="px-sprite px-{{ part.sprite }}"></span></div>
       <p class="vw-kind"><span class="material-symbols-outlined" aria-hidden="true">{{ part.icon }}</span>{{ part.label }}{% if part.file_size %}<i></i>{{ part.file_size|file_size_human }}{% endif %}</p>
-      <h2 class="vw-cover-title">{{ part.title }}</h2>
+      {% if part.title != resource.title %}<h2 class="vw-cover-title">{{ part.title }}</h2>{% endif %}
       {% if part.kind == 'locked' %}
       <p class="vw-cover-note">Paid resource</p>
       {% elif part.kind == 'error' %}
