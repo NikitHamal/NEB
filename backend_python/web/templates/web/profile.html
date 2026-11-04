@@ -135,7 +135,7 @@
                 </a>
               {% elif is_authenticated %}
                 <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
-                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}{% if stats.is_requested and not stats.is_following %} is-requested{% endif %}">
                   <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
                   <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
                 </button>
@@ -390,16 +390,13 @@
                     {% endif %}
                   </div>
                   <div class="post-card-meta">
-                    <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <div class="post-card-meta-top">
                       <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
                       {% if badge_info %}
                       <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                       {% endif %}
-                      {% if is_authenticated and profile_user.id != user.id %}
-                      <button class="follow-btn-small {% if stats.is_following %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ profile_user.id }}">{% if stats.is_following %}Following{% else %}Follow{% endif %}</button>
-                      {% endif %}
                     </div>
-                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
+                    <div class="post-card-meta-bottom">
                       <span class="post-card-cat neb-tag">#{{ post.category }}</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                     </div>
@@ -1430,7 +1427,7 @@ async function toggleFollowUser(uid) {
         return;
       }
       if (d.requested) {
-        btn.className = 'pf-btn pf-btn-outlined';
+        btn.className = 'pf-btn pf-btn-outlined is-requested';
         btn.innerHTML = `<span class="material-symbols-outlined">pending</span><span id="followText">Requested</span>`;
       } else {
         btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
