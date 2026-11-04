@@ -7,6 +7,7 @@ from .security import (
     POST_IMAGE_MAX_COUNT,
 )
 from . import services
+from web import forum_labels as _forum_labels
 
 
 def _client_wants_anonymous(request) -> bool:
@@ -294,6 +295,7 @@ def replies_create(request, post_id):
             parent_reply_id=parent_reply_id,
             user=user,
             content=content,
+            kind='comment' if parent_reply_id else _forum_labels.clean_kind(request.data.get('kind')),
             thumbs_up_count=0,
             is_anonymous=anonymous,
             created_at=now,
@@ -518,7 +520,7 @@ def replies_endpoint(request, post_id):
     POST /api/posts/<postId>/replies  → create reply
     """
     if request.method == 'GET':
-        replies = Reply.objects.filter(post_id=post_id, user__email_verified=True).select_related('user')
+        replies = Reply.objects.filter(post_id=post_id, user__email_verified=True).select_related('user', 'post')
         return _paginated_response(request, replies, ReplySerializer, context={'request': request})
 
     # POST — create reply
@@ -557,6 +559,7 @@ def replies_endpoint(request, post_id):
             parent_reply_id=parent_reply_id,
             user=user,
             content=content,
+            kind='comment' if parent_reply_id else _forum_labels.clean_kind(request.data.get('kind')),
             thumbs_up_count=0,
             is_anonymous=anonymous,
             created_at=now,
@@ -631,3 +634,23 @@ def poll_vote(request, poll_id):
     if 'error' in result:
         return Response(result, status=status_code)
     return Response(result)
+
+@api_view(['POST'])
+@throttle_classes([WriteActionRateThrottle])
+def reply_label(request, reply_id):
+    """POST /api/replies/<replyId>/label  body {label: key | ''}"""
+    from web.forum_label_service import apply_label
+    user, err = _require_user(request)
+    if err:
+        return err
+    label = str(request.data.get('label') or '').strip().lower()
+    if label and label not in _forum_labels.LABEL_KEYS:
+        return Response({'error': 'Unknown label'}, status=400)
+    try:
+        reply = Reply.objects.select_related('post').get(pk=reply_id)
+    except Reply.DoesNotExist:
+        return Response({'error': 'Reply not found'}, status=404)
+    if not _forum_labels.can_label(str(user.id), bool(user.is_admin), reply.post.user_id):
+        return Response({'error': 'Only the author of this discussion can label replies.'}, status=403)
+    apply_label(reply, label, str(user.id))
+    return Response(ReplySerializer(reply, context={'request': request}).data)

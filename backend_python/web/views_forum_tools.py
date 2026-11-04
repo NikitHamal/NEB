@@ -3,6 +3,7 @@ import json
 
 from .view_helpers import *  # noqa: F401,F403
 from . import forum_labels
+from .forum_label_service import apply_label
 
 
 def _reply_payload(reply, viewer_id, is_admin):
@@ -20,7 +21,6 @@ def _reply_payload(reply, viewer_id, is_admin):
 
 @require_POST
 def ajax_label_reply(request, reply_id):
-    from api.utils import now_ms
     user_id = _get_user_id(request)
     if not user_id:
         return JsonResponse({'error': 'Please log in again.'}, status=401)
@@ -43,38 +43,8 @@ def ajax_label_reply(request, reply_id):
     if not forum_labels.can_label(user_id, is_admin, post.user_id):
         return JsonResponse({'error': 'Only the author of this discussion can label replies.'}, status=403)
 
-    previous = reply.label or ''
-    now = now_ms()
-    with transaction.atomic():
-        if label == 'accepted':
-            Reply.objects.filter(post_id=post.id, label='accepted').exclude(pk=reply.pk).update(label='', labeled_at=0)
-            post.is_resolved = True
-            post.accepted_reply_id = reply.id
-            post.save(update_fields=['is_resolved', 'accepted_reply_id'])
-        elif previous == 'accepted':
-            post.is_resolved = False
-            post.accepted_reply_id = ''
-            post.save(update_fields=['is_resolved', 'accepted_reply_id'])
-        reply.label = label
-        reply.labeled_by_id = user_id if label else None
-        reply.labeled_at = now if label else 0
-        reply.save(update_fields=['label', 'labeled_by', 'labeled_at'])
-
-    if label in ('accepted', 'correct', 'helpful') and reply.user_id and reply.user_id != user_id and label != previous:
-        try:
-            from api.notifications import notify_system
-            phrase = {'accepted': 'was accepted as the answer', 'correct': 'was marked correct',
-                      'helpful': 'was marked helpful'}[label]
-            notify_system(reply.user_id, 'Your reply on "%s" %s.' % (post.title[:60], phrase),
-                          target_type='post', target_id=post.id)
-        except Exception:
-            pass
+    apply_label(reply, label, user_id)
     _clear_page_cache()
-    try:
-        from api import realtime as _rt
-        _rt.broadcast_reply_updated(post.id, reply.id, {'label': label, 'labeled_at': reply.labeled_at})
-    except Exception:
-        pass
     return JsonResponse(_reply_payload(reply, user_id, is_admin))
 
 
