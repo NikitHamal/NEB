@@ -88,3 +88,45 @@ The admin page shows a notice while un-migrated rows exist in the selected range
 cd backend_python
 DB_ENGINE=sqlite SECRET_KEY=x DEBUG=1 python manage.py test api.test_admin_analytics web.test_page_cache
 ```
+
+
+## Private signals (device context)
+
+`api/signals.py` + `ActorSignal` (table `sys_ctx`) record which kind of device a
+sign-up, post, comment, poll vote, like or added poll option came from. Internal
+analytics only: no serializer, template or export reads it except the staff-guarded
+Admin > Analytics > Devices sections (`nebians/analytics/report_devices.py`).
+
+* Hooks: `post_save` receivers (`register_hooks`) plus `SignalContextMiddleware`, which
+  hands the current request to them. One place covers web, ajax and API writes.
+* Not reversible: no user id, IP or raw user agent is stored. `actor` is an HMAC of the
+  user id under a key derived from `SECRET_KEY`; staff go user -> tag (recent sign-ups table),
+  never tag -> user. Rotating `SECRET_KEY` orphans history, so do not.
+* Coarse columns in the clear (device class, OS family, browser, app version, country) so the
+  report aggregates in SQL; precise detail (model, OS version, screen, language, timezone) is
+  AES-GCM ciphertext in `detail` and only decrypted for aggregate hardware lists.
+* The Android app sends `X-Neb-Device: v=1;app=..;build=..;os=Android 14;sdk=34;model=..;brand=..;screen=..;lang=..;tz=..`
+  and `X-App-Platform` / `X-App-Version` (`data/api/ApiService.kt`). Browsers are read from the UA.
+* Writes run after commit and swallow their own errors; they can never fail a request.
+
+## Post reach and insights
+
+* `PostReach` (one row per viewer per local day) and `PostImpression` (daily list impressions)
+  are written by `api/post_reach.py`. `Post.view_count` moves only for a new (post, viewer, day)
+  that is not the author and not a bot, so refreshes no longer inflate it.
+* Viewer id: stable keyed hash for members, daily-rotating for guests. Dwell time arrives from
+  `post-reach.js` (web) and the app as `dwell_ms`.
+* `GET /api/posts/<id>/insights/?days=7|30|90` and `GET /ajax/post/<id>/insights/` (author and
+  staff only) return `api/post_insights.build()`: KPIs with previous period, daily series, hour of
+  day, audience (members, followers, returning), surfaces, channels, devices, countries, read-time
+  buckets, reactions by device, poll results, standing among the author's posts, text insights.
+* Beacons: `POST /api/posts/<id>/view/` (`surface`, `dwell_ms`), `POST /api/posts/impressions/`
+  (`ids`), web twins under `/ajax/post/`.
+
+## Polls
+
+`api/polls.py` is the one place for poll creation, payload, add-an-option and retract.
+A poll belongs to a post or to a top-level comment (`Poll.reply`). `allow_add_options` lets any
+signed-in member append an option (max 12 total, 100 chars, case-insensitive duplicates refused,
+voting polls only; quizzes stay locked). `POST /api/polls/<id>/options/`, `DELETE` same URL
+retracts a vote. Web card: `_poll_card.html` + `poll-card.js` + `m3x/app-poll.css`.

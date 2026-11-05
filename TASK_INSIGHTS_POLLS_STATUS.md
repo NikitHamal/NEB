@@ -7,7 +7,9 @@ Brief: upgrade admin analytics, per-post insights (web + Android), private devic
 
 - [x] Web: m3x poll card (`_poll_card.html`, `poll-card.js`, `m3x/app-poll.css`) on post page, feed rows and comments; comment poll builder; insights sheet (`post-insights.js`, menu item "See insights"); view/impression beacons (`post-reach.js`). Tests: `web.test_polls_insights`.
 
+- [x] Admin analytics: Devices and sign-ups (by device, system, app, activation, interactions matrix, app versions/models, recent sign-ups), Posts and polls (reach, readers by device, poll stats).
+
 ## Next
-- [ ] Admin analytics: devices, signup devices, post performance
 - [ ] Android: device header, poll card, comment poll builder, insights screen, view beacons
-- [ ] docs/ANALYTICS.md (Private signals, post insights, polls)
+
+- docs/ANALYTICS.md covers private signals, reach/insights and polls.
