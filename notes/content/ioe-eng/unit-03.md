@@ -60,6 +60,64 @@ A **syllable** has one vowel sound: *beau-ti-ful* (3), *ed-u-ca-tion* (4), *com-
 Count sounds, not letters (*knife* starts with /n/, *hour* with a vowel, so *an hour*). *-ed* has three sounds. Pairs that look alike do not sound alike: *cough, though, through, tough, thought*. The **stress** of a long word follows its *ending*, not its beginning.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Vowels as two numbers. (a) A spectrogram of the vowel in see: each dark band is a formant, a frequency where the vocal tract strengthens the sound. (b) The first two formants fix the vowel. F1 rises as the tongue is lowered, and F2 falls as it moves back and the lips round. Plotted this way, nine English vowels (average adult male values from Peterson and Barney, 1952, rounded) form the same chart as the classroom vowel quadrilateral: i is highest and most front, with F1 = 270 Hz and F2 = 2290 Hz, while the open back vowel in pot has F1 = 730 Hz and F2 = 1090 Hz."
+@ photo id="ioeeng/spectro" cap="A spectrogram of one vowel: dark bands are its formants"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Vowel chart from F1 and F2 (Peterson and Barney means)"
+D = {"beet": (270, 2290), "bit": (390, 1990), "bet": (530, 1840), "bat": (660, 1720), "pot": (730, 1090),
+     "bought": (570, 840), "book": (440, 1020), "boot": (300, 870), "but": (640, 1190)}
+assert min(v[0] for v in D.values()) == D["beet"][0] and max(v[1] for v in D.values()) == D["beet"][1] and max(v[0] for v in D.values()) == D["pot"][0]
+assert D["beet"][0] < D["bit"][0] < D["bet"][0] < D["bat"][0] and D["boot"][0] < D["book"][0] < D["bought"][0] < D["pot"][0]
+assert all(D[a][1] > D[b][1] for a in ("beet", "bit", "bet", "bat") for b in ("boot", "book", "bought"))
+facts = dict(f1i=D["beet"][0], f2i=D["beet"][1], f1a=D["pot"][0], f2a=D["pot"][1])
+f = Fig(300, 236)
+f.text(150, 14, "F2 (Hz, falls to the right) and F1 (Hz, down)", size=10.5, color=NAVY, bold=True)
+X = lambda f2: 282 - (f2 - 700) / (2400 - 700) * 220; Y = lambda f1: 34 + (f1 - 250) / (800 - 250) * 150
+f.box(X(2400) - 12, 28, X(700) - X(2400) + 26, 164, "", fill=SOFT, stroke="#cbd5e1", r=6, sw=1)
+for v in (300, 500, 700): f.line(X(2400) - 12, Y(v), X(700) + 14, Y(v), color="#e2e8f0", sw=1); f.text(X(2400) - 16, Y(v) + 3, str(v), size=10.5, color=SLATE, anchor="end")
+for name, (a, b) in D.items():
+    f.circle(X(b), Y(a), 4.5, fill=(AMBER if b > 1500 else TEAL), stroke=(AMBER if b > 1500 else TEAL))
+    if b > 1500: f.text(X(b) + 7, Y(a) - 6, name, size=10.5, color=SLATE, bold=True, anchor="start")
+    else: f.text(X(b) - 7, Y(a) - 6, name, size=10.5, color=SLATE, bold=True, anchor="end")
+f.text(150, 208, "amber: front vowels   teal: central and back", size=10.5, color=SLATE)
+f.text(150, 224, "high vowel = low F1,  front vowel = high F2", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Sentence stress and rhythm. (a) A metronome ticks at an even rate; English speech approximates this with its stressed syllables, while the unstressed ones are squeezed in between. (b) Three sentences carry the same three stressed words (dogs, chasing, cats) but have 3, 6 and 9 syllables, counted by a vowel-group rule. At an assumed 120 beats per minute (0.5 s per stress), the stress-timed model gives 1.5 s for every one of them, whereas a syllable-timed language at 0.25 s per syllable would need 0.75, 1.5 and 2.25 s. Real speech lies between the two, but the pattern explains why function words are reduced."
+@ photo id="ioeeng/metronome" cap="A metronome: English stressed syllables fall at roughly even beats"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Same three stresses, 3, 6 and 9 syllables, equal time"
+import re
+def syl(w):
+    n = len(re.findall("[aeiouy]+", w.lower()))
+    if w.lower().endswith("e") and n > 1 and not w.lower().endswith(("le", "ee")): n -= 1
+    return max(1, n)
+S = ["Dogs chase cats", "The dogs will chase the cats", "The dogs would have been chasing the cats"]
+n = [sum(syl(w) for w in s.split()) for s in S]
+assert n == [3, 6, 9], n
+beat = 0.5; stress = 3
+t = (stress) * beat
+a = [k * 0.25 for k in n]
+assert t == 1.5 and a == [0.75, 1.5, 2.25]
+facts = dict(s1=n[0], s2=n[1], s3=n[2], t="%.1f" % t, a1="%.2f" % a[0], a2="%.1f" % a[1], a3="%.2f" % a[2])
+f = Fig(300, 236)
+f.text(150, 14, "three stresses at 0.5 s each = 1.5 s", size=10.5, color=NAVY, bold=True)
+sx = 270 / 2.4
+for r, s in enumerate(S):
+    y = 28 + r * 56
+    f.text(8, y + 8, s, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.line(14, y + 36, 290, y + 36, color=SOFT, sw=1.2)
+    for b in range(3): f.box(14 + b * 0.5 * sx - 2, y + 18, 5, 18, "", fill=AMBER, stroke=AMBER, r=1)
+    for k in range(n[r]):
+        f.circle(14 + k * 0.25 * sx, y + 44, 2.2, fill="#94a3b8", stroke="#94a3b8")
+    f.text(290, y + 8, "%d syl" % n[r], size=10.5, color=TEAL, bold=True, anchor="end", vmid=True)
+f.text(150, 200, "amber bars: stressed beats (equal gaps)", size=10.5, color=AMBER, bold=True)
+f.text(150, 214, "grey dots: syllable-timed at 0.25 s each", size=10.5, color=SLATE)
+f.text(150, 228, "syllable-timed would need 0.75, 1.5, 2.25 s", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact |
