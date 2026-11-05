@@ -138,6 +138,27 @@ A student has a database assignment due Friday (4 hours of work), a Java lab rep
 7. **Regular meetings and feedback.** A short daily or weekly stand-up asks: what did I do, what will I do, what blocks me? Feedback is specific, timely and kind. The team reviews its own method after each milestone.
 8. **Skills that complement each other.** A good team mixes a leader, an idea generator, a careful finisher and a specialist. Members learn from each other and cover each other's weak points. Diversity of skills makes the final product stronger than any single member could.
 
+```photogrid label="4.2" cols="2" ratio="1.0" caption="Why big teams need structure. (a) A rowing eight: nine people (eight rowers and a cox) must keep one rhythm, which works because the roles are fixed and the cox speaks for the crew. (b) In a team of n people there are n(n - 1) / 2 possible pairs who may need to talk. Three people have 3 channels; five have 10; the nine-person boat has 36; twelve have 66; twenty have 190. Doubling the team from 9 to 18 would raise the channels from 36 to 153, more than four times. This is why a project with 20 programmers is split into squads of five or six with a lead each, and why Brooks's law warns that adding people to a late project can make it later. Clear roles, a short stand-up and a shared task board keep the number of conversations manageable."
+@ photo id="bcapc/rowing" cap="A rowing eight with its cox"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Communication channels n(n-1)/2"
+ns = [3, 5, 9, 12, 20]
+ch = [n * (n - 1) // 2 for n in ns]
+assert ch == [3, 10, 36, 66, 190] and 18 * 17 // 2 == 153 and round(153 / 36, 2) == 4.25
+f = Fig(300, 240)
+f.text(150, 14, "possible pairs in a team of n", size=10.5, color=NAVY, bold=True)
+base, sc = 176, 130 / 190
+for i, (n, c) in enumerate(zip(ns, ch)):
+    x = 18 + i * 54; h = c * sc
+    f.box(x, base - h, 40, max(h, 2), "", fill="#1d6fb8" if n != 9 else "#d97706", stroke=NAVY, r=0, sw=1)
+    f.text(x + 20, base - h - 8, str(c), size=10.5, color=NAVY, bold=True)
+    f.text(x + 20, base + 14, f"n = {n}", size=10.5, color=SLATE)
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+f.text(150, 210, "nine in the boat: 36 pairs (amber)", size=10.5, color="#b45309", bold=True)
+f.text(150, 228, "9 -> 18 people: 36 -> 153 channels (4.25x)", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Tuckman: forming → storming → norming → performing → adjourning.
