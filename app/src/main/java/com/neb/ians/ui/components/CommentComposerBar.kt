@@ -72,6 +72,8 @@ fun NebCommentComposerBar(
     textFieldModifier: Modifier = Modifier,
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
     voiceNote: VoiceNoteRecorder? = null,
+    docked: Boolean = true,
+    trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
     NebCommentComposerBarFrame(
@@ -83,6 +85,8 @@ fun NebCommentComposerBar(
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
         voiceNote = voiceNote,
+        docked = docked,
+        trailingContent = trailingContent,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
         ComposerInput(
@@ -112,6 +116,8 @@ fun NebCommentComposerBar(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
     voiceNote: VoiceNoteRecorder? = null,
+    docked: Boolean = true,
+    trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
     NebCommentComposerBarFrame(
@@ -123,6 +129,8 @@ fun NebCommentComposerBar(
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
         voiceNote = voiceNote,
+        docked = docked,
+        trailingContent = trailingContent,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
         ComposerInput(
@@ -147,6 +155,8 @@ private fun NebCommentComposerBarFrame(
     sendContentDescription: String,
     sendIcon: ImageVector,
     voiceNote: VoiceNoteRecorder?,
+    docked: Boolean,
+    trailingContent: (@Composable RowScope.() -> Unit)?,
     extraContent: @Composable () -> Unit,
     textField: @Composable (Modifier) -> Unit
 ) {
@@ -167,7 +177,7 @@ private fun NebCommentComposerBarFrame(
         animationSpec = nebEffectsSpec(),
         label = "composerStroke"
     )
-    val shape = RoundedCornerShape(26.dp)
+    val shape = RoundedCornerShape(28.dp)
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -178,9 +188,8 @@ private fun NebCommentComposerBarFrame(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-                .navigationBarsPadding()
-                .imePadding()
+                .padding(horizontal = if (docked) 12.dp else 16.dp, vertical = if (docked) 8.dp else 12.dp)
+                .then(if (docked) Modifier.navigationBarsPadding().imePadding() else Modifier)
         ) {
             extraContent()
 
@@ -211,6 +220,7 @@ private fun NebCommentComposerBarFrame(
                             .onFocusChanged { focused = it.hasFocus }
                     )
                 }
+                if (trailingContent != null && !recording) trailingContent()
                 Spacer(modifier = Modifier.width(6.dp))
 
                 val trailingActive = recording || active || showMic
@@ -218,7 +228,7 @@ private fun NebCommentComposerBarFrame(
                     targetValue = when {
                         recording -> scheme.error
                         active || showMic -> scheme.primary
-                        else -> scheme.surfaceContainerHigh
+                        else -> scheme.secondaryContainer
                     },
                     animationSpec = nebEffectsSpec(),
                     label = "sendFill"
@@ -252,7 +262,7 @@ private fun NebCommentComposerBarFrame(
                             imageVector = sendIcon,
                             contentDescription = sendContentDescription,
                             tint = if (active) scheme.onPrimary
-                            else scheme.onSurface.copy(alpha = 0.38f)
+                            else scheme.onSecondaryContainer
                         )
                     }
                 }
@@ -334,7 +344,7 @@ private fun ComposerInputRow(
     }
 }
 
-/** Round "+" attach button for the leading slot of [NebCommentComposerBar] (inside the stroke). */
+/** The web's paperclip, in the composer's tool slot (inside the stroke). */
 @Composable
 fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
     IconButton(
@@ -342,10 +352,11 @@ fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
         enabled = enabled,
         modifier = Modifier.size(38.dp)
     ) {
-        Icon(
-            imageVector = Icons.Filled.Add,
-            contentDescription = "Attach media",
-            tint = if (enabled) MaterialTheme.colorScheme.primary
+        NebIcon(
+            NebIcons.Attach,
+            "Attach media",
+            size = 20.dp,
+            tint = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant
             else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
         )
     }

@@ -89,39 +89,115 @@ fun NebIdentityPicker(
             NebIcon(NebIcons.ChevronDown, "Choose identity", size = 20.dp, tint = scheme.onSurface)
         }
 
-        DropdownMenu(
-            expanded = open,
-            onDismissRequest = { open = false },
-            shape = RoundedCornerShape(24.dp),
-            containerColor = nebMenuColor(),
-            tonalElevation = 0.dp,
-            shadowElevation = 0.dp
+        IdentityDropdown(
+            open = open,
+            onDismiss = { open = false },
+            isAnonymous = isAnonymous,
+            userName = userName,
+            handle = handle,
+            photoUrl = photoUrl,
+            anonTag = anonTag,
+            onSelect = onSelect
+        )
+    }
+}
+
+/**
+ * The composer's leading control on the web: the identity's avatar with a small chevron badge at
+ * its corner; tapping opens the same menu as [NebIdentityPicker].
+ */
+@Composable
+fun NebIdentityAvatarMenu(
+    isAnonymous: Boolean,
+    userName: String,
+    handle: String,
+    photoUrl: String?,
+    anonTag: String,
+    onSelect: (anonymous: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    avatarSize: Dp = 36.dp
+) {
+    val scheme = MaterialTheme.colorScheme
+    var open by remember { mutableStateOf(false) }
+    Box(
+        modifier = modifier
+            .size(avatarSize + 6.dp)
+            .nebPressable(enabled = enabled, onClick = { open = true })
+            .semantics {
+                role = Role.Button
+                contentDescription = "Switch identity"
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        IdentityAvatar(isAnonymous, userName, photoUrl, avatarSize)
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(16.dp)
+                .clip(CircleShape)
+                .background(scheme.surfaceContainerHighest),
+            contentAlignment = Alignment.Center
         ) {
-            Column(modifier = Modifier.widthIn(min = 264.dp)) {
-                IdentitySection("Post anonymously as")
-                IdentityRow(
-                    active = isAnonymous,
-                    title = anonTag,
-                    sub = "Identity kept private",
-                    leading = { IdentityAvatar(true, userName, photoUrl, 32.dp) },
-                    onClick = { onSelect(true); open = false }
-                )
-                Box(
-                    modifier = Modifier
-                        .padding(vertical = 6.dp, horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(scheme.outlineVariant)
-                )
-                IdentitySection("Post as yourself")
-                IdentityRow(
-                    active = !isAnonymous,
-                    title = userName.ifBlank { "You" },
-                    sub = handle.takeIf { it.isNotBlank() }?.let { "@" + it.removePrefix("@") },
-                    leading = { IdentityAvatar(false, userName, photoUrl, 32.dp) },
-                    onClick = { onSelect(false); open = false }
-                )
-            }
+            NebIcon(NebIcons.ChevronDown, null, size = 12.dp, tint = scheme.onSurface)
+        }
+        IdentityDropdown(
+            open = open,
+            onDismiss = { open = false },
+            isAnonymous = isAnonymous,
+            userName = userName,
+            handle = handle,
+            photoUrl = photoUrl,
+            anonTag = anonTag,
+            onSelect = onSelect
+        )
+    }
+}
+
+@Composable
+private fun IdentityDropdown(
+    open: Boolean,
+    onDismiss: () -> Unit,
+    isAnonymous: Boolean,
+    userName: String,
+    handle: String,
+    photoUrl: String?,
+    anonTag: String,
+    onSelect: (anonymous: Boolean) -> Unit
+) {
+    val scheme = MaterialTheme.colorScheme
+    DropdownMenu(
+        expanded = open,
+        onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(24.dp),
+        containerColor = nebMenuColor(),
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp
+    ) {
+        Column(modifier = Modifier.widthIn(min = 264.dp)) {
+            IdentitySection("Post anonymously as")
+            IdentityRow(
+                active = isAnonymous,
+                title = anonTag,
+                sub = "Identity kept private",
+                leading = { IdentityAvatar(true, userName, photoUrl, 32.dp) },
+                onClick = { onSelect(true); onDismiss() }
+            )
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 6.dp, horizontal = 16.dp)
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(scheme.outlineVariant)
+            )
+            IdentitySection("Post as yourself")
+            IdentityRow(
+                active = !isAnonymous,
+                title = userName.ifBlank { "You" },
+                sub = handle.takeIf { it.isNotBlank() }?.let { "@" + it.removePrefix("@") },
+                leading = { IdentityAvatar(false, userName, photoUrl, 32.dp) },
+                onClick = { onSelect(false); onDismiss() }
+            )
         }
     }
 }

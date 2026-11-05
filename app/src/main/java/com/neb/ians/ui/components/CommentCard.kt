@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,16 +63,19 @@ fun CommentCard(
       modifier: Modifier = Modifier
   ) {
     val tactile = rememberTactileFeedback()
+    // Flat like a web reply: no frame, one hairline under the row, the body indented past the avatar.
+    val hairline = MaterialTheme.colorScheme.outlineVariant
     Surface(
-        shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-        modifier = modifier.fillMaxWidth()
+        shape = androidx.compose.ui.graphics.RectangleShape,
+        color = androidx.compose.ui.graphics.Color.Transparent,
+        modifier = modifier
+            .fillMaxWidth()
+            .bottomHairline(hairline)
     ) {
-        Column(modifier = Modifier.padding(14.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                verticalAlignment = Alignment.Top,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Box(
                     modifier = if (reply.isAnonymous) Modifier
@@ -94,7 +98,7 @@ fun CommentCard(
                     Avatar(
                         name = reply.authorName,
                         imageUrl = reply.authorPhotoUrl,
-                        size = 28.dp,
+                        size = 36.dp,
                         verificationLevel = replyLevel
                     )
                 }
@@ -103,7 +107,7 @@ fun CommentCard(
                         Text(
                             text = reply.authorName,
                             style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
@@ -167,6 +171,7 @@ fun CommentCard(
                 }
             }
 
+            Column(modifier = Modifier.padding(start = 48.dp)) {
             if ((reply.kind.isNotBlank() && reply.kind != "comment") || reply.label.isNotBlank()) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -364,5 +369,13 @@ fun CommentCard(
                 }
             }
         }
+        }
     }
 }
+
+/** A one-pixel line along the bottom edge, the web's divider between rows. */
+private fun Modifier.bottomHairline(color: androidx.compose.ui.graphics.Color): Modifier =
+    this.drawBehind {
+        val h = 1.dp.toPx()
+        drawRect(color, topLeft = androidx.compose.ui.geometry.Offset(0f, size.height - h), size = androidx.compose.ui.geometry.Size(size.width, h))
+    }
