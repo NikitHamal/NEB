@@ -235,6 +235,7 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit) {
             DropdownMenu(
                 expanded = sortMenu, onDismissRequest = { sortMenu = false },
                 shape = RoundedCornerShape(20.dp), containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                tonalElevation = 0.dp, shadowElevation = 0.dp,
             ) {
                 NoteSort.entries.forEach { s ->
                     DropdownMenuItem(
