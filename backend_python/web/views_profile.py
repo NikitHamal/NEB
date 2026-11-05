@@ -20,13 +20,13 @@ from django.db.models import F
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from api.resource_catalog import upload_form_options
 from . import api_client as api
 from .view_helpers import (
     _avatar_url,
     _build_local_stats,
     _clear_page_cache,
     _ctx,
-    _get_distinct_subjects,
     _get_user_id,
     _rate_limit,
     _request_db_user,
@@ -802,40 +802,7 @@ def edit_profile(request):
             return redirect(next_url)
         return redirect('web:home')
     profile_incomplete = _profile_incomplete(db_user)
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
+    subjects = upload_form_options()['subjects']
     existing_social_links = get_all_user_links(db_user.id)
     from api.models import SOCIAL_PLATFORMS
     return render(request, 'web/edit_profile.html', _ctx(request,
