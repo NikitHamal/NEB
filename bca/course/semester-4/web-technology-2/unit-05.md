@@ -315,6 +315,58 @@ f.text(300, 176, "draw(100, 400): caught finally -> failed", size=10, color=RED,
 7. **Exceptions separate errors from normal code.** The normal path stays short, and the `catch` block handles the failure in one place (Fig. 5.4). The `finally` block closes files and connections in both cases. A failed fee payment can therefore be reported clearly to the user.
 8. **Modern frameworks are built on classes.** Laravel, Symfony and WordPress plugins are all written with classes, namespaces and interfaces. A student who understands objects can read their code and extend it. This is also the way large Nepali software teams organise their projects.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Encapsulation as a safety rule. (a) One cookie cutter is the class and every cookie cut from it is an object: the shape is written once and many objects share it. (b) A bank account that exposes its balance as a public field lets any code subtract any amount. In a simulation of 10,000 accounts, each with five random withdrawals of Rs 50 to 300 from Rs 1,000 (fixed seed), 1,254 accounts (13 per cent) ended below zero, Rs 161,350 overdrawn in total. The same accounts with a private balance and a withdraw method that checks the amount refused 1,298 bad requests and none went negative. The logic is modelled in Python but is exactly what a PHP class with a private property and a public method does, and it is the practical reason for the visibility keywords."
+@ photo id="bcawt/cookies" cap="One cutter (class), many cookies (objects)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="10,000 accounts: public field vs checked method"
+import random
+random.seed(2081)
+class Open:
+    def __init__(self):
+        self.balance = 1000
+class Safe:
+    def __init__(self):
+        self._b = 1000
+        self.refused = 0
+    def withdraw(self, x):
+        if 0 < x <= self._b:
+            self._b -= x
+        else:
+            self.refused += 1
+    @property
+    def balance(self):
+        return self._b
+A = 10000
+neg = 0
+lost = 0
+refused = 0
+for _ in range(A):
+    o, s = Open(), Safe()
+    for _ in range(5):
+        x = random.choice([50, 100, 150, 200, 300])
+        o.balance -= x
+        s.withdraw(x)
+    if o.balance < 0:
+        neg += 1
+        lost += -o.balance
+    refused += s.refused
+    assert s.balance >= 0
+assert neg > 0
+facts = dict(A=format(A, ","), neg=format(neg, ","), pct=round(100 * neg / A), lost=format(lost, ","), ref=format(refused, ","))
+f = Fig(300, 236)
+f.text(150, 12, "5 random withdrawals from Rs 1,000, per account", size=10.5, color=NAVY, bold=True)
+f.box(8, 26, 134, 70, "public field\n$acct->balance -= x", fill="#fecaca", stroke=RED, size=10.5, bold=True, r=4, sw=1)
+f.box(158, 26, 134, 70, "private + method\nwithdraw(x) checks", fill="#bbf7d0", stroke=TEAL, size=10.5, bold=True, r=4, sw=1)
+f.text(75, 118, "%s negative" % format(neg, ","), size=12, color=RED, bold=True)
+f.text(75, 136, "accounts of %s" % format(A, ","), size=10.5, color=RED)
+f.text(225, 118, "0 negative", size=12, color=TEAL, bold=True)
+f.text(225, 136, "%s requests refused" % format(refused, ","), size=10.5, color=TEAL)
+f.text(150, 170, "overdrawn in total: Rs %s" % format(lost, ","), size=10.5, color=RED, bold=True)
+f.text(150, 192, "the class guards its own rule", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "(same logic modelled in Python)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - `class A extends B implements I { use T; }`; `new A()`; `$this->prop`; `A::STATIC`; `parent::`/`self::`/`static::`.
