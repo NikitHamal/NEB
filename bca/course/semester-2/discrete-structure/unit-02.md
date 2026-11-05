@@ -39,6 +39,37 @@ In a class of 60, 35 study Java, 28 study Python and 10 study both. Either = 35 
 **Bit-string view:** a subset of an n-element set is an n-bit string, so union is bitwise OR, intersection bitwise AND, and complement bitwise NOT. This is how sets are stored in machine words.
 :::
 
+### Russell, and the set of all subsets
+
+The size of a set grows very fast when we ask for all its subsets. A set with n elements has 2^n subsets, because every element is either in or out. Bertrand Russell showed in 1901 that talking about "the set of all sets" leads to a contradiction, which is why mathematics treats sets with care. Plate 2.1 lists the eight subsets of {a, b, c} by counting in binary and shows the doubling for larger n.
+
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Every element is in or out. (a) Bertrand Russell, whose paradox about the set of all sets forced mathematicians to define sets carefully. (b) The 2^3 = 8 subsets of {a, b, c} listed by the binary numbers 000 to 111, and the number of subsets of an n-element set for n = 0 to 8."
+@ photo id="bca151/russell" cap="Bertrand Russell (1872-1970)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Subsets of {a, b, c} by binary counting"
+subs = []
+for m in range(8):
+    subs.append("".join(c for i, c in enumerate("abc") if m >> (2 - i) & 1) or "{}")
+assert len(subs) == 8 and subs[0] == "{}" and subs[7] == "abc" and subs[5] == "ac"
+assert [2**n for n in range(9)] == [1, 2, 4, 8, 16, 32, 64, 128, 256]
+f = Fig(400, 250)
+f.text(200, 16, "Subsets of {a, b, c}", size=11, color=NAVY, bold=True)
+for m in range(8):
+    x, y = 12 + (m % 4) * 96, 28 + (m // 4) * 54
+    f.box(x, y, 88, 46, "", fill=BLUE, stroke=NAVY, r=4)
+    f.text(x + 44, y + 15, format(m, "03b"), size=10.5, color=SLATE, bold=True)
+    f.text(x + 44, y + 34, "{" + ",".join(subs[m]) + "}" if subs[m] != "{}" else "{ }", size=12, color=NAVY, bold=True)
+f.text(200, 150, "Number of subsets of an n-element set", size=10.5, color=NAVY, bold=True)
+for n in range(9):
+    f.box(8 + n * 43, 160, 41, 36, "", fill=SAND, stroke=AMBER, r=3)
+    f.text(8 + n * 43 + 20, 172, f"n={n}", size=10.5, color=SLATE)
+    f.text(8 + n * 43 + 20, 188, str(2**n), size=10.5, color=AMBER, bold=True)
+f.text(200, 224, "2^n: each new element doubles the number of subsets.", size=10.5, color=SLATE, bold=True)
+f.text(200, 242, "2^10 = 1,024 and 2^20 = 1,048,576.", size=10.5, color=SLATE)
+assert (2**10, 2**20) == (1024, 1048576)
+```
+
 ## 2.2 Relations
 
 A **relation** R from A to B is a subset of A × B; "a R b" means (a, b) ∈ R. A relation on A is a subset of A × A. A relation can be shown as a set of pairs, a **matrix** (1 if related), or a **digraph**.
@@ -95,6 +126,38 @@ Special functions: **floor** ⌊x⌋, **ceiling** ⌈x⌉, **mod**, **characteri
 ## 2.4 Cardinality and countability
 
 Two sets have the same cardinality if a bijection exists between them. A set is **countable** if it is finite or has the same size as ℕ. ℤ is countable (list 0, 1, −1, 2, −2, …); ℚ is countable; the set of all finite strings over a finite alphabet is countable (so the set of all programs is countable). **ℝ is uncountable** (Cantor's diagonal argument): any list of reals in (0,1) misses the number whose nth digit differs from the nth digit of the nth number. Consequence: there are more functions ℕ → {0,1} than programs, so some functions are **not computable**.
+
+### Cantor: some infinities are bigger
+
+Georg Cantor compared infinite sets by pairing their members. The natural numbers and the even numbers can be paired one to one (n with 2n), so they have the same size even though the evens look like half. The real numbers cannot be listed at all: whatever list is given, change the diagonal digit of every entry and the new sequence differs from each row. Plate 2.2 pairs the numbers and runs the diagonal argument on a small list.
+
+```photogrid label="2.2" cols="2" ratio="1.1" caption="Counting infinity. (a) Georg Cantor, who proved that the real numbers are more numerous than the natural numbers. (b) The pairing n to 2n for the first eight naturals, and Cantor's diagonal trick on a list of five binary sequences: flipping the diagonal gives a sequence that differs from every row of the list."
+@ photo id="bca151/cantor" cap="Georg Cantor (1845-1918)"
+fit 1.1
+focus 0.5 0.35
+@ svg cap="A one-to-one pairing and the diagonal argument"
+lst = ["10110", "01101", "11000", "00111", "10010"]
+diag = "".join("1" if lst[i][i] == "0" else "0" for i in range(5))
+assert all(diag[i] != lst[i][i] for i in range(5))
+assert all(diag != row for row in lst)
+assert [2 * n for n in range(1, 9)] == [2, 4, 6, 8, 10, 12, 14, 16]
+f = Fig(400, 272)
+f.text(200, 16, "n pairs with 2n: both lists are endless", size=11, color=NAVY, bold=True)
+for n in range(1, 9):
+    x = 8 + (n - 1) * 48
+    f.box(x, 26, 42, 24, str(n), fill=BLUE, stroke=NAVY, color=NAVY, bold=True)
+    f.line(x + 21, 50, x + 21, 66, color=SLATE)
+    f.box(x, 66, 42, 24, str(2 * n), fill=SAND, stroke=AMBER, color=AMBER, bold=True)
+f.text(200, 116, "Diagonal argument: flip the circled digit of each row", size=11, color=NAVY, bold=True)
+for i, row in enumerate(lst):
+    for j, ch in enumerate(row):
+        hot = i == j
+        f.box(110 + j * 30, 126 + i * 22, 28, 20, ch, fill=ROSE if hot else BLUE, stroke=RED if hot else NAVY, color=RED if hot else NAVY, size=10.5, bold=True)
+f.text(60, 252, "new:", size=11, color=TEAL, bold=True)
+for j, ch in enumerate(diag):
+    f.box(110 + j * 30, 242, 28, 20, ch, fill=MINT, stroke=TEAL, color=TEAL, size=10.5, bold=True)
+f.text(270, 252, "differs from all", size=10.5, color=TEAL, bold=True, anchor="start")
+```
 
 ## 2.5 Three kinds of function in one picture
 
