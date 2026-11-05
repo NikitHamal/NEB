@@ -584,6 +584,19 @@
     "source": "Wikimedia Commons",
     "title": "ATM of Siddhartha Bank in Budhanilkantha (2023)"
   },
+  "bca101/biosrom": {
+    "author": "Raimond Spekking",
+    "bytes": 820468,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/biosrom.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Elitegroup_761GX-M754_-_AMIBIOS_(American_Megatrends)_in_a_Winbond_W39V040APZ-5491.jpg",
+    "sha1": "ffa82597df86e8d9",
+    "source": "Wikimedia Commons",
+    "title": "Elitegroup 761GX-M754 - AMIBIOS (American Megatrends) in a Winbond W39V040APZ-5491"
+  },
   "bca101/coax": {
     "author": "Wtshymanski",
     "bytes": 332320,
@@ -727,6 +740,19 @@
     "source": "Wikimedia Commons",
     "title": "Single strand of a Optical fiber network cable, stripped clean to the (fragile) glass fiber core"
   },
+  "bca101/fortrancard": {
+    "author": "Tangopaso .",
+    "bytes": 793039,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/fortrancard.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Punch_card_with_Fortran_-_20091211.jpg",
+    "sha1": "cd9e7bcc2b61e312",
+    "source": "Wikimedia Commons",
+    "title": "Punch card with Fortran - 20091211"
+  },
   "bca101/garmin": {
     "author": "D-Kuru",
     "bytes": 2355285,
@@ -753,6 +779,19 @@
     "source": "Wikimedia Commons",
     "title": "Nvidia-GPU and passive cooled VRAM"
   },
+  "bca101/hamilton": {
+    "author": "Adam Cuerden",
+    "bytes": 993809,
+    "credit": "This is a retouched picture , which means that it has been digitally altered from its original version. Modifications: dust and scratches removed; curves tweake",
+    "fetched": "2026-11-05",
+    "file": "bca101/hamilton.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg",
+    "sha1": "c28c66a8773ef95a",
+    "source": "Wikimedia Commons",
+    "title": "Margaret Hamilton - restoration"
+  },
   "bca101/hdd-arm": {
     "author": "Mk2010",
     "bytes": 274495,
@@ -778,6 +817,19 @@
     "sha1": "228622ffe4548e75",
     "source": "Wikimedia Commons",
     "title": "Hard disk drive platter, Samsung MP0402H"
+  },
+  "bca101/hopper": {
+    "author": "James S. Davis",
+    "bytes": 903667,
+    "credit": "This image was released by the United States Navy with the ID DN-SC-84-05971 (next) . This tag does not indicate the copyright status of the attached work. A no",
+    "fetched": "2026-11-05",
+    "file": "bca101/hopper.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg",
+    "sha1": "d0f5aae731cdb7ce",
+    "source": "Wikimedia Commons",
+    "title": "Commodore Grace M. Hopper, USN (covered)"
   },
   "bca101/ibm1401": {
     "author": "Marcin Wichary",
@@ -817,6 +869,19 @@
     "sha1": "5216a7d916e8a38d",
     "source": "Wikimedia Commons",
     "title": "Interface Message Processor - BBN Arpanet Router - Computer History Museum (2007-11-10 23.06.56 by Carlo Nardone)"
+  },
+  "bca101/khwarizmi": {
+    "author": "А. Адашев",
+    "bytes": 163421,
+    "credit": "[1] , specifically [2]",
+    "fetched": "2026-11-05",
+    "file": "bca101/khwarizmi.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:1983_CPA_5426.jpg",
+    "sha1": "772750d91c80b7ea",
+    "source": "Wikimedia Commons",
+    "title": "1983 CPA 5426"
   },
   "bca101/mobo": {
     "author": "Jacek Halicki",
@@ -1103,6 +1168,19 @@
     "sha1": "03625b6b68192e0f",
     "source": "Wikimedia Commons",
     "title": "2N3055"
+  },
+  "bca101/tux": {
+    "author": "Renato.pierri",
+    "bytes": 1372333,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/tux.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tux,_the_Linux_penguin_I.jpg",
+    "sha1": "6238b7a542e57ca0",
+    "source": "Wikimedia Commons",
+    "title": "Tux, the Linux penguin I"
   },
   "bca101/ubuntu": {
     "author": "Rprpr",
