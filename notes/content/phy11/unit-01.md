@@ -560,6 +560,35 @@ fig.tight_layout(pad=0.5)
 5. It cannot distinguish quantities with the same dimensions (work and torque,
    both $[ML^{2}T^{-2}]$), and cannot tell a scalar from a vector.
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A measurement is incomplete without its uncertainty, and when quantities are multiplied or divided their percentage uncertainties add, while a power multiplies the percentage by the power. (a) An analytical balance reads to 0.01 g. (b) A cylinder of mass 12.46 g, diameter 1.20 cm and height 3.45 cm has volume 3.90 cm3 and density 3.19 g/cm3. The mass contributes 0.08 %, the height 0.29 % and the diameter, which is squared, 1.67 %, giving a total of 2.0 %, or +/- 0.07 g/cm3. The diameter dominates, so a better micrometer would improve the result more than a better balance. The answer is quoted to the same decimal place as its uncertainty."
+@ photo id="phy11/balance" cap="An analytical balance in a laboratory"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Percentage errors add when quantities are multiplied"
+import math
+m, dm = 12.46, 0.01
+d, dd = 1.20, 0.01
+h, dh = 3.45, 0.01
+V = math.pi * d**2 / 4 * h
+rho = m / V
+em, ed, eh = dm / m * 100, 2 * dd / d * 100, dh / h * 100
+tot = em + ed + eh
+drho = rho * tot / 100
+assert abs(rho - 3.193) < 0.01 and abs(tot - 2.04) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "Density of a metal cylinder", size=10.5, color=NAVY, bold=True)
+rows = [("mass m", em, NAVY), ("diameter d (squared)", ed, RED), ("height h", eh, TEAL), ("total", tot, AMBER)]
+for i, (nm, v, c) in enumerate(rows):
+    y = 34 + i * 34
+    f.text(8, y + 11, nm, size=10.5, anchor="start")
+    f.box(120, y, v * 62, 20, "", fill=c, stroke=c, r=2)
+    f.text(120 + v * 62 + 6, y + 11, "%.2f %%" % v, size=10.5, color=c, bold=True, anchor="start")
+f.text(150, 190, "rho = m / (pi d^2 h / 4) = %.3f g/cm3" % rho, size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "error = %.2f %% of rho = %.2f g/cm3" % (tot, drho), size=10.5, color=RED, bold=True)
+f.text(150, 225, "quote: rho = %.1f +/- %.1f g/cm3" % (rho, drho), size=10.5, color=SLATE, bold=True)
+facts = dict(rho="%.2f" % rho, tot="%.1f" % tot, ed="%.2f" % ed, em="%.2f" % em, eh="%.2f" % eh, drho="%.2f" % drho, V="%.2f" % V)
+```
+
 ## Chapter summary
 
 - A measurement is $Q = nu$, and $n_1u_1 = n_2u_2$; SI has seven base quantities.

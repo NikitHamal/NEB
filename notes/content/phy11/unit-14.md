@@ -545,6 +545,30 @@ is exactly what $v = -120\ \text{cm}$, $m = -3$ says. If the two disagree, a sig
 has gone wrong.
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.27" caption="A convex mirror always forms a virtual, upright and diminished image, so it shows a wide field of view; this is why it is fixed at blind bends on mountain roads. (a) A convex road mirror. (b) With f = -1.5 m, the mirror formula 1/v = 1/f - 1/u gives, for a car 10 m away, an image 1.30 m behind the mirror with magnification 0.130, so the car looks about 8 times smaller than it really is. However far the car is, the image stays within 1.5 m of the mirror, which is the dashed limit on the graph. The price of the wide view is that distances are hard to judge, so drivers slow down."
+@ photo id="phy11/trafficmirror" cap="A convex mirror at a blind road bend"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Image distance in a convex mirror of focal length 1.5 m"
+f_ = -1.5
+def v_of(u):
+    return 1 / (1 / f_ - 1 / u)
+u0 = 10.0
+v0 = v_of(u0); m0 = -v0 / u0
+assert abs(v0 + 1.3043) < 1e-3 and abs(m0 - 0.1304) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "Convex mirror: |v| against object distance u", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 12), (0, 2))
+ax.grid(2, 0.5, size=9); ax.axes("u (m)", "|v| (m)")
+ax.curve(lambda u: abs(v_of(u)), 0.4, 12, color=NAVY, sw=2.4)
+ax.hline(1.5, color=AMBER)
+ax.tag(7, 1.6, "limit |f| = 1.5 m", color=AMBER, bold=True)
+ax.pt(u0, abs(v0), "car at 10 m", dx=-8, dy=18, color=RED, anchor="end")
+f.text(150, 219, "u = 10 m -> v = %.2f m behind the mirror" % abs(v0), size=10.5, color=NAVY, bold=True)
+f.text(150, 231, "m = %.3f: image upright, virtual, smaller" % m0, size=10.5, color=RED, bold=True)
+facts = dict(v="%.2f" % abs(v0), m="%.3f" % m0, big="%.0f" % (1 / m0))
+```
+
 ## Chapter summary
 
 - For a spherical mirror the pole $P$, centre of curvature $C$ and focus $F$ lie
