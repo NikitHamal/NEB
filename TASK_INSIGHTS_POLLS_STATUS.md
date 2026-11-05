@@ -9,7 +9,14 @@ Brief: upgrade admin analytics, per-post insights (web + Android), private devic
 
 - [x] Admin analytics: Devices and sign-ups (by device, system, app, activation, interactions matrix, app versions/models, recent sign-ups), Posts and polls (reach, readers by device, poll stats).
 
-## Next
-- [ ] Android: device header, poll card, comment poll builder, insights screen, view beacons
+- [x] Android (session 9, verified by the GitHub Actions run, never built locally):
+  - `DeviceSignalInterceptor` sends one `X-Neb-Device` header (app, build, OS, SDK, model, brand, screen, dpi, language, timezone, ABI, tablet). Only to our own host. No advertising id, no serial.
+  - `NebPollCard` (m3x): tonal 28 dp card, choice rows, result bars with the leading option in the stronger container, quiz right/wrong tones, "Add option" for open polls, "Change vote". `NebPollPreview` on feed rows.
+  - Comment poll builder (`CommentPollBuilder`) in the main comment bar, with "Let others add options"; the post poll builder got the same switch.
+  - Comment polls render inside `CommentCard` through the same view model as the post poll.
+  - `PostInsightsScreen` (route `forum/post/{postId}/insights`): KPIs with change, views per day, tips, audience, sources, devices and actions by device, time on post, hours, countries, poll results, all-time. Opened from "See insights" in the post menu (owner only).
+  - Reach beacons: view with surface hint and dwell on leave (`PostReachHints`), batched feed impressions (`TrackPostImpressions`) in Home and Forum.
 
-- docs/ANALYTICS.md covers private signals, reach/insights and polls.
+## Next
+- [x] CI run 42034617550 (`assembleModernRelease` and bundle) passed on a74ce61.
+- [ ] On-device visual pass of the poll card and insights screen (needs the app-screens workflow).
