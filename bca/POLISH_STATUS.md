@@ -812,3 +812,47 @@ Edited directly in `bca/entrance/model-papers/` (listed in `bca/entrance/.polish
 - [x] Plates: 1.2 projectile range vs angle (R(45)=40.8 m, R(30)=R(60)); 5.2 pendulum T vs L on Earth/Moon + Foucault 167 deg/day at 27.7 N; 14.2 galvanometer shunts/multipliers (log bars); 16.2 transmission loss of 10 MW over 5 ohm at 11/33/132/220 kV (144x); 18.2 photon energy vs wavelength, LED colours, sodium threshold 544 nm; 20.2 Tc-99m / I-131 / Co-60 decay.
 - Gotchas: `assets.py`'s own `save()` writes `credits.json` with indent=1 and ensure_ascii=False: always rewrite it via `assets.load()/save()` (a json.dumps indent=2 rewrite makes a 22,000-line diff). Check plates already in a unit (`grep -o 'photogrid label' unit-NN.md`) before adding a topic. Two assertions caught wrong hand-computed numbers again (R(15) is 20.4 m not 10.2; the ISS makes 15.6 orbits a day).
 - [ ] NEXT SESSION STARTS AT: CEE Physics second plates for units 2, 3, 4 (third), 7-13, 15, 17, 19, 21, 22 (unit 6 already has an ISS plate), CEE Chemistry second plates (units 2-11, 13-15, 17-19, 21-22), then class-11 / class-12, then BCA leftovers (MIS U3/U5, PC U5, Project II-IV second plates, Python U8, DBMS U1). The fresh-clone full-PDF qa sweep is still to be re-run.
+
+## Session 70 -- fresh-clone full-PDF qa sweep (tip dda00a3): 115 PDFs, 79 ok, 36 FAIL (NOT 0 FAIL; none of the 36 was touched by session 70)
+- The 4 books touched in session 70 pass: CEE Mental Agility Test (95 pp), CEE Model Papers and Mock Tests (135 pp), CEE Chemistry (438 pp), CEE Physics (470 pp), all fails=0.
+- Failing and NOT from this session (pre-existing; next session should triage before more plates): about 20 shipped books in `notes/pdf/` (BCA Entrance English / GK and IT / Mathematics / Model Papers fails=3 each; Biology 11 and 12, Computer Science 8 and 12, Optional Maths 10, Maths 11 and 12, Question Bank 8 (fails=7) and 11, the Nepali and Social books: mostly 1 fail each, e.g. Biology-Grade-11 p66 `heading stranded at page bottom`), plus non-book files that qa_pdf.py is not meant for (`Resources/*.pdf` scans, `notes/sources/entrance/*.pdf`, `scratch/_sample_test.pdf`, and stale copies under `notes/bca-viewer/public/bca/pdf/`).
+- Full list (file | pages | fails): see below.
+```
+Resources/Biotechnology and application handwritten Notes.pdf | pages=10  fails=14 warns=8
+Resources/CamScanner 03-30-2025 1440_251029_102533.pdf | pages=20  fails=25 warns=18
+Resources/Inorganic basic_250606_151915.pdf | pages=22  fails=27 warns=20
+Resources/SET-Computer.pdf | pages=57  fails=44 warns=19
+Resources/SET-Health.pdf | pages=72  fails=64 warns=8
+Resources/SET-Science.pdf | pages=39  fails=38 warns=8
+Resources/class-12-final-computer-engineering-jhapa-2083.pdf | pages=25  fails=29 warns=23
+Resources/class-12-pretest-computer-engineering-jhapa-2083-bhanu.pdf | pages=22  fails=26 warns=20
+notes/bca-viewer/public/bca/pdf/NEBians-BCA-Entrance-English.pdf | pages=29  fails=31 warns=0
+notes/bca-viewer/public/bca/pdf/NEBians-BCA-Entrance-General-Knowledge-and-IT.pdf | pages=17  fails=18 warns=0
+notes/bca-viewer/public/bca/pdf/NEBians-BCA-Entrance-Mathematics.pdf | pages=60  fails=54 warns=1
+notes/bca-viewer/public/bca/pdf/NEBians-BCA-Entrance-Model-Papers-and-Mock-Tests.pdf | pages=22  fails=22 warns=0
+notes/pdf/NEBians-BCA-Entrance-English.pdf | pages=39  fails=3 warns=4
+notes/pdf/NEBians-BCA-Entrance-General-Knowledge-and-IT.pdf | pages=24  fails=3 warns=0
+notes/pdf/NEBians-BCA-Entrance-Mathematics.pdf | pages=79  fails=3 warns=4
+notes/pdf/NEBians-BCA-Entrance-Model-Papers-and-Mock-Tests.pdf | pages=29  fails=3 warns=2
+notes/pdf/NEBians-Biology-Grade-11.pdf | pages=222  fails=1 warns=12
+notes/pdf/NEBians-Biology-Grade-12.pdf | pages=267  fails=1 warns=5
+notes/pdf/NEBians-Computer-Science-Grade-12.pdf | pages=152  fails=1 warns=5
+notes/pdf/NEBians-Computer-Science-Grade-8.pdf | pages=376  fails=1 warns=3
+notes/pdf/NEBians-Mathematics-Grade-11.pdf | pages=383  fails=1 warns=11
+notes/pdf/NEBians-Mathematics-Grade-12.pdf | pages=390  fails=1 warns=11
+notes/pdf/NEBians-Optional-Mathematics-Grade-10.pdf | pages=186  fails=1 warns=3
+notes/pdf/NEBians-Question-Bank-Grade-11.pdf | pages=402  fails=1 warns=10
+notes/pdf/NEBians-Question-Bank-Grade-8.pdf | pages=243  fails=7 warns=4
+notes/pdf/NEBians-अनिवार्य-नेपाली-Grade-10.pdf | pages=261  fails=1 warns=7
+notes/pdf/NEBians-अनिवार्य-नेपाली-Grade-11.pdf | pages=340  fails=1 warns=21
+notes/pdf/NEBians-अनिवार्य-नेपाली-Grade-12.pdf | pages=397  fails=2 warns=19
+notes/pdf/NEBians-नेपाली-Grade-8.pdf | pages=170  fails=1 warns=6
+notes/pdf/NEBians-सामाजिक-अध्ययन-तथा-मानव-मूल्य-शिक्षा-Grade-10.pdf | pages=297  fails=1 warns=3
+notes/pdf/NEBians-सामाजिक-अध्ययन-तथा-मानव-मूल्य-शिक्षा-Grade-8.pdf | pages=216  fails=1 warns=3
+notes/pdf/NEBians-स्वास्थ्य,-शारीरिक-तथा-सिर्जनात्मक-कला-Grade-8.pdf | pages=200  fails=1 warns=1
+notes/sources/entrance/IOE-BE-BArch-entrance-syllabus-2083.pdf | pages=6  fails=11 warns=0
+notes/sources/entrance/IOST-BSc-CSIT-entrance-model-question.pdf | pages=6  fails=10 warns=0
+notes/sources/entrance/MEC-MECEE-BL-syllabus-3rd-revision-2026-04-28.pdf | pages=21  fails=18 warns=0
+scratch/_sample_test.pdf | pages=2  fails=6 warns=0
+```
+- [ ] NEXT SESSION: first triage the shipped-book FAILs above (usually one stranded heading each: add a forced page break or move a plate), re-run qa to fails=0 on those, push; then continue the plate queue listed in the previous section.
