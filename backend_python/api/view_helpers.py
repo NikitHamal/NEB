@@ -464,11 +464,17 @@ def map_profile_grade(class_level):
         return 'Class 8'
     return class_level
 
+def _global_statuses():
+    from .education_catalog import GLOBAL_STATUSES
+    return GLOBAL_STATUSES
+
 def is_global_user(user):
     """Users who should see global/unfiltered content (no profile-based filtering)."""
     if not user:
         return True
     if user.role in ('teacher', 'institution', 'explorer'):
+        return True
+    if (getattr(user, 'edu_status', '') or '') in _global_statuses():
         return True
     if not user.class_level:
         return False
@@ -481,6 +487,9 @@ def is_global_user(user):
         'entrance prep', 'competitive exam', 'other', 'all',
     }
     if cl in global_classes:
+        return True
+    from .education_catalog import GLOBAL_LEVELS, GLOBAL_STATUSES
+    if cl in GLOBAL_LEVELS or (getattr(user, 'edu_status', '') or '') in GLOBAL_STATUSES:
         return True
     return False
 
