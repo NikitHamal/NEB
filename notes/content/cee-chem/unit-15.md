@@ -353,6 +353,28 @@ f.text(150, 204, "as KIO3: %.1f mg per kg of salt" % kio3, size=10.5, color=NAVY
 f.text(150, 222, "3 g gives only 60 per cent of the need", size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="15.2" cols="2" ratio="1.2" caption="A dose adds up every day. (a) Hand pumps on shallow tube wells supply drinking water across the Terai, where some groundwater carries natural arsenic from the Himalayan sediments. (b) The cell multiplies the concentration by a daily intake of 3 litres. Water at the WHO guideline of 10 micrograms per litre delivers 30 micrograms a day; water at Nepal's interim standard of 50 micrograms per litre delivers 150, and a badly contaminated well at 300 micrograms per litre delivers 900. At 50 micrograms per litre that is 54.8 mg a year and 3.8 g over 70 years. Arsenic is a cumulative poison, so a small daily dose still causes skin lesions and cancers after many years."
+@ photo id="ceechem2/handpump" cap="A hand-operated tube-well pump in Nepal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Arsenic intake from drinking water"
+litres = 3.0
+rows = []
+for ppb in (10, 50, 100, 300):
+    rows.append(("%d ug/L" % ppb, ppb * litres))
+assert rows[0][1] == 30 and rows[1][1] == 150
+yearly = rows[1][1] * 365 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Arsenic swallowed per day, micrograms", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=900, fmt="%.0f", x0=64, y0=30, bw=170, gap=30,
+      colors=[(MINT, TEAL), (SAND, AMBER), (ROSE, RED), (ROSE, RED)])
+f.text(150, 156, "3 litres of water per day", size=10, color=SLATE, bold=True)
+f.text(150, 180, "WHO guideline 10 ug/L; Nepal standard 50 ug/L", size=10, color=NAVY, bold=True)
+f.text(150, 198, "at 50 ug/L: %.1f mg in a year" % yearly, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "and %.1f g in 70 years" % (yearly * 70 / 1000), size=10.5, color=NAVY, bold=True)
+facts = dict(d10=rows[0][1], d50=rows[1][1], d300=rows[3][1], y=yearly, life=yearly * 70 / 1000)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know fact |

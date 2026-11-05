@@ -767,6 +767,34 @@ f.text(150, 188, "water moves by 5.00, buffer by %.2f" % dpb, size=10.5, color=N
 f.text(150, 206, "pH = pKa + log([A-] / [HA])", size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Choosing the right indicator. (a) Indicator drops and pH paper on a spotting tray show colours across the whole scale. (b) A weak-acid indicator HIn changes colour over about 2 pH units, from pH = pKa - 1 (one part of the basic colour to ten of the acid colour) to pH = pKa + 1. The cell places four common indicators on the pH axis. At pH 7 bromothymol blue (pKa 7.1) is only 44 per cent in its basic form, so it shows the mixed green of a neutral solution, while phenolphthalein is 0.4 per cent basic and stays colourless and methyl orange is 99.95 per cent basic form and fully yellow. This is why an indicator is chosen to change colour near the equivalence point of the titration."
+@ photo id="ceechem2/indicator" cap="pH paper and indicator drops on a spotting tray"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Indicator colour change and pH"
+ind = [("methyl orange", 3.7), ("methyl red", 5.1), ("bromothymol blue", 7.1), ("phenolphthalein", 9.4)]
+def basic(pk, ph):
+    return 100 / (1 + 10 ** (pk - ph))
+f = Fig(300, 236)
+f.text(150, 12, "Working range = pKa +/- 1", size=10.5, color=NAVY, bold=True)
+x0, w = 20, 260
+f.line(x0, 150, x0 + w, 150, color=SLATE, sw=1.4)
+for ph in range(0, 15, 2):
+    X = x0 + w * ph / 14
+    f.line(X, 146, X, 154, color=SLATE, sw=1.2)
+    f.text(X, 164, str(ph), size=9.5, color=SLATE, bold=True)
+for i, (n, pk) in enumerate(ind):
+    a, b = x0 + w * (pk - 1) / 14, x0 + w * (pk + 1) / 14
+    f.box(a, 30 + i * 28, b - a, 16, fill=[SAND, ROSE, MINT, BLUE][i], stroke=[AMBER, RED, TEAL, NAVY][i], r=2)
+    f.text(a - 4 if pk > 7 else b + 4, 38 + i * 28, n, size=9.5, color=SLATE, bold=True, anchor="end" if pk > 7 else "start", vmid=True)
+f.line(x0 + w * 7 / 14, 26, x0 + w * 7 / 14, 150, color=RED, sw=1.2, dash=True)
+f.text(150, 180, "dashed line: pH 7 (pure water)", size=10, color=RED, bold=True)
+f.text(150, 202, "basic form at pH 7: bromothymol blue %.0f%%" % basic(7.1, 7), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "phenolphthalein %.1f%%, methyl orange %.2f%%" % (basic(9.4, 7), basic(3.7, 7)), size=10, color=SLATE, bold=True)
+assert round(basic(7.1, 7)) == 44 and round(basic(9.4, 7), 1) == 0.4
+facts = dict(b=basic(7.1, 7), p=basic(9.4, 7), m=basic(3.7, 7))
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |

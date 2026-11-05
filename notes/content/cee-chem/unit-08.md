@@ -460,6 +460,26 @@ f.text(150, 208, "0.2 mL spans %.1f pH units" % (p2 - p1), size=10.5, color=NAVY
 f.text(150, 226, "shaded band: phenolphthalein, pH 8.3 to 10", size=10.5, color=SLATE)
 ```
 
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Making a primary standard. (a) A volumetric flask is graduated to hold exactly 500 mL at 20 degrees C, so the concentration of the solution made in it is known from the mass dissolved. (b) The cell computes mass = M x V x C for 0.1000 M: sodium carbonate needs 5.30 g, oxalic acid dihydrate 6.30 g, potassium dichromate 14.71 g and borax 19.07 g. A primary standard is weighed directly, so it must be pure, stable and of high molar mass. With a balance good to 0.2 mg the weighing error is 0.0038 per cent for sodium carbonate and only 0.0010 per cent for borax, which is why a larger molar mass makes a better primary standard."
+@ photo id="ceechem2/flask" cap="A 500 mL volumetric flask"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Mass of primary standard for 500 mL of 0.1000 M"
+V, C = 0.5, 0.1
+data = [("Na2CO3", 105.99), ("H2C2O4.2H2O", 126.07), ("borax", 381.37), ("K2Cr2O7", 294.19)]
+rows = [(n, M * V * C) for n, M in data]
+assert round(rows[0][1], 2) == 5.30 and round(rows[1][1], 2) == 6.30 and round(rows[3][1], 2) == 14.71
+err = [0.0002 / m * 100 for _, m in rows]
+f = Fig(300, 236)
+f.text(150, 12, "Grams for 500 mL of 0.1000 M", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=20, fmt="%.2f g", x0=86, y0=32, bw=130, gap=30)
+f.text(150, 166, "relative error of a 0.2 mg balance:", size=10, color=SLATE, bold=True)
+f.text(150, 186, "Na2CO3 %.4f%%, borax %.4f%%" % (err[0], err[2]), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "a heavier molar mass means a bigger weighing", size=10, color=SLATE, bold=True)
+f.text(150, 222, "and a smaller weighing error", size=10, color=SLATE, bold=True)
+facts = dict(na=rows[0][1], ox=rows[1][1], bx=rows[2][1], cr=rows[3][1], e1=err[0], e2=err[2])
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |
