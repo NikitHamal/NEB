@@ -278,6 +278,48 @@ f.text(290, 188, "DDL = CREATE, ALTER, DROP, TRUNCATE      DML = INSERT, UPDATE,
 7. **The schema documents itself.** Reading the CREATE TABLE statement tells a new team member the keys, the allowed values and the links between tables. The data dictionary can also be queried by tools. Documentation can never be out of date, because it is the definition itself.
 8. **Queries and the optimiser benefit.** Knowing that a column is unique or not null lets the optimiser choose faster plans, and primary and unique keys automatically get an index. A lookup by sid is quick without extra work. Good constraints therefore improve speed as well as correctness.
 
+## 5.8 Seeing the ideas with photographs: SQL, storage and removal
+
+SQL was designed in the early 1970s at IBM, and nearly every statement in this unit descends from that work. The plates below put real numbers on two choices a student makes in every CREATE TABLE and every clean-up: how big a data type is, and what DELETE, TRUNCATE and DROP really do to the disk. All numbers were measured on PostgreSQL 15.
+
+```photogrid label="5.1" cols="2" ratio="1.4" caption="Choosing a data type is choosing bytes. (a) Donald D. Chamberlin, who with Raymond Boyce designed SQL (first called SEQUEL) at IBM. (b) The size in bytes of single values measured with pg_column_size() on PostgreSQL 15: SMALLINT 2, BOOLEAN 1, INT and DATE 4, BIGINT and TIMESTAMP 8, NUMERIC(10,2) 12, UUID 16. Text types add a 4-byte header to the characters, and a Devanagari word costs 3 bytes per letter in UTF-8: the eight letters of the word for Kathmandu take 24 bytes, so 28 with the header, against 13 for the nine-letter English word."
+@ photo id="bca202/chamberlin" cap="Donald D. Chamberlin, co-designer of SQL"
+fit 1.4
+focus 0.5 0.75
+@ svg cap="Bytes per value (measured)"
+meas = [("BOOLEAN true", 1), ("SMALLINT", 2), ("INT", 4), ("DATE", 4), ("BIGINT", 8), ("TIMESTAMP", 8), ("NUMERIC(10,2)", 12), ("'Kathmandu' TEXT", 13), ("UUID", 16), ("Devanagari word TEXT", 28)]
+d = dict(meas)
+assert d["Devanagari word TEXT"] == 8 * 3 + 4 and d["'Kathmandu' TEXT"] == 9 + 4 and len("काठमाडौं".encode("utf-8")) == 24
+f = Fig(300, 262)
+f.text(150, 11, "bytes of one value, PostgreSQL 15", size=10, color=NAVY, bold=True)
+for i, (k, v) in enumerate(meas):
+    y = 24 + i * 23
+    col = AMBER if "TEXT" in k else TEAL
+    f.text(6, y + 8, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(124, y, v * 5.6, 15, "", fill=col, stroke=col, r=2)
+    f.text(124 + v * 5.6 + 5, y + 8, str(v), size=10, color=col, bold=True, anchor="start")
+f.text(150, 256, "text = 4-byte header + UTF-8 bytes of the letters", size=9.5, color=AMBER, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.1" caption="Three ways to remove data. (a) The cutting blades of a paper shredder: once shredded, a page cannot be put back, which is how DROP behaves outside a transaction. (b) A table of 50,000 rows occupied 5,398,528 bytes. DELETE FROM removed every row, but the file stayed 5,398,528 bytes (the dead rows wait for VACUUM); VACUUM then shrank it to 1,163,264 bytes (the primary-key index remains); TRUNCATE cut it to 16,384 bytes at once; DROP TABLE removed it entirely. Inside a transaction, DELETE and TRUNCATE were both rolled back on PostgreSQL and all 50,000 rows came back."
+@ photo id="bca202/shredder" cap="Paper shredder blades"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Table size after each statement"
+steps = [("before", 5398528), ("DELETE", 5398528), ("DELETE + VACUUM", 1163264), ("TRUNCATE", 16384), ("DROP TABLE", 0)]
+f = Fig(300, 250)
+f.text(150, 11, "bytes on disk (50,000-row table)", size=10, color=NAVY, bold=True)
+for i, (k, v) in enumerate(steps):
+    y = 26 + i * 34
+    w = 190 * v / 5398528
+    col = SLATE if i < 2 else (AMBER if i < 4 else RED)
+    f.text(6, y + 8, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(104, y, max(w, 2), 16, "", fill=col, stroke=col, r=2)
+    f.text(104 + max(w, 2) + 5, y + 9, "{:,}".format(v), size=9.5, color=col, bold=True, anchor="start")
+assert steps[0][1] == steps[1][1]
+f.box(6, 200, 288, 40, "in a transaction: ROLLBACK after DELETE or\nTRUNCATE brings back all 50,000 rows (PostgreSQL)", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
 ## Formula and fact sheet
 
 - DDL: `CREATE`, `ALTER`, `DROP`, `TRUNCATE`. Constraints: PRIMARY KEY, NOT NULL, UNIQUE, FOREIGN KEY, CHECK, DEFAULT.

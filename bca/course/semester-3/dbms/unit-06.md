@@ -382,6 +382,56 @@ f.text(435, 206, "result: Gita", size=11, color=RED, bold=True)
 f.text(290, 232, "IN and comparison subqueries usually run once; EXISTS tests are checked per outer row", size=9.5, color=SLATE, bold=True)
 ```
 
+Joins and indexes look abstract until you count. The two plates below use two six-row tables and a 200,000-row table on a real PostgreSQL 15 server and report exactly what came back and how many pages of disk were touched.
+
+```photogrid label="6.2" cols="2" ratio="1.1" caption="Joins as overlaps. (a) John Venn (1834-1923), whose diagrams of overlapping circles we still use for sets and for joins. (b) Table A holds the keys 1, 2, 3, 4, 5 and NULL, table B holds 3, 4, 5, 6, 7, 7. Three keys match, so INNER JOIN returns 3 rows; LEFT JOIN adds the 3 unmatched rows of A (1, 2 and the NULL row) to give 6; RIGHT JOIN adds the 3 unmatched rows of B (6, 7, 7) to give 6; FULL JOIN keeps both sides, 9; CROSS JOIN pairs every row with every row, 6 x 6 = 36. NULL never equals anything, so it never matches. All counts are from a real PostgreSQL run."
+@ photo id="bcamath/venn" cap="John Venn (1834-1923)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Join counts for two six-row tables"
+A = [1, 2, 3, 4, 5, None]; B = [3, 4, 5, 6, 7, 7]
+inner = len([1 for a in A for b in B if a is not None and a == b])
+una = len([a for a in A if a is None or a not in B]); unb = len([b for b in B if b not in A])
+counts = [("INNER", inner), ("LEFT", inner + una), ("RIGHT", inner + unb), ("FULL", inner + una + unb), ("CROSS", len(A) * len(B))]
+assert [c for _, c in counts] == [3, 6, 6, 9, 36]
+f = Fig(300, 250)
+f.circle(86, 76, 56, fill="#dbeafe", stroke=NAVY)
+f.circle(162, 76, 56, fill="#dcfce7", stroke=TEAL)
+f.text(54, 56, "A only", size=9.5, color=NAVY, bold=True)
+f.text(54, 76, "1, 2, NULL", size=9.5, color=NAVY)
+f.text(54, 94, "= 3 rows", size=9.5, color=NAVY, bold=True)
+f.text(124, 56, "match", size=9.5, color=SLATE, bold=True)
+f.text(124, 76, "3, 4, 5", size=9.5, color=SLATE)
+f.text(124, 94, "= 3 rows", size=9.5, color=SLATE, bold=True)
+f.text(198, 56, "B only", size=9.5, color=TEAL, bold=True)
+f.text(198, 76, "6, 7, 7", size=9.5, color=TEAL)
+f.text(198, 94, "= 3 rows", size=9.5, color=TEAL, bold=True)
+f.text(86, 16, "table A", size=10, color=NAVY, bold=True); f.text(162, 16, "table B", size=10, color=TEAL, bold=True)
+for i, (k, v) in enumerate(counts):
+    y = 148 + i * 20
+    f.text(16, y + 8, k + " JOIN", size=10, color=SLATE, bold=True, anchor="start")
+    f.box(104, y, max(v * 4.0, 2), 14, "", fill=(RED if k == "CROSS" else TEAL), stroke=(RED if k == "CROSS" else TEAL), r=2)
+    f.text(104 + v * 4.0 + 6, y + 8, str(v), size=10, color=(RED if k == "CROSS" else TEAL), bold=True, anchor="start")
+```
+
+```photogrid label="6.3" cols="2" ratio="1.1" caption="Why an index helps. (a) Library stacks: finding a book by walking every aisle is a sequential scan, while the catalogue card that names the shelf is an index. (b) On a table of 200,000 rows occupying 3,449 pages of 8 kB (27,592 kB), a query for one row by primary key read 4 pages through the index. A query for v = 500 (200 matching rows) without an index read all 3,449 pages and discarded 199,800 rows; with an index on v it read 202 pages (200 table pages and 2 index pages). The index cost 1,352 kB of extra disk. Page counts are the Buffers lines of EXPLAIN (ANALYZE, BUFFERS)."
+@ photo id="bca202/stacks" cap="Library stacks, University of Illinois"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Pages read by three plans (EXPLAIN, BUFFERS)"
+plans = [("Seq Scan, v = 500", 3449, RED), ("Bitmap + index, v = 500", 202, AMBER), ("Index Scan, id = 123456", 4, TEAL)]
+assert 3449 * 8 == 27592 and 200 + 2 == 202 and 200 * 1000 == 200000
+f = Fig(300, 232)
+f.text(150, 11, "8 kB pages read, 200,000-row table", size=10, color=NAVY, bold=True)
+for i, (k, v, c) in enumerate(plans):
+    y = 28 + i * 52
+    f.text(6, y + 6, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    w = 190 * v / 3449
+    f.box(6, y + 14, max(w, 2), 18, "", fill=c, stroke=c, r=2)
+    f.text(6 + max(w, 2) + 6, y + 24, "{:,} pages".format(v), size=10, color=c, bold=True, anchor="start")
+f.box(6, 186, 288, 38, "index on v costs 1,352 kB (table 27,592 kB):\nfaster reads, slower writes, more disk", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
 ### 6.8.1 Eight benefits of views
 
 1. **Simplicity for the user.** A view hides a long join behind a short name. A clerk writes `SELECT * FROM result_view` instead of joining three tables, and cannot make a join mistake. Complex logic is written once by an expert and reused by everyone.

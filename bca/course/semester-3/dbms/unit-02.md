@@ -191,6 +191,31 @@ f.text(290, 160, "inherit id, name, phone", size=10, color=SLATE, bold=True)
 f.text(290, 196, "specialisation (down)  |  generalisation (up)", size=10, color=RED, bold=True)
 ```
 
+The hierarchical model is easiest to understand in something you can photograph. When IBM, North American Rockwell and Caterpillar built the Information Management System (IMS) in the 1960s, one of the first jobs was the bill of materials of the Apollo rockets: a rocket is made of stages, a stage of engines and tanks. Every part has exactly one parent, so the data forms a tree. The plate below keeps that bill of materials in a single table and asks a real PostgreSQL server how many parts sit at each level.
+
+```photogrid label="2.2" cols="2" ratio="1.1" caption="The hierarchical model in steel. (a) The Saturn V first stage, second stage and third stage laid out in a hall at the Johnson Space Center. A rocket is a tree of assemblies, which is why IBM's IMS, first written for the Apollo programme, stores records as parent and child segments. (b) The same hierarchy as 14 rows of one table part(pid, name, parent). A recursive query on real PostgreSQL 15 counted 1 part at level 0, 4 at level 1 and 9 at level 2, and 3 parts under the S-IC stage. A part with two parents (a bolt used by two stages) cannot be stored as a tree: that limit led to the network model and then to the relational model."
+@ photo id="bca202/saturn" cap="Saturn V stages, Johnson Space Center"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Bill of materials as a tree (counts from a recursive query)"
+tree = {"Saturn V": ["S-IC", "S-II", "S-IVB", "IU"], "S-IC": ["F-1 x5", "RP-1 tank", "LOX tank"], "S-II": ["J-2 x5", "LH2 tank", "LOX tank"], "S-IVB": ["J-2 x1", "LH2 tank"], "IU": ["Computer"]}
+lv1 = tree["Saturn V"]
+leaves = sum(len(tree[k]) for k in lv1)
+assert (1, len(lv1), leaves) == (1, 4, 9) and len(tree["S-IC"]) == 3
+f = Fig(300, 262)
+f.box(100, 8, 100, 26, "Saturn V", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+for i, k in enumerate(lv1):
+    x = 4 + i * 74
+    f.line(150, 34, x + 33, 56, color=NAVY, sw=1.3)
+    f.box(x, 56, 66, 24, k, fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.line(x + 33, 80, x + 33, 92, color=TEAL, sw=1.2)
+    for j, lf in enumerate(tree[k]):
+        f.box(x, 92 + j * 28, 66, 22, lf, fill=MINT, stroke=TEAL, size=9.5)
+f.text(8, 188, "level 0: 1 part   level 1: 4 parts   level 2: 9 parts", size=10, color=NAVY, bold=True, anchor="start")
+f.text(8, 206, "parts under S-IC: 3 (real PostgreSQL 15 run)", size=10, color=TEAL, bold=True, anchor="start")
+f.box(8, 218, 284, 36, "one parent per part = tree; a part shared by two\nstages needs two parents, which a tree cannot store", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
 ### 2.7.1 Eight advantages of the three-level architecture and data independence
 
 1. **Different users get different views.** The library clerk does not need to see marks and the exam officer does not need to see fines. Each external view shows only the columns and rows that a group needs. This keeps screens simple and reports focused.

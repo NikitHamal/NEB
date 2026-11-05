@@ -156,6 +156,65 @@ f.box(440, 50, 130, 50, "JOIN on course\n= 9 combinations", fill=BLUE, stroke=NA
 f.text(290, 168, "new book: 3 rows before, 1 row after. Lossless and anomaly-free.", size=10.5, color=NAVY, bold=True)
 ```
 
+Redundancy used to be visible: an old shop ledger writes the customer's address on every line, and when the customer moves, every line must be corrected. A flat table does the same thing at a much larger scale, and a DBMS cannot tell which copy is right. The two plates measure the damage on real data and then test a decomposition for the lossless-join property.
+
+```photogrid label="4.2" cols="2" ratio="1.1" caption="What redundancy costs. (a) A page of a general-store ledger: the same customer details are copied on line after line, and every copy must be corrected on a change. (b) The same idea in PostgreSQL 15. A flat table of 20,000 students repeats the 49-byte department address in all 20,000 rows (980,000 bytes measured with pg_column_size), while the normalised Department table stores it 4 times (196 bytes), 5,000 times less. After a partial update of department 10 (250 of its 5,000 rows renamed) the flat table holds two different names for one department, which is an update anomaly."
+@ photo id="bca202/ledger" cap="General-store ledger page (Patterson's)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Address bytes: flat table vs Department table"
+flat_b, norm_b = 980000, 196
+assert flat_b == 20000 * 49 and norm_b == 4 * 49 and flat_b // norm_b == 5000
+upd, rest = 250, 4750
+assert upd + rest == 5000
+f = Fig(300, 244)
+f.text(150, 11, "storing one 49-byte address", size=10, color=NAVY, bold=True)
+f.text(6, 34, "flat table: 20,000 copies", size=9.5, color=RED, bold=True, anchor="start")
+f.box(6, 40, 288, 18, "980,000 bytes", fill=ROSE, stroke=RED, size=10, bold=True, r=2)
+f.text(6, 78, "Department table: 4 copies", size=9.5, color=TEAL, bold=True, anchor="start")
+f.box(6, 84, 2, 18, "", fill=TEAL, stroke=TEAL, r=0)
+f.text(14, 93, "196 bytes  (5,000 times smaller)", size=10, color=TEAL, bold=True, anchor="start")
+f.text(150, 128, "the 5,000 rows of department 10 after a partial UPDATE", size=9.5, color=NAVY, bold=True)
+w1 = 288 * upd / 5000
+f.box(6, 138, 288 - w1, 20, "4,750 rows still say BCA", fill=BLUE, stroke=NAVY, size=9.5, bold=True, r=2)
+f.box(6 + 288 - w1, 138, w1, 20, "", fill=AMBER, stroke=AMBER, r=0)
+f.arrow([(278, 190), (284, 160)], color=AMBER, sw=1.5)
+f.text(280, 202, "250 rows say BCA (Computer App.)", size=9.5, color=AMBER, bold=True, anchor="end")
+f.box(6, 214, 288, 24, "two names, one department: which is right?", fill=SAND, stroke=AMBER, size=10, bold=True)
+```
+
+```photogrid label="4.3" cols="2" ratio="1.1" caption="Lossless or lossy? (a) Raymond F. Boyce, who with Edgar Codd defined Boyce-Codd normal form. (b) The table R(student S, course C, teacher T) with the dependencies (S, C) -> T and T -> C violates BCNF, because T is not a key. Splitting it into R1(T, C) and R2(S, T) and joining the pieces returns exactly the 6 original rows (green). Splitting it instead into (S, C) and (C, T) returns 9 rows: 3 spurious tuples appear (red), so information was lost. The test is computed from the rows in this figure."
+@ photo id="bca202/boyce" cap="Raymond F. Boyce (1947-1974)"
+fit 1.1
+focus 0.5 0.7
+@ svg cap="Join the pieces back: 6 rows or 9 rows?"
+R = {("Sita", "DBMS", "Ram"), ("Hari", "DBMS", "Gopal"), ("Gita", "C", "Shyam"), ("Mina", "C", "Shyam"), ("Anil", "DBMS", "Ram"), ("Sita", "C", "Shyam")}
+tc = {}
+for s, c, t in R:
+    tc.setdefault(t, set()).add(c)
+assert all(len(v) == 1 for v in tc.values())
+R1 = {(t, c) for s, c, t in R}; R2 = {(s, t) for s, c, t in R}
+J1 = {(s, c, t) for s, t in R2 for t2, c in R1 if t == t2}
+A = {(s, c) for s, c, t in R}; B = {(c, t) for s, c, t in R}
+J2 = {(s, c, t) for s, c in A for c2, t in B if c == c2}
+sp = sorted(J2 - R)
+assert J1 == R and len(J1) == 6 and len(J2) == 9 and len(sp) == 3
+f = Fig(300, 252)
+f.box(88, 6, 124, 26, "R(S, C, T): %d rows" % len(R), fill=NAVY, stroke=NAVY, color="#ffffff", size=10, bold=True)
+f.arrow([(120, 32), (74, 60)], color=TEAL, sw=1.6); f.arrow([(180, 32), (226, 60)], color=RED, sw=1.6)
+f.box(6, 60, 136, 40, "R1(T, C): %d rows\nR2(S, T): %d rows" % (len(R1), len(R2)), fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(158, 60, 136, 40, "R3(S, C): %d rows\nR4(C, T): %d rows" % (len(A), len(B)), fill=ROSE, stroke=RED, size=10, bold=True)
+f.arrow([(74, 100), (74, 120)], color=TEAL, sw=1.6); f.arrow([(226, 100), (226, 120)], color=RED, sw=1.6)
+f.box(6, 120, 136, 34, "join: %d rows\n0 spurious" % len(J1), fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(158, 120, 136, 34, "join: %d rows\n%d spurious" % (len(J2), len(sp)), fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.text(74, 170, "lossless: BCNF split", size=10, color=TEAL, bold=True)
+f.text(226, 170, "lossy: wrong split", size=10, color=RED, bold=True)
+for i, (s, c, t) in enumerate(sp):
+    f.text(158, 190 + i * 14, "%s, %s, %s" % (s, c, t), size=9.5, color=RED, anchor="start")
+f.text(6, 190, "rule: R1 and R2 share T,\nand T -> C, so T is a key of R1", size=9, color=TEAL, bold=True, anchor="start")
+f.text(150, 244, "false tuples such as Sita taught by Gopal", size=9.5, color=SLATE, bold=True)
+```
+
 ### 4.9.1 Eight advantages of normalisation
 
 1. **Less redundant data.** Each fact, such as the name of a department, is stored once instead of in every student row. A college with ten thousand students saves a great deal of storage. Smaller tables are also faster to scan and to back up.
