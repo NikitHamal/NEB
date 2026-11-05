@@ -180,6 +180,32 @@ f.arrow([(284, 166), (300, 166)], color=SLATE)
 7. **Divide a difference by 9.** If the trial balance is out by an amount divisible by 9, look for a transposition or a slide first. If it equals twice an amount, look for an item posted to the wrong side. A systematic search is faster than rechecking every page.
 8. **Never force the trial balance.** Putting a difference into a suspense account is allowed only as a clearly labelled temporary step. Find the error and rectify it by a proper entry. A forced balance hides a real fault and misleads whoever reads the statements.
 
+```photogrid label="3.2" cols="2" ratio="1.0" caption="Why the difference in a trial balance is a clue. (a) An adding machine: the totals of a trial balance are only as good as the figures entered. (b) A small business has debit balances Cash 45,000, Debtors 30,000, Stock 25,000, Purchases 20,000 and Rent 7,500, total Rs 1,27,500, and credit balances Capital 80,000, Creditors 22,000 and Sales 25,500, total Rs 1,27,500. If the Sales balance is copied as 25,050 (the digits 5 and 0 swapped), the credit total becomes 1,27,050 and the trial balance disagrees by Rs 450. A difference that divides exactly by 9 (450 / 9 = 50) is the signature of a transposition, so the accountant checks swapped digits first. The difference is parked in a Suspense Account (credit 450) until the error is found and rectified. A trial balance that agrees does not prove the books are right: errors of omission, compensating errors and errors of principle do not disturb the totals."
+@ photo id="bcafa/adder" cap="A mechanical adding machine"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Debit and credit totals with the 450 gap"
+dr = {"Cash": 45000, "Debtors": 30000, "Stock": 25000, "Purchases": 20000, "Rent": 7500}
+cr_ok = {"Capital": 80000, "Creditors": 22000, "Sales": 25500}
+cr_bad = dict(cr_ok, Sales=25050)
+D = sum(dr.values()); C0 = sum(cr_ok.values()); C1 = sum(cr_bad.values())
+assert (D, C0, C1) == (127500, 127500, 127050) and D - C1 == 450 and 450 % 9 == 0 and 450 // 9 == 50
+assert [d % 9 == 0 for d in (450, 100, 27, 90)] == [True, False, True, True]
+f = Fig(300, 240)
+f.text(150, 14, "trial balance totals (rupees)", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, col) in enumerate([("Debit", D, "#1d6fb8"), ("Credit, correct", C0, "#0f766e"), ("Credit, as copied", C1, "#b91c1c")]):
+    y = 28 + i * 40
+    f.text(10, y + 6, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+    w = 180 * v / D
+    f.box(10, y + 14, w, 16, "", fill=col, stroke=col, r=0)
+    f.text(14, y + 22, f"{v:,}", size=10.5, color="#ffffff", anchor="start", bold=True, vmid=True)
+f.box(10, 152, 280, 76, "", fill="#f1f5f9", stroke=SLATE, r=6, sw=1)
+f.text(150, 170, "difference 1,27,500 - 1,27,050 = 450", size=10.5, color=RED, bold=True)
+f.text(150, 188, "450 / 9 = 50 exactly: swapped digits?", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "tests: 450 yes, 100 no, 27 yes, 90 yes", size=10.5, color=SLATE)
+f.text(150, 222, "park 450 Cr in Suspense", size=10.5, color=TEAL, bold=True)
+```
+
 ## 3.8 Summary and exercises
 
 Subsidiary books keep detail manageable, the triple-column cash book handles cash, bank and discounts together, and the trial balance and suspense account give a first, imperfect line of defence against error.
