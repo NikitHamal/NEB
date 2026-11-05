@@ -493,6 +493,29 @@ f.text(150, 196, "mean speed at 298 K: H2 %s m/s" % "{:,.0f}".format(v(2.016)), 
 f.text(150, 214, "CO2 %s m/s (ratio %.2f)" % ("{:,.0f}".format(v(44.01)), v(2.016) / v(44.01)), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="6.2" cols="2" ratio="1.2" caption="Gas laws that fly. (a) Looking up into a balloon envelope, the air is heated by a propane burner. (b) The cell uses PV = nRT in the form density = PM / RT. At 15 degrees C and 101.3 kPa air has a density of 1.225 kg/m3; heated to 100 degrees C it is only 0.946 kg/m3, because the open mouth lets the hot gas expand until its pressure equals the outside pressure (Charles's law). The envelope of 2800 m3 then floats up with a lift of about 781 kg, enough for the fabric, basket, burners, fuel and a few passengers. Raising the inside temperature to 120 degrees C gives 916 kg, so each extra 20 degrees buys a little less lift than the one before."
+@ photo id="ceechem2/balloon" cap="The inside of a hot-air balloon envelope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Lift of a hot-air balloon from Charles's law"
+P, Mair, R, Tout = 101325.0, 0.02896, 8.314, 288.15
+V = 2800.0
+def rho(T):
+    return P * Mair / (R * T)
+rows = []
+for tc in (60, 80, 100, 120):
+    rows.append(("%d C" % tc, (rho(Tout) - rho(tc + 273.15)) * V))
+assert round(rho(Tout), 3) == 1.225 and round(rows[2][1]) == 781
+f = Fig(300, 236)
+f.text(150, 12, "Lift of a 2800 m3 envelope, kg", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=max(v for _, v in rows) * 1.05, fmt="%.0f", x0=48, y0=32, bw=170, gap=30)
+f.text(150, 164, "air inside at the temperature shown", size=10, color=SLATE, bold=True)
+f.text(150, 192, "outside 15 C: density %.3f kg/m3" % rho(Tout), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "inside 100 C: density %.3f kg/m3" % rho(373.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "volume is fixed, so lift = (r_out - r_in) V", size=10, color=SLATE, bold=True)
+facts = dict(ro=rho(Tout), ri=rho(373.15), lift=rows[2][1], l120=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula |

@@ -386,6 +386,32 @@ f.text(150, 202, "iodide left when AgCl starts: %.1e M" % left, size=10.5, color
 f.text(150, 220, "only %.0e per cent remains" % frac, size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="22.2" cols="2" ratio="1.2" caption="Separating a mixture on paper. (a) In paper chromatography a drop of plant extract is placed on a start line and the strip is stood in a solvent, which climbs by capillary action and carries each component a different distance. (b) The cell turns the typical values for leaf pigments into distances on a run in which the solvent front has moved 10.0 cm: carotene travels almost with the front (Rf 0.98), chlorophyll a reaches 5.9 cm, chlorophyll b 4.2 cm and xanthophyll 3.5 cm. Rf is the distance moved by the spot divided by the distance moved by the solvent front, so it is always less than 1 and is a property of the compound, the paper and the solvent. The two chlorophylls are only 1.7 cm apart, so a longer run improves the separation."
+@ photo id="ceechem2/chroma" cap="Strips of chromatography paper with developed spots"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rf values of leaf pigments"
+front = 10.0
+pig = [("carotene", 0.98), ("chlorophyll a", 0.59), ("chlorophyll b", 0.42), ("xanthophyll", 0.35)]
+assert round(pig[1][1] - pig[2][1], 2) == 0.17
+f = Fig(300, 236)
+f.text(150, 12, "Spots on a strip, solvent front at 10.0 cm", size=10.5, color=NAVY, bold=True)
+f.box(28, 28, 62, 150, fill=SOFT, stroke=SLATE, r=2)
+f.line(28, 40, 90, 40, color=SLATE, sw=1, dash=True)
+f.text(59, 34, "front", size=9, color=SLATE, bold=True)
+f.line(28, 168, 90, 168, color=SLATE, sw=1.2)
+f.text(59, 191, "start line", size=9, color=SLATE, bold=True)
+cols = [AMBER, TEAL, NAVY, AMBER]
+for (n, rf), c, dy in zip(pig, cols, (0, 0, -6, 6)):
+    y = 168 - rf * 128
+    f.circle(59, y, 5.5, fill=SAND if c == AMBER else MINT, stroke=c)
+    f.line(66, y, 112, y, color=c, sw=1, dash=True)
+    f.text(116, y + dy, "%s: Rf = %.2f, %.1f cm" % (n, rf, rf * front), size=9.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 210, "Rf = distance moved by spot / by solvent", size=10, color=NAVY, bold=True)
+f.text(150, 226, "a-b gap: %.1f cm on a 10 cm run" % ((pig[1][1] - pig[2][1]) * front), size=10, color=SLATE, bold=True)
+facts = dict(gap=(pig[1][1] - pig[2][1]) * front)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

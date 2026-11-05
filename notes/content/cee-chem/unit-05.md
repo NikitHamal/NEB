@@ -297,6 +297,27 @@ f.text(150, 200, "n(Fe2+) = 5 x %.5f = %.5f mol" % (nMn, nFe), size=10.5, color=
 f.text(150, 218, "c = %.4f M; %.3f g Fe in 250 mL" % (c, mFe), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="A redox reaction you can see. (a) Warming glucose or an aldehyde with Tollens' reagent, [Ag(NH3)2]+, coats the glass with metallic silver. The aldehyde is oxidised to a carboxylate (the carbon goes up in oxidation number) and Ag+ is reduced to Ag. (b) The cell counts electrons: each Ag+ takes one electron, and the aldehyde group gives two (formaldehyde, which is oxidised on to CO2, gives four). One gram of formaldehyde therefore deposits 14.37 g of silver, but one gram of glucose only 1.20 g. A real mirror film 100 nm thick over 10 cm2 holds only 1.05 mg of silver, so a few milligrams of sugar are enough to make it."
+@ photo id="ceechem2/mirror" cap="A silver mirror formed in a test tube (Tollens' test)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Silver deposited per gram of aldehyde"
+Ag = 107.87
+data = [("HCHO", 30.03, 4), ("CH3CHO", 44.05, 2), ("C6H5CHO", 106.12, 2), ("glucose", 180.16, 2)]
+rows = [(n, k * Ag / M) for n, M, k in data]
+assert round(rows[0][1], 2) == 14.37 and round(rows[3][1], 2) == 1.20
+area, th, rho = 10.0, 100e-7, 10.49
+mg = area * th * rho * 1000
+f = Fig(300, 236)
+f.text(150, 12, "Grams of Ag formed per gram of aldehyde", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=14.5, fmt="%.2f", x0=66, y0=30, bw=170, gap=30)
+f.text(150, 164, "Ag+ + e- gives Ag: HCHO gives 4 Ag, others 2", size=10, color=SLATE, bold=True)
+f.text(150, 192, "a 10 cm2 mirror, 100 nm thick:", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "only %.2f mg of silver" % mg, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "= %.1f micromol of Ag" % (mg / Ag * 1000), size=10.5, color=SLATE, bold=True)
+facts = dict(hcho=rows[0][1], glu=rows[3][1], mg=mg)
+```
+
 ## Formula and fact sheet
 
 | Item | Rule |

@@ -554,6 +554,28 @@ f.text(150, 210, "doubling per 10 K means Ea = %.1f kJ/mol" % (ea2 / 1000), size
 f.text(150, 228, "temperature in kelvin", size=10.5, color=SLATE)
 ```
 
+```photogrid label="9.2" cols="2" ratio="1.2" caption="A catalyst lowers the barrier. (a) The ceramic honeycomb of a catalytic converter is coated with platinum, palladium and rhodium and turns CO, NO and unburnt hydrocarbons into CO2, N2 and H2O. (b) The cell assumes that a catalyst cuts the activation energy of a reaction from 100 to 50 kJ/mol, and uses the Arrhenius equation to find the rate gain exp(Ea difference / RT), with the same pre-exponential factor. At 300 K the reaction is 10^8.7 times faster, at 600 K 10^4.4 times and at 800 K 10^3.3 times. The benefit is largest at low temperature, which is why a converter works poorly for the first minute of a cold start."
+@ photo id="ceechem2/catconv" cap="A catalytic converter honeycomb core"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="How a catalyst changes the rate (Arrhenius)"
+import math
+R = 8.314
+Ea1, Ea2 = 100000.0, 50000.0
+rows = []
+for T in (300, 450, 600, 800):
+    rows.append(("%d K" % T, math.log10(math.exp((Ea1 - Ea2) / (R * T)))))
+assert round(rows[0][1], 1) == 8.7 and round(rows[2][1], 1) == 4.4
+f = Fig(300, 236)
+f.text(150, 12, "log10 of rate gain, 100 to 50 kJ/mol", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=9.5, fmt="%.1f", x0=48, y0=32, bw=170, gap=30)
+f.text(150, 166, "the gain k(cat)/k(uncat) = exp(50000/RT)", size=10, color=SLATE, bold=True)
+f.text(150, 192, "at 300 K: 10^%.1f times faster" % rows[0][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "at 800 K: 10^%.1f times faster" % rows[3][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "a catalyst helps most when it is cool", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[2][1], c=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Unit |

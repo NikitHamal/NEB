@@ -554,6 +554,28 @@ f.text(150, 196, "dG = %.1f kJ/mol" % dg, size=10.5, color=NAVY, bold=True)
 f.text(150, 214, "K = 10^%.1f, emf zero only at log Q = %.1f" % (logk, logk), size=10, color=NAVY, bold=True)
 ```
 
+```photogrid label="10.2" cols="2" ratio="1.2" caption="Six cells in one box. (a) A car battery holds six lead-acid cells connected in series. (b) The cell adds the electrode potentials: PbO2 is reduced at +1.685 V and Pb is oxidised at -0.356 V, so one cell gives 2.041 V and six give 12.2 V (a charged battery reads about 12.6 V). Faraday's law fixes how much material is consumed: a 45 Ah battery passes 162,000 C, which uses 174 g of lead, 201 g of lead dioxide and 165 g of sulphuric acid, and stores about 551 Wh. Because the acid is consumed, its density falls on discharge, so a hydrometer reading tells the state of charge."
+@ photo id="ceechem2/battery" cap="A 12 V lead-acid car battery"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Lead-acid battery: cell emf and reactants used"
+E = 1.685 - (-0.356)
+Ah = 45.0
+mol = Ah * 3600 / (2 * 96485)
+pb, pbo2, acid = mol * 207.2, mol * 239.2, 2 * mol * 98.08
+Wh = Ah * 6 * E
+assert round(E, 3) == 2.041 and round(6 * E, 1) == 12.2 and round(pb) == 174
+f = Fig(300, 236)
+f.text(150, 12, "Used in 45 Ah of discharge, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, [("Pb", pb), ("PbO2", pbo2), ("H2SO4", acid)], vmax=210, fmt="%.0f", x0=60, y0=30, bw=150, gap=30)
+f.text(150, 138, "Pb + PbO2 + 2H2SO4 gives 2PbSO4 + 2H2O", size=10, color=SLATE, bold=True)
+f.text(150, 164, "E(cell) = 1.685 - (-0.356) = %.3f V" % E, size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "6 cells in series: %.1f V" % (6 * E), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "energy stored: %.0f Wh" % Wh, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "(%.2f mol of Pb used, 2 electrons each)" % mol, size=10, color=SLATE, bold=True)
+facts = dict(E=E, E6=6 * E, pb=pb, pbo2=pbo2, acid=acid, Wh=Wh)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Note |
