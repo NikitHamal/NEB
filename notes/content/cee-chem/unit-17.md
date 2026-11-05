@@ -384,6 +384,35 @@ and excess reagent**.
 **Solution.** Erase the two $\text{=O}$ oxygen atoms and join the carbonyl carbons by a double bond: $(\text{CH}_3)_2\text{C=O} + \text{O=CHCH}_3 \Longrightarrow (\text{CH}_3)_2\text{C=CHCH}_3$, which is **2-methylbut-2-ene**.
 :::
 
+```photogrid label="17.1" cols="2" ratio="1.2" caption="Boiling point and chain length. (a) A fractionating column separates crude oil because longer chains boil higher. (b) The boiling points of CH4 to C8H18 are -162, -89, -42, -0.5, 36, 69, 98 and 126 degrees C. Each added CH2 raises it less: 73 degrees from methane to ethane but only 28 degrees from heptane to octane, an average of 31.6 over the last four steps, because London forces grow with surface area but the molecules also coil. Room temperature (25 degrees C) falls between butane and pentane, so C1 to C4 are gases (LPG is propane and butane) and C5 upwards are liquids."
+@ photo id="cee-chem/fractional-distillation" cap="Fractional distillation of crude oil separates hydrocarbons by boiling point"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Boiling points of the first eight alkanes"
+bp = [-162, -89, -42, -0.5, 36, 69, 98, 126]
+d = [b - a for a, b in zip(bp, bp[1:])]
+first_liquid = next(i + 1 for i, b in enumerate(bp) if b > 25)
+avg4 = sum(d[-4:]) / 4
+assert d[0] == 73 and d[-1] == 28 and first_liquid == 5 and all(x > y for x, y in zip(d, d[1:]))
+facts = dict(d1=d[0], d7=d[-1], avg="%.1f" % avg4)
+f = Fig(300, 236)
+f.text(150, 14, "boiling point (degrees C) against carbon number", size=10, color=NAVY, bold=True)
+X = lambda n: 40 + (n - 1) * 34; Y = lambda b: 180 - (b + 170) * 0.5
+f.line(X(1), Y(25), 285, Y(25), color=AMBER, sw=1.4, dash=True); f.text(284, Y(25) - 7, "25 C", size=10.5, color=AMBER, bold=True, anchor="end")
+f.line(X(1), Y(-170), 285, Y(-170), color=SLATE, sw=1.4)
+for i, b in enumerate(bp):
+    n = i + 1
+    if i: f.line(X(n - 1), Y(bp[i - 1]), X(n), Y(b), color=NAVY, sw=2.4)
+for i, b in enumerate(bp):
+    n = i + 1; col = TEAL if b < 25 else RED
+    f.circle(X(n), Y(b), 4, fill=col, stroke=col)
+    f.text(X(n), Y(-170) + 13, "C%d" % n, size=10, color=SLATE)
+f.text(X(2), Y(-60) - 14, "gases", size=10.5, color=TEAL, bold=True)
+f.text(X(7), Y(40) + 24, "liquids", size=10.5, color=RED, bold=True)
+f.text(150, 206, "rise per CH2: %d, %d ... %d degrees" % (d[0], d[1], d[-1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "gas to liquid at C5", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

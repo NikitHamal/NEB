@@ -599,6 +599,28 @@ anhydrous CuSO₄ is white until a drop of water returns the blue, the
 classic test for water itself.
 :::
 
+```photogrid label="14.1" cols="2" ratio="1.2" caption="Counting the charge of a blast furnace. (a) Iron ore, coke and limestone go in at the top and hot air at the bottom. (b) For Fe2O3 + 3CO gives 2Fe + 3CO2, 1,000 kg of pig iron at 95 per cent Fe holds 950 kg of iron, which needs 1,358 kg of Fe2O3, so 2,264 kg of ore at 60 per cent Fe2O3. The reaction uses 715 kg of CO. If the gangue is 3 per cent SiO2, 68 kg of silica needs 113 kg of limestone as flux to form CaSiO3 slag. About 2.3 kg of ore is mined for each kg of metal."
+@ photo id="chem11/blast-furnace" cap="A blast furnace reduces iron ore with carbon monoxide"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance for 1,000 kg of pig iron (kg)"
+M_Fe, M_Fe2O3, M_CO, M_SiO2, M_CaCO3 = 55.845, 159.69, 28.01, 60.08, 100.09
+fe = 950.0; fe2o3 = fe * M_Fe2O3 / (2 * M_Fe); ore = fe2o3 / 0.60
+co = fe2o3 / M_Fe2O3 * 3 * M_CO; sio2 = 0.03 * ore; caco3 = sio2 / M_SiO2 * M_CaCO3
+assert abs(fe2o3 - 1358.3) < 0.5 and abs(ore - 2263.8) < 1 and abs(co - 714.5) < 1 and abs(caco3 - 113.1) < 0.5
+facts = dict(fe2o3="{:,.0f}".format(fe2o3), ore="{:,.0f}".format(ore), co="%.0f" % co, sio2="%.0f" % sio2, caco3="%.0f" % caco3, ratio="%.1f" % (ore / 1000))
+f = Fig(300, 236)
+f.text(150, 14, "Fe2O3 + 3CO gives 2Fe + 3CO2", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, col, fl) in enumerate((("ore (60 per cent Fe2O3)", ore, AMBER, SAND), ("Fe2O3 reduced", fe2o3, RED, ROSE), ("CO consumed", co, TEAL, MINT), ("limestone flux", caco3, SLATE, SOFT), ("iron produced", fe, NAVY, BLUE))):
+    y = 28 + i * 34
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v * 0.075
+    f.box(14, y + 9, w, 13, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 16, "%.0f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "silica %.0f kg needs %.0f kg CaCO3" % (sio2, caco3), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "%.1f kg ore per kg of iron" % (ore / 1000), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

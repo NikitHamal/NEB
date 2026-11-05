@@ -329,6 +329,30 @@ water**, which would fog it into an unusable mist.
 **Solution.** (a) Cold dilute alkali gives chloride ($-1$) and hypochlorite ($+1$): $\text{Cl}_2 + 2\text{OH}^- \rightarrow \text{Cl}^- + \text{ClO}^- + \text{H}_2\text{O}$. (b) Hot concentrated alkali disproportionates $\text{Cl}_2$ ($0$) into chloride ($-1$) and chlorate ($+5$) in a $5 : 1$ molar ratio: $3\text{Cl}_2 + 6\text{OH}^- \rightarrow 5\text{Cl}^- + \text{ClO}_3^- + 3\text{H}_2\text{O}$.
 :::
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Faraday's laws in industry. (a) The ions of brine, Na+ and Cl-, are what a chlor-alkali cell electrolyses. (b) Making 1.00 tonne of Cl2 means 14,104 mol of gas, and with 2 electrons per Cl2 the charge is 2 F n = 2.72 x 10^9 C, or 756 kAh. The same cell makes 1,128 kg of NaOH and 28.4 kg of H2, so selling all three matters to the economics. At 3.2 V the energy is 2,419 kWh at 100 per cent current efficiency, and 2,547 kWh at 95 per cent, which is why chlor-alkali plants sit near cheap electricity."
+@ photo id="chem11/nacl-cell" cap="Unit cell of sodium chloride: Na+ and Cl- ions of the brine that the cell electrolyses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Products per tonne of chlorine (kg)"
+F = 96485.0; n = 1e6 / 70.90; q = 2 * F * n; kah = q / 3600 / 1000
+nn = 2 * n; naoh = nn * 40.00 / 1000; h2 = n * 2.016 / 1000
+kwh = q * 3.2 / 3.6e6; kwh95 = kwh / 0.95
+assert abs(n - 14104) < 2 and abs(kah - 755.6) < 0.5 and abs(naoh - 1128) < 1 and abs(h2 - 28.4) < 0.1
+facts = dict(n="{:,.0f}".format(n), q="%.2f" % (q / 1e9), kah="%.0f" % kah, naoh="{:,.0f}".format(naoh), h2="%.1f" % h2, kwh="{:,.0f}".format(kwh), kwh95="{:,.0f}".format(kwh95))
+f = Fig(300, 236)
+f.text(150, 14, "2NaCl + 2H2O: Cl2 + 2NaOH + H2", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, col, fl) in enumerate((("Cl2 (anode)", 1000, AMBER, SAND), ("NaOH (liquor)", naoh, TEAL, MINT), ("H2 (cathode)", h2, RED, ROSE))):
+    y = 28 + i * 40
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * 0.18, 3)
+    f.box(14, y + 10, w, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.1f kg" % v if v < 100 else "%.0f kg" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 164, "charge %.2f x 10^9 C = %.0f kAh" % (q / 1e9, kah), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "energy at 3.2 V: %s kWh" % "{:,.0f}".format(kwh), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "at 95 per cent efficiency: %s kWh" % "{:,.0f}".format(kwh95), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "per tonne of Cl2", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

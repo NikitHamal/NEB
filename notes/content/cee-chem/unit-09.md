@@ -528,6 +528,32 @@ A catalyst **cannot** change $\Delta H$, **cannot** change the equilibrium const
 any of these, it is the distractor.
 :::
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Temperature and rate. (a) Rust forms slowly because the activation energy of iron with moist oxygen is large for the time scale of days. (b) The Arrhenius equation k = A exp(-Ea / RT) gives k(T2) / k(T1) = exp[(Ea / R)(1/T1 - 1/T2)]. For an assumed Ea = 50 kJ/mol the rate rises 1.93 times from 298 K to 308 K and 3.56 times at 318 K. A half-life of 10.0 h at 298 K becomes 5.19 h at 308 K and 2.81 h at 318 K. The old rule that the rate doubles per 10 K corresponds to Ea = 52.9 kJ/mol."
+@ photo id="sci10/rust" cap="Rusting is a slow redox reaction whose rate rises with temperature"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rate relative to 298 K from the Arrhenius equation"
+R = 8.314; Ea = 50000.0
+ratio = lambda T: math.exp(Ea / R * (1 / 298 - 1 / T))
+r308, r318 = ratio(308), ratio(318)
+ea2 = R * math.log(2) / (1 / 298 - 1 / 308)
+assert abs(r308 - 1.925) < 0.003 and abs(r318 - 3.558) < 0.005 and abs(10 / r308 - 5.19) < 0.01 and abs(ea2 / 1000 - 52.9) < 0.05
+facts = dict(r308="%.2f" % r308, r318="%.2f" % r318, h308="%.2f" % (10 / r308), h318="%.2f" % (10 / r318), ea2="%.1f" % (ea2 / 1000))
+f = Fig(300, 236)
+f.text(150, 14, "k(T) / k(298 K), Ea = 50 kJ/mol", size=10.5, color=NAVY, bold=True)
+X = lambda T: 40 + (T - 288) * 5.8; Y = lambda r: 160 - r * 28
+f.line(X(288), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(288), Y(0), X(288), 34, color=SOFT, sw=1.2)
+pts = [(X(T), Y(ratio(T))) for T in range(288, 329, 2)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=AMBER, sw=2.6)
+for T in (298, 308, 318):
+    f.line(X(T), Y(0), X(T), Y(ratio(T)), color=TEAL, sw=1.2, dash=True); f.circle(X(T), Y(ratio(T)), 4, fill=TEAL, stroke=TEAL)
+    f.text(X(T) - 4, Y(ratio(T)) - 9, "%.2f" % ratio(T), size=10.5, color=TEAL, bold=True, anchor="end")
+    f.text(X(T), Y(0) + 13, "%d" % T, size=10.5, color=SLATE)
+f.text(150, 192, "half-life 10.0 h to %.2f h to %.2f h" % (10 / r308, 10 / r318), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "doubling per 10 K means Ea = %.1f kJ/mol" % (ea2 / 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "temperature in kelvin", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Unit |

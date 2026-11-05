@@ -388,6 +388,31 @@ substituting.
 **Solution.** Because *tert*-butyl bromide is $3^\circ$ and $\text{CH}_3\text{O}^-$ is a strong base, $E2$ elimination dominates to give **2-methylpropene** ($(\text{CH}_3)_2\text{C=CH}_2$). Williamson synthesis requires an **unhindered ($1^\circ$/methyl) halide**: react **sodium *tert*-butoxide** ($(\text{CH}_3)_3\text{CONa}$) with **iodomethane** ($\text{CH}_3\text{I}$) via $S_N2$.
 :::
 
+```photogrid label="18.1" cols="2" ratio="1.2" caption="How much alcohol is in a drink? (a) Ethanol is a polar liquid that mixes with water in any ratio. (b) A 750 mL bottle at 40 per cent alcohol by volume holds 300 mL of ethanol, 236.7 g at 0.789 g/mL, or 5.14 mol (M = 46.07 g/mol). That is 34.5 per cent by mass, because ethanol is lighter than water. A glass of beer (330 mL, 5 per cent), wine (150 mL, 12 per cent) or whisky (30 mL, 40 per cent) holds 13.0, 14.2 and 9.5 g, nearly the same, so a bottle equals about 18 beers and has an energy value of 1,679 kcal."
+@ photo id="sci10/ethanol" cap="Ethanol, the alcohol of drinks and of sanitiser"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Grams of ethanol in common drinks"
+d = 0.789; M = 46.07
+g = 300 * d; mol = g / M; mass = g / (g + 450) * 100
+beer, wine, whisky = 330 * 0.05 * d, 150 * 0.12 * d, 30 * 0.40 * d
+kcal = g * 29.67 / 4.184
+assert abs(g - 236.7) < 0.05 and abs(mol - 5.138) < 0.005 and abs(mass - 34.5) < 0.1 and abs(g / beer - 18.2) < 0.1
+facts = dict(g="%.1f" % g, mol="%.2f" % mol, mass="%.1f" % mass, beer="%.1f" % beer, wine="%.1f" % wine, whisky="%.1f" % whisky, n="%.0f" % (g / beer), kcal="{:,.0f}".format(kcal))
+f = Fig(300, 236)
+f.text(150, 14, "grams of ethanol per serving", size=10.5, color=NAVY, bold=True)
+for i, (lab, v) in enumerate((("beer 330 mL, 5 per cent", beer), ("wine 150 mL, 12 per cent", wine), ("whisky 30 mL, 40 per cent", whisky))):
+    y = 28 + i * 38
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v * 12
+    f.box(14, y + 10, w, 16, fill=MINT, stroke=TEAL, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.1f g" % v, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 154, "bottle: 750 mL at 40 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 172, "%.1f g = %.2f mol ethanol" % (g, mol), size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "%.1f per cent by mass, about %.0f beers" % (mass, g / beer), size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "energy about %s kcal" % "{:,.0f}".format(kcal), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

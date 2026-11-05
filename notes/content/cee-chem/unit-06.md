@@ -470,6 +470,29 @@ Graphite is the classic exception: a covalent solid that conducts, because each 
 (sp²) leaves one electron delocalised over its layer; the layers are held by weak van der
 Waals forces, so it is soft and slippery.
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Light molecules move faster. (a) A Kipp apparatus makes gas whenever the tap is opened. (b) Graham's law says rate is proportional to 1 / sqrt(M). Taking carbon dioxide (44.01 g/mol) as 1, hydrogen escapes 4.67 times faster, methane 1.66, ammonia 1.61, hydrogen sulfide 1.14 and chlorine only 0.79. The mean molecular speed sqrt(8RT / pi M) at 298 K is 1,769 m/s for H2 and 379 m/s for CO2, so the lighter gas is about 4.7 times quicker, the same factor."
+@ photo id="chem11/kipp" cap="A Kipp apparatus generates gases such as H2S and CO2 on demand"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Relative rates of effusion by Graham's law (CO2 = 1)"
+gases = (("H2", 2.016), ("CH4", 16.04), ("NH3", 17.03), ("H2S", 34.08), ("CO2", 44.01), ("Cl2", 70.90))
+rel = {n: math.sqrt(44.01 / M) for n, M in gases}
+v = lambda M: math.sqrt(8 * 8.314 * 298 / (math.pi * M / 1000))
+assert abs(rel["H2"] - 4.672) < 0.005 and abs(rel["CO2"] - 1) < 1e-12 and abs(v(2.016) / v(44.01) - rel["H2"]) < 1e-9
+facts = dict(rh="%.2f" % rel["H2"], rch="%.2f" % rel["CH4"], rn="%.2f" % rel["NH3"], rs="%.2f" % rel["H2S"], rcl="%.2f" % rel["Cl2"], vh="{:,.0f}".format(v(2.016)), vc="{:,.0f}".format(v(44.01)), vr="%.1f" % (v(2.016) / v(44.01)))
+f = Fig(300, 236)
+f.text(150, 14, "rate relative to CO2 = sqrt(44.01 / M)", size=10.5, color=NAVY, bold=True)
+for i, (n, M) in enumerate(gases):
+    y = 28 + i * 26
+    f.text(14, y + 14, "%s  %.2f" % (n, M), size=10.5, color=SLATE, anchor="start", vmid=True)
+    w = rel[n] * 28
+    col, fl = (RED, ROSE) if n == "H2" else ((AMBER, SAND) if n == "CO2" else (TEAL, MINT))
+    f.box(96, y + 4, w, 14, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(96 + w + 5, y + 11, "%.2f" % rel[n], size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "mean speed at 298 K: H2 %s m/s" % "{:,.0f}".format(v(2.016)), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "CO2 %s m/s (ratio %.2f)" % ("{:,.0f}".format(v(44.01)), v(2.016) / v(44.01)), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula |
