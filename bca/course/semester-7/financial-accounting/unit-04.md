@@ -176,6 +176,34 @@ f.box(310, 116, 240, 60, "Bank charges 350, interest 1,200\nDirect deposit 6,000
 7. **It supports audit.** An auditor asks for the reconciliation at the year end and compares it with the statement. A clean, signed schedule shortens the audit. A missing one raises doubts about all the cash records.
 8. **It follows up stale cheques.** A cheque unpresented for six months may be out of date. The schedule lists it so it can be cancelled and reissued. Old cheques that stay on the list distort the picture.
 
+```photogrid label="4.2" cols="2" ratio="1.0" caption="The bridge between two balances. (a) A bank counter: the bank's pass book and the firm's cash book describe the same money from two sides, so they differ for timing reasons. (b) The cash book shows Rs 50,000. It has not yet recorded a customer's direct deposit of Rs 5,000 or bank charges of Rs 500, so the adjusted cash book balance is 50,000 + 5,000 - 500 = Rs 54,500. The bank has not yet paid cheques of Rs 12,000 that the firm issued, and has not yet credited cheques of Rs 8,000 that the firm deposited. Starting from the adjusted cash book, the pass book balance is 54,500 + 12,000 - 8,000 = Rs 58,500, and every rupee of the difference is explained. Only the first two items need a journal entry in the firm's books; the other two correct themselves when the bank clears the cheques."
+@ photo id="bcafa/teller" cap="A bank counter"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="From cash book to pass book, in rupees"
+cb, dep, chg, unp, unc = 50000, 5000, 500, 12000, 8000
+adj = cb + dep - chg; pb = adj + unp - unc
+assert adj == 54500 and pb == 58500
+steps = [("cash book", cb, 0, True), ("+ direct deposit", dep, 1, False), ("- bank charges", -chg, 1, False), ("+ unpresented chq", unp, 1, False), ("- uncredited dep.", -unc, 1, False), ("pass book", pb, 0, True)]
+f = Fig(300, 240)
+f.text(150, 14, "waterfall (thousand rupees)", size=10.5, color=NAVY, bold=True)
+x0, sc = 112, 140 / 60.0
+run = 0; y = 24
+for lab, v, rel, tot in steps:
+    if tot:
+        a, b = 0, v; run = v
+    else:
+        a, b = run, run + v; run = b
+    lo, hi = min(a, b), max(a, b)
+    col = "#1d6fb8" if tot else ("#0f766e" if v > 0 else "#b91c1c")
+    f.text(106, y + 9, lab, size=10, color=NAVY, anchor="end", vmid=True)
+    f.box(x0 + lo / 1000 * sc, y, max((hi - lo) / 1000 * sc, 2), 18, "", fill=col, stroke=col, r=0)
+    f.text(x0 + hi / 1000 * sc + 4, y + 9, f"{v / 1000:+.1f}" if not tot else f"{v / 1000:.1f}", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+    y += 28
+f.text(150, 206, "adjusted cash book 54.5", size=10.5, color=SLATE)
+f.text(150, 224, "54.5 + 12 - 8 = 58.5, nothing left over", size=10.5, color=TEAL, bold=True)
+```
+
 ## 4.8 Summary and exercises
 
 The BRS bridges the cash book and the pass book. Timing items stay out of the books and appear only in the statement; bank-originated items force correcting entries and produce the adjusted cash book balance, which then reconciles to the pass book.

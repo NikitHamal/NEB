@@ -189,6 +189,30 @@ f.text(290, 188, "Dr 6,50,000 = Cr 45,000 + 1,13,000 + 4,92,000", size=10.5, col
 7. **Post promptly and tick the posting.** Posting to the ledger should follow the journal at once, with the folio number noted. A trial balance taken after complete posting will show any slip. Late posting is how entries get lost.
 8. **Review balances regularly.** Compare the cash balance with the physical cash and the bank balance with the statement. A debtor balance that does not move for months needs follow-up. Regular review turns the ledger from a record into a control.
 
+```photogrid label="2.2" cols="2" ratio="1.0" caption="A month of VAT in two accounts. (a) A cash register: every taxable sale prints the 13 per cent VAT collected for the Inland Revenue Department. (b) A shop makes taxable sales of Rs 8,00,000 in a month and buys goods for Rs 5,00,000, both before VAT. VAT Output (a liability) is 13% of 8,00,000 = Rs 1,04,000 and VAT Input (an asset) is 13% of 5,00,000 = Rs 65,000. The two accounts are set against each other, so the net VAT payable is 1,04,000 - 65,000 = Rs 39,000, which is exactly 13% of the value added (8,00,000 - 5,00,000 = 3,00,000). A single item priced Rs 1,000 is sold for Rs 1,130. The shop is only the collector of VAT: the burden lies on the final consumer, and the shop keeps nothing but must file the return and pay the net amount on time."
+@ photo id="bcafa/register" cap="A cash register that prints the VAT"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="VAT Input, VAT Output and the net payable"
+sales, purch, rate = 800000, 500000, 0.13
+out = round(sales * rate); inn = round(purch * rate); net = out - inn
+assert (out, inn, net) == (104000, 65000, 39000) and net == round((sales - purch) * rate) and round(1000 * 1.13) == 1130
+f = Fig(300, 240)
+f.text(150, 14, "monthly VAT (rupees)", size=10.5, color=NAVY, bold=True)
+mx = 104000
+for i, (lab, v, col) in enumerate([("VAT Output (Cr)", out, "#b91c1c"), ("VAT Input (Dr)", inn, "#1d6fb8"), ("Net payable", net, "#0f766e")]):
+    y = 28 + i * 40
+    f.text(10, y + 6, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+    w = 170 * v / mx
+    f.box(10, y + 14, w, 16, "", fill=col, stroke=col, r=0)
+    f.text(10 + w + 5, y + 22, f"{v:,}", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+f.line(10, 154, 290, 154, color=SLATE, sw=1)
+f.text(150, 172, "13% of 8,00,000 = 1,04,000", size=10.5, color=SLATE)
+f.text(150, 190, "13% of 5,00,000 =   65,000", size=10.5, color=SLATE)
+f.text(150, 210, "net = 13% of value added 3,00,000", size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "Rs 1,000 item sells at Rs 1,130", size=10.5, color=NAVY)
+```
+
 ## 2.9 Summary and exercises
 
 Journalising converts documents into balanced debit and credit lines; VAT is a pass-through liability and input asset, TDS is a liability to the tax office, and the ledger accumulates each account's movements until it can be balanced.
