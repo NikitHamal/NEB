@@ -91,6 +91,157 @@ $\int\sqrt{a^2-x^2}\,dx=\frac{x}{2}\sqrt{a^2-x^2}+\frac{a^2}{2}\sin^{-1}\frac{x}
 
 If $M\,dx+N\,dy=0$ is not exact, try an integrating factor: $e^{\int\frac{M_y-N_x}{N}dx}$ when that depends only on $x$. Examples: $\frac{dy}{dx}+\frac{2}{x}y=x^2$ has IF $x^2$; $\frac{dy}{dx}+y=e^{-x}$ gives $y=(x+C)e^{-x}$. The number of arbitrary constants in the general solution equals the order.
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="A limit as a squeeze. (a) Archimedes trapped the circle between regular polygons drawn inside and outside it. (b) For a circle of diameter 1, the inscribed n-gon has perimeter n sin(pi/n) and the circumscribed one n tan(pi/n). For n = 6, 12, 24, 48, 96 the bounds close in from 3.0000 and 3.4641 to 3.1410 and 3.1427, so pi lies between them, and the 96-gon gives Archimedes own bounds 223/71 = 3.1408 and 22/7 = 3.1429. The lower bound is pi times sin(x)/x at x = pi/n, so the limit of sin(x)/x = 1 as x tends to 0 is exactly why the bounds converge to pi."
+@ photo id="ioemath/archpoly" cap="Archimedes: polygons inside and outside a circle"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Perimeter bounds for pi from n = 6 to 96 sides"
+import math
+ns = [6, 12, 24, 48, 96]
+lo = [n * math.sin(math.pi / n) for n in ns]; up = [n * math.tan(math.pi / n) for n in ns]
+assert all(a < math.pi < b for a, b in zip(lo, up)) and lo == sorted(lo) and up == sorted(up, reverse=True)
+assert 223 / 71 < lo[-1] and up[-1] < 22 / 7
+assert abs(lo[-1] - math.pi * math.sin(math.pi / 96) / (math.pi / 96)) < 1e-12
+facts = dict(l6="%.4f" % lo[0], u6="%.4f" % up[0], l96="%.4f" % lo[-1], u96="%.4f" % up[-1], a71="%.4f" % (223 / 71), a7="%.4f" % (22 / 7))
+f = Fig(300, 236)
+f.text(150, 14, "bounds on pi squeeze together as n grows", size=10.5, color=NAVY, bold=True)
+Y = lambda v: 30 + (3.5 - v) / (3.5 - 2.95) * 120
+X = lambda i: 50 + i * 54
+f.line(40, Y(math.pi), 285, Y(math.pi), color=RED, sw=1.4, dash=True); f.text(284, Y(math.pi) - 6, "pi = 3.1416", size=10.5, color=RED, bold=True, anchor="end")
+for i in range(5):
+    f.circle(X(i), Y(up[i]), 4, fill=AMBER, stroke=AMBER); f.circle(X(i), Y(lo[i]), 4, fill=TEAL, stroke=TEAL)
+    f.text(X(i), 166, str(ns[i]), size=10.5, color=NAVY, bold=True)
+    if i: f.line(X(i - 1), Y(up[i - 1]), X(i), Y(up[i]), color=AMBER, sw=1.4); f.line(X(i - 1), Y(lo[i - 1]), X(i), Y(lo[i]), color=TEAL, sw=1.4)
+f.text(X(0) + 6, Y(up[0]) - 8, "%.4f" % up[0], size=10.5, color=AMBER, bold=True, anchor="start"); f.text(X(0) + 6, Y(lo[0]) + 16, "%.4f" % lo[0], size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 182, "n = number of sides", size=10.5, color=SLATE)
+f.text(150, 200, "n = 96:  %.4f < pi < %.4f" % (lo[-1], up[-1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 217, "amber: n tan(pi/n)   teal: n sin(pi/n)", size=10.5, color=SLATE)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="The derivative is a limit of average speeds. (a) A speedometer reports the speed at one instant, which no stopwatch can measure directly. (b) A car has distance s(t) = 0.8 t^2 + 2t metres. Its average speed from t = 5 s over a gap h is 11.60 m/s for h = 2, 10.80 for h = 1, 10.08 for h = 0.1 and 10.008 for h = 0.01. These approach 10 m/s, which is ds/dt = 1.6 t + 2 at t = 5, or 36 km/h. The dashed secant tilts towards the solid tangent as h shrinks. The distance formula is an assumed model, not data from the photo."
+@ photo id="ioemath/speedo" cap="A speedometer shows the derivative of distance at this instant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Difference quotients of s = 0.8 t^2 + 2 t at t = 5"
+s = lambda t: 0.8 * t * t + 2 * t
+dq = lambda h: (s(5 + h) - s(5)) / h
+v = 1.6 * 5 + 2
+assert abs(dq(1e-6) - v) < 1e-4 and abs(dq(2) - 11.6) < 1e-9 and abs(v * 3.6 - 36) < 1e-9
+facts = dict(q1="%.2f" % dq(2), q2="%.2f" % dq(1), q3="%.2f" % dq(0.1), q4="%.3f" % dq(0.01), v="%d" % v, kmh="%d" % (v * 3.6))
+f = Fig(300, 236)
+f.text(150, 14, "s(t) = 0.8 t^2 + 2 t   (metres)", size=10.5, color=NAVY, bold=True)
+X = lambda t: 34 + t * 30; Y = lambda d: 150 - d * 1.6
+f.line(30, Y(0), 285, Y(0), color=SOFT, sw=1.2); f.line(34, 150, 34, 28, color=SOFT, sw=1.2)
+pts = [(t / 10, s(t / 10)) for t in range(0, 81)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=NAVY, sw=2.4)
+tan = lambda t: s(5) + v * (t - 5)
+f.line(X(2.5), Y(tan(2.5)), X(7.6), Y(tan(7.6)), color=RED, sw=1.6)
+sec = lambda t: s(5) + dq(3) * (t - 5)
+f.line(X(3), Y(sec(3)), X(8), Y(sec(8)), color=AMBER, sw=1.4, dash=True)
+f.circle(X(5), Y(s(5)), 4, fill=RED, stroke=RED); f.circle(X(8), Y(s(8)), 3.5, fill=AMBER, stroke=AMBER)
+f.text(X(5) + 8, Y(s(5)) + 16, "t = 5", size=10.5, color=RED, bold=True, anchor="start")
+for k, t in enumerate((0, 2, 4, 6, 8)): f.text(X(t), 162, str(t), size=10.5, color=SLATE)
+f.text(150, 174, "t (s)", size=10.5, color=SLATE)
+f.box(10, 182, 280, 20, "", fill=BLUE, stroke=NAVY, r=3)
+for x, hh in zip((20, 78, 136, 200, 246), ("h = 2", "1", "0.1", "0.01", "to 0")): f.text(x, 192, hh, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+for x, val in zip((20, 78, 136, 200), (dq(2), dq(1), dq(0.1), dq(0.01))): f.text(x, 214, ("%.3f" if val < 10.05 and val != 11.6 and abs(val-10)<0.01 else "%.2f") % val, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(246, 214, "10 m/s", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+```
+
+```photogrid label="5.3" cols="2" ratio="1.2" caption="Related rates. (a) A ladder leaning on a wall. If its foot moves away, the top comes down, and the two speeds are linked by x^2 + y^2 = L^2. (b) For L = 5 m and a foot moving out at 0.5 m/s, differentiating gives y dy/dt = -x dx/dt, so dy/dt = -(x / y)(0.5). At x = 3 m the top is 4 m high and falls at 0.375 m/s; at x = 4.5 m it falls at 1.032 m/s and at x = 4.9 m at 2.462 m/s. The fall speeds up without limit as x tends to 5 m, and each value is confirmed by a small finite difference."
+@ photo id="ioemath/ladder" cap="A ladder leaning on a wall: the top slides down as the foot moves out"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Ladder of 5 m: top speed at five foot positions"
+import math
+L, vx = 5.0, 0.5
+y = lambda x: math.sqrt(L * L - x * x)
+rate = lambda x: -x / y(x) * vx
+fd = lambda x: (y(x + vx * 1e-6) - y(x)) / 1e-6
+for x in (1, 3, 4, 4.5, 4.9): assert abs(rate(x) - fd(x)) < 1e-4 * max(1, abs(rate(x)))
+assert abs(rate(3) + 0.375) < 1e-12
+facts = dict(r3="%.3f" % abs(rate(3)), r45="%.3f" % abs(rate(4.5)), r49="%.3f" % abs(rate(4.9)))
+f = Fig(300, 236)
+f.text(150, 14, "ladder L = 5 m, foot speed 0.5 m/s", size=10.5, color=NAVY, bold=True)
+sc = 22; ox, oy = 40, 138
+f.line(ox, 26, ox, oy, color=SLATE, sw=3); f.line(ox, oy, 280, oy, color=SLATE, sw=3)
+for x, col in ((1.5, SOFT), (3, RED), (4.5, AMBER)):
+    f.line(ox, oy - y(x) * sc, ox + x * sc, oy, color=col if col != SOFT else "#94a3b8", sw=2.4 if x == 3 else 1.6, dash=(x != 3))
+f.text(ox + 52, oy - 4 * sc + 4, "y = 4", size=10.5, color=RED, bold=True, anchor="start")
+f.text(ox + 3 * sc / 2 + 22, oy + 14, "x = 3", size=10.5, color=RED, bold=True)
+f.box(10, 160, 280, 20, "", fill=BLUE, stroke=NAVY, r=3)
+xs = (1, 3, 4, 4.5, 4.9)
+for i, x in enumerate(xs):
+    f.text(14 + i * 56, 170, "x = %g" % x, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(14 + i * 56, 194, "%.3f" % rate(x), size=10.5, color=RED if x == 3 else TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 214, "dy/dt in m/s: negative = top moving down", size=10.5, color=SLATE)
+```
+
+```photogrid label="5.4" cols="2" ratio="1.2" caption="Area as a limit of sums. (a) A planimeter measures the area inside a traced outline, which is a mechanical definite integral. (b) The area under y = x^2 from 0 to 3 is cut into n strips. With n = 6 the left-hand sum is 6.875 and the trapezoid sum 9.125; with n = 96 they are 8.860 and 9.000. The exact value is the integral of x^2 from 0 to 3, which is 3^3 / 3 = 9. The left sum is 23.6 per cent low at n = 6, while the trapezoid error is smaller and falls four times each time n is doubled."
+@ photo id="bca204/planimeter" cap="A planimeter: a mechanical integrator that measures area"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Left sums and trapezoids for the area under y = x^2"
+f_ = lambda x: x * x
+def left(n): h = 3 / n; return sum(f_(i * h) for i in range(n)) * h
+def trap(n): h = 3 / n; return (f_(0) / 2 + sum(f_(i * h) for i in range(1, n)) + f_(3) / 2) * h
+assert abs(trap(96) - 9) < 0.002 and abs(left(6) - 6.875) < 1e-9
+assert abs((trap(12) - 9) / (trap(6) - 9) - 0.25) < 1e-9
+facts = dict(l6="%.3f" % left(6), t6="%.3f" % trap(6), l96="%.3f" % left(96), t96="%.3f" % trap(96), el6="%.1f" % ((9 - left(6)) / 9 * 100))
+f = Fig(300, 236)
+f.text(150, 14, "area under y = x^2 on [0, 3], exact = 9", size=10.5, color=NAVY, bold=True)
+X = lambda x: 40 + x * 76; Y = lambda y: 134 - y * 11
+n = 6; h = 3 / n
+for i in range(n): f.box(X(i * h), Y(f_(i * h)), X(h) - X(0), Y(0) - Y(f_(i * h)), "", fill=SAND, stroke=AMBER, r=0, sw=1)
+pts = [(i / 30, f_(i / 30)) for i in range(0, 91)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=NAVY, sw=2.4)
+f.line(30, Y(0), 276, Y(0), color=SLATE, sw=1.4)
+for x in range(4): f.text(X(x), 148, str(x), size=10.5, color=SLATE)
+f.box(10, 160, 280, 20, "", fill=BLUE, stroke=NAVY, r=3)
+for x, hh in zip((14, 66, 130, 200), ("n", "left sum", "trapezoid", "error of trap.")): f.text(x, 170, hh, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+for k, nn in enumerate((6, 24, 96)):
+    y = 192 + k * 15
+    f.text(14, y, str(nn), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(66, y, "%.3f" % left(nn), size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+    f.text(130, y, "%.4f" % trap(nn), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+    f.text(200, y, "%.5f" % (trap(nn) - 9), size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+```
+
+```photogrid label="5.5" cols="2" ratio="1.2" caption="A differential equation from cooling. (a) A hot drink loses heat faster when it is much hotter than the room. (b) Newton law of cooling says dT/dt = -k (T - Ta). Separating variables and integrating gives T = Ta + (T0 - Ta) e^(-kt). Take assumed readings Ta = 25, T0 = 90 and T = 70 after 10 minutes. Then k = ln(65/45) / 10 = 0.0368 per minute, and the drink reaches 60 degrees at t = 16.8 minutes. Euler steps of 5 minutes give 68.3 degrees at t = 10 and steps of 1 minute give 69.7, against the exact 70, so smaller steps follow the true solution."
+@ photo id="bca104/coffee" cap="A hot drink cools towards room temperature"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cooling curve: exact solution and Euler steps"
+import math
+Ta, T0 = 25.0, 90.0
+k = math.log(65 / 45) / 10
+T = lambda t: Ta + (T0 - Ta) * math.exp(-k * t)
+t60 = math.log(65 / 35) / k
+def euler(h, tend):
+    t, x = 0.0, T0
+    while t < tend - 1e-9: x += h * (-k * (x - Ta)); t += h
+    return x
+assert abs(T(10) - 70) < 1e-9 and abs(T(t60) - 60) < 1e-9
+assert abs(euler(1, 10) - 70) < abs(euler(5, 10) - 70)
+facts = dict(k="%.4f" % k, t60="%.1f" % t60, e5="%.1f" % euler(5, 10), e1="%.1f" % euler(1, 10))
+f = Fig(300, 236)
+f.text(150, 14, "T(t) = 25 + 65 e^(-kt), k = %.4f per min" % k, size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 7.4; Y = lambda v: 160 - (v - 20) * 1.7
+f.line(36, Y(20), 280, Y(20), color=SOFT, sw=1.2); f.line(X(0), 160, X(0), 28, color=SOFT, sw=1.2)
+f.line(X(0), Y(Ta), 280, Y(Ta), color="#94a3b8", sw=1.2, dash=True); f.text(278, Y(Ta) - 6, "room 25", size=10.5, color=SLATE, bold=True, anchor="end")
+pts = [(t / 2, T(t / 2)) for t in range(0, 61)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=NAVY, sw=2.4)
+for h, col in ((5, AMBER), (1, TEAL)):
+    t, x = 0.0, T0
+    while t < 30 - 1e-9:
+        x2 = x + h * (-k * (x - Ta)); f.line(X(t), Y(x), X(t + h), Y(x2), color=col, sw=1.4, dash=(h == 5)); t += h; x = x2
+f.circle(X(10), Y(70), 4, fill=RED, stroke=RED); f.text(X(10) + 8, Y(70) - 6, "70 at 10 min", size=10.5, color=RED, bold=True, anchor="start")
+for t in (0, 10, 20, 30): f.text(X(t), 174, str(t), size=10.5, color=SLATE)
+f.text(150, 188, "t (minutes)", size=10.5, color=SLATE)
+f.text(150, 204, "navy exact, amber dashed Euler h = 5, teal Euler h = 1", size=10.5, color=SLATE)
+f.text(150, 220, "Euler at t = 10: %.1f (h=5), %.1f (h=1), exact 70" % (euler(5, 10), euler(1, 10)), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
