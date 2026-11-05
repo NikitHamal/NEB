@@ -48,6 +48,7 @@ object NebIcons {
     @DrawableRes val Divider = R.drawable.ic_neb_divider
     @DrawableRes val Comment = R.drawable.ic_neb_comment
     @DrawableRes val Share = R.drawable.ic_neb_share
+    @DrawableRes val Attach = R.drawable.ic_neb_attach
 }
 
 /** One web-set glyph, tinted by the surrounding content colour unless told otherwise. */
