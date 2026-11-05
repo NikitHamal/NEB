@@ -47,6 +47,58 @@ Inorganic chemistry carries about **6 of 22 questions** (our estimate). Unlike p
 SO₂ bleaches by *reduction* (colour returns), Cl₂ by *oxidation* (permanent). Concentrated H₂SO₄ must not be used to dry NH₃. Thermal stability of Group 2 carbonates *rises* down the group; for Group 1 it also rises, with Li₂CO₃ an exception. Cu does not displace hydrogen from dilute acids; it reacts with oxidising acids. The Contact process absorbs SO₃ in H₂SO₄, not water.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Iron from haematite. (a) A blast furnace: ore, coke and limestone enter at the top and hot air at the bottom; carbon monoxide made from coke does the reducing. (b) Fe2O3 + 3CO gives 2Fe + 3CO2. The masses for 1,000 kg of pure haematite are computed from atomic masses (Fe 55.845, O 15.999, C 12.011); real ore carries gangue, so a real furnace uses more."
+@ photo id="chem11/blast-furnace" cap="A blast furnace"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="1,000 kg of Fe2O3 reduced by CO"
+Fe, O, C = 55.845, 15.999, 12.011
+M = 2 * Fe + 3 * O; mol = 1e6 / M
+fe = 2 * mol * Fe / 1000; co = 3 * mol * (C + O) / 1000; co2 = 3 * mol * (C + 2 * O) / 1000
+assert abs(fe - 699.4) < 0.2 and abs(co - 526.2) < 0.3 and abs(fe + 3 * mol * 16 * 0 - 699.4) < 0.2
+assert abs((1000 + co) - (fe + co2)) < 0.2
+f = Fig(300, 236)
+rows = [("Fe2O3 in", 1000, NAVY, BLUE), ("CO used", co, AMBER, SAND), ("Fe out", fe, TEAL, MINT), ("CO2 out", co2, RED, ROSE)]
+f.text(150, 14, "masses in kg (mass is conserved)", size=10.5, color=NAVY, bold=True)
+for i, (n, v, c, b) in enumerate(rows):
+    y = 28 + i * 40; w = 190 * v / 1000
+    f.text(8, y, n, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 18, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(w + 14, y + 15, "%.0f" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "1,000 + %.0f = %.0f + %.0f" % (co, fe, co2), size=10.5, color=SLATE)
+f.text(150, 220, "iron in Fe2O3: %.1f%% by mass" % (100 * 2 * Fe / M), size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="2.2" cols="3" ratio="1.0" caption="Three ores of three metals. (a) Galena, PbS, the ore of lead. (b) Sphalerite (zinc blende), ZnS, the chief ore of zinc, which is concentrated by froth flotation and roasted to ZnO before reduction. (c) Malachite, CuCO3.Cu(OH)2, a green carbonate ore of copper. Figure 2.1 compares how much metal each ore can give."
+@ photo id="chem11/galena-ore" cap="Galena (lead sulfide)"
+fit 1.0
+focus 0.5 0.5
+@ photo id="chem11/sphalerite" cap="Sphalerite, ZnS"
+fit 1.0
+focus 0.5 0.5
+@ photo id="chem11/malachite" cap="Malachite, a copper carbonate"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="2.1" caption="Percentage of metal by mass in the pure mineral, computed from atomic masses. Cinnabar and galena are richest in metal, but richness is not the only factor: the cost of a method depends on how the metal is bound, which is why sulfides are roasted first and oxides are reduced with carbon."
+am = dict(Fe=55.845, O=15.999, S=32.06, Pb=207.2, Zn=65.38, Hg=200.59, Cu=63.546, C=12.011, H=1.008, Al=26.982)
+ores = [("galena PbS", am["Pb"] / (am["Pb"] + am["S"]), RED, ROSE),
+        ("cinnabar HgS", am["Hg"] / (am["Hg"] + am["S"]), RED, ROSE),
+        ("magnetite Fe3O4", 3 * am["Fe"] / (3 * am["Fe"] + 4 * am["O"]), NAVY, BLUE),
+        ("haematite Fe2O3", 2 * am["Fe"] / (2 * am["Fe"] + 3 * am["O"]), NAVY, BLUE),
+        ("sphalerite ZnS", am["Zn"] / (am["Zn"] + am["S"]), TEAL, MINT),
+        ("malachite Cu2CO3(OH)2", 2 * am["Cu"] / (2 * am["Cu"] + am["C"] + 5 * am["O"] + 2 * am["H"]), AMBER, SAND),
+        ("bauxite Al2O3.2H2O", 2 * am["Al"] / (2 * am["Al"] + 5 * am["O"] + 4 * am["H"]), SLATE, SOFT)]
+assert abs(ores[0][1] - 0.866) < 0.002 and abs(ores[5][1] - 0.575) < 0.002
+f = Fig(580, 230)
+for i, (n, v, c, b) in enumerate(ores):
+    y = 8 + i * 30; w = 300 * v
+    f.text(170, y + 14, n, size=11, color=c, bold=True, anchor="end", vmid=False)
+    f.box(180, y, w, 22, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(180 + w + 8, y + 12, "%.1f%%" % (100 * v), size=11, color=c, bold=True, anchor="start", vmid=True)
+```
+
 ## Formula and fact sheet
 
 | Process / compound | Key fact |
