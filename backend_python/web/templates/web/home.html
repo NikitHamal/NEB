@@ -933,9 +933,17 @@
 
     // Native backdrop click handling: only fires when directly clicking on <dialog> backdrop
     if (dialog) {
+      /* A click closes the dialog only when the press began on the backdrop too. Choosing a person
+         from the @ popup hides the popup on mousedown, so the click that follows resolves to the
+         dialog itself: without this check it read as a backdrop click and shut the composer. */
+      var pressedOnBackdrop = false;
+      dialog.addEventListener('pointerdown', function (e) { pressedOnBackdrop = e.target === dialog; }, true);
+      dialog.addEventListener('mousedown', function (e) { pressedOnBackdrop = e.target === dialog; }, true);
       dialog.addEventListener('click', function (e) {
         if (isSelectingFile) return;
-        if (e.target === dialog) {
+        var fromBackdrop = pressedOnBackdrop;
+        pressedOnBackdrop = false;
+        if (e.target === dialog && fromBackdrop) {
           closePostDialog();
         }
       });
