@@ -3132,3 +3132,22 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .pf-dialog-spacer { flex: 1; }
 .pf-dialog .ob-error { text-align: left; }
 .pf-dialog .ob-error:empty { display: none; }
+
+/* ---- m3x/app-focus.css ---- */
+/* One stroke on a focused field. A field draws its own border; a ring outside that border read as a
+   second line stacked on the first (the post pill, the sign-in fields, the reply box). Text fields
+   and field-shaped buttons therefore recolour their own border and drop the outside ring. Everything
+   that has no border of its own (buttons, links, chips, tabs) keeps the keyboard ring from material3.css.
+   `:where` keeps this at the lowest specificity so a component's own focus colour (error, subject
+   hue) still wins. */
+:where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="color"]):not([type="image"]),
+       textarea, select):focus-visible {
+  outline: 0;
+  border-color: var(--md-primary);
+}
+:where(.hf-composer-input-btn, .hf-launcher-identity-trigger, [class*="field-trigger"], .neb-select-trigger):focus-visible {
+  outline: 0;
+  border-color: var(--md-primary);
+}
+/* the field is the focus target; the shell around it only recolours (no inset second line) */
+:where(.neb-composer, .subject-learning-search, .ai-input-box):focus-within { box-shadow: none; }
