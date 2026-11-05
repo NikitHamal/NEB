@@ -286,6 +286,28 @@ stages like the **embryo** of a fish, not the adult fish. Haeckel's literal
 - **Serum precipitin test** — **G. H. F. Nuttall (1904)**: rabbit anti-human serum precipitates human serum most strongly, then chimpanzee and gorilla, then orang-utan, then monkeys — the same order as the anatomical tree.
 - Hormones work across species (pig and cattle insulin treated diabetics for decades); DNA–DNA hybridisation puts human and chimpanzee DNA about 98–99 % alike.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Dating fossils needs the right clock. (a) The Berlin specimen of Archaeopteryx, a feathered reptile-like bird about 150 million years old, a classic palaeontological evidence for evolution. (b) Radiocarbon decays with a half-life of 5,730 years, so the fraction left is 0.5 to the power (t/5,730): 50 per cent after 1 half-life, 25 per cent after 2 and 12.5 per cent after 3, i.e. 17,190 years. Beyond about 50,000 years only 0.24 per cent is left, too little to measure, so rocks as old as Archaeopteryx are dated with uranium-238 (half-life 4.47 billion years), of which 97.7 per cent would still remain after 150 million years."
+@ photo id="ceezoo/archaeopteryx" cap="Archaeopteryx, Berlin specimen"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Fraction of carbon-14 left against age"
+H = 5730.0
+fr = lambda t: 100 * 0.5 ** (t / H)
+assert abs(fr(3 * H) - 12.5) < 1e-9 and round(3 * H) == 17190
+c50 = fr(50000); u150 = 100 * 0.5 ** (150e6 / 4.468e9)
+assert abs(c50 - 0.24) < 0.01 and abs(u150 - 97.7) < 0.1
+facts = dict(f1="%.0f" % fr(H), age="{:,}".format(round(3 * H)), c50="%.2f" % c50, u150="%.1f" % u150)
+f = Fig(300, 236)
+f.text(150, 12, "Carbon-14 remaining (%) against years", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 30000), (0, 100))
+ax.grid(10000, 25, xfmt=lambda v: "%dk" % (v // 1000)).axes("yr", "%")
+ax.curve(fr, 0, 30000, color=RED)
+for k in (1, 2, 3):
+    ax.pt(k * H, fr(k * H), "%g%%" % fr(k * H), dx=8, dy=-8, r=3.6)
+f.text(150, 206, "12.5 per cent left = 3 half-lives = 17,190 yr", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "useful to about 50,000 yr only (0.24%)", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.3 Lamarckism, Darwinism and Neo-Darwinism
 
 ### Lamarckism — inheritance of acquired characters
@@ -494,6 +516,26 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 
 **Solution.** (a) Bat forelimb and whale flipper share the pentadactyl bone plan (humerus, radius, ulna, carpals, metacarpals, phalanges) adapted to flight vs swimming: **homologous organs** showing **divergent evolution**. (b) Bat wing (skin fold over tetrapod bones) and butterfly wing (chitinous cuticular outgrowth) share function without common structural origin: **analogous organs** showing **convergent evolution**.
 :::
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="The human brain trebled in size. (a) A display of fossil hominid skulls: the faces shorten and the braincase grows from the australopithecines to Homo. (b) Typical brain volumes are about 450 cm3 for Australopithecus afarensis, 650 for Homo habilis, 900 for H. erectus, 1,450 for Neanderthals and 1,350 for modern H. sapiens (ranges overlap, so these are round averages). Modern man has 3 times the volume of A. afarensis; the Neanderthal brain was slightly larger than ours, so size alone does not measure intelligence. Ramapithecus is not on the line: it is now regarded as an ape, not a hominid."
+@ photo id="ceezoo/hominid" cap="Fossil hominid skulls on display"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Typical cranial capacity (cm3)"
+sp = (("A. afarensis", 450, "3.5 Myr"), ("H. habilis", 650, "2 Myr"), ("H. erectus", 900, "1.5 Myr"), ("H. neanderthalensis", 1450, "0.1 Myr"), ("H. sapiens", 1350, "now"))
+x = sp[-1][1] / sp[0][1]
+assert abs(x - 3.0) < 1e-9
+facts = dict(x="%.0f" % x)
+f = Fig(300, 236)
+f.text(150, 12, "Cranial capacity of five hominids", size=10.5, color=NAVY, bold=True)
+for i, (n, v, t) in enumerate(sp):
+    y = 28 + i * 37
+    f.text(10, y + 2, "%s (%s)" % (n, t), size=10.5, color=SLATE, anchor="start")
+    w = v / 1450 * 205
+    f.box(10, y + 9, w, 18, fill=MINT if i != 4 else BLUE, stroke=TEAL if i != 4 else NAVY, r=2)
+    f.text(10 + w + 6, y + 18, "%d" % v, size=10.5, color=TEAL if i != 4 else NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 224, "1,350 / 450 = 3 times", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 

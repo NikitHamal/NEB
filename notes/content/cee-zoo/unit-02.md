@@ -461,6 +461,26 @@ coelom → segmentation → deuterostome plan → notochord.
 **Solution.** The marine specimen belongs to **Chondrichthyes** (e.g., *Scoliodon*). *Labeo rohita* (Osteichthyes) has a terminal mouth, cycloid scales, 4 pairs of gills covered by an **operculum**, a homocercal tail, a swim bladder, and is ammonotelic.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Why large animals need organ systems. (a) Paramecium, a single cell about 200 micrometres long, exchanges gases and food through its surface. (b) For a sphere the surface-to-volume ratio is 3/r and for a cylinder 2/r. A bacterium (r = 1 micrometre) has 3,000,000 per metre, Paramecium 30,000, an earthworm 1,000, a frog 120 and a human 13; the ratio falls a million-fold, so diffusion through the skin cannot feed a large body. Lungs, gills, intestinal villi and capillaries are folded surfaces that bring the ratio back up, and the flat body of a flatworm is the same trick."
+@ photo id="bio11/paramecium" cap="Paramecium caudatum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Surface-to-volume ratio (per metre, log scale)"
+it = (("Bacterium, sphere r = 1 um", 3, 1e-6), ("Paramecium, sphere r = 100 um", 3, 100e-6), ("Earthworm, cylinder r = 2 mm", 2, 2e-3), ("Frog, sphere r = 2.5 cm", 3, 0.025), ("Human, cylinder r = 15 cm", 2, 0.15))
+sv = [k / r for _, k, r in it]
+assert round(sv[0]) == 3000000 and round(sv[1]) == 30000 and round(sv[2]) == 1000 and round(sv[3]) == 120 and abs(sv[4] - 13.33) < 0.01
+facts = dict(a="{:,.0f}".format(sv[0]), b="{:,.0f}".format(sv[1]), c="{:,.0f}".format(sv[2]), d="{:,.0f}".format(sv[3]), e="%.0f" % sv[4])
+f = Fig(300, 236)
+f.text(150, 12, "SA/V falls as the body gets bigger", size=10.5, color=NAVY, bold=True)
+for i, ((n, k, r), v) in enumerate(zip(it, sv)):
+    y = 28 + i * 37
+    f.text(10, y + 2, n, size=10.5, color=SLATE, anchor="start")
+    w = 31 * math.log10(v)
+    f.box(10, y + 9, w, 18, fill=MINT, stroke=TEAL, r=2)
+    f.text(10 + w + 6, y + 18, "{:,.0f}".format(v), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 224, "sphere 3/r, cylinder 2/r (r in metres)", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 **One feature, one group**

@@ -245,6 +245,35 @@ Now the variations become one-step: 25 *secondary* spermatocytes → 25 × 2 = 5
 Fertilisation occurs in the **ampulla of the fallopian (uterine) tube**, not in the uterus. Sperms are **produced** in the seminiferous tubules but **mature and are stored** in the **epididymis**. **Sertoli** cells nourish the developing sperms and secrete inhibin; **Leydig (interstitial)** cells secrete testosterone — MCQs routinely exchange these two.
 :::
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Counting the cells made by meiosis. (a) A diagram of a human spermatozoon: head with acrosome, middle piece of mitochondria, and a tail. (b) Start with 100 primary germ cells (2n = 46). In the male each primary spermatocyte gives 2 secondary spermatocytes and then 4 spermatids, so 100 give 400 sperm, all functional. In the female each primary oocyte gives 1 ovum and 3 polar bodies, because the cytoplasm is shared unequally, so 100 give 100 ova and 300 polar bodies that die. The female stores the food for the zygote; the male makes many small mobile cells."
+@ photo id="bio12/sperm" cap="Human spermatozoon (diagram)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cells after each division from 100 germ cells"
+n0 = 100
+male = [n0, n0 * 2, n0 * 4]
+female_func = [n0, n0, n0]
+polar = [0, n0, n0 * 3]
+assert male[-1] == 400 and polar[-1] == 300
+facts = dict(s=male[-1], o=female_func[-1], pb=polar[-1])
+f = Fig(300, 236)
+f.text(150, 12, "Spermatogenesis and oogenesis", size=10.5, color=NAVY, bold=True)
+heads = ("2n = 46", "meiosis I", "meiosis II")
+fem = ("100 oocytes", "100 second.\noocytes", "100 ova")
+for j, h in enumerate(heads):
+    f.text(90 + j * 82, 30, h, size=10.5, color=SLATE, bold=True)
+f.text(4, 70, "male", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(4, 140, "female", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+for j in range(3):
+    x = 54 + j * 82
+    f.box(x, 44, 72, 40, fill=MINT, stroke=TEAL, r=3, label="%d\n%s" % (male[j], "cells" if j == 0 else "n = 23"), size=10.5, bold=True)
+    f.box(x, 112, 72, 36, fill=ROSE, stroke=RED, r=3, label=fem[j], size=10.5, bold=True)
+    if polar[j]:
+        f.box(x, 154, 72, 26, fill="#f1f5f9", stroke=SLATE, r=3, label="%d polar" % polar[j], size=10.5, bold=True, dash=True)
+f.text(150, 206, "100 spermatocytes -> 400 sperm", size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "100 oocytes -> 100 ova + 300 polar bodies", size=10.5, color=RED, bold=True)
+```
+
 ## 11.3 The ovarian and menstrual cycles
 
 The ovarian cycle (follicle growth, ovulation and corpus luteum) and uterine/
