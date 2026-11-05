@@ -170,6 +170,43 @@ TU does not publish a Project III rubric. The table below is **an invented examp
 7. **Rehearse the demo with its plan B.** Run the ten-minute demo three times, once with the network unplugged. Carry screenshots, a short video and a printed result table so that a failure becomes a talking point, not a disaster.
 8. **Write the report as you go.** After each unit of work, write one page with a figure and a result. A report written in the last week is shallow, whereas one grown over the semester is deep and honest.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Field-test numbers need error bars. (a) Sensors being installed in the ground: the field test begins only after each node has a position, a label and a recorded battery level. (b) A node reports that 95 per cent of its packets arrived. If only 20 packets were sent, the true delivery rate could be anywhere from 76 to 99 per cent (a 95 per cent Wilson interval); with 480 packets it is pinned between 92.7 and 96.6 per cent; with 2,000 it is tighter still. To say a rate within plus or minus 2 percentage points you need about 457 packets, so a one-day test with a handful of readings proves little. In the report, state n beside every percentage, give the interval, and plan the test long enough to reach the precision you promise."
+@ photo id="bcapj/installsensor" cap="Installing sensors in the field"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="How sure is a delivery rate? 95% intervals"
+import math
+p = 0.95
+def wilson(p, n, z=1.96):
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return c - h, c + h
+ns = [20, 100, 480, 2000]
+iv = [wilson(p, n) for n in ns]
+w = [b - a for a, b in iv]
+assert w == sorted(w, reverse=True)
+need = math.ceil(1.96 ** 2 * p * (1 - p) / 0.02 ** 2)
+facts = dict(lo20=round(iv[0][0] * 100), hi20=round(iv[0][1] * 100), lo480=round(iv[2][0] * 100, 1), hi480=round(iv[2][1] * 100, 1), need=need)
+f = Fig(300, 236)
+f.text(150, 12, "Observed delivery rate 95%, packets sent n", size=10.5, color=NAVY, bold=True)
+x0, W = 54, 230
+X = lambda v: x0 + (v - 0.70) / 0.30 * W
+f.line(x0, 176, x0 + W, 176, color=SLATE)
+for v in (0.7, 0.8, 0.9, 1.0):
+    f.line(X(v), 172, X(v), 180, color=SLATE)
+    f.text(X(v), 192, "%d%%" % round(v * 100), size=10.5, color=NAVY, bold=True)
+f.line(X(0.95), 28, X(0.95), 176, color=AMBER, dash=True)
+for i, (n, (a, b)) in enumerate(zip(ns, iv)):
+    y = 48 + i * 32
+    f.text(6, y, "n=%d" % n, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.line(X(max(a, 0.7)), y, X(b), y, color=TEAL, sw=5)
+    f.circle(X(p), y, 4, fill="#fde68a", stroke=RED)
+    f.text(X(a), y - 12, "%.1f-%.1f%%" % (a * 100, b * 100), size=10.5, color=SLATE, anchor="start")
+f.text(150, 214, "for +-2%% you need about %d packets" % need, size=10.5, color=TEAL, bold=True)
+f.text(150, 230, "Wilson 95% interval", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Field test: at least 48 hours, outdoors, with a log; report PASS or FAIL against each numbered objective.
