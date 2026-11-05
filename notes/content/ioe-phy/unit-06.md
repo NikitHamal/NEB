@@ -78,6 +78,55 @@ De Morgan: $\overline{A\cdot B}=\bar A+\bar B$, $\overline{A+B}=\bar A\cdot\bar 
 - **Environment:** energy crisis, greenhouse effect and global warming, ozone layer depletion by CFCs (UV-B), pollution.
 - **New materials:** **nanotechnology** (1–100 nm; properties change with size), **superconductors** (zero resistance below $T_c$, Meissner effect — expel magnetic field; used in MRI and maglev), distinguished from a **perfect conductor** (which does not expel fields).
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Counting random decays. (a) A Geiger-Muller counter: each click is one ionising particle entering the tube, and the clicks come at random even though their average rate is steady. (b) A seeded simulation of 2,000 identical nuclei with half-life 10 min, each nucleus decaying independently with probability $1 - 2^{-1/10}$ every minute. The dots follow $N = N_0 (1/2)^{t/T}$ closely but not exactly; the first time the count falls to half is close to the true half-life, and the activity is $\\lambda N$ with $\\lambda = \\ln 2 / T$."
+@ photo id="ioephy/geiger" cap="A Geiger-Muller counter"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="2,000 nuclei, T = 10 min: simulation vs formula"
+import random, math
+rnd = random.Random(2081)
+N0, T = 2000, 10.0; p = 1 - 2 ** (-1 / T)
+N = N0; sim = [N]
+for m in range(40):
+    N -= sum(1 for _ in range(N) if rnd.random() < p); sim.append(N)
+half = next(m for m, n in enumerate(sim) if n <= N0 / 2)
+lam = math.log(2) / T
+assert abs(half - 10) <= 1 and abs(sim[20] - N0 / 4) < 60
+f = Fig(300, 236)
+X = lambda t: 40 + t * 6.2; Y = lambda n: 170 - n * 0.075
+f.line(40, 170, 290, 170, color=SLATE, sw=1.2); f.line(40, 170, 40, 14, color=SLATE, sw=1.2)
+pts = [(X(t), Y(N0 * 0.5 ** (t / T))) for t in range(0, 41)]
+for a, b in zip(pts, pts[1:]): f.line(a[0], a[1], b[0], b[1], color=TEAL, sw=1.8)
+for t, n in enumerate(sim):
+    if t % 2 == 0: f.circle(X(t), Y(n), 2.8, fill=RED, stroke=RED)
+for t in (0, 10, 20, 30, 40): f.text(X(t), 184, str(t), size=10.5, color=SLATE)
+for n in (0, 1000, 2000): f.text(34, Y(n) + 4, format(n, ","), size=10.5, color=SLATE, anchor="end")
+f.text(165, 200, "time in minutes", size=10.5, color=SLATE)
+f.text(150, 218, "count halves at %d min (T = 10); N(20) = %d (expect 500)" % (half, sim[20]), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "start activity = λ N0 = %d per min" % round(lam * N0), size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="6.2" cols="2" ratio="1.2" caption="Photon energy sets the colour. (a) A 5 mm LED with its tiny chip on the anvil of the lead frame: when an electron falls across the band gap of the semiconductor, one photon leaves with energy equal to the gap. (b) $E = hc/\\lambda = 1239.8$ eV nm$/\\lambda$ for three typical LED colours, computed here. Blue needs the widest gap, so a blue LED needs a higher forward voltage than a red one; the energy of one blue photon is only about $4\\times10^{-19}$ J, which is why one LED emits billions every nanosecond."
+@ photo id="ioephy/led" cap="A 5 mm LED: the chip sits in the reflector cup"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Photon energy for three LED colours"
+hc = 1239.84; e = 1.602e-19
+leds = [("red 630 nm", 630, "#dc2626", "#fecaca"), ("green 525 nm", 525, "#16a34a", "#bbf7d0"), ("blue 465 nm", 465, "#2563eb", "#bfdbfe")]
+E = [hc / w for _, w, _, _ in leds]
+assert abs(E[0] - 1.97) < 0.01 and abs(E[2] - 2.67) < 0.01
+f = Fig(300, 236)
+f.text(150, 14, "E = hc / λ", size=10.5, color=NAVY, bold=True)
+for i, ((n, w, c, bg), en) in enumerate(zip(leds, E)):
+    y = 34 + i * 46; wd = 200 * en / 2.8
+    f.text(8, y, n, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, wd, 20, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(wd + 14, y + 16, "%.2f eV" % en, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "1 blue photon = %.2fe-19 J" % (E[2] * e * 1e19), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "band gap about equals photon energy", size=10.5, color=SLATE)
+f.text(150, 226, "ratio blue : red = %.2f (shorter wave, more energy)" % (E[2] / E[0]), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |

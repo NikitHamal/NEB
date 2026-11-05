@@ -52,6 +52,27 @@ A wave transfers energy without transferring matter. **Transverse** (displacemen
 The wavelength of the closed-pipe fundamental is $4L$ (not $2L$). A change in pressure at constant temperature does not change the speed of sound. Light has no Doppler dependence on a medium but sound does.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Open and closed pipes. (a) Organ pipes: each pipe sounds one note and the pipe length fixes the pitch. An open pipe has an antinode at both ends and supports every harmonic, $f = nv/2L$; a closed pipe has a node at the shut end and supports only odd harmonics, $f = (2n - 1)v/4L$. (b) Frequencies computed for a 0.85 m pipe with the speed of sound 340 m per s: the closed pipe sounds an octave lower and misses the even harmonics."
+@ photo id="ioephy/organ" cap="Organ pipes of different lengths"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="0.85 m pipe, v = 340 m/s: allowed frequencies"
+v, L = 340.0, 0.85
+op = [n * v / (2 * L) for n in range(1, 5)]; cl = [(2 * n - 1) * v / (4 * L) for n in range(1, 5)]
+assert op == [200, 400, 600, 800] and cl == [100, 300, 500, 700]
+f = Fig(300, 236)
+f.text(80, 14, "open pipe", size=10.5, color=TEAL, bold=True); f.text(220, 14, "closed pipe", size=10.5, color=AMBER, bold=True)
+Y = lambda hz: 206 - hz * 0.2
+f.line(150, 24, 150, 206, color=SLATE, sw=1)
+for k in range(0, 900, 100):
+    f.text(150, Y(k) + 3, str(k), size=9.5, color=SLATE, bg=None) if False else None
+for i, hz in enumerate(op):
+    f.box(20, Y(hz) - 9, 100, 18, "f%d = %d Hz" % (i + 1, hz), fill=MINT, stroke=TEAL, size=10.5, bold=True, r=3)
+for i, hz in enumerate(cl):
+    f.box(180, Y(hz) - 9, 110, 18, "f%d = %d Hz" % (2 * i + 1, hz), fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.text(150, 230, "ratios 1:2:3:4 and 1:3:5:7", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |

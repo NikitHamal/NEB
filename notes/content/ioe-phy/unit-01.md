@@ -92,6 +92,31 @@ Stress $=\frac{F}{A}$, strain $=\frac{\Delta L}{L}$. **Hooke's law:** stress $\p
 - Capillary height is *inversely* proportional to radius; Poiseuille flow goes as $r^4$.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Pascal's law at work. (a) A workshop trolley jack: a small piston pushed by hand and a large piston under the car share one oil-filled space, so the pressure is the same in both. (b) The numbers for a jack with a 2 cm small piston and an 8 cm large piston, computed here. The force is multiplied by the area ratio, but the small piston must travel the same ratio further, so the work done is unchanged: a machine gives force, never energy."
+@ photo id="ioephy/jack" cap="A hydraulic jack: one pressure, two piston areas"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Force gain 16x, distance loss 16x, same work"
+import math
+d1, d2, F1 = 0.02, 0.08, 100.0
+A1, A2 = math.pi * (d1 / 2) ** 2, math.pi * (d2 / 2) ** 2
+P = F1 / A1; F2 = P * A2; ratio = A2 / A1
+s2 = 0.01; s1 = s2 * ratio
+assert abs(ratio - 16) < 1e-9 and abs(F2 - 1600) < 1e-6 and abs(F1 * s1 - F2 * s2) < 1e-9
+W = 1000 * 9.8; need = W / ratio
+f = Fig(300, 236)
+f.box(30, 70, 50, 70, "", fill=BLUE, stroke=NAVY, r=2); f.box(30, 52, 50, 14, "", fill=NAVY, stroke=NAVY, r=2)
+f.box(200, 70, 80, 70, "", fill=BLUE, stroke=NAVY, r=2); f.box(200, 52, 80, 14, "", fill=NAVY, stroke=NAVY, r=2)
+f.box(30, 140, 250, 18, "", fill=BLUE, stroke=NAVY, r=2)
+f.arrow([(55, 14), (55, 48)], color=RED, label="F1 = %d N" % F1, lpos=(100, 24), lsize=10.5)
+f.arrow([(240, 14), (240, 48)], color=TEAL, label="F2 = %s N" % format(round(F2), ","), lpos=(240, 8), lsize=10.5)
+f.text(55, 112, "A1", size=10.5, color=NAVY, bold=True); f.text(240, 112, "A2", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "P = F1/A1 = %s Pa in both" % format(round(P), ","), size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "A2/A1 = %d,  s1 = %d cm for s2 = 1 cm" % (round(ratio), round(s1 * 100)), size=10.5, color=SLATE)
+f.text(150, 214, "work: %d J in = %d J out" % (round(F1 * s1), round(F2 * s2)), size=10.5, color=TEAL, bold=True)
+f.text(150, 230, "lifting 1,000 kg needs only %d N" % round(need), size=10.5, color=AMBER, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula |

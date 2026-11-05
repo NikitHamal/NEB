@@ -61,6 +61,30 @@ Adiabatic: $PV^\gamma=$ const, $TV^{\gamma-1}=$ const, $T^\gamma P^{1-\gamma}=$ 
 Use kelvin in $T^4$, efficiency and $v_{rms}$. In $\Delta U=Q-W$, $W$ is work done *by* the gas. Efficiency of any real engine is below Carnot. Specific heat capacity of an isothermal process is infinite; of an adiabatic one, zero.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Unequal expansion is useful. (a) The bimetallic strip of a motor overload relay: two metals bonded face to face are heated together; the one with the larger coefficient of linear expansion grows more, so the strip bends and trips the circuit. (b) Linear expansion $\\Delta L = \\alpha L \\Delta T$ for 2 m bars heated by 60 K, with textbook values of alpha, and the bend of a 1 mm thick brass-steel strip 5 cm long (equal thickness and stiffness assumed). A difference of $7\\times10^{-6}$ per kelvin is enough to move the tip nearly a millimetre."
+@ photo id="ioephy/bimetal" cap="Bimetallic strip of an overload relay"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Expansion of 2 m bars for a 60 K rise"
+mat = [("steel", 12e-6, NAVY, BLUE), ("brass", 19e-6, AMBER, SAND), ("aluminium", 23e-6, TEAL, MINT)]
+L, dT = 2.0, 60.0
+dl = {n: a * L * dT * 1000 for n, a, c, b in mat}
+assert abs(dl["steel"] - 1.44) < 1e-9 and abs(dl["brass"] - 2.28) < 1e-9
+da = 19e-6 - 12e-6; h = 1e-3; Lstrip = 0.05
+invR = 3 * da * dT / (2 * h); R = 1 / invR; tip = Lstrip ** 2 / (2 * R) * 1000
+f = Fig(300, 236)
+f.text(150, 14, "ΔL in mm (α × 2 m × 60 K)", size=10.5, color=NAVY, bold=True)
+for i, (n, a, c, b) in enumerate(mat):
+    y = 30 + i * 40; w = 200 * dl[n] / 3.5
+    f.text(8, y, "%s, α = %de-6 per K" % (n, round(a * 1e6)), size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 18, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(w + 14, y + 15, "%.2f mm" % dl[n], size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 166, "bimetal brass-steel, h = 1 mm, 60 K", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "radius of bend R = %.2f m" % R, size=10.5, color=SLATE)
+f.text(150, 202, "tip movement of a 5 cm strip: %.2f mm" % tip, size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "brass is outside (it expands more)", size=10.5, color=AMBER, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
