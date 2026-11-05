@@ -447,6 +447,32 @@ Millikan gives $e$; Thomson gives $e/m$. Neither gives $m$ on its own. If a
 question asks for the mass of the electron, it is asking you to combine the two.
 :::
 
+```photogrid label="20.P" cols="2" ratio="1.27" caption="J. J. Thomson showed that cathode rays are particles by measuring their charge-to-mass ratio. (a) A Crookes tube whose cross blocks part of the beam, proving that the rays travel in straight lines. (b) When the electric force eE is balanced by the magnetic force evB, only electrons with v = E/B pass straight, so E = 15 kV per metre and B = 1.0 mT select 1.5 x 10^7 m/s. With the electric field off, the beam bends into a circle of radius 8.5 cm and period 35.7 ns. The same speed needs only 640 V of accelerating voltage, so a modest supply is enough to run such a tube."
+@ photo id="phy12/crookes" cap="A Crookes tube with a Maltese cross casting a shadow"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Electron beam in crossed electric and magnetic fields"
+import math
+em = 1.7588e11
+E, B = 1.5e4, 1.0e-3
+v = E / B
+r = v / (em * B)
+V = v ** 2 / (2 * em)
+T = 2 * math.pi / (em * B)
+assert abs(r - 0.0853) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "E = 15 kV/m and B = 1.0 mT", size=10.5, color=NAVY, bold=True)
+rows = [("Selected speed  v = E / B", "%.1e m/s" % v, NAVY), ("v as a fraction of light", "%.1f %%" % (100 * v / 3.0e8), NAVY), ("Circle in B alone  r = v / ((e/m) B)", "%.1f cm" % (100 * r), TEAL), ("Accelerating voltage  V = v2 / (2 e/m)", "%.0f V" % V, AMBER), ("Period  T = 2 pi / ((e/m) B)", "%.1f ns" % (T * 1e9), RED)]
+for i, (a, b, c) in enumerate(rows):
+    y = 26 + i * 33
+    f.box(8, y, 284, 26, "", fill=SOFT, stroke=c, r=4)
+    f.text(14, y + 13, a, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.text(286, y + 13, b, size=10.5, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 205, "e/m = 1.7588e11 C/kg (modern value)", size=10, color=SLATE)
+f.text(150, 221, "Thomson (1897) found about the same ratio", size=10, color=NAVY, bold=True)
+facts = dict(v="%.1e" % v, r="%.1f" % (100 * r), V="%.0f" % V, T="%.1f" % (T * 1e9))
+```
+
 ## Chapter summary
 
 - Millikan balanced the apparent weight of a charged oil drop against an electric
