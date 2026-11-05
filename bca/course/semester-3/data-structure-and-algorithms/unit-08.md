@@ -265,6 +265,89 @@ f.text(290, 222, "499,999,500,000 / 19,931,569 = about 25,000", size=9.5, color=
 7. **Scheduling and priority work.** Operating systems sort tasks by deadline or priority, and heap sort gives the next task in O(log n). Delivery and ride-hailing services sort requests by distance or waiting time. The next job is always taken from the front.
 8. **Library and directory order.** Books on a shelf, words in a dictionary and files in a folder are sorted by title, name or date. The order lets users find an item without a search tool. This is the oldest use of sorting, long before computers.
 
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Everybody has sorted something by hand. (a) A card player arranging a hand: picking up one card at a time and sliding it into place among the cards already held is exactly insertion sort. (b) The same idea measured on a real shuffled 13-card hand (seeded shuffle 8 4 1 13 2 7 9 6 12 10 11 3 5). The hand has 35 inversions (pairs in the wrong order) and insertion sort makes exactly 35 shifts, 45 comparisons. Selection sort always makes 78 comparisons (13 x 12 / 2), bubble sort 75 and merge sort 36. For sorted input insertion sort needs only 12 comparisons, for reversed input 78, which is why it is the best choice for nearly sorted data. All counts come from running the algorithms in the figure."
+@ photo id="bca201/cards" cap="Sorting a hand of cards"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Comparisons to sort a 13-card hand"
+import random
+rng = random.Random(2081); hand = rng.sample(range(1, 14), 13)
+assert hand == [8, 4, 1, 13, 2, 7, 9, 6, 12, 10, 11, 3, 5]
+def ins(a):
+    a = a[:]; c = 0; s = 0
+    for i in range(1, len(a)):
+        k = a[i]; j = i - 1
+        while j >= 0:
+            c += 1
+            if a[j] > k: a[j + 1] = a[j]; j -= 1; s += 1
+            else: break
+        a[j + 1] = k
+    return c, s
+def bub(a):
+    a = a[:]; c = 0; n = len(a); sw = True
+    while sw:
+        sw = False
+        for i in range(n - 1):
+            c += 1
+            if a[i] > a[i + 1]: a[i], a[i + 1] = a[i + 1], a[i]; sw = True
+        n -= 1
+    return c
+def mrg(a):
+    c = [0]
+    def ms(x):
+        if len(x) <= 1: return x
+        m = len(x) // 2; l = ms(x[:m]); r = ms(x[m:]); o = []; i = j = 0
+        while i < len(l) and j < len(r):
+            c[0] += 1
+            if l[i] <= r[j]: o.append(l[i]); i += 1
+            else: o.append(r[j]); j += 1
+        return o + l[i:] + r[j:]
+    ms(a); return c[0]
+inv = sum(1 for i in range(13) for j in range(i + 1, 13) if hand[i] > hand[j])
+ci, si = ins(hand)
+assert (ci, si, inv) == (45, 35, 35) and bub(hand) == 75 and mrg(hand) == 36
+assert ins(sorted(hand))[0] == 12 and ins(sorted(hand, reverse=True))[0] == 78
+f = Fig(300, 240)
+for i, v in enumerate(hand):
+    f.box(11 + i * 21, 10, 20, 26, str(v), fill=BLUE, stroke=NAVY, size=10.5, r=2, bold=True)
+f.text(150, 54, "35 inversions = 35 shifts in insertion sort", size=10.5, color=NAVY, bold=True)
+rows = [("Selection", 78, SAND, AMBER), ("Bubble", bub(hand), ROSE, RED), ("Insertion", ci, MINT, TEAL), ("Merge", mrg(hand), BLUE, NAVY)]
+for i, (nm, v, fl, st) in enumerate(rows):
+    y = 76 + i * 28
+    f.text(10, y + 11, nm, size=10.5, color=st, bold=True, anchor="start", vmid=True)
+    f.box(78, y, v * 2.4, 22, "", fill=fl, stroke=st, r=2)
+    f.text(78 + v * 2.4 + 6, y + 11, str(v), size=10.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "insertion sort: best 12, this hand 45, worst 78", size=10.5, color=SLATE)
+f.text(150, 220, "comparisons (fewer is faster)", size=10.5, color=SLATE)
+```
+
+```photogrid label="8.3" cols="2" ratio="1.2" caption="Two inventions by one famous mind, and a sort with no comparisons. (a) John von Neumann, who in 1945 described merge sort for the EDVAC, one of the first stored-program computers, and who also gave us the architecture in which the program and the data sit in the same memory. (b) Radix sort (least significant digit first) on the seven numbers 329, 457, 657, 839, 436, 720, 355. Pass 1 sorts by the units digit, pass 2 by the tens digit and pass 3 by the hundreds digit, each time keeping equal keys in their old order (a stable sort). After 3 passes the list is sorted: 329, 355, 436, 457, 657, 720, 839. Radix sort never compares two numbers with each other; it costs d x (n + k) steps for d digits, n numbers and radix k, so about 3 x (7 + 10) = 51 steps here."
+@ photo id="bca201/neumann" cap="John von Neumann (merge sort, 1945)"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="LSD radix sort in three stable passes"
+a = [329, 457, 657, 839, 436, 720, 355]
+stages = [("input", a, None)]
+cur = a
+for d, nm in [(1, "pass 1: units digit"), (10, "pass 2: tens digit"), (100, "pass 3: hundreds digit")]:
+    cur = sorted(cur, key=lambda x: (x // d) % 10)
+    stages.append((nm, cur, d))
+assert stages[1][1] == [720, 355, 436, 457, 657, 329, 839]
+assert stages[2][1] == [720, 329, 436, 839, 355, 457, 657]
+assert stages[3][1] == [329, 355, 436, 457, 657, 720, 839] == sorted(a)
+f = Fig(300, 240)
+for r, (nm, arr, d) in enumerate(stages):
+    y = 22 + r * 52
+    f.text(17, y - 6, nm, size=10.5, color=NAVY if d else SLATE, bold=True, anchor="start")
+    for j, v in enumerate(arr):
+        x = 17 + j * 38
+        f.box(x, y, 36, 26, str(v), fill=(MINT if r == 3 else BLUE), stroke=(TEAL if r == 3 else NAVY), size=11, r=2, bold=True)
+        if d:
+            off = {1: 6.7, 10: 0, 100: -6.7}[d]
+            f.line(x + 18 + off - 3.3, y + 21, x + 18 + off + 3.3, y + 21, color=RED, sw=2)
+f.text(150, 232, "d x (n + k) = 3 x (7 + 10) = 51 steps, no comparisons", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Selection: n(n−1)/2 comparisons, n−1 swaps. Bubble/insertion worst: n(n−1)/2.

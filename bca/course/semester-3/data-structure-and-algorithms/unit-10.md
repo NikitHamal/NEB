@@ -281,6 +281,98 @@ for i, (v, d, via) in enumerate([("A", 0, "-"), ("C", 2, "A"), ("B", 3, "C"), ("
 7. **Dependency and prerequisite checking.** Course prerequisites at a university, package dependencies in software and build orders in a compiler form directed graphs. A cycle in the graph means an impossible requirement. DFS detects such a cycle.
 8. **Puzzles and artificial intelligence.** Each state of a puzzle is a vertex and each legal move is an edge. BFS finds the shortest solution of a sliding puzzle, and game-playing programs search graphs of positions. The Königsberg problem itself, with its odd degrees, is the first example.
 
+```photogrid label="10.2" cols="2" ratio="1.2" caption="Connecting towns with the least wire. (a) High-voltage pylons: a power company wants every town joined to the grid using the least total length of line, which is the minimum spanning tree problem. (b) Kruskal's algorithm on six towns and eight possible lines (rounded distances in km, invented for illustration, not surveyed). Sort the lines by length: 13, 28, 30, 70, 85, 140, 146, 200. Accept a line unless it closes a cycle: the Kathmandu-Dhulikhel line (30) is rejected because Kathmandu and Dhulikhel are already joined through Bhaktapur, and the 146 and 200 lines are rejected for the same reason. The five accepted lines total 13 + 28 + 70 + 85 + 140 = 336 km, against 712 km if all eight lines were built; a tree on 6 vertices always has 6 - 1 = 5 edges."
+@ photo id="bca201/pylons" cap="Transmission pylons: linking towns cheaply"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Kruskal minimum spanning tree, 336 km"
+E = [("KTM", "BKT", 13), ("KTM", "HET", 85), ("KTM", "BHA", 146), ("BHA", "HET", 70), ("BHA", "PKR", 140), ("KTM", "PKR", 200), ("KTM", "DHU", 30), ("BKT", "DHU", 28)]
+P = {"PKR": (32, 50), "KTM": (140, 58), "BKT": (205, 34), "DHU": (265, 74), "HET": (170, 150), "BHA": (60, 150)}
+par = {v: v for v in P}
+def find(x):
+    while par[x] != x: x = par[x]
+    return x
+mst = []; rej = []
+for a, b, w in sorted(E, key=lambda e: e[2]):
+    ra, rb = find(a), find(b)
+    if ra != rb: par[ra] = rb; mst.append((a, b, w))
+    else: rej.append((a, b, w))
+assert sum(w for _, _, w in mst) == 336 and sum(w for _, _, w in E) == 712 and len(mst) == 5
+assert sorted(w for _, _, w in rej) == [30, 146, 200]
+f = Fig(300, 240)
+for a, b, w in E:
+    ok = (a, b, w) in mst
+    f.line(P[a][0], P[a][1], P[b][0], P[b][1], color=(TEAL if ok else RED), sw=(3 if ok else 1.2), dash=not ok)
+for a, b, w in E:
+    ok = (a, b, w) in mst
+    mx, my = (P[a][0] + P[b][0]) / 2, (P[a][1] + P[b][1]) / 2
+    f.box(mx - 14, my - 9, 28, 18, str(w), fill=(MINT if ok else ROSE), stroke=(TEAL if ok else RED), size=10.5, r=3, bold=True)
+for v, (x, y) in P.items():
+    f.circle(x, y, 15, fill=BLUE, stroke=NAVY, label=v, size=10.5)
+f.text(150, 196, "solid = built (336 km), dashed = rejected (cycle)", size=10.5, color=SLATE)
+f.text(150, 216, "all 8 lines: 712 km; tree: 5 lines = 336 km", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="10.3" cols="2" ratio="1.2" caption="Cheapest is not the same as shortest. (a) A handheld GPS receiver, which finds a route by running a shortest-path algorithm on a graph of road junctions. (b) A 6 x 6 grid of junctions with random street times from 1 to 9 minutes (seed 2081). Going from the corner A to the opposite corner B takes 10 blocks by either route, but the path that simply goes straight along the edge (the first one found by breadth-first search, which ignores weights) costs 51 minutes, while Dijkstra's algorithm finds a path of 36 minutes, 15 minutes (42 percent) less. Breadth-first search minimises the number of edges; Dijkstra minimises the total weight, and only Dijkstra is right for road maps."
+@ photo id="bca201/gps" cap="Handheld GPS receiver"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Dijkstra versus hop-count on a 6 x 6 street grid"
+import random, heapq
+from collections import deque
+N = 6; r = random.Random(2081); W = {}
+for i in range(N):
+    for j in range(N):
+        if i + 1 < N: W[((i, j), (i + 1, j))] = r.randint(1, 9)
+        if j + 1 < N: W[((i, j), (i, j + 1))] = r.randint(1, 9)
+def wt(a, b): return W.get((a, b), W.get((b, a)))
+def nb(u):
+    for d in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        v = (u[0] + d[0], u[1] + d[1])
+        if 0 <= v[0] < N and 0 <= v[1] < N: yield v
+dist = {(0, 0): 0}; par = {}; pq = [(0, (0, 0))]; done = set()
+while pq:
+    d, u = heapq.heappop(pq)
+    if u in done: continue
+    done.add(u)
+    for v in nb(u):
+        nd = d + wt(u, v)
+        if nd < dist.get(v, 10 ** 9): dist[v] = nd; par[v] = u; heapq.heappush(pq, (nd, v))
+G = (N - 1, N - 1)
+dp = [G]
+while dp[-1] != (0, 0): dp.append(par[dp[-1]])
+dp = dp[::-1]
+bp = {(0, 0): None}; q = deque([(0, 0)])
+while q:
+    u = q.popleft()
+    for v in nb(u):
+        if v not in bp: bp[v] = u; q.append(v)
+bpth = [G]
+while bpth[-1] != (0, 0): bpth.append(bp[bpth[-1]])
+bpth = bpth[::-1]
+cd = sum(wt(dp[i], dp[i + 1]) for i in range(len(dp) - 1)); cb = sum(wt(bpth[i], bpth[i + 1]) for i in range(len(bpth) - 1))
+assert (cd, cb, len(dp) - 1, len(bpth) - 1) == (36, 51, 10, 10) and dist[G] == 36 and round(15 / 36 * 100) == 42
+f = Fig(300, 240)
+S = 38; X0, Y0 = 20, 14
+def pos(u): return (X0 + u[1] * S, Y0 + u[0] * S)
+for (a, b) in W: f.line(*pos(a), *pos(b), color="#cbd5e1", sw=1)
+for u in [(i, j) for i in range(N) for j in range(N)]: f.circle(*pos(u), 3.5, fill=SOFT, stroke="#94a3b8", sw=1)
+for pth, col, dash in [(bpth, RED, True), (dp, TEAL, False)]:
+    for i in range(len(pth) - 1):
+        f.line(*pos(pth[i]), *pos(pth[i + 1]), color=col, sw=3, dash=dash)
+for pth, col in [(bpth, RED), (dp, TEAL)]:
+    for i in range(len(pth) - 1):
+        a, b = pos(pth[i]), pos(pth[i + 1])
+        f.box((a[0] + b[0]) / 2 - 8, (a[1] + b[1]) / 2 - 8, 16, 16, str(wt(pth[i], pth[i + 1])), fill=SOFT, stroke=col, size=10.5, r=3, bold=True)
+f.circle(*pos((0, 0)), 11, fill=MINT, stroke=TEAL, label="A", size=10.5)
+f.circle(*pos(G), 11, fill=MINT, stroke=TEAL, label="B", size=10.5)
+f.text(256, 60, "Dijkstra", size=10.5, color=TEAL, bold=True)
+f.text(256, 78, "36 min", size=10.5, color=TEAL, bold=True)
+f.text(256, 120, "hops only", size=10.5, color=RED, bold=True)
+f.text(256, 138, "51 min", size=10.5, color=RED, bold=True)
+f.text(150, 232, "both paths use 10 blocks; weights on the paths only", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Σ deg(v) = 2|E|. Complete graph: n(n−1)/2 edges. Tree: n − 1 edges.

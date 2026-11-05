@@ -3873,6 +3873,19 @@
     "source": "Wikimedia Commons",
     "title": "Adelson-Velsky-G.Moscow-1980"
   },
+  "bca201/cards": {
+    "author": "European Bridge League",
+    "bytes": 196711,
+    "credit": "Sorting the Cards",
+    "fetched": "2026-11-05",
+    "file": "bca201/cards.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sorting_the_Cards_(14523861902).jpg",
+    "sha1": "bc2723e16554df47",
+    "source": "Wikimedia Commons",
+    "title": "Sorting the Cards (14523861902)"
+  },
   "bca201/chain": {
     "author": "Maksym Kozlenko",
     "bytes": 701899,
@@ -3886,6 +3899,19 @@
     "source": "Wikimedia Commons",
     "title": "2020-08-01 Buffers and chain coupling on train carriage at at New South Wales Rail Transport Museum 4"
   },
+  "bca201/chessboard": {
+    "author": "Wilfredor",
+    "bytes": 371377,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/chessboard.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6.jpg",
+    "sha1": "dc826cc107bbda13",
+    "source": "Wikimedia Commons",
+    "title": "Chess game Staunton No. 6"
+  },
   "bca201/cray": {
     "author": "Clemens PFEIFFER",
     "bytes": 583759,
@@ -3898,6 +3924,19 @@
     "sha1": "5bee4b7260f05989",
     "source": "Wikimedia Commons",
     "title": "Cray-1-deutsches-museum"
+  },
+  "bca201/dictionary": {
+    "author": "Shixart1985",
+    "bytes": 344963,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/dictionary.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Young_girl_touching_dictionary_pages.jpg",
+    "sha1": "5e94df5ad418323b",
+    "source": "Wikimedia Commons",
+    "title": "Young girl touching dictionary pages"
   },
   "bca201/dijkstra": {
     "author": "Andreas F. Borchert",
@@ -3924,6 +3963,19 @@
     "sha1": "d320b53361e79d07",
     "source": "Wikimedia Commons",
     "title": "P. Oxy. I 29"
+  },
+  "bca201/gps": {
+    "author": "Siarhei Besarab",
+    "bytes": 706078,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/gps.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Magellan_Triton_2000_handheld_GPS_receiver_01.jpg",
+    "sha1": "1f40b8e14056038e",
+    "source": "Wikimedia Commons",
+    "title": "Magellan Triton 2000 handheld GPS receiver 01"
   },
   "bca201/hanoi": {
     "author": "Uri Levy",
@@ -3963,6 +4015,19 @@
     "sha1": "210aa5f2035ba4ae",
     "source": "Wikimedia Commons",
     "title": "Abandoned Train at Janakpur station, Nepal Railways--IMG 7925"
+  },
+  "bca201/josephus": {
+    "author": "Unknown artist Unknown artist",
+    "bytes": 54025,
+    "credit": "https://www.kulturarv.dk/mussam/VisGenstand.action?genstandId=7552423",
+    "fetched": "2026-11-05",
+    "file": "bca201/josephus.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Josephusbust.jpg",
+    "sha1": "cddf4470a6c172fb",
+    "source": "Wikimedia Commons",
+    "title": "Josephusbust"
   },
   "bca201/knuth": {
     "author": "Alex Handy",
@@ -4016,6 +4081,32 @@
     "source": "Wikimedia Commons",
     "title": "Inside Nautilus Pompilius"
   },
+  "bca201/neumann": {
+    "author": "Unknown author",
+    "bytes": 545004,
+    "credit": "",
+    "fetched": "2026-11-05",
+    "file": "bca201/neumann.jpg",
+    "license": "Attribution",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.jpg",
+    "sha1": "c7e83971f69a3585",
+    "source": "Wikimedia Commons",
+    "title": "JohnvonNeumann-LosAlamos"
+  },
+  "bca201/phone": {
+    "author": "Unknown author Unknown author",
+    "bytes": 542108,
+    "credit": "University of Alberta Archives Photographs Collection - https://archive.org/details/UAA-1972-058-974",
+    "fetched": "2026-11-05",
+    "file": "bca201/phone.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:U_of_A_Telephone_and_Directory.jpg",
+    "sha1": "3c8c8de1f5f815d5",
+    "source": "Wikimedia Commons",
+    "title": "U of A Telephone and Directory"
+  },
   "bca201/plates": {
     "author": "Dmitri Popov",
     "bytes": 1102575,
@@ -4028,6 +4119,32 @@
     "sha1": "b30fdfa44d8f1a1d",
     "source": "Wikimedia Commons",
     "title": "Stacked Colorful Plates (Closeup)"
+  },
+  "bca201/prayer": {
+    "author": "Trieyes",
+    "bytes": 553322,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/prayer.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Boudhanath_Stupa_with_prayer_wheels_in_foreground.jpg",
+    "sha1": "a6c7dd5dd21de848",
+    "source": "Wikimedia Commons",
+    "title": "Boudhanath Stupa with prayer wheels in foreground"
+  },
+  "bca201/pylons": {
+    "author": "Simon Koopmann",
+    "bytes": 645409,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/pylons.jpg",
+    "license": "CC BY-SA 3.0 de",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Raitersaich_SK_DSC_0028.jpg",
+    "sha1": "1a611263b6b8c352",
+    "source": "Wikimedia Commons",
+    "title": "Raitersaich SK DSC 0028"
   },
   "bca201/queue": {
     "author": "David Brossard",
@@ -4054,6 +4171,19 @@
     "sha1": "399d307861cca46f",
     "source": "Wikimedia Commons",
     "title": "Ring Road of Kathmandu"
+  },
+  "bca201/romanesco": {
+    "author": "Ivar Leidus",
+    "bytes": 547976,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca201/romanesco.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Romanesco_broccoli_(Brassica_oleracea).jpg",
+    "sha1": "a72315a2f05b2b8f",
+    "source": "Wikimedia Commons",
+    "title": "Romanesco broccoli (Brassica oleracea)"
   },
   "bca201/sorter": {
     "author": "Joe Mabel",
