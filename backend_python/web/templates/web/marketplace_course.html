@@ -38,6 +38,7 @@
       <h1 class="md-headline-small">{{ course.title }}</h1>
       {% if course.summary %}<p class="mkt-course-lead">{{ course.summary }}</p>{% endif %}
       <div class="mkt-course-meta">
+        <span class="md-chip mkt-chip-quiet">{% include "web/_marketplace_delivery.html" %}</span>
         {% if course.level %}<span class="md-chip mkt-chip-quiet">{{ course.level }}</span>{% endif %}
         {% if course.duration_label %}<span class="md-chip mkt-chip-quiet">{{ course.duration_label }}</span>{% endif %}
         {% if course.lesson_count %}<span class="md-chip mkt-chip-quiet">{{ course.lesson_count }} lessons</span>{% endif %}
@@ -100,7 +101,9 @@
     <aside class="mkt-course-aside">
       <div class="mkt-buy">
         <div class="mkt-buy-price">
-          {% if course.is_free %}
+          {% if course.enroll_mode == 'contact' %}
+            {% if course.is_free or not course.price %}<strong>Contact the teacher</strong>{% else %}<strong>Rs. {{ course.price|npr }}</strong><small>Paid directly to the teacher</small>{% endif %}
+          {% elif course.is_free %}
             <strong>Free</strong><small>No payment needed</small>
           {% else %}
             <strong>Rs. {{ course.price|npr }}</strong><small>One-time payment</small>
@@ -109,6 +112,14 @@
 
         {% if is_owner %}
           <p class="mkt-quiet">You own this offering. Manage it in your <a href="{% url 'web:marketplace_studio' %}">studio</a>.</p>
+        {% elif course.enroll_mode == 'contact' %}
+          {% if course.contact_url %}
+            <a class="md-btn md-btn-filled mkt-buy-submit" href="{{ course.contact_url }}" {% if course.contact_url|slice:":4" == 'http' %}target="_blank" rel="noopener noreferrer"{% endif %}>
+              <span class="material-symbols-outlined" aria-hidden="true">call</span>{{ course.contact_label|default:"Contact the teacher" }}
+            </a>
+          {% else %}
+            <p class="mkt-quiet">{{ course.contact_label }}</p>
+          {% endif %}
         {% elif has_access %}
           <div class="mkt-buy-state mkt-buy-state-ok">
             <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
@@ -170,7 +181,7 @@
           {% endif %}
         {% endif %}
 
-        {% if payment_instructions %}
+        {% if payment_instructions and course.enroll_mode != 'contact' %}
           <details class="mkt-buy-help">
             <summary>How payment works</summary>
             <div class="mkt-prose">{{ payment_instructions|linebreaks }}</div>

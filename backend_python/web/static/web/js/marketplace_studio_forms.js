@@ -43,12 +43,20 @@
     if (reset) {
       reset.addEventListener('click', function () { self.resetCourseForm(); });
     }
+    var enroll = this.courseField('enroll_mode');
+    if (enroll) enroll.addEventListener('change', function () { self.syncEnrollMode(); });
+  };
+
+  /* Contact details only matter when students reach the teacher instead of checking out. */
+  NebStudio.prototype.syncEnrollMode = function () {
+    var contact = this.root.querySelector('[data-mkt-contact]');
+    if (contact) contact.hidden = this.courseField('enroll_mode').value !== 'contact';
   };
 
   NebStudio.prototype.resetCourseForm = function () {
     var self = this;
     this.courseField('id').value = '';
-    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url'].forEach(function (key) {
+    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url', 'contact_label', 'contact_url'].forEach(function (key) {
       var field = self.courseField(key);
       if (field) field.value = '';
     });
@@ -56,6 +64,9 @@
     this.courseField('seat_limit').value = '0';
     this.courseField('includes').value = '';
     this.courseField('status').value = 'draft';
+    this.courseField('delivery').value = 'recorded';
+    this.courseField('enroll_mode').value = 'buy';
+    this.syncEnrollMode();
     this.courseField('featured').checked = false;
     var paidMode = this.root.querySelector('[data-mkt-course-price] [data-neb-price-mode][value="free"]');
     if (paidMode) paidMode.checked = true;
@@ -88,7 +99,7 @@
     if (!course) return;
 
     this.courseField('id').value = course.id;
-    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url'].forEach(function (key) {
+    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url', 'contact_label', 'contact_url'].forEach(function (key) {
       var field = self.courseField(key);
       if (field) field.value = course[key] || '';
     });
@@ -96,6 +107,9 @@
     this.courseField('seat_limit').value = course.seat_limit || 0;
     this.courseField('includes').value = (course.includes || []).join('\n');
     this.courseField('status').value = course.status || 'draft';
+    this.courseField('delivery').value = course.delivery || 'recorded';
+    this.courseField('enroll_mode').value = course.enroll_mode || 'buy';
+    this.syncEnrollMode();
     this.courseField('featured').checked = !!course.featured;
 
     var wrapper = this.root.querySelector('[data-mkt-course-price]');
@@ -147,13 +161,15 @@
       if (!listed[id]) payload.resource_ids.push(id);
     });
 
-    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url', 'status'].forEach(function (key) {
+    ['title', 'summary', 'description', 'level', 'duration_label', 'tags', 'cover_url', 'contact_label', 'contact_url', 'status'].forEach(function (key) {
       payload[key] = self.courseField(key).value;
     });
+    payload.delivery = this.courseField('delivery').value;
+    payload.enroll_mode = this.courseField('enroll_mode').value;
     payload.lesson_count = parseInt(this.courseField('lesson_count').value, 10) || 0;
     payload.seat_limit = parseInt(this.courseField('seat_limit').value, 10) || 0;
 
-    if (paid) {
+    if (paid && payload.enroll_mode === 'buy') {
       var price = parseFloat(this.priceField().value);
       if (!(price > 0)) {
         this.toast('Enter a price above Rs. 0 for a paid offering.', true);

@@ -95,3 +95,9 @@
 .rc-alt { margin: 20px 0 0; text-align: center; font-size: .875rem; color: var(--md-on-surface-variant); }
 .rc-alt a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
 .rc-alt a:hover { text-decoration: underline; }
+
+/* On a phone the back arrow is Cancel; dropping the text button keeps Save on the same row as the tools. */
+@media (max-width: 520px) {
+  .fe.rc #rc-cancel { display: none; }
+  .fe.rc .fe-save { margin-left: auto; }
+}
