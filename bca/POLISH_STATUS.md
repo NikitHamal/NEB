@@ -559,3 +559,9 @@ Edited directly in `bca/entrance/model-papers/` (listed in `bca/entrance/.polish
 - [x] Full 10-mark model answers Q13 (security), Q14 (Web 1.0/2.0/3.0), Q15 (uses of the Internet in Nepal; new practice question 15).
 - [ ] NEXT SESSION STARTS AT: other unit-level gaps in BCA 101 (check Unit 7 contemporary tech: 7-8 point application lists for AI/IoT/blockchain/cloud with photos), then Model Paper plates, then the 3 non-core slots (BCA 402, electives BCA 405/406/453/454).
 - Gotchas: photogrid auto-letters sub-captions: do NOT type "(a)" in `cap=`; `mark X Y` is placed by fraction of the cropped photo (view at 100 dpi and nudge); mathtext `\genfrac` needs `{0}` not `{0pt}`.
+
+## Session 58 -- BCA 101 Unit 7 (Contemporary Technologies) extras (DONE), book 108 -> 114 pp, qa fails=0
+- [x] 4 new `bca101/` photos (viewed, licence-gated): gpucore (GeForce 6800 GT die), asicminer (Antminer), smartmeter, ewaste (recycling exhibit). Discarded after viewing (not registered any more): kuka, robotarm (too small), g5ant, solarnepal (do not show the subject).
+- [x] Plate 7.2 (GPU + smart meter), Plate 7.3 (ASIC miner + SVG of real proof-of-work searches: 30/61/1,840/60,091/552,177 hashes for 1-5 zeros), Plate 7.4 (e-waste photo + waste-hierarchy SVG); Fig 7.4 (compression: raw vs JPEG/MP3/H.264 sizes, asserted), Fig 7.5 (real SHA-256 hash chain, tamper breaks link at block 2).
+- [x] 7.4.1 Eight applications of AI/ML, 7.5.1 Eight applications of IoT, 7.10.1 Eight ways to practise green computing, 7.8.1 blockchain features; Q18 (5-mark green computing) and Q17 (10-mark blockchain) model answers.
+- [ ] NEXT SESSION STARTS AT: BCA 101 Units 2-3 (software, OS) 7-8 point application/feature lists, then Model Paper plates, then the 3 non-core slots (BCA 402, electives BCA 405/406/453/454). Other books: audit each unit for "Applications/Features/Advantages" lists with fewer than 7 points (`grep -n "Applications\|Advantages\|Features" unit-*.md`).
