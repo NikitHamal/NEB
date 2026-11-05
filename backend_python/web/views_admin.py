@@ -15,6 +15,7 @@ from api.models import (
     User,
     WithdrawalRequest,
 )
+from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
 from api.security import (
     revoke_auth_token,
     validate_and_save_resource_file,
@@ -494,81 +495,7 @@ def admin_resource_create(request):
     if redirect_response:
         return redirect_response
 
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = []
-    for s_str in Resource.objects.values_list('subject', flat=True):
-        if s_str:
-            for s in s_str.split(','):
-                s_stripped = s.strip()
-                if s_stripped:
-                    db_subjects.append(s_stripped)
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    form_options = upload_form_options()
 
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
@@ -782,12 +709,7 @@ def admin_resource_create(request):
         return render(request, 'admin_panel/resource_create.html', {
             'is_admin': True,
             'active_page': 'resources',
-            'subjects': subjects,
-            'education_levels': education_levels,
-            'exam_types': exam_types,
-            'pradesh_options': pradesh_options,
-            'resource_types': resource_types,
-            'common_tags': common_tags,
+            **form_options,
             'source_types': Resource.SOURCE_TYPES,
             'approval_choices': Resource.APPROVAL_CHOICES,
             'errors': errors,
@@ -797,12 +719,7 @@ def admin_resource_create(request):
     return render(request, 'admin_panel/resource_create.html', {
         'is_admin': True,
         'active_page': 'resources',
-        'subjects': subjects,
-        'education_levels': education_levels,
-        'exam_types': exam_types,
-        'pradesh_options': pradesh_options,
-        'resource_types': resource_types,
-        'common_tags': common_tags,
+        **form_options,
         'source_types': Resource.SOURCE_TYPES,
         'approval_choices': Resource.APPROVAL_CHOICES,
     })
@@ -869,81 +786,7 @@ def admin_resource_edit(request, resource_id):
         resource_obj.save()
         cache.delete_many(['home_resources', 'library_all_resources'])
         return redirect('web:admin_resources')
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = []
-    for s_str in Resource.objects.values_list('subject', flat=True):
-        if s_str:
-            for s in s_str.split(','):
-                s_stripped = s.strip()
-                if s_stripped:
-                    db_subjects.append(s_stripped)
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    form_options = upload_form_options()
     resource_data = ResourceSerializer(resource_obj).data
     resource_data['rejection_reason'] = resource_obj.rejection_reason or ''
     if resource_obj.uploaded_by:
@@ -960,12 +803,7 @@ def admin_resource_edit(request, resource_id):
         'active_page': 'resources',
         'source_types': Resource.SOURCE_TYPES,
         'approval_choices': Resource.APPROVAL_CHOICES,
-        'subjects': subjects,
-        'common_tags': common_tags,
-        'education_levels': education_levels,
-        'exam_types': exam_types,
-        'pradesh_options': pradesh_options,
-        'resource_types': resource_types,
+        **form_options,
     })
 
 @require_POST
@@ -1472,6 +1310,22 @@ def admin_syllabus_list(request):
         'active_page': 'syllabus',
     })
 
+SYLLABUS_GRADE_SUBJECTS = {
+    'Class 8': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education'],
+    'Class 9': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account'],
+    'Class 10 / SEE': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account', 'Optional Mathematics'],
+    'Class 11': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
+    'Class 12': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
+    'Diploma': ['Computer Engineering', 'Civil Engineering', 'Electrical Engineering', 'Electronics Engineering', 'Architecture', 'Mechanical Engineering', 'Pharmacy'],
+    'Bachelor': ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Law', 'Education', 'Management', 'Humanities'],
+    'Master': ['Computer Science', 'Business Administration', 'Engineering', 'Education', 'Management'],
+    'PhD': ['Science', 'Engineering', 'Humanities', 'Management', 'Education'],
+    'Entrance Prep': ['IIT JEE', 'NEET', 'CMAT', 'IOE Entrance', 'CEE Medical', 'Lok Sewa Aayog', 'Public Service Commission'],
+    'Competitive Exam': ['Lok Sewa Aayog', 'Bank Exam', 'Nepal Police', 'Armed Police', 'Teacher Service Commission', 'Public Service Commission'],
+    'Other': [],
+}
+
+
 def _parse_syllabus_rich_json(raw_text):
     text = (raw_text or '').strip()
     if not text:
@@ -1485,251 +1339,90 @@ def _parse_syllabus_rich_json(raw_text):
     return parsed, None
 
 
+def _syllabus_form(request, syllabus_obj=None):
+    from api.models import SyllabusContent
+
+    is_edit = syllabus_obj is not None
+    existing_ids = list(
+        SyllabusContent.objects.exclude(pk=syllabus_obj.pk).values_list('chapter_id', flat=True)
+        if is_edit else SyllabusContent.objects.values_list('chapter_id', flat=True)
+    )
+    context = {
+        'is_admin': True,
+        'education_levels': EDUCATION_LEVELS,
+        'grade_subjects_json': json.dumps(SYLLABUS_GRADE_SUBJECTS),
+        'existing_subjects': list(SyllabusContent.objects.order_by('subject').values_list('subject', flat=True).distinct()),
+        'existing_ids_json': json.dumps(existing_ids),
+        'active_page': 'syllabus',
+        'is_edit': is_edit,
+    }
+    if is_edit:
+        context['syllabus'] = syllabus_obj
+        context['rich_content_json'] = json.dumps(syllabus_obj.rich_content or {}, ensure_ascii=False, indent=2)
+
+    if request.method != 'POST':
+        return render(request, 'admin_panel/syllabus_form.html', context)
+
+    grade_level = request.POST.get('grade_level', '').strip()
+    subject = request.POST.get('subject', '').strip()
+    chapter_title = request.POST.get('chapter_title', '').strip()
+    chapter_id = request.POST.get('chapter_id', '').strip()
+    rich_content, rich_error = _parse_syllabus_rich_json(request.POST.get('rich_content_json', ''))
+    try:
+        order = int(request.POST.get('order', '0').strip())
+    except ValueError:
+        order = 0
+
+    form_error = None
+    if not grade_level or not subject or not chapter_title or not chapter_id:
+        form_error = 'All required fields (Level, Subject, Chapter Title, Chapter ID) must be filled.'
+    elif rich_error:
+        form_error = rich_error
+    elif chapter_id in existing_ids:
+        form_error = 'Chapter ID "{}" already exists. Please use a unique identifier.'.format(chapter_id)
+    if form_error:
+        return render(request, 'admin_panel/syllabus_form.html', {**context, 'form_error': form_error, 'form_data': request.POST})
+
+    fields = dict(
+        grade_level=grade_level,
+        subject=subject,
+        chapter_id=chapter_id,
+        chapter_title=chapter_title,
+        text_content=request.POST.get('text_content', '').strip(),
+        question_answers=request.POST.get('question_answers', '').strip(),
+        rich_content=rich_content or {},
+        source_resource_id=request.POST.get('source_resource_id', '').strip()[:36],
+        source_label=request.POST.get('source_label', '').strip()[:255],
+        order=order,
+        updated_at=now_ms(),
+    )
+    if is_edit:
+        for name, value in fields.items():
+            setattr(syllabus_obj, name, value)
+        syllabus_obj.save()
+    else:
+        SyllabusContent.objects.create(id=uuid_str(), created_at=fields['updated_at'], **fields)
+    return redirect('web:admin_syllabus_list')
+
+
 def admin_syllabus_create(request):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-        
-    from api.models import SyllabusContent
-    
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    
-    grade_subjects = {
-        'Class 8': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education'],
-        'Class 9': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account'],
-        'Class 10 / SEE': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account', 'Optional Mathematics'],
-        'Class 11': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
-        'Class 12': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
-        'Diploma': ['Computer Engineering', 'Civil Engineering', 'Electrical Engineering', 'Electronics Engineering', 'Architecture', 'Mechanical Engineering', 'Pharmacy'],
-        'Bachelor': ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Law', 'Education', 'Management', 'Humanities'],
-        'Master': ['Computer Science', 'Business Administration', 'Engineering', 'Education', 'Management'],
-        'PhD': ['Science', 'Engineering', 'Humanities', 'Management', 'Education'],
-        'Entrance Prep': ['IIT JEE', 'NEET', 'CMAT', 'IOE Entrance', 'CEE Medical', 'Lok Sewa Aayog', 'Public Service Commission'],
-        'Competitive Exam': ['Lok Sewa Aayog', 'Bank Exam', 'Nepal Police', 'Armed Police', 'Teacher Service Commission', 'Public Service Commission'],
-        'Other': [],
-    }
-    
-    existing_subjects = list(SyllabusContent.objects.order_by('subject').values_list('subject', flat=True).distinct())
-    existing_ids = list(SyllabusContent.objects.values_list('chapter_id', flat=True))
-    grade_subjects_json = json.dumps(grade_subjects)
-    existing_ids_json = json.dumps(existing_ids)
-    
-    if request.method == 'POST':
-        grade_level = request.POST.get('grade_level', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        chapter_title = request.POST.get('chapter_title', '').strip()
-        chapter_id = request.POST.get('chapter_id', '').strip()
-        text_content = request.POST.get('text_content', '').strip()
-        question_answers = request.POST.get('question_answers', '').strip()
-        rich_content, rich_error = _parse_syllabus_rich_json(request.POST.get('rich_content_json', ''))
-        source_resource_id = request.POST.get('source_resource_id', '').strip()[:36]
-        source_label = request.POST.get('source_label', '').strip()[:255]
-        order_val = request.POST.get('order', '0').strip()
-        
-        if not grade_level or not subject or not chapter_title or not chapter_id:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': False,
-                'form_error': 'All required fields (Level, Subject, Chapter Title, Chapter ID) must be filled.',
-                'form_data': request.POST,
-            })
-            
-        if rich_error:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': False,
-                'form_error': rich_error,
-                'form_data': request.POST,
-            })
+    return _syllabus_form(request)
 
-        if chapter_id in existing_ids:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': False,
-                'form_error': 'Chapter ID "{}" already exists. Please use a unique identifier.'.format(chapter_id),
-                'form_data': request.POST,
-            })
-            
-        _now = now_ms()
-        try:
-            order = int(order_val)
-        except ValueError:
-            order = 0
-            
-        syllabus_obj = SyllabusContent(
-            id=uuid_str(),
-            grade_level=grade_level,
-            subject=subject,
-            chapter_id=chapter_id,
-            chapter_title=chapter_title,
-            text_content=text_content,
-            question_answers=question_answers,
-            rich_content=rich_content or {},
-            source_resource_id=source_resource_id,
-            source_label=source_label,
-            order=order,
-            created_at=_now,
-            updated_at=_now
-        )
-        syllabus_obj.save()
-        return redirect('web:admin_syllabus_list')
-        
-    return render(request, 'admin_panel/syllabus_form.html', {
-        'is_admin': True,
-        'education_levels': education_levels,
-        'grade_subjects_json': grade_subjects_json,
-        'existing_subjects': existing_subjects,
-        'existing_ids_json': existing_ids_json,
-        'active_page': 'syllabus',
-        'is_edit': False,
-    })
 
 def admin_syllabus_edit(request, entry_id):
     redirect_response = _require_staff_admin(request)
     if redirect_response:
         return redirect_response
-        
     from api.models import SyllabusContent
-    
     try:
         syllabus_obj = SyllabusContent.objects.get(pk=entry_id)
     except SyllabusContent.DoesNotExist:
         return redirect('web:admin_syllabus_list')
-        
-    rich_content_json = json.dumps(syllabus_obj.rich_content or {}, ensure_ascii=False, indent=2)
+    return _syllabus_form(request, syllabus_obj)
 
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    
-    grade_subjects = {
-        'Class 8': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education'],
-        'Class 9': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account'],
-        'Class 10 / SEE': ['English', 'Nepali', 'Mathematics', 'Science', 'Social Studies', 'Health & Physical Education', 'Account', 'Optional Mathematics'],
-        'Class 11': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
-        'Class 12': ['English', 'Nepali', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Account', 'Economics', 'Business Studies', 'Business Mathematics', 'Hotel Management', 'Sociology', 'Mass Communication', 'Psychology', 'Education', 'Health & Physical Education'],
-        'Diploma': ['Computer Engineering', 'Civil Engineering', 'Electrical Engineering', 'Electronics Engineering', 'Architecture', 'Mechanical Engineering', 'Pharmacy'],
-        'Bachelor': ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Law', 'Education', 'Management', 'Humanities'],
-        'Master': ['Computer Science', 'Business Administration', 'Engineering', 'Education', 'Management'],
-        'PhD': ['Science', 'Engineering', 'Humanities', 'Management', 'Education'],
-        'Entrance Prep': ['IIT JEE', 'NEET', 'CMAT', 'IOE Entrance', 'CEE Medical', 'Lok Sewa Aayog', 'Public Service Commission'],
-        'Competitive Exam': ['Lok Sewa Aayog', 'Bank Exam', 'Nepal Police', 'Armed Police', 'Teacher Service Commission', 'Public Service Commission'],
-        'Other': [],
-    }
-    
-    existing_subjects = list(SyllabusContent.objects.order_by('subject').values_list('subject', flat=True).distinct())
-    existing_ids = list(SyllabusContent.objects.exclude(pk=entry_id).values_list('chapter_id', flat=True))
-    grade_subjects_json = json.dumps(grade_subjects)
-    existing_ids_json = json.dumps(existing_ids)
-    
-    if request.method == 'POST':
-        grade_level = request.POST.get('grade_level', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        chapter_title = request.POST.get('chapter_title', '').strip()
-        chapter_id = request.POST.get('chapter_id', '').strip()
-        text_content = request.POST.get('text_content', '').strip()
-        question_answers = request.POST.get('question_answers', '').strip()
-        rich_content, rich_error = _parse_syllabus_rich_json(request.POST.get('rich_content_json', ''))
-        source_resource_id = request.POST.get('source_resource_id', '').strip()[:36]
-        source_label = request.POST.get('source_label', '').strip()[:255]
-        order_val = request.POST.get('order', '0').strip()
-        
-        if not grade_level or not subject or not chapter_title or not chapter_id:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'syllabus': syllabus_obj,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': True,
-                'form_error': 'All required fields (Level, Subject, Chapter Title, Chapter ID) must be filled.',
-                'form_data': request.POST,
-                'rich_content_json': rich_content_json,
-            })
-            
-        if rich_error:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'syllabus': syllabus_obj,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': True,
-                'form_error': rich_error,
-                'form_data': request.POST,
-                'rich_content_json': rich_content_json,
-            })
-
-        if chapter_id in existing_ids:
-            return render(request, 'admin_panel/syllabus_form.html', {
-                'is_admin': True,
-                'syllabus': syllabus_obj,
-                'education_levels': education_levels,
-                'grade_subjects_json': grade_subjects_json,
-                'existing_subjects': existing_subjects,
-                'existing_ids_json': existing_ids_json,
-                'active_page': 'syllabus',
-                'is_edit': True,
-                'form_error': 'Chapter ID "{}" already exists. Please use a unique identifier.'.format(chapter_id),
-                'form_data': request.POST,
-                'rich_content_json': rich_content_json,
-            })
-            
-        try:
-            order = int(order_val)
-        except ValueError:
-            order = 0
-            
-        syllabus_obj.grade_level = grade_level
-        syllabus_obj.subject = subject
-        syllabus_obj.chapter_title = chapter_title
-        syllabus_obj.chapter_id = chapter_id
-        syllabus_obj.text_content = text_content
-        syllabus_obj.question_answers = question_answers
-        syllabus_obj.rich_content = rich_content or {}
-        syllabus_obj.source_resource_id = source_resource_id
-        syllabus_obj.source_label = source_label
-        syllabus_obj.order = order
-        syllabus_obj.updated_at = now_ms()
-        syllabus_obj.save()
-        return redirect('web:admin_syllabus_list')
-        
-    return render(request, 'admin_panel/syllabus_form.html', {
-        'is_admin': True,
-        'syllabus': syllabus_obj,
-        'education_levels': education_levels,
-        'grade_subjects_json': grade_subjects_json,
-        'existing_subjects': existing_subjects,
-        'existing_ids_json': existing_ids_json,
-        'active_page': 'syllabus',
-        'is_edit': True,
-        'rich_content_json': rich_content_json,
-    })
 
 def admin_syllabus_delete(request, entry_id):
     redirect_response = _require_staff_admin(request)
@@ -1776,12 +1469,6 @@ def admin_syllabus_import(request):
         return redirect_response
         
     from api.models import SyllabusContent
-    
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
     
     import_result = None
     
@@ -1899,7 +1586,7 @@ def admin_syllabus_import(request):
     
     return render(request, 'admin_panel/syllabus_import.html', {
         'is_admin': True,
-        'education_levels': education_levels,
+        'education_levels': EDUCATION_LEVELS,
         'import_result': import_result,
         'active_page': 'syllabus',
     })
