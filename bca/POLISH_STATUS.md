@@ -948,4 +948,15 @@ scratch/_sample_test.pdf | pages=2  fails=6 warns=0
   - U8 Society/ethics/cyber law: 3-up strip `8.D` (QR payment, e-waste, phishing); 8 explained protection measures; Group D: cybercrime, CIA + malware, Electronic Transactions Act 2063 + ICT policy (facts reused only from the unit text).
 - Pitfall: `bca101/ritchie` does not exist; the registered Ritchie photos are `bca102/ritchie` (with Thompson) and `cs12/ritchie`. build_pdf prints "[photos] N failed" at the end: always read the log tail.
 - Helper (out of repo): `/tmp/w/ins.py` (`before(path, marker, text, skip_if=)`, `append(...)`, CRLF-preserving) and `/tmp/push.sh`.
-- [ ] NEXT SESSION STARTS AT: `cs10` units 1-5 (no Group D, no photo strips), then `cs8`, then CEE/IOE/class-11/12 science books (Group D style 10-mark answers), then the Session 70 shipped-book FAIL triage.
+- (superseded by the Session 77 cs10 entry below)
+- [x] cs10 done (see below). Old line: `cs10` units 1-5, then `cs8`, then CEE/IOE/class-11/12 science books (Group D style 10-mark answers), then the Session 70 shipped-book FAIL triage.
+
+### Session 77 (cont.) -- Class 10 Computer Science units 1-5 (DONE, qa fails=0, 201 pp)
+- `notes/content/cs10`: every unit gained a horizontal photo strip, 8-point explained lists and a `Group D - Extended answers` of three model answers (10 marks, for deeper revision; the SEE paper itself uses 1/2/4-mark questions). Python programs were run with python 3.12 and every SQL query was executed in sqlite first; arithmetic (audio 10.58 MB/min, Full HD frame 6.22 MB) was computed.
+  - U1 Networks: 3-up `1.M` (UTP, coax cut, fibre cable) and 5-up `1.D` (NIC, hub, switch, router, modem); 8 advantages + 7 disadvantages of networks; D: topologies, media, PAN/LAN/MAN/WAN + client-server vs P2P.
+  - U2 DBMS: 4-up `2.D` (card catalogue, HDD platter, NVMe, data centre); 8 advantages of a DBMS; D: DBMS vs file system, DDL/DML with real output, keys/relationships + JOIN.
+  - U3 Multimedia: 4-up `3.S` (DVD, optical discs, pen drive, NVMe); 8 applications; D: elements/applications, raster vs vector, audio/video/animation with size calculations.
+  - U4 Python: 3-up `4.P` (Raspberry Pi, ESP8266, data centre); 8 advantages of functions; D: functions, try/except + files, math/random/datetime/pip with real output.
+  - U5 AI: 5-up `5.H` (TPU, GPU, PIR, ESP8266, smart meter); 8 AI applications + 8 IoT applications; D: AI/ML, generative AI + ethics, IoT/cloud/e-services in Nepal.
+- All photos reused from the registry (no new downloads this session). Session 77 total: cs11 U2/4/5/6/8 and cs10 U1-5.
+- [ ] NEXT SESSION STARTS AT: `cs8` (Class 8 Computer Science: strips + 8-point lists + Group D), then CEE/IOE/class-11/12 science books (Group D style 10-mark answers, starting with phy12/chem12/bio12 highest-mark topics), then the Session 70 shipped-book FAIL triage.
