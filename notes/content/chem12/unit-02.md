@@ -980,6 +980,28 @@ The standard formula gives the same result:
 $pH = 7 + \frac{1}{2}(4.74) + \frac{1}{2}(-1) = 7 + 2.37 - 0.50 = 8.87$.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.2" caption="Weighing a buffer into existence. (a) A volumetric flask holds the exact volume needed when a buffer is prepared. (b) The cell applies the Henderson-Hasselbalch equation, pH = pKa + log([A-]/[HA]), to acetic acid with pKa 4.76 and a total acetate concentration of 0.100 M in 500 mL, which is 0.0500 mol. At pH 4.00 only 0.61 g of sodium acetate is needed, at pH 4.76 half the acetate is the salt, 2.05 g with 1.50 g of acetic acid, and at pH 5.50 3.47 g. The buffer works best at pH = pKa, where its capacity is 0.058 mol per litre per pH unit, and is useful only within about one pH unit on either side."
+@ photo id="ceechem2/flask" cap="A volumetric flask for making an exact volume of buffer"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Recipe for 500 mL of acetate buffer"
+pKa, tot = 4.76, 0.05
+rows = []
+for ph in (4.0, 4.76, 5.0, 5.5):
+    fb = 1 / (1 + 10 ** (pKa - ph))
+    rows.append(("pH %.2f" % ph, fb * tot * 82.03))
+assert round(rows[1][1], 2) == 2.05
+beta = 2.303 * 0.1 * 0.25
+f = Fig(300, 236)
+f.text(150, 12, "Grams of sodium acetate in 500 mL", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=4, fmt="%.2f", x0=60, y0=30, bw=160, gap=30)
+f.text(150, 158, "total acetate 0.100 M (0.0500 mol); the rest is acid", size=10, color=SLATE, bold=True)
+f.text(150, 178, "pH = pKa + log [A-]/[HA], pKa = 4.76", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "pH 4.76: 2.05 g NaOAc + %.2f g CH3COOH" % (0.025 * 60.05), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "capacity there: %.3f mol per litre per pH unit" % beta, size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1], ac=0.025 * 60.05, beta=beta)
+```
+
 ## Chapter summary
 
 - Arrhenius acids/bases work only in water; Bronsted-Lowry defines acid = proton

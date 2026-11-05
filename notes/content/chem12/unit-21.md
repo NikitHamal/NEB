@@ -410,6 +410,27 @@ of it radon gas seeping from the ground). Protection rests on three things:
 **time** (minimum exposure), with film badges or dosimeters worn to record the
 dose received.
 
+```photogrid label="21.P" cols="2" ratio="1.2" caption="A short half-life for a safe scan. (a) A PET report shows slices through the body, with bright spots where the sugar tracer fluorodeoxyglucose, labelled with fluorine-18, is taken up by active tissue such as a tumour. (b) Fluorine-18 decays by positron emission with a half-life of 109.77 minutes. The cell shows 68.5 per cent left after 1 hour, 46.9 per cent after 2 hours, 22.0 per cent after 4 hours and only 10.3 per cent after 6 hours, so the patient's exposure is short but the tracer must be made in a cyclotron close to the hospital. Each positron meets an electron and annihilates into two photons of 1 keV, which the ring of detectors records."
+@ photo id="chem12b/pet" cap="A positron emission tomography (PET) scan report"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of fluorine-18 used in PET"
+import math
+T = 109.77
+rows = [("1 h", math.exp(-math.log(2) * 60 / T) * 100), ("2 h", math.exp(-math.log(2) * 120 / T) * 100),
+        ("4 h", math.exp(-math.log(2) * 240 / T) * 100), ("6 h", math.exp(-math.log(2) * 360 / T) * 100)]
+assert round(rows[0][1], 1) == 68.5 and round(rows[3][1], 1) == 10.3
+E = 9.109e-31 * (2.998e8) ** 2 / 1.602e-13
+f = Fig(300, 236)
+f.text(150, 12, "Fluorine-18 left after t, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=105, fmt="%.1f", x0=44, y0=30, bw=170, gap=30)
+f.text(150, 158, "half-life 109.77 min; decay is beta-plus", size=10, color=SLATE, bold=True)
+f.text(150, 178, "p -> n + positron + neutrino", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "positron meets electron: two photons of", size=10, color=SLATE, bold=True)
+f.text(150, 214, "%.0f keV (m c^2) leave in opposite directions" % E, size=10.5, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], d=rows[2][1], e=rows[3][1], E=E)
+```
+
 ## Chapter summary
 
 - Radioactivity is the spontaneous disintegration of an unstable nucleus;

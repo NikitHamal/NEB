@@ -501,6 +501,25 @@ directing effect *ortho/para* while reducing the activation enough to stop
 polysubstitution and oxidation.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.2" caption="From a primary amine to a dye. (a) Methyl orange, one of the indicators on this tray, is an azo dye made by diazotising an aromatic amine and coupling it with another. (b) Sulfanilic acid (an aromatic primary amine) is treated with sodium nitrite and acid below 5 degrees C to give a diazonium salt, which couples with N,N-dimethylaniline. The cell uses the 1 : 1 : 1 mole ratio: 5.77 mmol, or 1.00 g, of sulfanilic acid needs 0.398 g of sodium nitrite and 0.700 g of dimethylaniline, and gives a theoretical 1.89 g of methyl orange. The temperature must stay near 0 degrees C, because above 5 degrees C the diazonium ion loses nitrogen and gives a phenol instead."
+@ photo id="ceechem2/indicator" cap="Indicator drops on a tray: methyl orange is an azo dye"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Making methyl orange from sulfanilic acid"
+n = 1.00 / 173.19
+rows = [("sulfanilic acid", 1.00), ("NaNO2", n * 69.00), ("dimethylaniline", n * 121.18), ("methyl orange", n * 327.33)]
+assert round(rows[3][1], 2) == 1.89
+f = Fig(300, 236)
+f.text(150, 12, "Grams for 1.00 g of sulfanilic acid (1 : 1 : 1)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=2.1, fmt="%.3f", x0=98, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL), (ROSE, RED)])
+f.text(150, 158, "ArNH2 + NaNO2 + 2HCl at 0-5 C gives ArN2+Cl-", size=10, color=NAVY, bold=True)
+f.text(150, 176, "then coupling at the para position of the amine", size=10, color=NAVY, bold=True)
+f.text(150, 196, "%.2f mmol of each reactant" % (n * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "above 5 C the diazonium ion loses N2", size=10, color=RED, bold=True)
+facts = dict(m=n * 1000, nitrite=n * 69.0, dma=n * 121.18, mo=n * 327.33)
+```
+
 ## Chapter summary
 
 - Amines are 1° (RNH₂), 2° (R₂NH) or 3° (R₃N) by the number of carbons on

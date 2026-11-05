@@ -631,6 +631,24 @@ The point of the question is the condition: the same reagent at two temperatures
 gives two different products.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.2" caption="Why sanitisers are about 70 per cent ethanol. (a) A dispenser stand gives out an alcohol-based sanitiser, an application of ethanol as an antiseptic. Ethanol denatures the protein of germs best when some water is present to let it enter the cell, so 60 to 80 per cent is used rather than the pure liquid. (b) The cell dilutes 95 per cent ethanol with C1 V1 = C2 V2: to make 100 mL of a 70 per cent product, 73.7 mL of stock is made up with water to the mark (26.3 mL of water, nominally), which holds 1.20 mol of ethanol. A 60 per cent product needs 63.2 mL of stock and a 90 per cent product 94.7 mL."
+@ photo id="chem12b/sanitizer" cap="A hand sanitiser dispenser stand"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Diluting 95 per cent ethanol to a sanitiser"
+rows = [("%d %%" % c, c * 100 / 95) for c in (60, 70, 80, 90)]
+assert round(rows[1][1], 1) == 73.7
+mol = 70 * 0.789 / 46.07
+f = Fig(300, 236)
+f.text(150, 12, "mL of 95% ethanol per 100 mL of product", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.1f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "C1 V1 = C2 V2, then top up to 100 mL with water", size=10, color=SLATE, bold=True)
+f.text(150, 178, "70%%: %.1f mL of ethanol stock, %.1f mL of water" % (rows[1][1], 100 - rows[1][1]), size=10, color=NAVY, bold=True)
+f.text(150, 198, "70 mL of ethanol = %.1f g = %.2f mol" % (70 * 0.789, mol), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "volumes shrink about 3% on mixing: use the mark", size=10, color=SLATE, bold=True)
+facts = dict(v70=rows[1][1], w70=100 - rows[1][1], v60=rows[0][1], v90=rows[3][1], mol=mol)
+```
+
 ## Chapter summary
 
 - A monohydric alcohol is CₙH₂ₙ₊₁OH; it is 1°, 2° or 3° according to the number

@@ -1133,6 +1133,26 @@ $$ m = 0.500 \times 108 = 54.0\ \text{g of silver} $$
 | Fe³⁺ | reddish-brown precipitate | insoluble | reddish-brown | KSCN gives blood-red |
 | Ag⁺ | brown Ag₂O | insoluble | dissolves (Tollens') | white AgCl, soluble in NH₃ |
 
+```photogrid label="7.P" cols="2" ratio="1.2" caption="A coating that sacrifices itself. (a) Hot-dip galvanising coats steel with zinc; the crystals of solidifying zinc give the surface its spangled look. (b) The cell turns a coating thickness into a mass: a layer 85 micrometres thick, a common value for structural steel, is 607 g of zinc per square metre. Because zinc has the lower electrode potential (-0.76 V against -0.44 V for iron) it is oxidised first even where the coating is scratched. Consuming that zinc as Zn2+ means passing 1.79e+06 coulombs per square metre, which at an assumed corrosion current of 1 mA per square metre lasts about 57 years, one reason galvanised roofing sheets are so widely used in Nepal."
+@ photo id="chem12b/galv" cap="A hot-dip galvanised steel surface with its zinc crystals (spangle)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Zinc coating and its sacrificial life"
+rho = 7.14
+rows = [("%d um" % t, rho * t * 1e-4 * 1e4) for t in (25, 50, 85, 100)]
+assert round(rows[2][1]) == 607
+q = rows[2][1] / 65.38 * 2 * 96485
+yrs = q / 1e-3 / 3.156e7
+f = Fig(300, 236)
+f.text(150, 12, "Zinc per square metre of steel, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=760, fmt="%.0f", x0=56, y0=30, bw=160, gap=30)
+f.text(150, 158, "mass = density x thickness x area (7.14 g/cm3)", size=10, color=SLATE, bold=True)
+f.text(150, 178, "Zn: -0.76 V; Fe: -0.44 V: Zn corrodes first", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "85 um holds %.2e C of Zn2+ charge" % q, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "at 1 mA per m2 it lasts about %.0f years" % yrs, size=10.5, color=NAVY, bold=True)
+facts = dict(m=rows[2][1], q=q, y=yrs)
+```
+
 ## Chapter summary
 
 - **Copper** comes from copper pyrite, CuFeS₂: froth flotation → roasting →
