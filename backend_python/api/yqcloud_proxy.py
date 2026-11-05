@@ -12,6 +12,7 @@ import time
 from typing import Dict, Generator, List
 
 from .proxy_http import new_session, resilient_post
+from .model_catalog import model_catalog
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,11 @@ MODELS = [
     {"id": DEFAULT_MODEL, "name": "Yqcloud Chat", "reasoning": False, "vision": False, "web_search": True},
 ]
 
+
+def get_models() -> List[Dict]:
+    return model_catalog(MODELS)
+
+
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
 _BROWSER_HEADERS = {
@@ -35,24 +41,6 @@ _BROWSER_HEADERS = {
     "referer": f"{PAGE_ORIGIN}/",
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
 }
-
-
-def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": m.get("vision", False),
-                "thinking": m.get("reasoning", False),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
 
 
 def _flatten(messages: List[Dict]) -> str:
