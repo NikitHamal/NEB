@@ -40,6 +40,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -884,7 +885,6 @@ fun WebPostCard(
     compact: Boolean = false
 ) {
     val category = post.category.ifBlank { "General" }
-    val categoryTheme = getSubjectTheme(category)
     val tactile = rememberTactileFeedback()
     Card(
         modifier = modifier
@@ -908,40 +908,31 @@ fun WebPostCard(
                     size = 38.dp
                 )
                 Column(modifier = Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = post.authorName,
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f, fill = false)
-                        )
-                        Text(
-                            text = "  posted",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
                     Text(
-                        text = "$category - ${formatTimeAgo(post.createdAt)}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        text = post.authorName,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                    Text(
+                        text = formatTimeAgo(post.createdAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
                 }
+                // The web post-card's category: a tonal #tag, not a coloured subject badge.
                 Surface(
                     shape = WebPillShape,
-                    color = categoryTheme.container
+                    color = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Text(
-                        text = category,
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = categoryTheme.onContainer,
+                        text = "#$category",
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -976,14 +967,19 @@ fun WebPostCard(
                     selected = post.isThumbedUp,
                     onClick = onLikeClick
                 )
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ChatBubbleOutline,
+                        contentDescription = "Replies",
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     Text(
-                        text = "${post.replyCount} Replies",
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        text = compactCount(post.replyCount),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1
@@ -1004,7 +1000,7 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
         label = "postActionScale"
     )
     val background by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
+        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
         animationSpec = tween(180),
         label = "postActionBg"
     )
@@ -1022,11 +1018,6 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
             }
             .clip(WebPillShape)
             .background(background)
-            .border(
-                1.dp,
-                if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
-                WebPillShape
-            )
             .clickable(
                 interactionSource = interactionSource,
                 indication = ripple(bounded = true, color = contentColor),
@@ -1082,15 +1073,7 @@ fun Avatar(
     val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
     Box(modifier = modifier.size(size)) {
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(
-                    if (isNeby || hasImageBg) Modifier.border(
-                        1.5.dp,
-                        androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant,
-                        CircleShape
-                    ) else Modifier
-                ),
+            modifier = Modifier.fillMaxSize(),
             shape = CircleShape,
             color = when {
                 isNeby -> Color.Transparent
