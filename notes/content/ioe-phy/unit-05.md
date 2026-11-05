@@ -64,6 +64,31 @@ $I=I_0\sin\omega t$; $I_{rms}=\frac{I_0}{\sqrt{2}}=0.707I_0$ (220 V mains has a 
 Potential is a scalar and field a vector; when charges are shared, charge is conserved but energy is not. A dielectric inserted with the battery *disconnected* lowers $V$; with it *connected* raises $Q$. In AC problems use rms values unless asked for the peak. The voltage rating of a ceramic capacitor is its limit; the force between parallel wires is attractive for *parallel* currents.
 :::
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Why a Van de Graaff generator has a big smooth sphere. (a) A demonstration generator: charge carried up a belt spreads over the outside of the hollow sphere, and the visitor's hair stands up because every strand gets the same sign of charge. (b) Dry air breaks down when the field at the surface reaches about $3\\times10^{6}$ V per m. Since $E = V/R$ at the surface of a sphere, the largest potential is $V = 3\\times10^{6}R$, and the charge that holds it is $Q = 4\\pi\\varepsilon_0 R V$. Computed for three radii."
+@ photo id="ioephy/vdg" cap="A Van de Graaff generator at a science museum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Largest potential before air sparks"
+import math
+k = 8.99e9; Emax = 3e6
+rows = []
+for R in (0.10, 0.15, 0.25):
+    V = Emax * R; Q = V * R / k; rows.append((R, V, Q))
+assert abs(rows[1][1] - 450e3) < 1 and abs(rows[1][2] * 1e6 - 7.5) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "dry air limit E = 3 MV/m", size=10.5, color=NAVY, bold=True)
+for i, (R, V, Q) in enumerate(rows):
+    y = 34 + i * 48; w = 200 * V / 750e3
+    f.text(8, y, "radius %d cm" % round(R * 100), size=10.5, color=TEAL, bold=True, anchor="start")
+    f.box(8, y + 6, w, 20, "", fill=MINT, stroke=TEAL, r=3, sw=1)
+    f.text(min(w + 14, 214), y + 16, "%d kV" % round(V / 1000), size=10.5, color=NAVY if w > 200 else TEAL, bold=True, anchor="start", vmid=True)
+    f.text(292, y, "Q = %.1f µC" % (Q * 1e6), size=10.5, color=SLATE, anchor="end")
+f.text(150, 192, "V = E R,  Q = V R / k,  k = 8.99e9", size=10.5, color=SLATE)
+f.text(150, 212, "doubling R doubles V and quadruples Q", size=10.5, color=AMBER, bold=True)
+assert abs(rows[2][2] / rows[0][2] - 6.25) < 1e-6
+f.text(150, 230, "sharp points leak charge: use a smooth sphere", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
