@@ -329,34 +329,6 @@ def synthesize(text: str) -> Optional[bytes]:
         return None
 
 
-def stream_synthesize(text: str) -> Generator[bytes, None, None]:
-    """Streaming TTS — yields audio chunks (mp3) as they arrive. For low-latency playback."""
-    if not text or not text.strip():
-        return
-        yield  # make it a generator
-    text = text.strip()[:5000]
-    try:
-        token = _ensure_session()
-    except RuntimeError as e:
-        logger.error("TTS stream no session: %s", e)
-        return
-    headers = dict(_BROWSER_HEADERS)
-    headers["x-session-token"] = token
-    headers["cookie"] = f"session={token}"
-    try:
-        session = new_session(impersonate="chrome", headers=headers)
-        resp, session = resilient_post(session, TTS_URL, json={"text": text}, stream=True, timeout=60)
-        if resp.status_code != 200:
-            logger.warning("TTS stream HTTP %s", resp.status_code)
-            return
-        for chunk in resp.iter_content(chunk_size=4096):
-            if chunk:
-                yield chunk
-    except Exception as exc:
-        logger.warning("TTS stream failed: %s", exc)
-        return
-
-
 def voice_turn(
     messages: List[Dict[str, str]],
     scenario_id: Optional[str] = None,

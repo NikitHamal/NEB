@@ -291,16 +291,6 @@ def chat(*, format: str, base_url: str, api_key: str, model: str,
     raise LLMError(f'unsupported API format: {fmt}', retryable=False, provider=provider)
 
 
-def quick_test(*, format: str, base_url: str, api_key: str, model: str,
-               provider: str = '', timeout: int = 30) -> ChatResult:
-    """Minimal round-trip used by 'Test connection' buttons everywhere."""
-    return chat(
-        format=format, base_url=base_url, api_key=api_key, model=model,
-        messages=[{'role': 'user', 'content': 'Reply with exactly: OK'}],
-        max_tokens=16, timeout=timeout, temperature=0.0, provider=provider,
-    )
-
-
 # ── Streaming ────────────────────────────────────────────────────────────────
 # `chat_stream()` is a generator yielding incremental chunks so long-running
 # calls (background agent turns, Neby cloud chat, …) can stream live instead
