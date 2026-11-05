@@ -34,15 +34,30 @@
 .pf-tl-edit:hover { background: var(--md-surface-container-high); border-radius: 11px; }
 .pf-tl-edit .material-symbols-outlined { font-size: 19px; }
 
-.pf-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 32px; background: var(--x-float, var(--md-surface)); color: var(--md-on-surface); }
-.pf-dialog::backdrop { background: color-mix(in srgb, var(--md-scrim, #000) 40%, transparent); }
-.pf-dialog[open] { animation: obRise .4s var(--spring) both; }
-.pf-dialog-form { display: grid; gap: 12px; padding: 24px; }
-.pf-dialog-form h3 { margin: 0 0 4px; font: 700 1.3rem var(--md-font-display); }
-.pf-dialog-form label { display: grid; gap: 6px; font-weight: 600; font-size: .85rem; }
-.pf-dialog-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.pf-dialog-check { display: flex !important; align-items: center; gap: 8px; font-weight: 500 !important; }
-.pf-dialog-actions { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.pf-dialog-spacer { flex: 1; }
-.pf-dialog .ob-error { text-align: left; }
-.pf-dialog .ob-error:empty { display: none; }
+/* The entry sheet is NebUI's .neb-sheet: a centred card on desktop, a bottom sheet on a phone. Fields, header and
+   foot stay put and only the body scrolls, so Save is always on screen. */
+.pf-sheet { display: flex; flex-direction: column; }
+.pf-sheet .neb-sheet-head { align-items: center; }
+.pf-sheet-glyph { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.pf-sheet-glyph .material-symbols-outlined { font-size: 22px; }
+.pf-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 6px 22px 18px; align-content: start; overflow-y: auto; overscroll-behavior: contain; }
+.pf-field { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.pf-wide { grid-column: 1 / -1; }
+.pf-when-pair { display: grid; grid-template-columns: 1fr 1.1fr; gap: 8px; }
+.pf-when { transition: opacity .25s var(--ease, ease), transform .35s var(--spring); }
+.pf-when.is-off { opacity: .38; pointer-events: none; transform: translateY(2px); }
+.pf-chip-row { display: flex; }
+.pf-error { grid-column: 1 / -1; margin: 0; padding: 10px 14px; border-radius: 14px; font-size: .85rem; font-weight: 600;
+  background: var(--md-error-container); color: var(--md-on-error-container); animation: pfRise .3s var(--spring) both; }
+.pf-error[hidden] { display: none; }
+.pf-foot { align-items: center; }
+.pf-foot-gap { flex: 1; }
+.pf-delete { color: var(--md-error); transition: background .2s, color .2s, border-radius .35s var(--spring); }
+.pf-delete.is-armed { background: var(--md-error); color: var(--md-on-error); }
+.pf-sheet.is-done .pf-fields { opacity: .5; transition: opacity .3s; pointer-events: none; }
+@keyframes pfRise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 560px) {
+  .pf-fields { grid-template-columns: 1fr; padding: 4px 16px 14px; }
+  .pf-foot .md-btn-text:not(.pf-delete) { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .pf-error, .pf-when { animation: none; transition: none; } }
