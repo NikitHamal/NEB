@@ -215,6 +215,56 @@ f.text(480, 200, "scale and release independently", size=10, color=TEAL)
 7. **Portability.** The same manifests run on any major cloud and on a college's own servers. A company can move from one provider to another with much less rework. This reduces vendor lock-in.
 8. **Rich ecosystem.** Tools for monitoring, logging, service mesh, secrets and CI/CD plug into Kubernetes. Skills learnt for one project apply to many employers. Open standards keep the knowledge useful for years.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Scaling without flapping. (a) Turnstiles at a metro station: staff open more gates when the queue grows, but do not close them the moment it shortens. (b) The Kubernetes autoscaler rule, desired pods = ceil(current pods x current CPU / target CPU), was run for 12 minutes of a spiky load (200 to 1,400 requests a second; a pod is assumed to serve 100 a second at full CPU; the target is 50 per cent). Reacting to every minute changes the pod count 10 times, while keeping the highest recommendation of the last three minutes before scaling down changes it only 6 times with the same peak of 29 pods; both react immediately to growth. The minutes above 80 per cent CPU in the stabilised run, 3, show the price of scaling up one minute late. All load numbers are invented for the exercise."
+@ photo id="bcacloud/turnstile" cap="Turnstiles: open more gates when the queue grows"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Autoscaler with and without a cool-down"
+import math
+load = [200, 200, 500, 900, 1400, 1400, 1100, 600, 300, 800, 300, 200]
+CAP, TARGET = 100.0, 50.0
+def run(window):
+    pods = 2
+    rec = []
+    out = []
+    for L in load:
+        cpu = L / (pods * CAP) * 100
+        want = max(1, math.ceil(pods * cpu / TARGET))
+        rec.append(want)
+        pods = max(rec[-window:]) if want < pods else want
+        out.append((pods, cpu))
+    return out
+a = run(1)
+b = run(3)
+chg = lambda o: sum(1 for i in range(1, len(o)) if o[i][0] != o[i - 1][0])
+ca, cb = chg(a), chg(b)
+assert cb < ca and max(p for p, _ in a) == max(p for p, _ in b)
+over = sum(1 for p, c in b if c > 80)
+facts = dict(peak=max(p for p, _ in b), ca=ca, cb=cb, over=over)
+f = Fig(300, 236)
+f.text(150, 12, "load (req/s) and pods per minute, target 50% CPU", size=10.5, color=NAVY, bold=True)
+x0, y0, W, H = 24, 130, 262, 92
+bw = W / 12
+for i, L in enumerate(load):
+    h = L / 1400 * H
+    f.box(x0 + i * bw + 1, y0 - h, bw - 2, h, "", fill="#e5e7eb", stroke="#94a3b8", r=0, sw=0.5)
+def steps(o, col, sw, dy):
+    for i in range(12):
+        yy = y0 - o[i][0] / 32 * H + dy
+        f.line(x0 + i * bw, yy, x0 + (i + 1) * bw, yy, color=col, sw=sw)
+        if i:
+            yp = y0 - o[i - 1][0] / 32 * H + dy
+            f.line(x0 + i * bw, yp, x0 + i * bw, yy, color=col, sw=sw)
+steps(a, RED, 1.4, 0)
+steps(b, NAVY, 2.4, 0)
+f.line(x0, y0, x0 + W, y0, color=SLATE)
+f.text(150, 146, "minutes 1 to 12", size=10.5, color=SLATE)
+f.text(150, 166, "red: no cool-down, %d scale changes" % ca, size=10.5, color=RED, bold=True)
+f.text(150, 184, "blue: 3-min cool-down, %d changes" % cb, size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "peak %d pods; minutes above 80%% CPU: %d" % (max(p for p, _ in b), over), size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "pods = ceil(pods x CPU / target)", size=10.5, color=SLATE)
+```
+
 ## 5.7 Summary and exercises
 
 Microservices trade simplicity for independence; Kubernetes reconciles desired and observed state; the HPA scales replicas by ⌈current × metric ÷ target⌉ within tolerance and bounds; Little's Law and M/M/1 show why queues explode near full utilisation, and give serverless concurrency directly.
