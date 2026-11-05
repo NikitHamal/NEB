@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.util.TactileType
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -109,7 +111,7 @@ internal fun HomeWelcomePanel(
                     .height(54.dp)
                     .clip(RoundedCornerShape(18.dp))
                     .background(MaterialTheme.colorScheme.surfaceContainerLowest)
-                    .clickable(onClick = onSearchClick)
+                    .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onSearchClick)
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -198,7 +200,7 @@ private fun HomeActionCard(action: HomeAction, modifier: Modifier = Modifier) {
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceContainerLow)
             .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f), shape)
-            .clickable(onClick = action.onClick)
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = action.onClick)
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(11.dp)
@@ -252,7 +254,7 @@ internal fun HomeSubjectStrip(
                     .clip(RoundedCornerShape(999.dp))
                     .background(color.copy(alpha = 0.11f))
                     .border(1.dp, color.copy(alpha = 0.28f), RoundedCornerShape(999.dp))
-                    .clickable { onSubjectClick(subject) }
+                    .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) { onSubjectClick(subject) }
                     .padding(horizontal = 14.dp, vertical = 9.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(7.dp)
@@ -463,7 +465,7 @@ private fun SuggestedPostCard(
             .width(248.dp)
             .height(HomeRailCardHeight)
             .clip(shape)
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
@@ -949,7 +951,7 @@ internal fun HomeFeedResourceHighlight(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
@@ -1128,7 +1130,7 @@ internal fun HomeFeedComposerBar(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .clip(RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))

@@ -1,5 +1,6 @@
 package com.neb.ians.ui.components
 
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,8 +70,7 @@ fun NebCompactCard(
             .then(if (width != null) Modifier.width(width) else Modifier)
             .then(if (height != null) Modifier.height(height) else Modifier)
             .clip(shape)
-            .clickable {
-                tactile.perform(TactileType.LightTap)
+            .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) {
                 onClick()
             },
         shape = shape,
@@ -158,7 +158,7 @@ fun CompactPeerCard(
                     .fillMaxWidth()
                     .height(28.dp)
                     .clip(CircleShape)
-                    .clickable {
+                    .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) {
                         tactile.perform(TactileType.SelectionChange)
                         onFollowToggle()
                     },
