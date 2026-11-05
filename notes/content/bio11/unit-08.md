@@ -3050,6 +3050,31 @@ because over-collection caused insect outbreaks and heavier pesticide use. They
 remain a standard laboratory animal, and because their permeable skin absorbs
 whatever is in the water they are sensitive **bio-indicators** of pollution.
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="Animals are classified into phyla by body plan, symmetry, germ layers, coelom and segmentation, but the phyla differ enormously in size. (a) Beetles belong to the class Insecta of the phylum Arthropoda. (b) The chart uses rounded estimates of described species on a logarithmic scale, so each step to the right is a multiplication, not an addition. The nine phyla together hold about 1,238,000 species, and Arthropoda alone accounts for 81 per cent of them. It has 15 times as many species as Chordata, the phylum of fishes, frogs, birds and ourselves. Nepal follows this pattern, since its insects far outnumber its mammals."
+@ photo id="bio11/beetles" cap="Beetles, members of the largest class of the largest phylum, Arthropoda"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Described species in the main animal phyla"
+import math
+rows = [("Porifera", 9000), ("Coelenterata", 10000), ("Platyhelminthes", 20000), ("Nemathelminthes", 25000), ("Annelida", 17000), ("Arthropoda", 1000000), ("Mollusca", 85000), ("Echinodermata", 7000), ("Chordata", 65000)]
+total = sum(n for _, n in rows)
+share = 100.0 * 1000000 / total
+ratio = 1000000 / 65000.0
+f = Fig(300, 236)
+f.text(150, 14, "Species per phylum (approx., log scale)", size=10.5, color=NAVY, bold=True)
+for i, (nm, n) in enumerate(rows):
+    y = 26 + i * 17
+    w = 36 * (math.log10(n) - 2.5)
+    c = RED if nm == "Arthropoda" else (AMBER if nm == "Chordata" else NAVY)
+    f.text(6, y + 7, nm, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.box(96, y, w, 14, "", fill=c, stroke=c, r=2)
+    f.text(96 + w + 4, y + 7, "{:,}".format(n), size=9, color=SLATE, anchor="start", vmid=True)
+f.text(150, 196, "total of the nine phyla: {:,}".format(total), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "Arthropoda = %.0f %% of all species" % share, size=10.5, color=RED, bold=True)
+f.text(150, 228, "%.0f x more species than Chordata" % ratio, size=10.5, color=AMBER, bold=True)
+facts = dict(total="{:,}".format(total), share="%.0f" % share, ratio="%.0f" % ratio)
+```
+
 ## Chapter summary
 
 - Protista holds the eukaryotes that are neither plant, animal nor fungus; the

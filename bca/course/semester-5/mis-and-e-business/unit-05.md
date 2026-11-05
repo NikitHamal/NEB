@@ -158,6 +158,56 @@ f.box(130, 130, 320, 40, "Later: netted settlement through the central bank", fi
 f.text(535, 110, "6 confirmation", size=9.5, color=TEAL, bold=True)
 ```
 
+```photogrid label="5.4" cols="2" ratio="1.27" caption="A payment gateway must reject mistyped card numbers instantly, without sending them to the bank. (a) A card terminal at a shop counter reads the number from the chip or stripe. (b) The Luhn algorithm, used on bank card numbers, doubles every second digit from the right, subtracts 9 from any result above 9, and adds all digits. The test card 4111 1111 1111 1111 gives a sum of 30, a multiple of 10, so it passes, while changing only the last digit gives 31 and fails. Brute force over all 144 single-digit mistakes shows that every one is caught. The check protects against typing errors, not against fraud, so authentication and OTP are still required."
+@ photo id="bca304/cardterm" cap="A card payment terminal (point of sale)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Luhn check on a 16-digit card number"
+def luhn_total(num):
+    s = 0
+    for k, ch in enumerate(reversed(num)):
+        d = int(ch)
+        if k % 2 == 1:
+            d *= 2
+            if d > 9:
+                d -= 9
+        s += d
+    return s
+good = "4111111111111111"
+bad = "4111111111111112"
+tg, tb = luhn_total(good), luhn_total(bad)
+assert tg % 10 == 0 and tb % 10 != 0
+caught = 0; tried = 0
+for pos in range(16):
+    for d in "0123456789":
+        if d != good[pos]:
+            tried += 1
+            n = good[:pos] + d + good[pos + 1:]
+            caught += luhn_total(n) % 10 != 0
+assert caught == tried == 144
+f = Fig(300, 236)
+f.text(150, 14, "Luhn check digit: 4111 1111 1111 1111", size=10.5, color=NAVY, bold=True)
+dbl = []
+for i, ch in enumerate(good):
+    k = 15 - i
+    d = int(ch) * (2 if k % 2 == 1 else 1)
+    dbl.append(d - 9 if d > 9 else d)
+f.text(6, 34, "digits", size=9, anchor="start")
+f.text(6, 74, "after Luhn", size=9, anchor="start")
+for i, ch in enumerate(good):
+    x = 14 + i * 17
+    f.box(x, 40, 15, 20, ch, fill=BLUE, stroke=NAVY, size=10, bold=True, r=2)
+    hl = (15 - i) % 2 == 1
+    f.box(x, 80, 15, 20, str(dbl[i]), fill=("#fee2e2" if hl else SOFT), stroke=(RED if hl else SLATE), color=(RED if hl else SLATE), size=10, bold=True, r=2)
+f.text(150, 118, "every 2nd digit from the right is doubled", size=9.5, color=RED)
+f.text(150, 140, "sum = %d, and %d mod 10 = 0: accepted" % (tg, tg), size=10.5, color=TEAL, bold=True)
+f.text(150, 160, "change last digit to 2: sum = %d, rejected" % tb, size=10.5, color=RED, bold=True)
+f.text(150, 188, "all %d single-digit errors detected" % tried, size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "(16 positions x 9 wrong digits)", size=9.5)
+f.text(150, 222, "a typing slip is caught before the bank is called", size=9.5, color=SLATE)
+facts = dict(tg=tg, tb=tb, tried=tried)
+```
+
 ### 5.6.1 Eight advantages of e-business for Nepali firms
 
 1. **Wider market.** An online shop is open to customers across Nepal and abroad, not only to those who pass the building. A Bhaktapur handicraft seller can sell to tourists who returned home. The market grows without new shops.

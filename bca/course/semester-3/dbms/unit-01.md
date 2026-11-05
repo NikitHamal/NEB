@@ -140,6 +140,31 @@ for i, (a, b, fl, st) in enumerate(steps):
 f.box(8, 104, 564, 32, "Metadata: marks(subject CHAR(8), score INT CHECK 0..100) tells the DBMS what the numbers mean", fill=ROSE, stroke=RED, size=9.5, bold=True)
 ```
 
+```photogrid label="1.4" cols="2" ratio="1.27" caption="A database is not only about speed; it also removes the waste and the inconsistency of duplicate files. (a) Racks of servers in a data centre, where large public databases are kept. (b) Take a student-style record with an integer roll number, a 30-character name, a 20-character district, a date and a float, which the cell measured as 62 bytes. Stored once for each of the 29,164,578 people of the 2021 census, it needs 1.68 GiB. If three departments keep their own files the cost is 5.05 GiB, so 3.37 GiB is wasted, and a change of address must be repeated three times or the copies disagree."
+@ photo id="cs12/datacenter" cap="Servers in a data centre hold the national databases"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Size of one student table and the cost of copies"
+import struct
+rec = struct.calcsize("<i30s20sif")
+pop = 29164578
+one = rec * pop / 2 ** 30
+three = 3 * one
+saved = three - one
+assert rec == 62
+f = Fig(300, 236)
+f.text(150, 14, "Storing %s people x %d bytes per record" % ("{:,}".format(pop), rec), size=9.5, color=NAVY, bold=True)
+f.text(10, 40, "One shared database", size=10, anchor="start", bold=True, color=TEAL)
+f.box(10, 48, 280 * one / three, 26, "%.2f GiB" % one, fill=TEAL, stroke=TEAL, color="#ffffff", size=10.5, bold=True, r=3)
+f.text(10, 100, "Three department files (copies)", size=10, anchor="start", bold=True, color=RED)
+f.box(10, 108, 280, 26, "%.2f GiB" % three, fill=RED, stroke=RED, color="#ffffff", size=10.5, bold=True, r=3)
+f.text(150, 160, "record = INT 4 + CHAR 30 + CHAR 20 + DATE 4 + FLOAT 4", size=9, color=SLATE)
+f.text(150, 178, "= %d bytes (struct.calcsize)" % rec, size=10, color=NAVY, bold=True)
+f.text(150, 198, "files waste %.2f GiB on duplicates" % saved, size=10.5, color=RED, bold=True)
+f.text(150, 215, "and one address change needs 3 edits, not 1", size=10.5, color=NAVY, bold=True)
+facts = dict(rec=rec, one="%.2f" % one, three="%.2f" % three, saved="%.2f" % saved)
+```
+
 ### 1.6.1 Eight applications of a DBMS
 
 1. **Banking and digital payments.** A bank stores customers, accounts and every transaction in a DBMS, so a balance is always exact. When you send money with ConnectIPS or Fonepay, the database subtracts from one account and adds to another in a single all-or-nothing transaction. Without a DBMS, a power cut in the middle could lose or duplicate your money.

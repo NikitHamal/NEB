@@ -1153,6 +1153,33 @@ evolution**: agriculture from about 10,000 years ago, then writing and science.
 6. **Tool making → fire → speech → agriculture**: culture replaces biology.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="Brain size is one of the clearest trends in human evolution, together with upright posture and smaller jaws. (a) A cast of a Homo erectus skull, with a heavy brow ridge and a sloping forehead. (b) The bars show the cranial capacity ranges given in this chapter, with the middle value printed at the end of each bar. The mid value rises from about 450 cm3 in Australopithecus to about 1,400 cm3 in Homo sapiens, which is 3.1 times larger, an average gain of about 288 cm3 in every million years if the interval is taken as 3.3 million years. The Neanderthal range is as large as ours, so brain organisation also mattered, not size alone."
+@ photo id="bio11/erectus" cap="Cast of a Homo erectus skull"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Cranial capacity of fossil hominins (cm3)"
+rows = [("Dryopithecus", 400, 400, SLATE), ("Australopithecus", 400, 500, AMBER), ("Homo habilis", 650, 800, AMBER), ("Homo erectus", 800, 1100, TEAL), ("Neanderthal", 1300, 1600, NAVY), ("Homo sapiens", 1350, 1450, RED)]
+mid = {nm: (lo + hi) / 2.0 for nm, lo, hi, _ in rows}
+gain = mid["Homo sapiens"] / mid["Australopithecus"]
+rate = (mid["Homo sapiens"] - mid["Australopithecus"]) / 3.3
+assert abs(gain - 3.11) < 0.01
+f = Fig(300, 236)
+f.text(150, 14, "Brain size through human evolution", size=10.5, color=NAVY, bold=True)
+sc = 180.0 / 1800
+for i, (nm, lo, hi, c) in enumerate(rows):
+    y = 28 + i * 26
+    f.text(6, y + 9, nm, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.box(102 + lo * sc, y, max(4, (hi - lo) * sc), 18, "", fill=c, stroke=c, r=2)
+    f.text(102 + hi * sc + 4, y + 9, "%d" % mid[nm], size=9.5, color=SLATE, anchor="start", vmid=True)
+f.line(102, 186, 282, 186, color=SLATE, sw=1.2)
+for v in (0, 500, 1000, 1500):
+    f.line(102 + v * sc, 186, 102 + v * sc, 191, color=SLATE, sw=1.2)
+    f.text(102 + v * sc, 202, str(v), size=9.5, color=SLATE)
+f.text(150, 218, "H. sapiens / Australopithecus = %.1f x" % gain, size=10.5, color=RED, bold=True)
+f.text(150, 232, "about %.0f cm3 gained per million years" % rate, size=10, color=NAVY)
+facts = dict(gain="%.1f" % gain, rate="%.0f" % rate)
+```
+
 ## Chapter summary
 
 - Life arose once, by **chemical evolution** under a reducing, oxygen-free
