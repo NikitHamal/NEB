@@ -805,6 +805,13 @@ circle beside it.
 | Individual shapes | forgotten after drawing | remain in the document tree |
 | Suits | games, charts with thousands of points | logos, icons, maps, diagrams |
 
+```photogrid label="6.H" cols="4" ratio="1.25" caption="Where a website physically lives. (a) Submarine cables carry international traffic between continents; Nepal reaches them through India and China. (b) A data centre holds the servers of web hosts in air-conditioned halls. (c) Racks of servers, each one able to host many sites. (d) The padlock in the address bar shows that the page was fetched over HTTPS and that the connection is encrypted. When you type a domain name, DNS finds the IP address of one of these servers and the browser requests the files from it."
+@ photo id="bca101/subcable" cap="(a) Submarine cables"
+@ photo id="cs12/datacenter" cap="(b) A data centre"
+@ photo id="cs12/server-racks" cap="(c) Server racks"
+@ photo id="cs11/https-padlock" cap="(d) HTTPS padlock in a browser"
+```
+
 ## 6.13 Domain names and web hosting
 
 Every computer on the internet is identified by an **IP address**, a number such
@@ -1011,6 +1018,17 @@ The `<link>` tag is empty — no closing partner — and must sit inside `<head>
 If `style.css` also contained `h1 { color: red; }`, the heading would still come
 out **navy**, because the embedded rule is more specific than the external one.
 :::
+
+### Eight advantages of CSS, explained
+
+1. **Separation of content and design.** HTML says what a page contains and CSS says how it looks. A writer can change the text without breaking the design, and a designer can change the colours without touching the text. This makes teamwork easy.
+2. **One file styles many pages.** An external style sheet is linked from every page of a site. A school with fifty pages changes the heading colour in one line of `style.css`, and all fifty pages change at once. This saves hours of work.
+3. **Faster page loading.** The browser downloads the style sheet only once and keeps it in its cache for the other pages. The HTML files become smaller because they carry no repeated formatting tags. This helps visitors on slow mobile data in the hills.
+4. **Consistent look.** The same fonts, colours and spacing appear on every page, so the site looks professional. The visitor learns where to find the menu on one page and finds it in the same place on the others.
+5. **More formatting power than HTML.** CSS can set margins, borders, shadows, rounded corners, background images and exact fonts, which plain HTML cannot do. Layouts with columns and a sticky menu are possible only with CSS.
+6. **Easier maintenance.** Code is shorter and cleaner, so mistakes are easier to find and correct. Styles are kept in one place instead of being spread in thousands of tags.
+7. **Device and media flexibility.** A media query lets the same page rearrange itself for a phone, a tablet or a printer. The Nagarik App web pages and the NEB result site must read well on small phone screens, and CSS makes this possible.
+8. **Better accessibility and search ranking.** Clean HTML with CSS is easier for screen readers and for search engines to read. Users can also change font size or contrast for comfort. Good markup helps the page to rank higher.
 
 ```photogrid label="6.P" cols="2" ratio="1.27" caption="A web page is a bundle of files, an HTML document plus style sheets, scripts and images, and the browser must download all of them before the page appears complete. (a) A mobile tower bringing internet to a hillside village. (b) A page of 1.84 MB needs 7.4 s on a 2 Mbps link and 1.47 s at 10 Mbps, since time equals size x 8 divided by speed. Compressing the text and converting the images to WebP shrinks it to 0.87 MB and the 10 Mbps load to 0.70 s, a saving of 53 %. A web designer therefore keeps images small, because many visitors in Nepal browse over a slow mobile connection."
 @ photo id="bca101/nttower" cap="A telecom tower carrying mobile internet to a Nepali hillside"
@@ -1276,3 +1294,150 @@ kind of text it is, `srclang="en"` its language and `default` selects it
 automatically. The sentence before `</video>` is fallback text, shown only by a
 browser that does not support the element at all.
 :::
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Explain the structure of an HTML document and write the HTML code for a web page that contains a heading, a paragraph, a list, a table, an image and a link. <span class="marks">[10]</span>
+2. What is CSS? Explain its three types with examples and write its advantages. <span class="marks">[10]</span>
+3. What is a domain name? Explain DNS, the types of web hosting and the steps to publish a website. <span class="marks">[10]</span>
+
+### Model answer D1: HTML structure and a complete page (10 marks)
+
+**Introduction.** **HTML (HyperText Markup Language)** is the standard language for creating web pages.
+It is a markup language, not a programming language: the text is marked with **tags** such as
+`<p>` that tell the browser what each part is. A tag has an opening and usually a closing form,
+and an **attribute** such as `src="photo.jpg"` adds information to a tag.
+
+**Structure.**
+
+1. `<!DOCTYPE html>` declares that the document is HTML5.
+2. `<html>` is the root element holding everything else.
+3. `<head>` holds information about the page, which is not displayed, such as `<title>` (the text on the browser tab), `<meta charset="utf-8">` and the link to a style sheet.
+4. `<body>` holds everything that the visitor sees: headings, paragraphs, lists, tables, images, links and forms.
+
+| Tag | Purpose |
+|---|---|
+| `<h1>` to `<h6>` | Headings, largest to smallest |
+| `<p>`, `<br>` | Paragraph, line break (empty tag) |
+| `<ul>`, `<ol>`, `<li>` | Bulleted list, numbered list, list item |
+| `<table>`, `<tr>`, `<th>`, `<td>` | Table, row, heading cell, data cell |
+| `<img src alt>` | Picture (empty tag) |
+| `<a href>` | Hyperlink |
+
+**Program.**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Visit Nepal</title>
+</head>
+<body>
+  <h1>Pokhara, the City of Lakes</h1>
+  <p>Pokhara lies in Gandaki Province and is the gateway to the Annapurna region.</p>
+  <ul>
+    <li>Phewa Lake</li>
+    <li>World Peace Pagoda</li>
+    <li>Sarangkot</li>
+  </ul>
+  <table border="1">
+    <tr><th>Place</th><th>Altitude (m)</th></tr>
+    <tr><td>Pokhara</td><td>822</td></tr>
+    <tr><td>Sarangkot</td><td>1600</td></tr>
+  </table>
+  <img src="phewa.jpg" alt="Phewa Lake at sunrise" width="300">
+  <p><a href="https://www.welcomenepal.com">Plan your trip</a></p>
+</body>
+</html>
+```
+
+**Explanation.** The heading is the largest text, the list shows three places, the table has one
+header row and two data rows, the picture needs `alt` text for accessibility, and the link opens
+the target page when clicked. The file is saved with the extension `.html` and opened in a browser.
+
+**Conclusion.** Every web page, from a school notice to the NEB result site, rests on this
+`html`, `head` and `body` skeleton, and tags give each part its meaning.
+
+### Model answer D2: Cascading Style Sheets (10 marks)
+
+**Introduction.** **CSS (Cascading Style Sheets)** is the language that describes how HTML
+elements are presented: colour, size, spacing, font and layout. A CSS rule has a **selector**
+(which element) and a **declaration block** of `property: value;` pairs, for example
+`h1 { color: navy; font-size: 28px; }`.
+
+**Three types.**
+
+| Type | Where it is written | Example | Affects |
+|---|---|---|---|
+| Inline | `style` attribute of one tag | `<p style="color:green">Text</p>` | That element only |
+| Embedded (internal) | `<style>` element in `<head>` | `<style> h1 { color: navy; } </style>` | The whole page |
+| External | Separate `.css` file linked in `<head>` | `<link rel="stylesheet" href="style.css">` | Every page that links to it |
+
+If rules clash, the **inline** rule beats the embedded rule, which beats the external rule (the
+nearest, most specific rule wins, which is the "cascade").
+
+**Selectors.** A **type selector** (`p`) styles every paragraph; a **class selector** (`.note`)
+styles all elements with `class="note"`; an **id selector** (`#top`) styles the one element with
+that id.
+
+**Advantages.**
+
+1. Separates content from design.
+2. One file styles many pages.
+3. Faster loading, since the style sheet is cached.
+4. A consistent look across the site.
+5. More formatting power than plain HTML.
+6. Easier maintenance.
+7. Different layouts for phone, tablet and printer.
+8. Better accessibility and search ranking.
+
+**Limitations.** Older browsers may display rules differently, and large style sheets can become
+hard to manage.
+
+**Conclusion.** Inline CSS is good for a quick change, embedded CSS for one page, and external CSS
+for a whole site, which is the method used on real websites.
+
+### Model answer D3: domain names, DNS and web hosting (10 marks)
+
+**Introduction.** Every computer on the internet has an **IP address** such as `142.250.183.4`.
+Numbers are hard to remember, so people use a **domain name** such as `neb.gov.np`, the unique
+human-readable address of a website. The **Domain Name System (DNS)** translates the name into
+the IP address.
+
+**Parts of a domain.** A name is read from right to left: `.np` is the country-code top-level domain,
+`.gov` the second level (government), and `neb` the registered name. Other TLDs are `.com`,
+`.org`, `.edu` and `.net`. In Nepal, `.np` names are registered through Mercantile Communication.
+
+**How DNS works.** (1) The user types `neb.gov.np` in the browser. (2) The browser asks the DNS
+resolver of the internet service provider. (3) The resolver looks up the answer, asking the
+root, the `.np` and the authoritative servers if it does not know. (4) The IP address returns to
+the browser. (5) The browser requests the page from that server, which returns the HTML.
+
+**Web hosting.** **Web hosting** is the service of storing a site's files on a server that is
+always connected to the internet.
+
+| Type | Meaning | Suits |
+|---|---|---|
+| Shared | Many sites share one server | Small and school sites, cheapest |
+| VPS | A guaranteed slice of a server | Growing sites |
+| Dedicated | A whole server for one customer | Large, busy sites |
+| Cloud | Many servers, paid by use | Variable traffic |
+
+**Steps to publish a website.**
+
+1. Design and test the pages on the local computer.
+2. Register a domain name with a registrar.
+3. Buy a hosting plan.
+4. Point the domain to the host's name servers.
+5. Upload the files with FTP or the control panel.
+6. Test the site in several browsers.
+
+| Point | Domain name | Web hosting |
+|---|---|---|
+| Meaning | Address of the site | Space on a server for the files |
+| Example | `neb.gov.np` | A shared plan |
+| Renewal | Yearly | Monthly or yearly |
+
+**Conclusion.** The domain is the address and the hosting is the land and building at that
+address; both are needed before the world can visit the site.
