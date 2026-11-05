@@ -86,7 +86,7 @@ fun NebIdentityPicker(
                     modifier = Modifier.widthIn(max = 120.dp)
                 )
             }
-            NebIcon(NebIcons.ChevronDown, null, size = 14.dp, tint = scheme.onSurfaceVariant)
+            NebIcon(NebIcons.ChevronDown, "Choose identity", size = 20.dp, tint = scheme.onSurface)
         }
 
         DropdownMenu(
