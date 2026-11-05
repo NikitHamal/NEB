@@ -12,6 +12,10 @@ run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `
 
 Read `ANDROID_NOTES_STATUS.md` before touching `app/.../ui/screens/notes/`, `app/.../speech/` or `app/src/main/cpp/`. Models (Whistle STT, Phonon TTS) are never bundled: the user downloads/removes them in the Voice screen. `libptts_ffi.so` is built by `.github/workflows/build-phonon-lib.yml` and committed; `libneedle.a` is vendored. Never build the app locally, push and read the `Build Student Release APKs & AAB` run.
 
+## Android analytics + removed AI/study surfaces
+
+The app has no AI chat, Study Lab or Study Space (removed in session 8, see `ANDROID_M3X_STATUS.md`); the only Neby AI is the PDF reader's overlay (`ui/screens/reader/PdfAssistantOverlay.kt`, rows in `NebyAnswer.kt`) and `@neby` in the forum. Do not add their endpoints back to `ApiService`. The Analytics screen (`ui/screens/analytics/`) reads one v2 payload from `api/user_analytics.py` (`docs/ANALYTICS.md`, member section); change both sides and `data/api/AnalyticsModels.kt` together and run `api.test_user_analytics`.
+
 ## Admin panel
 
 Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/css/admin/`. One nav list (`admin_extras.NAV_GROUPS`), M3 confirm dialog instead of `confirm()`, tonal surfaces, finite radii on every hover shape; `web/test_admin_shell.py` enforces it. Analytics: `docs/ANALYTICS.md`.
