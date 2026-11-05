@@ -191,6 +191,32 @@ f.text(306, 188, "iteration (vertical axis: log10 of the largest error)", size=1
 7. **Weather and flow simulation.** Dividing the air or a river into small cells gives millions of linked equations, solved by fast iterative methods. Direct elimination would be far too slow. Choosing the right method decides whether a forecast arrives in time.
 8. **Network and traffic analysis.** Flow of traffic, water in a pipe network and data in a computer network follow balance equations. Solving them locates bottlenecks. Planners in Kathmandu can test a road change on paper first.
 
+```photogrid label="4.2" cols="2" ratio="1.4" caption="How many digits can an ill-conditioned system burn? (a) A slide rule gives about three correct digits, and engineers knew to stop trusting any answer beyond them. (b) The Hilbert matrix H with entries 1/(i + j - 1) is the classic ill-conditioned system. Its condition number is about 19 for n = 2, 1.6 x 10^4 for n = 4, 1.5 x 10^7 for n = 6, 1.5 x 10^10 for n = 8 and 1.6 x 10^13 for n = 10. A rule of thumb says the solution loses about log10(condition number) digits of the 16 carried by double precision. For n = 8 we solved Hx = b with a known solution of all ones and got a largest error of about 1 x 10^-7, so only about 7 of 16 digits were correct; for n = 10 only about 3 would remain. A small residual does not prove a small error when the matrix is ill-conditioned."
+@ photo id="bcanm/sliderule" cap="A slide rule: three digits of precision"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Digits lost = log10 of the condition number"
+import numpy as np
+ns = [2, 4, 6, 8, 10]
+cond = [np.linalg.cond(1 / (np.arange(1, n + 1)[:, None] + np.arange(n)[None, :])) for n in ns]
+lost = [int(round(float(np.log10(c)))) for c in cond]
+assert lost == [1, 4, 7, 10, 13]
+n = 8; H = 1 / (np.arange(1, n + 1)[:, None] + np.arange(n)[None, :]); err = float(np.abs(np.linalg.solve(H, H @ np.ones(n)) - 1).max())
+assert 1e-9 < err < 1e-5
+f = Fig(300, 240)
+f.text(150, 14, "digits lost out of 16 (double precision)", size=10.5, color=NAVY, bold=True)
+base, sc = 170, 120 / 16.0
+for i, (n_, l) in enumerate(zip(ns, lost)):
+    x = 20 + i * 54; h = l * sc
+    f.box(x, base - h, 40, h, "", fill="#b91c1c" if l >= 10 else "#1d6fb8", stroke=NAVY, r=0, sw=1)
+    f.text(x + 20, base - h - 8, str(l), size=10.5, color=NAVY, bold=True)
+    f.text(x + 20, base + 14, f"n = {n_}", size=10.5, color=SLATE)
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+f.line(10, base - 120, 292, base - 120, color="#0f766e", sw=1.2, dash=True)
+f.text(150, 206, "dashed line = all 16 digits", size=10.5, color=SLATE)
+f.text(150, 224, "n = 8: error about 1e-7, 7 digits left", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Multiplier mᵢₖ = aᵢₖ/aₖₖ; partial pivoting: swap to the largest |aᵢₖ|; det = ±Π pivots.
