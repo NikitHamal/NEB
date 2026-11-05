@@ -480,6 +480,26 @@ $$ \Delta S = \frac{Q}{T} = \frac{3.34\times10^{5}}{273} = 1.22\times10^{3}\ \te
 The entropy increases, as it must: liquid water is more disordered than ice.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.2" caption="Entropy never decreases in an isolated system. (a) The compressor of a refrigeration plant does the work that lets heat leave the cold space and go to the warm room. (b) The cell takes 1000 J of heat flowing from a hot body to a cold body at 300 K. The hot body loses entropy Q / Thot and the cold body gains Q / Tcold, so the total change is 1.333 J/K for a 500 K source, 0.833 J/K for 400 K and 0.476 J/K for 350 K; it is zero only when there is no temperature difference. Heat therefore flows spontaneously only from hot to cold, as the Clausius statement says. To move it the other way, as a refrigerator does, extra entropy must be produced elsewhere by the work supplied to the compressor."
+@ photo id="ceephy3/compressor" cap="A refrigeration compressor, which must be driven to push heat uphill"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Entropy change when heat flows from hot to cold"
+Q = 1000.0
+rows = [("500 to 300 K", Q / 300 - Q / 500), ("400 to 300 K", Q / 300 - Q / 400), ("350 to 300 K", Q / 300 - Q / 350), ("300 to 300 K", 0.0)]
+assert round(rows[0][1], 3) == 1.333 and round(rows[1][1], 3) == 0.833
+rev = Q / 300 - Q / 500
+f = Fig(300, 236)
+f.text(150, 12, "Total entropy change for 1000 J, J/K", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1.5, fmt="%.3f", x0=84, y0=30, bw=150, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 158, "dS = Q / Tcold - Q / Thot  (never negative)", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "dS > 0: the flow is irreversible, natural", size=10, color=SLATE, bold=True)
+f.text(150, 198, "reverse flow would give dS = %.3f J/K < 0" % -rev, size=10.5, color=RED, bold=True)
+f.text(150, 216, "so a refrigerator needs work to allow it", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[2][1])
+```
+
 ## Chapter summary
 
 - Real processes run one way only. A reversible process is quasi-static and free

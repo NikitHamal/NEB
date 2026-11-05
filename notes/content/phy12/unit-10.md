@@ -379,6 +379,26 @@ $$ \Delta t = \frac{(n-1)x}{c} = \frac{0.5 \times 2.0\times10^{-3}}{3\times10^{8
  = 3.3\times10^{-12}\ \text{s} $$
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.2" caption="Light as a ruler. (a) In a Michelson interferometer a beam is split and the two halves return from two mirrors to form rings. Moving one mirror by half a wavelength makes the whole pattern shift by one fringe, because the path of that beam changes by one full wavelength on the way out and back. (b) The cell uses the yellow line of sodium, 589.3 nm: one fringe means a shift of 294.7 nm, a movement of 0.1 mm passes 339 fringes and 1 mm passes 3394. Counting 3200 fringes shows a displacement of 0.943 mm. The method measures tiny lengths and, run backwards with a known length, gives the wavelength of light. It proves that light behaves as a wave."
+@ photo id="phy12b/interf" cap="Circular fringes in a Michelson interferometer lit by a sodium lamp"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Counting fringes to measure a length"
+lam = 589.3e-9
+rows = [("%g mm" % d, 2 * d * 1e-3 / lam) for d in (0.01, 0.1, 0.5, 1.0)]
+assert round(rows[1][1]) == 339 and round(rows[3][1]) == 3394
+N = 3200
+d_ = N * lam / 2 * 1000
+f = Fig(300, 236)
+f.text(150, 12, "Fringes counted when the mirror moves", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3500, fmt="%.0f", x0=58, y0=30, bw=160, gap=30)
+f.text(150, 158, "N = 2 d / lambda; sodium D line 589.3 nm", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "one fringe = a mirror shift of %.1f nm" % (lam / 2 * 1e9), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "3200 fringes mean d = %.3f mm" % d_, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "light waves make a ruler of 0.3 micrometre", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[1][1], b=rows[3][1], one=lam / 2 * 1e9, d=d_)
+```
+
 ## Chapter summary
 
 - A **wavefront** is the locus of points vibrating in the same phase; a **ray** is

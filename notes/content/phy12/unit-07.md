@@ -369,6 +369,26 @@ given 498 m — an error of 14 m, which is why the temperature correction is
 worth doing.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.2" caption="Counting seconds between flash and thunder. (a) Lightning and thunder start together, but light arrives almost at once and sound arrives later. (b) The speed of sound in air rises with temperature, v = 331 + 0.61 T metres per second, which is 349.3 m/s at 30 degrees C. A delay of 3 s therefore means the strike was 1.05 km away, and 10 s means 3.49 km. The light from a strike 3.5 km away takes only 11.6 microseconds, so the delay is entirely due to the sound. The rule of thumb of about 3 seconds per kilometre follows from these numbers."
+@ photo id="phy12b/lightning" cap="Lightning in a night thunderstorm"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Distance of lightning from the delay of thunder"
+T = 30
+v = 331 + 0.61 * T
+rows = [("%d s" % t, v * t / 1000) for t in (1, 3, 5, 10)]
+assert round(v, 1) == 349.3 and round(rows[3][1], 2) == 3.49
+tl = rows[3][1] * 1000 / 3e8 * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Distance of the strike, km", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3.7, fmt="%.2f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 158, "delay between flash and thunder shown", size=10, color=SLATE, bold=True)
+f.text(150, 178, "v = 331 + 0.61 T = %.1f m/s at 30 deg C" % v, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "at 0 deg C: 331 m/s, %.0f m less in 3 s" % ((v - 331) * 3), size=10, color=SLATE, bold=True)
+f.text(150, 216, "the flash takes only %.1f microseconds" % tl, size=10.5, color=NAVY, bold=True)
+facts = dict(v=v, d3=rows[1][1], d10=rows[3][1], tl=tl)
+```
+
 ## Chapter summary
 
 - Every wave obeys $v=f\lambda$, but the speed itself is set by the medium:

@@ -328,6 +328,28 @@ numerically the stopping potential in volts, and you need no conversions at all.
 Convert to joules only at the last step, when a speed is asked for.
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.2" caption="A photon must carry at least the band gap. (a) Photovoltaic panels turn sunlight into electricity using a junction in silicon. (b) A photon can lift an electron across the band gap only if its energy hc / lambda is at least Eg, so the longest useful wavelength is 1239.84 / Eg nanometres when Eg is in electron-volts. Silicon, with a gap of 1.12 eV, uses light up to 1107 nm, in the near infrared; germanium, with a smaller gap, uses light up to 1879 nm. A green photon of 550 nm carries 2.25 eV, more than silicon needs, and the extra energy is lost as heat. Sunlight of 1000 W per square metre contains about 2.77e+21 such photons every second, but a panel of 20 per cent efficiency delivers only 200 W."
+@ photo id="phy12b/solar" cap="A ground-mounted array of photovoltaic panels"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Which photons a semiconductor can use"
+hc = 1239.84
+mats = [("Si 1.12 eV", 1.12), ("Ge 0.66 eV", 0.66), ("GaAs 1.42 eV", 1.42), ("CdTe 1.50 eV", 1.50)]
+rows = [(n, hc / e) for n, e in mats]
+assert round(rows[0][1]) == 1107
+E550 = hc / 550
+flux = 1000 / (E550 * 1.602177e-19)
+f = Fig(300, 236)
+f.text(150, 12, "Longest wavelength absorbed, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1950, fmt="%.0f", x0=96, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (ROSE, RED), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 158, "lambda_max = hc / Eg = 1239.84 nm eV / Eg", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "a 550 nm photon carries %.2f eV" % E550, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1000 W/m2 of such light = %.2e photons/s" % flux, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "per square metre (a 20 per cent panel keeps 200 W)", size=10, color=SLATE, bold=True)
+facts = dict(si=rows[0][1], ge=rows[1][1], e=E550, flux=flux)
+```
+
 ## Chapter summary
 
 - Radiation is emitted and absorbed in quanta: a photon has $E = hf = hc/\lambda$,

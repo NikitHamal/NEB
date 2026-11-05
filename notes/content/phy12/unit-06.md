@@ -333,6 +333,24 @@ $f = \omega/2\pi = 100\ \text{Hz}$.
 gives $x = 0, 2, 4, 6\ \text{cm}$, confirming the spacing.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.2" caption="Nodes mark where nothing moves. (a) When a Chladni plate is bowed or driven, sand moves away from the vibrating regions and collects along the nodal lines. (b) In every stationary wave the nodes are half a wavelength apart, and the wavelength is v / f. The cell uses the speed of sound in air, 343 m/s: at 500 Hz the nodes are 34.3 cm apart, at 1000 Hz 17.15 cm and at 4000 Hz only 4.29 cm. The same halving of the spacing for each doubling of the frequency is why the patterns on the plate become more finely divided at high frequency, and why the harmonics of a string or a pipe have more nodes."
+@ photo id="phy12b/chladni" cap="Brass Chladni plates on a stand"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Distance between nodes of a stationary sound wave"
+v = 343.0
+rows = [("%d Hz" % fr, v / (2 * fr) * 100) for fr in (500, 1000, 2000, 4000)]
+assert round(rows[0][1], 1) == 34.3 and round(rows[3][1], 2) == 4.29
+f = Fig(300, 236)
+f.text(150, 12, "Node-to-node distance in air, cm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=36, fmt="%.2f", x0=60, y0=30, bw=170, gap=30)
+f.text(150, 158, "nodes are lambda / 2 apart, lambda = v / f", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "v = 343 m/s in air at 20 deg C", size=10, color=SLATE, bold=True)
+f.text(150, 198, "on a plate, sand gathers at the nodes", size=10, color=SLATE, bold=True)
+f.text(150, 216, "so higher f gives finer patterns", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1])
+```
+
 ## Chapter summary
 
 - A progressive wave carries energy and momentum through a medium without

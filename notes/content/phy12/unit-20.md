@@ -484,7 +484,7 @@ question asks for the mass of the electron, it is asking you to combine the two.
 **1.** (b) — every drop charge came out as an integral multiple of $e$.
 **2.** (b) — $eV = \frac12 mv^2$ gives $v \propto \sqrt{V}$.
 **3.** (c) — the force $evB$ stays perpendicular to $v$, so the speed is constant and the path closes into a circle.
-**4.** (b) — setting $eE = evB$ gives $v = E/B$.
+**4.** (b) — the forces balance when $eE = evB$, so the speed is $v = E/B$.
 **5.** (c) — $1.76\times10^{11}\ \text{C kg}^{-1}$; (d) is the value for the hydrogen ion.
 :::
 
@@ -511,8 +511,8 @@ $V = mgd/q = (1.92\times10^{-14}\times5.0\times10^{-3})/(3.2\times10^{-19}) = 30
 
 **4.** $v = \sqrt{2eV_a/m} = \sqrt{2\times1.6\times10^{-19}\times500/9.1\times10^{-31}}
 = \sqrt{1.76\times10^{14}} = 1.33\times10^{7}\ \text{m s}^{-1}$. Then
-$r = mv/eB = (9.1\times10^{-31}\times1.33\times10^{7})/(1.6\times10^{-19}\times2.0\times10^{-3})
-= 1.21\times10^{-23}/3.2\times10^{-22} = 3.8\times10^{-2}\ \text{m} = 3.8\ \text{cm}$.
+
+$$r = \frac{mv}{eB} = \frac{9.1\times10^{-31}\times1.33\times10^{7}}{1.6\times10^{-19}\times2.0\times10^{-3}} = 3.8\times10^{-2}\ \text{m} = 3.8\ \text{cm}$$
 
 **5.** Outline: the electric force $eE$ is along the field and does work, so the
 speed changes and the path is a parabola; the magnetic force $evB$ is

@@ -456,6 +456,25 @@ $$ E = N S\,\Delta\theta = 40 \times 42 \times 0.50 = 840\ \mu\text{V}
 — comfortably measurable, which is exactly the point of a thermopile.
 :::
 
+```photogrid label="15.P" cols="2" ratio="1.2" caption="A thermometer made from two metals. (a) A K-type thermocouple is a pair of wires, nickel-chromium and nickel-aluminium, joined at the hot end; the other ends go to a plug. (b) The cell uses the standard table of thermo e.m.f. with the cold junction at 0 degrees C: 4.096 mV at 100 degrees, 8.138 mV at 200 degrees, 20.644 mV at 500 degrees and 41.276 mV at 1000 degrees. Dividing by temperature gives a nearly constant Seebeck coefficient, 41.0 microvolt per degree at 100 degrees and 41.3 at 1000 degrees. Because the e.m.f. rises almost linearly over such a wide range, the thermocouple is the standard sensor for furnaces, kilns and engines where a mercury thermometer would fail."
+@ photo id="phy12b/thermocouple" cap="A K-type thermocouple wire with its plug"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Thermo e.m.f. of a nickel-chromium / nickel-aluminium couple"
+tab = [(100, 4.096), (200, 8.138), (500, 20.644), (1000, 41.276)]
+rows = [("%d C" % t, e) for t, e in tab]
+sens = [e / t * 1000 for t, e in tab]
+assert round(sens[3], 1) == 41.3
+f = Fig(300, 236)
+f.text(150, 12, "e.m.f. with cold junction at 0 C, mV", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=45, fmt="%.3f", x0=56, y0=30, bw=160, gap=30)
+f.text(150, 158, "mean sensitivity e / T in microvolt per C:", size=10, color=SLATE, bold=True)
+f.text(150, 178, "%.1f, %.1f, %.1f, %.1f" % tuple(sens), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "nearly constant, so e = a t is a good", size=10, color=SLATE, bold=True)
+f.text(150, 214, "approximation up to 1000 deg C", size=10, color=SLATE, bold=True)
+facts = dict(s=sens[0], s5=sens[2], s10=sens[3], e5=tab[2][1])
+```
+
 ## Chapter summary
 
 - **Seebeck effect:** two dissimilar metals, two junctions at different

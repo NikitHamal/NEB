@@ -498,6 +498,26 @@ $$ t = \frac{m}{b} = \frac{0.2}{0.04} = 5\ \text{s} $$
 The energy decays in half the time the amplitude does.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.2" caption="Time period from length alone. (a) A Foucault pendulum has a heavy bob on a long wire; its slow swing is easy to follow along the dial on the floor. (b) For small angles a simple pendulum performs simple harmonic motion with time period T = 2 pi sqrt(L / g). The cell gives 1.00 s for a 0.25 m pendulum, 2.006 s for 1 m and 19.9 s for a 98 m cathedral pendulum. A seconds pendulum, with T = 2 s, is 0.994 m long. Measuring T for a known L reverses the formula, g = 4 pi2 L / T2, and gives g = 9.81 m/s2, which is how the value of g is found in the school laboratory."
+@ photo id="ceephy2/pendulum" cap="The bob and the dial of a Foucault pendulum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Time period against pendulum length"
+import math
+g = 9.80665
+rows = [("%g m" % L, 2 * math.pi * math.sqrt(L / g)) for L in (0.25, 1.0, 2.0, 98.0)]
+assert round(rows[1][1], 3) == 2.006 and round(rows[3][1], 1) == 19.9
+gm = 4 * math.pi ** 2 * 1.0 / rows[1][1] ** 2
+f = Fig(300, 236)
+f.text(150, 12, "T = 2 pi sqrt(L / g), seconds", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=21, fmt="%.2f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "T depends on L and g, not on the mass", size=10, color=SLATE, bold=True)
+f.text(150, 180, "L = 1 m gives T = %.3f s (a seconds pendulum" % rows[1][1], size=10, color=NAVY, bold=True)
+f.text(150, 196, "has T = 2 s and L = %.3f m)" % (9.80665 / math.pi ** 2), size=10, color=NAVY, bold=True)
+f.text(150, 216, "4 pi2 L / T2 returns g = %.2f m/s2" % gm, size=10.5, color=NAVY, bold=True)
+facts = dict(t1=rows[1][1], t98=rows[3][1], t025=rows[0][1], g=gm, ls=9.80665 / math.pi ** 2)
+```
+
 ## Chapter summary
 
 - SHM: $a = -\omega^{2}x$, with $x = A\sin(\omega t + \phi)$,

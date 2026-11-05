@@ -672,6 +672,26 @@ $$ R = \frac{V^{2}}{P} = \frac{230^{2}}{1500} = \frac{52900}{1500}
 = 35.3\ \Omega $$
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.2" caption="Joule heating at work. (a) The element of a toaster is a thin high-resistance wire that glows when current passes through it. (b) The cell works from the power rating on the label and the 230 V supply of Nepal. An 800 W toaster draws I = P / V = 3.48 A, which means a resistance of 66.1 ohm, while a 2000 W kettle draws 8.70 A and needs a thicker cable and a fuse of higher rating. Two minutes of toasting converts 96 kJ of electrical energy to heat by Joule's law H = I2 R t, which is only 0.0267 of a kilowatt-hour unit on the electricity meter."
+@ photo id="phy12b/toaster" cap="The glowing heating element of a toaster"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Current and energy used by heating appliances"
+V = 230.0
+rows = [("toaster 800 W", 800 / V), ("iron 1000 W", 1000 / V), ("heater 1500 W", 1500 / V), ("kettle 2000 W", 2000 / V)]
+assert round(rows[0][1], 2) == 3.48
+R = V ** 2 / 800
+E = 800 * 120 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Current drawn from 230 V, amperes", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=9, fmt="%.2f", x0=100, y0=30, bw=140, gap=30)
+f.text(150, 158, "I = P / V; H = I^2 R t = P t", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "toaster element resistance R = %.1f ohm" % R, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "2 minutes of toasting: %.0f kJ" % E, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "= %.4f kWh, one unit is 3600 kJ" % (E / 3600), size=10, color=SLATE, bold=True)
+facts = dict(i=rows[0][1], R=R, E=E, k=rows[3][1])
+```
+
 ## Chapter summary
 
 - Kirchhoff's junction law $\sum I = 0$ expresses conservation of charge; the

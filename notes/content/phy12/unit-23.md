@@ -581,6 +581,24 @@ Highest order: $\sin\theta \le 1$ needs $n \le 2d/\lambda =
 2(2.81)/1.54 = 3.65$, so **$n = 3$** is the highest order observable.
 :::
 
+```photogrid label="23.P" cols="2" ratio="1.2" caption="The sharp edge of the continuous X-ray spectrum. (a) The X-ray tube of a diffractometer accelerates electrons through a high voltage onto a metal target. (b) The most energetic photon is produced when an electron gives all its energy eV to a single photon, so the shortest wavelength is lambda_min = hc / eV. The cell gives 62.0 pm at 20 kV, 31.0 pm at 40 kV and 10.3 pm at 120 kV. An electron accelerated through 40 kV has 6.41e-15 J. This limit does not depend on the target material, only on the tube voltage, and it was one of the early confirmations that light is made of photons. Raising the voltage gives harder X-rays that penetrate more."
+@ photo id="ceephy3/xrd" cap="An X-ray diffractometer"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Short-wavelength limit of the X-ray spectrum"
+rows = [("20 kV", 1239.84 / 20), ("40 kV", 1239.84 / 40), ("80 kV", 1239.84 / 80), ("120 kV", 1239.84 / 120)]
+assert round(rows[1][1]) == 31
+E = 40e3 * 1.602177e-19
+f = Fig(300, 236)
+f.text(150, 12, "Cut-off wavelength lambda_min, pm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=65, fmt="%.1f", x0=56, y0=30, bw=170, gap=30)
+f.text(150, 158, "e V = h c / lambda_min (Duane-Hunt)", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "lambda_min = 1239.84 / V(volt) nm", size=10, color=SLATE, bold=True)
+f.text(150, 198, "at 40 kV an electron carries %.2e J" % E, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "doubling V halves lambda_min", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1], E=E)
+```
+
 ## Chapter summary
 
 - Bohr: $mvr = nh/2\pi$; $r_n = \varepsilon_0h^{2}n^{2}/\pi me^{2} = 0.529\,n^{2}$ Å;
