@@ -76,6 +76,17 @@ learning app.
 | allows interaction and immediate feedback | too many effects can distract from the message |
 | one presentation can reach a huge audience | may not work on old devices or for people without access |
 
+### Eight applications of multimedia, explained
+
+1. **Education.** Animated lessons, e-books and recorded classes make difficult ideas easy to see. Students of Grade 10 watch videos of the heart or of a river forming a delta. Learning apps and the online resources of the Curriculum Development Centre use text, pictures, sound and video together.
+2. **Entertainment.** Films, music, streaming and computer games are pure multimedia. A Nepali film is shot as video, mixed with audio and given computer-made effects. Millions in Nepal watch songs on YouTube.
+3. **Business and advertising.** Companies use slide shows, product videos and animated advertisements to attract customers. A bank explains its mobile-banking service in a short animation. This makes the message clear and easy to remember.
+4. **Training and simulation.** Pilots, drivers and surgeons practise on simulators that combine graphics, sound and movement. A driving-test simulator saves fuel and prevents accidents. Mistakes cost nothing.
+5. **Medicine and healthcare.** Digital X-rays, CT scans and 3D animation of the body help doctors. Video consultations bring a specialist in Kathmandu to a patient in a hill district. Health-awareness videos on hand washing reach many people.
+6. **Journalism and communication.** Online news combines text, photographs, video and sound. A report on a flood includes drone video and a map. Video calls let families abroad see their relatives.
+7. **Tourism and culture.** Virtual tours and 360-degree views of Pashupatinath, Lumbini or the Annapurna trek attract visitors. Museums record old songs and festivals digitally. This keeps culture alive.
+8. **Art, design and publishing.** Designers make posters and logos with graphics software, and musicians record with audio editors. Magazines, ad agencies and the Nepali digital newspapers all use multimedia tools.
+
 ## 3.2 Text: fonts, typography and text file formats
 
 **Text** is the characters you see on the screen — letters, digits and symbols,
@@ -589,6 +600,13 @@ add a transition between each pair, a title and one filter, then export the
 video as a 1080p MP4 and present it.
 :::
 
+```photogrid label="3.S" cols="4" ratio="1.25" caption="Multimedia files are large, so they need storage that is large and portable. (a) A DVD stores about 4.7 GB, enough for two hours of video. (b) A CD, DVD and Blu-ray compared; the same disc size holds more data as the laser wavelength gets smaller. (c) A USB pen drive carries a presentation between computers. (d) An NVMe SSD stores and loads the project files of an editor very quickly. A one-minute CD-quality stereo recording is already about 10.6 MB, which is why compression is used."
+@ photo id="bca101/dvd" cap="(a) DVD"
+@ photo id="cs11/optical-discs" cap="(b) CD, DVD, Blu-ray"
+@ photo id="bca101/pendrive" cap="(c) USB pen drive"
+@ photo id="bca101/nvme" cap="(d) NVMe SSD"
+```
+
 ## 3.6 Concept of animation
 
 ::: definition Animation
@@ -972,3 +990,76 @@ calculates the in-between frames (1). Uses (any four, 2): cartoons and films,
 video games, advertisements, education and simulations, website and app
 effects, weather maps.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is multimedia? Explain its elements, applications, advantages and disadvantages. <span class="marks">[10]</span>
+2. Differentiate raster graphics from vector graphics. Explain pixel, resolution and common image formats. <span class="marks">[10]</span>
+3. Explain digital audio, digital video and animation, with their file formats and file sizes. <span class="marks">[10]</span>
+
+### Model answer D1: multimedia, elements and applications (10 marks)
+
+**Introduction.** **Multimedia** is the combined use of more than one medium, namely text, graphics, audio, video and
+animation, controlled by a computer and usually interactive. A web page with a news story, a photograph and a video
+clip is multimedia.
+
+**Elements.**
+
+1. **Text:** words in fonts, in headings, captions and menus (TXT, DOCX, PDF).
+2. **Graphics (images):** photographs, drawings and logos (JPG, PNG, SVG).
+3. **Audio:** voice, music and sound effects (MP3, WAV).
+4. **Video:** moving pictures of real events with sound (MP4, AVI).
+5. **Animation:** drawn or computer-made pictures that appear to move (GIF, SWF).
+
+**Applications.** Education, entertainment, business and advertising, training and simulation, medicine,
+journalism, tourism and art and design.
+
+| Advantages | Disadvantages |
+|---|---|
+| Explains ideas clearly with sound and pictures | Needs a costly computer with large memory |
+| Interactive, so learning is active | Files are large and slow to download |
+| Attracts and holds attention | Takes time and skill to produce |
+| Many media in one place | Needs software and hardware that may be outdated |
+| Easy to update and share | Too many effects can distract from the message |
+
+**Conclusion.** Multimedia is powerful because several senses are engaged at once, so it is used in classrooms, hospitals, newsrooms and film studios.
+
+### Model answer D2: raster and vector graphics (10 marks)
+
+**Introduction.** A computer stores a picture either as a grid of coloured dots or as a list of shapes, which gives two types: **raster (bitmap)** and **vector** graphics.
+
+**Terms.** A **pixel** (picture element) is the smallest dot of a raster image. **Resolution** is the number of pixels in an image, such as 1920 × 1080, or the density of dots in dots per inch (dpi). **Colour depth** is the number of bits per pixel; 24 bits gives about 16.7 million colours.
+
+| Point | Raster graphics | Vector graphics |
+|---|---|---|
+| Made of | Pixels | Lines, curves and shapes defined by formulas |
+| Quality on enlarging | Becomes blurred or blocky | Stays sharp at any size |
+| File size | Large for high resolution | Small |
+| Best for | Photographs | Logos, maps, diagrams |
+| Formats | JPG, PNG, GIF, BMP | SVG, AI, CDR, EPS |
+| Software | Photoshop, GIMP | Illustrator, Inkscape, CorelDRAW |
+
+**Formats.** **JPG** is lossy and gives small files for photographs. **PNG** is lossless and supports transparency. **GIF** has 256 colours and simple animation. **BMP** is uncompressed. **SVG** is a vector format for the web.
+
+**Size calculation.** An uncompressed picture of 1600 × 1200 pixels in 24-bit colour needs $1600 \times 1200 \times 3 = 5{,}760{,}000$ bytes, about 5.76 MB; JPG compression can reduce it to under 1 MB. An 800 × 600 picture needs 1.44 MB.
+
+**Conclusion.** Choose raster for photographs and vector for logos, since only vector keeps clean edges when enlarged on a banner.
+
+### Model answer D3: audio, video and animation (10 marks)
+
+**Introduction.** Digital sound and moving pictures must be converted from the real world into numbers.
+
+**Audio.** Sound is an analogue wave. The computer **samples** it many times per second and stores each sample with a certain number of bits. **Sampling rate** is the number of samples per second (CD quality is 44,100 Hz), and **bit depth** is the bits per sample (16). Formats: **MP3** (lossy, small), **WAV** (uncompressed), **MIDI** (instructions for notes), **OGG**. Editors: Audacity. One minute of CD-quality stereo needs $44100 \times 16 \times 2 \times 60 / 8 = 10{,}584{,}000$ bytes, about 10.6 MB.
+
+**Video.** A video is a sequence of still pictures called **frames** shown quickly, with sound. **Frame rate** is the frames per second (fps): cinema uses 24, television 25 or 30. **Resolution** is 1280 × 720 (HD) or 1920 × 1080 (Full HD). A raw Full HD frame is $1920 \times 1080 \times 3 = 6{,}220{,}800$ bytes, so at 25 fps one second is about 155 MB, which is why video is compressed. Formats: MP4, AVI, MKV, MOV. Editors: Kdenlive, CapCut, Premiere Pro. Muybridge's horse photographs of 1878 showed that a quick series of pictures gives the illusion of movement.
+
+**Animation.** Animation is the illusion of motion made by showing drawn or computer-made pictures in rapid sequence. Types: **traditional (cel)**, **2D**, **3D** and **stop motion**. It works because of **persistence of vision**, the eye's keeping an image for about 1/16 of a second. Formats: GIF, SWF, MP4.
+
+| Point | Audio | Video | Animation |
+|---|---|---|---|
+| Content | Sound | Real moving pictures | Drawn or computed pictures |
+| Key term | Sampling rate | Frame rate | Frames, tweening |
+| Formats | MP3, WAV | MP4, AVI | GIF, SWF |
+| Software | Audacity | Kdenlive | Blender, Synfig |
+
+**Conclusion.** Audio, video and animation all become numbers in a computer, and compression keeps their large files manageable.
