@@ -337,6 +337,33 @@ cleanest family separation; and **Rosenmund's poisoned catalyst stops at
 the aldehyde** where LiAlH₄ would run on to the alcohol.
 :::
 
+```photogrid label="19.1" cols="2" ratio="1.2" caption="Making soap from an ester. (a) Soap is made by alkaline hydrolysis of fats. (b) For tristearin (M = 891.5 g/mol) 100 g is 0.1122 mol and C3H5(OOCC17H35)3 + 3NaOH gives C3H5(OH)3 + 3C17H35COONa. It needs 13.46 g of NaOH and gives 103.1 g of sodium stearate and 10.33 g of glycerol. The masses balance: 113.46 g in and 113.46 g out. The hydrocarbon tail dissolves in grease and the carboxylate head in water, so one molecule joins oil and water."
+@ photo id="sci10/soap" cap="Soap is the sodium salt of a long-chain carboxylic acid"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance of saponifying 100 g of fat (g)"
+C, H, O, Na = 12.011, 1.008, 15.999, 22.990
+Mt = 57 * C + 110 * H + 6 * O; MNaOH = Na + O + H; Msoap = 18 * C + 35 * H + 2 * O + Na; Mgly = 3 * C + 8 * H + 3 * O
+nf = 100 / Mt; naoh = 3 * nf * MNaOH; soap = 3 * nf * Msoap; gly = nf * Mgly
+tin, tout = 100 + naoh, soap + gly
+assert abs(Mt - 891.5) < 0.1 and abs(naoh - 13.46) < 0.02 and abs(soap - 103.1) < 0.1 and abs(tin - tout) < 1e-9
+facts = dict(mt="%.1f" % Mt, nf="%.4f" % nf, naoh="%.2f" % naoh, soap="%.1f" % soap, gly="%.2f" % gly, tin="%.2f" % tin, tout="%.2f" % tout)
+f = Fig(300, 236)
+f.text(150, 14, "mass in = mass out = %.2f g" % tin, size=10.5, color=NAVY, bold=True)
+S = 1.9
+f.text(14, 40, "in", size=10.5, color=SLATE, anchor="start")
+f.box(40, 28, 100 * S, 22, label="fat 100 g", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=2)
+f.box(40 + 100 * S, 28, naoh * S, 22, fill=ROSE, stroke=RED, r=2)
+f.text(40 + 100 * S + naoh * S / 2, 62, "NaOH %.1f" % naoh, size=10, color=RED, bold=True)
+f.text(14, 96, "out", size=10.5, color=SLATE, anchor="start")
+f.box(40, 84, soap * S, 22, label="soap %.1f g" % soap, fill=MINT, stroke=TEAL, size=10.5, bold=True, r=2)
+f.box(40 + soap * S, 84, gly * S, 22, fill=BLUE, stroke=NAVY, r=2)
+f.text(40 + soap * S + gly * S / 2, 118, "glycerol %.1f" % gly, size=10, color=NAVY, bold=True)
+f.text(150, 160, "n(fat) = %.4f mol; 3 NaOH per fat" % nf, size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "NaOH needed: %.2f g" % naoh, size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "balance: %.2f g in, %.2f g out" % (tin, tout), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

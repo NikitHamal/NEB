@@ -350,6 +350,32 @@ the exception the setter is testing.
 **Solution.** All six ions contain $10\text{ e}^-$ ($1s^2 2s^2 2p^6$), while nuclear charge $Z$ rises from $7$ ($\text{N}^{3-}$) to $13$ ($\text{Al}^{3+}$). For isoelectronic species, radius $\propto 1/Z$, giving $\mathbf{\text{N}^{3-} > \text{O}^{2-} > \text{F}^- > \text{Na}^+ > \text{Mg}^{2+} > \text{Al}^{3+}}$.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Energy of a flame colour. (a) Heated alkali-metal atoms emit light when their outer electron falls back to a lower level. (b) The photon energy per mole is N h c / lambda: 178 kJ/mol for lithium (670.8 nm), 203 for sodium (589.0 nm) and 156 for potassium (766.5 nm). Each is only about a third to two-fifths of the first ionisation energy (520, 496 and 419 kJ/mol), because the flame excites the electron to a higher level but does not remove it. Ionisation energy falls down the group as the outer electron lies farther from the nucleus."
+@ photo id="chem11/flame-colours" cap="Metal salts colour a flame: each metal emits its own wavelengths"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Flame photon energy against first ionisation energy"
+NA, h, c = 6.022e23, 6.626e-34, 2.998e8
+E = lambda nm: NA * h * c / (nm * 1e-9) / 1000
+data = (("Li", 670.8, 520, RED, ROSE), ("Na", 589.0, 496, AMBER, SAND), ("K", 766.5, 419, "#6d28d9", BLUE))
+eli, ena, ek = E(670.8), E(589.0), E(766.5)
+assert abs(eli - 178.3) < 0.3 and abs(ena - 203.1) < 0.3 and abs(ek - 156.1) < 0.3
+ratios = [E(nm) / ie for _, nm, ie, *_ in data]
+assert all(0.3 < r < 0.42 for r in ratios)
+facts = dict(eli="%.0f" % eli, ena="%.0f" % ena, ek="%.0f" % ek)
+f = Fig(300, 236)
+f.text(150, 14, "kJ per mole: flame photon (fill) and ionisation (box)", size=10, color=NAVY, bold=True)
+for i, (s, nm, ie, col, fl) in enumerate(data):
+    y = 34 + i * 40
+    f.text(14, y + 4, "%s (%.1f nm)" % (s, nm), size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 10, ie * 0.42, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 10, E(nm) * 0.42, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + ie * 0.42 + 5, y + 18, "%.0f / %d" % (E(nm), ie), size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 166, "photon energy = N h c / lambda", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "ratio to ionisation: %.2f to %.2f" % (min(ratios), max(ratios)), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "IE falls: Li 520 > Na 496 > K 419", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Value or rule |
