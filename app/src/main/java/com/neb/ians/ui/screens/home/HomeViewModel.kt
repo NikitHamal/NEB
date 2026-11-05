@@ -369,6 +369,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /** Posts that scrolled into view; the server counts one impression per viewer per day. */
+    fun reportImpressions(ids: List<String>) {
+        viewModelScope.launch { forumRepository.reportImpressions(ids) }
+    }
+
     fun toggleThumbsUp(postId: String) {
         if (processingPostLikes.contains(postId)) return
         // The like chip lives on both the discussions list and the

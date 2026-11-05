@@ -84,6 +84,11 @@ fun HomeScreen(
     var isRefreshing by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
+    com.neb.ians.ui.components.TrackPostImpressions(
+        listState = listState,
+        postIdForKey = { (it as? String)?.takeIf { k -> k.startsWith("post_") }?.removePrefix("post_") },
+        onVisible = viewModel::reportImpressions
+    )
     val shouldLoadMore by remember {
         derivedStateOf {
             val layout = listState.layoutInfo
@@ -228,7 +233,10 @@ fun HomeScreen(
                                     is HomeFeedEntry.Post -> ForumPostCard(
                                         post = entry.post,
                                         isOwnPost = entry.isOwnPost,
-                                        onClick = { onPostClick(entry.post.id) },
+                                        onClick = {
+                                            com.neb.ians.ui.components.PostReachHints.set(entry.post.id, "feed")
+                                            onPostClick(entry.post.id)
+                                        },
                                         onLikeClick = { viewModel.toggleThumbsUp(entry.post.id) },
                                         onBookmarkClick = { viewModel.toggleBookmark(entry.post.id) },
                                         onShareClick = { sharePost(context, entry.post.id) },
