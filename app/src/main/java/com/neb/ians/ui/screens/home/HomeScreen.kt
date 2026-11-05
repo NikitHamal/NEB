@@ -1,6 +1,7 @@
 package com.neb.ians.ui.screens.home
 
 import com.neb.ians.ui.theme.seasonAmbience
+import com.neb.ians.ui.theme.hasGarland
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -173,14 +174,11 @@ fun HomeScreen(
                         state = listState,
                         modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
                         verticalArrangement = Arrangement.spacedBy(0.dp),
-                        contentPadding = PaddingValues(top = 0.dp, bottom = 24.dp)
+                        contentPadding = PaddingValues(
+                            top = if (siteTheme.hasGarland) 36.dp else 0.dp,
+                            bottom = 24.dp
+                        )
                     ) {
-                        item(key = "composer_launcher") {
-                            Column {
-                                com.neb.ians.ui.components.NebComposerLauncher(onOpen = onCreatePostClick)
-                                com.neb.ians.ui.components.NebHairline(Modifier.padding(top = 4.dp))
-                            }
-                        }
                         if (siteTheme.festive && siteTheme.cardOpen) {
                             item(key = "season_card") {
                                 com.neb.ians.ui.theme.SeasonCard(
