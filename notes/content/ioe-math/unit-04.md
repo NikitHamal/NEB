@@ -85,6 +85,35 @@ Other orientations: $x^2=4ay$ opens upward with focus $(0,a)$; $y^2=-4ax$ opens 
 - **Angle between planes** = angle between normals. Plane and line: $\sin\theta=\dfrac{|aL+bM+cN|}{\sqrt{a^2+b^2+c^2}\sqrt{L^2+M^2+N^2}}$.
 - Line through $(x_1,y_1,z_1)$ with direction ratios $a,b,c$: $\dfrac{x-x_1}{a}=\dfrac{y-y_1}{b}=\dfrac{z-z_1}{c}$.
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="The focus of a parabola. (a) A solar dish: its surface is a paraboloid, so every ray parallel to the axis is reflected through one point, the focus. (b) The parabola x^2 = 4 f y has focus (0, f). For a dish 7 m across and 1 m deep, putting x = 3.5, y = 1 gives f = 3.5^2 / 4 = 3.06 m. The path length from a line at the rim level to the focus is checked to be the same for every ray, which is the reason all of them arrive together; the latus rectum (the width through the focus) is 4f."
+@ photo id="ioemath/dish" cap="A parabolic solar dish"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="x^2 = 4fy with f = 3.06 m: parallel rays meet at F"
+import math
+d, hgt = 7.0, 1.0
+f_ = (d / 2) ** 2 / (4 * hgt)
+y = lambda x: x * x / (4 * f_)
+paths = []
+for x in (0.5, 1.5, 2.5, 3.5):
+    paths.append((hgt - y(x)) + math.hypot(x, y(x) - f_))
+assert abs(f_ - 3.0625) < 1e-9 and max(paths) - min(paths) < 1e-9 and abs(paths[0] - (hgt + f_)) < 1e-9
+fg = Fig(300, 236)
+sx, sy = 36.0, 36.0
+X = lambda x: 150 + x * sx; Y = lambda yy: 190 - yy * sy * 0.5 * 2 / 2
+fg.line(10, Y(0), 290, Y(0), color=SOFT, sw=1); fg.line(150, Y(0) + 6, 150, 20, color=SOFT, sw=1)
+xs = [i * 0.1 - 3.5 for i in range(0, 71)]
+for a, b in zip(xs, xs[1:]): fg.line(X(a), Y(y(a)), X(b), Y(y(b)), color=NAVY, sw=2.4)
+for x in (-2.5, -1.2, 1.2, 2.5, -3.5, 3.5):
+    fg.arrow([(X(x), 20), (X(x), Y(y(x)))], color=AMBER, sw=1.2)
+    fg.line(X(x), Y(y(x)), X(0), Y(f_), color=RED, sw=1.2)
+fg.circle(X(0), Y(f_), 4, fill=RED, stroke=RED)
+fg.text(X(0) + 10, Y(f_) - 4, "F (0, %.2f)" % f_, size=10.5, color=RED, bold=True, anchor="start")
+fg.text(150, 212, "f = x²/4y = 3.5² / 4 = %.2f m" % f_, size=10.5, color=NAVY, bold=True)
+fg.text(150, 230, "latus rectum 4f = %.2f m; path sums equal" % (4 * f_), size=10.5, color=TEAL, bold=True)
+f = fg
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |

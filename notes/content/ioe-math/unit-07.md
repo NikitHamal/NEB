@@ -55,6 +55,30 @@ $P(A)=\dfrac{\text{favourable}}{\text{total}}$ for equally likely outcomes; $0\l
 
 For $n$ independent trials with success probability $p$ ($q=1-p$): $P(X=r)={}^nC_rp^rq^{n-r}$; mean $np$, variance $npq$, SD $\sqrt{npq}$; "at least one success" $=1-q^n$. Expected value $E(X)=\sum xP(x)$. Four tosses of a fair coin, exactly two heads: $\frac{6}{16}=\frac{3}{8}$.
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="The binomial distribution made visible. (a) A Galton board: each ball meets a row of pegs and goes left or right with probability 1/2, so the bin it lands in is the number of right turns. (b) For 10 rows the exact probabilities are C(10, k) / 1024 (teal markers); a seeded run of 2,000 balls gives the amber bars. The mean np = 5 and the standard deviation sqrt(npq) = 1.58 are compared with the run, which agrees closely but not exactly."
+@ photo id="ioemath/galton" cap="A Galton board, the pegs and the bins"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="10 rows, 2,000 balls: simulation vs C(10,k)/1024"
+import random, math
+rnd = random.Random(2081)
+cnt = [0] * 11
+for _ in range(2000): cnt[sum(rnd.random() < 0.5 for _ in range(10))] += 1
+ex = [math.comb(10, k) / 1024 for k in range(11)]
+mean = sum(k * c for k, c in enumerate(cnt)) / 2000
+sd = math.sqrt(sum(c * (k - mean) ** 2 for k, c in enumerate(cnt)) / 2000)
+assert abs(sum(ex) - 1) < 1e-12 and abs(mean - 5) < 0.15 and abs(sd - math.sqrt(2.5)) < 0.1 and cnt[5] == max(cnt)
+f = Fig(300, 236)
+for k in range(11):
+    x = 14 + k * 25; h = cnt[k] / 2000 * 450
+    f.box(x, 170 - h, 20, h, "", fill=SAND, stroke=AMBER, r=1, sw=1)
+    f.circle(x + 10, 170 - ex[k] * 450, 3, fill=TEAL, stroke=TEAL)
+    f.text(x + 10, 184, str(k), size=10.5, color=SLATE)
+f.text(150, 14, "balls in each bin (k right turns)", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "run: mean %.2f, sd %.2f   theory: 5, %.2f" % (mean, sd, math.sqrt(2.5)), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "centre bin: %d of 2,000 (theory %d)" % (cnt[5], round(2000 * ex[5])), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
