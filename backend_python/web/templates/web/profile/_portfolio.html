@@ -1,0 +1,86 @@
+{% load static web_extras %}{% comment %} Education situation, open-to, skills and portfolio entries. Rendered for every public profile; the owner also gets add / edit / delete. {% endcomment %}
+<section class="pf-card pf-folio" id="pf-folio" data-own="{{ portfolio.is_own|yesno:'1,0' }}">
+  {% if portfolio.edu.is_set %}
+  <div class="pf-folio-edu">
+    <span class="pf-folio-glyph md-shape-cookie-9"><span class="material-symbols-outlined">school</span></span>
+    <div class="pf-folio-edu-text">
+      <b>{{ portfolio.edu.line|default:portfolio.edu.level_label }}</b>
+      {% if portfolio.edu.program and portfolio.edu.level_label and portfolio.edu.line != portfolio.edu.level_label %}<small>{{ portfolio.edu.level_label }}</small>{% endif %}
+    </div>
+    <div class="pf-folio-tags">
+      {% if portfolio.edu.status_label %}<span class="pf-tag">{{ portfolio.edu.status_label }}</span>{% endif %}
+      {% if portfolio.edu.completed_label %}<span class="pf-tag">Finished {{ portfolio.edu.completed_label }}</span>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if portfolio.open_to %}
+  <div class="pf-folio-block">
+    <h3 class="pf-folio-h">Open to</h3>
+    <div class="pf-folio-chips">{% for o in portfolio.open_to %}<span class="pf-tag pf-tag-open"><span class="material-symbols-outlined">{{ o.icon }}</span>{{ o.label }}</span>{% endfor %}</div>
+  </div>
+  {% endif %}
+
+  {% if portfolio.skills %}
+  <div class="pf-folio-block">
+    <h3 class="pf-folio-h">Skills</h3>
+    <div class="pf-folio-chips">{% for s in portfolio.skills %}<span class="pf-tag">{{ s }}</span>{% endfor %}</div>
+  </div>
+  {% endif %}
+
+  {% for sec in portfolio.sections %}
+  <div class="pf-folio-block" data-kind="{{ sec.value }}">
+    <h3 class="pf-folio-h"><span class="material-symbols-outlined">{{ sec.icon }}</span>{{ sec.label }}
+      {% if portfolio.is_own %}<button type="button" class="pf-folio-add" data-folio-add="{{ sec.value }}" aria-label="Add to {{ sec.label }}"><span class="material-symbols-outlined">add</span></button>{% endif %}
+    </h3>
+    <ol class="pf-timeline">
+      {% for e in sec.items %}
+      <li class="pf-tl-item" data-entry='{{ e|json_entry }}'>
+        <span class="pf-tl-dot"></span>
+        <div class="pf-tl-main">
+          <b>{{ e.title }}</b>
+          {% if e.org %}<span class="pf-tl-org">{{ e.org }}</span>{% endif %}
+          {% if e.start or e.isCurrent %}<span class="pf-tl-when">{{ e.start }}{% if e.isCurrent %} to now{% elif e.end %} to {{ e.end }}{% endif %}</span>{% endif %}
+          {% if e.description %}<p>{{ e.description }}</p>{% endif %}
+          {% if e.url %}<a href="{{ e.url }}" target="_blank" rel="noopener nofollow ugc">{{ e.url|cut:"https://"|cut:"http://"|truncatechars:40 }}</a>{% endif %}
+        </div>
+        {% if portfolio.is_own %}<button type="button" class="pf-tl-edit" data-folio-edit aria-label="Edit {{ e.title }}"><span class="material-symbols-outlined">edit</span></button>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endfor %}
+
+  {% if portfolio.is_own %}
+  <div class="pf-folio-block pf-folio-own">
+    <h3 class="pf-folio-h">Add to your portfolio</h3>
+    <div class="pf-folio-chips">
+      {% for k in portfolio.kinds %}<button type="button" class="pf-tag pf-tag-btn" data-folio-add="{{ k.value }}"><span class="material-symbols-outlined">{{ k.icon }}</span>{{ k.label }}</button>{% endfor %}
+      <a class="pf-tag pf-tag-btn" href="{% url 'web:onboarding' %}"><span class="material-symbols-outlined">tune</span>Edit education and skills</a>
+    </div>
+  </div>
+  <dialog class="pf-dialog" id="pf-entry-dialog">
+    <form method="dialog" id="pf-entry-form" class="pf-dialog-form" novalidate>
+      <h3 id="pf-entry-title">Add entry</h3>
+      <input type="hidden" id="pf-entry-id"><input type="hidden" id="pf-entry-kind">
+      <label>Title<input class="ob-input" id="pf-entry-name" maxlength="150" required></label>
+      <label>Where<input class="ob-input" id="pf-entry-org" maxlength="150"></label>
+      <div class="pf-dialog-row">
+        <label>From<input class="ob-input" type="month" id="pf-entry-start"></label>
+        <label>To<input class="ob-input" type="month" id="pf-entry-end"></label>
+      </div>
+      <label class="pf-dialog-check"><input type="checkbox" id="pf-entry-current"> Still going</label>
+      <label>Details<textarea class="ob-input ob-textarea" id="pf-entry-desc" maxlength="600" rows="3"></textarea></label>
+      <label>Link<input class="ob-input" id="pf-entry-url" maxlength="300" placeholder="https://"></label>
+      <p class="ob-error on" id="pf-entry-error" role="alert"></p>
+      <div class="pf-dialog-actions">
+        <button type="button" class="ob-btn ob-btn-text" id="pf-entry-delete" hidden>Delete</button>
+        <span class="pf-dialog-spacer"></span>
+        <button type="button" class="ob-btn ob-btn-text" id="pf-entry-cancel">Cancel</button>
+        <button type="submit" class="ob-btn ob-btn-fill" id="pf-entry-save">Save</button>
+      </div>
+    </form>
+  </dialog>
+  <script src="{% static 'web/js/portfolio.js' %}" defer></script>
+  {% endif %}
+</section>

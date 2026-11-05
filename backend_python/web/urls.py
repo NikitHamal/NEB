@@ -92,6 +92,8 @@ urlpatterns = [
 
     path('welcome/', views.onboarding_page, name='onboarding'),
     path('welcome/save/', views.onboarding_save, name='onboarding_save'),
+    path('ajax/portfolio/save/', views.portfolio_entry_save, name='portfolio_entry_save'),
+    path('ajax/portfolio/delete/', views.portfolio_entry_delete, name='portfolio_entry_delete'),
     path('app/profile/edit/', views.edit_profile, name='edit_profile'),
     path('app/credits/', views.credits_page, name='credits'),
     path('app/settings/', views.settings_page, name='settings'),
