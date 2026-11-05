@@ -343,6 +343,46 @@ f.text(435, 196, "1 round trip; atomic; rule kept in one place", size=9.5, color
 7. **Much faster searches with indexes.** In the measurement of Figure 7.1 an index cut the work from 735 block reads to 3. A search that took seconds on a large table takes a fraction of a millisecond. Primary keys and unique columns get such an index automatically.
 8. **Better sorting, range queries and joins.** A B+ tree keeps keys in order, so `ORDER BY`, `BETWEEN` and joins on indexed columns avoid sorting and scanning (Figure 7.2). The price is extra disk space and slower writes, so index the columns that are searched often, not every column.
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="A trigger is a spring-loaded rule. (a) A classic spring mousetrap: nobody pulls the bar, a small event (the bait is touched) releases stored energy and the action follows by itself. A DML trigger works the same way: nobody calls it, an INSERT, UPDATE or DELETE on the table releases it. (b) Two triggers run on a real SQLite database: 1,000 random withdrawals from 20 accounts, each opening balance Rs 200,000. A BEFORE trigger refuses any withdrawal that would make the balance negative, and an AFTER trigger writes one audit row for every withdrawal of Rs 5,000 or more. The application code contains neither check."
+@ photo id="bca202/mousetrap" cap="A spring mousetrap: an event releases the stored action"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Two triggers, 1,000 withdrawals (real SQLite)"
+import sqlite3, random
+db = sqlite3.connect(":memory:")
+db.executescript("""
+create table acct(id integer primary key, bal integer);
+create table audit(id integer primary key autoincrement, acct integer, amt integer);
+create trigger guard before update on acct when new.bal < 0
+begin select raise(abort, 'overdraft'); end;
+create trigger big after update on acct when old.bal - new.bal >= 5000
+begin insert into audit(acct, amt) values (new.id, old.bal - new.bal); end;
+""")
+db.executemany("insert into acct values (?, 200000)", [(i,) for i in range(1, 21)])
+rnd = random.Random(2081)
+ok = bad = big = 0
+for _ in range(1000):
+    a, amt = rnd.randint(1, 20), rnd.randint(100, 9000)
+    try:
+        db.execute("update acct set bal = bal - ? where id = ?", (amt, a)); ok += 1
+        big += amt >= 5000
+    except sqlite3.DatabaseError:
+        bad += 1
+n_audit = db.execute("select count(*) from audit").fetchone()[0]
+assert ok + bad == 1000 and n_audit == big and bad > 0
+assert db.execute("select min(bal) from acct").fetchone()[0] >= 0
+f = Fig(300, 236)
+f.text(150, 14, "1,000 UPDATE statements issued", size=10.5, color=NAVY, bold=True)
+rows = [("applied", ok, TEAL, MINT), ("blocked by BEFORE trigger", bad, RED, ROSE), ("audit rows by AFTER trigger", n_audit, AMBER, SAND)]
+for i, (lab, v, c, bg) in enumerate(rows):
+    y = 36 + i * 52
+    f.text(8, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, max(240 * v / 1000, 6), 22, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(max(240 * v / 1000, 6) + 16, y + 17, format(v, ","), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "lowest balance left: Rs %s (never negative)" % format(db.execute("select min(bal) from acct").fetchone()[0], ","), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "no check written in the application", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Procedures: create, alter, execute (`CALL`/`EXEC`), drop; parameters IN/OUT/default; function returns a value.

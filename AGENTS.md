@@ -2224,3 +2224,8 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Gotchas:** plain `apt-get` without sudo fails; `read_file` right after the command that creates the PNG races (read in the next call); check nested-rect labels do not overlap (give each band 14 px); text on the right edge of a 300 px cell is clipped after about 40 characters at size 10.5.
 
 - **Session 65 addendum (batches 2-4; 33 plates in total, last: WT II U5, Project I U1, Mobile U2/U3):** Project II U3-5, Project III U2-5, Probability U4, Numerical Methods U1/U3, Mathematics I U4, Project IV U2/4/5, Computer Graphics U2/5/7, Cryptography U4, Financial Accounting U7, Cloud U5, Technical Writing U4: 21 more plates (29 for the session), every number computed in the svgfig cell and the caption templated from a `facts` dict. `/tmp/push.sh` gate must read the per-book `[ok ] ... fails=0` lines, not the tail of qa_pdf output (warnings fill the tail). Units lacking `## Formula and fact sheet`: insert before `## Chapter summary`. Next: see the last NEXT line of `bca/POLISH_STATUS.md`.
+
+## BCA polish session 66 (DBMS U7-U9, Python U5/U9, DSA U11)
+
+- **Done and pushed:** 6 photo + computed-figure plates (see `bca/POLISH_STATUS.md`, Session 66). qa fails=0. **Next:** MIS U3/U5, PC U5, Project second plates, Python U8, DBMS U1, then OS / SE / MPCA / Web Tech I one-plate units, then IOE and other tracks.
+- **Setup:** out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS echoing `$NEB_PAT` (the PAT never goes in the repo; the owner should rotate the PAT pasted in the prompt); shallow single-branch clone; `sudo -n apt-get` libs; `uv venv /tmp/v --python 3.12`; fonts install.sh. `credits.json` in HEAD uses indent=1 (LF), keep the diff additive-only.

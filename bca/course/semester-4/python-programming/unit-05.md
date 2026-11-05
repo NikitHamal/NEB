@@ -444,6 +444,40 @@ for i, (title, seq, fl, st) in enumerate(cases):
 7. **Release resources in `finally` and give a clear message.** Close sockets, database connections and temporary files in `finally`, or let a `with` statement do it. Tell the user what happened in plain words, such as "marks.csv was not found in the data folder", and not just "Error". Log the full traceback for the developer.
 8. **Validate input, and raise your own errors.** Check data from users, files and the web before using it, and `raise ValueError("marks must be between 0 and 100")` when it is wrong. A custom exception class such as `InvalidMarksError` makes the cause clear to the caller. Do not use exceptions for ordinary decisions that an `if` can handle more simply.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="The file position. (a) A cassette is read in order: to reach track 9 the tape must wind past tracks 1 to 8. A text file opened in Python behaves the same way for read and readline, but a file of fixed-size records also allows seek, which jumps straight to a byte offset. (b) A real file of 100,000 records of 20 bytes each is created and record 77,777 is fetched twice, once by reading from the start and once by seek. The bytes actually read are counted by a wrapper, and both methods return the same record."
+@ photo id="bca254/cassette" cap="A cassette: sequential access, wind to reach a track"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Fetch record 77,777: scan vs seek"
+import tempfile, os
+N, W = 100000, 20
+path = os.path.join(tempfile.mkdtemp(), "rec.dat")
+with open(path, "wb") as fh:
+    for i in range(N):
+        fh.write(("%019d\n" % i).encode())
+assert os.path.getsize(path) == N * W
+with open(path, "rb") as fh:
+    got = 0
+    for _ in range(77778):
+        line = fh.read(W); got += len(line)
+scan_bytes, scan_rec = got, line
+with open(path, "rb") as fh:
+    fh.seek(77777 * W); seek_rec = fh.read(W); seek_bytes = len(seek_rec)
+assert scan_rec == seek_rec and int(seek_rec) == 77777
+f = Fig(300, 236)
+f.text(150, 14, "bytes read to fetch one record", size=10.5, color=NAVY, bold=True)
+f.text(8, 40, "read from the start", size=10.5, color=RED, bold=True, anchor="start")
+f.box(8, 46, 190, 22, "", fill=ROSE, stroke=RED, r=3, sw=1)
+f.text(204, 57, format(scan_bytes, ","), size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(8, 100, "seek(77777 * 20) then read(20)", size=10.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 106, 6, 22, "", fill=MINT, stroke=TEAL, r=2, sw=1)
+f.text(22, 117, "%d" % seek_bytes, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 160, "record text: %s" % seek_rec.decode().strip().lstrip("0"), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "file size %s bytes, same record both ways" % format(N * W, ","), size=10.5, color=SLATE)
+f.text(150, 206, "%s times fewer bytes with seek" % format(round(scan_bytes / seek_bytes), ","), size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "only valid for fixed-size records", size=10.5, color=AMBER, bold=True)
+```
+
 ## Formula and fact sheet
 
 - `with open(f, "r"/"w"/"a", encoding="utf-8") as fh:`; iterate lines with `for line in fh`.
