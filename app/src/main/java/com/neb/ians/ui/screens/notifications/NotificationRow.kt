@@ -79,7 +79,7 @@ fun NotificationItem(
                 Box(
                     modifier = Modifier
                         .size(42.dp)
-                        .clip(remember { nebShape(NebGlyphShapes.Cookie) })
+                        .clip(nebShape(NebGlyphShapes.Cookie))
                         .background(MaterialTheme.colorScheme.secondaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
