@@ -16,11 +16,7 @@ from api.models import (
     User,
 )
 from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
-from api.security import (
-    maybe_autoset_video_thumbnail,
-    save_resource_thumbnail_upload,
-    validate_resource_file_url,
-)
+from api.security import maybe_autoset_video_thumbnail
 from api.utils import now_ms, uuid_str
 from api.view_helpers import is_global_user
 from django.conf import settings
@@ -31,15 +27,17 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from . import curriculum
+from .json_endpoint import signed_in_member
 from api.resource_form import discard_saved_files, read_listing_fields
 from api.view_helpers import parse_paid_fields
 from .resource_upload import (
-    apply_price,
     clean_file_url_or_error,
     clean_source_url_or_error,
     clean_thumbnail_or_error,
     create_resources,
     replace_file,
+    resource_current,
+    resource_form_data,
     save_uploaded_files,
 )
 from .view_helpers import (
@@ -1430,10 +1428,25 @@ def upload_resource(request):
 def upload_success(request):
     return render(request, 'web/upload_success.html', _ctx(request))
 
-def edit_resource(request, resource_id):
-    """Allow signed-in users who uploaded a resource to edit it."""
+def _edit_page(request, resource_obj, form_data, errors=(), status=200):
     from .views_marketplace import commission_percent
 
+    resource = _serialize_resource(resource_obj)
+    return render(request, 'web/edit_resource.html', _ctx(request,
+        resource=resource,
+        resource_id=resource_obj.id,
+        form_data=form_data,
+        current=resource_current(resource_obj, resource),
+        link_editable=not resource_obj.file,
+        errors=list(errors),
+        **upload_form_options(),
+        is_authenticated=True,
+        commission_percent=commission_percent(),
+    ), status=status)
+
+
+def edit_resource(request, resource_id):
+    """The owner's editor (the same composer as the upload page). The composer posts with ajax and gets JSON back."""
     user_id = _get_user_id(request)
     if not user_id:
         return redirect('web:login')
@@ -1444,79 +1457,76 @@ def edit_resource(request, resource_id):
     if resource_obj.uploaded_by_id != user_id:
         return redirect('web:reader', resource_id=resource_id)
 
-    user = User.objects.get(pk=user_id)
-    form_options = upload_form_options()
+    if request.method != 'POST':
+        return _edit_page(request, resource_obj, resource_form_data(resource_obj))
 
-    if request.method == 'POST':
-        resource_obj.title = request.POST.get('title', '').strip() or resource_obj.title
-        resource_obj.subject = request.POST.get('subject', '').strip() or resource_obj.subject
-        resource_obj.grade_level = request.POST.get('grade_level', '').strip()
-        resource_obj.faculty = request.POST.get('faculty', '').strip()
-        resource_obj.program = request.POST.get('program', '').strip()
-        resource_obj.year = request.POST.get('year', '').strip()
-        resource_obj.exam_type = request.POST.get('exam_type', '').strip()
-        resource_obj.pradesh = request.POST.get('pradesh', '').strip()
-        resource_obj.district = request.POST.get('district', '').strip()
-        resource_obj.school = request.POST.get('school', '').strip()
-        resource_obj.tags = request.POST.get('tags', '').strip()
-        resource_obj.type = request.POST.get('type', '').strip() or resource_obj.type
-        resource_obj.description = request.POST.get('description', '').strip()
-        resource_obj.author_name = request.POST.get('author_name', '').strip()
-        resource_obj.source_label = request.POST.get('source_label', '').strip()
-        try:
-            from api.security import clean_source_url
-            resource_obj.source_url = clean_source_url(request.POST.get('source_url', ''))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            messages.error(request, ' '.join(messages_list))
-            return redirect('web:edit_resource', resource_id=resource_id)
+    post = request.POST
+    ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    fields = read_listing_fields(post)
+    errors = []
+    source_url = clean_source_url_or_error(post, errors)
+    is_paid, price = parse_paid_fields(post)
+    uploaded_file = request.FILES.get('file')
+    file_url = post.get('file_url', '').strip()
+    safe_file_url = clean_file_url_or_error(file_url, errors) if file_url and not uploaded_file else ''
+    if not fields['title']:
+        errors.append('Title is required.')
+    if not fields['subject']:
+        errors.append('Subject is required.')
+    if is_paid and price <= 0:
+        errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
+    new_cover = ''
+    if request.FILES.get('thumbnail') or post.get('thumbnail_url', '').strip():
+        new_cover = clean_thumbnail_or_error(request, errors)
+    clear_cover = 'thumbnail_url' in post and not post.get('thumbnail_url', '').strip() and not request.FILES.get('thumbnail')
 
-        apply_price(resource_obj, request.POST)
-
-        uploaded_file = request.FILES.get('file')
+    if not errors:
+        for name, value in fields.items():
+            setattr(resource_obj, name, value)
+        resource_obj.source_url = source_url
+        resource_obj.is_paid, resource_obj.price = is_paid, price
         if uploaded_file:
-            replace_file(request, resource_obj, uploaded_file)
-
-        file_url = request.POST.get('file_url', '').strip()
-        if file_url and not uploaded_file:
-            try:
-                resource_obj.file_url = validate_resource_file_url(file_url)
-            except Exception:
-                pass
-
-        thumbnail_file = request.FILES.get('thumbnail')
-        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        if thumbnail_file:
-            try:
-                resource_obj.thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-            except Exception:
-                pass
-        elif thumbnail_url:
-            try:
-                resource_obj.thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception:
-                pass
-        elif request.POST.get('thumbnail_url') == '':
+            error = replace_file(request, resource_obj, uploaded_file)
+            if error:
+                errors.append(error)
+        elif safe_file_url:
+            resource_obj.file_url = safe_file_url
+        if new_cover:
+            resource_obj.thumbnail_url = new_cover
+        elif clear_cover:
             resource_obj.thumbnail_url = ''
 
-        if resource_obj.approval_status != 'approved':
-            resource_obj.approval_status = 'pending'
-        resource_obj.save()
-        if not resource_obj.thumbnail_url:
-            maybe_autoset_video_thumbnail(resource_obj, request)
-        cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return JsonResponse({'status': 'success', 'redirect': reverse('web:reader', kwargs={'resource_id': resource_id})})
-        return redirect('web:reader', resource_id=resource_id)
+    if errors:
+        if ajax:
+            return JsonResponse({'status': 'error', 'errors': errors}, status=400)
+        return _edit_page(request, Resource.objects.get(pk=resource_id), post, errors, status=400)
 
-    resource = _serialize_resource(resource_obj)
-    return render(request, 'web/edit_resource.html', _ctx(request,
-        resource=resource,
-        resource_id=resource_id,
-        **form_options,
-        is_authenticated=True,
-        commission_percent=commission_percent(),
-    ))
+    if resource_obj.approval_status != 'approved':
+        resource_obj.approval_status = 'pending'
+    resource_obj.save()
+    if not resource_obj.thumbnail_url:
+        maybe_autoset_video_thumbnail(resource_obj, request)
+    cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
+    target = reverse('web:reader', kwargs={'resource_id': resource_id})
+    if ajax:
+        return JsonResponse({'status': 'success', 'redirect': target})
+    return redirect(target)
+
+
+@signed_in_member
+def ajax_resource_delete(request, resource_id, user):
+    """Owners can delete what they shared, unless somebody already paid for it (then the sale would lose its receipt)."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    resource_obj = Resource.objects.filter(pk=resource_id, uploaded_by_id=user.id).first()
+    if resource_obj is None:
+        return JsonResponse({'error': 'Resource not found.'}, status=404)
+    sold = PaymentVerification.objects.filter(resource_id=resource_obj.id, status='approved').count()
+    if sold:
+        return JsonResponse({'error': f'{sold} buyer{"s" if sold != 1 else ""} already unlocked this, so it cannot be deleted.'}, status=409)
+    resource_obj.delete()
+    cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
+    return JsonResponse({'status': 'success', 'redirect': reverse('web:library')})
 
 def subject_page(request, grade_slug, subject_slug):
     """Subject details page — groups resources by chapter and links Neby AI + forum."""
