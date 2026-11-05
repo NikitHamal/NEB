@@ -229,6 +229,34 @@ Error replies should be **safe and useful**: say what the client did wrong (`nam
 7. **Validation documents the rules.** A reader sees `phone must be digits` in the code and learns the business rule. The tests in Unit 4 repeat the same rules as examples.
 8. **Examiners ask for it.** A common viva question is "what happens if I send a blank name?". A project whose answer is "400, shown here" scores better than one that crashes.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Two clerks, one counter: all possible orders. (a) A queue-token display at a hospital counter; each new patient takes the next number. (b) Suppose the counter holds 41 and each of two clerks does two steps: read the counter (R), then write back the value they read plus 1 (W). The steps of each clerk keep their order, but the two clerks can interleave in 6 ways. In 2 of them (clerk 1 finishes before clerk 2 starts, or the reverse) the counter ends at 43, which is correct. In the other 4 both clerks read 41 before either writes, so both write 42 and one token is lost: a 67 per cent chance of a lost update in this simplest case. The cure is to make read-and-write one indivisible step, with a database transaction, a row lock or a single UPDATE counter = counter + 1 statement, and to add a UNIQUE constraint as the last line of defence."
+@ photo id="bcapj/token" cap="A queue-token display: B-003 is next"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="All 6 interleavings of two clerks, start value 41"
+import itertools
+res = []
+for perm in sorted(set(itertools.permutations(["R1", "W1", "R2", "W2"]))):
+    if perm.index("R1") < perm.index("W1") and perm.index("R2") < perm.index("W2"):
+        v = 41; loc = {}
+        for s in perm:
+            if s[0] == "R": loc[s[1]] = v
+            else: v = loc[s[1]] + 1
+        res.append((perm, v))
+assert len(res) == 6 and sum(v == 43 for _, v in res) == 2 and sum(v == 42 for _, v in res) == 4
+f = Fig(300, 240)
+f.text(150, 14, "R = read counter, W = write read + 1", size=10.5, color=NAVY, bold=True)
+for i, (perm, v) in enumerate(res):
+    y = 26 + i * 29
+    for k, s in enumerate(perm):
+        col = "#bfdbfe" if s[1] == "1" else "#fde68a"
+        f.box(8 + k * 42, y, 38, 22, s, fill=col, stroke=NAVY, color=NAVY, size=10.5, bold=s[0] == "W", r=4, sw=1)
+    ok = v == 43
+    f.box(184, y, 106, 22, f"ends {v}: " + ("correct" if ok else "lost one"), fill="#bbf7d0" if ok else "#fecaca", stroke="#0f766e" if ok else "#b91c1c", color="#0f766e" if ok else "#b91c1c", size=10.5, bold=True, r=4, sw=1)
+f.text(150, 214, "4 of 6 orders lose an update (67%)", size=10.5, color=RED, bold=True)
+f.text(150, 230, "fix: transaction, lock or one UPDATE", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Request line: `METHOD /path HTTP/1.1`; reply status line: `HTTP/1.1 201 Created`.

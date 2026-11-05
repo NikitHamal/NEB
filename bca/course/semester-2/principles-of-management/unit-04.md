@@ -224,6 +224,35 @@ f.text(430, 218, "Graicunas relationships\nper manager: n = 4 -> 44\nn = 8 -> 1,
 7. **It prepares successors.** When a manager leaves or falls ill, a delegated team can continue the work without a crisis. Delegation therefore reduces the risk of depending on one person. It also gives the organisation a ready pool of future managers.
 8. **It makes the structure more flexible.** Authority spread through the organisation lets each unit adjust to local changes without waiting for orders. A decentralised organisation (Plate 4.1) can respond to different regions while following one policy. Responsibility and accountability, however, stay with the delegating manager, who must still control the results.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="How many people can one manager supervise? (a) A conductor in front of a large group: with a shared score and a clear signal one person can lead many, but every added player also adds relationships to watch. (b) V. A. Graicunas (1933) counted the direct single, group and cross relationships between a manager and n subordinates as n(2^(n-1) + n - 1). That gives 6 for two subordinates, 44 for four, 100 for five, 222 for six and 1,080 for eight, so the supervisory load grows far faster than the head count. The span also fixes the height of the organisation: for 4,096 employees a span of 4 needs 6 levels, a span of 16 needs 3 and a span of 64 needs only 2. A narrow span means close control but a tall, slow, costly hierarchy; a wide span means a flat, quick one that works only when jobs are routine, staff are skilled and goals are clear."
+@ photo id="bcamg/conductor" cap="One conductor, a large group"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Graicunas relationships and levels for 4,096 staff"
+import math
+g = lambda n: n * (2 ** (n - 1) + n - 1)
+ns = [2, 4, 5, 6, 8]; gv = [g(n) for n in ns]
+assert gv == [6, 44, 100, 222, 1080]
+lv = [math.ceil(math.log(4096, s) - 1e-9) for s in (4, 16, 64)]
+assert lv == [6, 3, 2]
+f = Fig(300, 240)
+f.text(150, 14, "relationships to watch, by span n", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(zip(ns, gv)):
+    y = 24 + i * 19
+    f.text(40, y + 7, f"n = {n}", size=10.5, color=NAVY, anchor="end", vmid=True)
+    w = 200 * v / 1080
+    f.box(46, y, max(w, 2), 14, "", fill="#b91c1c" if v > 200 else "#1d6fb8", stroke=NAVY, r=0, sw=1)
+    f.text(46 + max(w, 2) + 5, y + 7, f"{v:,}", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+f.text(150, 134, "levels needed for 4,096 employees", size=10.5, color=NAVY, bold=True)
+for i, (s, l) in enumerate(zip((4, 16, 64), lv)):
+    y = 146 + i * 22
+    f.text(56, y + 8, f"span {s}", size=10.5, color=NAVY, anchor="end", vmid=True)
+    for k in range(l):
+        f.box(62 + k * 30, y, 26, 16, "", fill="#99f6e4", stroke="#0f766e", r=0, sw=1)
+    f.text(62 + l * 30 + 4, y + 8, f"{l} levels", size=10.5, color="#0f766e", anchor="start", bold=True, vmid=True)
+f.text(150, 224, "wide span = flat and fast, if staff are skilled", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Organising process: objectives → activities → divide work → group (departmentalise) → assign authority → staff → coordinate.
