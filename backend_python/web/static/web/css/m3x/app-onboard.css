@@ -203,3 +203,17 @@
 @media (prefers-reduced-motion: reduce) {
   .ob *, .ob *::before, .ob *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; }
 }
+
+/* ---- shared date + gender controls (components/_dob_field, _gender_tiles) ---- */
+.ob-form-stack { gap: 22px; }
+.ob-form-stack .ob-field { margin-top: 0; }
+.ob-form .neb-pick-group { margin: 0; display: grid; gap: 8px; }
+.ob-form .neb-pick-group .md-label { margin: 0; font-weight: 600; font-size: .9rem; color: var(--md-on-surface); }
+.ob-form .neb-tiles { max-width: 480px; }
+.ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.ob-tiles-compact .ob-tile { padding: 10px 12px; }
+.ob-tiles-compact .ob-tile-glyph { width: 40px; height: 40px; }
+.ob-edu > .ob-reveal + .ob-reveal { margin-top: 4px; }
+.ob-edu .ob-label { margin-top: 20px; }
+.ob-edu > .ob-reveal:first-child .ob-label { margin-top: 0; }
+.ob-combo .ob-input { margin-top: 12px; }

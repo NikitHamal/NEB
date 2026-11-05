@@ -26,7 +26,7 @@ class AuthHintTests(TestCase):
 
 class OnboardingHelperTests(TestCase):
     def test_h_flattens_array_children(self):
-        js = _read('js', 'onboarding.js')
+        js = _read('js', 'neb-edu.js')
         self.assertIn('Array.isArray(c)', js)
         self.assertIn('c.nodeType', js)
 
