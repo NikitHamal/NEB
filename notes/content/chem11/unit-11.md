@@ -389,6 +389,31 @@ cirrhosis. Only the non-essential heavy metals — lead, cadmium, mercury,
 arsenic — have no safe biological role at all.
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.27" caption="Iodine is a trace element needed to make the thyroid hormones, and a shortage causes goitre and affects the brain development of children, which is why Nepal sells only iodised salt. (a) A packet of iodised salt. (b) At 30 ppm, each gram of salt supplies 30 micrograms of iodine, so the recommended 150 micrograms a day comes from 5 g of salt, about one level teaspoon, which is also the upper limit advised for sodium. Iodine is added as potassium iodate (M = 214.0), so one kilogram of salt carries 50.6 mg of KIO3. Eating more salt to gain more iodine is harmful, and the trace amount is the safe one."
+@ photo id="chem11/iodsalt" cap="A packet of iodised salt"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Iodine intake against salt eaten per day, at 30 ppm"
+ppm = 30.0
+intake = lambda g: ppm * g
+I, K, O = 126.904, 39.098, 15.999
+KIO3 = K + I + 3 * O
+kio3_mg = ppm * KIO3 / I
+assert abs(intake(5) - 150) < 1e-9 and abs(kio3_mg - 50.6) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "Iodine from salt containing 30 ppm iodine", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (0, 12), (0, 360))
+ax.grid(2, 120, size=9); ax.axes("salt eaten (g/day)", "iodine (ug/day)")
+ax.curve(intake, 0, 12, color=NAVY, sw=2.4)
+ax.hline(150, color=AMBER)
+ax.vline(5, color=AMBER)
+ax.pt(5, 150, "5 g gives 150 ug", dx=10, dy=22, color=RED)
+ax.pt(10, intake(10), "10 g: 300 ug", dx=-8, dy=-10, color=NAVY, anchor="end")
+f.text(150, 207, "30 ppm = 30 mg I per kg salt = 30 ug per g", size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "as KIO3: %.1f mg per kg of salt" % kio3_mg, size=10.5, color=RED, bold=True)
+facts = dict(kio3="%.1f" % kio3_mg, M="%.1f" % KIO3)
+```
+
 ## Chapter summary
 
 - Bio-inorganic chemistry studies the role of inorganic elements, especially

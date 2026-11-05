@@ -590,6 +590,39 @@ types, prevents duplicate keys, links tables, handles many users at once and
 copes with millions of records — none of which a spreadsheet does well.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="An office package lets a clerk store records and run calculations on them without writing a program; the paper filing cabinet is the ancestor of the database and the spreadsheet. (a) Files in a cabinet. (b) In the worksheet, a formula such as =SUM(B2:D2) adds a row, =AVERAGE gives the mean and =RANK orders the totals. The four students score between 185 and 252, so Chandra is ranked first with an average of 84.0, and the Math column averages 72.5. When the formula is copied down, the row numbers change automatically, which is called relative cell reference, and results update at once if any mark is corrected."
+@ photo id="bca101/filecab" cap="Paper files in a cabinet, the model for a database package"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A spreadsheet of marks with SUM, AVERAGE and RANK"
+students = [("Aasha", 78, 85, 72), ("Bikash", 65, 70, 88), ("Chandra", 92, 81, 79), ("Dipa", 55, 62, 68)]
+tot = [sum(s[1:]) for s in students]
+avg = [t / 3 for t in tot]
+rank = [sorted(tot, reverse=True).index(t) + 1 for t in tot]
+mathavg = sum(s[1] for s in students) / 4
+assert tot == [235, 223, 252, 185] and rank == [2, 3, 1, 4] and abs(mathavg - 72.5) < 1e-9
+f = Fig(300, 236)
+f.box(8, 6, 284, 22, "", fill=SOFT, stroke=SLATE, r=2, sw=1)
+f.text(16, 17, "fx   =SUM(B2:D2)", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+xs = [8, 70, 108, 146, 184, 232]
+ws = [62, 38, 38, 38, 48, 60]
+hdr = ["Name", "Math", "Sci", "Eng", "Total", "Avg / Rank"]
+def cell(c, r, s, bold=False, fill="#ffffff", col=SLATE):
+    f.box(xs[c], 36 + r * 24, ws[c], 24, s, fill=fill, stroke="#94a3b8", color=col, size=10, bold=bold, r=0, sw=0.8)
+for c, h in enumerate(hdr):
+    cell(c, 0, h, True, BLUE, NAVY)
+for r, s in enumerate(students):
+    for c in range(4):
+        cell(c, r + 1, str(s[c]), c == 0)
+    cell(4, r + 1, str(tot[r]), True, SAND, AMBER)
+    cell(5, r + 1, "%.1f / %d" % (avg[r], rank[r]), True, MINT, TEAL)
+f.text(150, 174, "Total = SUM(B2:D2),  Avg = AVERAGE(B2:D2)", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "Rank = RANK(E2, E2:E5)", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "class average in Math = %.1f" % mathavg, size=10.5, color=RED, bold=True)
+f.text(150, 226, "copy the formula down: cell names adjust", size=10.5, color=SLATE)
+facts = dict(top="Chandra", t=max(tot), ma="%.1f" % mathavg, a="%.1f" % max(avg))
+```
+
 ## Chapter summary
 
 - An **application package** is ready-made software sold to many users; an

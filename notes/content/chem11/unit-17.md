@@ -1055,6 +1055,38 @@ $$ \%\,\mathrm{N} = \frac{28}{60}\times 100 = 46.7\% $$
 mass of N = 0.467 × 1765 = **824 kg per hour**.
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.27" caption="Urea is made by combining ammonia with carbon dioxide at high pressure, and the mass balance follows the equation 2NH3 + CO2 = CO(NH2)2 + H2O. (a) Urea granules sold as fertiliser. (b) With a molar mass of 60.06 g/mol, one tonne of urea needs 0.567 t of ammonia and 0.733 t of carbon dioxide and releases 0.300 t of water, so the masses in and out agree. Its nitrogen content of 46.65 % is the highest of any solid fertiliser, so a 50 kg bag supplies 23.3 kg of nitrogen to the soil, one reason that Nepal imports such large quantities each rice season."
+@ photo id="sci10/urea" cap="Urea fertiliser granules"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mass balance of urea manufacture, per tonne of urea"
+N, H, C, O = 14.007, 1.008, 12.011, 15.999
+urea = C + O + 2 * (N + 2 * H)
+nh3 = N + 3 * H
+co2 = C + 2 * O
+h2o = 2 * H + O
+a_nh3 = 2 * nh3 / urea
+a_co2 = co2 / urea
+a_h2o = h2o / urea
+assert abs(a_nh3 + a_co2 - 1 - a_h2o) < 1e-9 and abs(2 * N / urea * 100 - 46.65) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "2 NH3 + CO2 -> CO(NH2)2 + H2O", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "tonnes per 1.000 t of urea", size=10.5, color=SLATE)
+sc = 150
+f.text(8, 62, "in", size=10.5, bold=True, anchor="start")
+f.box(30, 46, a_nh3 * sc, 28, "NH3 %.3f" % a_nh3, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True, r=0)
+f.box(30 + a_nh3 * sc, 46, a_co2 * sc, 28, "CO2 %.3f" % a_co2, fill=TEAL, stroke=TEAL, color="#ffffff", size=10.5, bold=True, r=0)
+f.text(8, 112, "out", size=10.5, bold=True, anchor="start")
+f.box(30, 96, 1.0 * sc, 28, "urea 1.000", fill=RED, stroke=RED, color="#ffffff", size=10.5, bold=True, r=0)
+f.box(30 + sc, 96, a_h2o * sc, 28, "H2O", fill=AMBER, stroke=AMBER, color="#ffffff", size=10.5, bold=True, r=0)
+f.text(30 + sc + a_h2o * sc / 2, 134, "%.3f" % a_h2o, size=10, color=AMBER, bold=True)
+f.text(150, 160, "in %.3f = out %.3f t" % (a_nh3 + a_co2, 1 + a_h2o), size=10.5, color=SLATE, bold=True)
+f.text(150, 180, "nitrogen in urea = 28.01/%.2f = %.2f %%" % (urea, 2 * N / urea * 100), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "CO2 is reused from the ammonia plant", size=10.5, color=RED, bold=True)
+f.text(150, 218, "50 kg bag holds %.1f kg of nitrogen" % (50 * 2 * N / urea), size=10.5, color=SLATE)
+facts = dict(N="%.2f" % (2 * N / urea * 100), nh3="%.3f" % a_nh3, co2="%.3f" % a_co2, bag="%.1f" % (50 * 2 * N / urea), M="%.2f" % urea)
+```
+
 ## Chapter summary
 
 - **Haber:** N₂ + 3H₂ ⇌ 2NH₃, ΔH = −92.4 kJ mol⁻¹; Fe + Mo promoter, 450–500 °C,

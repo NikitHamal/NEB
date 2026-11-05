@@ -625,6 +625,29 @@ was the first protected area in Nepal where local people were made managers
 rather than trespassers, and it remains the model that buffer zones and
 community forests follow.
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Conservation biology aims to protect species and the habitats they depend on, and Nepal's tiger programme is among the best known successes. (a) A Bengal tiger. (b) National counts found 121 tigers in 2010, 235 in 2018 and 355 in 2022. Fitting an exponential curve between the first and last survey gives a growth of 9.4 % a year and a doubling time of 7.7 years, though the curve will flatten as the parks fill up, since the carrying capacity of a habitat sets the limit. Protected areas such as Chitwan, Bardiya and Parsa, community forests and anti-poaching patrols made this recovery possible."
+@ photo id="sci10/tiger" cap="A Bengal tiger in the Terai, the recovery symbol of Nepal's conservation"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Tiger numbers in Nepal and a fitted growth curve"
+import math
+data = [(2010, 121), (2018, 235), (2022, 355)]
+r = (355 / 121) ** (1 / 12) - 1
+dt = math.log(2) / math.log(1 + r)
+N = lambda y: 121 * (1 + r) ** (y - 2010)
+assert abs(r - 0.0938) < 0.001 and abs(dt - 7.7) < 0.1 and abs(N(2022) - 355) < 1e-6
+f = Fig(300, 236)
+f.text(150, 14, "Wild tigers counted in Nepal", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (2008, 2024), (0, 400))
+ax.grid(4, 100, size=9, xfmt=lambda v: "%d" % v); ax.axes("year", "tigers")
+ax.curve(N, 2010, 2024, color=NAVY, sw=2.2, dash=True)
+for y, n in data:
+    ax.pt(y, n, "%d" % n, dx=-8 if y == 2022 else 8, dy=-8 if y != 2018 else 16, color=RED, anchor="end" if y == 2022 else "start")
+f.text(150, 207, "growth (355/121)^(1/12) - 1 = %.1f %% a year" % (r * 100), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "doubling time = ln 2 / ln(1+r) = %.1f years" % dt, size=10.5, color=RED, bold=True)
+facts = dict(r="%.1f" % (r * 100), dt="%.1f" % dt)
+```
+
 ## Chapter summary
 
 - **Conservation biology** is the mission-oriented science of protecting

@@ -384,6 +384,37 @@ get 2 : 5 : 2. Only round when the value is within about 0.1 of a whole number
 (2.01 → 2 is fine; 2.5 → 2 destroys the answer).
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="In a reaction the limiting reactant is the one that is used up first, and it alone decides how much product forms. (a) Magnesium burns in oxygen with a brilliant white flame to give magnesium oxide. (b) Mixing 5.0 g of magnesium (0.2057 mol) with 2.0 g of oxygen (0.0625 mol), the ratio 2 : 1 shows that oxygen is limiting, so only 5.04 g of MgO can form and 1.96 g of magnesium is left unburnt. The masses on both sides add to 7.0 g, which is the law of conservation of mass. Percentage yield is then judged against this theoretical value, never against the total mass of the reactants supplied."
+@ photo id="chem11/mgburn" cap="Magnesium ribbon burning in air with a dazzling white flame"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Limiting reactant: 5.0 g Mg with 2.0 g O2"
+Mg_M, O2_M, MgO_M = 24.305, 31.998, 40.304
+m_Mg, m_O2 = 5.0, 2.0
+n_Mg, n_O2 = m_Mg / Mg_M, m_O2 / O2_M
+r_Mg, r_O2 = n_Mg / 2, n_O2 / 1
+lim = "O2" if r_O2 < r_Mg else "Mg"
+assert lim == "O2"
+n_MgO = 2 * n_O2
+m_MgO = n_MgO * MgO_M
+left = (n_Mg - n_MgO) * Mg_M
+assert abs(m_MgO + left - (m_Mg + m_O2)) < 0.01
+f = Fig(300, 236)
+f.text(150, 14, "2 Mg + O2 -> 2 MgO", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "moles divided by the coefficient", size=10.5, color=SLATE)
+for i, (nm, v, c, tag) in enumerate([("Mg", r_Mg, NAVY, "excess"), ("O2", r_O2, RED, "limiting")]):
+    y = 46 + i * 40
+    f.text(8, y + 13, nm, size=11, bold=True, anchor="start")
+    f.box(40, y, v * 1300, 26, "", fill=c, stroke=c, r=2)
+    f.text(40 + v * 1300 + 6, y + 13, "%.4f mol  %s" % (v, tag), size=10.5, color=c, bold=True, anchor="start")
+f.text(150, 142, "O2 runs out first, so it fixes the yield", size=10.5, color=RED, bold=True)
+f.text(150, 164, "MgO formed = 2 x %.4f = %.3f mol" % (n_O2, n_MgO), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "mass of MgO = %.2f g" % m_MgO, size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "Mg left over = %.2f g" % left, size=10.5, color=RED, bold=True)
+f.text(150, 218, "%.2f + %.2f = %.1f g in, %.1f g out" % (m_MgO, left, m_Mg + m_O2, m_MgO + left), size=10.5, color=SLATE)
+facts = dict(nO="%.4f" % n_O2, nM="%.4f" % n_Mg, mm="%.2f" % m_MgO, left="%.2f" % left)
+```
+
 ## Chapter summary
 
 - Dalton's postulates: atoms are indivisible, conserved, identical within an
