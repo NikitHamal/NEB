@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.onboarding
 
+import com.neb.ians.ui.theme.nebAnimationsReduced
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,8 +46,13 @@ internal fun Reveal(
 ) {
     val t = remember { Animatable(0f) }
     val spec = nebSlowSpatialSpec<Float>()
+    val reduced = nebAnimationsReduced()
     LaunchedEffect(active) {
         if (active) {
+            if (reduced) {
+                t.snapTo(1f)
+                return@LaunchedEffect
+            }
             delay(120L + index * 80L)
             t.animateTo(1f, spec)
         } else {
