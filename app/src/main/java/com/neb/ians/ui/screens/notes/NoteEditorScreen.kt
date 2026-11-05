@@ -239,6 +239,7 @@ fun NoteEditorScreen(
                 DropdownMenu(
                     expanded = menu, onDismissRequest = { menu = false },
                     shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh,
+                    tonalElevation = 0.dp, shadowElevation = 0.dp,
                 ) {
                     val words = NoteFormatting.wordCount(body.text)
                     DropdownMenuItem(

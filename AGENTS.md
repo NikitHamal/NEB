@@ -8,6 +8,10 @@ The file-edit tool cannot see paths outside its workspace root (`/app`); bash ca
 The Django landing needs `pip install --user --break-system-packages` of requirements plus `bleach django-htmx meilisearch gradio_client js2py`;
 run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`.
 
+## Android Notes + on-device voice
+
+Read `ANDROID_NOTES_STATUS.md` before touching `app/.../ui/screens/notes/`, `app/.../speech/` or `app/src/main/cpp/`. Models (Whistle STT, Phonon TTS) are never bundled: the user downloads/removes them in the Voice screen. `libptts_ffi.so` is built by `.github/workflows/build-phonon-lib.yml` and committed; `libneedle.a` is vendored. Never build the app locally, push and read the `Build Student Release APKs & AAB` run.
+
 ## Admin panel
 
 Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/css/admin/`. One nav list (`admin_extras.NAV_GROUPS`), M3 confirm dialog instead of `confirm()`, tonal surfaces, finite radii on every hover shape; `web/test_admin_shell.py` enforces it. Analytics: `docs/ANALYTICS.md`.

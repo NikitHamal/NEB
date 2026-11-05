@@ -1,0 +1,50 @@
+appId: com.neb.ians
+name: Notes and voice
+onFlowStart:
+  - runFlow:
+      when:
+        visible: "(?i).*isn't responding.*"
+      commands:
+        - tapOn: "Wait"
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Notes"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: notes-list-empty
+- startRecording: rec-notes
+- tapOn: "New note"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: "Title"
+- inputText: "Newton laws"
+- tapOn: "Start writing"
+- inputText: "First law, inertia"
+- hideKeyboard
+- tapOn: "Checklist"
+- inputText: "Revise chapter 4"
+- takeScreenshot: notes-editor
+- tapOn: "Preview"
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: notes-preview
+- tapOn: "Edit"
+- tapOn: "Dictate"
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: notes-dictate-setup
+- pressKey: back
+- pressKey: back
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: notes-list
+- tapOn: "Voice"
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: notes-voice-models
+- stopRecording
