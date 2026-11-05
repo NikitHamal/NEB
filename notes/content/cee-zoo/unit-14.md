@@ -204,6 +204,57 @@ resistant varieties, habitat for natural enemies, biocontrol/mechanical
 methods and targeted chemicals only when needed, reducing resistance and
 non-target damage.
 
+```photogrid label="14.1" cols="2" ratio="1.2" caption="Reading an air-quality index. (a) The Kathmandu Valley under a brown haze in the dry season: mountains around the bowl trap polluted air. (b) The US EPA index converts a 24-hour PM2.5 reading (particles under 2.5 micrometres that reach the alveoli) into a number by straight-line interpolation between breakpoints. Readings of 12, 45, 90 and 180 micrograms per cubic metre give AQI 56, 124, 175 and 255, in the moderate, unhealthy for sensitive groups, unhealthy and very unhealthy bands. The WHO 24-hour guideline is 15, so the last reading is 12 times too high."
+@ photo id="ceezoo/smog" cap="Kathmandu Valley under haze"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="AQI from 24-hour PM2.5 (EPA 2024 breakpoints)"
+bp = ((0.0, 9.0, 0, 50), (9.1, 35.4, 51, 100), (35.5, 55.4, 101, 150), (55.5, 125.4, 151, 200), (125.5, 225.4, 201, 300))
+def aqi(c):
+    for lo, hi, a, b in bp:
+        if lo <= c <= hi:
+            return (b - a) / (hi - lo) * (c - lo) + a
+vals = (12, 45, 90, 180)
+A = [aqi(c) for c in vals]
+assert [round(x) for x in A] == [56, 124, 175, 255]
+facts = dict(a1=round(A[0]), a2=round(A[1]), a3=round(A[2]), a4=round(A[3]))
+f = Fig(300, 236)
+f.text(150, 12, "PM2.5 (ug/m3) and the AQI it gives", size=10.5, color=NAVY, bold=True)
+bands = ((50, "#bbf7d0"), (100, "#fef08a"), (150, "#fed7aa"), (200, "#fecaca"), (300, "#e9d5ff"))
+prev = 0
+for top, col in bands:
+    f.box(40 + prev * 0.8, 150, (top - prev) * 0.8, 14, fill=col, stroke="#94a3b8", r=0, sw=0.6)
+    prev = top
+for i, (c, a) in enumerate(zip(vals, A)):
+    y = 28 + i * 28
+    f.text(10, y + 11, "%d" % c, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(40, y, a * 0.8, 20, fill=BLUE, stroke=NAVY, r=2)
+    f.text(40 + a * 0.8 + 6, y + 10, "AQI %d" % round(a), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(40, 178, "0", size=10.5, color=SLATE, anchor="middle"); f.text(160, 178, "150", size=10.5, color=SLATE); f.text(280, 178, "300", size=10.5, color=SLATE)
+f.text(150, 208, "180 ug/m3 is 12 times the WHO 24 h guide (15)", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="14.2" cols="2" ratio="1.2" caption="Why top predators carry most poison. (a) Rohu, a carp of Nepal's ponds, is a link in an aquatic food chain. (b) Persistent pesticides such as DDT dissolve in fat and are not excreted, so each link keeps what it eats. Classic textbook figures run from 0.00005 ppm in water to 0.04 in plankton, 0.5 in small fish, 2 in large fish and 25 ppm in fish-eating birds: a rise of 500,000 times, with each step multiplying the level by 800, 12.5, 4 and 12.5. This biomagnification thinned the eggshells of birds of prey, and led to the ban on DDT in agriculture in many countries."
+@ photo id="bio11/rohu" cap="Rohu, a freshwater carp"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="DDT concentration along a food chain (ppm, log scale)"
+ch = (("Water", 0.00005), ("Plankton", 0.04), ("Small fish", 0.5), ("Large fish", 2.0), ("Fish-eating bird", 25.0))
+x = ch[-1][1] / ch[0][1]
+st = [ch[i + 1][1] / ch[i][1] for i in range(4)]
+assert abs(x - 500000) < 1e-6 and [round(s, 2) for s in st] == [800, 12.5, 4, 12.5]
+facts = dict(x="{:,.0f}".format(x), s1="%g" % st[0], s2="%g" % st[1], s3="%g" % st[2], s4="%g" % st[3])
+f = Fig(300, 236)
+f.text(150, 12, "ppm of DDT (bar = log10 + 4.5)", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(ch):
+    y = 28 + i * 37
+    f.text(10, y + 2, n, size=10.5, color=SLATE, anchor="start")
+    w = 35 * (math.log10(v) + 4.5) + 4
+    f.box(10, y + 9, w, 18, fill=ROSE if i > 2 else SAND, stroke=RED if i > 2 else AMBER, r=2)
+    f.text(10 + w + 6, y + 18, ("0.00005" if v < 0.001 else "%g" % v), size=10.5, color=RED if i > 2 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 224, "500,000 times from water to bird", size=10.5, color=NAVY, bold=True)
+```
+
 ## 14.3 Aquatic, terrestrial and volant adaptations
 
 An **adaptation** is an inherited morphological, physiological or behavioural
@@ -419,6 +470,30 @@ endangered)** is one step from the wild's edge, **EN (endangered)** one step
 behind CR — 'endangered' in headlines often means the whole CR+EN+VU
 'threatened' club.
 :::
+
+```photogrid label="14.3" cols="2" ratio="1.2" caption="A conservation success. (a) The Indian rhinoceros, protected in Chitwan and Bardiya National Parks, has recovered from fewer than 100 animals in the 1960s. (b) Nepal's national counts give 534 in 2011, 645 in 2015 and 752 in 2021. The compound growth rate is (final/initial)^(1/years) - 1: 4.8 per cent a year in 2011 to 2015, 2.6 per cent in 2015 to 2021 and 3.5 per cent over the whole decade, so a population growing like this doubles in about 20 years. Anti-poaching patrols, community forests in buffer zones and translocation to new parks produced the growth, while the slowdown shows that the parks are filling up."
+@ photo id="bio11/rhino" cap="Indian rhinoceros in Chitwan"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rhino counts in Nepal and growth rate"
+c = ((2011, 534), (2015, 645), (2021, 752))
+gr = lambda a, b: 100 * ((b[1] / a[1]) ** (1 / (b[0] - a[0])) - 1)
+g1, g2, g3 = gr(c[0], c[1]), gr(c[1], c[2]), gr(c[0], c[2])
+dt = math.log(2) / math.log(1 + g3 / 100)
+assert abs(g1 - 4.83) < 0.02 and abs(g2 - 2.59) < 0.02 and abs(g3 - 3.49) < 0.02 and abs(dt - 20.2) < 0.2
+facts = dict(g1="%.1f" % g1, g2="%.1f" % g2, g3="%.1f" % g3, dt="%.0f" % dt)
+f = Fig(300, 236)
+f.text(150, 12, "Greater one-horned rhinoceros counted", size=10.5, color=NAVY, bold=True)
+base = 160
+for i, (yr, n) in enumerate(c):
+    x = 40 + i * 80
+    f.box(x, base - n / 752 * 120, 52, n / 752 * 120, fill=MINT, stroke=TEAL, r=2)
+    f.text(x + 26, base - n / 752 * 120 - 6, str(n), size=10.5, color=TEAL, bold=True)
+    f.text(x + 26, base + 14, str(yr), size=10.5, color=SLATE, bold=True)
+f.line(30, base, 290, base, color=SLATE)
+f.text(150, 192, "growth 4.8 per cent a year, then 2.6 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "2011-2021: 3.5 per cent, doubling in 20 years", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
