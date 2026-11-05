@@ -135,6 +135,17 @@ key features and an application, and present them. For example:
 | Grammarly | Grammarly Inc. | grammar, spelling and tone suggestions | correcting essays and emails |
 :::
 
+### Eight applications of AI, explained
+
+1. **Education.** AI tutors answer a student's questions at any hour and set practice questions at the right level. Translation tools help students read English books in Nepali. Teachers use AI to mark multiple-choice tests quickly.
+2. **Healthcare.** AI reads X-ray and retina images and warns the doctor of a possible disease. In a hill district a health worker can send a picture to a hospital model for a first opinion. This saves time where specialists are few.
+3. **Agriculture.** A phone app can recognise a leaf disease from a photograph and suggest a remedy. Models predict rainfall and the best time for planting. Farmers of Nepal can reduce losses.
+4. **Banking and finance.** AI spots unusual transactions on a card or wallet and blocks fraud. Credit models decide the risk of a loan. Chatbots answer customers' questions on the mobile-banking app.
+5. **Transport.** Navigation apps predict traffic in Kathmandu and suggest quicker roads. Self-driving cars use cameras and AI to detect lanes and people. Ride-sharing apps match drivers with passengers.
+6. **Entertainment and social media.** Music and video apps suggest songs and clips that match your taste. Filters and face tags use image recognition. Game characters use AI to decide their moves.
+7. **Security and surveillance.** Face recognition opens a phone and checks identity at an airport. Cameras detect an intruder and send an alert. This must be used with care for privacy.
+8. **Language and voice assistants.** Voice assistants such as Google Assistant understand speech and answer. Speech-to-text writes subtitles, and chatbots such as ChatGPT write text and code. Nepali voice support is growing.
+
 ## 5.2 Learning techniques: supervised, unsupervised and reinforcement learning
 
 A machine learns by finding patterns in data. How it is taught gives three main
@@ -276,6 +287,14 @@ Then test a photo of a rabbit: the model must still answer "cat" or "dog",
 because it knows only the labels it was taught — a limit of supervised
 learning worth discussing in class.
 :::
+
+```photogrid label="5.H" cols="5" ratio="1.1" caption="The hardware of sensing, thinking and acting. (a) A Tensor Processing Unit, a chip made only for AI calculations. (b) A graphics processor (GPU) whose thousands of small cores train neural networks. (c) A PIR sensor that detects a moving warm body, the eyes of a security light. (d) An ESP8266 chip that connects a device to Wi-Fi and so to the cloud. (e) A smart electricity meter that reports its readings by itself. Sensors collect data, a chip decides, and a motor or screen acts: this loop is the basis of robots and of the Internet of Things."
+@ photo id="bca101/tpu" cap="(a) TPU: AI chip"
+@ photo id="bca101/gpucore" cap="(b) GPU"
+@ photo id="bca101/pir" cap="(c) PIR motion sensor"
+@ photo id="bca101/esp8266" cap="(d) ESP8266 Wi-Fi chip"
+@ photo id="bca101/smartmeter" cap="(e) Smart meter"
+```
 
 ## 5.3 AI in robotics: sensing, deciding and acting
 
@@ -670,6 +689,17 @@ IoT saves time, energy and money and gives accurate, real-time information.
 Its challenges are **security** (badly protected devices are easy to hack),
 **privacy** (devices collect personal data), **dependence on the Internet and
 electricity**, cost, and electronic waste.
+
+### Eight applications of IoT, explained
+
+1. **Smart homes.** Lights, fans and door locks are switched from a phone, and a motion sensor turns on the light when someone enters. This saves electricity and adds comfort.
+2. **Smart agriculture.** Soil-moisture sensors tell a farmer when to water, and an automatic pump starts by itself. Water is saved and the crop grows better.
+3. **Healthcare.** A wearable band measures heart rate and sends it to the doctor. Elderly patients are monitored from far away.
+4. **Smart metering.** A smart meter reports the electricity used, so the bill is correct without a meter reader. The Nepal Electricity Authority is introducing such meters.
+5. **Transport and tracking.** GPS trackers show the position of a bus or a delivery bike on a map. Fleet owners save fuel and customers know when the vehicle will arrive.
+6. **Industry.** Sensors on a machine detect heat or vibration and warn before it breaks, which prevents costly stoppage.
+7. **Environment and disaster warning.** River-level and rainfall sensors send alerts of floods to villages. The Department of Hydrology and Meteorology uses such stations.
+8. **Smart cities.** Street lights dim when no one is passing, bins signal when full and parking sensors guide drivers to a free place.
 
 ## 5.8 Virtual reality, augmented reality and extended reality (XR)
 
@@ -1154,3 +1184,84 @@ with eSewa, Khalti or Fonepay QR. Limitations: the product delivered may differ
 from its picture or online fraud may occur; delivery to remote areas can be slow
 and depends on a good Internet connection.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is Artificial Intelligence? Explain machine learning, its types and the applications of AI. <span class="marks">[10]</span>
+2. What is generative AI? Explain how it works, its uses, its limitations and the ethical issues of AI. <span class="marks">[10]</span>
+3. Explain IoT, cloud computing and the use of e-commerce, e-governance and e-education in Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: AI, machine learning and applications (10 marks)
+
+**Introduction.** **Artificial Intelligence (AI)** is the ability of a computer or machine to do tasks that normally need human intelligence, such as understanding speech, recognising pictures, learning and making decisions. **Machine learning (ML)** is a part of AI in which a computer learns patterns from data instead of being given fixed rules.
+
+**Types of AI by ability.**
+
+1. **Narrow (weak) AI:** designed for one task, such as a spam filter or a chess program. All AI used today is of this type.
+2. **General (strong) AI:** would match a human in any intellectual task. It does not exist yet.
+3. **Super AI:** would be smarter than all humans; this is only an idea.
+
+**Types of machine learning.**
+
+| Type | Data | How it learns | Example |
+|---|---|---|---|
+| Supervised | Labelled (question and answer) | Learns the link between input and the right answer | Spam or not spam; price prediction |
+| Unsupervised | Unlabelled | Finds groups and patterns by itself | Grouping customers |
+| Reinforcement | None given; feedback | Tries actions and gets rewards or penalties | A robot learning to walk; a game player |
+
+**Applications.** Education (AI tutors), healthcare (reading X-ray images), agriculture (leaf-disease apps), banking (fraud detection), transport (traffic prediction), entertainment (recommendations), security (face recognition), and voice assistants.
+
+**Advantages and limitations.** AI works fast, never tires and can find patterns that people miss. But it needs large data and costly hardware, can be biased if the data are biased, can take jobs of routine work, and cannot show real feelings or common sense.
+
+**Conclusion.** AI is already part of daily life in Nepal, and learning how it works helps students use it wisely.
+
+### Model answer D2: generative AI and ethics (10 marks)
+
+**Introduction.** **Generative AI** is AI that creates new content, such as text, images, music, code or video, after learning from huge amounts of existing data. ChatGPT, Gemini and Claude write text, and image tools draw pictures from a description.
+
+**How it works.** (1) The model is **trained** on very large collections of text or images. (2) It learns the patterns, for text mainly which word is likely to come next. (3) The user writes a **prompt**, an instruction. (4) The model produces an answer word by word from probabilities. A better prompt gives a better answer: it names the task, gives the context, states the format and the length.
+
+**Uses in study and work.** Summarising a chapter, explaining a hard idea, preparing practice questions, translating, checking grammar, writing code and drafting a letter or a presentation.
+
+**Limitations.** It can give wrong facts with confidence (called **hallucination**); it may be biased; it does not truly understand; its knowledge stops at a training date; it can be used to copy and cheat, and it needs a lot of electricity.
+
+**Ethics of AI.**
+
+1. **Bias:** unfair results when the training data favour one group, such as a hiring tool that prefers men.
+2. **Privacy:** personal data collected to train or run AI may be misused.
+3. **Security:** AI can write phishing mails or make fake voices and **deepfake** videos.
+4. **Accountability:** who is responsible when an AI decision causes harm?
+5. **Jobs:** automation may replace routine work.
+6. **Honesty:** students should not submit AI work as their own.
+
+| Benefit | Risk |
+|---|---|
+| Saves time | Wrong answers believed |
+| Personal tutor | Cheating |
+| Creative help | Deepfakes, copying |
+
+**Conclusion.** Generative AI is a powerful assistant but not an authority, so its answers must be checked and used honestly.
+
+### Model answer D3: IoT, cloud and e-services in Nepal (10 marks)
+
+**Introduction.** Three contemporary technologies connect people, machines and services: IoT, cloud computing and the e-services of government and business.
+
+**Internet of Things (IoT).** IoT is a network of physical objects fitted with sensors, software and internet connection, which collect and exchange data without human help. Its parts are the **sensor** (collects data), the **network** (Wi-Fi, mobile data), the **cloud or server** (stores and analyses) and the **application** (shows results or controls the device). Uses: smart home, smart farming, smart meters, health bands, vehicle tracking, flood warning.
+
+**Cloud computing.** It is the delivery of computing services such as storage, servers and software over the internet, paid for by use. **Service models:** **IaaS** gives the raw servers (Amazon EC2), **PaaS** gives a platform to build apps (Google App Engine) and **SaaS** gives ready software (Gmail, Google Docs). Advantages: low cost, access anywhere, easy scaling and automatic backup; limitations: needs the internet, and security and privacy depend on the provider.
+
+| Model | You manage | Example |
+|---|---|---|
+| IaaS | Operating system and apps | Virtual server |
+| PaaS | Your app only | App platform |
+| SaaS | Nothing, just use | Gmail |
+
+**e-Services in Nepal.**
+
+1. **e-Commerce:** buying and selling online, with Daraz, Sastodeal and food-delivery apps; payment by eSewa, Khalti, Fonepay and ConnectIPS.
+2. **e-Governance:** government services online, such as the Nagarik App, online passport and driving-licence applications, PAN registration and vehicle tax.
+3. **e-Education:** online classes, digital libraries, learning apps and results on the NEB website.
+
+**Benefits.** Saves time and travel, reduces corruption through records, works 24 hours and reaches remote areas. **Challenges:** poor internet in rural places, low digital literacy, cyber-crime and electricity cuts.
+
+**Conclusion.** IoT collects the data, the cloud stores and processes it, and e-services deliver the benefit to citizens, so together they build Digital Nepal.
