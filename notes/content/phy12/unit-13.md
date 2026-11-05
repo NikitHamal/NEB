@@ -406,6 +406,31 @@ angle. Take $c = 3\times10^{8}\ \text{m s}^{-1}$.
 (c) $\sin C = \dfrac{1}{n} = \dfrac{1}{1.732} = 0.5774$, so $C = 35.3^\circ$.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.2" caption="Crossed polaroids block light, but a third lets some through. (a) Polarising sunglasses are made of a polaroid sheet that transmits one direction of vibration. (b) The cell follows unpolarised light: the first polaroid passes 50 per cent, and a second one with its axis parallel passes the rest of that. A second polaroid crossed at 90 degrees passes none, by Malus's law I = I0 cos2(theta). If a third polaroid at 45 degrees is placed between the crossed pair, each step passes cos2(45 degrees) = one half, so 12.5 per cent of the original light now gets through. The middle sheet does not just absorb: it rotates the direction of vibration so that the last sheet can accept some of it."
+@ photo id="ceephy3/sunglasses" cap="Polarising sunglasses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Intensity after one, two and three polaroids"
+import math
+I0 = 100.0
+a = I0 / 2
+b = a * math.cos(0) ** 2
+c = a * math.cos(math.pi / 2) ** 2
+d = a * math.cos(math.pi / 4) ** 4
+c = round(c, 9)
+rows = [("one polaroid", a), ("two, parallel", b), ("two, crossed", c), ("crossed + 45 deg", d)]
+assert a == 50 and round(d, 1) == 12.5
+f = Fig(300, 236)
+f.text(150, 12, "Transmitted per cent of unpolarised light", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=55, fmt="%.1f", x0=96, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED), (SAND, AMBER)])
+f.text(150, 158, "unpolarised light loses half at the first polaroid", size=10, color=SLATE, bold=True)
+f.text(150, 178, "then I = I0 cos^2(theta) at each later one", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "a third polaroid at 45 deg between two", size=10, color=SLATE, bold=True)
+f.text(150, 214, "crossed ones lets %.1f%% through" % d, size=10.5, color=RED, bold=True)
+facts = dict(a=a, d=d)
+```
+
 ## Chapter summary
 
 - **Unpolarized** light vibrates in all directions perpendicular to the ray;

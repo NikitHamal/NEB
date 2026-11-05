@@ -474,6 +474,26 @@ The negative sign means $8.09\ \text{kJ}$ of work is done **on** the gas; since
 $Q = 0$, all of it becomes internal energy, $\Delta U = +8.09\ \text{kJ}$.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.2" caption="Compression without heat flow. (a) A fire piston is a closed tube and a plunger; pushing the plunger in quickly makes the tinder at the bottom glow. (b) The compression is so fast that no heat can escape, so it is adiabatic, and T V^(gamma - 1) is constant. The cell starts with air at 300 K and gamma = 1.4. A compression ratio of 5 raises the temperature to 571 K, but a ratio of 20 raises it to 994 K (721 degrees C) and the pressure to 66 times its original value. That is hotter than the ignition temperature of dry tinder, and exactly the principle used to ignite fuel in a diesel engine without a spark plug."
+@ photo id="phy12b/firepiston" cap="A fire piston: a glowing tinder in a transparent cylinder after rapid compression"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature after adiabatic compression"
+g, T1 = 1.4, 300.0
+rows = [("r = %d" % r, T1 * r ** (g - 1)) for r in (5, 10, 15, 20)]
+assert round(rows[3][1]) == 994
+p = 20 ** g
+f = Fig(300, 236)
+f.text(150, 12, "T2 = T1 r^(gamma - 1), kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1050, fmt="%.0f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "air from 300 K, gamma = 1.4, r = V1 / V2", size=10, color=SLATE, bold=True)
+f.text(150, 180, "r = 20: %.0f K = %.0f deg C" % (rows[3][1], rows[3][1] - 273.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "pressure rises to %.0f times the original" % p, size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "paper chars at about 450 deg C or less", size=10, color=SLATE, bold=True)
+facts = dict(t20=rows[3][1], c20=rows[3][1] - 273.15, p=p, t5=rows[0][1])
+```
+
 ## Chapter summary
 
 - A system exchanges matter and energy with its surroundings across a boundary;

@@ -476,6 +476,27 @@ because its coercivity is tiny and it loses its magnetism as soon as the current
 is switched off.
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.2" caption="Diamagnetic materials are pushed out of a field. (a) A thin piece of graphite floats a short distance above small neodymium magnets. Its magnetisation is opposite to the field, so it is repelled from the strong-field region. (b) Floating needs the magnetic force per volume, |chi| B (dB/dz) / mu0, to balance the weight density rho g. The cell finds B (dB/dz) = mu0 rho g / |chi|: about 1362 T2/m for water, 726 for bismuth and only 60 for graphite, whose susceptibility is large for a diamagnet. This is why graphite levitates over table-top magnets, while water needs a huge laboratory magnet. Diamagnetism is present in every material but is usually hidden by paramagnetism or ferromagnetism."
+@ photo id="phy12b/diamag" cap="A graphite piece floating above a row of small magnets"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Field gradient needed to levitate a diamagnetic material"
+mu0, g = 4e-7 * 3.141592653589793, 9.81
+mats = [("water", 1000, 9.05e-6), ("bismuth", 9780, 1.66e-4), ("graphite", 2200, 4.5e-4)]
+rows = [(n, mu0 * rho * g / chi) for n, rho, chi in mats]
+assert round(rows[0][1]) == 1362
+f = Fig(300, 236)
+f.text(150, 12, "Needed B x dB/dz, T^2 per metre", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1450, fmt="%.0f", x0=64, y0=30, bw=150, gap=32,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 144, "balance: |chi| B (dB/dz) / mu0 = rho g", size=10.5, color=NAVY, bold=True)
+f.text(150, 164, "so B dB/dz = mu0 rho g / |chi|", size=10.5, color=NAVY, bold=True)
+f.text(150, 186, "a frog or a drop of water needs ~1400,", size=10, color=SLATE, bold=True)
+f.text(150, 202, "a 16 T magnet; graphite only %.0f," % rows[2][1], size=10, color=SLATE, bold=True)
+f.text(150, 218, "which a row of small magnets can give", size=10, color=SLATE, bold=True)
+facts = dict(w=rows[0][1], b=rows[1][1], g=rows[2][1])
+```
+
 ## Chapter summary
 
 - Magnetic flux $\Phi = BA\cos\theta$ (weber); $B = \Phi/A$ is the flux density

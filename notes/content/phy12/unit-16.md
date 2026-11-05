@@ -1014,6 +1014,27 @@ $$ \frac{\mu_0(5.0)}{2\pi x} = \frac{\mu_0(10)}{2\pi(0.10-x)}
 so $x = 0.0333\ \text{m} = 3.33\ \text{cm}$ from the $5\ \text{A}$ wire.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.2" caption="Force on a current-carrying wire. (a) The coil of a DC motor is held in the field of a magnet, and the commutator keeps the force on each side pushing the coil the same way round. (b) The force on a conductor of length L carrying a current I at right angles to a field B is F = B I L. The cell uses B = 0.2 T and L = 4 cm: a current of 2 A gives 16 mN on each side and 4 A gives 32 mN. Between two long parallel wires 1 m apart the force per metre is mu0 I2 / (2 pi d), which is 2.0e-07 N/m for 1 A, the value that defines the ampere, and 2.0e-03 N/m for 100 A, since the force grows as the square of the current."
+@ photo id="ceephy3/motor" cap="The commutator and brushes of a small DC motor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Force on a current-carrying conductor and between two wires"
+B, L = 0.2, 0.04
+rows = [("%g A" % I, B * I * L * 1000) for I in (0.5, 1, 2, 4)]
+assert rows[2][1] == 16.0
+mu0 = 4e-7 * 3.141592653589793
+two = [(I, mu0 * I * I / (2 * 3.141592653589793 * 1.0)) for I in (1, 10, 100)]
+assert round(two[0][1] * 1e7, 2) == 2.0
+f = Fig(300, 236)
+f.text(150, 12, "F = B I L on a 4 cm side in 0.2 T, mN", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=34, fmt="%.0f", x0=46, y0=30, bw=170, gap=30)
+f.text(150, 158, "Two long parallel wires, 1 m apart, same current:", size=10, color=SLATE, bold=True)
+f.text(150, 178, "F/L = mu0 I^2 / (2 pi d)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1 A: %.1e N/m (the definition of the ampere)" % two[0][1], size=10, color=NAVY, bold=True)
+f.text(150, 216, "10 A: %.1e N/m, 100 A: %.1e N/m" % (two[1][1], two[2][1]), size=10, color=NAVY, bold=True)
+facts = dict(a=rows[2][1], b=rows[3][1], t1=two[0][1], t100=two[2][1])
+```
+
 ## Chapter summary
 
 - Magnetic flux $\Phi = BA\cos\theta$ (weber); field lines are closed loops, so

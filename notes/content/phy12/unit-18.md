@@ -484,6 +484,29 @@ $$ I_p = \frac{P_{\text{in}}}{E_p} = \frac{5500}{11000} = 0.50\ \text{A} $$
 The $1100\ \text{W}$ difference is lost as heat in the copper and the core.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.2" caption="Stepping down for the home. (a) A transformer on a pole reduces the 11 kV of the distribution line to the 230 V used in houses. (b) For an ideal transformer the power is the same on both sides, Vp Ip = Vs Is, and the turns ratio is Np / Ns = Vp / Vs, here 47.8. For a 25 kVA unit the primary current is only 2.27 A but the secondary current is 108.7 A, which is why the low-voltage cables are thick. A real transformer of 98 per cent efficiency wastes 500 W as heat in the windings and the laminated iron core. Transmitting at high voltage keeps the current, and therefore the I2 R loss in the lines, small."
+@ photo id="phy12b/transformer" cap="A pole-mounted distribution transformer"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="A step-down transformer from 11 kV to 230 V"
+Vp, Vs, S, eta = 11000.0, 230.0, 25000.0, 0.98
+Ip, Is = S / Vp, S / Vs
+turns = Vp / Vs
+loss = S * (1 - eta)
+assert round(turns, 1) == 47.8 and round(Is, 1) == 108.7
+f = Fig(300, 236)
+f.text(150, 12, "25 kVA transformer, 11 kV to 230 V", size=10.5, color=NAVY, bold=True)
+hbars(f, [("I primary, A", Ip), ("I secondary, A", Is)], vmax=115, fmt="%.2f", x0=96, y0=30, bw=140, gap=32,
+      colors=[(BLUE, NAVY), (ROSE, RED)])
+f.text(150, 112, "Vp / Vs = Ns / Np inverted: Np / Ns = %.1f" % turns, size=10.5, color=NAVY, bold=True)
+f.text(150, 134, "Vp Ip = Vs Is (ideal): %.0f VA both sides" % S, size=10.5, color=NAVY, bold=True)
+f.text(150, 160, "a 98%% efficient unit wastes %.0f W as heat" % loss, size=10.5, color=NAVY, bold=True)
+f.text(150, 180, "copper loss ~ I^2 R, iron loss ~ eddy + hysteresis", size=10, color=SLATE, bold=True)
+f.text(150, 198, "the iron core is laminated to cut eddy currents", size=10, color=SLATE, bold=True)
+f.text(150, 216, "transmit at high V, low I: less I^2 R loss", size=10, color=SLATE, bold=True)
+facts = dict(ip=Ip, is_=Is, n=turns, loss=loss)
+```
+
 ## Chapter summary
 
 - Faraday: an e.m.f. appears whenever flux linkage changes, $e = -N\,d\Phi/dt$;

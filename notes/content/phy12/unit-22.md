@@ -577,6 +577,32 @@ $$ \beta = \frac{I_C}{I_B} = \frac{1.96}{0.04} = 49
 \quad\left(\text{check: } \frac{\alpha}{1-\alpha} = \frac{0.98}{0.02} = 49\right) $$
 :::
 
+```photogrid label="22.P" cols="2" ratio="1.2" caption="Why the full-wave rectifier is preferred. (a) A bridge package holds four diodes so that both half cycles of the alternating voltage are used. (b) For a 12 V r.m.s. supply, whose peak is 16.97 V, the cell finds the mean output of a half-wave rectifier to be Vpk / pi = 5.40 V and that of a full-wave rectifier 2 Vpk / pi = 10.80 V, twice as much. The rectification efficiency is 40.5 per cent for half-wave and 81.1 per cent for full-wave, and the ripple factor falls from 1.21 to 0.483. A smoothing capacitor is still needed to reduce the remaining ripple, and the ripple frequency is 100 Hz instead of 50 Hz, which is easier to filter."
+@ photo id="ceephy3/bridge" cap="A bridge rectifier made of four diodes in one package"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Half-wave and full-wave rectifier compared"
+import math
+Vpk = 12 * math.sqrt(2)
+half, full = Vpk / math.pi, 2 * Vpk / math.pi
+eta_h, eta_f = 4 / math.pi ** 2 * 100, 8 / math.pi ** 2 * 100
+rip_h = math.sqrt((math.pi ** 2 / 4) - 1)
+rip_f = math.sqrt((math.pi ** 2 / 8) - 1)
+assert round(half, 2) == 5.40 and round(full, 2) == 10.80 and round(rip_h, 2) == 1.21 and round(rip_f, 3) == 0.483
+f = Fig(300, 236)
+f.text(150, 12, "Rectifier on a 12 V r.m.s. supply", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "mean (d.c.) output voltage, V", size=10, color=SLATE, bold=True)
+hbars(f, [("half-wave", half), ("full-wave", full)], vmax=12, fmt="%.2f", x0=66, y0=38, bw=170, gap=26,
+      colors=[(SAND, AMBER), (MINT, TEAL)])
+f.text(150, 108, "rectification efficiency, per cent", size=10, color=SLATE, bold=True)
+hbars(f, [("half-wave", eta_h), ("full-wave", eta_f)], vmax=90, fmt="%.1f", x0=66, y0=116, bw=170, gap=26,
+      colors=[(SAND, AMBER), (MINT, TEAL)])
+f.text(150, 186, "ripple factor: half-wave %.2f, full-wave %.3f" % (rip_h, rip_f), size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "(diode drops ignored)", size=10, color=SLATE, bold=True)
+f.text(150, 220, "full wave uses both half cycles", size=10, color=SLATE, bold=True)
+facts = dict(h=half, f=full, eh=eta_h, ef=eta_f, rh=rip_h, rf=rip_f)
+```
+
 ## Chapter summary
 
 - Diffusion across a p-n junction leaves a depletion region of immobile ions and
