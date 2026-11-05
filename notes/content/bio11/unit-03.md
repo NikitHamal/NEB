@@ -143,6 +143,8 @@ ax.set_aspect('equal'); ax.axis('off')
 
 ```photo id="bio11/staph" caption="Spherical bacteria (cocci) of *Staphylococcus*, in the irregular grape-like clusters that give the genus its name, seen in a stained smear." width="74"
 ```
+<div style="break-before:page"></div>
+
 ### Structure of a bacterial cell
 
 ```figure caption="Ultrastructure of a rod-shaped bacterium. Compare it with the eukaryotic cell of Unit 1: there is no nuclear envelope and no membrane-bound organelle of any kind."

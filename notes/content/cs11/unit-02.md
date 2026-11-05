@@ -1066,6 +1066,47 @@ are identical for all input combinations, hence the law is verified." Examiners
 award marks for the intermediate columns, so never jump straight to the answer.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Computers add numbers with logic gates: each bit position uses a full adder that takes two input bits and the carry from the position on its right and gives a sum bit and a new carry. (a) A logic IC in its package contains several such gates. (b) Adding 1011 (11) and 0110 (6) gives 10001, which is 17, and a carry ripples through three positions. Subtraction needs no new circuit: the two's complement of 0110 is 1010, and adding it to 1101 and discarding the carry-out leaves 0111, which is 7. This is why the CPU needs only an adder and a way to invert bits."
+@ photo id="bca101/ic-dip" cap="A logic IC in a dual in-line package holds several gates"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="4-bit binary addition and two's complement subtraction"
+A, B = 0b1011, 0b0110
+ab = [(A >> i) & 1 for i in range(3, -1, -1)]
+bb = [(B >> i) & 1 for i in range(3, -1, -1)]
+carry, sums, c = [0] * 5, [0] * 5, 0
+cs = []
+for i in range(3, -1, -1):
+    t = ab[i] + bb[i] + c
+    sums[i + 1] = t % 2
+    c = t // 2
+    cs.append(c)
+    carry[i] = c
+sums[0] = c
+total = int("".join(map(str, sums)), 2)
+assert total == A + B == 17
+x, y = 13, 6
+comp = ((~y) & 0xF) + 1
+diff = (x + comp) & 0xF
+assert diff == 7 and format(comp, "04b") == "1010"
+f = Fig(300, 236)
+f.text(150, 14, "1011 + 0110 by full adders", size=10.5, color=NAVY, bold=True)
+xs = [100 + i * 34 for i in range(5)]
+rows = [("carry", carry, AMBER, 30), ("A = 11", [0] + ab, NAVY, 58), ("B = 6", [0] + bb, NAVY, 86), ("sum", sums, RED, 118)]
+for nm, bits, col, y in rows:
+    f.text(8, y + 11, nm, size=10.5, bold=True, anchor="start", color=col)
+    for k, b in enumerate(bits):
+        if nm in ("A = 11", "B = 6") and k == 0:
+            continue
+        f.box(xs[k] - 14, y, 28, 22, str(b), fill=BLUE if col == NAVY else (SAND if col == AMBER else ROSE), stroke=col, color=col, size=11, bold=True, r=3)
+f.line(86, 112, 276, 112, color=SLATE, sw=1.2)
+f.text(150, 160, "sum = %s = %d (11 + 6 = 17)" % ("".join(map(str, sums)), total), size=10.5, color=RED, bold=True)
+f.text(150, 180, "13 - 6: 2's complement of 0110 = %s" % format(comp, "04b"), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1101 + 1010 = %s, drop the carry" % format(x + comp, "05b"), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "answer %s = %d" % (format(diff, "04b"), diff), size=10.5, color=RED, bold=True)
+facts = dict(s="".join(map(str, sums)), t=total, d=format(diff, "04b"), dd=diff, comp=format(comp, "04b"))
+```
+
 ## Chapter summary
 
 - A positional number in base $r$ has value $\sum d_i r^{i}$. To decimal: expand

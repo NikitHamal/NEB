@@ -313,6 +313,33 @@ forestry restoring the mid-hills, the rise of the one-horned rhino in Chitwan, o
 tissue-cultured banana plantlets raised at Khumaltar.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="The compound microscope magnifies a specimen twice, by the objective and by the eyepiece, so the total magnification is the product of the two. (a) Budding yeast cells, each about 10 micrometres across. (b) With a 10x eyepiece and a field number of 18 mm, the field of view is the field number divided by the objective power: 4500 um with the 4x objective, 450 um at 40x and 180 um at 100x. A 10 um yeast cell therefore fills about 1/45 of the field at 400x, and at 1000x only 18 cells fit across. Always focus first at low power, since high power narrows the field and the working distance."
+@ photo id="bio11/yeast-cells" cap="Yeast cells seen under a compound microscope"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Field of view and cells visible at each objective (eyepiece 10x, field number 18 mm)"
+obj = [(4, NAVY), (10, TEAL), (40, AMBER), (100, RED)]
+fn = 18.0
+cell_um = 10.0
+res = []
+for o, c in obj:
+    fov = fn / o * 1000
+    res.append((o, o * 10, fov, fov / cell_um, c))
+assert res[1][2] == 1800 and res[3][3] == 18.0
+f = Fig(300, 236)
+f.text(150, 14, "Total magnification = objective x eyepiece", size=10.5, color=NAVY, bold=True)
+for i, (o, tm, fov, n, c) in enumerate(res):
+    y = 30 + i * 34
+    f.text(8, y + 14, "%dx" % tm, size=10.5, bold=True, anchor="start")
+    f.box(50, y, fov / 4500 * 100 + 4, 22, "", fill=c, stroke=c, r=2)
+    f.text(50 + fov / 4500 * 100 + 10, y + 12, "%.0f um, %.0f cells" % (fov, n), size=10, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 176, "field diameter = field number / objective", size=10.5, color=SLATE, bold=True)
+f.text(150, 194, "cells across = diameter / 10 um (yeast)", size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "100x objective: %.0f um field, only %.0f cells" % (res[3][2], res[3][3]), size=10.5, color=RED, bold=True)
+f.text(150, 228, "higher power sees more detail of less area", size=10.5, color=SLATE)
+facts = dict(f4="%.0f" % res[0][2], f40="%.0f" % res[2][2], c40="%.0f" % res[2][3], f100="%.0f" % res[3][2], c100="%.0f" % res[3][3])
+```
+
 ## Chapter summary
 
 - **Biology** is the science of living organisms; from Greek *bios* (life) and

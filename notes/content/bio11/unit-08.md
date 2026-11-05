@@ -2754,6 +2754,8 @@ metabolic rate needs a four-chambered heart that keeps the two circuits
 separate.
 :::
 
+<div style="break-before:page"></div>
+
 ### Excretory system and osmoregulation
 
 ```figure caption="Urinogenital system: (a) male, (b) female frog."

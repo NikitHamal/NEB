@@ -928,6 +928,52 @@ for each, with reasons.
   app store at all.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="The operating system shares the CPU among processes, and in round-robin scheduling each process runs for a fixed time slice and then goes to the back of the queue. (a) The Ubuntu desktop, whose windows are all processes managed by the kernel. (b) For jobs needing 5, 3 and 8 units with a slice of 2, the short job P2 finishes at 9, and the waits are 7, 6 and 8 units, an average of 7.00. First-come first-served would give an average of 4.33, better here but with a long job blocking all the others. Time sharing is what makes a single processor seem to run a browser, a music player and a document at once."
+@ photo id="bca101/ubuntu" cap="The Ubuntu Linux desktop, a graphical user interface over the kernel"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Round-robin scheduling with a time slice of 2 units"
+burst = {"P1": 5, "P2": 3, "P3": 8}
+q = 2
+rem = dict(burst)
+t, seg, queue = 0, [], list(burst)
+done = {}
+while queue:
+    p = queue.pop(0)
+    run = min(q, rem[p])
+    seg.append((p, t, t + run))
+    t += run
+    rem[p] -= run
+    if rem[p] > 0:
+        queue.append(p)
+    else:
+        done[p] = t
+wait = {p: done[p] - burst[p] for p in burst}
+avg_rr = sum(wait.values()) / 3
+fc, tt, w2 = 0, 0, {}
+for p in burst:
+    w2[p] = tt
+    tt += burst[p]
+avg_fc = sum(w2.values()) / 3
+assert t == 16 and abs(avg_rr - 7.0) < 1e-9 and abs(avg_fc - 4.3333) < 1e-3 and wait == {"P1": 7, "P2": 6, "P3": 8}
+f = Fig(300, 236)
+f.text(150, 14, "Gantt chart, burst times 5, 3 and 8", size=10.5, color=NAVY, bold=True)
+sc = 270 / t
+cols = {"P1": NAVY, "P2": TEAL, "P3": RED}
+for p, a, b in seg:
+    f.box(15 + a * sc, 34, (b - a) * sc, 30, p, fill=cols[p], stroke="#ffffff", color="#ffffff", size=10, bold=True, r=0, sw=1.5)
+for tick in sorted({0} | {b for _, a, b in seg}):
+    f.text(15 + tick * sc, 78, str(tick), size=9, color=SLATE)
+f.text(150, 104, "completion: P2 = %d, P1 = %d, P3 = %d" % (done["P2"], done["P1"], done["P3"]), size=10.5, color=NAVY, bold=True)
+f.text(150, 124, "waiting = completion - burst", size=10.5, color=SLATE)
+f.text(150, 144, "P1 %d, P2 %d, P3 %d: average %.2f" % (wait["P1"], wait["P2"], wait["P3"], avg_rr), size=10.5, color=RED, bold=True)
+f.text(150, 170, "first-come first-served (FCFS):", size=10.5, color=SLATE)
+f.text(150, 188, "waits 0, 5, 8: average %.2f" % avg_fc, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "RR waits longer on average but no process", size=10.5, color=SLATE)
+f.text(150, 224, "starves and short jobs answer sooner", size=10.5, color=SLATE)
+facts = dict(rr="%.2f" % avg_rr, fc="%.2f" % avg_fc, p2=done["P2"])
+```
+
 ## Chapter summary
 
 - **Software** is the set of programs that tells hardware what to do. The

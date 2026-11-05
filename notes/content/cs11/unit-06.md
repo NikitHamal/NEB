@@ -1012,6 +1012,34 @@ If `style.css` also contained `h1 { color: red; }`, the heading would still come
 out **navy**, because the embedded rule is more specific than the external one.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="A web page is a bundle of files, an HTML document plus style sheets, scripts and images, and the browser must download all of them before the page appears complete. (a) A mobile tower bringing internet to a hillside village. (b) A page of 1.84 MB needs 7.4 s on a 2 Mbps link and 1.47 s at 10 Mbps, since time equals size x 8 divided by speed. Compressing the text and converting the images to WebP shrinks it to 0.87 MB and the 10 Mbps load to 0.70 s, a saving of 53 %. A web designer therefore keeps images small, because many visitors in Nepal browse over a slow mobile connection."
+@ photo id="bca101/nttower" cap="A telecom tower carrying mobile internet to a Nepali hillside"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Time to load a 1.84 MB web page at different speeds"
+page = 1.84
+small = 0.24 * 0.3 + 1.6 * 0.5
+speeds = [2, 5, 10, 20]
+t1 = [page * 8 / s for s in speeds]
+t2 = [small * 8 / s for s in speeds]
+assert abs(t1[0] - 7.36) < 1e-9 and abs(small - 0.872) < 1e-9 and abs(t2[2] - 0.6976) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Page load time (seconds)", size=10.5, color=NAVY, bold=True)
+sc = 22
+for i, s in enumerate(speeds):
+    y = 30 + i * 36
+    f.text(8, y + 15, "%d Mbps" % s, size=10.5, bold=True, anchor="start")
+    f.box(62, y, t1[i] * sc, 14, "", fill=NAVY, stroke=NAVY, r=1)
+    f.text(62 + t1[i] * sc + 5, y + 8, "%.2f" % t1[i], size=10, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(62, y + 16, t2[i] * sc, 14, "", fill=TEAL, stroke=TEAL, r=1)
+    f.text(62 + t2[i] * sc + 5, y + 24, "%.2f" % t2[i], size=10, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 182, "time = size x 8 / speed", size=10.5, color=SLATE, bold=True)
+f.text(150, 198, "navy: 1.84 MB page   teal: %.2f MB page" % small, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "(text gzip 70 %, images to WebP 50 %)", size=10.5, color=TEAL)
+f.text(150, 230, "optimising saves %.0f %% of the wait" % ((1 - small / page) * 100), size=10.5, color=RED, bold=True)
+facts = dict(t2="%.1f" % t1[0], t10="%.2f" % t1[2], small="%.2f" % small, o10="%.2f" % t2[2], save="%.0f" % ((1 - small / page) * 100))
+```
+
 ## Chapter summary
 
 - The **internet** is the network; the **World Wide Web** is one service running

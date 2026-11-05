@@ -781,6 +781,36 @@ The equation is 1 : 1, so the theoretical yield of nitrobenzene is
 Percentage yield = (49.2 / 61.5) × 100 = **80 %**
 :::
 
+```photogrid label="15.P" cols="2" ratio="1.27" caption="Benzene is unusually stable because its six pi electrons are spread over the whole ring, a delocalisation that Kekule's alternating double bonds cannot show. (a) Naphthalene, a fused ring aromatic compound, fills a mothball. (b) Adding hydrogen to one cyclohexene releases 120 kJ/mol, so three isolated double bonds should release 360 kJ, yet benzene gives out only 208. The shortfall of 152 kJ/mol is the resonance energy, which explains why benzene prefers substitution to addition. Huckel's rule of 4n + 2 pi electrons, giving 6 for benzene and 10 for naphthalene, is the test of aromaticity."
+@ photo id="chem11/mothball" cap="Mothballs are made of naphthalene, a fused aromatic compound"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Resonance energy of benzene from heats of hydrogenation"
+dH_ene = 120.0
+expected = 3 * dH_ene
+actual = 208.0
+res = expected - actual
+assert res == 152.0
+pi_e = {n: 4 * n + 2 for n in range(4)}
+assert pi_e[1] == 6 and pi_e[2] == 10
+f = Fig(300, 236)
+f.text(150, 14, "Heat given out on adding 3 H2 (kJ/mol)", size=10.5, color=NAVY, bold=True)
+base = 168
+sc = 0.30
+f.box(40, base - expected * sc, 70, expected * sc, "", fill="#e2e8f0", stroke=SLATE, r=1, dash=True)
+f.box(160, base - actual * sc, 70, actual * sc, "", fill=NAVY, stroke=NAVY, r=1)
+f.text(75, base - expected * sc - 7, "%.0f" % expected, size=10.5, bold=True, color=SLATE)
+f.text(195, base - actual * sc - 7, "%.0f" % actual, size=10.5, bold=True, color=NAVY)
+f.text(75, base + 14, "3 x cyclohexene", size=10, bold=True)
+f.text(195, base + 14, "benzene", size=10, bold=True)
+f.arrow([(130, base - expected * sc + 2), (130, base - actual * sc - 2)], color=RED, sw=2, both=True)
+f.text(134, base - (expected + actual) / 2 * sc, "%.0f" % res, size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 198, "resonance energy = 360 - 208 = %.0f kJ/mol" % res, size=10.5, color=RED, bold=True)
+f.text(150, 214, "Huckel 4n+2: %s pi electrons" % ", ".join(str(pi_e[n]) for n in range(4)), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "benzene 6, naphthalene 10", size=10.5, color=SLATE)
+facts = dict(res="%.0f" % res, act="%.0f" % actual)
+```
+
 ## Chapter summary
 
 - **Aromatic** means cyclic, planar, fully conjugated and holding (4n + 2)

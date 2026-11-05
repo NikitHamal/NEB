@@ -950,6 +950,31 @@ Environmental Examination or an Environmental Impact Assessment before large
 projects, and empowers the government to fix national ambient standards and to
 recover compensation from polluters.
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="Water pollution is measured partly by dissolved oxygen, DO, because aquatic animals need about 5 mg/L or more to survive. (a) The Bagmati river at Kathmandu, loaded with household waste and sewage. (b) Clean water holds 14.6 mg/L of oxygen at 0 C but only 7.56 mg/L at 30 C, since gases dissolve less in warm water. In a warm river the spare margin above the fish limit is only 2.56 mg/L, and bacteria breaking down organic waste consume exactly this oxygen, which is measured as the biochemical oxygen demand. A river with high BOD can therefore suffocate its fish even though no poison is added."
+@ photo id="sci10/bagmati-waste" cap="Waste and pollution in the Bagmati river at Kathmandu"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Dissolved oxygen in water against temperature"
+T = [0, 10, 20, 30, 40]
+DO = [14.62, 11.29, 9.09, 7.56, 6.41]
+assert all(a > b for a, b in zip(DO, DO[1:]))
+margin = DO[3] - 5.0
+f = Fig(300, 236)
+f.text(150, 14, "Saturation DO of clean water at 1 atm", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 244, 146, (0, 40), (0, 16))
+ax.grid(10, 4, size=9); ax.axes("temperature (C)", "DO (mg/L)")
+for (a, b), (c, d) in zip(zip(T, DO), zip(T[1:], DO[1:])):
+    f.line(ax.X(a), ax.Y(b), ax.X(c), ax.Y(d), color=NAVY, sw=2.4)
+for t, d in zip(T, DO):
+    f.circle(ax.X(t), ax.Y(d), 3.6, fill=RED, stroke=RED)
+ax.hline(5, color=AMBER)
+ax.tag(30, 3.6, "fish stress below 5 mg/L", color=AMBER, bold=True)
+ax.pt(30, DO[3], "7.56 at 30 C", dx=8, dy=-10, color=RED)
+f.text(150, 207, "warm summer river: %.2f - 5 = %.2f mg/L spare" % (DO[3], margin), size=10, color=NAVY, bold=True)
+f.text(150, 220, "organic waste uses up this spare oxygen (BOD)", size=10, color=RED, bold=True)
+facts = dict(d0="%.1f" % DO[0], d30="%.2f" % DO[3], m="%.2f" % margin)
+```
+
 ## Chapter summary
 
 - **Adaptation** is an inherited morphological, physiological or behavioural

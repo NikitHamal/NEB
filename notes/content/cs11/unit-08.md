@@ -538,6 +538,37 @@ practice lags behind the Privacy Act; and rural connectivity and digital literac
 remain uneven. These are exactly the points an examiner wants in a *critically
 examine* question.
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A password or PIN is secure only if guessing it is impractical, and the number of possibilities grows as the alphabet size raised to the length. (a) A bank ATM, where a four-digit PIN is safe only because the machine locks the card after three wrong tries. (b) Without such a lock, an attacker making a billion guesses a second tries every 4-digit PIN in 1e-05 s, every 8-letter lowercase password in 209 s, and every 8-character password using all keyboard symbols in 71 days. A 12-character password pushes the time to 1.5e+07 years. Long passphrases, different for each account, and two-step verification are therefore the best protection against cybercrime."
+@ photo id="bca101/atm-nepal" cap="An ATM in Nepal, protected by a card and a PIN"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Time to try every password at one billion guesses per second"
+import math
+cases = [("4-digit PIN", 10**4), ("8 lowercase", 26**8), ("8 letters + digits", 62**8), ("8 any character", 94**8), ("12 any character", 94**12)]
+rate = 1e9
+def human(s):
+    if s < 1: return "%.0e s" % s if s < 1e-3 else "%.1f ms" % (s * 1000)
+    if s < 3600: return "%.0f s" % s
+    if s < 86400: return "%.1f hours" % (s / 3600)
+    if s < 3.156e7: return "%.0f days" % (s / 86400)
+    return "%.1e years" % (s / 3.156e7)
+T = [(nm, n, n / rate) for nm, n in cases]
+assert abs(T[1][2] - 208.8) < 0.5 and abs(T[3][2] / 86400 - 70.9) < 0.5 and T[4][2] / 3.156e7 > 1e7
+f = Fig(300, 236)
+f.text(150, 14, "Search time for the whole key space", size=10.5, color=NAVY, bold=True)
+cols = [AMBER, TEAL, NAVY, RED, RED]
+for i, (nm, n, t) in enumerate(T):
+    y = 28 + i * 32
+    w = 8 + (math.log10(t) + 5) * 9.2
+    f.text(8, y + 8, nm, size=10, bold=True, anchor="start")
+    f.box(8, y + 12, w, 13, "", fill=cols[i], stroke=cols[i], r=1)
+    f.text(8 + w + 5, y + 19, human(t), size=10, color=cols[i], bold=True, anchor="start", vmid=True)
+f.text(150, 194, "key space = (alphabet size) ^ length", size=10.5, color=SLATE, bold=True)
+f.text(150, 210, "94^8 = %.2e,  94^12 = %.2e" % (94**8, 94**12), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "length helps more than odd symbols", size=10.5, color=RED, bold=True)
+facts = dict(pin=human(T[0][2]), low=human(T[1][2]), full=human(T[3][2]), twelve=human(T[4][2]))
+```
+
 ## Chapter summary
 
 Information security rests on the **CIA triad** — confidentiality, integrity and

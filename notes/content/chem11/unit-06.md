@@ -467,6 +467,35 @@ $$ m_{Cu} = \frac{31.75 \times 2700}{96500} = 0.888\ \text{g} $$
 $E_{Ag}/E_{Cu} = 108/31.75 = 3.40$. The two agree.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Corrosion is a spontaneous redox reaction in which iron is oxidised to Fe2+ while oxygen from the air is reduced, and the standard electrode potentials predict how strongly it proceeds. (a) A rusted iron surface. (b) Taking E for Fe2+/Fe as -0.44 V and for oxygen as +1.23 V, the cell potential is 1.67 V and the free energy change is -322 kJ per two electrons, so rusting is strongly spontaneous. Zinc lies lower, at -0.76 V, so in contact with iron it gives up electrons first (0.32 V). That is why the corrugated roofing sheets seen across Nepal are galvanised, and a scratch does not expose the iron to attack."
+@ photo id="chem11/rust" cap="Rust on iron: iron is oxidised and oxygen is reduced"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Standard electrode potentials and the cell for rusting"
+E = [("Zn2+/Zn", -0.76), ("Fe2+/Fe", -0.44), ("H+/H2", 0.00), ("Cu2+/Cu", 0.34), ("O2/H2O", 1.23)]
+Ecell_rust = 1.23 - (-0.44)
+dG = -2 * 96485 * Ecell_rust / 1000
+Ecell_zn = -0.44 - (-0.76)
+assert abs(dG + 322.4) < 0.5 and abs(Ecell_zn - 0.32) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Standard potential E (volt, acid solution)", size=10.5, color=NAVY, bold=True)
+zx, sc = 120, 70
+f.line(zx, 26, zx, 150, color=SLATE, sw=1.2)
+for i, (nm, v) in enumerate(E):
+    y = 30 + i * 24
+    c = RED if v < 0 else NAVY
+    f.box(min(zx, zx + v * sc), y, abs(v) * sc, 16, "", fill=c, stroke=c, r=1)
+    if v < 0:
+        f.text(zx + 6, y + 9, "%s  %+.2f" % (nm, v), size=10, bold=True, anchor="start", vmid=True)
+    else:
+        f.text(zx + v * sc + 6, y + 9, "%s  %+.2f" % (nm, v), size=10, bold=True, anchor="start", vmid=True, color=c)
+f.text(150, 170, "rusting: E(cell) = 1.23 - (-0.44) = %.2f V" % Ecell_rust, size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "dG = -nFE = -2 x 96485 x %.2f = %.0f kJ" % (Ecell_rust, dG), size=10.5, color=RED, bold=True)
+f.text(150, 206, "Zn / Fe pair: E = %.2f V, Zn corrodes first" % Ecell_zn, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "so galvanised sheet protects the iron", size=10.5, color=SLATE)
+facts = dict(E="%.2f" % Ecell_rust, dG="%.0f" % dG, Ez="%.2f" % Ecell_zn)
+```
+
 ## Chapter summary
 
 - Classically, oxidation is addition of oxygen or removal of hydrogen; electronically
