@@ -362,6 +362,27 @@ fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
     }
 }
 
+/** Opens or closes the poll builder in the comment bar; tinted while a poll is being written. */
+@Composable
+fun ComposerPollButton(active: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    IconButton(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = Modifier.size(38.dp)
+    ) {
+        NebIcon(
+            NebIcons.Poll,
+            if (active) "Remove poll" else "Add poll",
+            size = 20.dp,
+            tint = when {
+                !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                active -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.onSurfaceVariant
+            }
+        )
+    }
+}
+
 /**
  * Incognito-style anonymous toggle for the leading slot of [NebCommentComposerBar] —
  * filled disc + tinted icon when anonymous posting is on, outlined icon when off.

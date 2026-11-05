@@ -187,6 +187,9 @@ sealed class Screen(val route: String) {
     data object ForumPostDetail : Screen("forum/post/{postId}") {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
+    data object PostInsights : Screen("forum/post/{postId}/insights") {
+        fun createRoute(postId: String) = "forum/post/$postId/insights"
+    }
     data object CreatePost : Screen("forum/create")
     data object EditPost : Screen("forum/edit/{postId}") {
         fun createRoute(postId: String) = "forum/edit/${java.net.URLEncoder.encode(postId, "UTF-8")}"
@@ -355,6 +358,13 @@ fun NEBiansNavHost(
         } else {
             navController.navigate(Screen.Settings.route)
         }
+    }
+
+    androidx.compose.runtime.DisposableEffect(navController) {
+        com.neb.ians.ui.components.PostInsightsNav.open = { id ->
+            navController.navigate(Screen.PostInsights.createRoute(id))
+        }
+        onDispose { com.neb.ians.ui.components.PostInsightsNav.open = null }
     }
 
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
@@ -975,6 +985,14 @@ fun NEBiansNavHost(
                     onProfileClick = { userId ->
                         navController.navigate(Screen.Profile.createRoute(userId))
                     }
+                )
+            }
+            composable(
+                route = Screen.PostInsights.route,
+                arguments = listOf(navArgument("postId") { type = NavType.StringType })
+            ) {
+                com.neb.ians.ui.screens.analytics.PostInsightsScreen(
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(Screen.CreatePost.route) {

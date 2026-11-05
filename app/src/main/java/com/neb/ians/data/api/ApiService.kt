@@ -119,6 +119,7 @@ data class ApiPollCreate(
     val question: String = "",
     @SerialName("poll_type") val pollType: String = "voting",
     @SerialName("allow_multiple") val allowMultiple: Boolean = false,
+    @SerialName("allow_add_options") val allowAddOptions: Boolean = false,
     val explanation: String = "",
     @SerialName("duration_ms") val durationMs: Long = 0,
     val options: List<ApiPollOptionCreate> = emptyList()
@@ -184,6 +185,18 @@ data class ForumMediaUploadResponse(
 )
 
 @Serializable
+data class PostViewRequest(
+    val surface: String = "",
+    @SerialName("dwell_ms") val dwellMs: Long = 0
+)
+
+@Serializable
+data class PostImpressionsRequest(val ids: List<String>)
+
+@Serializable
+data class PollAddOptionRequest(val text: String, val vote: Boolean = true)
+
+@Serializable
 data class PollVoteRequest(
     @SerialName("option_id") val optionId: String? = null,
     @SerialName("option_ids") val optionIds: List<String>? = null
@@ -246,7 +259,8 @@ data class ReplyCreateRequest(
     @SerialName("parentReplyId") val parentReplyId: String? = null,
     val isAnonymous: Boolean = false,
     val attachments: List<ApiMediaAttachmentInput> = emptyList(),
-    val kind: String = "comment"
+    val kind: String = "comment",
+    val poll: ApiPollCreate? = null
 )
 
 @Serializable
@@ -592,11 +606,20 @@ data class ApiPoll(
     @SerialName("createdAt") val createdAt: Long = 0,
     @SerialName("isExpired") val isExpired: Boolean = false,
     @SerialName("userVote") val userVote: kotlinx.serialization.json.JsonElement? = null,
+    @SerialName("userVotes") val userVotes: List<String> = emptyList(),
+    @SerialName("hasVoted") val hasVoted: Boolean = false,
+    @SerialName("allowAddOptions") val allowAddOptions: Boolean = false,
+    @SerialName("canAddOption") val canAddOption: Boolean = false,
+    @SerialName("canRetract") val canRetract: Boolean = false,
+    @SerialName("leaderId") val leaderId: String? = null,
+    @SerialName("expiresAt") val expiresAt: Long = 0,
+    val error: String? = null,
     val options: List<ApiPollOption> = emptyList()
 ) {
     /** Option ids the current user voted for (handles both single-id string and list shapes). */
     val userVoteIds: List<String>
         get() {
+            if (userVotes.isNotEmpty()) return userVotes
             val el = userVote ?: return emptyList()
             return try {
                 when (el) {
@@ -620,6 +643,9 @@ data class ApiPollOption(
     @SerialName("isCorrect") val isCorrectCamel: Boolean? = null,
     @SerialName("vote_count") val voteCount: Int = 0,
     @SerialName("voteCount") val voteCountCamel: Int? = null,
+    @SerialName("isMine") val isMine: Boolean = false,
+    @SerialName("addedByMe") val addedByMe: Boolean = false,
+    @SerialName("isAdded") val isAdded: Boolean = false,
     val order: Int = 0
 ) {
     val correct: Boolean get() = isCorrectCamel ?: isCorrect
@@ -659,7 +685,8 @@ data class ApiReply(
     val attachments: List<ApiMediaAttachment> = emptyList(),
     val kind: String = "comment",
     val label: String = "",
-    @SerialName("canLabel") val canLabel: Boolean = false
+    @SerialName("canLabel") val canLabel: Boolean = false,
+    val poll: ApiPoll? = null
 )
 
 @Serializable
@@ -1478,6 +1505,38 @@ interface ApiService {
         @Path("postId") postId: String
     )
 
+    /** Counted view with where the reader came from and how long the post stayed on screen. */
+    @POST("api/posts/{postId}/view/")
+    suspend fun reportPostView(
+        @Path("postId") postId: String,
+        @Body body: PostViewRequest
+    )
+
+    /** Posts that scrolled into view in a list. */
+    @POST("api/posts/impressions/")
+    suspend fun reportPostImpressions(@Body body: PostImpressionsRequest)
+
+    /** Author-only (and staff) per-post insights. */
+    @GET("api/posts/{postId}/insights/")
+    suspend fun getPostInsights(
+        @Header("Authorization") bearerToken: String,
+        @Path("postId") postId: String,
+        @Query("days") days: Int
+    ): ApiPostInsights
+
+    @POST("api/polls/{pollId}/options/")
+    suspend fun addPollOption(
+        @Header("Authorization") bearerToken: String,
+        @Path("pollId") pollId: String,
+        @Body body: PollAddOptionRequest
+    ): ApiPoll
+
+    @DELETE("api/polls/{pollId}/options/")
+    suspend fun retractPollVote(
+        @Header("Authorization") bearerToken: String,
+        @Path("pollId") pollId: String
+    ): ApiPoll
+
     @Multipart
     @POST("api/forum/uploads/")
     suspend fun uploadForumMedia(
@@ -1741,7 +1800,7 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("pollId") pollId: String,
         @Body request: PollVoteRequest
-    ): ApiPollVoteResponse
+    ): ApiPoll
 
     /** Mini profile popover (web parity: shown on username hover / long-press). */
     @GET("ajax/user-popup/{username}/")
@@ -2009,6 +2068,7 @@ interface ApiService {
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)
                 .addInterceptor(WafChallengeInterceptor(context))
+                .addInterceptor(DeviceSignalInterceptor(context))
                 .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
