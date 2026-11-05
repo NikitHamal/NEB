@@ -51,6 +51,10 @@ Goal: bring the Android app up to the web's m3x design system (brand blue, Poppi
 - Remaining `CircleShape` tiles in analytics, canvas, media player and study screens.
 - Everything above is seen only through CI compiles; check it on a device.
 
+## Session 4
+
+Canvas is replaced by **Notes** with on-device dictation (Whistle) and read aloud (Phonon); see `ANDROID_NOTES_STATUS.md`.
+
 ## Build
 
 JDK 17 and the Android SDK are installed per session (see `ANDROID_UI_CONTINUITY.md` section 8). Compile both variants, one after the other. On a 4 GB box the Kotlin daemon dies when both run in parallel: use `--no-parallel -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx2800m"`.
