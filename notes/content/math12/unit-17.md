@@ -545,6 +545,37 @@ for the MVT. Always finish by confirming that your $c$ lies in the **open**
 interval $(a, b)$ — that sentence is worth a mark.
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.27" caption="The mean value theorem says that if a function is continuous on [a, b] and differentiable inside, then somewhere inside the instantaneous rate equals the average rate. (a) A speedometer reads the instantaneous speed. (b) A bus leaves Kathmandu at rest and reaches Pokhara 200 km away exactly 4 hours later, stopping there, with s(t) = 200(3u^2 - 2u^3) and u = t/4. The average speed is 50 km/h, the chord of the graph. The slope of the curve equals this value at two points, c = 0.85 h and c = 3.15 h, where the tangent is parallel to the chord. The top speed is 75 km/h at the midpoint, so the bus must pass through 50 twice, once while speeding up and once while slowing."
+@ photo id="math12/speedo" cap="A speedometer shows the instantaneous speed, the derivative of distance"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mean value theorem on a highway trip"
+import math
+T, D = 4.0, 200.0
+def s(t):
+    u = t / T
+    return D * (3 * u * u - 2 * u ** 3)
+def v(t):
+    u = t / T
+    return 300.0 * u * (1 - u)
+avg = D / T
+disc = math.sqrt(1 - 4 * avg / 300.0)
+c1, c2 = T * (1 - disc) / 2, T * (1 + disc) / 2
+assert abs(v(c1) - avg) < 1e-9 and abs(v(c2) - avg) < 1e-9 and abs(c1 - 0.845) < 0.001
+f = Fig(300, 236)
+f.text(150, 14, "distance s(t), km, over 4 hours", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 24, 244, 146, (0, 4), (0, 200))
+ax.grid(1, 50, xfmt=lambda x: "%d" % x, yfmt=lambda y: "%d" % y)
+ax.axes(xl="t, hours", yl="s, km")
+ax.curve(s, 0, 4, color=NAVY, sw=2.4, n=200)
+ax.curve(lambda t: avg * t, 0, 4, color=AMBER, sw=1.8, dash=True)
+ax.pt(c1, s(c1), "", color=RED)
+ax.pt(c2, s(c2), "", color=RED, anchor="end", dx=-8, dy=14)
+f.text(150, 207, "chord slope = (200 - 0)/(4 - 0) = %.0f km/h" % avg, size=10, color=AMBER, bold=True)
+f.text(150, 222, "v(c) = %.0f at c = %.2f h and %.2f h" % (avg, c1, c2), size=10.5, color=RED, bold=True)
+facts = dict(avg=avg, c1=c1, c2=c2, vmax=v(2.0))
+```
+
 ## 17.3 Numerical integration: trapezoidal and Simpson's rule (revision)
 
 Divide $[a, b]$ into $n$ equal strips of width $h = \dfrac{b-a}{n}$ and label the

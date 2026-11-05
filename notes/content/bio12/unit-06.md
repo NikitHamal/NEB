@@ -559,6 +559,40 @@ are joined in series the whole fibril shortens by $0.6\ \text{cm}$. That is how
 a change too small to see adds up to a visible movement.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Muscle contracts because thin actin filaments slide over thick myosin filaments; neither filament changes length. (a) Cardiac muscle fibres, branched and joined by dark intercalated discs. (b) A drawing to scale of one sarcomere between two Z lines. At rest it is 2.5 micrometres long; when it shortens to 2.0 micrometres the A band, set by the thick filament, stays at 1.6 while the I band falls from 0.9 to 0.4. That is a 20 per cent shortening, and 1 cm of fibre contains 4000 sarcomeres in series, so every one adds its small step and the whole fibre loses 2 mm. The H zone also narrows, which is the clue examiners look for."
+@ photo id="bio12/cardiac-muscle" cap="Cardiac muscle fibres with their cross-striations and intercalated discs"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A sarcomere at rest and contracted, to scale"
+A_BAND, THIN = 1.6, 1.0
+rest, con = 2.5, 2.0
+i_rest, i_con = rest - A_BAND, con - A_BAND
+assert abs(i_rest - 0.9) < 1e-9 and abs(i_con - 0.4) < 1e-9
+shorten = (rest - con) / rest * 100
+n_cm = 1e4 / rest
+f = Fig(300, 236)
+f.text(150, 14, "Sliding filaments (1 um = 100 px)", size=10.5, color=NAVY, bold=True)
+def sarc(y, L, tag):
+    x0 = 150 - L * 50
+    x1 = 150 + L * 50
+    f.box(150 - A_BAND * 50, y + 12, A_BAND * 100, 14, fill=SAND, stroke=AMBER, r=2)
+    f.line(x0, y + 4, x0, y + 34, color=NAVY, sw=2.4)
+    f.line(x1, y + 4, x1, y + 34, color=NAVY, sw=2.4)
+    f.line(x0, y + 8, x0 + THIN * 100, y + 8, color=TEAL, sw=2.2)
+    f.line(x1, y + 8, x1 - THIN * 100, y + 8, color=TEAL, sw=2.2)
+    f.text(x0, y + 46, "Z", size=9.5, color=NAVY, bold=True)
+    f.text(x1, y + 46, "Z", size=9.5, color=NAVY, bold=True)
+    f.text(150, y + 22, "A band 1.6", size=9.5, color=AMBER, bold=True, vmid=True)
+    f.text(150, y + 46, tag, size=9.5, color=SLATE, bold=True)
+sarc(26, rest, "rest 2.5 um")
+sarc(96, con, "contracted 2.0 um")
+f.text(150, 176, "A band stays 1.6 um; I band %.1f -> %.1f um" % (i_rest, i_con), size=10, color=NAVY, bold=True)
+f.text(150, 194, "sarcomere shortens by %.0f %%" % shorten, size=10.5, color=RED, bold=True)
+f.text(150, 212, "1 cm of fibre = %d sarcomeres in line" % n_cm, size=10, color=SLATE, bold=True)
+f.text(150, 228, "contracting 1 cm to %.0f mm" % (10 * (1 - shorten / 100)), size=10, color=TEAL, bold=True)
+facts = dict(sh=shorten, n=n_cm, ir=i_rest, ic=i_con)
+```
+
 ## 6.4 Nervous tissue
 
 Nervous tissue is ectodermal and is built from two kinds of cell: the
@@ -665,6 +699,26 @@ they simply lack myelin, and so have no nodes of Ranvier and conduct slowly.
 | Nodes of Ranvier | present | absent |
 | Conduction | saltatory, fast (up to about 120 m s⁻¹) | continuous, slow (about 0.5–2 m s⁻¹) |
 | Found in | cranial and spinal nerves, white matter | autonomic nerves, grey matter |
+
+```photogrid label="6.Q" cols="2" ratio="1.27" caption="A nerve impulse travels fastest in fibres that have a thick myelin sheath, because it jumps from one node of Ranvier to the next instead of crawling along the whole membrane. (a) A neuron with the parts labelled. (b) Typical speeds are about 1 metre per second for unmyelinated C fibres, 15 for thinly myelinated A-delta fibres and 100 for thick A-alpha fibres. Over a path of 1 metre, from a toe to the brain, the signal takes 1000 milliseconds in a C fibre, 66.7 in an A-delta fibre and 10 in an A-alpha fibre. This is why a stubbed toe first gives a sharp pain and then a slower, burning ache."
+@ photo id="bio12/neuron-diagram" cap="A multipolar neuron: dendrites, cell body, axon with myelin sheath and terminals"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Impulse speed and travel time over 1 m"
+rows = [("C fibre", 1.0), ("A-delta", 15.0), ("A-alpha", 100.0)]
+t = [1000.0 / v for _, v in rows]
+assert abs(t[1] - 66.7) < 0.1 and t[2] == 10.0
+f = Fig(300, 236)
+f.text(150, 14, "Conduction speed, m/s", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.0f", x0=64, y0=34, bw=190, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 142, "no myelin   thin myelin   thick myelin", size=9.5, color=SLATE, bold=True)
+f.text(150, 168, "time for a 1 m path = 1 / speed", size=10.5, color=NAVY, bold=True)
+f.text(150, 186, "%.0f ms, %.1f ms, %.0f ms" % tuple(t), size=10.5, color=RED, bold=True)
+f.text(150, 206, "stubbed toe: sharp pain arrives first,", size=10, color=SLATE, bold=True)
+f.text(150, 222, "dull C-fibre ache nearly 1 s later", size=10, color=TEAL, bold=True)
+facts = dict(t0=t[0], t1=t[1], t2=t[2])
+```
 
 ## Chapter summary
 
