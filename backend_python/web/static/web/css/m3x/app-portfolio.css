@@ -36,21 +36,23 @@
 
 /* The entry sheet is NebUI's .neb-sheet: a centred card on desktop, a bottom sheet on a phone. Fields, header and
    foot stay put and only the body scrolls, so Save is always on screen. */
-.pf-sheet { display: flex; flex-direction: column; }
+.pf-sheet { display: flex; flex-direction: column; min-height: 0; }
+.pf-sheet .neb-sheet-head, .pf-sheet .neb-sheet-foot { flex: none; }
 .pf-sheet .neb-sheet-head { align-items: center; }
 .pf-sheet-glyph { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .pf-sheet-glyph .material-symbols-outlined { font-size: 22px; }
-.pf-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 6px 22px 18px; align-content: start; overflow-y: auto; overscroll-behavior: contain; }
+.pf-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 6px 22px 18px; align-content: start; overflow-y: auto; overscroll-behavior: contain; flex: 1 1 auto; min-height: 0; }
 .pf-field { display: grid; gap: 6px; min-width: 0; align-content: start; }
 .pf-wide { grid-column: 1 / -1; }
-.pf-when-pair { display: grid; grid-template-columns: 1fr 1.1fr; gap: 8px; }
+.pf-when-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .pf-when { transition: opacity .25s var(--ease, ease), transform .35s var(--spring); }
 .pf-when.is-off { opacity: .38; pointer-events: none; transform: translateY(2px); }
 .pf-chip-row { display: flex; }
 .pf-error { grid-column: 1 / -1; margin: 0; padding: 10px 14px; border-radius: 14px; font-size: .85rem; font-weight: 600;
   background: var(--md-error-container); color: var(--md-on-error-container); animation: pfRise .3s var(--spring) both; }
 .pf-error[hidden] { display: none; }
-.pf-foot { align-items: center; }
+.neb-sheet.pf-sheet .pf-foot { flex-direction: row; align-items: center; justify-content: flex-end; gap: 8px; }
+.neb-sheet.pf-sheet .pf-foot .md-btn { flex: none; }
 .pf-foot-gap { flex: 1; }
 .pf-delete { color: var(--md-error); transition: background .2s, color .2s, border-radius .35s var(--spring); }
 .pf-delete.is-armed { background: var(--md-error); color: var(--md-on-error); }
@@ -61,3 +63,5 @@
   .pf-foot .md-btn-text:not(.pf-delete) { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .pf-error, .pf-when { animation: none; transition: none; } }
+#pf-entry-sheet .pf-delete[hidden] { display: none !important; }
+#pf-entry-sheet #pf-entry-current[aria-pressed="false"] .neb-chip-tick { display: none !important; }
