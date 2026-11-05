@@ -300,13 +300,16 @@ fun ForumPostCard(
     var zoomImageUrlsList by remember { mutableStateOf<List<String>?>(null) }
     var zoomInitialIndex by remember { mutableStateOf(0) }
 
+    // Flat feed row, like the web: white, no frame, one hairline under it.
+    Column(modifier = modifier.fillMaxWidth()) {
     NebCard(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
         onClick = onClick,
-        shape = RoundedCornerShape(24.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        shape = RoundedCornerShape(20.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        border = null
     ) {
-        Column(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 16.dp, bottom = 8.dp)) {
+        Column(modifier = Modifier.padding(start = 8.dp, end = 0.dp, top = 12.dp, bottom = 4.dp)) {
             // ----- Meta row: avatar + author + badge + "posted" + category and time -----
             Row(
                 verticalAlignment = Alignment.Top,
@@ -534,6 +537,8 @@ fun ForumPostCard(
                 )
             }
         }
+    }
+    NebHairline()
     }
 }
 
