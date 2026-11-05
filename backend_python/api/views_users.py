@@ -77,6 +77,19 @@ def user_profile_create_or_update(request):
     teaching_subjects = data.get('teachingSubjects', '') or data.get('teaching_subjects', '')
     institution_type = data.get('institutionType', '') or data.get('institution_type', '')
 
+    overlong = _overlong_field_error(User, {
+        'display_name': display_name,
+        'gender': gender,
+        'class_level': class_level,
+        'pradesh': pradesh,
+        'school': school,
+        'school_username': school_username,
+        'institution_type': institution_type,
+        'dob': dob,
+    })
+    if overlong:
+        return overlong
+
     user.username = username
     if email and email.lower() != (user.email or '').lower():
         user.email_verified = False
