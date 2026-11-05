@@ -94,3 +94,7 @@ Brief: the app still did not read like the web. Method this time: the web was ru
 - Follow chip beside the author on the reader (needs the follow endpoint wired into the post detail view model).
 - The reader's formatting ("A") tool in the reply composer.
 - Everything here is seen only through CI compiles and the web screenshots; check blur strength and the garland on a device.
+
+## Session 7 (CI-verified only; nothing is built locally)
+
+- Analytics (`ui/screens/analytics/AnalyticsScreen.kt`): replaced remaining `CircleShape` hero, KPI, and table rank tiles with rounded squircles (`RoundedCornerShape`), swapped monochrome `onSurface` chart bars, accuracy ring, and progress bars for brand `primary` with tonal `primaryContainer`/`secondaryContainer` fills, and removed redundant helper subtitles across dashboard sections.

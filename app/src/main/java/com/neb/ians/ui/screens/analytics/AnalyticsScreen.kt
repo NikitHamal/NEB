@@ -241,7 +241,6 @@ private fun AnalyticsContent(data: ApiPrivateAnalyticsResponse, modifier: Modifi
         item {
             DashboardTableCard(
                 title = "Top posts",
-                subtitle = "Ranked by views and likes",
                 emptyMessage = "No posts yet.",
                 rows = data.topPosts
             )
@@ -249,7 +248,6 @@ private fun AnalyticsContent(data: ApiPrivateAnalyticsResponse, modifier: Modifi
         item {
             ResourceTableCard(
                 title = "Top resources",
-                subtitle = "Ranked by views and likes",
                 emptyMessage = "No resources yet.",
                 rows = data.topResources
             )
@@ -270,9 +268,9 @@ private fun AnalyticsHero(stats: ApiAnalyticsStats) {
             horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(48.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
@@ -281,17 +279,10 @@ private fun AnalyticsHero(stats: ApiAnalyticsStats) {
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Analytics dashboard",
+                    text = "Overview",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.ExtraBold,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = "Private insights for posts, resources, comments, and Study Lab progress.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
             }
@@ -323,9 +314,9 @@ private fun KpiTile(label: String, value: String, detail: String, icon: ImageVec
     AnalyticsSection(modifier = modifier, divider = false) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Surface(
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                shape = RoundedCornerShape(12.dp),
+                color = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.size(38.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
@@ -346,15 +337,15 @@ private fun KpiTile(label: String, value: String, detail: String, icon: ImageVec
 private fun HeroMetric(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh
+        shape = RoundedCornerShape(18.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
             Column {
                 Text(value, fontWeight = FontWeight.ExtraBold, maxLines = 1)
                 Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
@@ -366,7 +357,7 @@ private fun HeroMetric(label: String, value: String, icon: ImageVector, modifier
 @Composable
 private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: Int) {
     AnalyticsSection {
-        DashboardHeader("14-day activity", "Posts, replies, uploads, quiz attempts, and flashcard reviews.", "${compactCount(recentStudyActions)} study actions")
+        DashboardHeader("14-day activity", "${compactCount(recentStudyActions)} study actions")
         Spacer(modifier = Modifier.height(16.dp))
         val chartDays = days.ifEmpty { listOf(ApiAnalyticsDay(label = "Today")) }
         val maxTotal = max(1, chartDays.maxOf { it.total })
@@ -396,7 +387,7 @@ private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: I
                                 .fillMaxWidth()
                                 .height((146f * (day.total.toFloat() / maxTotal.toFloat())).dp.coerceAtLeast(6.dp))
                                 .clip(RoundedCornerShape(999.dp))
-                                .background(MaterialTheme.colorScheme.onSurface)
+                                .background(MaterialTheme.colorScheme.primary)
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -410,7 +401,7 @@ private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: I
 @Composable
 private fun StudyProgressCard(stats: ApiAnalyticsStats) {
     AnalyticsSection {
-        DashboardHeader("Study Lab progress", "Generated materials and learning outcomes.", null)
+        DashboardHeader("Study Lab", null)
         Spacer(modifier = Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
             DonutProgress(stats.quizAccuracy.coerceIn(0, 100), Modifier.size(112.dp))
@@ -428,7 +419,7 @@ private fun StudyProgressCard(stats: ApiAnalyticsStats) {
 
 @Composable
 private fun DonutProgress(percent: Int, modifier: Modifier = Modifier) {
-    val arc = MaterialTheme.colorScheme.onSurface
+    val arc = MaterialTheme.colorScheme.primary
     val track = MaterialTheme.colorScheme.surfaceContainerHigh
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -463,7 +454,7 @@ private fun ProgressMetric(label: String, value: Int, total: Int) {
         LinearProgressIndicator(
             progress = { value.toFloat() / total.toFloat() },
             modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.primary,
             trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
     }
@@ -472,7 +463,7 @@ private fun ProgressMetric(label: String, value: Int, total: Int) {
 @Composable
 private fun CommunityDashboardCard(stats: ApiAnalyticsStats) {
     AnalyticsSection {
-        DashboardHeader("Community footprint", "How your account contributes across NEBians.", null)
+        DashboardHeader("Community", null)
         Spacer(modifier = Modifier.height(12.dp))
         MetricTable(
             listOf(
@@ -491,7 +482,7 @@ private fun CommunityDashboardCard(stats: ApiAnalyticsStats) {
 @Composable
 private fun TopicDashboardCard(postTopics: List<ApiAnalyticsTopic>, resourceTopics: List<ApiAnalyticsTopic>) {
     AnalyticsSection {
-        DashboardHeader("Top topics", "Based on your posts and resources.", null)
+        DashboardHeader("Top topics", null)
         Spacer(modifier = Modifier.height(12.dp))
         TopicList("Post categories", postTopics)
         Spacer(modifier = Modifier.height(16.dp))
@@ -515,7 +506,7 @@ private fun TopicList(title: String, rows: List<ApiAnalyticsTopic>) {
                     LinearProgressIndicator(
                         progress = { row.width.coerceIn(0, 100) / 100f },
                         modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.primary,
                         trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                 }
@@ -525,9 +516,9 @@ private fun TopicList(title: String, rows: List<ApiAnalyticsTopic>) {
 }
 
 @Composable
-private fun DashboardTableCard(title: String, subtitle: String, emptyMessage: String, rows: List<ApiAnalyticsPost>) {
+private fun DashboardTableCard(title: String, emptyMessage: String, rows: List<ApiAnalyticsPost>) {
     AnalyticsSection {
-        DashboardHeader(title, subtitle, null)
+        DashboardHeader(title, null)
         Spacer(modifier = Modifier.height(10.dp))
         if (rows.isEmpty()) {
             EmptyDashboardText(emptyMessage)
@@ -546,9 +537,9 @@ private fun DashboardTableCard(title: String, subtitle: String, emptyMessage: St
 }
 
 @Composable
-private fun ResourceTableCard(title: String, subtitle: String, emptyMessage: String, rows: List<ApiAnalyticsResource>) {
+private fun ResourceTableCard(title: String, emptyMessage: String, rows: List<ApiAnalyticsResource>) {
     AnalyticsSection {
-        DashboardHeader(title, subtitle, null)
+        DashboardHeader(title, null)
         Spacer(modifier = Modifier.height(10.dp))
         if (rows.isEmpty()) {
             EmptyDashboardText(emptyMessage)
@@ -576,8 +567,9 @@ private fun TableRow(rank: Int, title: String, meta: String, rightTop: String, r
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            shape = RoundedCornerShape(10.dp),
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.size(28.dp)
         ) {
             Box(contentAlignment = Alignment.Center) {
@@ -598,7 +590,7 @@ private fun TableRow(rank: Int, title: String, meta: String, rightTop: String, r
 @Composable
 private fun SuggestionsCard(items: List<String>) {
     AnalyticsSection(divider = false) {
-        DashboardHeader("Suggestions", "Context-aware next steps.", null)
+        DashboardHeader("Suggestions", null)
         Spacer(modifier = Modifier.height(10.dp))
         val rows = items.ifEmpty { listOf("Keep contributing steadily. Your dashboard will become richer as you use NEBians more.") }
         rows.forEach { item ->
@@ -607,7 +599,7 @@ private fun SuggestionsCard(items: List<String>) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.Top
             ) {
-                Icon(Icons.Outlined.Lightbulb, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                Icon(Icons.Outlined.Lightbulb, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
                 Text(item, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
             }
         }
@@ -615,15 +607,12 @@ private fun SuggestionsCard(items: List<String>) {
 }
 
 @Composable
-private fun DashboardHeader(title: String, subtitle: String, chip: String?) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
-        }
+private fun DashboardHeader(title: String, chip: String?) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
         if (!chip.isNullOrBlank()) {
             Spacer(modifier = Modifier.width(8.dp))
-            Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, contentColor = MaterialTheme.colorScheme.onSurface) {
+            Surface(shape = RoundedCornerShape(999.dp), color = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer) {
                 Text(chip, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp), maxLines = 1)
             }
         }
