@@ -17,13 +17,23 @@ is preselected for social sign-ups.
 - [x] `api/education_catalog.py` single catalog: statuses, 30+ levels, 200+ programs, terms, open-to
 - [x] User fields (edu_status/program/term/completed, headline, skills, open_to), `ProfileEntry` model, migration 0161
 - [x] `api/profile_education.py` shared validation; `/api/education/catalog/`, `/api/profile/entries/`, public portfolio
-- [ ] Web onboarding wizard `/welcome/` (motion, shapes, live preview)
-- [ ] Sign-in / sign-up / verify / forgot rebuilt on m3x (`m3x/app-auth.css`)
-- [ ] Edit profile uses the same education picker + portfolio header fields
-- [ ] Profile page: headline, education card, open-to, skills, portfolio sections + owner editor
+- [x] Web onboarding wizard `/welcome/` (motion, shapes, live preview) -- `web/views_onboarding.py`, `js/onboarding.js`, `m3x/app-onboard.css`
+- [x] Sign-in / sign-up / verify / forgot rebuilt on m3x (`m3x/app-auth.css`, `js/auth.js`); legacy `app/04-auth-layout.css` removed
+- [ ] Edit profile (`edit_profile.html`) still has the old class select; the full edit path today is `/welcome/` (prefilled, linked from the owner's portfolio card). Next: swap the select for the shared picker
+- [x] Profile page: headline, education card, open-to, skills, portfolio sections + owner editor (`web/profile/_portfolio.html`, `js/portfolio.js`, `m3x/app-portfolio.css`)
 - [ ] Android parity (catalog consumption, role at sign-up) -- open
 
 ## Rules that bite
 - `class_level` still stores the level *value*; legacy values unchanged so resource filtering works.
 - Anyone whose status is not "studying" is a global user (sees the full library).
 - CI: `.github/workflows/backend-tests.yml` runs the Django tests, `bundle.py --check` and `makemigrations --check`. Never build locally in the sandbox.
+
+## Entry points
+- `/login/` (`?panel=signup|forgot`, `?next=`), `/welcome/` (prefilled when the profile is complete), `/ajax/portfolio/save|delete/`
+- API: `/api/education/catalog/`, `/api/profile/entries/`, `/api/users/profile/<u>/portfolio/`; `POST /api/users/profile/` accepts `eduStatus eduProgram eduTerm eduCompleted headline skills openTo`
+- Tests: `api.test_education_portfolio`, `web.test_onboarding`, `web.test_auth_pages`, `web.test_portfolio_profile` (all run by `backend-tests.yml`)
+
+## Ideas not built yet
+Profile completeness ring + nudges, shareable portfolio card image (og card), study-partner matching from `open_to` + level + program, mentor/junior pairing,
+verified credentials (teacher/school confirms an entry), resume PDF export, "class of" year groups and alumni of a school, entrance-prep cohorts, streak and study-goal badges,
+skill endorsements, Android consumption of the catalog + onboarding parity.
