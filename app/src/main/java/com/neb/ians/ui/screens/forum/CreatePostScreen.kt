@@ -42,7 +42,7 @@ import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.components.rememberInlineImageFieldHandle
 
-private enum class PostSheet { Category, Identity }
+private enum class PostSheet { Category }
 
 /**
  * Writing a discussion, laid out like the web composer on a phone.
@@ -62,6 +62,8 @@ fun CreatePostScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val userName by viewModel.userName.collectAsStateWithLifecycle()
     val userPhotoUrl by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+    val userHandle by viewModel.userHandle.collectAsStateWithLifecycle()
+    val anonTag by viewModel.anonTag.collectAsStateWithLifecycle()
     val isEditing = postId != null || uiState.isEditMode
 
     val inlineHandle = rememberInlineImageFieldHandle()
@@ -102,14 +104,15 @@ fun CreatePostScreen(
             ComposerHeader(
                 showIdentity = !isEditing,
                 userName = userName,
+                userHandle = userHandle,
                 userPhotoUrl = userPhotoUrl,
+                anonTag = anonTag,
                 isAnonymous = uiState.isAnonymous,
                 category = uiState.effectiveCategory,
-                showCategory = true,
                 canPublish = blocker == null,
                 submitting = uiState.isSubmitting,
                 onClose = onNavigateBack,
-                onIdentityClick = { sheet = PostSheet.Identity },
+                onIdentitySelect = viewModel::setAnonymous,
                 onCategoryClick = { sheet = PostSheet.Category },
                 onPublish = { viewModel.submitPost(onSuccess = onPostCreated) }
             )
@@ -130,7 +133,12 @@ fun CreatePostScreen(
                         onValueChange = viewModel::onTitleChange,
                         enabled = !uiState.isSubmitting
                     )
-                    ComposerFormatRow(state = uiState, viewModel = viewModel)
+                    ComposerFormatRow(
+                        state = uiState,
+                        viewModel = viewModel,
+                        insertImageEnabled = pendingInlineCount == 0 && !uiState.showPreview,
+                        onInlineImage = { inlineHandle.pickImage() }
+                    )
                 }
 
                 Column(
@@ -167,18 +175,15 @@ fun CreatePostScreen(
                     }
                 }
 
-                ComposerCounterBar(count = uiState.content.text.length)
                 ComposerFooter(
                     state = uiState,
                     isEditing = isEditing,
-                    insertImageEnabled = pendingInlineCount == 0 && !uiState.showPreview,
                     onPhotos = { imagePicker.launch("image/*") },
                     onMedia = { mediaPicker.launch(arrayOf("video/*", "audio/*")) },
                     onDocument = {
                         mediaPicker.launch(arrayOf("application/pdf", "application/*", "text/*"))
                     },
                     onPoll = { viewModel.togglePoll(!uiState.pollEnabled) },
-                    onInlineImage = { inlineHandle.pickImage() },
                     modifier = Modifier.background(scheme.surface)
                 )
             }
@@ -226,22 +231,6 @@ private fun CreatePostSheets(
                             viewModel.onCustomCategoryChange(value)
                         }
                     }
-                    onDismiss()
-                }
-            )
-        }
-
-        PostSheet.Identity -> {
-            val self = "Post as ${userName.ifBlank { "yourself" }}"
-            val anon = "Post anonymously"
-            NebChoiceSheet(
-                title = "Post as",
-                options = listOf(self, anon),
-                selected = listOf(if (state.isAnonymous) anon else self),
-                multiSelect = false,
-                onDismiss = onDismiss,
-                onConfirm = { picked ->
-                    picked.firstOrNull()?.let { viewModel.setAnonymous(it == anon) }
                     onDismiss()
                 }
             )
