@@ -1,5 +1,5 @@
 import re,sys,os
-OUT='/tmp/NEB/app/src/main/res/drawable'
+OUT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','app','src','main','res','drawable')
 def fmt(v):
     v=float(v); return ('%g'%v)
 def circle(cx,cy,r):
@@ -71,6 +71,8 @@ ICONS={
 'list_number':'<line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
 'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
 'table':'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>',
+'comment':'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+'share':'<path d="M4 18c0-5 3.5-9 8.5-9H19"/><polyline points="14 4 19 9 14 14"/>',
 'divider':'<line x1="3" y1="12" x2="21" y2="12"/>',
 }
 if __name__=='__main__':

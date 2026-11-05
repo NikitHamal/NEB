@@ -508,14 +508,14 @@ fun ForumPostCard(
                     onClick = onLikeClick
                 )
                 PostStatButton(
-                    icon = Icons.Outlined.ChatBubbleOutline,
+                    icon = NebIcons.Comment,
                     label = compactCount(post.replyCount),
                     description = "Comments",
                     onClick = onClick
                 )
                 if (isOwnPost) {
                     PostStatButton(
-                        icon = Icons.Outlined.Visibility,
+                        icon = NebIcons.Eye,
                         label = compactCount(post.viewCount),
                         description = "Views",
                         onClick = null
@@ -529,12 +529,16 @@ fun ForumPostCard(
                     tint = if (bookmarked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     size = 36.dp
                 )
-                NebIconButton(
-                    icon = Icons.Outlined.Share,
-                    contentDescription = "Share",
-                    onClick = onShareClick,
-                    size = 36.dp
-                )
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .nebPressable(scale = 0.88f, onClick = onShareClick)
+                        .semantics { contentDescription = "Share" },
+                    contentAlignment = Alignment.Center
+                ) {
+                    NebIcon(NebIcons.Share, null, size = 18.dp, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
         }
     }
@@ -545,7 +549,7 @@ fun ForumPostCard(
 /** Ghost stat button on a post card (icon + count), same height as [LikePill]. */
 @Composable
 fun PostStatButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     label: String,
     description: String,
     onClick: (() -> Unit)?,
@@ -567,7 +571,7 @@ fun PostStatButton(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(18.dp), tint = tone)
+        NebIcon(id = icon, contentDescription = null, size = 18.dp, tint = tone)
         Text(text = label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Medium, color = tone)
     }
 }
