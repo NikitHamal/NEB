@@ -23,6 +23,14 @@ two: "Define cloud computing. Explain its service models with examples and state
 its advantages and disadvantages."
 :::
 
+```photogrid label="7.T" cols="5" ratio="1.0" caption="Recent technologies are built from real hardware: (a) an industrial robot arm (robotics), (b) a data-centre hall (cloud computing and big data), (c) a VR headset (virtual reality), (d) a microcontroller board and (e) a soil sensor (the sensing end of the Internet of Things)."
+@ photo id="cs10/robot-arm" cap="Robot arm: AI and robotics"
+@ photo id="cs12/datacenter" cap="Data centre: cloud, big data"
+@ photo id="cs10/vr-headset" cap="VR headset"
+@ photo id="cs10/arduino" cap="Microcontroller board (IoT)"
+@ photo id="bcapj/soilsensor" cap="Soil sensor (IoT)"
+```
+
 ## 7.1 Artificial Intelligence (AI) and Robotics
 
 ::: definition Artificial Intelligence
@@ -113,11 +121,47 @@ ax.text(6.55, 1.35, 'feedback: the sensors see the effect of the action',
 | Aerial (drone/UAV) | survey, mapping, agriculture, delivery | drone mapping after the 2015 Gorkha earthquake |
 | Exploration | places humans cannot go | Mars rovers, mine and reactor inspection |
 
-**Applications of AI** you can safely list in an exam: medical diagnosis from
-X-rays, weather and flood forecasting, speech recognition and translation,
-recommendation systems, fraud detection in banking, self-driving vehicles,
-agriculture (pest detection from leaf photographs), and chatbots for customer
-service.
+**Eight applications of AI explained.**
+
+**1. Healthcare.** AI programs can study X-rays, CT scans and skin photographs and
+point out signs of disease, often in seconds. A doctor in a district hospital can
+use such a tool as a second opinion when no specialist is available. It does not
+replace the doctor, but it helps to find illness earlier and to reduce missed cases.
+
+**2. Weather and flood forecasting.** Machine-learning models learn from past
+rainfall, river-level and satellite data to predict floods and storms. Agencies such
+as the Department of Hydrology and Meteorology can use them to send earlier
+warnings to villages along the rivers. A few extra hours of warning can save lives
+and livestock.
+
+**3. Speech and language.** Voice assistants, speech-to-text, and translation
+between languages are all AI applications. A student can dictate an essay or
+translate a notice from English into Nepali on a phone. These tools make computers
+easier for people who cannot type well.
+
+**4. Recommendation systems.** Video and shopping sites study what you watched or
+bought and suggest similar items. This saves time for the user and increases sales
+for the seller. Online shops and music apps used in Nepal work this way.
+
+**5. Fraud detection in banking and payments.** AI learns the normal pattern of a
+customer's spending and raises an alarm when a payment looks strange. A card used in
+two countries within an hour, for example, will be flagged. This protects customers
+of banks and wallets such as ConnectIPS, eSewa and Fonepay-linked cards.
+
+**6. Self-driving and driver-assistance systems.** Cameras and sensors with AI
+recognise lanes, signs and pedestrians, and brake or steer automatically. Full
+self-driving is still developing, but lane warning and automatic braking are already
+common in modern cars. The aim is fewer accidents caused by tiredness or
+distraction.
+
+**7. Agriculture.** A farmer can photograph a diseased leaf and an AI app can name
+the pest or disease and suggest a treatment. Drones with AI can also count plants or
+find dry patches in a field. This is useful for small farms in Nepal where an expert
+is far away.
+
+**8. Customer service chatbots.** A chatbot answers common questions about bills,
+forms and services at any hour. Banks and telecom companies use them to reduce waiting
+time at help desks. Difficult cases are passed to a human officer.
 
 **Advantages:** works 24 hours without fatigue, handles jobs that are dangerous
 or repetitive, very fast on large data, fewer human errors, consistent decisions.
@@ -555,10 +599,39 @@ devices), **Zigbee**, **Bluetooth Low Energy** and **LoRaWAN** (long range, tiny
 power), and **NB-IoT** over the cellular network. Because every thing needs its
 own address, IoT is a major reason for moving to **IPv6**.
 
-Applications: smart homes (lights, locks, cameras), smart agriculture (soil and
-weather sensors, drip irrigation), health wearables, smart meters, vehicle
-tracking, air-quality monitoring in the Kathmandu valley, glacial-lake and river
-level monitoring for flood warning, and industrial machine monitoring.
+**Eight applications of IoT explained.**
+
+**1. Smart homes.** Lights, locks, fans and cameras are connected to a phone, so
+they can be switched on, off or checked from anywhere. This saves electricity and
+adds safety when the family is away.
+
+**2. Smart agriculture.** Soil-moisture and weather sensors send readings to the
+cloud, which decides when to water. Drip irrigation then opens only when the soil is
+dry. This saves water and increases the crop of a small farm.
+
+**3. Health wearables.** Watches and bands measure pulse, steps and sleep and send
+the data to a phone. A doctor can review the record, and an alarm can be sent if the
+pulse becomes dangerous.
+
+**4. Smart meters.** An electricity meter reports its reading automatically, so a
+person does not have to visit every house. The utility can also see where power is
+lost and bill accurately.
+
+**5. Vehicle tracking.** A GPS unit and a mobile connection let an owner or a bus
+company see where a vehicle is. Buses and delivery vans use this to plan routes and
+to find a stolen vehicle.
+
+**6. Air-quality monitoring.** Low-cost sensors in the Kathmandu valley measure dust
+and gases and publish the data online. People can then decide when to wear a mask or
+to avoid exercise outdoors.
+
+**7. Glacial-lake and river-level monitoring.** Sensors at lakes and rivers send
+water-level data by radio or mobile link. When the level rises quickly, an alert
+goes to the villages downstream, giving time to move to safety.
+
+**8. Industrial machine monitoring.** Sensors on motors and pumps report heat and
+vibration. The factory can repair a machine before it breaks, which avoids long and
+costly stoppages.
 
 *Advantages:* automation, real-time monitoring, energy and water saved, early
 warning, better data for decisions. *Challenges:* weak security (cheap devices
@@ -698,8 +771,68 @@ facts = dict(n1=chain[0][1], n2=chain[1][1], n3=chain[2][1], tot=tot, avg=tot / 
    how much per year? <span class="marks">[5]</span>
 
 ::: note Answers to Group B
-**1.–5.** Definitions and tables from §7.2, §7.3, §7.7, §7.5 and §7.4; one mark
-for the definition, one per model/V/layer/type with its example.
+**1.** **Cloud computing** is the delivery of computing services (servers,
+storage, databases, software) over the Internet on demand, with payment only for
+what is used. It has three service models. **IaaS** (Infrastructure as a Service)
+rents virtual servers, storage and networks; the customer installs and manages the
+operating system and programs; example: Amazon EC2. **PaaS** (Platform as a Service)
+gives a ready platform to develop and run applications, and the provider manages the
+servers and the system software; example: Google App Engine. **SaaS** (Software as
+a Service) gives a complete application through a browser, with nothing to install;
+examples: Gmail and Google Docs. From IaaS to SaaS the provider manages more and the
+customer less. A college can move its email to SaaS, keep its student database on an
+IaaS server, and need no hardware room of its own. The benefits are no capital cost,
+quick scaling and easy access from anywhere; the risks are dependence on the
+Internet and the provider.
+
+**2.** **Big data** means data so large, fast and varied that ordinary tools cannot
+store or process it. It is described by the **five Vs**. **Volume** is the amount
+of data, such as the billions of messages and payments handled every day.
+**Velocity** is the speed at which data arrive and must be processed, such as live
+traffic or stock prices. **Variety** is the mixture of forms: text, images, video,
+sensor readings and logs. **Veracity** is the trust we can place in the data, because
+real data contain errors and bias, for example GPS drift or wrongly typed addresses.
+**Value** is the useful knowledge that can be drawn out of the data; data that
+produce no decision are worth nothing. A telecom company in Nepal collects call and
+data records of millions of users (volume, variety, velocity); after cleaning (veracity) it can
+plan towers and predict customers who may leave (value). Tools such as Hadoop and
+Spark process big data on many computers in parallel.
+
+**3.** The **Internet of Things (IoT)** is a network of physical objects fitted with
+sensors, software and connectivity so that they can collect and exchange data
+without human help. Its four-layer architecture is as follows. The **perception
+layer** has sensors, RFID tags and actuators that sense or act on the world. The
+**network layer** carries the data using Wi-Fi, 4G/5G, LoRaWAN, Zigbee or MQTT
+through a gateway. The **processing layer** stores and analyses the data in the
+cloud with databases, analytics and AI. The **application layer** gives the user
+dashboards, mobile apps and alerts. In a smart-irrigation example, soil sensors in the
+field read moisture (perception), a gateway sends the reading over LoRaWAN (network),
+the cloud decides the field is dry (processing), and the farmer's phone shows an
+alert while the valve opens (application). IoT saves water and labour, but needs
+secure devices and IPv6 addresses for the huge number of things.
+
+**4.** **E-governance** is the use of ICT by the government to deliver services and
+information to citizens and businesses in a fast, open and efficient way. It has
+four types. **G2C** (government to citizen): a citizen applies for a passport, pays
+tax or reads notices online through portals and the Nagarik App. **G2B** (government
+to business): a company registers, pays customs duty or submits a tender online.
+**G2G** (government to government): offices share data, for example the national ID
+database used by several ministries. **G2E** (government to employee): staff use
+systems for attendance, salary and leave. The advantages are less paperwork and
+corruption, saved time and travel, and transparency; the challenges are the digital
+divide, the security of citizen data and the need for trained staff.
+
+**5.** **Virtual reality (VR)** creates a fully computer-generated world that the user
+enters with a headset and controllers, so the real world is shut out. **Augmented
+reality (AR)** adds computer images on top of the real world seen through a phone or
+glasses, and the real world stays visible. VR needs a headset and gives full
+immersion, while AR works on an ordinary smartphone and gives a mixed view; a game
+such as a flight simulator is VR, and a phone app that shows furniture in your room is
+AR. Three applications of VR are: **training** (pilots, surgeons and drivers practise
+without danger or cost), **education** (students visit a historic site or the inside
+of a cell), and **entertainment and tourism** (games and virtual tours of trekking
+routes). The drawbacks are the high cost of the equipment and motion sickness.
+
 
 **6.** Hardware per month $= 6{,}00{,}000 / 60 = \text{Rs }10{,}000$.
 On-premises total $= 10{,}000 + 3{,}500 + 2{,}500 = \text{Rs }16{,}000$ per month.
@@ -733,3 +866,75 @@ another country's law; reliability — providers publish 99.9 %+ availability,
 better than a single office server on an unreliable supply, but an outage or a
 cut internet link stops everything at once.
 :::
+
+**Full model answer C1: AI and robotics (10 marks)**
+
+**Introduction.** **Artificial intelligence (AI)** is the branch of computer science
+that builds machines and programs able to do tasks that need human intelligence, such
+as learning, reasoning, understanding language and recognising patterns. **Robotics**
+is the branch that designs, builds and uses robots, machines that sense the world and
+act on it automatically. (Draw the block diagram of the robot of section 7.1.)
+
+**Block diagram and components.** **Sensors** (camera, ultrasonic, touch, temperature)
+collect information about the surroundings. The **controller** (a microcontroller or
+computer with the program, and often AI software) processes the information and decides
+what to do. **Actuators** (electric motors, hydraulic or pneumatic cylinders) produce
+the movement. The **end effector** (gripper, welding torch, spray gun, tool) is the
+part that touches and works on the object. The **power supply** (battery or mains)
+drives everything, and a **feedback loop** returns the position or force to the
+controller so that it can correct errors.
+
+**Applications.**
+
+1. Medical diagnosis from X-rays and surgery with robot arms.
+2. Weather and flood forecasting.
+3. Speech recognition, translation and chatbots.
+4. Fraud detection in banking.
+5. Industrial robots for welding, painting and assembly.
+6. Agriculture: pest detection and drone survey after the 2015 Gorkha earthquake.
+
+**Advantages and disadvantages.**
+
+| Advantages | Disadvantages |
+|---|---|
+| Works 24 hours without tiredness | High cost of setup and training |
+| Does dangerous and repetitive jobs | Job displacement |
+| Very fast on large data | No common sense or emotion |
+| Fewer human errors | Bias if the training data are biased |
+| Consistent decisions | Poor accountability and privacy risk |
+
+**Conclusion.** AI and robotics extend what people can do in health, industry and
+farming. They must be used with human supervision, fair data and clear rules.
+
+**Full model answer C2: cloud computing against an own server (10 marks)**
+
+**Introduction.** **Cloud computing** is the on-demand delivery of computing
+resources over the Internet, with pay-as-you-use billing. The NIST definition lists
+five characteristics: on-demand self-service, broad network access, resource pooling,
+rapid elasticity and measured service.
+
+**Service models.** **IaaS** gives virtual servers and storage (Amazon EC2), **PaaS**
+gives a platform to build and run applications (Google App Engine), and **SaaS** gives
+finished software through a browser (Gmail, Google Docs).
+
+**Deployment models.** A **public** cloud is shared by many customers and run by a
+provider. A **private** cloud is used by one organisation, for example a bank. A
+**community** cloud is shared by organisations with the same needs, such as
+universities. A **hybrid** cloud joins private and public clouds, keeping sensitive
+data inside and using the public cloud for extra capacity.
+
+**Comparison with an own server, with numbers.** A college server costs Rs 6,00,000
+and lasts 5 years, which is Rs 10,000 a month. Electricity (Rs 3,500) and
+administration (Rs 2,500) bring the on-premises cost to Rs 16,000 a month. An
+equivalent cloud server at Rs 12,000 a month is cheaper by Rs 4,000 a month, or
+Rs 48,000 a year.
+
+| Basis | Own server | Cloud |
+|---|---|---|
+| Cost | Large capital cost plus running cost | Operating cost only, Rs 12,000 a month |
+| Scalability | Weeks to buy new hardware | Minutes |
+| Security | Under your own control, but patching is your job | Strong physical security and patching; data under another country's law |
+| Reliability | One server, load-shedding risk | 99.9 % or better availability, but an outage or a cut link stops everything |
+
+**Conclusion.** For most colleges the cloud is cheaper and easier to scale, but a
+reliable Internet link and a clear data policy are essential.
