@@ -12,7 +12,11 @@ Cards are cached under a signature of the values that went into them, so an
 edited title produces a new cache entry instead of a stale card, and the old
 entry expires on its own.
 """
-from .view_helpers import *  # noqa: F401,F403
+from api.models import Post, Resource, User
+from django.core.cache import cache
+from django.http import Http404, HttpResponse
+from . import curriculum
+from .view_helpers import _rate_limit
 
 import hashlib
 import re

@@ -1,7 +1,10 @@
 """Forum thread tools: reply labels and the composer's live preview."""
 import json
 
-from .view_helpers import *  # noqa: F401,F403
+from api.models import Reply, User
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .view_helpers import _clear_page_cache, _get_user_id, _rate_limit
 from . import forum_labels
 from .forum_label_service import apply_label
 

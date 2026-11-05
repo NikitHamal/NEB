@@ -56,7 +56,7 @@ def tts_generate(request):
 
         result = airy_tts(
             text=text,
-            voice=voice,
+            voice=request.data.get("voice"),
             style=request.data.get("style") or "normal",
             speed=request.data.get("speed") or 1.0,
             language=request.data.get("lang") or request.data.get("language") or "en",

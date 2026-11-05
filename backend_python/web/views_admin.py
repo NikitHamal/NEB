@@ -1,6 +1,50 @@
 """Views Admin extracted from views.py."""
+from django.shortcuts import get_object_or_404
 from decimal import Decimal
-from .view_helpers import *  # noqa: F401,F403
+import json
+import os
+import re
+from api import counters as _counters, notifications as _notif
+from api.models import (
+    PaymentVerification,
+    Post,
+    Reply,
+    Report,
+    Resource,
+    ResourceRequest,
+    User,
+    WithdrawalRequest,
+)
+from api.security import (
+    revoke_auth_token,
+    validate_and_save_resource_file,
+    validate_resource_file_url,
+)
+from api.serializers import PostSerializer, ReplySerializer, ResourceSerializer, UserSerializer
+from api.utils import now_ms, uuid_str
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import logout as django_logout
+from django.core.cache import cache
+from django.core.paginator import Paginator
+from django.db import transaction
+from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_POST
+from urllib.parse import quote
+from . import api_client as api
+from .view_helpers import (
+    _ctx,
+    _get_platform_admin,
+    _get_platform_user,
+    _is_staff_admin,
+    _require_staff_admin,
+    _serialize_resource,
+    _user_achievement_badges,
+    get_or_create_seller_balance,
+)
 
 def admin_pending_resources(request):
     """Admin page to approve/reject pending resources."""
@@ -555,6 +599,7 @@ def admin_resource_create(request):
         view_count = int(request.POST.get('view_count', '0') or '0')
         approval_status = request.POST.get('approval_status', 'approved').strip() or 'approved'
         behalf_username = request.POST.get('behalf_username', '').strip().lstrip('@')
+        errors = []
         behalf_user = None
         if behalf_username:
             try:
@@ -578,7 +623,6 @@ def admin_resource_create(request):
         uploaded_files = request.FILES.getlist('file')
         file_url = request.POST.get('file_url', '').strip()
 
-        errors = []
         if source_url_error:
             errors.append(source_url_error)
         if not title:

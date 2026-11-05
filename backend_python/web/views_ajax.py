@@ -1,7 +1,52 @@
 """Views Ajax extracted from views.py."""
 from django.views.decorators.http import require_http_methods
 
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api import cleanup as _cleanup, realtime as _rt, services
+from api.models import (
+    AiFeedback,
+    BlogComment,
+    Bookmark,
+    EditHistory,
+    Follow,
+    Post,
+    PostImage,
+    PostMedia,
+    Reply,
+    Report,
+    Resource,
+    ResourceComment,
+    User,
+)
+from api.security import (
+    get_user_by_auth_token,
+    save_post_image_upload,
+    save_profile_image_upload,
+    validate_profile_photo_url,
+)
+from api.serializers import UserSerializer
+from api.utils import now_ms, uuid_str
+from django.core.cache import cache
+from django.db import transaction
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from . import api_client as api
+from .view_helpers import (
+    _avatar_url,
+    _blobatar_url_for,
+    _clear_page_cache,
+    _get_user_id,
+    _get_valid_token,
+    _normalize_user_data,
+    _rate_limit,
+    _serialize_post,
+    _serialize_post_images,
+    _serialize_replies,
+    _serialize_reply,
+    _user_badge_info,
+    _viewer_for_locked_check,
+    logger,
+)
 from api.view_helpers import _can_view_locked_profile
 from api.security import POST_IMAGE_MAX_COUNT, validate_forum_attachments
 from django.core.exceptions import ValidationError
