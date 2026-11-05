@@ -211,7 +211,7 @@ private fun HomeActionCard(action: HomeAction, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .size(42.dp)
-                .background(MaterialTheme.colorScheme.secondaryContainer, remember(action.icon) { nebShape(NebGlyphShapes.Cookie) }),
+                .background(MaterialTheme.colorScheme.secondaryContainer, nebShape(NebGlyphShapes.Cookie)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -896,7 +896,7 @@ private fun HomeMiniHubButton(
             Box(
                 modifier = Modifier
                     .size(32.dp)
-                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f), remember { nebShape(NebGlyphShapes.Sunny) }),
+                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f), nebShape(NebGlyphShapes.Sunny)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1043,7 +1043,7 @@ internal fun HomeEndOfFeedCard(
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), remember { nebShape(NebGlyphShapes.Flower) }),
+                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), nebShape(NebGlyphShapes.Flower)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
