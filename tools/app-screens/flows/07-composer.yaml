@@ -1,0 +1,31 @@
+appId: com.neb.ians
+name: Home launcher and composer
+onFlowStart:
+  - runFlow:
+      when:
+        visible: "(?i).*isn't responding.*"
+      commands:
+        - tapOn: "Wait"
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: launcher-home
+- tapOn: "Ask a question or share your notes"
+- extendedWaitUntil:
+    visible: "Publish"
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: composer-empty
+- tapOn: "Switch identity"
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: composer-identity-menu
+- tapOn: "Anon#.*"
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: composer-anonymous
