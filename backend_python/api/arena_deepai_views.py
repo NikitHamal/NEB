@@ -11,18 +11,21 @@ Pro-only models: genius, supergenius, gpt-4o-mini, o3, claude-4.7-opus, etc.
 
 Mounted under /api/neby-arena/ alongside the Qwen, eGov, and community views.
 """
+import base64
 import logging
 import os
+import secrets
 
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, throttle_classes
 from rest_framework.response import Response
 
 from .arena_common import (
-    get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+    Turn, require_provider_session, require_user, sse_error, sse_response,
+    sse_text_delta, validated_content,
 )
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment
+from .models import ArenaChatSession, ArenaChatAttachment
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 from . import deepai_proxy
@@ -67,7 +70,7 @@ def arena_create_deepai_session(request):
         id=uuid_str(),
         user=user,
         provider='deepai',
-        arena_session_id=f'deepai:{_secrets_token_hex(16)}',
+        arena_session_id=f'deepai:{secrets.token_hex(16)}',
         arena_token_id='',
         qwen_chat_id='',
         model_id=model_id,
@@ -99,395 +102,153 @@ def arena_create_deepai_session(request):
     }, status=status.HTTP_201_CREATED)
 
 
-def _secrets_token_hex(n=16):
-    import secrets as _secrets
-    return _secrets.token_hex(n)
+# ========================= Send message (DeepAI) =========================
+
+MAX_CONTENT_CHARS = 32000
+MAX_FILES_PER_MESSAGE = 10
+ALLOWED_EXTENSIONS = {
+    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif',
+    '.pdf', '.docx', '.xlsx', '.pptx', '.txt', '.csv',
+    '.md', '.json',
+}
 
 
-# ========================= Send message (multipart with files) =========================
+def _upload_attachment(name, file_bytes):
+    file_obj = deepai_proxy.upload_file_from_bytes(name, file_bytes)
+    if not (file_obj and file_obj.get('download_url')):
+        return None
+    return {
+        'type': 'attachment',
+        'url': file_obj.get('download_url', ''),
+        'original_filename': file_obj.get('original_filename', name),
+        'mime_type': file_obj.get('content_type', ''),
+        'uuid': file_obj.get('uuid', ''),
+    }
+
+
+def _multipart_attachments(request):
+    uploaded = []
+    for f in request.FILES.getlist('files')[:MAX_FILES_PER_MESSAGE]:
+        if os.path.splitext(f.name)[1].lower() not in ALLOWED_EXTENSIONS:
+            continue
+        att = _upload_attachment(f.name, f.read())
+        if att:
+            uploaded.append(att)
+    return uploaded
+
+
+def _json_attachments(request):
+    uploaded = []
+    for fdata in (request.data.get('files') or [])[:MAX_FILES_PER_MESSAGE]:
+        name = fdata.get('name', 'upload')
+        data_b64 = fdata.get('data', '')
+        if not data_b64:
+            continue
+        ext = os.path.splitext(name)[1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            logger.warning("deepai: unsupported file type in SSE upload: %s", ext)
+            continue
+        try:
+            file_bytes = base64.b64decode(data_b64)
+        except Exception as e:
+            logger.warning("deepai: failed to decode base64 file: %s", e)
+            continue
+        att = _upload_attachment(name, file_bytes)
+        if att:
+            uploaded.append(att)
+    return uploaded
+
+
+def _persist_attachments(user_msg, attachments):
+    for att in attachments:
+        mime = att.get('mime_type', '')
+        ArenaChatAttachment.objects.create(
+            id=uuid_str(),
+            message=user_msg,
+            file_type=att.get('type', 'attachment'),
+            file_name=att.get('original_filename', ''),
+            file_size=0,
+            mime_type=mime,
+            qwen_file_id=att.get('uuid', ''),
+            qwen_file_url=att.get('url', ''),
+            show_type='image' if 'image' in mime else 'document',
+            file_class='deepai',
+            created_at=now_ms(),
+        )
+
+
+def _stream_deepai_turn(turn, content, history, attachments):
+    yield from turn.open()
+
+    collected_text = ''
+    finish_reason = 'stop'
+    error_text = ''
+    stream_kwargs = {}
+    attachment_uuids = [att['uuid'] for att in attachments if att.get('uuid')]
+    if attachment_uuids:
+        stream_kwargs['attachment_uuids'] = attachment_uuids
+
+    try:
+        for chunk in deepai_proxy.stream_chat(
+            user_message=content,
+            model=turn.sess.model_id,
+            history=history,
+            **stream_kwargs,
+        ):
+            t = chunk.get('type')
+            if t == 'content':
+                text = chunk.get('text', '')
+                collected_text += text
+                yield sse_text_delta(text)
+            elif t == 'done':
+                finish_reason = chunk.get('finishReason', 'stop')
+            elif t == 'error':
+                error_text = chunk.get('message', 'upstream error')
+                logger.warning("deepai stream: upstream error: %s", error_text)
+                yield sse_error(error_text)
+                break
+    except Exception as e:
+        logger.exception("deepai stream: unexpected error: %s", e)
+        yield sse_error('Internal streaming error', 'server')
+        error_text = str(e)
+
+    yield from turn.close(collected_text, finish_reason, error_text)
+
+
+def _send_deepai_message(request, session_id, collect_attachments):
+    user, err = require_user(request)
+    if err:
+        return err
+    sess, err = require_provider_session(user, session_id, 'deepai', 'DeepAI')
+    if err:
+        return err
+    content, err = validated_content(request, MAX_CONTENT_CHARS)
+    if err:
+        return err
+
+    attachments = collect_attachments(request)
+    history = [
+        {'role': m.role, 'content': m.content}
+        for m in sess.messages.order_by('created_at')
+        if m.role in ('user', 'assistant')
+    ]
+    turn = Turn.begin(sess, content)
+    if attachments:
+        _persist_attachments(turn.user_message(), attachments)
+    return sse_response(_stream_deepai_turn(turn, content, history, attachments))
+
 
 @api_view(['POST'])
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaChatRateThrottle])
 def arena_send_message_deepai(request, session_id):
-    """Send a message to a DeepAI session, optionally with file attachments.
+    """multipart/form-data: content (required), files (up to 10). Streams SSE."""
+    return _send_deepai_message(request, session_id, _multipart_attachments)
 
-    Accepts multipart/form-data with:
-      - content: text message (required)
-      - files: up to 10 file attachments (optional, images and documents)
-
-    Returns SSE stream with OpenAI-style deltas.
-    """
-    user, err = require_user(request)
-    if err:
-        return err
-    sess, err = get_owned_session(user, session_id)
-    if err:
-        return err
-
-    if sess.provider != 'deepai':
-        return Response(
-            {'error': 'This endpoint only works with DeepAI sessions.'},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    content = (request.data.get('content') or '').strip()
-    if not content:
-        return Response({'error': 'content is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if len(content) > 32000:
-        return Response(
-            {'error': 'Message too long (max 32000 chars)'},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    # Handle file uploads
-    uploaded_attachments = []
-    files = request.FILES.getlist('files')
-    if files:
-        for f in files[:10]:
-            ext = os.path.splitext(f.name)[1].lower()
-            allowed_exts = {
-                '.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif',
-                '.pdf', '.docx', '.xlsx', '.pptx', '.txt', '.csv',
-                '.md', '.json',
-            }
-            if ext not in allowed_exts:
-                continue
-
-            file_data = f.read()
-            file_obj = deepai_proxy.upload_file_from_bytes(f.name, file_data)
-            if file_obj and file_obj.get('download_url'):
-                uploaded_attachments.append({
-                    'type': 'attachment',
-                    'url': file_obj.get('download_url', ''),
-                    'original_filename': file_obj.get('original_filename', f.name),
-                    'mime_type': file_obj.get('content_type', ''),
-                    'uuid': file_obj.get('uuid', ''),
-                })
-
-    # Build history from previous messages
-    prev_messages = list(sess.messages.order_by('created_at'))
-    history = []
-    for m in prev_messages:
-        if m.role in ('user', 'assistant'):
-            history.append({
-                'role': m.role,
-                'content': m.content,
-            })
-
-    # Pre-insert user message
-    now = now_ms()
-    user_msg_id = uuid_str()
-    asst_msg_id = uuid_str()
-    asst_started_at = now_ms()
-
-    ArenaChatMessage.objects.create(
-        id=user_msg_id, session=sess, role='user',
-        content=content, parent_id='',
-        arena_message_id='', finish_reason='', error='',
-        duration_ms=0, created_at=now,
-    )
-
-    # Persist attachment records
-    if uploaded_attachments:
-        user_msg = ArenaChatMessage.objects.get(pk=user_msg_id)
-        for att in uploaded_attachments:
-            ArenaChatAttachment.objects.create(
-                id=uuid_str(),
-                message=user_msg,
-                file_type=att.get('type', 'attachment'),
-                file_name=att.get('original_filename', ''),
-                file_size=0,
-                mime_type=att.get('mime_type', ''),
-                qwen_file_id=att.get('uuid', ''),
-                qwen_file_url=att.get('url', ''),
-                show_type='image' if 'image' in att.get('mime_type', '') else 'document',
-                file_class='deepai',
-                created_at=now,
-            )
-
-    def _stream_deepai():
-        yield sse_format({
-            'choices': [{
-                'index': 0,
-                'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
-            }],
-        })
-
-        ArenaChatMessage.objects.create(
-            id=asst_msg_id, session=sess, role='assistant',
-            content='', parent_id=user_msg_id,
-            arena_message_id='', finish_reason='', error='',
-            duration_ms=0, created_at=asst_started_at,
-        )
-
-        collected_text = ''
-        finish_reason = 'stop'
-        error_text = ''
-
-        # Build attachment UUIDs list for DeepAI
-        attachment_uuids = [att['uuid'] for att in uploaded_attachments if att.get('uuid')]
-
-        stream_kwargs = {}
-        if attachment_uuids:
-            stream_kwargs['attachment_uuids'] = attachment_uuids
-
-        try:
-            for chunk in deepai_proxy.stream_chat(
-                user_message=content,
-                model=sess.model_id,
-                history=history,
-                **stream_kwargs,
-            ):
-                t = chunk.get('type')
-                if t == 'content':
-                    text = chunk.get('text', '')
-                    collected_text += text
-                    yield sse_format({
-                        'choices': [{'index': 0, 'delta': {'content': text}}],
-                    })
-                elif t == 'done':
-                    finish_reason = chunk.get('finishReason', 'stop')
-                elif t == 'error':
-                    error_text = chunk.get('message', 'upstream error')
-                    logger.warning("deepai stream: upstream error: %s", error_text)
-                    yield sse_format({
-                        'error': {'message': error_text, 'code': 'upstream'},
-                    })
-                    break
-        except Exception as e:
-            logger.exception("deepai stream: unexpected error: %s", e)
-            yield sse_format({
-                'error': {'message': 'Internal streaming error', 'code': 'server'},
-            })
-            error_text = str(e)
-
-        duration_ms = max(0, now_ms() - asst_started_at)
-        try:
-            ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
-                content=collected_text,
-                finish_reason=finish_reason,
-                error=error_text[:200],
-                duration_ms=duration_ms,
-                arena_message_id=asst_msg_id,
-            )
-        except Exception as e:
-            logger.exception("deepai: failed to finalize assistant row: %s", e)
-
-        if not error_text:
-            try:
-                ArenaChatSession.objects.filter(pk=sess.id).update(
-                    message_count=sess.message_count + 1,
-                    last_message_at=now_ms(),
-                    updated_at=now_ms(),
-                )
-            except Exception as e:
-                logger.warning("deepai: counter commit failed: %s", e)
-
-        if not error_text:
-            yield sse_format({
-                'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
-            })
-        yield sse_done_marker()
-
-    return sse_response(_stream_deepai())
-
-
-# ========================= SSE variant (JSON body with base64 files) =========================
 
 @api_view(['POST'])
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaChatRateThrottle])
 def arena_send_message_deepai_sse(request, session_id):
-    """SSE streaming variant — accepts JSON body with optional base64 files.
-
-    Body:
-      - content: text message (required)
-      - files: array of {name, data} base64-encoded files (optional)
-
-    Returns SSE stream with OpenAI-style deltas.
-    """
-    user, err = require_user(request)
-    if err:
-        return err
-    sess, err = get_owned_session(user, session_id)
-    if err:
-        return err
-
-    if sess.provider != 'deepai':
-        return Response(
-            {'error': 'This endpoint only works with DeepAI sessions.'},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    content = (request.data.get('content') or '').strip()
-    if not content:
-        return Response({'error': 'content is required'}, status=status.HTTP_400_BAD_REQUEST)
-    if len(content) > 32000:
-        return Response(
-            {'error': 'Message too long (max 32000 chars)'},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    # Handle base64-encoded files from JSON body
-    files_data = request.data.get('files', [])
-    uploaded_attachments = []
-    if files_data:
-        import base64
-        for fdata in files_data[:10]:
-            name = fdata.get('name', 'upload')
-            data_b64 = fdata.get('data', '')
-            if not data_b64:
-                continue
-
-            ext = os.path.splitext(name)[1].lower()
-            allowed_exts = {
-                '.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif',
-                '.pdf', '.docx', '.xlsx', '.pptx', '.txt', '.csv',
-                '.md', '.json',
-            }
-            if ext not in allowed_exts:
-                logger.warning("deepai: unsupported file type in SSE upload: %s", ext)
-                continue
-
-            try:
-                file_bytes = base64.b64decode(data_b64)
-            except Exception as e:
-                logger.warning("deepai: failed to decode base64 file: %s", e)
-                continue
-
-            file_obj = deepai_proxy.upload_file_from_bytes(name, file_bytes)
-            if file_obj and file_obj.get('download_url'):
-                uploaded_attachments.append({
-                    'type': 'attachment',
-                    'url': file_obj.get('download_url', ''),
-                    'original_filename': file_obj.get('original_filename', name),
-                    'mime_type': file_obj.get('content_type', ''),
-                    'uuid': file_obj.get('uuid', ''),
-                })
-
-    # Build history from previous messages
-    prev_messages = list(sess.messages.order_by('created_at'))
-    history = []
-    for m in prev_messages:
-        if m.role in ('user', 'assistant'):
-            history.append({
-                'role': m.role,
-                'content': m.content,
-            })
-
-    # Pre-insert user message
-    now = now_ms()
-    user_msg_id = uuid_str()
-    asst_msg_id = uuid_str()
-    asst_started_at = now_ms()
-
-    ArenaChatMessage.objects.create(
-        id=user_msg_id, session=sess, role='user',
-        content=content, parent_id='',
-        arena_message_id='', finish_reason='', error='',
-        duration_ms=0, created_at=now,
-    )
-
-    # Persist attachment records
-    if uploaded_attachments:
-        user_msg = ArenaChatMessage.objects.get(pk=user_msg_id)
-        for att in uploaded_attachments:
-            ArenaChatAttachment.objects.create(
-                id=uuid_str(),
-                message=user_msg,
-                file_type=att.get('type', 'attachment'),
-                file_name=att.get('original_filename', ''),
-                file_size=0,
-                mime_type=att.get('mime_type', ''),
-                qwen_file_id=att.get('uuid', ''),
-                qwen_file_url=att.get('url', ''),
-                show_type='image' if 'image' in att.get('mime_type', '') else 'document',
-                file_class='deepai',
-                created_at=now,
-            )
-
-    def _stream_deepai():
-        yield sse_format({
-            'choices': [{
-                'index': 0,
-                'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
-            }],
-        })
-
-        ArenaChatMessage.objects.create(
-            id=asst_msg_id, session=sess, role='assistant',
-            content='', parent_id=user_msg_id,
-            arena_message_id='', finish_reason='', error='',
-            duration_ms=0, created_at=asst_started_at,
-        )
-
-        collected_text = ''
-        finish_reason = 'stop'
-        error_text = ''
-
-        attachment_uuids = [att['uuid'] for att in uploaded_attachments if att.get('uuid')]
-
-        stream_kwargs = {}
-        if attachment_uuids:
-            stream_kwargs['attachment_uuids'] = attachment_uuids
-
-        try:
-            for chunk in deepai_proxy.stream_chat(
-                user_message=content,
-                model=sess.model_id,
-                history=history,
-                **stream_kwargs,
-            ):
-                t = chunk.get('type')
-                if t == 'content':
-                    text = chunk.get('text', '')
-                    collected_text += text
-                    yield sse_format({
-                        'choices': [{'index': 0, 'delta': {'content': text}}],
-                    })
-                elif t == 'done':
-                    finish_reason = chunk.get('finishReason', 'stop')
-                elif t == 'error':
-                    error_text = chunk.get('message', 'upstream error')
-                    logger.warning("deepai stream: upstream error: %s", error_text)
-                    yield sse_format({
-                        'error': {'message': error_text, 'code': 'upstream'},
-                    })
-                    break
-        except Exception as e:
-            logger.exception("deepai stream: unexpected error: %s", e)
-            yield sse_format({
-                'error': {'message': 'Internal streaming error', 'code': 'server'},
-            })
-            error_text = str(e)
-
-        duration_ms = max(0, now_ms() - asst_started_at)
-        try:
-            ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
-                content=collected_text,
-                finish_reason=finish_reason,
-                error=error_text[:200],
-                duration_ms=duration_ms,
-                arena_message_id=asst_msg_id,
-            )
-        except Exception as e:
-            logger.exception("deepai: failed to finalize assistant row: %s", e)
-
-        if not error_text:
-            try:
-                ArenaChatSession.objects.filter(pk=sess.id).update(
-                    message_count=sess.message_count + 1,
-                    last_message_at=now_ms(),
-                    updated_at=now_ms(),
-                )
-            except Exception as e:
-                logger.warning("deepai: counter commit failed: %s", e)
-
-        if not error_text:
-            yield sse_format({
-                'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
-            })
-        yield sse_done_marker()
-
-    return sse_response(_stream_deepai())
+    """JSON body: content (required), files as [{name, data(base64)}]. Streams SSE."""
+    return _send_deepai_message(request, session_id, _json_attachments)

@@ -16,10 +16,11 @@ from rest_framework.response import Response
 
 from . import inception_proxy, k2think_proxy, poolside_proxy
 from .arena_common import (
-    get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+    Turn, require_provider_session, require_user, sse_error, sse_response,
+    sse_text_delta, validated_content,
 )
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatMessage, ArenaChatSession
+from .models import ArenaChatSession
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 
@@ -124,24 +125,12 @@ def _send_message_view(spec):
         user, err = require_user(request)
         if err:
             return err
-        sess, err = get_owned_session(user, session_id)
+        sess, err = require_provider_session(user, session_id, spec.key, spec.label)
         if err:
             return err
-
-        if sess.provider != spec.key:
-            return Response(
-                {'error': f'This endpoint only works with {spec.label} sessions.'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        content = (request.data.get('content') or '').strip()
-        if not content:
-            return Response({'error': 'content is required'}, status=status.HTTP_400_BAD_REQUEST)
-        if len(content) > MAX_CONTENT_CHARS:
-            return Response(
-                {'error': f'Message too long (max {MAX_CONTENT_CHARS} chars)'},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        content, err = validated_content(request, MAX_CONTENT_CHARS)
+        if err:
+            return err
 
         history = [
             {'role': m.role, 'content': m.content}
@@ -149,33 +138,10 @@ def _send_message_view(spec):
             if m.role in ('user', 'assistant')
         ]
         stream_options = spec.stream_options(request)
-
-        now = now_ms()
-        user_msg_id = uuid_str()
-        asst_msg_id = uuid_str()
-        asst_started_at = now_ms()
-
-        ArenaChatMessage.objects.create(
-            id=user_msg_id, session=sess, role='user',
-            content=content, parent_id='',
-            arena_message_id='', finish_reason='', error='',
-            duration_ms=0, created_at=now,
-        )
+        turn = Turn.begin(sess, content)
 
         def stream():
-            yield sse_format({
-                'choices': [{
-                    'index': 0,
-                    'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
-                }],
-            })
-
-            ArenaChatMessage.objects.create(
-                id=asst_msg_id, session=sess, role='assistant',
-                content='', parent_id=user_msg_id,
-                arena_message_id='', finish_reason='', error='',
-                duration_ms=0, created_at=asst_started_at,
-            )
+            yield from turn.open()
 
             collected_text = ''
             finish_reason = 'stop'
@@ -191,50 +157,20 @@ def _send_message_view(spec):
                     if t == 'text':
                         text = chunk.get('content', '')
                         collected_text += text
-                        yield sse_format({
-                            'choices': [{'index': 0, 'delta': {'content': text}}],
-                        })
+                        yield sse_text_delta(text)
                     elif t == 'done':
                         finish_reason = chunk.get('finish_reason', 'stop')
                     elif t == 'error':
                         error_text = chunk.get('error', 'upstream error')
                         logger.warning("%s stream: %s", spec.key, error_text)
-                        yield sse_format({
-                            'error': {'message': error_text, 'code': 'upstream'},
-                        })
+                        yield sse_error(error_text)
                         break
             except Exception as e:
                 logger.exception("%s stream: %s", spec.key, e)
-                yield sse_format({
-                    'error': {'message': 'Internal streaming error', 'code': 'server'},
-                })
+                yield sse_error('Internal streaming error', 'server')
                 error_text = str(e)
 
-            duration_ms = max(0, now_ms() - asst_started_at)
-            try:
-                ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
-                    content=collected_text,
-                    finish_reason=finish_reason,
-                    error=error_text[:200],
-                    duration_ms=duration_ms,
-                    arena_message_id=asst_msg_id,
-                )
-            except Exception as e:
-                logger.exception("%s: failed to finalize assistant row: %s", spec.key, e)
-
-            if not error_text:
-                try:
-                    ArenaChatSession.objects.filter(pk=sess.id).update(
-                        message_count=sess.message_count + 1,
-                        last_message_at=now_ms(),
-                        updated_at=now_ms(),
-                    )
-                except Exception as e:
-                    logger.warning("%s: counter commit failed: %s", spec.key, e)
-                yield sse_format({
-                    'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
-                })
-            yield sse_done_marker()
+            yield from turn.close(collected_text, finish_reason, error_text)
 
         return sse_response(stream())
     return view
