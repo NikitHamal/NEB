@@ -413,6 +413,23 @@ f.text(150, 206, "rise per CH2: %d, %d ... %d degrees" % (d[0], d[1], d[-1]), si
 f.text(150, 224, "gas to liquid at C5", size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="17.2" cols="2" ratio="1.2" caption="Why octane number matters. (a) The label on a petrol pump shows 98 and 'Super' (the sticker means leaded petrol is not sold, senza Pb). The octane number is the percentage of iso-octane in an iso-octane and n-heptane mixture that knocks (explodes early) in the same way as the fuel. (b) The cell shows why engineers want a high compression ratio r: the ideal efficiency 1 - r^(1 - gamma) rises from 51.2 per cent at r = 6 to 56.5 per cent at r = 8, 63.0 per cent at r = 12 and 65.2 per cent at r = 14. Straight-chain alkanes like heptane ignite too early under compression, so branched alkanes, aromatics and ethanol are blended in to raise the octane number and permit these higher ratios."
+@ photo id="ceechem2/octane" cap="A petrol pump label: 98 Super, unleaded"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Compression ratio and the efficiency of a petrol engine"
+g = 1.4
+rows = [("r = %d" % r, (1 - r ** (1 - g)) * 100) for r in (6, 8, 10, 12, 14)]
+assert round(rows[1][1], 1) == 56.5 and round(rows[3][1], 1) == 63.0
+f = Fig(300, 236)
+f.text(150, 12, "Ideal Otto efficiency, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=70, fmt="%.1f", x0=52, y0=30, bw=170, gap=26)
+f.text(150, 170, "efficiency = 1 - r^(1 - gamma), gamma = 1.4", size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "98 octane = 98% iso-octane + 2% n-heptane", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "a higher ratio needs fuel that resists knock", size=10, color=SLATE, bold=True)
+facts = dict(e8=rows[1][1], e12=rows[3][1], e14=rows[4][1], e6=rows[0][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

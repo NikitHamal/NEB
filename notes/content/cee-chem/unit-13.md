@@ -353,6 +353,26 @@ f.text(150, 200, "at 95 per cent efficiency: %s kWh" % "{:,.0f}".format(kwh95), 
 f.text(150, 218, "per tonne of Cl2", size=10.5, color=SLATE)
 ```
 
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Why chlorine, not fluorine, destroys ozone. (a) A satellite map of the Antarctic ozone hole, drawn as a false-colour image where the lowest values (the 'hole') are purple and blue. (b) The cell turns bond energies into the longest wavelength able to break each bond. The C-Cl bond of a CFC (339 kJ/mol) breaks with light of 353 nm or shorter, which reaches the stratosphere as UV, and the weaker C-Br bond with 420 nm; the C-F bond (485 kJ/mol) needs 247 nm, light that is absorbed higher up, so fluorine atoms are never freed in quantity. A normal ozone column of 300 Dobson units holds 8.06e+18 molecules per cm2; the hole is defined by a fall below 220 DU, a loss of 26.7 per cent."
+@ photo id="ceechem2/ozone" cap="NASA satellite map of the 2024 Antarctic ozone hole"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Which light breaks which bond"
+hcN = 119627.0
+bonds = [("C-Br", 285), ("C-Cl", 339), ("C-F", 485), ("O=O", 498)]
+rows = [(n, hcN / E) for n, E in bonds]
+assert round(rows[1][1]) == 353 and round(rows[2][1]) == 247 and round(rows[3][1]) == 240
+DU = 2.687e16
+f = Fig(300, 236)
+f.text(150, 12, "Longest wavelength that breaks the bond, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=440, fmt="%.0f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 156, "lambda = hc N_A / E (E in kJ/mol)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "normal column 300 DU = %.2e molecules/cm2" % (300 * DU), size=10, color=NAVY, bold=True)
+f.text(150, 198, "'hole' below 220 DU: a loss of %.1f%%" % ((300 - 220) / 3), size=10.5, color=RED, bold=True)
+f.text(150, 216, "1 DU = 0.01 mm of pure ozone at 0 C, 1 atm", size=10, color=SLATE, bold=True)
+facts = dict(cl=rows[1][1], br=rows[0][1], f=rows[2][1], du=300 * DU, loss=(300 - 220) / 3)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

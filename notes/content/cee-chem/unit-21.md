@@ -383,6 +383,28 @@ f.text(150, 202, "1 tonne urea: %.0f kg NH3 + %.0f kg CO2" % (nh3, co2), size=10
 f.text(150, 220, "NH3 from Haber: N2 + 3H2 gives 2NH3", size=10.5, color=SLATE)
 ```
 
+```photogrid label="21.2" cols="2" ratio="1.2" caption="Limestone is the main raw material. (a) The raw meal of limestone and clay is heated in a long rotary kiln that is tilted so that the material slowly slides to the hot end, where a flame reaches about 1450 degrees C. (b) The cell works out the mass balance of the calcination CaCO3 gives CaO + CO2. Clinker contains about 65 per cent CaO, so each tonne needs 1.16 t of pure calcium carbonate and releases 0.51 t of carbon dioxide from the rock alone, before any fuel is burned. Since the reaction is endothermic with a positive entropy change, it goes forward above T = dH / dS = 1111 K (838 degrees C). A plant making one million tonnes of clinker a year therefore emits half a million tonnes of CO2 from chemistry."
+@ photo id="ceechem2/kiln" cap="A rotary kiln of a cement works"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Limestone and carbon dioxide per tonne of clinker"
+CaO_frac = 0.65
+caco3 = CaO_frac * 100.09 / 56.08
+co2 = CaO_frac * 44.01 / 56.08
+assert round(caco3, 2) == 1.16 and round(co2, 2) == 0.51
+T = 178300 / 160.5
+f = Fig(300, 236)
+f.text(150, 12, "Per tonne of clinker (65% CaO), tonnes", size=10.5, color=NAVY, bold=True)
+hbars(f, [("CaCO3 in", caco3), ("CaO out", CaO_frac), ("CO2 out", co2)], vmax=1.3, fmt="%.2f", x0=64, y0=30, bw=170, gap=30,
+      colors=[(SAND, AMBER), (BLUE, NAVY), (ROSE, RED)])
+f.text(150, 138, "CaCO3 gives CaO + CO2", size=10.5, color=NAVY, bold=True)
+f.text(150, 160, "dH = +178.3 kJ, dS = +160.5 J/K", size=10.5, color=SLATE, bold=True)
+f.text(150, 180, "decomposes above T = dH / dS = %.0f K" % T, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "(%.0f deg C); the kiln runs near 1450 deg C" % (T - 273.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "1 Mt of clinker a year: %.2f Mt of CO2" % co2, size=10.5, color=RED, bold=True)
+facts = dict(ls=caco3, co2=co2, T=T, TC=T - 273.15)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

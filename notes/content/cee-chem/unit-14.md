@@ -621,6 +621,28 @@ f.text(150, 206, "silica %.0f kg needs %.0f kg CaCO3" % (sio2, caco3), size=10.5
 f.text(150, 224, "%.1f kg ore per kg of iron" % (ore / 1000), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="14.2" cols="2" ratio="1.2" caption="Aluminium takes oxygen from iron. (a) In thermite welding, a mixture of aluminium powder and iron(III) oxide is ignited and produces molten iron. (b) The cell uses enthalpies of formation: dH = -1675.7 - (-824.2) = -851.5 kJ per mole of Fe2O3, released by 3.99 kJ for every gram of reactants. That is lower than methane or hydrogen burning in air (about 11 to 16 kJ/g counting the oxygen), but thermite carries its own oxygen in the oxide, so it burns without air, even under water. One kilogram of mixture releases 3.99 MJ and leaves 523 g of liquid iron at above 2000 degrees C, which is how railway lines are welded in the field."
+@ photo id="ceechem2/thermite" cap="A thermite reaction burning in sand"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy released per gram of reactants"
+dHf_Al2O3, dHf_Fe2O3 = -1675.7, -824.2
+dH = dHf_Al2O3 - dHf_Fe2O3
+Mmix = 159.69 + 2 * 26.98
+thermite = -dH / Mmix
+rows = [("thermite", thermite), ("CH4 + 2O2", 890.4 / (16.04 + 64.0)), ("Mg + 1/2 O2", 601.6 / (24.305 + 16.0)), ("H2 + 1/2 O2", 285.8 / (2.016 + 16.0))]
+assert round(dH, 1) == -851.5 and round(thermite, 2) == 3.99
+kg = 1000 / Mmix
+f = Fig(300, 236)
+f.text(150, 12, "Heat per gram of reactants, kJ/g", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=17, fmt="%.2f", x0=84, y0=30, bw=150, gap=30)
+f.text(150, 160, "Fe2O3 + 2Al gives Al2O3 + 2Fe", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "dH = -1675.7 - (-824.2) = %.1f kJ" % dH, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "1 kg of mixture: %.2f MJ, %.0f g of iron" % (kg * -dH / 1000, kg * 2 * 55.85), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "a low value per gram, but no external oxygen", size=10, color=SLATE, bold=True)
+facts = dict(dH=-dH, t=thermite, mj=kg * -dH / 1000, fe=kg * 2 * 55.85)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |
