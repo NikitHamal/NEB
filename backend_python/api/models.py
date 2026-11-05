@@ -85,7 +85,17 @@ class User(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT, db_index=True)
     dob = models.CharField(max_length=20, default='')
     gender = models.CharField(max_length=20, blank=True, null=True)
-    class_level = models.CharField(max_length=20, blank=True, null=True, db_column='class')
+    class_level = models.CharField(max_length=40, blank=True, null=True, db_column='class')
+    # Education situation. `class_level` is the level; these say what is going on
+    # at that level (see api/education_catalog.py). All optional.
+    edu_status = models.CharField(max_length=20, blank=True, default='')
+    edu_program = models.CharField(max_length=100, blank=True, default='')
+    edu_term = models.CharField(max_length=40, blank=True, default='')
+    edu_completed = models.CharField(max_length=40, blank=True, default='')
+    # Portfolio header: a one-line headline, skills and what the person is open to.
+    headline = models.CharField(max_length=120, blank=True, default='')
+    skills = models.TextField(blank=True, default='')  # comma-separated
+    open_to = models.CharField(max_length=300, blank=True, default='')  # comma-separated keys
     subjects = models.TextField(blank=True, null=True)  # comma-separated
     teaching_subjects = models.TextField(blank=True, default='')  # teacher-specific: comma-separated
     institution_type = models.CharField(max_length=30, blank=True, default='')  # school/college/academy/other
@@ -1872,6 +1882,29 @@ class SocialLink(models.Model):
 
     def __str__(self):
         return f"{self.user_id} - {self.platform}: {self.url[:50]}"
+
+
+class ProfileEntry(models.Model):
+    """One line of a person's portfolio: a course, a job, a project, a prize."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_entries')
+    kind = models.CharField(max_length=16, db_index=True)
+    title = models.CharField(max_length=150)
+    org = models.CharField(max_length=150, blank=True, default='')
+    start = models.CharField(max_length=7, blank=True, default='')  # YYYY or YYYY-MM
+    end = models.CharField(max_length=7, blank=True, default='')
+    is_current = models.BooleanField(default=False)
+    description = models.TextField(blank=True, default='')
+    url = models.CharField(max_length=300, blank=True, default='')
+    position = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'profile_entries'
+        ordering = ['kind', 'position', '-created_at']
+        indexes = [models.Index(fields=['user', 'kind'], name='profile_entry_user_kind')]
+
+    def __str__(self):
+        return f"{self.user_id} {self.kind}: {self.title}"
 
 
 class SocialLinkClick(models.Model):

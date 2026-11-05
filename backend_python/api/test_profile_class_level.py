@@ -64,7 +64,7 @@ class ProfileClassLevelApiTests(TestCase):
         )
 
     def test_model_widens_class_level_to_fit_the_client_option(self):
-        self.assertEqual(User._meta.get_field('class_level').max_length, 20)
+        self.assertEqual(User._meta.get_field('class_level').max_length, 40)
         self.assertLessEqual(len(CLASS_10_SEE), User._meta.get_field('class_level').max_length)
 
     def test_class_10_see_is_saved_instead_of_500(self):
@@ -75,7 +75,7 @@ class ProfileClassLevelApiTests(TestCase):
         self.assertEqual(self.user.class_level, CLASS_10_SEE)
 
     def test_overlong_class_level_is_refused_with_a_message(self):
-        response = self._post(classLevel='Class 10 / SEE and then some more')
+        response = self._post(classLevel='Class 10 / SEE and then some more words to make it past forty')
 
         self.assertEqual(response.status_code, 400, response.content)
         self.assertEqual(response.json()['field'], 'class_level')
@@ -118,7 +118,7 @@ class ProfileClassLevelWebTests(TestCase):
         self.assertEqual(self.user.class_level, CLASS_10_SEE)
 
     def test_edit_profile_refuses_an_overlong_class_level(self):
-        response = self._post(class_level='Class 10 / SEE and then some more')
+        response = self._post(class_level='Class 10 / SEE and then some more words to make it past forty')
 
         self.assertEqual(response.status_code, 200, response.content[:500])
         self.user.refresh_from_db()

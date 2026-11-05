@@ -14,7 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username', 'email', 'photo_url', 'banner_url', 'display_name',
             'role', 'dob', 'gender', 'class_level', 'subjects', 'teaching_subjects',
-            'institution_type',
+            'institution_type', 'edu_status', 'edu_program', 'edu_term', 'edu_completed',
+            'headline', 'skills', 'open_to',
             'pradesh', 'district', 'school', 'school_username', 'bio', 'is_locked', 'created_at',
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',

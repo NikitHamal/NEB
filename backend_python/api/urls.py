@@ -15,6 +15,7 @@ from . import views_site_theme
 from . import views_syllabus
 from . import views_desktop_auth
 from . import views_content
+from . import views_portfolio
 
 urlpatterns = [
     # Auth
@@ -47,6 +48,10 @@ urlpatterns = [
     # Users — profile
     path('users/check-username/', views.check_username, name='check-username'),
     path('users/profile/', views.user_profile_create_or_update, name='profile-create-update'),
+    path('education/catalog/', views_portfolio.education_catalog_view, name='education-catalog'),
+    path('profile/entries/', views_portfolio.my_entries, name='profile-entries'),
+    path('profile/entries/<int:entry_id>/', views_portfolio.my_entry, name='profile-entry'),
+    path('users/profile/<str:username>/portfolio/', views_portfolio.user_portfolio, name='profile-portfolio'),
     path('users/profile/<str:username>/', views.user_profile_get, name='profile-get'),
     path('users/profile/<str:username>/stats/', views.user_profile_stats, name='profile-stats'),
     path('users/institutions/', views.institutions_list, name='institutions-list'),
