@@ -732,6 +732,25 @@ f.text(150, 210, "order 1: %.1f (violet) to %.1f (red)" % (a1v, a1r), size=10.5,
 f.text(150, 228, "angle theta in degrees from the normal", size=10.5, color=SLATE)
 ```
 
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Cutting glare with polarisers. (a) Polarising sunglasses pass light vibrating in one direction only, arranged to block the horizontal vibrations of glare. (b) The cell applies Malus's law I = I0 cos2(theta): the transmitted fraction is 75 per cent at 30 degrees, 50 per cent at 45 degrees and zero at 90 degrees. Light reflected from water or glass is partly polarised and is completely polarised parallel to the surface at Brewster's angle, tan(p) = n, which is 53.1 degrees for water and 56.3 degrees for glass. A lens turned across that direction therefore removes the glare from a lake or a windscreen while the rest of the scene stays visible."
+@ photo id="ceephy3/sunglasses" cap="Polarising sunglasses"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Malus's law and Brewster's angle"
+import math
+rows = [("%d deg" % a, math.cos(math.radians(a)) ** 2 * 100) for a in (0, 30, 45, 60, 90)]
+bw_, bg = math.degrees(math.atan(1.33)), math.degrees(math.atan(1.5))
+assert round(rows[1][1]) == 75 and round(rows[2][1]) == 50 and round(bw_, 1) == 53.1 and round(bg, 1) == 56.3
+f = Fig(300, 236)
+f.text(150, 12, "Malus: I / I0 = cos^2(theta), per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.0f", x0=56, y0=28, bw=170, gap=26)
+f.text(150, 168, "theta = angle between polariser and analyser", size=10, color=SLATE, bold=True)
+f.text(150, 188, "Brewster angle: water %.1f deg, glass %.1f deg" % (bw_, bg), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "unpolarised light through one polariser: 50%", size=10, color=SLATE, bold=True)
+f.text(150, 222, "then a second at 45 deg: 25% of the original", size=10, color=SLATE, bold=True)
+facts = dict(bw=bw_, bg=bg, a30=rows[1][1], a45=rows[2][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

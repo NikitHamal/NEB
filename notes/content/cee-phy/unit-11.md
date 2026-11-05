@@ -731,6 +731,26 @@ f.text(150, 212, "closed fundamental is half the open one", size=10.5, color=SLA
 f.text(150, 228, "double the length: every frequency halves", size=10.5, color=SLATE)
 ```
 
+```photogrid label="11.2" cols="2" ratio="1.2" caption="Pitch changes with motion. (a) An ambulance sounds its siren as it passes. (b) For a moving source and a still listener the Doppler formula is f' = f c / (c - v) when approaching and f c / (c + v) when receding. The cell takes a siren of 700 Hz, sound speed 343 m/s and a vehicle speed of 25 m/s (90 km/h). The listener hears 755.0 Hz as it approaches and 652.4 Hz as it moves away, a fall of 102.6 Hz that is easily heard. At 40 m/s the approaching pitch is already 792.4 Hz. The same effect, applied to radio waves, lets radar measure the speed of vehicles and storms."
+@ photo id="ceephy3/ambulance" cap="An ambulance with its siren and lights"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Doppler shift of an ambulance siren"
+f0, c = 700.0, 343.0
+rows = [("%d m/s" % v, f0 * c / (c - v)) for v in (0, 10, 25, 40)]
+rec = f0 * c / (c + 25)
+assert round(rows[2][1], 1) == 755.0 and round(rec, 1) == 652.4
+f = Fig(300, 236)
+f.text(150, 12, "Frequency heard while it approaches, Hz", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=820, fmt="%.1f", x0=58, y0=30, bw=160, gap=28,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 150, "siren frequency at rest: 700 Hz, c = 343 m/s", size=10, color=SLATE, bold=True)
+f.text(150, 172, "f' = f c / (c - v) approaching", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "at 25 m/s: %.1f Hz coming, %.1f Hz going" % (rows[2][1], rec), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "drop in pitch as it passes: %.1f Hz" % (rows[2][1] - rec), size=10.5, color=RED, bold=True)
+facts = dict(a=rows[2][1], r=rec, d=rows[2][1] - rec, t=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

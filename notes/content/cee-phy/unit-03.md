@@ -355,6 +355,32 @@ f.text(150, 204, "rim: omega^2 r = {:,.0f} m/s^2 = {:,.0f} g".format(ac, ac / 9.
 f.text(150, 220, "KE = (1/2) I omega^2 = %.2f J (12 g, assumed)" % ke, size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Spinning faster by pulling in the arms. (a) A skater starts a spin with arms and free leg extended and then draws them in. (b) With no external torque the angular momentum L = I w is constant. The cell takes a moment of inertia of 3.0 kg m2 with arms out and 0.9 kg m2 with arms in, and a starting rate of 1.5 turns per second. Then L stays at 28.3 kg m2/s and the rate rises to 5.0 turns per second. The kinetic energy rises from 133 J to 444 J, a factor of 3.33: the extra energy is not free, it comes from the work the skater does against the (apparent) outward pull as the arms move in."
+@ photo id="ceephy3/skater" cap="A figure skater in a spin"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Conservation of angular momentum in a spin"
+import math
+I1, I2, f1 = 3.0, 0.9, 1.5
+w1 = 2 * math.pi * f1
+L = I1 * w1
+w2 = L / I2
+f2 = w2 / (2 * math.pi)
+K1, K2 = 0.5 * I1 * w1 ** 2, 0.5 * I2 * w2 ** 2
+assert round(f2, 1) == 5.0 and round(K1) == 133 and round(K2) == 444
+f = Fig(300, 236)
+f.text(150, 12, "L = I w stays at %.1f kg m2/s" % L, size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "spin rate, turns per second", size=10, color=SLATE, bold=True)
+hbars(f, [("arms out", f1), ("arms in", f2)], vmax=5.2, fmt="%.1f", x0=60, y0=38, bw=170, gap=28)
+f.text(150, 112, "kinetic energy, joules", size=10, color=SLATE, bold=True)
+hbars(f, [("arms out", K1), ("arms in", K2)], vmax=470, fmt="%.0f", x0=60, y0=120, bw=170, gap=28,
+      colors=[(SAND, AMBER), (ROSE, RED)])
+f.text(150, 196, "I falls from %.1f to %.1f kg m2 (x%.2f)" % (I1, I2, I2 / I1), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "energy rises x%.2f: the skater's muscles" % (K2 / K1), size=10, color=SLATE, bold=True)
+f.text(150, 228, "do the extra work pulling the arms in", size=10, color=SLATE, bold=True)
+facts = dict(L=L, f2=f2, K1=K1, K2=K2, r=K2 / K1)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula | SI unit and dimensions |

@@ -447,6 +447,26 @@ f.text(150, 218, "c - v = %.2f m/s" % (c - v), size=10.5, color=NAVY, bold=True)
 f.text(150, 236, "%s laps of the ring per second" % "{:,.0f}".format(rev), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="22.2" cols="2" ratio="1.2" caption="The farther, the faster. (a) Two galaxies in collision, photographed by the Hubble Space Telescope. Light from distant galaxies is shifted to longer wavelengths, which is read as motion away from us. (b) Hubble's law, v = H0 d, with H0 = 70 km/s per megaparsec, is evaluated in the cell. A galaxy 100 Mpc away recedes at 7000 km/s, 0.023 of the speed of light, and one 1000 Mpc away at 0.233 c. Running the expansion backwards, the time since all galaxies were together is 1 / H0 = 14.0 billion years, a first estimate of the age of the universe, close to the accepted 13.8 billion years."
+@ photo id="ceephy3/galaxies" cap="Two interacting galaxies photographed by the Hubble Space Telescope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Hubble's law"
+H0 = 70.0
+rows = [("%d Mpc" % d, H0 * d / 1000) for d in (10, 100, 500, 1000)]
+tH = 977.8 / H0
+assert round(tH, 2) == 13.97 and round(rows[1][1], 1) == 7.0
+c = 299792.458
+f = Fig(300, 236)
+f.text(150, 12, "Recession speed v = H0 d, thousand km/s", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=75, fmt="%.1f", x0=66, y0=30, bw=160, gap=30)
+f.text(150, 158, "H0 = 70 km/s per megaparsec (1 Mpc = 3.26 Mly)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "at 100 Mpc: v = 7000 km/s = %.3f c" % (7000 / c), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "at 1000 Mpc: v = %.3f c" % (70000 / c), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "Hubble time 1 / H0 = %.1f billion years" % tH, size=10.5, color=RED, bold=True)
+facts = dict(t=tH, v100=7000, f100=7000 / c, f1000=70000 / c)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |
