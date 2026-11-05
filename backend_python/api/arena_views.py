@@ -29,7 +29,7 @@ from rest_framework.decorators import api_view, authentication_classes, throttle
 from rest_framework.response import Response
 
 from .arena_common import (
-    get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+    Turn, get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
 )
 from .authentication import AuthTokenAuthentication
 from .models import ArenaChatSession, ArenaChatMessage
@@ -355,13 +355,9 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
         yield sse_done_marker()
         return
 
+    turn = Turn(sess, user_msg_id, asst_msg_id, asst_started_at)
     if preinsert_assistant:
-        ArenaChatMessage.objects.create(
-            id=asst_msg_id, session=sess, role='assistant',
-            content='', parent_id=user_msg_id,
-            arena_message_id='', finish_reason='', error='',
-            duration_ms=0, created_at=asst_started_at,
-        )
+        turn.create_assistant_row()
 
     mode = upstream_kwargs.get('mode')
     if mode == 'regenerate':
@@ -373,13 +369,7 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     preset = registry.preset(sess.provider)
     model = sess.model_id or (preset.default_model if preset else '')
 
-    # Open header — announce assistant role + ids
-    yield sse_format({
-        'choices': [{
-            'index': 0,
-            'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
-        }],
-    })
+    yield turn.header()
 
     collected_text = ''
     finish_reason = 'stop'
@@ -454,38 +444,7 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
             'error': {'message': error_text, 'code': 'upstream'},
         })
 
-    # Finalise the assistant row
-    duration_ms = max(0, now_ms() - asst_started_at)
-    try:
-        ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
-            content=collected_text,
-            finish_reason=finish_reason,
-            error=error_text[:200],
-            duration_ms=duration_ms,
-            arena_message_id=asst_msg_id,
-        )
-    except Exception as e:
-        logger.exception("stream[%s]: failed to finalize assistant row: %s", sess.provider, e)
-
-    # Bump session counters on success (no arena token to commit)
-    if not error_text and bump_session_counter:
-        try:
-            ArenaChatSession.objects.filter(pk=sess.id).update(
-                message_count=sess.message_count + 1,
-                last_message_at=now_ms(),
-                updated_at=now_ms(),
-            )
-            sess.message_count = sess.message_count + 1
-            sess.last_message_at = now_ms()
-        except Exception as e:
-            logger.warning("stream[%s]: counter commit failed: %s", sess.provider, e)
-
-    # Final SSE event
-    if not error_text:
-        yield sse_format({
-            'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
-        })
-    yield sse_done_marker()
+    yield from turn.close(collected_text, finish_reason, error_text, bump_counter=bump_session_counter)
 
 
 def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at: int,
