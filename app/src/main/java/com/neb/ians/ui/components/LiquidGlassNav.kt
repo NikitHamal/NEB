@@ -53,6 +53,25 @@ import androidx.compose.ui.unit.sp
 import com.neb.ians.R
 import com.neb.ians.ui.theme.nebFastSpatialSpec
 import androidx.compose.material.icons.rounded.Close
+import android.os.Build
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlurEffect
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntSize
 
 // ---------------------------------------------------------------------------
 // NEBians "N" logo as a Compose drawable.
@@ -162,6 +181,7 @@ fun LiquidGlassBottomNav(
     photoUrl: String? = null,
     username: String = "",
     onProfileClick: (() -> Unit)? = null,
+    backdrop: GlassBackdrop? = null,
 ) {
     val isDark = MaterialTheme.colorScheme.surface.luminanceIsDark()
     val isLowEnd = com.neb.ians.util.rememberIsLowEndDevice()
@@ -220,9 +240,7 @@ fun LiquidGlassBottomNav(
                 Row(
                     modifier = Modifier
                         .height(navHeight)
-                        .clip(CircleShape)
-                        .background(barBrush)
-                        .border(1.dp, barBorder, CircleShape)
+                        .liquidGlass(backdrop, CircleShape)
                         .padding(horizontal = 6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -270,7 +288,7 @@ fun LiquidGlassBottomNav(
                                 scaleY = createScale
                                 rotationZ = shapeSpin
                             }
-                            .clip(createShape)
+                            .liquidGlass(backdrop, createShape)
                             // The same surface the rail is, down to the brush
                             // and the hairline. A saturated blue slab sitting
                             // against a neutral bar reads as two materials that
@@ -282,8 +300,6 @@ fun LiquidGlassBottomNav(
                             // -- the same trick the expanded menu uses, where
                             // every pill is the light surface and only the icon
                             // differs.
-                            .background(barBrush)
-                            .border(1.dp, barBorder, createShape)
                             .clickable(
                                 interactionSource = createInteractionSource,
                                 indication = ripple(bounded = true, color = primaryColor),
@@ -441,4 +457,69 @@ private fun GlassNavItem(item: NebNavItem, selected: Boolean, onClick: () -> Uni
 private fun Color.luminanceIsDark(): Boolean {
     val l = 0.299f * red + 0.587f * green + 0.114f * blue
     return l < 0.5f
+}
+
+// ---------------------------------------------------------------------------
+// Real glass: the screen behind the bar is captured into a layer, blurred, and
+// tinted, so what scrolls under the nav is genuinely seen through it.
+// ---------------------------------------------------------------------------
+
+/** The captured screen content a glass surface blurs; see [glassSource] and [liquidGlass]. */
+@Stable
+class GlassBackdrop internal constructor(internal val layer: GraphicsLayer) {
+    internal var origin by mutableStateOf(Offset.Zero)
+}
+
+@Composable
+fun rememberGlassBackdrop(): GlassBackdrop {
+    val layer = rememberGraphicsLayer()
+    return remember(layer) { GlassBackdrop(layer) }
+}
+
+/** Marks the content that sits behind glass: it still draws normally and is also recorded. */
+fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = this
+    .onGloballyPositioned { backdrop.origin = it.positionInRoot() }
+    .drawWithContent {
+        backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
+            this@drawWithContent.drawContent()
+        }
+        drawLayer(backdrop.layer)
+    }
+
+/**
+ * A liquid-glass surface: the backdrop blurred (Android 12 and up), a neutral surface tint, a
+ * soft light sheen across the top and a hairline rim. Older systems get a near-opaque tint.
+ * Flat colour only: no shadow, no coloured wash.
+ */
+@Composable
+fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 22.dp): Modifier {
+    val scheme = MaterialTheme.colorScheme
+    val dark = scheme.surface.luminanceIsDark()
+    val blurLayer = rememberGraphicsLayer()
+    val blurPx = with(LocalDensity.current) { blur.toPx() }
+    val canBlur = backdrop != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    SideEffect {
+        blurLayer.renderEffect = if (canBlur) BlurEffect(blurPx, blurPx, TileMode.Clamp) else null
+    }
+    var origin by remember { mutableStateOf(Offset.Zero) }
+    val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.50f else 0.56f) else scheme.surface.copy(alpha = 0.95f)
+    val sheen = Brush.verticalGradient(
+        0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
+        0.55f to Color.Transparent
+    )
+    return this
+        .onGloballyPositioned { origin = it.positionInRoot() }
+        .clip(shape)
+        .drawBehind {
+            if (canBlur && backdrop != null) {
+                blurLayer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
+                    val d = origin - backdrop.origin
+                    translate(-d.x, -d.y) { drawLayer(backdrop.layer) }
+                }
+                drawLayer(blurLayer)
+            }
+            drawRect(tint)
+            drawRect(sheen)
+        }
+        .border(1.dp, scheme.outlineVariant.copy(alpha = 0.85f), shape)
 }

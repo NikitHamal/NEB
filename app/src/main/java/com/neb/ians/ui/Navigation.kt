@@ -53,6 +53,7 @@ import com.neb.ians.data.repository.AuthState
 import com.neb.ians.util.DeepLinkBus
 import kotlinx.coroutines.launch
 import com.neb.ians.ui.components.LiquidGlassBottomNav
+import com.neb.ians.ui.components.glassSource
 import com.neb.ians.ui.components.LiquidGlassProfileSheet
 import com.neb.ians.ui.components.NebFabAction
 import com.neb.ians.ui.components.NebFabMenuScrim
@@ -364,11 +365,13 @@ fun NEBiansNavHost(
         }
     }
 
+    val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
+
     Box(modifier = Modifier.fillMaxSize()) {
         NavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().glassSource(glassBackdrop),
             // Shared-axis motion on springs: the next screen travels a short, decisive distance and
             // settles with a little life, the one behind drifts the other way and fades.
             enterTransition = {
@@ -1060,6 +1063,7 @@ fun NEBiansNavHost(
                 menuActions = createMenuActions,
                 menuExpanded = showCreateMenu,
                 onMenuDismiss = { showCreateMenu = false },
+                backdrop = glassBackdrop,
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
