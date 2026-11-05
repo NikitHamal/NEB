@@ -5,12 +5,7 @@ from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 
 from .throttles import ArenaChatRateThrottle
-
-
-def _require_user(request):
-    from .views import _require_user as _ru
-
-    return _ru(request)
+from .view_helpers import _require_user
 
 
 @api_view(["GET"])
