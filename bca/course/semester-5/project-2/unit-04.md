@@ -181,6 +181,51 @@ Before the demo go through this checklist: HTTPS works; the secret is in the env
 7. **Back up and rehearse a restore.** Copy the database daily to another machine. Practise restoring it onto a clean server once, because a backup that was never restored is not proof of anything.
 8. **Prepare a fallback.** Keep a recorded demo, screenshots and a local copy ready. Load-shedding or a failed Wi-Fi link in a Nepali college is common; a calm switch to the fallback shows maturity, not failure.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="The knee of the load curve. (a) Traffic west of Kathmandu: a road carries traffic smoothly until it is nearly full and then the queue grows without limit. (b) A server that finishes 50 requests a second is a single-queue system, and its mean response time is 1 / (mu - lambda). At 50 per cent load a request takes 40 ms, at 90 per cent 200 ms and at 98 per cent 1000 ms. The formula was checked by simulating 200,000 requests with random (exponential) arrivals and service times, which gave 198 ms at 90 per cent load. For ClinicQ this means that a load test must report the response time at 70, 80 and 90 per cent of capacity and not only the average at a quiet hour, and that the safe plan is to add capacity before utilisation passes about 70 per cent."
+@ photo id="bcapj/jam" cap="Traffic west of Kathmandu: the queue builds near full load"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Response time vs server utilisation"
+import random
+mu = 50.0
+rhos = [0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.98]
+R = lambda rho: 1000.0 / (mu * (1 - rho))
+random.seed(2081)
+lam = 0.9 * mu
+n = 200000
+wait = 0.0
+tot = 0.0
+for _ in range(n):
+    s = random.expovariate(mu)
+    tot += wait + s
+    a = random.expovariate(lam)
+    wait = max(0.0, wait + s - a)
+sim = 1000 * tot / n
+assert abs(sim - R(0.9)) / R(0.9) < 0.2
+facts = dict(r50=round(R(0.5)), r90=round(R(0.9)), r98=round(R(0.98)), sim=round(sim), mu=int(mu))
+f = Fig(300, 236)
+f.text(150, 12, "service rate 50 requests/s", size=10.5, color=NAVY, bold=True)
+x0, y0, W, H = 40, 186, 240, 150
+f.line(x0, y0, x0 + W, y0, color=SLATE)
+f.line(x0, y0, x0, y0 - H, color=SLATE)
+pts = []
+for i in range(0, 99):
+    rho = 0.5 + i * 0.0049
+    if rho >= 0.985: break
+    pts.append((x0 + (rho - 0.5) / 0.5 * W, y0 - min(R(rho), 1000) / 1000 * H))
+for p, q in zip(pts, pts[1:]):
+    f.line(p[0], p[1], q[0], q[1], color=NAVY, sw=2)
+for rho in (0.5, 0.7, 0.9):
+    f.text(x0 + (rho - 0.5) / 0.5 * W, y0 + 13, "%d%%" % (rho * 100), size=10.5, color=NAVY, bold=True)
+f.text(x0 + W / 2, y0 + 28, "server utilisation", size=10.5, color=SLATE)
+for v in (0, 500, 1000):
+    f.text(x0 - 5, y0 - v / 1000 * H, str(v), size=10.5, color=SLATE, anchor="end", vmid=True)
+f.circle(x0 + 0.8 * W, y0 - sim / 1000 * H, 4.5, fill="#fde68a", stroke=RED)
+f.text(x0 + 0.8 * W - 8, y0 - sim / 1000 * H - 4, "sim %d ms" % round(sim), size=10.5, color=RED, bold=True, anchor="end")
+f.text(14, 100, "ms", size=10.5, color=SLATE)
+f.text(150, 232, "R = 1 / (mu - lambda)", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Little's law: concurrent requests = arrival rate × time per request.
