@@ -176,6 +176,68 @@ f.text(435, 158, "output-restricted: delete at one end only", size=9.5, color=SL
 f.text(290, 215, "queue = deque with insert at rear and delete at front; stack = deque used at one end", size=9.5, color=AMBER, bold=True)
 ```
 
+A circular queue is easiest to see on a ring, and a priority queue is easiest to feel in an emergency room. Both plates below come from simulations whose numbers are asserted.
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Why the queue wraps round. (a) An elliptical road interchange: vehicles leave at the far end of the ring and the space they leave behind is reused by those who arrive later. (b) A circular queue of 5 cells, simulated. Five items 10 to 50 fill the queue; three are dequeued (front moves to index 3); three more, 60, 70 and 80, are enqueued and wrap into indices 0, 1 and 2. A linear array queue would have refused 60 because its rear index was already at the last cell, wasting 3 free cells."
+@ photo id="bca203/roundabout" cap="Ring-shaped interchange seen from above"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Circular queue of size 5 after wrap-around"
+N = 5; q = [None] * N; fr = 0; rr = -1; cntq = 0
+def enq(v):
+    global rr, cntq
+    assert cntq < N
+    rr = (rr + 1) % N; q[rr] = v; cntq += 1
+def deq():
+    global fr, cntq
+    v = q[fr]; q[fr] = None; fr = (fr + 1) % N; cntq -= 1; return v
+for v in (10, 20, 30, 40, 50): enq(v)
+linear_rear_full = (rr == N - 1)
+for _ in range(3): deq()
+for v in (60, 70, 80): enq(v)
+assert q == [60, 70, 80, 40, 50] and fr == 3 and rr == 2 and cntq == 5 and linear_rear_full
+f = Fig(300, 252)
+cx, cy, R = 150, 104, 66
+for i in range(N):
+    ang = -math.pi / 2 + i * 2 * math.pi / N
+    x, y = cx + R * math.cos(ang), cy + R * math.sin(ang)
+    isf, isr = i == fr, i == rr
+    f.circle(x, y, 22, fill=(MINT if isf else (SAND if isr else BLUE)), stroke=(TEAL if isf else (AMBER if isr else NAVY)), label=str(q[i]), size=11)
+    f.text(x, y - 28 if i in (0, 1, 4) else y + 35, "[%d]" % i, size=9, color=SLATE, bold=True)
+f.text(cx, cy - 6, "front = %d" % fr, size=10, color=TEAL, bold=True)
+f.text(cx, cy + 10, "rear = %d" % rr, size=10, color=AMBER, bold=True)
+f.box(8, 200, 284, 44, "enqueue 10..50, dequeue 3, enqueue 60, 70, 80:\nrear wraps (rear + 1) mod 5; a linear queue would\nreport full with 3 cells empty", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="3.3" cols="2" ratio="1.3" caption="A priority queue in an emergency room. (a) An ambulance of the Cleveland Emergency Medical Service: patients are not served in arrival order but by urgency. (b) Six patients arrive together and each needs 10 minutes. Served first-come first-served, the two priority-1 patients (cardiac arrest, bleeding) wait 20 and 40 minutes, an average of 30. Served by priority, they wait 0 and 10 minutes, an average of 5. The order was produced by Python's heapq, a binary-heap priority queue."
+@ photo id="bca203/ambulance" cap="Ambulance, Cleveland EMS"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Waiting time, FIFO vs priority (minutes)"
+import heapq
+pts = [("Sita", 3, "sprain"), ("Ram", 2, "fracture"), ("Hari", 1, "cardiac"), ("Gita", 3, "fever"), ("Mina", 1, "bleeding"), ("Anil", 2, "cut")]
+fifo = list(range(6))
+h = [(p, i) for i, (n, p, d) in enumerate(pts)]
+heapq.heapify(h); prio = []
+while h: prio.append(heapq.heappop(h)[1])
+def waits(order): return {pts[k][0]: 10 * pos for pos, k in enumerate(order)}
+wf, wp = waits(fifo), waits(prio)
+critical = [n for n, p, d in pts if p == 1]
+af = sum(wf[n] for n in critical) / 2; ap = sum(wp[n] for n in critical) / 2
+assert (af, ap) == (30, 5) and [pts[k][0] for k in prio] == ["Hari", "Mina", "Ram", "Anil", "Sita", "Gita"]
+colr = {1: (ROSE, RED), 2: (SAND, AMBER), 3: (MINT, TEAL)}
+f = Fig(300, 210)
+for r, (title, order, y0) in enumerate((("first come, first served", fifo, 22), ("priority queue (heap)", prio, 100))):
+    f.text(8, y0 - 8, title, size=10, color=NAVY, bold=True, anchor="start")
+    for pos, k in enumerate(order):
+        n, p, d = pts[k]
+        fl, st2 = colr[p]
+        f.box(8 + pos * 47, y0, 46, 34, n, fill=fl, stroke=st2, size=9, bold=True, r=2)
+        f.text(8 + pos * 47 + 23, y0 + 45, "%d min" % (10 * pos), size=8.5, color=SLATE)
+f.text(8, 170, "avg wait of priority-1 patients (red): FIFO %d min, heap %d min" % (af, ap), size=9.5, color=RED, bold=True, anchor="start")
+f.text(8, 188, "colour = priority: red 1, amber 2, green 3", size=9, color=SLATE, anchor="start")
+```
+
 ### 3.5.1 Eight applications of queues
 
 1. **Printer and job spooling.** When many users send documents to one printer in a college lab, the spooler places the jobs in a queue and prints them in arrival order. No job is lost and none jumps ahead. The same idea is used for batch jobs on a shared server.
