@@ -1494,6 +1494,32 @@
     "source": "Wikimedia Commons",
     "title": "400 points breadboard"
   },
+  "bca103/ff74": {
+    "author": "Mister rf",
+    "bytes": 307536,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/ff74.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:SN74ALS74AN.jpg",
+    "sha1": "ecb07c267a1c6683",
+    "source": "Wikimedia Commons",
+    "title": "SN74ALS74AN"
+  },
+  "bca103/freqctr": {
+    "author": "User:Coaster J",
+    "bytes": 477768,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/freqctr.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Frequency_counter.JPG",
+    "sha1": "bf9635d5b1f8950a",
+    "source": "Wikimedia Commons",
+    "title": "Frequency counter"
+  },
   "bca103/hc00": {
     "author": "cole8888",
     "bytes": 2124941,
@@ -1520,6 +1546,32 @@
     "source": "Wikimedia Commons",
     "title": "HFO 7447 6M"
   },
+  "bca103/jk73": {
+    "author": "Pradeep717",
+    "bytes": 303778,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/jk73.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:HD74LS73AP.JPG",
+    "sha1": "759a969c266754db",
+    "source": "Wikimedia Commons",
+    "title": "HD74LS73AP"
+  },
+  "bca103/liftpanel": {
+    "author": "Pjotr Mahhonin",
+    "bytes": 371506,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/liftpanel.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hotel_Mediterranean_Otis_Elevator_or_Lift_Control_Panel_Rhodes_6_August_2025.jpg",
+    "sha1": "6d378567133e2081",
+    "source": "Wikimedia Commons",
+    "title": "Hotel Mediterranean Otis Elevator or Lift Control Panel Rhodes 6 August 2025"
+  },
   "bca103/logican": {
     "author": "DGtal",
     "bytes": 363121,
@@ -1532,6 +1584,19 @@
     "sha1": "53efc2b5247889ec",
     "source": "Wikimedia Commons",
     "title": "Hewlett-Packard 1653B Logic analyzer"
+  },
+  "bca103/ne555": {
+    "author": "Swift.Hg",
+    "bytes": 331798,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/ne555.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:NE555_DIP_%26_SOIC.jpg",
+    "sha1": "fb72284f343f4437",
+    "source": "Wikimedia Commons",
+    "title": "NE555 DIP & SOIC"
   },
   "bca103/scope": {
     "author": "Xato",
@@ -1558,6 +1623,32 @@
     "sha1": "61e1f264ca101879",
     "source": "Wikimedia Commons",
     "title": "LED-7-Segment-Display"
+  },
+  "bca103/sr595": {
+    "author": "Towel401 at English Wikipedia",
+    "bytes": 142182,
+    "credit": "Transferred from en.wikipedia to Commons.",
+    "fetched": "2026-11-05",
+    "file": "bca103/sr595.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:74HC595.jpg",
+    "sha1": "5bb53101c827a9bf",
+    "source": "Wikimedia Commons",
+    "title": "74HC595"
+  },
+  "bca103/turnstile": {
+    "author": "User:ArnoldReinhold",
+    "bytes": 520969,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/turnstile.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Turnstiles_in_Alewife_station,_August_2005.jpg",
+    "sha1": "2ddb19d0903f0ad1",
+    "source": "Wikimedia Commons",
+    "title": "Turnstiles in Alewife station, August 2005"
   },
   "bca104/arch": {
     "author": "TheWB",
