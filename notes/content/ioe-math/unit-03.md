@@ -74,6 +74,29 @@ With $s=\frac{a+b+c}{2}$ and area $\Delta$:
 
 **Solving triangles.** SSS: cosine rule. SAS: cosine rule then sine rule. ASA: third angle and sine rule. **SSA** is ambiguous: with $A$ acute and $a<b$, there are two triangles if $a>b\sin A$, one right triangle if $a=b\sin A$, none if $a<b\sin A$.
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Trigonometry from a shadow. (a) A sundial on a church wall: the gnomon's shadow marks the time because the sun's altitude and direction change through the day. (b) At local noon the sun's altitude is alpha = 90 degrees - latitude + declination. For Kathmandu (27.7 degrees N) and a 20 cm gnomon, the shadow length is s = h / tan(alpha) = h cot(alpha). The three values are computed for the two solstices and the equinox; in June the shadow almost vanishes, in December it is about seventeen times longer."
+@ photo id="ioemath/sundial" cap="A sundial: the shadow of the gnomon tells the time"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Noon shadow of a 20 cm gnomon at 27.7 N"
+import math
+lat, h = 27.7, 20.0
+cases = [("June solstice", 23.44, AMBER, SAND), ("equinox", 0.0, TEAL, MINT), ("December solstice", -23.44, NAVY, BLUE)]
+res = []
+for n, dec, c, b in cases:
+    al = 90 - lat + dec; s = h / math.tan(math.radians(al)); res.append((n, al, s, c, b))
+assert abs(res[1][1] - 62.3) < 1e-9 and abs(res[0][2] - 1.49) < 0.02 and abs(res[1][2] - 10.5) < 0.1 and abs(res[2][2] - 24.8) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "altitude and shadow at local noon", size=10.5, color=NAVY, bold=True)
+for i, (n, al, s, c, b) in enumerate(res):
+    y = 30 + i * 52; w = 220 * s / 24.8
+    f.text(8, y, "%s: altitude %.1f°" % (n, al), size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, max(w, 4), 20, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(max(w, 4) + 14, y + 16, "%.1f cm" % s, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "s = h / tan(α),  α = 90° - φ + δ", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "December shadow is %.0f times June's" % (res[2][2] / res[0][2]), size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
