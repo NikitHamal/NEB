@@ -213,13 +213,72 @@ def post_detail(request, post_id):
 @permission_classes([AllowAny])
 @throttle_classes([ViewIncrementRateThrottle])
 def post_view(request, post_id):
-    """POST /api/posts/<postId>/view — increment view_count."""
+    """POST /api/posts/<postId>/view — record one view (once per viewer per day).
+
+    Body (all optional): surface = feed|search|profile|share|direct|notification|related,
+    dwell_ms = how long the post has been on screen (resend as the reader leaves).
+    """
+    from . import post_reach
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return Response({'error': 'Post not found'}, status=404)
-    Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
-    return Response({'view_count': post.view_count + 1})
+    user = _get_user_from_request(request)
+    try:
+        dwell = int(request.data.get('dwell_ms') or 0)
+    except (TypeError, ValueError):
+        dwell = 0
+    out = post_reach.record_view(request, post, user, surface=str(request.data.get('surface') or ''), dwell_ms=dwell)
+    return Response({'view_count': out['view_count'], 'counted': out['counted']})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([ViewIncrementRateThrottle])
+def post_impressions(request):
+    """POST /api/posts/impressions/ — {"ids": [...]} posts that scrolled into view."""
+    from . import post_reach
+    ids = request.data.get('ids') if hasattr(request.data, 'get') else None
+    if not isinstance(ids, list):
+        return Response({'error': 'ids must be a list'}, status=400)
+    return Response({'recorded': post_reach.record_impressions(request, ids)})
+
+
+@api_view(['GET'])
+def post_insights(request, post_id):
+    """GET /api/posts/<postId>/insights/?days=7|30|90 — author and staff only."""
+    from . import post_insights as _ins
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return Response({'error': 'Post not found'}, status=404)
+    if post.user_id != user.id and not getattr(user, 'is_admin', False):
+        return Response({'error': 'Only the author can see these insights'}, status=403)
+    try:
+        days = int(request.query_params.get('days', 30))
+    except (TypeError, ValueError):
+        days = 30
+    return Response(_ins.build(post, days=days, staff=bool(getattr(user, 'is_admin', False))))
+
+
+@api_view(['POST', 'DELETE'])
+@throttle_classes([WriteActionRateThrottle])
+def poll_options_endpoint(request, poll_id):
+    """POST /api/polls/<id>/options/ {text, vote?} — add an option (polls that allow it)."""
+    from . import polls as _polls
+    user, err = _require_user(request)
+    if err:
+        return err
+    if request.method == 'DELETE':
+        payload, code = _polls.retract_vote(user, poll_id)
+        return Response(payload, status=code)
+    vote = request.data.get('vote', True)
+    payload, code = _polls.add_option(user, poll_id, request.data.get('text', ''), vote=bool(vote))
+    return Response(payload, status=code)
+
 
 @api_view(['POST'])
 @throttle_classes([WriteActionRateThrottle])
@@ -282,8 +341,14 @@ def replies_create(request, post_id):
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
         return error_response
-    # Voice notes / attachments can be the entire reply.
-    if not content and not attachments:
+    from . import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(request.data.get('poll'))
+    if poll_error:
+        return Response({'error': poll_error}, status=400)
+    if parent_reply_id and poll_data:
+        return Response({'error': 'Polls can only be added to top-level comments'}, status=400)
+    # Voice notes / attachments / a poll can be the entire reply.
+    if not content and not attachments and not poll_data:
         return Response({'error': 'Content is required'}, status=400)
     anonymous = _client_wants_anonymous(request)
 
@@ -481,22 +546,10 @@ def posts_endpoint(request):
     if image_urls and len(image_urls) > POST_IMAGE_MAX_COUNT:
         return Response({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
 
-    poll_data = None
-    poll_raw = request.data.get('poll')
-    if poll_raw:
-        options = poll_raw.get('options', [])
-        if len(options) < 2:
-            return Response({'error': 'Poll must have at least 2 options'}, status=400)
-        if len(options) > 6:
-            return Response({'error': 'Poll can have at most 6 options'}, status=400)
-        for opt in options:
-            if not opt.strip():
-                return Response({'error': 'Poll options cannot be empty'}, status=400)
-        poll_data = {
-            'question': poll_raw.get('question', ''),
-            'duration_ms': int(poll_raw.get('duration_ms', 0) or 0),
-            'options': [opt.strip() for opt in options],
-        }
+    from . import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(request.data.get('poll'))
+    if poll_error:
+        return Response({'error': poll_error}, status=400)
 
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
@@ -520,7 +573,7 @@ def replies_endpoint(request, post_id):
     POST /api/posts/<postId>/replies  → create reply
     """
     if request.method == 'GET':
-        replies = Reply.objects.filter(post_id=post_id, user__email_verified=True).select_related('user', 'post')
+        replies = Reply.objects.filter(post_id=post_id, user__email_verified=True).select_related('user', 'post', 'poll')
         return _paginated_response(request, replies, ReplySerializer, context={'request': request})
 
     # POST — create reply
@@ -546,8 +599,14 @@ def replies_endpoint(request, post_id):
     attachments, error_response = _parse_attachments_or_error(request)
     if error_response:
         return error_response
-    # Voice notes / attachments can be the entire reply.
-    if not content and not attachments:
+    from . import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(request.data.get('poll'))
+    if poll_error:
+        return Response({'error': poll_error}, status=400)
+    if parent_reply_id and poll_data:
+        return Response({'error': 'Polls can only be added to top-level comments'}, status=400)
+    # Voice notes / attachments / a poll can be the entire reply.
+    if not content and not attachments and not poll_data:
         return Response({'error': 'Content is required'}, status=400)
     anonymous = _client_wants_anonymous(request)
 
@@ -569,6 +628,8 @@ def replies_endpoint(request, post_id):
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
         if attachments:
             _attach_forum_media(reply, attachments, now)
+        if poll_data:
+            _polls.create_poll(poll_data, reply=reply, now=now)
 
     logger.info("replies_endpoint: created reply on post %s by user %s", post_id, user.username)
     _counters.increment_user_reply_count(user.id)

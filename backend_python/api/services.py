@@ -92,7 +92,8 @@ def toggle_reply_like(user, reply_id):
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
 
-def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=False, attachments=None):
+def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=False, attachments=None,
+                 poll_data=None):
     if not getattr(user, 'email_verified', False):
         return None
     try:
@@ -100,7 +101,7 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
     except Post.DoesNotExist:
         return None
     content = content.strip()
-    if not content and not attachments:
+    if not content and not attachments and not poll_data:
         return None
     if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
         # Invalid parent reply (missing or belongs to another post)
@@ -122,6 +123,9 @@ def create_reply(user, post_id, content, parent_reply_id=None, is_anonymous=Fals
         Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
         if parent_reply_id:
             Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
+        if poll_data:
+            from . import polls as _polls
+            _polls.create_poll(poll_data, reply=reply, now=now)
         if attachments:
             from .models import PostMedia
             for order, item in enumerate(attachments):
@@ -186,38 +190,8 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
                 order=order, created_at=now,
             )
     if poll_data:
-        poll = Poll.objects.create(
-            id=uuid_str(),
-            post=post,
-            question=poll_data.get('question', ''),
-            poll_type=poll_data.get('poll_type', 'voting'),
-            allow_multiple=poll_data.get('allow_multiple', False),
-            explanation=poll_data.get('explanation', ''),
-            duration_ms=poll_data.get('duration_ms', 0),
-            total_votes=0,
-            created_at=now,
-        )
-        poll_options = []
-        for i, opt in enumerate(poll_data.get('options', [])):
-            if isinstance(opt, dict):
-                opt_text = opt.get('text', '').strip()
-                is_correct = opt.get('is_correct', False)
-            else:
-                opt_text = opt.strip()
-                is_correct = False
-            if opt_text:
-                poll_options.append(
-                    PollOption(
-                        id=uuid_str(),
-                        poll=poll,
-                        text=opt_text,
-                        is_correct=is_correct,
-                        vote_count=0,
-                        order=i,
-                    )
-                )
-        if poll_options:
-            PollOption.objects.bulk_create(poll_options)
+        from . import polls as _polls
+        _polls.create_poll(poll_data, post=post, now=now)
     _counters.increment_user_post_count(user.id)
     _neby.enqueue_if_post_mention(post)
     _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
@@ -277,19 +251,11 @@ def vote_poll(user, poll_id, option_ids):
             )
             PollOption.objects.filter(pk=opt.id).update(vote_count=F('vote_count') + 1)
             Poll.objects.filter(pk=poll_id).update(total_votes=F('total_votes') + 1)
-    poll.refresh_from_db()
-    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
-    return {
-        'id': poll.id,
-        'question': poll.question,
-        'pollType': poll.poll_type,
-        'allowMultiple': poll.allow_multiple,
-        'explanation': poll.explanation,
-        'total_votes': poll.total_votes,
-        'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'is_correct': o.is_correct, 'vote_count': o.vote_count, 'order': o.order} for o in options],
-        'userVote': [str(o.id) for o in valid_options] if poll.allow_multiple else str(valid_options[0].id),
-    }, 200
+    from . import polls as _polls
+    poll = Poll.objects.prefetch_related('options').get(pk=poll_id)
+    payload = _polls.poll_dict(poll, user.id)
+    payload['total_votes'] = poll.total_votes
+    return payload, 200
 
 
 def toggle_follow(user, target_user_id, desired=None):

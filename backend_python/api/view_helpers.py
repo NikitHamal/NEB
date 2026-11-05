@@ -265,8 +265,10 @@ def prime_for_serializers(user, posts=(), resources=(), replies=()):
                                          .values_list('target_id', flat=True))
         # The polls were prefetched above, so a page without one needs no vote lookup.
         if any(_may_have_poll(p) for p in posts):
-            ctx['user_poll_votes'] = dict(PollVote.objects.filter(poll__post_id__in=ids, user=user)
-                                          .values_list('poll_id', 'option_id'))
+            _votes = {}
+            for _pid, _oid in PollVote.objects.filter(poll__post_id__in=ids, user=user).values_list('poll_id', 'option_id'):
+                _votes.setdefault(_pid, set()).add(_oid)
+            ctx['user_poll_votes'] = _votes
         else:
             ctx['user_poll_votes'] = {}
     if resources:
