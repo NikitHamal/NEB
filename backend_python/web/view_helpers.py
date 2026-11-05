@@ -505,28 +505,8 @@ def _serialize_post_images(post_id):
     return [{'id': img.id, 'imageUrl': img.image_url, 'order': img.order} for img in images]
 
 def _serialize_post_poll(post_id, user_id=None):
-    try:
-        poll = Poll.objects.get(post_id=post_id)
-    except Poll.DoesNotExist:
-        return None
-    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
-    user_vote = None
-    if user_id:
-        vote = PollVote.objects.filter(poll=poll, user_id=user_id).select_related('option').first()
-        if vote:
-            user_vote = vote.option_id
-    return {
-        'id': poll.id,
-        'question': poll.question,
-        'pollType': poll.poll_type,
-        'allowMultiple': poll.allow_multiple,
-        'explanation': poll.explanation,
-        'durationMs': poll.duration_ms,
-        'totalVotes': poll.total_votes,
-        'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in options],
-        'userVote': user_vote,
-    }
+    from api import polls as _polls
+    return _polls.for_posts([post_id], user_id).get(post_id)
 
 def _serialize_web_media_item(m):
     import json
@@ -584,23 +564,8 @@ def _serialize_posts(posts_qs, user_id=None):
     all_media = {}
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.post_id, []).append(_serialize_web_media_item(m))
-    all_polls = {}
-    polls = list(Poll.objects.filter(post_id__in=post_ids).prefetch_related('options'))
-    user_votes_by_poll = {}
-    if user_id and polls:
-        for v in PollVote.objects.filter(poll__post_id__in=post_ids, user_id=user_id):
-            user_votes_by_poll.setdefault(v.poll_id, v.option_id)
-    for poll in polls:
-        opts = poll.options.all()
-        user_vote = user_votes_by_poll.get(poll.id)
-        all_polls[poll.post_id] = {
-            'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
-            'allowMultiple': poll.allow_multiple, 'explanation': poll.explanation,
-            'durationMs': poll.duration_ms,
-            'totalVotes': poll.total_votes, 'isExpired': poll.is_expired,
-            'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in opts],
-            'userVote': user_vote,
-        }
+    from api import polls as _polls
+    all_polls = _polls.for_posts(post_ids, user_id)
     result = []
     from api.services import get_user_anon_tag
     for p in posts:
@@ -705,6 +670,8 @@ def _serialize_replies(replies_qs, user_id=None):
     reply_ids = [r.id for r in replies]
     for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.reply_id, []).append(_serialize_web_media_item(m))
+    from api import polls as _polls
+    reply_polls = _polls.for_replies(reply_ids, user_id)
     child_reply_ids = {}
     for r in replies:
         if r.parent_reply_id:
@@ -770,9 +737,14 @@ def _serialize_replies(replies_qs, user_id=None):
             'isFollowed': False if anon else r.user_id in followed_author_ids,
             'isBookmarked': r.id in bookmarked_ids,
             'attachments': all_media.get(r.id, []),
+            'poll': reply_polls.get(r.id),
             **_forum_labels.reply_extras(r, user_id, _viewer_is_admin),
         })
     return result
+
+def _serialize_reply_poll(reply_id, user_id=None):
+    from api import polls as _polls
+    return _polls.for_replies([reply_id], user_id).get(reply_id)
 
 def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
     is_thumbed_up = False
@@ -808,6 +780,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'isThumbedUp': is_thumbed_up,
         'isBookmarked': is_bookmarked,
         'attachments': media,
+        'poll': _serialize_reply_poll(r.id, user_id),
         **_forum_labels.reply_extras(r, user_id, False),
     }
 

@@ -296,45 +296,28 @@ class PollOptionSerializer(serializers.ModelSerializer):
 
 
 class PollSerializer(serializers.ModelSerializer):
-    options = PollOptionSerializer(many=True, read_only=True)
-    isExpired = serializers.SerializerMethodField()
-    pollType = serializers.CharField(source='poll_type', read_only=True)
-    allowMultiple = serializers.BooleanField(source='allow_multiple', read_only=True)
-    durationMs = serializers.IntegerField(source='duration_ms', read_only=True)
-    totalVotes = serializers.IntegerField(source='total_votes', read_only=True)
-    createdAt = serializers.IntegerField(source='created_at', read_only=True)
-    userVote = serializers.SerializerMethodField()
+    """Delegates to api.polls.poll_dict so web, app and realtime share one shape."""
 
     class Meta:
         model = Poll
-        fields = ['id', 'question', 'poll_type', 'allow_multiple', 'explanation', 'duration_ms', 'total_votes',
-                  'pollType', 'allowMultiple', 'durationMs', 'totalVotes', 'createdAt', 'isExpired', 'userVote', 'options']
+        fields = ['id']
 
-    def get_isExpired(self, obj):
-        return obj.is_expired
-
-    def get_userVote(self, obj):
+    def to_representation(self, obj):
+        from . import polls
         request = self.context.get('request')
-        if not request or not hasattr(request, 'user') or request.user is None:
-            return None
-        user = request.user
-        if not isinstance(user, User):
-            return None
-        user_poll_votes = self.context.get('user_poll_votes')
-        if user_poll_votes is not None:
-            vote = user_poll_votes.get(obj.id)
-            if vote is None:
-                return None
-            return str(vote)
-        try:
-            votes = list(PollVote.objects.filter(poll=obj, user=user).values_list('option_id', flat=True))
-        except Exception:
-            return None
-        if not votes:
-            return None
-        if obj.allow_multiple:
-            return [str(v) for v in votes]
-        return str(votes[0])
+        user = getattr(request, 'user', None) if request else None
+        user_id = user.pk if isinstance(user, User) else None
+        my_votes = None
+        bulk = self.context.get('user_poll_votes')
+        if bulk is not None:
+            got = bulk.get(obj.id)
+            if got is None:
+                my_votes = set()
+            elif isinstance(got, (set, list, tuple)):
+                my_votes = {str(v) for v in got}
+            else:
+                my_votes = {str(got)}
+        return polls.poll_dict(obj, user_id, my_votes)
 
 
 class PostMediaSerializer(serializers.ModelSerializer):
@@ -517,6 +500,7 @@ class ReplySerializer(serializers.ModelSerializer):
     kind = serializers.SerializerMethodField()
     label = serializers.SerializerMethodField()
     canLabel = serializers.SerializerMethodField()
+    poll = serializers.SerializerMethodField()
 
     class Meta:
         model = Reply
@@ -524,8 +508,15 @@ class ReplySerializer(serializers.ModelSerializer):
             'id', 'postId', 'parentReplyId', 'content', 'kind', 'label', 'canLabel',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
-            'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments'
+            'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments', 'poll'
         ]
+
+    def get_poll(self, obj):
+        try:
+            poll = obj.poll
+        except Poll.DoesNotExist:
+            return None
+        return PollSerializer(poll, context=self.context).data
 
     def get_kind(self, obj):
         return obj.kind or 'comment'

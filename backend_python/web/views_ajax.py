@@ -77,11 +77,17 @@ def ajax_create_reply(request, post_id):
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
-    # Voice notes / attachments can be the entire reply.
-    if not attachments and not content:
+    from api import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(data.get('poll'))
+    if poll_error:
+        return JsonResponse({'error': poll_error}, status=400)
+    if poll_data and parent_id:
+        return JsonResponse({'error': 'Polls can only be added to top-level comments'}, status=400)
+    # Voice notes / attachments / a poll can be the entire reply.
+    if not attachments and not content and not poll_data:
         return JsonResponse({'error': 'Content required'}, status=400)
     result = services.create_reply(user, post_id, content, parent_id,
-                                   is_anonymous=is_anonymous, attachments=attachments)
+                                   is_anonymous=is_anonymous, attachments=attachments, poll_data=poll_data)
     if result:
         from . import forum_labels
         kind = forum_labels.clean_kind(data.get('kind')) if not parent_id else 'comment'
@@ -225,21 +231,10 @@ def ajax_create_post(request):
         return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
     if image_urls and len(image_urls) > POST_IMAGE_MAX_COUNT:
         return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
-    if poll_data:
-        options = poll_data.get('options', [])
-        if len(options) < 2:
-            return JsonResponse({'error': 'Poll must have at least 2 options'}, status=400)
-        if len(options) > 6:
-            return JsonResponse({'error': 'Poll can have at most 6 options'}, status=400)
-        for opt in options:
-            if isinstance(opt, dict):
-                opt_text = opt.get('text', '').strip()
-            else:
-                opt_text = str(opt).strip()
-            if not opt_text:
-                return JsonResponse({'error': 'Poll options cannot be empty'}, status=400)
-            if len(opt_text) > 200:
-                return JsonResponse({'error': 'Poll option must be 200 characters or fewer'}, status=400)
+    from api import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(poll_data)
+    if poll_error:
+        return JsonResponse({'error': poll_error}, status=400)
     is_anonymous = bool(data.get('isAnonymous') or data.get('is_anonymous'))
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
@@ -1010,6 +1005,100 @@ def ajax_poll_vote(request, poll_id):
         if 'error' in result:
             return JsonResponse(result, status=status_code)
     return JsonResponse(result)
+
+
+@require_POST
+def ajax_poll_option(request, poll_id):
+    """Add an option to a poll that allows it (JSON {text, vote})."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'poll_option', 12, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
+    try:
+        user = User.objects.get(pk=user_id)
+        data = json.loads(request.body or b'{}')
+    except (User.DoesNotExist, json.JSONDecodeError):
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    from api import polls as _polls
+    payload, code = _polls.add_option(user, poll_id, data.get('text', ''), vote=bool(data.get('vote', True)))
+    if code < 300:
+        _clear_page_cache()
+    return JsonResponse(payload, status=code)
+
+
+@require_POST
+def ajax_poll_retract(request, poll_id):
+    """Take the viewer's vote back so they can pick again."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    from api import polls as _polls
+    payload, code = _polls.retract_vote(user, poll_id)
+    return JsonResponse(payload, status=code)
+
+
+@require_POST
+def ajax_post_view(request, post_id):
+    """Record a view / dwell time for a post (guests and members)."""
+    from api import post_reach
+    from api.models import Post as _Post
+    try:
+        post = _Post.objects.get(pk=post_id)
+    except _Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    try:
+        data = json.loads(request.body or b'{}')
+    except json.JSONDecodeError:
+        data = {}
+    user_id = _get_user_id(request)
+    user = User.objects.filter(pk=user_id).first() if user_id else None
+    try:
+        dwell = int(data.get('dwell_ms') or 0)
+    except (TypeError, ValueError):
+        dwell = 0
+    out = post_reach.record_view(request, post, user, surface=str(data.get('surface') or ''), dwell_ms=dwell)
+    return JsonResponse(out)
+
+
+@require_POST
+def ajax_post_impressions(request):
+    from api import post_reach
+    try:
+        data = json.loads(request.body or b'{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    ids = data.get('ids')
+    if not isinstance(ids, list):
+        return JsonResponse({'error': 'ids must be a list'}, status=400)
+    if _rate_limit(request, 'post_impressions', 60, 60):
+        return JsonResponse({'recorded': 0}, status=429)
+    return JsonResponse({'recorded': post_reach.record_impressions(request, ids)})
+
+
+def ajax_post_insights(request, post_id):
+    """Author (or staff) insights for one post, as JSON."""
+    from api import post_insights
+    from api.models import Post as _Post
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    user = User.objects.filter(pk=user_id).first()
+    try:
+        post = _Post.objects.get(pk=post_id)
+    except _Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    if not user or (post.user_id != user.id and not user.is_admin):
+        return JsonResponse({'error': 'Only the author can see these insights'}, status=403)
+    try:
+        days = int(request.GET.get('days', 30))
+    except ValueError:
+        days = 30
+    return JsonResponse(post_insights.build(post, days=days, staff=bool(user.is_admin)))
 
 
 @require_POST
