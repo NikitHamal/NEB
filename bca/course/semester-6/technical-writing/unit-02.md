@@ -142,6 +142,59 @@ f.box(150, 164, 280, 24, "Log in before you start a transaction.", fill=NAVY, co
 7. **Stronger trust.** Readers trust a writer who does not hide behind long words. An institution whose circulars are easy to read looks organised and honest. Tribhuvan University EMIS notices that give a plain date and time are respected more than vague ones.
 8. **Easier translation and reuse.** Short, active sentences with consistent terms translate into Nepali, Maithili or Newari with fewer errors, and they can be reused in a manual, a chatbot and a poster. Machine translation also works better on plain text. One clear source becomes many useful documents.
 
+```photogrid label="2.1" cols="2" ratio="1.0" caption="Readability can be measured. (a) A typewriter: the writer of 1950 had to get a sentence right before striking the keys, which is a good habit. (b) The Flesch Reading Ease score is 206.835 - 1.015 x (words per sentence) - 84.6 x (syllables per word); higher is easier, and 60-70 is plain English. A 29-word legal sentence ('The party of the first part shall, notwithstanding any provision to the contrary herein, be required to furnish documentary evidence of payment prior to the commencement of the examination') scores 14.0, about grade 18.5, a graduate level. The 10-word rewrite 'You must show proof of payment before the exam starts' scores 86.7, about grade 3.7. Same meaning, 73 points easier, because the sentence is shorter and the words are shorter. A syllable counter in code is only approximate, so use scores to compare drafts, not to judge them."
+@ photo id="bcatw/typewriter" cap="An Olympia typewriter"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Flesch Reading Ease of three versions"
+import re
+def syl(w):
+    w = re.sub(r"[^a-z]", "", w.lower())
+    n = len(re.findall(r"[aeiouy]+", w))
+    if w.endswith("e") and not w.endswith("le") and n > 1: n -= 1
+    return max(n, 1)
+def fre(t):
+    s = max(len(re.findall(r"[.!?]", t)), 1); ws = re.findall(r"[A-Za-z']+", t); w = len(ws); sy = sum(syl(x) for x in ws)
+    return 206.835 - 1.015 * w / s - 84.6 * sy / w, 0.39 * w / s + 11.8 * sy / w - 15.59
+A = "The party of the first part shall, notwithstanding any provision to the contrary herein, be required to furnish documentary evidence of payment prior to the commencement of the examination."
+B = "You must show proof of payment before the exam starts."
+C = "Bring your receipt. Show it at the gate. Then sit the exam."
+rows = [("legal, 29 words", A, "#b91c1c"), ("plain, 10 words", B, "#0f766e"), ("three short sentences", C, "#1d6fb8")]
+sc = [fre(t) for _, t, _ in rows]
+assert [round(a, 1) for a, _ in sc] == [14.0, 86.7, 104.1] and round(sc[0][1], 1) == 18.5 and round(sc[1][1], 1) == 3.7
+f = Fig(300, 240)
+x0, w = 14, 270
+f.text(150, 14, "higher = easier to read (0 to 100)", size=10.5, color=SLATE)
+for lo, hi, lab, col in [(0, 30, "very hard", "#fecaca"), (30, 60, "hard", "#fde68a"), (60, 100, "plain to easy", "#bbf7d0")]:
+    f.box(x0 + lo * w / 100, 26, (hi - lo) * w / 100, 18, lab, fill=col, stroke=SLATE, color=NAVY, size=10.5, r=0, sw=1)
+for i, ((n, t, col), (s, g)) in enumerate(zip(rows, sc)):
+    y = 64 + i * 54
+    f.text(x0, y, n, size=10.5, color=NAVY, anchor="start", bold=True)
+    f.box(x0, y + 8, min(s, 100) * w / 100, 18, "", fill=col, stroke=col, r=0)
+    f.text(x0, y + 38, f"score {s:.1f}, grade {g:.1f}", size=10.5, color=col, anchor="start", bold=True)
+f.text(150, 232, "legal -> plain: 73 points easier", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.0" caption="Short text is read in time. (a) A road sign that says only what the driver must do. (b) Assume a driver reads about 3 words a second and travels at 50 km/h (13.9 m a second); both are assumptions, not measurements. The sign 'Slow down. Ducks and squirrels crossing road.' has 7 words, needs 2.3 seconds and uses 32 metres of road. A bureaucratic version, 'Drivers are hereby advised to reduce their speed of travel, as ducks and squirrels may cross the carriageway at this location without warning', has 23 words, needs 7.7 seconds and uses 106 metres, so a car would pass the danger before the message was read. Put the action first, cut every word that does not change what the reader does, and test the text at the speed it will be read. The same rule applies to error messages, slides and warning labels."
+@ photo id="bcatw/sign" cap="A sign that is read in two seconds"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Reading time and road used at 50 km/h"
+v = ["Slow down. Ducks and squirrels crossing road.", "Drivers are hereby advised to reduce their speed of travel, as ducks and squirrels may cross the carriageway at this location without warning."]
+n = [len(s.split()) for s in v]; sec = [k / 3 for k in n]; dist = [round(t * 50 / 3.6) for t in sec]
+assert n == [7, 23] and [round(t, 1) for t in sec] == [2.3, 7.7] and dist == [32, 106]
+f = Fig(300, 240)
+f.text(150, 14, "3 words a second, 50 km/h (assumed)", size=10.5, color=SLATE)
+for i, (lab, col) in enumerate([("clear sign", TEAL), ("bureaucratic", RED)]):
+    y = 34 + i * 92
+    f.text(12, y + 8, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+    for k, (val, mx, u, nm) in enumerate([(n[i], 23, "words", "words"), (sec[i], 7.7, "s", "reading time"), (dist[i], 106, "m", "road used")]):
+        wbar = 190 * val / mx
+        f.box(12, y + 18 + k * 22, wbar, 15, "", fill=col, stroke=col, r=0)
+        f.text(12 + wbar + 5, y + 26 + k * 22, f"{val:.1f} s" if u == "s" else f"{val} {u}", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.text(150, 224, "106 m: the car has passed the ducks", size=10.5, color=RED, bold=True)
+```
+
 ## Chapter summary
 
 - Write short, active sentences with strong verbs, concrete words, specific numbers and consistent terms; cut deadwood and noun stacks.
