@@ -216,3 +216,50 @@ def onboarding_save(request):
                                          and not str(data.get('next')).startswith('//') else ''),
         'profileUrl': reverse('web:profile', args=[db_user.username]),
     })
+
+
+def _owner(request):
+    token, db_user = _session_db_user(request)
+    return db_user if token and db_user is not None else None
+
+
+@require_POST
+def portfolio_entry_save(request):
+    """POST /ajax/portfolio/save/ {id?, kind, title, ...} for the signed-in owner."""
+    from api.models import ProfileEntry
+    from api.profile_education import create_entry, entry_to_dict, update_entry
+    owner = _owner(request)
+    if owner is None:
+        return JsonResponse({'ok': False, 'error': 'Please sign in again.'}, status=401)
+    try:
+        data = json.loads(request.body or b'{}')
+    except ValueError:
+        data = {}
+    if not isinstance(data, dict):
+        return _fail('That did not come through.')
+    if data.get('id'):
+        entry = ProfileEntry.objects.filter(pk=data.get('id'), user=owner).first()
+        if entry is None:
+            return JsonResponse({'ok': False, 'error': 'That entry is gone.'}, status=404)
+        entry, error = update_entry(entry, data)
+    else:
+        entry, error = create_entry(owner, data)
+    if error:
+        return _fail(error)
+    _clear_page_cache()
+    return JsonResponse({'ok': True, 'entry': entry_to_dict(entry)})
+
+
+@require_POST
+def portfolio_entry_delete(request):
+    from api.models import ProfileEntry
+    owner = _owner(request)
+    if owner is None:
+        return JsonResponse({'ok': False, 'error': 'Please sign in again.'}, status=401)
+    try:
+        entry_id = int(json.loads(request.body or b'{}').get('id'))
+    except (ValueError, TypeError, AttributeError):
+        return _fail('That did not come through.')
+    ProfileEntry.objects.filter(pk=entry_id, user=owner).delete()
+    _clear_page_cache()
+    return JsonResponse({'ok': True})

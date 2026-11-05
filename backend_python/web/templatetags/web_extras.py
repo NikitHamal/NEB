@@ -803,3 +803,10 @@ def poll_json(value):
         return json.dumps(value, separators=(',', ':'))
     except (TypeError, ValueError):
         return '{}'
+
+
+@register.filter
+def json_entry(entry):
+    """A portfolio entry as compact JSON for a data attribute (escaped by the template)."""
+    import json as _json
+    return _json.dumps(entry, separators=(',', ':'))

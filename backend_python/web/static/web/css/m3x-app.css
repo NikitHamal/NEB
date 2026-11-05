@@ -3082,3 +3082,53 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 @media (prefers-reduced-motion: reduce) {
   .ax *, .ax *::before, .ax *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ---- m3x/app-portfolio.css ---- */
+/* Profile portfolio card (web/profile/_portfolio.html + js/portfolio.js).
+   Tonal tags are UI chips, so they keep a surface; nothing here is a badge on a user. */
+.pf-folio { display: grid; gap: 22px; }
+.pf-folio-edu { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.pf-folio-glyph { flex: none; width: 52px; height: 52px; display: grid; place-items: center; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.pf-folio-edu-text { display: grid; gap: 2px; min-width: 0; flex: 1 1 160px; }
+.pf-folio-edu-text b { font-weight: 600; font-size: 1rem; overflow-wrap: anywhere; }
+.pf-folio-edu-text small { color: var(--md-on-surface-variant); font-size: .8rem; }
+.pf-folio-tags, .pf-folio-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.pf-folio-h { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: .78rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--md-on-surface-variant); }
+.pf-folio-h .material-symbols-outlined { font-size: 18px; }
+.pf-tag { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 16px; border: 0; font: 600 .8rem var(--md-font);
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); text-decoration: none; }
+.pf-tag .material-symbols-outlined { font-size: 17px; }
+.pf-tag-open { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.pf-tag-btn { cursor: pointer; background: var(--md-surface-container-high); color: var(--md-on-surface); min-height: 38px; transition: background .2s, border-radius .35s var(--spring); }
+.pf-tag-btn:hover { background: var(--md-surface-container-highest); border-radius: 12px; }
+.pf-folio-add { margin-left: auto; width: 32px; height: 32px; display: grid; place-items: center; border: 0; cursor: pointer; border-radius: 16px;
+  background: var(--md-surface-container-high); color: var(--md-on-surface); transition: background .2s, border-radius .35s var(--spring); }
+.pf-folio-add:hover { background: var(--md-primary-container); border-radius: 10px; }
+
+.pf-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.pf-tl-item { position: relative; display: flex; gap: 14px; align-items: flex-start; }
+.pf-tl-dot { flex: none; width: 12px; height: 12px; margin-top: 6px; border-radius: 4px; background: var(--md-primary); }
+.pf-tl-item:not(:last-child)::before { content: ""; position: absolute; left: 5px; top: 22px; bottom: -14px; width: 2px; background: var(--md-outline-variant); }
+.pf-tl-main { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.pf-tl-main b { font-weight: 600; overflow-wrap: anywhere; }
+.pf-tl-org { font-size: .88rem; }
+.pf-tl-when { font-size: .78rem; color: var(--md-on-surface-variant); }
+.pf-tl-main p { margin: 6px 0 0; font-size: .88rem; line-height: 1.5; color: var(--md-on-surface-variant); overflow-wrap: anywhere; }
+.pf-tl-main a { font-size: .82rem; color: var(--md-primary); overflow-wrap: anywhere; }
+.pf-tl-edit { flex: none; width: 34px; height: 34px; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; border-radius: 17px;
+  color: var(--md-on-surface-variant); transition: background .2s, border-radius .35s var(--spring); }
+.pf-tl-edit:hover { background: var(--md-surface-container-high); border-radius: 11px; }
+.pf-tl-edit .material-symbols-outlined { font-size: 19px; }
+
+.pf-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 0; border-radius: 32px; background: var(--x-float, var(--md-surface)); color: var(--md-on-surface); }
+.pf-dialog::backdrop { background: color-mix(in srgb, var(--md-scrim, #000) 40%, transparent); }
+.pf-dialog[open] { animation: obRise .4s var(--spring) both; }
+.pf-dialog-form { display: grid; gap: 12px; padding: 24px; }
+.pf-dialog-form h3 { margin: 0 0 4px; font: 700 1.3rem var(--md-font-display); }
+.pf-dialog-form label { display: grid; gap: 6px; font-weight: 600; font-size: .85rem; }
+.pf-dialog-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pf-dialog-check { display: flex !important; align-items: center; gap: 8px; font-weight: 500 !important; }
+.pf-dialog-actions { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.pf-dialog-spacer { flex: 1; }
+.pf-dialog .ob-error { text-align: left; }
+.pf-dialog .ob-error:empty { display: none; }
