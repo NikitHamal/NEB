@@ -192,6 +192,37 @@ f.text(290, 198, "profit per rupee of sales  x  sales per rupee of assets  x  as
 7. **Software enforces double entry.** A database ledger can reject any entry where debits and credits differ, as the SQLite schema does with its CHECK rule. The trial balance then always agrees, here at Rs 7,31,000. Errors of principle and commission still need people.
 8. **Computerised books save time and give audit trails.** A system such as a Nepali tax-compliant billing package posts a sale to Sales, VAT Output and Debtors at once and keeps a log of who did what. Reports come at a click. The business gains speed, but only if the first entry is correct.
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="How long money is stuck in the business. (a) A well-stocked shelf looks like wealth, but every packet on it is cash already spent that has not yet come back. (b) For an invented general store with yearly sales of Rs 24 million, cost of goods of Rs 18 million, stock of Rs 3 million, receivables of Rs 2 million and payables of Rs 1.5 million, stock stays 60.8 days (DIO), customers take 30.4 days to pay (DSO) and the shop takes 30.4 days to pay its suppliers (DPO). The cash conversion cycle is DIO + DSO - DPO = 60.8 days. Collecting from customers 10 days faster would free Rs 657,534 of cash without a single extra sale, which is why a ratio table is a management tool and not only a school exercise. All figures are invented for the exercise."
+@ photo id="bcafa/shelf" cap="Stock on the shelf is money that cannot be spent"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cash conversion cycle of a general store"
+sales, cogs = 24000000, 18000000
+inv, rec, pay = 3000000, 2000000, 1500000
+dio = inv / cogs * 365
+dso = rec / sales * 365
+dpo = pay / cogs * 365
+ccc = dio + dso - dpo
+free = sales / 365 * 10
+assert round(ccc, 1) == 60.8 and round(free) == 657534
+facts = dict(dio=round(dio, 1), dso=round(dso, 1), dpo=round(dpo, 1), ccc=round(ccc, 1), free=format(round(free), ","))
+f = Fig(300, 236)
+f.text(150, 12, "days a rupee is tied up (invented store)", size=10.5, color=NAVY, bold=True)
+sc = 2.0
+f.text(6, 38, "inventory", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(96, 28, dio * sc, 20, "%.1f days" % dio, fill=BLUE, stroke=NAVY, size=10.5, r=3, sw=1)
+f.text(6, 68, "receivables", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(96 + dio * sc, 58, dso * sc, 20, "%.1f" % dso, fill="#fde68a", stroke=AMBER, size=10.5, r=3, sw=1)
+f.text(6, 98, "payables", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(96, 88, dpo * sc, 20, "%.1f days" % dpo, fill="#bbf7d0", stroke=TEAL, size=10.5, r=3, sw=1)
+f.line(96, 120, 96 + ccc * sc, 120, color=RED, sw=3)
+f.text(96 + ccc * sc / 2, 136, "cash cycle = %.1f days" % ccc, size=10.5, color=RED, bold=True)
+f.text(150, 160, "CCC = DIO + DSO - DPO", size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "collect 10 days faster:", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "Rs %s freed" % format(round(free), ","), size=12, color=TEAL, bold=True)
+f.text(150, 222, "(sales Rs 24 million a year, assumed)", size=10.5, color=SLATE)
+```
+
 ## 7.10 Summary and exercises
 
 Ratios turn statements into evidence about liquidity, solvency, profitability and efficiency; DuPont explains return on equity as margin, turnover and leverage; and a computerised ledger is the same double-entry discipline expressed as tables and constraints.

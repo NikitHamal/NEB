@@ -259,6 +259,32 @@
   "source": "Wikimedia Commons",
   "title": "Velocity Micro \"ProMagix HD60\" Workstation Computer"
  },
+ "bca-cg/coaster": {
+  "author": "David Clayton Ellsworth",
+  "bytes": 392949,
+  "credit": "http://ellsworth.ca/dprk/2018-08/",
+  "fetched": "2026-11-05",
+  "file": "bca-cg/coaster.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Roller_coaster,_North_Korea_02.jpg",
+  "sha1": "88bc97fe4391e593",
+  "source": "Wikimedia Commons",
+  "title": "Roller coaster, North Korea 02"
+ },
+ "bca-cg/crossstitch": {
+  "author": "User PKM on en.wikipedia",
+  "bytes": 1426620,
+  "credit": "Paula Kate Marmor",
+  "fetched": "2026-11-05",
+  "file": "bca-cg/crossstitch.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Cross_stitch_embroidery.jpg",
+  "sha1": "76229ae4d0d4430d",
+  "source": "Wikimedia Commons",
+  "title": "Cross stitch embroidery"
+ },
  "bca-cg/crt": {
   "author": "grm wnr ( home wiki )",
   "bytes": 791264,
@@ -362,6 +388,19 @@
   "sha1": "4accb99128056d06",
   "source": "Wikimedia Commons",
   "title": "ATI Radeon HD 5970 Graphics Card-oblique view"
+ },
+ "bca-cg/rails": {
+  "author": "Christine Johnstone",
+  "bytes": 212112,
+  "credit": "Geograph Britain and Ireland",
+  "fetched": "2026-11-05",
+  "file": "bca-cg/rails.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Converging_lines,_north_end,_Tenterden_Station_-_geograph.org.uk_-_3558103.jpg",
+  "sha1": "ccffcee2d1f0f74e",
+  "source": "Wikimedia Commons",
+  "title": "Converging lines, north end, Tenterden Station - geograph.org.uk - 3558103"
  },
  "bca-cg/scissors": {
   "author": "No machine-readable author provided. Karl johnson assumed (based on copyright claims).",
@@ -9112,6 +9151,32 @@
   "source": "Wikimedia Commons",
   "title": "Cosco Shipping Star - IMO 9795658 - moored at Container Terminal Tollerort, Hamburg-9357"
  },
+ "bcacloud/turnstile": {
+  "author": "User:ArnoldReinhold",
+  "bytes": 520969,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcacloud/turnstile.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Turnstiles_in_Alewife_station,_August_2005.jpg",
+  "sha1": "2ddb19d0903f0ad1",
+  "source": "Wikimedia Commons",
+  "title": "Turnstiles in Alewife station, August 2005"
+ },
+ "bcacrypt/mailbox": {
+  "author": "sarang",
+  "bytes": 656906,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcacrypt/mailbox.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:NZ_letter_box_416.jpg",
+  "sha1": "3d4d813500721c1e",
+  "source": "Wikimedia Commons",
+  "title": "NZ letter box 416"
+ },
  "bcacyb/checkpoint": {
   "author": "Michael Ball",
   "bytes": 670837,
@@ -9475,6 +9540,19 @@
   "sha1": "de59f2cf256fbd10",
   "source": "Wikimedia Commons",
   "title": "Balance scale IMGP9755"
+ },
+ "bcafa/shelf": {
+  "author": "Alexander Davronov",
+  "bytes": 541723,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcafa/shelf.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Grocery_store_shelf_in_Russia.jpg",
+  "sha1": "e630c1970a4ed0ed",
+  "source": "Wikimedia Commons",
+  "title": "Grocery store shelf in Russia"
  },
  "bcafa/shop": {
   "author": "Vyacheslav Argenberg",
@@ -11166,6 +11244,19 @@
   "source": "Wikimedia Commons",
   "title": "German rowing eight EK 1964c"
  },
+ "bcapc/typewriter": {
+  "author": "Sammlung der Medien und Wissenschaft",
+  "bytes": 204284,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcapc/typewriter.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Olympia_Simplex.jpg",
+  "sha1": "6dcbd03f84e5a677",
+  "source": "Wikimedia Commons",
+  "title": "Olympia Simplex"
+ },
  "bcapj/cardcat": {
   "author": "Dr. Marcus Gossler",
   "bytes": 488336,
@@ -11205,6 +11296,32 @@
   "source": "Wikimedia Commons",
   "title": "IIHS crash test dummy in Hyundai Tucson"
  },
+ "bcapj/exam": {
+  "author": "Biswarup Ganguly",
+  "bytes": 716159,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcapj/exam.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:West_Bengal_Joint_Entrance_Examination_-_Howrah_2011-05-22_00283.jpg",
+  "sha1": "dddaf392578dffae",
+  "source": "Wikimedia Commons",
+  "title": "West Bengal Joint Entrance Examination - Howrah 2011-05-22 00283"
+ },
+ "bcapj/gauge": {
+  "author": "Nicholas A. Tonelli from Pennsylvania, USA",
+  "bytes": 499004,
+  "credit": "Enduring",
+  "fetched": "2026-11-05",
+  "file": "bcapj/gauge.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_Nicholas_T_-_Enduring.jpg",
+  "sha1": "5e7ec4b5ed3b9396",
+  "source": "Wikimedia Commons",
+  "title": "Flickr - Nicholas T - Enduring"
+ },
  "bcapj/installsensor": {
   "author": "UBC Micrometeorology from Vancouver, Canada",
   "bytes": 933020,
@@ -11230,6 +11347,19 @@
   "sha1": "e87b5a1e5c5bcdc3",
   "source": "Wikimedia Commons",
   "title": "West of Kathmandu, Nepal (27637560364)"
+ },
+ "bcapj/lens": {
+  "author": "João Silas",
+  "bytes": 295265,
+  "credit": "Unsplash",
+  "fetched": "2026-11-05",
+  "file": "bcapj/lens.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnfying_glass_book_globe.jpg",
+  "sha1": "02b8cabadb8784d5",
+  "source": "Wikimedia Commons",
+  "title": "Magnfying glass book globe"
  },
  "bcapj/padlock": {
   "author": "Thegreenj",
