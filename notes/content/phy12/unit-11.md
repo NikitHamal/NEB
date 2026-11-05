@@ -344,6 +344,26 @@ $$ I = 4I_0\cos^{2}\!\left(\frac{\pi}{3}\right)
 = 4I_0 (0.5)^{2} = I_0 = \frac{I_{\max}}{4} $$
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.2" caption="Colour without any pigment. (a) A soap bubble shows bands of colour that move as the film drains and thins. (b) Light reflected from the front and back surfaces of the film interferes. With a film of index 1.33 the reflection at the outer face changes phase by half a wave, so the strongest reflection occurs when 2 n t = (m + 1/2) lambda. For m = 0 this gives a thickness of 122 nm for red, 103 nm for green and 85 nm for blue, and the second order for green needs 310 nm. Where the film becomes much thinner than a quarter of the wavelength of blue light the two reflections cancel and the film looks black, just before it breaks."
+@ photo id="phy12b/bubble" cap="A soap bubble showing coloured interference bands"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Soap-film thickness and the colour it reflects"
+n = 1.33
+rows = [("red 650 nm", 650 / (4 * n)), ("green 550 nm", 550 / (4 * n)), ("blue 450 nm", 450 / (4 * n))]
+assert round(rows[1][1]) == 103
+f = Fig(300, 236)
+f.text(150, 12, "Thinnest film that reflects it best, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=170, fmt="%.0f", x0=92, y0=30, bw=140, gap=32,
+      colors=[(ROSE, RED), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 140, "2 n t = (m + 1/2) lambda, m = 0, n = 1.33", size=10.5, color=NAVY, bold=True)
+f.text(150, 160, "(one reflection with a half-wave phase jump)", size=10, color=SLATE, bold=True)
+f.text(150, 182, "second order (m = 1): t = %.0f nm for green" % (3 * 550 / (4 * n)), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "a film thinning to under 85 nm turns dark", size=10, color=SLATE, bold=True)
+f.text(150, 216, "then the bubble bursts", size=10, color=SLATE, bold=True)
+facts = dict(r=rows[0][1], g=rows[1][1], b=rows[2][1], g2=3 * 550 / (4 * n))
+```
+
 ## Chapter summary
 
 - Superposition gives $I = I_1 + I_2 + 2\sqrt{I_1I_2}\cos\phi$, with

@@ -450,6 +450,28 @@ $1/r^{2}$), and use **shielding** — lead aprons, thick concrete walls, remote
 handling tongs. Workers wear film badges or thermoluminescent dosimeters, and
 radioactive waste is sealed in lead-lined containers.
 
+```photogrid label="24.P" cols="2" ratio="1.2" caption="A radioactive source that lasts a lifetime. (a) Inside an ionisation smoke detector a tiny disc of americium-241 emits alpha particles that ionise the air between two plates and let a small current flow; smoke reduces the current and sets off the alarm. (b) The decay law N = N0 exp(-lambda t) with a half-life of 432.2 years gives the fraction left: 96.8 per cent after 20 years, 85.2 per cent after 100 years and 20.1 per cent after 1000 years. A source of 1 microcurie, 37 kBq, holds only 7.3e+14 atoms, a mass of 0.29 microgram, because the half-life is so long that few decays per second come from a lot of atoms. The long half-life is why the detector works for years without any change."
+@ photo id="phy12b/smoke" cap="Inside a smoke detector: the americium-241 source behind its warning label"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of the americium-241 source"
+import math
+T = 432.2
+rows = [("%d y" % t, math.exp(-math.log(2) * t / T) * 100) for t in (20, 100, 432, 1000)]
+assert round(rows[0][1], 1) == 96.8 and round(rows[1][1], 1) == 85.2 and round(rows[3][1], 1) == 20.1
+A = 37000.0
+N = A * T * 3.156e7 / math.log(2)
+mass = N * 241 / 6.022e23 * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Americium-241 left after t, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=105, fmt="%.1f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "N = N0 exp(-lambda t), half-life 432.2 y", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "source of 1 microcurie = 37 kBq", size=10, color=SLATE, bold=True)
+f.text(150, 198, "contains %.1e atoms" % N, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "a mass of only %.2f microgram" % mass, size=10.5, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1], N=N, m=mass)
+```
+
 ## Chapter summary
 
 - Binding energy per nucleon peaks near $A \approx 56$ at about 8.8 MeV; nuclei

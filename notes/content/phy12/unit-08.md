@@ -457,6 +457,26 @@ The bridge must be set 48 cm from the fixed end — that is, the vibrating lengt
 must be shortened by 12 cm.
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.2" caption="The three laws of a vibrating string in one example. (a) Guitar strings are sold in sets of different thicknesses, because the frequency depends on length, tension and mass per unit length. (b) The cell takes a high E string, 0.648 m long, which sounds 329.63 Hz. The wave speed is 2 L f = 427 m/s, and for a mass of 0.4 g per metre the tension is T = mu v2 = 73 N. Pressing at the second fret shortens the string and raises the frequency to 370.0 Hz, at the fifth to 440.0 Hz, and at the twelfth, where the length is halved, to 659.3 Hz, an octave higher. So f is inversely proportional to L, proportional to the square root of T and inversely proportional to the square root of mu."
+@ photo id="phy12b/guitar" cap="Packets of guitar strings of different gauges in a shop"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Frequencies along one vibrating string"
+L0, f0, mu = 0.648, 329.63, 4.0e-4
+v = 2 * L0 * f0
+Tn = mu * v ** 2
+rows = [("fret %d" % n, f0 * 2 ** (n / 12)) for n in (0, 2, 5, 12)]
+assert round(rows[3][1], 1) == 659.3 and round(Tn) == 73
+f = Fig(300, 236)
+f.text(150, 12, "Fundamental frequency, Hz", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=700, fmt="%.1f", x0=52, y0=30, bw=160, gap=30)
+f.text(150, 158, "f = (1 / 2L) sqrt(T / mu), open string L = 0.648 m", size=10, color=SLATE, bold=True)
+f.text(150, 178, "wave speed 2 L f = %.0f m/s" % v, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "tension T = mu v^2 = %.0f N (mu = 0.4 g/m)" % Tn, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "fret 12 halves L: frequency doubles", size=10, color=SLATE, bold=True)
+facts = dict(v=v, T=Tn, f12=rows[3][1], f5=rows[2][1], f2=rows[1][1])
+```
+
 ## Chapter summary
 
 - A stationary wave forms when incident and reflected waves superpose. Closed end

@@ -394,6 +394,27 @@ $$ f' = 1.1094\times400 = 443.8\ \text{Hz} $$
 The horn sounds about 44 Hz sharper than it really is.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.2" caption="Source motion and observer motion are different. (a) The ambulance is the moving source of sound. (b) The cell uses the general Doppler formula f' = f (c + vo) / (c - vs) for a siren of 700 Hz and a sound speed of 343 m/s. A source moving towards a still listener at 25 m/s gives 755.0 Hz, but a listener moving towards a still source at 25 m/s hears 751.0 Hz. When both move towards each other the frequency is 810.1 Hz, and when the source moves away from the listener it falls to 652.4 Hz. The two cases differ because it is the medium, the air, that carries the wave at a fixed speed c: the source changes the wavelength, while the observer changes only the rate at which wavefronts are met."
+@ photo id="ceephy3/ambulance" cap="An ambulance with a siren, a moving source of sound"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Doppler effect when the source and the observer both move"
+c, f0 = 343.0, 700.0
+def fo(vs, vo):
+    return f0 * (c + vo) / (c - vs)
+rows = [("source 25", fo(25, 0)), ("observer 25", fo(0, 25)), ("both 25", fo(25, 25)), ("source 25, away", f0 * c / (c + 25))]
+assert round(rows[0][1], 1) == 755.0 and round(rows[1][1], 1) == 751.0 and round(rows[2][1], 1) == 810.1
+f = Fig(300, 236)
+f.text(150, 12, "Frequency heard, Hz (siren 700 Hz)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=850, fmt="%.1f", x0=100, y0=30, bw=130, gap=30,
+      colors=[(SAND, AMBER), (MINT, TEAL), (ROSE, RED), (BLUE, NAVY)])
+f.text(150, 158, "f' = f (c + v_o) / (c - v_s)", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "speeds in m/s; c = 343 m/s", size=10, color=SLATE, bold=True)
+f.text(150, 198, "moving source and moving observer", size=10, color=SLATE, bold=True)
+f.text(150, 216, "are not equivalent, only close at low speed", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[2][1], d=rows[3][1])
+```
+
 ## Chapter summary
 
 - Excess pressure $\Delta P = -B\,\partial y/\partial x$; the pressure amplitude

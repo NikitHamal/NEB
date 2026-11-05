@@ -495,6 +495,28 @@ For unity power factor we need $X_C = X_L = 32\ \Omega$:
 $$ C = \frac{1}{2\pi f X_C} = \frac{1}{314.2\times32} = 9.95\times10^{-5}\ \text{F} \approx 100\ \mu\text{F} $$
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.2" caption="What the r.m.s. value really means. (a) An oscilloscope draws the voltage against time, so the shape, amplitude and period of an alternating voltage can be read directly from the screen. (b) The mains of Nepal are 230 V r.m.s. at 50 Hz, and the cell finds that the peak is sqrt(2) times as large, 325.3 V, and the peak-to-peak value, which is what the screen shows, is 650.5 V. The mean over a half cycle is only 207.1 V. The r.m.s. value is defined so that it gives the same heating as a direct voltage: a 100 ohm heater dissipates 529 W on 230 V r.m.s. A moving-iron or hot-wire meter reads this r.m.s. value, not the peak."
+@ photo id="phy12b/scope" cap="A sine wave on an oscilloscope screen"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Peak, peak-to-peak and r.m.s. values of the mains"
+import math
+Vrms = 230.0
+Vpk = Vrms * math.sqrt(2)
+rows = [("r.m.s.", Vrms), ("mean (half)", 2 * Vpk / math.pi), ("peak", Vpk), ("peak to peak", 2 * Vpk)]
+assert round(Vpk, 2) == 325.27 and round(rows[1][1], 1) == 207.1
+P = Vrms ** 2 / 100
+f = Fig(300, 236)
+f.text(150, 12, "Mains of 230 V r.m.s., 50 Hz, volts", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=670, fmt="%.1f", x0=78, y0=30, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "V_pk = sqrt(2) V_rms; V_mean = 2 V_pk / pi", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "period T = 1 / f = %.0f ms" % (1000 / 50), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "a 100 ohm heater: P = V_rms^2 / R = %.0f W" % P, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "equal to a DC supply of 230 V", size=10, color=SLATE, bold=True)
+facts = dict(pk=Vpk, pp=2 * Vpk, mean=2 * Vpk / math.pi, P=P)
+```
+
 ## Chapter summary
 
 - For $i = I_0\sin\omega t$: $I_{rms} = I_0/\sqrt{2} = 0.707I_0$,
