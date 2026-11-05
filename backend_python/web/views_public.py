@@ -15,6 +15,7 @@ from api.models import (
     TakedownRequest,
     User,
 )
+from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
 from api.security import (
     maybe_autoset_video_thumbnail,
     save_resource_thumbnail_upload,
@@ -35,7 +36,6 @@ from .view_helpers import (
     _avatar_url,
     _comment_author,
     _ctx,
-    _get_distinct_subjects,
     _get_user_id,
     _is_staff_admin,
     _rate_limit,
@@ -667,11 +667,6 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     all_faculties = filter_options['faculties']
     all_exam_types = filter_options['exam_types']
     
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
 
     from .views_syllabus import syllabus_hub_context
     syllabus_ctx = syllabus_hub_context(request.GET.get('grade')) if current_tab == 'categories' else {}
@@ -684,7 +679,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         all_types=all_types,
         all_faculties=all_faculties,
         all_exam_types=all_exam_types,
-        education_levels=education_levels,
+        education_levels=EDUCATION_LEVELS,
         current_subjects=subjects,
         current_grades=grades,
         current_types=types,
@@ -1337,84 +1332,14 @@ def upload_resource(request):
 
     from .views_marketplace import commission_percent
 
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    form_options = upload_form_options()
 
     if request.method == 'POST':
         if _rate_limit(request, 'upload_resource', 10, 3600, by_ip=True):
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
             return render(request, 'web/upload.html', _ctx(request,
-                subjects=subjects, education_levels=education_levels,
-                exam_types=exam_types, pradesh_options=pradesh_options,
-                resource_types=resource_types, common_tags=common_tags,
+                **form_options,
                 errors=['Too many uploads. Please try again later.'],
                 form_data=request.POST,
                 is_authenticated=bool(user),
@@ -1622,9 +1547,7 @@ def upload_resource(request):
             return JsonResponse({'status': 'error', 'errors': errors}, status=400)
 
         return render(request, 'web/upload.html', _ctx(request,
-            subjects=subjects, education_levels=education_levels,
-            exam_types=exam_types, pradesh_options=pradesh_options,
-            resource_types=resource_types, common_tags=common_tags,
+            **form_options,
             errors=errors,
             form_data=request.POST,
             is_authenticated=bool(user),
@@ -1632,9 +1555,7 @@ def upload_resource(request):
         ))
 
     return render(request, 'web/upload.html', _ctx(request,
-        subjects=subjects, education_levels=education_levels,
-        exam_types=exam_types, pradesh_options=pradesh_options,
-        resource_types=resource_types, common_tags=common_tags,
+        **form_options,
         is_authenticated=bool(user),
         commission_percent=commission_percent(),
     ))
@@ -1657,75 +1578,7 @@ def edit_resource(request, resource_id):
         return redirect('web:reader', resource_id=resource_id)
 
     user = User.objects.get(pk=user_id)
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types_list = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    form_options = upload_form_options()
 
     if request.method == 'POST':
         resource_obj.title = request.POST.get('title', '').strip() or resource_obj.title
@@ -1808,12 +1661,7 @@ def edit_resource(request, resource_id):
     return render(request, 'web/edit_resource.html', _ctx(request,
         resource=resource,
         resource_id=resource_id,
-        subjects=subjects,
-        common_tags=common_tags,
-        education_levels=education_levels,
-        exam_types=exam_types_list,
-        pradesh_options=pradesh_options,
-        resource_types=resource_types,
+        **form_options,
         is_authenticated=True,
         commission_percent=commission_percent(),
     ))
@@ -2022,12 +1870,7 @@ def subject_page(request, grade_slug, subject_slug):
                     g_clean = 'Class 11'
                 active_grades.add(g_clean)
             
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    grade_order = {val.lower(): i for i, val in enumerate(education_levels)}
+    grade_order = {val.lower(): i for i, val in enumerate(EDUCATION_LEVELS)}
     sorted_grades = sorted(list(active_grades), key=lambda x: grade_order.get(x.lower(), 999))
     
     grade_list = []

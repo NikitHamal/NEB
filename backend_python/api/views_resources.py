@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view, permission_classes, throttle_cla
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from . import services
+from .resource_catalog import EDUCATION_LEVELS
 from .models import Resource, ResourceRequest, ResourceRequestUpvote, User
 from .security import (
     clean_source_url,
@@ -350,12 +351,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
                     item = 'Class 11'
                 active_grades.add(item)
 
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    grade_order = {value.lower(): index for index, value in enumerate(education_levels)}
+    grade_order = {value.lower(): index for index, value in enumerate(EDUCATION_LEVELS)}
     grade_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_grades, key=lambda value: grade_order.get(value.lower(), 999))]
     subject_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_subjects)]
 
