@@ -137,6 +137,9 @@
 
 
 /* Profile sheets (web/profile/_follow_modal.html): people list and profile photo, both NebUI sheets. */
+/* Sheet bodies must be allowed to shrink or the foot and the last fields get clipped. */
+.pf-people-sheet, .pf-photo-sheet { display: flex; flex-direction: column; min-height: 0; }
+.pf-people, .pf-photo-body { flex: 1 1 auto; min-height: 0; }
 .pf-people { padding: 0 10px 14px; display: grid; gap: 2px; align-content: start; overflow-y: auto; overscroll-behavior: contain; }
 .pf-people .follow-list-user { margin: 0; padding: 10px 12px; border: 0; border-radius: 20px; transition: background .2s, transform .3s var(--spring); }
 .pf-people .follow-list-user:hover { background: var(--md-surface-container-high); }
