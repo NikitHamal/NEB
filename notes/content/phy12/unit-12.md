@@ -442,6 +442,31 @@ That is $235\ \text{nm}$ — smaller than a bacterium, but far larger than a vir
 which is why viruses need an electron microscope.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.2" caption="A grating spreads light into its colours. (a) A lamp seen through a transmission grating shows a bright central image and coloured images on both sides. (b) The slit spacing of a grating with 600 lines per mm is 1.667 micrometre, and the grating equation d sin(theta) = m lambda gives the first-order angle: 15.7 degrees for 450 nm blue, 19.3 degrees for 550 nm green and 23.0 degrees for 650 nm red. The second order of red is at 51.3 degrees and no more than 2 orders of red can appear, since sin(theta) cannot exceed 1. Because the angle grows with wavelength, red is deviated more than violet, the opposite of what a prism does."
+@ photo id="phy12b/grating" cap="A lamp seen through a transmission diffraction grating"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Angles of a 600 lines per mm grating"
+import math
+d = 1e-3 / 600
+rows = []
+for lam in (450, 550, 650):
+    rows.append(("%d nm" % lam, math.degrees(math.asin(lam * 1e-9 / d))))
+assert round(rows[1][1], 1) == 19.3
+m2 = math.degrees(math.asin(2 * 650e-9 / d))
+nmax = int(d / 650e-9)
+f = Fig(300, 236)
+f.text(150, 12, "First-order angle, degrees", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=30, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED)])
+f.text(150, 128, "d sin(t) = m lambda, d = %.3f micrometre" % (d * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "second order of red: %.1f degrees" % m2, size=10.5, color=NAVY, bold=True)
+f.text(150, 170, "highest order for red: %d (d / lambda = %.2f)" % (nmax, d / 650e-9), size=10, color=SLATE, bold=True)
+f.text(150, 192, "red bends the most, violet the least,", size=10, color=SLATE, bold=True)
+f.text(150, 208, "the reverse of a prism", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[2][1], m2=m2, nmax=nmax, d=d * 1e6)
+```
+
 ## Chapter summary
 
 - **Diffraction** is the bending of light round edges, noticeable only when the
