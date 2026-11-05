@@ -7,8 +7,7 @@ from .utils import now_ms
 from .view_helpers import _require_user
 from .models import PaymentVerification, WithdrawalRequest
 from .marketplace import (
-    get_payment_config, convert_points_to_credits, ensure_monthly_free_credits,
-    total_ai_credits,
+    get_payment_config, ensure_monthly_free_credits, total_ai_credits,
 )
 from .utils import money_str
 from decimal import Decimal
@@ -178,36 +177,3 @@ def payments_config(request):
     })
 
 
-@api_view(['GET', 'POST'])
-def credits_overview(request):
-    """GET — AI credits + Nebians points balance & rates.
-    POST — convert Nebians points to AI credits (2 points = 1 credit by default)."""
-    user, err = _require_user(request)
-    if err:
-        return err
-    cfg = get_payment_config()
-    ensure_monthly_free_credits(user, cfg)
-
-    if request.method == 'GET':
-        return Response({
-            'nebians_points': user.nebians_points or 0,
-            'ai_credits_purchased': user.ai_credits or 0,
-            'ai_credits_free': user.free_credits or 0,
-            'ai_credits_total': total_ai_credits(user, cfg),
-            'free_credits_per_month': cfg.free_credits_per_month,
-            'points_to_credit': cfg.points_to_credit,
-            'month': ensure_monthly_free_credits(user, cfg)[1],
-        })
-
-    points = request.data.get('points')
-    try:
-        credits_gained, points_used = convert_points_to_credits(user, points, cfg)
-    except ValueError as exc:
-        return Response({'error': str(exc)}, status=400)
-    return Response({
-        'credits_gained': credits_gained,
-        'points_used': points_used,
-        'nebians_points': user.nebians_points or 0,
-        'ai_credits_total': total_ai_credits(user, cfg),
-        'message': f'Converted {points_used} points into {credits_gained} AI credits.',
-    }, status=201)

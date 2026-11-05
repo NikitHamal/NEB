@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceLike, ResourceRequest, Post, PostImage, PostMedia, Poll, PollOption, Reply, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, Post, PostImage, PostMedia, Poll, Reply, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -290,12 +290,6 @@ class PostImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'imageUrl', 'order']
 
 
-class PollOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PollOption
-        fields = ['id', 'text', 'is_correct', 'vote_count', 'order']
-
-
 class PollSerializer(serializers.ModelSerializer):
     """Delegates to api.polls.poll_dict so web, app and realtime share one shape."""
 
@@ -531,22 +525,6 @@ class UserPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPhoto
         fields = ['id', 'url', 'uploaded_at', 'is_current']
-
-
-class UserStatsSerializer(serializers.Serializer):
-    """
-    Aggregated public stats for a user profile.
-    Consumed by both the web UI and the Android app.
-    contribution_score = posts*3 + replies*2 + likes_given + likes_received*2
-    """
-    username = serializers.CharField()
-    post_count = serializers.IntegerField()
-    reply_count = serializers.IntegerField()
-    follower_count = serializers.IntegerField()
-    following_count = serializers.IntegerField()
-    likes_received = serializers.IntegerField()      # total thumbs_up on posts + replies
-    likes_given = serializers.IntegerField()         # total likes this user has given
-    contribution_score = serializers.IntegerField()  # weighted composite score
 
 
 class FollowSerializer(serializers.ModelSerializer):

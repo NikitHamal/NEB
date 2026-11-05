@@ -183,14 +183,6 @@ def _row_models(row) -> List[str]:
         return []
 
 
-def user_custom_provider(user, provider_id: str):
-    user = _real_user(user)
-    if user is None:
-        return None
-    from api.models import UserLLMProvider
-    return UserLLMProvider.objects.filter(pk=provider_id, user=user, provider='custom', enabled=True).first()
-
-
 def _qwen_live_models(bots=None):
     """Merge the live catalog from chat.qwen.ai (via the existing 5-minute
     cached fetcher). Returns (models, default_id). Never raises — fails soft

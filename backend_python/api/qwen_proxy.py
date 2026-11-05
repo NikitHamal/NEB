@@ -27,7 +27,6 @@ except ImportError:
 if os.environ.get("QWEN_FORCE_REQUESTS") == "1":
     _USE_CURL_CFFI = False
 
-import requests  # kept for midtoken helper which uses a plain requests.Session
 
 logger = logging.getLogger(__name__)
 
@@ -779,12 +778,6 @@ def _mark_used(session):
                 break
 
 
-def _reset_session():
-    """Clear the entire pool (legacy helper)."""
-    with _pool_lock:
-        _session_pool.clear()
-
-
 # Kick off the refill thread at import time (safe because it's a daemon thread)
 _start_refill_thread()
 
@@ -1058,33 +1051,6 @@ def _parse_stream(response, session=None):
             raw_lines_seen, json_chunks_seen, (error_text_total[:300] or 'none'), parent_id, raw_body,
         )
     return result
-
-
-def probe_qwen(model="qwen3.8-max"):
-    """One-shot connectivity check used by the live harness bench."""
-    report = {
-        "curl_cffi": _USE_CURL_CFFI,
-        "client_version": _WEB_CLIENT_VERSION,
-        "model": model,
-        "warmup_status": None,
-        "chat_id": None,
-        "ok": False,
-        "error": "",
-    }
-    try:
-        from .proxy_http import resilient_get as _neb_rget2
-
-        session, _ = _get_session()
-        warmup, _ = _neb_rget2(session, f"{QWEN_URL}/", timeout=20, allow_redirects=True)
-        report["warmup_status"] = warmup.status_code
-        chat_id = create_chat(session, model, _pool_session=session)
-        report["chat_id"] = chat_id
-        report["ok"] = bool(chat_id)
-        if not chat_id:
-            report["error"] = "create_chat returned empty"
-    except Exception as exc:
-        report["error"] = f"{type(exc).__name__}: {exc}"
-    return report
 
 
 # ========================= Public API =========================

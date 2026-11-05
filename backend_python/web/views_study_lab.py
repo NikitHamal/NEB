@@ -59,7 +59,6 @@ from api.generation import enqueue, serialize_job, get_job, mark_processing, mar
 from api.generation_executors import EXECUTORS
 from api.qwen_utils.client import QwenClient
 from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
-from api.qwen_utils.text_extraction import extract_text_from_file
 from api.qwen_utils.prompts import (
     summary_system_prompt, quiz_system_prompt, flashcard_system_prompt,
     MINDMAP_SYSTEM_PROMPT, TUTOR_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT,
@@ -3369,14 +3368,6 @@ def _get_space_texts(space):
                 'content': text[:MAX_TEXT_CHARS],
             })
     return texts, parsing_count, failed_count
-
-
-def _extract_local_text(doc):
-    """Extract text locally from a document for the combined space prompt.
-    
-    Delegates to api.qwen_utils.text_extraction.
-    """
-    return extract_text_from_file(doc.file_url, doc.file_name or '')
 
 
 def _space_quiz_exclusions(space):

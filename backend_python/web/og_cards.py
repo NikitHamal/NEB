@@ -177,23 +177,6 @@ def _tracked(d: ImageDraw.ImageDraw, xy, text: str, f, fill, track: float):
     return x
 
 
-def _tracked_width(d: ImageDraw.ImageDraw, text: str, f, track: float) -> float:
-    return sum(d.textlength(ch, font=f) for ch in text) + track * max(0, len(text) - 1)
-
-
-def _pill(d: ImageDraw.ImageDraw, xy, text: str, f, fg, bg, border, pad_x, pad_y):
-    w = d.textlength(text, font=f)
-    h = f.size * 1.02
-    x, y = xy
-    box = (x, y, x + w + pad_x * 2, y + h + pad_y * 2)
-    d.rounded_rectangle(box, radius=(h + pad_y * 2) / 2.0, fill=bg, outline=border,
-                        width=max(1, int(1.2 * SS)))
-    bbox = d.textbbox((0, 0), text, font=f)
-    d.text((x + pad_x - bbox[0], y + pad_y + (h - (bbox[3] - bbox[1])) / 2.0 - bbox[1]),
-           text, font=f, fill=fg)
-    return box[2] - box[0]
-
-
 # ── Pieces ────────────────────────────────────────────────────────────────
 
 def _address(canvas: Image.Image, d: ImageDraw.ImageDraw, accent):
