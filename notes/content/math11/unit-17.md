@@ -738,6 +738,28 @@ relies on.
 For example $f(x) = x^{3}-x-1$ is a polynomial, hence continuous. Since
 $f(1) = -1 < 0$ and $f(2) = 5 > 0$, a root lies between 1 and 2.
 
+```photogrid label="17.P" cols="2" ratio="1.27" caption="A limit asks what a function approaches, not what it equals, and sin(x)/x at x = 0 is the classic case because 0/0 has no value. (a) A protractor used to measure angles. (b) Taking x in radians, the program evaluates the ratio for shrinking x: 0.841471 at 1, 0.998334 at 0.1 and 0.999983 at 0.01. The values climb toward 1 from below, so the limit is 1, shown by the hollow point on the graph where the function itself is undefined. The result is the basis of the derivative of sin x and is true only when the angle is in radians, not degrees."
+@ photo id="math11/protractor" cap="A protractor measures angles; limits describe the angle going to zero"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The limit of sin(x) / x as x tends to 0"
+g = lambda x: math.sin(x) / x
+vals = [(1.0, g(1.0)), (0.5, g(0.5)), (0.1, g(0.1)), (0.01, g(0.01))]
+assert abs(vals[-1][1] - 1) < 1.7e-5 and all(vals[i][1] < vals[i + 1][1] < 1 for i in range(3))
+f = Fig(300, 236)
+f.text(150, 14, "y = sin(x) / x  (x in radians)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 120, (-12, 12), (-0.4, 1.2))
+ax.grid(4, 0.4, size=9, yfmt=lambda v: "%.1f" % v); ax.axes("x", "y")
+ax.curve(g, -12, 12, color=NAVY, sw=2.4, n=480)
+ax.hline(1, color=AMBER)
+ax.pt(0, 1, "", color=RED, hollow=True)
+f.text(ax.X(2.5), ax.Y(1) - 6, "limit 1 (x = 0 excluded)", size=10, color=RED, bold=True, anchor="start")
+for i, (x, v) in enumerate(vals):
+    f.text(150, 176 + i * 14, "x = %-5g  sin x / x = %.6f" % (x, v), size=9.5, color=SLATE if i < 3 else TEAL, bold=True)
+f.text(150, 232, "lim = 1, so sin x is about x for small x", size=9.5, color=NAVY, bold=True)
+facts = dict(a=vals[0][1], b=vals[2][1], c=vals[3][1])
+```
+
 ## Chapter summary
 
 - $\lim_{x\to a}f(x) = L$ describes the behaviour of $f$ **near** $a$, never at

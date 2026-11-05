@@ -539,6 +539,28 @@ Volume $= AL = 2.0\times10^{-6}\times4.0 = 8.0\times10^{-6}\ \text{m}^{3}$, so
 $$ u = \frac{0.20}{8.0\times10^{-6}} = 2.5\times10^{4}\ \text{J m}^{-3} $$
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A steel rope stretches in proportion to its load as long as the stress stays below the elastic limit. (a) A steel rope. (b) A 40 kg load hangs from a 2 m wire of diameter 2 mm, whose cross-section is 3.14 mm2. The stress is 124.9 MPa, the strain is 6.25e-04 and, with Young's modulus 200 GPa, the extension is 1.25 mm. The straight blue line of Hooke's law ends at the elastic limit near 250 MPa; beyond it, the dashed red part shows plastic flow and the wire does not return to its length. Lifting cables are rated to stay far below this limit."
+@ photo id="ceephy3/rope" cap="A steel rope: the stretch is small but real, and follows Hooke's law"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Stress, strain and the elastic limit"
+Y = 2.0e11; L = 2.0; d = 2e-3; M = 40.0; g = 9.81
+A = math.pi * (d / 2) ** 2; F = M * g
+stress = F / A; strain = stress / Y; dL = strain * L
+assert abs(stress - 1.2491e8) < 5e4 and abs(dL - 1.249e-3) < 1e-5
+f = Fig(300, 236)
+f.text(150, 14, "Steel wire, Y = 200 GPa (stress in MPa)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 2.0), (0, 400))
+ax.grid(0.5, 100, size=9); ax.axes("strain x1e-3", "")
+ax.curve(lambda e: 200 * e, 0, 1.25, color=NAVY, sw=2.6)
+ax.curve(lambda e: 250 + 40 * (e - 1.25), 1.25, 2.0, color=RED, sw=2.2, dash=True)
+ax.pt(1.25, 250, "elastic limit", dx=-8, dy=-8, color=RED, anchor="end")
+ax.pt(strain * 1000, stress / 1e6, "40 kg load", dx=8, dy=16, color=TEAL)
+f.text(150, 208, "stress = F / A = %.1f MPa, strain = %.2e" % (stress / 1e6, strain), size=10, color=NAVY, bold=True)
+f.text(150, 224, "extension = strain x L = %.2f mm on 2 m" % (dL * 1000), size=10.5, color=TEAL, bold=True)
+facts = dict(s=stress / 1e6, e=strain, dl=dL * 1000, A=A * 1e6)
+```
+
 ## Chapter summary
 
 - Hooke's law: within the elastic limit $F = kx$, where the force constant

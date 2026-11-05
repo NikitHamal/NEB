@@ -538,6 +538,29 @@ original; and for any bisector pair confirm that the $x^{2}$ and $y^{2}$
 coefficients are negatives of each other.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="A railway crossing sign is a pair of straight lines crossing at one point, and their joint equation is a homogeneous quadratic. (a) A crossbuck sign with signals. (b) The equation 3x^2 - 7xy + 2y^2 = 0 factorises into y = 3x and y = x/2, whose slopes add to 7/2 and multiply to 3/2, matching the coefficients. The formula tan(theta) = 2 sqrt(h^2 - ab)/(a + b) gives 1, so the lines cross at 45 degrees. Calculating the angle without finding the lines is the shortcut that the formula gives in an examination."
+@ photo id="math11/crossing" cap="A railway crossing sign: two straight lines meeting at a point"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Angle between the lines of 3x^2 - 7xy + 2y^2 = 0"
+a, h2, b = 3.0, -7.0, 2.0; h = h2 / 2
+m1, m2 = 3.0, 0.5
+assert abs((m1 + m2) - (-h2 / b)) < 1e-12 and abs(m1 * m2 - a / b) < 1e-12
+tan = abs(2 * math.sqrt(h * h - a * b) / (a + b))
+ang = math.degrees(math.atan(tan))
+assert abs(tan - 1) < 1e-12 and abs(ang - 45) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "3x^2 - 7xy + 2y^2 = (y - 3x)(2y - x) = 0", size=10, color=NAVY, bold=True)
+ax = Axes(f, 60, 26, 180, 146, (-4, 4), (-4, 4))
+ax.grid(1, 1, size=9); ax.axes("x", "y")
+ax.curve(lambda x: 3 * x, -1.33, 1.33, color=NAVY, sw=2.4); ax.curve(lambda x: 0.5 * x, -4, 4, color=RED, sw=2.4)
+f.text(ax.X(1.45), ax.Y(3.9), "y = 3x", size=10, color=NAVY, bold=True, anchor="start")
+f.text(ax.X(4) - 2, ax.Y(2) - 8, "y = x/2", size=10, color=RED, bold=True, anchor="end")
+f.text(150, 208, "tan(theta) = 2 sqrt(h^2 - ab) / (a + b) = %.0f" % tan, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "theta = %.0f deg; m1 + m2 = 7/2, m1 m2 = 3/2" % ang, size=10, color=SLATE, bold=True)
+facts = dict(t=tan, th=ang)
+```
+
 ## Chapter summary
 
 - $ax^{2}+2hxy+by^{2}+2gx+2fy+c = 0$ represents a pair of straight lines exactly

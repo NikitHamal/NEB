@@ -664,6 +664,29 @@ line $y = x$ and $\ln x$ lies entirely **below** it. So the two curves never mee
 $e^{x} = \ln x$ has **no** solution.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="A roller coaster climbs to a peak, drops to a valley, and somewhere between them the curve bends from one direction to the other. (a) A red coaster track. (b) The same three features appear on the cubic f(x) = x^3 - 6x^2 + 9x + 1. Setting f' = 0 gives turning points at x = 1 and x = 3. Since f'' is negative at 1 and positive at 3, they are a maximum of 5 and a minimum of 1. Where f'' = 0, at x = 2, the curve passes through the inflexion point with value 3. Marking these points, with the y-intercept 1, is almost the whole sketch."
+@ photo id="math11/coaster" cap="A roller-coaster track: peaks, valleys and a point where the bend reverses"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Sketching f(x) = x^3 - 6x^2 + 9x + 1"
+fx = lambda x: x ** 3 - 6 * x ** 2 + 9 * x + 1
+d1 = lambda x: 3 * x ** 2 - 12 * x + 9
+d2 = lambda x: 6 * x - 12
+assert d1(1) == 0 and d1(3) == 0 and d2(1) < 0 and d2(3) > 0 and d2(2) == 0
+assert (fx(1), fx(3), fx(2), fx(0)) == (5, 1, 3, 1)
+f = Fig(300, 236)
+f.text(150, 14, "f(x) = x^3 - 6x^2 + 9x + 1", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (-0.5, 4.5), (-1, 7))
+ax.grid(1, 2, size=9); ax.axes("x", "y")
+ax.curve(fx, -0.5, 4.5, color=NAVY, sw=2.4)
+ax.pt(1, 5, "max (1, 5)", dx=8, dy=-6, color=RED)
+ax.pt(3, 1, "min (3, 1)", dx=-6, dy=16, color=TEAL, anchor="end")
+ax.pt(2, 3, "inflexion (2, 3)", dx=10, dy=-6, color=AMBER, size=10)
+f.text(150, 208, "f' = 3(x - 1)(x - 3) = 0 at x = 1 and 3", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "f'' = 6x - 12: negative at 1, positive at 3, zero at 2", size=9.5, color=SLATE, bold=True)
+facts = dict(mx=fx(1), mn=fx(3), inf=fx(2))
+```
+
 ## Chapter summary
 
 - $f$ is even if $f(-x) = f(x)$ (graph symmetric about the $Y$-axis) and odd if

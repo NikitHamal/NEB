@@ -1270,6 +1270,27 @@ add the moduli of the pieces — exactly as you do when a single curve crosses t
 axis.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="If a pump delivers water at a rate that grows as t^2, the volume stored is the area under the rate curve. (a) A rooftop water tank. (b) Six rectangles under y = x^2 on 0 to 3 give a lower estimate of 6.875 and an upper estimate of 11.375. With 600 rectangles the two bounds squeeze together to 8.9775 and 9.0225. The anti-derivative x^3/3 gives the exact area 9 m3 in one step. The anti-derivative is therefore the shortcut that replaces an endless sum of thin rectangles, which is the idea behind the fundamental theorem of calculus."
+@ photo id="math11/tank" cap="A rooftop water tank, filled by a pump whose flow increases with time"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Area under y = x^2 by rectangles"
+def left(n): return sum((3.0 * i / n) ** 2 * (3.0 / n) for i in range(n))
+def right(n): return sum((3.0 * (i + 1) / n) ** 2 * (3.0 / n) for i in range(n))
+exact = 3 ** 3 / 3.0
+assert exact == 9 and left(6) < exact < right(6) and abs(right(600) - 9) < 0.03
+f = Fig(300, 236)
+f.text(150, 14, "Area of y = x^2 from 0 to 3 (rate in m3/h)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 140, (0, 3.3), (0, 10))
+ax.grid(1, 2, size=9); ax.axes("t (h)", "y")
+ax.bars(lambda x: x * x, 0, 3, 6, mode="left")
+ax.curve(lambda x: x * x, 0, 3.2, color=NAVY, sw=2.4)
+f.text(150, 200, "n = 6: lower %.3f, upper %.3f" % (left(6), right(6)), size=10.5, color=AMBER, bold=True)
+f.text(150, 215, "n = 600: lower %.4f, upper %.4f" % (left(600), right(600)), size=10, color=SLATE, bold=True)
+f.text(150, 230, "exact = x^3/3 from 0 to 3 = %d m3" % exact, size=10.5, color=NAVY, bold=True)
+facts = dict(l6=left(6), r6=right(6), l=left(600), r=right(600), e=exact)
+```
+
 ## Chapter summary
 
 - $\int f(x)dx = F(x)+C$ means $F'(x)=f(x)$. The constant $C$ is compulsory in an

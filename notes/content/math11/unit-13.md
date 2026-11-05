@@ -551,6 +551,38 @@ taking a square root: compare $AB^{2}$ with $BC^{2}$ for triangles, and compare
 arithmetic slips, not to missing ideas.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="A cube puzzle is a model of three-dimensional space: any corner is fixed by an ordered triple (x, y, z). (a) A 3 x 3 x 3 puzzle cube. (b) With one corner at the origin and the opposite corner at (3, 3, 3), the distance formula gives the face diagonal 4.243 and the space diagonal 5.196, which is the side times root 3. The midpoint formula puts the centre of the cube at (1.5, 1.5, 1.5). The program draws every edge from the eight computed vertices using a simple oblique projection, so the picture and the numbers come from the same coordinates."
+@ photo id="math11/rubik" cap="A 3 x 3 x 3 cube: positions are described by three coordinates"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Face and space diagonals of a cube of side 3"
+s = 3.0
+dist = lambda p, q: math.sqrt(sum((a - b) ** 2 for a, b in zip(p, q)))
+O = (0, 0, 0); G = (3, 3, 3); F = (3, 3, 0)
+face, space = dist(O, F), dist(O, G)
+mid = tuple((a + b) / 2 for a, b in zip(O, G))
+assert abs(face - 3 * math.sqrt(2)) < 1e-9 and abs(space - 3 * math.sqrt(3)) < 1e-9 and mid == (1.5, 1.5, 1.5)
+sc = 32
+P3 = lambda x, y, z: (60 + sc * x + 0.45 * sc * y, 168 - sc * z - 0.32 * sc * y)
+f = Fig(300, 236)
+f.text(150, 14, "Cube from (0,0,0) to (3,3,3)", size=10.5, color=NAVY, bold=True)
+import itertools
+V = list(itertools.product([0, 3], repeat=3))
+for p in V:
+    for q in V:
+        if p < q and sum(a != b for a, b in zip(p, q)) == 1:
+            a, b = P3(*p), P3(*q); f.line(a[0], a[1], b[0], b[1], color=NAVY, sw=1.5)
+a, b = P3(*O), P3(*G); f.line(a[0], a[1], b[0], b[1], color=RED, sw=2.2, dash=True)
+a, b = P3(*O), P3(*F); f.line(a[0], a[1], b[0], b[1], color=AMBER, sw=2, dash=True)
+f.text(P3(*O)[0] - 6, P3(*O)[1] + 14, "O", size=11, color=NAVY, bold=True)
+f.text(P3(*G)[0] + 8, P3(*G)[1] - 4, "(3,3,3)", size=9.5, color=RED, bold=True, anchor="start")
+f.text(P3(*F)[0] + 6, P3(*F)[1] + 12, "(3,3,0)", size=9.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 190, "OF = sqrt(9 + 9 + 0) = %.3f (face)" % face, size=10.5, color=AMBER, bold=True)
+f.text(150, 206, "OG = sqrt(9 + 9 + 9) = %.3f (space)" % space, size=10.5, color=RED, bold=True)
+f.text(150, 222, "midpoint of OG = (%.1f, %.1f, %.1f)" % mid, size=10.5, color=NAVY, bold=True)
+facts = dict(f=face, s=space)
+```
+
 ## Chapter summary
 
 - Three mutually perpendicular axes give three coordinate planes ($x=0$, $y=0$,
