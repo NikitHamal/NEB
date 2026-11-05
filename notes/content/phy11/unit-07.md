@@ -1018,6 +1018,39 @@ Indian plate (about $2\ \text{cm}$ per year) that builds the Himalaya and causes
 earthquakes, and it was used in the 2019–2020 survey in which Nepal and China
 jointly re-measured the height of Sagarmatha as $8848.86\ \text{m}$.
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="A satellite stays in orbit when gravity supplies exactly the centripetal force, which gives v = sqrt(GM/r) and a period T = 2 pi sqrt(r cubed / GM) that depends only on the radius. (a) A GPS satellite. (b) At r = 26,560 km, about 20189 km above the ground, the speed is 3.87 km/s and the period 11.97 h, so each satellite circles the Earth twice a day and the whole constellation keeps four or more satellites above any horizon. At 42,164 km the period becomes 23.94 h, matching one sidereal day, which is why a geostationary satellite appears fixed over Nepal and a dish can point at it permanently."
+@ photo id="phy11/gps" cap="A GPS Block IIF navigation satellite"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="GPS and geostationary orbits drawn to scale"
+import math
+G, M, R = 6.674e-11, 5.972e24, 6.371e6
+def orbit(r):
+    return 2 * math.pi * math.sqrt(r**3 / (G * M)), math.sqrt(G * M / r)
+rg, rs = 26.56e6, 42.164e6
+Tg, vg = orbit(rg); Ts, vs = orbit(rs)
+assert abs(Tg / 3600 - 11.97) < 0.05 and abs(Ts / 3600 - 23.93) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "Orbits to scale (radius from Earth's centre)", size=10.5, color=NAVY, bold=True)
+cx, cy, k = 100, 122, 92 / 42.164
+f.circle(cx, cy, 42.164 * k, fill="none", stroke=RED, sw=1.6)
+f.circle(cx, cy, 26.56 * k, fill="none", stroke=TEAL, sw=1.6)
+f.circle(cx, cy, 6.371 * k, fill=BLUE, stroke=NAVY, sw=1.4)
+f.circle(cx + 26.56 * k * 0.7071, cy - 26.56 * k * 0.7071, 4, fill=TEAL, stroke=TEAL)
+f.circle(cx + 42.164 * k * 0.7071, cy + 42.164 * k * 0.7071, 4, fill=RED, stroke=RED)
+f.text(cx, cy, "Earth", size=9.5, color=NAVY, bold=True, vmid=True)
+f.text(196, 40, "GPS", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(196, 54, "r = %.0f km" % (rg / 1e3), size=10, color=TEAL, anchor="start")
+f.text(196, 68, "v = %.2f km/s" % (vg / 1e3), size=10, color=TEAL, anchor="start")
+f.text(196, 82, "T = %.2f h" % (Tg / 3600), size=10, color=TEAL, bold=True, anchor="start")
+f.text(196, 160, "Geostationary", size=10.5, color=RED, bold=True, anchor="start")
+f.text(196, 174, "r = %.0f km" % (rs / 1e3), size=10, color=RED, anchor="start")
+f.text(196, 188, "v = %.2f km/s" % (vs / 1e3), size=10, color=RED, anchor="start")
+f.text(196, 202, "T = %.2f h" % (Ts / 3600), size=10, color=RED, bold=True, anchor="start")
+f.text(150, 230, "T = 2 pi sqrt(r^3 / GM)", size=10.5, color=SLATE, bold=True)
+facts = dict(Tg="%.2f" % (Tg / 3600), vg="%.2f" % (vg / 1e3), Ts="%.2f" % (Ts / 3600), vs="%.2f" % (vs / 1e3), hg="%.0f" % ((rg - R) / 1e3))
+```
+
 ## Chapter summary
 
 - Newton's law: $F = Gm_1m_2/r^{2}$ with

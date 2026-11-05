@@ -554,6 +554,32 @@ $$ \vec{\tau} = (-2\hat{i} + 5\hat{j} + \hat{k})\ \text{N m} $$
 with magnitude $\sqrt{4 + 25 + 1} = \sqrt{30} = 5.48\ \text{N m}$.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="A vector can be replaced by two perpendicular components that together have the same effect, and each component can then be treated separately. (a) A kite pulls on its string with a tension of 40 N at 60 degrees above the ground. (b) The horizontal component is T cos 60 = 20.0 N and the vertical component is T sin 60 = 34.6 N, and the squares of the two add to 1600, which is T squared, confirming that resolving did not change the magnitude. The vertical part supports the kite against its weight; the horizontal part must be balanced by the holder's grip and the friction under the feet."
+@ photo id="phy11/kite" cap="A kite held by its string against the wind"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Resolving the string tension into components"
+import math
+T, th = 40.0, 60.0
+Tx, Ty = T * math.cos(math.radians(th)), T * math.sin(math.radians(th))
+assert abs(Tx**2 + Ty**2 - T**2) < 1e-9 and abs(Tx - 20) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Tension 40 N at 60 deg above the ground", size=10.5, color=NAVY, bold=True)
+ox, oy, s = 50, 180, 4.2
+f.line(ox - 10, oy, 285, oy, color=SLATE, sw=1)
+f.poly([(ox, oy), (ox + Tx * s, oy), (ox + Tx * s, oy - Ty * s)], fill=BLUE, stroke=BLUE, sw=0.5)
+f.arrow([(ox, oy), (ox + Tx * s, oy - Ty * s)], color=NAVY, sw=2.4, label="T = 40 N", lpos=(ox + Tx * s * 0.5 - 28, oy - Ty * s * 0.5 - 6))
+f.arrow([(ox, oy), (ox + Tx * s, oy)], color=RED, sw=2.2)
+f.arrow([(ox + Tx * s, oy), (ox + Tx * s, oy - Ty * s)], color=TEAL, sw=2.2)
+f.raw('<path d="M %.1f %.1f A 30 30 0 0 0 %.1f %.1f" fill="none" stroke="%s" stroke-width="1.4"/>' % (ox + 30, oy, ox + 30 * math.cos(math.radians(th)), oy - 30 * math.sin(math.radians(th)), AMBER))
+f.text(ox + 42, oy - 10, "60", size=10.5, color=AMBER, bold=True)
+f.text(ox + Tx * s / 2, oy + 16, "Tx = T cos 60 = %.1f N" % Tx, size=10.5, color=RED, bold=True)
+f.text(ox + Tx * s + 8, oy - Ty * s / 2, "Ty = T sin 60\n= %.1f N" % Ty, size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 214, "Tx^2 + Ty^2 = %.0f = T^2 (check)" % (Tx**2 + Ty**2), size=10.5, color=SLATE, bold=True)
+f.text(150, 228, "Ty pulls up, Tx pulls toward the holder", size=10.5, color=SLATE)
+facts = dict(Tx="%.1f" % Tx, Ty="%.1f" % Ty, chk="%.0f" % (Tx**2 + Ty**2))
+```
+
 ## Chapter summary
 
 - Scalars need a magnitude only; vectors need magnitude **and** direction and
