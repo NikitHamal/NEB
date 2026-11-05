@@ -215,15 +215,6 @@ def web_search(query: str, num: int = 3) -> List[Dict]:
     return results
 
 
-def format_search_context(results: List[Dict]) -> str:
-    if not results:
-        return ""
-    lines = ["Web search results (use for grounding, cite sources):"]
-    for i, r in enumerate(results, 1):
-        lines.append(f"{i}. {r['title']} — {r['snippet']} ({r['url']})")
-    return "\n".join(lines)
-
-
 def needs_search(prompt: str) -> bool:
     """Heuristic: does this prompt likely need live web data?"""
     if not prompt:
