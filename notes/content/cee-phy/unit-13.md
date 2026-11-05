@@ -695,6 +695,43 @@ polarized, but in the complementary sense (it is richer in the in-plane componen
 - **Stress analysis** in transparent models, and the study of optically active
   substances (a sugar solution rotates the plane of polarization).
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="A CD is a reflection grating. (a) The 1.6 micrometre track spacing splits white light into rainbow arcs. (b) From d sin(theta) = m lambda, violet (400 nm) and red (700 nm) leave at 14.5 and 25.9 degrees in order 1, 30.0 and 61.0 degrees in order 2, while order 3 starts at 48.6 degrees and reaches the grazing limit at 533 nm because 3 x 700 / 1600 is more than 1. Orders 2 and 3 overlap from 48.6 to 61.0 degrees, so higher orders are not pure colours. Red bends more than violet, the reverse of a prism."
+@ photo id="ceephy/cdrainbow" cap="Light from a window diffracted by the closely spaced tracks of a compact disc"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Where the first three orders of a CD fall"
+d = 1.6e-6
+ang = lambda lam, m: math.degrees(math.asin(m * lam / d)) if m * lam / d <= 1 else None
+def rgb(l):
+    if l < 440: r, g, b = (440 - l) / 40, 0, 1
+    elif l < 490: r, g, b = 0, (l - 440) / 50, 1
+    elif l < 510: r, g, b = 0, 1, (510 - l) / 20
+    elif l < 580: r, g, b = (l - 510) / 70, 1, 0
+    elif l < 645: r, g, b = 1, (645 - l) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * c) for c in (r, g, b))
+a1v, a1r, a2v, a2r, a3v = ang(400e-9, 1), ang(700e-9, 1), ang(400e-9, 2), ang(700e-9, 2), ang(400e-9, 3)
+assert ang(700e-9, 3) is None and abs(a1v - 14.48) < 0.01 and abs(a2r - 61.04) < 0.01 and abs(a2v - 30.0) < 1e-9
+lo, hi = a3v, a2r
+assert abs(lo - 48.59) < 0.01
+facts = dict(a1v="%.1f" % a1v, a1r="%.1f" % a1r, a2v="%.1f" % a2v, a2r="%.1f" % a2r, a3v="%.1f" % a3v, lo="%.1f" % lo, hi="%.1f" % hi)
+f = Fig(300, 236)
+f.text(150, 14, "d sin(theta) = m lambda, d = 1.6 um", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 2.6
+for m, y in ((1, 40), (2, 80), (3, 120)):
+    f.text(20, y + 13, "m=%d" % m, size=10.5, color=SLATE, bold=True)
+    for lam in range(400, 700, 6):
+        s1, s2 = m * lam * 1e-9 / d, m * (lam + 6) * 1e-9 / d
+        if s2 > 1: break
+        x1, x2 = X(math.degrees(math.asin(s1))), X(math.degrees(math.asin(s2)))
+        f.box(x1, y, max(x2 - x1, 1.2), 26, fill=rgb(lam), stroke=rgb(lam), r=0, sw=0.3)
+f.line(X(0), 160, X(90), 160, color=SLATE, sw=1.4)
+for t in (0, 30, 60, 90): f.text(X(t), 173, "%d" % t, size=10.5, color=SLATE)
+f.text(150, 192, "orders 2 and 3 overlap %.1f to %.1f" % (lo, hi), size=10.5, color=RED, bold=True)
+f.text(150, 210, "order 1: %.1f (violet) to %.1f (red)" % (a1v, a1r), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "angle theta in degrees from the normal", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

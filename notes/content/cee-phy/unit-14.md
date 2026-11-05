@@ -746,6 +746,27 @@ and the need to keep the reference junction at a known temperature.
   cooled CCD cameras and electronic component cooling.
 - **Industrial thermometry** — thermocouples in furnaces, kilns and engines.
 
+```photogrid label="14.1" cols="2" ratio="1.2" caption="Resistance rises with temperature. (a) The coiled tungsten filament runs at about 2,700 K. (b) For a 60 W, 230 V lamp P = V^2 / R gives a hot resistance of 882 ohm and a working current of 0.261 A. With a temperature coefficient of 0.0045 per kelvin (assumed, linear model) the cold resistance at 20 C is only 74.5 ohm, so the switch-on current is 3.09 A, 11.8 times the working current, which is why lamps burn out as they are switched on. Over 1,000 h a 60 W lamp uses 60 units and a 9 W LED lamp 9."
+@ photo id="ceephy/filament" cap="A coiled tungsten filament glowing in an incandescent lamp"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Hot and cold resistance and current of a 60 W lamp"
+V = 230.0; P = 60.0; Th = 2700.0; Tc = 293.0; al = 0.0045
+Rh = V ** 2 / P; I = P / V; ratio = 1 + al * (Th - Tc); Rc = Rh / ratio; Ic = V / Rc
+assert abs(Rh - 881.67) < 0.01 and abs(I - 0.2609) < 1e-3 and abs(Ic / I - ratio) < 1e-9
+facts = dict(rh="%.0f" % Rh, i="%.3f" % I, rc="%.1f" % Rc, ic="%.2f" % Ic, ratio="%.1f" % ratio, e60="%.0f" % (P), e9="%.0f" % 9)
+f = Fig(300, 236)
+f.text(150, 14, "Resistance (ohm) and current (A)", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, sc, col, fl, fmt) in enumerate((("hot R (working)", Rh, 0.22, AMBER, SAND, "%.0f"), ("cold R at 20 C", Rc, 0.22, TEAL, MINT, "%.1f"), ("working current", I, 60, AMBER, SAND, "%.3f"), ("switch-on current", Ic, 60, RED, ROSE, "%.2f"))):
+    y = 28 + i * 40 + (10 if i > 1 else 0)
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * sc, 3)
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 17, fmt % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "inrush = %.1f x working current" % ratio, size=10.5, color=RED, bold=True)
+f.text(150, 224, "1,000 h: 60 W = 60 units, 9 W = 9 units", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

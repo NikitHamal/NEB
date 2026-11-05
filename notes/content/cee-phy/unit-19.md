@@ -487,6 +487,36 @@ the elements**, and it is the basis of X-ray fluorescence identification. You ar
 not expected to use the equation numerically, only to know that $\sqrt{f}$ is
 linear in $Z$ and that the line is characteristic of the element.
 
+```photogrid label="19.1" cols="2" ratio="1.2" caption="Short-wavelength limit and characteristic lines. (a) Roentgen's plate shows bones and a ring because X-rays are absorbed more by dense matter. (b) Electrons accelerated through V can give one photon at most eV, so the continuous spectrum stops at lambda_min = hc / eV: 0.0413 nm at 30 kV and 0.0620 nm at 20 kV. The curves use Kramers' shape (lambda / lambda_min - 1) / lambda^2. The K-alpha line of copper from Moseley's law, E = 13.6 (3/4) (Z - 1)^2 eV with Z = 29, is 8.00 keV at 0.155 nm, independent of tube voltage."
+@ photo id="ceephy/xray" cap="One of the first X-ray photographs, a hand with a ring, made by Roentgen in 1895"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Continuous X-ray spectrum and the copper K-alpha line"
+hc = 1239.84
+lmin = lambda kV: hc / (kV * 1e3) 
+l30, l20 = lmin(30), lmin(20)
+Ek = 13.6 * 0.75 * (29 - 1) ** 2; lk = hc / Ek
+assert abs(l30 - 0.04133) < 1e-4 and abs(l20 - 0.0620) < 1e-4 and abs(lk - 0.155) < 1e-3
+I = lambda l, lm: (l / lm - 1) / l ** 2 if l > lm else 0.0
+Imax = I(2 * l30, l30)
+facts = dict(l30="%.4f" % l30, l20="%.4f" % l20, ek="%.2f" % (Ek / 1000), lk="%.3f" % lk)
+f = Fig(300, 244)
+f.text(150, 14, "intensity against wavelength (nm)", size=10.5, color=NAVY, bold=True)
+X = lambda l: 30 + l * 1250; Y = lambda i: 150 - i / Imax * 105
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for lm, col in ((l30, NAVY), (l20, TEAL)):
+    pts = [(X(k / 1000), Y(I(k / 1000, lm))) for k in range(int(lm * 1000) + 1, 205, 3)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(lk), Y(0), X(lk), Y(0.25 * Imax), color=RED, sw=2.4)
+f.text(X(lk) + 5, Y(0.25 * Imax) + 6, "Cu K-a", size=10.5, color=RED, bold=True, anchor="start")
+f.text(X(0.1), Y(Imax) - 8, "30 kV", size=10.5, color=NAVY, bold=True)
+f.text(X(0.1), Y(I(0.1, l20)) + 16, "20 kV", size=10.5, color=TEAL, bold=True)
+for q in (0, 0.05, 0.1, 0.15, 0.2): f.text(X(q), Y(0) + 13, "%g" % q, size=10.5, color=SLATE)
+f.text(150, 184, "lambda_min = %.4f nm (30 kV)" % l30, size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "lambda_min = %.4f nm (20 kV)" % l20, size=10.5, color=TEAL, bold=True)
+f.text(150, 220, "Cu K-alpha %.2f keV = %.3f nm" % (Ek / 1000, lk), size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |
