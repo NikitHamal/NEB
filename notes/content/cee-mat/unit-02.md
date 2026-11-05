@@ -184,6 +184,33 @@ CI = Rs 4,200. Difference = **Rs 200** — the same as $P(R/100)^2$ = 20000 × 0
 difference is the interest on the first year's interest.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Why compound interest beats simple interest. (a) An old Nepali paper banknote: money kept in a bank earns interest, and the way interest is counted decides how fast it grows. (b) Rs 10,000 at 10 per cent a year. Simple interest adds the same Rs 1,000 every year (SI = PRT/100), so the amount is a straight line. Compound interest earns interest on interest, A = P(1 + r/100)^t, a curve that bends upwards. After 3 years the two differ by only Rs 310 (13,310 against 13,000) but after 10 years compound interest gives Rs 25,937 against Rs 20,000. The money doubles in ln 2 / ln 1.1 = 7.27 years, which the rule of 72 (72 / 10 = 7.2) estimates quickly."
+@ photo id="ceemat/rupee" cap="An old Nepali paper banknote"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rs 10,000 at 10 per cent: simple against compound"
+import math
+P0, r = 10000, 0.10
+si = lambda t: P0 * (1 + r * t)
+ci = lambda t: P0 * (1 + r) ** t
+t2 = math.log(2) / math.log(1 + r)
+assert round(si(3)) == 13000 and round(ci(3)) == 13310 and round(ci(10)) == 25937 and round(si(10)) == 20000
+assert abs(t2 - 7.27) < 0.005 and abs(ci(t2) - 20000) < 1e-6
+f = Fig(300, 236)
+f.text(150, 12, "Rs 10,000 at 10% a year", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 28, 230, 150, (0, 10), (10000, 26000))
+ax.grid(2, 5000, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%dk" % (v // 1000)).axes("yr", "Rs")
+ax.curve(si, 0, 10, color=TEAL)
+ax.curve(ci, 0, 10, color=RED)
+ax.pt(t2, 20000, "doubles in 7.3 yr", dx=-8, dy=-8, anchor="end")
+f.line(58, 42, 78, 42, color=RED, sw=2.2)
+f.text(84, 42, "compound (CI)", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.line(58, 58, 78, 58, color=TEAL, sw=2.2)
+f.text(84, 58, "simple (SI)", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "3 years: CI Rs 13,310 against SI Rs 13,000", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "10 years: CI Rs 25,937 against SI Rs 20,000", size=10.5, color=SLATE, bold=True)
+```
+
 ## 2.3 Time and work, speed, distance and time
 
 ### Time and work
@@ -245,6 +272,32 @@ does it take?
 **Solution.** Equal distances: 2 × 30 × 20/(30 + 20) = 1200/50 = **24 km/h**, not 25.
 (Take the distance as 60 km: 2 h out, 3 h back, 120 km in 5 h = 24 km/h.)
 :::
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Average speed is not the average of the speeds. (a) A red city bus in Kathmandu. (b) A bus climbs a hill at 40 km/h and returns at 60 km/h. The simple mean of the speeds is 50 km/h, but the bus spends longer on the slow leg, so the true average is total distance over total time = 2 x 40 x 60 / (40 + 60) = 48 km/h (the harmonic mean). Check with 120 km each way: 3 h up and 2 h down is 5 h for 240 km, again 48. The red curve stays below the dashed line of simple means for every return speed except 40, where both give 40. Use the harmonic mean whenever equal distances are covered at different speeds, and the ordinary mean when equal times are used."
+@ photo id="ceemat/bus" cap="A red city bus in Kathmandu"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Out at 40 km/h, back at v: average speed"
+u = 40
+hm = lambda v: 2 * u * v / (u + v)
+am = lambda v: (u + v) / 2
+assert hm(60) == 48 and am(60) == 50 and hm(40) == 40
+d = 120
+assert abs(2 * d / (d / 40 + d / 60) - 48) < 1e-9 and d / 40 + d / 60 == 5
+f = Fig(300, 236)
+f.text(150, 12, "Average speed, out at 40 km/h", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 28, 230, 150, (0, 120), (0, 80))
+ax.grid(20, 20).axes("v back", "avg")
+ax.curve(hm, 1, 120, color=RED)
+ax.curve(am, 0, 120, color=AMBER, dash=True)
+ax.pt(60, 48, "48", dx=6, dy=16)
+f.line(58, 42, 78, 42, color=RED, sw=2.2)
+f.text(84, 42, "true (harmonic)", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.line(58, 58, 78, 58, color=AMBER, sw=2.2, dash=True)
+f.text(84, 58, "simple mean", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "up 40, down 60 km/h: average 48, not 50", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "120 km each way: 3 h + 2 h = 5 h for 240 km", size=10.5, color=SLATE, bold=True)
+```
 
 ## 2.4 Ages, mixtures and number properties
 
