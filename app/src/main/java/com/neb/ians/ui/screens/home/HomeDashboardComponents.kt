@@ -566,7 +566,6 @@ private fun PostKindPill(icon: ImageVector, label: String) {
 }
 
 @Immutable
-@Immutable
 data class HomeFeedFilter(
     val key: String,
     val label: String,
