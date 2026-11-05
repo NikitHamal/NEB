@@ -48,6 +48,8 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.DataObject
+import androidx.compose.material.icons.outlined.HorizontalRule
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Edit
@@ -1272,6 +1274,8 @@ fun MarkdownToolbar(
             ToolbarButton(Icons.Outlined.FormatQuote, "Quote") { onValueChange(insertMarkdown(value, "\n> ")) }
             ToolbarButton(Icons.Outlined.Link, "Link") { onValueChange(insertMarkdown(value, "[text](", ")")) }
             ToolbarButton(Icons.Outlined.Functions, "Math formula") { onValueChange(insertMarkdown(value, "$$", "$$")) }
+            ToolbarButton(Icons.Outlined.DataObject, "Code block") { onValueChange(insertMarkdown(value, "\n```\n", "\n```\n")) }
+            ToolbarButton(Icons.Outlined.HorizontalRule, "Divider") { onValueChange(insertMarkdown(value, "\n---\n")) }
         }
     }
 }
@@ -1282,7 +1286,14 @@ private fun ToolbarButton(
     contentDescription: String,
     onClick: () -> Unit
 ) {
-    IconButton(onClick = onClick, modifier = Modifier.size(34.dp)) {
+    // A tonal rounded square that springs under the thumb and ticks; never a bare ripple.
+    Box(
+        modifier = Modifier
+            .size(36.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .nebPressable(scale = 0.88f, tactile = TactileType.LightTap, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,

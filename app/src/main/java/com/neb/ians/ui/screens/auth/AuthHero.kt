@@ -266,8 +266,8 @@ fun AuthGlyphMark(create: Boolean, modifier: Modifier = Modifier, size: Dp = 76.
     val shapes = remember { listOf(NebGlyphShapes.Cookie, NebGlyphShapes.Flower) }
     val position = androidx.compose.animation.core.animateFloatAsState(
         targetValue = if (create) 1f else 0f,
-        animationSpec = if (reduced) androidx.compose.animation.core.snap()
-        else spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessLow),
+        animationSpec = if (reduced) androidx.compose.animation.core.snap<Float>()
+        else spring<Float>(dampingRatio = 0.6f, stiffness = Spring.StiffnessLow),
         label = "auth_mark_morph"
     )
     Box(
