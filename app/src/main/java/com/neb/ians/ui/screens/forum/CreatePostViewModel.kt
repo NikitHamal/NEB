@@ -10,6 +10,7 @@ import com.neb.ians.data.api.ApiPollCreate
 import com.neb.ians.data.api.ApiPollOptionCreate
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.api.WebPostCreateRequest
+import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.applyMention
@@ -20,7 +21,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -106,6 +109,7 @@ data class CreatePostUiState(
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
+    authRepository: AuthRepository,
     private val mediaUploadHelper: ForumMediaUploadHelper,
     private val contentImageRepository: com.neb.ians.data.repository.ContentImageRepository,
     @ApplicationContext private val appContext: Context
@@ -113,6 +117,11 @@ class CreatePostViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(CreatePostUiState())
     val uiState: StateFlow<CreatePostUiState> = _uiState.asStateFlow()
+
+    /** Who the post goes out as, for the identity pill in the composer header. */
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
+    val userPhotoUrl: StateFlow<String?> =
+        authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null
@@ -385,8 +394,9 @@ class CreatePostViewModel @Inject constructor(
 
     fun submitPost(onSuccess: () -> Unit) {
         val state = _uiState.value
-        val title = state.title.trim()
         val content = state.content.text.trim()
+        // The title is optional, as on the web: without one the first line of the post stands in.
+        val title = state.title.trim().ifBlank { derivePostTitle(content) }
         val category = state.effectiveCategory
 
         if (title.isBlank() || content.isBlank()) return
@@ -515,4 +525,13 @@ class CreatePostViewModel @Inject constructor(
     fun clearError() {
         _uiState.update { it.copy(error = null) }
     }
+}
+
+/** First readable line of a post, stripped of markdown, for posts written without a title. */
+internal fun derivePostTitle(content: String): String {
+    val line = content.lineSequence()
+        .map { it.replace(Regex("[#*`>_~$\\[\\]()!-]+"), " ").replace(Regex("\\s+"), " ").trim() }
+        .firstOrNull { it.isNotBlank() }
+        .orEmpty()
+    return if (line.length <= 80) line else line.take(79).trimEnd() + "\u2026"
 }
