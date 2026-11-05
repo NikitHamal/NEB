@@ -454,7 +454,11 @@ class Poll(models.Model):
         (POLL_TYPE_MCQ, 'MCQ Quiz'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
-    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll')
+    # A poll belongs to a post OR to a reply (comment poll), never both.
+    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll', null=True, blank=True)
+    reply = models.OneToOneField('Reply', on_delete=models.CASCADE, related_name='poll', null=True, blank=True)
+    # Facebook-style: anyone who can vote may append an option of their own.
+    allow_add_options = models.BooleanField(default=False)
     question = models.CharField(max_length=300, blank=True, default='')
     poll_type = models.CharField(max_length=10, choices=POLL_TYPE_CHOICES, default=POLL_TYPE_VOTING)
     allow_multiple = models.BooleanField(default=False)
@@ -481,6 +485,8 @@ class PollOption(models.Model):
     is_correct = models.BooleanField(default=False)
     vote_count = models.PositiveIntegerField(default=0)
     order = models.PositiveSmallIntegerField(default=0)
+    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='added_poll_options')
+    created_at = models.BigIntegerField(default=0)
 
     class Meta:
         db_table = 'poll_options'
@@ -2466,3 +2472,81 @@ class CreatorPost(models.Model):
 
     def __str__(self):
         return self.title or f"Post {self.id[:8]}"
+
+
+# --------------------------------------------------------------------------
+# Post reach (per viewer per day) and feed impressions. Written by
+# api.post_reach, read by api.post_insights and the admin Analytics page.
+# --------------------------------------------------------------------------
+
+class PostReach(models.Model):
+    """One viewer's opens of one post on one local day. `viewer` is a keyed
+    hash (api.signals.viewer_tag), never a user id or an IP."""
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reach_rows')
+    viewer = models.CharField(max_length=24)
+    day = models.CharField(max_length=10)          # YYYY-MM-DD, settings.TIME_ZONE
+    first_at = models.BigIntegerField()
+    last_at = models.BigIntegerField()
+    hits = models.PositiveIntegerField(default=1)
+    dwell_ms = models.PositiveIntegerField(default=0)
+    surface = models.CharField(max_length=12, blank=True, default='')   # feed|search|profile|share|direct|notification|related
+    source = models.CharField(max_length=6, default='web')               # web|app
+    device_class = models.CharField(max_length=10, blank=True, default='')
+    os_family = models.CharField(max_length=16, blank=True, default='')
+    country = models.CharField(max_length=60, blank=True, default='')
+    channel = models.CharField(max_length=12, blank=True, default='')    # referrer channel
+    is_member = models.BooleanField(default=False)
+    is_follower = models.BooleanField(default=False)
+    is_owner = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'post_reach'
+        unique_together = ('post', 'viewer', 'day')
+        indexes = [
+            models.Index(fields=['post', 'day']),
+            models.Index(fields=['day']),
+        ]
+
+
+class PostImpression(models.Model):
+    """Daily count of times a post scrolled into view in a list."""
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='impression_rows')
+    day = models.CharField(max_length=10)
+    source = models.CharField(max_length=6, default='web')
+    count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'post_impressions'
+        unique_together = ('post', 'day', 'source')
+        indexes = [models.Index(fields=['day'])]
+
+
+class ActorSignal(models.Model):
+    """Private first-party context for account and interaction events.
+
+    Internal analytics only (see docs/ANALYTICS.md, "Private signals"). No
+    user id, IP or user agent lives here. `actor` is an HMAC of the user id under
+    a key derived from SECRET_KEY: staff can go user -> signals by recomputing
+    the tag, but the table cannot be turned back into users. `detail` is
+    AES-GCM ciphertext. Never expose this model through an API serializer.
+    """
+    kind = models.CharField(max_length=10)         # signup|login|post|reply|vote|like|option
+    actor = models.CharField(max_length=24)
+    ref = models.CharField(max_length=36, blank=True, default='')    # post id the event belongs to
+    ref2 = models.CharField(max_length=36, blank=True, default='')   # reply / option id
+    source = models.CharField(max_length=6, default='web')
+    device_class = models.CharField(max_length=10, blank=True, default='')
+    os_family = models.CharField(max_length=16, blank=True, default='')
+    browser = models.CharField(max_length=24, blank=True, default='')
+    app_version = models.CharField(max_length=16, blank=True, default='')
+    country = models.CharField(max_length=60, blank=True, default='')
+    detail = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'sys_ctx'
+        indexes = [
+            models.Index(fields=['kind', '-created_at']),
+            models.Index(fields=['actor', 'kind']),
+            models.Index(fields=['ref', 'kind']),
+        ]

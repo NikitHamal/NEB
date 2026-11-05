@@ -105,14 +105,17 @@ urlpatterns = [
 
     # Posts — GET list + POST create handled by posts_endpoint dispatcher
     path('posts/', views.posts_endpoint, name='posts'),
+    path('posts/impressions/', views.post_impressions, name='post-impressions'),
     path('posts/<str:post_id>/', views.post_detail, name='post-detail'),
     path('posts/<str:post_id>/view/', views.post_view, name='post-view'),
+    path('posts/<str:post_id>/insights/', views.post_insights, name='post-insights'),
     path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
 
     path('posts/<str:post_id>/images/', views.post_images, name='post-images'),
     path('forum/uploads/', views.forum_media_upload, name='forum-media-upload'),
     path('content-images/upload/', views_content_images.upload_content_image, name='content-image-upload'),
     path('polls/<str:poll_id>/vote/', views.poll_vote, name='poll-vote'),
+    path('polls/<str:poll_id>/options/', views.poll_options_endpoint, name='poll-options'),
 
     # Intelligent mixed feed — never-empty suggestions (posts + resources)
     path('feed/suggested/', views.feed_suggested, name='feed-suggested'),
