@@ -1247,7 +1247,7 @@ select.neb-sel-native {
 .epf-section .neb-pick-group { display: grid; gap: 8px; margin-bottom: 20px; }
 .epf-section .neb-pick-group .md-label { margin: 0; }
 .epf-section .neb-tiles { max-width: 480px; }
-#epf-edu .ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+#epf-edu .ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 #epf-edu .ob-label { margin: 18px 0 8px; }
 #epf-edu > .ob-reveal:first-child .ob-label { margin-top: 0; }
 #epf-edu, #epf-skills, #epf-opento { margin-bottom: 4px; }
@@ -2972,7 +2972,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .ob-form .neb-pick-group { margin: 0; display: grid; gap: 8px; }
 .ob-form .neb-pick-group .md-label { margin: 0; font-weight: 600; font-size: .9rem; color: var(--md-on-surface); }
 .ob-form .neb-tiles { max-width: 480px; }
-.ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); }
 .ob-tiles-compact .ob-tile { padding: 10px 12px; }
 .ob-tiles-compact .ob-tile-glyph { width: 40px; height: 40px; }
 .ob-edu > .ob-reveal + .ob-reveal { margin-top: 4px; }

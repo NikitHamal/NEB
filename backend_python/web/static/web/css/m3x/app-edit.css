@@ -141,7 +141,7 @@
 .epf-section .neb-pick-group { display: grid; gap: 8px; margin-bottom: 20px; }
 .epf-section .neb-pick-group .md-label { margin: 0; }
 .epf-section .neb-tiles { max-width: 480px; }
-#epf-edu .ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+#epf-edu .ob-tiles-compact { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 #epf-edu .ob-label { margin: 18px 0 8px; }
 #epf-edu > .ob-reveal:first-child .ob-label { margin-top: 0; }
 #epf-edu, #epf-skills, #epf-opento { margin-bottom: 4px; }
