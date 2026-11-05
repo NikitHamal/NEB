@@ -72,6 +72,7 @@ fun HomeScreen(
     onProfileClick: () -> Unit = {},
     onUserProfileClick: (String) -> Unit = {},
     onSeeAllPeopleClick: () -> Unit = {},
+    onCreatePostClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -117,7 +118,7 @@ fun HomeScreen(
                 avatarUrl = uiState.userPhotoUrl
             )
         },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
@@ -171,9 +172,15 @@ fun HomeScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp)
+                        verticalArrangement = Arrangement.spacedBy(0.dp),
+                        contentPadding = PaddingValues(top = 0.dp, bottom = 24.dp)
                     ) {
+                        item(key = "composer_launcher") {
+                            Column {
+                                com.neb.ians.ui.components.NebComposerLauncher(onOpen = onCreatePostClick)
+                                com.neb.ians.ui.components.NebHairline(Modifier.padding(top = 4.dp))
+                            }
+                        }
                         if (siteTheme.festive && siteTheme.cardOpen) {
                             item(key = "season_card") {
                                 com.neb.ians.ui.theme.SeasonCard(
@@ -187,7 +194,7 @@ fun HomeScreen(
                                             }
                                         }
                                     },
-                                    modifier = Modifier.padding(horizontal = 16.dp).animateItem()
+                                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).animateItem()
                                 )
                             }
                         }
@@ -216,6 +223,11 @@ fun HomeScreen(
                                 key = { it.key },
                                 contentType = { it.contentType }
                             ) { entry ->
+                                Box(
+                                    modifier = Modifier.padding(
+                                        vertical = if (entry is HomeFeedEntry.Post) 0.dp else 14.dp
+                                    )
+                                ) {
                                 when (entry) {
                                     is HomeFeedEntry.Post -> ForumPostCard(
                                         post = entry.post,
@@ -227,8 +239,7 @@ fun HomeScreen(
                                         onReportClick = {},
                                         onEditClick = { onEditPostClick(entry.post.id) },
                                         onDeleteClick = { deletingPostId = entry.post.id },
-                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) },
-                                        modifier = Modifier.padding(horizontal = 16.dp)
+                                        onAuthorClick = { onUserProfileClick(entry.post.authorName) }
                                     )
 
                                     is HomeFeedEntry.ResourceCarousel -> Column(
@@ -282,6 +293,7 @@ fun HomeScreen(
                                         onViewAllClick = onViewAllClick,
                                         onResourceClick = onResourceClick
                                     )
+                                }
                                 }
                             }
                         }
