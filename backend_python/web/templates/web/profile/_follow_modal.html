@@ -1,12 +1,40 @@
-<!-- Followers/Following Modal -->
-<div class="modal-overlay" id="followModal" data-action="close-follow-modal">
-  <div class="modal-box" data-action="noop" data-action-stop>
-    <div class="modal-header">
-      <h3 class="modal-title" id="followModalTitle">Followers</h3>
-      <button class="modal-close" data-action="close-follow-modal-btn"><span class="material-symbols-outlined">close</span></button>
+<div class="neb-scrim neb-scrim-bottom" id="followModal" data-neb-close hidden>
+  <div class="neb-sheet pf-people-sheet" role="dialog" aria-modal="true" aria-labelledby="followModalTitle">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="followModalTitle">Followers</h3></div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
     </div>
-    <div class="modal-body" id="followModalBody">
-      <div style="text-align:center; padding:24px 0; color:var(--md-on-surface-variant);">Loading...</div>
+    <div class="neb-sheet-body pf-people" id="followModalBody"></div>
+  </div>
+</div>
+{% if user and user.username == profile_user.username %}
+<div class="neb-scrim neb-scrim-bottom" id="photoHistoryModal" data-neb-close hidden>
+  <div class="neb-sheet pf-photo-sheet" role="dialog" aria-modal="true" aria-labelledby="photoHistoryTitle">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="photoHistoryTitle">Profile photo</h3></div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="neb-sheet-body pf-photo-body">
+      {% if user_photos %}
+      <div class="photos-grid" id="photosGrid">
+        {% for photo in user_photos %}
+        <button type="button" class="photo-thumb {% if photo.is_current %}active{% endif %}" data-action="activate-past-photo" data-photo-id="{{ photo.id }}" data-photo-url="{{ photo.url }}" aria-label="Use this photo" aria-pressed="{% if photo.is_current %}true{% else %}false{% endif %}">
+          <img src="{{ photo.url }}" alt="">
+        </button>
+        {% endfor %}
+      </div>
+      {% else %}<div id="photosGrid" hidden></div>{% endif %}
+      <input type="file" id="modal_photo_file" class="visually-hidden-file-input" accept="image/*" data-upload-url="{% url 'web:ajax_user_photos' %}">
+      <button type="button" class="md-btn md-btn-tonal photo-upload-btn" data-action="trigger-photo-upload" data-photo-input-id="modal_photo_file" aria-controls="modal_photo_file">
+        <span class="material-symbols-outlined" aria-hidden="true">upload</span>Upload a photo
+      </button>
+      <div class="photo-url-row">
+        <input type="url" id="inputNewPhotoUrl" class="md-input photo-url-input" placeholder="Photo link" aria-label="Photo link" inputmode="url" autocomplete="off">
+        <button type="button" class="md-btn md-btn-filled" data-action="upload-new-photo-url">Add</button>
+      </div>
     </div>
   </div>
 </div>
+{% endif %}

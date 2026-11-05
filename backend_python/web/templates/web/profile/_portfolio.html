@@ -59,28 +59,51 @@
       <a class="pf-tag pf-tag-btn" href="{% url 'web:onboarding' %}"><span class="material-symbols-outlined">tune</span>Edit education and skills</a>
     </div>
   </div>
-  <dialog class="pf-dialog" id="pf-entry-dialog">
-    <form method="dialog" id="pf-entry-form" class="pf-dialog-form" novalidate>
-      <h3 id="pf-entry-title">Add entry</h3>
-      <input type="hidden" id="pf-entry-id"><input type="hidden" id="pf-entry-kind">
-      <label>Title<input class="ob-input" id="pf-entry-name" maxlength="150" required></label>
-      <label>Where<input class="ob-input" id="pf-entry-org" maxlength="150"></label>
-      <div class="pf-dialog-row">
-        <label>From<input class="ob-input" type="month" id="pf-entry-start"></label>
-        <label>To<input class="ob-input" type="month" id="pf-entry-end"></label>
+  <div class="neb-scrim neb-scrim-bottom" id="pf-entry-sheet" data-neb-close hidden>
+    <form class="neb-sheet pf-sheet" id="pf-entry-form" role="dialog" aria-modal="true" aria-labelledby="pf-entry-title" novalidate>
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <span class="pf-sheet-glyph md-shape-cookie-9"><span class="material-symbols-outlined" id="pf-entry-icon">add</span></span>
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="pf-entry-title">Add entry</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
       </div>
-      <label class="pf-dialog-check"><input type="checkbox" id="pf-entry-current"> Still going</label>
-      <label>Details<textarea class="ob-input ob-textarea" id="pf-entry-desc" maxlength="600" rows="3"></textarea></label>
-      <label>Link<input class="ob-input" id="pf-entry-url" maxlength="300" placeholder="https://"></label>
-      <p class="ob-error on" id="pf-entry-error" role="alert"></p>
-      <div class="pf-dialog-actions">
-        <button type="button" class="ob-btn ob-btn-text" id="pf-entry-delete" hidden>Delete</button>
-        <span class="pf-dialog-spacer"></span>
-        <button type="button" class="ob-btn ob-btn-text" id="pf-entry-cancel">Cancel</button>
-        <button type="submit" class="ob-btn ob-btn-fill" id="pf-entry-save">Save</button>
+      <div class="neb-sheet-body pf-fields">
+        <input type="hidden" id="pf-entry-id"><input type="hidden" id="pf-entry-kind">
+        <label class="pf-field pf-wide"><span class="md-label">Title</span>
+          <input class="md-input" id="pf-entry-name" maxlength="150" autocomplete="off" required></label>
+        <label class="pf-field pf-wide"><span class="md-label">Where</span>
+          <input class="md-input" id="pf-entry-org" maxlength="150" autocomplete="off"></label>
+        <div class="pf-field pf-when" role="group" aria-label="From">
+          <span class="md-label">From</span>
+          <div class="pf-when-pair">
+            <select class="md-select" id="pf-entry-start-m" aria-label="From month"></select>
+            <select class="md-select" id="pf-entry-start-y" aria-label="From year"></select>
+          </div>
+        </div>
+        <div class="pf-field pf-when" id="pf-entry-end-wrap" role="group" aria-label="To">
+          <span class="md-label">To</span>
+          <div class="pf-when-pair">
+            <select class="md-select" id="pf-entry-end-m" aria-label="To month"></select>
+            <select class="md-select" id="pf-entry-end-y" aria-label="To year"></select>
+          </div>
+        </div>
+        <div class="pf-wide pf-chip-row">
+          <button type="button" class="neb-choice-chip" id="pf-entry-current" aria-pressed="false"><span class="neb-chip-tick"></span>Still going</button>
+        </div>
+        <label class="pf-field pf-wide"><span class="md-label">Details</span>
+          <textarea class="md-input md-textarea" id="pf-entry-desc" maxlength="600" rows="3"></textarea></label>
+        <label class="pf-field pf-wide"><span class="md-label">Link</span>
+          <input class="md-input" id="pf-entry-url" maxlength="300" placeholder="https://" inputmode="url" autocomplete="off"></label>
+        <p class="pf-error" id="pf-entry-error" role="alert" hidden></p>
+      </div>
+      <div class="neb-sheet-foot pf-foot">
+        <button type="button" class="md-btn md-btn-text pf-delete" id="pf-entry-delete" hidden>Delete</button>
+        <span class="pf-foot-gap"></span>
+        <button type="button" class="md-btn md-btn-text" data-neb-close>Cancel</button>
+        <button type="submit" class="md-btn md-btn-filled" id="pf-entry-save">Save</button>
       </div>
     </form>
-  </dialog>
+  </div>
   <script src="{% static 'web/js/portfolio.js' %}" defer></script>
   {% endif %}
 </section>
