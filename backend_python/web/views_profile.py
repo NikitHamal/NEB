@@ -1,7 +1,7 @@
 """Views Profile extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from api.services import record_username_change
-from api.view_helpers import _profile_incomplete, _can_view_locked_profile
+from api.view_helpers import _profile_incomplete, _can_view_locked_profile, _overlong_field_error
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick
 from api.marketplace import get_payment_config
 from api.utils import money_str
@@ -664,6 +664,18 @@ def edit_profile(request):
             return render(request, 'web/edit_profile.html', _ctx(request, error='Teaching subjects are required for teachers.'))
         if role == 'institution' and not request.POST.get('school', '').strip():
             return render(request, 'web/edit_profile.html', _ctx(request, error='Institution name is required.'))
+        overlong = _overlong_field_error(User, {
+            'display_name': display_name,
+            'gender': gender,
+            'class_level': class_level,
+            'pradesh': request.POST.get('pradesh', ''),
+            'school': request.POST.get('school', '').strip(),
+            'school_username': request.POST.get('school_username', '').strip(),
+            'institution_type': request.POST.get('institution_type', ''),
+            'dob': dob,
+        })
+        if overlong:
+            return render(request, 'web/edit_profile.html', _ctx(request, error=overlong.data['error'] + '.'))
         if username != db_user.username:
             _v_err, _v_code = services.validate_username_change(db_user, username)
             if _v_err:
