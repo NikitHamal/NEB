@@ -155,6 +155,49 @@ f.text(290, 192, "z = (x − 200)/20:   230 → 1.5,   180 → −1,   240 → 2
 7. **Insurance and finance.** Insurers price a policy from the probability of a claim and its expected size. Banks estimate the chance a borrower defaults. Both rely on expected value E(X) and variance from this unit.
 8. **Machine learning and simulation.** Classifiers output probabilities, and many algorithms assume normal errors. Monte Carlo simulation draws random numbers from these distributions to test designs before they are built. Games, weather models and network studies all use this.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="The same test, two very different meanings. (a) A rapid antigen test cassette: a second line means positive, but how much that line proves depends on how many people are infected. (b) With a test that finds 90 per cent of the sick and wrongly flags 10 per cent of the healthy, 1,000 people are tested in two settings. In mass screening with 1 per cent infected, 10 are sick and 9 test positive, but 99 of the 990 healthy also test positive, so only 8.3 per cent of positives are really sick. In a clinic where 20 per cent are infected, 180 of 200 sick and 80 of 800 healthy test positive, and 69.2 per cent of positives are sick. A simulation of 200,000 people (fixed seed) gave 8.2 and 68.6 per cent, matching Bayes' theorem; the percentages are illustrative, not those of a real kit."
+@ photo id="bcamath/rapidtest" cap="A rapid test cassette: one line or two"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="1,000 people tested twice: base rate matters"
+import random
+sens, fpr = 0.90, 0.10
+def tree(prev, n=1000):
+    sick = round(n * prev)
+    tp = round(sick * sens)
+    fp = round((n - sick) * fpr)
+    return sick, tp, fp, tp / (tp + fp)
+a = tree(0.01)
+b = tree(0.20)
+assert a[:3] == (10, 9, 99) and b[:3] == (200, 180, 80)
+random.seed(2081)
+def sim(prev, N=200000):
+    tp = fp = 0
+    for _ in range(N):
+        s = random.random() < prev
+        pos = random.random() < (sens if s else fpr)
+        if pos:
+            tp += s
+            fp += (not s)
+    return tp / (tp + fp)
+sa, sb = sim(0.01), sim(0.20)
+assert abs(sa - a[3]) < 0.01 and abs(sb - b[3]) < 0.01
+facts = dict(ppv1=round(a[3] * 100, 1), ppv2=round(b[3] * 100, 1), s1=round(sa * 100, 1), s2=round(sb * 100, 1))
+f = Fig(300, 236)
+f.text(150, 12, "sensitivity 90%, false positive rate 10%", size=10.5, color=NAVY, bold=True)
+for k, (t, prev, title) in enumerate([(a, 1, "Mass screening: 1% infected"), (b, 20, "Clinic: 20% infected")]):
+    y = 26 + k * 100
+    f.text(150, y + 4, title, size=10.5, color=NAVY, bold=True)
+    f.box(100, y + 12, 100, 20, "1,000 people", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3, sw=1)
+    f.box(20, y + 44, 110, 20, "%d sick" % t[0], fill="#fecaca", stroke=RED, size=10.5, r=3, sw=1)
+    f.box(170, y + 44, 110, 20, "%d healthy" % (1000 - t[0]), fill="#bbf7d0", stroke=TEAL, size=10.5, r=3, sw=1)
+    f.arrow([(130, y + 32), (75, y + 44)], color=SLATE)
+    f.arrow([(170, y + 32), (225, y + 44)], color=SLATE)
+    f.text(75, y + 78, "%d test positive" % t[1], size=10.5, color=RED, bold=True)
+    f.text(225, y + 78, "%d test positive" % t[2], size=10.5, color=TEAL, bold=True)
+    f.text(150, y + 92, "true among positives: %.1f%%" % (t[3] * 100), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - P(A ∪ B) = P(A) + P(B) − P(A ∩ B); P(A ∩ B) = P(A)P(B | A); P(A | B) = P(A ∩ B)/P(B).
