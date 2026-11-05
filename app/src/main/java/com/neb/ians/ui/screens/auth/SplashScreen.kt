@@ -3,6 +3,7 @@ package com.neb.ians.ui.screens.auth
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
+import com.neb.ians.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,14 +30,12 @@ import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.ui.components.NebGlyphShapes
-import com.neb.ians.ui.components.NebLogoMark
 import com.neb.ians.ui.components.NebMorphBlob
 import com.neb.ians.ui.components.NebTone
 import com.neb.ians.ui.components.drawGlyph
 import com.neb.ians.ui.components.rememberGlyphPath
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.md_theme_light_primaryContainer
-import com.neb.ians.ui.theme.md_theme_light_surface
 import com.neb.ians.ui.theme.nebAnimationsReduced
 import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebSlowSpatialSpec
@@ -79,7 +80,6 @@ fun SplashScreen(
     val bloom = remember { Animatable(0f) }
     val morph = remember { Animatable(0f) }
     val assembly = remember { Animatable(0f) }
-    val shine = remember { Animatable(0f) }
     val tiles = remember { List(SPLASH_TILES.size) { Animatable(0f) } }
     val letters = remember { List(SPLASH_WORD.length) { Animatable(0f) } }
     val exit = remember { Animatable(0f) }
@@ -108,7 +108,7 @@ fun SplashScreen(
                     )
                 }
                 delay(160)
-                launch { assembly.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 70f)) }
+                launch { assembly.animateTo(1f, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow)) }
                 tiles.forEachIndexed { i, tile ->
                     launch {
                         delay(i * 90L)
@@ -123,8 +123,7 @@ fun SplashScreen(
                     }
                 }
                 delay(520)
-                launch { shine.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 120f)) }
-                delay(700)
+                delay(900)
                 exit.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 520f, visibilityThreshold = 0.002f))
             }
 
@@ -142,7 +141,7 @@ fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(md_theme_light_surface),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -191,10 +190,20 @@ fun SplashScreen(
                     rotation = { morph.value * 24f },
                     position = { morph.value }
                 )
-                NebLogoMark(
-                    assembly = assembly.asState(),
-                    shine = shine.asState(),
-                    modifier = Modifier.size(132.dp)
+                // The launcher icon's own foreground, whole: one drawable, no re-drawn facets.
+                Image(
+                    painter = painterResource(R.drawable.ic_launcher_foreground),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(236.dp)
+                        .graphicsLayer {
+                            val t = assembly.value
+                            val s = 0.55f + 0.45f * t
+                            scaleX = s
+                            scaleY = s
+                            rotationZ = (1f - t) * -14f
+                            alpha = (t * 2.5f).coerceIn(0f, 1f)
+                        }
                 )
             }
             Row(horizontalArrangement = Arrangement.Center) {
