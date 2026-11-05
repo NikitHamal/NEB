@@ -4,7 +4,7 @@ Goal: the `untangle-codebase` skill applied to the repo, end to end, with behavi
 
 Work in `backend_python/` first (largest, most tested). Check `--stat` of the `untangle:` commits before starting; do not redo anything listed under Done.
 
-Verify: `cd backend_python && export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x && python3 manage.py test` (656 tests green before any change; the count only goes up through `api.test_arena_simple_providers`).
+Verify: `cd backend_python && export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x && python3 manage.py test` (the count only goes up; 663 at the start of the third session).
 
 ## Done
 
@@ -12,6 +12,14 @@ Verify: `cd backend_python && export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x &&
 - K2 Horizon, Poolside and Inception arena views were three 235-line copies of one flow. They are now rows in `SIMPLE_PROVIDERS` (`api/arena_simple_providers.py`); default model and "thinking" come from the proxy's `MODELS[0]`, `arena_urls` builds the routes from the list. URL names and paths unchanged. Add a guest-site provider = one proxy module plus one row.
 - Dead modules removed (nothing imported or routed them): `chat2api_proxy`, `code_agent_prompt`, `code_agent_providers`, `consica_bridge_views`/`consica_bridge_urls` (never mounted; `CONSICA_BRIDGE_KEY` stays, the Astroweb bridge uses it), `llm/provider_store`, `llm/runtime`.
 
+- Star-import facades (`web/views.py`, `api/views.py`) gone; urls name the module that defines each view; view modules import what they use (this fixed latent NameErrors).
+- One chat turn: `arena_common.Turn` (user row, assistant row, header, finalize, counters, closing events) for qwen, deepai, simple-provider and community streams; multipart and JSON send views share one flow. The browser endpoints (`web/views_arena.py`) only identify the session user and call `qwen_turn_response`, `deepai_turn_response`, `create_*_chat_session`, `upload_named_files`/`upload_attachments`; they had their own copies of all of it (and a stale `bx-v` header). Tests: `api.test_arena_turns`.
+- Forum posts and comments share `ForumContentMixin` in `api/serializers.py`.
+
+## Parallel sessions
+
+Two sessions have pushed to `main` at the same time on this task (the Turn refactor landed twice). Run `git fetch && git log HEAD..origin/main` before choosing the next item and again before every push; push small.
+
 ## Open (ordered by leverage)
 
-See the decision log below; items move to Done as they land.
+Decision log: problem list above its fix; a fix moves to Done when it lands.
