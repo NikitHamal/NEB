@@ -1,7 +1,39 @@
 """Views Resources extracted from views.py."""
 from decimal import Decimal
 from django.conf import settings
-from .view_helpers import *  # noqa: F401,F403
+import uuid
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db.models import F, Q
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from . import services
+from .models import Resource, ResourceRequest, ResourceRequestUpvote, User
+from .security import (
+    clean_source_url,
+    maybe_autoset_video_thumbnail,
+    save_resource_thumbnail_upload,
+    validate_and_save_resource_file,
+    validate_resource_file_url,
+)
+from .serializers import ResourceRequestSerializer, ResourceSerializer
+from .throttles import (
+    SearchRateThrottle,
+    UploadRateThrottle,
+    ViewIncrementRateThrottle,
+    WriteActionRateThrottle,
+)
+from .view_helpers import (
+    _get_user_from_request,
+    _now_ms,
+    _paginated_response,
+    _require_user,
+    is_global_user,
+    logger,
+    parse_paid_fields,
+    prime_for_serializers,
+)
 from .security import validate_forum_attachments
 from .models import PaymentVerification
 

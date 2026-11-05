@@ -1,5 +1,55 @@
 """Views Public extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import uuid
+from api.models import (
+    Bookmark,
+    Follow,
+    PaymentVerification,
+    Post,
+    Reply,
+    Resource,
+    ResourceComment,
+    ResourceCommentLike,
+    ResourceLike,
+    ResourceRequest,
+    ResourceRequestUpvote,
+    TakedownRequest,
+    User,
+)
+from api.security import (
+    maybe_autoset_video_thumbnail,
+    save_resource_thumbnail_upload,
+    validate_and_save_resource_file,
+    validate_resource_file_url,
+)
+from api.utils import now_ms, uuid_str
+from api.view_helpers import is_global_user
+from django.conf import settings
+from django.contrib import messages
+from django.core.cache import cache
+from django.db.models import Count, F, Q
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from . import curriculum
+from .view_helpers import (
+    _avatar_url,
+    _comment_author,
+    _ctx,
+    _get_distinct_subjects,
+    _get_user_id,
+    _is_staff_admin,
+    _rate_limit,
+    _request_db_user,
+    _request_db_user_or_raise,
+    _serialize_post,
+    _serialize_posts,
+    _serialize_resource,
+    _serialize_resources,
+    _serialize_users_search,
+    check_user_resource_access,
+    parse_qas,
+    parse_sections,
+)
 
 def _get_library_filter_options():
     """Cached distinct subject/grade/type/faculty/exam_type lists for filter UIs.

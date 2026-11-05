@@ -1,5 +1,43 @@
 """Views Profile extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api import services
+from api.models import (
+    Bookmark,
+    PaymentVerification,
+    Post,
+    Reply,
+    Resource,
+    ResourceLike,
+    SellerBalance,
+    User,
+    UserPhoto,
+    WithdrawalRequest,
+)
+from api.utils import now_ms, uuid_str
+from django.conf import settings
+from django.db import transaction
+from django.db.models import F
+from django.http import Http404, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from . import api_client as api
+from .view_helpers import (
+    _avatar_url,
+    _build_local_stats,
+    _clear_page_cache,
+    _ctx,
+    _get_distinct_subjects,
+    _get_user_id,
+    _rate_limit,
+    _request_db_user,
+    _serialize_posts,
+    _serialize_replies,
+    _serialize_resources,
+    _user_achievement_badges,
+    _user_badge_info,
+    _viewer_for_locked_check,
+    get_or_create_seller_balance,
+)
 from api.services import record_username_change
 from api.view_helpers import _profile_incomplete, _can_view_locked_profile, _overlong_field_error
 from api.models import Follow, FollowRequest, NEPAL_DISTRICTS, SocialLink, SocialLinkClick

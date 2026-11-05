@@ -8,7 +8,16 @@ the default Student role by accident (Google and GitHub sign-ups used to be).
 import re
 from datetime import date
 
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api import services
+from api.models import User
+from api.serializers import UserSerializer
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_POST
+from . import api_client as api
+from .view_helpers import _clear_page_cache, _ctx, _normalize_user_data
 from api import education_catalog as cat
 from api.models import NEPAL_DISTRICTS
 from api.profile_education import apply_education
