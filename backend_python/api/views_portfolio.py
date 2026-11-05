@@ -1,5 +1,9 @@
 """Education catalog and the portfolio entries (JSON API for web and Android)."""
-from .view_helpers import *  # noqa: F401,F403
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from .models import User
+from .view_helpers import _can_view_locked_profile, _get_user_from_request, _require_verified_user
 from . import education_catalog
 from .models import ProfileEntry
 from .profile_education import (

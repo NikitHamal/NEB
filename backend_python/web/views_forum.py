@@ -1,7 +1,28 @@
 """Views Forum extracted from views.py."""
 import json as _json  # noqa: F401
 import time
-from .view_helpers import *  # noqa: F401,F403
+import re
+from api.models import Follow, Post, Reply, User
+from api.security import save_post_image_upload
+from api.utils import now_ms
+from api.view_helpers import is_global_user
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db.models import Count, Q
+from django.http import Http404
+from django.shortcuts import redirect, render
+from .view_helpers import (
+    _build_contributors_batch,
+    _clear_page_cache,
+    _compute_hot_score,
+    _ctx,
+    _get_user_id,
+    _request_db_user,
+    _serialize_post,
+    _serialize_posts,
+    _serialize_replies,
+    format_score,
+)
 from api import services
 from api.categories import CATEGORIES, normalize_category
 from api.security import save_forum_media_upload, validate_forum_attachments

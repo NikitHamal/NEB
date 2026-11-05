@@ -37,7 +37,7 @@ from api.creator_pages import (
 from api.marketplace import get_payment_config, record_purchase, seller_sales
 from api.utils import now_ms
 
-from .view_helpers import *  # noqa: F401,F403
+from .view_helpers import _ctx, _get_user_id
 
 
 def _viewer(request):
