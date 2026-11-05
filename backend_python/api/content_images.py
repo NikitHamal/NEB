@@ -46,11 +46,6 @@ def extract_image_ids(text):
     return ids
 
 
-def plain_text(text, placeholder='[image]'):
-    """Replace tokens with a plain-text placeholder (for excerpts/quotes)."""
-    return TOKEN_RE.sub(placeholder, str(text or ''))
-
-
 def strip_tokens(text):
     """Remove tokens entirely (meta descriptions, search snippets)."""
     return TOKEN_RE.sub('', str(text or ''))

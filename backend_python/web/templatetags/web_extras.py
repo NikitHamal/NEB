@@ -661,10 +661,10 @@ def video_embed(url):
     if not isinstance(url, str) or not url.strip():
         return ''
     url = url.strip()
-    for pattern, template in _EMBED_PATTERNS:
+    for pattern, embed_url in _EMBED_PATTERNS:
         match = pattern.match(url)
         if match:
-            return template.format(match.group(1))
+            return embed_url.format(match.group(1))
     return ''
 
 
