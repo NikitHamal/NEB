@@ -1,0 +1,325 @@
+{
+ "books": [
+  {
+   "slug": "bca-math",
+   "name": "Mathematics",
+   "paperQuestions": 50,
+   "pdf": "pdf/NEBians-BCA-Entrance-Mathematics.pdf",
+   "syllabus": "syllabus/bca-math.md",
+   "units": [
+    {
+     "n": 1,
+     "title": "Numbers, HCF and LCM, Ratio, Percentage and Average",
+     "area": "Arithmetic",
+     "questions": 5,
+     "file": "content/bca-math/unit-01.md",
+     "words": 2948,
+     "mcq": 42
+    },
+    {
+     "n": 2,
+     "title": "Profit and Loss, Interest, Work, Speed, Mixture and Mensuration",
+     "area": "Arithmetic",
+     "questions": 5,
+     "file": "content/bca-math/unit-02.md",
+     "words": 3156,
+     "mcq": 42
+    },
+    {
+     "n": 3,
+     "title": "Sets, Relations and Functions",
+     "area": "Algebra",
+     "questions": 2,
+     "file": "content/bca-math/unit-03.md",
+     "words": 2165,
+     "mcq": 40
+    },
+    {
+     "n": 4,
+     "title": "Indices, Logarithms, Polynomials and Quadratic Equations",
+     "area": "Algebra",
+     "questions": 3,
+     "file": "content/bca-math/unit-04.md",
+     "words": 1961,
+     "mcq": 40
+    },
+    {
+     "n": 5,
+     "title": "Sequences and Series",
+     "area": "Algebra",
+     "questions": 2,
+     "file": "content/bca-math/unit-05.md",
+     "words": 1795,
+     "mcq": 40
+    },
+    {
+     "n": 6,
+     "title": "Matrices and Determinants",
+     "area": "Algebra",
+     "questions": 2,
+     "file": "content/bca-math/unit-06.md",
+     "words": 1804,
+     "mcq": 40
+    },
+    {
+     "n": 7,
+     "title": "Permutation, Combination, Probability and Statistics",
+     "area": "Algebra",
+     "questions": 1,
+     "file": "content/bca-math/unit-07.md",
+     "words": 1622,
+     "mcq": 40
+    },
+    {
+     "n": 8,
+     "title": "Trigonometry",
+     "area": "Trigonometry",
+     "questions": 4,
+     "file": "content/bca-math/unit-08.md",
+     "words": 1955,
+     "mcq": 40
+    },
+    {
+     "n": 9,
+     "title": "Straight Line and Distance Formulas",
+     "area": "Coordinate Geometry",
+     "questions": 4,
+     "file": "content/bca-math/unit-09.md",
+     "words": 1767,
+     "mcq": 40
+    },
+    {
+     "n": 10,
+     "title": "Circle and Conic Sections",
+     "area": "Coordinate Geometry",
+     "questions": 3,
+     "file": "content/bca-math/unit-10.md",
+     "words": 1839,
+     "mcq": 40
+    },
+    {
+     "n": 11,
+     "title": "Vectors",
+     "area": "Vectors",
+     "questions": 2,
+     "file": "content/bca-math/unit-11.md",
+     "words": 1890,
+     "mcq": 40
+    },
+    {
+     "n": 12,
+     "title": "Limits and Differentiation",
+     "area": "Calculus",
+     "questions": 4,
+     "file": "content/bca-math/unit-12.md",
+     "words": 1837,
+     "mcq": 40
+    },
+    {
+     "n": 13,
+     "title": "Integration",
+     "area": "Calculus",
+     "questions": 3,
+     "file": "content/bca-math/unit-13.md",
+     "words": 1691,
+     "mcq": 40
+    },
+    {
+     "n": 14,
+     "title": "Verbal and Logical Reasoning",
+     "area": "Reasoning",
+     "questions": 5,
+     "file": "content/bca-math/unit-14.md",
+     "words": 2012,
+     "mcq": 40
+    },
+    {
+     "n": 15,
+     "title": "Series, Calendar, Clock and Figure Reasoning",
+     "area": "Reasoning",
+     "questions": 5,
+     "file": "content/bca-math/unit-15.md",
+     "words": 1741,
+     "mcq": 40
+    }
+   ],
+   "header": "SUBJECT: Mathematics | TRACK: BCA (TU FOHSS) | QUESTIONS: 50 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance syllabus (Mathematics 50%), read with the Dean's Office model questions (Group B, Q41-90)"
+  },
+  {
+   "slug": "bca-eng",
+   "name": "English",
+   "paperQuestions": 40,
+   "pdf": "pdf/NEBians-BCA-Entrance-English.pdf",
+   "syllabus": "syllabus/bca-eng.md",
+   "units": [
+    {
+     "n": 1,
+     "title": "Synonyms, Antonyms and One-Word Substitution",
+     "area": "Vocabulary",
+     "questions": 6,
+     "file": "content/bca-eng/unit-01.md",
+     "words": 1436,
+     "mcq": 40
+    },
+    {
+     "n": 2,
+     "title": "Idioms, Phrasal Verbs and Prepositions",
+     "area": "Vocabulary",
+     "questions": 6,
+     "file": "content/bca-eng/unit-02.md",
+     "words": 1535,
+     "mcq": 40
+    },
+    {
+     "n": 3,
+     "title": "Articles, Tenses and Subject-Verb Agreement",
+     "area": "Grammar",
+     "questions": 7,
+     "file": "content/bca-eng/unit-03.md",
+     "words": 1599,
+     "mcq": 40
+    },
+    {
+     "n": 4,
+     "title": "Voice, Narration and Question Tags",
+     "area": "Grammar",
+     "questions": 5,
+     "file": "content/bca-eng/unit-04.md",
+     "words": 1990,
+     "mcq": 40
+    },
+    {
+     "n": 5,
+     "title": "Clauses, Conditionals and Verb Patterns",
+     "area": "Grammar",
+     "questions": 6,
+     "file": "content/bca-eng/unit-05.md",
+     "words": 1537,
+     "mcq": 40
+    },
+    {
+     "n": 6,
+     "title": "Pronouns, Determiners, Modals, Comparison and Error Spotting",
+     "area": "Grammar",
+     "questions": 5,
+     "file": "content/bca-eng/unit-06.md",
+     "words": 1538,
+     "mcq": 40
+    },
+    {
+     "n": 7,
+     "title": "Reading Comprehension",
+     "area": "Reading",
+     "questions": 5,
+     "file": "content/bca-eng/unit-07.md",
+     "words": 1893,
+     "mcq": 32
+    }
+   ],
+   "header": "SUBJECT: English | TRACK: BCA (TU FOHSS) | QUESTIONS: 40 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance syllabus (English grammar 40%), read with the Dean's Office model questions (Group A, Q1-40)"
+  },
+  {
+   "slug": "bca-gk",
+   "name": "General Knowledge and IT",
+   "paperQuestions": 10,
+   "pdf": "pdf/NEBians-BCA-Entrance-General-Knowledge-and-IT.pdf",
+   "syllabus": "syllabus/bca-gk.md",
+   "units": [
+    {
+     "n": 1,
+     "title": "Nepal: First Persons, Geography, Government and Culture",
+     "area": "General Knowledge",
+     "questions": 3,
+     "file": "content/bca-gk/unit-01.md",
+     "words": 1848,
+     "mcq": 40
+    },
+    {
+     "n": 2,
+     "title": "The World: Geography, Organisations, Sports and Science",
+     "area": "General Knowledge",
+     "questions": 2,
+     "file": "content/bca-gk/unit-02.md",
+     "words": 1456,
+     "mcq": 40
+    },
+    {
+     "n": 3,
+     "title": "Computer Fundamentals, Hardware and Software",
+     "area": "General IT",
+     "questions": 3,
+     "file": "content/bca-gk/unit-03.md",
+     "words": 1448,
+     "mcq": 40
+    },
+    {
+     "n": 4,
+     "title": "Internet, E-mail, HTML, Programming and Full Forms",
+     "area": "General IT",
+     "questions": 2,
+     "file": "content/bca-gk/unit-04.md",
+     "words": 1578,
+     "mcq": 40
+    }
+   ],
+   "header": "SUBJECT: General Knowledge and IT | TRACK: BCA (TU FOHSS) | QUESTIONS: 10 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance syllabus (General Knowledge 10%), read with the Dean's Office model questions (Group C, Q91-100)"
+  },
+  {
+   "slug": "bca-mock",
+   "name": "Model Papers and Mock Tests",
+   "paperQuestions": 100,
+   "pdf": "pdf/NEBians-BCA-Entrance-Model-Papers-and-Mock-Tests.pdf",
+   "syllabus": "syllabus/bca-mock.md",
+   "units": [
+    {
+     "n": 1,
+     "title": "The BCA Entrance Examination: Pattern, Syllabus, Strategy and the Programme",
+     "area": "The Examination",
+     "questions": 0,
+     "file": "content/bca-mock/unit-01.md",
+     "words": 1221,
+     "mcq": 0
+    },
+    {
+     "n": 2,
+     "title": "Model Paper 1",
+     "area": "Full Model Papers",
+     "questions": 100,
+     "file": "content/bca-mock/unit-02.md",
+     "words": 2970,
+     "mcq": 100
+    },
+    {
+     "n": 3,
+     "title": "Model Paper 2",
+     "area": "Full Model Papers",
+     "questions": 100,
+     "file": "content/bca-mock/unit-03.md",
+     "words": 2979,
+     "mcq": 100
+    },
+    {
+     "n": 4,
+     "title": "Model Paper 3",
+     "area": "Full Model Papers",
+     "questions": 100,
+     "file": "content/bca-mock/unit-04.md",
+     "words": 3005,
+     "mcq": 100
+    }
+   ],
+   "header": "SUBJECT: Model Papers and Mock Tests | TRACK: BCA (TU FOHSS) | QUESTIONS: 100 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance pattern (English grammar 40, Mathematics 50, General Knowledge and IT 10)"
+  }
+ ],
+ "docs": [
+  {
+   "name": "HANDOFF-BCA.md",
+   "file": "docs/HANDOFF-BCA.md"
+  },
+  {
+   "name": "AUTHORING-ENTRANCE.md",
+   "file": "docs/AUTHORING-ENTRANCE.md"
+  }
+ ],
+ "title": "NEBians BCA Entrance Preparation"
+}
