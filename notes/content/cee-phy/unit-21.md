@@ -477,6 +477,29 @@ f.text(150, 204, "NOT = 1 NAND, AND = 2, OR = 3", size=10.5, color=NAVY, bold=Tr
 f.text(150, 222, "74HC00: 4 gates x 4 transistors = 16", size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="21.2" cols="2" ratio="1.2" caption="From alternating to direct current. (a) A bridge package holds four diodes in one block, with two AC terminals and a positive and a negative output. (b) The cell follows a 12 V rms supply: its peak is 16.97 V, and since two diodes in series each drop about 0.7 V, the output peaks at 15.57 V. A 2200 microfarad capacitor supplying 0.5 A at the full-wave frequency of 100 Hz lets the voltage sag by the ripple I / (2 f C) = 2.27 V, so the output swings between 13.30 V and 15.57 V with a mean near 14.43 V. A larger capacitor or a smaller load current makes the output smoother."
+@ photo id="ceephy3/bridge" cap="A diode bridge rectifier package"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Full-wave bridge rectifier with a filter capacitor"
+import math
+Vrms = 12.0
+Vpk = Vrms * math.sqrt(2)
+Vd = Vpk - 2 * 0.7
+I, fr, C = 0.5, 50.0, 2200e-6
+rip = I / (2 * fr * C)
+rows = [("AC rms", Vrms), ("AC peak", Vpk), ("after diodes", Vd), ("DC mean", Vd - rip / 2), ("trough", Vd - rip)]
+assert round(Vpk, 2) == 16.97 and round(rip, 2) == 2.27
+f = Fig(300, 236)
+f.text(150, 12, "12 V transformer, bridge, 2200 uF, volts", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=18, fmt="%.2f", x0=84, y0=30, bw=150, gap=26,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 176, "two diodes conduct at a time: drop 2 x 0.7 V", size=10, color=SLATE, bold=True)
+f.text(150, 196, "ripple = I / (2 f C) = %.2f V (V p-p)" % rip, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "full wave: ripple at 100 Hz, half of half-wave's", size=10, color=SLATE, bold=True)
+facts = dict(pk=Vpk, vd=Vd, rip=rip, dc=Vd - rip / 2, tr=Vd - rip)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |

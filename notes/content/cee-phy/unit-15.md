@@ -725,6 +725,30 @@ f.text(150, 210, "equal to Earth at r = %.1f cm" % (req * 100), size=10.5, color
 f.text(150, 228, "r in cm; m = 1.0 A m^2 assumed", size=10.5, color=SLATE)
 ```
 
+```photogrid label="15.2" cols="2" ratio="1.2" caption="Why the motor needs a commutator. (a) The split-ring commutator and carbon brushes reverse the current in the coil every half turn. (b) The cell computes the torque on a coil of 100 turns, area 12 cm2, carrying 2 A in a field of 0.2 T: the maximum, when the plane of the coil is parallel to the field, is 48 mN m, and it falls as sin(a) to zero when the plane is perpendicular. Because the commutator keeps the torque in one direction, the mean torque is 2 / pi of the maximum, 30.6 mN m, and at 3000 rpm the motor delivers about 9.6 W of mechanical power. Without the commutator the coil would only swing back and forth."
+@ photo id="ceephy3/motor" cap="The commutator and brushes of a DC motor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Torque on a current-carrying coil"
+import math
+N, B, I = 100, 0.2, 2.0
+A = 0.04 * 0.03
+tmax = N * B * I * A
+rows = [("%d deg" % a, tmax * math.sin(math.radians(a)) * 1000) for a in (90, 60, 30, 0)]
+mean = tmax * 2 / math.pi
+P = mean * 2 * math.pi * 3000 / 60
+assert round(tmax, 3) == 0.048 and round(P, 1) == 9.6
+f = Fig(300, 236)
+f.text(150, 12, "Torque tau = N B I A sin(a), mN m", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=50, fmt="%.1f", x0=56, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 158, "a = angle between the coil plane and the field", size=10, color=SLATE, bold=True)
+f.text(150, 178, "N = 100, B = 0.2 T, I = 2 A, A = 12 cm2", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "mean torque (commutated) = %.1f mN m" % (mean * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "power at 3000 rpm = %.1f W" % P, size=10.5, color=NAVY, bold=True)
+facts = dict(t=tmax * 1000, m=mean * 1000, P=P)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

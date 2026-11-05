@@ -647,6 +647,30 @@ f.text(150, 210, "cold %.0f mol, hot %.0f mol" % (n_out, n_in), size=10.5, color
 f.text(150, 228, "%.0f mol escape: n = PV / RT" % (n_out - n_in), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="10.2" cols="2" ratio="1.2" caption="The colder the box, the more the work. (a) The compressor is the heart of a refrigeration plant: it compresses the vapour of the refrigerant, which then condenses and gives heat to the surroundings. (b) The coefficient of performance of an ideal (Carnot) refrigerator is Tc / (Th - Tc). With the kitchen at 30 degrees C the ideal COP is 10.66 for a refrigerator at 4 degrees C, but only 5.32 for a freezer at -18 degrees C. To take 1000 kJ out of the freezer the ideal machine needs 188 kJ of work, and a real machine with a COP of 2.5 needs 400 kJ. The heat rejected at the back is always the heat removed plus the work done."
+@ photo id="ceephy3/compressor" cap="The reciprocating compressor of a refrigeration plant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Coefficient of performance of a refrigerator"
+Th = 303.15
+rows = []
+for tc in (10, 4, -5, -18):
+    T = tc + 273.15
+    rows.append(("%d C" % tc, T / (Th - T)))
+assert round(rows[1][1], 2) == 10.66 and round(rows[3][1], 2) == 5.32
+W_ideal = 1000 / rows[3][1]
+W_real = 1000 / 2.5
+f = Fig(300, 236)
+f.text(150, 12, "Carnot COP, kitchen at 30 C", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=15, fmt="%.2f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "inside temperature shown; COP = Tc / (Th - Tc)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "removing 1000 kJ from a -18 C freezer:", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "ideal work %.0f kJ, real (COP 2.5) %.0f kJ" % (W_ideal, W_real), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "colder inside means more work per joule", size=10, color=SLATE, bold=True)
+facts = dict(c4=rows[1][1], c18=rows[3][1], wi=W_ideal, wr=W_real)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
