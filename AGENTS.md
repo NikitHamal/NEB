@@ -2158,3 +2158,8 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Gotchas:** never read_file in the same parallel block that creates the image; photogrid `ratio="1.0"` with portrait signs needs `focus 0.5 0.6`; crop tiny-subject photos with PIL into the asset itself (`nosmoke.jpg`); wrap long chip labels with `textwrap.fill(..., 24)` to avoid lint overflow.
 - **Session 57 addendum (Entrance Model Papers):** Unit 1 polished (plate, 4 figures, eight traps, worked checks); Units 2-4 got score-sheet and answer-key-balance figures computed from the real keys. `model-papers` added to `bca/entrance/.polished`. All four Entrance books are now polished. **Next: the 29 mathtext fallbacks in Entrance Mathematics units 1-6, then the non-core slots** (see `bca/POLISH_STATUS.md`).
 
+
+## BCA polish session 58 (mathtext fallbacks)
+
+- **Done:** the 29 matplotlib mathtext fallbacks in Entrance Mathematics are gone (0 failures) by fixing `notes/pipeline/mathsvg.py` (shorthand `\frac1{12}`/`\sqrt9` normalised; matrices rendered with `\genfrac` columns; mathtext wants `\genfrac{}{}{0}{}{a}{b}`, NOT `0pt`). Pushed with qa fails=0. **Next:** see the last line of `bca/POLISH_STATUS.md`.
+- **Setup that worked:** out-of-repo `/tmp/gitenv.sh` askpass (echoes `$NEB_PAT`; set from `/tmp/gitenv.env`; PAT never in the repo, owner should rotate it); shallow single-branch clone; `sudo -n apt-get update` then libpango/poppler/fontconfig; `pip install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12`; deps incl. matplotlib, fonttools, sympy, scipy, pandas; `bash notes/pipeline/fonts/install.sh`. Push helper `/tmp/push.sh` (`BOOK=... PDFKEY=... /tmp/push.sh "msg"`: rebuild, qa gate, token scan, commit, push, ls-remote).
