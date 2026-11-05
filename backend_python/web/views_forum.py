@@ -315,11 +315,12 @@ def forum_post(request, post_id):
         post_obj = Post.objects.select_related('user').get(id=post_id)
     except Post.DoesNotExist:
         raise Http404("Post not found")
-    view_key = f'post_viewed_{post_id}'
-    if not request.session.get(view_key):
-        Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
-        request.session[view_key] = True
-        post_obj.view_count += 1
+    from api import post_reach
+    _viewer = User.objects.filter(pk=user_id).first() if user_id else None
+    _surface = request.GET.get('from') or ''
+    _before = post_obj.view_count
+    _res = post_reach.record_view(request, post_obj, _viewer, surface=_surface)
+    post_obj.view_count = _res['view_count']
     if user_id and user_id != post_obj.user_id:
         from api.models import PostView
         recent = PostView.objects.filter(post_id=post_id, user_id=user_id, viewed_at__gt=int(time.time() * 1000) - 300000).exists()

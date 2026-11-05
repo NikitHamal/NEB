@@ -112,6 +112,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'nebians.middleware.SecurityHeadersMiddleware',
     'nebians.middleware.PageViewTrackingMiddleware',
+    'api.signals.SignalContextMiddleware',
     'nebians.middleware.ApiUnhandledExceptionMiddleware',
     'nebians.page_cache.AnonPageCacheMiddleware',
     'nebians.news_autopilot.NewsAutopilotMiddleware',
