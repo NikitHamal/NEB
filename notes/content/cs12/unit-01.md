@@ -276,24 +276,48 @@ made of two columns — not two primary keys. A table can have at most one prima
 
 ## 1.3 Advantages of using DBMS
 
-1. **Controlled redundancy.** A fact is stored once. A student's district lives in
-   `STUDENTS` only, not repeated in every mark-sheet row.
-2. **Consistency.** Because there is one copy, there cannot be two different
-   answers to the same question.
-3. **Data sharing.** Many users and many programs use the same data at the same
-   time, each seeing the part they are allowed to see.
-4. **Data integrity.** Constraints (`PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`,
-   `CHECK`, `UNIQUE`) are declared once in the schema and the DBMS enforces them
-   on everybody.
-5. **Security.** Privileges are granted per user, per table, even per column.
-6. **Data independence.** Storage can be reorganised without touching programs.
-7. **Backup and recovery.** The DBMS keeps a log and can roll a damaged database
-   forward or back to a consistent state.
-8. **Concurrency control.** Locking and transactions stop two simultaneous
-   updates from corrupting each other.
-9. **Fast, flexible enquiry.** Any new question is a new query, not a new program.
-10. **Enforcement of standards.** Naming, formats and documentation are centralised
-    under the DBA.
+Eight advantages, each explained as a ten-mark answer expects.
+
+**1. Controlled redundancy and consistency.** In a DBMS a fact is stored once, so a
+student's district lives in the `STUDENTS` table only, not in every mark-sheet row.
+Because there is only one copy, there cannot be two different answers to the same
+question. This also saves disk space and avoids the stale copies that a file system
+leaves behind after an update.
+
+**2. Data sharing.** Many users and programs use the same data at the same time, and
+each sees only the part they are allowed to see. In a college, the exam section, the
+accounts section and the library can all use one student table. The data are kept
+up to date for everybody at once.
+
+**3. Data integrity.** Rules such as `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`,
+`UNIQUE` and `CHECK` are declared once in the schema and enforced by the DBMS for
+everybody. A mark above 100, or a roll number that does not exist, is rejected at the
+door. This makes the data trustworthy without checking the rules in every program.
+
+**4. Security.** The administrator grants privileges per user, per table, and even per
+column. A clerk may read fee records but not change marks, while a teacher can enter
+marks but not see salaries. Passwords, roles and audit logs protect the data from
+misuse.
+
+**5. Data independence.** Storage can be reorganised, for example by adding an index
+or moving the files to a new disk, without rewriting the programs. A new column can be
+added without breaking the existing views. This lowers the cost of maintenance when
+needs change.
+
+**6. Backup and recovery.** The DBMS keeps a log of every change, so a damaged
+database can be rolled back or forward to a consistent state. After a power cut in
+the middle of a transaction, the half-finished work is undone automatically. This is
+important for banks and result systems.
+
+**7. Concurrency control.** Locking and transactions stop two users from updating the
+same record at the same moment and corrupting it. Two ATMs cannot both withdraw the
+last balance of the same account. Each transaction is carried out completely or not
+at all.
+
+**8. Fast and flexible enquiry.** A new question is answered by writing a new query,
+not a new program. A principal can ask for all students with marks above 80 in
+Computer Science in a few seconds. Standards for names and formats are also kept in
+one place by the database administrator.
 
 **Disadvantages** (worth one mark if asked): higher software and hardware cost,
 complexity, the need for trained staff, and a single point of failure — if the
@@ -1356,6 +1380,21 @@ facts = dict(N=format(N, ","), scan=format(scan, ","), b=bin_, t=btree)
 5. Distinguish between centralised and distributed databases on any five points. <span class="marks">[5]</span>
 
 ::: note Answers to Group B
+**1.** **Data** are raw facts and figures, such as a name, a roll number or a mark.
+A **database** is an organised collection of related data stored together so that it
+can be used for many purposes, for example the records of all students of a college.
+A **database management system (DBMS)** is the software that creates, stores,
+retrieves, updates and protects the database; MySQL, PostgreSQL, Oracle and MS Access
+are examples. Four advantages of a DBMS over a file-processing system: **(i) Reduced
+redundancy:** each fact is stored once, so there is no repeated data and no
+inconsistency. **(ii) Data integrity:** constraints are declared once and enforced
+for all users. **(iii) Security:** privileges are given per user, table or column.
+**(iv) Backup and recovery:** the DBMS keeps a log and can restore a consistent state
+after a failure. Others are data sharing, data independence, concurrency control and
+quick queries. In a file system, a new question needs a new program and a change of
+file layout breaks the old programs, whereas in a DBMS a single SQL query is enough.
+The price is higher cost, more complexity and the need for a trained administrator.
+
 **2.** DDL defines structure — `CREATE TABLE students (...)`, `ALTER TABLE students ADD COLUMN phone CHAR(10)`. DML manipulates the data inside it — `INSERT INTO students VALUES (...)`, `UPDATE enrolment SET marks = marks + 5 WHERE code = 'EN403'`. DDL changes are auto-committed and act on the schema; DML acts on rows and can be rolled back. `GRANT` is **DCL** (access control) and `ROLLBACK` is **TCL** (transaction control).
 
 **3.** Candidate keys: `{Emp_ID}`, `{Citizenship_No}`, `{PAN_No}` — each is unique and minimal. Primary key: `{Emp_ID}` (short, issued by the organisation, never changes). Alternate keys: `{Citizenship_No}` and `{PAN_No}`. Foreign key: `Dept_ID`, referencing the primary key of a `DEPARTMENT` table. `{Name}` is not a key because two employees may share a name.
@@ -1370,6 +1409,25 @@ facts = dict(N=format(N, ","), scan=format(scan, ","), b=bin_, t=btree)
 Note for (c): with the foreign key in place the DBMS will refuse while Eliza Rai
 still has enrolments, so her enrolment rows must be deleted first (or the
 constraint defined with `ON DELETE CASCADE`).
+
+**5.**
+
+| Point | Centralised database | Distributed database |
+|---|---|---|
+| Location | All data at one site | Data spread over several sites |
+| Control | One DBMS, one administrator | Each site has a DBMS, co-ordinated as one |
+| Speed for remote users | Slow over a long network link | Fast, because data are near the user |
+| Failure | Server failure stops all work | Other sites keep working |
+| Cost and complexity | Lower, simple | Higher, complex to design and synchronise |
+| Security | Easier to protect in one place | Harder: many sites and links |
+| Example | A small college server | A bank with branch databases in many districts |
+
+A **centralised** database suits a small organisation, because it is simple, cheap and
+easy to back up, but all users depend on one site and one network link. A
+**distributed** database stores *fragments* or *replicas* of the data at several sites,
+so a branch in Biratnagar can serve its own customers quickly and the bank keeps working
+if the Kathmandu site fails. The cost is the difficulty of keeping the copies
+consistent and of securing many sites.
 :::
 
 **Group C — Long answer (8 marks each)**
@@ -1416,3 +1474,108 @@ cannot become inconsistent. *Delete anomaly* — returning the last copy of a bo
 no longer erases its title. The decomposition is lossless: joining MEMBER, BRANCH,
 BOOK and ISSUE on the foreign keys reproduces the original three rows.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is a DBMS? Differentiate between a DBMS and a file-processing system and explain its advantages. <span class="marks">[10]</span>
+2. Explain the three-level architecture of a DBMS. What is data independence? <span class="marks">[10]</span>
+3. Explain the hierarchical, network and relational database models with diagrams. <span class="marks">[10]</span>
+
+### Model answer D1: DBMS, file system and advantages (10 marks)
+
+**Introduction.** A **database** is an organised collection of related data, and a
+**database management system (DBMS)** is the software that defines, stores, retrieves,
+updates and protects it. Before DBMS, organisations stored data in separate files
+handled by separate programs, which is the **file-processing system**.
+
+| Point | File-processing system | DBMS |
+|---|---|---|
+| Redundancy | Same data repeated in many files | Stored once, shared |
+| Consistency | Updating one copy leaves others stale | One copy, one truth |
+| Data access | A new program for every new question | Any question as a query |
+| Data independence | Program depends on file layout | Independent of storage |
+| Integrity | Rules coded in each program | Constraints declared once |
+| Concurrency | Two users can corrupt a record | Locking and transactions |
+| Security | File-level only | Per-table, per-column |
+| Backup | Manual | Log-based recovery |
+| Cost | Cheap, simple | Higher cost, needs a DBA |
+
+**Advantages of a DBMS.** (1) Controlled redundancy and consistency; (2) data
+sharing; (3) data integrity through constraints; (4) security by privileges; (5) data
+independence; (6) backup and recovery; (7) concurrency control; (8) fast and flexible
+queries. For example, a college keeps one student table that the exam section,
+accounts section and library all use, and a mark above 100 is rejected by the `CHECK`
+rule.
+
+**Disadvantages.** Higher software and hardware cost, complexity, the need for trained
+staff, and a single point of failure if the server stops.
+
+**Conclusion.** A DBMS replaces scattered, repeated and error-prone files with one
+controlled collection, which is why banks, schools and government offices rely on it.
+
+### Model answer D2: three-level architecture and data independence (10 marks)
+
+**Introduction.** The ANSI/SPARC architecture separates a database into three levels
+of abstraction so that users see only what they need and the storage can change
+without rewriting programs. (Draw the figure of section 1.1.)
+
+**The three levels.**
+
+1. **External (view) level:** the level closest to the user. Each user or group sees
+   only the part of the data that concerns them, for example a teacher sees marks
+   and the accountant sees fees. There are many external views.
+2. **Conceptual (logical) level:** the community view of the whole database: all
+   tables, attributes, relationships and constraints, without storage detail. There
+   is only one conceptual schema, and the database administrator designs it.
+3. **Internal (physical) level:** how the data are really stored: files, indexes,
+   record formats, compression and disk addresses.
+
+**Mappings.** The DBMS maps external to conceptual and conceptual to internal, so
+a change at one level is absorbed by the mapping.
+
+| Type | Meaning | Example |
+|---|---|---|
+| Logical data independence | The conceptual schema can change without changing external views or programs | Adding a `phone` column |
+| Physical data independence | The internal schema can change without changing the conceptual schema | Adding an index, moving to a new disk |
+
+**Advantages.** Users are shielded from complexity, security improves because views
+hide data, and programs live longer because storage can be tuned freely. Physical
+independence is easier to achieve than logical independence.
+
+**Conclusion.** The three-level architecture is the reason that a database can grow
+and be tuned for years without rewriting the applications that depend on it.
+
+### Model answer D3: database models (10 marks)
+
+**Introduction.** A **database model** defines how the data are organised and how the
+relationships between them are represented. The three classical models are
+hierarchical, network and relational. (Draw the three diagrams of section 1.5.)
+
+1. **Hierarchical model:** data are arranged as a **tree** of parent and child
+   records. Each child has exactly one parent, and the root has none. *Example:* a
+   college with departments, and each department with its teachers. It is fast for
+   top-down queries, but it cannot show many-to-many relationships easily and a
+   child cannot have two parents.
+2. **Network model:** data are arranged as a **graph** in which a child (member) may
+   have more than one parent (owner), joined by links. *Example:* a student who
+   belongs to several clubs, each club having many students. It handles many-to-many
+   relationships, but the structure and the pointers are complex.
+3. **Relational model:** data are stored in **tables** (relations) of rows (tuples) and
+   columns (attributes), and the tables are linked by keys. *Example:* the `students`,
+   `courses` and `enrolment` tables joined by roll number and course code. It is simple,
+   flexible, queried by SQL and based on mathematics (relational algebra), so it is the
+   model of MySQL, PostgreSQL and Oracle.
+
+| Point | Hierarchical | Network | Relational |
+|---|---|---|---|
+| Structure | Tree | Graph | Tables |
+| Parents per child | One | Many | Not applicable (keys) |
+| Relationships | One-to-many | Many-to-many | All, through foreign keys |
+| Query | Navigate from the root | Navigate links | SQL |
+| Flexibility | Low | Medium | High |
+| Example | IBM IMS | IDMS | MySQL, PostgreSQL |
+
+**Conclusion.** The relational model replaced the other two because it is simple, it
+separates the logical design from storage and it supports a powerful, standard query
+language.
