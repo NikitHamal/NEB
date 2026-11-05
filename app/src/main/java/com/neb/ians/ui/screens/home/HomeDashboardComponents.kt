@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.home
 
+import androidx.compose.ui.graphics.SolidColor
 import com.neb.ians.util.TactileType
 import com.neb.ians.ui.components.nebPressable
 import androidx.compose.foundation.BorderStroke
@@ -452,12 +453,7 @@ private fun SuggestedPostCard(
     )
 
     val bannerBrush = remember(categoryTheme) {
-        Brush.linearGradient(
-            listOf(
-                categoryTheme.container,
-                categoryTheme.color.copy(alpha = 0.18f)
-            )
-        )
+        SolidColor(categoryTheme.container)
     }
 
     Card(
@@ -803,13 +799,7 @@ internal fun HomeStudyHub(
             .padding(horizontal = 16.dp)
             .clip(shape)
             .background(
-                Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.25f),
-                        MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                )
+                SolidColor(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f))
             )
             .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f), shape)
             .padding(16.dp)
