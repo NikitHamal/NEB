@@ -3,13 +3,6 @@ package com.neb.ians.ui.screens.reader
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
-import com.neb.ians.ui.screens.ai.chat.enterOnce
-import com.neb.ians.ui.screens.ai.chat.UserMessage
-import com.neb.ians.ui.screens.ai.chat.NebyStatus
-import com.neb.ians.ui.screens.ai.chat.ChatPhase
-import com.neb.ians.ui.screens.ai.chat.ChatActions
-import com.neb.ians.ui.screens.ai.chat.AssistantMessage
-import com.neb.ians.data.api.ApiArenaMessage
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -332,7 +325,7 @@ private fun PdfAiPanel(
 /** One message, drawn with the Neby chat's own components so both chats look and move alike. */
 @Composable
 private fun PdfAiMessageRow(message: PdfAiMessage, fresh: Boolean, actions: ChatActions) {
-    val arena = remember(message.id, message.content) { ApiArenaMessage(id = message.id, role = message.role, content = message.content, createdAt = message.createdAt) }
+    val arena = remember(message.id, message.content) { NebyMessage(id = message.id, role = message.role, content = message.content, createdAt = message.createdAt) }
     if (message.role == "user") {
         UserMessage(arena, onCopy = actions.onCopy, modifier = Modifier.enterOnce(message.id, fresh))
     } else {

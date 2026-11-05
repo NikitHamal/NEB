@@ -104,6 +104,6 @@ Brief: the app still did not read like the web. Method this time: the web was ru
 Brief: remove AI chat, Study Lab and the other dead study surfaces from the app (only @neby and the PDF reader's Neby AI stay); rebuild the Analytics screen on m3x; rebuild the backend analytics behind it.
 
 - [x] Backend: `api/user_analytics.py` (v2 payload), `api/test_user_analytics.py`, `docs/ANALYTICS.md` section, legacy keys kept.
-- [ ] Android: remove AI chat screen, Study Lab / Study Space, study API models and routes, dead strings and view models.
+- [x] Android: AI chat (`NebyAiScreen`, view model, composer, empty state), Study Lab, Study Space, document detail, the unused Canvas screens, their routes, the Study/Arena/Qwen endpoints and models in `ApiService`, and three dead Home composables (`HomeWelcomePanel`, `HomeQuickActions`, `HomeStudyHub`) are gone. The PDF reader's Neby AI keeps its message rows: `ui/screens/reader/NebyAnswer.kt` (moved from `ai/chat`, own `NebyMessage`). Syllabus reader, Interactive courses and Notes are untouched.
 - [ ] Android: new Analytics screen on the v2 payload (range chips, KPI tiles, trend, streak, heatmap, rhythm, reach, helpfulness, milestones, insights).
 - [ ] CI green on `Build Student Release APKs & AAB`.
