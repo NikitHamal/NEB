@@ -1298,8 +1298,7 @@ fun LiquidNavContainer(
     Surface(
         modifier = modifier
             .navigationBarsPadding()
-            .padding(horizontal = 18.dp, vertical = 12.dp)
-            .shadow(18.dp, WebPillShape, ambientColor = Color.Black.copy(alpha = 0.10f), spotColor = Color.Black.copy(alpha = 0.16f)),
+            .padding(horizontal = 18.dp, vertical = 12.dp),
         shape = WebPillShape,
         color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.88f),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)),
