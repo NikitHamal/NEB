@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.notifications
 
+import com.neb.ians.util.TactileType
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,7 +66,7 @@ fun NotificationItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .background(container)
-            .clickable(onClick = onClick)
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 13.dp),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(12.dp)

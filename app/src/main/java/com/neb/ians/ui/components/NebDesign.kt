@@ -96,13 +96,27 @@ fun NebCard(
     content: @Composable () -> Unit
 ) {
     val tactile = rememberTactileFeedback()
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    // A pressable card settles in with a spring and warms one tonal step; it never loses its corners.
+    val pressScale by animateFloatAsState(
+        targetValue = if (pressed && onClick != null) 0.985f else 1f,
+        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
+        label = "nebCardPress"
+    )
+    val fill by animateColorAsState(
+        targetValue = if (pressed && onClick != null) MaterialTheme.colorScheme.surfaceContainerLow else containerColor,
+        animationSpec = com.neb.ians.ui.theme.nebFastEffectsSpec(),
+        label = "nebCardFill"
+    )
     val base = modifier
+        .graphicsLayer { scaleX = pressScale; scaleY = pressScale }
         .clip(shape)
-        .background(containerColor)
+        .background(fill)
         .then(if (border != null) Modifier.border(border, shape) else Modifier)
     Box(
         modifier = if (onClick != null) {
-            base.clickable(onClick = {
+            base.clickable(interactionSource = interaction, indication = null, onClick = {
                 tactile.perform(TactileType.LightTap)
                 onClick()
             })
