@@ -5394,6 +5394,19 @@
     "source": "Wikimedia Commons",
     "title": "Nightingale-mortality"
   },
+  "bca254/odometer": {
+    "author": "Hellbus",
+    "bytes": 326164,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca254/odometer.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Odometer_rollover.jpg",
+    "sha1": "afee821e9b4666f7",
+    "source": "Wikimedia Commons",
+    "title": "Odometer rollover"
+  },
   "bca254/playfair": {
     "author": "Playfair, William, 1759-1823",
     "bytes": 634656,
@@ -5433,6 +5446,19 @@
     "source": "Wikimedia Commons",
     "title": "Raspberry Pi 4 Model B - Top"
   },
+  "bca254/sajha": {
+    "author": "Krish Dulal",
+    "bytes": 782984,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca254/sajha.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sajha_Yatayat.jpg",
+    "sha1": "3d5291d4c560959b",
+    "source": "Wikimedia Commons",
+    "title": "Sajha Yatayat"
+  },
   "bca254/snow": {
     "author": "after John Snow",
     "bytes": 253990,
@@ -5458,6 +5484,19 @@
     "sha1": "797f03be7efdeb49",
     "source": "Wikimedia Commons",
     "title": "Teletype Model 33 Terminal April 1974"
+  },
+  "bca254/tempo": {
+    "author": "User: (WT-shared) Shoestring at wts wikivoyage",
+    "bytes": 142493,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca254/tempo.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Safa_Tempo,_Kathmandu,_Nepal.JPG",
+    "sha1": "231770e580de67d5",
+    "source": "Wikimedia Commons",
+    "title": "Safa Tempo, Kathmandu, Nepal"
   },
   "bca254/vault": {
     "author": "The Cleveland Trust Company: An Epitome of the Past, A Chronicle of the Present, A Promise of the Future . Cleveland: The Cleveland Trust Company, 1908, p. 75 o",
