@@ -11,55 +11,23 @@ Pro-only models: genius, supergenius, gpt-4o-mini, o3, claude-4.7-opus, etc.
 
 Mounted under /api/neby-arena/ alongside the Qwen, eGov, and community views.
 """
-import json
 import logging
 import os
 
-from django.http import StreamingHttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, throttle_classes
 from rest_framework.response import Response
 
+from .arena_common import (
+    get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+)
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment, User
+from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 from . import deepai_proxy
 
 logger = logging.getLogger(__name__)
-
-
-def _require_user(request):
-    user = getattr(request, 'user', None)
-    if not isinstance(user, User):
-        return None, Response(
-            {'error': 'Unauthorized — please sign in'},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
-    return user, None
-
-
-def _get_owned_session(user, session_id):
-    try:
-        sess = ArenaChatSession.objects.get(pk=session_id)
-    except ArenaChatSession.DoesNotExist:
-        return None, Response(
-            {'error': 'Session not found'}, status=status.HTTP_404_NOT_FOUND,
-        )
-    if sess.user_id != user.id:
-        return None, Response(
-            {'error': 'Forbidden — not your session'},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-    return sess, None
-
-
-def _sse_format(obj):
-    return f"data: {json.dumps(obj, ensure_ascii=False)}\n\n"
-
-
-def _sse_done_marker():
-    return "data: [DONE]\n\n"
 
 
 # ========================= Model list =========================
@@ -80,7 +48,7 @@ def arena_deepai_models(request):
 @throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
 def arena_create_deepai_session(request):
     """Create a new DeepAI-backed chat session."""
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
 
@@ -150,10 +118,10 @@ def arena_send_message_deepai(request, session_id):
 
     Returns SSE stream with OpenAI-style deltas.
     """
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -239,7 +207,7 @@ def arena_send_message_deepai(request, session_id):
             )
 
     def _stream_deepai():
-        yield _sse_format({
+        yield sse_format({
             'choices': [{
                 'index': 0,
                 'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
@@ -275,7 +243,7 @@ def arena_send_message_deepai(request, session_id):
                 if t == 'content':
                     text = chunk.get('text', '')
                     collected_text += text
-                    yield _sse_format({
+                    yield sse_format({
                         'choices': [{'index': 0, 'delta': {'content': text}}],
                     })
                 elif t == 'done':
@@ -283,13 +251,13 @@ def arena_send_message_deepai(request, session_id):
                 elif t == 'error':
                     error_text = chunk.get('message', 'upstream error')
                     logger.warning("deepai stream: upstream error: %s", error_text)
-                    yield _sse_format({
+                    yield sse_format({
                         'error': {'message': error_text, 'code': 'upstream'},
                     })
                     break
         except Exception as e:
             logger.exception("deepai stream: unexpected error: %s", e)
-            yield _sse_format({
+            yield sse_format({
                 'error': {'message': 'Internal streaming error', 'code': 'server'},
             })
             error_text = str(e)
@@ -317,16 +285,12 @@ def arena_send_message_deepai(request, session_id):
                 logger.warning("deepai: counter commit failed: %s", e)
 
         if not error_text:
-            yield _sse_format({
+            yield sse_format({
                 'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
             })
-        yield _sse_done_marker()
+        yield sse_done_marker()
 
-    response = StreamingHttpResponse(_stream_deepai(), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(_stream_deepai())
 
 
 # ========================= SSE variant (JSON body with base64 files) =========================
@@ -343,10 +307,10 @@ def arena_send_message_deepai_sse(request, session_id):
 
     Returns SSE stream with OpenAI-style deltas.
     """
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -444,7 +408,7 @@ def arena_send_message_deepai_sse(request, session_id):
             )
 
     def _stream_deepai():
-        yield _sse_format({
+        yield sse_format({
             'choices': [{
                 'index': 0,
                 'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
@@ -479,7 +443,7 @@ def arena_send_message_deepai_sse(request, session_id):
                 if t == 'content':
                     text = chunk.get('text', '')
                     collected_text += text
-                    yield _sse_format({
+                    yield sse_format({
                         'choices': [{'index': 0, 'delta': {'content': text}}],
                     })
                 elif t == 'done':
@@ -487,13 +451,13 @@ def arena_send_message_deepai_sse(request, session_id):
                 elif t == 'error':
                     error_text = chunk.get('message', 'upstream error')
                     logger.warning("deepai stream: upstream error: %s", error_text)
-                    yield _sse_format({
+                    yield sse_format({
                         'error': {'message': error_text, 'code': 'upstream'},
                     })
                     break
         except Exception as e:
             logger.exception("deepai stream: unexpected error: %s", e)
-            yield _sse_format({
+            yield sse_format({
                 'error': {'message': 'Internal streaming error', 'code': 'server'},
             })
             error_text = str(e)
@@ -521,13 +485,9 @@ def arena_send_message_deepai_sse(request, session_id):
                 logger.warning("deepai: counter commit failed: %s", e)
 
         if not error_text:
-            yield _sse_format({
+            yield sse_format({
                 'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
             })
-        yield _sse_done_marker()
+        yield sse_done_marker()
 
-    response = StreamingHttpResponse(_stream_deepai(), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(_stream_deepai())
