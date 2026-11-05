@@ -17250,6 +17250,19 @@
   "source": "Wikimedia Commons",
   "title": "Yoga Padmasana Lotus Posture"
  },
+ "ioemath/archpoly": {
+  "author": "Unknown author",
+  "bytes": 41694,
+  "credit": "",
+  "fetched": "2026-11-05",
+  "file": "ioemath/archpoly.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Archimedes_pi.png",
+  "sha1": "48ca64f1c71c446f",
+  "source": "Wikimedia Commons",
+  "title": "Archimedes pi"
+ },
  "ioemath/dish": {
   "author": "David Shankbone",
   "bytes": 824875,
@@ -17276,6 +17289,32 @@
   "source": "Wikimedia Commons",
   "title": "GaltonBoard"
  },
+ "ioemath/gradient": {
+  "author": "Bidgee",
+  "bytes": 695149,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/gradient.jpg",
+  "license": "CC BY-SA 2.5 au",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5/au/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Retroreflective_Gradient_road_sign.jpg",
+  "sha1": "01e24aa64b27eace",
+  "source": "Wikimedia Commons",
+  "title": "Retroreflective Gradient road sign"
+ },
+ "ioemath/ladder": {
+  "author": "Baltimore Heritage from Baltimore, MD, USA",
+  "bytes": 301911,
+  "credit": "Ladder leaning against the wall, Peabody Institute, 1 E. Mount Vernon Place, Baltimore, MD 21202",
+  "fetched": "2026-11-05",
+  "file": "ioemath/ladder.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Ladder_leaning_against_the_wall,_Peabody_Institute,_1_E._Mount_Vernon_Place,_Baltimore,_MD_21202_(39542915101).jpg",
+  "sha1": "6e00eb023a2311c0",
+  "source": "Wikimedia Commons",
+  "title": "Ladder leaning against the wall, Peabody Institute, 1 E. Mount Vernon Place, Baltimore, MD 21202 (39542915101)"
+ },
  "ioemath/sliderule": {
   "author": "Jacek Halicki",
   "bytes": 189959,
@@ -17289,6 +17328,19 @@
   "source": "Wikimedia Commons",
   "title": "2023 Suwak logarytmiczny (2)"
  },
+ "ioemath/speedo": {
+  "author": "Mimiliz",
+  "bytes": 167428,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/speedo.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Car_dashboard.jpg",
+  "sha1": "dd680bb40334a660",
+  "source": "Wikimedia Commons",
+  "title": "Car dashboard"
+ },
  "ioemath/sundial": {
   "author": "DeFacto",
   "bytes": 1085933,
@@ -17301,6 +17353,45 @@
   "sha1": "c753e4542ffd5224",
   "source": "Wikimedia Commons",
   "title": "Sundial on the porch of St. Giles Church, Chesterton"
+ },
+ "ioemath/tug": {
+  "author": "Joy Agyepong",
+  "bytes": 958699,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/tug.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tug_of_War_-_Kids_Playing.jpg",
+  "sha1": "17ba3333a0a2a0b2",
+  "source": "Wikimedia Commons",
+  "title": "Tug of War - Kids Playing"
+ },
+ "ioemath/vending": {
+  "author": "Myotus",
+  "bytes": 837036,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/vending.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vintage_Coca-Cola_Vending_Machine-06.jpg",
+  "sha1": "3fd51482b6274541",
+  "source": "Wikimedia Commons",
+  "title": "Vintage Coca-Cola Vending Machine-06"
+ },
+ "ioemath/wrench": {
+  "author": "No machine-readable author provided. Heron2 assumed (based on copyright claims).",
+  "bytes": 369643,
+  "credit": "No machine-readable source provided. Own work assumed (based on copyright claims).",
+  "fetched": "2026-11-05",
+  "file": "ioemath/wrench.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Click-torque-wrench.jpg",
+  "sha1": "8ad2e18bb4655759",
+  "source": "Wikimedia Commons",
+  "title": "Click-torque-wrench"
  },
  "ioephy/bimetal": {
   "author": "Dmitry G",
