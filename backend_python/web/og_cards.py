@@ -13,15 +13,14 @@ information.
 from __future__ import annotations
 
 import hashlib
-import math
 import os
 from typing import List, Optional, Sequence, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 
 from . import og_logo
-from .og_art import (H, SS, W, Rng, Stage, face_palette, grain, ground, lift,
-                     mix, radial_glow, saturate)
+from .og_art import (H, SS, W, Rng, Stage, face_palette, ground, lift, mix,
+                     radial_glow, saturate)
 from .og_heroes import HEROES, set_font_dir, _font
 
 def _hex(value: str):

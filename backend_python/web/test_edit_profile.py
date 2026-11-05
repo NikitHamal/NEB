@@ -1,9 +1,7 @@
 """The profile editor shares the welcome flow's controls and saves the education story."""
-import re
 
 from django.test import Client, TestCase
 
-from api.models import User
 from web.test_onboarding import _make, _sign_in
 
 

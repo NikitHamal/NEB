@@ -3,7 +3,6 @@
 The rules that matter are protocol rules: 50,000 URLs per file, and a lastmod
 that means something. Both were being violated.
 """
-import os
 import unittest
 
 

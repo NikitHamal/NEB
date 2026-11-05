@@ -6,14 +6,13 @@ from urllib.parse import urlparse
 from django.core.cache import cache
 from django.db.models import F
 from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 
 from api import services
 from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
-from api.utils import now_ms, uuid_str
 
-from .view_helpers import DELETED_AUTHOR_NAME, _avatar_url, _comment_author, _ctx, _get_user_id, _user_badge_info
+from .view_helpers import _avatar_url, _comment_author, _ctx, _get_user_id
 
 
 # `art` is the subject the pixel banner family resolves to -- pixel-art.js reads

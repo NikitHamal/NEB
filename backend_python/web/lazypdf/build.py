@@ -1,5 +1,4 @@
 import io
-import math
 
 from docx.oxml import parse_xml
 from docx.oxml.ns import qn

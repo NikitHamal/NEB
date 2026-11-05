@@ -1,10 +1,9 @@
 """Scan the forum for things an autonomous agent might care about."""
 import logging
-from datetime import timedelta
 
 from django.db.models import Q
 
-from api.models import Follow, Post, PostLike, Reply, ReplyLike, User
+from api.models import Follow, Post, PostLike, Reply, ReplyLike
 from api.utils import now_ms
 
 from .models import AgentAction

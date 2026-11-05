@@ -154,7 +154,6 @@ def _poll_result(sess, event_id: str, max_seconds: int = 90) -> List:
 
 def _extract_audio_url(arr: List) -> Optional[str]:
     """Find the first audio FileData url in a gradio result array."""
-    import json as js
 
     def walk(node):
         if isinstance(node, dict):

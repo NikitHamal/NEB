@@ -9,8 +9,7 @@ makes it appear on both platforms.
 import re
 
 from .creator_themes import (
-    BLOCK_ALIGNS, BLOCK_TONES, BLOCK_WIDTHS, CARD_STYLES, DENSITIES, FONTS,
-    HERO_STYLES, PALETTES, PATTERNS, RADII, SCHEMES, WIDTHS, theme_vocabulary,
+    theme_vocabulary,
 )
 from .models import User
 

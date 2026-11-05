@@ -7,15 +7,14 @@ import logging
 import re
 from collections import Counter
 
-from django.core.cache import cache
 from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
-from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
+from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest
 from .models import BlogComment, BlogCommentLike, Announcement
-from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
+from .security import hash_password, issue_auth_token, verify_password, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
 from . import counters as _counters
 from . import notifications as _notif

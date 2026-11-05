@@ -292,7 +292,7 @@ def ajax_admin_media_voice(request):
 
     # Chat via Mercury (voice turn if scenario, else plain chat)
     try:
-        from api.inception_proxy import voice_turn, stream_chat
+        from api.inception_proxy import voice_turn
         import base64
         # Choose voice pipeline if scenario given, else plain Mercury chat
         if scenario_id:

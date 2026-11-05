@@ -12,7 +12,7 @@ from django.test import Client, TestCase
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 
-from .models import Resource, User, Post, Reply, FCMToken, Report
+from .models import Resource, User, Post, FCMToken, Report
 from .security import (
     generate_numeric_code,
     hash_password,

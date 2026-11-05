@@ -2,7 +2,7 @@
 DRF serializers for all NEBians API resources.
 """
 from rest_framework import serializers
-from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, FCMToken, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
+from .models import User, Resource, ResourceLike, ResourceRequest, Post, PostImage, PostMedia, Poll, PollOption, Reply, UserPhoto, Follow, EditHistory, Report, Bookmark, Notification
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -5,7 +5,7 @@ import uuid
 from django.test import RequestFactory, TestCase
 
 from api import polls, post_insights, post_reach, services, signals
-from api.models import ActorSignal, Poll, PollOption, Post, PostImpression, PostReach, Reply, User
+from api.models import ActorSignal, Poll, Post, PostImpression, PostReach, User
 from api.utils import now_ms
 
 APP_UA = 'okhttp/4.12.0'

@@ -23,7 +23,6 @@ On limit breach it returns HTTP 429 with a JSON body:
 from __future__ import annotations
 
 import functools
-import time
 
 from django.core.cache import cache
 from django.http import JsonResponse

@@ -1194,7 +1194,6 @@ def submit_payment_proof(request, resource_id):
             messages.error(request, "Please provide a transaction reference or upload a payment screenshot proof.")
             return redirect('web:reader', resource_id=resource_id)
 
-        from decimal import Decimal
         from api.marketplace import get_payment_config, compute_commission, seller_earnings_for
         price_dec = resource_obj.price
         _cfg = get_payment_config()
@@ -2126,7 +2125,6 @@ def sitemap_xml(request):
     endpoint is the index that points at them.
     """
     from . import seo
-    from django.utils import timezone
     from xml.sax.saxutils import escape as xml_escape
 
     cached = cache.get('sitemap_index_xml')

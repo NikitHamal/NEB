@@ -5,7 +5,6 @@ Feature-flagged: if MEILISEARCH_URL is not set, falls back to icontains queries.
 When configured, provides instant typo-tolerant search with highlighting.
 """
 import logging
-import os
 
 from django.conf import settings
 
