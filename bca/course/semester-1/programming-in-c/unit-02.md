@@ -34,6 +34,33 @@ The C **character set** is letters (A–Z, a–z), digits (0–9), special chara
 
 **Identifier rules.** Letters, digits and underscore only; must not start with a digit; case-sensitive; not a keyword; at least the first 31 characters are significant. `2fast`, `my-name`, `int`, `total marks` are invalid; `fast2`, `my_name`, `Int`, `total_marks` are valid. Choose meaningful names: `average` beats `a`.
 
+### Text is stored as numbers
+
+A computer never stores the picture of a letter. It stores a small whole number, and the number is turned back into a shape only when it is displayed. The ASCII chart in Plate 2.1 is the table that every C compiler uses for the type `char`, so `'A'` is simply the number 65. Because the capital and small letters sit exactly 32 places apart, one bit (the bit of value 32) decides the case of a letter. This is why `ch + 32` turns `'A'` into `'a'` and why `'7' - '0'` gives the number 7 instead of the character.
+
+```photogrid label="2.1" cols="2" ratio="1.3" caption="Characters are numbers. (a) The USASCII code chart of 1963: row and column give the 7-bit code of each character. (b) The bit pattern of g and G computed in C: only bit 5 (value 32) differs, which is why adding 32 changes the case; digit and letter arithmetic from the same run."
+@ photo id="bca102/asciichart" cap="USASCII code chart: every key on the keyboard has a code"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="One bit separates g from G"
+g, G = ord("g"), ord("G")
+assert (g, G) == (103, 71) and g ^ G == 32 and ord("A") + 32 == 97 and ord("7") - ord("0") == 7 and ord("z") - ord("a") == 25
+assert chr(ord("g") & ~32) == "G"
+f = Fig(400, 270)
+f.text(200, 16, "Bit patterns (bit 7 left, bit 0 right)", size=11, color=NAVY, bold=True)
+for r, (ch, v) in enumerate([("g", g), ("G", G)]):
+    y = 40 + r * 62
+    f.text(14, y + 16, f"'{ch}' = {v}", size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+    for b in range(8):
+        bit = v >> (7 - b) & 1
+        hot = (7 - b) == 5
+        f.box(112 + b * 34, y, 30, 30, str(bit), fill=ROSE if hot else BLUE, stroke=RED if hot else NAVY, color=RED if hot else NAVY, size=12, bold=True)
+f.text(112 + 2 * 34 + 15, 150, "bit 5 (value 32) is red", size=10.5, color=RED, bold=True)
+for i, t in enumerate(["'A' + 32 = 97 = 'a'", "'g' & ~32 = 71 = 'G'", "'7' - '0' = 7 (digit to number)", "'z' - 'a' = 25 (position in the alphabet)"]):
+    f.text(14, 178 + i * 22, t, size=11, color=SLATE, bold=True, anchor="start")
+f.text(200, 262, "Printed by a real C program (gcc).", size=10.5, color=SLATE)
+```
+
 ## 2.2 Data types
 
 | Type | Typical size (64-bit GCC) | Range | Specifier |
@@ -86,6 +113,63 @@ for i, (n, b, r, c) in enumerate(rows):
     f.box(70, y, b * 36, 28, f"{b} B", fill=c, stroke=NAVY, size=11, bold=True)
     f.text(70 + b * 36 + 14, y + 19, r, size=10.5, color=SLATE, anchor="start")
 f.text(380, 244, "1 byte = 8 bits; a type with n bytes has 2^(8n) different bit patterns", size=10, color=SLATE)
+```
+
+### When a number does not fit
+
+Every type has a fixed number of bits, so every type has a largest value. When a bigger value is forced into a smaller type, C does not stop the program: it keeps only the low bits and carries on with a wrong answer. In 1996 the first Ariane 5 rocket was lost about 37 seconds after lift-off partly because a 64-bit floating-point value was converted into a 16-bit signed integer that was too small to hold it. Plate 2.2 repeats the same mistake on a classroom scale with `(short)` casts that were run through gcc.
+
+```photogrid label="2.2" cols="2" ratio="1.3" caption="Overflow is not an error message. (a) A recovered fragment of Ariane 501, the rocket whose guidance software lost its flight to a failed number conversion. (b) Five int values cast to a 16-bit short in a real C run: from 32768 onward the answer silently wraps round to the negative end."
+@ photo id="bca102/ariane" cap="Ariane 501 wreckage fragment (support strut of the satellite structure)"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="int to short: only the low 16 bits survive"
+def to_short(v): return ((v + 32768) % 65536) - 32768
+vals = [32767, 32768, 40000, 65535, 65536]
+res = [to_short(v) for v in vals]
+assert res == [32767, -32768, -25536, -1, 0]
+f = Fig(400, 270)
+f.text(200, 16, "(short) cast of an int", size=11, color=NAVY, bold=True)
+f.text(14, 42, "int value", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(150, 42, "low 16 bits", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(386, 42, "short", size=10.5, color=SLATE, bold=True, anchor="end")
+for i, (v, r) in enumerate(zip(vals, res)):
+    y = 52 + i * 38
+    bad = r != v
+    f.box(8, y, 384, 32, "", fill=ROSE if bad else MINT, stroke=RED if bad else TEAL, r=4)
+    f.text(14, y + 16, f"{v:,}", size=11.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(150, y + 16, format(v & 0xFFFF, "016b"), size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(386, y + 16, f"{r:,}", size=11.5, color=RED if bad else TEAL, bold=True, anchor="end", vmid=True)
+f.text(200, 258, "Largest short = 32767; (unsigned char)300 = 44 and (unsigned char)-1 = 255.", size=10.5, color=SLATE)
+assert (300 & 255, -1 & 255) == (44, 255)
+```
+
+### Decimal fractions are not exact
+
+A float stores binary fractions, and 0.1 has no finite binary form, exactly as one third has no finite decimal form. The stored value is a tiny bit off, and the tiny error grows when it is added again and again. In February 1991 a Patriot battery at Dhahran had been running for about 100 hours counting time in tenths of a second; its clock had lost about a third of a second, enough for it to miss an incoming missile. Plate 2.3 recomputes that error from the 24-bit chopped value of 0.1 that the system used.
+
+```photogrid label="2.3" cols="2" ratio="1.4" caption="A small error, repeated. (a) A Patriot missile battery. (b) The value 0.1 chopped to 23 binary places is wrong by about 9.5 x 10^-8 of a second per tick; ticks come every 0.1 s, so the clock error grows linearly with up-time and reaches about 0.34 s after 100 hours."
+@ photo id="bca102/patriot" cap="Patriot battery: its clock counted tenths of a second"
+fit 1.4
+focus 0.5 0.55
+@ svg cap="Clock error against hours of up-time"
+import math
+chop = math.floor(0.1 * 2**23) / 2**23
+err = 0.1 - chop
+assert abs(err - 9.5367e-8) < 1e-11
+hrs = [1, 8, 20, 48, 100]
+es = [h * 36000 * err for h in hrs]
+assert abs(es[-1] - 0.3433) < 0.0005 and abs(es[-1] * 1676 - 575) < 2
+f = Fig(400, 270)
+f.text(200, 16, "Clock error after h hours (seconds)", size=11, color=NAVY, bold=True)
+for i, (h, e) in enumerate(zip(hrs, es)):
+    y = 40 + i * 36
+    f.text(10, y + 12, f"{h} h", size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = max(e / es[-1] * 260, 3)
+    f.box(56, y, w, 24, "", fill=ROSE if h == 100 else SAND, stroke=RED if h == 100 else AMBER, r=3)
+    f.text(62 + w, y + 12, f"{e:.4f} s", size=10.5, color=RED if h == 100 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(200, 232, "Error per tick = 0.1 - 0.1(chopped) = 9.5367e-8 s", size=10.5, color=SLATE)
+f.text(200, 252, "0.3433 s x 1,676 m/s (Scud speed) = about 575 m off target", size=10.5, color=SLATE, bold=True)
 ```
 
 ## 2.3 Variables and constants
@@ -251,6 +335,35 @@ int main(void)
 ```output
 12 / 8 = 1.500
 [   12][12   ][00012][   3.142][ff]
+```
+
+### Where does the Enter key go?
+
+When you type 25 and press Enter, the keyboard sends the three characters `2`, `5` and newline, not just a number. `scanf("%d")` takes the digits and stops at the newline, which stays in the input buffer waiting for the next reader. A following `scanf("%c")` then receives that newline (code 10) instead of the letter you meant to type. Adding a space in the format, as in `" %c"`, tells `scanf` to skip white space first; Plate 2.4 shows the buffer and both outcomes from a real run.
+
+```photogrid label="2.4" cols="2" ratio="1.4" caption="Why the keyboard sometimes seems to be skipped. (a) A QWERTY keyboard: each key press delivers one character code. (b) The input buffer for the typed text 25, Enter, N, and what scanf with the formats %d%c and %d %c put in the variable c (checked by a real run)."
+@ photo id="bca102/qwerty" cap="QWERTY keyboard: every key is a character code"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="The newline stays in the buffer"
+buf = "25\nN"
+codes = [ord(c) for c in buf]
+assert codes == [50, 53, 10, 78]
+f = Fig(400, 270)
+f.text(200, 16, "Input buffer after typing 25, Enter, N", size=11, color=NAVY, bold=True)
+names = ["'2'", "'5'", "'\\n'", "'N'"]
+for i, (n, c) in enumerate(zip(names, codes)):
+    x = 40 + i * 80
+    f.box(x, 34, 70, 44, "", fill=SAND if c == 10 else BLUE, stroke=AMBER if c == 10 else NAVY, r=4)
+    f.text(x + 35, 52, n, size=12, color=AMBER if c == 10 else NAVY, bold=True)
+    f.text(x + 35, 68, str(c), size=10.5, color=SLATE)
+f.box(8, 100, 384, 64, "", fill=ROSE, stroke=RED, r=4)
+f.text(16, 118, 'scanf("%d%c", &n, &c)', size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(16, 142, "n = 25, c = 10 (the Enter key, not N)", size=11, color=RED, bold=True, anchor="start", vmid=True)
+f.box(8, 176, 384, 64, "", fill=MINT, stroke=TEAL, r=4)
+f.text(16, 194, 'scanf("%d %c", &n, &c)', size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(16, 218, "n = 25, c = 'N' (78): the space skips the newline", size=11, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(200, 258, 'scanf("%d%d") on the text 42abc returns 1: only one value was read.', size=10.5, color=SLATE)
 ```
 
 ## 2.7 Eight common mistakes with data types, operators and input/output
