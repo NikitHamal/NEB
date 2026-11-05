@@ -66,3 +66,11 @@ Brief: the app still read bluish next to the web forum; the composer needed a dr
 - Web icon set: `tools/design/svg_to_vector.py` turns the web composer's inline SVGs into `res/drawable/ic_neb_*.xml` (24 grid, 2px round stroke). `ui/components/NebIcon.kt` (`NebIcons`, `NebIcon`) is the only way to draw them; the markdown toolbar, composer header, footer and poll builder use them.
 - Identity: `NebIdentityPicker` is the web dropdown (Post anonymously as `Anon#xxxx` / Post as yourself, tick on the active row). `anonTagFor` repeats the server hash. Replaces the old choice sheet. The same picker is reused by the home launcher.
 - Composer chrome moved to `CreatePostChrome.kt` (header, format row with picture-in-text, footer with the counter at its end).
+- Feed (Home and Forum): page is white (`surface`), the bluish `surfaceContainerLow` page fill is gone. Feed rows are flat like the web feed: no frame, one hairline under each (`NebHairline`), the same row on Home, Forum and (through `ForumPostCard`) everywhere it is used. Comment, share and view glyphs on the row come from the web set (`ic_neb_comment`, `ic_neb_share`, `ic_neb_eye`).
+- Composer launcher (`NebComposerLauncher`): identity dropdown, prompt pill, four tool glyphs, first row of Home and Forum. `PostIdentityPreference` carries the identity pick into the composer. The Forum FAB is a squircle with the web plus and no elevation.
+- Capture: `tools/app-screens/flows/07-composer.yaml` (launcher, composer, identity menu, anonymous). Run `App screen captures (reel)` after a green build.
+
+## Not done yet (after session 5)
+
+- Table and spoiler tools in the markdown row (renderer lacks them).
+- Post detail, replies, library and profile screens still use Material glyphs for their own actions; swap them for `NebIcons` as the web set grows (bookmark, thumb, bell are not in it yet).
