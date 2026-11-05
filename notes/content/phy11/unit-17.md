@@ -750,6 +750,30 @@ $$ P = P_1 + P_2 = 2.0 + (-0.5) = +1.5\ \text{D},
 \qquad F = \frac{1}{1.5} = 0.667\ \text{m} = 66.7\ \text{cm} $$
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.27" caption="A magnifying glass is a convex lens held closer than its focal length, and its angular magnification compares the angle of the image with the angle the object subtends at the near point D = 25 cm. (a) A magnifier over a postage stamp. (b) For f = 10 cm the image at the near point gives M = 1 + D/f = 3.5, while the relaxed eye, with the image at infinity, gets M = D/f = 2.5 and less strain. Power is the reciprocal of focal length in metres, 10 D. A lens of f = 5 cm gives 6.0, but a short focal length means a thicker, more curved lens with more aberration, which limits a simple magnifier to about 10x."
+@ photo id="phy11/magnifier" cap="A magnifying glass held over a stamp"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Angular magnification of a simple magnifier against focal length"
+D = 25.0
+M1 = lambda fl: 1 + D / fl
+M2 = lambda fl: D / fl
+fl0 = 10.0
+assert abs(M1(fl0) - 3.5) < 1e-9 and abs(M2(fl0) - 2.5) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Simple magnifier, D = 25 cm", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 25), (0, 8))
+ax.grid(5, 2, size=9); ax.axes("f (cm)", "M")
+ax.curve(M1, 3.4, 25, color=NAVY, sw=2.4)
+ax.curve(M2, 3.4, 25, color=RED, sw=2.4)
+ax.pt(fl0, M1(fl0), "%.1f (near point)" % M1(fl0), dx=10, dy=-8, color=NAVY)
+ax.pt(fl0, M2(fl0), "%.1f (relaxed)" % M2(fl0), dx=-10, dy=16, color=RED, anchor="end")
+f.text(150, 207, "M = 1 + D/f   image at the near point", size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "M = D/f   image at infinity", size=10.5, color=RED, bold=True)
+f.text(150, 231, "f = 10 cm -> power P = 1/f = %.0f D" % (100 / fl0), size=10.5, color=SLATE)
+facts = dict(m1="%.1f" % M1(fl0), m2="%.1f" % M2(fl0), p="%.0f" % (100 / fl0), f4="%.1f" % M1(5))
+```
+
 ## Chapter summary
 
 - Thin lens formula $\dfrac{1}{v} - \dfrac{1}{u} = \dfrac{1}{f}$ with linear

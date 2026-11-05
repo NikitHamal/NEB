@@ -568,6 +568,65 @@ Briefly, the merger radiated more power than every star in the observable
 universe combined.
 :::
 
+```photogrid label="26.P1" cols="2" ratio="1.27" caption="Particle physicists study the building blocks of matter by accelerating protons to very high energy and colliding them, and special relativity governs everything about the beam. (a) The tunnel of the Large Hadron Collider, 26.7 km round. (b) A 6.5 TeV proton has gamma = 6928, so its speed is only 3.1 m/s below the speed of light, and it circles the ring 11245 times every second. To bend such a proton on a circle of radius 2804 m the dipole magnets must give 7.73 T, which needs superconducting coils cooled to 1.9 K. The energy is raised stage by stage through four machines."
+@ photo id="phy11/lhc" cap="The LHC tunnel with its blue superconducting dipole magnets"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Energy gained along the CERN accelerator chain (log scale)"
+import math
+c, mp = 299792458.0, 0.938272
+E = 6500.0
+gam = E / mp
+beta = math.sqrt(1 - 1 / gam**2)
+gap = c * (1 - beta)
+Lc = 26659.0
+rev = c / Lc
+rho = 2804.0
+B = E / (0.2998 * rho)
+assert abs(gam - 6927.6) < 1 and abs(rev - 11245) < 2 and abs(B - 7.73) < 0.02 and 2.8 < gap < 3.4
+f = Fig(300, 236)
+f.text(150, 14, "Proton energy in the accelerator chain", size=10.5, color=NAVY, bold=True)
+rows = [("Linac", 0.05, NAVY), ("PS", 25.0, TEAL), ("SPS", 450.0, AMBER), ("LHC", 6500.0, RED)]
+labels = ["0.05 GeV", "25 GeV", "450 GeV", "6500 GeV"]
+for i, (nm, e, col) in enumerate(rows):
+    y = 30 + i * 28
+    w = 24 + 30 * math.log10(e / 0.05)
+    f.text(8, y + 11, nm, size=10.5, anchor="start", bold=True)
+    f.box(50, y, w, 20, "", fill=col, stroke=col, r=2)
+    f.text(50 + w + 6, y + 11, labels[i], size=10, color=col, bold=True, anchor="start")
+f.text(150, 158, "gamma = E/mc2 = %.0f" % gam, size=10.5, color=NAVY, bold=True)
+f.text(150, 174, "c - v = %.1f m/s (almost light speed)" % gap, size=10.5, color=RED, bold=True)
+f.text(150, 192, "laps per second = c/L = %.0f" % rev, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "dipole field B = p/(0.2998 rho) = %.2f T" % B, size=10.5, color=RED, bold=True)
+f.text(150, 227, "bending radius rho = 2804 m", size=10.5, color=SLATE)
+facts = dict(gam="%.0f" % gam, gap="%.1f" % gap, rev="%.0f" % rev, B="%.2f" % B)
+```
+
+```photogrid label="26.P2" cols="2" ratio="1.27" caption="Edwin Hubble found that distant galaxies recede faster the farther away they are, with speed v = H0 d, which means the universe is expanding. (a) Galaxies in deep space. (b) With H0 = 70 km/s per megaparsec, the Coma cluster at 100 Mpc recedes at 7000 km/s, a redshift of z = 0.023, while the nearer Virgo cluster moves away at only 1155 km/s. Running the expansion backward at a steady rate, the reciprocal of H0 gives 14.0 billion years, a rough age of the universe; allowing for the changing rate of expansion gives 13.8 billion years. The straight line is the evidence for the big bang model."
+@ photo id="ceephy3/galaxies" cap="A group of galaxies photographed in deep space"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Hubble's law: recession speed against distance"
+H0 = 70.0
+gal = [("Virgo", 16.5), ("Perseus", 72.0), ("Hydra", 50.0), ("Coma", 100.0)]
+vs = [(n, d, H0 * d) for n, d in gal]
+assert abs(vs[3][2] - 7000) < 1e-9
+Mpc_km = 3.0857e19
+age = Mpc_km / H0 / 3.156e7 / 1e9
+assert abs(age - 13.97) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "v = H0 d with H0 = 70 km/s/Mpc", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 26, 232, 146, (0, 120), (0, 8400))
+ax.grid(20, 2000, size=9); ax.axes("d (Mpc)", "v (km/s)")
+ax.curve(lambda d: H0 * d, 0, 120, color=NAVY, sw=2.4)
+for n, d, v in vs:
+    ax.pt(d, v, "%s %g" % (n, v), dx=8 if n in ("Virgo", "Hydra") else -8, dy=14 if n in ("Virgo", "Hydra") else -8, color=RED, anchor="start" if n in ("Virgo", "Hydra") else "end")
+f.text(150, 207, "1/H0 = %.1f billion years" % age, size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "age of the universe (steady expansion)", size=10.5, color=SLATE)
+f.text(150, 231, "Coma: z = v/c = %.3f" % (7000 / 299792.458), size=10.5, color=RED, bold=True)
+facts = dict(age="%.1f" % age, vc="%.0f" % vs[3][2], z="%.3f" % (7000 / 299792.458))
+```
+
 ## Chapter summary
 
 - Every particle has an antiparticle of equal mass and opposite charge. Pair

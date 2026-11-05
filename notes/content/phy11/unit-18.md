@@ -648,6 +648,39 @@ the combination gives **dispersion without deviation**, which is exactly what a
 direct-vision spectroscope needs.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.27" caption="A lens bends blue light more than red, so a single lens cannot bring all colours to one focus, and white edges in a photograph acquire coloured fringes. (a) Chromatic aberration at the edge of a road marking. (b) Using the indices for crown and flint glass, the dispersive power w = (nF - nC)/(nD - 1) is 0.0157 for crown and 0.0274 for flint. An achromatic doublet needs w1/f1 + w2/f2 = 0, and for a combined focal length of 20 cm this requires a convex crown lens of 8.6 cm and a concave flint lens of 15.0 cm. Cameras and microscopes use such doublets so that red and blue meet at the same point."
+@ photo id="phy11/fringes" cap="Coloured fringes at a white edge caused by chromatic aberration"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Refractive index against wavelength for crown and flint glass"
+lam = lambda x: x
+lC, lF, ld = 0.6563, 0.4861, 0.5876
+def cauchy(nC, nF):
+    B = (nF - nC) / (1 / lF**2 - 1 / lC**2)
+    return nC - B / lC**2, B
+Ac, Bc = cauchy(1.5143, 1.5224)
+Af, Bf = cauchy(1.6150, 1.6320)
+nc = lambda l: Ac + Bc / l**2
+nf = lambda l: Af + Bf / l**2
+wc = (nc(lF) - nc(lC)) / (nc(ld) - 1)
+wf = (nf(lF) - nf(lC)) / (nf(ld) - 1)
+fc = 20.0
+f1 = fc * (1 - wc / wf); f2 = -f1 * wf / wc
+assert abs(1 / f1 + 1 / f2 - 1 / fc) < 1e-12 and abs(wc / f1 + wf / f2) < 1e-12
+f = Fig(300, 236)
+f.text(150, 14, "Dispersion of crown and flint glass", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 236, 146, (0.4, 0.7), (1.50, 1.64))
+ax.grid(0.1, 0.02, size=9, xfmt=lambda v: "%.1f" % v, yfmt=lambda v: "%.2f" % v); ax.axes("wavelength (um)", "n")
+ax.curve(nf, 0.4, 0.7, color=RED, sw=2.4)
+ax.curve(nc, 0.4, 0.7, color=NAVY, sw=2.4)
+ax.tag(0.58, 1.628, "flint", color=RED, bold=True)
+ax.tag(0.58, 1.526, "crown", color=NAVY, bold=True)
+f.text(150, 207, "w(crown) = %.4f   w(flint) = %.4f" % (wc, wf), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "achromat of f = 20 cm: f1 = %+.1f cm (convex)" % f1, size=10.5, color=RED, bold=True)
+f.text(150, 231, "f2 = %.1f cm (concave); w/f sums to zero" % f2, size=10.5, color=RED, bold=True)
+facts = dict(wc="%.4f" % wc, wf="%.4f" % wf, f1="%.1f" % f1, f2="%.1f" % abs(f2))
+```
+
 ## Chapter summary
 
 - Dispersion happens because $n$ depends on wavelength, with $n_V > n_R$; for a

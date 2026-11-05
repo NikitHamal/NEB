@@ -591,6 +591,30 @@ Check: $W = Fd = 5\times10^{-5}\times0.02 = 1.0\times10^{-6}\ \text{J}$. The two
 routes agree, as they must in a uniform field.
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.27" caption="The potential of a charged sphere is constant inside and on its surface and falls as 1/r outside, while the field is the negative slope of the potential graph. (a) A student touching a Van de Graaff generator, whose hairs repel each other. (b) A sphere of radius 15 cm at 300 kV holds a charge of 5.0 microcoulombs, since V = kQ/R. The potential has fallen to 150 kV at 30 cm, and the surface field is V/R = 2.0 MV/m, close to the breakdown field of air near 3 MV/m, which is why such machines crackle. A sharp point would concentrate the field and leak charge sooner."
+@ photo id="phy11/vdghair" cap="A student's hair rises on a charged Van de Graaff sphere"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Potential and field of a charged sphere of radius 15 cm"
+k = 8.99e9
+R, V0 = 0.15, 300e3
+Q = V0 * R / k
+E_s = V0 / R
+V = lambda r: V0 if r <= R else k * Q / r
+assert abs(Q * 1e6 - 5.005) < 0.01 and abs(V(0.30) - 150e3) < 1
+f = Fig(300, 236)
+f.text(150, 14, "Potential V(r) of a 300 kV sphere", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.6), (0, 320))
+ax.grid(0.1, 80, size=9, xfmt=lambda v: "%.1f" % v); ax.axes("r (m)", "V (kV)")
+ax.curve(lambda r: V(r) / 1e3, 0.0, 0.6, color=NAVY, sw=2.4, n=300)
+ax.vline(R, color=AMBER)
+ax.pt(0.30, V(0.30) / 1e3, "150 kV at 30 cm", dx=8, dy=-10, color=RED)
+f.text(150, 207, "Q = V R / k = %.2f uC" % (Q * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "E at surface = V/R = %.1f MV/m" % (E_s / 1e6), size=10.5, color=RED, bold=True)
+f.text(150, 231, "air breaks down near 3 MV/m (sparks)", size=10.5, color=SLATE)
+facts = dict(Q="%.1f" % (Q * 1e6), E="%.1f" % (E_s / 1e6), v30="%.0f" % (V(0.30) / 1e3))
+```
+
 ## Chapter summary
 
 - Potential difference $V_B - V_A = W_{AB}/q$, in volts (J C⁻¹); absolute
