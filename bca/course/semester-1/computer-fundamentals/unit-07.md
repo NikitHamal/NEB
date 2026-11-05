@@ -92,6 +92,33 @@ Applications: education, entertainment, advertising, simulation, games, digital 
 @ photo id="bca101/print3d" cap="3D printing: additive manufacturing"
 ```
 
+```svgfig label="7.4" caption="Why compression matters. Raw sizes are computed from the formulas of this section (width x height x 3 bytes; sampling rate x 2 channels x 2 bytes x seconds). The audio and video ratios are exact for the stated bit rates; the photo uses an assumed 500 kB JPEG."
+import math
+raw_img = 1920 * 1080 * 3
+raw_aud = 44100 * 2 * 2 * 60
+raw_vid = 1920 * 1080 * 3 * 30 * 60
+c_img = 500_000                      # a typical JPEG of this size (assumed)
+c_aud = 128_000 // 8 * 60            # MP3 at 128 kbps, one minute
+c_vid = 8_000_000 // 8 * 60          # H.264 at 8 Mbps, one minute
+print(raw_img, raw_aud, raw_vid, c_img, c_aud, c_vid)
+assert raw_img == 6_220_800 and raw_aud == 10_584_000 and raw_vid == 11_197_440_000
+assert c_aud == 960_000 and c_vid == 60_000_000
+def fmt(b):
+    return f"{b/1e9:.1f} GB" if b >= 1e9 else (f"{b/1e6:.1f} MB" if b >= 1e6 else f"{b/1e3:.0f} kB")
+items = [("Photo 1920 x 1080, 24-bit", raw_img, c_img, "JPEG"), ("Audio: 1 min CD stereo", raw_aud, c_aud, "MP3 128 kbps"), ("Video: 1 min 1080p, 30 fps", raw_vid, c_vid, "H.264 8 Mbps")]
+f = Fig(760, 330)
+f.text(10, 16, "Raw (uncompressed) size against compressed size; bar length is logarithmic", size=11.5, color=NAVY, bold=True, anchor="start")
+L = lambda b: (math.log10(b) - 4.5) * 58
+for i, (name, r, c, codec) in enumerate(items):
+    y = 36 + i * 94
+    f.text(10, y + 8, name, size=11, color=SLATE, bold=True, anchor="start")
+    f.box(10, y + 18, L(r), 24, "", fill=ROSE, stroke=RED)
+    f.text(10 + L(r) + 8, y + 31, "raw " + fmt(r), size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+    f.box(10, y + 48, L(c), 24, "", fill=MINT, stroke=TEAL)
+    f.text(10 + L(c) + 8, y + 61, f"{codec} {fmt(c)}   ({r / c:.0f} times smaller)", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(10, 322, "The photo ratio uses an assumed 500 kB JPEG; audio and video ratios are exact for the stated bit rates", size=10.5, color=SLATE, anchor="start")
+```
+
 ## 7.4 Artificial intelligence and machine learning
 
 **Artificial intelligence (AI)** is the study of machines doing tasks that normally need human intelligence: perceiving, reasoning, learning, deciding. **Machine learning (ML)** is the branch where a system *learns patterns from data* rather than being told explicit rules; **deep learning** uses many-layered neural networks.
@@ -108,6 +135,17 @@ Applications: speech recognition, translation, face and image recognition, recom
 
 **Expert systems** (rules from human experts, e.g. medical diagnosis aids) and **natural language processing** (NLP) are classical AI areas still in use.
 
+### 7.4.1 Eight applications of AI and machine learning
+
+1. **Language and translation.** Machine learning translates text, converts speech to text and powers chatbots. Google Translate now handles Nepali, and voice typing lets a user dictate a message instead of typing it. These systems learn from millions of example sentences.
+2. **Recommendation.** YouTube, Netflix and Daraz suggest videos and products by learning from what similar users watched or bought. The program finds patterns in clicks, not meanings. This keeps users on the site and helps small sellers to be found.
+3. **Computer vision.** Cameras with AI read number plates, detect faces for phone unlock and sort fruit by quality. A phone camera that scans a document and extracts the text is a daily example. The model is trained on many labelled pictures.
+4. **Healthcare.** AI helps doctors to spot disease in X-ray, retina and skin images and to predict which patients need early care. It supports the doctor and does not replace the doctor. In Nepal such tools can extend specialist advice to district hospitals.
+5. **Banking and fraud detection.** Banks train models on normal spending so that an unusual card or wallet transaction is stopped or questioned at once. Credit scoring uses similar methods to estimate whether a loan will be repaid. Both reduce losses and speed up decisions.
+6. **Agriculture.** Farmers use phone apps that identify crop disease from a leaf photo, and models that use weather and soil data to suggest planting time. Better advice means higher yield for the same land. Satellite pictures help to estimate harvests across a district.
+7. **Transport and navigation.** Maps predict traffic and arrival time by learning from the speed of many phones. Ride apps such as Pathao match riders and passengers and set prices by demand. Self-driving cars use many sensors and AI, but are still experimental.
+8. **Education.** Adaptive learning software finds the topics where a student makes mistakes and gives more practice there. Automatic marking of multiple-choice sheets and plagiarism checks save teachers' time. AI tutors can answer questions, but their answers must be checked.
+
 ## 7.5 Internet of Things (IoT)
 
 IoT is a network of physical objects with **sensors**, small processors and connectivity that collect and exchange data without human intervention. An IoT system has four layers: sensing devices, connectivity (Wi-Fi, Bluetooth, LoRa, 4G/5G), a cloud platform that stores and analyses data, and an application that shows or acts on the result.
@@ -115,6 +153,25 @@ IoT is a network of physical objects with **sensors**, small processors and conn
 Examples: smart home (lights, thermostat), smart agriculture (soil-moisture sensors that trigger irrigation), health wearables, smart meters, vehicle tracking, industrial monitoring. Common hardware: **Arduino**, **ESP32**, **Raspberry Pi**.
 
 Issues: security of cheap devices (default passwords make botnets), privacy of data collected at home, interoperability, power and connectivity.
+
+### 7.5.1 Eight applications of the Internet of Things
+
+1. **Smart homes.** Wi-Fi bulbs, plugs, cameras and door locks are controlled from a phone, even from another city. Sensors switch lights off in an empty room and save electricity. A family in Kathmandu can check the front gate camera while at work.
+2. **Smart metering.** A smart meter (Plate 7.2) records electricity use and sends it to the utility without a meter reader. Bills are accurate and faults or theft are found quickly. Nepal Electricity Authority has been moving towards such meters for large consumers.
+3. **Agriculture.** Soil-moisture and temperature sensors tell a farmer when to irrigate, and cold-store sensors guard vegetables and milk. Water is saved and crops are protected from stress. Tunnel farms in Nepal can use cheap Wi-Fi boards for this.
+4. **Weather and disaster warning.** Rain gauges and river-level sensors send readings to a server every few minutes. The Department of Hydrology and Meteorology uses such data for flood forecasts. Early warning gives villages time to move to safety.
+5. **Healthcare.** Wearable bands measure pulse and oxygen, and connected devices track blood sugar or blood pressure. The doctor sees a patient's readings without a visit. This helps old people and patients in remote hills.
+6. **Industry and logistics.** Sensors on machines predict a failure before it stops production, and GPS trackers show where each truck or parcel is. Fewer breakdowns and better delivery times follow. Many Nepali cargo and bus companies already use vehicle tracking.
+7. **Smart cities and transport.** Connected street lights, parking sensors, waste bins and traffic signals reduce cost and jams. A bin that reports when it is full saves needless collection trips. Such projects need reliable power and Internet to work.
+8. **Security and safety.** Smoke, gas and motion sensors send alarms to a phone. Cameras with motion detection record only when something moves. The risk is that weak default passwords let hackers take control, so devices must be updated and secured.
+
+```photogrid label="7.2" cols="2" ratio="1.4" caption="Hardware behind modern technology. The graphics chip is the kind of parallel processor used to train AI models, and a smart meter is a typical IoT end device."
+@ photo id="bca101/gpucore" cap="GPU: thousands of small cores for AI and graphics (NVIDIA GeForce 6800 GT die and board)"
+fit 1.4
+@ photo id="bca101/smartmeter" cap="Smart electricity meter: sensor, display, communication module"
+fit 1.4
+focus 0.5 0.62
+```
 
 ## 7.6 Big data
 
@@ -156,6 +213,72 @@ A **blockchain** is a shared, append-only ledger kept by many computers. Transac
 
 Uses: cryptocurrencies (Bitcoin, Ethereum), supply-chain tracing, land and academic-record verification, smart contracts. Issues: energy use (proof of work), volatility and fraud in crypto markets, slow throughput, irreversible mistakes. In Nepal, **Nepal Rastra Bank has declared cryptocurrency trading illegal** (2017 notice, reaffirmed since); learn the technology but follow the law.
 
+### 7.8.1 Blockchain features and uses in brief
+
+Blockchain is **tamper-evident** (Fig 7.5), **shared** (every node keeps a copy), **transparent** (rules and records can be checked) and **slow and costly** compared with a normal database (Plate 7.3). Use it only where parties do not trust a single owner of the records; a college result database that one office controls does not need it.
+
+```svgfig label="7.5" caption="A blockchain is a chain of hashes. Panel A shows four linked blocks (real SHA-256 values, first 8 hex digits). Panel B shows that editing block 1 changes its hash and breaks the link stored in block 2."
+import hashlib
+def h(prev, data): return hashlib.sha256(f"{prev}|{data}".encode()).hexdigest()[:8]
+def chain(datas):
+    out, prev = [], "00000000"
+    for d in datas:
+        x = h(prev, d); out.append((d, prev, x)); prev = x
+    return out
+good = chain(["Genesis", "Sita to Ram Rs 500", "Ram to Hari Rs 200", "Hari to Gita Rs 50"])
+bad = chain(["Genesis", "Sita to Ram Rs 5000", "Ram to Hari Rs 200", "Hari to Gita Rs 50"])
+print(good); print(bad)
+assert good[0] == bad[0]
+assert all(good[i][2] != bad[i][2] for i in (1, 2, 3))
+assert all(good[i][1] == good[i - 1][2] for i in (1, 2, 3))
+assert bad[2][1] != good[2][2]            # block 3 no longer points at the original block 2 hash
+f = Fig(760, 330)
+f.text(10, 16, "A. The ledger as saved: each block stores the hash of the block before it (SHA-256, first 8 hex digits)", size=11, color=NAVY, bold=True, anchor="start")
+for i, (d, p, x) in enumerate(good):
+    X = 10 + i * 188
+    f.box(X, 30, 168, 92, f"Block {i}\n{d}\nprev {p}\nhash {x}", fill=MINT, stroke=TEAL, size=10.5, bold=False)
+    if i < 3: f.arrow([(X + 168, 76), (X + 188, 76)], color=TEAL)
+f.text(10, 150, "B. Someone edits block 1 (Rs 500 to Rs 5000): its hash changes, but block 2 still stores the old hash", size=11, color=RED, bold=True, anchor="start")
+stored = [good[0], bad[1], good[2], good[3]]          # what is on disk after the edit (blocks 2 and 3 untouched)
+assert stored[2][1] != stored[1][2]                   # the link block1 -> block2 is broken
+assert stored[3][1] == stored[2][2]                   # block 3 still matches block 2
+for i, (d, p, x) in enumerate(stored):
+    X = 10 + i * 188
+    bad_blk = i in (1, 2)
+    f.box(X, 164, 168, 92, f"Block {i}\n{d}\nprev {p}\nhash {x}", fill=ROSE if bad_blk else MINT, stroke=RED if bad_blk else TEAL, size=10.5, bold=False)
+    if i < 3: f.arrow([(X + 168, 210), (X + 188, 210)], color=RED if i == 1 else TEAL)
+f.text(10, 284, "Block 2 stores prev " + good[1][2] + " but block 1 now hashes to " + bad[1][2] + ": every node sees the mismatch", size=10.5, color=RED, anchor="start")
+f.text(10, 304, "To hide it the attacker must rehash every later block faster than the honest network adds new ones", size=10.5, color=SLATE, anchor="start")
+```
+
+```photogrid label="7.3" cols="2" ratio="1.1" caption="Proof of work. A dedicated mining machine (Bitcoin ASIC) repeats one hash calculation billions of times per second; the figure shows real searches for a hash that starts with k zeros, counted with SHA-256."
+@ photo id="bca101/asicminer" cap="ASIC miner: fans and power supply because hashing uses much electricity"
+fit 1.1
+focus 0.5 0.55
+@ svg cap="Mining difficulty: each extra zero is about 16 times more work"
+import hashlib, math
+data = "Block 1|Sita to Ram Rs 500|prev c71a0cd7"
+def mine(k):
+    n = 0
+    while True:
+        if hashlib.sha256(f"{data}|{n}".encode()).hexdigest().startswith("0" * k): return n + 1
+        n += 1
+res = [(k, mine(k)) for k in range(1, 6)]
+print(res)
+assert res[0][1] >= 1 and all(r[1] >= 1 for r in res)
+assert res[4][1] > res[0][1]
+f = Fig(400, 280)
+f.text(10, 16, "Hashes tried before the first one starts with k zeros", size=11, color=NAVY, bold=True, anchor="start")
+f.text(10, 34, "bar = actual tries (log scale); expected = 16 to the power k", size=10.5, color=SLATE, anchor="start")
+for i, (k, t) in enumerate(res):
+    y = 50 + i * 44
+    f.text(10, y + 14, f"k = {k}", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    L = (math.log10(t) + 0.4) * 42
+    f.box(60, y, L, 26, "", fill=SAND, stroke=AMBER)
+    f.text(60 + L + 8, y + 13, f"{t:,} (expected {16**k:,})", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(10, 272, "Each extra zero makes the search about 16 times harder", size=10.5, color=SLATE, anchor="start")
+```
+
 ## 7.9 Virtual, augmented and mixed reality; robotics; 5G
 
 - **Virtual reality (VR)** immerses the user in a computer-generated world through a headset and motion tracking (training simulators, games, virtual field trips). **Augmented reality (AR)** overlays digital content on the real view (Pokémon Go, furniture preview in a phone camera, navigation arrows). **Mixed reality** lets virtual objects interact with the real ones.
@@ -169,6 +292,30 @@ Uses: cryptocurrencies (Bitcoin, Ethereum), supply-chain tracing, land and acade
 **Green computing** is designing and using computers with less environmental harm: energy-efficient hardware, power management and sleep modes, virtualisation, cloud consolidation, recycling. **E-waste**: discarded devices contain lead, mercury and cadmium; they must be recycled or refurbished, not burned or dumped. Extending a device's life is the greenest option.
 
 **Cyber ethics** is acting responsibly online: respect for privacy, copyright and licences; no hacking or piracy; no cyberbullying or hate speech; honesty (no plagiarism, no fake news); protecting other people's data. The **digital footprint** you leave (posts, searches, locations) is permanent in practice, so think before posting. **Digital divide**: the gap between those who have access and skill and those who do not; closing it is a national task in Nepal (rural connectivity, community learning centres).
+
+### 7.10.1 Eight ways to practise green computing
+
+1. **Buy only what you need.** A computer bought for 8 GB of work does not need a 64 GB machine. Fewer devices mean less metal mining and less waste. Colleges can plan purchases so that old labs are upgraded rather than replaced.
+2. **Use power-saving settings.** Sleep mode, a dark theme on OLED screens and an automatic screen timeout cut electricity use. A lab of fifty PCs left on overnight wastes many units. Switch off at the plug, since standby still draws power.
+3. **Repair and upgrade.** Adding RAM or an SSD can give an old laptop several more years. Cleaning dust and replacing a fan or battery is cheaper than a new laptop. Repair shops in Kathmandu's New Road and Putalisadak are part of this chain.
+4. **Reuse and donate.** Working computers can go to rural schools instead of a store room. Wipe personal data first with a proper erase tool. Sharing a printer and a projector in a department also saves resources.
+5. **Recycle through authorised handlers.** E-waste contains lead, mercury, cadmium and brominated plastic, and also gold, copper and aluminium that can be recovered. Plate 7.4 shows an exhibit of a circuit board being dismantled into its materials. Give old devices only to collectors that recycle safely.
+6. **Never burn or dump.** Burning cables and plastic releases poisonous smoke, and dumped batteries pollute soil and water. Informal burning is common where collection is poor. Hand batteries and monitors to a proper collection point.
+7. **Prefer efficient and long-life products.** Look for low-power processors, LED monitors and devices with replaceable batteries. A product that lasts six years has half the footprint of one replaced every three. Energy labels help to compare models.
+8. **Use shared and cloud services wisely.** A well-run data centre uses power more efficiently than many small servers, and video calls at lower resolution save data and energy. Avoid keeping huge useless backups and mail archives. Nepal also uses hydropower, so the carbon cost of each unit is lower than in many countries.
+
+```photogrid label="7.4" cols="2" ratio="1.25" caption="Handling e-waste. A recycling exhibit showing how a circuit board is dismantled, and the waste hierarchy that ranks the options from best to worst."
+@ photo id="bca101/ewaste" cap="Circuit boards are sorted and dismantled so metals and plastics can be recovered"
+fit 1.25
+@ svg cap="Waste hierarchy for electronics"
+f = Fig(400, 290)
+f.text(200, 16, "Waste hierarchy: act at the top first", size=11, color=NAVY, bold=True)
+steps = [("Refuse and reduce", "do not buy what you do not need", 340, MINT, TEAL), ("Repair and reuse", "fix, upgrade RAM or disk, donate", 300, MINT, TEAL), ("Refurbish and resell", "second-hand laptops and phones", 260, SAND, AMBER), ("Recycle", "authorised plants recover metals", 220, SAND, AMBER), ("Dispose safely", "never burn or dump: lead, mercury", 180, ROSE, RED)]
+for i, (a, b, w, fl, st) in enumerate(steps):
+    y = 32 + i * 50
+    x = 200 - w / 2
+    f.box(x, y, w, 40, a + "\n" + b, fill=fl, stroke=st, size=10.5, bold=False, color=st)
+```
 
 ## Formula and fact sheet
 
@@ -214,6 +361,8 @@ Uses: cryptocurrencies (Bitcoin, Ethereum), supply-chain tracing, land and acade
 14. Explain cloud computing with its service and deployment models.
 15. Discuss the benefits and challenges of e-governance in Nepal.
 16. Explain how machine learning differs from conventional programming, with examples of its three types.
+17. Explain blockchain and show how it makes records tamper-evident.
+18. Write short notes on green computing and e-waste management. (5 marks)
 
 ::: note Answers and worked solutions
 **1.** E-commerce is trading through electronic networks. B2C (Daraz), B2B (supplier portal), C2C (Hamrobazar), C2B (freelancing).
@@ -232,6 +381,8 @@ Uses: cryptocurrencies (Bitcoin, Ethereum), supply-chain tracing, land and acade
 **14.** Definition, five features, IaaS/PaaS/SaaS table, deployment models, benefits and concerns (§7.7).
 **15.** Use §7.2: benefits (transparency, speed, cost, 24×7) and barriers (digital divide, security, infrastructure, skills).
 **16.** Conventional programming: rules + data → answers. ML: data + answers → rules (a model). Supervised: spam filter; unsupervised: customer clustering; reinforcement: game agent.
+**17.** A chain of blocks, each storing the hash of the previous block, copied on many nodes and extended by consensus (Fig 7.5, Plate 7.3).
+**18.** Reduce, repair, reuse, recycle, dispose safely (Plate 7.4); the model answer follows.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
@@ -257,6 +408,25 @@ The **Internet of Things** is a network of physical objects with sensors, small 
 | Environment | air-quality monitors in Kathmandu Valley |
 
 **Challenges.** Weak device security, privacy, battery life, poor connectivity and standards. **Example.** A farmer's sensor sends moisture data through a gateway to the cloud, and the app starts the pump when the soil is dry.
+
+**Q18. Write short notes on green computing and e-waste management. (5 marks)**
+
+**Green computing** means designing, buying, using and disposing of computers so that they harm the environment as little as possible. It aims to save energy, reduce material use and keep poisonous waste out of soil and water.
+
+1. **Energy saving:** sleep mode, automatic screen timeout, efficient processors and LED screens reduce the electricity bill and carbon release. Switching off a lab at night saves many units.
+2. **Longer life:** adding RAM or an SSD, replacing a battery or fan and cleaning dust keeps a computer useful for years; a product used for six years has half the footprint of one replaced every three.
+3. **Cloud and virtualisation:** one well-run server shared by many users wastes less power than many idle machines.
+
+**E-waste** is discarded electronic equipment: computers, phones, batteries, cables and monitors. It holds hazardous lead, mercury, cadmium and brominated plastics, but also valuable gold, copper and aluminium. Burning or dumping it poisons people and land.
+
+| Step | Action | Example |
+|---|---|---|
+| Reduce | buy only what is needed | one shared printer |
+| Repair, reuse | upgrade, donate | old lab PCs to a rural school |
+| Recycle | authorised plant recovers metals | Plate 7.4 |
+| Dispose | safe landfill or treatment only | batteries at collection points |
+
+**Example.** A campus lab that replaces forty old PCs should first wipe the data, donate the working ones, and give the rest to a recycler, never to open burning.
 
 ### Long question (10 marks)
 
@@ -343,3 +513,27 @@ The **Internet of Things** is a network of physical objects with sensors, small 
 **Applications.** Nepali-language speech recognition, crop-disease detection from photographs, credit scoring and fraud detection in banks, and recommendations on video sites.
 
 **Conclusion.** Machine learning replaces hand-written rules by rules learned from data. Supervised, unsupervised and reinforcement learning cover prediction, discovery and decision-making, and all depend on good-quality data.
+
+**Q17. Explain blockchain and show how it makes records tamper-evident. (10 marks)**
+
+**Introduction.** A **blockchain** is a shared, append-only record (ledger) kept as a chain of blocks. Each block holds a batch of transactions and the **hash** of the previous block. The same copy is stored on many computers (nodes) with no central owner, which makes it the base technology of cryptocurrencies such as Bitcoin and is tried for land records, supply chains and certificates.
+
+1. **Block structure:** a block has data (for example, Sita pays Ram Rs 500), the previous block's hash, a timestamp and its own hash (Figure 7.5, panel A).
+2. **Hash function:** SHA-256 turns any input into a fixed-length digest. A tiny change in the input produces a completely different hash, and the input cannot be recovered from the hash.
+3. **Linking:** because each block stores the hash of the one before it, changing an old block changes its hash and breaks the stored link in the next block (panel B).
+4. **Distributed copies:** every node holds the chain and checks every new block, so one cheating node is outvoted by the honest majority.
+5. **Consensus:** nodes agree on the next block. In **proof of work**, miners search for a number (nonce) that makes the block hash start with a required number of zeros. The measured searches in Plate 7.3 needed 30, 61, 1,840, 60,091 and 552,177 hashes for one to five zeros, so each extra zero is about 16 times more work. In **proof of stake**, validators who lock coins are chosen instead, which uses far less electricity.
+6. **Cryptography of ownership:** a user signs a transaction with a private key, and everyone verifies it with the public key; no bank is needed to approve it.
+7. **Smart contracts:** programs stored on the chain run automatically when conditions are met, for example releasing a payment when a delivery is confirmed.
+8. **Types:** public (Bitcoin, Ethereum), private (one organisation) and consortium (a group of institutions).
+
+| Point | Blockchain | Central database |
+|---|---|---|
+| Control | shared by nodes | one owner |
+| Editing old records | very hard to hide | easy for the administrator |
+| Speed and cost | slow, costly | fast, cheap |
+| Trust needed | in the rules and majority | in the owner |
+
+**Limitations.** Mining wastes energy, transactions are slow, records cannot easily be corrected, and cryptocurrency prices are volatile. Nepal Rastra Bank does not recognise cryptocurrency as legal tender, so students should treat it as a technology topic and not an investment.
+
+**Conclusion.** Blockchain gives tamper-evident records without a trusted middleman by combining hashes, copies on many nodes and consensus. It is useful where several parties distrust a single record keeper, and unnecessary where one trusted office can keep a normal database.
