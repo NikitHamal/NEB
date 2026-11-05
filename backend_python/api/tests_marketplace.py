@@ -60,8 +60,9 @@ class MarketplaceTestBase(TestCase):
         self.student = self.make_user('t_student')
         self.other_teacher = self.make_user('t_teacher2', role=User.ROLE_TEACHER)
         self.admin = self.make_user('t_admin', is_admin=True)
+        self.banned = self.make_user('t_banned', is_banned=True)
 
-    def make_user(self, username, role=User.ROLE_STUDENT, is_admin=False):
+    def make_user(self, username, role=User.ROLE_STUDENT, is_admin=False, is_banned=False):
         raw = f'tok-{username}-{uuid.uuid4().hex}'
         user = User.objects.create(
             id=f'u-{username}',
@@ -75,7 +76,7 @@ class MarketplaceTestBase(TestCase):
             auth_token=hash_auth_token(raw),
             created_at=now_ms(),
             is_locked=False,
-            is_banned=False,
+            is_banned=is_banned,
         )
         UserAuthToken.objects.create(
             id=str(uuid.uuid4()),
@@ -136,8 +137,9 @@ class MarketplaceTestBase(TestCase):
 
 class CreatorPageApiTests(MarketplaceTestBase):
 
-    def test_only_teachers_institutes_and_admins_get_a_storefront(self):
-        self.assertEqual(self.get(self.student, '/api/marketplace/me/page/').status_code, 403)
+    def test_every_member_in_good_standing_gets_a_storefront(self):
+        self.assertEqual(self.get(self.student, '/api/marketplace/me/page/').status_code, 200)
+        self.assertIn(self.get(self.banned, '/api/marketplace/me/page/').status_code, (401, 403))
         self.assertEqual(self.get(self.teacher, '/api/marketplace/me/page/').status_code, 200)
         self.assertEqual(self.get(self.institute, '/api/marketplace/me/page/').status_code, 200)
         self.assertEqual(self.get(self.admin, '/api/marketplace/me/page/').status_code, 200)
@@ -417,7 +419,7 @@ class MarketplaceCourseTests(MarketplaceTestBase):
         self.assertEqual(dashboard['sales'][0]['target_type'], 'course')
         self.assertEqual(dashboard['wallet']['current_balance'], '0')
 
-        self.assertEqual(self.get(self.student, '/api/marketplace/dashboard/').status_code, 403)
+        self.assertIn(self.get(self.banned, '/api/marketplace/dashboard/').status_code, (401, 403))
 
     def test_purchase_history_includes_courses(self):
         course_id = self.make_course().json()['course']['id']
@@ -552,9 +554,10 @@ class MarketplaceWebTests(MarketplaceTestBase):
         self.assertContains(response, 'Web Teacher')
         self.assertContains(response, 'mkt-shelf-focus' if False else 'creator-grid')
 
-    def test_the_studio_is_for_eligible_accounts_only(self):
+    def test_the_studio_is_open_to_members_but_not_banned_accounts(self):
         self.assertEqual(self.session_client(self.teacher).get('/app/marketplace/studio/').status_code, 200)
-        self.assertEqual(self.session_client(self.student).get('/app/marketplace/studio/').status_code, 403)
+        self.assertEqual(self.session_client(self.student).get('/app/marketplace/studio/').status_code, 200)
+        self.assertIn(self.session_client(self.banned).get('/app/marketplace/studio/').status_code, (302, 403))
         self.assertEqual(self.client.get('/app/marketplace/studio/').status_code, 302)
 
     def test_the_studio_saves_a_page_through_the_shared_validator(self):
@@ -773,8 +776,10 @@ class MarketplaceWebTests(MarketplaceTestBase):
         self.make_published_page(self.teacher, slug='t-mine')
         response = self.ajax(self.session_client(self.student), 'marketplace_template_apply',
                              {'template': template_list()[0]['id']})
-        self.assertIn(response.status_code, (403, 404))
+        # it lands on the student's own page, never on the teacher's
+        self.assertEqual(response.status_code, 200, response.content)
         self.assertEqual(CreatorPage.objects.get(slug='t-mine').blocks[0]['type'], 'hero')
+        self.assertTrue(CreatorPage.objects.filter(user=self.student).exists())
 
     def test_a_sections_own_look_survives_a_studio_save(self):
         """The per-section controls write into `settings`, which the sanitizer
@@ -1232,3 +1237,47 @@ class MarketplaceSwitchedOffTests(TestCase):
         page = c.get('/app/library/?tab=marketplace')
         self.assertEqual(page.status_code, 200)
         self.assertNotIn(b'?tab=marketplace', page.content)
+
+
+class CourseDeliveryAndContactTests(MarketplaceTestBase):
+    """A teacher can run recorded or live classes and either sell them here or let students reach him."""
+
+    session_client = MarketplaceWebTests.session_client
+
+    def save_course(self, user, **fields):
+        page = self.get(user, '/api/marketplace/me/page/').json()['page']
+        payload = {'title': 'CEE Physics', 'status': 'published', 'is_free': False, 'price': '0'}
+        payload.update(fields)
+        return self.post_json(user, '/api/marketplace/me/courses/', payload)
+
+    def test_delivery_and_enrolment_default_and_clean(self):
+        response = self.save_course(self.teacher, price='500', delivery='nonsense', enroll_mode='whatever')
+        self.assertEqual(response.status_code, 201, response.content)
+        course = response.json()['course']
+        self.assertEqual((course['delivery'], course['enroll_mode']), ('recorded', 'buy'))
+
+    def test_a_contact_course_needs_no_price_but_needs_a_way_to_reach_the_teacher(self):
+        refused = self.save_course(self.teacher, enroll_mode='contact', delivery='live')
+        self.assertEqual(refused.status_code, 400)
+        ok = self.save_course(self.teacher, enroll_mode='contact', delivery='live', contact_label='Sir', contact_url='98 41-234567')
+        self.assertEqual(ok.status_code, 201, ok.content)
+        course = ok.json()['course']
+        self.assertEqual(course['contact_url'], 'tel:9841234567')
+        self.assertEqual(course['delivery'], 'live')
+
+    def test_an_unsafe_contact_link_is_dropped(self):
+        ok = self.save_course(self.teacher, enroll_mode='contact', contact_label='Sir', contact_url='javascript:alert(1)')
+        self.assertEqual(ok.json()['course']['contact_url'], '')
+
+    def test_a_contact_course_page_shows_the_contact_and_no_checkout(self):
+        self.make_published_page(self.teacher, slug='t-contact')
+        ok = self.save_course(self.teacher, enroll_mode='contact', delivery='hybrid', contact_label='Call Sir', contact_url='https://wa.me/9779800000000')
+        course_id = ok.json()['course']['id']
+        html = self.session_client(self.student).get(f'/app/marketplace/course/{course_id}/').content.decode()
+        self.assertTrue('https://wa.me/9779800000000' in html, 'https://wa.me/9779800000000')
+        self.assertTrue('Call Sir' in html, 'Call Sir')
+        self.assertTrue('Live and recorded' in html, 'Live and recorded')
+        self.assertFalse('mkt-buy-form' in html)
+        posted = self.session_client(self.student).post(f'/app/marketplace/course/{course_id}/', {'transaction_id': 'X1'})
+        self.assertEqual(posted.status_code, 302)
+        self.assertFalse(PaymentVerification.objects.filter(course_id=course_id).exists())

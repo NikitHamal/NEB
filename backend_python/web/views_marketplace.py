@@ -252,7 +252,7 @@ def course_detail(request, course_id):
         if is_owner:
             messages.error(request, 'You own this course.')
             return redirect('web:marketplace_course', course_id=course.id)
-        if course.is_free:
+        if course.is_free or course.enroll_mode == 'contact':
             return redirect('web:marketplace_course', course_id=course.id)
         if check_user_course_access(viewer, course)[0]:
             messages.info(request, 'You already have access to this course.')

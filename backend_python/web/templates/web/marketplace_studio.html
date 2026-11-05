@@ -530,6 +530,36 @@
 
           <div class="mkt-grid-2">
             <div>
+              <label class="md-label" for="mkt-course-delivery">How it is taught</label>
+              <select class="md-select" id="mkt-course-delivery" data-mkt-course-field="delivery">
+                <option value="recorded">Recorded videos</option>
+                <option value="live">Live online classes</option>
+                <option value="hybrid">Live and recorded</option>
+                <option value="inperson">In person</option>
+              </select>
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-enroll">How students join</label>
+              <select class="md-select" id="mkt-course-enroll" data-mkt-course-field="enroll_mode">
+                <option value="buy">Buy on NEBians</option>
+                <option value="contact">Contact me</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mkt-grid-2" data-mkt-contact hidden>
+            <div>
+              <label class="md-label" for="mkt-course-contact-label">Contact name or number</label>
+              <input class="md-input" id="mkt-course-contact-label" type="text" maxlength="120" data-mkt-course-field="contact_label" placeholder="Sir, 98XXXXXXXX">
+            </div>
+            <div>
+              <label class="md-label" for="mkt-course-contact-url">Phone, email or link</label>
+              <input class="md-input" id="mkt-course-contact-url" type="text" data-mkt-course-field="contact_url" placeholder="98XXXXXXXX or https://wa.me/...">
+            </div>
+          </div>
+
+          <div class="mkt-grid-2">
+            <div>
               <label class="md-label" for="mkt-course-level">Level</label>
               <input class="md-input" id="mkt-course-level" type="text" data-mkt-course-field="level" placeholder="Class 12 / Bachelor">
             </div>
