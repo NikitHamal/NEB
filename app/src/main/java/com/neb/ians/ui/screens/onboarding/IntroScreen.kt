@@ -1,5 +1,14 @@
 package com.neb.ians.ui.screens.onboarding
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
+import kotlin.math.abs
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.ui.semantics.Role
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -79,6 +88,14 @@ fun IntroScreen(onFinish: () -> Unit) {
         scope.launch { pager.animateScrollToPage(pager.currentPage - 1) }
     }
 
+    // A light tick each time a page settles, so a swipe has a landing.
+    val haptics = LocalHapticFeedback.current
+    LaunchedEffect(pager.settledPage) {
+        if (pager.settledPage > 0) haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+    }
+    // Titles scale with the screen so "Ask what you wonder." keeps its line on a small phone.
+    val titleSize = (LocalConfiguration.current.screenWidthDp * 0.088f).coerceIn(27f, 36f)
+
     val blobColor by animateColorAsState(
         INTRO_TONES[pager.currentPage].container(dark),
         nebEffectsSpec()
@@ -127,13 +144,23 @@ fun IntroScreen(onFinish: () -> Unit) {
                 beyondViewportPageCount = 1
             ) { page ->
                 val active = pager.settledPage == page || pager.currentPage == page
-                Column(
-                    Modifier.fillMaxSize().graphicsLayer {
-                        val offset = (pager.currentPage - page) + pager.currentPageOffsetFraction
-                        translationX = offset * size.width * 0.18f
-                    }
-                ) {
-                    Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                // Depth: the picture trails the swipe, the words lead it and fade first.
+                Column(Modifier.fillMaxSize()) {
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .graphicsLayer {
+                                val offset = (pager.currentPage - page) + pager.currentPageOffsetFraction
+                                val away = abs(offset).coerceAtMost(1f)
+                                translationX = offset * size.width * 0.14f
+                                alpha = 1f - away * 0.9f
+                                val sc = 1f - away * 0.08f
+                                scaleX = sc
+                                scaleY = sc
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
                         when (page) {
                             0 -> FinderIllustration(active)
                             1 -> LevelIllustration(active)
@@ -141,13 +168,22 @@ fun IntroScreen(onFinish: () -> Unit) {
                             else -> NebyIllustration(active)
                         }
                     }
-                    Column(Modifier.fillMaxWidth().padding(horizontal = 28.dp, vertical = 16.dp)) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 28.dp, vertical = 16.dp)
+                            .graphicsLayer {
+                                val offset = (pager.currentPage - page) + pager.currentPageOffsetFraction
+                                translationX = offset * size.width * 0.34f
+                                alpha = 1f - abs(offset).coerceAtMost(1f) * 1.4f
+                            }
+                    ) {
                         INTRO_TITLES[page].forEachIndexed { i, line ->
                             Reveal(active, 5 + i, rise = 20.dp) {
                                 Text(
                                     line,
-                                    fontSize = 34.sp,
-                                    lineHeight = 40.sp,
+                                    fontSize = titleSize.sp,
+                                    lineHeight = (titleSize * 1.18f).sp,
                                     fontWeight = FontWeight.ExtraBold,
                                     style = MaterialTheme.typography.headlineLarge,
                                     color = cs.onSurface
@@ -167,7 +203,12 @@ fun IntroScreen(onFinish: () -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    repeat(INTRO_TITLES.size) { i -> PageDot(selected = pager.currentPage == i) }
+                    repeat(INTRO_TITLES.size) { i ->
+                        PageDot(
+                            selected = pager.currentPage == i,
+                            onClick = { scope.launch { pager.animateScrollToPage(i) } }
+                        )
+                    }
                 }
                 NebButton(
                     text = if (onLast) "Get started" else "Next",
@@ -175,6 +216,7 @@ fun IntroScreen(onFinish: () -> Unit) {
                         if (onLast) onFinish()
                         else scope.launch { pager.animateScrollToPage(pager.currentPage + 1) }
                     },
+                    modifier = Modifier.animateContentSize(nebFastSpatialSpec()),
                     size = NebButtonSize.Hero,
                     tone = NebButtonTone.Primary,
                     trailingIcon = Icons.AutoMirrored.Outlined.ArrowForward
@@ -186,14 +228,24 @@ fun IntroScreen(onFinish: () -> Unit) {
 
 /** The active dot stretches into a pill; the width is a spring, so it overshoots a touch. */
 @Composable
-private fun PageDot(selected: Boolean) {
+private fun PageDot(selected: Boolean, onClick: () -> Unit) {
     val cs = MaterialTheme.colorScheme
     val width by animateDpAsState(if (selected) 28.dp else 8.dp, nebFastSpatialSpec())
     val color by animateColorAsState(if (selected) cs.primary else cs.outlineVariant, nebEffectsSpec())
-    Spacer(
+    // A 24dp-tall target around an 8dp dot, so it can actually be tapped.
+    Box(
         Modifier
-            .size(width = width.coerceAtLeast(8.dp), height = 8.dp)
-            .clip(RoundedCornerShape(4.dp))
-            .background(color)
-    )
+            .height(24.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(role = Role.Button, onClick = onClick)
+            .padding(vertical = 8.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Spacer(
+            Modifier
+                .size(width = width.coerceAtLeast(8.dp), height = 8.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(color)
+        )
+    }
 }
