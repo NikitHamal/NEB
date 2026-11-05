@@ -459,6 +459,33 @@ pushed with 20 N on a level floor feels 20 N of friction, not 49 N.
 The third-law pair always acts on **two different bodies**, so the forces never appear in the same free-body diagram and never "cancel out". A horse pulls a cart because the *ground* pushes the horse (reaction to the horse pushing the ground backwards). Neighbouring traps: the normal reaction of a surface is **not** the reaction to the body's weight (weight is the Earth pulling the body; its pair is the body pulling the Earth), and in an *inelastic* collision kinetic energy is lost but **momentum is still conserved** provided no external impulse acts.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Same acceleration, different g. (a) On the Moon an astronaut released a hammer and a feather together and they landed at the same instant, because with no air the only force on each is its weight and a = F / m = g for both. (b) Dropped from 1.6 m, a body takes t = sqrt(2h / g) = 0.57 s on Earth (g = 9.8 m/s^2) but 1.41 s on the Moon (g = 1.62 m/s^2), 2.46 times longer, the square root of the ratio of the two g values. The landing speed v = sqrt(2 g h) is 5.60 m/s on Earth and 2.28 m/s on the Moon. A 1.0 kg object weighs 9.8 N on Earth and 1.62 N on the Moon, but its mass, the quantity in F = ma, is the same in both places."
+@ photo id="sci10/apollo-feather" cap="Apollo 15: a hammer and a feather dropped together on the Moon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Height against time for a 1.6 m drop, Earth and Moon"
+import math
+h, gE, gM = 1.6, 9.8, 1.62
+te, tm = math.sqrt(2 * h / gE), math.sqrt(2 * h / gM)
+ve, vm = math.sqrt(2 * gE * h), math.sqrt(2 * gM * h)
+assert abs(te - 0.5714) < 1e-3 and abs(tm - 1.4055) < 1e-3 and abs(tm / te - math.sqrt(gE / gM)) < 1e-9
+assert abs(ve - gE * te) < 1e-9 and abs(vm - gM * tm) < 1e-9
+facts = dict(h=h, te="%.2f" % te, tm="%.2f" % tm, ratio="%.2f" % (tm / te), ve="%.2f" % ve, vm="%.2f" % vm, we="%.1f" % gE, wm="%.2f" % gM)
+f = Fig(300, 236)
+f.text(150, 14, "y = h - g t^2 / 2   (h = 1.6 m)", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 150; Y = lambda y: 150 - y * 70
+f.line(X(0), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for g, col, T in ((gE, AMBER, te), (gM, TEAL, tm)):
+    pts = [(T * i / 40, h - 0.5 * g * (T * i / 40) ** 2) for i in range(41)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=col, sw=2.4)
+    f.circle(X(T), Y(0), 4, fill=col, stroke=col)
+f.text(X(te), Y(0) - 10, "%.2f s" % te, size=10.5, color=AMBER, bold=True); f.text(X(tm), Y(0) - 10, "%.2f s" % tm, size=10.5, color=TEAL, bold=True)
+for t in (0, 0.5, 1.0): f.text(X(t), Y(0) + 14, "%g" % t, size=10.5, color=SLATE)
+f.text(150, 182, "amber: Earth    teal: Moon    t in seconds", size=10.5, color=SLATE)
+f.text(150, 204, "landing speed %.2f m/s (Earth), %.2f m/s (Moon)" % (ve, vm), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "1.0 kg weighs %.1f N and %.2f N: mass unchanged" % (gE, gM), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

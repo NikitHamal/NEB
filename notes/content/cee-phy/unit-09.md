@@ -656,6 +656,32 @@ The same idea applies to carbon dioxide, whose triple point is at 5.1 atm — ab
 atmospheric pressure. That is why "dry ice" does not melt at room pressure: it
 sublimes straight to gas.
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Linear expansion and the bimetallic strip. (a) A bimetallic strip bends when heated because its two metals expand by different amounts. (b) The change in length is dL = alpha L dT. For strips 1.000 m long and a rise of 100 K, brass (alpha = 19 x 10^-6 per K) grows 1.9 mm, aluminium (23 x 10^-6) 2.3 mm and steel (12 x 10^-6) 1.2 mm. Bonded brass and steel differ by 0.7 mm over this length, so the strip curves with the brass on the outside of the bend. The expansion is a straight line in dT, which is the reason thermostats and fire alarms can be set by temperature."
+@ photo id="ioephy/bimetal" cap="A bimetallic strip from an overload relay: two metals bonded together"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Expansion of 1 m strips for a 100 K rise"
+al = {"brass": 19e-6, "aluminium": 23e-6, "steel": 12e-6}
+dL = {k: a * 1.0 * 100 * 1000 for k, a in al.items()}
+assert abs(dL["brass"] - 1.9) < 1e-9 and abs(dL["aluminium"] - 2.3) < 1e-9 and abs(dL["steel"] - 1.2) < 1e-9
+d = dL["brass"] - dL["steel"]; assert abs(d - 0.7) < 1e-9
+facts = dict(b="%.1f" % dL["brass"], al="%.1f" % dL["aluminium"], s="%.1f" % dL["steel"], d="%.1f" % d)
+f = Fig(300, 236)
+f.text(150, 14, "dL = alpha L dT  (L = 1 m, dT = 100 K)", size=10.5, color=NAVY, bold=True)
+cols = {"brass": (SAND, AMBER), "aluminium": (BLUE, NAVY), "steel": (MINT, TEAL)}
+for i, (k, v) in enumerate(dL.items()):
+    y = 28 + i * 34
+    f.text(8, y + 12, k, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(78, y, v * 70, 24, "", fill=cols[k][0], stroke=cols[k][1], r=3); f.text(78 + v * 70 + 6, y + 12, "%.1f mm" % v, size=10.5, color=cols[k][1], bold=True, anchor="start", vmid=True)
+f.text(150, 140, "bimetal: brass minus steel = %.1f mm in 1 m" % d, size=10.5, color=RED, bold=True)
+X = lambda T: 40 + T * 2.2; Y = lambda dl: 206 - dl * 20
+f.line(X(0), Y(0), 270, Y(0), color=SLATE, sw=1.2)
+for k in ("brass", "steel"):
+    f.line(X(0), Y(0), X(100), Y(al[k] * 1e5), color=cols[k][1], sw=2.2)
+f.text(X(100) + 4, Y(1.9) - 4, "brass", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(X(100) + 4, Y(1.2) + 12, "steel", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(X(50), 224, "dT (K): the line is straight", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
