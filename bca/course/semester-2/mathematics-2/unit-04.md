@@ -95,6 +95,67 @@ f.text(cx, 232, "unit circle (white) becomes an ellipse (blue)", size=10.5, colo
 7. **Image and data compression.** The singular-value decomposition, built from eigenvalues of AᵀA, stores a picture with a few large values and drops the rest. Recommenders and photo apps compress this way.
 8. **Quantum and physical systems.** Energy levels of atoms are eigenvalues of an operator; the allowed states are eigenvectors. The idea that measurement gives eigenvalues is the heart of quantum mechanics.
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Every structure has its own favourite frequencies. (a) The Tacoma Narrows Bridge twisting in the wind on 7 November 1940, an event that made engineers compute the natural frequencies of bridges: those frequencies are square roots of eigenvalues. (b) Two equal masses joined by three equal springs have the stiffness matrix K = [[2, -1], [-1, 2]]. Its eigenvalues are 1 and 3 with eigenvectors (1, 1) and (1, -1): in the first mode both masses swing together at angular frequency 1.00, and in the second they swing in opposite directions at sqrt(3) = 1.73, faster. A wind that pushes at one of these frequencies adds energy every cycle, which is resonance. The values are computed in the figure with eigh."
+@ photo id="bcamath/tacoma" cap="Tacoma Narrows Bridge twisting, 1940"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Two normal modes of a 2-mass, 3-spring system"
+import numpy as np
+K = np.array([[2.0, -1.0], [-1.0, 2.0]])
+w, V = np.linalg.eigh(K)
+assert np.allclose(w, [1, 3]) and np.allclose(np.abs(V[:, 0]), [2 ** -.5, 2 ** -.5])
+assert np.allclose(K @ V[:, 0], 1 * V[:, 0]) and np.allclose(K @ V[:, 1], 3 * V[:, 1])
+assert round(float(np.sqrt(w[1])), 2) == 1.73 and V[0, 0] * V[1, 0] > 0 and V[0, 1] * V[1, 1] < 0
+f = Fig(300, 240)
+def row(y, d1, d2, title, col):
+    f.text(150, y - 34, title, size=10.5, color=col, bold=True)
+    x1, x2 = 100, 200
+    f.line(20, y, x1 + d1, y, color=SLATE, sw=1.6); f.line(x1 + d1, y, x2 + d2, y, color=SLATE, sw=1.6); f.line(x2 + d2, y, 280, y, color=SLATE, sw=1.6)
+    f.line(20, y - 14, 20, y + 14, color=SLATE, sw=3); f.line(280, y - 14, 280, y + 14, color=SLATE, sw=3)
+    for x in (x1, x2): f.line(x, y - 20, x, y + 20, color="#94a3b8", sw=1, dash=True)
+    f.circle(x1 + d1, y, 13, fill=BLUE, stroke=NAVY, label="m", size=10.5); f.circle(x2 + d2, y, 13, fill=BLUE, stroke=NAVY, label="m", size=10.5)
+row(70, 16, 16, "mode 1: eigenvalue 1, vector (1, 1), w = 1.00", TEAL)
+row(150, 16, -16, "mode 2: eigenvalue 3, vector (1, -1), w = 1.73", RED)
+f.text(150, 206, "dashed = rest positions; solid = displaced", size=10.5, color=SLATE)
+f.text(150, 226, "K v = lambda v checked for both modes", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Ranking the web is an eigenvector problem. (a) Andrey Markov, who in 1906 studied chains in which the next state depends only on the present one; a random web surfer is such a chain. (b) Four pages with links A to B and C, B to C, C to A, and D to C. With a 0.85 chance of following a link and 0.15 of jumping to a random page, repeating r = 0.0375 + 0.85 M r (the power method) converges in 41 steps to the PageRank vector (0.3725, 0.1958, 0.3941, 0.0375), which adds to 1. It is the eigenvector of the Google matrix for the eigenvalue 1, confirmed with a direct eigen-solver. C wins because three pages point to it, and D, which nobody links to, gets only the 0.0375 minimum."
+@ photo id="bcamath/markov" cap="Andrey Markov (Markov chains)"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="PageRank of four pages by the power method"
+import numpy as np
+links = {0: [1, 2], 1: [2], 2: [0], 3: [2]}; N = 4; d = 0.85
+M = np.zeros((N, N))
+for j, o in links.items():
+    for i in o: M[i, j] = 1 / len(o)
+r = np.ones(N) / N; it = 0
+while True:
+    r2 = (1 - d) / N + d * M @ r; it += 1
+    if abs(r2 - r).sum() < 1e-9: r = r2; break
+    r = r2
+G = (1 - d) / N + d * M
+w, v = np.linalg.eig(G); k = int(np.argmax(w.real)); e = v[:, k].real; e = e / e.sum()
+assert it == 41 and abs(r.sum() - 1) < 1e-9 and np.allclose(r, e, atol=1e-6) and abs(w[k].real - 1) < 1e-9
+assert [round(x, 4) for x in r] == [0.3725, 0.1958, 0.3941, 0.0375]
+f = Fig(300, 240)
+pos = {0: (70, 60), 1: (230, 60), 2: (230, 150), 3: (70, 150)}
+names = "ABCD"
+import math
+def edge(a, b, rad):
+    ax, ay = pos[a]; bx, by = pos[b]; dx, dy = bx - ax, by - ay; L = math.hypot(dx, dy); u = (dx / L, dy / L)
+    f.arrow([(ax + u[0] * rad[0], ay + u[1] * rad[0]), (bx - u[0] * rad[1], by - u[1] * rad[1])], color=SLATE, sw=1.6)
+rad = {i: 12 + 60 * r[i] for i in range(N)}
+for j, o in links.items():
+    for i in o: edge(j, i, (rad[j], rad[i]))
+for i in range(N):
+    f.circle(*pos[i], rad[i], fill=(MINT if i == 2 else BLUE), stroke=(TEAL if i == 2 else NAVY), label=names[i], size=12)
+    f.text(pos[i][0], pos[i][1] + rad[i] + 14, f"{r[i]:.4f}", size=10.5, color=(TEAL if i == 2 else NAVY), bold=True)
+f.text(150, 206, "power method: 41 steps; sum of ranks = 1", size=10.5, color=SLATE)
+f.text(150, 226, "same as eigenvector for eigenvalue 1", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Av = λv; det(A − λI) = 0; eigenspace = null space of A − λI.

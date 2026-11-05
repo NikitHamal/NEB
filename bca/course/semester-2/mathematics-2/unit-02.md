@@ -108,6 +108,75 @@ for k, (title, l2, note) in enumerate([("(a) unique", lambda t: t, "(1, 1)"), ("
 7. **Economic planning.** An input-output model asks how much each industry must produce so that supply meets demand. This is a linear system with a matrix of industry links. Planners solve it with Gaussian elimination.
 8. **Computer graphics and simulation.** Finding where a ray meets a plane, or the shape of a loaded bridge in a simulation, leads to linear systems with thousands of unknowns. Computers solve them with the same elimination steps you learn here, tuned for speed.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Elimination is cheap, cofactors are not. (a) Carl Friedrich Gauss, whose name is attached to the method of elimination (it was known in China two thousand years earlier, in the Nine Chapters). (b) The system 2x + y - z = 8, -3x - y + 2z = -11, -2x + y + 2z = -3 is reduced to triangular form by R2 + (3/2)R1 and R3 + R1, then R3 - 4R2, giving z = -1, then y = 3, then x = 2 by back substitution, all checked in exact fractions. Counting every multiplication and division, elimination on an n x n system costs (n^3 + 3n^2 - n) / 3 operations: 17 for n = 3 and 430, 3,060, 22,920, 177,040 for n = 10, 20, 40, 80. Doubling n multiplies the cost by about 8."
+@ photo id="bcamath/gauss" cap="Carl Friedrich Gauss"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Gaussian elimination: one example and its cost"
+from fractions import Fraction as Fr
+M = [[Fr(2), Fr(1), Fr(-1), Fr(8)], [Fr(-3), Fr(-1), Fr(2), Fr(-11)], [Fr(-2), Fr(1), Fr(2), Fr(-3)]]
+S0 = [r[:] for r in M]
+def addrow(M, i, k, c): M[i] = [a + c * b for a, b in zip(M[i], M[k])]
+addrow(M, 1, 0, Fr(3, 2)); addrow(M, 2, 0, Fr(1)); S1 = [r[:] for r in M]
+addrow(M, 2, 1, Fr(-4)); S2 = [r[:] for r in M]
+z = S2[2][3] / S2[2][2]; y = (S2[1][3] - S2[1][2] * z) / S2[1][1]; x = (S2[0][3] - S2[0][1] * y - S2[0][2] * z) / S2[0][0]
+assert (x, y, z) == (2, 3, -1) and S1[1] == [0, Fr(1, 2), Fr(1, 2), 1] and S2[2] == [0, 0, -1, 1]
+def count(n):
+    c = 0
+    for k in range(n - 1):
+        for i in range(k + 1, n): c += 1 + (n - k)
+    for i in range(n - 1, -1, -1): c += (n - 1 - i) + 1
+    return c
+cs = {n: count(n) for n in (3, 10, 20, 40, 80)}
+assert all(cs[n] == (n ** 3 + 3 * n ** 2 - n) // 3 for n in cs) and cs[3] == 17 and cs[10] == 430 and cs[80] == 177040
+f = Fig(300, 240)
+def show(x, y, S, title):
+    f.text(x + 48, y - 8, title, size=10.5, color=NAVY, bold=True)
+    for i in range(3):
+        for j in range(4):
+            v = S[i][j]
+            f.box(x + j * 24, y + i * 20, 24, 20, str(v), fill=(SAND if j == 3 else BLUE), stroke=(AMBER if j == 3 else NAVY), size=10.5, r=0)
+show(4, 22, S0, "start"); show(102, 22, S1, "R2+3/2R1, R3+R1"); show(200, 22, S2, "R3-4R2")
+f.text(150, 104, "back substitution: z = -1, y = 3, x = 2", size=10.5, color=TEAL, bold=True)
+f.text(10, 128, "n", size=10.5, color=SLATE, bold=True, anchor="start"); f.text(150, 128, "operations (mult + div)", size=10.5, color=SLATE, bold=True)
+mx = cs[80]
+for i, n in enumerate((10, 20, 40, 80)):
+    y = 138 + i * 22
+    f.text(10, y + 9, str(n), size=10.5, color=SLATE, anchor="start", vmid=True)
+    w = max(3, cs[n] / mx * 190)
+    f.box(40, y, w, 18, "", fill=MINT, stroke=TEAL, r=2)
+    f.text(40 + w + 6, y + 9, f"{cs[n]:,}", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 236, "doubling n costs about 8 times more", size=10.5, color=SLATE)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="A circuit is a linear system. (a) A resistor circuit built on a breadboard: Kirchhoff's voltage law gives one equation for each loop. (b) Two loops share a 6 ohm resistor. Loop 1 (12 V battery, 2 ohm, shared 6 ohm): 8 I1 - 6 I2 = 12. Loop 2 (6 V battery in opposition, 3 ohm, shared 6 ohm): -6 I1 + 9 I2 = -6. The determinant is 8 x 9 - 36 = 36, so Cramer's rule gives I1 = 72 / 36 = 2 A and I2 = 24 / 36 = 2/3 A, and the shared resistor carries I1 - I2 = 4/3 A. Energy balances exactly: the 12 V battery supplies 24 W, the three resistors dissipate 8 + 4/3 + 32/3 = 20 W and the second battery absorbs 4 W (it is being charged)."
+@ photo id="bcamath/breadboard" cap="Resistors on a breadboard"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Two-loop circuit solved with Cramer's rule"
+from fractions import Fraction as Fr
+a, b, c, d, e, g = Fr(8), Fr(-6), Fr(-6), Fr(9), Fr(12), Fr(-6)
+D = a * d - b * c
+I1 = (e * d - b * g) / D; I2 = (a * g - e * c) / D; I3 = I1 - I2
+assert D == 36 and I1 == 2 and I2 == Fr(2, 3) and I3 == Fr(4, 3)
+P1 = 12 * I1; Pr = 2 * I1 ** 2 + 3 * I2 ** 2 + 6 * I3 ** 2; P2 = 6 * I2
+assert P1 == 24 and Pr == 20 and P2 == 4 and P1 == Pr + P2
+f = Fig(300, 240)
+for (x1, y1, x2, y2) in [(30, 24, 270, 24), (30, 124, 270, 124), (30, 24, 30, 124), (270, 24, 270, 124), (150, 24, 150, 124)]:
+    f.line(x1, y1, x2, y2, color=SLATE, sw=1.8)
+f.box(14, 62, 32, 24, "12 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(254, 62, 32, 24, "6 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(66, 12, 48, 24, "2 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(186, 12, 48, 24, "3 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(126, 62, 48, 24, "6 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.text(90, 78, "I1 = 2 A", size=10.5, color=TEAL, bold=True); f.text(210, 78, "I2 = 2/3 A", size=10.5, color=RED, bold=True)
+f.text(150, 112, "I1 - I2 = 4/3 A", size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "8 I1 - 6 I2 = 12;  -6 I1 + 9 I2 = -6", size=10.5, color=SLATE)
+f.text(150, 170, "det = 36, I1 = 72/36, I2 = 24/36", size=10.5, color=SLATE)
+f.text(150, 196, "battery 24 W = resistors 20 W + charging 4 W", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "all values exact fractions", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - AX = B; augmented [A | B]; three row operations.
