@@ -1,5 +1,6 @@
 package com.neb.ians.ui
 
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -367,29 +368,31 @@ fun NEBiansNavHost(
             navController = navController,
             startDestination = Screen.Splash.route,
             modifier = Modifier.fillMaxSize(),
+            // Shared-axis motion on springs: the next screen travels a short, decisive distance and
+            // settles with a little life, the one behind drifts the other way and fades.
             enterTransition = {
                 slideInHorizontally(
-                    initialOffsetX = { (it * 0.10f).toInt() },
-                    animationSpec = tween(durationMillis = 240, easing = FastOutSlowInEasing)
-                ) + fadeIn(animationSpec = tween(200))
+                    initialOffsetX = { (it * 0.14f).toInt() },
+                    animationSpec = spring(0.82f, Spring.StiffnessMediumLow, IntOffset.VisibilityThreshold)
+                ) + fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMedium))
             },
             exitTransition = {
                 slideOutHorizontally(
-                    targetOffsetX = { -(it * 0.08f).toInt() },
-                    animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing)
-                ) + fadeOut(animationSpec = tween(160))
+                    targetOffsetX = { -(it * 0.10f).toInt() },
+                    animationSpec = spring(1f, Spring.StiffnessMediumLow, IntOffset.VisibilityThreshold)
+                ) + fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMedium))
             },
             popEnterTransition = {
                 slideInHorizontally(
-                    initialOffsetX = { -(it * 0.08f).toInt() },
-                    animationSpec = tween(durationMillis = 240, easing = FastOutSlowInEasing)
-                ) + fadeIn(animationSpec = tween(200))
+                    initialOffsetX = { -(it * 0.10f).toInt() },
+                    animationSpec = spring(0.9f, Spring.StiffnessMediumLow, IntOffset.VisibilityThreshold)
+                ) + fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMedium))
             },
             popExitTransition = {
                 slideOutHorizontally(
-                    targetOffsetX = { (it * 0.10f).toInt() },
-                    animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing)
-                ) + fadeOut(animationSpec = tween(160))
+                    targetOffsetX = { (it * 0.14f).toInt() },
+                    animationSpec = spring(1f, Spring.StiffnessMediumLow, IntOffset.VisibilityThreshold)
+                ) + fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMedium))
             },
         ) {
             composable(Screen.Splash.route) {
@@ -433,7 +436,12 @@ fun NEBiansNavHost(
                     }
                 )
             }
-            composable(Screen.Login.route) {
+            composable(
+                Screen.Login.route,
+                enterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) },
+                popEnterTransition = { fadeIn(animationSpec = spring(stiffness = Spring.StiffnessMediumLow)) },
+                exitTransition = { fadeOut(animationSpec = spring(stiffness = Spring.StiffnessMedium)) }
+            ) {
                 LoginScreen(
                     onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) }
                 )

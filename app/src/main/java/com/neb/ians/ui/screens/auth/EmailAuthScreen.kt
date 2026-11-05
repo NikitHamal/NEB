@@ -109,11 +109,11 @@ fun EmailAuthScreen(
             val modeSlide = nebSpatialSpec<IntOffset>()
             val modeFade = nebEffectsSpec<Float>()
 
-            // No illustration above the headline any more. Sign-in and sign-up
-            // are the two screens a returning user sees most, and the book mark
-            // that used to sit here pushed the fields below the fold on a short
-            // phone for no information gained.
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+
+            AuthGlyphMark(create = isCreate)
+
+            Spacer(modifier = Modifier.height(20.dp))
 
             AnimatedContent(
                 targetState = isCreate,
@@ -125,16 +125,6 @@ fun EmailAuthScreen(
                         text = if (create) "Create your account" else "Welcome back",
                         style = NebAuthType.Headline,
                         color = palette.ink
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = if (create) {
-                            "Your email and a password is all we need to start. You will pick a handle next."
-                        } else {
-                            "Sign in with the email or username you registered with."
-                        },
-                        style = NebAuthType.Body,
-                        color = palette.inkMuted
                     )
                 }
             }
