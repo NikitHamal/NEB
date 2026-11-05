@@ -52,11 +52,16 @@
           <option value="" {% if not class_level %}selected{% endif %}>All Classes</option>
           <option value="Class 8" {% if class_level == "Class 8" %}selected{% endif %}>Class 8</option>
           <option value="Class 9" {% if class_level == "Class 9" %}selected{% endif %}>Class 9</option>
-          <option value="Class 10" {% if class_level == "Class 10" %}selected{% endif %}>Class 10 / SEE</option>
-          <option value="Class 11" {% if class_level == "Class 11" %}selected{% endif %}>Class 11</option>
-          <option value="Class 12" {% if class_level == "Class 12" %}selected{% endif %}>Class 12</option>
-          <option value="Bachelor" {% if class_level == "Bachelor" %}selected{% endif %}>Bachelor</option>
-          <option value="Master" {% if class_level == "Master" %}selected{% endif %}>Master</option>
+          <option value="Class 10 / SEE" {% if class_level == "Class 10 / SEE" %}selected{% endif %}>Class 10 / SEE</option>
+          <option value="11" {% if class_level == "11" %}selected{% endif %}>Class 11</option>
+          <option value="12" {% if class_level == "12" %}selected{% endif %}>Class 12</option>
+          <option value="+2 Passout" {% if class_level == "+2 Passout" %}selected{% endif %}>+2 Passout</option>
+          <option value="Diploma" {% if class_level == "Diploma" %}selected{% endif %}>Diploma</option>
+          <option value="Bachelors" {% if class_level == "Bachelors" %}selected{% endif %}>Bachelors</option>
+          <option value="Masters" {% if class_level == "Masters" %}selected{% endif %}>Masters</option>
+          <option value="PhD" {% if class_level == "PhD" %}selected{% endif %}>PhD</option>
+          <option value="Teacher" {% if class_level == "Teacher" %}selected{% endif %}>Teacher / Educator</option>
+          <option value="Other" {% if class_level == "Other" %}selected{% endif %}>Other</option>
         </select>
       </div>
 
