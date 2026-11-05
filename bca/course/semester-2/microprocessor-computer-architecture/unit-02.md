@@ -577,6 +577,63 @@ f.text(250, 122, "BC = 5678H, DE = 1234H at the end", size=10, color=SLATE, anch
 7. **Debugging and reverse engineering.** A programmer who reads assembly can find why a program crashes and can study a virus or a faulty driver. Debuggers show registers and the stack as in Fig. 2.4. Security work, including the cyber-security courses of this programme, depends on this skill.
 8. **Examination and laboratory practice.** TU laboratory sheets ask for programs such as addition, largest number and multiplication. Writing, hand-assembling and testing them on a trainer kit builds careful habits of tracing and checking. These are skills that carry over to every later programming course.
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Counting the clock of Program 9. (a) A real NEC D8085AC, the 40-pin 8085 clone, on the controller board of an office printer: this chip really ran loops like the one in Program 9. (b) A small simulator ran the bit-counting program for all 256 possible input bytes and added up the T-states of every instruction (LDA 13, MVI 7, RAR 4, JNC 10 taken or 7 not taken, INR 4, DCR 4, JNZ 10 or 7, MOV 4, STA 13, HLT 5). The count of ones always came out right, and the running time depends only on k, the number of 1-bits: a zero bit costs 10 T on the JNC path but a one bit costs 11 T, so each extra 1-bit adds 1 T. The fastest input (00H) takes 270 T, the slowest (FFH) takes 278 T, and B7H takes 276 T, which is 92.0 microseconds at 3 MHz."
+@ photo id="bcampca/necchip" cap="NEC D8085AC on a printer controller board"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Program 9 timing for all 256 inputs"
+def run(v):
+    T = 13 + 7 + 7
+    a, b, c = v, 0, 8
+    while True:
+        cy = a & 1
+        a = (a >> 1) | (0 << 7)
+        T += 4
+        if cy:
+            T += 7
+            b += 1
+            T += 4
+        else:
+            T += 10
+        c -= 1
+        T += 4
+        if c:
+            T += 10
+        else:
+            T += 7
+            break
+    T += 4 + 13 + 5
+    return b, T
+data = [run(v) for v in range(256)]
+assert all(b == bin(v).count("1") for v, (b, _) in enumerate(data))
+byk = {}
+for v, (b, T) in enumerate(data):
+    byk.setdefault(b, set()).add(T)
+assert all(len(s) == 1 for s in byk.values())
+Tk = [min(byk[k]) for k in range(9)]
+cnt = [sum(1 for v in range(256) if bin(v).count("1") == k) for k in range(9)]
+assert cnt == [1, 8, 28, 56, 70, 56, 28, 8, 1]
+avg = sum(T for _, T in data) / 256
+facts = dict(t0=Tk[0], t8=Tk[8], tb7=run(0xB7)[1], us=round(Tk[6] / 3.0, 1), avg=round(avg, 1), step=Tk[1] - Tk[0])
+f = Fig(300, 236)
+f.text(150, 12, "T-states vs number of 1-bits k", size=10.5, color=NAVY, bold=True)
+lo, hi = Tk[0], Tk[8]
+px = lambda k: 30 + k * 31
+py = lambda t: 170 - (t - lo) * (110 / (hi - lo))
+f.line(30, 170, 280, 170, color=SLATE)
+for k in range(8):
+    f.line(px(k), py(Tk[k]), px(k + 1), py(Tk[k + 1]), color=NAVY, sw=2)
+for k in range(9):
+    f.circle(px(k), py(Tk[k]), 4, fill="#fde68a", stroke=NAVY)
+    f.text(px(k), 184, str(k), size=10.5, color=NAVY, bold=True)
+    f.text(px(k), 198, str(cnt[k]), size=10.5, color=SLATE)
+f.text(12, 184, "k", size=10.5, color=NAVY, bold=True, anchor="middle")
+f.text(12, 198, "n", size=10.5, color=SLATE, anchor="middle")
+f.text(px(0) + 4, py(Tk[0]) - 10, "%d T" % Tk[0], size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(px(8) - 4, py(Tk[8]) + 18, "%d T" % Tk[8], size=10.5, color=TEAL, bold=True, anchor="end")
+f.text(150, 222, "each 1-bit adds %d T; mean over 256 = %.1f T" % (Tk[1] - Tk[0], avg), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Instruction length 1–3 bytes; 16-bit values stored low byte first.

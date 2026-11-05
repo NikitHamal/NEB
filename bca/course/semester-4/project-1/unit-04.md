@@ -270,6 +270,51 @@ f.text(375, 28, "developer fixes", size=10, color=SLATE); f.text(525, 28, "teste
 7. **Documentation writes itself.** Test names and the test-case table describe how the system behaves. New teammates and future students can read them as a guide. The report's testing chapter is largely a copy of this table.
 8. **Confidence for the viva.** When you have seen your own system fail and then fixed it, you can speak about it honestly. Examiners like students who can describe a bug they found and how they closed it. That story is worth marks.
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Do the tests really test? (a) A crash-test dummy is used because failures are cheap to find before the real car is on the road. (b) The CampusShelf fine rule is Rs 5 for each day late, capped at Rs 200. Seven faulty copies (mutants) of the function were made by changing one symbol each, and two test sets were run against all of them. Set A uses typical values (-5, 2, 7, 20) and catches only 3 of the 6 catchable mutants; set B uses boundary values (-1, 0, 1, 39, 40, 41) and catches all 6. One mutant (< 0 instead of <= 0) behaves identically for every input, so no test can catch it: it is an equivalent mutant, and 1 of 7 is normal. The lesson of boundary-value analysis is measured here: bugs live at the edges (0, 1, the cap), so test the edges first."
+@ photo id="bcapj/dummy" cap="A crash-test dummy: test before the real thing"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mutation test: 7 faulty copies of fine()"
+SRC = "def fine(d):\n    if d <= 0:\n        return 0\n    return min(5 * d, 200)\n"
+MUT = [("<= 0 to < 0", SRC.replace("d <= 0", "d < 0")), ("<= 0 to <= 1", SRC.replace("d <= 0", "d <= 1")),
+       ("rate 5 to 6", SRC.replace("5 * d", "6 * d")), ("cap 200 to 199", SRC.replace("200)", "199)")),
+       ("cap 200 to 250", SRC.replace("200)", "250)")), ("min to max", SRC.replace("min(", "max(")),
+       ("5*d to 5+d", SRC.replace("5 * d", "5 + d"))]
+def load(s):
+    ns = {}
+    exec(s, ns)
+    return ns["fine"]
+orig = load(SRC)
+A = [-5, 2, 7, 20]
+B = [-1, 0, 1, 39, 40, 41]
+def killed(fn, tests):
+    return any(fn(t) != orig(t) for t in tests)
+res = []
+for n, s in MUT:
+    fn = load(s)
+    eq = all(fn(d) == orig(d) for d in range(-50, 200))
+    res.append((n, killed(fn, A), killed(fn, B), eq))
+kA = sum(r[1] for r in res)
+kB = sum(r[2] for r in res)
+eqn = sum(r[3] for r in res)
+assert eqn == 1 and kB == 6 and kA < kB
+facts = dict(kA=kA, kB=kB, eqn=eqn, total=len(res))
+f = Fig(300, 236)
+f.text(150, 12, "fine = min(5 x days late, 200)", size=10.5, color=NAVY, bold=True)
+f.text(196, 30, "A typical", size=10.5, color=SLATE, bold=True)
+f.text(266, 30, "B boundary", size=10.5, color=SLATE, bold=True)
+for i, (n, a, b, eq) in enumerate(res):
+    y = 38 + i * 24
+    f.box(4, y, 124, 20, n, fill=SAND if not eq else "#e5e7eb", stroke=SLATE, size=10.5, r=3, sw=1)
+    for x, v in ((196, a), (266, b)):
+        if eq:
+            f.text(x, y + 10, "same", size=10.5, color=SLATE, vmid=True)
+        else:
+            f.text(x, y + 10, "caught" if v else "missed", size=10.5, color=TEAL if v else RED, bold=True, vmid=True)
+f.text(150, 214, "A %d of %d caught, B %d of %d caught" % (kA, len(res) - eqn, kB, len(res) - eqn), size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "A = -5,2,7,20  B = -1,0,1,39,40,41", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Layers: screen, logic, data; the screen never writes SQL, the logic never prints.

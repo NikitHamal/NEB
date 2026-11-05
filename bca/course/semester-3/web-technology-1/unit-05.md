@@ -289,6 +289,51 @@ f.box(100, 116, 98 * 1.7, 26, "JSON  98 B", fill=MINT, stroke=TEAL, color=TEAL, 
 7. **Sitemaps and metadata.** Search engines read sitemap.xml to find the pages of a website and library catalogues exchange book records in XML. This lets a university library share its catalogue with national systems. Correct metadata makes resources easier to find.
 8. **Transformation to other formats.** With XSLT one XML source can be turned into HTML pages, PDF or another XML. A result file for 3 students with marks 78, 65 and 91 can be turned into a table with total 234 and average 78. The data is written once and shown in many forms.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Records with a fixed shape. (a) A 1903 vertical filing cabinet: every drawer, folder and label follows a fixed scheme so that anything can be found, exactly what an XML schema asks of data. (b) The same 100 student records (seeded, invented names) were written as XML, compact JSON and CSV. XML takes 7688 bytes, JSON 4668 and CSV 1685, so XML is 65 per cent bigger than JSON because every value carries an opening and a closing tag. After gzip compression the gap almost disappears (793, 726 and 613 bytes) since repeated tag names compress very well. When one closing gpa tag was deleted, a real parser refused the whole file with the message mismatched tag: line 1, column 73: that strictness is the price of XML and also its safety, because a document is either well formed or rejected."
+@ photo id="bcawt/cabinet" cap="A 1903 filing cabinet: records with a fixed shape"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="100 records: XML vs JSON vs CSV (bytes)"
+import json, gzip, random
+import xml.etree.ElementTree as ET
+random.seed(2081)
+names = ["Sita", "Ram", "Bimala", "Kiran", "Anju", "Suman", "Pratik", "Rojina", "Dipak", "Mina", "Nabin", "Sabina"]
+recs = [{"id": i, "name": random.choice(names), "grade": random.choice([11, 12]), "gpa": round(random.uniform(2.0, 4.0), 2)} for i in range(1, 101)]
+root = ET.Element("students")
+for r in recs:
+    s = ET.SubElement(root, "student", id=str(r["id"]))
+    for k in ("name", "grade", "gpa"):
+        ET.SubElement(s, k).text = str(r[k])
+xml = ET.tostring(root)
+js = json.dumps(recs, separators=(",", ":")).encode()
+csv = ("id,name,grade,gpa\n" + "".join("%d,%s,%d,%s\n" % (r["id"], r["name"], r["grade"], r["gpa"]) for r in recs)).encode()
+raw = [len(xml), len(js), len(csv)]
+gz = [len(gzip.compress(x, 9)) for x in (xml, js, csv)]
+assert raw[0] > raw[1] > raw[2]
+assert len(ET.fromstring(xml)) == 100
+bad = xml.replace(b"</gpa>", b"", 1)
+try:
+    ET.fromstring(bad)
+    err = "none"
+except ET.ParseError as e:
+    err = str(e)
+facts = dict(x=raw[0], j=raw[1], c=raw[2], xg=gz[0], jg=gz[1], cg=gz[2], pct=round(100 * (raw[0] / raw[1] - 1)), err=err)
+f = Fig(300, 236)
+f.text(150, 12, "same 100 student records", size=10.5, color=NAVY, bold=True)
+f.text(150, 27, "grey = raw bytes, colour = gzip", size=10.5, color=SLATE)
+sc = 170 / raw[0]
+for i, (n, col) in enumerate([("XML", "#fde68a"), ("JSON", BLUE), ("CSV", MINT)]):
+    y = 38 + i * 50
+    f.text(8, y + 8, n, size=10.5, color=NAVY, bold=True, anchor="start")
+    f.box(48, y, raw[i] * sc, 18, "", fill="#e5e7eb", stroke=SLATE, r=2, sw=1)
+    f.text(52 + raw[i] * sc, y + 9, format(raw[i], ","), size=10.5, color=NAVY, anchor="start", vmid=True)
+    f.box(48, y + 21, gz[i] * sc, 18, "", fill=col, stroke=NAVY, r=2, sw=1)
+    f.text(52 + gz[i] * sc, y + 30, format(gz[i], ","), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 198, "delete one end-tag, the parser stops:", size=10.5, color=RED, bold=True)
+f.text(150, 214, err[:44], size=10.5, color=RED)
+f.text(150, 230, "XML is %d%% bigger than JSON raw" % round(100 * (raw[0] / raw[1] - 1)), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Well-formed: one root, matched and nested tags, case-sensitive names, quoted attributes, escaped `< > & " '`.

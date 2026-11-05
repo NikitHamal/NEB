@@ -247,6 +247,38 @@ f.text(290, 166, "@media (min-width: 600px)  and  @media (min-width: 992px)", si
 7. **Use variables and a small palette.** Define colours, spacing and fonts once as custom properties such as --brand: #1e3a8a. Changing one line then re-themes the entire site. A college that changes its logo colour can update all pages in minutes.
 8. **Check contrast, focus and print.** Text needs enough contrast against its background (at least 4.5 to 1 for normal text), links need a visible focus outline, and a print stylesheet can hide menus. These details make the site usable by everyone, including people with colour-vision problems or in bright sunlight.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Counting pixels in the box model. (a) A framed picture with a mat shows the layers of every CSS box: the picture is the content, the mat is the padding, the frame is the border and the gap to the next frame on the wall is the margin. (b) A box declared as width: 300px with padding 20px, border 5px and margin 10px is not 300 pixels wide in the default content-box model: the layers are added outside the width, so it occupies 370px of the row. With box-sizing: border-box the 300px already includes padding and border, the content shrinks to 250px, and the box occupies 320px with its margin. In a 960px row that is the difference between 2 boxes and 3 boxes, which is why most style sheets begin with the border-box rule. All sums were checked in code."
+@ photo id="bcawt/mat" cap="A picture-frame mat: padding, border, margin"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Box model: content-box vs border-box"
+w, pad, bor, mar = 300, 20, 5, 10
+cb_total = w + 2 * (pad + bor + mar)
+bb_content = w - 2 * (pad + bor)
+bb_total = w + 2 * mar
+box_cb = 960 // cb_total
+box_bb = 960 // bb_total
+assert (cb_total, bb_content, bb_total, box_cb, box_bb) == (370, 250, 320, 2, 3)
+facts = dict(cb=cb_total, bbc=bb_content, bb=bb_total, ncb=box_cb, nbb=box_bb)
+f = Fig(300, 252)
+f.text(150, 12, "width: 300px; padding 20; border 5; margin 10", size=10.5, color=NAVY, bold=True)
+f.box(50, 22, 200, 124, "", fill=SAND, stroke=SLATE, r=2, sw=1)
+f.box(64, 36, 172, 96, "", fill="#fcd34d", stroke=AMBER, r=2, sw=1)
+f.box(78, 50, 144, 68, "", fill=BLUE, stroke=NAVY, r=0, sw=1)
+f.box(92, 64, 116, 40, "content", fill=MINT, stroke=TEAL, size=10.5, bold=True, r=2, sw=1)
+f.text(150, 29, "margin 10", size=10.5, color=SLATE, bold=True, vmid=True)
+f.text(150, 43, "border 5", size=10.5, color=NAVY, bold=True, vmid=True)
+f.text(150, 57, "padding 20", size=10.5, color=NAVY, bold=True, vmid=True)
+f.text(150, 162, "A 960px-wide row, scale 0.29", size=10.5, color=NAVY, bold=True)
+sc = 280 / 960
+for r, (lab, wd, n, col) in enumerate([("content-box: %dpx each, %d fit" % (cb_total, box_cb), cb_total, box_cb, "#fecaca"), ("border-box: %dpx each, %d fit" % (bb_total, box_bb), bb_total, box_bb, "#bbf7d0")]):
+    y = 168 + r * 38
+    for k in range(n):
+        f.box(10 + k * wd * sc, y + 14, wd * sc - 2, 16, "", fill=col, stroke=SLATE, r=2, sw=1)
+    f.text(10, y + 8, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+f.text(150, 246, "so: * { box-sizing: border-box; }", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Rule: `selector { property: value; }`. Specificity (inline, id, class, element); later rule wins ties.

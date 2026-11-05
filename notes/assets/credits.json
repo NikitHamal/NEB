@@ -11023,6 +11023,19 @@
     "source": "Wikimedia Commons",
     "title": "Tribhuvan University"
   },
+  "bcampca/necchip": {
+    "author": "Raimond Spekking",
+    "bytes": 563580,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcampca/necchip.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Triumph-Adler_SKA_-_main_controller_-_NEC_D8085AC-6394.jpg",
+    "sha1": "6aa7e75e11ca6407",
+    "source": "Wikimedia Commons",
+    "title": "Triumph-Adler SKA - main controller - NEC D8085AC-6394"
+  },
   "bcanm/sliderule": {
     "author": "Jacek Halicki",
     "bytes": 189959,
@@ -11101,6 +11114,45 @@
     "source": "Wikimedia Commons",
     "title": "German rowing eight EK 1964c"
   },
+  "bcapj/cardcat": {
+    "author": "Dr. Marcus Gossler",
+    "bytes": 488336,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcapj/cardcat.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Schlagwortkatalog.jpg",
+    "sha1": "3eef6e591723c29e",
+    "source": "Wikimedia Commons",
+    "title": "Schlagwortkatalog"
+  },
+  "bcapj/dummy": {
+    "author": "Brady Holt",
+    "bytes": 737565,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcapj/dummy.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:IIHS_crash_test_dummy_in_Hyundai_Tucson.jpg",
+    "sha1": "b2b8ce42526c6a62",
+    "source": "Wikimedia Commons",
+    "title": "IIHS crash test dummy in Hyundai Tucson"
+  },
+  "bcapj/stopwatch": {
+    "author": "Stefan ( Diskussion ). Original uploader was StefanPohl at German Wikipedia",
+    "bytes": 576452,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcapj/stopwatch.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Stoppuhr_hanhart.jpg",
+    "sha1": "3b988a7df61897d4",
+    "source": "Wikimedia Commons",
+    "title": "Stoppuhr hanhart"
+  },
   "bcapj/token": {
     "author": "Mesin Antrian Vorsea",
     "bytes": 380079,
@@ -11126,6 +11178,19 @@
     "sha1": "877e67907a077ee6",
     "source": "Wikimedia Commons",
     "title": "Pierre Francois Verhulst"
+  },
+  "bcasad/counter": {
+    "author": "Cassiopeia sweet",
+    "bytes": 239690,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcasad/counter.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:JR_Bus_Tokyo_Sta_Ticket_Counter.jpg",
+    "sha1": "6c50fb6f91c4a970",
+    "source": "Wikimedia Commons",
+    "title": "JR Bus Tokyo Sta Ticket Counter"
   },
   "bcasad/gantt": {
     "author": "John R. Dunlap ed.",
@@ -11204,6 +11269,45 @@
     "sha1": "6dcbd03f84e5a677",
     "source": "Wikimedia Commons",
     "title": "Olympia Simplex"
+  },
+  "bcawt/cabinet": {
+    "author": "Unknown (Macey Company advertisement, 1903)",
+    "bytes": 713723,
+    "credit": "Catalogue of Macey office and library furniture, 1903 ( https://archive.org/details/officelibraryfur00mace/page/22 )",
+    "fetched": "2026-11-05",
+    "file": "bcawt/cabinet.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Macey_Vertical_Filing_Cabinet_1903.jpg",
+    "sha1": "e919470b503341b0",
+    "source": "Wikimedia Commons",
+    "title": "Macey Vertical Filing Cabinet 1903"
+  },
+  "bcawt/dominoes": {
+    "author": "Kurt:S",
+    "bytes": 296247,
+    "credit": "https://www.flickr.com/photos/testlab/21496317363/",
+    "fetched": "2026-11-05",
+    "file": "bcawt/dominoes.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Dominoes_falling.jpg",
+    "sha1": "6cfacb2013345946",
+    "source": "Wikimedia Commons",
+    "title": "Dominoes falling"
+  },
+  "bcawt/mat": {
+    "author": "Kjetil Ree",
+    "bytes": 481446,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcawt/mat.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Passe-Partout_-_2013-04-21_at_15-52-17.jpg",
+    "sha1": "10f6bc4b0089535e",
+    "source": "Wikimedia Commons",
+    "title": "Passe-Partout - 2013-04-21 at 15-52-17"
   },
   "bio11/agaricus": {
     "author": "Fumikas Sagisavas",
