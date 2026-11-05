@@ -255,6 +255,29 @@ alumina and iron oxide, which will raise the C₃A content, make the cement set
 faster and lower its sulphate resistance. Adding sand would correct it.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="Clinker is the grey, marble-sized product that leaves the rotary kiln at about 1450 degrees; grinding it with 3 to 5 per cent gypsum makes Portland cement. (a) Clinker nodules. (b) The Bogue equations turn the oxide analysis of a typical clinker into its four compounds: tricalcium silicate 55.6 per cent, dicalcium silicate 18.3, tricalcium aluminate 9.0 and the ferrite phase 10.0. C3S hardens fast and gives early strength, while C2S hydrates slowly and keeps adding strength for months. The lime in the clinker comes from limestone, so each 100 kg of clinker releases at least 50.7 kg of carbon dioxide from the chemistry alone, before any fuel is burned."
+@ photo id="chem12/clinker" cap="Cement clinker nodules as they leave the rotary kiln"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Bogue composition of a typical OPC clinker"
+C, S, A, F, SO3 = 64.5, 21.0, 5.5, 3.3, 2.0
+c3s = 4.071 * C - 7.600 * S - 6.718 * A - 1.430 * F - 2.852 * SO3
+c2s = 2.867 * S - 0.7544 * c3s
+c3a = 2.650 * A - 1.692 * F
+c4af = 3.043 * F
+assert 55 < c3s < 57 and 18 < c2s < 19 and abs(c3a - 9.0) < 0.2 and abs(c4af - 10.04) < 0.1
+co2 = C * 44.0 / 56.0
+f = Fig(300, 236)
+f.text(150, 14, "Bogue compounds, % of clinker", size=10.5, color=NAVY, bold=True)
+hbars(f, [("C3S", c3s), ("C2S", c2s), ("C3A", c3a), ("C4AF", c4af)], vmax=70, fmt="%.1f %%", x0=56, y0=32, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 168, "oxides: CaO 64.5, SiO2 21.0, Al2O3 5.5,", size=10, color=SLATE, bold=True)
+f.text(150, 183, "Fe2O3 3.3, SO3 2.0 (per cent)", size=10, color=SLATE, bold=True)
+f.text(150, 202, "C3S gives early strength, C2S later", size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "CO2 from CaO alone: %.1f kg per 100 kg" % co2, size=10.5, color=RED, bold=True)
+facts = dict(c3s=c3s, c2s=c2s, c3a=c3a, c4af=c4af, co2=co2)
+```
+
 ## 19.4 Types of cement: OPC and PPC
 
 | | Ordinary Portland Cement (OPC) | Portland Pozzolana Cement (PPC) |

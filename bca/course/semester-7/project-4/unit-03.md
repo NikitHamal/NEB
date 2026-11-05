@@ -385,6 +385,44 @@ for i, (th, tp, fp, fn, pr, rc) in enumerate(rows):
 f.text(150, 232, "76 true positives in 400 cases (simulated)", size=10.5, color=SLATE)
 ```
 
+```photogrid label="3.6" cols="2" ratio="1.27" caption="A model with good overall numbers can still treat groups differently, so SikshyaSignal reports its results separately for each group. (a) Students at a secondary school in Sankhu. (b) With a threshold of 0.40 and a simulated cohort of 640 day scholars and 360 hostel students, the model flags 28.9% of the day group and 41.4% of the hostel group, a ratio of 1.43. Its recall, the share of truly failing students it catches, is 93.0% for day scholars but only 80.0% for the hostel group, a gap of 13 points. A large gap means the scores are noisier for one group. The team should then check the features, the data collection and the cost of a missed student before the model is used to decide who gets help."
+@ photo id="bcapj/sankhu-students" cap="Students outside a classroom at Shree Bhagawati Secondary School, Sankhu"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Group check: flag rate and recall by group"
+import numpy as np
+rng = np.random.default_rng(2081)
+def cohort(n, base, shift, sd):
+    y = rng.random(n) < base
+    sc = np.clip(rng.normal(0.25 + 0.40 * y + shift, sd), 0, 1)
+    return y, sc
+TH = 0.40
+res = []
+for name, n, base, shift, sd in [("day", 640, 0.14, 0.0, 0.18), ("hostel", 360, 0.22, 0.0, 0.30)]:
+    y, sc = cohort(n, base, shift, sd)
+    flag = sc >= TH
+    res.append((name, float(flag.mean()) * 100, float(flag[y].mean()) * 100))
+ratio = res[1][1] / res[0][1]
+gap = res[0][2] - res[1][2]
+f = Fig(300, 236)
+f.text(150, 14, "threshold 0.40, 640 day + 360 hostel", size=10.5, color=NAVY, bold=True)
+base = 140
+f.line(14, base, 290, base, color=SLATE)
+for gi, (name, fr, rc) in enumerate(res):
+    x = 40 + gi * 130
+    for bi, (val, fl, st, tag) in enumerate([(fr, BLUE, NAVY, "flag"), (rc, MINT, TEAL, "recall")]):
+        h = val
+        bx = x + bi * 40
+        f.box(bx, base - h, 34, h, "", fill=fl, stroke=st, r=2)
+        f.text(bx + 17, base - h - 8, "%.0f" % val, size=10, color=st, bold=True)
+        f.text(bx + 17, base + 12, tag, size=9.5, color=SLATE, bold=True)
+    f.text(x + 37, base + 30, name + " group", size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "flag-rate ratio = %.2f (fair: 0.8 to 1.25)" % ratio, size=10, color=RED, bold=True)
+f.text(150, 206, "recall gap = %.0f points (day - hostel)" % gap, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "check each group, not only the total", size=10, color=TEAL, bold=True)
+facts = dict(fd=round(res[0][1], 1), fh=round(res[1][1], 1), rd=round(res[0][2], 1), rh=round(res[1][2], 1), ratio=round(ratio, 2), gap=round(gap, 1))
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

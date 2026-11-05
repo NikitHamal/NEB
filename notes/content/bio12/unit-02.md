@@ -275,6 +275,27 @@ key 4 The lamina itself stays dry — this is not condensation from the air
 
 Distinguish both from **bleeding**, which is the exudation of sap from a *cut* or injured surface — the flow from a tapped *Borassus* inflorescence or a pruned grapevine.
 
+```photogrid label="2.Q" cols="2" ratio="1.27" caption="Water enters a root hair and climbs to the leaf only because each step is at a more negative water potential than the one before. (a) A dicot root in section, with the endodermis surrounding the central stele. (b) Moving from moist soil at -0.3 MPa through root hair, cortex and xylem to a leaf cell at -1.5 MPa, the water always moves toward the lower value. The air is much lower: for 50 per cent relative humidity at 25 degrees the equation psi = (RT/V) ln RH gives -95.5 MPa, so the air pulls with about 94 MPa more than the leaf holds. Transpiration, not root pressure, therefore drives the ascent of sap in tall trees."
+@ photo id="bio12/dicot-root-stele" cap="Dicot root in section: cortex, endodermis and the central stele"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Water potential from soil to leaf to air"
+import math
+rows = [("soil", 0.3), ("root hair", 0.6), ("cortex", 0.9), ("xylem", 1.2), ("leaf cell", 1.5)]
+R, T, Vw = 8.314, 298.15, 1.8e-5
+air = R * T / Vw * math.log(0.5) / 1e6
+assert abs(air + 95.4) < 0.3
+f = Fig(300, 236)
+f.text(150, 14, "Water potential, MPa (all negative)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=1.6, fmt="-%.1f", x0=76, y0=30, bw=170, gap=25,
+      colors=[(MINT, TEAL), (MINT, TEAL), (BLUE, NAVY), (BLUE, NAVY), (SAND, AMBER)])
+f.text(150, 170, "psi = psi_s + psi_p", size=10.5, color=NAVY, bold=True)
+f.text(150, 187, "leaf cell: -1.8 + 0.3 = -1.5 MPa", size=10, color=SLATE, bold=True)
+f.text(150, 204, "air, 50 %% RH, 25 C: %.1f MPa" % air, size=10.5, color=RED, bold=True)
+f.text(150, 221, "water flows down the gradient", size=10, color=TEAL, bold=True)
+facts = dict(air=air, pull=abs(air) - 1.5)
+```
+
 ## 2.2 Photosynthesis
 
 Photosynthesis is the process by which green plants use light energy to reduce carbon dioxide to carbohydrate, with water as the electron donor and oxygen as a by-product. It is the only significant entry point of energy into the biosphere, and every gram of food in every kitchen in Nepal traces back to it.
@@ -553,6 +574,31 @@ Doubling the light changes nothing, so **light is not limiting** — the plant i
 
 At 800 ppm, CO$_2$ is no longer in short supply, so the next factor in line takes over. Since enzymes are involved and 20 °C is below the optimum for rice, raising the temperature to 30 °C should raise the rate further — **temperature is now limiting**. This is exactly Blackman's principle: the rate is set by whichever single factor is nearest its minimum.
 :::
+
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Photosynthesis happens in the grana and stroma of the chloroplast, and its speed depends first on how much light reaches the leaf. (a) A chloroplast in section. (b) A model of a sun leaf with a maximum gross rate of 20, a half-saturation light of 300 and a dark respiration of 1.5 units gives a rising curve that bends over. In the dark the leaf loses carbon dioxide; at the compensation point of 24 units uptake exactly equals respiration. In shade at 100 units the net uptake is 3.5, and in full sun at 2000 it is 15.9. Past a certain light level the dark reactions, the enzymes and carbon dioxide supply become the limit, so extra light adds almost nothing."
+@ photo id="bio12/chloroplast" cap="Chloroplast: grana of thylakoids in the stroma"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Light-response curve of a sun leaf"
+Pmax, K, Rd = 20.0, 300.0, 1.5
+def pn(i):
+    return Pmax * i / (K + i) - Rd
+lcp = K * Rd / (Pmax - Rd)
+assert abs(lcp - 24.3) < 0.1 and abs(pn(2000) - 15.9) < 0.1 and abs(pn(100) - 3.5) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "Net CO2 uptake vs light", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 24, 244, 146, (0, 2000), (-4, 24))
+ax.grid(500, 4, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="light, umol photons/m2/s", yl="net CO2, umol/m2/s")
+ax.curve(pn, 0, 2000, color=TEAL, sw=2.4, n=300)
+ax.hline(0, color=AMBER)
+ax.pt(lcp, 0, "", color=RED)
+ax.pt(100, pn(100), "", color=NAVY)
+ax.pt(2000, pn(2000), "", color=NAVY, anchor="end", dx=-8, dy=-10)
+f.text(150, 207, "compensation point %.0f umol: uptake = respiration" % lcp, size=10, color=RED, bold=True)
+f.text(150, 222, "shade 100: %.1f   full sun 2000: %.1f" % (pn(100), pn(2000)), size=10.5, color=NAVY, bold=True)
+facts = dict(lcp=lcp, a=pn(100), b=pn(2000), pm=Pmax - Rd)
+```
 
 ## 2.3 Respiration
 

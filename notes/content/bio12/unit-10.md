@@ -795,6 +795,28 @@ lac or pearl culture is practised in Nepal** — Nepal is landlocked, and appear
 on no list of lac-producing countries.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Biogas is made when bacteria digest dung in a sealed digester without oxygen, and the gas is about 60 per cent methane, the same fuel as LPG. (a) A household plant. (b) With a round-figure yield of 0.036 cubic metres of gas per kilogram of fresh dung, four cattle that give 10 kg each per day produce 1.44 cubic metres a day. One burner at 0.3 cubic metres an hour then cooks for 4.8 hours. Taking about 0.43 kg of LPG for every cubic metre of biogas, this replaces roughly 15.9 fourteen-kilogram cylinders in a year. The leftover slurry is a rich organic manure, so the plant also cuts chemical fertiliser and smoke inside Nepali kitchens."
+@ photo id="sci10/biogas" cap="A household biogas plant: digester, gas holder and kitchen stove line"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Biogas from cattle dung for a household"
+Y, BURN, LPG, CYL = 0.036, 0.3, 0.43, 14.2
+rows = [("2 cattle", 2), ("4 cattle", 4), ("6 cattle", 6), ("8 cattle", 8)]
+gas = [n * 10 * Y for _, n in rows]
+hours = gas[1] / BURN
+cyl = gas[1] * 365 * LPG / CYL
+assert abs(gas[1] - 1.44) < 1e-9 and abs(hours - 4.8) < 1e-9 and abs(cyl - 15.9) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "Gas per day, m3 (10 kg dung per animal)", size=10, color=NAVY, bold=True)
+hbars(f, [(n, g) for (n, _), g in zip(rows, gas)], vmax=3.0, fmt="%.2f", x0=64, y0=32, bw=170, gap=28,
+      colors=[(MINT, TEAL), (BLUE, NAVY), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 160, "yield assumed 0.036 m3 per kg fresh dung", size=10, color=SLATE, bold=True)
+f.text(150, 179, "4 cattle: 40 kg -> %.2f m3 a day" % gas[1], size=10.5, color=NAVY, bold=True)
+f.text(150, 197, "one burner (0.3 m3/h) runs %.1f h" % hours, size=10.5, color=TEAL, bold=True)
+f.text(150, 215, "saves %.1f LPG cylinders (14.2 kg)/yr" % cyl, size=10.5, color=RED, bold=True)
+facts = dict(g=gas[1], h=hours, c=cyl)
+```
+
 ## 10.2 Microbial diseases and application of microbiology
 
 **Microbiology** is the study of organisms too small to see unaided —
@@ -1251,6 +1273,27 @@ ax.annotate("", xy=(8.05, 5.80), xytext=(7.45, 5.80),
             arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0,
                             mutation_scale=9), zorder=2)
 fig.tight_layout()
+```
+
+```photogrid label="10.Q" cols="2" ratio="1.27" caption="A disease can no longer spread through a community when enough people are immune, and that fraction depends on how many others one case infects, the basic reproduction number R0. (a) A child receiving a vaccine at an immunisation clinic in Pokhara. (b) The threshold is 1 minus 1 over R0, giving 93.3 per cent for measles, 83.3 for polio, 80.0 for smallpox and 66.7 for the original COVID-19 virus. Because a measles vaccine protects about 95 per cent of the people who receive it, coverage must reach 98.2 per cent, which is why Nepal gives two doses and runs catch-up campaigns. Herd immunity protects babies and people who cannot be vaccinated."
+@ photo id="bio12/immun-pokhara" cap="Immunisation clinic at the District Public Health Office in Pokhara"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Herd-immunity threshold = 1 - 1/R0"
+rows = [("measles", 15.0), ("polio", 6.0), ("smallpox", 5.0), ("COVID-19", 3.0)]
+hit = [(1 - 1 / r) * 100 for _, r in rows]
+assert abs(hit[0] - 93.3) < 0.05 and abs(hit[3] - 66.7) < 0.05
+cover = hit[0] / 95 * 100
+f = Fig(300, 236)
+f.text(150, 14, "Vaccinated share needed, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, [(n, h) for (n, _), h in zip(rows, hit)], vmax=100, fmt="%.1f", x0=70, y0=32, bw=168, gap=28,
+      colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 152, "R0: measles 15, polio 6, smallpox 5, COVID 3", size=9.5, color=SLATE, bold=True)
+f.text(150, 172, "threshold = 1 - 1/R0", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "measles vaccine 95 % effective:", size=10, color=SLATE, bold=True)
+f.text(150, 210, "coverage needed = %.1f %%" % cover, size=10.5, color=RED, bold=True)
+f.text(150, 227, "so measles needs two doses", size=10, color=TEAL, bold=True)
+facts = dict(m=hit[0], p=hit[1], s=hit[2], c=hit[3], cov=cover)
 ```
 
 ## Chapter summary
