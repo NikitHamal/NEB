@@ -139,6 +139,7 @@ def profile(request, username):
         'school': profile_user.school,
         'school_username': profile_user.school_username,
         'bio': profile_user.bio,
+        'headline': profile_user.headline,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
         'verification_level': profile_user.verification_level,
@@ -245,7 +246,20 @@ def profile(request, username):
     if not profile_private and not profile_user.is_bot:
         social_links_data = get_user_links(profile_user.id)
 
+    from api import profile_education as _pe
+    from api.education_catalog import ENTRY_KINDS
+    portfolio = None
+    if not profile_private and not profile_user.is_bot:
+        portfolio = {
+            'edu': _pe.education_summary(profile_user),
+            'open_to': _pe.open_to_items(profile_user),
+            'skills': _pe.skills_list(profile_user),
+            'sections': _pe.portfolio_sections(profile_user),
+            'kinds': ENTRY_KINDS,
+            'is_own': bool(viewer_user and getattr(viewer_user, 'id', None) == profile_user.id),
+        }
     return render(request, 'web/profile.html', _ctx(request,
+        portfolio=portfolio,
         profile_user=profile_data,
         username=username,
         stats=stats,
