@@ -27,6 +27,7 @@ import threading
 import time
 import uuid
 from typing import Dict, List, Optional
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -96,19 +97,6 @@ def _split_sentences(text: str) -> List[str]:
     return out
 
 
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome"), True
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"})
-        return s, False
-
-
 def _headers() -> Dict[str, str]:
     return {
         "Content-Type": "application/json",
@@ -161,7 +149,7 @@ def get_voices(refresh: bool = False) -> List[Dict]:
     now = time.time()
     if not refresh and _voice_cache and now - _voice_cache_at < VOICE_TTL:
         return _voice_cache
-    sess, _ = _session()
+    sess = new_session()
     try:
         r = sess.get(VOICES_URL, headers={"X-Studio-Anonymous-Id": str(uuid.uuid4())}, timeout=(10, 25))
         if r.status_code != 200:
@@ -255,7 +243,7 @@ def synthesize_chunks(text: str, voice_id: str, style: str, speed: float, langua
     if len(chunks) > MAX_CHUNKS:
         return {"status": "error", "error": f"text too long for Airy — {len(chunks)} batches needed, max {MAX_CHUNKS} (~{MAX_TEXT} chars)"}
 
-    sess, _ = _session()
+    sess = new_session()
     pieces: List[bytes] = []
     seconds = 0.0
     try:

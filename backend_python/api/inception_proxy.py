@@ -6,6 +6,7 @@ import time
 import uuid
 from typing import Dict, Generator, List, Optional
 
+from .model_catalog import model_catalog
 from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
@@ -100,22 +101,7 @@ def _ensure_session() -> str:
 
 
 def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": False,
-                "thinking": m.get("reasoning", False),
-                "reasoning_levels": m.get("reasoning_levels", []),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
+    return model_catalog(MODELS, vision=False, reasoning_levels=True)
 
 
 def _messages_to_inception(messages: List[Dict[str, str]]) -> list:

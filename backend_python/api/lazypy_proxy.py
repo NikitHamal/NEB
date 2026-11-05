@@ -36,6 +36,7 @@ import random
 import time
 import urllib.parse
 from typing import Dict, List, Optional
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -58,28 +59,11 @@ _voices_cache: Optional[Dict] = None
 _voices_ts: float = 0
 
 
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome"), True
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update(
-            {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
-            }
-        )
-        return s, False
-
-
 def get_voices() -> Dict:
     global _voices_cache, _voices_ts
     if _voices_cache and time.time() - _voices_ts < 3600:
         return _voices_cache
-    sess, _ = _session()
+    sess = new_session()
     try:
         r = sess.get(VOICES_URL, timeout=15)
         if r.status_code == 200:
@@ -164,7 +148,7 @@ def generate_tts(text: str, voice: Optional[str] = None, service: Optional[str] 
         # Truncate for single-request services; caller should chunk if needed
         text = text[:lim]
 
-    sess, _ = _session()
+    sess = new_session()
     try:
         payload = f"service={urllib.parse.quote(svc)}&voice={urllib.parse.quote(vid)}&text={urllib.parse.quote(text)}"
         headers = {
