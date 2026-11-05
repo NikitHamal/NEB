@@ -241,6 +241,28 @@ A student who writes 4600 mL for TLC has forgotten the residual volume — the
 commonest error in this topic.
 :::
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Two numbers behind breathing. (a) Alveoli, the thin-walled air sacs where gas exchange occurs, in lung tissue. (b) Each lung has about 300 million alveoli in total, each roughly 0.28 mm across, so the exchange surface is 74 square metres, about a third of a badminton court (the textbook value is 70). Breathing 12 times a minute with a tidal volume of 500 mL moves 6 L of air per minute, but 150 mL of every breath only fills the dead space of the airways, so the alveolar ventilation is (500 - 150) x 12 = 4.2 L per minute, which is why slow deep breaths ventilate better than fast shallow ones."
+@ photo id="bio12/alveoli" cap="Alveoli in lung tissue"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="One breath: tidal volume split into dead space and alveolar air"
+n, d = 3e8, 0.28e-3
+area = n * math.pi * d * d
+tv, dead, rate = 500, 150, 12
+mv, av = tv * rate / 1000, (tv - dead) * rate / 1000
+assert abs(area - 73.9) < 0.1 and mv == 6.0 and abs(av - 4.2) < 1e-9
+facts = dict(area="%.0f" % area, mv="%.0f" % mv, av="%.1f" % av)
+f = Fig(300, 236)
+f.text(150, 12, "Tidal volume 500 mL (12 breaths/min)", size=10.5, color=NAVY, bold=True)
+f.box(10, 36, 150 / 500 * 280, 34, fill=SAND, stroke=AMBER, r=2); f.text(10 + 150 / 500 * 140, 53, "dead space 150", size=10.5, color=AMBER, bold=True, vmid=True)
+f.box(10 + 150 / 500 * 280, 36, 350 / 500 * 280, 34, fill=MINT, stroke=TEAL, r=2); f.text(10 + 84 + 98, 53, "reaches alveoli: 350 mL", size=10.5, color=TEAL, bold=True, vmid=True)
+f.text(150, 100, "minute ventilation = 500 x 12 = 6.0 L/min", size=10.5, color=NAVY, bold=True)
+f.text(150, 120, "alveolar ventilation = 350 x 12 = 4.2 L/min", size=10.5, color=TEAL, bold=True)
+f.text(150, 160, "300 million alveoli x pi x (0.28 mm)^2", size=10.5, color=SLATE, bold=True)
+f.text(150, 180, "= %.0f sq m of exchange surface" % area, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "slow deep breaths beat fast shallow ones", size=10.5, color=SLATE, bold=True)
+```
+
 ## 6.2 Exchange and transport of gases; regulation of respiration
 
 ### Partial pressures

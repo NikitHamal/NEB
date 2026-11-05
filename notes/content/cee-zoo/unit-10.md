@@ -345,6 +345,30 @@ dwarf, child excess = giant, adult excess = acromegaly**.
 **Solution.** In **Patient X (primary thyroid failure / endemic iodine-deficiency goitre)**, low $\text{T}_4$ removes negative feedback on the anterior pituitary, driving high $\text{TSH}$ which hypertrophies the gland into a goitre. In **Patient Y (secondary / pituitary hypothyroidism)**, the anterior pituitary itself fails to secrete $\text{TSH}$.
 :::
 
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Iodine, the thyroid and salt. (a) The endocrine glands of the head and trunk, including the thyroid in the neck that makes thyroxine from iodine. (b) An adult needs about 150 micrograms of iodine a day. Salt carrying 30 mg of iodine per kg gives 60 micrograms in 2 g, 150 in 5 g and 300 in 10 g of salt, so 100 per cent of the need is met by 5 g, the amount usually eaten. A shortage enlarges the thyroid (simple goitre) and in a pregnant woman damages the baby's brain (cretinism), which is why Nepal promotes iodised salt in the hills where soil iodine is low."
+@ photo id="bio12/endocrine-glands" cap="Endocrine glands of the human body"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Iodine from salt against the daily need of 150 micrograms"
+conc = 30.0
+need = 150.0
+got = {g: conc * g / 1000 * 1000 for g in (2, 5, 10)}
+assert got[2] == 60 and got[5] == 150 and got[10] == 300
+facts = dict(a2="%.0f" % got[2], a5="%.0f" % got[5], a10="%.0f" % got[10], a5pc="%.0f" % (got[5] / need * 100))
+f = Fig(300, 236)
+f.text(150, 12, "Iodine (micrograms) in 30 mg/kg salt", size=10.5, color=NAVY, bold=True)
+for i, g in enumerate((2, 5, 10)):
+    y = 34 + i * 46
+    f.text(10, y, "%d g of salt" % g, size=10.5, color=SLATE, anchor="start")
+    w = got[g] / 300 * 200
+    c, fl = (AMBER, SAND) if got[g] < need else (TEAL, MINT)
+    f.box(10, y + 8, w, 22, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 19, "%.0f ug = %.0f%%" % (got[g], got[g] / need * 100), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.line(10 + 100, 28, 10 + 100, 176, color=RED, dash=True)
+f.text(112, 186, "need 150", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 214, "5 g of iodised salt meets the daily need", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Anterior pituitary: **GH, TSH, ACTH, FSH, LH, prolactin**.

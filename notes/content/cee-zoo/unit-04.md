@@ -198,6 +198,33 @@ its cycle — the classic example of **balanced polymorphism**.
 **Solution.** The number multiplies by 16 each cycle: $16^3 = 4096$ infected RBCs in 6 days. After six cycles (12 days) it would be $16^6 \approx 1.7 \times 10^7$ — which is why symptoms appear about two weeks after a bite.
 :::
 
+
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Why malaria strikes after a delay. (a) A blood smear with Plasmodium parasites inside red blood cells. (b) Suppose the liver releases 10,000 merozoites and each infected red cell releases about 16 new merozoites every 48 hours (the factor used in this unit) (a simplified rate). The adult body holds 5 million red cells per microlitre in 5 litres, i.e. 2.5 x 10^13 cells. Fever begins near 100 parasites per microlitre (5 x 10^8 in the body), reached at cycle 4 (8 days); 1 per cent of red cells (2.5 x 10^11) would be reached at cycle 7 (14 days). The paroxysms every 48 hours (tertian fever of P. vivax and P. falciparum) are the synchronous bursts of each cycle."
+@ photo id="cee-zoo/plasmodium-smear" cap="Blood smear with Plasmodium"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Parasites in the body (log10) at each 48 h cycle"
+P0, k = 1e4, 16
+rbc = 5e6 * 5e6
+fev = 100 * 5e6
+one = 0.01 * rbc
+P = lambda c: P0 * k ** c
+cf = next(c for c in range(20) if P(c) >= fev)
+c1 = next(c for c in range(20) if P(c) >= one)
+assert (cf, c1) == (4, 7) and abs(rbc - 2.5e13) < 1
+facts = dict(rbc="2.5 x 10^13", fev="5 x 10^8", one="2.5 x 10^11", cf=cf, df=cf * 2, c1=c1, d1=c1 * 2)
+f = Fig(300, 236)
+f.text(150, 12, "log10 parasites against cycle number", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 9), (3, 13))
+ax.grid(1, 2).axes("cycle", "log P")
+ax.curve(lambda c: 4 + c * math.log10(16), 0, 9, color=RED)
+ax.hline(math.log10(fev), color=AMBER).hline(math.log10(one), color=NAVY)
+ax.pt(cf, math.log10(P(cf)), "fever", dx=8, dy=14, color=AMBER)
+ax.pt(c1, math.log10(P(c1)), "1%", dx=9, dy=4, color=NAVY)
+f.text(150, 206, "fever at cycle 4 (day 8); 1 per cent at cycle 7", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "simplified: x16 per 48 h from 10,000 merozoites", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.2 Earthworm (Pheretima): morphology, body systems, physiology and economic importance
 
 ### Position, habit and habitat
