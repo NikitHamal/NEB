@@ -325,6 +325,36 @@ energy unchanged" for a skater pulling in her arms are the classic distractors.
 About an axis through the centre: **ring** MR² > **disc** ½MR² > **solid sphere** (2/5)MR². What matters is how far the mass sits from the axis, not merely how much mass there is — hence in a race down an incline the solid sphere wins and the ring comes last, all with the same M and R. Also keep separate: **radius of gyration** (k, defined by I = Mk²) is not a physical radius of the body.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Rotation made numerical. (a) The platter of a hard disk turns as one rigid body, so every point has the same angular speed but a different linear speed. (b) At 7,200 rpm the angular speed is omega = 2 pi f = 754 rad/s. A point at 10 mm from the axis moves at v = omega r = 7.5 m/s, one at 20 mm at 15.1 m/s and one on the 32.5 mm rim at 24.5 m/s. The centripetal acceleration omega^2 r at the rim is 18,476 m/s^2, about 1,885 g. Treating an assumed 12 g platter as a solid disc, I = (1/2) m r^2 = 6.34e-06 kg m^2 and the rotational kinetic energy (1/2) I omega^2 is 1.80 J."
+@ photo id="sci10/hdd" cap="A hard-disk platter spinning at 7,200 revolutions per minute"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Linear speed and acceleration at three radii, 7,200 rpm"
+import math
+w = 2 * math.pi * 7200 / 60; m, R = 0.012, 0.0325
+r = [0.010, 0.020, 0.0325]; v = [w * x for x in r]; ac = w * w * R
+I = 0.5 * m * R * R; ke = 0.5 * I * w * w
+assert abs(w - 753.98) < 0.01 and abs(v[2] - 24.50) < 0.01 and abs(ac - 18474) < 5 and abs(ke - 0.5 * 0.5 * m * (v[2]) ** 2) < 1e-9
+facts = dict(w="%.0f" % w, v1="%.1f" % v[0], v2="%.1f" % v[1], v3="%.1f" % v[2], ac="{:,.0f}".format(ac), gees="{:,.0f}".format(ac / 9.8), I="%.2e" % I, ke="%.2f" % ke)
+f = Fig(300, 236)
+f.text(150, 14, "omega = %.0f rad/s  (same for every point)" % w, size=10.5, color=NAVY, bold=True)
+cx, cy = 86, 104
+for i, rr in enumerate(r):
+    pass
+f.circle(cx, cy, r[2] / R * 62, fill=BLUE, stroke=NAVY, sw=1.6); f.circle(cx, cy, 4, fill=NAVY, stroke=NAVY)
+cols = [TEAL, AMBER, RED]
+for i, rr in enumerate(r):
+    x = cx + rr / R * 62
+    f.line(cx, cy, x, cy, color=cols[i], sw=1.2, dash=True); f.circle(x, cy, 3.5, fill=cols[i], stroke=cols[i])
+    f.arrow([(x, cy), (x, cy - v[i] * 1.8)], color=cols[i], sw=2)
+f.text(214, 50, "10 mm", size=10.5, color=TEAL, bold=True); f.text(214, 66, "%.1f m/s" % v[0], size=10.5, color=TEAL)
+f.text(214, 88, "20 mm", size=10.5, color=AMBER, bold=True); f.text(214, 104, "%.1f m/s" % v[1], size=10.5, color=AMBER)
+f.text(214, 126, "32.5 mm", size=10.5, color=RED, bold=True); f.text(214, 142, "%.1f m/s" % v[2], size=10.5, color=RED)
+f.text(150, 188, "arrows: linear speed, same scale", size=10.5, color=SLATE)
+f.text(150, 204, "rim: omega^2 r = {:,.0f} m/s^2 = {:,.0f} g".format(ac, ac / 9.8), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "KE = (1/2) I omega^2 = %.2f J (12 g, assumed)" % ke, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula | SI unit and dimensions |

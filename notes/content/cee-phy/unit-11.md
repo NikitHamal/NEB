@@ -704,6 +704,33 @@ $f'' - f = f\dfrac{2v_s}{v - v_s}$.
 - **Astronomical redshift:** light from receding galaxies is shifted to longer
   wavelengths — evidence that the universe is expanding.
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Standing waves in pipes. (a) Organ pipes of different lengths, open at the top. (b) With v = 340 m/s and L = 0.50 m, an open pipe sounds f = n v / 2L: 340, 680 and 1020 Hz, all the harmonics in the ratio 1 : 2 : 3. A pipe closed at one end sounds f = (2n - 1) v / 4L: 170, 510 and 850 Hz, only the odd harmonics in the ratio 1 : 3 : 5. The closed pipe's fundamental is half that of the open pipe of the same length, which is why a closed pipe sounds an octave lower. Doubling the length of any pipe halves every frequency. The list is checked by finding the pipe lengths that fit whole numbers of quarter-wavelengths."
+@ photo id="ioephy/organ" cap="Organ pipes: each pipe sounds the harmonics allowed by its length"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="First three modes of open and closed 0.50 m pipes"
+v, L = 340.0, 0.50
+op = [n * v / (2 * L) for n in (1, 2, 3)]; cl = [(2 * n - 1) * v / (4 * L) for n in (1, 2, 3)]
+assert op == [340, 680, 1020] and cl == [170, 510, 850]
+for fr in op: assert abs(round(L / (v / fr / 2)) - L / (v / fr / 2)) < 1e-9
+for fr in cl: q = L / (v / fr / 4); assert abs(round(q) - q) < 1e-9 and round(q) % 2 == 1
+facts = dict(o1=340, o2=680, o3=1020, c1=170, c2=510, c3=850)
+f = Fig(300, 236)
+f.text(150, 14, "pipe length 0.50 m, speed of sound 340 m/s", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 20 + fr / 1100 * 262
+f.text(8, 40, "open pipe: all harmonics", size=10.5, color=TEAL, bold=True, anchor="start")
+f.line(X(0), 76, X(1100), 76, color=SLATE, sw=1.2)
+for n, fr in enumerate(op, 1):
+    f.line(X(fr), 76, X(fr), 52, color=TEAL, sw=3); f.text(X(fr), 90, "%d Hz" % fr, size=10.5, color=TEAL, bold=True); f.text(X(fr), 46 + 0, "", size=10)
+f.text(8, 118, "closed pipe: odd harmonics only", size=10.5, color=AMBER, bold=True, anchor="start")
+f.line(X(0), 154, X(1100), 154, color=SLATE, sw=1.2)
+for n, fr in enumerate(cl, 1):
+    f.line(X(fr), 154, X(fr), 130, color=AMBER, sw=3); f.text(X(fr), 168, "%d Hz" % fr, size=10.5, color=AMBER, bold=True)
+f.text(150, 196, "open: 1 : 2 : 3     closed: 1 : 3 : 5", size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "closed fundamental is half the open one", size=10.5, color=SLATE)
+f.text(150, 228, "double the length: every frequency halves", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
