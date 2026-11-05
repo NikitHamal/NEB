@@ -249,3 +249,53 @@ private fun androidx.compose.foundation.layout.BoxScope.Satellite(
         )
     }
 }
+
+
+/**
+ * The small version of the hero for the form screens: one tonal blob with the N mark that springs
+ * in, and tips between cookie and flower when the form flips between sign-in and sign-up.
+ */
+@Composable
+fun AuthGlyphMark(create: Boolean, modifier: Modifier = Modifier, size: Dp = 76.dp, dark: Boolean = false) {
+    val reduced = nebAnimationsReduced()
+    val enter = remember { Animatable(if (reduced) 1f else 0f) }
+    val enterSpec = nebSlowSpatialSpec<Float>()
+    LaunchedEffect(Unit) {
+        if (!reduced) enter.animateTo(1f, enterSpec)
+    }
+    val shapes = remember { listOf(NebGlyphShapes.Cookie, NebGlyphShapes.Flower) }
+    val position = androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (create) 1f else 0f,
+        animationSpec = if (reduced) androidx.compose.animation.core.snap()
+        else spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessLow),
+        label = "auth_mark_morph"
+    )
+    Box(
+        modifier = modifier
+            .size(size)
+            .graphicsLayer {
+                val v = enter.value
+                val sc = 0.5f + 0.5f * v
+                scaleX = sc
+                scaleY = sc
+                alpha = v.coerceIn(0f, 1f)
+                rotationZ = (1f - v) * -24f
+            }
+    ) {
+        NebMorphBlob(
+            shapes = shapes,
+            color = NebTone.Azure.container(dark),
+            modifier = Modifier.fillMaxSize(),
+            rotation = { position.value * 24f },
+            position = { position.value }
+        )
+        Image(
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize()
+                .graphicsLayer { scaleX = 1.12f; scaleY = 1.12f }
+        )
+    }
+}
