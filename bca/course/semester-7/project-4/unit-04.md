@@ -381,6 +381,45 @@ Pinning library versions in `requirements.txt` (for example `numpy==2.1.0`) matt
 7. **Keep a human fallback.** If the service is down or the model is retired, teachers must still be able to do their job with the attendance register. Describe the manual process in the report.
 8. **Plan the exit.** Say how data and models will be deleted when the project ends or the student leaves. A capstone that ignores the end of its own data's life has an unfinished privacy chapter.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Knowing when the model has gone stale. (a) A speedometer is a monitor: the driver reads it every few seconds without stopping the vehicle. (b) The population stability index (PSI) compares the distribution a model was trained on with the data it sees today. Attendance in the training set (2,000 students, mean 75, sd 12) was cut into ten equal-sized bins, and the share of new students falling in each bin was compared. A new semester drawn from the same population gives PSI = 0.021, which is stable. A semester in which attendance fell to a mean of 65 with more spread gives PSI = 0.62, above the usual retraining alarm of 0.25. The data are simulated and the thresholds are the common rule of thumb, but the check is cheap enough to run every week in a college deployment."
+@ photo id="bcapj/gauge" cap="A speedometer: watch the dial while the vehicle runs"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Drift monitor: PSI for stable vs shifted data"
+import numpy as np
+rng = np.random.default_rng(2081)
+train = rng.normal(75, 12, 2000)
+ok = rng.normal(75, 12, 500)
+shift = rng.normal(65, 15, 500)
+edges = np.quantile(train, np.linspace(0, 1, 11))
+edges[0], edges[-1] = -1e9, 1e9
+def prop(x):
+    c = np.histogram(x, edges)[0] / len(x)
+    return np.clip(c, 1e-4, None)
+e = prop(train)
+def psi(x):
+    a = prop(x)
+    return float(np.sum((a - e) * np.log(a / e)))
+p_ok, p_sh = psi(ok), psi(shift)
+assert p_ok < 0.1 and p_sh > 0.25
+facts = dict(ok=round(p_ok, 3), sh=round(p_sh, 2))
+f = Fig(300, 236)
+f.text(150, 12, "attendance %, 10 equal-size training bins", size=10.5, color=NAVY, bold=True)
+a_sh = prop(shift)
+for i in range(10):
+    x = 14 + i * 28
+    h1, h2 = e[i] * 600, a_sh[i] * 600
+    f.box(x, 130 - h1, 11, h1, "", fill=BLUE, stroke=NAVY, r=0, sw=1)
+    f.box(x + 12, 130 - h2, 11, h2, "", fill="#fecaca", stroke=RED, r=0, sw=1)
+f.line(10, 130, 292, 130, color=SLATE)
+f.text(150, 146, "blue = training, red = this semester", size=10.5, color=SLATE)
+for k, (nm, v, col) in enumerate([("stable semester", p_ok, TEAL), ("shifted semester", p_sh, RED)]):
+    y = 160 + k * 26
+    f.text(8, y + 8, nm, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(130, y, 160, 18, "PSI = %.3f" % v if v < 0.1 else "PSI = %.2f" % v, fill="#bbf7d0" if v < 0.1 else "#fecaca", stroke=col, color=col, size=11, bold=True, r=3, sw=1)
+f.text(150, 224, "below 0.1 stable, above 0.25 retrain", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

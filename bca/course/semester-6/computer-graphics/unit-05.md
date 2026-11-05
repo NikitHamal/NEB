@@ -273,6 +273,45 @@ tri(330, ["A", "C", "B"], RED, ROSE, True, "order A, C, B (clockwise)", False, "
 7. **Robotics and drones.** A robot arm is a chain of joints, and the position of its hand is found by multiplying one rotation and translation matrix per joint. A survey drone relates its camera, its own body and the ground by a similar chain of 4 × 4 matrices. The same maths turns photographs into 3D terrain models for land measurement.
 8. **Education and product visualisation.** A molecule viewer lets a chemistry student rotate a model, and an online shop lets a customer spin a 3D model of a phone or a pair of shoes. Both simply apply a rotation matrix to the vertices and re-project them after every mouse movement. This makes difficult 3D shapes understandable on a flat screen.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Perspective and culling in two numbers. (a) Railway tracks: the rails are parallel and 1.435 metres apart, yet on the picture they meet at the horizon. (b) With the eye at the origin and the screen at distance d, a point at depth z is drawn at x d / z, so the gap between the rails on the screen is 1.435 d / z. For d = 1 it is 0.718 at depth 2 and only 0.0143 at depth 100, and each doubling of the distance halves the gap: the whole of foreshortening is one division. The second result concerns back-face culling: a cube was given 20,000 random orientations (fixed seed) and its outward normals were tested against the viewing direction. Never more than 3 faces face the viewer, and on average 3.0 do, so culling the back faces halves the polygons to be filled."
+@ photo id="bca-cg/rails" cap="Parallel rails converge on the horizon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Perspective: gap = 1.435 d / z, and culling"
+import math
+import numpy as np
+gap, h, d = 1.435, 1.5, 1.0
+zs = [2, 5, 10, 25, 50, 100]
+g = [gap * d / z for z in zs]
+assert all(abs(g[i] * zs[i] - gap) < 1e-9 for i in range(6))
+rng = np.random.default_rng(2081)
+N = 20000
+vis = []
+normals = np.array([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], float)
+for _ in range(N):
+    q, _r = np.linalg.qr(rng.normal(size=(3, 3)))
+    vis.append(int(np.sum((normals @ q.T)[:, 2] > 0)))
+mean_vis = sum(vis) / N
+assert max(vis) == 3 and abs(mean_vis - 3.0) < 0.05
+three = vis.count(3) / N
+facts = dict(g2=round(g[0], 3), g100=round(g[-1], 4), mean=round(mean_vis, 2), three=round(100 * three), maxv=max(vis))
+f = Fig(300, 236)
+f.text(150, 12, "rails 1.435 m apart, camera 1.5 m high, d = 1", size=10.5, color=NAVY, bold=True)
+def P(x, z):
+    return (150 + x / z * 120, 40 + (h / z) * 120)
+for sgn in (-1, 1):
+    a, b = P(sgn * gap / 2, 100), P(sgn * gap / 2, 1.8)
+    f.line(a[0], a[1], b[0], b[1], color=NAVY, sw=2.2)
+for z in (2, 3, 5, 8, 13, 21, 34, 55):
+    a, b = P(-0.9, z), P(0.9, z)
+    f.line(a[0], a[1], b[0], b[1], color="#a16207", sw=1.6)
+f.line(30, 40, 270, 40, color=SLATE, dash=True)
+f.text(278, 36, "horizon", size=10.5, color=SLATE, anchor="end")
+f.text(150, 188, "gap on screen: z=2 %.3f, z=10 %.3f, z=100 %.4f" % (g[0], g[2], g[-1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "double the distance, half the gap", size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "cube, %d random turns: %.2f faces visible" % (N, mean_vis), size=10.5, color=RED, bold=True)
+```
+
 ## Chapter summary
 
 - 3D transformations are 4 × 4 matrices; rotations about x, y, z are orthogonal matrices with determinant 1; order of composition matters.

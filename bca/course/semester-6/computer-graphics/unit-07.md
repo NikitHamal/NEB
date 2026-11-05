@@ -280,6 +280,49 @@ f.text(290, 184, "30 fps instead of 24 fps: 2,700 frames, 1.25 times as many to 
 7. **Education and e-learning videos.** Teachers produce explanatory animations in which a diagram is morphed from one stage to the next, such as a triangle changing into another shape or a cell dividing. Pupils follow a process more easily than from a still picture. Online classes made for Nepali schools use this technique.
 8. **Film special effects and medicine.** Morphing blends one face or object into another, and motion capture records the movement of real performers. In medicine the beating heart from a scan is animated by interpolating between frames. Both rely on the same idea: keyframes are fixed and the computer fills in between.
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Motion that feels natural. (a) A roller coaster climbs slowly, rushes through the middle and eases to the end, like the ease-in-out curve used in user-interface animation. (b) The CSS timing function cubic-bezier(0.42, 0, 0.58, 1) is a cubic Bezier curve whose x coordinate is time and whose y coordinate is progress. It was solved for each of the 24 frames of a one-second move of 240 pixels. Frame 1 moves only 0.8 pixels where linear motion moves 10.0, the middle of the move runs at 1.72 times the average speed, and the start at 0.08 times, while frame 12 is exactly half way. Two control points are therefore enough to describe an acceleration profile; in a mobile app this is the difference between a button that glides and one that jerks."
+@ photo id="bca-cg/coaster" cap="A roller coaster: slow start, fast middle, slow end"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Ease-in-out Bezier vs linear motion"
+def bez(p1, p2, t):
+    return 3 * (1 - t) ** 2 * t * p1 + 3 * (1 - t) * t ** 2 * p2 + t ** 3
+def ease(u):
+    lo, hi = 0.0, 1.0
+    for _ in range(60):
+        m = (lo + hi) / 2
+        if bez(0.42, 0.58, m) < u:
+            lo = m
+        else:
+            hi = m
+    return bez(0.0, 1.0, (lo + hi) / 2)
+fr = 24
+prog = [ease(i / fr) for i in range(fr + 1)]
+mv = [(prog[i + 1] - prog[i]) * fr for i in range(fr)]
+assert abs(prog[12] - 0.5) < 1e-6 and max(mv) > 1.4 and min(mv) < 0.1
+first = round(prog[1] * 240, 2)
+lin = round(240 / fr, 2)
+facts = dict(first=first, lin=lin, mx=round(max(mv), 2), mn=round(min(mv), 3))
+f = Fig(300, 236)
+f.text(150, 12, "cubic-bezier(0.42, 0, 0.58, 1), 24 frames", size=10.5, color=NAVY, bold=True)
+x0, y0, S = 20, 150, 120
+f.line(x0, y0, x0 + S, y0, color=SLATE)
+f.line(x0, y0, x0, y0 - S, color=SLATE)
+f.line(x0, y0, x0 + S, y0 - S, color="#94a3b8", sw=1.2, dash=True)
+for i in range(24):
+    f.line(x0 + i / 24 * S, y0 - prog[i] * S, x0 + (i + 1) / 24 * S, y0 - prog[i + 1] * S, color=NAVY, sw=2.2)
+for i in (0, 6, 12, 18, 24):
+    f.circle(x0 + i / 24 * S, y0 - prog[i] * S, 3.5, fill="#fde68a", stroke=RED)
+f.text(x0 + S / 2, y0 + 14, "time", size=10.5, color=SLATE)
+f.text(150, 50, "frame 1 moves", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(150, 66, "%.2f px of 240" % first, size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 82, "(linear: %.2f px)" % lin, size=10.5, color=SLATE, anchor="start")
+f.text(150, 108, "peak speed %.2fx" % max(mv), size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 124, "start speed %.2fx" % min(mv), size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 190, "frame 12 is exactly half way", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "dashed grey = linear motion", size=10.5, color=SLATE)
+```
+
 ## Chapter summary
 
 - Parametric curves with control points give designers local, predictable shape control; continuity is described as C⁰, C¹, C².
