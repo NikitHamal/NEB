@@ -571,6 +571,29 @@ f.text(150, 204, "1 kg water 25 to 100 C: %.1f kJ" % q, size=10.5, color=NAVY, b
 f.text(150, 222, "= %.1f g methane (%.1f L)" % (gm, vm), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="11.2" cols="2" ratio="1.2" caption="Measuring heat with a thermometer. (a) A calorimeter is an insulated metal cup with a lid, a thermometer and a stirrer. (b) The cell models the neutralisation of HCl by NaOH, with a standard enthalpy of -57.1 kJ per mole of water formed. Mixing 50 mL of 1.0 M acid and 50 mL of 1.0 M base forms 0.050 mol of water and releases 2855 J, which warms 100 g of solution and a calorimeter of heat capacity 20 J/K by 6.52 K. Halving the concentration gives 3.26 K and doubling it 13.04 K, so the rise is proportional to the moles reacted. Ignoring the heat taken up by the cup would give 6.83 K, an error of about 5 per cent."
+@ photo id="ceechem2/calorimeter" cap="A simple aluminium calorimeter with thermometer and stirrer"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature rise in a neutralisation experiment"
+dH = 57100.0
+C = 100 * 4.18 + 20
+rows = []
+for M in (0.5, 1.0, 2.0):
+    n = 0.050 * M
+    rows.append(("%.1f M" % M, n * dH / C))
+assert round(rows[1][1], 2) == 6.52 and round(rows[0][1], 2) == 3.26
+f = Fig(300, 236)
+f.text(150, 12, "Rise in temperature, kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=14, fmt="%.2f", x0=48, y0=32, bw=170, gap=32)
+f.text(150, 142, "50 mL acid + 50 mL base, equal molarity", size=10, color=SLATE, bold=True)
+f.text(150, 168, "q = n x 57.1 kJ/mol; dT = q / (m c + C)", size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "m c = 100 x 4.18 = 418 J/K, C = 20 J/K", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "1.0 M: 0.050 mol gives %.0f J" % (0.05 * dH), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "(without the cup, dT would be %.2f K)" % (0.05 * dH / 418), size=10, color=SLATE, bold=True)
+facts = dict(t1=rows[1][1], t0=rows[0][1], t2=rows[2][1], q=0.05 * dH, nc=0.05 * dH / 418)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Note |

@@ -428,6 +428,29 @@ f.text(150, 202, "n=6: %.1f nm, %.2f eV" % (L[6], hc / L[6]), size=10.5, color="
 f.text(150, 220, "series limit %.1f nm" % lim, size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Seeing atoms needs a short wavelength. (a) A transmission electron microscope accelerates electrons through tens of kilovolts and focuses them with magnetic lenses. (b) The cell applies de Broglie's relation, wavelength = h / p, with the relativistic correction for fast electrons: an electron accelerated through 100 V has a wavelength of 0.1226 nm, close to a bond length, while at 100 kV it is only 3.70 pm and at 200 kV 2.51 pm. Green light has a wavelength of 550 nm, about 219304 times longer than a 200 kV electron wave, so electrons resolve details that light cannot. The wave nature of matter is not a theory on paper but the working principle of an instrument."
+@ photo id="ceechem2/tem" cap="A transmission electron microscope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="de Broglie wavelength of accelerated electrons"
+import math
+h, m, e, c = 6.62607e-34, 9.10938e-31, 1.602177e-19, 2.99792458e8
+def lam(V):
+    return h / math.sqrt(2 * m * e * V * (1 + e * V / (2 * m * c * c)))
+rows = [(v, lam(v) * 1e12) for v in (100, 1000, 100000, 200000)]
+assert round(rows[0][1] / 1000, 4) == 0.1226 and round(rows[2][1], 2) == 3.70 and round(rows[3][1], 2) == 2.51
+f = Fig(300, 236)
+f.text(150, 12, "Electron wavelength, picometres", size=10.5, color=NAVY, bold=True)
+import math as _m
+hbars(f, [("%s V" % format(v, ","), _m.log10(p)) for v, p in rows], vmax=_m.log10(rows[0][1]), fmt="%.2f", x0=76, bw=130)
+for i, (v, p) in enumerate(rows):
+    f.text(292, 42 + i * 32, "%.2f pm" % p, size=9.5, color=SLATE, bold=True, anchor="end", vmid=True)
+f.text(150, 178, "bar length = log10 of wavelength (pm)", size=10, color=SLATE, bold=True)
+f.text(150, 200, "green light: 550 nm = 550,000 pm", size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "200 kV electron is %d times shorter" % round(550000 / rows[3][1]), size=10.5, color=SLATE, bold=True)
+facts = dict(l100=rows[0][1] / 1000, k100=rows[2][1], k200=rows[3][1], ratio=round(550000 / rows[3][1]))
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula / value |

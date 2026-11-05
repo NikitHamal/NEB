@@ -376,6 +376,28 @@ f.text(150, 184, "ratio to ionisation: %.2f to %.2f" % (min(ratios), max(ratios)
 f.text(150, 202, "IE falls: Li 520 > Na 496 > K 419", size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Bigger atoms let go of their outer electron more easily. (a) Sodium is a soft silvery metal whose single 3s electron is lost with ease. (b) The cell lists the first ionisation energy and the atomic radius of the five alkali metals. From lithium to caesium the energy falls by 27.7 per cent (520 to 376 kJ/mol) while the radius rises from 152 to 265 pm, because the outer electron sits in a higher shell, farther from the nucleus and shielded by more inner electrons. The product IE x r stays between 79 and 100 thousand kJ pm/mol, which is why a simple inverse relation to radius explains the trend and why caesium is the most reactive of the group."
+@ photo id="ceechem2/sodium2" cap="Cut pieces of sodium, a soft group-1 metal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Group 1: ionisation energy against atomic radius"
+els = ["Li", "Na", "K", "Rb", "Cs"]
+ie = [520, 496, 419, 403, 376]
+r = [152, 186, 227, 248, 265]
+prod = [a * b / 1000 for a, b in zip(ie, r)]
+drop = (ie[0] - ie[-1]) / ie[0] * 100
+assert round(drop, 1) == 27.7 and min(prod) > 79 and max(prod) < 100
+f = Fig(300, 236)
+f.text(150, 12, "Group 1: IE falls as radius grows", size=10.5, color=NAVY, bold=True)
+hbars(f, [(n, a) for n, a in zip(els, ie)], vmax=520, fmt="%d", x0=40, y0=28, bw=120, gap=26)
+for i, v in enumerate(r):
+    f.text(292, 36 + i * 26, "r = %d pm" % v, size=9.5, color=SLATE, bold=True, anchor="end", vmid=True)
+f.text(150, 170, "first ionisation energy, kJ/mol", size=10, color=SLATE, bold=True)
+f.text(150, 200, "IE x r stays near %.0f to %.0f (x1000)" % (min(prod), max(prod)), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "so IE is roughly proportional to 1/r", size=10.5, color=SLATE, bold=True)
+facts = dict(drop=drop, lo=min(prod), hi=max(prod))
+```
+
 ## Formula and fact sheet
 
 | Item | Value or rule |

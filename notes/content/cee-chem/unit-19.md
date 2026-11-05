@@ -364,6 +364,27 @@ f.text(150, 178, "NaOH needed: %.2f g" % naoh, size=10.5, color=NAVY, bold=True)
 f.text(150, 196, "balance: %.2f g in, %.2f g out" % (tin, tout), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="19.2" cols="2" ratio="1.2" caption="Acetylation of salicylic acid. (a) Aspirin tablets contain acetylsalicylic acid, made by treating salicylic acid with acetic anhydride. The phenolic -OH becomes an ester, and a little acid catalyst speeds the reaction. (b) The cell balances the equation C7H6O3 + C4H6O3 gives C9H8O4 + C2H4O2 in grams. 2.00 g of salicylic acid (0.0145 mol) needs 1.48 g of acetic anhydride and gives 2.61 g of aspirin and 0.87 g of acetic acid; the masses in and out are equal. The atom economy is 75.0 per cent, since a quarter of the reactant mass leaves as acetic acid. A 70 per cent yield is 1.83 g, and one 325 mg tablet is 1.80 mmol."
+@ photo id="ceechem2/aspirin" cap="Aspirin tablets (acetylsalicylic acid)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance of aspirin synthesis"
+Msa, Mac, Masp, Mhoac = 138.12, 102.09, 180.16, 60.05
+n = 2.00 / Msa
+rows = [("salicylic acid", 2.00), ("acetic anhydride", n * Mac), ("aspirin", n * Masp), ("acetic acid", n * Mhoac)]
+assert round(rows[2][1], 2) == 2.61 and abs(rows[0][1] + rows[1][1] - rows[2][1] - rows[3][1]) < 1e-9
+ae = Masp / (Msa + Mac) * 100
+f = Fig(300, 236)
+f.text(150, 12, "Mass balance for 2.00 g of salicylic acid, g", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3.0, fmt="%.2f", x0=104, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 160, "in: %.2f g   out: %.2f g" % (rows[0][1] + rows[1][1], rows[2][1] + rows[3][1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 180, "atom economy = 180.16 / 240.21 = %.1f%%" % ae, size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "70%% yield: %.2f g of aspirin" % (0.7 * rows[2][1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "one 325 mg tablet = %.2f mmol" % (325 / Masp), size=10, color=SLATE, bold=True)
+facts = dict(asp=rows[2][1], ac=rows[1][1], aa=rows[3][1], ae=ae, y70=0.7 * rows[2][1], mm=325 / Masp)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

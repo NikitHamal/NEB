@@ -435,6 +435,29 @@ f.text(150, 208, "lattice enthalpy = %d kJ/mol" % u, size=10.5, color=NAVY, bold
 f.text(150, 226, "ion formation costs +%d kJ/mol" % up, size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Hydrogen bonds hold water together. (a) A water strider walks on water because hydrogen bonding gives the surface a high tension of 72 mN/m at 25 degrees C. (b) The cell fits a straight line to the boiling points of H2S, H2Se and H2Te against molar mass and extends it to H2O. Without hydrogen bonds water, with a molar mass of 18, would boil near 200 K (-73 degrees C) and be a gas at room temperature. It actually boils at 373 K, higher by 173 K. The same hydrogen bonding explains the high surface tension, the low density of ice and the anomalies of HF and NH3."
+@ photo id="ceechem2/strider" cap="A water strider standing on water"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Boiling points of group 16 hydrides"
+import numpy as np
+M = np.array([34.08, 80.98, 129.62])
+T = np.array([212.8, 231.9, 271.2])
+k, b = np.polyfit(M, T, 1)
+pred = k * 18.015 + b
+actual = 373.15
+assert 195 < pred < 205
+f = Fig(300, 236)
+f.text(150, 12, "Boiling point of H2X, kelvin", size=10.5, color=NAVY, bold=True)
+rows = [("H2S", 212.8), ("H2Se", 231.9), ("H2Te", 271.2), ("H2O (trend)", pred), ("H2O (real)", actual)]
+hbars(f, rows, vmax=400, fmt="%.0f", x0=84, y0=28, bw=170, gap=28,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (BLUE, NAVY), (SOFT, SLATE), (ROSE, RED)])
+f.text(150, 188, "gap caused by hydrogen bonding: %.0f K" % (actual - pred), size=10.5, color=RED, bold=True)
+f.text(150, 206, "trend line through S, Se, Te predicts %.0f K" % pred, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "(about %.0f deg C) for water" % (pred - 273.15), size=10.5, color=SLATE, bold=True)
+facts = dict(pred=pred, pc=pred - 273.15, gap=actual - pred)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

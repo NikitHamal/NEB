@@ -413,6 +413,29 @@ f.text(150, 190, "%.1f per cent by mass, about %.0f beers" % (mass, g / beer), s
 f.text(150, 208, "energy about %s kcal" % "{:,.0f}".format(kcal), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="18.2" cols="2" ratio="1.2" caption="Ethanol vapour in the breath. (a) A handheld tester draws a breath sample through a fuel cell or a semiconductor sensor and shows the alcohol level. (b) Ethanol is volatile and dissolves in water, so alcohol in the blood of the lung capillaries evaporates into the air in the lungs until a fixed ratio is reached (Henry's law). At body temperature there is about 2100 times more alcohol in a volume of blood than in the same volume of breath. A blood alcohol level of 0.05 g per 100 mL (0.5 g/L) therefore gives 0.238 mg per litre of breath, about 130 ppm of vapour, and a level of 0.15 g per 100 mL gives 0.714 mg per litre."
+@ photo id="ceechem2/breath" cap="A breath alcohol tester (Drivesafe)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Breath alcohol and blood alcohol"
+ratio = 2100.0
+rows = []
+for bac in (0.02, 0.05, 0.08, 0.15):
+    gL = bac * 10
+    rows.append(("%.2f g/dL" % bac, gL / ratio * 1000))
+assert round(rows[1][1], 3) == 0.238
+Vm = 0.082057 * 307.15
+ppm = rows[1][1] / 1000 / 46.07 * Vm * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Alcohol in breath, mg per litre", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=0.8, fmt="%.3f", x0=70, y0=30, bw=150, gap=30)
+f.text(150, 160, "blood : breath = 2100 : 1 at 34 C (Henry's law)", size=10, color=SLATE, bold=True)
+f.text(150, 184, "0.05 g/dL = 0.5 g/L = %.3f mg per L of breath" % rows[1][1], size=10, color=NAVY, bold=True)
+f.text(150, 204, "= %.0f ppm of ethanol vapour by volume" % ppm, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "(C2H5OH = 46.07 g/mol, 25.2 L/mol at 34 C)", size=10, color=SLATE, bold=True)
+facts = dict(b=rows[1][1], ppm=ppm, b2=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |
