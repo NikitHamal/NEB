@@ -257,6 +257,45 @@ f.text(150, 214, "4 of 6 orders lose an update (67%)", size=10.5, color=RED, bol
 f.text(150, 230, "fix: transaction, lock or one UPDATE", size=10.5, color=TEAL, bold=True)
 ```
 
+```photogrid label="2.3" cols="2" ratio="1.27" caption="A race condition happens when the result depends on the timing of two actions that share data. (a) A switch joins the clerks' computers to one server, so two requests can arrive in the same instant. (b) Each clerk reads the last token, 41, adds one and writes it back. Enumerating every order of the four steps in which each clerk reads before writing gives 6 schedules, and 4 of them leave the counter at 42, so two patients get the same token; only 2 give the correct 43. That is 67 per cent of schedules. A single atomic UPDATE inside a transaction, plus a UNIQUE constraint, makes the wrong ones impossible."
+@ photo id="bca306/switch" cap="The network switch connecting two clerks to one server"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Two clerks, one token counter: lost update"
+import itertools
+def run(order):
+    counter = 41
+    reg = {}
+    for who, op in order:
+        if op == "read":
+            reg[who] = counter
+        else:
+            counter = reg[who] + 1
+    return counter
+orders = [o for o in itertools.permutations([("A", "read"), ("A", "write"), ("B", "read"), ("B", "write")]) if o.index(("A", "read")) < o.index(("A", "write")) and o.index(("B", "read")) < o.index(("B", "write"))]
+res = [run(o) for o in orders]
+bad = res.count(42)
+good = res.count(43)
+assert len(orders) == 6 and bad + good == 6 and (bad, good) == (4, 2)
+f = Fig(300, 236)
+f.text(150, 14, "Two clerks both issue the next token (last = 41)", size=10, color=NAVY, bold=True)
+lanes = [("A: read", 30, NAVY), ("A: write", 100, NAVY), ("B: read", 60, TEAL), ("B: write", 130, TEAL)]
+f.text(8, 40, "Clerk A", size=10, anchor="start", bold=True, color=NAVY)
+f.box(60, 32, 90, 16, "read 41", fill=BLUE, stroke=NAVY, size=9, r=2)
+f.box(200, 32, 90, 16, "write 42", fill=BLUE, stroke=NAVY, size=9, r=2)
+f.text(8, 68, "Clerk B", size=10, anchor="start", bold=True, color=TEAL)
+f.box(100, 60, 90, 16, "read 41", fill=MINT, stroke=TEAL, size=9, r=2)
+f.box(200, 60, 90, 16, "write 42", fill=MINT, stroke=TEAL, size=9, r=2)
+f.text(150, 98, "both patients receive token 42: lost update", size=10, color=RED, bold=True)
+f.text(150, 124, "all %d valid interleavings of 4 steps:" % len(orders), size=10, color=SLATE)
+f.box(30, 134, 240 * bad / 6.0, 24, "%d give 42 (wrong)" % bad, fill=RED, stroke=RED, color="#ffffff", size=9.5, bold=True, r=2)
+f.box(30 + 240 * bad / 6.0, 134, 240 * good / 6.0, 24, "%d give 43" % good, fill=TEAL, stroke=TEAL, color="#ffffff", size=9, bold=True, r=2)
+f.text(150, 184, "%.0f %% of the schedules lose an update" % (100.0 * bad / 6), size=10.5, color=RED, bold=True)
+f.text(150, 202, "fix: UPDATE ... SET n = n + 1 inside a transaction,", size=9.5, color=NAVY)
+f.text(150, 216, "or a UNIQUE constraint on (day, token)", size=9.5, color=NAVY)
+facts = dict(bad=bad, good=good, pct="%.0f" % (100.0 * bad / 6))
+```
+
 ## Formula and fact sheet
 
 - Request line: `METHOD /path HTTP/1.1`; reply status line: `HTTP/1.1 201 Created`.

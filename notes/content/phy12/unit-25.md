@@ -402,6 +402,34 @@ ripple in that field, and detecting it in 2012 confirmed the mechanism." It does
 of the quarks inside its nucleons.
 :::
 
+```photogrid label="25.P" cols="2" ratio="1.27" caption="A seismometer records the fast P waves first and the slower S waves later, and the delay between them gives the distance to the focus. (a) Collapsed brick buildings at Bhaktapur after the Gorkha earthquake of 25 April 2015, which measured Mw 7.8 and killed about 9,000 people. (b) With P waves at 6.0 km per second and S waves at 3.5, each kilometre adds 0.12 seconds of lag, so a lag of 40 s means a distance of 336 km. Three stations give three circles that meet at the epicentre. Because energy grows as 10^(1.5 M), a magnitude 7.8 shock releases 31.6 times the energy of a 6.8 shock."
+@ photo id="phy12/bhaktapur" cap="Collapsed buildings at Bhaktapur after the 2015 earthquake"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Locating an earthquake from the S-P time lag"
+import math
+vp, vs = 6.0, 3.5
+k = 1.0 / vs - 1.0 / vp
+lag = 40.0
+d = lag / k
+tp, ts = d / vp, d / vs
+assert abs(ts - tp - lag) < 1e-9
+ratio = 10 ** (1.5 * (7.8 - 6.8))
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (0, 800), (0, 240))
+ax.grid(200, 60, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="km", yl="s")
+ax.curve(lambda x: x / vp, 0, 800, color=NAVY, sw=2.2, label="P", lx=700, ly=150)
+ax.curve(lambda x: x / vs, 0, 800, color=RED, sw=2.2, label="S", lx=560, ly=215)
+ax.vline(d, 0, ts, color=SLATE)
+ax.pt(d, tp, "P %.0f s" % tp, dx=8, dy=14)
+ax.pt(d, ts, "S %.0f s" % ts, dx=-8, dy=-6, anchor="end")
+f.text(150, 14, "Travel times of P (6.0) and S (3.5 km/s) waves", size=10, color=NAVY, bold=True)
+f.text(150, 207, "S-P lag %.0f s gives d = lag / (1/vs - 1/vp) = %.0f km" % (lag, d), size=9.5, color=RED, bold=True)
+f.text(150, 222, "Mw 7.8 against Mw 6.8: %.1f times the energy" % ratio, size=10, color=NAVY, bold=True)
+facts = dict(d="%.0f" % d, ratio="%.1f" % ratio, lag="%.0f" % lag)
+```
+
 ## Chapter summary
 
 - Body waves: **P** (longitudinal, ~6 km s⁻¹, passes through liquids) and **S**

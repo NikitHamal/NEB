@@ -596,6 +596,30 @@ only **along one streamline**. Do not use it for turbulent flow, or for a real
 viscous liquid in a long pipe where energy is lost as heat.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Surface tension is the pull along the surface of a liquid that makes it act like a stretched skin. (a) A water strider stands on the film without wetting its legs, because the tension of the surface supports its weight. (b) The same property drives capillary rise: in a glass tube of radius r, water with zero contact angle rises to h = 2T/(rho g r). Using T = 0.0728 N per metre, a 0.5 mm radius tube lifts the water 29.7 mm and a 0.1 mm tube lifts it 149 mm. Since h is proportional to 1/r, thinner tubes lift water higher, which is how plant roots and lamp wicks work."
+@ photo id="phy12/strider" cap="A water strider standing on the surface film"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Capillary rise of water in a glass tube"
+import math
+T, rho, g = 0.0728, 998.0, 9.81
+def h(r_mm):
+    return 2 * T / (rho * g * r_mm / 1000.0) * 1000.0
+h05, h01 = h(0.5), h(0.1)
+assert abs(h05 - 29.7) < 0.1
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (0, 1.5), (0, 160))
+ax.grid(0.5, 40, xfmt=lambda v: "%g" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="r (mm)", yl="h (mm)")
+ax.curve(lambda r: h(r), 0.095, 1.5, color=NAVY, sw=2.4)
+ax.pt(0.5, h05, "%.1f mm" % h05, dx=8, dy=-8)
+ax.pt(0.1, h01, "%.0f mm" % h01, dx=8, dy=4)
+f.text(150, 14, "h = 2 T cos(0) / (rho g r) for water", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "T = 0.0728 N/m, rho = 998 kg/m3", size=10, color=SLATE)
+f.text(150, 225, "halving the radius doubles the rise", size=10.5, color=RED, bold=True)
+facts = dict(h05="%.1f" % h05, h01="%.0f" % h01)
+```
+
 ## Chapter summary
 
 - $P = h\rho g$ (gauge), $P = P_0 + h\rho g$ (absolute); pressure depends on
