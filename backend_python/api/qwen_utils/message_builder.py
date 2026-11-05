@@ -67,18 +67,6 @@ def build_feature_config(
     }
 
 
-def resolve_chat_mode(chat_type: str) -> str:
-    if chat_type == "search":
-        return "search"
-    if chat_type == "deep_research":
-        return "deep_research"
-    if chat_type == "artifacts":
-        return "artifacts"
-    if chat_type == "web_dev":
-        return "web_dev"
-    return "normal"
-
-
 def build_msg_payload(
     chat_id: str,
     model: str,

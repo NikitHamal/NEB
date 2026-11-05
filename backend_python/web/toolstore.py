@@ -4,21 +4,12 @@ import uuid
 
 from django.core.cache import cache
 
-SRC_TTL = 6 * 3600
 ART_TTL = 24 * 3600
 
 
 def _pack(obj):
     raw = json.dumps(obj).encode("utf-8")
     return base64.b64encode(raw)
-
-
-def _unpack(blob):
-    try:
-        val = json.loads(base64.b64decode(blob))
-        return val if isinstance(val, dict) else None
-    except Exception:
-        return None
 
 
 def put_artifact(owner_id, name, mime, data):
