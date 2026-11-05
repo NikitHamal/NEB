@@ -294,6 +294,53 @@ f.text(290, 162, "dark = boundary pixels (one corner pixel missing), green = fil
 7. **It is easy to implement and test.** The whole algorithm is about ten lines of code. You can check it by hand with a table, as in the worked answers. Small code means fewer bugs.
 8. **It is the basis of hardware rasterisers.** GPUs draw millions of lines and triangle edges a second using incremental methods of the same type. A student who understands Bresenham understands why edge functions in GPUs are incremental. The method has lasted for sixty years.
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Counting what each line algorithm costs. (a) Cross-stitch embroidery: the design is a grid and each stitch fills exactly one cell, exactly as a line is turned into pixels on a raster screen. (b) The same line from (0,0) to (24,10) was drawn by both algorithms. Both choose 25 pixels, one for each column. DDA adds a fractional step to x and y 48 times and rounds each result, so it uses floating-point arithmetic; Bresenham keeps one integer decision variable and needs only 24 integer additions (and one comparison per step). The two lines differ in 2 pixel positions here, where the rounding of the float steps picks the other neighbour; the other pixels agree. Both are correct digital lines, but Bresenham is faster and drift-free because it never accumulates floating-point error."
+@ photo id="bca-cg/crossstitch" cap="Cross-stitch: every stitch is a pixel"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Line (0,0) to (24,10): DDA vs Bresenham"
+import math
+x1, y1 = 24, 10
+st = max(x1, y1)
+dda = []
+x = y = 0.0
+xi, yi = x1 / st, y1 / st
+for _ in range(st + 1):
+    dda.append((math.floor(x + 0.5), math.floor(y + 0.5)))
+    x += xi
+    y += yi
+bres = []
+d = 2 * y1 - x1
+yy = 0
+for xx in range(x1 + 1):
+    bres.append((xx, yy))
+    if d > 0:
+        yy += 1
+        d += 2 * (y1 - x1)
+    else:
+        d += 2 * y1
+sd, sb = set(dda), set(bres)
+diff = len(sd ^ sb)
+fl = 2 * st
+ints = st
+facts = dict(n=len(bres), diff=len(sd - sb), fl=fl, ints=ints)
+f = Fig(300, 236)
+f.text(150, 12, "25 stitches wide, 11 high", size=10.5, color=NAVY, bold=True)
+c = 9
+ox, oy = 11, 24
+for (px, py) in bres:
+    f.box(ox + px * c, oy + (10 - py) * c, c - 1, c - 1, "", fill="#1e3a8a", stroke="#1e3a8a", r=0, sw=0.5)
+for (px, py) in sd - sb:
+    f.box(ox + px * c, oy + (10 - py) * c, c - 1, c - 1, "", fill="#fca5a5", stroke=RED, r=0, sw=1)
+for (px, py) in sb - sd:
+    f.box(ox + px * c, oy + (10 - py) * c, c - 1, c - 1, "", fill="#fbbf24", stroke=AMBER, r=0, sw=1)
+f.line(ox, oy + 11 * c, ox + 25 * c, oy + 11 * c, color=SLATE)
+f.text(150, 166, "navy: Bresenham, red/amber: where DDA differs", size=10.5, color=SLATE)
+f.text(150, 184, "DDA: %d float adds, %d roundings" % (2 * st, 2 * st), size=10.5, color=RED, bold=True)
+f.text(150, 200, "Bresenham: %d integer additions" % ints, size=10.5, color=TEAL, bold=True)
+f.text(150, 218, "pixels that differ: %d of %d" % (len(sd - sb), len(sb)), size=10.5, color=NAVY, bold=True)
+```
+
 ## Chapter summary
 
 - Scan conversion picks pixels for primitives; step along the major axis and update an error term.

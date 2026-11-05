@@ -296,6 +296,52 @@ f.arrow([(300, 94), (300, 62)], color=RED)
 7. **Split once and fix the seed.** Make the stratified split with a fixed random seed and save the row ids of each part. Never re-split after seeing results. Repeating the split until the score looks good is a form of cheating even if done innocently.
 8. **Protect the people in the rows.** Remove names and phone numbers, replace roll numbers with random ids, and store the file where only the project team can read it. Under Nepal's Individual Privacy Act 2075 personal data needs care. The safest demo uses simulated data, as this book does.
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="When a perfect score is a warning. (a) Students in an entrance examination: the paper is sealed until the start because knowing the answers in advance makes the result meaningless. (b) A simulated pass or fail table of 600 students (fixed seed) was split 360, 120 and 120. Guessing pass for everyone scores 54 per cent on the unseen test set, attendance alone 62 per cent and study hours alone 68 per cent: realistic, modest numbers for an honest model. A column holding the final-exam mark scores 99 per cent, but that mark is only known after the pass or fail decision, so it leaks the answer and the model would be useless on the day it is needed. When a student project reports almost 100 per cent, check every column for information that would not exist at prediction time."
+@ photo id="bcapj/exam" cap="Students in an entrance examination: the test is sealed"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Honest features vs a leaky one"
+import numpy as np
+rng = np.random.default_rng(2081)
+n = 600
+att = rng.normal(75, 12, n).clip(30, 100)
+hrs = rng.normal(2.5, 1, n).clip(0, 6)
+score = 0.5 * (att - 75) / 12 + 0.6 * (hrs - 2.5) + rng.normal(0, 1.0, n)
+y = (score > -0.2).astype(int)
+final = np.where(y == 1, rng.normal(58, 8, n), rng.normal(30, 8, n))
+tr, va, te = slice(0, 360), slice(360, 480), slice(480, 600)
+def stump(x, yy):
+    best = (0, 0, 1)
+    for t in np.unique(x):
+        for s in (1, -1):
+            a = np.mean((s * (x - t) > 0).astype(int) == yy)
+            if a > best[0]:
+                best = (a, t, s)
+    return best
+def test_acc(x):
+    a, t, s = stump(x[tr], y[tr])
+    return float(np.mean((s * (x[te] - t) > 0).astype(int) == y[te]))
+base = float(max(np.mean(y[te]), 1 - np.mean(y[te])))
+acc = [base, test_acc(att), test_acc(hrs), test_acc(final)]
+assert acc[3] > 0.9 and acc[1] < 0.8 and acc[2] < 0.8
+facts = dict(base=round(acc[0] * 100), att=round(acc[1] * 100), hrs=round(acc[2] * 100), leak=round(acc[3] * 100))
+f = Fig(300, 236)
+f.text(150, 12, "600 students: 360 train / 120 validate / 120 test", size=10.5, color=NAVY, bold=True)
+f.box(6, 22, 180, 16, "train 360", fill=BLUE, stroke=NAVY, size=10.5, r=2, sw=1)
+f.box(188, 22, 60, 16, "val 120", fill="#fde68a", stroke=AMBER, size=10.5, r=2, sw=1)
+f.box(250, 22, 44, 16, "test", fill="#bbf7d0", stroke=TEAL, size=10.5, r=2, sw=1)
+f.text(150, 58, "test accuracy of a one-feature rule", size=10.5, color=SLATE, bold=True)
+names = ["always say pass", "attendance only", "study hours only", "final-exam mark"]
+cols = ["#e5e7eb", BLUE, BLUE, "#fecaca"]
+for i, (nm, a) in enumerate(zip(names, acc)):
+    y0 = 68 + i * 30
+    f.text(6, y0 + 11, nm, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(112, y0, a * 140, 22, "", fill=cols[i], stroke=SLATE, r=3, sw=1)
+    f.text(118 + a * 140, y0 + 11, "%d%%" % round(a * 100), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "final marks exist only AFTER the result", size=10.5, color=RED, bold=True)
+f.text(150, 222, "a near-perfect score is a warning", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

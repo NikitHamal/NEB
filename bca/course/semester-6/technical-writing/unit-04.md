@@ -160,6 +160,47 @@ f.text(290, 176, "author  |  title  |  source  |  year: the same four parts in a
 7. **Report the method so others can repeat it.** Give the sample size, tools, versions, dates and steps. A reader should be able to follow the Methods section and get a similar result. Hiding the method makes the work impossible to check.
 8. **Be honest about limits and AI use.** Say what the study could not show, such as a small sample from one campus. Follow the institution's rule on AI tools and disclose any help, and never accept a reference without finding the real source. Honesty about limits makes the findings more trusted, not less.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Plain sentences score higher and read faster. (a) A typewriter: when every letter has to be hammered onto paper, writers learned to cut empty words, a habit that is still the heart of technical writing. (b) The Flesch reading-ease formula, 206.835 minus 1.015 times the words per sentence minus 84.6 times the syllables per word, was applied to two pairs of sentences that say the same thing. The wordy first sentence (25 words) scores -1 and its plain version (9 words) scores 76; the second pair goes from 18 to 76. Long words such as utilisation and long sentences are what push the score down. In a project report, aim for a score near 50 to 60 for explanations, keep terms of art where they are needed, and cut phrases such as it is the case that. Syllables were counted by a simple rule, so scores are approximate."
+@ photo id="bcapc/typewriter" cap="A typewriter: every extra word costs effort"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Flesch reading ease: wordy vs plain"
+import re
+def syl(w):
+    w = w.lower()
+    n = len(re.findall(r"[aeiouy]+", w))
+    if w.endswith("e") and not w.endswith(("le", "ee")) and n > 1:
+        n -= 1
+    return max(n, 1)
+def fre(t):
+    sents = [s for s in re.split(r"[.!?]+", t) if s.strip()]
+    ws = re.findall(r"[A-Za-z']+", t)
+    sy = sum(syl(w) for w in ws)
+    return 206.835 - 1.015 * len(ws) / len(sents) - 84.6 * sy / len(ws), len(ws)
+pairs = [
+ ("It is the case that the utilisation of an implementation of the aforementioned methodology resulted in a considerable improvement in the performance of the system.",
+  "We used the method, and the system ran faster."),
+ ("In the event that the participants are in possession of the requisite documentation, the registration procedure will be commenced.",
+  "If you bring your documents, we will register you."),
+]
+res = [(fre(a), fre(b)) for a, b in pairs]
+assert all(r[1][0] > r[0][0] + 30 for r in res)
+facts = dict(w1=res[0][0][1], p1=res[0][1][1], w1s=round(res[0][0][0]), p1s=round(res[0][1][0]), w2s=round(res[1][0][0]), p2s=round(res[1][1][0]), w2=res[1][0][1], p2=res[1][1][1])
+f = Fig(300, 236)
+f.text(150, 12, "Flesch reading ease (higher is easier)", size=10.5, color=NAVY, bold=True)
+labs = ["wordy 1 (%d words)" % res[0][0][1], "plain 1 (%d words)" % res[0][1][1], "wordy 2 (%d words)" % res[1][0][1], "plain 2 (%d words)" % res[1][1][1]]
+vals = [res[0][0][0], res[0][1][0], res[1][0][0], res[1][1][0]]
+for i, (l, v) in enumerate(zip(labs, vals)):
+    y = 28 + i * 36
+    f.text(6, y + 7, l, size=10.5, color=NAVY, bold=True, anchor="start")
+    wv = max(v, 0) / 100 * 200
+    f.box(6, y + 14, max(wv, 3), 16, "", fill="#bbf7d0" if i % 2 else "#fecaca", stroke=SLATE, r=3, sw=1)
+    f.text(12 + max(wv, 3), y + 22, "%d" % round(v), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "90+ very easy, 60 plain English,", size=10.5, color=SLATE)
+f.text(150, 202, "30 or below: graduate level", size=10.5, color=SLATE)
+f.text(150, 224, "cutting words raised both scores a lot", size=10.5, color=TEAL, bold=True)
+```
+
 ## Chapter summary
 
 - A proposal states a specific problem, answerable research questions, a review ending in a gap, a method, scope, timeline and references.
