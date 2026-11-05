@@ -155,6 +155,44 @@ faces **south** (facing south, your right is west). Shyam faces Ram, so Shyam fa
   through the *same* angle and the same way. SE → N is 135° anticlockwise, so W → SE.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Direction sense is geometry. (a) A magnetic compass: the red end of the needle points to magnetic north and the card is read in eight principal directions 45 degrees apart (N, NE, E, SE, S, SW, W, NW). (b) A walk of 15 km north, 12 km east and 6 km south ends 12 km east and 15 - 6 = 9 km north of the start, so the shortest distance is the hypotenuse of a 12-9 right triangle: d = sqrt(12^2 + 9^2) = 15 km, on a bearing of 53 degrees east of north (N 53 E). The path actually walked is 15 + 12 + 6 = 33 km, so always separate the distance travelled from the displacement. Draw the path, mark the end point, and join it to the start before you answer."
+@ photo id="ceemat/compass" cap="A magnetic compass with the card marked in degrees"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Walk 15 N, 12 E, 6 S: net displacement"
+import math
+legs = (("N", 15), ("E", 12), ("S", 6))
+x = y = 0
+for d, k in legs:
+    if d == "N": y += k
+    elif d == "E": x += k
+    else: y -= k
+dist = math.hypot(x, y)
+walked = sum(k for _, k in legs)
+brg = math.degrees(math.atan2(x, y))
+assert (x, y) == (12, 9) and abs(dist - 15) < 1e-9 and walked == 33 and round(brg) == 53
+f = Fig(300, 236)
+f.text(150, 12, "Walk 15 km N, 12 km E, 6 km S", size=10.5, color=NAVY, bold=True)
+s = 9; ox, oy = 62, 188
+P = lambda a, b: (ox + a * s, oy - b * s)
+O, A, B, C = P(0, 0), P(0, 15), P(12, 15), P(12, 9)
+f.arrow([O, A], color=NAVY, sw=2)
+f.arrow([A, B], color=NAVY, sw=2)
+f.arrow([B, C], color=NAVY, sw=2)
+f.arrow([O, C], color=RED, sw=2, dash=True)
+f.circle(O[0], O[1], 4, fill=MINT, stroke=TEAL)
+f.text(ox - 8, oy + 2, "Start", size=10.5, color=TEAL, bold=True, anchor="end")
+f.text(ox - 8, 122, "15 km N", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(116, 46, "12 km E", size=10.5, color=NAVY, bold=True)
+f.text(C[0] + 8, 82, "6 km S", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(C[0] + 8, C[1] + 4, "End", size=10.5, color=RED, bold=True, anchor="start")
+f.text(136, 178, "d = 15 km", size=10.5, color=RED, bold=True)
+f.arrow([(268, 62), (268, 34)], color=SLATE, sw=2)
+f.text(268, 26, "N", size=10.5, color=SLATE, bold=True)
+f.text(150, 206, "Net: 12 east, 9 north, so d = 15 km, N 53 E", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "path walked = 33 km (not the distance)", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.2 Blood relations
 
 ### The vocabulary
@@ -306,6 +344,37 @@ for the *code name* of the real thing. We drink water, and water is called **air
 the answer is "air", not "water".
 :::
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="Coding is a rule applied letter by letter. (a) A cipher disc: two concentric alphabets, the inner one turned to choose a shift. (b) Two standard codes for the word NEPAL. A shift code moves each letter the same number of places along the alphabet: +3 gives N-Q, E-H, P-S, A-D, L-O, so NEPAL becomes QHSDO, and the same rule backwards (-3) decodes it. An opposite-letter code pairs A with Z, B with Y and so on: the positions of a letter and its partner always add up to 27 (N is 14 and M is 13), so NEPAL becomes MVKZO. Find the rule on the first letter, test it on the second, and only then apply it to the answer word."
+@ photo id="ceemat/cipher" cap="A substitution cipher disc"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="NEPAL under a +3 shift and the opposite-letter code"
+import string
+A = string.ascii_uppercase
+word = "NEPAL"
+sh = lambda c, k: A[(A.index(c) + k) % 26]
+opp = lambda c: A[25 - A.index(c)]
+r2 = "".join(sh(c, 3) for c in word)
+r3 = "".join(opp(c) for c in word)
+assert r2 == "QHSDO" and r3 == "MVKZO"
+assert "".join(sh(c, -3) for c in r2) == word
+assert all((A.index(c) + 1) + (A.index(opp(c)) + 1) == 27 for c in word)
+f = Fig(300, 236)
+f.text(150, 12, "Two codes for NEPAL", size=10.5, color=NAVY, bold=True)
+rows = (("Plain", word, MINT, TEAL), ("Shift +3", r2, BLUE, NAVY), ("Opposite", r3, SAND, AMBER))
+for j, (nm, w, fl, st) in enumerate(rows):
+    y = 30 + j * 54
+    f.text(8, y + 14, nm, size=10.5, color=st, bold=True, anchor="start", vmid=True)
+    for i, c in enumerate(w):
+        f.box(86 + i * 42, y, 34, 28, c, fill=fl, stroke=st, size=13, bold=True)
+for i in range(5):
+    cx = 103 + i * 42
+    f.arrow([(cx, 60), (cx, 82)], color=NAVY, sw=1.5)
+f.text(150, 186, "N (14) + M (13) = 27, always", size=10.5, color=AMBER, bold=True)
+f.text(150, 206, "decode a shift code by shifting back (-3)", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "only 25 shifts exist: Caesar used +3", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.4 Analogy and classification (odd one out)
 
 ### Analogy
@@ -443,6 +512,38 @@ Begin with the clue that pins a person to a seat (an end of the row, "opposite",
 the extreme left"), then add the "immediate" clues, and leave the "not" clues to the
 end — they only decide between the cases left over.
 :::
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Seating problems are counting problems. (a) Delegates in a row at a conference table. (b) n people can be seated in a row in n! ways but around a circle in only (n - 1)! ways, because turning everyone one seat round gives the same circle (the bars use a log scale). For five people the cell enumerates every case: 120 arrangements in a row, 24 in a circle, and 2 x 4! = 48 in a row when two named people must sit together (glue them into one block, arrange the 4 units, then swap the pair). Constraints such as 'A is next to B' or 'C sits opposite D' cut these totals down, which is why a careful diagram beats trial and error."
+@ photo id="ceemat/roundtable" cap="Delegates seated along a conference table"
+fit 1.2
+focus 0.45 0.5
+@ svg cap="Seatings of n people: row n! against circle (n-1)!"
+import math, itertools
+row5 = list(itertools.permutations(range(5)))
+adj = sum(1 for p in row5 if abs(p.index(0) - p.index(1)) == 1)
+canon = lambda p: p[p.index(0):] + p[:p.index(0)]
+circ = len({canon(p) for p in row5})
+assert len(row5) == 120 and adj == 48 and circ == 24
+ns = (3, 4, 5, 6, 7)
+rw = [math.factorial(n) for n in ns]
+cw = [math.factorial(n - 1) for n in ns]
+assert rw == [6, 24, 120, 720, 5040] and cw == [2, 6, 24, 120, 720]
+W = lambda v: 6 + math.log10(v) / math.log10(5040) * 166
+f = Fig(300, 236)
+f.text(150, 12, "Seatings of n people (log scale)", size=10.5, color=NAVY, bold=True)
+for i, n in enumerate(ns):
+    y = 28 + i * 33
+    f.text(8, y + 14, "n = %d" % n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(50, y, W(rw[i]), 13, fill=BLUE, stroke=NAVY, r=2)
+    f.text(50 + W(rw[i]) + 5, y + 7, "{:,}".format(rw[i]), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(50, y + 15, W(cw[i]), 13, fill=SAND, stroke=AMBER, r=2)
+    f.text(50 + W(cw[i]) + 5, y + 22, "{:,}".format(cw[i]), size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.box(52, 196, 10, 8, fill=BLUE, stroke=NAVY, r=1)
+f.text(66, 200, "row: n!", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.box(136, 196, 10, 8, fill=SAND, stroke=AMBER, r=1)
+f.text(150, 200, "circle: (n-1)!", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 222, "5 people: row 120, circle 24, A-B together 48", size=10.5, color=SLATE, bold=True)
+```
 
 ## 1.6 Syllogisms and statement–conclusion reasoning
 

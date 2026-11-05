@@ -2247,3 +2247,9 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Gotchas:** a heading-keyed plate generator (plate dicts, caption `{facts}` template, cell code run once to harvest facts) made 32 plates in ~12 tool calls; keep svg text at size 10.5; texts below an Axes must start at y >= 206 and below any colour strip; labels placed at the curve end need dy=+16..20 on the side away from the curve.
 
 - **Session 69 addendum (CEE Zoology):** `notes/content/cee-zoo` units 1-14 gained 18 photo + computed-SVG plates (7 new `ceezoo/` photos); `notes/pdf/NEBians-CEE-Entrance-Zoology.pdf` rebuilt (336 pp, qa fails=0). Same generator workflow as Botany (see `bca/POLISH_STATUS.md`, Session 69 cont.). **Next:** CEE MAT (5 units), CEE Mock (6 units), then CEE Physics/Chemistry second plates, class-11/12, BCA leftovers. Remember `\\n` (double backslash) for newlines inside svg strings in plate files.
+
+## Session 70 (CEE Mental Agility Test plates)
+
+- **Done and pushed:** `notes/content/cee-mat` Units 1-5: 13 photo + computed-SVG plates, 13 new `ceemat/` photos, book 85 -> 95 pp, qa fails=0. Details and exact next unit in `bca/POLISH_STATUS.md` (Session 70).
+- **Setup that worked:** out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` (exported in the shell; PAT never in the repo, owner should rotate the PAT pasted in the prompt); shallow single-branch clone (.git ~1.6 GB); `sudo -n apt-get update` + libpango/poppler/fontconfig; `pip install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12` + deps; fonts `install.sh`.
+- **Gotchas:** never put `read_file` in the same parallel block as the command that creates the PNG; copy sheets to a throw-away `/app/.sheets/` and delete it before validating /app; svg text lines under about 40 chars at size 10.5 fit a 300 px cell; bar value labels must stay inside the 300 px canvas.
