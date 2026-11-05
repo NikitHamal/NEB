@@ -131,3 +131,78 @@ class StaticDeployWindowTests(TestCase):
         middleware = ResilientWhiteNoiseMiddleware(get_response=missing_media)
         with self.assertRaises(FileNotFoundError):
             middleware(RequestFactory().get('/app/reader/some-id/'))
+
+
+class ResourceComposerEditTests(TestCase):
+    """The edit page is the shared composer; it saves as JSON and owners can delete what nobody paid for."""
+
+    def setUp(self):
+        cache.clear()
+        self.client = Client()
+        self.owner = _user('u-comp-owner', 'comp_owner')
+        self.resource = Resource.objects.create(
+            id=str(uuid.uuid4()), title='Old title', subject='Physics', type='Note', uploaded_by=self.owner,
+            approval_status='approved', added_at=now_ms(), file_url='https://example.com/a.pdf',
+            thumbnail_url='https://example.com/cover.png',
+        )
+        session = self.client.session
+        session['auth_token'] = issue_auth_token(self.owner)
+        session.save()
+        self.url = f'/app/resource/{self.resource.id}/edit/'
+        self.ajax = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+
+    def test_page_is_the_composer_with_the_current_values(self):
+        html = self.client.get(self.url).content.decode()
+        self.assertIn('id="rc-form"', html)
+        self.assertIn('data-mode="edit"', html)
+        self.assertIn('Old title', html)
+        self.assertIn('id="rc-current"', html)
+        self.assertIn('https://example.com/a.pdf', html)
+
+    def test_ajax_save_updates_and_returns_the_reader(self):
+        response = self.client.post(self.url, {
+            'title': 'New title', 'subject': 'Physics, Maths', 'type': 'Note', 'is_paid': '1', 'price': '199',
+            'thumbnail_url': '', 'file_url': 'https://example.com/b.pdf',
+        }, **self.ajax)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assertIn(f'/app/reader/{self.resource.id}/', response.json()['redirect'])
+        self.resource.refresh_from_db()
+        self.assertEqual(self.resource.title, 'New title')
+        self.assertTrue(self.resource.is_paid)
+        self.assertEqual(int(self.resource.price), 199)
+        self.assertEqual(self.resource.thumbnail_url, '')
+        self.assertEqual(self.resource.file_url, 'https://example.com/b.pdf')
+
+    def test_ajax_save_reports_every_problem_and_changes_nothing(self):
+        response = self.client.post(self.url, {'title': '', 'subject': '', 'is_paid': '1', 'price': '0'}, **self.ajax)
+        self.assertEqual(response.status_code, 400)
+        errors = ' '.join(response.json()['errors'])
+        for needle in ('Title is required', 'Subject is required', 'valid price'):
+            self.assertIn(needle, errors)
+        self.resource.refresh_from_db()
+        self.assertEqual(self.resource.title, 'Old title')
+
+    def test_owner_can_delete_an_unsold_resource(self):
+        response = self.client.post(f'/ajax/resource/{self.resource.id}/delete/')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Resource.objects.filter(pk=self.resource.id).exists())
+
+    def test_a_stranger_cannot_delete_it(self):
+        other = Client()
+        stranger = _user('u-comp-stranger', 'comp_stranger')
+        session = other.session
+        session['auth_token'] = issue_auth_token(stranger)
+        session.save()
+        self.assertEqual(other.post(f'/ajax/resource/{self.resource.id}/delete/').status_code, 404)
+        self.assertTrue(Resource.objects.filter(pk=self.resource.id).exists())
+
+    def test_a_sold_resource_cannot_be_deleted(self):
+        from api.models import PaymentVerification
+        buyer = _user('u-comp-buyer', 'comp_buyer')
+        PaymentVerification.objects.create(
+            id=str(uuid.uuid4()), buyer=buyer, seller=self.owner, resource=self.resource, amount=199,
+            status='approved', created_at=now_ms(),
+        )
+        response = self.client.post(f'/ajax/resource/{self.resource.id}/delete/')
+        self.assertEqual(response.status_code, 409)
+        self.assertTrue(Resource.objects.filter(pk=self.resource.id).exists())

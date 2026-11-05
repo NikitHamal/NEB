@@ -100,6 +100,7 @@ urlpatterns = [
     path('app/reader/<str:resource_id>/', views_public.reader, name='reader'),
     path('app/resource/<str:resource_id>/', RedirectView.as_view(pattern_name='web:reader', permanent=True), name='resource_redirect'),
     path('app/resource/<str:resource_id>/edit/', views_public.edit_resource, name='edit_resource'),
+    path('ajax/resource/<str:resource_id>/delete/', views_public.ajax_resource_delete, name='ajax_resource_delete'),
     path('app/resource/<str:resource_id>/submit-payment/', views_public.submit_payment_proof, name='submit_payment_proof'),
     path('ajax/withdrawal/request/', views_profile.ajax_request_withdrawal, name='ajax_request_withdrawal'),
     path('app/upload/', views_public.upload_resource, name='upload_resource'),

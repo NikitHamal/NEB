@@ -59,11 +59,44 @@ def save_uploaded_files(request, uploaded_files, errors):
 
 
 def replace_file(request, resource, uploaded_file):
+    """Swap the stored file; returns the reason it was refused, or '' when it was replaced."""
     path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-    if not err_resp and path:
+    if err_resp:
+        return f"{uploaded_file.name}: {err_resp['error']}"
+    if path:
         resource.file = path
         resource.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
         resource.file_size = size
+    return ''
+
+
+FORM_FIELDS = (
+    'title', 'description', 'subject', 'grade_level', 'type', 'exam_type', 'faculty', 'program', 'year',
+    'school', 'pradesh', 'district', 'tags', 'author_name', 'source_label', 'source_url', 'file_url',
+    'thumbnail_url',
+)
+
+
+def resource_form_data(resource):
+    """What the composer shows for an existing resource: the same names the form posts."""
+    data = {name: getattr(resource, name, '') or '' for name in FORM_FIELDS}
+    data['is_paid'] = bool(resource.is_paid)
+    data['price'] = resource.price if resource.is_paid else ''
+    return data
+
+
+def resource_current(resource, serialized):
+    """The file and cover the composer's tray starts with."""
+    path = str(resource.file or '')
+    url = resource.file_url or ''
+    current = {'file': None, 'cover': serialized.get('thumbnailUrl') or ''}
+    if path:
+        kind = serialized.get('mediaType') or 'file'
+        current['file'] = {'name': os.path.basename(path), 'url': url, 'size': resource.file_size or 0,
+                           'kind': kind if kind in ('video', 'audio', 'image') else 'file'}
+    elif url:
+        current['file'] = {'name': url.split('//')[-1].split('/')[0] or url, 'url': url, 'size': 0, 'kind': 'link'}
+    return current
 
 
 def create_resources(request, fields, saved_files, *, file_url='', file_size=0, **extra):
