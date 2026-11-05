@@ -53,17 +53,18 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-Nepali-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-Nepali-2079-2082-Bundle.pdf",
   "subject": "Compulsory Nepali",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-nep-2082-0021b",
    "12-nep-2081-0021b",
-   "12-nep-2080-0021b"
+   "12-nep-2080-0021b",
+   "12-nep-2079-0021h"
   ],
-  "pages": 36,
-  "bytes": 383467,
+  "pages": 48,
+  "bytes": 498361,
   "category": "Board Exam Bundle"
  },
  {
