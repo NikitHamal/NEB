@@ -1,0 +1,331 @@
+{
+ "_comment": "Registry of BCA course books. Key = path under bca/course/. Add one entry per subject folder; tools/nebpdf.py generates the house-pipeline spine from this plus the unit files.",
+ "semester-1/programming-in-c": {
+  "name": "Programming in C",
+  "code": "BCA 102",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#1F4E8C",
+  "status": "done"
+ },
+ "semester-1/digital-logic": {
+  "name": "Digital Logic",
+  "code": "BCA 103",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#B4531A",
+  "status": "done"
+ },
+ "semester-1/computer-fundamentals": {
+  "name": "Computer Fundamentals and Applications",
+  "code": "BCA 101",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#2F6B3A",
+  "status": "done"
+ },
+ "semester-1/mathematics-1": {
+  "name": "Mathematics I",
+  "code": "BCA 104",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#7A3E9D",
+  "status": "done"
+ },
+ "semester-1/professional-communication-ethics": {
+  "name": "Professional Communication and Ethics",
+  "code": "BCA 105",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-1/hardware-workshop": {
+  "name": "Hardware Workshop",
+  "code": "BCA 106",
+  "semester": 1,
+  "credits": 1,
+  "accent": "#475569",
+  "status": "done"
+ },
+ "semester-2/discrete-structure": {
+  "name": "Discrete Structure",
+  "code": "BCA 151",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#9A3412",
+  "status": "done"
+ },
+ "semester-2/oop-in-java": {
+  "name": "OOP in Java",
+  "code": "BCA 153",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#B91C1C",
+  "status": "done"
+ },
+ "semester-2/mathematics-2": {
+  "name": "Mathematics II",
+  "code": "BCA 154",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#6D28D9",
+  "status": "done"
+ },
+ "semester-2/microprocessor-computer-architecture": {
+  "name": "Microprocessor and Computer Architecture",
+  "code": "BCA 152",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-2/ux-ui-design": {
+  "name": "UX/UI Design",
+  "code": "BCA 155",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#BE185D",
+  "status": "done"
+ },
+ "semester-2/principles-of-management": {
+  "name": "Principles of Management",
+  "code": "BCA 156",
+  "semester": 2,
+  "credits": 1,
+  "accent": "#B45309",
+  "status": "done"
+ },
+ "semester-3/data-structure-and-algorithms": {
+  "name": "Data Structure and Algorithms",
+  "code": "BCA 201",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
+ },
+ "semester-3/dbms": {
+  "name": "Database Management System",
+  "code": "BCA 202",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#9A3412",
+  "status": "done"
+ },
+ "semester-3/web-technology-1": {
+  "name": "Web Technology I",
+  "code": "BCA 203",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-3/system-analysis-and-design": {
+  "name": "System Analysis and Design",
+  "code": "BCA 204",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#6D28D9",
+  "status": "done"
+ },
+ "semester-3/probability-and-statistics": {
+  "name": "Probability and Statistics",
+  "code": "BCA 205",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#BE185D",
+  "status": "done"
+ },
+ "semester-3/applied-economics": {
+  "name": "Applied Economics",
+  "code": "BCA 206",
+  "semester": 3,
+  "credits": 2,
+  "accent": "#047857",
+  "status": "done"
+ },
+ "semester-4/operating-systems": {
+  "name": "Operating Systems",
+  "code": "BCA 251",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
+ },
+ "semester-4/numerical-methods": {
+  "name": "Numerical Methods",
+  "code": "BCA 253",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#B45309",
+  "status": "done"
+ },
+ "semester-4/software-engineering": {
+  "name": "Software Engineering",
+  "code": "BCA 252",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#BE123C",
+  "status": "done"
+ },
+ "semester-4/python-programming": {
+  "name": "Python Programming",
+  "code": "BCA 254",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#1D4ED8",
+  "status": "done"
+ },
+ "semester-4/web-technology-2": {
+  "name": "Web Technology II",
+  "code": "BCA 255",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#0369A1",
+  "status": "done"
+ },
+ "semester-5/computer-networking": {
+  "name": "Computer Networking",
+  "code": "BCA 301",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
+ },
+ "semester-5/artificial-intelligence": {
+  "name": "Artificial Intelligence",
+  "code": "BCA 302",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#7C3AED",
+  "status": "done"
+ },
+ "semester-5/advanced-java": {
+  "name": "Advanced Java Programming",
+  "code": "BCA 303",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#C2410C",
+  "status": "done"
+ },
+ "semester-5/mis-and-e-business": {
+  "name": "MIS and e-Business",
+  "code": "BCA 304",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-5/society-and-technology": {
+  "name": "Society and Technology",
+  "code": "BCA 305",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#9333EA",
+  "status": "done"
+ },
+ "semester-6/computer-graphics": {
+  "name": "Computer Graphics and Animation",
+  "code": "BCA 351",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#DB2777",
+  "status": "done"
+ },
+ "semester-6/mobile-programming": {
+  "name": "Mobile Programming",
+  "code": "BCA 352",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0EA5E9",
+  "status": "done"
+ },
+ "semester-6/cryptography-network-security": {
+  "name": "Cryptography and Network Security",
+  "code": "BCA 353",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#B91C1C",
+  "status": "done"
+ },
+ "semester-6/technical-writing": {
+  "name": "Technical Writing",
+  "code": "BCA 354",
+  "semester": 6,
+  "credits": 2,
+  "accent": "#CA8A04",
+  "status": "done"
+ },
+ "semester-6/distributed-system": {
+  "name": "Distributed System",
+  "code": "BCA 355",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-7/financial-accounting": {
+  "name": "Financial Accounting",
+  "code": "BCA 403",
+  "semester": 7,
+  "credits": 2,
+  "accent": "#047857",
+  "status": "done"
+ },
+ "semester-8/cloud-computing": {
+  "name": "Cloud Computing",
+  "code": "BCA 451",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0369A1",
+  "status": "done"
+ },
+ "semester-7/cyber-security-and-ethical-hacking": {
+  "name": "Cyber Security and Ethical Hacking",
+  "code": "BCA 401",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#7F1D1D",
+  "status": "done"
+ },
+ "semester-4/project-1": {
+  "name": "Project I",
+  "code": "BCA 256",
+  "semester": 4,
+  "credits": 2,
+  "accent": "#7C3AED",
+  "status": "done"
+ },
+ "semester-5/project-2": {
+  "name": "Project II",
+  "code": "BCA 306",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#7C3AED",
+  "status": "done"
+ },
+ "semester-6/project-3": {
+  "name": "Project III",
+  "code": "BCA 356",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ },
+ "semester-7/project-4": {
+  "name": "Project IV",
+  "code": "BCA 404",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#9333EA",
+  "status": "done"
+ },
+ "semester-8/internship": {
+  "name": "Internship",
+  "code": "BCA 452",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
+ }
+}

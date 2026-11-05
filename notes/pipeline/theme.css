@@ -170,6 +170,19 @@ figcaption .src { display:block; font-size:7pt; color:var(--faint);
                   font-weight:700; color:var(--accent); }
 .photokey.one { column-count:1; }
 
+/* ---------- N-up photo strips / photo+diagram pairs ---------- */
+figure.grid { border:.25mm solid var(--rule); border-radius:1.4mm; padding:2mm 1.5mm 1.6mm 1.5mm;
+              background:#fff; }
+table.pgrid { width:100%; table-layout:fixed; border-collapse:separate; border-spacing:1.4mm 0;
+              border:0; margin:0; }
+table.pgrid td.gc { border:0; padding:0; vertical-align:top; text-align:center; background:none; }
+table.pgrid td.gc img { width:100%; max-width:100%; border:.2mm solid var(--rule);
+                        border-radius:1mm; display:block; }
+table.pgrid .gcap { font-family:Inter,sans-serif; font-size:7.4pt; line-height:1.34;
+                    color:var(--body); text-align:center; margin-top:1mm; }
+table.pgrid .gcap b { color:var(--accent); }
+figure.grid figcaption .src { font-size:6.4pt; }
+
 /* ---------- picture credits appendix ---------- */
 .credits { font-size:8.6pt; }
 .credits h2 { margin-top:6mm; }
