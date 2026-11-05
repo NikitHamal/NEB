@@ -293,6 +293,77 @@ row(100, "{[(])}", [["{"], ["{", "["], ["{", "[", "("], ["stop"], None, None], F
 f.text(330, 116, "unbalanced: ] meets ( on top", size=10.5, color=RED, bold=True, anchor="start")
 ```
 
+Two more places where the stack appears: the recursion of a children's puzzle, and the operator stack that turns a school-style formula into postfix.
+
+```photogrid label="2.2" cols="2" ratio="1.3" caption="Recursion is a stack in disguise. (a) The Tower of Hanoi: move the disks one at a time from one peg to another, never putting a larger disk on a smaller one. Each recursive call waits on the call stack while the smaller tower moves. (b) The number of moves for n disks counted by a simulation: 1, 3, 7, 15, 31, 63, 127, 255 for n = 1 to 8, that is 2^n - 1, and the call stack never holds more than n + 1 frames. For 64 disks the legend needs 18,446,744,073,709,551,615 moves, about 5.8 x 10^11 years at one move per second."
+@ photo id="bca203/hanoi" cap="A wooden Tower of Hanoi, 8 disks"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Moves needed for n disks (counted)"
+cnt = [0]; depth = [0, 0]
+def hanoi(n, a, b, c):
+    depth[0] += 1; depth[1] = max(depth[1], depth[0])
+    if n > 0:
+        hanoi(n - 1, a, c, b); cnt[0] += 1; hanoi(n - 1, c, b, a)
+    depth[0] -= 1
+rows = []
+for n in range(1, 9):
+    cnt[0] = 0; depth[1] = 0; hanoi(n, "A", "C", "B")
+    assert cnt[0] == 2 ** n - 1
+    rows.append((n, cnt[0], depth[1]))
+years = (2 ** 64 - 1) / (3600 * 24 * 365.25)
+assert 5.8e11 < years < 5.9e11 and (2 ** 64 - 1) == 18446744073709551615
+f = Fig(300, 252)
+f.text(150, 11, "moves = 2^n - 1; stack depth = n + 1 frames", size=10, color=NAVY, bold=True)
+for i, (n, m, d) in enumerate(rows):
+    y = 24 + i * 22
+    f.text(8, y + 9, "n = %d" % n, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(52, y, max(m * 170 / 255, 2), 15, "", fill=TEAL, stroke=TEAL, r=2)
+    f.text(52 + max(m * 170 / 255, 2) + 5, y + 9, "%d  (depth %d)" % (m, d), size=9.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 206, 284, 38, "n = 64: 18,446,744,073,709,551,615 moves\n= about %.1e years at one move per second" % years, fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.0" caption="From infix to postfix with an operator stack. (a) Jan Lukasiewicz (1878-1956), the Polish logician who invented prefix (Polish) notation so that brackets are never needed; reversing it gives postfix. (b) The conversion of a * (b + c) - d / (e - f) scanned left to right: an operand goes straight to the output, an operator waits on the stack until an operator of equal or higher precedence below it has been popped, a left bracket waits and a right bracket pops down to it. The trace was produced by running the algorithm; the result 6 2 3 + * 8 7 5 - / - evaluates to 26 with a = 6, b = 2, c = 3, d = 8, e = 7, f = 5."
+@ photo id="bca203/lukasiewicz" cap="Jan Lukasiewicz (1878-1956)"
+fit 1.0
+focus 0.5 0.65
+@ svg cap="Shunting-yard trace (operator stack and output)"
+toks = ["a", "*", "(", "b", "+", "c", ")", "-", "d", "/", "(", "e", "-", "f", ")"]
+prec = {"+": 1, "-": 1, "*": 2, "/": 2}
+st, out, trace = [], [], []
+for t in toks:
+    if t.isalpha(): out.append(t)
+    elif t == "(": st.append(t)
+    elif t == ")":
+        while st[-1] != "(": out.append(st.pop())
+        st.pop()
+    else:
+        while st and st[-1] != "(" and prec[st[-1]] >= prec[t]: out.append(st.pop())
+        st.append(t)
+    trace.append((t, "".join(st), " ".join(out)))
+while st: out.append(st.pop())
+trace.append(("end", "", " ".join(out)))
+post = " ".join(out)
+vals = dict(a=6, b=2, c=3, d=8, e=7, f=5)
+stk = []
+for t in out:
+    if t.isalpha(): stk.append(vals[t])
+    else:
+        y2 = stk.pop(); x2 = stk.pop(); stk.append({"+": x2 + y2, "-": x2 - y2, "*": x2 * y2, "/": x2 / y2}[t])
+assert stk == [26] and post == "a b c + * d e f - / -"
+f = Fig(300, 262)
+f.box(4, 4, 36, 18, "token", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+f.box(40, 4, 52, 18, "stack", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+f.box(92, 4, 204, 18, "output so far", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+for i, (t, s, o) in enumerate(trace):
+    y = 22 + i * 15.5
+    fl = BLUE if i % 2 == 0 else SOFT
+    f.box(4, y, 36, 15.5, t, fill=fl, stroke="#cbd5e1", size=9, r=0, bold=True)
+    f.box(40, y, 52, 15.5, s, fill=fl, stroke="#cbd5e1", size=9, r=0)
+    f.box(92, y, 204, 15.5, o, fill=(MINT if t == "end" else fl), stroke="#cbd5e1", size=9, r=0, anchor="start", bold=(t == "end"))
+f.text(150, 22 + 16 * 15.5 + 12, "postfix: %s  = %d" % (post, stk[0]), size=9.5, color=TEAL, bold=True)
+```
+
 ### 2.7.1 Eight applications of stacks
 
 1. **Undo and redo.** Every edit in a word processor or in a Nepali typing tool is pushed on an undo stack. Pressing Ctrl+Z pops the latest edit and reverses it, and the popped edit moves to a redo stack. The last change made is always the first one undone, exactly as a stack behaves.

@@ -370,6 +370,53 @@ for k, c in enumerate(["A   0", "C   100", "B   101", "D   111", "F   1100", "E 
 f.text(200, 255, "bits: 224 vs 300 fixed", size=10, color=RED, bold=True)
 ```
 
+A tree is only fast when it is bushy. The banyan below is a living reminder that one trunk can spread into many branches, but a binary search tree can also grow into a single long branch if keys arrive in sorted order. The plate counts how bad that can get.
+
+```photogrid label="7.2" cols="2" ratio="1.3" caption="Shape decides speed. (a) A banyan tree: one root, many branches, and every leaf close to the trunk. (b) The same 127 keys inserted into a plain binary search tree in three different orders. Sorted input makes a chain of height 127, so one search can need 127 comparisons; a random order gave height 13; a perfectly balanced tree has only 7 levels (2^7 - 1 = 127). An AVL tree can never be worse than 9 levels for 127 keys, because the fewest nodes an AVL tree of height h can have are 1, 2, 4, 7, 12, 20, 33, 54, 88, 143 for h = 1 to 10. All heights are computed in the figure."
+@ photo id="bca203/banyan" cap="Banyan tree: one trunk, many branches"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Height of a BST holding 127 keys"
+import random
+def bst_height(keys):
+    root = None; hmax = 0
+    nodes = {}
+    for k in keys:
+        if not nodes: nodes[k] = [None, None, 1]; root = k; hmax = 1; continue
+        cur = root; d = 1
+        while True:
+            d += 1; side = 0 if k < cur else 1
+            nx = nodes[cur][side]
+            if nx is None: nodes[cur][side] = k; nodes[k] = [None, None, d]; break
+            cur = nx
+        hmax = max(hmax, d)
+    return hmax
+keys = list(range(1, 128))
+hs = bst_height(keys)
+rnd = keys[:]; random.Random(2081).shuffle(rnd)
+hr = bst_height(rnd)
+def balanced(lo, hi):
+    if lo > hi: return []
+    m = (lo + hi) // 2
+    return [m] + balanced(lo, m - 1) + balanced(m + 1, hi)
+hb = bst_height(balanced(1, 127))
+Nmin = [1, 2]
+while len(Nmin) < 10: Nmin.append(Nmin[-1] + Nmin[-2] + 1)
+havl = max(h for h in range(1, 11) if Nmin[h - 1] <= 127)
+assert (hs, hb, havl) == (127, 7, 9) and Nmin == [1, 2, 4, 7, 12, 20, 33, 54, 88, 143] and 7 <= hr <= 20
+print("random height", hr)
+bars = [("sorted input", hs, RED), ("random order", hr, AMBER), ("AVL worst case", havl, TEAL), ("perfectly balanced", hb, TEAL)]
+f = Fig(300, 214)
+f.text(150, 11, "levels (= worst-case comparisons), 127 keys", size=10, color=NAVY, bold=True)
+for i, (k, v, c) in enumerate(bars):
+    y = 26 + i * 36
+    f.text(6, y + 7, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    w = 180 * v / 127
+    f.box(6, y + 13, max(w, 2), 14, "", fill=c, stroke=c, r=2)
+    f.text(6 + max(w, 2) + 6, y + 21, str(v), size=10, color=c, bold=True, anchor="start")
+f.text(150, 188, "log2(127 + 1) = 7: that is why balancing matters", size=9.5, color=AMBER, bold=True)
+```
+
 ### 7.8.1 Eight applications of trees
 
 1. **File systems.** Every operating system keeps files in a tree of folders with the root at the top. A path such as `C:/College/BCA/Notes` is a walk from the root to a node. Creating, deleting and searching folders are tree operations.
