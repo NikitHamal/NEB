@@ -194,3 +194,10 @@
 
 -dontwarn okhttp3.**
 -dontwarn okio.**
+
+# ----------------------------------------------------------------------------
+# On-device speech (JNI): Whistle STT and Phonon TTS bridge in libneb_speech.so
+# ----------------------------------------------------------------------------
+-keep class com.neb.ians.speech.NativeSpeech { *; }
+-keep class com.neb.ians.speech.PcmSink { *; }
+-keep class * implements com.neb.ians.speech.PcmSink { public boolean onPcm(float[]); }
