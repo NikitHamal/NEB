@@ -385,6 +385,34 @@ frequency of its circuit to that of the station (electrical resonance, Chapter 1
 in an earthquake, buildings whose natural frequency matches the frequency of the ground
 shaking sway most violently.
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Simple harmonic motion with numbers. (a) Tuning forks: a struck prong moves to and fro with a fixed frequency, the model of SHM. (b) For a 440 Hz fork and an assumed amplitude A = 0.5 mm, the period is T = 1 / f = 2.27 ms and omega = 2 pi f = 2,765 rad/s. The displacement x = A sin(omega t) gives a maximum speed v = A omega = 1.38 m/s at the centre and a maximum acceleration a = A omega^2 = 3,822 m/s^2 at the ends, where the speed is zero. Taking numerical derivatives of x confirms both values, and the acceleration is always -omega^2 x, directed to the centre."
+@ photo id="sci10/tuning-fork" cap="Tuning forks: each prong executes simple harmonic motion"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="x, v and a of a 440 Hz prong over 1.5 periods"
+import math
+fr, A = 440.0, 0.5e-3; w = 2 * math.pi * fr; T = 1 / fr
+x = lambda t: A * math.sin(w * t)
+dt = 1e-9
+vnum = lambda t: (x(t + dt) - x(t - dt)) / (2 * dt)
+anum = lambda t: (x(t + 1e-6) - 2 * x(t) + x(t - 1e-6)) / 1e-12
+vm, am = A * w, A * w * w
+assert abs(vnum(0) - vm) / vm < 1e-5 and abs(anum(T / 4) + am) / am < 1e-3
+assert abs(anum(T / 8) + w * w * x(T / 8)) / am < 1e-3
+facts = dict(T="%.2f" % (T * 1000), w="{:,.0f}".format(w), vm="%.2f" % vm, am="{:,.0f}".format(am))
+f = Fig(300, 236)
+f.text(150, 14, "normalised x / A, v / vmax, a / amax", size=10.5, color=NAVY, bold=True)
+X = lambda t: 20 + t / (1.5 * T) * 262; Y = lambda u: 102 - u * 56
+f.line(X(0), Y(0), 284, Y(0), color=SLATE, sw=1.2)
+for name, fn, col in (("x", lambda t: math.sin(w * t), NAVY), ("v", lambda t: math.cos(w * t), AMBER), ("a", lambda t: -math.sin(w * t), RED)):
+    pts = [(1.5 * T * i / 90, fn(1.5 * T * i / 90)) for i in range(91)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=col, sw=2 if name != "a" else 1.6, dash=(name == "a"))
+f.text(32, 40, "x", size=10.5, color=NAVY, bold=True); f.text(52, 40, "v leads x by 90 degrees", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(190, 168, "a = -omega^2 x", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 188, "T = %.2f ms, omega = %s rad/s" % (T * 1000, "{:,.0f}".format(w)), size=10.5, color=SLATE, bold=True)
+f.text(150, 204, "vmax = A omega = %.2f m/s (at x = 0)" % vm, size=10.5, color=AMBER, bold=True)
+f.text(150, 220, "amax = A omega^2 = {:,.0f} m/s^2 (at x = +-A)".format(am), size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

@@ -415,6 +415,56 @@ $\propto r$; terminal velocity $\propto r^2$; Poiseuille flow $\propto r^4$;
 speed in a pipe $\propto r^{-2}$ (continuity).
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Pascal's law at work. (a) A hydraulic jack: pressure applied to the liquid is transmitted undiminished, so a small piston pushing on a large one multiplies the force. (b) With piston areas of 2 cm^2 and 50 cm^2 the force ratio is 25. A push of 100 N therefore supports 2,500 N, but the small piston must move 25 times as far as the load rises, so the work done is the same on both sides (25 J for a 1 cm lift in the ideal case). To raise a 1,200 kg car (weight 11,760 N) the ideal push is 470.4 N; friction and leaks make a real jack need more. A machine gives a force advantage, never an energy advantage."
+@ photo id="ioephy/jack" cap="A hydraulic jack lifts a car with a small push"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Force and distance on the two pistons of a jack"
+A1, A2 = 2e-4, 50e-4; F1 = 100.0
+ratio = A2 / A1; F2 = F1 * ratio; d2 = 0.01; d1 = d2 * ratio
+assert ratio == 25 and abs(F2 - 2500) < 1e-9 and abs(F1 * d1 - F2 * d2) < 1e-9 and abs(F1 * d1 - 25.0) < 1e-9
+wc = 1200 * 9.8; fc = wc / ratio
+assert abs(fc - 470.4) < 1e-9
+facts = dict(a1=2, a2=50, ratio="%d" % ratio, f1="%d" % F1, f2=int(F2), w="%d" % (F1 * d1), wc=int(wc), fc="%.1f" % fc)
+f = Fig(300, 236)
+f.text(150, 14, "p = F1 / A1 = F2 / A2 (same pressure)", size=10.5, color=NAVY, bold=True)
+f.box(40, 80, 30, 80, "", fill=BLUE, stroke=NAVY, r=2); f.box(200, 120, 60, 40, "", fill=BLUE, stroke=NAVY, r=2)
+f.box(36, 160, 228, 14, "", fill=MINT, stroke=TEAL, r=2); f.box(40, 160, 30, 14, "", fill=MINT, stroke=TEAL, r=0, sw=0); f.box(40, 140 - 0, 30, 20, "", fill=MINT, stroke=TEAL, r=0, sw=0)
+f.arrow([(55, 44), (55, 80)], color=AMBER, sw=2.4); f.text(55, 36, "F1 = 100 N", size=10.5, color=AMBER, bold=True)
+f.arrow([(230, 70), (230, 118)], color=TEAL, sw=2.4, ) if False else f.arrow([(230, 120), (230, 74)], color=TEAL, sw=2.4)
+f.text(230, 62, "F2 = 2,500 N", size=10.5, color=TEAL, bold=True)
+f.text(55, 190, "A1 = 2 cm^2", size=10.5, color=SLATE, bold=True); f.text(230, 190, "A2 = 50 cm^2", size=10.5, color=SLATE, bold=True)
+f.text(150, 208, "stroke 25 cm lifts the load 1 cm", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "work in = work out = 25 J (ideal)", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Pressure from a column. (a) A mercury barometer: the atmosphere pushes on the open surface and supports a column of height h, so P = rho g h. (b) With rho = 13,600 kg/m^3 and h = 0.760 m, P = 101,293 Pa. The same pressure would support 10.3 m of water, which is why a mercury column is used. Assuming an isothermal atmosphere with a scale height of 8.4 km, so that P = P0 exp(-z / 8.4 km), the pressure falls to 85.7 kPa at Kathmandu (1,400 m), where the column would be about 643 mm, and to 35 kPa on the summit of Everest, close to the measured value of about 34 kPa. This is an estimate, not a measurement."
+@ photo id="sci10/barometer" cap="A mercury barometer: air pressure holds up a column of mercury"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Pressure against altitude (isothermal estimate)"
+import math
+rho, g, h = 13600, 9.8, 0.760
+p0 = rho * g * h; hw = p0 / (1000 * g)
+assert abs(p0 - 101293) < 1 and abs(hw - 10.34) < 0.01
+P = lambda z: p0 * math.exp(-z / 8400)
+assert abs(P(1400) / 1000 - 85.7) < 0.2 and abs(P(8849) / 1000 - 35.2) < 0.3
+facts = dict(p0="{:,.0f}".format(p0), hw="%.1f" % hw, pk="%.1f" % (P(1400) / 1000), hk="%.0f" % (P(1400) / (rho * g) * 1000), pe="%.0f" % (P(8849) / 1000))
+f = Fig(300, 236)
+f.text(150, 14, "P = P0 exp(-z / 8.4 km)", size=10.5, color=NAVY, bold=True)
+X = lambda z: 44 + z / 9000 * 236; Y = lambda p: 160 - p / 105000 * 120
+f.line(X(0), Y(0), 284, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 36, color=SOFT, sw=1.2)
+pts = [(z, P(z)) for z in range(0, 9001, 150)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=NAVY, sw=2.4)
+for z, nm, col in ((0, "sea level", RED), (1400, "Kathmandu", AMBER), (8849, "Everest", TEAL)):
+    f.circle(X(z), Y(P(z)), 4, fill=col, stroke=col)
+    f.text(X(z) + (8 if z < 5000 else -8), Y(P(z)) - 8 if z < 5000 else Y(P(z)) + 18, "%s %.0f kPa" % (nm, P(z) / 1000), size=10.5, color=col, bold=True, anchor="start" if z < 5000 else "end")
+for z in (0, 3000, 6000, 9000): f.text(X(z), 176, "%d" % z, size=10.5, color=SLATE)
+f.text(150, 190, "altitude z (m)", size=10.5, color=SLATE)
+f.text(150, 208, "760 mm Hg = %s Pa = %.2f m of water" % ("{:,.0f}".format(p0), hw), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "Kathmandu column: about %.0f mm of mercury" % (P(1400) / (rho * g) * 1000), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

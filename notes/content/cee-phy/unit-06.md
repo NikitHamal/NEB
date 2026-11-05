@@ -599,6 +599,34 @@ The escape speed is $2\times11.2 = 22.4$ km s⁻¹. A smaller radius more than m
 for the larger mass, because the body starts deeper in the potential well.
 :::
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Why astronauts float. (a) The International Space Station orbits at about 420 km. (b) Setting gravity equal to the centripetal force gives the orbital speed v = sqrt(G M / r). With G M = 3.986 x 10^14 m^3/s^2 and r = 6,371 + 420 = 6,791 km, v = 7.66 km/s and the period is T = 2 pi r / v = 92.8 minutes, or 15.5 orbits a day. Gravity at that height is still g = G M / r^2 = 8.64 m/s^2, which is 88 per cent of its surface value of 9.82 m/s^2, so astronauts are not beyond gravity: they and the station fall together, and the escape speed from there would be sqrt(2) times larger, 10.83 km/s."
+@ photo id="sci10/iss" cap="The International Space Station: a body in free fall around the Earth"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Orbit of the ISS to scale, with g at three heights"
+import math
+GM = 3.986e14; R = 6.371e6; r = R + 4.2e5
+v = math.sqrt(GM / r); T = 2 * math.pi * r / v / 60
+g0, gi, gg = GM / R ** 2, GM / r ** 2, GM / (R + 35.786e6) ** 2
+assert abs(v - 7661) < 5 and abs(T - 92.9) < 0.2 and abs(gi / g0 - 0.880) < 0.002 and abs(gg - 0.2243) < 0.005
+ve = math.sqrt(2) * v
+facts = dict(r="{:,.0f}".format(r / 1000), v="%.2f" % (v / 1000), T="%.1f" % T, n="%.1f" % (1440 / T), gi="%.2f" % gi, pct="%.0f" % (gi / g0 * 100), g0="%.2f" % g0, ve="%.2f" % (ve / 1000))
+f = Fig(300, 236)
+f.text(150, 14, "Earth radius 6,371 km; orbit radius %s km" % "{:,.0f}".format(r / 1000), size=10.5, color=NAVY, bold=True)
+cx, cy = 90, 100; Rp = 58; rp = Rp * r / R
+f.circle(cx, cy, rp, fill="#ffffff", stroke=AMBER, sw=1.6); f.circle(cx, cy, Rp, fill=BLUE, stroke=NAVY, sw=1.6)
+f.circle(cx + rp, cy, 4, fill=RED, stroke=RED); f.arrow([(cx + rp, cy), (cx + rp, cy - 30)], color=RED, sw=2); f.arrow([(cx + rp, cy), (cx + rp - 28, cy)], color=TEAL, sw=2)
+f.text(cx + rp + 8, cy - 26, "v", size=11, color=RED, bold=True, anchor="start"); f.text(cx + rp - 14, cy + 14, "g", size=11, color=TEAL, bold=True)
+f.text(cx, cy + 4, "Earth", size=10.5, color=NAVY, bold=True)
+vals = [("surface", g0, NAVY), ("ISS 420 km", gi, AMBER), ("GEO 35,786 km", gg, TEAL)]
+for i, (nm, gv, col) in enumerate(vals):
+    y = 38 + i * 36
+    f.text(190, y, nm, size=10.5, color=col, bold=True, anchor="start"); f.box(190, y + 6, max(gv * 9, 2), 12, "", fill=SOFT, stroke=col, r=2); f.text(190 + max(gv * 9, 2) + 4, y + 12, "%.2f" % gv, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 188, "g in m/s^2; the bars are to one scale", size=10.5, color=SLATE)
+f.text(150, 204, "v = %.2f km/s, T = %.1f min, %.1f orbits/day" % (v / 1000, T, 1440 / T), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "weightless = free fall, not zero gravity", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
