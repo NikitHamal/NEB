@@ -11088,6 +11088,32 @@
   "source": "Wikimedia Commons",
   "title": "Orchestra conductor in a chuj"
  },
+ "bcamob/carousel": {
+  "author": "Diego Delso",
+  "bytes": 413034,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcamob/carousel.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Aeropuerto_Internacional_de_Tallinn,_Estonia,_2012-08-05,_DD_05.JPG",
+  "sha1": "e417fa3e712243c1",
+  "source": "Wikimedia Commons",
+  "title": "Aeropuerto Internacional de Tallinn, Estonia, 2012-08-05, DD 05"
+ },
+ "bcamob/orient": {
+  "author": "GR8DAN",
+  "bytes": 16990,
+  "credit": "https://openclipart.org/detail/168418/portrait-v-landscape-device-orientation",
+  "fetched": "2026-11-05",
+  "file": "bcamob/orient.png",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:800x518_smartphone_portrait_vs_landscape_orientation.png",
+  "sha1": "16ae1449dcd1f6c4",
+  "source": "Wikimedia Commons",
+  "title": "800x518 smartphone portrait vs landscape orientation"
+ },
  "bcamodel/exam": {
   "author": "Alison wood",
   "bytes": 218817,
@@ -11413,6 +11439,19 @@
   "source": "Wikimedia Commons",
   "title": "272 soilmoisture"
  },
+ "bcapj/stickies": {
+  "author": "Aaron Zhu",
+  "bytes": 1047824,
+  "credit": "https://web.archive.org/web/20161105065240/http://www.panoramio.com/photo/114684612",
+  "fetched": "2026-11-05",
+  "file": "bcapj/stickies.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sticky_Notes_Wall_outside_Hong_Kong_Government_Building,_during_2014_Occupy_Central_-_panoramio.jpg",
+  "sha1": "5c37beeb116afa9a",
+  "source": "Wikimedia Commons",
+  "title": "Sticky Notes Wall outside Hong Kong Government Building, during 2014 Occupy Central - panoramio"
+ },
  "bcapj/stopwatch": {
   "author": "Stefan ( Diskussion ). Original uploader was StefanPohl at German Wikipedia",
   "bytes": 576452,
@@ -11555,6 +11594,19 @@
   "sha1": "e919470b503341b0",
   "source": "Wikimedia Commons",
   "title": "Macey Vertical Filing Cabinet 1903"
+ },
+ "bcawt/cookies": {
+  "author": "Suzette - www.suzette.nu from Arnhem, Netherlands",
+  "bytes": 93854,
+  "credit": "Christmas cookies",
+  "fetched": "2026-11-05",
+  "file": "bcawt/cookies.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vegan_Christmas_cookies_(3862330041).jpg",
+  "sha1": "2255df0003316d87",
+  "source": "Wikimedia Commons",
+  "title": "Vegan Christmas cookies (3862330041)"
  },
  "bcawt/dominoes": {
   "author": "Kurt:S",

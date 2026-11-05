@@ -306,6 +306,78 @@ f.text(70, 262, "3 entries", size=10, color=SLATE)
 7. **Declare exported and launch modes deliberately.** Set exported to false for every component that other apps do not need, and choose singleTop or singleTask for screens that a notification opens. This keeps other apps out of private screens and prevents duplicate screens on the back stack. A banking app that exposes an internal transfer screen has a security hole.
 8. **Test with rotation, Back and a killed process.** Turn on the developer option "Don't keep activities" and rotate the phone on every screen. Each test shows quickly whether the state is saved and restored. Testing only the normal path is why many apps crash when a user returns after answering a phone call.
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="What a rotation really does. (a) Turning a phone from portrait to landscape looks like one small change, but Android treats it as a configuration change: the activity is destroyed and created again so that it can load the layout for the new orientation. (b) A model of the lifecycle ran one session of a counter app: launch (3 callbacks), five taps, rotation (onPause, onStop, onDestroy, onCreate, onStart, onResume: 6), two more taps, home and return (5) and leaving with Back (3), 17 callbacks in all. Without saved state the counter restarts from zero at the rotation and ends at 2; with the value saved before the activity stops and restored in onCreate it ends at 7. This is why the saved-state bundle or a ViewModel is needed for anything the user has typed or counted."
+@ photo id="bcamob/orient" cap="Portrait and landscape: a rotation recreates the screen"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Lifecycle callbacks and a lost counter"
+class Act:
+    def __init__(self, save):
+        self.log = []
+        self.count = 0
+        self.saved = None
+        self.save = save
+    def cb(self, n):
+        self.log.append(n)
+    def create(self):
+        self.cb("onCreate")
+        if self.save and self.saved is not None:
+            self.count = self.saved
+        else:
+            self.count = 0
+        self.cb("onStart")
+        self.cb("onResume")
+    def pause_stop(self):
+        self.cb("onPause")
+        self.cb("onStop")
+        if self.save:
+            self.saved = self.count
+    def destroy(self):
+        self.cb("onDestroy")
+    def rotate(self):
+        self.pause_stop()
+        self.destroy()
+        self.create()
+    def home_return(self):
+        self.pause_stop()
+        self.cb("onRestart")
+        self.cb("onStart")
+        self.cb("onResume")
+def scenario(save):
+    a = Act(save)
+    a.create()
+    a.count += 5
+    a.rotate()
+    a.count += 2
+    a.home_return()
+    a.cb("onPause")
+    a.cb("onStop")
+    a.cb("onDestroy")
+    return a
+no, yes = scenario(False), scenario(True)
+assert len(no.log) == len(yes.log)
+final_no = no.count
+final_yes = yes.count
+facts = dict(tot=len(no.log), rot=6, home=5, back=3, no=final_no, yes=final_yes)
+assert (final_no, final_yes) == (2, 7) and len(no.log) == 3 + 6 + 5 + 3
+f = Fig(300, 236)
+f.text(150, 12, "one session: launch, 5 taps, rotate, 2 taps,", size=10.5, color=NAVY, bold=True)
+f.text(150, 27, "home and back, then leave with Back", size=10.5, color=NAVY, bold=True)
+segs = [("launch", 3, BLUE), ("rotate", 6, "#fde68a"), ("home + return", 5, MINT), ("Back", 3, "#fecaca")]
+x = 8
+for nm, n, col in segs:
+    w = n * 16.3
+    f.box(x, 40, w - 2, 30, str(n), fill=col, stroke=SLATE, size=12, bold=True, r=3, sw=1)
+    f.text(x + w / 2, 82, nm, size=10.5, color=NAVY, bold=True)
+    x += w
+f.text(150, 106, "callbacks run: %d in total" % len(no.log), size=10.5, color=NAVY, bold=True)
+f.text(150, 134, "counter after the rotation and 2 more taps", size=10.5, color=SLATE, bold=True)
+f.box(8, 142, 130, 28, "no saved state: %d" % final_no, fill="#fecaca", stroke=RED, color=RED, size=10.5, bold=True, r=3, sw=1)
+f.box(160, 142, 132, 28, "saved state: %d" % final_yes, fill="#bbf7d0", stroke=TEAL, color=TEAL, size=10.5, bold=True, r=3, sw=1)
+f.text(150, 196, "rotation = destroy + create (6 callbacks)", size=10.5, color=RED, bold=True)
+f.text(150, 214, "save the counter in onSaveInstanceState", size=10.5, color=TEAL, bold=True)
+```
+
 ## Chapter summary
 
 - An app is a set of components (Activity, Service, BroadcastReceiver, ContentProvider) declared in the manifest and started by the system.
