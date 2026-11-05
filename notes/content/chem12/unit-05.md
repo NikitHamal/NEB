@@ -653,6 +653,39 @@ of nitrogen or sulphur, and the only product is drinkable water; it runs
 continuously as long as fuel is supplied. **Disadvantages:** the platinum
 catalyst is expensive, and hydrogen is difficult to store and transport safely.
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="A battery is a set of voltaic cells in series, and each cell obeys E(cell) = E(cathode) - E(anode). (a) A lead-acid car battery, whose six cells share one case. (b) The PbO2 electrode has E = +1.69 V and the Pb electrode -0.36 V, so each cell gives 2.05 V and six cells give 12.3 V. Using dG = -nFE with n = 2, each mole of reaction releases 396 kJ. A 60 Ah battery passes 216,000 coulombs, using about 232 g of lead in each cell and storing 738 Wh. Because the reaction is reversible, the alternator can recharge the cells while the engine runs."
+@ photo id="chem12/battery" cap="A lead-acid car battery of six cells in series"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A lead-acid battery: cell voltage to stored energy"
+F = 96485.0
+E1, E2 = 1.69, -0.36
+Ecell = E1 - E2
+dG = -2 * F * Ecell / 1000
+Etot = 6 * Ecell
+Ah = 60.0
+ne = Ah * 3600 / F
+pb = ne / 2 * 207.2
+Wh = Etot * Ah
+assert abs(Ecell - 2.05) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "PbO2 / Pb cell: E = 1.69 - (-0.36) = %.2f V" % Ecell, size=10, color=NAVY, bold=True)
+for i in range(6):
+    x = 10 + i * 47
+    f.box(x, 26, 43, 44, "", fill=BLUE, stroke=NAVY, r=3)
+    f.text(x + 21.5, 42, "%.2f V" % Ecell, size=9.5, color=NAVY, bold=True)
+    f.text(x + 21.5, 58, "= %.2f" % ((i + 1) * Ecell), size=9, color=SLATE)
+f.text(150, 90, "six cells in series: %.1f V" % Etot, size=11, color=TEAL, bold=True)
+rows = [("dG per cell = -n F E", "%.0f kJ/mol" % dG, RED), ("Charge of a 60 Ah battery", "%.0f C = %.2f mol e-" % (Ah * 3600, ne), NAVY), ("Lead used per cell, fully flat", "%.0f g" % pb, AMBER), ("Stored energy  V x Ah", "%.0f Wh" % Wh, TEAL)]
+for i, (a, b, c) in enumerate(rows):
+    y = 108 + i * 30
+    f.box(8, y, 284, 24, "", fill=SOFT, stroke=c, r=4)
+    f.text(14, y + 12, a, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.text(286, y + 12, b, size=10, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 238 - 8, "recharging reverses the cell reaction", size=9.5, color=SLATE)
+facts = dict(E="%.2f" % Ecell, Et="%.1f" % Etot, dG="%.0f" % (-dG), pb="%.0f" % pb, Wh="%.0f" % Wh)
+```
+
 ## Chapter summary
 
 - Electrode potential arises from the electrical double layer at a

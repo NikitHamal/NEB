@@ -525,6 +525,35 @@ Living systems use the same chemistry: the iron in haemoglobin carries oxygen,
 cobalt sits at the centre of vitamin B₁₂, and zinc is the active site of
 carbonic anhydrase.
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Transition metal ions are coloured because light of one wavelength lifts an electron from a lower to a higher d level, and we see the colours that are left. (a) Solutions of several transition metal ions. (b) The splitting is Delta(o) = N h c / lambda. The hexaaquatitanium(III) ion absorbs near 500 nm, which gives 239 kJ per mole and a violet solution. The tetraamminecopper(II) ion absorbs near 600 nm, giving 199 kJ, and the hexaaquacopper(II) ion near 800 nm, giving 150 kJ. Replacing water by ammonia widens the splitting and shifts the colour, which is why the copper solution turns deep blue."
+@ photo id="chem12/tm-solutions" cap="Aqueous solutions of transition metal ions in many colours"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Crystal-field splitting from the colour absorbed"
+h, c, NA = 6.626e-34, 2.998e8, 6.022e23
+rows = [("Ti(H2O)6 3+", 500, "#7e3fa8", "violet"), ("Cu(NH3)4 2+", 600, "#1d3fa8", "deep blue"), ("Cu(H2O)6 2+", 800, "#7fb6e8", "pale blue")]
+def delta(nm):
+    return h * c / (nm * 1e-9) * NA / 1000.0
+vals = [delta(r[1]) for r in rows]
+assert abs(vals[0] - 239.3) < 0.5
+f = Fig(300, 236)
+f.text(150, 14, "Delta(o) = N h c / wavelength absorbed", size=10.5, color=NAVY, bold=True)
+f.text(40, 36, "ion", size=9.5, bold=True); f.text(150, 36, "absorbs", size=9.5, bold=True); f.text(250, 36, "Delta(o)", size=9.5, bold=True)
+for i, ((nm, lam, col, cn), d) in enumerate(zip(rows, vals)):
+    y = 46 + i * 38
+    f.box(8, y, 24, 30, "", fill=col, stroke=col, r=3)
+    f.text(40, y + 15, nm, size=10, anchor="start", vmid=True, color=SLATE)
+    f.text(150, y + 15, "%d nm" % lam, size=10.5, vmid=True, color=NAVY, bold=True)
+    f.box(188, y + 4, d / 250.0 * 40, 22, "", fill=col, stroke=col, r=2)
+    f.text(188 + d / 250.0 * 40 + 4, y + 15, "", size=9)
+    f.text(292, y + 15, "%.0f kJ/mol" % d, size=10, anchor="end", vmid=True, color="#ffffff" if False else NAVY, bold=True)
+f.text(150, 176, "swatch = the colour you see (complementary)", size=9.5, color=SLATE)
+f.text(150, 194, "longer wavelength -> smaller splitting", size=10.5, color=RED, bold=True)
+f.text(150, 211, "NH3 is a stronger-field ligand than H2O", size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "(approximate absorption maxima)", size=9.5, color=SLATE)
+facts = dict(a="%.0f" % vals[0], b="%.0f" % vals[1], c="%.0f" % vals[2])
+```
+
 ## Chapter summary
 
 - A transition element has a partially filled d subshell in the atom or in a

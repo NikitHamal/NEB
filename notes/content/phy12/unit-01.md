@@ -498,6 +498,38 @@ The kinetic energy increases by $24\ \text{J}$, supplied by the work the student
 does in pulling the weights inwards.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="With no external torque, angular momentum L = I w stays constant, so a smaller moment of inertia means a faster spin. (a) A skater draws her arms in during a spin. (b) With I = 3.6 kg m2 and one revolution a second, L is 22.6 kg m2 per second. Pulling in the arms lowers I to 1.2 kg m2, so the spin rises to 3.0 revolutions a second. The kinetic energy grows from 71 J to 213 J, three times larger, and the extra 142 J is the work her muscles do against the outward pull on her arms. Divers, dancers and neutron stars use the same law."
+@ photo id="ceephy3/skater" cap="An ice skater pulling her arms in to spin faster"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Angular momentum is conserved while energy is not"
+import math
+I1, I2 = 3.6, 1.2
+w1 = 2 * math.pi * 1.0
+L = I1 * w1
+w2 = L / I2
+assert abs(I2 * w2 - L) < 1e-9
+K1, K2 = 0.5 * I1 * w1 ** 2, 0.5 * I2 * w2 ** 2
+work = K2 - K1
+assert abs(K2 / K1 - 3.0) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Arms out (blue) against arms in (red)", size=10.5, color=NAVY, bold=True)
+groups = [("L = I w", L, L, "%.1f" % L, "%.1f" % L), ("w (rev/s)", 1.0, w2 / (2 * math.pi), "1.0", "%.1f" % (w2 / (2 * math.pi))), ("KE (J)", K1, K2, "%.0f" % K1, "%.0f" % K2)]
+for i, (nm, a, b, la, lb) in enumerate(groups):
+    x = 22 + i * 92
+    m = max(a, b)
+    for j, (v, lab, c) in enumerate([(a, la, NAVY), (b, lb, RED)]):
+        h = 110 * v / m
+        f.box(x + j * 32, 140 - h, 28, h, "", fill=c, stroke=c, r=2)
+        f.text(x + j * 32 + 14, 134 - h, lab, size=9.5, color=c, bold=True)
+    f.text(x + 30, 156, nm, size=10)
+f.line(14, 141, 290, 141, color=SLATE, sw=1.2)
+f.text(150, 182, "I falls from 3.6 to 1.2 kg m2, so w rises 3 times", size=10, color=NAVY, bold=True)
+f.text(150, 200, "KE rises 3 times: %.0f J to %.0f J" % (K1, K2), size=10.5, color=RED, bold=True)
+f.text(150, 217, "the skater does %.0f J of work with her muscles" % work, size=10, color=SLATE)
+facts = dict(L="%.1f" % L, w2="%.1f" % (w2 / (2 * math.pi)), K1="%.0f" % K1, K2="%.0f" % K2, work="%.0f" % work)
+```
+
 ## Chapter summary
 
 - For constant $\alpha$: $\omega = \omega_0 + \alpha t$,

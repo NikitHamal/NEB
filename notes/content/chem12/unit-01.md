@@ -677,6 +677,33 @@ In acidic medium $E(\text{KMnO}_4) = 158/5 = 31.6$, so the mass per litre is
 $$ S = N \times E = 0.05 \times 31.6 = 1.58\ \text{g L}^{-1} $$
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="Volumetric analysis finds an unknown concentration by adding a standard solution until the reaction is just complete. (a) A burette delivering base into acid, with an indicator showing the end point. (b) The pH curve for 25.0 mL of 0.100 N hydrochloric acid titrated with 0.100 N sodium hydroxide was calculated from the amounts left over. The pH rises slowly, then jumps from 3.70 to 10.30 within the last 0.2 mL, which is why one drop of indicator changes colour so sharply. At the end point the law of equivalence N1V1 = N2V2 holds, with 25.0 mL of each solution, so the two normalities are equal."
+@ photo id="chem12/titration" cap="Titration of an acid against a base with an indicator"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Strong acid with strong base: the pH curve"
+import math
+def ph(V):
+    x = (2.5 - 0.1 * V) / (25.0 + V)
+    if abs(x) < 1e-12:
+        return 7.0
+    return -math.log10(x) if x > 0 else 14 + math.log10(-x)
+p249, p251 = ph(24.9), ph(25.1)
+assert abs(p249 - 3.70) < 0.01 and abs(p251 - 10.30) < 0.01
+N2 = 0.100 * 25.0 / 25.0
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (0, 50), (0, 14))
+ax.grid(10, 2, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="mL", yl="pH")
+ax.curve(ph, 0, 50, color=NAVY, sw=2.4, n=500)
+ax.hline(7, color=AMBER)
+ax.pt(25, 7, "end point 25.0 mL, pH 7", dx=10, dy=18)
+f.text(150, 14, "25.0 mL of 0.100 N HCl + 0.100 N NaOH", size=10, color=NAVY, bold=True)
+f.text(150, 207, "pH jumps from %.2f to %.2f over 0.2 mL" % (p249, p251), size=10, color=RED, bold=True)
+f.text(150, 222, "N1 V1 = N2 V2: 0.100 x 25.0 = %.3f x 25.0" % N2, size=10, color=NAVY, bold=True)
+facts = dict(p1="%.2f" % p249, p2="%.2f" % p251)
+```
+
 ## Chapter summary
 
 - Gravimetric analysis weighs a precipitate; volumetric analysis measures the

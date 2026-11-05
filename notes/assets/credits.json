@@ -8787,6 +8787,110 @@
   "source": "Wikimedia Commons",
   "title": "Theodosian Walls of Constantinople, Istanbul (24053561188)"
  },
+ "bca356/dht22": {
+  "author": "Suyash Dwivedi",
+  "bytes": 136796,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/dht22.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:DHT22_digital_temperature_and_humidity_sensor_module_pcb.jpg",
+  "sha1": "ad136e1399f15968",
+  "source": "Wikimedia Commons",
+  "title": "DHT22 digital temperature and humidity sensor module pcb"
+ },
+ "bca356/drip": {
+  "author": "Alan.ca",
+  "bytes": 252441,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/drip.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Drip_emitter.jpg",
+  "sha1": "40a7e13648cddc50",
+  "source": "Wikimedia Commons",
+  "title": "Drip emitter"
+ },
+ "bca356/esp32": {
+  "author": "Edwiyanto",
+  "bytes": 1216302,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/esp32.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:ESP32_Dev_Board.jpg",
+  "sha1": "9e895eceeabe395a",
+  "source": "Wikimedia Commons",
+  "title": "ESP32 Dev Board"
+ },
+ "bca356/phone": {
+  "author": "Gannu03",
+  "bytes": 567257,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/phone.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:OnePlus_Nord_smartphone_displaying_Android_home_screen.jpg",
+  "sha1": "b55c5a4e915f28aa",
+  "source": "Wikimedia Commons",
+  "title": "OnePlus Nord smartphone displaying Android home screen"
+ },
+ "bca356/rpi": {
+  "author": "Laserlicht",
+  "bytes": 419219,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/rpi.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Raspberry_Pi_4_Model_B_-_Side.jpg",
+  "sha1": "adfd97d2ac0ec0bc",
+  "source": "Wikimedia Commons",
+  "title": "Raspberry Pi 4 Model B - Side"
+ },
+ "bca356/soil": {
+  "author": "Christianjhart1",
+  "bytes": 891769,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/soil.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Soil_temperature_probe.jpg",
+  "sha1": "cd68f8fe38d56015",
+  "source": "Wikimedia Commons",
+  "title": "Soil temperature probe"
+ },
+ "bca356/terrace": {
+  "author": "extremetracking",
+  "bytes": 621435,
+  "credit": "https://www.caingram.info/CD-Browser/Photo-Albums/Arun/ar290.htm",
+  "fetched": "2026-11-05",
+  "file": "bca356/terrace.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Erraced_Hillsides_around_Bung.jpg",
+  "sha1": "123f740a0b1191e3",
+  "source": "Wikimedia Commons",
+  "title": "Erraced Hillsides around Bung"
+ },
+ "bca356/uno": {
+  "author": "Suyash Dwivedi",
+  "bytes": 353983,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca356/uno.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Arduino_Uno_R3_development_board_(3).jpg",
+  "sha1": "8789abed0177f013",
+  "source": "Wikimedia Commons",
+  "title": "Arduino Uno R3 development board (3)"
+ },
  "bca401/ap": {
   "author": "Rodrigo César",
   "bytes": 231452,
@@ -15833,6 +15937,19 @@
   "source": "Wikimedia Commons",
   "title": "Yellow sulfur crystals (8375831764)"
  },
+ "chem12/battery": {
+  "author": "No machine-readable author provided. Shaddack assumed (based on copyright claims).",
+  "bytes": 188640,
+  "credit": "No machine-readable source provided. Own work assumed (based on copyright claims).",
+  "fetched": "2026-11-05",
+  "file": "chem12/battery.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Photo-CarBattery.jpg",
+  "sha1": "c47a35d617a0c885",
+  "source": "Wikimedia Commons",
+  "title": "Photo-CarBattery"
+ },
  "chem12/cuso4": {
   "author": "W. Oelen",
   "bytes": 89215,
@@ -21371,6 +21488,32 @@
   "source": "Wikimedia Commons",
   "title": "Vernier calliper"
  },
+ "phy12/bhaktapur": {
+  "author": "Mario Biondi writer",
+  "bytes": 1106276,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy12/bhaktapur.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ruins_Bakhtapur_2015.png",
+  "sha1": "38b10530c3bb9f16",
+  "source": "Wikimedia Commons",
+  "title": "Ruins Bakhtapur 2015"
+ },
+ "phy12/crookes": {
+  "author": "D-Kuru",
+  "bytes": 314335,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy12/crookes.jpg",
+  "license": "CC BY-SA 3.0 at",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0/at/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Crookes_tube-not_in_use-lateral_view-standing_cross_prPNr%C2%B007.jpg",
+  "sha1": "9d7dd157396493ad",
+  "source": "Wikimedia Commons",
+  "title": "Crookes tube-not in use-lateral view-standing cross prPNr°07"
+ },
  "phy12/galvanometer": {
   "author": "Unknown author",
   "bytes": 685041,
@@ -21422,6 +21565,19 @@
   "sha1": "6f5fc5aa19dbc022",
   "source": "Wikimedia Commons",
   "title": "Spectroscope from Physics Department"
+ },
+ "phy12/strider": {
+  "author": "Vid Pogacnik",
+  "bytes": 905875,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy12/strider.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Water_strider_on_Natisone_river.jpg",
+  "sha1": "dad3cb707187d376",
+  "source": "Wikimedia Commons",
+  "title": "Water strider on Natisone river"
  },
  "phy12/thomson": {
   "author": "https://pixel17.com",
