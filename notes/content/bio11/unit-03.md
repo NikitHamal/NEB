@@ -687,6 +687,31 @@ If the question says *impacts*, give both benefits and hazards — two or three 
 each — or you forfeit half the marks.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Bacteria multiply by binary fission, so one cell becomes two, then four, then eight, and the population grows geometrically. (a) Colonies on an agar plate, each colony a clone grown from a single cell. (b) With a generation time of 20 minutes there are 72 doublings in a day, so one bacterium would give 2^72, or 4.7 x 10^21, cells, a mass of about 4,722 tonnes at one picogram a cell. Because the vertical axis is logarithmic, constant doubling is a straight line. Real cultures never do this: nutrients run out and wastes build up, so the log phase soon gives way to the stationary phase."
+@ photo id="bio11/colonies" cap="Bacterial colonies growing on an agar plate"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Doubling every 20 minutes for 24 hours"
+import math
+g = 20.0
+doublings = 24 * 60 / g
+assert doublings == 72
+cells = 2 ** 72
+mass_t = cells * 1e-12 / 1e6
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 240, 146, (0, 24), (0, 24))
+ax.grid(4, 4, yfmt=lambda v: "1e%d" % v, xfmt=lambda v: "%d h" % v)
+ax.axes()
+ax.curve(lambda t: t * 3 * math.log10(2), 0, 24, color=NAVY, sw=2.4)
+for t, lab, dx, dy in [(3, "512", 6, -8), (8, "1.7e7", 6, -8), (24, "4.7e21", -6, 14)]:
+    ax.pt(t, t * 3 * math.log10(2), lab, dx=dx, dy=dy, anchor="start" if dx > 0 else "end")
+f.text(150, 14, "Cells from one bacterium (log scale)", size=10.5, color=NAVY, bold=True)
+f.text(150, 207, "72 doublings: 2^72 = %.2e cells" % cells, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "at 1 pg each this is about %s tonnes" % "{:,.0f}".format(mass_t), size=10.5, color=RED, bold=True)
+f.text(150, 234, "in reality food runs out within hours", size=9.5, color=SLATE)
+facts = dict(cells="4.7 x 10^21", mass="{:,.0f}".format(mass_t), d=int(doublings))
+```
+
 ## Chapter summary
 
 - Monera contains all prokaryotes: no nuclear envelope, no membrane-bound

@@ -207,6 +207,48 @@ for i, (n, v, s) in enumerate(st):
     f.text(116 + s * 10, y + 28, f"std dev x {s}", size=9.5, color=NAVY, bold=True, anchor="start")
 ```
 
+```photogrid label="3.5" cols="2" ratio="1.27" caption="Inventory ties up money, so a firm cannot give every item the same attention. (a) At a modern checkout every barcode scan updates the stock record, which gives the item-wise sales that ABC analysis needs. (b) Ten items of a Kathmandu wholesaler are sorted by annual value, a total of NPR 309 lakh, and the cumulative line shows the Pareto effect. The three class A items, rice, oil and sugar, are 30 per cent of the items but 79.3 per cent of the value, while the four class C items are 40 per cent of the items and only 4.5 per cent. Class A therefore gets tight control and frequent counts; class C gets simple rules."
+@ photo id="bcapc/checkout" cap="Supermarket checkout with a barcode scanner"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="ABC (Pareto) analysis of ten stock items"
+items = [("Rice", 120), ("Cooking oil", 80), ("Sugar", 45), ("Lentils", 30), ("Tea", 12), ("Soap", 8), ("Salt", 5), ("Spices", 4), ("Matches", 3), ("Candles", 2)]
+total = sum(v for _, v in items)
+assert total == 309 and [v for _, v in items] == sorted([v for _, v in items], reverse=True)
+cum, cls, run = [], [], 0
+for _, v in items:
+    run += v
+    cum.append(100.0 * run / total)
+    cls.append("A" if cum[-1] <= 80 else ("B" if cum[-1] <= 96 else "C"))
+nA, nB, nC = cls.count("A"), cls.count("B"), cls.count("C")
+valA = sum(v for (_, v), c in zip(items, cls) if c == "A") * 100.0 / total
+valC = sum(v for (_, v), c in zip(items, cls) if c == "C") * 100.0 / total
+assert (nA, nB, nC) == (3, 3, 4)
+col = {"A": RED, "B": AMBER, "C": TEAL}
+f = Fig(300, 236)
+f.text(150, 14, "Annual value of stock (NPR lakh) and cumulative %", size=10, color=NAVY, bold=True)
+base, H = 160, 118
+for t in (0, 50, 100):
+    f.text(22, base - H * t / 100.0, "%d%%" % t, size=8.5, anchor="end", vmid=True)
+    f.line(26, base - H * t / 100.0, 288, base - H * t / 100.0, color="#cbd5e1", sw=0.8)
+pts = []
+for i, ((nm, v), c, cm) in enumerate(zip(items, cls, cum)):
+    x = 30 + i * 26
+    h = H * v / total
+    f.box(x, base - h, 20, h, "", fill=col[c], stroke=col[c], r=1)
+    f.text(x + 10, base + 11, str(i + 1), size=9)
+    pts.append((x + 10, base - H * cm / 100.0))
+for a, b in zip(pts, pts[1:]):
+    f.line(a[0], a[1], b[0], b[1], color=NAVY, sw=1.8)
+for p in pts:
+    f.circle(p[0], p[1], 2.6, fill=NAVY, stroke=NAVY)
+f.text(pts[2][0] + 4, pts[2][1] - 9, "%.1f %%" % cum[2], size=9.5, color=RED, bold=True)
+f.text(150, 188, "A: 3 of 10 items (30 %%) = %.1f %% of value" % valA, size=10, color=RED, bold=True)
+f.text(150, 203, "C: 4 of 10 items (40 %%) = only %.1f %% of value" % valC, size=10, color=TEAL, bold=True)
+f.text(150, 220, "count A weekly, B monthly, C yearly", size=10, color=NAVY)
+facts = dict(valA="%.1f" % valA, valC="%.1f" % valC, total=total)
+```
+
 ### 3.6.1 Eight benefits of an ERP system for a growing company
 
 1. **One version of the truth.** All departments use the same database, so a sale entered once appears in stock, accounts and delivery at once. Managers no longer argue about whose spreadsheet is correct. A trading company in Birgunj can close its monthly books in days instead of weeks.

@@ -1515,6 +1515,34 @@ a-a-a-a (Sagarmatha), i (is), i (in), e-a (Nepal) = 8; the remaining 11 letters
 are consonants. ✓
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="ASCII has only 128 codes, so it cannot hold Nepali, and Unicode gives every character of every script its own number called a code point. (a) The Devanagari alphabet chart. (b) In UTF-8 the English word Nepal needs five characters and five bytes, but the Nepali spelling needs five characters and fifteen bytes, because each Devanagari code point takes three bytes. The letter ka is U+0915, the number 2325, stored as the bytes E0 A4 95. The word Namaste has 6 characters yet 18 bytes. A program that counts bytes instead of characters therefore gets the wrong length for Nepali text, which matters in forms such as the Nagarik App."
+@ photo id="cs11/varnamala" cap="The Devanagari alphabet chart used for Nepali"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Characters versus bytes in UTF-8"
+words = [("Nepal", "Nepal"), ("Nepali word", "\u0928\u0947\u092a\u093e\u0932"), ("Namaste", "\u0928\u092e\u0938\u094d\u0924\u0947"), ("Sagarmatha", "\u0938\u0917\u0930\u092e\u093e\u0925\u093e")]
+data = []
+for nm, s in words:
+    data.append((nm, len(s), len(s.encode("utf-8")), len(s.encode("utf-16-le")), len(s.encode("utf-32-le"))))
+assert data[0][1] == data[0][2] == 5 and data[2][1:3] == (6, 18) and data[3][1:3] == (7, 21)
+ka = "\u0915"
+hexs = " ".join("%02X" % b for b in ka.encode("utf-8"))
+assert ord(ka) == 2325 and hexs == "E0 A4 95"
+f = Fig(300, 236)
+f.text(150, 14, "Code points and bytes per string", size=10.5, color=NAVY, bold=True)
+f.box(98, 22, 10, 10, "", fill=AMBER, stroke=AMBER, r=2); f.text(112, 27, "characters", size=9.5, anchor="start", vmid=True)
+f.box(184, 22, 10, 10, "", fill=NAVY, stroke=NAVY, r=2); f.text(198, 27, "UTF-8 bytes", size=9.5, anchor="start", vmid=True)
+for i, (nm, cp, u8, u16, u32) in enumerate(data):
+    y = 42 + i * 34
+    f.text(6, y + 14, nm, size=10, anchor="start", vmid=True)
+    f.box(98, y, cp * 8, 12, "", fill=AMBER, stroke=AMBER, r=2); f.text(98 + cp * 8 + 4, y + 6, str(cp), size=9.5, anchor="start", vmid=True)
+    f.box(98, y + 14, u8 * 8, 12, "", fill=NAVY, stroke=NAVY, r=2); f.text(98 + u8 * 8 + 4, y + 20, str(u8), size=9.5, anchor="start", vmid=True)
+f.text(150, 192, "U+0915 (ka) = %d  ->  bytes %s" % (ord(ka), hexs), size=10, color=RED, bold=True)
+f.text(150, 208, "ASCII letters need 1 byte, Devanagari 3 bytes", size=10, color=NAVY)
+f.text(150, 224, "Namaste: 6 characters but 18 bytes", size=10.5, color=TEAL, bold=True)
+facts = dict(b=data[2][2])
+```
+
 ## Chapter summary
 
 - Languages run from **1GL machine code** (binary, machine dependent, fastest) up
