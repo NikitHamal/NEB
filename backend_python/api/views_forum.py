@@ -22,7 +22,7 @@ from .view_helpers import (
     _validate_text_length,
     logger,
 )
-from .models import PostImage, PostMedia, Poll, PollOption, PollVote
+from .models import PostImage, PostMedia
 from . import notifications as _notif
 from .security import (
     save_post_image_upload, save_forum_media_upload, validate_forum_attachments,

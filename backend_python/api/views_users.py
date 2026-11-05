@@ -24,11 +24,10 @@ from .view_helpers import (
     _require_verified_user,
     logger,
 )
-from collections import Counter
-from django.db.models import Count, Q, Sum
+from django.db.models import Count
 from .services import record_username_change
 from .profile_education import apply_education
-from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment
+from .models import NEPAL_DISTRICTS
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

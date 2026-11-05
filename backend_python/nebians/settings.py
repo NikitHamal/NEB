@@ -8,7 +8,6 @@ import re
 import sys
 import logging
 from pathlib import Path
-from logging.handlers import RotatingFileHandler
 
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv

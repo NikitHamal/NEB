@@ -4,7 +4,6 @@ import uuid
 from django.test import Client, TestCase
 
 from api.models import User
-from api.security import hash_auth_token
 from web.api_client import get_session_user
 
 

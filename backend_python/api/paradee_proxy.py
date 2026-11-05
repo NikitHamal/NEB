@@ -17,7 +17,6 @@ import base64
 import io
 import logging
 import re
-import struct
 import time
 import wave
 from typing import Dict, List, Optional

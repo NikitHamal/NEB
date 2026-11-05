@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from api.models import BotConfig, Post, Reply, User
-from api.serializers import PostSerializer, ReplySerializer, UserPublicSerializer
+from api.serializers import PostSerializer, ReplySerializer
 from api.services import create_post, create_reply, toggle_follow, toggle_post_like, toggle_reply_like
 from api.throttles import WriteActionRateThrottle
 from api.utils import now_ms

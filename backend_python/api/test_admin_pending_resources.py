@@ -4,7 +4,7 @@ from api.models import (
     AccountDeletionRequest, Announcement, BlogComment, BlogCommentLike,
     Bookmark, EditHistory, FCMToken, Follow, Notification, Poll, PollOption,
     PollVote, Post, PostLike, Reply, ReplyLike, Resource, ResourceComment,
-    ResourceCommentLike, ResourceLike, ResourceRequest, User, UserPhoto,
+    ResourceCommentLike, ResourceLike, User, UserPhoto,
 )
 from api.security import get_user_by_auth_token, issue_auth_token
 from api.services import delete_user_account

@@ -502,7 +502,6 @@ def realtime_config(request):
     """
     import os as _os
     from django.conf import settings as _settings
-    from django.core.cache import cache as _cache
     from django.core.signing import TimestampSigner as _Signer
     # Resolve WS URL using the same newest-mtime logic as the page renderer
     ws_url = _os.environ.get('WS_PUBLIC_URL', '').strip()

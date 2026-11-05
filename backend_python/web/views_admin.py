@@ -219,7 +219,7 @@ def admin_dashboard(request):
         return redirect_response
     stats = cache.get('admin_stats')
     if stats is None:
-        from django.db.models import Sum, Count, Avg
+        from django.db.models import Sum, Count
         _now = now_ms()
         seven_days_ago = _now - 7 * 86400000
         thirty_days_ago = _now - 30 * 86400000
@@ -1491,8 +1491,6 @@ def admin_syllabus_create(request):
         return redirect_response
         
     from api.models import SyllabusContent
-    import uuid
-    import time
     
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
@@ -1611,7 +1609,6 @@ def admin_syllabus_edit(request, entry_id):
         return redirect_response
         
     from api.models import SyllabusContent
-    import time
     
     try:
         syllabus_obj = SyllabusContent.objects.get(pk=entry_id)
@@ -1779,7 +1776,6 @@ def admin_syllabus_import(request):
         return redirect_response
         
     from api.models import SyllabusContent
-    import uuid
     
     education_levels = [
         'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',

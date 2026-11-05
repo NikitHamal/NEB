@@ -4,9 +4,7 @@ import time
 import secrets
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import DisallowedHost
 from django.http import HttpResponseNotFound
-from django.http.request import validate_host
 from whitenoise.middleware import WhiteNoiseMiddleware
 
 from . import analytics

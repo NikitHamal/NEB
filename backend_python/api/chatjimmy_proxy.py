@@ -6,7 +6,6 @@ The response is plain text (optionally followed by ``<|stats|>`` /
 ``<|think|>`` blocks, which are stripped). History is passed through as
 the messages array.
 """
-import json
 import logging
 import random
 import re

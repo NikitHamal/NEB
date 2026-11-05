@@ -32,7 +32,6 @@ def login_page(request):
         return redirect('web:home')
     stats = cache.get('login_stats')
     if stats is None:
-        from django.db.models import Sum
         total_resources = Resource.objects.filter(approval_status='approved').count()
         total_users = User.objects.count()
         total_posts = Post.objects.filter(is_archived=False).count()

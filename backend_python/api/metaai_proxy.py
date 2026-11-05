@@ -1,11 +1,9 @@
 import json
 import logging
 import os
-import re
 import time
-from typing import Any, Dict, Generator, List, Optional, Set, Tuple
+from typing import Dict, Generator, List, Optional
 
-import requests
 from django.conf import settings
 from .model_catalog import model_catalog
 

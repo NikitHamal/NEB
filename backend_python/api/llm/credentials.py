@@ -27,7 +27,7 @@ from django.conf import settings
 
 from .crypto import decrypt_key
 from .registry import (
-    OFFICIAL_PRESETS, SCRAPER_PRESETS, ProviderPreset, preset, is_official_slug,
+    OFFICIAL_PRESETS, SCRAPER_PRESETS, ProviderPreset, preset,
 )
 
 
