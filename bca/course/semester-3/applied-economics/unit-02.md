@@ -135,6 +135,55 @@ f.text(180, 262, "S1 → S2 (dashed)", size=12, color=AMBER, bold=True)
 f.text(150, 282, "revenue 1,760 → 1,040", size=12.5, color=RED, bold=True)
 ```
 
+```photogrid label="2.2" cols="2" ratio="1.0" caption="Income elasticity and Engel's law. (a) Ernst Engel (1821-1896), the Saxon statistician who showed in 1857 that the share of income spent on food falls as income rises. (b) Illustrative monthly figures for a household (invented to show the pattern): income in thousand rupees 20, 40, 60, 80, 100 and food spending 12, 18, 22, 25, 27. By the midpoint formula the income elasticity between 20 and 40 is (6 / 15) / (20 / 30) = 0.60 and between 80 and 100 it is (2 / 26) / (20 / 90) = 0.35. Both are below 1, so food is a necessity: spending rises, but more slowly than income, and the food share falls from 60 per cent to 27 per cent. A good with income elasticity above 1 (a mobile phone plan, eating out) would show a share that rises with income."
+@ photo id="bcaeco/engel" cap="Ernst Engel (1821-1896)"
+fit 1.0
+focus 0.5 0.3
+@ svg cap="Engel curve for food (illustrative household)"
+inc = [20, 40, 60, 80, 100]; food = [12, 18, 22, 25, 27]
+def arc(i):
+    q0, q1, y0, y1 = food[i], food[i + 1], inc[i], inc[i + 1]
+    return ((q1 - q0) / ((q0 + q1) / 2)) / ((y1 - y0) / ((y0 + y1) / 2))
+e = [arc(i) for i in range(4)]
+assert [round(x, 2) for x in e] == [0.6, 0.5, 0.45, 0.35] and all(x < 1 for x in e)
+assert [round(100 * q / y) for q, y in zip(food, inc)] == [60, 45, 37, 31, 27]
+f = Fig(300, 240)
+ax = Axes(f, 44, 42, 240, 134, (0, 110), (0, 30))
+ax.grid(20, 10, size=10.5).axes("income (thousand Rs)", "food (thousand Rs)")
+for i in range(4):
+    f.line(ax.X(inc[i]), ax.Y(food[i]), ax.X(inc[i + 1]), ax.Y(food[i + 1]), color=NAVY, sw=2.2)
+for y, q in zip(inc, food):
+    ax.pt(y, q, "", color=RED, r=4)
+f.text(150, 14, "Engel curve for food flattens as income rises", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "income elasticity 0.60, 0.50, 0.45, 0.35", size=10.5, color=TEAL, bold=True)
+f.text(150, 226, "food share of income 60% -> 27%", size=10.5, color=RED, bold=True)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.0" caption="Who really pays a fuel tax? (a) A 1952 petrol pump: fuel is the classic good to tax because demand is inelastic. (b) Linear model with demand Q = 300 - 2P and supply Q = 4P (price in rupees per litre, quantity in thousand litres; invented numbers). Before tax the market clears at P = 50 and Q = 200. At that point the elasticity of demand is 2 x 50 / 200 = 0.5 and that of supply is 4 x 50 / 200 = 1.0. A tax of Rs 12 per litre shifts the supply curve up by 12; the new equilibrium is P = 58, Q = 184. Buyers pay 8 more and sellers keep 4 less, so buyers bear 8 / 12 = 2/3 of the tax, exactly Es / (Es + Ed) = 1 / 1.5. The government collects 12 x 184 = 2,208 thousand rupees. The less elastic side carries the larger share."
+@ photo id="bcaeco/petrol" cap="A petrol pump of 1952"
+fit 1.0
+focus 0.5 0.4
+@ svg cap="A Rs 12 tax: buyers carry 2/3"
+Ed, Es = 2 * 50 / 200, 4 * 50 / 200
+assert (Ed, Es) == (0.5, 1.0)
+pn = (300 + 48) / 6; qn = 300 - 2 * pn
+assert (qn, pn) == (184, 58) and 4 * (pn - 12) == qn
+buyer = pn - 50; seller = 50 - (pn - 12)
+assert (buyer, seller) == (8, 4) and abs(buyer / 12 - Es / (Es + Ed)) < 1e-9 and 12 * qn == 2208
+f = Fig(300, 240)
+ax = Axes(f, 48, 42, 236, 134, (150, 230), (30, 80))
+ax.grid(20, 10, size=10.5).axes("quantity (thousand L)", "price (Rs/L)")
+ax.curve(lambda q: (300 - q) / 2, 150, 230, color=BLUE, label="D", lx=ax.X(222), ly=ax.Y(36))
+ax.curve(lambda q: q / 4, 150, 230, color=TEAL, label="S", lx=ax.X(224), ly=ax.Y(57))
+ax.curve(lambda q: q / 4 + 12, 150, 218, color=RED, dash=True, label="S + tax", lx=ax.X(206), ly=ax.Y(70))
+ax.pt(200, 50, "", color=NAVY); ax.pt(184, 58, "", color=RED)
+ax.hline(58, 150, 184, color=RED); ax.hline(50, 150, 200, color=NAVY); ax.hline(46, 150, 184, color=AMBER)
+ax.vline(184, 30, 58, color=RED)
+f.text(150, 14, "price 50 -> buyers pay 58, sellers keep 46", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "buyers +8, sellers -4: buyers bear 2/3", size=10.5, color=RED, bold=True)
+f.text(150, 226, "Ed 0.5 (steeper) < Es 1.0, revenue 2,208", size=10.5, color=TEAL, bold=True)
+```
+
 ## 2.6 Eight uses of elasticity in business, government and Nepal
 
 1. **Setting the price of a product.** If demand is elastic, a small price cut brings a large rise in sales, so total revenue grows. A Nepali mobile-data company with many rivals therefore offers cheap packs to win users. If demand is inelastic, a price cut only loses revenue, so a seller of an essential item keeps the price firm.
