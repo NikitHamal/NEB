@@ -364,6 +364,62 @@ for i, (e, m, r) in enumerate(rows):
     f.box(434, y, 136, 26, r, fill=MINT, stroke=TEAL, size=11, bold=True)
 ```
 
+Inheritance is easiest to picture with vehicles. A general Vehicle knows how to compute a fare per kilometre; a city bus and a Safa tempo are special kinds of Vehicle that reuse what they can and override what differs. The tariffs below are invented for the exercise and are not the real fares of any operator.
+
+```photogrid label="6.2" cols="2" ratio="1.4" caption="Subclasses reuse and override. (a) A Sajha Yatayat bus in Kathmandu. (b) The class tree built in the figure: Bus and Tempo inherit from Vehicle, and Bus overrides fare(). The method resolution order printed by Python is Bus, Vehicle, object, and issubclass(Bus, Vehicle) is True, so a Bus can be used anywhere a Vehicle is expected. The name attribute and describe() are written once in Vehicle and used by both subclasses."
+@ photo id="bca254/sajha" cap="Sajha Yatayat bus, Kathmandu"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Class tree and MRO, taken from Python"
+class Vehicle:
+    def __init__(self, name, seats): self.name = name; self.seats = seats
+    def fare(self, km): return 5 * km
+    def describe(self): return "%s (%d seats)" % (self.name, self.seats)
+class Bus(Vehicle):
+    def fare(self, km): return 15 + 2 * km
+class Tempo(Vehicle):
+    pass
+mro_b = [c.__name__ for c in Bus.__mro__]; mro_t = [c.__name__ for c in Tempo.__mro__]
+assert mro_b == ["Bus", "Vehicle", "object"] and issubclass(Bus, Vehicle) and issubclass(Tempo, Vehicle) and not issubclass(Vehicle, Bus)
+f = Fig(300, 232)
+f.box(90, 10, 120, 56, "Vehicle\nname, seats\nfare(km)  describe()", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
+f.box(10, 130, 120, 48, "Bus\nfare(km) overridden", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(170, 130, 120, 48, "Tempo\nuses Vehicle.fare", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+f.arrow([(70, 130), (120, 66)], color=NAVY, sw=1.6); f.arrow([(230, 130), (180, 66)], color=NAVY, sw=1.6)
+f.text(150, 100, "is-a", size=9.5, color=NAVY, bold=True)
+f.text(10, 196, "Bus.__mro__   = " + " > ".join(mro_b), size=9.5, color=TEAL, bold=True, anchor="start")
+f.text(10, 214, "Tempo.__mro__ = " + " > ".join(mro_t), size=9.5, color=AMBER, bold=True, anchor="start")
+```
+
+```photogrid label="6.3" cols="2" ratio="1.3" caption="One call, many behaviours. (a) A Safa tempo, an electric three-wheeler of the Kathmandu valley. (b) The same loop for v in fleet: v.fare(8) is run on three objects and each picks its own fare() method at run time, which is polymorphism. With an 8 km trip the invented tariffs give Bus 15 + 2 x 8 = 31, Tempo 5 x 8 = 40 (inherited) and the plain Vehicle 40. The calling code never asks which class the object is."
+@ photo id="bca254/tempo" cap="Safa tempo, Kathmandu"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Polymorphic fare(8) on three objects"
+class Vehicle:
+    def __init__(self, name, seats): self.name = name; self.seats = seats
+    def fare(self, km): return 5 * km
+class Bus(Vehicle):
+    def fare(self, km): return 15 + 2 * km
+class Tempo(Vehicle):
+    pass
+fleet = [Bus("Sajha", 40), Tempo("Safa", 12), Vehicle("Taxi", 4)]
+res = [(v.name, type(v).__name__, v.fare(8)) for v in fleet]
+assert [r[2] for r in res] == [31, 40, 40]
+f = Fig(300, 220)
+f.text(150, 11, "for v in fleet: v.fare(8)", size=10.5, color=NAVY, bold=True)
+for i, (nm, cl, fr) in enumerate(res):
+    y = 26 + i * 46
+    f.box(6, y, 90, 36, "%s\n%s object" % (nm, cl), fill=BLUE, stroke=NAVY, size=9.5, bold=True)
+    f.arrow([(96, y + 18), (130, y + 18)], color=SLATE, sw=1.5)
+    which = "Bus.fare" if cl == "Bus" else "Vehicle.fare"
+    f.box(130, y, 90, 36, which, fill=(MINT if cl == "Bus" else SAND), stroke=(TEAL if cl == "Bus" else AMBER), size=9.5, bold=True)
+    f.arrow([(220, y + 18), (240, y + 18)], color=SLATE, sw=1.5)
+    f.box(240, y, 54, 36, "Rs %d" % fr, fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.text(150, 176, "15 + 2 x 8 = 31   |   5 x 8 = 40   |   5 x 8 = 40", size=9.5, color=SLATE, bold=True)
+f.text(150, 196, "the method is chosen by the object, at run time", size=9.5, color=AMBER, bold=True)
+```
+
 ### 6.6.1 Eight advantages of object-oriented programming
 
 1. **Models real things naturally.** A `Student`, `Account` or `Book` in the program matches the thing it stands for, with its data and actions in one place. A college system can use one class for a student and another for a course. This makes the design easier to explain to a client.

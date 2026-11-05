@@ -312,6 +312,67 @@ f.box(10, 150, 110, 40, "else clause\n(no break)", fill=MINT, stroke=TEAL, size=
 f.arrow([(65, 126), (65, 148)], color=TEAL, sw=1.6, label="false", lpos=(88, 138))
 ```
 
+Nested loops and while loops are easiest to trust after you have counted what they do. The two plates below run the loops for real and report the counts.
+
+```photogrid label="2.2" cols="2" ratio="1.1" caption="Nested loops are an odometer. (a) A car odometer: the right-hand wheel turns on every step, and each wheel to its left turns only when the wheel on its right rolls over from 9 to 0, exactly like an inner loop inside an outer loop. (b) A four-wheel odometer swept from 0000 to 9999 with four nested for loops: the units wheel changes 9,999 times, the tens wheel 999 times, the hundreds wheel 99 times and the thousands wheel 9 times. Each level of nesting multiplies the work by 10, which is why three nested loops over a list of 1,000 items would run 10^9 times."
+@ photo id="bca254/odometer" cap="Odometer rolling over from 99999"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Wheel changes in one sweep 0000 to 9999"
+changes = [0, 0, 0, 0]; prev = None
+for th in range(10):
+    for hu in range(10):
+        for te in range(10):
+            for un in range(10):
+                cur = (th, hu, te, un)
+                if prev is not None:
+                    for w in range(4):
+                        if cur[w] != prev[w]: changes[w] += 1
+                prev = cur
+assert changes == [9, 99, 999, 9999] and 10 ** 4 == 10000 and 1000 ** 3 == 10 ** 9
+names = ["thousands wheel", "hundreds wheel", "tens wheel", "units wheel"]
+f = Fig(300, 214)
+f.text(150, 11, "how often each wheel changes (4 nested loops)", size=10, color=NAVY, bold=True)
+for i, (nm, c) in enumerate(zip(names, changes)):
+    y = 26 + i * 34
+    w = max(c * 170 / 9999, 2)
+    col = TEAL if i == 3 else (AMBER if i == 2 else NAVY)
+    f.text(6, y + 7, nm, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(6, y + 13, w, 14, "", fill=col, stroke=col, r=2)
+    f.text(6 + w + 6, y + 21, "{:,}".format(c), size=10, color=col, bold=True, anchor="start")
+f.text(150, 176, "outer wheel = outer loop: each level is 10 times rarer", size=9.5, color=SLATE, bold=True)
+f.text(150, 196, "3 nested loops over 1,000 items = 10^9 steps", size=9.5, color=RED, bold=True)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.3" caption="A while loop whose length is random. (a) Dice. The loop rolls a die until a six appears. (b) 20,000 games simulated with random.Random(2081): the number of rolls needed ranges from 1 upward with no fixed limit, which is exactly why this must be a while loop and not a for loop. The measured mean is close to the theoretical 6 rolls (the expected value of a geometric distribution with p = 1/6), and each bar sits near its theoretical height 20,000 x (5/6)^(k-1) x (1/6)."
+@ photo id="bcamath/dice" cap="Dice"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Rolls needed to get a six (20,000 games)"
+import random
+rg = random.Random(2081); N = 20000; hist = {}; tot = 0
+for _ in range(N):
+    n = 0
+    while True:
+        n += 1
+        if rg.randint(1, 6) == 6: break
+    hist[n] = hist.get(n, 0) + 1; tot += n
+mean = tot / N
+assert 5.7 < mean < 6.3 and max(hist) > 25
+print("mean rolls", mean, "max", max(hist))
+f = Fig(300, 232)
+f.text(150, 11, "games needing k rolls (k = 1..14, mean %.2f)" % mean, size=10, color=NAVY, bold=True)
+top = max(hist[k] for k in range(1, 15))
+for k in range(1, 15):
+    c = hist.get(k, 0); h = 140 * c / top; x = 14 + (k - 1) * 20
+    th = N * (5 / 6) ** (k - 1) / 6
+    f.box(x, 176 - h, 16, h, "", fill=TEAL, stroke=TEAL, r=1)
+    f.circle(x + 8, 176 - 140 * th / top, 3, fill=AMBER, stroke=AMBER)
+    f.text(x + 8, 190, str(k), size=9, color=SLATE, bold=True)
+f.text(150, 208, "teal bars: simulation; amber dots: theory", size=9.5, color=SLATE, bold=True)
+f.text(150, 224, "longest game: %d rolls (no upper limit)" % max(hist), size=9.5, color=AMBER, bold=True)
+```
+
 ### 2.8.1 Eight good habits when writing conditions and loops
 
 1. **Test the most specific case first.** In an `if/elif` chain Python stops at the first true test, so `marks >= 40` placed before `marks >= 80` would give every student only a pass. Write the strictest condition at the top and the general one last. Read the chain once from the top as a check before you run it.

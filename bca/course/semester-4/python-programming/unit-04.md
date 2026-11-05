@@ -393,6 +393,51 @@ print(sys.getrecursionlimit())
 55 832040 31
 1000
 ```
+Recursion has a price (stack frames) and a trick that removes most of it (remembering answers). The plate runs both for real.
+
+```photogrid label="4.2" cols="2" ratio="1.1" caption="Dolls inside dolls. (a) Russian nesting dolls: opening one leads to a smaller copy of the same idea until the smallest doll, the base case, stops the process. (b) Real Python runs. Plain recursive fib(30) makes 2,692,537 calls because the same sub-problems are solved again and again; with functools.lru_cache it makes just 31 calls (one per value 0 to 30). A recursion with no base case stops with RecursionError once its depth reaches the interpreter limit, which is 1,000 frames by default."
+@ photo id="bca102/matryoshka" cap="Matryoshka dolls: recursion with a base case"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Calls for fib(30), and the recursion limit"
+import sys
+from functools import lru_cache
+calls = [0]
+def fib(n):
+    calls[0] += 1
+    return n if n < 2 else fib(n - 1) + fib(n - 2)
+v = fib(30); naive = calls[0]
+calls2 = [0]
+@lru_cache(maxsize=None)
+def fibm(n):
+    calls2[0] += 1
+    return n if n < 2 else fibm(n - 1) + fibm(n - 2)
+v2 = fibm(30); cached = calls2[0]
+def down(k):
+    return down(k + 1)
+reached = [0]
+def probe(k):
+    reached[0] = k; return probe(k + 1)
+try:
+    probe(0); msg = "none"
+except RecursionError as e:
+    msg = type(e).__name__
+lim = sys.getrecursionlimit()
+assert v == v2 == 832040 and naive == 2692537 and cached == 31 and lim == 1000 and msg == "RecursionError" and 700 < reached[0] <= lim
+f = Fig(300, 226)
+f.text(150, 11, "function calls to compute fib(30) = 832,040", size=10, color=NAVY, bold=True)
+f.text(6, 34, "plain recursion", size=9.5, color=SLATE, bold=True, anchor="start")
+f.box(6, 40, 288, 18, "{:,} calls".format(naive), fill=ROSE, stroke=RED, size=10, bold=True, r=2)
+f.text(6, 76, "with lru_cache", size=9.5, color=SLATE, bold=True, anchor="start")
+f.box(6, 82, 2, 18, "", fill=TEAL, stroke=TEAL, r=0)
+f.text(14, 92, "{} calls ({:,} times fewer)".format(cached, naive // cached), size=10, color=TEAL, bold=True, anchor="start")
+f.text(150, 128, "no base case: depth grows until the limit", size=10, color=NAVY, bold=True)
+f.box(6, 138, 288, 20, "", fill=BLUE, stroke=NAVY, r=2)
+f.box(6, 138, 288 * reached[0] / lim, 20, "", fill=AMBER, stroke=AMBER, r=2)
+f.text(150, 170, "sys.getrecursionlimit() = %d; stopped by %s" % (lim, msg), size=9.5, color=AMBER, bold=True)
+f.box(6, 184, 288, 34, "each call keeps a frame on the call stack:\nmore frames = more memory, so cache or loop", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
 ### 4.7.1 Eight advantages of using functions and modules
 
 1. **Reuse of code.** A function is written once and called many times, so a fee-calculation routine does not have to be copied into five places. When the rule changes, you edit one function. This lowers both the effort and the number of bugs.
