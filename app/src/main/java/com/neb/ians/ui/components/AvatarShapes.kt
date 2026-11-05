@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.graphics.shapes.RoundedPolygon
 
 /**
  * One shape per person, everywhere: the web's `neb-shapes.js` hashes the username (FNV-1a) into
@@ -18,15 +19,16 @@ import androidx.compose.ui.graphics.Shape
  * function, so a person who is a clover on the site is a clover on the phone.
  */
 object AvatarShapes {
-    private val shapes: List<Shape> by lazy {
+    /** The seven silhouettes, in the web's order. */
+    val polygons: List<RoundedPolygon> by lazy {
         listOf(
-            MaterialShapes.Cookie9Sided.toShape(),
-            MaterialShapes.Sunny.toShape(),
-            MaterialShapes.Flower.toShape(),
-            MaterialShapes.Clover4Leaf.toShape(),
-            MaterialShapes.SoftBurst.toShape(),
-            MaterialShapes.Oval.toShape(),
-            MaterialShapes.Square.toShape()
+            MaterialShapes.Cookie9Sided,
+            MaterialShapes.Sunny,
+            MaterialShapes.Flower,
+            MaterialShapes.Clover4Leaf,
+            MaterialShapes.SoftBurst,
+            MaterialShapes.Oval,
+            MaterialShapes.Square
         )
     }
 
@@ -39,9 +41,10 @@ object AvatarShapes {
         return h
     }
 
-    fun shapeFor(seed: String): Shape {
-        if (seed.isBlank()) return CircleShape
-        return shapes[(hash(seed.trim().lowercase()) % shapes.size).toInt()]
+    /** Index into [polygons] for this seed, or -1 for a blank one. */
+    fun indexFor(seed: String): Int {
+        if (seed.isBlank()) return -1
+        return (hash(seed.trim().lowercase()) % polygons.size).toInt()
     }
 
     fun toneFor(seed: String): Int {
@@ -52,7 +55,11 @@ object AvatarShapes {
 
 /** The person's avatar shape, remembered per seed. */
 @Composable
-fun rememberAvatarShape(seed: String): Shape = remember(seed) { AvatarShapes.shapeFor(seed) }
+fun rememberAvatarShape(seed: String): Shape {
+    val index = remember(seed) { AvatarShapes.indexFor(seed) }
+    val shaped = AvatarShapes.polygons[index.coerceAtLeast(0)].toShape()
+    return if (index < 0) CircleShape else shaped
+}
 
 /** Fill and ink for an initial-only avatar: the web's three tonal pairs, chosen by the same hash. */
 @Composable
