@@ -237,6 +237,69 @@ f.text(290, 175, "moves(n) = 2 * moves(n - 1) + 1 = 2^n - 1: every extra disc do
 7. **Fractals and graphics.** Snowflakes, trees and coastlines are drawn by calling a drawing function on smaller copies of the shape. The nautilus shell of Plate 6.1 is a natural example of self-similarity. Computer graphics use this to make realistic scenery with very little code.
 8. **Combinatorial problems.** Generating all permutations or subsets of a set, and counting the paths in a grid, are recursive tasks. The recursion tree lists every possibility in an orderly way. Test-case generators and route planners use this idea.
 
+```photogrid label="6.2" cols="2" ratio="1.2" caption="Recursion in nature and in code. (a) A Romanesco broccoli: each cone is made of smaller cones of the same shape, which are made of still smaller cones, a self-similar pattern that stops only because a real vegetable is finite (the base case). (b) The Sierpinski triangle drawn by a recursive function that splits a triangle into three half-size triangles until level 4. The figure counts the real calls: level n gives 3^n small triangles and (3^(n+1) - 1) / 2 function calls, so level 4 has 81 triangles drawn by 121 calls and level 6 would need 1,093 calls. The work grows by a factor of 3 per level, which is why the recurrence T(n) = 3 T(n - 1) + 1 solves to O(3^n)."
+@ photo id="bca201/romanesco" cap="Romanesco broccoli: a cone of cones"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Sierpinski triangle, level 4, with call counts"
+import math
+def tri(f, x, y, s, n, cnt):
+    cnt[0] += 1
+    if n == 0:
+        h = s * math.sqrt(3) / 2
+        f.poly([(x, y), (x + s, y), (x + s / 2, y - h)], fill=BLUE, stroke=NAVY, sw=0.6)
+        return
+    s2 = s / 2; h2 = s2 * math.sqrt(3) / 2
+    tri(f, x, y, s2, n - 1, cnt); tri(f, x + s2, y, s2, n - 1, cnt); tri(f, x + s2 / 2, y - h2, s2, n - 1, cnt)
+def calls(n):
+    return 1 if n == 0 else 1 + 3 * calls(n - 1)
+f = Fig(300, 240)
+cnt = [0]
+tri(f, 12, 170, 148, 4, cnt)
+assert cnt[0] == 121 == calls(4) == (3 ** 5 - 1) // 2 and calls(6) == 1093
+f.text(86, 192, "level 4: 81 triangles, 121 calls", size=10.5, color=NAVY, bold=True)
+f.text(230, 22, "level  pieces  calls", size=10.5, color=SLATE, bold=True)
+for n in range(6):
+    y = 44 + n * 20
+    f.text(182, y, str(n), size=10.5, color=SLATE)
+    f.text(228, y, str(3 ** n), size=10.5, color=TEAL, bold=True)
+    f.text(274, y, str(calls(n)), size=10.5, color=AMBER, bold=True)
+f.text(150, 214, "calls = 1 + 3 + 9 + ... + 3^n = (3^(n+1) - 1) / 2", size=10.5, color=SLATE)
+```
+
+```photogrid label="6.3" cols="2" ratio="1.2" caption="Backtracking: the eight queens puzzle. (a) A chessboard with the pieces in the starting position; a queen attacks along its row, column and both diagonals. (b) A recursive search places one queen per row, tries each column, and backs up (backtracks) the moment a placed queen is attacked. The program in the figure finds all 92 solutions, the first being columns 0, 4, 7, 5, 2, 6, 1, 3 (drawn), after visiting only 2,057 partial boards. Checking every way of putting 8 queens on 8 rows would examine 8^8 = 16,777,216 boards and every permutation 8! = 40,320 boards; pruning wrong branches early is what makes backtracking practical."
+@ photo id="bca201/chessboard" cap="Chessboard: the home of the queens puzzle"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Eight queens by backtracking: 92 solutions"
+import math
+cnt = [0]; sols = []
+def place(r, cols):
+    cnt[0] += 1
+    if r == 8: sols.append(cols[:]); return
+    for c in range(8):
+        if all(c != cc and abs(c - cc) != r - rr for rr, cc in enumerate(cols)):
+            cols.append(c); place(r + 1, cols); cols.pop()
+place(0, [])
+assert len(sols) == 92 and cnt[0] == 2057 and sols[0] == [0, 4, 7, 5, 2, 6, 1, 3]
+f = Fig(300, 240)
+s = 17; x0, y0 = 10, 8
+for r in range(8):
+    for c in range(8):
+        f.box(x0 + c * s, y0 + r * s, s, s, "", fill=(BLUE if (r + c) % 2 else SOFT), stroke=SLATE, r=0, sw=0.5)
+for r, c in enumerate(sols[0]):
+    f.circle(x0 + c * s + s / 2, y0 + r * s + s / 2, 6, fill=RED, stroke=RED)
+f.text(170, 26, "first solution", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(170, 44, "0 4 7 5 2 6 1 3", size=10.5, color=RED, bold=True, anchor="start")
+f.text(170, 70, "solutions: 92", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(170, 88, "boards visited: 2,057", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(170, 106, "(log scale bars below)", size=10.5, color=SLATE, anchor="start")
+sc = 270 / math.log10(8 ** 8)
+for i, (lab, v, fl, st) in enumerate([("backtracking: 2,057", 2057, MINT, TEAL), ("permutations 8!: 40,320", 40320, SAND, AMBER), ("all boards 8^8: 16,777,216", 8 ** 8, ROSE, RED)]):
+    f.box(10, 172 + i * 22, math.log10(v) * sc, 18, lab, fill=fl, stroke=st, size=10.5, r=2, anchor="start")
+f.text(150, 160, "boards examined (bar length = log10)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Recursive definition = base case + smaller recursive case.

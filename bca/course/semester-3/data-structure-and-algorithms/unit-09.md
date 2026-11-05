@@ -227,6 +227,89 @@ f.text(290, 180, "n = 1,000,000 items, average comparisons", size=9.5, color=SLA
 7. **File integrity and blockchain.** A hash function such as SHA-256 maps a whole file to a short fingerprint; a changed file gives a different value. Download pages show these values so that you can check a file. Digital signatures and ledgers use the same idea.
 8. **Searching in sorted data.** Binary search finds a name in a sorted list, a page in a book or a line in a log file in O(log n). Programmers also use it to find the first value above a limit. Its speed depends only on the data being in order.
 
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Why hash tables must not be allowed to fill up. (a) An old desk telephone and directory: a phone number is a key and a person is the record, and a directory is only useful because the lookup is quick. (b) A real experiment with a table of M = 1,009 slots, h(k) = k mod M and random keys, averaged over 200 runs. With linear probing, a successful search needs 1.49 probes at load factor 0.50, 2.48 at 0.75 and 5.07 at 0.90, close to the formula (1 + 1 / (1 - a)) / 2 = 1.50, 2.50, 5.50. With separate chaining it needs only 1.25, 1.37 and 1.45 probes (formula 1 + a / 2). Keep the load factor below about 0.7 for open addressing."
+@ photo id="bca201/phone" cap="Telephone and directory: key to record"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Average probes for a successful search"
+import random
+def lin(alpha, M=1009, trials=200, seed=1):
+    r = random.Random(seed); tot = 0; n = 0
+    for t in range(trials):
+        T = [None] * M; pr = {}
+        for k in r.sample(range(10 ** 7), int(alpha * M)):
+            h = k % M; p = 1
+            while T[h] is not None: h = (h + 1) % M; p += 1
+            T[h] = k; pr[k] = p
+        tot += sum(pr.values()); n += len(pr)
+    return tot / n
+def chain(alpha, M=1009, trials=200, seed=1):
+    r = random.Random(seed); tot = 0; n = 0
+    for t in range(trials):
+        B = [[] for _ in range(M)]
+        for k in r.sample(range(10 ** 7), int(alpha * M)):
+            B[k % M].append(k); tot += len(B[k % M]); n += 1
+    return tot / n
+al = [0.5, 0.75, 0.9]
+L = [lin(a) for a in al]; C = [chain(a) for a in al]
+assert [round(v, 2) for v in L] == [1.49, 2.48, 5.07], L
+for a, v in zip(al, C): assert abs(v - (1 + a / 2)) < 0.03
+assert [round(1 + a / 2, 2) for a in al] == [1.25, 1.38, 1.45]
+f = Fig(300, 240)
+base = 190; sc = 24
+f.line(20, base, 290, base, color=SLATE, sw=1.2)
+for i, a in enumerate(al):
+    x = 38 + i * 88
+    h1 = L[i] * sc; h2 = C[i] * sc
+    f.box(x, base - h1, 28, h1, "", fill=BLUE, stroke=NAVY, r=0)
+    f.box(x + 30, base - h2, 28, h2, "", fill=MINT, stroke=TEAL, r=0)
+    f.text(x + 14, base - h1 - 8, f"{L[i]:.2f}", size=10.5, color=NAVY, bold=True)
+    f.text(x + 44, base - h2 - 8, f"{C[i]:.2f}", size=10.5, color=TEAL, bold=True)
+    f.text(x + 29, base + 16, f"load {a:.2f}", size=10.5, color=SLATE)
+f.box(30, 218, 12, 12, "", fill=BLUE, stroke=NAVY, r=0); f.text(46, 224, "linear probing", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(150, 218, 12, 12, "", fill=MINT, stroke=TEAL, r=0); f.text(166, 224, "chaining", size=10.5, color=TEAL, anchor="start", vmid=True)
+```
+
+```photogrid label="9.3" cols="2" ratio="1.2" caption="Halving 100,000 pages. (a) A child opens a dictionary in the middle and decides which half to keep: that is binary search done by hand. (b) The real binary search on a sorted array of 100,000 words, always going right (the worst direction). The number of words still possible falls 100,000, 50,000, 25,000, 12,500 and so on, and the search ends within 17 probes for every possible target because 2^17 = 131,072 is more than 100,000 (the program tests all 100,000 targets and the maximum is 17). A linear search needs 50,000.5 comparisons on average for a word that is present, about 2,941 times more than the 17 of binary search, which is why dictionaries, phone books and database indexes are kept sorted."
+@ photo id="bca201/dictionary" cap="Opening a dictionary at the middle"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Candidates left after each probe, n = 100,000"
+n = 100000
+def worst(n):
+    lo, hi, c = 0, n - 1, 0; sizes = [n]
+    while lo <= hi:
+        mid = (lo + hi) // 2; c += 1; lo = mid + 1; sizes.append(max(0, hi - lo + 1))
+    return c, sizes
+def probes(a, t):
+    lo, hi, c = 0, len(a) - 1, 0
+    while lo <= hi:
+        mid = (lo + hi) // 2; c += 1
+        if a[mid] == t: return c
+        if a[mid] < t: lo = mid + 1
+        else: hi = mid - 1
+    return c
+arr = list(range(n))
+mx = max(probes(arr, t) for t in range(n))
+c, sizes = worst(n)
+assert mx == 17 and c == 17 and 2 ** 17 == 131072 > n and (n + 1) / 2 == 50000.5 and round(50000.5 / 17) == 2941
+assert sizes[:4] == [100000, 50000, 25000, 12500]
+def lab(v):
+    if v >= 1000: return (f"{v / 1000:.1f}".rstrip("0").rstrip(".")) + "k"
+    return str(v)
+f = Fig(300, 240)
+base = 150; H = 110
+f.line(10, base, 290, base, color=SLATE, sw=1.2)
+for k in range(8):
+    x = 14 + k * 35; h = max(2, sizes[k] / n * H)
+    f.box(x, base - h, 28, h, "", fill=BLUE, stroke=NAVY, r=0)
+    f.text(x + 14, base - h - 8, lab(sizes[k]), size=10.5, color=NAVY, bold=True)
+    f.text(x + 14, base + 14, str(k), size=10.5, color=SLATE)
+f.text(150, base + 30, "probes made so far", size=10.5, color=SLATE)
+f.text(150, 205, "linear: 50,000.5 looks on average; binary: at most 17", size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "2^17 = 131,072 > 100,000, so 17 probes always suffice", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Linear search: average (n+1)/2, worst n. Binary search: ≤ ⌊log₂ n⌋ + 1.
