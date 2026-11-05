@@ -348,6 +348,52 @@ Options that give them "chlorophyll *b*", "a nucleus", "flagellated zoospores"
 or "sexual reproduction by gametes" are all wrong.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Binary fission is exponential. (a) A technician checks an agar dish for bacterial colonies; every visible colony grew from one cell. (b) With a generation time of 20 minutes a culture of 1,000 cells doubles three times an hour, so the number is N = 1,000 x 2^n for n generations. After 3 hours (n = 9) there are 512,000 cells and after 6 hours (n = 18) there are 262,144,000, which is why a log scale gives a straight line and why a food left out overnight is unsafe."
+@ photo id="ceebot/petri" cap="Examining an agar dish for bacterial colonies"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Cells against time on a log scale (N0 = 1,000, 20 min)"
+N0, g = 1000, 20
+N = lambda m: N0 * 2 ** (m // g)
+assert N(180) == 512000 and N(360) == 262144000
+facts = dict(n3="{:,}".format(N(180)), n6="{:,}".format(N(360)))
+f = Fig(300, 236)
+f.text(150, 12, "log10 N against time (hours)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 236, 150, (0, 6), (3, 9))
+ax.grid(1, 1).axes("h", "log N")
+ax.curve(lambda t: 3 + 3 * t * math.log10(2), 0, 6, color=TEAL)
+ax.pt(0, 3, "1,000", dx=-4, dy=-28)
+ax.pt(3, math.log10(512000), "512,000", dx=-8, dy=-10, anchor="end")
+ax.pt(6, math.log10(262144000), "262 million", dx=-8, dy=14, anchor="end")
+f.text(150, 224, "3 doublings per hour: slope = 0.903", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Cyanobacteria fix nitrogen in special cells. (a) A mat of Nostoc commune, a blue-green alga that fixes atmospheric nitrogen and is spread over damp ground in Nepal. (b) In a filament of 60 cells one cell in ten becomes a heterocyst, so 6 of 60 cells (10 per cent) are heterocysts. The thick wall keeps oxygen out, and nitrogenase there reduces N2 to ammonia at a cost of 16 ATP per N2; the neighbouring green cells supply the sugar and the ATP by photosynthesis."
+@ photo id="ceebot/nostoc" cap="Nostoc commune, a nitrogen-fixing cyanobacterium"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heterocysts in a 60-cell Nostoc filament"
+n_cells, per_row, gap = 60, 20, 13.6
+het = [i for i in range(n_cells) if i % 10 == 9]
+assert len(het) == 6
+facts = dict(nh=str(len(het)), pct="%.0f" % (100 * len(het) / n_cells))
+f = Fig(300, 236)
+f.text(150, 12, "Nostoc filament (3 rows of 20 cells)", size=10.5, color=NAVY, bold=True)
+for i in range(n_cells):
+    r, c = divmod(i, per_row)
+    x, y = 20 + c * gap, 38 + r * 28
+    if i in het:
+        f.circle(x, y, 7.6, fill="#fde68a", stroke=AMBER, sw=2.4)
+    else:
+        f.circle(x, y, 6, fill="#bbf7d0", stroke=TEAL, sw=1.2)
+f.circle(20, 134, 6, fill="#bbf7d0", stroke=TEAL)
+f.text(32, 134, "vegetative cell: photosynthesis", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.circle(20, 154, 7.6, fill="#fde68a", stroke=AMBER, sw=2.4)
+f.text(32, 154, "heterocyst: thick wall, nitrogenase", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "N2 + 8H+ + 8e- + 16 ATP -> 2NH3 + H2", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "%d of %d cells = %s per cent heterocysts" % (len(het), n_cells, facts["pct"]), size=10.5, color=SLATE, bold=True)
+```
+
 ## 2.3 Viruses
 
 ### Discovery and characteristics
