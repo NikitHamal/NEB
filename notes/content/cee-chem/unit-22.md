@@ -361,6 +361,31 @@ complex trap the iodine; and **phenolphthalein is colourless in acid and
 pink in base** — the pink appears on the basic side of the jump.
 :::
 
+```photogrid label="22.1" cols="2" ratio="1.2" caption="Separating ions by solubility. (a) In wet qualitative analysis a coloured ring or precipitate identifies an ion, as in the brown ring test for nitrate. (b) For 0.010 M chloride, bromide and iodide the Ag+ needed to start precipitation is Ksp / 0.010: 1.8e-08 M for AgCl (Ksp 1.8 x 10^-10), 5.4e-11 M for AgBr (5.4 x 10^-13) and 8.5e-15 M for AgI (8.5 x 10^-17). Adding Ag+ slowly therefore precipitates AgI first. When AgCl just starts, the iodide left is 4.7e-09 M, only 5e-05 per cent of the original, so the separation is almost complete."
+@ photo id="cee-chem/brown-ring" cap="The brown ring test for nitrate: a brown ring forms where acid and solution meet"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Silver ion needed to start precipitating 0.010 M halides"
+Ksp = {"Cl": 1.8e-10, "Br": 5.4e-13, "I": 8.5e-17}; c = 0.010
+need = {k: v / c for k, v in Ksp.items()}
+left = Ksp["I"] / need["Cl"]; frac = left / c * 100
+order = sorted(need, key=lambda k: need[k])
+assert order == ["I", "Br", "Cl"] and abs(need["Cl"] - 1.8e-8) < 1e-15 and left < 1e-8 and frac < 1e-4
+facts = dict(cl="%.1e" % need["Cl"], br="%.1e" % need["Br"], i="%.1e" % need["I"], left="%.1e" % left, frac="%.0e" % frac)
+f = Fig(300, 236)
+f.text(150, 14, "pAg = -log [Ag+] at the start of precipitation", size=10, color=NAVY, bold=True)
+for i, (k, col, fl) in enumerate((("Cl", AMBER, SAND), ("Br", TEAL, MINT), ("I", RED, ROSE))):
+    y = 30 + i * 40; p = -math.log10(need[k])
+    f.text(14, y + 4, "Ag%s (Ksp %.1e)" % (k, Ksp[k]), size=10.5, color=SLATE, anchor="start")
+    w = p * 14
+    f.box(14, y + 10, w, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.2f" % p, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 164, "longer bar = less Ag+ needed = first to form", size=10, color=SLATE)
+f.text(150, 184, "order of precipitation: AgI, AgBr, AgCl", size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "iodide left when AgCl starts: %.1e M" % left, size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "only %.0e per cent remains" % frac, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

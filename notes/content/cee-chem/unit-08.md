@@ -430,6 +430,36 @@ ax.legend(loc='lower right', fontsize=8.4, frameon=False)
 - The last drop is added dropwise, and the flask is swirled after each addition.
 :::
 
+```photogrid label="8.1" cols="2" ratio="1.2" caption="One drop changes the pH by six units. (a) A burette delivers titrant slowly until the indicator changes. (b) For 25.0 mL of 0.100 M HCl and 0.100 M NaOH the pH is 1.00 at the start, 3.70 at 24.9 mL, exactly 7.00 at 25.0 mL and 10.30 at 25.1 mL. A 0.2 mL range crosses 6.6 pH units, so methyl orange (3.1 to 4.4) and phenolphthalein (8.3 to 10) both change colour within one drop of the true end-point at 25.0 mL, and either indicator can be used for a strong acid and a strong base."
+@ photo id="chem12/titration" cap="A burette in a clamp: the volume of titrant is read to 0.05 mL"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Titration curve: 25.0 mL of 0.100 M HCl with 0.100 M NaOH"
+Ca, Va, Cb = 0.100, 25.0, 0.100
+def pH(Vb):
+    n = Ca * Va - Cb * Vb; V = Va + Vb
+    if abs(n) < 1e-9: return 7.0
+    return -math.log10(n / V) if n > 0 else 14 + math.log10(-n / V)
+p0, p1, p2 = pH(0), pH(24.9), pH(25.1)
+assert abs(p0 - 1.0) < 1e-9 and abs(p1 - 3.70) < 0.01 and abs(p2 - 10.30) < 0.01 and pH(25.0) == 7.0
+facts = dict(p0="%.2f" % p0, p1="%.2f" % p1, p2="%.2f" % p2, jump="%.1f" % (p2 - p1), veq="%.1f" % (Ca * Va / Cb))
+f = Fig(300, 236)
+f.text(150, 14, "pH against volume of NaOH added", size=10.5, color=NAVY, bold=True)
+X = lambda v: 40 + v * 4.8; Y = lambda p: 160 - p * 9.2
+f.box(X(0), Y(10), X(50) - X(0), Y(8.3) - Y(10), fill=SAND, stroke=SAND, r=0, sw=0)
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+pts = [(X(v), Y(pH(v))) for v in [i * 0.5 for i in range(0, 100)] + [24.9, 25.0, 25.1] if True]
+pts.sort()
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+f.circle(X(25), Y(7), 4, fill=AMBER, stroke=AMBER)
+f.text(X(25) + 8, Y(7) + 14, "end-point 25.0 mL, pH 7", size=10.5, color=AMBER, bold=True, anchor="start")
+for v in (0, 25, 50): f.text(X(v), Y(0) + 13, "%d" % v, size=10.5, color=SLATE)
+for p in (2, 7, 12): f.text(35, Y(p), "%d" % p, size=10.5, color=SLATE, anchor="end", vmid=True)
+f.text(150, 190, "24.9 mL: pH %.2f; 25.1 mL: pH %.2f" % (p1, p2), size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "0.2 mL spans %.1f pH units" % (p2 - p1), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "shaded band: phenolphthalein, pH 8.3 to 10", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |

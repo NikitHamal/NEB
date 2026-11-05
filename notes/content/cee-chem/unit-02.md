@@ -394,6 +394,40 @@ orbital).
 total **n − 1**.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Lines, not a continuum. (a) A spectroscope shows the sharp lines of an excited gas. (b) For hydrogen 1/lambda = R (1/2^2 - 1/n^2) with R = 1.0968 x 10^7 per metre gives the visible Balmer lines at 656.5 nm (n = 3, red), 486.3 nm (n = 4, blue-green), 434.2 nm (n = 5) and 410.3 nm (n = 6, violet), photon energies 1.89, 2.55, 2.86 and 3.02 eV. The lines crowd towards the series limit at 364.7 nm (n = infinity), where the electron is just freed from level 2."
+@ photo id="phy12/spectroscope" cap="A laboratory spectroscope splits light from a discharge tube into lines"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Balmer lines of hydrogen from the Rydberg formula"
+def rgb(l):
+    if l < 440: r, g, b = (440 - l) / 40, 0, 1
+    elif l < 490: r, g, b = 0, (l - 440) / 50, 1
+    elif l < 510: r, g, b = 0, 1, (510 - l) / 20
+    elif l < 580: r, g, b = (l - 510) / 70, 1, 0
+    elif l < 645: r, g, b = 1, (645 - l) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * c) for c in (r, g, b))
+R = 1.0968e7; hc = 1239.84
+lam = lambda n: 1e9 / (R * (0.25 - 1 / n ** 2))
+L = {n: lam(n) for n in (3, 4, 5, 6)}; lim = 1e9 / (R * 0.25)
+assert abs(L[3] - 656.5) < 0.3 and abs(L[4] - 486.3) < 0.3 and abs(L[6] - 410.3) < 0.3 and abs(lim - 364.8) < 0.3
+facts = dict(l3="%.1f" % L[3], l4="%.1f" % L[4], l5="%.1f" % L[5], l6="%.1f" % L[6], e3="%.2f" % (hc / L[3]), e4="%.2f" % (hc / L[4]), e5="%.2f" % (hc / L[5]), e6="%.2f" % (hc / L[6]), lim="%.1f" % lim)
+f = Fig(300, 236)
+f.text(150, 14, "Balmer series, n to 2", size=10.5, color=NAVY, bold=True)
+X = lambda l: 20 + (l - 360) / 340 * 260
+f.box(20, 34, 260, 70, fill="#0f172a", stroke="#0f172a", r=2)
+for n, l in L.items():
+    f.line(X(l), 34, X(l), 104, color=rgb(l) if l < 640 else "#ef4444", sw=3)
+    f.text(X(l), 118, "%d" % n, size=10.5, color=NAVY, bold=True)
+f.line(X(lim), 34, X(lim), 104, color="#94a3b8", sw=1.2, dash=True)
+f.text(X(lim) + 3, 130, "limit", size=10.5, color=SLATE, anchor="start")
+for l in (400, 500, 600, 700): f.text(X(l), 146, "%d" % l, size=10.5, color=SLATE)
+f.text(150, 164, "wavelength in nm", size=10.5, color=SLATE)
+f.text(150, 184, "n=3: %.1f nm, %.2f eV" % (L[3], hc / L[3]), size=10.5, color=RED, bold=True)
+f.text(150, 202, "n=6: %.1f nm, %.2f eV" % (L[6], hc / L[6]), size=10.5, color="#6d28d9", bold=True)
+f.text(150, 220, "series limit %.1f nm" % lim, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula / value |

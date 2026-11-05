@@ -273,6 +273,30 @@ for x, title, col, pts in cols:
         ax.text(x + 0.22, y, lab, ha='left', va='center', fontsize=7.8, color=INK)
 ```
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Oxidation numbers decide the stoichiometry. (a) Coloured ions such as permanganate (purple) and Fe2+ (pale green) make redox end-points visible. (b) In MnO4- + 5Fe2+ + 8H+ gives Mn2+ + 5Fe3+ + 4H2O manganese falls from +7 to +2 and gains 5 electrons, while each iron rises from +2 to +3 and loses 1, so 5 Fe2+ are needed. If 25.0 mL of Fe2+ solution needs 22.5 mL of 0.0200 M permanganate, then n(Fe2+) = 0.00225 mol, the concentration is 0.0900 M and 250 mL holds 1.257 g of iron."
+@ photo id="chem12/tm-colours" cap="Transition-metal ions in solution: the colour depends on the metal and its oxidation state"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Electron bookkeeping in a permanganate titration of Fe2+"
+nMn = 0.0200 * 0.0225; nFe = 5 * nMn; c = nFe / 0.0250; mFe = c * 0.250 * 55.845
+assert (7 - 2) == 5 * (3 - 2) and abs(nFe - 2.25e-3) < 1e-12 and abs(c - 0.0900) < 1e-9 and abs(mFe - 1.2565) < 1e-3
+facts = dict(nfe="%.5f" % nFe, c="%.4f" % c, mfe="%.3f" % mFe)
+f = Fig(300, 236)
+f.text(150, 14, "Oxidation number changes", size=10.5, color=NAVY, bold=True)
+f.box(14, 30, 120, 30, label="Mn  +7", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(134, 45), (166, 45)], color=SLATE)
+f.box(166, 30, 120, 30, label="Mn  +2", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.text(150, 76, "gains 5 electrons (reduced)", size=10.5, color=RED, bold=True)
+for i in range(5):
+    x = 14 + i * 56
+    f.box(x, 96, 48, 24, label="Fe +2", fill=MINT, stroke=TEAL, size=10, bold=True)
+    f.arrow([(x + 24, 120), (x + 24, 138)], color=SLATE)
+    f.box(x, 138, 48, 24, label="Fe +3", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.text(150, 180, "5 Fe lose 5 electrons (oxidised)", size=10.5, color=AMBER, bold=True)
+f.text(150, 200, "n(Fe2+) = 5 x %.5f = %.5f mol" % (nMn, nFe), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "c = %.4f M; %.3f g Fe in 250 mL" % (c, mFe), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Rule |

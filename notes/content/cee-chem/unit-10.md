@@ -530,6 +530,30 @@ unprotected. Zinc is the opposite: it keeps protecting even when scratched, beca
 sacrificed.
 :::
 
+```photogrid label="10.1" cols="2" ratio="1.2" caption="A cell runs down. (a) In the Daniell cell zinc is oxidised and Cu2+ is reduced. (b) With E0 = 0.34 - (-0.76) = 1.10 V, the Nernst equation at 298 K is E = E0 - (0.0592 / 2) log([Zn2+] / [Cu2+]). With [Zn2+] = 1.0 M and [Cu2+] = 0.010 M, Q = 100 and E = 1.041 V. The standard free energy is -nFE0 = -212.3 kJ/mol and the equilibrium constant is K = 10^37.2, so the emf only reaches zero when [Zn2+] / [Cu2+] has grown to that value, far beyond anything reached in practice."
+@ photo id="chem12/daniell" cap="A Daniell cell: zinc in zinc sulfate, copper in copper sulfate, joined by a salt bridge"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cell emf against log Q from the Nernst equation"
+E0 = 0.34 + 0.76; E = lambda lq: E0 - 0.0592 / 2 * lq
+dg = -2 * 96485 * E0 / 1000; logk = 2 * E0 / 0.0592
+assert abs(E0 - 1.10) < 1e-12 and abs(E(2) - 1.0408) < 1e-4 and abs(dg + 212.3) < 0.1 and abs(logk - 37.16) < 0.01
+facts = dict(e0="%.2f" % E0, e2="%.3f" % E(2), dg="%.1f" % dg, logk="%.1f" % logk)
+f = Fig(300, 236)
+f.text(150, 14, "E = 1.10 - 0.0296 log Q  (volts)", size=10.5, color=NAVY, bold=True)
+X = lambda q: 160 + q * 28; Y = lambda e: 100 - (e - 1.10) * 600
+f.line(40, Y(1.10), 285, Y(1.10), color=SOFT, sw=1.0, dash=True); f.line(X(0), 34, X(0), 150, color=SOFT, sw=1.2)
+f.line(X(-4), Y(E(-4)), X(4), Y(E(4)), color=NAVY, sw=2.6)
+for q, col in ((0, AMBER), (2, TEAL)):
+    f.circle(X(q), Y(E(q)), 4, fill=col, stroke=col)
+f.text(X(0) - 8, Y(E(0)) - 10, "1.100 V", size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(X(2) + 4, Y(E(2)) + 18, "%.3f V" % E(2), size=10.5, color=TEAL, bold=True)
+for q in (-4, -2, 0, 2, 4): f.text(X(q), 162, "%d" % q, size=10.5, color=SLATE)
+f.text(150, 178, "log Q, with Q = [Zn2+] / [Cu2+]", size=10.5, color=SLATE)
+f.text(150, 196, "dG = %.1f kJ/mol" % dg, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "K = 10^%.1f, emf zero only at log Q = %.1f" % (logk, logk), size=10, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Note |
