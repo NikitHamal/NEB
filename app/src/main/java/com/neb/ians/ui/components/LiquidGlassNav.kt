@@ -220,13 +220,6 @@ fun LiquidGlassBottomNav(
                 Row(
                     modifier = Modifier
                         .height(navHeight)
-                        .shadow(
-                            shadowElevation,
-                            CircleShape,
-                            clip = false,
-                            ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                            spotColor = Color.Black.copy(alpha = shadowAlpha)
-                        )
                         .clip(CircleShape)
                         .background(barBrush)
                         .border(1.dp, barBorder, CircleShape)
@@ -277,17 +270,6 @@ fun LiquidGlassBottomNav(
                                 scaleY = createScale
                                 rotationZ = shapeSpin
                             }
-                            // A neutral shadow. The old one was tinted with the
-                            // primary at 35% and spread fourteen dp, which put a
-                            // blue halo around the lobes and turned a button
-                            // into a bloom.
-                            .shadow(
-                                shadowElevation,
-                                createShape,
-                                clip = false,
-                                ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                                spotColor = Color.Black.copy(alpha = shadowAlpha + 0.06f)
-                            )
                             .clip(createShape)
                             // The same surface the rail is, down to the brush
                             // and the hairline. A saturated blue slab sitting
@@ -362,13 +344,6 @@ fun LiquidGlassBottomNav(
                                 scaleX = profileScale
                                 scaleY = profileScale
                             }
-                            .shadow(
-                                shadowElevation,
-                                CircleShape,
-                                clip = false,
-                                ambientColor = Color.Black.copy(alpha = shadowAlpha),
-                                spotColor = Color.Black.copy(alpha = shadowAlpha)
-                            )
                             .clip(CircleShape)
                             .clickable(
                                 interactionSource = profileInteractionSource,
