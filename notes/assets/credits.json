@@ -10971,6 +10971,19 @@
     "source": "Wikimedia Commons",
     "title": "Pune Zero Point 10D"
   },
+  "bcamg/conductor": {
+    "author": "Fotografiamerlin",
+    "bytes": 437069,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamg/conductor.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Orchestra_conductor_in_a_chuj.jpg",
+    "sha1": "5c5ad7de69e0959f",
+    "source": "Wikimedia Commons",
+    "title": "Orchestra conductor in a chuj"
+  },
   "bcamodel/exam": {
     "author": "Alison wood",
     "bytes": 218817,
@@ -11087,6 +11100,32 @@
     "sha1": "f2dad941d201721b",
     "source": "Wikimedia Commons",
     "title": "German rowing eight EK 1964c"
+  },
+  "bcapj/token": {
+    "author": "Mesin Antrian Vorsea",
+    "bytes": 380079,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcapj/token.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Percobaan_LCD_TV_di_RS_Masmitra_Jati_Makmur.jpg",
+    "sha1": "65eae271b736b877",
+    "source": "Wikimedia Commons",
+    "title": "Percobaan LCD TV di RS Masmitra Jati Makmur"
+  },
+  "bcapj/verhulst": {
+    "author": "Unknown author",
+    "bytes": 65515,
+    "credit": "",
+    "fetched": "2026-11-05",
+    "file": "bcapj/verhulst.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Pierre_Francois_Verhulst.jpg",
+    "sha1": "877e67907a077ee6",
+    "source": "Wikimedia Commons",
+    "title": "Pierre Francois Verhulst"
   },
   "bcasad/gantt": {
     "author": "John R. Dunlap ed.",

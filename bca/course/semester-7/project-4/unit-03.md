@@ -349,6 +349,42 @@ An honest fairness paragraph says four things: which groups were checked, which 
 7. **Ignoring groups.** A model with good overall recall can be much worse for a smaller group. Compute recall and false alarms per group, add a bootstrap interval, and be open about groups you could not check.
 8. **Treating the output as a verdict.** A risk score is a reason to talk to a student, not a label to store or a reason to penalise. Keep a human in the loop, let students see and challenge what is recorded, and review the model every term.
 
+```photogrid label="3.1" cols="2" ratio="1.1" caption="The logistic curve and the cost of a threshold. (a) Pierre-Francois Verhulst (1804-1849), who introduced the logistic curve in 1845 to describe a population that grows and then levels off. (b) Logistic regression turns any score z into a probability 1 / (1 + e^-z): -4 gives 0.018, -2 gives 0.119, 0 gives 0.500, 2 gives 0.881 and 4 gives 0.982. A simulated test set of 400 cases with 76 true positives (seeded random numbers, not real data) was then scored and cut at three thresholds. At 0.3 the model catches 75 of 76 positives (recall 0.987) but raises 160 false alarms (precision 0.319); at 0.5 it finds 66 with 29 false alarms (precision 0.695, recall 0.868); at 0.7 it raises only 2 false alarms (precision 0.935) but misses 47 (recall 0.382). The threshold is a business choice: a screening test wants high recall, an automatic loan rejection wants high precision."
+@ photo id="bcapj/verhulst" cap="Pierre-Francois Verhulst (1804-1849)"
+fit 1.1
+focus 0.5 0.3
+@ svg cap="Sigmoid, and precision/recall at three thresholds"
+import numpy as np, math
+sg = lambda z: 1 / (1 + math.exp(-z))
+assert [round(sg(z), 4) for z in (-4, -2, 0, 2, 4)] == [0.018, 0.1192, 0.5, 0.8808, 0.982]
+rng = np.random.default_rng(2081); n = 400
+y = (rng.random(n) < 0.2).astype(int); s = np.clip(rng.normal(0.30 + 0.35 * y, 0.16), 0.01, 0.99)
+rows = []
+for th in (0.3, 0.5, 0.7):
+    p = s >= th; tp = int((p & (y == 1)).sum()); fp = int((p & (y == 0)).sum()); fn = int((~p & (y == 1)).sum())
+    rows.append((th, tp, fp, fn, tp / (tp + fp), tp / (tp + fn)))
+assert [(r[1], r[2], r[3]) for r in rows] == [(75, 160, 1), (66, 29, 10), (29, 2, 47)] and int(y.sum()) == 76
+assert [round(r[4], 3) for r in rows] == [0.319, 0.695, 0.935] and [round(r[5], 3) for r in rows] == [0.987, 0.868, 0.382]
+f = Fig(300, 240)
+f.text(150, 12, "p = 1 / (1 + e^-z)", size=10.5, color=NAVY, bold=True)
+X = lambda z: 30 + (z + 6) / 12 * 250; Y = lambda p: 100 - p * 70
+f.line(30, Y(0), 280, Y(0), color=SLATE, sw=1); f.line(30, Y(1), 280, Y(1), color="#e2e8f0", sw=1)
+f.line(X(0), Y(0), X(0), Y(1), color="#e2e8f0", sw=1)
+zs = [-6 + i * 0.3 for i in range(41)]
+for a, b in zip(zs, zs[1:]): f.line(X(a), Y(sg(a)), X(b), Y(sg(b)), color="#1d6fb8", sw=2.2)
+for z in (-4, -2, 0, 2, 4): f.circle(X(z), Y(sg(z)), 3, fill=RED, stroke=RED, sw=1)
+f.text(22, Y(1), "1", size=10.5, color=SLATE, anchor="end", vmid=True); f.text(22, Y(0), "0", size=10.5, color=SLATE, anchor="end", vmid=True)
+f.text(150, 118, "z (score)", size=10.5, color=SLATE)
+for j, h in ((52, "cut"), (110, "TP/FP/FN"), (196, "prec."), (250, "recall")): f.text(j, 138, h, size=10.5, color=NAVY, bold=True)
+for i, (th, tp, fp, fn, pr, rc) in enumerate(rows):
+    yy = 160 + i * 22
+    f.text(52, yy, f"{th}", size=10.5, color=NAVY, bold=True)
+    f.text(110, yy, f"{tp}/{fp}/{fn}", size=10.5, color=SLATE)
+    f.text(196, yy, f"{pr:.3f}", size=10.5, color="#0f766e" if pr > .9 else NAVY, bold=True)
+    f.text(250, yy, f"{rc:.3f}", size=10.5, color="#0f766e" if rc > .9 else "#b91c1c" if rc < .5 else NAVY, bold=True)
+f.text(150, 232, "76 true positives in 400 cases (simulated)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |
