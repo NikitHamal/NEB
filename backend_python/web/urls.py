@@ -90,6 +90,8 @@ urlpatterns = [
     path('app/upload/success/', views.upload_success, name='upload_success'),
     path('app/requests/', views.resource_requests_page, name='resource_requests'),
 
+    path('welcome/', views.onboarding_page, name='onboarding'),
+    path('welcome/save/', views.onboarding_save, name='onboarding_save'),
     path('app/profile/edit/', views.edit_profile, name='edit_profile'),
     path('app/credits/', views.credits_page, name='credits'),
     path('app/settings/', views.settings_page, name='settings'),
