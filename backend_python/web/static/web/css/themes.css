@@ -10,7 +10,7 @@
 .st-flowers{position:absolute;left:0;right:0;top:0;height:90px}
 .st-flowers i{position:absolute;--gs:1;left:calc(var(--x) - 8px);top:calc(var(--y) * 1px * var(--gs) - 8px);width:16px;height:16px;border-radius:50%;
   background:radial-gradient(circle at 50% 50%,#b45309 0 22%,#f59e0b 24% 55%,#fbbf24 57%);
-  box-shadow:0 1px 0 rgba(0,0,0,.08);transform-origin:50% -10px;animation:st-sway 4.8s ease-in-out infinite alternate;animation-delay:calc(var(--i) * -.3s)}
+  transform-origin:50% -10px;animation:st-sway 4.8s ease-in-out infinite alternate;animation-delay:calc(var(--i) * -.3s)}
 .st-flowers i:nth-child(odd){background:radial-gradient(circle,#9a3412 0 22%,#ea580c 24% 55%,#fb923c 57%)}
 .st-decor.is-compact .st-flowers i{--gs:.444;width:9px;height:9px;left:calc(var(--x) - 4.5px);top:calc(var(--y) * 1px * var(--gs) - 4.5px)}
 .st-kite{position:absolute;width:70px;height:154px;opacity:.9;animation:st-kite 9s ease-in-out infinite alternate}
@@ -24,9 +24,9 @@
 /* Tihar: string lights + diyo */
 .st-lights{position:absolute;left:0;right:0;top:0;height:70px}
 .st-lights i{position:absolute;--gs:1;left:calc(var(--x) - 4px);top:calc(var(--y) * 1px * var(--gs) - 2px);width:8px;height:8px;border-radius:50%;
-  background:#ffcf5c;box-shadow:0 0 10px 3px rgba(255,190,60,.55);animation:st-twinkle 2.6s ease-in-out infinite;animation-delay:calc(var(--i) * -.37s)}
-.st-lights i:nth-child(3n){background:#ff8a65;box-shadow:0 0 10px 3px rgba(255,120,80,.5)}
-.st-lights i:nth-child(5n){background:#c4b5fd;box-shadow:0 0 10px 3px rgba(167,139,250,.5)}
+  background:#ffcf5c;animation:st-twinkle 2.6s ease-in-out infinite;animation-delay:calc(var(--i) * -.37s)}
+.st-lights i:nth-child(3n){background:#ff8a65;}
+.st-lights i:nth-child(5n){background:#c4b5fd;}
 @keyframes st-twinkle{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
 .st-diyos{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:space-around}
 .st-diyos span{position:relative;width:46px;height:20px;border-radius:0 0 26px 26px;background:linear-gradient(#c2410c,#7c2d12)}
@@ -58,7 +58,7 @@
 
 /* Winter snow */
 .st-snow i{position:absolute;top:-10px;left:calc(var(--i) * 4.17% + 1%);width:6px;height:6px;border-radius:50%;background:#fff;
-  box-shadow:0 0 4px rgba(30,79,168,.25);opacity:.9;animation:st-snow 12s linear infinite;animation-delay:calc(var(--i) * -.5s)}
+  opacity:.9;animation:st-snow 12s linear infinite;animation-delay:calc(var(--i) * -.5s)}
 .st-snow i:nth-child(3n){width:4px;height:4px;animation-duration:16s}
 @keyframes st-snow{0%{transform:translate3d(0,-10px,0)}50%{transform:translate3d(18px,52vh,0)}100%{transform:translate3d(-8px,105vh,0)}}
 
@@ -76,7 +76,7 @@
 @keyframes st-motif-turn{to{transform:rotate(360deg)}}
 
 .st-season{position:relative;overflow:hidden;margin:0 0 16px;border-radius:24px;background:var(--md-primary-container);color:var(--md-on-primary-container);
-  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--md-primary) 14%,transparent);animation:st-season-in .5s cubic-bezier(.2,.8,.2,1) both}
+  border:1px solid color-mix(in srgb,var(--md-primary) 14%,transparent);animation:st-season-in .5s cubic-bezier(.2,.8,.2,1) both}
 .st-season[hidden]{display:none}
 .st-season>.st-decor{opacity:.9}
 .st-season .st-kite,.st-season .st-diyos{display:none}
@@ -118,7 +118,7 @@
 
 /* Tihar: fireflies and a slowly turning rangoli */
 .st-fireflies i{position:absolute;left:calc(var(--i) * 6.1% + 2%);bottom:calc(10% + (var(--i) * 37 % 60) * 1%);width:5px;height:5px;border-radius:50%;background:#ffe066;
-  box-shadow:0 0 10px 4px rgba(255,214,90,.55);animation:st-fly 7s ease-in-out infinite alternate,st-twinkle 2.2s ease-in-out infinite;animation-delay:calc(var(--i) * -.9s),calc(var(--i) * -.33s)}
+  animation:st-fly 7s ease-in-out infinite alternate,st-twinkle 2.2s ease-in-out infinite;animation-delay:calc(var(--i) * -.9s),calc(var(--i) * -.33s)}
 @keyframes st-fly{0%{transform:translate(0,0)}33%{transform:translate(18px,-26px)}66%{transform:translate(-14px,-12px)}100%{transform:translate(10px,-40px)}}
 .st-rangoli{position:absolute;left:-60px;bottom:-60px;width:220px;height:220px;opacity:.5;animation:st-spin 60s linear infinite}
 @keyframes st-spin{to{transform:rotate(360deg)}}
@@ -128,6 +128,40 @@
 /* Holi: powder puffs bursting */
 .st-puffs i{position:absolute;left:calc(var(--i) * 12% + 4%);top:calc(15% + (var(--i) * 29 % 60) * 1%);width:120px;height:120px;margin:-60px;border-radius:50%;opacity:0;
   background:radial-gradient(circle,var(--c,#ff4fa1) 0,transparent 65%);animation:st-puff 6s ease-out infinite;animation-delay:calc(var(--i) * -.8s)}
-.st-puffs i:nth-child(4n+1){--c:#ffd23f}.st-puffs i:nth-child(4n+2){--c:#28c7a6}.st-puffs i:nth-child(4n+3){--c:#7c5cff}
+.st-puffs i:nth-child(4n+1){--c:#ffd23f}.st-puffs i:nth-child(4n+2){--c:#28c7a6}.st-puffs i:nth-child(4n+3){--c:#ff8a3d}
 @keyframes st-puff{0%{opacity:0;transform:scale(.2)}12%{opacity:.55}60%{opacity:0;transform:scale(1.6)}100%{opacity:0;transform:scale(1.6)}}
 @media (prefers-reduced-motion:reduce){.st-decor *{animation:none!important}}
+
+
+/* ---- Polished festival decor (flat colour, no shadow; transform/opacity only) ---- */
+/* Tihar: a string of glass bulbs, each with a cap and a soft warm halo */
+.st-lights i{width:8px;height:11px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;color:#ffb020;background:currentColor;
+  left:calc(var(--x) - 4px);top:calc(var(--y) * 1px * var(--gs) + 4px)}
+.st-lights i:nth-child(5n+2){color:#ff7a18}.st-lights i:nth-child(5n+3){color:#e5383b}
+.st-lights i:nth-child(5n+4){color:#ff5c8a}.st-lights i:nth-child(5n+5){color:#ffd23f}
+.st-lights i:nth-child(3n),.st-lights i:nth-child(5n){background:currentColor}
+.st-lights i::before{content:"";position:absolute;left:50%;top:-4px;width:5px;height:4px;margin-left:-2.5px;border-radius:1.5px;background:#5a3a22}
+.st-lights i::after{content:"";position:absolute;left:50%;top:55%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,currentColor 42%,transparent),transparent 66%)}
+.st-decor.is-compact .st-lights i{width:5px;height:7px}
+.st-decor.is-compact .st-lights i::after{width:22px;height:22px;margin:-11px 0 0 -11px}
+/* crisp four-point sparkles instead of blurred dots */
+.st-fireflies i{width:9px;height:9px;border-radius:0;background:#ffb020;
+  clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+.st-fireflies i:nth-child(odd){background:#ff7a18}
+.st-decor.is-compact .st-fireflies i{width:6px;height:6px}
+/* Dashain: marigolds, two turned squares for petals and a dark eye */
+.st-flowers i{background:none;transform-origin:50% -10px}
+.st-flowers i::before,.st-flowers i::after{content:"";position:absolute;inset:0;border-radius:36%;background:#f59e0b}
+.st-flowers i::after{transform:rotate(45deg);background:radial-gradient(circle,#9a3412 0 23%,transparent 25%),#fbbf24}
+.st-flowers i:nth-child(odd)::before{background:#ea580c}
+.st-flowers i:nth-child(odd)::after{background:radial-gradient(circle,#7c2d12 0 23%,transparent 25%),#fb923c}
+/* snow reads on white: a soft blue-grey flake */
+.st-snow i{background:#cfe0f5}
+
+/* the season card keeps the wish, Neby and the close button on one row on a phone */
+@media (max-width:640px){
+  .st-season-in{flex-wrap:nowrap;align-items:center}
+  .st-season-copy{flex:1 1 0;min-width:0}
+  .st-season-close{align-self:center;margin:0}
+}
