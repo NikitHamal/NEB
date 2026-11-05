@@ -1,33 +1,20 @@
-import json
 import logging
 import os
 import re
 
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth import logout as django_logout
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
-from django.db import transaction
-from django.db.models import Q, Count, F
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.decorators.http import require_GET, require_POST
-from django.http import JsonResponse, Http404, HttpResponse, StreamingHttpResponse
-from . import curriculum
-from django.core.paginator import Paginator
-from django.utils.html import escape
+from django.db.models import Count
+from django.shortcuts import redirect
+from django.views.decorators.http import require_GET
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike, AiFeedback
-from api.models import ResourceLike, ResourceComment, ResourceCommentLike, PaymentVerification, SellerBalance, WithdrawalRequest
+from api.models import User, Resource, Post, PostLike, PostImage, PostMedia, Reply, ReplyLike, Follow, Bookmark
+from api.models import ResourceLike, PaymentVerification, SellerBalance
 from api.models import CreatorCourseResource
-from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
+from api.serializers import UserSerializer
 from api.security import (
-    get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
-    save_profile_image_upload, save_post_image_upload, validate_profile_photo_url,
-    validate_resource_file_url, validate_and_save_resource_file,
-    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
+    get_user_by_auth_token, hash_auth_token, issue_auth_token,
 )
 
 from . import forum_labels as _forum_labels
@@ -58,22 +45,14 @@ def _media_src(url: str) -> str:
     if host in allowed:
         return parsed.path + (('?' + parsed.query) if parsed.query else '')
     return url
-from api.authentication import verify_google_token
 
 DELETED_AUTHOR_NAME = 'Deleted user'
-from api.utils import now_ms, uuid_str
-from api import services
-from api import counters as _counters
-from api import notifications as _notif
-from api import cleanup as _cleanup
-from api import realtime as _rt
-from api.view_helpers import map_profile_grade, is_global_user
+from api.utils import now_ms
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
 
-import math
-from urllib.parse import urlparse, parse_qs, quote
+from urllib.parse import urlparse, parse_qs
 
 _VIDEO_EXTS = ('.mp4', '.webm', '.mkv', '.mov', '.m4v', '.3gp', '.ogv', '.avi')
 _AUDIO_EXTS = ('.mp3', '.wav', '.ogg', '.oga', '.flac', '.aac', '.m4a', '.opus', '.wma')

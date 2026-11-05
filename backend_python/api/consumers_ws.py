@@ -58,7 +58,6 @@ except ImportError:  # Channels not installed yet
         def __init__(self, *args, **kwargs):
             pass
 
-from django.conf import settings
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)

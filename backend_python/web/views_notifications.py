@@ -7,10 +7,10 @@ from django.core.cache import cache
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
-from django.utils.html import escape
 from django.views.decorators.http import require_POST
 
-from .view_helpers import _avatar_url, _counters, _ctx, _get_user_id, _user_badge_info
+from api import counters as _counters
+from .view_helpers import _avatar_url, _ctx, _get_user_id, _user_badge_info
 from api.models import Notification, User
 from api.notifications import get_notification_url
 

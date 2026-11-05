@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
-from django.db.models import Count, Q, Sum
+from django.db.models import Sum
 
 from .models import (ActorSignal, Bookmark, Poll, PollVote, Post, PostImpression, PostReach, Reply)
 

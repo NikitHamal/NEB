@@ -34,12 +34,12 @@ from .creator_pages_sanitize import (
 )
 from .creator_pages_schema import (
     ACCENT_RE, BLOCK_FIELDS, BLOCK_GROUPS, BLOCK_HINTS, BLOCK_LABELS, DEFAULT_BLOCKS,
-    DENSITIES, ELIGIBLE_ROLES, FIELD_LABELS, HERO_STYLES, ITEM_FIELDS, ITEM_LABELS,
-    LAYOUTS, LIST_FIELDS, MAX_BLOCKS, MAX_LIST_ITEMS, RADII, SOCIAL_KEYS,
+    ELIGIBLE_ROLES, FIELD_LABELS, ITEM_FIELDS, ITEM_LABELS,
+    LAYOUTS, LIST_FIELDS, MAX_BLOCKS, MAX_LIST_ITEMS, SOCIAL_KEYS,
     URL_FIELDS, block_anchors, block_schema, editor_schema,
 )
 from .creator_templates import TEMPLATES_BY_ID, template_list, template_payload
-from .creator_themes import PALETTES, palette, theme_vocabulary
+from .creator_themes import DENSITIES, HERO_STYLES, PALETTES, RADII, palette, theme_vocabulary
 from .models import (
     CreatorCourse, CreatorCourseResource, CreatorPage, Resource, User,
 )

@@ -1,7 +1,6 @@
 from functools import lru_cache
 import json
 import re
-import time
 from datetime import datetime, timezone
 from django import template
 from django.utils.html import escape

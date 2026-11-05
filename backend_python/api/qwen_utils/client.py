@@ -20,8 +20,6 @@ from typing import Dict, List, Optional, Tuple
 from api import qwen_proxy
 from api.qwen_utils.file_upload import (
     ALLOWED_EXTENSIONS,
-    MAX_FILE_SIZE,
-    classify_file,
     parse_file,
     upload_file,
     upload_file_from_bytes,

@@ -1,7 +1,7 @@
 import json
 import uuid
 
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_POST
@@ -657,7 +657,7 @@ def _call_llm_for_canvas(user, prompt, parent_context, web_search_enabled, speed
         return best_key
 
     try:
-        from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
+        from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
         raw_by, data_by, score_by = {}, {}, {}
 
         if is_fast:

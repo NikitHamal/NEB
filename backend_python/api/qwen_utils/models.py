@@ -4,7 +4,6 @@ with 5-min Redis-backed caching. Returns rich capability metadata (vision, docum
 video, audio, thinking, search, max_context_length, etc.) so the frontend can choose
 the right model for each task.
 """
-import json
 import logging
 
 from django.core.cache import cache

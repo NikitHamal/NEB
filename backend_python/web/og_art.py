@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import math
 import random
-from typing import Optional, Sequence, Tuple
+from typing import Sequence, Tuple
 
 from PIL import Image, ImageDraw, ImageFilter
 

@@ -79,7 +79,6 @@ def _collect_web_attachments(request):
     return (videos[:1] + others)[:4]
 
 def forum(request):
-    import math
     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
     user_id = _get_user_id(request)

@@ -24,48 +24,22 @@ Endpoints:
 """
 import logging
 
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from django.db import IntegrityError, transaction
-from django.db.models import Q, F
-from rest_framework.decorators import api_view, authentication_classes, permission_classes, throttle_classes
+from django.db.models import F
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import AllowAny
 
-from .authentication import verify_google_token
 from .security import (
-    hash_password, verify_password, hash_verification_code, verify_verification_code,
-    hash_auth_token, issue_auth_token, revoke_auth_token, revoke_all_user_tokens,
-    validate_profile_photo_url, save_profile_image_upload,
-    validate_external_https_url, clean_source_url,
-    validate_and_save_resource_file, validate_resource_file_url,
-    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
+    hash_verification_code, verify_verification_code,
 )
-from .email_utils import send_verification_email
-from .throttles import (
-    AuthRateThrottle, ReportRateThrottle, SearchRateThrottle, UploadRateThrottle,
-    VerificationRateThrottle, ViewIncrementRateThrottle, WriteActionRateThrottle,
-    SignupRateThrottle,
-)
-from .models import User, Resource, ResourceLike, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, FCMToken, Follow, UserPhoto, EditHistory, Report, Bookmark, Notification
-from .utils import now_ms, uuid_str
-import uuid
+from .models import User, ResourceLike, Post, PostLike, PollVote, ReplyLike, Follow, Bookmark
+from .utils import now_ms
 _now_ms = now_ms
-from . import services
 from .serializers import (
-    UserSerializer, UserPublicSerializer,
-    ResourceSerializer, ResourceRequestSerializer, PostSerializer, ReplySerializer,
-    UserPhotoSerializer, UserStatsSerializer, FollowSerializer,
-    EditHistorySerializer, ReportSerializer, BookmarkSerializer,
-    NotificationSerializer,
+    ResourceSerializer, PostSerializer,
+    ReplySerializer,
 )
-from . import counters as _counters
-from . import notifications as _notif
-from . import cleanup as _cleanup
-from . import realtime as _rt
 
 logger = logging.getLogger(__name__)
 

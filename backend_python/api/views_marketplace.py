@@ -23,15 +23,15 @@ from .utils import now_ms
 from .view_helpers import _get_user_from_request, _require_user
 from .models import (
     CreatorPage, CreatorCourse, CreatorPost,
-    PaymentVerification, Resource,
+    Resource,
 )
 from .creator_pages import (
     can_have_storefront, allowed_kinds, page_for_user, page_payload, course_payload,
     course_resource_map,
-    post_payload, listing_queryset, unique_page_slug, unique_course_slug,
-    check_user_course_access, course_access_map, sold_course_delete_error, LAYOUTS,
-    apply_page_update, apply_course_fields, apply_post_fields, sync_course_resources,
-    apply_template, editor_schema, template_list,
+    post_payload, listing_queryset, unique_course_slug, check_user_course_access,
+    course_access_map, sold_course_delete_error, LAYOUTS, apply_page_update,
+    apply_course_fields, apply_post_fields, sync_course_resources, apply_template,
+    editor_schema, template_list,
 )
 from .marketplace import get_payment_config, record_purchase, seller_sales
 from .utils import money_str as _money
