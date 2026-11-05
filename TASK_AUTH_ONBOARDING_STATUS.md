@@ -23,6 +23,14 @@ is preselected for social sign-ups.
 - [x] Profile page: headline, education card, open-to, skills, portfolio sections + owner editor (`web/profile/_portfolio.html`, `js/portfolio.js`, `m3x/app-portfolio.css`)
 - [ ] Android parity (catalog consumption, role at sign-up) -- open
 
+## Polish pass (session 2)
+- [x] Welcome flow crash: `h()` in `onboarding.js` passed an array to `appendChild` (role step); it now flattens arrays/NodeLists
+- [x] Sign-in / sign-up / verify / reset: tonal card, dark-mode field + art tokens, autofill, tablet / phone / landscape layouts, `.ax-note` spam-folder hint on verify and reset; legacy `email_login/verify` pages redirect to `/login/`
+- [x] One stroke on focus: `m3x/app-focus.css` (fields recolour their own border, no outside ring); the post pill no longer stacks border + ring
+- [x] `@` popup in the post dialog: the click after the popup hid read as a backdrop click; dialog now closes only when the press began on the backdrop, and the picker swallows that click
+- [x] Reply composer / poll builder / staged media lost their inset: the poll wrapper `.pb-scope` broke `.fp-center-panel > .neb-composer`; the rule now covers the wrapper
+- Tests: `web.test_polish_regressions`
+
 ## Rules that bite
 - `class_level` still stores the level *value*; legacy values unchanged so resource filtering works.
 - Anyone whose status is not "studying" is a global user (sees the full library).
