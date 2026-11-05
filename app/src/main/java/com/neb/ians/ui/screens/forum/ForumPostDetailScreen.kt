@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -138,6 +140,10 @@ fun ForumPostDetailScreen(
     val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
     val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
     val composerKind by viewModel.composerKind.collectAsStateWithLifecycle()
+    val identityName by viewModel.userName.collectAsStateWithLifecycle()
+    val identityPhoto by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
+    val identityHandle by viewModel.userHandle.collectAsStateWithLifecycle()
+    val identityAnonTag by viewModel.anonTag.collectAsStateWithLifecycle()
     var labelTarget by remember { mutableStateOf<com.neb.ians.data.api.ApiReply?>(null) }
     labelTarget?.let { target ->
         ReplyLabelSheet(
@@ -191,75 +197,75 @@ fun ForumPostDetailScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Post", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            )
-        },
-        bottomBar = {
-            if (uiState.currentUserId != null && uiState.post != null) {
-                NebCommentComposerBar(
-                    value = mainReplyText,
-                    onValueChange = viewModel::onMainReplyChange,
-                    placeholder = "Write a comment...",
-                    enabled = !isSubmittingReply,
-                    canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
-                    posting = isSubmittingReply,
-                    voiceNote = voiceNote,
-                    textFieldModifier = Modifier.focusRequester(mainFocusRequester),
-                    visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
+    val mainComposer: @Composable () -> Unit = {
+            NebCommentComposerBar(
+                value = mainReplyText,
+                onValueChange = viewModel::onMainReplyChange,
+                placeholder = "Post your reply...",
+                enabled = !isSubmittingReply,
+                canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
+                posting = isSubmittingReply,
+                voiceNote = voiceNote,
+                docked = false,
+                textFieldModifier = Modifier.focusRequester(mainFocusRequester),
+                visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
                     leadingContent = {
+                        com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                            isAnonymous = composerAnonymous,
+                            userName = identityName,
+                            handle = identityHandle,
+                            photoUrl = identityPhoto,
+                            anonTag = identityAnonTag,
+                            onSelect = viewModel::setComposerAnonymous,
+                            enabled = !isSubmittingReply,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    },
+                    trailingContent = {
                         ComposerAttachButton(
                             enabled = !isSubmittingReply,
                             onClick = {
                                 composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
                             }
                         )
-                        ComposerAnonymousButton(
-                            isAnonymous = composerAnonymous,
-                            enabled = !isSubmittingReply,
-                            onToggle = viewModel::setComposerAnonymous
-                        )
                     },
-                    onSend = {
-                        keyboardController?.hide()
-                        viewModel.submitReply(
-                            content = mainReplyText.text,
-                            parentReplyId = null,
-                            onSuccess = {}
-                        )
-                    }
-                ) {
-                    ReplyKindPicker(
-                        selected = composerKind,
-                        onSelect = viewModel::setComposerKind,
-                        enabled = !isSubmittingReply
+                onSend = {
+                    keyboardController?.hide()
+                    viewModel.submitReply(
+                        content = mainReplyText.text,
+                        parentReplyId = null,
+                        onSuccess = {}
                     )
-                    ComposerAttachmentChips(
-                        attachments = composerMediaAttachments,
-                        onRemoveAttachment = viewModel::removeMediaAttachment
+                }
+            ) {
+                ReplyKindPicker(
+                    selected = composerKind,
+                    onSelect = viewModel::setComposerKind,
+                    enabled = !isSubmittingReply
+                )
+                ComposerAttachmentChips(
+                    attachments = composerMediaAttachments,
+                    onRemoveAttachment = viewModel::removeMediaAttachment
+                )
+                if (mainMentionSuggestions.isNotEmpty()) {
+                    MentionSuggestions(
+                        users = mainMentionSuggestions,
+                        onSelect = viewModel::selectMainMention,
+                        modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    if (mainMentionSuggestions.isNotEmpty()) {
-                        MentionSuggestions(
-                            users = mainMentionSuggestions,
-                            onSelect = viewModel::selectMainMention,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
                 }
             }
+    }
+
+    Scaffold(
+        topBar = {
+            DiscussionHeader(
+                category = uiState.post?.category?.ifBlank { "General" } ?: "",
+                onBack = onNavigateBack
+            )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+        containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         when {
             uiState.isLoading -> Box(
@@ -302,8 +308,9 @@ fun ForumPostDetailScreen(
                 ) {
                 LazyColumn(
                     modifier = Modifier
-                        .fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp)
+                        .fillMaxSize()
+                        .imePadding(),
+                    contentPadding = PaddingValues(bottom = 24.dp)
                 ) {
                     item(key = "post_header") {
                         PostContentSection(
@@ -330,33 +337,44 @@ fun ForumPostDetailScreen(
                         )
                     }
 
-                    item(key = "divider") {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(vertical = 12.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
+                    if (uiState.currentUserId != null) {
+                        item(key = "composer") {
+                            Column {
+                                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                                mainComposer()
+                            }
+                        }
                     }
 
                     item(key = "replies_header") {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "${uiState.replies.size} ${if (uiState.replies.size == 1) "Reply" else "Replies"}",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.weight(1f)
-                            )
+                        Column {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 16.dp, end = 12.dp, top = 6.dp, bottom = 12.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = "Replies",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = uiState.replies.size.toString(),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                CommentSortPillsRow(
+                                    currentSort = uiState.replySort,
+                                    onSelect = viewModel::setReplySort
+                                )
+                            }
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
-                        // Reply sort pills: Oldest / Newest / Top (shared component used everywhere)
-                        CommentSortPillsRow(
-                            currentSort = uiState.replySort,
-                            onSelect = viewModel::setReplySort
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
                     }
 
                     if (uiState.replies.isEmpty()) {
@@ -406,11 +424,10 @@ fun ForumPostDetailScreen(
                             onRepliesBarClick = { activeThreadParentId = reply.id },
                             onInlineImageClick = { url -> zoomImageUrls = listOf(url); zoomImageIndex = 0 }
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
                     }
 
                     item(key = "bottom_spacer") {
-                        Spacer(modifier = Modifier.height(72.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
                     }
                 }
                 } // end PullToRefreshBox
@@ -669,16 +686,23 @@ fun ForumPostDetailScreen(
                         voiceNote = voiceNote,
                         visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
                         leadingContent = {
+                            com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                                isAnonymous = composerAnonymous,
+                                userName = identityName,
+                                handle = identityHandle,
+                                photoUrl = identityPhoto,
+                                anonTag = identityAnonTag,
+                                onSelect = viewModel::setComposerAnonymous,
+                                enabled = !isSubmittingReply,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        },
+                        trailingContent = {
                             ComposerAttachButton(
                                 enabled = !isSubmittingReply,
                                 onClick = {
                                     composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
                                 }
-                            )
-                            ComposerAnonymousButton(
-                                isAnonymous = composerAnonymous,
-                                enabled = !isSubmittingReply,
-                                onToggle = viewModel::setComposerAnonymous
                             )
                         },
                         onSend = {
@@ -766,11 +790,11 @@ private fun PostContentSection(
     val categoryTheme = getSubjectTheme(category)
     val bookmarked = post.isBookmarked == true
 
-    Column {
+    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         // ----- Meta row -----
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Box(
                 modifier = Modifier.combinedClickable(
@@ -789,13 +813,13 @@ private fun PostContentSection(
                         }
                     } else 0
                 }
-                Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 38.dp, verificationLevel = postLevel)
+                Avatar(name = post.authorName, imageUrl = post.authorPhotoUrl, size = 44.dp, verificationLevel = postLevel)
             }
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = post.authorName,
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1,
@@ -812,22 +836,13 @@ private fun PostContentSection(
                         NebBadge(badge)
                     }
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Surface(shape = WebPillShape, color = categoryTheme.container) {
-                        Text(
-                            text = category,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = categoryTheme.onContainer
-                        )
-                    }
-                    Text(
-                        text = ", ${formatTimeAgo(post.createdAt)}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Text(
+                    text = (if (post.authorName.startsWith("Anon")) "" else "@${post.authorName} \u00B7 ") + formatTimeAgo(post.createdAt),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
             if (post.isArchived == true) {
                 Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
@@ -857,7 +872,7 @@ private fun PostContentSection(
 
         KaTeXText(
             text = post.title,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -866,7 +881,7 @@ private fun PostContentSection(
 
         ExpandableMarkdownText(
             markdown = post.content,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
             onMentionClick = onProfileClick,
             onLinkClick = onLinkClick,
@@ -967,11 +982,21 @@ private fun PostContentSection(
         }
 
         Spacer(modifier = Modifier.height(14.dp))
+        Text(
+            text = formatTimeAgo(post.createdAt),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(modifier = Modifier.height(4.dp))
 
-        // ----- Action row -----
+        // ----- Action row: like, comments, bookmark, share (ghost, like the web) -----
+        val muted = MaterialTheme.colorScheme.onSurfaceVariant
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             LikePill(
                 count = post.thumbsUpCount,
@@ -982,35 +1007,85 @@ private fun PostContentSection(
                 modifier = Modifier
                     .clip(WebPillShape)
                     .clickable(onClick = onReplyClick)
-                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.ChatBubbleOutline,
-                    contentDescription = "Reply",
-                    modifier = Modifier.size(15.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                com.neb.ians.ui.components.NebIcon(com.neb.ians.ui.components.NebIcons.Comment, "Reply", size = 18.dp, tint = muted)
                 Text(
-                    text = "${post.replyCount} Replies",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = post.replyCount.toString(),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = muted
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onBookmarkClick, modifier = Modifier.size(36.dp)) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onBookmarkClick),
+                contentAlignment = Alignment.Center
+            ) {
                 Icon(
                     imageVector = if (bookmarked) Icons.Filled.Bookmark else Icons.Filled.BookmarkBorder,
                     contentDescription = if (bookmarked) "Remove bookmark" else "Bookmark",
                     modifier = Modifier.size(20.dp),
-                    tint = if (bookmarked) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = if (bookmarked) MaterialTheme.colorScheme.primary else muted
                 )
+            }
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .clickable(onClick = onShareClick),
+                contentAlignment = Alignment.Center
+            ) {
+                com.neb.ians.ui.components.NebIcon(com.neb.ians.ui.components.NebIcons.Share, "Share", size = 20.dp, tint = muted)
             }
         }
     }
 }
 
-
-
+/** The web's discussion header: back, "Discussion", the `#category` tag, a hairline under it. */
+@Composable
+private fun DiscussionHeader(category: String, onBack: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(scheme.surface)
+            .statusBarsPadding()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            IconButton(onClick = onBack) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = scheme.onSurface)
+            }
+            Text(
+                text = "Discussion",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = scheme.onSurface
+            )
+            if (category.isNotBlank()) {
+                Surface(shape = WebPillShape, color = scheme.secondaryContainer) {
+                    Text(
+                        text = "#$category",
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = scheme.onSecondaryContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+        HorizontalDivider(color = scheme.outlineVariant)
+    }
+}
