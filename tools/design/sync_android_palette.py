@@ -14,6 +14,11 @@ TOKENS = ROOT / "backend_python/web/static/web/css/m3x/tokens.css"
 PALETTE = ROOT / "app/src/main/java/com/neb/ians/ui/theme/Palette.kt"
 
 
+# The app's light page is paper white; the web keeps its blue-tinted page and lifts
+# raised surfaces to white instead. Cards on Android are outlined or tonal on white.
+ANDROID_LIGHT_OVERRIDES = {"background": "FFFFFF", "surface": "FFFFFF"}
+
+
 def camel(name):
     head, *rest = name.split("-")
     return head + "".join(p.capitalize() for p in rest)
@@ -50,7 +55,7 @@ def main():
         pat = re.compile(r"(val %s_%s = Color\(0xFF)[0-9A-Fa-f]{6}(\))" % (prefix, role))
         new = pat.sub(lambda m: m.group(1) + hexv + m.group(2), new)
 
-    for role, hexv in light.items():
+    for role, hexv in {**light, **ANDROID_LIGHT_OVERRIDES}.items():
         sub("md_theme_light", role, hexv)
     for role, hexv in dark.items():
         sub("md_theme_dark", role, hexv)
