@@ -34,4 +34,4 @@ jobs:
         run: python3 manage.py makemigrations --check --dry-run
       - name: Tests
         working-directory: backend_python
-        run: python3 manage.py test api.test_education_portfolio api.test_profile_class_level web.test_landing web.test_admin_shell --parallel 2
+        run: python3 manage.py test api.test_education_portfolio api.test_profile_class_level web.test_onboarding web.test_landing web.test_admin_shell --parallel 2

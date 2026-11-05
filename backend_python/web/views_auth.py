@@ -240,8 +240,8 @@ def google_oauth_callback(request):
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
-        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
-    return redirect('web:edit_profile')
+        return redirect(f"{reverse('web:onboarding')}?next={next_url}")
+    return redirect('web:onboarding')
 
 def github_login(request):
     """Redirect user to GitHub OAuth authorization page."""
@@ -400,8 +400,8 @@ def github_callback(request):
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
-        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
-    return redirect('web:edit_profile')
+        return redirect(f"{reverse('web:onboarding')}?next={next_url}")
+    return redirect('web:onboarding')
 
 def logout(request):
     token = api.get_session_token(request)
