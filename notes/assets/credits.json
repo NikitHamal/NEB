@@ -4354,6 +4354,32 @@
   "source": "Wikimedia Commons",
   "title": "Patterson's General Store Ledger - DPLA - 0079e562a497df98da2b2bf6a5740d22 (page 406)"
  },
+ "bca202/mousetrap": {
+  "author": "Evan-Amos",
+  "bytes": 214736,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca202/mousetrap.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Victor-Mousetrap.jpg",
+  "sha1": "ed19c50b55fa4f7e",
+  "source": "Wikimedia Commons",
+  "title": "Victor-Mousetrap"
+ },
+ "bca202/navigon": {
+  "author": "Raimond Spekking",
+  "bytes": 365814,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca202/navigon.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Automotive_navigation_system_Navigon_NVG7100-1067.jpg",
+  "sha1": "bf24d90ede05aabb",
+  "source": "Wikimedia Commons",
+  "title": "Automotive navigation system Navigon NVG7100-1067"
+ },
  "bca202/nid": {
   "author": "Government Work",
   "bytes": 2327935,
@@ -4405,6 +4431,19 @@
   "sha1": "eddf2017f4525061",
   "source": "Wikimedia Commons",
   "title": "IBM 350 RAMAC disk mechanism.agr"
+ },
+ "bca202/safebox": {
+  "author": "CEphoto, Uwe Aranas",
+  "bytes": 955230,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca202/safebox.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Z%C3%BCrich_Switzerland-Safe-deposit-boxes-01.jpg",
+  "sha1": "ed3a573938ef4733",
+  "source": "Wikimedia Commons",
+  "title": "Zürich Switzerland-Safe-deposit-boxes-01"
  },
  "bca202/saturn": {
   "author": "Jim Evans",
@@ -4691,6 +4730,19 @@
   "sha1": "4960cdcbf04bcf6d",
   "source": "Wikimedia Commons",
   "title": "Netscape Navigator 3 Screenshot"
+ },
+ "bca203/postbike": {
+  "author": "Zorro2212",
+  "bytes": 852934,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca203/postbike.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Postman_bicycle_in_Bruges,_Belgium.jpg",
+  "sha1": "365334ba2ee44094",
+  "source": "Wikimedia Commons",
+  "title": "Postman bicycle in Bruges, Belgium"
  },
  "bca203/racks": {
   "author": "PiDatacenters",
@@ -5433,6 +5485,19 @@
   "source": "Wikimedia Commons",
   "title": "Y2K compliant"
  },
+ "bca254/blueprint": {
+  "author": "Warner, Burns, Toan, and Lunde architecture firm",
+  "bytes": 812373,
+  "credit": "Scanned from Special Collections of the United States National Agricultural Library.",
+  "fetched": "2026-11-05",
+  "file": "bca254/blueprint.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Original_Blueprint_of_United_States_National_Agricultural_Library.jpg",
+  "sha1": "e78746b9988696ae",
+  "source": "Wikimedia Commons",
+  "title": "Original Blueprint of United States National Agricultural Library"
+ },
  "bca254/cabinet": {
   "author": "Watty62",
   "bytes": 519049,
@@ -5445,6 +5510,19 @@
   "sha1": "776d361f67b8da53",
   "source": "Wikimedia Commons",
   "title": "Card Filing Cabinet"
+ },
+ "bca254/cassette": {
+  "author": "Jacek Halicki",
+  "bytes": 352613,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca254/cassette.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2023_Kaseta_magnetofonowa_i_minikaseta_(1).jpg",
+  "sha1": "ce82e50b0909d2dd",
+  "source": "Wikimedia Commons",
+  "title": "2023 Kaseta magnetofonowa i minikaseta (1)"
  },
  "bca254/crashtest": {
   "author": "Transport For NSW ( https://www.transport.nsw.gov.au/ )",
