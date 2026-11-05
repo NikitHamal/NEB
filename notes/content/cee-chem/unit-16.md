@@ -142,6 +142,38 @@ bonds plus three C–C σ bonds = **7 σ**; one double bond (1 π) plus one
 triple bond (2 π) = **3 π**. Naming, counting and bookkeeping: the
 chapter's three exam verbs.
 :::
+```photogrid label="16.1" cols="2" ratio="1.2" caption="Tetravalency decides the properties. (a) A rough diamond crystal: every carbon atom is joined to four others at the corners of a regular tetrahedron, with a C-C-C angle of arccos(-1/3) = 109.47 degrees. (b) The cell computes the density from the crystal data. Diamond is face-centred cubic with a = 356.7 pm and 8 carbon atoms per cell, so rho = 8 x 12.011 / (N_A a^3) = 3.52 g/cm3 and the C-C bond is a x sqrt3 / 4 = 154 pm. Graphite has layers of sp2 carbon (hexagonal, a = 246.1 pm, c = 670.8 pm, 4 atoms per cell) with a shorter bond of a / sqrt3 = 142 pm but widely spaced layers, so its density is only 2.27 g/cm3. Same element, different bonding, different hardness, density and conductivity."
+@ photo id="ceechem/diamond" cap="A rough diamond crystal (octahedral)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Tetrahedral carbon and the density of diamond and graphite"
+import math
+NA, M = 6.02214e23, 12.011
+d_dia = 8 * M / NA / (356.7e-10) ** 3
+V_gr = math.sqrt(3) / 2 * (246.1e-10) ** 2 * 670.8e-10
+d_gr = 4 * M / NA / V_gr
+ang = math.degrees(math.acos(-1 / 3))
+assert round(d_dia, 2) == 3.52 and round(d_gr, 2) == 2.27 and round(ang, 2) == 109.47
+assert round(356.7 * math.sqrt(3) / 4) == 154 and round(246.1 / math.sqrt(3)) == 142
+f = Fig(300, 236)
+f.text(150, 12, "Four bonds, 109.47 deg apart", size=10.5, color=NAVY, bold=True)
+c = (70, 96)
+for (x, y), dash in (((70, 36), False), ((26, 134), False), ((114, 134), False), ((102, 70), True)):
+    f.line(c[0], c[1], x, y, color=NAVY, sw=2.4, dash=dash)
+    f.circle(x, y, 7, fill=SAND, stroke=AMBER, label="C", size=9.5, color=AMBER)
+f.circle(c[0], c[1], 9, fill=BLUE, stroke=NAVY, label="C", size=10.5, color=NAVY)
+f.text(70, 164, "tetrahedral carbon", size=10.5, color=SLATE, bold=True)
+for i, (n, v, fl, st) in enumerate((("diamond", d_dia, BLUE, NAVY), ("graphite", d_gr, SAND, AMBER))):
+    x = 168 + i * 60
+    h = v * 30
+    f.box(x, 150 - h, 44, h, fill=fl, stroke=st, r=2)
+    f.text(x + 22, 150 - h - 8, "%.2f" % v, size=11, color=st, bold=True)
+    f.text(x + 22, 166, n, size=10.5, color=SLATE, bold=True)
+f.text(230, 186, "density, g/cm3", size=10.5, color=SLATE, bold=True)
+f.text(150, 206, "diamond: 8 atoms per cell, a = 356.7 pm", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "bond 154 pm (diamond), 142 pm (graphite)", size=10.5, color=SLATE, bold=True)
+```
+
 ## 16.2 IUPAC nomenclature of aliphatic compounds and isomerism
 
 ### A reliable four-pass naming routine
@@ -232,6 +264,29 @@ are not isomers. Conversely, a chiral constitutional isomer represents a pair of
 a question asks for total stereoisomers. Always check whether the wording says *structural*,
 *stereoisomers* or *optically active* forms.
 :::
+
+```photogrid label="16.2" cols="2" ratio="1.2" caption="Isomers multiply with chain length. (a) A ball-and-stick model kit: black balls for carbon, white for hydrogen, with grey sticks for bonds, the tool that makes structural isomerism visible. (b) The cell counts, by generating every non-isomorphic carbon skeleton (a tree with no atom bonded to more than four others), the number of structural isomers of the alkanes CnH2n+2: 1, 1, 1, 2, 3, 5, 9, 18, 35 and 75 for n = 1 to 10. Butane has 2 (butane and 2-methylpropane), pentane 3 (pentane, 2-methylbutane and 2,2-dimethylpropane), hexane 5 and heptane 9. The count roughly doubles with each added carbon: C20H42 has 366,319. This is why systematic IUPAC naming, not trivial names, is essential, and why an isomer question is solved by drawing the longest chain first and then moving branches one position at a time."
+@ photo id="ceechem/model-kit" cap="A molecular model kit: carbon, hydrogen and bond pieces"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Structural isomers of alkanes CnH2n+2"
+import networkx as nx
+cnt = [1]
+for n in range(2, 11):
+    cnt.append(sum(1 for T in nx.nonisomorphic_trees(n) if max(d for _, d in T.degree()) <= 4))
+assert cnt == [1, 1, 1, 2, 3, 5, 9, 18, 35, 75]
+f = Fig(300, 236)
+f.text(150, 12, "Alkane isomers, C1 to C10", size=10.5, color=NAVY, bold=True)
+f.line(20, 168, 284, 168, color=SLATE, sw=1.4)
+for i, v in enumerate(cnt):
+    x = 24 + i * 26
+    h = v * 1.7
+    f.box(x, 168 - h, 20, h, fill=MINT if v < 10 else BLUE, stroke=TEAL if v < 10 else NAVY, r=1)
+    f.text(x + 10, 168 - h - 8, str(v), size=10.5, color=NAVY, bold=True)
+    f.text(x + 10, 182, "C%d" % (i + 1), size=9.5, color=SLATE, bold=True)
+f.text(150, 206, "butane 2, pentane 3, hexane 5, heptane 9", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "about double with each extra carbon", size=10.5, color=SLATE, bold=True)
+```
 
 ## 16.3 Bond fission, reactive intermediates and electronic effects
 
@@ -384,6 +439,30 @@ groups donate into an already negative carbon; **inductive effects travel
 the whole molecule**; and **phenyl (C₆H₅) is not benzyl (C₆H₅CH₂)** — one
 carbon's difference, a different compound family.
 :::
+
+```photogrid label="16.3" cols="2" ratio="1.2" caption="Carbon content tells the family. (a) A butane gas lighter: liquefied butane burns in air as C4H10 + 6.5 O2 gives 4 CO2 + 5 H2O, so each gram of butane makes 3.03 g of carbon dioxide. (b) The mass percentage of carbon in an alkane CnH2n+2 is 12.011n / (14.027n + 2.016). It rises with chain length from 74.9 per cent in methane and 82.7 per cent in butane towards a limit of 12.011 / 14.027 = 85.6 per cent, whereas every alkene CnH2n has exactly 85.6 per cent whatever its size. Elemental analysis therefore separates an alkane from an alkene only for short chains, which is why the empirical formula CH2 is a clue to an alkene or a cycloalkane but never proves one."
+@ photo id="ceechem/lighter" cap="A butane gas lighter"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Percentage of carbon in alkanes and alkenes"
+C, H = 12.011, 1.008
+w = lambda n: 100 * C * n / (C * n + H * (2 * n + 2))
+lim = 100 * C / (C + 2 * H)
+assert round(w(1), 1) == 74.9 and round(w(4), 1) == 82.7 and round(lim, 1) == 85.6
+co2 = 4 * 44.009 / (4 * C + 10 * H)
+assert round(co2, 2) == 3.03
+f = Fig(300, 236)
+f.text(150, 12, "Carbon in CnH2n+2 against n", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 28, 230, 150, (0, 20), (70, 90))
+ax.grid(5, 5).axes("n", "% C")
+ax.hline(lim, color=AMBER)
+ax.curve(lambda n: w(n), 1, 20, color=RED)
+ax.pt(1, w(1), "CH4 74.9", dx=8, dy=-6)
+ax.pt(4, w(4), "butane 82.7", dx=8, dy=14)
+f.text(274, ax.Y(lim) - 6, "alkenes 85.6", size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(150, 206, "limit for alkanes = 85.6, same as alkenes", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "1 g butane burns to 3.03 g CO2", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
