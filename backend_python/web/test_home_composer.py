@@ -105,3 +105,32 @@ class HomeComposerTests(TestCase):
         self.assertEqual(post.poll.question, 'Which subject is best?')
         self.assertEqual(post.poll.options.count(), 2)
         self.assertEqual(post.media.count(), 1)
+
+    def test_writing_surface_has_no_ceiling_and_reorders(self):
+        self._login()
+        html = self.client.get(reverse('web:home')).content.decode()
+        self.assertIn('composer-editor.js', html)
+        self.assertIn('composer-sortable.js', html)
+        # the page used to swallow wheel/touch events over the dialog, which killed scrolling
+        self.assertNotIn('handleDialogWheel', html)
+        self.assertIn('NebSortable(previewsContainer', html)
+        self.assertIn('NebSortable(mediaListContainer', html)
+        self.assertIn('data-can-mention-all="0"', html)
+
+    def test_staff_get_mention_all_in_composer(self):
+        self.user.is_admin = True
+        self.user.save()
+        self._login()
+        self.assertContains(self.client.get(reverse('web:home')), 'data-can-mention-all="1"')
+
+    def test_mention_search_takes_one_letter(self):
+        other = User.objects.create(
+            id=str(uuid.uuid4()), username='zara_k', email='zara@example.test', email_verified=True,
+            display_name='Zara Khan', gender='Female', class_level='12', role='student',
+        )
+        self._login()
+        one = self.client.get('/ajax/user-search/', {'q': 'z'}).json()
+        self.assertEqual([u['username'] for u in one], [other.username])
+        by_name = self.client.get('/ajax/user-search/', {'q': 'khan'}).json()
+        self.assertEqual([u['username'] for u in by_name], [other.username])
+        self.assertEqual(self.client.get('/ajax/user-search/', {'q': ''}).json(), [])

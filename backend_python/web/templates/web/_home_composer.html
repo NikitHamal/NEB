@@ -341,8 +341,8 @@
     <!-- Scrollable Dialog Content Body: Textarea, Previews, Poll, Video, Media -->
     <div class="hf-dialog-body">
 
-      <textarea class="hf-dialog-textarea" id="homePostContent" rows="6" maxlength="20000"
-                data-neb-skip="true"
+      <textarea class="hf-dialog-textarea" id="homePostContent" rows="1" maxlength="20000"
+                data-neb-skip="true" data-can-mention-all="{% if user.is_admin or user.moderator_level %}1{% else %}0{% endif %}" autocomplete="off"
                 placeholder="Ask a question, share notes, formulas, or exam tips..."></textarea>
 
       <!-- Live Rendered Markdown & Math KaTeX Preview Box -->
@@ -542,3 +542,5 @@
   </form>
 </dialog>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-chips.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-sortable.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-editor.js' %}" defer></script>
