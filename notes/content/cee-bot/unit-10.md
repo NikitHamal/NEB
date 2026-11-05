@@ -159,6 +159,31 @@ secondary growth arrives later. (iv) **Monocot root** — polyarch xylem and a
 large pith, no cambium ever. Four slides, four answers, each from two or
 three diagnostic features — exactly how the paper frames it.
 :::
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Reading a tree from its rings. (a) The cut trunk of a woody dicot shows concentric annual rings: each is one layer of secondary xylem, wide, light early wood in spring and narrow, dark late wood in autumn. (b) Twelve rings were measured (total radius 32.0 mm, mean 2.67 mm). Any ring thinner than half the mean (1.33 mm) marks a stress year such as drought: here rings 5 and 10. The tree is 12 years old, and ring patterns of old timber are used to date houses and to read past rainfall in the Himalaya."
+@ photo id="bio12/annual-rings" cap="Annual rings in a woody dicot stem"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Width of 12 rings, from the pith outwards (mm)"
+w = (3.2, 3.0, 2.8, 3.4, 1.1, 2.6, 3.1, 3.3, 2.9, 0.9, 2.7, 3.0)
+tot = sum(w); mean = tot / len(w); half = mean / 2
+dry = [i + 1 for i, x in enumerate(w) if x < half]
+assert abs(tot - 32.0) < 1e-9 and dry == [5, 10]
+facts = dict(tot="%.1f" % tot, mean="%.2f" % mean, half="%.2f" % half, d1=dry[0], d2=dry[1], n=len(w))
+f = Fig(300, 236)
+f.text(150, 12, "Ring width (mm) by year of growth", size=10.5, color=NAVY, bold=True)
+base, sc = 178, 32
+for i, x in enumerate(w):
+    d = (i + 1) in dry
+    f.box(16 + i * 22.5, base - x * sc, 17, x * sc, fill=ROSE if d else SAND, stroke=RED if d else AMBER, r=1)
+    f.text(16 + i * 22.5 + 8.5, base + 13, str(i + 1), size=10.5, color=RED if d else SLATE, bold=d)
+    f.text(16 + i * 22.5 + 8.5, base - x * sc - 5, "%.1f" % x, size=9.5, color=RED if d else SLATE)
+f.line(12, base, 292, base, color=SLATE)
+f.line(12, base - mean * sc, 292, base - mean * sc, color=TEAL, dash=True)
+f.text(14, 207, "teal dashes: mean 2.67 mm", size=10.5, color=TEAL, bold=True, anchor="start")
+f.line(12, base - half * sc, 292, base - half * sc, color=RED, dash=True)
+f.text(14, 222, "red dashes: half the mean, 1.33 mm", size=10.5, color=RED, bold=True, anchor="start")
+```
+
 ## 10.2 Types of vascular bundles
 
 A **vascular bundle** is a strand of xylem and phloem. The paper asks you
@@ -437,6 +462,29 @@ phloem only** — xylem's dead pipes need no attendants.
 
 **Solution.** Radial bundles + exarch protoxylem = **root**; polyarch condition ($>6$ xylem arches) + large persistent pith = **monocot root** (e.g., maize).
 :::
+
+```photogrid label="10.2" cols="2" ratio="1.2" caption="Counting stomata. (a) Pores in the leaf epidermis, each flanked by two guard cells. (b) The stomatal index is S/(S + E) x 100, where S is the number of stomata and E the number of ordinary epidermal cells in the same fields; it does not change with the size of the cells, unlike the stomatal density. Five microscope fields of a dicot leaf gave 94 stomata and 325 epidermal cells on the lower surface (index 22.4 per cent) but only 15 and 404 on the upper surface (index 3.6 per cent). More stomata sit below, where the air is cooler and less water is lost."
+@ photo id="bio12/stomata" cap="Stomata and guard cells"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Stomatal index of the two leaf surfaces"
+lo = (94, 325); up = (15, 404)
+si = lambda s, e: 100 * s / (s + e)
+assert abs(si(*lo) - 22.43) < 0.01 and abs(si(*up) - 3.58) < 0.01
+facts = dict(sil="%.1f" % si(*lo), siu="%.1f" % si(*up))
+f = Fig(300, 236)
+f.text(150, 12, "Stomatal index = S/(S + E) x 100", size=10.5, color=NAVY, bold=True)
+base, sc = 170, 5.2
+for i, (lab, d, c, fl) in enumerate((("Lower surface", lo, TEAL, MINT), ("Upper surface", up, AMBER, SAND))):
+    v = si(*d)
+    x = 52 + i * 118
+    f.box(x, base - v * sc, 60, v * sc, fill=fl, stroke=c, r=2)
+    f.text(x + 30, base - v * sc - 7, "%.1f%%" % v, size=11, color=c, bold=True)
+    f.text(x + 30, base + 14, lab, size=10.5, color=SLATE, bold=True)
+    f.text(x + 30, base + 28, "S = %d, E = %d" % d, size=10.5, color=c)
+f.line(30, base, 290, base, color=SLATE)
+f.text(150, 224, "sum of 5 microscope fields per surface", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 

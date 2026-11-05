@@ -163,6 +163,31 @@ animals; hormones (steroids, and in plants gibberellins, abscisic acid and
 brassinosteroids); pigments (carotenoids) and vitamins A, D, E and K, which are
 fat-soluble.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Why an enzyme-catalysed rate levels off. (a) Starch grains of potato seen in polarised light are layered granules of amylose and amylopectin; the enzyme amylase attacks them from the surface, so only the enzyme sites limit the speed once there is plenty of substrate. (b) With Vmax = 100 and Km = 5 the Michaelis-Menten equation v = Vmax[S]/(Km + [S]) gives v = 50 at [S] = Km, 80 at 20 and 90 at 45 units, so the curve is a hyperbola that never quite reaches Vmax. A competitive inhibitor (I = Ki) doubles the apparent Km to 10; at [S] = 5 the rate then falls to 33.3, but a large excess of substrate still reaches the same Vmax."
+@ photo id="ceebot/starch" cap="Potato starch grains in polarised light (100x)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rate against substrate, with and without a competitive inhibitor"
+Vmax, Km, I, Ki = 100.0, 5.0, 10.0, 10.0
+v = lambda S, k: Vmax * S / (k + S)
+Kapp = Km * (1 + I / Ki)
+assert abs(v(5, Km) - 50) < 1e-9 and abs(v(20, Km) - 80) < 1e-9 and abs(v(45, Km) - 90) < 1e-9 and abs(v(5, Kapp) - 100 / 3) < 1e-9
+facts = dict(v5="%.0f" % v(5, Km), v20="%.0f" % v(20, Km), v45="%.0f" % v(45, Km), kapp="%.0f" % Kapp, vi="%.1f" % v(5, Kapp))
+f = Fig(300, 236)
+f.text(150, 12, "Michaelis-Menten rate curve (v in units)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 236, 150, (0, 50), (0, 100))
+ax.grid(10, 25).axes("[S]", "v")
+ax.hline(100, color=SLATE)
+f.text(ax.X(33), ax.Y(100) - 4, "Vmax = 100", size=10.5, color=SLATE, bold=True)
+ax.curve(lambda S: v(S, Km), color=TEAL)
+ax.curve(lambda S: v(S, Kapp), color=RED, dash=True)
+ax.hline(50, 0, 5, color=AMBER).vline(5, 0, 50, color=AMBER)
+ax.pt(5, 50, "Km = 5 (v = 50)", dx=9, dy=18)
+f.text(130, 156, "no inhibitor: Km = 5", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(130, 170, "with inhibitor: Km = 10", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 224, "Half of Vmax needs [S] = Km", size=10.5, color=NAVY, bold=True)
+```
+
 ## 1.2 Minerals and their biological roles
 
 Burn a plant and the ash holds about 60 elements, but only some are

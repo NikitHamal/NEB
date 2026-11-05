@@ -169,6 +169,32 @@ division — arithmetic growth (a constant addition per day) would look linear
 instead of explosive, and seedlings are exponential until reserves or space
 say otherwise.
 :::
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Why a shoot bends to the light. (a) Seedlings leaning towards a light source. (b) In the Cholodny-Went model light drives auxin to the shaded side, here 70 per cent shaded to 30 per cent lit. If elongation is proportional to auxin and the lit side grows 10 per cent in a 20 mm stem, the shaded side grows 23.3 per cent: it lengthens 4.67 mm against 2.00 mm, a difference of 2.67 mm across a 2 mm stem. The curvature angle is the difference divided by the width, 76 degrees. Auxin therefore controls direction, not growth alone, which is also what lets roots bend down in gravity."
+@ photo id="ceebot/phototropism" cap="Seedlings bending towards light"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Unequal growth of the two sides of a stem (model)"
+L, w = 20.0, 2.0
+g_lit = 0.10
+g_sh = g_lit * 70 / 30
+dl, ds = L * g_lit, L * g_sh
+diff = ds - dl
+ang = math.degrees(diff / w)
+assert abs(ds - 4.667) < 0.001 and abs(ang - 76.4) < 0.1
+facts = dict(gs="%.1f" % (g_sh * 100), ds="%.2f" % ds, dl="%.2f" % dl, diff="%.2f" % diff, ang="%.0f" % ang)
+f = Fig(300, 236)
+f.text(150, 12, "Growth of each side of a 20 mm stem (mm)", size=10.5, color=NAVY, bold=True)
+sc = 18
+for i, (lab, d, c, fl, auxin) in enumerate((("lit side", dl, AMBER, SAND, "30% auxin"), ("shaded side", ds, TEAL, MINT, "70% auxin"))):
+    x = 60 + i * 110
+    f.box(x, 170 - 20 * 4.2, 50, 20 * 4.2, fill="#ffffff", stroke=SLATE, r=1, dash=True)
+    f.box(x, 170 - 20 * 4.2 - d * 4.2, 50, d * 4.2, fill=fl, stroke=c, r=1)
+    f.text(x + 25, 170 - 20 * 4.2 - d * 4.2 - 7, "+%.2f mm" % d, size=10.5, color=c, bold=True)
+    f.text(x + 25, 187, lab, size=10.5, color=c, bold=True)
+    f.text(x + 25, 201, auxin, size=10.5, color=SLATE)
+f.text(150, 222, "bend = %.2f / 2 = %.0f degrees" % (diff, ang), size=10.5, color=NAVY, bold=True)
+```
+
 ## 13.2 Seed germination and its types; seed dormancy
 
 **Germination** is the resumption of active growth of the embryo,
@@ -330,6 +356,32 @@ student's first answer.
 
 **Solution.** Germination depends only on the **last** flash: because the final flash is **red (R, 660 nm)**, $P_r$ is converted to active $P_{fr}$ and the seeds **germinate**. In Skoog–Miller callus culture, a **low auxin : high cytokinin** ratio induces **shoot morphogenesis** (caulogenesis).
 :::
+
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Measuring germination. (a) Navy bean seeds at successive stages: the radicle emerges first, then the shoot (epigeal germination, the cotyledons are lifted above the soil). (b) Out of 100 seeds, the cumulative number germinated on days 0 to 8 was 0, 0, 12, 38, 62, 80, 88, 90, 90. The germination percentage is 90 per cent. Interpolating between day 3 (38) and day 4 (62), half of the final germination (T50) is reached at day 3.3, and the mean germination time, the sum of (seeds per day x day) divided by seeds germinated, is 3.9 days. Dormant seeds would give a flat line until a treatment such as gibberellin or scarification is applied."
+@ photo id="ceebot/bean-germ" cap="Bean seed to seedling, days 0 to 8"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cumulative germination of 100 seeds (%)"
+cum = (0, 0, 12, 38, 62, 80, 88, 90, 90)
+new = [cum[i] - (cum[i - 1] if i else 0) for i in range(len(cum))]
+gp = cum[-1]
+t50 = 3 + (gp / 2 - cum[3]) / (cum[4] - cum[3])
+mgt = sum(n * d for d, n in enumerate(new)) / sum(new)
+assert gp == 90 and abs(t50 - 3.29) < 0.01 and abs(mgt - 350 / 90) < 1e-9
+facts = dict(gp=gp, t50="%.1f" % t50, mgt="%.1f" % mgt)
+f = Fig(300, 236)
+f.text(150, 12, "Germinated seeds (%) against day", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 8), (0, 100))
+ax.grid(1, 25).axes("day", "%")
+pts = [(ax.X(d), ax.Y(c)) for d, c in enumerate(cum)]
+f.raw('<polyline points="%s" fill="none" stroke="%s" stroke-width="2.2"/>' % (" ".join("%s,%s" % p for p in pts), TEAL))
+for d, c in enumerate(cum):
+    ax.pt(d, c, r=3, color=TEAL)
+ax.hline(45, 0, t50, color=RED).vline(t50, 0, 45, color=RED)
+ax.pt(t50, 45, "T50 = %.1f d" % t50, dx=10, dy=18, color=RED)
+f.text(150, 206, "final germination %d%%, mean time %.1f days" % (gp, mgt), size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "half of 90 = 45 is reached at day 3.3", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
