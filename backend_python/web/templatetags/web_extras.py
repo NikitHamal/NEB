@@ -793,3 +793,13 @@ def json_attr(value):
 def image_urls_json(images):
     """A post's image dicts as a JSON list of their urls, for the inline editor."""
     return json.dumps([i.get('imageUrl') for i in (images or []) if isinstance(i, dict) and i.get('imageUrl')], separators=(',', ':'))
+
+
+@register.filter
+def poll_json(value):
+    """A poll payload as compact JSON for a data attribute (autoescape quotes it)."""
+    import json
+    try:
+        return json.dumps(value, separators=(',', ':'))
+    except (TypeError, ValueError):
+        return '{}'
