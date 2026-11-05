@@ -77,7 +77,8 @@
       <div class="ax-panel" id="panel-verify" data-title="Check your email">
         <button type="button" class="ax-back" data-go="signup"><span class="material-symbols-outlined">arrow_back</span><span>Back</span></button>
         <h1 class="ax-title" tabindex="-1">Check your email</h1>
-        <p class="ax-lead">Code sent to <strong id="verify-email-display"></strong></p>
+        <p class="ax-lead">We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
+        <p class="ax-note"><span class="material-symbols-outlined" aria-hidden="true">report</span><span>Nothing in your inbox? Check your spam or junk folder too.</span></p>
         <form id="verify-form" class="ax-form" novalidate>
           <div class="ax-otp" id="verify-otp" role="group" aria-label="6-digit code">
             <input inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 1">
@@ -106,6 +107,7 @@
           <button class="ob-btn ob-btn-fill ax-submit" type="submit" id="forgot-btn"><span>Send code</span></button>
         </form>
         <form id="reset-form" class="ax-form ax-reveal" novalidate hidden>
+          <p class="ax-note"><span class="material-symbols-outlined" aria-hidden="true">report</span><span>Code sent. If it is not in your inbox, check your spam or junk folder.</span></p>
           <div class="ob-field">
             <label for="reset-code">Code</label>
             <input class="ob-input ax-code" type="text" id="reset-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000">

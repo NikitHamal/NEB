@@ -416,12 +416,16 @@ def email_signup_page(request):
     return redirect('/login/?panel=email-signup')
 
 def email_login_page(request):
+    """Old standalone page: sign-in lives on /login/ now."""
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/email_login.html', _ctx(request))
+    return redirect('/login/')
 
 def email_verify_page(request):
-    return render(request, 'web/email_verify.html', _ctx(request))
+    """Old standalone page: the code boxes are a panel on /login/ and need the sign-up that sent it."""
+    if api.get_session_token(request):
+        return redirect('web:home')
+    return redirect('/login/?panel=signup')
 
 def email_forgot_page(request):
     return render(request, 'web/email_forgot.html', _ctx(request))
