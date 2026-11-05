@@ -2,12 +2,10 @@
 
 package com.neb.ians.ui.screens.forum
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +16,6 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Poll
-import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -32,17 +29,13 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebChoiceChips
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
-import com.neb.ians.ui.components.NebRailTab
-import com.neb.ians.ui.components.NebSelectField
-import com.neb.ians.ui.components.NebTabRail
 import com.neb.ians.ui.components.nebPressable
 
 /**
- * The poll builder, folded away until it is asked for.
+ * The poll builder, as the web draws it: a title row with Remove, a Voting / MCQ pill pair,
+ * the question, the options, then Add option beside the closing time.
  *
- * A poll is two different things behind one switch: a vote, where every option
- * is equal, and a quiz, where one of them is right. The rail says which, and
- * the option rows change with it rather than growing a second set of controls.
+ * It only exists while the poll tool in the footer is on.
  */
 @Composable
 fun PostPollPanel(
@@ -51,118 +44,137 @@ fun PostPollPanel(
     modifier: Modifier = Modifier
 ) {
     val isQuiz = state.pollType == "mcq"
+    val scheme = MaterialTheme.colorScheme
 
     PostPanel(modifier = modifier) {
-        PostSwitchRow(
-            icon = Icons.Rounded.Poll,
-            title = "Add a poll",
-            subtitle = if (state.pollEnabled) "Nebians answer before they reply" else "Ask a question with options",
-            checked = state.pollEnabled,
-            onCheckedChange = viewModel::togglePoll,
-            enabled = !state.isSubmitting
-        )
-
-        AnimatedVisibility(visible = state.pollEnabled) {
-            Column(
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Poll,
+                contentDescription = null,
+                tint = scheme.primary,
+                modifier = Modifier.size(20.dp)
+            )
+            Text(
+                text = "Poll / Quiz",
+                style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                NebTabRail(
-                    tabs = listOf(NebRailTab("Vote"), NebRailTab("Quiz")),
-                    selectedIndex = if (isQuiz) 1 else 0,
-                    onSelect = { viewModel.onPollTypeChange(if (it == 1) "mcq" else "voting") },
-                    contentPadding = PaddingValues(0.dp)
-                )
+                    .weight(1f)
+                    .padding(start = 8.dp)
+            )
+            NebButton(
+                text = "Remove",
+                onClick = { viewModel.togglePoll(false) },
+                icon = Icons.Rounded.Close,
+                tone = NebButtonTone.Tonal,
+                size = NebButtonSize.Small,
+                enabled = !state.isSubmitting
+            )
+        }
 
-                PostTextField(
-                    value = state.pollQuestion,
-                    onValueChange = viewModel::onPollQuestionChange,
-                    label = "Question",
-                    placeholder = if (isQuiz) "What is the SI unit of force?" else "Which one do you prefer?",
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            NebChoiceChips(
+                options = listOf("Voting poll", "MCQ quiz"),
+                selectedIndex = if (isQuiz) 1 else 0,
+                onSelect = { viewModel.onPollTypeChange(if (it == 1) "mcq" else "voting") },
+                enabled = !state.isSubmitting
+            )
+
+            PostInput(
+                value = state.pollQuestion,
+                onValueChange = viewModel::onPollQuestionChange,
+                placeholder = "Ask a poll question...",
+                enabled = !state.isSubmitting
+            )
+
+            state.pollOptions.forEachIndexed { index, option ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    PostInput(
+                        value = option.text,
+                        onValueChange = { viewModel.onPollOptionChange(index, it) },
+                        placeholder = "Option ${index + 1}",
+                        modifier = Modifier.weight(1f),
+                        enabled = !state.isSubmitting
+                    )
+                    if (isQuiz) {
+                        CorrectMark(
+                            correct = option.isCorrect,
+                            onClick = { viewModel.togglePollOptionCorrect(index) }
+                        )
+                    }
+                    if (state.pollOptions.size > 2) {
+                        OptionAction(
+                            onClick = { viewModel.removePollOption(index) },
+                            description = "Remove option ${index + 1}"
+                        )
+                    }
+                }
+            }
+
+            if (state.pollOptions.size < 6) {
+                NebButton(
+                    text = "Add option",
+                    onClick = viewModel::addPollOption,
+                    icon = Icons.Rounded.Add,
+                    tone = NebButtonTone.Tonal,
+                    size = NebButtonSize.Small,
                     enabled = !state.isSubmitting
                 )
+            }
 
-                state.pollOptions.forEachIndexed { index, option ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        PostTextField(
-                            value = option.text,
-                            onValueChange = { viewModel.onPollOptionChange(index, it) },
-                            label = "Option ${index + 1}",
-                            modifier = Modifier.weight(1f),
-                            enabled = !state.isSubmitting
-                        )
-                        if (isQuiz) {
-                            CorrectMark(
-                                correct = option.isCorrect,
-                                onClick = { viewModel.togglePollOptionCorrect(index) }
-                            )
-                        }
-                        if (state.pollOptions.size > 2) {
-                            OptionAction(
-                                onClick = { viewModel.removePollOption(index) },
-                                description = "Remove option ${index + 1}"
-                            )
-                        }
-                    }
-                }
+            Text(
+                text = "Closes",
+                style = MaterialTheme.typography.labelLarge,
+                color = scheme.onSurfaceVariant
+            )
+            NebChoiceChips(
+                options = CreatePostUiState.POLL_DURATIONS.map { it.second },
+                selectedIndex = CreatePostUiState.POLL_DURATIONS.indexOfFirst { it.first == state.pollDurationMs },
+                onSelect = { viewModel.onPollDurationChange(CreatePostUiState.POLL_DURATIONS[it].first) },
+                enabled = !state.isSubmitting
+            )
 
-                if (state.pollOptions.size < 6) {
-                    NebButton(
-                        text = "Add option",
-                        onClick = viewModel::addPollOption,
-                        icon = Icons.Rounded.Add,
-                        tone = NebButtonTone.Tonal,
-                        size = NebButtonSize.Small,
-                        enabled = !state.isSubmitting
-                    )
-                }
-
-                if (isQuiz) {
-                    PostTextField(
-                        value = state.pollExplanation,
-                        onValueChange = viewModel::onPollExplanationChange,
-                        label = "Explanation",
-                        placeholder = "Shown after answering",
-                        singleLine = false,
-                        minLines = 2,
-                        supporting = "Optional",
-                        enabled = !state.isSubmitting
-                    )
-                } else {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Allow more than one answer",
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Switch(
-                            checked = state.pollAllowMultiple,
-                            onCheckedChange = viewModel::onPollAllowMultipleChange,
-                            enabled = !state.isSubmitting
-                        )
-                    }
-                }
-
+            if (isQuiz) {
                 Text(
-                    text = "Closes",
+                    text = "Tick the correct answer",
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = scheme.onSurfaceVariant
                 )
-                NebChoiceChips(
-                    options = CreatePostUiState.POLL_DURATIONS.map { it.second },
-                    selectedIndex = CreatePostUiState.POLL_DURATIONS.indexOfFirst { it.first == state.pollDurationMs },
-                    onSelect = { viewModel.onPollDurationChange(CreatePostUiState.POLL_DURATIONS[it].first) },
+                PostInput(
+                    value = state.pollExplanation,
+                    onValueChange = viewModel::onPollExplanationChange,
+                    placeholder = "Explanation for the correct answer (optional)...",
+                    singleLine = false,
+                    minLines = 2,
                     enabled = !state.isSubmitting
                 )
+            } else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Allow more than one answer",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Switch(
+                        checked = state.pollAllowMultiple,
+                        onCheckedChange = viewModel::onPollAllowMultipleChange,
+                        enabled = !state.isSubmitting
+                    )
+                }
             }
         }
     }
