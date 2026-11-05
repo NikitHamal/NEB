@@ -1071,15 +1071,19 @@ fun Avatar(
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
     val avatarAnim = remember(resolvedUrl) { if (animate) com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) else null }
     val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
+    val avatarShape: androidx.compose.ui.graphics.Shape =
+        if (isNeby || isAnon || isNebians) CircleShape else rememberAvatarShape(name)
+    val (toneFill, toneInk) = avatarTone(name)
     Box(modifier = modifier.size(size)) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            shape = CircleShape,
+            shape = avatarShape,
             color = when {
                 isNeby -> Color.Transparent
                 isNebians -> MaterialTheme.colorScheme.primary
                 hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
-                else -> MaterialTheme.colorScheme.primary
+                isAnon -> MaterialTheme.colorScheme.primary
+                else -> toneFill
             }
         ) {
             if (isAnon) {
@@ -1123,7 +1127,7 @@ fun Avatar(
                         text = name.firstOrNull()?.uppercase() ?: "?",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = toneInk
                     )
                 }
             }
@@ -1134,17 +1138,14 @@ fun Avatar(
             Box(
                 modifier = Modifier
                     .size(badgeSize)
-                    .align(Alignment.BottomEnd)
-                    .background(MaterialTheme.colorScheme.surface, CircleShape)
-                    .padding(1.dp)
-                    .background(MaterialTheme.colorScheme.inverseSurface, CircleShape),
+                    .align(Alignment.BottomEnd),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_crown),
                     contentDescription = "Admin",
-                    tint = MaterialTheme.colorScheme.inverseOnSurface,
-                    modifier = Modifier.size(badgeSize * 0.7f)
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(badgeSize)
                 )
             }
         } else if (effectiveVerificationLevel > 0 && !isNebians) {
@@ -1157,17 +1158,14 @@ fun Avatar(
             Box(
                 modifier = Modifier
                     .size(badgeSize)
-                    .align(Alignment.BottomEnd)
-                    .background(Color.White, CircleShape)
-                    .padding(1.dp)
-                    .background(badgeColor, CircleShape),
+                    .align(Alignment.BottomEnd),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Filled.Verified,
                     contentDescription = "Verified",
-                    tint = Color.White,
-                    modifier = Modifier.size(badgeSize * 0.7f)
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(badgeSize)
                 )
             }
         }
