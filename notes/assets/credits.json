@@ -17250,6 +17250,58 @@
   "source": "Wikimedia Commons",
   "title": "Yoga Padmasana Lotus Posture"
  },
+ "ioemath/dish": {
+  "author": "David Shankbone",
+  "bytes": 824875,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/dish.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Solar_dish_at_Ben-Gurion_National_Solar_Energy_Center_in_Israel.jpg",
+  "sha1": "0032547b3d702fa6",
+  "source": "Wikimedia Commons",
+  "title": "Solar dish at Ben-Gurion National Solar Energy Center in Israel"
+ },
+ "ioemath/galton": {
+  "author": "Mark Hebner",
+  "bytes": 589677,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/galton.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:GaltonBoard.png",
+  "sha1": "a833768f7f9f22a5",
+  "source": "Wikimedia Commons",
+  "title": "GaltonBoard"
+ },
+ "ioemath/sliderule": {
+  "author": "Jacek Halicki",
+  "bytes": 189959,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/sliderule.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:2023_Suwak_logarytmiczny_(2).jpg",
+  "sha1": "662cbcf8d395bc1d",
+  "source": "Wikimedia Commons",
+  "title": "2023 Suwak logarytmiczny (2)"
+ },
+ "ioemath/sundial": {
+  "author": "DeFacto",
+  "bytes": 1085933,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "ioemath/sundial.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sundial_on_the_porch_of_St._Giles_Church,_Chesterton.jpg",
+  "sha1": "c753e4542ffd5224",
+  "source": "Wikimedia Commons",
+  "title": "Sundial on the porch of St. Giles Church, Chesterton"
+ },
  "ioephy/bimetal": {
   "author": "Dmitry G",
   "bytes": 286737,

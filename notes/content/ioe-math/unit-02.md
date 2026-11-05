@@ -93,6 +93,32 @@ $$e^x=\sum\frac{x^n}{n!},\quad e=\sum\frac{1}{n!}\approx2.71828,\quad a^x=\sum\f
 $$\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}-\cdots\ (-1<x\le1),\qquad \ln\frac{1+x}{1-x}=2\Big(x+\frac{x^3}{3}+\frac{x^5}{5}+\cdots\Big).$$
 Also $\ln 2=1-\frac{1}{2}+\frac{1}{3}-\cdots$ and $e^{-1}=\sum\frac{(-1)^n}{n!}$.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Logarithms turn multiplication into addition. (a) A slide rule: the scales are marked at distances proportional to log x, so sliding one scale along the other adds two lengths, and the sum of logarithms is the logarithm of the product (log a + log b = log ab). (b) The rule is modelled as 25 cm long, with x placed at 25 log10 x cm. Multiplying 2.5 by 3.2 adds 9.95 cm and 12.63 cm to give 22.58 cm, the position of 8.0. Reading a position to 0.1 mm limits the answer to about 0.09 per cent."
+@ photo id="ioemath/sliderule" cap="A slide rule with its logarithmic scales"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="2.5 x 3.2 by adding lengths on a 25 cm scale"
+import math
+L = 25.0
+pos = lambda x: L * math.log10(x)
+a, b = pos(2.5), pos(3.2); prod = 10 ** ((a + b) / L)
+err = math.log(10) * 0.01 / L
+assert abs(prod - 8.0) < 1e-9 and abs(a - 9.95) < 0.01 and abs(b - 12.63) < 0.01 and abs(err * 100 - 0.092) < 0.001
+X = lambda cm: 10 + cm * 280 / L
+f = Fig(300, 236)
+f.text(150, 14, "x is drawn at 25 log10(x) cm", size=10.5, color=NAVY, bold=True)
+f.line(X(0), 60, X(L), 60, color=NAVY, sw=1.6)
+for v in range(1, 11):
+    f.line(X(pos(v)), 52, X(pos(v)), 68, color=NAVY, sw=1.2); f.text(X(pos(v)), 84, str(v), size=10.5, color=NAVY, bold=True)
+f.box(X(0), 110, X(a) - X(0), 22, "9.95 cm  (2.5)", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(X(a), 110, X(a + b) - X(a), 22, "12.63 cm  (3.2)", fill=MINT, stroke=TEAL, size=10.5, bold=True, r=3)
+f.arrow([(X(a + b), 140), (X(a + b), 94)], color=RED)
+f.text(X(a + b), 154, "22.58 cm = 8.0", size=10.5, color=RED, bold=True, anchor="end")
+f.text(150, 186, "log 2.5 + log 3.2 = %.4f + %.4f = log 8" % (math.log10(2.5), math.log10(3.2)), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "reading error 0.1 mm: %.2f%% of the answer" % (err * 100), size=10.5, color=SLATE)
+f.text(150, 226, "so three figures at best", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
