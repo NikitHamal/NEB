@@ -272,6 +272,19 @@
     "source": "Wikimedia Commons",
     "title": "CRT color enhanced"
   },
+  "bca-cg/eye": {
+    "author": "Bob Collowan",
+    "bytes": 1445990,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca-cg/eye.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:London_Eye_at_sunset_2013-07-19.jpg",
+    "sha1": "826a92862319e78c",
+    "source": "Wikimedia Commons",
+    "title": "London Eye at sunset 2013-07-19"
+  },
   "bca-cg/horse": {
     "author": "Eadweard Muybridge",
     "bytes": 218198,
@@ -284,6 +297,19 @@
     "sha1": "d7b65881708c1740",
     "source": "Wikimedia Commons",
     "title": "The Horse in Motion"
+  },
+  "bca-cg/ivan": {
+    "author": "Dick Lyon",
+    "bytes": 108944,
+    "credit": "personal camera",
+    "fetched": "2026-11-05",
+    "file": "bca-cg/ivan.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ivan_Sutherland_at_CHM.jpg",
+    "sha1": "c64fa3e43719026d",
+    "source": "Wikimedia Commons",
+    "title": "Ivan Sutherland at CHM"
   },
   "bca-cg/lcd": {
     "author": "ALexL33",
@@ -336,6 +362,19 @@
     "sha1": "4accb99128056d06",
     "source": "Wikimedia Commons",
     "title": "ATI Radeon HD 5970 Graphics Card-oblique view"
+  },
+  "bca-cg/scissors": {
+    "author": "No machine-readable author provided. Karl johnson assumed (based on copyright claims).",
+    "bytes": 868168,
+    "credit": "No machine-readable source provided. Own work assumed (based on copyright claims).",
+    "fetched": "2026-11-05",
+    "file": "bca-cg/scissors.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Cutting_girl_1c_1.jpg",
+    "sha1": "32b777190bce1a09",
+    "source": "Wikimedia Commons",
+    "title": "Cutting girl 1c 1"
   },
   "bca-cg/shading": {
     "author": "The original uploader was Loebek at German Wikipedia . (Thomas Lohbeck, http://www.lightwavers.net )",
