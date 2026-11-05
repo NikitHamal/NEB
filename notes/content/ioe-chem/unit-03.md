@@ -68,6 +68,47 @@ Preparation: from alcohols (SOCl₂ best; HX/ZnCl₂), addition of HX, halogenat
 Markovnikov applies to HBr *without* peroxide only. Cannizzaro needs *no α-hydrogen*; aldol needs *an α-hydrogen*. Tollens' and Fehling's tests do not distinguish aromatic aldehydes in the same way. In aqueous basicity the tertiary amine is *not* the strongest. SN2 reactivity runs opposite to SN1. Acidity: look for the stability of the conjugate base.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Why distillation separates crude oil. (a) A laboratory fractional distillation column: vapour rises through the packing, condenses and re-evaporates many times, and the more volatile component reaches the top first. (b) Boiling points of the first ten straight-chain alkanes (handbook values). Each added CH2 raises the boiling point by about 29 K on average for butane to decane, because the larger molecule has stronger London forces; this regular gap is what lets a column cut crude oil into gas, petrol, kerosene and diesel."
+@ photo id="cee-chem/fractional-distillation" cap="A fractional distillation column"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Boiling points of alkanes, C1 to C10"
+bp = [-161.5, -88.6, -42.1, -0.5, 36.1, 68.7, 98.4, 125.7, 150.8, 174.1]
+assert all(b > a for a, b in zip(bp, bp[1:]))
+inc = (bp[9] - bp[3]) / 6
+f = Fig(300, 236)
+X = lambda n: 46 + (n - 1) * 27; Y = lambda t: 150 - (t + 170) * 0.3
+f.line(40, Y(-170), 292, Y(-170), color=SLATE, sw=1.2); f.line(40, Y(-170), 40, 14, color=SLATE, sw=1.2)
+f.line(40, Y(0), 292, Y(0), color=SOFT, sw=1)
+for t in (-150, 0, 150): f.text(34, Y(t) + 4, str(t), size=10.5, color=SLATE, anchor="end")
+for n in range(1, 10): f.line(X(n), Y(bp[n - 1]), X(n + 1), Y(bp[n]), color=TEAL, sw=2)
+for n, t in enumerate(bp, 1):
+    f.circle(X(n), Y(t), 3.5, fill=AMBER, stroke=AMBER)
+    if n % 3 == 1: f.text(X(n), 164, "C%d" % n, size=10.5, color=SLATE)
+f.text(166, 186, "number of carbon atoms (boiling point in °C)", size=10.5, color=SLATE)
+f.text(150, 208, "C4 to C10: mean rise %.1f K per CH2" % inc, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "C1-C4 are gases at room temperature", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Carbon in three bonding states. (a) Eight allotropes of carbon, from diamond (all sp3) to graphite and nanotubes (sp2). (b) The carbon-carbon bond in ethane, ethene and ethyne with handbook lengths and energies. As the bond order rises from 1 to 3 the bond shortens (154, 134, 120 pm) and strengthens (346, 614, 839 kJ per mole), but each extra bond adds less: the first pi bond adds 268 and the second only 225, which is why alkenes and alkynes still react by addition."
+@ photo id="cee-chem/carbon-allotropes" cap="Eight allotropes of carbon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="C-C bond: length and energy against bond order"
+data = [("C-C  ethane sp3", 154, 346, NAVY, BLUE), ("C=C  ethene sp2", 134, 614, TEAL, MINT), ("C≡C  ethyne sp", 120, 839, AMBER, SAND)]
+assert data[1][2] - data[0][2] == 268 and data[2][2] - data[1][2] == 225
+f = Fig(300, 236)
+f.text(150, 14, "bond energy (kJ/mol) and length (pm)", size=10.5, color=NAVY, bold=True)
+for i, (n, L, E, c, b) in enumerate(data):
+    y = 30 + i * 48; w = 200 * E / 839
+    f.text(8, y, n, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 20, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(w + 14, y + 16, "%d kJ, %d pm" % (E, L), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "first pi bond adds 268 kJ, second adds 225", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "DBE of C6H6 = (2x6 + 2 - 6)/2 = 4", size=10.5, color=SLATE)
+f.text(150, 226, "(one ring + three double bonds)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Item | Result |
