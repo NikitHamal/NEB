@@ -184,6 +184,47 @@ for i, (t, v) in enumerate(vals):
 7. **Indeterminate limits by L'Hôpital's rule.** When a limit is 0/0 or ∞/∞ we can differentiate the top and bottom separately. For example lim (x→0) (eˣ − 1 − x)/x² = 1/2. This saves long algebra in examination problems and in algorithm analysis.
 8. **Approximation by Taylor series.** Calculators compute sin x, cos x and eˣ by adding the first few terms of a Maclaurin series (Plate 4.1). The error is small because the terms shrink quickly. Without Taylor series, computers could not evaluate these functions at all.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Optimisation with a number you can feel. (a) The aluminium top of a drinks can: the metal used for a can is a surface-area problem with a fixed volume. (b) For a 330 millilitre can the surface area is S(r) = 2 pi r squared + 2V / r. Setting the derivative to zero gives r = (V / 2 pi) to the one-third power = 3.74 centimetres and a height of exactly twice the radius, 7.49 centimetres, with surface 264.4 square centimetres; a numerical minimiser confirmed the result. A can of the common radius 3.3 centimetres has height 9.65 centimetres and surface 268.4, only 1.5 per cent more, because the curve is very flat near its minimum. Real cans are taller than the optimum for grip, stacking and printing, so the calculus answer is the cheapest, not always the best, design."
+@ photo id="bcamath/can" cap="The top of a drinks can"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="330 mL can: surface area vs radius"
+import math
+from scipy.optimize import minimize_scalar
+V = 330.0
+S = lambda r: 2 * math.pi * r * r + 2 * V / r
+res = minimize_scalar(S, bounds=(1, 10), method="bounded")
+ropt = (V / (2 * math.pi)) ** (1 / 3)
+assert abs(res.x - ropt) < 1e-3
+hopt = V / (math.pi * ropt ** 2)
+assert abs(hopt - 2 * ropt) < 1e-6
+rreal = 3.3
+hreal = V / (math.pi * rreal ** 2)
+sav = 100 * (S(rreal) - S(ropt)) / S(rreal)
+facts = dict(r=round(ropt, 2), h=round(hopt, 2), smin=round(S(ropt), 1), sreal=round(S(rreal), 1), hreal=round(hreal, 2), sav=round(sav, 1))
+f = Fig(300, 246)
+f.text(150, 12, "S(r) = 2 pi r^2 + 2V/r, V = 330 cm3", size=10.5, color=NAVY, bold=True)
+x0, y0, W, H = 40, 160, 240, 110
+X = lambda r: x0 + (r - 2) / 4 * W
+Y = lambda s: y0 - (s - 250) / 150 * H
+prev = None
+for i in range(0, 101):
+    r = 2 + i * 0.04
+    p = (X(r), Y(min(S(r), 400)))
+    if prev: f.line(prev[0], prev[1], p[0], p[1], color=NAVY, sw=2)
+    prev = p
+f.line(x0, y0, x0 + W, y0, color=SLATE)
+for r in (2, 3, 4, 5, 6):
+    f.text(X(r), y0 + 13, str(r), size=10.5, color=SLATE)
+f.text(x0 + W / 2, y0 + 28, "radius r (cm)", size=10.5, color=SLATE)
+f.circle(X(ropt), Y(S(ropt)), 5, fill="#bbf7d0", stroke=TEAL)
+f.text(x0 + 6, 40, "min %.1f at r=%.2f" % (S(ropt), ropt), size=10.5, color=TEAL, bold=True, anchor="start")
+f.circle(X(rreal), Y(S(rreal)), 5, fill="#fecaca", stroke=RED)
+f.text(x0 + 6, 56, "real can r=3.3: %.1f" % S(rreal), size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 222, "best can: h = 2r = %.2f cm" % hopt, size=10.5, color=NAVY, bold=True)
+f.text(150, 238, "optimum is flat: only %.1f%% saving" % sav, size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Tangent at a: y − f(a) = f′(a)(x − a); normal slope −1/f′(a).
