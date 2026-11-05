@@ -86,8 +86,11 @@ fun AnalyticsScreen(
             else -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 NebEmptyState(
                     icon = Icons.Outlined.CloudOff,
-                    title = "Analytics unavailable",
-                    subtitle = uiState.error ?: "Try again in a moment.",
+                    title = if (data != null) "Analytics is updating" else "Analytics unavailable",
+                    subtitle = when {
+                        data != null -> "The new analytics are not live on the server yet."
+                        else -> uiState.error ?: "Try again in a moment."
+                    },
                     action = {
                         NebButton(
                             text = "Try again",
