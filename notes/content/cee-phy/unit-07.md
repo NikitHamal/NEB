@@ -601,6 +601,28 @@ f.text(150, 204, "extension %.1f mm; energy %.0f J" % (dL * 1000, E), size=10.5,
 f.text(150, 222, "margin to yield %.2f, to break %.2f" % (yld / sig, brk / sig), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Stiffness decides the stretch. (a) A steel wire rope is made of many thin strands twisted together, which makes it flexible but strong. (b) The cell hangs a 100 kg load on a single wire 2 m long and 2 mm in diameter. The stress is force over area, 312 MPa, the same for every material. The extension then depends on Young's modulus, e = stress x L / Y. Steel (Y = 200 GPa) stretches 3.12 mm, a strain of only 0.00156, copper stretches 5.33 mm, and soft lead 39.0 mm, which is why steel is chosen for cranes and lifts where a small extension is needed."
+@ photo id="ceephy3/rope" cap="A steel wire rope wound on a drum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Extension of wires of different materials"
+import math
+L, d, load = 2.0, 2e-3, 100 * 9.8
+A = math.pi * (d / 2) ** 2
+stress = load / A
+Y = [("steel", 200e9), ("copper", 117e9), ("aluminium", 69e9), ("lead", 16e9)]
+rows = [(n, stress * L / y * 1000) for n, y in Y]
+assert round(rows[0][1], 2) == 3.12 and round(rows[3][1], 1) == 39.0
+f = Fig(300, 236)
+f.text(150, 12, "Extension of a 2 m, 2 mm wire, mm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=40, fmt="%.2f", x0=70, y0=30, bw=150, gap=30)
+f.text(150, 158, "load 100 kg: F = 980 N, A = %.3f mm2" % (A * 1e6), size=10, color=SLATE, bold=True)
+f.text(150, 180, "stress = F / A = %.0f MPa" % (stress / 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "extension = stress x L / Y", size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "steel strain = %.5f" % (stress / 200e9), size=10, color=SLATE, bold=True)
+facts = dict(s=stress / 1e6, st=rows[0][1], cu=rows[1][1], pb=rows[3][1], strain=stress / 200e9)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

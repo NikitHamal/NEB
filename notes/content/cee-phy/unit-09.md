@@ -682,6 +682,27 @@ f.text(X(100) + 4, Y(1.9) - 4, "brass", size=10.5, color=AMBER, bold=True, ancho
 f.text(X(50), 224, "dT (K): the line is straight", size=10.5, color=SLATE)
 ```
 
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Latent heat is hidden energy. (a) Steam from a kettle is invisible until it cools and condenses into the white mist we see. (b) The cell compares 10 g of water at 100 degrees C with 10 g of steam at the same temperature, both cooling to skin temperature, 37 degrees C. The water gives out m c dT = 2.63 kJ, but the steam first condenses, giving out m L = 22.6 kJ with the latent heat of vaporisation 2260 kJ/kg, and then cools, so it delivers 25.23 kJ in all, 9.6 times more. This is why a steam burn is far more serious than a burn from boiling water, and why steam is an efficient heating fluid in industry."
+@ photo id="ceephy3/kettle" cap="Steam rising from a kettle"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Why steam burns worse than boiling water"
+m, c, Lv = 10.0, 4.18, 2260.0
+rows = [("water 60 C", m * c * (60 - 37) / 1000), ("water 100 C", m * c * (100 - 37) / 1000),
+        ("steam condenses", m * Lv / 1000), ("steam to 37 C", (m * Lv + m * c * 63) / 1000)]
+assert round(rows[1][1], 2) == 2.63 and round(rows[3][1], 2) == 25.23
+ratio = rows[3][1] / rows[1][1]
+f = Fig(300, 236)
+f.text(150, 12, "Heat given to skin by 10 g, kJ", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=27, fmt="%.2f", x0=94, y0=30, bw=130, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED), (ROSE, RED)])
+f.text(150, 158, "cooling to skin temperature 37 C", size=10, color=SLATE, bold=True)
+f.text(150, 180, "water: Q = m c dT = %.2f kJ" % rows[1][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "steam: Q = m L + m c dT = %.2f kJ" % rows[3][1], size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "steam delivers %.1f times more heat" % ratio, size=10.5, color=RED, bold=True)
+facts = dict(w=rows[1][1], s=rows[3][1], r=ratio, lat=rows[2][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
