@@ -16,6 +16,8 @@ Verify: `cd backend_python && export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x &&
 - One chat turn: `arena_common.Turn` (user row, assistant row, header, finalize, counters, closing events) for qwen, deepai, simple-provider and community streams; multipart and JSON send views share one flow. The browser endpoints (`web/views_arena.py`) only identify the session user and call `qwen_turn_response`, `deepai_turn_response`, `create_*_chat_session`, `upload_named_files`/`upload_attachments`; they had their own copies of all of it (and a stale `bx-v` header). Tests: `api.test_arena_turns`.
 - Forum posts and comments share `ForumContentMixin` in `api/serializers.py`.
 
+- Repo debris with no reader removed: flat `neby_cli/*.py` (stale older copies; the package and the `neby` entry point are `neby_cli/neby_cli/`), tracked `neby_cli.egg-info`, empty root `needle_*.mjs` (the real ones are `backend_python/benchmarks/`), root `ws_*.py` probes of the production socket (hard-coded tunnel URL), root `scratch/` outputs, `.cs12prev/` previews, `bca/.probe.txt`, and one-off debug scripts in `backend_python/scratch/` (ops scripts there stay: `deploy.ps1` is wired into the deploy workflow).
+
 ## Parallel sessions
 
 Two sessions have pushed to `main` at the same time on this task (the Turn refactor landed twice). Run `git fetch && git log HEAD..origin/main` before choosing the next item and again before every push; push small.
