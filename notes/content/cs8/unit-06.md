@@ -136,7 +136,7 @@ touching.
 MS-DOS, the Linux terminal (bash) and Windows' Command Prompt and PowerShell
 are CUIs. Windows, macOS, Ubuntu's desktop, Android and iOS are GUIs.
 
-```photo id="cs8/os-bash-session" caption="A character user interface: a session in the bash shell of Linux. The user types a command after the prompt (user@host: ~ $) and the computer answers in lines of text; here ls -al lists the files in a folder and tree draws the folder's contents." width="52"
+```photo id="cs8/os-bash-session" caption="A character user interface: a session in the bash shell of Linux. The user types a command after the prompt (user@host, ending in a dollar sign) and the computer answers in lines of text; here ls -al lists the files in a folder and tree draws the folder's contents." width="52"
 crop 0.0 0.30 1.0 1.0
 ```
 
