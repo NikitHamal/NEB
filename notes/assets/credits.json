@@ -4276,6 +4276,32 @@
     "source": "Wikimedia Commons",
     "title": "Tribhuvan University"
   },
+  "bca203/ambulance": {
+    "author": "Raymond Wambsgans",
+    "bytes": 450018,
+    "credit": "https://www.flickr.com/photos/cak757/14178270376/",
+    "fetched": "2026-11-05",
+    "file": "bca203/ambulance.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cleveland_Ohio_Emergency_Medical_Service_International_ambulance_-_14178270376.jpg",
+    "sha1": "896d057c3a48c008",
+    "source": "Wikimedia Commons",
+    "title": "Cleveland Ohio Emergency Medical Service International ambulance - 14178270376"
+  },
+  "bca203/banyan": {
+    "author": "Moniruj",
+    "bytes": 954240,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca203/banyan.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Tree_of_Banyan.jpg",
+    "sha1": "6ab5dc1a81d12450",
+    "source": "Wikimedia Commons",
+    "title": "Tree of Banyan"
+  },
   "bca203/braille": {
     "author": "Eddau",
     "bytes": 475913,
@@ -4354,6 +4380,19 @@
     "source": "Wikimedia Commons",
     "title": "Håkon-Wium-Lie-2009-03"
   },
+  "bca203/hanoi": {
+    "author": "Unknown author",
+    "bytes": 126132,
+    "credit": "",
+    "fetched": "2026-11-05",
+    "file": "bca203/hanoi.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "page": "https://commons.wikimedia.org/wiki/File:Tower_of_Hanoi.jpeg",
+    "sha1": "392334ab0e607913",
+    "source": "Wikimedia Commons",
+    "title": "Tower of Hanoi"
+  },
   "bca203/imp": {
     "author": "Carlo Nardone from Roma, Italy",
     "bytes": 367736,
@@ -4392,6 +4431,32 @@
     "sha1": "19448fe353f7b62d",
     "source": "Wikimedia Commons",
     "title": "Ishihara colour blindness test, London, England, 1948 Wellcome L0058975"
+  },
+  "bca203/janakpur": {
+    "author": "Suyash.dwivedi",
+    "bytes": 712775,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca203/janakpur.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Nepal_railway_train_is_standing_at_Janakpur_Dham_railway_station.jpg",
+    "sha1": "aa4a2d7bee610629",
+    "source": "Wikimedia Commons",
+    "title": "Nepal railway train is standing at Janakpur Dham railway station"
+  },
+  "bca203/lukasiewicz": {
+    "author": "unknown-anonymous",
+    "bytes": 48552,
+    "credit": "Ilustrowany Kurier Codzienny 11 1935 see also http://www.audiovis.nac.gov.pl/obraz/97484/0207c1bdd1bc17a8a73b93052b522107/",
+    "fetched": "2026-11-05",
+    "file": "bca203/lukasiewicz.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Jan_%C5%81ukasiewicz.jpg",
+    "sha1": "fb0e3ac046662e32",
+    "source": "Wikimedia Commons",
+    "title": "Jan Łukasiewicz"
   },
   "bca203/mosaic": {
     "author": "Charles Severance",
@@ -4444,6 +4509,19 @@
     "sha1": "c7800e8a68f917ba",
     "source": "Wikimedia Commons",
     "title": "John Resig (4586826039)"
+  },
+  "bca203/roundabout": {
+    "author": "Petar Milošević",
+    "bytes": 955725,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca203/roundabout.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Roundabout_interchange.jpg",
+    "sha1": "bcc4d8a82ee371b1",
+    "source": "Wikimedia Commons",
+    "title": "Roundabout interchange"
   },
   "bca203/tbl": {
     "author": "Internet Archive",

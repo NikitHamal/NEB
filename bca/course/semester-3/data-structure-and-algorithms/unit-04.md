@@ -162,6 +162,40 @@ f.text(435, 106, "insert/delete: change pointers, O(1)", size=9.5, color=TEAL, b
 f.box(10, 135, 560, 50, "Choose an array when the size is known and reads dominate; choose a linked list when the size changes and\ninsertions or deletions dominate (details in Unit 5).", fill=SOFT, stroke=SLATE, size=10, bold=True)
 ```
 
+Two ways to build the same list differ most when something is inserted in the middle. A railway train is the natural picture of the linked version: each coach is a node and the coupling is a pointer.
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Array list or linked list? (a) A Nepal Railways train at Janakpur: each coach is coupled to the next, so a coach can be added anywhere by changing couplings, with no need to move the other coaches. An array list is more like seats bolted to a floor: to add one in the middle every later seat must shift along. (b) For a list of n = 8 items, inserting at position k costs n - k shifts in an array, but about k pointer steps (nodes visited) in a linked list. The array is best at the end, the linked list at the front. Both counts are produced by simulation and asserted."
+@ photo id="bca203/janakpur" cap="Nepal Railways train, Janakpur station"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cost of inserting at position k, n = 8"
+n = 8
+def arr_cost(k):
+    a = list(range(n)); moves = 0
+    a.append(None)
+    for j in range(n, k, -1): a[j] = a[j - 1]; moves += 1
+    a[k] = "new"; return moves
+def ll_cost(k):
+    nxt = {i: i + 1 for i in range(n)}; nxt[n - 1] = None
+    cur = -1; steps = 0
+    for _ in range(k): cur = cur + 1 if cur >= 0 else 0; steps += 1
+    return steps
+rows = [(k, arr_cost(k), ll_cost(k)) for k in range(n + 1)]
+assert all(a == n - k and l == k for k, a, l in rows) and rows[0][1] == 8 and rows[8][2] == 8
+f = Fig(300, 268)
+f.text(150, 11, "operations to insert at position k", size=10, color=NAVY, bold=True)
+f.box(70, 20, 12, 9, "", fill=RED, stroke=RED, r=0); f.text(86, 25, "array: shifts", size=9, color=RED, bold=True, anchor="start")
+f.box(170, 20, 12, 9, "", fill=TEAL, stroke=TEAL, r=0); f.text(186, 25, "linked: steps", size=9, color=TEAL, bold=True, anchor="start")
+for i, (k, a, l) in enumerate(rows):
+    y = 36 + i * 22
+    f.text(10, y + 11, "k = %d" % k, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(50, y, max(a * 28, 1), 9, "", fill=RED, stroke=RED, r=0)
+    f.text(50 + a * 28 + 4, y + 8, str(a), size=9, color=RED, bold=True, anchor="start")
+    f.box(50, y + 10, max(l * 28, 1), 9, "", fill=TEAL, stroke=TEAL, r=0)
+    f.text(50 + l * 28 + 4, y + 18, str(l), size=9, color=TEAL, bold=True, anchor="start")
+f.text(150, 258, "total over all positions: array %d, linked %d" % (sum(r[1] for r in rows), sum(r[2] for r in rows)), size=9.5, color=NAVY, bold=True)
+```
+
 ### 4.5.1 Eight applications of lists
 
 1. **Student and result lists.** A class roll list, a merit list of an entrance examination and the result sheet of TU are lists in which the order and the position carry meaning. The program reads the item at a given rank directly. An array list suits these because the number of students is known.
