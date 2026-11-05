@@ -175,6 +175,37 @@ Write each need as a user story and give it a check that can be shown in the dem
 7. **Clock errors.** Nodes without a real-time clock stamp readings wrongly, so the series is out of order. Let the server add its own receive time and keep the node's tick count as a second field.
 8. **Testing only on the desk.** Everything works on the table and fails on the terrace because of distance, rain and sunlight. Run a field test of at least 48 hours and report the result honestly (Unit 5).
 
+```photogrid label="1.6" cols="2" ratio="1.27" caption="A sensor node on a far terrace cannot always reach a Wi-Fi router, and a LoRa radio trades speed for range. (a) A LoRa module. (b) Free-space path loss at 868 MHz grows by 6 dB each time the distance doubles. A transmitter at 14 dBm and a receiver sensitivity of -137 dBm at spreading factor 12 give a budget of 151 dB; after keeping 40 dB in reserve for trees, walls and hills the usable loss is 111 dB, which corresponds to about 9.8 km. The faster setting SF7 at -123 dBm has a budget of 97 dB and reaches only 1.9 km. In practice the sensor team picks the slowest rate that the battery can afford."
+@ photo id="bcapj/lora" cap="A LoRa radio module, the long-range link for a sensor node far from the Wi-Fi router"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="LoRa link budget: how far can a node reach?"
+import math
+F = 868.0
+def fspl(d):
+    return 20 * math.log10(d) + 20 * math.log10(F) + 32.44
+def reach(db):
+    return 10 ** ((db - 32.44 - 20 * math.log10(F)) / 20.0)
+TX, MARGIN = 14.0, 40.0
+b12 = TX + 137 - MARGIN
+b7 = TX + 123 - MARGIN
+r12, r7 = reach(b12), reach(b7)
+assert abs(r12 - 9.76) < 0.05 and abs(r7 - 1.95) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "free-space path loss at 868 MHz, dB", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 24, 244, 146, (0, 12), (70, 120))
+ax.grid(2, 10, xfmt=lambda x: "%d" % x, yfmt=lambda y: "%d" % y)
+ax.axes(xl="distance, km", yl="loss, dB")
+ax.curve(fspl, 0.2, 12, color=NAVY, sw=2.4, n=240)
+ax.hline(b12, color=TEAL)
+ax.hline(b7, color=RED)
+ax.pt(r12, b12, "", color=TEAL)
+ax.pt(r7, b7, "", color=RED)
+f.text(150, 207, "SF12 (-137 dBm): %.1f km   SF7 (-123): %.1f km" % (r12, r7), size=10, color=NAVY, bold=True)
+f.text(150, 222, "budget = 14 dBm + sensitivity - 40 dB margin", size=10, color=SLATE, bold=True)
+facts = dict(r12=r12, r7=r7, b12=b12, b7=b7)
+```
+
 ## Formula and fact sheet
 
 - Four layers: sense, edge, cloud, application. Each arrow can fail.

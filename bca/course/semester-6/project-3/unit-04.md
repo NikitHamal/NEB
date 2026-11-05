@@ -250,6 +250,34 @@ for i, (k, v, c) in enumerate(rows):
 f.text(150, 224, "30% request loss, 20% lost acknowledgement", size=10.5, color=SLATE)
 ```
 
+```photogrid label="4.6" cols="2" ratio="1.27" caption="A field phone keeps trying to upload its readings, and the pause between tries doubles so that a weak network is not flooded. (a) Hill terraces where the signal comes and goes. (b) If each attempt succeeds with probability 0.30, the chance of at least one success within k attempts is 1 minus 0.7^k: 83.2% after five attempts and 91.8% after seven. The waits of 1, 2, 4, 8 and 16 seconds add to only 31 seconds before the fifth attempt, and a cap of 60 seconds stops the delay growing forever. Because a retry may send the same reading twice, every record carries a unique id, and the server ignores a repeat."
+@ photo id="bca356/terrace" cap="Hill terraces where the mobile network comes and goes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Retry with exponential back-off at 30 % success"
+P = 0.30
+waits = [1, 2, 4, 8, 16, 32, 60]
+cum = [sum(waits[:k]) for k in range(len(waits) + 1)]
+ok = [(1 - (1 - P) ** k) * 100 for k in range(1, 8)]
+assert abs(ok[4] - 83.2) < 0.1 and cum[5] == 31
+f = Fig(300, 236)
+f.text(150, 14, "success within k tries (each try 30 %)", size=10.5, color=NAVY, bold=True)
+base = 140
+f.line(14, base, 290, base, color=SLATE)
+for k in range(7):
+    x = 22 + k * 38
+    h = ok[k] * 1.0
+    f.box(x, base - h, 28, h, "", fill=MINT if ok[k] >= 80 else BLUE, stroke=TEAL if ok[k] >= 80 else NAVY, r=2)
+    f.text(x + 14, base - h - 8, "%.0f" % ok[k], size=9.5, color=NAVY, bold=True)
+    f.text(x + 14, base + 12, "%d" % (k + 1), size=10, color=SLATE, bold=True)
+    f.text(x + 14, base + 26, "%ds" % cum[k], size=9, color=SLATE)
+f.text(8, base + 12, "try", size=8.5, color=SLATE, anchor="start")
+f.text(150, 188, "waits 1, 2, 4, 8, 16, 32, 60 s (capped)", size=10, color=NAVY, bold=True)
+f.text(150, 206, "5 tries: %.1f %% sure after %d s of waiting" % (ok[4], cum[5]), size=10.5, color=RED, bold=True)
+f.text(150, 224, "send an id each time so repeats are safe", size=10, color=TEAL, bold=True)
+facts = dict(o5=ok[4], o7=ok[6], c5=cum[5])
+```
+
 ## Formula and fact sheet
 
 - Offline-first: the screen reads local storage; a worker syncs in the background.
