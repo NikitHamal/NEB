@@ -2,6 +2,8 @@ from functools import wraps
 
 from django.http import JsonResponse
 
+from api.models import User
+
 from .view_helpers import _get_user_id
 
 
@@ -25,3 +27,15 @@ def signed_in_json(view):
 def signed_in_json_post(view):
     """`signed_in_json` that also answers 405 JSON unless the request is a POST."""
     return _guard(view, post_only=True)
+
+
+def signed_in_member(view):
+    """401 JSON unless the session maps to a live account; otherwise the view is called with `user=`."""
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        user_id = _get_user_id(request)
+        user = User.objects.filter(pk=user_id).first() if user_id else None
+        if user is None:
+            return JsonResponse({'error': 'Please log in again.'}, status=401)
+        return view(request, *args, user=user, **kwargs)
+    return wrapped

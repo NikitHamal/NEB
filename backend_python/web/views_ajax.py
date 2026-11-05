@@ -31,6 +31,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from . import api_client as api
+from .json_endpoint import signed_in_member
 from .view_helpers import (
     _avatar_url,
     _blobatar_url_for,
@@ -67,14 +68,8 @@ def _parse_web_attachments(data):
 
 
 @require_POST
-def ajax_like_post(request, post_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_post(request, post_id, user):
     try:
         result = services.toggle_post_like(user, post_id)
     except Post.DoesNotExist:
@@ -83,14 +78,8 @@ def ajax_like_post(request, post_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_like_reply(request, reply_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_reply(request, reply_id, user):
     try:
         result = services.toggle_reply_like(user, reply_id)
     except Reply.DoesNotExist:
@@ -98,16 +87,10 @@ def ajax_like_reply(request, reply_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_create_reply(request, post_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_create_reply(request, post_id, user):
     if _rate_limit(request, 'create_reply', 20, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
         content = data.get('content', '').strip()
@@ -145,14 +128,8 @@ def ajax_create_reply(request, post_id):
     return JsonResponse({'error': 'Failed'}, status=500)
 
 @require_POST
-def ajax_like_resource(request, resource_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_resource(request, resource_id, user):
     try:
         result = services.toggle_resource_like(user, resource_id)
     except Resource.DoesNotExist:
@@ -160,14 +137,8 @@ def ajax_like_resource(request, resource_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_like_resource_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_resource_comment(request, comment_id, user):
     try:
         result = services.toggle_resource_comment_like(user, comment_id)
     except ResourceComment.DoesNotExist:
@@ -202,14 +173,8 @@ def ajax_resource_comment(request, resource_id):
     return JsonResponse({'error': 'Failed'}, status=500)
 
 @require_POST
-def ajax_delete_resource_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_delete_resource_comment(request, comment_id, user):
     is_admin = bool(user.is_admin)
     ok = services.delete_resource_comment(user, comment_id, is_admin=is_admin)
     if ok:
@@ -217,14 +182,8 @@ def ajax_delete_resource_comment(request, comment_id):
     return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
 
 @require_POST
-def ajax_like_blog_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_blog_comment(request, comment_id, user):
     try:
         result = services.toggle_blog_comment_like(user, comment_id)
     except BlogComment.DoesNotExist:
@@ -234,14 +193,8 @@ def ajax_like_blog_comment(request, comment_id):
 # The NEBians Android app deletes comments with an HTTP DELETE request while
 # the website uses POST, so both verbs must be accepted here.
 @require_http_methods(["POST", "DELETE"])
-def ajax_delete_blog_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_delete_blog_comment(request, comment_id, user):
     is_admin = bool(user.is_admin)
     ok = services.delete_blog_comment(user, comment_id, is_admin=is_admin)
     if ok:
@@ -249,16 +202,10 @@ def ajax_delete_blog_comment(request, comment_id):
     return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
 
 @require_POST
-def ajax_create_post(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_create_post(request, user):
     if _rate_limit(request, 'create_post', 10, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     if not getattr(user, 'email_verified', False):
         return JsonResponse({'error': 'Please verify your email before posting.'}, status=403)
     try:
@@ -303,14 +250,8 @@ def ajax_create_post(request):
     return JsonResponse({'error': 'Missing fields'}, status=400)
 
 @require_POST
-def ajax_bookmark_toggle(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_bookmark_toggle(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -369,16 +310,10 @@ def ajax_bookmark_check(request):
     return JsonResponse({'isBookmarked': is_bookmarked})
 
 @require_POST
-def ajax_report(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_report(request, user):
     if _rate_limit(request, 'report', 10, 3600):
         return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -924,14 +859,8 @@ def ajax_user_photos(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 @require_POST
-def ajax_set_password(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_set_password(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -949,14 +878,8 @@ def ajax_set_password(request):
     return JsonResponse({'error': result.get('error', 'Failed to set password')}, status=status_code or 400)
 
 @require_POST
-def ajax_change_password(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_change_password(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -975,14 +898,8 @@ def ajax_change_password(request):
     return JsonResponse({'error': result.get('error', 'Failed to change password')}, status=status_code or 400)
 
 @require_POST
-def ajax_activate_photo(request, photo_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_activate_photo(request, photo_id, user):
     result = services.activate_photo(user, photo_id)
     if result:
         new_url = result.get('photo_url') or result.get('url')
@@ -999,16 +916,10 @@ def ajax_activate_photo(request, photo_id):
 
 
 @require_POST
-def ajax_upload_post_image(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_upload_post_image(request, user):
     if _rate_limit(request, 'upload_post_image', 20, 3600):
         return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     file_obj = request.FILES.get('image')
     if not file_obj:
         return JsonResponse({'error': 'No image file provided'}, status=400)
@@ -1023,16 +934,10 @@ def ajax_upload_post_image(request):
 
 
 @require_POST
-def ajax_poll_vote(request, poll_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_poll_vote(request, poll_id, user):
     if _rate_limit(request, 'poll_vote', 30, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -1073,15 +978,9 @@ def ajax_poll_option(request, poll_id):
 
 
 @require_POST
-def ajax_poll_retract(request, poll_id):
+@signed_in_member
+def ajax_poll_retract(request, poll_id, user):
     """Take the viewer's vote back so they can pick again."""
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     from api import polls as _polls
     payload, code = _polls.retract_vote(user, poll_id)
     return JsonResponse(payload, status=code)
