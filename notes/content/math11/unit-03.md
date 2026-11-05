@@ -680,6 +680,34 @@ The maximum occurs when $\sin 2x = 1$, i.e. $2x = \frac{\pi}{2}$, so
 $x = \frac{\pi}{4}$.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="A function assigns to each element of the domain exactly one element of the codomain, just as each code on a vending machine gives one price. (a) A drink vending machine. (b) Four codes map to the prices 20, 20, 30 and 40, so the range has only 3 values although the domain has 4 codes. The function is not one-one because A1 and A2 share a price, and it is not onto because no code gives Rs 50. Because every code has exactly one arrow leaving it, the relation is still a function. A one-to-many arrow would break the definition."
+@ photo id="math11/vending" cap="A vending machine is a function: each code gives exactly one item"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Domain, codomain and range of a price function"
+dom = ["A1", "A2", "B1", "B2"]; price = {"A1": 20, "A2": 20, "B1": 30, "B2": 40}
+cod = [20, 30, 40, 50]
+rng = sorted(set(price.values()))
+one_one = len(rng) == len(dom); onto = set(rng) == set(cod)
+assert rng == [20, 30, 40] and not one_one and not onto
+f = Fig(300, 236)
+f.text(150, 14, "f: codes -> prices (Rs)", size=10.5, color=NAVY, bold=True)
+f.text(60, 34, "domain", size=10, color=NAVY, bold=True); f.text(240, 34, "codomain", size=10, color=TEAL, bold=True)
+f.box(30, 42, 60, 130, "", fill=BLUE, stroke=NAVY, r=28); f.box(210, 42, 60, 130, "", fill=MINT, stroke=TEAL, r=28)
+yd = {c: 62 + 30 * i for i, c in enumerate(dom)}; yc = {c: 62 + 30 * i for i, c in enumerate(cod)}
+for c in dom:
+    f.circle(60, yd[c], 3, fill=NAVY, stroke=NAVY); f.text(46, yd[c] + 4, c, size=9.5, color=NAVY, bold=True, anchor="end")
+for c in cod:
+    used = c in rng
+    f.circle(240, yc[c], 3, fill=TEAL if used else "#ffffff", stroke=TEAL if used else RED); f.text(254, yc[c] + 4, str(c), size=9.5, color=TEAL if used else RED, bold=True, anchor="start")
+for c in dom:
+    f.arrow([(64, yd[c]), (236, yc[price[c]])], color=SLATE, sw=1.2)
+f.text(150, 192, "range = {20, 30, 40}, 3 values of 4", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "not one-one: A1 and A2 both give 20", size=10, color=RED, bold=True)
+f.text(150, 224, "not onto: nothing costs Rs 50", size=10, color=RED, bold=True)
+facts = dict(n=len(rng), d=len(dom))
+```
+
 ## Chapter summary
 
 - $f : A \rightarrow B$ assigns exactly one image to each element of $A$; the range

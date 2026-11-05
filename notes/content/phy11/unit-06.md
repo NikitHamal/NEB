@@ -904,6 +904,26 @@ The outer edge must be raised by
 $$ h = b\sin\theta = 10 \times \sin 21.8^{\circ} = 10 \times 0.371 = 3.71\ \text{m} $$
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="In uniform circular motion the speed is constant but the direction changes, so there is always an acceleration toward the centre. (a) A large Ferris wheel. (b) For a radius of 40 m and a period of 120 s, the angular speed is 0.0524 rad/s, the speed 2.09 m/s and the centripetal acceleration v^2/R = 0.1097 m/s2. A 70 kg rider therefore feels a weight of 679.0 N at the top and 694.4 N at the bottom, against 686.7 N at rest. The effect is small here but grows with the square of the speed, which is why fast loops on a roller coaster feel so different."
+@ photo id="math11/ferris" cap="A Ferris wheel turns at constant speed yet always accelerates toward the centre"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Centripetal acceleration and apparent weight"
+R, T, m, g = 40.0, 120.0, 70.0, 9.81
+w = 2 * math.pi / T; v = w * R; ac = w * w * R
+top = m * (g - ac); bot = m * (g + ac)
+assert abs(v - 2.0944) < 1e-3 and abs(ac - 0.1096) < 1e-3 and top < m * g < bot
+f = Fig(300, 236)
+f.text(150, 14, "R = 40 m, one turn in 120 s", size=10.5, color=NAVY, bold=True)
+hbars(f, [("top", top), ("at rest", m * g), ("bottom", bot)], vmax=720, fmt="%.1f N", x0=64, y0=34, bw=150, gap=30, colors=[(MINT, TEAL), (BLUE, NAVY), (SAND, AMBER)])
+f.text(150, 140, "w = 2 pi / T = %.4f rad/s" % w, size=10.5, color=NAVY, bold=True)
+f.text(150, 158, "v = wR = %.3f m/s" % v, size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "a = w^2 R = v^2 / R = %.4f m/s^2" % ac, size=10.5, color=RED, bold=True)
+f.text(150, 200, "apparent weight = m (g -/+ a)", size=10, color=SLATE, bold=True)
+f.text(150, 216, "lighter at the top, heavier at the bottom", size=10, color=SLATE, bold=True)
+facts = dict(v=v, a=ac, top=top, bot=bot, w=w)
+```
+
 ## Chapter summary
 
 - $\theta = s/r$ in radians; $\omega = d\theta/dt = 2\pi/T = 2\pi f$;

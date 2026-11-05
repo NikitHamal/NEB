@@ -588,6 +588,26 @@ arrangement does not matter; it matters only when the question asks *which*
 bisector contains the origin or bisects the acute angle.
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.27" caption="A gradient sign states the slope of a straight line as a percentage: the rise for each 100 m of horizontal run. (a) A road with a gradient warning sign. (b) A 10% gradient means m = 0.1 in y = mx, and the angle is arctan(0.1) = 5.71 degrees. Gradients of 5% and 15% make 2.86 and 8.53 degrees. The three lines all pass through the origin, so each has the form y = mx, and a bigger m gives a steeper line. On Nepal's hill highways a gradient above about 8 to 10% is considered steep for heavy vehicles."
+@ photo id="math11/gradient" cap="A road sign warns of a 10% gradient: slope as a percentage"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Gradient, slope and angle of a straight road"
+gs = [(5, TEAL), (10, AMBER), (15, RED)]
+ang = [math.degrees(math.atan(g / 100.0)) for g, _ in gs]
+assert round(ang[1], 2) == 5.71
+f = Fig(300, 236)
+f.text(150, 14, "Elevation y = m x for three gradients", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 200), (0, 32))
+ax.grid(50, 8, size=9); ax.axes("x (m)", "y (m)")
+for (g, c), a in zip(gs, ang):
+    ax.curve(lambda x, g=g: g / 100.0 * x, 0, 200, color=c, sw=2.2)
+    ax.tag(150, g / 100.0 * 150 + 2.2, "%d%%: %.2f deg" % (g, a), size=9.5, color=c, bold=True)
+f.text(150, 208, "m = tan(theta) = rise / run = 10 / 100 = 0.1", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "equation y = 0.1 x, passes through the origin", size=10, color=SLATE, bold=True)
+facts = dict(a1=ang[0], a2=ang[1], a3=ang[2])
+```
+
 ## Chapter summary
 
 - General form $ax+by+c=0$; slope $m = -a/b = \tan\theta$ where $\theta$ is the

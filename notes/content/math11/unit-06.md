@@ -611,6 +611,37 @@ solution. Geometrically the two lines are parallel, which is exactly what a zero
 determinant detects.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="A dot-matrix display is a real matrix: each LED sits at a row and a column and is on or off. (a) The back of an LED board. (b) The program multiplies the 2 x 2 matrices A and B using row-by-column sums to give AB = [[2, 5], [1, 5]]. The determinant of the product is 5, equal to |A| x |B|, which is a useful check. The inverse of A is found from the adjoint divided by |A|, and A times it gives the identity matrix. Multiplying in the other order, BA = [[4, 7], [1, 3]], is a different matrix, so matrix multiplication is not commutative."
+@ photo id="math11/ledmatrix" cap="An LED dot-matrix board: a grid of rows and columns, i.e. a matrix"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Matrix product and the determinant rule"
+A = [[2, 1], [1, 3]]; B = [[1, 2], [0, 1]]
+mul = lambda X, Y: [[sum(X[i][k] * Y[k][j] for k in range(2)) for j in range(2)] for i in range(2)]
+det = lambda X: X[0][0] * X[1][1] - X[0][1] * X[1][0]
+AB = mul(A, B); dA, dB, dAB = det(A), det(B), det(AB)
+inv = [[A[1][1] / dA, -A[0][1] / dA], [-A[1][0] / dA, A[0][0] / dA]]
+chk = mul(A, inv)
+assert AB == [[2, 5], [1, 5]] and dAB == dA * dB == 5 and [[round(v, 9) for v in r] for r in chk] == [[1.0, 0.0], [0.0, 1.0]]
+f = Fig(300, 236)
+f.text(150, 14, "A x B = AB and |AB| = |A| |B|", size=10.5, color=NAVY, bold=True)
+def mat(x, y, M, name, fl, st):
+    f.text(x + 29, y - 8, name, size=11, color=st, bold=True)
+    for i in range(2):
+        for j in range(2):
+            f.box(x + j * 30, y + i * 28, 28, 26, "%g" % M[i][j], fill=fl, stroke=st, size=11, bold=True, r=3)
+mat(8, 44, A, "A", BLUE, NAVY); f.text(80, 70, "x", size=14, color=SLATE, bold=True)
+mat(98, 44, B, "B", MINT, TEAL); f.text(170, 70, "=", size=14, color=SLATE, bold=True)
+mat(190, 44, AB, "AB", SAND, AMBER)
+f.text(150, 124, "|A| = %d, |B| = %d, |AB| = %d = %d x %d" % (dA, dB, dAB, dA, dB), size=10.5, color=NAVY, bold=True)
+f.text(150, 148, "A^-1 = (1/%d) [[3, -1], [-1, 2]]" % dA, size=10.5, color=TEAL, bold=True)
+f.text(150, 170, "A A^-1 = [[1, 0], [0, 1]] = I (checked)", size=10.5, color=TEAL, bold=True)
+f.text(150, 198, "AB is not BA in general:", size=10, color=SLATE, bold=True)
+BA = mul(B, A)
+f.text(150, 214, "BA = [[%d, %d], [%d, %d]]" % (BA[0][0], BA[0][1], BA[1][0], BA[1][1]), size=10.5, color=RED, bold=True)
+facts = dict(d=dAB, ab=str(AB), ba=str(BA))
+```
+
 ## Chapter summary
 
 - $(AB)_{ij}$ is row $i$ of $A$ against column $j$ of $B$; $AB$ needs

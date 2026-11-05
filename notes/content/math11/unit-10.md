@@ -496,6 +496,29 @@ Cancelling $\sin\theta$ at the start would have lost the entire family
 $\theta = n\pi$ — a guaranteed loss of marks.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="A rider on a Ferris wheel of radius 40 m with its centre 45 m above ground has height h = 45 - 40 cos(theta) after turning through theta. (a) A large Ferris wheel. (b) To find when the rider is 65 m high, solve cos(theta) = -1/2. The program finds theta = 120 degrees and 240 degrees in the first turn, and the red points repeat every 360 degrees. The general solution is theta = 360n + 120 or 360n - 120. A trigonometric equation has infinitely many solutions because the functions are periodic, so the general value must be written with n."
+@ photo id="math11/ferris" cap="A Ferris wheel: height changes like a cosine of the turning angle"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Solving 45 - 40 cos(theta) = 65"
+R, H0, target = 40.0, 45.0, 65.0
+h = lambda t: H0 - R * math.cos(math.radians(t))
+c = (H0 - target) / R
+t1 = math.degrees(math.acos(c)); t2 = 360 - t1
+assert abs(c + 0.5) < 1e-12 and round(t1) == 120 and round(t2) == 240 and abs(h(t1) - 65) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Height h = 45 - 40 cos(theta), metres", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 720), (0, 95))
+ax.grid(120, 20, size=9, xfmt=lambda v: "%d" % v); ax.axes("deg", "h")
+ax.curve(h, 0, 720, color=NAVY, sw=2.4)
+ax.hline(65, color=AMBER)
+for t in (t1, t2, t1 + 360, t2 + 360):
+    ax.pt(t, 65, "", color=RED, r=3.8)
+f.text(150, 208, "cos(theta) = -1/2: theta = 120 and 240 deg", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "general: theta = 360n + 120 or 360n - 120 (n integer)", size=9.5, color=SLATE, bold=True)
+facts = dict(a=t1, b=t2, c=c)
+```
+
 ## Chapter summary
 
 - A trigonometric equation has infinitely many roots; the answer required is the

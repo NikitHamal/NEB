@@ -540,6 +540,25 @@ non-negative root. Similarly, $|x| = k$ has **two** solutions whenever $k > 0$, 
 **none** when $k < 0$ — an equation such as $|3x-1| = -4$ has no solution at all.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Every measurement on a ruler is rational, yet the diagonal of a unit square is the irrational number sqrt 2. (a) A steel rule with fine divisions. (b) Starting from 1/1 and using the step (p, q) -> (p + 2q, p + q), the program produces better and better fractions, and the last one, 99/70, is correct to 4.14 decimal places of 1.414214. In each step p^2 - 2q^2 is only plus or minus 1, so no fraction ever squares to exactly 2. Real numbers therefore fill gaps that fractions leave on the number line, which is the point of the chapter."
+@ photo id="math11/ruler" cap="A steel rule can show a length, but never an exact irrational one"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rational approximations to the square root of 2"
+p, q = 1, 1; rows = []; r2 = math.sqrt(2)
+for i in range(6):
+    rows.append(("%d/%d" % (p, q), -math.log10(abs(p / q - r2)), p * p - 2 * q * q))
+    p, q = p + 2 * q, p + q
+assert [r[2] for r in rows] == [-1, 1, -1, 1, -1, 1] and rows[-1][0] == "99/70"
+f = Fig(300, 236)
+f.text(150, 14, "Correct decimals of p/q for the root of 2", size=10.5, color=NAVY, bold=True)
+hbars(f, [(r[0], r[1]) for r in rows], vmax=5, fmt="%.2f", x0=64, y0=30, bw=170, gap=24, size=9.5, colors=[(BLUE, NAVY)] * 3 + [(MINT, TEAL)] * 3)
+f.text(150, 188, "p^2 - 2q^2 = -1, +1, -1, +1 ... never 0", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "1/1, 3/2, 7/5, 17/12, 41/29, 99/70", size=9.5, color=SLATE, bold=True)
+f.text(150, 224, "each fraction is closer, none is exact", size=10, color=RED, bold=True)
+facts = dict(last=rows[-1][0], d=rows[-1][1], r=r2)
+```
+
 ## Chapter summary
 
 - $\mathbb{N} \subset \mathbb{W} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$;

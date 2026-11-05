@@ -812,6 +812,27 @@ That single kilogram would run a $100\ \text{MW}$ power station for
 $8.2\times10^{13}/10^{8} = 8.2\times10^{5}\ \text{s}$, about $9.5$ days.
 :::
 
+```photogrid label="24.P" cols="2" ratio="1.27" caption="A radioactive sample loses half of its nuclei in each half-life, whatever the starting number. (a) A Geiger counter used to detect radiation. (b) Iodine-131, used to treat thyroid disease, has a half-life of about 8 days, so 50, 25 and 12.5 per cent remain after 8, 16 and 24 days, and only 3.12 per cent after 40 days. The decay constant is ln 2 divided by the half-life, 0.0866 per day. The curve never reaches zero, but after ten half-lives less than a thousandth remains, which is why hospitals keep such waste for several months before disposal."
+@ photo id="ceephy2/geiger" cap="A Geiger counter clicks each time a radioactive nucleus decays"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Radioactive decay of iodine-131"
+T = 8.0
+N = lambda t: 100 * 0.5 ** (t / T)
+lam = math.log(2) / T
+assert N(8) == 50 and N(16) == 25 and N(24) == 12.5 and abs(N(40) - 3.125) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Percent of I-131 left, half-life 8 days", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 40), (0, 100))
+ax.grid(8, 25, size=9); ax.axes("days", "%")
+ax.curve(N, 0, 40, color=NAVY, sw=2.4)
+for t in (8, 16, 24):
+    ax.pt(t, N(t), "%.1f" % N(t), dx=8, dy=-6, color=RED)
+f.text(150, 208, "N = N0 (1/2)^(t/T) = N0 e^(-lambda t)", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "lambda = ln2 / T = %.4f per day; 40 days: %.2f%%" % (lam, N(40)), size=10, color=SLATE, bold=True)
+facts = dict(lam=lam, n3=N(24), n5=N(40))
+```
+
 ## Chapter summary
 
 - Rutherford's alpha-scattering experiment showed the atom is mostly empty with a

@@ -428,6 +428,27 @@ standard first move whenever both are monic — it turns a pair of quadratics in
 one linear equation.)
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="The path of a hose jet is a parabola, and where it meets the ground is the root of a quadratic. (a) A jet of water from a hose. (b) Lifting the curve y = x^2 - 4x + c by changing c shows the three cases of the discriminant D = b^2 - 4ac. For c = 1, D = 12 and there are two real roots, 0.268 and 3.732. For c = 4, D = 0, the curve just touches the axis and the roots are equal. For c = 7, D = -12, the curve floats above the axis and the roots are a complex conjugate pair."
+@ photo id="math11/hose" cap="A jet of water follows a parabola, the graph of a quadratic"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Discriminant: two, one or no real roots"
+cs = [(1, TEAL), (4, AMBER), (7, RED)]
+D = [16 - 4 * c for c, _ in cs]
+assert D == [12, 0, -12]
+f = Fig(300, 236)
+f.text(150, 14, "y = x^2 - 4x + c for c = 1, 4, 7", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (-1, 5), (-4, 10))
+ax.grid(1, 2, size=9); ax.axes("x", "y")
+for c, col in cs:
+    ax.curve(lambda x, c=c: x * x - 4 * x + c, -1, 5, color=col, sw=2.2)
+r = math.sqrt(12) / 2
+ax.pt(2 - r, 0, "", color=TEAL, r=3.5); ax.pt(2 + r, 0, "", color=TEAL, r=3.5); ax.pt(2, 0, "", color=AMBER, r=3.5)
+f.text(150, 206, "D = b^2 - 4ac:  c = 1: %d,  c = 4: %d,  c = 7: %d" % tuple(D), size=10, color=NAVY, bold=True)
+f.text(150, 222, "roots 2 +- sqrt3 = %.3f, %.3f;  double root 2;  none" % (2 - 2 * r + r, 2 + r), size=9.5, color=SLATE, bold=True)
+facts = dict(d1=D[0], d2=D[1], d3=D[2], r1=2 - r, r2=2 + r)
+```
+
 ## Chapter summary
 
 - $ax^{2}+bx+c = 0$ has roots $x = \dfrac{-b\pm\sqrt{b^{2}-4ac}}{2a}$.

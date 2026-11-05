@@ -513,6 +513,26 @@ In the last example the second series has ratio $r^{2}$, so its denominator is
 $1 - r^{2}$, not $1-r$. Writing $a^{2}/(1-r)$ is the standard error here.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="A pyramid of fruit is a sequence in disguise: each layer is a triangle of melons, so the layers follow the triangular numbers 1, 3, 6, 10, 15, 21. (a) Melons stacked at a market stall. (b) The program lists the layers of a 6-layer pyramid; the bottom layer has 21 melons and the whole pile has 56. The total agrees with the formula n(n + 1)(n + 2)/6, so the sum of a series of triangular numbers is itself a cubic in n. The differences of the layers are 2, 3, 4, 5, 6, and their own differences are all 1, a quick test that a sequence is quadratic in n."
+@ photo id="math11/melons" cap="A fruit seller's pyramid: layers of 1, 3, 6, 10 ... melons"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Triangular layers and their running total"
+n = 6
+layers = [k * (k + 1) // 2 for k in range(1, n + 1)]
+tot = sum(layers)
+assert layers == [1, 3, 6, 10, 15, 21] and tot == n * (n + 1) * (n + 2) // 6 == 56
+f = Fig(300, 236)
+f.text(150, 14, "Melons in each layer, top to bottom", size=10.5, color=NAVY, bold=True)
+hbars(f, [("layer %d" % (i + 1), v) for i, v in enumerate(layers)], vmax=21, fmt="%d", x0=60, y0=30, bw=170, gap=24, size=9.5,
+      colors=[(SAND, AMBER), (MINT, TEAL)] * 3)
+run = [sum(layers[:i + 1]) for i in range(n)]
+f.text(150, 188, "running totals: " + ", ".join(str(x) for x in run), size=10, color=NAVY, bold=True)
+f.text(150, 206, "total = n(n + 1)(n + 2)/6 = %d" % tot, size=10.5, color=AMBER, bold=True)
+f.text(150, 224, "layers are an AP of AP: 2nd differences = 1", size=10, color=SLATE, bold=True)
+facts = dict(t=tot, n=n, last=layers[-1])
+```
+
 ## Chapter summary
 
 - AP: $t_n = a+(n-1)d$ and $S_n = \frac{n}{2}[2a+(n-1)d] = \frac{n}{2}(a+l)$.

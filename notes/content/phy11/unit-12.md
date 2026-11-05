@@ -552,6 +552,25 @@ evacuated stops conduction and convection; the silvered surfaces have a very low
 emissivity and so radiate and absorb very little; and the narrow insulating
 stopper blocks the only remaining conduction path.
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="The rate of heat flow through a slab is H = kA dT / d, so a cook should choose pan metals with a large thermal conductivity. (a) A cooktop with a pan. (b) For a pan base of area 0.03 m2 and thickness 3 mm with a 2 K temperature drop, copper passes 7700 W, aluminium 4100 W, steel 1000 W and glass only 20 W. That is why a copper-bottomed pan heats evenly and glass heats slowly. The same formula explains why double glazing, with a layer of still air, cuts the heat lost through a window."
+@ photo id="ceephy/cooktop" cap="A cooktop heats the pan by conduction through its base"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rate of heat flow through a pan base"
+A, d, dT = 0.03, 0.003, 2.0
+mats = [("copper", 385.0), ("aluminium", 205.0), ("steel", 50.0), ("glass", 1.0)]
+H = [k * A * dT / d for _, k in mats]
+assert abs(H[0] - 7700) < 1e-6 and abs(H[1] - 4100) < 1e-6 and abs(H[2] - 1000) < 1e-6 and abs(H[3] - 20) < 1e-6
+f = Fig(300, 236)
+f.text(150, 14, "H = k A dT / d, in watts", size=10.5, color=NAVY, bold=True)
+hbars(f, [(m[0], h) for m, h in zip(mats, H)], vmax=8000, fmt="%.0f W", x0=72, y0=34, bw=150, gap=30, colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 162, "A = 0.03 m^2, d = 3 mm, dT = 2 K across the base", size=9.5, color=SLATE, bold=True)
+f.text(150, 184, "k (W/m K): Cu 385, Al 205, steel 50, glass 1", size=9.5, color=NAVY, bold=True)
+f.text(150, 204, "rate is proportional to k, A and dT,", size=10, color=SLATE, bold=True)
+f.text(150, 220, "and inversely proportional to thickness d", size=10, color=SLATE, bold=True)
+facts = dict(cu=H[0], al=H[1], st=H[2], gl=H[3])
+```
+
 ## Chapter summary
 
 - Steady conduction: $H = kA(\theta_1-\theta_2)/L = -kA\,d\theta/dx$; thermal

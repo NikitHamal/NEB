@@ -520,6 +520,27 @@ $$ P(A\cup B) = 0.4 + 0.5 - 0.2 = 0.7 $$
 independence means: knowing $B$ happened does not change the chance of $A$.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="A deck of cards is a sample space with 52 equally likely outcomes, so every probability is a simple count. (a) A hand about to cut a deck. (b) The program builds the deck and counts: 13 hearts give P = 0.250, 12 face cards give 0.231, and 3 cards are both. The cards that are a heart or a face number 22, a probability of 0.423. This is the addition rule P(A or B) = P(A) + P(B) - P(A and B): without the subtraction the three face hearts would be counted twice and the answer would be 25/52, which is wrong."
+@ photo id="math11/cards" cap="A deck of 52 cards: a sample space everyone can list"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heart, face card, and the addition rule"
+suits = "SHDC"; ranks = list(range(1, 14))
+deck = [(s, r) for s in suits for r in ranks]
+H = [c for c in deck if c[0] == "H"]; Fc = [c for c in deck if c[1] >= 11]
+both = [c for c in deck if c[0] == "H" and c[1] >= 11]; either = [c for c in deck if c[0] == "H" or c[1] >= 11]
+assert (len(deck), len(H), len(Fc), len(both), len(either)) == (52, 13, 12, 3, 22) and len(either) == len(H) + len(Fc) - len(both)
+f = Fig(300, 236)
+f.text(150, 14, "Probabilities from 52 equally likely cards", size=10.5, color=NAVY, bold=True)
+rows = [("heart", len(H) / 52.0), ("face card", len(Fc) / 52.0), ("heart and face", len(both) / 52.0), ("heart or face", len(either) / 52.0)]
+hbars(f, rows, vmax=0.5, fmt="%.3f", x0=92, y0=34, bw=150, gap=30, colors=[(ROSE, RED), (BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)], size=9.5)
+f.text(150, 168, "P(A or B) = P(A) + P(B) - P(A and B)", size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "13/52 + 12/52 - 3/52 = 22/52 = %.3f" % (22 / 52.0), size=10.5, color=TEAL, bold=True)
+f.text(150, 208, "the 3 hearts that are face cards are", size=10, color=SLATE, bold=True)
+f.text(150, 222, "counted twice unless we subtract them", size=10, color=SLATE, bold=True)
+facts = dict(ph=13 / 52.0, pf=12 / 52.0, pb=3 / 52.0, pe=22 / 52.0)
+```
+
 ## Chapter summary
 
 - A random experiment has a sample space $S$; an event is a subset of $S$.

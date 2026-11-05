@@ -630,6 +630,25 @@ $$ \gamma_a = \gamma_r - \gamma_g = 1.8\times10^{-4} - 0.27\times10^{-4}
 = 1.53\times10^{-4}\ \text{K}^{-1} $$
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="A solid grows in length in proportion to its original length and the rise in temperature, dL = alpha L dT. (a) A bimetallic strip used in thermostats. (b) For a 30 m rail heated by 40 K, aluminium lengthens by 28.8 mm and steel by 14.4 mm, while glass grows only 10.8 mm. Joining two such metals makes the strip bend because one side expands more, which opens or closes a contact in an iron or a fridge. Railway tracks need expansion gaps of about 14 mm for each 30 m so that a hot day does not buckle the line."
+@ photo id="ioephy/bimetal" cap="A bimetallic strip: two metals that expand by different amounts"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Linear expansion of a 30 m rail for a 40 K rise"
+L, dT = 30.0, 40.0
+mats = [("aluminium", 2.4e-5), ("copper", 1.7e-5), ("steel", 1.2e-5), ("glass", 0.9e-5)]
+dl = [a * L * dT * 1000 for _, a in mats]
+assert abs(dl[0] - 28.8) < 1e-9 and abs(dl[2] - 14.4) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Extension in mm, dL = alpha L dT", size=10.5, color=NAVY, bold=True)
+hbars(f, [(m[0], d) for m, d in zip(mats, dl)], vmax=30, fmt="%.1f", x0=72, y0=34, bw=170, gap=30, colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 164, "alpha: Al 2.4, Cu 1.7, steel 1.2, glass 0.9 (x1e-5 per K)", size=9.5, color=SLATE, bold=True)
+f.text(150, 186, "bimetal strip: Al side is longer when hot,", size=10, color=NAVY, bold=True)
+f.text(150, 202, "so the strip bends toward the steel side", size=10, color=NAVY, bold=True)
+f.text(150, 222, "gap needed: at least %.1f mm per 30 m of steel rail" % dl[2], size=9.5, color=RED, bold=True)
+facts = dict(al=dl[0], st=dl[2], gl=dl[3])
+```
+
 ## Chapter summary
 
 - Linear expansivity $\alpha = \dfrac{l_2-l_1}{l_1\Delta\theta}$, so

@@ -545,6 +545,27 @@ at $0.01\ ^\circ$C under only 611 Pa. The two differ because dissolved air and t
 much higher pressure of the atmosphere each lower the melting point slightly.
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.27" caption="The heat gained by a body is Q = mc dT, and a kettle is a convenient way to see it. (a) An electric kettle. (b) Raising 1 kg of water from 25 to 100 degrees takes 315 kJ using c = 4200 J/kg K. A 0.5 kg aluminium pan needs only 33.8 kJ for the same rise because its specific heat is smaller. Boiling away just 100 g afterwards would need 226 kJ of latent heat, nearly as much as the heating itself. A 2 kW kettle that is 80% efficient needs 197 seconds, about 3.3 minutes, to boil the litre."
+@ photo id="ceephy3/kettle" cap="An electric kettle: the energy goes into heating the water"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heat needed to bring 1 kg of water to the boil"
+c_w, m, dT = 4200.0, 1.0, 75.0
+Q = m * c_w * dT
+pan = 0.5 * 900 * dT
+boil = 0.1 * 2.26e6
+t = Q / (0.8 * 2000)
+assert Q == 315000 and abs(t - 196.875) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Energy in kJ (water 25 to 100 C)", size=10.5, color=NAVY, bold=True)
+hbars(f, [("1 kg water", Q / 1000), ("0.5 kg pan", pan / 1000), ("boil off 100 g", boil / 1000)], vmax=330, fmt="%.1f", x0=80, y0=36, bw=150, gap=32, colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED)], size=9.5)
+f.text(150, 148, "Q = m c dT = 1 x 4200 x 75 = %.0f J" % Q, size=10.5, color=NAVY, bold=True)
+f.text(150, 168, "pan: 0.5 x 900 x 75 = %.0f J" % pan, size=10, color=AMBER, bold=True)
+f.text(150, 186, "latent heat: 0.1 x 2.26e6 = %.0f J" % boil, size=10, color=RED, bold=True)
+f.text(150, 208, "2 kW kettle, 80%% efficient: %.0f s (%.1f min)" % (t, t / 60), size=10.5, color=TEAL, bold=True)
+facts = dict(Q=Q / 1000, pan=pan / 1000, boil=boil / 1000, t=t, tm=t / 60)
+```
+
 ## Chapter summary
 
 - Heat to change temperature: $Q = mc\Delta\theta$; heat capacity $C = mc$;

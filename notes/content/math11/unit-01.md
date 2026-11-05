@@ -644,6 +644,34 @@ $$ n(A \triangle B) = n(A-B) + n(B-A) = 8 + 14 = 22 $$
 Equivalently $n(A \triangle B) = n(A \cup B) - n(A \cap B) = 32 - 10 = 22$.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A wall switch is the simplest logic device: it is either on or off, like a statement that is true or false. (a) A single wall switch. (b) The program builds the truth tables of four compound statements. The statement p and q is true in only 1 of the four rows, p or q in 3, exclusive or in 2 and the implication p -> q in 3. Two switches in series give and, because the lamp lights only when both are on; two in parallel give or. The conditional p -> q is false only when a true statement leads to a false one, which is the case students most often forget."
+@ photo id="math11/switch" cap="A wall switch: on or off, true or false"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Truth tables of four compound statements"
+import itertools
+rows = list(itertools.product([True, False], repeat=2))
+ops = [("p and q", lambda p, q: p and q), ("p or q", lambda p, q: p or q), ("p xor q", lambda p, q: p != q), ("p -> q", lambda p, q: (not p) or q)]
+tot = [sum(1 for p, q in rows if fn(p, q)) for _, fn in ops]
+assert tot == [1, 3, 2, 3]
+f = Fig(300, 236)
+f.text(150, 14, "T = true, F = false", size=10.5, color=NAVY, bold=True)
+heads = ["p", "q"] + [o[0] for o in ops]
+w = [30, 30, 54, 54, 54, 54]
+xs = [6]
+for k in w[:-1]: xs.append(xs[-1] + k)
+for h, x, ww in zip(heads, xs, w):
+    f.box(x, 28, ww - 2, 22, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=3)
+for i, (p, q) in enumerate(rows):
+    vals = [p, q] + [fn(p, q) for _, fn in ops]
+    for v, x, ww in zip(vals, xs, w):
+        f.box(x, 54 + i * 26, ww - 2, 22, "T" if v else "F", fill=MINT if v else ROSE, stroke=TEAL if v else RED, size=10, bold=True, r=3)
+f.text(150, 176, "number of T: and %d, or %d, xor %d, implies %d" % tuple(tot), size=10, color=NAVY, bold=True)
+f.text(150, 194, "and = switches in series, or = in parallel", size=10, color=SLATE, bold=True)
+f.text(150, 212, "p -> q is false only when p = T and q = F", size=10, color=RED, bold=True)
+facts = dict(a=tot[0], o=tot[1], x=tot[2], i=tot[3])
+```
+
 ## Chapter summary
 
 - A **statement** has exactly one truth value, T or F. Open sentences are not statements.

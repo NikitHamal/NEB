@@ -878,6 +878,28 @@ The plane is inclined at **$30^\circ$** to the horizontal.
 - Gravity $a = \pm g$; smooth incline $a = g\sin\theta$, $\ N = mg\cos\theta$
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.27" caption="In a strike the momentum of the ball is shared with the pin, and the two obey the conservation laws of mechanics. (a) A bowling ball about to hit the pins. (b) A 7 kg ball moving at 8 m/s hits a 1.5 kg pin head-on in an elastic collision. The ball slows to 5.18 m/s and the pin leaves at 13.18 m/s. The total momentum is 56.0 kg m/s before and after, and the kinetic energy stays 224.0 J, so both quantities are conserved. Real collisions lose a little energy as sound and heat, but the check is the standard test of any collision calculation."
+@ photo id="math11/bowling" cap="A bowling ball striking a pin: momentum is conserved in the collision"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Head-on elastic collision: ball and pin"
+m1, m2, u = 7.0, 1.5, 8.0
+v1 = (m1 - m2) / (m1 + m2) * u; v2 = 2 * m1 / (m1 + m2) * u
+p0 = m1 * u; p1, p2 = m1 * v1, m2 * v2
+ke0 = 0.5 * m1 * u ** 2; ke1 = 0.5 * m1 * v1 ** 2 + 0.5 * m2 * v2 ** 2
+assert abs(p0 - (p1 + p2)) < 1e-9 and abs(ke0 - ke1) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Momentum, kg m/s (ball 7 kg at 8 m/s, pin 1.5 kg)", size=10, color=NAVY, bold=True)
+hbars(f, [("before: ball", p0), ("after: ball", p1), ("after: pin", p2)], vmax=60, fmt="%.1f", x0=82, y0=36, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)], size=9.5)
+f.text(150, 140, "ball %.2f m/s, pin %.2f m/s after impact" % (v1, v2), size=10.5, color=NAVY, bold=True)
+f.text(150, 162, "momentum: %.1f = %.1f + %.1f" % (p0, p1, p2), size=10.5, color=TEAL, bold=True)
+f.text(150, 182, "kinetic energy: %.1f J = %.1f J" % (ke0, ke1), size=10.5, color=TEAL, bold=True)
+f.text(150, 206, "v1 = (m1 - m2)u / (m1 + m2)", size=10, color=SLATE, bold=True)
+f.text(150, 222, "v2 = 2 m1 u / (m1 + m2)", size=10, color=SLATE, bold=True)
+facts = dict(v1=v1, v2=v2, p=p0, ke=ke0)
+```
+
 ## Chapter summary
 
 - A force is a vector: magnitude, direction, point of application. Forces at a point

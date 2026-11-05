@@ -542,6 +542,33 @@ ax.set_xticks(x); ax.set_xlim(0.3,5.9); ax.set_ylim(0,11.8)
 ax.spines[['top','right']].set_visible(False); ax.grid(axis='y',alpha=0.45)
 ```
 
+```photogrid label="15.P" cols="2" ratio="1.27" caption="Two classes can have the same average and still be very different, so statistics adds measures of spread. (a) A student at an examination desk. (b) Ten sample marks have mean 56.0, range 39 and variance 139.80, so the standard deviation is 11.82. The shaded band from 44.2 to 67.8 marks, one standard deviation either side of the mean, holds 6 of the ten scores. A smaller standard deviation would mean the class is more uniform. Because it uses every score and has the same units as the marks, the standard deviation is the preferred measure of dispersion."
+@ photo id="math11/exam" cap="A student writing an examination: scores that spread around a mean"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mean, standard deviation and the one-sigma band"
+x = [35, 42, 48, 50, 55, 58, 62, 66, 70, 74]
+n = len(x); mean = sum(x) / n; var = sum((v - mean) ** 2 for v in x) / n; sd = math.sqrt(var)
+med = (x[4] + x[5]) / 2; rg = max(x) - min(x); inside = sum(1 for v in x if abs(v - mean) <= sd)
+assert abs(mean - 56) < 1e-9 and inside >= 6
+f = Fig(300, 236)
+f.text(150, 14, "Marks of ten students", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 30, 40, 250, 100, (30, 80), (0, 1))
+f.box(ax.X(mean - sd), ax.Y(0.95), ax.X(mean + sd) - ax.X(mean - sd), ax.Y(0.0) - ax.Y(0.95), fill=MINT, stroke=TEAL, r=2, dash=True)
+ax.grid(10, 1, labels=False)
+f.line(ax.X(30), ax.Y(0), ax.X(80), ax.Y(0), color=SLATE, sw=1.4)
+for v in range(30, 81, 10):
+    f.text(ax.X(v), ax.Y(0) + 13, str(v), size=9.5, color=SLATE)
+for v in x:
+    f.circle(ax.X(v), ax.Y(0.45), 5, fill=BLUE, stroke=NAVY, sw=1.5)
+f.line(ax.X(mean), ax.Y(0.95), ax.X(mean), ax.Y(0), color=RED, sw=2)
+f.text(ax.X(mean), ax.Y(0.95) - 6, "mean %.1f" % mean, size=9.5, color=RED, bold=True)
+f.text(150, 176, "median %.1f, range %d, variance %.2f" % (med, rg, var), size=10.5, color=NAVY, bold=True)
+f.text(150, 194, "SD = sqrt(variance) = %.2f" % sd, size=10.5, color=TEAL, bold=True)
+f.text(150, 212, "mean +- SD = %.1f to %.1f holds %d of 10" % (mean - sd, mean + sd, inside), size=10, color=SLATE, bold=True)
+facts = dict(m=mean, v=var, sd=sd, i=inside, r=rg, lo=mean - sd, hi=mean + sd)
+```
+
 ## Chapter summary
 
 - Dispersion measures spread about the average. Range $= L-S$;

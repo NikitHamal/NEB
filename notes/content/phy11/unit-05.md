@@ -676,6 +676,31 @@ one. Write the momentum equation for the impact and the energy equation for what
 happens before or after it — never the other way round.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="On a smooth half-pipe the total of kinetic and potential energy stays constant, so height can be traded for speed. (a) A skater riding a ramp. (b) A 60 kg skater released from rest at a height of 3 m has 1764 J of energy. Each bar shows how that energy divides at 3, 2, 1 and 0 m, with speeds computed from the kinetic share. At the bottom all the energy is kinetic and the speed is sqrt(2gh) = 7.67 m/s, independent of the mass. Friction would shave the green bar a little at every step, which is why a real skater cannot climb back to the full starting height."
+@ photo id="ceephy3/skater" cap="A skater on a half-pipe turns potential energy into kinetic energy"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Energy bar chart down the half-pipe"
+m, g, H = 60.0, 9.8, 3.0
+tot = m * g * H
+f = Fig(300, 236)
+f.text(150, 14, "Total mechanical energy = %.0f J" % tot, size=10.5, color=NAVY, bold=True)
+vs = []
+for i, h in enumerate([3.0, 2.0, 1.0, 0.0]):
+    pe = m * g * h; ke = tot - pe; v = math.sqrt(2 * ke / m); vs.append(v)
+    y = 34 + i * 34
+    w1 = 150 * pe / tot; w2 = 150 - w1
+    f.text(62, y + 11, "h = %.0f m" % h, size=10, color=SLATE, bold=True, anchor="end", vmid=True)
+    if w1 > 0: f.box(70, y, w1, 22, fill=SAND, stroke=AMBER, r=2)
+    if w2 > 0: f.box(70 + w1, y, w2, 22, fill=MINT, stroke=TEAL, r=2)
+    f.text(228, y + 11, "v = %.2f" % v, size=10, color=NAVY, bold=True, anchor="start", vmid=True)
+assert abs(vs[-1] - math.sqrt(2 * g * H)) < 1e-9
+f.text(150, 182, "amber = potential energy mgh", size=10, color=AMBER, bold=True)
+f.text(150, 198, "green = kinetic energy (1/2) m v^2", size=10, color=TEAL, bold=True)
+f.text(150, 218, "bottom speed = sqrt(2gh) = %.2f m/s" % vs[-1], size=10.5, color=NAVY, bold=True)
+facts = dict(e=tot, v=vs[-1], v1=vs[1])
+```
+
 ## Chapter summary
 
 - Work by a constant force: $W = Fs\cos\theta = \vec{F}\cdot\vec{s}$, a scalar in
