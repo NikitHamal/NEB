@@ -60,6 +60,7 @@ fun CommentCard(
       children: List<ApiReply> = emptyList(),
       onRepliesBarClick: (() -> Unit)? = null,
       onInlineImageClick: (String) -> Unit = {},
+      pollContent: (@Composable (com.neb.ians.data.api.ApiPoll) -> Unit)? = null,
       modifier: Modifier = Modifier
   ) {
     val tactile = rememberTactileFeedback()
@@ -250,6 +251,11 @@ fun CommentCard(
             if (reply.attachments.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 ForumMediaAttachments(reply.attachments)
+            }
+
+            val replyPoll = reply.poll
+            if (replyPoll != null && pollContent != null) {
+                pollContent(replyPoll)
             }
 
             Spacer(modifier = Modifier.height(8.dp))

@@ -325,6 +325,11 @@ class ForumViewModel @Inject constructor(
     }
 
     /** Optimistic like toggle — every fast tap is queued and reconciled with the server. */
+    /** Posts that scrolled into view; the server counts one impression per viewer per day. */
+    fun reportImpressions(ids: List<String>) {
+        viewModelScope.launch { forumRepository.reportImpressions(ids) }
+    }
+
     fun toggleThumbsUp(postId: String) {
         val current = _forumState.value.posts.firstOrNull { it.id == postId } ?: return
         val optimistic = current.copy(

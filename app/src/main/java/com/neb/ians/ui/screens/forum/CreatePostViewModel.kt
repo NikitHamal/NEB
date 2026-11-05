@@ -74,6 +74,7 @@ data class CreatePostUiState(
     val pollQuestion: String = "",
     val pollOptions: List<PollOptionDraft> = listOf(PollOptionDraft(), PollOptionDraft()),
     val pollAllowMultiple: Boolean = false,
+    val pollAllowAddOptions: Boolean = false,
     val pollExplanation: String = "",
     val pollDurationMs: Long = 0L,
     // @mention autocomplete
@@ -401,6 +402,10 @@ class CreatePostViewModel @Inject constructor(
         _uiState.update { it.copy(pollAllowMultiple = allow) }
     }
 
+    fun onPollAllowAddOptionsChange(allow: Boolean) {
+        _uiState.update { it.copy(pollAllowAddOptions = allow) }
+    }
+
     fun onPollExplanationChange(value: String) {
         if (value.length <= 500) _uiState.update { it.copy(pollExplanation = value) }
     }
@@ -445,6 +450,7 @@ class CreatePostViewModel @Inject constructor(
                 question = state.pollQuestion.trim(),
                 pollType = state.pollType,
                 allowMultiple = state.pollType == "voting" && state.pollAllowMultiple,
+                allowAddOptions = state.pollType == "voting" && state.pollAllowAddOptions,
                 explanation = if (state.pollType == "mcq") state.pollExplanation.trim() else "",
                 durationMs = state.pollDurationMs,
                 options = options.mapIndexed { index, option ->

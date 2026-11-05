@@ -107,6 +107,11 @@ fun ForumScreen(
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val listState = rememberLazyListState()
+    com.neb.ians.ui.components.TrackPostImpressions(
+        listState = listState,
+        postIdForKey = { it as? String },
+        onVisible = viewModel::reportImpressions
+    )
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -324,7 +329,10 @@ fun ForumScreen(
                             ForumPostCard(
                                 post = post,
                                 isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId),
-                                onClick = { onPostClick(post.id) },
+                                onClick = {
+                                    com.neb.ians.ui.components.PostReachHints.set(post.id, "feed")
+                                    onPostClick(post.id)
+                                },
                                 onLikeClick = { viewModel.toggleThumbsUp(post.id) },
                                 onBookmarkClick = { viewModel.toggleBookmark(post.id) },
                                 onShareClick = { sharePost(context, post.id) },

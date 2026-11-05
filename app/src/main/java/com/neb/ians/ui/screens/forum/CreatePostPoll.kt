@@ -172,6 +172,21 @@ fun PostPollPanel(
                         enabled = !state.isSubmitting
                     )
                 }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Let others add options",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Switch(
+                        checked = state.pollAllowAddOptions,
+                        onCheckedChange = viewModel::onPollAllowAddOptionsChange,
+                        enabled = !state.isSubmitting
+                    )
+                }
             }
         }
     }
