@@ -152,8 +152,24 @@ class OwnerEditTests(_UploadCase):
         self.row = Resource.objects.create(id='r1', title='Old', subject='Physics', uploaded_by=self.owner,
                                            added_at=now_ms(), approval_status='approved')
 
-    def test_edit_keeps_blank_title_and_toggles_price_with_paid(self):
-        self.client.post(f'/app/resource/{self.row.id}/edit/', {'title': '', 'subject': 'Chemistry', 'is_paid': 'on', 'price': '-5'})
+    def test_edit_refuses_a_blank_title_and_a_bad_price_without_changing_anything(self):
+        response = self.client.post(f'/app/resource/{self.row.id}/edit/', {'title': '', 'subject': 'Chemistry', 'is_paid': 'on', 'price': '-5'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 400)
         self.row.refresh_from_db()
-        self.assertEqual((self.row.title, self.row.subject, self.row.is_paid, self.row.price),
-                         ('Old', 'Chemistry', True, Decimal('0.00')))
+        self.assertEqual((self.row.title, self.row.subject, self.row.is_paid), ('Old', 'Physics', False))
+
+
+class UploadComposerPageTests(TestCase):
+    def test_upload_page_is_the_composer(self):
+        html = self.client.get('/app/upload/').content.decode()
+        self.assertIn('id="rc-form"', html)
+        self.assertIn('data-mode="upload"', html)
+        self.assertIn('id="rc-drop"', html)
+        self.assertIn('name="source_url"', html)
+
+    def test_error_page_keeps_what_was_typed_in_the_right_fields(self):
+        response = self.client.post('/app/upload/', {'title': 'Kept', 'source_url': 'https://example.com/src'})
+        html = response.content.decode()
+        self.assertIn('Kept', html)
+        self.assertRegex(html, r'name="source_url" value="https://example.com/src"')
