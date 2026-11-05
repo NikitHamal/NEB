@@ -10035,6 +10035,19 @@
     "source": "Wikimedia Commons",
     "title": "Gerhard Thieme Archimedes"
   },
+  "bcamath/atr42": {
+    "author": "calflier001",
+    "bytes": 616847,
+    "credit": "BUDDHA AIR ATR42 9N-AIM LANDING AT POKHARA AIRPORT NEPAL FEB 2013",
+    "fetched": "2026-11-05",
+    "file": "bcamath/atr42.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BUDDHA_AIR_ATR42_9N-AIM_LANDING_AT_POKHARA_AIRPORT_NEPAL_FEB_2013_(8506249089).jpg",
+    "sha1": "6555b5d05d0bce6a",
+    "source": "Wikimedia Commons",
+    "title": "BUDDHA AIR ATR42 9N-AIM LANDING AT POKHARA AIRPORT NEPAL FEB 2013 (8506249089)"
+  },
   "bcamath/bigben": {
     "author": "Ermell",
     "bytes": 632845,
@@ -10047,6 +10060,19 @@
     "sha1": "0a76d71556651054",
     "source": "Wikimedia Commons",
     "title": "London Big Ben Inner Clock Face 1070925-PSD"
+  },
+  "bcamath/breadboard": {
+    "author": "Toluaj",
+    "bytes": 138317,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/breadboard.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Breadboard_and_resistors.jpg",
+    "sha1": "9e98eba35d997a4b",
+    "source": "Wikimedia Commons",
+    "title": "Breadboard and resistors"
   },
   "bcamath/broom": {
     "author": "Brendan Ward",
@@ -10152,6 +10178,19 @@
     "source": "Wikimedia Commons",
     "title": "Spielwürfel"
   },
+  "bcamath/dotmatrix": {
+    "author": "LHF",
+    "bytes": 356023,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/dotmatrix.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tiny_Dot-matrix_LED_Display_by_HP.jpg",
+    "sha1": "7ae3462591c28d3e",
+    "source": "Wikimedia Commons",
+    "title": "Tiny Dot-matrix LED Display by HP"
+  },
   "bcamath/erato": {
     "author": "Unknown author",
     "bytes": 1083545,
@@ -10230,6 +10269,19 @@
     "source": "Wikimedia Commons",
     "title": "Leonardo da Pisa"
   },
+  "bcamath/gauss": {
+    "author": "Gottlieb Biermann / After Christian Albrecht Jensen",
+    "bytes": 741139,
+    "credit": "Gauß-Gesellschaft Göttingen e.V. (Foto: A. Wittmann).",
+    "fetched": "2026-11-05",
+    "file": "bcamath/gauss.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Carl_Friedrich_Gauss.jpg",
+    "sha1": "ac7b873b1c276fbb",
+    "source": "Wikimedia Commons",
+    "title": "Carl Friedrich Gauss"
+  },
   "bcamath/gregory": {
     "author": "Lavinia Fontana",
     "bytes": 39134,
@@ -10269,6 +10321,19 @@
     "source": "Wikimedia Commons",
     "title": "JKepler"
   },
+  "bcamath/lcdsub": {
+    "author": "Politelyinsulting",
+    "bytes": 831976,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/lcdsub.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:LCD_subpixels.jpg",
+    "sha1": "65cffc8a962a0379",
+    "source": "Wikimedia Commons",
+    "title": "LCD subpixels"
+  },
   "bcamath/leibniz": {
     "author": "Christoph Bernhard Francke",
     "bytes": 325713,
@@ -10281,6 +10346,19 @@
     "sha1": "451c4feeea6a6528",
     "source": "Wikimedia Commons",
     "title": "Christoph Bernhard Francke - Bildnis des Philosophen Leibniz (ca. 1695)"
+  },
+  "bcamath/markov": {
+    "author": "Unknown author Unknown author",
+    "bytes": 688774,
+    "credit": "История Академии наук СССР. — М.−Л.: Наука, 1964. — Т. 2. — С. 475.",
+    "fetched": "2026-11-05",
+    "file": "bcamath/markov.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:AAMarkov.jpg",
+    "sha1": "a83de512b7c3979e",
+    "source": "Wikimedia Commons",
+    "title": "AAMarkov"
   },
   "bcamath/napier": {
     "author": "Unknown author Unknown author",
@@ -10373,6 +10451,19 @@
     "source": "Wikimedia Commons",
     "title": "Rubiks cube by keqs"
   },
+  "bcamath/setsquare": {
+    "author": "not researched",
+    "bytes": 109556,
+    "credit": "API data Catalogue record Photo",
+    "fetched": "2026-11-05",
+    "file": "bcamath/setsquare.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Set-square_(AM_2015.34.65-1).jpg",
+    "sha1": "c7490ac26c216c50",
+    "source": "Wikimedia Commons",
+    "title": "Set-square (AM 2015.34.65-1)"
+  },
   "bcamath/sikdar": {
     "author": "Unknown author Unknown author",
     "bytes": 695091,
@@ -10450,6 +10541,19 @@
     "sha1": "88163976a8d6605b",
     "source": "Wikimedia Commons",
     "title": "Alfred Edward Emslie (1848-1918) - James Joseph Sylvester (1814–1897), Mathematician - 129 - St John's College"
+  },
+  "bcamath/tacoma": {
+    "author": "Barney Elliot",
+    "bytes": 1314556,
+    "credit": "Still image from approximately the 3:21 in the video from the Stillman Fires Collection.",
+    "fetched": "2026-11-05",
+    "file": "bcamath/tacoma.png",
+    "license": "Public Domain",
+    "license_url": "https://web.archive.org/web/20230926203737/https://creativecommons.org/licenses/publicdomain/",
+    "page": "https://commons.wikimedia.org/wiki/File:Tacoma_Narrows_still.png",
+    "sha1": "3f2882f99ee165bd",
+    "source": "Wikimedia Commons",
+    "title": "Tacoma Narrows still"
   },
   "bcamath/tank": {
     "author": "Antti Leppänen",
