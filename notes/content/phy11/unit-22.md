@@ -752,6 +752,26 @@ The slab raises the capacitance by a factor of $5/3$, not by $\varepsilon_r = 3$
 because it fills only part of the gap.
 :::
 
+```photogrid label="22.P" cols="2" ratio="1.27" caption="A capacitor stores energy U = (1/2) C V^2 in its electric field, and the way capacitors are joined changes the total capacitance. (a) Capacitors on a printed circuit board. (b) Two 100 microfarad capacitors in series act as 50 microfarads, and in parallel as 200 microfarads. Charged to 12 V, the series pair stores 3.6 mJ, a single capacitor 7.2 mJ and the parallel pair 14.4 mJ, in proportion to the capacitance. The same voltage across a larger capacitance means more charge and more stored energy, which is why a camera flash uses a large capacitor."
+@ photo id="ceephy3/capacitor" cap="Capacitors on a circuit board store energy in an electric field"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Energy stored by one, two in series, two in parallel"
+C, V = 100e-6, 12.0
+Cs, Cp = C / 2, 2 * C
+U = lambda c: 0.5 * c * V * V * 1000
+rows = [("series 50 uF", U(Cs)), ("single 100 uF", U(C)), ("parallel 200 uF", U(Cp))]
+assert abs(U(C) - 7.2) < 1e-9 and abs(U(Cp) - 14.4) < 1e-9 and abs(U(Cs) - 3.6) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Energy U = (1/2) C V^2 at 12 V, in mJ", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=15, fmt="%.1f", x0=100, y0=36, bw=150, gap=32, colors=[(SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)], size=9.5)
+f.text(150, 150, "series: 1/C = 1/C1 + 1/C2 = 1/%.0f uF" % (Cs * 1e6), size=10, color=AMBER, bold=True)
+f.text(150, 168, "parallel: C = C1 + C2 = %.0f uF" % (Cp * 1e6), size=10, color=TEAL, bold=True)
+f.text(150, 192, "charge Q = C V: %.1f, %.1f, %.1f mC" % (Cs * V * 1000, C * V * 1000, Cp * V * 1000), size=10, color=NAVY, bold=True)
+f.text(150, 212, "same V: energy proportional to C", size=10, color=SLATE, bold=True)
+facts = dict(a=U(Cs), b=U(C), c=U(Cp), cs=Cs * 1e6, cp=Cp * 1e6)
+```
+
 ## Chapter summary
 
 - $C = Q/V$, unit farad (C V⁻¹); capacitance depends on geometry and medium only.

@@ -630,6 +630,25 @@ silicon atoms has raised the electron density by a factor of about $10^{6}$ —
 that is the whole point of doping.
 :::
 
+```photogrid label="25.P" cols="2" ratio="1.27" caption="X-ray diffraction gives the spacing of atomic planes, from which the unit cell and the packing of the atoms can be worked out. (a) A diffraction pattern from a crystal. (b) For hard spheres touching along the edge, the face diagonal or the body diagonal, the fraction of the cell filled is 0.5236 for simple cubic, 0.6802 for body-centred and 0.7405 for face-centred. Face-centred cubic therefore packs about 74 per cent of the space, the densest arrangement of equal spheres, and is the structure of copper, aluminium and gold. Each atom there touches 12 neighbours."
+@ photo id="ceephy3/xrd" cap="X-ray diffraction reveals how atoms are packed in a crystal"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Packing fraction of three cubic lattices"
+def pf(n, a_over_r):
+    return n * (4 / 3.0 * math.pi) / a_over_r ** 3
+sc = pf(1, 2.0); bcc = pf(2, 4 / math.sqrt(3)); fcc = pf(4, 2 * math.sqrt(2))
+assert abs(sc - math.pi / 6) < 1e-12 and abs(bcc - math.pi * math.sqrt(3) / 8) < 1e-12 and abs(fcc - math.pi * math.sqrt(2) / 6) < 1e-12
+f = Fig(300, 236)
+f.text(150, 14, "Fraction of the cell filled by atoms", size=10.5, color=NAVY, bold=True)
+hbars(f, [("simple cubic", sc), ("body-centred", bcc), ("face-centred", fcc)], vmax=0.8, fmt="%.4f", x0=84, y0=36, bw=150, gap=32, colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL)], size=9.5)
+f.text(150, 148, "atoms per cell: 1, 2, 4", size=10.5, color=NAVY, bold=True)
+f.text(150, 166, "cell edge a = 2r, 4r / sqrt3, 2 sqrt2 r", size=10, color=SLATE, bold=True)
+f.text(150, 186, "coordination number: 6, 8, 12", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "fcc packs 74%: copper, aluminium, gold", size=10, color=TEAL, bold=True)
+facts = dict(a=sc, b=bcc, c=fcc)
+```
+
 ## Chapter summary
 
 - Bringing $N$ atoms together splits each sharp atomic level into $N$ levels so

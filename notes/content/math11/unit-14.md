@@ -791,6 +791,30 @@ backwards shows that if the diagonals of a parallelogram are perpendicular, it
 must be a rhombus.)
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.27" caption="A boat in a river has two velocities at once: its own and that of the water. (a) A sailing boat crossing a lake. (b) For a boat heading north at 8 km/h in an east-going current of 6 km/h, the resultant vector is (6, 8), so the ground speed is 10 km/h on a bearing of 36.87 degrees east of north. Crossing a 2 km width takes 0.25 h and the boat drifts 1.5 km downstream. The two components are independent: the current does not slow the crossing, it only moves the landing point, a fact worth knowing for ferries on the Narayani."
+@ photo id="math11/sailing" cap="A sailing boat heading across a current: velocities add as vectors"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Boat velocity plus river current"
+boat = (0.0, 8.0); cur = (6.0, 0.0)
+R = (boat[0] + cur[0], boat[1] + cur[1]); sp = math.hypot(*R)
+brg = math.degrees(math.atan2(R[0], R[1]))
+cross = 2.0; t = cross / boat[1]; drift = cur[0] * t
+assert sp == 10 and round(brg, 2) == 36.87 and drift == 1.5
+f = Fig(300, 236)
+f.text(150, 14, "Boat 8 km/h north, current 6 km/h east", size=10.5, color=NAVY, bold=True)
+k = 17; ox, oy = 60, 180
+P_ = lambda v: (ox + k * v[0], oy - k * v[1])
+f.line(*P_(boat), *P_(R), color=SLATE, dash=True); f.line(*P_(cur), *P_(R), color=SLATE, dash=True)
+f.arrow([(ox, oy), P_(boat)], color=NAVY, sw=2.2); f.arrow([(ox, oy), P_(cur)], color=TEAL, sw=2.2); f.arrow([(ox, oy), P_(R)], color=RED, sw=2.6)
+f.text(P_(boat)[0] - 8, P_(boat)[1] + 4, "boat", size=10, color=NAVY, bold=True, anchor="end")
+f.text(P_(cur)[0] - 2, P_(cur)[1] + 15, "current", size=10, color=TEAL, bold=True)
+f.text(P_(R)[0] + 8, P_(R)[1] + 4, "R", size=11, color=RED, bold=True, anchor="start")
+f.text(150, 206, "|R| = %.0f km/h, bearing N %.2f deg E" % (sp, brg), size=10.5, color=RED, bold=True)
+f.text(150, 222, "2 km crossing: %.2f h, drift %.1f km" % (t, drift), size=10.5, color=NAVY, bold=True)
+facts = dict(sp=sp, b=brg, t=t, d=drift)
+```
+
 ## Chapter summary
 
 - A vector needs magnitude and direction; in components

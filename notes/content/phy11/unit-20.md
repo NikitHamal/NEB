@@ -642,6 +642,27 @@ As a check, $\sigma/\varepsilon_0 = 3.98\times10^{-5}/8.85\times10^{-12}
 = 4.5\times10^{6}\ \text{N C}^{-1}$, matching the surface field.
 :::
 
+```photogrid label="20.P" cols="2" ratio="1.27" caption="The electric field of a point charge falls off as the square of the distance, so moving away weakens it very quickly. (a) A Van de Graaff generator in a school laboratory. (b) For a charge of 2 microcoulomb, E = kq/r^2 gives 1.798 MN/C at 0.1 m, 0.449 at 0.2 m and 0.112 at 0.4 m, and the program checks that each doubling of r divides the field by exactly 4. The charged sphere of the generator behaves as if all its charge were at the centre, which is why this simple law fits it, and why your hair rises only when you stand close to it."
+@ photo id="ioephy/vdg" cap="A Van de Graaff generator: a charged sphere with an electric field around it"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Inverse-square law for the field of 2 microcoulomb"
+k, q = 8.99e9, 2e-6
+E = lambda r: k * q / r ** 2 / 1e6
+vals = [(0.1, E(0.1)), (0.2, E(0.2)), (0.4, E(0.4))]
+assert abs(vals[0][1] - 1.798) < 1e-3 and abs(vals[0][1] / vals[1][1] - 4) < 1e-9 and abs(vals[1][1] / vals[2][1] - 4) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "E = kq / r^2 in MN/C, q = 2 uC", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.5), (0, 2.0))
+ax.grid(0.1, 0.5, size=9); ax.axes("r (m)", "E")
+ax.curve(E, 0.095, 0.5, color=NAVY, sw=2.4)
+for r, e in vals:
+    ax.pt(r, e, "%.3f" % e, dx=8, dy=-6, color=RED)
+f.text(150, 208, "double the distance: field falls to 1/4", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "%.3f -> %.3f -> %.3f MN/C at 0.1, 0.2, 0.4 m" % tuple(v[1] for v in vals), size=9.5, color=SLATE, bold=True)
+facts = dict(a=vals[0][1], b=vals[1][1], c=vals[2][1])
+```
+
 ## Chapter summary
 
 - $\vec{E} = \vec{F}/q_0$, measured in N C⁻¹ = V m⁻¹; for a point charge

@@ -678,6 +678,27 @@ gas in expanding at constant pressure:
 $$ W = p\Delta V = nR\Delta T = 2.0\times8.3\times50 = 830\ \text{J} $$
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="Boyle's law says that for a fixed mass of gas at constant temperature the pressure is inversely proportional to the volume, so the P-V graph is a hyperbola. (a) An air compressor in a workshop. (b) Air taken in at 1 atm and 10 L is squeezed to 5 L and 2 L, and the program confirms that P x V equals 10 at every point, giving 5 atm at 2 L. A real compressor warms the gas, so the temperature is not truly constant and a cooler is fitted between stages. Nevertheless, the isothermal hyperbola is the standard curve against which real cycles are compared."
+@ photo id="ceephy3/compressor" cap="An air compressor squeezes a gas into a smaller volume at higher pressure"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Boyle's law: P V is constant at constant temperature"
+P1, V1 = 1.0, 10.0
+k = P1 * V1
+pts = [(10.0, 1.0), (5.0, 2.0), (2.0, 5.0)]
+assert all(abs(p * v - k) < 1e-9 for v, p in pts)
+f = Fig(300, 236)
+f.text(150, 14, "P V = 10 (atm L) at constant temperature", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 12), (0, 12))
+ax.grid(2, 2, size=9); ax.axes("V (L)", "P (atm)")
+ax.curve(lambda v: k / v, 0.8, 12, color=NAVY, sw=2.4)
+for v, p in pts:
+    ax.pt(v, p, "%g L, %g atm" % (v, p), dx=-8 if v == 10 else 8, dy=-8, color=RED, anchor="end" if v == 10 else "start")
+f.text(150, 208, "10 L at 1 atm -> 2 L at %.0f atm" % (k / 2), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "P1 V1 = P2 V2 = %.0f for every point" % k, size=10.5, color=RED, bold=True)
+facts = dict(k=k, p2=k / 2)
+```
+
 ## Chapter summary
 
 - Gas laws combine into the ideal gas equation $pV = nRT = NkT$, with
