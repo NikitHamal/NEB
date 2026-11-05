@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n
+import devaeqn, figrun, photo, assets, i18n, svgkit
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -53,6 +53,86 @@ def _extract_figures(body, store, chapter_id):
             + "</figure>")
         return "\n\n" + _PLACE.format(i) + "\n\n"
     return re.sub(r"^```figure([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
+def _extract_svgfigs(body, store, chapter_id):
+    """```svgfig label="1.1" caption="…"  + svgkit code -> numbered vector figure (no matplotlib)."""
+    def rep(m):
+        info, code = m.group(1) or "", m.group(2)
+        cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
+        lab = re.search(r'label\s*=\s*"([^"]*)"', info)
+        try:
+            svg = svgkit.render(code, f"{chapter_id}:{lab.group(1) if lab else '?'}")
+        except Exception as e:
+            svgkit.WARN.append(f"{chapter_id}: svgfig failed: {e}")
+            raise
+        uri = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+        i = len(store)
+        c = (f'<figcaption><b>{_html.escape(("Figure " + lab.group(1) + ".") if lab else "Figure.")}</b> '
+             f'{_inline_math_html(cap.group(1))}</figcaption>') if cap else ""
+        store.append(f'<figure class="nobreak diagram"><img src="{uri}" alt="diagram">{c}</figure>')
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```svgfig([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
+def _extract_photogrids(body, store, chapter_id):
+    """```photogrid cols="3" caption="…" ratio="1.25"  — N-up horizontal strip / grid.
+
+    Items are separated by lines starting with ``@``::
+        @ photo id="bca101/ram" cap="DDR4 DIMM" fit="1.3"   (then overlay directives)
+        @ svg cap="Block diagram"                           (then svgkit code)
+    Photos are rendered through photo.render (crop/fit/mark/call/label/key), so a
+    cell can carry numbered callouts; svg cells draw with svgkit.
+    """
+    def rep(m):
+        info, code = m.group(1) or "", m.group(2)
+        at = photo.parse_attrs(info)
+        cols = max(1, int(at.get("cols", "3")))
+        ratio = at.get("ratio", "1.3")
+        parts = re.split(r"(?m)^@\s+", code)[1:]
+        cells, credits, keys_all = [], [], []
+        per_w = 100.0 / cols * 0.96
+        for k, part in enumerate(parts):
+            head, _, script = part.partition("\n")
+            kind, _, rest = head.partition(" ")
+            a = photo.parse_attrs(rest)
+            cap = a.get("cap", "")
+            if kind.strip() == "svg":
+                svg = svgkit.render(script, f"{chapter_id}:grid{k}")
+                uri = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+                img = f'<img src="{uri}" alt="diagram">'
+            else:
+                aid = a.get("id", "")
+                fit = a.get("fit", ratio)
+                sc = f"fit {fit}\n" + script
+                path = photo.render(aid, sc, a.get("w", per_w))
+                if not path:
+                    return ""
+                img = f'<img class="gp" src="{_png_uri(path)}" alt="photograph">'
+                rec = assets.record(aid) or {}
+                if rec:
+                    credits.append(f'({chr(97 + k)}) {_html.escape(re.sub(r"\s*\(.*?\)\s*|\s*:.*$", " ", rec.get("author") or "unknown").strip()[:42])}, '
+                                   f'{_html.escape(rec.get("license", ""))}')
+                _, keys, _o = photo.parse_script(script)
+                keys_all += keys
+            cells.append(f'<td class="gc">{img}<div class="gcap"><b>({chr(97 + k)})</b> '
+                         f'{_inline_math_html(cap)}</div></td>')
+        rows = [cells[i:i + cols] for i in range(0, len(cells), cols)]
+        trs = ""
+        for r in rows:
+            r += ['<td class="gc"></td>'] * (cols - len(r))
+            trs += "<tr>" + "".join(r) + "</tr>"
+        cap = at.get("caption", "")
+        i = len(store)
+        store.append(
+            f'<figure class="nobreak photo grid"><table class="pgrid"><tbody>{trs}</tbody></table>'
+            + photo.key_html(keys_all)
+            + (f'<figcaption>' + (f'<b>Plate {_html.escape(at["label"])}.</b> ' if at.get("label") else "{CAP}") + f'{_inline_math_html(cap)}'
+               + (f'<span class="src">Photo credits: {"; ".join(credits)}.</span>' if credits else "")
+               + "</figcaption>" if cap else "")
+            + "</figure>")
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```photogrid([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
 
 
 def _extract_photos(body, store, chapter_id):
@@ -317,6 +397,8 @@ def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
     store = []
     body = _extract_figures(body, store, chapter_id)
+    body = _extract_svgfigs(body, store, chapter_id)
+    body = _extract_photogrids(body, store, chapter_id)
     body = _extract_photos(body, store, chapter_id)
     body = _extract_display_math(body, store)
     body = _extract_inline_math(body, store)

@@ -1,3 +1,115 @@
+# ENV.md — real environment probe
+
+Recorded 2026-11-02 13:40:43 UTC in the AgentSky sandbox (`Linux 6.1.158+`, user `user`). Every block below is verbatim command output; nothing is assumed. Secrets are redacted.
+
+## Starting state
+
+The sandbox opened in `/app` — a bare Next.js scaffold, **not** a clone of this repo (no `bca/`, no `ioe/`, no `.git`). The repo is **private** (`GET /repos/NikitHamal/NEB` → `"private": true`; unauthenticated → 404), so it was cloned with the supplied token into `/home/user/work/NEB`. The token is injected per command through an `http.extraheader` wrapper and is never written to `.git/config` or any tracked file (a grep of `.git/config` for the token prefix → 0 matches).
+
+## Probe (first run, before installing anything)
+
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+
+$ git ls-remote https://github.com/NikitHamal/NEB.git
+fatal: could not read Username for 'https://github.com': No such device or address
+exit=0
+
+$ rustc --version
+/bin/bash: line 4: rustc: command not found
+$ cargo --version
+/bin/bash: line 4: cargo: command not found
+$ node --version
+v22.23.4
+$ npm --version
+10.9.9
+
+$ which pandoc weasyprint wkhtmltopdf pdflatex typst xelatex chromium
+exit=1
+
+$ sudo -n true
+exit=0
+
+$ curl -sI https://github.com | head -1
+HTTP/2 200 
+exit=0
+
+$ curl -sI https://api.github.com | head -1
+HTTP/2 200 
+
+$ python3 --version; apt --version
+Python 3.11.2
+apt 2.6.1 (amd64)
+
+uid=1001(user) gid=1001(user) groups=1001(user),27(sudo)
+Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Wed Sep 30 12:40:02 UTC 2026 x86_64 GNU/Linux
+```
+
+Findings: git, node, npm, python3, gcc, sudo (passwordless) and github.com were available. **Missing:** rustc, cargo, pandoc, weasyprint, wkhtmltopdf, pdflatex, typst, fontconfig (`fc-list`), poppler, and the Python libs the house PDF pipeline imports. Unauthenticated `git ls-remote` failed because the repo is private; with the token it works (below).
+
+## Remote (with token, redacted)
+
+```
+$ git ls-remote https://<PAT>@github.com/NikitHamal/NEB.git | head
+2193bf3f4ea3097eaae2e8349ffb60a9edd403d4	HEAD
+5d9de9180f85bccd2d84076267d5c6221f1d6805	refs/heads/claude/bca-entrance-complete
+bac4504b0d0c9ad70a278701fe8f4096ef2750e5	refs/heads/desktop/claude
+2193bf3f4ea3097eaae2e8349ffb60a9edd403d4	refs/heads/main
+2505fe3d56599d099cbcaac185ca9a63a0bc4482	refs/heads/overhaul/showreel
+e3468a9c969343c80192d829302ac3449945b162	refs/heads/resources/bca-complete
+```
+
+## Which PDF tool does the existing pipeline use?
+
+Inspected `notes/pipeline/` and `NOTES_HANDOFF.md`: **Markdown → `md2html.py` → WeasyPrint (`build_pdf.py`, `theme.css`) with matplotlib rendering maths (`mathsvg.py`) and figures (`figrun.py`)**, fonts Poppins / Inter / Source Serif 4 / Noto Sans Devanagari / JetBrains Mono. No pandoc, LaTeX, Typst or wkhtmltopdf is involved. Built PDFs are committed as ordinary files (no `.gitattributes`, no git-lfs: `git lfs version` → `git: 'lfs' is not a git command`), so BCA/IOE PDFs follow the same choice.
+
+## Installed this session (apt + pip + rustup + fonts), with resulting versions
+
+```
+$ git --version
+git version 2.39.5
+$ rustc --version
+rustc 1.99.1 (58cf8f9c3 2026-10-13)
+$ cargo --version
+cargo 1.99.1 (5f94df478 2026-08-27)
+$ node --version
+v22.23.4
+$ npm --version
+10.9.9
+$ python3 --version
+Python 3.11.2
+$ pandoc --version
+pandoc 2.17.1.1
+$ pdftoppm -v
+pdftoppm version 22.12.0
+$ python -c "import weasyprint, matplotlib, markdown, fitz, pypdf"
+weasyprint 70.0 | matplotlib 3.11.2
+$ which pandoc weasyprint pdftoppm fc-list
+/usr/bin/pandoc
+/home/user/venv/bin/weasyprint
+/usr/bin/pdftoppm
+/usr/bin/fc-list
+$ fc-list : family | grep -iE "poppins|inter|source serif|devanagari|jetbrains" | sort -u
+Inter
+JetBrains Mono
+Noto Sans Devanagari
+Poppins
+Poppins,Poppins Light
+Poppins,Poppins SemiBold
+Source Serif 4
+$ which wkhtmltopdf pdflatex typst   # still absent, and not needed
+exit=1
+```
+
+
+---
+
+# Appendix — ENV.md as it existed on `main` (desktop-app session)
+
+Kept verbatim from `origin/main` when the branches were merged; it documents the Rust/mingw probes for the `desktop/` app, not the BCA/IOE work above.
+
 # ENV.md — real environment probes
 
 Every block below is the verbatim output of the command shown, captured by the agent in this sandbox on 2026-11-02 11:12 UTC. The GitHub token is redacted (`$GHP`).
@@ -187,3 +299,73 @@ The agent file tool is rooted at the sandbox project dir, not at the clone. Clon
 `ln -sfn /tmp/NEB <tool-root>/neb` and edit files as `neb/desktop/...`. Screenshots: `ln -sfn /tmp/shots <tool-root>/shots`.
 The PAT is only ever read from an out-of-repo env file through a `GIT_ASKPASS` helper (`/tmp/gitenv.sh`); it is never written into the repo.
 Tools installed this session: rustup (minimal), gcc-mingw-w64-x86-64, xvfb, imagemagick, wine.
+## Probe — BCA course session (this session)
+
+Fresh sandbox again; the repo is private so unauthenticated access fails exactly as before; authenticated clone (token only in the clone URL, never in git config) works.
+
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote https://github.com/NikitHamal/NEB.git        # anonymous
+fatal: could not read Username for 'https://github.com': No such device or address
+$ git ls-remote <authenticated url>  | grep bca-entrance-complete
+42abf217b84a0da68d92a6e61ca787b36eded246	refs/heads/claude/bca-entrance-complete
+$ python3 --version
+Python 3.11.2
+$ python3 -c "import weasyprint; print(weasyprint.__version__)"   # before install
+ModuleNotFoundError: No module named 'weasyprint'
+$ which pandoc pdftoppm ; rustc --version                      # before install
+(nothing) ; rustc: command not found
+$ node --version
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200
+```
+
+Installed this session: `apt-get install pandoc poppler-utils libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown matplotlib pyyaml pymupdf`. After install: weasyprint 70.0, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`. Rust is not needed by the pipeline.
+
+## Probe — BCA course session 3 (remaining subjects, Semester II onward)
+
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote <authenticated url> claude/bca-entrance-complete
+fcb441d42559f740f5a5ec7dfd21efce8f441d0e	refs/heads/claude/bca-entrance-complete   (confirmed tip)
+$ python3 --version
+Python 3.11.2
+$ python3 -c "import weasyprint; print(weasyprint.__version__)"   # before install
+ModuleNotFoundError: No module named 'weasyprint'
+$ which pandoc pdftoppm ; rustc --version                         # before install
+(nothing) ; /bin/bash: rustc: command not found
+$ node --version
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200
+```
+Fixes this session: `apt-get install pandoc poppler-utils gcc default-jdk-headless libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown pyyaml matplotlib pymupdf sympy numpy uv`; fonts via `notes/pipeline/fonts/install.sh`; **Python 3.12** (the pipeline needs it) via `uv python install 3.12 && uv venv --python 3.12 /tmp/venv && uv pip install --python /tmp/venv/bin/python weasyprint markdown pyyaml matplotlib pymupdf sympy numpy pillow`. After that: weasyprint 70.0 on Python 3.12.16, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`, gcc, javac 17. Rust is not needed. Test build of Mathematics II: 23 pages, 0 math/figure failures.
+
+## Session 5 baseline (Semester III start)
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote origin claude/bca-entrance-complete   (credentials via GIT_ASKPASS env helper, not stored)
+eefb48c83c6a8c163523c0cab58f1bd25995ecef	refs/heads/claude/bca-entrance-complete
+$ python3 --version; python3 -c "import weasyprint; print(weasyprint.__version__)"
+Python 3.11.2
+70.0
+$ /tmp/venv/bin/python --version  (Python 3.12 venv used for the pipeline)
+Python 3.12.16
+70.0
+$ which pandoc pdftoppm; node --version
+/usr/bin/pandoc
+/usr/bin/pdftoppm
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200 
+```
+Fresh sandbox: nothing was installed at session start (python3 -c weasyprint -> ModuleNotFoundError; pandoc/pdftoppm absent). Installed: apt pandoc poppler-utils gcc default-jdk-headless libpango libharfbuzz; pip weasyprint markdown pyyaml pymupdf matplotlib sympy numpy uv; Python 3.12 venv via uv; fonts via notes/pipeline/fonts/install.sh. The repo is private-or-auth-gated for clone: an unauthenticated clone failed ('could not read Username'), so a GIT_ASKPASS helper in /tmp reads the PAT from an env var; the PAT is in no repo file and not in .git/config. Test build of Hardware Workshop: 24 pages, 0 failures (test PDF reverted).
+
+Session 5 additions: `pip install --break-system-packages scipy numpy` (statistics checks); `apt install libxml2-utils` (xmllint); `npm i jquery@3 jsdom` in /tmp/jsd (jQuery checks); PostgreSQL 15 on 127.0.0.1:5432 was already running (used by `fill_sql_outputs.py`).
