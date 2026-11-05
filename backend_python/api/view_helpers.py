@@ -175,6 +175,19 @@ def _validate_text_length(value, max_length, field_name):
         return Response({'error': f'{field_name} must be {max_length} characters or fewer'}, status=400)
     return None
 
+def _overlong_field_error(model, values):
+    for name, value in values.items():
+        if not value:
+            continue
+        limit = model._meta.get_field(name).max_length
+        if limit and len(str(value)) > limit:
+            label = name.replace('_', ' ').capitalize()
+            return Response({
+                'error': f'{label} must be {limit} characters or fewer',
+                'field': name,
+            }, status=400)
+    return None
+
 def _validate_password_strength(password):
     try:
         validate_password(password)

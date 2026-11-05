@@ -85,7 +85,7 @@ class User(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT, db_index=True)
     dob = models.CharField(max_length=20, default='')
     gender = models.CharField(max_length=20, blank=True, null=True)
-    class_level = models.CharField(max_length=10, blank=True, null=True, db_column='class')
+    class_level = models.CharField(max_length=20, blank=True, null=True, db_column='class')
     subjects = models.TextField(blank=True, null=True)  # comma-separated
     teaching_subjects = models.TextField(blank=True, default='')  # teacher-specific: comma-separated
     institution_type = models.CharField(max_length=30, blank=True, default='')  # school/college/academy/other
