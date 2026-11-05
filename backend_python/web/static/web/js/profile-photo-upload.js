@@ -33,7 +33,8 @@
 
   function closePhotoModal() {
     var modal = document.getElementById('photoHistoryModal');
-    if (modal) modal.classList.remove('active');
+    if (!modal) return;
+    if (window.NebUI) window.NebUI.close(modal); else modal.hidden = true;
   }
 
   function openNativePicker(input) {
