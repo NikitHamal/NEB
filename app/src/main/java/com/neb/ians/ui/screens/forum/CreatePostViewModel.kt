@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -122,6 +123,16 @@ class CreatePostViewModel @Inject constructor(
     val userName: StateFlow<String> = authRepository.currentUserNameFlow
     val userPhotoUrl: StateFlow<String?> =
         authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    /** `@handle` shown under the name in the identity menu. */
+    val userHandle: StateFlow<String> =
+        authRepository.currentUsernameHandleFlow.stateIn(viewModelScope, SharingStarted.Eagerly, "")
+
+    /** The anonymous mask this account posts under, same hash the server uses. */
+    val anonTag: StateFlow<String> =
+        authRepository.currentUserIdFlow
+            .map { com.neb.ians.ui.components.anonTagFor(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
 
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null

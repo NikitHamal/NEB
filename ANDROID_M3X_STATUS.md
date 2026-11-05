@@ -58,3 +58,11 @@ Canvas is replaced by **Notes** with on-device dictation (Whistle) and read alou
 ## Build
 
 JDK 17 and the Android SDK are installed per session (see `ANDROID_UI_CONTINUITY.md` section 8). Compile both variants, one after the other. On a 4 GB box the Kotlin daemon dies when both run in parallel: use `--no-parallel -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx2800m"`.
+
+## Session 5 (CI-verified only; nothing is built locally)
+
+Brief: the app still read bluish next to the web forum; the composer needed a dropdown identity switcher and the web's own icons; revamp every screen in that direction.
+
+- Web icon set: `tools/design/svg_to_vector.py` turns the web composer's inline SVGs into `res/drawable/ic_neb_*.xml` (24 grid, 2px round stroke). `ui/components/NebIcon.kt` (`NebIcons`, `NebIcon`) is the only way to draw them; the markdown toolbar, composer header, footer and poll builder use them.
+- Identity: `NebIdentityPicker` is the web dropdown (Post anonymously as `Anon#xxxx` / Post as yourself, tick on the active row). `anonTagFor` repeats the server hash. Replaces the old choice sheet. The same picker is reused by the home launcher.
+- Composer chrome moved to `CreatePostChrome.kt` (header, format row with picture-in-text, footer with the counter at its end).
