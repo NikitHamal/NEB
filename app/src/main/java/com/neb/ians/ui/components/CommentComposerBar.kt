@@ -1,5 +1,15 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
+import com.neb.ians.ui.theme.nebEffectsSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -28,8 +38,6 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -77,24 +85,13 @@ fun NebCommentComposerBar(
         voiceNote = voiceNote,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
-        OutlinedTextField(
+        ComposerInput(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
-            placeholder = { Text(placeholder, style = MaterialTheme.typography.bodyMedium) },
+            placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier),
-            maxLines = 4,
-            textStyle = MaterialTheme.typography.bodyMedium,
-            shape = RoundedCornerShape(24.dp),
-            colors = NebCommentTextFieldColors(),
-            leadingIcon = if (leadingContent != null) {
-                {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) { leadingContent() }
-                }
-            } else null
+            leadingContent = leadingContent
         )
     }
 }
@@ -128,25 +125,14 @@ fun NebCommentComposerBar(
         voiceNote = voiceNote,
         extraContent = extraContent
     ) { fieldModifier: Modifier ->
-        OutlinedTextField(
+        ComposerInput(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
-            placeholder = { Text(placeholder, style = MaterialTheme.typography.bodyMedium) },
+            placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier),
-            maxLines = 4,
-            textStyle = MaterialTheme.typography.bodyMedium,
-            shape = RoundedCornerShape(24.dp),
-            colors = NebCommentTextFieldColors(),
             visualTransformation = visualTransformation,
-            leadingIcon = if (leadingContent != null) {
-                {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Start
-                    ) { leadingContent() }
-                }
-            } else null
+            leadingContent = leadingContent
         )
     }
 }
@@ -170,60 +156,73 @@ private fun NebCommentComposerBarFrame(
     // attachment — canSend already accounts for those at call sites).
     val showMic = !recording && !active && !posting && voiceNote != null && enabled
 
+    var focused by remember { mutableStateOf(false) }
+    val scheme = MaterialTheme.colorScheme
+    val stroke by animateColorAsState(
+        targetValue = when {
+            recording -> scheme.error.copy(alpha = 0.55f)
+            focused -> scheme.primary
+            else -> scheme.outlineVariant
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "composerStroke"
+    )
+    val shape = RoundedCornerShape(26.dp)
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
-        color = MaterialTheme.colorScheme.surfaceContainerLowest
+        color = scheme.surface
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
                 .navigationBarsPadding()
                 .imePadding()
         ) {
             extraContent()
 
+            // One container, as on the web: the stroke turns primary while anything inside
+            // it has focus, and the send button lives inside the same outline.
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .defaultMinSize(minHeight = 52.dp)
+                    .clip(shape)
+                    .background(scheme.surfaceContainerLowest)
+                    .border(1.dp, stroke, shape)
+                    .padding(start = 4.dp, end = 6.dp, top = 6.dp, bottom = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
                 if (recording && voiceNote != null) {
-                    // Live recording strip — same stroke as the text field.
                     VoiceRecordingStrip(
                         recorder = voiceNote,
                         modifier = Modifier
                             .weight(1f)
-                            .defaultMinSize(minHeight = 56.dp)
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.error.copy(alpha = 0.55f),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .background(
-                                color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.18f),
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .padding(horizontal = 14.dp, vertical = 8.dp)
+                            .padding(horizontal = 10.dp, vertical = 2.dp)
                     )
                 } else {
-                    textField(Modifier.weight(1f))
+                    textField(
+                        Modifier
+                            .weight(1f)
+                            .onFocusChanged { focused = it.hasFocus }
+                    )
                 }
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(6.dp))
 
-                val trailingActive = when {
-                    recording -> true       // finish = stop button
-                    active -> true          // send
-                    showMic -> true         // start recording
-                    else -> false
-                }
-                val trailingColor = when {
-                    recording -> MaterialTheme.colorScheme.error
-                    active || showMic -> MaterialTheme.colorScheme.primary
-                    else -> MaterialTheme.colorScheme.surfaceVariant
-                }
+                val trailingActive = recording || active || showMic
+                val trailingColor by animateColorAsState(
+                    targetValue = when {
+                        recording -> scheme.error
+                        active || showMic -> scheme.primary
+                        else -> scheme.surfaceContainerHigh
+                    },
+                    animationSpec = nebEffectsSpec(),
+                    label = "sendFill"
+                )
                 IconButton(
                     onClick = {
                         when {
@@ -234,26 +233,26 @@ private fun NebCommentComposerBarFrame(
                     },
                     enabled = trailingActive,
                     modifier = Modifier
-                        .size(48.dp)
+                        .size(40.dp)
                         .background(color = trailingColor, shape = CircleShape)
                 ) {
                     when {
-                        posting -> NebLoader(size = NebLoaderSize.Inline, color = MaterialTheme.colorScheme.onPrimary)
+                        posting -> NebLoader(size = NebLoaderSize.Inline, color = scheme.onPrimary)
                         recording -> Icon(
                             imageVector = Icons.Filled.Check,
                             contentDescription = "Finish recording",
-                            tint = MaterialTheme.colorScheme.onError
+                            tint = scheme.onError
                         )
                         showMic -> Icon(
                             imageVector = Icons.Filled.Mic,
                             contentDescription = "Record a voice note",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = scheme.onPrimary
                         )
                         else -> Icon(
                             imageVector = sendIcon,
                             contentDescription = sendContentDescription,
-                            tint = if (active) MaterialTheme.colorScheme.onPrimary
-                            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                            tint = if (active) scheme.onPrimary
+                            else scheme.onSurface.copy(alpha = 0.38f)
                         )
                     }
                 }
@@ -262,15 +261,78 @@ private fun NebCommentComposerBarFrame(
     }
 }
 
+/** The borderless input inside the composer container: leading tools, then the text. */
 @Composable
-private fun NebCommentTextFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-    disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-    focusedBorderColor = MaterialTheme.colorScheme.primary,
-    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-    disabledBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.55f)
-)
+private fun ComposerInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean,
+    placeholder: String,
+    modifier: Modifier,
+    leadingContent: (@Composable RowScope.() -> Unit)?
+) {
+    val scheme = MaterialTheme.colorScheme
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        enabled = enabled,
+        maxLines = 5,
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
+        cursorBrush = SolidColor(scheme.primary),
+        modifier = modifier,
+        decorationBox = { inner -> ComposerInputRow(value.isEmpty(), placeholder, leadingContent, inner) }
+    )
+}
+
+@Composable
+private fun ComposerInput(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    enabled: Boolean,
+    placeholder: String,
+    modifier: Modifier,
+    visualTransformation: VisualTransformation,
+    leadingContent: (@Composable RowScope.() -> Unit)?
+) {
+    val scheme = MaterialTheme.colorScheme
+    BasicTextField(
+        value = value,
+        onValueChange = onValueChange,
+        enabled = enabled,
+        maxLines = 5,
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
+        cursorBrush = SolidColor(scheme.primary),
+        visualTransformation = visualTransformation,
+        modifier = modifier,
+        decorationBox = { inner -> ComposerInputRow(value.text.isEmpty(), placeholder, leadingContent, inner) }
+    )
+}
+
+@Composable
+private fun ComposerInputRow(
+    empty: Boolean,
+    placeholder: String,
+    leadingContent: (@Composable RowScope.() -> Unit)?,
+    inner: @Composable () -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        if (leadingContent != null) leadingContent()
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = if (leadingContent != null) 4.dp else 12.dp, vertical = 8.dp)
+        ) {
+            if (empty) {
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            inner()
+        }
+    }
+}
 
 /** Round "+" attach button for the leading slot of [NebCommentComposerBar] (inside the stroke). */
 @Composable
@@ -308,12 +370,8 @@ fun ComposerAnonymousButton(
             modifier = Modifier
                 .size(30.dp)
                 .background(
-                    if (isAnonymous) MaterialTheme.colorScheme.primary else Color.Transparent,
-                    CircleShape
-                )
-                .border(
-                    1.dp,
-                    if (isAnonymous) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
+                    if (isAnonymous) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.surfaceContainer,
                     CircleShape
                 ),
             contentAlignment = Alignment.Center
