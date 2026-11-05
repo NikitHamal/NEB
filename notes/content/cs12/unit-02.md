@@ -839,6 +839,34 @@ addresses, has no broadcast (it uses multicast instead), and needs no NAT.
 Adoption has been slow but steady: traffic to Google from IPv6 users passed
 **50% for the first time in March 2026**, up from roughly 43% at the start of 2025.
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="A switch connects hosts of one network, and subnetting decides how an address block is shared among them. (a) The ports at the back of a small Ethernet switch. (b) The Python ipaddress module splits 192.168.10.0/24 into 4 subnets by borrowing 2 bits for the network part, giving the mask 255.255.255.192 and a block size of 64. Each subnet has 2^6 - 2 = 62 usable host addresses, since the first is the network address and the last is the broadcast address. Together they give 248 hosts rather than 254, so subnetting costs a few addresses but keeps the computer lab, the office and the Wi-Fi separate."
+@ photo id="cs12/switch" cap="The rear of a five-port Ethernet switch: each RJ45 jack joins one host"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Splitting 192.168.10.0/24 into four subnets"
+import ipaddress
+net = ipaddress.ip_network("192.168.10.0/24")
+subs = list(net.subnets(new_prefix=26))
+assert len(subs) == 4 and all(s.num_addresses - 2 == 62 for s in subs)
+f = Fig(300, 236)
+f.text(150, 14, "192.168.10.0/24 -> four /26 subnets", size=10.5, color=NAVY, bold=True)
+f.text(8, 38, "network", size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(112, 38, "usable hosts", size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(226, 38, "broadcast", size=9.5, color=SLATE, bold=True, anchor="start")
+cols = [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)]
+for i, s in enumerate(subs):
+    y = 48 + i * 34
+    h = list(s.hosts())
+    fl, st = cols[i]
+    f.box(4, y, 292, 28, fill=fl, stroke=st, r=4)
+    f.text(10, y + 14, str(s), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(112, y + 14, ".%d - .%d" % (int(str(h[0]).split(".")[-1]), int(str(h[-1]).split(".")[-1])), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(226, y + 14, str(s.broadcast_address).replace("192.168.10", ""), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "mask %s, block size 64" % subs[0].netmask, size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "hosts per subnet = 2^6 - 2 = %d" % (subs[0].num_addresses - 2), size=10.5, color=SLATE, bold=True)
+facts = dict(m=str(subs[0].netmask), h=subs[0].num_addresses - 2, s=len(subs), tot=sum(s.num_addresses - 2 for s in subs))
+```
+
 ## Chapter summary
 
 - The five elements of data communication are message, sender, receiver,

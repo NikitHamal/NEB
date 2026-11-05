@@ -778,6 +778,29 @@ allows feedback only to the phase **immediately** above, and even that is
 expensive.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Software processes exist because large builds need estimates before the first line is written, just as scaffolding needs a plan before the first brick. (a) Scaffolding on a building site. (b) The basic COCOMO model estimates effort as E = a x KLOC^b. For a 32 KLOC organic project, such as a college management system, E is 91.3 person-months, the schedule is 13.9 months and the team is about 6.6 people. The same size in semi-detached mode needs 146 person-months and in embedded mode 230, because tight hardware limits raise the exponent. Estimates like these decide which process model, and how much risk, a team can afford."
+@ photo id="cs12/scaffold" cap="Scaffolding on a building site: a project needs a plan before the work"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Basic COCOMO for a 32 KLOC project"
+K = 32.0
+modes = {"Organic": (2.4, 1.05, 0.38), "Semi-detached": (3.0, 1.12, 0.35), "Embedded": (3.6, 1.20, 0.32)}
+res = {}
+for n, (a, b, d) in modes.items():
+    E = a * K ** b; T = 2.5 * E ** d
+    res[n] = (E, T, E / T)
+assert round(res["Organic"][0], 1) == 91.3 and res["Embedded"][0] > res["Semi-detached"][0] > res["Organic"][0]
+f = Fig(300, 236)
+f.text(150, 14, "Effort E = a (KLOC)^b, person-months", size=10.5, color=NAVY, bold=True)
+hbars(f, [(n.replace("Semi-detached", "Semi-det."), v[0]) for n, v in res.items()], vmax=250, fmt="%.0f PM", x0=76, y0=34, bw=150, gap=28,
+      colors=[(MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+for i, (n, v) in enumerate(res.items()):
+    f.text(8, 134 + i * 20, "%s: T = %.1f mo, staff = %.1f" % (n[:8], v[1], v[2]), size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(150, 208, "T = 2.5 E^d,  staff = E / T", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "bigger b means effort grows faster than size", size=10, color=SLATE, bold=True)
+facts = dict(eo=res["Organic"][0], to=res["Organic"][1], so=res["Organic"][2], ee=res["Embedded"][0], es=res["Semi-detached"][0])
+```
+
 ## Chapter summary
 
 - A software project is a temporary, planned effort constrained by scope, time,

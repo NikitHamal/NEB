@@ -700,6 +700,27 @@ factorials. Always cancel first: with $^{n}C_{r}$, use the smaller of $r$ and
 $n-r$, so compute $^{50}C_{48}$ as $^{50}C_{2} = 1225$.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A combination lock is really a permutation lock, because turning the dials in a different order gives a different code. (a) A brass case lock with three dials. (b) The program lists every three-digit code by computer. When digits may repeat the product rule gives 10 x 10 x 10 = 1000 codes. When no digit may repeat, 10P3 = 10 x 9 x 8 = 720 codes. If only the set of three digits mattered, 10C3 = 120 selections would exist, and each set can be arranged in 3! = 6 ways, so 720 / 120 = 6. Choosing the right formula depends on two questions: may items repeat, and does order matter?"
+@ photo id="math12/lock" cap="A three-dial brass combination lock"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Counting three-digit lock codes"
+import itertools
+a = len(list(itertools.product(range(10), repeat=3)))
+b = len(list(itertools.permutations(range(10), 3)))
+c = len(list(itertools.combinations(range(10), 3)))
+assert (a, b, c) == (1000, 720, 120) and b == math.perm(10, 3) and c == math.comb(10, 3)
+f = Fig(300, 236)
+f.text(150, 14, "Codes from the digits 0 to 9", size=10.5, color=NAVY, bold=True)
+hbars(f, [("10^3 repeats", a), ("10P3 ordered", b), ("10C3 a set", c)], vmax=1000, fmt="%d", x0=96, y0=34, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 150, "n^r = 1000   nPr = 720   nCr = 120", size=10.5, color=NAVY, bold=True)
+f.text(150, 172, "720 / 120 = %d = 3! orders for each set" % (b // c), size=10.5, color=SLATE, bold=True)
+f.text(150, 194, "the dial order matters, so a lock", size=10, color=SLATE, bold=True)
+f.text(150, 210, "uses the first row, not the third", size=10, color=SLATE, bold=True)
+facts = dict(a=a, b=b, c=c, k=b // c)
+```
+
 ## Chapter summary
 
 - Multiplication principle (AND): multiply the counts. Addition principle (OR):

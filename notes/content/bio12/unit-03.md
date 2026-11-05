@@ -1757,6 +1757,40 @@ number of **individual chromosomes** (2n + 1, 2n − 1). Down's syndrome is
 aneuploidy, not polyploidy; bread wheat is polyploidy, not aneuploidy.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Mendel crossed pea plants that differed in two traits, and the Punnett square lists all the gametes they can form. (a) Pea pods on a garden plant. (b) Each RrYy parent makes four gametes, RY, Ry, rY and ry, so a 4 x 4 square has 16 equally likely zygotes. The program classifies each of them and finds 9 round yellow, 3 round green, 3 wrinkled yellow and 1 wrinkled green, the 9:3:3:1 ratio of the law of independent assortment. Round yellow seeds make up 56.2% of the offspring. The ratio holds only when the two genes lie on different chromosomes or far apart on one chromosome."
+@ photo id="bio12/peas" cap="Garden pea pods: Mendel's experimental plant (Pisum sativum)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Dihybrid cross RrYy x RrYy"
+import itertools
+gam = ["RY", "Ry", "rY", "ry"]
+def pheno(g):
+    return ("R" if "R" in g else "r") + ("Y" if "Y" in g else "y")
+cnt = {}
+f = Fig(300, 236)
+f.text(150, 14, "Round (R) / wrinkled, yellow (Y) / green", size=10, color=NAVY, bold=True)
+colr = {"RY": (SAND, AMBER), "Ry": (MINT, TEAL), "rY": (ROSE, RED), "ry": (BLUE, NAVY)}
+for i, g1 in enumerate(gam):
+    f.text(66 + i * 40, 42, g1, size=10, color=SLATE, bold=True)
+    f.text(30, 66 + i * 32, g1, size=10, color=SLATE, bold=True)
+for i, g1 in enumerate(gam):
+    for j, g2 in enumerate(gam):
+        g = "".join(sorted(g1[0] + g2[0], key=lambda c: (c.lower(), c.islower()))) + "".join(sorted(g1[1] + g2[1], key=lambda c: (c.lower(), c.islower())))
+        ph = pheno(g); cnt[ph] = cnt.get(ph, 0) + 1
+        fl, st = colr[ph]
+        f.box(46 + j * 40, 50 + i * 32, 38, 30, g, fill=fl, stroke=st, size=9, bold=True, r=3)
+assert cnt == {"RY": 9, "Ry": 3, "rY": 3, "ry": 1}
+names = [("RY", "round yellow"), ("Ry", "round green"), ("rY", "wrinkled yellow"), ("ry", "wrinkled green")]
+for k, (key, nm) in enumerate(names):
+    fl, st = colr[key]
+    f.box(214, 62 + k * 30, 16, 16, fill=fl, stroke=st, r=2)
+    f.text(236, 70 + k * 30, "%d %s" % (cnt[key], nm.split()[0]), size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(236, 82 + k * 30, nm.split()[1], size=9, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "phenotype ratio %d : %d : %d : %d" % (cnt["RY"], cnt["Ry"], cnt["rY"], cnt["ry"]), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "16 equally likely zygotes", size=10, color=SLATE, bold=True)
+facts = dict(a=cnt["RY"], b=cnt["Ry"], c=cnt["rY"], d=cnt["ry"], fr=cnt["RY"] / 16.0 * 100)
+```
+
 ## Chapter summary
 
 - **DNA is the genetic material** — Griffith's transformation, Avery's enzyme

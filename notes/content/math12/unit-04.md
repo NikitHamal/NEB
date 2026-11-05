@@ -656,6 +656,35 @@ above is wrong by a factor of $\log_{10} e = 0.4343$ if you read it as a base-10
 logarithm.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="A nautilus adds chambers that are each larger than the last by nearly the same factor, giving a growth pattern like a geometric series. (a) A cutaway shell. (b) The ratios 1/1, 2/1, 3/2, 5/3 and so on, computed from the Fibonacci sequence, swing above and below 1.618 and then settle. By the eleventh term the ratio is 89/55 = 1.6182, only 0.0001 from the golden ratio (1 + sqrt 5)/2 = 1.6180. A Fibonacci sequence is not geometric, but its terms behave geometrically for large n, which is why the same ratio keeps appearing in spirals, leaves and seed heads."
+@ photo id="math12/nautilus" cap="A sectioned nautilus shell, whose chambers grow in a near-constant ratio"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Fibonacci ratios settle at 1.618"
+F = [1, 1]
+while len(F) < 12:
+    F.append(F[-1] + F[-2])
+ratios = [F[i + 1] / F[i] for i in range(10)]
+phi = (1 + 5 ** 0.5) / 2
+assert F[10] == 89 and F[9] == 55 and abs(ratios[-1] - phi) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "Ratio of consecutive Fibonacci terms", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 11), (0.9, 2.1))
+ax.grid(2, 0.2, size=9, yfmt=lambda v: "%.1f" % v)
+ax.axes("n", "")
+ax.hline(phi, color=AMBER)
+prev = None
+for i, rt in enumerate(ratios):
+    p = (ax.X(i + 1), ax.Y(rt))
+    if prev: f.line(prev[0], prev[1], p[0], p[1], color=NAVY, sw=1.6)
+    prev = p
+    ax.pt(i + 1, rt, r=3, color=NAVY)
+f.text(284, ax.Y(phi) - 6, "1.618", size=10, color=AMBER, bold=True, anchor="end")
+f.text(150, 208, "F11 / F10 = 89 / 55 = %.4f" % ratios[-1], size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "limit = (1 + sqrt5) / 2 = %.4f" % phi, size=10.5, color=AMBER, bold=True)
+facts = dict(r=ratios[-1], phi=phi, e=abs(ratios[-1] - phi))
+```
+
 ## Chapter summary
 
 - $\sum_{k=1}^{n} k = \dfrac{n(n+1)}{2}$,

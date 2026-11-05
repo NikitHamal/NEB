@@ -1035,6 +1035,30 @@ $$ T = \frac{\ln 2}{\lambda} = \frac{10\ln 2}{\ln 1.25}
 \approx \frac{6.931}{0.2231} \approx 31.1\text{ days} $$
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.27" caption="Newton's law says the rate of cooling is proportional to the temperature difference, giving the separable equation dT/dt = -k(T - Ts). (a) A cup of hot tea. (b) Starting at 90 degrees in a 25-degree room, a reading of 60 degrees after 10 minutes gives k = 0.0619 per minute. The solution T = 25 + 65e^(-kt) then predicts that tea reaches a drinkable 40 degrees after 23.7 minutes. The excess over the room halves every 11.2 minutes, and the curve flattens toward the dashed 25-degree line without ever crossing it. The same equation describes a hot water bottle in a Dolakha winter."
+@ photo id="math12/cup" cap="A hot cup of tea: its temperature falls in proportion to the excess over the room"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Newton's law of cooling, a first-order equation"
+T0, Ts = 90.0, 25.0
+k = math.log((T0 - Ts) / (60 - Ts)) / 10
+T = lambda t: Ts + (T0 - Ts) * math.exp(-k * t)
+t40 = math.log((T0 - Ts) / (40 - Ts)) / k
+assert abs(T(10) - 60) < 1e-9 and abs(T(t40) - 40) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "dT/dt = -k (T - 25), T(0) = 90", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 40), (20, 100))
+ax.grid(10, 20, size=9)
+ax.axes("t (min)", "T")
+ax.hline(Ts, color=TEAL)
+ax.curve(T, 0, 40, color=NAVY, sw=2.4)
+ax.pt(10, 60, "60 at 10 min", dx=8, dy=-8, color=RED)
+ax.pt(t40, 40, "40 at %.1f min" % t40, dx=-8, dy=-10, color=AMBER, anchor="end")
+f.text(150, 208, "T = 25 + 65 e^(-kt), k = %.4f per min" % k, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "half the excess is lost every %.1f min" % (math.log(2) / k), size=10, color=SLATE, bold=True)
+facts = dict(k=k, t40=t40, half=math.log(2) / k)
+```
+
 ## Chapter summary
 
 - A **differential equation** relates $y$ to its derivatives. Its **order** is

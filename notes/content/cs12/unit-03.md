@@ -1234,6 +1234,31 @@ only after submission, a **prepared statement** rather than string pasting, and
 the `while` loop that turns each fetched row into a `<tr>`.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="A web server must never store passwords as plain text, so it stores a hash computed by a one-way function. (a) A Raspberry Pi 4, small enough to host a practice site. (b) The two inputs nebians1 and nebians2 differ in one character, yet their 256-bit SHA-256 hashes differ in 117 bits, or 45.7% of the grid, shown in red. This is the avalanche effect, so a hash gives no clue about how near a guess is to the real password. Login code hashes what the user types and compares the two digests. Real sites also add a random salt so that two users with the same password do not share a hash."
+@ photo id="cs12/raspi" cap="A Raspberry Pi 4 running as a small home web server"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Why a stored password is a hash, not text"
+import hashlib
+h1 = hashlib.sha256(b"nebians1").digest(); h2 = hashlib.sha256(b"nebians2").digest()
+bits = lambda b: bin(int.from_bytes(b, "big"))[2:].zfill(256)
+b1, b2 = bits(h1), bits(h2)
+diff = sum(x != y for x, y in zip(b1, b2))
+assert len(h1) == 32 and 90 < diff < 166
+f = Fig(300, 236)
+f.text(150, 14, "SHA-256 of nebians1 and nebians2", size=10.5, color=NAVY, bold=True)
+f.text(150, 32, hashlib.sha256(b"nebians1").hexdigest()[:24] + "...", size=9, color=SLATE, bold=True)
+f.text(150, 46, hashlib.sha256(b"nebians2").hexdigest()[:24] + "...", size=9, color=SLATE, bold=True)
+cell = 8.5
+for i in range(256):
+    r, c = divmod(i, 16)
+    d = b1[i] != b2[i]
+    f.raw('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"/>' % (82 + c * cell, 56 + r * cell, cell - 1, cell - 1, RED if d else "#e2e8f0"))
+f.text(150, 208, "%d of 256 bits changed (%.1f%%)" % (diff, diff / 2.56), size=10.5, color=RED, bold=True)
+f.text(150, 224, "one character in, a new hash out", size=10, color=SLATE, bold=True)
+facts = dict(d=diff, pc=diff / 2.56)
+```
+
 ## Chapter summary
 
 - **Client-side** scripts (JavaScript) run in the browser — fast, visible to the

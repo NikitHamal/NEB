@@ -818,6 +818,29 @@ English.
 *Check:* $b_{yx}b_{xy} = 0.48 \times 0.9075 = 0.4356 = (0.66)^{2}$. Correct.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Whenever two measurements are taken on the same person, correlation asks whether they move together. (a) A balance used to measure the weight half of the pair. (b) The heights and weights of eight students are plotted and the correlation coefficient is computed from the sums of products, giving r = 0.996, a very strong positive relation. The regression line of y on x is y = 0.860 x - -81.78 and passes through the means (165.50, 60.62). For a student 170 cm tall it predicts 64.5 kg. A high r supports prediction inside the data range, but it does not prove that one variable causes the other."
+@ photo id="math12/scale" cap="Brass balance scales, a classic instrument for paired measurements"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Height and weight of eight students"
+x = [150, 155, 160, 163, 168, 172, 176, 180]; y = [48, 52, 55, 58, 63, 65, 70, 74]
+n = len(x); mx = sum(x) / n; my = sum(y) / n
+sxy = sum((a - mx) * (b - my) for a, b in zip(x, y)); sxx = sum((a - mx) ** 2 for a in x); syy = sum((b - my) ** 2 for b in y)
+r = sxy / math.sqrt(sxx * syy); byx = sxy / sxx; a0 = my - byx * mx
+assert 0.98 < r < 1.0
+f = Fig(300, 236)
+f.text(150, 14, "Height x (cm) and weight y (kg)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (145, 185), (40, 80))
+ax.grid(10, 10, size=9)
+ax.axes("x", "y")
+ax.curve(lambda t: a0 + byx * t, 145, 185, color=RED, sw=2)
+for a, b in zip(x, y):
+    ax.pt(a, b, r=3.6, color=NAVY)
+f.text(150, 208, "r = %.3f   y = %.3f x - %.2f" % (r, byx, -a0), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "x mean = %.2f, y mean = %.2f" % (mx, my), size=10, color=SLATE, bold=True)
+facts = dict(r=r, b=byx, a=a0, mx=mx, my=my, y170=a0 + byx * 170)
+```
+
 ## Chapter summary
 
 - Correlation measures how two variables move together: positive, negative or

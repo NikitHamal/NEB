@@ -39,6 +39,8 @@ tube from mouth to anus, about 8–10 m long in an adult) and the **associated
 digestive glands** (salivary glands, liver with gall bladder, and pancreas),
 which lie outside the tube and pour their secretions into it through ducts.
 
+<div style="break-before:page"></div>
+
 ### The alimentary canal
 
 ```photo id="bio12/alimentary" caption="The human alimentary canal with its associated glands, anterior view. Numbers 1–11 are the mouth and pharynx region, 12–17 the glands, 18–30 the intestines." width="62"
@@ -2322,6 +2324,46 @@ $$ \frac{448}{1\,000\,000} \times 100 \approx 0.045\,\% $$
 
 Fewer than one oocyte in two thousand is ever ovulated; the rest degenerate by **atresia**. This is why a female is born with all the oocytes she will ever have, yet never runs short of them before menopause.
 :::
+
+```photogrid label="8.P" cols="2" ratio="1.27" caption="Blood pressure is written as systolic over diastolic, but the average pressure driving blood through the organs is the mean arterial pressure. (a) A sphygmomanometer cuff with a stethoscope at the elbow. (b) For 120/80 mmHg the MAP is 93.3 mmHg and the pulse pressure is 40 mmHg. A reading of 150/95 gives 113.3, and 170/105, a stage-2 hypertension level, gives 126.7. A low reading of 90/60 gives 70.0, near the lower limit. Because diastole lasts longer than systole, MAP is closer to the diastolic value, which is why one-third of the pulse pressure is added rather than half."
+@ photo id="bio12/bp" cap="Measuring blood pressure with a sphygmomanometer and a stethoscope"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mean arterial pressure for four readings"
+cases = [("120/80", 120, 80), ("150/95", 150, 95), ("170/105", 170, 105), ("90/60", 90, 60)]
+mp = [d + (s - d) / 3.0 for _, s, d in cases]
+pp = [s - d for _, s, d in cases]
+assert round(mp[0], 1) == 93.3 and pp == [40, 55, 65, 30]
+f = Fig(300, 236)
+f.text(150, 14, "MAP = diastolic + (systolic - diastolic)/3", size=10, color=NAVY, bold=True)
+hbars(f, [(c[0], m) for c, m in zip(cases, mp)], vmax=140, fmt="%.1f", x0=64, y0=34, bw=170, gap=30,
+      colors=[(MINT, TEAL), (SAND, AMBER), (ROSE, RED), (BLUE, NAVY)])
+f.text(150, 164, "pulse pressure = systolic - diastolic", size=10.5, color=SLATE, bold=True)
+f.text(150, 182, "= %d, %d, %d, %d mmHg" % tuple(pp), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "normal MAP about 70 to 100 mmHg", size=10, color=TEAL, bold=True)
+f.text(150, 220, "120/80: heart pushes, arteries recoil", size=10, color=SLATE, bold=True)
+facts = dict(m0=mp[0], m1=mp[1], m2=mp[2], m3=mp[3], p0=pp[0])
+```
+
+```photogrid label="8.Q" cols="2" ratio="1.27" caption="An ECG records the electrical activity of the heart, and the grid lets a student read the heart rate quickly. (a) An ECG tracing on graph paper. (b) Each large box is 0.2 seconds, so the rate is 300 divided by the number of large boxes between two R waves: 100 beats per minute for 3 boxes, 75 for 4, 60 for 5 and 50 for 6. Rates below 60 are called bradycardia and above 100 tachycardia. With a stroke volume of 70 mL, a heart rate of 75 gives a cardiac output of 5.25 litres per minute, close to the resting average for an adult."
+@ photo id="bio12/ecg" cap="A 12-lead electrocardiogram printed on grid paper"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heart rate from the R-R interval"
+boxes = [3, 4, 5, 6]
+hr = [300.0 / b for b in boxes]
+sv = 70.0; co = [h * sv / 1000.0 for h in hr]
+assert hr == [100.0, 75.0, 60.0, 50.0] and abs(co[1] - 5.25) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Heart rate = 300 / large boxes between R waves", size=10, color=NAVY, bold=True)
+hbars(f, [("RR = %d boxes" % b, h) for b, h in zip(boxes, hr)], vmax=120, fmt="%.0f bpm", x0=84, y0=34, bw=140, gap=30,
+      colors=[(ROSE, RED), (MINT, TEAL), (BLUE, NAVY), (SAND, AMBER)], size=9.5)
+f.text(150, 164, "one large box = 0.2 s, so 5 boxes = 1 s", size=10, color=SLATE, bold=True)
+f.text(150, 184, "cardiac output = HR x stroke volume", size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "75 x 70 mL = %.2f L per min" % co[1], size=10.5, color=TEAL, bold=True)
+f.text(150, 220, "normal resting rate: 60 to 100 bpm", size=10, color=SLATE, bold=True)
+facts = dict(h3=hr[0], h4=hr[1], h5=hr[2], h6=hr[3], co=co[1])
+```
 
 ## Chapter summary
 

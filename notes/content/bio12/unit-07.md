@@ -913,6 +913,23 @@ if the number of eggs is enormous** — exactly the opposite of the mammalian
 strategy, where one or two young get heavy protection.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="A fertilised frog egg cleaves again and again with almost no growth between divisions, so the embryo stays the same size while its cells multiply. (a) A clump of frog spawn in shallow water. (b) After 6 cleavages the embryo has 64 cells, since the number doubles each time. Because the total volume is fixed, every blastomere has only 1.56% of the zygote volume. Cleavage skips the G1 and G2 phases, so the cell cycle is short and the nucleus-to-cytoplasm ratio quickly rises toward that of a normal cell. The result is a blastula, a ball of small cells ready for gastrulation."
+@ photo id="bio12/frogspawn" cap="Frog spawn: eggs dividing without growing in size"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Cleavage: cells double, each cell shrinks"
+rows = [("zygote", 1), ("2-cell", 2), ("4-cell", 4), ("8-cell", 8), ("16-cell", 16), ("32-cell", 32), ("64-cell", 64)]
+assert [v for _, v in rows] == [2 ** i for i in range(7)]
+vol = [100.0 / v for _, v in rows]
+f = Fig(300, 236)
+f.text(150, 14, "Cells per embryo (volume stays the same)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=64, fmt="%d", x0=62, y0=30, bw=130, gap=22, colors=[(BLUE, NAVY)] * 3 + [(MINT, TEAL)] * 2 + [(SAND, AMBER)] * 2, size=9.5)
+f.text(150, 196, "volume per cell: %.0f%%, %.0f%%, ... %.2f%%" % (vol[0], vol[1], vol[-1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "cell number x cell size = constant", size=10, color=SLATE, bold=True)
+f.text(150, 228, "no growth: S and M phases only", size=10, color=TEAL, bold=True)
+facts = dict(n=rows[-1][1], v=vol[-1], k=6)
+```
+
 ## Chapter summary
 
 - Gametogenesis has three phases — multiplication (mitosis), growth, and
