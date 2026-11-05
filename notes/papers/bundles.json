@@ -34,10 +34,10 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-English-2080-2083-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-English-2079-2083-Bundle.pdf",
   "subject": "Compulsory English",
   "grade": "12",
-  "years_bs": "2080-2083",
+  "years_bs": "2079-2083",
   "papers": [
    "12-eng-2083-0041c",
    "12-eng-2082-0041c",
@@ -45,10 +45,11 @@
    "12-eng-2081-0041b",
    "12-eng-2080-0041g",
    "12-eng-2080-004",
-   "12-eng-2080-0041d"
+   "12-eng-2080-0041d",
+   "12-eng-2079-0041e"
   ],
-  "pages": 62,
-  "bytes": 812562,
+  "pages": 70,
+  "bytes": 919094,
   "category": "Board Exam Bundle"
  },
  {

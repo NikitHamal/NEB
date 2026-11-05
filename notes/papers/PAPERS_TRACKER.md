@@ -282,3 +282,10 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Reusable drawings now in the content files (copy the ```figure blocks): eye (2081 general), alimentary canal, simple epithelia, oogenesis flow chart, dicot-embryo stages (2079 Biology), galvanic cell and open-hearth furnace (2080 Chemistry, relabelled for Al/Ag in 2079).
 - Tooling note: a `read_file` placed in the same parallel block as the bash command that renders its image runs first and fails; render in one call, read in the next.
 - **Next session, in this order:** (1) Compulsory English 2079 'E' (`f0.pdf`, 2 landscape pages, the bicycle passage) and Compulsory Nepali 2079 (`f1.pdf`, 4 pages), then re-bundle English (2079-2083) and Nepali (2079-2082); (2) inspect the 2080 Mathematics 6-page scan at `https://www.nepalieducate.com/2023/05/2080class-12-board-exam-question-paper.html` for other sets; (3) 2078 papers if the 2079 page links a source; (4) Chemistry Technical 2080, Mathematics Technical 2080, Mathematics 2082 `4021` general (no source found yet); (5) Grade 11, then SEE and Grade 8 with all 7 provinces. The Grade 12 task is NOT complete: English 2079, Nepali 2079 and items 2 to 5 remain.
+
+## Session 18 notes (same branch)
+- Built and pushed **Compulsory English 2079 0041 'E'** (`content/12-eng-2079-0041e.md`, 8 pp: bicycle passage, 2 landscape pages of `f0.pdf`). Bundle is now `Compulsory-English-2079-2083` (8 papers); stale `2080-2083` bundle PDF `git rm`ed.
+- Long reading passages: extract with `tesseract` (300 dpi half-page crops, `--psm 6`) and clean by script instead of retyping; write the content file in small appends (header + Q1, Q2-Q6, Q7-Q8, then solutions in 3 chunks).
+- Misprints noted in the paper: "By 1993" (read 1893), "substantially large than". Q2(c) quotes two lines of Julia de Burgos, 'I Was My Own Route'.
+- Sandbox note: file-tool root was `/home/user/sandbox` (no `/app`); symlinks went there. Token via `/tmp/askpass.sh` (GIT_ASKPASS); the PAT was in the task text: the owner should rotate it.
+- Next: Compulsory Nepali 2079 (`f1.pdf`, 4 pp), then 2080 Mathematics 6-page scan, 2078 papers, Grade 11, SEE, Grade 8.
