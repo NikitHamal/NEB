@@ -18,6 +18,9 @@ Verify: `cd backend_python && export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x &&
 
 - Repo debris with no reader removed: flat `neby_cli/*.py` (stale older copies; the package and the `neby` entry point are `neby_cli/neby_cli/`), tracked `neby_cli.egg-info`, empty root `needle_*.mjs` (the real ones are `backend_python/benchmarks/`), root `ws_*.py` probes of the production socket (hard-coded tunnel URL), root `scratch/` outputs, `.cs12prev/` previews, `bca/.probe.txt`, and one-off debug scripts in `backend_python/scratch/` (ops scripts there stay: `deploy.ps1` is wired into the deploy workflow).
 
+- Resource catalog (`api/resource_catalog.py`), one resource-form flow for web (`web/resource_upload.py`), Study Lab JSON guard (`web/json_endpoint.py`): see their commits.
+- API resource forms: `api/resource_form.py` owns listing fields, link and cover cleaning (`InvalidInput`, `read_thumbnail`) and `discard_saved_files` for the API, the owner edit and the web forms; signed-in and anonymous upload and request create are one function each (`_create_pending_resource`, `_save_resource_request`); the 55-line sort ladder in `resources_list` is `_SORT_ORDERS`; web uses `parse_paid_fields` (the second price parser is gone). Tests: `api.test_resource_api`.
+
 ## Parallel sessions
 
 Two sessions have pushed to `main` at the same time on this task (the Turn refactor landed twice). Run `git fetch && git log HEAD..origin/main` before choosing the next item and again before every push; push small.
