@@ -545,6 +545,19 @@
     "source": "Wikimedia Commons",
     "title": "Sunkoshi Gaunpalika Ward 6 Office"
   },
+  "bca101/adslint": {
+    "author": "User Mike1024 on en.wikipedia",
+    "bytes": 1177956,
+    "credit": "Photographed by User:Mike1024",
+    "fetched": "2026-11-05",
+    "file": "bca101/adslint.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:ADSL_modem_router_internals_labeled.jpg",
+    "sha1": "f1de574178bd9622",
+    "source": "Wikimedia Commons",
+    "title": "ADSL modem router internals labeled"
+  },
   "bca101/android": {
     "author": "Pikalab",
     "bytes": 1042069,
@@ -610,6 +623,58 @@
     "source": "Wikimedia Commons",
     "title": "Elitegroup 761GX-M754 - AMIBIOS (American Megatrends) in a Winbond W39V040APZ-5491"
   },
+  "bca101/bnctee": {
+    "author": "Raimond Spekking",
+    "bytes": 404397,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/bnctee.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BNC_Tee_connector_for_10BASE2-92164.jpg",
+    "sha1": "090ad98a95e357e0",
+    "source": "Wikimedia Commons",
+    "title": "BNC Tee connector for 10BASE2-92164"
+  },
+  "bca101/bnctermin": {
+    "author": "Darkain",
+    "bytes": 242474,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/bnctermin.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:10base2_BNC_Terminator.jpg",
+    "sha1": "ec10b40ff0bbdd55",
+    "source": "Wikimedia Commons",
+    "title": "10base2 BNC Terminator"
+  },
+  "bca101/btheadset": {
+    "author": "Raimond Spekking",
+    "bytes": 282118,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/btheadset.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Bluetooth_headset_WEP-200-8934.jpg",
+    "sha1": "bdd677f2126acf5e",
+    "source": "Wikimedia Commons",
+    "title": "Bluetooth headset WEP-200-8934"
+  },
+  "bca101/cabletester": {
+    "author": "Smial ( talk )",
+    "bytes": 1010249,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/cabletester.jpg",
+    "license": "FAL",
+    "license_url": "http://artlibre.org/licence/lal/en",
+    "page": "https://commons.wikimedia.org/wiki/File:Network_cable_tester_IMGP1639_smial_wp.jpg",
+    "sha1": "ed63a2ff05558388",
+    "source": "Wikimedia Commons",
+    "title": "Network cable tester IMGP1639 smial wp"
+  },
   "bca101/cardcat": {
     "author": "TBurmeister (WMF)",
     "bytes": 585644,
@@ -661,6 +726,19 @@
     "sha1": "166c7bbc4698eb93",
     "source": "Wikimedia Commons",
     "title": "Intel CPU Core i7 6700K Skylake top"
+  },
+  "bca101/crimptools": {
+    "author": "www.heimnetzwerke.net",
+    "bytes": 636121,
+    "credit": "https://www.heimnetzwerke.net/heimnetzwerk-mediathek/",
+    "fetched": "2026-11-05",
+    "file": "bca101/crimptools.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cable_stripper,_cable_tester_(RJ45,_RJ11),_LSA-Tool_and_crimping_tool.jpg",
+    "sha1": "e8ac23e0704a63db",
+    "source": "Wikimedia Commons",
+    "title": "Cable stripper, cable tester (RJ45, RJ11), LSA-Tool and crimping tool"
   },
   "bca101/datacenter": {
     "author": "PiDatacenters",
@@ -791,6 +869,19 @@
     "sha1": "cd9e7bcc2b61e312",
     "source": "Wikimedia Commons",
     "title": "Punch card with Fortran - 20091211"
+  },
+  "bca101/fusion": {
+    "author": "Jérôme Nicolle",
+    "bytes": 569908,
+    "credit": "Picture taken during a workshop with fellow members of tetaneutral.net",
+    "fetched": "2026-11-05",
+    "file": "bca101/fusion.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Optical_fiber_fusion_splicing.jpg",
+    "sha1": "8de022670470db47",
+    "source": "Wikimedia Commons",
+    "title": "Optical fiber fusion splicing"
   },
   "bca101/garmin": {
     "author": "D-Kuru",
@@ -948,6 +1039,32 @@
     "source": "Wikimedia Commons",
     "title": "MOSFET transistors"
   },
+  "bca101/mwtower": {
+    "author": "Kkiefuik",
+    "bytes": 602349,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/mwtower.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Aldersyde_Microwave_Relay_Tower.jpg",
+    "sha1": "e7c3875c1adb96a2",
+    "source": "Wikimedia Commons",
+    "title": "Aldersyde Microwave Relay Tower"
+  },
+  "bca101/nethub": {
+    "author": "www.heimnetzwerke.net",
+    "bytes": 165352,
+    "credit": "https://www.heimnetzwerke.net/heimnetzwerk-mediathek/",
+    "fetched": "2026-11-05",
+    "file": "bca101/nethub.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Netgear_DS108_Hub_(2).jpg",
+    "sha1": "8c741aa949e72a63",
+    "source": "Wikimedia Commons",
+    "title": "Netgear DS108 Hub (2)"
+  },
   "bca101/nic": {
     "author": "CEphoto, Uwe Aranas",
     "bytes": 552596,
@@ -1078,6 +1195,19 @@
     "source": "Wikimedia Commons",
     "title": "IBM Q at CES (39660636671)"
   },
+  "bca101/rack": {
+    "author": "Dsimic",
+    "bytes": 419601,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/rack.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:19-inch_rackmount_Ethernet_switches_and_patch_panels.jpg",
+    "sha1": "b2c5145ff9377948",
+    "source": "Wikimedia Commons",
+    "title": "19-inch rackmount Ethernet switches and patch panels"
+  },
   "bca101/ram": {
     "author": "ElooKoN",
     "bytes": 197247,
@@ -1129,6 +1259,19 @@
     "sha1": "adfd97d2ac0ec0bc",
     "source": "Wikimedia Commons",
     "title": "Raspberry Pi 4 Model B - Side"
+  },
+  "bca101/sfp": {
+    "author": "smial ( talk )",
+    "bytes": 267570,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/sfp.jpg",
+    "license": "FAL",
+    "license_url": "http://artlibre.org/licence/lal/en",
+    "page": "https://commons.wikimedia.org/wiki/File:Multi_mode_sfp_transceiver_IMGP7820_wp.jpg",
+    "sha1": "e5f47283869a556e",
+    "source": "Wikimedia Commons",
+    "title": "Multi mode sfp transceiver IMGP7820 wp"
   },
   "bca101/smartmeter": {
     "author": "RobbieIanMorrison",
@@ -1259,6 +1402,19 @@
     "sha1": "30f632d30979fb79",
     "source": "Wikimedia Commons",
     "title": "Oculus-Rift-CV1-Headset-Front"
+  },
+  "bca101/wifirouter": {
+    "author": "Abhi25t",
+    "bytes": 94792,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/wifirouter.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:TP-Link_AX1500_Wi-Fi_6_Router_Front.jpg",
+    "sha1": "5194a0c236dbcb4f",
+    "source": "Wikimedia Commons",
+    "title": "TP-Link AX1500 Wi-Fi 6 Router Front"
   },
   "bca101/win10b": {
     "author": "Fatemi",
