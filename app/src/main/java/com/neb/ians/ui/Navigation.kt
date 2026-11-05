@@ -87,9 +87,6 @@ import com.neb.ians.ui.screens.analytics.AnalyticsScreen
 import com.neb.ians.ui.screens.bookmarks.BookmarksScreen
 import com.neb.ians.ui.screens.downloads.DownloadsScreen
 import com.neb.ians.ui.screens.upload.UploadScreen
-import com.neb.ians.ui.screens.ai.NebyAiScreen
-import com.neb.ians.ui.screens.study.StudyLabScreen
-import com.neb.ians.ui.screens.study.StudySpaceScreen
 import com.neb.ians.ui.screens.interactive.InteractiveCourseScreen
 import com.neb.ians.ui.screens.interactive.InteractiveLessonScreen
 import com.neb.ians.ui.screens.auth.SplashScreen
@@ -142,10 +139,6 @@ sealed class Screen(val route: String) {
     }
     data object Notifications : Screen("notifications")
     data object People : Screen("people")
-    data object StudyLab : Screen("study_lab")
-    data object StudySpace : Screen("study_space/{spaceId}") {
-        fun createRoute(spaceId: String) = "study_space/$spaceId"
-    }
     data object InteractiveCourse : Screen("interactive/course/{courseSlug}") {
         fun createRoute(courseSlug: String) = "interactive/course/$courseSlug"
     }
@@ -155,7 +148,6 @@ sealed class Screen(val route: String) {
     data object InteractiveLesson : Screen("interactive/lesson/{courseSlug}/{lessonSlug}") {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
-    data object NebyAi : Screen("neby_ai")
     data object NebyCredits : Screen("credits")
     data object Analytics : Screen("analytics")
     data object Bookmarks : Screen("bookmarks")
@@ -533,8 +525,6 @@ fun NEBiansNavHost(
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
                     onForumClick = { navController.navigate(Screen.Forum.route) },
                     onNotesClick = { navController.navigate(Screen.Notes.route) },
-                    onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
-                    onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
                     onUploadClick = { navController.navigate(Screen.Upload.route) },
                     onNewsItemClick = { slug -> navController.navigate(Screen.NewsDetail.createRoute(slug)) },
@@ -698,28 +688,6 @@ fun NEBiansNavHost(
                     onResourceClick = { resourceId ->
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
                     }
-                )
-            }
-            composable(Screen.StudyLab.route) {
-                StudyLabScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onOpenSpace = { spaceId -> navController.navigate(Screen.StudySpace.createRoute(spaceId)) },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
-                )
-            }
-            composable(
-                route = Screen.StudySpace.route,
-                arguments = listOf(navArgument("spaceId") { type = NavType.StringType })
-            ) {
-                StudySpaceScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
-                )
-            }
-            composable(Screen.NebyAi.route) {
-                NebyAiScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
                 )
             }
             composable(

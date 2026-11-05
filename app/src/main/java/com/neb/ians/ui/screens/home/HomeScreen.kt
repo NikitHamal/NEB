@@ -62,8 +62,6 @@ fun HomeScreen(
     onViewAllClick: () -> Unit,
     onForumClick: () -> Unit = {},
     onNotesClick: () -> Unit = {},
-    onStudyLabClick: () -> Unit = {},
-    onNebyAiClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
     onUploadClick: () -> Unit = {},
     onNewsItemClick: (String) -> Unit = {},
