@@ -471,6 +471,8 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 
 ## Marketplace — Creator Storefronts, Courses and Paid Notes
 
+**Latest (Nov 2026): upload/edit composer, open selling, course delivery/contact — see `UPLOADS_SELLING_STATUS.md`.** Upload and edit-resource are one component (`web/components/_resource_composer.html` + `js/resource-composer.js`); never build a second resource form. Every member can sell; a course is `buy` (QR checkout) or `contact` (reach the teacher).
+
 Added Sep 27, 2026. The paid-notes economy already existed (paid resources +
 QR proof + admin verification + seller wallet); this session made it sellable
 end to end and added the marketplace the owner asked for.
