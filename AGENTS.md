@@ -2306,3 +2306,4 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Gotchas:** the end of the build log lists `[photos] N failed` for unregistered ids; verify every `@ photo id=` against `notes/assets/credits.json` before building. Some unit files are CRLF: insert through a CRLF-preserving helper.
 
 - **Session 77 addendum (Class 10 CS):** cs10 units 1-5 also done and pushed (201 pp, qa fails=0): strips, 8-point lists, Group D extended answers with executed Python/SQL. **Next:** cs8, then the science books, then the FAIL triage (see the last NEXT line of `bca/POLISH_STATUS.md`).
+- **Session 77 addendum 2 (Class 8 CS):** cs8 units 1-5 done and pushed (388 pp, qa fails=0), plus a qa FAIL fix (literal `$` inside a photo caption reads as leaked TeX: write words). **Next:** cs8 units 6-20, then science books; see the last NEXT line of `bca/POLISH_STATUS.md`.

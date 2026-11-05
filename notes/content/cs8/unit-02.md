@@ -58,6 +58,14 @@ for i, lab in enumerate(labels):
 ax.set_xlim(0.0, 8.6); ax.set_ylim(-1.7, n - 0.4); ax.axis("off")
 ```
 
+```photogrid label="2.H" cols="5" ratio="1.1" caption="Five steps in the story of calculating machines. (a) The abacus, a counting frame used for more than two thousand years. (b) Napier's bones of 1617, rods that turned multiplication into addition. (c) Pascal's Pascaline of 1642, the first mechanical adding machine. (d) Babbage's Difference Engine, designed in 1822 to print tables automatically. (e) ENIAC of 1946, the first large electronic computer. Each machine did more of the work by itself than the one before."
+@ photo id="cs8/hist-abacus" cap="(a) Abacus"
+@ photo id="cs8/hist-napier-bones" cap="(b) Napier's bones, 1617"
+@ photo id="cs8/hist-pascaline" cap="(c) Pascaline, 1642"
+@ photo id="cs8/hist-difference-engine" cap="(d) Difference Engine, 1822"
+@ photo id="cs8/hist-eniac" cap="(e) ENIAC, 1946"
+```
+
 ## 2.1 Early calculating devices: abacus, Napier's bones and the slide rule
 
 Before any machine, people counted on their **fingers**, with **pebbles** and
@@ -800,3 +808,53 @@ computer, binary, capacitor-drum memory, not programmable. *Eckert and
 Mauchly* — ENIAC (1946), the first general-purpose electronic computer (and
 later EDVAC and UNIVAC I).
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Describe the history of computers from the abacus to ENIAC. <span class="marks">[10]</span>
+2. Write about Charles Babbage and Ada Lovelace. Describe how computers came to Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: early calculating devices (10 marks)
+
+**Introduction.** People have always needed to count and calculate. Over about 2,000 years, simple tools grew into mechanical machines and then into electronic computers (see Plate 2.H).
+
+1. **Abacus (about 2,000 years ago or earlier):** a frame with rods and beads; each rod stands for ones, tens, hundreds. A skilled user can add and subtract quickly. The Chinese form is the suanpan.
+2. **Napier's bones (1617):** John Napier of Scotland made rods carved with multiplication tables, so that multiplication could be done by adding the numbers read from the rods.
+3. **Slide rule (about 1622):** based on logarithms; engineers used it to multiply, divide and find roots until the 1970s.
+4. **Pascaline (1642):** Blaise Pascal of France, aged 19, made a machine with gears that added and subtracted numbers to help his father, a tax collector.
+5. **Stepped reckoner (1673):** Gottfried Leibniz of Germany improved it so that it could also multiply and divide.
+6. **Jacquard loom (1804):** Joseph Jacquard used punched cards to control the pattern woven in cloth. The idea of storing instructions on cards was later used in computers.
+7. **Difference Engine (1822) and Analytical Engine (1837):** Charles Babbage designed them, and the Analytical Engine had all the parts of a modern computer.
+8. **ENIAC (1946):** the first large general-purpose electronic computer, which used about 17,000 vacuum tubes and filled a big room.
+
+| Device | Year | Inventor | Use |
+|---|---|---|---|
+| Abacus | Ancient | Unknown | Counting |
+| Napier's bones | 1617 | John Napier | Multiplication |
+| Pascaline | 1642 | Blaise Pascal | Add, subtract |
+| Stepped reckoner | 1673 | Leibniz | Also multiply, divide |
+| Difference Engine | 1822 | Charles Babbage | Printing tables |
+| ENIAC | 1946 | Mauchly and Eckert | Electronic calculation |
+
+**Conclusion.** Each invention made calculating faster and more automatic, leading to the modern computer.
+
+### Model answer D2: Babbage, Lovelace and computers in Nepal (10 marks)
+
+**Charles Babbage (1791–1871)** was an English mathematician known as the **"Father of the Computer"**. He first designed the **Difference Engine** in 1822 to calculate and print mathematical tables without human mistakes. In 1837 he designed the **Analytical Engine**, which was to have four parts: a **store** (memory), a **mill** (the processing unit), an **input** by punched cards and an **output** by printer. These are the same parts as the memory, CPU, input and output of a modern computer. Because money and the technology of the time were not enough, he could not complete it in his life. A working Difference Engine No. 2 was built by the Science Museum, London, from his drawings in 1991.
+
+**Ada Lovelace (1815–1852)**, daughter of the poet Lord Byron, worked with Babbage. She wrote notes in 1843 that included a method for the Analytical Engine to calculate a series of numbers called Bernoulli numbers, and this is regarded as the **first computer program**. So she is called the **first programmer**. She also saw that machines could work with music and pictures, not only numbers.
+
+| Point | Babbage | Lovelace |
+|---|---|---|
+| Role | Designed the machines | Wrote the first program |
+| Title | Father of the Computer | First programmer |
+| Work | Difference and Analytical Engine | Notes on the Analytical Engine |
+
+**Computers in Nepal.**
+
+1. **2028 BS (1971):** Nepal's first computer, an **IBM 1401**, was rented from the United Kingdom for the **census of 2028 BS**, used by the Central Bureau of Statistics.
+2. **After that:** the Electronic Data Processing Centre (later the National Computer Centre) was set up; government offices and banks started to use computers.
+3. **1980s–1990s:** personal computers arrived, with schools and private companies starting to teach computing.
+4. **Today:** computers and phones are used in schools, banks (ATMs, mobile banking), hospitals, government services such as the Nagarik App, and in online payment such as eSewa, Khalti and Fonepay.
+
+**Conclusion.** Babbage gave the idea and Lovelace the first program, and the 2028 BS census began the computer age in Nepal.
