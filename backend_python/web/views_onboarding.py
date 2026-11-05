@@ -109,7 +109,8 @@ def onboarding_page(request):
         'next': _safe_next(request),
         'profileUrl': reverse('web:profile', args=[db_user.username]),
     }
-    return render(request, 'web/onboarding.html', _ctx(request, boot=boot, is_redo=complete))
+    return render(request, 'web/onboarding.html', _ctx(request, boot=boot, is_redo=complete,
+                                                      dob=db_user.dob or '', gender=db_user.gender or ''))
 
 
 def _fail(message, field=''):
