@@ -1348,6 +1348,84 @@ with the `return` statement; execution of the function stops there and the value
 replaces the function call in the expression that called it.
 :::
 
+::: note Answers to Group B questions 1, 3, 4, 5 and 6
+**1.**
+
+| Point | Client-side scripting | Server-side scripting |
+|---|---|---|
+| Runs on | The user's browser | The web server |
+| Visible to user | Source code can be seen | Only the output (HTML) is seen |
+| Speed | No round trip, fast response | Needs a request to the server |
+| Database access | Cannot reach it directly | Can read and write the database |
+| Security | Weak, can be changed by the user | Stronger, code stays on the server |
+| Examples of languages | JavaScript, jQuery | PHP, ASP.NET, Python (Django) |
+
+Client-side scripts check a form or change the page without reloading, for example
+telling the user at once that an e-mail address is wrong. Server-side scripts do the
+work that must be trusted, such as saving a student's marks in a database or deciding
+whether a login is correct. Most real websites use both: JavaScript for a smooth
+page and PHP for the data.
+
+**3.** An **event** is an action that happens on a web page, such as a click, a key
+press or the loading of the page, and that a script can respond to through an event
+handler. Five handlers: **`onclick`** fires when the user clicks a button or link, for
+example to run a calculation. **`onload`** fires when the page has finished loading,
+for example to show a welcome message. **`onmouseover`** fires when the pointer moves
+over an element, for example to highlight a menu item. **`onchange`** fires when the
+value of a field such as a drop-down list is changed and the user leaves it, for
+example to update a price. **`onsubmit`** fires when a form is submitted, and is the
+usual place for validation: if the handler returns `false`, the form is not sent.
+Other handlers are `onkeyup`, `onfocus` and `onblur`. An event handler is written as an
+attribute, `<button onclick="check()">`, or attached with `addEventListener`.
+
+**4.** **Form validation** is the checking of the data entered in a form before it is
+accepted, so that wrong or empty data are not sent to the server. It saves time and
+reduces load on the server. *Client-side* validation is quick, but the server must
+check again because users can bypass it.
+
+```javascript
+function validate() {
+  var name  = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  if (name.trim() === "") {
+    alert("Name is required"); return false;
+  }
+  if (email.indexOf("@") === -1) {
+    alert("E-mail must contain @"); return false;
+  }
+  return true;                   // form is submitted only when true
+}
+```
+Used as `<form onsubmit="return validate()">`. An empty name gives the message
+`Name is required`, `sita.example.com` gives `E-mail must contain @`, and
+`sita@example.com` is accepted.
+
+**5.** The data types of PHP are: **string**, **integer**, **float (double)**,
+**boolean**, **array**, **object**, **NULL** and **resource**. PHP is *loosely typed*,
+so a variable takes its type from the value assigned to it.
+
+```php
+<?php
+$n = 7;
+for ($i = 1; $i <= 10; $i++) {
+    echo "$n x $i = " . ($n * $i) . "<br>";
+}
+?>
+```
+For $n = 7$ the program prints `7 x 1 = 7`, `7 x 2 = 14`, and so on up to
+`7 x 10 = 70`. The loop variable starts at 1, runs while it is at most 10 and
+increases by 1 each time; `.` joins strings in PHP.
+
+**6.** Five steps to connect a PHP script to MySQL:
+**(1) Connect** to the server: `$conn = new mysqli("localhost", "root", "", "school");`
+**(2) Check** the connection: `if ($conn->connect_error) { die("Failed"); }`
+**(3) Send the query:** `$result = $conn->query("SELECT * FROM students");`
+**(4) Process the result:** `while ($row = $result->fetch_assoc()) { echo $row["name"]; }`
+**(5) Close** the connection: `$conn->close();`
+Each step depends on the one before: without a successful connection the query
+cannot be sent, and the connection should be closed to release the server's resources.
+:::
+
 **Group C — Long answer (8 marks each)**
 
 1. (a) Write a PHP program that connects to a MySQL database named `school`,
@@ -1375,3 +1453,134 @@ sends the SQL and the data separately, so a value such as `' OR '1'='1` is
 treated as text and can never change the meaning of the query — that is what
 stops SQL injection.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is JavaScript? Explain its data types and operators with examples. <span class="marks">[10]</span>
+2. Write a complete HTML page with a form and a JavaScript function that validates it. Explain form validation. <span class="marks">[10]</span>
+3. Explain how a PHP script connects to a MySQL database and displays the data, and why prepared statements are safer. <span class="marks">[10]</span>
+
+### Model answer D1: JavaScript, data types and operators (10 marks)
+
+**Introduction.** **JavaScript** is a lightweight, interpreted scripting language that
+runs in the web browser and makes web pages interactive, for example by validating
+forms, reacting to clicks and changing content without reloading. It is placed in a
+page with the `<script>` tag.
+
+**Data types.** JavaScript is loosely typed: a variable takes its type from the value.
+**Number** (`5`, `3.14`), **String** (`"Nepal"`), **Boolean** (`true`, `false`),
+**Undefined** (declared but without a value), **Null** (an intentional empty value),
+**Object** and **Array** (a collection, `[10, 20, 30]`). The operator `typeof` shows the
+type: `typeof 5` gives `number`, `typeof "a"` gives `string` and `typeof true` gives
+`boolean`.
+
+**Operators.**
+
+| Type | Operators | Example and result |
+|---|---|---|
+| Arithmetic | `+ - * / % **` | `7 % 3` is 1; `2 ** 3` is 8 |
+| Comparison | `== === != > <` | `5 == "5"` is true; `5 === "5"` is false |
+| Logical | `&&` (and), `!` (not), and the or-operator | `(5 > 3) && (2 > 1)` is true |
+| Assignment | `= += -=` | `x += 2` adds 2 to x |
+| String | `+` | `"5" + 3` is `"53"`, but `"5" - 3` is 2 |
+
+**Points to remember.** `==` compares the value only, while `===` compares the value
+and the type. The `+` operator joins strings if either side is a string.
+
+**Conclusion.** The small set of data types and operators, together with the browser's
+objects, is enough to make a page respond to the user at once, without a trip to the
+server.
+
+### Model answer D2: a validated form (10 marks)
+
+**Introduction.** **Form validation** checks the data in a form before it is sent, so
+that empty or wrong values are caught immediately. It gives quick feedback and reduces
+the load on the server, but the server must still check the data again for security.
+
+```html
+<form onsubmit="return validate()">
+  Name:  <input type="text"  id="name"><br>
+  Email: <input type="text"  id="email"><br>
+  Age:   <input type="text"  id="age"><br>
+  <input type="submit" value="Send">
+</form>
+<script>
+function validate() {
+  var name  = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var age   = Number(document.getElementById("age").value);
+  if (name === "") {
+    alert("Name is required"); return false;
+  }
+  if (email.indexOf("@") < 1 || email.indexOf(".") === -1) {
+    alert("Invalid e-mail"); return false;
+  }
+  if (isNaN(age) || age < 5 || age > 100) {
+    alert("Age must be 5-100"); return false;
+  }
+  return true;
+}
+</script>
+```
+
+**Explanation.** `onsubmit` runs the function when the form is sent. The function reads
+each field with `getElementById`, tests it and shows an alert on the first error. A
+`return false` stops the submission, and `return true` lets it go. A blank name, an
+e-mail such as `ab.c` (no `@`) and an age of `abc` are each rejected, and a correct
+entry such as `A`, `a@b.c` and `17` is accepted.
+
+| Check | Test used |
+|---|---|
+| Required | `value === ""` |
+| E-mail | `@` present and a dot |
+| Number range | `isNaN(age)`, or `age < 5`, or `age > 100` |
+
+**Conclusion.** Client-side validation improves the user's experience, and
+server-side validation protects the data; a good website uses both.
+
+### Model answer D3: PHP and MySQL (10 marks)
+
+**Introduction.** **PHP** is a server-side scripting language that runs on the web
+server and sends only HTML to the browser. With the `mysqli` extension a PHP script can
+read and write a MySQL database, which makes pages such as a result list or a login.
+
+**Steps.**
+
+1. **Connect:** `$conn = new mysqli("localhost", "root", "", "school");`
+2. **Check:** `if ($conn->connect_error) { die("Connection failed"); }`
+3. **Query:** `$result = $conn->query("SELECT roll, name, faculty, marks FROM students");`
+4. **Fetch and display:** a `while` loop with `fetch_assoc()` gives one row at a time as
+   an array, and the script prints `<tr><td>` cells for each field.
+5. **Close:** `$conn->close();`
+
+```php
+<?php
+$conn = new mysqli("localhost", "root", "", "school");
+if ($conn->connect_error) { die("Connection failed"); }
+$result = $conn->query("SELECT roll, name, faculty, marks FROM students");
+echo "<table border='1'><tr><th>Roll</th><th>Name</th><th>Faculty</th><th>Marks</th></tr>";
+while ($row = $result->fetch_assoc()) {
+    echo "<tr><td>{$row['roll']}</td><td>{$row['name']}</td>"
+       . "<td>{$row['faculty']}</td><td>{$row['marks']}</td></tr>";
+}
+echo "</table>";
+$conn->close();
+?>
+```
+
+**Prepared statements.** If user input is pasted into a query, a value such as
+`' OR '1'='1` can change its meaning, which is called **SQL injection**. A prepared
+statement sends the SQL and the data separately, so the value is treated only as text.
+It is therefore the safe way to use input in a query.
+
+| Function | Purpose |
+|---|---|
+| `new mysqli()` | Opens the link to the server |
+| `query()` | Sends SQL and returns a result |
+| `fetch_assoc()` | Reads one row as an associative array |
+| `close()` | Releases the connection |
+
+**Conclusion.** PHP and MySQL together let a website store and show data safely,
+provided the connection is checked and user input is passed through prepared
+statements.
