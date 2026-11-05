@@ -15339,6 +15339,19 @@
   "source": "Wikimedia Commons",
   "title": "Vial and syringe used for first COVID-19 vaccination"
  },
+ "chem11/balloon": {
+  "author": "Benh LIEU SONG ( Flickr )",
+  "bytes": 529059,
+  "credit": "Cappadocia Balloon Inflating",
+  "fetched": "2026-11-05",
+  "file": "chem11/balloon.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cappadocia_Balloon_Inflating_Wikimedia_Commons.JPG",
+  "sha1": "89ba817693b175eb",
+  "source": "Wikimedia Commons",
+  "title": "Cappadocia Balloon Inflating Wikimedia Commons"
+ },
  "chem11/bauxite": {
   "author": "James St. John",
   "bytes": 1145407,
@@ -15365,6 +15378,19 @@
   "source": "Wikimedia Commons",
   "title": "Duisburg, Landschaftspark Duisburg-Nord, Hochofen 2 -- 2016 -- 1115"
  },
+ "chem11/burette": {
+  "author": "Spellcheck at English Wikipedia",
+  "bytes": 749489,
+  "credit": "Transferred from en.wikipedia to Commons.",
+  "fetched": "2026-11-05",
+  "file": "chem11/burette.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:BuretteCloseup.jpg",
+  "sha1": "b69c57134c52a79c",
+  "source": "Wikimedia Commons",
+  "title": "BuretteCloseup"
+ },
  "chem11/chalcopyrite": {
   "author": "Didier Descouens",
   "bytes": 845044,
@@ -15378,6 +15404,19 @@
   "source": "Wikimedia Commons",
   "title": "Chalcopyrite botroïdale"
  },
+ "chem11/chroma": {
+  "author": "Chiaoli",
+  "bytes": 77185,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/chroma.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chromatography_paper.jpg",
+  "sha1": "c250fcf1192e1617",
+  "source": "Wikimedia Commons",
+  "title": "Chromatography paper"
+ },
  "chem11/cryolite": {
   "author": "Didier Descouens",
   "bytes": 410238,
@@ -15390,6 +15429,19 @@
   "sha1": "1c5163e78ceec062",
   "source": "Wikimedia Commons",
   "title": "Ivigtut cryolite edit"
+ },
+ "chem11/diamond": {
+  "author": "Smithsonian Institution",
+  "bytes": 383970,
+  "credit": "https://www.si.edu/newsdesk/releases/new-smithsonian-exhibit-showcases-extraordinary-american-diamonds",
+  "fetched": "2026-11-05",
+  "file": "chem11/diamond.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Colorado_Diamond_Crystal,_Freedom_Diamond,_Uncle_Sam_Diamond,_Canary_Diamond.jpg",
+  "sha1": "5ad8462edb4bb15e",
+  "source": "Wikimedia Commons",
+  "title": "Colorado Diamond Crystal, Freedom Diamond, Uncle Sam Diamond, Canary Diamond"
  },
  "chem11/flame-colours": {
   "author": "Hegelrast",
@@ -15443,6 +15495,19 @@
   "source": "Wikimedia Commons",
   "title": "Galenite - Mies mine, Slovenia"
  },
+ "chem11/h2tube": {
+  "author": "Alchemist-hp ( talk ) ( www.pse-mendelejew.de )",
+  "bytes": 57077,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/h2tube.jpg",
+  "license": "FAL",
+  "license_url": "http://artlibre.org/licence/lal/en",
+  "page": "https://commons.wikimedia.org/wiki/File:Hydrogen_discharge_tube.jpg",
+  "sha1": "21dc847b026a793b",
+  "source": "Wikimedia Commons",
+  "title": "Hydrogen discharge tube"
+ },
  "chem11/haematite": {
   "author": "James St. John",
   "bytes": 889468,
@@ -15482,6 +15547,19 @@
   "source": "Wikimedia Commons",
   "title": "Halite crystal"
  },
+ "chem11/iodsalt": {
+  "author": "Ethantrott",
+  "bytes": 555972,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/iodsalt.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Iodized_salt_packet.jpg",
+  "sha1": "c440d9353b013cfb",
+  "source": "Wikimedia Commons",
+  "title": "Iodized salt packet"
+ },
  "chem11/kipp": {
   "author": "nl:User:Josh",
   "bytes": 896876,
@@ -15494,6 +15572,19 @@
   "sha1": "42344145061d3335",
   "source": "Wikimedia Commons",
   "title": "Toestel-van-Kipp-L"
+ },
+ "chem11/lpg": {
+  "author": "Palagiri",
+  "bytes": 495289,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/lpg.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kitchen-LPG_cooking_gas_cylinder.JPG",
+  "sha1": "cedb053198dcb151",
+  "source": "Wikimedia Commons",
+  "title": "Kitchen-LPG cooking gas cylinder"
  },
  "chem11/malachite": {
   "author": "JJ Harrison ( https://www.jjharrison.com.au/ )",
@@ -15508,6 +15599,32 @@
   "source": "Wikimedia Commons",
   "title": "Malachite, Zaire"
  },
+ "chem11/mgburn": {
+  "author": "Capt. John Yossarian",
+  "bytes": 155628,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/mgburn.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnesium_ribbon_burning.jpg",
+  "sha1": "7b1fc164f8b72020",
+  "source": "Wikimedia Commons",
+  "title": "Magnesium ribbon burning"
+ },
+ "chem11/mothball": {
+  "author": "Wiki Farazi",
+  "bytes": 209546,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/mothball.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:White_coloured_mothball_(naphthalene_ball)_20230315_180901.jpg",
+  "sha1": "938985b5bd09e634",
+  "source": "Wikimedia Commons",
+  "title": "White coloured mothball (naphthalene ball) 20230315 180901"
+ },
  "chem11/nacl-cell": {
   "author": "Benjah-bmm27",
   "bytes": 529424,
@@ -15521,6 +15638,19 @@
   "source": "Wikimedia Commons",
   "title": "Sodium-chloride-unit-cell-3D-balls-and-sticks"
  },
+ "chem11/rust": {
+  "author": "Laitr Keiows",
+  "bytes": 1252002,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem11/rust.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Rust_on_iron.jpg",
+  "sha1": "96bf178fa455e89a",
+  "source": "Wikimedia Commons",
+  "title": "Rust on iron"
+ },
  "chem11/sphalerite": {
   "author": "Ivar Leidus",
   "bytes": 934478,
@@ -15533,6 +15663,19 @@
   "sha1": "eb118e5e2675b86e",
   "source": "Wikimedia Commons",
   "title": "Sphalerite - Creede, Mineral County, Colorado, USA"
+ },
+ "chem11/sulfur": {
+  "author": "Sheila Sund from Salem, United States",
+  "bytes": 351917,
+  "credit": "Yellow sulfur crystals",
+  "fetched": "2026-11-05",
+  "file": "chem11/sulfur.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yellow_sulfur_crystals_(8375831764).jpg",
+  "sha1": "c3b7e3da5596e5d2",
+  "source": "Wikimedia Commons",
+  "title": "Yellow sulfur crystals (8375831764)"
  },
  "chem12/cuso4": {
   "author": "W. Oelen",
@@ -20864,6 +21007,32 @@
   "source": "Wikimedia Commons",
   "title": "The Andromeda Galaxy (noao0001a)"
  },
+ "phy11/balance": {
+  "author": "Делфина",
+  "bytes": 138399,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/balance.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Analytical_balance_%26_old_weighing_scales.JPG",
+  "sha1": "d6db46adb67b9a12",
+  "source": "Wikimedia Commons",
+  "title": "Analytical balance & old weighing scales"
+ },
+ "phy11/balloon": {
+  "author": "MikeRun",
+  "bytes": 1454358,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/balloon.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Attractive-electric-force-between-hair-and-balloon.jpg",
+  "sha1": "b8ae60b3ad6cea97",
+  "source": "Wikimedia Commons",
+  "title": "Attractive-electric-force-between-hair-and-balloon"
+ },
  "phy11/cmb": {
   "author": "ESA and the Planck Collaboration",
   "bytes": 994270,
@@ -20890,6 +21059,32 @@
   "source": "Wikimedia Commons",
   "title": "Electroscope-MHS 2028-P4070277-gradient"
  },
+ "phy11/fringes": {
+  "author": "663highland",
+  "bytes": 53673,
+  "credit": "663highland",
+  "fetched": "2026-11-05",
+  "file": "phy11/fringes.jpg",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Mitsukoshi01_1024_chromatic_aberration.jpg",
+  "sha1": "c47c79e3c94aaf64",
+  "source": "Wikimedia Commons",
+  "title": "Mitsukoshi01 1024 chromatic aberration"
+ },
+ "phy11/gps": {
+  "author": "NASA",
+  "bytes": 113573,
+  "credit": "https://www.egraphicbd.com [ dead link ] ( Wayback Machine )",
+  "fetched": "2026-11-05",
+  "file": "phy11/gps.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:GPS_Satellite_NASA_art-iif.jpg",
+  "sha1": "cc30b677620c0125",
+  "source": "Wikimedia Commons",
+  "title": "GPS Satellite NASA art-iif"
+ },
  "phy11/hudf": {
   "author": "NASA, ESA, H. Teplitz and M. Rafelski (IPAC/Caltech), A. Koekemoer (STScI), R. Windhorst (Arizona State University), and Z. Levay (STScI)",
   "bytes": 1089077,
@@ -20903,6 +21098,45 @@
   "source": "Wikimedia Commons",
   "title": "NASA-HS201427a-HubbleUltraDeepField2014-20140603"
  },
+ "phy11/kite": {
+  "author": "CEphoto, Uwe Aranas",
+  "bytes": 762092,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/kite.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dalian_Liaoning_China_Flying-a-kite-01.jpg",
+  "sha1": "a582b927e66f3308",
+  "source": "Wikimedia Commons",
+  "title": "Dalian Liaoning China Flying-a-kite-01"
+ },
+ "phy11/lhc": {
+  "author": "Maximilien Brice (CERN)",
+  "bytes": 554687,
+  "credit": "CERN Document Server",
+  "fetched": "2026-11-05",
+  "file": "phy11/lhc.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Views_of_the_LHC_tunnel_sector_3-4,_tirage_2.jpg",
+  "sha1": "ef0f42e55e895df1",
+  "source": "Wikimedia Commons",
+  "title": "Views of the LHC tunnel sector 3-4, tirage 2"
+ },
+ "phy11/magnifier": {
+  "author": "Heptagon",
+  "bytes": 382067,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/magnifier.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnifying_glass2.jpg",
+  "sha1": "da96d8f8be0b35e7",
+  "source": "Wikimedia Commons",
+  "title": "Magnifying glass2"
+ },
  "phy11/micrometer": {
   "author": "Stephanie cheks",
   "bytes": 566430,
@@ -20915,6 +21149,45 @@
   "sha1": "f5fb436272807e98",
   "source": "Wikimedia Commons",
   "title": "Micrometer screw gauge"
+ },
+ "phy11/prism": {
+  "author": "D-Kuru",
+  "bytes": 344318,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/prism.jpg",
+  "license": "CC BY-SA 3.0 at",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0/at/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Light_dispersion_of_a_mercury-vapor_lamp_with_a_flint_glass_prism_IPNr%C2%B00125.jpg",
+  "sha1": "ad24a4029498b8f3",
+  "source": "Wikimedia Commons",
+  "title": "Light dispersion of a mercury-vapor lamp with a flint glass prism IPNr°0125"
+ },
+ "phy11/trafficmirror": {
+  "author": "Neil Theasby",
+  "bytes": 1494451,
+  "credit": "Geograph Britain and Ireland",
+  "fetched": "2026-11-05",
+  "file": "phy11/trafficmirror.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Convex_traffic_mirror_by_a_bend_at_Ford_-_geograph.org.uk_-_6059314.jpg",
+  "sha1": "dae52dce283f5ba0",
+  "source": "Wikimedia Commons",
+  "title": "Convex traffic mirror by a bend at Ford - geograph.org.uk - 6059314"
+ },
+ "phy11/vdghair": {
+  "author": "Biswarup Ganguly",
+  "bytes": 456763,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "phy11/vdghair.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Van_de_Graaff_Generator_-_Science_City_-_Calcutta_1997_444.JPG",
+  "sha1": "fd809420e8649c1f",
+  "source": "Wikimedia Commons",
+  "title": "Van de Graaff Generator - Science City - Calcutta 1997 444"
  },
  "phy11/vernier": {
   "author": "Stephanie cheks",

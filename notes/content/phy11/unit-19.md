@@ -565,6 +565,30 @@ $20\ \text{cm}$ from the $4\ \mu\text{C}$ charge — nearer the smaller charge, 
 it must be. Note the answer does not depend on the third charge at all.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="Coulomb's law says the force between two point charges is proportional to the product of the charges and inversely proportional to the square of their separation. (a) A rubbed balloon attracts hair. (b) Two charges of 1 microcoulomb exert 0.90 N on each other at 10 cm, and 3.60 N at 5 cm, four times more, as the inverse-square curve shows. Between the proton and electron of a hydrogen atom the electric force exceeds gravity by a factor of 2.27e+39. That is why everyday contact forces, which are electric in origin, are strong while gravity matters only for very large masses such as planets."
+@ photo id="phy11/balloon" cap="A charged balloon attracts hair across a small gap"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Coulomb force between two 1 microcoulomb charges"
+k = 8.99e9
+q = 1e-6
+F = lambda r: k * q * q / r**2
+assert abs(F(0.10) - 0.899) < 1e-3 and abs(F(0.05) / F(0.10) - 4) < 1e-9
+ke, G, me, mp, e = 8.99e9, 6.674e-11, 9.109e-31, 1.673e-27, 1.602e-19
+ratio = ke * e**2 / (G * me * mp)
+f = Fig(300, 236)
+f.text(150, 14, "F = k q1 q2 / r^2 for q1 = q2 = 1 uC", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.3), (0, 4))
+ax.grid(0.05, 1, size=9, xfmt=lambda v: "%.2f" % v); ax.axes("r (m)", "F (N)")
+ax.curve(F, 0.048, 0.3, color=NAVY, sw=2.4)
+ax.pt(0.10, F(0.10), "%.2f N at 10 cm" % F(0.10), dx=10, dy=-6, color=RED)
+ax.pt(0.05, F(0.05), "%.2f N at 5 cm" % F(0.05), dx=10, dy=4, color=RED)
+f.text(150, 207, "half the distance -> %.0f times the force" % (F(0.05) / F(0.10)), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "H atom: Fe/Fg = %.2e" % ratio, size=10.5, color=RED, bold=True)
+f.text(150, 231, "electric force beats gravity enormously", size=10.5, color=SLATE)
+facts = dict(F10="%.2f" % F(0.10), F5="%.2f" % F(0.05), r="%.2e" % ratio)
+```
+
 ## Chapter summary
 
 - Charge is quantised ($q = \pm ne$, $e = 1.6\times10^{-19}\ \text{C}$),

@@ -671,6 +671,36 @@ A denser glass needs a smaller refracting angle for the same bending — which i
 why high-index glass is used where a prism must be kept thin and light.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="As the angle of incidence on a prism increases, the deviation first falls, reaches a minimum and then rises, and the symmetrical path with i = e is the one that gives the minimum. (a) A prism spreads white light into colours. (b) For an apex angle of 60 degrees and n = 1.5 the program traces the ray through both faces; the minimum deviation is 37.2 degrees at i = 48.6 degrees, and feeding it into n = sin[(A + D)/2]/sin(A/2) returns 1.50, the original index. For a thin prism of 5 degrees the deviation is only (n - 1)A = 2 degrees, the formula used in spectacle lenses."
+@ photo id="phy11/prism" cap="White light dispersed by a glass prism"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Deviation against angle of incidence, A = 60 deg, n = 1.5"
+import math
+A, n = 60.0, 1.5
+def dev(i):
+    r1 = math.asin(math.sin(math.radians(i)) / n)
+    r2 = math.radians(A) - r1
+    e = math.asin(n * math.sin(r2))
+    return i + math.degrees(e) - A
+dmin = 2 * math.degrees(math.asin(n * math.sin(math.radians(A / 2)))) - A
+imin = (dmin + A) / 2
+assert abs(dev(imin) - dmin) < 1e-6 and abs(dmin - 37.18) < 0.02
+n_back = math.sin(math.radians((A + dmin) / 2)) / math.sin(math.radians(A / 2))
+assert abs(n_back - n) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Deviation d against incidence i", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (30, 90), (30, 70))
+ax.grid(10, 10, size=9); ax.axes("i (deg)", "d (deg)")
+ax.curve(dev, 38, 88, color=NAVY, sw=2.4)
+ax.pt(imin, dmin, "minimum", dx=0, dy=-12, color=RED, anchor="middle")
+ax.vline(imin, color=AMBER)
+f.text(150, 207, "d(min) = %.2f deg at i = e = %.2f deg" % (dmin, imin), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "n = sin((A + d)/2) / sin(A/2) = %.2f" % n_back, size=10.5, color=RED, bold=True)
+f.text(150, 231, "small prism: d = (n - 1) A = %.0f deg for A = 60" % ((n - 1) * 60), size=10.5, color=SLATE)
+facts = dict(dmin="%.1f" % dmin, imin="%.1f" % imin, n="%.2f" % n_back, dsm="%.0f" % ((n - 1) * 5))
+```
+
 ## Chapter summary
 
 - For a prism of refracting angle $A$: $A = r_1 + r_2$ and
