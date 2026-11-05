@@ -98,3 +98,12 @@ Brief: the app still did not read like the web. Method this time: the web was ru
 ## Session 7 (CI-verified only; nothing is built locally)
 
 - Analytics (`ui/screens/analytics/AnalyticsScreen.kt`): replaced remaining `CircleShape` hero, KPI, and table rank tiles with rounded squircles (`RoundedCornerShape`), swapped monochrome `onSurface` chart bars, accuracy ring, and progress bars for brand `primary` with tonal `primaryContainer`/`secondaryContainer` fills, and removed redundant helper subtitles across dashboard sections.
+
+## Session 8: cleanup + analytics overhaul (status, CI-verified only)
+
+Brief: remove AI chat, Study Lab and the other dead study surfaces from the app (only @neby and the PDF reader's Neby AI stay); rebuild the Analytics screen on m3x; rebuild the backend analytics behind it.
+
+- [x] Backend: `api/user_analytics.py` (v2 payload), `api/test_user_analytics.py`, `docs/ANALYTICS.md` section, legacy keys kept.
+- [ ] Android: remove AI chat screen, Study Lab / Study Space, study API models and routes, dead strings and view models.
+- [ ] Android: new Analytics screen on the v2 payload (range chips, KPI tiles, trend, streak, heatmap, rhythm, reach, helpfulness, milestones, insights).
+- [ ] CI green on `Build Student Release APKs & AAB`.
