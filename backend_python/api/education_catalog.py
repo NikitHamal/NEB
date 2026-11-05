@@ -324,11 +324,6 @@ def status_label(value):
     return ''
 
 
-def clean_choice(value, allowed, default=''):
-    value = (value or '').strip()
-    return value if value in allowed else default
-
-
 def clean_csv(value, allowed=None, limit=20, item_len=40):
     """Comma list -> de-duplicated, trimmed, length-capped string."""
     if isinstance(value, (list, tuple)):

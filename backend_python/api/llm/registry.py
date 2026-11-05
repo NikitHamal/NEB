@@ -459,13 +459,6 @@ def is_official_slug(slug: str) -> bool:
     return bool(p and p.official)
 
 
-def default_model_for(slug: str, override: str = '') -> str:
-    p = preset(slug)
-    if override:
-        return override
-    return p.default_model if p else override
-
-
 def admin_catalog() -> dict:
     """Provider/model catalog for admin UIs (bot editor + admin AI chat).
 

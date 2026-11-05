@@ -817,7 +817,7 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 - `api/routing_ws.py` â€” single route `^ws/?$` â†’ `RealtimeConsumer`
 - `api/consumers_ws.py` â€” `RealtimeConsumer` (auth, heartbeat, batching, permission checks, rate limiting)
 - `api/middleware_ws.py` â€” `JWTAuthMiddleware` (Bearer token auth for WS) + `OriginValidatorMiddleware`
-- `api/realtime.py` â€” broadcast helpers: `broadcast_post_created/updated/deleted/like_changed`, `broadcast_reply_*`, `broadcast_notification`, `broadcast_follow_changed`, `broadcast_unread_count`, `get_health_snapshot`
+- `api/realtime.py` â€” broadcast helpers: `broadcast_post_created/updated/deleted/like_changed`, `broadcast_reply_*`, `broadcast_notification`, `broadcast_follow_changed`, `broadcast_unread_count`
 
 ### Files modified
 - `nebians/settings.py` â€” `INSTALLED_APPS += ['daphne', 'channels']`; `ASGI_APPLICATION = 'nebians.asgi.application'`; `CHANNEL_LAYERS` (Redis or InMemory); `ALLOWED_HOSTS_GLOB` + `ALLOWED_HOST_SUFFIXES` env support

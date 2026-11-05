@@ -77,11 +77,6 @@ def _is_authenticated(user):
     return bool(user and getattr(user, 'is_authenticated', False) and not getattr(user, 'is_locked', False))
 
 
-def _is_anonymous_allowed(channel: str) -> bool:
-    """Channels any user (logged in or not) can subscribe to."""
-    return channel in {'forum.public'}
-
-
 class _RateLimiter:
     """Sliding window rate limiter per connection."""
 

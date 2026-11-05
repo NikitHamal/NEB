@@ -905,19 +905,6 @@ def _rate_limit(request, scope, limit, window_seconds, by_ip=False):
         return False
     return count > limit
 
-def _get_distinct_subjects():
-    """Distinct, comma-split, sorted subject names from the Resource table (cached 10 min)."""
-    def _resolver():
-        subjects = set()
-        for s_str in Resource.objects.values_list('subject', flat=True).distinct():
-            if s_str:
-                for s in s_str.split(','):
-                    s_stripped = s.strip()
-                    if s_stripped:
-                        subjects.add(s_stripped)
-        return sorted(subjects)
-    return cache.get_or_set('distinct_subjects', _resolver, 600)
-
 def _viewer_for_locked_check(user_id, profile_user):
     """The viewer row api.view_helpers._can_view_locked_profile(viewer, profile_user) needs.
 
