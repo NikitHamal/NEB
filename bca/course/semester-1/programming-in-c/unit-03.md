@@ -412,8 +412,8 @@ pk = path.index(9232)
 f.circle(pts[pk][0], pts[pk][1], 4, fill=ROSE, stroke=RED)
 f.text(pts[pk][0] + 8, pts[pk][1] + 4, f"9,232 at step {pk}", size=10.5, color=RED, bold=True, anchor="start")
 for v in (0, 4000, 9232):
-    f.text(L - 4, T + H - v / 9232 * H + 4, f"{v:,}", size=10, color=SLATE, anchor="end")
-f.text(L, T + H + 16, "0", size=10, color=SLATE); f.text(L + W, T + H + 16, "111", size=10, color=SLATE)
+    f.text(L - 4, T + H - v / 9232 * H + 4, f"{v:,}", size=10.5, color=SLATE, anchor="end")
+f.text(L, T + H + 16, "0", size=10.5, color=SLATE); f.text(L + W, T + H + 16, "111", size=10.5, color=SLATE)
 f.text(200, 238, "Below 100 the longest start is 97: 118 steps.", size=10.5, color=SLATE, bold=True)
 f.text(200, 254, "No one has proved that every start ends at 1.", size=10.5, color=SLATE)
 ```

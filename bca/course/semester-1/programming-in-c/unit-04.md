@@ -48,6 +48,60 @@ n=6 max=88 min=3 avg=35.83
 reversed: 56 3 88 19 7 42
 ```
 
+### An array is a row of equal slots
+
+An array is the programmer's egg carton: a fixed number of slots, all the same size, numbered from 0. Because the slots are equal and side by side, the computer finds element `i` by one multiplication, `base address + i x size of element`, without looking at the other slots. That is why `a[900]` costs the same as `a[0]`. The same rule also explains the danger: C never checks whether `i` is inside the carton.
+
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Equal slots, numbered from zero. (a) An egg carton: a fixed number of identical slots side by side. (b) The layout of int a[10] measured by a real C program: each element is 4 bytes after the previous one, the array takes 40 bytes, and a[9] lies 36 bytes after a[0]."
+@ photo id="bca102/eggs" cap="Slots of equal size in a row: the picture of an array"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="int a[10]: index and byte offset"
+offs = [4 * i for i in range(10)]
+assert offs[-1] == 36 and 4 * 10 == 40
+f = Fig(400, 230)
+f.text(200, 16, "int a[10] in memory (4 bytes per element)", size=11, color=NAVY, bold=True)
+for i in range(10):
+    x = 20 + i * 36
+    f.text(x + 18, 40, f"a[{i}]", size=10.5, color=NAVY, bold=True)
+    f.box(x, 48, 34, 38, "", fill=BLUE, stroke=NAVY, r=3)
+    f.text(x + 17, 102, f"+{offs[i]}", size=10.5, color=SLATE)
+f.text(200, 128, "address of a[i] = base + 4 x i", size=11, color=SLATE, bold=True)
+f.text(200, 152, "sizeof a = 40 bytes;  &a[9] - &a[0] = 36 bytes", size=11, color=SLATE)
+f.box(20, 168, 360, 44, "", fill=ROSE, stroke=RED, r=4)
+f.text(200, 184, "a[10] is the byte after the carton:", size=10.5, color=RED, bold=True)
+f.text(200, 202, "C does not stop you; the program may read or write another variable.", size=10.5, color=RED)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.3" caption="Why sorted data can be searched fast. (a) A dictionary: because the words are in order you open it near the middle and halve the pages left. (b) Comparisons counted for every key from 1 to 1000 in a sorted array of 1000 numbers: linear search averages 500.5 and needs up to 1000, binary search averages 8.99 and needs at most 10."
+@ photo id="bca102/oed" cap="Sorted words: open in the middle, then halve again and again"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Linear against binary search, 1000 sorted numbers"
+arr = list(range(1, 1001))
+lin = []; binr = []
+for k in arr:
+    lin.append(arr.index(k) + 1)
+    lo, hi, c = 0, 999, 0
+    while lo <= hi:
+        m = (lo + hi) // 2; c += 1
+        if arr[m] == k: break
+        lo, hi = (m + 1, hi) if arr[m] < k else (lo, m - 1)
+    binr.append(c)
+assert sum(lin) / 1000 == 500.5 and max(lin) == 1000
+assert round(sum(binr) / 1000, 2) == 8.99 and max(binr) == 10
+f = Fig(400, 250)
+f.text(200, 16, "Comparisons needed (1000 sorted numbers)", size=11, color=NAVY, bold=True)
+data = [("linear, average", 500.5, AMBER, SAND), ("linear, worst", 1000, RED, ROSE), ("binary, average", 8.99, TEAL, MINT), ("binary, worst", 10, TEAL, MINT)]
+for i, (nm, v, st, fl) in enumerate(data):
+    y = 38 + i * 48
+    f.text(10, y + 8, nm, size=10.5, color=SLATE, bold=True, anchor="start")
+    w = max(v / 1000 * 300, 4)
+    f.box(10, y + 16, w, 18, "", fill=fl, stroke=st, r=2)
+    f.text(16 + w, y + 25, f"{v:g}", size=11, color=st, bold=True, anchor="start", vmid=True)
+f.text(200, 238, "Each comparison halves the range: 2^10 = 1024 is just above 1000.", size=10.5, color=SLATE)
+```
+
 ## 4.2 Searching and sorting
 
 **Linear search**: scan from the start; O(n). Works on unsorted data.
@@ -150,6 +204,41 @@ for r, s in enumerate(notes):
     f.text(410, 12 + r * 40 + 21, s, size=10.5, color=SLATE, anchor="start")
 ```
 
+```photogrid label="4.3" cols="2" ratio="1.3" caption="Sorting by passes. (a) An IBM Type 80 card sorter at the Computer History Museum: cards were sorted column by column into pockets by repeated passes. (b) Bubble sort on 64 34 25 12 22 11 90 traced by a real C program: after each pass the largest unsorted value has reached its place; 21 comparisons and 14 swaps in total, against 21 comparisons and 4 swaps for selection sort."
+@ photo id="bca102/sorter80" cap="IBM Type 80 card sorter: one column per pass"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Bubble sort passes on seven numbers"
+x = [64, 34, 25, 12, 22, 11, 90]
+rows = [list(x)]; sw_per = []; cmp = 0; sw = 0
+for p in range(6):
+    s = 0
+    for j in range(6 - p):
+        cmp += 1
+        if x[j] > x[j + 1]: x[j], x[j + 1] = x[j + 1], x[j]; sw += 1; s += 1
+    rows.append(list(x)); sw_per.append(s)
+assert sw_per == [5, 4, 3, 1, 1, 0] and (cmp, sw) == (21, 14) and x == [11, 12, 22, 25, 34, 64, 90]
+y2 = [64, 34, 25, 12, 22, 11, 90]; c2 = s2 = 0
+for i in range(6):
+    m = i
+    for j in range(i + 1, 7):
+        c2 += 1
+        if y2[j] < y2[m]: m = j
+    if m != i: y2[i], y2[m] = y2[m], y2[i]; s2 += 1
+assert (c2, s2) == (21, 4)
+f = Fig(400, 270)
+f.text(200, 16, "Array after each pass (bubble sort)", size=11, color=NAVY, bold=True)
+for r, row in enumerate(rows[:6]):
+    y = 30 + r * 31
+    f.text(8, y + 12, "start" if r == 0 else f"pass {r}", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    for c, v in enumerate(row):
+        done = c >= 7 - r and r > 0
+        f.box(54 + c * 44, y, 40, 26, str(v), fill=MINT if done else BLUE, stroke=TEAL if done else NAVY, color=TEAL if done else NAVY, size=11, bold=True)
+    if r > 0: f.text(372, y + 12, f"{sw_per[r - 1]} sw", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(200, 230, "Bubble: 21 comparisons, 14 swaps.   Selection: 21 comparisons, 4 swaps.", size=10.5, color=SLATE, bold=True)
+f.text(200, 250, "Green = value already in its final place.", size=10.5, color=TEAL)
+```
+
 ## 4.3 Two-dimensional arrays
 
 `int m[3][4];` is 3 rows by 4 columns, stored **row by row** (row-major). `m[i][j]` is row *i*, column *j*. Initialise: `int m[2][3] = {{1,2,3},{4,5,6}};` (only the first dimension may be omitted when initialising).
@@ -186,6 +275,32 @@ transpose of a:
 ```
 
 Check c[0][0] = 1·7 + 2·9 + 3·11 = 58. Matrix product needs (columns of A) = (rows of B); the triple loop is O(n³). Other staples: sum of the diagonal (`i == j`), sum of the anti-diagonal (`i + j == n − 1`), row sums, symmetric test (`a[i][j] == a[j][i]`).
+
+### A table is an array of arrays
+
+A two-dimensional array such as `int g[8][8]` looks like a chessboard, but memory is a single long line, so C stores it row after row (row-major order). Element `g[i][j]` is therefore the `(i x 8 + j)`-th integer from the start. Plate 4.4 takes the square `g[3][5]` and measures its position with pointer subtraction in a real program.
+
+```photogrid label="4.4" cols="2" ratio="1.1" caption="A grid stored as a line. (a) A chessboard: eight rows and eight columns of squares. (b) int g[8][8] in memory, measured by a real C program: g[3][5] is the 29th element after g[0][0], 116 bytes away; each row takes 32 bytes and the whole array 256 bytes."
+@ photo id="bca102/chessvasa" cap="A chessboard: eight rows by eight columns"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="int g[8][8] stored row after row"
+assert 3 * 8 + 5 == 29 and 29 * 4 == 116 and 8 * 4 == 32 and 64 * 4 == 256
+f = Fig(400, 250)
+f.text(110, 16, "g[row][col]", size=11, color=NAVY, bold=True)
+for r in range(8):
+    for c in range(8):
+        hot = (r, c) == (3, 5)
+        rowhi = r == 3 and c < 5
+        f.box(10 + c * 25, 26 + r * 25, 24, 24, "", fill="#fca5a5" if hot else (SAND if rowhi else (BLUE if (r + c) % 2 else SOFT)), stroke=RED if hot else NAVY)
+f.text(236, 40, "g[3][5]:", size=11, color=RED, bold=True, anchor="start")
+for i, t in enumerate(["index = 3 x 8 + 5 = 29", "offset = 29 x 4 = 116 bytes", "one row = 8 x 4 = 32 bytes", "all 64 = 256 bytes"]):
+    f.text(232, 62 + i * 22, t, size=10.5, color=SLATE, anchor="start")
+f.text(236, 160, "Memory order:", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(236, 180, "row 0, row 1, row 2, ...", size=10.5, color=SLATE, anchor="start")
+f.text(236, 200, "so a loop over j inside i", size=10.5, color=SLATE, anchor="start")
+f.text(236, 218, "walks memory in order.", size=10.5, color=SLATE, anchor="start")
+```
 
 ## 4.4 Strings
 
@@ -255,6 +370,33 @@ Vowels in "Programming in C is fun": o, a, i, i, i, u = 6. Writing `strlen`, `st
 ::: caution String traps
 `strcpy(dest, src)` with a `dest` smaller than `src` is a buffer overflow. `char *p = "abc"; p[0] = 'x';` is undefined (string literals are read-only); use `char p[] = "abc";`. `sizeof(s)` is the array size, `strlen(s)` is the text length. Remember the `+1` for `'\0'` when sizing buffers.
 :::
+
+```photogrid label="4.5" cols="2" ratio="1.3" caption="Strings are arrays that end with a zero byte. (a) A post-office sorting rack of pigeonholes, each addressed by position. (b) The string Nepal as stored by C, read from a real run: five letters and a terminating zero, so strlen is 5 but sizeof is 6; strcmp works on the code of the first differing letter."
+@ photo id="bca102/airmail" cap="Pigeonholes: one slot per position, as in an array"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="char s[] = \"Nepal\""
+s = "Nepal"
+codes = [ord(c) for c in s] + [0]
+assert codes == [78, 101, 112, 97, 108, 0] and len(s) == 5 and len(codes) == 6
+assert ord("e") - ord("y") == -20 and ord("a") - ord("A") == 32
+f = Fig(400, 250)
+f.text(200, 16, 'char s[] = "Nepal";', size=11, color=NAVY, bold=True)
+for i, v in enumerate(codes):
+    x = 14 + i * 62
+    end = v == 0
+    f.text(x + 29, 40, f"s[{i}]", size=10.5, color=SLATE, bold=True)
+    f.box(x, 48, 58, 42, "", fill=ROSE if end else BLUE, stroke=RED if end else NAVY, r=4)
+    f.text(x + 29, 62, "'\\0'" if end else f"'{s[i]}'", size=12, color=RED if end else NAVY, bold=True)
+    f.text(x + 29, 80, str(v), size=10.5, color=SLATE)
+f.text(200, 118, "strlen(s) = 5 (stops at the zero)      sizeof s = 6", size=11, color=SLATE, bold=True)
+f.box(14, 138, 372, 50, "", fill=SAND, stroke=AMBER, r=4)
+f.text(200, 154, 'strcmp("apple", "apply") < 0: first difference is e (101) against y (121)', size=10.5, color=AMBER, bold=True)
+f.text(200, 174, "'e' - 'y' = -20 and 'a' - 'A' = 32, so Apple and apple are different", size=10.5, color=SLATE)
+f.box(14, 202, 372, 38, "", fill=ROSE, stroke=RED, r=4)
+f.text(200, 216, "char t[3] = {'N','E','B'} has no zero byte:", size=10.5, color=RED, bold=True)
+f.text(200, 232, "printf(\"%s\", t) would run on past the array.", size=10.5, color=RED)
+```
 
 ## 4.5 Eight uses of arrays and strings
 
