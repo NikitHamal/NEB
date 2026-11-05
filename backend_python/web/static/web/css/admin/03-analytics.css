@@ -664,3 +664,14 @@ html[data-theme="dark"] .an {
   .an *, .an *::before, .an *::after { animation: none !important; transition-duration: 0.01ms !important; }
   .an-line.is-drawing { stroke-dasharray: none; stroke-dashoffset: 0; }
 }
+
+/* Device and post tables */
+.an .an-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.an .an-tbl th { text-align: left; font-weight: 600; color: var(--md-on-surface-variant); padding: 8px 10px; border-bottom: 1px solid var(--md-outline-variant); }
+.an .an-tbl td { padding: 10px; border-bottom: 1px solid var(--md-outline-variant); color: var(--md-on-surface); font-variant-numeric: tabular-nums; }
+.an .an-tbl tr:last-child td { border-bottom: 0; }
+.an .an-tbl em { font-style: normal; color: var(--md-on-surface-variant); margin-left: 4px; }
+.an .an-tbl a { color: var(--md-primary); text-decoration: none; }
+.an .an-span-3 { grid-column: span 3; }
+.an .an-span-12 { grid-column: 1 / -1; }
+@media (max-width: 900px) { .an .an-span-3 { grid-column: span 6; } .an .an-tbl { display: block; overflow-x: auto; } }
