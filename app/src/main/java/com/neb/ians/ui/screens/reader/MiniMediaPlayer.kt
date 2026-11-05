@@ -69,7 +69,6 @@ fun MiniMediaPlayer(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
-            .shadow(18.dp, shape, ambientColor = Color.Black.copy(alpha = 0.18f), spotColor = Color.Black.copy(alpha = 0.24f))
             .clip(shape)
             .background(
                 Brush.verticalGradient(

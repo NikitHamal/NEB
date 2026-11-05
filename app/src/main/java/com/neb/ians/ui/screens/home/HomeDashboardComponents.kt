@@ -91,42 +91,24 @@ internal fun HomeWelcomePanel(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .shadow(10.dp, shape, ambientColor = Color.Black.copy(alpha = 0.05f), spotColor = Color.Black.copy(alpha = 0.08f))
             .clip(shape)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.88f),
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.58f),
-                        MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-            )
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f), shape)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .padding(20.dp)
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(
-                    text = "Ready to learn, ${userName.ifBlank { "Student" }}?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "Find notes, continue studying, or get instant help without leaving NEBians.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            Text(
+                text = "Ready to learn, ${userName.ifBlank { "Student" }}?",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp)
                     .clip(RoundedCornerShape(18.dp))
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.78f))
-                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f), RoundedCornerShape(18.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                     .clickable(onClick = onSearchClick)
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,

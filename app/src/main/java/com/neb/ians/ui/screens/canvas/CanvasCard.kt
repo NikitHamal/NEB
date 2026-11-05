@@ -116,11 +116,6 @@ fun CanvasCardItem(
                 .padding(handleRadius)
                 .requiredWidth(CanvasCardWidth.dp)
                 .onSizeChanged { onMeasured(it.height / density) }
-                .shadow(
-                    elevation = if (isSelected) 10.dp else 2.dp,
-                    shape = RoundedCornerShape(20.dp),
-                    spotColor = colors.accent.copy(alpha = 0.18f)
-                )
                 .clip(RoundedCornerShape(20.dp))
                 .background(colors.surface)
                 .border(
@@ -624,7 +619,6 @@ private fun BranchPort(
                 scaleX = scale
                 scaleY = scale
             }
-            .shadow(elevation = if (isActive) 6.dp else 2.dp, shape = CircleShape)
             .clip(CircleShape)
             .background(if (isActive) accent else surfaceColor)
             .border(BorderStroke(if (isActive) 2.dp else 1.5.dp, accent), CircleShape)
