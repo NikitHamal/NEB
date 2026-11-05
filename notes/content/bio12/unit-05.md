@@ -869,6 +869,30 @@ two applications. A labelled sketch of the plasmid or the cycle earns marks
 even when the question does not ask for a diagram.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="PCR copies a chosen stretch of DNA by repeating three temperature steps, and each cycle doubles the number of copies. (a) Two thermal cyclers in a laboratory. (b) Starting from one template, 10 cycles give 1,024 copies and 30 cycles give 1,073,741,824, because the number is 2^n. A cycle of denaturation at 94 degrees, annealing at 55 degrees and extension at 72 degrees takes 120 seconds, so 30 cycles need 60 minutes. A heat-stable Taq polymerase from a hot-spring bacterium survives each heating step. Real yields slowly drop below 2^n as the reagents run out, so the machine stops after about 35 cycles."
+@ photo id="bio12/pcr" cap="Thermal cyclers: PCR machines that heat and cool DNA samples"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Copies after n PCR cycles from one template"
+cyc = [10, 20, 25, 30, 35]
+copies = [2 ** n for n in cyc]
+assert copies[0] == 1024 and copies[3] == 1073741824
+f = Fig(300, 236)
+f.text(150, 14, "Copies = 2^n (bar length = cycles)", size=10.5, color=NAVY, bold=True)
+for i, (n, c) in enumerate(zip(cyc, copies)):
+    y = 34 + i * 28
+    w = 150 * n / 35.0
+    lab = format(c, ",") if c < 10 ** 7 else "%.1e" % c
+    f.text(70, y + 8, "%d cycles" % n, size=10, color=SLATE, bold=True, anchor="end", vmid=True)
+    f.box(76, y, w, 16, fill=MINT if n < 30 else SAND, stroke=TEAL if n < 30 else AMBER, r=2)
+    f.text(76 + w + 4, y + 8, lab, size=9.5, color=TEAL if n < 30 else AMBER, bold=True, anchor="start", vmid=True)
+cyc_t = 30 + 30 + 60
+f.text(150, 188, "one cycle: 94 C 30 s, 55 C 30 s, 72 C 60 s", size=10, color=NAVY, bold=True)
+f.text(150, 206, "= %d s per cycle, 30 cycles = %d min" % (cyc_t, 30 * cyc_t // 60), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "about a billion copies in one hour", size=10, color=RED, bold=True)
+facts = dict(c30=copies[3], c10=copies[0], t=30 * cyc_t // 60)
+```
+
 ## Chapter summary
 
 - **Tissue culture** works because plant cells are **totipotent**. Explant →

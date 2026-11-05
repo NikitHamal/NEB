@@ -698,6 +698,8 @@ ax.set_xlim(0.0, 6.0); ax.set_ylim(0.10, 2.25)
 ax.axis("off")
 ```
 
+<div style="break-before:page"></div>
+
 ## 4.11 Pointer expression and assignment; call by value and call by reference
 
 ```figure caption="Call by value copies the data, so the original cannot change. Call by reference copies the address, so the function reaches the original itself."
@@ -1057,6 +1059,42 @@ Compiled and run, this printed
 Marks are given for the `"wb"`/`"rb"` modes, the `NULL` check, `sizeof(struct
 student)` as the record size, and closing the file after each phase.
 :::
+
+```photogrid label="4.P" cols="2" ratio="1.27" caption="C was written by Dennis Ritchie, and a structure in C shows how the compiler places data in memory. (a) Ritchie receiving the Japan Prize. (b) The ctypes module reports that a struct holding char, int, char and double occupies 24 bytes, though its fields need only 14. The compiler inserts padding so that the int starts at a multiple of 4 and the double at offset 16. Declaring the members in order of size, double then int then the two chars, gives 16 bytes. The record shrinks by 8 bytes, which matters when a program stores a million of them in an array or a binary file."
+@ photo id="cs12/ritchie" cap="Dennis Ritchie (right), who created the C language at Bell Labs"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Struct padding measured with ctypes"
+import ctypes
+class A(ctypes.Structure):
+    _fields_ = [("a", ctypes.c_char), ("b", ctypes.c_int), ("c", ctypes.c_char), ("d", ctypes.c_double)]
+class B(ctypes.Structure):
+    _fields_ = [("d", ctypes.c_double), ("b", ctypes.c_int), ("a", ctypes.c_char), ("c", ctypes.c_char)]
+sa, sb = ctypes.sizeof(A), ctypes.sizeof(B)
+assert (sa, sb) == (24, 16) and A.b.offset == 4 and A.d.offset == 16
+def strip(y, T, names, col):
+    used = {}
+    for n in names:
+        fld = getattr(T, n)
+        used[n] = (fld.offset, fld.size)
+    w = 11
+    for i in range(ctypes.sizeof(T)):
+        f.box(8 + i * w, y, w - 1, 16, fill="#e2e8f0", stroke="#cbd5e1", sw=0.6, r=1)
+    for n, (o, s) in used.items():
+        f.box(8 + o * w, y, s * w - 1, 16, fill=col[n], stroke=NAVY, sw=1, r=1)
+        f.text(8 + o * w + s * w / 2, y + 8, n, size=9, color=NAVY, bold=True, vmid=True)
+col = dict(a=SAND, b=BLUE, c=ROSE, d=MINT)
+f = Fig(300, 236)
+f.text(150, 14, "Bytes of a struct: grey cells are padding", size=10.5, color=NAVY, bold=True)
+f.text(8, 40, "char a; int b; char c; double d;", size=10, color=SLATE, bold=True, anchor="start")
+strip(48, A, "abcd", col)
+f.text(8, 40 + 70, "double d; int b; char a; char c;", size=10, color=SLATE, bold=True, anchor="start")
+strip(118, B, "dbac", col)
+f.text(150, 176, "top: sizeof = %d bytes" % sa, size=10.5, color=RED, bold=True)
+f.text(150, 208, "bottom: sizeof = %d bytes" % sb, size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "8 bytes saved per record", size=10, color=SLATE, bold=True)
+facts = dict(sa=sa, sb=sb, save=sa - sb, off=A.d.offset)
+```
 
 ## Chapter summary
 

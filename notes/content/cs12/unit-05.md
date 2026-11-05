@@ -877,6 +877,40 @@ years, so adding a class must not break existing code; and several programmers
 can own separate classes at once.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="Object-oriented programming builds a class once and then makes as many objects as needed, as one brick mould makes many bricks. (a) A heap of Lego bricks. (b) Rect, Circle and Tri inherit from Shape and each overrides area(). The same call s.area() therefore runs a different method for each object and returns 12.00, 12.57 and 12.00. This is polymorphism: the caller does not need to know the type. Inheritance saved the repeated code, encapsulation keeps w, h and r inside each object, and a new shape can be added without changing the loop that calls area()."
+@ photo id="cs12/lego" cap="Lego bricks: one design (class) gives many bricks (objects)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Polymorphism: one call, three results"
+class Shape:
+    def area(self): raise NotImplementedError
+class Rect(Shape):
+    def __init__(self, w, h): self.w, self.h = w, h
+    def area(self): return self.w * self.h
+class Circle(Shape):
+    def __init__(self, r): self.r = r
+    def area(self): return math.pi * self.r ** 2
+class Tri(Shape):
+    def __init__(self, b, h): self.b, self.h = b, h
+    def area(self): return 0.5 * self.b * self.h
+objs = [Rect(4, 3), Circle(2), Tri(6, 4)]
+vals = [o.area() for o in objs]
+assert all(isinstance(o, Shape) for o in objs) and round(vals[1], 2) == 12.57 and vals[0] == vals[2] == 12
+f = Fig(300, 236)
+f.text(150, 14, "for s in shapes: s.area()", size=10.5, color=NAVY, bold=True, )
+f.box(95, 30, 110, 34, "Shape\narea()", fill=SAND, stroke=AMBER, size=10, bold=True)
+names = [("Rect(4, 3)", BLUE, NAVY), ("Circle(2)", MINT, TEAL), ("Tri(6, 4)", ROSE, RED)]
+for i, (nme, fl, st) in enumerate(names):
+    x = 8 + i * 98
+    f.arrow([(x + 44, 108), (150 + (i - 1) * 25, 66)], color=SLATE, sw=1.2)
+    f.box(x, 108, 88, 34, nme, fill=fl, stroke=st, size=10, bold=True)
+    f.box(x, 160, 88, 24, "%.2f" % vals[i], fill="#ffffff", stroke=st, size=11, bold=True)
+    f.text(x + 44, 152, "area()", size=9, color=SLATE, bold=True)
+f.text(150, 206, "same message, different method each", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "isinstance(obj, Shape) is True for all", size=10, color=SLATE, bold=True)
+facts = dict(a=vals[0], b=vals[1], c=vals[2])
+```
+
 ## Chapter summary
 
 - A paradigm is a style of organising a program: procedural (functions on shared

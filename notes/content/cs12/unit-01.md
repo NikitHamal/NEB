@@ -1260,6 +1260,31 @@ parameterised (prepared) statements, and give the web application's database use
 the smallest set of privileges it needs.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A DBMS stores tables on disk in servers like these, and an index decides whether a query takes a blink or a coffee break. (a) Equipment racks in a data centre. (b) In a table of 1,000,000 student rows, a full scan with no index checks about 500,000 rows on average to find one roll number. Binary search on a sorted key needs 20 comparisons. A B+ tree with a fan-out of 100 reaches the row in 3 page reads, because log base 100 of a million is 3. This is why a primary key is indexed automatically and why the SQL command CREATE INDEX is used on columns that appear often in WHERE clauses."
+@ photo id="cs12/datacenter" cap="Racks in a data centre, where database servers keep their tables"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Full scan against index lookup in 1,000,000 rows"
+N = 1000000
+scan = N // 2
+bin_ = math.ceil(math.log2(N))
+fan = 100
+btree = math.ceil(math.log(N, fan) - 1e-9)
+assert (scan, bin_, btree) == (500000, 20, 3)
+f = Fig(300, 236)
+f.text(150, 14, "Comparisons to find one roll number", size=10.5, color=NAVY, bold=True)
+rows = [("Full scan (avg)", scan, "%s" % format(scan, ","), ROSE, RED), ("Binary search", bin_, "%d" % bin_, SAND, AMBER), ("B+ tree, fan-out 100", btree, "%d page reads" % btree, MINT, TEAL)]
+for i, (nme, v, lab, fl, st) in enumerate(rows):
+    y = 52 + i * 44
+    w = max(6, 150 * math.log10(v + 1) / math.log10(N))
+    f.text(8, y - 8, nme, size=10, color=SLATE, bold=True, anchor="start")
+    f.box(8, y, w, 18, fill=fl, stroke=st, r=2)
+    f.text(8 + w + 5, y + 9, lab, size=10, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "bar length uses a log scale", size=10, color=SLATE, bold=True)
+f.text(150, 214, "an index turns %s steps into %d" % (format(scan, ","), btree), size=10.5, color=NAVY, bold=True)
+facts = dict(N=format(N, ","), scan=format(scan, ","), b=bin_, t=btree)
+```
+
 ## Chapter summary
 
 - Data are raw facts; information is processed data. A database is shared,

@@ -1413,6 +1413,30 @@ Learn this table. Roughly a third of the marks in this unit are a direct
 read-off from one of its rows.
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A parabola sends every incoming ray parallel to its axis through one point, the focus, which is why a dish collects a faint signal there. (a) A satellite dish. (b) The cross-section of a dish 40 cm wide and 10 cm deep follows y^2 = 4ax. Putting y = 0.20 m at x = 0.10 m gives a = 0.100 m, so the focus is 0.10 m from the vertex. The amber rays arrive parallel to the axis and the red lines show each one reflected to F, where the receiver is mounted. A deeper dish has a shorter focal length because a = D^2 / (16 x depth)."
+@ photo id="math12/dish" cap="A satellite dish whose cross-section is a parabola"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Focus of a dish 40 cm wide and 10 cm deep"
+D = 0.40; dep = 0.10
+a = D * D / (16 * dep)
+assert abs(a - 0.1) < 1e-12 and abs(math.sqrt(4 * a * dep) - D / 2) < 1e-12
+f = Fig(300, 236)
+f.text(150, 14, "y^2 = 4ax, vertex at the origin", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 30, 24, 260, 180, (-0.1, 0.55), (-0.225, 0.225))
+for sg in (1, -1):
+    ax.curve(lambda x, sg=sg: sg * math.sqrt(4 * a * x), 0, dep, color=NAVY, sw=3)
+f.line(ax.X(-0.1), ax.Y(0), ax.X(0.55), ax.Y(0), color=SLATE, dash=True)
+for yv in (-0.2, -0.1, 0.1, 0.2):
+    xv = yv * yv / (4 * a)
+    f.line(ax.X(0.5), ax.Y(yv), ax.X(xv), ax.Y(yv), color=AMBER, sw=1.4)
+    f.line(ax.X(xv), ax.Y(yv), ax.X(a), ax.Y(0), color=RED, sw=1.2)
+ax.pt(a, 0, "focus F", dx=6, dy=-10, color=RED)
+f.text(ax.X(0) - 4, ax.Y(0) + 16, "V", size=11, color=NAVY, bold=True)
+f.text(150, 222, "a = D^2 / (16 depth) = %.3f m, rim at x = %.2f m" % (a, dep), size=10, color=NAVY, bold=True)
+facts = dict(a=a, D=D * 100, dep=dep * 100)
+```
+
 ## Chapter summary
 
 - A **conic** is the locus of $P$ with $PS/PM = e$, where $S$ is the focus and the

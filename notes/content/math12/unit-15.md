@@ -864,6 +864,32 @@ $0.002604$ and $0.000006$ — both comfortably inside their bounds, and Simpson 
 about $400$ times more accurate for the same five ordinates.
 :::
 
+```photogrid label="15.P" cols="2" ratio="1.27" caption="Computational methods find roots when no formula is handy, and the choice of method changes the speed a lot. (a) A pocket calculator, which uses such iterations internally. (b) For f(x) = x^2 - 2 the Newton step (x + 2/x)/2 starting at 1 gives 1.5, 1.41667, 1.414216 and 1.41421356. After four steps the answer is correct to 11.8 decimal places, with error 1.6e-12. Four steps of bisection on [1, 2] reach only 1.6 places because each step gains about 0.3 of a digit. Newton's method roughly doubles the correct digits each time, but it needs the derivative and a good start, while bisection always works once the sign changes."
+@ photo id="math12/calc" cap="A pocket calculator evaluates roots with exactly this kind of iteration"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Newton's method against bisection for root 2"
+f_ = lambda x: x * x - 2
+x = 1.0; newton = []
+for i in range(4):
+    x = x - f_(x) / (2 * x); newton.append(abs(x - math.sqrt(2)))
+lo, hi = 1.0, 2.0; bis = []
+for i in range(4):
+    mid = (lo + hi) / 2
+    if f_(lo) * f_(mid) <= 0: hi = mid
+    else: lo = mid
+    bis.append(abs(mid - math.sqrt(2)))
+dig = lambda e: -math.log10(e)
+assert newton[0] > newton[1] > newton[2] > newton[3] and dig(newton[3]) > 11
+f = Fig(300, 236)
+f.text(150, 14, "Correct decimal places after each step", size=10.5, color=NAVY, bold=True)
+rows = [("Newton %d" % (i + 1), dig(newton[i])) for i in range(4)] + [("Bisection %d" % (i + 1), dig(bis[i])) for i in range(4)]
+hbars(f, rows, vmax=12, fmt="%.1f", x0=84, y0=30, bw=150, gap=20, colors=[(MINT, TEAL)] * 4 + [(SAND, AMBER)] * 4, size=9.5)
+f.text(150, 214, "x(n+1) = x(n) - f/f' = (x + 2/x) / 2", size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "from x0 = 1: 1.5, 1.41667, 1.414216, 1.41421356", size=9.5, color=SLATE, bold=True)
+facts = dict(n4=dig(newton[3]), b4=dig(bis[3]), e4=newton[3])
+```
+
 ## Chapter summary
 
 - **Gauss elimination.** Form $[A\,|\,b]$; use $R_i \rightarrow R_i - m_{ik}R_k$

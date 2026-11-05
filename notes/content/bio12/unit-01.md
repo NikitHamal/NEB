@@ -1136,6 +1136,27 @@ in a root the xylem and phloem are on alternating radii.
    phloem outside, and a cork cambium — here arising from the **pericycle** —
    forms the periderm. The epiblema and cortex are shed.
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A stomata count is made more reliable by the stomatal index, which compares stomata with all the epidermal cells in the same field. (a) A scanning electron micrograph showing a stoma with its guard cells. (b) Sample counts from a dicot leaf give an index of 27.1 for the lower surface and 8.6 for the upper surface, a ratio of 3.2 to 1. The lower surface faces away from the sun, so water is lost more slowly there while carbon dioxide still enters. Floating leaves such as the water lily show the opposite pattern, with stomata only on the upper side. The index is used to separate species and to detect changes in air carbon dioxide."
+@ photo id="bio12/stomata" cap="Scanning electron micrograph of stomata on a leaf surface"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Stomatal index of the two leaf surfaces"
+S_lo, E_lo = 38, 102
+S_up, E_up = 12, 128
+si = lambda s, e: 100.0 * s / (s + e)
+lo, up = si(S_lo, E_lo), si(S_up, E_up)
+assert round(lo, 1) == 27.1 and round(up, 1) == 8.6
+f = Fig(300, 236)
+f.text(150, 14, "SI = S / (S + E) x 100", size=10.5, color=NAVY, bold=True)
+hbars(f, [("Lower", lo), ("Upper", up)], vmax=35, fmt="%.1f", x0=60, y0=40, bw=190, gap=34, colors=[(MINT, TEAL), (SAND, AMBER)])
+f.text(150, 124, "lower: S = %d, E = %d" % (S_lo, E_lo), size=10.5, color=TEAL, bold=True)
+f.text(150, 142, "upper: S = %d, E = %d" % (S_up, E_up), size=10.5, color=AMBER, bold=True)
+f.text(150, 170, "S = stomata, E = ordinary epidermal cells", size=10, color=SLATE, bold=True)
+f.text(150, 192, "ratio lower : upper = %.1f : 1" % (lo / up), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "sample counts from five fields of view", size=9.5, color=SLATE, bold=True)
+facts = dict(lo=lo, up=up, rt=lo / up)
+```
+
 ## Chapter summary
 
 - A **tissue** is a group of cells of common origin doing one job. Tissues are

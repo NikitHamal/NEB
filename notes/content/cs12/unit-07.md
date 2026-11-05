@@ -592,6 +592,42 @@ e-government is the machinery that delivers it. In the exam, define the exact
 word in the question and give one Nepali example.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="A blockchain links records by storing in each block the hash of the previous block, and miners prove their effort by finding a hash with a set pattern. (a) A mining rig of graphics cards. (b) The program mines three blocks with real SHA-256, requiring the hash to start with two zero hex digits. The winning nonces were 110, 399 and 16, so 528 hashes were tried in all, an average of 176 per block against the expected 256 (luck varies). Editing an earlier amount changes its hash, which breaks the link stored in the next block, so tampering is visible at once. Real networks demand far more zeros, which is why they need so much electricity."
+@ photo id="cs12/miningrig" cap="A GPU mining rig: hash computation done at scale"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A three-block chain mined with real SHA-256"
+import hashlib
+def mine(prev, data, zeros=2):
+    n = 0
+    while True:
+        h = hashlib.sha256(("%s|%s|%d" % (prev, data, n)).encode()).hexdigest()
+        if h.startswith("0" * zeros): return n, h
+        n += 1
+prev = "0" * 64; chain = []
+for data in ["Ram pays Sita 500", "Sita pays Hari 200", "Hari pays Gita 50"]:
+    n, h = mine(prev, data); chain.append((data, n, h)); prev = h
+assert all(c[2].startswith("00") for c in chain)
+f = Fig(300, 236)
+f.text(150, 14, "Each block stores the hash of the one before", size=10, color=NAVY, bold=True)
+cols = [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)]
+for i, (data, n, h) in enumerate(chain):
+    x = 6 + i * 98
+    fl, st = cols[i]
+    f.box(x, 32, 90, 126, "", fill=fl, stroke=st)
+    f.text(x + 45, 46, "Block %d" % (i + 1), size=10, color=st, bold=True)
+    f.text(x + 45, 66, data.replace(" pays ", "\npays "), size=9, color=SLATE, bold=True)
+    f.text(x + 45, 100, "nonce %d" % n, size=9.5, color=st, bold=True)
+    f.text(x + 45, 122, "hash", size=9, color=SLATE)
+    f.text(x + 45, 136, h[:8] + "...", size=9.5, color=RED, bold=True)
+    if i: f.arrow([(x - 8, 120), (x, 120)], color=st, sw=1.4)
+tot = sum(c[1] + 1 for c in chain)
+f.text(150, 182, "rule: hash must start with 00 (8 bits)", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "%d hashes tried, %d per block (expect 256)" % (tot, tot // 3), size=10, color=SLATE, bold=True)
+f.text(150, 218, "change one amount and every later hash breaks", size=10, color=RED, bold=True)
+facts = dict(n1=chain[0][1], n2=chain[1][1], n3=chain[2][1], tot=tot, avg=tot / 3.0, h=chain[2][2][:8])
+```
+
 ## Chapter summary
 
 - AI builds machines that do jobs needing intelligence (coined 1956); machine

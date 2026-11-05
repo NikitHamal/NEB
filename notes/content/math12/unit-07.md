@@ -449,6 +449,32 @@ at the end. Give angles in degrees and minutes ($1^{\circ} = 60'$): $0.5^{\circ}
 is $30'$, not $50'$.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="A surveyor cannot walk to the foot of a tower, so the height is found from two angles of elevation taken along a line. (a) A student sighting through a theodolite. (b) Stations A and B are 30 m apart with angles of 30 and 45 degrees. The angle at the top of the tower is 15 degrees, so the sine rule gives BC = 57.96 m and h = BC sin 45 = 40.98 m. The program also finds h from the cotangent form and the two answers agree. The tower stands 71.0 m from A and 41.0 m from B. This is the method of Unit 7: solve the oblique triangle first, then the right triangle."
+@ photo id="math12/theodolite" cap="A student sighting through a theodolite in the field"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Tower height from two angles of elevation"
+d = 30.0; al = math.radians(30); be = math.radians(45)
+h1 = d / (1 / math.tan(al) - 1 / math.tan(be))
+BC = d * math.sin(al) / math.sin(be - al); h2 = BC * math.sin(be)
+assert abs(h1 - h2) < 1e-9
+dA = h1 / math.tan(al); dB = h1 / math.tan(be)
+f = Fig(300, 236)
+f.text(150, 14, "Two stations 30 m apart, angles 30 and 45", size=10, color=NAVY, bold=True)
+sc = 2.7; gy = 180; tx = 270
+Ax_, Bx_ = tx - dA * sc, tx - dB * sc; ty = gy - h1 * sc
+f.line(20, gy, 290, gy, color=SLATE, sw=1.6)
+f.box(tx - 6, ty, 12, gy - ty, fill=SAND, stroke=AMBER, r=1)
+f.line(Ax_, gy, tx, ty, color=NAVY, sw=1.6); f.line(Bx_, gy, tx, ty, color=TEAL, sw=1.6)
+f.circle(Ax_, gy, 3.5, fill=NAVY, stroke=NAVY); f.circle(Bx_, gy, 3.5, fill=TEAL, stroke=TEAL)
+f.text(Ax_, gy + 14, "A", size=11, color=NAVY, bold=True); f.text(Bx_, gy + 14, "B", size=11, color=TEAL, bold=True)
+f.text(Ax_ + 34, gy - 5, "30 deg", size=9.5, color=NAVY, bold=True); f.text(Bx_ + 20, gy - 14, "45 deg", size=9.5, color=TEAL, bold=True)
+f.text(tx - 12, (ty + gy) / 2, "h", size=11, color=AMBER, bold=True, anchor="end")
+f.text(150, 206, "h = d / (cot 30 - cot 45) = %.2f m" % h1, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "sine rule: BC = %.2f m, h = BC sin 45 = %.2f m" % (BC, h2), size=10, color=SLATE, bold=True)
+facts = dict(h=h1, bc=BC, da=dA, db=dB)
+```
+
 ## Chapter summary
 
 - Three parts solve a triangle if at least one is a side; AAA gives shape only.
