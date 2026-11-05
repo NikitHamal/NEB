@@ -1,4 +1,4 @@
-package com.neb.ians.ui.screens.ai.chat
+package com.neb.ians.ui.screens.reader
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -10,7 +10,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,11 +20,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
@@ -50,7 +47,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.neb.ians.data.api.ApiArenaMessage
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.pixel.NebyPixel
@@ -61,6 +57,10 @@ import com.neb.ians.ui.theme.nebAnimationsReduced
 import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
 import kotlin.math.max
+
+/** One line of a Neby AI conversation about a document. */
+@Immutable
+data class NebyMessage(val id: String, val role: String, val content: String, val createdAt: Long = 0)
 
 /** What Neby is doing with the latest message. */
 enum class ChatPhase { Idle, Thinking, Reading, Writing }
@@ -111,14 +111,8 @@ fun rememberSmoothText(target: String, streaming: Boolean): String {
 }
 
 @Composable
-fun UserMessage(message: ApiArenaMessage, onCopy: (String) -> Unit, modifier: Modifier = Modifier) {
+fun UserMessage(message: NebyMessage, onCopy: (String) -> Unit, modifier: Modifier = Modifier) {
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
-        if (message.attachments.isNotEmpty()) {
-            Row(
-                Modifier.horizontalScroll(rememberScrollState()).padding(bottom = 6.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
-            ) { message.attachments.forEach { AttachmentPill(it.fileName.ifBlank { "Attachment" }) } }
-        }
         val shape = RoundedCornerShape(22.dp, 22.dp, 6.dp, 22.dp)
         Box(
             Modifier
@@ -140,7 +134,7 @@ fun UserMessage(message: ApiArenaMessage, onCopy: (String) -> Unit, modifier: Mo
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AssistantMessage(
-    message: ApiArenaMessage,
+    message: NebyMessage,
     phase: ChatPhase,
     isLast: Boolean,
     modelLabel: String?,
@@ -251,21 +245,6 @@ fun NebyStatus(phase: ChatPhase, modifier: Modifier = Modifier, label: String? =
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.graphicsLayer { alpha = if (reduced) 1f else 0.7f + 0.3f * kotlin.math.sin(clock / 260f) }
         )
-    }
-}
-
-@Composable
-private fun AttachmentPill(name: String) {
-    Row(
-        Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .padding(horizontal = 10.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        Icon(Icons.Outlined.Description, contentDescription = null, modifier = Modifier.size(15.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(name, style = MaterialTheme.typography.labelMedium, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 160.dp))
     }
 }
 
