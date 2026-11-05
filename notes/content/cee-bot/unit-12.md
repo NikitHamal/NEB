@@ -139,6 +139,30 @@ substrate-level ATP (2 glycolysis, 2 GTP) plus ~10 NADH × 2.5 and ~2 FADH₂ ×
 1.5 ≈ 25 + 3 = 28 oxidative → **30–32 ATP per glucose**, against the 2 ATP of
 fermentation: oxygen is worth fifteen-fold.
 :::
+```photogrid label="12.1" cols="2" ratio="1.2" caption="Colour of light and energy of a photon. (a) A single spiral chloroplast of Spirogyra: the pigments sit in its thylakoid membranes. (b) Chlorophyll a absorbs strongly in the blue-violet (about 430 nm) and the red (about 662 nm); green light is mostly reflected, which is why leaves look green. The energy of one photon is E = hc/lambda = 1,239.84/lambda(nm) eV, giving 2.88 eV at 430 nm and 1.87 eV at 662 nm. The reaction centres P680 (photosystem II, 1.82 eV) and P700 (photosystem I, 1.77 eV) absorb the longest wavelengths that still drive the reaction."
+@ photo id="ceebot/spirogyra-chl" cap="Spiral chloroplast in a Spirogyra cell"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Absorption of chlorophyll a (schematic) and photon energy"
+E = lambda nm: 1239.84 / nm
+assert abs(E(430) - 2.883) < 0.001 and abs(E(662) - 1.873) < 0.001 and abs(E(680) - 1.823) < 0.001 and abs(E(700) - 1.771) < 0.001
+facts = dict(e430="%.2f" % E(430), e662="%.2f" % E(662), e680="%.2f" % E(680), e700="%.2f" % E(700))
+A = lambda l: math.exp(-((l - 430) / 22) ** 2 / 2) + 0.78 * math.exp(-((l - 662) / 17) ** 2 / 2) + 0.12
+f = Fig(300, 236)
+f.text(150, 12, "Relative absorption against wavelength (nm)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (400, 700), (0, 1.2))
+cols = ("#7c3aed", "#2563eb", "#16a34a", "#eab308", "#f97316", "#dc2626")
+for k, c in enumerate(cols):
+    f.box(ax.X(400 + k * 50), ax.Y(0) + 17, ax.X(450 + k * 50) - ax.X(400 + k * 50), 8, fill=c, stroke=c, r=0, sw=0.5)
+ax.grid(50, 0.4, xfmt=lambda v: "%d" % v).axes("nm", "A")
+ax.curve(A, 400, 700, color=TEAL)
+ax.pt(430, A(430), "2.88 eV", dx=8, dy=4)
+ax.pt(662, A(662), "1.87 eV", dx=-8, dy=-8, anchor="end")
+ax.vline(680, 0, 0.85, color=RED).vline(700, 0, 0.5, color=NAVY)
+f.text(150, 214, "red line P680 1.82 eV; navy line P700 1.77 eV", size=10.5, color=SLATE, bold=True)
+f.text(150, 228, "E (eV) = 1,239.84 / wavelength (nm)", size=10.5, color=NAVY, bold=True)
+```
+
 ## 12.2 Calvin cycle (C3), Hatch–Slack pathway (C4) and photorespiration; factors; bacterial photosynthesis
 
 The **Calvin cycle** (Calvin, Benson, Bassham; Nobel 1961) runs in the
@@ -207,6 +231,32 @@ exchange); the **CO₂ compensation point** is the equivalent CO₂ level
 are most effective; temperature governs through enzyme kinetics (rate
 roughly doubling per 10 °C to an optimum, then crashing); water shortage
 acts by closing stomata.
+
+```photogrid label="12.2" cols="2" ratio="1.2" caption="How much of the light is kept. (a) A chloroplast in section: stacked grana of thylakoids in a matrix, the sites of light reactions and of the Calvin cycle. (b) At least 8 photons are needed per CO2, 48 for one glucose. At 680 nm each photon carries 1.82 eV, so 48 photons carry 8,444 kJ per mole of glucose, while one mole of glucose stores 2,870 kJ. The best possible conversion is 34 per cent. Real leaves reach far less because light is reflected, wasted at saturation or lost in photorespiration, and a field crop stores only 1 to 2 per cent of the sunlight that falls on it."
+@ photo id="bio11/chloroplast-tem" cap="Chloroplast in section (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy of 48 photons (680 nm) and what a glucose stores (kJ/mol)"
+Eph = 1239.84 / 680
+kj = 48 * Eph * 96.485
+eff = 2870 / kj * 100
+assert abs(kj - 8444) < 5 and abs(eff - 34.0) < 0.2
+facts = dict(e="%.2f" % Eph, kj="{:,}".format(int(round(kj))), eff="%.0f" % eff)
+f = Fig(300, 236)
+f.text(150, 12, "Light energy absorbed and energy stored", size=10.5, color=NAVY, bold=True)
+sc = 230 / kj
+f.text(10, 42, "48 photons at 680 nm", size=10.5, color=SLATE, anchor="start")
+f.box(10, 50, kj * sc, 24, fill=SAND, stroke=AMBER, r=2)
+f.text(10 + kj * sc / 2, 62, "%s kJ" % facts["kj"], size=10.5, color=AMBER, bold=True, vmid=True)
+f.text(10, 100, "stored as 1 glucose", size=10.5, color=SLATE, anchor="start")
+f.box(10, 108, 2870 * sc, 24, fill=MINT, stroke=TEAL, r=2)
+f.text(10 + 2870 * sc / 2, 120, "2,870 kJ", size=10.5, color=TEAL, bold=True, vmid=True)
+f.box(10 + 2870 * sc, 108, (kj - 2870) * sc, 24, fill="#f1f5f9", stroke=SLATE, r=2, dash=True)
+f.text(10 + 2870 * sc + (kj - 2870) * sc / 2, 120, "lost", size=10.5, color=SLATE, bold=True, vmid=True)
+f.text(150, 168, "maximum efficiency = 2,870 / %s" % facts["kj"], size=10.5, color=NAVY, bold=True)
+f.text(150, 186, "= %s per cent" % facts["eff"], size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "field crops store only 1 to 2 per cent of sunlight", size=10.5, color=SLATE, bold=True)
+```
 
 ## 12.3 Aerobic and anaerobic respiration: glycolysis, oxidative decarboxylation, Krebs cycle, electron transport and oxidative phosphorylation; factors
 
@@ -356,6 +406,34 @@ second** — numbering follows discovery, electrons follow energy; the
 only via ATP and NADPH; and **photorespiration consumes, it does not
 produce** — CO₂ out, ATP spent, no sugar, which is exactly why C₄ exists.
 :::
+
+```photogrid label="12.3" cols="2" ratio="1.2" caption="Counting ATP from one glucose. (a) Mitochondria in a lung cell: the cristae carry the electron transport chain. (b) Glycolysis gives 2 ATP and 2 NADH, the link reaction 2 NADH, and the Krebs cycle 2 ATP, 6 NADH and 2 FADH2, so substrate-level ATP is 4, with 10 NADH and 2 FADH2 to oxidise. The older textbook yield uses 3 ATP per NADH and 2 per FADH2: 4 + 30 + 4 = 38 ATP. Modern measurements use 2.5 and 1.5: 4 + 25 + 3 = 32 ATP, which captures 34 per cent of the 2,870 kJ in glucose (30.5 kJ per ATP). Anaerobic fermentation nets only 2 ATP."
+@ photo id="bio11/mito-tem" cap="Mitochondria in a lung cell (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="ATP from one glucose: older and modern counts"
+sub, nadh, fadh = 4, 10, 2
+old = sub + nadh * 3 + fadh * 2
+new = sub + nadh * 2.5 + fadh * 1.5
+eff = new * 30.5 / 2870 * 100
+assert old == 38 and new == 32 and abs(eff - 34.0) < 0.1
+facts = dict(old=old, new="%d" % new, eff="%.0f" % eff)
+f = Fig(300, 236)
+f.text(150, 12, "ATP per glucose (aerobic)", size=10.5, color=NAVY, bold=True)
+sc = 6.0
+for i, (lab, a, b, c) in enumerate((("older count", nadh * 3, fadh * 2, old), ("modern count", nadh * 2.5, fadh * 1.5, new))):
+    y = 36 + i * 62
+    f.text(10, y, lab + ": %g ATP" % c, size=10.5, color=NAVY, bold=True, anchor="start")
+    x = 10
+    for v, fl, st, nm in ((sub, SAND, AMBER, "sub"), (a, BLUE, NAVY, "NADH"), (b, MINT, TEAL, "FADH2")):
+        f.box(x, y + 8, v * sc, 22, fill=fl, stroke=st, r=0, sw=1.2)
+        f.text(x + v * sc / 2, y + 19, "%g" % v, size=10.5, color=st, bold=True, vmid=True)
+        x += v * sc
+f.box(14, 172, 12, 12, fill=SAND, stroke=AMBER, r=0); f.text(30, 178, "substrate-level", size=10.5, color=AMBER, anchor="start", vmid=True)
+f.box(128, 172, 12, 12, fill=BLUE, stroke=NAVY, r=0); f.text(144, 178, "NADH", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(206, 172, 12, 12, fill=MINT, stroke=TEAL, r=0); f.text(222, 178, "FADH2", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(150, 206, "32 ATP x 30.5 kJ = 976 kJ = 34% of 2,870", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 

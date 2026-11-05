@@ -159,6 +159,33 @@ children**. Every daughter receives the father's only X, which carries the
 colour-blindness allele, plus a normal X from mother: **all daughters
 carriers, none affected** — and every son normal, taking the Y.
 :::
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Testing Mendel's 9:3:3:1 with a chi-square. (a) Mendel's seven pea characters, each with a dominant and a recessive form. (b) In his dihybrid cross (round yellow x wrinkled green) he counted 315, 101, 108 and 32 seeds, 556 in all. A 9:3:3:1 ratio would give 312.75, 104.25, 104.25 and 34.75. Chi-square = sum of (O - E)^2/E = 0.47; with 3 degrees of freedom the 5 per cent critical value is 7.81, so the data fit the ratio very well (if anything, suspiciously well, as later statisticians noted)."
+@ photo id="ceebot/mendel-chars" cap="Mendel's seven pea characters"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Observed against expected seed counts"
+obs = (315, 101, 108, 32)
+n = sum(obs)
+exp = [n * r / 16 for r in (9, 3, 3, 1)]
+chi = sum((o - e) ** 2 / e for o, e in zip(obs, exp))
+assert n == 556 and abs(chi - 0.470) < 0.001
+facts = dict(e1="%.2f" % exp[0], e2="%.2f" % exp[1], e3="%.2f" % exp[2], e4="%.2f" % exp[3], chi="%.2f" % chi)
+f = Fig(300, 236)
+f.text(150, 12, "Seeds counted (navy) and expected (amber)", size=10.5, color=NAVY, bold=True)
+labs = ("round yellow", "round green", "wrinkled yellow", "wrinkled green")
+base = 170
+for i, (o, e) in enumerate(zip(obs, exp)):
+    x = 22 + i * 68
+    f.box(x, base - o / 315 * 120, 22, o / 315 * 120, fill=BLUE, stroke=NAVY, r=1)
+    f.box(x + 24, base - e / 315 * 120, 22, e / 315 * 120, fill=SAND, stroke=AMBER, r=1)
+    f.text(x + 11, base - o / 315 * 120 - 6, str(o), size=10.5, color=NAVY, bold=True)
+    f.text(x + 35, base - e / 315 * 120 - 6 if i else base - e / 315 * 120 - 20, "%.0f" % e, size=10.5, color=AMBER, bold=True)
+    f.text(x + 23, base + 14, labs[i].split()[0], size=10.5, color=SLATE)
+    f.text(x + 23, base + 27, labs[i].split()[1], size=10.5, color=SLATE)
+f.line(14, base, 290, base, color=SLATE)
+f.text(150, 224, "chi-square = %.2f (critical 7.81)" % chi, size=10.5, color=NAVY, bold=True)
+```
+
 ## 9.2 Linkage (complete and incomplete) and crossing over
 
 Independent assortment fails for genes that sit on the **same
@@ -274,6 +301,60 @@ identical reciprocal results).
 pass only from father to son; **sex-influenced** genes such as human
 pattern baldness are autosomal but dominant in one sex and recessive in
 the other.)
+
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Eye colour in Drosophila follows the X chromosome. (a) A white-eyed fruit fly, the mutant Thomas Hunt Morgan used in 1910 to show that a gene sits on a chromosome. The white allele is recessive and X-linked. (b) A heterozygous red-eyed female (XW Xw) crossed with a red-eyed male (XW Y) gives 4 equally likely zygotes: 2 of them are red-eyed females (half carriers) and the male offspring split 1 red to 1 white. So 25 per cent of all progeny, and 50 per cent of the sons, are white-eyed, while no daughter is. The same pattern explains colour blindness and haemophilia in humans."
+@ photo id="ceebot/drosophila-white" cap="A white-eyed Drosophila beside a scale"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Punnett square: XW Xw female x XW Y male"
+mother, father = ("XW", "Xw"), ("XW", "Y")
+kids = [(m, fa) for m in mother for fa in father]
+def pheno(m, fa):
+    if fa == "Y":
+        return "white male" if m == "Xw" else "red male"
+    return "carrier female" if "Xw" in (m, fa) else "red female"
+ph = [pheno(*k) for k in kids]
+sons = [p for p in ph if "male" in p and "fe" not in p]
+assert ph.count("white male") == 1 and len(sons) == 2 and ph.count("carrier female") == 1
+facts = dict(nk=len(kids), fr=ph.count("red female") + ph.count("carrier female"), wm="%.0f" % (100 * ph.count("white male") / 4), wsons="%.0f" % (100 * ph.count("white male") / len(sons)))
+f = Fig(300, 236)
+f.text(150, 12, "Mother gametes (rows), father gametes (columns)", size=10.5, color=NAVY, bold=True)
+col = {"white male": (ROSE, RED), "carrier female": (SAND, AMBER), "red female": (MINT, TEAL), "red male": (MINT, TEAL)}
+for j, g in enumerate(father):
+    f.text(100 + j * 100 + 44, 40, g, size=11, color=NAVY, bold=True)
+for i, g in enumerate(mother):
+    f.text(40, 86 + i * 62, g, size=11, color=NAVY, bold=True, vmid=True)
+for k, (m, fa) in enumerate(kids):
+    i, j = divmod(k, 2)
+    fl, st = col[ph[k]]
+    f.box(100 + j * 100 - 0, 52 + i * 62, 90, 56, fill=fl, stroke=st, r=4, sw=1.6)
+    f.text(145 + j * 100, 72 + i * 62, "%s %s" % (m, fa), size=11, color=st, bold=True)
+    f.text(145 + j * 100, 92 + i * 62, ph[k], size=10.5, color=st, bold=True)
+f.text(150, 192, "white-eyed: 1 in 4 of all, 1 in 2 of sons", size=10.5, color=RED, bold=True)
+f.text(150, 210, "no white-eyed daughters in this cross", size=10.5, color=SLATE, bold=True)
+```
+
+```photogrid label="9.3" cols="2" ratio="1.2" caption="Colour blindness in a population. (a) Ishihara plates hide a number in dots of two colours that a person with red-green colour blindness cannot separate. (b) The gene is X-linked, so men (one X) show the recessive allele whenever they carry it: if 8 per cent of men are affected, q = 0.08 and p = 0.92. Women need two copies, so the Hardy-Weinberg law gives 0.64 per cent affected (q squared), 14.72 per cent carriers (2pq) and 84.64 per cent unaffected non-carriers (p squared). Colour blindness is therefore about 12.5 times commoner in men than in women."
+@ photo id="ceebot/ishihara" cap="Ishihara plates used to test colour vision"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Share of men and women by genotype (q = 0.08)"
+q = 0.08
+p = 1 - q
+qq, car, nn = q * q * 100, 2 * p * q * 100, p * p * 100
+assert abs(qq + car + nn - 100) < 1e-9 and abs(qq - 0.64) < 1e-9 and abs(car - 14.72) < 1e-9 and abs(nn - 84.64) < 1e-9
+facts = dict(qq="%.2f" % qq, car="%.2f" % car, nn="%.2f" % nn, ratio="%.1f" % (q * 100 / qq))
+f = Fig(300, 236)
+f.text(150, 12, "Per cent of the population (X-linked recessive)", size=10.5, color=NAVY, bold=True)
+rows = (("Men affected (XwY)", q * 100, RED, ROSE), ("Women affected (XwXw)", qq, RED, ROSE), ("Women carriers (XWXw)", car, AMBER, SAND), ("Women unaffected (XWXW)", nn, TEAL, MINT))
+for i, (lab, v, c, fl) in enumerate(rows):
+    y = 28 + i * 44
+    f.text(10, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * 2.1, 3)
+    f.box(10, y + 12, w, 18, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 21, "%.2f%%" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 214, "men: 8.00 / women: 0.64 = 12.5 times", size=10.5, color=NAVY, bold=True)
+```
 
 ## 9.4 Gene and chromosomal mutations; polyploidy
 

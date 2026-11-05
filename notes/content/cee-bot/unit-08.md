@@ -301,6 +301,33 @@ end carries the cargo. That is why tRNA is called an adaptor: it converts a
 three-letter nucleic-acid word into one amino acid.
 :::
 
+```photogrid label="8.1" cols="2" ratio="1.2" caption="Measuring the size of a DNA fragment. (a) DNA fragments of different length are separated on an agarose gel and glow under UV light after staining; the smaller the fragment, the farther it runs. (b) A ladder of known fragments (10,000 to 250 base pairs) ran 9 to 38 mm. Distance falls in a straight line against the logarithm of the length, with slope 18.4 mm per decade, so an unknown band that ran 23 mm must be about 1,510 bp long. Reading a gel this way is how forensic labs, plant-breeding labs and cancer laboratories size a PCR product."
+@ photo id="bio12/gel-uv" cap="Agarose gel under UV light"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Ladder: distance run against log10 (length)"
+lad = ((10000, 9), (5000, 13), (3000, 17), (2000, 20), (1000, 26), (500, 32), (250, 38))
+xs = [math.log10(b) for b, _ in lad]; ys = [d for _, d in lad]
+n = len(lad); mx, my = sum(xs) / n, sum(ys) / n
+slope = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs)
+icp = my - slope * mx
+unk = 23
+bp = 10 ** ((unk - icp) / slope)
+assert slope < 0 and 1300 < bp < 1700
+facts = dict(slope="%.1f" % abs(slope), bp="{:,}".format(int(round(bp, -1))))
+f = Fig(300, 236)
+f.text(150, 12, "Distance (mm) against log10 (bp)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (2, 4.2), (0, 44))
+ax.grid(0.5, 10, xfmt=lambda v: "%.1f" % v).axes("log bp", "mm")
+ax.curve(lambda x: icp + slope * x, 2.2, 4.1, color=TEAL)
+for b, d in lad:
+    ax.pt(math.log10(b), d, r=3.2, color=NAVY)
+ax.hline(unk, 2, math.log10(bp), color=RED).vline(math.log10(bp), 0, unk, color=RED)
+ax.pt(math.log10(bp), unk, "unknown", dx=8, dy=-8, color=RED)
+f.text(150, 206, "23 mm  ->  about %s bp" % facts["bp"], size=10.5, color=RED, bold=True)
+f.text(150, 222, "navy dots: ladder; line: least squares", size=10.5, color=SLATE)
+```
+
 ## 8.2 DNA replication; the central dogma; the genetic code
 
 ### Semi-conservative replication
@@ -564,6 +591,40 @@ counted, because the first methionine is one of the 90.)
 2 × 1000 = 2000 nucleotides per second.
 Time = 4.6 × 10⁶ ÷ 2000 = 2300 s = **about 38 minutes.**
 :::
+
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Replication is semi-conservative. (a) A model of the double helix: each strand carries the information needed to rebuild its partner. (b) Meselson and Stahl grew bacteria in heavy nitrogen (15N) and then moved them to light nitrogen (14N). Following each strand by rule, after one generation every molecule is a hybrid (one heavy, one light strand); after two, 50 per cent are hybrid and 50 per cent are light; after three, 25 per cent are hybrid and 75 per cent light. The hybrid fraction halves each time (2 divided by 2 to the power n), but heavy strands never disappear, they only become rarer."
+@ photo id="ceebot/dna-model" cap="A model of the DNA double helix"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Fraction of each DNA type in generations 0 to 4"
+mols = [("H", "H")]
+res = []
+for g in range(5):
+    k = len(mols)
+    hh = sum(1 for m in mols if m == ("H", "H")) / k
+    hy = sum(1 for m in mols if set(m) == {"H", "L"}) / k
+    ll = sum(1 for m in mols if m == ("L", "L")) / k
+    res.append((hh, hy, ll))
+    mols = [(s, "L") for m in mols for s in m]
+assert res[1] == (0, 1, 0) and res[2] == (0, 0.5, 0.5) and res[3] == (0, 0.25, 0.75) and res[4][1] == 0.125
+facts = dict(h2="%.0f" % (100 * res[2][1]), l2="%.0f" % (100 * res[2][2]), h3="%.0f" % (100 * res[3][1]), l3="%.0f" % (100 * res[3][2]))
+f = Fig(300, 236)
+f.text(150, 12, "15N/15N, hybrid and 14N/14N after n generations", size=10.5, color=NAVY, bold=True)
+for g, (a, b, c) in enumerate(res):
+    y = 28 + g * 32
+    f.text(8, y + 11, "gen %d" % g, size=10.5, color=SLATE, anchor="start", vmid=True)
+    x = 52
+    for v, fl, st in ((a, BLUE, NAVY), (b, SAND, AMBER), (c, MINT, TEAL)):
+        if v:
+            f.box(x, y, v * 236, 22, fill=fl, stroke=st, r=0, sw=1.2)
+            if v >= 0.2:
+                f.text(x + v * 118, y + 11, "%.1f%%" % (100 * v) if v < 1 and v != 0.5 and v != 0.25 else "%.0f%%" % (100 * v), size=10.5, color=st, bold=True, vmid=True)
+            x += v * 236
+f.box(14, 196, 12, 12, fill=BLUE, stroke=NAVY, r=0); f.text(30, 202, "heavy", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(86, 196, 12, 12, fill=SAND, stroke=AMBER, r=0); f.text(102, 202, "hybrid", size=10.5, color=AMBER, anchor="start", vmid=True)
+f.box(166, 196, 12, 12, fill=MINT, stroke=TEAL, r=0); f.text(182, 202, "light", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(150, 224, "hybrid share = 2 / 2^n after the first round", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 

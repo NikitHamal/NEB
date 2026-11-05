@@ -391,6 +391,69 @@ call 0.70 0.10 0.76 0.24 "Slender pedicel"
 | **Solanaceae** | **potato** (*Solanum tuberosum*), tomato, brinjal (*S. melongena*), chilli and capsicum (*Capsicum*) | tobacco (*Nicotiana*, nicotine); *Datura* (hyoscine, also called scopolamine; atropine); *Atropa belladonna* (atropine, dilates the pupil); *Withania* (ashwagandha); *Petunia*, ornamental |
 | **Liliaceae** | **onion** (*Allium cepa*), **garlic** (*A. sativum*), *Asparagus racemosus* (kurilo, also medicinal) | *Aloe vera* (ghiukumari; burns, skin); **colchicine** from *Colchicum* and *Gloriosa* (induces polyploidy, treats gout); *Smilax* (sarsaparilla); lilies and tulips, ornamental |
 
+```photogrid label="5.1" cols="2" ratio="1.1" caption="Two families by their flowers. (a) A mustard flower is radially symmetrical with four sepals, four petals in a cross, six stamens and two joined carpels. (b) Its floral diagram, drawn from these counts, gives K2+2 C4 A2+4 G(2): the four long and two short stamens are tetradynamous. (c) A pea flower is bilateral, with a standard, two wings and a keel of two joined petals. (d) Its diagram gives K(5) C1+2+(2) A(9)+1 G1: nine stamens are fused into a tube and one is free (diadelphous). The counts of each whorl are what examiners ask for, so draw the diagram and then write the formula from it."
+@ photo id="cee-bot/mustard" cap="Mustard flowers (Brassicaceae)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Floral diagram of mustard (Brassicaceae)"
+import math
+def ell(cx, cy, a, b, ang, n=36):
+    c, s = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    return [(round(cx + a*math.cos(t)*c - b*math.sin(t)*s, 1), round(cy + a*math.cos(t)*s + b*math.sin(t)*c, 1)) for t in [2*math.pi*i/n for i in range(n)]]
+def pol(r, ang, cx=150, cy=112):
+    return cx + r*math.cos(math.radians(ang)), cy - r*math.sin(math.radians(ang))
+
+cx, cy = 150, 100
+sep = [pol(80, a, cx, cy) + (a,) for a in (0, 90, 180, 270)]
+pet = [pol(60, a, cx, cy) + (a,) for a in (45, 135, 225, 315)]
+sta = [pol(42, a, cx, cy) for a in (0, 180, 70, 110, 250, 290)]
+assert (len(sep), len(pet), len(sta)) == (4, 4, 6)
+facts = dict(fm1="K2+2 C4 A2+4 G(2)")
+f = Fig(300, 236)
+f.circle(cx, cy, 90, fill="#ffffff", stroke="#e2e8f0", sw=1)
+for x, y, a in sep:
+    f.poly(ell(x, y, 13, 5, a + 90), fill="#bbf7d0", stroke=TEAL)
+for x, y, a in pet:
+    f.poly(ell(x, y, 19, 10, a), fill="#fef3c7", stroke=AMBER)
+for i, (x, y) in enumerate(sta):
+    f.circle(round(x, 1), round(y, 1), 5.5 if i < 2 else 5.5 + 1, fill="#fde68a" if i >= 2 else "#fed7aa", stroke=AMBER, sw=1.3)
+f.poly(ell(cx, cy, 15, 9, 0), fill=ROSE, stroke=RED)
+f.line(cx - 15, cy, cx + 15, cy, color=RED, sw=1)
+f.text(150, 206, "K2+2 C4 A2+4 G(2); actinomorphic", size=10.5, color=NAVY, bold=True)
+f.text(150, 221, "2 short + 4 long stamens (tetradynamous)", size=10.5, color=SLATE)
+@ photo id="cee-bot/pea-flower" cap="Pea flowers (Fabaceae)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Floral diagram of pea (Fabaceae)"
+import math
+def ell(cx, cy, a, b, ang, n=36):
+    c, s = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    return [(round(cx + a*math.cos(t)*c - b*math.sin(t)*s, 1), round(cy + a*math.cos(t)*s + b*math.sin(t)*c, 1)) for t in [2*math.pi*i/n for i in range(n)]]
+def pol(r, ang, cx=150, cy=112):
+    return cx + r*math.cos(math.radians(ang)), cy - r*math.sin(math.radians(ang))
+
+cx, cy = 150, 100
+ring = [pol(80, 90 + 72 * k, cx, cy) + (90 + 72 * k,) for k in range(5)]
+fused = [pol(34, 195 + k * 18.75, cx, cy) for k in range(9)]
+assert len(ring) == 5 and len(fused) + 1 == 10
+facts = dict(fm2="K(5) C1+2+(2) A(9)+1 G1")
+f = Fig(300, 236)
+f.circle(cx, cy, 80, fill="#ffffff", stroke=TEAL, sw=1.2)
+for x, y, a in ring:
+    f.poly(ell(x, y, 11, 4.5, a + 90), fill="#bbf7d0", stroke=TEAL)
+f.poly(ell(*pol(58, 90, cx, cy), 24, 9, 0), fill="#fce7f3", stroke="#be185d")
+for a in (15, 165):
+    f.poly(ell(*pol(58, a, cx, cy), 17, 7, a), fill="#fbcfe8", stroke="#be185d")
+for a in (262, 278):
+    f.poly(ell(*pol(52, a, cx, cy), 16, 7, 0), fill="#f9a8d4", stroke="#be185d")
+for x, y in fused:
+    f.circle(round(x, 1), round(y, 1), 4.2, fill="#fde68a", stroke=AMBER, sw=1.2)
+f.circle(*pol(34, 90, cx, cy), 4.2, fill="#fed7aa", stroke=AMBER, sw=1.2)
+f.poly(ell(cx, cy, 8, 5, 0), fill=ROSE, stroke=RED)
+f.text(150, 206, "K(5) C1+2+(2) A(9)+1 G1; zygomorphic", size=10.5, color=NAVY, bold=True)
+f.text(150, 221, "diadelphous: 9 joined + 1 free stamen", size=10.5, color=SLATE)
+```
+
 ## 5.3 Economic importance of plant groups in Nepal
 
 | Group | Useful | Harmful |
@@ -502,6 +565,30 @@ largest ginger producers and exports much of it to India.
 
 **Solution.** *Rauwolfia serpentina* yields the indole alkaloid **reserpine** (antihypertensive) from its **dried roots**. *Ophiocordyceps sinensis* is an ascomycete entomopathogenic fungus fruiting from the caterpillar of *Thitarodes* in alpine meadows ($3{,}500\text{–}5{,}000\text{ m}$), valued for **cordycepin**; the whole **stroma + mycosed larva** is collected.
 :::
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Why yarsagumba grows where it does. (a) A dried Ophiocordyceps sinensis (yarsagumba), a fungus on an insect larva, beside a matchstick for scale. It is harvested in Nepal between about 3,200 and 4,800 m. (b) With a lapse rate of 6.5 degrees C per km and a mean annual temperature of 18.0 degrees C at Kathmandu (1,400 m), the temperature falls to 6.3 degrees C at 3,200 m and -4.1 degrees C at 4,800 m; the freezing level lies near 4,169 m. The cold alpine meadow that the fungus needs is therefore a belt of altitude, which is why climate warming pushes the harvest uphill."
+@ photo id="ceebot/yarsagumba" cap="Dried yarsagumba beside a matchstick"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature against altitude (lapse rate 6.5 C per km)"
+T0, z0, L = 18.0, 1400, 6.5
+T = lambda z: T0 - L * (z - z0) / 1000
+zf = z0 + T0 / L * 1000
+assert round(zf) == 4169 and abs(T(3200) - 6.3) < 1e-9 and abs(T(4800) + 4.1) < 1e-9
+facts = dict(t32="%.1f" % T(3200), t48="%.1f" % T(4800), zf="{:,}".format(round(zf)))
+f = Fig(300, 236)
+f.text(150, 12, "Mean annual temperature (C) and altitude (km)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (1000, 5000), (-8, 20))
+f.box(ax.X(3200), ax.Y(20), ax.X(4800) - ax.X(3200), ax.Y(-8) - ax.Y(20), fill=MINT, stroke=TEAL, r=0, dash=True)
+ax.grid(1000, 7, xfmt=lambda v: "%d" % (v // 1000)).axes("km", "C")
+ax.curve(T, 1000, 5000, color=RED)
+f.text(ax.X(4000), ax.Y(17), "yarsagumba\nbelt", size=10.5, color=TEAL, bold=True)
+ax.pt(3200, T(3200), "6.3", dx=-8, dy=16, anchor="end")
+ax.pt(zf, 0, "0", dx=8, dy=-8, anchor="start", color=NAVY)
+ax.pt(4800, T(4800), "-4.1", dx=-8, dy=16, anchor="end")
+f.text(150, 206, "freezing level near %s m" % facts["zf"], size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
+```
 
 ## Formula and fact sheet
 

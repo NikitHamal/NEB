@@ -180,6 +180,39 @@ The zygote and embryo are **2n** again; the endosperm is **3n**. A
 perisperm (next section) is **2n** — it is nucellus, not endosperm.
 :::
 
+```photogrid label="14.1" cols="2" ratio="1.2" caption="Counting chromosomes in the embryo sac. (a) Pollen grains of several flowering plants under the scanning electron microscope; each carries two sperm nuclei (male gametophyte). (b) The mature embryo sac (female gametophyte) has 7 cells and 8 nuclei, all haploid, made by three mitoses from one megaspore: an egg and two synergids at the micropylar end, a large central cell with two polar nuclei, and three antipodals. For maize (2n = 20), each nucleus carries n = 10. Double fertilization gives a zygote of 20 chromosomes (egg + sperm) and a triploid endosperm of 30 (two polar nuclei + sperm)."
+@ photo id="ceebot/pollen-sem" cap="Pollen grains of different plants (SEM, false colour)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Embryo sac of maize (2n = 20, each nucleus n = 10)"
+import math
+def ell(cx, cy, a, b, ang, n=36):
+    c, s = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    return [(round(cx + a*math.cos(t)*c - b*math.sin(t)*s, 1), round(cy + a*math.cos(t)*s + b*math.sin(t)*c, 1)) for t in [2*math.pi*i/n for i in range(n)]]
+def pol(r, ang, cx=150, cy=112):
+    return cx + r*math.cos(math.radians(ang)), cy - r*math.sin(math.radians(ang))
+
+n = 10
+nuclei = 8
+zyg, pen = n + n, n + n + n
+assert nuclei == 1 + 2 + 2 + 3 and (zyg, pen) == (20, 30)
+facts = dict(zyg=zyg, pen=pen)
+f = Fig(300, 236)
+f.poly(ell(80, 112, 80, 50, 90), fill="#f8fafc", stroke=SLATE, sw=1.6)
+f.circle(80, 66, 6, fill="#fbcfe8", stroke="#be185d", sw=1.6)
+f.circle(62, 58, 5, fill="#e0f2fe", stroke=NAVY); f.circle(98, 58, 5, fill="#e0f2fe", stroke=NAVY)
+f.circle(70, 110, 6, fill="#fde68a", stroke=AMBER, sw=1.6); f.circle(92, 110, 6, fill="#fde68a", stroke=AMBER, sw=1.6)
+for x, y in ((62, 160), (80, 166), (98, 160)):
+    f.circle(x, y, 5, fill="#d1fae5", stroke=TEAL)
+for ly, tx, ty, lab, c in ((50, 103, 56, "2 synergids", NAVY), (72, 87, 67, "egg  n = 10", "#be185d"), (110, 99, 110, "2 polar nuclei (n + n)", AMBER), (166, 104, 162, "3 antipodals", TEAL)):
+    f.line(142, ly, tx, ty, color=c, sw=1)
+    f.text(146, ly, lab, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(8, 18, "micropylar end (top)", size=10.5, color=SLATE, anchor="start")
+f.text(8, 204, "chalazal end (bottom)", size=10.5, color=SLATE, anchor="start")
+f.text(150, 218, "egg 10 + sperm 10 = zygote 20", size=10.5, color="#be185d", bold=True)
+f.text(150, 231, "2 polar 20 + sperm 10 = endosperm 30", size=10.5, color=AMBER, bold=True)
+```
+
 ## 14.3 Pollination and fertilization
 
 **Pollination** is the transfer of pollen from anther to stigma — the
@@ -331,6 +364,26 @@ different partners in the same sac.
 
 **Solution.** The tetraploid female produces a diploid egg ($2n = 24$) and two diploid polar nuclei ($2n + 2n = 4n = 48$). The diploid male produces haploid male gametes ($n = 12$). Thus the zygote has $2n + n = 24 + 12 = \mathbf{36}$ chromosomes ($3n$), while the PEN has $4n + n = 48 + 12 = \mathbf{60}$ chromosomes ($5n$).
 :::
+
+```photogrid label="14.2" cols="2" ratio="1.2" caption="Why cross-pollination keeps variation. (a) A bee carries pollen between rose flowers, so the seeds that follow have two different parents. (b) If a heterozygote (Aa) is self-pollinated for generations, the heterozygous share is halved each time: 50 per cent in the first generation, 25 in the second, 12.5 in the third and 6.25 per cent in the fourth, when 93.75 per cent of plants are homozygous (AA or aa). Breeders use selfing to make pure lines, while cross-pollination, by bees, wind or hand pollination, maintains the variation on which selection and hybrid vigour depend."
+@ photo id="ceebot/bee-rose" cap="A bee pollinating a rose"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heterozygous plants (Aa) during repeated selfing"
+het = [100 * 0.5 ** g for g in range(5)]
+assert het == [100, 50, 25, 12.5, 6.25]
+facts = dict(h1="%g" % het[1], h2="%g" % het[2], h3="%g" % het[3], h4="%g" % het[4], ho4="%g" % (100 - het[4]))
+f = Fig(300, 236)
+f.text(150, 12, "Per cent Aa (amber) and AA + aa (teal)", size=10.5, color=NAVY, bold=True)
+for g, h in enumerate(het):
+    y = 28 + g * 34
+    lab = "start (Aa)" if g == 0 else "self %d" % g
+    f.text(8, y + 11, lab, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(66, y, h * 2.2, 22, fill=SAND, stroke=AMBER, r=0, sw=1.2)
+    f.box(66 + h * 2.2, y, (100 - h) * 2.2, 22, fill=MINT, stroke=TEAL, r=0, sw=1.2) if h < 100 else None
+    f.text(66 + h * 1.1 if h >= 25 else 66 + h * 2.2 + 5, y + 11, "%g%%" % h, size=10.5, color=AMBER if h >= 25 else AMBER, bold=True, vmid=True, anchor="middle" if h >= 25 else "start")
+f.text(150, 214, "heterozygotes = 100 / 2^n per cent", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 
