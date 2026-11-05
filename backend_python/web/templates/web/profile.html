@@ -21,7 +21,7 @@
    visibly re-laid itself out on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}?v=20261103e">
+<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}?v=20261105a">
 {% endblock %}
 
 {% block head_extra %}
@@ -1446,8 +1446,8 @@ async function toggleFollowUser(uid) {
 async function openFollowModal(type) {
   const modal = document.getElementById('followModal');
   document.getElementById('followModalTitle').textContent = type === 'followers' ? 'Followers' : 'Following';
-  document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
-  modal.classList.add('active');
+  document.getElementById('followModalBody').innerHTML = '<div class="follow-list-empty is-loading" aria-busy="true"><span></span><span></span><span></span></div>';
+  if (window.NebUI) NebUI.open(modal); else modal.hidden = false;
   try {
     const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`, { credentials:'same-origin' });
     const d = await r.json();
@@ -1466,18 +1466,23 @@ async function openFollowModal(type) {
         return `<a class="follow-list-user" href="/app/profile/${usernamePath}/"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><span class="follow-user-name">${name}</span><span class="follow-user-handle">@${uname}</span></div><span class="material-symbols-outlined follow-user-open">chevron_right</span></a>`;
       }).join('');
     } else {
-      body.innerHTML = '<div class="follow-list-empty">No users found</div>';
+      body.innerHTML = '<div class="follow-list-empty">' + (type === 'followers' ? 'No followers yet' : 'Not following anyone yet') + '</div>';
     }
-  } catch(e) { document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;color:var(--md-error);padding:16px;">Failed to load</div>'; }
+  } catch(e) { document.getElementById('followModalBody').innerHTML = '<div class="follow-list-empty is-error">Could not load. Try again.</div>'; }
 }
-function closeFollowModal(ev) {
-  if (!ev || ev.target.id==='followModal' || ev.target.closest('.modal-close')) document.getElementById('followModal').classList.remove('active');
+function closeFollowModal() {
+  const modal = document.getElementById('followModal');
+  if (window.NebUI) NebUI.close(modal); else modal.hidden = true;
 }
 
 // Photo modal
-function openPhotoHistoryModal() { document.getElementById('photoHistoryModal')?.classList.add('active'); }
-function closePhotoHistoryModal(ev) {
-  if (!ev || ev.target.id==='photoHistoryModal' || ev.target.closest('.modal-close')) document.getElementById('photoHistoryModal')?.classList.remove('active');
+function openPhotoHistoryModal() {
+  const modal = document.getElementById('photoHistoryModal');
+  if (modal) { if (window.NebUI) NebUI.open(modal); else modal.hidden = false; }
+}
+function closePhotoHistoryModal() {
+  const modal = document.getElementById('photoHistoryModal');
+  if (modal) { if (window.NebUI) NebUI.close(modal); else modal.hidden = true; }
 }
 async function activatePastPhoto(photoId, photoUrl) {
   try {

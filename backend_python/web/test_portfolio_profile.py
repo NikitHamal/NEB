@@ -36,14 +36,14 @@ class ProfilePortfolioTests(TestCase):
         html = Client().get(f'/app/profile/{self.owner.username}/').content.decode()
         for needle in ('Building things my own way', 'BSc CSIT', 'Dropped out', 'Finished +2', 'Notes app', 'Python', 'Project collab'):
             self.assertIn(needle, html, needle)
-        self.assertNotIn('pf-entry-dialog', html)
+        self.assertNotIn('pf-entry-sheet', html)
         self.assertNotIn('data-folio-edit', html)
 
     def test_owner_gets_the_editor(self):
         c = Client()
         _sign_in(c, self.owner)
         html = c.get(f'/app/profile/{self.owner.username}/').content.decode()
-        self.assertIn('pf-entry-dialog', html)
+        self.assertIn('pf-entry-sheet', html)
         self.assertIn('data-folio-edit', html)
 
     def test_private_profile_hides_the_portfolio(self):
@@ -72,3 +72,40 @@ class ProfilePortfolioTests(TestCase):
         c.post('/ajax/portfolio/delete/', json.dumps({'id': entry.id}), content_type='application/json')
         self.assertTrue(ProfileEntry.objects.filter(pk=entry.id).exists())
         self.assertEqual(Client().post('/ajax/portfolio/save/', '{}', content_type='application/json').status_code, 401)
+
+
+class ProfileSheetsTests(TestCase):
+    """The profile's dialogs are NebUI sheets: no native <dialog>, no native month fields, no stroke on a photo."""
+
+    def _read(self, *parts):
+        import os
+        base = os.path.join(os.path.dirname(__file__), 'static', 'web')
+        with open(os.path.join(base, *parts), encoding='utf-8') as fh:
+            return fh.read()
+
+    def test_entry_editor_is_a_sheet_with_month_and_year_selects(self):
+        import os
+        path = os.path.join(os.path.dirname(__file__), 'templates', 'web', 'profile', '_portfolio.html')
+        html = open(path, encoding='utf-8').read()
+        self.assertIn('neb-scrim', html)
+        self.assertNotIn('<dialog', html)
+        self.assertNotIn('type="month"', html)
+        self.assertIn('pf-entry-start-m', html)
+        js = self._read('js', 'portfolio.js')
+        self.assertIn('NebUI.open', js)
+        self.assertIn("'-' + (month.value || '01')", js)
+
+    def test_follow_and_photo_modals_are_sheets(self):
+        import os
+        path = os.path.join(os.path.dirname(__file__), 'templates', 'web', 'profile', '_follow_modal.html')
+        html = open(path, encoding='utf-8').read()
+        self.assertNotIn('modal-overlay', html)
+        self.assertNotIn('style="', html)
+        self.assertIn('id="followModal"', html)
+        self.assertIn('id="photoHistoryModal"', html)
+
+    def test_photo_thumbs_carry_no_stroke(self):
+        css = self._read('css', 'm3x', 'app-profile.css')
+        i = css.index('.photo-thumb.active')
+        self.assertNotIn('outline', css[i:i + 120])
+        self.assertNotIn('border: 2px', css[i:i + 120])
