@@ -150,6 +150,47 @@ A corner cube touches three faces and three edges. In the "two faces painted" co
 must be left out: an edge of 4 small cubes has only 4 − 2 = 2 two-face cubes.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="A die is a cube with a rule. (a) Ordinary dice, with their faces numbered so that opposite faces add up to 7 (1-6, 2-5, 3-4). (b) The usual net: a strip of four faces with one face above and one below. In any strip of four, the faces two places apart are opposite, so 3 and 4 face each other, as do 1 and 6, and the loose top and bottom squares (2 and 5) are opposite too. The cell counts the possibilities: the 6! = 720 ways to write 1-6 on a cube fall into 720 / 24 = 30 genuinely different dice (a cube has 24 rotations), and only 2 of them have opposite faces summing to 7; the two are mirror images, which is why two real dice can look different yet both be fair. Find the opposite pairs first in every net question."
+@ photo id="ceemat/dice" cap="Dice with opposite faces summing to 7"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="A dice net and the count of distinct dice"
+import itertools
+def rot_a(p):
+    t, b, fr, bk, l, r = p
+    return (t, b, l, r, bk, fr)
+def rot_b(p):
+    t, b, fr, bk, l, r = p
+    return (bk, fr, t, b, l, r)
+G = {(0, 1, 2, 3, 4, 5)}
+while True:
+    n0 = len(G)
+    for g in list(G):
+        G.add(rot_a(g)); G.add(rot_b(g))
+    if len(G) == n0:
+        break
+assert len(G) == 24
+canon = lambda lab: min(tuple(lab[i] for i in g) for g in G)
+allc = {canon(p) for p in itertools.permutations(range(1, 7))}
+std = {canon(p) for p in itertools.permutations(range(1, 7)) if p[0] + p[1] == 7 and p[2] + p[3] == 7 and p[4] + p[5] == 7}
+assert len(allc) == 30 and len(std) == 2
+strip = (3, 1, 4, 6)
+assert strip[0] + strip[2] == 7 and strip[1] + strip[3] == 7 and 2 + 5 == 7
+f = Fig(300, 236)
+f.text(150, 12, "Net of a die: opposite faces add to 7", size=10.5, color=NAVY, bold=True)
+col = {1: (BLUE, NAVY), 6: (BLUE, NAVY), 3: (SAND, AMBER), 4: (SAND, AMBER), 2: (MINT, TEAL), 5: (MINT, TEAL)}
+cells = [(1, 0, 2)] + [(i, 1, v) for i, v in enumerate(strip)] + [(1, 2, 5)]
+for cx, cy, v in cells:
+    fl, st = col[v]
+    f.box(14 + cx * 34, 34 + cy * 34, 34, 34, str(v), fill=fl, stroke=st, size=14, bold=True, r=0)
+f.text(14, 34 + 3 * 34 + 14, "same colour: opposite", size=10.5, color=SLATE, bold=True, anchor="start")
+f.box(160, 34, 130, 40, "6! = 720 ways\nto number a cube", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.box(160, 84, 130, 40, "720 / 24 rotations\n= 30 distinct dice", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(160, 134, 130, 40, "opposite sum 7:\nonly 2 (mirrors)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.text(150, 206, "in a strip of four, faces 2 apart are opposite", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "the loose top and bottom squares are opposite", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.2 Mirror and water images
 
 A **mirror image** is the reflection in a mirror held upright beside the object: left
@@ -214,6 +255,43 @@ the word in the right order with each letter flipped. A third wrong option is us
 water image (letters upside down).
 :::
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="A mirror swaps left and right; still water swaps top and bottom. (a) A mountain and its reflection in still water: the reflection is turned upside down but not left to right. (b) The letter F drawn on a grid of squares (10 filled squares). In a mirror held at its side the picture is reversed left to right, so every row is read backwards; in a water image the rows are read in the opposite order. Both keep all 10 squares, and applying the same reflection twice returns the original F. For a mirror clock, subtract the time from 11:60: a clock showing 3:25 appears to show 8:35. Letters that look the same in a side mirror are A, H, I, M, O, T, U, V, W, X and Y."
+@ photo id="ceemat/reflection" cap="A mountain range reflected in still water"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="An F in a mirror and in water"
+F = ("####", "#...", "###.", "#...", "#...")
+mir = tuple(r[::-1] for r in F)
+wat = tuple(F[::-1])
+cnt = lambda g: sum(r.count("#") for r in g)
+assert cnt(F) == cnt(mir) == cnt(wat) == 10
+assert tuple(r[::-1] for r in mir) == F and mir != wat and wat != F
+assert (720 - (3 * 60 + 25)) // 60 == 8 and (720 - (3 * 60 + 25)) % 60 == 35
+def draw(g, x0, y0, s=11):
+    for i, row in enumerate(g):
+        for j, ch in enumerate(row):
+            f.box(x0 + j * s, y0 + i * s, s, s, fill=NAVY if ch == "#" else SOFT, stroke=SLATE, sw=0.6, r=0)
+f = Fig(300, 236)
+f.text(150, 12, "Mirror image and water image", size=10.5, color=NAVY, bold=True)
+f.text(44, 32, "object", size=10.5, color=SLATE, bold=True)
+f.text(118, 32, "mirror", size=10.5, color=RED, bold=True)
+draw(F, 20, 40)
+f.line(80, 36, 80, 98, color=RED, sw=1.6, dash=True)
+draw(mir, 96, 40)
+f.line(12, 104, 150, 104, color=TEAL, sw=1.6, dash=True)
+draw(wat, 20, 112)
+f.text(44, 182, "water image", size=10.5, color=TEAL, bold=True)
+f.text(170, 52, "Mirror: left-right", size=10.5, color=RED, bold=True, anchor="start")
+f.text(170, 68, "rows read backwards", size=10.5, color=SLATE, anchor="start")
+f.text(170, 94, "Water: top-bottom", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(170, 110, "rows in reverse order", size=10.5, color=SLATE, anchor="start")
+f.text(170, 136, "Mirror clock", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(170, 152, "3:25 shows 8:35", size=10.5, color=SLATE, anchor="start")
+f.text(170, 168, "(11:60 - time)", size=10.5, color=SLATE, anchor="start")
+f.text(150, 206, "10 squares in each: only the order changes", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "twice reflected = the original figure", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.3 Paper folding and cutting
 
 A sheet is folded one or more times, and a hole (or a cut) is made through all the
@@ -266,6 +344,44 @@ opening a vertical fold — not in the same place on the other half. And a diago
 reflects in that diagonal: a hole near the bottom edge reappears near the left edge.
 :::
 
+```photogrid label="4.3" cols="2" ratio="1.2" caption="Every fold doubles the layers. (a) Paper cranes: origami turns a flat square into a solid form by a sequence of folds. (b) A 16 x 16 sheet is folded in half three times (vertically, horizontally, vertically; dashed lines) and one hole is punched through all the layers. Unfolding the sheet shows 2^3 = 8 holes, the red dots, placed symmetrically about the fold lines. The cell traces each square of the sheet through the folds to confirm this: a hole in the folded paper stands for 1, 2, 4, 8, 16 or 32 holes after 0 to 5 folds. In a paper-folding question unfold in reverse order, reflecting the hole across each fold line in turn; a cut works the same way, with the cut shape mirrored across every fold."
+@ photo id="ceemat/origami" cap="Paper cranes made by origami"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Holes after folding a sheet in half n times"
+def fold(x, y, n, Wd):
+    wx = wy = Wd
+    for k in range(1, n + 1):
+        if k % 2 == 1:
+            x = min(x, wx - 1 - x); wx //= 2
+        else:
+            y = min(y, wy - 1 - y); wy //= 2
+    return x, y
+pre = [(x, y) for x in range(16) for y in range(16) if fold(x, y, 3, 16) == (1, 3)]
+assert len(pre) == 8
+for n in range(1, 6):
+    assert sum(1 for x in range(32) for y in range(32) if fold(x, y, n, 32) == (0, 0)) == 2 ** n
+f = Fig(300, 236)
+f.text(150, 12, "Fold three times, punch once", size=10.5, color=NAVY, bold=True)
+s = 7; x0, y0 = 20, 34
+f.box(x0, y0, 16 * s, 16 * s, fill=SOFT, stroke=SLATE, r=0)
+for gx in (4, 12):
+    f.line(x0 + gx * s, y0, x0 + gx * s, y0 + 16 * s, color=AMBER, sw=1.2, dash=True)
+f.line(x0 + 8 * s, y0, x0 + 8 * s, y0 + 16 * s, color=AMBER, sw=1.6, dash=True)
+f.line(x0, y0 + 8 * s, x0 + 16 * s, y0 + 8 * s, color=AMBER, sw=1.6, dash=True)
+for (x, y) in pre:
+    f.circle(x0 + x * s + s / 2, y0 + y * s + s / 2, 2.8, fill=RED, stroke=RED)
+f.text(x0 + 56, y0 + 16 * s + 16, "8 holes after unfolding", size=10.5, color=RED, bold=True)
+for i, n in enumerate(range(1, 6)):
+    y = 40 + i * 28
+    v = 2 ** n
+    f.text(158, y + 8, "%d fold%s" % (n, "" if n == 1 else "s"), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(204, y, v * 2.2, 16, fill=MINT, stroke=TEAL, r=2)
+    f.text(204 + v * 2.2 + 5, y + 8, str(v), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "each fold doubles the layers", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "n folds, one punch: 2^n holes", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.4 Embedded figures and counting figures
 
 ### Embedded (hidden) figures
@@ -312,6 +428,34 @@ ax.set_xlim(-0.4, 4.4); ax.set_ylim(-0.6, 2.5); ax.set_aspect('equal'); ax.axis(
 C as the others. Choosing 2 points out of 5 gives 5 × 4/2 = **10** triangles. (By
 sizes: 4 single pieces, 3 made of two, 2 of three, 1 of four: 4 + 3 + 2 + 1 = 10.)
 :::
+
+```photogrid label="4.4" cols="2" ratio="1.2" caption="Counting figures needs a system. (a) A Rubik's Cube: each face is a 3 x 3 grid of 9 small squares, 6 x 9 = 54 stickers in all. (b) A 3 x 3 grid contains more than nine squares: 9 of side 1, 4 of side 2 and 1 of side 3, 14 in total. In general an n x n grid holds 1^2 + 2^2 + ... + n^2 = n(n + 1)(2n + 1) / 6 squares, giving 1, 5, 14, 30, 55 and 91 for n = 1 to 6; the cell counts every square by brute force and checks the formula. The same method (count by size, then add) works for triangles, rectangles and lines. Never count by eye; make a table by size and add it up."
+@ photo id="ceemat/rubik" cap="A Rubik's Cube with 3 x 3 faces"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Squares in an n x n grid"
+sq = lambda n: sum(1 for s in range(1, n + 1) for i in range(n - s + 1) for j in range(n - s + 1))
+vals = [sq(n) for n in range(1, 7)]
+assert vals == [1, 5, 14, 30, 55, 91] and 6 * 9 == 54
+assert all(sq(n) == n * (n + 1) * (2 * n + 1) // 6 for n in range(1, 9))
+by = [sum(1 for i in range(3 - s + 1) for j in range(3 - s + 1)) for s in (1, 2, 3)]
+assert by == [9, 4, 1] and sum(by) == 14
+f = Fig(300, 236)
+f.text(150, 12, "Squares in an n x n grid", size=10.5, color=NAVY, bold=True)
+for i in range(3):
+    for j in range(3):
+        f.box(20 + j * 28, 40 + i * 28, 28, 28, fill=MINT, stroke=TEAL, r=0)
+f.box(20, 40, 56, 56, fill="none", stroke=RED, sw=2.4, dash=True, r=0)
+f.text(62, 140, "1x1: 9, 2x2: 4, 3x3: 1", size=10.5, color=SLATE, bold=True)
+f.text(62, 158, "9 + 4 + 1 = 14", size=10.5, color=RED, bold=True)
+for i, v in enumerate(vals):
+    y = 36 + i * 26
+    f.text(158, y + 9, "n = %d" % (i + 1), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(196, y, v / 91 * 80, 18, fill=BLUE if i != 2 else SAND, stroke=NAVY if i != 2 else AMBER, r=2)
+    f.text(196 + v / 91 * 80 + 5, y + 9, str(v), size=10.5, color=NAVY if i != 2 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "n x n grid: n(n+1)(2n+1)/6 squares", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "a Rubik's Cube shows 6 x 9 = 54 stickers", size=10.5, color=SLATE, bold=True)
+```
 
 ## 4.5 Figure series, analogies and matrices
 
