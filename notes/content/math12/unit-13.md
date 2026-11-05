@@ -1569,6 +1569,29 @@ the magnitudes. Writing a single integral and reporting a negative "area" loses
 the mark every time.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="Water entering a reservoir at a changing rate is stored as the area under the rate curve, which is the definite integral. (a) The spillway of a reservoir. (b) With an inflow of q(t) = t(12 - t)/2 thousand m3 per hour, rising to a peak of 18 at t = 6 h and falling to zero at 12 h, the integral of q from 0 to 12 is 6t^2 - t^3/3 over 2, which is 144 thousand m3. A numerical Simpson check on the same curve gives 144.0, so the antiderivative and the area agree. Hydropower engineers integrate measured flow records in just this way to plan releases."
+@ photo id="math12/dam" cap="A reservoir spillway: the water stored is the integral of the inflow"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Volume stored as the area under the inflow curve"
+q = lambda t: 0.5 * t * (12 - t)
+exact = 0.5 * (6 * 12 ** 2 - 12 ** 3 / 3)
+n = 12; h = 12.0 / n
+simp = h / 3 * (q(0) + q(12) + 4 * sum(q(i * h) for i in range(1, n, 2)) + 2 * sum(q(i * h) for i in range(2, n, 2)))
+assert abs(exact - 144) < 1e-9 and abs(simp - exact) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Inflow q(t) = t(12 - t)/2", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 12), (0, 20))
+ax.grid(2, 5, size=9)
+ax.area(q, 0, 12, fill="#bfdbfe")
+ax.axes("t (h)", "q")
+ax.curve(q, 0, 12, color=NAVY, sw=2.4)
+ax.pt(6, q(6), "peak %d" % q(6), dx=8, dy=-8, color=RED)
+f.text(150, 208, "volume = integral 0 to 12 of q dt = %d" % exact, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "thousand m3; Simpson check: %.1f" % simp, size=10, color=SLATE, bold=True)
+facts = dict(v=exact, peak=q(6), simp=simp)
+```
+
 ## Chapter summary
 
 - **Anti-differentiation** reverses differentiation:

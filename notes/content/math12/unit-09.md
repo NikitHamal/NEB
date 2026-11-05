@@ -1619,6 +1619,34 @@ match). If a question says "using vector methods, prove
 $\sin(A+B) = \dots$", a dot-product proof earns nothing.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="Pulling on a rope is a vector quantity, so two pulls add by the parallelogram law and the work done uses the dot product. (a) A team hauling on a rope. (b) Two pulls of 400 N and 300 N at 60 degrees give a resultant of magnitude 608.3 N directed 25.3 degrees from the first. For a displacement of 10 m along the first pull, the work is R . d = 5500 J. The dot product is distributive, so it equals F1 . d + F2 . d = 4000 + 1500 J. Only the component of each force along the motion does work, which is why the 60-degree pull contributes less."
+@ photo id="math12/tugofwar" cap="Ropes pulled by a team: the pull is a force with direction"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Resultant and work of two pulling forces"
+F1 = (400.0, 0.0); ang = math.radians(60); F2 = (300 * math.cos(ang), 300 * math.sin(ang))
+Rv = (F1[0] + F2[0], F1[1] + F2[1]); mag = math.hypot(*Rv); dirn = math.degrees(math.atan2(Rv[1], Rv[0]))
+dsp = (10.0, 0.0); W = Rv[0] * dsp[0] + Rv[1] * dsp[1]
+W1 = F1[0] * 10; W2 = F2[0] * 10
+assert round(mag, 1) == 608.3 and abs(W - (W1 + W2)) < 1e-9 and round(W) == 5500
+f = Fig(300, 236)
+f.text(150, 14, "F1 = 400 N, F2 = 300 N at 60 deg", size=10.5, color=NAVY, bold=True)
+k = 0.42; ox, oy = 28, 168
+P_ = lambda v: (ox + k * v[0], oy - k * v[1])
+o = (ox, oy)
+f.line(*P_(F2), *P_(Rv), color=SLATE, dash=True); f.line(*P_(F1), *P_(Rv), color=SLATE, dash=True)
+f.arrow([o, P_(F1)], color=NAVY, sw=2.2)
+f.arrow([o, P_(F2)], color=TEAL, sw=2.2)
+f.arrow([o, P_(Rv)], color=RED, sw=2.6)
+f.text(P_(F1)[0] - 4, P_(F1)[1] + 15, "F1", size=11, color=NAVY, bold=True)
+f.text(P_(F2)[0] - 12, P_(F2)[1] - 2, "F2", size=11, color=TEAL, bold=True)
+f.text(P_(Rv)[0] + 6, P_(Rv)[1] - 4, "R", size=11, color=RED, bold=True, anchor="start")
+f.text(150, 200, "|R| = %.1f N at %.1f deg to F1" % (mag, dirn), size=10.5, color=RED, bold=True)
+f.text(150, 217, "W = R . d = %.0f J for d = 10 m along F1" % W, size=10.5, color=NAVY, bold=True)
+f.text(150, 231, "= %.0f J + %.0f J (F1 . d + F2 . d)" % (W1, W2), size=9.5, color=SLATE, bold=True)
+facts = dict(mag=mag, d=dirn, W=W, W1=W1, W2=W2)
+```
+
 ## Chapter summary
 
 - **Scalar product:** $\vec{a}\cdot\vec{b} = |\vec{a}||\vec{b}|\cos\theta
