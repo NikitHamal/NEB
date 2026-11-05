@@ -184,6 +184,60 @@ f.text(420, 175, "join sees 2 rows", size=9.5, color=TEAL, bold=True)
 f.text(290, 242, "same result: Sita, Hari", size=10.5, color=NAVY, bold=True)
 ```
 
+A key is a promise about the whole world, not a fact read from a handful of rows. The first plate shows why, using a sample of six students and a brute-force search over every set of attributes; the second uses a real PostgreSQL run to count the rows that come out of each relational-algebra operator.
+
+```photogrid label="3.2" cols="2" ratio="1.6" caption="Keys are chosen by meaning. (a) A specimen of Nepal's National Identity Card: the card number is unique to one citizen, so it is a natural candidate key, whereas a name or a date of birth is not. (b) All 63 non-empty subsets of six attributes of a Student table (sid, citizen_no, email, name, dept_id, phone) tested on six sample rows. The grid shows how many subsets of each size are superkeys (teal) and which are minimal, the candidate keys (amber outline). The search finds 60 superkeys, but (name, dept_id) and two other pairs are only accidents of this small sample: a design must rely on the meaning of the data, not on the rows seen so far."
+@ photo id="bca202/nid" cap="Specimen of the Nepal National Identity Card"
+fit 1.6
+focus 0.5 0.5
+@ svg cap="Superkey search over all 63 attribute subsets"
+from itertools import combinations
+attrs = ["sid", "citizen_no", "email", "name", "dept_id", "phone"]
+rows = [(1, "27-01-71-00123", "sita@x.np", "Sita", 10, "9841000001"), (2, "27-01-72-00456", "ram@x.np", "Ram", 10, "9841000002"), (3, "01-02-70-00789", "hari@x.np", "Hari", 20, "9841000002"), (4, "27-01-73-00111", "gita@x.np", "Sita", 20, "9841000004"), (5, "12-03-74-00222", "mina@x.np", "Mina", 10, "9841000005"), (6, "27-01-74-00333", "anil@x.np", "Anil", 30, "9841000006")]
+def uniq(S):
+    ix = [attrs.index(a) for a in S]
+    return len({tuple(r[i] for i in ix) for r in rows}) == len(rows)
+allsub = [S for n in range(1, 7) for S in combinations(attrs, n)]
+sup = [S for S in allsub if uniq(S)]
+cand = [S for S in sup if not any(set(T) < set(S) for T in sup)]
+assert len(allsub) == 63
+nsup, ncand = len(sup), len(cand)
+single = [S[0] for S in cand if len(S) == 1]
+print("superkeys", nsup, "candidates", ncand, single)
+f = Fig(300, 250)
+f.text(150, 12, "%d of 63 subsets are superkeys, %d are candidate keys" % (nsup, ncand), size=10, color=NAVY, bold=True)
+for n in range(1, 7):
+    S_n = [S for S in allsub if len(S) == n]
+    y = 28 + (n - 1) * 24
+    f.text(16, y + 8, "size %d" % n, size=9.5, color=SLATE, bold=True, anchor="start")
+    for i, S in enumerate(S_n):
+        isc = S in cand
+        f.box(64 + i * 11.5, y, 10, 16, "", fill=(TEAL if S in sup else "#e2e8f0"), stroke=(AMBER if isc else "#ffffff"), sw=(2.2 if isc else 0.5), r=1)
+f.text(8, 184, "single-attribute candidate keys: " + ", ".join(single), size=9.5, color=TEAL, bold=True, anchor="start")
+f.text(8, 198, "pairs that are luck of the sample:\n" + ", ".join("(%s, %s)" % S for S in cand if len(S) == 2), size=9, color=RED, bold=True, anchor="start")
+f.box(8, 214, 284, 30, "add one more student named Sita in dept 10 and\nthose pair keys would stop working", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="3.3" cols="2" ratio="1.2" caption="Operators change cardinality. (a) A Devanagari vehicle number plate: the letters and digits of the plate together identify one vehicle, a composite key, because no single part is unique. (b) Row counts measured on real PostgreSQL 15 for a Student table of 40 rows (5 with no department) and a Department table of 3 rows. Selection keeps 20 rows, projection with duplicates removed keeps 3 distinct department ids, the Cartesian product gives 40 x 3 = 120 rows, the natural join keeps 35 (the 5 students with a NULL department have no partner), the left outer join keeps all 40, and division finds the 10 students who study all three subjects."
+@ photo id="bca202/nplate" cap="Vehicle number plate in Devanagari"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cardinality of each operator (real run)"
+meas = [("Student", 40), ("Department", 3), ("select dept=10", 20), ("project dept_id", 3), ("student x dept", 120), ("natural join", 35), ("left outer join", 40), ("division (all 3)", 10)]
+d = dict(meas)
+assert d["student x dept"] == d["Student"] * d["Department"] and d["Student"] - d["natural join"] == 5
+f = Fig(300, 244)
+f.text(150, 11, "rows returned (PostgreSQL 15, 40-row Student)", size=10, color=NAVY, bold=True)
+for i, (k, v) in enumerate(meas):
+    y = 24 + i * 26
+    w = 130 * v / 120
+    col = RED if k == "student x dept" else (AMBER if k == "natural join" else TEAL)
+    f.text(6, y + 9, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(112, y, max(w, 2), 17, "", fill=col, stroke=col, r=2)
+    f.text(112 + max(w, 2) + 5, y + 9, str(v), size=10, color=col, bold=True, anchor="start")
+f.text(150, 238, "join 35 = 40 - 5 students with NULL department", size=9.5, color=AMBER, bold=True)
+```
+
 ### 3.5.1 Eight advantages of the relational model
 
 1. **It is simple.** Everything is a table of rows and columns, a picture that a school student already understands. A Nepali college clerk can read a Student table without any training in computer science. This simplicity is a main reason why the model replaced older tree and network models.

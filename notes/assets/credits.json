@@ -4068,6 +4068,19 @@
     "source": "Wikimedia Commons",
     "title": "Booking office and reservation counter at the Machilipatnam railway station"
   },
+  "bca202/boyce": {
+    "author": "Aflorzak",
+    "bytes": 1054967,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/boyce.png",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Raymond_F_Boyce_age_25.png",
+    "sha1": "996f3e0ff3eac70d",
+    "source": "Wikimedia Commons",
+    "title": "Raymond F Boyce age 25"
+  },
   "bca202/catalog": {
     "author": "Dr. Marcus Gossler",
     "bytes": 488336,
@@ -4080,6 +4093,19 @@
     "sha1": "3eef6e591723c29e",
     "source": "Wikimedia Commons",
     "title": "Schlagwortkatalog"
+  },
+  "bca202/chamberlin": {
+    "author": "Dicklyon",
+    "bytes": 1720747,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/chamberlin.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Don_Chamberlin.jpg",
+    "sha1": "e4ff5790f234b1ef",
+    "source": "Wikimedia Commons",
+    "title": "Don Chamberlin"
   },
   "bca202/drawers": {
     "author": "יעל י",
@@ -4107,6 +4133,32 @@
     "source": "Wikimedia Commons",
     "title": "Jim Gray Computing in the 21st Century 2006"
   },
+  "bca202/ledger": {
+    "author": "Patterson's General Store",
+    "bytes": 1088747,
+    "credit": "This file was contributed to Wikimedia Commons by Chapel Hill Historical Society as part of a cooperation project. The donation was facilitated by the Digital P",
+    "fetched": "2026-11-05",
+    "file": "bca202/ledger.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Patterson%27s_General_Store_Ledger_-_DPLA_-_0079e562a497df98da2b2bf6a5740d22_(page_406).jpg",
+    "sha1": "ddbd0c7fe38c8d46",
+    "source": "Wikimedia Commons",
+    "title": "Patterson's General Store Ledger - DPLA - 0079e562a497df98da2b2bf6a5740d22 (page 406)"
+  },
+  "bca202/nid": {
+    "author": "Government Work",
+    "bytes": 2327935,
+    "credit": "http://www.nidmc.gov.np/gallery/show/1",
+    "fetched": "2026-11-05",
+    "file": "bca202/nid.png",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:National_Identity_Card_(Nepal).png",
+    "sha1": "a25061eb6143532b",
+    "source": "Wikimedia Commons",
+    "title": "National Identity Card (Nepal)"
+  },
   "bca202/nlmtape": {
     "author": "The National Library of Medicine believes this item to be in the public domain.",
     "bytes": 719573,
@@ -4120,6 +4172,19 @@
     "source": "Wikimedia Commons",
     "title": "John Smith arranges cannisters of magnetic tape for computer storage at the National Library of Medicine"
   },
+  "bca202/nplate": {
+    "author": "Innocentbunny",
+    "bytes": 529419,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/nplate.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Devanagari_Vehicle_Number_plate.jpg",
+    "sha1": "70e33caa6f0e4a16",
+    "source": "Wikimedia Commons",
+    "title": "Devanagari Vehicle Number plate"
+  },
   "bca202/ramac": {
     "author": "ArnoldReinhold",
     "bytes": 866816,
@@ -4132,6 +4197,45 @@
     "sha1": "eddf2017f4525061",
     "source": "Wikimedia Commons",
     "title": "IBM 350 RAMAC disk mechanism.agr"
+  },
+  "bca202/saturn": {
+    "author": "Jim Evans",
+    "bytes": 623454,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/saturn.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Saturn_V_Rocket_--_Johnson_Space_Center.jpg",
+    "sha1": "76f1740239269738",
+    "source": "Wikimedia Commons",
+    "title": "Saturn V Rocket -- Johnson Space Center"
+  },
+  "bca202/shredder": {
+    "author": "Raimond Spekking",
+    "bytes": 519909,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/shredder.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Paper_shredder_-_detail-9841.jpg",
+    "sha1": "b3cc5b6334dd25c8",
+    "source": "Wikimedia Commons",
+    "title": "Paper shredder - detail-9841"
+  },
+  "bca202/stacks": {
+    "author": "Chevsapher",
+    "bytes": 393205,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca202/stacks.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:UIUC_Library_Main_Stacks.jpg",
+    "sha1": "65904ff57e5d5802",
+    "source": "Wikimedia Commons",
+    "title": "UIUC Library Main Stacks"
   },
   "bca202/stonebraker": {
     "author": "Dcoetzee",
