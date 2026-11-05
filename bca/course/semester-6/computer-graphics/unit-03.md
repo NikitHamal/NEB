@@ -158,6 +158,61 @@ f.circle(450, 80, 6, fill=RED, stroke=RED); f.text(450, 102, "(400, 300)", size=
 f.text(290, 168, "xv = xv_min + (xw - xw_min) sx ,  yv = yv_min + (yw - yw_min) sy", size=10.5, color=NAVY, bold=True)
 ```
 
+Two photographs make two of the transformations concrete: a reflection in still water, and a wheel turning about its hub. The numbers below are computed with the same 3 x 3 homogeneous matrices as the chapter.
+
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Reflection is a matrix. (a) The Taj Mahal and its image in the long pool: every point (x, y) above the water line appears at (x, -y) below it. (b) The reflection about the x-axis is the matrix with rows (1, 0, 0), (0, -1, 0), (0, 0, 1). Applied to a simple outline of the building it flips the picture, and every distance is unchanged (a rigid motion). The determinant is -1, which signals that left and right hand order is reversed. The matrices for the y-axis and the line y = x are listed with the image of the point (3, 2)."
+@ photo id="bcaeng/taj" cap="Taj Mahal and its reflection"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Reflection about the x-axis (computed)"
+pts = [(0, 0), (0, 2), (2, 2), (2, 5), (2.5, 5), (2.5, 2), (3, 2), (3, 4), (4, 5), (5, 4), (6, 5), (7, 4), (7, 2), (7.5, 2), (7.5, 5), (8, 5), (8, 2), (10, 2), (10, 0)]
+def mul(A, B): return [[sum(A[i][k] * B[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+def app(M, p): return (M[0][0] * p[0] + M[0][1] * p[1] + M[0][2], M[1][0] * p[0] + M[1][1] * p[1] + M[1][2])
+RX = [[1, 0, 0], [0, -1, 0], [0, 0, 1]]; RY = [[-1, 0, 0], [0, 1, 0], [0, 0, 1]]; RD = [[0, 1, 0], [1, 0, 0], [0, 0, 1]]
+refl = [app(RX, p) for p in pts]
+det = RX[0][0] * RX[1][1] - RX[0][1] * RX[1][0]
+d0 = math.dist(pts[3], pts[8]); d1 = math.dist(refl[3], refl[8])
+assert det == -1 and abs(d0 - d1) < 1e-12 and app(RX, (3, 2)) == (3, -2) and app(RY, (3, 2)) == (-3, 2) and app(RD, (3, 2)) == (2, 3)
+assert mul(RX, RX) == [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+f = Fig(300, 252)
+sx, ox, oy = 22, 38, 92
+f.line(10, oy, 290, oy, color=SLATE, sw=1.2, dash=True)
+f.poly([(ox + x * sx * 0.9, oy - y * 15) for x, y in pts], fill=BLUE, stroke=NAVY, sw=1.3)
+f.poly([(ox + x * sx * 0.9, oy - y * 15) for x, y in refl], fill=MINT, stroke=TEAL, sw=1.3)
+f.text(10, oy - 6, "x-axis (water line)", size=9, color=SLATE, bold=True, anchor="start")
+f.text(150, 12, "(x, y) -> (x, -y):  det = %d,  distances kept" % det, size=9.5, color=NAVY, bold=True)
+f.text(10, 196, "image of (3, 2):  x-axis (3, -2)   y-axis (-3, 2)   y = x (2, 3)", size=9.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 208, 284, 36, "reflect twice about the same axis and you are back:\nRX x RX = identity matrix (asserted)", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="0.9" caption="Rotation about a pivot, step by step. (a) The London Eye turns about its hub, not about the origin of the picture. (b) A model wheel with hub (2, 1) and radius 2 carries 8 gondolas. The composite matrix M = T(2, 1) x R(45 degrees) x T(-2, -1) moves every gondola 45 degrees round the hub: the first gondola goes from (2, 3) to (0.586, 2.414). Every gondola stays exactly 2 units from the hub, and eight applications of M bring all of them back to where they started. The values are computed in the figure."
+@ photo id="bca-cg/eye" cap="London Eye turning about its hub"
+fit 0.9
+focus 0.5 0.55
+@ svg cap="Eight gondolas, M = T R T^-1 (45 degrees)"
+th = math.radians(45); c, s = math.cos(th), math.sin(th); hx, hy = 2, 1
+def mul(A, B): return [[sum(A[i][k] * B[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+def app(M, p): return (M[0][0] * p[0] + M[0][1] * p[1] + M[0][2], M[1][0] * p[0] + M[1][1] * p[1] + M[1][2])
+T1 = [[1, 0, hx], [0, 1, hy], [0, 0, 1]]; R = [[c, -s, 0], [s, c, 0], [0, 0, 1]]; T0 = [[1, 0, -hx], [0, 1, -hy], [0, 0, 1]]
+M = mul(T1, mul(R, T0))
+g = [(2.0, 3.0)]
+for _ in range(7): g.append(app(M, g[-1]))
+back = app(M, g[-1])
+assert all(abs(math.dist(p, (hx, hy)) - 2) < 1e-9 for p in g) and abs(back[0] - 2) < 1e-9 and abs(back[1] - 3) < 1e-9
+assert abs(g[1][0] - 0.5858) < 1e-3 and abs(g[1][1] - 2.4142) < 1e-3
+f = Fig(300, 248)
+U = 44; X = lambda x: 150 + (x - hx) * U; Y = lambda y: 104 - (y - hy) * U
+f.circle(X(hx), Y(hy), 2 * U, fill="#f8fafc", stroke=SLATE, sw=1.2)
+for i, (x, y) in enumerate(g):
+    f.line(X(hx), Y(hy), X(x), Y(y), color="#cbd5e1", sw=1.0)
+    f.circle(X(x), Y(y), 9, fill=(AMBER if i == 0 else BLUE), stroke=(AMBER if i == 0 else NAVY), label=str(i + 1), size=9)
+f.circle(X(hx), Y(hy), 4, fill=RED, stroke=RED)
+f.text(X(hx) + 8, Y(hy) + 14, "hub (2, 1)", size=9, color=RED, bold=True, anchor="start")
+f.text(150, 206, "M = [[%.3f, %.3f, %.3f], [%.3f, %.3f, %.3f], [0, 0, 1]]" % (M[0][0], M[0][1], M[0][2], M[1][0], M[1][1], M[1][2]), size=9, color=NAVY, bold=True)
+f.text(150, 224, "gondola 1: (2, 3) -> (%.3f, %.3f); 8 steps = back home" % g[1], size=9.5, color=TEAL, bold=True)
+f.text(150, 241, "all 8 stay exactly 2 units from the hub", size=9, color=SLATE, bold=True)
+```
+
 ### 3.6.1 Eight uses of two-dimensional transformations
 
 1. **Moving windows and icons.** Dragging a window on a screen is a translation of all its pixels. Resizing it is a scaling. Every operating system applies these matrices thousands of times a second.
