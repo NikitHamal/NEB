@@ -814,6 +814,26 @@ The block jerks into motion — the reason a heavy crate shoots forward the mome
 it starts to slide.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="Newton's second law in the form F = change of momentum / time explains why a car carries an airbag. (a) A crash-test dummy meeting an airbag. (b) A 70 kg occupant travelling at 14 m/s (50 km/h) has a momentum of 980 kg m/s that must be removed. Stopping in 0.02 s against the dashboard needs an average force of 49.0 kN, a seat belt over 0.05 s needs 19.6 kN and an airbag over 0.08 s only 12.25 kN. The impulse is the same in every case, but spreading it over a longer time cuts the force, so the injuries are far smaller."
+@ photo id="ceephy3/airbag" cap="A crash-test dummy meets an airbag: the same stop, but a longer time"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Impulse and average force for the same stop"
+m, v0 = 70.0, 14.0
+p = m * v0
+cases = [("rigid dash 0.02 s", 0.02), ("seat belt 0.05 s", 0.05), ("airbag 0.08 s", 0.08)]
+F = [p / t / 1000.0 for _, t in cases]
+assert p == 980 and abs(F[0] - 49.0) < 1e-9 and abs(F[2] - 12.25) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Average stopping force, kN", size=10.5, color=NAVY, bold=True)
+hbars(f, [(c[0], x) for c, x in zip(cases, F)], vmax=50, fmt="%.2f", x0=104, y0=36, bw=150, gap=32, colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL)], size=9.5)
+f.text(150, 150, "impulse = change of momentum = m v", size=10.5, color=NAVY, bold=True)
+f.text(150, 170, "70 kg x 14 m/s = %.0f N s" % p, size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "F = impulse / time: 4 times the time,", size=10, color=SLATE, bold=True)
+f.text(150, 208, "one quarter of the force", size=10, color=TEAL, bold=True)
+facts = dict(p=p, f1=F[0], f2=F[1], f3=F[2])
+```
+
 ## Chapter summary
 
 - $\vec{p} = m\vec{v}$ (kg m s⁻¹, $[MLT^{-1}]$); $\vec{F} = d\vec{p}/dt$, becoming

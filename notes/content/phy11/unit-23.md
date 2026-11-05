@@ -1256,6 +1256,25 @@ $$ t = \frac{Q}{P} = \frac{6.72\times10^{5}}{1500} = 448\ \text{s} \approx 7.5\ 
 cost is $90\times10 =$ Rs $900$.
 :::
 
+```photogrid label="23.P" cols="2" ratio="1.27" caption="A multimeter lets a student check Kirchhoff's laws on a real circuit. (a) A digital multimeter. (b) Two resistors of 100 and 200 ohms on a 12 V supply have a series resistance of 300 ohm and carry 40 mA, dropping 4 V and 8 V, which add to the supply voltage. In parallel the combined resistance is 66.67 ohm and the total current is 180 mA, the sum of the branch currents. The parallel value is always smaller than the smallest resistor, so adding a branch always increases the current drawn, which is why too many appliances on one extension board is dangerous."
+@ photo id="ceephy2/multimeter" cap="A multimeter reads the current and the voltage in a DC circuit"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Two resistors, in series and in parallel, on 12 V"
+V, R1, R2 = 12.0, 100.0, 200.0
+Rs = R1 + R2; Is = V / Rs; V1, V2 = Is * R1, Is * R2
+Rp = R1 * R2 / (R1 + R2); I1, I2 = V / R1, V / R2; It = I1 + I2
+assert abs(V1 + V2 - V) < 1e-9 and abs(It - V / Rp) < 1e-9 and abs(Rp - 66.6667) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "12 V across 100 ohm and 200 ohm", size=10.5, color=NAVY, bold=True)
+hbars(f, [("series I", Is * 1000), ("R1 parallel", I1 * 1000), ("R2 parallel", I2 * 1000), ("parallel total", It * 1000)], vmax=200, fmt="%.0f mA", x0=84, y0=34, bw=150, gap=28, colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL), (ROSE, RED)], size=9.5)
+f.text(150, 160, "series: R = %.0f ohm, V1 = %.0f V, V2 = %.0f V" % (Rs, V1, V2), size=10, color=NAVY, bold=True)
+f.text(150, 178, "V1 + V2 = %.0f V (Kirchhoff voltage law)" % (V1 + V2), size=10, color=NAVY, bold=True)
+f.text(150, 198, "parallel: R = %.2f ohm" % Rp, size=10, color=RED, bold=True)
+f.text(150, 214, "%.0f + %.0f = %.0f mA (Kirchhoff current law)" % (I1 * 1000, I2 * 1000, It * 1000), size=10, color=RED, bold=True)
+facts = dict(Rs=Rs, Is=Is * 1000, V1=V1, V2=V2, Rp=Rp, It=It * 1000)
+```
+
 ## Chapter summary
 
 - Current is $I = dQ/dt$; in a metal $I = nAv_de$ and $J = I/A = nev_d$, with a

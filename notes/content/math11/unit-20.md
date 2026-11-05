@@ -841,6 +841,32 @@ objective function at each:
 The maximum is $Z = 26$, attained at $x = 2$, $y = 6$.
 :::
 
+```photogrid label="20.P" cols="2" ratio="1.27" caption="Before pocket calculators, engineers multiplied with a slide rule, a device that turns multiplication into addition. (a) A wooden slide rule. (b) The scale marks each number x at a distance of log10(x) from 1. To compute 2.5 x 3.2, the blue length log 2.5 = 0.398 is placed end to end with the green length log 3.2 = 0.505, giving a total of 0.90309. The antilogarithm of that total is 8.0, the product. Tables and slide rules are numerical methods of the older kind, and they show why logarithms were once the most important tool of computation."
+@ photo id="math11/sliderule" cap="A slide rule multiplies by adding lengths on a logarithmic scale"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Multiplying 2.5 by 3.2 with logarithms"
+a, b = 2.5, 3.2
+la, lb = math.log10(a), math.log10(b)
+prod = 10 ** (la + lb)
+assert abs(prod - 8.0) < 1e-12 and abs(la + lb - 0.90309) < 1e-5
+W = 250.0; x0 = 25
+X = lambda v: x0 + W * math.log10(v)
+f = Fig(300, 236)
+f.text(150, 14, "log scale: length = log10(x)", size=10.5, color=NAVY, bold=True)
+f.line(x0, 100, x0 + W, 100, color=SLATE, sw=1.6)
+for v in range(1, 11):
+    f.line(X(v), 94, X(v), 106, color=SLATE, sw=1.4); f.text(X(v), 120, str(v), size=9.5, color=SLATE, bold=True)
+f.box(X(1), 52, X(a) - X(1), 20, "log 2.5 = %.3f" % la, fill=BLUE, stroke=NAVY, size=9, bold=True, r=2)
+f.box(X(a), 52, X(a * b) - X(a), 20, "+ log 3.2 = %.3f" % lb, fill=MINT, stroke=TEAL, size=9, bold=True, r=2)
+f.arrow([(X(prod), 74), (X(prod), 96)], color=RED, sw=2)
+f.text(X(prod), 142, "%.1f" % prod, size=11, color=RED, bold=True)
+f.text(150, 176, "log(2.5 x 3.2) = %.5f" % (la + lb), size=10.5, color=NAVY, bold=True)
+f.text(150, 194, "antilog 10^%.5f = %.4f" % (la + lb, prod), size=10.5, color=RED, bold=True)
+f.text(150, 214, "numbers multiply, lengths add", size=10.5, color=SLATE, bold=True)
+facts = dict(la=la, lb=lb, s=la + lb, p=prod)
+```
+
 ## Chapter summary
 
 - A root of $f(x)=0$ is bracketed whenever $f(a)\,f(b) < 0$ and $f$ is continuous on

@@ -361,6 +361,31 @@ The divisions are still equal — only the two end marks are misplaced — so th
 correction is a simple proportion.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="A thermal camera maps temperature to colour, and a student must be able to move between the three temperature scales. (a) A thermal image of a house. (b) The program converts five reference points. Normal body temperature, 37 degrees Celsius, is 98.6 degrees Fahrenheit and 310.15 K. Boiling water is 373.15 K. The two scales cross at -40, where Celsius and Fahrenheit agree, and absolute zero is 0 K, -273.15 degrees Celsius or -459.67 degrees Fahrenheit. The kelvin scale is used in gas laws because it has no negative values."
+@ photo id="ceephy3/thermal" cap="A thermal image: the colours are a temperature scale"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="One temperature on three scales"
+pts = [("absolute zero", -273.15), ("-40", -40.0), ("ice melts", 0.0), ("body", 37.0), ("water boils", 100.0)]
+conv = [(n, c, 1.8 * c + 32, c + 273.15) for n, c in pts]
+assert conv[1][2] == -40 and abs(conv[3][2] - 98.6) < 1e-9 and abs(conv[4][3] - 373.15) < 1e-9 and abs(conv[0][3]) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "F = 1.8 C + 32,  K = C + 273.15", size=10.5, color=NAVY, bold=True)
+for j, (h, x) in enumerate([("point", 6), ("C", 108), ("F", 168), ("K", 232)]):
+    f.text(x + 4, 38, h, size=10, color=SLATE, bold=True, anchor="start")
+cols = [(BLUE, NAVY), (SOFT, SLATE), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)]
+for i, (n, c, fa, k) in enumerate(conv):
+    y = 46 + i * 28; fl, st = cols[i]
+    f.box(4, y, 292, 24, fill=fl, stroke=st, r=4)
+    f.text(10, y + 12, n, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(112, y + 12, "%.2f" % c if c % 1 else "%.0f" % c, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(172, y + 12, "%.2f" % fa if fa % 1 else "%.0f" % fa, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(236, y + 12, "%.2f" % k, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 204, "-40 is the same on the Celsius and Fahrenheit scales", size=10, color=NAVY, bold=True)
+f.text(150, 222, "0 K = -273.15 C: no temperature is lower", size=10, color=RED, bold=True)
+facts = dict(bf=conv[3][2], bk=conv[3][3], bk100=conv[4][3])
+```
+
 ## Chapter summary
 
 - Internal energy is the total kinetic + potential energy of the molecules;

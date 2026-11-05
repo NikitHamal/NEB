@@ -1669,6 +1669,29 @@ order and you cannot leave anything out: (1) intercepts, (2) $f'$ factorised,
 test, (5) $f''$ and intervals of concavity, (6) points of inflection. Then sketch.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.27" caption="Inflating a balloon is a rate-of-change problem: the volume rises faster and faster as the radius grows. (a) A hot-air balloon being filled. (b) For V = (4/3) pi r^3 the derivative is 4 pi r^2, which is 113.1 cubic metres per metre of radius when r = 3 m, where the volume is 113.1 m3. The program confirms this with a numerical difference quotient. If the radius grows at 0.05 m/s, the chain rule gives dV/dt = 4 pi r^2 dr/dt = 5.65 m3/s of air. The same tangent slope is the bigger and bigger delivery the pump must supply."
+@ photo id="math11/balloon" cap="A hot-air balloon being inflated: its volume grows with the radius"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rate of change of the volume of a sphere"
+V = lambda r: 4 / 3.0 * math.pi * r ** 3
+dV = lambda r: 4 * math.pi * r ** 2
+num = (V(3 + 1e-6) - V(3)) / 1e-6
+dVdt = dV(3) * 0.05
+assert abs(num - dV(3)) < 1e-3 and round(dV(3), 1) == 113.1
+f = Fig(300, 236)
+f.text(150, 14, "V = (4/3) pi r^3 with the tangent at r = 3", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 5), (0, 550))
+ax.grid(1, 100, size=9); ax.axes("r (m)", "V")
+ax.curve(V, 0, 5, color=NAVY, sw=2.4)
+ax.curve(lambda r: V(3) + dV(3) * (r - 3), 1.2, 4.6, color=RED, sw=1.8)
+ax.pt(3, V(3), "", color=RED)
+f.text(ax.X(3) + 8, ax.Y(V(3)) + 20, "slope %.1f" % dV(3), size=10, color=RED, bold=True, anchor="start")
+f.text(150, 208, "dV/dr = 4 pi r^2 = %.1f m3 per m at r = 3" % dV(3), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "dr/dt = 0.05 m/s gives dV/dt = %.2f m3/s" % dVdt, size=10.5, color=RED, bold=True)
+facts = dict(s=dV(3), v=V(3), t=dVdt)
+```
+
 ## Chapter summary
 
 - **First principle:** $f'(x) = \lim_{h\to0}\dfrac{f(x+h)-f(x)}{h}$. Four steps —

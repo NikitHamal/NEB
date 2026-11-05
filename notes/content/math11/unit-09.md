@@ -517,6 +517,27 @@ functions are many-to-one. Substituting each root back into the *original*
 equation is part of the solution, and examiners award a mark for it.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="To find the angle of a ladder from lengths you need an inverse trigonometric function. (a) A ladder leaning in a room. (b) With the foot 3 m from the wall and the ladder 5 m long, the height reached is 4 m, and the angle with the ground is 53.13 degrees. The program gets the same answer from arcsin(4/5), arccos(3/5) and arctan(4/3), which shows how the three inverses are linked. The arcsin curve is drawn only between -90 and 90 degrees, because the sine must be restricted to that interval to be one-one and have an inverse."
+@ photo id="math11/ladder" cap="A ladder against a wall: the angle is an inverse trigonometric value"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The graph of y = arcsin x and a 5 m ladder"
+L, foot = 5.0, 3.0
+height = math.sqrt(L * L - foot * foot)
+th = math.degrees(math.asin(height / L)); th2 = math.degrees(math.acos(foot / L)); th3 = math.degrees(math.atan2(height, foot))
+assert height == 4 and abs(th - th2) < 1e-9 and abs(th - th3) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "y = arcsin x, in degrees (principal values)", size=10, color=NAVY, bold=True)
+ax = Axes(f, 60, 26, 180, 146, (-1.2, 1.2), (-100, 100))
+ax.grid(0.5, 30, size=9, xfmt=lambda v: "%g" % v); ax.axes("x", "y")
+ax.curve(lambda x: math.degrees(math.asin(x)), -1, 1, color=NAVY, sw=2.4)
+ax.hline(90, color=SLATE); ax.hline(-90, color=SLATE)
+ax.pt(0.8, th, "(0.8, %.2f)" % th, dx=-8, dy=-8, color=RED, anchor="end")
+f.text(150, 208, "foot 3 m, ladder 5 m: height = %d m" % height, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "theta = arcsin(4/5) = arccos(3/5) = %.2f deg" % th, size=10, color=SLATE, bold=True)
+facts = dict(h=height, th=th)
+```
+
 ## Chapter summary
 
 - Inverse circular functions exist only after the domain is restricted to a

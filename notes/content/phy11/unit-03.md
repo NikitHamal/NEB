@@ -642,6 +642,28 @@ At the highest point the velocity is purely horizontal, so the speed is
 $u_x = 15\ \text{m s}^{-1}$.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="A speedometer reads speed, and plotting its readings against time gives a velocity-time graph whose slope is acceleration and whose area is distance. (a) A speedometer dial. (b) A car speeds up at 2 m/s2 for 10 s, cruises at 20 m/s for 10 s and brakes at 4 m/s2 for 5 s. The areas of the triangle, rectangle and second triangle are 100, 200 and 50 m, so the car travels 350 m in all. The program computes the same total by splitting the graph exactly as the equations of motion would, which is why the graph is a faster check than substituting into s = ut + at^2/2 stage by stage."
+@ photo id="ceephy/speedo" cap="A speedometer shows the speed that a v-t graph plots against time"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Area under a velocity-time graph"
+def v(t):
+    if t <= 10: return 2.0 * t
+    if t <= 20: return 20.0
+    return max(0.0, 20.0 - 4.0 * (t - 20))
+d1 = 0.5 * 10 * 20; d2 = 10 * 20; d3 = 0.5 * 5 * 20; dist = d1 + d2 + d3
+assert dist == 350 and v(25) == 0
+f = Fig(300, 236)
+f.text(150, 14, "Car: 0 to 20 m/s, cruise, then brake", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 28), (0, 24))
+ax.grid(5, 5, size=9); ax.axes("t (s)", "v (m/s)")
+ax.area(v, 0, 25, fill="#bfdbfe", n=250)
+ax.curve(v, 0, 25, color=NAVY, sw=2.4, n=250)
+f.text(150, 208, "a = +2, 0, -4 m/s^2 in the three stages", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "area = %.0f + %.0f + %.0f = %.0f m travelled" % (d1, d2, d3, dist), size=10.5, color=RED, bold=True)
+facts = dict(d=dist, d1=d1, d2=d2, d3=d3)
+```
+
 ## Chapter summary
 
 - Instantaneous velocity is $v = dx/dt$ (slope of the tangent to the $x$–$t$
