@@ -413,6 +413,30 @@ f.text(150, 204, "vmax = A omega = %.2f m/s (at x = 0)" % vm, size=10.5, color=A
 f.text(150, 220, "amax = A omega^2 = {:,.0f} m/s^2 (at x = +-A)".format(am), size=10.5, color=RED, bold=True)
 ```
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="A pendulum measures g and the Earth's spin. (a) A Foucault pendulum: a heavy bob on a long wire swings in a fixed plane while the floor turns beneath it, so the swing appears to rotate; the compass rose on the floor marks the angle. At latitude phi the plane turns through 360 sin phi degrees a day, which at Kathmandu (27.7 degrees north) is 167 degrees a day, a full turn in 51.6 hours. (b) The period of a simple pendulum is T = 2 pi sqrt(L / g), independent of the mass and (for small angles) of the amplitude. With g = 9.81 m/s2 a length of 0.994 m gives T = 2.00 s (the seconds pendulum), and a quarter of that length gives half the period. On the Moon (g = 1.62 m/s2) the same 0.994 m pendulum takes 4.92 s, which is how T measures g."
+@ photo id="ceephy2/pendulum" cap="A Foucault pendulum with its compass rose on the floor"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Period of a simple pendulum on Earth and on the Moon"
+import math
+gE, gM = 9.81, 1.62
+Tp = lambda L, g: 2 * math.pi * math.sqrt(L / g)
+assert round(Tp(0.994, gE), 2) == 2.00 and abs(Tp(0.2485, gE) - 1.0) < 0.01 and round(Tp(0.994, gM), 2) == 4.92
+rate = 360 * math.sin(math.radians(27.7))
+assert round(rate) == 167 and round(360 / rate * 24, 1) == 51.6
+f = Fig(300, 236)
+f.text(150, 12, "T = 2 pi sqrt(L / g)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 2), (0, 8))
+ax.grid(0.5, 2).axes("L m", "T s")
+ax.curve(lambda L: Tp(L, gM), 0, 2, color=AMBER, dash=True)
+ax.curve(lambda L: Tp(L, gE), 0, 2, color=RED)
+ax.pt(0.994, 2.0, "2.00 s", dx=8, dy=14)
+f.text(ax.X(1.35), ax.Y(7.0), "Moon", size=10.5, color=AMBER, bold=True)
+f.text(ax.X(1.45), ax.Y(3.9), "Earth", size=10.5, color=RED, bold=True)
+f.text(150, 206, "L = 0.994 m: 2.00 s here, 4.92 s on the Moon", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "Foucault plane turns 167 deg a day at 27.7 N", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

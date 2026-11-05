@@ -599,7 +599,7 @@ The escape speed is $2\times11.2 = 22.4$ km s⁻¹. A smaller radius more than m
 for the larger mass, because the body starts deeper in the potential well.
 :::
 
-```photogrid label="6.1" cols="2" ratio="1.2" caption="Why astronauts float. (a) The International Space Station orbits at about 420 km. (b) Setting gravity equal to the centripetal force gives the orbital speed v = sqrt(G M / r). With G M = 3.986 x 10^14 m^3/s^2 and r = 6,371 + 420 = 6,791 km, v = 7.66 km/s and the period is T = 2 pi r / v = 92.8 minutes, or 15.5 orbits a day. Gravity at that height is still g = G M / r^2 = 8.64 m/s^2, which is 88 per cent of its surface value of 9.82 m/s^2, so astronauts are not beyond gravity: they and the station fall together, and the escape speed from there would be sqrt(2) times larger, 10.83 km/s."
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Why astronauts float. (a) The International Space Station orbits at about 420 km. (b) Setting gravity equal to the centripetal force gives the orbital speed v = sqrt(G M / r). With G M = 3.986 x 10^14 m^3/s^2 and r = 6,371 + 420 = 6,791 km, v = 7.66 km/s and the period is T = 2 pi r / v = 92.8 minutes, or 15.6 orbits a day. Gravity at that height is still g = G M / r^2 = 8.64 m/s^2, which is 88 per cent of its surface value of 9.82 m/s^2, so astronauts are not beyond gravity: they and the station fall together, and the escape speed from there would be sqrt(2) times larger, 10.83 km/s."
 @ photo id="sci10/iss" cap="The International Space Station: a body in free fall around the Earth"
 fit 1.2
 focus 0.5 0.5

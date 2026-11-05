@@ -415,6 +415,27 @@ does. In a long chain the slowest step controls the overall rate, and after enou
 time the whole chain reaches **secular equilibrium**, in which every member decays
 at the same activity.
 
+```photogrid label="20.2" cols="2" ratio="1.2" caption="Half-life decides how an isotope is used. (a) A survey Geiger counter with its probe: the count rate falls with the activity of the source, A = A0 (1/2)^(t / T). (b) Technetium-99m, the workhorse of diagnostic imaging, has a half-life of 6.01 hours, so after 24 hours only 6.3 per cent is left and the patient's dose is small. Iodine-131, used for thyroid treatment, has a half-life of 8.02 days: 91.7 per cent remains after a day and 84.1 per cent after two, so it irradiates the thyroid for weeks. Cobalt-60 (5.27 years) loses only 1.1 per cent in 30 days, which suits a radiotherapy source that is replaced every few years. A short half-life gives less dose; a long half-life gives a steady source."
+@ photo id="ceephy2/geiger" cap="A survey Geiger counter with its probe"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Activity left over 48 hours for Tc-99m and I-131"
+T_tc, T_i, T_co = 6.01, 8.02 * 24, 5.27 * 365.25 * 24
+rem = lambda t, T: 100 * 0.5 ** (t / T)
+assert round(rem(24, T_tc), 1) == 6.3 and round(rem(24, T_i), 1) == 91.7 and round(rem(48, T_i), 1) == 84.1
+assert round(100 - rem(30 * 24, T_co), 1) == 1.1
+f = Fig(300, 236)
+f.text(150, 12, "Percentage of activity left", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 48), (0, 100))
+ax.grid(12, 25, xfmt=lambda x: "%dh" % x).axes("t", "%")
+ax.curve(lambda t: rem(t, T_i), 0, 48, color=TEAL)
+ax.curve(lambda t: rem(t, T_tc), 0, 48, color=RED)
+ax.pt(24, rem(24, T_tc), "Tc-99m: 6.3%", dx=8, dy=-8)
+ax.pt(24, rem(24, T_i), "I-131: 91.7%", dx=8, dy=-8, color=TEAL)
+f.text(150, 206, "Tc-99m (6.01 h): 6.3 per cent left at 24 h", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "I-131 (8.02 d): 91.7 per cent left at 24 h", size=10.5, color=SLATE, bold=True)
+```
+
 ## 20.4 Medical uses of nuclear radiation and its health hazards
 
 ### Diagnosis
