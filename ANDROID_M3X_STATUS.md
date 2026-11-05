@@ -74,3 +74,23 @@ Brief: the app still read bluish next to the web forum; the composer needed a dr
 
 - Table and spoiler tools in the markdown row (renderer lacks them).
 - Post detail, replies, library and profile screens still use Material glyphs for their own actions; swap them for `NebIcons` as the web set grows (bookmark, thumb, bell are not in it yet).
+
+## Session 6 (CI-verified only; nothing is built locally)
+
+Brief: the app still did not read like the web. Method this time: the web was run locally (Django on sqlite, seeded post and replies, Playwright at 390 px) and the screenshots were compared with the app's layout before each change.
+
+- Home: the composer launcher is gone from the first row (Forum keeps its squircle FAB). `NebComposerLauncher` stays for the Forum row.
+- Festival decor, app (`ui/theme/SeasonAmbience.kt`): Tihar is a thread of glass bulbs (cap, body, highlight, warm halo, twinkle) with a few crisp four-point sparkles, not blurred dots across the feed. Dashain is a mala of eight-petal marigolds swaying on a thread with falling petals. Holi is soft gulal clouds (no purple), gurans petals, rain and snow (tinted so it shows on white). The band is the top 190 dp only, fades out when the feed scrolls, holds still for reduced motion. `SiteThemeState.hasGarland` lets Home leave 36 dp under the garland. The season card is a flat tonal fill (gradient removed).
+- Festival decor, web (`static/web/css/themes.css`, `themes/_decor.html`): every `box-shadow` removed (glows are radial pseudo-elements), Tihar bulbs get caps and halos, fireflies are sparkles, Dashain flowers are marigolds, purple rangoli petals replaced with orange, season card keeps wish, Neby and close on one row on phones.
+- Post reader (`ForumPostDetailScreen.kt`) follows the web page top to bottom: `DiscussionHeader` (back, Discussion, `#category` tag, hairline), author row (44 dp avatar, name, `@handle · time`, more menu), title, body, time, hairline, ghost action row (like, comments with the web glyph, bookmark, share), the reply composer inline under the post, `Replies N` with the Oldest / Newest / Top segmented control, flat replies.
+- Reply composer (`CommentComposerBar.kt`): inline (`docked = false`), 28 dp outlined pill, avatar with a chevron badge that opens the identity menu (`NebIdentityAvatarMenu`), placeholder `Post your reply...`, paperclip and the round send button in the trailing slot (`trailingContent`); disabled send is the secondary container, like the web. The thread sheet keeps the docked variant with the same controls.
+- Replies (`CommentCard`) are flat: no frame, hairline under each, 36 dp avatar, body indented under the name, name bold.
+- Like colour: `LikePill` is ghost and turns brand primary when liked (the web's `.liked`), never on-primary-container navy.
+- Identity picker: the trigger shows a real 20 dp chevron-down in `onSurface`.
+- Bottom bar (`LiquidGlassNav.kt`): real backdrop glass. `Modifier.glassSource(GlassBackdrop)` records the NavHost into a `GraphicsLayer`; `Modifier.liquidGlass` re-draws that layer behind the bar into its own layer with a `BlurEffect` (API 31+), then a neutral surface tint, a top sheen and a hairline rim. The create clover uses the same surface. Below API 31 the tint is 95 % opaque. No shadow, no coloured gradient.
+
+## Not done yet (after session 6)
+
+- Follow chip beside the author on the reader (needs the follow endpoint wired into the post detail view model).
+- The reader's formatting ("A") tool in the reply composer.
+- Everything here is seen only through CI compiles and the web screenshots; check blur strength and the garland on a device.
