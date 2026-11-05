@@ -11608,6 +11608,19 @@
   "source": "Wikimedia Commons",
   "title": "Magnfying glass book globe"
  },
+ "bcapj/lora": {
+  "author": "-stk",
+  "bytes": 144589,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcapj/lora.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HT-RA62_front_P1089953.jpg",
+  "sha1": "4f22cbfed69c0fa3",
+  "source": "Wikimedia Commons",
+  "title": "HT-RA62 front P1089953"
+ },
  "bcapj/padlock": {
   "author": "Thegreenj",
   "bytes": 341773,
@@ -11633,6 +11646,32 @@
   "sha1": "2007000b52baff81",
   "source": "Wikimedia Commons",
   "title": "2013-06-24 17 39 11 A 4-inch plastic rain gauge typical of those used by the CoCoRaHS program"
+ },
+ "bcapj/sankhu-school": {
+  "author": "Jonashtand",
+  "bytes": 233901,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcapj/sankhu-school.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:202412_Students_outside_of_classroom,_Shree_Bhagawati_Secondary_School,_Sankhu.jpg",
+  "sha1": "ad0187ec045e5d50",
+  "source": "Wikimedia Commons",
+  "title": "202412 Students outside of classroom, Shree Bhagawati Secondary School, Sankhu"
+ },
+ "bcapj/sankhu-students": {
+  "author": "Jonashtand",
+  "bytes": 427805,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bcapj/sankhu-students.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:202412_Students_outside_of_classroom,_Shree_Bhagawati_Secondary_School,_Sankhu_3.jpg",
+  "sha1": "c170373039f5b015",
+  "source": "Wikimedia Commons",
+  "title": "202412 Students outside of classroom, Shree Bhagawati Secondary School, Sankhu 3"
  },
  "bcapj/signpost": {
   "author": "David Lally",
@@ -13388,6 +13427,19 @@
   "sha1": "635d068dac1902d6",
   "source": "Wikimedia Commons",
   "title": "Connective Tissue Human Blood (39982278130)"
+ },
+ "bio12/immun-pokhara": {
+  "author": "Department of Foreign Affairs and Trade",
+  "bytes": 258223,
+  "credit": "Vaccinations at the District Public Health Office, Immunization Clinic, Pokhara, Nepal.",
+  "fetched": "2026-11-05",
+  "file": "bio12/immun-pokhara.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vaccinations_at_the_District_Public_Health_Office,_Immunization_Clinic,_Pokhara,_Nepal._(10680998474).jpg",
+  "sha1": "7c2bb26a221f11e5",
+  "source": "Wikimedia Commons",
+  "title": "Vaccinations at the District Public Health Office, Immunization Clinic, Pokhara, Nepal. (10680998474)"
  },
  "bio12/karyotype": {
   "author": "National Human Genome Research Institute (NHGRI)",
@@ -15949,6 +16001,19 @@
   "sha1": "c47a35d617a0c885",
   "source": "Wikimedia Commons",
   "title": "Photo-CarBattery"
+ },
+ "chem12/clinker": {
+  "author": "Lorenzo Bonino",
+  "bytes": 287683,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "chem12/clinker.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clinker_spheres.jpg",
+  "sha1": "9401b7506bdbf514",
+  "source": "Wikimedia Commons",
+  "title": "Clinker spheres"
  },
  "chem12/cuso4": {
   "author": "W. Oelen",
