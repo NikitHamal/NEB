@@ -48,13 +48,116 @@ Output — with **Storage** added as a fourth stage, giving **IPO-S**.
 | Reliability | Consistent results over long periods with very low failure rates |
 | No IQ / No feeling | It has no intelligence of its own; it obeys instructions literally |
 
-**Applications.** Education (e-learning, NEB result publication), banking (ATMs,
-mobile banking, cheque clearing), business (billing, inventory, payroll),
-government (national ID, Loksewa and NEB result processing, land records),
-health (CT and MRI imaging, hospital records), engineering (CAD/CAM),
-communication (email, VoIP, social media), entertainment (games, animation),
-science (weather forecasting by the Department of Hydrology and Meteorology,
-earthquake modelling) and transport (online ticketing, air-traffic control).
+**Characteristics explained.** Each characteristic below is written the way a
+10-mark answer expects it: name, meaning, and a Nepali example.
+
+**1. Speed.** A modern processor performs billions of simple operations every
+second, and one operation takes only a few nanoseconds. Work that would keep a
+clerk busy for a week can finish before you blink. For example, the examination
+board can sort and grade the marks of lakhs of students in minutes, where manual
+tabulation once took many days. Speed is the reason computers are used wherever a
+huge amount of data must be handled quickly.
+
+**2. Accuracy.** A computer performs arithmetic in exactly the same way every
+time, so the machine itself does not make random mistakes. Wrong output comes from
+wrong input data or a wrong program, which is summed up by the rule **GIGO**
+(Garbage In, Garbage Out). When a bank adds interest to thousands of accounts,
+every rupee is calculated to the same number of decimal places. If a teacher types
+a wrong mark, however, the computer will faithfully print the wrong result.
+
+**3. Diligence.** A human becomes tired, bored and careless after hours of
+repetitive work, but a computer does not. It carries out the millionth calculation
+with the same care as the first one. An electricity billing system, for instance,
+can process the meter readings of every household month after month without a
+break. This makes the computer ideal for dull, repetitive jobs.
+
+**4. Versatility.** A computer is a general-purpose machine: the same hardware does
+very different jobs when the program is changed. In one hour a student may type a
+letter, watch a lecture, run a spreadsheet and play a game on a single laptop. A
+bank terminal, a school server and a smartphone differ mainly in the software they
+run. This ability to change tasks is what separates a computer from a calculator.
+
+**5. Storage capacity.** A computer can keep a very large amount of data in a small
+space and bring it back in a fraction of a second. A single 1 TB disk holds about
+250,000 photographs or millions of pages of text. National identity records, land
+records and examination records are kept this way instead of in room-sized
+cupboards. Stored data can also be searched, copied and backed up easily.
+
+**6. Automation.** Once a program and its data are loaded, the computer carries out
+the instructions one after another without help from a person. A payroll program
+can calculate salary, tax and deductions for every employee and print the payslips
+while the operator is away. Automation saves labour and removes the waiting time
+between steps. The ATM that counts and releases notes after a few key presses is a
+small, familiar example.
+
+**7. Reliability.** A well-built computer gives the same result for the same input
+over a long period and fails very rarely. Banks, airlines and hospitals depend on
+this, and they add backup power and duplicate systems to keep running. A Fonepay or
+ConnectIPS payment, for example, must complete correctly at any hour of the day.
+High reliability is what lets people trust a computer with money and health records.
+
+**8. No intelligence and no feelings.** A computer cannot think for itself; it obeys
+the instructions of the programmer literally, even when they are foolish. It cannot
+judge, feel tired, or become angry or happy. Only a program written by a human tells
+it what to do, so the human remains responsible for the result. This limitation is
+also why artificial intelligence is such an active field of research.
+
+**Applications explained.** Eight areas, each with the Nepali example an examiner
+likes to see.
+
+**1. Education.** Schools and colleges use computers for e-learning, online
+classes, digital libraries, result processing and student records. The National
+Examinations Board publishes results on its website and by SMS, and university
+portals handle forms and results for thousands of students. Teachers prepare
+lessons with presentations and simulations, and students practise with educational
+software. Computers make learning possible even when a student cannot reach a
+classroom.
+
+**2. Banking and finance.** Banks use computers for core banking, ATMs, cheque
+clearing with MICR, mobile banking and card payments. ConnectIPS moves money
+between bank accounts, and Fonepay lets you pay in a shop by scanning a QR code.
+Because every branch connects to one central database, you can deposit in
+Kathmandu and withdraw in Jumla. Computers also keep the records safe and make
+audits faster.
+
+**3. Government and public services.** Government offices use computers for the
+national ID card, passport and driving-licence systems, land records, tax
+collection and customs. The Nagarik App brings digital documents and several
+services onto one mobile screen. This cuts paperwork, queues and the chance of
+files being lost or hidden. Citizens can apply, pay and track many services from
+home.
+
+**4. Health and medicine.** Hospitals keep patient records, appointments and bills
+on computers, and CT, MRI and ultrasound machines need computer processing to form
+their images. Telemedicine lets a health worker in a remote hill village consult a
+specialist in Kathmandu over a video call. Computers also help to manage
+vaccination records and medicine stocks. Faster and clearer diagnosis can save
+lives.
+
+**5. Science, engineering and weather forecasting.** Scientists use computers to run
+models that would take years by hand. The Department of Hydrology and Meteorology
+(DHM) processes weather and river-flow data to issue forecasts and flood warnings.
+Engineers use CAD software to design bridges, roads and buildings and to test them
+on screen before building. Earthquake research in Nepal also depends on the
+computer analysis of seismic data.
+
+**6. Business and industry.** Shops and companies use computers for billing,
+inventory, accounting and payroll. A supermarket's barcode scanner finds the price
+and reduces the stock count at the same moment. Factories use computer-controlled
+machines and robots for accurate, repeatable work. Even a small business can keep
+exact records and make better decisions with a spreadsheet.
+
+**7. Communication and media.** Email, video calls, messaging and social media all
+run on computers and networks. Newspapers, FM stations and TV channels in Nepal use
+computers for writing, editing and broadcasting, and many Nepalis abroad talk to
+their families every day over video calls. Online news reaches readers the moment
+it is published. Communication that once took days by post now takes seconds.
+
+**8. Transport, tourism and entertainment.** Computers run online bus and air
+ticketing, air-traffic control and GPS navigation. Trekkers book permits, guides
+and hotels online, and hotels manage bookings with software. Films use computer
+animation, and games are a large form of entertainment. Traffic lights and vehicle
+registration in the cities are also computer controlled.
 
 ## 1.2 Evolution of computer technology (generations)
 
@@ -109,6 +212,114 @@ ax.set_aspect('equal')
 The fourth generation begins with the **Intel 4004** (1971) — the first
 microprocessor, a 4-bit chip of about 2,300 transistors clocked at roughly
 740 kHz. The IBM PC of 1981 used the 16-bit Intel 8088.
+
+```photogrid label="1.G1" cols="5" ratio="1.0" caption="Real hardware of the five generations, left to right: (a) a vacuum tube, (b) a power transistor, (c) integrated circuits in DIP packages, (d) a VLSI microprocessor, (e) an AI accelerator board. Each switching device is smaller, cooler and faster than the one before it."
+@ photo id="bca101/vacuum-tube" cap="1st gen: vacuum tube, 1940s-50s"
+focus 0.5 0.55
+@ photo id="bca101/transistor" cap="2nd gen: transistor, late 1950s"
+crop 0.0 0.5 1.0 1.0
+focus 0.5 0.5
+@ photo id="bca101/ic-dip" cap="3rd gen: integrated circuits (SSI/MSI)"
+@ photo id="bca101/cpu-i7" cap="4th gen: VLSI microprocessor"
+@ photo id="bca101/tpu" cap="5th gen: AI accelerator board"
+```
+
+```photogrid label="1.G2" cols="3" ratio="1.35" caption="Early machines in practice: (a) an engineer replaces a failed tube in ENIAC; (b) an IBM 1401 installation, the type of transistorised mainframe that processed Nepal's 2028 BS census data; (c) a punched card, the input medium of that era."
+@ photo id="bca101/eniac-tube" cap="ENIAC: 17,468 tubes, so a tube failed every day or two"
+@ photo id="bca101/ibm1401" cap="IBM 1401 (1959), used for the 2028 BS census"
+@ photo id="bca101/punchcard" cap="Punched card: 80 columns, one hole pattern per character"
+```
+
+**The five generations in detail.** A ten-mark question asks for the technology,
+the machines, the advantages and the drawbacks of every generation, so learn each
+paragraph below as a unit.
+
+**First generation (1946-1958): vacuum tubes.** The first electronic computers,
+ENIAC (1946) and UNIVAC I, used thousands of **vacuum tubes** as switches. A tube is
+a glass bulb with a heated filament, and it gets very hot. ENIAC held about 17,000
+tubes, weighed roughly 27 tonnes and filled a large hall. Programs were written in
+**machine language** (binary) and entered by plugging wires or by punched cards, and
+the memory was a magnetic drum. *Advantages:* the first fully electronic machines,
+thousands of times faster than mechanical calculators. *Limitations:* huge size,
+very high power use and heat, frequent tube failure, high cost, a single program at
+a time and no operating system.
+
+**Second generation (1959-1964): transistors.** The **transistor**, invented at Bell
+Laboratories in 1947, replaced the tube. It is a tiny solid-state switch that is
+smaller, cooler, cheaper and far more reliable. Magnetic **core memory** appeared,
+and **assembly language** and the first high-level languages, FORTRAN and COBOL,
+replaced pure binary. Machines such as the IBM 1401 handled business accounts and
+census data. *Advantages:* smaller, faster, more reliable and cheaper than first
+generation machines. *Limitations:* still costly, still needed air-conditioning,
+and programs were written for one particular model.
+
+**Third generation (1965-1970): integrated circuits.** An **integrated circuit**
+(IC), invented by Jack Kilby in 1958, puts many transistors, resistors and
+capacitors on one small silicon chip. The IBM System/360 (1964) and the PDP-8 are
+typical machines. Small-scale and medium-scale integration (SSI and MSI) brought
+**operating systems with multiprogramming**, keyboards and monitors in place of
+punched cards, and high-level languages such as BASIC and Pascal. *Advantages:*
+smaller size, lower power, higher speed and reliability, and lower cost. *Limitations:*
+ICs were still hard to make, and computers were not yet cheap enough for homes.
+
+**Fourth generation (1971-present): microprocessors.** The **microprocessor** puts
+the whole CPU on one chip. The Intel 4004 (1971) held about 2,300 transistors; today
+a processor holds billions (LSI, then VLSI). The result was the **personal
+computer**: the IBM PC (1981), Apple Macintosh, laptops and smartphones. This
+generation brought the **GUI**, mouse, networks, the Internet, semiconductor RAM and
+fourth-generation languages. *Advantages:* small, cheap, very fast, reliable and
+available to ordinary people. *Limitations:* the machine still has no intelligence of
+its own, and e-waste and cyber-crime became new problems.
+
+**Fifth generation (present and beyond): ULSI, AI and parallel processing.** The aim
+is a computer that can learn, reason and understand speech. Features include very
+large chips with many cores, **artificial intelligence**, machine learning, voice
+assistants, robotics, parallel and cloud computing, and early **quantum computers**.
+Natural-language interfaces are replacing menus. *Advantages:* it can handle huge
+data, recognise images and speech, and make predictions. *Limitations:* the systems
+are expensive, need huge data and power, and raise questions about privacy, jobs and
+fairness.
+
+**Comparison of the five generations.**
+
+| Feature | 1st | 2nd | 3rd | 4th | 5th |
+|---|---|---|---|---|---|
+| Period | 1946-58 | 1959-64 | 1965-70 | 1971-now | emerging |
+| Switching device | Vacuum tube | Transistor | IC (SSI/MSI) | Microprocessor (LSI/VLSI) | ULSI, AI chips |
+| Size | A room | A large cabinet | A cabinet | Desktop, laptop, pocket | Pocket to cloud |
+| Heat and power | Very high | High | Moderate | Low | Low per operation |
+| Reliability | Very low | Moderate | High | Very high | Very high |
+| Input and output | Punched cards, plugboards | Cards, printers | Keyboard, monitor | Mouse, GUI, touch | Voice, gesture, sensors |
+| Software | Machine language | Assembly, FORTRAN, COBOL | OS, BASIC, Pascal | GUI, 4GL, Internet | AI, natural language |
+| Examples | ENIAC, UNIVAC-I | IBM 1401 | IBM 360, PDP-8 | IBM PC, Macintosh | AI systems, quantum |
+
+**Eight improvements from generation to generation.**
+
+**1. Size.** A first-generation computer filled a hall, but a smartphone today is
+far more powerful and fits in a pocket. Smaller switches, from tube to transistor
+to chip, made this possible.
+
+**2. Speed.** Switching time fell from milliseconds to nanoseconds and then to
+picoseconds. Billions of operations per second are now normal.
+
+**3. Power and heat.** A tube needed a heater, while a chip uses a tiny current.
+Less heat means no huge cooling system and lower electricity bills.
+
+**4. Cost.** Mass production of ICs and microprocessors made each generation
+cheaper per operation. This is why a school lab can now afford dozens of computers.
+
+**5. Reliability.** A tube burned out like a bulb, but a chip has no filament and
+can run for years. Fewer failures mean less repair time and more trust.
+
+**6. Memory.** Memory moved from the magnetic drum to core to semiconductor RAM and
+SSDs. Capacity rose from a few kilobytes to many gigabytes.
+
+**7. Software.** Programmers moved from binary to assembly, high-level languages,
+GUIs and AI tools. Programs became easier to write and to use.
+
+**8. Access.** Mainframes belonged only to governments and large companies.
+Personal computers, the Internet and mobile phones put computing within reach of
+students and villagers.
 
 ::: memory Vacuum-Transistor-IC-Microprocessor-AI
 "**V**ery **T**all **I**ndians **M**ake **A**rt" — Vacuum tube, Transistor,
@@ -889,6 +1100,65 @@ facts = dict(doubling="%.1f" % doubling, growth="{:,.0f}".format(growth))
 6. Distinguish between OMR, OCR and MICR, giving one application of each. <span class="marks">[5]</span>
 
 ::: note Answers to Group B
+**1.** A **computer** is an electronic device that accepts data as input,
+processes it according to a stored program, stores the data and results, and
+produces useful information as output. Four of its characteristics follow.
+*Speed:* it performs billions of operations per second, so a result file of lakhs of
+students can be graded in minutes. *Accuracy:* it repeats arithmetic without random
+error, and a wrong output means wrong input (GIGO); a bank adds interest to every
+account to the same precision. *Diligence:* it never tires or loses concentration, so
+a billing system can process every meter reading month after month. *Versatility:*
+the same hardware does word processing, accounting or games when the program is
+changed. Other characteristics are storage capacity, automation and reliability. A
+computer has no intelligence or feelings of its own, so it can only do what the
+program tells it. Together these properties explain why computers have replaced
+manual work in banks, offices, schools and hospitals, and they also show the limits
+of the machine: it is fast and accurate, but it is not able to think.
+
+**2.** **Computer architecture** describes the attributes of a computer that a
+programmer can see and that decide what it can do, while **computer organization**
+describes how those attributes are physically built and connected. Architecture
+answers *what* the machine does; organization answers *how* it does it.
+
+| Basis | Architecture | Organization |
+|---|---|---|
+| Concerned with | Logical, programmer-visible design | Physical implementation |
+| Examples | Instruction set, number of registers, data types, addressing modes | Control signals, interfaces, memory technology, bus design |
+| Question | What operations are available? | How is the operation carried out in hardware? |
+| Changes | Rarely, because software depends on it | Often, with each new chip model |
+
+*Example 1:* whether a processor has a multiply instruction is an architectural
+decision; whether it is done by a dedicated multiplier circuit or by repeated
+addition is an organizational one. *Example 2:* a 64-bit instruction set is
+architecture, but the number of cache levels used to implement it is organization.
+Two processors from different makers can share one architecture (the same
+instruction set) while having very different organizations, which is why the same
+software runs on both. Thus architecture is the design plan, and organization is
+the construction that follows it.
+
+**4.** **RAM** (Random Access Memory) is the main working memory: it is read-write
+and **volatile**, so the contents are lost when the power is switched off. **ROM**
+(Read-Only Memory) is normally only read and is **non-volatile**, so it keeps its
+contents without power.
+
+| Basis | RAM | ROM |
+|---|---|---|
+| Operation | Read and write | Mainly read |
+| Volatility | Volatile | Non-volatile |
+| Use | Running programs and data | Start-up (BIOS) program, firmware |
+| Speed and cost | Fast, costlier per bit | Slower to write |
+| Types | SRAM, DRAM | PROM, EPROM, EEPROM |
+
+Three types of ROM: **(i) PROM** (Programmable ROM) is blank when made and can be
+programmed *once* by the user with a special device; after that it cannot be
+changed. **(ii) EPROM** (Erasable PROM) can be erased by exposing its quartz window
+to strong ultraviolet light and then reprogrammed, but the whole chip is erased at
+once. **(iii) EEPROM** (Electrically Erasable PROM) can be erased and rewritten
+electrically, byte by byte, without removing the chip; flash memory in pen drives and
+SSDs is a development of it. A computer keeps its BIOS or start-up firmware in
+ROM-type memory so that it always knows how to boot, while RAM holds everything that
+changes while you work.
+
 **3.** A bus is a set of parallel wires carrying bits between the units of a
 computer. The **address bus** is unidirectional (CPU → memory/I/O) and carries
 the address of the location being accessed; $n$ lines give $2^{n}$ locations.
@@ -951,3 +1221,128 @@ a million times is fetched into cache once and then read at cache speed, so a
 90 % hit rate can cut the average access time of a 1 ns cache and a 60 ns RAM to
 about $0.9(1) + 0.1(60) = 6.9\ \text{ns}$.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Describe the generations of computers. Compare them in a table. <span class="marks">[10]</span>
+2. Explain computer architecture with a neat block diagram of a computer system. <span class="marks">[10]</span>
+3. What is a computer? Explain its characteristics and any five applications, with examples from Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: generations of computers (10 marks)
+
+**Introduction.** A generation of computers is a stage in the history of computing
+that is defined by the main electronic technology used for switching. Five
+generations are recognised, and each is smaller, faster, cheaper and more reliable
+than the one before. (Draw the timeline figure of section 1.2.)
+
+**Explanation.** The **first generation (1946-1958)** used vacuum tubes; ENIAC and
+UNIVAC-I were huge, hot and unreliable, programmed in machine language with a
+magnetic drum for memory. The **second generation (1959-1964)** used transistors,
+magnetic core memory, assembly language and early FORTRAN and COBOL; the IBM 1401
+is an example, and a machine of this type processed Nepal's 2028 BS census. The
+**third generation (1965-1970)** used integrated circuits, introduced operating
+systems and multiprogramming, and keyboards and monitors; the IBM 360 and PDP-8 are
+examples. The **fourth generation (1971-present)** is based on the microprocessor,
+starting with the Intel 4004; it gave us the personal computer, GUI, networks and
+the Internet. The **fifth generation** (present and future) uses ULSI chips,
+parallel processing, artificial intelligence and quantum technology to make
+machines that can learn and understand speech.
+
+| Generation | Device | Memory | Language | Example |
+|---|---|---|---|---|
+| First (1946-58) | Vacuum tube | Magnetic drum | Machine | ENIAC, UNIVAC-I |
+| Second (1959-64) | Transistor | Magnetic core | Assembly, FORTRAN, COBOL | IBM 1401 |
+| Third (1965-70) | IC (SSI/MSI) | Core, early RAM | BASIC, Pascal, OS | IBM 360, PDP-8 |
+| Fourth (1971-now) | Microprocessor | Semiconductor RAM | 3GL, 4GL, GUI | IBM PC |
+| Fifth (emerging) | ULSI, AI | Very large RAM, optical | Natural language | AI systems |
+
+**Merits and demerits.** Each step brought lower size, power use and cost with
+higher speed and reliability. The early generations suffered from heat and
+failure, and the latest raise issues of privacy, e-waste and jobs.
+
+**Conclusion.** The history of computers is the history of a shrinking switch: from
+a glass tube to a transistor to a chip with billions of transistors. This
+progress made computers affordable for ordinary students in Nepal.
+
+### Model answer D2: computer architecture and block diagram (10 marks)
+
+**Introduction.** Computer architecture is the design of a computer as seen by the
+programmer: its instruction set, registers, memory and the way the units are
+connected. The basic plan used almost universally is the **stored-program (von
+Neumann) model**, in which instructions and data share one memory. (Draw the block
+diagram of section 1.7: input unit, CPU with CU, ALU and registers, primary memory,
+secondary storage, output unit; solid arrows for data and dashed arrows for control.)
+
+**Explanation of the units.**
+
+1. **Input unit** accepts data and instructions from the user (keyboard, mouse,
+   scanner) and converts them to binary.
+2. **Control unit (CU)** fetches each instruction, decodes it and sends control
+   signals to the other units; it does no calculation.
+3. **Arithmetic and logic unit (ALU)** performs addition, subtraction, comparison
+   and logical operations.
+4. **Registers** are very fast storage cells inside the CPU that hold the current
+   instruction, operands and results.
+5. **Primary memory** (RAM and ROM) holds the programs and data that are being
+   used now; RAM is volatile.
+6. **Secondary storage** (hard disk, SSD, pen drive) keeps programs and data
+   permanently, but is slower.
+7. **Output unit** converts binary results to a form people can use (monitor,
+   printer, speaker).
+8. **Buses** (address, data, control) are the wires that carry information between
+   these units.
+
+**Working.** The program is loaded into memory. The CU fetches an instruction,
+decodes it, the ALU executes it using registers, and the result goes to memory or
+to the output unit. This **fetch-decode-execute cycle** repeats millions of times a
+second.
+
+| Path | Carries | Direction |
+|---|---|---|
+| Data path (solid) | Data and instructions | Between input, memory, CPU, output |
+| Control path (dashed) | Timing and command signals | From the CU to every unit |
+
+**Conclusion.** Because instructions and data live in one memory, a computer can be
+reprogrammed simply by loading a different program. This idea is why one machine can
+serve as a billing terminal in the morning and a game console at night.
+
+### Model answer D3: computer, characteristics and applications (10 marks)
+
+**Introduction.** A computer is an electronic device that accepts data, processes it
+under the control of a stored program, stores the result and produces information as
+output. It works in the cycle Input, Process, Output, with Storage.
+
+**Characteristics.**
+
+1. **Speed**: billions of operations per second; an examination board grades lakhs of
+   students in minutes.
+2. **Accuracy**: no random errors; wrong output comes from wrong input (GIGO).
+3. **Diligence**: no tiredness, so a billing system runs month after month.
+4. **Versatility**: one machine runs many programs.
+5. **Storage capacity**: terabytes in a small box, retrieved instantly.
+6. **Automation**: runs a program to completion without help.
+7. **Reliability**: consistent results over long periods.
+8. **No intelligence**: it follows instructions literally.
+
+**Applications (five examples from Nepal).**
+
+1. **Banking:** ATMs, mobile banking, ConnectIPS transfers and Fonepay QR payment.
+2. **Education:** e-learning, online result publication and student records.
+3. **Government:** national ID, passport, driving licence and the Nagarik App.
+4. **Weather and science:** the Department of Hydrology and Meteorology uses computer
+   models for forecasts and flood warnings.
+5. **Health:** hospital records, CT and MRI scanning, and telemedicine for remote
+   districts.
+
+| Area | Computer does | Benefit |
+|---|---|---|
+| Banking | Processes transactions | Fast, 24-hour service |
+| Education | Stores and publishes results | Less paperwork |
+| Government | Keeps citizen records | Fewer queues |
+| Weather | Runs forecast models | Earlier warnings |
+| Health | Stores records, forms images | Faster diagnosis |
+
+**Conclusion.** Computers are fast, accurate, tireless and versatile, but they have no
+intelligence of their own. Used properly, they improve almost every service that a
+Nepali citizen depends on, from banking to weather warnings.
