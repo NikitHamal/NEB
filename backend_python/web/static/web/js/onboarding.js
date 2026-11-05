@@ -44,11 +44,16 @@
       else if (k === 'style') el.setAttribute('style', v);
       else el.setAttribute(k, v === true ? '' : v);
     });
-    for (var i = 2; i < arguments.length; i++) {
-      var c = arguments[i];
-      if (c === null || c === undefined || c === false) continue;
-      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    function add(c) {
+      if (c === null || c === undefined || c === false || c === true) return;
+      if (Array.isArray(c) || (typeof c.length === 'number' && typeof c !== 'string' && !c.nodeType)) {
+        Array.prototype.forEach.call(c, add);
+        return;
+      }
+      if (c.nodeType) el.appendChild(c);
+      else el.appendChild(document.createTextNode(String(c)));
     }
+    for (var i = 2; i < arguments.length; i++) add(arguments[i]);
     return el;
   }
   function icon(name) { return h('span', { class: 'material-symbols-outlined', 'aria-hidden': 'true', text: name }); }
