@@ -250,6 +250,41 @@ for y, a, b, fl, st in tl:
 7. **Deadlocks are resolved automatically.** The DBMS finds a cycle of waiting transactions (Figure 9.3) and rolls one back, so the system does not freeze. The application only has to retry the failed transaction. Prevention rules such as wait-die reduce the chance of such cycles.
 8. **Good performance with safety.** Multiple granularity locking lets the DBMS lock a single row for a small update and a whole table for a big report, using intention locks to keep the two compatible. Fine locks allow high concurrency, and coarse locks are cheap. The designer therefore gets both speed and correctness.
 
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Lock granularity. (a) A bank vault of safe deposit boxes: the bank locks each box separately, so eight customers can open eight different boxes at once. A table lock would be like closing the whole vault whenever one customer opens one box. (b) A discrete-time simulation of 8 tellers and 400 transactions, each touching one of 100 rows and lasting one tick. A table lock needs 400 ticks. Row locks let transactions on different rows run together, and only transactions on the same row wait. If every transaction hits the same row (a hot spot), the gain disappears."
+@ photo id="bca202/safebox" cap="Safe deposit boxes: one lock for each box, not one for the vault"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="400 transactions, 8 workers: ticks needed"
+import random
+def ticks(boxes, workers=8):
+    q = list(boxes); t = 0
+    while q:
+        used, nxt, run = set(), [], 0
+        for b in q:
+            if run < workers and b not in used:
+                used.add(b); run += 1
+            else:
+                nxt.append(b)
+        q = nxt; t += 1
+    return t
+rnd = random.Random(2081)
+spread = [rnd.randrange(100) for _ in range(400)]
+hot = [7] * 400
+t_table, t_row, t_hot = 400, ticks(spread), ticks(hot)
+assert t_hot == 400 and 50 <= t_row < 100
+f = Fig(300, 236)
+f.text(150, 14, "time to finish 400 transactions", size=10.5, color=NAVY, bold=True)
+rows = [("table lock", t_table, RED, ROSE), ("row locks, 100 rows used", t_row, TEAL, MINT), ("row locks, one hot row", t_hot, AMBER, SAND)]
+for i, (lab, v, c, bg) in enumerate(rows):
+    y = 36 + i * 52
+    f.text(8, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    w = 220 * v / 400
+    f.box(8, y + 6, w, 22, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(w + 16, y + 17, "%d ticks" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "speed-up from row locks: %.1fx" % (t_table / t_row), size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "ideal is 8x (8 workers); clashes cost the rest", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - ACID: Atomicity, Consistency, Isolation, Durability.

@@ -363,6 +363,32 @@ f.text(290, 10, "average marks", size=10, color=SLATE)
 7. **Use transactions when money or marks change together.** A deposit changes the balance and writes a ledger line, and both must happen or neither (Fig. 9.3). The `with con:` block gives this for free in SQLite. This is the rule that protects wallets and fee accounts.
 8. **Read, tidy and document.** After the program works, rename unclear variables, shorten long functions, add docstrings and follow PEP 8. Reading code written by others, such as the standard library, teaches patterns faster than any book. A program that is easy to read is easy to fix.
 
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Plan first, then test against the plan. (a) An architect's blueprint fixes every dimension before a brick is laid, so a mistake is found on paper. A program has the same need: the requirements become a table of test cases before the code is trusted. (b) The grading rule of Project 1 (80 or more is Distinction, 60 or more First, 40 or more Pass) is tested with eight cases, including the boundary marks. A first draft that wrote the comparison with greater-than instead of greater-than-or-equal fails exactly the boundary cases; the corrected function passes all eight. Both functions were really run."
+@ photo id="bca254/blueprint" cap="A blueprint: errors are cheapest to find before building"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Eight test cases: draft vs corrected"
+def draft(m):
+    return "Distinction" if m > 80 else "First" if m > 60 else "Pass" if m > 40 else "Fail"
+def final(m):
+    return "Distinction" if m >= 80 else "First" if m >= 60 else "Pass" if m >= 40 else "Fail"
+tests = [(100, "Distinction"), (80, "Distinction"), (79, "First"), (60, "First"), (59, "Pass"), (40, "Pass"), (39, "Fail"), (0, "Fail")]
+pd = [draft(m) == e for m, e in tests]; pf = [final(m) == e for m, e in tests]
+assert sum(pf) == 8 and sum(pd) == 5 and [m for (m, e), p in zip(tests, pd) if not p] == [80, 60, 40]
+f = Fig(300, 236)
+f.text(40, 14, "marks", size=10.5, color=NAVY, bold=True); f.text(150, 14, "expected", size=10.5, color=NAVY, bold=True)
+f.text(222, 14, "draft", size=10.5, color=NAVY, bold=True); f.text(270, 14, "final", size=10.5, color=NAVY, bold=True)
+for i, ((m, e), a, b) in enumerate(zip(tests, pd, pf)):
+    y = 22 + i * 22
+    if not a: f.box(4, y, 292, 20, "", fill=ROSE, stroke=RED, r=2, sw=0.8)
+    f.text(40, y + 10, str(m), size=10.5, color=NAVY, bold=True, vmid=True)
+    f.text(150, y + 10, e, size=10.5, color=SLATE, vmid=True)
+    f.text(222, y + 10, "pass" if a else "FAIL", size=10.5, color=TEAL if a else RED, bold=True, vmid=True)
+    f.text(270, y + 10, "pass" if b else "FAIL", size=10.5, color=TEAL, bold=True, vmid=True)
+f.text(150, 214, "draft: %d of 8 pass, fails at 80, 60, 40" % sum(pd), size=10.5, color=RED, bold=True)
+f.text(150, 230, "final: %d of 8 pass" % sum(pf), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Structure: classes for entities, a manager class for collections, JSON/SQLite for persistence, custom exceptions for rule violations.

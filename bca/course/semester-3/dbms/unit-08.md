@@ -234,6 +234,40 @@ f.box(6, 130, 568, 62, "password -> 5e884898da280471...      Password -> e7cf3ef
 7. **Encryption and key management.** Sensitive data such as passwords, citizenship numbers and bank details are encrypted at rest and in transit, and keys are kept in a vault or HSM. Passwords are stored only as salted hashes (Figure 8.5). A stolen disk then reveals nothing useful.
 8. **Availability and capacity planning.** The DBA plans replication, failover and growth, so that the database stays available when a server fails and has room for next year's data. Software patches are applied at planned times with warning to users. This is how services such as online results and payments stay up.
 
+```photogrid label="8.2" cols="2" ratio="1.2" caption="The optimiser is a route planner. (a) A satellite navigator knows several roads to the same place and picks the cheapest by estimated time; it does not drive them all. A query optimiser likewise knows several join algorithms and picks the cheapest by estimated work. (b) Joining 2,000 Students with 20,000 Results on student id. Each method is first run on a small sample (200 by 2,000 rows) and gives the same 2,000 result rows; the bars then show the work for the full tables, on a log scale. The plan changes the cost by a factor of thousands while the answer is identical."
+@ photo id="bca202/navigon" cap="A navigator weighs routes by estimated cost"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Four ways to join 2,000 x 20,000 rows"
+import math, random
+rnd = random.Random(7)
+S = list(range(200)); R = [rnd.randrange(200) for _ in range(2000)]
+nl = sorted((s, i) for s in S for i, r in enumerate(R) if r == s)
+h = {}
+for i, r in enumerate(R): h.setdefault(r, []).append(i)
+hj = sorted((s, i) for s in S for i in h.get(s, []))
+Rs = sorted((r, i) for i, r in enumerate(R)); mj = []
+for s in S:
+    for r, i in Rs:
+        if r == s: mj.append((s, i))
+assert nl == hj == sorted(mj) and len(nl) == 2000
+n, m = 2000, 20000
+cost = [("nested loop", n * m, RED, ROSE),
+        ("index nested loop", n * math.ceil(math.log2(m)), AMBER, SAND),
+        ("sort-merge", int(n * math.log2(n) + m * math.log2(m) + n + m), NAVY, BLUE),
+        ("hash join", n + m, TEAL, MINT)]
+f = Fig(300, 236)
+f.text(150, 14, "comparisons / probes (log scale)", size=10.5, color=NAVY, bold=True)
+top = math.log10(cost[0][1])
+for i, (lab, v, c, bg) in enumerate(cost):
+    y = 34 + i * 46
+    w = 240 * math.log10(v) / top
+    f.text(8, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, w, 20, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(min(w + 14, 196), y + 16, format(v, ","), size=10.5, color=c if w < 190 else NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 224, "hash join: %s times less work than nested loop" % format(round(cost[0][1] / cost[3][1]), ","), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Query processing: parse → optimise → evaluate. Cost ≈ block transfers.
