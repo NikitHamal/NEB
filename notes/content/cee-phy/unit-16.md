@@ -320,6 +320,31 @@ eddy loops can only be small and the loss falls sharply. Eddy-current loss grows
 $B^2f^2t^2$ for sheet thickness $t$, which is why cores are made of thin sheets and why
 high-frequency cores use ferrite.
 
+```photogrid label="16.2" cols="2" ratio="1.2" caption="Why electricity travels at high voltage. (a) A high-voltage transmission line on lattice steel towers. A power station sends 10 MW along a line of total resistance 5 ohm; the current is I = P / V and the heat lost in the line is I^2 R = (P / V)^2 R. At 11 kV the current is 909 A and the loss is 4.13 MW, 41.3 per cent of everything sent. At 33 kV the loss is 4.6 per cent, at 132 kV only 0.29 per cent (28.7 kW) and at 220 kV 0.10 per cent, the voltages of Nepal's main transmission network. Raising the voltage 12 times (11 to 132 kV) cuts the loss 144 times. This is the job of the step-up transformer at the power station and the step-down transformers near the consumer; alternating current is used because a transformer needs a changing flux."
+@ photo id="ceephy2/tower" cap="A high-voltage transmission line on steel towers"
+fit 1.2
+focus 0.6 0.4
+@ svg cap="Line loss when 10 MW is sent along 5 ohm"
+import math
+P, Rl = 10e6, 5.0
+loss = lambda V: (P / V) ** 2 * Rl
+vs = (11e3, 33e3, 132e3, 220e3)
+pc = [100 * loss(V) / P for V in vs]
+assert round(P / 11e3) == 909 and round(loss(11e3) / 1e6, 2) == 4.13
+assert [round(x, 2) for x in pc] == [41.32, 4.59, 0.29, 0.10]
+assert abs(loss(11e3) / loss(132e3) - 144) < 1e-9 and round(loss(132e3) / 1e3, 1) == 28.7
+f = Fig(300, 236)
+f.text(150, 12, "Percentage of 10 MW lost (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (V, x) in enumerate(zip(vs, pc)):
+    y = 34 + i * 38
+    w = (math.log10(x) + 1.3) / (math.log10(41.32) + 1.3) * 150
+    f.text(8, y + 13, "%d kV" % (V / 1e3), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(54, y, w, 26, fill=SAND if i == 0 else MINT, stroke=AMBER if i == 0 else TEAL, r=2)
+    f.text(54 + w + 6, y + 13, "%.2f %%" % x, size=10.5, color=AMBER if i == 0 else TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "loss = (P / V)^2 R: 12 x the voltage", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "gives 144 times less loss", size=10.5, color=SLATE, bold=True)
+```
+
 ## 16.2 Self and mutual inductance; energy stored in an inductor
 
 ### 16.2.1 Self-inductance

@@ -627,6 +627,29 @@ the true current; a voltmeter of finite resistance always reads slightly **less*
 the true pd.
 :::
 
+```photogrid label="14.2" cols="2" ratio="1.2" caption="A meter is a galvanometer plus one resistor. (a) A digital multimeter: its ammeter and voltmeter ranges are set by resistors inside. (b) Take a galvanometer of resistance 100 ohm that gives full-scale deflection at 1 mA. To read up to a current I it needs a low-resistance shunt in parallel, S = Ig Rg / (I - Ig): 11.1 ohm for 10 mA, 1.01 ohm for 100 mA and 0.100 ohm for 1 A, so an ammeter has a very small resistance. To read up to a voltage V it needs a high-resistance multiplier in series, R = V / Ig - Rg: 900 ohm for 1 V, 9,900 ohm for 10 V and 99,900 ohm for 100 V, so a voltmeter has a very large resistance. The bars use a log scale because the values span six orders of ten."
+@ photo id="ceephy2/multimeter" cap="A digital multimeter with its probes"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Shunts and multipliers for a 100 ohm, 1 mA galvanometer"
+import math
+Rg, Ig = 100.0, 1e-3
+S = lambda I: Ig * Rg / (I - Ig)
+M = lambda V: V / Ig - Rg
+rows = [("10 mA", S(0.01), 0), ("100 mA", S(0.1), 0), ("1 A", S(1.0), 0), ("1 V", M(1), 1), ("10 V", M(10), 1), ("100 V", M(100), 1)]
+assert [round(r[1], 3) for r in rows] == [11.111, 1.01, 0.1, 900.0, 9900.0, 99900.0]
+f = Fig(300, 236)
+f.text(150, 12, "Resistance added (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (n, val, kind) in enumerate(rows):
+    y = 30 + i * 28
+    w = (math.log10(val) + 1.2) / (math.log10(99900) + 1.2) * 130
+    f.text(8, y + 10, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(62, y, w, 20, fill=BLUE if kind == 0 else SAND, stroke=NAVY if kind == 0 else AMBER, r=2)
+    f.text(62 + w + 6, y + 10, ("%.3g ohm" % val) if val < 1000 else "{:,.0f} ohm".format(val), size=10.5, color=NAVY if kind == 0 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "ammeter: small shunt in parallel", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "voltmeter: large multiplier in series", size=10.5, color=AMBER, bold=True)
+```
+
 ## 14.4 Seebeck and Peltier effects; the thermocouple
 
 ### 14.4.1 The Seebeck effect

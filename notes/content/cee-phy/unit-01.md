@@ -559,6 +559,32 @@ f.text(150, 202, "total distance %.1f m in %.2f s" % (tot, T), size=10.5, color=
 f.text(150, 220, "t in seconds; braking 6.0 m/s^2", size=10.5, color=SLATE)
 ```
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="Projectile motion in one picture. (a) A stroboscopic photograph of a bouncing ball: the images are taken at equal time intervals, so the equal horizontal spacing shows a constant horizontal velocity, while the vertical spacing shows gravity slowing the ball on the way up and speeding it on the way down; each arc is a parabola. (b) A projectile launched at u = 20 m/s with g = 9.8 m/s2 has range R = u^2 sin 2 theta / g. The range is greatest at 45 degrees (40.8 m), two angles that add to 90 degrees give the same range (30 and 60 degrees both give 35.3 m, and 15 and 75 degrees both give 20.4 m), and at 45 degrees the maximum height is u^2 sin^2 theta / 2g = 10.2 m with a flight time of 2.89 s. These are for air-free flight from and to the same level."
+@ photo id="ceephy2/strobe" cap="A stroboscopic photograph of a bouncing ball"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Range against launch angle at 20 m/s"
+import math
+u, g = 20.0, 9.8
+R = lambda th: u * u * math.sin(math.radians(2 * th)) / g
+assert round(R(45), 1) == 40.8 and abs(R(30) - R(60)) < 1e-9 and abs(R(15) - R(75)) < 1e-9
+assert round(R(30), 1) == 35.3 and round(R(15), 1) == 20.4 and round(R(75), 1) == 20.4
+H = (u * math.sin(math.radians(45))) ** 2 / (2 * g)
+T = 2 * u * math.sin(math.radians(45)) / g
+assert round(H, 1) == 10.2 and round(T, 2) == 2.89
+f = Fig(300, 236)
+f.text(150, 12, "Range R(theta), u = 20 m/s", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 90), (0, 45))
+ax.grid(15, 10).axes("deg", "m")
+ax.curve(R, 0, 90, color=RED)
+ax.pt(45, R(45), "45 deg: 40.8 m", dx=-6, dy=-8, anchor="end")
+ax.pt(30, R(30), "", r=3.6, color=TEAL)
+ax.pt(60, R(60), "", r=3.6, color=TEAL)
+ax.hline(R(30), 30, 60, color=TEAL)
+f.text(150, 206, "30 and 60 deg both give 35.3 m (sum 90)", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "at 45 deg: height 10.2 m, flight 2.89 s", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

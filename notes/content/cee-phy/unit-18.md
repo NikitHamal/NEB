@@ -617,6 +617,30 @@ f.text(150, 202, "threshold %.2f x 10^14 Hz = %.0f nm" % (f0 / 1e14, hc / phi), 
 f.text(150, 220, "400 nm: %.2f eV; 500 nm: %.2f eV; 600 nm: 0" % (k(400), k(500)), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="18.2" cols="2" ratio="1.2" caption="Photon energy sets the colour. (a) Red, green and clear LEDs: in a light-emitting diode an electron falls across the band gap and releases one photon whose energy is the gap, so the colour is fixed by the semiconductor. (b) The energy of a photon is E = hc / lambda = 1239.8 eV nm / lambda: 1.91 eV for a 650 nm red LED, 2.34 eV for 530 nm green and 2.64 eV for 470 nm blue, and 3.10 eV at the violet end (400 nm). Sodium has a work function of 2.28 eV, so its threshold wavelength is 1239.8 / 2.28 = 544 nm: green and blue photons can eject photoelectrons, but red photons cannot however bright the LED is. Intensity changes the number of photons, not the energy of each one."
+@ photo id="ceephy2/leds" cap="Green, red and clear LEDs"
+fit 1.2
+focus 0.55 0.5
+@ svg cap="Photon energy against wavelength, with the sodium threshold"
+hc = 1239.84
+E = lambda lam: hc / lam
+phi = 2.28
+lam0 = hc / phi
+assert [round(E(x), 2) for x in (650, 530, 470, 400)] == [1.91, 2.34, 2.64, 3.1] and round(lam0) == 544
+f = Fig(300, 236)
+f.text(150, 12, "E = 1239.8 / lambda (eV, nm)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (400, 700), (1.6, 3.2))
+ax.grid(100, 0.4).axes("nm", "eV")
+ax.hline(phi, color=AMBER)
+ax.curve(E, 400, 700, color=NAVY)
+ax.pt(470, E(470), "blue 2.64", dx=8, dy=-8, color="#2563eb")
+ax.pt(530, E(530), "green 2.34", dx=8, dy=-10, color="#16a34a")
+ax.pt(650, E(650), "red 1.91", dx=-6, dy=-10, color=RED, anchor="end")
+f.text(ax.X(412), ax.Y(phi) + 14, "Na 2.28 eV", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 206, "Na threshold 544 nm: green, blue eject", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "red (1.91 eV) never does", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |
