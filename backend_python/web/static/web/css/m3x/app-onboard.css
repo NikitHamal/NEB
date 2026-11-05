@@ -50,11 +50,11 @@
 .ob-field { display: grid; gap: 8px; margin-top: 14px; }
 .ob-field > label { font-weight: 600; font-size: .9rem; }
 .ob-input { width: 100%; box-sizing: border-box; min-height: 54px; padding: 0 18px; border-radius: 18px;
-  border: 1.5px solid var(--md-outline-variant); background: var(--md-surface-container-lowest);
-  color: var(--md-on-surface); font: 500 1rem var(--md-font); transition: border-color .2s, background .2s, border-radius .35s var(--spring); }
+  border: 1.5px solid var(--x-field-line, var(--md-outline-variant)); background: var(--x-field, var(--md-surface-container-lowest));
+  color: var(--md-on-surface); font: 500 1rem var(--md-font); transition: border-color .2s; }
 .ob-input::placeholder { color: var(--md-on-surface-variant); opacity: .8; }
-.ob-input:hover { background: var(--md-surface-container-low); }
-.ob-input:focus { outline: none; border-color: var(--md-primary); border-radius: 22px; background: var(--md-surface-container-lowest); }
+.ob-input:hover { border-color: var(--md-outline); }
+.ob-input:focus { outline: none; border-color: var(--md-primary); }
 .ob-textarea { padding: 14px 18px; min-height: 96px; resize: vertical; line-height: 1.5; }
 
 /* ---- chips ---- */
