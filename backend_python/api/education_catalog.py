@@ -72,7 +72,7 @@ TVET = [
 
 BACHELORS = [
     # technology
-    'BSc CSIT', 'BCA', 'BIT', 'BSc IT', 'BE Computer', 'BE Software', 'BE Civil',
+    'BSc CSIT', 'BCA', 'BIT', 'BSc IT', 'BSc Computer Science', 'BE Computer', 'BE Software', 'BE Civil',
     'BE Electronics & Communication', 'BE Electrical', 'BE Mechanical',
     'BE Architecture (B.Arch)', 'BE Aerospace', 'BE Chemical', 'BE Geomatics',
     'BE Industrial', 'BE Agriculture', 'BE Biomedical', 'BE Automobile',
@@ -202,6 +202,48 @@ LEVELS = (
         _level('Other', 'Something else', GROUP_OTHER, 'more_horiz'),
     ]
 )
+# The handful of courses nearly everyone is on. Pickers show these as chips and keep the
+# long list behind a search, so nobody scrolls 90 degrees to find BCA.
+POPULAR = {
+    '11': ['Science (Physical)', 'Science (Biology)', 'Management', 'Humanities',
+           'Computer Science', 'Education', 'Law', 'Hotel Management'],
+    'Bachelors': ['BCA', 'BBS', 'BBA', 'BSc CSIT', 'BSc Computer Science', 'BIT', 'BIM',
+                  'BE Computer', 'BE Civil', 'BE Electrical', 'BSc Nursing', 'BA', 'BEd',
+                  'MBBS', 'LLB'],
+    'Masters': ['MBS', 'MBA', 'MA English', 'MSc CSIT', 'MCA', 'MSc Computer Science',
+                'MEd', 'ME Computer', 'MSc Nursing', 'MPH', 'MA Sociology', 'MSc Physics'],
+    'Diploma': ['Civil Engineering', 'Computer Engineering', 'Electrical Engineering',
+                'Staff Nurse / PCL Nursing', 'General Medicine (HA)', 'Pharmacy',
+                'Agriculture (Plant Science)', 'Information Technology'],
+}
+POPULAR['12'] = POPULAR['+2 Passout'] = POPULAR['11']
+POPULAR['TSLC'] = POPULAR['Diploma']
+for _lv in LEVELS:
+    _lv['popular'] = POPULAR.get(_lv['value'], [])
+
+# What a person picks first. One tile per stage instead of 30 levels in a wall of chips;
+# a stage with several levels (School, +2, Master's/PhD...) then asks which one.
+# `status` is what the stage implies, so a quick sign-up never has to ask it.
+STAGES = [
+    {'key': 'school', 'label': 'School', 'icon': 'backpack', 'status': STATUS_STUDYING,
+     'levels': ['Class %d' % n for n in range(1, 10)] + ['Class 10 / SEE']},
+    {'key': 'plus2', 'label': '+2', 'icon': 'menu_book', 'status': STATUS_STUDYING,
+     'levels': ['11', '12', '+2 Passout', 'A-Levels / IB']},
+    {'key': 'diploma', 'label': 'Diploma', 'icon': 'engineering', 'status': STATUS_STUDYING,
+     'levels': ['TSLC', 'Diploma']},
+    {'key': 'bachelors', 'label': "Bachelor's", 'icon': 'account_balance',
+     'status': STATUS_STUDYING, 'levels': ['Bachelors']},
+    {'key': 'masters', 'label': "Master's", 'icon': 'school', 'status': STATUS_STUDYING,
+     'levels': ['Masters', 'PhD']},
+    {'key': 'prep', 'label': 'Exam prep', 'icon': 'edit_note', 'status': STATUS_PREPARING,
+     'levels': ['Entrance Prep', 'Competitive Exam']},
+    {'key': 'other', 'label': 'Something else', 'icon': 'explore', 'status': '',
+     'levels': ['Self Learner', 'Professional', 'Abroad', 'Other']},
+]
+# Levels whose status follows from the level itself (nothing to ask).
+LEVEL_STATUS = {'Self Learner': STATUS_SELF, 'Professional': STATUS_WORKING,
+                'Abroad': STATUS_ABROAD, 'Entrance Prep': STATUS_PREPARING,
+                'Competitive Exam': STATUS_PREPARING, 'Other': STATUS_STUDYING}
 LEVEL_VALUES = [lv['value'] for lv in LEVELS]
 LEVEL_BY_VALUE = {lv['value']: lv for lv in LEVELS}
 LEVEL_LABELS = {lv['value']: lv['label'] for lv in LEVELS}
@@ -261,6 +303,8 @@ def catalog():
     """The JSON the clients render their pickers from."""
     return {
         'statuses': STATUSES,
+        'stages': STAGES,
+        'levelStatus': LEVEL_STATUS,
         'levels': LEVELS,
         'terms': TERMS,
         'completed': COMPLETED_LEVELS,
