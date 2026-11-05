@@ -420,6 +420,33 @@ $=\dfrac{4.4\times10^{17}}{3.16\times10^{7}}=1.4\times10^{10}$ years.
 the correction for the changing expansion rate is only a few per cent.
 :::
 
+```photogrid label="22.1" cols="2" ratio="1.2" caption="Near light speed and heavy particles. (a) ATLAS surrounds one of the collision points of the Large Hadron Collider. (b) A 6.8 TeV proton has gamma = E / (m c^2) = 7,247, so its speed falls short of c by only 2.85 m/s and it circles the 26.659 km ring 11,245 times a second. The log-scale chart of rest energies shows the Higgs boson at 125.25 GeV, 133 times the proton, and the top quark at 172.7 GeV; the electron is 1,836 times lighter than the proton."
+@ photo id="ceephy/atlas" cap="The ATLAS detector on the Large Hadron Collider ring at CERN"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rest masses of some particles, log scale"
+c = 299792458.0; mp = 0.938272; E = 6800.0
+gam = E / mp; beta = math.sqrt(1 - 1 / gam ** 2); v = beta * c; ring = 26658.883
+rev = v / ring
+assert abs(gam - 7247.3) < 0.5 and 11245 < rev < 11246 and 2.7 < c - v < 3.0
+masses = (("electron", 0.000511), ("proton", 0.938272), ("W boson", 80.38), ("Z boson", 91.19), ("Higgs boson", 125.25), ("top quark", 172.7))
+hp = 125.25 / 0.938272; pe = 0.938272 / 0.000511
+assert abs(hp - 133.5) < 0.1 and abs(pe - 1836) < 1
+facts = dict(gam="{:,.0f}".format(gam), dv="%.2f" % (c - v), rev="{:,.0f}".format(rev), hp="%.0f" % hp, pe="{:,.0f}".format(pe))
+f = Fig(300, 262)
+f.text(150, 14, "rest energy mc^2 in GeV (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (lab, m) in enumerate(masses):
+    y = 26 + i * 26
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = (math.log10(m) + 3.5) * 34
+    col, fl = (RED, ROSE) if "Higgs" in lab else (TEAL, MINT)
+    f.box(14, y + 10, w, 10, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 15, "%.4g" % m, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "proton at 6.8 TeV: gamma = %s" % "{:,.0f}".format(gam), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "c - v = %.2f m/s" % (c - v), size=10.5, color=NAVY, bold=True)
+f.text(150, 236, "%s laps of the ring per second" % "{:,.0f}".format(rev), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |

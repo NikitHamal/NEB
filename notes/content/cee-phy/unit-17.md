@@ -545,6 +545,33 @@ In series the smallest capacitor takes the largest share of the voltage
 ($V \propto 1/C$). In parallel each capacitor takes the share of charge it can hold
 ($Q \propto C$).
 
+```photogrid label="17.2" cols="2" ratio="1.2" caption="Series and parallel combinations. (a) Real capacitors carry both a capacitance and a voltage rating. (b) For 10, 20 and 40 microfarad on 12 V, in series 1/C = 1/10 + 1/20 + 1/40 gives 5.71 microfarad and one common charge of 68.6 microcoulomb, so the voltage divides inversely as capacitance: 6.86, 3.43 and 1.71 V, adding to 12 V. In parallel the voltage is 12 V on each, C = 70 microfarad, and the charges 120, 240 and 480 microcoulomb add up to 840. The parallel bank stores 5.04 mJ, 12.2 times the 0.411 mJ of the series chain."
+@ photo id="ceephy/capacitors" cap="Electrolytic capacitors of different capacitance and voltage rating"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="12 V shared by 10, 20 and 40 microfarad capacitors"
+C = (10e-6, 20e-6, 40e-6); V = 12.0
+cs = 1 / sum(1 / c for c in C); cp = sum(C); q = cs * V
+vs = [q / c for c in C]; qs = [c * V for c in C]
+assert abs(sum(vs) - V) < 1e-9 and abs(sum(qs) - cp * V) < 1e-12 and abs(cs * 1e6 - 5.714) < 1e-3
+es, ep = 0.5 * cs * V ** 2, 0.5 * cp * V ** 2
+facts = dict(cs="%.2f" % (cs * 1e6), q="%.1f" % (q * 1e6), v1="%.2f" % vs[0], v2="%.2f" % vs[1], v3="%.2f" % vs[2], cp="%.0f" % (cp * 1e6), q1="%.0f" % (qs[0] * 1e6), q2="%.0f" % (qs[1] * 1e6), q3="%.0f" % (qs[2] * 1e6), qt="%.0f" % (sum(qs) * 1e6), ep="%.2f" % (ep * 1e3), es="%.3f" % (es * 1e3), rat="%.1f" % (ep / es))
+f = Fig(300, 236)
+f.text(150, 14, "Series: voltage divides, 12 V in all", size=10.5, color=NAVY, bold=True)
+x = 20
+for i, (v, c, col, fl) in enumerate(zip(vs, (10, 20, 40), (RED, AMBER, TEAL), (ROSE, SAND, MINT))):
+    w = v * 20; f.box(x, 30, w, 30, label="%.1f" % v, fill=fl, stroke=col, size=10.5, bold=True, r=2)
+    f.text(x + w / 2, 74, "%d uF" % c, size=10.5, color=col, bold=True); x += w
+f.text(150, 98, "V = Q / C, same Q = %.1f uC" % (q * 1e6), size=10.5, color=SLATE)
+f.text(150, 124, "Parallel: charge adds, 840 uC in all", size=10.5, color=NAVY, bold=True)
+x = 20
+for i, (qq, c, col, fl) in enumerate(zip(qs, (10, 20, 40), (RED, AMBER, TEAL), (ROSE, SAND, MINT))):
+    w = qq / sum(qs) * 240; f.box(x, 140, w, 30, label="%.0f" % (qq * 1e6), fill=fl, stroke=col, size=10.5, bold=True, r=2)
+    f.text(x + w / 2, 184, "%d uF" % c, size=10.5, color=col, bold=True); x += w
+f.text(150, 206, "series %.2f uF; parallel %.0f uF" % (cs * 1e6, cp * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "energy %.3f mJ against %.2f mJ" % (es * 1e3, ep * 1e3), size=10.5, color=NAVY, bold=True)
+```
+
 ### Energy stored
 
 Charging a capacitor means pushing charge against the growing potential. The work
@@ -685,6 +712,28 @@ Initial energy $= \frac12(2\times10^{-6})(100)^2 = 0.010$ J. Final energy
 $= \frac12(5\times10^{-6})(40)^2 = 0.004$ J. Loss $= 0.006$ J $= 6$ mJ, which is
 60 % of the initial energy.
 :::
+
+```photogrid label="17.1" cols="2" ratio="1.2" caption="Energy stored in charged conductors. (a) A thundercloud and the ground behave like a huge capacitor that discharges as lightning. (b) The energy U = 1/2 Q V, drawn on a log scale, is 0.312 J in a 1,000 microfarad, 25 V electrolytic capacitor, 5.45 J in a camera flash (100 microfarad, 330 V), 400 J in a defibrillator (32 microfarad, 5 kV) and about 7.5 x 10^8 J for a flash that moves 15 C through 100 MV (illustrative), roughly 208 kWh. Each step in the chart is a factor of ten in energy."
+@ photo id="ceephy/eiffel" cap="An early photograph of lightning striking the Eiffel Tower, a discharge of a natural capacitor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy stored, U = 1/2 Q V, on a log scale"
+U = lambda C, V: 0.5 * C * V ** 2
+u1, u2, u3 = U(1000e-6, 25), U(100e-6, 330), U(32e-6, 5000); u4 = 0.5 * 15 * 1e8
+assert abs(u1 - 0.3125) < 1e-9 and abs(u2 - 5.445) < 1e-9 and abs(u3 - 400) < 1e-9 and abs(u4 / 3.6e6 - 208.3) < 0.1
+facts = dict(u1="%.3f" % u1, u2="%.2f" % u2, u3="%.0f" % u3, u4="7.5 x 10^8", kwh="%.0f" % (u4 / 3.6e6))
+f = Fig(300, 236)
+f.text(150, 14, "U = 1/2 Q V (joules, log scale)", size=10.5, color=NAVY, bold=True)
+rows = (("1000 uF at 25 V", u1, TEAL, MINT), ("flash 100 uF at 330 V", u2, TEAL, MINT), ("defibrillator 32 uF at 5 kV", u3, AMBER, SAND), ("lightning 15 C, 100 MV", u4, RED, ROSE))
+for i, (lab, v, col, fl) in enumerate(rows):
+    y = 28 + i * 40
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = (math.log10(v) + 1) * 20
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 17, "%.4g J" % v if v < 1000 else "7.5e8 J", size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "bar length = log10(U) + 1 decades", size=10.5, color=SLATE)
+f.text(150, 218, "lightning = %.0f kWh (illustrative)" % (u4 / 3.6e6), size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 

@@ -482,6 +482,33 @@ activity is small and the half-life short. The hazard comes from **dose**, not f
 the mere presence of a radioactive atom.
 :::
 
+```photogrid label="20.1" cols="2" ratio="1.2" caption="Alpha decay and half-life. (a) Each straight track is a helium nucleus slowing down in supersaturated vapour, all about the same length. (b) For Ra-226 to Rn-222 + He-4 the mass loss gives Q = 4.87 MeV; momentum conservation gives the alpha 4.78 MeV and the recoiling radon only 0.09 MeV. Geiger's rule R = 0.318 E^1.5 cm predicts about 3.3 cm in air, matching the short tracks. With T = 1,600 y, N / N0 = (1/2)^(t / T): 95.8 per cent remains after 100 y and 25 per cent after 3,200 y."
+@ photo id="ceephy/cloud" cap="Straight, thick alpha tracks from a radium source in a cloud chamber"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of radium-226 against time"
+u = 931.494; mRa, mRn, mHe = 226.0254098, 222.0175782, 4.0026033
+Q = (mRa - mRn - mHe) * u; Ka = Q * 222 / 226; Kr = Q - Ka; rng = 0.318 * Ka ** 1.5
+frac = lambda t: 0.5 ** (t / 1600)
+assert abs(Q - 4.87) < 0.01 and abs(Ka - 4.784) < 0.01 and abs(rng - 3.33) < 0.02 and abs(frac(3200) - 0.25) < 1e-12
+facts = dict(q="%.2f" % Q, ka="%.2f" % Ka, kr="%.2f" % Kr, rng="%.1f" % rng, f100="%.1f" % (frac(100) * 100), f3200="%.0f" % (frac(3200) * 100))
+f = Fig(300, 244)
+f.text(150, 14, "N / N0 = (1/2)^(t / 1600 y)", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t / 4800 * 240; Y = lambda v: 150 - v * 105
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+pts = [(X(t), Y(frac(t))) for t in range(0, 4801, 100)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+for t, v in ((1600, 0.5), (3200, 0.25)):
+    f.line(X(t), Y(0), X(t), Y(v), color=AMBER, sw=1.2, dash=True); f.line(X(0), Y(v), X(t), Y(v), color=AMBER, sw=1.2, dash=True)
+    f.circle(X(t), Y(v), 4, fill=AMBER, stroke=AMBER)
+    f.text(X(t) + 8, Y(v) - 8, "%g" % v, size=10.5, color=AMBER, bold=True, anchor="start")
+for t in (0, 1600, 3200, 4800): f.text(X(t), Y(0) + 13, "%d" % t, size=10.5, color=SLATE)
+f.text(150, 178, "years", size=10.5, color=SLATE)
+f.text(150, 196, "Q = %.2f MeV: alpha %.2f, Rn %.2f MeV" % (Q, Ka, Kr), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "air range about %.1f cm (Geiger)" % rng, size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "%.1f per cent left after 100 years" % (frac(100) * 100), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |

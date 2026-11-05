@@ -589,6 +589,34 @@ countless separate packets.
    intercept is $-\phi/e$; if it gives two metals, the lines are parallel.
 :::
 
+```photogrid label="18.1" cols="2" ratio="1.2" caption="Einstein's photoelectric equation. (a) Light of high enough frequency ejects electrons from the cathode of a vacuum photocell. (b) For a caesium-type cathode of work function 2.1 eV (assumed) the stopping potential is V0 = (h / e) f - phi / e, a straight line of slope h / e = 4.14 x 10^-15 V s. Emission starts at the threshold frequency 5.08 x 10^14 Hz, wavelength 590 nm. Light of 400 nm gives a maximum kinetic energy of 1.00 eV, 500 nm gives 0.38 eV and 600 nm gives none, however bright it is."
+@ photo id="ceephy/photocell" cap="A vacuum photocell: light on the cathode releases photoelectrons collected by the anode"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Stopping potential against frequency (caesium, 2.1 eV)"
+h = 6.626e-34; e = 1.602e-19; phi = 2.1; hc = 1239.84
+f0 = phi * e / h; V0 = lambda fr: h * fr / e - phi
+k = lambda nm: max(0.0, hc / nm - phi)
+slope = (V0(8e14) - V0(6e14)) / 2e14
+assert abs(slope * e - h) < 1e-36 and abs(f0 / 1e14 - 5.08) < 0.01 and abs(k(400) - 1.0) < 0.01 and k(600) == 0
+facts = dict(slope="%.2f" % (slope * 1e15), f0="%.2f" % (f0 / 1e14), l0="%.0f" % (hc / phi), k4="%.2f" % k(400), k5="%.2f" % k(500))
+f = Fig(300, 244)
+f.text(150, 14, "V0 = (h / e) f - phi / e", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 40 + (fr - 3e14) / 1e14 * 48; Y = lambda v: 110 - v * 42
+f.line(X(3e14), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(3e14), Y(-1), X(3e14), 34, color=SOFT, sw=1.2)
+f.line(X(3e14), Y(V0(3e14)), X(8e14), Y(V0(8e14)), color=NAVY, sw=2.6)
+f.line(X(3e14), Y(V0(3e14)), X(f0), Y(0), color=SOFT, sw=0.1)
+f.line(X(f0), Y(0), X(f0), Y(V0(3e14)) , color=AMBER, sw=1.2, dash=True)
+f.circle(X(f0), Y(0), 4, fill=AMBER, stroke=AMBER)
+f.text(X(f0) + 6, Y(0) + 15, "f0 = %.2f" % (f0 / 1e14), size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(X(8e14) - 4, Y(V0(8e14)) - 10, "%.2f V" % V0(8e14), size=10.5, color=NAVY, bold=True, anchor="end")
+for q in (3, 4, 5, 6, 7, 8): f.text(X(q * 1e14), Y(0) - 7 if q > 5 else Y(0) - 7, "%d" % q, size=10.5, color=SLATE)
+f.text(150, 164, "f in units of 10^14 Hz; V0 in volts", size=10.5, color=SLATE)
+f.text(150, 184, "slope h/e = %.2f x 10^-15 V s" % (slope * 1e15), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "threshold %.2f x 10^14 Hz = %.0f nm" % (f0 / 1e14, hc / phi), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "400 nm: %.2f eV; 500 nm: %.2f eV; 600 nm: 0" % (k(400), k(500)), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |

@@ -699,6 +699,32 @@ Check: $\mu_0(H+M)=4\pi\times10^{-7}(200+1.2\times10^{5})=0.151$ T ✓ — the
 magnetisation, not the applied field, supplies almost all of $B$.
 :::
 
+```photogrid label="15.1" cols="2" ratio="1.2" caption="Field falls as 1 / r^3. (a) Filaments of iron line up along the field of a bar magnet; lines crowd at the poles where the field is strongest. (b) On the axis of a short magnet B = (mu0 / 4 pi) 2m / r^3. For an assumed magnetic moment m = 1.0 A m^2 the field is 0.20 mT at 10 cm, 5 times the Earth's horizontal field of 40 microtesla (assumed), and falls eight-fold when r doubles. The magnet's field equals the Earth's at r = 17.1 cm, beyond which a compass ignores it."
+@ photo id="ceephy/filings" cap="Iron filings show the field lines of a bar magnet, crowded near the poles"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Axial field of a bar magnet against the Earth's field"
+mu = 4e-7 * math.pi; m = 1.0; BE = 40e-6
+B = lambda r: mu / (4 * math.pi) * 2 * m / r ** 3
+req = (mu / (4 * math.pi) * 2 * m / BE) ** (1 / 3)
+assert abs(B(0.1) - 2e-4) < 1e-9 and abs(B(0.2) * 8 - B(0.1)) < 1e-12 and abs(req - 0.171) < 0.001
+facts = dict(b10="%.2f" % (B(0.1) * 1e3), mult="%.0f" % (B(0.1) / BE), req="%.1f" % (req * 100))
+f = Fig(300, 236)
+f.text(150, 14, "log B against r on the magnet axis", size=10.5, color=NAVY, bold=True)
+lg = lambda r_cm: math.log10(B(r_cm / 100))
+X = lambda r: 44 + (r - 5) * 9; Y = lambda l: 54 + (-2.7 - l) * 36
+f.line(X(5), Y(-5.3), 280, Y(-5.3), color=SLATE, sw=1.4); f.line(X(5), Y(-5.3), X(5), 34, color=SOFT, sw=1.2)
+pts = [(X(r), Y(lg(r))) for r in range(5, 31)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+ye = Y(math.log10(BE)); f.line(X(5), ye, 280, ye, color=AMBER, sw=1.4, dash=True)
+f.text(278, ye - 8, "Earth 40 uT", size=10.5, color=AMBER, bold=True, anchor="end")
+f.line(X(req * 100), ye, X(req * 100), Y(-5.3), color=TEAL, sw=1.2, dash=True); f.circle(X(req * 100), ye, 4, fill=TEAL, stroke=TEAL)
+for r in (10, 20, 30): f.text(X(r), Y(-5.3) + 13, "%d" % r, size=10.5, color=SLATE)
+f.text(150, 192, "B = %.2f mT at 10 cm (%.0f x Earth)" % (B(0.1) * 1e3, B(0.1) / BE), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "equal to Earth at r = %.1f cm" % (req * 100), size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "r in cm; m = 1.0 A m^2 assumed", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

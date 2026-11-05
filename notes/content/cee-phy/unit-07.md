@@ -577,6 +577,30 @@ $\frac{1}{2}(1.0\times10^8)(5.0\times10^{-4}) = 2.5\times10^4$ J m⁻³ — the 
 as it must be.
 :::
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Stress, strain and a safety factor. (a) Each hanger of a suspension bridge is a long steel rope that stretches a little under load. (b) For an assumed hanger 50 m long and 4.0 cm in diameter carrying 200 kN with Young modulus 2.0 x 10^11 Pa, the stress is F / A = 159 MPa, the strain is stress / Y = 0.80 x 10^-3 and the extension is 39.8 mm, so the rope stores 1/2 F dL = 3,979 J. Taking 250 MPa as yield and 400 MPa as breaking stress (typical mild steel, assumed), the margins are 1.57 to yield and 2.51 to breaking."
+@ photo id="ceephy/bridge" cap="Cables of a suspension bridge are steel wires working in tension"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Working stress against yield and breaking stress"
+Y_ = 200e9; L = 50.0; d = 0.04; F = 200e3; A = math.pi * (d / 2) ** 2
+sig = F / A; eps = sig / Y_; dL = eps * L; E = 0.5 * F * dL
+yld, brk = 250e6, 400e6
+assert abs(sig / 1e6 - 159.15) < 0.05 and abs(dL * 1000 - 39.79) < 0.05 and abs(E - 3979) < 2
+facts = dict(sig="%.0f" % (sig / 1e6), eps="%.2f" % (eps * 1000), dL="%.1f" % (dL * 1000), E="{:,.0f}".format(E), ym="%.2f" % (yld / sig), sf="%.2f" % (brk / sig))
+f = Fig(300, 236)
+f.text(150, 14, "Stress in one hanger, MPa", size=10.5, color=NAVY, bold=True)
+rows = (("working stress (F / A)", sig, TEAL, BLUE), ("yield stress (assumed)", yld, AMBER, SAND), ("breaking stress (assumed)", brk, RED, ROSE))
+for i, (lab, v, col, fl) in enumerate(rows):
+    y = 34 + i * 46
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v / 1e6 * 0.4
+    f.box(14, y + 12, w, 16, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 20, "%.0f" % (v / 1e6), size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "strain = %.2f x 10^-3 (dimensionless)" % (eps * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "extension %.1f mm; energy %.0f J" % (dL * 1000, E), size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "margin to yield %.2f, to break %.2f" % (yld / sig, brk / sig), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
