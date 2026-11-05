@@ -576,7 +576,7 @@ fun PostStatButton(
     }
 }
 
-/** Like pill: ghost at rest, primary-container tonal when liked. No border, no ripple, spring motion. */
+/** Like pill: ghost, brand primary when liked (the web's `.liked`). No border, no ripple, spring motion. */
 @Composable
 fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val tactile = rememberTactileFeedback()
@@ -593,12 +593,12 @@ fun LikePill(count: Int, liked: Boolean, onClick: () -> Unit, modifier: Modifier
         label = "likePillIcon"
     )
     val background by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
+        targetValue = Color.Transparent,
         animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillBg"
     )
     val contentColor by animateColorAsState(
-        targetValue = if (liked) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (liked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = com.neb.ians.ui.theme.nebEffectsSpec(),
         label = "likePillFg"
     )
