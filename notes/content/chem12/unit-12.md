@@ -455,6 +455,25 @@ double-bond character from delocalisation; a benzene ring also blocks backside
 approach. So the CH₃–O bond breaks and the C₆H₅–O bond does not.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.2" caption="Ethers cannot form hydrogen bonds with themselves. (a) A bottle of diethyl ether, a volatile and highly flammable solvent. (b) Trouton's rule says that the entropy of vaporisation at the boiling point is about 85 to 88 J/(mol K) for a normal liquid. The cell divides the enthalpy of vaporisation by the boiling point and gets 84.5 for hexane and 86.1 for diethyl ether, but 109.8 for ethanol and 110.8 for butan-1-ol. The hydrogen-bonded alcohols are more ordered in the liquid, so more entropy is gained on boiling. Diethyl ether and butan-1-ol have the same molar mass, 74 g/mol, but the ether boils at 34.6 degrees C and the alcohol at 117.7 degrees C, because the ether has no O-H group."
+@ photo id="chem12b/ether" cap="A reagent bottle of ethyl ether"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Trouton's rule and hydrogen bonding"
+data = [("hexane", 28.9, 341.9), ("diethyl ether", 26.5, 307.7), ("ethanol", 38.6, 351.5), ("butan-1-ol", 43.3, 390.9)]
+rows = [(n, h * 1000 / T) for n, h, T in data]
+assert rows[0][1] < 90 and rows[1][1] < 90 and rows[2][1] > 105
+f = Fig(300, 236)
+f.text(150, 12, "Entropy of vaporisation at the boiling point, J/(mol K)", size=10, color=NAVY, bold=True)
+hbars(f, rows, vmax=130, fmt="%.1f", x0=88, y0=30, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "dS = dH(vap) / Tb;  Trouton: about 85 to 88", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "ether (no O-H) obeys; alcohols exceed it", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "ether and butanol: both C4H10O, M = 74.12", size=10, color=SLATE, bold=True)
+f.text(150, 216, "bp 34.6 C against 117.7 C", size=10.5, color=RED, bold=True)
+facts = dict(e=rows[1][1], b=rows[3][1], eth=rows[2][1], h=rows[0][1])
+```
+
 ## Chapter summary
 
 - An ether is R–O–R′, formula CₙH₂ₙ₊₂O — a **functional isomer of an alcohol**.

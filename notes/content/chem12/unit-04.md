@@ -606,6 +606,28 @@ the dinitrogen tetroxide side is favoured — consistent with the fact that
 N₂O₄ dissociation needs warming to go appreciably to the right.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.2" caption="An endothermic process that happens by itself. (a) In an instant cold pack, squeezing the pouch breaks an inner bag and lets ammonium nitrate dissolve in water. (b) The dissolution absorbs 25.7 kJ per mole, so the solution gets colder. The cell divides the heat absorbed by the heat capacity of 100 g of water and the salt: 10 g of salt cools the water by 7.4 K and 40 g by 26.3 K in the ideal case. The process is spontaneous because the entropy rises by 108.7 J/(mol K), making dG = dH - T dS equal to -6.7 kJ/mol at 298 K. A positive dH does not stop a reaction when T dS is larger."
+@ photo id="chem12b/coldpack" cap="An instant cold pack"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cooling by dissolving ammonium nitrate"
+dH, dS = 25.7, 108.7
+rows = []
+for m in (10, 20, 30, 40):
+    n = m / 80.04
+    rows.append(("%d g" % m, n * dH * 1000 / (100 * 4.18 + 139 * n)))
+assert 26 < rows[3][1] < 27
+dG = dH - 298.15 * dS / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Fall in temperature in 100 g of water, K", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=30, fmt="%.1f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 158, "NH4NO3(s) in water: dH = +25.7 kJ/mol, dS = +108.7 J/(mol K)", size=9.5, color=SLATE, bold=True)
+f.text(150, 178, "dG = dH - T dS = %.1f kJ/mol at 298 K" % dG, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "dG < 0: spontaneous although endothermic", size=10.5, color=RED, bold=True)
+f.text(150, 216, "entropy gain pays for the heat taken in", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], d=rows[3][1], dG=dG)
+```
+
 ## Chapter summary
 
 - A **system** exchanges matter and/or energy with its **surroundings**. $U$,

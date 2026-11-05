@@ -537,6 +537,27 @@ Check by mass conservation: 14.74 + 22.5 = 37.24 g in; 35.45 g DDT + (0.100 × 1
 
 Most of these uses are now tightly regulated. Chlorinated aromatics are persistent in soil and water and are toxic to aquatic life, so laboratory residues must never be poured down the sink.
 
+```photogrid label="9.P" cols="2" ratio="1.2" caption="Stable, fat-soluble and persistent. (a) DDT was sprayed widely against mosquitoes and crop pests from the 1940s. (b) The cell finds the chlorine content of some chloroarenes from the formula: chlorobenzene 31.5 per cent, DDT 50.0 per cent and hexachlorobenzene 74.7 per cent. These molecules are non-polar and resist hydrolysis, because the C-Cl bond on an aromatic ring is strengthened by resonance, so they dissolve in body fat and move up the food chain. With a soil half-life of about 10 years (the reported range is 2 to 15), 12.5 per cent of a sprayed dose would still remain after 30 years, which is why DDT was banned for farm use in most countries."
+@ photo id="chem12b/ddt" cap="Spraying DDT beside a lake in an old campaign photograph"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Chlorine content of chlorinated aromatic compounds"
+Cl = 35.45
+data = [("chlorobenzene", 112.56, 1), ("p-dichlorobenzene", 147.00, 2), ("DDT", 354.49, 5), ("hexachlorobenzene", 284.78, 6)]
+rows = [(n, k * Cl / M * 100) for n, M, k in data]
+assert round(rows[2][1], 1) == 50.0 and round(rows[3][1], 1) == 74.7
+left = 0.5 ** (30 / 10) * 100
+f = Fig(300, 236)
+f.text(150, 12, "Chlorine by mass, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=80, fmt="%.1f", x0=108, y0=30, bw=130, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED), (SAND, AMBER)])
+f.text(150, 158, "DDT = C14H9Cl5, M = 354.49 g/mol", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "C-Cl on an aromatic ring is strong and", size=10, color=SLATE, bold=True)
+f.text(150, 194, "non-polar compounds dissolve in fat", size=10, color=SLATE, bold=True)
+f.text(150, 214, "soil half-life ~10 y: %.1f%% left after 30 y" % left, size=10.5, color=RED, bold=True)
+facts = dict(ddt=rows[2][1], b=rows[0][1], h=rows[3][1], left=left)
+```
+
 ## Chapter summary
 
 - A **haloarene** has the halogen on an sp² ring carbon (C₆H₅Cl); an **aralkyl halide** has it on the side chain (C₆H₅CH₂Cl) and behaves like a haloalkane.

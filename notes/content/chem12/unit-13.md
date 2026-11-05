@@ -915,6 +915,25 @@ Atom check on step 3: C₄H₆O + 2H₂ = C₄H₁₀O ✓ — butan-1-ol.
 choice here.)
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.2" caption="Two tests for the carbonyl group. (a) A silver mirror in the test tube shows an aldehyde: only aldehydes are oxidised by the mild oxidant Tollens' reagent. (b) The cell shows the first test, with 2,4-dinitrophenylhydrazine, which condenses with any aldehyde or ketone (loss of one water molecule) to give an orange or yellow solid. The theoretical mass of the precipitate is 7.00 g per gram of methanal, 4.10 g per gram of propanone and 2.70 g per gram of benzaldehyde, because a light carbonyl compound gains the most mass. The melting point of the dried derivative then identifies the compound, while Tollens' or Fehling's test tells an aldehyde from a ketone."
+@ photo id="ceechem2/mirror" cap="A silver mirror formed by an aldehyde in Tollens' test"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Mass of 2,4-DNP derivative per gram of carbonyl compound"
+dnp = 198.14
+data = [("methanal", 30.03), ("ethanal", 44.05), ("propanone", 58.08), ("benzaldehyde", 106.12)]
+rows = [(n, (M + dnp - 18.015) / M) for n, M in data]
+assert round(rows[0][1], 2) == 7.00 and round(rows[2][1], 2) == 4.10
+f = Fig(300, 236)
+f.text(150, 12, "Grams of 2,4-DNP hydrazone per gram", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=7.5, fmt="%.2f", x0=84, y0=30, bw=150, gap=30)
+f.text(150, 158, "RR'C=O + 2,4-DNP gives the hydrazone + H2O", size=10, color=NAVY, bold=True)
+f.text(150, 178, "all carbonyls give the orange precipitate", size=10, color=SLATE, bold=True)
+f.text(150, 198, "only aldehydes also reduce Tollens' reagent", size=10.5, color=RED, bold=True)
+f.text(150, 216, "so: DNP for C=O, Tollens to tell RCHO", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[2][1], c=rows[3][1])
+```
+
 ## Chapter summary
 
 - Aldehydes are R—CHO, ketones R—CO—R′; both are CₙH₂ₙO and are **functional

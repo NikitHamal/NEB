@@ -377,6 +377,25 @@ lignin means a milder cook, less chemical and less effluent — but they are bul
 seasonal and low in ash-free fibre, which is why a mill must sit close to its
 fields.
 
+```photogrid label="20.P" cols="2" ratio="1.2" caption="Making pulp means removing lignin. (a) Handmade lokta paper is a Nepali craft: the bark fibre of the Daphne shrub is cooked in alkali, beaten and spread to dry. (b) Wood is about half cellulose, and chemical pulping dissolves the lignin that holds the fibres together, so the pulp yield is less than 50 per cent. The cell shows that a tonne of kraft pulp (yield 47 per cent) needs 2.13 t of dry wood and a soda process 2.22 t, against 1.08 t for mechanical pulp, which keeps the lignin and so yellows with age. A ream of 500 sheets of A4 paper of 5 g each weighs 2.5 kg and needs about 5.3 kg of dry wood by the kraft process."
+@ photo id="chem12b/lokta" cap="People at a lokta paper site in Nepal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Wood needed for a tonne of pulp"
+yields = [("mechanical", 93), ("sulfite", 50), ("kraft", 47), ("soda", 45)]
+rows = [(n, 100 / y) for n, y in yields]
+assert round(rows[2][1], 2) == 2.13
+ream = 500 * 5.0 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Dry wood per tonne of pulp, tonnes", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=2.5, fmt="%.2f", x0=76, y0=30, bw=150, gap=30)
+f.text(150, 158, "yield: mechanical 93%, sulfite 50%, kraft 47%, soda 45%", size=9.5, color=SLATE, bold=True)
+f.text(150, 178, "wood = 1 / yield (lignin is removed)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "one ream of A4 (500 x 5 g) = %.1f kg of paper" % ream, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "needs %.1f kg of dry wood by kraft pulping" % (ream * rows[2][1]), size=10.5, color=NAVY, bold=True)
+facts = dict(m=rows[0][1], k=rows[2][1], s=rows[3][1], ream=ream, w=ream * rows[2][1])
+```
+
 ## Chapter summary
 
 - Paper is a mat of cellulose fibres, (C₆H₁₀O₅)ₙ, bonded by hydrogen bonds;
