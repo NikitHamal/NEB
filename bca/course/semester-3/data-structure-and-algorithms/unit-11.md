@@ -272,6 +272,48 @@ f.text(290, 186, "P: solvable fast.  NP: checkable fast.  Open question: is P = 
 7. **Approximation algorithms give guarantees.** Unlike a plain heuristic, an approximation algorithm proves that its answer is within a known factor of the optimum. The vertex-cover method is never worse than twice the best. This is useful when a wrong answer would be costly and the optimum is out of reach.
 8. **The choice depends on size and cost of error.** For small inputs an exact search is best, for large inputs with a time limit a heuristic or approximation is used, and for huge inputs parallel processing helps. A good programmer states which method was used and how far from the best the answer may be. Knowing the options is part of professional practice.
 
+```photogrid label="11.2" cols="2" ratio="1.2" caption="A heuristic in a postman's day. (a) A postman with a bicycle must visit every house on a round and return, and no formula gives the shortest round quickly. (b) Nine delivery points are placed at random on a 10 km by 10 km map (seed 2081). The exact shortest round needs all 40,320 orders of the 8 other points to be tried. The nearest-neighbour heuristic just rides to the closest unvisited point, 8 decisions in all, and is then tidied by 2-opt, which uncrosses any two crossing roads. The lengths are computed. For 20 points the exact method would need about 1.2 x 10^17 orders."
+@ photo id="bca203/postbike" cap="A postman's bicycle: a round of many stops"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Nearest neighbour vs exact shortest round"
+import random, math, itertools
+rnd = random.Random(2081)
+P = [(rnd.uniform(0, 10), rnd.uniform(0, 10)) for _ in range(9)]
+d = lambda a, b: math.dist(P[a], P[b])
+L = lambda t: sum(d(t[i], t[(i + 1) % len(t)]) for i in range(len(t)))
+cur, seen, nn = 0, {0}, [0]
+while len(nn) < 9:
+    c = min((j for j in range(9) if j not in seen), key=lambda j: d(cur, j)); nn.append(c); seen.add(c); cur = c
+t2 = nn[:]; imp = True
+while imp:
+    imp = False
+    for i in range(1, 8):
+        for j in range(i + 1, 9):
+            c = t2[:i] + t2[i:j + 1][::-1] + t2[j + 1:]
+            if L(c) < L(t2) - 1e-9: t2 = c; imp = True
+best, cnt = None, 0
+for perm in itertools.permutations(range(1, 9)):
+    cnt += 1; t = (0,) + perm; l = L(t)
+    if best is None or l < best[0]: best = (l, t)
+assert cnt == 40320 and L(nn) >= best[0] - 1e-9 and L(t2) >= best[0] - 1e-9 and L(t2) <= L(nn) + 1e-9
+f = Fig(300, 236)
+X = lambda p: 16 + p[0] * 26; Y = lambda p: 8 + p[1] * 14
+f.box(10, 4, 280, 148, "", fill=SOFT, stroke=SLATE, r=4, sw=1)
+for i in range(9):
+    a, b = P[best[1][i]], P[best[1][(i + 1) % 9]]
+    f.line(X(a), Y(a), X(b), Y(b), color=TEAL, sw=2.6)
+for i in range(9):
+    a, b = P[nn[i]], P[nn[(i + 1) % 9]]
+    f.line(X(a), Y(a), X(b), Y(b), color=AMBER, sw=1.2, dash=True)
+for i, p in enumerate(P):
+    f.circle(X(p), Y(p), 6, fill=NAVY if i else RED, stroke=NAVY, label=str(i), size=8, color="#ffffff")
+f.text(150, 172, "exact best: %.1f km (teal, %s orders tried)" % (best[0], format(cnt, ",")), size=10.5, color=TEAL, bold=True)
+f.text(150, 190, "nearest neighbour: %.1f km (dashed, 8 steps)" % L(nn), size=10.5, color=AMBER, bold=True)
+f.text(150, 208, "after 2-opt: %.1f km, %.1f%% above best" % (L(t2), 100 * (L(t2) / best[0] - 1)), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "start 0 = post office; 20 points: 1.2e17 orders", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - P ⊆ NP; NP-complete = hardest in NP; verifying a certificate is polynomial.
