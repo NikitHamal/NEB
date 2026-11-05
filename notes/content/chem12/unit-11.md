@@ -602,6 +602,29 @@ So **P** is *p*-cresol and **Q** is 2-hydroxy-5-methylbenzaldehyde,
 C₈H₈O₂ (molar mass 136).
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.2" caption="Phenol is a weak acid, but stronger than an alcohol. (a) Carbolic soap carries the old name of phenol, carbolic acid, which Lister used to disinfect wounds. (b) The cell uses pH = (pKa - log c) / 2 for a 0.1 M weak acid. Acetic acid (pKa 4.76) gives pH 2.88, carbonic acid (6.35) gives 3.67 and phenol (9.99) gives 5.50, with only 0.0032 per cent of the phenol ionised, against 1.32 per cent of the acetic acid. The phenoxide ion is stabilised by resonance over the ring, which makes phenol a million times more acidic than ethanol, yet it is still weaker than carbonic acid, so phenol does not dissolve in sodium bicarbonate solution while carboxylic acids do."
+@ photo id="chem12b/soap" cap="A bar of carbolic soap, which contains phenol-type disinfectant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Acid strength of acetic acid, carbonic acid and phenol"
+import math
+data = [("acetic acid", 4.76), ("carbonic acid", 6.35), ("phenol", 9.99)]
+c = 0.1
+rows = [(n, 0.5 * (pk - math.log10(c))) for n, pk in data]
+frac = [math.sqrt(10 ** -pk / c) * 100 for _, pk in data]
+assert round(rows[2][1], 1) == 5.5 and round(rows[0][1], 2) == 2.88
+f = Fig(300, 236)
+f.text(150, 12, "pH of a 0.1 M solution", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=7, fmt="%.2f", x0=84, y0=30, bw=150, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY)])
+f.text(150, 128, "pH = (pKa - log c) / 2 for a weak acid", size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "ionised: acetic %.2f%%, carbonic %.3f%%," % (frac[0], frac[1]), size=10, color=SLATE, bold=True)
+f.text(150, 166, "phenol %.4f%%" % frac[2], size=10, color=SLATE, bold=True)
+f.text(150, 190, "phenol dissolves in NaOH but not in NaHCO3:", size=10, color=NAVY, bold=True)
+f.text(150, 206, "pKa 9.99 is above carbonic acid's 6.35", size=10, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], c=rows[1][1], p=rows[2][1], fa=frac[0], fp=frac[2])
+```
+
 ## Chapter summary
 
 - A phenol has –OH bonded **directly to the ring**; benzyl alcohol has it on a

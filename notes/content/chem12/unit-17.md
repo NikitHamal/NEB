@@ -286,6 +286,29 @@ propan-1-ol C₃H₇OH. Sodium hydrogen carbonate settles it: the acid gives bri
 CO₂ effervescence, the alcohol does not.
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.2" caption="An organometallic sandwich. (a) Orange crystals of ferrocene, the first sandwich compound, in which an iron atom lies between two parallel cyclopentadienyl rings. (b) The cell finds the molar mass 186.03 g/mol and the composition: 64.6 per cent carbon, 5.4 per cent hydrogen and 30.0 per cent iron. Iron contributes 8 electrons and each ring donates 6, so the metal has 18 valence electrons, the stable count of the 18-electron rule. Made from iron(II) chloride and sodium cyclopentadienide, 1 g of FeCl2 can give at most 1.47 g of ferrocene. Because the molecule is non-polar and stable, it sublimes near 100 degrees C and dissolves in organic solvents but not in water."
+@ photo id="chem12b/ferrocene" cap="Orange crystals of ferrocene in a dish"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Composition of ferrocene, Fe(C5H5)2"
+C, H, Fe = 12.011, 1.008, 55.845
+M = 10 * C + 10 * H + Fe
+rows = [("carbon", 10 * C / M * 100), ("hydrogen", 10 * H / M * 100), ("iron", Fe / M * 100)]
+assert abs(M - 186.04) < 0.02 and round(rows[2][1], 1) == 30.0
+ne = 8 + 2 * 6
+yield_ = M / 126.75
+f = Fig(300, 236)
+f.text(150, 12, "Ferrocene, M = %.2f g/mol, mass per cent" % M, size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=70, fmt="%.1f", x0=64, y0=30, bw=160, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 134, "electron count: Fe 8 + 2 x 6 (each C5H5-)", size=10.5, color=NAVY, bold=True)
+f.text(150, 154, "= %d electrons: the 18-electron rule" % ne, size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "FeCl2 + 2 NaC5H5 gives Fe(C5H5)2 + 2 NaCl", size=10, color=SLATE, bold=True)
+f.text(150, 196, "1 g of FeCl2 gives at most %.2f g" % yield_, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "sublimes near 100 C: nonpolar sandwich", size=10, color=SLATE, bold=True)
+facts = dict(M=M, c=rows[0][1], h=rows[1][1], fe=rows[2][1], y=yield_)
+```
+
 ## Chapter summary
 
 - An organometallic compound has a direct C–M bond; C₂H₅ONa and CH₃COONa do not

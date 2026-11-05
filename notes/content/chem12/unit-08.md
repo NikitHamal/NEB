@@ -900,6 +900,28 @@ $$ m_{\text{theoretical}} = 0.200\times119.5 = 23.9\ \text{g} $$
 $$ m_{\text{actual}} = 0.60\times23.9 = 14.3\ \text{g} $$
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.2" caption="Heavier halogen, higher boiling point. (a) Chlorofluorocarbons are haloalkanes; their chlorine atoms, set free by ultraviolet light, destroy stratospheric ozone, as this satellite map of the Antarctic hole shows. (b) The cell lists the boiling points of the methyl halides: methyl fluoride boils at 194.7 K, methyl iodide at 315.5 K. A straight-line fit against the molar mass has a slope of 1.00 K per g/mol, because a larger halogen has more electrons and stronger London dispersion forces, which outweigh the smaller polarity of the C-I bond. The same trend explains why iodoalkanes are liquids and why the weak C-I bond (213 kJ/mol) makes them the most reactive in substitution."
+@ photo id="ceechem2/ozone" cap="NASA map of the 2024 Antarctic ozone hole, caused by chlorine from CFCs"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Boiling points of the methyl halides"
+import numpy as np
+M = np.array([34.03, 50.49, 94.94, 141.94])
+bp = np.array([-78.4, -24.2, 3.6, 42.4]) + 273.15
+rows = [("CH3F", bp[0]), ("CH3Cl", bp[1]), ("CH3Br", bp[2]), ("CH3I", bp[3])]
+k, b = np.polyfit(M, bp, 1)
+assert 0.5 < k < 2.5
+f = Fig(300, 236)
+f.text(150, 12, "Boiling point of CH3X, kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=330, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "molar mass 34.0, 50.5, 94.9, 141.9 g/mol", size=10, color=SLATE, bold=True)
+f.text(150, 178, "least-squares slope: %.2f K per g/mol" % k, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "bigger halogen, more dispersion force", size=10, color=SLATE, bold=True)
+f.text(150, 216, "C-X bond: C-Cl 339, C-I 213 kJ/mol (weaker)", size=10, color=NAVY, bold=True)
+facts = dict(k=k, a=rows[0][1], d=rows[3][1])
+```
+
 ## Chapter summary
 
 - A monohaloalkane is CₙH₂ₙ₊₁X. It is 1°, 2° or 3° according to the number of

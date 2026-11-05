@@ -882,6 +882,26 @@ CH₃CH₂CONH₂ + Br₂ + 4NaOH → CH₃CH₂NH₂ + Na₂CO₃ + 2NaBr + 2H�
 so **S = ethylamine, C₂H₅NH₂ = C₂H₇N** ✓, which is basic as required.
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.2" caption="Vinegar is a dilute carboxylic acid. (a) A bottle of vinegar, which is about 5 per cent acetic acid by mass per volume. (b) The cell finds the amount in a 500 mL bottle, 0.4163 mol or 0.833 M. Neutralising it needs 16.65 g of sodium hydroxide or 34.98 g of sodium bicarbonate, forming 34.15 g of sodium acetate in either case. With bicarbonate each mole of acid also releases a mole of carbon dioxide, 10.0 L at room temperature, which is the fizzing seen when baking soda is added. This reaction with carbonates and bicarbonates is the standard test that distinguishes a carboxylic acid from a phenol."
+@ photo id="chem12b/vinegar" cap="Bottles of vinegar, a 5 per cent solution of acetic acid"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Neutralising a bottle of vinegar"
+n = 50 * 0.5 / 60.05
+rows = [("acetic acid", n * 60.05), ("NaOH", n * 40.00), ("NaHCO3", n * 84.01), ("CH3COONa", n * 82.03)]
+assert round(rows[1][1], 2) == 16.65
+co2 = n * 24.0
+f = Fig(300, 236)
+f.text(150, 12, "500 mL of 5% vinegar, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=40, fmt="%.2f", x0=84, y0=30, bw=150, gap=30,
+      colors=[(ROSE, RED), (BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 158, "5%% w/v = 50 g/L: %.4f mol in 500 mL (%.3f M)" % (n, n / 0.5), size=10, color=NAVY, bold=True)
+f.text(150, 178, "NaOH needed %.2f g; sodium acetate formed %.2f g" % (rows[1][1], rows[3][1]), size=9.5, color=NAVY, bold=True)
+f.text(150, 198, "with NaHCO3: %.1f L of CO2 at room temperature" % co2, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "(24 L/mol), the fizz seen with baking soda", size=10, color=SLATE, bold=True)
+facts = dict(n=n, M=n / 0.5, na=rows[1][1], bic=rows[2][1], ac=rows[3][1], co2=co2)
+```
+
 ## Chapter summary
 
 - Carboxylic acids are R—COOH, CₙH₂ₙO₂; the carboxyl carbon is always C-1. They

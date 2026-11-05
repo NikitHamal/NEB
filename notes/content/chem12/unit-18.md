@@ -374,6 +374,28 @@ paracetamol, amoxicillin, tincture of iodine, magnesium hydroxide, diazepam,
 | Teflon | addition polymer (PTFE) | non-stick, chemically inert coating |
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.2" caption="Why detergents beat soap in hard water. (a) A detergent powder and a capsule; synthetic detergents are sodium alkylbenzenesulfonates, not carboxylates. (b) Soap is a sodium carboxylate, and it forms an insoluble precipitate with the calcium ions of hard water, two soap anions for each Ca2+. The cell takes water of hardness 200 mg per litre as CaCO3, which contains 2.00 mmol of Ca2+ per litre: washing in 100 L wastes 122.5 g of sodium stearate, making about 121 g of grey scum, and 500 mg per litre wastes 306 g. The calcium and magnesium salts of sulfonates are soluble, so a detergent keeps foaming and cleaning without producing any scum."
+@ photo id="chem12b/detergent" cap="Detergent powder, a spoonful and a capsule"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Soap wasted by hard water"
+Msoap = 306.46
+rows = []
+for h in (100, 200, 300, 500):
+    mmol = h / 100.09
+    rows.append(("%d mg/L" % h, mmol * 100 / 1000 * 2 * Msoap))
+assert round(rows[1][1], 1) == 122.5
+scum = 0.2 * 606.9
+f = Fig(300, 236)
+f.text(150, 12, "Sodium stearate wasted in 100 L, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=320, fmt="%.0f", x0=64, y0=30, bw=160, gap=30)
+f.text(150, 156, "2 C17H35COONa + Ca2+ gives (C17H35COO)2Ca + 2 Na+", size=9.5, color=NAVY, bold=True)
+f.text(150, 176, "200 mg/L as CaCO3 = %.2f mmol Ca2+ per litre" % (200 / 100.09), size=10, color=NAVY, bold=True)
+f.text(150, 196, "makes %.0f g of insoluble scum in 100 L" % scum, size=10.5, color=RED, bold=True)
+f.text(150, 214, "calcium salts of detergents stay in solution", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[1][1], b=rows[3][1], s=scum, l=rows[0][1])
+```
+
 ## Chapter summary
 
 - A polymer is many monomers joined; n is the degree of polymerisation and
