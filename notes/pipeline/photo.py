@@ -91,6 +91,10 @@ def parse_script(body: str) -> tuple[list, list, dict]:
             keys.append((n, " ".join(rest[1:])))
         elif cmd == "crop" and len(rest) >= 4:
             opt["crop"] = tuple(float(v) for v in rest[:4])
+        elif cmd == "fit" and rest:
+            opt["fit"] = float(rest[0])          # target width/height; centre-crop to it
+        elif cmd == "focus" and len(rest) >= 2:
+            opt["focus"] = (float(rest[0]), float(rest[1]))   # fit-crop centre, y from bottom
         elif cmd == "tint" and rest:
             opt["tint"] = float(rest[0])
         else:
@@ -164,7 +168,7 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
     ops, keys, opt = parse_script(body)
     with open(src, "rb") as f:
         digest = hashlib.sha1(f.read()).hexdigest()[:16]
-    key = hashlib.sha1(f"{digest}|{body}|{width_pct}|v3".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{digest}|{body}|{width_pct}|v4".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".jpg")
     _note_used(asset_id)
     if os.path.exists(out):
@@ -187,6 +191,17 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
             x0, x1 = int(l * w_px), int(r * w_px)
             y0, y1 = int((1 - t) * h_px), int((1 - b) * h_px)
             img = img[max(y0, 0):min(y1, h_px), max(x0, 0):min(x1, w_px)]
+            h_px, w_px = img.shape[0], img.shape[1]
+        if opt.get("fit"):
+            fx, fy = opt.get("focus", (0.5, 0.5))
+            tgt = opt["fit"]
+            if w_px / float(h_px) > tgt:                      # too wide: trim columns
+                nw = int(h_px * tgt); x0 = int(min(max(fx * w_px - nw / 2, 0), w_px - nw))
+                img = img[:, x0:x0 + nw]
+            else:                                            # too tall: trim rows
+                nh = int(w_px / tgt); cy = (1 - fy) * h_px
+                y0 = int(min(max(cy - nh / 2, 0), h_px - nh))
+                img = img[y0:y0 + nh]
             h_px, w_px = img.shape[0], img.shape[1]
         ar = h_px / float(w_px)
 
