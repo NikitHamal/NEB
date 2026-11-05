@@ -868,8 +868,70 @@ facts = dict(eo=res["Organic"][0], to=res["Organic"][1], so=res["Organic"][2], e
    its symbols. <span class="marks">[5]</span>
 
 ::: note Answers to Group B
-**1.–4.** Use §6.3, §6.4, §6.5 and §6.7; one mark per phase/point/method with its
-deliverable or advantage.
+**1.** The **SDLC** (software or system development life cycle) is the
+structured sequence of phases through which a system passes from the first study of
+the problem to its retirement, each phase producing a deliverable that is the input
+of the next. Five of its phases are as follows. **(i) Preliminary investigation:**
+the analyst studies the present system and defines the problem and scope; the
+deliverable is a problem statement. **(ii) Feasibility study:** the team checks
+whether the project is technically, economically, operationally and legally possible;
+the deliverable is a feasibility report with a cost-benefit analysis. **(iii) System
+analysis:** requirements are collected and modelled with DFDs and ER diagrams; the
+deliverable is the SRS. **(iv) System design:** architecture, database, screens and
+reports are planned; the deliverable is the design document and schema. **(v) Coding
+and testing:** programmers write and test the programs; the deliverable is source code
+and a test report. Implementation (installation and training) and maintenance follow.
+Maintenance sends new requirements back to the start, so the life cycle is really a
+cycle. For a school result system, the feasibility report would show whether the
+school can afford a server before any code is written.
+
+**2.**
+
+| Point | System analyst | Software engineer |
+|---|---|---|
+| Main role | Studies the business problem and defines what the system must do | Designs, builds and tests the software |
+| Works with | Users, managers, clients | Code, tools, other developers |
+| Key output | SRS, DFDs, feasibility report | Source code, design documents, test cases |
+| Phases | Investigation, feasibility, analysis, acceptance | Design, coding, testing, maintenance |
+| Core skills | Communication, interviewing, business knowledge | Programming, algorithms, databases |
+| Question | **What** should the system do? | **How** will the system do it? |
+
+The analyst is the bridge between the user and the technical team: if the analyst
+gets the requirements wrong, the best programmers will build the wrong system. The
+software engineer turns the agreed requirements into a working product that meets
+quality targets. In a small Nepali company one person may do both jobs, but in a
+large project such as a bank's core system the two roles are separate and work
+closely together.
+
+**3.** Three methods are **interview**, **questionnaire** and **observation**.
+In an *interview* the analyst questions users face to face. *Advantage:* it gives
+deep answers and allows follow-up questions. *Disadvantage:* it is slow and costly,
+and only one user can be met at a time. In a *questionnaire* a fixed set of written
+questions is sent to many users. *Advantage:* it is cheap and reaches many people,
+such as all teachers of a college, and the answers are easy to summarise.
+*Disadvantage:* there are no follow-up questions and the response rate is often low.
+In *observation* the analyst watches the existing work being done, for example how a
+clerk issues a library book. *Advantage:* it shows what people really do, not only
+what they say. *Disadvantage:* it takes much time and people behave differently when
+they are watched. Other methods are document review, joint application development
+(JAD) workshops, prototyping and brainstorming. Analysts normally combine several
+methods, because each hides a weakness that another can cover. The collected
+requirements are written into the SRS.
+
+**4.** **Software quality** is the degree to which software meets the stated and
+implied needs of its users and is free from defects. Four quality characteristics are
+as follows. **(i) Functional suitability:** the software does the required jobs
+correctly and completely; a result system must compute grades exactly. **(ii)
+Reliability:** it keeps working and recovers after a failure; it is measured by
+availability, which is MTBF divided by (MTBF + MTTR). **(iii) Usability
+(interaction capability):** users can learn and operate it without errors, for example
+a clear fee-payment screen. **(iv) Security:** data are protected from unauthorised
+access and change by passwords, roles and encryption. Other characteristics are
+performance efficiency, compatibility, maintainability, flexibility (portability)
+and safety. Quality has to be built in at every phase and checked by reviews and
+testing, because it is much more expensive to repair a defect after release than
+before. A measure such as defect removal efficiency shows how well the team caught
+defects before users did.
 
 **5.** Availability $= \frac{500}{500+4}\times 100\% = \frac{500}{504}\times 100\% = 99.21\%$.
 DRE $= \frac{114}{114+6}\times100\% = \frac{114}{120}\times100\% = 95\%$.
@@ -902,3 +964,113 @@ only and is cheap; the spiral model addresses **all** technical and management
 risks, costs much more, and gives the customer a formal review at the end of
 every loop.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Draw and explain the waterfall model. State its advantages, disadvantages and uses, and compare it with agile. <span class="marks">[10]</span>
+2. What is a prototype? Explain the prototype model and compare it with the spiral model. <span class="marks">[10]</span>
+3. Explain the SDLC with a diagram. What are the roles of a system analyst? <span class="marks">[10]</span>
+
+### Model answer D1: the waterfall model (10 marks)
+
+**Introduction.** The **waterfall model** is the oldest software process model. The
+work flows steadily downward from one phase to the next like a waterfall, and a phase
+begins only when the previous one is finished and approved. (Draw the six phases of
+section 6.8.1 in a descending cascade with one-step feedback arrows.)
+
+**Phases.**
+
+1. **Requirements:** the needs of the user are collected and written as the SRS.
+2. **Design:** the architecture, database and interfaces are planned from the SRS.
+3. **Implementation (coding):** programmers write the code and unit-test it.
+4. **Testing:** the modules are integrated and tested against the requirements.
+5. **Deployment:** the system is installed and users are trained.
+6. **Maintenance:** defects are corrected and changes are made after release.
+
+**Advantages.** It is simple and easy to understand; each phase has clear
+deliverables; it is easy to manage and plan; documentation is complete; and it works
+well when requirements are fixed.
+
+**Disadvantages.** Working software appears very late; a change of requirements is
+costly; risks show up only at testing; the customer sees the product only at the end;
+and it cannot go back many steps.
+
+**Uses.** Small and short projects with stable, well-understood requirements, such as
+a simple billing program, a copy of an existing system, or projects bound by strict
+documentation rules.
+
+| Basis | Waterfall | Agile |
+|---|---|---|
+| Requirements | Fixed in advance | Expected to change |
+| Delivery | One release at the end | Working software every 1-4 weeks |
+| Customer involvement | Start and end | Very high, daily |
+| Risk handling | Poor, found late | Good, short feedback loops |
+| Documentation | Heavy | Light |
+| Suited to | Stable, small projects | Changing requirements |
+
+**Conclusion.** Waterfall is predictable but rigid. Agile is flexible, so most modern
+software companies in Kathmandu prefer it for products whose requirements change.
+
+### Model answer D2: the prototype model and its comparison with spiral (10 marks)
+
+**Introduction.** A **prototype** is a quick, working but incomplete version of the
+software that is built to show users what the system will look like and do. The
+**prototype model** uses this prototype to find out what the users really want
+before the final system is built. (Draw the prototype loop of section 6.8.2.)
+
+**Steps.**
+
+1. **Requirement gathering:** collect the basic needs from the user.
+2. **Quick design:** make a simple design of the parts the user will see (screens and
+   reports).
+3. **Build the prototype:** program it quickly, often with simple tools.
+4. **User evaluation:** the user tries it and gives comments.
+5. **Refinement:** the prototype is improved; steps 2 to 5 repeat until the user is
+   satisfied.
+6. **Engineer the final product:** the system is built properly, tested and
+   delivered.
+
+**Advantages.** Misunderstandings are found early, the user is active, and the final
+product is nearer to the need. **Disadvantages.** Extra effort goes into a throw-away
+model, users may think the prototype is the finished product, and poor design may
+remain.
+
+| Basis | Prototype | Spiral |
+|---|---|---|
+| Main purpose | Clarify requirements | Control risks in a large project |
+| Risk handling | Reduces requirement risk only | Explicit risk analysis in every loop |
+| Cost | Medium, low | High |
+| Customer involvement | Continuous | Formal review at the end of every loop |
+| Best for | Unclear, screen-heavy systems | Large, costly, high-risk projects |
+
+**Conclusion.** Use a prototype when users cannot describe what they want, and the
+spiral model when the project is large and risky.
+
+### Model answer D3: SDLC and the system analyst (10 marks)
+
+**Introduction.** The **SDLC** is the structured set of phases from the first idea to
+the retirement of a system. It gives order to the work, makes progress visible and
+reduces the risk of failure. (Draw the cycle of section 6.3.)
+
+| Phase | What happens | Deliverable |
+|---|---|---|
+| Preliminary investigation | Study the existing system and define the problem | Problem statement |
+| Feasibility study | Technical, economic, operational and legal checks | Feasibility report |
+| System analysis | Collect and model requirements | SRS, DFD, ER diagram |
+| System design | Architecture, database, screens | Design document |
+| Coding | Write and unit-test programs | Source code |
+| Testing | Unit, integration, system, acceptance tests | Test report |
+| Implementation | Install, convert data, train users | Working system, manual |
+| Maintenance | Fix, adapt and improve | New versions |
+
+**Role of the system analyst.** The analyst studies the business problem and
+decides what the system must do. The main duties are: to **collect requirements** by
+interview, questionnaire and observation; to **model the system** with DFDs and ER
+diagrams; to **write the SRS**; to **prepare the feasibility report**; to **link users
+and programmers**; to **supervise testing and acceptance**; and to **train users**.
+The analyst answers the question *what*, whereas the software engineer answers *how*.
+
+**Conclusion.** The SDLC is drawn as a cycle because maintenance produces new
+requirements that start the next round. A good analyst makes sure that the system
+built is the system the user actually needs.
