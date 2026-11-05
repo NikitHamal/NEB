@@ -3,6 +3,7 @@ from .view_helpers import *  # noqa: F401,F403
 from collections import Counter
 from django.db.models import Count, Q, Sum
 from .services import record_username_change
+from .profile_education import apply_education
 from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment
 
 @api_view(['GET'])
@@ -111,6 +112,9 @@ def user_profile_create_or_update(request):
         user.role = role
     user.teaching_subjects = teaching_subjects
     user.institution_type = institution_type
+    edu_error = apply_education(user, data)
+    if edu_error:
+        return Response({'error': edu_error}, status=400)
     user.save()
 
     logger.info("user_profile: profile saved for user %s (username=%s)", user.id, user.username)
