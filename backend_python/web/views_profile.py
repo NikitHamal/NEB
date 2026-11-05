@@ -657,6 +657,18 @@ def edit_profile(request):
     if not getattr(db_user, 'email_verified', False):
         return redirect(f"{reverse('web:login')}?next={request.get_full_path()}")
     has_password = bool(db_user.password_hash)
+    from api import education_catalog as _cat
+    from api.profile_education import apply_education
+    edu_init = {
+        'status': db_user.edu_status or '', 'level': db_user.class_level or '',
+        'program': db_user.edu_program or '', 'term': db_user.edu_term or '',
+        'completed': db_user.edu_completed or '', 'headline': db_user.headline or '',
+        'skills': db_user.skills or '', 'open_to': db_user.open_to or '',
+    }
+    edu_boot = {'catalog': _cat.catalog(), 'initial': {
+        'status': edu_init['status'], 'level': edu_init['level'], 'program': edu_init['program'],
+        'term': edu_init['term'], 'completed': edu_init['completed'],
+        'skills': edu_init['skills'], 'openTo': edu_init['open_to']}}
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         dob = request.POST.get('dob', '').strip()
@@ -667,17 +679,17 @@ def edit_profile(request):
         if role not in ('student', 'teacher', 'institution', 'explorer'):
             role = db_user.role or 'student'
         if not username or not dob:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Username and Date of Birth are required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Username and Date of Birth are required.'))
         if not display_name:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Display Name is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Display Name is required.'))
         if not gender:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Gender is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Gender is required.'))
         if role == 'student' and not class_level:
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Class is required for students.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Class is required for students.'))
         if role == 'teacher' and not request.POST.get('teaching_subjects', '').strip():
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Teaching subjects are required for teachers.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Teaching subjects are required for teachers.'))
         if role == 'institution' and not request.POST.get('school', '').strip():
-            return render(request, 'web/edit_profile.html', _ctx(request, error='Institution name is required.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error='Institution name is required.'))
         overlong = _overlong_field_error(User, {
             'display_name': display_name,
             'gender': gender,
@@ -689,11 +701,11 @@ def edit_profile(request):
             'dob': dob,
         })
         if overlong:
-            return render(request, 'web/edit_profile.html', _ctx(request, error=overlong.data['error'] + '.'))
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=overlong.data['error'] + '.'))
         if username != db_user.username:
             _v_err, _v_code = services.validate_username_change(db_user, username)
             if _v_err:
-                return render(request, 'web/edit_profile.html', _ctx(request, error=_v_err.get('error', 'Username change failed.')))
+                return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=_v_err.get('error', 'Username change failed.')))
             db_user.username = username
             record_username_change(db_user)
         else:
@@ -719,6 +731,9 @@ def edit_profile(request):
         db_user.school_username = request.POST.get('school_username', '').strip() or ''
         db_user.bio = request.POST.get('bio', '').strip()
         db_user.is_locked = request.POST.get('is_locked') == 'on'
+        edu_error = apply_education(db_user, request.POST)
+        if edu_error:
+            return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, error=edu_error))
         db_user.save()
         _clear_page_cache()
         updated_data = {
@@ -786,6 +801,7 @@ def edit_profile(request):
     existing_social_links = get_all_user_links(db_user.id)
     from api.models import SOCIAL_PLATFORMS
     return render(request, 'web/edit_profile.html', _ctx(request,
+        edu_boot=edu_boot, edu_init=edu_init,
         has_password=has_password,
         profile_incomplete=profile_incomplete,
         subjects=subjects,
