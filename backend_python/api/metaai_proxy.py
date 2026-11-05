@@ -7,6 +7,7 @@ from typing import Any, Dict, Generator, List, Optional, Set, Tuple
 
 import requests
 from django.conf import settings
+from .model_catalog import model_catalog
 
 logger = logging.getLogger(__name__)
 
@@ -16,27 +17,14 @@ MODELS = [
     {"id": "metaai-imagine", "name": "Meta AI Imagine (Image)", "reasoning": False, "vision": True, "web_search": False},
 ]
 
+
+def get_models() -> List[Dict]:
+    return model_catalog(MODELS)
+
+
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
 _BROWSER_SESSION = None
-
-
-def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": m.get("vision", False),
-                "thinking": m.get("reasoning", False),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
 
 
 def _get_cookies() -> Dict[str, str]:
