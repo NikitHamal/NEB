@@ -26,7 +26,7 @@ import importlib
 import json
 import logging
 import time
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from django.conf import settings
 from django.http import StreamingHttpResponse, JsonResponse

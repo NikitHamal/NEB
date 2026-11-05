@@ -29,8 +29,6 @@ from api.qwen_utils.prompts import (
     MINDMAP_SYSTEM_PROMPT,
     summary_outline_prompt, summary_full_prompt,
     MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT,
-    quiz_outline_prompt, quiz_full_prompt,
-    flashcard_outline_prompt, flashcard_full_prompt,
     exclusion_block,
 )
 from api.generation import mark_progress, mark_completed, mark_failed

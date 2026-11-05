@@ -11,7 +11,6 @@ from collections import Counter, defaultdict
 
 from django.db.models import Count, Sum
 
-from . import rules
 
 KIND_LABEL = {'signup': 'Sign-ups', 'post': 'Posts', 'reply': 'Comments', 'vote': 'Poll votes',
               'like': 'Likes', 'option': 'Options added'}
@@ -47,7 +46,7 @@ def _summary(sig, detail: dict) -> str:
 
 def build(rng: dict, source: str = 'all') -> dict:
     from api import signals
-    from api.models import (ActorSignal, Poll, PollOption, PollVote, Post, PostImpression, PostReach, Reply, User)
+    from api.models import (ActorSignal, Poll, PollOption, PollVote, Post, PostImpression, PostReach, User)
 
     start, end = rng['start'], rng['end']
     qs = ActorSignal.objects.filter(created_at__gte=start, created_at__lt=end)

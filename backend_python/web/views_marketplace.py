@@ -22,8 +22,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from api.models import (
-    CreatorCourse, CreatorPage, CreatorPost, PaymentVerification,
-    Resource, SellerBalance, User, WithdrawalRequest,
+    CreatorCourse, CreatorPage, CreatorPost, Resource,
+    SellerBalance, User, WithdrawalRequest,
 )
 from api.creator_pages import (
     BLOCK_LABELS, LAYOUTS, allowed_kinds, apply_course_fields, apply_page_update,
@@ -32,7 +32,7 @@ from api.creator_pages import (
     apply_template, course_payload, course_resource_map, editor_schema, listing_queryset,
     page_for_user, page_payload, post_payload,
     sanitize_accent, sanitize_style, sold_course_delete_error, sync_course_resources,
-    template_list, unique_course_slug, unique_page_slug,
+    template_list, unique_course_slug,
 )
 from api.marketplace import get_payment_config, record_purchase, seller_sales
 from api.utils import now_ms
@@ -148,7 +148,6 @@ def directory(request):
 
 
 def _subject_options():
-    from django.db.models import Count
     rows = (CreatorPage.objects.filter(published=True)
             .exclude(subjects='')
             .values_list('subjects', flat=True)[:200])

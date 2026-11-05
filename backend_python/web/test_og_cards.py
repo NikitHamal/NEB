@@ -6,12 +6,11 @@ route-level tests at the bottom need the app.
 """
 import io
 import os
-import sys
 import unittest
 
 from PIL import Image
 
-from web import og_cards, og_art, og_heroes, og_logo
+from web import og_cards, og_art, og_logo
 
 STATIC = os.path.join(os.path.dirname(os.path.abspath(og_cards.__file__)),
                       'static', 'web')

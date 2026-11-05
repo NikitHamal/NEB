@@ -42,13 +42,9 @@ from api.models import (
     GenerationJob,
     Notification,
     Post,
-    PostLike,
     Reply,
-    ReplyLike,
     Resource,
     ResourceComment,
-    ResourceCommentLike,
-    ResourceLike,
     StudyDocument,
     StudyDocumentShare,
     StudyFlashcard,
@@ -69,12 +65,12 @@ from api.models import (
     SocialLinkClick,
 )
 from api.utils import now_ms, uuid_str
-from api.generation import enqueue, serialize_job, get_job, mark_processing, mark_completed, mark_failed
+from api.generation import enqueue, serialize_job, get_job, mark_processing, mark_failed
 from api.generation_executors import EXECUTORS
 from api.qwen_utils.client import QwenClient
 from api.qwen_utils.file_upload import ALLOWED_EXTENSIONS, MAX_FILE_SIZE
 
-from api.qwen_utils.text_extraction import extract_text_from_file, MAX_TEXT_CHARS as QWEN_MAX_TEXT_CHARS
+from api.qwen_utils.text_extraction import extract_text_from_file
 
 from api.qwen_utils.prompts import (
 
@@ -82,12 +78,6 @@ from api.qwen_utils.prompts import (
 
     MINDMAP_SYSTEM_PROMPT, TUTOR_SYSTEM_PROMPT, PLANNER_SYSTEM_PROMPT,
 
-    summary_outline_prompt, summary_full_prompt,
-
-    MINDMAP_OUTLINE_PROMPT, MINDMAP_FULL_PROMPT,
-
-    quiz_outline_prompt, quiz_full_prompt,
-    flashcard_outline_prompt, flashcard_full_prompt,
     exclusion_block,
 )
 from api.qwen_utils.parsing import (

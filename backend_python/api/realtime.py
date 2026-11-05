@@ -27,7 +27,6 @@ from .consumers_ws import (
     GRP_FORUM_PUBLIC,
     GRP_POST_FMT,
     GRP_RESOURCE_FMT,
-    GRP_RESOURCE_REQUEST_FMT,
     GRP_STUDY_SPACE_FMT,
     GRP_USER_FMT,
 )

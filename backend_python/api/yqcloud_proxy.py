@@ -6,7 +6,6 @@ withoutContext, stream}`` returns the answer as a raw text stream.
 History is sent inside the prompt (flattened transcript); ``userId`` only
 needs to be stable-looking (``#/chat/<ms>``).
 """
-import json
 import logging
 import time
 from typing import Dict, Generator, List

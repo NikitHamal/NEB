@@ -20,10 +20,8 @@ import uuid
 # Prefer curl_cffi for TLS fingerprint spoofing (bypasses Aliyun WAF on chat.qwen.ai).
 # Fall back to plain requests if curl_cffi is not installed on the server.
 try:
-    from curl_cffi.requests import Session as _CurlSession
     _USE_CURL_CFFI = True
 except ImportError:
-    import requests as _requests
     _USE_CURL_CFFI = False
 
 if os.environ.get("QWEN_FORCE_REQUESTS") == "1":
@@ -1154,7 +1152,6 @@ def call_qwen(system_prompt, user_message, model="qwen3.8-max", max_tokens=500,
             _mark_failed(session)
             if file_paths:
                 from .qwen_utils import file_upload as _fu
-                from pathlib import Path
                 for fp in file_paths[:MAX_FILES_PER_MESSAGE]:
                     try:
                         data = open(fp, "rb").read()

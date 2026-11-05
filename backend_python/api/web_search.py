@@ -9,7 +9,7 @@ import re
 import time
 from html import unescape
 from typing import Dict, List
-from urllib.parse import quote_plus, unquote
+from urllib.parse import unquote
 
 import requests
 

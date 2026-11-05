@@ -24,7 +24,7 @@ from django.conf import settings
 
 from django.core.cache import cache
 from django.db import connection
-from django.test import Client, RequestFactory, TestCase
+from django.test import Client, TestCase
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
@@ -34,8 +34,8 @@ from api.creator_pages import (
 )
 from api.marketplace import get_payment_config
 from api.models import (
-    CreatorCourse, CreatorPage, CreatorPost, Notification, PaymentVerification, Resource,
-    SellerBalance, User, UserAuthToken,
+    CreatorCourse, CreatorPage, Notification, PaymentVerification, Resource, SellerBalance,
+    User, UserAuthToken,
 )
 from api.security import AUTH_TOKEN_TTL_MS, hash_auth_token
 from api.utils import now_ms

@@ -5,7 +5,7 @@ from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 
 from api import content_images
-from api.models import User, ContentImage
+from api.models import User
 from api.utils import now_ms
 
 
@@ -33,7 +33,6 @@ class ContentImagesHelpersTest(TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with override_settings(MEDIA_ROOT=tmp):
                 img = _make_image_bytes()
-                from django.core.files.base import ContentFile
                 from django.core.files.uploadedfile import SimpleUploadedFile
                 uf = SimpleUploadedFile('x.png', img, content_type='image/png')
                 row = content_images.save_content_image(uf)
