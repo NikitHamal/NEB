@@ -246,6 +246,34 @@ Read the passage and answer questions 97 and 98.
 100. If I ___ you, I would apologise.
      (a) am (b) was (c) were (d) be
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Mental constants, and how wrong they are. (a) A scientific calculator: it is not allowed in the hall, so the standard constants must be remembered. (b) The relative error of each rounded constant listed in this book is computed against its exact value. The errors are tiny for the square roots, pi and ln 2, all below 0.06 per cent, while g = 10 is 1.97 per cent high. A formula such as v = sqrt(2 g h) halves that error to 0.98 per cent. Option values in a numerical question usually differ by far more than this (an assumption, not a published rule), so rounding the constants is safe; losing a unit or a factor of 2 is not."
+@ photo id="ioemock/calc" cap="A scientific calculator, which the computer-based test does not allow"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Relative error of the exam-day constants (log scale)"
+import math
+C = [("sqrt 2 = 1.414", 1.414, math.sqrt(2)), ("sqrt 3 = 1.732", 1.732, math.sqrt(3)), ("pi = 3.14", 3.14, math.pi), ("ln 2 = 0.693", 0.693, math.log(2)),
+     ("g = 9.8", 9.8, 9.80665), ("g = 10", 10.0, 9.80665)]
+err = [abs(a - b) / b * 100 for _, a, b in C]
+assert max(err) == err[-1] and abs(err[-1] - 1.97) < 0.01 and all(e < 0.07 for e in err[:-1])
+vh = (math.sqrt(10 / 9.80665) - 1) * 100
+assert abs(vh - 0.98) < 0.01
+facts = dict(g10="%.2f" % err[-1], vh="%.2f" % vh)
+f = Fig(300, 236)
+f.text(150, 14, "relative error in per cent (bar = log scale)", size=10.5, color=NAVY, bold=True)
+for i, (name, a, b) in enumerate(C):
+    y = 26 + i * 24
+    f.text(8, y + 10, name, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    L = (math.log10(err[i]) + 3) * 36
+    hot = i == len(C) - 1
+    f.box(104, y, L, 20, "", fill=(ROSE if hot else BLUE), stroke=(RED if hot else NAVY), r=3)
+    f.text(104 + L + 6, y + 10, "%.3f%%" % err[i] if err[i] < 1 else "%.2f%%" % err[i], size=10.5, color=(RED if hot else NAVY), bold=True, anchor="start", vmid=True)
+f.line(104, 170, 292, 170, color=SOFT, sw=1)
+f.text(150, 188, "v = sqrt(2gh) with g = 10 is %.2f%% high" % vh, size=10.5, color=AMBER, bold=True)
+f.text(150, 205, "every other constant is under 0.07%", size=10.5, color=TEAL, bold=True)
+f.text(150, 221, "bars are logarithmic: each step is 10 times", size=10.5, color=SLATE)
+```
+
 ## Answer key and explanations
 
 ::: note Answers — Section A Mathematics (1–20)

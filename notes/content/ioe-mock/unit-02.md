@@ -250,6 +250,46 @@ Read the passage and answer questions 97 and 98.
 100. She suggested that he ___ the doctor.
      (a) see (b) sees (c) saw (d) seen
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="What to expect from your own score. (a) The paper is a computer-based test, so every attempt is one click. (b) For a candidate whose chance of being right is 70 per cent in Mathematics, 60 in Physics, 55 in Chemistry and 80 in English (assumed values), the formula gives an expected score of 86.7 out of 140 when every question is attempted. A seeded run of 10,000 such papers gives a mean of 86.6 and a middle 80 per cent range of 77 to 96, so one paper can easily differ by 10 marks from the average. Leaving Chemistry blank would lower the expected score to 71.5, because each attempt has positive expected value."
+@ photo id="ioemock/lab" cap="A computer lab: the paper is taken on a screen, mouse only"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Simulated scores of an assumed 70, 60, 55, 80 per cent candidate"
+import random, math
+S = {"M": (20, 15, 0.70), "P": (14, 13, 0.60), "C": (14, 8, 0.55), "E": (12, 4, 0.80)}
+def ev(a, b, p): return a * (p - (1 - p) * 0.1) + b * (2 * p - (1 - p) * 0.2)
+exp = sum(ev(a, b, p) for a, b, p in S.values()); skip = exp - ev(*S["C"])
+assert abs(exp - 86.65) < 1e-9 and skip < exp
+rnd = random.Random(2083); n = 10000; sc = []
+for _ in range(n):
+    t = 0.0
+    for a, b, p in S.values():
+        for q in range(a): t += 1 if rnd.random() < p else -0.1
+        for q in range(b): t += 2 if rnd.random() < p else -0.2
+    sc.append(t)
+sc.sort(); mean = sum(sc) / n; p10, p90 = sc[n // 10], sc[9 * n // 10]
+assert abs(mean - exp) < 0.5 and p90 - p10 > 8
+facts = dict(pm=70, pp=60, pc=55, pe=80, ex="%.1f" % exp, n="{:,}".format(n), mean="%.1f" % mean, p10="%.0f" % p10, p90="%.0f" % p90, skip="%.1f" % skip)
+lo = int(sc[0] // 5 * 5); hi = int(sc[-1] // 5 * 5 + 5); bins = list(range(lo, hi, 5))
+cnt = [sum(1 for x in sc if b <= x < b + 5) for b in bins]
+f = Fig(300, 236)
+f.text(150, 14, "10,000 simulated papers, score out of 140", size=10.5, color=NAVY, bold=True)
+w = 270 / len(bins); mx = max(cnt)
+for i, c in enumerate(cnt):
+    h = c / mx * 110; x = 16 + i * w
+    mid = bins[i] + 2.5
+    hot = p10 <= mid <= p90
+    f.box(x, 150 - h, w - 2, h, "", fill=(MINT if hot else SOFT), stroke=(TEAL if hot else "#94a3b8"), r=1, sw=1)
+    if i % 2 == 0: f.text(x + w / 2, 164, str(bins[i]), size=10.5, color=SLATE)
+f.line(12, 150, 292, 150, color=SLATE, sw=1.4)
+xm = 16 + (mean - lo) / 5 * w
+f.line(xm, 34, xm, 150, color=RED, sw=1.6, dash=True); f.text(xm, 30, "mean %.1f" % mean, size=10.5, color=RED, bold=True)
+f.text(150, 182, "teal bars: the middle 80 per cent (%.0f to %.0f)" % (p10, p90), size=10.5, color=TEAL, bold=True)
+f.text(150, 198, "formula mean = %.2f out of 140" % exp, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "skip Chemistry: expected %.1f (lower)" % skip, size=10.5, color=SLATE, bold=True)
+f.text(150, 228, "", size=10)
+```
+
 ## Answer key and explanations
 
 ::: note Answers — Section A Mathematics (1–20)
