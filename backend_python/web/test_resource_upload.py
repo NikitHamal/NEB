@@ -40,7 +40,7 @@ class _UploadCase(TestCase):
         patcher = mock.patch('web.resource_upload.validate_and_save_resource_file', side_effect=_fake_save)
         self.save_file = patcher.start()
         self.addCleanup(patcher.stop)
-        patcher = mock.patch('web.resource_upload.default_storage')
+        patcher = mock.patch('api.resource_form.default_storage')
         self.storage = patcher.start()
         self.addCleanup(patcher.stop)
 

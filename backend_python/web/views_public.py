@@ -31,15 +31,14 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from . import curriculum
+from api.resource_form import discard_saved_files, read_listing_fields
+from api.view_helpers import parse_paid_fields
 from .resource_upload import (
     apply_price,
     clean_file_url_or_error,
     clean_source_url_or_error,
     clean_thumbnail_or_error,
     create_resources,
-    discard_saved_files,
-    read_listing_fields,
-    read_price,
     replace_file,
     save_uploaded_files,
 )
@@ -1362,7 +1361,7 @@ def upload_resource(request):
 
         uploaded_files = request.FILES.getlist('file')
         file_url = post.get('file_url', '').strip()
-        is_paid, price = read_price(post)
+        is_paid, price = parse_paid_fields(post)
 
         if len(uploaded_files) > 5:
             errors.append('You can upload at most 5 files per request.')

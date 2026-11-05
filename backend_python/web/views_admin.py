@@ -34,15 +34,14 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from urllib.parse import quote
 from . import api_client as api
+from api.resource_form import discard_saved_files, read_listing_fields
+from api.view_helpers import parse_paid_fields
 from .resource_upload import (
     apply_price,
     clean_file_url_or_error,
     clean_source_url_or_error,
     clean_thumbnail_or_error,
     create_resources,
-    discard_saved_files,
-    read_listing_fields,
-    read_price,
     replace_file,
     save_uploaded_files,
 )
@@ -525,7 +524,7 @@ def admin_resource_create(request):
             if not behalf_user:
                 errors.append(f"No platform user found with username '@{behalf_username}'.")
 
-        is_paid, price = read_price(post)
+        is_paid, price = parse_paid_fields(post)
         if is_paid and price <= 0:
             errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
         source_url = clean_source_url_or_error(post, errors)

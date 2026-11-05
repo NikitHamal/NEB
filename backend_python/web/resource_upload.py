@@ -1,10 +1,9 @@
 import os
-from decimal import Decimal
 
 from django.conf import settings
-from django.core.files.storage import default_storage
 
 from api.models import Resource
+from api.resource_form import error_text
 from api.security import (
     clean_source_url,
     save_resource_thumbnail_upload,
@@ -12,36 +11,10 @@ from api.security import (
     validate_resource_file_url,
 )
 from api.utils import now_ms, uuid_str
-
-LISTING_FIELDS = (
-    'title', 'description', 'subject', 'grade_level', 'faculty', 'program', 'year',
-    'exam_type', 'pradesh', 'district', 'school', 'tags', 'author_name', 'source_label',
-)
-
-
-def error_text(exc):
-    return ' '.join(getattr(exc, 'messages', [str(exc)]))
-
-
-def read_listing_fields(post):
-    fields = {name: post.get(name, '').strip() for name in LISTING_FIELDS}
-    fields['type'] = post.get('type', 'PDF').strip() or 'PDF'
-    return fields
-
-
-def read_price(post):
-    is_paid = post.get('is_paid') in ['on', 'true', '1', True]
-    try:
-        price = Decimal(post.get('price', '0').strip() or '0')
-        if price < 0:
-            price = Decimal('0.00')
-    except Exception:
-        price = Decimal('0.00')
-    return is_paid, (price if is_paid else Decimal('0.00'))
-
+from api.view_helpers import parse_paid_fields
 
 def apply_price(resource, post):
-    resource.is_paid, resource.price = read_price(post)
+    resource.is_paid, resource.price = parse_paid_fields(post)
 
 
 def clean_url_or_error(clean, raw, errors):
@@ -83,15 +56,6 @@ def save_uploaded_files(request, uploaded_files, errors):
         else:
             saved.append({'path': path or '', 'size': size, 'name': f.name})
     return saved
-
-
-def discard_saved_files(saved_files):
-    for saved in saved_files:
-        if saved['path']:
-            try:
-                default_storage.delete(saved['path'])
-            except Exception:
-                pass
 
 
 def replace_file(request, resource, uploaded_file):
