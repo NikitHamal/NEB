@@ -868,6 +868,36 @@ relationship between Li and Mg.
 ladder and naming the method used at each rung for that particular metal.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Sodium is too reactive to be displaced by any chemical reducing agent, so it is obtained by electrolysis of fused sodium chloride in the Down's cell. (a) Freshly cut sodium. (b) A cell carrying 30,000 A for one day passes 2.59 x 10^9 coulombs, which is 26,864 mole of electrons from Faraday's constant of 96,485 C per mole. Each mole of electrons deposits one mole of sodium at the cathode, so the cell yields about 618 kg of sodium and, from half as many moles of chlorine, about 952 kg of Cl2 gas, or 301 cubic metres at STP. At 7 V the energy is 5,040 kWh, or 8.2 kWh per kilogram of sodium, which explains why the metal is costly."
+@ photo id="chem11/sodium" cap="Freshly cut sodium metal, silvery inside and soft as cheese"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Down's cell: charge to product"
+I, t, V = 30000.0, 24 * 3600.0, 7.0
+F = 96485.0
+Q = I * t
+ne = Q / F
+na_kg = ne * 22.99 / 1000
+cl_mol = ne / 2
+cl_kg = cl_mol * 70.9 / 1000
+cl_m3 = cl_mol * 22.4 / 1000
+kwh = V * Q / 3.6e6
+per_kg = kwh / na_kg
+assert abs(na_kg - 617.5) < 1
+f = Fig(300, 236)
+f.text(150, 14, "Down's cell: 30 000 A for 24 h at 7 V", size=10.5, color=NAVY, bold=True)
+steps = [("Charge  Q = I t", "%.2e C" % Q, NAVY), ("Electrons  n = Q / F", "{:,.0f} mol".format(ne), NAVY), ("Sodium  (1 mol per mol e-)", "%.0f kg" % na_kg, TEAL), ("Chlorine  (Cl2, half the mol)", "%.0f kg" % cl_kg, AMBER), ("Energy  E = V Q", "{:,.0f} kWh".format(kwh), RED)]
+for i, (a, b, c) in enumerate(steps):
+    y = 26 + i * 33
+    f.box(10, y, 280, 26, "", fill=SOFT, stroke=c, r=4)
+    f.text(18, y + 13, a, size=10, color=SLATE, anchor="start", vmid=True)
+    f.text(282, y + 13, b, size=10.5, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 200, "Cl2 volume at STP: %.0f m3" % cl_m3, size=10, color=SLATE)
+f.text(150, 217, "energy: %.1f kWh for every kg of sodium" % per_kg, size=10.5, color=RED, bold=True)
+f.text(150, 231, "(100 % current efficiency assumed)", size=9.5, color=SLATE)
+facts = dict(Q="2.59 x 10^9", ne="{:,.0f}".format(ne), na="%.0f" % na_kg, cl="%.0f" % cl_kg, vol="%.0f" % cl_m3, kwh="{:,.0f}".format(kwh), per="%.1f" % per_kg)
+```
+
 ## Chapter summary
 
 - A mineral becomes an **ore** only when extraction from it is profitable.

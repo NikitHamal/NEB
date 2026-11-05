@@ -416,6 +416,34 @@ still grows thicker is being conserved, not preserved. NEB answers that describe
 conservation as "stopping all use of the forest" lose marks.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="Vegetation protects soil, stores carbon, regulates water and supports the wildlife that the previous section described. (a) Forest in the Annapurna Conservation Area, one of the protected landscapes managed with local people. (b) The 100-square grid shows the Forest Research and Training Centre figures: forest covers 43.4 per cent of Nepal and other wooded land 2.7 per cent, so 53.9 per cent of the land has no tree cover. On a national area of 147,516 square kilometres the forest is about 64,022 square kilometres, equal to 67 Chitwan National Parks of 952.63 square kilometres each. Community forestry has helped to keep this share high."
+@ photo id="bio11/acap-forest" cap="Forest in the Annapurna Conservation Area"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Forest cover of Nepal on a 100-square grid"
+forest, wooded = 43.4, 2.7
+other = round(100 - forest - wooded, 1)
+assert abs(forest + wooded - 46.1) < 1e-9 and other == 53.9
+area = 147516
+fkm = forest / 100 * area
+chitwan = 952.63
+ratio = fkm / chitwan
+f = Fig(300, 236)
+f.text(150, 14, "Each square = 1 % of Nepal's area", size=10.5, color=NAVY, bold=True)
+nf = int(round(forest)); nw = int(round(wooded))
+for k in range(100):
+    r, c = divmod(k, 10)
+    col = TEAL if k < nf else (AMBER if k < nf + nw else "#cbd5e1")
+    f.box(70 + c * 16, 24 + r * 16, 14, 14, "", fill=col, stroke=col, r=2)
+f.box(36, 196, 10, 10, "", fill=TEAL, stroke=TEAL, r=2)
+f.text(52, 201, "forest 43.4 %", size=9.5, anchor="start", vmid=True)
+f.box(136, 196, 10, 10, "", fill=AMBER, stroke=AMBER, r=2)
+f.text(152, 201, "other wooded land 2.7 %", size=9.5, anchor="start", vmid=True)
+f.text(150, 218, "forest = %s km2 = %.0f Chitwan parks" % ("{:,.0f}".format(fkm), ratio), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "forest + wooded land = 46.1 %", size=10, color=SLATE)
+facts = dict(fkm="{:,.0f}".format(fkm), ratio="%.0f" % ratio, other=other)
+```
+
 ## Chapter summary
 
 - **Vegetation** is the plant cover of an area; **flora** is the list of species

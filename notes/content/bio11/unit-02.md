@@ -2117,6 +2117,30 @@ syncarpous superior ovary, actinomorphic and bisexual, so **Solanaceae**, and th
 fruit is a berry or a capsule.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Nepal covers only 0.1 per cent of the land on Earth, yet it holds a very rich flora because its altitude runs from the hot Terai to the frozen Himalaya. (a) Dendrobium nobile, one of about 500 orchid species in the family Orchidaceae, the largest family of flowering plants in Nepal. (b) Adding the seven groups of the Department of Plant Resources table gives 12,083 recorded species. Flowering plants alone make up 46 per cent of them, while fungi come second. Of the flowering plants, 348 species are endemic, which is 6.2 per cent, so they live nowhere else on Earth. This makes Nepal responsible for protecting them in the wild and in botanical gardens."
+@ photo id="bio11/orchid" cap="Dendrobium nobile, one of Nepal's roughly 500 orchid species"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Plant and fungal groups recorded in Nepal"
+rows = [("Flowering plants", 5600, TEAL), ("Fungi", 2470, AMBER), ("Bryophytes", 1217, NAVY), ("Algae", 1101, NAVY), ("Lichens", 1086, NAVY), ("Pteridophytes", 583, NAVY), ("Gymnosperms", 26, RED)]
+total = sum(n for _, n, _ in rows)
+assert total == 12083
+share = 100.0 * 5600 / total
+endemic = 100.0 * 348 / 5600
+f = Fig(300, 236)
+f.text(150, 14, "Species recorded in Nepal (DPR, 2025)", size=10.5, color=NAVY, bold=True)
+for i, (nm, n, c) in enumerate(rows):
+    y = 28 + i * 22
+    f.text(6, y + 9, nm, size=10, color=SLATE, anchor="start", vmid=True)
+    w = max(3, 150.0 * n / 5600)
+    f.box(104, y, w, 18, "", fill=c, stroke=c, r=2)
+    f.text(104 + w + 5, y + 9, "{:,}".format(n), size=10, color=SLATE, anchor="start", vmid=True)
+f.text(150, 196, "7 groups together: {:,} species".format(total), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "flowering plants are %.0f %% of the total" % share, size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "348 endemic = %.1f %% of flowering plants" % endemic, size=10.5, color=RED, bold=True)
+facts = dict(total="{:,}".format(total), share="%.0f" % share, endemic="%.1f" % endemic)
+```
+
 ## Chapter summary
 
 - **Three domains** — Archaea, Bacteria, Eukarya — were proposed by Woese (1977)

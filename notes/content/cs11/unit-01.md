@@ -791,6 +791,34 @@ cable; it supports up to 12K at 120 Hz.
 ISA → PCI → AGP (graphics only) → **PCI Express**, which uses point-to-point
 serial *lanes* (×1, ×4, ×8, ×16) instead of a shared parallel bus.
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="The fourth generation began in 1971 when Intel put a whole processor on one chip. (a) The Intel 4004 had about 2,300 transistors and could add 4-bit numbers. (b) Eight landmark chips, from the 4004 to the Apple M1 of 2020, are plotted on a logarithmic scale, where steady exponential growth appears as a straight line. A least-squares fit gives a doubling time of 2.2 years, close to the two years predicted by Gordon Moore in 1965. In 49 years the transistor count grew 6,956,522 times. This growth is why a mobile phone sold in Kathmandu today out-computes the mainframes that once ran a national census."
+@ photo id="cs8/gen-intel-4004" cap="The Intel 4004, the first microprocessor (1971)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Transistors per chip, 1971 to 2020 (log scale)"
+import math
+data = [(1971, 2300), (1978, 29000), (1985, 275000), (1993, 3100000), (2000, 42000000), (2006, 291000000), (2012, 1400000000), (2020, 16000000000)]
+xs = [d[0] for d in data]; ys = [math.log2(d[1]) for d in data]
+n = len(data); mx = sum(xs) / n; my = sum(ys) / n
+slope = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs)
+doubling = 1.0 / slope
+growth = data[-1][1] / data[0][1]
+assert 1.8 < doubling < 2.3
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (1970, 2022), (3, 11))
+ax.grid(10, 2, yfmt=lambda v: "1e%d" % v, xfmt=lambda v: "%d" % v)
+ax.axes()
+b = my - slope * mx
+ax.curve(lambda x: (slope * x + b) * math.log10(2), 1971, 2020, color=AMBER, sw=1.8, dash=True)
+for yr, tr in data:
+    ax.pt(yr, math.log10(tr), "", r=3.6)
+f.text(150, 14, "Moore's law: transistors per chip", size=10.5, color=NAVY, bold=True)
+f.text(150, 207, "4004: 2,300 (1971)  to  M1: 16 billion (2020)", size=9.5, color=SLATE)
+f.text(150, 221, "doubling time of the fit: %.1f years" % doubling, size=10.5, color=RED, bold=True)
+f.text(150, 234, "growth: %s times in 49 years" % "{:,.0f}".format(growth), size=10, color=NAVY)
+facts = dict(doubling="%.1f" % doubling, growth="{:,.0f}".format(growth))
+```
+
 ## Chapter summary
 
 - A computer accepts input, processes it under a stored program, stores data and
