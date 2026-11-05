@@ -91,6 +91,106 @@ Relative atomic mass is on the carbon-12 scale (1 u $=\frac{1}{12}$ of C-12 $=1.
 
 Bond order from MO theory: O₂ has two unpaired electrons (paramagnetic), N₂ has the highest bond order (3). Ethyne has $3\sigma+2\pi$ bonds. Dipole moments: BF₃, CO₂, CH₄ are non-polar though bonds are polar; H₂O, NH₃ are polar.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Volumetric analysis in numbers. (a) A burette clamp on a stand, the support for the glass burette from which the analyst adds the standard solution drop by drop until the indicator changes colour at the end point. (b) The titration of 25.0 mL of 0.100 M NaOH with 0.100 M HCl, computed from the ion balance. The pH hardly moves until the last drops, then jumps by about six units within 0.2 mL; that steep jump is why phenolphthalein (8.3 to 10) and methyl orange (3.1 to 4.4) both work for a strong acid with a strong base."
+@ photo id="chem12/titration" cap="A burette clamp, the support of a titration"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="pH while 0.1 M HCl is added to 25.0 mL of 0.1 M NaOH"
+import math
+def pH(v):
+    n = 2.5 - 0.1 * v; vt = 25 + v
+    if abs(n) < 1e-12: return 7.0
+    c = abs(n) / vt * 1000 / 1000 / 1.0
+    c = abs(n) / vt
+    return 14 + math.log10(c) if n > 0 else -math.log10(c)
+pts = [(v / 2, pH(v / 2)) for v in range(0, 101)]
+assert abs(pH(24.9) - 10.30) < 0.01 and abs(pH(25.1) - 3.70) < 0.01 and pH(25.0) == 7.0 and abs(pH(0) - 13.0) < 1e-9
+f = Fig(300, 236)
+X = lambda v: 40 + v * 5.0; Y = lambda p: 186 - p * 12
+f.line(40, 186, 292, 186, color=SLATE, sw=1.2); f.line(40, 186, 40, 14, color=SLATE, sw=1.2)
+for a, b in zip(pts, pts[1:]): f.line(X(a[0]), Y(a[1]), X(b[0]), Y(b[1]), color=TEAL, sw=2)
+f.line(X(25), 186, X(25), Y(7), color=AMBER, sw=1.2, dash=True)
+for p in (0, 7, 14): f.text(34, Y(p) + 4, str(p), size=10.5, color=SLATE, anchor="end")
+for v in (0, 25, 50): f.text(X(v), 200, str(v), size=10.5, color=SLATE)
+f.text(166, 214, "volume of HCl added (mL)", size=10.5, color=SLATE)
+f.text(150, 230, "24.9 mL: pH %.1f   25.1 mL: pH %.1f   end point 25.0" % (pH(24.9), pH(25.1)), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="From electrode potentials to work. (a) A Daniell cell on a laboratory bench: zinc in zinc sulfate, copper in copper sulfate, joined by a salt bridge and a wire. (b) With E-standard = +0.34 - (-0.76) = 1.10 V, the Nernst equation E = 1.10 - (0.0592/2) log Q gives the voltage for any ratio Q = [Zn2+]/[Cu2+] at 298 K. The graph is computed; the standard free-energy change is -nFE = -212 kJ per mole of zinc and the equilibrium constant K = 10^(2E/0.0592) is about 10^37, so the cell reaction goes almost to completion."
+@ photo id="chem12/daniell" cap="A Daniell cell: zinc and copper half-cells"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cell voltage against log of [Zn2+]/[Cu2+]"
+import math
+E0 = 0.34 - (-0.76)
+E = lambda lq: E0 - 0.0592 / 2 * lq
+dG = -2 * 96485 * E0 / 1000; logK = 2 * E0 / 0.0592
+assert abs(E0 - 1.10) < 1e-9 and abs(dG + 212.3) < 0.1 and abs(logK - 37.2) < 0.1 and abs(E(2) - 1.0408) < 1e-3
+f = Fig(300, 236)
+X = lambda q: 150 + q * 32; Y = lambda e: 40 + (1.20 - e) * 600
+f.line(22, Y(1.0), 290, Y(1.0), color=SOFT, sw=1)
+f.line(X(-4), Y(1.20), X(-4), Y(0.96), color=SLATE, sw=1.2)
+f.line(X(-4), Y(E(-4)), X(4), Y(E(4)), color=TEAL, sw=2.2)
+for q in (-4, -2, 0, 2, 4):
+    f.circle(X(q), Y(E(q)), 3.5, fill=AMBER, stroke=AMBER)
+    f.text(X(q), Y(E(q)) - 10 if q < 3 else Y(E(q)) + 16, "%.3f" % E(q), size=10.5, color=NAVY, bold=True)
+for q in (-4, 0, 4): f.text(X(q), 150, "log Q = %d" % q, size=10.5, color=SLATE)
+f.text(150, 14, "E = 1.10 - 0.0296 log Q  (volts, 298 K)", size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "dG = -2 x 96,485 x 1.10 = %.0f kJ/mol" % dG, size=10.5, color=TEAL, bold=True)
+f.text(150, 196, "log K = 2 x 1.10 / 0.0592 = %.1f" % logK, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "E falls as products build up; E = 0 at K", size=10.5, color=SLATE)
+```
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Light from atoms. (a) Metal salts in a flame: each element gives its own colour because its electrons fall between fixed energy levels and emit photons of fixed energy. (b) Hydrogen's visible Balmer lines, computed from the Rydberg formula 1/lambda = R (1/2^2 - 1/n^2) with R = 1.0968 x 10^7 per m, for n = 3, 4, 5, 6 (jumps down to n = 2). The sodium D line at 589 nm is marked for comparison; photon energy is E = 1239.8 eV nm / lambda."
+@ photo id="chem11/flame-colours" cap="Flame colours of metal salts"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Balmer lines of hydrogen, n to 2"
+R = 1.09678e7
+lines = [(n, 1e9 / (R * (1 / 4 - 1 / n ** 2))) for n in (3, 4, 5, 6)]
+assert [round(l) for n, l in lines] == [656, 486, 434, 410]
+def rgb(w):
+    if w < 440: r, g, b = (440 - w) / 60, 0, 1
+    elif w < 490: r, g, b = 0, (w - 440) / 50, 1
+    elif w < 510: r, g, b = 0, 1, (510 - w) / 20
+    elif w < 580: r, g, b = (w - 510) / 70, 1, 0
+    elif w < 645: r, g, b = 1, (645 - w) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * max(0, min(1, v))) for v in (r, g, b))
+f = Fig(300, 236)
+X = lambda w: 12 + (w - 380) * (276 / 400)
+f.box(12, 30, 276, 70, "", fill="#111111", stroke=SLATE, r=2, sw=1)
+for n, w in lines: f.line(X(w), 30, X(w), 100, color=rgb(w), sw=3)
+f.line(X(589), 30, X(589), 100, color="#facc15", sw=1.2, dash=True)
+for t in (400, 500, 600, 700): f.text(X(t), 116, str(t), size=10.5, color=SLATE)
+f.text(150, 14, "wavelength in nm", size=10.5, color=NAVY, bold=True)
+for i, (n, w) in enumerate(lines):
+    f.text(8 + (i % 2) * 150, 144 + (i // 2) * 20, "%d to 2: %.1f nm, %.2f eV" % (n, w, 1239.84 / w), size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(150, 196, "dashed yellow: sodium D line, 589 nm", size=10.5, color=AMBER, bold=True)
+f.text(150, 216, "convergence limit (n = infinity): %.1f nm" % (4e9 / R), size=10.5, color=SLATE)
+```
+
+```photogrid label="1.4" cols="2" ratio="1.2" caption="From a crystal to a number. (a) A crystal of rock salt (halite). (b) Sodium chloride is face-centred cubic with four formula units per unit cell and edge a = 564 pm. Density = Z M / (N_A a^3) is computed from those facts and agrees with the measured 2.16 g per cm^3. The radius ratio 95/181 = 0.52 lies between 0.414 and 0.732, so each ion has six neighbours of the opposite sign (octahedral, 6:6 coordination)."
+@ photo id="chem11/halite-crystal" cap="Halite, crystalline sodium chloride"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="NaCl: density from the unit cell"
+NA = 6.022e23; a = 564e-10; Z = 4; M = 22.99 + 35.45
+rho = Z * M / (NA * a ** 3)
+assert abs(rho - 2.164) < 0.01
+ratio = 95 / 181
+assert 0.414 < ratio < 0.732
+f = Fig(300, 236)
+for i in range(5):
+    for j in range(5):
+        cl = (i + j) % 2 == 0
+        f.circle(36 + i * 36, 34 + j * 26, 12 if cl else 7, fill="#bbf7d0" if cl else "#bfdbfe", stroke=TEAL if cl else NAVY, sw=1.2)
+f.text(150, 14, "layer of the lattice: Cl big, Na small", size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "rho = 4 x %.2f / (6.022e23 x (5.64e-8 cm)^3)" % M, size=10.5, color=SLATE)
+f.text(150, 196, "= %.3f g/cm3 (measured 2.165)" % rho, size=10.5, color=TEAL, bold=True)
+f.text(150, 216, "r+/r- = %.2f: octahedral holes, 6:6" % ratio, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
