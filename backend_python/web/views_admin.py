@@ -1,6 +1,5 @@
 """Views Admin extracted from views.py."""
 from django.shortcuts import get_object_or_404
-from decimal import Decimal
 import json
 import os
 import re
@@ -19,7 +18,6 @@ from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
 from api.security import (
     revoke_auth_token,
     validate_and_save_resource_file,
-    validate_resource_file_url,
 )
 from api.serializers import PostSerializer, ReplySerializer, ResourceSerializer, UserSerializer
 from api.utils import now_ms, uuid_str
@@ -36,6 +34,18 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from urllib.parse import quote
 from . import api_client as api
+from .resource_upload import (
+    apply_price,
+    clean_file_url_or_error,
+    clean_source_url_or_error,
+    clean_thumbnail_or_error,
+    create_resources,
+    discard_saved_files,
+    read_listing_fields,
+    read_price,
+    replace_file,
+    save_uploaded_files,
+)
 from .view_helpers import (
     _ctx,
     _get_platform_admin,
@@ -498,210 +508,63 @@ def admin_resource_create(request):
     form_options = upload_form_options()
 
     if request.method == 'POST':
-        title = request.POST.get('title', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        grade_level = request.POST.get('grade_level', '').strip()
-        faculty = request.POST.get('faculty', '').strip()
-        program = request.POST.get('program', '').strip()
-        year = request.POST.get('year', '').strip()
-        exam_type = request.POST.get('exam_type', '').strip()
-        pradesh = request.POST.get('pradesh', '').strip()
-        district = request.POST.get('district', '').strip()
-        school = request.POST.get('school', '').strip()
-        tags = request.POST.get('tags', '').strip()
-        description = request.POST.get('description', '').strip()
-        rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
-        author_name = request.POST.get('author_name', '').strip()
-        source_url_error = None
-        try:
-            from api.security import clean_source_url as _clean_src2
-            source_url = _clean_src2(request.POST.get('source_url', ''))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            source_url_error = ' '.join(messages_list)
-            source_url = ''
-        source_label = request.POST.get('source_label', '').strip()
-        source_type = request.POST.get('source_type', 'admin').strip() or 'admin'
-        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        view_count = int(request.POST.get('view_count', '0') or '0')
-        approval_status = request.POST.get('approval_status', 'approved').strip() or 'approved'
-        behalf_username = request.POST.get('behalf_username', '').strip().lstrip('@')
+        post = request.POST
+        fields = read_listing_fields(post)
         errors = []
+        source_type = post.get('source_type', 'admin').strip()
+        if source_type not in ('admin', 'user', 'anonymous', 'external'):
+            source_type = 'admin'
+        approval_status = post.get('approval_status', 'approved').strip()
+        if approval_status not in ('approved', 'pending', 'rejected'):
+            approval_status = 'approved'
+        view_count = int(post.get('view_count', '0') or '0')
+        behalf_username = post.get('behalf_username', '').strip().lstrip('@')
         behalf_user = None
         if behalf_username:
-            try:
-                behalf_user = User.objects.get(username__iexact=behalf_username)
-            except User.DoesNotExist:
+            behalf_user = User.objects.filter(username__iexact=behalf_username).first()
+            if not behalf_user:
                 errors.append(f"No platform user found with username '@{behalf_username}'.")
 
-        # Marketplace: admins can list a resource as paid with a price.
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        try:
-            price_val = Decimal(request.POST.get('price', '0').strip() or '0')
-        except Exception:
-            price_val = Decimal('0.00')
-        if price_val < 0:
-            price_val = Decimal('0.00')
-        if not is_paid:
-            price_val = Decimal('0.00')
-        elif price_val <= 0:
+        is_paid, price = read_price(post)
+        if is_paid and price <= 0:
             errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
+        source_url = clean_source_url_or_error(post, errors)
 
         uploaded_files = request.FILES.getlist('file')
-        file_url = request.POST.get('file_url', '').strip()
-
-        if source_url_error:
-            errors.append(source_url_error)
-        if not title:
+        file_url = post.get('file_url', '').strip()
+        if not fields['title']:
             errors.append('Title is required.')
-        if not subject:
+        if not fields['subject']:
             errors.append('Subject is required.')
         if not uploaded_files and not file_url:
             errors.append('Please upload a file or provide a file URL.')
 
-        saved_files = []
-        if uploaded_files:
-            for f in uploaded_files:
-                path, size, err_resp = validate_and_save_resource_file(request, f)
-                if err_resp:
-                    errors.append(f"{f.name}: {err_resp['error']}")
-                else:
-                    saved_files.append({
-                        'path': path or '',
-                        'size': size,
-                        'name': f.name
-                    })
-
-            if errors:
-                from django.core.files.storage import default_storage
-                for sf in saved_files:
-                    if sf['path']:
-                        try:
-                            default_storage.delete(sf['path'])
-                        except Exception:
-                            pass
-
-        safe_file_url = ''
-        if not uploaded_files and file_url:
-            try:
-                safe_file_url = validate_resource_file_url(file_url)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                errors.append(' '.join(messages_list))
-
-        safe_thumbnail_url = ''
-        if thumbnail_url:
-            try:
-                safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception:
-                errors.append('Invalid thumbnail URL.')
+        saved_files = save_uploaded_files(request, uploaded_files, errors)
+        safe_file_url = clean_file_url_or_error(file_url, errors) if file_url and not uploaded_files else ''
+        thumbnail_url = clean_thumbnail_or_error(request, errors)
 
         if not errors:
-            if source_type not in ('admin', 'user', 'anonymous', 'external'):
-                source_type = 'admin'
-            if approval_status not in ('approved', 'pending', 'rejected'):
-                approval_status = 'approved'
-
             admin_user = _get_platform_admin(request)
-            effective_uploader = behalf_user or admin_user
-            if behalf_user:
-                source_type = 'user'
-
-            created_count = 0
-            if saved_files:
-                import os
-                from django.conf import settings
-                
-                group_id = uuid_str() if len(saved_files) > 1 else ''
-                
-                for idx, sf in enumerate(saved_files):
-                    res_title = title
-                    is_lead = True
-                    if len(saved_files) > 1:
-                        if idx > 0:
-                            is_lead = False
-                            display_name = os.path.splitext(sf['name'])[0]
-                            res_title = f"{title} - {display_name}"
-
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
-                    resource = Resource(
-                        id=uuid_str(),
-                        title=res_title,
-                        description=description,
-                        subject=subject,
-                        grade_level=grade_level,
-                        faculty=faculty,
-                        program=program,
-                        year=year,
-                        exam_type=exam_type,
-                        pradesh=pradesh,
-                        district=district,
-                        school=school,
-                        tags=tags,
-                        type=rtype,
-                        file=sf['path'] or None,
-                        file_url=final_file_url,
-                        thumbnail_url=safe_thumbnail_url,
-                        file_size=sf['size'],
-                        added_at=now_ms() + idx,
-                        view_count=view_count,
-                        author_name=author_name,
-                        source_type=source_type,
-                        uploaded_by=effective_uploader,
-                        source_url=source_url,
-                        source_label=source_label,
-                        approval_status=approval_status,
-                        reviewed_by=admin_user if approval_status == 'approved' else None,
-                        reviewed_at=now_ms() if approval_status == 'approved' else None,
-                        upload_group_id=group_id,
-                        is_lead=is_lead,
-                        is_paid=is_paid,
-                        price=price_val,
-                    )
-                    resource.save()
-                    created_count += 1
-            else:
-                resource = Resource(
-                    id=uuid_str(),
-                    title=title,
-                    description=description,
-                    subject=subject,
-                    grade_level=grade_level,
-                    faculty=faculty,
-                    program=program,
-                    year=year,
-                    exam_type=exam_type,
-                    pradesh=pradesh,
-                    district=district,
-                    school=school,
-                    tags=tags,
-                    type=rtype,
-                    file=None,
-                    file_url=safe_file_url,
-                    thumbnail_url=safe_thumbnail_url,
-                    file_size=0,
-                    added_at=now_ms(),
-                    view_count=view_count,
-                    author_name=author_name,
-                    source_type=source_type,
-                    uploaded_by=effective_uploader,
-                    source_url=source_url,
-                    source_label=source_label,
-                    approval_status=approval_status,
-                    reviewed_by=admin_user if approval_status == 'approved' else None,
-                    reviewed_at=now_ms() if approval_status == 'approved' else None,
-                    upload_group_id='',
-                    is_lead=True,
-                    is_paid=is_paid,
-                    price=price_val,
-                )
-                resource.save()
-                created_count += 1
-
+            approved = approval_status == 'approved'
+            create_resources(
+                request, fields, saved_files,
+                file_url=safe_file_url,
+                thumbnail_url=thumbnail_url,
+                view_count=view_count,
+                source_type='user' if behalf_user else source_type,
+                uploaded_by=behalf_user or admin_user,
+                source_url=source_url,
+                approval_status=approval_status,
+                reviewed_by=admin_user if approved else None,
+                reviewed_at=now_ms() if approved else 0,
+                is_paid=is_paid,
+                price=price,
+            )
             cache.delete_many(['home_resources', 'library_all_resources'])
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'status': 'success', 'redirect': reverse('web:admin_resources')})
             return redirect('web:admin_resources')
+        discard_saved_files(saved_files)
 
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'status': 'error', 'errors': errors}, status=400)
@@ -735,11 +598,7 @@ def admin_resource_edit(request, resource_id):
     if request.method == 'POST':
         uploaded_file = request.FILES.get('file')
         if uploaded_file:
-            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-            if not err_resp and path:
-                resource_obj.file = path
-                resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
-                resource_obj.file_size = size
+            replace_file(request, resource_obj, uploaded_file)
         for field in ['title', 'description', 'subject', 'grade_level', 'faculty', 'program', 'year', 'exam_type', 'pradesh', 'district', 'school', 'tags', 'type', 'author_name', 'source_url', 'source_label']:
             setattr(resource_obj, field, request.POST.get(field, '').strip())
         resource_obj.file_url = request.POST.get('file_url', '').strip()
@@ -758,16 +617,7 @@ def admin_resource_edit(request, resource_id):
             resource_obj.uploaded_by = None
         if request.POST.get('view_count', '').strip():
             resource_obj.view_count = int(request.POST.get('view_count', '0'))
-        # Marketplace: admins can toggle paid + price.
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        try:
-            price_val = Decimal(request.POST.get('price', '0').strip() or '0')
-        except Exception:
-            price_val = Decimal('0.00')
-        if price_val < 0:
-            price_val = Decimal('0.00')
-        resource_obj.is_paid = is_paid
-        resource_obj.price = price_val if is_paid else Decimal('0.00')
+        apply_price(resource_obj, request.POST)
         new_status = request.POST.get('approval_status', '').strip()
         if new_status in ('approved', 'pending', 'rejected'):
             old_status = resource_obj.approval_status
