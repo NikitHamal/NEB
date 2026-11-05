@@ -378,6 +378,40 @@ to concentration).
 loaded at both ends cuts slowly through a block of ice — the phenomenon of
 regelation.
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A reversible reaction reaches equilibrium when the forward and backward rates are equal and the concentrations stop changing, and Le Chatelier's principle says that the system opposes any change made to it. (a) Cobalt chloride solution shifts between pink and blue as the temperature changes. (b) For N2O4 = 2NO2, a value of Kp = 0.141 at 298 K means Kc = 0.00577. Starting from 0.100 mol/L of N2O4 the quadratic gives x = 0.0113, so the equilibrium has 0.0887 mol/L of N2O4 and 0.0226 mol/L of NO2, with 11.3 % dissociated. Heating pushes this endothermic reaction to the right and the mixture browns."
+@ photo id="chem11/cocl2" cap="Cobalt chloride solution is blue when hot and pink when cold"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Equilibrium concentrations for N2O4 = 2 NO2 at 298 K"
+import math
+Kp = 0.141
+R_, T_ = 0.08206, 298.0
+Kc = Kp / (R_ * T_)
+c0 = 0.100
+a, b, c = 4.0, Kc, -Kc * c0
+x = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a)
+n2o4, no2 = c0 - x, 2 * x
+assert abs((no2**2) / n2o4 - Kc) < 1e-12 and abs(Kc - 0.00577) < 0.0001
+alpha = x / c0 * 100
+f = Fig(300, 236)
+f.text(150, 14, "N2O4 (colourless) = 2 NO2 (brown)", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "start 0.100 mol/L N2O4, Kc = %.5f" % Kc, size=10.5, color=SLATE)
+base = 140
+sc = 90 / 0.1
+for i, (nm, v0, v1, col) in enumerate([("N2O4", c0, n2o4, NAVY), ("NO2", 0.0, no2, RED)]):
+    x0 = 50 + i * 120
+    f.box(x0, base - v0 * sc, 30, max(v0 * sc, 0.5), "", fill="#cbd5e1", stroke=SLATE, r=1)
+    f.box(x0 + 34, base - v1 * sc, 30, v1 * sc, "", fill=col, stroke=col, r=1)
+    f.text(x0 + 32, base + 14, nm, size=10.5, bold=True)
+    f.text(x0 + 15, base - v0 * sc - 6, "%.3f" % v0, size=10, color=SLATE)
+    f.text(x0 + 49, base - v1 * sc - 6, "%.4f" % v1, size=10, color=col, bold=True)
+f.text(150, 176, "grey = start, colour = equilibrium", size=10, color=SLATE)
+f.text(150, 190, "x = %.4f, so %.1f %% of N2O4 dissociates" % (x, alpha), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "Kc = [NO2]^2/[N2O4] = %.5f (check)" % ((no2**2) / n2o4), size=10.5, color=RED, bold=True)
+f.text(150, 222, "Kp = Kc (RT)^dn, dn = 1: Kp = %.3f" % (Kc * R_ * T_), size=10.5, color=SLATE)
+facts = dict(Kc="%.5f" % Kc, x="%.4f" % x, no2="%.4f" % no2, alpha="%.1f" % alpha, n="%.4f" % n2o4)
+```
+
 ## Chapter summary
 
 - Chemical equilibrium is the state of a reversible reaction in a closed system

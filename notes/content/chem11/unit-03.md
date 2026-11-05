@@ -494,6 +494,51 @@ $n = 3$, $l = 1$. With five electrons the three p orbitals hold 2, 2 and 1, so t
 last one pairs up in the first orbital: $m = -1$ and $s = -\tfrac{1}{2}$.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Bohr's model explains the line spectrum of hydrogen: an electron that falls from a higher orbit n to the second orbit emits a photon whose wavelength obeys 1/lambda = R(1/4 - 1/n squared). (a) A discharge tube of hydrogen glows pink-red. (b) The program evaluates the formula for n = 3 to 6 and gets 656.5, 486.3, 434.2 and 410.3 nm, the red, blue-green and two violet lines of the Balmer series, converging at a limit of 364.7 nm. The red line carries 1.89 eV, which equals the energy difference between the n = 3 and n = 2 levels. Because only certain jumps are allowed, the spectrum has lines and not a continuous band."
+@ photo id="chem11/h2tube" cap="A hydrogen discharge tube glowing pink-red"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Balmer lines of hydrogen from the Rydberg formula"
+import math
+R = 1.09678e7
+def lam(n):
+    return 1e9 / (R * (1 / 4 - 1 / n**2))
+L = {n: lam(n) for n in (3, 4, 5, 6)}
+limit = 1e9 / (R / 4)
+assert abs(L[3] - 656.3) < 0.5 and abs(L[4] - 486.1) < 0.5 and abs(limit - 364.6) < 0.3
+E_a = 1239.84 / L[3]
+assert abs(E_a - 13.6 * (1 / 4 - 1 / 9)) < 0.01
+def rgb(w):
+    if w < 440: r, g, b = (440 - w) / 60, 0, 1
+    elif w < 490: r, g, b = 0, (w - 440) / 50, 1
+    elif w < 510: r, g, b = 0, 1, (510 - w) / 20
+    elif w < 580: r, g, b = (w - 510) / 70, 1, 0
+    elif w < 645: r, g, b = 1, (645 - w) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % (int(255 * r), int(255 * g), int(255 * b))
+f = Fig(300, 236)
+f.text(150, 14, "Visible hydrogen spectrum (nm)", size=10.5, color=NAVY, bold=True)
+x0, x1 = 20, 280
+X = lambda w: x0 + (w - 380) / (700 - 380) * (x1 - x0)
+f.box(x0, 28, x1 - x0, 60, "", fill="#000000", stroke=SLATE, r=2)
+for n, w in L.items():
+    f.line(X(w), 28, X(w), 88, color=rgb(w), sw=3)
+for w in range(380, 701, 40):
+    f.line(X(w), 88, X(w), 93, color=SLATE, sw=1)
+    f.text(X(w), 105, str(w), size=9, color=SLATE)
+for (n, w), (dx, nm) in zip(L.items(), [(0, "H-alpha"), (0, "H-beta"), (-6, "H-gamma"), (10, "H-delta")]):
+    pass
+f.text(X(L[3]), 120, "%.1f" % L[3], size=10, color=RED, bold=True)
+f.text(X(L[4]), 120, "%.1f" % L[4], size=10, color=TEAL, bold=True)
+f.text(X(L[5]) - 8, 120, "%.1f" % L[5], size=10, color=NAVY, bold=True)
+f.text(X(L[6]) + 10, 134, "%.1f" % L[6], size=10, color=NAVY, bold=True)
+f.text(150, 160, "1/lambda = R (1/2^2 - 1/n^2), n = 3, 4, 5, 6", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "series limit = %.1f nm (n -> infinity)" % limit, size=10.5, color=SLATE, bold=True)
+f.text(150, 196, "H-alpha photon: %.3f eV" % E_a, size=10.5, color=RED, bold=True)
+f.text(150, 214, "= 13.6 (1/4 - 1/9), the 3 -> 2 jump", size=10.5, color=SLATE)
+facts = dict(a="%.1f" % L[3], b="%.1f" % L[4], c="%.1f" % L[5], d="%.1f" % L[6], lim="%.1f" % limit, E="%.2f" % E_a)
+```
+
 ## Chapter summary
 
 - Rutherford's α-scattering proved the nuclear atom but predicted an unstable atom

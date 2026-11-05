@@ -15417,6 +15417,19 @@
   "source": "Wikimedia Commons",
   "title": "Chromatography paper"
  },
+ "chem11/cocl2": {
+  "author": "Chemicalinterest ( talk )",
+  "bytes": 243142,
+  "credit": "Own work ( Original text: self-made )",
+  "fetched": "2026-11-05",
+  "file": "chem11/cocl2.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Cobalt_chloride_equilibrium.JPG",
+  "sha1": "9f1a51c98fd9e551",
+  "source": "Wikimedia Commons",
+  "title": "Cobalt chloride equilibrium"
+ },
  "chem11/cryolite": {
   "author": "Didier Descouens",
   "bytes": 410238,
@@ -15637,6 +15650,19 @@
   "sha1": "2f489c5eca7477d2",
   "source": "Wikimedia Commons",
   "title": "Sodium-chloride-unit-cell-3D-balls-and-sticks"
+ },
+ "chem11/plant": {
+  "author": "Martin Brown",
+  "bytes": 593563,
+  "credit": "U.S. National Archives and Records Administration",
+  "fetched": "2026-11-05",
+  "file": "chem11/plant.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:CONSTRUCTION_AT_THE_COMBUSTION_AIR_HEATER_AND_PROCESS_PIPING_-_NARA_-_17427192.jpg",
+  "sha1": "098c4c02a1e47b9e",
+  "source": "Wikimedia Commons",
+  "title": "CONSTRUCTION AT THE COMBUSTION AIR HEATER AND PROCESS PIPING - NARA - 17427192"
  },
  "chem11/rust": {
   "author": "Laitr Keiows",

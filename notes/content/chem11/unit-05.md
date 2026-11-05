@@ -915,6 +915,29 @@ and far harder).
 | High density, high m.p. and b.p. | close packing and strong non-directional attraction |
 | Alloy formation | similar-sized cations substitute freely in the lattice |
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="No bond is purely ionic or purely covalent; the percentage of ionic character compares the measured dipole moment with the value expected if one full electron charge were transferred over the bond length. (a) Diamond is the extreme case: every bond joins two identical carbon atoms, so the dipole moment is zero and the bond is wholly covalent. (b) For hydrogen fluoride the full-charge moment would be 4.40 D, but the measured 1.82 D gives 41.3 % ionic character. The value falls to 17.6 % for HCl, 12.1 % for HBr and 5.7 % for HI as the halogen becomes less electronegative."
+@ photo id="chem11/diamond" cap="Rough diamond crystals, a giant network of C-C covalent bonds"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Ionic character of hydrogen halides from dipole moments"
+e_D = 4.803
+data = [("HF", 1.82, 0.917), ("HCl", 1.08, 1.274), ("HBr", 0.82, 1.414), ("HI", 0.44, 1.609)]
+res = [(nm, mu, d, mu / (e_D * d) * 100) for nm, mu, d in data]
+assert abs(res[0][3] - 41.3) < 0.5 and abs(res[1][3] - 17.7) < 0.5 and res[0][3] > res[1][3] > res[2][3] > res[3][3]
+f = Fig(300, 236)
+f.text(150, 14, "% ionic = mu(observed) / (e x d) x 100", size=10.5, color=NAVY, bold=True)
+for i, (nm, mu, d, pc) in enumerate(res):
+    y = 30 + i * 36
+    f.text(8, y + 14, nm, size=11, bold=True, anchor="start")
+    f.box(44, y, pc * 4.6, 24, "", fill=[RED, AMBER, TEAL, NAVY][i], stroke=[RED, AMBER, TEAL, NAVY][i], r=2)
+    f.text(44 + pc * 4.6 + 6, y + 13, "%.1f %%" % pc, size=10.5, bold=True, color=SLATE, anchor="start")
+    f.text(290, y + 13, "mu %.2f D" % mu, size=9.5, color=SLATE, anchor="end")
+f.text(150, 184, "ionic mu would be e x d = %.2f D for HF" % (e_D * data[0][2]), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "diamond: C-C bond, mu = 0, 100 % covalent", size=10.5, color=RED, bold=True)
+f.text(150, 220, "larger electronegativity gap, more ionic", size=10.5, color=SLATE)
+facts = dict(hf="%.1f" % res[0][3], hcl="%.1f" % res[1][3], hbr="%.1f" % res[2][3], hi="%.1f" % res[3][3], mi="%.2f" % (e_D * data[0][2]))
+```
+
 ## Chapter summary
 
 - Atoms bond to reach a noble-gas octet (duplet for H). The octet rule fails for
