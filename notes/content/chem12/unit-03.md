@@ -864,6 +864,32 @@ catalyses the reaction itself — **autocatalysis**. It is why that titration is
 carried out warm, at about 60 °C, to get the first drops going.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.2" caption="A reaction that keeps its own time. (a) In the iodine clock the solution stays clear until all the thiosulfate has been used and then suddenly turns dark. The time to the colour change is inversely proportional to the rate. (b) If the clock time is 40 s at 25 degrees C and 20 s at 35 degrees C, the Arrhenius equation gives an activation energy of 52.9 kJ/mol. The cell then predicts 83.9 s at 15 degrees C and 10.4 s at 45 degrees C. The rate roughly doubles for each 10 K rise, which is the familiar rule of thumb, and the plot of the logarithm of the rate against 1/T is a straight line of slope -Ea / R."
+@ photo id="chem12b/iodine" cap="The iodine clock: the solution turns dark when the iodine finally appears"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Clock time against temperature (Arrhenius)"
+import math
+R = 8.314
+T1, T2, t1, t2 = 298.15, 308.15, 40.0, 20.0
+Ea = R * math.log(t1 / t2) / (1 / T1 - 1 / T2)
+assert round(Ea / 1000, 1) == 52.9
+rows = []
+for tc in (15, 25, 35, 45):
+    T = tc + 273.15
+    rows.append(("%d C" % tc, t1 * math.exp(Ea / R * (1 / T - 1 / T1))))
+assert round(rows[1][1]) == 40 and round(rows[2][1]) == 20
+f = Fig(300, 236)
+f.text(150, 12, "Predicted clock time, seconds", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=max(v for _, v in rows) * 1.05, fmt="%.1f", x0=48, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "data: 40 s at 25 C and 20 s at 35 C", size=10, color=SLATE, bold=True)
+f.text(150, 178, "ln(t1/t2) = (Ea/R)(1/T1 - 1/T2)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "Ea = %.1f kJ/mol" % (Ea / 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "rate x%.2f per 10 K near 25 C" % (t1 / t2), size=10, color=SLATE, bold=True)
+facts = dict(Ea=Ea / 1000, t15=rows[0][1], t45=rows[3][1])
+```
+
 ## Chapter summary
 
 - Kinetics deals with rates, the factors affecting them and mechanism. Average rate

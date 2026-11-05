@@ -373,6 +373,29 @@ amide) on first for a para product.
 | Aromatic nitro drugs | chloramphenicol, nitrofurantoin and metronidazole — the last is prescribed widely in Nepal for giardiasis and amoebic dysentery |
 | Nitro musks | fixatives in cheap perfumes |
 
+```photogrid label="15.P" cols="2" ratio="1.2" caption="An explosive turns into hot gas. (a) An old stereograph shows workers drilling and charging holes with dynamite, whose active ingredient is nitroglycerine, an ester of nitric acid and not a true nitro compound. (b) The balanced equation gives 29 moles of gas from every 4 moles, 0.0319 mol per gram. At 273 K that is 0.72 L, but at the explosion temperature of 3000 K it expands to 7.86 L. Since a gram of the liquid occupies only 0.63 mL, the gas volume is about 12,500 times larger, produced in microseconds. Nitro explosives such as TNT work in the same way: they contain their own oxidiser in the molecule, so the reaction is extremely fast."
+@ photo id="chem12b/dynamite" cap="A stereograph of workers drilling and charging holes with dynamite"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Gas produced by one gram of nitroglycerine"
+M = 227.09
+n = 7.25 / M
+R = 0.082057
+rows = [("273 K", n * R * 273.15), ("1000 K", n * R * 1000), ("2000 K", n * R * 2000), ("3000 K", n * R * 3000)]
+assert round(rows[0][1], 3) == 0.716
+V0 = 1 / 1.59 / 1000
+ratio = rows[3][1] / V0
+f = Fig(300, 236)
+f.text(150, 12, "Gas from 1 g of nitroglycerine at 1 atm, litres", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=8.5, fmt="%.2f", x0=56, y0=30, bw=160, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 154, "4 C3H5N3O9 gives 12 CO2 + 10 H2O + 6 N2 + O2", size=10, color=NAVY, bold=True)
+f.text(150, 172, "29 mol of gas from 4 mol: %.4f mol per gram" % n, size=10, color=NAVY, bold=True)
+f.text(150, 192, "liquid volume of 1 g: %.2f mL (d = 1.59)" % (V0 * 1000), size=10, color=SLATE, bold=True)
+f.text(150, 210, "expansion at 3000 K: about %s times" % format(round(ratio, -2), ","), size=10.5, color=RED, bold=True)
+facts = dict(n=n, g273=rows[0][1], g3000=rows[3][1], r=round(ratio, -2), v0=V0 * 1000)
+```
+
 ## Chapter summary
 
 - Nitroalkanes are R–NO₂ (CₙH₂ₙ₊₁NO₂); the nitro group is a resonance hybrid with
