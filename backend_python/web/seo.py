@@ -386,11 +386,6 @@ def _profile_entries() -> Iterator[Dict[str, str]]:
         }
 
 
-def sitemap_index() -> Dict[str, int]:
-    """name -> entry count, for building the index without holding every URL."""
-    return {name: sum(1 for _ in entries) for name, entries in sitemap_groups().items()}
-
-
 def build_sitemap_xml(entries: Optional[Iterable[Dict[str, str]]] = None) -> str:
     entries = entries or sitemap_entries()
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']

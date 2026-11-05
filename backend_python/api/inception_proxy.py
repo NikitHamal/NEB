@@ -357,33 +357,6 @@ def stream_synthesize(text: str) -> Generator[bytes, None, None]:
         return
 
 
-def voice_extract(scenario_id: str, messages: List[Dict]) -> Optional[Dict]:
-    """POST /api/voice/extract — scenario field extraction.
-
-    Used by voice playground to extract structured fields (e.g. name, intent) from conversation.
-    Body: {scenarioId, messages: [{role, content}]}
-    Returns: {fields: {...}, ms: ...}
-    """
-    try:
-        token = _ensure_session()
-    except RuntimeError as e:
-        logger.error("Voice extract no session: %s", e)
-        return None
-    headers = dict(_BROWSER_HEADERS)
-    headers["x-session-token"] = token
-    headers["cookie"] = f"session={token}"
-    try:
-        with new_session(impersonate="chrome", headers=headers) as s:
-            r, _ = resilient_post(s, VOICE_EXTRACT_URL, json={"scenarioId": scenario_id, "messages": messages}, timeout=30)
-            if r.status_code != 200:
-                logger.debug("Voice extract HTTP %s: %s", r.status_code, r.text[:300])
-                return None
-            return r.json()
-    except Exception as exc:
-        logger.debug("Voice extract failed: %s", exc)
-        return None
-
-
 def voice_turn(
     messages: List[Dict[str, str]],
     scenario_id: Optional[str] = None,

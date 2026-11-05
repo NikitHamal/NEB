@@ -199,41 +199,6 @@ def resource_type_icon(rtype):
 
 
 @register.filter
-def resource_media_type(rtype):
-    """Classify resource type into media category for rendering."""
-    t = (rtype or '').lower().strip()
-    if t in ('pdf',):
-        return 'pdf'
-    if t in ('video',):
-        return 'video'
-    if t in ('audio',):
-        return 'audio'
-    if t in ('image',):
-        return 'image'
-    return 'document'
-
-
-@register.filter
-def resource_media_type_from(resource):
-    """Classify a resource dict/object using type + file URL."""
-    if not resource:
-        return 'document'
-    if isinstance(resource, dict):
-        if resource.get('media_type') or resource.get('mediaType'):
-            return resource.get('media_type') or resource.get('mediaType')
-        rtype = resource.get('type') or ''
-        url = resource.get('file_url') or resource.get('fileUrl') or ''
-    else:
-        rtype = getattr(resource, 'type', '') or ''
-        url = getattr(resource, 'file_url', '') or ''
-    try:
-        from web.view_helpers import classify_resource_media
-        return classify_resource_media(rtype, url)['media_type']
-    except Exception:
-        return resource_media_type(rtype)
-
-
-@register.filter
 def file_size_human(bytes_val):
     try:
         b = int(bytes_val)
@@ -329,49 +294,12 @@ def mention_links_plain(value):
     return mark_safe(html)
 
 
-@register.filter
-def render_content(value):
-    """Render markdown formatting and @mention links for post card previews. Truncates to ~50 words."""
-    if not value:
-        return mark_safe('')
-    plain = str(value)
-    words = plain.split()
-    if len(words) > 50:
-        truncated = ' '.join(words[:50])
-        html = _render_user_content(truncated)
-        return mark_safe(str(html) + '&hellip;')
-    return _render_user_content(plain)
-
-
 _STRIP_BLOCK_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)\b[^>]*>', re.IGNORECASE)
 
 
 _BLOCK_END_RE = re.compile(r'</(?:p|div|li|h[1-6]|blockquote|tr)>\s*', re.IGNORECASE)
 _BR_HR_RE = re.compile(r'<(?:br|hr)\s*/?>', re.IGNORECASE)
 _TAG_STRIP_RE = re.compile(r"</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)\b[^>]*>", re.IGNORECASE)
-
-@register.filter
-def plain_excerpt(value, max_chars=110):
-    """Return a clean single-line plain text excerpt stripped of Markdown and HTML."""
-    if not value:
-        return ''
-    text = str(value)
-    text = content_images.plain_text(text, ' [image] ')
-    text = re.sub(r'<[^>]+>', ' ', text)
-    text = re.sub(r'!\[.*?\]\(.*?\)', '', text)
-    text = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', text)
-    text = re.sub(r'`{1,3}.*?`{1,3}', '', text)
-    text = re.sub(r'[*_~#>-]', ' ', text)
-    text = re.sub(r'\s+', ' ', text).strip()
-    try:
-        max_c = int(max_chars)
-    except (ValueError, TypeError):
-        max_c = 110
-    if len(text) <= max_c:
-        return text
-    words = text[:max_c - 3].rsplit(' ', 1)
-    return (words[0] if len(words) > 1 else text[:max_c - 3]) + '...'
-
 
 @register.filter
 def render_content_inline(value):
@@ -566,32 +494,6 @@ def clean_province(value):
     s_clean = re.sub(r'(?i)\bprovience\b|\bprovince\b', '', s)
     s_clean = re.sub(r'\s+', ' ', s_clean).strip(' ,')
     return s_clean
-
-
-@register.simple_tag
-def role_badge(verification_level, moderator_level, is_admin):
-    """Render role badge HTML (admin badge, mod shield, or verified tick)."""
-    if is_admin:
-        return mark_safe('<span class="role-badge role-badge-admin" title="Admin"><span class="material-symbols-outlined">crown</span></span>')
-    if moderator_level and int(moderator_level) > 0:
-        ml = int(moderator_level)
-        if ml == 3:
-            return mark_safe('<span class="role-badge role-badge-mod-3" title="Community Lead"><span class="material-symbols-outlined">shield_with_heart</span></span>')
-        elif ml == 2:
-            return mark_safe('<span class="role-badge role-badge-mod-2" title="Senior Mod"><span class="material-symbols-outlined">shield</span></span>')
-        else:
-            return mark_safe('<span class="role-badge role-badge-mod-1" title="Community Mod"><span class="material-symbols-outlined">local_police</span></span>')
-    if verification_level and int(verification_level) > 0:
-        vl = int(verification_level)
-        if vl == 4:
-            return mark_safe('<span class="role-badge role-badge-verified-4" title="Elite Verified"><span class="material-symbols-outlined">verified</span></span>')
-        elif vl == 3:
-            return mark_safe('<span class="role-badge role-badge-verified-3" title="Premium Verified"><span class="material-symbols-outlined">verified</span></span>')
-        elif vl == 2:
-            return mark_safe('<span class="role-badge role-badge-verified-2" title="Expert Verified"><span class="material-symbols-outlined">verified</span></span>')
-        else:
-            return mark_safe('<span class="role-badge role-badge-verified-1" title="Verified"><span class="material-symbols-outlined">verified</span></span>')
-    return mark_safe('')
 
 
 ACHIEVEMENT_MAP = {

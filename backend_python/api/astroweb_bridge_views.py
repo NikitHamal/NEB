@@ -191,10 +191,6 @@ def _messages_to_prompt(messages: List[Dict]) -> tuple:
     return system_prompt, user_prompt
 
 
-def _check_waf_body(text: str) -> bool:
-    return any(k in text for k in ("RGV587_ERROR", "_____tmd_____", "x5secdata"))
-
-
 # ── Chat ──────────────────────────────────────────────────────────────
 
 @csrf_exempt

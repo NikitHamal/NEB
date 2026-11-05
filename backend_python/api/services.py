@@ -366,11 +366,6 @@ def check_username_available(username):
     return {'available': not exists}
 
 
-def avatar_path(username):
-    from urllib.parse import quote
-    return '/avatar/%s/' % quote((username or ''), safe='')
-
-
 AVATAR_BACKGROUNDS = ('', 'square', 'circle', 'squircle')
 AVATAR_ANIMATIONS = ('', 'bob', 'wave', 'spin', 'pulse')
 AVATAR_SHAPES = ('', 'round', 'organic', 'boxy', 'capsule', 'nub', 'cloud',

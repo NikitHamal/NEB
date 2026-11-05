@@ -43,7 +43,7 @@ def generate_tts(
     text = text.strip()[:600]
 
     try:
-        from gradio_client import Client, handle_file  # type: ignore
+        from gradio_client import Client  # type: ignore
 
         client = Client(HF_SPACE, download_files=False)
         # For Chatterbox, reference audio is optional; we pass None

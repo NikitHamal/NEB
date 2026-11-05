@@ -33,11 +33,6 @@ def _line3d(d, stage, x0, y0, x1, y1, z, colour, width):
     d.line([a, b], fill=colour, width=max(1, int(width)))
 
 
-def _rubber(canvas, base: Image.Image, mask_box, radius: int) -> None:
-    """Round the corners of an already-composited region. Used for plates whose
-    corners read too sharp at card scale."""
-
-
 # ── The sculptures ────────────────────────────────────────────────────────
 
 def hero_books(accent, rng, stage: Stage) -> None:

@@ -39,13 +39,6 @@ def _get_cookies() -> Dict[str, str]:
     return cookies
 
 
-def _get_access_token() -> str:
-    token = getattr(settings, "META_AI_ACCESS_TOKEN", "") or os.getenv("META_AI_ACCESS_TOKEN", "")
-    if token.startswith("ecto1:"):
-        token = token[6:]
-    return token
-
-
 class _MetaAIPlaywrightSession:
     def __init__(self, cookies: Dict[str, str]):
         self.cookies = cookies
@@ -352,34 +345,3 @@ def simple_chat(
     return "".join(collected) or None
 
 
-def generate_image(prompt: str, timeout: int = 90) -> List[str]:
-    cookies = _get_cookies()
-    if not (cookies.get("datr") and cookies.get("ecto_1_sess")):
-        return []
-    global _BROWSER_SESSION
-    if _BROWSER_SESSION is None or not _BROWSER_SESSION.ready:
-        try:
-            _BROWSER_SESSION = _MetaAIPlaywrightSession(cookies)
-            _BROWSER_SESSION.start()
-        except Exception:
-            return []
-    if not (_BROWSER_SESSION and _BROWSER_SESSION.ready):
-        return []
-
-    try:
-        # Prompt imagine
-        imagine_prompt = f"/imagine {prompt}" if not prompt.startswith("/imagine") else prompt
-        for _ in _BROWSER_SESSION.prompt(imagine_prompt, timeout=timeout):
-            pass
-        # Extract images
-        image_urls = []
-        elements = _BROWSER_SESSION.page.query_selector_all('img[src]')
-        for el in elements:
-            src = el.get_attribute('src') or ''
-            if 'fbcdn' in src and ('scontent' in src or 'lookaside' in src):
-                if src not in image_urls:
-                    image_urls.append(src)
-        return image_urls
-    except Exception as exc:
-        logger.error("Meta AI image generation failed: %s", exc)
-        return []

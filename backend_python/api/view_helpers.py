@@ -70,22 +70,6 @@ def _profile_incomplete(user):
     # Explorers have no role-specific required fields.
     return False
 
-def _is_mutual_follow(viewer, target_user):
-    """True when viewer and target follow each other.
-
-    Locked profiles stay private for everyone except the owner and mutual
-    connections, matching the familiar Instagram/Facebook behavior.
-    """
-    if not viewer or not target_user:
-        return False
-    if getattr(viewer, 'pk', None) == getattr(target_user, 'pk', None):
-        return False
-    return (
-        Follow.objects.filter(follower_id=viewer.pk, following_id=target_user.pk).exists()
-        and Follow.objects.filter(follower_id=target_user.pk, following_id=viewer.pk).exists()
-    )
-
-
 def _can_view_locked_profile(viewer, target_user):
     """Owner and followers can view a locked profile. Unverified accounts are treated as locked."""
     if not target_user:
@@ -399,28 +383,6 @@ def _build_stats(user):
         'likes_given': user.likes_given_count,
         'contribution_score': user.contribution_score,
     }
-
-def _build_stats_batch(user_qs):
-    """
-    Build stats for a queryset of users using denormalized counters.
-    Returns a dict mapping user_id -> stats dict.
-    """
-    from .services import avatar_or_photo_url
-    result = {}
-    for u in user_qs:
-        result[u.id] = {
-            'username': u.username,
-            'display_name': u.display_name or u.username,
-            'photo_url': avatar_or_photo_url(u) or '',
-            'post_count': u.post_count,
-            'reply_count': u.reply_count,
-            'follower_count': u.follower_count,
-            'following_count': u.following_count,
-            'likes_given': u.likes_given_count,
-            'likes_received': u.likes_received_count,
-            'contribution_score': u.contribution_score,
-        }
-    return result
 
 def map_profile_grade(class_level):
     if not class_level:

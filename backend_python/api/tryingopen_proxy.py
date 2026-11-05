@@ -479,19 +479,6 @@ def _messages_to_api(
     return out
 
 
-def _parse_sse_line(line: str) -> Optional[Dict]:
-    line = line.strip()
-    if not line or not line.startswith("data:"):
-        return None
-    payload = line[5:].strip()
-    if not payload or payload == "[DONE]":
-        return None
-    try:
-        return json.loads(payload)
-    except (ValueError, TypeError):
-        return None
-
-
 def _stream_request(
     model: str,
     effort: str,
