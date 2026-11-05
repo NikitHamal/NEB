@@ -653,7 +653,7 @@
      what you chose, and the sheet of chips that is how you choose it. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-choice.js' %}"></script>
   {% comment %} Poll cards + comment poll builder, post insights sheet, view/impression beacons. {% endcomment %}
-  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/poll-card.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% asset 'web/js/poll-card.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-insights.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-reach.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
