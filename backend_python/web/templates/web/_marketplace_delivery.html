@@ -1,0 +1,2 @@
+{% comment %}How an offering is taught, as chip text. Context: course (payload with .delivery).{% endcomment %}
+{% if course.delivery == 'live' %}Live classes{% elif course.delivery == 'hybrid' %}Live and recorded{% elif course.delivery == 'inperson' %}In person{% else %}Recorded videos{% endif %}

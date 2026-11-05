@@ -17,11 +17,16 @@ tutorial videos (CEE, IOE prep and others) and students either buy on the site o
 
 Removed: `css/pages/web-edit-resource.css` (unreferenced). `pages/upload.css` stays: `study_lab.html` still links it.
 
-## Next (in order)
+| 5 | **Open selling**: `can_have_storefront` is every member in good standing (banned or locked accounts excluded). Teachers, institutes and admins differ only in `allowed_kinds` (page kind), not in the right to sell. Paid resources already worked for everyone through the composer's price chip. | `api/creator_pages_access.py`, `api/tests_marketplace.py` |
+| 6 | **Course delivery and enrolment**: `CreatorCourse.delivery` (recorded / live / hybrid / inperson), `enroll_mode` (`buy` = QR checkout, `contact` = reach the teacher), `contact_label`, `contact_url` (phone becomes `tel:`, address `mailto:`, anything else must be http(s)). A contact course needs no price, shows a contact button instead of checkout, and refuses web purchase posts. Studio form, course page and course card show it. Migration 0162. | `api/models.py`, `api/creator_pages.py` (`clean_contact_link`), `api/creator_pages_payloads.py`, `web/views_marketplace.py`, `marketplace_studio.html`, `marketplace_studio_forms.js`, `marketplace_course.html`, `_marketplace_course_card.html`, `_marketplace_delivery.html` |
 
-1. Open storefronts to every signed-in member (today: teacher / institution / admin only) and add a Sell entry point.
-2. Course delivery (recorded / live / hybrid) and how a student enrols (buy here or contact the teacher).
-3. Marketplace + course page polish for the teacher case.
+The whole marketplace is still behind `MARKETPLACE_ENABLED` (`nebians/features.py`, off by default). Turn it on when the first
+teacher is ready; nothing else needs to change.
+
+## Next
+
+1. Android parity: app studio course form needs `delivery`, `enroll_mode`, `contact_*` (API payload already carries them).
+2. Lesson list with free-preview videos for tutorial courses (today a course attaches library resources, which can be videos).
 
 ## Verify
 

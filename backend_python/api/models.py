@@ -2438,6 +2438,11 @@ class CreatorCourse(models.Model):
     duration_label = models.CharField(max_length=60, blank=True, default='')
     lesson_count = models.PositiveIntegerField(default=0)
     seat_limit = models.PositiveIntegerField(default=0)  # 0 = unlimited
+    # How it is taught, and how a student gets in: buy it here (QR checkout) or reach the teacher.
+    delivery = models.CharField(max_length=12, default='recorded')
+    enroll_mode = models.CharField(max_length=12, default='buy')
+    contact_label = models.CharField(max_length=120, blank=True, default='')
+    contact_url = models.TextField(blank=True, default='')
     includes = models.JSONField(default=list, blank=True)
     tags = models.TextField(blank=True, default='')
     status = models.CharField(max_length=12, choices=COURSE_STATUSES, default='draft', db_index=True)
