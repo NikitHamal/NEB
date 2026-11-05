@@ -141,8 +141,8 @@ fun ReplyKindPicker(
 @Composable
 private fun KindChip(spec: ReplyKindSpec, selected: Boolean, enabled: Boolean, onClick: () -> Unit) {
     val cs = MaterialTheme.colorScheme
-    val bg by animateColorAsState(if (selected) cs.primaryContainer else cs.surfaceContainerHigh, nebEffectsSpec())
-    val fg by animateColorAsState(if (selected) cs.onPrimaryContainer else cs.onSurfaceVariant, nebEffectsSpec())
+    val bg by animateColorAsState(if (selected) cs.secondaryContainer else cs.surfaceContainerHigh, nebEffectsSpec())
+    val fg by animateColorAsState(if (selected) cs.onSecondaryContainer else cs.onSurfaceVariant, nebEffectsSpec())
     Row(
         modifier = Modifier
             .clip(ChipShape)
