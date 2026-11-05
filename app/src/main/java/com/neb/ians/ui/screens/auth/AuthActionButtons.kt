@@ -1,6 +1,11 @@
 package com.neb.ians.ui.screens.auth
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.clip
+import androidx.compose.runtime.getValue
+import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.theme.nebFastEffectsSpec
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -50,7 +55,6 @@ fun AuthActionButtons(
     val linkColor = palette.brand
 
     /** The mail glyph is chrome, not a link, so it stays on the ink ramp. */
-    val glyphColor = palette.ink
 
     Column(
         modifier = modifier
@@ -58,160 +62,60 @@ fun AuthActionButtons(
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 1. Continue with Google (Exact official light-gray color, ZERO shadows)
-        Button(
-            onClick = {
-                if (!isLoading) {
-                    tactile.perform(TactileType.ButtonTap)
-                    onGoogleClick()
-                }
-            },
+        // Three equal pills, each one a pressable surface: scale spring and a haptic on touch.
+        AuthProviderButton(
+            label = "Continue with Google",
             enabled = !isLoading,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(54.dp)
-                .testTag("google_login_button"),
-            shape = RoundedCornerShape(27.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (isDark) Color(0xFF1F1F21) else Color(0xFFF1F1F3),
-                contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF1F1F21),
-                disabledContainerColor = Color(0xFFE9E9EB),
-                disabledContentColor = Color(0xFF9B9BA1)
-            ),
-            border = if (isDark) BorderStroke(1.dp, Color(0xFF313136)) else null,
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 0.dp,
-                pressedElevation = 0.dp,
-                focusedElevation = 0.dp,
-                hoveredElevation = 0.dp
-            )
+            loading = isLoading && loadingProvider == "google",
+            container = Color(0xFFF1F1F3),
+            content = Color(0xFF1F1F21),
+            tag = "google_login_button",
+            onClick = onGoogleClick
         ) {
-            if (isLoading && loadingProvider == "google") {
-                NebLoader(size = NebLoaderSize.Inline, color = if (isDark) Color.White else Color(0xFF1F1F21))
-            } else {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_google),
-                        contentDescription = "Google Logo",
-                        tint = Color.Unspecified,
-                        modifier = Modifier.size(22.dp)
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = "Continue with Google",
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.SemiBold, // Poppins 600
-                        fontSize = 15.sp,
-                        letterSpacing = 0.15.sp
-                    )
-                }
-            }
+            Icon(
+                painter = painterResource(id = R.drawable.ic_google),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(22.dp)
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 2. Continue with GitHub (Deep solid black background, ZERO shadows)
-        Button(
-            onClick = {
-                if (!isLoading) {
-                    tactile.perform(TactileType.ButtonTap)
-                    onGitHubClick()
-                }
-            },
+        AuthProviderButton(
+            label = "Continue with GitHub",
             enabled = !isLoading,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(54.dp)
-                .testTag("github_login_button"),
-            shape = RoundedCornerShape(27.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF101012),
-                contentColor = Color.White,
-                disabledContainerColor = Color(0xFF1F1F21),
-                disabledContentColor = Color(0xFF7C7C83)
-            ),
-            border = BorderStroke(
-                width = 1.dp,
-                color = if (isDark) Color(0xFF313136) else Color(0xFF26262A)
-            ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 0.dp,
-                pressedElevation = 0.dp,
-                focusedElevation = 0.dp,
-                hoveredElevation = 0.dp
-            )
+            loading = isLoading && loadingProvider == "github",
+            container = Color(0xFF101012),
+            content = Color.White,
+            tag = "github_login_button",
+            onClick = onGitHubClick
         ) {
-            if (isLoading && loadingProvider == "github") {
-                NebLoader(size = NebLoaderSize.Inline, color = Color.White)
-            } else {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_github),
-                        contentDescription = "GitHub Logo",
-                        tint = Color.White,
-                        modifier = Modifier.size(22.dp)
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = "Continue with GitHub",
-                        fontFamily = Poppins,
-                        fontWeight = FontWeight.SemiBold, // Poppins 600
-                        fontSize = 15.sp,
-                        letterSpacing = 0.15.sp
-                    )
-                }
-            }
+            Icon(
+                painter = painterResource(id = R.drawable.ic_github),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(22.dp)
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 3. Continue with Email (Strokes only, Poppins 600)
-        OutlinedButton(
-            onClick = {
-                if (!isLoading) {
-                    tactile.perform(TactileType.ButtonTap)
-                    onEmailClick()
-                }
-            },
+        AuthProviderButton(
+            label = "Continue with Email",
             enabled = !isLoading,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .testTag("email_login_button"),
-            shape = RoundedCornerShape(26.dp),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.Transparent,
-                contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF1F1F21)
-            ),
-            border = BorderStroke(
-                width = 1.5.dp,
-                color = if (isDark) Color(0xFF3A3A3F) else Color(0xFFDCDCE0)
-            )
+            loading = false,
+            container = palette.brandSoft,
+            content = palette.brand,
+            tag = "email_login_button",
+            onClick = onEmailClick
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Mail,
-                    contentDescription = "Email",
-                    modifier = Modifier.size(20.dp),
-                    tint = glyphColor
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "Continue with Email",
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.SemiBold, // Poppins 600
-                    fontSize = 14.5.sp
-                )
-            }
+            Icon(
+                imageVector = Icons.Outlined.Mail,
+                contentDescription = null,
+                modifier = Modifier.size(22.dp),
+                tint = palette.brand
+            )
         }
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -287,5 +191,51 @@ fun AuthActionButtons(
                     }
             }
         )
+    }
+}
+
+
+@Composable
+private fun AuthProviderButton(
+    label: String,
+    enabled: Boolean,
+    loading: Boolean,
+    container: Color,
+    content: Color,
+    tag: String,
+    onClick: () -> Unit,
+    icon: @Composable () -> Unit
+) {
+    val bg by animateColorAsState(
+        targetValue = if (enabled || loading) container else container.copy(alpha = 0.5f),
+        animationSpec = nebFastEffectsSpec(),
+        label = "auth_provider_bg"
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .testTag(tag)
+            .clip(RoundedCornerShape(28.dp))
+            .background(bg)
+            .nebPressable(enabled = enabled, tactile = TactileType.ButtonTap, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        if (loading) {
+            NebLoader(size = NebLoaderSize.Inline, color = content)
+        } else {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                icon()
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = label,
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 15.sp,
+                    letterSpacing = 0.15.sp,
+                    color = content
+                )
+            }
+        }
     }
 }
