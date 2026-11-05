@@ -576,6 +576,23 @@ A divisor larger than √n would need a partner smaller than √n, so checking u
 to √n is enough. `*terms` prints the list's items separated by spaces.
 :::
 
+```photogrid label="4.P" cols="3" ratio="1.3" caption="Python runs on very different machines. (a) A Raspberry Pi, a computer the size of a card that costs a few thousand rupees and is used to teach Python in schools. (b) An ESP8266 Wi-Fi chip, programmable in MicroPython, that can switch a lamp or report a sensor over the internet. (c) A data centre, where Python programs process the data of banks, shops and weather services. The same language, with the same print, if and for statements, works on all three, and libraries make each job short."
+@ photo id="bca101/rpi" cap="(a) Raspberry Pi"
+@ photo id="bca101/esp8266" cap="(b) ESP8266 module"
+@ photo id="cs12/datacenter" cap="(c) A data centre"
+```
+
+### Eight advantages of user-defined functions, explained
+
+1. **Reusability.** A function is written once and called many times. A function that finds the grade from the average can be used for every student without copying the code.
+2. **Shorter programs.** Repeated lines are replaced by one call, so the program becomes smaller and neater. A 200-line program can shrink to 80 lines.
+3. **Easier to read.** A name such as `calculate_tax()` tells the reader what the block does. The main program reads like a list of steps, and each step has a clear name.
+4. **Easier debugging.** If the tax is wrong, only the tax function needs to be examined. A programmer tests each function separately before joining them.
+5. **Modular design.** A big problem is divided into small parts, and each part becomes a function. Several students can write different functions of a school-result program at the same time.
+6. **Easy to change.** If the pass mark changes from 40 to 35, only one function is edited and every use is updated.
+7. **Local variables and data protection.** Variables inside a function are local and disappear after it ends, so they cannot clash with the names used elsewhere. This prevents hidden errors.
+8. **Ready to share.** Functions can be saved in a module and used in other programs by `import`, as the built-in `math` and `random` modules are.
+
 ## 4.3 Libraries, packages and modules: math, random, datetime and pip
 
 ::: definition Module, package and library
@@ -2661,3 +2678,179 @@ at each of the n corners it turns 360° ÷ n: 90° for the square and 72° for t
 pentagon. (Run under real turtle, the pentagon's corners came out at (120, 0),
 (200, 0), (224.7, 76.1), (160, 123.1) and (95.3, 76.1).)
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a user-defined function? Explain its syntax, arguments, return value and scope with programs. <span class="marks">[10]</span>
+2. Explain error handling and file handling in Python with programs. <span class="marks">[10]</span>
+3. What is a module? Explain the math, random and datetime modules and the use of pip. <span class="marks">[10]</span>
+
+All programs below were run, and the output shown is the real output.
+
+### Model answer D1: user-defined functions (10 marks)
+
+**Introduction.** A **function** is a named block of code that does one job and runs only when it is called. Python already has **built-in functions** such as `print()` and `len()`; a **user-defined function** is one the programmer writes with the keyword `def`.
+
+**Syntax.**
+
+```python
+def function_name(parameters):
+    statements
+    return value
+```
+
+1. **Definition and call:** the function is defined once with `def` and then called by name with its arguments.
+2. **Parameters and arguments:** parameters are the names in the definition, arguments are the values passed in the call.
+3. **Default parameter:** a value used when the argument is missing, as `breadth=1` below.
+4. **Return value:** `return` sends a result back; Python can return several values, which arrive as a tuple.
+5. **Scope:** a variable made inside a function is **local**; one made outside is **global**, and the keyword `global` lets a function change it.
+
+```python
+def area_rect(length, breadth=1):
+    return length * breadth
+
+def stats(marks):
+    total = sum(marks)
+    return total, total / len(marks), max(marks)
+
+def grade(avg):
+    if avg >= 80:
+        return "Distinction"
+    elif avg >= 60:
+        return "First"
+    elif avg >= 40:
+        return "Pass"
+    return "Fail"
+
+counter = 0
+def add_one():
+    global counter
+    counter += 1
+
+print(area_rect(5, 3))
+print(area_rect(7))
+t, a, h = stats([78, 85, 70])
+print(t, round(a, 2), h, grade(a))
+add_one(); add_one()
+print(counter)
+```
+
+```text
+15
+7
+233 77.67 85 First
+2
+```
+
+**Explanation.** `area_rect(7)` uses the default breadth 1 and gives 7. `stats` returns three values at once: total 233, average 77.67 and highest mark 85. `grade(77.67)` gives First. The global `counter` becomes 2 after two calls.
+
+| Point | Built-in function | User-defined function |
+|---|---|---|
+| Made by | Python | Programmer |
+| Example | `len()`, `print()` | `area_rect()` |
+| Needs `def` | No | Yes |
+
+**Conclusion.** Functions make programs short, reusable and easy to correct.
+
+### Model answer D2: error handling and file handling (10 marks)
+
+**Introduction.** An **error** stops a program or makes it give wrong results. Errors are of three kinds: **syntax errors** (breaking the grammar), **runtime errors or exceptions** (such as dividing by zero, found while running) and **logical errors** (wrong answer). An **exception** can be caught with `try-except`, so the program does not crash.
+
+**Try-except.** The risky code goes in `try`; `except` runs if that error occurs; `else` runs if there was no error; `finally` always runs.
+
+**File handling.** A file is opened with `open(name, mode)`. The modes are `"r"` read, `"w"` write (erases old content), `"a"` append and `"r+"` read and write. A `with` block closes the file automatically.
+
+```python
+def safe_divide(a, b):
+    try:
+        result = a / b
+    except ZeroDivisionError:
+        print("Error: cannot divide by zero")
+    except TypeError:
+        print("Error: numbers only")
+    else:
+        print("Result =", result)
+    finally:
+        print("Done")
+
+safe_divide(10, 4)
+safe_divide(10, 0)
+safe_divide(10, "a")
+
+with open("students.txt", "w") as f:
+    f.write("Sushmita,88\n")
+    f.write("Bibek,92\n")
+with open("students.txt", "r") as f:
+    for line in f:
+        name, mark = line.strip().split(",")
+        print(name, int(mark) + 2)
+with open("students.txt", "a") as f:
+    f.write("Anita,67\n")
+with open("students.txt") as f:
+    print(len(f.readlines()), "lines")
+try:
+    open("missing.txt")
+except FileNotFoundError:
+    print("File not found")
+```
+
+```text
+Result = 2.5
+Done
+Error: cannot divide by zero
+Done
+Error: numbers only
+Done
+Sushmita 90
+Bibek 94
+3 lines
+File not found
+```
+
+| Method | Use |
+|---|---|
+| `read()` | Reads the whole file as one string |
+| `readline()` | Reads one line |
+| `readlines()` | Reads all lines into a list |
+| `write()` | Writes a string |
+| `close()` | Closes the file (not needed with `with`) |
+
+**Conclusion.** Exception handling keeps a program running when something goes wrong, and file handling makes data stay after the program ends.
+
+### Model answer D3: modules, libraries and pip (10 marks)
+
+**Introduction.** A **module** is a file of Python code (functions and variables) that can be used in another program with `import`. A **package** is a folder of modules and a **library** is a collection of packages. Using them saves writing everything from the beginning.
+
+**Ways to import.** `import math` (use as `math.sqrt(9)`), `from math import sqrt` (use as `sqrt(9)`) and `import math as m`.
+
+1. **math module:** `sqrt()`, `pow()`, `ceil()`, `floor()`, `pi`, `factorial()`.
+2. **random module:** `random()`, `randint(a, b)`, `choice(list)`, `shuffle(list)`, used for games and lucky draws; `seed()` repeats a sequence.
+3. **datetime module:** `date`, `time`, `datetime` objects, with `strftime()` to format dates and subtraction to count days.
+
+```python
+import math, random, datetime
+print(math.sqrt(144), math.pow(2, 10), math.ceil(4.2), math.floor(4.8), round(math.pi, 4))
+print(random.randint(1, 6) in range(1, 7))
+d = datetime.date(2025, 4, 14)
+print(d.year, d.month, d.day, d.strftime("%A"))
+delta = datetime.date(2026, 1, 1) - d
+print(delta.days)
+```
+
+```text
+12.0 1024.0 5 4 3.1416
+True
+2025 4 14 Monday
+262
+```
+
+14 April 2025 was the Nepali New Year, and it fell on a Monday; 262 days later is the first of January 2026.
+
+**pip.** **pip** is Python's package installer. It downloads libraries from the Python Package Index (PyPI): `pip install pandas` installs a library, `pip list` shows installed packages, and `pip uninstall pandas` removes one. Well-known libraries are **pandas** (tables and CSV files), **matplotlib** (charts) and **turtle** (drawing).
+
+| Point | Built-in module | External library |
+|---|---|---|
+| Installation | Comes with Python | Needs `pip install` |
+| Example | math, random, datetime | pandas, matplotlib |
+
+**Conclusion.** Modules and pip put thousands of ready-made tools in the hands of a beginner, so a few lines can do a big job.

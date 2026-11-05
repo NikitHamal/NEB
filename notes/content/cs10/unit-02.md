@@ -174,6 +174,24 @@ common fields called **keys**. MySQL, Oracle, PostgreSQL and Microsoft SQL
 Server are RDBMSs.
 :::
 
+```photogrid label="2.D" cols="4" ratio="1.25" caption="Data storage from paper to server. (a) A card catalogue is a manual file system: a search means flipping through drawers. (b) The magnetic platter of a hard disk, where a database server stores its tables as patterns of magnetism. (c) An NVMe solid-state drive, which reads records many times faster because it has no moving parts. (d) A data centre, where banks and ministries keep their databases running day and night. A DBMS such as MySQL sits between these devices and the user, so that a person types one SQL command and never needs to know where the bytes are."
+@ photo id="bca101/cardcat" cap="(a) Manual card catalogue"
+@ photo id="bca101/hdd-platter" cap="(b) Hard disk platter"
+@ photo id="bca101/nvme" cap="(c) NVMe SSD"
+@ photo id="cs12/datacenter" cap="(d) Data centre"
+```
+
+### Eight advantages of a DBMS, explained
+
+1. **Fast storage and retrieval.** A query such as `SELECT * FROM students WHERE roll = 5` finds one record among thousands in a fraction of a second. A paper register may take minutes. Indexes make the search quicker still.
+2. **Less data redundancy.** Each fact is stored once, so the address of a student is not repeated in the library, fee and exam files. This saves space and avoids mismatched copies.
+3. **Data consistency and accuracy.** When the address is changed in one place, every report shows the new one. Rules such as `CHECK (marks BETWEEN 0 AND 100)` stop wrong values from being entered.
+4. **Data security.** Users get passwords and permissions, so a class teacher can read marks but only the examination head can change them. This protects private records such as the citizenship numbers kept by a bank.
+5. **Multi-user access.** Many people can use the same data at the same time, as thousands of voters check their names on the Election Commission website. The DBMS controls the changes so that they do not clash.
+6. **Backup and recovery.** The DBMS keeps copies and logs of the changes, so data can be restored after a power failure or a crash. A bank cannot lose a transaction.
+7. **Data integrity through keys.** A primary key prevents two students with the same roll number, and a foreign key prevents a mark from being saved for a student who does not exist.
+8. **Easy reports and decision making.** With `GROUP BY` and `COUNT` the school finds the number of students by district or the average mark of each subject. The principal gets the report in one command.
+
 ## 2.2 Data types in MySQL: numeric, string and date/time types
 
 ::: definition Data type
@@ -1763,3 +1781,107 @@ Teacher — Class (marked 1 and M); the foreign key goes in the Class table.
 as Student 1 — M Enrolment M — 1 Course, with the junction table Enrolment
 holding (roll, course_code). (See the figure in §2.4.)
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a database and a DBMS? Explain its advantages and disadvantages. Differentiate a DBMS from a file system. <span class="marks">[10]</span>
+2. Explain the DDL and DML commands of MySQL with examples. <span class="marks">[10]</span>
+3. What are keys? Explain primary key, foreign key and the relationships between tables, with a query that joins two tables. <span class="marks">[10]</span>
+
+The examples below use two tables. `students(roll, name, gender, class, district)` holds the rows (1, Sushmita, F, 10, Kathmandu), (2, Bibek, M, 10, Lalitpur), (3, Anita, F, 9, Bhaktapur) and (4, Rohan, M, 10, Kathmandu). `marks(roll, subject, marks)` holds (1, Computer, 88), (1, Maths, 76), (2, Computer, 92), (2, Maths, 81), (3, Computer, 67), (4, Computer, 54). Every query was executed and the output shown is real.
+
+### Model answer D1: database, DBMS and its advantages (10 marks)
+
+**Introduction.** **Data** are raw facts, **information** is processed data that has meaning, and a **database** is an organised collection of related data stored so that it can be retrieved easily. A **DBMS (Database Management System)** is the software that creates the database, stores data in it, and lets users search, change and protect it. MySQL, Oracle, MS Access and PostgreSQL are examples.
+
+**Advantages.**
+
+1. Fast storage and retrieval of data.
+2. Less data redundancy (repetition).
+3. Consistency and accuracy of data.
+4. Security through passwords and permissions.
+5. Many users can share the data at the same time.
+6. Backup and recovery after a failure.
+7. Integrity through primary and foreign keys.
+8. Quick reports for decisions.
+
+**Disadvantages.** A DBMS needs trained staff; the software, hardware and training cost money; a badly managed system is a security risk; it needs regular maintenance; and a failure of the server stops every user.
+
+| Point | File system | DBMS |
+|---|---|---|
+| Storage | Separate files for each program | One shared database |
+| Redundancy | High | Low |
+| Consistency | Poor, copies differ | Good |
+| Security | Weak | Strong, with permissions |
+| Searching | Slow, manual | Fast, by SQL |
+| Example | Card catalogue, paper register | MySQL |
+
+**Conclusion.** A DBMS replaces scattered registers with one organised, safe and shared store of data, which is why schools, banks and government offices depend on one.
+
+### Model answer D2: DDL and DML commands (10 marks)
+
+**Introduction.** **SQL (Structured Query Language)** is the language used to talk to a relational database. Its commands are grouped by purpose; the two groups in the syllabus are **DDL**, which defines the structure, and **DML**, which handles the data.
+
+**DDL (Data Definition Language).**
+
+| Command | Purpose | Example |
+|---|---|---|
+| CREATE | Makes a table | `CREATE TABLE students (roll INT PRIMARY KEY, name VARCHAR(40) NOT NULL, gender CHAR(1), class INT NOT NULL, district VARCHAR(20) DEFAULT 'Kathmandu');` |
+| ALTER | Changes the structure | `ALTER TABLE students ADD phone VARCHAR(10);` |
+| DROP | Deletes the table and its data | `DROP TABLE notice;` |
+| TRUNCATE | Deletes all rows, keeps the structure | `TRUNCATE TABLE notice;` |
+
+**DML (Data Manipulation Language).**
+
+1. **INSERT** adds rows: `INSERT INTO students VALUES (1, 'Sushmita', 'F', 10, 'Kathmandu');`
+2. **SELECT** reads rows: `SELECT name, district FROM students WHERE class = 10 ORDER BY name;` gives Bibek (Lalitpur), Rohan (Kathmandu) and Sushmita (Kathmandu).
+3. **UPDATE** changes values: `UPDATE marks SET marks = 60 WHERE roll = 4 AND subject = 'Computer';` changes Rohan's 54 to 60.
+4. **DELETE** removes rows: `DELETE FROM marks WHERE roll = 3;` leaves five rows in the `marks` table.
+
+**Aggregate and group queries.** `SELECT COUNT(*), AVG(marks), MAX(marks), MIN(marks) FROM marks WHERE subject = 'Computer';` returns 4, 75.25, 92 and 54. `SELECT district, COUNT(*) FROM students GROUP BY district;` gives Bhaktapur 1, Kathmandu 2 and Lalitpur 1.
+
+| Point | DDL | DML |
+|---|---|---|
+| Works on | Structure of tables | Data inside tables |
+| Commands | CREATE, ALTER, DROP, TRUNCATE | INSERT, SELECT, UPDATE, DELETE |
+| Example | `CREATE TABLE` | `INSERT INTO` |
+
+**Conclusion.** DDL builds the empty container and DML fills it and asks questions of it; together they cover everything a school database needs.
+
+### Model answer D3: keys, relationships and joining tables (10 marks)
+
+**Introduction.** A **key** is a field, or a set of fields, that identifies records or links tables. Keys make a relational database accurate and connected.
+
+1. **Primary key:** a field whose value is unique and never empty, so it identifies one record. `roll` in `students` is the primary key.
+2. **Candidate key:** any field that could serve as the primary key, such as a citizenship number.
+3. **Composite key:** a primary key of two or more fields. In `marks` the pair (`roll`, `subject`) is the key, because one student has one mark in each subject.
+4. **Foreign key:** a field in one table that refers to the primary key of another table. `marks.roll` refers to `students.roll`, so a mark cannot be saved for a student that does not exist.
+5. **Unique key:** allows no repeated values, such as a phone number.
+
+**Relationships.** A **one-to-one** relationship joins one record to one record (a student and a library card). A **one-to-many** relationship joins one record to many (one student has many marks; this is the commonest). A **many-to-many** relationship joins many to many (students and clubs) and is made with a third linking table.
+
+**Join query.** To show the name with each mark of 80 or more:
+
+```sql
+SELECT students.name, marks.subject, marks.marks
+FROM students JOIN marks ON students.roll = marks.roll
+WHERE marks.marks >= 80
+ORDER BY marks.marks DESC;
+```
+
+| name | subject | marks |
+|---|---|---|
+| Bibek | Computer | 92 |
+| Sushmita | Computer | 88 |
+| Bibek | Maths | 81 |
+
+The `ON` condition matches each foreign key with its primary key.
+
+| Point | Primary key | Foreign key |
+|---|---|---|
+| Purpose | Identifies a record | Links to another table |
+| Duplicates | Not allowed | Allowed |
+| Null | Not allowed | Allowed |
+| Per table | One | Many |
+
+**Conclusion.** Primary keys identify, foreign keys connect, and a join uses them to bring the facts of several tables together.
