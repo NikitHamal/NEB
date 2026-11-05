@@ -17,10 +17,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.material.icons.filled.Draw
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Draw
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -62,8 +62,9 @@ import com.neb.ians.ui.screens.library.LibraryScreen
 import com.neb.ians.ui.screens.marketplace.CreatorPageScreen
 import com.neb.ians.ui.screens.marketplace.CreatorStudioScreen
 import com.neb.ians.ui.screens.marketplace.MarketplaceCourseScreen
-import com.neb.ians.ui.screens.canvas.CanvasScreen
-import com.neb.ians.ui.screens.canvas.CanvasListScreen
+import com.neb.ians.ui.screens.notes.NoteEditorScreen
+import com.neb.ians.ui.screens.notes.NotesScreen
+import com.neb.ians.ui.screens.notes.VoiceModelsScreen
 import com.neb.ians.ui.screens.forum.ForumScreen
 import com.neb.ians.ui.screens.forum.ForumPostDetailScreen
 import com.neb.ians.ui.screens.forum.CreatePostScreen
@@ -165,12 +166,11 @@ sealed class Screen(val route: String) {
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
-    data object Canvas : Screen("canvas") {
-        fun createRoute() = "canvas"
+    data object Notes : Screen("notes")
+    data object NoteEditor : Screen("notes/edit/{noteId}?dictate={dictate}") {
+        fun createRoute(noteId: String = "new", dictate: Boolean = false) = "notes/edit/$noteId?dictate=$dictate"
     }
-    data object CanvasBoard : Screen("canvas/board/{boardId}") {
-        fun createRoute(boardId: String) = "canvas/board/$boardId"
-    }
+    data object VoiceModels : Screen("notes/voice")
     data object MyAvatar : Screen("my_avatar")
     data object DeleteAccount : Screen("delete_account")
     data object AccountSecurity : Screen("account_security")
@@ -223,10 +223,10 @@ val glassNavItems = listOf(
         unselectedIcon = Icons.AutoMirrored.Outlined.MenuBook,
     ),
     NebNavItem(
-        route = "canvas",
-        label = "Canvas",
-        selectedIcon = Icons.Filled.Draw,
-        unselectedIcon = Icons.Outlined.Draw,
+        route = "notes",
+        label = "Notes",
+        selectedIcon = Icons.Filled.EditNote,
+        unselectedIcon = Icons.Outlined.EditNote,
     ),
 )
 
@@ -331,11 +331,11 @@ fun NEBiansNavHost(
     val createMenuActions = remember(navController) {
         listOf(
             NebFabAction(
-                label = "New canvas",
-                icon = Icons.Outlined.Draw,
-                onClick = { navController.navigate(Screen.Canvas.createRoute()) },
+                label = "New note",
+                icon = Icons.Outlined.EditNote,
+                onClick = { navController.navigate(Screen.NoteEditor.createRoute()) },
                 accent = NebAccents.Teal,
-                testTag = "create_menu_new_canvas"
+                testTag = "create_menu_new_note"
             ),
             NebFabAction(
                 label = "Upload materials",
@@ -529,7 +529,7 @@ fun NEBiansNavHost(
                     onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
                     onViewAllClick = { navController.navigate(Screen.Library.createRoute()) },
                     onForumClick = { navController.navigate(Screen.Forum.route) },
-                    onCanvasClick = { navController.navigate("canvas") },
+                    onNotesClick = { navController.navigate(Screen.Notes.route) },
                     onStudyLabClick = { navController.navigate(Screen.StudyLab.route) },
                     onNebyAiClick = { navController.navigate(Screen.NebyAi.route) },
                     onNewsClick = { navController.navigate(Screen.News.route) },
@@ -653,7 +653,7 @@ fun NEBiansNavHost(
                 ToolsScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToResultChecker = { navController.navigate(Screen.ResultChecker.route) },
-                    onNavigateToCanvas = { navController.navigate(Screen.Canvas.createRoute()) }
+                    onNavigateToNotes = { navController.navigate(Screen.Notes.route) }
                 )
             }
             composable(
@@ -873,33 +873,40 @@ fun NEBiansNavHost(
                     onNavigateToLegal = { doc ->
                         navController.navigate(Screen.Legal.createRoute(doc))
                     },
-                    onNavigateToCanvas = {
-                        navController.navigate(Screen.Canvas.createRoute())
+                    onNavigateToNotes = {
+                        navController.navigate(Screen.Notes.route)
                     }
                 )
             }
-            composable(route = Screen.Canvas.route) {
-                CanvasListScreen(
-                    onOpenCanvas = { boardId ->
-                        navController.navigate(Screen.CanvasBoard.createRoute(boardId))
-                    },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) },
-                    onUploadClick = { navController.navigate(Screen.Upload.route) },
-                    onNotificationsClick = { navController.navigate(Screen.Notifications.route) },
-                    onProfileClick = navigateToOwnProfile
+            composable(route = Screen.Notes.route) {
+                NotesScreen(
+                    onOpenNote = { id -> navController.navigate(Screen.NoteEditor.createRoute(id)) },
+                    onNewNote = { dictate -> navController.navigate(Screen.NoteEditor.createRoute("new", dictate)) },
+                    onOpenVoice = { navController.navigate(Screen.VoiceModels.route) }
                 )
             }
             composable(
-                route = Screen.CanvasBoard.route,
+                route = Screen.NoteEditor.route,
                 arguments = listOf(
-                    navArgument("boardId") {
-                        type = NavType.StringType
+                    navArgument("noteId") { type = NavType.StringType },
+                    navArgument("dictate") {
+                        type = NavType.BoolType
+                        defaultValue = false
                     }
                 )
             ) {
-                CanvasScreen(
-                    onNavigateBack = { navController.popBackStack() }
+                NoteEditorScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onOpenNote = { id ->
+                        navController.navigate(Screen.NoteEditor.createRoute(id)) {
+                            popUpTo(Screen.NoteEditor.route) { inclusive = true }
+                        }
+                    },
+                    onOpenVoice = { navController.navigate(Screen.VoiceModels.route) }
                 )
+            }
+            composable(route = Screen.VoiceModels.route) {
+                VoiceModelsScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(Screen.MyAvatar.route) {
                 com.neb.ians.ui.screens.avatar.MyAvatarScreen(
