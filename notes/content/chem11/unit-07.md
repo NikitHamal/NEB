@@ -684,6 +684,29 @@ $$ \rho = \frac{254}{28.34} = 8.96\ \text{g cm}^{-3} $$
 This matches the measured density of copper, which confirms the fcc structure.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="At constant pressure the volume of a gas is proportional to its absolute temperature, which is Charles's law, so heated air becomes less dense. (a) A hot air balloon. (b) From the ideal gas equation, air at 15 C has a density of 1.226 kg/m3 and air heated to 100 C has 0.947 kg/m3. Each cubic metre of hot air therefore gives a lift of 0.279 kg, and an envelope of 2800 m3 can raise 782 kg, including the fabric, basket, burners and passengers. Temperatures must always be converted to kelvin before using the gas laws, otherwise the ratio of volumes is wrong."
+@ photo id="chem11/balloon" cap="A hot air balloon is filled with air heated by a burner"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Air density against temperature at constant pressure"
+P_, M_, R_ = 101325.0, 0.02897, 8.314
+rho = lambda T: P_ * M_ / (R_ * T)
+Tout, Tin = 288.0, 373.0
+lift = rho(Tout) - rho(Tin)
+V = 2800.0
+assert abs(rho(Tout) - 1.226) < 0.002 and abs(lift - 0.279) < 0.003
+f = Fig(300, 236)
+f.text(150, 14, "rho = P M / (R T) at 1 atm", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 244, 146, (260, 400), (0.8, 1.4))
+ax.grid(20, 0.2, size=9); ax.axes("T (K)", "rho (kg/m3)")
+ax.curve(rho, 262, 398, color=NAVY, sw=2.4)
+ax.pt(Tout, rho(Tout), "%.3f outside (15 C)" % rho(Tout), dx=8, dy=-10, color=NAVY)
+ax.pt(Tin, rho(Tin), "%.3f inside (100 C)" % rho(Tin), dx=-8, dy=24, color=RED, anchor="end")
+f.text(150, 207, "lift = %.3f - %.3f = %.3f kg per m3" % (rho(Tout), rho(Tin), lift), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "V = 2800 m3 lifts %.0f kg" % (lift * V), size=10.5, color=RED, bold=True)
+facts = dict(ro="%.3f" % rho(Tout), ri="%.3f" % rho(Tin), lift="%.3f" % lift, load="%.0f" % (lift * V))
+```
+
 ## Chapter summary
 
 - Kinetic gas equation: $PV = \frac{1}{3}mNc^{2}$, giving

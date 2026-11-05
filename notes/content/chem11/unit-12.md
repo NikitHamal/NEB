@@ -900,6 +900,33 @@ number of α-hydrogens available, which is why
 and why the same order of stability appears again for free radicals and for
 substituted alkenes.
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="Carbon is tetravalent and forms four single bonds directed to the corners of a tetrahedron, and its ability to join to other carbon atoms in chains is called catenation. (a) A model kit shows the tetrahedral angle. (b) The angle is arccos(-1/3) = 109.47 degrees. A saturated chain of n carbons has 3n + 1 bonds, so decane has 31. The number of possible structures grows fast, from 2 isomers for C4 to 75 for C10, which explains why there are millions of organic compounds from only a handful of elements, and why a separate branch of chemistry exists for them."
+@ photo id="ceechem/model-kit" cap="A molecular model kit showing tetrahedral carbon atoms"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Number of isomers of alkanes CnH2n+2 and the C-C bonds"
+import math
+iso = {4: 2, 5: 3, 6: 5, 7: 9, 8: 18, 9: 35, 10: 75}
+ang = math.degrees(math.acos(-1 / 3))
+assert abs(ang - 109.47) < 0.01 and iso[10] == 75
+bonds = lambda n: (n - 1) + (2 * n + 2)
+assert bonds(10) == 31 == 3 * 10 + 1
+f = Fig(300, 236)
+f.text(150, 14, "Structural isomers of CnH2n+2", size=10.5, color=NAVY, bold=True)
+base = 138
+for i, (n, v) in enumerate(iso.items()):
+    x = 24 + i * 38
+    h = v / 75 * 100
+    f.box(x, base - h, 28, h, "", fill=RED if n == 10 else NAVY, stroke=RED if n == 10 else NAVY, r=1)
+    f.text(x + 14, base - h - 6, str(v), size=10.5, bold=True, color=RED if n == 10 else NAVY)
+    f.text(x + 14, base + 14, "C%d" % n, size=10, color=SLATE, bold=True)
+f.text(150, 172, "tetrahedral angle = arccos(-1/3) = %.2f deg" % ang, size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "bonds in CnH2n+2 = (n-1) + (2n+2) = 3n+1", size=10.5, color=RED, bold=True)
+f.text(150, 208, "decane: %d bonds, %d isomers" % (bonds(10), iso[10]), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "catenation makes this growth possible", size=10.5, color=SLATE)
+facts = dict(ang="%.2f" % ang, b="%d" % bonds(10), i="%d" % iso[10], i4=iso[4])
+```
+
 ## Chapter summary
 
 - Organic chemistry is the chemistry of hydrocarbons and their derivatives. The

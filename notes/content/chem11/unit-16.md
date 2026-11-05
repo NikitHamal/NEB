@@ -433,6 +433,32 @@ you *put in*. A reaction can have 95% yield and 40% atom economy, or 100% atom
 economy and 5% yield. Examiners set this distinction almost every year.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="A chemical plant earns a profit only when its income exceeds fixed costs, such as buildings and loan interest, plus variable costs, such as raw materials, fuel and labour, that rise with output. (a) Process piping and a heater in a plant. (b) With a fixed cost of Rs 40 lakh a year, a variable cost of Rs 60 and a selling price of Rs 100 per kilogram, the break-even output is 40 / (100 - 60) = 100000 kg a year. Producing 150,000 kg gives a profit of Rs 20 lakh. This is why continuous plants run near full capacity, and why cutting waste, which lowers the variable cost, moves the break-even point to the left."
+@ photo id="chem11/plant" cap="Process piping and heater of a chemical plant"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Break-even of a chemical plant (Rs lakh per year)"
+fixed, var, price = 40.0, 0.6, 1.0
+rev = lambda q: price * q
+cost = lambda q: fixed + var * q
+be = fixed / (price - var)
+assert be == 100.0 and abs(rev(150) - cost(150) - 20) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "q = thousand kg made and sold per year", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (0, 200), (0, 200))
+ax.grid(50, 50, size=9); ax.axes("output q (000 kg)", "Rs lakh")
+ax.curve(rev, 0, 200, color=NAVY, sw=2.4)
+ax.curve(cost, 0, 200, color=RED, sw=2.4)
+ax.hline(fixed, 0, 200, color=AMBER)
+ax.pt(be, rev(be), "break-even 100", dx=-8, dy=-12, color=SLATE, anchor="end")
+ax.tag(112, 160, "revenue", color=NAVY, bold=True)
+ax.tag(168, 118, "total cost", color=RED, bold=True)
+f.text(150, 207, "fixed Rs 40 lakh + variable Rs 60 per kg", size=10.5, color=SLATE, bold=True)
+f.text(150, 220, "break-even = 40/(100-60) x 1000 = %.0f kg" % (be * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "at 150 000 kg profit = Rs %.0f lakh" % (rev(150) - cost(150)), size=10.5, color=RED, bold=True)
+facts = dict(be="%.0f" % (be * 1000), pr="%.0f" % (rev(150) - cost(150)))
+```
+
 ## Chapter summary
 
 - The chemical industry converts cheap raw materials — air, brine, water,

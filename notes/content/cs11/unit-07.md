@@ -432,6 +432,32 @@ between a key frame for 1975 and one for 2025 produces the in-between years
 automatically.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="Multimedia combines text, audio, images and video, and digital audio and video are huge unless they are compressed. (a) Audio compact discs. (b) CD audio samples at 44,100 times a second with 16 bits for each of 2 channels, a rate of 1411.2 kbps, so one minute needs 10.6 MB. MP3 compression to 128 kbps shrinks it to 0.96 MB, 11 times smaller, by discarding sounds the ear cannot hear. Uncompressed 1080p video at 30 frames a second would need nearly 1.5 Gbps, but H.264 compresses it 299 times so it can stream over a home connection."
+@ photo id="cs11/optical-discs" cap="Compact discs store audio in digital form"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Data rates of audio and video, with and without compression (kbps, log scale)"
+import math
+rates = [("CD audio", 44100 * 16 * 2 / 1000, NAVY), ("MP3", 128.0, TEAL), ("Raw 1080p video", 1920 * 1080 * 24 * 30 / 1000, RED), ("H.264 stream", 5000.0, AMBER)]
+cd, mp3, raw, h264 = [r[1] for r in rates]
+mb_cd = cd * 1000 * 60 / 8 / 1e6
+mb_mp3 = mp3 * 1000 * 60 / 8 / 1e6
+assert abs(cd - 1411.2) < 1e-6 and abs(mb_cd - 10.58) < 0.01 and abs(raw - 1492992) < 1
+f = Fig(300, 236)
+f.text(150, 14, "Bit rate on a log scale (kbps)", size=10.5, color=NAVY, bold=True)
+for i, (nm, v, c) in enumerate(rates):
+    y = 30 + i * 32
+    w = 28 * (math.log10(v) - 1.5) + 10
+    f.text(8, y + 8, nm, size=10, bold=True, anchor="start")
+    f.box(8, y + 12, w, 14, "", fill=c, stroke=c, r=1)
+    f.text(8 + w + 5, y + 20, "%s" % format(int(round(v)), ","), size=10, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 166, "CD: 44 100 x 16 bits x 2 channels = %.1f kbps" % cd, size=10, color=NAVY, bold=True)
+f.text(150, 184, "1 minute: CD %.1f MB, MP3 %.2f MB" % (mb_cd, mb_mp3), size=10.5, color=RED, bold=True)
+f.text(150, 202, "MP3 is %.0f times smaller" % (cd / mp3), size=10.5, color=TEAL, bold=True)
+f.text(150, 220, "H.264 shrinks raw video %.0f times" % (raw / h264), size=10.5, color=AMBER, bold=True)
+facts = dict(cd="%.1f" % cd, mbcd="%.1f" % mb_cd, mbmp3="%.2f" % mb_mp3, r="%.0f" % (cd / mp3), v="%.0f" % (raw / h264))
+```
+
 ## Chapter summary
 
 - **Multimedia** is the computer-controlled, integrated use of more than one

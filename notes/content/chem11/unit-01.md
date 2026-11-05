@@ -293,6 +293,37 @@ who compute each percentage from scratch make four chances for an error instead
 of one. Always finish by adding the percentages to check they give 100.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="Percentage composition is the mass of each element in 100 g of a compound, found as (atomic mass x number of atoms) / molar mass x 100. (a) Hydrated copper sulphate crystals. (b) For CuSO4.5H2O the molar mass is 249.68 g/mol and copper makes up 25.45 %, while in the anhydrous salt (M = 159.61) it makes up 39.82 %. The difference is the water of crystallisation, 36.08 % of the crystal, which leaves as steam on heating and turns the blue crystals into white powder. The same arithmetic lets an analyst check the purity of a fertiliser or a drug against its label."
+@ photo id="chem12/cuso4" cap="Blue crystals of hydrated copper sulphate"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Percentage composition of CuSO4.5H2O and CuSO4"
+Cu, S, O, H = 63.55, 32.06, 15.999, 1.008
+M_an = Cu + S + 4 * O
+M_hy = M_an + 5 * (2 * H + O)
+hy = dict(Cu=Cu / M_hy * 100, S=S / M_hy * 100, O=(4 * O + 5 * O) / M_hy * 100, H=10 * H / M_hy * 100)
+an = dict(Cu=Cu / M_an * 100, S=S / M_an * 100, O=4 * O / M_an * 100, H=0.0)
+assert abs(sum(hy.values()) - 100) < 1e-9 and abs(sum(an.values()) - 100) < 1e-9
+water = 5 * (2 * H + O) / M_hy * 100
+assert abs(M_hy - 249.68) < 0.02 and abs(water - 36.08) < 0.05
+cols = dict(Cu=RED, S=AMBER, O=NAVY, H=TEAL)
+f = Fig(300, 236)
+f.text(150, 14, "Mass percentage of each element", size=10.5, color=NAVY, bold=True)
+for row, (title, d, y) in enumerate([("CuSO4.5H2O  M = %.2f" % M_hy, hy, 30), ("CuSO4  M = %.2f" % M_an, an, 100)]):
+    f.text(20, y, title, size=10.5, bold=True, anchor="start")
+    x = 20
+    for k in ("Cu", "S", "O", "H"):
+        w = d[k] * 2.6
+        if w > 0:
+            f.box(x, y + 8, w, 26, k if w > 20 else "", fill=cols[k], stroke=cols[k], color="#ffffff", size=10.5, bold=True, r=0)
+        x += w
+    f.text(20, y + 52, "  ".join("%s %.1f" % (k, d[k]) for k in ("Cu", "S", "O", "H") if d[k] > 0), size=10, color=SLATE, anchor="start")
+f.text(150, 182, "water of crystallisation = %.2f %%" % water, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "heating drives off 90.08 g per 249.68 g", size=10.5, color=RED, bold=True)
+f.text(150, 214, "(blue crystals turn white anhydrous powder)", size=10.5, color=SLATE)
+facts = dict(Mh="%.2f" % M_hy, Ma="%.2f" % M_an, cu="%.2f" % hy["Cu"], w="%.2f" % water, cua="%.2f" % an["Cu"])
+```
+
 ## Chapter summary
 
 - Chemistry studies the composition, structure, properties and transformations of

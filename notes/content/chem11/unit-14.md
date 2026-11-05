@@ -953,6 +953,33 @@ it must, because no step joins or breaks a C—C bond.
 6. **Ammoniacal AgNO₃ white, ammoniacal Cu₂Cl₂ red** — terminal alkynes only.
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.27" caption="Alkanes burn completely in plenty of oxygen to carbon dioxide and water, releasing a large amount of heat, and this is why they are the main fuels in the household. (a) A kitchen LPG cylinder holds propane and butane. (b) The heat of combustion per kilogram is 50.3 MJ for propane and 49.5 MJ for butane, close to 55.5 MJ for methane. A 14.2 kg cylinder with a 30:70 mixture releases about 706 MJ, and it also forms about 43 kg of carbon dioxide, a greenhouse gas. Incomplete burning in a poorly ventilated kitchen produces poisonous carbon monoxide instead."
+@ photo id="chem11/lpg" cap="A domestic LPG cylinder"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heat released per kilogram of common fuels"
+C, H = 12.011, 1.008
+fuels = [("methane", 890, C + 4 * H, 1, TEAL), ("propane", 2220, 3 * C + 8 * H, 3, NAVY), ("butane", 2877, 4 * C + 10 * H, 4, RED), ("ethanol", 1367, 2 * C + 6 * H + 16.0, 2, AMBER)]
+mj = {n: q / m for n, q, m, k, c in fuels}
+assert abs(mj["propane"] - 50.3) < 0.1 and abs(mj["butane"] - 49.5) < 0.1
+mix = 0.3 * mj["propane"] + 0.7 * mj["butane"]
+cyl = 14.2 * mix
+co2 = lambda k, m: k * 44.01 / m
+co2mix = 14.2 * (0.3 * co2(3, fuels[1][2]) + 0.7 * co2(4, fuels[2][2]))
+f = Fig(300, 236)
+f.text(150, 14, "Heat of combustion in MJ per kg", size=10.5, color=NAVY, bold=True)
+for i, (n, q, m, k, c) in enumerate(fuels):
+    y = 28 + i * 30
+    f.text(8, y + 13, n, size=10.5, bold=True, anchor="start")
+    f.box(62, y, mj[n] * 3.4, 22, "", fill=c, stroke=c, r=2)
+    f.text(62 + mj[n] * 3.4 + 5, y + 12, "%.1f" % mj[n], size=10.5, bold=True, color=c, anchor="start")
+f.text(150, 160, "C3H8 + 5 O2 -> 3 CO2 + 4 H2O, dH = -2220 kJ/mol", size=10, color=NAVY, bold=True)
+f.text(150, 178, "30:70 propane-butane = %.1f MJ/kg" % mix, size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "14.2 kg cylinder: %.0f MJ released" % cyl, size=10.5, color=RED, bold=True)
+f.text(150, 214, "and %.1f kg of CO2 when burnt" % co2mix, size=10.5, color=RED, bold=True)
+facts = dict(p="%.1f" % mj["propane"], b="%.1f" % mj["butane"], cyl="%.0f" % cyl, co2="%.0f" % co2mix, me="%.1f" % mj["methane"])
+```
+
 ## Chapter summary
 
 - Alkanes are made by reducing haloalkanes (same carbon count), by the Wurtz

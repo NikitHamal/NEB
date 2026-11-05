@@ -1120,6 +1120,29 @@ flowers of sulphur: Na₂SO₃ + S --boil--> Na₂S₂O₃
 It is also a cyanide antidote in medicine and is used to extract silver from its
 ores.
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="Sulphur is burned in air to SO2, oxidised to SO3 over a vanadium pentoxide catalyst, and the SO3 is absorbed in concentrated acid to give oleum, which is then diluted to sulphuric acid. (a) Native sulphur crystals. (b) By molar masses, one tonne of sulphur forms 2.00 t of SO2, 2.50 t of SO3 and finally 3.06 t of H2SO4 (M = 98.07), since each sulphur atom ends up in one acid molecule. Sulphuric acid is called the king of chemicals because fertilisers, batteries, detergents and dyes all depend on it, and a country's consumption reflects its industry."
+@ photo id="chem11/sulfur" cap="Yellow crystals of native sulphur"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mass of product from 1 tonne of sulphur in the contact process"
+S, O, H = 32.06, 15.999, 1.008
+SO2 = S + 2 * O; SO3 = S + 3 * O; H2SO4 = 2 * H + S + 4 * O
+y = [("S", 1.0, AMBER), ("SO2", SO2 / S, TEAL), ("SO3", SO3 / S, NAVY), ("H2SO4", H2SO4 / S, RED)]
+assert abs(y[3][1] - 3.059) < 0.002 and abs(y[1][1] - 1.998) < 0.002
+f = Fig(300, 236)
+f.text(150, 14, "S -> SO2 -> SO3 -> H2SO4", size=10.5, color=NAVY, bold=True)
+f.text(150, 29, "tonnes formed from 1.00 t of sulphur", size=10.5, color=SLATE)
+for i, (nm, v, c) in enumerate(y):
+    yy = 42 + i * 32
+    f.text(8, yy + 14, nm, size=10.5, bold=True, anchor="start")
+    f.box(56, yy, v * 62, 22, "", fill=c, stroke=c, r=2)
+    f.text(56 + v * 62 + 6, yy + 12, "%.2f t" % v, size=10.5, bold=True, color=c, anchor="start")
+f.text(150, 186, "2 SO2 + O2 = 2 SO3 over V2O5 at 450 C", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "SO3 + H2O: dissolve in H2SO4 (oleum) first", size=10.5, color=RED, bold=True)
+f.text(150, 222, "100 % yield assumed; real plants reach 99 %", size=10.5, color=SLATE)
+facts = dict(so2="%.2f" % y[1][1], so3="%.2f" % y[2][1], h="%.2f" % y[3][1], m="%.2f" % H2SO4)
+```
+
 ## Chapter summary
 
 - **Hydrogen**: nascent hydrogen is more reactive than H₂ because the 436 kJ mol⁻¹

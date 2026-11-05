@@ -1026,6 +1026,40 @@ plain phenoxide, so the acid is stronger (pKa 7.15 against 10.0).
 6. −I strongest: NO₂; +I strongest among alkyls: tert-butyl.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="Chromatography separates the components of a mixture because each one is held by the paper to a different extent while the solvent carries it upward. (a) Chromatography paper with separated pigments. (b) The retention factor Rf is the distance travelled by the substance divided by the distance travelled by the solvent front. With a front at 8.0 cm, spots at 2.4, 4.4 and 6.0 cm have Rf values of 0.30, 0.55 and 0.75. Since Rf is a constant for a given substance, solvent and paper, comparing it with a reference lane identifies each component, as in food-colour and forensic ink tests."
+@ photo id="chem11/chroma" cap="Paper chromatography separates a mixture of inks"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rf values: distance moved by spot / distance moved by solvent"
+front = 8.0
+spots = [("A", 2.4, RED), ("B", 4.4, AMBER), ("C", 6.0, NAVY)]
+rf = [(n, d / front, c) for n, d, c in spots]
+assert [round(r, 2) for _, r, _ in rf] == [0.30, 0.55, 0.75]
+f = Fig(300, 236)
+f.text(150, 14, "Chromatogram, solvent front 8.0 cm", size=10.5, color=NAVY, bold=True)
+top, bot = 40, 40 + 16 * front
+f.box(30, 28, 116, bot - 20 + 8, "", fill="#f8fafc", stroke=SLATE, r=2)
+f.line(30, bot, 146, bot, color=SLATE, sw=1, dash=True)
+f.line(30, 40, 146, 40, color=SLATE, sw=1.2, dash=True)
+f.text(150, 34, "", size=8)
+lanes = [48, 76, 104, 132]
+mix = [(2.4, RED), (4.4, AMBER), (6.0, NAVY)]
+for d, c in mix:
+    f.circle(lanes[0], bot - d * 16, 6, fill=c, stroke=c)
+for j, (n, d, c) in enumerate(spots):
+    f.circle(lanes[j + 1], bot - d * 16, 6, fill=c, stroke=c)
+for k, nm in enumerate(["mix", "A", "B", "C"]):
+    f.text(lanes[k], bot + 22, nm, size=10, bold=True)
+f.text(150, 40 + 0, "", size=8)
+f.text(162, 48, "solvent front", size=10, color=SLATE, anchor="start")
+f.text(162, bot + 4, "baseline", size=10, color=SLATE, anchor="start")
+for j, (n, r, c) in enumerate(rf):
+    f.text(162, 74 + j * 30, "%s: %.1f / 8.0" % (n, spots[j][1]), size=10.5, color=c, bold=True, anchor="start")
+    f.text(162, 88 + j * 30, "Rf = %.2f" % r, size=10.5, color=c, bold=True, anchor="start")
+f.text(150, 222, "Rf is always between 0 and 1", size=10.5, color=SLATE)
+facts = dict(a="%.2f" % rf[0][1], b="%.2f" % rf[1][1], c="%.2f" % rf[2][1])
+```
+
 ## Chapter summary
 
 - An IUPAC name is *secondary prefix + word root + primary suffix + secondary

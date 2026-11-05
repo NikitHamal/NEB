@@ -765,6 +765,35 @@ different layers and different effects. Mixing them up is the commonest error in
 this unit.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="Energy enters an ecosystem as sunlight, is captured by producers and flows upward through the food chain, but only about ten per cent is passed on at each step because the rest is lost as heat in respiration. (a) A sal forest in the Terai. (b) Starting from 10,000 kJ fixed by grass, the deer receive 1,000 kJ, a leopard 100 kJ and a tiger only 10 kJ, drawn on a log scale so that all levels fit. Each kilojoule in a tiger therefore needs 1000 kJ of grass. This ten per cent law explains why top carnivores are few, need large areas such as Chitwan and Bardiya, and are the first to suffer when habitat shrinks."
+@ photo id="bio11/sal-forest" cap="A sal forest in the Nepal Terai, where grass and trees capture sunlight"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Energy pyramid with 10 per cent transfer (kJ, log width)"
+import math
+E = [("Tiger", 10.0, RED), ("Spotted deer eating grass", 100.0, AMBER), ("Deer (herbivore)", 1000.0, TEAL), ("Grass (producer)", 10000.0, NAVY)]
+E = [("Tiger (tertiary)", 10.0, RED), ("Leopard-sized carnivore", 100.0, AMBER), ("Deer (herbivore)", 1000.0, TEAL), ("Grass (producer)", 10000.0, NAVY)]
+need = 10000.0 / 10.0
+assert need == 1000.0
+f = Fig(300, 236)
+f.text(150, 14, "Energy flow: only 10 % passes upward", size=10.5, color=NAVY, bold=True)
+for i, (nm, e, c) in enumerate(E):
+    y = 30 + i * 34
+    w = 40 + 40 * math.log10(e)
+    f.box(150 - w / 2, y, w, 28, "%g kJ" % e, fill=c, stroke=c, color="#ffffff", size=11, bold=True, r=2)
+    f.text(150 + w / 2 + 6, y + 15, "", size=9)
+for i, (nm, e, c) in enumerate(E):
+    f.text(8 if False else 292, 44 + i * 34, "", size=9)
+labels = ["tertiary: tiger", "secondary: leopard", "primary: deer", "producer: grass"]
+for i, s in enumerate(labels):
+    f.text(6, 49 + i * 34 - 3, "", size=8)
+f.text(150, 176, "levels, top to bottom: tiger 10, leopard 100,", size=10, color=SLATE)
+f.text(150, 190, "deer 1000, grass 10 000 kJ", size=10, color=SLATE)
+f.text(150, 208, "1 kJ in a tiger needs %.0f kJ from grass" % need, size=10.5, color=RED, bold=True)
+f.text(150, 224, "so food chains rarely exceed 4 or 5 links", size=10.5, color=NAVY, bold=True)
+facts = dict(need="%.0f" % need)
+```
+
 ## Chapter summary
 
 - An ecosystem (Tansley, 1935) has abiotic components (climatic, edaphic,

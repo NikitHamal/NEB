@@ -433,6 +433,35 @@ marks the metal / non-metal boundary.
 | Metallic character | decreases | increases | opposite of IE |
 | Valency w.r.t. oxygen | 1 → 7 | constant | valence electrons |
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="Ionisation energy is the energy needed to remove the outermost electron from a gaseous atom, and it shows the periodicity of the table. (a) Alkali metal salts in a flame: the outer electron is easily excited and removed. (b) The graph of the first ionisation energies of elements 1 to 20 climbs across each period to a noble gas, helium at 24.59 eV, and then drops sharply to the next alkali metal. Down group 1, lithium 5.39 eV, sodium 5.14 eV and potassium 4.34 eV, the outer electron is farther from the nucleus and better shielded, so it is lost more easily and the metals grow more reactive."
+@ photo id="chem11/flame-colours" cap="Alkali metal salts colour a flame: lithium red, sodium yellow, potassium lilac"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="First ionisation energy against atomic number"
+ie = [13.60, 24.59, 5.39, 9.32, 8.30, 11.26, 14.53, 13.62, 17.42, 21.56, 5.14, 7.65, 5.99, 8.15, 10.49, 10.36, 12.97, 15.76, 4.34, 6.11]
+Z = list(range(1, 21))
+assert ie[2] > ie[10] > ie[18] and ie[1] == max(ie[:3]) and ie[9] > ie[10]
+f = Fig(300, 236)
+f.text(150, 14, "First ionisation energy, Z = 1 to 20", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 244, 146, (0, 21), (0, 26))
+ax.grid(5, 5, size=9); ax.axes("atomic number Z", "IE1 (eV)")
+pts = list(zip(Z, ie))
+for (a, b), (c, d) in zip(pts, pts[1:]):
+    f.line(ax.X(a), ax.Y(b), ax.X(c), ax.Y(d), color=NAVY, sw=1.8)
+for z, v in pts:
+    col = RED if z in (3, 11, 19) else (TEAL if z in (2, 10, 18) else NAVY)
+    f.circle(ax.X(z), ax.Y(v), 3.2 if col == NAVY else 4.4, fill=col, stroke=col)
+f.text(ax.X(2) + 8, ax.Y(24.59) + 3, "He", size=10, color=TEAL, bold=True, anchor="start")
+f.text(ax.X(10) + 4, ax.Y(21.56) - 8, "Ne", size=10, color=TEAL, bold=True, anchor="start")
+f.text(ax.X(18) - 4, ax.Y(15.76) - 8, "Ar", size=10, color=TEAL, bold=True, anchor="end")
+f.text(ax.X(3) + 5, ax.Y(5.39) + 14, "Li", size=10, color=RED, bold=True, anchor="start")
+f.text(ax.X(11) + 6, ax.Y(5.14) + 14, "Na", size=10, color=RED, bold=True, anchor="start")
+f.text(ax.X(19) - 4, ax.Y(4.34) + 14, "K", size=10, color=RED, bold=True, anchor="end")
+f.text(150, 207, "Li %.2f > Na %.2f > K %.2f eV: down a group, IE falls" % (ie[2], ie[10], ie[18]), size=10, color=RED, bold=True)
+f.text(150, 220, "noble gases peak; each period rises left to right", size=10, color=NAVY, bold=True)
+facts = dict(li=ie[2], na=ie[10], k=ie[18], he=ie[1])
+```
+
 ## Chapter summary
 
 - Modern periodic law: properties are periodic functions of **atomic number**,
