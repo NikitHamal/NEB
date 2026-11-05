@@ -191,7 +191,13 @@
     pop.addEventListener('mousedown', function (e) {
       e.preventDefault();
       var b = e.target.closest('.hf-mention-row');
-      if (b) choose(+b.getAttribute('data-i'));
+      if (!b) return;
+      choose(+b.getAttribute('data-i'));
+      /* The popup is gone by mouseup, so the browser aims the click at the element behind it: the
+         dialog, which dialogs read as a backdrop click and close. Swallow that one click. */
+      var swallow = function (ev) { ev.stopPropagation(); ev.preventDefault(); };
+      document.addEventListener('click', swallow, { capture: true, once: true });
+      setTimeout(function () { document.removeEventListener('click', swallow, true); }, 600);
     });
     var box = scroller(ta);
     if (box) box.addEventListener('scroll', close, { passive: true });
