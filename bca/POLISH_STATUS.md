@@ -550,3 +550,12 @@ Edited directly in `bca/entrance/model-papers/` (listed in `bca/entrance/.polish
 ## Session 58 -- mathtext fallback cleanup (DONE)
 - [x] Fixed in the renderer, not the sources: `notes/pipeline/mathsvg.py` now normalises TeX shorthand (`\frac1{12}`, `\frac 4{12}`, `\sqrt9`, `\sqrt 3`) via brace-aware `_norm_args`, and renders `pmatrix/bmatrix/vmatrix/matrix` as bracketed columns of stacked cells (`\genfrac{}{}{0}{style}`; 1-2 rows use text style, 3+ rows use display style so nested cells do not shrink). Entrance Mathematics build: `math/figure/photo failures: 29 -> 0`; qa fails=0 (156 pp). Checked visually on p64 (Unit 6 worked checks).
 - [ ] NEXT SESSION STARTS AT: BCA 101 Unit 6 (Internet) 7-8 point application lists + GIS/IoT photos, then Model Paper plates, then the 3 non-core slots (BCA 402, electives BCA 405/406/453/454).
+
+## Session 58 -- BCA 101 Unit 6 (Internet) extras (DONE), book 100 -> 108 pp, qa fails=0
+- [x] 8 new `bca101/` photos (all licence-gated, all viewed): imp (ARPANET IMP, CHM), subcable (labelled undersea cable samples), datacenter, nttower (Nepal Telecom tower, Achham), esp8266 (IoT board), garmin (handheld GPS), qrpay (QR payment terminal), phish (real phishing e-mail, public domain).
+- [x] Plate 6.1 (2x2: IMP / undersea cable / data centre / mobile tower), Plate 6.2 (phishing photo with numbered marks + key, paired with a 5-step SVG attack flow), Plate 6.3 (3-up IoT / GPS / QR).
+- [x] Fig 6.3 (computed: 100 MB download times at 5 speeds; GEO satellite 477 ms vs 5,000 km fibre 50 ms RTT), Fig 6.4 (5 URLs judged with urlparse: OK/FAKE/FAKE/WARN/FAKE).
+- [x] 6.1.1 Eight features of the Internet, 6.5.1 Eight habits that stop most attacks, 6.6 Eight uses of the Internet in Nepal (3-4 sentences each, Nepali examples).
+- [x] Full 10-mark model answers Q13 (security), Q14 (Web 1.0/2.0/3.0), Q15 (uses of the Internet in Nepal; new practice question 15).
+- [ ] NEXT SESSION STARTS AT: other unit-level gaps in BCA 101 (check Unit 7 contemporary tech: 7-8 point application lists for AI/IoT/blockchain/cloud with photos), then Model Paper plates, then the 3 non-core slots (BCA 402, electives BCA 405/406/453/454).
+- Gotchas: photogrid auto-letters sub-captions: do NOT type "(a)" in `cap=`; `mark X Y` is placed by fraction of the cropped photo (view at 100 dpi and nudge); mathtext `\genfrac` needs `{0}` not `{0pt}`.
