@@ -33,6 +33,24 @@ Goal: bring the Android app up to the web's m3x design system (brand blue, Poppi
 - LaTeX helper keys and table/spoiler/divider tools from the web toolbar are not in the Android markdown row.
 - Nothing here has been seen on a device; the only compile check is the GitHub Actions `Build Student Release APKs & AAB` run on each push. Both `compileModernDebugKotlin` and `compileLegacyDebugKotlin` pass. First thing to do on hardware: splash timing, intro blob morph (assumes MaterialShapes polygons live in the unit box), dark theme.
 
+## Session 3 (CI-verified only; nothing is built locally)
+
+- Auth landing (`ui/screens/auth/AuthHero.kt`, `LoginScreen.kt`, `AuthActionButtons.kt`): the pixel sky is gone. White page, a tonal blob that keeps morphing cookie, sunny, flower, clover with the launcher N mark in it, three glyph tiles (search, forum, library) that spring out and drift. A tap squeezes the mark with a haptic. Title and buttons rise on `Reveal` springs. Tagline cut. Provider buttons are pressable pills (`nebPressable`: scale spring plus haptic), the email one in the brand soft tone. Reduced motion snaps everything.
+- Email auth: `AuthGlyphMark` above the headline springs in and morphs cookie to flower when the form flips between sign-in and sign-up. The helper line under the headline is cut.
+- Avatars (`ui/components/AvatarShapes.kt`): the web's seven silhouettes (cookie, sunny, flower, clover, burst, oval, squircle) chosen by the same FNV-1a hash of the name, and the same three tonal fills for initials. Used by `Avatar`, `NebAvatar`, profile header, creator pages. Neby, NEBians and Anonymous stay round. The gradient ring is gone; the admin and verified marks are bare icons, no disc behind them.
+- Cards: `NebCard` presses with a spring scale and a one-step tonal warm-up, one haptic. Rail cards, home panels, search bar, subject chips, notification rows use `nebPressable`.
+- Shapes instead of plain circles: home quick-action tiles (cookie, sunny, flower), system notification glyph.
+- Gradients: the home banner, welcome wash, library panel and mini player are flat tonal fills now. Scrims (black to clear over photos) and the festival theme card stay.
+- Screen transitions (`Navigation.kt`): shared-axis slide on springs instead of tweens; login fades.
+- Markdown row: code block and divider added, tool buttons are tonal rounded squares with a spring and a tick.
+
+## Not done yet (after session 3)
+
+- Table and spoiler tools (the renderer has no table or `||spoiler||` support yet).
+- Mark sheet label counts; kind chips on nested replies.
+- Remaining `CircleShape` tiles in analytics, canvas, media player and study screens.
+- Everything above is seen only through CI compiles; check it on a device.
+
 ## Build
 
 JDK 17 and the Android SDK are installed per session (see `ANDROID_UI_CONTINUITY.md` section 8). Compile both variants, one after the other. On a 4 GB box the Kotlin daemon dies when both run in parallel: use `--no-parallel -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx2800m"`.
