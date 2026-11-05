@@ -46,25 +46,10 @@ def arena_deepai_models(request):
 
 # ========================= Create DeepAI session =========================
 
-@api_view(['POST'])
-@authentication_classes([AuthTokenAuthentication])
-@throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
-def arena_create_deepai_session(request):
-    """Create a new DeepAI-backed chat session."""
-    user, err = require_user(request)
-    if err:
-        return err
-
-    model_id = (request.data.get('modelId') or 'standard').strip()
-    title = (request.data.get('title') or '').strip()[:200]
-
-    try:
-        resolved_model, info = deepai_proxy.resolve_model(model_id)
-    except deepai_proxy.DeepAIError as exc:
-        return Response({'error': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
-
+def create_deepai_chat_session(user, model_id, title):
+    """(session, model info); raises deepai_proxy.DeepAIError for an unknown model."""
+    resolved_model, info = deepai_proxy.resolve_model(model_id)
     display_name = info.get('name', f'DeepAI {resolved_model}')
-
     now = now_ms()
     sess = ArenaChatSession.objects.create(
         id=uuid_str(),
@@ -83,23 +68,43 @@ def arena_create_deepai_session(request):
         created_at=now,
         updated_at=now,
     )
+    return sess, info
 
-    return Response({
-        'session': {
-            'id': sess.id,
-            'title': sess.title,
-            'modelId': sess.model_id,
-            'modelCode': sess.model_code,
-            'modelName': sess.model_display_name,
-            'provider': 'deepai',
-            'vision': info.get('vision', False),
-            'thinking': info.get('thinking', False),
-            'locked': info.get('locked', False),
-            'messageCount': 0,
-            'createdAt': sess.created_at,
-            'updatedAt': sess.updated_at,
-        },
-    }, status=status.HTTP_201_CREATED)
+
+def deepai_session_payload(sess, info):
+    return {
+        'id': sess.id,
+        'title': sess.title,
+        'modelId': sess.model_id,
+        'modelCode': sess.model_code,
+        'modelName': sess.model_display_name,
+        'provider': 'deepai',
+        'vision': info.get('vision', False),
+        'thinking': info.get('thinking', False),
+        'locked': info.get('locked', False),
+        'messageCount': 0,
+        'createdAt': sess.created_at,
+        'updatedAt': sess.updated_at,
+    }
+
+
+@api_view(['POST'])
+@authentication_classes([AuthTokenAuthentication])
+@throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
+def arena_create_deepai_session(request):
+    """Create a new DeepAI-backed chat session."""
+    user, err = require_user(request)
+    if err:
+        return err
+
+    model_id = (request.data.get('modelId') or 'standard').strip()
+    title = (request.data.get('title') or '').strip()[:200]
+
+    try:
+        sess, info = create_deepai_chat_session(user, model_id, title)
+    except deepai_proxy.DeepAIError as exc:
+        return Response({'error': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'session': deepai_session_payload(sess, info)}, status=status.HTTP_201_CREATED)
 
 
 # ========================= Send message (DeepAI) =========================
@@ -126,37 +131,35 @@ def _upload_attachment(name, file_bytes):
     }
 
 
-def _multipart_attachments(request):
+def upload_attachments(named_files):
+    """Upload (name, bytes) pairs, skipping unsupported types; returns attachment dicts."""
     uploaded = []
-    for f in request.FILES.getlist('files')[:MAX_FILES_PER_MESSAGE]:
-        if os.path.splitext(f.name)[1].lower() not in ALLOWED_EXTENSIONS:
-            continue
-        att = _upload_attachment(f.name, f.read())
-        if att:
-            uploaded.append(att)
-    return uploaded
-
-
-def _json_attachments(request):
-    uploaded = []
-    for fdata in (request.data.get('files') or [])[:MAX_FILES_PER_MESSAGE]:
-        name = fdata.get('name', 'upload')
-        data_b64 = fdata.get('data', '')
-        if not data_b64:
-            continue
+    for name, file_bytes in list(named_files)[:MAX_FILES_PER_MESSAGE]:
         ext = os.path.splitext(name)[1].lower()
         if ext not in ALLOWED_EXTENSIONS:
-            logger.warning("deepai: unsupported file type in SSE upload: %s", ext)
-            continue
-        try:
-            file_bytes = base64.b64decode(data_b64)
-        except Exception as e:
-            logger.warning("deepai: failed to decode base64 file: %s", e)
+            logger.warning("deepai: unsupported file type in upload: %s", ext)
             continue
         att = _upload_attachment(name, file_bytes)
         if att:
             uploaded.append(att)
     return uploaded
+
+
+def _multipart_attachments(request):
+    return upload_attachments((f.name, f.read()) for f in request.FILES.getlist('files'))
+
+
+def _json_attachments(request):
+    named = []
+    for fdata in (request.data.get('files') or [])[:MAX_FILES_PER_MESSAGE]:
+        data_b64 = fdata.get('data', '')
+        if not data_b64:
+            continue
+        try:
+            named.append((fdata.get('name', 'upload'), base64.b64decode(data_b64)))
+        except Exception as e:
+            logger.warning("deepai: failed to decode base64 file: %s", e)
+    return upload_attachments(named)
 
 
 def _persist_attachments(user_msg, attachments):
@@ -215,6 +218,18 @@ def _stream_deepai_turn(turn, content, history, attachments):
     yield from turn.close(collected_text, finish_reason, error_text)
 
 
+def deepai_turn_response(sess, content, attachments):
+    history = [
+        {'role': m.role, 'content': m.content}
+        for m in sess.messages.order_by('created_at')
+        if m.role in ('user', 'assistant')
+    ]
+    turn = Turn.begin(sess, content)
+    if attachments:
+        _persist_attachments(turn.user_message(), attachments)
+    return sse_response(_stream_deepai_turn(turn, content, history, attachments))
+
+
 def _send_deepai_message(request, session_id, collect_attachments):
     user, err = require_user(request)
     if err:
@@ -226,16 +241,7 @@ def _send_deepai_message(request, session_id, collect_attachments):
     if err:
         return err
 
-    attachments = collect_attachments(request)
-    history = [
-        {'role': m.role, 'content': m.content}
-        for m in sess.messages.order_by('created_at')
-        if m.role in ('user', 'assistant')
-    ]
-    turn = Turn.begin(sess, content)
-    if attachments:
-        _persist_attachments(turn.user_message(), attachments)
-    return sse_response(_stream_deepai_turn(turn, content, history, attachments))
+    return deepai_turn_response(sess, content, collect_attachments(request))
 
 
 @api_view(['POST'])

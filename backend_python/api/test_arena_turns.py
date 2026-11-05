@@ -4,6 +4,7 @@ import json
 from unittest.mock import MagicMock, patch
 
 from django.core.cache import cache
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 from api.models import ArenaChatAttachment, ArenaChatMessage, ArenaChatSession
@@ -162,3 +163,54 @@ class ArenaTurnTests(TestCase):
             content_type='application/json', **other.auth,
         )
         self.assertEqual(response.status_code, 403)
+
+
+class WebArenaTurnTests(TestCase):
+    """The browser endpoints run the same turn as the API ones."""
+
+    def setUp(self):
+        cache.clear()
+        self.user = _user('web_turn_user')
+        patcher = patch('web.views_arena._get_user_id', return_value=self.user.id)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_qwen_form_post_streams_and_saves_supported_attachments(self):
+        sess = _session(self.user, 'qwen')
+        uploaded = {'id': 'f9', 'url': 'http://x/f', 'name': 'a.txt'}
+        with patch('api.arena_qwen_views._fresh_qwen_session'), \
+                patch('api.arena_qwen_views.upload_file_from_bytes', return_value=uploaded), \
+                patch('api.qwen_proxy.send_message', return_value='hello'):
+            response = self.client.post(
+                f'/ajax/neby-arena/qwen/sessions/{sess.id}/messages/',
+                {'content': 'hi', 'files': [
+                    SimpleUploadedFile('a.txt', b'abc'), SimpleUploadedFile('b.exe', b'abc')]},
+            )
+            events = _events(response)
+        self.assertEqual(events[-1], '[DONE]')
+        self.assertEqual(sess.messages.get(role='assistant').content, 'hello')
+        self.assertEqual(ArenaChatAttachment.objects.filter(qwen_file_id='f9').count(), 1)
+
+    def test_send_rejects_foreign_sessions_and_wrong_provider(self):
+        foreign = _session(_user('someone_else'), 'deepai')
+        response = self.client.post(
+            f'/ajax/neby-arena/deepai/sessions/{foreign.id}/messages/', {'content': 'x'})
+        self.assertEqual(response.status_code, 403)
+        mine = _session(self.user, 'qwen')
+        response = self.client.post(
+            f'/ajax/neby-arena/deepai/sessions/{mine.id}/messages/', {'content': 'x'})
+        self.assertEqual(response.status_code, 400)
+
+    def test_deepai_session_create_then_send_counts_the_message(self):
+        response = self.client.post(
+            '/ajax/neby-arena/deepai/sessions/', json.dumps({'modelId': 'standard'}),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        session = response.json()['session']
+        self.assertEqual(session['provider'], 'deepai')
+        chunks = iter([{'type': 'content', 'text': 'yo'}, {'type': 'done'}])
+        with patch('api.deepai_proxy.stream_chat', return_value=chunks):
+            events = _events(self.client.post(
+                f"/ajax/neby-arena/deepai/sessions/{session['id']}/messages/", {'content': 'hey'}))
+        self.assertEqual(events[-1], '[DONE]')
+        self.assertEqual(ArenaChatSession.objects.get(pk=session['id']).message_count, 1)

@@ -31,6 +31,8 @@ from .qwen_utils.file_upload import (
 
 logger = logging.getLogger(__name__)
 
+MAX_CONTENT_CHARS = 8000
+
 
 # ========================= Qwen Model List =========================
 
@@ -115,6 +117,46 @@ def _persist_attachments(user_msg, uploaded_files):
         )
 
 
+def create_qwen_chat_session(user, model_id, title):
+    """A session row backed by a fresh chat.qwen.ai chat, or None when upstream refuses."""
+    qwen_session = _fresh_qwen_session()
+    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id, _pool_session=qwen_session)
+    if not chat_id:
+        return None
+    now = now_ms()
+    return ArenaChatSession.objects.create(
+        id=uuid_str(),
+        user=user,
+        provider='qwen',
+        arena_session_id=f'qwen:{chat_id}',
+        arena_token_id='',
+        qwen_chat_id=chat_id,
+        model_id=model_id,
+        model_code=model_id,
+        model_display_name=title or 'New chat',
+        title=title or 'New chat',
+        is_active=True,
+        message_count=0,
+        last_message_at=0,
+        created_at=now,
+        updated_at=now,
+    )
+
+
+def qwen_session_payload(sess):
+    return {
+        'id': sess.id,
+        'title': sess.title,
+        'modelId': sess.model_id,
+        'modelCode': sess.model_code,
+        'modelName': sess.model_display_name,
+        'provider': 'qwen',
+        'messageCount': 0,
+        'createdAt': sess.created_at,
+        'updatedAt': sess.updated_at,
+    }
+
+
 # ========================= Create Qwen session =========================
 
 @api_view(['POST'])
@@ -135,74 +177,47 @@ def arena_create_qwen_session(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    qwen_session = _fresh_qwen_session()
-
-    chat_id = qwen_proxy.create_chat(qwen_session, model=model_id, _pool_session=qwen_session)
-    if not chat_id:
+    sess = create_qwen_chat_session(user, model_id, title)
+    if not sess:
         return Response(
             {'error': 'Could not start Qwen session — try again'},
             status=status.HTTP_502_BAD_GATEWAY,
         )
-
-    now = now_ms()
-    sess = ArenaChatSession.objects.create(
-        id=uuid_str(),
-        user=user,
-        provider='qwen',
-        arena_session_id=f'qwen:{chat_id}',
-        arena_token_id='',
-        qwen_chat_id=chat_id,
-        model_id=model_id,
-        model_code=model_id,
-        model_display_name=title or 'New chat',
-        title=title or 'New chat',
-        is_active=True,
-        message_count=0,
-        last_message_at=0,
-        created_at=now,
-        updated_at=now,
-    )
-
-    return Response({
-        'session': {
-            'id': sess.id,
-            'title': sess.title,
-            'modelId': sess.model_id,
-            'modelCode': sess.model_code,
-            'modelName': sess.model_display_name,
-            'provider': 'qwen',
-            'messageCount': 0,
-            'createdAt': sess.created_at,
-            'updatedAt': sess.updated_at,
-        },
-    }, status=status.HTTP_201_CREATED)
+    return Response({'session': qwen_session_payload(sess)}, status=status.HTTP_201_CREATED)
 
 
 # ========================= Send message (Qwen) =========================
 
-def _decode_json_files(files_data, qwen_session, req_headers):
+def upload_named_files(named_files):
+    """Upload (name, bytes) pairs to Qwen, skipping unsupported or oversized ones."""
+    qwen_session = _fresh_qwen_session()
+    req_headers = dict(qwen_session.headers)
     uploaded = []
-    for fdata in files_data:
-        name = fdata.get('name', 'upload')
-        data_b64 = fdata.get('data', '')
-        if not data_b64:
-            continue
+    for name, file_bytes in named_files:
         ext = os.path.splitext(name)[1].lower()
         if ext not in ALLOWED_EXTENSIONS:
-            logger.warning("Unsupported file type in SSE upload: %s", ext)
-            continue
-        try:
-            file_bytes = base64.b64decode(data_b64)
-        except Exception as e:
-            logger.warning("Failed to decode base64 file: %s", e)
+            logger.warning("Unsupported file type in upload: %s", ext)
             continue
         if len(file_bytes) > MAX_FILE_SIZE:
-            logger.warning("File too large in SSE upload: %s (%d bytes)", name, len(file_bytes))
+            logger.warning("File too large in upload: %s (%d bytes)", name, len(file_bytes))
             continue
         file_obj = upload_file_from_bytes(name, file_bytes, qwen_session, req_headers)
         if file_obj:
             uploaded.append(file_obj)
     return uploaded
+
+
+def _decode_json_files(files_data):
+    named = []
+    for fdata in files_data:
+        data_b64 = fdata.get('data', '')
+        if not data_b64:
+            continue
+        try:
+            named.append((fdata.get('name', 'upload'), base64.b64decode(data_b64)))
+        except Exception as e:
+            logger.warning("Failed to decode base64 file: %s", e)
+    return named
 
 
 def _multipart_files(request, session_id):
@@ -230,8 +245,7 @@ def _json_files(request):
             {'error': f'Too many files (max {MAX_FILES_PER_MESSAGE})'},
             status=status.HTTP_400_BAD_REQUEST,
         )
-    qwen_session = _fresh_qwen_session()
-    return _decode_json_files(files_data, qwen_session, dict(qwen_session.headers)), None
+    return upload_named_files(_decode_json_files(files_data)), None
 
 
 def _stream_qwen_turn(turn, content, uploaded_file_objs):
@@ -259,6 +273,13 @@ def _stream_qwen_turn(turn, content, uploaded_file_objs):
     yield from turn.close(result or '', 'error' if error_text else 'stop', error_text)
 
 
+def qwen_turn_response(sess, content, uploaded_file_objs):
+    turn = Turn.begin(sess, content)
+    if uploaded_file_objs:
+        _persist_attachments(turn.user_message(), uploaded_file_objs)
+    return sse_response(_stream_qwen_turn(turn, content, uploaded_file_objs))
+
+
 def _send_qwen_message(request, session_id, collect_files):
     user, err = require_user(request)
     if err:
@@ -266,17 +287,14 @@ def _send_qwen_message(request, session_id, collect_files):
     sess, err = require_provider_session(user, session_id, 'qwen', 'Qwen')
     if err:
         return err
-    content, err = validated_content(request, 8000)
+    content, err = validated_content(request, MAX_CONTENT_CHARS)
     if err:
         return err
     uploaded_file_objs, err = collect_files()
     if err:
         return err
 
-    turn = Turn.begin(sess, content)
-    if uploaded_file_objs:
-        _persist_attachments(turn.user_message(), uploaded_file_objs)
-    return sse_response(_stream_qwen_turn(turn, content, uploaded_file_objs))
+    return qwen_turn_response(sess, content, uploaded_file_objs)
 
 
 @api_view(['POST'])
