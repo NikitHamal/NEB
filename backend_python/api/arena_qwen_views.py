@@ -6,38 +6,28 @@ images, PDFs, audio, and video via Alibaba Cloud OSS upload.
 
 Mounted under /api/neby-arena/ alongside the community views.
 """
-import json
 import logging
 import os
-import tempfile
 import uuid
 
-from django.http import StreamingHttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, throttle_classes
 from rest_framework.response import Response
 
+from .arena_common import (
+    get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+)
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment, User
+from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 from . import qwen_proxy
 from .qwen_utils.file_upload import (
-    upload_file_from_bytes, classify_file, ALLOWED_EXTENSIONS, MAX_FILE_SIZE,
+    upload_file_from_bytes, ALLOWED_EXTENSIONS, MAX_FILE_SIZE,
     MAX_FILES_PER_MESSAGE,
 )
 
 logger = logging.getLogger(__name__)
-
-
-def _require_user(request):
-    user = getattr(request, 'user', None)
-    if not isinstance(user, User):
-        return None, Response(
-            {'error': 'Unauthorized — please sign in'},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
-    return user, None
 
 
 # ========================= Qwen Model List =========================
@@ -55,29 +45,6 @@ def arena_qwen_models(request):
 
     models = fetch_models()
     return Response({'models': models, 'cached': True})
-
-
-def _get_owned_session(user, session_id):
-    try:
-        sess = ArenaChatSession.objects.get(pk=session_id)
-    except ArenaChatSession.DoesNotExist:
-        return None, Response(
-            {'error': 'Session not found'}, status=status.HTTP_404_NOT_FOUND,
-        )
-    if sess.user_id != user.id:
-        return None, Response(
-            {'error': 'Forbidden — not your session'},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-    return sess, None
-
-
-def _sse_format(obj):
-    return f"data: {json.dumps(obj, ensure_ascii=False)}\n\n"
-
-
-def _sse_done_marker():
-    return "data: [DONE]\n\n"
 
 
 def _validate_file_upload(files):
@@ -143,7 +110,7 @@ def _persist_attachments(user_msg, uploaded_files):
 @throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
 def arena_create_qwen_session(request):
     """Create a new Qwen-backed chat session (for file upload support)."""
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
 
@@ -218,10 +185,10 @@ def arena_send_message_qwen(request, session_id):
 
     Returns SSE stream with OpenAI-style deltas.
     """
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -280,7 +247,7 @@ def arena_send_message_qwen(request, session_id):
 
     # SSE header
     def _stream_qwen():
-        yield _sse_format({
+        yield sse_format({
             'choices': [{
                 'index': 0,
                 'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
@@ -330,7 +297,7 @@ def arena_send_message_qwen(request, session_id):
         else:
             error_text = 'Qwen returned an empty response'
             finish_reason = 'error'
-            yield _sse_format({
+            yield sse_format({
                 'error': {'message': error_text, 'code': 'upstream'},
             })
 
@@ -359,16 +326,12 @@ def arena_send_message_qwen(request, session_id):
                 logger.warning("Counter commit failed: %s", e)
 
         if not error_text:
-            yield _sse_format({
+            yield sse_format({
                 'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
             })
-        yield _sse_done_marker()
+        yield sse_done_marker()
 
-    response = StreamingHttpResponse(_stream_qwen(), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(_stream_qwen())
 
 
 # ========================= Qwen streaming (SSE) =========================
@@ -385,10 +348,10 @@ def arena_send_message_qwen_sse(request, session_id):
 
     Returns SSE stream with OpenAI-style deltas.
     """
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -470,7 +433,7 @@ def arena_send_message_qwen_sse(request, session_id):
         _persist_attachments(user_msg, uploaded_file_objs)
 
     def _stream_qwen():
-        yield _sse_format({
+        yield sse_format({
             'choices': [{
                 'index': 0,
                 'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
@@ -517,7 +480,7 @@ def arena_send_message_qwen_sse(request, session_id):
             error_text = 'Qwen returned an empty response'
             finish_reason = 'error'
             # Error event before [DONE]
-            yield _sse_format({
+            yield sse_format({
                 'error': {'message': error_text, 'code': 'upstream'},
             })
 
@@ -544,13 +507,9 @@ def arena_send_message_qwen_sse(request, session_id):
                 logger.warning("Counter commit failed: %s", e)
 
         if not error_text:
-            yield _sse_format({
+            yield sse_format({
                 'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
             })
-        yield _sse_done_marker()
+        yield sse_done_marker()
 
-    response = StreamingHttpResponse(_stream_qwen(), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(_stream_qwen())
