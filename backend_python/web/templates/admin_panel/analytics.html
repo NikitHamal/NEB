@@ -48,6 +48,8 @@
       <a href="#an-audience" data-spy="an-audience">Audience</a>
       <a href="#an-members" data-spy="an-members">Members</a>
       <a href="#an-content" data-spy="an-content">Content</a>
+      <a href="#an-devices" data-spy="an-devices">Devices</a>
+      <a href="#an-posts" data-spy="an-posts">Posts</a>
     </nav>
     {% endif %}
   </div>
@@ -291,6 +293,8 @@
     </div>
   </section>
   {% endif %}
+
+  {% include "admin_panel/analytics/_devices.html" %}
 
   <!-- ================= Growth (database counts, independent of page views) ================= -->
   <section class="an-section" id="an-growth" data-section>

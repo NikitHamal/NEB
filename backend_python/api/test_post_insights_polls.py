@@ -239,3 +239,29 @@ class InsightsTests(TestCase):
         out = post_insights.build(post, days=30)
         self.assertFalse(out['hasData'])
         self.assertEqual(out['insights'][0]['tone'], 'info')
+
+
+class AdminDeviceReportTests(TestCase):
+    def test_devices_section_reads_signals_and_recent_signups(self):
+        from nebians.analytics import report
+        request = RequestFactory().post('/', HTTP_USER_AGENT=APP_UA, HTTP_X_NEB_DEVICE=APP_HDR, HTTP_X_APP_VERSION='1.8.0')
+        signals._local.request = request
+        try:
+            with self.captureOnCommitCallbacks(execute=True):
+                user = mk_user('joiner')
+                post = mk_post(user)
+        finally:
+            signals._local.request = None
+        User.objects.filter(pk=user.pk).update(created_at=now_ms())
+        post_reach.record_view(req(), post, mk_user('viewer'), surface='feed')
+        now = now_ms()
+        rng = {'start': now - 86400000, 'end': now + 86400000, 'prev_start': now - 3 * 86400000, 'prev_end': now - 86400000}
+        out = report.report_devices.build(rng, 'all')
+        self.assertGreaterEqual(out['signups'], 1)
+        self.assertEqual(out['signup_os'][0]['name'], 'Android')
+        self.assertEqual(out['app_models'][0]['name'], 'Google Pixel 7')
+        self.assertEqual(out['app_versions'][0]['name'], '1.8.0')
+        joined = [r for r in out['recent_signups'] if r['username'] == 'joiner'][0]
+        self.assertIn('Pixel 7', joined['device'])
+        self.assertTrue(out['top_posts'])
+        self.assertEqual(out['matrix'][0]['label'], 'Sign-ups')
