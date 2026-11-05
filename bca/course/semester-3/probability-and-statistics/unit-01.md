@@ -91,6 +91,56 @@ for i, (t, d) in enumerate([("1 Plan", "aim, population,\nvariables"), ("2 Colle
 7. **Health, agriculture and environment.** Clinical trials, crop-yield trials and river-pollution monitoring all depend on sampling and comparison. A trial of a new paddy variety in the Terai compares yields on many plots, not one. The same logic protects patients and farmers from false claims.
 8. **Reading the news critically.** Graphs with cut axes, tiny samples and selective percentages are common in advertisements and politics. A student who knows what the sample was, how it was chosen and what the margin of error is can spot a weak claim at once. This is the everyday use of the subject.
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="Never trust a summary you have not drawn. (a) Florence Nightingale, a pioneer of statistical graphics: in 1858 she used a coloured diagram of deaths by month to convince the British government that most soldiers in the Crimean War died of disease, not wounds. (b) Anscombe's four data sets (Francis Anscombe, 1973) each have 11 points, and each has mean of x equal to 9, mean of y equal to 7.50, correlation r = 0.82 and the same regression line y = 3 + 0.5x. Yet the pictures are a straight scatter, a smooth curve, a line with one outlier and a vertical stack with one far point. The numbers are identical and the stories are completely different, so always plot the data first. All statistics are recomputed in the figure."
+@ photo id="bcamath/nightingale" cap="Florence Nightingale (statistical graphics)"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="Anscombe's quartet: same numbers, four pictures"
+import numpy as np
+x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]
+ys = [[8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68], [9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 9.13, 7.26, 4.74], [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73]]
+x4 = [8] * 7 + [19] + [8] * 3; y4 = [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89]
+sets = [(x, ys[0]), (x, ys[1]), (x, ys[2]), (x4, y4)]
+for X, Y in sets:
+    assert np.mean(X) == 9 and round(np.mean(Y), 2) == 7.5 and round(np.corrcoef(X, Y)[0, 1], 2) == 0.82
+    assert np.allclose(np.polyfit(X, Y, 1), [0.5, 3.0], atol=0.005)
+f = Fig(300, 240)
+for k, (X, Y) in enumerate(sets):
+    ox = 8 + (k % 2) * 146; oy = 8 + (k // 2) * 104
+    f.box(ox, oy, 138, 96, "", fill=SOFT, stroke="#cbd5e1", r=2, sw=1)
+    px = lambda v: ox + 8 + (v - 3) / 17 * 122
+    py = lambda v: oy + 88 - (v - 2) / 12 * 78
+    f.line(px(3.5), py(3 + .5 * 3.5), px(19.5), py(3 + .5 * 19.5), color=AMBER, sw=1.6)
+    for a, b in zip(X, Y): f.circle(px(a), py(b), 3, fill=NAVY, stroke=NAVY, sw=1)
+    f.text(ox + 10, oy + 11, ["I", "II", "III", "IV"][k], size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 226, "all: mean x 9, mean y 7.50, r = 0.82, y = 3 + 0.5x", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="How many people must a poll ask? (a) A ballot drop box: an election is a census of voters, but an opinion poll before it is a sample. (b) For a proportion with the worst case p = 0.5 and 95 percent confidence (z = 1.96) the sample size is n = z^2 p (1 - p) / e^2. A margin of error e = 5 percent needs 385 people, 3 percent needs 1,068, 2 percent needs 2,401 and 1 percent needs 9,604: to cut the error in half you must ask four times as many. These numbers hardly depend on the size of the country: for the whole of Nepal (about 29 million people) 1,068 are still enough for 3 percent, while for a college of N = 1,000 students the finite-population correction n / (1 + (n - 1) / N) brings the 5 percent sample down from 385 to 278, and for N = 500 to 218."
+@ photo id="bcamath/dropbox" cap="A ballot drop box"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Sample size for 95 percent confidence, p = 0.5"
+import math
+def n0(e): return 1.96 ** 2 * 0.25 / e ** 2
+def fpc(n, N): return n / (1 + (n - 1) / N)
+vals = [(e, math.ceil(n0(e))) for e in (0.05, 0.03, 0.02, 0.01)]
+assert [v for _, v in vals] == [385, 1068, 2401, 9604]
+assert math.ceil(fpc(n0(0.05), 1000)) == 278 and math.ceil(fpc(n0(0.05), 500)) == 218
+assert math.ceil(fpc(n0(0.03), 29_200_000)) == 1068
+f = Fig(300, 240)
+for i, (e, n) in enumerate(vals):
+    y = 18 + i * 32
+    f.text(10, y + 11, f"error {int(e * 100)}%", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    w = max(4, n / 9604 * 150)
+    f.box(78, y, w, 22, "", fill=(MINT if i == 0 else BLUE), stroke=(TEAL if i == 0 else NAVY), r=2)
+    f.text(78 + w + 6, y + 11, f"{n:,}", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 162, "half the error needs four times the sample", size=10.5, color=RED, bold=True)
+f.text(150, 186, "college of N = 1,000 at 5%: 385 -> 278", size=10.5, color=TEAL, bold=True)
+f.text(150, 206, "college of N = 500 at 5%: 385 -> 218", size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "Nepal (29 million) at 3%: still 1,068", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Descriptive vs inferential; population/parameter vs sample/statistic.
