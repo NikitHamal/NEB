@@ -535,6 +535,30 @@ Only T = 2π√(l/g) can be correct — and you never needed the derivation. Not
 2.4 × 1.35 = 3.24 on a calculator, but the answer may carry only **two** significant figures (that of 2.4): **3.2**. The rule: multiplication/division follows the **fewest significant figures**; addition/subtraction follows the **fewest decimal places**. Examiners place 3.24 and 3.2 side by side precisely to catch this.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Area under a speed-time graph is distance. (a) A speedometer shows instantaneous speed, here up to 220 km/h; 100 km/h equals 27.78 m/s because you divide by 3.6. (b) A car that speeds up uniformly from rest to 100 km/h in 8.0 s has a = 3.47 m/s^2, only 0.35 g, and covers s = 1/2 a t^2 = 111.1 m. Braking at 6.0 m/s^2 takes 4.63 s and 64.3 m (v^2 = 2as). The triangle of base 12.63 s and height 27.78 m/s has area 175.4 m, the total distance, which is exactly the sum of the two pieces."
+@ photo id="ceephy/speedo" cap="A car speedometer reads the magnitude of the instantaneous velocity, v = ds/dt"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Speed-time graph: 0 to 100 km/h, then braking"
+v0 = 100 / 3.6; ta = 8.0; a = v0 / ta; sa = 0.5 * a * ta ** 2
+ab = 6.0; tb = v0 / ab; sb = v0 ** 2 / (2 * ab); T = ta + tb; tot = sa + sb
+assert abs(tot - 0.5 * v0 * T) < 1e-9 and abs(a / 9.8 - 0.3545) < 1e-3
+facts = dict(v0="%.2f" % v0, a="%.2f" % a, ag="%.2f" % (a / 9.8), sa="%.1f" % sa, tb="%.2f" % tb, sb="%.1f" % sb, T="%.2f" % T, tot="%.1f" % tot)
+f = Fig(300, 236)
+f.text(150, 14, "v-t graph of one start and one stop", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 18; Y = lambda v: 150 - v * 3.6
+f.poly([(X(0), Y(0)), (X(ta), Y(v0)), (X(T), Y(0))], fill=BLUE, stroke=NAVY, sw=2.4)
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+f.line(X(ta), Y(v0), X(ta), Y(0), color=AMBER, sw=1.2, dash=True)
+for t in (0, 4, 8, 12): f.text(X(t), Y(0) + 13, "%d" % t, size=10.5, color=SLATE)
+f.text(X(ta), Y(v0) - 8, "%.2f m/s" % v0, size=10.5, color=AMBER, bold=True)
+f.text(X(4.6), Y(0) - 14, "area %.1f m" % sa, size=10.5, color=NAVY, bold=True)
+f.text(X(10.3), Y(0) - 12, "%.1f m" % sb, size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "slope up = %.2f m/s^2 (%.2f g)" % (a, a / 9.8), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "total distance %.1f m in %.2f s" % (tot, T), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "t in seconds; braking 6.0 m/s^2", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

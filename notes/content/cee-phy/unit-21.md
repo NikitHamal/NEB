@@ -447,6 +447,36 @@ gate then gives $Y=\bar A\cdot B$.
 For $A=1$, $B=1$: $\bar A=0$, so $Y=0\cdot1=0$.
 :::
 
+```photogrid label="21.1" cols="2" ratio="1.2" caption="A NAND gate in transistors. (a) The die of a 74HC00 holds four two-input NAND gates, sixteen transistors in all. (b) Each gate has two p-type transistors in parallel (pull-up) and two n-type in series (pull-down). For every input pair exactly one network conducts, giving Y = 1 unless A = B = 1. Because NAND is universal, a NOT needs 1 NAND, an AND needs 2 and an OR needs 3; the cell checks every case. This is why one cheap chip can build any logic circuit."
+@ photo id="ceephy/nand" cap="Microphotograph of a 74HC00 chip: four NAND gates etched in silicon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="CMOS NAND truth table from its two networks"
+def nand(A, B):
+    pun = (A == 0) or (B == 0); pdn = (A == 1) and (B == 1)
+    assert pun != pdn
+    return (1 if pun else 0), pun, pdn
+rows = [(A, B) + nand(A, B) for A in (0, 1) for B in (0, 1)]
+assert [r[2] for r in rows] == [1, 1, 1, 0]
+N = lambda a, b: 1 - (a & b); NOT = lambda a: N(a, a); AND = lambda a, b: NOT(N(a, b)); OR = lambda a, b: N(NOT(a), NOT(b))
+assert all(NOT(a) == 1 - a and AND(a, b) == (a & b) and OR(a, b) == (a | b) for a in (0, 1) for b in (0, 1))
+facts = dict(nn=1, na=2, no=3)
+f = Fig(300, 236)
+f.text(150, 14, "Two-input CMOS NAND", size=10.5, color=NAVY, bold=True)
+heads = ("A", "B", "pull-up", "pull-down", "Y")
+xs = (20, 56, 92, 150, 220); ws = (36, 36, 58, 70, 60)
+for x, w, h in zip(xs, ws, heads): f.box(x, 28, w, 24, label=h, fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=2)
+for i, (A, B, Y, pun, pdn) in enumerate(rows):
+    y = 56 + i * 28
+    vals = ("%d" % A, "%d" % B, "ON" if pun else "off", "ON" if pdn else "off", "%d" % Y)
+    for x, w, v in zip(xs, ws, vals):
+        on = v == "ON"
+        f.box(x, y, w, 24, label=v, fill=MINT if on else SOFT, stroke=TEAL if on else SLATE, size=10.5, bold=on or v in ("0", "1"), r=2, color=TEAL if on else SLATE)
+f.text(150, 186, "exactly one network is ON each row", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "NOT = 1 NAND, AND = 2, OR = 3", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "74HC00: 4 gates x 4 transistors = 16", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |
