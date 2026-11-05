@@ -121,6 +121,51 @@ c.curve(lambda q: 60 * q - q * q, 0, 60, color=TEAL); c.vline(30, 0, 900, color=
 f.text(111, 214, "(a) perfect competition", size=10.5, color=SLATE, italic=True); f.text(301, 214, "(b) AR and MR", size=10.5, color=SLATE, italic=True); f.text(491, 214, "(c) total revenue", size=10.5, color=SLATE, italic=True)
 ```
 
+```photogrid label="4.1" cols="2" ratio="1.1" caption="Economies of scale: spreading fixed cost. (a) The Ford assembly line at Trafford Park, Manchester, 1923. Ford's moving assembly line, introduced in 1913-1914, cut the time to assemble a chassis from about 12 hours 8 minutes to 1 hour 33 minutes, roughly 7.8 times faster, which let Ford lower his price. (b) A small illustrative workshop with fixed cost Rs 2,000,000 a month and variable cost Rs 20,000 a unit has average cost AC = 2,000,000 / Q + 20,000. At 10 units AC is Rs 220,000; at 50 units 60,000; at 100 units 40,000; at 500 units 24,000; at 1,000 units 22,000. Average cost can never fall below the variable cost of Rs 20,000, but it falls steeply at first because each extra unit shares the fixed cost with more units. This is why large producers such as cement plants and telecom companies can sell cheaper per unit."
+@ photo id="bcaeco/fordline" cap="Ford assembly line, Manchester, 1923"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Average cost against output, in thousand rupees"
+F_, v = 2000000, 20000
+Q = [10, 50, 100, 500, 1000]
+ac = [F_ / q + v for q in Q]
+assert ac == [220000, 60000, 40000, 24000, 22000] and round(728 / 93, 1) == 7.8
+f = Fig(300, 240)
+f.text(150, 14, "AC = 2,000,000 / Q + 20,000", size=10.5, color=NAVY, bold=True)
+base, sc = 170, 120 / 220000
+for i, (q, a) in enumerate(zip(Q, ac)):
+    x = 18 + i * 54; h = a * sc
+    f.box(x, base - h, 40, h, "", fill=BLUE if i < 4 else TEAL, stroke=NAVY, r=0, sw=1)
+    f.text(x + 20, base - h - 8, f"{int(a) // 1000}k", size=10.5, color=NAVY, bold=True)
+    f.text(x + 20, base + 14, str(q), size=10.5, color=SLATE)
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+f.line(10, base - v * sc, 292, base - v * sc, color=RED, sw=1.4, dash=True)
+f.text(150, base + 32, "units per month (Q); dashed = floor 20k", size=10.5, color=SLATE)
+f.text(150, 228, "10 units -> 1,000 units: AC falls 10 times", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.1" caption="Break-even at a tea stall. (a) A street tea-and-snack stall. (b) Illustrative daily figures: fixed cost Rs 1,500 (rent, licence, one helper), variable cost Rs 12 a cup, price Rs 25 a cup, so AR = MR = 25 for this price-taking seller. Total revenue is TR = 25Q and total cost TC = 1,500 + 12Q. Break-even is where they meet: Q = 1,500 / (25 - 12) = 115.4, so the stall must sell 116 cups to avoid a loss. At 100 cups the stall loses 13 x 100 - 1,500 = Rs 200; at 200 cups it earns Rs 1,100. Each cup beyond break-even adds the contribution of Rs 13, and the margin of safety at 200 cups is (200 - 115.4) / 200 = 42 per cent."
+@ photo id="bcaeco/stall" cap="Tea and sel roti, a street stall"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="TR and TC lines, break-even at 116 cups"
+P_, V_, F_ = 25, 12, 1500
+be = F_ / (P_ - V_)
+assert round(be, 1) == 115.4 and -200 == (P_ - V_) * 100 - F_ and (P_ - V_) * 200 - F_ == 1100
+assert round((200 - be) / 200 * 100) == 42
+f = Fig(300, 240)
+ax = Axes(f, 52, 42, 232, 134, (0, 250), (0, 6000))
+ax.grid(50, 1000, size=10.5).axes("cups per day (Q)", "rupees")
+ax.curve(lambda q: P_ * q, 0, 240, color=TEAL, label="TR", lx=ax.X(214), ly=ax.Y(5900))
+ax.curve(lambda q: F_ + V_ * q, 0, 250, color=RED, label="TC", lx=ax.X(236), ly=ax.Y(4000))
+ax.hline(F_, 0, 40, color=AMBER)
+ax.pt(be, P_ * be, "break-even", color=NAVY, dx=8, dy=14)
+ax.vline(be, 0, P_ * be, color=NAVY)
+f.text(150, 14, "TR = 25Q   TC = 1,500 + 12Q", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "break-even 115.4 -> 116 cups a day", size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "100 cups: -Rs 200;  200 cups: +Rs 1,100", size=10.5, color=TEAL, bold=True)
+```
+
 ## 4.6 Eight uses of cost and revenue analysis
 
 1. **Deciding the price of a product.** A firm must cover its average cost, so it never sells below the minimum of the AC curve for long. A Kathmandu printing press adds a margin to the unit cost of each job. Without knowing the cost curve the price would be a guess.
