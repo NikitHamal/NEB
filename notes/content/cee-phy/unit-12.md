@@ -676,6 +676,34 @@ formula. In a combination question ask at once: *in contact or separated?* In a
 chapter.
 :::
 
+```photogrid label="12.1" cols="2" ratio="1.2" caption="A rainbow is refraction plus one internal reflection. (a) Sunlight entering a raindrop is bent, reflected at the back and bent again, so the ray turns through D = 180 + 2i - 4r. (b) The elevation 4r - 2i of the emerging ray peaks at i with cos^2 i = (n^2 - 1) / 3: 59.5 degrees and 42.4 degrees for red (n = 1.331) and 58.8 degrees and 40.5 degrees for violet (n = 1.344). Rays pile up near these maxima, so red appears at 42.4 degrees and violet at 40.5 degrees from the anti-solar point, red outside, as in the photograph."
+@ photo id="ceephy/rainbow" cap="A double rainbow over hills: raindrops refract, reflect once inside and refract again"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Elevation of the primary bow against angle of incidence"
+def eps(i, n): return 4 * math.asin(math.sin(i) / n) - 2 * i
+def peak(n):
+    i = math.acos(math.sqrt((n * n - 1) / 3)); return math.degrees(eps(i, n)), math.degrees(i)
+er, ir = peak(1.331); ev, iv = peak(1.344)
+brute = max(math.degrees(eps(math.radians(k / 100), 1.331)) for k in range(100, 8900))
+assert 42.2 < er < 42.5 and 40.5 < ev < 40.8 and abs(brute - er) < 0.01
+facts = dict(er="%.1f" % er, ir="%.1f" % ir, ev="%.1f" % ev, iv="%.1f" % iv)
+f = Fig(300, 236)
+f.text(150, 14, "elevation e = 4r - 2i against i", size=10.5, color=NAVY, bold=True)
+X = lambda i: 40 + i * 2.6; Y = lambda e: 160 - e * 2.9
+f.line(X(0), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for n, col in ((1.331, RED), (1.344, "#6d28d9")):
+    pts = [(X(k), Y(math.degrees(eps(math.radians(k), n)))) for k in range(0, 90, 2)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(ir), Y(0), X(ir), Y(er), color=AMBER, sw=1.2, dash=True)
+f.text(X(ir) - 10, Y(er) + 50, "red %.1f" % er, size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(ir) - 10, Y(er) + 64, "violet %.1f" % ev, size=10.5, color="#6d28d9", bold=True, anchor="end")
+for i in (0, 30, 60, 90): f.text(X(i), Y(0) + 13, "%d" % i, size=10.5, color=SLATE)
+f.text(150, 192, "peak at i = %.1f (red), %.1f (violet)" % (ir, iv), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "bow width %.1f degrees; red outside" % (er - ev), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "angles in degrees; i = incidence", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

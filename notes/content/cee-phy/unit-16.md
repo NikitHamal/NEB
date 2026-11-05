@@ -752,6 +752,35 @@ The rms output would be $V_0/\sqrt{2}=8.5$ V; the mean is lower because the wave
 not sinusoidal.
 :::
 
+```photogrid label="16.1" cols="2" ratio="1.2" caption="Eddy currents heat the pan. (a) A coil under the glass carries alternating current; the changing flux induces eddy currents in the iron pan. (b) With a field of 2 mT at 25 kHz (assumed) through a 9 cm base the peak emf is 2 pi f B A = 8.0 V. The skin depth sqrt(2 rho / omega mu) is 0.10 mm for steel (rho 1.0 x 10^-7 ohm m, relative permeability 100, assumed) at 25 kHz but 2.25 mm at 50 Hz, so the heat is confined to a thin layer of the base. Aluminium has 0.52 mm at 25 kHz, and its low resistivity makes it a poor load."
+@ photo id="ceephy/cooktop" cap="An induction hob boils water in a steel pan while the glass stays cool"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Skin depth of steel and aluminium against frequency"
+mu0 = 4e-7 * math.pi
+def delta(f, rho, mur): return math.sqrt(2 * rho / (2 * math.pi * f * mu0 * mur)) * 1000
+steel = lambda f: delta(f, 1.0e-7, 100); alu = lambda f: delta(f, 2.65e-8, 1)
+emf = 2 * math.pi * 25000 * 2e-3 * math.pi * 0.09 ** 2
+assert abs(emf - 7.99) < 0.02 and abs(steel(25000) - 0.1006) < 1e-3 and abs(steel(50) - 2.25) < 0.01 and abs(alu(25000) - 0.518) < 0.002
+facts = dict(emf="%.1f" % emf, ds25="%.2f" % steel(25000), ds50="%.2f" % steel(50), da25="%.2f" % alu(25000))
+f = Fig(300, 236)
+f.text(150, 14, "skin depth (mm) against frequency", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 40 + (math.log10(fr) - 1.5) * 70; Y = lambda d: 40 + (1.2 - math.log10(d)) * 38.5
+f.line(X(31.6), Y(0.04), 285, Y(0.04), color=SLATE, sw=1.4); f.line(X(31.6), Y(0.04), X(31.6), 34, color=SOFT, sw=1.2)
+for fn, col in ((steel, TEAL), (alu, AMBER)):
+    fr = [10 ** (1.5 + k * 0.1) for k in range(36)]
+    pts = [(X(q), Y(fn(q))) for q in fr]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(25000), Y(0.04), X(25000), 40, color=RED, sw=1.2, dash=True)
+f.text(X(25000) - 4, 50, "25 kHz", size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(150), Y(steel(150)) + 18, "steel", size=10.5, color=TEAL, bold=True)
+f.text(X(150), Y(alu(150)) - 14, "aluminium", size=10.5, color=AMBER, bold=True)
+for fr, lab in ((100, "100"), (1000, "1k"), (10000, "10k"), (100000, "100k")): f.text(X(fr), Y(0.04) + 13, lab, size=10.5, color=SLATE)
+f.text(150, 192, "peak emf %.1f V in the pan base" % emf, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "steel: %.2f mm at 25 kHz, %.2f mm at 50 Hz" % (steel(25000), steel(50)), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "frequency in Hz (log scale)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

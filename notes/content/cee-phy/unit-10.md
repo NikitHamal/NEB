@@ -620,6 +620,33 @@ entropy has to go somewhere.
 | Clausius | a refrigerator with no work input |
 | Entropy | any spontaneous process that lowers the entropy of an isolated system |
 
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Hot air is lighter air. (a) The burner raises the temperature of the air in the envelope, which stays open at the bottom so its pressure stays at atmospheric. (b) For an envelope of 2,800 m^3 in air at 20 C (density 1.204 kg/m^3) the ideal-gas law gives density in proportion to 1/T. At 100 C the inside density is 0.946 kg/m^3 and the lift is (rho_out - rho_in) V = 723 kg of payload. The envelope holds 116,406 mol of cold air but only 91,449 mol when hot, so 24,956 mol leave through the mouth."
+@ photo id="ceephy/burner" cap="A hot-air balloon burner warms the air inside the envelope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Lift of a 2,800 cubic metre balloon against air temperature"
+V = 2800.0; P = 101325.0; R = 8.314; T0 = 293.15; rho0 = 1.204
+rho = lambda T: rho0 * T0 / T
+lift = lambda Tc: (rho0 - rho(Tc + 273.15)) * V
+n_out = P * V / (R * T0); n_in = P * V / (R * 373.15)
+assert 720 < lift(100) < 725 and abs(n_out - 116_400) < 400 and n_out > n_in
+facts = dict(rin="%.3f" % rho(373.15), lift="%.0f" % lift(100), nout="{:,.0f}".format(n_out), nin="{:,.0f}".format(n_in), esc="{:,.0f}".format(n_out - n_in))
+f = Fig(300, 236)
+f.text(150, 14, "Lift (kg) = (rho out - rho in) V", size=10.5, color=NAVY, bold=True)
+X = lambda T: 44 + (T - 20) * 2.2; Y = lambda m: 160 - m * 0.13
+f.line(X(20), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(20), Y(0), X(20), 34, color=SOFT, sw=1.2)
+pts = [(X(T), Y(lift(T))) for T in range(20, 121, 4)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=AMBER, sw=2.6)
+f.line(X(100), Y(0), X(100), Y(lift(100)), color=TEAL, sw=1.2, dash=True)
+f.circle(X(100), Y(lift(100)), 4, fill=TEAL, stroke=TEAL)
+f.text(X(100) - 8, Y(lift(100)) - 10, "%.0f kg" % lift(100), size=10.5, color=TEAL, bold=True, anchor="end")
+for T in (20, 60, 100): f.text(X(T), Y(0) + 13, "%d C" % T, size=10.5, color=SLATE)
+for m in (250, 500, 750): f.text(38, Y(m), "%d" % m, size=10.5, color=SLATE, anchor="end", vmid=True)
+f.text(150, 192, "inside density %.3f vs 1.204 kg/m^3" % rho(373.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "cold %.0f mol, hot %.0f mol" % (n_out, n_in), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "%.0f mol escape: n = PV / RT" % (n_out - n_in), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
