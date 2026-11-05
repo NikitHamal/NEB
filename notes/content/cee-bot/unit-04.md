@@ -287,6 +287,29 @@ ax.axis('off')
 ```photo id="bio11/dryopteris" caption="The underside of a *Dryopteris* frond: each pinnule carries rounded brown sori, each a cluster of sporangia that is covered, while young, by a kidney-shaped indusium." width="66"
 ```
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="A fern frond is a spore factory. (a) The underside of a fern frond carries brown sori, each a cluster of sporangia. (b) A sporangium contains 16 spore mother cells; each divides by meiosis into 4 haploid spores, so it releases 64 spores. With about 50 sporangia in a sorus and 40 sori on a frond the count rises to 3,200 per sorus and 128,000 per frond (typical order of magnitude, bar lengths are logarithmic). Each spore that lands on damp ground can grow into a heart-shaped prothallus, the haploid gametophyte."
+@ photo id="ceebot/fern-sori" cap="Underside of a fern frond with sori"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Spore count from one cell up to a whole frond (log scale)"
+smc, sp_sorus, sori = 16, 50, 40
+s_sp = smc * 4
+s_sorus = s_sp * sp_sorus
+s_frond = s_sorus * sori
+assert (s_sp, s_sorus, s_frond) == (64, 3200, 128000)
+facts = dict(s_sp=str(s_sp), s_sorus="{:,}".format(s_sorus), s_frond="{:,}".format(s_frond))
+f = Fig(300, 236)
+f.text(150, 12, "Spores produced (bar length = log10)", size=10.5, color=NAVY, bold=True)
+rows = (("1 spore mother cell", 4), ("1 sporangium (16 cells)", 64), ("1 sorus (50 sporangia)", 3200), ("1 frond (40 sori)", 128000))
+for i, (lab, n) in enumerate(rows):
+    y = 34 + i * 40
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = 36 * math.log10(n)
+    f.box(10, y + 8, w, 16, fill=MINT, stroke=TEAL, r=2)
+    f.text(10 + w + 6, y + 16, "{:,}".format(n), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "meiosis: 2n spore mother cell -> 4 spores (n)", size=10.5, color=NAVY, bold=True)
+```
+
 ## 4.3 Gymnosperms; *Pinus*
 
 ### General characters
@@ -468,6 +491,25 @@ the gametophyte; the zygote is the first cell of the sporophyte.
 
 **Solution.** Hygroscopic elaters without a columella characterise the liverwort ***Marchantia*** (A); a central columella and a two-ringed 32-tooth peristome characterise the moss ***Funaria*** (B).
 :::
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Where the chromosome number changes in a pine (2n = 24). (a) Male cones of a pine shed pollen in spring; each pollen grain is the male gametophyte. (b) Meiosis cuts the number from 24 to 12 when spores form; fertilization restores 24 in the zygote. The female gametophyte, which becomes the food store of the seed, stays haploid (n = 12), unlike the triploid (3n) endosperm of a flowering plant, so a pine seed holds three generations: the old sporophyte coat, the haploid food store and the new diploid embryo."
+@ photo id="ceebot/pine-male" cap="Male pollen cones of a pine"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Chromosome number at each stage of the pine life cycle"
+stages = (("Tree (sporophyte)", 24), ("Microspore mother cell", 24), ("Pollen grain (male gam.)", 12), ("Functional megaspore", 12), ("Female gametophyte", 12), ("Egg cell", 12), ("Zygote and embryo", 24))
+assert all(n in (12, 24) for _, n in stages)
+facts = dict(nend=str(stages[4][1]))
+f = Fig(300, 236)
+f.text(150, 12, "Pinus: chromosomes per cell (2n = 24)", size=10.5, color=NAVY, bold=True)
+for i, (lab, n) in enumerate(stages):
+    y = 26 + i * 26
+    two = n == 24
+    f.text(6, y + 10, lab, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(150, y, n * 5.6, 20, fill=BLUE if two else SAND, stroke=NAVY if two else AMBER, r=2)
+    f.text(150 + n * 5.6 / 2, y + 10, ("2n = 24" if two else "n = 12"), size=10.5, color=NAVY if two else AMBER, bold=True, vmid=True)
+f.text(150, 222, "meiosis halves it; fertilization restores it", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 

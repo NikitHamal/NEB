@@ -130,6 +130,31 @@ ax.text(5.2, -0.9, "(b) eukaryote (plant cell)", ha="center", fontsize=9, fontwe
 fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.08, wspace=0.03)
 ```
 
+```photogrid label="7.2" cols="2" ratio="1.2" caption="What a cell looks like at each magnification. (a) A compound light microscope with its eyepiece (10x) and rotating objectives. (b) Total magnification is eyepiece times objective, so the 4x, 10x and 40x objectives give 40, 100 and 400 times. With a field number of 18 mm the width of the field is 18/objective: 4.50 mm, 1.80 mm and 0.45 mm. A cell that fills one twentieth of the field at 400x is therefore about 22.5 micrometres across, which is why plant cells (10 to 100 micrometres) are visible but a bacterium (1 to 5 micrometres) is only a dot."
+@ photo id="bio11/microscope" cap="A compound microscope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Field of view at 40x, 100x and 400x (field number 18 mm)"
+fn, eye = 18.0, 10
+objs = (4, 10, 40)
+tot = [eye * o for o in objs]
+fov = [fn / o for o in objs]
+cell = fov[2] / 20 * 1000
+assert tot == [40, 100, 400] and abs(fov[2] - 0.45) < 1e-12 and abs(cell - 22.5) < 1e-9
+facts = dict(m1=tot[0], m2=tot[1], m3=tot[2], d1="%.2f" % fov[0], d2="%.2f" % fov[1], d3="%.2f" % fov[2], cell="%.1f" % cell)
+f = Fig(300, 236)
+f.text(150, 12, "Field of view (circle diameter to scale)", size=10.5, color=NAVY, bold=True)
+sc = 160 / fov[0]
+for d, t, col in zip(fov, tot, (NAVY, TEAL, RED)):
+    f.circle(110, 108, d * sc / 2, fill="none", stroke=col, sw=2)
+f.text(110, 44, "40x: 4.50 mm", size=10.5, color=NAVY, bold=True)
+f.line(133, 90, 200, 66, color=TEAL)
+f.text(204, 66, "100x: 1.80 mm", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.line(110, 108, 200, 108, color=RED)
+f.text(204, 108, "400x: 0.45 mm", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "one cell = 1/20 of field = 22.5 um", size=10.5, color=NAVY, bold=True)
+```
+
 ## 7.2 The cell wall, the membrane and the organelles
 
 ### The cell wall
@@ -593,6 +618,30 @@ number is halved but each chromosome still has two chromatids. Sperm: **23 chrom
 
 **Solution.** Each mitotic division adds one cell to the count ($N - 1$ total mitoses, in $\log_2 64 = 6$ generations): **63 mitotic divisions**. For $n$ seeds in an angiosperm, 1 microspore mother cell makes 4 pollen grains ($n/4$ meioses) and 1 megaspore mother cell makes 1 functional egg ($n$ meioses), so $n + n/4 = \frac{5}{4}n = \frac{5}{4}(100) = \mathbf{125\text{ meiotic divisions}}$.
 :::
+
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Counting cells to find how long each phase lasts. (a) A root-tip squash of onion: cells caught in mitosis show condensed chromosomes. (b) In a sample of 200 cells, 160 were in interphase and 40 in mitosis (prophase 24, metaphase 6, anaphase 4, telophase 6), so the mitotic index is 20 per cent. If the whole cycle takes 20 hours, the time spent in a phase is its fraction of cells times 20 h: interphase 16.0 h, prophase 2.4 h, metaphase 0.6 h, anaphase 0.4 h and telophase 0.6 h. Prophase is the longest stage of mitosis, which is why most dividing cells you find are in it."
+@ photo id="bio11/onion-root" cap="Onion root tip cells in mitosis"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Phase counts in 200 cells and the time each takes (20 h cycle)"
+cnt = (("Interphase", 160), ("Prophase", 24), ("Metaphase", 6), ("Anaphase", 4), ("Telophase", 6))
+tot = sum(n for _, n in cnt)
+assert tot == 200
+mi = 100 * (tot - 160) / tot
+hrs = {k: n / tot * 20 for k, n in cnt}
+assert abs(mi - 20) < 1e-9 and abs(hrs["Prophase"] - 2.4) < 1e-9 and abs(hrs["Interphase"] - 16) < 1e-9
+facts = dict(mi="%.0f" % mi, ti="%.1f" % hrs["Interphase"], tp="%.1f" % hrs["Prophase"], tm="%.1f" % hrs["Metaphase"], ta="%.1f" % hrs["Anaphase"], tt="%.1f" % hrs["Telophase"])
+f = Fig(300, 236)
+f.text(150, 12, "Cells counted and hours per phase", size=10.5, color=NAVY, bold=True)
+for i, (k, n) in enumerate(cnt):
+    y = 30 + i * 30
+    f.text(8, y + 10, k, size=10.5, color=SLATE, anchor="start", vmid=True)
+    w = n / 160 * 78
+    f.box(86, y, max(w, 3), 20, fill=MINT if i else BLUE, stroke=TEAL if i else NAVY, r=2)
+    f.text(86 + max(w, 3) + 6, y + 10, "%d cells = %.1f h" % (n, hrs[k]), size=10.5, color=TEAL if i else NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "mitotic index = 40/200 = 20 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "time = fraction of cells x 20 h", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
