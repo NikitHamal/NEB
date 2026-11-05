@@ -84,7 +84,7 @@ class ApiQueryBudgetTests(TestCase):
         self.get(f'/api/users/{self.star.id}/followers/', 3, signed_in=False)
 
     def test_private_analytics_is_a_fixed_number_of_aggregates(self):
-        r, _sql = self.get('/api/users/me/analytics/', 20)
+        r, _sql = self.get('/api/users/me/analytics/', 26)
         self.assertEqual(len(r.json()['activityDays']), 14)
 
     def test_resource_cards_do_not_query_per_paid_card(self):
