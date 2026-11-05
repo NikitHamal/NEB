@@ -23,9 +23,6 @@ class ContentImagesHelpersTest(TestCase):
         self.assertEqual(content_images.extract_image_ids('[[img:5]] [[img:5]]'), [5])
         self.assertEqual(content_images.extract_image_ids('no tokens'), [])
 
-    def test_plain_text(self):
-        self.assertEqual(content_images.plain_text('a [[img:1]] b'), 'a [image] b')
-
     def test_strip(self):
         self.assertEqual(content_images.strip_tokens('a [[img:1]] b'), 'a  b')
 

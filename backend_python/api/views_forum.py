@@ -82,52 +82,6 @@ def forum_media_upload(request):
     return Response({'ok': True, 'attachment': descriptor}, status=201)
 
 
-@api_view(['POST'])
-@throttle_classes([WriteActionRateThrottle])
-def posts_create(request):
-    """POST /api/posts"""
-    user, err = _require_verified_user(request)
-    if err:
-        return err
-
-    title = request.data.get('title', '').strip()
-    content = request.data.get('content', '').strip()
-    category = request.data.get('category', '').strip()
-    if not title or not content or not category:
-        return Response({'error': 'Missing fields'}, status=400)
-
-    err = _validate_text_length(title, MAX_POST_TITLE_LENGTH, 'Title')
-    if err:
-        return err
-    err = _validate_text_length(content, MAX_POST_CONTENT_LENGTH, 'Content')
-    if err:
-        return err
-
-    attachments, error_response = _parse_attachments_or_error(request)
-    if error_response:
-        return error_response
-
-    now = _now_ms()
-    post = Post.objects.create(
-        id=str(uuid.uuid4()),
-        user=user,
-        title=title,
-        content=content,
-        category=category,
-        thumbs_up_count=0,
-        reply_count=0,
-        is_anonymous=_client_wants_anonymous(request),
-        created_at=now,
-    )
-    if attachments:
-        _attach_forum_media(post, attachments, now)
-
-    logger.info("posts_create: created post %s by user %s", post.id, user.username)
-    _counters.increment_user_post_count(user.id)
-    _notif.send_mention_all_if_eligible(user, f'{title} {content}', 'post', post.id)
-    _rt.broadcast_post_created(PostSerializer(post, context={'request': request}).data)
-    return Response(PostSerializer(post, context={'request': request}).data, status=201)
-
 @api_view(['GET', 'DELETE', 'PATCH'])
 @permission_classes([AllowAny])
 def post_detail(request, post_id):
@@ -336,71 +290,6 @@ def post_like(request, post_id):
 
     _rt.broadcast_post_like_changed(post_id, current_count, is_thumbed_up_by_viewer_hint=is_thumbed_up, user_id=str(user.id))
     return Response({'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up})
-
-@api_view(['POST'])
-@throttle_classes([WriteActionRateThrottle])
-def replies_create(request, post_id):
-    """POST /api/posts/<postId>/replies"""
-    user, err = _require_verified_user(request)
-    if err:
-        return err
-
-    try:
-        post = Post.objects.get(pk=post_id)
-    except Post.DoesNotExist:
-        return Response({'error': 'Post not found'}, status=404)
-
-    content = request.data.get('content', '').strip()
-    parent_reply_id = request.data.get('parentReplyId', None)
-
-    err = _validate_text_length(content, MAX_REPLY_CONTENT_LENGTH, 'Content')
-    if err:
-        return err
-
-    if parent_reply_id and not Reply.objects.filter(pk=parent_reply_id, post_id=post_id).exists():
-        return Response({'error': 'Invalid parent reply'}, status=400)
-
-    attachments, error_response = _parse_attachments_or_error(request)
-    if error_response:
-        return error_response
-    from . import polls as _polls
-    poll_data, poll_error = _polls.clean_poll_input(request.data.get('poll'))
-    if poll_error:
-        return Response({'error': poll_error}, status=400)
-    if parent_reply_id and poll_data:
-        return Response({'error': 'Polls can only be added to top-level comments'}, status=400)
-    # Voice notes / attachments / a poll can be the entire reply.
-    if not content and not attachments and not poll_data:
-        return Response({'error': 'Content is required'}, status=400)
-    anonymous = _client_wants_anonymous(request)
-
-    now = _now_ms()
-    with transaction.atomic():
-        reply = Reply.objects.create(
-            id=str(uuid.uuid4()),
-            post=post,
-            parent_reply_id=parent_reply_id,
-            user=user,
-            content=content,
-            kind='comment' if parent_reply_id else _forum_labels.clean_kind(request.data.get('kind')),
-            thumbs_up_count=0,
-            is_anonymous=anonymous,
-            created_at=now,
-        )
-        Post.objects.filter(pk=post.pk).update(reply_count=F('reply_count') + 1)
-        if parent_reply_id:
-            Reply.objects.filter(pk=parent_reply_id).update(reply_count=F('reply_count') + 1)
-        if attachments:
-            _attach_forum_media(reply, attachments, now)
-
-    logger.info("replies_create: created reply on post %s by user %s", post_id, user.username)
-    _counters.increment_user_reply_count(user.id)
-    _notif.notify_new_reply(user.id, post_id, reply.id, anonymous_actor=anonymous)
-    if parent_reply_id:
-        _notif.notify_reply_to_reply(user.id, parent_reply_id, post_id, reply.id, anonymous_actor=anonymous)
-    _notif.send_mention_all_if_eligible(user, content, 'reply', reply.id)
-    _rt.broadcast_reply_created(post_id, ReplySerializer(reply, context={'request': request}).data)
-    return Response(ReplySerializer(reply, context={'request': request}).data, status=201)
 
 @api_view(['DELETE', 'PATCH'])
 def reply_detail(request, reply_id):
