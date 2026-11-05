@@ -356,9 +356,16 @@
   /* The panel has no padding of its own, so the composer takes the same inset
      every other row here uses -- and leaves the focus ring room to sit outside
      the field without touching the panel's edge. */
-  .fp-center-panel > .neb-composer {
+  /* A composer with a poll tool is wrapped in .pb-scope (composer + poll builder + staged media), so the
+     inset belongs to whichever of the two is the panel's direct child. Matching only `> .neb-composer`
+     is how the field, the poll builder and the staged media ended up flush against the panel's edge. */
+  .fp-center-panel > .neb-composer,
+  .fp-center-panel > .pb-scope {
     margin: 12px;
   }
+  .pb-scope { display: block; min-width: 0; }
+  .pb-scope > .pb { margin-top: 10px; }
+  .pb-scope > .cp-media-list { margin-top: 10px; }
 
   #replies-section {
     padding: 0;
@@ -392,8 +399,12 @@
     .fp-replies-head {
       padding: 14px 16px;
     }
-    .fp-center-panel > .neb-composer {
+    .fp-center-panel > .neb-composer,
+    .fp-center-panel > .pb-scope {
       margin: 10px 8px;
+    }
+    .fp-center-panel > .neb-composer,
+    .fp-center-panel > .pb-scope > .neb-composer {
       padding-left: 8px;
       padding-right: 8px;
     }
