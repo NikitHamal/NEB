@@ -136,6 +136,13 @@
   font-weight: 400;
 }
 
+/* The poll mark is a drawn SVG (components/_poll_icon.html), shared with the home
+   composer, so it takes this surface's size and inherits the ink and hover colour. */
+.neb-composer .fp-inline-tool .poll-icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* ---- Send ----
    Same control as the home composer's publish button: one glyph, one ink, so
    every place that posts reads as the same action. */
