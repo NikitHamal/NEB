@@ -584,6 +584,19 @@
     "source": "Wikimedia Commons",
     "title": "ATM of Siddhartha Bank in Budhanilkantha (2023)"
   },
+  "bca101/bachman": {
+    "author": "Hamilton_and_Bachman_at_ACM_Turing_Centenary_Celebration.jpg : Dennis Hamilton derivative work: YMS",
+    "bytes": 250796,
+    "credit": "This file was derived from: Hamilton and Bachman at ACM Turing Centenary Celebration.jpg :",
+    "fetched": "2026-11-05",
+    "file": "bca101/bachman.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Charles_Bachman_2012.jpg",
+    "sha1": "0f2f364cdde847e3",
+    "source": "Wikimedia Commons",
+    "title": "Charles Bachman 2012"
+  },
   "bca101/biosrom": {
     "author": "Raimond Spekking",
     "bytes": 820468,
@@ -596,6 +609,19 @@
     "sha1": "ffa82597df86e8d9",
     "source": "Wikimedia Commons",
     "title": "Elitegroup 761GX-M754 - AMIBIOS (American Megatrends) in a Winbond W39V040APZ-5491"
+  },
+  "bca101/cardcat": {
+    "author": "TBurmeister (WMF)",
+    "bytes": 585644,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/cardcat.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Inside_a_card_catalog_at_the_Indiana_State_Library_-_ask_the_librarian.jpg",
+    "sha1": "c5b7244552db1a3f",
+    "source": "Wikimedia Commons",
+    "title": "Inside a card catalog at the Indiana State Library - ask the librarian"
   },
   "bca101/coax": {
     "author": "Wtshymanski",
@@ -739,6 +765,19 @@
     "sha1": "dc54527936d05e3a",
     "source": "Wikimedia Commons",
     "title": "Single strand of a Optical fiber network cable, stripped clean to the (fragile) glass fiber core"
+  },
+  "bca101/filecab": {
+    "author": "Watty62",
+    "bytes": 519049,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca101/filecab.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Card_Filing_Cabinet.jpg",
+    "sha1": "776d361f67b8da53",
+    "source": "Wikimedia Commons",
+    "title": "Card Filing Cabinet"
   },
   "bca101/fortrancard": {
     "author": "Tangopaso .",
