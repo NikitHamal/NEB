@@ -55,6 +55,17 @@ for i, (a, b, c) in enumerate(rows):
 f.text(570, 30, "Layers of an operating system", size=12, color=NAVY, bold=True)
 ```
 
+### 3.1.1 Eight functions of an operating system
+
+1. **Process management.** The OS creates processes, decides which one gets the CPU next and ends them when they finish. Without it, a computer could run only one program at a time. When you play music while writing a Word file in a Kathmandu college lab, the scheduler is switching the CPU between the two many times a second.
+2. **Memory management.** The OS gives every program its own part of RAM and stops one program from reading another's data. It also moves rarely used pages to disk when RAM is full (virtual memory). This is why a phone with 4 GB of RAM can keep many apps open.
+3. **File management.** The OS stores data in named files and folders, tracks where each block is on the disk and controls who may read or write. Permissions keep the results folder of a college server safe from students. It also supports copy, move, delete and search.
+4. **Device management.** Keyboards, printers, scanners and disks are controlled through device drivers. The OS queues print jobs (spooling) and buffers data so that a slow printer does not hold up the CPU. Plugging in a pen drive works because the OS loads the right driver.
+5. **User interface.** The OS gives the user a command line (CLI) or a graphical interface (GUI). A GUI with icons and windows lets a first-time user start a program with a click, while the CLI lets an administrator automate hundreds of tasks with a script.
+6. **Security and protection.** Passwords, user accounts, permissions, firewalls and encryption stop unauthorised use. The OS keeps a normal user from changing system files. Keeping the OS updated closes holes that malware would use.
+7. **Resource allocation and accounting.** The OS shares CPU time, memory and disk space fairly among users and records usage. A university server can limit each student's storage quota. Accounting also helps the administrator to see which program slows the machine down.
+8. **Error detection and networking.** The OS detects hardware and software errors, such as a bad disk sector or a program crash, and takes action without stopping the whole system. It also provides the network stack that lets the computer join a LAN or the Internet, so that a lab PC can reach a shared printer or the TU website.
+
 ## 3.2 Types of operating system
 
 | Type | Idea | Example / use |
@@ -127,6 +138,42 @@ f.arrow([(290, 257), (225, 257), (225, 164)], color=TEAL, label="I/O completed",
 f.text(380, 20, "Process state diagram (five-state model)", size=12, color=NAVY, bold=True)
 ```
 
+```svgfig label="3.3" caption="The worked example drawn as Gantt charts from a real simulation of the three policies (average waits 7.25, 6.25 and 10.75 ms, asserted in the figure code)."
+bursts = {"P1": 5, "P2": 3, "P3": 8, "P4": 6}
+def run(order):
+    t, segs, wait = 0, [], {}
+    for p in order:
+        wait[p] = t; segs.append((p, t, t + bursts[p])); t += bursts[p]
+    return segs, wait
+def rr(q):
+    rem = dict(bursts); queue = list(bursts); t = 0; segs = []; fin = {}
+    while queue:
+        p = queue.pop(0); d = min(q, rem[p]); segs.append((p, t, t + d)); t += d; rem[p] -= d
+        if rem[p]: queue.append(p)
+        else: fin[p] = t
+    return segs, {p: fin[p] - bursts[p] for p in bursts}
+fcfs = run(["P1", "P2", "P3", "P4"])
+sjf = run(sorted(bursts, key=bursts.get))
+rrr = rr(4)
+avg = lambda w: sum(w.values()) / len(w)
+print(avg(fcfs[1]), avg(sjf[1]), avg(rrr[1]), rrr[0])
+assert avg(fcfs[1]) == 7.25 and avg(sjf[1]) == 6.25 and avg(rrr[1]) == 10.75
+assert rrr[0][-1] == ("P4", 20, 22) and sjf[1]["P3"] == 14 and sorted(bursts, key=bursts.get) == ["P2", "P1", "P4", "P3"]
+f = Fig(760, 300)
+colors = {"P1": (BLUE, NAVY), "P2": (MINT, TEAL), "P3": (SAND, AMBER), "P4": (ROSE, RED)}
+S = 24; X0 = 70
+for r, (name, (segs, w)) in enumerate([("FCFS", fcfs), ("SJF", sjf), ("RR q=4", rrr)]):
+    y = 20 + r * 90
+    f.text(8, y + 20, name, size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+    for p, a, b in segs:
+        fl, st = colors[p]
+        f.box(X0 + a * S, y, (b - a) * S, 40, p, fill=fl, stroke=st, size=10.5, bold=True, color=st)
+    for tt in sorted({a for _, a, _ in segs} | {segs[-1][2]}):
+        f.text(X0 + tt * S, y + 54, str(tt), size=10.5, color=SLATE)
+    f.text(X0 + 22 * S + 14, y + 20, f"avg wait {avg(w):.2f} ms", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(8, 292, "All four processes arrive at time 0; bursts P1=5, P2=3, P3=8, P4=6 ms; waiting = start of first run (non-preemptive) or turnaround minus burst (RR)", size=10.5, color=SLATE, anchor="start")
+```
+
 ## 3.4 Memory management
 
 Every running program must be in main memory. The OS tracks which parts are free, allocates them and protects them.
@@ -141,6 +188,56 @@ Page size 1 KB = 1024 bytes. A process reads logical address **3500**. Page numb
 :::
 
 **Page replacement.** When RAM is full, a victim page must go. FIFO removes the oldest page; LRU removes the least recently used; optimal removes the page not needed for longest (a yardstick, not implementable). Example, 3 frames, reference string 1 2 3 4 1 2 5: FIFO faults on pages 1, 2, 3 (load), 4 (evict 1), 1 (evict 2), 2 (evict 3), 5 (evict 4) → **7 faults**.
+
+```svgfig label="3.4" caption="Paging and page replacement, computed. (A) Logical address 3500 with 1 KB pages becomes physical address 7596. (B) Page faults for the reference string 1 2 3 4 1 2 5 with three frames (FIFO 7, LRU 7, optimal 5). (C) Belady's anomaly: under FIFO four frames gave 10 faults against 9 for three frames on a longer string."
+def faults(ref, n, pol):
+    mem, last, f = [], {}, 0
+    for i, p in enumerate(ref):
+        if p in mem:
+            last[p] = i; continue
+        f += 1
+        if len(mem) == n:
+            if pol == "FIFO": mem.pop(0)
+            elif pol == "LRU": mem.remove(min(mem, key=lambda x: last[x]))
+            else:
+                fut = {x: (ref[i + 1:].index(x) if x in ref[i + 1:] else 10**9) for x in mem}
+                mem.remove(max(mem, key=fut.get))
+        mem.append(p); last[p] = i
+    return f
+A = [1, 2, 3, 4, 1, 2, 5]
+B = [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5]
+res = {p: faults(A, 3, p) for p in ("FIFO", "LRU", "OPT")}
+bel = (faults(B, 3, "FIFO"), faults(B, 4, "FIFO"))
+print(res, bel)
+assert res["FIFO"] == 7 and res["OPT"] <= res["LRU"] <= res["FIFO"] and bel == (9, 10)
+page, off = divmod(3500, 1024); phys = 7 * 1024 + off
+assert (page, off, phys) == (3, 428, 7596)
+f = Fig(760, 300)
+f.text(10, 16, "A. Address translation, page size 1 KB", size=11.5, color=NAVY, bold=True, anchor="start")
+f.box(10, 34, 150, 46, "Logical address\n3500", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(10, 110, 150, 46, f"page = 3500 div 1024 = {page}\noffset = 3500 mod 1024 = {off}", fill=SOFT, stroke=SLATE, size=10.5)
+f.arrow([(85, 80), (85, 110)], color=NAVY)
+for i in range(5):
+    fl, st = (SAND, AMBER) if i == 3 else (SOFT, SLATE)
+    f.box(210, 34 + i * 30, 120, 28, f"page {i} -> frame {[2, 9, 4, 7, 1][i]}", fill=fl, stroke=st, size=10.5, bold=(i == 3))
+f.arrow([(160, 133), (200, 133), (200, 128), (210, 128)], color=NAVY)
+f.box(210, 200, 120, 46, f"frame 7 x 1024 + {off}\n= {phys}", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(270, 184), (270, 200)], color=TEAL)
+f.text(10, 280, "Physical address 7596: the offset is copied unchanged", size=10.5, color=SLATE, anchor="start")
+f.text(400, 16, "B. Page faults, 3 frames, string 1 2 3 4 1 2 5", size=11.5, color=NAVY, bold=True, anchor="start")
+for i, (p, v) in enumerate(res.items()):
+    y = 40 + i * 40
+    f.text(400, y + 13, p, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(450, y, v * 30, 26, "", fill=SAND if p != "OPT" else MINT, stroke=AMBER if p != "OPT" else TEAL)
+    f.text(450 + v * 30 + 8, y + 13, f"{v} faults", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(400, 178, "C. Belady's anomaly (FIFO, string 1 2 3 4 1 2 5 1 2 3 4 5)", size=11.5, color=RED, bold=True, anchor="start")
+for i, (n, v) in enumerate(zip((3, 4), bel)):
+    y = 196 + i * 40
+    f.text(400, y + 13, f"{n} frames", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(480, y, v * 17, 26, "", fill=ROSE, stroke=RED)
+    f.text(480 + v * 17 + 8, y + 13, f"{v} faults", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(400, 284, "More memory gave MORE faults under FIFO", size=10.5, color=RED, anchor="start")
+```
 
 ## 3.5 File and device management
 
@@ -248,7 +345,7 @@ Useful Linux commands: `pwd` (where am I), `ls -l` (list with permissions), `cd 
 **12.** FIFO with 3 frames: 7, 0, 1 load (3 faults); 2 evicts 7 (fault); 0 is a hit; 3 evicts 0 (fault). Total **5 faults**.
 **13.** Use the table in §3.2: batch, multiprogramming, time-sharing, multiprocessing, real-time, distributed, network, mobile, embedded, one line and example each.
 **14.** Steps 1–5 in §3.6.
-**13–14.** Full ten-mark answers are in the section *Model answers* below.
+**13–15.** Full ten-mark answers are in the section *Model answers* below.
 **15.** Paging: fixed-size pages and frames, page table, translation example in §3.4. Virtual memory: demand loading, page faults, replacement, thrashing.
 :::
 
@@ -322,3 +419,27 @@ A **process** is a program in execution. During its life it passes through five 
 | Running → Terminated | finishes or is killed |
 
 *Example:* while a text editor waits for a key press it is *waiting*; when the key arrives it becomes *ready*, then *running*. The OS keeps this information in a **process control block (PCB)**.
+
+**Q15. Explain paging and virtual memory. (10 marks)**
+
+**Introduction.** Main memory is limited, but programs and the number of running programs keep growing. **Paging** is a memory management method that removes external fragmentation by cutting memory into equal blocks, and **virtual memory** uses the disk to give each program the illusion of a very large private memory. Together they let a 4 GB phone run apps whose total size is much more than 4 GB.
+
+1. **Pages and frames:** logical memory of a process is divided into equal **pages**; physical memory is divided into **frames** of the same size (for example 1 KB or 4 KB). Any page can go into any free frame.
+2. **Page table:** the OS keeps a table for each process mapping page number to frame number, as in Figure 3.4(A).
+3. **Address translation:** a logical address is split into page number = address div page size and offset = address mod page size. For address 3500 and page size 1024 the page is 3 and the offset 428; with page 3 in frame 7 the physical address is 7 x 1024 + 428 = 7596.
+4. **Fragmentation:** there is no external fragmentation; only the last page of a process may be partly empty (internal fragmentation, less than one page).
+5. **Demand paging:** a page is loaded only when it is first used. A **valid bit** in the page table shows whether the page is in RAM.
+6. **Page fault:** when the page is not in RAM, the hardware traps to the OS, which finds the page on disk, loads it into a free frame, updates the table and restarts the instruction. This costs milliseconds, so too many faults slow the system.
+7. **Page replacement:** if no frame is free the OS selects a victim: **FIFO** removes the oldest page, **LRU** the least recently used and **optimal** the page needed farthest in the future. For the string 1 2 3 4 1 2 5 with three frames FIFO and LRU give 7 faults and optimal gives 5 (Figure 3.4(B)). FIFO can even give more faults with more frames (Belady's anomaly, Figure 3.4(C)).
+8. **Thrashing:** if there are too many processes for the RAM, the system spends most time swapping pages and little time doing work. The cure is to reduce the number of running processes or add RAM.
+
+| Point | Paging | Virtual memory |
+|---|---|---|
+| Purpose | remove external fragmentation | run programs larger than RAM |
+| Unit | fixed-size page and frame | pages moved between RAM and swap space |
+| Main structure | page table | page table plus disk swap area |
+| Main cost | table space | page faults and disk time |
+
+**Example.** On a lab PC with 4 GB of RAM, opening a browser, an IDE and a video call together may need more than 4 GB; the OS keeps the active pages in RAM and the rest in swap space, so everything runs, though a little slower.
+
+**Conclusion.** Paging gives simple, fragmentation-free allocation, and virtual memory built on demand paging gives large, protected address spaces. Their success depends on a low page-fault rate, which is why replacement policy and enough RAM matter.
