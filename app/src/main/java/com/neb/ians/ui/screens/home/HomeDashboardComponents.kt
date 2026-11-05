@@ -31,7 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Draw
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
@@ -790,7 +790,7 @@ internal fun HomeFeedFilterStrip(
 internal fun HomeStudyHub(
     userName: String,
     onStudyLabClick: () -> Unit,
-    onCanvasClick: () -> Unit,
+    onNotesClick: () -> Unit,
     onNebyAiClick: () -> Unit,
     onSearchClick: () -> Unit
 ) {
@@ -847,10 +847,10 @@ internal fun HomeStudyHub(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 HomeMiniHubButton(
-                    title = "Canvas",
-                    subtitle = "Whiteboard",
-                    icon = Icons.Filled.Draw,
-                    onClick = onCanvasClick,
+                    title = "Notes",
+                    subtitle = "Dictate",
+                    icon = Icons.Filled.EditNote,
+                    onClick = onNotesClick,
                     modifier = Modifier.weight(1f)
                 )
                 HomeMiniHubButton(

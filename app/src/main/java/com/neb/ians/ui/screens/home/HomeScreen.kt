@@ -60,7 +60,7 @@ fun HomeScreen(
     onSearchClick: () -> Unit,
     onViewAllClick: () -> Unit,
     onForumClick: () -> Unit = {},
-    onCanvasClick: () -> Unit = {},
+    onNotesClick: () -> Unit = {},
     onStudyLabClick: () -> Unit = {},
     onNebyAiClick: () -> Unit = {},
     onNewsClick: () -> Unit = {},
