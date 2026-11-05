@@ -65,6 +65,7 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.Poll
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.StrikethroughS
@@ -114,7 +115,6 @@ import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 
 import com.neb.ians.data.api.ApiPoll
-import com.neb.ians.data.api.ApiPollVoteResponse
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.repository.ForumRepository
@@ -212,56 +212,6 @@ fun shareText(context: Context, text: String) {
     } catch (_: Exception) {
     }
 }
-
-// ---------------------------------------------------------------------------
-// Poll UI model (local state, kept in ViewModels; updated after voting)
-// ---------------------------------------------------------------------------
-
-data class PollOptionUi(
-    val id: String,
-    val text: String,
-    val correct: Boolean,
-    val votes: Int
-)
-
-data class PollUi(
-    val id: String,
-    val question: String,
-    val pollType: String,
-    val allowMultiple: Boolean,
-    val explanation: String,
-    val totalVotes: Int,
-    val isExpired: Boolean,
-    val options: List<PollOptionUi>,
-    val votedIds: Set<String>
-) {
-    val hasVoted: Boolean get() = votedIds.isNotEmpty()
-    val isMcq: Boolean get() = pollType == "mcq"
-}
-
-fun ApiPoll.toPollUi(): PollUi = PollUi(
-    id = id,
-    question = question,
-    pollType = pollType,
-    allowMultiple = allowMultiple,
-    explanation = explanation,
-    totalVotes = totalVotes,
-    isExpired = isExpired,
-    options = options.sortedBy { it.order }.map { PollOptionUi(it.id, it.text, it.correct, it.votes) },
-    votedIds = userVoteIds.toSet()
-)
-
-fun ApiPollVoteResponse.toPollUi(votedIds: Set<String>): PollUi = PollUi(
-    id = id,
-    question = question,
-    pollType = pollType,
-    allowMultiple = allowMultiple,
-    explanation = explanation,
-    totalVotes = totalVotes,
-    isExpired = isExpired,
-    options = options.sortedBy { it.order }.map { PollOptionUi(it.id, it.text, it.isCorrect, it.voteCount) },
-    votedIds = votedIds
-)
 
 // ---------------------------------------------------------------------------
 // Forum post card — mirrors web .post-card
@@ -416,7 +366,8 @@ fun ForumPostCard(
                     onReport = onReportClick,
                     onEdit = onEditClick,
                     onArchive = onArchiveClick,
-                    onDelete = onDeleteClick
+                    onDelete = onDeleteClick,
+                    onInsights = PostInsightsNav.open?.let { open -> { open(post.id) } }
                 )
             }
 
@@ -484,7 +435,7 @@ fun ForumPostCard(
             // ----- Poll badge -----
             post.poll?.let { poll ->
                 Spacer(modifier = Modifier.height(10.dp))
-                PollBadge(isMcq = poll.pollType == "mcq")
+                NebPollPreview(poll = remember(poll) { poll.toPollUi() })
             }
 
             // ----- Media attachment badges (video/audio/files) -----
@@ -669,6 +620,11 @@ fun PollBadge(isMcq: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
+/** Where "See insights" goes. Set by the navigation host; null means the menu hides the item. */
+object PostInsightsNav {
+    var open: ((String) -> Unit)? = null
+}
+
 /** Modern bottom sheet menu for posts/replies — like Instagram/Facebook. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -682,7 +638,8 @@ fun PostMoreMenu(
     onEdit: () -> Unit,
     onArchive: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onInsights: (() -> Unit)? = null
 ) {
     var showSheet by remember { mutableStateOf(false) }
     Box(modifier = modifier) {
@@ -722,6 +679,13 @@ fun PostMoreMenu(
                         modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp),
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
+                    if (onInsights != null) {
+                        BottomSheetItem(
+                            icon = Icons.Outlined.Insights,
+                            label = "See insights",
+                            onClick = { showSheet = false; onInsights() }
+                        )
+                    }
                     BottomSheetItem(
                         icon = Icons.Outlined.Edit,
                         label = "Edit",
@@ -774,258 +738,6 @@ private fun BottomSheetItem(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Poll view — replicates web .fp-poll
-// ---------------------------------------------------------------------------
-
-@Composable
-fun PollView(
-    poll: PollUi,
-    isVoting: Boolean,
-    onVote: (List<String>) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val showResults = poll.hasVoted || poll.isExpired
-
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    ) {
-        Column(modifier = Modifier.padding(14.dp)) {
-            // Header
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                Icon(
-                    imageVector = if (poll.isMcq) Icons.Outlined.Quiz else Icons.Outlined.HowToVote,
-                    contentDescription = null,
-                    modifier = Modifier.size(17.dp),
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = if (poll.isMcq) "MCQ Quiz" else "Poll",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                if (poll.allowMultiple) {
-                    Text(
-                        text = "Multiple choice",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            if (poll.question.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = poll.question,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            if (!showResults) {
-                if (poll.allowMultiple) {
-                    var selected by remember(poll.id) { mutableStateOf(setOf<String>()) }
-                    poll.options.forEach { option ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 3.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(
-                                    1.dp,
-                                    if (option.id in selected) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.outlineVariant,
-                                    RoundedCornerShape(10.dp)
-                                )
-                                .clickable(enabled = !isVoting) {
-                                    selected = if (option.id in selected) selected - option.id else selected + option.id
-                                }
-                                .padding(horizontal = 10.dp, vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Checkbox(
-                                checked = option.id in selected,
-                                onCheckedChange = { checked ->
-                                    selected = if (checked) selected + option.id else selected - option.id
-                                },
-                                enabled = !isVoting
-                            )
-                            Text(
-                                text = option.text,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    NebButton(
-                        text = "Vote",
-                        onClick = { onVote(selected.toList()) },
-                        enabled = selected.isNotEmpty(),
-                        loading = isVoting,
-                        size = NebButtonSize.Small
-                    )
-                } else {
-                    poll.options.forEach { option ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 3.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(10.dp))
-                                .clickable(enabled = !isVoting) { onVote(listOf(option.id)) }
-                                .padding(horizontal = 14.dp, vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = option.text,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                }
-            } else {
-                // Results view with animated fill bars
-                poll.options.forEach { option ->
-                    PollResultRow(poll = poll, option = option)
-                }
-                if (poll.isMcq && poll.explanation.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Surface(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Lightbulb,
-                                contentDescription = null,
-                                modifier = Modifier.size(16.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Text(
-                                text = poll.explanation,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = "${poll.totalVotes} ${if (poll.totalVotes == 1) "vote" else "votes"}",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                if (poll.isExpired) {
-                    Text(
-                        text = ", poll ended",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PollResultRow(poll: PollUi, option: PollOptionUi) {
-    val total = poll.totalVotes.coerceAtLeast(1)
-    val fraction = option.votes.toFloat() / total
-    val animatedFraction by animateFloatAsState(
-        targetValue = fraction,
-        animationSpec = tween(durationMillis = 500),
-        label = "pollFill"
-    )
-    val isUserChoice = option.id in poll.votedIds
-    val showCorrect = poll.isMcq && poll.hasVoted
-
-    val fillColor = when {
-        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.14f)
-        showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error.copy(alpha = 0.15f)
-        else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.14f)
-    }
-    val borderColor = when {
-        showCorrect && option.correct -> MaterialTheme.colorScheme.onSurface
-        showCorrect && isUserChoice && !option.correct -> MaterialTheme.colorScheme.error
-        isUserChoice -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.outlineVariant
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .border(1.dp, borderColor, RoundedCornerShape(10.dp))
-            .heightIn(min = 44.dp)
-    ) {
-        // Fill bar
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(0.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(animatedFraction)
-                    .background(fillColor)
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            if (showCorrect && option.correct) {
-                Icon(
-                    imageVector = Icons.Filled.CheckCircle,
-                    contentDescription = "Correct",
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            } else if (showCorrect && isUserChoice && !option.correct) {
-                Icon(
-                    imageVector = Icons.Filled.Cancel,
-                    contentDescription = "Incorrect",
-                    modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.error
-                )
-            }
-            Text(
-                text = option.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = if (isUserChoice) FontWeight.SemiBold else FontWeight.Normal,
-                modifier = Modifier.weight(1f)
-            )
-            val pct = if (poll.totalVotes > 0) (option.votes * 100 / poll.totalVotes) else 0
-            Text(
-                text = "${option.votes} votes, $pct%",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
     }
 }
 

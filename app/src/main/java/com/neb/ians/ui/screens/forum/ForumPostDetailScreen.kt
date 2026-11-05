@@ -96,7 +96,8 @@ import com.neb.ians.ui.components.KaTeXText
 import com.neb.ians.ui.components.MarkdownText
 import com.neb.ians.ui.components.ExpandableMarkdownText
 import com.neb.ians.ui.components.NebBadge
-import com.neb.ians.ui.components.PollView
+import com.neb.ians.ui.components.NebPollCard
+import com.neb.ians.ui.components.toPollUi
 import com.neb.ians.ui.components.PostMoreMenu
 import com.neb.ians.ui.components.ReportDialog
 import com.neb.ians.ui.components.UserPopoverDialog
@@ -112,6 +113,7 @@ import com.neb.ians.ui.components.ComposerAnonymousButton
 import com.neb.ians.ui.components.ReplyKindPicker
 import com.neb.ians.ui.components.ReplyLabelSheet
 import com.neb.ians.ui.components.ComposerAttachButton
+import com.neb.ians.ui.components.ComposerPollButton
 import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ForumAttachmentChip
 import com.neb.ians.ui.components.ForumMediaAttachments
@@ -140,6 +142,7 @@ fun ForumPostDetailScreen(
     val composerMediaAttachments by viewModel.mediaAttachments.collectAsStateWithLifecycle()
     val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
     val composerKind by viewModel.composerKind.collectAsStateWithLifecycle()
+    val composerPoll by viewModel.composerPoll.collectAsStateWithLifecycle()
     val identityName by viewModel.userName.collectAsStateWithLifecycle()
     val identityPhoto by viewModel.userPhotoUrl.collectAsStateWithLifecycle()
     val identityHandle by viewModel.userHandle.collectAsStateWithLifecycle()
@@ -203,7 +206,7 @@ fun ForumPostDetailScreen(
                 onValueChange = viewModel::onMainReplyChange,
                 placeholder = "Post your reply...",
                 enabled = !isSubmittingReply,
-                canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
+                canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty() || composerPoll?.isReady == true) && !isSubmittingReply,
                 posting = isSubmittingReply,
                 voiceNote = voiceNote,
                 docked = false,
@@ -222,6 +225,11 @@ fun ForumPostDetailScreen(
                         )
                     },
                     trailingContent = {
+                        ComposerPollButton(
+                            active = composerPoll != null,
+                            enabled = !isSubmittingReply,
+                            onClick = viewModel::toggleComposerPoll
+                        )
                         ComposerAttachButton(
                             enabled = !isSubmittingReply,
                             onClick = {
@@ -243,6 +251,14 @@ fun ForumPostDetailScreen(
                     onSelect = viewModel::setComposerKind,
                     enabled = !isSubmittingReply
                 )
+                composerPoll?.let { draft ->
+                    CommentPollBuilder(
+                        draft = draft,
+                        onChange = viewModel::updateComposerPoll,
+                        onClose = viewModel::toggleComposerPoll,
+                        enabled = !isSubmittingReply
+                    )
+                }
                 ComposerAttachmentChips(
                     attachments = composerMediaAttachments,
                     onRemoveAttachment = viewModel::removeMediaAttachment
@@ -317,7 +333,7 @@ fun ForumPostDetailScreen(
                             post = post,
                             poll = uiState.poll,
                             isOwnPost = isOwnPost,
-                            isVoting = uiState.isVoting,
+                            busy = uiState.busyPollId != null,
                             onThumbsUpClick = viewModel::toggleThumbsUp,
                             onBookmarkClick = viewModel::togglePostBookmark,
                             onShareClick = { sharePost(context, post.id) },
@@ -326,7 +342,9 @@ fun ForumPostDetailScreen(
                             onArchiveClick = viewModel::archivePost,
                             onDeleteClick = { deletingPost = true },
                             onReplyClick = { mainFocusRequester.requestFocus() },
-                            onVote = viewModel::votePoll,
+                            onVote = { ids -> uiState.poll?.let { viewModel.votePoll(it.id, ids, it.allowMultiple) } },
+                            onAddOption = { text -> uiState.poll?.let { viewModel.addPollOption(it.id, text) } },
+                            onRetract = { uiState.poll?.let { viewModel.retractPollVote(it.id) } },
                             onProfileClick = onProfileClick,
                             onAuthorLongPress = { popoverUsername = post.authorName },
                             onLinkClick = openLink,
@@ -398,6 +416,7 @@ fun ForumPostDetailScreen(
                         val children = uiState.childrenOf(reply.id)
                         CommentCard(
                             reply = reply,
+                            pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                             isOwn = reply.isOwner || (uiState.currentUserId != null && reply.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(reply.id) },
                             onLabelClick = { labelTarget = reply },
@@ -584,6 +603,7 @@ fun ForumPostDetailScreen(
                     item(key = "parent_${parent.id}") {
                         CommentCard(
                             reply = parent,
+                            pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                             isOwn = parent.isOwner || (uiState.currentUserId != null && parent.authorId == uiState.currentUserId),
                             onThumbsUpClick = { viewModel.toggleReplyThumbsUp(parent.id) },
                             onLabelClick = { labelTarget = parent },
@@ -641,6 +661,7 @@ fun ForumPostDetailScreen(
 
                                 CommentCard(
                                     reply = child,
+                                    pollContent = { api -> ReplyPollSlot(api, uiState.busyPollId, viewModel) },
                                     isOwn = child.isOwner || (uiState.currentUserId != null && child.authorId == uiState.currentUserId),
                                     onThumbsUpClick = { viewModel.toggleReplyThumbsUp(child.id) },
                                      onReplyClick = {
@@ -771,7 +792,7 @@ private fun PostContentSection(
     post: ApiPost,
     poll: com.neb.ians.ui.components.PollUi?,
     isOwnPost: Boolean,
-    isVoting: Boolean,
+    busy: Boolean,
     onThumbsUpClick: () -> Unit,
     onBookmarkClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -781,6 +802,8 @@ private fun PostContentSection(
     onDeleteClick: () -> Unit,
     onReplyClick: () -> Unit,
     onVote: (List<String>) -> Unit,
+    onAddOption: (String) -> Unit,
+    onRetract: () -> Unit,
     onProfileClick: (String) -> Unit,
     onAuthorLongPress: () -> Unit,
     onLinkClick: (String) -> Unit,
@@ -864,7 +887,8 @@ private fun PostContentSection(
                 onReport = onReportClick,
                 onEdit = onEditClick,
                 onArchive = onArchiveClick,
-                onDelete = onDeleteClick
+                onDelete = onDeleteClick,
+                onInsights = com.neb.ians.ui.components.PostInsightsNav.open?.let { open -> { open(post.id) } }
             )
         }
 
@@ -978,7 +1002,7 @@ private fun PostContentSection(
         // ----- Poll -----
         poll?.let {
             Spacer(modifier = Modifier.height(12.dp))
-            PollView(poll = it, isVoting = isVoting, onVote = onVote)
+            NebPollCard(poll = it, busy = busy, onVote = onVote, onAddOption = onAddOption, onRetract = onRetract)
         }
 
         Spacer(modifier = Modifier.height(14.dp))
@@ -1088,4 +1112,19 @@ private fun DiscussionHeader(category: String, onBack: () -> Unit) {
         }
         HorizontalDivider(color = scheme.outlineVariant)
     }
+}
+
+
+/** A comment's poll, fed by the same view model as the post's own poll. */
+@Composable
+private fun ReplyPollSlot(poll: com.neb.ians.data.api.ApiPoll, busyPollId: String?, viewModel: PostDetailViewModel) {
+    val ui = poll.toPollUi()
+    NebPollCard(
+        poll = ui,
+        busy = busyPollId != null,
+        onVote = { ids -> viewModel.votePoll(ui.id, ids, ui.allowMultiple) },
+        onAddOption = { text -> viewModel.addPollOption(ui.id, text) },
+        onRetract = { viewModel.retractPollVote(ui.id) },
+        modifier = Modifier.padding(top = 8.dp)
+    )
 }
