@@ -100,6 +100,33 @@ Dog dog
 
 **Compile-time versus run-time:** *overloading* is decided at compile time from the argument types; *overriding* is decided at run time from the object. **Casting:** upcasting (`Animal a = dog`) is automatic and safe; downcasting `(Dog) a` needs a cast and throws `ClassCastException` if the object is not a `Dog`; check first with `if (a instanceof Dog d) { … }` (pattern matching, Java 16+).
 
+### One tool, many blades
+
+A Swiss Army knife is one object with many tools behind one handle. Polymorphism is similar on the software side: one call, `shape.area()`, runs a different method depending on the object that receives it. The reference type decides what you may call; the object type decides which version runs. Plate 3.1 computes the area of a circle, a rectangle and a triangle through the same call and adds them in one loop.
+
+```photogrid label="3.1" cols="2" ratio="1.4" caption="One call, many behaviours. (a) A Swiss Army knife open: one handle, many tools. (b) Three objects held in one Shape[] and the result of calling area() on each: circle of radius 2, rectangle 3 x 4 and right triangle with legs 3 and 4; the loop adds them to 12.57 + 12 + 6 = 30.57."
+@ photo id="bca153/knife" cap="Swiss Army knife: one object, many tools"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="shape.area() on three kinds of Shape"
+import math
+areas = [("Circle(2)", math.pi * 2 * 2), ("Rectangle(3, 4)", 3 * 4), ("Triangle(3, 4)", 0.5 * 3 * 4)]
+tot = sum(a for _, a in areas)
+assert round(areas[0][1], 2) == 12.57 and areas[1][1] == 12 and areas[2][1] == 6 and round(tot, 2) == 30.57
+f = Fig(400, 250)
+f.text(200, 16, "for (Shape s : shapes) total += s.area();", size=11, color=NAVY, bold=True)
+for i, ((nm, a), (fl, st)) in enumerate(zip(areas, [(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)])):
+    y = 32 + i * 50
+    f.box(8, y, 150, 40, nm, fill=fl, stroke=st, color=st, size=11, bold=True)
+    f.arrow([(158, y + 20), (200, y + 20)], color=SLATE, sw=1.5)
+    f.text(206, y + 14, "own area() runs", size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(206, y + 22, max(a / 12.57 * 150, 10), 14, "", fill=fl, stroke=st, r=2)
+    f.text(212 + max(a / 12.57 * 150, 10), y + 29, f"{a:.2f}", size=10.5, color=st, bold=True, anchor="start", vmid=True)
+f.box(8, 190, 384, 44, "", fill=ROSE, stroke=RED, r=4)
+f.text(200, 206, "total = 12.57 + 12.00 + 6.00 = 30.57", size=12, color=RED, bold=True)
+f.text(200, 224, "The loop never asks which kind of shape it is holding.", size=10.5, color=SLATE)
+```
+
 ## 3.3 Abstract classes
 
 An **abstract class** cannot be instantiated; it may have fields, constructors, concrete methods and `abstract` methods (no body) that subclasses must implement. Use it for a family sharing code and state: `Shape` above. A class with any abstract method must itself be abstract; the first concrete subclass must implement them all.
@@ -146,6 +173,29 @@ public class Sorting {
 ```
 
 `Comparable<T>` defines the **natural order** (`compareTo`: negative, zero, positive); `Comparator<T>` supplies an alternative order from outside.
+
+### One interface, many implementations
+
+An interface is a promise: any class that implements it can be used wherever the interface is expected. The TV-B-Gone is a small device that sends the switch-off codes of many makes of television in turn, so one button works with all of them; in code, one `Comparator` variable can hold many different ways of ordering the same list. Plate 3.2 sorts four students by name and by marks using two `Comparator` implementations and gets two different, correct orders from the same `sort` call.
+
+```photogrid label="3.2" cols="2" ratio="1.4" caption="One button, many codes. (a) A TV-B-Gone circuit with several infrared LEDs: one device sends many different codes. (b) The same list of four students sorted twice through one sort call: by name (alphabetical) and by marks (highest first), using two different Comparator objects."
+@ photo id="bca153/tvbgone" cap="TV-B-Gone: one device, many behaviours"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="list.sort(comparator) with two comparators"
+st = [("Sita", 78), ("Ram", 91), ("Hari", 66), ("Gita", 85)]
+by_name = sorted(st, key=lambda t: t[0]); by_marks = sorted(st, key=lambda t: -t[1])
+assert [n for n, _ in by_name] == ["Gita", "Hari", "Ram", "Sita"] and [n for n, _ in by_marks] == ["Ram", "Gita", "Sita", "Hari"]
+f = Fig(400, 250)
+f.text(200, 16, "Same list, two Comparator objects", size=11, color=NAVY, bold=True)
+f.text(8, 40, "original:", size=10.5, color=SLATE, bold=True, anchor="start")
+for i, (n, m) in enumerate(st): f.box(76 + i * 80, 28, 74, 26, f"{n} {m}", fill=BLUE, stroke=NAVY, color=NAVY, size=10.5, bold=True)
+for j, (ttl, lst, fl, sc) in enumerate([("(a, b) -> a.name.compareTo(b.name)", by_name, MINT, TEAL), ("(a, b) -> b.marks - a.marks", by_marks, SAND, AMBER)]):
+    y = 76 + j * 80
+    f.text(8, y, ttl, size=10.5, color=sc, bold=True, anchor="start")
+    for i, (n, m) in enumerate(lst): f.box(8 + i * 96, y + 10, 90, 34, f"{n} {m}", fill=fl, stroke=sc, color=sc, size=11, bold=True)
+f.text(200, 238, "Sorting code is written once; the ordering rule is plugged in.", size=10.5, color=SLATE, bold=True)
+```
 
 ## 3.5 The `Object` class and design guidance
 

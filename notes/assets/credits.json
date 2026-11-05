@@ -2950,6 +2950,58 @@
     "source": "Wikimedia Commons",
     "title": "Zilog Z80"
   },
+  "bca153/blueprint": {
+    "author": "Lyme Art Association",
+    "bytes": 288483,
+    "credit": "Lyme Art Association archives",
+    "fetched": "2026-11-05",
+    "file": "bca153/blueprint.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Proposed_Charles_A._Platt_1920_blueprint_drawing_of_the_Lyme_Art_Gallery.jpg",
+    "sha1": "00953c5b9732f1bf",
+    "source": "Wikimedia Commons",
+    "title": "Proposed Charles A. Platt 1920 blueprint drawing of the Lyme Art Gallery"
+  },
+  "bca153/breaker": {
+    "author": "BrokenSphere",
+    "bytes": 501093,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca153/breaker.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Eaton_circuit_breaker_panel_open.JPG",
+    "sha1": "c26cd22408993731",
+    "source": "Wikimedia Commons",
+    "title": "Eaton circuit breaker panel open"
+  },
+  "bca153/containers": {
+    "author": "AgainErick",
+    "bytes": 538603,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca153/containers.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Shipping_container_stacks_-_Port_of_Rotterdam_-_2017_-_5.jpg",
+    "sha1": "fc49e17488f81e6b",
+    "source": "Wikimedia Commons",
+    "title": "Shipping container stacks - Port of Rotterdam - 2017 - 5"
+  },
+  "bca153/cutter": {
+    "author": "ktk17028",
+    "bytes": 589392,
+    "credit": "https://www.flickr.com/photos/40402003@N05/45938856885/",
+    "fetched": "2026-11-05",
+    "file": "bca153/cutter.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Old-fashioned_cookie_cutters_61.jpg",
+    "sha1": "ce5458455903af54",
+    "source": "Wikimedia Commons",
+    "title": "Old-fashioned cookie cutters 61"
+  },
   "bca153/dcrack": {
     "author": "PiDatacenters",
     "bytes": 897476,
@@ -2963,6 +3015,19 @@
     "source": "Wikimedia Commons",
     "title": "Racks Amravati Data Center"
   },
+  "bca153/filter": {
+    "author": "Fanti Salms",
+    "bytes": 337431,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca153/filter.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Under-sink_Water_Filter_System.jpg",
+    "sha1": "01f3dd856d1131cf",
+    "source": "Wikimedia Commons",
+    "title": "Under-sink Water Filter System"
+  },
   "bca153/gosling": {
     "author": "Eugene Zelenko",
     "bytes": 1007797,
@@ -2975,6 +3040,19 @@
     "sha1": "2e053a1c94079734",
     "source": "Wikimedia Commons",
     "title": "James Gosling 2008-1"
+  },
+  "bca153/knife": {
+    "author": "Jonas Bergsten",
+    "bytes": 273642,
+    "credit": "Photo taken by Jonas Bergsten using a Canon PowerShot G3 .kk",
+    "fetched": "2026-11-05",
+    "file": "bca153/knife.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Swiss_army_knife_open_20050612_(cropped).jpg",
+    "sha1": "8b8a4688ecd249d9",
+    "source": "Wikimedia Commons",
+    "title": "Swiss army knife open 20050612 (cropped)"
   },
   "bca153/simchip": {
     "author": "Martijn Boer",
@@ -3001,6 +3079,19 @@
     "sha1": "c328109822daadd0",
     "source": "Wikimedia Commons",
     "title": "Vizio V6 7603B0-CFE3 Smart TV SOC Die Shot"
+  },
+  "bca153/tvbgone": {
+    "author": "Joe Hall",
+    "bytes": 552423,
+    "credit": "https://www.flickr.com/photos/71753172@N00/3542736341",
+    "fetched": "2026-11-05",
+    "file": "bca153/tvbgone.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:TV-B-Gone_Adafruit.jpg",
+    "sha1": "e58ab367487ba83c",
+    "source": "Wikimedia Commons",
+    "title": "TV-B-Gone Adafruit"
   },
   "bca155/alto": {
     "author": "The wub",
