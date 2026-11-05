@@ -545,6 +545,32 @@ though $\Delta G^\circ$ has changed sign. Temperature helps the rate and hurts t
 pressure rescues the yield.
 :::
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Hess's law in a flame. (a) A Bunsen burner burns methane: CH4 + 2O2 gives CO2 + 2H2O(l). (b) From formation enthalpies (CH4 -74.8, CO2 -393.5, H2O(l) -285.8 kJ/mol) Delta H = -393.5 + 2(-285.8) - (-74.8) = -890.3 kJ/mol, or 55.5 kJ per gram. Heating 1.00 kg of water from 25 to 100 degrees C takes 313.5 kJ, which needs 0.352 mol, 5.6 g or 8.6 L of methane at 25 degrees C. Per gram hydrogen gives the most heat, 141.8 kJ, and ethanol the least of the four fuels shown."
+@ photo id="sci10/bunsen" cap="A Bunsen burner: methane burns in air and releases heat"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heat released per gram of some fuels (kJ/g)"
+dh = -393.5 + 2 * (-285.8) - (-74.8); pg = -dh / 16.04
+q = 1000 * 4.18 * 75 / 1000; nm = q / -dh; gm = nm * 16.04; vm = nm * 24.5
+fuels = (("H2", 285.8, 2.016), ("CH4", -dh, 16.04), ("octane", 5470, 114.23), ("ethanol", 1366.8, 46.07))
+per = [(n, e / M) for n, e, M in fuels]
+assert abs(dh + 890.3) < 1e-9 and abs(pg - 55.5) < 0.05 and abs(q - 313.5) < 1e-9 and abs(vm - 8.63) < 0.02
+assert [n for n, v in sorted(per, key=lambda t: -t[1])][0] == "H2" and sorted(per, key=lambda t: t[1])[0][0] == "ethanol"
+facts = dict(dh="%.1f" % dh, pg="%.1f" % pg, q="%.1f" % q, nm="%.3f" % nm, gm="%.1f" % gm, vm="%.1f" % vm, h2="%.1f" % per[0][1])
+f = Fig(300, 236)
+f.text(150, 14, "heat of combustion per gram, kJ/g", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(per):
+    y = 30 + i * 36
+    f.text(14, y + 4, n, size=10.5, color=SLATE, anchor="start")
+    w = v * 1.3
+    col, fl = (RED, ROSE) if n == "H2" else (TEAL, MINT)
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 17, "%.1f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "methane: Delta H = %.1f kJ/mol" % dh, size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "1 kg water 25 to 100 C: %.1f kJ" % q, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "= %.1f g methane (%.1f L)" % (gm, vm), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation | Note |

@@ -476,6 +476,28 @@ two options differ by exactly your coefficient ratio, recheck that step before
 choosing.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="From a weighing to a gas volume. (a) A volumetric flask holds exactly 250 mL at its mark, so a solution of known molarity is made by dissolving a weighed mass. (b) For 0.100 M Na2CO3 (M = 105.99 g/mol) the mass is 0.100 x 0.250 x 105.99 = 2.650 g, which is 0.025 mol. It reacts as Na2CO3 + 2HCl gives 2NaCl + H2O + CO2. With 40.0 mL of 1.00 M HCl (0.040 mol) the acid is the limiting reagent, so 0.020 mol of carbonate react, 0.530 g of it is left over and 0.448 L of CO2 form at STP (22.4 L/mol)."
+@ photo id="chem12/volflask" cap="A volumetric flask: one calibration mark at 250 mL"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Moles used and left when 40 mL of HCl meets Na2CO3"
+M = 105.99; n1 = 0.100 * 0.250; m = n1 * M; n2 = 1.00 * 0.0400
+used = min(n1, n2 / 2); left = (n1 - used) * M; nco2 = used; v = nco2 * 22.4
+assert abs(m - 2.650) < 1e-3 and abs(used - 0.020) < 1e-12 and abs(left - 0.530) < 1e-3 and abs(v - 0.448) < 1e-9
+facts = dict(m="%.3f" % m, n1="%.3f" % n1, n2="%.3f" % n2, used="%.3f" % used, left="%.3f" % left, v="%.3f" % v)
+f = Fig(300, 236)
+f.text(150, 14, "Na2CO3 + 2HCl: moles at the start (box) and used (fill)", size=10, color=NAVY, bold=True)
+for i, (lab, tot, u, col, fl) in enumerate((("Na2CO3", n1, used, TEAL, MINT), ("HCl", n2, n2, AMBER, SAND), ("CO2 formed", nco2, nco2, RED, ROSE))):
+    y = 34 + i * 42
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 12, tot * 5000, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 12, u * 5000, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + tot * 5000 + 6, y + 20, "%.3f mol" % tot if i < 2 else "%.3f mol" % u, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 172, "HCl is limiting: 2 mol HCl per mol Na2CO3", size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "left over: %.3f g Na2CO3" % left, size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "CO2: %.3f L at STP" % v, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |

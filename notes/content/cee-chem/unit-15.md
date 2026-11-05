@@ -327,6 +327,32 @@ arsenic and mercury**, never interchangeably.
 **Solution.** Each ATP exports $3\text{ Na}^+$ and imports $2\text{ K}^+$, moving $+1$ net elementary charge outward. Thus $6.0 \times 10^6\text{ Na}^+$ leave, $4.0 \times 10^6\text{ K}^+$ enter, and $+2.0 \times 10^6\,e$ of net positive charge is pumped out (making the interior negative).
 :::
 
+```photogrid label="15.1" cols="2" ratio="1.2" caption="A trace element in a pinch of salt. (a) Common salt is the carrier chosen for iodine because everybody eats it. (b) Assuming salt iodised at 30 mg of iodine per kg (a typical standard, assumed), the iodine is added as KIO3, 50.6 mg of KIO3 per kg. A person who eats 3, 5 or 8 g of salt a day takes in 90, 150 and 240 micrograms of iodine. The adult recommended intake is 150 micrograms, so 5 g a day just meets it, and a low-salt diet can leave a deficiency that causes goitre and, in children, poor brain development."
+@ photo id="chem11/halite" cap="Rock salt: sodium and chloride are essential ions"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Iodine from iodised salt (micrograms per day)"
+ppm = 30.0; kio3 = ppm * 214.0 / 126.9
+intake = lambda g: ppm * g / 1000 * 1000
+i3, i5, i8 = intake(3), intake(5), intake(8)
+assert abs(kio3 - 50.6) < 0.1 and i5 == 150 and i3 == 90 and i8 == 240
+facts = dict(kio3="%.1f" % kio3, i3="%.0f" % i3, i5="%.0f" % i5, i8="%.0f" % i8)
+f = Fig(300, 236)
+f.text(150, 14, "iodine intake, micrograms per day", size=10.5, color=NAVY, bold=True)
+for i, (g, v) in enumerate(((3, i3), (5, i5), (8, i8))):
+    y = 30 + i * 40
+    f.text(14, y + 4, "%d g salt per day" % g, size=10.5, color=SLATE, anchor="start")
+    w = v * 0.8
+    col, fl = (RED, ROSE) if v < 150 else (TEAL, MINT)
+    f.box(14, y + 10, w, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.0f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.line(14 + 150 * 0.8, 36, 14 + 150 * 0.8, 150, color=AMBER, sw=1.6, dash=True)
+f.text(14 + 150 * 0.8, 162, "150 recommended", size=10.5, color=AMBER, bold=True)
+f.text(150, 186, "30 mg iodine per kg salt (assumed)", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "as KIO3: %.1f mg per kg of salt" % kio3, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "3 g gives only 60 per cent of the need", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know fact |

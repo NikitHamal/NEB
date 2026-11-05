@@ -358,6 +358,31 @@ it**; and **isotonic saline matches blood's osmotic pressure at 0.9 %**,
 while distilled water in a vein would burst the cells.
 :::
 
+```photogrid label="21.1" cols="2" ratio="1.2" caption="Nitrogen by the bag. (a) Urea, CO(NH2)2, is made from ammonia and carbon dioxide: 2NH3 + CO2 gives CO(NH2)2 + H2O. (b) Its nitrogen content is 28.014 / 60.06 = 46.6 per cent, higher than ammonium nitrate (35.0), ammonium sulfate (21.2) or DAP (21.2). A 50 kg bag holds 23.3 kg of nitrogen. Each tonne of urea needs 567 kg of NH3 and 733 kg of CO2, and the ammonia comes from the Haber process, N2 + 3H2 gives 2NH3."
+@ photo id="sci10/urea" cap="A tractor spreading granular nitrogen fertiliser on a field"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Nitrogen content of fertilisers (per cent by mass)"
+N = 14.007
+pct = lambda M, nN: nN * N / M * 100
+u, an, as_, dap = pct(60.06, 2), pct(80.04, 2), pct(132.14, 2), pct(132.06, 2)
+bag = 50 * u / 100; nurea = 1e6 / 60.06; nh3 = 2 * nurea * 17.03 / 1000; co2 = nurea * 44.01 / 1000
+assert abs(u - 46.64) < 0.02 and abs(an - 35.0) < 0.02 and abs(as_ - 21.2) < 0.05 and abs(bag - 23.3) < 0.05 and abs(nh3 - 567) < 1
+facts = {"u": "%.1f" % u, "an": "%.1f" % an, "as_": "%.1f" % as_, "dap": "%.1f" % dap, "bag": "%.1f" % bag, "nh3": "%.0f" % nh3, "co2": "%.0f" % co2}
+f = Fig(300, 236)
+f.text(150, 14, "per cent nitrogen by mass", size=10.5, color=NAVY, bold=True)
+for i, (lab, v) in enumerate((("urea CO(NH2)2", u), ("ammonium nitrate", an), ("ammonium sulfate", as_), ("DAP (NH4)2HPO4", dap))):
+    y = 28 + i * 36
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v * 4.2
+    col, fl = (RED, ROSE) if i == 0 else (TEAL, MINT)
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 17, "%.1f" % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 184, "50 kg bag of urea: %.1f kg N" % bag, size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "1 tonne urea: %.0f kg NH3 + %.0f kg CO2" % (nh3, co2), size=10, color=NAVY, bold=True)
+f.text(150, 220, "NH3 from Haber: N2 + 3H2 gives 2NH3", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |

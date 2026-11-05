@@ -330,6 +330,8 @@ temperature** both favour SO₃. Again the rate sets the limit: the plant runs a
 **720 K (450 °C)** and 1–2 atm over a **V₂O₅** catalyst, with the SO₃ absorbed in
 concentrated H₂SO₄ as it forms so that it cannot react back. The yield is about 98 %.
 
+<div style="break-before:page"></div>
+
 ### The Ostwald process
 
 $$ 4\text{NH}_3(g) + 5\text{O}_2(g) \rightleftharpoons 4\text{NO}(g) + 6\text{H}_2\text{O}(g) \qquad \Delta H = -905\ \text{kJ mol}^{-1} $$
@@ -740,6 +742,30 @@ Check the logic: the salt of a weak acid is basic, and 8.87 is basic but not str
   forward direction for these salts), so a dilute or warm salt solution is further from
   pH 7.
 :::
+
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Why buffers resist change. (a) Litmus paper only shows acid or base; a pH meter gives the number. (b) 0.100 M acetic acid (Ka = 1.8 x 10^-5) has [H+] = 1.33e-03 M, pH 2.88, and ionises 1.33 per cent. A buffer of 0.10 M acid and 0.10 M acetate has pH = pKa = 4.74. Adding 0.010 mol NaOH to 1 L of pure water jumps the pH from 7.00 to 12.00, but in the buffer it only moves to 4.83, a change of 0.09, because the acid HA neutralises the added OH- and the Henderson equation pH = pKa + log([A-] / [HA]) changes slowly."
+@ photo id="sci10/litmus" cap="Litmus paper shows whether a solution is acidic or basic"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="pH before and after adding 0.010 mol of NaOH to 1 L"
+Ka = 1.8e-5; c = 0.100
+h = (-Ka + math.sqrt(Ka ** 2 + 4 * Ka * c)) / 2; ph = -math.log10(h); pct = h / c * 100
+pka = -math.log10(Ka); pb2 = pka + math.log10(0.11 / 0.09); dpb = pb2 - pka
+assert abs(ph - 2.876) < 0.002 and abs(pka - 4.745) < 0.001 and abs(pb2 - 4.832) < 0.002 and abs(14 + math.log10(0.010) - 12) < 1e-9
+facts = dict(h="%.2e" % h, ph="%.2f" % ph, pct="%.2f" % pct, pka="%.2f" % pka, pb2="%.2f" % pb2, dpb="%.2f" % dpb)
+f = Fig(300, 236)
+f.text(150, 14, "pH before (box) and after (fill) 0.010 mol NaOH", size=10, color=NAVY, bold=True)
+for i, (lab, p1, p2, col, fl) in enumerate((("pure water", 7.0, 12.0, RED, ROSE), ("acetate buffer", pka, pb2, TEAL, MINT))):
+    y = 36 + i * 62
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 10, p1 * 16, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 32, p2 * 16, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + p1 * 16 + 5, y + 18, "%.2f" % p1, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+    f.text(14 + p2 * 16 + 5, y + 40, "%.2f" % p2, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 170, "0.100 M acetic acid: pH %.2f (%.2f per cent ionised)" % (ph, pct), size=10, color=NAVY, bold=True)
+f.text(150, 188, "water moves by 5.00, buffer by %.2f" % dpb, size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "pH = pKa + log([A-] / [HA])", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 

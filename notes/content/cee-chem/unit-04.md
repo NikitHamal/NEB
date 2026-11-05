@@ -405,6 +405,36 @@ electronegative atom and a lone pair on another; HCl, with a large, less electro
 forms only dipole–dipole attractions.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Why salt forms. (a) Rock salt crystals are cubic, each ion surrounded by six of opposite charge. (b) In the Born-Haber cycle the formation enthalpy of NaCl, -411 kJ/mol, is the sum of sublimation of Na (+107), half the Cl2 bond enthalpy (+122), ionisation of Na (+496), electron gain of Cl (-349) and the lattice enthalpy. Solving gives a lattice enthalpy of -787 kJ/mol. Making the ions costs 376 kJ/mol of energy, and the lattice energy pays back more than 2.1 times that, which is why the compound is stable."
+@ photo id="chem11/halite-crystal" cap="A crystal of rock salt: a cubic lattice of Na+ and Cl- ions"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Born-Haber cycle for NaCl (kJ/mol)"
+hf = -411; sub = 107; bde = 122; ie = 496; ea = -349
+u = hf - (sub + bde + ie + ea); steps = [sub, bde, ie, ea, u]
+lev = [0]
+for s in steps: lev.append(lev[-1] + s)
+assert u == -787 and lev[-1] == hf and max(lev) == 725
+up = sub + bde + ie + ea
+facts = dict(hf=hf, ea=ea, u=u, up=up, ratio="%.1f" % (-u / up))
+f = Fig(300, 244)
+f.text(150, 14, "energy level of the species, kJ/mol", size=10.5, color=NAVY, bold=True)
+Y = lambda v: 40 + (725 - v) * 0.115
+names = ("Na sub", "Cl2 bond", "Na IE", "Cl EA", "lattice")
+for i, s in enumerate(steps):
+    x = 18 + i * 52; a, b = lev[i], lev[i + 1]
+    col, fl = (RED, ROSE) if s > 0 else (TEAL, MINT)
+    f.box(x, Y(max(a, b)), 40, abs(b - a) * 0.115, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(x + 20, Y(max(a, b)) - 8, "%+d" % s, size=10.5, color=col, bold=True)
+    f.text(x + 20, 190, names[i], size=9.5, color=SLATE)
+f.line(18, Y(0), 280, Y(0), color=SLATE, sw=1.0, dash=True)
+f.text(282, Y(0) - 4, "0", size=10.5, color=SLATE, anchor="end")
+f.line(18, Y(hf), 280, Y(hf), color=AMBER, sw=1.2, dash=True)
+f.text(282, Y(hf) + 12, "Hf = %d" % hf, size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(150, 208, "lattice enthalpy = %d kJ/mol" % u, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "ion formation costs +%d kJ/mol" % up, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

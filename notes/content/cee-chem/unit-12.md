@@ -689,6 +689,31 @@ decelerates the electron and converts its energy into X-rays (bremsstrahlung), w
 harder to stop than the beta particles themselves.
 :::
 
+```photogrid label="12.2" cols="2" ratio="1.2" caption="Radiocarbon dating. (a) A Geiger counter detects the beta particles of carbon-14. (b) Living wood gives about 15.3 counts per minute per gram and the activity then halves every 5,730 years: A = A0 (1/2)^(t / 5730). A bone sample giving 7.2 counts per minute per gram has A / A0 = 0.471, so t = 5,730 log2(A0 / A) = 6,231 years. A sample at one quarter of the modern activity is 11,460 years old, and after 57,300 years, ten half-lives, less than 0.10 per cent is left, which limits the method to about 50,000 years."
+@ photo id="ioephy/geiger" cap="A Geiger counter clicks once for each ionising particle detected"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Carbon-14 activity against age of a sample"
+A0 = 15.3; T = 5730
+A = lambda t: A0 * 0.5 ** (t / T)
+t = T * math.log2(A0 / 7.2); t4 = T * 2; t10 = T * 10
+assert abs(t - 6231) < 3 and abs(7.2 / A0 - 0.4706) < 1e-3 and 0.5 ** 10 < 0.001
+facts = dict(r="%.3f" % (7.2 / A0), t="{:,.0f}".format(t), t4="{:,.0f}".format(t4), t10="{:,.0f}".format(t10), p10="%.2f" % (0.5 ** 10 * 100))
+f = Fig(300, 236)
+f.text(150, 14, "activity (counts per min per g)", size=10.5, color=NAVY, bold=True)
+X = lambda y: 40 + y / 17190 * 240; Y = lambda a: 150 - a * 6.6
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+pts = [(X(y), Y(A(y))) for y in range(0, 17191, 400)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+f.line(X(0), Y(7.2), X(t), Y(7.2), color=AMBER, sw=1.2, dash=True); f.line(X(t), Y(7.2), X(t), Y(0), color=AMBER, sw=1.2, dash=True)
+f.circle(X(t), Y(7.2), 4, fill=AMBER, stroke=AMBER)
+f.text(X(t) + 8, Y(7.2) - 8, "7.2 at %s y" % "{:,.0f}".format(t), size=10.5, color=AMBER, bold=True, anchor="start")
+for y in (0, 5730, 11460, 17190): f.text(X(y), Y(0) + 13, "%d" % y, size=10, color=SLATE)
+f.text(150, 188, "age in years", size=10.5, color=SLATE)
+f.text(150, 206, "A / A0 = %.3f, t = %s y" % (7.2 / A0, "{:,.0f}".format(t)), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "1/4 of modern: %s y" % "{:,.0f}".format(t4), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Fact |
