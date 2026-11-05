@@ -145,6 +145,69 @@ f.text(290, 160, "Critical F(0.05): varieties F(2, 6) = 5.143;  blocks F(3, 6) =
 7. **Education research.** A college compares exam marks across teaching methods, batches or campuses. A significant F supports a change in method; a non-significant one saves money. Section 7.4 works exactly such an example.
 8. **Feature and model selection in data science.** The F statistic is used to rank features by how well they separate classes, and to compare the fit of nested regression models. It also underlies the overall F test in regression output. Many software reports show an ANOVA table by default.
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Is the difference real or just chance? (a) Ronald Fisher (with W. S. Gosset, who wrote as 'Student'): Fisher worked at the Rothamsted agricultural station, invented analysis of variance and the F test in the 1920s and wrote Statistical Methods for Research Workers (1925). (b) Yields (quintals per hectare) from five plots each of three fertilisers: A 20, 22, 19, 24, 25; B 28, 30, 27, 31, 29; C 23, 25, 22, 26, 24. The group means are 22, 29 and 24 and the grand mean 25. Between groups SS = 130 (2 degrees of freedom, mean square 65.0); within groups SS = 46 (12 degrees of freedom, mean square 3.83); F = 65.0 / 3.83 = 16.96. The 5 percent critical value is 3.89 and the p-value is 0.0003, so the fertilisers do not all give the same mean yield. The F value is checked against scipy."
+@ photo id="bcamath/fisher" cap="Ronald Fisher with 'Student' (W. S. Gosset)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="One-way ANOVA of three fertilisers, F = 16.96"
+import numpy as np
+from scipy import stats
+G = {"A": [20, 22, 19, 24, 25], "B": [28, 30, 27, 31, 29], "C": [23, 25, 22, 26, 24]}
+allv = sum(G.values(), []); gm = np.mean(allv)
+ssb = sum(len(v) * (np.mean(v) - gm) ** 2 for v in G.values()); ssw = sum(((np.array(v) - np.mean(v)) ** 2).sum() for v in G.values())
+msb = ssb / 2; msw = ssw / 12; F = msb / msw
+res = stats.f_oneway(*G.values())
+assert gm == 25 and ssb == 130 and ssw == 46 and abs(F - res.statistic) < 1e-9 and round(F, 2) == 16.96
+assert round(res.pvalue, 4) == 0.0003 and round(stats.f.ppf(0.95, 2, 12), 2) == 3.89
+f = Fig(300, 240)
+Y = lambda v: 128 - (v - 18) / 14 * 100
+f.line(30, 128, 280, 128, color=SLATE, sw=1.2); f.line(30, 128, 30, 24, color=SLATE, sw=1.2)
+f.line(30, Y(25), 280, Y(25), color=SLATE, sw=1.2, dash=True); f.text(284, Y(25), "25", size=10.5, color=SLATE, anchor="end")
+for k, (g, v) in enumerate(G.items()):
+    cx = 75 + k * 80
+    for j, val in enumerate(sorted(v)):
+        f.circle(cx + (j - 2) * 6, Y(val), 4, fill=[BLUE, MINT, SAND][k], stroke=[NAVY, TEAL, AMBER][k], sw=1.4)
+    f.line(cx - 28, Y(np.mean(v)), cx + 28, Y(np.mean(v)), color=RED, sw=2.4)
+    f.text(cx, 144, f"{g}: mean {np.mean(v):.0f}", size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "SSB 130 (df 2, MS 65.0); SSW 46 (df 12, MS 3.83)", size=10.5, color=SLATE)
+f.text(150, 198, "F = 65.0 / 3.83 = 16.96 > 3.89 (5% value)", size=10.5, color=RED, bold=True)
+f.text(150, 220, "p = 0.0003: means are not all equal", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Arranging a fair experiment. (a) Terraced rice fields in Nepal: soil, slope and water change from one strip to the next, so a fair field trial must stop the soil from favouring one variety. (b) A 4 x 4 Latin square puts four varieties A, B, C, D on 16 plots so that every variety appears exactly once in each row (soil strip) and once in each column (irrigation channel); the program verifies this for the square drawn, which was made by shuffling the rows and columns of a cyclic square with seed 2081. A Latin square removes two sources of variation, so the ANOVA has df = 3 for varieties, 3 for rows, 3 for columns and 6 for error (15 in total). There are exactly 576 Latin squares of order 4, which the figure counts by exhaustive search, and the actual layout should be chosen at random from them."
+@ photo id="bcamath/ricefield" cap="Terraced rice fields in Nepal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="A 4 x 4 Latin square for four rice varieties"
+import itertools, random
+base = [[(i + j) % 4 for j in range(4)] for i in range(4)]
+rng = random.Random(2081); rows = list(range(4)); cols = list(range(4)); rng.shuffle(rows); rng.shuffle(cols)
+L = [[base[r][c] for c in cols] for r in rows]
+assert all(sorted(r) == [0, 1, 2, 3] for r in L) and all(sorted(c) == [0, 1, 2, 3] for c in zip(*L))
+perms = list(itertools.permutations(range(4))); a1 = (0, 1, 2, 3); k = 0
+for a2 in perms:
+    if any(x == y for x, y in zip(a1, a2)): continue
+    for a3 in perms:
+        if any(x == z or y == z for x, y, z in zip(a1, a2, a3)): continue
+        for a4 in perms:
+            if any(x == w or y == w or z == w for x, y, z, w in zip(a1, a2, a3, a4)): continue
+            k += 1
+assert 24 * k == 576 and 3 + 3 + 3 + 6 == 15
+f = Fig(300, 240)
+fl = [BLUE, MINT, SAND, ROSE]; st = [NAVY, TEAL, AMBER, RED]
+for i in range(4):
+    for j in range(4):
+        v = L[i][j]; f.box(20 + j * 38, 26 + i * 38, 36, 36, "ABCD"[v], fill=fl[v], stroke=st[v], size=13, bold=True, r=3)
+for j in range(4): f.text(38 + j * 38, 16, f"col {j + 1}", size=10.5, color=SLATE)
+f.text(184, 60, "rows = soil strips", size=10.5, color=SLATE, anchor="start")
+f.text(184, 80, "columns = water", size=10.5, color=SLATE, anchor="start")
+f.text(184, 110, "each of A-D", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(184, 126, "once per row and", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(184, 142, "once per column", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 200, "576 Latin squares of order 4 (counted)", size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "df: varieties 3, rows 3, columns 3, error 6", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - F = MSB/MSW with (k − 1, N − k) df; reject if F > F_critical.

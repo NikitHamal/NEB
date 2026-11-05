@@ -10191,6 +10191,19 @@
     "source": "Wikimedia Commons",
     "title": "Tiny Dot-matrix LED Display by HP"
   },
+  "bcamath/dropbox": {
+    "author": "Whoisjohngalt",
+    "bytes": 1474188,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/dropbox.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ballot_Drop_Box_Boston.jpg",
+    "sha1": "7335237cf885cad2",
+    "source": "Wikimedia Commons",
+    "title": "Ballot Drop Box Boston"
+  },
   "bcamath/erato": {
     "author": "Unknown author",
     "bytes": 1083545,
@@ -10269,6 +10282,45 @@
     "source": "Wikimedia Commons",
     "title": "Leonardo da Pisa"
   },
+  "bcamath/fisher": {
+    "author": "Unknown photographer",
+    "bytes": 402279,
+    "credit": "Courtesy of University of Adelaide Library, Rare Books and Manuscripts. https://www.adelaide.edu.au/library/special/exhibitions/significant-life-fisher/",
+    "fetched": "2026-11-05",
+    "file": "bcamath/fisher.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Fisher_with_%27Student%27.jpg",
+    "sha1": "c8ab34b7fef8aa58",
+    "source": "Wikimedia Commons",
+    "title": "Fisher with 'Student'"
+  },
+  "bcamath/galton": {
+    "author": "Graham's Art Studios",
+    "bytes": 419332,
+    "credit": "http://www.npg.org.uk/collections/search/portrait/mw161517/Sir-Francis-Galton",
+    "fetched": "2026-11-05",
+    "file": "bcamath/galton.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Sir_Francis_Galton,_circa_1890.jpg",
+    "sha1": "8c45322d8609bb17",
+    "source": "Wikimedia Commons",
+    "title": "Sir Francis Galton, circa 1890"
+  },
+  "bcamath/galtonboard": {
+    "author": "Exhibit made by Estes Objethos Atelier, photo by Rodrigo Tetsuo Argenton",
+    "bytes": 593499,
+    "credit": "Matemateca (IME/USP)",
+    "fetched": "2026-11-05",
+    "file": "bcamath/galtonboard.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tabuleiros_de_Galton_(antes_e_depois).jpg",
+    "sha1": "64ae84c75297475b",
+    "source": "Wikimedia Commons",
+    "title": "Tabuleiros de Galton (antes e depois)"
+  },
   "bcamath/gauss": {
     "author": "Gottlieb Biermann / After Christian Albrecht Jensen",
     "bytes": 741139,
@@ -10307,6 +10359,19 @@
     "sha1": "8ce3d14d1d7d67eb",
     "source": "Wikimedia Commons",
     "title": "Sir William Rowan Hamilton, head-and-shoulders portrait, facing slightly right LCCN90713420 (cropped)"
+  },
+  "bcamath/icecream": {
+    "author": "DFID - UK Department for International Development",
+    "bytes": 456562,
+    "credit": "Icecream stall, Pondicherry, India, July 2010",
+    "fetched": "2026-11-05",
+    "file": "bcamath/icecream.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Icecream_stall,_Pondicherry,_India,_July_2010_(8405265677).jpg",
+    "sha1": "95bc48e45a8af86a",
+    "source": "Wikimedia Commons",
+    "title": "Icecream stall, Pondicherry, India, July 2010 (8405265677)"
   },
   "bcamath/kepler": {
     "author": "August Köhler [1]",
@@ -10386,6 +10451,19 @@
     "source": "Wikimedia Commons",
     "title": "Portrait of Sir Isaac Newton, 1689"
   },
+  "bcamath/nightingale": {
+    "author": "Hering",
+    "bytes": 366611,
+    "credit": "The life of Florence Nightingale (1913) by Edward Cook",
+    "fetched": "2026-11-05",
+    "file": "bcamath/nightingale.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Florence_Nightingale_by_Henry_Hering,_1858.jpg",
+    "sha1": "2919fefb7f30b791",
+    "source": "Wikimedia Commons",
+    "title": "Florence Nightingale by Henry Hering, 1858"
+  },
   "bcamath/oldnote": {
     "author": "Prasna siwakoti",
     "bytes": 152284,
@@ -10425,6 +10503,19 @@
     "source": "Wikimedia Commons",
     "title": "Kheops-Pyramid"
   },
+  "bcamath/ricefield": {
+    "author": "Shantiram Subedi",
+    "bytes": 1228303,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/ricefield.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rice_field_of_Nepal.jpg",
+    "sha1": "abc54b1e25908b8c",
+    "source": "Wikimedia Commons",
+    "title": "Rice field of Nepal"
+  },
   "bcamath/riemann": {
     "author": "Unknown author",
     "bytes": 255626,
@@ -10450,6 +10541,19 @@
     "sha1": "9a71bfd29ba8392a",
     "source": "Wikimedia Commons",
     "title": "Rubiks cube by keqs"
+  },
+  "bcamath/seesaw": {
+    "author": "Killarnee",
+    "bytes": 1211627,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/seesaw.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Playground_seesaw.jpg",
+    "sha1": "9fef8057f92e138a",
+    "source": "Wikimedia Commons",
+    "title": "Playground seesaw"
   },
   "bcamath/setsquare": {
     "author": "not researched",
@@ -10593,6 +10697,19 @@
     "sha1": "2aa04a737365dbdb",
     "source": "Wikimedia Commons",
     "title": "Transit Keuffel-Esser-1 hg"
+  },
+  "bcamath/urn": {
+    "author": "Jebulon",
+    "bytes": 923501,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bcamath/urn.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Urne_Ballot_box_r%C3%A9publique.jpg",
+    "sha1": "7eac109e8b4dce3f",
+    "source": "Wikimedia Commons",
+    "title": "Urne Ballot box république"
   },
   "bcamath/venn": {
     "author": "Unknown (Maull & Fox. studio)",
