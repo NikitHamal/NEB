@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -115,6 +116,17 @@ class PostDetailViewModel @Inject constructor(
     ) { state, userId ->
         state.copy(currentUserId = userId)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
+
+    /** Who a reply goes out as, for the identity avatar in the reply composer. */
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
+    val userPhotoUrl: StateFlow<String?> =
+        authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+    val userHandle: StateFlow<String> =
+        authRepository.currentUsernameHandleFlow.stateIn(viewModelScope, SharingStarted.Eagerly, "")
+    val anonTag: StateFlow<String> =
+        authRepository.currentUserIdFlow
+            .map { com.neb.ians.ui.components.anonTagFor(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
 
     init {
         loadPost()
