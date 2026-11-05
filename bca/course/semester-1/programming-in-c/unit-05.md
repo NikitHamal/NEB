@@ -386,6 +386,46 @@ f.text(200, 260, "that is about 585 billion years.", size=10.5, color=RED, bold=
 7. **Recursion.** A function that calls itself solves problems with a self-similar structure, such as factorial, Fibonacci, the Tower of Hanoi and tree traversal. The code is short and close to the mathematical definition. It needs a base case and uses stack memory for every call.
 8. **Data protection through scope.** Local variables exist only inside their function, so two functions can both use a variable named `i` without conflict. Only the values passed as arguments cross the boundary. This lowers the chance of one part of the program damaging another.
 
+```photogrid label="5.5" cols="2" ratio="1.27" caption="Recursion is elegant, but a careless recursive function can repeat the same work again and again. (a) Romanesco broccoli is a natural picture of recursion, since each bud is built from smaller buds of the same shape. (b) The naive C function fib(n) = fib(n-1) + fib(n-2) was counted by running it: fib(10) makes 177 calls, and fib(30) makes 2,692,537 calls, while a loop needs only 30 additions. The count grows by a factor of about 1.618 for every step in n, which is exponential growth. Use recursion when subproblems do not overlap, as in factorial or binary search, and use a loop or stored results when they do."
+@ photo id="bcapc/romanesco" cap="Romanesco broccoli: every bud repeats the shape of the whole"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Recursive Fibonacci against a loop"
+import math
+cnt = [0]
+def fibr(n):
+    cnt[0] += 1
+    return n if n < 2 else fibr(n - 1) + fibr(n - 2)
+def calls(n):
+    cnt[0] = 0; fibr(n); return cnt[0]
+def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+def formula(n):
+    return 2 * fib(n + 1) - 1
+for n in (5, 10, 15, 20):
+    assert calls(n) == formula(n)
+c30 = formula(30)
+assert c30 == 2692537 and calls(10) == 177
+ratio = formula(30) / formula(29)
+f = Fig(300, 236)
+f.text(150, 14, "Calls made by fib(n)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 24, 244, 146, (0, 30), (0, 7))
+ax.grid(10, 1, yfmt=lambda v: "1e%d" % v, xfmt=lambda v: "%d" % v)
+ax.axes()
+ax.curve(lambda x: math.log10(max(1, 2 * ((((1 + 5 ** 0.5) / 2) ** (x + 1)) / 5 ** 0.5) - 1)), 1, 30, color=RED, sw=2.4)
+ax.curve(lambda x: math.log10(max(1, x)), 1, 30, color=TEAL, sw=2.2)
+ax.pt(10, math.log10(177), "177", dx=8, dy=-6)
+ax.pt(30, math.log10(c30), "2,692,537", dx=-6, dy=14, anchor="end")
+f.text(110, 82, "recursive calls", size=10, color=RED, bold=True)
+f.text(200, 150, "loop steps", size=10, color=TEAL, bold=True)
+f.text(150, 207, "fib(30): {:,} calls against 30 loop steps".format(c30), size=10, color=NAVY, bold=True)
+f.text(150, 222, "each n multiplies the work by about %.3f" % ratio, size=10, color=RED)
+facts = dict(c30="{:,}".format(c30), ratio="%.3f" % ratio)
+```
+
 ## Formula and fact sheet
 
 - Prototype before use; definition has a body; actual vs formal arguments.

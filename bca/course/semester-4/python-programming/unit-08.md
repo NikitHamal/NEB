@@ -351,6 +351,39 @@ f.text(380, 170, "each project is isolated; pip install touches only its own ven
 f.text(380, 188, "commit requirements.txt, not the venv folder", size=10, color=NAVY, bold=True)
 ```
 
+```photogrid label="8.7" cols="2" ratio="1.27" caption="Regular expressions let a program describe valid input as a pattern, which is the first line of defence for every form. (a) A Ncell SIM card; Nepali mobile numbers have ten digits and begin with an operator prefix. (b) The pattern accepts 980, 981, 982, 984, 985, 986, 988, 961 and 962 followed by seven digits, and the cell was run on 8 test strings, of which 4 were accepted and the operator was found from the first three digits. The rejects fail for a different reason each: a wrong length, a letter, or an unknown prefix. Using re.fullmatch instead of re.match prevents a longer string from passing just because its start looks right."
+@ photo id="bcapy/ncellsim" cap="A mobile SIM card, whose number must be validated"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Validating Nepali mobile numbers with re"
+import re
+pat = re.compile(r"(98[0-2456]|988|96[12])\d{7}")
+ops = {"980": "Ncell", "981": "Ncell", "982": "Ncell", "984": "NTC", "985": "NTC", "986": "NTC", "988": "Smart", "961": "Smart", "962": "Smart"}
+tests = ["9851012345", "9801234567", "9881234567", "9841234567", "984123456", "98412345678", "9741234567", "98A1234567"]
+rows = []
+for t in tests:
+    if pat.fullmatch(t):
+        rows.append((t, ops[t[:3]], True))
+    elif len(t) != 10:
+        rows.append((t, "length %d" % len(t), False))
+    elif not t.isdigit():
+        rows.append((t, "non-digit", False))
+    else:
+        rows.append((t, "bad prefix", False))
+ok = sum(1 for r in rows if r[2])
+assert ok == 4 and len(rows) == 8
+f = Fig(300, 236)
+f.text(150, 14, "re.fullmatch(r'(98[0-2456]|988|96[12])\\d{7}')", size=9, color=NAVY, bold=True)
+for i, (t, res, good) in enumerate(rows):
+    y = 26 + i * 22
+    f.box(10, y, 280, 18, "", fill=("#ecfdf5" if good else "#fef2f2"), stroke=(TEAL if good else RED), r=3)
+    f.text(18, y + 9, t, size=10, color=SLATE, anchor="start", vmid=True)
+    f.text(282, y + 9, ("accept: " if good else "reject: ") + res, size=10, color=(TEAL if good else RED), bold=True, anchor="end", vmid=True)
+f.text(150, 214, "%d of %d inputs accepted; each reject shows its reason" % (ok, len(rows)), size=10.5, color=NAVY, bold=True)
+f.text(150, 229, "fullmatch must consume the whole string", size=9.5)
+facts = dict(ok=ok, n=len(rows))
+```
+
 ### 8.5.1 Eight practices for dependable Python programs
 
 1. **Validate input with a precise pattern.** A mobile number, a PAN or a roll number has a fixed shape that a regex can check in one line, as in Fig. 8.1. A form for a Nepali college can reject `98412` before it reaches the database. Keep the pattern simple and add `^` and `$` so that extra characters are not accepted.
