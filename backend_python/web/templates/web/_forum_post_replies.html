@@ -67,6 +67,7 @@
       <button type="button" class="fl-reveal" data-fl-reveal>Show reply marked as spam</button>
       {% if reply.content %}<div class="fp-reply-body" data-clamp="132" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
       {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+      {% if reply.poll %}{% include "web/_poll_card.html" with poll=reply.poll %}{% endif %}
       <div class="fp-reply-actions">
         <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}" aria-label="Like this reply" aria-pressed="{% if reply.isThumbedUp %}true{% else %}false{% endif %}">
           <span class="material-symbols-outlined">thumb_up</span>

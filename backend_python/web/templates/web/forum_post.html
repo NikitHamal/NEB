@@ -112,6 +112,11 @@
                   <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg> Share
                 </button>
                 {% if is_authenticated and not is_owner %}
+                {% if is_owner or is_admin %}
+                <button class="more-menu-item" data-action="open-post-insights" data-post-id="{{ post.id }}">
+                  <span class="material-symbols-outlined">insights</span> See insights
+                </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined">flag</span> Report
                 </button>
@@ -140,56 +145,12 @@
           {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
 
           {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+          <span data-reach-post="{{ post.id }}" hidden></span>
           <script type="text/plain" id="post-original-title">{{ post.title }}</script>
           <script type="text/plain" id="post-original-content">{{ post.content }}</script>
           </div>
 
-          {% if post.poll %}
-          <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
-            <div class="fp-poll-type-badge">
-              <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
-              {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
-              {% if post.poll.allowMultiple %}, multiple choice{% endif %}
-            </div>
-            {% if post.poll.question %}
-            <div class="fp-poll-question">{{ post.poll.question }}</div>
-            {% endif %}
-            <div class="fp-poll-options">
-              {% for opt in post.poll.options %}
-              <button class="fp-poll-option {% if post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}fp-poll-option-voted{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}fp-poll-option-correct{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and not opt.isCorrect and post.poll.userVote != opt.id %}fp-poll-option-wrong{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}" data-is-correct="{{ opt.isCorrect|default:'false' }}">
-                <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
-                <div class="fp-poll-option-text">
-                  <span class="fp-poll-option-label">{{ opt.text }}</span>
-                  {% if post.poll.userVote %}
-                  <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
-                  {% endif %}
-                </div>
-                {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
-                <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">done</span>
-                {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
-                <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
-                {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
-                <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">done</span>
-                {% endif %}
-              </button>
-              {% endfor %}
-            </div>
-            {% if post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.explanation %}
-            <div class="fp-poll-explanation">
-              <span class="material-symbols-outlined">lightbulb</span>
-              {{ post.poll.explanation }}
-            </div>
-            {% endif %}
-            <div class="fp-poll-meta">
-              <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
-              {% if post.poll.isExpired %}
-              <span class="fp-poll-expired">Poll ended</span>
-              {% elif post.poll.durationMs > 0 %}
-              <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
-              {% endif %}
-            </div>
-          </div>
-          {% endif %}
+          {% if post.poll %}{% include "web/_poll_card.html" with poll=post.poll %}{% endif %}
 
           <div class="fp-meta-timestamp-row">
             <time>{{ post.createdAt|time_ago }}</time>
@@ -219,7 +180,7 @@
 
         <!-- The one comment composer, roomy variant: this page owns the field. -->
         {% if is_authenticated %}
-        {% include "web/partials/_comment_composer.html" with cc_id="mainReplyWrapper" cc_textarea_id="mainReplyContent" cc_placeholder="Post your reply..." cc_anon_id="mainReplyAnon" cc_attach_action="reply-attach-media" cc_compose_key="main" cc_attach_label="Attach files or study notes" cc_send_id="mainReplySubmit" cc_send_action="submit-main-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-main" cc_input_id="replyMediaInput" cc_fc="kinds" cc_max="280" %}
+        {% include "web/partials/_comment_composer.html" with cc_id="mainReplyWrapper" cc_poll=True cc_textarea_id="mainReplyContent" cc_placeholder="Post your reply..." cc_anon_id="mainReplyAnon" cc_attach_action="reply-attach-media" cc_compose_key="main" cc_attach_label="Attach files or study notes" cc_send_id="mainReplySubmit" cc_send_action="submit-main-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-main" cc_input_id="replyMediaInput" cc_fc="kinds" cc_max="280" %}
         {% else %}
         <div class="fp-login-prompt" id="replySignIn">
           <p>Sign in to join the discussion and post a reply.</p>
@@ -704,7 +665,10 @@ function refreshReplySendBtn(key) {
   var btn = composer.querySelector('.reply-send-btn');
   var ta = composer.querySelector('textarea');
   var hasMedia = collectReplyAttachments(key).length > 0;
-  if (btn) btn.disabled = !((ta && ta.value.trim()) || hasMedia);
+  var pb = window.NebPollBuilder && composer.closest('[data-poll-scope]') ? NebPollBuilder.root(composer.closest('[data-poll-scope]')) : null;
+  var pollOpen = !!(pb && NebPollBuilder.isOpen(pb));
+  var pollOk = pollOpen && NebPollBuilder.valid(pb);
+  if (btn) btn.disabled = pollOpen ? !pollOk : !((ta && ta.value.trim()) || hasMedia);
 }
 
 var _origRenderReplyMediaList = renderReplyMediaList;
@@ -712,6 +676,8 @@ renderReplyMediaList = function(key) {
   _origRenderReplyMediaList(key);
   refreshReplySendBtn(key);
 };
+
+document.addEventListener('pollchange', function () { refreshReplySendBtn('main'); });
 
 document.addEventListener('DOMContentLoaded', function() {
   /* The send button is enabled by what the field holds: text or staged media. */
@@ -763,7 +729,10 @@ async function refreshReplies(focusId, quiet) {
 async function submitMainReply() {
   const content = document.getElementById('mainReplyContent').value.trim();
   if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
-  if (!content && !collectReplyAttachments('main').length) { showSnackbar('Write something or attach a file first.'); return; }
+  const pollRoot = window.NebPollBuilder ? NebPollBuilder.root(replyComposer('main').closest('[data-poll-scope]')) : null;
+  const pollData = pollRoot ? NebPollBuilder.collect(pollRoot) : null;
+  if (pollData && !NebPollBuilder.valid(pollRoot)) { showSnackbar('A poll needs at least two different options.'); return; }
+  if (!content && !pollData && !collectReplyAttachments('main').length) { showSnackbar('Write something or attach a file first.'); return; }
   const composer = replyComposer('main');
   const submitBtn = composer ? composer.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
@@ -774,7 +743,8 @@ async function submitMainReply() {
         content: content,
         isAnonymous: !!(document.getElementById('mainReplyAnon') && document.getElementById('mainReplyAnon').checked),
         kind: window.ForumComposer ? ForumComposer.kindOf('mainReplyContent') : 'comment',
-        attachments: collectReplyAttachments('main')
+        attachments: collectReplyAttachments('main'),
+        poll: pollData
       })
     });
     const d = await r.json();
@@ -784,6 +754,8 @@ async function submitMainReply() {
       document.getElementById('mainReplyContent').dispatchEvent(new Event('input', { bubbles: true }));
       if (window.ForumComposer) ForumComposer.reset('mainReplyContent');
       clearReplyCompose('main');
+      if (pollRoot) NebPollBuilder.reset(pollRoot);
+      document.querySelectorAll('[data-action="toggle-poll-builder"].is-active').forEach(function (x) { x.classList.remove('is-active'); });
     }
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
