@@ -111,15 +111,22 @@
     }
 
     function place(info) {
+      /* The popup lives inside the dialog, which may or may not be the containing block for fixed children (it is
+         while its entry animation or a transform is active), so measure where (0,0) really is and correct for it. */
       var pt = caretPoint(ta, info.at), r = ta.getBoundingClientRect();
-      var w = Math.min(320, window.innerWidth - 16);
+      var hb = host === document.body ? { left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight } : host.getBoundingClientRect();
+      var lo = Math.max(hb.left, 0) + 8, hi = Math.min(hb.right, window.innerWidth) - 8;
+      var top0 = Math.max(hb.top, 0) + 8, bot0 = Math.min(hb.bottom, window.innerHeight) - 8;
+      var w = Math.min(320, hi - lo);
       pop.style.width = w + 'px';
-      var left = Math.max(8, Math.min(r.left + pt.x, window.innerWidth - w - 8));
-      var below = r.top + pt.y + pt.h + 6;
+      pop.style.left = '0px'; pop.style.top = '0px';
+      var o = pop.getBoundingClientRect();
       var h = Math.min(pop.scrollHeight, 280);
-      var top = (below + h > window.innerHeight - 8) ? Math.max(8, r.top + pt.y - h - 6) : below;
-      pop.style.left = left + 'px';
-      pop.style.top = top + 'px';
+      var left = Math.max(lo, Math.min(r.left + pt.x, hi - w));
+      var below = r.top + pt.y + pt.h + 6;
+      var top = below + h > bot0 ? Math.max(top0, r.top + pt.y - h - 6) : below;
+      pop.style.left = (left - o.left) + 'px';
+      pop.style.top = (top - o.top) + 'px';
     }
 
     function show(list, info) {
