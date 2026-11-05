@@ -439,6 +439,28 @@
       return text;
     }
 
+    function markMentions(root) {
+      var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (n) { return n.parentElement && n.parentElement.closest('code, pre, a') ? NodeFilter.FILTER_REJECT : /(^|[^\w])@[A-Za-z0-9_]/.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+      });
+      var nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function (n) {
+        var frag = document.createDocumentFragment(), text = n.nodeValue, last = 0, m, re = /(^|[^\w])@([A-Za-z0-9_]+)/g;
+        while ((m = re.exec(text))) {
+          var start = m.index + m[1].length;
+          frag.appendChild(document.createTextNode(text.slice(last, start)));
+          var span = document.createElement('span');
+          span.className = 'hf-mention' + (m[2].toLowerCase() === 'all' ? ' is-all' : '');
+          span.textContent = '@' + m[2];
+          frag.appendChild(span);
+          last = start + 1 + m[2].length;
+        }
+        frag.appendChild(document.createTextNode(text.slice(last)));
+        n.parentNode.replaceChild(frag, n);
+      });
+    }
+
     function renderPreviewContent() {
       if (!previewBox) return;
       var raw = (contentInput ? contentInput.value : '').trim();
@@ -463,6 +485,7 @@
       }
 
       previewBox.innerHTML = html;
+      markMentions(previewBox);
 
       if (typeof renderMathInElement === 'function') {
         try {
@@ -850,40 +873,6 @@
       });
     }
 
-    function handleDialogWheel(e) {
-      if (!dialog || !dialog.open) return;
-      var bodyEl = dialog.querySelector('.hf-dialog-body');
-      var previewEl = document.getElementById('homePostPreviewBox');
-      var activeScrollEl = (previewEl && previewEl.style.display !== 'none') ? previewEl : bodyEl;
-      if (!activeScrollEl || !activeScrollEl.contains(e.target)) {
-        e.preventDefault();
-        return;
-      }
-      var delta = e.deltaY;
-      var isAtTop = activeScrollEl.scrollTop <= 0 && delta < 0;
-      var isAtBottom = (activeScrollEl.scrollTop + activeScrollEl.clientHeight >= activeScrollEl.scrollHeight - 1) && delta > 0;
-      if (isAtTop || isAtBottom) {
-        e.preventDefault();
-      }
-    }
-
-    function handleDialogTouchMove(e) {
-      if (!dialog || !dialog.open) return;
-      var bodyEl = dialog.querySelector('.hf-dialog-body');
-      var previewEl = document.getElementById('homePostPreviewBox');
-      var activeScrollEl = (previewEl && previewEl.style.display !== 'none') ? previewEl : bodyEl;
-      if (!activeScrollEl || !activeScrollEl.contains(e.target)) {
-        e.preventDefault();
-      }
-    }
-
-    if (dialog) {
-      dialog.addEventListener('wheel', handleDialogWheel, { passive: false });
-      dialog.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
-    }
-    window.addEventListener('wheel', handleDialogWheel, { passive: false });
-    window.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
-
     if (window.location.search.includes('compose=1') || window.location.search.includes('create=1')) {
       setTimeout(function () { openPostDialog(); }, 150);
     }
@@ -1204,6 +1193,15 @@
       attachedMedia.forEach(function (att, idx) {
         var card = document.createElement('div');
         card.className = 'hf-media-item-card';
+        if (attachedMedia.length > 1) {
+          card.tabIndex = 0;
+          card.setAttribute('aria-label', 'Attachment ' + (idx + 1) + ' of ' + attachedMedia.length + '. Drag, or use the arrow keys, to reorder.');
+          var grip = document.createElement('span');
+          grip.className = 'hf-media-grip';
+          grip.setAttribute('aria-hidden', 'true');
+          grip.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
+          card.appendChild(grip);
+        }
 
         var isPdfOrBook = att.kind === 'pdf' || att.kind === 'book' || (att.name && att.name.toLowerCase().endsWith('.pdf'));
 
@@ -1602,7 +1600,12 @@
       uploadedImages.forEach(function (img, idx) {
         var item = document.createElement('div');
         item.className = 'hf-preview-item' + (img.uploading ? ' is-uploading' : '');
+        if (uploadedImages.length > 1) {
+          item.tabIndex = 0;
+          item.setAttribute('aria-label', 'Photo ' + (idx + 1) + ' of ' + uploadedImages.length + '. Drag, or use the arrow keys, to reorder.');
+        }
         var imgEl = document.createElement('img');
+        imgEl.draggable = false;
         imgEl.src = img.url || '';
         imgEl.alt = 'Uploaded image';
         item.appendChild(imgEl);
@@ -1623,6 +1626,15 @@
         previewsContainer.appendChild(item);
       });
       updateSubmitState();
+    }
+
+    function moveItem(list, from, to) {
+      var it = list.splice(from, 1)[0];
+      list.splice(to, 0, it);
+    }
+    if (window.NebSortable) {
+      NebSortable(previewsContainer, { item: '.hf-preview-item', onMove: function (from, to) { moveItem(uploadedImages, from, to); renderPreviews(); } });
+      NebSortable(mediaListContainer, { item: '.hf-media-item-card', handle: '.hf-media-grip', onMove: function (from, to) { moveItem(attachedMedia, from, to); renderMediaList(); } });
     }
 
     if (addImageBtn && fileInput) {

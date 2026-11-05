@@ -731,11 +731,17 @@ def ajax_user_search(request):
     if _rate_limit(request, 'user_search', 60, 60, by_ip=by_ip):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     q = request.GET.get('q', '').strip()
-    if len(q) < 2:
+    if not q:
         return JsonResponse([], safe=False)
+    # One letter is enough for the composer's @mention list: people whose handle starts with it. Longer terms
+    # match anywhere in the handle or the display name; handle-prefix matches come first.
+    from django.db.models import Case, IntegerField, Q, Value, When
+    match = Q(username__istartswith=q) if len(q) < 2 else (Q(username__icontains=q) | Q(display_name__icontains=q))
     users = User.objects.filter(
-        username__icontains=q, is_locked=False, email_verified=True
-    ).values('id', 'username', 'display_name', 'photo_url')[:8]
+        match, is_locked=False, email_verified=True
+    ).annotate(
+        _rank=Case(When(username__istartswith=q, then=Value(0)), default=Value(1), output_field=IntegerField())
+    ).order_by('_rank', 'username').values('id', 'username', 'display_name', 'photo_url')[:8]
     results = []
     for u in users:
         results.append({
