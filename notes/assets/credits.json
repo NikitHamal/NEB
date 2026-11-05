@@ -1481,6 +1481,19 @@
     "source": "Wikimedia Commons",
     "title": "Version 5 Unix SIMH PDP11 Emulation"
   },
+  "bca103/asr33": {
+    "author": "stiefkind",
+    "bytes": 302595,
+    "credit": "https://www.flickr.com/photos/52924836@N00/48930224272/",
+    "fetched": "2026-11-05",
+    "file": "bca103/asr33.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "page": "https://commons.wikimedia.org/wiki/File:Teletype_Model_33_-_48930224272.jpg",
+    "sha1": "f765a76c9ad6bc05",
+    "source": "Wikimedia Commons",
+    "title": "Teletype Model 33 - 48930224272"
+  },
   "bca103/breadboard": {
     "author": "oomlout",
     "bytes": 148081,
@@ -1493,6 +1506,32 @@
     "sha1": "70957fce30b674cb",
     "source": "Wikimedia Commons",
     "title": "400 points breadboard"
+  },
+  "bca103/ean13": {
+    "author": "Sokolikmawwer0",
+    "bytes": 222310,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/ean13.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:EAN-13_barcode_on_a_gummy_candy_package.jpg",
+    "sha1": "7126c7a9f5d7c3fa",
+    "source": "Wikimedia Commons",
+    "title": "EAN-13 barcode on a gummy candy package"
+  },
+  "bca103/encoder": {
+    "author": "Joao Paulo Chagas",
+    "bytes": 910071,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/encoder.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rotary_encoder.jpg",
+    "sha1": "2dd75efcd93ffc15",
+    "source": "Wikimedia Commons",
+    "title": "Rotary encoder"
   },
   "bca103/ff74": {
     "author": "Mister rf",
@@ -1598,6 +1637,19 @@
     "source": "Wikimedia Commons",
     "title": "NE555 DIP & SOIC"
   },
+  "bca103/nixie": {
+    "author": "Mister rf",
+    "bytes": 797922,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/nixie.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sony_SOBAX_ICC-400W_-_Nixie_tubes_front_view.jpg",
+    "sha1": "ae04f084932fe98d",
+    "source": "Wikimedia Commons",
+    "title": "Sony SOBAX ICC-400W - Nixie tubes front view"
+  },
   "bca103/scope": {
     "author": "Xato",
     "bytes": 509611,
@@ -1636,6 +1688,19 @@
     "sha1": "5bb53101c827a9bf",
     "source": "Wikimedia Commons",
     "title": "74HC595"
+  },
+  "bca103/tape8": {
+    "author": "TedColes",
+    "bytes": 206262,
+    "credit": "Own work",
+    "fetched": "2026-11-05",
+    "file": "bca103/tape8.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "page": "https://commons.wikimedia.org/wiki/File:PaperTapes-5and8Hole.jpg",
+    "sha1": "d648023c8c3a21be",
+    "source": "Wikimedia Commons",
+    "title": "PaperTapes-5and8Hole"
   },
   "bca103/turnstile": {
     "author": "User:ArnoldReinhold",
