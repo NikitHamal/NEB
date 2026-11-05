@@ -252,17 +252,18 @@ fun MarketplaceCreatorCard(
 
 @Composable
 private fun CreatorAvatar(creator: ApiCreatorPage, accent: Color, size: androidx.compose.ui.unit.Dp) {
+    val avatarShape = com.neb.ians.ui.components.rememberAvatarShape(creator.slug.ifBlank { creator.displayName })
     Box(
         modifier = Modifier
             .size(size)
-            .clip(CircleShape)
+            .clip(avatarShape)
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
             .padding(2.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(CircleShape)
+                .clip(avatarShape)
                 .background(accent),
             contentAlignment = Alignment.Center
         ) {
