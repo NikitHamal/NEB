@@ -1,5 +1,7 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.components.NebGlyphShapes
+import com.neb.ians.ui.components.nebShape
 import androidx.compose.ui.graphics.SolidColor
 import com.neb.ians.util.TactileType
 import com.neb.ians.ui.components.nebPressable
@@ -209,7 +211,7 @@ private fun HomeActionCard(action: HomeAction, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .size(42.dp)
-                .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
+                .background(MaterialTheme.colorScheme.secondaryContainer, remember(action.icon) { nebShape(NebGlyphShapes.Cookie) }),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -894,7 +896,7 @@ private fun HomeMiniHubButton(
             Box(
                 modifier = Modifier
                     .size(32.dp)
-                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f), CircleShape),
+                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f), remember { nebShape(NebGlyphShapes.Sunny) }),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1041,7 +1043,7 @@ internal fun HomeEndOfFeedCard(
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), CircleShape),
+                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), remember { nebShape(NebGlyphShapes.Flower) }),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
