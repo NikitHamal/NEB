@@ -458,6 +458,53 @@ f.text(150, 220, "H.264 shrinks raw video %.0f times" % (raw / h264), size=10.5,
 facts = dict(cd="%.1f" % cd, mbcd="%.1f" % mb_cd, mbmp3="%.2f" % mb_mp3, r="%.0f" % (cd / mp3), v="%.0f" % (raw / h264))
 ```
 
+### Eight applications of multimedia explained
+
+**1. Education and e-learning.** Animated diagrams, narrated slides and video lessons
+make difficult topics easier to understand and remember. A student in a remote
+district can watch a recorded science experiment that the school cannot afford to
+perform. Digital textbooks and online classes use all five media together.
+
+**2. Entertainment and games.** Films, music, streaming services and computer games are
+the best-known uses of multimedia. A game combines graphics, animation, sound and
+text, and it reacts to the player. This is a large industry, and many young people in
+Nepal now work in animation and game studios.
+
+**3. Business and advertising.** Companies use presentations, product videos and
+animated advertisements to explain and sell their products. A short video on social
+media can reach thousands of customers at low cost. Multimedia kiosks in shops and
+banks show information without staff.
+
+**4. Training and simulation.** Pilots, drivers, doctors and technicians practise on
+simulators that combine graphics, sound and movement. Mistakes in a simulation cost
+nothing and harm nobody. This is cheaper and safer than training on real equipment.
+
+**5. Medicine and health.** Multimedia shows the working of the body in 3D animation,
+and X-ray, CT and ultrasound images are stored and viewed as digital pictures.
+Health-awareness videos teach villagers about hygiene or vaccination. Doctors can
+discuss a case through video calls.
+
+**6. Journalism and communication.** Online news mixes text, photographs, video and
+audio, so a story is understood quickly. Radio, television and web portals in Nepal
+use multimedia to show events and weather updates. Video calls connect families
+across the world.
+
+**7. Tourism and information kiosks.** Virtual tours, 360-degree photographs and videos
+of trekking routes let visitors see a place before they travel. Hotels and tourism
+boards use multimedia brochures and websites. Information kiosks at airports guide
+travellers with maps and audio.
+
+**8. Art, design and publishing.** Graphic designers, animators and musicians create
+posters, films and songs on computers. Multimedia lets a magazine or a book include
+sound and video in its digital edition. Design and printing houses depend on
+graphics software every day.
+
+**Advantages of multimedia.** It makes learning interesting and easy to remember;
+it presents information in several forms for different learners; it is interactive;
+and it can be copied and shared at low cost. **Disadvantages.** It needs a powerful
+computer, large storage and fast Internet; production is costly and slow; and too
+much animation or sound can distract the user.
+
 ## Chapter summary
 
 - **Multimedia** is the computer-controlled, integrated use of more than one
@@ -547,10 +594,24 @@ buttons and links — examples: a website, a computer game. Linear content is
 easier and cheaper to produce; non-linear content holds attention longer and
 suits self-paced learning.
 
-**3.** See the comparison table in §7.2: made of pixels against mathematical
-shapes; blurs when enlarged against stays sharp; large file size against small;
-suits photographs against suits logos and maps; JPEG/PNG/GIF/BMP against
-SVG/AI/EPS/CDR; Photoshop or GIMP against Illustrator or Inkscape.
+**3.** **Raster (bitmap) graphics** are made of a grid of tiny coloured squares called
+pixels, and **vector graphics** are made of mathematical shapes (lines, curves,
+polygons) with colour and position.
+
+| Point | Raster graphics | Vector graphics |
+|---|---|---|
+| Made of | Pixels | Mathematical shapes |
+| When enlarged | Becomes blurred or blocky | Stays sharp |
+| File size | Large, grows with the number of pixels | Small |
+| Best for | Photographs and realistic images | Logos, maps, diagrams, fonts |
+| Formats | JPEG, PNG, GIF, BMP | SVG, AI, EPS, CDR |
+| Software | Photoshop, GIMP | Illustrator, Inkscape, CorelDRAW |
+
+A photograph of Mount Everest must be raster, because the colour changes smoothly from
+pixel to pixel, whereas the logo of a school is best made as a vector so that the same
+file can be printed on a small card and on a large banner without losing quality.
+Converting a raster picture to vector is difficult, but a vector can be changed to
+raster easily by saving it as an image.
 
 **4.** Animation is the illusion of movement created by displaying a rapid
 sequence of still images that differ slightly, the images being drawn or computed
@@ -616,3 +677,114 @@ remember more; the user controls the pace, which suits self-directed learning.
 Disadvantages: it needs expensive hardware, software and skill to produce; the
 files are very large, so sharing them needs fast internet and plenty of storage.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Define multimedia. Explain its five components with examples. <span class="marks">[10]</span>
+2. Explain the applications of multimedia and state its advantages and disadvantages. <span class="marks">[10]</span>
+3. What is animation? Explain its types and the principle behind it. <span class="marks">[10]</span>
+
+### Model answer D1: multimedia and its components (10 marks)
+
+**Introduction.** **Multimedia** is the integrated, computer-controlled use of two or
+more media, namely text, graphics, audio, video and animation, usually with
+interactivity so that the user can choose what to see and hear.
+
+**Components.**
+
+1. **Text:** the oldest and smallest component; it carries exact meaning in titles,
+   captions and menus, for example the caption below a photograph. Formats: TXT, DOC, PDF.
+2. **Graphics:** still pictures, either raster (photographs, made of pixels) or vector
+   (logos and maps, made of shapes). Formats: JPEG, PNG, GIF, SVG.
+3. **Audio:** digitised sound such as narration, music and effects, produced by
+   sampling an analogue wave, typically at 44,100 Hz and 16 bits. Formats: MP3 (lossy),
+   WAV (uncompressed), MIDI (instructions). Software: Audacity.
+4. **Video:** a sequence of frames captured from the real world with synchronised sound,
+   measured in frames per second and compressed by a codec. Formats: MP4, AVI, MKV.
+   Software: Premiere Pro, Kdenlive.
+5. **Animation:** the illusion of movement made by showing drawn or computed images in
+   rapid sequence, for example a cartoon or an animated diagram of a river.
+
+| Component | Example | Typical format |
+|---|---|---|
+| Text | Caption | TXT, PDF |
+| Graphics | Photograph of Everest | JPEG, PNG |
+| Audio | Narration | MP3, WAV |
+| Video | Filmed interview | MP4 |
+| Animation | Cartoon | GIF, SWF |
+
+**Characteristics.** It combines two or more media, is digital, is integrated and
+synchronised, is normally interactive and needs large storage and a fast processor.
+For example, an uncompressed 1600 × 1200 picture in 24-bit colour takes about 5.49 MB, so
+compression is essential.
+
+**Conclusion.** The strength of multimedia is that the five components together explain
+an idea better than any one alone, which is why it is used in education, business and
+entertainment.
+
+### Model answer D2: applications, advantages and disadvantages (10 marks)
+
+**Introduction.** Multimedia is used wherever information must be explained clearly and
+attractively. The main areas are as follows.
+
+1. **Education:** animated lessons, e-books and online classes.
+2. **Entertainment:** films, music, streaming and games.
+3. **Business and advertising:** presentations, product videos and kiosks.
+4. **Training and simulation:** flight, driving and medical simulators.
+5. **Medicine:** 3D animation of the body, digital X-ray and CT images, health videos.
+6. **Journalism and communication:** online news with text, photos and video; video calls.
+7. **Tourism:** virtual tours and 360-degree views of trekking routes.
+8. **Art and design:** posters, animation, music and digital publishing.
+
+| Area | How multimedia helps |
+|---|---|
+| Education | Makes difficult ideas easy to see and remember |
+| Medicine | Shows the body in 3D and stores images digitally |
+| Training | Safe, cheap practice without real risk |
+| Tourism | Lets people see a place before travelling |
+
+**Advantages.** Learning is interesting and memorable; information is shown in several
+forms for different learners; it is interactive; and digital copies are easy to share.
+
+**Disadvantages.** It needs a powerful computer, large storage and fast Internet;
+production is costly and slow; and too much animation or sound can distract the user.
+
+**Conclusion.** The benefits of multimedia are large in education and communication,
+but the cost and the equipment it needs must be planned for.
+
+### Model answer D3: animation (10 marks)
+
+**Introduction.** **Animation** is the illusion of movement created by showing a rapid
+sequence of still images that differ slightly. It works because of **persistence of
+vision**: the eye keeps an image for a fraction of a second, so frames shown faster
+than about 12 per second blend into motion. Films use 24 frames per second; the
+Muybridge photographs of a galloping horse of 1878 showed that motion can be broken
+into stills and joined again.
+
+**Types of animation.**
+
+1. **Frame-by-frame (cel) animation:** every frame is drawn separately; it gives full
+   control, but needs a great deal of work. Traditional cartoons are made this way.
+2. **Tweening:** the animator draws only the key frames and the software fills in the
+   frames between them.
+3. **Path animation:** an object follows a drawn path, for example a bus moving along a
+   road in a presentation.
+4. **Morphing:** one image is changed gradually into another, as in film effects.
+5. **2D and 3D animation:** 2D uses flat drawings, and 3D uses models that are lit and
+   rendered by the computer, as in modern films and games.
+
+**Example of the amount of work.** A film at 24 frames per second needs 1,440 frames for
+one minute, which shows why tweening and software tools are used.
+
+| Type | Who makes the in-between frames | Example |
+|---|---|---|
+| Frame-by-frame | The artist, by hand | Traditional cartoon |
+| Tweening | The software | Flash and presentation animation |
+| Path | The software, along a path | A moving vehicle |
+| Morphing | The software, blending two images | Face transformation |
+
+**Software.** Blender, Synfig, Adobe Animate and PowerPoint's animation tools.
+
+**Conclusion.** Animation is the art of making still pictures move, and software has
+made it possible for a student with a laptop to create it.
