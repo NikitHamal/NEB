@@ -128,6 +128,56 @@ f.text(X(66), 120, "◆ mean 66   |   IQR = 19   |   range = 47", size=10.5, col
 7. **Detecting unusual values.** Values far outside Q1 − 1.5 IQR or Q3 + 1.5 IQR are suspected outliers, as in the box plot of Figure 2.3. A bank flags a transaction ten times the customer's normal spread for checking. The same rule cleans sensor data.
 8. **Feeding later methods.** The mean and σ are the inputs of the normal distribution, confidence intervals and hypothesis tests in Units 4 to 7. A student who cannot compute them cannot do any later unit. They are the foundation of the whole subject.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Where the bell curve comes from. (a) Two Galton boards (quincunx): balls fall through rows of pins, bouncing left or right at random, and pile up in a bell-shaped heap. (b) The same experiment run 10,000 times with 12 rows. A ball's final slot is the number of right bounces, a binomial count with n = 12 and p = 1/2, so the theory says mean 6 and standard deviation sqrt(12 x 1/4) = 1.73; the simulation gave mean 5.96 and standard deviation 1.72. Bars are the simulated counts and the dots the exact binomial expectation 10,000 x C(12, k) / 4,096, for example 2,256 balls expected in the middle slot against 2,339 observed. Averages of many small random effects are bell-shaped, which is why heights, exam marks and measurement errors look normal."
+@ photo id="bcamath/galtonboard" cap="Galton boards (quincunx)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="10,000 balls through 12 rows of pins"
+import numpy as np
+from math import comb
+rng = np.random.default_rng(2081); c = rng.binomial(12, 0.5, 10000)
+cnt = np.bincount(c, minlength=13); exp = [10000 * comb(12, k) / 4096 for k in range(13)]
+assert round(float(c.mean()), 2) == 5.96 and round(float(c.std()), 2) == 1.72 and int(cnt[6]) == 2339 and round(exp[6]) == 2256
+assert abs(c.mean() - 6) < 0.05 and abs(c.std() - 1.732) < 0.05
+f = Fig(300, 240)
+base = 170; sc = 125 / 2400
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+for k in range(13):
+    x = 14 + k * 21.5; h = cnt[k] * sc
+    f.box(x, base - h, 19, max(h, 1), "", fill=BLUE, stroke=NAVY, r=0, sw=1)
+    f.circle(x + 9.5, base - exp[k] * sc, 3.2, fill=AMBER, stroke=AMBER, sw=1)
+    f.text(x + 9.5, base + 14, str(k), size=10.5, color=SLATE)
+f.text(150, base + 30, "slot k = number of right bounces", size=10.5, color=SLATE)
+f.text(150, 14, "bars: simulated   dots: binomial theory", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "mean 5.96, sd 1.72 (theory 6 and 1.73)", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="The mean is a balance point, the median is the middle. (a) A see-saw balances at its pivot; the arithmetic mean is the point on the number line where the data balance. (b) Monthly salaries of nine staff in a small company, in thousand rupees: 25, 28, 30, 30, 35, 38, 40, 45 and 300 (the owner). The mean is 571 / 9 = 63.4, the median (fifth value) is 35 and the mode is 30. The one large value drags the mean far to the right of 8 of the 9 salaries, so a statement that the average salary is Rs 63,400 is misleading. Without the owner the mean is 33.9 and the median 32.5, almost the same. For skewed data such as income, house prices or response times report the median."
+@ photo id="bcamath/seesaw" cap="A see-saw balances at its pivot"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mean, median and mode of nine salaries"
+import statistics as st
+d = [25, 28, 30, 30, 35, 38, 40, 45, 300]
+assert round(st.mean(d), 1) == 63.4 and st.median(d) == 35 and st.mode(d) == 30
+d2 = d[:-1]; assert round(st.mean(d2), 1) == 33.9 and st.median(d2) == 32.5
+f = Fig(300, 240)
+sc = 255 / 320; X = lambda v: 20 + v * sc
+f.line(20, 100, 275, 100, color=SLATE, sw=1.6)
+for v in range(0, 321, 80):
+    f.line(X(v), 96, X(v), 104, color=SLATE, sw=1.2); f.text(X(v), 116, str(v), size=10.5, color=SLATE)
+seen = {}
+for v in d:
+    k = seen.get(v, 0); seen[v] = k + 1
+    f.circle(X(v), 88 - k * 11, 5, fill=BLUE, stroke=NAVY, sw=1.2)
+for lab, v, col, y in [("mode 30", 30, TEAL, 134), ("median 35", 35, NAVY, 152), ("mean 63.4", st.mean(d), RED, 170)]:
+    f.poly([(X(v), y - 8), (X(v) - 6, y + 2), (X(v) + 6, y + 2)], fill=col, stroke=col)
+    f.text(X(v) + 10, y, lab, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 198, "without the 300: mean 33.9, median 32.5", size=10.5, color=SLATE)
+f.text(150, 218, "the outlier drags the mean, not the median", size=10.5, color=NAVY, bold=True)
+f.text(150, 14, "salaries in thousand rupees", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - x̄ = Σx/n; grouped Σfx/n. Median = L + ((n/2 − cf)/f)h. Mode = L + (d₁/(d₁ + d₂))h.
