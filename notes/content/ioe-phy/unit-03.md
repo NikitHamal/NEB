@@ -58,6 +58,30 @@ Polarisation proves light is a **transverse** wave (sound cannot be polarised). 
 Sign convention first: write it down. Frequency never changes on refraction. TIR needs *denser to rarer*. A larger refractive index means a *shorter* wavelength and a *smaller* fringe width. Brewster's angle depends on $n$.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Total internal reflection in practice. (a) A green laser beam guided inside an acrylic rod: light that meets the wall beyond the critical angle is reflected completely and stays inside, even round a bend. An optical fibre does the same with a glass core of index 1.48 in a cladding of index 1.46. (b) The values that follow from those two numbers, computed here: critical angle $\\sin C = n_2/n_1$, numerical aperture $NA = \\sqrt{n_1^2 - n_2^2}$ and the acceptance half-angle in air."
+@ photo id="ioephy/fibre" cap="Light guided inside a transparent rod by total internal reflection"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Core 1.48, cladding 1.46: what light survives"
+import math
+n1, n2 = 1.48, 1.46
+C = math.degrees(math.asin(n2 / n1)); NA = math.sqrt(n1 ** 2 - n2 ** 2); acc = math.degrees(math.asin(NA))
+assert abs(C - 80.6) < 0.1 and abs(acc - 14.0) < 0.1
+loss_db = 0.2 * 100; frac = 10 ** (-loss_db / 10)
+f = Fig(300, 236)
+f.box(10, 20, 280, 12, "", fill=SAND, stroke=AMBER, r=1, sw=1); f.box(10, 32, 280, 36, "", fill=MINT, stroke=TEAL, r=1, sw=1); f.box(10, 68, 280, 12, "", fill=SAND, stroke=AMBER, r=1, sw=1)
+f.text(150, 95, "core n1 = 1.48", size=10.5, color=TEAL, bold=True)
+f.text(150, 14, "cladding n2 = 1.46", size=10.5, color=AMBER, bold=True)
+pts = [(14, 50), (62, 32), (110, 68), (158, 32), (206, 68), (254, 32), (286, 50)]
+f.arrow(pts, color=RED, sw=1.6)
+f.text(150, 108, "critical angle C = %.1f°" % C, size=10.5, color=NAVY, bold=True)
+f.text(150, 128, "NA = √(n1² - n2²) = %.3f" % NA, size=10.5, color=NAVY, bold=True)
+f.text(150, 148, "acceptance half-angle = %.1f° (air)" % acc, size=10.5, color=TEAL, bold=True)
+f.text(150, 176, "loss 0.2 dB/km over 100 km = %d dB" % loss_db, size=10.5, color=SLATE)
+f.text(150, 196, "power left = %.0f%% of the input" % (frac * 100), size=10.5, color=RED, bold=True)
+f.text(150, 218, "rays steeper than 14° leak out", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
