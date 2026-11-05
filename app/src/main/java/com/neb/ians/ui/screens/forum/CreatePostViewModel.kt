@@ -134,6 +134,13 @@ class CreatePostViewModel @Inject constructor(
             .map { com.neb.ians.ui.components.anonTagFor(it) }
             .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
 
+    init {
+        // The feed launcher's identity pick carries into a fresh composer.
+        if (com.neb.ians.ui.components.PostIdentityPreference.anonymous) {
+            _uiState.update { it.copy(isAnonymous = true) }
+        }
+    }
+
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null
 
@@ -290,6 +297,7 @@ class CreatePostViewModel @Inject constructor(
 
     fun setAnonymous(anonymous: Boolean) {
         if (_uiState.value.isEditMode) return // anonymity is immutable after create
+        com.neb.ians.ui.components.PostIdentityPreference.anonymous = anonymous
         _uiState.update { it.copy(isAnonymous = anonymous) }
     }
 
