@@ -19,7 +19,6 @@ from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
 from api.security import (
     maybe_autoset_video_thumbnail,
     save_resource_thumbnail_upload,
-    validate_and_save_resource_file,
     validate_resource_file_url,
 )
 from api.utils import now_ms, uuid_str
@@ -32,6 +31,18 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from . import curriculum
+from .resource_upload import (
+    apply_price,
+    clean_file_url_or_error,
+    clean_source_url_or_error,
+    clean_thumbnail_or_error,
+    create_resources,
+    discard_saved_files,
+    read_listing_fields,
+    read_price,
+    replace_file,
+    save_uploaded_files,
+)
 from .view_helpers import (
     _avatar_url,
     _comment_author,
@@ -1344,189 +1355,45 @@ def upload_resource(request):
                 form_data=request.POST,
                 is_authenticated=bool(user),
             ), status=429)
-        title = request.POST.get('title', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        grade_level = request.POST.get('grade_level', '').strip()
-        faculty = request.POST.get('faculty', '').strip()
-        program = request.POST.get('program', '').strip()
-        year = request.POST.get('year', '').strip()
-        exam_type = request.POST.get('exam_type', '').strip()
-        pradesh = request.POST.get('pradesh', '').strip()
-        district = request.POST.get('district', '').strip()
-        school = request.POST.get('school', '').strip()
-        tags = request.POST.get('tags', '').strip()
-        description = request.POST.get('description', '').strip()
-        rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
-        author_name = request.POST.get('author_name', '').strip()
-        source_label = request.POST.get('source_label', '').strip()
-        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        source_url_error = None
-        try:
-            from api.security import clean_source_url
-            source_url = clean_source_url(request.POST.get('source_url', ''))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            source_url_error = ' '.join(messages_list)
-            source_url = ''
+        post = request.POST
+        fields = read_listing_fields(post)
+        errors = []
+        source_url = clean_source_url_or_error(post, errors)
 
         uploaded_files = request.FILES.getlist('file')
-        file_url = request.POST.get('file_url', '').strip()
+        file_url = post.get('file_url', '').strip()
+        is_paid, price = read_price(post)
 
-        from decimal import Decimal
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        raw_price_input = request.POST.get('price', '0').strip() or '0'
-        try:
-            price_val = Decimal(raw_price_input)
-            if price_val < 0:
-                price_val = Decimal('0.00')
-        except Exception:
-            price_val = Decimal('0.00')
-
-        errors = []
-        if source_url_error:
-            errors.append(source_url_error)
         if len(uploaded_files) > 5:
             errors.append('You can upload at most 5 files per request.')
             uploaded_files = uploaded_files[:5]
-        if not title:
+        if not fields['title']:
             errors.append('Title is required.')
-        if not subject:
+        if not fields['subject']:
             errors.append('Subject is required.')
-        if is_paid and price_val <= 0:
+        if is_paid and price <= 0:
             errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
         if not uploaded_files and not file_url:
             errors.append('Please upload a file or provide a file URL.')
 
-        saved_files = []
-        if uploaded_files:
-            for f in uploaded_files:
-                path, size, err_resp = validate_and_save_resource_file(request, f)
-                if err_resp:
-                    errors.append(f"{f.name}: {err_resp['error']}")
-                else:
-                    saved_files.append({
-                        'path': path or '',
-                        'size': size,
-                        'name': f.name
-                    })
-
-            # If there were errors, clean up any successfully saved files
-            if errors:
-                from django.core.files.storage import default_storage
-                for sf in saved_files:
-                    if sf['path']:
-                        try:
-                            default_storage.delete(sf['path'])
-                        except Exception:
-                            pass
-
-        safe_file_url = ''
-        if not uploaded_files and file_url:
-            try:
-                safe_file_url = validate_resource_file_url(file_url)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                errors.append(' '.join(messages_list))
-
-        safe_thumbnail_url = ''
-        thumbnail_file = request.FILES.get('thumbnail')
-        if thumbnail_file:
-            try:
-                safe_thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-            except Exception as exc:
-                errors.append(' '.join(getattr(exc, 'messages', [str(exc)])))
-        elif thumbnail_url:
-            try:
-                safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception:
-                errors.append('Invalid thumbnail URL.')
+        saved_files = save_uploaded_files(request, uploaded_files, errors)
+        safe_file_url = clean_file_url_or_error(file_url, errors) if file_url and not uploaded_files else ''
+        thumbnail_url = clean_thumbnail_or_error(request, errors)
 
         if not errors:
-            created_resources = []
-            if saved_files:
-                import os
-                from django.conf import settings
-                
-                group_id = uuid_str() if len(saved_files) > 1 else ''
-                
-                for idx, sf in enumerate(saved_files):
-                    res_title = title
-                    is_lead = True
-                    if len(saved_files) > 1:
-                        if idx > 0:
-                            is_lead = False
-                            display_name = os.path.splitext(sf['name'])[0]
-                            res_title = f"{title} - {display_name}"
-
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
-                    resource = Resource(
-                        id=uuid_str(),
-                        title=res_title,
-                        description=description,
-                        subject=subject,
-                        grade_level=grade_level,
-                        faculty=faculty,
-                        program=program,
-                        year=year,
-                        exam_type=exam_type,
-                        pradesh=pradesh,
-                        district=district,
-                        school=school,
-                        tags=tags,
-                        type=rtype,
-                        file=sf['path'] or None,
-                        file_url=final_file_url,
-                        thumbnail_url=safe_thumbnail_url,
-                        file_size=sf['size'],
-                        added_at=now_ms() + idx,
-                        author_name=author_name,
-                        source_type='user' if user else 'anonymous',
-                        uploaded_by=user,
-                        source_url=source_url,
-                        source_label=source_label,
-                        approval_status='pending',
-                        upload_group_id=group_id,
-                        is_lead=is_lead,
-                        is_paid=is_paid,
-                        price=price_val if is_paid else Decimal('0.00'),
-                    )
-                    resource.save()
-                    created_resources.append(resource)
-            else:
-                final_file_url = safe_file_url
-                resource = Resource(
-                    id=uuid_str(),
-                    title=title,
-                    description=description,
-                    subject=subject,
-                    grade_level=grade_level,
-                    faculty=faculty,
-                    program=program,
-                    year=year,
-                    exam_type=exam_type,
-                    pradesh=pradesh,
-                    district=district,
-                    school=school,
-                    tags=tags,
-                    type=rtype,
-                    file=None,
-                    file_url=final_file_url,
-                    thumbnail_url=safe_thumbnail_url,
-                    file_size=int(request.POST.get('file_size', '0')),
-                    added_at=now_ms(),
-                    author_name=author_name,
-                    source_type='user' if user else 'anonymous',
-                    uploaded_by=user,
-                    source_url=source_url,
-                    source_label=source_label,
-                    approval_status='pending',
-                    upload_group_id='',
-                    is_lead=True,
-                    is_paid=is_paid,
-                    price=price_val if is_paid else Decimal('0.00'),
-                )
-                resource.save()
-                created_resources.append(resource)
+            file_size = post.get('file_size', '')
+            created_resources = create_resources(
+                request, fields, saved_files,
+                file_url=safe_file_url,
+                file_size=int(file_size) if file_size.isdigit() else 0,
+                thumbnail_url=thumbnail_url,
+                source_type='user' if user else 'anonymous',
+                uploaded_by=user,
+                source_url=source_url,
+                approval_status='pending',
+                is_paid=is_paid,
+                price=price,
+            )
 
             # Videos without an explicit cover get one auto-extracted from the
             # footage (best-effort ffmpeg; silently skipped when unavailable).
@@ -1543,6 +1410,7 @@ def upload_resource(request):
                 count=len(created_resources),
             ))
 
+        discard_saved_files(saved_files)
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'status': 'error', 'errors': errors}, status=400)
 
@@ -1604,26 +1472,11 @@ def edit_resource(request, resource_id):
             messages.error(request, ' '.join(messages_list))
             return redirect('web:edit_resource', resource_id=resource_id)
 
-        from decimal import Decimal
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        raw_price_input = request.POST.get('price', '0').strip() or '0'
-        try:
-            price_val = Decimal(raw_price_input)
-            if price_val < 0:
-                price_val = Decimal('0.00')
-        except Exception:
-            price_val = Decimal('0.00')
-
-        resource_obj.is_paid = is_paid
-        resource_obj.price = price_val if is_paid else Decimal('0.00')
+        apply_price(resource_obj, request.POST)
 
         uploaded_file = request.FILES.get('file')
         if uploaded_file:
-            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-            if not err_resp and path:
-                resource_obj.file = path
-                resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
-                resource_obj.file_size = size
+            replace_file(request, resource_obj, uploaded_file)
 
         file_url = request.POST.get('file_url', '').strip()
         if file_url and not uploaded_file:
