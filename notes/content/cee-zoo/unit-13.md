@@ -308,6 +308,29 @@ is biological, primary is physical** — 'secondary' sounds lesser and is in
 fact the heart of the plant.
 :::
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Cleaning sewage in two stages. (a) An aeration tank of an activated-sludge plant, where bubbled air feeds the bacteria that digest the waste. (b) Biochemical oxygen demand (BOD) measures the organic load as the oxygen that microbes need. Raw sewage of 250 mg/L loses 35 per cent in primary settling (to 162.5 mg/L) and 90 per cent of the rest in the aeration tank and clarifier (to 16.25 mg/L), an overall removal of 93.5 per cent. A town sending 1 million litres a day would otherwise release 250 kg of BOD daily; after treatment only 16.2 kg. Water fit for discharge must usually stay below about 30 mg/L."
+@ photo id="bio12/aeration-tank" cap="Aeration tank of a sewage plant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="BOD at each stage (mg/L)"
+b0 = 250.0
+b1 = b0 * (1 - 0.35)
+b2 = b1 * (1 - 0.90)
+tot = 100 * (b0 - b2) / b0
+assert abs(b1 - 162.5) < 1e-9 and abs(b2 - 16.25) < 1e-9 and abs(tot - 93.5) < 1e-9
+facts = dict(b1="%.1f" % b1, b2="%.2f" % b2, tot="%.1f" % tot, in_="%.0f" % (b0 * 1e6 / 1e6), out="%.1f" % (b2 * 1e6 / 1e6))
+f = Fig(300, 236)
+f.text(150, 12, "Raw sewage to effluent", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, c, fl) in enumerate((("raw sewage", b0, RED, ROSE), ("after primary settling (-35%)", b1, AMBER, SAND), ("after activated sludge (-90%)", b2, TEAL, MINT))):
+    y = 30 + i * 46
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = v / 250 * 210
+    f.box(10, y + 8, w, 22, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 19, "%.4g" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "overall removal = 93.5 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "1 ML/day: 250 kg BOD in, 16.3 kg out", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Autograft = self; isograft = identical genotype; allograft = same species,

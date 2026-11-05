@@ -395,6 +395,27 @@ A failing heart may have an ejection fraction below 40 %, which is why it tires 
 exertion.
 :::
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Cardiac output and blood pressure. (a) Measuring blood pressure with a sphygmomanometer and a stethoscope over the brachial artery. (b) Cardiac output = heart rate x stroke volume: at rest 72 beats/min x 70 mL = 5.04 L/min, which is the whole 5 L blood volume once a minute; in hard exercise 180 x 120 mL = 21.6 L/min, 4.3 times higher. A reading of 120/80 mm Hg gives a mean arterial pressure MAP = diastolic + (systolic - diastolic)/3 = 93 mm Hg, because the heart spends about two thirds of each cycle in diastole."
+@ photo id="ceezoo/bp" cap="Measuring blood pressure"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Cardiac output at rest and in exercise (L/min)"
+co1, co2 = 72 * 70 / 1000, 180 * 120 / 1000
+mp = 80 + (120 - 80) / 3
+assert abs(co1 - 5.04) < 1e-9 and abs(co2 - 21.6) < 1e-9 and abs(mp - 93.33) < 0.01
+facts = dict(co1="%.2f" % co1, co2="%.1f" % co2, r="%.1f" % (co2 / co1), map="%.0f" % mp)
+f = Fig(300, 236)
+f.text(150, 12, "CO = heart rate x stroke volume", size=10.5, color=NAVY, bold=True)
+for i, (lab, hr, sv, v, c, fl) in enumerate((("rest: 72 x 70 mL", 72, 70, co1, TEAL, MINT), ("exercise: 180 x 120 mL", 180, 120, co2, RED, ROSE))):
+    y = 34 + i * 54
+    f.text(10, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    w = v / 21.6 * 200
+    f.box(10, y + 8, w, 24, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 20, "%.2f L/min" % v if i == 0 else "%.1f L/min" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 164, "MAP = 80 + (120 - 80)/3 = 93 mm Hg", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "exercise output is 4.3 times resting", size=10.5, color=SLATE, bold=True)
+```
+
 ## 7.2 Arterial and venous systems; blood pressure
 
 ### Artery, vein and capillary
@@ -650,6 +671,37 @@ plasma were transfused, O plasma contains anti-A and anti-B and would attack A o
 B recipient cells. The paper asks the red-cell rule; answer O negative, but know
 why.
 :::
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Inheriting blood groups. (a) Human blood: red cells, white cells and platelets in plasma; the ABO antigens sit on the red cell membrane. (b) The gene I has three alleles: IA and IB are co-dominant and IO is recessive. A cross IA IO x IB IO gives 4 equally likely types of child: AB, A, B and O, 25 per cent each, so all four groups can come from one pair of parents. A cross IA IO x IA IO gives 75 per cent group A and 25 per cent group O. Blood group O is therefore the universal donor for red cells, and AB is the universal recipient."
+@ photo id="bio12/human-blood" cap="Human blood film"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Offspring of two crosses (per cent)"
+def ph(a, b):
+    s = {a, b}
+    return "AB" if s == {"A", "B"} else "A" if "A" in s else "B" if "B" in s else "O"
+def cross(p1, p2):
+    kids = [ph(x, y) for x in p1 for y in p2]
+    return {g: 100 * kids.count(g) / 4 for g in ("A", "B", "AB", "O")}
+c1 = cross(("A", "O"), ("B", "O")); c2 = cross(("A", "O"), ("A", "O"))
+assert c1 == {"A": 25, "B": 25, "AB": 25, "O": 25} and c2 == {"A": 75, "B": 0, "AB": 0, "O": 25}
+facts = dict(c1=4, c2="%.0f" % c2["A"], c3="%.0f" % c2["O"])
+f = Fig(300, 236)
+f.text(150, 12, "Phenotype of the children (per cent)", size=10.5, color=NAVY, bold=True)
+cols = {"A": (BLUE, NAVY), "B": (MINT, TEAL), "AB": (SAND, AMBER), "O": (ROSE, RED)}
+for i, (lab, c) in enumerate((("IA IO x IB IO", c1), ("IA IO x IA IO", c2))):
+    y = 36 + i * 76
+    f.text(10, y, lab, size=10.5, color=SLATE, bold=True, anchor="start")
+    x = 10
+    for g in ("A", "B", "AB", "O"):
+        if c[g]:
+            fl, st = cols[g]
+            f.box(x, y + 8, c[g] * 2.8, 30, fill=fl, stroke=st, r=0, sw=1.3)
+            f.text(x + c[g] * 1.4, y + 23, "%s %g" % (g, c[g]), size=10.5, color=st, bold=True, vmid=True)
+            x += c[g] * 2.8
+f.text(150, 200, "IA and IB co-dominant; IO recessive", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "AB x O parents give only A or B children", size=10.5, color=SLATE, bold=True)
+```
 
 ## 7.4 Cardiovascular disorders
 

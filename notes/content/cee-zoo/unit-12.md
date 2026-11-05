@@ -398,6 +398,28 @@ single piece (subunit)**. BCG and MMR are live; Salk polio and rabies are
 killed; tetanus and diphtheria are toxoids; hepatitis B is a subunit.
 :::
 
+```photogrid label="12.1" cols="2" ratio="1.2" caption="How many must be vaccinated? (a) A vial and syringe, the tools of the vaccination campaigns that removed smallpox and nearly removed polio. (b) If one case infects R0 others in a fully susceptible population, an outbreak dies out once the immune share exceeds 1 - 1/R0: 93 per cent for measles (R0 = 15), 83 per cent for polio (R0 = 6) and 33 per cent for influenza (R0 = 1.5). Vaccines are not perfect: with 97 per cent protection against measles the coverage needed is 96 per cent, which is why two doses and campaigns in Nepal aim at over 95 per cent. Herd immunity also protects babies and the immune-suppressed, who cannot be vaccinated."
+@ photo id="ceezoo/vaccine" cap="Vaccine vial and syringe"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Immune share needed to stop spread: 1 - 1/R0"
+hit = lambda r: 100 * (1 - 1 / r)
+it = (("Measles R0 = 15", 15), ("Polio R0 = 6", 6), ("Influenza R0 = 1.5", 1.5))
+cov = hit(15) / 0.97
+assert abs(hit(15) - 93.33) < 0.01 and abs(hit(6) - 83.33) < 0.01 and abs(hit(1.5) - 33.33) < 0.01 and abs(cov - 96.2) < 0.1
+facts = dict(m="%.0f" % hit(15), p="%.0f" % hit(6), i="%.0f" % hit(1.5), cov="%.0f" % cov)
+f = Fig(300, 236)
+f.text(150, 12, "Herd-immunity threshold (per cent immune)", size=10.5, color=NAVY, bold=True)
+for i, (lab, r) in enumerate(it):
+    y = 30 + i * 46
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = hit(r) / 100 * 220
+    f.box(10, y + 8, w, 22, fill=ROSE if r == 15 else SAND if r == 6 else MINT, stroke=RED if r == 15 else AMBER if r == 6 else TEAL, r=2)
+    f.text(10 + w + 6, y + 19, "%.1f%%" % hit(r), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "vaccine 97 per cent effective:", size=10.5, color=SLATE, bold=True)
+f.text(150, 204, "measles coverage needed = 93.3 / 0.97 = 96%", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Typhoid—*Salmonella* Typhi; TB—*Mycobacterium tuberculosis*; cholera—*Vibrio cholerae*; candidiasis—*Candida albicans*.

@@ -548,6 +548,31 @@ absorb** (cuboidal/columnar), **move something along** (ciliated), **resist wear
 **Solution.** Haversian systems (osteons) are the hallmark of **mammalian compact bone** (X); avascular matrix with chondrocyte cell nests (isogenous groups) lacking Haversian canals is **hyaline cartilage** (Y).
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="How a muscle shortens. (a) An electron micrograph of skeletal muscle: the repeating dark and light bands are sarcomeres, each between two Z lines. (b) A muscle 30 cm long with sarcomeres of 2.2 micrometres has 136,364 of them in a row. When every sarcomere shortens to 1.6 micrometres (thin filaments sliding over thick filaments, filaments themselves keep their length) the muscle becomes 21.8 cm long, a shortening of 27 per cent. A single sarcomere changes by only 0.6 micrometres; it is the huge number of them in series that gives the visible movement."
+@ photo id="bio12/sarcomere-tem" cap="Skeletal muscle sarcomeres (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="A 30 cm muscle before and after contraction"
+L, s0, s1 = 0.30, 2.2e-6, 1.6e-6
+n = L / s0
+L1 = n * s1
+p = 100 * (L - L1) / L
+assert round(n) == 136364 and abs(L1 - 0.21818) < 1e-4 and abs(p - 27.27) < 0.01
+facts = dict(n="{:,}".format(round(n)), l="%.1f" % (L1 * 100), p="%.0f" % p)
+f = Fig(300, 236)
+f.text(150, 12, "Sarcomeres in series", size=10.5, color=NAVY, bold=True)
+for k, (lab, ln, c, fl, s) in enumerate((("relaxed: 30.0 cm, sarcomere 2.2 um", L, TEAL, MINT, s0), ("contracted: %.1f cm, sarcomere 1.6 um" % (L1 * 100), L1, RED, ROSE, s1))):
+    y = 34 + k * 70
+    f.text(10, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    w = ln / L * 270
+    f.box(10, y + 8, w, 26, fill=fl, stroke=c, r=2)
+    for j in range(1, 10):
+        x = 10 + j * 27 * s / s0
+        f.line(x, y + 8, x, y + 34, color=c, sw=1.2)
+f.text(150, 182, "shortening = (30 - %.1f)/30 = %.0f per cent" % (L1 * 100, p), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "each division = 13,636 sarcomeres in series", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Value or name |

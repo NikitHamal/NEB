@@ -703,6 +703,30 @@ emulsification, never digestion; if it mentions enterokinase, the answer is
 trypsinogen → trypsin.
 :::
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="How the small intestine absorbs so much. (a) A diagram of one villus with its blood capillaries and central lacteal. (b) A smooth tube 6 m long and 2.5 cm wide would have a lining of only 0.47 square metres. Circular folds multiply the area by about 3, villi by 10 and microvilli by 20, so the real absorptive surface is about 283 square metres, close to the size of a tennis court (261 square metres). The folds also slow the food, and the one-cell-thick epithelium keeps the diffusion path short."
+@ photo id="bio12/villus-diagram" cap="One intestinal villus (diagram)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Surface area of the small intestine (sq m, log scale)"
+d, L = 0.025, 6.0
+a0 = math.pi * d * L
+steps = (("smooth tube", 1), ("+ circular folds x3", 3), ("+ villi x10", 10), ("+ microvilli x20", 20))
+areas, a = [], a0
+for n, m in steps:
+    a *= m; areas.append(a)
+assert abs(a0 - 0.471) < 0.001 and abs(areas[-1] - 282.7) < 0.1
+facts = dict(a0="%.2f" % a0, a3="%.0f" % areas[-1])
+f = Fig(300, 236)
+f.text(150, 12, "Each fold adds area (bar = log10)", size=10.5, color=NAVY, bold=True)
+for i, ((n, m), v) in enumerate(zip(steps, areas)):
+    y = 30 + i * 42
+    f.text(10, y + 2, n, size=10.5, color=SLATE, anchor="start")
+    w = 52 * (math.log10(v) + 0.5)
+    f.box(10, y + 9, w, 18, fill=MINT, stroke=TEAL, r=2)
+    f.text(10 + w + 6, y + 18, "%.2f" % v if v < 10 else "%.0f" % v, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 214, "tennis court = 261 sq m", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 **Lengths, volumes and numbers**

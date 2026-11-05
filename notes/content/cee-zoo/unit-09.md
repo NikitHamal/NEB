@@ -367,6 +367,29 @@ terminate contraction.
 When the threshold (~ −55 mV) is reached, voltage-gated **Na⁺ channels open and Na⁺ rushes in** — that upstroke is **depolarisation** (towards +30 mV). Then **K⁺ channels open and K⁺ leaves**, restoring the **resting potential (~ −70 mV)** — that downstroke is **repolarisation**. MCQs that make K⁺ *entry* cause the impulse have the traffic backwards. Two permanent companions: the impulse is **all-or-none**, and **saltatory** conduction at the nodes of Ranvier is why myelinated fibres are faster.
 :::
 
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Why a neurone fires. (a) A motor neurone with its long axon, seen in a smear of spinal cord. (b) Each ion has an equilibrium potential given by the Nernst equation E = 61.5 log10(outside/inside) mV at 37 degrees C (divide by the charge for chloride). With 5 mM K+ outside and 140 mM inside, E(K) = -89 mV; Na+ (145 mM outside, 12 inside) gives E(Na) = +67 mV and Cl- (110 and 10) gives -64 mV. The resting potential of about -70 mV lies near E(K) because the membrane is mostly leaky to K+; the spike rushes towards E(Na) when Na+ channels open. A myelinated axon carries it at 100 m/s (18 ms over 1.8 m); an unmyelinated one at 1 m/s takes 1.8 s."
+@ photo id="bio12/neuron-smear" cap="Motor neurone in a spinal cord smear"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Equilibrium potentials and the action potential (mV)"
+nern = lambda o, i, z=1: 61.5 * math.log10(o / i) / z
+ek, ena, ecl = nern(5, 140), nern(145, 12), nern(110, 10, -1)
+assert abs(ek + 89.0) < 0.1 and abs(ena - 66.6) < 0.1 and abs(ecl + 64.0) < 0.1
+t1, t2 = 1.8 / 100 * 1000, 1.8 / 1
+facts = dict(ek="%.0f" % ek, ena="+%.0f" % ena, ecl="%.0f" % ecl, t1="%.0f" % t1, t2="%.1f" % t2)
+f = Fig(300, 236)
+f.text(150, 12, "Membrane potential scale (mV)", size=10.5, color=NAVY, bold=True)
+y0, sc = 104, 0.75
+f.line(40, y0, 280, y0, color=SLATE)
+for i, (lab, v, c, fl) in enumerate((("E(K)", ek, TEAL, MINT), ("rest", -70, NAVY, BLUE), ("E(Cl)", ecl, AMBER, SAND), ("peak", 30, RED, ROSE), ("E(Na)", ena, RED, ROSE))):
+    x = 50 + i * 46
+    h = abs(v) * sc
+    f.box(x, y0 - h if v > 0 else y0, 34, h, fill=fl, stroke=c, r=1)
+    f.text(x + 17, y0 - h - 6 if v > 0 else y0 + h + 13, "%+.0f" % v, size=10.5, color=c, bold=True)
+    f.text(x + 17, y0 + (13 if v > 0 else -6), lab, size=10.5, color=SLATE, bold=True)
+f.text(150, 206, "1.8 m: myelinated 18 ms, unmyelinated 1.8 s", size=10.5, color=NAVY, bold=True)
+```
+
 ## 9.3 The eye and the ear
 
 A **receptor** is a specialised cell or ending that transduces one form of
