@@ -732,7 +732,8 @@ fun NEBiansNavHost(
             composable(Screen.Analytics.route) {
                 AnalyticsScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onSearchClick = { navController.navigate(Screen.Search.createRoute()) }
+                    onPostClick = { postId -> navController.navigate(Screen.ForumPostDetail.createRoute(postId)) },
+                    onResourceClick = { resourceId -> navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) }
                 )
             }
             composable(Screen.Bookmarks.route) {

@@ -1,48 +1,23 @@
 package com.neb.ians.ui.screens.analytics
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.AccountTree
-import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.CloudOff
-import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.FolderOpen
-import androidx.compose.material.icons.outlined.Forum
-import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.Lightbulb
-import androidx.compose.material.icons.outlined.QueryStats
-import androidx.compose.material.icons.outlined.Quiz
-import androidx.compose.material.icons.outlined.School
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.ThumbUp
-import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -50,148 +25,69 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewModelScope
-import com.neb.ians.data.api.ApiAnalyticsDay
-import com.neb.ians.data.api.ApiAnalyticsPost
-import com.neb.ians.data.api.ApiAnalyticsResource
-import com.neb.ians.data.api.ApiAnalyticsStats
-import com.neb.ians.data.api.ApiAnalyticsTopic
-import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiPrivateAnalyticsResponse
-import com.neb.ians.data.api.ApiService
-import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
+import com.neb.ians.ui.components.NebChoiceChips
 import com.neb.ians.ui.components.NebEmptyState
-import com.neb.ians.ui.components.compactCount
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.math.max
 import com.neb.ians.ui.components.NebLoader
 
-data class AnalyticsUiState(
-    val data: ApiPrivateAnalyticsResponse? = null,
-    val username: String = "",
-    val isLoading: Boolean = true,
-    val error: String? = null
-)
-
-@HiltViewModel
-class AnalyticsViewModel @Inject constructor(
-    private val apiService: ApiService,
-    private val authRepository: AuthRepository
-) : ViewModel() {
-    private val _uiState = MutableStateFlow(AnalyticsUiState())
-    val uiState: StateFlow<AnalyticsUiState> = _uiState.asStateFlow()
-
-    init {
-        load()
-    }
-
-    fun load() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            try {
-                val token = authRepository.getBearerToken()
-                if (token.isNullOrBlank()) {
-                    _uiState.update { it.copy(isLoading = false, error = "Sign in to view analytics") }
-                    return@launch
-                }
-                val data = apiService.getPrivateAnalytics(token)
-                val fallbackUsername = authRepository.userProfileFlow.first()?.username.orEmpty()
-                _uiState.update {
-                    it.copy(
-                        data = data,
-                        username = data.username.ifBlank { fallbackUsername },
-                        isLoading = false
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
-            }
-        }
-    }
-}
-
+/**
+ * The member's own analytics. Everything on it comes from one request
+ * (`api/users/me/analytics/?days=`), see backend_python/docs/ANALYTICS.md.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticsScreen(
     onNavigateBack: () -> Unit,
-    onSearchClick: () -> Unit = {},
+    onPostClick: (String) -> Unit = {},
+    onResourceClick: (String) -> Unit = {},
     viewModel: AnalyticsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val data = uiState.data
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text("Analytics", fontWeight = FontWeight.SemiBold)
-                        Text(
-                            text = if (uiState.username.isBlank()) {
-                                "Private insights"
-                            } else {
-                                "@${uiState.username}"
-                            },
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = onSearchClick) {
-                        Icon(Icons.Outlined.Search, contentDescription = "Search")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
+            Column {
+                TopAppBar(
+                    title = { Text("Analytics", fontWeight = FontWeight.SemiBold) },
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
                 )
-            )
+                if (uiState.isRefreshing) {
+                    LinearProgressIndicator(Modifier.fillMaxWidth().height(2.dp))
+                } else {
+                    Box(Modifier.height(2.dp))
+                }
+            }
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         when {
-            uiState.isLoading -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) { NebLoader() }
-            uiState.error != null -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
+            data != null && data.version >= 2 -> AnalyticsContent(
+                data = data,
+                days = uiState.days,
+                onRange = viewModel::selectRange,
+                onPostClick = onPostClick,
+                onResourceClick = onResourceClick,
+                modifier = Modifier.padding(padding)
+            )
+            uiState.isLoading -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { NebLoader() }
+            else -> Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 NebEmptyState(
                     icon = Icons.Outlined.CloudOff,
                     title = "Analytics unavailable",
-                    subtitle = uiState.error,
+                    subtitle = uiState.error ?: "Try again in a moment.",
                     action = {
                         NebButton(
                             text = "Try again",
@@ -202,479 +98,46 @@ fun AnalyticsScreen(
                     }
                 )
             }
-            uiState.data != null -> AnalyticsContent(
-                data = uiState.data!!,
-                modifier = Modifier.padding(padding)
-            )
         }
     }
 }
 
 @Composable
-private fun AnalyticsContent(data: ApiPrivateAnalyticsResponse, modifier: Modifier = Modifier) {
-    val stats = data.stats
+private fun AnalyticsContent(
+    data: ApiPrivateAnalyticsResponse,
+    days: Int,
+    onRange: (Int) -> Unit,
+    onPostClick: (String) -> Unit,
+    onResourceClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 8.dp)
+        contentPadding = PaddingValues(top = 4.dp, bottom = 40.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        item {
-            AnalyticsHero(stats)
-        }
-        item {
-            DashboardKpiGrid(stats)
-        }
-        item {
-            ActivityChartCard(data.activityDays, stats.recentStudyActions)
-        }
-        item {
-            StudyProgressCard(stats)
-        }
-        item {
-            CommunityDashboardCard(stats)
-        }
-        item {
-            TopicDashboardCard(
-                postTopics = data.topCategories,
-                resourceTopics = data.topSubjects
+        item(key = "range") {
+            NebChoiceChips(
+                options = AnalyticsRanges.map { "$it days" },
+                selectedIndex = AnalyticsRanges.indexOf(days).coerceAtLeast(0),
+                onSelect = { onRange(AnalyticsRanges[it]) },
+                modifier = Modifier.padding(horizontal = AnalyticsGutter)
             )
         }
-        item {
-            DashboardTableCard(
-                title = "Top posts",
-                emptyMessage = "No posts yet.",
-                rows = data.topPosts
-            )
-        }
-        item {
-            ResourceTableCard(
-                title = "Top resources",
-                emptyMessage = "No resources yet.",
-                rows = data.topResources
-            )
-        }
-        item {
-            SuggestionsCard(data.suggestions)
-        }
-        item { Spacer(modifier = Modifier.height(32.dp)) }
-    }
-}
-
-@Composable
-private fun AnalyticsHero(stats: ApiAnalyticsStats) {
-    AnalyticsSection {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(48.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(Icons.Outlined.QueryStats, contentDescription = null, modifier = Modifier.size(26.dp))
-                }
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Overview",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(14.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            HeroMetric("Reach", compactCount(stats.postViews + stats.resourceViews), Icons.Outlined.Visibility, Modifier.weight(1f))
-            HeroMetric("Engagement", compactCount(stats.postLikesReceived + stats.resourceLikesReceived + stats.postRepliesReceived), Icons.Outlined.ThumbUp, Modifier.weight(1f))
-        }
-    }
-}
-
-@Composable
-private fun DashboardKpiGrid(stats: ApiAnalyticsStats) {
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            KpiTile("Posts", compactCount(stats.posts), "${compactCount(stats.recentPosts)} in 30d", Icons.Outlined.Forum, Modifier.weight(1f))
-            KpiTile("Post views", compactCount(stats.postViews), "${compactCount(stats.postLikesReceived)} likes", Icons.Outlined.Visibility, Modifier.weight(1f))
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            KpiTile("Resources", compactCount(stats.resources), "${compactCount(stats.resourceViews)} views", Icons.Outlined.FolderOpen, Modifier.weight(1f))
-            KpiTile("Study docs", compactCount(stats.studyDocs), "${compactCount(stats.summaries)} summaries", Icons.Outlined.School, Modifier.weight(1f))
-        }
-    }
-}
-
-@Composable
-private fun KpiTile(label: String, value: String, detail: String, icon: ImageVector, modifier: Modifier = Modifier) {
-    AnalyticsSection(modifier = modifier, divider = false) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                modifier = Modifier.size(38.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(icon, contentDescription = null, modifier = Modifier.size(21.dp))
-                }
-            }
-            Column(modifier = Modifier.weight(1f)) {
-                Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold, maxLines = 1)
-                Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            }
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(detail, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-    }
-}
-
-@Composable
-private fun HeroMetric(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(18.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
-            Column {
-                Text(value, fontWeight = FontWeight.ExtraBold, maxLines = 1)
-                Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
-            }
-        }
-    }
-}
-
-@Composable
-private fun ActivityChartCard(days: List<ApiAnalyticsDay>, recentStudyActions: Int) {
-    AnalyticsSection {
-        DashboardHeader("14-day activity", "${compactCount(recentStudyActions)} study actions")
-        Spacer(modifier = Modifier.height(16.dp))
-        val chartDays = days.ifEmpty { listOf(ApiAnalyticsDay(label = "Today")) }
-        val maxTotal = max(1, chartDays.maxOf { it.total })
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(184.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.Bottom
-        ) {
-            chartDays.forEach { day ->
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .height(146.dp)
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(999.dp))
-                            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth()
-                                .height((146f * (day.total.toFloat() / maxTotal.toFloat())).dp.coerceAtLeast(6.dp))
-                                .clip(RoundedCornerShape(999.dp))
-                                .background(MaterialTheme.colorScheme.primary)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(day.label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun StudyProgressCard(stats: ApiAnalyticsStats) {
-    AnalyticsSection {
-        DashboardHeader("Study Lab", null)
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            DonutProgress(stats.quizAccuracy.coerceIn(0, 100), Modifier.size(112.dp))
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-                MiniRow(Icons.Outlined.Description, "Summaries", compactCount(stats.summaries))
-                MiniRow(Icons.Outlined.AccountTree, "Mindmaps", compactCount(stats.mindmaps))
-                MiniRow(Icons.Outlined.Quiz, "Quiz XP", compactCount(stats.quizXp))
-                MiniRow(Icons.Outlined.BookmarkBorder, "Flash reviews", compactCount(stats.flashReviews))
-            }
-        }
-        Spacer(modifier = Modifier.height(14.dp))
-        ReviewSplit(stats)
-    }
-}
-
-@Composable
-private fun DonutProgress(percent: Int, modifier: Modifier = Modifier) {
-    val arc = MaterialTheme.colorScheme.primary
-    val track = MaterialTheme.colorScheme.surfaceContainerHigh
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val stroke = Stroke(width = 16.dp.toPx(), cap = StrokeCap.Round)
-            drawArc(track, -90f, 360f, false, style = stroke)
-            drawArc(arc, -90f, 360f * percent / 100f, false, style = stroke)
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("$percent%", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold)
-            Text("accuracy", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
-    }
-}
-
-@Composable
-private fun ReviewSplit(stats: ApiAnalyticsStats) {
-    val total = max(1, stats.easyReviews + stats.mediumReviews + stats.hardReviews)
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        ProgressMetric("Easy reviews", stats.easyReviews, total)
-        ProgressMetric("Medium reviews", stats.mediumReviews, total)
-        ProgressMetric("Hard reviews", stats.hardReviews, total)
-    }
-}
-
-@Composable
-private fun ProgressMetric(label: String, value: Int, total: Int) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(compactCount(value), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
-        }
-        LinearProgressIndicator(
-            progress = { value.toFloat() / total.toFloat() },
-            modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
-            color = MaterialTheme.colorScheme.primary,
-            trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
-        )
-    }
-}
-
-@Composable
-private fun CommunityDashboardCard(stats: ApiAnalyticsStats) {
-    AnalyticsSection {
-        DashboardHeader("Community", null)
-        Spacer(modifier = Modifier.height(12.dp))
-        MetricTable(
-            listOf(
-                "Replies made" to stats.replies,
-                "Resource comments" to stats.resourceCommentsMade,
-                "Comments received" to stats.resourceCommentsReceived,
-                "Followers" to stats.followers,
-                "Following" to stats.following,
-                "Bookmarks" to stats.bookmarks,
-                "Unread notifications" to stats.notificationsUnread
-            )
-        )
-    }
-}
-
-@Composable
-private fun TopicDashboardCard(postTopics: List<ApiAnalyticsTopic>, resourceTopics: List<ApiAnalyticsTopic>) {
-    AnalyticsSection {
-        DashboardHeader("Top topics", null)
-        Spacer(modifier = Modifier.height(12.dp))
-        TopicList("Post categories", postTopics)
-        Spacer(modifier = Modifier.height(16.dp))
-        TopicList("Resource subjects", resourceTopics)
-    }
-}
-
-@Composable
-private fun TopicList(title: String, rows: List<ApiAnalyticsTopic>) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-        if (rows.isEmpty()) {
-            Text("No data yet.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        } else {
-            rows.forEach { row ->
-                Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(row.label, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-                        Text(row.count.toString(), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
-                    }
-                    LinearProgressIndicator(
-                        progress = { row.width.coerceIn(0, 100) / 100f },
-                        modifier = Modifier.fillMaxWidth().height(7.dp).clip(RoundedCornerShape(999.dp)),
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun DashboardTableCard(title: String, emptyMessage: String, rows: List<ApiAnalyticsPost>) {
-    AnalyticsSection {
-        DashboardHeader(title, null)
-        Spacer(modifier = Modifier.height(10.dp))
-        if (rows.isEmpty()) {
-            EmptyDashboardText(emptyMessage)
-        } else {
-            rows.forEachIndexed { index, row ->
-                TableRow(
-                    rank = index + 1,
-                    title = row.title,
-                    meta = row.category,
-                    rightTop = compactCount(row.viewCount),
-                    rightBottom = "${compactCount(row.likeCount)} likes, ${compactCount(row.replyCount)} replies"
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun ResourceTableCard(title: String, emptyMessage: String, rows: List<ApiAnalyticsResource>) {
-    AnalyticsSection {
-        DashboardHeader(title, null)
-        Spacer(modifier = Modifier.height(10.dp))
-        if (rows.isEmpty()) {
-            EmptyDashboardText(emptyMessage)
-        } else {
-            rows.forEachIndexed { index, row ->
-                TableRow(
-                    rank = index + 1,
-                    title = row.title,
-                    meta = listOf(row.subject, row.type).filter { it.isNotBlank() }.joinToString(", "),
-                    rightTop = compactCount(row.viewCount),
-                    rightBottom = "${compactCount(row.likeCount)} likes, ${compactCount(row.commentCount)} comments"
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun TableRow(rank: Int, title: String, meta: String, rightTop: String, rightBottom: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 9.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        Surface(
-            shape = RoundedCornerShape(10.dp),
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            modifier = Modifier.size(28.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Text(rank.toString(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
-            }
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(title.ifBlank { "Untitled" }, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(meta.ifBlank { "General" }, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        }
-        Column(horizontalAlignment = Alignment.End) {
-            Text(rightTop, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.ExtraBold, maxLines = 1)
-            Text(rightBottom, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        }
-    }
-}
-
-@Composable
-private fun SuggestionsCard(items: List<String>) {
-    AnalyticsSection(divider = false) {
-        DashboardHeader("Suggestions", null)
-        Spacer(modifier = Modifier.height(10.dp))
-        val rows = items.ifEmpty { listOf("Keep contributing steadily. Your dashboard will become richer as you use NEBians more.") }
-        rows.forEach { item ->
-            Row(
-                modifier = Modifier.padding(vertical = 7.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Icon(Icons.Outlined.Lightbulb, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
-                Text(item, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-            }
-        }
-    }
-}
-
-@Composable
-private fun DashboardHeader(title: String, chip: String?) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-        Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.ExtraBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-        if (!chip.isNullOrBlank()) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Surface(shape = RoundedCornerShape(999.dp), color = MaterialTheme.colorScheme.secondaryContainer, contentColor = MaterialTheme.colorScheme.onSecondaryContainer) {
-                Text(chip, style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp), maxLines = 1)
-            }
-        }
-    }
-}
-
-@Composable
-private fun MiniRow(icon: ImageVector, label: String, value: String) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
-        Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f), maxLines = 1)
-        Text(value, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, maxLines = 1)
-    }
-}
-
-@Composable
-private fun MetricTable(rows: List<Pair<String, Int>>) {
-    Column {
-        rows.forEach { row ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(row.first, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
-                Text(compactCount(row.second), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.ExtraBold, maxLines = 1)
-            }
-        }
-    }
-}
-
-@Composable
-private fun EmptyDashboardText(text: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(18.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
-}
-
-/**
- * One band of the dashboard. It used to be a bordered panel floating on a
- * padded list, which made nine unrelated boxes; it is a plain section with a
- * hairline under it now, so the numbers sit on the page instead of on cards.
- */
-@Composable
-private fun AnalyticsSection(
-    modifier: Modifier = Modifier,
-    divider: Boolean = true,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 18.dp), content = content)
-        if (divider) {
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
-        }
+        item(key = "standing") { StandingHero(data.standing) }
+        item(key = "streak") { StreakCard(data.streak, data.trend) }
+        item(key = "insights") { InsightsCard(data.insights) }
+        item(key = "kpis") { KpiGrid(data.overview) }
+        item(key = "trend") { TrendCard(data.trend, days) }
+        item(key = "consistency") { ConsistencyCard(data.heatmap, data.streak.activeDays30) }
+        item(key = "rhythm") { RhythmCard(data.rhythm) }
+        item(key = "mix") { MixCard(data.mix, days) }
+        item(key = "reach") { ReachCard(data.reach, days) }
+        item(key = "helpfulness") { HelpfulnessCard(data.helpfulness, data.stats) }
+        item(key = "community") { CommunityCard(data.stats, data.library) }
+        item(key = "topPosts") { TopPostsCard(data.topPosts, onPostClick) }
+        item(key = "topResources") { TopResourcesCard(data.topResources, onResourceClick) }
+        item(key = "topics") { TopicsCard(data.topCategories, data.topSubjects) }
+        item(key = "milestones") { MilestonesCard(data.milestones) }
     }
 }
