@@ -51,11 +51,8 @@ fun PostPollPanel(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Poll,
-                contentDescription = null,
-                tint = scheme.primary,
-                modifier = Modifier.size(20.dp)
+            com.neb.ians.ui.components.NebIcon(
+                com.neb.ians.ui.components.NebIcons.Poll, null, size = 20.dp, tint = scheme.primary
             )
             Text(
                 text = "Poll / Quiz",
@@ -193,12 +190,12 @@ private fun CorrectMark(correct: Boolean, onClick: () -> Unit) {
             ),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Rounded.Check,
-            contentDescription = if (correct) "Correct answer" else "Mark as correct",
+        com.neb.ians.ui.components.NebIcon(
+            com.neb.ians.ui.components.NebIcons.Check,
+            if (correct) "Correct answer" else "Mark as correct",
+            size = 18.dp,
             tint = if (correct) MaterialTheme.colorScheme.surface
-            else MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(18.dp)
+            else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -213,11 +210,9 @@ private fun OptionAction(onClick: () -> Unit, description: String) {
             .background(MaterialTheme.colorScheme.surfaceContainerHighest),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Rounded.Close,
-            contentDescription = description,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(16.dp)
+        com.neb.ians.ui.components.NebIcon(
+            com.neb.ians.ui.components.NebIcons.Close, description, size = 16.dp,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

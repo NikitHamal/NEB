@@ -1263,26 +1263,26 @@ fun MarkdownToolbar(
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToolbarButton(Icons.Outlined.FormatBold, "Bold") { onValueChange(insertMarkdown(value, "**", "**")) }
-        ToolbarButton(Icons.Outlined.FormatItalic, "Italic") { onValueChange(insertMarkdown(value, "*", "*")) }
-        ToolbarButton(Icons.Outlined.Code, "Code") { onValueChange(insertMarkdown(value, "`", "`")) }
+        ToolbarButton(NebIcons.Bold, "Bold") { onValueChange(insertMarkdown(value, "**", "**")) }
+        ToolbarButton(NebIcons.Italic, "Italic") { onValueChange(insertMarkdown(value, "*", "*")) }
+        ToolbarButton(NebIcons.Code, "Code") { onValueChange(insertMarkdown(value, "`", "`")) }
         if (!compact) {
-            ToolbarButton(Icons.Outlined.StrikethroughS, "Strikethrough") { onValueChange(insertMarkdown(value, "~~", "~~")) }
-            ToolbarButton(Icons.Outlined.Title, "Heading") { onValueChange(insertMarkdown(value, "\n## ")) }
-            ToolbarButton(Icons.Outlined.FormatListBulleted, "Bullet list") { onValueChange(insertMarkdown(value, "\n- ")) }
-            ToolbarButton(Icons.Outlined.FormatListNumbered, "Numbered list") { onValueChange(insertMarkdown(value, "\n1. ")) }
-            ToolbarButton(Icons.Outlined.FormatQuote, "Quote") { onValueChange(insertMarkdown(value, "\n> ")) }
-            ToolbarButton(Icons.Outlined.Link, "Link") { onValueChange(insertMarkdown(value, "[text](", ")")) }
-            ToolbarButton(Icons.Outlined.Functions, "Math formula") { onValueChange(insertMarkdown(value, "$$", "$$")) }
-            ToolbarButton(Icons.Outlined.DataObject, "Code block") { onValueChange(insertMarkdown(value, "\n```\n", "\n```\n")) }
-            ToolbarButton(Icons.Outlined.HorizontalRule, "Divider") { onValueChange(insertMarkdown(value, "\n---\n")) }
+            ToolbarButton(NebIcons.Strike, "Strikethrough") { onValueChange(insertMarkdown(value, "~~", "~~")) }
+            ToolbarButton(NebIcons.Heading, "Heading") { onValueChange(insertMarkdown(value, "\n## ")) }
+            ToolbarButton(NebIcons.ListBullet, "Bullet list") { onValueChange(insertMarkdown(value, "\n- ")) }
+            ToolbarButton(NebIcons.ListNumber, "Numbered list") { onValueChange(insertMarkdown(value, "\n1. ")) }
+            ToolbarButton(NebIcons.Quote, "Quote") { onValueChange(insertMarkdown(value, "\n> ")) }
+            ToolbarButton(NebIcons.Link, "Link") { onValueChange(insertMarkdown(value, "[text](", ")")) }
+            ToolbarButton(NebIcons.Math, "Math formula") { onValueChange(insertMarkdown(value, "$$", "$$")) }
+            ToolbarButton(NebIcons.CodeBlock, "Code block") { onValueChange(insertMarkdown(value, "\n```\n", "\n```\n")) }
+            ToolbarButton(NebIcons.Divider, "Divider") { onValueChange(insertMarkdown(value, "\n---\n")) }
         }
     }
 }
 
 @Composable
 private fun ToolbarButton(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    @androidx.annotation.DrawableRes icon: Int,
     contentDescription: String,
     onClick: () -> Unit
 ) {
@@ -1294,10 +1294,10 @@ private fun ToolbarButton(
             .nebPressable(scale = 0.88f, tactile = TactileType.LightTap, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = icon,
+        NebIcon(
+            id = icon,
             contentDescription = contentDescription,
-            modifier = Modifier.size(19.dp),
+            size = 19.dp,
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
