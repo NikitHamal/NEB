@@ -237,7 +237,7 @@ STAGES = [
      'levels': ['Masters', 'PhD']},
     {'key': 'prep', 'label': 'Exam prep', 'icon': 'edit_note', 'status': STATUS_PREPARING,
      'levels': ['Entrance Prep', 'Competitive Exam']},
-    {'key': 'other', 'label': 'Something else', 'icon': 'explore', 'status': '',
+    {'key': 'other', 'label': 'Other', 'icon': 'explore', 'status': '',
      'levels': ['Self Learner', 'Professional', 'Abroad', 'Other']},
 ]
 # Levels whose status follows from the level itself (nothing to ask).

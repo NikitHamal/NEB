@@ -162,7 +162,7 @@
     var stage = stageOf(S.level);
     var root = h('div', { class: 'ob-edu' });
     var blocks = {};
-    var ORDER = ['stage', 'level', 'program', 'term', 'status', 'completed'];
+    var ORDER = ['stage', 'level', 'program', 'status', 'term', 'completed'];
 
     function block(key, sig, build) {
       var b = blocks[key];
