@@ -553,6 +553,34 @@ About 150 W — a useful check on why a room full of people warms up.
 | Dark clothes in winter | high absorptivity, so more solar energy is absorbed |
 | Greenhouses | glass transmits visible light but absorbs the outgoing infrared |
 
+```photogrid label="8.1" cols="2" ratio="1.2" caption="Radiation from the Sun. (a) A solar flare seen in ultraviolet light: the Sun loses energy only by radiation. (b) Stefan's law gives the power radiated per square metre, E = sigma T^4. For the surface temperature T = 5,772 K, E = 6.29 x 10^7 W/m^2. Multiplying by the area of a sphere of radius 6.957 x 10^8 m gives a luminosity L = 3.83 x 10^26 W. Spread over a sphere of radius 1.496 x 10^11 m (the Earth's orbit) this is 1,361 W/m^2, the solar constant. Wien's law lambda_max = b / T with b = 2.898 x 10^-3 m K gives a peak at 502 nm, in the green-yellow part of the visible spectrum."
+@ photo id="sci10/sun-flare" cap="The Sun in extreme ultraviolet: a hot body radiating"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Stefan, Wien and the solar constant, computed"
+import math
+sig, b = 5.670374e-8, 2.897772e-3
+T, Rs, d = 5772.0, 6.957e8, 1.496e11
+E = sig * T ** 4; L = 4 * math.pi * Rs ** 2 * E; S = L / (4 * math.pi * d ** 2); lam = b / T
+assert abs(E / 1e7 - 6.294) < 0.01 and abs(L / 1e26 - 3.83) < 0.02 and abs(S - 1361) < 5 and abs(lam * 1e9 - 502) < 1
+facts = dict(E="%.2f" % (E / 1e7), L="%.2f" % (L / 1e26), S="{:,.0f}".format(S), lam="%.0f" % (lam * 1e9))
+f = Fig(300, 236)
+f.text(150, 14, "black-body curve of the Sun, T = 5,772 K", size=10.5, color=NAVY, bold=True)
+planck = lambda l, T: 1 / (l ** 5 * (math.exp(1.4388e-2 / (l * T)) - 1))
+ls = [i * 1e-8 for i in range(10, 200)]; pm = max(planck(l, T) for l in ls)
+X = lambda l: 24 + (l * 1e9 - 100) / 1900 * 256; Y = lambda p: 150 - p / pm * 100
+f.line(X(1e-7), Y(0), 284, Y(0), color=SLATE, sw=1.2)
+sx = [(380, 450, "#c4b5fd"), (450, 495, "#93c5fd"), (495, 570, "#86efac"), (570, 590, "#fde68a"), (590, 620, "#fdba74"), (620, 750, "#fca5a5")]
+for a, bb, c in sx: f.box(X(a * 1e-9), 150, X(bb * 1e-9) - X(a * 1e-9), 8, "", fill=c, stroke=c, r=0, sw=0)
+pts = [(l, planck(l, T)) for l in [i * 1e-8 * 2 for i in range(5, 100)]]
+for (a, bb), (c, d_) in zip(pts, pts[1:]): f.line(X(a), Y(bb), X(c), Y(d_), color=NAVY, sw=2.4)
+f.line(X(lam), Y(pm), X(lam), Y(0), color=RED, sw=1.2, dash=True); f.text(X(lam) + 6, 44, "peak %.0f nm" % (lam * 1e9), size=10.5, color=RED, bold=True, anchor="start")
+for l in (500, 1000, 1500, 2000): f.text(X(l * 1e-9), 174, "%d" % l, size=10.5, color=SLATE)
+f.text(150, 188, "wavelength (nm); colour strip = visible light", size=10.5, color=SLATE)
+f.text(150, 204, "sigma T^4 = %.2f x 10^7 W/m^2,  L = %.2f x 10^26 W" % (E / 1e7, L / 1e26), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "solar constant L / 4 pi d^2 = %s W/m^2" % "{:,.0f}".format(S), size=10.5, color=AMBER, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
