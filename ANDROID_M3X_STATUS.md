@@ -99,11 +99,17 @@ Brief: the app still did not read like the web. Method this time: the web was ru
 
 - Analytics (`ui/screens/analytics/AnalyticsScreen.kt`): replaced remaining `CircleShape` hero, KPI, and table rank tiles with rounded squircles (`RoundedCornerShape`), swapped monochrome `onSurface` chart bars, accuracy ring, and progress bars for brand `primary` with tonal `primaryContainer`/`secondaryContainer` fills, and removed redundant helper subtitles across dashboard sections.
 
-## Session 8: cleanup + analytics overhaul (status, CI-verified only)
+## Session 8: cleanup + analytics overhaul (CI-verified only; nothing is built locally)
 
 Brief: remove AI chat, Study Lab and the other dead study surfaces from the app (only @neby and the PDF reader's Neby AI stay); rebuild the Analytics screen on m3x; rebuild the backend analytics behind it.
 
-- [x] Backend: `api/user_analytics.py` (v2 payload), `api/test_user_analytics.py`, `docs/ANALYTICS.md` section, legacy keys kept.
-- [x] Android: AI chat (`NebyAiScreen`, view model, composer, empty state), Study Lab, Study Space, document detail, the unused Canvas screens, their routes, the Study/Arena/Qwen endpoints and models in `ApiService`, and three dead Home composables (`HomeWelcomePanel`, `HomeQuickActions`, `HomeStudyHub`) are gone. The PDF reader's Neby AI keeps its message rows: `ui/screens/reader/NebyAnswer.kt` (moved from `ai/chat`, own `NebyMessage`). Syllabus reader, Interactive courses and Notes are untouched.
-- [ ] Android: new Analytics screen on the v2 payload (range chips, KPI tiles, trend, streak, heatmap, rhythm, reach, helpfulness, milestones, insights).
-- [ ] CI green on `Build Student Release APKs & AAB`.
+- Removed: AI chat (`NebyAiScreen`, view model, composer, empty state), Study Lab, Study Space, document detail, the unreferenced Canvas screens, their routes, the Study / Arena / Qwen endpoints and models in `ApiService`, and three dead Home composables (`HomeWelcomePanel`, `HomeQuickActions`, `HomeStudyHub`). The PDF reader's Neby AI keeps its message rows in `ui/screens/reader/NebyAnswer.kt` (moved from `ai/chat`, own `NebyMessage`). Syllabus reader, Interactive courses, Notes and Neby credits are untouched.
+- Backend: `api/user_analytics.py` builds the v2 payload for `GET /api/users/me/analytics/?days=7|30|90` (see `docs/ANALYTICS.md`, member section). 24 queries, tests in `api/test_user_analytics.py`. Legacy keys stay; the Study Lab fields are gone. Backend deploys are manual (`deploy.ps1`): until it ships, the app shows "Analytics is updating" because the payload has no `version: 2`.
+- Android models: `data/api/AnalyticsModels.kt` mirrors the payload field for field (checked against a real response, no field missing).
+- Android screen (`ui/screens/analytics/`): `AnalyticsScreen` (title bar, range chips 7/30/90, one `LazyColumn`), `AnalyticsViewModel` (per-range cache, thin progress bar while a range loads), `AnalyticsOverview` (standing hero on primary container, streak card with the last seven days, "For you" insights, six KPI tiles with change tag and sparkline), `AnalyticsActivity` (trend bars with metric chips and tap-to-pick, 17-week consistency calendar, hour and weekday rhythm, what you did), `AnalyticsStanding` (reach, helpfulness with tonal label tags, community, top posts, top resources, topics, milestones), `AnalyticsCharts` (canvas bars, sparkline, heat grid), `AnalyticsParts` (card, tile, tag, stat grid, bar row).
+- Rules kept: flat tonal surfaces, no shadow, no gradient, no emoji, no circle tiles (Expressive cookie, sunny, flower, clover, burst shapes and 12 to 28 dp radii), brand primary for data, tonal chips for tags and deltas, bare text for everything else.
+
+## Not done yet (after session 8)
+
+- The screen has not been seen on a device or emulator: production still serves the old payload until the backend is deployed, so a capture flow would only show the "updating" state. After deploying, add a flow to `tools/app-screens/flows` (Profile, Analytics icon) and run `App screen captures (reel)`.
+- PageView rows are not read for members (no index on the member column); likes and replies received come from notifications.
