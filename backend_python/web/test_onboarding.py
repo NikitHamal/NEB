@@ -103,3 +103,41 @@ class OnboardingTests(TestCase):
     def test_new_oauth_users_land_in_onboarding(self):
         from django.urls import reverse
         self.assertEqual(reverse('web:onboarding'), '/welcome/')
+
+
+class OnboardingSharedControlsTests(TestCase):
+    """The welcome flow uses the profile editor's own date wheel and gender tiles, stacked, and stays short."""
+
+    def setUp(self):
+        self.client = Client()
+        self.user = _make(dob='2007-02-27', gender='Male')
+        _sign_in(self.client, self.user)
+
+    def test_page_renders_the_shared_wheel_and_tiles(self):
+        html = self.client.get('/welcome/').content.decode()
+        for needle in ('id="dob-trigger"', 'id="dob-sheet"', 'id="dob-wheel"', 'data-neb-name="gender"',
+                       'neb-dob-field.js', 'neb-edu.js', '27 Feb 2007'.split()[0] and 'value="2007-02-27"'):
+            self.assertIn(needle, html)
+        self.assertNotIn('type="date"', html)
+
+    def test_flow_has_no_bloat_steps(self):
+        import os
+        from django.conf import settings
+        path = os.path.join(settings.BASE_DIR, 'web', 'static', 'web', 'js', 'onboarding.js')
+        js = open(path, encoding='utf-8').read()
+        for gone in ('where:', 'shine:', 'interests:', "type: 'date'"):
+            self.assertNotIn(gone, js)
+
+    def test_minimal_student_save_needs_only_the_basics(self):
+        body = {'role': 'student', 'displayName': 'Sita K', 'dob': '2007-02-27', 'gender': 'Female',
+                'status': 'studying', 'level': 'Bachelors', 'program': 'BCA'}
+        r = self.client.post('/welcome/save/', json.dumps(body), content_type='application/json')
+        self.assertEqual(r.status_code, 200, r.content)
+        self.user.refresh_from_db()
+        self.assertEqual((self.user.class_level, self.user.edu_program, self.user.edu_status),
+                         ('Bachelors', 'BCA', 'studying'))
+
+    def test_explorer_needs_nothing_more(self):
+        body = {'role': 'explorer', 'displayName': 'Raj', 'dob': '2000-01-01', 'gender': 'Male'}
+        self.assertEqual(self.client.post('/welcome/save/', json.dumps(body),
+                                          content_type='application/json').status_code, 200)

@@ -26,7 +26,6 @@
         <div class="ob-card-avatar md-shape-cookie-9" id="ob-card-avatar"><span id="ob-card-initial">N</span></div>
         <div class="ob-card-name" id="ob-card-name">Your name</div>
         <div class="ob-card-user" id="ob-card-user">@username</div>
-        <div class="ob-card-headline" id="ob-card-headline"></div>
         <div class="ob-card-edu" id="ob-card-edu"></div>
         <div class="ob-card-chips" id="ob-card-chips"></div>
       </div>
@@ -45,10 +44,19 @@
   </footer>
 </div>
 
+{# The date wheel and gender tiles are the profile editor's own, carried into step two by onboarding.js. #}
+<div hidden id="ob-parts">
+  {% include "components/_dob_field.html" with dob=dob %}
+  {% include "components/_gender_tiles.html" with gender=gender %}
+</div>
+{% include "components/_dob_sheet.html" with dob=dob %}
+
 <noscript><p class="ob-noscript">Setup needs JavaScript. <a href="{% url 'web:edit_profile' %}">Use the plain form</a>.</p></noscript>
 {{ boot|json_script:"ob-boot" }}
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% asset 'web/js/neb-edu.js' %}" defer></script>
+<script src="{% asset 'web/js/neb-dob-field.js' %}" defer></script>
 <script src="{% asset 'web/js/onboarding.js' %}" defer></script>
 {% endblock %}
