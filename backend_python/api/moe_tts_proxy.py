@@ -23,6 +23,7 @@ import base64
 import logging
 import time
 from typing import Dict, List, Optional
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -40,25 +41,12 @@ _config_cache: Optional[Dict] = None
 _config_ts: float = 0
 
 
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome"), True
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"})
-        return s, False
-
-
 def _load_config(force: bool = False) -> Optional[Dict]:
     """Fetch /config once; returns {'prefix': str, 'speaker': str, 'speed': float, 'symbol': bool}"""
     global _config_cache, _config_ts
     if _config_cache and not force and time.time() - _config_ts < 3600:
         return _config_cache
-    sess, _ = _session()
+    sess = new_session()
     try:
         r = sess.get(f"{BASE}/config", timeout=15)
         if r.status_code != 200:
@@ -203,7 +191,7 @@ def generate_tts(text: str, speaker: Optional[str] = None, speed: float = 1.0, s
         spd = 1.0
     sym = bool(symbol_input if symbol_input is not None else cfg.get("symbol", False))
 
-    sess, _ = _session()
+    sess = new_session()
     try:
         j = _post_call(sess, [text, spk, spd, sym])
         event_id = j.get("event_id") or j.get("eventId")
