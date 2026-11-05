@@ -319,6 +319,88 @@ f.text(435, 190, "round-robin CPU scheduling,\nplaylists that repeat,\nmultiplay
 7. **Variants add power.** A doubly linked list can be walked in both directions and a node can delete itself. A circular list suits round-robin scheduling and repeating playlists. The same idea thus adapts to different jobs.
 8. **Efficient memory re-use.** Freed nodes return to the system and can be used by other parts of the program. A long-running server, such as the one behind a payment system, can keep its memory use steady. This is not possible with a fixed-size array that must be reserved for the worst case.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="A ring that never ends. (a) Prayer wheels around the Boudhanath stupa in Kathmandu: pilgrims walk clockwise and keep spinning wheel after wheel, and after the last wheel they are at the first again, exactly like the last node of a circular linked list pointing back to the first. (b) The same idea runs the CPU. Five processes P1 to P5 with burst times 5, 3, 8, 2, 4 ms sit in a circular list and each gets a time slice (quantum) of 3 ms in turn; a process that is not finished goes to the back of the ring. The run is simulated in the figure: the CPU is busy for 22 ms, the turnaround times are 16, 6, 22, 11, 20 ms (average 15.0 ms) and the average waiting time is 10.6 ms. No node is ever shifted; only links change."
+@ photo id="bca201/prayer" cap="Prayer wheels at Boudhanath, Kathmandu"
+fit 1.2
+focus 0.35 0.5
+@ svg cap="Round robin on a circular list, quantum 3 ms"
+import math
+from collections import deque
+names = ["P1", "P2", "P3", "P4", "P5"]; burst = [5, 3, 8, 2, 4]; q = 3
+ring = deque(zip(names, burst)); t = 0; fin = {}; gantt = []
+while ring:
+    n, b = ring.popleft(); run = min(q, b); gantt.append((n, t, t + run)); t += run
+    if b > run: ring.append((n, b - run))
+    else: fin[n] = t
+assert t == sum(burst) == 22
+tat = [fin[n] for n in names]; wait = [fin[n] - b for n, b in zip(names, burst)]
+assert tat == [16, 6, 22, 11, 20] and sum(tat) / 5 == 15.0 and sum(wait) / 5 == 10.6
+f = Fig(300, 240)
+cx, cy, R = 92, 80, 40
+pts = [(cx + R * math.sin(2 * math.pi * i / 5), cy - R * math.cos(2 * math.pi * i / 5)) for i in range(5)]
+for i in range(5):
+    a = pts[i]; b = pts[(i + 1) % 5]
+    dx, dy = b[0] - a[0], b[1] - a[1]; L = math.hypot(dx, dy); u = (dx / L, dy / L)
+    f.arrow([(a[0] + u[0] * 15, a[1] + u[1] * 15), (b[0] - u[0] * 15, b[1] - u[1] * 15)], color=TEAL, sw=1.6)
+for i, (x, y) in enumerate(pts):
+    f.circle(x, y, 13, fill=MINT, stroke=TEAL, label=names[i], size=10.5)
+    ox, oy = cx + (R + 29) * math.sin(2 * math.pi * i / 5), cy - (R + 29) * math.cos(2 * math.pi * i / 5)
+    f.text(ox, oy, str(burst[i]) + " ms", size=10.5, color=AMBER, bold=True, vmid=True)
+f.text(cx, cy, "ring", size=10.5, color=SLATE, vmid=True)
+f.text(190, 20, "quantum 3 ms", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(190, 38, "busy time 22 ms", size=10.5, color=SLATE, anchor="start")
+f.text(190, 56, "turnaround (ms):", size=10.5, color=SLATE, anchor="start")
+f.text(190, 72, "16 6 22 11 20", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(190, 92, "average 15.0 ms", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(190, 110, "waiting 10.6 ms", size=10.5, color=RED, bold=True, anchor="start")
+sc = 280 / 22.0
+cols = {"P1": (BLUE, NAVY), "P2": (MINT, TEAL), "P3": (SAND, AMBER), "P4": (ROSE, RED), "P5": (SOFT, SLATE)}
+for n, s, e in gantt:
+    fl, st = cols[n]
+    f.box(10 + s * sc, 160, (e - s) * sc, 28, n if (e - s) >= 2 else "", fill=fl, stroke=st, size=10.5, r=0, bold=True)
+for tt in [0, 3, 6, 9, 11, 14, 16, 19, 22]:
+    f.text(10 + tt * sc, 204, str(tt), size=10.5, color=SLATE)
+f.text(150, 224, "CPU timeline in ms (P5 gets 1 ms slice at 19)", size=10.5, color=SLATE)
+```
+
+```photogrid label="5.3" cols="2" ratio="1.2" caption="Counting out in a circle: the Josephus problem. (a) A marble bust of Flavius Josephus, the Jewish historian who, in the story, survived a cave suicide pact in 67 CE by choosing his place in the circle. (b) Seven people stand in a circle and every third person is removed: the elimination order is 3, 6, 2, 7, 5, 1 and person 4 is left. A circular linked list does this naturally: walk k - 1 = 2 links, delete the next node by changing one pointer, continue from the node after it. For 41 people and k = 3 the survivor is person 31, found both by simulation (80 pointer moves) and by the recurrence J(1) = 0, J(n) = (J(n - 1) + k) mod n, which needs only 41 steps and no list at all."
+@ photo id="bca201/josephus" cap="Bust of Flavius Josephus"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Josephus circle, n = 7, every 3rd removed"
+import math
+n, k = 7, 3
+people = list(range(1, n + 1)); order = []; i = 0
+while len(people) > 1:
+    i = (i + k - 1) % len(people); order.append(people.pop(i))
+surv = people[0]
+assert order == [3, 6, 2, 7, 5, 1] and surv == 4
+def jos(n, k):
+    r = 0
+    for m in range(2, n + 1): r = (r + k) % m
+    return r + 1
+assert jos(7, 3) == 4 and jos(41, 3) == 31
+ring = list(range(1, 42)); idx = 0; hops = 0
+while len(ring) > 1:
+    idx = (idx + k - 1) % len(ring); hops += k - 1; ring.pop(idx)
+assert ring == [31] and hops == 80
+f = Fig(300, 240)
+cx, cy, R = 150, 108, 60
+for p in range(1, n + 1):
+    a = 2 * math.pi * (p - 1) / n
+    x, y = cx + R * math.sin(a), cy - R * math.cos(a)
+    if p == surv: fl, st = MINT, TEAL
+    elif p in order: fl, st = ROSE, RED
+    else: fl, st = BLUE, NAVY
+    f.circle(x, y, 15, fill=fl, stroke=st, label=str(p), size=11)
+    if p in order:
+        f.text(cx + (R + 29) * math.sin(a), cy - (R + 29) * math.cos(a), "out " + str(order.index(p) + 1), size=10.5, color=RED, bold=True, vmid=True)
+    else:
+        f.text(cx + (R + 29) * math.sin(a), cy - (R + 29) * math.cos(a), "left", size=10.5, color=TEAL, bold=True, vmid=True)
+f.text(150, 210, "order out: 3, 6, 2, 7, 5, 1; survivor 4", size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "n = 41: survivor 31, 80 hops, recurrence 41 steps", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Node = data + `next` (+ `prev`). `head == NULL` means empty.
