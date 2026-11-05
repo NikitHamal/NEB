@@ -44,6 +44,35 @@ Truth table of the main connectives (T/F):
 
 A formula with n variables has **2ⁿ** rows. **Precedence:** ¬, then ∧, then ∨, then →, then ↔.
 
+### Boole's idea: logic as calculation
+
+In 1854 George Boole showed that reasoning can be written as algebra on two values, true and false. Augustus De Morgan, his contemporary, stated the two laws that bear his name: the negation of "and" is the "or" of the negations, and the negation of "or" is the "and" of the negations. Every program that writes `!(a && b)` as `!a || !b` uses them. Plate 1.1 does not trust the statement: it evaluates both sides on all four rows of the truth table and checks that the columns are identical.
+
+```photogrid label="1.1" cols="2" ratio="1.1" caption="Logic as algebra. (a) George Boole, who wrote logic as calculation on the two values true and false. (b) De Morgan's laws checked on every row of the truth table: not (p and q) equals (not p) or (not q), and not (p or q) equals (not p) and (not q); the two columns of each pair agree on all four rows."
+@ photo id="bca151/boole" cap="George Boole (1815-1864)"
+fit 1.1
+focus 0.5 0.4
+@ svg cap="De Morgan's laws on all four rows"
+rows = [(p, q) for p in (True, False) for q in (True, False)]
+a1 = [not (p and q) for p, q in rows]; b1 = [(not p) or (not q) for p, q in rows]
+a2 = [not (p or q) for p, q in rows]; b2 = [(not p) and (not q) for p, q in rows]
+assert a1 == b1 and a2 == b2 and a1 == [False, True, True, True] and a2 == [False, False, False, True]
+f = Fig(400, 250)
+f.text(200, 16, "T = true, F = false", size=11, color=NAVY, bold=True)
+heads = ["p", "q", "not(p and q)", "(not p) or (not q)", "not(p or q)", "(not p) and (not q)"]
+xs = [10, 44, 78, 154, 250, 326]; ws = [30, 30, 70, 92, 72, 70]
+for x, w, h in zip(xs, ws, ["p", "q", "!(p&q)", "!p | !q", "!(p|q)", "!p & !q"]):
+    f.text(x + w / 2, 42, h, size=10.5, color=SLATE, bold=True)
+for i, (p, q) in enumerate(rows):
+    y = 52 + i * 34
+    vals = [p, q, a1[i], b1[i], a2[i], b2[i]]
+    for j, (x, w, v) in enumerate(zip(xs, ws, vals)):
+        same = j >= 2
+        f.box(x, y, w, 28, "T" if v else "F", fill=MINT if (v and same) else (BLUE if not same else SOFT), stroke=TEAL if (v and same) else NAVY, color=TEAL if v else RED, size=12, bold=True)
+f.text(200, 206, "Columns 3 and 4 are identical;  columns 5 and 6 are identical.", size=10.5, color=SLATE, bold=True)
+f.text(200, 228, "In C: !(a && b) is the same as !a || !b for every a and b.", size=10.5, color=SLATE)
+```
+
 ## 1.2 Tautologies and equivalences
 
 A **tautology** is always true; a **contradiction** is always false; otherwise a **contingency**. Two formulas are **logically equivalent** (≡) if they have identical truth tables.
@@ -116,6 +145,44 @@ Let s = server down, w = reachable, r = router fails. (1) s → ¬w; (2) w; (3) 
 
 **Fallacies.** *Affirming the conclusion*: p → q, q ⊢ p is **invalid** (the wet road does not prove it rained). *Denying the hypothesis*: p → q, ¬p ⊢ ¬q is **invalid**.
 
+### Aristotle's syllogism, checked by machine
+
+Aristotle was the first to ask which arguments are valid whatever the subject matter. Today we can answer by brute force: an argument is valid if there is no row of the truth table where all premises are true and the conclusion is false. Plate 1.2 runs that test on three valid rules and on the two fallacies of Section 1.4. For modus ponens only one row makes both premises true, and the conclusion holds there; for "affirming the conclusion" a row exists with true premises and a false conclusion, which is the counterexample.
+
+```photogrid label="1.2" cols="2" ratio="1.0" caption="Validity by exhaustive check. (a) A Roman copy of the bust of Aristotle, who first listed valid forms of argument. (b) Five argument forms tested on every truth-table row: for each, the number of rows in which all premises are true and the number of those rows where the conclusion fails; a form is valid exactly when that last number is 0."
+@ photo id="bca151/aristotle" cap="Aristotle (384-322 BC), Roman copy of a Greek bust"
+fit 1.0
+focus 0.5 0.4
+@ svg cap="Counterexample search over all rows"
+from itertools import product
+imp = lambda a, b: (not a) or b
+forms = [("modus ponens", lambda p, q, r: [imp(p, q), p], lambda p, q, r: q),
+         ("modus tollens", lambda p, q, r: [imp(p, q), not q], lambda p, q, r: not p),
+         ("hypothetical syllogism", lambda p, q, r: [imp(p, q), imp(q, r)], lambda p, q, r: imp(p, r)),
+         ("affirming the conclusion", lambda p, q, r: [imp(p, q), q], lambda p, q, r: p),
+         ("denying the hypothesis", lambda p, q, r: [imp(p, q), not p], lambda p, q, r: not q)]
+res = []
+for nm, prem, con in forms:
+    t = bad = 0
+    for p, q, r in product((True, False), repeat=3):
+        if all(prem(p, q, r)): t += 1; bad += (not con(p, q, r))
+    res.append((nm, t, bad))
+assert [x[2] for x in res] == [0, 0, 0, 2, 2] and res[0][1] == 2 and res[2][1] == 4
+f = Fig(400, 240)
+f.text(200, 16, "Rows over p, q, r (8 rows in all)", size=11, color=NAVY, bold=True)
+f.text(10, 40, "form", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(262, 40, "premises true", size=10.5, color=SLATE, bold=True)
+f.text(356, 40, "fails", size=10.5, color=SLATE, bold=True)
+for i, (nm, t, b) in enumerate(res):
+    y = 50 + i * 34
+    ok = b == 0
+    f.box(6, y, 388, 29, "", fill=MINT if ok else ROSE, stroke=TEAL if ok else RED, r=4)
+    f.text(12, y + 15, nm, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(262, y + 15, str(t), size=12, color=SLATE, bold=True, vmid=True)
+    f.text(356, y + 15, str(b), size=12, color=TEAL if ok else RED, bold=True, vmid=True)
+f.text(200, 232, "0 failures = valid.  Any failure is a counterexample = invalid.", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.5 Proof techniques
 
 | Technique | Idea | Template |
@@ -158,6 +225,36 @@ for n, d, x, y, fl, s in tech:
 f.box(350, 30, 220, 50, "For every n >= n0?\nuse induction", fill="#fde68a", stroke=AMBER, size=11, color=NAVY, bold=True)
 f.box(350, 130, 220, 50, "Claim 'for all' looks false?\nfind one counterexample", fill="#fecaca", stroke=RED, size=11, color=NAVY, bold=True)
 f.arrow([(300, 37), (350, 55)], color=SLATE, dash=True); f.arrow([(300, 177), (350, 155)], color=SLATE, dash=True)
+```
+
+### Logic made of switches
+
+Before transistors, a telephone exchange computed with relays: a small electromagnet that closes or opens a metal contact. Two contacts in series carry current only if both are closed, which is AND; two in parallel carry current if either is closed, which is OR. Plate 1.3 lists what a lamp does in each of the four switch settings. This is the same truth table you wrote for `p ∧ q` and `p ∨ q`, now built from metal.
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Truth tables you can hear click. (a) A reed relay of the kind used in telephone exchanges, shown beside a ruler. (b) Two switches p and q wired in series (lamp lights only when both are closed, AND) or in parallel (lamp lights when at least one is closed, OR), listed for all four settings."
+@ photo id="bca151/relay" cap="Relay used in a telephone exchange (ruler for scale)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Series is AND, parallel is OR"
+rows = [(p, q) for p in (1, 0) for q in (1, 0)]
+ser = [p & q for p, q in rows]; par = [p | q for p, q in rows]
+assert ser == [1, 0, 0, 0] and par == [1, 1, 1, 0]
+f = Fig(400, 264)
+f.text(100, 16, "Series (AND)", size=11, color=TEAL, bold=True)
+f.text(300, 16, "Parallel (OR)", size=11, color=AMBER, bold=True)
+f.line(20, 50, 40, 50, color=SLATE); f.box(40, 38, 40, 24, "p", fill=BLUE, stroke=NAVY, color=NAVY, bold=True); f.line(80, 50, 100, 50, color=SLATE)
+f.box(100, 38, 40, 24, "q", fill=BLUE, stroke=NAVY, color=NAVY, bold=True); f.line(140, 50, 160, 50, color=SLATE); f.circle(172, 50, 12, fill=SAND, stroke=AMBER, label="L", color=AMBER)
+f.line(220, 50, 240, 50, color=SLATE); f.line(240, 34, 240, 76, color=SLATE)
+f.box(260, 22, 40, 24, "p", fill=BLUE, stroke=NAVY, color=NAVY, bold=True); f.box(260, 64, 40, 24, "q", fill=BLUE, stroke=NAVY, color=NAVY, bold=True)
+f.line(240, 34, 260, 34, color=SLATE); f.line(240, 76, 260, 76, color=SLATE); f.line(300, 34, 320, 34, color=SLATE); f.line(300, 76, 320, 76, color=SLATE); f.line(320, 34, 320, 76, color=SLATE); f.line(320, 55, 340, 55, color=SLATE)
+f.circle(352, 55, 12, fill=SAND, stroke=AMBER, label="L", color=AMBER)
+f.text(60, 118, "p  q   lamp", size=10.5, color=SLATE, bold=True); f.text(260, 118, "p  q   lamp", size=10.5, color=SLATE, bold=True)
+for i, ((p, q), s, a) in enumerate(zip(rows, ser, par)):
+    y = 132 + i * 28
+    for x0, v, st, fl in ((14, s, TEAL, MINT), (214, a, AMBER, SAND)):
+        f.text(x0 + 10, y + 12, str(p), size=11, color=NAVY, bold=True, vmid=True); f.text(x0 + 46, y + 12, str(q), size=11, color=NAVY, bold=True, vmid=True)
+        f.box(x0 + 80, y, 90, 24, "ON" if v else "off", fill=fl if v else SOFT, stroke=st if v else SLATE, color=st if v else SLATE, size=11, bold=True)
+f.text(200, 254, "1 = switch closed.  Lamp ON = current flows.", size=10.5, color=SLATE)
 ```
 
 ## 1.7 Eight uses of logic in computing
