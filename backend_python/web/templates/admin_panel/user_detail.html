@@ -133,7 +133,7 @@
 
         <div class="form-group">
           <label class="md-label" for="photo_url">Profile Photo URL</label>
-          <input type="url" id="photo_url" name="photo_url" class="md-input" value="{{ user_detail.photo_url|default:'' }}" placeholder="https://example.com/avatar.png">
+          <input type="text" inputmode="url" id="photo_url" name="photo_url" class="md-input" value="{{ user_detail.photo_url|default:'' }}" placeholder="https://example.com/avatar.png or /media/profile_art/avatar.png">
           {% if user_detail.photo_url %}
           <div style="margin-top:8px;">
             <img id="photoUrlPreview" src="{{ user_detail.photo_url }}" alt="preview" class="admin-avatar" data-fallback="none">

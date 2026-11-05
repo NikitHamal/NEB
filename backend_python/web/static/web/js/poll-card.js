@@ -52,7 +52,7 @@
     if (compact && opts.length > COMPACT_LIMIT && !el._all) { hidden = opts.length - COMPACT_LIMIT; opts = opts.slice(0, COMPACT_LIMIT); }
 
     var head = '<div class="pc-head">' +
-      '<span class="pc-chip"><span class="material-symbols-outlined">' + (mcq ? 'quiz' : 'ballot') + '</span>' + (mcq ? 'Quiz' : 'Poll') + '</span>' +
+      '<span class="pc-chip"><span class="material-symbols-outlined">' + (mcq ? 'quiz' : 'poll') + '</span>' + (mcq ? 'Quiz' : 'Poll') + '</span>' +
       (p.allowMultiple ? '<span class="pc-chip">Pick several</span>' : '') +
       (p.allowAddOptions ? '<span class="pc-chip">Open options</span>' : '') +
       (expired ? '<span class="pc-chip pc-chip--end">Ended</span>' : (p.expiresAt ? '<span class="pc-chip pc-chip--live">' + esc(timeLeft(p.expiresAt)) + '</span>' : '')) +
@@ -237,7 +237,7 @@
       '<button type="button" class="pc-icon-btn pc-icon-btn--ghost" data-pb="rm" aria-label="Remove option"><span class="material-symbols-outlined">close</span></button></div>';
   }
   function builderHtml() {
-    return '<div class="pb-head"><span class="material-symbols-outlined">ballot</span>Poll</div>' +
+    return '<div class="pb-head"><span class="material-symbols-outlined">poll</span>Poll</div>' +
       '<input class="pb-field" data-pb="q" maxlength="300" placeholder="Ask a question" aria-label="Poll question">' +
       '<div class="pb-opts" data-pb="opts">' + builderRow() + builderRow() + '</div>' +
       '<button type="button" class="pb-opts-add" data-pb="add"><span class="material-symbols-outlined">add</span>Add option</button>' +

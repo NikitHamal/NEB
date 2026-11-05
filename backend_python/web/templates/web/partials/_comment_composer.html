@@ -43,7 +43,7 @@ Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
       {% endif %}
       {% if cc_poll %}
       <button type="button" class="fp-inline-tool" data-action="toggle-poll-builder" title="Add a poll" aria-label="Add a poll">
-        <span class="material-symbols-outlined">ballot</span>
+        {% include "components/_poll_icon.html" %}
       </button>
       {% endif %}
       <button type="button" class="reply-send-btn" id="{{ cc_send_id }}"
