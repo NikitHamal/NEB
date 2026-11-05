@@ -342,6 +342,68 @@ print(max(cnt, key=cnt.get), cnt["the"])
 {'the': 4, 'cat': 1, 'sat': 2, 'on': 2, 'mat': 1, 'dog': 1, 'log': 1}
 the 4
 ```
+Choosing between a list, tuple, set and dictionary is partly a question of speed and memory, and partly of safety. The plates below measure the first two with real Python 3.12 and show the third with the real error messages.
+
+```photogrid label="3.2" cols="2" ratio="1.1" caption="Dictionary look-up. (a) A printed dictionary: nobody reads from page one, you jump to the right place. A Python dict does the same with a hash table. (b) Finding the last of 1,000 keys: a list must compare with all 1,000 items (the in operator), a dict or set goes straight to the slot with about 1 probe. The container memory is measured with sys.getsizeof on 1,000 integers under the Python version that built this book: the bar lengths in the figure are those measured values."
+@ photo id="bca102/oed" cap="A large printed dictionary"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Comparisons and memory for 1,000 items"
+import sys
+n = 1000
+data = list(range(n)); cmp_list = 0
+for x in data:
+    cmp_list += 1
+    if x == n - 1: break
+d = {k: k for k in data}; s = set(data); t = tuple(data)
+assert cmp_list == 1000 and (n - 1) in d and (n - 1) in s
+sizes = [("tuple", sys.getsizeof(t)), ("list", sys.getsizeof(data)), ("set", sys.getsizeof(s)), ("dict", sys.getsizeof(d))]
+assert sizes[0][1] < sizes[1][1] < sizes[3][1] and sizes[2][1] > sizes[1][1]
+f = Fig(300, 236)
+f.text(150, 11, "search for the last of 1,000 keys", size=10, color=NAVY, bold=True)
+f.text(6, 34, "list: x in data", size=9.5, color=SLATE, bold=True, anchor="start")
+f.box(6, 40, 270, 14, "", fill=RED, stroke=RED, r=2); f.text(150, 47, "1,000 comparisons", size=9.5, color="#ffffff", bold=True, vmid=True)
+f.text(6, 70, "dict / set: key in d", size=9.5, color=SLATE, bold=True, anchor="start")
+f.box(6, 76, 2, 14, "", fill=TEAL, stroke=TEAL, r=0); f.text(14, 83, "about 1 probe", size=9.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 112, "memory of the container (bytes, sys.getsizeof)", size=10, color=NAVY, bold=True)
+mx = max(v for _, v in sizes)
+for i, (k, v) in enumerate(sizes):
+    y = 122 + i * 26
+    w = 170 * v / mx
+    f.text(6, y + 8, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(50, y, w, 16, "", fill=(AMBER if k in ("set", "dict") else TEAL), stroke=(AMBER if k in ("set", "dict") else TEAL), r=2)
+    f.text(50 + w + 5, y + 9, "{:,}".format(v), size=9.5, color=SLATE, bold=True, anchor="start")
+f.text(150, 230, "speed is bought with memory: set and dict are larger", size=9.5, color=AMBER, bold=True)
+```
+
+```photogrid label="3.3" cols="2" ratio="1.0" caption="Locked containers and shared rows. (a) A combination padlock: once a tuple is made it stays locked, which is why a tuple can be a dictionary key and a list cannot. (b) Real Python 3.12 results. A list used as a key raises TypeError (unhashable type); the tuple works. The row-copy trap: [[0] * 3] * 3 makes three names for ONE row, so changing grid[0][0] changes all three rows, while the comprehension [[0] * 3 for _ in range(3)] makes three separate rows."
+@ photo id="bca151/lock" cap="Combination padlock"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Two traps, run for real"
+try:
+    {[1, 2]: "x"}
+    err = "no error"
+except TypeError as e:
+    err = str(e)
+ok = {(27, 85): "Kathmandu"}[(27, 85)]
+g1 = [[0] * 3] * 3; g1[0][0] = 1
+g2 = [[0] * 3 for _ in range(3)]; g2[0][0] = 1
+assert err == "unhashable type: 'list'" and ok == "Kathmandu"
+assert g1 == [[1, 0, 0]] * 3 and g2 == [[1, 0, 0], [0, 0, 0], [0, 0, 0]] and g1[0] is g1[1] and g2[0] is not g2[1]
+f = Fig(300, 262)
+f.box(6, 6, 288, 58, "{[1, 2]: 'x'}\nTypeError: " + err + "\n{(27, 85): 'Kathmandu'}[(27, 85)] -> " + ok, fill=SOFT, stroke=SLATE, size=9.5, bold=True, color=NAVY)
+f.text(150, 84, "g[0][0] = 1 after building a 3 x 3 grid", size=10, color=NAVY, bold=True)
+for c, (title, g, fl, st) in enumerate((("[[0]*3]*3\nshared row", g1, ROSE, RED), ("comprehension\nseparate rows", g2, MINT, TEAL))):
+    x0 = 10 + c * 146
+    f.text(x0 + 66, 106, title, size=9.5, color=st, bold=True)
+    for r in range(3):
+        for k in range(3):
+            v = g[r][k]
+            f.box(x0 + k * 44, 128 + r * 28, 42, 26, str(v), fill=(SAND if v == 1 else fl), stroke=st, size=11, bold=True, r=2)
+f.box(6, 222, 288, 32, "same id for all rows (left): 1 object, 3 names\nthree different ids (right): 3 objects", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
 ### 3.7.1 Eight practical uses of strings, lists and dictionaries
 
 1. **Cleaning names and codes.** Methods such as `strip()`, `title()` and `replace()` tidy text typed by users. A college clerk can turn `"  ram BAHADUR thapa "` into `"Ram Bahadur Thapa"` in one line. Clean text gives correct matches when records are joined later.
