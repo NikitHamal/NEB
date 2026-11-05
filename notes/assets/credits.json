@@ -610,6 +610,19 @@
   "source": "Wikimedia Commons",
   "title": "Intel CPU Core i7 6700K Skylake top"
  },
+ "bca101/datacenter": {
+  "author": "PiDatacenters",
+  "bytes": 897476,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca101/datacenter.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Racks_Amravati_Data_Center.jpg",
+  "sha1": "baa8f4f30d1950f5",
+  "source": "Wikimedia Commons",
+  "title": "Racks Amravati Data Center"
+ },
  "bca101/dos": {
   "author": "Ghettoblaster",
   "bytes": 14554,
@@ -649,6 +662,19 @@
   "source": "Wikimedia Commons",
   "title": "ENIAC-changing a tube"
  },
+ "bca101/esp8266": {
+  "author": "Suyash Dwivedi",
+  "bytes": 1587675,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca101/esp8266.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:ESP8266_module_02.jpg",
+  "sha1": "0ad2c5615eef692c",
+  "source": "Wikimedia Commons",
+  "title": "ESP8266 module 02"
+ },
  "bca101/fibre-cable": {
   "author": "Asurnipal",
   "bytes": 138809,
@@ -674,6 +700,19 @@
   "sha1": "dc54527936d05e3a",
   "source": "Wikimedia Commons",
   "title": "Single strand of a Optical fiber network cable, stripped clean to the (fragile) glass fiber core"
+ },
+ "bca101/garmin": {
+  "author": "D-Kuru",
+  "bytes": 2355285,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca101/garmin.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Garmin_GPSmap_64st-front_PNr%C2%B00917.jpg",
+  "sha1": "bf0acc52f437dfba",
+  "source": "Wikimedia Commons",
+  "title": "Garmin GPSmap 64st-front PNr°0917"
  },
  "bca101/hdd-arm": {
   "author": "Mk2010",
@@ -727,6 +766,19 @@
   "source": "Wikimedia Commons",
   "title": "IC DIP chips"
  },
+ "bca101/imp": {
+  "author": "Carlo Nardone from Roma, Italy",
+  "bytes": 367736,
+  "credit": "Computer Museum: BBN Arpanet Router",
+  "fetched": "2026-11-05",
+  "file": "bca101/imp.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Interface_Message_Processor_-_BBN_Arpanet_Router_-_Computer_History_Museum_(2007-11-10_23.06.56_by_Carlo_Nardone).jpg",
+  "sha1": "5216a7d916e8a38d",
+  "source": "Wikimedia Commons",
+  "title": "Interface Message Processor - BBN Arpanet Router - Computer History Museum (2007-11-10 23.06.56 by Carlo Nardone)"
+ },
  "bca101/mobo": {
   "author": "Jacek Halicki",
   "bytes": 1006146,
@@ -766,6 +818,19 @@
   "source": "Wikimedia Commons",
   "title": "3Com-Etherlink-Network-Interface-Card-01"
  },
+ "bca101/nttower": {
+  "author": "Janak Bhatta",
+  "bytes": 1019707,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca101/nttower.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepal_Telecom_Tower.jpg",
+  "sha1": "60fc6d490a506fe2",
+  "source": "Wikimedia Commons",
+  "title": "Nepal Telecom Tower"
+ },
  "bca101/nvme": {
   "author": "D-Kuru",
   "bytes": 219222,
@@ -791,6 +856,19 @@
   "sha1": "4d45467dbba95b06",
   "source": "Wikimedia Commons",
   "title": "Kingston Technology DataTraveler G4 USB flash drive USB 3.0 32 Gb"
+ },
+ "bca101/phish": {
+  "author": "unbekannt; wahrscheinlich: Betrüger",
+  "bytes": 72020,
+  "credit": "Gat32992@gmail.com",
+  "fetched": "2026-11-05",
+  "file": "bca101/phish.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Phishing_Stadtsparkasse_M%C3%BCnchen.png",
+  "sha1": "1fd26892da2cc2f5",
+  "source": "Wikimedia Commons",
+  "title": "Phishing Stadtsparkasse München"
  },
  "bca101/pir": {
   "author": "Sjilla",
@@ -830,6 +908,19 @@
   "sha1": "c79c01b26e3d3df5",
   "source": "Wikimedia Commons",
   "title": "Punch card 2"
+ },
+ "bca101/qrpay": {
+  "author": "VulcanSphere",
+  "bytes": 752399,
+  "credit": "Own work",
+  "fetched": "2026-11-05",
+  "file": "bca101/qrpay.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ingenico_Move_2500_payment_terminal_showing_QRIS_QR_code_for_payment_(2026-04-05).jpg",
+  "sha1": "ccf19d565b40e3a0",
+  "source": "Wikimedia Commons",
+  "title": "Ingenico Move 2500 payment terminal showing QRIS QR code for payment (2026-04-05)"
  },
  "bca101/quantum": {
   "author": "Lars Ploughman",
@@ -908,6 +999,19 @@
   "sha1": "4b5a9c9911d4abb1",
   "source": "Wikimedia Commons",
   "title": "Hyundai RAM HY6116AP-10"
+ },
+ "bca101/subcable": {
+  "author": "Lonnie Hagadorn",
+  "bytes": 353230,
+  "credit": "Lonnie Hagadorn emailed the image to me to be added to the non-profit ICPC (International Cable Protection Committee).",
+  "fetched": "2026-11-05",
+  "file": "bca101/subcable.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Submarine_Optical_Cables.jpg",
+  "sha1": "f44d87e95f2dd741",
+  "source": "Wikimedia Commons",
+  "title": "Submarine Optical Cables"
  },
  "bca101/switch": {
   "author": "Simon A. Eugster",
