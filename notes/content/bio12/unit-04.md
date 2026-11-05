@@ -798,6 +798,29 @@ Terai and the maize grown on Nepal's hill terraces. Wheat flour is almost pure
 endosperm, and the coconut's liquid endosperm, rich in cytokinins, is used in
 plant tissue-culture media.
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="Pollen grains differ in size, shape and surface pattern, yet all of them come from the same process in the anther. (a) A colourised electron micrograph of mixed pollen. (b) A hundred pollen mother cells each divide by meiosis into four microspores, giving 400 pollen grains, and each grain later yields two male gametes, so 800 sperm cells are available. A hundred megaspore mother cells give only 100 egg cells, because three of the four megaspores in each ovule degenerate. That is a surplus of 8 male gametes for every egg, a plant's insurance against pollen that never reaches a stigma."
+@ photo id="bio12/pollen" cap="Pollen grains from different plants under the electron microscope (colourised)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="From mother cells to gametes, per 100 cells"
+pmc = 100
+grains = pmc * 4
+sperm = grains * 2
+mmc = 100
+sacs = mmc * 1
+eggs = sacs * 1
+assert (grains, sperm, eggs) == (400, 800, 100)
+f = Fig(300, 236)
+f.text(150, 14, "Counts from 100 mother cells of each kind", size=10.5, color=NAVY, bold=True)
+hbars(f, [("pollen mother", pmc), ("pollen grains", grains), ("male gametes", sperm), ("megaspore mother", mmc), ("egg cells", eggs)],
+      vmax=800, fmt="%d", x0=100, y0=34, bw=150, gap=26, colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED), (BLUE, NAVY), (MINT, TEAL)], size=9.5)
+f.text(150, 176, "meiosis: 1 mother cell makes 4 haploid cells", size=10, color=SLATE, bold=True)
+f.text(150, 192, "pollen: generative cell divides, 2 sperms each", size=10, color=SLATE, bold=True)
+f.text(150, 208, "ovule: 1 of 4 megaspores survives, 1 egg", size=10, color=SLATE, bold=True)
+f.text(150, 224, "double fertilisation: zygote 2n, endosperm 3n", size=10, color=TEAL, bold=True)
+facts = dict(g=grains, s=sperm, e=eggs, ratio=sperm // eggs)
+```
+
 ## Chapter summary
 
 - **Asexual reproduction** (rhizome, tuber, bulb, runner, cutting, grafting,

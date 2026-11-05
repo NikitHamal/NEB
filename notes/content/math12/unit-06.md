@@ -682,6 +682,35 @@ $$ r_1+r_2+r_3-r = \Delta\cdot\frac{abc}{\Delta^{2}} = \frac{abc}{\Delta}
 **Check:** $10.5 + 12 + 14 - 4 = 32.5 = 4 \times 8.125$ ✓.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="A truss bridge is built from triangles because a triangle cannot change shape without changing a side. (a) An iron truss bridge. (b) The triangle with sides 13, 14 and 15 has semi-perimeter s = 21 and, by Heron's formula, area 84. The inradius is r = area / s = 4 and the circumradius is R = abc / (4 x area) = 8.125. Both circles are drawn from these computed values, so the incircle touches all three sides while the circumcircle passes through A, B and C. Engineers use the same relations when sizing a gusset plate that must sit inside a joint."
+@ photo id="math12/truss" cap="An iron truss bridge: every member is a side of a triangle"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The 13-14-15 triangle with its two circles"
+a, b, c = 13.0, 14.0, 15.0
+s = (a + b + c) / 2; area = math.sqrt(s * (s - a) * (s - b) * (s - c))
+R = a * b * c / (4 * area); r = area / s
+assert area == 84 and r == 4 and abs(R - 8.125) < 1e-12
+Cx = (b * b + c * c - a * a) / (2 * c); Cy = math.sqrt(b * b - Cx * Cx)
+Ix = (a * 0 + b * c + c * Cx) / (a + b + c); Iy = c * Cy / (a + b + c)
+Oy = math.sqrt(R * R - (c / 2) ** 2)
+sc, ox, oy = 11, 30, 170
+X = lambda x: round(ox + sc * x, 1); Y = lambda y: round(oy - sc * y, 1)
+f = Fig(300, 236)
+f.text(150, 14, "a = 13, b = 14, c = 15", size=10.5, color=NAVY, bold=True)
+f.circle(X(c / 2), Y(Oy), round(sc * R, 1), fill="none", stroke=AMBER, sw=1.6)
+f.poly([(X(0), Y(0)), (X(c), Y(0)), (X(Cx), Y(Cy))], fill=BLUE, stroke=NAVY, sw=2)
+f.circle(X(Ix), Y(Iy), round(sc * r, 1), fill=MINT, stroke=TEAL, sw=1.6)
+f.text(X(0) - 8, Y(0) + 4, "A", size=11, color=NAVY, bold=True)
+f.text(X(c) + 8, Y(0) + 4, "B", size=11, color=NAVY, bold=True)
+f.text(X(Cx), Y(Cy) - 8, "C", size=11, color=NAVY, bold=True)
+for i, (t, col) in enumerate([("s = %d" % s, NAVY), ("area = %d" % area, NAVY), ("r = %d" % r, TEAL), ("R = %.3f" % R, AMBER)]):
+    f.text(216, 70 + 28 * i, t, size=10.5, color=col, bold=True, anchor="start")
+f.text(216, 190, "r = area / s", size=9.5, color=TEAL, bold=True, anchor="start")
+f.text(216, 206, "R = abc / 4 area", size=9.5, color=AMBER, bold=True, anchor="start")
+facts = dict(s=s, area=area, r=r, R=R)
+```
+
 ## Chapter summary
 
 - Standard notation: $a$ faces $A$, $s = \frac{a+b+c}{2}$, area $\Delta$.

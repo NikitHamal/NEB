@@ -578,6 +578,34 @@ $(-4t,\ t,\ 3t)$; taking $t = 1$ gives $(-4, 1, 3)$.
 **Check in the third equation:** $4(-4) + 1 + 5(3) = -16 + 16 = 0$. Correct.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="Three bills with three unknown prices form a system of linear equations that Cramer's rule solves. (a) A market stall with potatoes, tomatoes and onions. (b) With the coefficient determinant D = 4, which is not zero, the system has exactly one solution. Replacing each column by the bill totals gives Dx = 160, Dy = 240 and Dz = 120, so potato costs Rs 40, tomato Rs 60 and onion Rs 30 per kg. The program checks that these values satisfy all three bills. If D had been zero, the system would have either no solution or infinitely many, and the rank method of section 5.4 would be needed."
+@ photo id="math12/market" cap="A vegetable stall where three prices must be found from three bills"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Solving three bills with Cramer's rule"
+def det3(m):
+    return (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+            - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+            + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]))
+A = [[2, 1, 1], [1, 2, 3], [3, 1, 2]]; b = [170, 250, 240]
+D = det3(A)
+def rep(j):
+    return [[b[i] if c == j else A[i][c] for c in range(3)] for i in range(3)]
+Dx, Dy, Dz = det3(rep(0)), det3(rep(1)), det3(rep(2))
+sol = (Dx // D, Dy // D, Dz // D)
+assert D == 4 and (Dx, Dy, Dz) == (160, 240, 120) and sol == (40, 60, 30)
+f = Fig(300, 236)
+f.text(150, 14, "2p + t + o = 170   p + 2t + 3o = 250", size=10, color=NAVY, bold=True)
+f.text(150, 30, "3p + t + 2o = 240   (Rs, bills)", size=10, color=NAVY, bold=True)
+hbars(f, [("potato p", sol[0]), ("tomato t", sol[1]), ("onion o", sol[2])], vmax=70, fmt="Rs %d", x0=80, y0=50, bw=120, gap=28,
+      colors=[(SAND, AMBER), (ROSE, RED), (MINT, TEAL)])
+f.text(150, 160, "D = %d,  Dx = %d,  Dy = %d,  Dz = %d" % (D, Dx, Dy, Dz), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "p = Dx / D = %d, t = Dy / D = %d" % sol[:2], size=10.5, color=SLATE, bold=True)
+f.text(150, 200, "o = Dz / D = %d  (D is not 0)" % sol[2], size=10.5, color=SLATE, bold=True)
+f.text(150, 220, "unique solution", size=10.5, color=TEAL, bold=True)
+facts = dict(D=D, Dx=Dx, Dy=Dy, Dz=Dz, p=sol[0], t=sol[1], o=sol[2])
+```
+
 ## Chapter summary
 
 - Every linear system is $AX = B$ with $A$ the coefficient matrix, $X$ the column

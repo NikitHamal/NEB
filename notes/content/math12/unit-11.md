@@ -496,6 +496,31 @@ Mean $= np = 4 \times \frac16 = \dfrac23$; variance
 $= npq = 4 \times \dfrac16 \times \dfrac56 = \dfrac{5}{9}$.
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.27" caption="The sample space of two dice has 6 x 6 = 36 equally likely outcomes, and the sum is a new event on top of it. (a) A red and a white die. (b) The program counts the pairs for each sum: only one pair gives 2 or 12, while six pairs give 7. So P(7) = 6/36 = 0.167, much larger than P(2) = 0.028. The sum is at least 10 for 6 pairs, a probability of 0.167. The bars add to 36, which checks that the classical definition P(A) = n(A) / n(S) covers every outcome exactly once. Seven is the best bet in any board game that uses two dice."
+@ photo id="math12/dice" cap="A pair of dice: 36 equally likely outcomes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Distribution of the sum of two dice"
+import itertools
+cnt = {}
+for p, q in itertools.product(range(1, 7), repeat=2):
+    cnt[p + q] = cnt.get(p + q, 0) + 1
+assert sum(cnt.values()) == 36 and cnt[7] == 6 and cnt[2] == 1 and cnt[12] == 1
+f = Fig(300, 236)
+f.text(150, 14, "Ways to get each sum (out of 36)", size=10.5, color=NAVY, bold=True)
+base, bw = 170, 20
+for s in range(2, 13):
+    v = cnt[s]; h = 20 * v; x = 24 + (s - 2) * 25
+    top = (s == 7)
+    f.box(x, base - h, bw, h, fill=SAND if top else BLUE, stroke=AMBER if top else NAVY, r=2)
+    f.text(x + bw / 2, base - h - 7, str(v), size=10, color=AMBER if top else NAVY, bold=True)
+    f.text(x + bw / 2, base + 13, str(s), size=10, color=SLATE, bold=True)
+p7 = cnt[7] / 36; pge10 = sum(cnt[s] for s in (10, 11, 12)) / 36
+f.text(150, 206, "P(7) = 6/36 = %.3f" % p7, size=10.5, color=AMBER, bold=True)
+f.text(150, 224, "P(sum at least 10) = 6/36 = %.3f" % pge10, size=10.5, color=NAVY, bold=True)
+facts = dict(p7=p7, p2=cnt[2] / 36, pg=pge10)
+```
+
 ## Chapter summary
 
 - Events are **dependent** when one changes the probability of the other; drawing

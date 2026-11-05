@@ -889,6 +889,34 @@ $\blacksquare$ (The companion result, from subtracting, is
 $x^{n} - \dfrac{1}{x^{n}} = 2i\sin n\theta$.)
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Alternating current is written with complex numbers because a rotating arrow, or phasor, gives the same wave seen on an oscilloscope. (a) The screen of a scope showing a wave. (b) The point 3 + 4i is plotted on the Argand plane; its modulus is 5 and its argument is 53.13 degrees. Multiplying z by its conjugate gives 25, which equals |z|^2, so the product is always real. Squaring gives -7 + 24i, with the modulus squared and the angle doubled to 106.26 degrees. A mains supply of 230 V at 50 Hz is one such phasor turning 50 times each second."
+@ photo id="math12/oscilloscope" cap="An oscilloscope showing a sine-type wave, which a phasor describes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The complex number 3 + 4i in the Argand plane"
+z = complex(3, 4); zc = z.conjugate()
+r = abs(z); th = math.degrees(math.atan2(z.imag, z.real))
+assert r == 5 and round(th, 2) == 53.13 and (z * zc).real == 25 and z * z == complex(-7, 24)
+f = Fig(300, 236)
+f.text(150, 14, "z = 3 + 4i in the Argand plane", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 36, 26, 144, 162, (-1, 7), (-4.5, 4.5))
+ax.grid(1, 1, size=9)
+ax.axes("Re", "Im")
+O = (ax.X(0), ax.Y(0))
+f.arrow([O, (ax.X(3), ax.Y(4))], color=NAVY, sw=2.2)
+f.arrow([O, (ax.X(3), ax.Y(-4))], color=RED, sw=2.2)
+f.line(ax.X(3), ax.Y(4), ax.X(3), ax.Y(-4), color=SLATE, dash=True)
+ax.pt(3, 4, "z", dx=-12, dy=-4, color=NAVY)
+ax.pt(3, -4, "conj z", dx=-8, dy=14, color=RED, size=10)
+f.text(196, 60, "|z| = %d" % r, size=11, color=NAVY, bold=True, anchor="start")
+f.text(196, 84, "arg z = %.2f deg" % th, size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(196, 118, "z . conj z = %d" % (z * zc).real, size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(196, 140, "= |z|^2", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(196, 174, "z^2 = %d + %di" % ((z * z).real, (z * z).imag), size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 214, "squaring doubles the angle: %.1f deg" % (2 * th), size=10.5, color=SLATE, bold=True)
+facts = dict(r=r, th=th, p=(z * zc).real, zr=(z * z).real, zi=(z * z).imag, th2=2 * th)
+```
+
 ## Chapter summary
 
 - Polar form: $z = r(\cos\theta + i\sin\theta)$ with $r = |z| =

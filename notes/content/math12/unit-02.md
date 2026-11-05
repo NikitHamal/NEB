@@ -701,6 +701,30 @@ $x^{4}$ is $(2x)^{4}/4!$, so the coefficient is
 $$ \frac{2^{4}}{4!} = \frac{16}{24} = \frac{2}{3} $$
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Each pin on a Galton board sends the ball left or right, so reaching bin k after 8 rows can happen in 8Ck different paths. (a) The board with its rows of pins. (b) The coefficients of the expansion of (a + b)^8, taken from math.comb, are 1, 8, 28, 56, 70, 56, 28, 8, 1. Their sum is 2^8 = 256, the total number of left-right routes. The middle bin gets 70 of them, a share of 27.3%, while bins k = 3 and 5 each get 21.9%. This is why the binomial coefficients are also the numbers in row 8 of Pascal's triangle and why the balls pile up in a bell shape."
+@ photo id="math12/galton" cap="A Galton board: a ball takes a left or right turn at each row of pins"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Row 8 of Pascal's triangle"
+n = 8
+row = [math.comb(n, k) for k in range(n + 1)]
+assert sum(row) == 2 ** n == 256 and row[4] == 70 and row[0] == 1
+f = Fig(300, 236)
+f.text(150, 14, "Coefficients of (a + b)^8", size=10.5, color=NAVY, bold=True)
+base, hmax, bw = 176, 120, 24
+for k, v in enumerate(row):
+    h = hmax * v / 70.0
+    x = 30 + k * 29
+    mid = (k == 4)
+    f.box(x, base - h, bw, h, fill=SAND if mid else BLUE, stroke=AMBER if mid else NAVY, r=2)
+    f.text(x + bw / 2, base - h - 8, str(v), size=10.5, color=AMBER if mid else NAVY, bold=True)
+    f.text(x + bw / 2, base + 13, "k=%d" % k, size=9.5, color=SLATE)
+share = row[4] / 256.0
+f.text(150, 208, "sum of the row = 2^8 = %d" % sum(row), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "middle term: 70 / 256 = %.1f%%" % (100 * share), size=10.5, color=AMBER, bold=True)
+facts = dict(s=sum(row), m=row[4], sh=100 * share, e=row[3] / 256.0 * 100)
+```
+
 ## Chapter summary
 
 - $(a+b)^{n} = \sum_{r=0}^{n}{}^{n}C_{r}a^{n-r}b^{r}$ for a positive integer $n$;

@@ -1321,6 +1321,29 @@ $f''$ changes sign at both $x = 0$ and $x = 2$, so there are **two points of
 inflection**: $(0, 10)$ and $(2, -6)$, since $f(2) = 16 - 32 + 10 = -6$.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="A speedometer shows the derivative of distance with respect to time, the limit of average speed over shorter and shorter intervals. (a) A scooter speedometer. (b) For s(t) = t^3/2 - 3t^2 + 8t, the average speed from t = 4 to t = 6 is 16.0 m/s, over one second it is 11.50 m/s and over 0.1 s it is 8.305 m/s. These slopes of secants approach the slope of the red tangent, v(4) = s'(4) = 8 m/s, which equals 28.8 km/h. The derivative formula is exactly the shortcut that avoids repeating this limit for each value of t."
+@ photo id="math12/speedo" cap="A scooter speedometer, the meter that reads a derivative"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="From average speed to speed at an instant"
+s = lambda t: 0.5 * t ** 3 - 3 * t ** 2 + 8 * t
+v = lambda t: 1.5 * t ** 2 - 6 * t + 8
+sec = lambda h: (s(4 + h) - s(4)) / h
+assert s(4) == 16 and v(4) == 8 and abs(sec(1e-6) - 8) < 1e-4
+f = Fig(300, 236)
+f.text(150, 14, "s(t) = t^3/2 - 3t^2 + 8t  (metres)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 8), (0, 140))
+ax.grid(2, 20, size=9)
+ax.axes("t", "s")
+ax.curve(s, 0, 8, color=NAVY, sw=2.4)
+ax.curve(lambda t: 16 + 8 * (t - 4), 1.5, 6.5, color=RED, sw=1.8)
+ax.pt(4, 16, "", color=RED)
+f.text(ax.X(0.4), ax.Y(68), "tangent: slope 8 at t = 4", size=10, color=RED, bold=True, anchor="start")
+f.text(150, 208, "average over 4 to 6 s: %.1f m/s" % sec(2), size=10.5, color=SLATE, bold=True)
+f.text(150, 224, "h = 1: %.2f   h = 0.1: %.3f   limit: v(4) = %d m/s" % (sec(1), sec(0.1), v(4)), size=9.5, color=NAVY, bold=True)
+facts = dict(s2=sec(2), s1=sec(1), s01=sec(0.1), v4=v(4), kmh=v(4) * 3.6)
+```
+
 ## Chapter summary
 
 - The standard derivatives, the product, quotient and chain rules, and the

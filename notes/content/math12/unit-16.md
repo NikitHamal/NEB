@@ -850,6 +850,31 @@ $x = (u\cos\theta)t + \frac12 gt^2$. Solve the vertical equation for $t$ first,
 then feed that $t$ into the horizontal one.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="In the mechanics unit a projectile is treated as uniform motion across and uniform acceleration downwards. (a) A javelin thrower in the air. (b) For a speed of 28 m/s the four paths are computed from y = x tan(theta) - gx^2 / (2v^2 cos^2(theta)). Forty-five degrees gives the longest range, R = v^2 / g = 80.0 m. The angles 35 and 55 degrees, which add to 90, share the same range of 75.2 m, but the 55-degree throw goes higher. At 35 degrees the greatest height is 13.2 m and the flight time is 3.28 s. Air resistance and the lift on a javelin shift the best real angle lower than 45 degrees."
+@ photo id="math12/javelin" cap="A javelin thrower: a projectile under gravity"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Range depends on the angle of projection"
+v0 = 28.0; g = 9.8
+rng = lambda d: v0 ** 2 * math.sin(2 * math.radians(d)) / g
+hmx = lambda d: (v0 * math.sin(math.radians(d))) ** 2 / (2 * g)
+tt = lambda d: 2 * v0 * math.sin(math.radians(d)) / g
+assert abs(rng(35) - rng(55)) < 1e-9 and rng(45) > rng(35) and round(rng(45), 1) == 80.0
+f = Fig(300, 236)
+f.text(150, 14, "Paths for v = 28 m/s (g = 9.8)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 85), (0, 30))
+ax.grid(20, 10, size=9)
+ax.axes("x (m)", "y")
+cols = {25: TEAL, 35: AMBER, 45: RED, 55: NAVY}
+for d, c in cols.items():
+    th = math.radians(d)
+    ax.curve(lambda x, th=th: x * math.tan(th) - g * x * x / (2 * v0 ** 2 * math.cos(th) ** 2), 0, rng(d), color=c, sw=2.0)
+    ax.tag(rng(d) / 2, hmx(d) + 1.8, "%d deg" % d, size=9.5, color=c, bold=True)
+f.text(150, 208, "R = v^2 sin(2 theta) / g; max %.1f m at 45 deg" % rng(45), size=10, color=NAVY, bold=True)
+f.text(150, 224, "35 and 55 deg both give %.1f m" % rng(35), size=10.5, color=SLATE, bold=True)
+facts = dict(r45=rng(45), r35=rng(35), h35=hmx(35), t35=tt(35))
+```
+
 ## Chapter summary
 
 - Resultant of $P$ and $Q$ at angle $\theta$:

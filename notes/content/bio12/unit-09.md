@@ -636,6 +636,28 @@ and Health Survey 2022** found **25 % of children under five stunted** (down fro
 aged 6–59 months** and **34 % of women aged 15–49** were anaemic. Universal salt
 iodisation has made endemic goitre in the hills, once very common, rare.
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="Population growth is measured from census counts, and the annual growth rate shows how fast the numbers change. (a) A busy street in Kathmandu. (b) Nepal's census counted 26.49 million people in 2011 and 29.16 million in 2021, a gain of 2.67 million. Using the 10.43 years between the two census dates, the continuous growth rate is 0.92% per year, which agrees with the published figure of 0.92%. At this rate the population would double in about 75 years, and the 2031 estimate is 32.0 million. The rate has fallen since the 1980s because of lower fertility, but migration and ageing now shape the age pyramid."
+@ photo id="bio12/crowd" cap="A crowded street in Kathmandu: the capital holds a growing share of Nepal's people"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Nepal census counts and the growth rate"
+p1, p2 = 26.494504, 29.164578
+yrs = 10.43
+r = math.log(p2 / p1) / yrs
+dbl = math.log(2) / r
+p31 = p2 * math.exp(r * 10)
+assert 0.0090 < r < 0.0095 and 70 < dbl < 80
+f = Fig(300, 236)
+f.text(150, 14, "Population of Nepal (millions)", size=10.5, color=NAVY, bold=True)
+hbars(f, [("2011", p1), ("2021", p2), ("2031 est.", p31)], vmax=36, fmt="%.2f", x0=70, y0=34, bw=170, gap=34,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 150, "r = ln(P2 / P1) / t = %.2f%% per year" % (100 * r), size=10.5, color=NAVY, bold=True)
+f.text(150, 170, "(t = 10.43 years between censuses)", size=9.5, color=SLATE, bold=True)
+f.text(150, 192, "doubling time = ln 2 / r = %.0f years" % dbl, size=10.5, color=RED, bold=True)
+f.text(150, 212, "2031 estimate keeps the same r", size=10, color=SLATE, bold=True)
+facts = dict(r=100 * r, d=dbl, p31=p31, inc=p2 - p1)
+```
+
 ## Chapter summary
 
 - $\text{CBR} = (B/P)\times 1000$; $\text{CDR} = (D/P)\times 1000$;
