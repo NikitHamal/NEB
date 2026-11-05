@@ -735,6 +735,27 @@ f.text(150, 200, "bar length = log10(U) + 1 decades", size=10.5, color=SLATE)
 f.text(150, 218, "lightning = %.0f kWh (illustrative)" % (u4 / 3.6e6), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="17.3" cols="2" ratio="1.2" caption="Energy stored in the field. (a) Electrolytic capacitors have a large capacitance for their size and are marked with their capacitance and maximum voltage. (b) The cell uses U = 1/2 C V2 for a 330 microfarad capacitor of the type used in a camera flash. At 100 V it stores only 1.65 J, but at 300 V it stores 14.85 J (a charge of 0.099 C) and at 400 V 26.4 J, since the energy grows as the square of the voltage. Released in one millisecond, 14.85 J is a peak power of 14.8 kW, which is how a small battery can produce a bright flash. The same energy could lift a 1 kg mass by 1.52 m."
+@ photo id="ceephy3/capacitor" cap="Electrolytic capacitors"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy stored in a camera-flash capacitor"
+C = 330e-6
+rows = [("%d V" % v, 0.5 * C * v ** 2) for v in (100, 200, 300, 400)]
+assert round(rows[2][1], 2) == 14.85 and round(rows[3][1], 1) == 26.4
+Q = C * 300
+P = rows[2][1] / 1e-3 / 1000
+h = rows[2][1] / (1 * 9.8)
+f = Fig(300, 236)
+f.text(150, 12, "Energy U = 1/2 C V^2 of a 330 microfarad capacitor, J", size=10, color=NAVY, bold=True)
+hbars(f, rows, vmax=28, fmt="%.2f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "doubling V quadruples U", size=10, color=SLATE, bold=True)
+f.text(150, 178, "at 300 V: Q = C V = %.3f C" % Q, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "released in 1 ms: peak power %.1f kW" % P, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "equal to lifting 1 kg by %.2f m" % h, size=10, color=SLATE, bold=True)
+facts = dict(u=rows[2][1], u4=rows[3][1], u1=rows[0][1], P=P, Q=Q, h=h)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

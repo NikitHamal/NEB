@@ -517,6 +517,31 @@ f.text(150, 202, "lambda_min = %.4f nm (20 kV)" % l20, size=10.5, color=TEAL, bo
 f.text(150, 220, "Cu K-alpha %.2f keV = %.3f nm" % (Ek / 1000, lk), size=10.5, color=RED, bold=True)
 ```
 
+```photogrid label="19.2" cols="2" ratio="1.2" caption="Counting reflections from crystal planes. (a) An X-ray diffractometer rotates a crystal and a detector to find the angles at which the X-rays reflect strongly. (b) Bragg's law, 2 d sin(theta) = n lambda, is applied to the (100) planes of rock salt, spaced 282 pm apart, with copper K-alpha X-rays of wavelength 154 pm. The first-order reflection appears at 15.8 degrees, the second at 33.1 degrees and the third at 55.0 degrees; a fourth is impossible, since it would need a sine larger than 1. Only 3 orders are therefore seen, and with the shorter wavelength of molybdenum radiation 7 orders appear. Measuring these angles gives the spacing d of the planes in an unknown crystal."
+@ photo id="ceephy3/xrd" cap="An X-ray diffractometer"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Bragg reflection from a sodium chloride crystal"
+import math
+d, lam = 282.0, 154.0
+rows = []
+for n in (1, 2, 3):
+    rows.append(("n = %d" % n, math.degrees(math.asin(n * lam / (2 * d)))))
+assert round(rows[0][1], 1) == 15.8 and round(rows[1][1], 1) == 33.1 and round(rows[2][1], 1) == 55.0
+nmax = int(2 * d / lam)
+nmo = int(2 * d / 71.0)
+f = Fig(300, 236)
+f.text(150, 12, "Bragg angle, degrees, 2 d sin(t) = n lambda", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=60, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 130, "NaCl planes d = 282 pm, Cu K-alpha 154 pm", size=10, color=SLATE, bold=True)
+f.text(150, 152, "n = 4 would need sin(t) = %.2f (> 1)" % (4 * lam / (2 * d)), size=10.5, color=RED, bold=True)
+f.text(150, 176, "highest order: n = 2d / lambda = %.2f" % (2 * d / lam), size=10.5, color=NAVY, bold=True)
+f.text(150, 194, "so %d orders are seen with Cu light" % nmax, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "Mo K-alpha (71 pm) gives %d orders" % nmo, size=10, color=SLATE, bold=True)
+facts = dict(a1=rows[0][1], a2=rows[1][1], a3=rows[2][1], nmax=nmax, nmo=nmo)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula or value |

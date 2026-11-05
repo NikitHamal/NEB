@@ -486,6 +486,27 @@ f.text(150, 204, "landing speed %.2f m/s (Earth), %.2f m/s (Moon)" % (ve, vm), s
 f.text(150, 220, "1.0 kg weighs %.1f N and %.2f N: mass unchanged" % (gE, gM), size=10.5, color=NAVY, bold=True)
 ```
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Time is the lever. (a) In a crash test the dummy's head is caught by an inflating airbag while the belt holds the trunk. (b) The cell uses the impulse-momentum theorem, F x t = change in momentum. A 70 kg person moving at 14 m/s (50 km/h) carries a momentum of 980 kg m/s that must be removed. Stopping in 5 ms against the hard dashboard needs an average force of 196 kN, about 286 times the body weight; spreading the stop over 80 ms with a belt and bag cuts it to 12.2 kN, about 18 times the weight. The impulse is the same in every case; only the time, and therefore the force, changes."
+@ photo id="ceephy3/airbag" cap="A crash test with a seat belt and an airbag"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Average force against stopping time"
+m, v = 70.0, 14.0
+J = m * v
+rows = [("%g ms" % t, J / (t / 1000) / 1000) for t in (5, 20, 80, 150)]
+assert J == 980 and round(rows[0][1]) == 196 and round(rows[2][1], 2) == 12.25
+W = m * 9.8
+f = Fig(300, 236)
+f.text(150, 12, "Average force on a 70 kg body, kN", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=200, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 158, "stopping from 14 m/s (50 km/h): impulse = m v = %.0f N s" % J, size=10, color=SLATE, bold=True)
+f.text(150, 180, "F = J / t; weight of the body = %.0f N" % W, size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "80 ms: F is %.0f times the weight" % (rows[2][1] * 1000 / W), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "5 ms (hard glass): %.0f times" % (rows[0][1] * 1000 / W), size=10.5, color=RED, bold=True)
+facts = dict(J=J, a=rows[0][1], b=rows[2][1], nb=rows[2][1] * 1000 / W, na=rows[0][1] * 1000 / W)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

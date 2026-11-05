@@ -465,6 +465,27 @@ f.text(150, 208, "760 mm Hg = %s Pa = %.2f m of water" % ("{:,.0f}".format(p0), 
 f.text(150, 224, "Kathmandu column: about %.0f mm of mercury" % (P(1400) / (rho * g) * 1000), size=10.5, color=TEAL, bold=True)
 ```
 
+```photogrid label="4.3" cols="2" ratio="1.2" caption="Lift from a pressure difference. (a) A passenger jet in the air, with its wing curved on the upper side. (b) Bernoulli's equation says that where the air moves faster the pressure is lower. The cell takes the air under the wing at 60 m/s and the air over it at 62 to 75 m/s. When the upper air moves at 70 m/s the pressure difference is 796 Pa, and over 16 m2 of wing this gives a lift of 12.7 kN, enough to hold up about 1300 kg. A speed difference of only 2 m/s gives 2.4 kN but 15 m/s gives 19.8 kN, because the lift grows with the difference of the squares of the speeds."
+@ photo id="ceephy3/wing" cap="An airliner in flight, wing and engine seen from the side"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Bernoulli lift of a wing"
+rho, vb, A = 1.225, 60.0, 16.0
+rows = []
+for vt in (62, 65, 70, 75):
+    dp = 0.5 * rho * (vt ** 2 - vb ** 2)
+    rows.append(("%d m/s" % vt, dp * A / 1000))
+assert round(rows[2][1], 2) == 12.74
+f = Fig(300, 236)
+f.text(150, 12, "Lift on 16 m2 of wing, kN", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=21, fmt="%.1f", x0=58, y0=30, bw=170, gap=30)
+f.text(150, 158, "air under the wing: 60 m/s, over it: v shown", size=10, color=SLATE, bold=True)
+f.text(150, 180, "dp = 1/2 rho (v_top^2 - v_bottom^2)", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "70 m/s: dp = %.0f Pa, lift = %.1f kN" % (0.5 * rho * (70 ** 2 - vb ** 2), rows[2][1]), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "supports a mass of %.0f kg" % (rows[2][1] * 1000 / 9.8), size=10.5, color=SLATE, bold=True)
+facts = dict(dp=0.5 * rho * (70 ** 2 - vb ** 2), lift=rows[2][1], mass=rows[2][1] * 1000 / 9.8, l62=rows[0][1], l75=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

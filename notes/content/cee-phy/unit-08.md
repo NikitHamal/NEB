@@ -581,6 +581,29 @@ f.text(150, 204, "sigma T^4 = %.2f x 10^7 W/m^2,  L = %.2f x 10^26 W" % (E / 1e7
 f.text(150, 220, "solar constant L / 4 pi d^2 = %s W/m^2" % "{:,.0f}".format(S), size=10.5, color=AMBER, bold=True)
 ```
 
+```photogrid label="8.2" cols="2" ratio="1.2" caption="We glow in the infrared. (a) A thermal camera forms an image from the radiation emitted by a surface, with the warmest parts shown in the brightest colours. (b) The cell applies the Stefan-Boltzmann law to bare skin at 34 degrees C (307 K) with emissivity 0.97 and an area of 1.5 m2. In a room at 20 degrees C the body loses a net 125 W by radiation alone; in air at 0 degrees C the loss is 275 W, and at 30 degrees C only 38 W. Wien's displacement law puts the peak of the emission at 9.4 micrometres, deep in the infrared, so ordinary cameras cannot see it but a thermal camera can."
+@ photo id="ceephy3/thermal" cap="A thermographic (infrared) image of a person"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Heat radiated by the human body"
+sig, eps, A, Ts = 5.67e-8, 0.97, 1.5, 307.15
+rows = []
+for tc in (0, 10, 20, 30):
+    Ta = tc + 273.15
+    rows.append(("%d C" % tc, eps * sig * A * (Ts ** 4 - Ta ** 4)))
+lam = 2.898e-3 / Ts * 1e6
+assert 120 < rows[2][1] < 130
+f = Fig(300, 236)
+f.text(150, 12, "Net radiated power of skin at 34 C, watts", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=300, fmt="%.0f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "surroundings at the temperature shown", size=10, color=SLATE, bold=True)
+f.text(150, 180, "P = e sigma A (Ts^4 - Ta^4), A = 1.5 m2", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "Wien peak: %.1f micrometres (infrared)" % lam, size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "a camera maps T from this radiation", size=10, color=SLATE, bold=True)
+facts = dict(p0=rows[0][1], p20=rows[2][1], p30=rows[3][1], lam=lam)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

@@ -704,6 +704,29 @@ f.text(150, 210, "bow width %.1f degrees; red outside" % (er - ev), size=10.5, c
 f.text(150, 228, "angles in degrees; i = incidence", size=10.5, color=SLATE)
 ```
 
+```photogrid label="12.2" cols="2" ratio="1.2" caption="Light trapped in glass. (a) An optical fibre cable carries many glass fibres, each thinner than a hair, that guide light by total internal reflection. (b) The cell computes the critical angle from sin c = n2 / n1: 41.8 degrees for glass in air, 48.8 for water, and 24.4 for diamond, whose small angle explains its sparkle. In a fibre, a core of index 1.48 is wrapped in a cladding of index 1.46, so the critical angle at their boundary is 80.6 degrees. The numerical aperture is 0.2425, which means only light entering within 14.0 degrees of the axis is guided. Such fibres carry internet traffic with tiny loss over many kilometres."
+@ photo id="ceephy3/fibre" cap="An optical fibre cable"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Total internal reflection and the optical fibre"
+import math
+def crit(n1, n2=1.0):
+    return math.degrees(math.asin(n2 / n1))
+rows = [("diamond", crit(2.42)), ("glass-air", crit(1.5)), ("water-air", crit(1.33)), ("fibre core", crit(1.48, 1.46))]
+NA = math.sqrt(1.48 ** 2 - 1.46 ** 2)
+acc = math.degrees(math.asin(NA))
+assert round(rows[1][1], 1) == 41.8 and round(rows[3][1], 1) == 80.6 and round(acc, 1) == 14.0
+f = Fig(300, 236)
+f.text(150, 12, "Critical angle, degrees", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=90, fmt="%.1f", x0=76, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 158, "sin(c) = n2 / n1", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "core 1.48, cladding 1.46: rays hitting at", size=10, color=SLATE, bold=True)
+f.text(150, 194, "more than %.1f deg to the normal are trapped" % rows[3][1], size=10, color=SLATE, bold=True)
+f.text(150, 214, "NA = %.4f, acceptance half-angle %.1f deg" % (NA, acc), size=10.5, color=NAVY, bold=True)
+facts = dict(g=rows[1][1], w=rows[2][1], d=rows[0][1], c=rows[3][1], na=NA, acc=acc)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
