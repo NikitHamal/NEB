@@ -26,6 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -63,7 +67,11 @@ fun NebIdentityPicker(
                 .clip(shape)
                 .background(scheme.surfaceContainerLow)
                 .nebPressable(enabled = enabled, onClick = { open = true })
-                .padding(start = 6.dp, end = 10.dp, top = 4.dp, bottom = 4.dp),
+                .padding(start = 6.dp, end = 10.dp, top = 4.dp, bottom = 4.dp)
+                .semantics {
+                    role = Role.Button
+                    contentDescription = "Switch identity"
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
