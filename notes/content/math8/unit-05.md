@@ -386,6 +386,18 @@ $\frac{20^2}{100}=4\%$ ✓.
 **4.** Price $= \frac{338\times100}{13} =$ Rs 2,600.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. A refrigerator has a marked price of Rs 40,000. The shopkeeper allows a 15% discount and then charges 13% VAT on the discounted price. (a) Find the selling price before VAT. (b) Find the VAT. (c) Find the bill the customer pays. (d) If the shopkeeper had bought it for Rs 30,000, find the profit per cent before VAT. <span class="marks">[5]</span>
+2. A trader sold an article at a profit of 20%. Had he sold it for Rs 150 more, his profit would have been 30%. Find the cost price and the first selling price. <span class="marks">[5]</span>
+3. An agent earns 5% commission on the first Rs 1,00,000 of sales in a month and 8% on the rest. In one month his sales are Rs 2,50,000. Find (a) his commission, (b) his total income if he also gets a salary of Rs 8,000, and (c) the average rate of commission on all sales. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Discount $=15\%\times40000=\text{Rs }6000$, so SP before VAT $=40000-6000=\text{Rs }34{,}000$. (b) VAT $=13\%\times34000=\text{Rs }4{,}420$ (VAT goes on the discounted price). (c) Bill $=34000+4420=\text{Rs }38{,}420$. (d) Profit $=34000-30000=\text{Rs }4000$, and profit $\%=\dfrac{4000}{30000}\times100=13\tfrac13\%$ (profit is always found on the cost price, and the VAT is not part of the shopkeeper's profit).
+**2.** The extra Rs 150 is the difference between a 30% and a 20% profit, that is 10% of the cost price. So $10\%\text{ of CP}=150$ and $\text{CP}=\text{Rs }1500$. First SP $=120\%\times1500=\text{Rs }1800$. **Check:** the second SP is $1950=130\%\times1500$ ✓.
+**3.** (a) First part: $5\%\times100000=\text{Rs }5000$. Remaining sales $=250000-100000=\text{Rs }150{,}000$, and $8\%\times150000=\text{Rs }12{,}000$. Commission $=5000+12000=\text{Rs }17{,}000$. (b) Total income $=17000+8000=\text{Rs }25{,}000$. (c) Average rate $=\dfrac{17000}{250000}\times100=6.8\%$, which lies between 5% and 8% as it must.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

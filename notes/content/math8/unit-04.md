@@ -440,6 +440,18 @@ rose.
 **6.** $\sqrt{8 \times 18} = \sqrt{144} = 12$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Rs 70,000 is shared among A, B and C so that $A:B=2:3$ and $B:C=4:5$. Find the combined ratio $A:B:C$ and each person's share. <span class="marks">[5]</span>
+2. 12 workers can build a wall in 15 days. (a) How many days will 18 workers take? (b) If after 5 days 6 workers leave, in how many days in all will the wall be finished? Name the type of variation used. <span class="marks">[5]</span>
+3. On a map of scale $1:50{,}000$, two towns are 8.4 cm apart. (a) Find the actual distance in km. (b) A lake covers 6 cm² on the map: find its actual area in km². (c) What length on the map shows 7 km? <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Make the common term $B$ equal: $A:B=2:3=8:12$ and $B:C=4:5=12:15$. So $A:B:C=8:12:15$, with $8+12+15=35$ parts. One part $=70000\div35=\text{Rs }2000$. $A=8\times2000=\text{Rs }16{,}000$; $B=12\times2000=\text{Rs }24{,}000$; $C=15\times2000=\text{Rs }30{,}000$. **Check:** $16000+24000+30000=70000$ ✓.
+**2.** The work is $12\times15=180$ worker-days. (a) $18$ workers: $180\div18=10$ days. (b) In 5 days 12 workers do $12\times5=60$ worker-days, so $180-60=120$ worker-days remain. With $12-6=6$ workers: $120\div6=20$ days. Total $=5+20=25$ days. The more workers, the fewer days: this is **inverse variation** (the product workers $\times$ days is constant).
+**3.** (a) $8.4\times50000=420{,}000$ cm $=4200$ m $=4.2$ km. (b) 1 cm stands for $50{,}000$ cm $=0.5$ km, so 1 cm² stands for $0.5\times0.5=0.25$ km². Area $=6\times0.25=1.5$ km². (c) $7\text{ km}=700{,}000$ cm, and $700000\div50000=14$ cm. Remember that an area scales with the square of the scale, not with the scale itself.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

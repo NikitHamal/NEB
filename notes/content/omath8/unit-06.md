@@ -572,3 +572,15 @@ Mark the four corners of a flower bed or a corner of the school ground with pegs
 **4.** $AB^2=17$, $BC^2=17$, $CD^2=17$, $DA^2=17$: all sides are $\sqrt{17}$, so it is a rhombus. Diagonals: $AC^2=50$, $BD^2=18$; they are unequal, so it is not a square. Area by the arrow method: $(0-0)+(20-5)+(20-5)+(0-0)=30$, so the area is $\frac{1}{2}\times30=15$ square units. (Check: for a rhombus, area $=\frac{1}{2}d_1d_2=\frac{1}{2}\sqrt{50}\sqrt{18}=\frac{1}{2}\sqrt{900}=15$ ✓.)
 **5.** (i) $\triangle ABC=\frac{1}{2}\left|1(2-6)+6(6-1)+5(1-2)\right|=\frac{21}{2}$ and $\triangle ACD=\frac{1}{2}\left|1(6-5)+5(5-1)+2(1-6)\right|=\frac{11}{2}$, total $16$ square units. (ii) Cross terms $(2-6)+(36-10)+(25-12)+(2-5)=-4+26+13-3=32$, area $=\frac{1}{2}\times32=16$ square units.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. The vertices of a triangle are $A(1,2)$, $B(5,2)$ and $C(3,6)$. Find the lengths of the sides, name the triangle by its sides, and find its perimeter and area. <span class="marks">[5]</span>
+2. $A(2,-1)$ and $B(8,5)$ are two points. Find (i) the mid-point of $AB$, (ii) the point dividing $AB$ internally in the ratio $2:1$, (iii) the point dividing $AB$ internally in the ratio $1:2$. <span class="marks">[5]</span>
+3. (i) Find the slope of the line through $(1,3)$ and $(4,9)$, and its equation in the form $y=mx+c$. (ii) Write the equation of the parallel line through $(0,-4)$. (iii) Find the area of the quadrilateral with vertices $(0,0)$, $(4,0)$, $(5,3)$, $(1,3)$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $AB=\sqrt{(5-1)^2+(2-2)^2}=4$. $BC=\sqrt{(3-5)^2+(6-2)^2}=\sqrt{4+16}=\sqrt{20}=2\sqrt5$. $AC=\sqrt{(3-1)^2+(6-2)^2}=\sqrt{20}=2\sqrt5$. Two sides are equal, so it is an **isosceles** triangle. Perimeter $=4+4\sqrt5\approx12.94$ units. Area $=\frac12\left|1(2-6)+5(6-2)+3(2-2)\right|=\frac12|-4+20+0|=8$ square units. **Check:** base 4 and height 4 (from $C$ to the line $y=2$) give $\frac12\times4\times4=8$ ✓.
+**2.** (i) Mid-point $=\left(\frac{2+8}{2},\frac{-1+5}{2}\right)=(5,2)$. (ii) For $m:n=2:1$: $\left(\dfrac{2\times8+1\times2}{3},\dfrac{2\times5+1\times(-1)}{3}\right)=\left(\dfrac{18}{3},\dfrac93\right)=(6,3)$. (iii) For $m:n=1:2$: $\left(\dfrac{1\times8+2\times2}{3},\dfrac{1\times5+2\times(-1)}{3}\right)=(4,1)$. **Check:** the points $(4,1)$, $(5,2)$, $(6,3)$ are equally spaced along $AB$, as the two section points should be.
+**3.** (i) Slope $m=\dfrac{9-3}{4-1}=2$. Using $y-3=2(x-1)$: $y=2x+1$, so $c=1$. (ii) Parallel lines have the same slope, so $y=2x-4$. (iii) By the shoelace rule: $\frac12|(0\cdot0-4\cdot0)+(4\cdot3-5\cdot0)+(5\cdot3-1\cdot3)+(1\cdot0-0\cdot3)|=\frac12|0+12+12+0|=12$ square units. **Check:** the figure is a parallelogram with base 4 and height 3: $4\times3=12$ ✓.
+:::

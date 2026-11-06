@@ -389,6 +389,18 @@ earns less here, because both the rate and the time are lower.
 **Rs 9,000**; total repayment $= 30000 + 9000 =$ **Rs 39,000**.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) Find the simple interest and the amount on Rs 24,000 at 8% p.a. for $2\tfrac12$ years. (b) At what rate per cent p.a. will Rs 24,000 amount to Rs 31,200 in 3 years? <span class="marks">[5]</span>
+2. A sum of money becomes Rs 6,000 in 2 years and Rs 7,000 in 4 years at simple interest. Find the principal and the rate of interest. <span class="marks">[5]</span>
+3. A sum of money doubles itself in 8 years at simple interest. (a) Find the rate per cent. (b) In how many years will it become three times itself? (c) A member borrows Rs 15,000 from a cooperative at 12% p.a. for 9 months: find the interest. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) $I=\dfrac{PTR}{100}=\dfrac{24000\times2.5\times8}{100}=\text{Rs }4{,}800$, so the amount $=24000+4800=\text{Rs }28{,}800$. (b) Interest $=31200-24000=\text{Rs }7200$, and $R=\dfrac{I\times100}{PT}=\dfrac{7200\times100}{24000\times3}=10\%$ p.a.
+**2.** The interest earned in the two years between year 2 and year 4 is $7000-6000=\text{Rs }1000$, so the interest for one year is Rs 500. Interest for 2 years $=\text{Rs }1000$, so the principal $=6000-1000=\text{Rs }5000$. Rate $=\dfrac{500}{5000}\times100=10\%$ p.a. **Check:** $5000\times10\times4/100=2000$ and $5000+2000=7000$ ✓.
+**3.** (a) Doubling means interest $=P$ in 8 years, so $R=\dfrac{100\times P}{P\times8}=12.5\%$ p.a. (b) To become three times, the interest must be $2P$: $T=\dfrac{2P\times100}{P\times12.5}=16$ years. (c) $T=\frac{9}{12}=\frac34$ year, so $I=\dfrac{15000\times\frac34\times12}{100}=\text{Rs }1{,}350$. Always convert months to years before using the formula.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

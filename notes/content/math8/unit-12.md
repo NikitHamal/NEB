@@ -441,6 +441,18 @@ $3s+12+s=48$, so $4s=36$ and $s=9$; then $f=48-9=39$.
 **4.** Cats $c$, hens $h$: $c+h=10$, $4c+2h=26$. Subtracting twice the first: $2c=6$, so $c=3$, $h=7$. Check: $12+14=26$ legs ✓.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) Solve $2x+3y=12$ and $x-y=1$. (b) A pen and a copy together cost Rs 35, and 3 pens and 2 copies cost Rs 85. Form two equations and find the price of each. <span class="marks">[5]</span>
+2. Draw the graph of $y=2x-1$ using the values $x=-1,0,1,2,3$. From the graph read (a) the value of $x$ when $y=7$ and (b) the point where the line cuts the $x$-axis. Give its slope and its $y$-intercept. <span class="marks">[5]</span>
+3. (a) Solve $3x-5\le7+x$ and show the solution on a number line for natural numbers. (b) Solve $x^2-5x+6=0$ by factorisation. (c) The square of a number exceeds the number by 56; find the number. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) From the second equation $x=y+1$. Substitute: $2(y+1)+3y=12$, so $5y=10$, $y=2$ and $x=3$. **Check:** $6+6=12$ ✓ and $3-2=1$ ✓. (b) Let a pen cost Rs $p$ and a copy Rs $c$: $p+c=35$ and $3p+2c=85$. Substitute $c=35-p$: $3p+70-2p=85$, so $p=15$ and $c=20$. A pen costs Rs 15 and a copy Rs 20. **Check:** $45+40=85$ ✓.
+**2.** Table: $x=-1,0,1,2,3$ gives $y=-3,-1,1,3,5$. Plot $(-1,-3)$, $(0,-1)$, $(1,1)$, $(2,3)$, $(3,5)$ and join them with a straight line. (a) When $y=7$: $2x-1=7$, so $x=4$, the point $(4,7)$. (b) It cuts the $x$-axis where $y=0$: $x=\frac12$, the point $(0.5,\,0)$. The slope is 2 (rise 2 for every 1 along) and the $y$-intercept is $-1$.
+**3.** (a) $3x-x\le7+5$, so $2x\le12$ and $x\le6$. For natural numbers the solution set is $\{1,2,3,4,5,6\}$: on the number line put solid dots on 1 to 6. (b) $x^2-5x+6=(x-2)(x-3)=0$, so $x=2$ or $x=3$. (c) $x^2=x+56$, so $x^2-x-56=0$, i.e. $(x-8)(x+7)=0$ and $x=8$ or $x=-7$. **Check:** $64=8+56$ ✓ and $49=-7+56$ ✓.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

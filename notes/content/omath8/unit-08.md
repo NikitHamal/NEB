@@ -465,3 +465,15 @@ In the school ground, mark a starting peg $O$ and let east and north be the $x$-
 **4.** (i) $\sqrt{3+1}=2$; quadrant I with $\tan\theta=\frac{1}{\sqrt{3}}$, so $\theta=30^\circ$. (ii) $\sqrt{1+3}=2$; $x<0$, $y>0$, quadrant II, acute angle $60^\circ$ (since $\tan\alpha=\sqrt{3}$), so $\theta=180^\circ-60^\circ=120^\circ$. (iii) Magnitude 5, pointing straight down: $\theta=270^\circ$. On the grid: (i) 1.73 right and 1 up; (ii) 1 left and 1.73 up; (iii) 5 down.
 **5.** (i) $\overrightarrow{AB}=\binom{2}{4}$ and $\overrightarrow{BC}=\binom{1}{2}$, so $\overrightarrow{AB}=2\overrightarrow{BC}$: parallel with the common point $B$, hence collinear. (ii) $\overrightarrow{PQ}=\binom{3}{6}$ and $\overrightarrow{PR}=\binom{p-2}{10}$ must be parallel: $3\times10-6(p-2)=0$, so $30=6p-12$ and $p=7$. Check: $\overrightarrow{PR}=\binom{5}{10}=\frac{5}{3}\overrightarrow{PQ}$ ✓.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. Find the magnitude of $\vec a=\binom34$ and its unit vector. If $\vec b=\binom{-6}{-8}$, show that $\vec a$ and $\vec b$ are parallel and say whether they are like or unlike vectors. <span class="marks">[5]</span>
+2. The position vectors of $A$, $B$ and $C$ are $\binom12$, $\binom46$ and $\binom{7}{10}$. Find $\overrightarrow{AB}$, $\overrightarrow{BC}$ and $\overrightarrow{AC}$, and show that $A$, $B$, $C$ are collinear. Find $|\overrightarrow{AC}|$. <span class="marks">[5]</span>
+3. If $\vec a=\binom23$ and $\vec b=\binom{-1}{4}$, find $\vec a+\vec b$, $\vec a-\vec b$, $3\vec a-2\vec b$ and $|\vec a+\vec b|$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $|\vec a|=\sqrt{3^2+4^2}=5$. The unit vector is $\hat a=\dfrac{\vec a}{|\vec a|}=\binom{3/5}{4/5}$ (its magnitude is $\sqrt{\frac9{25}+\frac{16}{25}}=1$ ✓). Now $\vec b=\binom{-6}{-8}=-2\binom34=-2\vec a$, so $\vec b$ is a scalar multiple of $\vec a$: they are **parallel**. The multiplier $-2$ is negative, so they point in opposite directions: **unlike** vectors, with $|\vec b|=2\times5=10$.
+**2.** $\overrightarrow{AB}=\binom46-\binom12=\binom34$; $\overrightarrow{BC}=\binom{7}{10}-\binom46=\binom34$; $\overrightarrow{AC}=\binom{7}{10}-\binom12=\binom68$. Since $\overrightarrow{AB}=\overrightarrow{BC}$ they are parallel, and they share the point $B$, so $A$, $B$, $C$ lie on one straight line (also $\overrightarrow{AC}=2\overrightarrow{AB}$ and $B$ is the mid-point of $AC$). $|\overrightarrow{AC}|=\sqrt{6^2+8^2}=10$.
+**3.** $\vec a+\vec b=\binom{2-1}{3+4}=\binom17$. $\vec a-\vec b=\binom{2+1}{3-4}=\binom{3}{-1}$. $3\vec a=\binom69$ and $2\vec b=\binom{-2}{8}$, so $3\vec a-2\vec b=\binom{6+2}{9-8}=\binom81$. $|\vec a+\vec b|=\sqrt{1^2+7^2}=\sqrt{50}=5\sqrt2\approx7.07$.
+:::

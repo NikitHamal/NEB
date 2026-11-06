@@ -353,6 +353,18 @@ square.
 **3.** 6.6.6 — three hexagons meet at each vertex ($3\times120°=360°$).
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Find the interior angle of a regular triangle, square, pentagon, hexagon and octagon. Which of them tessellate on their own? Give the reason for each. <span class="marks">[5]</span>
+2. Show that the following combinations of regular polygons fit round a point (semi-regular tessellations): (a) square and octagon (4.8.8), (b) triangle and hexagon (3.6.3.6), (c) triangle and dodecagon (3.12.12). <span class="marks">[5]</span>
+3. A room 4 m long and 3 m wide is to be paved with square tiles of side 25 cm. Find the number of tiles, the number to buy if 5% extra is added for breakage, and the cost at Rs 45 per tile. State the number of lines of symmetry and the order of rotational symmetry of a square tile and of a regular hexagonal tile. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Each interior angle $=\dfrac{(n-2)\times180^\circ}{n}$: triangle $60^\circ$, square $90^\circ$, pentagon $108^\circ$, hexagon $120^\circ$, octagon $135^\circ$. A regular polygon tessellates alone only if its angle divides $360^\circ$ exactly. Triangle: $360\div60=6$ round a point ✓. Square: $360\div90=4$ ✓. Hexagon: $360\div120=3$ ✓. Pentagon: $360\div108=3.33$ — not whole, so it leaves gaps ✗. Octagon: $360\div135=2.67$ ✗. Only the triangle, square and hexagon tessellate by themselves.
+**2.** The interior angles at one vertex must add up to exactly $360^\circ$. (a) $90+135+135=360^\circ$ ✓ (one square and two octagons). (b) $60+120+60+120=360^\circ$ ✓ (two triangles and two hexagons alternately). (c) The dodecagon has interior angle $\frac{10\times180}{12}=150^\circ$, and $60+150+150=360^\circ$ ✓.
+**3.** Floor $=400\times300$ cm; along the length $400\div25=16$ tiles and along the width $300\div25=12$ tiles, so $16\times12=192$ tiles. Extra $5\%$ of 192 $=9.6$, so buy $192+9.6=201.6\approx202$ tiles. Cost $=202\times45=\text{Rs }9{,}090$. A square tile has 4 lines of symmetry and rotational symmetry of order 4. A regular hexagonal tile has 6 lines of symmetry and order 6.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>
