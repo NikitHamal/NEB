@@ -10100,6 +10100,19 @@
   "source": "Wikimedia Commons",
   "title": "Albert Bandura (cropped)"
  },
+ "nur10/becker": {
+  "author": "Thierry Caro",
+  "bytes": 1116908,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/becker.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Howard-S.-Becker-EHESS.JPG",
+  "sha1": "06f9a2afb9b18640",
+  "source": "Wikimedia Commons",
+  "title": "Howard-S.-Becker-EHESS"
+ },
  "nur10/brick": {
   "author": "Shresthakedar",
   "bytes": 137167,
@@ -10112,6 +10125,32 @@
   "sha1": "3bb42e4c065c7ad8",
   "source": "Wikimedia Commons",
   "title": "Child Labour in Brick Kilns of Nepal"
+ },
+ "nur10/bricklayer": {
+  "author": "Adam Jones from Kelowna, BC, Canada",
+  "bytes": 875613,
+  "credit": "Women Bricklayers - Kirtipur - Outside Kathmandu - Nepal",
+  "fetched": "2026-11-06",
+  "file": "nur10/bricklayer.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Women_Bricklayers_-_Kirtipur_-_Outside_Kathmandu_-_Nepal_(13977835962).jpg",
+  "sha1": "5ecad29ced68dfec",
+  "source": "Wikimedia Commons",
+  "title": "Women Bricklayers - Kirtipur - Outside Kathmandu - Nepal (13977835962)"
+ },
+ "nur10/childlab": {
+  "author": "Krish Dulal",
+  "bytes": 436725,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/childlab.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Child_labour_Nepal.jpg",
+  "sha1": "832ba8c096492aa1",
+  "source": "Wikimedia Commons",
+  "title": "Child labour Nepal"
  },
  "nur10/comte": {
   "author": "Antoine Étex",
@@ -10191,6 +10230,19 @@
   "source": "Wikimedia Commons",
   "title": "Sigmund Freud, by Max Halberstadt (cropped)"
  },
+ "nur10/kilnchild": {
+  "author": "Shresthakedar",
+  "bytes": 137167,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/kilnchild.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Child_Labour_in_Brick_Kilns_of_Nepal.jpg",
+  "sha1": "3bb42e4c065c7ad8",
+  "source": "Wikimedia Commons",
+  "title": "Child Labour in Brick Kilns of Nepal"
+ },
  "nur10/kohs": {
   "author": "Psyfph2",
   "bytes": 388615,
@@ -10243,6 +10295,32 @@
   "source": "Wikimedia Commons",
   "title": "Photo of Abraham Harold Maslow by William Carter (cropped)"
  },
+ "nur10/meeting": {
+  "author": "USAID Biodiversity & Forestry",
+  "bytes": 481221,
+  "credit": "USAID Measuring Impact Conservation Enterprise Retrospective (Nepal; National Trust for Nature Conservation)",
+  "fetched": "2026-11-06",
+  "file": "nur10/meeting.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:USAID_Measuring_Impact_Conservation_Enterprise_Retrospective_(Nepal;_National_Trust_for_Nature_Conservation)_(39589669244).jpg",
+  "sha1": "414d67610e44f19d",
+  "source": "Wikimedia Commons",
+  "title": "USAID Measuring Impact Conservation Enterprise Retrospective (Nepal; National Trust for Nature Conservation) (39589669244)"
+ },
+ "nur10/merton": {
+  "author": "Eric Koch for Anefo",
+  "bytes": 421809,
+  "credit": "Nationaal Archief 917-9297",
+  "fetched": "2026-11-06",
+  "file": "nur10/merton.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Robert_Merton_(1965).jpg",
+  "sha1": "9fc04e4b0b2ccadc",
+  "source": "Wikimedia Commons",
+  "title": "Robert Merton (1965)"
+ },
  "nur10/milgram": {
   "author": "The original uploader was Poolisfun at Wikipedia .",
   "bytes": 16613,
@@ -10255,6 +10333,19 @@
   "sha1": "473dc0532715d6b4",
   "source": "Wikimedia Commons",
   "title": "Milgram Experiment advertising"
+ },
+ "nur10/passport": {
+  "author": "Ram nam",
+  "bytes": 1060256,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/passport.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepal_Passport.jpg",
+  "sha1": "93995ecfd130a918",
+  "source": "Wikimedia Commons",
+  "title": "Nepal Passport"
  },
  "nur10/pavlov": {
   "author": "Deschiens",
@@ -10295,6 +10386,45 @@
   "source": "Wikimedia Commons",
   "title": "In and around Bhaktapur Pottery Square 41"
  },
+ "nur10/qvc": {
+  "author": "Bijay Chaurasia",
+  "bytes": 994451,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/qvc.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Qatar_Visa_Center_(QVC)_in_Kathmandu_-_IMG_6188.jpg",
+  "sha1": "1625ecd362c8634d",
+  "source": "Wikimedia Commons",
+  "title": "Qatar Visa Center (QVC) in Kathmandu - IMG 6188"
+ },
+ "nur10/raksibrew": {
+  "author": "Greg Willis from Denver, CO, usa",
+  "bytes": 352738,
+  "credit": "Woman brewing raksi (Nepali whisky)",
+  "fetched": "2026-11-06",
+  "file": "nur10/raksibrew.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Woman_brewing_raksi_(Nepali_whisky)_(4515010811).jpg",
+  "sha1": "21f57366f91f77ba",
+  "source": "Wikimedia Commons",
+  "title": "Woman brewing raksi (Nepali whisky) (4515010811)"
+ },
+ "nur10/raksishop": {
+  "author": "Everhard van Eimeren",
+  "bytes": 522287,
+  "credit": "Own work https://everhardvaneimeren.com/photos/woman-pouring-alcoholic-home-brewed-raksi-drink-nalang-and-salang/",
+  "fetched": "2026-11-06",
+  "file": "nur10/raksishop.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Raksi_home-brewed_alcoholic_drink_is_served_in_a_small_shop_Dhading_Nepal_25Apr2008.jpg",
+  "sha1": "3f83db9a74ea4817",
+  "source": "Wikimedia Commons",
+  "title": "Raksi home-brewed alcoholic drink is served in a small shop Dhading Nepal 25Apr2008"
+ },
  "nur10/schoolgirls": {
   "author": "Unknown author",
   "bytes": 172710,
@@ -10333,6 +10463,19 @@
   "sha1": "ed57d9f7ac12f7c9",
   "source": "Wikimedia Commons",
   "title": "Skinner box photo 02"
+ },
+ "nur10/slum": {
+  "author": "Adam Jones from Kelowna, BC, Canada",
+  "bytes": 1011171,
+  "credit": "View over River and Slum Dwellings - Kathmandu - Nepal",
+  "fetched": "2026-11-06",
+  "file": "nur10/slum.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:View_over_River_and_Slum_Dwellings_-_Kathmandu_-_Nepal_(13465332863).jpg",
+  "sha1": "ec40af55ebd15dfb",
+  "source": "Wikimedia Commons",
+  "title": "View over River and Slum Dwellings - Kathmandu - Nepal (13465332863)"
  },
  "nur10/tharu": {
   "author": "जनक राज भट्ट",
