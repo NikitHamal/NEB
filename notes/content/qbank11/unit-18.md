@@ -370,6 +370,105 @@ In conclusion, education is the foundation of a happy life and a strong nation. 
 For a **memoir**, write in the first person and past tense, begin with a concrete scene, and finish with what the event taught you. For **critical writing**, state your opinion in the first paragraph, support it with two or three reasons and one example from your own reading, and answer the main opposing view before you conclude.
 :::
 
+## 18.9 Extended model answers (10 marks)
+
+The longest answers in the English paper are the essay (10 marks), the literary analysis and the letter. A full-mark answer has a clear structure, ideas supported by evidence, correct grammar and a conclusion. The three models below show the length and shape expected.
+
+**Extended questions**
+
+1. Write an essay of about 300 words on "Social Media: A Boon or a Bane". <span class="marks">[10]</span>
+2. "The title *Trifles* is ironic." Discuss with reference to the play by Susan Glaspell. <span class="marks">[10]</span>
+3. Write a formal letter of application, with your résumé points, for the post of an Office Assistant advertised in a national daily. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="4" ratio="1.2" caption="Pictures behind the answers. (a) Susan Glaspell, the author of the one-act play Trifles. (b) An old business letterhead, showing the layout of a formal letter. (c) An addressed envelope. (d) A résumé (CV), which accompanies a letter of application."
+@ photo id="eng11/susan-glaspell" cap="(a) Susan Glaspell"
+@ photo id="eng11/letterhead" cap="(b) Letterhead"
+@ photo id="eng11/envelope" cap="(c) Envelope"
+@ photo id="eng11/cv" cap="(d) Résumé (CV)"
+```
+
+### Model answer D1: essay on social media (10 marks)
+
+**Social Media: A Boon or a Bane**
+
+*Introduction.* Social media, such as Facebook, TikTok, YouTube and WhatsApp, has changed the way people live. A farmer in Humla can now watch a video about new seeds, and a student in Kathmandu can talk with a friend in Japan in a second. Like fire, however, it is a good servant but a bad master.
+
+*Benefits.* First, social media connects people. Families of the many Nepalis working in the Gulf or Malaysia see their children every night on a video call. Second, it is a fast source of news and learning. During the 2015 earthquake, people used it to share the needs of villages and to find missing relatives. Today teachers share free lessons on YouTube. Third, it gives small businesses a market. A woman in Pokhara who weaves dhaka cloth can sell to customers in other countries through a page.
+
+*Harms.* On the other hand, too much use wastes time and harms the eyes and sleep. Students who scroll all night come to class tired and fall behind. Second, false news spreads faster than the truth, and rumours can cause fear and even violence. Third, young people who compare their lives with edited photographs may feel lonely or unhappy. Finally, cyberbullying and the theft of personal information are growing problems, and the Electronic Transactions Act punishes such crimes.
+
+*Way forward.* The solution is not to ban social media, but to use it with wisdom. Students should set time limits, verify a piece of news before sharing it, protect their passwords, and never post anything that could hurt another person. Schools and parents should teach digital citizenship.
+
+*Conclusion.* Social media is neither wholly good nor wholly bad. It is a powerful tool, and the result depends on the user. If we use it for learning, work and kindness, it is a boon; if we use it carelessly, it becomes a bane.
+
+| Mark scheme | Marks |
+|---|---|
+| Introduction and title | 2 |
+| Relevant ideas with examples | 4 |
+| Organisation and paragraphing | 2 |
+| Language and accuracy | 2 |
+
+### Model answer D2: the irony of the title *Trifles* (10 marks)
+
+**Introduction.** *Trifles* (1916) is a one-act play by the American writer Susan Glaspell. Set in a gloomy farmhouse, it follows the investigation of the murder of John Wright, who has been strangled with a rope in his bed. His wife, Minnie, is in jail. A **trifle** means something of little value, and the title is **ironic**, because the small things that the men despise are exactly the clues that solve the crime.
+
+**Discussion.**
+
+1. **The men's attitude.** The Sheriff, the County Attorney and Mr Hale search the bedroom and barn for "something important", but they laugh at the women for worrying about Minnie's preserves and her quilt. The County Attorney says, "Well, women are used to worrying over trifles."
+2. **The women's observation.** Mrs Hale and Mrs Peters notice the broken jars of fruit, the unwashed pans, the half-cleaned table and the quilt block whose stitching suddenly becomes uneven. These details show a woman who was interrupted and disturbed.
+3. **The dead canary.** In a sewing box they find a pretty cage with a broken door, and a canary with its neck wrung. Minnie was once a singer called Minnie Foster; the bird was her only song in a silent house. When John Wright killed it, the same way he had killed her happiness, she killed him with the rope.
+4. **Gender and sympathy.** The women understand loneliness, because they have shared it. Mrs Peters recalls how she once wanted to hurt a boy who killed her kitten. They decide to hide the bird, and their silence is a judgement on the justice of men who ignore women's lives.
+5. **The closing line.** When the Attorney jokes about how Minnie was sewing a quilt, Mrs Hale answers, "We call it — knot it." The word **knot** is a double meaning: the quilt is knotted, not quilted, and Minnie knotted the rope.
+
+| Trifle | What the men think | What it really shows |
+|---|---|---|
+| Broken preserves | Housewife's worry | Minnie's life was disturbed |
+| Uneven stitching | Carelessness | Her mind was in turmoil |
+| Dead canary | A dead pet | The motive for the murder |
+| Empty chair and cage | Nothing | A lonely, silent marriage |
+
+**Conclusion.** The title is ironic because the **trifles** are the evidence. Glaspell shows that the people whom society ignores often see the truth, and she asks whether the law is as just as the sympathy of the two women.
+
+### Model answer D3: formal letter of application (10 marks)
+
+Sita Rai  
+Dhankuta Municipality-4  
+Dhankuta  
+12 Baisakh 2083
+
+The Manager  
+Everest Trading Pvt. Ltd.  
+New Road, Kathmandu
+
+**Subject: Application for the post of Office Assistant**
+
+Dear Sir,
+
+With reference to your advertisement in *The Kathmandu Post* on 10 Baisakh 2083, I would like to apply for the post of Office Assistant in your company. I believe that my qualifications and attitude suit this position.
+
+I passed the Grade 12 examination in the management stream from Dhankuta Multiple Campus in 2082 with first division. I can type 40 words per minute in English and Nepali, and I am skilled in MS Word, Excel and email. Last year I worked for three months as a volunteer in my ward office, where I kept records and helped citizens fill in forms for the Nagarik App. This taught me to be punctual, polite and careful with documents.
+
+I am hard-working, honest and quick to learn. I am ready to work in shifts and to join immediately if I am selected. My résumé and copies of my certificates are enclosed with this letter.
+
+I would be grateful if you would give me an opportunity for an interview. I assure you that I shall do my duty with full dedication.
+
+Yours faithfully,
+
+Sita Rai
+
+*Enclosures:* (1) Résumé, (2) Copies of certificates, (3) Citizenship certificate, (4) Two photographs.
+
+| Parts of a formal letter | What to check |
+|---|---|
+| Sender's address and date | At the top right or left, with the full date |
+| Receiver's address | Title, company and place |
+| Salutation and subject line | "Dear Sir" and a clear, short subject |
+| Body | Opening reference, qualifications, personal qualities, request |
+| Closing | "Yours faithfully" when the name is unknown |
+| Enclosures | Listed at the end |
+
+**Conclusion.** A good application is short, polite and specific. It is addressed correctly, it gives facts rather than praise, and it ends by asking for an interview.
+
 ## Chapter summary
 
 - The 60 subjective marks are: Q1 reading (15), Q2 short literary (10), Q3 long literary (10), Q4 guided (7), Q5 functional (8), Q6 free (10).
