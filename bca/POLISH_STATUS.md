@@ -1053,5 +1053,5 @@ scratch/_sample_test.pdf | pages=2  fails=6 warns=0
 - [x] `soc10` units 1-10: new `समूह ङ` (two full 10-mark Nepali model answers each, intro / pointwise / table / conclusion, plus a 4-5 up photo strip from registered `soc10/*` photos, plate labels `N.ङ`). PDF 318 pp, qa fails=0.
 - [x] `bca/tools/qa_pdf.py`: Nepali books title the contents list `विषयसूची`, so the Contents check now also accepts the first page in the first 8 with >= 5 internal links (previously every Nepali book falsely FAILED).
 - [x] `soc8` units 1-9 (227 pp, qa fails=0): new `समूह घ` (two 8-mark Nepali model answers each + photo strip, reusing `soc10/*` and `soc8/*` photos).
-- [ ] `health8` units 1-13: `समूह घ` + photo strip (reuse `health8/*` photos).
-- [ ] NEXT SESSION STARTS AT: whichever of soc8/health8 is not ticked above, then qbank books, CEE/IOE, the fresh-clone qa sweep of all PDFs, then merge to main and the syllabus update from the library.
+- [x] `health8` units 1-13 (216 pp, qa fails=0): `समूह घ` + photo strip (reusing `health8/*` and `soc10/*` photos).
+- [ ] NEXT SESSION STARTS AT: qbank books (Question-Bank 8/10/11/12, Commerce QB), CEE/IOE entrance books Group D, CEE/IOE, the fresh-clone qa sweep of all PDFs, then merge to main and the syllabus update from the library.
