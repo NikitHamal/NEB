@@ -155,6 +155,13 @@ its base: "$(28)_8$" and "$(102)_2$" are not numbers at all, because octal has
 no digit 8 and binary has no digit 2.
 :::
 
+```photogrid label="15.H" cols="4" ratio="1.25" caption="People have always counted with a base. (a) A soroban, a Japanese abacus: each rod is one place of a decimal number. (b) Roman numerals on an alarm clock: I, V and X, a system without place value and without zero. (c) An old Nepali banknote with its number written in Devanagari numerals; our everyday decimal system is also written in many scripts. (d) A binary clock on a railway station, where lit lamps stand for 1 and dark ones for 0: a computer counts in base 2."
+@ photo id="cs8/num-soroban" cap="(a) Soroban: decimal places"
+@ photo id="cs8/num-roman-clock" cap="(b) Roman numerals"
+@ photo id="cs8/num-nepali-note" cap="(c) Devanagari numerals"
+@ photo id="cs8/num-binary-clock" cap="(d) A binary clock"
+```
+
 ## 15.2 Converting decimal numbers to binary, octal and hexadecimal
 
 To change a decimal number into another base, use **repeated division by the
@@ -968,3 +975,100 @@ $(100)_{10}$: 100 ÷ 2 gives the remainders 0, 0, 1, 0, 0, 1, 1 (quotients 50,
 6 ÷ 16 = 0 r 6, so $(100)_{10} = (64)_{16}$. Check: 64 + 32 + 4 = 100;
 64 + 32 + 4 = 100; 6 × 16 + 4 = 100.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain decimal, binary, octal and hexadecimal number systems. Why does a computer use binary? <span class="marks">[10]</span>
+2. Convert numbers between decimal, binary, octal and hexadecimal with full working. <span class="marks">[10]</span>
+3. Explain the units of computer memory and convert between binary, octal and hexadecimal directly. <span class="marks">[10]</span>
+
+### Model answer D1: number systems (10 marks)
+
+**Introduction.** A **number system** is a way of writing numbers using a fixed set of digits. The number of different digits is called the **base** (or radix). The value of a digit depends on its place, which is **positional value**: in 345 the 3 means 3 × 10² (Plate 15.H).
+
+| System | Base | Digits used | Example | Where used |
+|---|---|---|---|---|
+| Decimal | 10 | 0 to 9 | 156 | Daily life |
+| Binary | 2 | 0, 1 | 10011100 | Inside the computer |
+| Octal | 8 | 0 to 7 | 234 | Short form of binary |
+| Hexadecimal | 16 | 0 to 9 and A to F | 9C | Colours, memory addresses |
+
+In hexadecimal, A = 10, B = 11, C = 12, D = 13, E = 14 and F = 15.
+
+**The same number in four systems.** Decimal 156 = binary 10011100 = octal 234 = hexadecimal 9C.
+
+**Why does a computer use binary?**
+
+1. A computer is made of switches and transistors that have two states: on (1) and off (0).
+2. Two states are easy and cheap to build and are very reliable, because a small change in voltage does not confuse 0 with 1.
+3. Binary matches Boolean logic (true and false), the basis of all calculation in a computer.
+4. Any data, such as text, picture and sound, can be stored as a string of 0s and 1s.
+
+**Why octal and hexadecimal?** Long binary numbers are hard to read and to write without mistakes. One octal digit stands for 3 bits and one hexadecimal digit for 4 bits, so they are a short form of binary.
+
+**Conclusion.** Humans use the decimal system, the computer uses binary, and octal and hexadecimal are convenient short forms of binary.
+
+### Model answer D2: conversions with working (10 marks)
+
+**Introduction.** To convert from decimal, we divide again and again by the new base and read the remainders upwards. To convert to decimal, we multiply each digit by its place value and add.
+
+**(a) Decimal 156 to binary.**
+
+| Divide | Quotient | Remainder |
+|---|---|---|
+| 156 ÷ 2 | 78 | 0 |
+| 78 ÷ 2 | 39 | 0 |
+| 39 ÷ 2 | 19 | 1 |
+| 19 ÷ 2 | 9 | 1 |
+| 9 ÷ 2 | 4 | 1 |
+| 4 ÷ 2 | 2 | 0 |
+| 2 ÷ 2 | 1 | 0 |
+| 1 ÷ 2 | 0 | 1 |
+
+Reading the remainders from the bottom up: **(156)₁₀ = (10011100)₂**.
+
+**(b) Decimal 156 to octal and hexadecimal.** 156 ÷ 8 = 19 remainder 4; 19 ÷ 8 = 2 remainder 3; 2 ÷ 8 = 0 remainder 2. So **(156)₁₀ = (234)₈**. Again, 156 ÷ 16 = 9 remainder 12 (C); 9 ÷ 16 = 0 remainder 9. So **(156)₁₀ = (9C)₁₆**.
+
+**(c) Binary 1101011 to decimal.** 1×2⁶ + 1×2⁵ + 0×2⁴ + 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 64 + 32 + 0 + 8 + 0 + 2 + 1 = **107**.
+
+**(d) Octal 725 to decimal.** 7×8² + 2×8¹ + 5×8⁰ = 448 + 16 + 5 = **469**.
+
+**(e) Hexadecimal 2F5 to decimal.** 2×16² + 15×16¹ + 5×16⁰ = 512 + 240 + 5 = **757**.
+
+**(f) Decimal 45 to binary.** 45 ÷ 2 = 22 r 1; 22 ÷ 2 = 11 r 0; 11 ÷ 2 = 5 r 1; 5 ÷ 2 = 2 r 1; 2 ÷ 2 = 1 r 0; 1 ÷ 2 = 0 r 1. Upwards: **101101**. Check: 32 + 8 + 4 + 1 = 45.
+
+**Conclusion.** Division by the base and reading the remainders upwards gives the converted number, and multiplying by place values brings it back to decimal. Always check the answer by converting back.
+
+### Model answer D3: units of memory and direct conversion (10 marks)
+
+**Introduction.** A **bit** (binary digit) is the smallest unit of data, 0 or 1. A **byte** is a group of 8 bits and can store one character. Memory is measured in bytes.
+
+| Unit | Short | Size |
+|---|---|---|
+| Bit | b | 0 or 1 |
+| Nibble | | 4 bits |
+| Byte | B | 8 bits |
+| Kilobyte | KB | 1024 bytes |
+| Megabyte | MB | 1024 KB |
+| Gigabyte | GB | 1024 MB |
+| Terabyte | TB | 1024 GB |
+
+**Example.** A 4 GB pen drive holds 4 × 1024 = 4096 MB. If a photo is 3 MB, about 4096 ÷ 3 = 1365 photos fit in it. A 3 MB photo is 3 × 1024 = 3072 KB.
+
+**Binary to octal (group in 3 bits from the right).** Convert 101110011: group 101 | 110 | 011 = 5, 6, 3, so **(101110011)₂ = (563)₈**.
+
+**Binary to hexadecimal (group in 4 bits from the right).** The same number: 1 | 0111 | 0011, padding the left as 0001 | 0111 | 0011 = 1, 7, 3, so **(101110011)₂ = (173)₁₆**.
+
+**Hexadecimal to binary (write 4 bits for each digit).** B7: B = 1011, 7 = 0111, so **(B7)₁₆ = (10110111)₂**, which is 183 in decimal.
+
+**Octal to binary (write 3 bits for each digit).** 234 → 010 | 011 | 100, so **(234)₈ = (10011100)₂**.
+
+| Binary | Octal | Hexadecimal |
+|---|---|---|
+| 101110011 | 563 | 173 |
+| 11110000 | 360 | F0 |
+| 10110111 | 267 | B7 |
+
+**Binary addition rules.** 0 + 0 = 0, 0 + 1 = 1, 1 + 0 = 1, 1 + 1 = 10 (0 carry 1), and 1 + 1 + 1 = 11. For example, 1101 (13) + 0111 (7) = 10100 (20).
+
+**Conclusion.** Memory is counted in powers of 1024, and the grouping of 3 or 4 bits gives a quick path between binary, octal and hexadecimal.

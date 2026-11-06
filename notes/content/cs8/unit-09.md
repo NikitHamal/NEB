@@ -140,6 +140,12 @@ key 5 Zoom slider
 key 6 Sidebar: properties, transitions, animations and master slides
 ```
 
+```photogrid label="9.H" cols="3" ratio="1.3" caption="From slide to screen. (a) A data projector throws the slide show on a wall or screen for a whole class. (b) The Impress window: the slide panel on the left, the slide in the middle and the tools around it. (c) A slide with a chart: a picture of numbers is understood faster than a table. Good presentation software joins the slide design, the chart and the projector into one clear talk."
+@ photo id="bcagk/projector" cap="(a) Data projector: output to a screen"
+@ photo id="cs8/impress-window" cap="(b) The presentation window"
+@ photo id="cs8/impress-chart-slide" cap="(c) A slide with a chart"
+```
+
 ## 9.2 Creating a presentation: slides, layouts, themes and placeholders
 
 ::: definition Slide, layout, theme and placeholder
@@ -649,3 +655,54 @@ background. (4) *Three fonts* — looks untidy; use one or two plain fonts.
 (5) *Spinning animation on every word* — distracting and slow; use a simple
 entrance such as Appear or Fade by paragraph, or none. (Any four.)
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is presentation software? Explain its eight main features. <span class="marks">[10]</span>
+2. Explain transitions and animations and the rules of an effective presentation. <span class="marks">[10]</span>
+
+### Model answer D1: features of presentation software (10 marks)
+
+**Introduction.** **Presentation software** is application software used to make a series of **slides** containing text, pictures, charts, sound and video, and to show them to an audience. MS PowerPoint, LibreOffice Impress and Google Slides are examples. A teacher, a student or a businessperson uses it to explain ideas clearly (Plate 9.H).
+
+1. **Slides and layouts.** A presentation is made of slides, and each slide has a layout such as Title, Title and Content, or Two Content. Placeholders in the layout hold the text and pictures in the right place. This makes slides tidy.
+2. **Themes and templates.** A theme gives the whole presentation matching colours, fonts and background in one click. A school can choose one theme for all its slides so they look uniform.
+3. **Text, pictures and tables.** Headings, bullet points, photographs, shapes and tables can be added and formatted. A science project slide may have a picture and three bullet points.
+4. **Charts and graphs.** Numbers are shown as column, pie or line charts. For example, a pie chart of how students come to school makes the facts clear at a glance.
+5. **Audio and video.** Music, a voice-over or a short film can be put on a slide, which makes a talk lively.
+6. **Transitions and animations.** Transitions control how a slide enters; animations control how an object enters, moves or leaves. They attract attention when used sparingly.
+7. **Slide master and views.** The Slide Master changes the design of all slides at once. Views such as Normal, Slide Sorter and Slide Show let us edit, rearrange and present.
+8. **Saving and sharing.** The file can be saved as .pptx, printed as handouts, exported to PDF or shared online, and the show can run on a projector.
+
+**Conclusion.** Presentation software makes a talk clear, interesting and easy to remember, so it is a standard tool in schools and offices.
+
+### Model answer D2: transitions, animations and effective presentations (10 marks)
+
+**Introduction.** A good presentation depends on both the software features and the way the slides are designed.
+
+**Transition.** A **transition** is the visual effect when one slide changes to the next, such as Fade, Push or Wipe. It is set from the **Transitions** tab and can be applied to one slide or to all.
+
+**Animation.** An **animation** is the effect given to an object on a slide, such as text flying in or a picture growing. It is set from the **Animations** tab. Animation has types: Entrance, Emphasis, Exit and Motion path.
+
+| Point | Transition | Animation |
+|---|---|---|
+| Works on | The whole slide | One object on the slide |
+| Happens | Between two slides | Inside a slide |
+| Tab | Transitions | Animations |
+| Types | Fade, Push, Wipe | Entrance, Emphasis, Exit, Motion path |
+| Example | Fade from slide 1 to 2 | Bullet points appear one by one |
+
+**Rules of an effective presentation.**
+
+1. Keep one idea on each slide and use short bullet points, about six lines of six words at most.
+2. Use a large font (at least 24 points for body text) so that the back bench can read it.
+3. Choose strong contrast, such as dark text on a light background.
+4. Use clear pictures and charts instead of long paragraphs.
+5. Use only two or three fonts and a few colours.
+6. Use transitions and animations sparingly; too many distract the audience.
+7. Check spelling and keep the order logical: title, introduction, body, conclusion.
+8. Rehearse, look at the audience and do not read the slide aloud.
+
+**Slide show steps.** Press **F5** to start from the first slide, **Shift + F5** to start from the current slide, and **Esc** to end.
+
+**Conclusion.** Transitions and animations add interest only when used wisely; a clear, simple and well-practised presentation is the real mark of quality.

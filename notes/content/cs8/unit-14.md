@@ -303,6 +303,14 @@ the router of your lab, count their ports and draw how your computer is
 connected to them.
 :::
 
+```photogrid label="14.D" cols="5" ratio="1.0" caption="Network connecting devices, from the computer outwards. (a) The NIC with its RJ45 socket joins a computer to the network. (b) A hub repeats the signal to every port. (c) A switch sends it only to the right port. (d) A Wi-Fi router joins the local network to the internet. (e) A modem changes the signal for the telephone, cable or fibre line."
+@ photo id="cs12/nic" cap="(a) NIC with RJ45"
+@ photo id="cs12/hub" cap="(b) Hub"
+@ photo id="cs12/switch" cap="(c) Switch"
+@ photo id="cs12/router" cap="(d) Wi-Fi router"
+@ photo id="cs12/modem" cap="(e) Modem"
+```
+
 ## 14.3 Transmission media: wired and wireless
 
 ::: definition Transmission media
@@ -444,6 +452,12 @@ network speeds do; Lesson 15 explains why memory sizes use 1,024 instead.)
 
 (b) Time = 3,600 ÷ 24 = **150 s = 2 minutes 30 seconds**.
 :::
+
+```photogrid label="14.M" cols="3" ratio="1.3" caption="Three wired transmission media. (a) Twisted-pair (UTP) cable, the common cable of a school or office LAN. (b) A coaxial cable cut open, showing the copper core, insulator, shield and cover; it carries cable television. (c) An optical fibre cable, with strands of glass that carry light, used for the fastest links over the longest distances."
+@ photo id="cs12/utp-cable" cap="(a) Twisted-pair cable"
+@ photo id="cs12/coaxial-cable-cut" cap="(b) Coaxial cable, cut open"
+@ photo id="bca101/fibre-cable" cap="(c) Optical fibre cable"
+```
 
 ## 14.4 Types of network: LAN, MAN and WAN
 
@@ -1005,3 +1019,96 @@ the ONT to the router. The sketch shows the switch in the middle, the 24
 computers, printer and server around it, the access point with wireless waves,
 and the router leading to the Internet, as in the first figure of this lesson.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a computer network? Explain eight advantages and seven disadvantages of networking. <span class="marks">[10]</span>
+2. Explain bus, ring and star topologies with their advantages and disadvantages. <span class="marks">[10]</span>
+3. Describe the network devices and the transmission media; differentiate LAN, MAN and WAN. <span class="marks">[10]</span>
+
+### Model answer D1: advantages and disadvantages of a network (10 marks)
+
+**Introduction.** A **computer network** is a group of two or more computers and devices joined together by cables or wireless links so that they can share data, hardware and software. The internet is the largest network.
+
+**Advantages.**
+
+1. **Resource sharing.** One printer, scanner or internet line can serve many computers, which saves money. A computer lab with one printer is an example.
+2. **File and data sharing.** Files can be copied or opened from another computer in seconds, so students can share a project without a pen drive.
+3. **Software sharing.** A program can be installed on a server and used by many users, and it is cheaper than buying one copy for each.
+4. **Fast communication.** E-mail, chat and video calls connect people at once.
+5. **Central backup and control.** The data kept on a server can be backed up in one place, and the administrator can control the users.
+6. **Reliability.** If one computer fails, the work can go on at another, and the data can be recovered from the server.
+7. **Cost saving.** Sharing devices and licences reduces the total cost.
+8. **Remote access and online services.** We can reach our files or services from anywhere, as in online banking and e-learning.
+
+**Disadvantages.**
+
+1. The setup of cables, switches and servers has a **high initial cost**.
+2. A virus or a hacker can spread quickly through the network.
+3. If the server fails, the whole network may stop.
+4. A skilled person is needed to manage it.
+5. Data privacy may be lost without good security.
+6. The network can be slow when there is much traffic.
+7. Cables and devices need regular maintenance.
+
+**Conclusion.** The benefits of networking are larger than the disadvantages, so schools, banks and offices all use networks.
+
+### Model answer D2: network topologies (10 marks)
+
+**Introduction.** **Network topology** is the arrangement of the computers and cables in a network. The three common topologies are bus, ring and star.
+
+1. **Bus topology.** All computers are connected to one main cable called the **bus** (backbone), with terminators at both ends. A signal travels along the cable, and each computer picks up the data meant for it.
+2. **Ring topology.** The computers are joined in a closed circle. Data travels in one direction (or two) from computer to computer until it reaches its destination.
+3. **Star topology.** Every computer is joined by its own cable to a central device, a hub or a switch. All data pass through that centre. This is the most common topology in schools and offices today.
+
+| Point | Bus | Ring | Star |
+|---|---|---|---|
+| Layout | One main cable | Closed circle | Central hub or switch |
+| Cable needed | Least | Medium | Most |
+| Cost | Low | Medium | Higher |
+| If one computer fails | Others work | May stop the ring | Others work |
+| If the main part fails | Whole network stops | Whole network stops | Only if the centre fails |
+| Finding faults | Hard | Hard | Easy |
+| Adding a computer | Easy | Hard | Very easy |
+| Speed with load | Slows down | Moderate | Good |
+
+**Advantages and disadvantages in brief.**
+
+- **Bus:** cheap and easy to set up, but a break in the main cable stops everything and speed falls as computers increase.
+- **Ring:** equal chance for every computer and no collisions, but one broken link may stop the network.
+- **Star:** easy to find faults and add computers, and one failure does not affect others, but it needs more cable and fails if the centre fails.
+
+**Conclusion.** The star topology is the best for most modern networks because it is simple and reliable, even though it costs a little more.
+
+### Model answer D3: network devices, media and types (10 marks)
+
+**Introduction.** A network needs devices to connect the computers (Plate 14.D) and media to carry the signal (Plate 14.M).
+
+**Devices.**
+
+1. **NIC (Network Interface Card):** a card in the computer that connects it to the network through an RJ45 socket or by Wi-Fi.
+2. **Hub:** a simple device that sends the incoming data to all the ports.
+3. **Switch:** a smart device that sends the data only to the computer for which it is meant, which is faster than a hub.
+4. **Router:** joins different networks, such as a LAN and the internet, and finds the best path for the data.
+5. **Modem:** changes digital signals into signals for the telephone, cable or fibre line and back.
+
+**Transmission media.**
+
+| Medium | Type | Features |
+|---|---|---|
+| Twisted pair (UTP) | Wired | Cheap, used in LAN, up to 100 m |
+| Coaxial cable | Wired | Better shielded, used for cable TV |
+| Optical fibre | Wired | Light signals, very fast, long distance, costly |
+| Radio waves, microwave, satellite, Wi-Fi | Wireless | No cables, can reach hills and remote areas |
+
+**Types of network.**
+
+| Point | LAN | MAN | WAN |
+|---|---|---|---|
+| Full form | Local Area Network | Metropolitan Area Network | Wide Area Network |
+| Area | A room, school or building | A city | A country or the world |
+| Speed | Highest | Medium | Lower |
+| Owner | One organisation | An organisation or a company | Many organisations |
+| Example | A computer lab | A cable-TV network of a city | The internet |
+
+**Conclusion.** Devices connect the computers, media carry the signal, and the size of the area decides whether the network is a LAN, MAN or WAN.

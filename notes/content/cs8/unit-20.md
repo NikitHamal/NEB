@@ -68,6 +68,13 @@ key 7 Welcome box: press Esc to clear it and start typing a program.
 ```photo id="cs8/qb-qb64-ide" caption="QB64, a free modern descendant of QBASIC, with its QBASIC-style menu bar, program window and, at the bottom, a status area showing the cursor's line and column (1:56). The program on the screen is an advanced one; the programs in this lesson run in QB64 exactly as typed." width="90"
 ```
 
+```photogrid label="20.H" cols="4" ratio="1.25" caption="BASIC on real machines. (a) The Altair 8800 with a Teletype terminal, 1975: Altair BASIC was the first product of Microsoft. (b) The Commodore 64, which started straight into BASIC when switched on. (c) The ZX Spectrum, whose keys had BASIC words printed on them. (d) QB64, the modern free program that runs QBASIC programs. BASIC means Beginner's All-purpose Symbolic Instruction Code; John Kemeny and Thomas Kurtz made it at Dartmouth College in 1964 so that students could learn to program."
+@ photo id="cs8/basic-altair" cap="(a) Altair 8800, 1975"
+@ photo id="cs8/basic-c64" cap="(b) Commodore 64"
+@ photo id="cs8/basic-zx" cap="(c) ZX Spectrum"
+@ photo id="cs8/qb-qb64-ide" cap="(d) QB64 today"
+```
+
 ## 20.2 Character set, constants, variables and operators
 
 ### Character set
@@ -1656,3 +1663,168 @@ Output:
 S = 35
 ```
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is QBASIC? Explain its eight features and the parts of the QBASIC screen. <span class="marks">[10]</span>
+2. Explain the statements and library functions of QBASIC with programs. <span class="marks">[10]</span>
+3. Explain selection and loops of QBASIC with programs and outputs. <span class="marks">[10]</span>
+
+### Model answer D1: features of QBASIC (10 marks)
+
+**Introduction.** **QBASIC** (Quick Beginner's All-purpose Symbolic Instruction Code) is a high-level programming language and its environment, made by Microsoft in 1991 as an improved form of BASIC. It is used in schools to teach the first lessons of programming (Plate 20.H).
+
+**Features.**
+
+1. **Easy to learn.** It uses English words such as PRINT, INPUT and IF, so a beginner can write a first program within minutes.
+2. **Interpreter.** QBASIC runs the program line by line, so a mistake is found and shown at once. This helps in learning.
+3. **Editor and environment in one.** Writing, running and debugging all happen in the same screen.
+4. **Structured programming.** It has block IF, SELECT CASE, and loops such as FOR...NEXT, WHILE...WEND and DO...LOOP, which keeps programs neat.
+5. **Built-in functions.** Mathematical and string functions such as SQR, INT, LEN and `UCASE$` are ready to use.
+6. **Graphics and sound.** Simple commands like SCREEN, LINE, CIRCLE and SOUND draw pictures and make tones.
+7. **Immediate window.** A statement typed in the lower window runs at once, which is good for testing.
+8. **Modular programming and help.** SUB and FUNCTION procedures divide a long program into parts, and the Help menu explains every keyword.
+
+**Parts of the QBASIC screen.**
+
+| Part | Use |
+|---|---|
+| Title bar | Shows the name of the program (Untitled at first) |
+| Menu bar | File, Edit, View, Search, Run, Debug, Options, Help |
+| View (program) window | Where the program is typed |
+| Immediate window | Runs a single statement at once |
+| Status bar | Shows help keys and the cursor line and column |
+| Scroll bars | Move through a long program |
+
+**Steps to run.** Type the program, press **Shift + F5** (or choose **Run** → **Start**) to run it, **Alt + F** → **S** to save, and **F1** for help.
+
+**Conclusion.** QBASIC is simple and powerful enough for learning the basics of programming, and these ideas carry over to Python and C.
+
+### Model answer D2: statements, functions and programs (10 marks)
+
+**Introduction.** A QBASIC program is a list of statements. The common ones are CLS (clear the screen), REM (a remark, not run), LET (give a value), INPUT (take a value from the user), PRINT (show a result) and END (stop the program).
+
+**Program 1: area and circumference of a circle.**
+
+```
+CLS
+REM Area and circumference of a circle
+INPUT "Enter the radius: ", R
+LET A = 3.14159 * R ^ 2
+LET C = 2 * 3.14159 * R
+PRINT "Area = "; A
+PRINT "Circumference = "; C
+END
+```
+
+For R = 7, A = 3.14159 × 49 = 153.9379 and C = 2 × 3.14159 × 7 = 43.98226. The output is: `Area =  153.9379` and `Circumference =  43.98226`.
+
+| Line | Meaning |
+|---|---|
+| CLS | Clears the screen |
+| REM | A comment for the reader; ignored by the computer |
+| INPUT "text", R | Shows the text and stores the typed number in R |
+| LET A = ... | Calculates and stores in A (LET is optional) |
+| PRINT "text"; A | Shows the text and the value |
+| END | Ends the program |
+
+**Operators.** Arithmetic: + − * / ^ (power), \ (integer division) and MOD (remainder). For example, `17 MOD 5` is 2.
+
+**Library functions.**
+
+| Function | Meaning | Example | Result |
+|---|---|---|---|
+| SQR(x) | Square root | `SQR(81)` | 9 |
+| INT(x) | Whole part (rounds down) | `INT(7.8)` | 7 |
+| ABS(x) | Absolute value | `ABS(-5)` | 5 |
+| `LEN(s$)` | Number of characters | `LEN("NEPAL")` | 5 |
+| `UCASE$(s$)` | Capital letters | `UCASE$("nepal")` | NEPAL |
+| `LEFT$(s$, n)` | First n characters | `LEFT$("COMPUTER", 3)` | COM |
+| `RIGHT$(s$, n)` | Last n characters | `RIGHT$("COMPUTER", 3)` | TER |
+| `MID$(s$, p, n)` | n characters from position p | `MID$("COMPUTER", 4, 3)` | PUT |
+
+**Conclusion.** With INPUT, LET and PRINT, and a few functions, we can already write useful programs that take data, calculate and show the answer.
+
+### Model answer D3: selection and loops in QBASIC (10 marks)
+
+**Introduction.** **Selection** chooses between paths by a condition, and **loops** repeat a block of statements.
+
+**Selection: IF...THEN...ELSE (division of a student).**
+
+```
+CLS
+INPUT "Enter the marks: ", M
+IF M >= 80 THEN
+    PRINT "Distinction"
+ELSEIF M >= 60 THEN
+    PRINT "First division"
+ELSEIF M >= 45 THEN
+    PRINT "Second division"
+ELSE
+    PRINT "Below second division"
+END IF
+END
+```
+
+For M = 72, the first test is false and the second is true, so the output is `First division`.
+
+**SELECT CASE** is neater when one value is compared with many choices.
+
+```
+INPUT "Enter day number (1-3): ", D
+SELECT CASE D
+    CASE 1
+        PRINT "Sunday"
+    CASE 2
+        PRINT "Monday"
+    CASE 3
+        PRINT "Tuesday"
+    CASE ELSE
+        PRINT "Not in the list"
+END SELECT
+```
+
+**Loops.**
+
+1. **FOR...NEXT** repeats a fixed number of times. This program prints the sum of 1 to 10:
+
+```
+S = 0
+FOR I = 1 TO 10
+    S = S + I
+NEXT I
+PRINT "Sum = "; S
+```
+
+The output is `Sum =  55`. With `STEP 2`, `FOR I = 2 TO 10 STEP 2` gives 2, 4, 6, 8, 10.
+
+2. **WHILE...WEND** repeats while the condition is true (the test is made first):
+
+```
+N = 1
+S = 0
+WHILE N <= 5
+    S = S + N
+    N = N + 1
+WEND
+PRINT "Sum = "; S
+```
+
+The output is `Sum =  15`.
+
+3. **DO...LOOP** repeats until or while a condition. This asks again until the right password is typed:
+
+```
+DO
+    INPUT "Enter the password: ", P$
+LOOP UNTIL P$ = "neb8"
+PRINT "Welcome"
+```
+
+| Loop | Test | Best when |
+|---|---|---|
+| FOR...NEXT | Counter reaches the limit | The number of repeats is known |
+| WHILE...WEND | Before each pass | Repeating while a condition holds |
+| DO...LOOP | Before or after (WHILE or UNTIL) | Repeating until something happens |
+
+**Conclusion.** Selection lets a program decide and loops let it repeat, and together with INPUT and PRINT they make a complete program.

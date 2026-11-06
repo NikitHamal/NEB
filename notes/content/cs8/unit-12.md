@@ -73,6 +73,13 @@ Don't **harm**, **interfere**, **snoop**, **steal**, **lie**, **copy** paid soft
 **Solution.** (a) Commandment **6** — using paid software without paying. (b) Commandment **5** — telling lies (bearing false witness); it also harms the shopkeeper (commandment 1). (c) Commandment **3** — snooping in other people's files. (d) Commandment **8** — taking other people's work as your own (plagiarism, section 12.3).
 :::
 
+```photogrid label="12.H" cols="4" ratio="1.25" caption="Four ethics and law pictures. (a) A phishing e-mail: a fake message that asks for a password or a bank detail. (b) The Creative Commons spectrum: an author can allow reuse with conditions, instead of reserving every right. (c) The padlock of HTTPS: a sign that the connection is protected. (d) The Cyber Bureau of the Nepal Police, where cyber crimes are reported. Ethics tells us what is right, and the law punishes what is wrong."
+@ photo id="cs8/eth-phishing-email" cap="(a) A phishing e-mail"
+@ photo id="cs8/eth-cc-spectrum" cap="(b) Creative Commons"
+@ photo id="cs8/eth-https-padlock" cap="(c) HTTPS padlock"
+@ photo id="bca-st/cyberbureau" cap="(d) Cyber Bureau, Nepal Police"
+```
+
 ## 12.2 Cyber crime: hacking, phishing, cyber bullying, identity theft and software piracy
 
 ::: definition Cyber crime
@@ -393,3 +400,69 @@ Work in pairs. (1) With a parent's permission, open the privacy settings of one 
 
 **5.** A digital citizen is a person who uses the Internet and digital technology responsibly, safely and respectfully (1 mark). *Netiquette* is good manners online: be polite, do not write in capitals, do not spam, respect others' privacy, give credit, think before posting (1 mark). *Safe use of social media* (2 marks, any four): strong unique passwords and MFA; private profile and friends you know; keep address, phone, location and ID private; think before posting; check facts before sharing; never share an OTP or MPIN; never meet online friends alone; block and report bullies and keep evidence.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is computer ethics? Explain the ten commandments of computer ethics and the main cyber crimes. <span class="marks">[10]</span>
+2. Explain copyright, plagiarism, the Electronic Transactions Act 2063 and the rules of a good digital citizen. <span class="marks">[10]</span>
+
+### Model answer D1: computer ethics and cyber crime (10 marks)
+
+**Introduction.** **Computer ethics** is the set of moral rules that tell us how to use computers and the internet in a right and responsible way. The Computer Ethics Institute wrote ten commandments, which can be put in simple words (Plate 12.H).
+
+**The ten commandments.**
+
+1. Do not use a computer to harm other people.
+2. Do not interfere with other people's computer work.
+3. Do not snoop in other people's files.
+4. Do not use a computer to steal.
+5. Do not use a computer to spread false information.
+6. Do not copy or use software that you have not paid for.
+7. Do not use other people's computer resources without permission.
+8. Do not claim other people's work as your own.
+9. Think about the social effect of the program you write.
+10. Always use the computer with respect and consideration for others.
+
+**Cyber crime.** A **cyber crime** is a crime done with a computer or the internet. The main kinds are:
+
+| Crime | Meaning | Prevention |
+|---|---|---|
+| Hacking | Entering a computer or account without permission | Strong password, updates, firewall |
+| Phishing | A fake message or site that tricks us into giving a password or bank detail | Do not click unknown links; check the address |
+| Cyber bullying | Teasing, threatening or shaming someone online | Do not reply, block, tell a teacher or parent, report |
+| Identity theft | Using another person's name or data to cheat | Never share OTP, citizenship or card details |
+| Software piracy | Copying and using software without a licence | Use licensed or open-source software |
+
+**Effects.** Loss of money, loss of privacy, fear and shame, and loss of trust in digital services. A victim should keep the evidence (screenshots), tell an adult and report to the Cyber Bureau of the Nepal Police.
+
+**Conclusion.** Ethics guide our behaviour even where no one is watching. If every user follows them, the digital world becomes safer for all.
+
+### Model answer D2: copyright, cyber law and digital citizenship (10 marks)
+
+**Introduction.** What a person creates with the mind, such as a poem, a song, a program or a design, is **intellectual property**. The law and good manners protect it.
+
+**Copyright.** **Copyright** is the legal right of the creator to control the copying, sale and use of the work. It stops others from copying a book, a film or a program without permission. Creative Commons licences allow authors to share their work with stated conditions.
+
+**Plagiarism.** **Plagiarism** is using another person's words or ideas as if they were your own. To avoid it: write in your own words, put quotation marks around copied lines, and give the source. Copying a project from the internet and putting your name on it is plagiarism.
+
+**Cyber law of Nepal.** The **Electronic Transactions Act, 2063 BS (2006)** is the main cyber law of Nepal. It gives legal recognition to electronic records and digital signatures, and it makes cyber offences punishable by fine or imprisonment or both. Such offences include:
+
+1. Hacking or damaging a computer system or data.
+2. Publishing unlawful or obscene material online.
+3. Fraud, forgery or false use of digital signatures.
+4. Breaking confidentiality or privacy.
+5. Piracy of computer programs and data.
+
+Complaints are received by the Cyber Bureau of the Nepal Police.
+
+**Rules of a digital citizen.**
+
+| Rule | Example |
+|---|---|
+| Be respectful | Do not insult or tease others on social media |
+| Protect privacy | Do not share passwords, OTP or others' photos without leave |
+| Check before you share | Do not forward fake or harmful news |
+| Give credit | Name the source of a picture or text |
+| Balance screen time | Study, play and rest |
+
+**Conclusion.** Copyright and the Electronic Transactions Act protect creators and users, and a good digital citizen respects both the law and other people.
