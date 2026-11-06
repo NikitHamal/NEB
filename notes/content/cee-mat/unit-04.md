@@ -1332,3 +1332,61 @@ ax.set_xlim(-0.9, 2.9); ax.set_ylim(-0.15, 2.15); ax.set_aspect('equal'); ax.axi
 **9.** (b) — The mirror swaps left and right, the water image swaps top and bottom; doing both is a half-turn (180°).
 **10.** (c) — Each of the 8 small cubes is a corner cube with 3 painted and 3 unpainted faces: 8 × 3 = 24.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain methods for cubes, dice, nets and mirror and water images, with worked problems. <span class="marks">[10]</span>
+2. Explain methods for counting figures, paper folding and figure series, with worked problems. <span class="marks">[10]</span>
+
+### Model answer D1: Cubes, dice, nets and images (10 marks)
+
+**Introduction.** Spatial questions are solved by **visualising and checking faces**, not by guessing the picture.
+
+**1. Painted cube cut into small cubes.** A cube of side n (painted outside) is cut into n³ small cubes. For n = 4 (64 small cubes):
+
+| Painted faces | Formula | Number |
+|---|---|---|
+| 3 faces (corners) | 8 | **8** |
+| 2 faces (edges) | 12 × (n − 2) | **24** |
+| 1 face (face centres) | 6 × (n − 2)² | **24** |
+| 0 faces (inside) | (n − 2)³ | **8** |
+
+The total is 8 + 24 + 24 + 8 = **64**, which checks.
+
+**2. Dice.** On a standard die the faces that are **opposite** add up to 7 (1–6, 2–5, 3–4). If three faces meeting at a corner show 1, 2, 3, the hidden faces are 6, 5, 4. Two dice views that share one number tell you the clockwise order of the other faces; if two views show the same top face with different faces beside it, the faces beside it are not opposite.
+
+**3. Nets.** A cube has **11 different nets**. A net is a valid cube net only if no two squares that fold onto the same face overlap, and **no row has more than four squares**. A "T"-shape of five squares in a row is not valid.
+
+**4. Mirror image.** A mirror on the **right** side reverses left and right (like a mirror in a bathroom): the letter **b** becomes **d**, and the order of letters in a word is reversed. A mirror on the **top or bottom** reverses up and down.
+
+**5. Water image.** The reflection in water below the figure turns it **upside down**: up and down are swapped, left and right are kept.
+
+| Image | What changes | Example |
+|---|---|---|
+| Mirror (left–right) | Left ↔ right | 3:25 on a clock looks like 8:35 |
+| Water (up–down) | Top ↔ bottom | 3:25 on a clock looks like 2:35 |
+
+**Conclusion.** Use the counting formulae and the "opposite faces add to 7" rule, and check images by following one distinctive feature.
+
+### Model answer D2: Counting figures, folding and series (10 marks)
+
+**Introduction.** Counting problems need a **systematic count** by size, otherwise some shapes are missed.
+
+**1. Squares and rectangles in an n × n grid.**
+
+| Figure | Formula | n = 4 |
+|---|---|---|
+| Squares | 1² + 2² + … + n² | 1 + 4 + 9 + 16 = **30** |
+| Rectangles (including squares) | (n(n + 1) ÷ 2)² = C(n + 1, 2)² | 10² = **100** |
+
+**2. Triangles.** In a large triangle with n small triangles along the base, divided by lines from the apex, the count is n(n + 1) ÷ 2; for a triangle with all three sets of lines drawn, the count is n(n + 2)(2n + 1) ÷ 8 (round down): for n = 3, 3 × 5 × 7 ÷ 8 = 13.1, so **13**; for n = 4, 4 × 6 × 9 ÷ 8 = **27**. Count by size: first the small triangles, then the ones made of 4, then 9, and so on.
+
+**3. Paper folding and cutting.** Each fold doubles the layers, and a hole punched through a folded sheet appears once in each layer, in positions that are **mirror images** across each fold line. For a sheet folded once and punched near the fold, the opened sheet shows two holes placed symmetrically about the fold; for two folds there are four holes (a hole at the centre of the fold is counted once).
+
+**4. Embedded figures.** Look for the given shape by tracing its **longest line** first and match the angles; the figure appears in the same size and orientation, with other lines added around it.
+
+**5. Figure series.** Check in this order: (a) **rotation** (45° or 90° per step), (b) **movement** of a part, (c) **adding or removing** a line, (d) **shading** patterns, (e) **counting** of sides or dots. Example: an arrow that turns 90° clockwise each step has returned to its start after 4 steps, so the 9th figure is the same as the 1st.
+
+**Matrices.** In a 3 × 3 matrix of figures, the rule runs along the rows (or columns), so the missing figure completes the third row according to the first two rows.
+
+**Conclusion.** Count in an organised way, work out the transformation at each fold or step, and check the answer against every given figure.

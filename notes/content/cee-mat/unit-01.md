@@ -845,3 +845,75 @@ B, the conclusion "Some A are B" is still true. Do not read the everyday meaning
 **10.** (b) — The statement supports only a lower risk. "Never" goes beyond what is said.
 **11.** (a) — The pens that are books cannot be bags (no book is a bag), so some pens are not bags: I follows. Whether any bag is a pen is not known.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain a step-by-step method for direction-sense and blood-relation questions and solve two worked problems of each kind. <span class="marks">[10]</span>
+2. Explain methods for coding–decoding, ranking, circular seating and syllogisms, with a worked problem of each kind. <span class="marks">[10]</span>
+
+### Model answer D1: Direction sense and blood relations (10 marks)
+
+**Introduction.** Both types are solved best by **drawing**, not by thinking in words. Direction problems need a small coordinate sketch, and relation problems need a family tree with symbols.
+
+**Method for direction sense.**
+
+1. Place the start at the origin and mark **N** at the top of the page.
+2. Draw each move as an arrow: left and right depend on the direction the person is **facing**, not on the page.
+3. Turn right = clockwise (N→E→S→W); turn left = anticlockwise.
+4. At the end, find the net distance by Pythagoras and the direction from the net east–west and north–south change.
+5. **Shadow rule:** in the morning the sun is in the east, so shadows fall to the **west**; in the evening shadows fall to the **east**.
+
+**Worked problem 1.** Ram walks 10 m north, turns left and walks 5 m, then turns left and walks 15 m. How far and in which direction is he from the start?
+
+| Move | Position (x east, y north) |
+|---|---|
+| Start | (0, 0) |
+| 10 m north | (0, 10) |
+| Turn left (west) 5 m | (−5, 10) |
+| Turn left (south) 15 m | (−5, −5) |
+
+Distance = √(5² + 5²) = √50 = **7.07 m**, and he is to the **south-west** of the start.
+
+**Worked problem 2.** A man faces east, turns 90° clockwise, then 135° anticlockwise. Which way does he face? East → clockwise 90° = south; anticlockwise 135° from south = south → east (90°) → north-east (45°). He faces **north-east**.
+
+**Method for blood relations.**
+
+1. Draw **male as a square (□) and female as a circle (○)**, with a horizontal line for marriage and vertical lines for children.
+2. Translate each clue into one link; use *only* the information given.
+3. Remember: mother's brother = maternal uncle; father's sister = aunt; sister's son = nephew; brother's wife = sister-in-law.
+
+**Worked problem 3.** Pointing to a man, Gita says, "His mother is the only daughter of my mother." The only daughter of Gita's mother is **Gita herself**, so the man's mother is Gita, and the man is **Gita's son**.
+
+**Worked problem 4.** A is the father of B; B is the sister of C; C is the mother of D. How is A related to D? A is father of B and C (B and C are siblings), so A is the **maternal grandfather** of D.
+
+| Clue | Meaning |
+|---|---|
+| Only daughter of my mother | I myself (if I am a woman) |
+| Son of my father's only brother | My cousin |
+| Mother's mother's husband | Maternal grandfather |
+
+**Conclusion.** A neat diagram removes confusion about left, right and generation, so every problem becomes a short reading of the sketch.
+
+### Model answer D2: Coding, ranking, seating and syllogisms (10 marks)
+
+**Introduction.** These problems test whether you can find a rule and apply it without error.
+
+**1. Coding–decoding.** Write the alphabet positions A=1 … Z=26. Typical rules: a fixed **shift**, **reverse position** (A↔Z, so the code of a letter is 27 minus its position), or a **sum** of positions. Example: if each letter is shifted two places forward, MAT → OCV. Example: CAT = 3 + 1 + 20 = 24.
+
+**2. Ranking.** Total = (rank from top) + (rank from bottom) − 1. If Rita is 12th from the top and 25th from the bottom, there are 12 + 25 − 1 = **36** students.
+
+**3. Circular seating.** Six persons sit round a table facing the centre. A is opposite D. B is immediately clockwise of A, C is opposite B, and E is immediately anticlockwise of A. Number the seats 1–6 clockwise: A = 1, so D = 4; B = 2, so C = 5; E = 6, so F = 3. The clockwise order is A, B, F, D, C, E. The person between B and D is **F**. The number of ways to seat n persons around a table is (n − 1)!, which for 6 persons is 5! = **120**; in a row it is n!.
+
+**4. Syllogisms (Venn method).** Draw a circle for each term.
+
+| Statement | Diagram rule |
+|---|---|
+| All A are B | Circle A inside circle B |
+| Some A are B | Circles overlap |
+| No A is B | Separate circles |
+
+**Example.** Statements: All cats are animals. Some animals are dogs. Conclusions: I. Some cats are dogs. II. Some dogs are animals. The cat circle lies inside the animal circle, and the dog circle overlaps the animal circle, but it may or may not reach the cat circle. So **I does not follow** (a possibility, not a certainty) and **II follows** (the dog circle overlaps the animal circle).
+
+**Rules of thumb.** Take the statements as true even if they look false in real life; a conclusion must be true in **every** possible diagram.
+
+**Conclusion.** Each type needs a table or a diagram, and the answer is read from the picture, never guessed.
