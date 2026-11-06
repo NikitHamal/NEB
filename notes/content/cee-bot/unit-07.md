@@ -896,3 +896,81 @@ f.text(150, 214, "time = fraction of cells x 20 h", size=10.5, color=SLATE, bold
 **11.** (a) — Each meiosis with a crossover yields 2 recombinant chromatids out of 4, so 20 % × ½ = 10 %.
 **12.** (c) — After meiosis I each cell has 4 chromosomes, each with 2 chromatids: 8 chromatids at metaphase II.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the ultrastructure and functions of the cell organelles of a eukaryotic plant cell. <span class="marks">[10]</span>
+2. Describe the stages of mitosis and meiosis and compare them with their significance. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="3" ratio="1.25" caption="Cells under the microscope. (a) Dividing cells of an onion root tip show the stages of mitosis. (b) Plasmolysis: the protoplast shrinks away from the cell wall in a strong salt solution. (c) A scanning electron micrograph of pollen grains shows the sculptured outer wall (exine)."
+@ photo id="qbank/onion-mitosis" cap="(a) Mitosis in onion root tip"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/plasmolysis" cap="(b) Plasmolysis"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/pollen-sem" cap="(c) Pollen (SEM)"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: the plant cell and its organelles (10 marks)
+
+**Introduction.** The **cell theory** (Schleiden and Schwann, 1838; Virchow, 1855) says that all organisms are made of cells, that the cell is the basic unit of life and that cells arise from pre-existing cells. A plant cell is eukaryotic, with a rigid wall and a large vacuole.
+
+| Organelle | Structure | Function |
+|---|---|---|
+| **Cell wall** | cellulose, hemicellulose, pectin, middle lamella | shape, protection, strength |
+| **Plasma membrane** | fluid mosaic of lipid bilayer and proteins | selective permeability |
+| **Nucleus** | double envelope with pores, nucleoplasm, nucleolus, chromatin | control, DNA, rRNA synthesis |
+| **Endoplasmic reticulum** | rough (with ribosomes) and smooth | protein synthesis and lipid synthesis |
+| **Golgi apparatus** | stacked cisternae | modifies and packs, forms lysosomes |
+| **Mitochondria** | double membrane, cristae, matrix | aerobic respiration, ATP |
+| **Chloroplast** | double membrane, grana (thylakoids), stroma | photosynthesis |
+| **Ribosomes** | $80\text{S}$ (large $60\text{S}$ + small $40\text{S}$) | protein synthesis |
+| **Vacuole** | tonoplast, cell sap | turgor, storage |
+| **Lysosome** | single membrane with hydrolytic enzymes | digestion (rare in plants) |
+| **Peroxisome** | single membrane | photorespiration |
+| **Cytoskeleton** | microtubules, microfilaments | shape, movement, spindle |
+
+**Points of importance.**
+
+1. **Fluid mosaic model** (Singer and Nicolson, 1972) of the membrane. Transport can be passive (diffusion, osmosis, facilitated) or active (pumps, using ATP).
+2. **Endosymbiotic theory** (Lynn Margulis): mitochondria and chloroplasts arose from engulfed prokaryotes, because they have their own circular DNA and $70\text{S}$ ribosomes and divide by fission.
+3. **Animal and plant cells differ:** animal cells have no cell wall, no plastid, small vacuoles and have centrioles.
+4. **Plastids:** chloroplasts (green), chromoplasts (colour of fruits and flowers) and leucoplasts (storage, for example amyloplast).
+
+**Numerical.** A cell with a solute potential of $-0.8\ \text{MPa}$ and a pressure potential of $+0.5\ \text{MPa}$ has a water potential $\Psi = -0.8 + 0.5 = -0.3\ \text{MPa}$. Magnification $= \dfrac{\text{image size}}{\text{actual size}}$, so a cell of $50\ \mu\text{m}$ drawn at $5\ \text{cm}$ has a magnification of $\dfrac{50\,000}{50} = 1000\times$.
+
+**Conclusion.** Each organelle has a specialised structure and function, and mitochondria and chloroplasts show their origin from free-living prokaryotes.
+
+### Model answer D2: mitosis and meiosis (10 marks)
+
+**Introduction.** The **cell cycle** has **interphase** ($G_1$, $S$ where DNA doubles, $G_2$) and the **M phase** (division). Division by **mitosis** gives two identical diploid cells, and **meiosis** gives four haploid cells.
+
+**Mitosis.** (Equational division, in somatic cells.)
+
+1. **Prophase:** chromatin condenses into chromosomes, each of two sister chromatids, and the nucleolus and nuclear envelope disappear. The spindle forms.
+2. **Metaphase:** chromosomes line up at the equator, attached to the spindle by the centromere (kinetochore).
+3. **Anaphase:** the centromeres split and the chromatids move to opposite poles.
+4. **Telophase:** chromosomes uncoil, the nuclear envelope reforms, and **cytokinesis** follows (by a cell plate in plants).
+
+**Meiosis.** (Reductional division, in the formation of gametes and spores, with two divisions.)
+
+- **Meiosis I** has a long **prophase I**: leptotene, zygotene (synapsis, forming bivalents), **pachytene** (**crossing over** between non-sister chromatids), diplotene (chiasmata appear) and diakinesis. Then metaphase I, anaphase I (homologous chromosomes separate) and telophase I give two haploid cells.
+- **Meiosis II** is like mitosis, and separates the chromatids, giving $4$ haploid cells.
+
+| Feature | Mitosis | Meiosis |
+|---|---|---|
+| Site | somatic cells | germ cells |
+| Number of divisions | one | two |
+| Daughter cells | two, diploid | four, haploid |
+| Genetic nature | identical | different (crossing over, independent assortment) |
+| Synapsis and crossing over | absent | present |
+| Role | growth, repair, asexual reproduction | gamete formation, variation |
+
+**Significance.** Mitosis keeps the chromosome number constant and enables growth and repair. Meiosis halves the chromosome number so that fertilisation restores it, and gives **variation** through crossing over and independent assortment. Errors cause non-disjunction (Down syndrome, trisomy 21).
+
+**Numerical.** A cell with $2n = 46$ (human) gives $46$ in each daughter cell by mitosis and $23$ in each gamete by meiosis. The number of possible chromosome combinations in gametes is $2^{23} = 8.4$ million, before crossing over. A cell with $2n = 14$ (pea) has $2^7 = 128$ combinations.
+
+**Conclusion.** Mitosis preserves the chromosome number, and meiosis reduces it and creates variation.

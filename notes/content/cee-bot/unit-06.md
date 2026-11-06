@@ -827,3 +827,74 @@ form.
 **11.** (c) — pH 3 is 10⁻³ mol L⁻¹ and pH 5 is 10⁻⁵ mol L⁻¹: a fall by a factor of 100.
 **12.** (b) — Biomass accumulates in the trees and soil organic matter from litter, so both rise.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the structure and function of an ecosystem: energy flow, food chains, ecological pyramids and nutrient cycling. <span class="marks">[10]</span>
+2. Describe ecological succession, the major vegetation types of Nepal and the attributes of a population. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="2" ratio="1.4" caption="Ecosystems. (a) A pond is a self-contained aquatic ecosystem with producers (algae, plants), consumers and decomposers. (b) A bee visiting a rose shows the interaction of pollinators and plants, a mutualism that sustains the food web."
+@ photo id="ceebot/pond" cap="(a) Pond ecosystem"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/bee-rose" cap="(b) Plant-pollinator mutualism"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: ecosystem structure, energy flow and nutrient cycling (10 marks)
+
+**Introduction.** An **ecosystem** (Tansley, 1935) is a functional unit of nature consisting of the living community (biotic) and its non-living environment (abiotic), interacting with each other.
+
+**Components.** (1) **Abiotic:** light, temperature, water, soil and minerals. (2) **Producers:** green plants and algae. (3) **Consumers:** primary (herbivores), secondary and tertiary (carnivores), and omnivores. (4) **Decomposers:** bacteria and fungi, which release minerals back.
+
+**Energy flow.** The sun is the source, and only about $1\%$ of the incident light is fixed in photosynthesis. Energy flows in **one direction** (it is not recycled), and at each trophic level much is lost as heat in respiration.
+
+1. **Gross primary productivity (GPP)** is the total organic matter made by producers. **Net primary productivity** $\text{NPP} = \text{GPP} - R$, the energy available to consumers.
+2. **Lindeman's 10% law:** only about $10\%$ of the energy passes from one trophic level to the next.
+3. **Food chain:** grass → grasshopper → frog → snake → eagle (grazing food chain). In a **detritus food chain** the dead matter is the start.
+4. A **food web** is the network of interlinked food chains and gives stability.
+
+**Ecological pyramids.**
+
+| Pyramid | Shape in a grassland | Shape in a pond | Reason |
+|---|---|---|---|
+| Number | upright | may be inverted (a tree with many insects) | |
+| Biomass | upright | inverted in the sea (phytoplankton) | |
+| Energy | always upright | always upright | energy is lost at each step |
+
+**Nutrient cycling.** Minerals move between the living and non-living in **biogeochemical cycles**. In the **carbon cycle** CO₂ is fixed in photosynthesis and returned by respiration, decay and burning. In the **nitrogen cycle**: nitrogen fixation (*Rhizobium*, *Azotobacter*, lightning), ammonification, nitrification (*Nitrosomonas* then *Nitrobacter*) and denitrification (*Pseudomonas*).
+
+**Numerical.** If producers have $10\,000\ \text{kJ}$ of energy, the primary consumers get $1000\ \text{kJ}$, the secondary consumers $100\ \text{kJ}$ and the tertiary consumers $10\ \text{kJ}$. For GPP $= 20\,000$ and respiration $= 8000\ \text{kcal m}^{-2}\text{y}^{-1}$, $\text{NPP} = 12\,000$.
+
+**Conclusion.** Energy flows in one direction and is lost at each step, while nutrients are cycled again and again.
+
+### Model answer D2: succession, vegetation and populations (10 marks)
+
+**Introduction.** **Ecological succession** is the orderly, gradual and predictable replacement of one community by another until a stable **climax community** is reached.
+
+**Types and stages.**
+
+1. **Primary succession** starts on a bare area with no soil (new rock, lava, a dry pond). **Pioneer** species (lichens and algae) are followed by mosses, herbs, shrubs and trees. Lichens secrete acids that weather the rock.
+2. **Secondary succession** occurs where soil exists after a disturbance (an abandoned field, a fire), and is faster.
+3. **Hydrosere** begins in water: phytoplankton → submerged → floating → reed swamp → sedge-meadow → woodland. **Xerosere** begins on dry rock.
+
+During succession the biomass, species diversity and complexity rise, and the community modifies the environment so much that it favours the next seral stage.
+
+**Vegetation of Nepal.** The altitude gives a range from tropical to alpine.
+
+| Zone (altitude) | Vegetation |
+|---|---|
+| Tropical, Terai (below $1000$ m) | sal (*Shorea robusta*) forest, grasslands in Chitwan |
+| Subtropical ($1000$ to $2000$ m) | *Schima-Castanopsis*, chir pine |
+| Temperate ($2000$ to $3000$ m) | oak, rhododendron (the national flower, *lali gurans*) |
+| Subalpine ($3000$ to $4000$ m) | fir, birch, juniper |
+| Alpine (above $4000$ m) | alpine meadows and shrubs |
+
+**Population attributes.** Natality, mortality, age structure, sex ratio and density. Growth is **exponential** ($\dfrac{dN}{dt} = rN$, J-shaped, in unlimited conditions) or **logistic** ($\dfrac{dN}{dt} = rN\left(\dfrac{K - N}{K}\right)$, S-shaped, with a carrying capacity $K$). Interactions: competition, predation, parasitism, mutualism, commensalism and amensalism.
+
+**Biodiversity.** Nepal is only $0.1\%$ of the world's land but holds about $3\%$ of its flowering plants. It has protected areas (Chitwan, Sagarmatha) covering about $23\%$ of the land and is a biodiversity hotspot of the Himalaya.
+
+**Numerical.** A population of $100$ with a growth rate $r = 0.1\ \text{per year}$ in exponential growth is $100e^{1} = 272$ after $10$ years. For logistic growth with $K = 1000$ and $N = 500$, $\dfrac{dN}{dt} = 0.1\times500\times0.5 = 25$ per year, the maximum rate.
+
+**Conclusion.** Succession ends in a stable climax, and populations grow logistically up to the carrying capacity of the environment.

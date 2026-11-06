@@ -612,3 +612,91 @@ zygospore gives a germ sporangium with **many** spores.
 **7.** (c) — Spiral chloroplasts, a mucilage sheath and scalariform conjugation identify *Spirogyra*. *Ulothrix* has a girdle chloroplast, *Oedogonium* a reticulate one, and *Cladophora* is branched.
 **8.** (a) — The filament is haploid (n = 12); fusion of two gametes gives a 2n = 24 zygospore; zygotic meiosis restores n = 12 in the new filament.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure, reproduction and economic importance of fungi, with *Mucor* (or *Rhizopus*) as the example, and the structure and importance of lichens. <span class="marks">[10]</span>
+2. Describe the thallus structure, reproduction and economic importance of algae, with *Spirogyra* as the example. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.25" caption="Fungi, lichens and algae. (a) Mucor: coenocytic hyphae with sporangia on sporangiophores. (b) A crustose lichen, Rhizocarpon, a partnership of a fungus and an alga. (c) Spirogyra, with its spiral ribbon-shaped chloroplasts."
+@ photo id="cee-bot/mucor" cap="(a) Mucor"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/rhizocarpon" cap="(b) Lichen"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/spirogyra-chl" cap="(c) Spirogyra"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: fungi and lichens (10 marks)
+
+**Introduction.** **Fungi** are non-green, eukaryotic, heterotrophic organisms. Their cell wall is made of **chitin**, and their food is stored as glycogen and oil. The study of fungi is **mycology**.
+
+**General characters.** The body is a **mycelium** of threads (hyphae), which are septate (Penicillium, mushroom) or non-septate and coenocytic (Mucor). They feed by absorption as saprophytes, parasites or symbionts.
+
+**Mucor.**
+
+1. **Habitat:** saprophyte on bread, dung and fruits.
+2. **Vegetative:** branched, coenocytic mycelium.
+3. **Asexual reproduction:** non-motile **sporangiospores** in a globose sporangium on a sporangiophore, with a **columella**.
+4. **Sexual reproduction:** two compatible hyphae form **gametangia** that fuse (conjugation) into a **zygospore** with a thick wall, which germinates by meiosis. It is heterothallic ($+$ and $-$ strains).
+
+**Classes.**
+
+| Class | Spores | Examples |
+|---|---|---|
+| Phycomycetes (Zygomycetes) | zygospore | Mucor, Rhizopus |
+| Ascomycetes | ascospores in asci | yeast, Penicillium, Aspergillus, Neurospora |
+| Basidiomycetes | basidiospores | mushroom (Agaricus), rusts, smuts |
+| Deuteromycetes | no sexual stage known | Alternaria, Colletotrichum |
+
+**Importance.**
+
+1. Yeast for bread, alcohol and beer, and Penicillium for **penicillin**.
+2. Edible mushrooms, and Nepal's valuable *Ophiocordyceps sinensis* (yarsagumba), the caterpillar fungus.
+3. Decomposers that recycle nutrients.
+4. Plant diseases: rust and smut of wheat, late blight of potato, and also human diseases such as ringworm and candidiasis.
+5. Mycorrhiza that help roots absorb phosphate.
+6. Aflatoxin from *Aspergillus* in stored grain is a poison and a carcinogen.
+
+**Lichens.** A **symbiotic association of an alga (phycobiont) and a fungus (mycobiont)**. The alga makes food and the fungus gives support, water and minerals. The thallus may be **crustose** (Rhizocarpon, flat crust), **foliose** (leaf-like, Parmelia) or **fruticose** (shrubby, Usnea). They reproduce by soredia and isidia. Importance: **pollution indicators** (sensitive to SO₂), pioneers on bare rock (primary succession), dyes (litmus from *Roccella*) and food (reindeer moss), and some are medicinal.
+
+**Numerical.** A fungus with $1$ spore germinating to form a colony of $10^9$ spores in $3$ days means one sporangium may contain $50\,000$ spores, so $20$ sporangia give $10^6$ spores, which explains how fast moulds spoil food.
+
+**Conclusion.** Fungi are chitin-walled heterotrophs that decompose and parasitise, and lichens are dual organisms useful as pollution indicators.
+
+### Model answer D2: algae (10 marks)
+
+**Introduction.** **Algae** are simple, chlorophyll-bearing, thalloid plants with no true roots, stems or leaves, and the reproductive organs are not covered by a sterile jacket. The study of algae is **phycology**.
+
+**Classification by pigment and food.**
+
+| Class | Pigments | Reserve food | Examples |
+|---|---|---|---|
+| Chlorophyceae (green) | chlorophyll a, b | starch | Spirogyra, Chlamydomonas, Ulothrix |
+| Phaeophyceae (brown) | chlorophyll a, c, fucoxanthin | laminarin, mannitol | Laminaria, Fucus, Sargassum |
+| Rhodophyceae (red) | chlorophyll a, d, phycoerythrin | floridean starch | Polysiphonia, Gelidium |
+
+**Spirogyra** (a freshwater green alga, "pond silk").
+
+1. **Thallus:** an unbranched filament of cylindrical cells covered by a mucilage layer, with **spiral, ribbon-shaped chloroplasts** containing pyrenoids, and a central nucleus in a cytoplasmic sling.
+2. **Vegetative reproduction:** fragmentation of the filament.
+3. **Asexual:** aplanospores and akinetes in some species.
+4. **Sexual (conjugation):** **scalariform** (between two filaments, with conjugation tubes in a ladder-like form) or **lateral** (between neighbouring cells of the same filament). The male gamete (amoeboid) passes through the tube into the female cell, forming a **zygospore** with a thick wall that survives bad conditions and germinates by meiosis into new filaments.
+
+**Life cycle.** Haplontic: the vegetative filament is haploid and only the zygote is diploid, with zygotic meiosis.
+
+**Economic importance.**
+
+1. Food: *Chlorella* and *Spirulina* (rich in protein), and *Porphyra* (nori).
+2. **Agar** from *Gelidium*, **algin** from brown algae, **carrageenan** from red algae, and iodine from kelp.
+3. Fixation of CO₂, with about half of the world's photosynthesis done by algae, and a major source of oxygen.
+4. Food for fish and aquatic animals; **biofertiliser** (Anabaena, Nostoc).
+5. Research tools (*Chlorella* in photosynthesis studies).
+6. Harmful: algal bloom (eutrophication) gives toxins that kill fish, as in nutrient-rich lakes like Phewa and Begnas.
+
+**Numerical.** If $1$ g of dry alga yields $0.4$ g of agar, then $250$ g of *Gelidium* gives $100$ g. A filament of $200$ cells with $20\ \mu\text{m}$ long cells measures $4\ \text{mm}$.
+
+**Conclusion.** Algae are autotrophic thalloid plants classified by pigment, and Spirogyra shows a clear case of conjugation and zygotic meiosis.

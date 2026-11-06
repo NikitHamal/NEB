@@ -700,3 +700,90 @@ dissolve blood clots.
 **7.** (c) — Calcium is immobile; its deficiency kills meristems and causes blossom-end rot of tomato while old leaves stay normal. N, Mg and K are mobile and would show in old leaves first.
 **8.** (b) — Benedict-positive means reducing (rules out sucrose); iodine-negative rules out starch; a fast cherry-red Seliwanoff's reaction marks a ketose. Glucose, an aldose, reacts only slowly and faintly.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify carbohydrates, lipids and proteins with their structure, tests and functions. <span class="marks">[10]</span>
+2. Define enzymes, describe their properties, mechanism, classification and inhibition, with the Michaelis-Menten relation. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="2" ratio="1.4" caption="Biomolecules in plants. (a) Starch grains stained with iodine are blue-black, the standard test for this storage polysaccharide. (b) A germinating bean seed uses amylases and proteases to break down its stored food for the embryo."
+@ photo id="ceebot/starch" cap="(a) Starch grains (iodine test)"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/bean-germ" cap="(b) Germination: enzymes at work"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: carbohydrates, lipids and proteins (10 marks)
+
+**Introduction.** **Biomolecules** are the organic compounds that make up living matter. Carbohydrates, lipids and proteins are the major macromolecules, with nucleic acids.
+
+**Carbohydrates.** Polyhydroxy aldehydes or ketones with the general formula $\text{C}_x(\text{H}_2\text{O})_y$.
+
+1. **Monosaccharides** (glucose, fructose, ribose) are the simplest sugars and are reducing sugars. Glucose has an open-chain and a ring form ($\alpha$ and $\beta$ anomers).
+2. **Disaccharides** have two units joined by a **glycosidic bond**: sucrose (glucose + fructose, non-reducing), maltose (glucose + glucose) and lactose (glucose + galactose).
+3. **Polysaccharides:** starch (storage in plants, amylose and amylopectin), glycogen (storage in animals and fungi), cellulose (structure of the plant cell wall, $\beta$-1,4 links) and chitin.
+
+**Lipids.** Compounds insoluble in water and soluble in organic solvents. **Fats and oils** are triglycerides (glycerol + 3 fatty acids). **Phospholipids** (with a phosphate head) form cell membranes. Waxes (cuticle) and steroids (cholesterol) are other types. Saturated fats have no double bonds and are solid, while unsaturated ones are usually liquid. Fats give $9\ \text{kcal g}^{-1}$ against $4\ \text{kcal g}^{-1}$ for carbohydrates and proteins.
+
+**Proteins.** Polymers of **amino acids** joined by **peptide bonds** (CO-NH). Twenty amino acids occur.
+
+| Level | Description | Held by |
+|---|---|---|
+| Primary | sequence of amino acids | peptide bonds |
+| Secondary | $\alpha$-helix, $\beta$-sheet | hydrogen bonds |
+| Tertiary | 3-D folding of one chain | disulphide, ionic, hydrophobic bonds |
+| Quaternary | several chains (haemoglobin) | same weak bonds |
+
+**Biochemical tests.**
+
+| Test | Reagent | Positive result for |
+|---|---|---|
+| Iodine | $\text{I}_2/\text{KI}$ | starch, blue-black |
+| Benedict's / Fehling's | heat | reducing sugar, brick-red precipitate |
+| Biuret | NaOH + CuSO₄ | protein, violet |
+| Sudan III | stain | fats, red |
+| Ninhydrin | heat | amino acids, purple |
+
+**Functions.** Energy (glucose, fats), structure (cellulose, proteins), storage, enzymes and hormones, transport, defence and genetic information.
+
+**Numerical.** A tripeptide of three amino acids has $2$ peptide bonds and is formed by losing $2$ molecules of water. A protein chain of $100$ amino acids has $99$ peptide bonds. A diet with $300\ \text{g}$ of carbohydrate, $60\ \text{g}$ of protein and $70\ \text{g}$ of fat gives $4(360) + 9(70) = 2070\ \text{kcal}$.
+
+**Conclusion.** Carbohydrates mainly supply energy and support, lipids store energy and form membranes, and proteins do most of the structural and catalytic work.
+
+### Model answer D2: enzymes (10 marks)
+
+**Introduction.** **Enzymes** are biological catalysts, mostly globular proteins, which speed up reactions by lowering the **activation energy** without being used up. A few are RNA (ribozymes).
+
+**Properties.**
+
+1. **Highly specific** for substrate and reaction (lock and key or induced fit).
+2. **Very efficient:** one catalase molecule decomposes millions of H₂O₂ molecules per minute.
+3. **Work in small quantities** and are not consumed.
+4. **Sensitive to temperature:** the optimum for human enzymes is $37^{\circ}\text{C}$, and high heat denatures them.
+5. **Sensitive to pH:** pepsin pH $2$, trypsin pH $8$, salivary amylase pH $6.8$.
+6. They do not alter the equilibrium, only the rate.
+
+**Mechanism.** E + S ⇌ ES → E + P. The substrate binds at the **active site**, and in the induced-fit model the site changes shape to hold the substrate.
+
+**Michaelis-Menten equation.** $V = \dfrac{V_{max}[S]}{K_m + [S]}$. $K_m$ is the substrate concentration giving half the maximum velocity, and a low $K_m$ means a high affinity.
+
+**Classification.**
+
+| Class | Reaction | Example |
+|---|---|---|
+| Oxidoreductases | oxidation-reduction | dehydrogenases, catalase |
+| Transferases | group transfer | transaminase |
+| Hydrolases | hydrolysis | amylase, lipase, protease |
+| Lyases | non-hydrolytic removal of a group | decarboxylase |
+| Isomerases | rearrangement | phosphoglucose isomerase |
+| Ligases | joining using ATP | DNA ligase |
+
+**Cofactors.** A **cofactor** may be a metal ion (Zn²⁺, Mg²⁺), a coenzyme (NAD⁺, FAD, derived from vitamins) or a prosthetic group (haem). The protein part without its cofactor is an apoenzyme, and the complete active enzyme is a holoenzyme.
+
+**Inhibition.** **Competitive** inhibitors resemble the substrate and bind the active site, so $K_m$ increases and $V_{max}$ stays the same (malonate for succinate dehydrogenase). **Non-competitive** inhibitors bind elsewhere, so $V_{max}$ falls and $K_m$ stays the same. **Feedback inhibition** controls metabolic pathways.
+
+**Numerical.** If $V_{max} = 100\ \mu\text{mol min}^{-1}$ and $K_m = 2\ \text{mM}$, then at $[S] = 2\ \text{mM}$, $V = 50$, and at $[S] = 8\ \text{mM}$, $V = \dfrac{100\times8}{2 + 8} = 80\ \mu\text{mol min}^{-1}$. At very high $[S]$ the rate approaches $100$, as all the active sites are saturated.
+
+**Conclusion.** Enzymes speed up metabolism by lowering activation energy with high specificity, and their activity is regulated by temperature, pH, inhibitors and substrate concentration.
