@@ -1130,3 +1130,133 @@ pollution is Nepal's largest single risk factor for death and disability.
 electric public transport; zig-zag brick kilns; green belts and afforestation;
 enforcement of the Environment Protection Act, 2076 (2019).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the adaptations of animals to aquatic, desert and cold (high-altitude) environments with examples from Nepal. <span class="marks">[10]</span>
+2. What is animal behaviour? Describe innate and learned behaviour with examples, including Pavlov's experiment. <span class="marks">[10]</span>
+3. What is environmental pollution? Describe the causes, effects and control of air and water pollution, and give eight points on the effects. <span class="marks">[10]</span>
+
+### Model answer D1: animal adaptations (10 marks)
+
+**Introduction.** An **adaptation** is an inherited structural, physiological or behavioural feature that helps an organism to survive and reproduce in its environment. Adaptations arise through natural selection over many generations.
+
+**1. Aquatic adaptations (fish, e.g. the rohu and the Ganges river dolphin).**
+
+- **Streamlined, fusiform body** reduces the drag.
+- **Fins and a tail** for swimming and balance.
+- **Gills** for breathing dissolved oxygen.
+- A **swim bladder** to control buoyancy.
+- **Lateral line** to sense vibrations and currents.
+- **Slimy scales** reduce friction. The **Ganges dolphin** (*Platanista gangetica*) of Nepal's Karnali and Koshi is nearly blind and uses **echolocation** in murky water.
+
+**2. Desert adaptations (camel, kangaroo rat; in Nepal, the arid Mustang region).**
+
+- **Water conservation:** a camel can lose 25% of its body weight in water and drink 100 litres rapidly; the kangaroo rat gets water from its metabolism and passes concentrated urine.
+- **Thick skin and fur** insulate against heat; the **hump** stores fat.
+- **Broad, padded feet** avoid sinking in sand.
+- **Nocturnal habits:** rest in burrows by day.
+- Long **eyelashes** and closable nostrils keep out sand.
+
+**3. Cold and high-altitude adaptations (yak, snow leopard, Himalayan tahr, bar-headed goose).**
+
+- **Thick fur or wool** and a layer of fat (**blubber**) for insulation.
+- **Large lungs and heart, and high haemoglobin** with high oxygen affinity let the **yak** live at 4000 to 6000 m.
+- **Small ears and tails** reduce heat loss (Allen's rule); a large body gives a low surface area to volume ratio (Bergmann's rule).
+- **Broad, furry paws** of the snow leopard act like snow shoes, and a long tail is used for balance and as a warm wrap.
+- **Hibernation** (Himalayan black bear) or **migration** (bar-headed geese fly over Everest).
+- **White winter coat** for camouflage in the stoat.
+
+**4. Arboreal and other types.** Monkeys have prehensile tails; bats have wings, and echolocation; the chameleon changes colour.
+
+| Habitat | Example | Key adaptation |
+|---|---|---|
+| Water | Rohu, dolphin | Streamlined body, gills or echolocation |
+| Desert | Camel | Water storage, fat in the hump, padded feet |
+| Cold high altitude | Yak, snow leopard | Thick fur, big lungs, high haemoglobin |
+| Trees | Monkey | Grasping hands and tail |
+
+**Types of adaptation.** **Structural** (the shape of a beak), **physiological** (concentrated urine, high haemoglobin) and **behavioural** (migration, burrowing, hibernation).
+
+**Conclusion.** Every habitat shapes its animals. The features that are useful in one place, such as the fur of the snow leopard or the fins of fish, would be a disadvantage elsewhere.
+
+### Model answer D2: animal behaviour (10 marks)
+
+**Introduction.** **Animal behaviour** is everything an animal does in response to a stimulus, internal or external. The science of it is **ethology**, and its pioneers, **Konrad Lorenz, Niko Tinbergen and Karl von Frisch**, shared the Nobel Prize in 1973.
+
+**A. Innate (instinctive) behaviour.** This is **inborn, genetically determined**, and present without learning, and it is typical of the species.
+
+1. **Reflex actions:** a quick automatic response, such as withdrawing from a hot object.
+2. **Taxis:** movement towards or away from a stimulus (moths towards light, positive phototaxis).
+3. **Kinesis:** change in the rate of movement, as of woodlice in dry conditions.
+4. **Instincts (fixed action patterns):** a complex, stereotyped sequence, such as the building of a web by a spider, the honeybee's waggle dance, or a newly hatched turtle heading for the sea.
+
+**B. Learned behaviour.** This is **acquired by experience**.
+
+1. **Habituation:** learning to ignore a harmless repeated stimulus (pigeons in the Kathmandu Durbar Square ignore people).
+2. **Imprinting (Lorenz):** a young animal follows the first moving object it sees; goslings followed Lorenz as "mother" in a critical period after hatching.
+3. **Classical conditioning (Pavlov):** a new stimulus is linked to a reflex.
+4. **Operant conditioning (Skinner):** learning by reward or punishment; a rat presses a lever to get food.
+5. **Trial-and-error learning:** a cat learns to open the door of a puzzle box.
+6. **Insight learning:** solving a new problem by reasoning; a chimpanzee stacks boxes to reach a banana (Köhler).
+
+**Pavlov's experiment.** The Russian physiologist **Ivan Pavlov** worked with a dog.
+
+- **Before conditioning:** food (**unconditioned stimulus, US**) → salivation (**unconditioned response, UR**). A bell (neutral stimulus) → no salivation.
+- **During:** the bell was rung just before the food, again and again.
+- **After conditioning:** the **bell alone (conditioned stimulus, CS)** → salivation (**conditioned response, CR**).
+- If the bell is rung many times without food the response fades (**extinction**).
+
+**Social behaviour.** Honeybees (the waggle dance shows direction and distance to flowers), ants and termites live in colonies with division of labour; animals use **pheromones** to communicate; **migration** and **territorial** behaviour are further examples.
+
+| Feature | Innate | Learned |
+|---|---|---|
+| Origin | Genes | Experience |
+| Needs practice? | No | Yes |
+| Variation | Same in all members | Varies between individuals |
+| Example | Spider web | Dog trained to follow commands |
+| Can change? | Little | Easily |
+
+**Conclusion.** Behaviour helps animals to find food, avoid danger and reproduce. Innate behaviour gives an immediate response, and learning lets the animal adjust to a changing environment.
+
+### Model answer D3: environmental pollution (10 marks)
+
+**Introduction.** **Pollution** is the addition of harmful substances (**pollutants**) to the air, water or soil in amounts that harm living things or the environment. Pollutants may be **primary** (CO from vehicles) or **secondary** (ozone, smog), **degradable** or **non-degradable** (plastics, DDT).
+
+**Air pollution.**
+
+- **Causes:** vehicle exhausts (CO, NOₓ, particulate matter PM2.5), burning fuel wood and crop residue, brick kilns, factories (SO₂), forest fires and dust. In Kathmandu, the valley's bowl shape traps the pollutants in winter, and the AQI often rises above 200.
+- **Effects:** **asthma, bronchitis, lung cancer** and heart disease; **acid rain** (SO₂, NOₓ) damages monuments and soil; **ozone depletion** by CFCs; **global warming**; reduced visibility (smog).
+
+**Water pollution.**
+
+- **Causes:** untreated **sewage** and wastewater discharged into the Bagmati and Bishnumati; industrial effluents with heavy metals; fertiliser and pesticide runoff; solid waste; oil spills; **thermal pollution**.
+- **Effects:** water-borne diseases (**cholera, typhoid, dysentery, hepatitis A**); **eutrophication** (algal bloom lowers oxygen, killing fish); **biomagnification** of DDT and mercury (Minamata disease); loss of aquatic life.
+- **BOD (biochemical oxygen demand):** the oxygen that microbes need to decompose organic matter in the water. A high BOD means highly polluted water.
+
+**Eight effects of pollution.**
+
+1. Lung and heart diseases from fine dust.
+2. Water-borne epidemics.
+3. Death of fish and loss of biodiversity.
+4. Acid rain and damage to buildings and forests.
+5. Ozone layer thinning leads to skin cancer.
+6. Global warming and climate change.
+7. Soil infertility from chemicals.
+8. Economic losses from health bills and reduced tourism.
+
+**Control measures.**
+
+- **Air:** emission standards for vehicles, **electric vehicles**, a ban on old vehicles, **cleaner brick kilns**, planting trees, use of **LPG, biogas and electric stoves**, and avoiding open burning of waste.
+- **Water:** **sewage treatment plants**, banning the dumping of waste, **river cleaning campaigns** such as the Bagmati clean-up, treating industrial effluent, organic farming and **water-quality monitoring**.
+- **Law and awareness:** the **Environment Protection Act** of Nepal and "polluter pays" principle, education.
+
+| Pollutant | Source | Main effect |
+|---|---|---|
+| CO | Vehicles | Binds with haemoglobin; reduces the oxygen carried |
+| SO₂ | Coal, factories | Acid rain |
+| PM2.5 | Dust, burning | Lung disease |
+| Nitrates and phosphates | Fertilisers, detergents | Eutrophication |
+| Heavy metals | Industry | Poisoning, biomagnification |
+
+**Conclusion.** Pollution harms human health and the ecosystem. Cleaner energy, treatment of waste and public awareness are the best methods of control.

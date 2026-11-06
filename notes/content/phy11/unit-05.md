@@ -801,3 +801,104 @@ the bodies exchange velocities.
 $K_i = \frac{1}{2}(5)(16) = 40\ \text{J}$, $K_f = \frac{1}{2}(8)(2.5)^{2} = 25\ \text{J}$,
 so the loss is $15\ \text{J}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove the work-energy theorem. Also derive expressions for kinetic energy and gravitational potential energy. <span class="marks">[10]</span>
+2. State the law of conservation of mechanical energy and verify it for a freely falling body and for a simple pendulum. <span class="marks">[10]</span>
+3. Define power and efficiency. Calculate the power of a pump that raises water, and give eight uses of the concept of power in daily life. <span class="marks">[10]</span>
+
+### Model answer D1: work-energy theorem (10 marks)
+
+**Introduction.** **Work** is done when a force produces a displacement: $W = Fs\cos\theta$ for a constant force, with the unit joule (J). It is a scalar. Energy is the capacity to do work.
+
+**Work done by a variable force.** If $F$ changes with position, $W = \int F\,dx$, which is the area under the force-displacement graph.
+
+**Work-energy theorem.** *The work done by the net force on a body is equal to the change in its kinetic energy.*
+
+**Proof.** A constant net force $F$ acts on a body of mass $m$, changing its speed from $u$ to $v$ over a displacement $s$. By Newton's second law, $a = F/m$. By the equation of motion $v^{2} - u^{2} = 2as$,
+
+$$ s = \frac{v^{2} - u^{2}}{2a} \quad\Rightarrow\quad W = Fs = ma\cdot\frac{v^{2} - u^{2}}{2a} = \tfrac{1}{2}mv^{2} - \tfrac{1}{2}mu^{2} $$
+
+So $W = K_{f} - K_{i} = \Delta K$.
+
+**Kinetic energy.** It is the energy due to motion. Putting $u = 0$ in the above gives $K = \tfrac{1}{2}mv^{2}$. In terms of momentum, $K = p^{2}/2m$.
+
+**Potential energy.** It is the energy due to position or configuration. To lift a mass $m$ slowly through a height $h$ the work done against gravity is $mgh$, which is stored as the **gravitational potential energy**: $U = mgh$. For a spring stretched by $x$, the energy is $U = \tfrac{1}{2}kx^{2}$.
+
+| Form | Formula | Depends on |
+|---|---|---|
+| Kinetic energy | $\tfrac{1}{2}mv^{2}$ | Mass and speed |
+| Gravitational PE | $mgh$ | Mass and height |
+| Elastic PE | $\tfrac{1}{2}kx^{2}$ | Stretch and spring constant |
+
+**Numerical.** A $1200\ \text{kg}$ car moving at $10\ \text{m s}^{-1}$ is brought to rest by a braking force of $4000\ \text{N}$. Work needed $= \tfrac12\times1200\times100 = 60000\ \text{J}$, so the stopping distance is $s = 60000/4000 = 15\ \text{m}$. If the speed doubles to $20\ \text{m s}^{-1}$ the distance is $60\ \text{m}$, four times as much, because $K \propto v^{2}$.
+
+**Conclusion.** The theorem links force and displacement with the change in speed. It is more convenient than Newton's second law when the force varies or when the time is not known.
+
+### Model answer D2: conservation of mechanical energy (10 marks)
+
+**Introduction.** A force is **conservative** if the work it does in moving a body between two points is independent of the path (gravity, spring force). In that case the energy changes between kinetic and potential forms, while the sum is constant.
+
+**Law.** *If only conservative forces act, the total mechanical energy $E = K + U$ of a body remains constant.*
+
+**Freely falling body.** A body of mass $m$ falls from rest from a height $H$. At a height $h$ above the ground it has fallen a distance $(H - h)$ and its speed is $v^{2} = 2g(H - h)$.
+
+- Potential energy $= mgh$.
+- Kinetic energy $= \tfrac12mv^{2} = mg(H - h)$.
+- Total $= mgh + mg(H - h) = mgH$, a constant.
+At the top, $E = mgH$ (all potential); at the ground, $E = \tfrac12mv^{2}$ with $v = \sqrt{2gH}$ (all kinetic).
+
+| Position | Kinetic energy | Potential energy | Total |
+|---|---|---|---|
+| Top ($h = H$) | 0 | $mgH$ | $mgH$ |
+| Half way | $\tfrac12mgH$ | $\tfrac12mgH$ | $mgH$ |
+| Ground ($h = 0$) | $mgH$ | 0 | $mgH$ |
+
+**Simple pendulum.** A bob of mass $m$ is released from rest at a height $h$ above its lowest point. The tension of the string does no work because it is always perpendicular to the motion. So at the lowest point
+
+$$ mgh = \tfrac{1}{2}mv^{2} \quad\Rightarrow\quad v = \sqrt{2gh} $$
+
+and at the extreme ends the speed is zero, as all the energy is potential.
+
+**Spring.** For a mass on a spring, $\tfrac12mv^{2} + \tfrac12kx^{2}$ is constant, so the speed is greatest at the equilibrium position.
+
+**Numerical.** A pendulum bob is raised $0.45\ \text{m}$ above its lowest position and released. The speed at the bottom is $v = \sqrt{2\times9.8\times0.45} = 2.97\ \text{m s}^{-1}$. A $2\ \text{kg}$ ball dropped from $20\ \text{m}$ reaches the ground with $K = mgH = 2\times9.8\times20 = 392\ \text{J}$ and $v = \sqrt{2\times9.8\times20} = 19.8\ \text{m s}^{-1}$.
+
+**Limitation.** In real motion, friction and air resistance are non-conservative: mechanical energy is lost as heat, but **total energy** (mechanical + heat + sound) is still conserved.
+
+**Conclusion.** For conservative forces, the sum of kinetic and potential energy is constant. This principle gives the speed at any position without the need for time or acceleration.
+
+### Model answer D3: power, efficiency and a pump (10 marks)
+
+**Introduction.** **Power** is the rate of doing work, $P = W/t$, with the unit watt (W = J/s). For a body moving at speed $v$ under a force $F$ in the direction of motion, $P = Fv$. A horse-power equals 746 W.
+
+**Efficiency.** $\eta = \dfrac{\text{useful output}}{\text{input}} \times 100\%$. It is always below 100% because some energy is lost as heat and sound.
+
+**Pump.** A pump that lifts a mass $m$ of water through a height $h$ in a time $t$ does the work $mgh$, so its output power is $P = mgh/t$.
+
+**Numerical.** A pump raises $600\ \text{kg}$ of water per minute through $20\ \text{m}$.
+
+- Work per minute $= 600\times9.8\times20 = 117600\ \text{J}$.
+- Output power $= 117600/60 = 1960\ \text{W}$.
+- If the efficiency is 70%, the input power is $1960/0.70 = 2800\ \text{W}$ (about 3.75 horse-power).
+- Electricity used in 2 hours $= 2.8\ \text{kW}\times2\ \text{h} = 5.6\ \text{kWh}$.
+
+**Eight points on the use of power.**
+
+1. **Electricity bills:** the Nepal Electricity Authority charges per kilowatt-hour, which is the energy of a 1 kW appliance running for an hour.
+2. **Vehicles:** the engine rating (for example 75 kW) shows how quickly the engine does work, and sets the top speed and climbing ability on a hill road.
+3. **Pumps:** a lift irrigation scheme in the Terai needs a pump of the correct power to lift water to a field.
+4. **Hydropower:** the power of a plant is $P = \eta\rho Qgh$, which is how the Kaligandaki and Marsyangdi stations are rated.
+5. **Lifting machines:** a crane or an elevator at a Kathmandu building is chosen by its power rating.
+6. **Human power:** a porter carrying 30 kg up a 500 m climb in an hour can be compared with a machine.
+7. **Appliances:** a 1500 W heater uses 15 times the power of a 100 W bulb and heats the room much faster.
+8. **Energy saving:** replacing a 60 W bulb with a 9 W LED lamp gives the same light and cuts the bill by about 85%.
+
+| Quantity | Symbol | Unit |
+|---|---|---|
+| Work | $W$ | joule (J) |
+| Power | $P$ | watt (W) |
+| Energy in bills | $E$ | kilowatt-hour; $1\ \text{kWh} = 3.6\times10^{6}\ \text{J}$ |
+
+**Conclusion.** Power tells us how fast energy is transferred, and efficiency tells us how much of it is useful. Careful choice of both reduces cost and saves energy.

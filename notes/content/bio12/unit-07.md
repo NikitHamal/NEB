@@ -1114,3 +1114,116 @@ and gonads; endoderm gives the lining of the gut and its glands (liver,
 pancreas) and of the respiratory tract. Mention that the dorsal lip is Spemann's
 organiser and that in this deuterostome the blastopore becomes the anus.
 :::
+
+```photogrid label="7.H" cols="5" ratio="1.0" caption="From gamete to tadpole, left to right: (a) human spermatozoa under the microscope; (b) a fertilised frog egg with the grey crescent; (c) cleavage of the frog egg; (d) the blastopore at gastrulation; (e) the life history of the frog, ending with metamorphosis."
+@ photo id="bio12/sperm" cap="Spermatozoa"
+@ photo id="bio12/frog-gray-crescent" cap="Grey crescent of the zygote"
+@ photo id="bio12/frog-cleavage" cap="Cleavage"
+@ photo id="bio12/frog-blastopore" cap="Blastopore, gastrulation"
+@ photo id="bio12/frog-metamorph" cap="Tadpole to frog"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe spermatogenesis in mammals with the structure of a mature sperm. <span class="marks">[10]</span>
+2. Describe oogenesis in a human female and compare it with spermatogenesis in a table of eight points. <span class="marks">[10]</span>
+3. Describe the development of a frog from fertilisation to the formation of the three germ layers, and give the fate of each layer. <span class="marks">[10]</span>
+
+### Model answer D1: spermatogenesis (10 marks)
+
+**Introduction.** **Spermatogenesis** is the formation of haploid **spermatozoa** from diploid germ cells in the **seminiferous tubules** of the testis. It begins at puberty and continues throughout life, producing about 200 to 300 million sperms a day under the control of FSH and testosterone.
+
+**Site.** Each testis holds hundreds of coiled seminiferous tubules. The wall has **germinal epithelium** (spermatogonia) and the large **Sertoli (nurse) cells**. The **Leydig (interstitial) cells** between the tubules secrete testosterone.
+
+**Three phases.**
+
+1. **Multiplication phase.** The primordial germ cells, the **spermatogonia (2n)**, divide by mitosis and produce many cells. Some remain as stem cells and others grow.
+2. **Growth phase.** A spermatogonium grows in size, stores food and becomes a **primary spermatocyte (2n)**.
+3. **Maturation phase.** The primary spermatocyte divides by **meiosis I** into two **secondary spermatocytes (n)**. Meiosis II then divides each of these into two **spermatids (n)**; so one primary spermatocyte gives **four** spermatids.
+
+**Spermiogenesis (metamorphosis).** The round spermatid is transformed into a sperm without any division: the nucleus condenses to form the head, the **Golgi apparatus forms the acrosome**, the centrioles form the neck and the axial filament of the tail, the mitochondria gather in the middle piece, and most of the cytoplasm is shed. The process of release from the Sertoli cell is **spermiation**.
+
+**Structure of a mature sperm.** It is about 60 micrometres long and has:
+
+- **Head:** a haploid nucleus with an **acrosome** cap of enzymes (hyaluronidase) that digests the egg coverings.
+- **Neck:** contains the proximal centriole.
+- **Middle piece:** a spiral of **mitochondria** that supplies ATP.
+- **Tail:** a long flagellum for swimming.
+
+| Stage | Cell | Chromosome number | Process |
+|---|---|---|---|
+| Multiplication | Spermatogonium | 2n | Mitosis |
+| Growth | Primary spermatocyte | 2n | Growth |
+| Maturation I | Secondary spermatocyte | n | Meiosis I |
+| Maturation II | Spermatid | n | Meiosis II |
+| Transformation | Spermatozoon | n | Spermiogenesis |
+
+**Hormonal control.** The hypothalamus releases GnRH, which stimulates the anterior pituitary to release **FSH** (acts on the Sertoli cells) and **LH/ICSH** (acts on the Leydig cells to release testosterone). Testosterone feeds back to the hypothalamus.
+
+**Conclusion.** Spermatogenesis gives four equal, functional sperms from each primary spermatocyte. They are stored and matured in the epididymis before ejaculation.
+
+### Model answer D2: oogenesis and its comparison with spermatogenesis (10 marks)
+
+**Introduction.** **Oogenesis** is the formation of the haploid **ovum** from a diploid germ cell in the **ovary**. Unlike spermatogenesis, it begins in the *foetus*, pauses for years, and continues only in cycles from puberty to menopause.
+
+**Phases.**
+
+1. **Multiplication.** In the foetal ovary the **oogonia (2n)** divide by mitosis. By birth no more oogonia are formed.
+2. **Growth.** An oogonium grows into a **primary oocyte (2n)** and stores yolk and cytoplasm. It starts meiosis I but stops at **prophase I**, and is surrounded by follicle cells as a **primary follicle**. A girl is born with about 2 million of these, but only about 400,000 are left at puberty, and only around 400 mature in a lifetime.
+3. **Maturation.** At each cycle, under **FSH**, one follicle grows into a **Graafian follicle**. The primary oocyte finishes **meiosis I** just before ovulation, giving one large **secondary oocyte (n)** and a tiny **first polar body**. Meiosis II begins but stops at **metaphase II**.
+4. **Ovulation.** A surge of **LH** ruptures the follicle and the secondary oocyte is released.
+5. **Completion.** Meiosis II finishes **only if a sperm enters**; it produces one **ovum (n)** and a **second polar body**. The first polar body may also divide, so the polar bodies are 2 or 3 in all.
+
+**Structure of the Graafian follicle.** The oocyte is surrounded by the **zona pellucida** (a glycoprotein layer), the **corona radiata**, the **granulosa cells**, the fluid-filled **antrum** and the outer **theca**. After ovulation the follicle becomes the **corpus luteum**, which secretes progesterone.
+
+**Eight points of comparison.**
+
+| No. | Spermatogenesis | Oogenesis |
+|---|---|---|
+| 1 | Occurs in the testis | Occurs in the ovary |
+| 2 | Starts at puberty | Starts in the foetus, completed after fertilisation |
+| 3 | Continues throughout life | Stops at menopause |
+| 4 | One primary spermatocyte gives 4 sperms | One primary oocyte gives 1 ovum and 2-3 polar bodies |
+| 5 | Division of the cytoplasm is equal | Division is unequal |
+| 6 | Growth phase is short, little food stored | Growth phase is long, food (yolk) stored |
+| 7 | Needs a transformation (spermiogenesis) | No transformation |
+| 8 | Millions of gametes formed daily | About one ovum per month |
+
+**Why unequal division.** The ovum must keep all the food reserve to nourish the early embryo; the polar bodies carry the unwanted chromosomes and soon disappear.
+
+**Conclusion.** Oogenesis is slow, produces few but large gametes, and protects them. Spermatogenesis is fast and produces millions of small, motile gametes; both give the same haploid number.
+
+### Model answer D3: development of the frog (10 marks)
+
+**Introduction.** A frog (*Rana tigrina*) shows **indirect development** with a larval stage (tadpole). The egg is **mesolecithal** and **telolecithal**: yolk is concentrated in the **vegetal** half, and the pigmented **animal** half contains the nucleus.
+
+**1. Fertilisation.** It is **external**, in water in the monsoon. The sperm enters the animal half, and the **cortical reaction** raises a fertilisation membrane that blocks other sperms. The pigment moves to form the **grey crescent** on the side opposite the sperm entry, which marks the future dorsal side and the body axis.
+
+**2. Cleavage.** This is a series of rapid mitotic divisions with no growth.
+
+- The first two cleavages are **vertical** and the third is **horizontal, above the equator**; so the 8-cell stage has four small **micromeres** (animal) and four large **macromeres** (vegetal).
+- The cleavage is **holoblastic but unequal**, because yolk slows the vegetal side.
+- The result is a solid ball, the **morula**.
+
+**3. Blastula.** A fluid-filled cavity, the **blastocoel**, forms eccentrically in the animal half. This hollow ball is the **blastula** (about 3,000 cells in the frog).
+
+**4. Gastrulation.** The cells rearrange to form the three germ layers.
+
+1. A dorsal lip of the **blastopore** appears on the grey crescent.
+2. Cells of the animal pole spread over the surface (**epiboly**) and cells roll in over the lip (**involution**).
+3. The new cavity is the **archenteron**, which replaces the blastocoel. The yolk plug marks the blastopore.
+4. The layers formed are the outer **ectoderm**, the inner **endoderm** and the middle **mesoderm**.
+
+**5. Neurulation.** The dorsal ectoderm over the notochord thickens into the **neural plate**, folds to form the **neural tube** (future brain and spinal cord), and closes. The notochord forms from mesoderm.
+
+**Fate of the germ layers.**
+
+| Germ layer | Structures formed |
+|---|---|
+| Ectoderm | Epidermis, nervous system, sense organs, lens of eye |
+| Mesoderm | Muscles, skeleton, heart, blood, kidney, gonads, notochord |
+| Endoderm | Lining of the gut, liver, pancreas, lungs, thyroid |
+
+**6. Hatching and metamorphosis.** The embryo hatches in 6 to 10 days as a tadpole with external gills, which later become internal. During **metamorphosis**, under **thyroxine**, the tail is absorbed, limbs grow, lungs develop, the gut shortens as the diet changes from herbivorous to carnivorous, and the tadpole becomes a frog.
+
+**Conclusion.** The embryo of a frog follows the general pattern of chordate development: zygote, cleavage, blastula, gastrula, neurula and then larva. The frog is therefore a classic model for embryology, and it is a sign of the health of Nepal's wetlands.

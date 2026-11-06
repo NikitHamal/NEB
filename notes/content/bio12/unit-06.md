@@ -855,3 +855,124 @@ enzyme cholinesterase then destroys the transmitter. Transmission is one-way
 because vesicles and transmitter exist only on the presynaptic side and
 receptors only on the postsynaptic side.
 :::
+
+```photogrid label="6.H" cols="5" ratio="1.0" caption="The four basic tissues of the human body, left to right: (a) simple squamous epithelium; (b) simple columnar epithelium with goblet cells; (c) compact bone in section; (d) skeletal muscle with striations; (e) a multipolar motor neuron."
+@ photo id="bio12/squamous-epithelium" cap="Squamous epithelium"
+@ photo id="bio12/columnar-epithelium" cap="Columnar epithelium"
+@ photo id="bio12/compact-bone" cap="Compact bone"
+@ photo id="bio12/skeletal-muscle" cap="Skeletal muscle"
+@ photo id="bio12/neuron-motor" cap="Motor neuron"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify epithelial tissue. Describe the types, structure, location and function of each with examples. <span class="marks">[10]</span>
+2. Describe connective tissue: its general structure, its types, and give eight points of function. <span class="marks">[10]</span>
+3. Describe the three types of muscular tissue and the sliding-filament mechanism of muscle contraction. <span class="marks">[10]</span>
+
+### Model answer D1: epithelial tissue (10 marks)
+
+**Introduction.** **Epithelial tissue** is a sheet of closely packed cells with very little intercellular matrix. It covers the body surface and lines the cavities, ducts and organs. It rests on a **basement membrane** and has no blood vessels (**avascular**); it is fed by diffusion from the connective tissue below.
+
+**Classification.**
+
+1. **Simple epithelium** (one layer): squamous, cuboidal, columnar (with ciliated and glandular varieties).
+2. **Compound (stratified) epithelium** (two or more layers): stratified squamous (keratinised and non-keratinised), stratified cuboidal, transitional.
+3. **Glandular epithelium**: unicellular (goblet cells) and multicellular (exocrine and endocrine glands).
+
+| Type | Structure | Location | Function |
+|---|---|---|---|
+| Simple squamous | Flat, thin cells with a central nucleus | Alveoli of lungs, lining of blood vessels (endothelium), Bowman's capsule | Diffusion and filtration |
+| Simple cuboidal | Cube-shaped cells with a round nucleus | Kidney tubules, thyroid follicles, ducts of glands | Secretion and absorption |
+| Simple columnar | Tall cells with a basal nucleus, often microvilli | Stomach and small intestine | Absorption and secretion |
+| Ciliated columnar | Columnar with cilia | Trachea, fallopian tube | Moves mucus and the ovum |
+| Stratified squamous | Many layers, the top layer keratinised in skin | Epidermis, mouth, oesophagus | Protection against abrasion |
+| Transitional | Several layers of cells that change shape | Urinary bladder, ureter | Stretches without tearing |
+
+**Special features.** The cells are held together by **tight junctions**, **desmosomes** and **gap junctions**. Tight junctions prevent leaking, desmosomes give strength and gap junctions allow rapid communication. The **brush border** of microvilli in the intestine increases the surface area for absorption.
+
+**Glandular epithelium.** Some epithelial cells become specialised to secrete. A **goblet cell** (unicellular) secretes mucus. **Exocrine glands** (sweat, salivary, gastric) pour secretions into ducts, but **endocrine glands** (thyroid, pituitary) have no ducts and release hormones into the blood.
+
+**Functions (summary).**
+
+- Protection from injury, germs and drying.
+- Absorption in the intestine.
+- Secretion of enzymes, mucus and hormones.
+- Filtration in the kidney.
+- Sensation, as in the taste buds and the olfactory epithelium.
+
+**Conclusion.** The shape of an epithelial cell fits its job: flat cells for quick diffusion, tall cells for absorption and layered cells where wear is greatest. A fault in this tissue is behind many problems, as cancers of the skin and lung begin in the epithelium.
+
+### Model answer D2: connective tissue (10 marks)
+
+**Introduction.** **Connective tissue** is the most abundant and widely spread tissue of the body. It connects, supports and protects other tissues. Unlike epithelium its cells are scattered in a large amount of **extracellular matrix**, which consists of a ground substance and fibres. It develops from the embryonic **mesoderm** (mesenchyme).
+
+**General structure.**
+
+1. **Cells:** fibroblasts (make the fibres), macrophages (eat germs), mast cells (release histamine and heparin), plasma cells (make antibodies), adipocytes (store fat).
+2. **Fibres:** **collagen** (strong, white), **elastic** (stretchy, yellow) and **reticular** (fine network).
+3. **Ground substance:** a gel of water, proteoglycans and glycoproteins.
+
+**Classification and types.**
+
+| Group | Type | Special features | Location |
+|---|---|---|---|
+| Loose | Areolar | Loose mesh of fibres, many cell types | Under the skin, around organs |
+| Loose | Adipose | Cells filled with a fat droplet | Under the skin, around the kidney |
+| Dense | Regular (tendon, ligament) | Parallel collagen bundles | Muscle to bone; bone to bone |
+| Dense | Irregular | Bundles in all directions | Dermis of skin |
+| Skeletal | Cartilage | Chondrocytes in lacunae; matrix of chondroitin | Nose, ear (elastic), ends of bones (hyaline), intervertebral discs (fibro) |
+| Skeletal | Bone | Hard matrix of calcium phosphate; osteocytes in lacunae; osteons | Skeleton |
+| Fluid | Blood and lymph | Liquid plasma matrix with RBC, WBC and platelets | Vessels |
+
+**Bone in brief.** The matrix of bone contains **collagen** (flexibility) and **calcium phosphate** (hardness). In compact bone the matrix forms concentric **lamellae** around a **Haversian canal**, which holds blood vessels and nerves; this unit is the **osteon**. Cartilage has no blood vessels, so it heals slowly.
+
+**Eight functions of connective tissue.**
+
+1. **Binding:** tendons join muscle to bone, and ligaments join bone to bone.
+2. **Support:** bone and cartilage hold the body upright and give it shape.
+3. **Protection:** the skull and ribs protect the brain, heart and lungs, and fat cushions the kidney.
+4. **Storage:** adipose tissue stores fat as energy, and bones store calcium.
+5. **Transport:** blood carries oxygen, nutrients, hormones and wastes.
+6. **Defence:** macrophages and plasma cells fight infection.
+7. **Insulation:** subcutaneous fat reduces heat loss in cold hills such as Mustang.
+8. **Repair:** fibroblasts form scar tissue that closes a wound.
+
+**Conclusion.** Connective tissue forms the framework of the body. Its variety, from the liquid blood to the hard bone, is the result of different matrices rather than different cells.
+
+### Model answer D3: muscular tissue and the mechanism of contraction (10 marks)
+
+**Introduction.** **Muscular tissue** is made of elongated cells (**muscle fibres**) that can **contract** and so cause movement. It makes up about 40 to 50% of the body weight and develops from the mesoderm. Its proteins **actin** and **myosin** are responsible for contraction.
+
+**Types of muscle.**
+
+| Feature | Skeletal | Smooth | Cardiac |
+|---|---|---|---|
+| Shape of fibre | Long, cylindrical, unbranched | Spindle-shaped | Short, cylindrical, branched |
+| Striations | Present | Absent | Present |
+| Nucleus | Many, peripheral | One, central | One or two, central |
+| Control | Voluntary | Involuntary | Involuntary |
+| Intercalated discs | Absent | Absent | Present |
+| Location | Attached to bones | Walls of gut, blood vessels, uterus | Heart wall |
+| Fatigue | Tires quickly | Slowly | Never (under normal conditions) |
+
+**Structure of a skeletal fibre.** The fibre is wrapped in the **sarcolemma** and filled with **myofibrils**. Each myofibril is made of repeating units called **sarcomeres**, the functional units of contraction, between two **Z lines**. In a sarcomere:
+
+- The **thin filaments** are **actin** (with troponin and tropomyosin) and run out from the Z line.
+- The **thick filaments** are **myosin**, with projecting **heads**, and lie in the centre (the **A band**).
+- The **I band** has only thin filaments, the **H zone** only thick filaments, and the **M line** is the centre.
+
+**Sliding-filament mechanism.**
+
+1. A nerve impulse reaches the neuromuscular junction and releases **acetylcholine**, which starts an impulse along the sarcolemma.
+2. The sarcoplasmic reticulum releases **Ca2+** ions into the sarcoplasm.
+3. Ca2+ binds to **troponin**, and **tropomyosin** moves aside to expose the binding sites on actin.
+4. A myosin head carrying **ADP and Pi** attaches to actin and forms a **cross-bridge**.
+5. The head swings (the **power stroke**) and pulls the thin filament towards the M line; ADP and Pi are released.
+6. A new **ATP** binds to the head, which detaches, and ATP is split to re-cock the head for the next cycle.
+7. The sarcomere shortens: the I band and H zone become narrower, but the **A band stays the same length**.
+8. When the nerve stops, Ca2+ is pumped back and the muscle relaxes.
+
+**Energy and fatigue.** ATP is supplied from creatine phosphate, glycolysis and aerobic respiration. In hard exercise lactic acid builds up and causes fatigue. Red fibres (rich in **myoglobin** and mitochondria) are slow and tireless, as in a Sherpa porter's leg muscles; white fibres are fast and tire quickly.
+
+**Conclusion.** The three muscle types suit their jobs: skeletal for movement, smooth for the slow squeezing of the gut, and cardiac for the lifelong beat of the heart. All of them contract by the sliding of actin over myosin, driven by Ca2+ and ATP.

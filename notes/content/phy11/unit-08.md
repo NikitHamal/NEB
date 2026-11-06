@@ -668,3 +668,81 @@ Steel: $e = (1.273\times10^{8}\times2.0)/2.0\times10^{11} = 1.27\times10^{-3}\ \
 Total extension $= 2.32 + 1.27 = 3.59\ \text{mm}$. The copper wire stretches
 nearly twice as much because its Young modulus is about half that of steel.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Hooke's law. Define stress, strain and the three moduli of elasticity, and explain the stress-strain graph of a ductile wire. <span class="marks">[10]</span>
+2. Derive an expression for the elastic potential energy stored in a stretched wire, and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: Hooke's law, moduli and the stress-strain curve (10 marks)
+
+**Introduction.** A body that returns to its original shape after the deforming force is removed is **elastic**, and one that does not is **plastic**. Elasticity is the reason a steel cable of a Nepali suspension bridge can carry the weight of people without permanent stretching.
+
+**Stress and strain.**
+
+- **Stress** = restoring force per unit area, $\sigma = F/A$ (N m$^{-2}$ or Pa). It may be tensile, compressive or shear.
+- **Strain** = fractional change in dimension (no unit): **longitudinal strain** $= \Delta L/L$, **volume strain** $= \Delta V/V$, **shear strain** $= \tan\theta \approx \theta$.
+
+**Hooke's law.** Within the elastic limit, **stress is directly proportional to strain**: stress = $E\times$ strain, where $E$ is the **modulus of elasticity**.
+
+**The three moduli.**
+
+1. **Young's modulus** $Y = \dfrac{F/A}{\Delta L/L} = \dfrac{FL}{A\,\Delta L}$ for a change in length.
+2. **Bulk modulus** $B = \dfrac{-\Delta P}{\Delta V/V}$ for a change in volume. Its reciprocal is the **compressibility**.
+3. **Modulus of rigidity (shear modulus)** $\eta = \dfrac{F/A}{\theta}$ for a change in shape.
+
+| Modulus | Type of stress | Strain | Applies to |
+|---|---|---|---|
+| Young's | Longitudinal | Change in length | Solids |
+| Bulk | Volume (pressure) | Change in volume | Solids, liquids, gases |
+| Rigidity | Shear (tangential) | Angle of shear | Solids only |
+
+**Stress-strain graph for a ductile wire (such as steel or copper).**
+
+1. **OA (proportional limit):** a straight line, so Hooke's law is obeyed.
+2. **AB (elastic limit):** the wire still returns to its original length, but the stress is no longer proportional to strain.
+3. **B (yield point):** beyond this the wire stretches a lot even for little extra stress, and **permanent (plastic) deformation** begins.
+4. **BC (plastic region):** the wire is permanently lengthened, and the graph rises to the **ultimate tensile strength** at C.
+5. **CD:** the wire **necks** (thins at one place), and at D the wire **breaks (fracture point)**.
+A **brittle** material, such as glass, breaks soon after the elastic limit; an **elastomer**, such as rubber, shows large strains with no proportionality.
+
+**Numerical.** A steel wire $2\ \text{m}$ long, of area $1\ \text{mm}^{2}$ ($10^{-6}\ \text{m}^{2}$), carries a load of $100\ \text{N}$. With $Y = 2\times10^{11}\ \text{Pa}$, the stress is $10^{8}\ \text{Pa}$, the strain is $10^{8}/(2\times10^{11}) = 5\times10^{-4}$ and the extension is $\Delta L = 5\times10^{-4}\times2 = 1\ \text{mm}$.
+
+**Conclusion.** Hooke's law holds within the elastic limit, and each type of deformation has its own modulus. The stress-strain curve shows the elastic, plastic and breaking behaviour of a material, which engineers use to choose safe materials.
+
+### Model answer D2: elastic potential energy (10 marks)
+
+**Introduction.** When a wire is stretched, work is done against the inter-atomic forces, and this is stored in the wire as **elastic potential energy**. It is given back when the wire is released.
+
+**Derivation.** Consider a wire of length $L$ and cross-section $A$ and Young's modulus $Y$, loaded gradually so that it stretches by $x$ at a stage when the force is $F$.
+
+1. From $Y = FL/(Ax)$ the force is $F = \dfrac{YA}{L}\,x$, **proportional to the extension**.
+2. The work done to stretch it by a further small amount $dx$ is $dW = F\,dx = \dfrac{YA}{L}\,x\,dx$.
+3. The total work done from $x = 0$ to the final extension $\ell$ is
+
+$$ W = \int_{0}^{\ell}\frac{YA}{L}\,x\,dx = \frac{1}{2}\,\frac{YA}{L}\,\ell^{2} $$
+
+4. Since the final force is $F = YA\ell/L$, this can be written as
+
+$$ U = \tfrac{1}{2}F\ell $$
+
+that is, the **average force** ($F/2$) times the extension, which is also the area under the force-extension graph (a triangle).
+
+**Energy per unit volume.** The volume of the wire is $AL$, so
+
+$$ u = \frac{U}{AL} = \frac{1}{2}\,\frac{F}{A}\,\frac{\ell}{L} = \tfrac{1}{2}\times\text{stress}\times\text{strain} = \frac{\text{stress}^{2}}{2Y} $$
+
+| Quantity | Formula |
+|---|---|
+| Force at extension $x$ | $F = (YA/L)\,x$ |
+| Work done | $U = \tfrac{1}{2}F\ell = \dfrac{YA\ell^{2}}{2L}$ |
+| Energy density | $\tfrac12\times\text{stress}\times\text{strain}$ |
+
+**Numerical.** For the steel wire above ($L = 2\ \text{m}$, $A = 10^{-6}\ \text{m}^{2}$, $F = 100\ \text{N}$, $\ell = 1\ \text{mm}$):
+
+- Energy stored $U = \tfrac12\times100\times10^{-3} = 0.05\ \text{J}$.
+- Energy per unit volume $= 0.05/(10^{-6}\times2) = 2.5\times10^{4}\ \text{J m}^{-3}$. Check: $\tfrac12\times10^{8}\times5\times10^{-4} = 2.5\times10^{4}\ \text{J m}^{-3}$. ✓
+
+**Applications.** The energy stored in a stretched spring or bowstring drives a watch spring, a bow-and-arrow and a catapult. A material that can store much elastic energy per unit volume is used for springs and shock absorbers. The work done on a wire beyond the elastic limit is lost as heat.
+
+**Conclusion.** The energy stored in a stretched wire is $\tfrac12F\ell$, which is half of the product of the final force and the extension, because the force grows from zero to $F$.

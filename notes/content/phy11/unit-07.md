@@ -1171,3 +1171,112 @@ $GM = gR^{2} = 4.01\times10^{14}$. Binding energy
 $= \dfrac{GMm}{2r} = \dfrac{4.01\times10^{14}\times500}{2\times1.0\times10^{7}}
 = 1.0\times10^{10}\ \text{J}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Kepler's three laws of planetary motion and derive the third law for a circular orbit using Newton's law of gravitation. <span class="marks">[10]</span>
+2. Discuss the variation of acceleration due to gravity with altitude, depth and rotation of the Earth, with numericals. <span class="marks">[10]</span>
+3. Define escape velocity and orbital velocity. Derive expressions for them, and explain geostationary satellites with eight uses. <span class="marks">[10]</span>
+
+### Model answer D1: Kepler's laws and Newton's law of gravitation (10 marks)
+
+**Introduction.** From the careful observations of Tycho Brahe, Johannes Kepler (1609-1619) found three laws of planetary motion. Newton later explained them with his **law of universal gravitation**.
+
+**Kepler's laws.**
+
+1. **Law of orbits:** every planet moves in an **ellipse** with the Sun at one focus.
+2. **Law of areas:** the line joining a planet to the Sun sweeps out **equal areas in equal times**. So a planet moves fastest at **perihelion** (closest) and slowest at **aphelion**. This is a consequence of the conservation of **angular momentum**.
+3. **Law of periods:** the square of the time period is proportional to the cube of the semi-major axis, $T^{2} \propto a^{3}$.
+
+**Newton's law of gravitation.** Every particle attracts every other particle with a force $F = G\dfrac{m_{1}m_{2}}{r^{2}}$ along the line joining them. $G = 6.67\times10^{-11}\ \text{N m}^{2}\text{kg}^{-2}$.
+
+**Derivation of the third law.** For a planet of mass $m$ in a circular orbit of radius $r$ around the Sun of mass $M$:
+
+1. The gravitational force supplies the centripetal force: $\dfrac{GMm}{r^{2}} = \dfrac{mv^{2}}{r}$.
+2. Putting $v = 2\pi r/T$ gives $\dfrac{GM}{r^{2}} = \dfrac{4\pi^{2}r}{T^{2}}$.
+3. Rearranging,
+
+$$ T^{2} = \frac{4\pi^{2}}{GM}\,r^{3} $$
+
+Since $4\pi^{2}/GM$ is the same for all planets, $T^{2} \propto r^{3}$. For an ellipse $r$ is replaced by the semi-major axis $a$.
+
+| Law | Statement | Physical basis |
+|---|---|---|
+| First | Elliptical orbit | Inverse-square force |
+| Second | Equal areas in equal times | Conservation of angular momentum |
+| Third | $T^{2} \propto a^{3}$ | Gravity as centripetal force |
+
+**Numerical.** If a planet orbits at $4$ AU from the Sun, then $T^{2} = 4^{3} = 64$ and $T = 8$ years (with Earth at $1$ AU and $T = 1$ year). The mass of the Sun can be found from the Earth: $M = 4\pi^{2}r^{3}/GT^{2} = 2.0\times10^{30}\ \text{kg}$.
+
+**Conclusion.** Kepler's laws describe how the planets move, and Newton's inverse-square law explains why. The same law governs satellites and the Moon.
+
+### Model answer D2: variation of g (10 marks)
+
+**Introduction.** The acceleration due to gravity at the surface of the Earth is $g = GM/R^{2} = 9.8\ \text{m s}^{-2}$, with $M$ the mass of the Earth and $R = 6400\ \text{km}$. It varies with height, depth, shape and rotation of the Earth.
+
+**1. Altitude (height $h$ above the surface).** At a distance $R + h$ from the centre,
+$$ g_{h} = \frac{GM}{(R+h)^{2}} = g\left(\frac{R}{R+h}\right)^{2} \approx g\left(1 - \frac{2h}{R}\right) \quad(h \ll R) $$
+So $g$ decreases as we go up.
+
+**2. Depth (below the surface by $d$).** Only the inner sphere of radius $R - d$ attracts, and with constant density its mass is $M(R-d)^{3}/R^{3}$. Then
+$$ g_{d} = g\left(1 - \frac{d}{R}\right) $$
+So $g$ decreases **linearly** with depth and is **zero at the centre**.
+
+**3. Latitude and rotation.** The Earth rotates with angular velocity $\omega$, and at latitude $\lambda$ the effective value is
+$$ g' = g - R\omega^{2}\cos^{2}\lambda $$
+At the equator ($\lambda = 0$), $g' = g - R\omega^{2}$, the minimum, and at the poles $g' = g$, the maximum. The shape also matters: the polar radius is about 21 km shorter, which increases $g$ at the poles.
+
+| Place | $g$ ($\text{m s}^{-2}$) |
+|---|---|
+| Poles | 9.83 |
+| Kathmandu (1,400 m) | about 9.79 |
+| Equator | 9.78 |
+| Top of Mount Everest (8,849 m) | about 9.77 |
+| Centre of the Earth | 0 |
+
+**Numerical.**
+
+- At a height $h = 320\ \text{km}$ (the altitude of the International Space Station), $g_{h} = 9.8\times(6400/6720)^{2} = 8.89\ \text{m s}^{-2}$. The astronauts are weightless because they are in free fall, not because gravity is zero.
+- At a depth $d = 3200\ \text{km}$ (half the radius), $g_{d} = 9.8(1 - 0.5) = 4.9\ \text{m s}^{-2}$.
+- The equatorial correction is $R\omega^{2} = 6.4\times10^{6}\times(7.27\times10^{-5})^{2} = 0.034\ \text{m s}^{-2}$.
+
+**Conclusion.** The value of $g$ is largest at the poles on the surface and falls with both altitude and depth. Weight, which is $mg$, therefore varies slightly from place to place while mass does not.
+
+### Model answer D3: escape velocity, orbital velocity and satellites (10 marks)
+
+**Introduction.** To send a body into space we must give it enough speed to overcome gravity. A satellite instead needs just the right speed to keep falling around the Earth.
+
+**Escape velocity.** The **minimum speed needed to project a body from the surface so that it never returns** to the Earth. The work needed to take a mass $m$ to infinity is $\int_{R}^{\infty}GMm/r^{2}\,dr = GMm/R$. Setting this equal to the kinetic energy,
+
+$$ \tfrac{1}{2}mv_{e}^{2} = \frac{GMm}{R} \quad\Rightarrow\quad v_{e} = \sqrt{\frac{2GM}{R}} = \sqrt{2gR} $$
+
+$v_{e} = \sqrt{2\times9.8\times6.4\times10^{6}} = 11.2\ \text{km s}^{-1}$. It does not depend on the mass of the body or the direction of projection. For the Moon it is only $2.4\ \text{km s}^{-1}$.
+
+**Orbital velocity.** For a satellite at a radius $r = R + h$, gravity provides the centripetal force: $\dfrac{GMm}{r^{2}} = \dfrac{mv_{0}^{2}}{r}$, so
+
+$$ v_{0} = \sqrt{\frac{GM}{r}}, \qquad \text{near the surface } v_{0} = \sqrt{gR} = 7.9\ \text{km s}^{-1} $$
+
+Note that $v_{e} = \sqrt{2}\,v_{0}$. The time period near the surface is $T = 2\pi R/v_{0} = 84.6$ minutes. Higher satellites move slower.
+
+**Geostationary satellite.** A satellite that has a period of **24 hours**, orbits above the equator from west to east, and so appears fixed in the sky. From $T^{2} = 4\pi^{2}r^{3}/GM$ with $T = 86164\ \text{s}$ we get $r = 42,164\ \text{km}$, which is a height of **about 35,800 km** above the surface, with an orbital speed of $3.07\ \text{km s}^{-1}$.
+
+| Quantity | Value |
+|---|---|
+| Escape velocity of the Earth | $11.2\ \text{km s}^{-1}$ |
+| Orbital velocity near the surface | $7.9\ \text{km s}^{-1}$ |
+| Period near the surface | 84.6 min |
+| Geostationary radius | 42,164 km (height 35,800 km) |
+| Geostationary speed | $3.07\ \text{km s}^{-1}$ |
+
+**Eight uses of geostationary satellites.**
+
+1. **Television broadcasting:** dish antennas in the villages of Nepal receive channels from satellites.
+2. **Telephone and internet links:** VSAT terminals connect remote areas like Humla.
+3. **Weather forecasting:** pictures of clouds and monsoon systems.
+4. **Disaster warning:** flood and cyclone watch.
+5. **Navigation support:** augmentation of GPS signals for aircraft.
+6. **Banking and ATM links** in places with no cable.
+7. **Education:** distance learning and telemedicine.
+8. **Military and remote sensing:** observation of large areas.
+
+**Conclusion.** Escape velocity is $\sqrt{2gR}$ and orbital velocity is $\sqrt{gR}$ near the surface. A geostationary satellite has a 24-hour period and is therefore fixed over one point of the equator.

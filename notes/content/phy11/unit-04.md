@@ -928,3 +928,110 @@ $$ F = \frac{\Delta p}{\Delta t} = 20 \times 12 = 240\ \text{N} $$
 **2.** (b) $N = mg = 50\ \text{N}$. (i) $f_{limiting} = 0.5 \times 50 = 25\ \text{N}$.
 (ii) $f_k = 0.4 \times 50 = 20\ \text{N}$, so $a = (25-20)/5 = 1\ \text{m s}^{-2}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Newton's three laws of motion. Derive $F = ma$ from the second law, and show that the third law leads to conservation of linear momentum. <span class="marks">[10]</span>
+2. State the law of conservation of linear momentum. Discuss elastic and inelastic collisions in one dimension with a numerical. <span class="marks">[10]</span>
+3. What is friction? State its laws, define the coefficient of friction and angle of repose, and find the acceleration of a body on a rough inclined plane. <span class="marks">[10]</span>
+
+### Model answer D1: Newton's laws and conservation of momentum (10 marks)
+
+**Introduction.** Newton (1687) summarised the relation between force and motion in three laws. They hold in **inertial frames** (frames that are not accelerating).
+
+**The three laws.**
+
+1. **First law (inertia):** a body stays at rest or in uniform motion in a straight line unless an external force acts on it. It defines **force** and **inertia**; a passenger lurches forward when a bus brakes suddenly.
+2. **Second law:** the rate of change of momentum of a body is proportional to the net force and takes place in the direction of the force.
+3. **Third law:** to every action there is an equal and opposite reaction. The two forces act on **different bodies**.
+
+**Deriving F = ma.** Linear momentum is $p = mv$. By the second law,
+
+$$ F \propto \frac{dp}{dt} \quad\Rightarrow\quad F = k\,\frac{d(mv)}{dt} $$
+
+In SI units we choose the unit of force (the newton) so that $k = 1$. For constant mass,
+
+$$ F = m\frac{dv}{dt} = ma $$
+
+One newton is the force that gives a mass of $1\ \text{kg}$ an acceleration of $1\ \text{m s}^{-2}$.
+
+**Impulse.** If a force $F$ acts for a short time $\Delta t$, the impulse is $J = F\Delta t = \Delta p = mv - mu$. Because $F = \Delta p/\Delta t$, a longer stopping time means a smaller force: a cricketer pulls the hands back when catching a hard ball.
+
+**Conservation of momentum from the third law.** Two bodies $A$ and $B$ collide, with $F_{AB} = -F_{BA}$ acting for the same time $\Delta t$. Then the changes in momentum are equal and opposite:
+$$ \Delta p_{A} = F_{BA}\Delta t, \qquad \Delta p_{B} = F_{AB}\Delta t = -\Delta p_{A} $$
+So $\Delta(p_{A} + p_{B}) = 0$, that is, **the total momentum of an isolated system stays constant**: $m_{1}u_{1} + m_{2}u_{2} = m_{1}v_{1} + m_{2}v_{2}$.
+
+| Law | Gives | Everyday example |
+|---|---|---|
+| First | Definition of force and inertia | Dust leaves a carpet when it is beaten |
+| Second | $F = ma$, impulse | A loaded truck accelerates more slowly |
+| Third | Conservation of momentum | Recoil of a gun, rocket propulsion |
+
+**Conclusion.** The second law gives a way to calculate force, and the third law shows that the momentum of an isolated system is constant. Together they explain motion from a cricket ball to a satellite launch.
+
+### Model answer D2: collisions and conservation of momentum (10 marks)
+
+**Introduction.** In a **collision** two bodies exert large forces on each other for a very short time. In every collision the **total linear momentum is conserved**, because the internal forces are equal and opposite. The kinetic energy may or may not be conserved.
+
+**Types of collision.**
+
+1. **Elastic collision:** both momentum and **kinetic energy** are conserved, and there is no permanent deformation (collisions between gas molecules, billiard balls approximately).
+2. **Inelastic collision:** momentum is conserved but some kinetic energy is changed to heat, sound and deformation.
+3. **Perfectly inelastic collision:** the bodies **stick together** and move with a common velocity; the loss of kinetic energy is the maximum.
+
+**Elastic collision in one dimension.** A mass $m_{1}$ moving at $u_{1}$ hits a mass $m_{2}$ at rest. From momentum and energy conservation,
+
+$$ v_{1} = \frac{m_{1} - m_{2}}{m_{1} + m_{2}}\,u_{1}, \qquad v_{2} = \frac{2m_{1}}{m_{1} + m_{2}}\,u_{1} $$
+
+Special cases: for equal masses the bodies **exchange velocities**; for $m_{1} \ll m_{2}$ the light body rebounds with nearly the same speed; for $m_{1} \gg m_{2}$ the light body flies off at nearly $2u_{1}$.
+
+**Perfectly inelastic collision.** The common velocity is $v = \dfrac{m_{1}u_{1}}{m_{1} + m_{2}}$.
+
+**Numerical.** A $2\ \text{kg}$ trolley moving at $5\ \text{m s}^{-1}$ hits a $3\ \text{kg}$ trolley at rest.
+
+- **Inelastic (stick together):** $v = 10/5 = 2\ \text{m s}^{-1}$. Initial kinetic energy is $\tfrac12\times2\times25 = 25\ \text{J}$ and the final is $\tfrac12\times5\times4 = 10\ \text{J}$, so $15\ \text{J}$ (60%) is lost.
+- **Elastic:** $v_{1} = \dfrac{2-3}{5}\times5 = -1\ \text{m s}^{-1}$ (rebounds), and $v_{2} = \dfrac{4}{5}\times5 = 4\ \text{m s}^{-1}$. Momentum check: $2(-1) + 3(4) = 10 = 2(5)$. ✓ Kinetic energy: $\tfrac12(2)(1) + \tfrac12(3)(16) = 25\ \text{J}$. ✓
+
+| Feature | Elastic | Inelastic | Perfectly inelastic |
+|---|---|---|---|
+| Momentum | Conserved | Conserved | Conserved |
+| Kinetic energy | Conserved | Partly lost | Maximum loss |
+| Bodies after collision | Separate | Separate | Stick together |
+| Relative speed of separation | Equal to approach speed | Less | Zero |
+
+**Coefficient of restitution.** $e = \dfrac{\text{speed of separation}}{\text{speed of approach}}$, with $e = 1$ for elastic, $0 < e < 1$ for inelastic and $e = 0$ for perfectly inelastic collisions.
+
+**Conclusion.** Momentum is conserved in every collision, but kinetic energy is conserved only in elastic ones. The example above shows how a collision in which the bodies stick together loses the most energy.
+
+### Model answer D3: friction and motion on an inclined plane (10 marks)
+
+**Introduction.** **Friction** is the force that opposes the relative motion, or the tendency of motion, between two surfaces in contact. It acts along the surface, opposite to the motion.
+
+**Types.** **Static** friction (up to a limiting value, when the body is about to slide), **kinetic (sliding)** friction (when it is sliding, slightly smaller) and **rolling** friction (much smaller; the reason wheels are used).
+
+**Laws of friction.**
+
+1. The force of friction is **independent of the area of contact**.
+2. The limiting friction is **proportional to the normal reaction**: $F = \mu R$.
+3. Kinetic friction is slightly **less than** the limiting static friction.
+4. It depends on the **nature** of the two surfaces and is independent of the speed (for moderate speeds).
+
+**Coefficient of friction.** $\mu = F/R$, a pure number. **Angle of friction** $\lambda$: the angle between the normal reaction and the resultant of $F$ and $R$, with $\tan\lambda = \mu$.
+
+**Angle of repose.** On a rough incline the **maximum angle at which a body just stays at rest** without slipping is the **angle of repose** $\alpha$. At that angle, $mg\sin\alpha = \mu mg\cos\alpha$, so $\tan\alpha = \mu$. It is equal to the angle of friction.
+
+**Body sliding down a rough incline.** The weight $mg$ has components $mg\sin\theta$ down the plane and $mg\cos\theta$ perpendicular to it, so $R = mg\cos\theta$ and $F = \mu mg\cos\theta$. Newton's second law along the plane:
+
+$$ mg\sin\theta - \mu mg\cos\theta = ma \quad\Rightarrow\quad a = g(\sin\theta - \mu\cos\theta) $$
+
+The body slides only if $\theta > \alpha$, that is $\tan\theta > \mu$.
+
+**Numerical.** A block slides on a $30^{\circ}$ incline with $\mu = 0.2$.
+
+- Angle of repose $= \tan^{-1}0.2 = 11.3^{\circ}$, so the $30^{\circ}$ plane is steeper and the block slides.
+- $a = 9.8(\sin30^{\circ} - 0.2\cos30^{\circ}) = 9.8(0.5 - 0.173) = 3.20\ \text{m s}^{-2}$.
+On a smooth plane ($\mu = 0$) the acceleration would be $4.9\ \text{m s}^{-2}$.
+
+**Advantages and disadvantages.** Friction lets us walk, grip, write and brake, and it keeps a bus on a mountain road in Nepal. It also wears out machinery and wastes energy as heat, which is reduced by **lubricants, ball bearings and streamlining**.
+
+**Conclusion.** Friction is proportional to the normal reaction, with the proportionality constant $\mu$. On an incline, $\mu = \tan\alpha$ for the angle of repose, and motion down the plane follows $a = g(\sin\theta - \mu\cos\theta)$.
