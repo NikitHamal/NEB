@@ -689,3 +689,36 @@ the electrons than to promote them, giving $t_{2g}^{6}e_{g}^{0}$ with no
 unpaired electrons: low spin, diamagnetic, and
 $\text{CFSE} = -0.4(6)\Delta_{o} = -2.4\Delta_{o}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the characteristic properties of the transition metals, giving eight points, and account for their magnetic properties. <span class="marks">[10]</span>
+
+### Model answer D1: characteristic properties of the transition metals (10 marks)
+
+**Introduction.** **Transition metals** are the d-block elements that have a partly filled d subshell in the atom or in at least one of their common ions. The first series (Sc to Zn) has the general electronic configuration $[\text{Ar}]\,3d^{1\text{–}10}4s^{1\text{–}2}$. Because the 3d and 4s energies are close, both take part in bonding.
+
+**Eight characteristic properties.**
+1. **Variable oxidation states.** Both 4s and 3d electrons can be used, so manganese shows +2 to +7 and iron +2 and +3. The states usually differ by one unit, unlike the p-block, where they differ by two.
+2. **Coloured compounds.** Visible light excites an electron between split d orbitals (a d–d transition) and the complementary colour is seen. Cu$^{2+}$ is blue, Fe$^{3+}$ is yellow-brown and MnO$_4^-$ is purple, but Zn$^{2+}$ (d$^{10}$) and Sc$^{3+}$ (d$^{0}$) are colourless.
+3. **Complex formation.** Small, highly charged ions with empty d orbitals accept lone pairs from ligands, as in $[\text{Cu(NH}_3)_4]^{2+}$ and $[\text{Fe(CN)}_6]^{4-}$.
+4. **Catalytic activity.** They provide a surface or change their oxidation state to give a new low-energy path. Iron is used in the Haber process, V$_2$O$_5$ in the contact process and nickel in the hydrogenation of oils.
+5. **Magnetic properties.** Unpaired d electrons make the ions paramagnetic. The spin-only moment is $\mu = \sqrt{n(n+2)}$ Bohr magnetons.
+6. **High melting points and hardness.** Both the 3d and 4s electrons form strong metallic bonds, so tungsten melts at 3422 °C. Zinc and mercury are exceptions as the d$^{10}$ shell does not take part.
+7. **Alloy formation.** Atomic sizes are similar, so one metal can replace another in the lattice. Steel and stainless steel (Fe, Cr, Ni) are important examples.
+8. **Interstitial compounds.** Small atoms such as H, C and N fit into the holes in the lattice, giving hard, non-stoichiometric compounds such as steel (Fe–C) and TiC.
+
+**Spin-only magnetic moment.**
+
+| Ion | Configuration | Unpaired electrons $n$ | $\mu$ (BM) |
+|---|---|---|---|
+| Ti$^{3+}$ | $3d^{1}$ | 1 | 1.73 |
+| Cu$^{2+}$ | $3d^{9}$ | 1 | 1.73 |
+| Cr$^{3+}$ | $3d^{3}$ | 3 | 3.87 |
+| Fe$^{2+}$ | $3d^{6}$ | 4 | 4.90 |
+| Mn$^{2+}$, Fe$^{3+}$ | $3d^{5}$ | 5 | 5.92 |
+| Zn$^{2+}$ | $3d^{10}$ | 0 | 0 (diamagnetic) |
+
+**Why Zn, Cd and Hg are not true transition metals.** Their ions have a full $d^{10}$ shell, so they show only one oxidation state (+2) and give colourless compounds. They have low melting points and are not good catalysts.
+
+**Conclusion.** The partly filled d subshell explains the variable oxidation state, colour, magnetism and catalytic power of the transition metals.
