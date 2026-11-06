@@ -30,6 +30,16 @@ Never write an em dash, an en dash used as a break, or a double hyphen ("--") in
 OG cards, tools pages, PDF furniture, Android strings, commit-free docs shown in the app. Use a period, a comma, a colon or
 "to". Ranges keep a plain hyphen or "to". Authored book markdown is out of scope for now.
 
+## Permanent M3 Expressive bans (web, OG cards, tools, PDFs, Android)
+
+- No box shadows, no emojis, no live badge of any kind, no blue/purple gradients.
+- No circle stroke around a profile picture frame; PP frames use the expressive shapes (cookie, squircle, flower).
+- User, role and verification badges (Verified, Admin, Teacher) carry no background. Chips, filter pills, category tags and
+  comment or post labels (Solved, Answer, Correct, Helpful) keep a tonal surface.
+- Never morph a rounded control into a square on hover (`border-radius: 0`).
+- No taglines, helper text or secondary labels; if a screen needs them to make sense, fix the layout.
+- Poppins in the app, light and dark both at full contrast. `web/test_tools_copy.py` guards tools copy and shadows.
+
 ## PDF books (m3x print system)
 
 Read `PDF_M3X_STATUS.md` first. Fix `notes/pipeline/` (theme.css, furniture.py, m3x.py), then rebuild; never hand-edit a PDF.

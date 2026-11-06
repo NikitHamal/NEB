@@ -607,7 +607,7 @@ function showCustomDialog({title='Confirm', message='', confirmText='Confirm', c
   $("devTxt").textContent = iso ? "WASM ⚡ (threads)" : "WASM (CPU)";
   $("netTxt").textContent="engine ready";
   $("ledNet").className="led on";
-  if(!isIsolated()) banner(`💡 For fastest TTS: run <code>python serve.py</code> → <code>http://localhost:8000/tts.html</code> (threads 2–4×).`);
+  if(!isIsolated()) banner(`💡 For fastest TTS: run <code>python serve.py</code> → <code>http://localhost:8000/tts.html</code> (threads 2-4×).`);
   try{ updateVoiceOptionsForModel(S.model); }catch(e){}
   setTimeout(()=>{ try{ initCustomSelects(); }catch(e){} },0);
   // second sync after custom selects created (for voice)
