@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Voice → Text — Whisper — NEBians{% endblock %}
+{% block title %}Voice → Text | Whisper | NEBians{% endblock %}
 {% block body_class %}tools-audio-page tools-stt-page{% endblock %}
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'web/vendor/remixicon/remixicon.css' %}">
@@ -21,8 +21,8 @@
     </div>
     <div class="pills">
       <span class="pill"><span class="led" id="ledNet"></span><span id="netTxt">engine…</span></span>
-      <span class="pill">device <b id="devTxt">—</b></span>
-      <span class="pill">cache <b id="cacheTxt">—</b></span>
+      <span class="pill">device <b id="devTxt">·</b></span>
+      <span class="pill">cache <b id="cacheTxt">·</b></span>
       <span class="pill">model <b id="mdlTxt">none</b></span>
     </div>
   </header>
@@ -46,7 +46,7 @@
           <button class="btnRec" id="btnRec" title="Record (R)"><span class="ic"></span></button>
           <div class="recMeta">
             <div class="t" id="recTime">00:00.0</div>
-            <div class="s" id="recState">idle — tap the dot to record</div>
+            <div class="s" id="recState">idle: tap the dot to record</div>
           </div>
           <div class="vu"><canvas id="vu"></canvas></div>
           <div class="actions">
@@ -68,10 +68,10 @@
           <span class="sp"></span>
           <button class="btn small ghost" id="btnClear"><i class="ri-delete-bin-line"></i> Clear</button>
         </div>
-        <div id="transcript"><span class="ph">Nothing yet. Load a model on the right, then record or drop an audio file. Everything runs locally — no audio leaves this device.</span></div>
+        <div id="transcript"><span class="ph">Nothing yet. Load a model on the right, then record or drop an audio file. Everything runs locally: no audio leaves this device.</span></div>
         <div id="txStats">
           <span>words <b id="stW">0</b></span><span>audio <b id="stA">0s</b></span>
-          <span>infer <b id="stI">—</b></span><span>speed <b id="stR">—</b></span>
+          <span>infer <b id="stI">·</b></span><span>speed <b id="stR">·</b></span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
           <button class="btn small" id="btnSummarize"><i class="ri-magic-line"></i> Summarize</button>
@@ -83,33 +83,33 @@
 
       <footer>
         Shortcuts: <kbd>R</kbd> record/stop · <kbd>C</kbd> copy · <kbd>S</kbd> .srt · <kbd>?</kbd> about<br>
-        Engine: <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> + <a href="https://cactuscompute.com/blog/whistle" target="_blank" rel="noopener">Cactus Whistle</a> · Models: <a href="https://huggingface.co/Cactus-Compute/whistle" target="_blank" rel="noopener">whistle 17MB ★ default</a> / <a href="https://huggingface.co/onnx-community/whisper-tiny.en" target="_blank" rel="noopener">whisper-tiny.en</a> / <a href="https://github.com/usefulsensors/moonshine" target="_blank" rel="noopener">moonshine</a> · Theme: Nebians Material 3 · Apache-2.0
+        Engine: <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a> + <a href="https://cactuscompute.com/blog/whistle" target="_blank" rel="noopener">Cactus Whistle</a> · Models: <a href="https://huggingface.co/Cactus-Compute/whistle" target="_blank" rel="noopener">whistle 17MB default</a> / <a href="https://huggingface.co/onnx-community/whisper-tiny.en" target="_blank" rel="noopener">whisper-tiny.en</a> / <a href="https://github.com/usefulsensors/moonshine" target="_blank" rel="noopener">moonshine</a> · Theme: Nebians Material 3 · Apache-2.0
       </footer>
     </div>
 
     <div class="side">
       <div class="card">
-        <h2><i class="ri-cpu-line"></i> 1 · Model — on-device STT <span class="tag" id="cacheTag"></span></h2>
+        <h2><i class="ri-cpu-line"></i> 1 · Model: on-device STT <span class="tag" id="cacheTag"></span></h2>
         <div class="field">
           <label>Transcription model (on-device)</label>
           <select id="selModel">
-            <option value="cactus/whistle" selected>whistle · tiny 17MB ★ default</option>
+            <option value="cactus/whistle" selected>whistle · tiny 17MB default</option>
             <option value="onnx-community/whisper-tiny.en">whisper-tiny.en · ultrafast 39MB</option>
-            <option value="onnx-community/moonshine-tiny-ONNX">moonshine-tiny · next-gen 30MB superfast ★</option>
+            <option value="onnx-community/moonshine-tiny-ONNX">moonshine-tiny · next-gen 30MB superfast </option>
             <option value="onnx-community/moonshine-base-ONNX">moonshine-base · next-gen 61MB superfast</option>
             <option value="onnx-community/whisper-base.en">whisper-base.en · balanced 74MB</option>
             <option value="onnx-community/distil-small.en">distil-small.en · distilled 166MB reliable</option>
             <option value="onnx-community/whisper-small.en">whisper-small.en · large 244MB accurate</option>
-            <option value="onnx-community/whisper-large-v3-turbo">whisper-large-v3-turbo · turbo 809M 400MB q4 ★ most accurate</option>
+            <option value="onnx-community/whisper-large-v3-turbo">whisper-large-v3-turbo · turbo 809M 400MB q4 most accurate</option>
             <option value="onnx-community/distil-large-v3">distil-large-v3 · distilled 756M 400MB fast</option>
           </select>
-          <div class="model-note">★ <b>whistle 17MB</b> is the default — 7 languages (en/de/fr/es/it/nl/pl) with auto-detect, 11ms first token. Whisper/Moonshine below are English-only and use the Precision + Device settings; whistle runs a fixed ultrafast engine.</div>
+          <div class="model-note"><b>whistle 17MB</b> is the default: 7 languages (en/de/fr/es/it/nl/pl) with auto-detect, 11ms first token. Whisper/Moonshine below are English-only and use the Precision + Device settings; whistle runs a fixed ultrafast engine.</div>
         </div>
         <div class="row2" id="precDevRow">
           <div class="field">
             <label>Precision</label>
             <select id="selDtype">
-              <option value="q8" selected>q8 · int8 (small/fast) ★</option>
+              <option value="q8" selected>q8 · int8 (small/fast) </option>
               <option value="q4">q4 · 4-bit (tiny/turbo superfast)</option>
               <option value="fp32">fp32 · exact (large)</option>
               <option value="fp16">fp16 · WebGPU only</option>
@@ -118,16 +118,16 @@
           <div class="field">
             <label>Device</label>
             <select id="selDev">
-              <option value="wasm" selected>WASM (CPU) ★ stable</option>
+              <option value="wasm" selected>WASM (CPU) stable</option>
               <option value="auto">auto (WebGPU→WASM)</option>
               <option value="webgpu">WebGPU · exp</option>
             </select>
           </div>
         </div>
-        <div class="hint" id="whistleEngineNote" style="margin-bottom:12px">⚡ Whistle runs a fixed ultrafast engine (WASM CPU, auto language detect) — no precision/device choice needed.</div>
+        <div class="hint" id="whistleEngineNote" style="margin-bottom:12px">Whistle runs a fixed ultrafast engine (WASM CPU, auto language detect): no precision/device choice needed.</div>
         <button class="btn primary" id="btnLoad" style="width:100%;justify-content:center"><i class="ri-download-2-line"></i> Download / load model</button>
         <div id="dl"></div>
-        <div class="statusline" id="dlStatus">Models fetch once from Hugging Face CDN, then stored in Cache API — offline forever.</div>
+        <div class="statusline" id="dlStatus">Models fetch once from Hugging Face CDN, then stored in Cache API: offline forever.</div>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button class="btn small" id="btnPersist" style="flex:1;justify-content:center"><i class="ri-hard-drive-2-line"></i> Make persistent</button>
           <button class="btn small" id="btnWipe" style="flex:1;justify-content:center"><i class="ri-delete-bin-line"></i> Clear cache</button>
@@ -139,7 +139,7 @@
         <div id="langFixedBox" style="display:flex;align-items:center;gap:10px;background:var(--bg-hover);border:1px solid var(--border-line);border-radius:10px;padding:10px 12px;margin-bottom:12px">
           <span style="font-size:18px">🇺🇸</span>
           <div>
-            <div style="font-weight:600;font-size:0.84rem;color:var(--text-primary)">English (en) — fixed</div>
+            <div style="font-weight:600;font-size:0.84rem;color:var(--text-primary)">English (en): fixed</div>
             <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">No language detection · fastest path</div>
           </div>
           <span style="margin-left:auto;font-family:var(--font-mono);font-size:0.7rem;color:#16a34a;border:1px solid #16a34a33;background:#16a34a14;padding:3px 8px;border-radius:9999px">ultrafast</span>
@@ -147,8 +147,8 @@
         <div id="langAutoBox" style="display:none;align-items:center;gap:10px;background:var(--bg-hover);border:1px solid var(--border-line);border-radius:10px;padding:10px 12px;margin-bottom:12px">
           <span style="font-size:18px">🌐</span>
           <div>
-            <div style="font-weight:600;font-size:0.84rem;color:var(--text-primary)">Auto-detect — 7 languages</div>
-            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">en · de · fr · es · it · nl · pl — detected per clip</div>
+            <div style="font-weight:600;font-size:0.84rem;color:var(--text-primary)">Auto-detect: 7 languages</div>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">en · de · fr · es · it · nl · pl: detected per clip</div>
           </div>
           <span style="margin-left:auto;font-family:var(--font-mono);font-size:0.7rem;color:#16a34a;border:1px solid #16a34a33;background:#16a34a14;padding:3px 8px;border-radius:9999px">whistle</span>
         </div>
@@ -185,10 +185,10 @@
           <span class="mini-chip"><i class="ri-volume-up-line"></i> TTS Kokoro 82M</span>
           <span class="mini-chip"><i class="ri-lock-line"></i> 100% on-device</span>
         </div>
-        <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:10px">Post-process your transcript locally — no server, all WASM/WebGPU. <a href="{% url 'web:tts_tool' %}" style="text-decoration:underline;text-underline-offset:3px;font-weight:600">Open TTS Studio →</a></p>
-        <div class="hint" style="margin-bottom:12px">New: turbo 809M & moonshine 30MB in Model dropdown above — try them. <b>TTS now has its own page</b> with tiny/small/medium Kokoro models.</div>
+        <p style="font-size:0.84rem;color:var(--text-secondary);margin-bottom:10px">Post-process your transcript locally: no server, all WASM/WebGPU. <a href="{% url 'web:tts_tool' %}" style="text-decoration:underline;text-underline-offset:3px;font-weight:600">Open TTS Studio →</a></p>
+        <div class="hint" style="margin-bottom:12px">New: turbo 809M & moonshine 30MB in Model dropdown above: try them. <b>TTS now has its own page</b> with tiny/small/medium Kokoro models.</div>
         <div class="field" style="margin-bottom:10px">
-          <label>Tools — run on current transcript</label>
+          <label>Tools: run on current transcript</label>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn small" id="btnSentiment"><i class="ri-emotion-line"></i> Sentiment</button>
             <button class="btn small" id="btnKeywords"><i class="ri-hashtag"></i> Keywords</button>
