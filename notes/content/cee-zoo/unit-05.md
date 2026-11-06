@@ -972,3 +972,78 @@ f.text(150, 214, "tennis court = 261 sq m", size=10.5, color=NAVY, bold=True)
 **9.** (b) — 16 % of 100 g = 16 g N. Option (a) is the reverse calculation (100/16), the commonest slip.
 :::
 
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the human alimentary canal and the digestive glands with their functions. <span class="marks">[10]</span>
+2. Describe the digestion and absorption of carbohydrates, proteins and fats in the human body. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="3" ratio="1.25" caption="The digestive system. (a) The alimentary canal from mouth to anus with the associated glands. (b) The structure of an intestinal villus, the unit of absorption. (c) The structure of a tooth."
+@ photo id="bio12/alimentary" cap="(a) Alimentary canal"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/villus-diagram" cap="(b) Villus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/tooth-diagram" cap="(c) Tooth"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Alimentary canal and digestive glands (10 marks)
+
+**Introduction.** The human digestive system has the **alimentary canal**, about 8–9 m long from mouth to anus, and the **digestive glands**. Digestion is the breaking of large insoluble food molecules into small soluble ones.
+
+**Alimentary canal.**
+
+1. **Mouth and buccal cavity:** the tongue mixes food with saliva. Humans have 32 permanent teeth; the dental formula is I 2/2, C 1/1, PM 2/2, M 3/3 (= 2123/2123 on each side).
+2. **Pharynx and oesophagus:** the epiglottis closes the windpipe in swallowing. The oesophagus carries food by **peristalsis**.
+3. **Stomach:** a J-shaped bag with cardiac, fundic and pyloric regions. Its inner wall has folds (**rugae**) and gastric glands: **chief cells** (pepsinogen), **parietal cells** (HCl and intrinsic factor) and mucous cells.
+4. **Small intestine (about 6 m):** duodenum (C-shaped, receives bile and pancreatic juice), jejunum and ileum. The inner surface has **villi** and microvilli that give a huge absorbing area.
+5. **Large intestine (about 1.5 m):** caecum with the **appendix**, colon (ascending, transverse, descending), rectum and anus. It absorbs water and salts and forms faeces.
+
+**Digestive glands.**
+
+| Gland | Secretion | Main function |
+|---|---|---|
+| Salivary (parotid, sub-mandibular, sub-lingual) | Saliva with amylase | Starch digestion, moistens food |
+| Gastric glands | HCl, pepsinogen, mucus | Kill germs, digest protein |
+| **Liver** (largest gland, about 1.5 kg) | **Bile** | Emulsifies fats; also stores glycogen, makes urea |
+| Gall bladder | Stores bile | Releases bile into duodenum |
+| **Pancreas** | Pancreatic juice (amylase, trypsin, lipase) | Digests all three food types |
+| Intestinal glands | Intestinal juice | Final digestion |
+
+**Role of the liver.** Bile salts have no enzyme, but they break fat into tiny droplets and make the medium alkaline for pancreatic enzymes. Bile pigments (bilirubin) give faeces their colour. Blockage of the bile duct causes **jaundice**.
+
+**Conclusion.** Each part of the canal and each gland has a specific part in the continuous process of ingestion, digestion, absorption and egestion.
+
+### Model answer D2: Digestion and absorption (10 marks)
+
+**Introduction.** Digestion is **mechanical** (chewing, churning) and **chemical** (enzymes). The products are absorbed into blood or lymph, mainly in the small intestine.
+
+**Digestion of carbohydrates.**
+
+1. **Mouth:** salivary **amylase (ptyalin)** at pH about 6.8 changes starch to maltose.
+2. **Duodenum:** pancreatic amylase completes the work.
+3. **Ileum:** maltase, sucrase and lactase make **glucose, fructose and galactose**.
+
+**Digestion of proteins.**
+
+1. **Stomach:** HCl (pH 1.5–2.0) kills germs and activates **pepsinogen** to **pepsin**, which converts proteins to peptones. In infants rennin curdles milk.
+2. **Duodenum:** **trypsin, chymotrypsin** and carboxypeptidase make smaller peptides.
+3. **Ileum:** aminopeptidases and dipeptidases make **amino acids**.
+
+**Digestion of fats.** **Bile salts emulsify** the fat. **Pancreatic lipase** changes it into fatty acids and glycerol (some monoglycerides). Intestinal lipase finishes the work.
+
+| Food | Enzyme | Site | End product |
+|---|---|---|---|
+| Starch | Amylase | Mouth, duodenum | Maltose |
+| Maltose | Maltase | Ileum | Glucose |
+| Protein | Pepsin, trypsin | Stomach, duodenum | Peptides |
+| Peptides | Peptidases | Ileum | Amino acids |
+| Fat | Lipase (+ bile) | Duodenum | Fatty acids, glycerol |
+
+**Absorption.** Most absorption occurs in the **villi** of the ileum. Each villus has a capillary network and a central **lacteal**. **Glucose and amino acids** enter the capillaries by diffusion and **active transport** and go through the hepatic portal vein to the liver. **Fatty acids and glycerol** form **micelles**, are rebuilt into **chylomicrons** in the epithelial cell and enter the lacteals, reaching the blood by the lymph. The large intestine absorbs water, mineral salts and some vitamins (K and B12 made by bacteria).
+
+**Numerical.** A meal with 60 g carbohydrate, 20 g protein and 10 g fat gives (60 × 4) + (20 × 4) + (10 × 9) = 240 + 80 + 90 = **410 kcal**.
+
+**Conclusion.** Digestion changes insoluble food into forms that pass through the villi, and the liver then controls what reaches the body.

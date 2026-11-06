@@ -776,3 +776,106 @@ f.text(150, 224, "1,350 / 450 = 3 times", size=10.5, color=NAVY, bold=True)
 **9.** (c) — vestigial pelvic bones are the remains of hind limbs of land-living ancestors; use and disuse in one lifetime (a) is not inherited.
 **10.** (d) — "lost by disuse and inherited" is Lamarck's use-and-disuse with inheritance of acquired characters.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Oparin–Haldane theory of the origin of life and the Miller–Urey experiment that supports it. <span class="marks">[10]</span>
+2. Describe the evidences of organic evolution (morphological, anatomical, palaeontological, embryological and biochemical). <span class="marks">[10]</span>
+3. Compare Lamarckism, Darwinism and Neo-Darwinism and explain how natural selection works. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.25" caption="Evidence for evolution. (a) Darwin's finches show adaptive radiation of beak shape. (b) Horse fossils show a steady change from a small many-toed animal to the one-toed Equus. (c) Archaeopteryx is a connecting link between reptiles and birds. (d) The skulls of hominids show a growing brain case."
+@ photo id="bio11/finches-gould" cap="(a) Finches"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio11/horse-evo" cap="(b) Horse series"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/archaeopteryx" cap="(c) Archaeopteryx"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/hominid" cap="(d) Hominid skulls"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Oparin–Haldane theory and the Miller–Urey experiment (10 marks)
+
+**Introduction.** Earth is about 4.6 billion years old and the first cells appeared about 3.5 billion years ago. Early ideas such as special creation, spontaneous generation (disproved by Redi and Pasteur) and panspermia (life arrived from space, Arrhenius) did not explain how life began. The **chemical evolution theory** of A. I. Oparin (1924) and J. B. S. Haldane (1929) says that life arose slowly from non-living matter under the conditions of the young Earth.
+
+**Steps of the Oparin–Haldane theory.**
+
+1. **Primitive atmosphere:** it was **reducing**, with methane (CH₄), ammonia (NH₃), hydrogen (H₂) and water vapour, but no free oxygen.
+2. **Energy sources:** ultraviolet rays, lightning, volcanic heat and cosmic rays drove chemical reactions.
+3. **Simple organic molecules:** the gases reacted to form amino acids, simple sugars, fatty acids and nitrogen bases.
+4. **Hot dilute soup:** rain carried these molecules into the oceans, which became a "primordial soup".
+5. **Macromolecules:** monomers joined to form proteins, polysaccharides and nucleic acids.
+6. **Coacervates (protobionts):** droplets of macromolecules with a membrane-like boundary could take in material and divide. Sidney Fox made similar **proteinoid microspheres**.
+7. **First cell:** a heterotrophic, anaerobic prokaryote that fed on the soup.
+8. **Autotrophs and oxygen:** when food ran short, photosynthetic cells evolved, released oxygen, and later gave rise to aerobic life.
+
+**Miller–Urey experiment (1953).** Stanley Miller and Harold Urey built a closed glass apparatus. One flask held water that was boiled to make vapour. A second flask held the gases CH₄, NH₃ and H₂ in which **high-voltage electric sparks** imitated lightning. A condenser cooled the gas, and the liquid collected in a trap and was returned to the boiling flask, so the cycle ran continuously for about a week. The water turned brown-red, and chromatography showed **amino acids** such as glycine, alanine, aspartic acid and glutamic acid, with urea and simple acids.
+
+| Part of apparatus | Imitates | Result |
+|---|---|---|
+| Boiling flask | Ocean and evaporation | Water vapour to the gas flask |
+| Gas flask with sparks | Atmosphere with lightning | Organic molecules formed |
+| Condenser and trap | Rain into the sea | Amino acids collected |
+
+**Importance and limits.** The experiment gave the first laboratory proof that organic molecules form from inorganic ones. Later work (Oro, 1960) made adenine from hydrogen cyanide. Today many scientists think the early air held more CO₂ and N₂, but similar molecules still form near volcanoes and deep-sea vents.
+
+**Conclusion.** Chemical evolution, supported by the Miller–Urey experiment, is the most accepted explanation of how life began on Earth.
+
+### Model answer D2: Evidences of organic evolution (10 marks)
+
+**Introduction.** **Organic evolution** is the gradual change of living things over many generations. Its proof comes from several branches of biology.
+
+**1. Morphological and anatomical evidence.**
+
+1. **Homologous organs** have the same basic structure but different functions: the forelimb of a human, cat, whale and bat has the same bones (humerus, radius, ulna, carpals, metacarpals, phalanges). They show **divergent evolution** from a common ancestor.
+2. **Analogous organs** have different structure but the same function, such as the wing of a bird and of an insect. They show **convergent evolution**.
+3. **Vestigial organs** are reduced and almost useless: the appendix, wisdom teeth, coccyx and ear muscles of man.
+4. **Connecting links:** *Archaeopteryx* (reptile and bird), *Peripatus* (annelid and arthropod), the lungfish and the duck-billed platypus.
+
+**2. Palaeontological evidence.** **Fossils** in rock layers show that older strata hold simpler forms. The age is found by **radiocarbon dating** (half-life of C-14 = 5,730 years). A fossil with ⅛ of the C-14 of a living organism has passed through three half-lives, so its age is 3 × 5,730 = **17,190 years**. The **horse** series (Eohippus → Mesohippus → Merychippus → Pliohippus → Equus) shows growth in size, reduction of toes from four to one, and longer, stronger teeth.
+
+**3. Embryological evidence.** Embryos of fish, tortoise, chick and man look alike in early stages and have **gill slits** and a tail. Von Baer said that general features appear before special ones. Haeckel's **biogenetic law** ("ontogeny repeats phylogeny") is true only in a loose way.
+
+**4. Biochemical evidence.** All organisms use DNA, the same genetic code, ATP and the same 20 amino acids. The amino-acid sequence of **cytochrome c** differs by only a few residues between man and chimpanzee but by many between man and yeast, so the smaller the difference, the closer the relationship.
+
+**5. Biogeographical evidence.** Darwin's finches on the Galápagos have different beaks for different foods, though they came from one ancestor.
+
+| Evidence | Example | What it shows |
+|---|---|---|
+| Homology | Forelimbs of vertebrates | Common ancestry |
+| Fossils | Horse, Archaeopteryx | Gradual change |
+| Embryology | Gill slits in all embryos | Shared ancestors |
+| Biochemistry | Cytochrome c | Degree of relationship |
+
+**Conclusion.** Evidence from anatomy, fossils, embryos and molecules all points to descent with modification from common ancestors.
+
+### Model answer D3: Lamarckism, Darwinism and Neo-Darwinism (10 marks)
+
+**Introduction.** Three major theories try to explain **how** evolution happens.
+
+**Lamarckism (1809).** In *Philosophie Zoologique* Lamarck proposed (a) the internal urge to grow, (b) **use and disuse** of organs and (c) **inheritance of acquired characters**. Example: the giraffe stretched its neck to reach high leaves, and its offspring inherited the longer neck. **Criticism:** Weismann cut the tails of mice for 22 generations and the young still had normal tails. Acquired changes of body cells are not passed on, as only the germ cells carry heredity.
+
+**Darwinism (1859).** In *The Origin of Species* Darwin (with Wallace) gave five ideas:
+
+1. **Overproduction:** more young are born than can survive.
+2. **Struggle for existence:** they compete for food, space and mates.
+3. **Variation:** no two individuals are exactly alike.
+4. **Natural selection:** the fittest survive and breed.
+5. **Inheritance and speciation:** useful variations pass on, and over many generations new species arise.
+
+Example: in the industrial areas of England the dark form of the peppered moth *Biston betularia* became common because birds ate the pale moths on sooty trees. **Limits:** Darwin could not explain how variations arise or are inherited.
+
+**Neo-Darwinism (modern synthetic theory).** Dobzhansky, Huxley, Mayr and Simpson joined Darwin's idea with genetics. It says that variation arises by **mutation** and **recombination**, and that evolution is a change in gene frequency caused by mutation, gene flow, genetic drift, natural selection and reproductive isolation. By the Hardy–Weinberg law, p² + 2pq + q² = 1. If q² = 0.04 then q = 0.2, p = 0.8, and carriers (2pq) = 2 × 0.8 × 0.2 = **0.32**.
+
+| Point | Lamarckism | Darwinism | Neo-Darwinism |
+|---|---|---|---|
+| Cause of change | Use and disuse | Natural selection | Mutation, selection, drift, isolation |
+| Acquired traits | Inherited | Not discussed | Not inherited |
+| Source of variation | Environment | Unexplained | Mutation and recombination |
+| Basis | Organs | Individuals | Gene frequency |
+
+**Conclusion.** Lamarck started the idea of gradual change, Darwin explained it through natural selection, and Neo-Darwinism completed it with genetics.
