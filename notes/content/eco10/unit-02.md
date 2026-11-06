@@ -559,3 +559,96 @@ Comment: AR equals price; MR falls faster than AR (by Rs. 2 for every extra unit
 *Three stages (3).* Stage I — increasing returns: MP rises, AP rises and is below MP, TP rises at an increasing rate. Stage II — diminishing returns: MP falls but remains positive, AP reaches its maximum where MP = AP and then falls, TP rises at a diminishing rate. Stage III — negative returns: MP is negative, AP falls, TP falls.
 *Reasons (3).* Stage I: the fixed factor is under-utilised, so adding the variable factor lets it be used better; division of labour and specialisation become possible. Stage II: the fixed factor is now fully used, so each extra worker has less of it to work with; diminishing returns set in. Stage III: too many workers for the fixed factor, so they obstruct one another and the marginal product becomes negative. Show a table of TP, MP and AP. The producer should operate in Stage II, where MP is positive and AP is at or near its maximum.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the laws of demand and supply. Explain the determinants of demand and the equilibrium price, with a numerical. <span class="marks">[10]</span>
+2. Explain the features of the main market structures, and how a firm decides its output. <span class="marks">[10]</span>
+3. Explain cost concepts with a cost table, and describe the law of variable proportions. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="4" ratio="1.15" caption="Markets and production. (a) A market in Kathmandu where price is set by many buyers and sellers. (b) A tea garden of eastern Nepal, where land and labour produce output. (c) Terraced fields, where the law of variable proportions applies. (d) A hydropower dam, a firm with high fixed cost and low variable cost."
+@ photo id="eco10/market" cap="(a) Market"
+@ photo id="eco10/tea" cap="(b) Tea garden"
+@ photo id="eco10/terraces" cap="(c) Terraced fields"
+@ photo id="eco10/hydropower" cap="(d) Hydropower dam"
+```
+
+### Model answer D1: demand, supply and equilibrium (10 marks)
+
+**Introduction.** **Demand** is the quantity of a good that consumers are **willing and able to buy** at a given price in a given time. **Supply** is the quantity that producers are willing to sell at a given price.
+
+**Law of demand.** *Other things remaining the same, the quantity demanded falls when the price rises and rises when the price falls.* The demand curve slopes **downward**. Reasons: the law of diminishing marginal utility, the income effect and the substitution effect.
+
+**Determinants of demand.** Price of the good, income of consumers, prices of related goods (substitutes such as tea and coffee, complements such as car and petrol), tastes and fashion, population, and expectations. A change in **price** is a **movement along** the curve; a change in the other factors **shifts** the curve.
+
+**Law of supply.** *Other things remaining the same, the quantity supplied rises when the price rises.* The supply curve slopes **upward**, since a higher price means a higher profit. Determinants: cost of production, technology, number of producers, taxes and subsidies, and weather for farm goods.
+
+**Equilibrium.** The market is in equilibrium where **demand equals supply**. At a higher price there is a **surplus** and the price falls; at a lower price there is a **shortage** and the price rises.
+
+| Price (Rs per kg) | Quantity demanded (kg) | Quantity supplied (kg) | Situation |
+|---|---|---|---|
+| 10 | 80 | 40 | Shortage of 40 |
+| 20 | 60 | 60 | **Equilibrium** |
+| 30 | 40 | 80 | Surplus of 40 |
+
+**Numerical.** If demand is $Q_d = 100 - 2P$ and supply is $Q_s = 20 + 2P$, equilibrium needs $100 - 2P = 20 + 2P$, so $80 = 4P$, $P = 20$ and $Q = 100 - 40 = 60$. The result matches the table.
+
+**Conclusion.** The market price settles where buyers and sellers agree, and it moves when demand or supply shifts, as the price of tomatoes does between the harvest season and the off-season.
+
+### Model answer D2: market structures and the firm's output (10 marks)
+
+**Introduction.** A **market** is any arrangement in which buyers and sellers meet. Its structure depends on the number of firms and the type of product.
+
+| Feature | Perfect competition | Monopoly | Monopolistic competition | Oligopoly |
+|---|---|---|---|---|
+| Number of sellers | Very many | One | Many | A few |
+| Product | Identical | Unique, no close substitute | Differentiated | Identical or differentiated |
+| Entry | Free | Blocked | Free | Difficult |
+| Price control | None (price taker) | Large | Some | Some, with rivals |
+| Example | Vegetable market | Nepal Electricity Authority for supply | Restaurants, clothes shops | Telecom companies, cement makers |
+
+**Features of perfect competition.** Many buyers and sellers, identical product, free entry and exit, perfect knowledge, and one price in the market.
+
+**Features of monopoly.** A single seller, barriers to entry, the seller fixes the price or the quantity; the risk is high price and poor service, so the government controls it through rules.
+
+**How a firm decides output.** A firm that wants the largest profit expands production as long as the **extra revenue (marginal revenue, MR) is greater than the extra cost (marginal cost, MC)**. Profit is highest at the output where **MR = MC**. Beyond it, each unit costs more than it earns.
+
+- **Revenue:** total revenue $TR = P \times Q$; average revenue $AR = TR/Q$ (equals price); marginal revenue is the change in TR from one more unit.
+- **Perfect competition:** AR = MR = price, a horizontal line.
+- **Monopoly:** AR and MR both slope downward, with MR below AR.
+
+**Profit.** Profit = TR - TC. If $AR > AC$ there is supernormal profit; if $AR = AC$, normal profit.
+
+**Conclusion.** The kind of market decides how much power a firm has over price, and a profit-seeking firm always produces where MR equals MC.
+
+### Model answer D3: costs and the law of variable proportions (10 marks)
+
+**Introduction.** **Cost of production** is the money spent to produce goods. **Fixed costs (TFC)** do not change with output (rent, machines). **Variable costs (TVC)** change with output (raw material, wages). **Total cost** $TC = TFC + TVC$; **average cost** $AC = TC/Q$; **marginal cost** is the extra cost of producing one more unit.
+
+**Cost table (TFC = Rs 100).**
+
+| Output | TVC | TC | AC | MC |
+|---|---|---|---|---|
+| 1 | 50 | 150 | 150.0 | 50 |
+| 2 | 90 | 190 | 95.0 | 40 |
+| 3 | 120 | 220 | 73.3 | 30 |
+| 4 | 160 | 260 | 65.0 | 40 |
+| 5 | 220 | 320 | 64.0 | 60 |
+
+MC falls first and then rises, and the AC curve is U-shaped, with MC cutting AC at its lowest point.
+
+**Law of variable proportions.** *When more and more units of a variable factor (labour) are added to a fixed factor (land), the output at first rises more than proportionately, then less than proportionately, and finally falls.*
+
+| Labour | Total product | Average product | Marginal product | Stage |
+|---|---|---|---|---|
+| 1 | 10 | 10 | 10 | Increasing returns |
+| 2 | 30 | 15 | 20 | Increasing returns |
+| 3 | 60 | 20 | 30 | Increasing returns |
+| 4 | 80 | 20 | 20 | Diminishing returns |
+| 5 | 90 | 18 | 10 | Diminishing returns |
+| 6 | 90 | 15 | 0 | Maximum TP |
+| 7 | 80 | 11.4 | -10 | Negative returns |
+
+**Explanation.** At first the fixed land is not fully used, so extra workers raise output a lot. Later, the land is crowded, so each worker adds less. A farmer with 1 ropani of land will not benefit from 20 labourers.
+
+**Conclusion.** Costs show what production really costs, and the law of variable proportions explains why a rational producer stops adding a factor in the stage of diminishing returns.
