@@ -197,6 +197,91 @@ In $\text{PCl}_5$ the two axial bonds are longer than the three equatorial bonds
 | Organic | Wrong IUPAC numbering; Markovnikov applied to the peroxide case | Number from the end nearest the functional group; remember HBr only |
 | Applied | Flow sheet without labels or conditions | Label every vessel; give pressure, temperature and catalyst |
 
+## 6.6 Extended model answers (10 marks)
+
+In a Grade 11 Chemistry long answer the examiner looks for balanced equations with conditions, a flow of steps in the right order, a table or labelled diagram, and a numerical with units. The three models below show the full 10-mark length.
+
+**Extended questions**
+
+1. Describe the extraction of copper from copper pyrites, giving the principle of each step with equations. <span class="marks">[10]</span>
+2. Describe the manufacture of sulphuric acid by the Contact process with the conditions, equations, and the reasons for them. Calculate the mass of sulphur needed for 98 kg of acid. <span class="marks">[10]</span>
+3. Balance the reaction of permanganate with iron(II) in acid by the ion-electron method, explain oxidising and reducing agents, and solve a titration numerical. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="4" ratio="1.25" caption="Materials behind the metallurgy answer. (a) Chalcopyrite, CuFeS₂, the main sulphide ore of copper. (b) Froth flotation, which separates the ore from rock. (c) Malachite, a green carbonate ore of copper. (d) A blast furnace, the tall furnace in which ores are smelted; this one is used for iron."
+@ photo id="chem11/chalcopyrite" cap="(a) Chalcopyrite"
+@ photo id="chem11/flotation" cap="(b) Froth flotation"
+@ photo id="chem11/malachite" cap="(c) Malachite"
+@ photo id="chem11/blast-furnace" cap="(d) Blast furnace"
+```
+
+### Model answer D1: extraction of copper (10 marks)
+
+**Introduction.** Copper is a soft, reddish, very good conductor, used in wires, utensils and alloys such as brass and bronze. About 80 per cent of the world's copper comes from **copper pyrites (chalcopyrite), CuFeS₂**. Other ores are malachite, $\text{CuCO}_3\cdot\text{Cu(OH)}_2$, and cuprite, Cu₂O. Nepal has small copper deposits at Bhutkhola, Ganesh Himal and Okharpauwa.
+
+**Steps of extraction.**
+
+1. **Concentration.** The crushed ore is mixed with water, pine oil and a collector in a tank, and air is blown through. The sulphide particles stick to the bubbles and rise as **froth**, while the rock sinks. This is **froth flotation**.
+2. **Roasting.** The concentrate is heated strongly in air. Sulphur burns away as SO₂ and part of the iron becomes iron(II) oxide: $2\text{CuFeS}_2 + \text{O}_2 \to \text{Cu}_2\text{S} + 2\text{FeS} + \text{SO}_2$, and $2\text{FeS} + 3\text{O}_2 \to 2\text{FeO} + 2\text{SO}_2$.
+3. **Smelting.** The roasted ore is heated with sand (silica) in a blast furnace. Silica combines with FeO to form a light slag, floating on the molten **matte** of Cu₂S and a little FeS: $\text{FeO} + \text{SiO}_2 \to \text{FeSiO}_3$.
+4. **Bessemerisation.** The molten matte is moved to a converter and hot air is blown in. Cu₂S is partly oxidised and then reacts with the rest: $2\text{Cu}_2\text{S} + 3\text{O}_2 \to 2\text{Cu}_2\text{O} + 2\text{SO}_2$, and $2\text{Cu}_2\text{O} + \text{Cu}_2\text{S} \to 6\text{Cu} + \text{SO}_2$. The product, **blister copper**, is about 98 per cent pure; escaping SO₂ makes the surface blistered.
+5. **Refining.** Blister copper is made the **anode** in an electrolytic cell of copper(II) sulphate and dilute sulphuric acid, with thin pure copper as the cathode. Copper dissolves from the anode and deposits at the cathode, and the impurities of silver, gold and platinum collect below as **anode mud**. The copper obtained is 99.9 per cent pure.
+
+| Step | Purpose | Main chemical change |
+|---|---|---|
+| Flotation | Remove rock | Physical separation |
+| Roasting | Remove sulphur | Sulphide to oxide + SO₂ |
+| Smelting | Remove iron | FeO + SiO₂ to slag |
+| Bessemerisation | Make crude metal | Cu₂S + Cu₂O to Cu |
+| Electrorefining | Purify | Cu²⁺ + 2e⁻ to Cu |
+
+**Conclusion.** Copper extraction is a chain of concentration, conversion and purification. The SO₂ released is not wasted; it is converted to sulphuric acid, which also avoids air pollution.
+
+### Model answer D2: Contact process for sulphuric acid (10 marks)
+
+**Introduction.** Sulphuric acid, the "king of chemicals", is used in fertilisers, batteries, detergents and the petroleum industry. The modern method is the **Contact process**, in which SO₂ and O₂ combine on the surface of a solid catalyst.
+
+**Steps.**
+
+1. **Burning sulphur** (or roasting pyrites) in dry air: $\text{S} + \text{O}_2 \to \text{SO}_2$.
+2. **Purifying the gas.** Dust and arsenic compounds are removed because they poison the catalyst. The gas is dried with concentrated acid.
+3. **Catalytic oxidation** in the converter: $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197$ kJ.
+4. **Absorption.** SO₃ is dissolved in 98 per cent H₂SO₄ to give **oleum**, $\text{H}_2\text{S}_2\text{O}_7$, because SO₃ with water forms an acid mist: $\text{SO}_3 + \text{H}_2\text{SO}_4 \to \text{H}_2\text{S}_2\text{O}_7$.
+5. **Dilution.** Oleum is diluted carefully with water to give the acid of the needed strength: $\text{H}_2\text{S}_2\text{O}_7 + \text{H}_2\text{O} \to 2\text{H}_2\text{SO}_4$.
+
+**Conditions for the key step (Le Chatelier's principle).**
+
+| Factor | Condition used | Reason |
+|---|---|---|
+| Temperature | About 450 °C | The reaction is exothermic, so a low temperature favours SO₃, but the rate would be too slow; 450 °C is the compromise |
+| Pressure | 1 to 2 atm | Four moles become two, so high pressure would help, but the yield is already about 98 per cent and high pressure costs more |
+| Catalyst | Vanadium pentoxide, V₂O₅ | Increases the rate, but not the equilibrium yield |
+| Excess oxygen | Air in excess | Shifts the equilibrium to the right |
+
+**Numerical.** 98 kg of H₂SO₄ is $98000/98 = 1000$ mol. One mole of S gives one mole of H₂SO₄, so 1000 mol of S (32 kg) is needed. If the overall yield is 90 per cent, the mass of sulphur required is $32/0.90 = 35.6$ kg.
+
+**Conclusion.** The Contact process gives a very pure, concentrated acid in a continuous process. The choice of 450 °C, V₂O₅ and excess air is a perfect example of balancing yield, rate and cost.
+
+### Model answer D3: redox, oxidising agents and titration (10 marks)
+
+**Introduction.** **Oxidation** is the loss of electrons (increase in oxidation number) and **reduction** is the gain of electrons (decrease in oxidation number). The two always occur together as a redox reaction. An **oxidising agent** takes electrons and is itself reduced; a **reducing agent** gives electrons and is itself oxidised.
+
+**Ion-electron method for $\text{MnO}_4^- + \text{Fe}^{2+} \to \text{Mn}^{2+} + \text{Fe}^{3+}$ in acid.**
+
+1. **Split into half-reactions.** Oxidation: $\text{Fe}^{2+} \to \text{Fe}^{3+}$. Reduction: $\text{MnO}_4^- \to \text{Mn}^{2+}$.
+2. **Balance atoms other than O and H.** Mn and Fe are already balanced.
+3. **Balance oxygen with H₂O and hydrogen with H⁺.** $\text{MnO}_4^- + 8\text{H}^+ \to \text{Mn}^{2+} + 4\text{H}_2\text{O}$.
+4. **Balance charge with electrons.** $\text{MnO}_4^- + 8\text{H}^+ + 5e^- \to \text{Mn}^{2+} + 4\text{H}_2\text{O}$ and $\text{Fe}^{2+} \to \text{Fe}^{3+} + e^-$.
+5. **Equalise the electrons** by multiplying the Fe half by 5, then add: $\text{MnO}_4^- + 8\text{H}^+ + 5\text{Fe}^{2+} \to \text{Mn}^{2+} + 5\text{Fe}^{3+} + 4\text{H}_2\text{O}$.
+
+| Species | Role | Change in oxidation number |
+|---|---|---|
+| MnO₄⁻ | Oxidising agent | Mn: +7 to +2 |
+| Fe²⁺ | Reducing agent | Fe: +2 to +3 |
+
+**Titration numerical.** 25 mL of 0.1 M FeSO₄ is titrated with 0.02 M KMnO₄ from a burette. Moles of Fe²⁺ = $0.1 \times 0.025 = 2.5\times10^{-3}$ mol. The ratio is MnO₄⁻ : Fe²⁺ = 1 : 5, so moles of MnO₄⁻ = $5.0\times10^{-4}$ mol and the volume of permanganate is $5.0\times10^{-4}/0.02 = 0.025$ L = **25 mL**. The end point is the first permanent pink colour, since permanganate acts as its own indicator.
+
+**Conclusion.** Balancing by half-reactions guarantees conservation of both atoms and charge, and redox titrations are a quick, accurate way to find the strength of a solution.
+
 ## Chapter summary
 
 - Group B and C are $64$ of the $75$ marks; balanced equations with conditions, and numericals with the formula first, are what the marker ticks.
