@@ -217,3 +217,61 @@ Students write "the Ministry of Finance releases the budget to the office". The 
 *Accounting and reporting (1).* The FCGO consolidates the accounts of every office into the government's annual financial statement, using the uniform chart of accounts and the FMIS, CGAS, TSA and SUTRA systems.
 *Audit and settlement (2).* The Office of the Auditor General audits the accounts and the stores, reports to the President, who lays the report before Parliament; the Public Accounts Committee examines the report, calls the officials concerned to explain, and directs the recovery of money or the correction of the system; each observation is settled by producing the asset, the money or the authority, or by recovery from the person responsible.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the agencies involved in government accounting in Nepal and the function of each. <span class="marks">[10]</span>
+2. Explain the banking arrangement of government offices, and trace the path of a budget from preparation to audit. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="4" ratio="1.0" caption="The agencies at work. The Ministry of Finance, Singha Durbar, the Parliament building and a Nepal Rastra Bank office stand for the budget, the executive, the legislature and the banker of the government."
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/singha-durbar" cap="Singha Durbar"
+@ photo id="acc10/parliament" cap="Federal Parliament"
+@ photo id="acc10/nrb-pokhara" cap="Nepal Rastra Bank"
+```
+
+### Model answer D1: the agencies (10 marks)
+
+**Introduction.** Government accounting depends on many agencies that prepare the budget, release money, spend it, record it, bank it and audit it.
+
+| Agency | Function |
+|---|---|
+| Ministry of Finance | Prepares the budget; fiscal policy; manages the consolidated fund, loans and grants; controls expenditure |
+| National Planning Commission | Sets the plan, priorities and ceilings; appraises projects |
+| Financial Comptroller General Office (FCGO) | Releases the budget; central accounts and consolidation; chart of accounts; computerised systems |
+| Treasury and Comptroller Offices | Payments, operating level accounts, single account fund, reporting |
+| Spending offices | Incur expenditure and keep the primary records |
+| Office of the Auditor General | Audit of all public accounts |
+| Public Accounts Committee | Examines the audit report and follows the action |
+| Nepal Rastra Bank | Banker to the government; keeps its accounts |
+
+**Explanation.** The National Planning Commission and the Ministry decide *what* to spend; the FCGO and the Treasury Offices make sure it is spent *by the rules* and recorded; the Auditor General and the Public Accounts Committee check *afterwards*; and Nepal Rastra Bank holds the cash. No agency does all the work, so no one controls the money alone.
+
+**Conclusion.** The agencies divide the work of planning, authorising, spending, banking and checking, which makes public money safe.
+
+### Model answer D2: banking arrangement and the path of the budget (10 marks)
+
+**Banking arrangement.**
+
+1. One designated account for each office under the single account fund.
+2. The budget release is credited to this account.
+3. Payment is by cheque or electronic transfer on a payment order, supported by the Treasury and Comptroller Office.
+4. Revenue is deposited on the same day and never spent from the collection.
+5. Daily entry in the bank cash book and monthly reconciliation.
+6. No overdraft, no idle balance and no private account of the office.
+7. The cheques are kept under custody and control.
+
+**Results:** the cash position is known; expenditure cannot escape the budget; reconciliation is possible.
+
+**Path of the budget.**
+
+| Stage | What happens | Agency |
+|---|---|---|
+| 1. Preparation | Plan, priorities and ceilings; proposals from ministries | National Planning Commission; Ministry of Finance |
+| 2. Authorisation | Budget presented, discussed and passed as the Appropriation Act and Finance Act | Parliament |
+| 3. Release | Money released to the offices through the Treasury Offices | FCGO |
+| 4. Spending and recording | Payment, vouchers, bank cash book, store records | Spending office |
+| 5. Reporting | Monthly and annual statements, consolidated by the FCGO | Treasury Offices; FCGO |
+| 6. Audit | Examination and annual report | Auditor General; Public Accounts Committee |
+
+**Conclusion.** The budget is a cycle: what was planned is passed, released, spent, recorded and finally audited, and the audit informs the next plan.
