@@ -356,3 +356,104 @@ AR equals the price; MR falls twice as fast as AR because the price cut applies 
 **3.** Mean $= 31.67$ marks by the step-deviation method with $A = 35$ and $i = 10$; median $= 32.22$ marks; $Q_1 = 22.14$ marks; $Q_3 = 41.00$ marks; mode $= 33.33$ marks; verification $3(32.22) - 2(31.67) = 33.32$, agreeing with the mode. Since $Mean < Median < Mode$, the distribution is **negatively skewed**, with a tail towards the lower marks. Always show the table with the mid-values, $fd'$ and the cumulative frequencies; the marks are awarded for the table.
 **Or,** Explanation of the socialist-oriented economy, its three sectors, its bases under the Constitution, and the features and problems of the Nepali economy, as set out in unit 4 of the companion textbook.
 :::
+
+## 7.15 Extended model answers (10 marks)
+
+The Economics paper asks for long answers on features, laws and policies. Each model below gives an introduction, 6 to 8 explained points, a table or schedule, and a conclusion.
+
+**Extended questions**
+
+1. Explain the main features of the Nepalese economy. <span class="marks">[10]</span>
+2. State and explain the law of demand with a demand schedule, and explain the exceptions to the law. <span class="marks">[10]</span>
+3. Differentiate between direct and indirect taxes and explain the importance of taxation in Nepal. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="4" ratio="1.25" caption="Faces of the Nepalese economy. (a) Terrace farming: agriculture still employs most Nepalis. (b) A market in Kathmandu, where demand and supply meet every day. (c) The Chilime hydropower dam: Nepal's greatest natural resource. (d) A porter on a trekking trail, a reminder of the hard physical work and limited transport in the hills."
+@ photo id="eco10/terraces" cap="(a) Terrace farming"
+@ photo id="eco10/market" cap="(b) Market, Kathmandu"
+@ photo id="eco10/hydropower" cap="(c) Chilime hydropower"
+@ photo id="eco10/porter" cap="(d) Porter on a trail"
+```
+
+### Model answer D1: features of the Nepalese economy (10 marks)
+
+**Introduction.** The economy of Nepal is a developing, mixed economy in which private, public and cooperative sectors work together. It has made progress in roads, electricity, education and health, but still shows many features common to developing countries. Knowing these features helps us to understand the problems and to plan solutions.
+
+1. **Agriculture-based economy.** More than half of the working people depend on farming, and it contributes about a quarter of the national output. Most farms are small and use traditional methods, and production depends on the monsoon. Commercial farming of tea, cardamom and vegetables is slowly growing.
+2. **Low per capita income.** The average income of a person is low compared with developed countries. Low income means low saving and low investment, and this keeps development slow.
+3. **Dependence on remittance.** Millions of Nepalis work abroad, and the money they send home is a very large part of the national income. It pays for food, education and houses, but it also shows that jobs at home are too few.
+4. **Unemployment and under-employment.** Many young people cannot find work, and many farmers are busy only during the sowing and harvesting seasons. This causes migration from villages to cities and to foreign countries.
+5. **Poverty and inequality.** A good number of people still live below the poverty line, especially in remote hills and the Karnali region. The gap between rich and poor, and between the city and the village, is wide.
+6. **Weak industrial base.** Industries are few and small, and mostly process agricultural goods, such as jute, sugar and garments. Because of this, Nepal exports little and imports a lot.
+7. **Trade deficit.** Imports of petrol, machinery, vehicles and food are much larger than exports. The gap is filled mainly by remittance, tourism income and foreign aid.
+8. **Rich natural and human resources, but poor use.** Nepal has water for about 40,000 MW of hydropower and great tourism potential, such as Everest, Pokhara and Lumbini. However, only a small part is used because of limited capital, technology and transport.
+
+**Summary table**
+
+| Feature | Sign | Way forward |
+|---|---|---|
+| Agriculture-based | Small farms, rain-fed | Irrigation, commercial farming |
+| Low income | Low saving | Jobs, skills, productivity |
+| Remittance dependence | Few jobs at home | Industry and ICT jobs |
+| Trade deficit | Imports exceed exports | Export of hydropower, herbs, tea |
+| Resource use | Unused hydropower | Investment, transmission lines |
+
+**Conclusion.** Nepal's economy is agriculture-based, income is low and remittance is heavy, but its water, mountains and young people are strong resources. With investment in hydropower, tourism and skills, Nepal can move from a developing to a more self-reliant economy.
+
+### Model answer D2: law of demand (10 marks)
+
+**Introduction.** **Demand** means the quantity of a good that a consumer is willing and able to buy at a given price in a given time. The **law of demand** states that, other things remaining the same, when the price of a good rises, its quantity demanded falls, and when the price falls, the quantity demanded rises. There is an inverse relation between price and quantity demanded.
+
+**Demand schedule of apples (one consumer, per week).**
+
+| Price per kg (Rs) | 200 | 160 | 120 | 80 | 40 |
+|---|---|---|---|---|---|
+| Quantity demanded (kg) | 1 | 2 | 3 | 5 | 8 |
+
+The table shows that as the price falls from Rs 200 to Rs 40, the quantity demanded rises from 1 kg to 8 kg. If these points are plotted with price on the vertical axis and quantity on the horizontal axis, the line slopes downward from left to right. This is the **demand curve**.
+
+**Assumptions of the law.** Income, tastes and fashion, prices of related goods, population and expectations are assumed to remain constant. If any of them changes, the whole demand curve shifts.
+
+**Why does the demand curve slope downward?**
+
+1. **Law of diminishing marginal utility.** Each extra apple gives less satisfaction, so the consumer pays less for more.
+2. **Income effect.** When the price falls, the real income of the consumer rises, and the consumer can buy more.
+3. **Substitution effect.** A cheaper good replaces costlier substitutes, for example tea replacing coffee.
+
+**Exceptions to the law of demand.**
+
+1. **Giffen goods.** For very poor people, when the price of a basic food such as coarse rice rises, they cut other foods and buy more of it.
+2. **Prestige (Veblen) goods.** Gold, diamonds and luxury cars are bought more when they are costly, because they show status.
+3. **Expectation of a further price rise.** People rush to buy fuel or rice when they expect the price to rise tomorrow.
+4. **Necessities.** The demand for salt or medicine changes very little when the price changes.
+
+**Conclusion.** The law of demand holds for most goods and explains why shops hold sales during festivals such as Dashain and Tihar. The exceptions are few, but a good student must know them.
+
+### Model answer D3: direct and indirect taxes (10 marks)
+
+**Introduction.** A **tax** is a compulsory payment made by people and firms to the government, without any direct return, for the common welfare. The government of Nepal uses it to build roads, run schools, pay staff and give social security. Taxes are divided into direct and indirect taxes.
+
+**Direct tax.** It is paid directly to the government by the person on whom it is imposed, and the burden cannot be shifted. Examples: income tax, property tax and house and land registration tax.
+
+**Indirect tax.** It is collected from one person but its burden is finally borne by another, usually the consumer, through the price of the good. Examples: value added tax (VAT at 13 percent), excise duty and customs duty.
+
+**Difference between direct and indirect taxes**
+
+| Basis | Direct tax | Indirect tax |
+|---|---|---|
+| Burden | Paid by the same person who bears it | Shifted to the consumer |
+| Nature | Usually progressive: higher income, higher rate | Usually regressive: same rate for rich and poor |
+| Collection | Needs records and returns | Easy, collected when goods are sold |
+| Evasion | More difficult to hide for salaried people | Easier to avoid by not issuing a bill |
+| Examples | Income tax, property tax | VAT, excise, customs |
+
+**Importance of taxation.**
+
+1. It is the main source of government revenue for the annual budget.
+2. It reduces the gap between rich and poor, because higher incomes pay more.
+3. It controls the use of harmful goods such as tobacco and alcohol through high excise duty.
+4. It protects domestic industry through customs duty on imports.
+5. It finances public goods such as schools, hospitals, roads and electricity.
+6. It helps to control inflation by reducing the money in the hands of the public.
+
+**Conclusion.** A good tax system has both kinds, with fairness and simple rules. When every buyer asks for a VAT bill and every earner pays the tax honestly, Nepal can build more with its own resources and depend less on loans and aid.
+
