@@ -868,3 +868,43 @@ judge. It also introduces the story's real subject, which is not success but wha
 does to those closest to it.
 :::
 
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain the conflict between Rakesh and his father Varma in "A Devoted Son". <span class="marks">[10]</span>
+2. Discuss the irony of the title and the themes of the story. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.4" caption="Sweets and care. Jalebi, the sweet Varma longs for, and a village health post: the diet and the doctor are at the centre of the story."
+@ photo id="eng12/jalebi" cap="Jalebi"
+@ photo id="soc10/health-post" cap="A health post"
+```
+
+### Model answer D1: the conflict (10 marks)
+
+**Introduction.** "A Devoted Son" is a story by the Indian writer **Anita Desai** (born 1937) from *Games at Twilight and Other Stories* (1978).
+
+1. **Rakesh**, the son of a poor, illiterate man who worked forty years at a **kerosene depot**, stands **first in the country** in his medical examination.
+2. He wins a **scholarship to the USA**, returns, marries the girl his mother chooses (**Veena**), becomes hospital director and the **richest doctor in town**.
+3. After his wife's death and his retirement, old **Varma "went to pieces"**.
+4. Rakesh **nurses him tenderly** but takes over his diet.
+5. **Halwa, fried and sweet food are banned**, meals are weighed, and pills and tonics "became his diet".
+6. Varma resists in small ways: the **jalebi plot** and complaints to old **Bhatia**; he cries, **"Let me die"**.
+7. In the last scene Rakesh reaches to press his father's feet and Varma **tucks them away**.
+8. Varma sweeps the tonic bottle out of his son's hand and prays, **"God is calling me — now let me go."**
+
+**Conclusion.** The son cares for his father's body but ignores his wishes.
+
+### Model answer D2: irony and themes (10 marks)
+
+1. The **title is ironic**: Rakesh is devoted to Varma's health but deaf to his wishes.
+2. **Duty and its limits:** a duty without love becomes control.
+3. **Care versus control:** Rakesh decides everything for his father.
+4. **Appearance and reality:** the town praises him as a model son.
+5. **Class ambition:** the poor father's dream creates a powerful son who no longer needs him.
+6. **Old age and loneliness:** Varma's world has shrunk to a cot.
+7. **Desai's style:** a calm narrator and sharp, ironic detail.
+8. The **ending** makes the reader sympathise with Varma's dignity.
+
+**Conclusion.** The story warns that love must listen as well as provide.

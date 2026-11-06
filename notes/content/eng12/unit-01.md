@@ -924,3 +924,50 @@ the young man's character arc: having spent the story interpreting people from
 behind a window, he ends it unable to interpret anything and simply weeping, which
 in this story is a sign not of failure but of arrival.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the barrier between the couple and their migrant neighbours falls in "Neighbours". <span class="marks">[10]</span>
+2. Discuss the structure, the unnamed characters and the theme of the story. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="2" ratio="1.4" caption="Author and neighbourhood. Tim Winton, the Australian author of the story, and a morning vegetable market: gardens and food bring neighbours together in the story."
+@ photo id="eng12/tim-winton" cap="Tim Winton"
+@ photo id="health8/market-veg" cap="Morning vegetable market"
+```
+
+### Model answer D1: the barrier falls (10 marks)
+
+**Introduction.** "Neighbours" is a very short story by the Australian writer **Tim Winton** (born 1960), collected in *Scission* (1985).
+
+1. A **young, newly married Australian couple** move into an inner-city street of European migrants and feel **"like sojourners in a foreign land"**.
+2. On one side lives a **loud Macedonian family**; on the other a **solitary Polish widower**.
+3. The couple find their **noise, habits and watchfulness offensive**.
+4. The neighbours **disapprove** of a household where the wife earns and the husband stays at home.
+5. The **barrier begins to fall over a vegetable garden** in autumn.
+6. Gifts of food pass between the houses in **winter**.
+7. The barrier falls **completely** when the Polish widower **rebuilds their collapsed henhouse**, although "they could not understand a word he said".
+8. In summer the whole neighbourhood **celebrates**, and the story ends with a **birth**.
+
+| Season | Event |
+|---|---|
+| Autumn | Garden talk |
+| Winter | Gifts |
+| Spring | Duck-killing, pregnancy |
+| Summer | Celebration |
+
+**Conclusion.** Small acts of kindness do more than words to remove suspicion.
+
+### Model answer D2: structure, namelessness and theme (10 marks)
+
+1. The story is **organised by the seasons**, which suggest growth.
+2. **Nobody is named**, so the characters are representative of any couple or neighbours.
+3. Names cannot be exchanged across a **language barrier**.
+4. The **couple** begin with prejudice and learn to accept difference.
+5. The **henhouse** is a symbol: helping to rebuild shows love beyond language.
+6. **Food** (vegetables, ducks, gifts) is the common language.
+7. The tone is **calm and warm**, and the style is simple.
+8. **Theme:** multiculturalism, belonging and the way a community is built.
+
+**Conclusion.** Winton shows that understanding grows through shared life, not shared language.

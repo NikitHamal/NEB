@@ -586,3 +586,50 @@ guide is angry and disillusioned, able to use deceit to make a point, and uneasy
 who has done something ambiguous, and the story does not excuse him.
 :::
 
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain the two monologues and the contrast between the tourist's picture and the guide's reality. <span class="marks">[10]</span>
+2. Discuss the symbols, the technique and the themes of the story. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="4" ratio="1.0" caption="The valley and its eyes. Shankar Lamichhane, the author; the painted eyes of Swayambhunath; the view from Chobhar hill; and the lights of Thamel, where the tourist drinks and talks."
+@ photo id="eng12/lamichhane" cap="Shankar Lamichhane"
+@ photo id="eng12/swayambhu-eyes" cap="Eyes of Swayambhunath"
+@ photo id="eng12/chobhar-view" cap="View from Chobhar"
+@ photo id="eng12/thamel-lights" cap="Thamel at night"
+```
+
+### Model answer D1: the two monologues (10 marks)
+
+**Introduction.** The story (Nepali: *Ardhamudit Nayan Ra Dubna Lageko Gham*, 1962) is by **Shankar Lamichhane** (1928–1975/76), translated by Michael Hutt.
+
+1. It has **two monologues**: the **tourist's** speech over drinks and the **guide's** speech the next day.
+2. The tourist praises the valley's **beauty and peace**, the East that "only gives" to the West, the **Buddha's half-closed eyes**, carved wood and momos.
+3. He asks to see **"beautiful, full eyes"** and the sunset in the Buddha's eyes.
+4. The guide takes him up **Chobhar hill** (Manjushri's sword-cut; the Adinath temple) but **not into the temple**.
+5. He takes him to a **farmer's house** where a **polio-stricken boy** lies unable to speak, move or chew.
+6. The guide has told the parents that the tourist is a **doctor**; their smile will vanish when he leaves.
+7. The boy's only life is in his **eyes**.
+8. The guide says: **"In these eyes hides the end of life. Look! They are just as beautiful as the setting sun's reflection in the eyes of the Buddha!"**
+
+| Tourist | Guide |
+|---|---|
+| Romantic picture | Hard reality |
+| Beauty, peace | Poverty, suffering |
+
+**Conclusion.** The guide forces the tourist to look at the real Nepal behind the postcard.
+
+### Model answer D2: symbols, technique and themes (10 marks)
+
+1. **Eyes:** the Buddha's half-closed eyes and the boy's eyes are joined at the end.
+2. **Sun:** the setting sun is the end of life.
+3. **Smile:** the parents' welcoming smile hides need.
+4. **Technique:** two **monologues** (called stream of consciousness in your textbook).
+5. **Irony:** the tourist admires suffering as beauty.
+6. **Themes:** appearance and reality, East and West (a critique of a romantic, Orientalist view), and poverty behind the picture.
+7. **Further themes:** religious harmony, endurance, compassion and complicity.
+8. **Devices:** imagery, repetition, allusion.
+
+**Conclusion.** The story asks whether we look at people with sympathy or only at pictures.
