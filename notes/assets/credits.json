@@ -10113,6 +10113,19 @@
   "source": "Wikimedia Commons",
   "title": "Howard-S.-Becker-EHESS"
  },
+ "nur10/beers": {
+  "author": "not stated",
+  "bytes": 540099,
+  "credit": "The American magazine: https://babel.hathitrust.org/cgi/pt?id=uc1.d0001423789;view=1up;seq=337",
+  "fetched": "2026-11-06",
+  "file": "nur10/beers.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Portrait_of_Clifford_W._Beers.jpg",
+  "sha1": "d352e5c0a1822e5d",
+  "source": "Wikimedia Commons",
+  "title": "Portrait of Clifford W. Beers"
+ },
  "nur10/brick": {
   "author": "Shresthakedar",
   "bytes": 137167,
@@ -10230,6 +10243,19 @@
   "source": "Wikimedia Commons",
   "title": "Sigmund Freud, by Max Halberstadt (cropped)"
  },
+ "nur10/hawthorne": {
+  "author": "Western Electric Company",
+  "bytes": 429250,
+  "credit": "Western Electric Company Photograph Album, 1925.",
+  "fetched": "2026-11-06",
+  "file": "nur10/hawthorne.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Hawthorne,_Illinois_Works_of_the_Western_Electric_Company,_1925.jpg",
+  "sha1": "3e9159ea99074c58",
+  "source": "Wikimedia Commons",
+  "title": "Hawthorne, Illinois Works of the Western Electric Company, 1925"
+ },
  "nur10/kilnchild": {
   "author": "Shresthakedar",
   "bytes": 137167,
@@ -10255,6 +10281,19 @@
   "sha1": "0611d0d5fe79ae25",
   "source": "Wikimedia Commons",
   "title": "Cubes de kohs utilisés dans la Wais - R avec un exemple de figure à 4 cubes"
+ },
+ "nur10/lewin": {
+  "author": "Pko (photographer)",
+  "bytes": 536065,
+  "credit": "This image has been extracted from another file",
+  "fetched": "2026-11-06",
+  "file": "nur10/lewin.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sculpture_of_Kurt_Lewin,_2011.jpg",
+  "sha1": "2ee4e61b10865a28",
+  "source": "Wikimedia Commons",
+  "title": "Sculpture of Kurt Lewin, 2011"
  },
  "nur10/marriage": {
   "author": "Nirmal Dulal",
@@ -10295,6 +10334,19 @@
   "source": "Wikimedia Commons",
   "title": "Photo of Abraham Harold Maslow by William Carter (cropped)"
  },
+ "nur10/meditate": {
+  "author": "Ganesh Niraula",
+  "bytes": 75720,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur10/meditate.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Meditation_in_deep_forest_in_Nepal.jpg",
+  "sha1": "3fe452e815deb426",
+  "source": "Wikimedia Commons",
+  "title": "Meditation in deep forest in Nepal"
+ },
  "nur10/meeting": {
   "author": "USAID Biodiversity & Forestry",
   "bytes": 481221,
@@ -10333,6 +10385,19 @@
   "sha1": "473dc0532715d6b4",
   "source": "Wikimedia Commons",
   "title": "Milgram Experiment advertising"
+ },
+ "nur10/nepnurse": {
+  "author": "National Library of Medicine - History of Medicine",
+  "bytes": 76946,
+  "credit": "https://www.flickr.com/photos/nlmhmd/8616706430/",
+  "fetched": "2026-11-06",
+  "file": "nur10/nepnurse.jpg",
+  "license": "No restrictions",
+  "license_url": "https://www.flickr.com/commons/usage/",
+  "page": "https://commons.wikimedia.org/wiki/File:Nurse_wearing_uniform_from_Nepal_(8616706430).jpg",
+  "sha1": "48076bf0c4a46677",
+  "source": "Wikimedia Commons",
+  "title": "Nurse wearing uniform from Nepal (8616706430)"
  },
  "nur10/passport": {
   "author": "Ram nam",
@@ -10437,6 +10502,19 @@
   "sha1": "ac5804986d85679b",
   "source": "Wikimedia Commons",
   "title": "School girls in Bhaktapur"
+ },
+ "nur10/selye": {
+  "author": "Chris Lund",
+  "bytes": 112479,
+  "credit": "via Library and Archives Canada",
+  "fetched": "2026-11-06",
+  "file": "nur10/selye.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Dr._Hans_Selye_1956.jpg",
+  "sha1": "cecb3d856ec8c3d9",
+  "source": "Wikimedia Commons",
+  "title": "Dr. Hans Selye 1956"
  },
  "nur10/sherpa": {
   "author": "Vyacheslav Argenberg",

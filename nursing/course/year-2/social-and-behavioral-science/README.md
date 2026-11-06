@@ -1,6 +1,6 @@
 # Social and Behavioral Science (BSN 16)
 
-Year 2, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Theory 60 h. Session 11 wrote four units (PDF built with `nebpdf.py`, `qa_pdf.py` fails=0); every number is verified by `check_sbs.py`.
+Year 2, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Theory 60 h. Sessions 11-12 wrote six units (PDF built with `nebpdf.py`, `qa_pdf.py` fails=0); every number is verified by `check_sbs.py`.
 
 | Unit | Title | Content |
 |---|---|---|
@@ -8,10 +8,13 @@ Year 2, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Th
 | 2 | Family, Marriage, Institutions and Stratification | family types and functions, marriage law and child marriage (NDHS 2022), institutions, social change, caste/class/gender/region, Lorenz and Gini, social determinants; case: adolescent Dalit primigravida |
 | 3 | Psychology for Nursing | schools, learning (classical, operant, social), memory and Ebbinghaus curve, Maslow, emotion, intelligence (ratio and deviation IQ, normal curve), personality; case: mild intellectual disability |
 | 4 | Social Psychology and Health Behaviour | social cognition, attitudes and Likert scoring, Asch, Milgram, bystander, aggression, groups, HBM, stages of change, 5 A's; case: tobacco cessation |
+| 5 | Social Problems, Deviance and Social Control | social problems and theories, Merton strain typology, labelling, poverty (NLSS-IV 2022/23: 20.27%, line NPR 72,908; headcount, poverty gap and severity), unemployment (12.6%), migration (Census 2021 absentees 7.5%, remittance), substance use (STEPS 2019, alcohol grams), trafficking (Act 2064), child labour (ILO 2021), delinquency (Children's Act 2075), social control, social work, PRA and the project cycle, sample size; case: returned migrant with alcohol use |
+| 6 | Stress, Mental Hygiene, Human Relations and Leadership | Selye GAS, Lazarus coping, PSS-10 scoring, burnout (TUTH 78.5%, CI 73.4-83.6%), mental hygiene and Jahoda, Hawthorne, Berne, assertiveness, Johari window, conflict modes, leadership styles, Blake-Mouton, delegation, NHPPD staffing; case: ICU nurse with burnout |
 
 ## Verification
-- `nursing/tools/check_sbs.py` (51 tokens, 11 executed Python blocks, extra asserts): `--verify nursing/course/year-2/social-and-behavioral-science/unit-*.md`.
-- 28 open-licensed Commons photographs (slug `nur10`), 6 plates, 14 SVG figures. Not yet written (next session): Unit 5 social problems, deviance and social control, applied sociology and social work.
+- `nursing/tools/check_sbs.py` (63 tokens, 16 executed Python blocks, extra asserts): `--verify nursing/course/year-2/social-and-behavioral-science/unit-*.md`.
+- 45 open-licensed Commons photographs (slug `nur10`), 10 plates, 26 SVG figures. Book complete (6 units).
+- Facts searched in session 12: NLSS-IV 2022/23 (poverty 20.27%, rural 24.66%, urban 18.34%, Sudurpaschim 34.16%, Gandaki 11.88%, unemployment 12.6%, youth 22.7%); MPI 2021 17.4%; Census 2021 absentees 2,190,592; remittance about NPR 1,445 bn in 2023/24; 839,266 labour permits 2024/25 (94,455 women); ILO Nepal Child Labour Report 2021 (1.1 million, 15.3%, 222,493 hazardous); Nepal Police FY 2020/21 trafficking (134 cases, 187 victims, 80 minors); STEPS 2019 tobacco 28.9% and alcohol 23.9%; TUTH nurse burnout 78.5% (PLOS Global Public Health 2025). **Penalty bands in the Children's Act 2075 differ between secondary sources, so the book states only the age thresholds (under 10 no liability) and graduated penalties; check the Act text.**
 
 ## Source and honesty
 **Unit headings are reconstructed from secondary sources (the exact IOM BSN 16 syllabus text could not be fetched); check your campus copy.** Facts used (searched in session 11): Census 2021 population 29,164,578, 142 caste/ethnic groups, 124 mother tongues, religion shares (Hindu 81.19%, Buddhist 8.21%, Muslim 5.09%, Kirat 3.17%, Christian 1.76%), top-five groups (Chhetri 16.45%, Hill Brahmin 11.29%, Magar 6.90%, Tharu 6.20%, Tamang 5.62%); NDHS 2022: physical violence since 15 = 23%, sexual 8%, married before 18 (women 20-24) 34.9%, adolescent birth rate 71 per 1,000; Chhaupadi criminalised in Criminal Code 2074 s.168 (3 months and/or Rs 3,000); Caste Discrimination Act 2068; legal marriage age 20. The Gini example uses **illustrative teaching data**. Unit 3-4 facts: Wundt 1879; Asch 75% conformed at least once; Milgram 26/40; Darley-Latane 85/62/31%; ICD-10 IQ bands; Nepal Tobacco Product Act 2068; the cigarette price Rs 15 and the patch schedule are teaching assumptions.
