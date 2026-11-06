@@ -694,3 +694,93 @@ The angle: $\tan\theta = \frac{2\sqrt{1}}{1+3} = \frac12$, so
 $\theta = \tan^{-1}\frac12 \approx 26.57^{\circ}$. (Direct check: slopes $-1$ and
 $-\frac13$, and $|\frac{-1+\frac13}{1+\frac13}| = \frac{2/3}{4/3} = \frac12$ ✓.)
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Show that a homogeneous equation $ax^{2}+2hxy+by^{2}=0$ represents a pair of lines through the origin, derive the angle between them and the conditions for coincident and perpendicular lines. <span class="marks">[10]</span>
+2. State the condition for the general second degree equation to represent a pair of lines, find the lines, their point of intersection, the angle between them and the equation of their bisectors with a worked example. <span class="marks">[10]</span>
+
+### Model answer D1: homogeneous equation and the angle between the lines (10 marks)
+
+**Introduction.** The product of two linear expressions such as $(x-y)(x+2y)=0$ represents two straight lines. When each factor has no constant term, the lines pass through the origin and the equation is **homogeneous** of the second degree: every term has degree $2$.
+
+**Theorem 1.** $ax^{2}+2hxy+by^{2}=0$ represents two straight lines through the origin.
+
+*Proof.* Dividing by $x^{2}$ and putting $m=\dfrac yx$ gives $bm^{2}+2hm+a=0$. This quadratic in $m$ has two roots $m_1,m_2$, so the equation represents the lines $y=m_1x$ and $y=m_2x$, both through the origin. The roots are real and distinct when $h^{2}>ab$.
+
+From the quadratic,
+
+$$ m_1+m_2=-\frac{2h}{b},\qquad m_1m_2=\frac ab $$
+
+**Theorem 2: angle between the lines.** If $\theta$ is the acute angle between the lines,
+
+$$ \tan\theta=\left|\frac{m_1-m_2}{1+m_1m_2}\right| $$
+
+*Proof.* $(m_1-m_2)^{2}=(m_1+m_2)^{2}-4m_1m_2=\dfrac{4h^{2}}{b^{2}}-\dfrac{4a}{b}=\dfrac{4(h^{2}-ab)}{b^{2}}$. Also $1+m_1m_2=\dfrac{a+b}{b}$. Therefore
+
+$$ \tan\theta=\frac{2\sqrt{h^{2}-ab}}{|a+b|} $$
+
+**Conditions.**
+
+1. **Coincident lines:** $\theta=0$, so $h^{2}=ab$.
+2. **Perpendicular lines:** $\theta=90^{\circ}$, the denominator is zero, so $a+b=0$ (the sum of the coefficients of $x^{2}$ and $y^{2}$ is zero).
+3. **Imaginary lines** (meeting only at the origin): $h^{2}<ab$.
+
+**Worked examples.**
+
+1. $2x^{2}+5xy+2y^{2}=0$. Factorising, $(2x+y)(x+2y)=0$, so the lines are $y=-2x$ and $y=-\dfrac x2$. With $a=2$, $h=\dfrac52$, $b=2$: $\tan\theta=\dfrac{2\sqrt{\frac{25}{4}-4}}{4}=\dfrac{2\times\frac32}{4}=\dfrac34$. *Check from slopes:* $\left|\dfrac{-2-(-\frac12)}{1+1}\right|=\dfrac34$.
+2. $3x^{2}+8xy-3y^{2}=0$: $a+b=0$, so the lines are perpendicular; the factors are $(3x-y)(x+3y)=0$, with slopes $3$ and $-\dfrac13$.
+3. The equation $x^{2}-6xy+9y^{2}=0$ has $h^{2}=9=ab$, so it represents $(x-3y)^{2}=0$, the single line $x=3y$ counted twice.
+
+| Condition | Meaning |
+|---|---|
+| $h^{2}>ab$ | two distinct real lines |
+| $h^{2}=ab$ | coincident lines |
+| $h^{2}<ab$ | imaginary lines |
+| $a+b=0$ | perpendicular lines |
+
+**Conclusion.** A homogeneous second-degree equation is a pair of lines through the origin; the angle between them is given by $\tan\theta=\dfrac{2\sqrt{h^{2}-ab}}{|a+b|}$.
+
+### Model answer D2: the general second-degree equation and the bisectors (10 marks)
+
+**Introduction.** The general equation $ax^{2}+2hxy+by^{2}+2gx+2fy+c=0$ represents a pair of straight lines only when it can be factorised into two linear expressions.
+
+**Condition.** The equation represents a pair of lines if and only if
+
+$$ \Delta=abc+2fgh-af^{2}-bg^{2}-ch^{2}=0 $$
+
+(the determinant of the symmetric matrix of coefficients is zero). The lines are real if $h^{2}\ge ab$.
+
+**Worked example.** Show that $x^{2}-5xy+4y^{2}+x+2y-2=0$ represents two lines, and find the lines, their intersection, the angle between them and the bisectors.
+
+**Step 1: the condition.** $a=1$, $h=-\dfrac52$, $b=4$, $g=\dfrac12$, $f=1$, $c=-2$.
+
+$$ \Delta=1\cdot4\cdot(-2)+2(1)\left(\tfrac12\right)\left(-\tfrac52\right)-1\cdot1-4\cdot\tfrac14-(-2)\cdot\tfrac{25}{4}=-8-2.5-1-1+12.5=0 $$
+
+So the equation represents a pair of lines.
+
+**Step 2: the lines.** The second-degree terms factorise as $x^{2}-5xy+4y^{2}=(x-4y)(x-y)$. Write $(x-4y+p)(x-y+q)$; comparing the coefficients of $x$, $y$ and the constant gives $p+q=1$, $-4q-p=2$ and $pq=-2$. Solving, $q=-1$ and $p=2$. The lines are
+
+$$ x-4y+2=0\quad\text{and}\quad x-y-1=0 $$
+
+**Step 3: point of intersection.** Subtracting, $-3y+3=0$, so $y=1$ and $x=2$. The point is $(2,1)$. Check: $4-10+4+2+2-2=0$.
+
+**Step 4: the angle.** $\tan\theta=\dfrac{2\sqrt{h^{2}-ab}}{|a+b|}=\dfrac{2\sqrt{\frac{25}{4}-4}}{5}=\dfrac{2\times1.5}{5}=\dfrac35$, so $\theta\approx31^{\circ}$. *Check from the slopes* $\dfrac14$ and $1$: $\dfrac{1-\frac14}{1+\frac14}=\dfrac35$.
+
+**Step 5: bisectors of the pair.** For the homogeneous part, the bisectors satisfy
+
+$$ \frac{x^{2}-y^{2}}{a-b}=\frac{xy}{h} $$
+
+Here $a-b=-3$ and $h=-\dfrac52$, so $\dfrac{x^{2}-y^{2}}{-3}=\dfrac{xy}{-5/2}$, giving $5(x^{2}-y^{2})=6xy$, that is $5x^{2}-6xy-5y^{2}=0$. These are two perpendicular lines because the sum of the coefficients of $x^{2}$ and $y^{2}$ is $0$; for the actual pair they pass through the intersection point $(2,1)$.
+
+*Check.* The slopes of the bisectors satisfy $5m^{2}+6m-5=0$, so $m_1m_2=-1$. The line slopes $\dfrac14$ and $1$ correspond to $14.04^{\circ}$ and $45^{\circ}$; the middle direction is about $29.52^{\circ}$ with $\tan29.52^{\circ}\approx0.566$, which is a root of $5m^{2}+6m-5=0$.
+
+| Item | Result |
+|---|---|
+| Condition $\Delta$ | $0$ |
+| Lines | $x-4y+2=0$, $x-y-1=0$ |
+| Intersection | $(2,1)$ |
+| $\tan\theta$ | $\dfrac35$ |
+| Bisectors (through origin form) | $5x^{2}-6xy-5y^{2}=0$ |
+
+**Conclusion.** The condition $\Delta=0$ tests whether a second-degree equation is a pair of lines; the factors, the point of intersection, the angle and the bisectors then follow by algebra.

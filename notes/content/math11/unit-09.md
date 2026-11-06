@@ -678,3 +678,80 @@ Check: $\sin^{-1}\frac{5}{13}+\sin^{-1}\frac{12}{13}$ — the two angles of a
 $5,12,13$ right triangle — add to $\frac{\pi}{2}$. Valid. ($x=-13$ makes both
 terms negative, so it is rejected.) Hence $x=13$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the inverse circular functions, give the domain and principal value range of each and prove $\sin^{-1}x+\cos^{-1}x=\dfrac\pi2$ and the negative-argument formulae. <span class="marks">[10]</span>
+2. Prove the addition formula for $\tan^{-1}x+\tan^{-1}y$ and the double-angle forms of $2\tan^{-1}x$, and use them to prove identities and solve an equation. <span class="marks">[10]</span>
+
+### Model answer D1: definitions, principal values and basic identities (10 marks)
+
+**Introduction.** The circular functions $\sin,\cos,\tan,\dots$ are many-one, so they have no inverse over all of $\mathbb{R}$. If the domain is restricted to an interval where the function is one-one and covers its whole range, an inverse exists. The values lying in these intervals are the **principal values**. If $\sin\theta=x$ with $-\dfrac\pi2\le\theta\le\dfrac\pi2$, we write $\theta=\sin^{-1}x$ (also $\arcsin x$). Note that $\sin^{-1}x$ does **not** mean $\dfrac{1}{\sin x}$.
+
+**Domain and range of the inverse functions.**
+
+| Function | Domain | Range (principal values) |
+|---|---|---|
+| $\sin^{-1}x$ | $[-1,1]$ | $\left[-\dfrac\pi2,\dfrac\pi2\right]$ |
+| $\cos^{-1}x$ | $[-1,1]$ | $[0,\pi]$ |
+| $\tan^{-1}x$ | $\mathbb{R}$ | $\left(-\dfrac\pi2,\dfrac\pi2\right)$ |
+| $\cot^{-1}x$ | $\mathbb{R}$ | $(0,\pi)$ |
+| $\sec^{-1}x$ | $|x|\ge1$ | $[0,\pi]$, $\ne\dfrac\pi2$ |
+| $\operatorname{cosec}^{-1}x$ | $|x|\ge1$ | $\left[-\dfrac\pi2,\dfrac\pi2\right]$, $\ne0$ |
+
+**Principal values.** $\sin^{-1}\dfrac12=\dfrac\pi6$; $\cos^{-1}\left(-\dfrac12\right)=\dfrac{2\pi}3$; $\tan^{-1}(-1)=-\dfrac\pi4$; $\cos^{-1}\dfrac{\sqrt3}2=\dfrac\pi6$.
+
+**Basic properties.**
+
+1. $\sin(\sin^{-1}x)=x$ for $-1\le x\le1$, but $\sin^{-1}(\sin x)=x$ only when $-\dfrac\pi2\le x\le\dfrac\pi2$. For example $\sin^{-1}\left(\sin\dfrac{2\pi}3\right)=\sin^{-1}\dfrac{\sqrt3}2=\dfrac\pi3$, not $\dfrac{2\pi}3$.
+2. $\sin^{-1}(-x)=-\sin^{-1}x$ and $\tan^{-1}(-x)=-\tan^{-1}x$.
+3. $\cos^{-1}(-x)=\pi-\cos^{-1}x$.
+4. $\sin^{-1}\dfrac1x=\operatorname{cosec}^{-1}x$ and $\tan^{-1}\dfrac1x=\cot^{-1}x$ for $x>0$.
+
+**Proof of $\sin^{-1}x+\cos^{-1}x=\dfrac\pi2$.** Let $\sin^{-1}x=\theta$, so $x=\sin\theta$ with $\theta\in\left[-\dfrac\pi2,\dfrac\pi2\right]$. Then $x=\cos\left(\dfrac\pi2-\theta\right)$, and $\dfrac\pi2-\theta\in[0,\pi]$, which is the principal range of $\cos^{-1}$. Hence $\cos^{-1}x=\dfrac\pi2-\theta$, so $\sin^{-1}x+\cos^{-1}x=\dfrac\pi2$. In the same way $\tan^{-1}x+\cot^{-1}x=\dfrac\pi2$.
+
+**Proof of $\cos^{-1}(-x)=\pi-\cos^{-1}x$.** Let $\cos^{-1}x=\theta\in[0,\pi]$. Then $\cos(\pi-\theta)=-\cos\theta=-x$ and $\pi-\theta\in[0,\pi]$, so $\cos^{-1}(-x)=\pi-\theta$.
+
+**Worked example.** Evaluate $\sin\left[\cos^{-1}\dfrac35\right]$. Let $\theta=\cos^{-1}\dfrac35$, so $\cos\theta=\dfrac35$ and $\sin\theta=\sqrt{1-\dfrac9{25}}=\dfrac45$ (positive because $\theta\in[0,\pi]$).
+
+**Conclusion.** Restricting the domain makes each circular function invertible, and the principal value ranges must be remembered because every identity depends on them.
+
+### Model answer D2: addition formula, double-angle forms and an equation (10 marks)
+
+**Introduction.** The formulae of compound angles carry over to inverse functions, but each is valid only for a stated range of $x$ and $y$.
+
+**Theorem 1.** $\tan^{-1}x+\tan^{-1}y=\tan^{-1}\dfrac{x+y}{1-xy}$ when $xy<1$.
+
+*Proof.* Let $A=\tan^{-1}x$ and $B=\tan^{-1}y$, so $\tan A=x$ and $\tan B=y$. Then
+
+$$ \tan(A+B)=\frac{\tan A+\tan B}{1-\tan A\tan B}=\frac{x+y}{1-xy} $$
+
+If $xy<1$, then $A+B$ lies in $\left(-\dfrac\pi2,\dfrac\pi2\right)$, so $A+B=\tan^{-1}\dfrac{x+y}{1-xy}$. If $xy>1$ and $x,y>0$, then $A+B=\pi+\tan^{-1}\dfrac{x+y}{1-xy}$. Similarly $\tan^{-1}x-\tan^{-1}y=\tan^{-1}\dfrac{x-y}{1+xy}$.
+
+**Theorem 2 (double angle).** For $|x|\le1$,
+
+$$ 2\tan^{-1}x=\sin^{-1}\frac{2x}{1+x^{2}}=\cos^{-1}\frac{1-x^{2}}{1+x^{2}}=\tan^{-1}\frac{2x}{1-x^{2}} $$
+
+*Proof.* Let $\theta=\tan^{-1}x$ with $x=\tan\theta$. Then $\sin2\theta=\dfrac{2\tan\theta}{1+\tan^{2}\theta}=\dfrac{2x}{1+x^{2}}$, $\cos2\theta=\dfrac{1-x^{2}}{1+x^{2}}$ and $\tan2\theta=\dfrac{2x}{1-x^{2}}$; taking inverses gives the three forms.
+
+**Worked identities.**
+
+1. $\tan^{-1}\dfrac12+\tan^{-1}\dfrac13=\tan^{-1}\dfrac{\frac56}{1-\frac16}=\tan^{-1}1=\dfrac\pi4$.
+2. $\sin^{-1}\dfrac35+\sin^{-1}\dfrac8{17}=\sin^{-1}\dfrac{77}{85}$. With $\sin A=\dfrac35,\ \cos A=\dfrac45,\ \sin B=\dfrac8{17},\ \cos B=\dfrac{15}{17}$, we get $\sin(A+B)=\dfrac{3}{5}\cdot\dfrac{15}{17}+\dfrac45\cdot\dfrac8{17}=\dfrac{45+32}{85}=\dfrac{77}{85}$. Since $A+B\approx1.13<\dfrac\pi2$, the principal value applies.
+3. $2\tan^{-1}\dfrac12=\tan^{-1}\dfrac{1}{1-\frac14}=\tan^{-1}\dfrac43$.
+
+**Worked equation.** Solve $\tan^{-1}x+\tan^{-1}2x=\dfrac\pi4$.
+
+1. Taking tangents, $\dfrac{x+2x}{1-2x^{2}}=1$, so $3x=1-2x^{2}$ and $2x^{2}+3x-1=0$.
+2. $x=\dfrac{-3\pm\sqrt{17}}{4}$.
+3. The formula needs $2x^{2}<1$. For $x=\dfrac{-3+\sqrt{17}}4\approx0.281$, $2x^{2}\approx0.158<1$, which is valid. For $x\approx-1.78$, $2x^{2}\approx6.3>1$ and the sum is negative, so it is rejected.
+
+So $x=\dfrac{\sqrt{17}-3}{4}$. Check: $\tan^{-1}0.2808+\tan^{-1}0.5616=0.2737+0.5118=0.7854=\dfrac\pi4$.
+
+| Formula | Condition |
+|---|---|
+| $\tan^{-1}x+\tan^{-1}y=\tan^{-1}\dfrac{x+y}{1-xy}$ | $xy<1$ |
+| $2\tan^{-1}x=\sin^{-1}\dfrac{2x}{1+x^{2}}$ | $-1\le x\le1$ |
+| $2\tan^{-1}x=\cos^{-1}\dfrac{1-x^{2}}{1+x^{2}}$ | $x\ge0$ |
+
+**Conclusion.** The inverse addition and double-angle formulae follow from the compound-angle formulae, and every solution must be checked against the stated range.
