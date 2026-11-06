@@ -736,7 +736,7 @@ async function transcribeFile(buf,name){
     const eIdx = Math.floor(end*SR);
     const chunk = f32.subarray(sIdx, eIdx);
     // placeholder for current chunk
-    SEG = [...doneSegs, {text:`… transcribing chunk ${idx+1}/${totalChunks} (${start.toFixed(0)}–${end.toFixed(0)}s / ${dur.toFixed(0)}s)`, pending:true, t0:start, t1:end}];
+    SEG = [...doneSegs, {text:`… transcribing chunk ${idx+1}/${totalChunks} (${start.toFixed(0)}-${end.toFixed(0)}s / ${dur.toFixed(0)}s)`, pending:true, t0:start, t1:end}];
     renderTx();
     $("recState").textContent=`transcribing ${idx+1}/${totalChunks}: ${((idx)/totalChunks*100).toFixed(0)}%`;
     $("dlStatus").textContent=`Streaming chunk ${idx+1}/${totalChunks} (${(end-start).toFixed(0)}s): live below`;
@@ -863,7 +863,7 @@ addEventListener("keydown",(e)=>{
   } else if(navigator.gpu) $("devTxt").textContent = iso ? "WebGPU? · WASM ready" : "WASM (CPU) · WebGPU available";
   else $("devTxt").textContent = iso ? "WASM ⚡ (threads)" : "WASM (CPU)";
   if(okEngine && location.protocol==="file:"){
-    banner($("banner").innerHTML + `<br>💡 You're running from <b>file://</b>: blob worklets are restricted and <code>crossOriginIsolated</code> is false (no threads). For max speed: run <code>python serve.py</code> → <code>http://localhost:8000</code> (threads 2–4× faster). <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">dismiss</button>`);
+    banner($("banner").innerHTML + `<br>💡 You're running from <b>file://</b>: blob worklets are restricted and <code>crossOriginIsolated</code> is false (no threads). For max speed: run <code>python serve.py</code> → <code>http://localhost:8000</code> (threads 2-4× faster). <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">dismiss</button>`);
     if(!$("banner").classList.contains("show")) $("banner").classList.add("show");
   } else if(okEngine && !iso){
     console.warn("[boot] not crossOriginIsolated: WASM will run single-threaded. Use serve.py for threads.");
