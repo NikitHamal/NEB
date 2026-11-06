@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 9. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 10. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -56,8 +56,13 @@ Updated: end of Session 9. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: **Nepal has no standalone Mental Health Act** (the old STATUS line was wrong); search first and state the Disability Rights Act 2074, Criminal Code s.185 and the 2020 Strategy instead. Crop plates with `pages.sh` then WAIT (the PNG is written after the build; a read straight after can show the previous crop). Files named `x..png` cannot be read by the file tool (double dot). Two Commons files were dropped after the contact sheet (a water-bottle photo titled raksi, an unrelated camp photo) and a nude lithograph was replaced by Van Gogh's Sorrowful Old Man. SVG box text must stay under about 36 characters per line at size 10.5 in a 365 px box. Use `svg` panels inside a 2-up photogrid for photo + schematic pairs.
   - Facts verified this session: see the book README (NMHS 2020, Nepal Police FY 2080/81, Strategy 2020, mhGAP-IG 2.0, helpline 1166).
 
+- **Nursing Concepts (BSN 15), Year 2: DONE (session 10).** 6 units (one per syllabus group), 60-page PDF, `qa_pdf.py` fails=0 warns=0. U1 Health, illness, stress, crisis, grief | U2 Pain, opioid maths, palliative care | U3 Communication, SBAR, physical examination and vital-sign maths | U4 Nursing theories (Nightingale, Henderson, Abdellah, Orem, Neuman) | U5 Holistic nursing, complementary therapies, Ayurveda, creativity, WHO hand-rub | U6 Rehabilitation, disability law, ethics, negligence, NNC.
+  - 25 Commons photographs (slug `nur9`), 7 plates with numbered marks, 14 SVGs, 14 executed python blocks, 5-column NANDA-I plans in every unit.
+  - `nursing/tools/check_nc.py`: 58 tokens + 14 python blocks + extra asserts (`--verify`). Case tokens prefixed `c1`...`c6`. Sections in `nursing/tools/helpers/session10/` (`asm.sh N`, `pages.sh`).
+  - Lessons: the sandbox had no `uv`, pango or poppler: `pip install --break-system-packages uv`, `uv venv --python 3.12 /tmp/v`, add `matplotlib`, `sudo apt-get update && sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 fontconfig poppler-utils`. `credits.json` in this checkout is LF (do NOT convert to CRLF). The file tool needs relative paths (`parts/u1a.md` under `/app`). Units 4-6 were written as one file each (about 3,000-3,800 words); always recompute sums (two mental sums were wrong and were caught by the python blocks: Holmes-Rahe 211, MAP 70).
+
 ## Next (in this order)
-1. Year 1 and Year 2 books through **Psychiatric Nursing (BSN 13-14)** are complete. Start **Nursing Concepts (BSN 15)** `course/year-2/nursing-concepts` (slug `nur9`; copy `check_psy.py` as `check_nc.py` and use `nursing/tools/helpers/session9/` as the template: nursing theories (Nightingale, Orem, Roy, Peplau, Watson), nursing process and critical thinking, communication, ethics and leadership, evidence-based practice and research basics, nursing in Nepal; photo contact sheet before use).
+1. Start **Social and Behavioral Science (BSN 16)** `course/year-2/social-and-behavioral-science` (slug `nur10`; copy `check_nc.py` as `check_sbs.py`, helpers in `nursing/tools/helpers/session10/`): sociology and psychology basics, culture, caste and ethnicity in Nepal, family, social change, deviance, health behaviour, attitudes. Year 2 then closes.
 2. Then in `books.json` order: Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
