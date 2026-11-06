@@ -459,6 +459,54 @@ pushed with 20 N on a level floor feels 20 N of friction, not 49 N.
 The third-law pair always acts on **two different bodies**, so the forces never appear in the same free-body diagram and never "cancel out". A horse pulls a cart because the *ground* pushes the horse (reaction to the horse pushing the ground backwards). Neighbouring traps: the normal reaction of a surface is **not** the reaction to the body's weight (weight is the Earth pulling the body; its pair is the body pulling the Earth), and in an *inelastic* collision kinetic energy is lost but **momentum is still conserved** provided no external impulse acts.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Same acceleration, different g. (a) On the Moon an astronaut released a hammer and a feather together and they landed at the same instant, because with no air the only force on each is its weight and a = F / m = g for both. (b) Dropped from 1.6 m, a body takes t = sqrt(2h / g) = 0.57 s on Earth (g = 9.8 m/s^2) but 1.41 s on the Moon (g = 1.62 m/s^2), 2.46 times longer, the square root of the ratio of the two g values. The landing speed v = sqrt(2 g h) is 5.60 m/s on Earth and 2.28 m/s on the Moon. A 1.0 kg object weighs 9.8 N on Earth and 1.62 N on the Moon, but its mass, the quantity in F = ma, is the same in both places."
+@ photo id="sci10/apollo-feather" cap="Apollo 15: a hammer and a feather dropped together on the Moon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Height against time for a 1.6 m drop, Earth and Moon"
+import math
+h, gE, gM = 1.6, 9.8, 1.62
+te, tm = math.sqrt(2 * h / gE), math.sqrt(2 * h / gM)
+ve, vm = math.sqrt(2 * gE * h), math.sqrt(2 * gM * h)
+assert abs(te - 0.5714) < 1e-3 and abs(tm - 1.4055) < 1e-3 and abs(tm / te - math.sqrt(gE / gM)) < 1e-9
+assert abs(ve - gE * te) < 1e-9 and abs(vm - gM * tm) < 1e-9
+facts = dict(h=h, te="%.2f" % te, tm="%.2f" % tm, ratio="%.2f" % (tm / te), ve="%.2f" % ve, vm="%.2f" % vm, we="%.1f" % gE, wm="%.2f" % gM)
+f = Fig(300, 236)
+f.text(150, 14, "y = h - g t^2 / 2   (h = 1.6 m)", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 150; Y = lambda y: 150 - y * 70
+f.line(X(0), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for g, col, T in ((gE, AMBER, te), (gM, TEAL, tm)):
+    pts = [(T * i / 40, h - 0.5 * g * (T * i / 40) ** 2) for i in range(41)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=col, sw=2.4)
+    f.circle(X(T), Y(0), 4, fill=col, stroke=col)
+f.text(X(te), Y(0) - 10, "%.2f s" % te, size=10.5, color=AMBER, bold=True); f.text(X(tm), Y(0) - 10, "%.2f s" % tm, size=10.5, color=TEAL, bold=True)
+for t in (0, 0.5, 1.0): f.text(X(t), Y(0) + 14, "%g" % t, size=10.5, color=SLATE)
+f.text(150, 182, "amber: Earth    teal: Moon    t in seconds", size=10.5, color=SLATE)
+f.text(150, 204, "landing speed %.2f m/s (Earth), %.2f m/s (Moon)" % (ve, vm), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "1.0 kg weighs %.1f N and %.2f N: mass unchanged" % (gE, gM), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Time is the lever. (a) In a crash test the dummy's head is caught by an inflating airbag while the belt holds the trunk. (b) The cell uses the impulse-momentum theorem, F x t = change in momentum. A 70 kg person moving at 14 m/s (50 km/h) carries a momentum of 980 kg m/s that must be removed. Stopping in 5 ms against the hard dashboard needs an average force of 196 kN, about 286 times the body weight; spreading the stop over 80 ms with a belt and bag cuts it to 12.2 kN, about 18 times the weight. The impulse is the same in every case; only the time, and therefore the force, changes."
+@ photo id="ceephy3/airbag" cap="A crash test with a seat belt and an airbag"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Average force against stopping time"
+m, v = 70.0, 14.0
+J = m * v
+rows = [("%g ms" % t, J / (t / 1000) / 1000) for t in (5, 20, 80, 150)]
+assert J == 980 and round(rows[0][1]) == 196 and round(rows[2][1], 2) == 12.25
+W = m * 9.8
+f = Fig(300, 236)
+f.text(150, 12, "Average force on a 70 kg body, kN", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=200, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 158, "stopping from 14 m/s (50 km/h): impulse = m v = %.0f N s" % J, size=10, color=SLATE, bold=True)
+f.text(150, 180, "F = J / t; weight of the body = %.0f N" % W, size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "80 ms: F is %.0f times the weight" % (rows[2][1] * 1000 / W), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "5 ms (hard glass): %.0f times" % (rows[0][1] * 1000 / W), size=10.5, color=RED, bold=True)
+facts = dict(J=J, a=rows[0][1], b=rows[2][1], nb=rows[2][1] * 1000 / W, na=rows[0][1] * 1000 / W)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -663,3 +711,66 @@ The third-law pair always acts on **two different bodies**, so the forces never 
 **11.** (a) — each half makes 60° with the vertical: $2T\cos60^{\circ} = 20$ N gives $T = 20$ N.
 **12.** (c) — force = momentum delivered per second = $nmv = 10(0.020)(500) = 100$ N.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove the law of conservation of linear momentum. Discuss elastic and inelastic collisions with a numerical. <span class="marks">[10]</span>
+2. State the work-energy theorem, define power and solve a problem on a moving vehicle. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Momentum in action. (a) A car airbag lengthens the stopping time so the force on the passenger falls. (b) An inflated balloon releasing air moves forward by reaction, as a rocket does. (c) The LHC detector records collisions in which total momentum is conserved."
+@ photo id="ceephy3/airbag" cap="(a) Airbag"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/balloon" cap="(b) Jet reaction"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/lhc" cap="(c) Collisions at the LHC"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: conservation of momentum and collisions (10 marks)
+
+**Introduction.** **Linear momentum** is $\vec p = m\vec v$. Newton's second law states that the force is the rate of change of momentum, $\vec F = d\vec p/dt$.
+
+**Law.** If no external force acts on a system, its total linear momentum remains constant.
+
+**Proof.** Two bodies $A$ and $B$ collide. During the contact, $A$ pushes $B$ with force $\vec F_{AB}$ and $B$ pushes $A$ with $\vec F_{BA}$. By Newton's third law $\vec F_{AB} = -\vec F_{BA}$, and the contact time $\Delta t$ is the same for both. So the impulses cancel: $\Delta\vec p_A = -\Delta\vec p_B$, and $m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2$.
+
+**Types of collision.**
+
+| Feature | Elastic | Inelastic (perfectly) |
+|---|---|---|
+| Momentum | Conserved | Conserved |
+| Kinetic energy | Conserved | Not conserved (some becomes heat, sound, deformation) |
+| After collision | Bodies separate | Bodies stick together |
+| Relative speed | $v_2 - v_1 = u_1 - u_2$ | $v_1 = v_2$ |
+| Example | Gas molecules, billiard balls | Bullet embedded in a wooden block |
+
+For an elastic head-on collision with $u_2 = 0$: $v_1 = \dfrac{m_1 - m_2}{m_1 + m_2}u_1$ and $v_2 = \dfrac{2m_1}{m_1 + m_2}u_1$.
+
+**Numerical.** A $2\ \text{kg}$ body moving at $6\ \text{m s}^{-1}$ hits a $4\ \text{kg}$ body at rest.
+
+- *Elastic:* $v_1 = \dfrac{2-4}{6}(6) = -2\ \text{m s}^{-1}$ and $v_2 = \dfrac{4}{6}(6) = 4\ \text{m s}^{-1}$. Kinetic energy before $= \tfrac12(2)(36) = 36\ \text{J}$ and after $= \tfrac12(2)(4) + \tfrac12(4)(16) = 4 + 32 = 36\ \text{J}$.
+- *Perfectly inelastic:* $v = \dfrac{12}{6} = 2\ \text{m s}^{-1}$. Kinetic energy after $= \tfrac12(6)(4) = 12\ \text{J}$, so $24\ \text{J}$ is lost.
+
+**Conclusion.** Momentum is conserved in every collision when no external force acts, while kinetic energy is conserved only in an elastic collision.
+
+### Model answer D2: work-energy theorem and power (10 marks)
+
+**Introduction.** **Work** is $W = Fs\cos\theta$, the product of the force and the displacement along the force. It is a scalar with unit joule. **Power** is the rate of doing work, $P = W/t = \vec F\cdot\vec v$, with unit watt.
+
+**Work-energy theorem.** The work done by the net force on a body equals the change in its kinetic energy. Proof: for constant $F$, $v^2 = u^2 + 2as$ gives $as = \tfrac12(v^2 - u^2)$. Multiplying by $m$: $Fs = \tfrac12mv^2 - \tfrac12mu^2$, that is $W = \Delta K$.
+
+**Points to remember.**
+
+1. **Kinetic energy** $K = \tfrac12mv^2 = p^2/2m$; **gravitational potential energy** $U = mgh$.
+2. For a **conservative force** (gravity, spring) the work is independent of the path, and $K + U$ stays constant.
+3. The area under a force-displacement graph is the work done. For a spring $W = \tfrac12kx^2$.
+4. Friction is non-conservative: it converts mechanical energy into heat.
+5. $1\ \text{horse power} = 746\ \text{W}$, and $1\ \text{kWh} = 3.6\times10^6\ \text{J}$.
+6. At a steady speed, engine power $P = Fv$, where $F$ equals the total resistance.
+
+**Numerical.** A car of mass $1000\ \text{kg}$ speeds up from $10\ \text{m s}^{-1}$ to $20\ \text{m s}^{-1}$ in $5\ \text{s}$. The work done is $\Delta K = \tfrac12(1000)(400 - 100) = 1.5\times10^5\ \text{J}$, so the average power is $1.5\times10^5/5 = 3.0\times10^4\ \text{W} = 30\ \text{kW}$. If the same car then cruises at $20\ \text{m s}^{-1}$ against a total resistance of $900\ \text{N}$, the power needed is $900 \times 20 = 18\ \text{kW}$.
+
+**Conclusion.** The net work done on a body equals its gain in kinetic energy, and power tells how fast this work is done.

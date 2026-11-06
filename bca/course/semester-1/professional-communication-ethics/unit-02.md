@@ -148,6 +148,32 @@ A **group discussion (GD)** is a structured conversation among 6 to 10 candidate
 7. **Listen actively.** Look at the speaker, do not interrupt, take short notes and ask a question to check understanding. Paraphrase: "So you mean the deadline moved to Friday?" The speaker feels respected and mistakes are caught early.
 8. **Handle questions politely.** Listen to the whole question, repeat it, and answer in a few sentences. If you do not know, say "I will find out and email you" instead of guessing. Honest answers increase your credibility.
 
+```photogrid label="2.2" cols="2" ratio="1.0" caption="Why we forget, and when to review. (a) Hermann Ebbinghaus (1850-1909), who memorised lists of nonsense syllables and measured how much he saved when relearning them. (b) His quoted results: after 20 minutes 58.2 per cent was retained, after 1 hour 44.2, after 8.8 hours 35.8, after 1 day 33.7, after 2 days 27.8, after 6 days 25.4 and after 31 days 21.1. A power law fitted in code, R = 31.9 x t^(-0.126) with t in days, follows the points closely: most loss comes in the first day, then the curve flattens. For a listener or a student this means that notes taken in a meeting are worth reading the same evening, and again within a week, because each review resets the curve. A listener who writes three key points while the speaker talks keeps far more than one who relies on memory alone."
+@ photo id="bcapc/ebbinghaus" cap="Hermann Ebbinghaus (1850-1909)"
+fit 1.0
+focus 0.5 0.3
+@ svg cap="Retention after learning (Ebbinghaus data, log time)"
+import numpy as np, math
+t = np.array([20 / 60 / 24, 1 / 24, 8.8 / 24, 1, 2, 6, 31]); r = np.array([58.2, 44.2, 35.8, 33.7, 27.8, 25.4, 21.1])
+b, a = np.polyfit(np.log(t), np.log(r), 1)
+assert round(float(np.exp(a)), 1) == 31.9 and round(float(b), 3) == -0.126
+X = lambda l: 44 + (l + 2) / 3.6 * 240
+Y = lambda v: 180 - v / 70 * 150
+f = Fig(300, 240)
+f.text(150, 14, "% retained against time since learning", size=10.5, color=NAVY, bold=True)
+for v in (0, 20, 40, 60):
+    f.line(44, Y(v), 284, Y(v), color="#e2e8f0", sw=1); f.text(38, Y(v), str(v), size=10.5, color=SLATE, anchor="end", vmid=True)
+pts = [(X(math.log10(x)), Y(y)) for x, y in zip(t, r)]
+xs = np.linspace(math.log10(t[0]), math.log10(t[-1]), 40)
+curve = [(X(l), Y(float(np.exp(a)) * (10 ** l) ** float(b))) for l in xs]
+for p, q in zip(curve, curve[1:]): f.line(p[0], p[1], q[0], q[1], color=NAVY, sw=1.6, dash=True)
+for (x, y), lab in zip(pts, ["20m", "1h", "9h", "1d", "2d", "6d", "31d"]):
+    f.circle(x, y, 4, fill=RED, stroke=RED, sw=1)
+    f.text(x, 194, lab, size=10, color=SLATE)
+f.text(150, 212, "fit: R = 31.9 x t^-0.126 (t in days)", size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "58% after 20 min, 34% after a day", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Speaking pace about 125 to 150 words per minute; a 10-minute talk is about 1,300 words, or 8 to 10 slides.

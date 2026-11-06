@@ -3864,6 +3864,139 @@ a paragraph of generalities. The only numerical that appears here is the S-P
 distance formula, so make sure you can rearrange it quickly.
 :::
 
+## 3.26 Extended model answers (10 marks)
+
+A Grade 12 Physics long answer is marked for the law or derivation, a labelled diagram, a numerical with units, and a conclusion. The four models below show the full length expected for a 10-mark answer.
+
+**Extended questions**
+
+1. State the second law of thermodynamics. Describe the Carnot cycle and derive the efficiency of a Carnot engine. A Carnot engine works between 500 K and 300 K and takes 2000 J from the source; find the work done and the heat rejected. <span class="marks">[10]</span>
+2. Describe Young's double-slit experiment, derive the fringe width and state the conditions for sustained interference. Find the fringe width for $\lambda = 600$ nm, $D = 1.2$ m and $d = 0.4$ mm. <span class="marks">[10]</span>
+3. Explain the principle, construction and working of a moving coil galvanometer. Show how it is changed into an ammeter and a voltmeter, with a numerical. <span class="marks">[10]</span>
+4. State the law of radioactive decay and derive the relation between half-life and decay constant. A sample of 80 g has half-life of 5 days; find the mass after 15 days and the decay constant. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.4" caption="Instruments behind the answers. (a) A moving coil galvanometer, the instrument of model answer D3: its coil turns in a magnetic field in proportion to the current. (b) A spectroscope, which separates light into its wavelengths, the idea that links interference and the study of atoms."
+@ photo id="phy12/galvanometer" cap="(a) Moving coil galvanometer"
+@ photo id="phy12/spectroscope" cap="(b) Spectroscope"
+```
+
+### Model answer D1: second law and the Carnot engine (10 marks)
+
+**Introduction.** The first law of thermodynamics only says that energy is conserved. The **second law** says in which direction a process can go and sets a limit on the conversion of heat into work.
+
+**Statements.**
+
+1. **Kelvin-Planck:** It is impossible to construct a heat engine that works in a cycle and converts all the heat taken from a single reservoir into work.
+2. **Clausius:** Heat cannot flow by itself from a colder body to a hotter body without work being done.
+3. Both statements are equivalent, and they explain why a refrigerator needs a compressor.
+
+**Carnot cycle.** A Carnot engine uses an ideal gas in a cylinder and has four reversible steps:
+
+1. **Isothermal expansion** at temperature $T_1$: the gas absorbs heat $Q_1$ from the source and does work.
+2. **Adiabatic expansion:** no heat enters; the gas cools from $T_1$ to $T_2$.
+3. **Isothermal compression** at $T_2$: the gas gives out heat $Q_2$ to the sink.
+4. **Adiabatic compression:** the gas warms from $T_2$ back to $T_1$, completing the cycle.
+
+**Efficiency.** The work is $W = Q_1 - Q_2$, so $\eta = \dfrac{W}{Q_1} = 1 - \dfrac{Q_2}{Q_1}$. For the ideal gas, $\dfrac{Q_2}{Q_1} = \dfrac{T_2}{T_1}$, hence
+
+$$\eta = 1 - \frac{T_2}{T_1}$$
+
+The efficiency depends only on the two temperatures and is **never 100 per cent**, because that would need $T_2 = 0$ K. No engine between the same temperatures is more efficient than a Carnot engine.
+
+**Numerical.** $\eta = 1 - 300/500 = 0.40$ (40 per cent). Work done $W = 0.40 \times 2000 = 800$ J, and the heat rejected is $Q_2 = 2000 - 800 = 1200$ J. To reach 50 per cent efficiency with the sink at 300 K, the source must be at $T_1 = 300/0.5 = 600$ K.
+
+**Conclusion.** The Carnot engine is the ideal limit; a real petrol engine, working between about 1500 K and 400 K, reaches only about 30 per cent.
+
+### Model answer D2: Young's double-slit experiment (10 marks)
+
+**Introduction.** **Interference** is the redistribution of light energy when two coherent waves meet, giving bright and dark fringes. Young's experiment (1801) gave the first proof that light is a wave.
+
+**Arrangement.** Monochromatic light falls on a narrow slit $S$, which lights two close parallel slits $S_1$ and $S_2$, a distance $d$ apart. A screen is placed at a distance $D$ from the slits. Because $S_1$ and $S_2$ come from the same wavefront, they are **coherent** sources.
+
+**Derivation.** For a point $P$ at distance $y$ from the central point $O$ on the screen, the path difference is $S_2P - S_1P \approx \dfrac{yd}{D}$.
+
+1. **Bright fringe:** path difference $= n\lambda$, so $y_n = \dfrac{n\lambda D}{d}$ with $n = 0, 1, 2, \ldots$
+2. **Dark fringe:** path difference $= (n + \tfrac12)\lambda$, so $y_n = \dfrac{(n + \frac12)\lambda D}{d}$.
+3. **Fringe width** is the distance between two adjacent bright or dark fringes:
+
+$$\beta = \frac{\lambda D}{d}$$
+
+4. The fringes are **equally spaced**, and $\beta$ grows with $\lambda$ and $D$ and falls with $d$.
+5. In a medium of refractive index $n$ the wavelength becomes $\lambda/n$, so the fringes become narrower.
+
+**Conditions for sustained interference.** The sources must be coherent, of the same frequency and similar amplitude, with a small slit separation and a screen far away. The slits should be narrow.
+
+**Numerical.** $\beta = \dfrac{600\times10^{-9}\times1.2}{0.4\times10^{-3}} = 1.8\times10^{-3}$ m = **1.8 mm**. The fifth bright fringe is at $5 \times 1.8 = 9.0$ mm from the centre. If the whole set-up is placed in water ($n = 1.33$), $\beta = 1.8/1.33 = 1.35$ mm.
+
+| Change | Effect on fringe width |
+|---|---|
+| Red light instead of blue | Wider |
+| Screen moved farther | Wider |
+| Slits closer together | Wider |
+| Apparatus in water | Narrower |
+
+**Conclusion.** The bright centre and equally spaced fringes can be explained only by the wave theory of light.
+
+### Model answer D3: moving coil galvanometer (10 marks)
+
+**Introduction.** A **moving coil galvanometer** detects and measures small currents. It works on the principle that **a current-carrying coil in a magnetic field experiences a torque**.
+
+**Construction.** A rectangular coil of many turns of insulated copper wire is wound on a soft-iron core and suspended between the curved poles of a strong permanent magnet by a phosphor-bronze strip. The poles are **concave**, so that the field is **radial** and the coil always lies parallel to the field. A pointer or a mirror shows the deflection on a scale.
+
+**Working and theory.**
+
+1. When current $I$ flows, the deflecting torque is $\tau = NIAB$, for $N$ turns of area $A$ in field $B$.
+2. The twisted suspension gives a restoring torque $k\theta$.
+3. In equilibrium $NIAB = k\theta$, so $I = \dfrac{k}{NAB}\,\theta = G_0\,\theta$.
+4. The deflection is therefore proportional to the current, and the scale is uniform.
+5. **Current sensitivity** is $\dfrac{\theta}{I} = \dfrac{NAB}{k}$; it increases with more turns, a stronger field and a weaker suspension.
+
+**Conversion to an ammeter.** A small resistance, a **shunt** $S$, is connected **in parallel**. With a full-scale galvanometer current $I_g$ and the total current $I$: $S = \dfrac{I_g G}{I - I_g}$.
+
+**Conversion to a voltmeter.** A large resistance $R$ is connected **in series**: $R = \dfrac{V}{I_g} - G$.
+
+| Meter | Resistor | Connection | Meter resistance |
+|---|---|---|---|
+| Ammeter | Small shunt | Parallel with the galvanometer | Very small |
+| Voltmeter | Large resistor | Series with the galvanometer | Very large |
+
+**Numerical.** For $G = 50\ \Omega$ and $I_g = 2$ mA: a 0-2 A ammeter needs $S = \dfrac{0.002 \times 50}{2 - 0.002} = 0.050\ \Omega$; a 0-10 V voltmeter needs $R = \dfrac{10}{0.002} - 50 = 4950\ \Omega$.
+
+**Conclusion.** The same sensitive coil becomes an ammeter or a voltmeter just by adding the right resistor, so one instrument serves many ranges.
+
+### Model answer D4: radioactive decay law and half-life (10 marks)
+
+**Introduction.** **Radioactivity** is the spontaneous emission of alpha, beta or gamma radiation from an unstable nucleus. Becquerel discovered it in 1896 in uranium salts. Decay is a random process, and it is not affected by temperature or pressure.
+
+**Law of decay.** The number of nuclei that decay per second is proportional to the number $N$ present:
+
+$$\frac{dN}{dt} = -\lambda N \quad\Rightarrow\quad N = N_0 e^{-\lambda t}$$
+
+where $\lambda$ is the **decay constant**, the probability of decay of one nucleus per second.
+
+**Half-life.** The **half-life** $T_{1/2}$ is the time in which half of the nuclei decay. Putting $N = N_0/2$ gives $e^{-\lambda T_{1/2}} = \tfrac12$, so
+
+$$T_{1/2} = \frac{\ln 2}{\lambda} = \frac{0.693}{\lambda}$$
+
+**Related quantities.**
+
+1. **Mean life** $\tau = 1/\lambda = 1.44\,T_{1/2}$.
+2. **Activity** $A = \lambda N$, measured in becquerel (Bq), 1 Bq = 1 decay per second.
+3. After $n$ half-lives, $N = N_0/2^n$.
+
+**Numerical.** $T_{1/2} = 5$ days, so $\lambda = 0.693/5 = 0.139$ per day. Fifteen days is 3 half-lives, so $m = 80/2^3 = 10$ g. The mass fraction left is 12.5 per cent.
+
+| Time (days) | Half-lives | Mass left (g) |
+|---|---|---|
+| 0 | 0 | 80 |
+| 5 | 1 | 40 |
+| 10 | 2 | 20 |
+| 15 | 3 | 10 |
+
+**Uses.** Carbon-14 dating (half-life 5730 years) gives the age of fossils and old wooden temples; iodine-131 treats thyroid disease; cobalt-60 treats cancer in hospitals such as BP Koirala Memorial Cancer Hospital.
+
+**Conclusion.** The exponential law shows that a radioactive sample never disappears completely, but its activity halves at fixed intervals.
+
 ## Chapter summary
 
 - **Sixty-four of the seventy-five marks are subjective.** Group B carries

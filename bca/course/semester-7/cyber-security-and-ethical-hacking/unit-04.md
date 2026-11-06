@@ -258,6 +258,72 @@ f.text(290, 204, "Reject, do not repair: failing validation returns a clear erro
 7. **Update dependencies.** Most applications are mostly third-party libraries. Track versions, scan for known flaws and patch quickly. An old library can undo careful work on your own code.
 8. **Log safely and fail safely.** Record logins, access failures and admin actions without writing passwords. Show users a generic error and keep details in the log. Good logs let a team detect and investigate incidents.
 
+```photogrid label="4.1" cols="2" ratio="1.0" caption="Injection and the parameterised query. (a) A padlock keeps a door shut only if the key cannot be forged; a SQL query is the same, and data glued into the command can become part of the command. (b) A real SQLite table of three users (sita, ram, hari) was queried with the login name ' OR '1'='1. Building the SQL by string concatenation gives WHERE name = '' OR '1'='1', which is true for every row, so all 3 users came back. The parameterised form WHERE name = ? sends the same text as data, so it matched 0 rows. The parameter placeholder is not an escaping trick: the database parses the query first and fills in the value afterwards, so the value can never change the command. This is the single most effective defence for the OWASP injection class."
+@ photo id="bcacyb/padlock" cap="A padlock with its keys"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Same input, two query styles (real SQLite)"
+import sqlite3
+db = sqlite3.connect(":memory:"); db.execute("create table users(name text, pw text)")
+db.executemany("insert into users values(?,?)", [("sita", "x1"), ("ram", "x2"), ("hari", "x3")])
+inj = "' OR '1'='1"
+q1 = "SELECT name FROM users WHERE name = '" + inj + "'"
+bad = len(db.execute(q1).fetchall()); good = len(db.execute("SELECT name FROM users WHERE name = ?", (inj,)).fetchall())
+assert (bad, good) == (3, 0) and "OR '1'='1'" in q1
+f = Fig(300, 240)
+f.text(150, 14, "login name typed: ' OR '1'='1", size=10.5, color=NAVY, bold=True)
+f.box(10, 26, 280, 40, "", fill="#f1f5f9", stroke=SLATE, r=6, sw=1)
+f.text(150, 40, "WHERE name = '' OR '1'='1'", size=10.5, color=RED, bold=True)
+f.text(150, 56, "true for every row", size=10.5, color=SLATE)
+for i, (lab, k, col) in enumerate([("string concatenation", bad, RED), ("parameter  name = ?", good, TEAL)]):
+    y = 88 + i * 58
+    f.text(12, y, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+    for j in range(3):
+        f.box(12 + j * 46, y + 10, 38, 22, "row" if j < k else "-", fill="#fecaca" if j < k else "#f1f5f9", stroke=col if j < k else SLATE, color=col if j < k else SLATE, size=10.5, bold=True, r=4, sw=1)
+    f.text(160, y + 21, f"{k} of 3 users returned", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+f.text(150, 222, "the value stays data, never command", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.0" caption="Cookie flags are one line of code each. (a) A session cookie is a small note the browser returns on every request, as precious as a house key. (b) Python's own http.cookies produced this header: Set-Cookie: sid=abc; HttpOnly; Max-Age=3600; Path=/; SameSite=Lax; Secure. HttpOnly hides the cookie from JavaScript, so an injected script cannot steal it. Secure sends it only over HTTPS, so a café Wi-Fi sniffer sees nothing. SameSite=Lax withholds it from cross-site POST requests, which stops most CSRF. Max-Age=3600 limits the damage of a stolen cookie to one hour. Path=/ scopes it to the whole site. Four flags, four attacks closed."
+@ photo id="bcacyb/cookie" cap="A stack of cookies, a session cookie in disguise"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="One Set-Cookie header, flag by flag"
+import http.cookies
+c = http.cookies.SimpleCookie(); c["sid"] = "abc"
+c["sid"]["httponly"] = True; c["sid"]["secure"] = True; c["sid"]["samesite"] = "Lax"; c["sid"]["max-age"] = 3600; c["sid"]["path"] = "/"
+h = c.output()
+assert h == "Set-Cookie: sid=abc; HttpOnly; Max-Age=3600; Path=/; SameSite=Lax; Secure"
+f = Fig(300, 240)
+f.text(150, 14, "Set-Cookie: sid=abc; ...", size=10.5, color=NAVY, bold=True)
+rows = [("HttpOnly", "script cannot read it", "XSS theft"), ("Secure", "HTTPS only", "Wi-Fi sniffing"), ("SameSite=Lax", "no cross-site POST", "CSRF"), ("Max-Age=3600", "expires in 1 hour", "stolen cookie"), ("Path=/", "whole site", "scope")]
+for i, (flag, what, atk) in enumerate(rows):
+    y = 26 + i * 38
+    f.box(8, y, 100, 30, flag, fill="#dbeafe", stroke=NAVY, color=NAVY, size=10.5, bold=True, r=5, sw=1)
+    f.text(116, y + 10, what, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(116, y + 24, "blocks: " + atk, size=10.5, color=RED if i < 4 else SLATE, anchor="start", bold=True, vmid=True)
+```
+
+```photogrid label="4.3" cols="2" ratio="1.0" caption="Validate at the door with an allowlist. (a) A security checkpoint admits only what matches the rules. (b) The rule for a Nepali mobile number is the pattern 9[78][0-9]{8} matched against the whole input (re.fullmatch): ten digits starting 97 or 98. Six real inputs were run through Python's re module: 9841234567 and 9779876543 are accepted; 984123456 (nine digits), 9841234567; DROP TABLE and <script>alert(1)</script> are rejected; and 9841234567 typed in Devanagari digits is rejected too, because [0-9] matches only ASCII digits (the backslash-d shortcut would have accepted them). An allowlist states what is good and rejects everything else, which is safer than a blocklist that tries to name every bad input. Validation does not replace output encoding or parameterised queries; it is the first of three layers."
+@ photo id="bcacyb/checkpoint" cap="A security checkpoint"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Allowlist 9[78][0-9]{8} on six inputs"
+import re
+pat = re.compile(r"9[78][0-9]{8}")
+tests = [("9841234567", True), ("9779876543", True), ("984123456", False), ("9841234567; DROP", False), ("<script>alert(1)", False), ("\u096f\u096e\u096a\u0967\u0968\u0969\u096a\u096b\u096c\u096d", False)]
+assert all(bool(pat.fullmatch(t)) == ok for t, ok in tests)
+assert re.fullmatch(r"\d+", tests[5][0]) is not None
+f = Fig(300, 240)
+f.text(150, 14, "re.fullmatch(r'9[78][0-9]{8}', input)", size=10.5, color=NAVY, bold=True)
+labels = ["9841234567", "9779876543", "984123456 (9 digits)", "9841234567; DROP", "<script>alert(1)", "same number, Devanagari"]
+for i, ((t, ok), lab) in enumerate(zip(tests, labels)):
+    y = 26 + i * 33
+    f.box(8, y, 200, 26, lab, fill="#f8fafc", stroke=SLATE, color=NAVY, size=10.5, r=5, sw=1)
+    f.box(218, y, 72, 26, "accept" if ok else "reject", fill="#bbf7d0" if ok else "#fecaca", stroke=TEAL if ok else RED, color=TEAL if ok else RED, size=10.5, bold=True, r=5, sw=1)
+f.text(150, 232, "[0-9] is stricter than \\d (Unicode digits)", size=10.5, color=SLATE)
+```
+
 ## 4.8 Summary and exercises
 
 Validate input with allow-lists, encode output for its context, bind query values with placeholders, deliver a restrictive CSP, set Secure, HttpOnly and SameSite on cookies and verify anti-CSRF tokens. Automated checks for each (a query linter, a header auditor, token tests) belong in the build pipeline.

@@ -1026,6 +1026,40 @@ plain phenoxide, so the acid is stronger (pKa 7.15 against 10.0).
 6. −I strongest: NO₂; +I strongest among alkyls: tert-butyl.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="Chromatography separates the components of a mixture because each one is held by the paper to a different extent while the solvent carries it upward. (a) Chromatography paper with separated pigments. (b) The retention factor Rf is the distance travelled by the substance divided by the distance travelled by the solvent front. With a front at 8.0 cm, spots at 2.4, 4.4 and 6.0 cm have Rf values of 0.30, 0.55 and 0.75. Since Rf is a constant for a given substance, solvent and paper, comparing it with a reference lane identifies each component, as in food-colour and forensic ink tests."
+@ photo id="chem11/chroma" cap="Paper chromatography separates a mixture of inks"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rf values: distance moved by spot / distance moved by solvent"
+front = 8.0
+spots = [("A", 2.4, RED), ("B", 4.4, AMBER), ("C", 6.0, NAVY)]
+rf = [(n, d / front, c) for n, d, c in spots]
+assert [round(r, 2) for _, r, _ in rf] == [0.30, 0.55, 0.75]
+f = Fig(300, 236)
+f.text(150, 14, "Chromatogram, solvent front 8.0 cm", size=10.5, color=NAVY, bold=True)
+top, bot = 40, 40 + 16 * front
+f.box(30, 28, 116, bot - 20 + 8, "", fill="#f8fafc", stroke=SLATE, r=2)
+f.line(30, bot, 146, bot, color=SLATE, sw=1, dash=True)
+f.line(30, 40, 146, 40, color=SLATE, sw=1.2, dash=True)
+f.text(150, 34, "", size=8)
+lanes = [48, 76, 104, 132]
+mix = [(2.4, RED), (4.4, AMBER), (6.0, NAVY)]
+for d, c in mix:
+    f.circle(lanes[0], bot - d * 16, 6, fill=c, stroke=c)
+for j, (n, d, c) in enumerate(spots):
+    f.circle(lanes[j + 1], bot - d * 16, 6, fill=c, stroke=c)
+for k, nm in enumerate(["mix", "A", "B", "C"]):
+    f.text(lanes[k], bot + 22, nm, size=10, bold=True)
+f.text(150, 40 + 0, "", size=8)
+f.text(162, 48, "solvent front", size=10, color=SLATE, anchor="start")
+f.text(162, bot + 4, "baseline", size=10, color=SLATE, anchor="start")
+for j, (n, r, c) in enumerate(rf):
+    f.text(162, 74 + j * 30, "%s: %.1f / 8.0" % (n, spots[j][1]), size=10.5, color=c, bold=True, anchor="start")
+    f.text(162, 88 + j * 30, "Rf = %.2f" % r, size=10.5, color=c, bold=True, anchor="start")
+f.text(150, 222, "Rf is always between 0 and 1", size=10.5, color=SLATE)
+facts = dict(a="%.2f" % rf[0][1], b="%.2f" % rf[1][1], c="%.2f" % rf[2][1])
+```
+
 ## Chapter summary
 
 - An IUPAC name is *secondary prefix + word root + primary suffix + secondary
@@ -1195,3 +1229,104 @@ is a far weaker acid (pKa 10.0 against 15.9).
 proton. In ammonia the lone pair is entirely localised on nitrogen. Hence
 aniline (pKb 9.4) is a much weaker base than ammonia (pKb 4.75).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the IUPAC rules for naming organic compounds and explain Lassaigne's test for nitrogen, sulphur and halogens. <span class="marks">[10]</span>
+2. Define isomerism. Explain the types of structural isomerism, geometrical isomerism and optical isomerism with examples. <span class="marks">[10]</span>
+3. Explain homolytic and heterolytic fission, electrophiles, nucleophiles and free radicals, and the inductive and resonance effects. <span class="marks">[10]</span>
+
+### Model answer D1: IUPAC nomenclature and Lassaigne's test (10 marks)
+
+**Introduction.** Thousands of organic compounds had traditional names, such as acetic acid and formic acid. The International Union of Pure and Applied Chemistry (IUPAC) gave a system in which a name tells the structure exactly.
+
+**Parts of an IUPAC name.** *Prefix* (substituents) + *word root* (number of carbons in the longest chain) + *primary suffix* (saturation: -ane, -ene, -yne) + *secondary suffix* (functional group).
+
+| Carbons | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| Root | Meth | Eth | Prop | But | Pent | Hex |
+
+**Rules.**
+
+1. Select the **longest continuous chain** that carries the functional group and the maximum number of multiple bonds.
+2. **Number** the chain from the end that gives the **lowest number** to the principal functional group, then to multiple bonds, then to substituents.
+3. Name the **substituents** (methyl, ethyl, chloro, bromo, nitro) and give each its position number.
+4. Arrange the substituents **alphabetically** (ignoring di-, tri-) before the root.
+5. Use **di-, tri-, tetra-** for repeated groups, with a number for each.
+6. Priority of functional groups: carboxylic acid > aldehyde > ketone > alcohol > amine > alkene > alkyne.
+
+*Examples.* $\text{CH}_3\text{CH(CH}_3)\text{CH}_2\text{CH}_3$ is **2-methylbutane**; $\text{CH}_3\text{CH}_2\text{CH(OH)CH}_3$ is **butan-2-ol**; $\text{CH}_3\text{CH=CHCH}_3$ is **but-2-ene**; $\text{CH}_3\text{CH}_2\text{COOH}$ is **propanoic acid**.
+
+**Lassaigne's test.** It detects **nitrogen, sulphur and halogens** in an organic compound by converting them into ionic compounds.
+
+1. Heat a small piece of **sodium metal** with the organic compound in a fusion tube until red hot, and plunge the tube into distilled water. Boil and filter: the filtrate is the **sodium fusion extract** containing NaCN, Na₂S and NaX.
+2. **Nitrogen:** boil the extract with FeSO₄ and NaOH, then acidify with dilute H₂SO₄. A **Prussian blue** colour shows nitrogen (Fe₄[Fe(CN)₆]₃).
+3. **Sulphur:** add sodium nitroprusside, which gives a **violet** colour; or add lead acetate in acetic acid, which gives a **black precipitate** of PbS.
+4. **Halogens:** acidify with dilute HNO₃ (boil to remove any HCN or H₂S) and add AgNO₃: a **white** precipitate soluble in NH₃ is Cl; a **pale yellow** one partly soluble is Br; a **yellow** one insoluble is I.
+
+**Conclusion.** IUPAC rules give each compound one unambiguous name, and Lassaigne's test identifies N, S and halogens by converting them into ions.
+
+### Model answer D2: isomerism and its types (10 marks)
+
+**Introduction.** Compounds with the **same molecular formula but different structures** (and therefore different properties) are called **isomers**, and the phenomenon is **isomerism**. C₄H₁₀ is an example: butane and 2-methylpropane.
+
+**Classification.** Isomerism is of two main kinds, **structural** and **stereoisomerism**.
+
+**A. Structural isomerism** (different order of attachment of atoms).
+
+1. **Chain isomerism:** different carbon skeletons. Butane and 2-methylpropane.
+2. **Position isomerism:** the same skeleton, but a different position of the group or multiple bond. Propan-1-ol and propan-2-ol; but-1-ene and but-2-ene.
+3. **Functional isomerism:** different functional groups. Ethanol (CH₃CH₂OH) and methoxymethane (CH₃OCH₃); propanal and propanone.
+4. **Metamerism:** different alkyl groups on each side of the same functional group. Diethyl ether (C₂H₅OC₂H₅) and methyl propyl ether (CH₃OC₃H₇).
+5. **Tautomerism:** two forms in equilibrium, which differ in the position of a hydrogen atom. The keto form and the enol form of ethanal.
+
+**B. Stereoisomerism** (same bonding, different arrangement in space).
+
+1. **Geometrical (cis-trans) isomerism:** arises from restricted rotation around a C=C bond when each carbon carries two different groups. In **cis**-but-2-ene the methyl groups are on the same side, in **trans**-but-2-ene on opposite sides. The trans form is usually more stable and has the higher melting point; the cis form is more polar. Maleic acid is cis and fumaric acid is trans.
+2. **Optical isomerism:** shown by compounds with a **chiral (asymmetric) carbon**, attached to four different groups, such as the second carbon of **lactic acid**, $\text{CH}_3\text{CH(OH)COOH}$. The two forms are non-superimposable mirror images (**enantiomers**): the **d-form** rotates plane-polarised light to the right and the **l-form** by an equal amount to the left. A 1:1 mixture is **racemic** and optically inactive.
+
+| Type | Cause | Example |
+|---|---|---|
+| Chain | Different skeleton | Butane / isobutane |
+| Position | Different position | Propan-1-ol / propan-2-ol |
+| Functional | Different group | Ethanol / dimethyl ether |
+| Geometrical | Restricted rotation of C=C | cis- / trans-but-2-ene |
+| Optical | Chiral carbon | d- / l-lactic acid |
+
+**Number of isomers.** C₅H₁₂ has three chain isomers (pentane, 2-methylbutane, 2,2-dimethylpropane) and C₄H₈ has three alkene isomers (but-1-ene, cis- and trans-but-2-ene) plus methylpropene.
+
+**Conclusion.** Isomerism explains why one formula can give several compounds, due to differences in chain, position, functional group or arrangement in space.
+
+### Model answer D3: reaction mechanism and electronic effects (10 marks)
+
+**Introduction.** A **reaction mechanism** is the step-by-step account of how bonds break and form. The first step is usually the breaking (fission) of a covalent bond.
+
+**Bond fission.**
+
+1. **Homolytic fission:** the bond pair is divided equally, giving two **free radicals** (A–B → A· + B·). It occurs in non-polar solvents, at high temperature or in the presence of light or peroxides, for example the chlorination of methane.
+2. **Heterolytic fission:** one atom takes both electrons, giving a **cation and an anion** (A–B → A⁺ + B⁻). It occurs in polar solvents when the bond is polar, as in the ionisation of tertiary butyl bromide.
+
+**Attacking reagents.**
+
+- **Electrophiles** are electron-loving species, which accept an electron pair: H⁺, NO₂⁺, Br⁺, AlCl₃, carbocations.
+- **Nucleophiles** are nucleus-loving species that donate an electron pair: OH⁻, CN⁻, NH₃, H₂O.
+- **Free radicals** have an unpaired electron and are very reactive: Cl·, CH₃·.
+
+**Inductive effect.** The permanent displacement of the electrons of a **sigma bond** towards the more electronegative atom, which travels through a chain and falls off quickly with distance.
+
+- **−I effect:** groups that pull electrons, such as –NO₂, –CN, –COOH, halogens. They increase the acidity of a carboxylic acid: ClCH₂COOH is stronger than CH₃COOH.
+- **+I effect:** groups that push electrons, such as alkyl groups (–CH₃, –C₂H₅). They increase the stability of carbocations: tertiary > secondary > primary.
+
+**Resonance (mesomeric) effect.** The delocalisation of **π electrons** or lone pairs through a conjugated system, shown by two or more structures.
+
+- **+R effect:** the group donates electrons to the ring: –OH, –NH₂, –OCH₃, halogens.
+- **−R effect:** the group withdraws electrons from the ring: –NO₂, –CHO, –COOH, –CN.
+- Resonance makes benzene stable (resonance energy about $150\ \text{kJ mol}^{-1}$) and makes all six C–C bonds equal ($139\ \text{pm}$).
+
+| Feature | Inductive effect | Resonance effect |
+|---|---|---|
+| Electrons involved | σ electrons | π electrons or lone pairs |
+| Nature | Permanent, weakens with distance | Permanent, needs conjugation |
+| Example | ClCH₂COOH is more acidic | Aniline is less basic than ammonia |
+
+**Conclusion.** Bonds break homolytically to give radicals or heterolytically to give ions; electrophiles and nucleophiles attack, and the inductive and resonance effects decide the stability and reactivity.

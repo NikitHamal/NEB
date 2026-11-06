@@ -345,6 +345,30 @@ dwarf, child excess = giant, adult excess = acromegaly**.
 **Solution.** In **Patient X (primary thyroid failure / endemic iodine-deficiency goitre)**, low $\text{T}_4$ removes negative feedback on the anterior pituitary, driving high $\text{TSH}$ which hypertrophies the gland into a goitre. In **Patient Y (secondary / pituitary hypothyroidism)**, the anterior pituitary itself fails to secrete $\text{TSH}$.
 :::
 
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Iodine, the thyroid and salt. (a) The endocrine glands of the head and trunk, including the thyroid in the neck that makes thyroxine from iodine. (b) An adult needs about 150 micrograms of iodine a day. Salt carrying 30 mg of iodine per kg gives 60 micrograms in 2 g, 150 in 5 g and 300 in 10 g of salt, so 100 per cent of the need is met by 5 g, the amount usually eaten. A shortage enlarges the thyroid (simple goitre) and in a pregnant woman damages the baby's brain (cretinism), which is why Nepal promotes iodised salt in the hills where soil iodine is low."
+@ photo id="bio12/endocrine-glands" cap="Endocrine glands of the human body"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Iodine from salt against the daily need of 150 micrograms"
+conc = 30.0
+need = 150.0
+got = {g: conc * g / 1000 * 1000 for g in (2, 5, 10)}
+assert got[2] == 60 and got[5] == 150 and got[10] == 300
+facts = dict(a2="%.0f" % got[2], a5="%.0f" % got[5], a10="%.0f" % got[10], a5pc="%.0f" % (got[5] / need * 100))
+f = Fig(300, 236)
+f.text(150, 12, "Iodine (micrograms) in 30 mg/kg salt", size=10.5, color=NAVY, bold=True)
+for i, g in enumerate((2, 5, 10)):
+    y = 34 + i * 46
+    f.text(10, y, "%d g of salt" % g, size=10.5, color=SLATE, anchor="start")
+    w = got[g] / 300 * 200
+    c, fl = (AMBER, SAND) if got[g] < need else (TEAL, MINT)
+    f.box(10, y + 8, w, 22, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 19, "%.0f ug = %.0f%%" % (got[g], got[g] / need * 100), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.line(10 + 100, 28, 10 + 100, 176, color=RED, dash=True)
+f.text(112, 186, "need 150", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 214, "5 g of iodised salt meets the daily need", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Anterior pituitary: **GH, TSH, ACTH, FSH, LH, prolactin**.
@@ -560,3 +584,74 @@ dwarf, child excess = giant, adult excess = acromegaly**.
 **9.** (c) — Aldosterone excess expands Na⁺/water volume while wasting K⁺.
 **10.** (a) — Thyroid hormone is critical for early brain maturation and skeletal growth; untreated deficiency causes cretinism.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the endocrine glands of man, their hormones and functions. <span class="marks">[10]</span>
+2. Describe the common disorders caused by hormone imbalance and the feedback control of hormones. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.5" caption="The endocrine system. (a) The position of the endocrine glands in the human body. (b) The pituitary and hypothalamus on a sagittal section of the brain, the control centre of the system."
+@ photo id="bio12/endocrine-glands" cap="(a) Endocrine glands"
+fit 1.5
+focus 0.5 0.5
+@ photo id="bio12/brain-sagittal" cap="(b) Hypothalamus and pituitary"
+fit 1.5
+focus 0.5 0.5
+```
+
+### Model answer D1: Endocrine glands and hormones (10 marks)
+
+**Introduction.** **Endocrine glands** are ductless glands that release **hormones** directly into the blood. A hormone is a chemical messenger that affects a target organ in very small amounts.
+
+| Gland | Hormone | Main function |
+|---|---|---|
+| **Hypothalamus** | Releasing and inhibiting hormones | Controls the pituitary |
+| **Anterior pituitary** (master gland) | GH, TSH, ACTH, FSH, LH, prolactin | Growth, controls other glands, milk |
+| **Posterior pituitary** | ADH, oxytocin | Water balance; labour and milk ejection |
+| **Thyroid** | Thyroxine (T₃, T₄), calcitonin | Metabolic rate; lowers blood calcium |
+| **Parathyroid** | Parathormone | Raises blood calcium |
+| **Adrenal cortex** | Cortisol, aldosterone | Stress, glucose; salt balance |
+| **Adrenal medulla** | Adrenaline, noradrenaline | Emergency ("fight or flight") |
+| **Pancreas** (islets of Langerhans) | Insulin (β cells), glucagon (α cells) | Lowers and raises blood glucose |
+| **Testis** | Testosterone | Male characters, sperm |
+| **Ovary** | Oestrogen, progesterone | Female characters, cycle, pregnancy |
+| **Pineal** | Melatonin | Sleep and body clock |
+| **Thymus** | Thymosin | T-cell development |
+
+**Points to explain.**
+
+1. The **pituitary** is the size of a pea, lies under the hypothalamus and controls many glands, yet the hypothalamus controls it.
+2. **Thyroxine** needs iodine; **iodised salt** is used in Nepal to prevent goitre.
+3. **Insulin and glucagon** work against each other to keep fasting blood glucose at about 70–100 mg/dL.
+4. **Adrenaline** raises heart rate, blood glucose and blood flow to muscles.
+5. **Calcitonin and parathormone** keep blood calcium steady.
+6. **Oxytocin** causes uterine contractions and milk release.
+
+**Conclusion.** Hormones work together as a slow but long-lasting control system that adjusts growth, metabolism and reproduction.
+
+### Model answer D2: Hormonal disorders and feedback control (10 marks)
+
+**Introduction.** Too much (hyper-) or too little (hypo-) secretion of a hormone causes disease.
+
+| Gland | Hormone problem | Disorder and symptoms |
+|---|---|---|
+| Pituitary | Less GH in childhood | **Dwarfism**: small body, normal mind |
+| Pituitary | More GH in childhood | **Gigantism** |
+| Pituitary | More GH in adults | **Acromegaly**: large jaw, hands, feet |
+| Pituitary (post.) | Less ADH | **Diabetes insipidus**: large volumes of dilute urine |
+| Thyroid | Lack of iodine | **Simple goitre**: neck swelling |
+| Thyroid | Hypothyroid, infant | **Cretinism**: stunted body and mind |
+| Thyroid | Hypothyroid, adult | **Myxoedema**: slow, weight gain |
+| Thyroid | Hyperthyroid | **Graves' disease**: weight loss, protruding eyes |
+| Parathyroid | Less parathormone | **Tetany**: muscle spasm |
+| Adrenal cortex | Less cortisol | **Addison's disease**: weakness, low BP |
+| Adrenal cortex | More cortisol | **Cushing's syndrome**: moon face, high BP |
+| Pancreas | Less insulin | **Diabetes mellitus**: high blood glucose |
+
+**Diabetes mellitus.** In **type 1** the β-cells are destroyed and insulin must be injected. In **type 2** the cells respond poorly to insulin; diet, exercise and tablets help. Signs: thirst, frequent urination, weight loss. A fasting glucose above 126 mg/dL indicates diabetes.
+
+**Feedback control.** Most hormones work by **negative feedback**. For example: low thyroxine → the hypothalamus releases TRH → the pituitary releases TSH → the thyroid releases more thyroxine → a high level of thyroxine inhibits TRH and TSH. Similarly, a rise in blood glucose triggers insulin, which lowers glucose, which stops the insulin release. In **positive feedback** the effect strengthens the cause, as when oxytocin increases contractions during childbirth.
+
+**Prevention in Nepal.** Iodised salt, regular checks of blood sugar and screening of newborns for hypothyroidism.
+
+**Conclusion.** Hormone levels are held within narrow limits by feedback, and a failure of this control produces the disorders listed above.

@@ -196,6 +196,88 @@ The last test, `t_thirty`, **pins a bug that was found earlier**: the first vers
 7. **Light on data and battery.** Messages are 24 bytes, charts are drawn from local data and sync runs in batches. A farmer on a small prepaid data pack, or a phone at 15 percent battery, can still use the app all week.
 8. **Safe login and updates.** A one-time code to the phone number avoids forgotten passwords, and a version check tells old apps to update when the API changes. Together they keep the app secure without making it hard to use.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Why every reading carries an id. (a) A cell tower on a ridge: a village below it may have signal in the morning and none after the monsoon rain, so the phone app must work offline and sync later. (b) A simulation of 1,000 sync sessions each uploads 18 queued readings in 3 batches over a bad link where 30 per cent of requests are lost and 20 per cent of acknowledgements are lost (the data arrives but the phone does not know). The phone retries with a doubling wait of 1, 2, 4 and 8 seconds, needing 5.3 attempts per session and about 5.1 seconds of waiting. Without ids, the server stores 22.3 rows for 18 real readings and 45 per cent of the sessions contain duplicates; with a client-made unique id and a UNIQUE constraint it stores exactly 18 every time. The loss rates are assumptions chosen for the exercise."
+@ photo id="bcapj/celltower" cap="A cell tower: coverage ends where the hill begins"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Offline queue: 1,000 simulated sync sessions"
+import random
+random.seed(2081)
+READ = 18
+BATCH = 6
+LOSS, ACKLOSS = 0.30, 0.20
+def session():
+    ids = list(range(READ))
+    stored = []
+    attempts = 0
+    wait = 0
+    for b in range(0, READ, BATCH):
+        part = ids[b:b + BATCH]
+        delay = 1
+        while True:
+            attempts += 1
+            if random.random() < LOSS:
+                wait += delay
+                delay = min(delay * 2, 8)
+                continue
+            stored.extend(part)
+            if random.random() < ACKLOSS:
+                wait += delay
+                delay = min(delay * 2, 8)
+                continue
+            break
+    return attempts, stored, wait
+S = [session() for _ in range(1000)]
+att = sum(a for a, _, _ in S) / 1000
+raw = sum(len(s) for _, s, _ in S) / 1000
+uniq = sum(len(set(s)) for _, s, _ in S) / 1000
+withdup = sum(1 for _, s, _ in S if len(s) > len(set(s))) / 10
+wt = sum(w for _, _, w in S) / 1000
+assert uniq == READ and raw > READ
+facts = dict(att=round(att, 1), raw=round(raw, 1), pct=round(withdup), wt=round(wt, 1), n=READ)
+f = Fig(300, 236)
+f.text(150, 12, "18 readings queued offline, 3 batches", size=10.5, color=NAVY, bold=True)
+f.box(6, 24, 66, 44, "phone\nqueue", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=4, sw=1)
+f.box(116, 24, 70, 44, "retry\n1,2,4,8 s", fill="#fde68a", stroke=AMBER, size=10.5, bold=True, r=4, sw=1)
+f.box(226, 24, 68, 44, "server\nUNIQUE id", fill="#bbf7d0", stroke=TEAL, size=10.5, bold=True, r=4, sw=1)
+f.arrow([(72, 46), (116, 46)], color=SLATE)
+f.arrow([(186, 46), (226, 46)], color=SLATE)
+rows = [("upload attempts per session", "%.1f" % att, NAVY), ("rows stored, no ids", "%.1f" % raw, RED), ("rows stored, with ids", "%.1f" % uniq, TEAL), ("sessions with duplicates", "%d%%" % round(withdup), RED), ("mean wait in back-off", "%.1f s" % wt, NAVY)]
+for i, (k, v, c) in enumerate(rows):
+    y = 88 + i * 24
+    f.box(6, y, 200, 20, k, fill="#f1f5f9", stroke=SLATE, size=10.5, r=3, sw=1)
+    f.box(212, y, 82, 20, v, fill="#fff", stroke=c, color=c, size=11, bold=True, r=3, sw=1)
+f.text(150, 224, "30% request loss, 20% lost acknowledgement", size=10.5, color=SLATE)
+```
+
+```photogrid label="4.6" cols="2" ratio="1.27" caption="A field phone keeps trying to upload its readings, and the pause between tries doubles so that a weak network is not flooded. (a) Hill terraces where the signal comes and goes. (b) If each attempt succeeds with probability 0.30, the chance of at least one success within k attempts is 1 minus 0.7^k: 83.2% after five attempts and 91.8% after seven. The waits of 1, 2, 4, 8 and 16 seconds add to only 31 seconds before the fifth attempt, and a cap of 60 seconds stops the delay growing forever. Because a retry may send the same reading twice, every record carries a unique id, and the server ignores a repeat."
+@ photo id="bca356/terrace" cap="Hill terraces where the mobile network comes and goes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Retry with exponential back-off at 30 % success"
+P = 0.30
+waits = [1, 2, 4, 8, 16, 32, 60]
+cum = [sum(waits[:k]) for k in range(len(waits) + 1)]
+ok = [(1 - (1 - P) ** k) * 100 for k in range(1, 8)]
+assert abs(ok[4] - 83.2) < 0.1 and cum[5] == 31
+f = Fig(300, 236)
+f.text(150, 14, "success within k tries (each try 30 %)", size=10.5, color=NAVY, bold=True)
+base = 140
+f.line(14, base, 290, base, color=SLATE)
+for k in range(7):
+    x = 22 + k * 38
+    h = ok[k] * 1.0
+    f.box(x, base - h, 28, h, "", fill=MINT if ok[k] >= 80 else BLUE, stroke=TEAL if ok[k] >= 80 else NAVY, r=2)
+    f.text(x + 14, base - h - 8, "%.0f" % ok[k], size=9.5, color=NAVY, bold=True)
+    f.text(x + 14, base + 12, "%d" % (k + 1), size=10, color=SLATE, bold=True)
+    f.text(x + 14, base + 26, "%ds" % cum[k], size=9, color=SLATE)
+f.text(8, base + 12, "try", size=8.5, color=SLATE, anchor="start")
+f.text(150, 188, "waits 1, 2, 4, 8, 16, 32, 60 s (capped)", size=10, color=NAVY, bold=True)
+f.text(150, 206, "5 tries: %.1f %% sure after %d s of waiting" % (ok[4], cum[5]), size=10.5, color=RED, bold=True)
+f.text(150, 224, "send an id each time so repeats are safe", size=10, color=TEAL, bold=True)
+facts = dict(o5=ok[4], o7=ok[6], c5=cum[5])
+```
+
 ## Formula and fact sheet
 
 - Offline-first: the screen reads local storage; a worker syncs in the background.

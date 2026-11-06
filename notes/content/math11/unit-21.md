@@ -878,6 +878,28 @@ The plane is inclined at **$30^\circ$** to the horizontal.
 - Gravity $a = \pm g$; smooth incline $a = g\sin\theta$, $\ N = mg\cos\theta$
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.27" caption="In a strike the momentum of the ball is shared with the pin, and the two obey the conservation laws of mechanics. (a) A bowling ball about to hit the pins. (b) A 7 kg ball moving at 8 m/s hits a 1.5 kg pin head-on in an elastic collision. The ball slows to 5.18 m/s and the pin leaves at 13.18 m/s. The total momentum is 56.0 kg m/s before and after, and the kinetic energy stays 224.0 J, so both quantities are conserved. Real collisions lose a little energy as sound and heat, but the check is the standard test of any collision calculation."
+@ photo id="math11/bowling" cap="A bowling ball striking a pin: momentum is conserved in the collision"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Head-on elastic collision: ball and pin"
+m1, m2, u = 7.0, 1.5, 8.0
+v1 = (m1 - m2) / (m1 + m2) * u; v2 = 2 * m1 / (m1 + m2) * u
+p0 = m1 * u; p1, p2 = m1 * v1, m2 * v2
+ke0 = 0.5 * m1 * u ** 2; ke1 = 0.5 * m1 * v1 ** 2 + 0.5 * m2 * v2 ** 2
+assert abs(p0 - (p1 + p2)) < 1e-9 and abs(ke0 - ke1) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Momentum, kg m/s (ball 7 kg at 8 m/s, pin 1.5 kg)", size=10, color=NAVY, bold=True)
+hbars(f, [("before: ball", p0), ("after: ball", p1), ("after: pin", p2)], vmax=60, fmt="%.1f", x0=82, y0=36, bw=150, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)], size=9.5)
+f.text(150, 140, "ball %.2f m/s, pin %.2f m/s after impact" % (v1, v2), size=10.5, color=NAVY, bold=True)
+f.text(150, 162, "momentum: %.1f = %.1f + %.1f" % (p0, p1, p2), size=10.5, color=TEAL, bold=True)
+f.text(150, 182, "kinetic energy: %.1f J = %.1f J" % (ke0, ke1), size=10.5, color=TEAL, bold=True)
+f.text(150, 206, "v1 = (m1 - m2)u / (m1 + m2)", size=10, color=SLATE, bold=True)
+f.text(150, 222, "v2 = 2 m1 u / (m1 + m2)", size=10, color=SLATE, bold=True)
+facts = dict(v1=v1, v2=v2, p=p0, ke=ke0)
+```
+
 ## Chapter summary
 
 - A force is a vector: magnitude, direction, point of application. Forces at a point
@@ -1101,3 +1123,84 @@ The two speeds are **equal**: the slope does not change the final speed, only th
 time taken to acquire it ($2.86$ s on the plane against
 $14/9.8 = 1.43$ s in free fall).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the parallelogram law of forces, derive the magnitude and direction of the resultant of two forces and find the resultant of coplanar forces by resolution. <span class="marks">[10]</span>
+2. Derive the three equations of uniformly accelerated motion and apply them to a vertical throw and to motion down a smooth inclined plane. <span class="marks">[10]</span>
+
+### Model answer D1: parallelogram law and resultant of forces (10 marks)
+
+**Introduction.** A **force** is a push or pull measured in newtons, with magnitude and direction. The **resultant** is the single force that has the same effect as several forces acting together.
+
+**Parallelogram law of forces.** If two forces acting at a point are represented in magnitude and direction by two adjacent sides of a parallelogram, their resultant is represented by the diagonal through that point.
+
+**Magnitude and direction.** Let the forces $P$ and $Q$ act at $O$ with angle $\alpha$ between them, and let $OACB$ be the parallelogram with $OA=P$, $OB=Q$ and diagonal $OC=R$. Draw $CD\perp OA$ produced. Then $AD=Q\cos\alpha$ and $CD=Q\sin\alpha$. In the right-angled triangle $ODC$,
+
+$$ R^{2}=(P+Q\cos\alpha)^{2}+(Q\sin\alpha)^{2}=P^{2}+Q^{2}+2PQ\cos\alpha $$
+
+If $\theta$ is the angle of $R$ with $P$,
+
+$$ R=\sqrt{P^{2}+Q^{2}+2PQ\cos\alpha},\qquad \tan\theta=\frac{Q\sin\alpha}{P+Q\cos\alpha} $$
+
+**Special cases.**
+
+| Angle $\alpha$ | Resultant $R$ |
+|---|---|
+| $0^{\circ}$ (same direction) | $P+Q$ (maximum) |
+| $90^{\circ}$ | $\sqrt{P^{2}+Q^{2}}$ |
+| $180^{\circ}$ (opposite) | $|P-Q|$ (minimum) |
+
+**Worked examples.**
+
+1. $P=5$ N and $Q=12$ N at $90^{\circ}$: $R=\sqrt{25+144}=13$ N, and $\tan\theta=\dfrac{12}{5}$, so $\theta\approx67.4^{\circ}$ from $P$.
+2. Two equal forces of $10$ N inclined at $60^{\circ}$: $R=\sqrt{100+100+200\cos60^{\circ}}=\sqrt{300}=10\sqrt3\approx17.32$ N, at $\theta=30^{\circ}$ to each force (the angle is half of $\alpha$ for equal forces).
+
+**Resolution of a force.** A force $F$ at angle $\theta$ to the $X$-axis has components $F\cos\theta$ along $X$ and $F\sin\theta$ along $Y$. A force of $20$ N at $30^{\circ}$ has components $17.32$ N and $10$ N.
+
+**Resultant of coplanar forces at a point.** Resolve every force along two perpendicular axes. If $X=\sum F\cos\theta$ and $Y=\sum F\sin\theta$, then
+
+$$ R=\sqrt{X^{2}+Y^{2}},\qquad \tan\phi=\frac YX $$
+
+*Example 1.* Forces of $4$ N due east and $3$ N due north: $X=4$, $Y=3$, so $R=5$ N at $\phi=\tan^{-1}\dfrac34=36.87^{\circ}$ north of east.
+
+*Example 2.* For three forces $10$ N at $0^{\circ}$, $10$ N at $120^{\circ}$ and $10$ N at $240^{\circ}$: $X=10+10\cos120^{\circ}+10\cos240^{\circ}=10-5-5=0$ and $Y=0+8.66-8.66=0$, so the resultant is zero (equilibrium).
+
+**Conclusion.** The parallelogram law gives the resultant of two forces, and resolving into perpendicular components gives the resultant of any number of coplanar forces.
+
+### Model answer D2: equations of motion, vertical motion and inclined plane (10 marks)
+
+**Introduction.** Motion in a straight line with constant acceleration $a$ is described by the initial velocity $u$, final velocity $v$, displacement $s$ and time $t$.
+
+**Derivation of the equations.**
+
+1. **First equation.** Acceleration is the rate of change of velocity: $a=\dfrac{v-u}{t}$, so $v=u+at$.
+2. **Second equation.** The average velocity is $\dfrac{u+v}{2}$, so $s=\dfrac{u+v}{2}\,t=\dfrac{u+(u+at)}{2}\,t$, which gives $s=ut+\tfrac12at^{2}$.
+3. **Third equation.** From the first, $t=\dfrac{v-u}{a}$. Substituting in $s=\dfrac{u+v}{2}t$, $s=\dfrac{(v+u)(v-u)}{2a}$, so $v^{2}=u^{2}+2as$.
+
+**Motion under gravity.** Near the earth's surface every freely falling body has the acceleration $g\approx10\ \text{m s}^{-2}$ (more exactly $9.8$) downward. Take upward as positive, so $a=-g$ for a body thrown up.
+
+*Example 1: ball thrown up at $20$ m/s* (use $g=10$).
+
+| Quantity | Working | Result |
+|---|---|---|
+| Time to the top ($v=0$) | $0=20-10t$ | $t=2$ s |
+| Maximum height | $0=400-20h$ | $h=20$ m |
+| Total time of flight | $0=20t-5t^{2}$ | $t=4$ s |
+| Speed on return | $v=20-10\times4$ | $-20$ m/s (same speed, downward) |
+
+*Example 2: stone dropped from a $80$ m building.* $u=0$, $s=80=5t^{2}$, so $t=4$ s and $v=gt=40$ m/s.
+
+**Smooth inclined plane.** A body of mass $m$ on a smooth plane inclined at $\alpha$ to the horizontal has the weight component $mg\sin\alpha$ down the slope, and the normal reaction $mg\cos\alpha$ balances the rest. So the acceleration down the plane is $a=g\sin\alpha$, independent of the mass.
+
+*Example 3.* A block slides from rest down a smooth plane of length $10$ m inclined at $30^{\circ}$. $a=10\sin30^{\circ}=5\ \text{m s}^{-2}$. Then $v^{2}=0+2(5)(10)=100$, so $v=10$ m/s at the bottom, and $t=\dfrac{v}{a}=2$ s.
+
+*Example 4 (uniform acceleration).* A bus moving at $10$ m/s accelerates at $2\ \text{m s}^{-2}$ for $5$ s. $v=10+10=20$ m/s and $s=50+25=75$ m. Check: $v^{2}=100+2(2)(75)=400$.
+
+| Equation | Does not involve |
+|---|---|
+| $v=u+at$ | $s$ |
+| $s=ut+\tfrac12at^{2}$ | $v$ |
+| $v^{2}=u^{2}+2as$ | $t$ |
+
+**Conclusion.** The three equations follow from the definition of acceleration, and the same equations with $a=\pm g$ or $a=g\sin\alpha$ solve motion under gravity and on a smooth incline.

@@ -251,6 +251,138 @@ SELECT indexname FROM pg_indexes WHERE schemaname = current_schema() AND tablena
 
 The primary key automatically created `student_pkey`, and `UNIQUE` constraints create unique indexes. Syntax is the same in Oracle and MySQL (`DROP INDEX name ON table` in MySQL and SQL Server). **Rules of thumb:** index primary and foreign keys and columns used in `WHERE`, `JOIN` and `ORDER BY`; do not index small tables, columns with few distinct values (except bitmap), or columns updated constantly; check with `EXPLAIN` that the index is used (Unit 8).
 
+## 7.5 Seeing the ideas: why indexes, procedures and triggers matter
+
+An index works like the subject tabs of a card catalogue or the index at the back of a book: instead of reading every page you jump to the right place. On a disk this saving is very large, because the slowest step is moving the read/write arm to the right track. The measured numbers below come from a real PostgreSQL test with 100,000 student rows.
+
+```photogrid label="7.1" cols="3" ratio="1.0" caption="Why an index saves work. (a) The labelled drawers of a library catalogue: the label is a search key and the drawer tells you where to look, so you open one drawer and not all of them. (b) The arm of a hard disk: every block that must be read may cost a movement of this arm, so the number of block reads is the cost that the DBMS tries to reduce. (c) The platters hold the table in blocks of fixed size; a full table scan must read all the blocks, while an index lookup reads only a few."
+@ photo id="bca202/catalog" cap="Catalogue drawers: search keys"
+fit 1.0
+focus 0.5 0.6
+call 0.5 0.12 0.45 0.45 "key to drawer"
+@ photo id="bca101/hdd-arm" cap="Hard-disk arm and platter"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.9 0.55 0.55 "arm seeks a track"
+@ photo id="bca101/hdd-platter" cap="Platter holding data blocks"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="7.1" caption="A real measurement. The table student has 100,000 rows stored in 735 blocks of 8 KB (about 5.7 MB). Searching WHERE sid = 77777 without an index forced a sequential scan that touched 735 blocks. After CREATE INDEX on sid (276 index blocks, about 2.2 MB) the same query touched only 3 blocks: the root of the B+ tree, one leaf and the single table block that holds the row. Execution time fell from about 5.4 ms to 0.02 ms. The price of the index is the extra 2.2 MB and slower INSERT, UPDATE and DELETE."
+f = Fig(580, 200)
+f.text(290, 14, "Blocks read to find one student among 100,000 (PostgreSQL EXPLAIN BUFFERS)", size=10.5, color=NAVY, bold=True)
+f.text(10, 54, "No index", size=10.5, color=RED, bold=True, anchor="start")
+f.box(110, 38, 440, 30, "", fill=ROSE, stroke=RED)
+f.text(330, 53, "735 blocks (sequential scan, 5.4 ms)", size=10.5, color=RED, bold=True, vmid=True)
+f.text(10, 104, "B+ tree index", size=10.5, color=TEAL, bold=True, anchor="start")
+f.box(110, 88, 4, 30, "", fill=TEAL, stroke=TEAL)
+f.text(124, 103, "3 blocks (root, leaf, table block; 0.02 ms)", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.box(10, 138, 270, 48, "Table: 735 blocks = 5.7 MB\nIndex on sid: 276 blocks = 2.2 MB", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.box(300, 138, 270, 48, "245 times fewer block reads\nfor one equality search", fill=MINT, stroke=TEAL, size=11, bold=True)
+```
+
+```svgfig label="7.2" caption="A small B+ tree. The root holds the separator keys 15 and 30. The three leaves hold all the keys, in order, with a pointer to the record for each key, and the leaves are chained together. To find key 25 the search goes from the root (25 is at least 15 and less than 30) to the middle leaf and finds it: two nodes read. A range query such as 10 to 30 finds 10 in the first leaf and then simply follows the chain of leaves to the right, never going back to the root. This is why a B+ tree is good for both equality and range searches."
+f = Fig(580, 230)
+f.box(215, 14, 150, 34, "15 | 30", fill=NAVY, stroke=NAVY, color="#ffffff", size=13, bold=True)
+leaves = [(20, "5 | 10", BLUE, NAVY), (215, "15 | 20 | 25", AMBER and SAND, AMBER), (410, "30 | 35 | 40", BLUE, NAVY)]
+for x, t, fl, st in leaves:
+    f.box(x, 120, 150, 34, t, fill=fl, stroke=st, size=12, bold=True)
+f.arrow([(250, 48), (95, 120)], color=SLATE, sw=1.4, label="< 15", lpos=(150, 74), lsize=9)
+f.arrow([(290, 48), (290, 120)], color=RED, sw=2.2, label="15 to 29", lpos=(330, 84), lsize=9)
+f.arrow([(330, 48), (485, 120)], color=SLATE, sw=1.4, label=">= 30", lpos=(440, 74), lsize=9)
+f.arrow([(170, 137), (215, 137)], color=TEAL, sw=1.8)
+f.arrow([(365, 137), (410, 137)], color=TEAL, sw=1.8)
+for x in (95, 290, 485):
+    f.line(x, 154, x, 172, color=SLATE, sw=1.2)
+    f.text(x, 184, "pointers to records", size=9, color=SLATE)
+f.text(290, 212, "search 25: root -> middle leaf (red).   range 10..30: find 10, follow the leaf chain (teal).", size=10, color=NAVY, bold=True)
+```
+
+```svgfig label="7.3" caption="A trigger firing. The single statement UPDATE account SET balance = balance * 1.10 changed two rows, so the row-level AFTER UPDATE trigger ran twice, once per row, and wrote two lines to audit_log: account 1 from 3,400.00 to 3,740.00 and account 2 from 4,600.00 to 5,060.00 (real output). The application never called the trigger and cannot forget to; this is why triggers suit audit trails. Because the trigger runs inside the same transaction, if the update is rolled back the audit lines are rolled back with it."
+f = Fig(580, 210)
+f.box(10, 70, 140, 50, "UPDATE account\nSET balance =\nbalance * 1.10", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.arrow([(150, 95), (200, 60)], color=SLATE, sw=1.6)
+f.arrow([(150, 95), (200, 135)], color=SLATE, sw=1.6)
+f.box(200, 36, 150, 48, "row 1 changes:\ntrigger fires", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(200, 112, 150, 48, "row 2 changes:\ntrigger fires", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.arrow([(350, 60), (395, 60)], color=SLATE, sw=1.6)
+f.arrow([(350, 136), (395, 136)], color=SLATE, sw=1.6)
+f.box(395, 8, 175, 24, "audit_log: acc | old | new", fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True, r=0)
+f.box(395, 32, 175, 56, "1 | 3,400.00 | 3,740.00", fill=MINT, stroke=TEAL, size=10, bold=True, r=0)
+f.box(395, 108, 175, 56, "2 | 4,600.00 | 5,060.00", fill=MINT, stroke=TEAL, size=10, bold=True, r=0)
+f.text(290, 190, "one statement, two rows, two trigger runs: write triggers for many rows", size=10, color=RED, bold=True)
+```
+
+```svgfig label="7.4" caption="Round trips and all-or-nothing. Sent as separate statements, a transfer needs a check, two updates and a commit, so the application and the server exchange at least four messages, and a crash between the updates could leave money taken from Sita but not given to Ram. Wrapped in the stored procedure transfer(src, dst, amt), the application sends one CALL and the server does everything inside one transaction. After CALL transfer(1, 2, 500) and CALL transfer(1, 2) with the default 100, the balances were Sita 4,400.00 and Ram 3,600.00 (real output); a failed call changes nothing."
+f = Fig(580, 220)
+f.text(145, 12, "Separate statements", size=11, color=RED, bold=True)
+f.box(10, 24, 70, 150, "App", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(210, 24, 70, 150, "Server", fill=BLUE, stroke=NAVY, size=11, bold=True)
+for i, s in enumerate(["check balance", "UPDATE Sita -500", "UPDATE Ram +500", "COMMIT"]):
+    y = 44 + i * 34
+    f.arrow([(80, y), (210, y)], color=SLATE, sw=1.4, label=s, lpos=(145, y - 5), lsize=8.5)
+f.text(145, 196, "4 round trips; a crash in between is risky", size=9.5, color=RED, bold=True)
+f.text(435, 12, "Stored procedure", size=11, color=TEAL, bold=True)
+f.box(300, 24, 70, 150, "App", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(500, 24, 70, 150, "Server", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.arrow([(370, 70), (500, 70)], color=TEAL, sw=2, label="CALL transfer(1, 2, 500)", lpos=(435, 62), lsize=8.5)
+f.box(390, 90, 100, 46, "inside server:\ncheck, 2 updates\nall or nothing", fill=MINT, stroke=TEAL, size=8.5, bold=True)
+f.arrow([(500, 156), (370, 156)], color=TEAL, sw=1.6, label="ok", lpos=(435, 150), lsize=9)
+f.text(435, 196, "1 round trip; atomic; rule kept in one place", size=9.5, color=TEAL, bold=True)
+```
+
+### 7.5.1 Eight reasons to use stored procedures, triggers and indexes
+
+1. **Fewer network round trips.** A stored procedure runs next to the data, so one CALL replaces a long conversation of separate statements (Figure 7.4). This matters when the application and the server are far apart, such as a branch office and a head-office server. Pages and apps feel faster as a result.
+2. **One copy of the business rule.** A rule like "a transfer cannot be negative" is written once in the procedure and used by the web site, the mobile app and the ATM program. When the rule changes, only the procedure is edited. Programs in different languages can never disagree.
+3. **Better security.** Users can be allowed to run the procedure `transfer` without any right to update the account table directly. The procedure checks the rules, and the table stays closed to everything else. This reduces the damage from SQL injection and from careless users.
+4. **Automatic audit trails.** A trigger records who changed what and when, even if the programmer forgets (Figure 7.3). Banks and government offices need such records to find mistakes and fraud. Because the trigger lives in the database, it cannot be bypassed by a different application.
+5. **Complex integrity rules.** Some rules cannot be expressed as a CHECK constraint, such as "a student may not enrol in more than six courses". A trigger can test them with a query and refuse the change. The data stay correct whichever program modifies them.
+6. **Derived data stays current.** A trigger can update a stock count or a running total whenever a sale row is inserted. Reports then read the correct total without recalculation. This is valuable in a shop that sells thousands of items a day.
+7. **Much faster searches with indexes.** In the measurement of Figure 7.1 an index cut the work from 735 block reads to 3. A search that took seconds on a large table takes a fraction of a millisecond. Primary keys and unique columns get such an index automatically.
+8. **Better sorting, range queries and joins.** A B+ tree keeps keys in order, so `ORDER BY`, `BETWEEN` and joins on indexed columns avoid sorting and scanning (Figure 7.2). The price is extra disk space and slower writes, so index the columns that are searched often, not every column.
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="A trigger is a spring-loaded rule. (a) A classic spring mousetrap: nobody pulls the bar, a small event (the bait is touched) releases stored energy and the action follows by itself. A DML trigger works the same way: nobody calls it, an INSERT, UPDATE or DELETE on the table releases it. (b) Two triggers run on a real SQLite database: 1,000 random withdrawals from 20 accounts, each opening balance Rs 200,000. A BEFORE trigger refuses any withdrawal that would make the balance negative, and an AFTER trigger writes one audit row for every withdrawal of Rs 5,000 or more. The application code contains neither check."
+@ photo id="bca202/mousetrap" cap="A spring mousetrap: an event releases the stored action"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Two triggers, 1,000 withdrawals (real SQLite)"
+import sqlite3, random
+db = sqlite3.connect(":memory:")
+db.executescript("""
+create table acct(id integer primary key, bal integer);
+create table audit(id integer primary key autoincrement, acct integer, amt integer);
+create trigger guard before update on acct when new.bal < 0
+begin select raise(abort, 'overdraft'); end;
+create trigger big after update on acct when old.bal - new.bal >= 5000
+begin insert into audit(acct, amt) values (new.id, old.bal - new.bal); end;
+""")
+db.executemany("insert into acct values (?, 200000)", [(i,) for i in range(1, 21)])
+rnd = random.Random(2081)
+ok = bad = big = 0
+for _ in range(1000):
+    a, amt = rnd.randint(1, 20), rnd.randint(100, 9000)
+    try:
+        db.execute("update acct set bal = bal - ? where id = ?", (amt, a)); ok += 1
+        big += amt >= 5000
+    except sqlite3.DatabaseError:
+        bad += 1
+n_audit = db.execute("select count(*) from audit").fetchone()[0]
+assert ok + bad == 1000 and n_audit == big and bad > 0
+assert db.execute("select min(bal) from acct").fetchone()[0] >= 0
+f = Fig(300, 236)
+f.text(150, 14, "1,000 UPDATE statements issued", size=10.5, color=NAVY, bold=True)
+rows = [("applied", ok, TEAL, MINT), ("blocked by BEFORE trigger", bad, RED, ROSE), ("audit rows by AFTER trigger", n_audit, AMBER, SAND)]
+for i, (lab, v, c, bg) in enumerate(rows):
+    y = 36 + i * 52
+    f.text(8, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, max(240 * v / 1000, 6), 22, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(max(240 * v / 1000, 6) + 16, y + 17, format(v, ","), size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "lowest balance left: Rs %s (never negative)" % format(db.execute("select min(bal) from acct").fetchone()[0], ","), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "no check written in the application", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Procedures: create, alter, execute (`CALL`/`EXEC`), drop; parameters IN/OUT/default; function returns a value.
@@ -289,3 +421,80 @@ The primary key automatically created `student_pkey`, and `UNIQUE` constraints c
 **8.** Data blocks = 1,000,000 / 50 = 20,000. Dense: 1,000,000 entries / 500 = **2,000** index blocks. Sparse: 20,000 entries / 500 = **40** blocks.
 **9.** Queries filtering on dept_id, or on dept_id and city; not on city alone.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). What is a stored procedure? Explain its advantages with an example.**
+
+*Introduction.* A stored procedure is a named block of SQL and procedural statements that is stored in the database and executed on the server when called. In PostgreSQL it is created with `CREATE PROCEDURE` and run with `CALL`; in Oracle and SQL Server it is run with `EXEC`.
+
+```sql
+CREATE PROCEDURE transfer(src INT, dst INT, amt NUMERIC DEFAULT 100) LANGUAGE plpgsql AS $$
+BEGIN
+    IF amt <= 0 THEN RAISE EXCEPTION 'amount must be positive'; END IF;
+    UPDATE account SET balance = balance - amt WHERE acc_no = src;
+    UPDATE account SET balance = balance + amt WHERE acc_no = dst;
+END $$;
+CALL transfer(1, 2, 500);
+```
+
+1. **Fewer round trips.** One CALL replaces several statements (Figure 7.4).
+2. **Reuse.** Many programs use the same logic, so it is written and tested once.
+3. **Consistency.** The business rule, here the positive amount, lives in one place.
+4. **Atomicity.** Both updates run in one transaction, so either both happen or neither does.
+5. **Security.** Users can be given the right to run the procedure but not to touch the table.
+6. **Parameters.** IN, OUT and default parameters make the procedure flexible: calling `transfer(1, 2)` used the default of 100.
+
+*Result.* After the calls with 500 and with the default 100, Sita had 4,400.00 and Ram 3,600.00.
+
+*Conclusion.* Stored procedures bring the logic to the data, giving speed, safety and one version of the truth.
+
+**Q2 (5 marks). What is a trigger? Explain its types and give an example.**
+
+*Introduction.* A trigger is a procedure that the DBMS runs automatically when a stated event, `INSERT`, `UPDATE` or `DELETE`, happens on a table. It is never called by name.
+
+1. **Timing.** `BEFORE` triggers run before the change and can check or alter the new values. `AFTER` triggers run afterwards, often for logging. `INSTEAD OF` triggers (on views) replace the action.
+2. **Level.** A row-level trigger (`FOR EACH ROW`) runs once for each affected row, a statement-level trigger once per statement.
+3. **Row values.** Inside a row trigger, `OLD` holds the row before and `NEW` the row after the change.
+4. **Example.** The trigger below writes an audit line whenever a balance changes.
+
+```sql
+CREATE FUNCTION log_balance() RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+    IF NEW.balance <> OLD.balance THEN
+        INSERT INTO audit_log (acc_no, old_bal, new_bal) VALUES (OLD.acc_no, OLD.balance, NEW.balance);
+    END IF;
+    RETURN NEW;
+END $$;
+CREATE TRIGGER trg_balance AFTER UPDATE ON account FOR EACH ROW EXECUTE FUNCTION log_balance();
+```
+
+5. **Result.** The statement `UPDATE account SET balance = balance * 1.10` changed two rows, so the trigger ran twice and logged 3,400.00 to 3,740.00 and 4,600.00 to 5,060.00 (Figure 7.3).
+6. **Cautions.** Triggers are invisible to application programmers, can fire other triggers, and must be written for multi-row statements.
+
+*Conclusion.* Triggers enforce rules and audit changes automatically, inside the same transaction as the change.
+
+**Q3 (10 marks). What is indexing? Explain ordered indices (dense and sparse) and the B+ tree index. State the advantages and disadvantages of indexing.**
+
+*Introduction.* An index is an auxiliary structure that maps search-key values to the location of records, like the index of a book. Without an index a query such as `WHERE sid = 77777` must scan the whole table; with one it reads only a few blocks. In a real test on 100,000 rows the scan touched 735 blocks and the indexed lookup only 3 (Figure 7.1).
+
+*Ordered indices.* Entries are kept sorted by the search key.
+1. **Primary (clustering) index.** The data file itself is sorted on the index key; a table can have only one.
+2. **Secondary (non-clustering) index.** The index is on a field that does not order the file; it must have an entry for every record, and a table can have many.
+3. **Dense index.** One entry for every search-key value. For 100,000 records, with 200 entries per index block, this needs 500 index blocks.
+4. **Sparse index.** Entries for only some keys, typically one per data block, and only on a file sorted by that key. With 20 records per block there are 5,000 data blocks, so 5,000 entries fit in 25 index blocks; a binary search takes about 5 reads, and one more reads the data block.
+
+*B+ tree index.* It is a balanced multiway tree: internal nodes hold separator keys, and all pointers to records are in the leaves, which are chained in key order (Figure 7.2). Searching for 25 goes root, then leaf. Range queries follow the leaf chain. All leaves are at the same depth, and with a fan-out of about 100 a billion keys need only a height of about 5. The tree stays balanced as rows are inserted and deleted by splitting and merging nodes.
+
+*Hash index.* A hash function maps the key to a bucket, giving one lookup for equality tests, but it cannot support ranges or ordering.
+
+| Point | Advantage | Disadvantage |
+|---|---|---|
+| Reads | far fewer block reads | none |
+| Sorting and range queries | B+ tree gives ordered access | hash index does not |
+| Writes | none | every INSERT, UPDATE and DELETE must also update the index |
+| Space | none | in the test, 2.2 MB of index for a 5.7 MB table |
+
+*Creating and dropping.* `CREATE INDEX idx_student_sid ON student(sid);` and `DROP INDEX idx_student_sid;`. A composite index on (dept_id, city) helps queries on dept_id alone but not on city alone.
+
+*Conclusion.* Index the columns used often in WHERE, JOIN and ORDER BY, and do not index every column, because the speed gained on reads is paid for in space and slower writes.

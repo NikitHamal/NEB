@@ -798,6 +798,37 @@ Terai and the maize grown on Nepal's hill terraces. Wheat flour is almost pure
 endosperm, and the coconut's liquid endosperm, rich in cytokinins, is used in
 plant tissue-culture media.
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="Pollen grains differ in size, shape and surface pattern, yet all of them come from the same process in the anther. (a) A colourised electron micrograph of mixed pollen. (b) A hundred pollen mother cells each divide by meiosis into four microspores, giving 400 pollen grains, and each grain later yields two male gametes, so 800 sperm cells are available. A hundred megaspore mother cells give only 100 egg cells, because three of the four megaspores in each ovule degenerate. That is a surplus of 8 male gametes for every egg, a plant's insurance against pollen that never reaches a stigma."
+@ photo id="bio12/pollen" cap="Pollen grains from different plants under the electron microscope (colourised)"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="From mother cells to gametes, per 100 cells"
+pmc = 100
+grains = pmc * 4
+sperm = grains * 2
+mmc = 100
+sacs = mmc * 1
+eggs = sacs * 1
+assert (grains, sperm, eggs) == (400, 800, 100)
+f = Fig(300, 236)
+f.text(150, 14, "Counts from 100 mother cells of each kind", size=10.5, color=NAVY, bold=True)
+hbars(f, [("pollen mother", pmc), ("pollen grains", grains), ("male gametes", sperm), ("megaspore mother", mmc), ("egg cells", eggs)],
+      vmax=800, fmt="%d", x0=100, y0=34, bw=150, gap=26, colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED), (BLUE, NAVY), (MINT, TEAL)], size=9.5)
+f.text(150, 176, "meiosis: 1 mother cell makes 4 haploid cells", size=10, color=SLATE, bold=True)
+f.text(150, 192, "pollen: generative cell divides, 2 sperms each", size=10, color=SLATE, bold=True)
+f.text(150, 208, "ovule: 1 of 4 megaspores survives, 1 egg", size=10, color=SLATE, bold=True)
+f.text(150, 224, "double fertilisation: zygote 2n, endosperm 3n", size=10, color=TEAL, bold=True)
+facts = dict(g=grains, s=sperm, e=eggs, ratio=sperm // eggs)
+```
+
+```photogrid label="4.H" cols="5" ratio="1.0" caption="Stages of flowering-plant reproduction, left to right: (a) colourful pollen grains of several species under the scanning electron microscope, each with its own exine pattern; (b) the anther of a lily with its four pollen sacs; (c) germinating pollen of Pinus with its pollen tube; (d) a section through a lily ovary with ovules; (e) an early embryo of Capsella, the shepherd's purse."
+@ photo id="bio12/pollen" cap="Pollen grains (SEM, false colour)"
+@ photo id="bio12/anther-lilium" cap="Lily anther with pollen"
+@ photo id="bio12/pinus-pollen" cap="Pollen grain germinating"
+@ photo id="bio12/lily-ovary" cap="Lily ovary with ovules"
+@ photo id="bio12/capsella-embryo" cap="Capsella embryo (Hanstein)"
+```
+
 ## Chapter summary
 
 - **Asexual reproduction** (rhizome, tuber, bulb, runner, cutting, grafting,
@@ -982,3 +1013,93 @@ type — a wall after every division from the first (*Datura*, *Petunia*);
 **helobial** type — one wall makes two unequal chambers and the micropylar
 chamber then goes free-nuclear (*Alisma*, Helobiales).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the development of the male gametophyte (microsporogenesis and microgametogenesis) from the structure of the anther. <span class="marks">[10]</span>
+2. Describe the development of the female gametophyte (embryo sac) in a typical angiosperm and draw a labelled mature embryo sac. <span class="marks">[10]</span>
+3. What is double fertilization? Explain the process, the formation of endosperm and embryo, and give eight points of its significance. <span class="marks">[10]</span>
+
+### Model answer D1: development of the male gametophyte (10 marks)
+
+**Introduction.** The male gametophyte of an angiosperm is the **pollen grain**. It develops inside the anther from diploid cells by meiosis and mitosis, and it is reduced to only two or three cells.
+
+**Structure of the anther.** A typical anther is **bilobed and tetrasporangiate**: it has four pollen sacs (microsporangia). The wall has four layers from outside inwards: the **epidermis** (protection), the **endothecium** (fibrous thickenings that help the anther to dehisce), the **middle layers** (which degenerate) and the **tapetum**, a nutritive layer that supplies food, enzymes and sporopollenin precursors to the developing pollen. Inside is the **sporogenous tissue**.
+
+**Stage 1: microsporogenesis (formation of microspores).**
+
+1. Each cell of the sporogenous tissue becomes a **microspore mother cell (pollen mother cell, 2n)**.
+2. Each mother cell divides by **meiosis**, giving a **tetrad** of four haploid microspores (n).
+3. The four microspores separate and are released as individual cells. A single anther of a lily produces thousands of pollen grains in this way.
+
+**Stage 2: microgametogenesis (formation of the male gametophyte).**
+
+1. The microspore enlarges and develops a two-layered wall: an outer **exine** made of **sporopollenin**, one of the most resistant organic materials known, and an inner **intine** of cellulose and pectin. The exine has thin places called **germ pores**.
+2. The nucleus divides unequally by **mitosis** to give a large **vegetative cell** and a small **generative cell**.
+3. At this stage the pollen is shed in about 60% of species (the two-celled stage). In the rest, the generative cell divides again to produce **two male gametes** before the pollen leaves the anther (the three-celled stage, as in maize and wheat).
+4. If the pollen lands on a compatible stigma, the vegetative cell forms the **pollen tube** and the two male gametes pass into it.
+
+| Feature | Microsporogenesis | Microgametogenesis |
+|---|---|---|
+| Starting cell | Pollen mother cell (2n) | Microspore (n) |
+| Division | Meiosis | Mitosis |
+| Product | Tetrad of 4 microspores | Pollen grain with vegetative and generative cells |
+| Chromosome number | 2n → n | n → n |
+
+**Importance of the tapetum and the exine.** Without the tapetum, pollen is sterile; a failure of its development is used to make male-sterile lines for hybrid seed. The exine protects the grain from drying, and it preserves pollen as fossils.
+
+**Conclusion.** One diploid pollen mother cell therefore gives four pollen grains, each a two- or three-celled haploid male gametophyte ready for pollination.
+
+### Model answer D2: development of the female gametophyte (10 marks)
+
+**Introduction.** The female gametophyte is the **embryo sac**, formed inside the ovule. In about 70% of flowering plants it is of the **monosporic, Polygonum type**, which develops from one megaspore.
+
+**Structure of the ovule.** The ovule is joined to the placenta by a stalk (**funicle**). It has a mass of tissue called the **nucellus** surrounded by one or two **integuments** that leave a small opening, the **micropyle**. The base where the integuments and nucellus meet is the **chalaza**. A single **megaspore mother cell (2n)** lies in the nucellus below the micropylar end.
+
+**Stage 1: megasporogenesis.** The megaspore mother cell divides by **meiosis** into a linear tetrad of four haploid megaspores. In the Polygonum type, the three towards the micropyle **degenerate**, and the one near the chalaza becomes the **functional megaspore**.
+
+**Stage 2: megagametogenesis.**
+
+1. The functional megaspore enlarges, and its nucleus divides by mitosis to form two nuclei, which move to opposite (micropylar and chalazal) poles.
+2. Each of the two nuclei divides twice by mitosis, and a total of **four nuclei at each pole (8 nuclei)** are formed. This is a free nuclear division with no walls.
+3. Three nuclei at each pole become surrounded by cell walls, and one nucleus from each pole, the **polar nuclei**, moves to the centre.
+4. The result is a **7-celled, 8-nucleate embryo sac**.
+
+| Part | Position | Number of cells and nuclei | Function |
+|---|---|---|---|
+| Egg apparatus: egg cell | Micropylar end | 1 cell | Fuses with male gamete to form zygote |
+| Synergids | Beside the egg | 2 cells | Secrete chemicals that guide the pollen tube (filiform apparatus) |
+| Central cell | Centre | 1 cell, 2 polar nuclei | Fuses with the second male gamete to form the endosperm |
+| Antipodal cells | Chalazal end | 3 cells | Nourish the embryo sac; degenerate after fertilization |
+
+**Counting.** 3 (egg apparatus) + 3 (antipodals) + 1 (central cell) = 7 cells; 3 + 3 + 2 = 8 nuclei. All are haploid, with the central cell having two nuclei and therefore becoming triploid after fusion with a male gamete.
+
+**Diagram guide.** Draw an oval sac with the three-celled egg apparatus at the micropylar end (egg in the middle, a synergid on either side), a large central cell with two polar nuclei, and three small antipodal cells at the chalazal end.
+
+**Conclusion.** One diploid megaspore mother cell gives one functional megaspore and, after three mitoses, a mature seven-celled embryo sac, ready for double fertilization.
+
+### Model answer D3: double fertilization and its significance (10 marks)
+
+**Introduction.** **Double fertilization** is the event in which one male gamete fuses with the egg (syngamy) and the other with the two polar nuclei (triple fusion) in the same embryo sac. It is found only in angiosperms and was discovered by Nawaschin (1898) in *Lilium* and *Fritillaria*.
+
+**The process.**
+
+1. A pollen grain lands on the stigma and absorbs water, and the vegetative cell produces a **pollen tube** through a germ pore.
+2. The tube grows down the style, guided by chemicals from the synergids, and enters the ovule most commonly through the **micropyle** (porogamy).
+3. It enters one synergid and releases the two male gametes into the embryo sac.
+4. **Syngamy:** one male gamete (n) fuses with the egg (n) to give the **zygote (2n)**, which develops into the **embryo**.
+5. **Triple fusion:** the other male gamete (n) fuses with the two polar nuclei (n + n) to form the **primary endosperm nucleus (3n)**, which develops into the **endosperm**.
+6. After fertilization the synergids and antipodals degenerate, the ovule becomes the **seed**, the integuments form the **seed coat** and the ovary becomes the **fruit**.
+
+**Significance (8 points).**
+
+1. **Saves food.** The endosperm begins to develop only after fertilization, so the plant does not waste food on unfertilized ovules.
+2. **Provides food for the embryo.** The triploid endosperm stores starch, protein and oil that nourish the seedling, as in the rice and wheat grains that feed Nepal.
+3. **Restores the diploid number.** Syngamy brings the chromosome number back from n to 2n.
+4. **Gives variation.** Two gametes from different parents mix their genes and make new combinations.
+5. **Triploid tissue is vigorous.** The extra set of chromosomes in the endosperm gives rapid growth and heterosis-like vigour.
+6. **Ensures coordination.** The embryo and its food supply start together, so the seed is ready in a single step.
+7. **Starts fruit development.** After fertilization hormones from the seed make the ovary grow into the fruit.
+8. **Basis for breeding.** Understanding it allows controlled crosses, seed-set studies and embryo rescue in hybrids.
+
+**Conclusion.** Double fertilization joins the formation of the embryo with that of its food, and this efficient reproductive system helps to explain the success of flowering plants.

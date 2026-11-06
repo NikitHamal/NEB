@@ -434,3 +434,95 @@ Step 2 — Closing stock $= 55 \times 2{,}800 = Rs.\ 1{,}54{,}000$.
 **3.** *Definition (1).* The statements prepared at the end of the period from the trial balance after adjustments, to show the profit or loss and the financial position. *Steps (3).* Complete and agree the trial balance; bring in the closing entries; prepare the trading account and find the gross profit; prepare the profit and loss account and find the net profit; add the net profit to capital and deduct drawings; prepare the balance sheet; check that the two sides agree. *Adjustments (4).* Explain any five out of: closing stock, outstanding expense, prepaid expense, accrued income, income received in advance, depreciation, interest on capital, interest on drawings, goods taken by the proprietor, provision for doubtful debts, manager's commission — stating in each case the effect in the trading or profit and loss account **and** the effect in the balance sheet. Emphasise that every adjustment has two effects, and that a missing second effect is the commonest reason for a balance sheet not tallying.
 **4.** *Meaning (2).* The bank cash book, म.ले.प.फा.नं. २०९, is the operating level office's combined record of its bank account, showing all money received and paid with a running balance. *Columns (2).* Date; voucher number; particulars; debit (money received); credit (money paid); balance. *Debit side (2).* Budget release received, revenue deposited, retention and deductions received, refund of an unspent advance, amount transferred in. *Credit side (2).* Expenditure paid, advances paid, retention and deductions paid over or refunded, amounts transferred out, and the closing balance carried down. Add the rules: enter in date order with the voucher number; carry a running balance; total both sides; reconcile with the passbook every month and send a copy with the statement of expenditure.
 :::
+
+## 4.14 Extended model answers (10 marks)
+
+The Accountancy theory paper often asks for a full 10-mark answer on a statement or an account. These two models show the length and layout expected: introduction, format or table, explained points with a figure, and conclusion.
+
+**Extended questions**
+
+1. What is a bank reconciliation statement? Explain the eight reasons for the difference between the cash book and the passbook, and prepare a statement from the figures given in the answer. <span class="marks">[10]</span>
+2. What are final accounts? Explain the trading account, the profit and loss account and the balance sheet, with the adjustments needed at the end of the year. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.25" caption="Records behind the answers. (a) A cash book, where the firm records every receipt and payment of cash and bank. (b) A ledger, in which each account gets its own page. (c) A cheque, the paper order used to pay from a bank account. (d) A bank passbook, the bank's own record that is compared with the cash book in a reconciliation."
+@ photo id="acc10/cash-book" cap="(a) Cash book"
+@ photo id="acc10/ledger" cap="(b) Ledger"
+@ photo id="acc10/cheque" cap="(c) Cheque"
+@ photo id="acc10/passbook" cap="(d) Bank passbook"
+```
+
+### Model answer D1: bank reconciliation statement (10 marks)
+
+**Introduction.** A **bank reconciliation statement (BRS)** is a statement prepared on a given date to explain the difference between the bank balance shown in the firm's cash book and the balance shown in the bank's passbook (bank statement). The firm and the bank record the same transactions, but not always on the same date, so the two balances often differ. The statement finds the cause of every difference and proves that both records are correct.
+
+**Objectives.** It detects errors, prevents fraud, shows the cheques still to be cleared, and tells the true bank balance available to the firm.
+
+**Reasons for the difference.**
+
+1. **Cheques issued but not yet presented.** The firm has already credited its bank column, but the bank pays only when the payee presents the cheque.
+2. **Cheques deposited but not yet collected.** The firm has debited its bank column, but the bank credits the amount only after the cheque is cleared.
+3. **Bank charges.** The bank deducts service charges and fees at once, and the firm learns of them from the passbook.
+4. **Interest credited by the bank.** The bank adds interest on the deposit, which is not yet in the cash book.
+5. **Direct deposits by customers.** A customer pays directly into the firm's account through a transfer, for example by mobile banking.
+6. **Direct payments by the bank.** Insurance premium, loan instalment or electricity bill paid on the firm's standing instruction.
+7. **Dishonoured cheques.** A customer's cheque is returned unpaid, and the bank debits the account.
+8. **Errors.** A wrong amount, a wrong side or an omitted entry in either book.
+
+**Effect of each item**
+
+| Item | Effect on the cash book | Effect on the passbook |
+|---|---|---|
+| Cheque issued, not presented | Already recorded | Not yet recorded |
+| Cheque deposited, not collected | Already recorded | Not yet recorded |
+| Bank charges | Not recorded | Already deducted |
+| Interest credited | Not recorded | Already added |
+| Direct deposit | Not recorded | Already added |
+
+**Illustration.** The balance as per the cash book on 30 Ashadh is Rs 50,000. Cheques issued but not presented are Rs 6,000, cheques deposited but not yet collected are Rs 4,000, bank charges of Rs 500 and interest of Rs 1,500 are not yet in the cash book.
+
+*Step 1: adjusted cash book balance* $= 50{,}000 - 500 + 1{,}500 =$ Rs 51,000.
+
+| Bank reconciliation statement as on 30 Ashadh | Rs |
+|---|---|
+| Balance as per adjusted cash book | 51,000 |
+| Add: cheques issued but not yet presented | 6,000 |
+| Less: cheques deposited but not yet collected | (4,000) |
+| **Balance as per passbook** | **53,000** |
+
+**Conclusion.** After the statement is prepared, the two balances are explained item by item. A firm should prepare it at least once a month, because a difference that is not explained may hide an error or a fraud.
+
+### Model answer D2: final accounts and year-end adjustments (10 marks)
+
+**Introduction.** **Final accounts** are the statements prepared at the end of the accounting year to find the profit or loss for the year and to show the financial position on the last day. They consist of the **trading account**, the **profit and loss account** and the **balance sheet**. They are prepared from the trial balance after the adjustments.
+
+**1. Trading account.** It shows the gross profit or gross loss from buying and selling goods.
+
+Cost of goods sold $=$ opening stock $+$ purchases $+$ direct expenses $-$ closing stock, and gross profit $=$ sales $-$ cost of goods sold.
+
+**2. Profit and loss account.** It starts with the gross profit, adds other incomes such as commission or interest received, and deducts indirect expenses such as salary, rent, advertisement and depreciation. The result is the **net profit** or net loss, which is added to the capital.
+
+**3. Balance sheet.** It lists the **assets** (what the firm owns: cash, bank, debtors, stock, furniture, building) and the **liabilities and capital** (what it owes: creditors, loans, owner's capital) on one date. Total assets always equal total liabilities and capital.
+
+**Adjustments at the year end.**
+
+| Adjustment | Treatment in the final accounts |
+|---|---|
+| Closing stock | Credit side of the trading account; asset in the balance sheet |
+| Outstanding expense | Added to the expense; shown as a liability |
+| Prepaid expense | Deducted from the expense; shown as an asset |
+| Income received in advance | Deducted from the income; shown as a liability |
+| Accrued income | Added to the income; shown as an asset |
+| Depreciation | Charged to the profit and loss account; deducted from the asset |
+| Bad debts | Charged to the profit and loss account; deducted from debtors |
+
+**Illustration.** Sales Rs 5,00,000, opening stock Rs 60,000, purchases Rs 3,00,000, carriage inwards Rs 20,000, closing stock Rs 80,000, salary Rs 60,000, rent Rs 24,000, depreciation Rs 10,000.
+
+| Item | Working | Rs |
+|---|---|---|
+| Cost of goods sold | 60,000 + 3,00,000 + 20,000 − 80,000 | 3,00,000 |
+| Gross profit | 5,00,000 − 3,00,000 | 2,00,000 |
+| Indirect expenses | 60,000 + 24,000 + 10,000 | 94,000 |
+| **Net profit** | 2,00,000 − 94,000 | **1,06,000** |
+
+**Conclusion.** The final accounts tell the owner whether the business earned a profit, and tell the bank, the Inland Revenue Department and investors how strong the business is. Adjustments are essential because they bring the accounts in line with the accrual principle, in which expenses and incomes belong to the year in which they occur and not the year in which cash moves.
+

@@ -407,6 +407,18 @@ distance, as they must at the meeting point.
 **5.** Total $=300$ worker-days; done in 6 days $=120$; left $=180$; 15 workers need $\frac{180}{15}=12$ more days.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. 8 men dig a canal 120 m long in 5 days. How many metres will 12 men dig in 7 days, working at the same rate? Which unit do you reduce to first? <span class="marks">[5]</span>
+2. A bus travels 240 km from Pokhara to Bharatpur at 60 km/h and returns by the same road at 40 km/h. Find the time for each journey, the total time, and the average speed for the whole trip. Why is the average not 50 km/h? <span class="marks">[5]</span>
+3. A hostel has food for 60 students for 24 days. After 8 days, 20 students leave. For how many more days will the remaining food last the remaining students? <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Reduce to one man for one day. 8 men in 5 days $=8\times5=40$ man-days dig 120 m, so 1 man-day digs $120\div40=3$ m. 12 men for 7 days $=12\times7=84$ man-days, so the length is $84\times3=252$ m. (Both the men and the days vary directly with the length dug.)
+**2.** Going: $240\div60=4$ hours. Returning: $240\div40=6$ hours. Total time $=4+6=10$ hours for $240+240=480$ km, so average speed $=480\div10=48$ km/h. It is not $\frac{60+40}{2}=50$ km/h because the bus spends more time at the slower speed (6 hours at 40 km/h against 4 hours at 60 km/h), so the slower speed counts more.
+**3.** Total food $=60\times24=1440$ student-days. In 8 days the 60 students eat $60\times8=480$ student-days, leaving $1440-480=960$. The remaining students number $60-20=40$, so the food lasts $960\div40=24$ more days (inverse variation: fewer students, more days). The whole stay is $8+24=32$ days.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

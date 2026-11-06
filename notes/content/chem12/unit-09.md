@@ -537,6 +537,27 @@ Check by mass conservation: 14.74 + 22.5 = 37.24 g in; 35.45 g DDT + (0.100 × 1
 
 Most of these uses are now tightly regulated. Chlorinated aromatics are persistent in soil and water and are toxic to aquatic life, so laboratory residues must never be poured down the sink.
 
+```photogrid label="9.P" cols="2" ratio="1.2" caption="Stable, fat-soluble and persistent. (a) DDT was sprayed widely against mosquitoes and crop pests from the 1940s. (b) The cell finds the chlorine content of some chloroarenes from the formula: chlorobenzene 31.5 per cent, DDT 50.0 per cent and hexachlorobenzene 74.7 per cent. These molecules are non-polar and resist hydrolysis, because the C-Cl bond on an aromatic ring is strengthened by resonance, so they dissolve in body fat and move up the food chain. With a soil half-life of about 10 years (the reported range is 2 to 15), 12.5 per cent of a sprayed dose would still remain after 30 years, which is why DDT was banned for farm use in most countries."
+@ photo id="chem12b/ddt" cap="Spraying DDT beside a lake in an old campaign photograph"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Chlorine content of chlorinated aromatic compounds"
+Cl = 35.45
+data = [("chlorobenzene", 112.56, 1), ("p-dichlorobenzene", 147.00, 2), ("DDT", 354.49, 5), ("hexachlorobenzene", 284.78, 6)]
+rows = [(n, k * Cl / M * 100) for n, M, k in data]
+assert round(rows[2][1], 1) == 50.0 and round(rows[3][1], 1) == 74.7
+left = 0.5 ** (30 / 10) * 100
+f = Fig(300, 236)
+f.text(150, 12, "Chlorine by mass, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=80, fmt="%.1f", x0=108, y0=30, bw=130, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (ROSE, RED), (SAND, AMBER)])
+f.text(150, 158, "DDT = C14H9Cl5, M = 354.49 g/mol", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "C-Cl on an aromatic ring is strong and", size=10, color=SLATE, bold=True)
+f.text(150, 194, "non-polar compounds dissolve in fat", size=10, color=SLATE, bold=True)
+f.text(150, 214, "soil half-life ~10 y: %.1f%% left after 30 y" % left, size=10.5, color=RED, bold=True)
+facts = dict(ddt=rows[2][1], b=rows[0][1], h=rows[3][1], left=left)
+```
+
 ## Chapter summary
 
 - A **haloarene** has the halogen on an sp² ring carbon (C₆H₅Cl); an **aralkyl halide** has it on the side chain (C₆H₅CH₂Cl) and behaves like a haloalkane.
@@ -633,3 +654,37 @@ Volume at STP = 0.70 × 22.4 = **15.68 L**.
 
 **3.** (a) Rate: the –I effect of chlorine withdraws electron density, making the ring less nucleophilic, so substitution is slower than in benzene — chlorine is deactivating. Orientation: the +R effect feeds the chlorine lone pair into the ring, concentrating electron density at the *ortho* and *para* carbons, so the electrophile attacks there; *para* usually predominates on steric grounds. (b) chlorobenzene < *p*-nitrochlorobenzene < 2,4-dinitrochlorobenzene. Each nitro group placed *ortho* or *para* to the chlorine withdraws electrons by –R and stabilises the negatively charged intermediate formed when the nucleophile adds, so the more such groups there are, the milder the conditions needed. (c) The *para* isomer is symmetrical and almost linear, so its molecules pack tightly and regularly into the crystal lattice; more energy is needed to break that lattice. The *ortho* isomer is bent and packs poorly, giving a much weaker lattice and a far lower melting point.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain why chlorobenzene is much less reactive than a haloalkane towards nucleophilic substitution, and describe its Fittig, Wurtz–Fittig and electrophilic substitution reactions. <span class="marks">[10]</span>
+
+### Model answer D1: reactivity of haloarenes (10 marks)
+
+**Introduction.** **Haloarenes** have a halogen atom bonded directly to a carbon of an aromatic ring, as in chlorobenzene, C$_6$H$_5$Cl. Unlike chloroethane they do not give a precipitate with warm aqueous silver nitrate and are hydrolysed only under drastic conditions.
+
+**Reasons for low reactivity in nucleophilic substitution.**
+
+1. **Resonance.** The lone pair on chlorine overlaps with the $\pi$ system of the ring, which gives the C–Cl bond a partial double-bond character. This makes the bond stronger and harder to break.
+2. **Hybridisation.** The carbon is sp$^2$ hybridised, which is more electronegative than sp$^3$, so the C–Cl bond is shorter (about 169 pm, against 177 pm in chloroethane) and stronger. The dipole moment is also less (about 1.7 D, against about 2.0–2.2 D for a haloalkane).
+3. **Repulsion.** The electron-rich ring repels an approaching nucleophile, which cannot attack from the back as in S$_N$2.
+4. **Unstable cation.** The phenyl cation required for S$_N$1 is unstable because its empty sp$^2$ orbital lies in the plane of the ring and cannot be stabilised by resonance.
+
+**Forcing the reaction.** Chlorobenzene is converted to phenol by heating with aqueous NaOH at about 623 K and 300 atm (**Dow's process**). Electron-withdrawing groups at the ortho and para positions greatly increase the reactivity: 2,4-dinitrochlorobenzene reacts with warm aqueous NaOH, and 2,4,6-trinitrochlorobenzene (picryl chloride) with water, because they stabilise the negative intermediate.
+
+**Reactions of chlorobenzene.**
+
+| Reaction | Reagent and condition | Product |
+|---|---|---|
+| Fittig reaction | $2\text{C}_6\text{H}_5\text{Br}$ + 2Na, dry ether | Biphenyl, $\text{C}_6\text{H}_5\text{–C}_6\text{H}_5$ + 2NaBr |
+| Wurtz–Fittig reaction | $\text{C}_6\text{H}_5\text{Br} + \text{CH}_3\text{Br}$ + 2Na, dry ether | Toluene, $\text{C}_6\text{H}_5\text{CH}_3$ + 2NaBr |
+| Nitration | Conc. HNO$_3$ + conc. H$_2$SO$_4$ | Mainly $p$-nitrochlorobenzene, with some $o$- |
+| Halogenation | Cl$_2$ / FeCl$_3$ | $p$- and $o$-dichlorobenzene |
+| Sulphonation | Conc. H$_2$SO$_4$ | $p$-Chlorobenzenesulphonic acid |
+| Friedel–Crafts | CH$_3$Cl / AlCl$_3$ | $p$- and $o$-chlorotoluene |
+
+**Electrophilic substitution.** The halogen is **deactivating** (its $-I$ effect withdraws electrons and slows the reaction compared with benzene) but **ortho, para-directing** (its $+M$ effect puts extra electron density on those positions). The para product is generally the major one because of less steric hindrance.
+
+**Uses.** Chlorobenzene is used as a solvent and in the manufacture of phenol, DDT (banned in most countries) and some dyes.
+
+**Conclusion.** The strong, resonance-stabilised C–Cl bond makes haloarenes resistant to nucleophiles, while the ring still undergoes electrophilic substitution at the ortho and para positions.

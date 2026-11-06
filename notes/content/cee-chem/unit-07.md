@@ -330,6 +330,8 @@ temperature** both favour SO₃. Again the rate sets the limit: the plant runs a
 **720 K (450 °C)** and 1–2 atm over a **V₂O₅** catalyst, with the SO₃ absorbed in
 concentrated H₂SO₄ as it forms so that it cannot react back. The yield is about 98 %.
 
+<div style="break-before:page"></div>
+
 ### The Ostwald process
 
 $$ 4\text{NH}_3(g) + 5\text{O}_2(g) \rightleftharpoons 4\text{NO}(g) + 6\text{H}_2\text{O}(g) \qquad \Delta H = -905\ \text{kJ mol}^{-1} $$
@@ -741,6 +743,58 @@ Check the logic: the salt of a weak acid is basic, and 8.87 is basic but not str
   pH 7.
 :::
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Why buffers resist change. (a) Litmus paper only shows acid or base; a pH meter gives the number. (b) 0.100 M acetic acid (Ka = 1.8 x 10^-5) has [H+] = 1.33e-03 M, pH 2.88, and ionises 1.33 per cent. A buffer of 0.10 M acid and 0.10 M acetate has pH = pKa = 4.74. Adding 0.010 mol NaOH to 1 L of pure water jumps the pH from 7.00 to 12.00, but in the buffer it only moves to 4.83, a change of 0.09, because the acid HA neutralises the added OH- and the Henderson equation pH = pKa + log([A-] / [HA]) changes slowly."
+@ photo id="sci10/litmus" cap="Litmus paper shows whether a solution is acidic or basic"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="pH before and after adding 0.010 mol of NaOH to 1 L"
+Ka = 1.8e-5; c = 0.100
+h = (-Ka + math.sqrt(Ka ** 2 + 4 * Ka * c)) / 2; ph = -math.log10(h); pct = h / c * 100
+pka = -math.log10(Ka); pb2 = pka + math.log10(0.11 / 0.09); dpb = pb2 - pka
+assert abs(ph - 2.876) < 0.002 and abs(pka - 4.745) < 0.001 and abs(pb2 - 4.832) < 0.002 and abs(14 + math.log10(0.010) - 12) < 1e-9
+facts = dict(h="%.2e" % h, ph="%.2f" % ph, pct="%.2f" % pct, pka="%.2f" % pka, pb2="%.2f" % pb2, dpb="%.2f" % dpb)
+f = Fig(300, 236)
+f.text(150, 14, "pH before (box) and after (fill) 0.010 mol NaOH", size=10, color=NAVY, bold=True)
+for i, (lab, p1, p2, col, fl) in enumerate((("pure water", 7.0, 12.0, RED, ROSE), ("acetate buffer", pka, pb2, TEAL, MINT))):
+    y = 36 + i * 62
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 10, p1 * 16, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 32, p2 * 16, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + p1 * 16 + 5, y + 18, "%.2f" % p1, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+    f.text(14 + p2 * 16 + 5, y + 40, "%.2f" % p2, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 170, "0.100 M acetic acid: pH %.2f (%.2f per cent ionised)" % (ph, pct), size=10, color=NAVY, bold=True)
+f.text(150, 188, "water moves by 5.00, buffer by %.2f" % dpb, size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "pH = pKa + log([A-] / [HA])", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Choosing the right indicator. (a) Indicator drops and pH paper on a spotting tray show colours across the whole scale. (b) A weak-acid indicator HIn changes colour over about 2 pH units, from pH = pKa - 1 (one part of the basic colour to ten of the acid colour) to pH = pKa + 1. The cell places four common indicators on the pH axis. At pH 7 bromothymol blue (pKa 7.1) is only 44 per cent in its basic form, so it shows the mixed green of a neutral solution, while phenolphthalein is 0.4 per cent basic and stays colourless and methyl orange is 99.95 per cent basic form and fully yellow. This is why an indicator is chosen to change colour near the equivalence point of the titration."
+@ photo id="ceechem2/indicator" cap="pH paper and indicator drops on a spotting tray"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Indicator colour change and pH"
+ind = [("methyl orange", 3.7), ("methyl red", 5.1), ("bromothymol blue", 7.1), ("phenolphthalein", 9.4)]
+def basic(pk, ph):
+    return 100 / (1 + 10 ** (pk - ph))
+f = Fig(300, 236)
+f.text(150, 12, "Working range = pKa +/- 1", size=10.5, color=NAVY, bold=True)
+x0, w = 20, 260
+f.line(x0, 150, x0 + w, 150, color=SLATE, sw=1.4)
+for ph in range(0, 15, 2):
+    X = x0 + w * ph / 14
+    f.line(X, 146, X, 154, color=SLATE, sw=1.2)
+    f.text(X, 164, str(ph), size=9.5, color=SLATE, bold=True)
+for i, (n, pk) in enumerate(ind):
+    a, b = x0 + w * (pk - 1) / 14, x0 + w * (pk + 1) / 14
+    f.box(a, 30 + i * 28, b - a, 16, fill=[SAND, ROSE, MINT, BLUE][i], stroke=[AMBER, RED, TEAL, NAVY][i], r=2)
+    f.text(a - 4 if pk > 7 else b + 4, 38 + i * 28, n, size=9.5, color=SLATE, bold=True, anchor="end" if pk > 7 else "start", vmid=True)
+f.line(x0 + w * 7 / 14, 26, x0 + w * 7 / 14, 150, color=RED, sw=1.2, dash=True)
+f.text(150, 180, "dashed line: pH 7 (pure water)", size=10, color=RED, bold=True)
+f.text(150, 202, "basic form at pH 7: bromothymol blue %.0f%%" % basic(7.1, 7), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "phenolphthalein %.1f%%, methyl orange %.2f%%" % (basic(9.4, 7), basic(3.7, 7)), size=10, color=SLATE, bold=True)
+assert round(basic(7.1, 7)) == 44 and round(basic(9.4, 7), 1) == 0.4
+facts = dict(b=basic(7.1, 7), p=basic(9.4, 7), m=basic(3.7, 7))
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |
@@ -967,3 +1021,67 @@ Logs worth memorising: log 2 = 0.30, log 3 = 0.48, log 5 = 0.70, log 7 = 0.85.
 **10.** (c) — pH $= 7 + \tfrac{1}{2}(\text{p}K_a + \log C) = 7 + \tfrac{1}{2}(4.74 - 1.00) = 8.87$. Option (a) is the pH of the corresponding NH₄Cl-type salt, and (d) would need a much stronger base.
 :::
 
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of mass action and Le Chatelier's principle. Derive the relation between $K_p$ and $K_c$ and calculate the equilibrium concentrations. <span class="marks">[10]</span>
+2. Explain pH, buffer solutions, the solubility product and the common ion effect with numericals. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Equilibrium in the laboratory. (a) Cobalt(II) chloride solution is pink in the cold and blue when hot, because the equilibrium Co(H2O)6(2+) + 4Cl(-) <=> CoCl4(2-) + 6H2O shifts with temperature. (b) Acid-base indicators change colour over a narrow pH range, so they show the position of an ionic equilibrium."
+@ photo id="chem11/cocl2" cap="(a) Temperature shifts an equilibrium"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceechem2/indicator" cap="(b) Indicator colours across the pH scale"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: chemical equilibrium and Le Chatelier's principle (10 marks)
+
+**Introduction.** A reversible reaction reaches **equilibrium** when the rate of the forward reaction equals the rate of the reverse reaction. The concentrations then remain constant, but the reaction is **dynamic**, not stopped.
+
+**Law of mass action.** For $aA + bB \rightleftharpoons cC + dD$, $K_c = \dfrac{[C]^c[D]^d}{[A]^a[B]^b}$. $K_p$ is the same expression in partial pressures. The relation is $K_p = K_c(RT)^{\Delta n}$, where $\Delta n = (c + d) - (a + b)$ for gases. $K_p = K_c$ when $\Delta n = 0$.
+
+**Reaction quotient.** $Q$ has the same form as $K$ but uses the present concentrations. If $Q < K$, the reaction goes forward; if $Q > K$ it goes backward; if $Q = K$ it is at equilibrium. Reversing the reaction gives $1/K$, doubling the equation squares $K$, and adding two reactions multiplies their $K$ values.
+
+**Le Chatelier's principle.** If a stress is applied to a system at equilibrium, the system shifts to oppose the change.
+
+| Change | Effect (N₂ + 3H₂ ⇌ 2NH₃, $\Delta H < 0$) |
+|---|---|
+| Add N₂ or H₂ | shifts forward |
+| Remove NH₃ | shifts forward |
+| Increase pressure | shifts to fewer moles (forward) |
+| Raise temperature | shifts to the endothermic (backward) side, and $K$ falls |
+| Add a catalyst | no shift, equilibrium reached faster |
+| Add an inert gas at constant $V$ | no change |
+
+**Industrial use.** In Haber's process, about $200$ atm, $450$ to $500^{\circ}\text{C}$ and an iron catalyst with a promoter give a good compromise between yield and rate.
+
+**Numerical.** For H₂ + I₂ ⇌ 2HI with $K_c = 50$, start with $1\ \text{mol}$ each in $1\ \text{L}$. At equilibrium $[\text{HI}] = 2x$ and $[\text{H}_2] = [\text{I}_2] = 1 - x$. Then $\dfrac{(2x)^2}{(1 - x)^2} = 50$ gives $\dfrac{2x}{1 - x} = 7.07$, so $x = 0.78$, $[\text{HI}] = 1.56\ \text{M}$ and $[\text{H}_2] = [\text{I}_2] = 0.22\ \text{M}$. For N₂ + 3H₂ ⇌ 2NH₃ at $500\ \text{K}$, $\Delta n = -2$, so $K_p = K_c(0.0821\times500)^{-2} = K_c/1685$.
+
+**Conclusion.** $K$ depends only on temperature, and Le Chatelier's principle predicts the direction of the shift for a change in concentration, pressure or temperature.
+
+### Model answer D2: pH, buffers and solubility product (10 marks)
+
+**Introduction.** Ionic equilibria involve weak acids and bases (partial ionisation) and sparingly soluble salts.
+
+**pH.** $\text{pH} = -\log[\text{H}^+]$, $\text{pOH} = -\log[\text{OH}^-]$, and $\text{pH} + \text{pOH} = 14$ at $25^{\circ}\text{C}$ ($K_w = 10^{-14}$). For a weak acid $K_a = \dfrac{[\text{H}^+][\text{A}^-]}{[\text{HA}]}$ and $[\text{H}^+] = \sqrt{K_aC}$ (when $\alpha \ll 1$), with the degree of ionisation $\alpha = \sqrt{K_a/C}$ (**Ostwald's dilution law**). Also $K_aK_b = K_w$ for a conjugate pair.
+
+**Acid-base theories.** Arrhenius (H⁺/OH⁻), Brønsted-Lowry (proton donor/acceptor, conjugate pairs) and Lewis (electron pair acceptor/donor).
+
+**Buffer solutions** resist a change in pH on adding small amounts of acid or base. They are a weak acid with its salt (acetic acid and sodium acetate, acidic buffer) or a weak base with its salt (NH₄OH and NH₄Cl). The **Henderson-Hasselbalch equation** is $\text{pH} = \text{p}K_a + \log\dfrac{[\text{salt}]}{[\text{acid}]}$. The buffer capacity is greatest when $[\text{salt}] = [\text{acid}]$. Blood (H₂CO₃/HCO₃⁻, pH $7.4$) is a natural buffer.
+
+**Solubility product.** For $A_xB_y \rightleftharpoons xA^{y+} + yB^{x-}$, $K_{sp} = [A^{y+}]^x[B^{x-}]^y$. A precipitate forms when the ionic product exceeds $K_{sp}$. For a salt of type AB, $s = \sqrt{K_{sp}}$, for type AB₂, $s = \sqrt[3]{K_{sp}/4}$. The **common ion effect** lowers the solubility of a salt by adding an ion it already has, which is the basis of qualitative analysis.
+
+| Salt type | Example | $K_{sp}$ in terms of $s$ |
+|---|---|---|
+| AB | AgCl | $s^2$ |
+| AB₂ | Ca(OH)₂, PbCl₂ | $4s^3$ |
+| AB₃ | Al(OH)₃ | $27s^4$ |
+
+**Numerical.**
+
+- $0.1\ \text{M}$ acetic acid ($K_a = 1.8\times10^{-5}$): $[\text{H}^+] = \sqrt{1.8\times10^{-6}} = 1.34\times10^{-3}\ \text{M}$, pH $= 2.87$, and $\alpha = 1.3\%$.
+- A buffer of $0.1\ \text{M}$ acid and $0.1\ \text{M}$ acetate has $\text{pH} = \text{p}K_a = 4.74$. With $0.2\ \text{M}$ acetate it is $4.74 + 0.30 = 5.04$.
+- AgCl ($K_{sp} = 1.8\times10^{-10}$): $s = 1.34\times10^{-5}\ \text{M}$ in water but only $1.8\times10^{-9}\ \text{M}$ in $0.1\ \text{M}$ NaCl.
+
+**Conclusion.** $K_a$ gives pH of weak acids, the Henderson equation gives buffer pH, and $K_{sp}$ predicts precipitation and the common ion effect.

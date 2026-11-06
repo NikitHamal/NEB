@@ -307,3 +307,73 @@ rituals and foods, a closing sentence on the meaning of the festival.
 **5.** e.g. *We get the air we breathe, things to eat and places to live from
 trees. Life could not exist on our planet if there were no trees.*
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Describe a Nepali wedding ceremony in about 150 words. <span class="marks">[10]</span>
+2. Explain causative verbs, subject–verb agreement and paraphrasing with examples. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="3" ratio="1.0" caption="A Nepali Hindu wedding. Three photographs from the ceremony show the bride and groom, the ritual before the fire and the families who bless the couple."
+@ photo id="eng12/nepali-hindu-wedding" cap="Wedding ceremony"
+@ photo id="eng12/nepali-hindu-wedding-b" cap="Bride and groom"
+@ photo id="eng12/nepali-marriage-ritual" cap="Marriage ritual"
+```
+
+### Model answer D1: describing a ceremony (10 marks)
+
+**Introduction.** To describe a ceremony we write in the **present simple** (for a custom) or the **past simple** (for one we attended). We follow the order of events and add colour, food, music and feelings.
+
+**Model description.**
+
+::: example A Nepali wedding
+A Nepali Hindu wedding is a joyful event that lasts a whole day. First, the groom arrives with his relatives in a procession called the *janti*, with a band playing loud music. The bride's family welcomes them with flowers and tika. Then the priest lights a holy fire and recites mantras. The couple walk around the fire seven times, and each round is a promise. The groom puts red *sindoor* in the bride's hair and a *potey* around her neck. Everyone throws rice and flower petals and blesses them. Finally, all the guests enjoy a big feast of rice, lentils, vegetables and sweets. At the end, the bride says goodbye to her parents, and everyone cries and smiles together.
+:::
+
+**What to include (8 points).**
+
+1. **Name** of the ceremony and its place.
+2. **Time** it happens and how long it lasts.
+3. **People** who take part.
+4. **Dress** and decoration.
+5. **Main rituals** in order.
+6. **Food and music.**
+7. **Meaning** of the custom.
+8. **Feelings** at the end.
+
+| Linking words | Use |
+|---|---|
+| First, then, next | order |
+| Finally, at last | ending |
+| While, as | two actions together |
+
+**Conclusion.** Use sense words (colour, sound, taste) and keep the order clear.
+
+### Model answer D2: causatives, agreement and paraphrase (10 marks)
+
+**Introduction.** Three skills help in writing: causative verbs, subject–verb agreement and paraphrasing.
+
+**1. Causative verbs.**
+
+1. **have + person + base verb:** *I had the tailor stitch my dress.*
+2. **make + person + base verb** (force): *The teacher made us clean the room.*
+3. **let + person + base verb** (allow): *Father let me go to the fair.*
+4. **get + person + to + verb:** *She got her brother to carry the bag.*
+5. **have/get + thing + past participle:** *We had our house painted.*
+
+**2. Subject–verb agreement.**
+
+6. Two subjects joined by **and** take a **plural** verb: *Ram and Sita are friends.*
+7. **either/or, neither/nor:** the verb agrees with the **nearer** subject: *Either the boys or the girl is here.*
+8. **with, along with, including** do not change the verb: *The teacher, with the students, is going.* A **gerund** or a sum takes a singular verb: *Swimming is good exercise.*
+
+| Rule | Correct | Wrong |
+|---|---|---|
+| and | Salt and pepper are on the table. | Salt and pepper is... |
+| nearer subject | Neither he nor I am late. | Neither he nor I is late. |
+| with | The captain with his team is here. | ...are here. |
+
+**3. Paraphrasing.** To **paraphrase** is to say the same thing in **different words and structures**. Do not add or remove ideas. *Original:* "The Hippo-roller carries 90 litres of water." *Paraphrase:* "This drum can move ninety litres of water at once."
+
+**Conclusion.** Learn the patterns, check the subject, and keep the meaning unchanged.

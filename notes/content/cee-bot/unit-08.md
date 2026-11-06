@@ -301,6 +301,33 @@ end carries the cargo. That is why tRNA is called an adaptor: it converts a
 three-letter nucleic-acid word into one amino acid.
 :::
 
+```photogrid label="8.1" cols="2" ratio="1.2" caption="Measuring the size of a DNA fragment. (a) DNA fragments of different length are separated on an agarose gel and glow under UV light after staining; the smaller the fragment, the farther it runs. (b) A ladder of known fragments (10,000 to 250 base pairs) ran 9 to 38 mm. Distance falls in a straight line against the logarithm of the length, with slope 18.4 mm per decade, so an unknown band that ran 23 mm must be about 1,510 bp long. Reading a gel this way is how forensic labs, plant-breeding labs and cancer laboratories size a PCR product."
+@ photo id="bio12/gel-uv" cap="Agarose gel under UV light"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Ladder: distance run against log10 (length)"
+lad = ((10000, 9), (5000, 13), (3000, 17), (2000, 20), (1000, 26), (500, 32), (250, 38))
+xs = [math.log10(b) for b, _ in lad]; ys = [d for _, d in lad]
+n = len(lad); mx, my = sum(xs) / n, sum(ys) / n
+slope = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs)
+icp = my - slope * mx
+unk = 23
+bp = 10 ** ((unk - icp) / slope)
+assert slope < 0 and 1300 < bp < 1700
+facts = dict(slope="%.1f" % abs(slope), bp="{:,}".format(int(round(bp, -1))))
+f = Fig(300, 236)
+f.text(150, 12, "Distance (mm) against log10 (bp)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (2, 4.2), (0, 44))
+ax.grid(0.5, 10, xfmt=lambda v: "%.1f" % v).axes("log bp", "mm")
+ax.curve(lambda x: icp + slope * x, 2.2, 4.1, color=TEAL)
+for b, d in lad:
+    ax.pt(math.log10(b), d, r=3.2, color=NAVY)
+ax.hline(unk, 2, math.log10(bp), color=RED).vline(math.log10(bp), 0, unk, color=RED)
+ax.pt(math.log10(bp), unk, "unknown", dx=8, dy=-8, color=RED)
+f.text(150, 206, "23 mm  ->  about %s bp" % facts["bp"], size=10.5, color=RED, bold=True)
+f.text(150, 222, "navy dots: ladder; line: least squares", size=10.5, color=SLATE)
+```
+
 ## 8.2 DNA replication; the central dogma; the genetic code
 
 ### Semi-conservative replication
@@ -565,6 +592,40 @@ counted, because the first methionine is one of the 90.)
 Time = 4.6 × 10⁶ ÷ 2000 = 2300 s = **about 38 minutes.**
 :::
 
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Replication is semi-conservative. (a) A model of the double helix: each strand carries the information needed to rebuild its partner. (b) Meselson and Stahl grew bacteria in heavy nitrogen (15N) and then moved them to light nitrogen (14N). Following each strand by rule, after one generation every molecule is a hybrid (one heavy, one light strand); after two, 50 per cent are hybrid and 50 per cent are light; after three, 25 per cent are hybrid and 75 per cent light. The hybrid fraction halves each time (2 divided by 2 to the power n), but heavy strands never disappear, they only become rarer."
+@ photo id="ceebot/dna-model" cap="A model of the DNA double helix"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Fraction of each DNA type in generations 0 to 4"
+mols = [("H", "H")]
+res = []
+for g in range(5):
+    k = len(mols)
+    hh = sum(1 for m in mols if m == ("H", "H")) / k
+    hy = sum(1 for m in mols if set(m) == {"H", "L"}) / k
+    ll = sum(1 for m in mols if m == ("L", "L")) / k
+    res.append((hh, hy, ll))
+    mols = [(s, "L") for m in mols for s in m]
+assert res[1] == (0, 1, 0) and res[2] == (0, 0.5, 0.5) and res[3] == (0, 0.25, 0.75) and res[4][1] == 0.125
+facts = dict(h2="%.0f" % (100 * res[2][1]), l2="%.0f" % (100 * res[2][2]), h3="%.0f" % (100 * res[3][1]), l3="%.0f" % (100 * res[3][2]))
+f = Fig(300, 236)
+f.text(150, 12, "15N/15N, hybrid and 14N/14N after n generations", size=10.5, color=NAVY, bold=True)
+for g, (a, b, c) in enumerate(res):
+    y = 28 + g * 32
+    f.text(8, y + 11, "gen %d" % g, size=10.5, color=SLATE, anchor="start", vmid=True)
+    x = 52
+    for v, fl, st in ((a, BLUE, NAVY), (b, SAND, AMBER), (c, MINT, TEAL)):
+        if v:
+            f.box(x, y, v * 236, 22, fill=fl, stroke=st, r=0, sw=1.2)
+            if v >= 0.2:
+                f.text(x + v * 118, y + 11, "%.1f%%" % (100 * v) if v < 1 and v != 0.5 and v != 0.25 else "%.0f%%" % (100 * v), size=10.5, color=st, bold=True, vmid=True)
+            x += v * 236
+f.box(14, 196, 12, 12, fill=BLUE, stroke=NAVY, r=0); f.text(30, 202, "heavy", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(86, 196, 12, 12, fill=SAND, stroke=AMBER, r=0); f.text(102, 202, "hybrid", size=10.5, color=AMBER, anchor="start", vmid=True)
+f.box(166, 196, 12, 12, fill=MINT, stroke=TEAL, r=0); f.text(182, 202, "light", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(150, 224, "hybrid share = 2 / 2^n after the first round", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact |
@@ -772,3 +833,69 @@ Time = 4.6 × 10⁶ ÷ 2000 = 2300 s = **about 38 minutes.**
 **8.** (a) — Two forks copy at 2000 nucleotides per second in total, so 4.6 × 10⁶ ÷ 2000 = 2300 s ≈ 38 minutes. Option (b) forgets that there are two forks.
 **9.** (b) — G = C = 30 %, so G + C = 60 % and A + T = 40 %; A = T = 20 %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Watson-Crick model of DNA and the semi-conservative replication of DNA. <span class="marks">[10]</span>
+2. Explain transcription, the genetic code, translation and the lac operon. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="2" ratio="1.4" caption="Heredity at the molecular and organism level. (a) A physical model of the DNA double helix shows the two antiparallel strands and the stacked base pairs. (b) Drosophila with white eyes, the mutant used by T. H. Morgan to show sex linkage."
+@ photo id="ceebot/dna-model" cap="(a) DNA double helix model"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/drosophila-white" cap="(b) White-eyed Drosophila"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: structure and replication of DNA (10 marks)
+
+**Introduction.** DNA is the genetic material of most organisms. Griffith (transformation), Avery, MacLeod and McCarty (DNA is the transforming principle) and **Hershey and Chase (1952)** with radioactive $^{32}\text{P}$ and $^{35}\text{S}$ in bacteriophage proved it.
+
+**Watson and Crick model (1953).**
+
+1. DNA is a **double helix** of two **antiparallel** polynucleotide strands ($5' \to 3'$ and $3' \to 5'$).
+2. The backbone is of sugar (deoxyribose) and phosphate, linked by $3'$-$5'$ phosphodiester bonds. The bases are inside.
+3. **Base pairing:** A with T by two hydrogen bonds, and G with C by three (**Chargaff's rule:** $A = T$, $G = C$, purines equal pyrimidines).
+4. The helix is right-handed, with a diameter of $2\ \text{nm}$, a pitch of $3.4\ \text{nm}$ with $10$ base pairs per turn (so the distance between base pairs is $0.34\ \text{nm}$).
+5. The sequence of bases carries the genetic information.
+
+**Semi-conservative replication.** (Shown by **Meselson and Stahl, 1958** using $^{15}\text{N}$ and $^{14}\text{N}$ in *E. coli*.) Each new DNA has **one old and one new strand**.
+
+1. **Helicase** unwinds the helix at the origin and forms the **replication fork**. Single-strand binding proteins keep it open.
+2. **Primase** makes a short RNA primer.
+3. **DNA polymerase III** adds nucleotides only in the $5' \to 3'$ direction. The **leading strand** is made continuously and the **lagging strand** in short **Okazaki fragments**.
+4. **DNA polymerase I** removes the primers and **DNA ligase** joins the fragments. Proofreading keeps the error rate to about $1$ in $10^9$.
+
+| Feature | DNA | RNA |
+|---|---|---|
+| Sugar | deoxyribose | ribose |
+| Bases | A, T, G, C | A, U, G, C |
+| Strands | double | single |
+| Types | one genetic type | mRNA, tRNA, rRNA |
+| Stability | stable | less stable |
+
+**Numerical.** If a DNA has $30\%$ adenine, then $\text{T} = 30\%$ and $\text{G} = \text{C} = 20\%$ each. A stretch of $1000$ base pairs has a length of $340\ \text{nm}$ and about $100$ turns. The human haploid genome of $3.2\times10^9$ bp has a length of about $1.1\ \text{m}$ per haploid set.
+
+**Conclusion.** The complementary base pairing of the double helix allows each strand to act as a template, so replication is semi-conservative and accurate.
+
+### Model answer D2: gene expression and the lac operon (10 marks)
+
+**Introduction.** The **central dogma** (Crick): DNA → RNA → protein. Transcription makes RNA from DNA, and translation makes protein from mRNA.
+
+**Transcription.** **RNA polymerase** binds at the **promoter** and reads the **template strand** ($3' \to 5'$) to make mRNA ($5' \to 3'$). Initiation, elongation and termination follow. In **eukaryotes** the primary transcript is processed: a $5'$ cap, a poly-A tail and **splicing** removes introns, leaving exons.
+
+**Genetic code.** Triplet **codons** of mRNA code for amino acids ($4^3 = 64$ codons). Properties: it is triplet, **degenerate** (most amino acids have more than one codon), non-overlapping, **universal**, unambiguous and has no punctuation. $\text{AUG}$ is the **start** codon (methionine) and UAA, UAG and UGA are **stop** codons ($61$ code for amino acids). (Nirenberg, Khorana and Holley worked out the code.)
+
+**Translation.** (On ribosomes in the cytoplasm.)
+
+1. **Activation:** each amino acid is joined to its tRNA by aminoacyl-tRNA synthetase using ATP.
+2. **Initiation:** the small subunit binds mRNA, the initiator tRNA (anticodon UAC) reads AUG and the large subunit joins.
+3. **Elongation:** tRNA brings amino acids to the A site, a **peptide bond** forms in the P site, and the ribosome moves along the mRNA by one codon (translocation).
+4. **Termination:** a stop codon is reached and the release factor frees the polypeptide.
+
+**Lac operon (Jacob and Monod, 1961).** A model of the regulation of gene expression in *E. coli*. The operon has a regulator gene $i$, a promoter, an operator and the structural genes $z$ ($\beta$-galactosidase), $y$ (permease) and $a$ (transacetylase). Without lactose, the **repressor** binds the operator and blocks transcription. With lactose, the **inducer** (allolactose) binds the repressor, which releases the operator, so the genes are switched on. It is an example of **inducible negative control**.
+
+**Numerical.** An mRNA of $300$ nucleotides has $100$ codons, and the polypeptide has about $99$ amino acids if the last codon is a stop codon. The template DNA sequence $3'\text{-TACGGT-}5'$ gives mRNA $5'\text{-AUGCCA-}3'$, which codes for methionine-proline. One mutation changing $\text{CAG}$ to $\text{UAG}$ makes a stop codon (a nonsense mutation).
+
+**Conclusion.** Genes are transcribed to mRNA and translated using the genetic code, and operons switch genes on and off according to need.

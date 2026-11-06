@@ -325,6 +325,62 @@ energy unchanged" for a skater pulling in her arms are the classic distractors.
 About an axis through the centre: **ring** MR² > **disc** ½MR² > **solid sphere** (2/5)MR². What matters is how far the mass sits from the axis, not merely how much mass there is — hence in a race down an incline the solid sphere wins and the ring comes last, all with the same M and R. Also keep separate: **radius of gyration** (k, defined by I = Mk²) is not a physical radius of the body.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Rotation made numerical. (a) The platter of a hard disk turns as one rigid body, so every point has the same angular speed but a different linear speed. (b) At 7,200 rpm the angular speed is omega = 2 pi f = 754 rad/s. A point at 10 mm from the axis moves at v = omega r = 7.5 m/s, one at 20 mm at 15.1 m/s and one on the 32.5 mm rim at 24.5 m/s. The centripetal acceleration omega^2 r at the rim is 18,476 m/s^2, about 1,885 g. Treating an assumed 12 g platter as a solid disc, I = (1/2) m r^2 = 6.34e-06 kg m^2 and the rotational kinetic energy (1/2) I omega^2 is 1.80 J."
+@ photo id="sci10/hdd" cap="A hard-disk platter spinning at 7,200 revolutions per minute"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Linear speed and acceleration at three radii, 7,200 rpm"
+import math
+w = 2 * math.pi * 7200 / 60; m, R = 0.012, 0.0325
+r = [0.010, 0.020, 0.0325]; v = [w * x for x in r]; ac = w * w * R
+I = 0.5 * m * R * R; ke = 0.5 * I * w * w
+assert abs(w - 753.98) < 0.01 and abs(v[2] - 24.50) < 0.01 and abs(ac - 18474) < 5 and abs(ke - 0.5 * 0.5 * m * (v[2]) ** 2) < 1e-9
+facts = dict(w="%.0f" % w, v1="%.1f" % v[0], v2="%.1f" % v[1], v3="%.1f" % v[2], ac="{:,.0f}".format(ac), gees="{:,.0f}".format(ac / 9.8), I="%.2e" % I, ke="%.2f" % ke)
+f = Fig(300, 236)
+f.text(150, 14, "omega = %.0f rad/s  (same for every point)" % w, size=10.5, color=NAVY, bold=True)
+cx, cy = 86, 104
+for i, rr in enumerate(r):
+    pass
+f.circle(cx, cy, r[2] / R * 62, fill=BLUE, stroke=NAVY, sw=1.6); f.circle(cx, cy, 4, fill=NAVY, stroke=NAVY)
+cols = [TEAL, AMBER, RED]
+for i, rr in enumerate(r):
+    x = cx + rr / R * 62
+    f.line(cx, cy, x, cy, color=cols[i], sw=1.2, dash=True); f.circle(x, cy, 3.5, fill=cols[i], stroke=cols[i])
+    f.arrow([(x, cy), (x, cy - v[i] * 1.8)], color=cols[i], sw=2)
+f.text(214, 50, "10 mm", size=10.5, color=TEAL, bold=True); f.text(214, 66, "%.1f m/s" % v[0], size=10.5, color=TEAL)
+f.text(214, 88, "20 mm", size=10.5, color=AMBER, bold=True); f.text(214, 104, "%.1f m/s" % v[1], size=10.5, color=AMBER)
+f.text(214, 126, "32.5 mm", size=10.5, color=RED, bold=True); f.text(214, 142, "%.1f m/s" % v[2], size=10.5, color=RED)
+f.text(150, 188, "arrows: linear speed, same scale", size=10.5, color=SLATE)
+f.text(150, 204, "rim: omega^2 r = {:,.0f} m/s^2 = {:,.0f} g".format(ac, ac / 9.8), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "KE = (1/2) I omega^2 = %.2f J (12 g, assumed)" % ke, size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Spinning faster by pulling in the arms. (a) A skater starts a spin with arms and free leg extended and then draws them in. (b) With no external torque the angular momentum L = I w is constant. The cell takes a moment of inertia of 3.0 kg m2 with arms out and 0.9 kg m2 with arms in, and a starting rate of 1.5 turns per second. Then L stays at 28.3 kg m2/s and the rate rises to 5.0 turns per second. The kinetic energy rises from 133 J to 444 J, a factor of 3.33: the extra energy is not free, it comes from the work the skater does against the (apparent) outward pull as the arms move in."
+@ photo id="ceephy3/skater" cap="A figure skater in a spin"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Conservation of angular momentum in a spin"
+import math
+I1, I2, f1 = 3.0, 0.9, 1.5
+w1 = 2 * math.pi * f1
+L = I1 * w1
+w2 = L / I2
+f2 = w2 / (2 * math.pi)
+K1, K2 = 0.5 * I1 * w1 ** 2, 0.5 * I2 * w2 ** 2
+assert round(f2, 1) == 5.0 and round(K1) == 133 and round(K2) == 444
+f = Fig(300, 236)
+f.text(150, 12, "L = I w stays at %.1f kg m2/s" % L, size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "spin rate, turns per second", size=10, color=SLATE, bold=True)
+hbars(f, [("arms out", f1), ("arms in", f2)], vmax=5.2, fmt="%.1f", x0=60, y0=38, bw=170, gap=28)
+f.text(150, 112, "kinetic energy, joules", size=10, color=SLATE, bold=True)
+hbars(f, [("arms out", K1), ("arms in", K2)], vmax=470, fmt="%.0f", x0=60, y0=120, bw=170, gap=28,
+      colors=[(SAND, AMBER), (ROSE, RED)])
+f.text(150, 196, "I falls from %.1f to %.1f kg m2 (x%.2f)" % (I1, I2, I2 / I1), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "energy rises x%.2f: the skater's muscles" % (K2 / K1), size=10, color=SLATE, bold=True)
+f.text(150, 228, "do the extra work pulling the arms in", size=10, color=SLATE, bold=True)
+facts = dict(L=L, f2=f2, K1=K1, K2=K2, r=K2 / K1)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula | SI unit and dimensions |
@@ -512,3 +568,72 @@ About an axis through the centre: **ring** MR² > **disc** ½MR² > **solid sphe
 **9.** (d) — $\omega = 20/5 = 4$ rad s⁻¹; KE falls from $\frac{1}{2}(2)(100) = 100$ J to $\frac{1}{2}(5)(16) = 40$ J, a loss of 60 J. (b) is the final KE, not the loss.
 **10.** (c) — $\alpha = \frac{Mg(L/2)}{ML^2/3} = \frac{3g}{2L}$, so the end has $a = \alpha L = \frac{3}{2}g = 15$ m s⁻² — more than $g$, which is why (b) is the trap.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define torque, moment of inertia and angular momentum. State the law of conservation of angular momentum with examples and solve a numerical. <span class="marks">[10]</span>
+2. State the parallel and perpendicular axis theorems and find the moment of inertia of a disc. Explain rolling motion with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.4" caption="Rotation in the real world. (a) A skater spins faster when her arms are drawn in because I falls and L = I w stays constant. (b) An electric motor produces torque on its rotor, which gives angular acceleration alpha = torque / I."
+@ photo id="ceephy3/skater" cap="(a) Skater: L = I w is conserved"
+fit 1.4
+focus 0.5 0.45
+@ photo id="ceephy3/motor" cap="(b) Motor rotor under torque"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: torque, moment of inertia and conservation of angular momentum (10 marks)
+
+**Introduction.** Rotational motion has quantities that match linear motion. **Torque** $\vec\tau = \vec r\times\vec F$ turns a body, the **moment of inertia** $I = \sum mr^2$ resists the turning, and **angular momentum** $\vec L = I\vec\omega$ measures the quantity of rotation.
+
+**Relations.**
+
+1. **Torque.** $\tau = rF\sin\theta$, in newton metre. It is zero if the force passes through the axis.
+2. **Newton's law for rotation.** $\tau = I\alpha$, the counterpart of $F = ma$.
+3. **Angular momentum.** For a particle $\vec L = \vec r\times\vec p$, and for a rigid body $L = I\omega$.
+4. **Torque as rate of change.** $\vec\tau = d\vec L/dt$. If $\vec\tau = 0$ then $\vec L$ is constant. This is the law of conservation of angular momentum.
+5. **Rotational kinetic energy.** $K = \tfrac12I\omega^2 = L^2/2I$.
+
+**Examples of the law.**
+
+- A skater or diver pulls in the arms or legs, so $I$ falls and $\omega$ rises.
+- A person on a rotating turntable holding weights changes the speed by moving the weights.
+- Planets move faster near the sun (perihelion), which is Kepler's second law.
+- A helicopter needs a tail rotor so that the reaction torque does not spin the body.
+
+| Linear | Rotational |
+|---|---|
+| $v = u + at$ | $\omega = \omega_0 + \alpha t$ |
+| $s = ut + \tfrac12at^2$ | $\theta = \omega_0t + \tfrac12\alpha t^2$ |
+| $F = ma$ | $\tau = I\alpha$ |
+| $p = mv$ | $L = I\omega$ |
+
+**Numerical.** A skater spins at $2\ \text{rev s}^{-1}$ with $I = 3.0\ \text{kg m}^2$. She pulls her arms in and $I$ becomes $1.0\ \text{kg m}^2$. Then $I_1\omega_1 = I_2\omega_2$ gives $\omega_2 = 3\times2 = 6\ \text{rev s}^{-1}$. The kinetic energy rises from $\tfrac12(3)(4\pi)^2 = 237\ \text{J}$ to $\tfrac12(1)(12\pi)^2 = 711\ \text{J}$, three times larger, because her muscles do work.
+
+**Conclusion.** With no external torque $L$ stays constant, so a smaller moment of inertia means a faster spin.
+
+### Model answer D2: theorems of moment of inertia and rolling (10 marks)
+
+**Introduction.** The moment of inertia depends on the axis. Two theorems let us find it for new axes from known values.
+
+**Theorems.**
+
+1. **Parallel axis theorem.** $I = I_{cm} + Md^2$, where $d$ is the distance between the axis and the parallel axis through the centre of mass. $I_{cm}$ is always the smallest value.
+2. **Perpendicular axis theorem** (plane bodies only). $I_z = I_x + I_y$, where $x$ and $y$ are perpendicular axes in the plane and $z$ is perpendicular to the plane.
+
+**Disc.** For a uniform disc of mass $M$ and radius $R$, about its central axis, $I = \tfrac12MR^2$. Using the perpendicular axis theorem with $I_x = I_y$, a diameter gives $I_d = \tfrac14MR^2$. By the parallel axis theorem, the axis through the edge, perpendicular to the plane, has $I = \tfrac12MR^2 + MR^2 = \tfrac32MR^2$.
+
+| Body (axis) | $I$ |
+|---|---|
+| Ring (centre, perpendicular) | $MR^2$ |
+| Disc (centre, perpendicular) | $\tfrac12MR^2$ |
+| Solid sphere (diameter) | $\tfrac25MR^2$ |
+| Hollow sphere (diameter) | $\tfrac23MR^2$ |
+| Rod (centre) / (end) | $\dfrac{ML^2}{12}$ / $\dfrac{ML^2}{3}$ |
+
+**Rolling without slipping.** The point of contact is at rest, so $v = R\omega$. The total kinetic energy is $K = \tfrac12mv^2 + \tfrac12I\omega^2 = \tfrac12mv^2\left(1 + \dfrac{k^2}{R^2}\right)$, where $k$ is the radius of gyration. On an incline of height $h$, energy conservation gives $v = \sqrt{\dfrac{2gh}{1 + k^2/R^2}}$. The acceleration is $a = \dfrac{g\sin\theta}{1 + k^2/R^2}$, so the order of arrival is solid sphere, disc, hollow sphere and ring, whatever their masses and radii.
+
+**Numerical.** A disc ($M = 2\ \text{kg}$, $R = 0.5\ \text{m}$) has $I = \tfrac12(2)(0.25) = 0.25\ \text{kg m}^2$ about its axis. A torque of $3\ \text{N m}$ gives $\alpha = 12\ \text{rad s}^{-2}$, and after $5\ \text{s}$, $\omega = 60\ \text{rad s}^{-1}$ and $K = \tfrac12(0.25)(3600) = 450\ \text{J}$. Rolling down $h = 3\ \text{m}$ ($g = 10$) it reaches $v = \sqrt{2(10)(3)/1.5} = 6.3\ \text{m s}^{-1}$, while a ring gets only $\sqrt{30} = 5.5\ \text{m s}^{-1}$.
+
+**Conclusion.** Axis theorems extend known values of $I$, and a body with its mass closer to the axis rolls down faster.

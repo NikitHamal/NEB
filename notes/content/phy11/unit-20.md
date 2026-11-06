@@ -642,6 +642,27 @@ As a check, $\sigma/\varepsilon_0 = 3.98\times10^{-5}/8.85\times10^{-12}
 = 4.5\times10^{6}\ \text{N C}^{-1}$, matching the surface field.
 :::
 
+```photogrid label="20.P" cols="2" ratio="1.27" caption="The electric field of a point charge falls off as the square of the distance, so moving away weakens it very quickly. (a) A Van de Graaff generator in a school laboratory. (b) For a charge of 2 microcoulomb, E = kq/r^2 gives 1.798 MN/C at 0.1 m, 0.449 at 0.2 m and 0.112 at 0.4 m, and the program checks that each doubling of r divides the field by exactly 4. The charged sphere of the generator behaves as if all its charge were at the centre, which is why this simple law fits it, and why your hair rises only when you stand close to it."
+@ photo id="ioephy/vdg" cap="A Van de Graaff generator: a charged sphere with an electric field around it"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Inverse-square law for the field of 2 microcoulomb"
+k, q = 8.99e9, 2e-6
+E = lambda r: k * q / r ** 2 / 1e6
+vals = [(0.1, E(0.1)), (0.2, E(0.2)), (0.4, E(0.4))]
+assert abs(vals[0][1] - 1.798) < 1e-3 and abs(vals[0][1] / vals[1][1] - 4) < 1e-9 and abs(vals[1][1] / vals[2][1] - 4) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "E = kq / r^2 in MN/C, q = 2 uC", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.5), (0, 2.0))
+ax.grid(0.1, 0.5, size=9); ax.axes("r (m)", "E")
+ax.curve(E, 0.095, 0.5, color=NAVY, sw=2.4)
+for r, e in vals:
+    ax.pt(r, e, "%.3f" % e, dx=8, dy=-6, color=RED)
+f.text(150, 208, "double the distance: field falls to 1/4", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "%.3f -> %.3f -> %.3f MN/C at 0.1, 0.2, 0.4 m" % tuple(v[1] for v in vals), size=9.5, color=SLATE, bold=True)
+facts = dict(a=vals[0][1], b=vals[1][1], c=vals[2][1])
+```
+
 ## Chapter summary
 
 - $\vec{E} = \vec{F}/q_0$, measured in N C⁻¹ = V m⁻¹; for a point charge
@@ -741,3 +762,93 @@ plate. Force on an electron:
 $F = eE = 1.6\times10^{-19}\times4.0\times10^{5} = 6.4\times10^{-14}\ \text{N}$,
 directed towards the positive plate.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define electric field intensity, derive the field due to a point charge and state the properties of electric field lines. <span class="marks">[10]</span>
+2. State Gauss's law and use it to derive the electric field due to an infinite line charge and an infinite plane sheet of charge. <span class="marks">[10]</span>
+
+### Model answer D1: electric field and field lines (10 marks)
+
+**Introduction.** A charge changes the space around it, so that another charge placed there feels a force. This region is the **electric field** of the charge. A thundercloud over the Terai produces a strong field between the cloud and the ground, which finally leads to lightning.
+
+**Electric field intensity.** The electric field intensity $\vec E$ at a point is the **force per unit positive test charge** placed there, $\vec E=\dfrac{\vec F}{q_0}$. Its unit is $\text{N C}^{-1}$ (or $\text{V m}^{-1}$), and it is a vector in the direction of the force on a positive charge. The test charge $q_0$ must be very small, so that it does not disturb the source.
+
+**Field due to a point charge.** Place a test charge $q_0$ at a distance $r$ from a point charge $q$.
+
+1. By Coulomb's law the force is $F=\dfrac{1}{4\pi\varepsilon_0}\dfrac{qq_0}{r^{2}}$.
+2. Dividing by $q_0$,
+
+$$ E=\frac{1}{4\pi\varepsilon_0}\,\frac{q}{r^{2}} $$
+
+3. The field points **away** from a positive charge and **towards** a negative charge. Its magnitude falls as $1/r^{2}$.
+4. For several charges, the resultant field is the **vector sum** of the individual fields (superposition).
+
+**Electric field lines.** A field line is the path a free positive charge would follow.
+
+1. Lines start on positive charges and end on negative charges (or at infinity).
+2. The **tangent** to a line at any point gives the direction of $\vec E$ there.
+3. The **closeness** of the lines shows the strength of the field.
+4. Two field lines **never cross**, since $\vec E$ has one direction at a point.
+5. Lines are perpendicular to the surface of a conductor.
+6. Lines behave like stretched elastic strings, trying to shorten, and repel each other sideways.
+7. In a uniform field, such as between two parallel plates, the lines are parallel and equally spaced.
+
+| Source | Field-line pattern |
+|---|---|
+| Positive point charge | Radially outward |
+| Negative point charge | Radially inward |
+| Two opposite charges | From + to −, curved |
+| Parallel plates | Parallel, uniform |
+
+**Numerical.** The field at $0.30\ \text{m}$ from a $5\ \mu\text{C}$ point charge is $E=\dfrac{9\times10^{9}\times5\times10^{-6}}{(0.30)^{2}}=5\times10^{5}\ \text{N C}^{-1}$, directed away from the charge. A $2\ \mu\text{C}$ test charge feels $F=qE=1\ \text{N}$.
+
+**Conclusion.** The electric field is the force per unit charge; for a point charge $E=kq/r^{2}$, and field lines give a picture of its direction and strength.
+
+### Model answer D2: Gauss's law and its applications (10 marks)
+
+**Introduction.** Coulomb's law is difficult to use for charge spread over a line or surface. Gauss's law uses symmetry to find the field easily.
+
+**Electric flux.** The flux through a surface is $\Phi=\vec E\cdot\vec A=EA\cos\theta$, the number of field lines crossing it. Unit: $\text{N m}^{2}\text{C}^{-1}$.
+
+**Gauss's law.** The total electric flux through any **closed surface** equals $\dfrac{1}{\varepsilon_0}$ times the **net charge enclosed**:
+
+$$ \oint\vec E\cdot d\vec A=\frac{q_{\text{enc}}}{\varepsilon_0} $$
+
+The closed surface chosen for the calculation is called the **Gaussian surface**.
+
+**(a) Infinite line charge.** Let the linear charge density be $\lambda$ (charge per unit length).
+
+1. By symmetry the field is **radial** and has the same magnitude at all points at distance $r$.
+2. Take a coaxial cylinder of radius $r$ and length $l$ as the Gaussian surface. The flux through the two flat ends is **zero** because $\vec E$ is parallel to them.
+3. Flux through the curved surface $=E\times2\pi rl$, and the enclosed charge is $\lambda l$.
+4. By Gauss's law, $E\times2\pi rl=\dfrac{\lambda l}{\varepsilon_0}$, so
+
+$$ E=\frac{\lambda}{2\pi\varepsilon_0 r} $$
+
+The field falls as $1/r$.
+
+**(b) Infinite plane sheet.** Let the surface charge density be $\sigma$.
+
+1. By symmetry $\vec E$ is perpendicular to the sheet and points away from it on both sides.
+2. Take a small cylinder (pillbox) of end area $A$ through the sheet. The flux through the curved side is zero, and the two flat ends each give $EA$.
+3. Total flux $=2EA$, the enclosed charge $=\sigma A$, so $2EA=\dfrac{\sigma A}{\varepsilon_0}$ and
+
+$$ E=\frac{\sigma}{2\varepsilon_0} $$
+
+This is **independent of the distance** from the sheet.
+
+**Charged sphere (result).** Outside a uniformly charged sphere, $E=\dfrac{1}{4\pi\varepsilon_0}\dfrac{q}{r^{2}}$ as if the whole charge were at the centre; for a conducting sphere $E=0$ inside.
+
+| Source | Field |
+|---|---|
+| Point or sphere (outside) | $\dfrac{q}{4\pi\varepsilon_0r^{2}}$ |
+| Infinite line | $\dfrac{\lambda}{2\pi\varepsilon_0r}$ |
+| Infinite sheet | $\dfrac{\sigma}{2\varepsilon_0}$ |
+
+**Numericals.**
+
+1. A long wire with $\lambda=2\ \mu\text{C m}^{-1}$ gives at $r=0.5\ \text{m}$: $E=\dfrac{2\times9\times10^{9}\times2\times10^{-6}}{0.5}=7.2\times10^{4}\ \text{N C}^{-1}$.
+2. A large sheet with $\sigma=1\ \mu\text{C m}^{-2}$ gives $E=\dfrac{10^{-6}}{2\times8.85\times10^{-12}}=5.65\times10^{4}\ \text{N C}^{-1}$ at any distance.
+
+**Conclusion.** Gauss's law relates flux to enclosed charge, and with a symmetric Gaussian surface it gives the fields of a line, a sheet and a sphere in a few lines.

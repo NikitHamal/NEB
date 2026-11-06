@@ -180,6 +180,26 @@ f.arrow([(500, 73), (525, 73)])
 7. **Elastic scaling.** Identical containers can be started in tens or hundreds when load rises and removed afterwards. This is the basis of autoscaling in Kubernetes. A result-publishing portal can grow within a minute.
 8. **Lower cost and safe testing.** Fewer physical servers mean lower purchase, space and power bills. Old software can run in a VM that matches its old operating system. Students can practise on virtual labs without risking real machines.
 
+```photogrid label="2.2" cols="2" ratio="1.3" caption="Why containers pack tighter than virtual machines. (a) A container ship carries thousands of identical steel boxes that share one vessel; a software container likewise shares one kernel while each virtual machine brings a whole guest operating system. (b) Illustrative numbers (assumptions, not benchmarks): a host with 64 GB of memory reserves 4 GB for the hypervisor or container engine; each virtual machine needs 2 GB for its guest OS plus 0.5 GB for the application, while each container needs about 0.05 GB of overhead plus the same 0.5 GB. The host then fits (64 - 4) / 2.5 = 24 virtual machines or (64 - 4) / 0.55 = 109 containers, about 4.5 times more. The trade-off is isolation: a virtual machine has its own kernel and is the stronger boundary, a container shares the host kernel and relies on namespaces and cgroups. Multi-tenant clouds therefore often run containers inside lightweight virtual machines."
+@ photo id="bcacloud/ship" cap="A container ship: many boxes, one vessel"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Instances on a 64 GB host (illustrative sizes)"
+host, reserve = 64, 4
+vm = int((host - reserve) // (2 + 0.5)); ct = int((host - reserve) // (0.05 + 0.5))
+assert (vm, ct) == (24, 109) and round(ct / vm, 1) == 4.5
+f = Fig(300, 240)
+f.text(150, 14, "64 GB host, 4 GB reserved", size=10.5, color=NAVY, bold=True)
+for i, (lab, k, per, col) in enumerate([("virtual machines", vm, "2.5 GB each", "#1d6fb8"), ("containers", ct, "0.55 GB each", "#0f766e")]):
+    y = 34 + i * 70
+    f.text(10, y + 6, lab + " (" + per + ")", size=10.5, color=NAVY, anchor="start", bold=True)
+    f.box(10, y + 16, 200 * k / ct, 22, "", fill=col, stroke=col, r=0)
+    f.text(10 + 200 * k / ct + 5, y + 27, str(k), size=10.5, color=col, anchor="start", bold=True, vmid=True)
+f.text(150, 186, "109 / 24 = 4.5 times more containers", size=10.5, color=TEAL, bold=True)
+f.text(150, 206, "but a VM has its own kernel: stronger wall", size=10.5, color=RED, bold=True)
+f.text(150, 224, "containers share the host kernel", size=10.5, color=NAVY)
+```
+
 ## 2.9 Summary and exercises
 
 VT-x gives guests native execution with controlled exits; nested paging trades exits for a costlier two-dimensional walk, (g+1)(h+1)−1; KVM and QEMU with virtio deliver practical VMs; containers use namespaces, cgroups and content-addressed layers.

@@ -199,6 +199,50 @@ f.box(60, 200, 130, 28, "Print list", fill=SOFT, stroke=TEAL, size=12, bold=True
 7. **Fair division of work.** Modules and tables are visible, so the leader can assign them without overlap. Each developer knows the interface to the others. Integration week then holds fewer surprises.
 8. **Confidence in the viva.** A student who drew the diagram can explain the system from the whole to the part. Questions such as "why this table?" or "where does this data go?" are then easy. Memorised code answers cannot do this.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Why a library has a catalogue. (a) A card catalogue: instead of reading every book on the shelves, the reader opens the drawer for the right letter. (b) CampusShelf keeps 20000 books in a table, and a student scans a barcode to find one ISBN. SQLite was asked to run the same query twice and the virtual-machine steps were counted. Without an index it has to SCAN the whole table and takes 60010 steps. After one CREATE INDEX statement it can SEARCH like opening a drawer and takes only 16 steps, about 3750 times fewer. The price is real: the index takes extra space and every new book must also be written into it, so index the columns that are searched often, such as isbn and member id, and not every column."
+@ photo id="bcapj/cardcat" cap="A card catalogue: one drawer per letter"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Scan vs index: SQLite steps for one ISBN"
+import sqlite3, math
+con = sqlite3.connect(":memory:")
+con.execute("create table book(id integer primary key, isbn text, title text)")
+N = 20000
+rows = [(i, "978%010d" % ((i * 7919 + 13) % 10**10), "Title %d" % i) for i in range(1, N + 1)]
+con.executemany("insert into book values(?,?,?)", rows)
+target = rows[17344][1]
+q = "select title from book where isbn = ?"
+def steps():
+    c = [0]
+    def tick():
+        c[0] += 1
+        return 0
+    con.set_progress_handler(tick, 1)
+    got = con.execute(q, (target,)).fetchall()
+    con.set_progress_handler(None, 1)
+    assert got == [("Title 17345",)]
+    return c[0]
+plan1 = con.execute("explain query plan " + q, (target,)).fetchall()[0][3]
+s1 = steps()
+con.execute("create index idx_isbn on book(isbn)")
+plan2 = con.execute("explain query plan " + q, (target,)).fetchall()[0][3]
+s2 = steps()
+assert "SCAN" in plan1 and "SEARCH" in plan2 and s1 > 100 * s2
+facts = dict(N=N, s1=s1, s2=s2, ratio=s1 // s2)
+f = Fig(300, 236)
+f.text(150, 14, "One ISBN lookup in %s books" % format(N, ","), size=10.5, color=NAVY, bold=True)
+f.text(150, 28, "bar length = log10 of VM steps", size=10.5, color=SLATE)
+for k, (lab, s, col, plan) in enumerate([("no index", s1, "#fecaca", plan1), ("index on isbn", s2, "#bbf7d0", plan2)]):
+    y = 44 + k * 78
+    f.text(10, y + 6, lab, size=10.5, color=NAVY, bold=True, anchor="start")
+    w = 36 * math.log10(s)
+    f.box(10, y + 14, w, 24, "", fill=col, stroke=SLATE, r=3, sw=1)
+    f.text(16 + w, y + 30, format(s, ","), size=10.5, color=NAVY, bold=True, anchor="start")
+    f.text(10, y + 54, plan[:46], size=10.5, color=SLATE, anchor="start")
+f.text(150, 214, "index is %sx fewer steps" % format(s1 // s2, ","), size=10.5, color=TEAL, bold=True)
+f.text(150, 230, "cost: extra disk and slower inserts", size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Functional = what; non-functional = how well; both must be testable.

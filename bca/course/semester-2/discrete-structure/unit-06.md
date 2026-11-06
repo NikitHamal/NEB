@@ -30,6 +30,34 @@ gcd(252, 105): 252 = 2·105 + 42; 105 = 2·42 + 21; 42 = 2·21 + 0. **gcd = 21**
 
 A linear Diophantine equation ax + by = c has integer solutions iff gcd(a, b) | c. Example: 6x + 9y = 8 has none (gcd 3 does not divide 8); 6x + 9y = 12 does (x = −2, y = 2).
 
+### The sieve of Eratosthenes
+
+Eratosthenes, who also measured the size of the Earth, gave the first method for listing primes: write the numbers, cross out the multiples of 2, then of 3, then of 5 and so on up to the square root of the limit. What is left is prime. Plate 6.1 runs the sieve on 1 to 100: crossing out multiples of 2, 3, 5 and 7 is enough because the next prime, 11, has 121 above 100. It leaves 25 primes and 8 pairs of twin primes.
+
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Cross out the multiples. (a) Eratosthenes of Cyrene (about 276-194 BC). (b) The sieve on 1 to 100: the 25 primes are highlighted; sieving with 2, 3, 5 and 7 is enough because 11 x 11 = 121 > 100; there are 8 twin-prime pairs and 168 primes below 1,000."
+@ photo id="bca151/eratosthenes" cap="Eratosthenes (engraved portrait)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Primes up to 100"
+def sieve(n):
+    ok = [True] * (n + 1); ok[0] = ok[1] = False
+    for i in range(2, int(n ** 0.5) + 1):
+        if ok[i]:
+            for j in range(i * i, n + 1, i): ok[j] = False
+    return ok
+s = sieve(100); pr = [i for i in range(101) if s[i]]
+assert len(pr) == 25 and pr[-1] == 97 and sum(sieve(1000)) == 168 and 11 * 11 > 100
+tw = [(p, p + 2) for p in pr if p + 2 in pr]
+assert len(tw) == 8 and tw[-1] == (71, 73)
+f = Fig(400, 250)
+f.text(200, 14, "1 to 100: primes highlighted", size=11, color=NAVY, bold=True)
+for n in range(1, 101):
+    r, c = divmod(n - 1, 10)
+    p = s[n]
+    f.box(30 + c * 34, 22 + r * 19, 32, 17, str(n), fill=MINT if p else SOFT, stroke=TEAL if p else "#cbd5e1", color=TEAL if p else "#94a3b8", size=10.5, bold=p, r=2)
+f.text(200, 240, "25 primes; twin pairs (3,5) (5,7) ... (71,73): 8", size=10.5, color=SLATE, bold=True)
+```
+
 ## 6.2 Modular arithmetic
 
 **a ≡ b (mod m)** means m | (a − b), i.e. a and b leave the same remainder. Congruence is an equivalence relation with m classes (ℤₘ = {0, 1, …, m − 1}). It respects addition, subtraction and multiplication:
@@ -58,6 +86,36 @@ Solve 3x ≡ 4 (mod 7): 3⁻¹ = 5 (15 ≡ 1), so x ≡ 5·4 = 20 ≡ **6** (che
 x ≡ 2 (mod 3), x ≡ 3 (mod 5), x ≡ 2 (mod 7). M = 105. Search x = 2 + 3t (t = 0,1,…) satisfying mod 5 = 3: x = 8 (8 mod 5 = 3). Now x = 8 + 15s with x ≡ 2 (mod 7): 8 ≡ 1, 15 ≡ 1, so 1 + s ≡ 2 ⇒ s = 1, x = **23**. Check: 23 mod 3 = 2, mod 5 = 3, mod 7 = 2 ✓. Solutions: 23 + 105k.
 :::
 
+### Arithmetic on a clock face
+
+A clock does arithmetic modulo 12: after 12 it starts again at 0. Ten o'clock plus seven hours is five o'clock because 17 = 12 + 5, which we write 17 mod 12 = 5. Powers also cycle: successive powers of 3 modulo 7 are 3, 2, 6, 4, 5, 1 and then repeat, a pattern that cryptography relies on. Plate 6.2 shows the clock sums and the six-step cycle computed with Python's `pow`.
+
+```photogrid label="6.2" cols="2" ratio="1.0" caption="Numbers that wrap round. (a) A quartz clock: its hours count modulo 12. (b) The clock sums 10 + 7 = 5 and 9 + 5 = 2 (mod 12), and the powers of 3 modulo 7, which run through 3, 2, 6, 4, 5, 1 and then return to 3."
+@ photo id="bca151/clock" cap="Clock face: hours are numbers modulo 12"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Clock sums and the cycle of powers of 3 mod 7"
+import math
+assert (10 + 7) % 12 == 5 and (9 + 5) % 12 == 2
+cyc = [pow(3, k, 7) for k in range(1, 8)]
+assert cyc == [3, 2, 6, 4, 5, 1, 3]
+f = Fig(400, 250)
+cx, cy, R = 100, 82, 56
+f.circle(cx, cy, R + 10, fill=SOFT, stroke=NAVY)
+for h in range(12):
+    a = math.radians(-90 + 30 * h); n = 12 if h == 0 else h
+    hot = n in (10, 5)
+    f.text(cx + R * math.cos(a), cy + R * math.sin(a), str(n), size=11, color=RED if hot else NAVY, bold=hot, vmid=True)
+f.text(cx, cy, "mod 12", size=10.5, color=SLATE, bold=True, vmid=True)
+for i, t in enumerate(["10 + 7 = 17 = 5 (mod 12)", "9 + 5 = 14 = 2 (mod 12)", "5 - 8 = -3 = 9 (mod 12)"]):
+    f.text(200, 40 + i * 28, t, size=10.5, color=SLATE, bold=True, anchor="start")
+assert (5 - 8) % 12 == 9
+f.text(200, 160, "3^k mod 7, k = 1..7", size=11, color=NAVY, bold=True, anchor="middle")
+for i, v in enumerate(cyc):
+    f.box(8 + i * 55, 172, 50, 34, str(v), fill=MINT if i < 6 else SAND, stroke=TEAL if i < 6 else AMBER, color=TEAL if i < 6 else AMBER, size=13, bold=True)
+f.text(200, 232, "Back to 3 after 6 steps: the cycle length is 6.", size=10.5, color=SLATE, bold=True)
+```
+
 ## 6.3 Applications
 
 - **Hashing**: h(k) = k mod m with m prime spreads keys well. Keys 123, 456, 789 with m = 11 give 2, 5, 8 (789 = 71·11 + 8).
@@ -77,6 +135,36 @@ p = 61, q = 53 ⇒ n = 3233, φ = 60 · 52 = 3120. Take e = 17 (gcd(17, 3120) = 
 Encrypt m = 65: c = 65¹⁷ mod 3233 = **2790**. Decrypt: 2790²⁷⁵³ mod 3233 = **65** ✓.
 Security rests on the difficulty of factoring n; real keys use n of 2048 bits or more. Real systems also add padding (OAEP) and use RSA mainly to exchange a symmetric key. Quantum computers (Shor's algorithm) could break RSA, which motivates post-quantum cryptography.
 :::
+
+### Enigma: a lot of modular arithmetic
+
+The German Enigma machine was a chain of rotors, each a permutation of the 26 letters, advancing like an odometer, so every key press was enciphered with a different permutation. The number of possible settings is a counting problem from Chapter 3. Choosing and ordering three rotors from five gives 60 ways; each rotor starts at one of 26 positions (17,576 combinations); and the plugboard joined ten pairs of letters. Plate 6.3 multiplies the three factors.
+
+```photogrid label="6.3" cols="2" ratio="1.1" caption="A machine made of permutations. (a) A naval Enigma M4 in a museum. (b) The number of Enigma settings from three independent choices: rotor order (5 x 4 x 3 = 60), rotor start positions (26^3 = 17,576) and ten plugboard pairs (150,738,274,937,250); the product is about 1.59 x 10^20."
+@ photo id="bca151/enigma" cap="Enigma M4: keyboard, rotors and lamps"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Counting the settings of an Enigma"
+import math
+order = 5 * 4 * 3
+pos = 26 ** 3
+plug = math.factorial(26) // (math.factorial(6) * math.factorial(10) * 2 ** 10)
+total = order * pos * plug
+assert order == 60 and pos == 17576 and plug == 150738274937250 and abs(total / 1.5896e20 - 1) < 1e-3
+f = Fig(400, 250)
+f.text(200, 16, "Three choices multiply (product rule)", size=11, color=NAVY, bold=True)
+items = [("rotor order", "5 x 4 x 3", f"{order}", BLUE, NAVY), ("start positions", "26 x 26 x 26", f"{pos:,}", SAND, AMBER), ("plugboard, 10 pairs", "26!/(6! 10! 2^10)", f"{plug:,}", MINT, TEAL)]
+for i, (nm, fm, val, fl, st) in enumerate(items):
+    y = 30 + i * 52
+    f.box(8, y, 384, 44, "", fill=fl, stroke=st, r=4)
+    f.text(16, y + 14, nm, size=11, color=st, bold=True, anchor="start", vmid=True)
+    f.text(16, y + 32, fm, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(384, y + 22, val, size=12.5, color=st, bold=True, anchor="end", vmid=True)
+f.box(8, 192, 384, 44, "", fill=ROSE, stroke=RED, r=4)
+f.text(16, 207, "total settings", size=11, color=RED, bold=True, anchor="start", vmid=True)
+f.text(384, 214, f"{total:.3e}", size=14, color=RED, bold=True, anchor="end", vmid=True)
+f.text(200, 246, "About 159 quintillion, yet the machine was broken.", size=10.5, color=SLATE)
+```
 
 ## 6.4 Algebraic structures
 
@@ -106,6 +194,33 @@ A **lattice** is a poset in which every two elements have a least upper bound (*
 A **Boolean algebra** is a complemented distributive lattice with 0 and 1. The two-element algebra {0, 1} is the algebra of switching circuits and of propositional logic; the power set of a set is another; **every finite Boolean algebra has 2ⁿ elements** and looks like subsets of an n-set. This is why the same laws (De Morgan, distributivity, absorption) hold in logic (Unit 1), sets (Unit 2) and digital circuits (the Digital Logic book): they are three views of one structure.
 
 **Divisor lattice of 12**: elements {1, 2, 3, 4, 6, 12}; join of 4 and 6 = lcm = 12; meet = gcd = 2. It is *not* complemented (4 has no complement), so it is a lattice but not a Boolean algebra; the divisors of 30 (= 2·3·5) form one, with 8 = 2³ elements.
+
+### The divisors of 12 form a lattice
+
+Under divisibility, the divisors of 12 form a partial order in which every pair of elements has a greatest common divisor (the meet) and a least common multiple (the join). A Hasse diagram draws only the covering relations: a line from a to b if a divides b and nothing lies strictly between. Plate 6.4 finds those lines by program and confirms that gcd(4, 6) = 2 and lcm(4, 6) = 12.
+
+```photogrid label="6.4" cols="2" ratio="1.2" caption="A lattice drawn as a Hasse diagram. (a) The subgroups of the dihedral group D4 form a lattice drawn the same way. (b) The divisors of 12 ordered by divisibility: the seven covering lines are found by computer; meet is gcd and join is lcm, so gcd(4, 6) = 2 and lcm(4, 6) = 12."
+@ photo id="bca151/hasse" cap="Hasse diagram of the subgroups of D4"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Divisibility lattice of 12"
+from math import gcd
+D = [1, 2, 3, 4, 6, 12]
+cov = {(a, b) for a in D for b in D if a != b and b % a == 0 and not any(c not in (a, b) and c % a == 0 and b % c == 0 for c in D)}
+assert cov == {(1, 2), (1, 3), (2, 4), (2, 6), (3, 6), (4, 12), (6, 12)}
+assert gcd(4, 6) == 2 and 4 * 6 // gcd(4, 6) == 12
+P = {1: (200, 215), 2: (130, 150), 3: (270, 150), 4: (80, 80), 6: (200, 80), 12: (140, 25)}
+f = Fig(400, 250)
+for a, b in cov: f.line(*P[a], *P[b], color=SLATE, sw=1.6)
+for k, (x, y) in P.items():
+    f.circle(x, y, 15, fill=BLUE if k not in (1, 12) else SAND, stroke=NAVY if k not in (1, 12) else AMBER, label=str(k), size=11, color=NAVY)
+f.text(300, 40, "meet = gcd", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(300, 58, "join = lcm", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(300, 90, "4 and 6:", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(300, 108, "gcd = 2", size=10.5, color=SLATE, anchor="start")
+f.text(300, 126, "lcm = 12", size=10.5, color=SLATE, anchor="start")
+f.text(300, 220, "7 covering lines", size=10.5, color=SLATE, bold=True, anchor="start")
+```
 
 ## 6.6 Clock arithmetic and the RSA message path
 
@@ -141,6 +256,33 @@ f.arrow([(466, 218), (440, 218)], color=RED, sw=1.8)
 f.text(528, 50, "d = 17^-1 mod 3120", size=10, color=SLATE, bold=True)
 f.text(528, 66, "17 x 2753 = 15 x 3120 + 1", size=10, color=SLATE)
 f.text(529, 260, "kept secret", size=10, color=RED, bold=True)
+```
+
+### Caesar and Alberti: encryption as modular addition
+
+Shifting every letter three places, as Julius Caesar did, is addition modulo 26: encrypt with c = (p + 3) mod 26 and decrypt with p = (c - 3) mod 26. Leon Battista Alberti built a disc with two alphabets that can be turned, so the shift changes during the message. There are only 25 useful Caesar keys, so an attacker simply tries all of them. Plate 6.5 encrypts NEPAL and shows the shifted alphabet.
+
+```photogrid label="6.5" cols="2" ratio="1.2" caption="Encryption as addition mod 26. (a) A cipher disc after Alberti: the inner ring turns against the outer ring. (b) A Caesar shift of 3 on the alphabet, the word NEPAL encrypted as QHSDO and decrypted again by subtracting 3 mod 26; only 25 non-trivial keys exist."
+@ photo id="bca151/alberti" cap="Cipher disc after Alberti: turn the inner ring to change the key"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Caesar shift of 3"
+import string
+A = string.ascii_uppercase
+enc = lambda w, k: "".join(A[(A.index(c) + k) % 26] for c in w)
+assert enc("NEPAL", 3) == "QHSDO" and enc("QHSDO", -3) == "NEPAL" and enc(enc("NEPAL", 13), 13) == "NEPAL"
+f = Fig(400, 250)
+f.text(200, 14, "Plain letter (top) and cipher letter (bottom), shift 3", size=11, color=NAVY, bold=True)
+for i, c in enumerate(A):
+    r = i // 13; x = 10 + (i % 13) * 29; y = 28 + r * 58
+    f.box(x, y, 27, 20, c, fill=BLUE, stroke=NAVY, color=NAVY, size=10.5, bold=True)
+    f.box(x, y + 22, 27, 20, A[(i + 3) % 26], fill=SAND, stroke=AMBER, color=AMBER, size=10.5, bold=True)
+w = "NEPAL"
+for i, c in enumerate(w):
+    f.box(60 + i * 56, 150, 48, 24, c, fill=BLUE, stroke=NAVY, color=NAVY, size=12, bold=True)
+    f.arrow([(84 + i * 56, 176), (84 + i * 56, 188)], color=SLATE, sw=1.4)
+    f.box(60 + i * 56, 190, 48, 24, enc(w, 3)[i], fill=SAND, stroke=AMBER, color=AMBER, size=12, bold=True)
+f.text(200, 236, "c = (p + 3) mod 26,  p = (c - 3) mod 26.  Only 25 keys: try them all.", size=10.5, color=SLATE, bold=True)
 ```
 
 ## 6.7 Eight uses of number theory and algebraic structures

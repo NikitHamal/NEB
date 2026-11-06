@@ -195,6 +195,66 @@ f.text(300, 172, "MEMBER M:N BOOK resolved by LOAN", size=11, color=TEAL, bold=T
 7. **Better communication with management.** Simple diagrams fit in a report or presentation. A sponsor can see the proposal in one page and decide whether to approve it.
 8. **Reusable documentation.** Models stay valuable for maintenance and for training new staff. Years later a new developer can see how data moves through the system without reading all the code.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="From a full decision table to a short one. (a) A bus ticket counter, where the clerk applies the same discount rules to every passenger. (b) Four yes-or-no conditions (student, senior citizen, peak hour, advance booking) give 2 x 2 x 2 x 2 = 16 rules, and the discount can be 0, 10, 30 or 40 per cent. The 16 rules were generated from the policy and then merged by combining any two rules that differ in one condition but give the same action, which is exactly the simplification step of a decision table. The result has only 9 rules with a dash (does not matter) in many cells, and every one of the 16 original rows was checked to land on a single matching rule with the same action, so the short table is complete and consistent. The Rs and percentages are invented for the exercise, not a real Sajha or Nepal Yatayat tariff."
+@ photo id="bcasad/counter" cap="A bus ticket counter: rules applied all day"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decision table: 16 rules merged"
+import itertools
+names = ["Student", "Senior", "Peak", "Advance"]
+def disc(s, a, p, b):
+    d = 30 if (s or a) else 0
+    if b and not p:
+        d += 10
+    return d
+rows = [(bits, disc(*bits)) for bits in itertools.product([1, 0], repeat=4)]
+acts = sorted({d for _, d in rows})
+def imps(mins):
+    cur = {tuple(m) for m in mins}
+    primes = set()
+    while cur:
+        nxt, used = set(), set()
+        for x in cur:
+            for y in cur:
+                diff = [i for i in range(4) if x[i] != y[i]]
+                if len(diff) == 1 and x[diff[0]] != "-" and y[diff[0]] != "-":
+                    z = list(x)
+                    z[diff[0]] = "-"
+                    nxt.add(tuple(z))
+                    used |= {x, y}
+        primes |= cur - used
+        cur = nxt
+    return primes
+def cov(imp, bits):
+    return all(i == "-" or i == b for i, b in zip(imp, bits))
+rules = []
+for a in acts:
+    mins = [b for b, d in rows if d == a]
+    P = sorted(imps(mins), key=lambda p: (-p.count("-"), str(p)))
+    left = set(mins)
+    while left:
+        best = max(P, key=lambda p: sum(cov(p, m) for m in left))
+        rules.append((best, a))
+        left -= {m for m in left if cov(best, m)}
+for bits, d in rows:
+    hit = [a for r, a in rules if cov(r, bits)]
+    assert hit and set(hit) == {d}
+facts = dict(n=len(rules), acts=len(acts))
+f = Fig(300, 246)
+f.text(150, 12, "Ticket discount: 4 conditions, %d rules left" % len(rules), size=10.5, color=NAVY, bold=True)
+for i, nm in enumerate(names):
+    f.box(6 + i * 52, 22, 50, 20, nm, fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3, sw=1)
+f.box(214, 22, 80, 20, "Discount", fill="#fde68a", stroke=NAVY, size=10.5, bold=True, r=3, sw=1)
+for r, (imp, a) in enumerate(rules):
+    y = 46 + r * 18
+    for i, v in enumerate(imp):
+        t = "-" if v == "-" else ("Y" if v == 1 else "N")
+        f.box(6 + i * 52, y, 50, 16, t, fill="#f1f5f9" if t == "-" else MINT, stroke=SLATE, size=10.5, bold=t != "-", r=2, sw=1)
+    f.box(214, y, 80, 16, "%d%%" % a, fill=SAND, stroke=SLATE, size=10.5, bold=True, r=2, sw=1)
+f.text(150, 46 + len(rules) * 18 + 10, "- means the answer does not matter", size=10.5, color=SLATE)
+f.text(150, 238, "checked against all 16 rows: no clash", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Requirements methods: interview, questionnaire, observation, documents (traditional); JAD, prototyping (contemporary); BPR (radical); user stories (agile).

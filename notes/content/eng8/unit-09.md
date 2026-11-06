@@ -292,3 +292,74 @@ worst
 living, people's relations), each compared using *whereas / while / than*; a
 concluding sentence with your preference.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write an essay on "Life before and after the internet". <span class="marks">[10]</span>
+2. Explain the comparison of adjectives and adverbs with a table. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="4" ratio="1.0" caption="College, library and phone. The Radcliffe Camera and the Queen's College library at Oxford, an Android smartphone and students outside a Nepali classroom show how places and tools of learning have changed."
+@ photo id="eng12/radcliffe-camera" cap="Radcliffe Camera, Oxford"
+@ photo id="eng12/queens-upper-library" cap="College library"
+@ photo id="cs8/os-android-phone" cap="Smartphone"
+@ photo id="eng8/classroom-sankhu" cap="Village classroom"
+```
+
+### Model answer D1: life before and after the internet (10 marks)
+
+**Introduction.** The internet has changed the way we study, talk and work. In this essay we compare life **before** and **after** it came to Nepal.
+
+**Body.**
+
+::: example Life before and after the internet
+**Communication.** Before the internet, people wrote letters and waited for days. Today we send a message in a second, and a call from Nepal to Japan costs almost nothing. **Education.** In the past students went to a library and copied from books. Now they can watch a lesson on a phone, whereas many village students still lack a device. **Shopping and money.** People used to stand in long queues to pay bills; now they use Fonepay and eSewa. **Entertainment.** Earlier, a family listened to the radio together; today each person watches a different video. Both periods have good points, but the internet brings more knowledge, while the old days offered more time with family. In my opinion, we should use the internet wisely and not forget each other.
+:::
+
+**Features of a comparison essay (8 points).**
+
+1. A **title** that names both periods.
+2. A short **introduction**.
+3. **Point-by-point** comparison (not all of one, then all of the other).
+4. Linking words: *whereas, while, but, unlike, both, similarly*.
+5. **Examples** from Nepal.
+6. Correct **tenses**: past for before, present for now.
+7. Facts, not only opinions.
+8. A **conclusion** with your view.
+
+| Topic | Before | After |
+|---|---|---|
+| Letters | Post and days of waiting | E-mail and instant chat |
+| Study | Library books | Online lessons |
+| Banking | Queues | Mobile wallets |
+| Time | More family time | More screen time |
+
+**Conclusion.** Compare in the same order and finish with your own opinion.
+
+### Model answer D2: comparison of adjectives and adverbs (10 marks)
+
+**Introduction.** We compare two things with the **comparative** and three or more with the **superlative**.
+
+**Rules.**
+
+1. **One-syllable adjectives:** add **-er/-est**: *tall, taller, the tallest.*
+2. **Two or more syllables:** use **more/most**: *beautiful, more beautiful, the most beautiful.*
+3. **Ending in -y:** change to **-ier/-iest**: *happy, happier, the happiest.*
+4. **Irregular:** *good, better, the best; bad, worse, the worst; far, farther, the farthest.*
+5. Use **than** after a comparative: *Mt. Everest is higher than K2.*
+6. Use **as ... as** for equal and **not as ... as** for unequal: *Pokhara is not as cold as Jumla.*
+7. Never say *more better*; never use two comparatives.
+8. **Adverbs:** *hard, harder, hardest; carefully, more carefully, most carefully; well, better, best.*
+
+| Positive | Comparative | Superlative |
+|---|---|---|
+| fast | faster | the fastest |
+| careful | more careful | the most careful |
+| easy | easier | the easiest |
+| good | better | the best |
+| bad | worse | the worst |
+
+**Example from the chapter.** *College has more homework than high school.* / *Smartphones are the most useful device for many people.*
+
+**Conclusion.** Count the syllables first, and remember the irregular forms.

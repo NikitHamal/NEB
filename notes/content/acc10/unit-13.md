@@ -256,3 +256,61 @@ Step 3 — Record the settlement. Both observations are answered in writing to t
 *Internal control and the types of audit (3).* Internal control as the system of checks; internal and external audit; continuous, interim and final audit; complete, partial and special audit; and by object the financial, performance, management and propriety audits. Distinguish an internal audit (an employee, continuous, reports to management, tests control, limited independence) from a final audit (an independent outsider, after the year end, reports to the owners or the legislature, gives an opinion).
 *Government audit of Nepal (3).* The Office of the Auditor General as a constitutional body; the appointment and protection of the Auditor General; what it audits — the federation, the provinces, the local levels, the constitutional bodies, the courts, government corporations, foreign aid and the stores; the four kinds of government audit; the report to the President and then to Parliament; the Public Accounts Committee's examination and action; and the settlement of observations by explanation with evidence, by recovery from the person responsible, or by regularisation.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is internal control? Explain its objectives and elements, and show why one clerk should not control a whole transaction. <span class="marks">[10]</span>
+2. What is auditing? Explain its types, and the government audit by the Office of the Auditor General. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="4" ratio="1.0" caption="Checking the books. Auditors compare the ledger and the cash book with vouchers, and review the work of offices such as the Ministry of Finance and Singha Durbar; their report goes to the Parliament."
+@ photo id="acc10/ledger" cap="Ledger"
+@ photo id="acc10/cash-book" cap="Cash book"
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/singha-durbar" cap="Singha Durbar"
+```
+
+### Model answer D1: internal control (10 marks)
+
+**Introduction.** **Internal control** is the whole set of methods, rules and checks adopted within an organisation to protect its assets, ensure accurate records, promote efficiency and ensure compliance with the law.
+
+**Objectives.**
+
+1. To safeguard cash, goods and property.
+2. To make the records accurate and complete.
+3. To increase efficiency of work.
+4. To ensure compliance with law, rules and budget.
+5. To prevent and detect fraud and error.
+6. To provide a reliable basis for the audit.
+
+**Elements.**
+
+1. **Segregation of duties** – custody, recording and approval are done by different persons.
+2. **Authorisation** – each transaction is approved by the proper officer.
+3. **Documentation** – vouchers, pre-numbered receipts and registers.
+4. **Physical control** – safes, locks and store keys.
+5. **Reconciliation** – bank and ledger checks.
+6. **Supervision and rotation** – surprise checks and compulsory leave.
+7. **Internal audit** and **budget comparison**.
+
+**The danger of one pair of hands.** If one clerk receives cash, writes the receipt, enters it in the cash book and also prepares the bank reconciliation, he can take money without a receipt, omit the entry, not deposit it, and prepare a reconciliation that hides the shortage. No second person sees the transaction, so the fraud grows. The cure is to separate custody, recording and reconciliation, account for the receipt books leaf by leaf, deposit daily and have the senior officer make surprise checks.
+
+**Conclusion.** Good internal control protects the honest employee as well as the organisation.
+
+### Model answer D2: auditing in Nepal (10 marks)
+
+**Introduction.** **Auditing** is the independent examination of the accounts and records of an organisation, with the evidence, in order to give an opinion on whether they give a true and fair view and follow the law. Its features are independence, examination of evidence and an opinion, not a guarantee.
+
+| Type | Meaning | Done by | When |
+|---|---|---|---|
+| Internal audit | Continuous check of the accounts and internal control | Staff or an internal audit unit | Throughout the year |
+| Final audit | Complete audit after the accounts are closed | An external auditor | After the year end |
+| Government (constitutional) audit | Audit of all public offices | Office of the Auditor General | Yearly |
+| Private (statutory) audit | Audit of companies as required by law | A chartered accountant | Yearly |
+
+**Internal audit.** It checks vouchers before and after payment, reconciliations, store records and compliance, and reports weaknesses to the head of the office so that errors are corrected in time.
+
+**Final audit.** The auditor examines the final accounts, the schedules and the vouchers, tests the balance sheet items, and gives an opinion in his report (unqualified or qualified).
+
+**Government audit.** The **Office of the Auditor General** is a constitutional body, independent of the government. It audits the accounts of federal, provincial and local governments on legality, regularity, economy, efficiency, effectiveness and fairness. Its annual report goes to the President and the Parliament, where the **Public Accounts Committee** examines it and follows the objections (*beruju*) until they are cleared or recovered.
+
+**Conclusion.** Audit makes the accounting chain complete; it tells the citizens, through Parliament, whether public money was used lawfully.

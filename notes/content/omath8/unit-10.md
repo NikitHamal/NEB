@@ -449,3 +449,15 @@ Collect one measurement from every student in your class, for example height in 
 **4.** $N=13+p$ and $\sum fx=40+120+30p+120=280+30p$. Then $25(13+p)=280+30p$, so $325+25p=280+30p$, $5p=45$ and $p=9$. Check: $N=22$, $\sum fx=550$, $\frac{550}{22}=25$ ✓. Median: cumulative frequencies 4, 10, 19, 22; the $\frac{23}{2}=11.5$th item falls where $cf$ first reaches 19, so $M_d=30$.
 **5.** (i) Kathmandu: range $27-23=4$°C, coefficient $\frac{4}{50}=0.08$. Jumla: range $22-12=10$°C, coefficient $\frac{10}{34}\approx0.29$. (ii) Kathmandu: $\frac{176}{7}\approx25.14$°C; Jumla: $\frac{122}{7}\approx17.43$°C. (iii) Jumla, because both its range and its coefficient of range are larger.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. Find the mean of the data: class 0–10, 10–20, 20–30, 30–40, 40–50 with frequencies 4, 6, 10, 12, 8. <span class="marks">[5]</span>
+2. Find the mode of the data in question 1 using the formula $M_o=L+\dfrac{f_1-f_0}{2f_1-f_0-f_2}\times i$. <span class="marks">[5]</span>
+3. For the marks 18, 7, 24, 12, 30, 9, 15, 21, 13, find the median, the lower and upper quartiles, the range and the coefficient of range. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Mid-values: 5, 15, 25, 35, 45. $\sum f=4+6+10+12+8=40$. $\sum fx=4(5)+6(15)+10(25)+12(35)+8(45)=20+90+250+420+360=1140$. Mean $=\dfrac{\sum fx}{\sum f}=\dfrac{1140}{40}=28.5$.
+**2.** The highest frequency is 12, so the modal class is 30–40: $L=30$, $f_1=12$, $f_0=10$ (class 20–30), $f_2=8$ (class 40–50) and $i=10$. $M_o=30+\dfrac{12-10}{24-10-8}\times10=30+\dfrac{2}{6}\times10=30+3.33=33.33$. The mode lies inside the modal class ✓.
+**3.** Arrange in order: 7, 9, 12, 13, 15, 18, 21, 24, 30 ($n=9$). Median $=\frac{9+1}{2}=5$th item $=15$. $Q_1=\frac{9+1}{4}=2.5$th item $=9+0.5(12-9)=10.5$. $Q_3=\frac{3(9+1)}{4}=7.5$th item $=21+0.5(24-21)=22.5$. Range $=30-7=23$. Coefficient of range $=\dfrac{30-7}{30+7}=\dfrac{23}{37}=0.62$. The inter-quartile spread $Q_3-Q_1=12$ shows that the middle half of the marks lies within 12 marks.
+:::

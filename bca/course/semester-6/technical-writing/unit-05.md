@@ -137,6 +137,56 @@ for i, (c, r, v) in enumerate(S):
 7. **Draw diagrams with a purpose.** A diagram should have one idea, consistent boxes and arrows, a legend if needed and labels you can read in print. Flowcharts, block diagrams and network maps each have conventions to follow. Too many boxes on one page become a puzzle.
 8. **Design slides for the room.** Use one message per slide, at most about six lines, a font of at least 24 points and a picture instead of a paragraph. Put detail in a handout. A speaker at a college project defence should be heard, not read from the screen.
 
+```photogrid label="5.1" cols="2" ratio="1.4" caption="Honest size encoding: Minard's map of 1869. (a) Charles Minard drew the fate of Napoleon's army in Russia (1812-1813) as a band whose width is proportional to the number of men, 1 mm for 10,000. The army crossed the Niemen with about 422,000 men, about 100,000 reached Moscow and about 10,000 came back, so the band is 42.2 mm, 10 mm and 1 mm wide. (b) Width proportional to value is honest: the survivors are 23.7 per cent at Moscow and 2.4 per cent at the end. If the same men were drawn as circles with radius proportional to the count, the area, which the eye reads, would shrink (422,000 / 10,000)^2 = 1,781 times while the data fell only 42.2 times. Tufte's lie factor, the size of the effect in the graphic divided by the size in the data, would be 1,781 / 42.2 = 42. Encode counts by length or width, never by radius."
+@ photo id="bcatw/minard" cap="Minard's map (1869)"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Band width against circle radius"
+men = [422000, 100000, 10000]
+assert round(men[1] / men[0] * 100, 1) == 23.7 and round(men[2] / men[0] * 100, 1) == 2.4
+area = (men[0] / men[2]) ** 2; data = men[0] / men[2]
+assert round(area) == 1781 and round(data, 1) == 42.2 and round(area / data) == 42
+f = Fig(300, 240)
+f.text(150, 14, "honest: width = number of men", size=10.5, color=TEAL, bold=True)
+for i, (m, lab) in enumerate(zip(men, ["Niemen 422,000", "Moscow 100,000", "end 10,000"])):
+    wd = max(m / 10000, 1)
+    y = 24 + i * 20
+    th = max(wd * 0.4, 1.5)
+    f.box(120, y + 9 - th / 2, 160, th, "", fill="#fdba74", stroke=AMBER, r=0, sw=1)
+    f.text(112, y + 9, lab, size=10.5, color=NAVY, anchor="end", vmid=True)
+f.text(150, 112, "misleading: radius = number of men", size=10.5, color=RED, bold=True)
+for i, m in enumerate(men):
+    r = 38 * m / men[0]
+    f.circle(60 + i * 90, 168, max(r, 1.5), fill="#fecaca", stroke=RED, sw=1.2)
+f.text(150, 222, "area falls 1,781x, data 42.2x: lie factor 42", size=10.5, color=RED, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.0" caption="Colour must carry less than the reader needs. (a) An Ishihara plate: about 1 man in 12 and 1 woman in 200 cannot separate certain reds from greens, so a chart that uses red against green to mean bad against good is unreadable for them. (b) The WCAG contrast ratio is (L1 + 0.05) / (L2 + 0.05), with L the relative luminance of the lighter and darker colour; body text needs at least 4.5 and large text 3. Black on white scores 21.0, near-black ink 17.8 and the book's blue 5.2, all passing. Red on green scores 1.07 and grey #999999 on white 2.85, both fail; the popular grey #777777 gives 4.48, missing the limit by 0.02. Always add a second cue (a label, a pattern or a marker shape) and check contrast with a tool."
+@ photo id="bcatw/ishihara" cap="An Ishihara colour-vision plate"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="WCAG contrast ratio of text and background"
+def lum(h):
+    c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+    return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]
+def cr(a, b):
+    la, lb = sorted((lum(a), lum(b)), reverse=True); return (la + .05) / (lb + .05)
+pairs = [("#000000", "#ffffff"), ("#14181f", "#ffffff"), ("#1d6fb8", "#ffffff"), ("#777777", "#ffffff"), ("#999999", "#ffffff"), ("#d9534f", "#2e8b57")]
+r = [cr(a, b) for a, b in pairs]
+assert [round(x, 2) for x in r] == [21.0, 17.79, 5.23, 4.48, 2.85, 1.07]
+f = Fig(300, 240)
+f.text(150, 14, "pass = 4.5 or more for body text", size=10.5, color=SLATE)
+for i, ((fg, bg), x) in enumerate(zip(pairs, r)):
+    y = 26 + i * 33
+    f.box(10, y, 64, 26, "Aa text", fill=bg, stroke=SLATE, color=fg, size=11, bold=True, r=4, sw=1)
+    f.text(84, y + 13, f"{x:.2f}", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+    ok = x >= 4.5
+    f.box(140, y + 3, 54 + 0, 20, "pass" if ok else "fail", fill="#bbf7d0" if ok else "#fecaca", stroke=TEAL if ok else RED, color=TEAL if ok else RED, size=10.5, bold=True, r=4, sw=1)
+    f.text(204, y + 13, fg, size=10.5, color=SLATE, anchor="start", vmid=True)
+f.text(150, 230, "#777777 misses by 0.02", size=10.5, color=RED, bold=True)
+```
+
 ## Chapter summary
 
 - Choose the medium by purpose: tables for exact values, charts for patterns, diagrams for structure; every graphic is referred to, numbered, captioned and self-explanatory.

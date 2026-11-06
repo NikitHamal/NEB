@@ -241,6 +241,140 @@ A^B^C      -> ABC^^
 - **Decimal to binary:** push remainders of repeated division by 2, then pop. 13 → remainders 1, 0, 1, 1 pushed; popping gives 1101.
 - **Depth-first search** uses a stack (Unit 10).
 
+## 2.7 Seeing the ideas: the stack in pictures
+
+A stack is the easiest structure to imagine because it exists on every kitchen shelf: a pile of plates. You put a clean plate on top and you take the top plate when you need one; nobody pulls a plate from the middle. This last-in, first-out behaviour is the whole idea, and the three figures that follow show how it organises storage, expression evaluation and bracket checking.
+
+```photogrid label="2.1" cols="2" ratio="1.2" caption="The stack in the kitchen and in memory. (a) A pile of plates: only the top plate can be added or removed, which is LIFO order; a full pile that would topple is an overflow and an empty shelf is an underflow. (b) The same pile as a C array of size 5 with an integer top. After push(10), push(20), push(30) the array holds three items and top is 2; one pop leaves two items and top is 1. The value 30 is still in memory but is no longer part of the stack."
+@ photo id="bca201/plates" cap="A pile of plates is a stack"
+fit 1.2
+focus 0.5 0.35
+call 0.5 0.12 0.06 0.9 "top of the stack"
+@ svg cap="Array stack after push 10, 20, 30 then pop"
+f = Fig(300, 250)
+for i in range(5):
+    y = 195 - i * 38
+    filled = i < 2
+    f.box(90, y, 90, 34, ["10", "20", "30", "", ""][i] if i < 2 else ("30 (stale)" if i == 2 else ""), fill=BLUE if filled else SOFT, stroke=NAVY, size=10.5, bold=True, r=0)
+    f.text(76, y + 17, "[%d]" % i, size=9.5, color=SLATE, anchor="end")
+f.arrow([(230, 120), (186, 120)], color=RED, sw=1.8)
+f.text(235, 105, "top = 1", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 14, "items[ ] of size 5", size=10.5, color=NAVY, bold=True)
+f.text(150, 238, "overflow if top = 4; underflow if top = -1", size=9.5, color=SLATE)
+```
+
+```svgfig label="2.1" caption="Evaluating the postfix expression 8 2 + 3 * 6 2 / - with a stack. Each number is pushed; each operator pops two values, applies the operation (the first value popped is the right operand) and pushes the result. The stack after each token is shown from bottom to top. The final single value, 27, is the answer to the infix expression (8 + 2) * 3 - 6 / 2. No brackets and no precedence rules are needed once the expression is in postfix form."
+f = Fig(580, 200)
+toks = ["8", "2", "+", "3", "*", "6", "2", "/", "-"]
+stk = [["8"], ["8", "2"], ["10"], ["10", "3"], ["30"], ["30", "6"], ["30", "6", "2"], ["30", "3"], ["27"]]
+for i, t in enumerate(toks):
+    x = 8 + i * 64
+    op = t in "+-*/"
+    f.box(x, 8, 56, 26, t, fill=SAND if op else BLUE, stroke=AMBER if op else NAVY, size=12, bold=True)
+    s = stk[i]
+    for j, v in enumerate(s):
+        f.box(x + 4, 150 - j * 28, 48, 26, v, fill=MINT if i == 8 else SOFT, stroke=TEAL, size=10.5, bold=True, r=0)
+f.text(290, 188, "stack depth at most 3; token types: operand pushes, operator pops two and pushes one", size=9.5, color=SLATE)
+```
+
+```svgfig label="2.2" caption="Bracket matching with a stack. In the balanced string {[()]} every opening bracket is pushed and every closing bracket must match the item on top; the stack is empty at the end, so the string is balanced. In the faulty string {[(])} the closing square bracket arrives while the top is a round bracket, so the check stops at once with a mismatch. A string such as ((( ends with a non-empty stack, and a string such as ()) hits an empty stack: both are also unbalanced."
+f = Fig(580, 190)
+def row(y, s, stacks, ok):
+    for i, ch in enumerate(s):
+        x = 12 + i * 46
+        f.box(x, y, 40, 24, ch, fill=BLUE, stroke=NAVY, size=12, bold=True)
+        st = stacks[i]
+        if st is None:
+            continue
+        f.text(x + 20, y + 38, "".join(st) if st else "empty", size=10.5, color=TEAL if ok else RED, bold=True)
+row(12, "{[()]}", [["{"], ["{", "["], ["{", "[", "("], ["{", "["], ["{"], []], True)
+f.text(330, 28, "balanced: stack is empty at the end", size=10.5, color=TEAL, bold=True, anchor="start")
+row(100, "{[(])}", [["{"], ["{", "["], ["{", "[", "("], ["stop"], None, None], False)
+f.text(330, 116, "unbalanced: ] meets ( on top", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+Two more places where the stack appears: the recursion of a children's puzzle, and the operator stack that turns a school-style formula into postfix.
+
+```photogrid label="2.2" cols="2" ratio="1.3" caption="Recursion is a stack in disguise. (a) The Tower of Hanoi: move the disks one at a time from one peg to another, never putting a larger disk on a smaller one. Each recursive call waits on the call stack while the smaller tower moves. (b) The number of moves for n disks counted by a simulation: 1, 3, 7, 15, 31, 63, 127, 255 for n = 1 to 8, that is 2^n - 1, and the call stack never holds more than n + 1 frames. For 64 disks the legend needs 18,446,744,073,709,551,615 moves, about 5.8 x 10^11 years at one move per second."
+@ photo id="bca203/hanoi" cap="A wooden Tower of Hanoi, 8 disks"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Moves needed for n disks (counted)"
+cnt = [0]; depth = [0, 0]
+def hanoi(n, a, b, c):
+    depth[0] += 1; depth[1] = max(depth[1], depth[0])
+    if n > 0:
+        hanoi(n - 1, a, c, b); cnt[0] += 1; hanoi(n - 1, c, b, a)
+    depth[0] -= 1
+rows = []
+for n in range(1, 9):
+    cnt[0] = 0; depth[1] = 0; hanoi(n, "A", "C", "B")
+    assert cnt[0] == 2 ** n - 1
+    rows.append((n, cnt[0], depth[1]))
+years = (2 ** 64 - 1) / (3600 * 24 * 365.25)
+assert 5.8e11 < years < 5.9e11 and (2 ** 64 - 1) == 18446744073709551615
+f = Fig(300, 252)
+f.text(150, 11, "moves = 2^n - 1; stack depth = n + 1 frames", size=10, color=NAVY, bold=True)
+for i, (n, m, d) in enumerate(rows):
+    y = 24 + i * 22
+    f.text(8, y + 9, "n = %d" % n, size=9.5, color=SLATE, bold=True, anchor="start")
+    f.box(52, y, max(m * 170 / 255, 2), 15, "", fill=TEAL, stroke=TEAL, r=2)
+    f.text(52 + max(m * 170 / 255, 2) + 5, y + 9, "%d  (depth %d)" % (m, d), size=9.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 206, 284, 38, "n = 64: 18,446,744,073,709,551,615 moves\n= about %.1e years at one move per second" % years, fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.0" caption="From infix to postfix with an operator stack. (a) Jan Lukasiewicz (1878-1956), the Polish logician who invented prefix (Polish) notation so that brackets are never needed; reversing it gives postfix. (b) The conversion of a * (b + c) - d / (e - f) scanned left to right: an operand goes straight to the output, an operator waits on the stack until an operator of equal or higher precedence below it has been popped, a left bracket waits and a right bracket pops down to it. The trace was produced by running the algorithm; the result 6 2 3 + * 8 7 5 - / - evaluates to 26 with a = 6, b = 2, c = 3, d = 8, e = 7, f = 5."
+@ photo id="bca203/lukasiewicz" cap="Jan Lukasiewicz (1878-1956)"
+fit 1.0
+focus 0.5 0.65
+@ svg cap="Shunting-yard trace (operator stack and output)"
+toks = ["a", "*", "(", "b", "+", "c", ")", "-", "d", "/", "(", "e", "-", "f", ")"]
+prec = {"+": 1, "-": 1, "*": 2, "/": 2}
+st, out, trace = [], [], []
+for t in toks:
+    if t.isalpha(): out.append(t)
+    elif t == "(": st.append(t)
+    elif t == ")":
+        while st[-1] != "(": out.append(st.pop())
+        st.pop()
+    else:
+        while st and st[-1] != "(" and prec[st[-1]] >= prec[t]: out.append(st.pop())
+        st.append(t)
+    trace.append((t, "".join(st), " ".join(out)))
+while st: out.append(st.pop())
+trace.append(("end", "", " ".join(out)))
+post = " ".join(out)
+vals = dict(a=6, b=2, c=3, d=8, e=7, f=5)
+stk = []
+for t in out:
+    if t.isalpha(): stk.append(vals[t])
+    else:
+        y2 = stk.pop(); x2 = stk.pop(); stk.append({"+": x2 + y2, "-": x2 - y2, "*": x2 * y2, "/": x2 / y2}[t])
+assert stk == [26] and post == "a b c + * d e f - / -"
+f = Fig(300, 262)
+f.box(4, 4, 36, 18, "token", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+f.box(40, 4, 52, 18, "stack", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+f.box(92, 4, 204, 18, "output so far", fill=NAVY, stroke=NAVY, color="#ffffff", size=9, bold=True, r=0)
+for i, (t, s, o) in enumerate(trace):
+    y = 22 + i * 15.5
+    fl = BLUE if i % 2 == 0 else SOFT
+    f.box(4, y, 36, 15.5, t, fill=fl, stroke="#cbd5e1", size=9, r=0, bold=True)
+    f.box(40, y, 52, 15.5, s, fill=fl, stroke="#cbd5e1", size=9, r=0)
+    f.box(92, y, 204, 15.5, o, fill=(MINT if t == "end" else fl), stroke="#cbd5e1", size=9, r=0, anchor="start", bold=(t == "end"))
+f.text(150, 22 + 16 * 15.5 + 12, "postfix: %s  = %d" % (post, stk[0]), size=9.5, color=TEAL, bold=True)
+```
+
+### 2.7.1 Eight applications of stacks
+
+1. **Undo and redo.** Every edit in a word processor or in a Nepali typing tool is pushed on an undo stack. Pressing Ctrl+Z pops the latest edit and reverses it, and the popped edit moves to a redo stack. The last change made is always the first one undone, exactly as a stack behaves.
+2. **Back button and navigation history.** A web browser pushes each page you open. The back button pops the current page and shows the one below it. The Nagarik App and Fonepay screens work the same way when you press back after opening a payment form.
+3. **Function calls and recursion.** When a C function calls another, its return address and local variables are pushed on the call stack as a stack frame. When the function returns, its frame is popped and execution continues in the caller. This is how recursive functions such as factorial and Towers of Hanoi (Unit 6) work, and why infinite recursion ends with a stack overflow.
+4. **Expression evaluation.** Calculators and compilers convert infix expressions to postfix and evaluate them with a stack, as in Figure 2.1. Postfix needs no brackets and no precedence rules at run time. A spreadsheet formula such as the VAT calculation in a billing sheet is processed in this way.
+5. **Checking brackets and tags.** A compiler or code editor pushes every opening bracket and matches it with each closing bracket (Figure 2.2). An HTML validator does the same for opening and closing tags. A non-empty stack at the end, or a mismatch on the way, is reported as a syntax error.
+6. **Reversing data.** Pushing all characters of a string and then popping them returns the string reversed. The same idea reverses a list of numbers or the order of words in a sentence. It is a common exam program because it shows LIFO order clearly.
+7. **Backtracking and depth-first search.** A maze solver or a puzzle solver pushes each choice and pops back to the last choice when it meets a dead end. Depth-first search in a graph (Unit 10) uses a stack in the same way. Without a stack the program would have to remember all earlier choices by hand.
+8. **Converting number systems.** To convert a decimal number such as 45 to binary, repeated division by 2 produces the remainders in reverse order. Pushing each remainder and then popping them gives the correct bit order 101101. The same method converts to octal and hexadecimal.
+
 ## Formula and fact sheet
 
 - Stack is LIFO; push/pop/peek are O(1). Empty: top = −1; full: top = MAX − 1.
@@ -277,3 +411,73 @@ A^B^C      -> ABC^^
 **7.** Each call pushes a frame (parameters, locals, return address); returning pops it, so calls resume in reverse order of entry.
 **8.** `for (i = 0; s[i]; i++) push(&st, s[i]); for (i = 0; s[i]; i++) s[i] = pop(&st);`
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Explain the stack ADT with its operations and the conditions overflow and underflow. (5 marks)**
+
+A **stack** is a linear data structure in which insertion and deletion take place only at one end, called the **top**. It follows the **LIFO** (last in, first out) rule: the item pushed last is the one popped first, like a pile of plates (Plate 2.1).
+
+**Operations**
+1. `push(x)`: place x on the top; `top` increases by one.
+2. `pop()`: remove and return the top item; `top` decreases by one.
+3. `peek()` (or `top()`): read the top item without removing it.
+4. `isEmpty()`: true when `top == -1`.
+5. `isFull()`: true when `top == MAX - 1` for an array of size MAX.
+
+**Overflow** happens when `push` is called on a full stack, because there is no cell left. **Underflow** happens when `pop` or `peek` is called on an empty stack, because there is nothing to remove. A correct program tests `isFull()` before each push and `isEmpty()` before each pop and prints a message instead of corrupting memory.
+
+All five operations take constant time, O(1), because only the top index changes. For example, after `push(10)`, `push(20)` and `push(30)` on a stack of size 5, `top` is 2; a `pop` returns 30 and leaves `top` equal to 1. A stack is used for undo, function calls, expression evaluation and bracket checking.
+
+**Q2. Convert the infix expression A + B * (C - D) / E into postfix and evaluate it for A = 6, B = 4, C = 9, D = 5, E = 2. (5 marks)**
+
+**Rules.** Scan the infix expression from left to right. Operands go straight to the output. An operator is pushed on the stack after popping every operator on the stack that has higher or equal precedence (`*` and `/` are higher than `+` and `-`). An opening bracket is pushed; a closing bracket pops operators to the output until the opening bracket is found. At the end, pop everything.
+
+**Conversion.**
+1. `A` goes to output: `A`.
+2. `+` is pushed. Stack: `+`.
+3. `B` goes to output: `A B`.
+4. `*` has higher precedence than `+`, so it is pushed. Stack: `+ *`.
+5. `(` is pushed; `C` goes to output: `A B C`.
+6. `-` is pushed above `(`; `D` goes to output: `A B C D`.
+7. `)` pops `-`: output `A B C D -`; the bracket is discarded.
+8. `/` has the same precedence as `*`, so `*` is popped first: output `A B C D - *`; then `/` is pushed.
+9. `E` goes to output; at the end `/` and `+` are popped: **`A B C D - * E / +`**.
+
+**Evaluation.** Substituting values gives `6 4 9 5 - * 2 / +`. Then 9 - 5 = 4; 4 * 4 = 16; 16 / 2 = 8; 6 + 8 = **14**. The stack never holds more than four values, and the result agrees with direct calculation 6 + 4 * (9 - 5) / 2 = 6 + 8 = 14.
+
+**Q3. Explain how a stack is implemented with an array, write the push and pop algorithms, and describe four applications. Evaluate the infix expression (8 + 2) * 3 - 6 / 2 using postfix. (10 marks)**
+
+**Introduction.** A stack is a LIFO list whose only access point is the top. It is implemented either with an array and an integer `top` initialised to -1, or with a linked list (Unit 5). The array version is fast and simple but has a fixed capacity.
+
+**Array implementation (Plate 2.1).** Declare `int items[MAX]; int top = -1;`.
+
+*Push algorithm:* (1) if `top == MAX - 1`, report overflow and stop; (2) `top = top + 1`; (3) `items[top] = x`.
+
+*Pop algorithm:* (1) if `top == -1`, report underflow and stop; (2) `x = items[top]`; (3) `top = top - 1`; (4) return x.
+
+Both take O(1) time, and the space is O(MAX).
+
+**Applications.**
+1. *Function calls:* the call stack stores return addresses and local variables, which makes recursion possible.
+2. *Expression evaluation:* postfix expressions are evaluated with one stack (Figure 2.1).
+3. *Bracket matching:* compilers verify that every bracket and tag is closed in the right order (Figure 2.2).
+4. *Undo and back navigation:* editors and browsers keep the history in a stack.
+
+**Conversion of (8 + 2) * 3 - 6 / 2.** Reading the tokens: `(` is pushed; 8 is output; `+` is pushed; 2 is output; `)` pops `+`, giving `8 2 +`; `*` is pushed; 3 is output; `-` has lower precedence than `*`, so `*` is popped (output `8 2 + 3 *`) and `-` is pushed; 6 is output; `/` has higher precedence than `-`, so it is pushed; 2 is output; at the end `/` and `-` are popped. The postfix form is **`8 2 + 3 * 6 2 / -`**.
+
+**Evaluation (Figure 2.1).**
+
+| Token | Action | Stack (bottom to top) |
+|---|---|---|
+| 8, 2 | push | 8, 2 |
+| `+` | pop 2 and 8, push 10 | 10 |
+| 3 | push | 10, 3 |
+| `*` | pop 3 and 10, push 30 | 30 |
+| 6, 2 | push | 30, 6, 2 |
+| `/` | pop 2 and 6, push 3 | 30, 3 |
+| `-` | pop 3 and 30, push 27 | 27 |
+
+The answer is **27**, and one value remains on the stack, which confirms the expression was well formed.
+
+**Conclusion.** The stack is simple, but it supports some of the deepest ideas in programming: recursion, parsing and backtracking. Its constant-time operations and strict LIFO discipline make it the natural tool whenever the most recent item must be handled first.

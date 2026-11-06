@@ -85,6 +85,35 @@ Other orientations: $x^2=4ay$ opens upward with focus $(0,a)$; $y^2=-4ax$ opens 
 - **Angle between planes** = angle between normals. Plane and line: $\sin\theta=\dfrac{|aL+bM+cN|}{\sqrt{a^2+b^2+c^2}\sqrt{L^2+M^2+N^2}}$.
 - Line through $(x_1,y_1,z_1)$ with direction ratios $a,b,c$: $\dfrac{x-x_1}{a}=\dfrac{y-y_1}{b}=\dfrac{z-z_1}{c}$.
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="The focus of a parabola. (a) A solar dish: its surface is a paraboloid, so every ray parallel to the axis is reflected through one point, the focus. (b) The parabola x^2 = 4 f y has focus (0, f). For a dish 7 m across and 1 m deep, putting x = 3.5, y = 1 gives f = 3.5^2 / 4 = 3.06 m. The path length from a line at the rim level to the focus is checked to be the same for every ray, which is the reason all of them arrive together; the latus rectum (the width through the focus) is 4f."
+@ photo id="ioemath/dish" cap="A parabolic solar dish"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="x^2 = 4fy with f = 3.06 m: parallel rays meet at F"
+import math
+d, hgt = 7.0, 1.0
+f_ = (d / 2) ** 2 / (4 * hgt)
+y = lambda x: x * x / (4 * f_)
+paths = []
+for x in (0.5, 1.5, 2.5, 3.5):
+    paths.append((hgt - y(x)) + math.hypot(x, y(x) - f_))
+assert abs(f_ - 3.0625) < 1e-9 and max(paths) - min(paths) < 1e-9 and abs(paths[0] - (hgt + f_)) < 1e-9
+fg = Fig(300, 236)
+sx, sy = 36.0, 36.0
+X = lambda x: 150 + x * sx; Y = lambda yy: 190 - yy * sy * 0.5 * 2 / 2
+fg.line(10, Y(0), 290, Y(0), color=SOFT, sw=1); fg.line(150, Y(0) + 6, 150, 20, color=SOFT, sw=1)
+xs = [i * 0.1 - 3.5 for i in range(0, 71)]
+for a, b in zip(xs, xs[1:]): fg.line(X(a), Y(y(a)), X(b), Y(y(b)), color=NAVY, sw=2.4)
+for x in (-2.5, -1.2, 1.2, 2.5, -3.5, 3.5):
+    fg.arrow([(X(x), 20), (X(x), Y(y(x)))], color=AMBER, sw=1.2)
+    fg.line(X(x), Y(y(x)), X(0), Y(f_), color=RED, sw=1.2)
+fg.circle(X(0), Y(f_), 4, fill=RED, stroke=RED)
+fg.text(X(0) + 10, Y(f_) - 4, "F (0, %.2f)" % f_, size=10.5, color=RED, bold=True, anchor="start")
+fg.text(150, 212, "f = x²/4y = 3.5² / 4 = %.2f m" % f_, size=10.5, color=NAVY, bold=True)
+fg.text(150, 230, "latus rectum 4f = %.2f m; path sums equal" % (4 * f_), size=10.5, color=TEAL, bold=True)
+f = fg
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -202,3 +231,52 @@ Other orientations: $x^2=4ay$ opens upward with focus $(0,a)$; $y^2=-4ax$ opens 
 **5.** (b) — $h=-\frac{5}{2}$, $a=1$, $b=4$: $\frac{2\sqrt{25/4-4}}{5}=\frac{2\cdot1.5}{5}=\frac{3}{5}$ (factors $(x-y)(x-4y)$, slopes $1,\frac{1}{4}$).
 **6.** (c) — same normal $(1,2,3)$; $1+4+9=14$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Find the distance from a point to a line, the angle between a pair of lines, and the tangent and tangent length for a circle. <span class="marks">[10]</span>
+2. Find the foci, eccentricity and latus rectum of a parabola, ellipse and hyperbola, and solve problems in three dimensions. <span class="marks">[10]</span>
+
+### Model answer D1: Lines and circles (10 marks)
+
+**Introduction.** The distance of $(x_1,y_1)$ from $ax+by+c=0$ is $d=\frac{\lvert ax_1+by_1+c\rvert}{\sqrt{a^2+b^2}}$. For $(3,4)$ and $3x+4y-5=0$: $d=\frac{\lvert9+16-5\rvert}{5}=4$.
+
+**Pair of lines.** The equation $ax^2+2hxy+by^2=0$ represents two lines through the origin, and the angle between them is $\tan\theta=\frac{2\sqrt{h^2-ab}}{\lvert a+b\rvert}$. For $2x^2+5xy+2y^2=0$: $a=b=2$, $h=\frac52$, so $\tan\theta=\frac{2\sqrt{6.25-4}}{4}=\frac{2(1.5)}{4}=0.75$, giving $\theta=36.87^\circ$. Also $2x^2+5xy+2y^2=(2x+y)(x+2y)$, so the lines are $y=-2x$ and $y=-\frac x2$, and the check $\tan\theta=\left|\frac{-2+\frac12}{1+1}\right|=0.75$ agrees.
+
+**Circle $x^2+y^2-4x+6y-12=0$.**
+
+1. Centre $(-g,-f)=(2,-3)$.
+2. Radius $r=\sqrt{g^2+f^2-c}=\sqrt{4+9+12}=5$.
+3. **Tangent at $(5,1)$** (the point lies on the circle since $9+16=25$): $(x-2)(5-2)+(y+3)(1+3)=25$, so $3x+4y=19$.
+4. **Length of tangent from $(10,-3)$:** $\sqrt{S_1}=\sqrt{100+9-40-18-12}=\sqrt{39}=6.24$.
+5. **Condition for tangency:** the perpendicular distance from the centre to the line equals the radius. For $3x+4y=19$: $\frac{\lvert6-12-19\rvert}{5}=5$ ✓.
+
+| Result | Formula | Value |
+|---|---|---|
+| Distance to line | $\frac{\lvert ax_1+by_1+c\rvert}{\sqrt{a^2+b^2}}$ | $4$ |
+| Angle of pair | $\frac{2\sqrt{h^2-ab}}{\lvert a+b\rvert}$ | $36.87^\circ$ |
+| Radius | $\sqrt{g^2+f^2-c}$ | $5$ |
+| Tangent length | $\sqrt{S_1}$ | $\sqrt{39}$ |
+
+**Conclusion.** Standard formulae turn each geometric condition into a short calculation.
+
+### Model answer D2: Conics and the plane (10 marks)
+
+**Introduction.** A conic is the locus of a point whose distance from a **focus** is $e$ times its distance from the **directrix**: parabola ($e=1$), ellipse ($e<1$), hyperbola ($e>1$).
+
+| Conic | Equation | Focus | $e$ | Latus rectum |
+|---|---|---|---|---|
+| Parabola | $y^2=8x$ | $(2,0)$; directrix $x=-2$ | $1$ | $8$ |
+| Ellipse | $\frac{x^2}{25}+\frac{y^2}{9}=1$ | $(\pm4,0)$ | $\frac45$ | $\frac{2b^2}{a}=3.6$ |
+| Hyperbola | $\frac{x^2}{16}-\frac{y^2}{9}=1$ | $(\pm5,0)$ | $\frac54$ | $\frac{2b^2}{a}=4.5$ |
+
+**Working.** Ellipse: $a=5$, $b=3$, $c=\sqrt{a^2-b^2}=4$, $e=\frac ca=0.8$. Hyperbola: $a=4$, $b=3$, $c=\sqrt{a^2+b^2}=5$, $e=\frac54$, and the asymptotes are $y=\pm\frac34x$. A parabola $y^2=4ax$ with $4a=8$ has $a=2$. The sum of focal distances in an ellipse is $2a=10$.
+
+**Space geometry.**
+
+1. **Distance** between $(1,2,3)$ and $(4,6,15)$: $\sqrt{9+16+144}=\sqrt{169}=13$.
+2. **Plane in intercept form:** the plane through $(1,0,0)$, $(0,2,0)$ and $(0,0,3)$ is $\frac x1+\frac y2+\frac z3=1$, i.e. $6x+3y+2z=6$.
+3. **Distance of the origin from the plane:** $\frac{6}{\sqrt{36+9+4}}=\frac67$.
+4. **Direction cosines** of a line satisfy $l^2+m^2+n^2=1$; for the join of the first two points the direction ratios are $(3,4,12)$, so the cosines are $\frac{3}{13},\frac{4}{13},\frac{12}{13}$.
+
+**Conclusion.** Identify the conic from its equation, read off $a$, $b$, then calculate $c$, $e$ and the focus, and use intercepts or direction ratios in space.

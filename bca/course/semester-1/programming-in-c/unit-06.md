@@ -69,6 +69,34 @@ f.arrow([(220, 264), (220, 220)], color=AMBER, label="q + 1", lpos=(250, 252))
 f.text(560, 258, "q + 1 adds 1 x sizeof(int) = 4 bytes", size=10.5, color=SLATE, anchor="start")
 ```
 
+### Boxes, addresses and the contents of a box
+
+A post-office box has two things: its number and the letters inside. A variable is the same: it has an address (the box number) and a value (the letters). A pointer is simply a box whose letter is another box's number. Plate 6.1 shows `x = 42` changed through two levels of pointer: `**pp = 7` follows `pp` to `q`, follows `q` to `x`, and writes 7 there. The addresses in the drawing are example numbers; on a 64-bit machine every pointer takes 8 bytes (the real run printed `sizeof q = 8`).
+
+```photogrid label="6.1" cols="2" ratio="1.3" caption="Number on the door, letter inside. (a) Post-office boxes: each has a number (its address) and holds a letter (its value). (b) int x = 42; int *q = &x; int **pp = &q; then **pp = 7. In the real C run x became 7 and *q was 7; the three addresses shown are example values."
+@ photo id="bca102/pobox" cap="Post-office boxes: a box number is an address"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="x, q and pp after **pp = 7"
+mem = {1000: 42, 1008: 1000, 1016: 1008}
+x_addr, q_addr, pp_addr = 1000, 1008, 1016
+mem[mem[mem[pp_addr]]] = 7
+assert mem[x_addr] == 7 and mem[mem[q_addr]] == 7
+f = Fig(400, 250)
+f.text(200, 16, "Three boxes (example addresses)", size=11, color=NAVY, bold=True)
+spec = [("x", 1000, "7", SAND, AMBER), ("q = &x", 1008, "1000", BLUE, NAVY), ("pp = &q", 1016, "1008", MINT, TEAL)]
+for i, (nm, ad, val, fl, st) in enumerate(spec):
+    x0 = 10 + i * 130
+    f.text(x0 + 55, 44, f"address {ad}", size=10.5, color=SLATE, bold=True)
+    f.box(x0, 52, 110, 52, val, fill=fl, stroke=st, color=st, size=16, bold=True)
+    f.text(x0 + 55, 122, nm, size=11, color=st, bold=True)
+f.text(200, 156, "*pp  is q      **pp  is x", size=11, color=SLATE, bold=True)
+f.text(200, 178, "**pp = 7  writes 7 into x through two pointers", size=10.5, color=RED, bold=True)
+f.box(20, 192, 360, 44, "", fill=SOFT, stroke=SLATE, r=4)
+f.text(200, 208, "sizeof(q) = 8 bytes on a 64-bit PC, whatever it points to.", size=10.5, color=SLATE)
+f.text(200, 226, "NULL (zero) means: this pointer holds no address yet.", size=10.5, color=SLATE)
+```
+
 ## 6.2 Pointer arithmetic
 
 Adding *k* to a pointer moves it by *k elements*, not *k bytes*: `p + k` is the address `p + k × sizeof(*p)`. Subtracting two pointers into the same array gives the number of elements between them. Allowed: `p + n`, `p − n`, `p++`, `p − q`, comparisons. Not allowed: adding two pointers, multiplying or dividing a pointer.
@@ -106,6 +134,33 @@ sum=150
 ```
 
 After `p += 3`, `p` points at `a[3]`, so `*p` is 40 and `p - a` is 3; `p--` steps back to `a[2]`. Note that `*a + 1` is `(*a) + 1` because unary `*` binds tighter than `+`. Do not put `*p` and `*--p` in the same call: C does not say which argument is evaluated first.
+
+### Why p + 1 moves by more than one byte
+
+Adding 1 to a pointer does not add 1 to the address: it moves to the next element of the type pointed at. So `p + 1` is 1 byte further for a `char`, 2 for a `short`, 4 for an `int` and 8 for a `double`; `p + 3` over `int` is 12 bytes. This is exactly how a house-number sign works: along a street where one side carries the even numbers 46, 48, 50, 52 the step is 2, and the next house is found by adding the step, not by adding 1. Plate 6.2 measures the four steps in a real run and shows pointer subtraction counting elements.
+
+```photogrid label="6.2" cols="2" ratio="1.1" caption="One step, many sizes. (a) House numbers 46, 48, 50, 52: the next house is the number plus the step of the street. (b) Byte steps of p + 1 for four types measured by a real C program: char 1, short 2, int 4, double 8; p + 3 over an int array is 12 bytes, and the end pointer minus the start pointer counts 5 elements of a five-element array (sum 150)."
+@ photo id="bca102/housenum" cap="Numbers 46 to 52: the step along the street is 2"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="The size of one pointer step"
+import struct
+sizes = {"char": struct.calcsize("c"), "short": struct.calcsize("h"), "int": struct.calcsize("i"), "double": struct.calcsize("d")}
+assert list(sizes.values()) == [1, 2, 4, 8] and 3 * 4 == 12
+arr = [10, 20, 30, 40, 50]
+assert len(arr) == 5 and sum(arr) == 150
+f = Fig(400, 260)
+f.text(200, 16, "Bytes moved by p + 1", size=11, color=NAVY, bold=True)
+cols = [(NAVY, BLUE), (TEAL, MINT), (AMBER, SAND), (RED, ROSE)]
+for i, ((nm, sz), (st, fl)) in enumerate(zip(sizes.items(), cols)):
+    y = 34 + i * 36
+    f.text(10, y + 14, nm, size=11, color=st, bold=True, anchor="start", vmid=True)
+    for k in range(2):
+        f.box(70 + k * sz * 18, y, sz * 18 - 2, 26, f"+{k * sz}", fill=fl, stroke=st, color=st, size=10.5, bold=True)
+f.text(200, 196, "int a[5]: p + 3 is 3 x 4 = 12 bytes from a", size=10.5, color=SLATE, bold=True)
+f.text(200, 216, "end - a counts elements: 5 (not 20 bytes)", size=10.5, color=SLATE, bold=True)
+f.text(200, 238, "Sum walking p from a to end: 10+20+30+40+50 = 150", size=10.5, color=SLATE)
+```
 
 ## 6.3 Pointers and strings
 
@@ -152,6 +207,36 @@ P a
 `cities` is an **array of pointers** to strings: each element points to its own literal, so the strings need not be the same length (unlike a 2-D `char` array, which wastes space). `*(*(cities + 2) + 3)` is the 4th character of the 3rd string: `a` in "Biratnagar" (B-i-r-**a**).
 
 `copy` shows the idiom `while ((*dst++ = *src++));`: copy a character, advance both, and stop after copying `'\0'` (value 0 = false).
+
+### Walking a string with a pointer
+
+A string literal such as `"NEPAL"` is a row of characters ending in a zero byte, and `char *s` holds the address of its first letter. Moving the pointer with `p++` visits one letter at a time and the loop `while (*p)` stops when it meets the zero. A signpost does the same job: it does not hold the place, it points at it, and following it with `*` gives the thing at the destination. Plate 6.3 walks the pointer over "NEPAL" and recovers its length, 5, without calling `strlen`.
+
+```photogrid label="6.3" cols="2" ratio="1.1" caption="Pointing, not holding. (a) A signpost: it holds a direction to a place, not the place itself. (b) A char pointer walked over the string NEPAL as in the real run: five steps reach the zero byte, so the length is 5, *s is N and *(s + len - 1) is L."
+@ photo id="bca102/signpost" cap="Signpost: it points to the thing, it is not the thing"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="p++ over NEPAL until *p is zero"
+s = "NEPAL"
+p, steps = 0, []
+data = s + "\0"
+while data[p] != "\0":
+    steps.append((p, data[p])); p += 1
+assert p == 5 and steps[0][1] == "N" and data[5 - 1] == "L"
+f = Fig(400, 250)
+f.text(200, 16, 'char *s = "NEPAL"; for (p = s; *p; p++)', size=11, color=NAVY, bold=True)
+for i, ch in enumerate(data):
+    x = 14 + i * 62
+    end = ch == "\0"
+    f.box(x, 74, 58, 40, "'\\0'" if end else f"'{ch}'", fill=ROSE if end else BLUE, stroke=RED if end else NAVY, color=RED if end else NAVY, size=13, bold=True)
+    f.text(x + 29, 132, f"s+{i}", size=10.5, color=SLATE, bold=True)
+    f.arrow([(x + 29, 60), (x + 29, 72)], color=TEAL if not end else RED, sw=1.6)
+    f.text(x + 29, 50, f"p = {i}", size=10.5, color=TEAL if not end else RED, bold=True)
+f.text(200, 164, "*p is non-zero 5 times, then 0: the loop ends with p - s = 5", size=11, color=SLATE, bold=True)
+f.box(20, 180, 360, 56, "", fill=SOFT, stroke=SLATE, r=4)
+f.text(200, 198, "*s = 'N'      *(s + 4) = 'L'      s[4] is the same as *(s + 4)", size=10.5, color=SLATE, bold=True)
+f.text(200, 220, "The string literal itself must not be changed through s.", size=10.5, color=RED)
+```
 
 ## 6.4 Pointers and functions
 
@@ -238,6 +323,36 @@ for i, v in enumerate(["100", "200", "300", "400", "500"]):
     f.box(180 + i * 70, 120, 70, 34, v, fill=BLUE if i < 3 else "#fef3c7", stroke=NAVY, size=12, bold=True)
 f.text(14, 142, "d after step 3:", size=10.5, color=TEAL, bold=True, anchor="start")
 f.text(380, 178, "Always test for NULL after malloc, and set the pointer to NULL after free.", size=10.5, color=RED)
+```
+
+### Memory you ask for: how much, and how often
+
+The old magnetic-core memory is a good picture of a heap: each tiny ring remembers one bit and is reached by two wires, which is an address. `malloc` hands out a block of such bytes at run time (`10 * sizeof(int)` is 40 bytes), `calloc` also sets them to zero, and `free` gives them back. The strategy for growing an array matters. Making room for one more element each time forces a `realloc` on almost every append; doubling the capacity needs far fewer. Plate 6.4 counts both in a real run that appends 1,000 integers.
+
+```photogrid label="6.4" cols="2" ratio="1.4" caption="Asking for memory wisely. (a) A close-up of magnetic-core memory: every ring stores one bit and is found by its two crossing wires, which are its address. (b) Appending 1,000 integers to a malloc-ed array in a real C run: growing by one each time needs 999 reallocations, doubling the capacity needs only 10 (final capacity 1,024)."
+@ photo id="bca102/corezoom" cap="Magnetic-core memory: each ring is one bit with an address"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Grow by one against grow by doubling (1,000 appends)"
+cap, n, rc, caps = 1, 0, 0, [1]
+for i in range(1000):
+    if n == cap: cap *= 2; rc += 1; caps.append(cap)
+    n += 1
+assert rc == 10 and cap == 1024 and caps == [2**k for k in range(11)]
+assert 1000 - 1 == 999
+f = Fig(400, 250)
+f.text(200, 16, "realloc calls to append 1,000 integers", size=11, color=NAVY, bold=True)
+f.text(10, 44, "grow by 1", size=11, color=RED, bold=True, anchor="start")
+f.box(10, 52, 300, 24, "", fill=ROSE, stroke=RED, r=3)
+f.text(316, 64, "999", size=12, color=RED, bold=True, anchor="start", vmid=True)
+f.text(10, 100, "double the capacity", size=11, color=TEAL, bold=True, anchor="start")
+f.box(10, 108, max(10 / 999 * 300, 3), 24, "", fill=MINT, stroke=TEAL, r=1)
+f.text(22, 120, "10", size=12, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(200, 158, "Capacity after each doubling:", size=10.5, color=SLATE, bold=True)
+for i, c in enumerate(caps[1:]):
+    f.box(10 + i * 38, 168, 36, 22, str(c), fill=BLUE, stroke=NAVY, color=NAVY, size=10.5, bold=True)
+f.text(200, 214, "malloc(10 * sizeof(int)) = 40 bytes;  calloc(5, sizeof(int)) sums to 0", size=10.5, color=SLATE)
+f.text(200, 234, "Every malloc needs exactly one free, or the memory leaks.", size=10.5, color=RED, bold=True)
 ```
 
 ## 6.6 Eight uses of pointers

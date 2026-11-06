@@ -361,6 +361,31 @@ The divisions are still equal — only the two end marks are misplaced — so th
 correction is a simple proportion.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.27" caption="A thermal camera maps temperature to colour, and a student must be able to move between the three temperature scales. (a) A thermal image of a house. (b) The program converts five reference points. Normal body temperature, 37 degrees Celsius, is 98.6 degrees Fahrenheit and 310.15 K. Boiling water is 373.15 K. The two scales cross at -40, where Celsius and Fahrenheit agree, and absolute zero is 0 K, -273.15 degrees Celsius or -459.67 degrees Fahrenheit. The kelvin scale is used in gas laws because it has no negative values."
+@ photo id="ceephy3/thermal" cap="A thermal image: the colours are a temperature scale"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="One temperature on three scales"
+pts = [("absolute zero", -273.15), ("-40", -40.0), ("ice melts", 0.0), ("body", 37.0), ("water boils", 100.0)]
+conv = [(n, c, 1.8 * c + 32, c + 273.15) for n, c in pts]
+assert conv[1][2] == -40 and abs(conv[3][2] - 98.6) < 1e-9 and abs(conv[4][3] - 373.15) < 1e-9 and abs(conv[0][3]) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "F = 1.8 C + 32,  K = C + 273.15", size=10.5, color=NAVY, bold=True)
+for j, (h, x) in enumerate([("point", 6), ("C", 108), ("F", 168), ("K", 232)]):
+    f.text(x + 4, 38, h, size=10, color=SLATE, bold=True, anchor="start")
+cols = [(BLUE, NAVY), (SOFT, SLATE), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)]
+for i, (n, c, fa, k) in enumerate(conv):
+    y = 46 + i * 28; fl, st = cols[i]
+    f.box(4, y, 292, 24, fill=fl, stroke=st, r=4)
+    f.text(10, y + 12, n, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(112, y + 12, "%.2f" % c if c % 1 else "%.0f" % c, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(172, y + 12, "%.2f" % fa if fa % 1 else "%.0f" % fa, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+    f.text(236, y + 12, "%.2f" % k, size=9.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 204, "-40 is the same on the Celsius and Fahrenheit scales", size=10, color=NAVY, bold=True)
+f.text(150, 222, "0 K = -273.15 C: no temperature is lower", size=10, color=RED, bold=True)
+facts = dict(bf=conv[3][2], bk=conv[3][3], bk100=conv[4][3])
+```
+
 ## Chapter summary
 
 - Internal energy is the total kinetic + potential energy of the molecules;
@@ -469,3 +494,73 @@ $t_{\text{true}} = \dfrac{77-2}{102-2}\times100 = 75\ ^{\circ}\text{C}$.
 $2C = 1.8C + 32 \Rightarrow 0.2C = 32 \Rightarrow C = 160\ ^{\circ}\text{C}$,
 and then $F = 320\ ^{\circ}\text{F}$. Check: $\frac{9}{5}(160)+32 = 288+32 = 320$. ✓
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define temperature. Describe the Celsius, Fahrenheit and Kelvin scales and derive the conversion formula. <span class="marks">[10]</span>
+2. Describe the construction and working of a platinum resistance thermometer and the constant-volume gas thermometer, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: temperature scales (10 marks)
+
+**Introduction.** **Temperature** is the degree of hotness or coldness of a body. It decides the direction of heat flow: heat flows from a body at higher temperature to one at lower temperature, until **thermal equilibrium** is reached (the zeroth law of thermodynamics). Heat is energy in transit, whereas temperature is a measure of the average kinetic energy of the molecules.
+
+**Fixed points.** Any scale needs two fixed points: the **lower fixed point (ice point)**, which is the melting point of pure ice at normal pressure, and the **upper fixed point (steam point)**, which is the boiling point of pure water at normal pressure.
+
+| Scale | Ice point | Steam point | Number of divisions |
+|---|---|---|---|
+| Celsius ($^{\circ}$C) | 0 | 100 | 100 |
+| Fahrenheit ($^{\circ}$F) | 32 | 212 | 180 |
+| Kelvin (K) | 273.15 | 373.15 | 100 |
+| Reaumur ($^{\circ}$R) | 0 | 80 | 80 |
+
+**Derivation of the conversion formula.** The mercury column rises in proportion to the temperature. If a thermometer reads $C$ on the Celsius scale and $F$ on the Fahrenheit scale at the same temperature, then the fraction of the distance between the fixed points is the same on each scale:
+
+$$ \frac{C - 0}{100 - 0} = \frac{F - 32}{212 - 32} \quad\Rightarrow\quad \frac{C}{5} = \frac{F - 32}{9} $$
+
+and for the Kelvin scale $K = C + 273.15$. In general, $\dfrac{C}{5} = \dfrac{F-32}{9} = \dfrac{K-273}{5}$.
+
+**Numerical.**
+
+- Normal body temperature $98.6^{\circ}\text{F}$: $C = \tfrac{5}{9}(98.6 - 32) = 37^{\circ}\text{C}$, and $K = 310.15\ \text{K}$.
+- A hot day in Biratnagar of $40^{\circ}\text{C}$ is $F = \tfrac{9}{5}(40) + 32 = 104^{\circ}\text{F}$.
+- The temperature at which both scales show the same number: $C = F$ gives $C/5 = (C - 32)/9$, so $9C = 5C - 160$ and $C = -40$. At $-40^{\circ}$ both read the same.
+
+**Absolute zero.** The lowest possible temperature is $0\ \text{K} = -273.15^{\circ}\text{C}$, where the molecules have the minimum energy. It is the basis of the **Kelvin (absolute) scale**, one of the SI base units; the **triple point of water**, $273.16\ \text{K}$, is the defined reference.
+
+**Types of thermometer.** Liquid-in-glass (mercury, alcohol), gas thermometer, resistance thermometer, thermocouple, and the **clinical thermometer** whose constriction keeps the mercury at its highest reading.
+
+**Conclusion.** The scales differ in their fixed points and divisions but are linearly related. The Kelvin scale, with its zero at absolute zero, is the one used in all gas laws and thermodynamic equations.
+
+### Model answer D2: resistance and gas thermometers (10 marks)
+
+**Introduction.** Mercury thermometers are limited in range (-39 to 357 degrees C) and are not very precise. For accurate measurements, thermometers that use the change in a physical property are used. Two standard ones are the **platinum resistance thermometer** and the **constant-volume gas thermometer**.
+
+**Platinum resistance thermometer.**
+
+- **Principle:** the resistance of a metal increases with temperature, as $R_{t} = R_{0}(1 + \alpha t)$, where $R_{0}$ is the resistance at $0^{\circ}$C and $\alpha$ is the temperature coefficient.
+- **Construction:** a fine platinum wire is wound on a mica or ceramic frame and enclosed in a glass or silica tube. Identical **dummy leads** compensate for the resistance of the connecting wires. It is connected to a **Callendar-Griffiths bridge** (a Wheatstone bridge).
+- **Working:** the resistance is measured at the ice point ($R_{0}$), at the steam point ($R_{100}$) and at the unknown temperature ($R_{t}$). Then
+
+$$ t = \frac{R_{t} - R_{0}}{R_{100} - R_{0}}\times100\ ^{\circ}\text{C} $$
+
+- **Advantages:** wide range (-200 to 1200 degrees C), high accuracy, platinum is chemically inert and has a stable, nearly linear response.
+- **Limitations:** slow response (large mass), costly, and it cannot measure the temperature at a point.
+
+**Numerical.** A platinum thermometer has $R_{0} = 100\ \Omega$ and $\alpha = 0.00385\ ^{\circ}\text{C}^{-1}$. At $100^{\circ}$C, $R = 100(1 + 0.385) = 138.5\ \Omega$. If the resistance in a furnace pit is $119.25\ \Omega$, then $t = (119.25 - 100)/(100\times0.00385) = 50^{\circ}\text{C}$.
+
+**Constant-volume gas thermometer.**
+
+- **Principle:** at constant volume, the pressure of a fixed mass of gas is proportional to the absolute temperature, $P \propto T$.
+- **Construction:** a bulb of gas (hydrogen, helium or nitrogen) is connected by a capillary to a mercury manometer, and the mercury level in the bulb arm is adjusted to the fixed mark so that the volume stays constant.
+- **Working:** the pressure is measured at the triple point of water ($P_{tr}$) and at the unknown temperature ($P$), so that $T = 273.16\times P/P_{tr}$.
+- **Advantages:** very high accuracy, it is independent of the gas used at low pressure, and defines the ideal-gas scale of temperature.
+- **Disadvantages:** large, slow and complicated; corrections are needed for the dead space and for the expansion of the bulb.
+
+| Feature | Platinum resistance | Constant-volume gas |
+|---|---|---|
+| Property used | Electrical resistance | Pressure of a gas |
+| Range | -200 to 1200 degrees C | Near 1 K to over 1000 K |
+| Portability | Good | Poor, a laboratory standard |
+| Typical use | Industry and standard laboratory | Calibration of other thermometers |
+
+**Conclusion.** A resistance thermometer is the practical precision instrument for industry, and the gas thermometer is the primary standard for calibration.

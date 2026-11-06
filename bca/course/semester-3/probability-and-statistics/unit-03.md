@@ -111,6 +111,55 @@ f.text(372, 168, "|r| = 1 → one single line", size=10.5, color=SLATE, anchor="
 7. **Health and agriculture.** Doctors relate dose to response, and farmers relate fertiliser to yield. The slope tells how much extra yield one more kilogram of fertiliser gives. The r² value shows how much of the yield variation fertiliser explains.
 8. **Quality checks of other methods.** Calibration of a cheap instrument against an accurate one uses a regression line. An r close to 1 shows the cheap instrument is trustworthy. The residuals reveal where it fails.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Regression began with fathers and sons. (a) Sir Francis Galton, who in the 1880s measured the heights of parents and children and noticed that tall fathers had sons who were tall, but on average not as tall: heights regress towards the mean. (b) A simulation of 1,000 father-son pairs with mean height 170 cm, standard deviation 6 cm and a true correlation of 0.5 (random seed 2081). The least-squares line has slope 0.54 and the sample correlation is r = 0.53. A slope below 1 is the regression effect: the dashed line y = x is where sons would be as tall as their fathers, and the fitted line is flatter. For a 180 cm father the line predicts a son of 175.6 cm, not 180 cm."
+@ photo id="bcamath/galton" cap="Sir Francis Galton (regression, correlation)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Regression to the mean in 1,000 simulated pairs"
+import numpy as np
+rng = np.random.default_rng(2081); fa = rng.normal(170, 6, 1000); so = 170 + 0.5 * (fa - 170) + rng.normal(0, 6 * (0.75 ** 0.5), 1000)
+r = np.corrcoef(fa, so)[0, 1]; b, a = np.polyfit(fa, so, 1)
+assert round(r, 2) == 0.53 and round(b, 2) == 0.54 and round(a + b * 180, 1) == 175.6 and b < 1
+f = Fig(300, 240)
+X = lambda v: 34 + (v - 150) / 40 * 240; Y = lambda v: 196 - (v - 150) / 40 * 170
+f.line(34, 196, 274, 196, color=SLATE, sw=1.2); f.line(34, 196, 34, 26, color=SLATE, sw=1.2)
+for t in (150, 160, 170, 180, 190):
+    f.text(X(t), 210, str(t), size=10.5, color=SLATE)
+for i in range(220):
+    if 150 <= fa[i] <= 190 and 150 <= so[i] <= 190: f.circle(X(fa[i]), Y(so[i]), 2.2, fill="#93c5fd", stroke="#3b82f6", sw=0.6)
+f.line(X(150), Y(150), X(190), Y(190), color=SLATE, sw=1.4, dash=True)
+f.line(X(150), Y(a + b * 150), X(190), Y(a + b * 190), color=AMBER, sw=2.4)
+f.circle(X(180), Y(a + b * 180), 4.5, fill=RED, stroke=RED)
+f.text(X(180) + 8, Y(a + b * 180) + 18, "175.6", size=10.5, color=RED, bold=True, anchor="start")
+f.text(40, 22, "son (cm)", size=10.5, color=SLATE, anchor="start")
+f.text(150, 230, "father (cm); r = 0.53, slope 0.54 (dashed: y = x)", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="3.3" cols="2" ratio="1.2" caption="Correlation is not causation. (a) An ice-cream seller on a beach. (b) A simulation of 60 hot and cool days (seed 2081): temperature drives ice-cream sales (r = 0.84) and, because more people swim, also the number of drownings (r = 0.62). Ice-cream sales and drownings are therefore correlated too, r = 0.46, although neither causes the other. When temperature is held fixed, the partial correlation of ice cream with drownings is (0.46 - 0.84 x 0.62) / sqrt((1 - 0.84^2)(1 - 0.62^2)) = -0.16, close to zero. A hidden common cause (a confounder) can create a correlation; before you claim that one thing causes another you need an experiment or a control for the confounder."
+@ photo id="bcamath/icecream" cap="An ice-cream cart on the beach"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="A confounder creates a correlation"
+import numpy as np
+rng = np.random.default_rng(2081); T = rng.uniform(15, 38, 60); ice = 20 + 3 * T + rng.normal(0, 12, 60); dr = 0.1 * T + rng.normal(0, 0.9, 60)
+r = lambda a, b: np.corrcoef(a, b)[0, 1]
+r1, r2, r12 = r(T, ice), r(T, dr), r(ice, dr)
+part = (r12 - r1 * r2) / ((1 - r1 ** 2) * (1 - r2 ** 2)) ** 0.5
+assert (round(r1, 2), round(r2, 2), round(r12, 2), round(part, 2)) == (0.84, 0.62, 0.46, -0.16)
+f = Fig(300, 240)
+f.box(95, 14, 110, 30, "Temperature", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(8, 130, 120, 30, "Ice-cream sales", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(190, 130, 100, 30, "Drownings", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(120, 44), (68, 130)], color=AMBER, sw=2); f.arrow([(180, 44), (240, 130)], color=AMBER, sw=2)
+f.line(128, 145, 190, 145, color=RED, sw=2, dash=True)
+f.box(70, 66, 40, 20, "0.84", fill=SOFT, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(190, 66, 40, 20, "0.62", fill=SOFT, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(139, 135, 40, 20, "0.46", fill=SOFT, stroke=RED, size=10.5, bold=True, r=3)
+f.text(150, 190, "partial r (ice cream, drownings | temperature) = -0.16", size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "dashed link is only a confounder effect", size=10.5, color=RED, bold=True)
+f.text(150, 230, "60 simulated days", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - r = Sxy/√(Sxx·Syy); −1 ≤ r ≤ 1; r² = proportion explained.

@@ -184,6 +184,33 @@ CI = Rs 4,200. Difference = **Rs 200** — the same as $P(R/100)^2$ = 20000 × 0
 difference is the interest on the first year's interest.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Why compound interest beats simple interest. (a) An old Nepali paper banknote: money kept in a bank earns interest, and the way interest is counted decides how fast it grows. (b) Rs 10,000 at 10 per cent a year. Simple interest adds the same Rs 1,000 every year (SI = PRT/100), so the amount is a straight line. Compound interest earns interest on interest, A = P(1 + r/100)^t, a curve that bends upwards. After 3 years the two differ by only Rs 310 (13,310 against 13,000) but after 10 years compound interest gives Rs 25,937 against Rs 20,000. The money doubles in ln 2 / ln 1.1 = 7.27 years, which the rule of 72 (72 / 10 = 7.2) estimates quickly."
+@ photo id="ceemat/rupee" cap="An old Nepali paper banknote"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rs 10,000 at 10 per cent: simple against compound"
+import math
+P0, r = 10000, 0.10
+si = lambda t: P0 * (1 + r * t)
+ci = lambda t: P0 * (1 + r) ** t
+t2 = math.log(2) / math.log(1 + r)
+assert round(si(3)) == 13000 and round(ci(3)) == 13310 and round(ci(10)) == 25937 and round(si(10)) == 20000
+assert abs(t2 - 7.27) < 0.005 and abs(ci(t2) - 20000) < 1e-6
+f = Fig(300, 236)
+f.text(150, 12, "Rs 10,000 at 10% a year", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 28, 230, 150, (0, 10), (10000, 26000))
+ax.grid(2, 5000, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%dk" % (v // 1000)).axes("yr", "Rs")
+ax.curve(si, 0, 10, color=TEAL)
+ax.curve(ci, 0, 10, color=RED)
+ax.pt(t2, 20000, "doubles in 7.3 yr", dx=-8, dy=-8, anchor="end")
+f.line(58, 42, 78, 42, color=RED, sw=2.2)
+f.text(84, 42, "compound (CI)", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.line(58, 58, 78, 58, color=TEAL, sw=2.2)
+f.text(84, 58, "simple (SI)", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "3 years: CI Rs 13,310 against SI Rs 13,000", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "10 years: CI Rs 25,937 against SI Rs 20,000", size=10.5, color=SLATE, bold=True)
+```
+
 ## 2.3 Time and work, speed, distance and time
 
 ### Time and work
@@ -245,6 +272,32 @@ does it take?
 **Solution.** Equal distances: 2 × 30 × 20/(30 + 20) = 1200/50 = **24 km/h**, not 25.
 (Take the distance as 60 km: 2 h out, 3 h back, 120 km in 5 h = 24 km/h.)
 :::
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Average speed is not the average of the speeds. (a) A red city bus in Kathmandu. (b) A bus climbs a hill at 40 km/h and returns at 60 km/h. The simple mean of the speeds is 50 km/h, but the bus spends longer on the slow leg, so the true average is total distance over total time = 2 x 40 x 60 / (40 + 60) = 48 km/h (the harmonic mean). Check with 120 km each way: 3 h up and 2 h down is 5 h for 240 km, again 48. The red curve stays below the dashed line of simple means for every return speed except 40, where both give 40. Use the harmonic mean whenever equal distances are covered at different speeds, and the ordinary mean when equal times are used."
+@ photo id="ceemat/bus" cap="A red city bus in Kathmandu"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Out at 40 km/h, back at v: average speed"
+u = 40
+hm = lambda v: 2 * u * v / (u + v)
+am = lambda v: (u + v) / 2
+assert hm(60) == 48 and am(60) == 50 and hm(40) == 40
+d = 120
+assert abs(2 * d / (d / 40 + d / 60) - 48) < 1e-9 and d / 40 + d / 60 == 5
+f = Fig(300, 236)
+f.text(150, 12, "Average speed, out at 40 km/h", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 28, 230, 150, (0, 120), (0, 80))
+ax.grid(20, 20).axes("v back", "avg")
+ax.curve(hm, 1, 120, color=RED)
+ax.curve(am, 0, 120, color=AMBER, dash=True)
+ax.pt(60, 48, "48", dx=6, dy=16)
+f.line(58, 42, 78, 42, color=RED, sw=2.2)
+f.text(84, 42, "true (harmonic)", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.line(58, 58, 78, 58, color=AMBER, sw=2.2, dash=True)
+f.text(84, 58, "simple mean", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "up 40, down 60 km/h: average 48, not 50", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "120 km each way: 3 h + 2 h = 5 h for 240 km", size=10.5, color=SLATE, bold=True)
+```
 
 ## 2.4 Ages, mixtures and number properties
 
@@ -589,3 +642,63 @@ a legitimate and fast method.
 **10.** (c) — Son s, father 3s: 3s + 10 = 2(s + 10) gives s = 10, so the father is 30. Check: in 10 years, 40 = 2 × 20.
 **11.** (d) — Two years' interest = 8400 − 7200 = 1,200, so Rs 600 a year. P = 7200 − 1200 = 6,000; R = 600/6000 × 100 = 10 %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Solve problems on percentage, ratio, averages, profit and loss and simple and compound interest, showing the method and a check. <span class="marks">[10]</span>
+2. Solve problems on time and work, speed and distance, ages and mixtures, showing the shortcut and the check. <span class="marks">[10]</span>
+
+### Model answer D1: Percentages, averages, profit and interest (10 marks)
+
+**Introduction.** Most MAT arithmetic uses a few formulae. The skill is to choose the right one and to avoid slips.
+
+**1. Successive percentages.** A price rises by 20% and then falls by 20%. The multiplier is 1.20 × 0.80 = 0.96, so the net change is **−4%** (a loss), not zero. Take any base, say Rs 100: 100 → 120 → 96.
+
+**2. Averages.** *Weighted average:* 30 students average 60 and 20 students average 70, so the mean of all 50 is (30 × 60 + 20 × 70) ÷ 50 = 3200 ÷ 50 = **64**. *New member:* five numbers average 20 (sum 100); adding 26 gives a sum of 126 over 6 numbers, so the new average is **21**.
+
+**3. Profit and loss.** Profit % = (SP − CP) ÷ CP × 100.
+
+| Problem | Working | Answer |
+|---|---|---|
+| CP = Rs 800, SP = Rs 920 | (120 ÷ 800) × 100 | 15% profit |
+| Marked price Rs 500, 10% discount | 500 × 0.90 | Rs 450 |
+| Discount + profit: CP 400, wanted profit 25% | SP = 400 × 1.25 | Rs 500 |
+
+Discount is always on the **marked price**; profit is on the **cost price**.
+
+**4. Interest.** Simple interest SI = PRT ÷ 100. Compound amount A = P(1 + r/100)^n. For Rs 10,000 at 10% for 2 years:
+
+| Type | Result |
+|---|---|
+| SI | 10,000 × 10 × 2 ÷ 100 = Rs 2,000 |
+| Amount (CI) | 10,000 × 1.1² = Rs 12,100, so CI = Rs 2,100 |
+| Difference | CI − SI = Rs 100 |
+
+**Shortcut.** For 2 years the difference between CI and SI is P(r/100)² = 10,000 × (0.1)² = Rs 100, which matches.
+
+**5. Ratio.** If incomes of two people are in the ratio 3 : 5 and their total is Rs 24,000, the shares are 24,000 ÷ 8 = 3,000 per part, so Rs 9,000 and Rs 15,000.
+
+**Conclusion.** Convert percentages to multipliers and always check one answer by a quick reverse calculation.
+
+### Model answer D2: Work, speed, ages and mixtures (10 marks)
+
+**Introduction.** These problems use *rates*: work per day, distance per hour, and the share of a quantity.
+
+**1. Time and work.** Work done per day = 1 ÷ days. A finishes a job in 12 days and B in 18 days. Together, per day: 1/12 + 1/18 = 5/36, so they take 36/5 = **7.2 days**. Shortcut: (12 × 18) ÷ (12 + 18) = 216 ÷ 30 = 7.2 days.
+
+**2. Speed and distance.**
+
+| Case | Working | Answer |
+|---|---|---|
+| Train 150 m long at 54 km/h passes a 250 m platform | speed = 54 × 5/18 = 15 m/s; distance = 150 + 250 = 400 m | 400 ÷ 15 = **26.7 s** |
+| Two trains in opposite directions, 60 and 40 km/h | relative speed = 60 + 40 | 100 km/h |
+| Equal distances at 60 and 40 km/h | average = 2 × 60 × 40 ÷ (60 + 40) | **48 km/h** (not 50) |
+| Boat in still water 12 km/h, stream 3 km/h, 36 km each way | downstream 15, upstream 9 | 36/15 + 36/9 = 2.4 + 4 = **6.4 h** |
+
+**3. Ages.** The father is 4 times as old as his son. After 5 years he will be 3 times as old. Let the son be x: 4x + 5 = 3(x + 5), so x = 10 and the father is 40. Check: 45 = 3 × 15.
+
+**4. Mixtures (alligation).** To make a 30% solution from 20% and 50% solutions, take the distance of each from the target: (50 − 30) : (30 − 20) = 20 : 10 = **2 : 1**, so mix **2 parts of the 20% solution with 1 part of the 50% solution**. Check: (2 × 20 + 1 × 50) ÷ 3 = 90 ÷ 3 = 30.
+
+**5. Estimation.** Round numbers, compute, and compare with the options: 49 × 51 ≈ 50 × 50 = 2,500, so the exact answer 2,499 must be close to 2,500.
+
+**Conclusion.** Write each situation as a rate, compute with a shortcut formula, and always verify with the original statement.

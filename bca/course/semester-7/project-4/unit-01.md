@@ -196,6 +196,31 @@ For SikshyaSignal the chart gives: a single rule exists (attendance below 70) bu
 7. **Nobody plans for change.** Next year's batch behaves differently and the model slowly gets worse. Store predictions and outcomes, and compute a drift measure (Unit 4) so the college knows when to retrain.
 8. **The defence is a surprise.** The student reads slides and cannot answer "why logistic regression?" or "what if the data is biased?". Prepare the twelve viva questions in Unit 5 and rehearse the demo twice, including the case where the network fails.
 
+```photogrid label="1.6" cols="2" ratio="1.27" caption="In a dataset where only 12 per cent of students fail, accuracy is a trap. (a) The students a capstone model is meant to describe. (b) Among 1,000 students, 120 fail. A model that simply predicts that everyone passes is right for 88% of them, yet it finds none of the failing students, so its recall and precision are zero. A trained model that catches 84 of the 120 and raises 60 false alarms scores 90.4% accuracy, which looks only slightly better, but its recall is 70% and its precision is 58%. The extra metrics show the real gain. Always compare against the majority-class baseline before you report a score in the viva."
+@ photo id="bcapj/sankhu-school" cap="Students at a school in Sankhu: the population a capstone model describes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The accuracy trap on 1000 students, 120 failing"
+N, FAIL = 1000, 120
+acc0 = (N - FAIL) / N * 100
+TP, FN, FP = 84, FAIL - 84, 60
+TN = N - FAIL - FP
+acc1 = (TP + TN) / N * 100
+rec1 = TP / (TP + FN) * 100
+pre1 = TP / (TP + FP) * 100
+assert abs(acc0 - 88.0) < 1e-9 and abs(acc1 - 90.4) < 1e-9 and abs(rec1 - 70.0) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Always predict pass", size=10.5, color=RED, bold=True)
+hbars(f, [("accuracy", acc0), ("recall", 0.0), ("precision", 0.0)], vmax=100, fmt="%.0f", x0=70, y0=24, bw=190, gap=22,
+      colors=[(ROSE, RED), (ROSE, RED), (ROSE, RED)], size=9.5)
+f.text(150, 116, "Trained model (TP %d, FN %d, FP %d)" % (TP, FN, FP), size=10.5, color=TEAL, bold=True)
+hbars(f, [("accuracy", acc1), ("recall", rec1), ("precision", pre1)], vmax=100, fmt="%.0f", x0=70, y0=126, bw=190, gap=22,
+      colors=[(MINT, TEAL), (MINT, TEAL), (MINT, TEAL)], size=9.5)
+f.text(150, 210, "88 percent accuracy, yet it finds no one", size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "report recall and precision as well", size=10, color=SLATE, bold=True)
+facts = dict(a0=acc0, a1=acc1, r1=rec1, p1=pre1)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |

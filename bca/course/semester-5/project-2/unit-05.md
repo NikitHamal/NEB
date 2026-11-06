@@ -146,6 +146,53 @@ If you do not know an answer, say so, then reason aloud from first principles. E
 7. **Prepare the room.** Arrive early, test the projector and the network, open the pages in tabs, and keep test data ready. Ten minutes of preparation prevents most demo disasters.
 8. **Credit your sources.** List every library, image, tutorial and licence in the references. Under the Copyright Act of Nepal, 2059 (2002) and standard academic rules, copying without credit is plagiarism and costs far more than the marks you hoped to gain.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Documentation that tells the truth. (a) A signpost is useful only while it matches the road: one wrong arrow and travellers lose trust in all of them. (b) ClinicQ registers each endpoint with a decorator, and a small script reads the real function signatures with Python's inspect module to print the API page. When a developer adds a priority field to POST /tokens, the generated page shows 3 parameters at once, while a hand-copied page still says 2: it is wrong for 1 of 3 endpoints and nobody notices until the examiner tries the call. This is the idea behind OpenAPI pages in frameworks such as FastAPI, and for the viva it means one thing: generate the documentation from the code and run it before every demo."
+@ photo id="bcapj/signpost" cap="A signpost: written once, must match the road"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Docs generated from code cannot go stale"
+import inspect
+routes = {}
+def route(method, path):
+    def deco(fn):
+        routes[(method, path)] = fn
+        return fn
+    return deco
+@route("POST", "/patients")
+def create_patient(name: str, phone: str):
+    "Create a patient."
+@route("GET", "/tokens/{id}")
+def get_token(id: int):
+    "Return one token."
+@route("POST", "/tokens")
+def issue_token(patient_id: int, dept: str):
+    "Issue the next token."
+def doc():
+    return {k: len(inspect.signature(fn).parameters) for k, fn in routes.items()}
+hand = doc()
+@route("POST", "/tokens")
+def issue_token(patient_id: int, dept: str, priority: int):
+    "Issue the next token."
+gen = doc()
+stale = [k for k in hand if hand[k] != gen[k]]
+assert len(stale) == 1 and len(gen) == 3
+facts = dict(n=len(gen), stale=len(stale))
+f = Fig(300, 236)
+f.text(150, 12, "Parameters per endpoint", size=10.5, color=NAVY, bold=True)
+f.text(150, 40, "hand-written", size=10.5, color=AMBER, bold=True, anchor="middle")
+f.text(238, 40, "generated", size=10.5, color=TEAL, bold=True, anchor="middle")
+f.text(62, 40, "endpoint", size=10.5, color=SLATE, bold=True, anchor="middle")
+for i, k in enumerate(gen):
+    y = 50 + i * 36
+    bad = k in stale
+    f.box(4, y, 116, 28, "%s %s" % k, fill=BLUE, stroke=NAVY, size=10.5, r=3, sw=1)
+    f.box(132, y, 70, 28, str(hand[k]), fill="#fecaca" if bad else "#f1f5f9", stroke=RED if bad else SLATE, size=12, bold=True, r=3, sw=1)
+    f.box(214, y, 70, 28, str(gen[k]), fill="#bbf7d0", stroke=TEAL, size=12, bold=True, r=3, sw=1)
+f.text(150, 176, "developer adds one field: priority", size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "hand-written page is wrong for %d of %d" % (len(stale), len(gen)), size=10.5, color=RED, bold=True)
+f.text(150, 214, "generated page is right for all %d" % len(gen), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Report: front matter, 7 chapters (introduction to conclusion), references, appendices; the college template wins.

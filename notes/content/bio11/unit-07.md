@@ -1153,6 +1153,33 @@ evolution**: agriculture from about 10,000 years ago, then writing and science.
 6. **Tool making → fire → speech → agriculture**: culture replaces biology.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.27" caption="Brain size is one of the clearest trends in human evolution, together with upright posture and smaller jaws. (a) A cast of a Homo erectus skull, with a heavy brow ridge and a sloping forehead. (b) The bars show the cranial capacity ranges given in this chapter, with the middle value printed at the end of each bar. The mid value rises from about 450 cm3 in Australopithecus to about 1,400 cm3 in Homo sapiens, which is 3.1 times larger, an average gain of about 288 cm3 in every million years if the interval is taken as 3.3 million years. The Neanderthal range is as large as ours, so brain organisation also mattered, not size alone."
+@ photo id="bio11/erectus" cap="Cast of a Homo erectus skull"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Cranial capacity of fossil hominins (cm3)"
+rows = [("Dryopithecus", 400, 400, SLATE), ("Australopithecus", 400, 500, AMBER), ("Homo habilis", 650, 800, AMBER), ("Homo erectus", 800, 1100, TEAL), ("Neanderthal", 1300, 1600, NAVY), ("Homo sapiens", 1350, 1450, RED)]
+mid = {nm: (lo + hi) / 2.0 for nm, lo, hi, _ in rows}
+gain = mid["Homo sapiens"] / mid["Australopithecus"]
+rate = (mid["Homo sapiens"] - mid["Australopithecus"]) / 3.3
+assert abs(gain - 3.11) < 0.01
+f = Fig(300, 236)
+f.text(150, 14, "Brain size through human evolution", size=10.5, color=NAVY, bold=True)
+sc = 180.0 / 1800
+for i, (nm, lo, hi, c) in enumerate(rows):
+    y = 28 + i * 26
+    f.text(6, y + 9, nm, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.box(102 + lo * sc, y, max(4, (hi - lo) * sc), 18, "", fill=c, stroke=c, r=2)
+    f.text(102 + hi * sc + 4, y + 9, "%d" % mid[nm], size=9.5, color=SLATE, anchor="start", vmid=True)
+f.line(102, 186, 282, 186, color=SLATE, sw=1.2)
+for v in (0, 500, 1000, 1500):
+    f.line(102 + v * sc, 186, 102 + v * sc, 191, color=SLATE, sw=1.2)
+    f.text(102 + v * sc, 202, str(v), size=9.5, color=SLATE)
+f.text(150, 218, "H. sapiens / Australopithecus = %.1f x" % gain, size=10.5, color=RED, bold=True)
+f.text(150, 232, "about %.0f cm3 gained per million years" % rate, size=10, color=NAVY)
+facts = dict(gain="%.1f" % gain, rate="%.0f" % rate)
+```
+
 ## Chapter summary
 
 - Life arose once, by **chemical evolution** under a reducing, oxygen-free
@@ -1305,3 +1332,154 @@ ridges and appearance of a chin; forward shift of the foramen magnum with an
 S-shaped spine, broad pelvis and arched foot; and tool making, fire and speech, so
 that cultural evolution replaces biological.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the origin of life according to the chemical evolution theory, with the Miller-Urey experiment. <span class="marks">[10]</span>
+2. Compare Lamarckism and Darwinism, and explain Darwin's theory of natural selection with an example. <span class="marks">[10]</span>
+3. Describe the evidences of organic evolution from comparative anatomy, embryology, palaeontology and biogeography. <span class="marks">[10]</span>
+4. Describe the stages of human evolution with the characters of each. <span class="marks">[10]</span>
+
+### Model answer D1: origin of life (10 marks)
+
+**Introduction.** The Earth is about **4.6 billion years** old, and the earliest known life (stromatolite bacteria) is about **3.5 billion years** old. Several ideas have been proposed: special creation, spontaneous generation, panspermia, and **chemical evolution**, which is the accepted scientific theory.
+
+**Earlier theories.** *Spontaneous generation* (life from non-living matter, such as maggots from meat) was disproved by **Francesco Redi (1668)** and finally by **Louis Pasteur (1862)** with his swan-neck flask. *Panspermia* (Arrhenius) says that life came from space, but this does not explain its origin.
+
+**Chemical evolution (Oparin-Haldane hypothesis, 1924-1929).**
+
+1. The **early atmosphere was reducing**: it had **CH₄, NH₃, H₂ and water vapour** (and CO₂, N₂) but **no free oxygen**.
+2. The energy from **lightning, ultraviolet rays, volcanic heat and radioactivity** caused these gases to react and form simple **organic molecules** (amino acids, sugars, nitrogen bases).
+3. These collected in the warm oceans, forming the **"primordial soup"** (a hot dilute soup).
+4. The molecules joined to form **polymers** (proteins, nucleic acids) on clay and other surfaces.
+5. The polymers aggregated into **coacervates** (Oparin) or **microspheres** (Fox), droplets with a boundary that could take in substances.
+6. The first **protocells** developed the ability to reproduce, probably from an **RNA world**, where RNA served as both genetic material and enzyme (ribozyme).
+7. The first cells were **anaerobic heterotrophs**, which later gave rise to **autotrophs** (cyanobacteria) that released oxygen and led to aerobic life.
+
+**Miller-Urey experiment (1953).**
+
+- **Apparatus:** a closed glass system with a flask of boiling water (the ocean), a chamber with **CH₄, NH₃ and H₂** (the atmosphere), **electric sparks** (lightning) between two electrodes, and a condenser that cooled the vapour back to a trap.
+- **Procedure:** the mixture was circulated for a week.
+- **Result:** the water turned brown, and analysis showed **amino acids (glycine, alanine, aspartic acid)**, and other organic compounds such as urea and lactic acid.
+- **Conclusion:** organic molecules can form from inorganic gases under early-Earth conditions.
+
+| Stage | Event | Evidence |
+|---|---|---|
+| 1 | Formation of simple organics | Miller-Urey |
+| 2 | Polymers from monomers | Fox's proteinoids |
+| 3 | Protocells (coacervates) | Oparin's experiments |
+| 4 | RNA world | Ribozymes |
+| 5 | First cells, then photosynthesis | Stromatolites, 3.5 bya |
+
+**Criticism.** The early atmosphere may have been less reducing than Miller assumed, and the origin of the genetic code is not yet understood.
+
+**Conclusion.** Life most probably originated through a long chemical evolution from simple inorganic molecules to organic molecules and then to protocells, and the Miller-Urey experiment gave experimental support to this idea.
+
+### Model answer D2: Lamarckism and Darwinism (10 marks)
+
+**Introduction.** Evolution is the gradual change in living organisms over generations. Two early theories of its mechanism were those of **Jean-Baptiste Lamarck (1809)** and **Charles Darwin (1859)**.
+
+**Lamarck's theory (inheritance of acquired characters).**
+
+1. **Internal vital force** tends to increase the size of the organism.
+2. The **environment** creates new needs.
+3. **Use and disuse:** organs that are used grow; unused organs shrink.
+4. **Inheritance of acquired characters:** the changes acquired by a parent are passed on to the offspring.
+Example: the **giraffe** stretched its neck to reach high leaves, and the longer neck was inherited.
+**Criticism:** August **Weismann** cut off the tails of mice for 22 generations, but the young were always born with tails; acquired characters in body cells are not inherited by the gametes. Circumcision does not alter the next generation.
+
+**Darwin's theory of natural selection (*On the Origin of Species*, 1859).** It was based on observations in the Galápagos Islands (finches) and the essay of Malthus on population.
+
+1. **Overproduction:** organisms produce more offspring than can survive.
+2. **Struggle for existence:** among members for food, space and mates, with enemies and with the environment.
+3. **Variation:** individuals of a species differ, and some variations are heritable.
+4. **Survival of the fittest (natural selection):** the individuals with favourable variations survive and breed.
+5. **Inheritance:** the favourable traits are passed to the offspring.
+6. **Speciation:** over many generations, the accumulation of variations produces a new species.
+
+**Example: industrial melanism.** In Manchester, before 1850 the peppered moth (*Biston betularia*) was mostly light. After soot darkened the tree trunks, dark moths were hidden from birds and survived; by 1900 they were 98% of the population. When the air cleaned, the light form returned.
+
+**Limitations of Darwinism.** It did not explain the **source of variation** or how traits are inherited, since genetics was not known; it did not explain the survival of vestigial organs. **Neo-Darwinism (modern synthesis)** adds genetics: **mutation, recombination, gene flow, genetic drift and natural selection** act on the gene pool.
+
+| Feature | Lamarckism | Darwinism |
+|---|---|---|
+| Cause of change | Need and use or disuse | Natural selection of heritable variation |
+| Acquired characters | Inherited | Not inherited |
+| Variations | Produced by the environment | Present already in the population |
+| Giraffe's neck | Stretching gave a long neck | Long-necked variants survived better |
+| Role of environment | Directs change | Selects among variations |
+| Present status | Rejected | Accepted (as neo-Darwinism) |
+
+**Conclusion.** Lamarck first proposed a mechanism but was incorrect about inheritance. Darwin's natural selection, combined with modern genetics, is the foundation of evolutionary biology.
+
+### Model answer D3: evidences of organic evolution (10 marks)
+
+**Introduction.** Evolution is supported by several independent lines of evidence from different branches of biology.
+
+**1. Comparative anatomy.**
+
+- **Homologous organs** have the same basic structure and origin but different functions: the forelimb of a human, whale, bat and horse. They show **divergent evolution** from a common ancestor.
+- **Analogous organs** have different structure but the same function: the wings of a bird and an insect. They show **convergent evolution**.
+- **Vestigial organs** are reduced, functionless remains of organs that were useful in ancestors: the **appendix, wisdom teeth, the coccyx and the ear muscles** of humans, the hind limb bones of whales.
+- **Atavism:** the reappearance of an ancestral trait, such as a human baby born with a tail.
+
+**2. Comparative embryology (Haeckel's biogenetic law).** Embryos of vertebrates (fish, frog, bird, human) look alike in early stages, with **gill slits and a tail**; they diverge later. "Ontogeny recapitulates phylogeny" is a simplification, but the similarity shows a common ancestry.
+
+**3. Palaeontology (fossils).** Fossils in layers of rock show a sequence from simple to complex forms. **Missing links** and **connecting links** are important.
+
+- ***Archaeopteryx*:** a bird with reptile features (teeth, tail, claws) and feathers, linking reptiles with birds.
+- **Evolution of the horse:** *Eohippus* (small, four toes) → *Mesohippus* → *Merychippus* → *Pliohippus* → ***Equus*** (large, one toe).
+- The **age of fossils** is found by **radiocarbon dating** and by potassium-argon dating.
+
+**4. Biogeography.** The distribution of species supports evolution: marsupials are found mainly in Australia, since it was separated early from other continents; the finches of the Galápagos adapted into 13 species with different beaks.
+
+**5. Molecular biology and biochemistry.** All organisms use the same **DNA, genetic code** and ATP. The **amino acid sequence of cytochrome c** and haemoglobin differs little between humans and chimpanzees (human and chimp DNA are about 98.8% similar), while it differs more for distant species.
+
+**6. Adaptive radiation and direct observation.** Antibiotic resistance in bacteria, pesticide resistance in insects, and industrial melanism are evolution observed in our lifetime.
+
+| Evidence | Example | Shows |
+|---|---|---|
+| Homologous organs | Forelimbs of mammals | Common ancestry |
+| Analogous organs | Wings of a bird and an insect | Convergent evolution |
+| Vestigial organs | Human appendix | Descent from ancestors that used them |
+| Fossils | *Archaeopteryx* | Intermediate forms |
+| Molecular | Cytochrome c sequence | Degree of relationship |
+
+**Conclusion.** Evidence from anatomy, embryology, fossils, geography and molecules all point in the same direction: living things share common ancestors and have changed through time.
+
+### Model answer D4: human evolution (10 marks)
+
+**Introduction.** Humans (*Homo sapiens*) belong to the order **Primates**, and share a **common ancestor** with the chimpanzee that lived about 6 to 7 million years ago. We did not descend from modern apes. The fossil record from Africa traces the line.
+
+**Trends in human evolution.**
+
+1. Increase in **brain size** (from 400 cc to 1350 cc).
+2. **Upright (bipedal) posture** and walking.
+3. Reduction of **jaw and teeth**, and of the brow ridges.
+4. A flatter face, and a **chin**.
+5. Free hands with an **opposable thumb** for tools.
+6. Development of **speech, culture and technology**.
+
+**Main stages.**
+
+| Species | Time (million years ago) | Brain size (cc) | Key features |
+|---|---|---|---|
+| *Australopithecus afarensis* ("Lucy") | 3.9-2.9 | 400-500 | Bipedal, small brain, ape-like face |
+| *Homo habilis* ("handy man") | 2.4-1.5 | 600-700 | First stone tools, bigger brain |
+| *Homo erectus* | 1.9-0.1 | 800-1100 | Upright, used fire, migrated out of Africa |
+| *Homo neanderthalensis* | 0.4-0.04 | 1200-1750 | Stocky, cold-adapted, burial of dead |
+| *Homo sapiens* (modern humans) | 0.3 to now | about 1350 | High forehead, chin, art, language |
+
+**Notes on each stage.**
+
+1. ***Australopithecus*:** "southern ape" of East Africa; footprints at Laetoli prove two-legged walking; brain similar to a chimpanzee's.
+2. ***Homo habilis*:** discovered by Leakey at Olduvai Gorge; made **Oldowan** stone tools.
+3. ***Homo erectus* (Java man, Peking man):** used fire and Acheulean hand axes, lived in groups and **spread to Asia and Europe**.
+4. **Neanderthals:** lived in Europe and Asia, with a heavy brow ridge and a large brain, made advanced tools and cared for the injured, and became extinct about 40,000 years ago; modern non-African people carry 1-2% of their DNA.
+5. **Cro-Magnon (early *H. sapiens*):** arose in Africa, about 300,000 years ago, made cave paintings, needles, and spoke language.
+
+**Out-of-Africa model.** Modern humans originated in Africa and migrated to the rest of the world about 70,000 years ago. Genetic studies of mitochondrial DNA support this.
+
+**Cultural evolution.** Stone tools → fire → agriculture (about 10,000 years ago) → cities → writing → science. In Nepal the Neolithic tools found in the Kathmandu valley show early settlement.
+
+**Conclusion.** Human evolution is a story of increasing brain size and upright posture, shown by a series of fossils in Africa. Our species is the last survivor of a once-bushy family tree.

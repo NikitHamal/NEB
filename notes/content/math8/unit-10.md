@@ -560,6 +560,18 @@ $3x^2y$ ✓. LCM: numbers—18; $x$—$x^3$; $y$—$y^2$; so $18x^3y^2$ ✓.
 **15.** $x^2-y^2=(x+y)(x-y)$ and $xy-y^2=y(x-y)$. HCF $=x-y$; LCM $=y(x+y)(x-y)$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Factorise: (a) $6x^2y-9xy^2$, (b) $x^3-3x^2+2x-6$, (c) $x^2+7x+12$, (d) $4a^2-25b^2$. <span class="marks">[5]</span>
+2. Find the HCF and the LCM of $6x^2-6$ and $3x^2+6x+3$ by factorising each expression first. <span class="marks">[5]</span>
+3. (a) Expand $(2a+3b)^2$. (b) Using identities, find the values of $103^2$ and $98\times102$. (c) If $a+b=7$ and $ab=12$, find $a^2+b^2$ and $(a-b)^2$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) The common factor is $3xy$: $6x^2y-9xy^2=3xy(2x-3y)$. (b) Group in pairs: $x^2(x-3)+2(x-3)=(x-3)(x^2+2)$. (c) Find two numbers with product 12 and sum 7: 3 and 4, so $(x+3)(x+4)$. (d) A difference of two squares: $(2a)^2-(5b)^2=(2a+5b)(2a-5b)$.
+**2.** $6x^2-6=6(x^2-1)=6(x-1)(x+1)$ and $3x^2+6x+3=3(x^2+2x+1)=3(x+1)^2$. HCF $=3(x+1)$ (the greatest common numerical factor 3, and the factor $x+1$ taken at its lower power). LCM $=6(x-1)(x+1)^2$ (the least common multiple of 6 and 3, and each factor at its highest power). **Check:** HCF $\times$ LCM $=18(x-1)(x+1)^3$, and the product of the two expressions $=6(x-1)(x+1)\times3(x+1)^2=18(x-1)(x+1)^3$ ✓.
+**3.** (a) $(2a+3b)^2=(2a)^2+2(2a)(3b)+(3b)^2=4a^2+12ab+9b^2$. (b) $103^2=(100+3)^2=10000+600+9=10609$. $98\times102=(100-2)(100+2)=100^2-2^2=10000-4=9996$. (c) $a^2+b^2=(a+b)^2-2ab=49-24=25$. $(a-b)^2=(a+b)^2-4ab=49-48=1$. **Check:** $a=4,\ b=3$ gives $16+9=25$ and $(4-3)^2=1$ ✓.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

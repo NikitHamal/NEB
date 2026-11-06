@@ -577,6 +577,32 @@ $$ \beta = \frac{I_C}{I_B} = \frac{1.96}{0.04} = 49
 \quad\left(\text{check: } \frac{\alpha}{1-\alpha} = \frac{0.98}{0.02} = 49\right) $$
 :::
 
+```photogrid label="22.P" cols="2" ratio="1.2" caption="Why the full-wave rectifier is preferred. (a) A bridge package holds four diodes so that both half cycles of the alternating voltage are used. (b) For a 12 V r.m.s. supply, whose peak is 16.97 V, the cell finds the mean output of a half-wave rectifier to be Vpk / pi = 5.40 V and that of a full-wave rectifier 2 Vpk / pi = 10.80 V, twice as much. The rectification efficiency is 40.5 per cent for half-wave and 81.1 per cent for full-wave, and the ripple factor falls from 1.21 to 0.483. A smoothing capacitor is still needed to reduce the remaining ripple, and the ripple frequency is 100 Hz instead of 50 Hz, which is easier to filter."
+@ photo id="ceephy3/bridge" cap="A bridge rectifier made of four diodes in one package"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Half-wave and full-wave rectifier compared"
+import math
+Vpk = 12 * math.sqrt(2)
+half, full = Vpk / math.pi, 2 * Vpk / math.pi
+eta_h, eta_f = 4 / math.pi ** 2 * 100, 8 / math.pi ** 2 * 100
+rip_h = math.sqrt((math.pi ** 2 / 4) - 1)
+rip_f = math.sqrt((math.pi ** 2 / 8) - 1)
+assert round(half, 2) == 5.40 and round(full, 2) == 10.80 and round(rip_h, 2) == 1.21 and round(rip_f, 3) == 0.483
+f = Fig(300, 236)
+f.text(150, 12, "Rectifier on a 12 V r.m.s. supply", size=10.5, color=NAVY, bold=True)
+f.text(150, 30, "mean (d.c.) output voltage, V", size=10, color=SLATE, bold=True)
+hbars(f, [("half-wave", half), ("full-wave", full)], vmax=12, fmt="%.2f", x0=66, y0=38, bw=170, gap=26,
+      colors=[(SAND, AMBER), (MINT, TEAL)])
+f.text(150, 108, "rectification efficiency, per cent", size=10, color=SLATE, bold=True)
+hbars(f, [("half-wave", eta_h), ("full-wave", eta_f)], vmax=90, fmt="%.1f", x0=66, y0=116, bw=170, gap=26,
+      colors=[(SAND, AMBER), (MINT, TEAL)])
+f.text(150, 186, "ripple factor: half-wave %.2f, full-wave %.3f" % (rip_h, rip_f), size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "(diode drops ignored)", size=10, color=SLATE, bold=True)
+f.text(150, 220, "full wave uses both half cycles", size=10, color=SLATE, bold=True)
+facts = dict(h=half, f=full, eh=eta_h, ef=eta_f, rh=rip_h, rf=rip_f)
+```
+
 ## Chapter summary
 
 - Diffusion across a p-n junction leaves a depletion region of immobile ions and
@@ -679,3 +705,67 @@ $I_{dc} = V_{dc}/R_L = 21.6\ \text{mA}$.
 Advantage: no centre-tapped transformer is needed, and the PIV per diode is only
 $V_m$ instead of $2V_m$, so cheaper diodes can be used for the same output.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain, with a circuit diagram description, the working of a full-wave bridge rectifier, and calculate its output with and without a filter. <span class="marks">[10]</span>
+2. Explain the working of an n-p-n transistor as a common-emitter amplifier and define its current gains. <span class="marks">[10]</span>
+
+### Model answer D1: the full-wave bridge rectifier (10 marks)
+
+**Introduction.** A **rectifier** converts alternating current into direct current. A p–n junction diode conducts only when it is forward biased, so it can be used for this purpose. A **full-wave** rectifier uses both half-cycles of the input.
+
+**Circuit.** Four diodes $D_{1}$–$D_{4}$ form a bridge. The a.c. supply (from the secondary of a transformer) is joined to two opposite corners of the bridge, and the load resistor $R_{L}$ is connected across the other two corners.
+
+**Working.**
+
+1. **Positive half-cycle.** The upper input terminal is positive. Diodes $D_{1}$ and $D_{3}$ are forward biased and conduct, while $D_{2}$ and $D_{4}$ are reverse biased. The current flows through the load from top to bottom.
+2. **Negative half-cycle.** The polarity reverses. Now $D_{2}$ and $D_{4}$ conduct and $D_{1}$ and $D_{3}$ are off, but the current again passes through $R_{L}$ in the same direction.
+3. The output voltage is therefore a series of positive humps, one for every half-cycle of the input, and its frequency is **twice** the input frequency: 100 Hz for a 50 Hz supply.
+
+**Output of the bridge.** If $V_{p}$ is the peak input voltage and each conducting diode drops $0.7\ \text{V}$ (two diodes are in series), the peak output is $V_{p} - 1.4\ \text{V}$. The average (d.c.) value is $V_{dc} = 2V_{peak}/\pi = 0.636\,V_{peak}$, and the rms value is $V_{peak}/\sqrt{2}$. The **ripple factor** of a full-wave rectifier without a filter is 0.48, compared with 1.21 for a half-wave rectifier, and its theoretical efficiency is 81.2%, double that of the half-wave circuit (40.6%).
+
+**Filter.** A capacitor connected across the load charges to the peak voltage and discharges slowly through $R_{L}$ between the peaks, which smooths the ripple. A larger capacitance or a larger $R_{L}$ gives a flatter output.
+
+| Feature | Half-wave | Full-wave bridge |
+|---|---|---|
+| Diodes | 1 | 4 |
+| Output frequency | $f$ | $2f$ |
+| $V_{dc}$ | $V_{peak}/\pi$ | $2V_{peak}/\pi$ |
+| Ripple factor | 1.21 | 0.48 |
+| Efficiency | 40.6% | 81.2% |
+| Transformer centre tap | Not needed | Not needed in a bridge |
+
+**Numerical.** A transformer gives $12\ \text{V}$ rms. The peak is $12\sqrt{2} = 16.97\ \text{V}$, the peak output after the two diode drops is $16.97 - 1.4 = 15.57\ \text{V}$, and the average d.c. output is $2(15.57)/\pi = 9.91\ \text{V}$. A capacitor raises the d.c. output almost to $15.6\ \text{V}$.
+
+**Conclusion.** The bridge rectifier uses both half-cycles with four diodes, and it is the circuit inside a mobile phone charger.
+
+### Model answer D2: the transistor as a common-emitter amplifier (10 marks)
+
+**Introduction.** A junction transistor has three regions, the emitter (heavily doped), the thin base and the collector. An **n-p-n** transistor has a thin p-type base between two n-type regions. In an amplifier the emitter–base junction is forward biased and the collector–base junction is reverse biased.
+
+**Current relations.** $I_{E} = I_{B} + I_{C}$. The base current is only about 1–5% of the emitter current, because the base is very thin and lightly doped.
+
+**Current gains.**
+
+- **Common-base current gain** $\alpha = I_{C}/I_{E}$ (slightly less than 1, typically 0.95–0.99).
+- **Common-emitter current gain** $\beta = I_{C}/I_{B}$ (typically 20–200).
+- The two are related by $\beta = \dfrac{\alpha}{1 - \alpha}$.
+
+**Working as an amplifier.** The signal is applied between the base and the emitter, and the output is taken from the load resistor $R_{C}$ in the collector circuit.
+
+1. A small change $\Delta I_{B}$ in the base current produces a large change $\Delta I_{C} = \beta\,\Delta I_{B}$ in the collector current.
+2. The voltage drop across $R_{C}$ changes by $\Delta I_{C} R_{C}$, so the small input voltage is converted into a much larger output voltage.
+3. In the positive half-cycle of the input the collector current rises, so $V_{CE} = V_{CC} - I_{C}R_{C}$ falls. The output is therefore **180° out of phase** with the input.
+
+**Gain.** Voltage gain $A_{v} = \dfrac{\Delta V_{out}}{\Delta V_{in}} = \beta\,\dfrac{R_{C}}{R_{in}}$, where $R_{in}$ is the input resistance. The power gain is $\beta \times A_{v}$.
+
+| Configuration | Input terminals | Output terminals | Phase | Use |
+|---|---|---|---|---|
+| Common emitter | Base–emitter | Collector–emitter | 180° | General amplifier, switch |
+| Common base | Emitter–base | Collector–base | 0° | High-frequency |
+| Common collector | Base–collector | Emitter–collector | 0° | Buffer, impedance matching |
+
+**Numerical.** When $I_{B}$ is $40\ \mu\text{A}$ and $I_{C}$ is $2.0\ \text{mA}$, $\beta = 2.0\times10^{-3}/40\times10^{-6} = 50$ and $I_{E} = 2.04\ \text{mA}$, so $\alpha = 2.0/2.04 = 0.98$ and the check $\beta = 0.98/0.02 = 49$ agrees within rounding. With $R_{C} = 4\ \text{k}\Omega$ and $R_{in} = 1\ \text{k}\Omega$ the voltage gain is $50 \times 4000/1000 = 200$.
+
+**Conclusion.** The common-emitter circuit gives both current and voltage gain, which makes it the most widely used amplifier.

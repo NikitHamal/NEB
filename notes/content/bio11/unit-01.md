@@ -1482,3 +1482,121 @@ metaphase I, since each bivalent orients on the plate independently, giving
 $2^{n}$ possible gamete types from $n$ pairs — $2^{23}$, over 8 million, in
 humans. Random fertilisation then multiplies the variation further.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure and functions of the mitochondrion and the chloroplast, and compare the two organelles. <span class="marks">[10]</span>
+2. Describe the stages of mitosis and meiosis and give eight points of difference between them. <span class="marks">[10]</span>
+3. What are enzymes? Explain their properties, the mechanism of action, the factors affecting activity and give eight uses. <span class="marks">[10]</span>
+
+### Model answer D1: mitochondrion and chloroplast (10 marks)
+
+**Introduction.** The mitochondrion and the chloroplast are **semi-autonomous organelles** surrounded by a **double membrane**. Each has its own circular DNA and 70S ribosomes and divides by itself, which supports the **endosymbiotic theory** (Lynn Margulis, 1967) that they arose from engulfed bacteria.
+
+**Mitochondrion ("powerhouse of the cell").**
+
+- **Shape and size:** rod-shaped or oval, 0.5 to 1 micrometre wide and 2 to 8 micrometres long; found in all aerobic eukaryotic cells (not in mature red blood cells).
+- **Outer membrane:** smooth and permeable to small molecules (porins).
+- **Inner membrane:** folded into **cristae** to increase the surface area and carries the **ATP synthase (F₀F₁) particles** and the electron transport chain.
+- **Matrix:** a fluid with the enzymes of the **Krebs cycle**, mitochondrial DNA and ribosomes.
+- **Function:** aerobic respiration, with the production of ATP by oxidative phosphorylation; it also controls apoptosis and stores calcium.
+
+**Chloroplast (the site of photosynthesis).**
+
+- **Shape and size:** biconvex or disc-shaped, 5 to 10 micrometres across, found in green plant cells and algae.
+- **Envelope:** two membranes with an intermembrane space.
+- **Stroma:** a colourless matrix containing the enzymes of the **Calvin cycle (dark reaction)**, DNA, 70S ribosomes and starch grains.
+- **Thylakoids:** flattened sacs of the third membrane; stacks of them are **grana**. The membrane holds **chlorophyll** and the electron carriers, and ATP synthase for the **light reaction**.
+- **Function:** photosynthesis, which converts light energy to chemical energy (glucose) and releases O₂.
+
+| Feature | Mitochondrion | Chloroplast |
+|---|---|---|
+| Found in | All eukaryotic cells | Plant cells and algae only |
+| Membranes | Double | Double (plus thylakoids) |
+| Inner structure | Cristae and matrix | Grana, thylakoids and stroma |
+| Pigment | None | Chlorophyll and carotenoids |
+| Process | Respiration (breaks down food) | Photosynthesis (makes food) |
+| Energy change | Chemical to ATP | Light to chemical |
+| Gas used / released | Uses O₂, releases CO₂ | Uses CO₂, releases O₂ |
+| Own DNA and 70S ribosomes | Yes | Yes |
+
+**Shared features and endosymbiosis.** Both have a circular, naked DNA, make some of their own proteins and divide by binary fission, like bacteria. This is evidence that they were free-living prokaryotes that were taken in by an ancestral cell.
+
+**Conclusion.** The mitochondrion and the chloroplast are complementary: the chloroplast stores light energy in sugar, and the mitochondrion releases it as ATP. Both are double-membraned with their own DNA.
+
+### Model answer D2: mitosis and meiosis (10 marks)
+
+**Introduction.** Cell division creates new cells. In **mitosis** (equational division), a cell produces **two identical diploid daughter cells**, for growth and repair. In **meiosis** (reductional division), a cell produces **four haploid cells** that differ from each other, for gametes and spores.
+
+**Mitosis (PMAT).**
+
+1. **Prophase:** chromatin condenses into chromosomes, each of two sister chromatids joined at a centromere; the nucleolus and nuclear envelope disappear; spindle fibres form.
+2. **Metaphase:** chromosomes line up at the **equatorial plate**, attached to the spindle by the kinetochores.
+3. **Anaphase:** the centromeres split and the **sister chromatids move to opposite poles**.
+4. **Telophase:** chromosomes uncoil, the nuclear envelope re-forms, and **cytokinesis** (by cell plate in plants, cleavage furrow in animals) divides the cytoplasm.
+
+**Meiosis (two divisions).**
+
+- **Meiosis I** (reductional): *Prophase I* has five stages (leptotene, zygotene, **pachytene with crossing over**, diplotene, diakinesis); *Metaphase I* has the **bivalents** at the equator; *Anaphase I* separates **homologous chromosomes**; *Telophase I* gives two haploid cells.
+- **Meiosis II** (equational): like a mitosis; the sister chromatids separate, giving **four haploid cells**.
+
+**Eight points of difference.**
+
+| No. | Mitosis | Meiosis |
+|---|---|---|
+| 1 | One division | Two successive divisions |
+| 2 | Occurs in somatic cells | Occurs in germ cells |
+| 3 | Gives 2 daughter cells | Gives 4 daughter cells |
+| 4 | Daughter cells are diploid (2n) | Daughter cells are haploid (n) |
+| 5 | Daughter cells are genetically identical | Daughter cells are genetically different |
+| 6 | No pairing of homologous chromosomes | Homologues pair (synapsis) |
+| 7 | No crossing over | Crossing over occurs in prophase I |
+| 8 | For growth, repair and asexual reproduction | For gametes and variation |
+
+**Significance of meiosis.** It keeps the chromosome number constant over generations (46 in humans), and **crossing over and independent assortment** give genetic variation, which is the raw material of evolution. Errors, such as non-disjunction, cause Down syndrome (trisomy 21).
+
+**Conclusion.** Mitosis preserves the chromosome number and copies a cell exactly, while meiosis halves the number and mixes the genes. Both are needed for the life of an organism.
+
+### Model answer D3: enzymes (10 marks)
+
+**Introduction.** **Enzymes** are biological catalysts, mostly **globular proteins**, that speed up chemical reactions in living cells without being used up. Almost every reaction of metabolism needs one. The substance acted on is the **substrate**, and the enzyme combines with it at the **active site**.
+
+**Properties.**
+
+1. **Highly specific:** each enzyme acts on one substrate or type of reaction (maltase acts only on maltose).
+2. **Efficient:** a single molecule can convert thousands to millions of substrate molecules per second (catalase: 10 million).
+3. **Not used up** and needed only in small amounts.
+4. **Lower the activation energy** of the reaction.
+5. **Sensitive to temperature and pH.**
+6. **Reversible:** they act in both directions, if the conditions allow.
+7. May need a **cofactor** (a metal ion such as Zn²⁺ or Mg²⁺) or **coenzyme** (an organic molecule such as NAD, FAD, vitamins).
+8. Do not change the **equilibrium**, only the time to reach it.
+
+**Mechanism of action.**
+
+- **Lock-and-key model (Emil Fischer, 1894):** the active site has a rigid shape that exactly fits the substrate.
+- **Induced-fit model (Koshland, 1958):** the active site changes shape slightly as the substrate binds, giving a closer fit. This is more widely accepted.
+- Steps: E + S → ES complex → E + P. The enzyme-substrate complex lowers the activation energy.
+
+**Factors affecting enzyme activity.**
+
+1. **Temperature:** the rate doubles for every 10 °C rise up to the **optimum (about 37 °C in humans)**; above 50 to 60 °C the enzyme is **denatured**.
+2. **pH:** each enzyme has an optimum, for example **pepsin pH 2**, **trypsin pH 8**, salivary amylase pH 6.8.
+3. **Substrate concentration:** the rate rises and then levels off (saturation, $V_{max}$).
+4. **Enzyme concentration:** the rate is proportional to it, when substrate is plentiful.
+5. **Inhibitors:** **competitive** inhibitors resemble the substrate and block the active site (malonate on succinate dehydrogenase); **non-competitive** inhibitors bind elsewhere.
+
+**Classification.** Oxidoreductases, transferases, hydrolases, lyases, isomerases and ligases.
+
+**Eight uses.**
+
+1. **Digestion:** amylase, pepsin and lipase break down food.
+2. **Medicine:** streptokinase dissolves blood clots after a heart attack.
+3. **Diagnosis:** the levels of amylase, SGPT and glucose oxidase strips are tests for pancreas, liver and diabetes.
+4. **Detergents:** protease and lipase remove stains at low temperature.
+5. **Leather:** proteases remove hair from hides.
+6. **Brewing and baking:** yeast enzymes make alcohol and make dough rise; enzymes make cheese and curd.
+7. **Fruit juice and sweeteners:** pectinase clears juice, and glucose isomerase makes fructose syrup.
+8. **Genetic engineering:** restriction enzymes and DNA ligase.
+
+**Conclusion.** Enzymes make life possible by speeding up reactions at body temperature. They are highly specific and are affected by temperature, pH and inhibitors.

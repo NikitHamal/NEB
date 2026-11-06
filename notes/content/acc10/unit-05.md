@@ -358,3 +358,64 @@ Adjusted balance $= 49{,}500 - 5{,}500 = Rs.\ 44{,}000$.
 | Less: cheques deposited but not collected | | 9,000 |
 | **Balance as per passbook** | | **53,000** |
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. The cash book (bank column) of a trader shows a debit balance of Rs 48,000 on 31 Ashad. Cheques issued but not presented Rs 9,000; cheques deposited but not collected Rs 6,000; bank charges Rs 400 and interest collected by the bank on an investment Rs 2,400 (both only in the passbook); a customer paid Rs 5,000 directly into the bank; the bank paid an insurance premium Rs 1,500 under a standing instruction. Prepare the bank reconciliation statement and the adjusted cash book. <span class="marks">[10]</span>
+2. Explain the causes of the difference between the cash book and the passbook, and the effect of each on the two books. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="4" ratio="1.0" caption="The two records to be reconciled. A bank passbook of the 1950s, a Post Office savings passbook, a blank cheque and an issued cheque: the cash book records the cheque when it is written, the bank records it only when it is presented."
+@ photo id="acc10/passbook" cap="Savings passbook"
+@ photo id="acc10/passbook-1953" cap="Passbook of 1953"
+@ photo id="acc10/cheque" cap="Blank cheque"
+@ photo id="acc10/cheque-issued" cap="Issued cheque"
+```
+
+### Model answer D1: bank reconciliation statement (10 marks)
+
+**Introduction.** A **bank reconciliation statement** is a statement prepared on a given date to find the reasons for the difference between the balance of the bank column of the cash book and the balance of the passbook, and to bring them into agreement.
+
+**Step 1: adjusted cash book.** First enter in the cash book the items that appear only in the passbook.
+
+| Particulars | Rs |
+|---|---|
+| Balance as per cash book (Dr) | 48,000 |
+| Add: interest collected by the bank | 2,400 |
+| Add: direct deposit by customer | 5,000 |
+| Less: bank charges | (400) |
+| Less: insurance premium paid by the bank | (1,500) |
+| **Adjusted cash book balance** | **53,500** |
+
+**Step 2: bank reconciliation statement as on 31 Ashad.**
+
+| Particulars | Rs | Rs |
+|---|---|---|
+| Adjusted balance as per cash book | | 53,500 |
+| Add: cheques issued but not yet presented | | 9,000 |
+| Less: cheques deposited but not yet collected | | (6,000) |
+| **Balance as per passbook (Cr)** | | **56,500** |
+
+**Check (from the cash book balance, in one list).** 48,000 + 9,000 − 6,000 − 400 + 2,400 + 5,000 − 1,500 = **56,500** ✓. The two methods give the same passbook balance.
+
+**Conclusion.** The remaining difference between the two books is only a matter of time (cheques not yet presented or collected); once these clear, both books agree.
+
+### Model answer D2: causes of difference and their effect (10 marks)
+
+**Introduction.** A trader keeps the **cash book**; the bank keeps the **passbook** (the bank's copy of his account). Both record the same bank transactions, yet their balances often differ.
+
+| Cause | Cash book | Passbook | Effect |
+|---|---|---|---|
+| Cheque issued, not yet presented | Credited at once | Not yet debited | Cash book balance is lower |
+| Cheque deposited, not yet collected | Debited at once | Not yet credited | Cash book balance is higher |
+| Bank charges, commission | Not known | Debited | Passbook lower until entered |
+| Interest or dividend collected by the bank | Not known | Credited | Passbook higher until entered |
+| Direct deposit by a customer | Not known | Credited | Passbook higher until entered |
+| Standing instruction (premium, loan instalment) | Not known | Debited | Passbook lower until entered |
+| Dishonour of a cheque deposited | Not known | Debited | Passbook lower until entered |
+| Errors in either book | Wrong balance | Wrong balance | Correct the book in error |
+
+**Explanation.** Items of the first two kinds are differences of **time**: the trader has recorded them, the bank will do so later. The others are items the **bank knows first** and the trader learns of from the passbook; they must be entered in the cash book. Errors are corrected in the book where they occurred.
+
+**Why prepare a statement?** It finds errors and fraud, shows the true bank balance, gives the cheques outstanding, and helps in the audit.
+
+**Conclusion.** Preparing a reconciliation statement every month is a good control over the bank account.

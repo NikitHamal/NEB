@@ -225,3 +225,105 @@ One mark for the correct formula or construction, one for correct substitution, 
 ::: tip The three habits that save marks
 Write the formula before the numbers. Keep the unit with every answer. And check once: does the answer make sense? A tank of 12,320 litres is believable; a tank of 12 litres for a 2 m cylinder is not.
 :::
+
+## 6.15 Extended model answers (8 to 10 marks)
+
+Long problems in Mathematics are marked for method, not only for the answer. Write the formula, substitute with units, calculate in clear steps and check the result. The three solutions below show the full layout.
+
+**Extended questions**
+
+1. A shopkeeper buys a television for Rs 30,000 and marks it at Rs 40,000. He allows a 10 percent discount and charges 13 percent VAT. Find the selling price, the profit percent and the bill amount. Also find the simple interest on Rs 50,000 at 8 percent for 3 years. <span class="marks">[10]</span>
+2. A cylindrical water tank has radius 3.5 m and height 4 m. Find its capacity in litres, its curved surface area and its total surface area. Take $\pi = \frac{22}{7}$. <span class="marks">[10]</span>
+3. The cost of 3 pens and 2 copies is Rs 90, and the cost of 2 pens and 3 copies is Rs 85. Find the price of one pen and one copy, and verify the answer. <span class="marks">[10]</span>
+
+### Model answer D1: discount, VAT, profit and simple interest (10 marks)
+
+**Introduction.** In trade, the **marked price (MP)** is the price printed on the goods. The **selling price (SP)** is the price actually paid after discount, and VAT is a tax added on the selling price. In Nepal the VAT rate is 13 percent. Profit or loss is always calculated on the **cost price (CP)**.
+
+**Step 1: discount.** Discount $= 10\% \text{ of } 40{,}000 = \frac{10}{100}\times 40{,}000 = \text{Rs } 4{,}000$.
+
+**Step 2: selling price before VAT.** $SP = MP - \text{discount} = 40{,}000 - 4{,}000 =$ **Rs 36,000**.
+
+**Step 3: profit and profit percent.** Profit $= SP - CP = 36{,}000 - 30{,}000 = \text{Rs } 6{,}000$. Profit percent $= \frac{6{,}000}{30{,}000}\times 100 =$ **20 percent**.
+
+**Step 4: VAT and bill amount.** VAT $= 13\% \text{ of } 36{,}000 = \frac{13}{100}\times 36{,}000 = \text{Rs } 4{,}680$. Bill amount $= 36{,}000 + 4{,}680 =$ **Rs 40,680**.
+
+| Item | Working | Amount (Rs) |
+|---|---|---|
+| Marked price | given | 40,000 |
+| Discount (10 percent) | 40,000 × 10/100 | 4,000 |
+| Selling price | 40,000 − 4,000 | 36,000 |
+| VAT (13 percent) | 36,000 × 13/100 | 4,680 |
+| Bill amount | 36,000 + 4,680 | 40,680 |
+
+**Step 5: simple interest.** $I = \frac{P\,T\,R}{100} = \frac{50{,}000\times 3\times 8}{100} =$ **Rs 12,000**. Amount $= 50{,}000 + 12{,}000 =$ **Rs 62,000**.
+
+**Check.** Profit percent 20 percent of Rs 30,000 is Rs 6,000, which agrees with SP − CP. VAT is paid by the customer, so it is not part of the shopkeeper's profit.
+
+**Conclusion.** The customer pays Rs 40,680, the shopkeeper earns a profit of 20 percent, and Rs 4,680 goes to the government as VAT. Always check the bill in a shop: the VAT is added after the discount.
+
+### Model answer D2: cylindrical water tank (10 marks)
+
+**Introduction.** A **cylinder** has two equal circular faces and one curved surface. For a tank of radius $r$ and height $h$, the volume is $V = \pi r^2 h$, the curved surface area is $CSA = 2\pi r h$ and the total surface area is $TSA = 2\pi r(r + h)$. One cubic metre holds 1,000 litres.
+
+**Given:** $r = 3.5$ m, $h = 4$ m, $\pi = \frac{22}{7}$.
+
+**Step 1: capacity.**
+
+$V = \frac{22}{7}\times 3.5\times 3.5\times 4 = \frac{22}{7}\times 12.25\times 4 = 22\times 1.75\times 4 = 154\ \text{m}^3$.
+
+Capacity $= 154\times 1000 =$ **154,000 litres**.
+
+**Step 2: curved surface area.**
+
+$CSA = 2\times\frac{22}{7}\times 3.5\times 4 = 2\times 22\times 0.5\times 4 =$ **88 m²**.
+
+**Step 3: total surface area.** The area of one circular face is $\pi r^2 = \frac{22}{7}\times 12.25 = 38.5$ m². Two faces $= 77$ m².
+
+$TSA = CSA + 2\pi r^2 = 88 + 77 =$ **165 m²**.
+
+| Quantity | Formula | Result |
+|---|---|---|
+| Volume | πr²h | 154 m³ |
+| Capacity | volume × 1000 | 154,000 L |
+| Curved surface area | 2πrh | 88 m² |
+| Area of two ends | 2πr² | 77 m² |
+| Total surface area | 2πr(r + h) | 165 m² |
+
+**Check.** Using the shortcut, $TSA = 2\pi r(r+h) = 2\times\frac{22}{7}\times 3.5\times 7.5 = 22\times 7.5 = 165$ m², which matches.
+
+**Application.** If a school needs 4,000 litres of water every day, this tank lasts $\frac{154{,}000}{4{,}000} = 38.5$ days. If painting the outer surface of a closed tank costs Rs 40 per m², the cost is $165\times 40 =$ Rs 6,600.
+
+**Conclusion.** The tank holds 154,000 litres and needs 165 m² of metal sheet. The same three formulas solve any cylinder problem, from a drum of oil to a water tower.
+
+### Model answer D3: simultaneous equations (10 marks)
+
+**Introduction.** Two equations with two unknown quantities are called **simultaneous equations**. They are solved together by elimination or substitution. Let the price of one pen be Rs $p$ and the price of one copy be Rs $c$.
+
+**Formation of equations.**
+
+$3p + 2c = 90 \quad\cdots(1)$
+
+$2p + 3c = 85 \quad\cdots(2)$
+
+**Solution by elimination.** To remove $c$, make its coefficient equal. Multiply (1) by 3 and (2) by 2.
+
+$9p + 6c = 270 \quad\cdots(3)$
+
+$4p + 6c = 170 \quad\cdots(4)$
+
+Subtract (4) from (3): $5p = 100$, so $p =$ **20**.
+
+Put $p = 20$ in (1): $3(20) + 2c = 90$, so $60 + 2c = 90$, $2c = 30$ and $c =$ **15**.
+
+**Verification.**
+
+| Equation | Left side | Right side | Result |
+|---|---|---|---|
+| (1) 3p + 2c | 3(20) + 2(15) = 60 + 30 = 90 | 90 | true |
+| (2) 2p + 3c | 2(20) + 3(15) = 40 + 45 = 85 | 85 | true |
+
+**Answer.** One pen costs **Rs 20** and one copy costs **Rs 15**.
+
+**Conclusion.** Elimination removes one unknown at a time. Always verify in both original equations, because a slip in one step gives a wrong answer that still satisfies only one equation.
+

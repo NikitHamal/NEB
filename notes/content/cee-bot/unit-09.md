@@ -159,6 +159,33 @@ children**. Every daughter receives the father's only X, which carries the
 colour-blindness allele, plus a normal X from mother: **all daughters
 carriers, none affected** — and every son normal, taking the Y.
 :::
+```photogrid label="9.1" cols="2" ratio="1.2" caption="Testing Mendel's 9:3:3:1 with a chi-square. (a) Mendel's seven pea characters, each with a dominant and a recessive form. (b) In his dihybrid cross (round yellow x wrinkled green) he counted 315, 101, 108 and 32 seeds, 556 in all. A 9:3:3:1 ratio would give 312.75, 104.25, 104.25 and 34.75. Chi-square = sum of (O - E)^2/E = 0.47; with 3 degrees of freedom the 5 per cent critical value is 7.81, so the data fit the ratio very well (if anything, suspiciously well, as later statisticians noted)."
+@ photo id="ceebot/mendel-chars" cap="Mendel's seven pea characters"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Observed against expected seed counts"
+obs = (315, 101, 108, 32)
+n = sum(obs)
+exp = [n * r / 16 for r in (9, 3, 3, 1)]
+chi = sum((o - e) ** 2 / e for o, e in zip(obs, exp))
+assert n == 556 and abs(chi - 0.470) < 0.001
+facts = dict(e1="%.2f" % exp[0], e2="%.2f" % exp[1], e3="%.2f" % exp[2], e4="%.2f" % exp[3], chi="%.2f" % chi)
+f = Fig(300, 236)
+f.text(150, 12, "Seeds counted (navy) and expected (amber)", size=10.5, color=NAVY, bold=True)
+labs = ("round yellow", "round green", "wrinkled yellow", "wrinkled green")
+base = 170
+for i, (o, e) in enumerate(zip(obs, exp)):
+    x = 22 + i * 68
+    f.box(x, base - o / 315 * 120, 22, o / 315 * 120, fill=BLUE, stroke=NAVY, r=1)
+    f.box(x + 24, base - e / 315 * 120, 22, e / 315 * 120, fill=SAND, stroke=AMBER, r=1)
+    f.text(x + 11, base - o / 315 * 120 - 6, str(o), size=10.5, color=NAVY, bold=True)
+    f.text(x + 35, base - e / 315 * 120 - 6 if i else base - e / 315 * 120 - 20, "%.0f" % e, size=10.5, color=AMBER, bold=True)
+    f.text(x + 23, base + 14, labs[i].split()[0], size=10.5, color=SLATE)
+    f.text(x + 23, base + 27, labs[i].split()[1], size=10.5, color=SLATE)
+f.line(14, base, 290, base, color=SLATE)
+f.text(150, 224, "chi-square = %.2f (critical 7.81)" % chi, size=10.5, color=NAVY, bold=True)
+```
+
 ## 9.2 Linkage (complete and incomplete) and crossing over
 
 Independent assortment fails for genes that sit on the **same
@@ -274,6 +301,60 @@ identical reciprocal results).
 pass only from father to son; **sex-influenced** genes such as human
 pattern baldness are autosomal but dominant in one sex and recessive in
 the other.)
+
+```photogrid label="9.2" cols="2" ratio="1.2" caption="Eye colour in Drosophila follows the X chromosome. (a) A white-eyed fruit fly, the mutant Thomas Hunt Morgan used in 1910 to show that a gene sits on a chromosome. The white allele is recessive and X-linked. (b) A heterozygous red-eyed female (XW Xw) crossed with a red-eyed male (XW Y) gives 4 equally likely zygotes: 2 of them are red-eyed females (half carriers) and the male offspring split 1 red to 1 white. So 25 per cent of all progeny, and 50 per cent of the sons, are white-eyed, while no daughter is. The same pattern explains colour blindness and haemophilia in humans."
+@ photo id="ceebot/drosophila-white" cap="A white-eyed Drosophila beside a scale"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Punnett square: XW Xw female x XW Y male"
+mother, father = ("XW", "Xw"), ("XW", "Y")
+kids = [(m, fa) for m in mother for fa in father]
+def pheno(m, fa):
+    if fa == "Y":
+        return "white male" if m == "Xw" else "red male"
+    return "carrier female" if "Xw" in (m, fa) else "red female"
+ph = [pheno(*k) for k in kids]
+sons = [p for p in ph if "male" in p and "fe" not in p]
+assert ph.count("white male") == 1 and len(sons) == 2 and ph.count("carrier female") == 1
+facts = dict(nk=len(kids), fr=ph.count("red female") + ph.count("carrier female"), wm="%.0f" % (100 * ph.count("white male") / 4), wsons="%.0f" % (100 * ph.count("white male") / len(sons)))
+f = Fig(300, 236)
+f.text(150, 12, "Mother gametes (rows), father gametes (columns)", size=10.5, color=NAVY, bold=True)
+col = {"white male": (ROSE, RED), "carrier female": (SAND, AMBER), "red female": (MINT, TEAL), "red male": (MINT, TEAL)}
+for j, g in enumerate(father):
+    f.text(100 + j * 100 + 44, 40, g, size=11, color=NAVY, bold=True)
+for i, g in enumerate(mother):
+    f.text(40, 86 + i * 62, g, size=11, color=NAVY, bold=True, vmid=True)
+for k, (m, fa) in enumerate(kids):
+    i, j = divmod(k, 2)
+    fl, st = col[ph[k]]
+    f.box(100 + j * 100 - 0, 52 + i * 62, 90, 56, fill=fl, stroke=st, r=4, sw=1.6)
+    f.text(145 + j * 100, 72 + i * 62, "%s %s" % (m, fa), size=11, color=st, bold=True)
+    f.text(145 + j * 100, 92 + i * 62, ph[k], size=10.5, color=st, bold=True)
+f.text(150, 192, "white-eyed: 1 in 4 of all, 1 in 2 of sons", size=10.5, color=RED, bold=True)
+f.text(150, 210, "no white-eyed daughters in this cross", size=10.5, color=SLATE, bold=True)
+```
+
+```photogrid label="9.3" cols="2" ratio="1.2" caption="Colour blindness in a population. (a) Ishihara plates hide a number in dots of two colours that a person with red-green colour blindness cannot separate. (b) The gene is X-linked, so men (one X) show the recessive allele whenever they carry it: if 8 per cent of men are affected, q = 0.08 and p = 0.92. Women need two copies, so the Hardy-Weinberg law gives 0.64 per cent affected (q squared), 14.72 per cent carriers (2pq) and 84.64 per cent unaffected non-carriers (p squared). Colour blindness is therefore about 12.5 times commoner in men than in women."
+@ photo id="ceebot/ishihara" cap="Ishihara plates used to test colour vision"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Share of men and women by genotype (q = 0.08)"
+q = 0.08
+p = 1 - q
+qq, car, nn = q * q * 100, 2 * p * q * 100, p * p * 100
+assert abs(qq + car + nn - 100) < 1e-9 and abs(qq - 0.64) < 1e-9 and abs(car - 14.72) < 1e-9 and abs(nn - 84.64) < 1e-9
+facts = dict(qq="%.2f" % qq, car="%.2f" % car, nn="%.2f" % nn, ratio="%.1f" % (q * 100 / qq))
+f = Fig(300, 236)
+f.text(150, 12, "Per cent of the population (X-linked recessive)", size=10.5, color=NAVY, bold=True)
+rows = (("Men affected (XwY)", q * 100, RED, ROSE), ("Women affected (XwXw)", qq, RED, ROSE), ("Women carriers (XWXw)", car, AMBER, SAND), ("Women unaffected (XWXW)", nn, TEAL, MINT))
+for i, (lab, v, c, fl) in enumerate(rows):
+    y = 28 + i * 44
+    f.text(10, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * 2.1, 3)
+    f.box(10, y + 12, w, 18, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 21, "%.2f%%" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 214, "men: 8.00 / women: 0.64 = 12.5 times", size=10.5, color=NAVY, bold=True)
+```
 
 ## 9.4 Gene and chromosomal mutations; polyploidy
 
@@ -596,3 +677,80 @@ over exchanges between homologues.
 **9.** (a) — Tt genotypes are 2/4 of the progeny, and all of them are tall: 1/2.
 **10.** (a) — Recombinants $= 100 - 83 = 17\%$, which is the map distance, 17 cM.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and explain Mendel's laws with monohybrid and dihybrid crosses and the test cross. <span class="marks">[10]</span>
+2. Explain linkage, sex-linked inheritance, mutation and any two genetic disorders. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="3" ratio="1.25" caption="Inheritance in plants and people. (a) Mendel's pea characters, such as round or wrinkled seed and tall or dwarf plant. (b) An Ishihara plate for testing red-green colour blindness, an X-linked recessive trait. (c) White-eyed Drosophila, an X-linked mutant found by Morgan."
+@ photo id="ceebot/mendel-chars" cap="(a) Mendel's pea characters"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/ishihara" cap="(b) Ishihara colour test"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/drosophila-white" cap="(c) White-eyed Drosophila"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Mendel's laws (10 marks)
+
+**Introduction.** **Gregor Johann Mendel** (1822-1884) worked on garden pea (*Pisum sativum*) for eight years, and published in 1866. The pea was a good choice because of its distinct contrasting characters, self-pollination, a short life cycle and many offspring.
+
+**Terms.** Gene, allele, dominant, recessive, homozygous, heterozygous, **genotype** (genetic make-up) and **phenotype** (appearance), $\text{P}$, $\text{F}_1$ and $\text{F}_2$.
+
+**Law of dominance.** When two contrasting alleles are present, only one (the dominant) is expressed in the $\text{F}_1$.
+
+**Law of segregation (purity of gametes).** The two alleles of a gene separate during gamete formation, so each gamete gets only one. **Monohybrid cross:** $\text{TT}$ (tall) $\times$ $\text{tt}$ (dwarf) gives $\text{F}_1$ $\text{Tt}$ (all tall). Selfing gives $\text{F}_2$ with the **phenotypic ratio $3:1$** and the **genotypic ratio $1:2:1$** ($\text{TT} : \text{Tt} : \text{tt}$).
+
+**Law of independent assortment.** The alleles of different genes assort independently into gametes. **Dihybrid cross:** $\text{RRYY}$ (round yellow) $\times$ $\text{rryy}$ (wrinkled green) gives $\text{F}_1$ $\text{RrYy}$. The $\text{F}_2$ phenotypic ratio is $9:3:3:1$ (round yellow : round green : wrinkled yellow : wrinkled green), with $16$ combinations from $4$ types of gamete ($\text{RY}$, $\text{Ry}$, $\text{rY}$, $\text{ry}$).
+
+| Cross | Phenotypic ratio | Genotypic ratio |
+|---|---|---|
+| Monohybrid | $3:1$ | $1:2:1$ |
+| Dihybrid | $9:3:3:1$ | $1:2:1:2:4:2:1:2:1$ |
+| Test cross (with a recessive) | $1:1$ if heterozygous | $1:1$ |
+| Incomplete dominance (*Mirabilis*) | $1:2:1$ | $1:2:1$ |
+| Codominance (ABO blood groups) | | |
+
+**Test cross.** Crossing an individual of dominant phenotype with a **homozygous recessive** to find its genotype. All dominant offspring means that the parent was homozygous, and a $1:1$ ratio means that it was heterozygous. A **back cross** is a cross of the $\text{F}_1$ with either parent.
+
+**Extensions.** **Incomplete dominance:** the $\text{F}_1$ is intermediate (pink in snapdragon). **Codominance:** both alleles are expressed ($\text{I}^\text{A}\text{I}^\text{B}$ gives blood group AB). **Multiple alleles:** ABO has three alleles ($\text{I}^\text{A}$, $\text{I}^\text{B}$ and $i$). **Pleiotropy:** one gene affects several characters.
+
+**Numerical.** For the cross $\text{AaBb} \times \text{AaBb}$, the probability of $\text{aabb}$ is $\dfrac14\times\dfrac14 = \dfrac1{16}$ and of the dominant for both characters $\dfrac34\times\dfrac34 = \dfrac9{16}$. With $\text{F}_2$ of $1600$ plants, the number of tall plants is $1200$ and dwarf $400$. The cross $\text{Aa} \times \text{aa}$ gives $50\%$ $\text{Aa}$.
+
+**Conclusion.** Mendel's laws of dominance, segregation and independent assortment explain the transmission of characters through the gametes.
+
+### Model answer D2: linkage, sex linkage and mutation (10 marks)
+
+**Introduction.** Mendel's independent assortment applies only to genes on different chromosomes. Genes on the same chromosome tend to be inherited together.
+
+**Linkage and crossing over.** **Morgan** showed **linkage** in *Drosophila*. The strength of linkage depends on the distance between genes. Crossing over in prophase I gives **recombinants**. The **recombination frequency** $= \dfrac{\text{recombinants}}{\text{total offspring}}\times100$, and $1\%$ recombination equals one **map unit** (centimorgan). Sturtevant made the first genetic map.
+
+**Sex determination.** In humans, females are $\text{XX}$ and males $\text{XY}$ (male heterogametic). In birds the female is $\text{ZW}$. In grasshoppers it is $\text{XO}$. The sex of the child is decided by the sperm.
+
+**Sex-linked inheritance.** Genes on the X chromosome. A recessive X-linked trait shows more often in males, because the male has only one X (hemizygous), and **skips a generation** through carrier females. Examples: **red-green colour blindness**, **haemophilia** and white eye in *Drosophila*. A carrier mother ($\text{X}^\text{C}\text{X}^\text{c}$) and a normal father ($\text{X}^\text{C}\text{Y}$) have sons with a $50\%$ chance of colour blindness and no affected daughters (half the daughters are carriers).
+
+**Mutation.** A sudden, heritable change in the genetic material.
+
+1. **Gene (point) mutation:** substitution (sickle-cell anaemia: GAG changed to GUG, so glutamic acid is replaced by valine), insertion or deletion (**frame shift**).
+2. **Chromosomal mutation:** deletion, duplication, inversion and translocation.
+3. **Genome mutation (ploidy):** aneuploidy and polyploidy.
+4. **Mutagens:** X-rays, UV, chemicals (mustard gas) and colchicine, which induces polyploidy.
+
+**Genetic disorders.**
+
+| Disorder | Cause | Features |
+|---|---|---|
+| Down syndrome | trisomy $21$ ($47$ chromosomes) | mental retardation, short stature |
+| Turner syndrome | $44 + \text{XO}$ | sterile female |
+| Klinefelter syndrome | $44 + \text{XXY}$ | sterile male |
+| Sickle-cell anaemia | recessive point mutation | abnormal haemoglobin, **autosomal** |
+| Haemophilia | X-linked recessive | blood does not clot |
+| Phenylketonuria | autosomal recessive, enzyme missing | brain damage |
+
+**Numerical.** If $12$ recombinants occur among $100$ offspring, the genes are $12$ map units apart. For a colour-blind man ($\text{X}^\text{c}\text{Y}$) and a normal homozygous woman, all children are phenotypically normal, but all daughters are carriers. The chance that a carrier woman has a colour-blind **child** is $\tfrac14$.
+
+**Conclusion.** Linked genes are inherited together unless separated by crossing over, and mutations cause variation and genetic disorders.

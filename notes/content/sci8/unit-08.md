@@ -431,3 +431,73 @@ moving a magnet in a coil produces current, which is how generators in hydropowe
 **5.** Bringing electricity from the power house to homes through transmission lines and wiring the house safely. Devices: service line → electric meter → main switch → distribution board with MCBs/fuses → switches → lamps and sockets. Live wire: high potential (220 V), gives shock, red/brown, has switch and fuse. Neutral wire: zero potential, completes the circuit, black/blue.
 **6.** See the seven steps in 8.6.2 (switch off; open cover; strip insulation; twist strands; live to right pin with fuse, neutral to left, earth to top; clamp the cord; close and test).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a magnet? Explain the properties of a magnet, the magnetic field and the working of a magnetic compass. <span class="marks">[10]</span>
+2. Explain electric current, potential difference, resistance and Ohm's law with a numerical. Describe the household wiring, fuse and earthing. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="4" ratio="1.15" caption="From magnet to mains. (a) A nail electromagnet: a coil with current turns iron into a magnet. (b) An alternator makes alternating current by induction. (c) A pole transformer reduces 11,000 V to 220 V for homes. (d) A large transformer at a substation. Electricity and magnetism are two faces of one force."
+@ photo id="sci10/electromagnet" cap="(a) Electromagnet"
+@ photo id="sci10/alternator" cap="(b) Alternator"
+@ photo id="sci10/transformer-pole" cap="(c) Pole transformer"
+@ photo id="sci10/transformer" cap="(d) Power transformer"
+```
+
+### Model answer D1: magnets and the compass (10 marks)
+
+**Introduction.** A **magnet** attracts iron, nickel and cobalt (magnetic substances). Natural magnets are found as the ore magnetite; artificial magnets are made of steel.
+
+**Properties of a magnet.**
+
+1. It attracts magnetic substances, and the attraction is strongest at its **poles**.
+2. A freely hanging bar magnet always rests in the **north-south** direction.
+3. **Like poles repel and unlike poles attract.**
+4. Poles always come in pairs; cutting a magnet makes two smaller magnets, each with two poles.
+5. A magnet can **magnetise** iron by induction and loses its power if it is heated or hammered.
+
+**Magnetic field.** The space around a magnet in which its force can be felt. Field lines go from the north pole to the south pole outside the magnet and are closer where the field is stronger. Iron filings sprinkled on paper over a magnet show the pattern.
+
+**Terrestrial magnetism.** The Earth behaves as a huge bar magnet, with its magnetic south pole near the geographic north. This is why a compass needle points north.
+
+**Magnetic compass.** A small magnetised needle pivoted on a pin inside a box with a dial. The north-seeking end points toward the Earth's magnetic north. It is used by trekkers, sailors and surveyors for direction.
+
+**Electromagnet.** A coil of insulated wire around a soft iron core becomes a magnet when current flows and loses it when the current stops. Its strength increases with more turns and more current. It is used in electric bells, cranes for scrap iron and cranes at junk yards, and in motors.
+
+| Permanent magnet | Electromagnet |
+|---|---|
+| Always magnetic | Magnetic only with current |
+| Fixed strength | Strength can be changed |
+
+**Care of magnets.** Keep bar magnets in pairs with soft iron keepers, away from heat and shocks.
+
+**Conclusion.** Magnets have two poles, are surrounded by a field, and the Earth's own magnetism lets us find direction with a compass.
+
+### Model answer D2: electric circuit, Ohm's law and household wiring (10 marks)
+
+**Introduction.** **Electric current** is the flow of charge in a circuit, measured in amperes (A) with an ammeter. **Potential difference** is the work done in moving a unit of charge, measured in volts (V) with a voltmeter. **Resistance** is the opposition to the flow of current, measured in ohms ($\Omega$).
+
+**Circuit.** A complete path with a source (cell), a conductor, a switch and a load (bulb). The current flows only in a closed circuit.
+
+**Ohm's law.** The current through a conductor is directly proportional to the potential difference across it if the temperature is constant: $V = IR$.
+
+**Numerical.** A 6 V battery is joined to a resistor of 3 $\Omega$. The current is $I = 6 \div 3 = 2$ A.
+
+**Series and parallel.**
+
+| Series | Parallel |
+|---|---|
+| Same current through all | Same voltage across all |
+| $R = R_1 + R_2$ | $\frac{1}{R} = \frac{1}{R_1} + \frac{1}{R_2}$ |
+| One fails, all stop | Others keep working |
+| Used in fuse and switch | Used in homes |
+
+**Household wiring.** The supply in Nepal is **220 V, 50 Hz** in three wires: **live (red or brown)**, **neutral (black or blue)** and **earth (green or yellow)**. Appliances are connected in parallel, and the switch and fuse are always in the live wire.
+
+**Fuse.** A thin wire of low melting point that melts and breaks the circuit when too much current flows, preventing fire. A modern home uses an **MCB** (miniature circuit breaker) that trips automatically.
+
+**Earthing.** The metal body of an appliance is connected to the ground by the earth wire so that a leaking current flows to the ground instead of giving a shock.
+
+**Safety rules.** Never touch a switch with wet hands, do not overload a socket, use insulated wires and plugs, switch off before repairs and keep children away from live wires.
+
+**Conclusion.** Ohm's law links current, voltage and resistance, and fuses and earthing keep household electricity safe.

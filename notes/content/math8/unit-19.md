@@ -392,6 +392,18 @@ $$\text{ratio}=4:36=1:9=1^2:3^2$$
 that, $9:1$ ✓.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Triangle $ABC$ has $A(1,1)$, $B(4,1)$ and $C(2,3)$. (a) Translate it by the vector $\binom{3}{-2}$ and write $A'$, $B'$, $C'$. (b) Reflect the original triangle in the $y$-axis and write $A''$, $B''$, $C''$. <span class="marks">[5]</span>
+2. The point $P(3,2)$ is transformed. Write its image after (a) a rotation of $90^\circ$ anticlockwise about the origin, (b) a rotation of $180^\circ$, (c) a rotation of $90^\circ$ clockwise, (d) a reflection in the line $y=x$. <span class="marks">[5]</span>
+3. Triangle $ABC$ with $A(1,1)$, $B(3,1)$ and $C(1,4)$ is enlarged with centre the origin and scale factor 3. (a) Write the image points. (b) Compare $AB$ with $A'B'$. (c) If $P(2,3)$ goes to $P'(6,9)$ under an enlargement from the origin, find the scale factor. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Add 3 to every $x$ and subtract 2 from every $y$: $A'(4,-1)$, $B'(7,-1)$, $C'(5,1)$. The image is the same size and shape and faces the same way. (b) A reflection in the $y$-axis changes the sign of the $x$-coordinate: $A''(-1,1)$, $B''(-4,1)$, $C''(-2,3)$. Each point and its image are the same distance from the mirror line, on opposite sides, and the shape is reversed (a mirror image).
+**2.** (a) $90^\circ$ anticlockwise: $(x,y)\to(-y,x)$, so $P'(-2,3)$. (b) $180^\circ$: $(x,y)\to(-x,-y)$, so $(-3,-2)$. (c) $90^\circ$ clockwise: $(x,y)\to(y,-x)$, so $(2,-3)$. (d) Reflection in $y=x$ swaps the coordinates: $(2,3)$. **Check on (a) and (c):** a $90^\circ$ turn each way brings $P$ to opposite points, and $(-2,3)$ and $(2,-3)$ are opposite through the origin ✓.
+**3.** (a) Multiply every coordinate by 3: $A'(3,3)$, $B'(9,3)$, $C'(3,12)$. (b) $AB=3-1=2$ units and $A'B'=9-3=6$ units, so $A'B'=3\times AB$: every length is multiplied by the scale factor, while the angles stay the same, so the image is similar to the object. (c) Scale factor $=\dfrac{6}{2}=\dfrac{9}{3}=3$.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

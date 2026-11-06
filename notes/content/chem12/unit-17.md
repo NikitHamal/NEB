@@ -286,6 +286,29 @@ propan-1-ol C₃H₇OH. Sodium hydrogen carbonate settles it: the acid gives bri
 CO₂ effervescence, the alcohol does not.
 :::
 
+```photogrid label="17.P" cols="2" ratio="1.2" caption="An organometallic sandwich. (a) Orange crystals of ferrocene, the first sandwich compound, in which an iron atom lies between two parallel cyclopentadienyl rings. (b) The cell finds the molar mass 186.03 g/mol and the composition: 64.6 per cent carbon, 5.4 per cent hydrogen and 30.0 per cent iron. Iron contributes 8 electrons and each ring donates 6, so the metal has 18 valence electrons, the stable count of the 18-electron rule. Made from iron(II) chloride and sodium cyclopentadienide, 1 g of FeCl2 can give at most 1.47 g of ferrocene. Because the molecule is non-polar and stable, it sublimes near 100 degrees C and dissolves in organic solvents but not in water."
+@ photo id="chem12b/ferrocene" cap="Orange crystals of ferrocene in a dish"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Composition of ferrocene, Fe(C5H5)2"
+C, H, Fe = 12.011, 1.008, 55.845
+M = 10 * C + 10 * H + Fe
+rows = [("carbon", 10 * C / M * 100), ("hydrogen", 10 * H / M * 100), ("iron", Fe / M * 100)]
+assert abs(M - 186.04) < 0.02 and round(rows[2][1], 1) == 30.0
+ne = 8 + 2 * 6
+yield_ = M / 126.75
+f = Fig(300, 236)
+f.text(150, 12, "Ferrocene, M = %.2f g/mol, mass per cent" % M, size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=70, fmt="%.1f", x0=64, y0=30, bw=160, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 134, "electron count: Fe 8 + 2 x 6 (each C5H5-)", size=10.5, color=NAVY, bold=True)
+f.text(150, 154, "= %d electrons: the 18-electron rule" % ne, size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "FeCl2 + 2 NaC5H5 gives Fe(C5H5)2 + 2 NaCl", size=10, color=SLATE, bold=True)
+f.text(150, 196, "1 g of FeCl2 gives at most %.2f g" % yield_, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "sublimes near 100 C: nonpolar sandwich", size=10, color=SLATE, bold=True)
+facts = dict(M=M, c=rows[0][1], h=rows[1][1], fe=rows[2][1], y=yield_)
+```
+
 ## Chapter summary
 
 - An organometallic compound has a direct C–M bond; C₂H₅ONa and CH₃COONa do not
@@ -396,3 +419,36 @@ alkoxide intermediate R–OMgI.
 consistent with lactic acid, CH₃CH(OH)COOH (M = 90), which has one –OH and one
 –COOH hydrogen.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the preparation of the Grignard reagent and its reactions with aldehydes, ketones, carbon dioxide and water, showing the synthesis of primary, secondary and tertiary alcohols. <span class="marks">[10]</span>
+
+### Model answer D1: the Grignard reagent and its synthetic uses (10 marks)
+
+**Introduction.** **Organometallic compounds** contain a metal–carbon bond. The **Grignard reagent**, RMgX, discovered by Victor Grignard (Nobel Prize 1912), is the most important. The C–Mg bond is strongly polar, $\text{C}^{\delta-}$–$\text{Mg}^{\delta+}$, so the carbon behaves as a carbanion and is a powerful nucleophile and a strong base.
+
+**Preparation.** Magnesium turnings react with an alkyl or aryl halide in **dry diethyl ether**: $\text{CH}_{3}\text{Br} + \text{Mg} \Rightarrow \text{CH}_{3}\text{MgBr}$ (methylmagnesium bromide). Ether is essential because its lone pairs on oxygen solvate and stabilise the reagent. A trace of iodine starts the reaction, and the order of reactivity of halides is R–I > R–Br > R–Cl. All apparatus and reagents must be perfectly **dry**, because Grignard reagents are destroyed by any compound with an acidic hydrogen.
+
+**Reactions.**
+
+1. **With water (or alcohol or amine)** gives an alkane: $\text{CH}_{3}\text{MgBr} + \text{H}_{2}\text{O} \Rightarrow \text{CH}_{4} + \text{Mg(OH)Br}$. This is why the reagent must be kept dry.
+2. **With formaldehyde** gives, after hydrolysis, a **primary alcohol**: $\text{HCHO} + \text{CH}_{3}\text{MgBr} \Rightarrow \text{CH}_{3}\text{CH}_{2}\text{OMgBr} \Rightarrow \text{CH}_{3}\text{CH}_{2}\text{OH}$ (ethanol).
+3. **With any other aldehyde** gives a **secondary alcohol**: $\text{CH}_{3}\text{CHO} + \text{CH}_{3}\text{MgBr} \Rightarrow$ propan-2-ol after hydrolysis.
+4. **With a ketone** gives a **tertiary alcohol**: acetone + CH$_3$MgBr gives 2-methylpropan-2-ol.
+5. **With carbon dioxide** (solid CO$_2$, dry ice) gives a carboxylic acid with one extra carbon: $\text{CH}_{3}\text{MgBr} + \text{CO}_{2} \Rightarrow \text{CH}_{3}\text{COOMgBr} \Rightarrow \text{CH}_{3}\text{COOH}$.
+6. **With ethylene oxide** gives a primary alcohol with two extra carbon atoms: $\text{RMgX} \Rightarrow \text{RCH}_{2}\text{CH}_{2}\text{OH}$.
+7. **With an ester** (two moles of reagent) gives a tertiary alcohol with two identical R groups; with a nitrile gives a ketone.
+
+| Carbonyl compound | Product after hydrolysis | Class |
+|---|---|---|
+| HCHO | R–CH$_2$OH | Primary alcohol |
+| R′CHO | R′CH(OH)R | Secondary alcohol |
+| R′COR″ | R′R″C(OH)R | Tertiary alcohol |
+| CO$_2$ | R–COOH | Carboxylic acid |
+
+**Example of design.** To prepare 2-methylbutan-2-ol, react butanone with methylmagnesium bromide, or acetone with ethylmagnesium bromide, and hydrolyse with dilute acid.
+
+**Why it is so useful.** It forms a new carbon–carbon bond, which allows a carbon chain to be built up step by step from simple halides.
+
+**Conclusion.** The Grignard reagent, prepared in dry ether, converts carbonyl compounds into primary, secondary and tertiary alcohols and CO$_2$ into acids.

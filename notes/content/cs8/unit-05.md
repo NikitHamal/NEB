@@ -230,6 +230,13 @@ screen, and then **stops at line 40** with an error message. After the mistake
 is corrected, it runs again from line 1.
 :::
 
+```photogrid label="5.S" cols="4" ratio="1.25" caption="System software in four forms. (a) MS-DOS, an operating system you control by typing commands. (b) Ubuntu Linux, a free desktop operating system. (c) Android, the operating system of most phones in Nepal. (d) Microsoft Windows, the most common desktop operating system. All four manage the memory, the files and the devices, and let application programs run."
+@ photo id="bca101/dos" cap="(a) MS-DOS (CLI)"
+@ photo id="bca101/ubuntu" cap="(b) Ubuntu Linux"
+@ photo id="bca101/android" cap="(c) Android"
+@ photo id="bca101/win10b" cap="(d) Windows"
+```
+
 ## 5.3 Application software: packaged and tailor-made software
 
 ::: definition Application software
@@ -666,3 +673,58 @@ management system written for that hospital. (c) **Utility software**, an
 antivirus — Microsoft Defender or Kaspersky. (d) **System software**, a
 **device driver** — the X-ray printer's driver from its maker.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is software? Explain system software and its types. <span class="marks">[10]</span>
+2. What is application software? Differentiate packaged and tailor-made software, and explain software licences. <span class="marks">[10]</span>
+
+### Model answer D1: software and system software (10 marks)
+
+**Introduction.** **Software** is the set of programs and data that tell the hardware what to do. Without software the hardware is only a lifeless machine, and without hardware software cannot run. Software is of two kinds: **system software** and **application software**.
+
+**System software** controls and manages the computer and runs the application programs. Its types are:
+
+1. **Operating system (OS):** the main program that starts the computer, manages memory, files, devices and programs, and gives the user an interface. Examples: Windows, Linux, macOS, Android (Plate 5.S).
+2. **Device drivers:** small programs that let the OS talk to a device such as a printer, scanner or graphics card. A new printer does not work until its driver is installed.
+3. **Utility programs:** tools that keep the computer healthy, such as antivirus, disk clean-up, backup and file compression (WinRAR).
+4. **Language processors:** translate programs written by programmers into machine language: the **assembler**, **compiler** and **interpreter**.
+
+| Point | System software | Application software |
+|---|---|---|
+| Purpose | Runs and manages the computer | Does a job for the user |
+| Dependence | Works alone | Needs system software |
+| Written in | Low-level or high-level | High-level |
+| User | Mostly the computer | The user |
+| Examples | Windows, drivers, antivirus | MS Word, Chrome, games |
+
+**How they work together.** The user gives a command to an application, the application asks the operating system, the OS uses a driver to control the hardware, and the result returns to the user.
+
+**Conclusion.** System software is the base that makes the computer ready to work, and application software is built on top.
+
+### Model answer D2: application software and licences (10 marks)
+
+**Introduction.** **Application software** is a program written to do a particular job for the user, such as typing a letter, keeping accounts or playing music. It is of two kinds.
+
+1. **Packaged (ready-made) software** is made for many users and bought off the shelf or downloaded: MS Word, Excel, PowerPoint, Photoshop, Chrome, VLC.
+2. **Tailor-made (custom) software** is written specially for one organisation: the result system of a school, the software of a bank, or a hotel's billing program.
+
+| Point | Packaged | Tailor-made |
+|---|---|---|
+| Made for | Many users | One user or organisation |
+| Cost | Low | High |
+| Time | Ready at once | Takes time to develop |
+| Fit | General, some features unused | Exact needs |
+| Support | From the maker, updates | From the developer |
+| Example | MS Word | School result software |
+
+**Software licences.** A **licence** is the legal permission to use software.
+
+1. **Proprietary software:** owned by a company; the user buys it and cannot copy or change it (Windows, MS Office).
+2. **Freeware:** free to use but the code is not open, and you may not change it (Adobe Reader, Skype).
+3. **Shareware:** free to try for a limited time or with limited features, and then you must pay (WinRAR trial).
+4. **Open-source software:** the code is open, and anyone may use, change and share it (Linux, LibreOffice, Firefox).
+
+**Safe installation.** Download only from the official website or app store, check that the computer meets the requirements, scan with antivirus, avoid pirated copies, and update regularly. Uninstall programs you do not need.
+
+**Conclusion.** Packaged software is cheap and ready, tailor-made software fits exactly, and licences tell us what we may do with the program.

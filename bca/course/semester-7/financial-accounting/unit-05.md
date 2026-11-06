@@ -188,6 +188,34 @@ f.text(290, 138, "balance on Disposal: Cr 24,000 -> transfer to Profit and Loss"
 7. **Inventory directly sets profit.** Closing stock is deducted in finding the cost of goods sold, so every rupee of error in stock is a rupee of error in profit. A warehouse count that misses a rack changes the year's result. Valuation needs care and a physical stock-take.
 8. **Cost-flow assumptions give different results.** FIFO gave a cost of goods sold of Rs 14,900 and the weighted average Rs 15,555.56 on the same units. Inventory is valued at the lower of cost and net realisable value. The method must be disclosed and kept the same year after year.
 
+```photogrid label="5.2" cols="2" ratio="1.1" caption="The same tempo, two depreciation methods, two profits. (a) A Safa tempo of Kathmandu. (b) A vehicle costing Rs 12,00,000 with a five-year life and a scrap value of Rs 2,00,000. Straight-line depreciation is (12,00,000 - 2,00,000) / 5 = Rs 2,00,000 a year, so the book value after 3 years is Rs 6,00,000. Reducing-balance depreciation at 25% charges Rs 3,00,000, 2,25,000 and 1,68,750 in years 1 to 3, leaving a book value of Rs 5,06,250. If the vehicle is sold after 3 years for Rs 6,00,000, straight-line shows no gain or loss, while reducing-balance shows a profit on sale of 6,00,000 - 5,06,250 = Rs 93,750. Over the whole life the total expense is the same; the methods only change when it is charged, which is why the method must be disclosed and applied consistently."
+@ photo id="bcafa/tempo" cap="A Safa tempo, a depreciating asset"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Book value after each year, in thousand rupees"
+cost, scrap, n, rt = 1200000, 200000, 5, 0.25
+slm = [cost - (cost - scrap) / n * t for t in range(4)]
+wdv = [cost]
+for t in range(3): wdv.append(wdv[-1] * (1 - rt))
+assert slm == [1200000, 1000000, 800000, 600000] and wdv == [1200000, 900000, 675000, 506250]
+sale = 600000
+assert sale - slm[3] == 0 and sale - wdv[3] == 93750 and 300000 + 225000 + 168750 == 693750
+f = Fig(300, 240)
+f.text(150, 14, "book value at year end (thousand Rs)", size=10.5, color=NAVY, bold=True)
+base, sc = 150, 105 / 1200.0
+for t in range(4):
+    x = 14 + t * 70
+    for k, (arr, col) in enumerate([(slm, "#1d6fb8"), (wdv, "#d97706")]):
+        v = arr[t] / 1000; h = v * sc
+        f.box(x + k * 32, base - h, 30, h, "", fill=col, stroke=col, r=0)
+        f.text(x + k * 32 + 15, base - h - 7, f"{v:,.0f}", size=10.5, color=col, bold=True)
+    f.text(x + 31, base + 14, f"year {t}", size=10.5, color=SLATE)
+f.line(8, base, 292, base, color=SLATE, sw=1.2)
+f.text(150, 190, "blue = straight line, amber = 25% reducing", size=10.5, color=SLATE)
+f.text(150, 208, "sale at 600: SLM gain 0, WDV gain 93.75", size=10.5, color=RED, bold=True)
+f.text(150, 226, "total expense over life is the same", size=10.5, color=NAVY)
+```
+
 ## 5.8 Summary and exercises
 
 Depreciation allocates cost over useful life by SLM or WDV; disposal compares proceeds with book value; inventory is measured at the lower of cost and NRV using FIFO or weighted average, and the method moves profit.

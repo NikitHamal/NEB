@@ -241,3 +241,62 @@ Closing stock $= 40 \times 2{,}500 = Rs.\ 1{,}00{,}000$. Total received 60, tota
 *Issue (2).* A section sends a written requisition; the storekeeper fills the जिन्सी निकासा फाराम; the receiving officer signs it; the issue is entered in the store ledger and the bin card; and the form is filed as the evidence that the article left the store. No article may leave without a document.
 *Control (1).* The bin card and the store ledger are compared periodically, and the store is verified annually by a committee.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is store (जिन्सी) accounting? Explain its objectives and importance in eight points. <span class="marks">[10]</span>
+2. Explain the formats used in store accounting and the annual store verification. Show the entries of a store ledger (bin card) from the data given: opening balance 100 reams of paper; 6th received 60; 10th issued 45; 18th issued 35; 25th received 40; 28th issued 50. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.0" caption="Goods in custody. A warehouse with shelving and packages, a filing cabinet for the vouchers and a vault for valuables: store accounting links each item on the shelf to a document and a responsible person."
+@ photo id="acc10/warehouse" cap="Warehouse interior"
+@ photo id="acc10/filing-cabinet" cap="Filing cabinet"
+@ photo id="acc10/vault" cap="Vault"
+```
+
+### Model answer D1: objectives and importance of store accounting (10 marks)
+
+**Introduction.** **Store (जिन्सी) accounting** is the account of the goods and articles held by a government office, showing their receipt, storage, issue and balance, in quantity and in value.
+
+**Objectives and importance.**
+
+1. **Record of every receipt and issue.** Nothing enters or leaves the store without a form; a school can say exactly how many benches and books it has.
+2. **Balance at any time.** The stock of each item can be known without counting, which helps to place the next order.
+3. **Prevention of loss and misuse.** Goods are tied to a document and an officer, so theft and waste are discouraged.
+4. **Public goods remain public property.** Articles bought with taxpayers' money are listed and protected.
+5. **Evidence for audit.** The Auditor General can check goods against the books.
+6. **Help in budgeting.** Past use shows how much to include in the next budget.
+7. **Protection of the honest officer.** The store-keeper who has complete records cannot be blamed unfairly.
+8. **Basis for verification and disposal.** The annual count and the write-off of unserviceable goods rest on the records.
+
+**Conclusion.** Store accounting is simple, but it is the only shield between public goods and their loss.
+
+### Model answer D2: store formats and verification (10 marks)
+
+**Formats.**
+
+| Format | Purpose |
+|---|---|
+| जिन्सी दाखिला (receipt) form | Records goods received, with the bill and the supplier |
+| जिन्सी निकासा (issue) form | Records goods issued, with the signature of the receiver |
+| Store ledger (जिन्सी खाता) | Item-wise account with quantity, rate and value |
+| Bin card | Quantity record kept with the goods on the shelf |
+| Stock statement | Summary of balances at the period end |
+| Verification form | Result of the physical count |
+
+**Store ledger (bin card) for paper (reams).**
+
+| Date | Particulars | Received | Issued | Balance |
+|---|---|---|---|---|
+| 1 | Opening balance | | | 100 |
+| 6 | Received | 60 | | 160 |
+| 10 | Issued | | 45 | 115 |
+| 18 | Issued | | 35 | 80 |
+| 25 | Received | 40 | | 120 |
+| 28 | Issued | | 50 | 70 |
+| | **Total** | **100** | **130** | **70** |
+
+**Check.** $100+100-130=70$ reams ✓.
+
+**Annual verification.** The goods are counted physically by a store inspection committee of at least two officers, one of whom is not connected with the store; the count is compared with the ledger and the bin card; differences are noted in the verification form. An excess is brought into the account; a shortage is recovered from the responsible person or written off with approval; unserviceable goods are written off and disposed of in the prescribed way.
+
+**Conclusion.** The ledger shows what should be in the store, and verification proves what is there.

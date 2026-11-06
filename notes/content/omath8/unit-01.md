@@ -557,3 +557,15 @@ Make a table of six classmates and the month in which each was born. (1) Draw th
 **4.** (i) $x$: $-1, 0, 1, 2, 3$ give $f(x)$: $-3, -1, 1, 3, 5$. (ii) $f=\{(-1,-3),(0,-1),(1,1),(2,3),(3,5)\}$. (iii) Range $=\{-3,-1,1,3,5\}$. (iv) The five points lie on a straight line rising 2 units for every 1 unit to the right. Their $x$-coordinates are all different, so any vertical line passes through at most one of them: the graph passes the test, as a function must.
 **5.** $R_1$: function, one-to-one; each of 1, 2, 3 has exactly one image. $R_2$: function, many-to-one; each member of $A$ has exactly one image, all equal to 4 (a constant function). $R_3$: **not** a function; 1 has two images, 4 and 5. $R_4$: **not** a function; 3 has no image.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. Let $A=\{1,2,3\}$ and $B=\{2,4,6,8\}$ and let $R=\{(x,y): y=2x,\ x\in A,\ y\in B\}$. (i) List $R$. (ii) Write its domain, co-domain and range. (iii) Find $R^{-1}$. (iv) Is $R$ a function from $A$ to $B$? Which type? <span class="marks">[5]</span>
+2. A function is defined by $f(x)=x^2-2x+3$ with domain $\{-1,0,1,2,3\}$. (i) Make a table of values and write the range. (ii) Find the pre-images of 3. (iii) Find $f(a+1)$. (iv) Is $f$ one-to-one? Give a reason. <span class="marks">[5]</span>
+3. (i) If $(2a-1,\ b+3)=(5,\ 2b-1)$, find $a$ and $b$. (ii) For $A=\{a,b\}$ and $B=\{1\}$ write $A\times B$ and $B\times A$ and show that $A\times B\ne B\times A$. (iii) The relation $S=\{(1,2),(1,3),(2,4)\}$ is drawn as a graph: use the vertical line test to decide whether it is a function. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (i) $y=2x$ gives $1\to2$, $2\to4$, $3\to6$, so $R=\{(1,2),(2,4),(3,6)\}$. (ii) Domain $=\{1,2,3\}$; co-domain $=B=\{2,4,6,8\}$; range $=\{2,4,6\}$ (8 is in the co-domain but is not an image). (iii) Interchange each pair: $R^{-1}=\{(2,1),(4,2),(6,3)\}$. (iv) Every member of $A$ has exactly one image, so $R$ is a function from $A$ to $B$; different members have different images, so it is **one-to-one** (but not onto, since 8 has no pre-image).
+**2.** (i) $f(-1)=1+2+3=6$; $f(0)=3$; $f(1)=1-2+3=2$; $f(2)=4-4+3=3$; $f(3)=9-6+3=6$. Range $=\{2,3,6\}$. (ii) $f(x)=3$ for $x=0$ and $x=2$, so the pre-images of 3 are 0 and 2. (iii) $f(a+1)=(a+1)^2-2(a+1)+3=a^2+2a+1-2a-2+3=a^2+2$. (iv) $f$ is **not** one-to-one: $f(0)=f(2)=3$ and $f(-1)=f(3)=6$ (it is many-to-one).
+**3.** (i) Equal ordered pairs have equal components: $2a-1=5$ gives $a=3$; $b+3=2b-1$ gives $b=4$. (ii) $A=\{3,4\}$, so $A\times B=\{(3,1),(4,1)\}$ and $B\times A=\{(1,3),(1,4)\}$. The ordered pairs are different (the order of the components matters), so $A\times B\ne B\times A$, although both have 2 members. (iii) The vertical line $x=1$ cuts the graph at two points, $(1,2)$ and $(1,3)$, so the element 1 has two images: $S$ is **not** a function.
+:::

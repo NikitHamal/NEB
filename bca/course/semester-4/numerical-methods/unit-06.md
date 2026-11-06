@@ -168,6 +168,38 @@ f.text(306, 190, "Gauss-Seidel sweep number", size=10, color=SLATE)
 7. **Image processing.** Filling a hole in a photograph can be done by solving Laplace's equation with the edge of the hole as the boundary. The result blends smoothly with its surroundings. Photo-editing tools use this idea.
 8. **Teaching and checking bigger programs.** A simple plate with known boundary values has a solution one can verify by symmetry, as in the exercise here. It is the standard test for larger simulation software. Learning it builds the habit of checking results.
 
+```photogrid label="6.2" cols="2" ratio="1.4" caption="Halve the mesh, quarter the error. (a) A thermal image: temperature across a surface is a field that satisfies Laplace's equation when nothing heats or cools the inside. (b) The unit square has u = sin(pi x) on the top edge and u = 0 on the other three, so the exact value at the centre is 1 / (2 cosh(pi / 2)) = 0.19927. The five-point scheme, solved exactly as a linear system, gives 0.25000 for 2 x 2 cells, 0.21339 for 4 x 4, 0.20292 for 8 x 8, 0.20019 for 16 x 16 and 0.19950 for 32 x 32, with errors 5.1e-2, 1.4e-2, 3.7e-3, 9.2e-4 and 2.3e-4. Each halving of h shrinks the error by a factor close to 4, because the scheme is second-order accurate (error proportional to h squared). The price is a system four times larger each time."
+@ photo id="bcanm/thermal" cap="A thermal image: a temperature field"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Centre-point error of the five-point scheme"
+import numpy as np
+def lap(N):
+    h = 1.0 / N; n = N - 1; A = np.zeros((n * n, n * n)); b = np.zeros(n * n)
+    for i in range(n):
+        for j in range(n):
+            k = i * n + j; A[k, k] = 4
+            for di, dj in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                ii, jj = i + di, j + dj
+                if 0 <= ii < n and 0 <= jj < n: A[k, ii * n + jj] = -1
+            if j == n - 1: b[k] += np.sin(np.pi * (i + 1) * h)
+    return np.linalg.solve(A, b).reshape(n, n)
+ex = 1 / (2 * np.cosh(np.pi / 2)); assert round(float(ex), 5) == 0.19927
+Ns = [2, 4, 8, 16, 32]; val = [float(lap(N)[N // 2 - 1, N // 2 - 1]) for N in Ns]; er = [abs(v - ex) for v in val]
+assert [round(v, 5) for v in val] == [0.25, 0.21339, 0.20292, 0.20019, 0.1995]
+assert all(3.5 < er[i] / er[i + 1] < 4.1 for i in range(4))
+f = Fig(300, 240)
+f.text(150, 14, "error at the centre, longer bar = smaller", size=10.5, color=NAVY, bold=True)
+for i, (N, e) in enumerate(zip(Ns, er)):
+    y = 28 + i * 34
+    f.text(10, y + 11, f"{N} x {N}", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+    w = 48 * (-np.log10(e) )
+    f.box(62, y, w, 20, "", fill="#1d6fb8", stroke=NAVY, r=0, sw=1)
+    f.text(62 + w + 5, y + 11, f"{e:.1e}", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+f.text(150, 206, "exact centre value 0.19927", size=10.5, color=SLATE)
+f.text(150, 224, "ratio per halving: 3.6, 3.9, 4.0, 4.0", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - uₓₓ ≈ (uᵢ₊₁,ⱼ − 2uᵢⱼ + uᵢ₋₁,ⱼ)/h².

@@ -196,6 +196,28 @@ ax.axis('off')
 | Sexual spore | zygospore | zygospore | ascospores (4) in an ascus |
 | Diploid stage | zygospore only | zygospore only | zygote, and diploid budding cells |
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Yeast turns sugar into alcohol and carbon dioxide. (a) Budding cells of Saccharomyces cerevisiae in a wet mount; in the absence of oxygen they ferment glucose. (b) C6H12O6 gives 2C2H5OH + 2CO2. With M = 180.16, 46.07 and 44.01 g/mol, 180.16 g of glucose yields 92.14 g of ethanol and 88.02 g of CO2, so 100 g of glucose gives 51.1 g of ethanol and 48.9 g of CO2 (about 24.9 litres at STP). Brewers recover 90 to 95 per cent of this; the rising CO2 is what makes bread dough swell."
+@ photo id="bio11/yeast-cells" cap="Budding yeast cells in a wet mount"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Mass balance of alcoholic fermentation (g per mole of glucose)"
+mg, me, mc = 180.156, 46.068, 44.009
+eth, co2 = 2 * me, 2 * mc
+assert abs(eth + co2 - mg) < 0.01
+e100, c100 = 100 * eth / mg, 100 * co2 / mg
+vol = 100 / mg * 2 * 22.4
+facts = dict(eth="%.2f" % eth, co2="%.2f" % co2, e100="%.1f" % e100, c100="%.1f" % c100, vol="%.1f" % vol)
+f = Fig(300, 236)
+f.text(150, 12, "C6H12O6 -> 2C2H5OH + 2CO2", size=10.5, color=NAVY, bold=True)
+for i, (lab, val, col, fl) in enumerate((("glucose", mg, NAVY, BLUE), ("ethanol", eth, AMBER, SAND), ("carbon dioxide", co2, TEAL, MINT))):
+    y = 34 + i * 48
+    f.text(14, y, lab, size=10.5, color=col, bold=True, anchor="start")
+    f.box(14, y + 8, val / mg * 200, 18, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + val / mg * 200 + 6, y + 17, "%.1f g" % val, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 188, "per 100 g glucose: %s g ethanol" % facts["e100"], size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "and %s g CO2 (%s L at STP)" % (facts["c100"], facts["vol"]), size=10.5, color=NAVY, bold=True)
+```
+
 ## 3.2 Lichens: introduction and types
 
 A **lichen** is a **composite organism**: a stable, self-supporting **symbiotic
@@ -240,6 +262,27 @@ must find a suitable alga to form a new lichen.
   (*Evernia*) in perfumes; usnic acid of *Usnea* is antibacterial.
 
 ```photo id="bio11/lichen-forms" caption="Lichens on one twig. The broad, lobed, grey-green patches are foliose; the thread-like branched tufts are fruticose. A crustose lichen is a thin crust glued to its surface, like paint." width="80"
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Lichens as clocks. (a) The map lichen Rhizocarpon geographicum grows as a slowly widening crust on bare rock. (b) If the radial growth is steady, a thallus of 45 mm diameter is 150 years old at 0.3 mm per year, 90 years at 0.5 mm per year and 56 years at 0.8 mm per year (illustrative rates). Geologists use this idea, called lichenometry, to date rock surfaces uncovered by retreating glaciers; it works because lichens are long-lived symbioses of an alga or cyanobacterium with a fungus."
+@ photo id="ceebot/rhizocarpon" cap="Map lichen on rock"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Thallus diameter against age for three growth rates"
+d = 45.0
+ages = {r: d / r for r in (0.3, 0.5, 0.8)}
+assert round(ages[0.3]) == 150 and round(ages[0.5]) == 90 and round(ages[0.8]) == 56
+facts = dict(a03="%.0f" % ages[0.3], a05="%.0f" % ages[0.5], a08="%.0f" % ages[0.8])
+f = Fig(300, 236)
+f.text(150, 12, "Diameter (mm) against age (years)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 236, 136, (0, 160), (0, 80))
+ax.grid(40, 20).axes("yr", "mm")
+ax.hline(45, color=SLATE, dash=True)
+for r, col in ((0.3, TEAL), (0.5, AMBER), (0.8, RED)):
+    ax.curve(lambda t, r=r: r * t, 0, 160, color=col)
+    ax.pt(ages[r], 45, "%.0f" % ages[r], color=col, dx=0, dy=-9, anchor="middle", r=3.6)
+f.text(150, 208, "45 mm: 150, 90 or 56 years old", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "lines: 0.3 teal, 0.5 amber, 0.8 red mm/yr", size=10.5, color=SLATE, bold=True)
 ```
 
 ## 3.3 Algae: green, red and brown; Spirogyra
@@ -569,3 +612,91 @@ zygospore gives a germ sporangium with **many** spores.
 **7.** (c) — Spiral chloroplasts, a mucilage sheath and scalariform conjugation identify *Spirogyra*. *Ulothrix* has a girdle chloroplast, *Oedogonium* a reticulate one, and *Cladophora* is branched.
 **8.** (a) — The filament is haploid (n = 12); fusion of two gametes gives a 2n = 24 zygospore; zygotic meiosis restores n = 12 in the new filament.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure, reproduction and economic importance of fungi, with *Mucor* (or *Rhizopus*) as the example, and the structure and importance of lichens. <span class="marks">[10]</span>
+2. Describe the thallus structure, reproduction and economic importance of algae, with *Spirogyra* as the example. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.25" caption="Fungi, lichens and algae. (a) Mucor: coenocytic hyphae with sporangia on sporangiophores. (b) A crustose lichen, Rhizocarpon, a partnership of a fungus and an alga. (c) Spirogyra, with its spiral ribbon-shaped chloroplasts."
+@ photo id="cee-bot/mucor" cap="(a) Mucor"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/rhizocarpon" cap="(b) Lichen"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/spirogyra-chl" cap="(c) Spirogyra"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: fungi and lichens (10 marks)
+
+**Introduction.** **Fungi** are non-green, eukaryotic, heterotrophic organisms. Their cell wall is made of **chitin**, and their food is stored as glycogen and oil. The study of fungi is **mycology**.
+
+**General characters.** The body is a **mycelium** of threads (hyphae), which are septate (Penicillium, mushroom) or non-septate and coenocytic (Mucor). They feed by absorption as saprophytes, parasites or symbionts.
+
+**Mucor.**
+
+1. **Habitat:** saprophyte on bread, dung and fruits.
+2. **Vegetative:** branched, coenocytic mycelium.
+3. **Asexual reproduction:** non-motile **sporangiospores** in a globose sporangium on a sporangiophore, with a **columella**.
+4. **Sexual reproduction:** two compatible hyphae form **gametangia** that fuse (conjugation) into a **zygospore** with a thick wall, which germinates by meiosis. It is heterothallic ($+$ and $-$ strains).
+
+**Classes.**
+
+| Class | Spores | Examples |
+|---|---|---|
+| Phycomycetes (Zygomycetes) | zygospore | Mucor, Rhizopus |
+| Ascomycetes | ascospores in asci | yeast, Penicillium, Aspergillus, Neurospora |
+| Basidiomycetes | basidiospores | mushroom (Agaricus), rusts, smuts |
+| Deuteromycetes | no sexual stage known | Alternaria, Colletotrichum |
+
+**Importance.**
+
+1. Yeast for bread, alcohol and beer, and Penicillium for **penicillin**.
+2. Edible mushrooms, and Nepal's valuable *Ophiocordyceps sinensis* (yarsagumba), the caterpillar fungus.
+3. Decomposers that recycle nutrients.
+4. Plant diseases: rust and smut of wheat, late blight of potato, and also human diseases such as ringworm and candidiasis.
+5. Mycorrhiza that help roots absorb phosphate.
+6. Aflatoxin from *Aspergillus* in stored grain is a poison and a carcinogen.
+
+**Lichens.** A **symbiotic association of an alga (phycobiont) and a fungus (mycobiont)**. The alga makes food and the fungus gives support, water and minerals. The thallus may be **crustose** (Rhizocarpon, flat crust), **foliose** (leaf-like, Parmelia) or **fruticose** (shrubby, Usnea). They reproduce by soredia and isidia. Importance: **pollution indicators** (sensitive to SO₂), pioneers on bare rock (primary succession), dyes (litmus from *Roccella*) and food (reindeer moss), and some are medicinal.
+
+**Numerical.** A fungus with $1$ spore germinating to form a colony of $10^9$ spores in $3$ days means one sporangium may contain $50\,000$ spores, so $20$ sporangia give $10^6$ spores, which explains how fast moulds spoil food.
+
+**Conclusion.** Fungi are chitin-walled heterotrophs that decompose and parasitise, and lichens are dual organisms useful as pollution indicators.
+
+### Model answer D2: algae (10 marks)
+
+**Introduction.** **Algae** are simple, chlorophyll-bearing, thalloid plants with no true roots, stems or leaves, and the reproductive organs are not covered by a sterile jacket. The study of algae is **phycology**.
+
+**Classification by pigment and food.**
+
+| Class | Pigments | Reserve food | Examples |
+|---|---|---|---|
+| Chlorophyceae (green) | chlorophyll a, b | starch | Spirogyra, Chlamydomonas, Ulothrix |
+| Phaeophyceae (brown) | chlorophyll a, c, fucoxanthin | laminarin, mannitol | Laminaria, Fucus, Sargassum |
+| Rhodophyceae (red) | chlorophyll a, d, phycoerythrin | floridean starch | Polysiphonia, Gelidium |
+
+**Spirogyra** (a freshwater green alga, "pond silk").
+
+1. **Thallus:** an unbranched filament of cylindrical cells covered by a mucilage layer, with **spiral, ribbon-shaped chloroplasts** containing pyrenoids, and a central nucleus in a cytoplasmic sling.
+2. **Vegetative reproduction:** fragmentation of the filament.
+3. **Asexual:** aplanospores and akinetes in some species.
+4. **Sexual (conjugation):** **scalariform** (between two filaments, with conjugation tubes in a ladder-like form) or **lateral** (between neighbouring cells of the same filament). The male gamete (amoeboid) passes through the tube into the female cell, forming a **zygospore** with a thick wall that survives bad conditions and germinates by meiosis into new filaments.
+
+**Life cycle.** Haplontic: the vegetative filament is haploid and only the zygote is diploid, with zygotic meiosis.
+
+**Economic importance.**
+
+1. Food: *Chlorella* and *Spirulina* (rich in protein), and *Porphyra* (nori).
+2. **Agar** from *Gelidium*, **algin** from brown algae, **carrageenan** from red algae, and iodine from kelp.
+3. Fixation of CO₂, with about half of the world's photosynthesis done by algae, and a major source of oxygen.
+4. Food for fish and aquatic animals; **biofertiliser** (Anabaena, Nostoc).
+5. Research tools (*Chlorella* in photosynthesis studies).
+6. Harmful: algal bloom (eutrophication) gives toxins that kill fish, as in nutrient-rich lakes like Phewa and Begnas.
+
+**Numerical.** If $1$ g of dry alga yields $0.4$ g of agar, then $250$ g of *Gelidium* gives $100$ g. A filament of $200$ cells with $20\ \mu\text{m}$ long cells measures $4\ \text{mm}$.
+
+**Conclusion.** Algae are autotrophic thalloid plants classified by pigment, and Spirogyra shows a clear case of conjugation and zygotic meiosis.

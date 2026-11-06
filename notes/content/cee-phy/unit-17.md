@@ -545,6 +545,33 @@ In series the smallest capacitor takes the largest share of the voltage
 ($V \propto 1/C$). In parallel each capacitor takes the share of charge it can hold
 ($Q \propto C$).
 
+```photogrid label="17.2" cols="2" ratio="1.2" caption="Series and parallel combinations. (a) Real capacitors carry both a capacitance and a voltage rating. (b) For 10, 20 and 40 microfarad on 12 V, in series 1/C = 1/10 + 1/20 + 1/40 gives 5.71 microfarad and one common charge of 68.6 microcoulomb, so the voltage divides inversely as capacitance: 6.86, 3.43 and 1.71 V, adding to 12 V. In parallel the voltage is 12 V on each, C = 70 microfarad, and the charges 120, 240 and 480 microcoulomb add up to 840. The parallel bank stores 5.04 mJ, 12.2 times the 0.411 mJ of the series chain."
+@ photo id="ceephy/capacitors" cap="Electrolytic capacitors of different capacitance and voltage rating"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="12 V shared by 10, 20 and 40 microfarad capacitors"
+C = (10e-6, 20e-6, 40e-6); V = 12.0
+cs = 1 / sum(1 / c for c in C); cp = sum(C); q = cs * V
+vs = [q / c for c in C]; qs = [c * V for c in C]
+assert abs(sum(vs) - V) < 1e-9 and abs(sum(qs) - cp * V) < 1e-12 and abs(cs * 1e6 - 5.714) < 1e-3
+es, ep = 0.5 * cs * V ** 2, 0.5 * cp * V ** 2
+facts = dict(cs="%.2f" % (cs * 1e6), q="%.1f" % (q * 1e6), v1="%.2f" % vs[0], v2="%.2f" % vs[1], v3="%.2f" % vs[2], cp="%.0f" % (cp * 1e6), q1="%.0f" % (qs[0] * 1e6), q2="%.0f" % (qs[1] * 1e6), q3="%.0f" % (qs[2] * 1e6), qt="%.0f" % (sum(qs) * 1e6), ep="%.2f" % (ep * 1e3), es="%.3f" % (es * 1e3), rat="%.1f" % (ep / es))
+f = Fig(300, 236)
+f.text(150, 14, "Series: voltage divides, 12 V in all", size=10.5, color=NAVY, bold=True)
+x = 20
+for i, (v, c, col, fl) in enumerate(zip(vs, (10, 20, 40), (RED, AMBER, TEAL), (ROSE, SAND, MINT))):
+    w = v * 20; f.box(x, 30, w, 30, label="%.1f" % v, fill=fl, stroke=col, size=10.5, bold=True, r=2)
+    f.text(x + w / 2, 74, "%d uF" % c, size=10.5, color=col, bold=True); x += w
+f.text(150, 98, "V = Q / C, same Q = %.1f uC" % (q * 1e6), size=10.5, color=SLATE)
+f.text(150, 124, "Parallel: charge adds, 840 uC in all", size=10.5, color=NAVY, bold=True)
+x = 20
+for i, (qq, c, col, fl) in enumerate(zip(qs, (10, 20, 40), (RED, AMBER, TEAL), (ROSE, SAND, MINT))):
+    w = qq / sum(qs) * 240; f.box(x, 140, w, 30, label="%.0f" % (qq * 1e6), fill=fl, stroke=col, size=10.5, bold=True, r=2)
+    f.text(x + w / 2, 184, "%d uF" % c, size=10.5, color=col, bold=True); x += w
+f.text(150, 206, "series %.2f uF; parallel %.0f uF" % (cs * 1e6, cp * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "energy %.3f mJ against %.2f mJ" % (es * 1e3, ep * 1e3), size=10.5, color=NAVY, bold=True)
+```
+
 ### Energy stored
 
 Charging a capacitor means pushing charge against the growing potential. The work
@@ -685,6 +712,49 @@ Initial energy $= \frac12(2\times10^{-6})(100)^2 = 0.010$ J. Final energy
 $= \frac12(5\times10^{-6})(40)^2 = 0.004$ J. Loss $= 0.006$ J $= 6$ mJ, which is
 60 % of the initial energy.
 :::
+
+```photogrid label="17.1" cols="2" ratio="1.2" caption="Energy stored in charged conductors. (a) A thundercloud and the ground behave like a huge capacitor that discharges as lightning. (b) The energy U = 1/2 Q V, drawn on a log scale, is 0.312 J in a 1,000 microfarad, 25 V electrolytic capacitor, 5.45 J in a camera flash (100 microfarad, 330 V), 400 J in a defibrillator (32 microfarad, 5 kV) and about 7.5 x 10^8 J for a flash that moves 15 C through 100 MV (illustrative), roughly 208 kWh. Each step in the chart is a factor of ten in energy."
+@ photo id="ceephy/eiffel" cap="An early photograph of lightning striking the Eiffel Tower, a discharge of a natural capacitor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy stored, U = 1/2 Q V, on a log scale"
+U = lambda C, V: 0.5 * C * V ** 2
+u1, u2, u3 = U(1000e-6, 25), U(100e-6, 330), U(32e-6, 5000); u4 = 0.5 * 15 * 1e8
+assert abs(u1 - 0.3125) < 1e-9 and abs(u2 - 5.445) < 1e-9 and abs(u3 - 400) < 1e-9 and abs(u4 / 3.6e6 - 208.3) < 0.1
+facts = dict(u1="%.3f" % u1, u2="%.2f" % u2, u3="%.0f" % u3, u4="7.5 x 10^8", kwh="%.0f" % (u4 / 3.6e6))
+f = Fig(300, 236)
+f.text(150, 14, "U = 1/2 Q V (joules, log scale)", size=10.5, color=NAVY, bold=True)
+rows = (("1000 uF at 25 V", u1, TEAL, MINT), ("flash 100 uF at 330 V", u2, TEAL, MINT), ("defibrillator 32 uF at 5 kV", u3, AMBER, SAND), ("lightning 15 C, 100 MV", u4, RED, ROSE))
+for i, (lab, v, col, fl) in enumerate(rows):
+    y = 28 + i * 40
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = (math.log10(v) + 1) * 20
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 17, "%.4g J" % v if v < 1000 else "7.5e8 J", size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "bar length = log10(U) + 1 decades", size=10.5, color=SLATE)
+f.text(150, 218, "lightning = %.0f kWh (illustrative)" % (u4 / 3.6e6), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="17.3" cols="2" ratio="1.2" caption="Energy stored in the field. (a) Electrolytic capacitors have a large capacitance for their size and are marked with their capacitance and maximum voltage. (b) The cell uses U = 1/2 C V2 for a 330 microfarad capacitor of the type used in a camera flash. At 100 V it stores only 1.65 J, but at 300 V it stores 14.85 J (a charge of 0.099 C) and at 400 V 26.4 J, since the energy grows as the square of the voltage. Released in one millisecond, 14.85 J is a peak power of 14.8 kW, which is how a small battery can produce a bright flash. The same energy could lift a 1 kg mass by 1.52 m."
+@ photo id="ceephy3/capacitor" cap="Electrolytic capacitors"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy stored in a camera-flash capacitor"
+C = 330e-6
+rows = [("%d V" % v, 0.5 * C * v ** 2) for v in (100, 200, 300, 400)]
+assert round(rows[2][1], 2) == 14.85 and round(rows[3][1], 1) == 26.4
+Q = C * 300
+P = rows[2][1] / 1e-3 / 1000
+h = rows[2][1] / (1 * 9.8)
+f = Fig(300, 236)
+f.text(150, 12, "Energy U = 1/2 C V^2 of a 330 microfarad capacitor, J", size=10, color=NAVY, bold=True)
+hbars(f, rows, vmax=28, fmt="%.2f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "doubling V quadruples U", size=10, color=SLATE, bold=True)
+f.text(150, 178, "at 300 V: Q = C V = %.3f C" % Q, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "released in 1 ms: peak power %.1f kW" % P, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "equal to lifting 1 kg by %.2f m" % h, size=10, color=SLATE, bold=True)
+facts = dict(u=rows[2][1], u4=rows[3][1], u1=rows[0][1], P=P, Q=Q, h=h)
+```
 
 ## Formula and fact sheet
 
@@ -949,3 +1019,69 @@ $= \frac12(5\times10^{-6})(40)^2 = 0.004$ J. Loss $= 0.006$ J $= 6$ mJ, which is
 **13.** (b) — $u = \frac12\varepsilon_0E^2 = \frac12\times8.85\times10^{-12}\times10^{12} = 4.43$ J m⁻³.
 **14.** (a) — $U = \frac12CV^2 = \frac12\times2\times10^{-6}\times10^4 = 0.01$ J.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Coulomb's law and Gauss's law. Find the electric field of a charged sphere and an infinite sheet and solve a numerical. <span class="marks">[10]</span>
+2. Derive the capacitance of a parallel-plate capacitor, the effect of a dielectric, and the energy stored. Find the equivalent capacitance in series and parallel. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.25" caption="Electrostatics in the lab. (a) A Van de Graaff generator charges a person so that the hair stands up as each strand repels the others. (b) A gold-leaf electroscope detects charge by the repulsion of the leaves. (c) Capacitors of different values store charge in circuits."
+@ photo id="phy11/vdghair" cap="(a) Charged hair"
+fit 1.25
+focus 0.5 0.4
+@ photo id="phy11/electroscope" cap="(b) Electroscope"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/capacitors" cap="(c) Capacitors"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Coulomb's law, electric field and Gauss's law (10 marks)
+
+**Introduction.** **Coulomb's law:** the force between two point charges is $F = \dfrac{1}{4\pi\varepsilon_0}\dfrac{q_1q_2}{r^2}$, with $\dfrac1{4\pi\varepsilon_0} = 9\times10^9\ \text{N m}^2\text{C}^{-2}$. In a medium of relative permittivity $K$ the force is reduced by $K$. The **electric field** is $\vec E = \vec F/q$, and for a point charge $E = \dfrac{kq}{r^2}$. The **potential** is $V = \dfrac{kq}{r}$, with $\vec E = -\dfrac{dV}{dr}$.
+
+**Gauss's law.** The total electric flux through a closed surface equals $q_{enclosed}/\varepsilon_0$, that is $\oint\vec E\cdot d\vec A = \dfrac{q}{\varepsilon_0}$.
+
+**Applications.**
+
+1. **Charged spherical shell or solid conductor** (charge $Q$, radius $R$): outside, $E = \dfrac{kQ}{r^2}$ (as if all the charge were at the centre). On the surface $E = \dfrac{\sigma}{\varepsilon_0}$. Inside, $E = 0$ and $V$ is constant and equal to $kQ/R$.
+2. **Infinite line charge** ($\lambda$ per unit length): $E = \dfrac{\lambda}{2\pi\varepsilon_0r}$.
+3. **Infinite plane sheet** ($\sigma$): $E = \dfrac{\sigma}{2\varepsilon_0}$, independent of distance.
+4. **Uniformly charged solid insulating sphere:** inside, $E = \dfrac{kQr}{R^3}$.
+
+| Quantity | Point charge | Dipole (on axis, far away) |
+|---|---|---|
+| Field | $\propto 1/r^2$ | $\propto 1/r^3$ |
+| Potential | $\propto 1/r$ | $\propto 1/r^2$ |
+
+The torque on a dipole of moment $p = qd$ in a field is $\tau = pE\sin\theta$.
+
+**Numerical.** Two charges $+2\ \mu\text{C}$ and $-2\ \mu\text{C}$ are $10\ \text{cm}$ apart. The force is $9\times10^9\times\dfrac{(2\times10^{-6})^2}{(0.1)^2} = 3.6\ \text{N}$ (attractive). At the midpoint each charge gives $\dfrac{9\times10^9\times2\times10^{-6}}{(0.05)^2} = 7.2\times10^6\ \text{N C}^{-1}$ in the same direction, so $E = 1.44\times10^7\ \text{N C}^{-1}$, while the potential is $0$.
+
+**Conclusion.** Gauss's law gives the field quickly wherever the charge distribution is symmetric.
+
+### Model answer D2: capacitors, dielectrics and energy (10 marks)
+
+**Introduction.** A **capacitor** stores charge and energy. Its capacitance is $C = Q/V$ (farad).
+
+**Parallel plate capacitor.** The field between plates of area $A$ is $E = \sigma/\varepsilon_0 = Q/(\varepsilon_0A)$, so $V = Ed = \dfrac{Qd}{\varepsilon_0A}$ and
+
+$$ C = \frac{\varepsilon_0A}{d} $$
+
+**Dielectric.** When an insulator of dielectric constant $K$ fills the gap, the molecules polarise and reduce the field by a factor $K$, so $C = \dfrac{K\varepsilon_0A}{d}$. If the battery is disconnected ($Q$ constant), $V$ falls to $V/K$ and the energy falls. If the battery stays connected ($V$ constant), $Q$ rises $K$ times and the energy rises.
+
+**Energy.** $U = \tfrac12CV^2 = \dfrac{Q^2}{2C} = \tfrac12QV$. The energy density of the field is $\tfrac12\varepsilon_0E^2$.
+
+**Combinations.**
+
+| Arrangement | Capacitance | Same quantity |
+|---|---|---|
+| Series | $\dfrac1C = \dfrac1{C_1} + \dfrac1{C_2}$ | charge $Q$ |
+| Parallel | $C = C_1 + C_2$ | potential difference $V$ |
+
+When two charged capacitors are joined (plates of like sign together), the common potential is $V = \dfrac{C_1V_1 + C_2V_2}{C_1 + C_2}$ and some energy is lost as heat.
+
+**Numerical.** Plates of area $0.01\ \text{m}^2$, separation $1\ \text{mm}$: $C = \dfrac{8.85\times10^{-12}\times0.01}{10^{-3}} = 88.5\ \text{pF}$. With a dielectric of $K = 5$, $C = 442\ \text{pF}$ and at $100\ \text{V}$ the energy is $\tfrac12(4.42\times10^{-10})(10^4) = 2.2\ \mu\text{J}$. Capacitors of $2\ \mu\text{F}$ and $3\ \mu\text{F}$ give $1.2\ \mu\text{F}$ in series and $5\ \mu\text{F}$ in parallel.
+
+**Conclusion.** $C = K\varepsilon_0A/d$ depends only on geometry and the dielectric, and energy is stored in the field between the plates.

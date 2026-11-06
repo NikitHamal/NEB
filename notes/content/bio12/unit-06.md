@@ -559,6 +559,40 @@ are joined in series the whole fibril shortens by $0.6\ \text{cm}$. That is how
 a change too small to see adds up to a visible movement.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Muscle contracts because thin actin filaments slide over thick myosin filaments; neither filament changes length. (a) Cardiac muscle fibres, branched and joined by dark intercalated discs. (b) A drawing to scale of one sarcomere between two Z lines. At rest it is 2.5 micrometres long; when it shortens to 2.0 micrometres the A band, set by the thick filament, stays at 1.6 while the I band falls from 0.9 to 0.4. That is a 20 per cent shortening, and 1 cm of fibre contains 4000 sarcomeres in series, so every one adds its small step and the whole fibre loses 2 mm. The H zone also narrows, which is the clue examiners look for."
+@ photo id="bio12/cardiac-muscle" cap="Cardiac muscle fibres with their cross-striations and intercalated discs"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A sarcomere at rest and contracted, to scale"
+A_BAND, THIN = 1.6, 1.0
+rest, con = 2.5, 2.0
+i_rest, i_con = rest - A_BAND, con - A_BAND
+assert abs(i_rest - 0.9) < 1e-9 and abs(i_con - 0.4) < 1e-9
+shorten = (rest - con) / rest * 100
+n_cm = 1e4 / rest
+f = Fig(300, 236)
+f.text(150, 14, "Sliding filaments (1 um = 100 px)", size=10.5, color=NAVY, bold=True)
+def sarc(y, L, tag):
+    x0 = 150 - L * 50
+    x1 = 150 + L * 50
+    f.box(150 - A_BAND * 50, y + 12, A_BAND * 100, 14, fill=SAND, stroke=AMBER, r=2)
+    f.line(x0, y + 4, x0, y + 34, color=NAVY, sw=2.4)
+    f.line(x1, y + 4, x1, y + 34, color=NAVY, sw=2.4)
+    f.line(x0, y + 8, x0 + THIN * 100, y + 8, color=TEAL, sw=2.2)
+    f.line(x1, y + 8, x1 - THIN * 100, y + 8, color=TEAL, sw=2.2)
+    f.text(x0, y + 46, "Z", size=9.5, color=NAVY, bold=True)
+    f.text(x1, y + 46, "Z", size=9.5, color=NAVY, bold=True)
+    f.text(150, y + 22, "A band 1.6", size=9.5, color=AMBER, bold=True, vmid=True)
+    f.text(150, y + 46, tag, size=9.5, color=SLATE, bold=True)
+sarc(26, rest, "rest 2.5 um")
+sarc(96, con, "contracted 2.0 um")
+f.text(150, 176, "A band stays 1.6 um; I band %.1f -> %.1f um" % (i_rest, i_con), size=10, color=NAVY, bold=True)
+f.text(150, 194, "sarcomere shortens by %.0f %%" % shorten, size=10.5, color=RED, bold=True)
+f.text(150, 212, "1 cm of fibre = %d sarcomeres in line" % n_cm, size=10, color=SLATE, bold=True)
+f.text(150, 228, "contracting 1 cm to %.0f mm" % (10 * (1 - shorten / 100)), size=10, color=TEAL, bold=True)
+facts = dict(sh=shorten, n=n_cm, ir=i_rest, ic=i_con)
+```
+
 ## 6.4 Nervous tissue
 
 Nervous tissue is ectodermal and is built from two kinds of cell: the
@@ -665,6 +699,26 @@ they simply lack myelin, and so have no nodes of Ranvier and conduct slowly.
 | Nodes of Ranvier | present | absent |
 | Conduction | saltatory, fast (up to about 120 m s⁻¹) | continuous, slow (about 0.5–2 m s⁻¹) |
 | Found in | cranial and spinal nerves, white matter | autonomic nerves, grey matter |
+
+```photogrid label="6.Q" cols="2" ratio="1.27" caption="A nerve impulse travels fastest in fibres that have a thick myelin sheath, because it jumps from one node of Ranvier to the next instead of crawling along the whole membrane. (a) A neuron with the parts labelled. (b) Typical speeds are about 1 metre per second for unmyelinated C fibres, 15 for thinly myelinated A-delta fibres and 100 for thick A-alpha fibres. Over a path of 1 metre, from a toe to the brain, the signal takes 1000 milliseconds in a C fibre, 66.7 in an A-delta fibre and 10 in an A-alpha fibre. This is why a stubbed toe first gives a sharp pain and then a slower, burning ache."
+@ photo id="bio12/neuron-diagram" cap="A multipolar neuron: dendrites, cell body, axon with myelin sheath and terminals"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Impulse speed and travel time over 1 m"
+rows = [("C fibre", 1.0), ("A-delta", 15.0), ("A-alpha", 100.0)]
+t = [1000.0 / v for _, v in rows]
+assert abs(t[1] - 66.7) < 0.1 and t[2] == 10.0
+f = Fig(300, 236)
+f.text(150, 14, "Conduction speed, m/s", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.0f", x0=64, y0=34, bw=190, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 142, "no myelin   thin myelin   thick myelin", size=9.5, color=SLATE, bold=True)
+f.text(150, 168, "time for a 1 m path = 1 / speed", size=10.5, color=NAVY, bold=True)
+f.text(150, 186, "%.0f ms, %.1f ms, %.0f ms" % tuple(t), size=10.5, color=RED, bold=True)
+f.text(150, 206, "stubbed toe: sharp pain arrives first,", size=10, color=SLATE, bold=True)
+f.text(150, 222, "dull C-fibre ache nearly 1 s later", size=10, color=TEAL, bold=True)
+facts = dict(t0=t[0], t1=t[1], t2=t[2])
+```
 
 ## Chapter summary
 
@@ -801,3 +855,124 @@ enzyme cholinesterase then destroys the transmitter. Transmission is one-way
 because vesicles and transmitter exist only on the presynaptic side and
 receptors only on the postsynaptic side.
 :::
+
+```photogrid label="6.H" cols="5" ratio="1.0" caption="The four basic tissues of the human body, left to right: (a) simple squamous epithelium; (b) simple columnar epithelium with goblet cells; (c) compact bone in section; (d) skeletal muscle with striations; (e) a multipolar motor neuron."
+@ photo id="bio12/squamous-epithelium" cap="Squamous epithelium"
+@ photo id="bio12/columnar-epithelium" cap="Columnar epithelium"
+@ photo id="bio12/compact-bone" cap="Compact bone"
+@ photo id="bio12/skeletal-muscle" cap="Skeletal muscle"
+@ photo id="bio12/neuron-motor" cap="Motor neuron"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify epithelial tissue. Describe the types, structure, location and function of each with examples. <span class="marks">[10]</span>
+2. Describe connective tissue: its general structure, its types, and give eight points of function. <span class="marks">[10]</span>
+3. Describe the three types of muscular tissue and the sliding-filament mechanism of muscle contraction. <span class="marks">[10]</span>
+
+### Model answer D1: epithelial tissue (10 marks)
+
+**Introduction.** **Epithelial tissue** is a sheet of closely packed cells with very little intercellular matrix. It covers the body surface and lines the cavities, ducts and organs. It rests on a **basement membrane** and has no blood vessels (**avascular**); it is fed by diffusion from the connective tissue below.
+
+**Classification.**
+
+1. **Simple epithelium** (one layer): squamous, cuboidal, columnar (with ciliated and glandular varieties).
+2. **Compound (stratified) epithelium** (two or more layers): stratified squamous (keratinised and non-keratinised), stratified cuboidal, transitional.
+3. **Glandular epithelium**: unicellular (goblet cells) and multicellular (exocrine and endocrine glands).
+
+| Type | Structure | Location | Function |
+|---|---|---|---|
+| Simple squamous | Flat, thin cells with a central nucleus | Alveoli of lungs, lining of blood vessels (endothelium), Bowman's capsule | Diffusion and filtration |
+| Simple cuboidal | Cube-shaped cells with a round nucleus | Kidney tubules, thyroid follicles, ducts of glands | Secretion and absorption |
+| Simple columnar | Tall cells with a basal nucleus, often microvilli | Stomach and small intestine | Absorption and secretion |
+| Ciliated columnar | Columnar with cilia | Trachea, fallopian tube | Moves mucus and the ovum |
+| Stratified squamous | Many layers, the top layer keratinised in skin | Epidermis, mouth, oesophagus | Protection against abrasion |
+| Transitional | Several layers of cells that change shape | Urinary bladder, ureter | Stretches without tearing |
+
+**Special features.** The cells are held together by **tight junctions**, **desmosomes** and **gap junctions**. Tight junctions prevent leaking, desmosomes give strength and gap junctions allow rapid communication. The **brush border** of microvilli in the intestine increases the surface area for absorption.
+
+**Glandular epithelium.** Some epithelial cells become specialised to secrete. A **goblet cell** (unicellular) secretes mucus. **Exocrine glands** (sweat, salivary, gastric) pour secretions into ducts, but **endocrine glands** (thyroid, pituitary) have no ducts and release hormones into the blood.
+
+**Functions (summary).**
+
+- Protection from injury, germs and drying.
+- Absorption in the intestine.
+- Secretion of enzymes, mucus and hormones.
+- Filtration in the kidney.
+- Sensation, as in the taste buds and the olfactory epithelium.
+
+**Conclusion.** The shape of an epithelial cell fits its job: flat cells for quick diffusion, tall cells for absorption and layered cells where wear is greatest. A fault in this tissue is behind many problems, as cancers of the skin and lung begin in the epithelium.
+
+### Model answer D2: connective tissue (10 marks)
+
+**Introduction.** **Connective tissue** is the most abundant and widely spread tissue of the body. It connects, supports and protects other tissues. Unlike epithelium its cells are scattered in a large amount of **extracellular matrix**, which consists of a ground substance and fibres. It develops from the embryonic **mesoderm** (mesenchyme).
+
+**General structure.**
+
+1. **Cells:** fibroblasts (make the fibres), macrophages (eat germs), mast cells (release histamine and heparin), plasma cells (make antibodies), adipocytes (store fat).
+2. **Fibres:** **collagen** (strong, white), **elastic** (stretchy, yellow) and **reticular** (fine network).
+3. **Ground substance:** a gel of water, proteoglycans and glycoproteins.
+
+**Classification and types.**
+
+| Group | Type | Special features | Location |
+|---|---|---|---|
+| Loose | Areolar | Loose mesh of fibres, many cell types | Under the skin, around organs |
+| Loose | Adipose | Cells filled with a fat droplet | Under the skin, around the kidney |
+| Dense | Regular (tendon, ligament) | Parallel collagen bundles | Muscle to bone; bone to bone |
+| Dense | Irregular | Bundles in all directions | Dermis of skin |
+| Skeletal | Cartilage | Chondrocytes in lacunae; matrix of chondroitin | Nose, ear (elastic), ends of bones (hyaline), intervertebral discs (fibro) |
+| Skeletal | Bone | Hard matrix of calcium phosphate; osteocytes in lacunae; osteons | Skeleton |
+| Fluid | Blood and lymph | Liquid plasma matrix with RBC, WBC and platelets | Vessels |
+
+**Bone in brief.** The matrix of bone contains **collagen** (flexibility) and **calcium phosphate** (hardness). In compact bone the matrix forms concentric **lamellae** around a **Haversian canal**, which holds blood vessels and nerves; this unit is the **osteon**. Cartilage has no blood vessels, so it heals slowly.
+
+**Eight functions of connective tissue.**
+
+1. **Binding:** tendons join muscle to bone, and ligaments join bone to bone.
+2. **Support:** bone and cartilage hold the body upright and give it shape.
+3. **Protection:** the skull and ribs protect the brain, heart and lungs, and fat cushions the kidney.
+4. **Storage:** adipose tissue stores fat as energy, and bones store calcium.
+5. **Transport:** blood carries oxygen, nutrients, hormones and wastes.
+6. **Defence:** macrophages and plasma cells fight infection.
+7. **Insulation:** subcutaneous fat reduces heat loss in cold hills such as Mustang.
+8. **Repair:** fibroblasts form scar tissue that closes a wound.
+
+**Conclusion.** Connective tissue forms the framework of the body. Its variety, from the liquid blood to the hard bone, is the result of different matrices rather than different cells.
+
+### Model answer D3: muscular tissue and the mechanism of contraction (10 marks)
+
+**Introduction.** **Muscular tissue** is made of elongated cells (**muscle fibres**) that can **contract** and so cause movement. It makes up about 40 to 50% of the body weight and develops from the mesoderm. Its proteins **actin** and **myosin** are responsible for contraction.
+
+**Types of muscle.**
+
+| Feature | Skeletal | Smooth | Cardiac |
+|---|---|---|---|
+| Shape of fibre | Long, cylindrical, unbranched | Spindle-shaped | Short, cylindrical, branched |
+| Striations | Present | Absent | Present |
+| Nucleus | Many, peripheral | One, central | One or two, central |
+| Control | Voluntary | Involuntary | Involuntary |
+| Intercalated discs | Absent | Absent | Present |
+| Location | Attached to bones | Walls of gut, blood vessels, uterus | Heart wall |
+| Fatigue | Tires quickly | Slowly | Never (under normal conditions) |
+
+**Structure of a skeletal fibre.** The fibre is wrapped in the **sarcolemma** and filled with **myofibrils**. Each myofibril is made of repeating units called **sarcomeres**, the functional units of contraction, between two **Z lines**. In a sarcomere:
+
+- The **thin filaments** are **actin** (with troponin and tropomyosin) and run out from the Z line.
+- The **thick filaments** are **myosin**, with projecting **heads**, and lie in the centre (the **A band**).
+- The **I band** has only thin filaments, the **H zone** only thick filaments, and the **M line** is the centre.
+
+**Sliding-filament mechanism.**
+
+1. A nerve impulse reaches the neuromuscular junction and releases **acetylcholine**, which starts an impulse along the sarcolemma.
+2. The sarcoplasmic reticulum releases **Ca2+** ions into the sarcoplasm.
+3. Ca2+ binds to **troponin**, and **tropomyosin** moves aside to expose the binding sites on actin.
+4. A myosin head carrying **ADP and Pi** attaches to actin and forms a **cross-bridge**.
+5. The head swings (the **power stroke**) and pulls the thin filament towards the M line; ADP and Pi are released.
+6. A new **ATP** binds to the head, which detaches, and ATP is split to re-cock the head for the next cycle.
+7. The sarcomere shortens: the I band and H zone become narrower, but the **A band stays the same length**.
+8. When the nerve stops, Ca2+ is pumped back and the muscle relaxes.
+
+**Energy and fatigue.** ATP is supplied from creatine phosphate, glycolysis and aerobic respiration. In hard exercise lactic acid builds up and causes fatigue. Red fibres (rich in **myoglobin** and mitochondria) are slow and tireless, as in a Sherpa porter's leg muscles; white fibres are fast and tire quickly.
+
+**Conclusion.** The three muscle types suit their jobs: skeletal for movement, smooth for the slow squeezing of the gut, and cardiac for the lifelong beat of the heart. All of them contract by the sliding of actin over myosin, driven by Ca2+ and ATP.

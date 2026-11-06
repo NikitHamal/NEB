@@ -471,3 +471,15 @@ Plan to save Rs 5 in the first week, Rs 10 in the second, Rs 15 in the third and
 **4.** (i) $20, 23, 26, 29, \ldots$; the difference is 3, so $t_n=3n+17$. (ii) $t_{12}=36+17=53$ seats. (iii) $3n+17=62$ gives $3n=45$, so the **15th row**. (iv) $\sum_{k=1}^{5}(3k+17)=20+23+26+29+32=130$ seats.
 **5.** (i) $1, 3, 7, 15, 31$. (ii) $\sum_{n=1}^{5}(2^n-1)=1+3+7+15+31$, so $S_5=57$. (iii) $2^n-1=255$ gives $2^n=256=2^8$, so $n=8$: 255 is the **8th term**.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. The general term of a sequence is $t_n=n^2+2n$. Write the first four terms and $t_{10}$. Which term is 143? Is 100 a term of the sequence? <span class="marks">[5]</span>
+2. Find the general term of each sequence and use it to write the 8th term: (i) $3,7,11,15,\dots$ (ii) $2,6,18,54,\dots$ (iii) $1,4,9,16,\dots$ (iv) $1,\frac12,\frac13,\frac14,\dots$ <span class="marks">[5]</span>
+3. Evaluate (i) $\displaystyle\sum_{r=1}^{5}(2r+1)$ and (ii) $\displaystyle\sum_{r=1}^{4}r^2$. (iii) Write $2+4+6+\dots+20$ in sigma notation and find its sum. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $t_1=1+2=3$; $t_2=4+4=8$; $t_3=9+6=15$; $t_4=16+8=24$; $t_{10}=100+20=120$. For 143: $n^2+2n=143$, so $(n+1)^2=144$, $n+1=12$ and $n=11$: 143 is the **11th term**. For 100: $(n+1)^2=101$, which is not a perfect square, so $n$ is not a whole number and 100 is **not** a term.
+**2.** (i) The common difference is 4 and the first term 3, so $t_n=3+4(n-1)=4n-1$; $t_8=31$. (ii) Each term is 3 times the one before, so $t_n=2\times3^{n-1}$; $t_8=2\times3^7=4374$. (iii) The squares of the natural numbers: $t_n=n^2$; $t_8=64$. (iv) $t_n=\frac1n$; $t_8=\frac18$.
+**3.** (i) $r=1,2,3,4,5$ gives $3+5+7+9+11=35$. (ii) $1+4+9+16=30$. (iii) The terms are $2r$ for $r=1$ to 10: $\displaystyle\sum_{r=1}^{10}2r$. The sum is $2(1+2+\dots+10)=2\times55=110$.
+:::

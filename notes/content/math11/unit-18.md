@@ -1669,6 +1669,29 @@ order and you cannot leave anything out: (1) intercepts, (2) $f'$ factorised,
 test, (5) $f''$ and intervals of concavity, (6) points of inflection. Then sketch.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.27" caption="Inflating a balloon is a rate-of-change problem: the volume rises faster and faster as the radius grows. (a) A hot-air balloon being filled. (b) For V = (4/3) pi r^3 the derivative is 4 pi r^2, which is 113.1 cubic metres per metre of radius when r = 3 m, where the volume is 113.1 m3. The program confirms this with a numerical difference quotient. If the radius grows at 0.05 m/s, the chain rule gives dV/dt = 4 pi r^2 dr/dt = 5.65 m3/s of air. The same tangent slope is the bigger and bigger delivery the pump must supply."
+@ photo id="math11/balloon" cap="A hot-air balloon being inflated: its volume grows with the radius"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rate of change of the volume of a sphere"
+V = lambda r: 4 / 3.0 * math.pi * r ** 3
+dV = lambda r: 4 * math.pi * r ** 2
+num = (V(3 + 1e-6) - V(3)) / 1e-6
+dVdt = dV(3) * 0.05
+assert abs(num - dV(3)) < 1e-3 and round(dV(3), 1) == 113.1
+f = Fig(300, 236)
+f.text(150, 14, "V = (4/3) pi r^3 with the tangent at r = 3", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 5), (0, 550))
+ax.grid(1, 100, size=9); ax.axes("r (m)", "V")
+ax.curve(V, 0, 5, color=NAVY, sw=2.4)
+ax.curve(lambda r: V(3) + dV(3) * (r - 3), 1.2, 4.6, color=RED, sw=1.8)
+ax.pt(3, V(3), "", color=RED)
+f.text(ax.X(3) + 8, ax.Y(V(3)) + 20, "slope %.1f" % dV(3), size=10, color=RED, bold=True, anchor="start")
+f.text(150, 208, "dV/dr = 4 pi r^2 = %.1f m3 per m at r = 3" % dV(3), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "dr/dt = 0.05 m/s gives dV/dt = %.2f m3/s" % dVdt, size=10.5, color=RED, bold=True)
+facts = dict(s=dV(3), v=V(3), t=dVdt)
+```
+
 ## Chapter summary
 
 - **First principle:** $f'(x) = \lim_{h\to0}\dfrac{f(x+h)-f(x)}{h}$. Four steps —
@@ -1943,3 +1966,79 @@ The box is $6\ \text{cm}\times6\ \text{cm}\times3\ \text{cm}$, with greatest vol
 
 $$ V_{\max} = 6 \times 6 \times 3 = 108\ \text{cm}^{3} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the derivative by the first principle and derive the derivatives of $x^{n}$-type and trigonometric functions; prove the product rule and apply the rules of differentiation, including parametric and implicit forms. <span class="marks">[10]</span>
+2. Use the derivative to find the intervals of increase and decrease, the maxima and minima, the point of inflection and the tangent of a cubic curve, and solve a maximum-area problem. <span class="marks">[10]</span>
+
+### Model answer D1: first principle, rules and special forms (10 marks)
+
+**Introduction.** The **derivative** of $y=f(x)$ is the instantaneous rate of change of $y$ with respect to $x$. Geometrically it is the slope of the tangent to the curve.
+
+**First principle.**
+
+$$ f'(x)=\lim_{h\to0}\frac{f(x+h)-f(x)}{h} $$
+
+**Derivations.**
+
+1. $f(x)=\dfrac1x$: $\dfrac{\frac1{x+h}-\frac1x}{h}=\dfrac{-h}{hx(x+h)}=\dfrac{-1}{x(x+h)}\to-\dfrac1{x^{2}}$.
+2. $f(x)=\sqrt x$: $\dfrac{\sqrt{x+h}-\sqrt x}{h}=\dfrac{1}{\sqrt{x+h}+\sqrt x}\to\dfrac1{2\sqrt x}$.
+3. $f(x)=\sin x$: $\dfrac{\sin(x+h)-\sin x}{h}=\dfrac{2\cos\left(x+\frac h2\right)\sin\frac h2}{h}=\cos\left(x+\tfrac h2\right)\dfrac{\sin(h/2)}{h/2}\to\cos x$.
+
+**Rules.**
+
+| Rule | Formula |
+|---|---|
+| Power | $\dfrac{d}{dx}x^{n}=nx^{n-1}$ |
+| Sum | $(u\pm v)'=u'\pm v'$ |
+| Product | $(uv)'=u'v+uv'$ |
+| Quotient | $\left(\dfrac uv\right)'=\dfrac{u'v-uv'}{v^{2}}$ |
+| Chain | $\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$ |
+
+**Proof of the product rule.** For $y=u(x)v(x)$, $\dfrac{\Delta y}{h}=\dfrac{u(x+h)v(x+h)-u(x)v(x)}{h}=u(x+h)\dfrac{v(x+h)-v(x)}{h}+v(x)\dfrac{u(x+h)-u(x)}{h}$. Letting $h\to0$ (and $u$ is continuous), $y'=uv'+vu'$.
+
+**Worked examples.**
+
+1. $\dfrac{d}{dx}(x^{2}\sin x)=2x\sin x+x^{2}\cos x$.
+2. $\dfrac{d}{dx}\dfrac{x^{2}+1}{x-1}=\dfrac{2x(x-1)-(x^{2}+1)}{(x-1)^{2}}=\dfrac{x^{2}-2x-1}{(x-1)^{2}}$.
+3. $\dfrac{d}{dx}\sin(3x^{2})=6x\cos(3x^{2})$ (chain rule).
+
+**Parametric form.** If $x=\phi(t)$, $y=\psi(t)$, then $\dfrac{dy}{dx}=\dfrac{dy/dt}{dx/dt}$. For $x=a\cos t$ and $y=a\sin t$: $\dfrac{dy}{dx}=\dfrac{a\cos t}{-a\sin t}=-\cot t$. The second derivative is $\dfrac{d}{dt}(-\cot t)\Big/\dfrac{dx}{dt}=\dfrac{\operatorname{cosec}^{2}t}{-a\sin t}=-\dfrac{\operatorname{cosec}^{3}t}{a}$.
+
+**Implicit form.** Differentiate both sides with respect to $x$, treating $y$ as a function of $x$. For $x^{2}+y^{2}=25$: $2x+2y\dfrac{dy}{dx}=0$, so $\dfrac{dy}{dx}=-\dfrac xy$. At $(3,4)$ the slope is $-\dfrac34$.
+
+**Conclusion.** The first principle defines the derivative, the product, quotient and chain rules make differentiation systematic, and parametric and implicit forms use the chain rule.
+
+### Model answer D2: monotonicity, extrema, inflection and optimisation (10 marks)
+
+**Introduction.** The sign of the first derivative tells whether a function rises or falls, and the second derivative tells how the curve bends.
+
+**Tests.**
+
+1. If $f'(x)>0$ on an interval, $f$ is **increasing** there; if $f'(x)<0$, it is **decreasing**.
+2. A **critical point** is a point where $f'(x)=0$ (or $f'$ does not exist).
+3. **Second-derivative test:** at a critical point, $f''>0$ gives a local **minimum** and $f''<0$ a local **maximum**.
+4. $f''>0$ means the curve is concave up; $f''<0$ concave down; a **point of inflection** is where the concavity changes, with $f''=0$.
+
+**Worked example.** Study $f(x)=x^{3}-6x^{2}+9x+1$.
+
+1. $f'(x)=3x^{2}-12x+9=3(x-1)(x-3)$, so the critical points are $x=1$ and $x=3$.
+2. $f''(x)=6x-12$. $f''(1)=-6<0$: local **maximum** $f(1)=1-6+9+1=5$. $f''(3)=6>0$: local **minimum** $f(3)=27-54+27+1=1$.
+3. $f'>0$ for $x<1$ and $x>3$; $f'<0$ for $1<x<3$.
+4. $f''(x)=0$ at $x=2$, where the sign changes: a point of inflection at $(2,\ f(2))=(2,3)$.
+5. **Tangent at $x=2$:** slope $f'(2)=12-24+9=-3$, so $y-3=-3(x-2)$, that is $3x+y-9=0$.
+
+| Interval | $(-\infty,1)$ | $(1,3)$ | $(3,\infty)$ |
+|---|---|---|---|
+| Sign of $f'$ | $+$ | $-$ | $+$ |
+| Behaviour | increasing | decreasing | increasing |
+
+**Optimisation problem.** A farmer has $200$ m of fencing to enclose a rectangular plot against a long wall, so only three sides need fencing. Find the maximum area.
+
+1. Let the two sides perpendicular to the wall be $x$ and the side parallel be $y$: $2x+y=200$, so $y=200-2x$.
+2. Area $A=x(200-2x)=200x-2x^{2}$.
+3. $\dfrac{dA}{dx}=200-4x=0$ gives $x=50$, $y=100$.
+4. $\dfrac{d^{2}A}{dx^{2}}=-4<0$, so this is a maximum: $A=50\times100=5000$ m$^{2}$.
+
+**Conclusion.** Setting $f'=0$ locates turning points, $f''$ classifies them and the same method solves maximum and minimum problems in farming, business and design.

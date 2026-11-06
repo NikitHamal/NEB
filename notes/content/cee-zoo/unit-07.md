@@ -395,6 +395,27 @@ A failing heart may have an ejection fraction below 40 %, which is why it tires 
 exertion.
 :::
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Cardiac output and blood pressure. (a) Measuring blood pressure with a sphygmomanometer and a stethoscope over the brachial artery. (b) Cardiac output = heart rate x stroke volume: at rest 72 beats/min x 70 mL = 5.04 L/min, which is the whole 5 L blood volume once a minute; in hard exercise 180 x 120 mL = 21.6 L/min, 4.3 times higher. A reading of 120/80 mm Hg gives a mean arterial pressure MAP = diastolic + (systolic - diastolic)/3 = 93 mm Hg, because the heart spends about two thirds of each cycle in diastole."
+@ photo id="ceezoo/bp" cap="Measuring blood pressure"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Cardiac output at rest and in exercise (L/min)"
+co1, co2 = 72 * 70 / 1000, 180 * 120 / 1000
+mp = 80 + (120 - 80) / 3
+assert abs(co1 - 5.04) < 1e-9 and abs(co2 - 21.6) < 1e-9 and abs(mp - 93.33) < 0.01
+facts = dict(co1="%.2f" % co1, co2="%.1f" % co2, r="%.1f" % (co2 / co1), map="%.0f" % mp)
+f = Fig(300, 236)
+f.text(150, 12, "CO = heart rate x stroke volume", size=10.5, color=NAVY, bold=True)
+for i, (lab, hr, sv, v, c, fl) in enumerate((("rest: 72 x 70 mL", 72, 70, co1, TEAL, MINT), ("exercise: 180 x 120 mL", 180, 120, co2, RED, ROSE))):
+    y = 34 + i * 54
+    f.text(10, y, lab, size=10.5, color=c, bold=True, anchor="start")
+    w = v / 21.6 * 200
+    f.box(10, y + 8, w, 24, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 20, "%.2f L/min" % v if i == 0 else "%.1f L/min" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 164, "MAP = 80 + (120 - 80)/3 = 93 mm Hg", size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "exercise output is 4.3 times resting", size=10.5, color=SLATE, bold=True)
+```
+
 ## 7.2 Arterial and venous systems; blood pressure
 
 ### Artery, vein and capillary
@@ -650,6 +671,37 @@ plasma were transfused, O plasma contains anti-A and anti-B and would attack A o
 B recipient cells. The paper asks the red-cell rule; answer O negative, but know
 why.
 :::
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Inheriting blood groups. (a) Human blood: red cells, white cells and platelets in plasma; the ABO antigens sit on the red cell membrane. (b) The gene I has three alleles: IA and IB are co-dominant and IO is recessive. A cross IA IO x IB IO gives 4 equally likely types of child: AB, A, B and O, 25 per cent each, so all four groups can come from one pair of parents. A cross IA IO x IA IO gives 75 per cent group A and 25 per cent group O. Blood group O is therefore the universal donor for red cells, and AB is the universal recipient."
+@ photo id="bio12/human-blood" cap="Human blood film"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Offspring of two crosses (per cent)"
+def ph(a, b):
+    s = {a, b}
+    return "AB" if s == {"A", "B"} else "A" if "A" in s else "B" if "B" in s else "O"
+def cross(p1, p2):
+    kids = [ph(x, y) for x in p1 for y in p2]
+    return {g: 100 * kids.count(g) / 4 for g in ("A", "B", "AB", "O")}
+c1 = cross(("A", "O"), ("B", "O")); c2 = cross(("A", "O"), ("A", "O"))
+assert c1 == {"A": 25, "B": 25, "AB": 25, "O": 25} and c2 == {"A": 75, "B": 0, "AB": 0, "O": 25}
+facts = dict(c1=4, c2="%.0f" % c2["A"], c3="%.0f" % c2["O"])
+f = Fig(300, 236)
+f.text(150, 12, "Phenotype of the children (per cent)", size=10.5, color=NAVY, bold=True)
+cols = {"A": (BLUE, NAVY), "B": (MINT, TEAL), "AB": (SAND, AMBER), "O": (ROSE, RED)}
+for i, (lab, c) in enumerate((("IA IO x IB IO", c1), ("IA IO x IA IO", c2))):
+    y = 36 + i * 76
+    f.text(10, y, lab, size=10.5, color=SLATE, bold=True, anchor="start")
+    x = 10
+    for g in ("A", "B", "AB", "O"):
+        if c[g]:
+            fl, st = cols[g]
+            f.box(x, y + 8, c[g] * 2.8, 30, fill=fl, stroke=st, r=0, sw=1.3)
+            f.text(x + c[g] * 1.4, y + 23, "%s %g" % (g, c[g]), size=10.5, color=st, bold=True, vmid=True)
+            x += c[g] * 2.8
+f.text(150, 200, "IA and IB co-dominant; IO recessive", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "AB x O parents give only A or B children", size=10.5, color=SLATE, bold=True)
+```
 
 ## 7.4 Cardiovascular disorders
 
@@ -972,3 +1024,106 @@ answers most clinical stems.
 **10.** (a) — microcytic, hypochromic cells with low haemoglobin are the signature of iron deficiency; B₁₂ deficiency gives macrocytic cells.
 :::
 
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure of the human heart and explain the cardiac cycle and cardiac output. <span class="marks">[10]</span>
+2. Compare arteries, veins and capillaries; explain blood pressure and the common cardiovascular disorders. <span class="marks">[10]</span>
+3. Describe the composition and functions of blood and the ABO and Rh blood groups. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="5" ratio="1.1" caption="The circulatory system. (a) A numbered diagram of the human heart. (b) A real heart cut to show its chambers. (c) A normal ECG trace with P, QRS and T waves. (d) Measuring blood pressure with a sphygmomanometer. (e) A blood smear with red cells and a white cell."
+@ photo id="bio12/heart-numbered" cap="(a) Heart diagram"
+fit 1.1
+focus 0.5 0.5
+@ photo id="sci10/heart-real" cap="(b) Real heart"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio12/ecg" cap="(c) ECG"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceezoo/bp" cap="(d) Blood pressure"
+fit 1.1
+focus 0.5 0.5
+@ photo id="sci10/blood-smear" cap="(e) Blood smear"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: The heart and the cardiac cycle (10 marks)
+
+**Introduction.** The human heart is a hollow muscular organ about the size of a fist, lying between the lungs, slightly to the left. It is covered by the **pericardium** and weighs about 300 g.
+
+**Structure.** The heart has **four chambers**: the right atrium and right ventricle (**deoxygenated** blood) and the left atrium and left ventricle (**oxygenated** blood). The left ventricle wall is thickest as it pumps blood to the whole body. **Valves** keep blood flowing one way: the **tricuspid** valve (right) and **bicuspid (mitral)** valve (left) between atrium and ventricle, and the **aortic** and **pulmonary semilunar** valves at the exits.
+
+**Conduction system.** The **sino-atrial (SA) node** (pacemaker) in the right atrium starts each beat → **atrio-ventricular (AV) node** → **bundle of His** → **Purkinje fibres** in the ventricles. The heart is **myogenic**, as the beat starts in the heart muscle itself.
+
+**Cardiac cycle (0.8 s at 75 beats per minute).**
+
+1. **Atrial systole (0.1 s):** both atria contract and fill the ventricles.
+2. **Ventricular systole (0.3 s):** the AV valves close (first sound **"lub"**), pressure rises, and the semilunar valves open to eject blood into the aorta and pulmonary artery.
+3. **Joint diastole (0.4 s):** the semilunar valves close (second sound **"dup"**), all chambers relax and blood flows in.
+
+**Cardiac output.** Cardiac output = stroke volume × heart rate. With a stroke volume of 70 mL and a rate of 72 beats/min, CO = 70 × 72 = 5040 mL ≈ **5 L per minute**, so the total blood volume (5 L) passes through the heart each minute.
+
+**ECG.** The **P wave** shows atrial depolarisation, the **QRS complex** shows ventricular depolarisation and the **T wave** shows ventricular repolarisation.
+
+| Heart sound | Cause | Time |
+|---|---|---|
+| Lub | Closing of AV valves | Start of ventricular systole |
+| Dup | Closing of semilunar valves | Start of diastole |
+
+**Conclusion.** Coordinated contraction of atria and ventricles, directed by the SA node and valves, keeps the double circulation moving.
+
+### Model answer D2: Blood vessels, blood pressure and disorders (10 marks)
+
+**Introduction.** Blood travels in a **double circulation**: the **pulmonary circuit** (heart → lungs → heart) and the **systemic circuit** (heart → body → heart). Three kinds of vessel are involved.
+
+| Feature | Artery | Vein | Capillary |
+|---|---|---|---|
+| Direction | Away from heart | To heart | Between artery and vein |
+| Wall | Thick, elastic | Thin | One cell thick |
+| Valves | Absent (except at origin) | Present | Absent |
+| Blood | Oxygenated (except pulmonary) | Deoxygenated (except pulmonary) | Exchange of materials |
+| Pressure | High | Low | Falling |
+
+**Blood pressure (BP).** It is the force of blood on the vessel wall, measured by a **sphygmomanometer** over the brachial artery. Normal BP is **120/80 mm Hg** (systolic/diastolic). **Pulse pressure** = 120 − 80 = 40 mm Hg. Pressure falls from arteries to veins. It depends on cardiac output, blood volume, and the resistance of arterioles.
+
+**Cardiovascular disorders.**
+
+1. **Hypertension:** BP above 140/90 mm Hg; a "silent killer" that damages the heart, brain and kidneys. Salt and stress raise it.
+2. **Atherosclerosis:** fats (cholesterol) deposit in artery walls and narrow them.
+3. **Coronary artery disease (CAD):** the arteries to the heart muscle are narrowed, causing **angina**.
+4. **Heart attack (myocardial infarction):** a clot blocks a coronary artery and part of the heart muscle dies.
+5. **Stroke:** a brain vessel bursts or is blocked.
+6. **Heart failure:** the heart cannot pump enough blood.
+
+**Prevention.** Eat less salt, fat and sugar, exercise, avoid tobacco and alcohol, and check BP regularly, which is a free service in many Nepali health posts.
+
+**Conclusion.** The structure of each vessel fits its job, and a healthy life style keeps blood pressure and the vessels normal.
+
+### Model answer D3: Blood and blood groups (10 marks)
+
+**Introduction.** **Blood** is a red fluid connective tissue. An adult has about **5 litres**, which is 7–8% of body weight, and its pH is about 7.4.
+
+**Composition.**
+
+1. **Plasma (55%):** 90–92% water with proteins (albumin, globulin, fibrinogen), glucose, salts, hormones and wastes.
+2. **Red blood corpuscles (RBC):** biconcave, **non-nucleated**, with haemoglobin; 5–5.5 million per mm³; life 120 days; made in red bone marrow; carry O₂.
+3. **White blood corpuscles (WBC):** 5,000–10,000 per mm³; granulocytes (neutrophil, eosinophil, basophil) and agranulocytes (lymphocyte, monocyte); defend the body.
+4. **Platelets:** 1.5–4 lakh per mm³; help clotting.
+
+**Functions.** Transport of gases, food, hormones and wastes; defence; clotting; regulation of temperature and pH.
+
+**ABO blood groups.** They depend on antigens on RBCs and antibodies in plasma (Landsteiner, 1900).
+
+| Group | Antigen on RBC | Antibody in plasma | Can donate to | Can receive from |
+|---|---|---|---|---|
+| A | A | anti-B | A, AB | A, O |
+| B | B | anti-A | B, AB | B, O |
+| AB | A and B | None | AB (universal recipient) | All |
+| O | None | anti-A, anti-B | All (universal donor) | O |
+
+**Rh factor.** People with the Rh antigen are **Rh-positive** (about 85%) and others are **Rh-negative**. If an Rh-negative mother carries an Rh-positive baby, her antibodies may destroy the red cells of a later baby (**erythroblastosis foetalis**). A shot of anti-D after the first birth prevents this.
+
+**Clotting.** Damaged tissue releases thromboplastin; with Ca²⁺ it turns prothrombin into thrombin, which changes fibrinogen into **fibrin threads** that trap cells and form a clot.
+
+**Conclusion.** Blood links all organs and defends the body, and matching the blood group is vital in transfusion.

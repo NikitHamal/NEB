@@ -490,6 +490,18 @@ $300\,000\div30\,000=10$ ✓.
 **6.** Mark O at 0 and A at 2. At A draw $AB\perp OA$, $AB=1$. Then $OB=\sqrt{2^2+1^2}=\sqrt{5}$. With centre O and radius OB, draw an arc to cut the number line at D; D represents $\sqrt{5}\approx2.24$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) Write three rational numbers between $\frac13$ and $\frac12$. (b) Classify each of these as rational or irrational, with a reason: $\sqrt{16}$, $\sqrt{20}$, $\frac{22}{7}$, $0.25$, $\pi$, $\sqrt{0.09}$. <span class="marks">[5]</span>
+2. The Sun is $1.496\times10^{8}$ km from the Earth and light travels at $3\times10^{5}$ km per second. (a) Find the time light takes to reach the Earth, in seconds and in minutes (to one decimal place). (b) Write $0.000045$ in scientific notation and $6.02\times10^{4}$ as an ordinary number. <span class="marks">[5]</span>
+3. Arrange $-\frac34,\ 0.6,\ -0.8,\ \frac58,\ \sqrt2$ in ascending order, and find the rational number exactly half-way between $-\frac34$ and $\frac58$. Show all five on a number line (describe it). <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Write both with denominator 24: $\frac13=\frac{8}{24}$ and $\frac12=\frac{12}{24}$. Any numerators 9, 10, 11 fit between, giving $\frac{9}{24}=\frac38$, $\frac{10}{24}=\frac{5}{12}$ and $\frac{11}{24}$. (b) $\sqrt{16}=4$: rational (a whole number). $\sqrt{20}$: irrational, since 20 is not a perfect square and its decimal never ends or repeats. $\frac{22}{7}$: rational (a ratio of integers). $0.25=\frac14$: rational. $\pi$: irrational (non-terminating, non-repeating). $\sqrt{0.09}=0.3=\frac{3}{10}$: rational.
+**2.** (a) $t=\dfrac{1.496\times10^{8}}{3\times10^{5}}=0.4987\times10^{3}=4.987\times10^{2}\approx499$ seconds. In minutes: $498.7\div60=8.31\approx8.3$ minutes. (b) $0.000045=4.5\times10^{-5}$ (move the point 5 places to the right). $6.02\times10^{4}=60{,}200$ (move the point 4 places to the right).
+**3.** As decimals: $-\frac34=-0.75$, $0.6$, $-0.8$, $\frac58=0.625$, $\sqrt2\approx1.414$. Ascending order: $-0.8<-\frac34<0.6<\frac58<\sqrt2$. Half-way point: $\dfrac{-\frac34+\frac58}{2}=\dfrac{-\frac68+\frac58}{2}=\dfrac{-\frac18}{2}=-\frac{1}{16}$. **Number line:** mark $-0.8$ and $-0.75$ just left of $-0.5$, then $-\frac1{16}$ just left of 0, then $0.6$ and $0.625$ very close together between $\frac12$ and 1, and $\sqrt2$ a little beyond $1.4$. The only irrational number among them is $\sqrt2$.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>
