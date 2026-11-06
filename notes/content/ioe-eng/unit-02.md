@@ -318,3 +318,118 @@ f.text(150, 226, "4 at, 3 on, 5 in", size=10.5, color=NAVY, bold=True)
 **5.** (d) — *whose* shows possession.
 **6.** (b) — *would rather* + bare infinitive.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the types of conditional sentences and the basic sentence patterns of English, with examples. <span class="marks">[10]</span>
+2. Explain the rules for the active and passive voice and for the use of infinitives, gerunds and participles. <span class="marks">[10]</span>
+3. Explain the rules for punctuation and prepositions, and give common idioms and word-building patterns with meanings. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Grammar rules shown through places. (a) An umbrella in the rain is what the first conditional is about. (b) Boudhanath Stupa: in the passive sentence the thing acted on becomes the subject. (c) Kathmandu Durbar Square: the preposition grows from a point (at) to a surface (on) to an area (in)."
+@ photo id="ioeeng/umbrella" cap="(a) Umbrella"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/stupa" cap="(b) Boudhanath Stupa"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/durbar" cap="(c) Durbar Square"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Conditionals and sentence patterns (10 marks)
+
+**Introduction.** A **conditional sentence** has an *if*-clause (the condition) and a main clause (the result).
+
+| Type | If-clause | Main clause | Example |
+|---|---|---|---|
+| **Zero** (general truth) | Simple present | Simple present | *If you heat ice, it melts.* |
+| **First** (real, possible) | Simple present | *will* + base verb | *If it rains, we shall stay at home.* |
+| **Second** (unreal, present or future) | Simple past | *would* + base verb | *If I were a bird, I would fly to Everest.* |
+| **Third** (unreal, past) | Past perfect | *would have* + past participle | *If he had studied, he would have passed.* |
+| **Mixed** | Past perfect | *would* + base verb | *If I had taken the medicine, I would be well now.* |
+
+**Important points.**
+
+1. In the second conditional **were** is used for all persons: *If I were you…*
+2. **Unless** means *if…not*: *Unless you run, you will miss the bus* = *If you do not run, you will miss the bus.*
+3. **Inversion** drops *if*: *Had I known, I would have told you.* *Were he here, he would help.* *Should you need help, call me.*
+4. **Provided that, as long as, suppose** can replace *if*.
+5. **Wish** and **if only** express unreal desire: *I wish I knew the answer.* *I wish I had gone.*
+
+**Basic sentence patterns.**
+
+| Pattern | Example |
+|---|---|
+| S + V | *Birds fly.* |
+| S + V + O | *Gita reads a book.* |
+| S + V + C | *The sky is blue.* |
+| S + V + IO + DO | *He gave me a gift.* |
+| S + V + O + C | *They elected him captain.* |
+| S + V + A (adverbial) | *She lives in Pokhara.* |
+
+**Conclusion.** The tense of the verb in the if-clause steps back as the situation becomes less real, and each pattern shows how many parts a verb needs to complete its meaning.
+
+### Model answer D2: Voice and verbals (10 marks)
+
+**Introduction.** In the **active voice** the subject does the action; in the **passive voice** the subject receives it. The passive is formed with **be (in the same tense) + past participle (V3)**, and the object of the active verb becomes the subject.
+
+**Passive of the tenses.**
+
+| Tense | Active | Passive |
+|---|---|---|
+| Simple present | *She writes a letter.* | *A letter is written by her.* |
+| Present continuous | *She is writing a letter.* | *A letter is being written.* |
+| Present perfect | *She has written a letter.* | *A letter has been written.* |
+| Simple past | *She wrote a letter.* | *A letter was written.* |
+| Future | *She will write a letter.* | *A letter will be written.* |
+| Modal | *You must obey the rules.* | *The rules must be obeyed.* |
+
+**More rules.** (1) Imperatives: *Close the door* → *Let the door be closed.* (2) Questions: *Who wrote it?* → *By whom was it written?* (3) Two objects: *He gave me a book* → *I was given a book* / *A book was given to me.* (4) The agent *by…* is dropped when it is unknown or unimportant.
+
+**Verbals.**
+
+1. **Infinitive** (*to + base verb*): *I want to go.* The **bare infinitive** follows modals and *make, let, see, hear*: *She made him cry.*
+2. **Gerund** (*verb + ing* used as a noun) follows *enjoy, avoid, finish, mind, suggest, practise*, and prepositions: *He avoided meeting her. I look forward to seeing you.*
+3. **Participles:** the present participle (*running water*) and the past participle (*a broken window*) act as adjectives. A participle phrase must refer to the subject: *Walking along the road, I saw a snake* is correct, while *Walking along the road, a snake bit me* is a **dangling participle**.
+4. **Change of meaning:** *He stopped to smoke* (stopped in order to smoke) versus *He stopped smoking* (gave up); *I remember meeting her* (the past) versus *Remember to post the letter* (the future task).
+
+**Conclusion.** Choose the active voice for a clear doer and the passive when the action matters more than the doer, and choose the verbal form that the governing verb requires.
+
+### Model answer D3: Punctuation, prepositions, vocabulary and idioms (10 marks)
+
+**Introduction.** Correct punctuation, prepositions, words and idioms make writing accurate and natural.
+
+**Punctuation.**
+
+1. **Full stop** ends a statement; **question mark** a question; **exclamation mark** strong feeling.
+2. **Comma** separates items in a list, a non-defining clause and the words of address: *Ram, my friend, is a doctor.*
+3. **Semicolon** joins two closely related main clauses: *It was late; we went home.*
+4. **Colon** introduces a list or an explanation: *Bring three things: a pen, a ruler and a pencil.*
+5. **Apostrophe** shows possession (*the boy's bag, the boys' bags*) and contraction (*don't*); *its* (possessive) differs from *it's* (it is).
+6. **Inverted commas** enclose direct speech; the **hyphen** joins compound words (*well-known*); the **dash** marks a sudden break.
+
+**Prepositions.**
+
+| Use | Rule | Example |
+|---|---|---|
+| Time | *at* clock time, *on* day or date, *in* month, year, season | *at 5 p.m., on Monday, in 2082* |
+| Place | *at* a point, *on* a surface, *in* an enclosed area | *at the gate, on the table, in Kathmandu* |
+| *Since / for* | *since* a point in time, *for* a period | *since 2020, for six years* |
+| *Between / among* | two / more than two | *between the two friends, among the students* |
+| Dependent | adjective or verb + fixed preposition | *good at, afraid of, interested in, depend on, wait for* |
+
+**Idioms and their meanings.**
+
+1. *A piece of cake* — very easy.
+2. *Break the ice* — start a conversation.
+3. *Once in a blue moon* — very rarely.
+4. *Bite the bullet* — face a hard task bravely.
+5. *Hit the nail on the head* — say exactly the right thing.
+6. *Spill the beans* — reveal a secret.
+7. *Under the weather* — feeling unwell.
+8. *Burn the midnight oil* — study or work late at night.
+
+**Vocabulary (one-word substitutes).** *glutton* — one who eats too much; *philanthropist* — one who loves mankind; *ornithology* — the study of birds; *fratricide* — the killing of a brother; *acrophobia* — fear of heights; *orphan* — a child who has lost both parents.
+
+**Conclusion.** Accuracy in small matters, such as the preposition or the comma, is what entrance examinations test.
