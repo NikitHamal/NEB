@@ -238,10 +238,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # brittle behind LiteSpeed's multi-worker LSAPI: a stale worker holds the old
 # manifest index and 404s every newly-hashed name until it respawns. Plain
 # filenames keep every worker consistent across deploys (gz/br still served).
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'nebians.storage.VersionedStaticFilesStorage'
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "nebians.storage.VersionedStaticFilesStorage"},
 }
 
 def _immutable_file_test(path, _url=None):
@@ -249,6 +249,7 @@ def _immutable_file_test(path, _url=None):
     return 'web/js/needle3/' in p or (_url is not None and 'web/js/needle3/' in _url)
 
 WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
+from nebians.static_headers import static_cache_headers as WHITENOISE_ADD_HEADERS_FUNCTION  # noqa: E402
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')

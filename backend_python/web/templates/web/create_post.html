@@ -7,7 +7,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/create-post.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
 <style>
 .cp-mention-dropdown{position:absolute;z-index:960;width:240px;max-height:200px;overflow-y:auto;background:var(--md-surface-container-lowest,#fff);border:1px solid var(--md-outline-variant);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.12);display:none;padding:4px}
 .cp-mention-dropdown.open{display:block}
@@ -356,9 +356,9 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" nonce="{{ csp_nonce }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js" nonce="{{ csp_nonce }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/vendor/katex/katex.min.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/vendor/katex/mhchem.min.js' %}" nonce="{{ csp_nonce }}"></script>
+<script src="{% static 'web/vendor/katex/auto-render.min.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 (function() {
   var MAX_IMAGES = 10;

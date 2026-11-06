@@ -26,5 +26,7 @@ def _digest(path):
 @register.simple_tag
 def asset(path):
     url = static(path)
+    if '?' in url:  # the storage already versioned it
+        return url
     token = _digest(path)
     return f'{url}?v={token}' if token else url

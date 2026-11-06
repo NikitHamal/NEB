@@ -33,3 +33,4 @@ django-htmx==1.23.0
 meilisearch==0.34.1
 gradio_client==2.7.2
 js2py==0.74
+Brotli>=1.1.0
