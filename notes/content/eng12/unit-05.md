@@ -719,3 +719,49 @@ story's whole movement — from winter gloom and the wall between two men, to ch
 this sentence: change is possible, but only if people walk together.
 :::
 
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe the narrator's meeting with Runtu and explain why their friendship has changed. <span class="marks">[10]</span>
+2. Discuss the symbols and the theme of hope in "My Old Home". <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="3" ratio="1.0" caption="Lu Xun and his home. Lu Xun in 1936, his former residence in Shaoxing and a black-awning (wupeng) boat of the kind used on the waterways of his home region."
+@ photo id="eng12/lu-xun" cap="Lu Xun, 1936"
+@ photo id="eng12/lu-xun-residence" cap="Former residence, Shaoxing"
+@ photo id="eng12/wupeng-boat" cap="Wupeng boat"
+```
+
+### Model answer D1: Runtu and the change (10 marks)
+
+**Introduction.** "My Old Home" (*Guxiang*) is a story by **Lu Xun** (pen name of Zhou Shuren, 1881–1936), written in January 1921 and collected in *Call to Arms* (1923).
+
+1. The narrator travels **more than seven hundred miles** in winter to sell the old family house and take his mother and nephew Hongr to his new home.
+2. The village looks **desolate** and he feels depressed.
+3. His mother's mention of **Runtu** brings back a picture of a **golden moon, a jade-green watermelon field** and a boy with a **silver necklet** thrusting a pitchfork at a *zha*.
+4. The two boys were **"fast friends"** thirty years earlier, during one month, and never met again.
+5. **Mrs Yang**, the "Beancurd Beauty", comes to demand furniture and pockets his mother's gloves.
+6. Runtu arrives: his face is **sallow and lined**, his hands like **pine bark**, and he says **"Master!"**
+7. The narrator feels **"a lamentably thick wall"** between them.
+8. Runtu lists his troubles: many children, famine, taxes, soldiers, bandits, officials and gentry.
+
+| Then | Now |
+|---|---|
+| Silver necklet, friend | Bent, poor, "Master!" |
+| Golden moon | Grey, cold village |
+
+**Conclusion.** Poverty and class have built a wall between two friends.
+
+### Model answer D2: symbols and hope (10 marks)
+
+1. The **golden moon and watermelon field** symbolise the bright, lost past.
+2. The **"thick wall"** is the barrier of class and hierarchy.
+3. **Runtu's incense burner and candlesticks** show his hope in religion.
+4. **Mrs Yang** shows the harsh greed of poverty.
+5. As the boat leaves, **Hongr asks when they will return**, because Shuisheng has invited him.
+6. The narrator hopes that the **children will not be divided** as the adults were.
+7. He then sees that his hope may be an **idol like Runtu's**.
+8. Ending: the narrator compares **hope to roads across the earth**: there were no roads at first, but when many people walk the same way, a road is made.
+
+**Conclusion.** Lu Xun mixes sorrow for the past with a cautious hope for the future.
