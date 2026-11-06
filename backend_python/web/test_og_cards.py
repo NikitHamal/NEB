@@ -49,8 +49,11 @@ class CardTests(unittest.TestCase):
     def test_a_card_is_1200_by_630(self):
         self.assertEqual(self.render().size, (1200, 630))
 
-    def test_cards_are_drawn_on_ink(self):
-        self.assertTrue(_corner_dark(self.render()))
+    def test_cards_are_drawn_on_a_light_surface(self):
+        # M3 Expressive light: a flat tonal surface, never a night gradient.
+        img = self.render().convert('RGB')
+        for xy in ((4, 4), (1195, 4), (4, 625)):
+            self.assertGreater(sum(img.getpixel(xy)) / 3.0, 235)
 
     def test_every_sculpture_draws_without_raising(self):
         # A hero that throws is a 404 on an og:image, which a scraper caches.
