@@ -394,6 +394,25 @@ def _frame_summary(htm):
         r'(.*?)(?=<h2|<section|\Z)', rep, htm, flags=re.S | re.I)
 
 
+def _layout_fixes(htm):
+    """m3x print fixes: (1) a heading never strands at a page foot before an unbreakable
+    figure or table (wrap the pair in .hk, break-inside:avoid); (2) tables with many
+    columns get a denser class so they stay inside the page."""
+    def dense(m):
+        tbl = m.group(0)
+        if 'class="pgrid"' in tbl[:60]:
+            return tbl
+        first = re.search(r"<tr>.*?</tr>", tbl, flags=re.S)
+        cols = len(re.findall(r"<t[hd]\b", first.group(0))) if first else 0
+        cls = "dense2" if cols >= 9 else ("dense" if cols >= 7 else "")
+        if cls and 'class="' not in tbl[:30]:
+            return tbl.replace("<table", '<table class="%s"' % cls, 1)
+        return tbl
+    htm = re.sub(r"<table\b.*?</table>", dense, htm, flags=re.S)
+    pat = re.compile(r"(<h[234]\b[^>]*>(?:(?!</h[234]>).)*</h[234]>\s*)((?:<p>\s*)?(?:<(?:figure|table)\b.*?</(?:figure|table)>|<div class=.dm.>.*?</div>)(?:\s*</p>)?)", re.S)
+    htm = pat.sub(lambda m: '<div class="hk">' + m.group(1) + m.group(2) + '</div>', htm)
+    return htm
+
 def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
     store = []
@@ -434,4 +453,5 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = re.sub(r'<ol start="(\d+)"(?![^>]*style=)>',
                  lambda m: f'<ol start="{m.group(1)}" style="counter-reset:list-item {int(m.group(1)) - 1}">',
                  htm)
+    htm = _layout_fixes(htm)
     return meta, htm, n[0]
