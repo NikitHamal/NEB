@@ -24,6 +24,17 @@ Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/cs
 
 Date of birth and gender are `components/_dob_field.html`, `_gender_tiles.html`, `_dob_sheet.html` (wired by `js/neb-dob-field.js`); never build a second one, never `<input type="date">`, never side by side. Education is `NebEdu.picker` in `js/neb-edu.js` fed by `api/education_catalog.py` (`STAGES`, `POPULAR`): add a course there once. Onboarding stays three steps; extra detail belongs in `edit_profile.html`. Status: `TASK_AUTH_ONBOARDING_STATUS.md`.
 
+## Copy rule: never use a dash as punctuation
+
+Never write an em dash, an en dash used as a break, or a double hyphen ("--") in anything a user reads: web copy, templates,
+OG cards, tools pages, PDF furniture, Android strings, commit-free docs shown in the app. Use a period, a comma, a colon or
+"to". Ranges keep a plain hyphen or "to". Authored book markdown is out of scope for now.
+
+## PDF books (m3x print system)
+
+Read `PDF_M3X_STATUS.md` first. Fix `notes/pipeline/` (theme.css, furniture.py, m3x.py), then rebuild; never hand-edit a PDF.
+Contents always starts on a new page, chapters start on a new page, cards are tonal and rounded, Poppins for every label.
+
 ## Web design system (m3x) -- read before touching templates/CSS
 
 - Tokens: `static/web/css/m3x/tokens.css` (`--md-*` roles, `--x-float` = the white/raised surface for every menu, dialog, sheet, popover). Never hard-code a colour; a fill and its label are always a role pair.
