@@ -777,3 +777,67 @@ f.text(150, 222, "at 45 deg: height 10.2 m, flight 2.89 s", size=10.5, color=SLA
 **9.** (b) — $T = kl^xg^y$: $[T] = [L]^x[LT^{-2}]^y$ gives $x + y = 0$ and $-2y = 1$, so $y = -\frac{1}{2}$, $x = \frac{1}{2}$: $T \propto \sqrt{l/g}$.
 **10.** (d) — $\sin2\theta = Rg/u^2 = 200/400 = 0.5$, so $2\theta = 30^{\circ}$ or $150^{\circ}$: $\theta = 15^{\circ}$ or $75^{\circ}$ (complementary, as expected).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the time of flight, maximum height and range of a projectile and solve a numerical. <span class="marks">[10]</span>
+2. Explain dimensional analysis, its uses and limitations, and combine errors in a measurement. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.25" caption="Instruments and motion behind the answers. (a) A vernier calliper reads lengths to 0.1 mm. (b) A micrometer screw gauge reads to 0.01 mm. (c) A speedometer shows instantaneous speed, a scalar, while velocity needs a direction."
+@ photo id="phy11/vernier" cap="(a) Vernier calliper"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/micrometer" cap="(b) Micrometer"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/speedo" cap="(c) Speedometer"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: projectile motion (10 marks)
+
+**Introduction.** A **projectile** is a body thrown into the air that then moves under gravity alone. Air resistance is ignored. Its path is a **parabola** because the horizontal motion is uniform and the vertical motion is uniformly accelerated.
+
+**Derivation.** Let the speed of projection be $u$ at an angle $\theta$ above the horizontal. The components are $u_x = u\cos\theta$ and $u_y = u\sin\theta$.
+
+1. **Time of flight.** The body returns to ground level when $y = 0$: $0 = (u\sin\theta)T - \tfrac12 gT^2$, so $T = \dfrac{2u\sin\theta}{g}$.
+2. **Maximum height.** At the top $v_y = 0$, so $0 = u^2\sin^2\theta - 2gH$ and $H = \dfrac{u^2\sin^2\theta}{2g}$.
+3. **Range.** The horizontal distance is $R = u_xT = u\cos\theta\cdot\dfrac{2u\sin\theta}{g} = \dfrac{u^2\sin2\theta}{g}$.
+4. **Equation of path.** Eliminating $t$ from $x = u\cos\theta\,t$ and $y = u\sin\theta\,t - \tfrac12gt^2$ gives $y = x\tan\theta - \dfrac{gx^2}{2u^2\cos^2\theta}$, a parabola.
+5. **Maximum range.** $R$ is greatest when $\sin2\theta = 1$, that is $\theta = 45^{\circ}$, and then $R_{max} = u^2/g$. Angles $\theta$ and $90^{\circ}-\theta$ give the same range, and $H = R\tan\theta/4$.
+
+| Quantity | Formula | Depends on |
+|---|---|---|
+| Time of flight $T$ | $2u\sin\theta/g$ | $u$, $\theta$, $g$ |
+| Maximum height $H$ | $u^2\sin^2\theta/2g$ | $u$, $\theta$, $g$ |
+| Range $R$ | $u^2\sin2\theta/g$ | $u$, $\theta$, $g$ |
+| Speed at top | $u\cos\theta$ | $u$, $\theta$ only |
+
+**Numerical.** A ball is thrown at $50\ \text{m s}^{-1}$ at $37^{\circ}$ ($\sin37^{\circ} = 0.6$, $\cos37^{\circ} = 0.8$, $g = 10\ \text{m s}^{-2}$). Then $T = 2(50)(0.6)/10 = 6\ \text{s}$, $H = (30)^2/20 = 45\ \text{m}$ and $R = 40 \times 6 = 240\ \text{m}$. The speed at the top is $40\ \text{m s}^{-1}$, purely horizontal.
+
+**Conclusion.** The two components are independent. Time and height depend on $u\sin\theta$, range on $u^2\sin 2\theta$, and the maximum range is at $45^{\circ}$.
+
+### Model answer D2: dimensional analysis and combination of errors (10 marks)
+
+**Introduction.** The **dimensions** of a quantity show how it depends on the base quantities mass $[M]$, length $[L]$ and time $[T]$. **Dimensional analysis** uses the rule that every term in a physical equation must have the same dimensions (the principle of homogeneity).
+
+**Uses.**
+
+1. **Checking an equation.** For $s = ut + \tfrac12at^2$, each term has dimension $[L]$, so the equation is dimensionally correct.
+2. **Converting units.** $n_2 = n_1\left[\dfrac{M_1}{M_2}\right]^a\left[\dfrac{L_1}{L_2}\right]^b\left[\dfrac{T_1}{T_2}\right]^c$. For example $1\ \text{N} = 10^5$ dyne.
+3. **Deriving a relation.** For a pendulum, assume $T = k\,l^xm^yg^z$. Matching $[T]$ gives $y = 0$, $x = \tfrac12$, $z = -\tfrac12$, so $T = k\sqrt{l/g}$ (with $k = 2\pi$ found by experiment).
+
+**Limitations.** It cannot find dimensionless constants such as $\tfrac12$ or $2\pi$. It fails for relations containing sums of terms, trigonometric, logarithmic or exponential functions, and it cannot decide whether a quantity is a scalar or a vector. A dimensionally correct equation need not be physically correct.
+
+**Combination of errors.**
+
+| Operation | Rule |
+|---|---|
+| $Z = A + B$ or $A - B$ | $\Delta Z = \Delta A + \Delta B$ (absolute errors add) |
+| $Z = AB$ or $A/B$ | $\dfrac{\Delta Z}{Z} = \dfrac{\Delta A}{A} + \dfrac{\Delta B}{B}$ |
+| $Z = A^nB^m$ | $\dfrac{\Delta Z}{Z} = n\dfrac{\Delta A}{A} + m\dfrac{\Delta B}{B}$ |
+
+**Numerical.** In a pendulum experiment $l = 100.0 \pm 0.1\ \text{cm}$ and $T = 2.00 \pm 0.02\ \text{s}$. From $g = 4\pi^2l/T^2$, $\dfrac{\Delta g}{g} = \dfrac{0.1}{100} + 2\left(\dfrac{0.02}{2.00}\right) = 0.001 + 0.020 = 0.021$, which is $2.1\%$. Also $g = 4\pi^2(1.000)/4.00 = 9.87\ \text{m s}^{-2}$, so $\Delta g = 0.21\ \text{m s}^{-2}$ and $g = 9.87 \pm 0.21\ \text{m s}^{-2}$.
+
+**Conclusion.** Dimensional analysis checks and guides an equation but never proves it. In experiments the quantity with the highest power or the biggest percentage error (here $T$) controls the final accuracy.

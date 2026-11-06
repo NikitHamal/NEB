@@ -987,3 +987,67 @@ facts = dict(t=tmax * 1000, m=mean * 1000, P=P)
 **10.** (b) — $\dfrac{F}{L}=\dfrac{\mu_0I_1I_2}{2\pi d}=\dfrac{(4\pi\times10^{-7})(50)}{2\pi(0.10)}=1.0\times10^{-4}$ N m⁻¹, attractive.
 **11.** (a) — $v=\dfrac{qBr}{m}=\dfrac{(1.6\times10^{-19})(0.20)(0.10)}{1.67\times10^{-27}}=1.9\times10^{6}$ m s⁻¹. Option (b) doubles it by using the diameter.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the Biot-Savart law. Derive the magnetic field at the centre of a circular coil and inside a solenoid, and the force between two parallel wires. <span class="marks">[10]</span>
+2. Derive the motion of a charged particle in a magnetic field, and compare diamagnetic, paramagnetic and ferromagnetic materials. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.25" caption="Magnetism at work. (a) Iron filings trace the magnetic field lines of a bar magnet from pole to pole. (b) A moving-coil galvanometer uses the torque on a coil in a magnetic field. (c) A diamagnetic material, such as graphite, is repelled by a strong magnet."
+@ photo id="ceephy/filings" cap="(a) Field lines"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/galvanometer" cap="(b) Galvanometer"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/diamag" cap="(c) Diamagnetic levitation"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: magnetic fields of currents (10 marks)
+
+**Introduction.** A moving charge produces a magnetic field. The **Biot-Savart law** gives the field $d\vec B$ of a small current element $I\,d\vec l$ at a point with position vector $\vec r$:
+
+$$ dB = \frac{\mu_0}{4\pi}\frac{I\,dl\sin\theta}{r^2}, \qquad \mu_0 = 4\pi\times10^{-7}\ \text{T m A}^{-1} $$
+
+**Circular coil.** Every element of a coil of radius $R$ is perpendicular to the line to the centre ($\theta = 90^{\circ}$, $r = R$). Summing $dl$ over the circumference $2\pi R$: $B = \dfrac{\mu_0I}{4\pi R^2}\times2\pi R = \dfrac{\mu_0I}{2R}$, and for $N$ turns $B = \dfrac{\mu_0NI}{2R}$. On the axis at a distance $x$, $B = \dfrac{\mu_0NIR^2}{2(R^2 + x^2)^{3/2}}$.
+
+**Ampere's circuital law.** $\oint\vec B\cdot d\vec l = \mu_0I_{enclosed}$.
+
+1. **Straight wire:** $B = \dfrac{\mu_0I}{2\pi r}$.
+2. **Long solenoid:** a rectangular loop gives $Bl = \mu_0nlI$, so $B = \mu_0nI$ inside and almost zero outside, where $n$ is the number of turns per unit length.
+3. **Toroid:** $B = \dfrac{\mu_0NI}{2\pi r}$.
+
+**Force between parallel wires.** Wire 1 produces $B_1 = \dfrac{\mu_0I_1}{2\pi d}$ at wire 2, and the force on a length $l$ of wire 2 is $F = I_2lB_1$, so $\dfrac Fl = \dfrac{\mu_0I_1I_2}{2\pi d}$. The force is **attractive** for currents in the same direction. This defines the **ampere**: the constant current in two infinite parallel wires $1\ \text{m}$ apart that gives a force of $2\times10^{-7}\ \text{N}$ per metre of length.
+
+**Numerical.** A coil of $50$ turns and radius $10\ \text{cm}$ carrying $2\ \text{A}$ has $B = \dfrac{4\pi\times10^{-7}\times50\times2}{2\times0.1} = 6.3\times10^{-4}\ \text{T}$. A solenoid with $1000$ turns per metre carrying $2\ \text{A}$ has $B = 4\pi\times10^{-7}\times1000\times2 = 2.5\times10^{-3}\ \text{T}$. Two wires with $10\ \text{A}$ each, $10\ \text{cm}$ apart, attract with $\dfrac{2\times10^{-7}\times100}{0.1} = 2\times10^{-4}\ \text{N m}^{-1}$.
+
+**Conclusion.** The field inside a solenoid is uniform and equal to $\mu_0nI$, and parallel currents attract.
+
+### Model answer D2: charged particle in a field and magnetic materials (10 marks)
+
+**Introduction.** A magnetic force $\vec F = q\vec v\times\vec B$ acts on a moving charge. It is perpendicular to both $\vec v$ and $\vec B$, so it does no work and the speed does not change.
+
+**Circular motion.** If $\vec v \perp \vec B$, the magnetic force gives the centripetal force: $qvB = \dfrac{mv^2}{r}$.
+
+1. **Radius:** $r = \dfrac{mv}{qB} = \dfrac{p}{qB}$.
+2. **Period:** $T = \dfrac{2\pi m}{qB}$, independent of the speed, which is the working principle of the cyclotron.
+3. **If $\vec v$ is at an angle $\theta$ to $\vec B$,** the path is a helix with pitch $\dfrac{2\pi m}{qB}v\cos\theta$.
+4. **Velocity selector.** With crossed fields, the particles with $v = E/B$ pass undeflected.
+5. **Lorentz force.** In both fields, $\vec F = q(\vec E + \vec v\times\vec B)$.
+
+**Magnetic materials.**
+
+| Property | Diamagnetic | Paramagnetic | Ferromagnetic |
+|---|---|---|---|
+| Susceptibility $\chi$ | small, negative | small, positive | large, positive |
+| In a field | weakly repelled | weakly attracted | strongly attracted |
+| Effect of temperature | none | $\chi \propto 1/T$ (Curie) | becomes paramagnetic above the Curie point |
+| Examples | bismuth, copper, water | aluminium, platinum | iron, cobalt, nickel |
+
+**Hysteresis.** The $B$-$H$ loop of a ferromagnet shows **retentivity** and **coercivity**. Soft iron has a thin loop (small energy loss), so it is used in transformer cores and electromagnets. Steel has a broad loop, so it is used for permanent magnets. The area of the loop is the energy lost per cycle per unit volume.
+
+**Numerical.** A proton ($m = 1.67\times10^{-27}\ \text{kg}$, $q = 1.6\times10^{-19}\ \text{C}$) moves at $10^6\ \text{m s}^{-1}$ perpendicular to $B = 0.1\ \text{T}$: $r = \dfrac{1.67\times10^{-27}\times10^6}{1.6\times10^{-19}\times0.1} = 0.104\ \text{m}$ and $T = \dfrac{2\pi\times1.67\times10^{-27}}{1.6\times10^{-19}\times0.1} = 6.6\times10^{-7}\ \text{s}$.
+
+**Conclusion.** A charge circles with $r = mv/qB$, and ferromagnetic materials are classified as soft or hard by their hysteresis loops.

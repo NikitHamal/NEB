@@ -749,3 +749,66 @@ f.text(150, 230, "%.1f per cent left after 100 years" % (frac(100) * 100), size=
 **9.** (a) — $R = 1.2\times27^{1/3} = 1.2\times3 = 3.6$ fm.
 **10.** (b) — by definition of the conversion: 1 u of mass ↔ 931.5 MeV.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of radioactive decay and derive the relation between half-life, mean life and decay constant. Explain the types of radiation and solve numericals. <span class="marks">[10]</span>
+2. Define mass defect and binding energy, and explain nuclear fission and fusion with numericals. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="2" ratio="1.4" caption="Detecting radiation. (a) A Geiger-Muller counter clicks for each ionising particle that enters its tube. (b) The same counter, in a laboratory set-up, is used to measure the activity of a source and to find the half-life."
+@ photo id="ceephy2/geiger" cap="(a) Geiger-Muller counter"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ioephy/geiger" cap="(b) Counter in the laboratory"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: radioactive decay (10 marks)
+
+**Introduction.** **Radioactivity** is the spontaneous emission of radiation from unstable nuclei (Becquerel, 1896). It is a random, statistical process unaffected by temperature, pressure or chemical state.
+
+**Radiations.**
+
+| Property | Alpha | Beta | Gamma |
+|---|---|---|---|
+| Nature | helium nucleus ${}^4_2\text{He}$ | electron (or positron) | photon |
+| Charge | $+2e$ | $-e$ | 0 |
+| Penetration | paper stops it | few mm of aluminium | thick lead |
+| Ionising power | highest | medium | lowest |
+| Effect on the nucleus | $A$ decreases by 4, $Z$ by 2 | $Z$ changes by 1, $A$ same | no change in $A$, $Z$ |
+
+**Law of decay.** The rate of decay is proportional to the number of undecayed nuclei: $\dfrac{dN}{dt} = -\lambda N$, so $N = N_0e^{-\lambda t}$, where $\lambda$ is the **decay constant**.
+
+1. **Half-life** $T_{1/2}$: time for half the nuclei to decay, $T_{1/2} = \dfrac{\ln2}{\lambda} = \dfrac{0.693}{\lambda}$.
+2. **Mean life** $\tau = \dfrac1\lambda = 1.44\,T_{1/2}$.
+3. **Activity** $A = \lambda N = A_0e^{-\lambda t}$, in becquerel ($1\ \text{Bq} = 1\ \text{decay per second}$; $1\ \text{Ci} = 3.7\times10^{10}\ \text{Bq}$).
+4. After $n$ half-lives, $N = N_0/2^n$.
+
+**Uses.** Carbon dating, medical tracers and cancer therapy (cobalt-60), sterilisation of food, smoke detectors and thickness gauges.
+
+**Numerical.** A sample of $64\ \text{g}$ with $T_{1/2} = 8$ days leaves $64/2^3 = 8\ \text{g}$ after $24$ days. In carbon dating, a wooden relic that has $25\%$ of the original ${}^{14}\text{C}$ is $2\times5730 = 11\,460$ years old. For $T_{1/2} = 5\ \text{days}$, $\lambda = 0.693/5 = 0.139\ \text{day}^{-1}$ and the mean life is $7.2$ days.
+
+**Conclusion.** Decay is exponential. After each half-life the activity halves, whatever the starting amount.
+
+### Model answer D2: binding energy, fission and fusion (10 marks)
+
+**Introduction.** The mass of a nucleus is less than the sum of the masses of its nucleons. This difference is the **mass defect** $\Delta m = Zm_p + (A - Z)m_n - M$. By Einstein's relation $E = mc^2$, the **binding energy** is $E_b = \Delta m\times931.5\ \text{MeV}$ (for $\Delta m$ in u).
+
+**Binding energy curve.** $E_b/A$ rises steeply to about $8.8\ \text{MeV}$ at ${}^{56}\text{Fe}$ (the most stable) and then falls slowly to $7.6\ \text{MeV}$ for uranium. Light nuclei can release energy by **fusion**, and heavy nuclei by **fission**.
+
+| Feature | Fission | Fusion |
+|---|---|---|
+| Process | heavy nucleus splits | light nuclei join |
+| Example | ${}^{235}\text{U} + n \to {}^{141}\text{Ba} + {}^{92}\text{Kr} + 3n$ | $\text{D} + \text{T} \to {}^4\text{He} + n$ |
+| Energy per reaction | about $200\ \text{MeV}$ | $17.6\ \text{MeV}$ |
+| Energy per kilogram | high | even higher |
+| Conditions | slow neutrons | $10^7$ to $10^8\ \text{K}$ |
+| Use | reactors, bombs | the sun, hydrogen bomb |
+| Waste | radioactive | little |
+
+**Nuclear reactor.** The fuel is enriched uranium, the **moderator** (heavy water or graphite) slows neutrons, **control rods** (cadmium, boron) absorb neutrons to keep the multiplication factor $k = 1$, and the coolant removes heat. In a bomb, $k > 1$ and the chain reaction is uncontrolled.
+
+**Numerical.** For ${}^4_2\text{He}$: $\Delta m = 2(1.007825) + 2(1.008665) - 4.002603 = 0.029377\ \text{u}$, so $E_b = 0.029377\times931.5 = 27.4\ \text{MeV}$ and $E_b/A = 6.84\ \text{MeV}$ per nucleon. Fission of $1\ \text{kg}$ of ${}^{235}\text{U}$ involves $\dfrac{1000}{235}\times6.02\times10^{23} = 2.56\times10^{24}$ nuclei, giving $2.56\times10^{24}\times200\ \text{MeV} = 8.2\times10^{13}\ \text{J}$, which equals about $2.3\times10^{7}\ \text{kWh}$.
+
+**Conclusion.** Energy is released when nuclei move toward the peak of the binding energy curve, by fission for heavy nuclei and by fusion for light ones.

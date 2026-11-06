@@ -1019,3 +1019,69 @@ facts = dict(u=rows[2][1], u4=rows[3][1], u1=rows[0][1], P=P, Q=Q, h=h)
 **13.** (b) — $u = \frac12\varepsilon_0E^2 = \frac12\times8.85\times10^{-12}\times10^{12} = 4.43$ J m⁻³.
 **14.** (a) — $U = \frac12CV^2 = \frac12\times2\times10^{-6}\times10^4 = 0.01$ J.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Coulomb's law and Gauss's law. Find the electric field of a charged sphere and an infinite sheet and solve a numerical. <span class="marks">[10]</span>
+2. Derive the capacitance of a parallel-plate capacitor, the effect of a dielectric, and the energy stored. Find the equivalent capacitance in series and parallel. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.25" caption="Electrostatics in the lab. (a) A Van de Graaff generator charges a person so that the hair stands up as each strand repels the others. (b) A gold-leaf electroscope detects charge by the repulsion of the leaves. (c) Capacitors of different values store charge in circuits."
+@ photo id="phy11/vdghair" cap="(a) Charged hair"
+fit 1.25
+focus 0.5 0.4
+@ photo id="phy11/electroscope" cap="(b) Electroscope"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/capacitors" cap="(c) Capacitors"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Coulomb's law, electric field and Gauss's law (10 marks)
+
+**Introduction.** **Coulomb's law:** the force between two point charges is $F = \dfrac{1}{4\pi\varepsilon_0}\dfrac{q_1q_2}{r^2}$, with $\dfrac1{4\pi\varepsilon_0} = 9\times10^9\ \text{N m}^2\text{C}^{-2}$. In a medium of relative permittivity $K$ the force is reduced by $K$. The **electric field** is $\vec E = \vec F/q$, and for a point charge $E = \dfrac{kq}{r^2}$. The **potential** is $V = \dfrac{kq}{r}$, with $\vec E = -\dfrac{dV}{dr}$.
+
+**Gauss's law.** The total electric flux through a closed surface equals $q_{enclosed}/\varepsilon_0$, that is $\oint\vec E\cdot d\vec A = \dfrac{q}{\varepsilon_0}$.
+
+**Applications.**
+
+1. **Charged spherical shell or solid conductor** (charge $Q$, radius $R$): outside, $E = \dfrac{kQ}{r^2}$ (as if all the charge were at the centre). On the surface $E = \dfrac{\sigma}{\varepsilon_0}$. Inside, $E = 0$ and $V$ is constant and equal to $kQ/R$.
+2. **Infinite line charge** ($\lambda$ per unit length): $E = \dfrac{\lambda}{2\pi\varepsilon_0r}$.
+3. **Infinite plane sheet** ($\sigma$): $E = \dfrac{\sigma}{2\varepsilon_0}$, independent of distance.
+4. **Uniformly charged solid insulating sphere:** inside, $E = \dfrac{kQr}{R^3}$.
+
+| Quantity | Point charge | Dipole (on axis, far away) |
+|---|---|---|
+| Field | $\propto 1/r^2$ | $\propto 1/r^3$ |
+| Potential | $\propto 1/r$ | $\propto 1/r^2$ |
+
+The torque on a dipole of moment $p = qd$ in a field is $\tau = pE\sin\theta$.
+
+**Numerical.** Two charges $+2\ \mu\text{C}$ and $-2\ \mu\text{C}$ are $10\ \text{cm}$ apart. The force is $9\times10^9\times\dfrac{(2\times10^{-6})^2}{(0.1)^2} = 3.6\ \text{N}$ (attractive). At the midpoint each charge gives $\dfrac{9\times10^9\times2\times10^{-6}}{(0.05)^2} = 7.2\times10^6\ \text{N C}^{-1}$ in the same direction, so $E = 1.44\times10^7\ \text{N C}^{-1}$, while the potential is $0$.
+
+**Conclusion.** Gauss's law gives the field quickly wherever the charge distribution is symmetric.
+
+### Model answer D2: capacitors, dielectrics and energy (10 marks)
+
+**Introduction.** A **capacitor** stores charge and energy. Its capacitance is $C = Q/V$ (farad).
+
+**Parallel plate capacitor.** The field between plates of area $A$ is $E = \sigma/\varepsilon_0 = Q/(\varepsilon_0A)$, so $V = Ed = \dfrac{Qd}{\varepsilon_0A}$ and
+
+$$ C = \frac{\varepsilon_0A}{d} $$
+
+**Dielectric.** When an insulator of dielectric constant $K$ fills the gap, the molecules polarise and reduce the field by a factor $K$, so $C = \dfrac{K\varepsilon_0A}{d}$. If the battery is disconnected ($Q$ constant), $V$ falls to $V/K$ and the energy falls. If the battery stays connected ($V$ constant), $Q$ rises $K$ times and the energy rises.
+
+**Energy.** $U = \tfrac12CV^2 = \dfrac{Q^2}{2C} = \tfrac12QV$. The energy density of the field is $\tfrac12\varepsilon_0E^2$.
+
+**Combinations.**
+
+| Arrangement | Capacitance | Same quantity |
+|---|---|---|
+| Series | $\dfrac1C = \dfrac1{C_1} + \dfrac1{C_2}$ | charge $Q$ |
+| Parallel | $C = C_1 + C_2$ | potential difference $V$ |
+
+When two charged capacitors are joined (plates of like sign together), the common potential is $V = \dfrac{C_1V_1 + C_2V_2}{C_1 + C_2}$ and some energy is lost as heat.
+
+**Numerical.** Plates of area $0.01\ \text{m}^2$, separation $1\ \text{mm}$: $C = \dfrac{8.85\times10^{-12}\times0.01}{10^{-3}} = 88.5\ \text{pF}$. With a dielectric of $K = 5$, $C = 442\ \text{pF}$ and at $100\ \text{V}$ the energy is $\tfrac12(4.42\times10^{-10})(10^4) = 2.2\ \mu\text{J}$. Capacitors of $2\ \mu\text{F}$ and $3\ \mu\text{F}$ give $1.2\ \mu\text{F}$ in series and $5\ \mu\text{F}$ in parallel.
+
+**Conclusion.** $C = K\varepsilon_0A/d$ depends only on geometry and the dielectric, and energy is stored in the field between the plates.
