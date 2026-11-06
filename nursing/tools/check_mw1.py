@@ -29,6 +29,13 @@ _k = date(2025, 9, 8)
 chk("kal", ((_k + timedelta(days=280)), divmod((date(2026, 1, 18) - _k).days, 7), f"{52 / 1.55 ** 2:.1f}", 52 + 11.5, 52 + 16, 2 * 60, 2 * 30), (date(2026, 6, 15), (18, 6), "21.6", 63.5, 68.0, 120, 60))
 T.update(c2_edd="15 June 2026", c2_bmi="21.6")
 # ---- U2-END
+# ---- U3-BEGIN
+# ---- Unit 3: antenatal care, screening, pre-eclampsia, BPCR
+chk("hmis", (30000 * 20 // 1000, round(540 / 600 * 100), round(432 / 600 * 100), round((540 - 432) / 540 * 100), round(450 / 600 * 100), round(462 / 600 * 100), 600 * 180, round(600 * 180 * 1.1)), (600, 90, 72, 20, 75, 77, 108000, 118800))
+chk("mg", (round((160 + 2 * 110) / 3, 1), 4 / 0.5, 5 / 0.5, 4 + 10, 5 / 0.5, 5 * 6, 30 * 4, 1 / 0.1), (126.7, 8.0, 10.0, 14, 10.0, 30, 120, 10.0))
+chk("pq", (350 / 500 * 100, round((150 + 200) / 3, 1)), (70.0, 116.7))
+T.update(c3_map="126.7", u3_ifa="108,000", u3_stock="118,800")
+# ---- U3-END
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

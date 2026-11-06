@@ -10646,6 +10646,58 @@
   "source": "Wikimedia Commons",
   "title": "Hysterosalpingography Normal"
  },
+ "nur11/leo1": {
+  "author": "Leopold und Spörlin (1894) Die Leitung der regelmäßigen Geburt nur durch äußere Untersuchung. Arch Gynäkol 45: 337–368 Reprinted in: Ludwig H. Christian Gerhard",
+  "bytes": 42807,
+  "credit": "File:Handgriffe.JPG",
+  "fetched": "2026-11-06",
+  "file": "nur11/leo1.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Leopold-Handgriff_1.jpg",
+  "sha1": "69e0017eb78ec3fb",
+  "source": "Wikimedia Commons",
+  "title": "Leopold-Handgriff 1"
+ },
+ "nur11/leo2": {
+  "author": "Leopold und Spörlin (1894) Die Leitung der regelmäßigen Geburt nur durch äußere Untersuchung. Arch Gynäkol 45: 337–368 Reprinted in: Ludwig H. Christian Gerhard",
+  "bytes": 44773,
+  "credit": "File:Handgriffe.JPG",
+  "fetched": "2026-11-06",
+  "file": "nur11/leo2.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Leopold-Handgriff_2.jpg",
+  "sha1": "702ace51682b7e7a",
+  "source": "Wikimedia Commons",
+  "title": "Leopold-Handgriff 2"
+ },
+ "nur11/leo3": {
+  "author": "Leopold und Spörlin (1894) Die Leitung der regelmäßigen Geburt nur durch äußere Untersuchung. Arch Gynäkol 45: 337–368 Reprinted in: Ludwig H. Christian Gerhard",
+  "bytes": 41618,
+  "credit": "File:Handgriffe.JPG",
+  "fetched": "2026-11-06",
+  "file": "nur11/leo3.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Leopold-Handgriff_3.jpg",
+  "sha1": "5d1c11a50abf5f3a",
+  "source": "Wikimedia Commons",
+  "title": "Leopold-Handgriff 3"
+ },
+ "nur11/leo4": {
+  "author": "Leopold und Spörlin (1894) Die Leitung der regelmäßigen Geburt nur durch äußere Untersuchung. Arch Gynäkol 45: 337–368 Reprinted in: Ludwig H. Christian Gerhard",
+  "bytes": 45079,
+  "credit": "File:Handgriffe.JPG",
+  "fetched": "2026-11-06",
+  "file": "nur11/leo4.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Leopold-Handgriff_4.jpg",
+  "sha1": "ebbeff8e6669f1ae",
+  "source": "Wikimedia Commons",
+  "title": "Leopold-Handgriff 4"
+ },
  "nur11/linea": {
   "author": "Warinhari",
   "bytes": 708668,
@@ -10658,6 +10710,19 @@
   "sha1": "938c9007228877a3",
   "source": "Wikimedia Commons",
   "title": "Linea nigra line 2016"
+ },
+ "nur11/mgso4": {
+  "author": "Sixflashphoto",
+  "bytes": 650031,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/mgso4.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnesium_Sulfate_IV_1.jpg",
+  "sha1": "a6d9e52d8840ae9d",
+  "source": "Wikimedia Commons",
+  "title": "Magnesium Sulfate IV 1"
  },
  "nur11/pelvis": {
   "author": "Henry Vandyke Carter",
@@ -10737,6 +10802,19 @@
   "source": "Wikimedia Commons",
   "title": "Urine Pregnancy Test Positive and Negative"
  },
+ "nur11/rapid": {
+  "author": "Ajay Kumar Chaurasiya",
+  "bytes": 123416,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/rapid.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HIV,_HBsAg_and_HCV_Rapid_Test_Devices.jpg",
+  "sha1": "5355fc8e73b05d93",
+  "source": "Wikimedia Commons",
+  "title": "HIV, HBsAg and HCV Rapid Test Devices"
+ },
  "nur11/sperm": {
   "author": "Prof. Ideal",
   "bytes": 319738,
@@ -10762,6 +10840,19 @@
   "sha1": "8001db476f41f5fc",
   "source": "Wikimedia Commons",
   "title": "Belly Strech Marks"
+ },
+ "nur11/urine": {
+  "author": "J3D3",
+  "bytes": 622520,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/urine.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Comp.Urine.Test.Strip.jpg",
+  "sha1": "aeaa10b442383d1c",
+  "source": "Wikimedia Commons",
+  "title": "Comp.Urine.Test.Strip"
  },
  "nur11/us20": {
   "author": "Goleisureintl",
