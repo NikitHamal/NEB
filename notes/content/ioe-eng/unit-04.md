@@ -226,3 +226,74 @@ Read the passage below and answer the questions.
 **4.** (a) — "surplus power can be sold in summer".
 **5.** (c) — solar farms are not mentioned.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Read a technical passage and answer questions on its main idea, vocabulary in context, inference and reference, giving reasons. <span class="marks">[10]</span>
+2. Explain a method for reading a passage under time pressure and answering true/false, inference and tone questions. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Passages come from news, places and daily life. (a) A man reading a newspaper at a café terrace. (b) Kathmandu Durbar Square, a common subject of descriptive passages. (c) Boudhanath Stupa, another place that reading passages describe."
+@ photo id="ioeeng/newspaper" cap="(a) Newspaper reader"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/durbar" cap="(b) Durbar Square"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/stupa" cap="(c) Boudhanath Stupa"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: A technical passage worked in full (10 marks)
+
+**Passage (about 120 words).** *A solar water heater has three main parts: a collector, an insulated tank and connecting pipes. The collector is a flat box with a black metal plate under a sheet of glass. Sunlight passes through the glass and heats the plate, and the glass traps the heat inside, just as a closed car becomes hot in the sun. Water in the tubes fixed to the plate becomes warm and, being lighter, rises to the tank by natural circulation, while cold water sinks to take its place. No pump is needed. In Nepal such heaters are popular in hotels and homes, because they reduce the use of electricity and firewood. However, they work poorly on cloudy days, so many users keep an electric heater as a back-up.*
+
+**Questions and model answers.**
+
+1. **Main idea:** *(c) A solar heater uses sunlight to warm water, with a few limits.* The passage explains the parts, the working, the use and the weakness. The wrong options cover only one part each.
+2. **Vocabulary:** *"insulated"* means **covered to stop heat escaping**. The clue is that the tank keeps the water warm.
+3. **Reference:** *"they"* in "because **they** reduce the use of electricity and firewood" refers to **such heaters (solar water heaters)**, the plural noun that the sentence just named.
+4. **Inference:** *Why do many users keep an electric heater?* **Because the solar heater gives too little heat on cloudy days.** The word "however" signals the limit, and "back-up" tells us the reason.
+5. **True or false:** *"A pump is needed to move the water."* **False.** The passage says "No pump is needed" because natural circulation moves the water.
+6. **Comparison:** *The glass is compared to* **a closed car** in sunlight, which shows that glass traps heat.
+7. **Tone:** *The writer's tone is* **informative and balanced**, as it gives both a benefit and a drawback without strong emotion.
+8. **Title:** *"How a Solar Water Heater Works."*
+
+**Technique used.** The answers come from the exact words of the passage, not from outside knowledge, and a wrong option usually contains a word that the passage never says or that changes its meaning ("always", "only", "never").
+
+| Question type | Where to look | Warning |
+|---|---|---|
+| Main idea | First and last sentences | Avoid options that cover only one detail |
+| Vocabulary in context | Words around the term | Do not use the first meaning that comes to mind |
+| Reference | The noun just before the pronoun | Check singular and plural |
+| Inference | Signal words (however, therefore) | Must be supported by the text |
+| True/False | The exact sentence | Beware of *only, always, never* |
+
+**Conclusion.** Every answer must be traced to a sentence in the passage; this removes guessing and saves time.
+
+### Model answer D2: Reading strategy under time pressure (10 marks)
+
+**Introduction.** The English paper has about 4 comprehension questions, and a long passage can use up the time of the whole section. A fixed method makes the reading fast and accurate.
+
+**Method (8 steps).**
+
+1. **Read the questions first** (not the options), so that you know what to look for.
+2. **Skim the passage** in about 30 seconds: the title, the first sentence of each paragraph and the last sentence.
+3. **Read the passage once at normal speed**, marking names, numbers and signal words (*but, however, therefore, although*).
+4. **Answer the main-idea question last**, because the details will have made the main idea clear.
+5. **Find each answer in the text** and underline the proof sentence before choosing an option.
+6. **Remove wrong options:** an option that is too general, too extreme, or true in real life but not in the passage is wrong.
+7. **For vocabulary, replace the word** with each option and check the sentence still makes sense.
+8. **For tone and attitude questions,** look at adjectives and verbs: *praise, criticise, warn, explain*.
+
+**Example of eliminating options.** The passage says: *"Most Nepali farmers still depend on the monsoon for irrigation."* The question: *Which statement is true?* (a) All farmers use machines. (b) Most farmers depend on rain. (c) Rain never falls in Nepal. (d) The monsoon is useless. Option (a) is extreme (*all*), (c) is extreme (*never*), (d) contradicts the text, so the answer is **(b)**.
+
+**Time plan.** A 150-word passage and 4 questions in about 4 minutes: 30 seconds for questions, 90 seconds for reading, 120 seconds for the answers. Practice passages in this chapter average 152, 165 and 99 words, so this plan fits.
+
+| Step | Time | Result |
+|---|---|---|
+| Questions and skim | 40 s | Know what to find |
+| Careful reading | 90 s | Marked text |
+| Answers with proof | 110 s | Four checked answers |
+
+**Conclusion.** A short, repeatable routine of reading the questions, skimming, locating proof and eliminating options turns comprehension into a safe scoring section.
