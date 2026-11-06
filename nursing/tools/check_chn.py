@@ -61,6 +61,28 @@ T.update(u3_ve=f"{ve:.0f}", u3_hit15=f"{hit15:.1f}", u3_hit6=f"{hit6:.1f}", u3_b
          u3_fic=f"{fic:.0f}", u3_drop=f"{drop:.1f}", u3_dropmr=f"{dropmr:.1f}", u3_ip=ip, u3_cp=cp, u3_tbdoses=tbdoses,
          u3_hi=f"{hi:.1f}", u3_ci=f"{ci:.0f}", u3_bi=f"{bi:.0f}", u3_spr=f"{spr:.0f}", u3_api=f"{api:.1f}",
          c3_ar=f"{ar_all:.1f}", c3_cfr=f"{cfr:.2f}", c3_av=f"{av:.2f}", c3_au=f"{au:.1f}", c3_ve=f"{cve:.1f}")
+# ---- Unit 4: maternal and child health, IMNCI, nutrition
+ors_g = 13.5 + 2.6 + 1.5 + 2.9; w = 8
+planb = 75 * w; planbh = planb / 4; planc = 100 * w; c30 = 30 * w; c70 = 70 * w; c70h = c70 / 5; zinc = 20 * 10
+zsc = (8.2 - 10.9) / 1.2; amox = 1 * 2 * 5; ifa = 924 * 180
+chk("ors", round(ors_g, 1), 20.5); chk("planb", (planb, planbh), (600, 150.0)); chk("planc", (planc, c30, c70, c70h), (800, 240, 560, 112.0))
+chk("zinc", zinc, 200); chk("z", round(zsc, 2), -2.25); chk("amox", amox, 10); chk("ifa", ifa, 166320)
+chk("planc sum", c30 + c70, planc)
+mmr21 = 151 / 1e5 * 8400
+chk("expected maternal deaths", round(mmr21, 1), 12.7)
+T.update(u4_ors=f"{ors_g:.1f}", u4_planb=planb, u4_planbh=f"{planbh:.0f}", u4_planc=planc, u4_c30=c30, u4_c70=c70, u4_c70h=f"{c70h:.0f}",
+         u4_zinc=zinc, u4_z=f"{zsc:.2f}", u4_amox=amox, u4_ifa="166,320", u4_md=f"{mmr21:.1f}")
+# ---- Unit 5: environment, WASH, occupational health, health education, disaster
+vol = math.pi * 1 ** 2 * 4 * 1000; cl = vol * 2 / 1000; bp = cl / 0.33; bl = 5 / 0.33
+chk("well", (round(vol), round(cl, 1), round(bp, 1), round(bl, 1)), (12566, 25.1, 76.2, 15.2))
+db = 10 * math.log10(2 * 10 ** 9); tsafe = 8 / 2 ** ((94 - 85) / 3)
+chk("noise", (round(db, 1), tsafe), (93.0, 1.0))
+cas = [120 * p for p in (0.15, 0.25, 0.55, 0.05)]
+chk("triage", [round(c) for c in cas], [18, 30, 66, 6]); chk("triage sum", round(sum(cas)), 120)
+wat = 1000 * 45; wat15 = 1000 * 15; waste = 50 * 0.5; haz = waste * 0.15; hw = 1000 * 0.7
+chk("water", (wat, wat15, waste, haz, hw), (45000, 15000, 25.0, 3.75, 700.0))
+T.update(u5_vol="12,566", u5_cl=f"{cl:.1f}", u5_bp=f"{bp:.1f}", u5_bleach=f"{bl:.1f}", u5_db=f"{db:.1f}", u5_tsafe=f"{tsafe:.1f}",
+         u5_red=18, u5_yel=30, u5_grn=66, u5_blk=6, u5_wat="45,000", u5_wat15="15,000", u5_waste=f"{waste:.0f}", u5_haz=f"{haz:.2f}", u5_hw=f"{hw:.0f}", u5_avert=f"{1000 - hw:.0f}")
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

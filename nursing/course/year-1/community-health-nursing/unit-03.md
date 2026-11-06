@@ -58,9 +58,9 @@ A child is **fully immunised** after BCG, three pentavalent, three OPV, two fIPV
 fit 1.0
 focus 0.5 0.5
 mark 0.42 0.62 "1"
-mark 0.82 0.32 "2"
+mark 0.25 0.22 "2"
 key 1 (a) Yellow electronic temperature logger: records +2 to +8 °C compliance
-key 2 (a) A second small logger in the blue cold box with frozen ice packs
+key 2 (a) Blue insulated cold box: the lid keeps the frozen ice packs cold
 @ photo id="nur3/imm1" cap="Immunisation card, Pokhara"
 fit 1.0
 focus 0.5 0.5
