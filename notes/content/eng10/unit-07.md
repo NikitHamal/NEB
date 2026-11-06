@@ -407,3 +407,80 @@ In short, the internet is a powerful tool, but we must use it carefully. A safe 
 **1.** *Outline:* To/Subject; greeting; why you are writing; four tips (strong password, don't share personal details, two-factor authentication, tell an adult about suspicious messages); good wishes; closing.
 **2.** *Outline:* headline; introduction (what cyberbullying is); causes; effects (stress, poor study, loneliness); remedies (report, block, school counselling, laws); conclusion.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a reply e-mail and a newspaper article on cyber safety. <span class="marks">[10]</span>
+2. Explain *should, ought to, must* and *must not*, and the use of articles. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="3" ratio="1.0" caption="Safety online. A browser padlock showing a secure HTTPS connection, a phishing e-mail and an antivirus scan: tools and warnings for safe internet use."
+@ photo id="cs8/eth-https-padlock" cap="HTTPS padlock"
+@ photo id="cs8/eth-phishing-email" cap="Phishing e-mail"
+@ photo id="cs8/vir-clamtk" cap="Antivirus scan"
+```
+
+### Model answer D1: a reply e-mail and an article (10 marks)
+
+**Introduction.** A **reply e-mail** thanks the sender, answers the question, explains and apologises if needed. A **newspaper article** informs the public with a headline, introduction, body and conclusion.
+
+**Model reply.**
+
+::: example Reply e-mail
+**To:** bikash@example.com  
+**Subject:** Re: My hacked account
+
+Dear Bikash,
+
+Thank you for your e-mail. I am sorry to hear that your social media account was hacked. First, please change your password at once and use at least twelve characters with letters, numbers and symbols. Then turn on two-factor authentication so that a code is sent to your phone. You should also check which devices are logged in and log out from the unknown ones. Never click links in strange messages. I hope your account will be safe again soon. Please tell me if you need any help.
+
+Best wishes,  
+Rina
+:::
+
+**Model article.**
+
+::: example Newspaper article
+**BE SAFE ONLINE: SEVEN SIMPLE STEPS**  
+*By a staff reporter*
+
+The number of cyber crimes in Nepal has risen as more people use mobile banking and social media. Police officers say that most victims lose their money because they share passwords or click on false links. Experts advise people to use strong passwords, update their devices, avoid public Wi-Fi for banking, turn on two-factor authentication and back up their data. "Think before you click" is the best rule, said an officer of the Cyber Bureau. If everyone follows these steps, the internet will be a safer place.
+:::
+
+**The eight tips in the chapter.**
+
+1. Strong passwords.
+2. Keep personal data safe.
+3. Secure your devices.
+4. Update software.
+5. Be careful with Wi-Fi.
+6. Two-factor authentication.
+7. Keep private information private.
+8. Back up your files.
+
+**Conclusion.** Be polite and practical in an e-mail; be factual and organised in an article.
+
+### Model answer D2: duty verbs and articles (10 marks)
+
+**Duty and advice.**
+
+1. **should / ought to** = advice and moral duty: *You should log out of public computers.*
+2. **must** = strong duty or compulsion: *You must keep your password secret.*
+3. **must not** = prohibition: *You must not share your OTP.*
+4. **don't have to** = not necessary: *You don't have to pay to use the app.*
+
+**Articles.**
+
+5. **a** before a consonant **sound**, **an** before a vowel **sound**: *a user, an hour, an e-mail.*
+6. **the** for something specific, unique or already mentioned: *the internet, the sun.*
+7. **No article** with general plurals and uncountables: *Passwords are important. Information is power.*
+8. **The** is not used with names of most countries and languages, but is used with *the USA, the Himalayas*.
+
+| Wrong | Correct |
+|---|---|
+| He is a engineer. | He is an engineer. |
+| I use the Facebook. | I use Facebook. |
+| She gave me a advice. | She gave me some advice. |
+
+**Conclusion.** Remember that sound decides *a/an*, and meaning decides *the*.

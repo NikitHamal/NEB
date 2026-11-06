@@ -397,3 +397,79 @@ However, fast food is not bad when eaten occasionally, and some Nepali foods, su
 **1.** *Outline:* title; ingredients with quantities; numbered steps with sequence words and times; serving suggestion.
 **2.** *Outline:* disagree; reasons — nutrition, cost, hygiene; admit that fast food is convenient; conclusion.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a recipe and an opinion paragraph on traditional food. <span class="marks">[10]</span>
+2. Explain connectives of reason and purpose and the three uses of the present continuous. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="3" ratio="1.0" caption="Food and culture. Jalebi, a morning vegetable market in Kathmandu and Ayurvedic herbs: sweet snacks, fresh produce and spices that make Nepali and South Asian cuisine."
+@ photo id="eng12/jalebi" cap="Jalebi"
+@ photo id="health8/market-veg" cap="Kathmandu vegetable market"
+@ photo id="nep10/ayurvedic-herbs" cap="Herbs and spices"
+```
+
+### Model answer D1: a recipe and an opinion paragraph (10 marks)
+
+**Introduction.** A **recipe** has a title, a list of ingredients with quantities and numbered steps with imperative verbs. An **opinion paragraph** states a view, gives reasons and concludes.
+
+**Model recipe: Sel roti (a Nepali festival bread).**
+
+::: example Recipe
+**Ingredients:** 2 cups rice flour, half a cup sugar, 1 ripe banana, 2 spoons ghee, one cup water, oil for frying.  
+**Method:**  
+1. **Mix** the flour, sugar and mashed banana in a bowl.  
+2. **Add** the ghee and water slowly and make a smooth, thick batter.  
+3. **Rest** the batter for 30 minutes.  
+4. **Heat** the oil in a deep pan.  
+5. **Pour** the batter in a circle through a funnel into the hot oil.  
+6. **Fry** until golden on both sides, then **take** it out and serve warm.  
+**Serves:** 4 people.
+:::
+
+**Model opinion paragraph.**
+
+::: example Opinion paragraph
+In my opinion, traditional food is better than fast food. Firstly, our dal, bhat and tarkari is full of protein, fibre and vitamins, whereas burgers contain much oil and salt. Secondly, local food is cheaper because it uses vegetables from our own farms. Thirdly, eating traditional food keeps our culture alive. Some people argue that fast food is quicker and tastier, but quick food can make us unhealthy. Therefore, I believe we should eat traditional food every day and fast food only rarely.
+:::
+
+**Points (8).**
+
+1. Title.
+2. Ingredients with exact quantities.
+3. Numbered steps.
+4. Imperatives.
+5. Time and temperature.
+6. Number of servings.
+7. Opinion: topic sentence.
+8. Reasons, counter-argument and conclusion.
+
+**Conclusion.** Exact quantities and a clear order are needed for a recipe.
+
+### Model answer D2: reasons, purposes and the present continuous (10 marks)
+
+**Reasons and purposes.**
+
+1. **because / as / since + clause:** *We eat momo because it is tasty.*
+2. **because of / due to + noun:** *The shop closed because of the strike.*
+3. **to / in order to + base verb:** *She went to the market to buy vegetables.*
+4. **so that + clause:** *He saved money so that he could open a restaurant.*
+5. **so ... that** and **such ... that** show result: *The soup was so hot that I could not drink it.*
+
+**Present continuous (am/is/are + -ing).**
+
+6. **Now:** *The chef is cooking dal at the moment.*
+7. **Around now:** *She is learning to cook these days.*
+8. **Planned future:** *We are having a feast tomorrow.*
+
+| Use | Time words | Example |
+|---|---|---|
+| Now | now, at the moment | Santosh is tasting the sauce. |
+| Around now | this week, these days | He is preparing for the competition. |
+| Future plan | tonight, next week | They are opening a restaurant next month. |
+
+**Note.** State verbs such as *know, like, want* are not normally used in the continuous: say *I like momo*, not *I am liking momo*.
+
+**Conclusion.** Choose the connective by the grammar that follows it: clause, noun or verb.

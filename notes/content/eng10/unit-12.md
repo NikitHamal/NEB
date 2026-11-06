@@ -437,3 +437,80 @@ Issuer — heading — date — event — time — place — who should attend �
 
 **2.** Eco Club heading, NOTICE, date, "Tree Plantation Programme", date/time/place, who should come and what to bring (saplings, tools), name and designation.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a report on the benefits and challenges of the Kathmandu–Terai Fast Track and a notice. <span class="marks">[10]</span>
+2. Explain the future forms and analyse Wordsworth's sonnet. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="4" ratio="1.0" caption="Nature and development. Westminster Bridge in London, William Wordsworth's portrait, the Kulekhani dam and the Kaligandaki hydropower station: a poem of a calm city and two Nepali development works."
+@ photo id="eng10/westminster-bridge" cap="Westminster Bridge"
+@ photo id="eng10/wordsworth" cap="William Wordsworth"
+@ photo id="nep11/kulekhani" cap="Kulekhani dam"
+@ photo id="nep11/kaligandaki" cap="Kaligandaki hydropower"
+```
+
+### Model answer D1: a report and a notice (10 marks)
+
+**Introduction.** A **report** has a title, introduction, findings, conclusion and recommendations, and the name and date of the writer. A **notice** names the issuer, has a heading, the date, details and the writer with designation.
+
+**Model report.**
+
+::: example Report on the Fast Track
+**Report on the Kathmandu–Terai/Madhesh Fast Track**  
+*Prepared by: Grade 10 Social Club, 5 Baisakh 2083*
+
+**Introduction.** This report examines the 72.5 km expressway from Khokana in Lalitpur to Nijgadh in Bara.  
+**Findings.** (1) It reduces travel time between Kathmandu and the Tarai. (2) It saves fuel and vehicle costs. (3) It helps trade, tourism and the movement of goods. (4) It creates jobs and skills. (5) It promotes regional development.  
+**Challenges.** (1) Delay in construction and cost increase. (2) Link roads are needed. (3) Loss of forest and farmland. (4) Safe use of the road.  
+**Recommendation.** The government should finish the work on time, plant trees and build good link roads.
+:::
+
+**Model notice.**
+
+::: example Notice
+**SHREE JANAJYOTI SECONDARY SCHOOL**  
+**NOTICE** — 8 Baisakh 2083  
+**Educational Tour.** All students of grade 10 are informed that the educational tour to Chitwan will start on Friday at 6 a.m. from the school gate. Interested students should deposit Rs. 1,500 with the class teacher by Wednesday.  
+Mrs. Karki, Coordinator
+:::
+
+**Points (8).**
+
+1. Title and writer.
+2. Introduction (purpose).
+3. Findings with facts.
+4. Benefits.
+5. Challenges.
+6. Recommendation.
+7. Notice: issuer, heading, date.
+8. Event details and designation.
+
+**Conclusion.** Be factual, short and well organised.
+
+### Model answer D2: future forms and the sonnet (10 marks)
+
+| Form | Use | Example |
+|---|---|---|
+| Present simple | Timetable | The bus leaves at 7 a.m. |
+| Present continuous | Arrangement | We are meeting the engineer tomorrow. |
+| going to | Plan, evidence | Look at those clouds! It is going to rain. |
+| will | Decision, prediction | I think the road will open soon. |
+| will be + -ing | In progress at a future time | At 8 a.m. we will be driving to Nijgadh. |
+| will have + V3 | Completed before a time | The road will have been finished by 2085. |
+
+1. After **if, when, before, until, as soon as** use the **present tense**, not *will*.
+2. *I will help you* is a promise; *I'm going to help* is a plan.
+
+**Sonnet: *Composed Upon Westminster Bridge* (Wordsworth, 1802).**
+
+3. It is a **Petrarchan sonnet**: 14 lines, an octave *abbaabba* and a sestet *cdcdcd*.
+4. **Simile:** the city wears the beauty of the morning *like a garment*.
+5. **Personification:** the houses seem asleep; the river glides.
+6. **Metaphor:** *the very houses seem asleep; and all that mighty heart is lying still!*
+7. **Theme:** the beauty of a peaceful city at dawn and the harmony of man and nature.
+8. **Tone:** calm, admiring and full of wonder.
+
+**Conclusion.** Choose the future form by the meaning: plan, arrangement, prediction or completion.
