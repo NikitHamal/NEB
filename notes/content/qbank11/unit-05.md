@@ -158,6 +158,8 @@ NEB does not publish its Grade 11 question papers, and this book could not verif
 **6.** (c) — Cl, $[\text{Ne}]3s^{2}3p^{5}$, is group 17 of the $p$-block (IUPAC numbering); (d) uses the old numbering.
 :::
 
+<div style="break-before:page"></div>
+
 ## 5.5 Chemical Bonding and Shapes of Molecules
 
 ```photo id="chem11/halite-crystal" caption="A crystal of halite (rock salt, NaCl), a typical ionic solid." width="46"
