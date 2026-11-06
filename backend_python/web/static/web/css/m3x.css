@@ -97,7 +97,7 @@
 
   /* ---- type ---- */
   --display: Display, "Arial Black", Poppins, system-ui, sans-serif;
-  --body: Body, ui-sans-serif, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --body: Body, ui-sans-serif, Poppins, "Poppins Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --md-font: var(--body);
   --md-font-display: var(--display);
 

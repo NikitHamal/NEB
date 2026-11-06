@@ -383,8 +383,8 @@ function renderKatex(latex){
     try{ window.katex.render(txt, el, {throwOnError:false, displayMode:true}); }catch(e){ el.textContent=txt; }
   }
   if(window.katex) doRender();
-  else loadScript("https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js").then(function(){
-    var l=document.createElement("link"); l.rel="stylesheet"; l.href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"; document.head.appendChild(l);
+  else loadScript("/static/web/vendor/katex/katex.min.js").then(function(){
+    var l=document.createElement("link"); l.rel="stylesheet"; l.href="/static/web/vendor/katex/katex.min.css"; document.head.appendChild(l);
     doRender();
   }).catch(function(){ el.textContent=txt; });
 }

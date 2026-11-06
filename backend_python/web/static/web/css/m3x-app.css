@@ -6,8 +6,8 @@
    so it keeps Bricolage Grotesque + Figtree. Everything in the app reads --body / --display /
    --md-font, so repointing the tokens here is the whole switch. */
 :root {
-  --body: Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --display: Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --body: Poppins, "Poppins Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: Poppins, "Poppins Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --md-font: var(--body);
   --md-font-display: var(--display);
 }
