@@ -44,13 +44,13 @@ key 4 (c) Baby held close, tummy to tummy, with the head and body in a line
 key 5 (c) A mother and infant at the breast: skin contact and eye contact
 @ svg cap="Kwashiorkor and marasmus"
 f = Fig(300, 300)
-f.box(14, 14, 130, 40, "Kwashiorkor", fill=ROSE, stroke=RED, size=11, bold=True)
-f.box(156, 14, 130, 40, "Marasmus", fill=SAND, stroke=AMBER, size=11, bold=True)
-rows = [("Oedema\nyes", "no oedema\nsevere wasting"), ("Skin and hair\nflaky, thin hair", "wizened, old\nman's face"), ("Fat\npresent", "fat and\nmuscle lost"), ("Mood\nirritable", "alert, hungry"), ("Cause\nlow protein", "low energy\nand protein")]
+f.box(8, 8, 138, 44, "Kwashiorkor", fill=ROSE, stroke=RED, size=15, bold=True)
+f.box(154, 8, 138, 44, "Marasmus", fill=SAND, stroke=AMBER, size=15, bold=True)
+rows = [("Oedema", "No oedema"), ("Thin hair", "Wizened face"), ("Fatty liver", "Fat lost"), ("Irritable", "Alert"), ("Low protein", "Low energy")]
 for i, (a_, b_) in enumerate(rows):
     y = 62 + i * 46
-    f.box(14, y, 130, 40, a_, fill=SOFT, stroke=RED, size=9.5)
-    f.box(156, y, 130, 40, b_, fill=SOFT, stroke=AMBER, size=9.5)
+    f.box(8, y, 138, 40, a_, fill=SOFT, stroke=RED, size=16)
+    f.box(154, y, 138, 40, b_, fill=SOFT, stroke=AMBER, size=16)
 ```
 
 ## 3.2 Breastfeeding and complementary feeding

@@ -52,6 +52,35 @@ f75 = 130*7.2; chk("c3 f75", (round(f75), round(f75/8), round(200*7.2), round(20
 T.update(u3_bmi=f"{pb:.1f}", u3_cf6=cf[0], u3_cf9=cf[1], u3_cf12=cf[2], u3_milk=720, u3_feed=90, u3_rutf="1,600", u3_sach="3.2", u3_week=23,
          u3_f75="1,040", u3_f75f=130, u3_f100="1,600", u3_gain=40, u3_gomez="64.6", u3_m1="2.4", u3_m2=650, u3_m3="62.5",
          c3_f75=936, c3_f75f=117, c3_rutf="1,440", c3_sach="2.9", c3_gain=36)
+# ---- Unit 4: therapeutic diets
+ck = 0.55*1600; cg = ck/4; chk("carb", (round(ck, 6), round(cg, 6), round(cg/15, 1)), (880.0, 220.0, 14.7))
+plan = [3, 1, 4, 2, 4, 1]; n = sum(plan); chk("plan", (n, n*15, n*15*4, round(n*15*4/1600*100, 1)), (15, 225, 900, 56.2))
+gl_r = 73*45/100; gl_d = 30*20/100; chk("gl", (round(gl_r, 1), gl_d), (32.9, 6.0))
+chk("ibw", (164-100, 25*(164-100)), (64, 1600))
+na5 = 5*393.4; saltg = 2000/393.4; labs = 160/393.4; sat = 0.10*2000/9
+chk("sodium", (round(na5), round(saltg, 2), round(labs, 2), round(sat, 1)), (1967, 5.08, 0.41, 22.2))
+chk("hd", (1.2*60, 30*60, 35*60, 600+500, 0.6*60, 0.8*60), (72.0, 1800, 2100, 1100, 36.0, 48.0))
+chk("curreri", (25*60 + 40*30, 2*60), (2700, 120)); chk("fever", 1500*(1 + 0.13*2), 1890.0)
+chk("m2", 25*70 + 40*40, 3350); chk("m3", 73*30/100, 21.9); chk("m4", 400+500, 900); chk("m5", round(3000/393.4, 1), 7.6)
+cb = 70/1.64**2; chk("c4 bmi", round(cb, 1), 26.0); chk("c4 sat", round(0.10*1600/9, 1), 17.8)
+chk("c4 loss", (round(0.05*70, 1), round(0.07*70, 1)), (3.5, 4.9)); chk("c4 def", (2100-1600, round(500*7/7700, 2)), (500, 0.45))
+chk("c4 weight", 70 - 4, 66)
+T.update(u4_carbkcal=880, u4_carbg=220, u4_ex="14.7", u4_cho15=225, u4_pct="56.2", u4_glrice="32.9", u4_gldal="6.0",
+         u4_saltg="5.08", u4_labelsalt="0.41", u4_na5="1,967", u4_sat="22.2", u4_hdprot=72, u4_hdkcal="1,800", u4_hdfluid="1,100",
+         u4_curreri="2,700", u4_fever="1,890", u4_m2="3,350", u4_m3="21.9", u4_m4=900, u4_m5="7.6",
+         c4_bmi="26.0", c4_ibw=64, c4_kcal="1,600", c4_def=500, c4_wk="0.45", c4_loss="3.5 to 4.9", c4_ex=15, c4_sat="17.8")
+# ---- Unit 5: enteral and parenteral nutrition, refeeding
+vol = 1800/1.0; chk("enteral", (vol/24, vol/20, vol/6, vol/1000*40, round(vol/1000*40/60, 1), vol*0.85, 30*60 - vol*0.85, 8*2, round(1800/1.5)), (75.0, 90.0, 300.0, 72.0, 1.2, 1530.0, 270.0, 16, 1200))
+chk("day1", 25*8 + 50*8 + 75*8, 1200)
+en = 25*60; pg = 1.2*60; pk = pg*4; lk = 0.30*en; lml = lk/2; dk = en - pk - lk; dg = dk/3.4
+chk("pn", (en, pg, pk, lk, lml, round(dk), round(dg)), (1500, 72.0, 288.0, 450.0, 225.0, 762, 224))
+gir = dg*1000/60/1440; osm = (dg*5 + pg*10)/1.5; nin = pg/6.25
+chk("gir", round(gir, 2), 2.59); chk("osm", round(osm), 1227); chk("rate", 1500/24, 62.5); chk("nb", round(nin - 14, 2), -2.48)
+chk("parts", round(762/1500*100), 51); chk("ref", (10*40, 5*40), (400, 200))
+chk("m1", 2000/20, 100.0); chk("m2", 250*2, 500); chk("m3", 200*3.4, 680.0); chk("m4", 50*10, 500)
+T.update(u5_vol="1,800", u5_rate24=75, u5_rate20=90, u5_bolus=300, u5_prot=72, u5_pkg="1.2", u5_flush=270, u5_hours=16, u5_dense="1,200",
+         u5_pnkcal="1,500", u5_pnprot=72, u5_lipml=225, u5_dexg=224, u5_gir=f"{gir:.2f}", u5_osm=f"{osm:,.0f}", u5_pnrate="62.5", u5_nb=f"{nin-14:.2f}",
+         u5_ref=400, u5_ref5=200, u5_m1=100, u5_m2=500, u5_m3=680, u5_m4=500, c5_day1="1,200")
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

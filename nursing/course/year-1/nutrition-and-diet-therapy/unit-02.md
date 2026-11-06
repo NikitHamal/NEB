@@ -72,7 +72,7 @@ f.box(374, 20, 120, 58, "Retinal +\nopsin", fill=BLUE, stroke=NAVY, size=10.5, b
 f.box(540, 20, 200, 58, "Rhodopsin in rods\nlight: nerve signal", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
 for a_, b_ in ((156, 200), (330, 374), (494, 540)):
     f.arrow([(a_, 49), (b_, 49)], color=SLATE, sw=2)
-f.box(200, 118, 540, 54, "Deficiency: less rhodopsin  then  night blindness  then  xerosis, Bitot's spot  then  keratomalacia and blindness", fill=ROSE, stroke=RED, size=11, bold=True)
+f.box(200, 118, 540, 54, "Deficiency: less rhodopsin, then night blindness,\nthen xerosis and Bitot's spot, then keratomalacia", fill=ROSE, stroke=RED, size=11, bold=True)
 f.arrow([(270, 78), (270, 118)], color=RED, sw=1.6, dash=True)
 f.text(380, 190, "Prevention: capsules twice a year, green leaves, egg, ghee, fortified oil", size=11, color=TEAL, bold=True)
 ```

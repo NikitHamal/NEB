@@ -10516,6 +10516,19 @@
   "source": "Wikimedia Commons",
   "title": "Blood pressure measurement"
  },
+ "nur4/bpaneroid": {
+  "author": "Confidence24",
+  "bytes": 1014942,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur4/bpaneroid.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Blood_pressure_measurement_using_an_aneroid_sphygmomanometer.jpg",
+  "sha1": "b65bd1122a1db90e",
+  "source": "Wikimedia Commons",
+  "title": "Blood pressure measurement using an aneroid sphygmomanometer"
+ },
  "nur4/caliper": {
   "author": "Martina Bianchini",
   "bytes": 577399,
@@ -10580,6 +10593,32 @@
   "sha1": "9d517dd618b220f6",
   "source": "Wikimedia Commons",
   "title": "Daal after Tadka Pulse Soup India"
+ },
+ "nur4/dialysis": {
+  "author": "Jonas@sodratornet.se",
+  "bytes": 664937,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur4/dialysis.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dialog-dialysis-machine-b-braun.jpg",
+  "sha1": "67cdeb30b1a74dc5",
+  "source": "Wikimedia Commons",
+  "title": "Dialog-dialysis-machine-b-braun"
+ },
+ "nur4/glucometer": {
+  "author": "Confidence24",
+  "bytes": 1140972,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur4/glucometer.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Accu-Answer_blood_glucose_meter_with_accessories.jpg",
+  "sha1": "0a9629ee4d89194a",
+  "source": "Wikimedia Commons",
+  "title": "Accu-Answer blood glucose meter with accessories"
  },
  "nur4/goitre": {
   "author": "Martin Finborud",

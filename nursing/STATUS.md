@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 4. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 5. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -25,11 +25,17 @@ Updated: end of Session 4. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: `nursing/tools/ast.py` shadowed the stdlib `ast` and broke every build, so it is now `assetget.py` (copy to `/tmp/ast.py` to use it); photo `focus` crops to the square so marks must lie inside the crop; write each unit in 2-3 calls of at most ~1,500 words.
   - Nepal facts used (verified by search this session): NIP schedule incl. fIPV 14 wk + 9 mo, PCV 6/10 wk + 9 mo, rotavirus 6/10 wk, MR 9/15 mo, JE 12 mo, typhoid 15 mo, HPV for adolescent girls (dose count per current MoHP circular); NDHS 2022 NMR 21, IMR 28, U5MR 33, 80% fully vaccinated, SBA 80.1%, diarrhoea 10% and ORT 48%; about 51,000 FCHVs; MMR 151 (2021).
 
+- **Nutrition and Diet Therapy (BSN 8), Year 1: DONE (session 5).** 5 units, 46-page PDF, `qa_pdf.py` fails=0 (2 small-text warns on p22 and 4 on p39 in 4-up SVG panels). U1 Nutrition science, energy, BMR, BMI, ABCD assessment, MUST | U2 Vitamins, minerals, deficiency disorders (vitamin A, iodine, iron, calcium) | U3 Life-cycle nutrition, breastfeeding, complementary energy gap, SAM, IMAM, RUTF, F-75/F-100 | U4 Therapeutic diets: diabetes exchanges and glycaemic load, sodium and DASH, CKD, liver, Curreri burns, fever, TB | U5 Enteral and parenteral nutrition, NG care, PN composition, GIR, osmolarity, nitrogen balance, refeeding, food safety, nutrition education.
+  - 21 real Commons photographs (slug `nur4`; 22 downloaded, the 'marasmus' camp-scene file dropped: gundruk, dal, caliper, label, Bitot, goitre, rickets, cheilitis, scurvy, pellagra, iodised salt, kwashiorkor, RUTF, breastfeeding event, glucometer, dialysis, BP, hospital tray, feeding pumps, open-system set, PN bag), 4-up / 3-up photogrids with numbered marks, 13 SVG figures, 8 executed python blocks, 5-column NANDA-I care plans in every unit.
+  - `nursing/tools/check_nutrition.py`: 115 tokens + 8 executed python blocks + extra asserts (`--verify`). Case tokens are prefixed `c`, `c3`, `c4`, `c5`, `c2`.
+  - Lessons: SVGs in a 4-up photogrid need font size 14-16 on a 300-wide canvas to reach 6 pt; avoid long single-line labels in boxes (check the rendered page); the file tool only accepts relative paths, so symlink `/tmp/shots` into the project root to read images; keep a pristine copy of each unit template in `/tmp/src/<slug>/` before `--fill`; `chk()` on tuples of floats needs `round()`.
+  - Nepal facts verified this session: NDHS 2022 stunting 25%, wasting 8%, underweight 19%, overweight 1%, EBF 0-5 months 56%, anaemia 43% (6-59 months) and 34% (women 15-49), hypertension 18% women and 23% men aged 15+; MSNP-III 2023-2030 (Rs 189 bn); IMAM guideline 2017; Baal Vita; sarbottam pitho 50% cereal 50% pulses.
+
 ## Next (in this order)
-1. **Nutrition and Diet Therapy (BSN 8)** `course/year-1/nutrition-and-diet-therapy` (macro/micronutrients, BMR and Harris-Benedict, BMI, energy and protein needs, diet in diabetes, renal, burns, hypertension, enteral and parenteral feeding drip maths; copy `check_chn.py` as `check_nutrition.py`, photo slug `nur4`).
-2. Year 2 to Year 4 books in the order of `books.json`.
-3. After that: then the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
-4. Optional polish: enlarge SVG font sizes inside 3-up strips (qa warns about 5-6 pt text).
+1. **Year 1 is complete (6 books).** Start Year 2: **Adult Nursing I (BSN 9)** `course/year-2/adult-nursing-1` (slug `nur5`; respiratory, cardiovascular, GI, haematology and perioperative nursing; copy `check_nutrition.py` skeleton as `check_an1.py`; photo contact sheet before use; accent #1D4ED8).
+2. Then in `books.json` order: Adult Nursing II, Geriatric Nursing, Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
+3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
+4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
 
 ## How to continue (Session 2+)
 1. `git clone --depth 5 --branch claude/bsc-nursing --single-branch https://github.com/NikitHamal/NEB.git /tmp/NEB` (PAT through an out-of-repo `GIT_ASKPASS` helper, never in the repo). Read this file and AGENTS.md section "BSc Nursing".
