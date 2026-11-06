@@ -584,3 +584,74 @@ f.text(150, 214, "5 g of iodised salt meets the daily need", size=10.5, color=NA
 **9.** (c) — Aldosterone excess expands Na⁺/water volume while wasting K⁺.
 **10.** (a) — Thyroid hormone is critical for early brain maturation and skeletal growth; untreated deficiency causes cretinism.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the endocrine glands of man, their hormones and functions. <span class="marks">[10]</span>
+2. Describe the common disorders caused by hormone imbalance and the feedback control of hormones. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.5" caption="The endocrine system. (a) The position of the endocrine glands in the human body. (b) The pituitary and hypothalamus on a sagittal section of the brain, the control centre of the system."
+@ photo id="bio12/endocrine-glands" cap="(a) Endocrine glands"
+fit 1.5
+focus 0.5 0.5
+@ photo id="bio12/brain-sagittal" cap="(b) Hypothalamus and pituitary"
+fit 1.5
+focus 0.5 0.5
+```
+
+### Model answer D1: Endocrine glands and hormones (10 marks)
+
+**Introduction.** **Endocrine glands** are ductless glands that release **hormones** directly into the blood. A hormone is a chemical messenger that affects a target organ in very small amounts.
+
+| Gland | Hormone | Main function |
+|---|---|---|
+| **Hypothalamus** | Releasing and inhibiting hormones | Controls the pituitary |
+| **Anterior pituitary** (master gland) | GH, TSH, ACTH, FSH, LH, prolactin | Growth, controls other glands, milk |
+| **Posterior pituitary** | ADH, oxytocin | Water balance; labour and milk ejection |
+| **Thyroid** | Thyroxine (T₃, T₄), calcitonin | Metabolic rate; lowers blood calcium |
+| **Parathyroid** | Parathormone | Raises blood calcium |
+| **Adrenal cortex** | Cortisol, aldosterone | Stress, glucose; salt balance |
+| **Adrenal medulla** | Adrenaline, noradrenaline | Emergency ("fight or flight") |
+| **Pancreas** (islets of Langerhans) | Insulin (β cells), glucagon (α cells) | Lowers and raises blood glucose |
+| **Testis** | Testosterone | Male characters, sperm |
+| **Ovary** | Oestrogen, progesterone | Female characters, cycle, pregnancy |
+| **Pineal** | Melatonin | Sleep and body clock |
+| **Thymus** | Thymosin | T-cell development |
+
+**Points to explain.**
+
+1. The **pituitary** is the size of a pea, lies under the hypothalamus and controls many glands, yet the hypothalamus controls it.
+2. **Thyroxine** needs iodine; **iodised salt** is used in Nepal to prevent goitre.
+3. **Insulin and glucagon** work against each other to keep fasting blood glucose at about 70–100 mg/dL.
+4. **Adrenaline** raises heart rate, blood glucose and blood flow to muscles.
+5. **Calcitonin and parathormone** keep blood calcium steady.
+6. **Oxytocin** causes uterine contractions and milk release.
+
+**Conclusion.** Hormones work together as a slow but long-lasting control system that adjusts growth, metabolism and reproduction.
+
+### Model answer D2: Hormonal disorders and feedback control (10 marks)
+
+**Introduction.** Too much (hyper-) or too little (hypo-) secretion of a hormone causes disease.
+
+| Gland | Hormone problem | Disorder and symptoms |
+|---|---|---|
+| Pituitary | Less GH in childhood | **Dwarfism**: small body, normal mind |
+| Pituitary | More GH in childhood | **Gigantism** |
+| Pituitary | More GH in adults | **Acromegaly**: large jaw, hands, feet |
+| Pituitary (post.) | Less ADH | **Diabetes insipidus**: large volumes of dilute urine |
+| Thyroid | Lack of iodine | **Simple goitre**: neck swelling |
+| Thyroid | Hypothyroid, infant | **Cretinism**: stunted body and mind |
+| Thyroid | Hypothyroid, adult | **Myxoedema**: slow, weight gain |
+| Thyroid | Hyperthyroid | **Graves' disease**: weight loss, protruding eyes |
+| Parathyroid | Less parathormone | **Tetany**: muscle spasm |
+| Adrenal cortex | Less cortisol | **Addison's disease**: weakness, low BP |
+| Adrenal cortex | More cortisol | **Cushing's syndrome**: moon face, high BP |
+| Pancreas | Less insulin | **Diabetes mellitus**: high blood glucose |
+
+**Diabetes mellitus.** In **type 1** the β-cells are destroyed and insulin must be injected. In **type 2** the cells respond poorly to insulin; diet, exercise and tablets help. Signs: thirst, frequent urination, weight loss. A fasting glucose above 126 mg/dL indicates diabetes.
+
+**Feedback control.** Most hormones work by **negative feedback**. For example: low thyroxine → the hypothalamus releases TRH → the pituitary releases TSH → the thyroid releases more thyroxine → a high level of thyroxine inhibits TRH and TSH. Similarly, a rise in blood glucose triggers insulin, which lowers glucose, which stops the insulin release. In **positive feedback** the effect strengthens the cause, as when oxytocin increases contractions during childbirth.
+
+**Prevention in Nepal.** Iodised salt, regular checks of blood sugar and screening of newborns for hypothyroidism.
+
+**Conclusion.** Hormone levels are held within narrow limits by feedback, and a failure of this control produces the disorders listed above.
