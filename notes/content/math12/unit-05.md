@@ -830,3 +830,71 @@ $(0,0,0\,|\,\mu-10)$.
 - $\lambda = 3$, $\mu = 10$: last row is $0 = 0$ — **infinitely many solutions**,
   $z = t$, $y = 4 - 2t$, $x = 2 + t$ for every real $t$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the determinant, adjoint and inverse of a matrix. Solve a system of three linear equations by the matrix inverse method and by Cramer's rule. <span class="marks">[10]</span>
+2. Explain the consistency of a system of linear equations using the rank of a matrix and solve systems by Gauss elimination, with a real-life application. <span class="marks">[10]</span>
+
+### Model answer D1: inverse of a matrix, Cramer's rule (10 marks)
+
+**Introduction.** A system of linear equations can be written in the matrix form $AX=B$. If $A$ is a square matrix with $|A|\neq0$, the system has exactly one solution, which can be found from the inverse of $A$ or by determinants.
+
+**Definitions.**
+
+- **Determinant** of a $3\times3$ matrix: expand along a row, e.g. $|A|=a_{11}(a_{22}a_{33}-a_{23}a_{32})-a_{12}(\cdots)+a_{13}(\cdots)$.
+- A matrix is **singular** if $|A|=0$ and **non-singular** if $|A|\neq0$.
+- The **cofactor** $C_{ij}=(-1)^{i+j}M_{ij}$, where $M_{ij}$ is the minor. The **adjoint** is the transpose of the cofactor matrix.
+- **Inverse:** $A^{-1}=\dfrac{\text{adj}\,A}{|A|}$, with $AA^{-1}=A^{-1}A=I$.
+
+**For a $2\times2$ matrix** $A=\begin{pmatrix}a&b\\c&d\end{pmatrix}$: $A^{-1}=\dfrac{1}{ad-bc}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$. Example: $A=\begin{pmatrix}2&1\\5&3\end{pmatrix}$ has $|A|=1$ and $A^{-1}=\begin{pmatrix}3&-1\\-5&2\end{pmatrix}$.
+
+**Method 1: matrix inverse.** From $AX=B$, multiply by $A^{-1}$: $X=A^{-1}B$.
+
+**Method 2: Cramer's rule.** $x=\dfrac{D_x}{D}$, $y=\dfrac{D_y}{D}$, $z=\dfrac{D_z}{D}$, where $D=|A|$ and $D_x$ is $D$ with the first column replaced by the constants (and similarly for $D_y$, $D_z$).
+
+**Worked example.** Solve $x+y+z=6$, $x-y+z=2$, $2x+y-z=1$.
+
+1. $A=\begin{pmatrix}1&1&1\\1&-1&1\\2&1&-1\end{pmatrix}$ and $D=1(1-1)-1(-1-2)+1(1+2)=0+3+3=6\neq0$, so there is a unique solution.
+2. $D_x=\begin{vmatrix}6&1&1\\2&-1&1\\1&1&-1\end{vmatrix}=6(1-1)-1(-2-1)+1(2+1)=6$, so $x=1$.
+3. $D_y=\begin{vmatrix}1&6&1\\1&2&1\\2&1&-1\end{vmatrix}=1(-2-1)-6(-1-2)+1(1-4)=-3+18-3=12$, so $y=2$.
+4. $D_z=\begin{vmatrix}1&1&6\\1&-1&2\\2&1&1\end{vmatrix}=1(-1-2)-1(1-4)+6(1+2)=-3+3+18=18$, so $z=3$.
+5. **Check:** $1+2+3=6$, $1-2+3=2$, $2+2-3=1$. All three equations are satisfied: $(x,y,z)=(1,2,3)$.
+
+| Method | Idea | Best used when |
+|---|---|---|
+| Inverse | $X=A^{-1}B$ | Many different $B$ for one $A$ |
+| Cramer's rule | Ratio of determinants | Small systems |
+| Elimination | Row operations | Large systems |
+
+**Properties used.** $|AB|=|A||B|$, $(AB)^{-1}=B^{-1}A^{-1}$ and $|A^{T}|=|A|$.
+
+**Conclusion.** A non-singular coefficient matrix gives a unique solution $X=A^{-1}B$, which Cramer's rule also gives through determinants.
+
+### Model answer D2: consistency, rank and Gauss elimination (10 marks)
+
+**Introduction.** Not every system has a solution, and some have infinitely many. The **rank** of a matrix decides which case occurs.
+
+**Rank.** The rank of a matrix is the number of non-zero rows in its **row-echelon form**, or the order of its largest non-zero determinant.
+
+**Consistency (for $AX=B$ with $n$ unknowns).** Let $[A|B]$ be the augmented matrix.
+
+1. If $\text{rank}\,A=\text{rank}\,[A|B]=n$: **consistent, a unique solution**.
+2. If $\text{rank}\,A=\text{rank}\,[A|B]<n$: **consistent with infinitely many solutions**.
+3. If $\text{rank}\,A<\text{rank}\,[A|B]$: **inconsistent, no solution**.
+
+**Gauss elimination.** Use elementary row operations (swap rows; multiply a row by a non-zero number; add a multiple of one row to another) to reduce the augmented matrix to an upper triangular form, then find the unknowns by back substitution.
+
+**Worked example 1 (unique).** Solve $x+2y+z=8$, $2x+y+z=7$, $x+y+2z=9$.
+
+- Adding all three: $4(x+y+z)=24$, so $x+y+z=6$.
+- Subtracting this from each equation: $y=8-6=2$, $x=7-6=1$, $z=9-6=3$.
+- In matrix form, $R_2\to R_2-2R_1$ and $R_3\to R_3-R_1$ give $\left(\begin{array}{ccc|c}1&2&1&8\\0&-3&-1&-9\\0&-1&1&1\end{array}\right)$, and the elimination ends with $z=3$, $y=2$, $x=1$, the same answer.
+
+**Worked example 2 (inconsistent).** $x+y=2$ and $2x+2y=5$: subtracting twice the first from the second gives $0=1$, a contradiction. $\text{rank}\,A=1<\text{rank}\,[A|B]=2$, so there is no solution (parallel lines).
+
+**Worked example 3 (infinite).** $x+y=2$ and $2x+2y=4$: the second equation is a multiple of the first, so ranks are $1=1<2$; the solutions are $(t,\,2-t)$ for any $t$ (one line).
+
+**Application.** At a Kathmandu market, 3 kg of rice and 2 kg of lentils cost Rs 640, while 2 kg of rice and 3 kg of lentils cost Rs 685. Let $r$ and $d$ be the prices per kg: $3r+2d=640$ and $2r+3d=685$. Here $D=9-4=5$, $r=\dfrac{640\times3-2\times685}{5}=110$ and $d=\dfrac{3\times685-2\times640}{5}=155$. Rice costs Rs 110 per kg and lentils Rs 155 per kg. *Check:* $330+310=640$ and $220+465=685$.
+
+**Conclusion.** The ranks of the coefficient and augmented matrices decide whether a system has no, one or infinitely many solutions, and Gauss elimination finds them.

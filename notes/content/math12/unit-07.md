@@ -627,3 +627,71 @@ Area $= \frac12 \times AB \times \text{width} = \frac12(100)(63.40)
 = 3170$ m², and equally $\frac12(AC)(BC)\sin 75^{\circ}
 = \frac12(73.21)(89.66)(0.9659) = 3170$ m².
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain how to solve a triangle in each of the cases SSS, SAS, ASA and the ambiguous case SSA, with examples. <span class="marks">[10]</span>
+2. Explain heights and distances with an example of a surveyor measuring the height of a temple or a tower. <span class="marks">[10]</span>
+
+### Model answer D1: solving triangles, including the ambiguous case (10 marks)
+
+**Introduction.** **Solving a triangle** means finding all of its three sides and three angles from three given parts, at least one of which is a side. The sine and cosine rules and the sum of the angles ($A+B+C=180^{\circ}$) are the tools.
+
+**Case 1: SSS (three sides).** Use the cosine rule for two angles and subtract from $180^{\circ}$ for the third. *Example:* $a=13$, $b=14$, $c=15$. $\cos A=\dfrac{196+225-169}{2(14)(15)}=0.6$, so $A=53.13^{\circ}$; $\cos B=\dfrac{169+225-196}{2(13)(15)}=0.5077$, so $B=59.49^{\circ}$; $C=180^{\circ}-53.13^{\circ}-59.49^{\circ}=67.38^{\circ}$. The area is $84$ square units.
+
+**Case 2: SAS (two sides and the included angle).** Use the cosine rule for the third side, then the sine rule for a second angle (find the smaller angle first, which is always acute). *Example:* $a=5$, $b=7$, $C=80^{\circ}$. $c^{2}=25+49-70\cos80^{\circ}=61.85$, so $c=7.86$. Then $\sin A=\dfrac{5\sin80^{\circ}}{7.86}=0.626$, so $A=38.8^{\circ}$ and $B=180^{\circ}-80^{\circ}-38.8^{\circ}=61.2^{\circ}$.
+
+**Case 3: ASA or AAS (two angles and a side).** The third angle is $180^{\circ}$ minus the other two; the sine rule then gives the remaining sides. *Example:* $A=40^{\circ}$, $B=60^{\circ}$, $c=10$: $C=80^{\circ}$, $a=\dfrac{10\sin40^{\circ}}{\sin80^{\circ}}=6.53$ and $b=\dfrac{10\sin60^{\circ}}{\sin80^{\circ}}=8.79$.
+
+**Case 4: SSA (two sides and a non-included angle): the ambiguous case.** Given $a$, $b$ and $A$, the sine rule gives $\sin B=\dfrac{b\sin A}{a}$.
+
+| Condition | Number of triangles |
+|---|---|
+| $\sin B>1$ | None |
+| $\sin B=1$ | One (right-angled) |
+| $\sin B<1$ and $a\geq b$ | One ($B$ must be acute) |
+| $\sin B<1$ and $a<b$ | **Two**: $B$ and $180^{\circ}-B$ (if $A+B<180^{\circ}$ for both) |
+
+*Example (two triangles).* $a=10$, $b=16$, $A=30^{\circ}$. $\sin B=\dfrac{16\times0.5}{10}=0.8$, so $B=53.13^{\circ}$ or $126.87^{\circ}$.
+
+- **Triangle 1:** $B=53.13^{\circ}$, $C=96.87^{\circ}$ and $c=\dfrac{10\sin96.87^{\circ}}{\sin30^{\circ}}=19.86$.
+- **Triangle 2:** $B=126.87^{\circ}$, $C=23.13^{\circ}$ and $c=\dfrac{10\sin23.13^{\circ}}{\sin30^{\circ}}=7.86$.
+
+Both satisfy the given data, which is why the case is called ambiguous.
+
+**Conclusion.** SSS and SAS need the cosine rule, ASA needs the sine rule, and SSA may have no, one or two solutions.
+
+### Model answer D2: heights and distances (10 marks)
+
+**Introduction.** Triangle solutions let us find heights and distances that cannot be measured directly: the height of a temple, a tower or a hill and the width of a river.
+
+**Terms.**
+
+- The **angle of elevation** is the angle above the horizontal from the observer's eye to an object above.
+- The **angle of depression** is the angle below the horizontal to an object below.
+- A **bearing** is the angle of a direction, measured clockwise from the north.
+
+**Method.**
+
+1. Draw a clear figure, marking the known angles and distances.
+2. Identify the right-angled or general triangles.
+3. Use $\tan\theta=\dfrac{\text{height}}{\text{distance}}$ in a right triangle, or the sine and cosine rules in a general triangle.
+4. Solve the equations and check the result for reasonableness.
+
+**Worked example 1 (two observations).** A surveyor sees the top of a temple at an elevation of $30^{\circ}$. After walking $40\ \text{m}$ towards the temple on level ground, the elevation is $45^{\circ}$. Find the height $h$.
+
+- From the first point, the distance to the base is $h\cot30^{\circ}=1.732\,h$.
+- From the second, it is $h\cot45^{\circ}=h$.
+- The difference is the walked distance: $1.732\,h-h=40$, so $h=\dfrac{40}{0.732}=54.6\ \text{m}$.
+
+**Worked example 2 (river width).** From a point on one bank, a tree directly across the river is sighted. The surveyor walks $60\ \text{m}$ along the bank and measures the angle between the tree and the starting point as $50^{\circ}$ (at the new point, the angle between the bank and the line to the tree). Since the tree is perpendicular to the bank at the start, the width $w=60\tan50^{\circ}=71.5\ \text{m}$.
+
+**Worked example 3 (general triangle).** Two observers $100\ \text{m}$ apart on level ground see a tower on the same side with angles of elevation $60^{\circ}$ (nearer) and $30^{\circ}$ (farther) in line. By the same method, $h(\cot30^{\circ}-\cot60^{\circ})=100$, so $h=\dfrac{100}{1.732-0.577}=86.6\ \text{m}$.
+
+| Given | Tool | Result |
+|---|---|---|
+| Elevation and distance | $h=d\tan\theta$ | Height |
+| Two elevations, one baseline | Difference of cotangents | Height without the base distance |
+| Triangle with no right angle | Sine rule or cosine rule | Distance |
+
+**Conclusion.** Trigonometry in right and general triangles turns measured angles and a baseline into inaccessible heights and distances.

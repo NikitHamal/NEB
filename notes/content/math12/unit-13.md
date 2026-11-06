@@ -1811,3 +1811,82 @@ $$ A = \int_{-1}^{2}\left(x+2-x^{2}\right)dx
 $$ = \left(2+4-\frac83\right) - \left(\frac12-2+\frac13\right)
 = \frac{10}{3} + \frac76 = \frac{27}{6} = \frac{9}{2}\text{ square units} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the methods of integration (substitution, by parts and partial fractions) with worked examples. <span class="marks">[10]</span>
+2. State the properties of the definite integral, explain the definite integral as the limit of a sum, and find the area under and between curves. <span class="marks">[10]</span>
+
+### Model answer D1: methods of integration (10 marks)
+
+**Introduction.** **Integration** is the reverse of differentiation: $\int f(x)\,dx=F(x)+C$ if $F'(x)=f(x)$, where $C$ is the arbitrary constant. Different methods are used depending on the form of the integrand.
+
+**Standard integrals.**
+
+| $f(x)$ | $\int f(x)\,dx$ |
+|---|---|
+| $x^{n}$ ($n\neq-1$) | $\dfrac{x^{n+1}}{n+1}+C$ |
+| $\dfrac1x$ | $\ln|x|+C$ |
+| $e^{x}$ | $e^{x}+C$ |
+| $\sin x$, $\cos x$ | $-\cos x+C$, $\sin x+C$ |
+| $\sec^{2}x$ | $\tan x+C$ |
+| $\dfrac{1}{\sqrt{a^{2}-x^{2}}}$ | $\sin^{-1}\dfrac xa+C$ |
+| $\dfrac1{a^{2}+x^{2}}$ | $\dfrac1a\tan^{-1}\dfrac xa+C$ |
+
+**Method 1: substitution.** Put $u=g(x)$, so $du=g'(x)dx$, to change the integral to a simpler form. *Example:* $\int\dfrac{x}{x^{2}+1}dx$: let $u=x^{2}+1$, $du=2x\,dx$, so the integral is $\tfrac12\int\dfrac{du}u=\tfrac12\ln(x^{2}+1)+C$.
+
+**Method 2: integration by parts.**
+
+$$ \int u\,dv=uv-\int v\,du $$
+
+derived from the product rule $d(uv)=u\,dv+v\,du$. Choose $u$ by the order **ILATE** (Inverse trigonometric, Logarithmic, Algebraic, Trigonometric, Exponential). *Example:* $\int xe^{x}dx$: $u=x$, $dv=e^{x}dx$, so $=xe^{x}-\int e^{x}dx=e^{x}(x-1)+C$. Also, $\int\ln x\,dx=x\ln x-x+C$.
+
+**Method 3: partial fractions.** For a rational function (degree of numerator less than the denominator), split it into simple fractions. *Example:* $\dfrac{3x+5}{(x+1)(x+2)}=\dfrac{A}{x+1}+\dfrac{B}{x+2}$, so $3x+5=A(x+2)+B(x+1)$. Putting $x=-1$ gives $A=2$ and $x=-2$ gives $B=1$. Hence
+
+$$ \int\frac{3x+5}{(x+1)(x+2)}dx=2\ln|x+1|+\ln|x+2|+C $$
+
+**Method 4: trigonometric identities.** $\int\sin^{2}x\,dx=\int\dfrac{1-\cos2x}2dx=\dfrac x2-\dfrac{\sin2x}4+C$.
+
+**Choosing the method.**
+
+| Integrand looks like | Use |
+|---|---|
+| A function and its derivative | Substitution |
+| Product of unlike functions | Parts |
+| Ratio of polynomials | Partial fractions |
+| Powers of $\sin$, $\cos$ | Identities |
+
+**Check.** Always differentiate the answer: $\dfrac{d}{dx}\big[e^{x}(x-1)\big]=e^{x}(x-1)+e^{x}=xe^{x}$.
+
+**Conclusion.** Substitution, parts and partial fractions cover most integrals, and each answer can be checked by differentiation.
+
+### Model answer D2: definite integrals and area (10 marks)
+
+**Introduction.** The **definite integral** $\int_a^b f(x)\,dx$ is a number. By the fundamental theorem of calculus, $\int_a^b f(x)dx=F(b)-F(a)$.
+
+**Limit of a sum.** Divide $[a,b]$ into $n$ equal strips of width $h=\dfrac{b-a}n$:
+
+$$ \int_a^b f(x)\,dx=\lim_{n\to\infty}h\sum_{r=1}^{n}f(a+rh) $$
+
+*Example:* $\int_0^1x^{2}dx$ with $h=\dfrac1n$: $\dfrac1n\sum\dfrac{r^{2}}{n^{2}}=\dfrac{1}{n^{3}}\cdot\dfrac{n(n+1)(2n+1)}{6}\to\dfrac13$.
+
+**Properties.**
+
+1. $\int_a^b f\,dx=-\int_b^a f\,dx$ and $\int_a^a f\,dx=0$.
+2. $\int_a^b f\,dx=\int_a^c f\,dx+\int_c^b f\,dx$.
+3. $\int_a^b f(x)dx=\int_a^b f(a+b-x)dx$.
+4. $\int_{-a}^{a}f\,dx=2\int_0^a f\,dx$ if $f$ is even, and $0$ if $f$ is odd.
+
+*Use of property 3:* $I=\int_0^{\pi/2}\dfrac{\sin x}{\sin x+\cos x}dx$; replacing $x$ by $\dfrac\pi2-x$ gives $I=\int_0^{\pi/2}\dfrac{\cos x}{\sin x+\cos x}dx$. Adding, $2I=\int_0^{\pi/2}1\,dx=\dfrac\pi2$, so $I=\dfrac\pi4$.
+
+**Area under a curve.** The area between $y=f(x)$, the $x$-axis and the lines $x=a$, $x=b$ is $A=\int_a^b f(x)\,dx$ when $f\geq0$ (take the modulus of parts below the axis). The area between two curves $y=f(x)$ (upper) and $y=g(x)$ (lower) is $A=\int_a^b[f(x)-g(x)]\,dx$, where $a$ and $b$ are the points of intersection.
+
+**Worked examples.**
+
+1. $\int_0^2(x^{2}+1)dx=\left[\dfrac{x^{3}}3+x\right]_0^2=\dfrac83+2=\dfrac{14}3$.
+2. Area under $y=\sin x$ from $0$ to $\pi$: $[-\cos x]_0^{\pi}=1+1=2$.
+3. Area between $y=x$ and $y=x^{2}$: they meet at $x=0$ and $x=1$, so $A=\int_0^1(x-x^{2})dx=\dfrac12-\dfrac13=\dfrac16$.
+4. Area between $y=2x$ and $y=x^{2}$: meeting at $x=0,2$, $A=\int_0^2(2x-x^{2})dx=4-\dfrac83=\dfrac43$.
+5. Area of a circle $x^{2}+y^{2}=r^{2}$: $4\int_0^r\sqrt{r^{2}-x^{2}}\,dx=4\cdot\dfrac{\pi r^{2}}{4}=\pi r^{2}$.
+
+**Conclusion.** The definite integral is the limit of a sum of strips and equals $F(b)-F(a)$; it gives the area under and between curves.
