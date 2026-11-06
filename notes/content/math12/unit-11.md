@@ -718,3 +718,80 @@ The three posterior probabilities add to $1$, as they must. Machine **A** is the
 most likely source of a defective item — not because it is the least reliable (it
 is the most reliable) but because it makes half of everything.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain dependent events, conditional probability and the multiplication theorem with examples. <span class="marks">[10]</span>
+2. State Bayes' theorem, and explain the binomial distribution with its mean and variance, with numericals. <span class="marks">[10]</span>
+
+### Model answer D1: conditional probability and the multiplication theorem (10 marks)
+
+**Introduction.** The probability of an event $E$ is $P(E)=\dfrac{\text{favourable outcomes}}{\text{total equally likely outcomes}}$, with $0\leq P(E)\leq1$. When one event changes the chance of another, the events are **dependent**.
+
+**Addition theorem.** $P(A\cup B)=P(A)+P(B)-P(A\cap B)$. For mutually exclusive events $P(A\cap B)=0$.
+
+*Example:* a card from a pack of 52 is a king or a heart: $\dfrac4{52}+\dfrac{13}{52}-\dfrac1{52}=\dfrac{16}{52}=\dfrac4{13}$.
+
+**Conditional probability.** The probability of $A$ given that $B$ has happened:
+
+$$ P(A|B)=\frac{P(A\cap B)}{P(B)},\quad P(B)>0 $$
+
+The **sample space shrinks** to $B$.
+
+**Multiplication theorem.** From the definition, $P(A\cap B)=P(B)\,P(A|B)=P(A)\,P(B|A)$.
+
+**Independent events.** $A$ and $B$ are independent if $P(A|B)=P(A)$, so $P(A\cap B)=P(A)P(B)$. Events from tossing a coin and rolling a die are independent. Drawing without replacement gives dependent events.
+
+| Situation | Rule |
+|---|---|
+| Either happens | $P(A)+P(B)-P(A\cap B)$ |
+| Both happen, independent | $P(A)P(B)$ |
+| Both happen, dependent | $P(A)P(B|A)$ |
+| Complement | $P(\bar A)=1-P(A)$ |
+
+**Worked examples.**
+
+1. A bag has $5$ red and $3$ blue balls; two are drawn without replacement. $P(\text{both red})=\dfrac58\times\dfrac47=\dfrac5{14}$. $P(\text{second red}\,|\,\text{first red})=\dfrac47$.
+2. Two aces from a pack in succession without replacement: $\dfrac4{52}\times\dfrac3{51}=\dfrac1{221}$.
+3. Two dice: $P(\text{sum}=7)=\dfrac6{36}=\dfrac16$. Given that the first die shows $3$, the chance of a sum of $7$ is $\dfrac16$ (only a $4$ on the second die works out of $6$), so the events "first is 3" and "sum is 7" are independent.
+4. $P(\text{at least one head in 3 tosses})=1-\left(\tfrac12\right)^{3}=\dfrac78$.
+
+**Conclusion.** Conditional probability shrinks the sample space to the given event, and the multiplication theorem multiplies a probability by the conditional probability of the next event.
+
+### Model answer D2: Bayes' theorem and the binomial distribution (10 marks)
+
+**Introduction.** Bayes' theorem reverses a conditional probability: given the effect, it finds the probability of a cause. The binomial distribution counts successes in repeated independent trials.
+
+**Total probability and Bayes' theorem.** Let $A_1,A_2,\dots,A_n$ be mutually exclusive events that together cover the sample space (causes), and $B$ an event (effect).
+
+1. **Total probability:** $P(B)=\sum_{i}P(A_i)\,P(B|A_i)$.
+2. **Bayes' theorem:**
+
+$$ P(A_k|B)=\frac{P(A_k)\,P(B|A_k)}{\sum_{i}P(A_i)\,P(B|A_i)} $$
+
+*Example.* Machine A makes $60\%$ of the bolts in a factory and machine B makes $40\%$. $2\%$ of A's bolts and $5\%$ of B's are defective. A bolt is chosen and found defective.
+
+- $P(D)=0.6\times0.02+0.4\times0.05=0.012+0.020=0.032$.
+- $P(A|D)=\dfrac{0.012}{0.032}=0.375$ and $P(B|D)=\dfrac{0.020}{0.032}=0.625$.
+- Although B makes fewer bolts, a defective one is more likely to come from B.
+
+**Binomial distribution.** Conditions: a fixed number $n$ of independent trials; each trial has two outcomes, success (probability $p$) and failure ($q=1-p$); $p$ is constant. The probability of exactly $r$ successes is
+
+$$ P(X=r)={}^{n}C_r\,p^{r}q^{\,n-r},\qquad r=0,1,\dots,n $$
+
+The sum of all probabilities is $(q+p)^{n}=1$. **Mean** $=np$, **variance** $=npq$ and **standard deviation** $=\sqrt{npq}$.
+
+| Quantity | Formula |
+|---|---|
+| $P(X=r)$ | $^{n}C_rp^{r}q^{n-r}$ |
+| Mean | $np$ |
+| Variance | $npq$ |
+| Most likely number | Near $np$ |
+
+**Worked examples.**
+
+1. A fair coin is tossed $6$ times: $P(4\text{ heads})={}^{6}C_4\left(\tfrac12\right)^{6}=\dfrac{15}{64}=0.234$.
+2. Bulbs are defective with probability $p=0.1$. In a sample of $5$, $P(\text{at most one defective})=0.9^{5}+5(0.1)(0.9)^{4}=0.5905+0.3281=0.9185$. The mean number of defectives is $np=0.5$, and the variance is $npq=0.45$.
+3. If $80\%$ of the patients recover from a disease, the chance that exactly $3$ of $4$ recover is $^{4}C_3(0.8)^{3}(0.2)=4\times0.512\times0.2=0.4096$.
+
+**Conclusion.** Bayes' theorem finds the probability of a cause from an observed effect, and the binomial distribution gives the probability of $r$ successes in $n$ independent trials with mean $np$ and variance $npq$.

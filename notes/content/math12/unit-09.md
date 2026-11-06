@@ -2024,3 +2024,88 @@ $$ \tfrac{1}{2}bc\sin A = \tfrac{1}{2}(6)(2.2361)(0.8944) = 6.00 $$
 
 ✔ in agreement with part (a).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the scalar product, state its properties, and use it to find the angle between vectors, the projection of a vector and the work done by a force. <span class="marks">[10]</span>
+2. Define the vector product, state its properties and use it to find the area of a parallelogram and a triangle and the moment of a force. <span class="marks">[10]</span>
+
+### Model answer D1: scalar (dot) product and its applications (10 marks)
+
+**Introduction.** The scalar product of two vectors is a number, not a vector. It measures how much two vectors point the same way, and it gives work in physics.
+
+**Definition.** For vectors $\vec a$ and $\vec b$ with angle $\theta$ ($0\leq\theta\leq\pi$) between them,
+
+$$ \vec a\cdot\vec b=|\vec a||\vec b|\cos\theta $$
+
+In components, $\vec a\cdot\vec b=a_1b_1+a_2b_2+a_3b_3$ with $\hat i\cdot\hat i=\hat j\cdot\hat j=\hat k\cdot\hat k=1$ and $\hat i\cdot\hat j=\hat j\cdot\hat k=\hat k\cdot\hat i=0$.
+
+**Properties.**
+
+1. Commutative: $\vec a\cdot\vec b=\vec b\cdot\vec a$.
+2. Distributive: $\vec a\cdot(\vec b+\vec c)=\vec a\cdot\vec b+\vec a\cdot\vec c$.
+3. $\vec a\cdot\vec a=|\vec a|^{2}$.
+4. $\vec a\cdot\vec b=0$ for non-zero vectors if and only if they are perpendicular.
+5. $(m\vec a)\cdot(n\vec b)=mn(\vec a\cdot\vec b)$, and $|\vec a\cdot\vec b|\leq|\vec a||\vec b|$ (Cauchy-Schwarz).
+
+**Angle between two vectors.** $\cos\theta=\dfrac{\vec a\cdot\vec b}{|\vec a||\vec b|}$.
+
+**Projection.** The scalar projection of $\vec a$ on $\vec b$ is $\dfrac{\vec a\cdot\vec b}{|\vec b|}$, and the vector projection is $\dfrac{\vec a\cdot\vec b}{|\vec b|^{2}}\vec b$.
+
+**Work.** The work done by a constant force $\vec F$ for a displacement $\vec d$ is $W=\vec F\cdot\vec d$.
+
+**Cosine rule by vectors.** In triangle $ABC$ let $\vec{BC}=\vec a$, $\vec{CA}=\vec b$, $\vec{AB}=\vec c$ with $\vec a+\vec b+\vec c=\vec 0$. Then $\vec c=-(\vec a+\vec b)$ and $|\vec c|^{2}=|\vec a|^{2}+|\vec b|^{2}+2\vec a\cdot\vec b$. Since the angle between $\vec a$ and $\vec b$ is $180^{\circ}-C$, $\vec a\cdot\vec b=-ab\cos C$, so $c^{2}=a^{2}+b^{2}-2ab\cos C$.
+
+| Use | Formula |
+|---|---|
+| Angle | $\cos\theta=\dfrac{\vec a\cdot\vec b}{|\vec a||\vec b|}$ |
+| Perpendicularity | $\vec a\cdot\vec b=0$ |
+| Projection of $\vec a$ on $\vec b$ | $\dfrac{\vec a\cdot\vec b}{|\vec b|}$ |
+| Work | $\vec F\cdot\vec d$ |
+
+**Worked examples.**
+
+1. $\vec a=2\hat i+\hat j-\hat k$ and $\vec b=\hat i-\hat j+2\hat k$: $\vec a\cdot\vec b=2-1-2=-1$ and $|\vec a|=|\vec b|=\sqrt6$, so $\cos\theta=-\dfrac16$ and $\theta=99.6^{\circ}$. The projection of $\vec a$ on $\vec b$ is $-\dfrac1{\sqrt6}=-0.41$.
+2. $\vec a=2\hat i+3\hat j+\hat k$ and $\vec b=\hat i-2\hat j+4\hat k$ have $\vec a\cdot\vec b=2-6+4=0$, so they are perpendicular.
+3. A force $\vec F=3\hat i+4\hat j+5\hat k\ \text{N}$ moves a body by $\vec d=2\hat i+\hat j+\hat k\ \text{m}$: $W=6+4+5=15\ \text{J}$.
+
+**Conclusion.** The scalar product $|a||b|\cos\theta$ gives angles, projections and work, and it vanishes for perpendicular vectors.
+
+### Model answer D2: vector (cross) product and its applications (10 marks)
+
+**Introduction.** The vector product of two vectors is a vector perpendicular to both. It gives the area of a parallelogram, and the turning effect (moment) of a force.
+
+**Definition.** $\vec a\times\vec b=|\vec a||\vec b|\sin\theta\;\hat n$, where $\hat n$ is the unit vector perpendicular to the plane of $\vec a$ and $\vec b$, in the direction given by the **right-hand screw rule**. In components:
+
+$$ \vec a\times\vec b=\begin{vmatrix}\hat i&\hat j&\hat k\\a_1&a_2&a_3\\b_1&b_2&b_3\end{vmatrix} $$
+
+**Properties.**
+
+1. **Anti-commutative:** $\vec a\times\vec b=-(\vec b\times\vec a)$.
+2. Distributive: $\vec a\times(\vec b+\vec c)=\vec a\times\vec b+\vec a\times\vec c$.
+3. $\vec a\times\vec a=\vec 0$, and $\vec a\times\vec b=\vec0$ for non-zero vectors if and only if they are parallel.
+4. $\hat i\times\hat j=\hat k$, $\hat j\times\hat k=\hat i$, $\hat k\times\hat i=\hat j$.
+5. $|\vec a\times\vec b|^{2}+(\vec a\cdot\vec b)^{2}=|\vec a|^{2}|\vec b|^{2}$ (Lagrange's identity).
+
+**Geometrical meaning.** $|\vec a\times\vec b|$ is the **area of the parallelogram** whose adjacent sides are $\vec a$ and $\vec b$ (base $|\vec a|$ times height $|\vec b|\sin\theta$). The area of the triangle is $\tfrac12|\vec a\times\vec b|$.
+
+**Applications.**
+
+- **Area of a triangle $ABC$:** $\Delta=\tfrac12|\vec{AB}\times\vec{AC}|$.
+- **A vector perpendicular to two vectors:** $\vec a\times\vec b$, and the unit vector $\dfrac{\vec a\times\vec b}{|\vec a\times\vec b|}$.
+- **Sine rule:** from $\vec a+\vec b+\vec c=\vec0$, taking the cross product with $\vec a$ gives $\vec a\times\vec b=\vec c\times\vec a$, so $ab\sin C=ca\sin B$, i.e. $\dfrac{b}{\sin B}=\dfrac{c}{\sin C}$.
+- **Moment of a force:** $\vec\tau=\vec r\times\vec F$.
+
+**Worked examples.**
+
+1. **Area of a triangle.** For $A(1,0,0)$, $B(0,2,0)$, $C(0,0,3)$: $\vec{AB}=(-1,2,0)$ and $\vec{AC}=(-1,0,3)$. $\vec{AB}\times\vec{AC}=(6-0)\hat i-(-3-0)\hat j+(0+2)\hat k=6\hat i+3\hat j+2\hat k$, with magnitude $\sqrt{36+9+4}=7$. The area is $\dfrac72=3.5$ square units, and the unit normal is $\dfrac17(6,3,2)$.
+2. **Moment.** A force $\vec F=5\hat k\ \text{N}$ acts at the point $\vec r=\hat i+2\hat j\ \text{m}$: $\vec\tau=\vec r\times\vec F=(2\times5-0)\hat i-(1\times5-0)\hat j=10\hat i-5\hat j$, with magnitude $\sqrt{125}=11.2\ \text{N m}$.
+3. $\vec a=\hat i-2\hat j+3\hat k$ is parallel to $\vec b=2\hat i-4\hat j+6\hat k$ because $\vec a\times\vec b=\vec0$.
+
+| Feature | Dot product | Cross product |
+|---|---|---|
+| Result | Scalar | Vector |
+| Zero when | Perpendicular | Parallel |
+| Gives | Angle, work | Area, moment |
+
+**Conclusion.** The vector product has magnitude $|a||b|\sin\theta$ and is perpendicular to both vectors; it gives areas and moments.

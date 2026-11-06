@@ -1138,3 +1138,80 @@ because $r$ uses the sizes of the observations. Ranking, however, only asks
 so $r_s$ is unchanged at $0.857$. Rank correlation is the robust choice whenever
 the data contain an extreme value or come from subjective judgements.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define correlation. Derive Karl Pearson's coefficient of correlation, state its properties and interpret it, with a numerical. <span class="marks">[10]</span>
+2. Explain Spearman's rank correlation and derive the regression lines of $y$ on $x$ and $x$ on $y$, with numericals. <span class="marks">[10]</span>
+
+### Model answer D1: Karl Pearson's coefficient of correlation (10 marks)
+
+**Introduction.** **Correlation** measures the strength and direction of a linear relation between two variables, for example the height and weight of students or the hours of study and marks. It is **positive** if both rise together and **negative** if one rises as the other falls. A **scatter diagram** shows the relation graphically.
+
+**Definition.** Karl Pearson's coefficient is the ratio of the covariance to the product of the standard deviations:
+
+$$ r=\frac{\text{Cov}(x,y)}{\sigma_x\sigma_y}=\frac{\sum(x-\bar x)(y-\bar y)}{\sqrt{\sum(x-\bar x)^{2}\,\sum(y-\bar y)^{2}}}=\frac{n\sum xy-\sum x\sum y}{\sqrt{n\sum x^{2}-(\sum x)^{2}}\sqrt{n\sum y^{2}-(\sum y)^{2}}} $$
+
+**Properties.**
+
+1. $-1\leq r\leq1$.
+2. $r=+1$ is perfect positive correlation, $r=-1$ perfect negative and $r=0$ no linear correlation.
+3. $r$ is **independent of the change of origin and scale** (for a positive scale factor).
+4. $r$ is symmetric: $r_{xy}=r_{yx}$, and has no unit.
+5. If the variables are independent, $r=0$; the converse is not true, because a non-linear relation can also give $r=0$.
+
+**Interpretation.**
+
+| Value of $r$ | Meaning |
+|---|---|
+| $0.8$ to $1$ | Strong positive |
+| $0.4$ to $0.8$ | Moderate positive |
+| $-0.4$ to $0.4$ | Weak or none |
+| $-1$ to $-0.8$ | Strong negative |
+
+The square $r^{2}$ is the **coefficient of determination**, the fraction of the variation of $y$ explained by $x$. Correlation does not prove **causation**: ice-cream sales and drowning both rise in summer but do not cause each other.
+
+**Numerical.** Hours of study $x$ and marks $y$ of 5 students: $x=2,4,6,8,10$; $y=3,7,5,10,12$.
+
+- $\bar x=6$, $\bar y=7.4$.
+- $\sum(x-\bar x)(y-\bar y)=(-4)(-4.4)+(-2)(-0.4)+0\times(-2.4)+2(2.6)+4(4.6)=17.6+0.8+0+5.2+18.4=42$.
+- $\sum(x-\bar x)^{2}=16+4+0+4+16=40$ and $\sum(y-\bar y)^{2}=19.36+0.16+5.76+6.76+21.16=53.2$.
+- $r=\dfrac{42}{\sqrt{40\times53.2}}=\dfrac{42}{46.13}=0.91$, a **strong positive correlation**; $r^{2}=0.83$, so $83\%$ of the variation in marks is linked to study hours.
+
+**Conclusion.** Pearson's $r$ measures linear association from $-1$ to $+1$; it is unit-free but does not prove cause and effect.
+
+### Model answer D2: rank correlation and regression lines (10 marks)
+
+**Introduction.** When data are ranks (order of merit) or are not measured exactly, we use **Spearman's rank correlation**. To predict one variable from the other, we use **regression lines**.
+
+**Spearman's rank correlation.**
+
+$$ r_s=1-\frac{6\sum d^{2}}{n(n^{2}-1)} $$
+
+where $d$ is the difference between the two ranks of each item. For tied ranks, give the average rank and add a correction $\dfrac{m(m^{2}-1)}{12}$ to $\sum d^{2}$ for each group of $m$ ties.
+
+*Example.* Marks of six students in mathematics and physics: ranks in mathematics $2,5,3,6,1,4$ and in physics (from marks $70,55,72,48,85,60$) $3,5,2,6,1,4$. The differences are $-1,0,1,0,0,0$, so $\sum d^{2}=2$ and $r_s=1-\dfrac{6\times2}{6\times35}=1-0.057=0.943$, a strong agreement.
+
+**Regression.** The line of **regression of $y$ on $x$** is the line that minimises the sum of squares of the vertical deviations. Let $y=a+bx$.
+
+1. Minimising $S=\sum(y-a-bx)^{2}$ gives the **normal equations** $\sum y=na+b\sum x$ and $\sum xy=a\sum x+b\sum x^{2}$.
+2. Solving gives the slope $b_{yx}=\dfrac{\text{Cov}(x,y)}{\sigma_x^{2}}=r\dfrac{\sigma_y}{\sigma_x}$, and the line passes through $(\bar x,\bar y)$:
+
+$$ y-\bar y=b_{yx}(x-\bar x),\qquad x-\bar x=b_{xy}(y-\bar y),\qquad b_{xy}=r\frac{\sigma_x}{\sigma_y} $$
+
+3. Properties: $b_{yx}\,b_{xy}=r^{2}$; $b_{yx}$, $b_{xy}$ and $r$ all have the same sign; the lines intersect at $(\bar x,\bar y)$; if $r=\pm1$ the two lines coincide; if $r=0$ they are perpendicular.
+
+| Feature | Correlation | Regression |
+|---|---|---|
+| Purpose | Strength of relation | Prediction |
+| Symmetry | $r_{xy}=r_{yx}$ | Two different lines |
+| Unit | None | Unit of $y$ per unit of $x$ |
+
+**Numerical (data of the previous answer).** $\sum(x-\bar x)(y-\bar y)=42$, $\sum(x-\bar x)^{2}=40$, $\sum(y-\bar y)^{2}=53.2$.
+
+- $b_{yx}=\dfrac{42}{40}=1.05$, so $y-7.4=1.05(x-6)$, i.e. $y=1.05x+1.1$.
+- $b_{xy}=\dfrac{42}{53.2}=0.789$, so $x=0.789y+0.158$.
+- Check: $r^{2}=1.05\times0.789=0.83$, so $r=0.91$.
+- **Prediction:** a student who studies $7$ hours is expected to score $y=1.05\times7+1.1=8.45$.
+
+**Conclusion.** Spearman's coefficient works on ranks, and the regression lines pass through $(\bar x,\bar y)$ with slopes $b_{yx}$ and $b_{xy}$ whose product is $r^{2}$.
