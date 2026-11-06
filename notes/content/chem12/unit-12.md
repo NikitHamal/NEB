@@ -638,10 +638,12 @@ $m = 0.050 \times 155.9 = 7.8\ \text{g}$.
 **Introduction.** **Ethers** have the general formula R–O–R′ and may be regarded as derivatives of water in which both hydrogens are replaced by alkyl or aryl groups. They are isomeric with alcohols (C$_2$H$_6$O is both ethanol and dimethyl ether), but they have no –OH group and therefore cannot form hydrogen bonds with each other, so their boiling points are much lower (diethyl ether 35 °C, butan-1-ol 118 °C).
 
 **Preparation.**
+
 1. **Williamson synthesis.** An alkyl halide reacts with sodium alkoxide by the S$_N$2 mechanism: $\text{C}_2\text{H}_5\text{ONa} + \text{C}_2\text{H}_5\text{I} \Rightarrow \text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{NaI}$. It gives simple and mixed ethers, and aromatic ones such as anisole from sodium phenoxide and methyl iodide. A **primary alkyl halide** must be used, because a tertiary halide gives an alkene by elimination.
 2. **Dehydration of ethanol.** Excess ethanol is heated with concentrated H$_2$SO$_4$ at 413 K: $2\text{C}_2\text{H}_5\text{OH} \Rightarrow \text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{H}_2\text{O}$. At 443 K the product is ethene instead.
 
 **Chemical reactions of diethyl ether.**
+
 - **With HI.** Cold, with one equivalent of HI, the C–O bond breaks, giving ethanol and iodoethane: $\text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + \text{HI} \Rightarrow \text{C}_2\text{H}_5\text{OH} + \text{C}_2\text{H}_5\text{I}$. With excess hot HI both ethyl groups end up as iodoethane: $\text{C}_2\text{H}_5\text{OC}_2\text{H}_5 + 2\text{HI} \Rightarrow 2\text{C}_2\text{H}_5\text{I} + \text{H}_2\text{O}$. In an unsymmetrical ether the iodide attacks the smaller alkyl group, so methyl propyl ether gives methyl iodide and propan-1-ol.
 - **Aromatic ethers.** Anisole with HI gives phenol and iodomethane, since the aryl–oxygen bond is too strong to break.
 - **With PCl$_5$** it gives chloroethane.

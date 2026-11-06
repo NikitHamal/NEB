@@ -718,6 +718,7 @@ $V_m$ instead of $2V_m$, so cheaper diodes can be used for the same output.
 **Circuit.** Four diodes $D_{1}$–$D_{4}$ form a bridge. The a.c. supply (from the secondary of a transformer) is joined to two opposite corners of the bridge, and the load resistor $R_{L}$ is connected across the other two corners.
 
 **Working.**
+
 1. **Positive half-cycle.** The upper input terminal is positive. Diodes $D_{1}$ and $D_{3}$ are forward biased and conduct, while $D_{2}$ and $D_{4}$ are reverse biased. The current flows through the load from top to bottom.
 2. **Negative half-cycle.** The polarity reverses. Now $D_{2}$ and $D_{4}$ conduct and $D_{1}$ and $D_{3}$ are off, but the current again passes through $R_{L}$ in the same direction.
 3. The output voltage is therefore a series of positive humps, one for every half-cycle of the input, and its frequency is **twice** the input frequency: 100 Hz for a 50 Hz supply.
@@ -746,11 +747,13 @@ $V_m$ instead of $2V_m$, so cheaper diodes can be used for the same output.
 **Current relations.** $I_{E} = I_{B} + I_{C}$. The base current is only about 1–5% of the emitter current, because the base is very thin and lightly doped.
 
 **Current gains.**
+
 - **Common-base current gain** $\alpha = I_{C}/I_{E}$ (slightly less than 1, typically 0.95–0.99).
 - **Common-emitter current gain** $\beta = I_{C}/I_{B}$ (typically 20–200).
 - The two are related by $\beta = \dfrac{\alpha}{1 - \alpha}$.
 
 **Working as an amplifier.** The signal is applied between the base and the emitter, and the output is taken from the load resistor $R_{C}$ in the collector circuit.
+
 1. A small change $\Delta I_{B}$ in the base current produces a large change $\Delta I_{C} = \beta\,\Delta I_{B}$ in the collector current.
 2. The voltage drop across $R_{C}$ changes by $\Delta I_{C} R_{C}$, so the small input voltage is converted into a much larger output voltage.
 3. In the positive half-cycle of the input the collector current rises, so $V_{CE} = V_{CC} - I_{C}R_{C}$ falls. The output is therefore **180° out of phase** with the input.

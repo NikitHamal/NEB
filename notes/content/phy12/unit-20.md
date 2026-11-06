@@ -586,6 +586,7 @@ $B = E/v = 1.0\times10^{4}/1.88\times10^{7} = 5.3\times10^{-4}\ \text{T}$.
 **Apparatus.** A discharge tube at very low pressure has a cathode and an anode with a slit, so that a narrow beam of electrons passes through. The beam then goes between two parallel deflecting plates (electric field $E$) and through a region where a magnetic field $B$ acts perpendicular to both the beam and $E$ (produced by a pair of Helmholtz coils). The beam strikes a fluorescent screen and makes a spot.
 
 **Procedure and theory.**
+
 1. With both fields off, note the position of the undeflected spot.
 2. With only the electric field $E$ on, the beam is deflected, say upward, by the force $eE$.
 3. Switch on the magnetic field and adjust $B$ so that the magnetic force $Bev$ is equal and opposite to $eE$, and the spot returns to its original place. Then
@@ -613,6 +614,7 @@ $$ \frac{e}{m} = \frac{E^{2}}{2VB^{2}} $$
 **Apparatus.** Fine oil drops are sprayed by an atomiser into the space above two horizontal metal plates, and one drop enters through a small hole in the upper plate. The drops are charged by friction in the atomiser, or by X-rays. The drop is viewed through a microscope, and a battery supplies a uniform field $E = V/d$ between the plates.
 
 **Theory.**
+
 1. **Field off.** The drop falls under gravity and reaches a terminal velocity $v_{1}$ at which its weight (less the small upthrust) equals the viscous drag from Stokes's law: $mg = 6\pi\eta r v_{1}$. From this the radius $r$ and the mass $m = \tfrac{4}{3}\pi r^{3}\rho g$ are calculated.
 2. **Field on.** The voltage is adjusted so that the electric force holds the drop stationary, or so that it rises at a steady speed $v_{2}$. For the balanced drop,
 

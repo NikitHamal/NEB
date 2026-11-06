@@ -664,6 +664,7 @@ Volume at STP = 0.70 × 22.4 = **15.68 L**.
 **Introduction.** **Haloarenes** have a halogen atom bonded directly to a carbon of an aromatic ring, as in chlorobenzene, C$_6$H$_5$Cl. Unlike chloroethane they do not give a precipitate with warm aqueous silver nitrate and are hydrolysed only under drastic conditions.
 
 **Reasons for low reactivity in nucleophilic substitution.**
+
 1. **Resonance.** The lone pair on chlorine overlaps with the $\pi$ system of the ring, which gives the C–Cl bond a partial double-bond character. This makes the bond stronger and harder to break.
 2. **Hybridisation.** The carbon is sp$^2$ hybridised, which is more electronegative than sp$^3$, so the C–Cl bond is shorter (about 169 pm, against 177 pm in chloroethane) and stronger. The dipole moment is also less (about 1.7 D, against about 2.0–2.2 D for a haloalkane).
 3. **Repulsion.** The electron-rich ring repels an approaching nucleophile, which cannot attack from the back as in S$_N$2.

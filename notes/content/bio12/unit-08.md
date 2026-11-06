@@ -2508,6 +2508,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 **Introduction.** The heart is a hollow, muscular, four-chambered pump about the size of a closed fist, lying in the thoracic cavity between the lungs and slightly tilted to the left. It is covered by a double-layered sac, the **pericardium**, whose fluid reduces friction. It beats about 72 times a minute throughout life.
 
 **Structure.**
+
 1. **Chambers.** Two thin-walled **atria** receive blood and two thick-walled **ventricles** pump it out. The left ventricle has the thickest wall (about 3 times the right), since it drives blood around the whole body.
 2. **Valves.** The **tricuspid valve** (three flaps) guards the right atrioventricular opening and the **bicuspid (mitral) valve** the left. The **pulmonary** and **aortic semilunar valves** guard the exits of the ventricles. Tendinous cords (chordae tendineae) and papillary muscles keep the flaps from turning inside out.
 3. **Vessels.** The right side receives deoxygenated blood from the superior and inferior venae cavae and sends it to the lungs by the pulmonary artery. The left side receives oxygenated blood from the lungs by four pulmonary veins and sends it into the aorta.
@@ -2532,6 +2533,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 **Introduction.** The **nephron** is the structural and functional unit of the kidney. Each kidney has about one million nephrons, and together they filter the blood and form urine, maintaining the water, salt and acid–base balance of the body.
 
 **Structure of a nephron.**
+
 1. **Renal (Malpighian) corpuscle.** A knot of capillaries, the **glomerulus**, fits inside a double-walled cup, **Bowman's capsule**. The afferent arteriole is wider than the efferent arteriole, which keeps the pressure high.
 2. **Proximal convoluted tubule (PCT).** A coiled tube lined by cuboidal cells with a brush border.
 3. **Loop of Henle.** It has a thin descending limb (permeable to water) and an ascending limb (permeable to salts, impermeable to water). In juxtamedullary nephrons it dips deep into the medulla.
@@ -2539,6 +2541,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 5. **Peritubular capillaries and vasa recta** surround the tubules.
 
 **Urine formation.**
+
 1. **Ultrafiltration** (glomerulus). The net filtration pressure is the glomerular blood pressure (about 55 mmHg) minus the colloid osmotic pressure of blood (30 mmHg) and the capsular pressure (15 mmHg), which is about **10 mmHg**. Water, glucose, salts, amino acids and urea pass through the filtration membrane, but blood cells and large proteins do not. The **glomerular filtration rate** is about 125 mL per minute, or 180 litres a day.
 2. **Selective reabsorption.** About 99% of the filtrate is reabsorbed. In the PCT all glucose and amino acids, 65–70% of the water and sodium and much of the bicarbonate are returned to the blood. The loop of Henle and the DCT reabsorb more water and salts under hormonal control.
 3. **Tubular secretion.** H$^+$, K$^+$, NH$_4^+$, creatinine and some drugs are added from the blood to the filtrate, particularly in the DCT, which helps to regulate pH and potassium.
@@ -2560,6 +2563,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 **Resting potential.** At rest the outside of the axon is positive relative to the inside, with a potential of about **−70 mV**. The membrane is more permeable to K$^+$ than to Na$^+$, and the **sodium–potassium pump** removes 3 Na$^+$ and brings in 2 K$^+$ for each ATP, so there is more Na$^+$ outside and more K$^+$ inside.
 
 **Action potential.**
+
 1. **Stimulus and threshold.** A stimulus opens a few voltage-gated Na$^+$ channels; if the membrane reaches the **threshold of about −55 mV**, many more open.
 2. **Depolarisation.** Na$^+$ rushes in, and the inside becomes positive, reaching about **+30 mV**.
 3. **Repolarisation.** Na$^+$ channels close and K$^+$ channels open, so K$^+$ flows out and the inside again becomes negative.
@@ -2568,6 +2572,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 **Conduction.** In an unmyelinated axon each patch of membrane depolarises its neighbour, so the impulse moves at 0.5–2 m/s. In a **myelinated axon**, the myelin sheath insulates the axon, so the impulse jumps from one **node of Ranvier** to the next (**saltatory conduction**), which is faster (up to 120 m/s) and saves energy.
 
 **Synaptic transmission.**
+
 1. The impulse reaches the axon terminal and opens voltage-gated Ca$^{2+}$ channels.
 2. Ca$^{2+}$ entry makes vesicles fuse with the membrane and release a neurotransmitter, such as acetylcholine, into the **synaptic cleft** (about 20 nm).
 3. The neurotransmitter binds to receptors on the postsynaptic membrane and opens ion channels, which starts a new impulse.
@@ -2595,6 +2600,7 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 | Luteal (secretory) | 15–28 | Corpus luteum forms from the empty follicle | Glands secrete, blood supply increases | Progesterone high, some oestrogen |
 
 **Hormonal control.**
+
 1. The hypothalamus releases GnRH, and the anterior pituitary releases **FSH**, which stimulates growth of the follicle.
 2. The follicle secretes **oestrogen**, which thickens the endometrium. High oestrogen makes a positive feedback on the pituitary and gives the **LH surge** around day 13–14.
 3. LH causes **ovulation** and forms the **corpus luteum**, which makes **progesterone** (and some oestrogen) to maintain the endometrium.

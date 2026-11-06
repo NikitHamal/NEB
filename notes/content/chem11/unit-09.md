@@ -1304,3 +1304,115 @@ appears at the junction:
 6FeSO₄ + 3H₂SO₄ + 2HNO₃ → 3Fe₂(SO₄)₃ + 4H₂O + 2NO, then
 FeSO₄ + NO → [Fe(NO)]SO₄.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the industrial manufacture of nitric acid by the Ostwald process and the reactions of nitric acid with copper, zinc and carbon. <span class="marks">[10]</span>
+2. Describe the manufacture of sulphuric acid by the contact process and its properties as a dehydrating and oxidising agent, and give eight uses. <span class="marks">[10]</span>
+3. Describe the preparation of ammonia in the laboratory and by Haber's process, with its properties and uses. <span class="marks">[10]</span>
+
+### Model answer D1: nitric acid and the Ostwald process (10 marks)
+
+**Introduction.** Nitric acid, HNO₃, is a strong mineral acid and a powerful oxidising agent. It is used to make fertilisers (ammonium nitrate), explosives (TNT, nitroglycerine) and dyes.
+
+**Ostwald process (catalytic oxidation of ammonia).**
+
+1. **Oxidation of ammonia:** a mixture of one part of NH₃ with ten parts of air is passed over a hot **platinum-rhodium gauze catalyst** at about **800 degrees C and 4-10 atm**: $4\text{NH}_3 + 5\text{O}_2 \rightarrow 4\text{NO} + 6\text{H}_2\text{O}$ ($\Delta H = -905\ \text{kJ}$). The reaction is exothermic and keeps the catalyst hot.
+2. **Oxidation of nitric oxide:** the gases are cooled, and NO reacts with more air: $2\text{NO} + \text{O}_2 \rightarrow 2\text{NO}_2$.
+3. **Absorption:** NO₂ is absorbed in water in an absorption tower in the presence of more air: $3\text{NO}_2 + \text{H}_2\text{O} \rightarrow 2\text{HNO}_3 + \text{NO}$, and the NO is recycled. This gives about **68% HNO₃**, which can be concentrated by distilling with conc. H₂SO₄ up to 98%.
+
+**Physical properties.** A colourless, fuming liquid with a boiling point of 83 degrees C; it turns **yellow** on standing because of the dissolved NO₂, formed by $4\text{HNO}_3 \rightarrow 4\text{NO}_2 + 2\text{H}_2\text{O} + \text{O}_2$ in light.
+
+**Chemical properties.**
+
+1. **Acid:** reacts with bases and carbonates to give nitrates.
+2. **Oxidising agent:** the products depend on the concentration of the acid and the metal.
+    - **Copper with conc. HNO₃:** $\text{Cu} + 4\text{HNO}_3\,(\text{conc}) \rightarrow \text{Cu(NO}_3)_2 + 2\text{NO}_2 + 2\text{H}_2\text{O}$ (brown fumes).
+    - **Copper with dilute HNO₃:** $3\text{Cu} + 8\text{HNO}_3\,(\text{dil}) \rightarrow 3\text{Cu(NO}_3)_2 + 2\text{NO} + 4\text{H}_2\text{O}$ (colourless NO, which turns brown in air).
+    - **Zinc with very dilute HNO₃:** $4\text{Zn} + 10\text{HNO}_3 \rightarrow 4\text{Zn(NO}_3)_2 + \text{NH}_4\text{NO}_3 + 3\text{H}_2\text{O}$.
+    - **Non-metals:** $\text{C} + 4\text{HNO}_3\,(\text{conc}) \rightarrow \text{CO}_2 + 4\text{NO}_2 + 2\text{H}_2\text{O}$; sulphur gives H₂SO₄.
+3. **Passivity:** Fe, Al and Cr become inert in conc. HNO₃, because of a protective oxide layer.
+4. **Aqua regia:** 3 parts of conc. HCl and 1 part of conc. HNO₃ dissolves gold and platinum.
+5. **Nitration:** benzene is nitrated with a mixture of conc. HNO₃ and H₂SO₄ to give nitrobenzene.
+6. **Brown ring test** for nitrates: freshly prepared FeSO₄ with conc. H₂SO₄ gives a brown ring of $[\text{Fe(NO)}]^{2+}$.
+
+| Metal | Conc. HNO₃ | Dilute HNO₃ |
+|---|---|---|
+| Cu | NO₂ | NO |
+| Zn | NO₂ | N₂O, NH₄NO₃ (very dilute) |
+| Fe | Passive | NO |
+
+**Uses.** Fertilisers (ammonium nitrate, calcium ammonium nitrate), explosives, dyes and drugs, rocket fuel, etching and cleaning metals, and refining gold and silver.
+
+**Conclusion.** The Ostwald process makes HNO₃ in three steps from ammonia: oxidation to NO, oxidation to NO₂, and absorption in water. Nitric acid's action on metals depends on its concentration.
+
+### Model answer D2: sulphuric acid and the contact process (10 marks)
+
+**Introduction.** Sulphuric acid, H₂SO₄, is called the **"king of chemicals"**, because its consumption measures the industrial strength of a country.
+
+**Contact process.**
+
+1. **Making SO₂:** burning sulphur or roasting pyrites: $\text{S} + \text{O}_2 \rightarrow \text{SO}_2$ or $4\text{FeS}_2 + 11\text{O}_2 \rightarrow 2\text{Fe}_2\text{O}_3 + 8\text{SO}_2$.
+2. **Purification:** the gas is purified from dust and arsenic compounds, which would **poison the catalyst**, and dried.
+3. **Catalytic oxidation:** $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197\ \text{kJ}$, with **vanadium pentoxide (V₂O₅)** catalyst at **450 degrees C and 1-2 atm**. By Le Chatelier's principle, a high pressure and low temperature favour SO₃, but the compromise gives about **98% conversion**.
+4. **Absorption:** SO₃ is dissolved in **98% H₂SO₄** to form **oleum** (H₂S₂O₇): $\text{SO}_3 + \text{H}_2\text{SO}_4 \rightarrow \text{H}_2\text{S}_2\text{O}_7$. (Direct absorption in water gives a fog of acid mist.)
+5. **Dilution:** oleum is diluted with water to the required concentration: $\text{H}_2\text{S}_2\text{O}_7 + \text{H}_2\text{O} \rightarrow 2\text{H}_2\text{SO}_4$.
+
+**Properties.**
+
+- **Physical:** a colourless, oily, dense liquid (1.84 g/mL), which is miscible with water giving off a large amount of heat. **Always add acid to water slowly, never the reverse.**
+- **Dehydrating agent:** it removes water from sugar, leaving black carbon: $\text{C}_{12}\text{H}_{22}\text{O}_{11} \rightarrow 12\text{C} + 11\text{H}_2\text{O}$; it chars wood and paper, and dries gases such as Cl₂ (but not NH₃).
+- **Oxidising agent (hot, conc.):** $\text{Cu} + 2\text{H}_2\text{SO}_4 \rightarrow \text{CuSO}_4 + \text{SO}_2 + 2\text{H}_2\text{O}$; $\text{C} + 2\text{H}_2\text{SO}_4 \rightarrow \text{CO}_2 + 2\text{SO}_2 + 2\text{H}_2\text{O}$.
+- **Strong acid:** dilute acid reacts with metals above hydrogen: $\text{Zn} + \text{H}_2\text{SO}_4 \rightarrow \text{ZnSO}_4 + \text{H}_2$.
+- **Non-volatile acid** that displaces volatile acids: $\text{NaCl} + \text{H}_2\text{SO}_4 \rightarrow \text{NaHSO}_4 + \text{HCl}$.
+
+**Eight uses.**
+
+1. **Fertilisers:** ammonium sulphate and superphosphate, the largest use.
+2. **Lead-acid batteries** in vehicles and inverters.
+3. **Petroleum refining.**
+4. **Paints and pigments** (such as titanium dioxide).
+5. **Detergents:** making alkylbenzene sulphonate.
+6. **Textiles and rayon.**
+7. **Metal cleaning (pickling) and metallurgy.**
+8. **Explosives, dyes, drugs and laboratory reagent.**
+
+| Step | Reaction | Condition |
+|---|---|---|
+| 1 | S + O₂ → SO₂ | Burning |
+| 2 | 2SO₂ + O₂ ⇌ 2SO₃ | V₂O₅, 450 degrees C, 1-2 atm |
+| 3 | SO₃ + H₂SO₄ → H₂S₂O₇ | 98% acid |
+| 4 | H₂S₂O₇ + H₂O → 2H₂SO₄ | Dilution |
+
+**Conclusion.** The contact process uses the V₂O₅ catalyst and absorption in 98% acid to make H₂SO₄. The acid is a strong acid, a dehydrating agent and (when hot and concentrated) an oxidising agent.
+
+### Model answer D3: ammonia (10 marks)
+
+**Introduction.** Ammonia, NH₃, is a colourless gas with a pungent smell. The molecule is **trigonal pyramidal** with sp³ hybridization of nitrogen and a lone pair.
+
+**Laboratory preparation.** Heat a mixture of **ammonium chloride and slaked lime** (calcium hydroxide) in a hard glass flask: $2\text{NH}_4\text{Cl} + \text{Ca(OH)}_2 \rightarrow \text{CaCl}_2 + 2\text{H}_2\text{O} + 2\text{NH}_3$. The gas is dried by passing it through **quicklime** (CaO) and collected by the **downward displacement of air** (it is lighter than air). It cannot be dried by conc. H₂SO₄, CaCl₂ or P₂O₅, as it reacts with them.
+
+**Haber's process (industrial).** $\text{N}_{2} + 3\text{H}_{2} \rightleftharpoons 2\text{NH}_{3}$, $\Delta H = -92\ \text{kJ}$.
+
+- Nitrogen is obtained from the liquefaction of air and hydrogen from natural gas (steam reforming).
+- **Conditions:** about **200 atm, 450 degrees C**, and a finely divided **iron catalyst** with Al₂O₃ and K₂O as promoters.
+- The ammonia is liquefied and removed, and the unreacted gases are recycled. The yield is about 15% per pass.
+
+**Properties.**
+
+1. **Very soluble in water** (the fountain experiment); the solution is **weakly basic**: $\text{NH}_3 + \text{H}_2\text{O} \rightleftharpoons \text{NH}_4^{+} + \text{OH}^{-}$.
+2. **Lewis base** (lone pair): forms ammonium salts with acids ($\text{NH}_3 + \text{HCl} \rightarrow \text{NH}_4\text{Cl}$, white fumes) and complexes: $\text{Cu}^{2+}$ gives a deep blue $[\text{Cu(NH}_3)_4]^{2+}$.
+3. **Reducing agent:** $2\text{NH}_3 + 3\text{CuO} \rightarrow 3\text{Cu} + \text{N}_2 + 3\text{H}_2\text{O}$; burns in oxygen to give N₂, or NO with a catalyst.
+4. **Precipitates metal hydroxides:** with Fe³⁺ a brown precipitate; with Al³⁺ a white precipitate.
+5. **Reaction with chlorine:** excess NH₃ gives N₂ and NH₄Cl; excess Cl₂ gives explosive NCl₃.
+
+**Uses.** Fertilisers (urea, ammonium sulphate, nitrate), nitric acid manufacture, **refrigerant** in ice plants, cleaning agent (household ammonia), synthetic fibres (nylon), and in the Solvay process. Nepal imports most of its urea and DAP.
+
+| Test | Result |
+|---|---|
+| Smell | Pungent |
+| Moist red litmus | Turns blue |
+| Conc. HCl rod | White fumes of NH₄Cl |
+| Nessler's reagent | Brown colour or precipitate |
+
+**Conclusion.** Ammonia is made on a large scale from nitrogen and hydrogen, and it is a base and a reducing agent. It is the source of nearly all nitrogen fertilisers.
