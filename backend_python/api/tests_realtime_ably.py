@@ -80,7 +80,7 @@ class AblyPublishTests(SimpleTestCase):
             self.assertEqual(len(pub._queue), 0)
             pub.enqueue('forum.public', 'ok', {'a': 1})
             self.assertEqual(len(pub._queue), 1)
-            pub._open_until = time.time() + 60
+            pub._keys[KEY] = [0, time.time() + 60]
             pub.enqueue('forum.public', 'ok2', {'a': 2})
             self.assertEqual(len(pub._queue), 1)
 
@@ -96,7 +96,7 @@ class AblyPublishTests(SimpleTestCase):
         with mock.patch.object(realtime_ably, 'post_batch', side_effect=OSError('down')):
             for _ in range(realtime_ably.BREAKER_FAILS):
                 pub._flush([('forum.public', 'e', '{}')])
-        self.assertGreater(pub._open_until, time.time())
+        self.assertGreater(pub._keys[KEY][1], time.time())
 
     def test_send_publishes_to_ably_and_skips_channel_layer(self):
         with mock.patch.object(realtime_ably, 'publish', return_value=True) as pub, \
@@ -109,7 +109,7 @@ class AblyPublishTests(SimpleTestCase):
 
 class RealtimeConfigEndpointTests(TestCase):
     def test_config_returns_ably_stream_and_is_never_cached(self):
-        with mock.patch.dict(os.environ, {'ABLY_API_KEY': KEY, 'WS_PUBLIC_URL': ''}):
+        with mock.patch.dict(os.environ, {'ABLY_API_KEY': KEY, 'ABLY_API_KEYS': '', 'WS_PUBLIC_URL': ''}):
             res = self.client.get('/api/realtime/config/')
         self.assertEqual(res.status_code, 200)
         data = res.json()
@@ -120,7 +120,51 @@ class RealtimeConfigEndpointTests(TestCase):
         self.assertIn('no-store', res['Cache-Control'])
 
     def test_config_without_key_reports_no_transport(self):
-        with mock.patch.dict(os.environ, {'ABLY_API_KEY': '', 'WS_PUBLIC_URL': ''}):
+        with mock.patch.dict(os.environ, {'ABLY_API_KEY': '', 'ABLY_API_KEYS': '', 'WS_PUBLIC_URL': ''}):
             data = self.client.get('/api/realtime/config/').json()
         self.assertEqual(data['transport'], 'none')
         self.assertNotIn('token', data)
+
+
+KEY2 = 'app2.key2:secretsecretsecret2'
+
+
+class AblyShardTests(SimpleTestCase):
+    def setUp(self):
+        patcher = mock.patch.dict(os.environ, {'ABLY_API_KEY': KEY, 'ABLY_API_KEYS': KEY2 + ',' + KEY}, clear=False)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+    def test_keys_are_merged_and_deduplicated(self):
+        self.assertEqual(realtime_ably.api_keys(), [KEY2, KEY])
+
+    def test_user_lands_on_the_same_app_every_time(self):
+        picks = {realtime_ably.client_config('42')['shard'] for _ in range(5)}
+        self.assertEqual(len(picks), 1)
+        self.assertEqual(realtime_ably.client_config('42')['shards'], 2)
+
+    def test_users_spread_over_both_apps(self):
+        picks = {realtime_ably.client_config(str(i))['shard'] for i in range(40)}
+        self.assertEqual(picks, {0, 1})
+
+    def test_explicit_shard_wins_for_failover_and_token_uses_that_key(self):
+        cfg = realtime_ably.client_config('42', shard=1)
+        self.assertEqual(cfg['shard'], 1)
+        header = cfg['token'].split('.')[0]
+        raw = base64.urlsafe_b64decode(header + '=' * (-len(header) % 4))
+        self.assertEqual(json.loads(raw)['kid'], 'app123.keyABC')
+        self.assertEqual(realtime_ably.client_config('42', shard=99)['shard'], realtime_ably.client_config('42')['shard'])
+
+    def test_publish_goes_to_every_app_and_a_down_app_does_not_block_the_other(self):
+        pub = realtime_ably._Publisher()
+        sent = []
+
+        def fake(specs, key=None):
+            if key == KEY2:
+                raise OSError('down')
+            sent.append(key)
+
+        with mock.patch.object(realtime_ably, 'post_batch', side_effect=fake):
+            pub._flush([('forum.public', 'e', '{}')])
+        self.assertEqual(sent, [KEY])
+        self.assertEqual(pub._keys[KEY2][0], 1)

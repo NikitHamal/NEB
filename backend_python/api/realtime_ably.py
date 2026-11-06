@@ -53,13 +53,41 @@ PUBLIC_CAPABILITY = {
 }
 
 
+def api_keys():
+    """Every configured Ably app key, in a stable order.
+
+    `ABLY_API_KEYS` (comma or space separated) lists several free Ably apps; the
+    legacy `ABLY_API_KEY` is folded in. Each app has its own free quota (200
+    concurrent connections, 6M messages a month), so N apps = N times the room.
+    Every event is published to all of them and each client reads from one.
+    """
+    raw = '%s,%s' % (os.environ.get('ABLY_API_KEYS', ''), os.environ.get('ABLY_API_KEY', ''))
+    seen = []
+    for part in raw.replace(' ', ',').replace(';', ',').split(','):
+        part = part.strip()
+        if part and ':' in part and part not in seen:
+            seen.append(part)
+    return seen
+
+
 def _api_key():
-    return os.environ.get('ABLY_API_KEY', '').strip()
+    keys = api_keys()
+    return keys[0] if keys else ''
 
 
 def is_enabled():
-    key = _api_key()
-    return bool(key) and ':' in key and os.environ.get('REALTIME_DISABLED', '') != '1'
+    return bool(api_keys()) and os.environ.get('REALTIME_DISABLED', '') != '1'
+
+
+def pick_shard(count, user_id=None, hint='', explicit=None):
+    """Which app a client reads from: the one it asked for (failover), else a
+    stable hash of the user (or ip+agent) so reconnects land on the same app."""
+    if count <= 1:
+        return 0
+    if explicit is not None and 0 <= explicit < count:
+        return explicit
+    seed = ('u:%s' % user_id) if user_id else ('h:%s' % hint)
+    return int(hashlib.sha1(seed.encode()).hexdigest()[:8], 16) % count
 
 
 def handles(group):
@@ -76,9 +104,9 @@ def _b64(raw):
     return base64.urlsafe_b64encode(raw).rstrip(b'=').decode('ascii')
 
 
-def build_token(user_id=None, now=None):
+def build_token(user_id=None, now=None, key=None):
     """Self-signed Ably JWT (HS256, no network call). Subscribe-only."""
-    key = _api_key()
+    key = key or _api_key()
     if ':' not in key:
         return None
     key_name, secret = key.split(':', 1)
@@ -102,11 +130,17 @@ def build_token(user_id=None, now=None):
     return '%s.%s' % (signing, _b64(sig))
 
 
-def client_config(user_id=None):
-    """What a browser or the app needs to open the stream, or None if disabled."""
+def client_config(user_id=None, shard=None, hint=''):
+    """What a browser or the app needs to open the stream, or None if disabled.
+
+    `shard` is the app index a client asks for after its current one failed
+    (quota, outage); without it the client is spread by a stable hash.
+    """
     if not is_enabled():
         return None
-    token = build_token(user_id)
+    keys = api_keys()
+    index = pick_shard(len(keys), user_id, hint, shard)
+    token = build_token(user_id, key=keys[index])
     if not token:
         return None
     return {
@@ -115,6 +149,8 @@ def client_config(user_id=None):
         'token': token,
         'expires_in': TOKEN_TTL,
         'user_channel': ('user.%s' % user_id) if user_id else '',
+        'shard': index,
+        'shards': len(keys),
     }
 
 
@@ -126,11 +162,10 @@ class _Publisher:
         self._cond = threading.Condition()
         self._thread = None
         self._pid = None
-        self._fails = 0
-        self._open_until = 0.0
+        self._keys = {}
 
     def enqueue(self, channel, name, data):
-        if time.time() < self._open_until:
+        if not self._any_open():
             return
         try:
             body = json.dumps(data, separators=(',', ':'), default=str)
@@ -145,6 +180,10 @@ class _Publisher:
             self._queue.append((channel, name, body))
             self._ensure_thread()
             self._cond.notify()
+
+    def _any_open(self):
+        now = time.time()
+        return any(now >= self._keys.get(k, [0, 0.0])[1] for k in api_keys())
 
     def _ensure_thread(self):
         # LSAPI forks workers: a thread started before the fork does not exist
@@ -176,21 +215,26 @@ class _Publisher:
         return [{'channels': [ch], 'messages': msgs} for ch, msgs in grouped.items()]
 
     def _flush(self, batch):
-        if time.time() < self._open_until:
-            return
-        try:
-            post_batch(self.specs(batch))
-            self._fails = 0
-        except Exception as exc:  # noqa: BLE001 - never let the thread die
-            self._fails += 1
-            logger.warning('realtime: ably publish failed (%s): %s', self._fails, exc)
-            if self._fails >= BREAKER_FAILS:
-                self._open_until = time.time() + BREAKER_SECONDS
-                self._fails = 0
+        """Send one batch to every configured app; a down app never blocks the rest."""
+        specs = self.specs(batch)
+        now = time.time()
+        for key in api_keys():
+            state = self._keys.setdefault(key, [0, 0.0])  # [fails, open_until]
+            if now < state[1]:
+                continue
+            try:
+                post_batch(specs, key)
+                state[0] = 0
+            except Exception as exc:  # noqa: BLE001 - never let the thread die
+                state[0] += 1
+                logger.warning('realtime: ably publish failed (%s): %s', state[0], exc)
+                if state[0] >= BREAKER_FAILS:
+                    state[1] = time.time() + BREAKER_SECONDS
+                    state[0] = 0
 
 
-def post_batch(specs):
-    key = _api_key()
+def post_batch(specs, key=None):
+    key = key or _api_key()
     url = 'https://%s/messages' % REST_HOST
     req = urllib.request.Request(
         url,

@@ -37,6 +37,8 @@
   var delay = MIN_DELAY;
   var timers = { connect: null, renew: null, hidden: null, reopen: null };
   var starting = false;
+  var shard = null;      // Ably app index in use (several free apps share the load)
+  var openFails = 0;     // errors since the last successful open
   var wantOpen = false;
 
   function now() { return Date.now(); }
@@ -109,7 +111,7 @@
 
   function fetchConfig(done) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/realtime/config/', true);
+    xhr.open('GET', '/api/realtime/config/' + (shard === null ? '' : '?shard=' + shard), true);
     xhr.withCredentials = true;
     xhr.onload = function () {
       var data = null;
@@ -137,6 +139,7 @@
         return;
       }
       cfg = data;
+      if (typeof data.shard === 'number') shard = data.shard;
       if (data.transport !== 'ably-sse') {
         cfg = { transport: 'ws', url: data.ws_url || explicit };
         openWebSocket();
@@ -187,6 +190,7 @@
       }
       lastSeen = now();
       delay = MIN_DELAY;
+      openFails = 0;
       setState(STATE.CONNECTED);
     };
     source.onmessage = function (ev) {
@@ -199,11 +203,19 @@
       if (es !== source) return;
       // EventSource retries on its own for network blips; a CLOSED stream is an
       // auth or quota failure, so fetch a fresh token and start over.
+      openFails += 1;
       if (source.readyState === 2) {
         source.close();
         es = null;
         setState(STATE.DISCONNECTED);
+        rotateShard();
         if (wantOpen && !document.hidden) retry();
+      } else if (openFails >= 3 && cfg && cfg.shards > 1) {
+        // This Ably app keeps failing (quota, outage): move to the next one.
+        source.close();
+        es = null;
+        rotateShard();
+        if (wantOpen && !document.hidden) retry(MIN_DELAY); else setState(STATE.DISCONNECTED);
       } else {
         setState(STATE.CONNECTING);
       }
@@ -211,6 +223,13 @@
     clearTimer('renew');
     var life = (cfg.expires_in || 3600) * 800;
     timers.renew = setTimeout(renewToken, life);
+  }
+
+  function rotateShard() {
+    if (!cfg || !(cfg.shards > 1)) return;
+    shard = ((typeof cfg.shard === 'number' ? cfg.shard : 0) + 1) % cfg.shards;
+    openFails = 0;
+    cfg = null; // forces a fresh token for the other app
   }
 
   function renewToken() {

@@ -451,7 +451,15 @@ def realtime_config(request):
             user_id = None
 
     payload = {'ws_url': ws_url, 'ticket': '', 'heartbeat_interval': 25}
-    hosted = realtime_ably.client_config(user_id)
+    try:
+        shard = int(request.GET.get('shard', ''))
+    except (TypeError, ValueError):
+        shard = None
+    hint = '%s|%s' % (
+        (request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR') or '').split(',')[0].strip(),
+        request.META.get('HTTP_USER_AGENT', '')[:80],
+    )
+    hosted = realtime_ably.client_config(user_id, shard=shard, hint=hint)
     if hosted:
         payload.update(hosted)
     else:
