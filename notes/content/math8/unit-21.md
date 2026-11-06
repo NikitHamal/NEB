@@ -459,6 +459,18 @@ because the wages are evenly spread with no extreme value; had one worker
 earned Rs 5,000, the median would have been the fairer average.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. The marks of 10 students are 12, 15, 11, 15, 18, 20, 15, 14, 16, 12. Arrange them in order and find the mean, median and mode. <span class="marks">[5]</span>
+2. In a survey of 100 students, the favourite sport was football for 40, cricket for 30, volleyball for 20 and badminton for 10. Find the angle of each sector of a pie chart, and describe how you would draw it and a bar graph for the same data. <span class="marks">[5]</span>
+3. (a) Find the mean of the data: $x=2,3,4,5,6$ with frequencies $f=3,5,8,3,1$. (b) The monthly incomes of five families are Rs 12,000, 14,000, 15,000, 16,000 and 1,43,000. Find the mean and the median, and say which is the better average. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Ascending order: 11, 12, 12, 14, 15, 15, 15, 16, 18, 20. Sum $=148$, so the **mean** $=148\div10=14.8$. With $n=10$ the median is the average of the 5th and 6th values: $\frac{15+15}{2}=15$. The **mode** is the most frequent value, 15 (it occurs three times). **Check:** the three averages are close together because there are no extreme values.
+**2.** Angle of a sector $=\dfrac{\text{frequency}}{\text{total}}\times360^\circ$: football $\frac{40}{100}\times360=144^\circ$, cricket $\frac{30}{100}\times360=108^\circ$, volleyball $72^\circ$, badminton $36^\circ$. Total $144+108+72+36=360^\circ$ ✓. **Pie chart:** draw a circle, then use a protractor to cut off sectors of $144^\circ$, $108^\circ$, $72^\circ$ and $36^\circ$ one after another, labelling each. **Bar graph:** put the four sports on the horizontal axis and frequency on the vertical axis (scale 1 cm = 10 students); draw bars of height 4, 3, 2 and 1 cm with equal widths and gaps.
+**3.** (a) $\sum f=3+5+8+3+1=20$. $\sum fx=6+15+32+15+6=74$. Mean $=\dfrac{74}{20}=3.7$. (b) Mean $=\dfrac{12000+14000+15000+16000+143000}{5}=\dfrac{200000}{5}=\text{Rs }40{,}000$. The median is the middle value of the ordered data: **Rs 15,000**. The median is the better average here: the one very high income pulls the mean up to Rs 40,000, which describes none of the families, while Rs 15,000 is a typical family.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

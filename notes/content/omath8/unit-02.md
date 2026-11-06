@@ -569,3 +569,15 @@ Cut tiles from card: large squares for $x^2$, long strips for $x$ (as long as th
 **4.** (i) Area $=(2x+5)(x+3)=2x^2+6x+5x+15=2x^2+11x+15$ m². Perimeter $=2[(2x+5)+(x+3)]=2(3x+8)=6x+16$ m. (ii) At $x=4$: area $=32+44+15=91$ m² and perimeter $=24+16=40$ m. Check: the sides are 13 m and 7 m; $13\times7=91$ ✓ and $2(13+7)=40$ ✓.
 **5.** $(x+2)(x^2-2x+4)=x^3-2x^2+4x+2x^2-4x+8=x^3+8$. $(x-2)(x^2+2x+4)=x^3+2x^2+4x-2x^2-4x-8=x^3-8$. The difference is $(x^3+8)-(x^3-8)=16$, whatever the value of $x$.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. Let $P(x)=3x^2+2x-5$ and $Q(x)=x^2-4x+7$. Find $P+Q$, $P-Q$ and $2P-3Q$, and state the degree and the number of terms of each result. <span class="marks">[5]</span>
+2. Multiply (i) $(2x-3)(x^2+4x-5)$ and (ii) $(x+2)(x-2)(x^2+4)$. Check (i) by putting $x=1$. <span class="marks">[5]</span>
+3. (i) If $(a+1)x^2+(b-2)x+(c+3)=3x^2+4x-5$ for all $x$, find $a$, $b$, $c$. (ii) For $f(x)=x^3-6x^2+11x-6$ find $f(1)$, $f(2)$, $f(3)$. (iii) Write the degree of the product of a polynomial of degree 3 and one of degree 2. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $P+Q=(3+1)x^2+(2-4)x+(-5+7)=4x^2-2x+2$: degree 2, three terms. $P-Q=(3-1)x^2+(2+4)x+(-5-7)=2x^2+6x-12$: degree 2, three terms. $2P-3Q=(6x^2+4x-10)-(3x^2-12x+21)=3x^2+16x-31$: degree 2, three terms.
+**2.** (i) Multiply each term of the first by each term of the second: $2x(x^2+4x-5)=2x^3+8x^2-10x$ and $-3(x^2+4x-5)=-3x^2-12x+15$. Add: $2x^3+5x^2-22x+15$. **Check at $x=1$:** left side $(2-3)(1+4-5)=(-1)(0)=0$; right side $2+5-22+15=0$ ✓. (ii) $(x+2)(x-2)=x^2-4$, then $(x^2-4)(x^2+4)=x^4-16$.
+**3.** (i) Equal polynomials have equal coefficients: $a+1=3$, so $a=2$; $b-2=4$, so $b=6$; $c+3=-5$, so $c=-8$. (ii) $f(1)=1-6+11-6=0$; $f(2)=8-24+22-6=0$; $f(3)=27-54+33-6=0$. So 1, 2 and 3 are all zeros of $f$ (indeed $f(x)=(x-1)(x-2)(x-3)$). (iii) The degree of a product is the sum of the degrees: $3+2=5$.
+:::

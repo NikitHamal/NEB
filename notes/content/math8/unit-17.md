@@ -410,6 +410,18 @@ $QR$.
 10$ square units.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Plot $A(1,1)$, $B(5,1)$ and $C(5,4)$. Find the lengths of $AB$, $BC$ and $AC$, show that the triangle is right-angled, and find its perimeter and area. <span class="marks">[5]</span>
+2. $A(-2,1)$, $B(4,1)$, $C(6,5)$ and $D(0,5)$ are the vertices of a quadrilateral. Find all four side lengths, name the quadrilateral and find its area. <span class="marks">[5]</span>
+3. (a) The point $P(-3,4)$ lies in which quadrant? Write its image when reflected in the $y$-axis, the $x$-axis and the origin. (b) Find the distance between $(-3,-2)$ and $(9,3)$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $AB$ is horizontal: $5-1=4$ units. $BC$ is vertical: $4-1=3$ units. $AC=\sqrt{(5-1)^2+(4-1)^2}=\sqrt{16+9}=5$ units. Since $AB$ is horizontal and $BC$ is vertical, $\angle B=90^\circ$; also $3^2+4^2=5^2$ ✓. Perimeter $=4+3+5=12$ units; area $=\frac12\times4\times3=6$ square units.
+**2.** $AB=4-(-2)=6$ and $DC=6-0=6$ (both horizontal, at $y=1$ and $y=5$). $AD=\sqrt{(0+2)^2+(5-1)^2}=\sqrt{4+16}=\sqrt{20}$ and $BC=\sqrt{(6-4)^2+(5-1)^2}=\sqrt{20}$. Opposite sides are equal and $AB\parallel DC$, but $AB\ne AD$ and the angles are not right angles, so it is a **parallelogram** (not a rhombus or a rectangle). Area $=\text{base}\times\text{height}=6\times4=24$ square units (the height is the distance between the lines $y=1$ and $y=5$).
+**3.** (a) $x<0$ and $y>0$: the **second quadrant**. Reflection in the $y$-axis: $(3,4)$. Reflection in the $x$-axis: $(-3,-4)$. Reflection in the origin: $(3,-4)$. (b) $d=\sqrt{(9-(-3))^2+(3-(-2))^2}=\sqrt{12^2+5^2}=\sqrt{144+25}=\sqrt{169}=13$ units.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>
