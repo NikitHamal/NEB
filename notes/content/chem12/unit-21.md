@@ -611,6 +611,7 @@ It needs a temperature of about $10^{7}$–$10^{8}$ K to overcome the repulsion 
 **Radioactive decay.** The activity is $A = A_{0}e^{-\lambda t}$ and the half-life is $t_{1/2} = 0.693/\lambda$. After $n$ half-lives the amount left is $N_{0}/2^{n}$. The SI unit of activity is the **becquerel** (1 decay per second); 1 curie = $3.7 \times 10^{10}$ Bq.
 
 **Numerical.**
+
 1. **Iodine-131** ($t_{1/2} = 8$ days), used in treating thyroid disease: from 100 mg, after 24 days (3 half-lives) $100/2^{3} = 12.5\ \text{mg}$ remains.
 2. **Carbon dating.** Living things have a constant ratio of C-14, with $t_{1/2} = 5730$ years. A wooden relic with only 25% of the original C-14 (two half-lives) is $2 \times 5730 = 11\,460$ years old.
 3. **Fusion energy.** $1\ \text{g}$ of deuterium–tritium mixture releases about $3.4 \times 10^{11}\ \text{J}$, roughly 8 tonnes of oil equivalent.

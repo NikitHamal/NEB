@@ -699,6 +699,7 @@ $\text{CFSE} = -0.4(6)\Delta_{o} = -2.4\Delta_{o}$.
 **Introduction.** **Transition metals** are the d-block elements that have a partly filled d subshell in the atom or in at least one of their common ions. The first series (Sc to Zn) has the general electronic configuration $[\text{Ar}]\,3d^{1\text{–}10}4s^{1\text{–}2}$. Because the 3d and 4s energies are close, both take part in bonding.
 
 **Eight characteristic properties.**
+
 1. **Variable oxidation states.** Both 4s and 3d electrons can be used, so manganese shows +2 to +7 and iron +2 and +3. The states usually differ by one unit, unlike the p-block, where they differ by two.
 2. **Coloured compounds.** Visible light excites an electron between split d orbitals (a d–d transition) and the complementary colour is seen. Cu$^{2+}$ is blue, Fe$^{3+}$ is yellow-brown and MnO$_4^-$ is purple, but Zn$^{2+}$ (d$^{10}$) and Sc$^{3+}$ (d$^{0}$) are colourless.
 3. **Complex formation.** Small, highly charged ions with empty d orbitals accept lone pairs from ligands, as in $[\text{Cu(NH}_3)_4]^{2+}$ and $[\text{Fe(CN)}_6]^{4-}$.

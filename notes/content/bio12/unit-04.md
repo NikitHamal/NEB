@@ -1027,11 +1027,13 @@ chamber then goes free-nuclear (*Alisma*, Helobiales).
 **Structure of the anther.** A typical anther is **bilobed and tetrasporangiate**: it has four pollen sacs (microsporangia). The wall has four layers from outside inwards: the **epidermis** (protection), the **endothecium** (fibrous thickenings that help the anther to dehisce), the **middle layers** (which degenerate) and the **tapetum**, a nutritive layer that supplies food, enzymes and sporopollenin precursors to the developing pollen. Inside is the **sporogenous tissue**.
 
 **Stage 1: microsporogenesis (formation of microspores).**
+
 1. Each cell of the sporogenous tissue becomes a **microspore mother cell (pollen mother cell, 2n)**.
 2. Each mother cell divides by **meiosis**, giving a **tetrad** of four haploid microspores (n).
 3. The four microspores separate and are released as individual cells. A single anther of a lily produces thousands of pollen grains in this way.
 
 **Stage 2: microgametogenesis (formation of the male gametophyte).**
+
 1. The microspore enlarges and develops a two-layered wall: an outer **exine** made of **sporopollenin**, one of the most resistant organic materials known, and an inner **intine** of cellulose and pectin. The exine has thin places called **germ pores**.
 2. The nucleus divides unequally by **mitosis** to give a large **vegetative cell** and a small **generative cell**.
 3. At this stage the pollen is shed in about 60% of species (the two-celled stage). In the rest, the generative cell divides again to produce **two male gametes** before the pollen leaves the anther (the three-celled stage, as in maize and wheat).
@@ -1057,6 +1059,7 @@ chamber then goes free-nuclear (*Alisma*, Helobiales).
 **Stage 1: megasporogenesis.** The megaspore mother cell divides by **meiosis** into a linear tetrad of four haploid megaspores. In the Polygonum type, the three towards the micropyle **degenerate**, and the one near the chalaza becomes the **functional megaspore**.
 
 **Stage 2: megagametogenesis.**
+
 1. The functional megaspore enlarges, and its nucleus divides by mitosis to form two nuclei, which move to opposite (micropylar and chalazal) poles.
 2. Each of the two nuclei divides twice by mitosis, and a total of **four nuclei at each pole (8 nuclei)** are formed. This is a free nuclear division with no walls.
 3. Three nuclei at each pole become surrounded by cell walls, and one nucleus from each pole, the **polar nuclei**, moves to the centre.
@@ -1080,6 +1083,7 @@ chamber then goes free-nuclear (*Alisma*, Helobiales).
 **Introduction.** **Double fertilization** is the event in which one male gamete fuses with the egg (syngamy) and the other with the two polar nuclei (triple fusion) in the same embryo sac. It is found only in angiosperms and was discovered by Nawaschin (1898) in *Lilium* and *Fritillaria*.
 
 **The process.**
+
 1. A pollen grain lands on the stigma and absorbs water, and the vegetative cell produces a **pollen tube** through a germ pore.
 2. The tube grows down the style, guided by chemicals from the synergids, and enters the ovule most commonly through the **micropyle** (porogamy).
 3. It enters one synergid and releases the two male gametes into the embryo sac.
@@ -1088,6 +1092,7 @@ chamber then goes free-nuclear (*Alisma*, Helobiales).
 6. After fertilization the synergids and antipodals degenerate, the ovule becomes the **seed**, the integuments form the **seed coat** and the ovary becomes the **fruit**.
 
 **Significance (8 points).**
+
 1. **Saves food.** The endosperm begins to develop only after fertilization, so the plant does not waste food on unfertilized ovules.
 2. **Provides food for the embryo.** The triploid endosperm stores starch, protein and oil that nourish the seedling, as in the rice and wheat grains that feed Nepal.
 3. **Restores the diploid number.** Syngamy brings the chromosome number back from n to 2n.

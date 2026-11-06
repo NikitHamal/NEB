@@ -617,6 +617,7 @@ by a magnet.
 **Introduction.** **Hysteresis** is the lagging of the magnetic induction $B$ behind the magnetising field $H$ when a ferromagnetic material is taken through a cycle of magnetisation and demagnetisation. The word means "to lag behind".
 
 **The B–H loop.** Place an unmagnetised iron specimen in a solenoid and increase the current slowly.
+
 1. **Initial curve (O to a).** $B$ rises with $H$ along the virgin curve until it reaches **saturation** at point a, when all the magnetic domains are aligned.
 2. **Reducing H to zero (a to b).** When $H$ is reduced to zero, $B$ does not fall to zero but retains the value Ob. This is the **retentivity (remanence)**, the residual magnetism left in the material.
 3. **Reverse field (b to c).** The current is reversed, and a reverse field Oc is needed to bring $B$ to zero. This is the **coercivity** (coercive field), a measure of the reverse field needed to remove the residual magnetism.
