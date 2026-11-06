@@ -1077,13 +1077,13 @@ If also $a*b=b*a$ for all elements, the group is **abelian (commutative)**. A gr
 
 | Set and operation | Group? | Type |
 |---|---|---|
-| $(\mathbb Z,+)$ | Yes (identity $0$, inverse $-a$) | Infinite abelian |
-| $(\mathbb R\setminus\{0\},\times)$ | Yes (identity $1$, inverse $1/a$) | Infinite abelian |
-| $(\mathbb N,+)$ | No (no identity or inverses) | |
+| $(\mathbb{Z},+)$ | Yes (identity $0$, inverse $-a$) | Infinite abelian |
+| $(\mathbb{R}\setminus\{0\},\times)$ | Yes (identity $1$, inverse $1/a$) | Infinite abelian |
+| $(\mathbb{N},+)$ | No (no identity or inverses) | |
 | $\{1,-1,i,-i\}$ under $\times$ | Yes, order $4$ | Finite abelian |
 | $\{1,\omega,\omega^{2}\}$ under $\times$ | Yes, order $3$ | Finite abelian |
 | Integers mod $4$ under $+$ | Yes, order $4$ | Finite abelian |
-| $(\mathbb Z,-)$ | No (not associative) | |
+| $(\mathbb{Z},-)$ | No (not associative) | |
 
 *Addition modulo 4:* the elements are $0,1,2,3$; for example $3+2\equiv1$. The identity is $0$, and the inverses are $0\to0$, $1\to3$, $2\to2$, $3\to1$.
 
