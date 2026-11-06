@@ -512,7 +512,6 @@
 }
 .pf-social-overflow-item:hover {
   background: var(--md-surface-container-high);
-  border-radius: 8px;
 }
 .pf-social-overflow-item:active {
   background: var(--md-surface-container-highest);
@@ -556,7 +555,6 @@
     padding: 10px 0;
   }
   .pf-social-overflow-item:hover {
-    border-radius: 6px;
   }
   .pf-social-overflow-icon {
     width: 28px;

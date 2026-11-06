@@ -35,14 +35,14 @@ const ROLES: [(&str, &str, &str, Icon); 4] = [
     ("institution", "Institution", "Represent a school, college or academy", Icon::Folder),
     ("explorer", "Explorer", "Look around first, fill this in later", Icon::Globe),
 ];
-const GENDERS: [&str; 3] = ["Male", "Female", "Other"];
-const PRADESH: [&str; 7] = ["Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"];
-const SUBJECTS: [&str; 10] = ["English", "Nepali", "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Accountancy", "Economics", "Social Studies"];
-const STUDENT_LEVELS: [&str; 11] = ["Class 8", "Class 9", "Class 10 / SEE", "Class 11", "Class 12", "+2 Passout", "Diploma", "Bachelors", "Masters", "PhD", "Other"];
+pub(crate) const GENDERS: [&str; 3] = ["Male", "Female", "Other"];
+pub(crate) const PRADESH: [&str; 7] = ["Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"];
+pub(crate) const SUBJECTS: [&str; 10] = ["English", "Nepali", "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "Accountancy", "Economics", "Social Studies"];
+pub(crate) const STUDENT_LEVELS: [&str; 11] = ["Class 8", "Class 9", "Class 10 / SEE", "Class 11", "Class 12", "+2 Passout", "Diploma", "Bachelors", "Masters", "PhD", "Other"];
 const TEACHER_LEVELS: [&str; 7] = ["Class 11", "Class 12", "+2 Passout", "Diploma", "Bachelors", "Masters", "Other"];
 const INSTITUTION_TYPES: [&str; 4] = ["school", "college", "academy", "other"];
-const MONTHS: [&str; 12] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DISTRICTS: [&str; 75] = [
+pub(crate) const MONTHS: [&str; 12] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+pub(crate) const DISTRICTS: [&str; 75] = [
     "Achham", "Arghakhanchi", "Baglung", "Baitadi", "Bajhang", "Bajura", "Banke", "Bara", "Bardiya", "Bhaktapur", "Bhojpur", "Chitwan", "Dadeldhura", "Dailekh",
     "Dang", "Darchula", "Dhading", "Dhankuta", "Dhanusha", "Dolakha", "Dolpa", "Doti", "Gorkha", "Gulmi", "Humla", "Ilam", "Jajarkot", "Jhapa", "Jumla", "Kailali",
     "Kalikot", "Kanchanpur", "Kapilvastu", "Kaski", "Kathmandu", "Kavrepalanchok", "Khotang", "Lalitpur", "Lamjung", "Mahottari", "Makwanpur", "Manang", "Mustang",
@@ -69,6 +69,7 @@ pub struct OnboardingState {
     month: usize,
     year: i32,
     inited: bool,
+    shown: Option<usize>,
 }
 
 impl OnboardingState {
@@ -97,22 +98,22 @@ fn complete(step: Step, p: &crate::data::store::Profile) -> bool {
     }
 }
 
-fn copy(step: Step, role: &str) -> (&'static str, &'static str) {
+fn copy(step: Step, role: &str) -> &'static str {
     let teacher = role == "teacher";
     match step {
-        Step::Welcome => ("Welcome to NEBians", "Let's build the profile Nepal's learning community will see. A few short questions — one at a time, nothing crammed."),
-        Step::Role => ("Which path is yours?", "This shapes the rest of the questions and what your feed leads with."),
-        Step::Name => ("What should we call you?", "Your display name appears on everything you post. You can change it later."),
-        Step::Handle => ("Claim your handle", "Letters, numbers and underscores. This is how people mention you in threads."),
-        Step::Birthday => ("When were you born?", "We use this for age-appropriate content and nothing else. Only your age band is ever shown."),
-        Step::Gender => ("How do you identify?", "Optional detail for your profile. Pick whichever fits."),
-        Step::Level => (if teacher { "Which levels do you teach?" } else { "Where are you right now?" }, "Pick the level that matches your current studies."),
-        Step::Subjects => (if teacher { "What do you teach?" } else { "What are you studying?" }, "Pick as many as apply. These drive your feed, your notes shelf and who you get matched with."),
-        Step::Place => ("Where do you study from?", "Local results, notices and study groups are found by district."),
-        Step::Campus => (if role == "institution" { "Tell us about your institution" } else { "Where do you study?" }, "Naming it puts you on your campus board and its shared resource shelf."),
-        Step::Portrait => ("Put a face to the name", "Profiles with a photo get more replies. You can skip this and add one later."),
-        Step::Bio => ("Say something about you", "One or two lines. What you are working towards, what you like helping with."),
-        Step::Finish => ("That's your profile", "Check it over. Everything here can be edited from your profile later."),
+        Step::Welcome => "Welcome to NEBians",
+        Step::Role => "Which path is yours?",
+        Step::Name => "What should we call you?",
+        Step::Handle => "Claim your handle",
+        Step::Birthday => "When were you born?",
+        Step::Gender => "How do you identify?",
+        Step::Level => if teacher { "Which levels do you teach?" } else { "Where are you right now?" },
+        Step::Subjects => if teacher { "What do you teach?" } else { "What are you studying?" },
+        Step::Place => "Where do you study from?",
+        Step::Campus => if role == "institution" { "Tell us about your institution" } else { "Where do you study?" },
+        Step::Portrait => "Put a face to the name",
+        Step::Bio => "Say something about you",
+        Step::Finish => "That's your profile",
     }
 }
 
@@ -133,7 +134,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState) {
     let steps = steps_for(&role);
     st.idx = st.idx.min(steps.len() - 1);
     let step = steps[st.idx];
-    let (title, subtitle) = copy(step, &role);
+    let title = copy(step, &role);
 
     // top bar: back + progress
     let w = (ui.available_width() - 48.0).clamp(300.0, 560.0);
@@ -169,6 +170,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState) {
                     if step == Step::Finish {
                         env.store.s.onboarded = true;
                         env.store.touch();
+                        env.push_profile();
                         env.act(Action::Replace(Route::Home));
                     } else {
                         st.idx += 1;
@@ -188,9 +190,13 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState) {
                 ui.set_width(w);
                 ui.add_space(20.0);
                 ui.add(egui::Label::new(RichText::new(title).font(fonts::bold(if w < 420.0 { 25.0 } else { 30.0 })).color(th.p.ink)).selectable(false));
-                ui.add_space(6.0);
-                ui.add(egui::Label::new(RichText::new(subtitle).font(fonts::regular(15.0)).color(th.p.ink_muted)));
                 ui.add_space(26.0);
+                let key = egui::Id::new("onb-step");
+                if st.shown != Some(st.idx) {
+                    st.shown = Some(st.idx);
+                    crate::theme::motion::reset_enter(ui.ctx(), key);
+                }
+                super::common::rise(ui, key);
                 step_body(ui, env, st, step, w);
             });
         });
@@ -227,7 +233,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
                     });
                 });
                 if selected {
-                    ui.painter().rect_stroke(resp.rect, crate::theme::spacing::CARD_RADIUS, egui::Stroke::new(2.0, th.p.accent));
+                    ui.painter().rect_stroke(resp.rect, crate::theme::spacing::CARD_RADIUS, egui::Stroke::new(2.0_f32, th.p.accent));
                 }
                 if resp.clicked() {
                     env.store.s.profile.role = key.to_string();
@@ -294,7 +300,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             ui.add(egui::Label::new(RichText::new(format!("{} {}, {}", MONTHS[st.month], st.day, st.year)).color(th.p.ink_muted)));
         }
         Step::Gender => {
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for g in GENDERS {
                     if widgets::chip(ui, &th, g, env.store.s.profile.gender == g).clicked() {
                         env.store.s.profile.gender = g.to_string();
@@ -305,7 +311,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
         }
         Step::Level => {
             let levels: &[&str] = if role == "teacher" { &TEACHER_LEVELS } else { &STUDENT_LEVELS };
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for l in levels {
                     if widgets::chip(ui, &th, l, env.store.s.profile.level == *l).clicked() {
                         env.store.s.profile.level = l.to_string();
@@ -315,7 +321,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             });
         }
         Step::Subjects => {
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for s in SUBJECTS {
                     let on = env.store.s.profile.subjects.iter().any(|x| x == s);
                     if widgets::chip(ui, &th, s, on).clicked() {
@@ -333,7 +339,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
         Step::Place => {
             widgets::label(ui, RichText::new("Province").font(fonts::medium(13.5)).color(th.p.ink_muted));
             ui.add_space(4.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for p in PRADESH {
                     if widgets::chip(ui, &th, p, env.store.s.profile.pradesh == p).clicked() {
                         env.store.s.profile.pradesh = p.to_string();
@@ -364,7 +370,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             }
             if role == "institution" {
                 ui.add_space(14.0);
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for t in INSTITUTION_TYPES {
                         if widgets::chip(ui, &th, t, env.store.s.profile.institution_type == t).clicked() {
                             env.store.s.profile.institution_type = t.to_string();
@@ -378,12 +384,12 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             let name = env.store.s.profile.display_name.clone();
             ui.vertical_centered(|ui| avatar(ui, &th, &name, env.store.s.profile.avatar_tone, 112.0));
             ui.add_space(20.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for i in 0..TONES.len() {
                     let (rect, resp) = ui.allocate_exact_size(vec2(40.0, 40.0), Sense::click());
                     ui.painter().circle_filled(rect.center(), 17.0, tone(i));
                     if env.store.s.profile.avatar_tone == i {
-                        ui.painter().circle_stroke(rect.center(), 20.0, egui::Stroke::new(2.5, th.p.accent));
+                        ui.painter().circle_stroke(rect.center(), 20.0, egui::Stroke::new(2.5_f32, th.p.accent));
                     }
                     if resp.hovered() {
                         ui.ctx().set_cursor_icon(egui::CursorIcon::PointingHand);

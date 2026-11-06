@@ -1,0 +1,689 @@
+{
+ "grade": "bca",
+ "grade_label": "BCA · BCA Entrance",
+ "grade_label_ne": "BCA प्रवेश परीक्षा",
+ "short": "BCA",
+ "kind": "entrance",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "entrance",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 50,
+ "exam": "2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking (third-party sources agree; confirm in the year's notice) | English grammar 40 | Mathematics 50 | General Knowledge and IT 10",
+ "areas": [
+  "Arithmetic",
+  "Algebra",
+  "Trigonometry",
+  "Coordinate Geometry",
+  "Vectors",
+  "Calculus",
+  "Reasoning"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Numbers, HCF and LCM, Ratio, Percentage and Average",
+   "hours": null,
+   "questions": 5,
+   "area": "Arithmetic",
+   "topics": [
+    "Integers, primes, divisibility, remainders, even and odd results",
+    "HCF and LCM and their word problems",
+    "Ratio, proportion, variation and ages",
+    "Percentage and successive change",
+    "Averages and weighted averages"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Integers, primes, divisibility, remainders, even and odd results"
+    },
+    {
+     "no": "1.2",
+     "title": "HCF and LCM and their word problems"
+    },
+    {
+     "no": "1.3",
+     "title": "Ratio, proportion, variation and ages"
+    },
+    {
+     "no": "1.4",
+     "title": "Percentage and successive change"
+    },
+    {
+     "no": "1.5",
+     "title": "Averages and weighted averages"
+    }
+   ],
+   "summary": [
+    "Check divisibility by digit sums and last digits before dividing; primes up to 120 need testing by 2, 3, 5, 7 only.",
+    "n(n+1) is always even; n^3-n is always a multiple of 6.",
+    "HCF × LCM equals the product of the two numbers, and of no other count of numbers.",
+    "\"Greatest divisor\" means HCF of the differences from the remainders; \"least number\" means LCM plus the remainder.",
+    "Chain ratios by matching the common term, then divide in parts.",
+    "Percentage change is always on the base the question names; successive changes multiply.",
+    "A 25 % rise is undone by a 20 % fall, not a 25 % fall.",
+    "For averages, deal in totals, not in averages."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2897,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Profit and Loss, Interest, Work, Speed, Mixture and Mensuration",
+   "hours": null,
+   "questions": 5,
+   "area": "Arithmetic",
+   "topics": [
+    "Profit, loss, discount and marked price",
+    "Simple and compound interest",
+    "Time and work, pipes and cisterns",
+    "Speed, distance, time, trains and boats",
+    "Mixtures and alligation",
+    "Area, perimeter and volume of plane and solid figures"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Profit, loss, discount and marked price"
+    },
+    {
+     "no": "2.2",
+     "title": "Simple and compound interest"
+    },
+    {
+     "no": "2.3",
+     "title": "Time and work, pipes and cisterns"
+    },
+    {
+     "no": "2.4",
+     "title": "Speed, distance, time, trains and boats"
+    },
+    {
+     "no": "2.5",
+     "title": "Mixtures and alligation"
+    },
+    {
+     "no": "2.6",
+     "title": "Area, perimeter and volume of plane and solid figures"
+    }
+   ],
+   "summary": [
+    "Profit and loss use the cost price; discount uses the marked price.",
+    "Mark up 25 % and discount 20 % gives no gain, no loss.",
+    "For two years, compound interest exceeds simple interest by P(R/100)^2.",
+    "Two workers together take ab/(a+b) days; a leaking pipe subtracts its rate.",
+    "36 km/h is 10 m/s; multiply by 5/18 to go from km/h to m/s.",
+    "Average speed over equal distances is the harmonic mean, never the simple mean.",
+    "A train crossing a platform covers its own length plus the platform.",
+    "Alligation gives the ratio directly as the two differences across the cross."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2996,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Sets, Relations and Functions",
+   "hours": null,
+   "questions": 2,
+   "area": "Algebra",
+   "topics": [
+    "Sets, subsets, operations and Venn-diagram word problems",
+    "Relations and their types",
+    "Functions, domain, range, composite and inverse functions"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Sets, subsets, operations and Venn-diagram word problems"
+    },
+    {
+     "no": "3.2",
+     "title": "Relations and their types"
+    },
+    {
+     "no": "3.3",
+     "title": "Functions, domain, range, composite and inverse functions"
+    }
+   ],
+   "summary": [
+    "Count with n(A∪ B)=n(A)+n(B)-n(A∩ B); \"neither\" is the total minus the union.",
+    "A set of n elements has 2^n subsets, one of them the empty set.",
+    "A-B means A∩ B'.",
+    "Equivalence = reflexive + symmetric + transitive.",
+    "A function gives each input exactly one output; check one-one and onto separately.",
+    "Domain: no zero denominators, no negative square roots, positive log arguments.",
+    "To invert, swap x and y; to compose, work from the inside out."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1902,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Indices, Logarithms, Polynomials and Quadratic Equations",
+   "hours": null,
+   "questions": 3,
+   "area": "Algebra",
+   "topics": [
+    "Laws of indices and surds",
+    "Logarithms and their laws",
+    "Polynomials, remainder and factor theorem",
+    "Quadratic equations, nature and sum and product of roots",
+    "Linear and simultaneous equations, inequalities, equation word problems"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Laws of indices and surds"
+    },
+    {
+     "no": "4.2",
+     "title": "Logarithms and their laws"
+    },
+    {
+     "no": "4.3",
+     "title": "Polynomials, remainder and factor theorem"
+    },
+    {
+     "no": "4.4",
+     "title": "Quadratic equations, nature and sum and product of roots"
+    },
+    {
+     "no": "4.5",
+     "title": "Linear and simultaneous equations, inequalities, equation word problems"
+    }
+   ],
+   "summary": [
+    "Reduce to a common base before equating indices.",
+    "log(m+n) cannot be split; log(mn) can.",
+    "D decides the nature of roots; D=0 gives equal roots.",
+    "Use α+β and αβ instead of solving for the roots.",
+    "f(a) is the remainder on division by (x-a).",
+    "A negative multiplier reverses an inequality.",
+    "Always substitute back after squaring."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1667,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Sequences and Series",
+   "hours": null,
+   "questions": 2,
+   "area": "Algebra",
+   "topics": [
+    "Arithmetic progression",
+    "Geometric progression",
+    "Special sums and mixed problems"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Arithmetic progression"
+    },
+    {
+     "no": "5.2",
+     "title": "Geometric progression"
+    },
+    {
+     "no": "5.3",
+     "title": "Special sums and mixed problems"
+    }
+   ],
+   "summary": [
+    "Count terms first: n=(l-a)/(d)+1.",
+    "Sn for AP is n times the average of first and last.",
+    "Use (a)/(r),a,ar for three GP numbers and a-d,a,a+d for AP.",
+    "S_∞ exists only when |r|<1.",
+    "an=Sn-Sn-1 recovers terms from sums.",
+    "AM≥ GM, with equality only when the numbers are equal."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1667,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Matrices and Determinants",
+   "hours": null,
+   "questions": 2,
+   "area": "Algebra",
+   "topics": [
+    "Types, order and operations on matrices",
+    "Determinants, minors and cofactors",
+    "Adjoint, inverse and solution of linear systems"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Types, order and operations on matrices"
+    },
+    {
+     "no": "6.2",
+     "title": "Determinants, minors and cofactors"
+    },
+    {
+     "no": "6.3",
+     "title": "Adjoint, inverse and linear systems"
+    }
+   ],
+   "summary": [
+    "Order m× n: m rows, n columns; a column holds m elements.",
+    "AB exists only if inner orders match, and AB≠ BA in general.",
+    "A zero determinant means singular: no inverse, and a row dependency.",
+    "|kA|=k^n|A|: the factor is raised to the order.",
+    "Reverse the order for (AB)^T and (AB)^-1.",
+    "Use Cramer's rule when D≠0."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1779,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Permutation, Combination, Probability and Statistics",
+   "hours": null,
+   "questions": 1,
+   "area": "Algebra",
+   "topics": [
+    "Fundamental principle of counting, permutations and combinations",
+    "Probability of events",
+    "Mean, median, mode and measures of dispersion"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Fundamental principle, permutations and combinations"
+    },
+    {
+     "no": "7.2",
+     "title": "Probability of events"
+    },
+    {
+     "no": "7.3",
+     "title": "Mean, median, mode and dispersion"
+    }
+   ],
+   "summary": [
+    "Order matters: permutation. Order does not matter: combination.",
+    "Divide by factorials of repeated letters.",
+    "Subtract from the total for \"at least one\".",
+    "Independent events multiply; overlapping events subtract the intersection.",
+    "SD ignores a constant shift."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1532,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Trigonometry",
+   "hours": null,
+   "questions": 4,
+   "area": "Trigonometry",
+   "topics": [
+    "Trigonometric ratios, standard angles and identities",
+    "Compound, multiple and half angles",
+    "Trigonometric equations and inverse functions",
+    "Heights and distances, triangle properties"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Trigonometric ratios, standard angles and identities"
+    },
+    {
+     "no": "8.2",
+     "title": "Compound, multiple and half angles"
+    },
+    {
+     "no": "8.3",
+     "title": "Trigonometric equations and inverse functions"
+    },
+    {
+     "no": "8.4",
+     "title": "Heights and distances, triangle properties"
+    }
+   ],
+   "summary": [
+    "Memorise the 0°–90° table; every other value reduces to it.",
+    "Complementary angles swap sin with cos, tan with cot.",
+    "Three forms of cos2A; pick the one that fits the data.",
+    "General solution needs nπ for tan and sine, 2nπ for cosine.",
+    "In height problems, draw a right triangle and use tan."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1489,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Straight Line and Distance Formulas",
+   "hours": null,
+   "questions": 4,
+   "area": "Coordinate Geometry",
+   "topics": [
+    "Distance, section and area formulas",
+    "Slope and forms of the equation of a line",
+    "Angle between lines, parallel and perpendicular lines, distance of a point from a line"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Distance, section and area formulas"
+    },
+    {
+     "no": "9.2",
+     "title": "Slope and forms of the equation of a line"
+    },
+    {
+     "no": "9.3",
+     "title": "Angle between lines, parallel and perpendicular lines, distance from a point"
+    }
+   ],
+   "summary": [
+    "Use d=√Δ x^2+Δ y^2; memorise 3-4-5 and 5-12-13.",
+    "Convert Ax+By+C=0 to slope -A/B.",
+    "Intercept form needs both intercepts non-zero.",
+    "Parallel lines have equal slopes; perpendicular slopes multiply to -1.",
+    "In the point-line formula the denominator is √A^2+B^2."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1537,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Circle and Conic Sections",
+   "hours": null,
+   "questions": 3,
+   "area": "Coordinate Geometry",
+   "topics": [
+    "Equation of a circle, centre and radius, tangent",
+    "Parabola, ellipse and hyperbola in standard form"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Circle: equation, centre, radius, tangent"
+    },
+    {
+     "no": "10.2",
+     "title": "Parabola, ellipse and hyperbola in standard form"
+    }
+   ],
+   "summary": [
+    "Complete the square or use g,f,c to read a circle off its equation.",
+    "For y^2=4ax read a from the coefficient: y^2=12x gives a=3.",
+    "Ellipse: e<1; hyperbola: e>1.",
+    "Major axis follows the larger denominator.",
+    "Tangent length is √S1, the power of the point."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1541,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Vectors",
+   "hours": null,
+   "questions": 2,
+   "area": "Vectors",
+   "topics": [
+    "Vector algebra, position vectors and unit vectors",
+    "Dot product, cross product and their applications"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Vector algebra, position vectors and unit vectors"
+    },
+    {
+     "no": "11.2",
+     "title": "Dot product, cross product and their applications"
+    }
+   ],
+   "summary": [
+    "A vector from A to B is B-A.",
+    "Dot product gives a number, cross product gives a vector.",
+    "Perpendicular means dot product zero.",
+    "|atimesb| is a parallelogram area.",
+    "Unit vectors are found by dividing by the magnitude."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1353,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Limits and Differentiation",
+   "hours": null,
+   "questions": 4,
+   "area": "Calculus",
+   "topics": [
+    "Limits of algebraic and trigonometric functions",
+    "Continuity",
+    "Derivatives, rules and standard results",
+    "Tangents, maxima, minima and rates"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Limits of algebraic and trigonometric functions"
+    },
+    {
+     "no": "12.2",
+     "title": "Continuity"
+    },
+    {
+     "no": "12.3",
+     "title": "Derivatives, rules and standard results"
+    },
+    {
+     "no": "12.4",
+     "title": "Tangents, maxima, minima and rates"
+    }
+   ],
+   "summary": [
+    "Substitute, then factor or use a standard limit for (0)/(0).",
+    "lim(|sin x|)/(x) does not exist at 0.",
+    "Differentiate by the product rule when two functions of x multiply.",
+    "Stationary points need f'=0; the sign of f'' decides the type.",
+    "Rates multiply by the chain rule."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1456,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Integration",
+   "hours": null,
+   "questions": 3,
+   "area": "Calculus",
+   "topics": [
+    "Standard integrals and rules",
+    "Methods: substitution and parts",
+    "Definite integrals and area"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Standard integrals and rules"
+    },
+    {
+     "no": "13.2",
+     "title": "Methods: substitution and integration by parts"
+    },
+    {
+     "no": "13.3",
+     "title": "Definite integrals and area"
+    }
+   ],
+   "summary": [
+    "Add +C to every indefinite integral and omit it in definite ones.",
+    "∫(1)/(x)dx=ln|x|, not x^0.",
+    "An odd function over a symmetric interval integrates to zero.",
+    "Use parts when a product has a log, inverse-trig or x× e^x.",
+    "Area under y=x^2 from 0 to 3 is 9."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1237,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Verbal and Logical Reasoning",
+   "hours": null,
+   "questions": 5,
+   "area": "Reasoning",
+   "topics": [
+    "Coding and decoding",
+    "Blood relations and direction sense",
+    "Ranking, ordering and seating",
+    "Syllogisms and statement-conclusion"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Coding and decoding"
+    },
+    {
+     "no": "14.2",
+     "title": "Blood relations and direction sense"
+    },
+    {
+     "no": "14.3",
+     "title": "Ranking, ordering and seating"
+    },
+    {
+     "no": "14.4",
+     "title": "Syllogisms and statement–conclusion"
+    }
+   ],
+   "summary": [
+    "Decode with the first letter, test on the second.",
+    "Draw the family tree; take one link at a time.",
+    "Right turn clockwise, left turn anticlockwise.",
+    "Rankings overlap by exactly one person.",
+    "A conclusion must follow from the statements alone."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2042,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Series, Calendar, Clock and Figure Reasoning",
+   "hours": null,
+   "questions": 5,
+   "area": "Reasoning",
+   "topics": [
+    "Number and letter series, odd one out",
+    "Calendar and clock problems",
+    "Counting figures, dice and cubes",
+    "Mixed reasoning"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Number and letter series, odd one out"
+    },
+    {
+     "no": "15.2",
+     "title": "Calendar problems"
+    },
+    {
+     "no": "15.3",
+     "title": "Clock problems"
+    },
+    {
+     "no": "15.4",
+     "title": "Counting figures, dice and cubes"
+    }
+   ],
+   "summary": [
+    "Check first and second differences, then squares, cubes, primes.",
+    "Count odd days, then take the remainder by 7.",
+    "Century years are leap only if divisible by 400.",
+    "Use 5.5M for the clock; reduce reflex angles.",
+    "Count squares of every size, not just the smallest."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1800,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 15,
+ "topic_count": 54,
+ "notes_ready": 15
+}

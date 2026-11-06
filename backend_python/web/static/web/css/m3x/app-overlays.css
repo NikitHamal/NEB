@@ -1,0 +1,125 @@
+/* m3x overlays: dialogs, menus, dropdowns, popups, sheets, snackbars, scrims.
+   One recipe for every floating surface: container-high tone, 1px outline-variant edge, large
+   corner, no shadow. Entry is a spring from the element that opened it; exit is quick and quiet.
+   Overrides material3/09-overlays.css and app/*, so it loads after them. */
+
+.neb-scrim, .neb-menu-scrim, .neb-fab-scrim {
+  background: color-mix(in srgb, var(--md-inverse-surface) 38%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+
+/* ---------- dialogs ---------- */
+.neb-dialog, .subject-pick-dialog, .social-link-dialog, .upload-progress-dialog {
+  background: var(--x-float); color: var(--md-on-surface);
+  border: 1px solid var(--x-float-line); border-radius: 28px;
+}
+.neb-dialog { transform: scale(.9) translateY(16px); transition: transform .55s var(--spring), opacity .2s; }
+.neb-scrim[data-open] .neb-dialog { transform: none; }
+.neb-scrim[data-closing] .neb-dialog { transform: scale(.96); transition-duration: .18s; }
+.neb-dialog-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
+.neb-dialog-support { color: var(--md-on-surface-variant); }
+.neb-dialog-icon { border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); transition: border-radius .6s var(--spring); }
+.neb-dialog:hover .neb-dialog-icon { }
+.neb-dialog-icon-danger { background: var(--md-error-container); color: var(--md-on-error-container); }
+.neb-dialog-actions { gap: 8px; }
+.neb-dialog-actions .md-btn, .neb-dialog-actions button { min-height: 44px; }
+
+/* ---------- sheets ---------- */
+.neb-sheet, .neb-choice-sheet {
+  background: var(--x-float); border: 1px solid var(--x-float-line); border-bottom: 0;
+  border-radius: 28px 28px 0 0; transition: transform .55s var(--spring);
+}
+.neb-sheet-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.neb-sheet-head { gap: 10px; }
+.neb-sheet-head .fp-thread-count { flex: none; }
+.neb-sheet-close { border-radius: 50%; background: var(--md-surface-container); color: var(--md-on-surface); }
+
+/* ---------- menus (neb-menu, more-menu, fab menu, identity menu, profile dropdown) ---------- */
+.neb-menu, .more-menu, .neb-fab-menu, .fp-identity-menu, .profile-dropdown-menu {
+  background: var(--x-float); color: var(--md-on-surface);
+  border: 1px solid var(--x-float-line); border-radius: 24px; padding: 8px;
+}
+.neb-menu { transform: scale(.9) translateY(-6px); transition: transform .45s var(--spring), opacity .18s; }
+.profile-dropdown-menu {
+  border-radius: 28px; transform-origin: top right; transform: scale(.88) translateY(-10px);
+  transition: transform .5s var(--spring), opacity .18s, visibility .18s;
+}
+.profile-dropdown-menu.show { transform: none; }
+.neb-menu-item, .more-menu-item, .profile-dropdown-menu a, .neb-fab-menu > * {
+  min-height: 46px; padding: 10px 14px; border-radius: 16px; font-weight: 500; color: var(--md-on-surface);
+  transition: border-radius .45s var(--spring), background-color .15s, color .15s;
+}
+.neb-menu-item .material-symbols-outlined, .more-menu-item .material-symbols-outlined,
+.profile-dropdown-menu a .material-symbols-outlined { color: var(--md-on-surface-variant); }
+.neb-menu-item:hover, .neb-menu-item:focus-visible, .more-menu-item:hover, .profile-dropdown-menu a:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); border-radius: 22px;
+}
+.neb-menu-item:active, .more-menu-item:active, .profile-dropdown-menu a:active { background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); }
+.neb-menu-item[aria-checked="true"], .profile-dropdown-menu a[aria-current="page"] {
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600;
+}
+.neb-menu-item[aria-checked="true"] .material-symbols-outlined { color: var(--md-on-secondary-container); }
+.neb-menu-item-danger, .profile-dropdown-menu .menu-logout, .more-menu-item.danger { color: var(--md-error); }
+.neb-menu-item-danger .material-symbols-outlined, .profile-dropdown-menu .menu-logout .material-symbols-outlined { color: var(--md-error); }
+.neb-menu-item-danger:hover, .profile-dropdown-menu .menu-logout:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+.neb-menu-item-danger:hover .material-symbols-outlined, .profile-dropdown-menu .menu-logout:hover .material-symbols-outlined { color: var(--md-on-error-container); }
+.neb-menu-label { color: var(--md-on-surface-variant); }
+.profile-dropdown-menu .menu-divider, .neb-menu-sep { background: var(--md-outline-variant); margin: 6px 8px; }
+.profile-dropdown-header-link { border-radius: 20px !important; }
+.profile-dropdown-header-link:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent) !important; }
+.profile-dropdown-role { color: var(--md-on-surface-variant); }
+.notif-popup-badge { background: var(--md-error); color: var(--md-on-error); border-radius: 10px; min-width: 20px; text-align: center; font-weight: 700; }
+
+/* ---------- user popup (hover card) ---------- */
+.fp-user-popup { background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 28px; color: var(--md-on-surface); }
+.fp-user-popup-bio, .fp-user-popup-meta, .fp-user-popup-username { color: var(--md-on-surface-variant); }
+
+/* ---------- lightbox / media overlays keep their black scrim ---------- */
+.nebians-lightbox-overlay { background: color-mix(in srgb, #000 88%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet { transition-duration: .01s; animation-duration: .01s; }
+}
+
+/* ---------- sheets on a wide screen are centred dialogs: the same spring, from the middle ---------- */
+.neb-sheet-handle::before { background: var(--md-outline-variant); }
+@media (min-width: 768px) {
+  .neb-scrim-bottom:not(.neb-scrim-side) { align-items: center; padding: 24px; }
+  .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet {
+    max-width: 560px; border-radius: 28px; border-bottom: 1px solid var(--x-float-line);
+    transform: scale(.92) translateY(18px); opacity: 0; transition: transform .55s var(--spring), opacity .2s;
+  }
+  .neb-scrim-bottom:not(.neb-scrim-side)[data-open] .neb-sheet { transform: none; opacity: 1; }
+  .neb-scrim-bottom:not(.neb-scrim-side)[data-closing] .neb-sheet { transform: scale(.97); opacity: 0; transition-duration: .16s; }
+  .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet-handle { display: none; }
+}
+.neb-sheet-body { padding-bottom: 6px; }
+.neb-sheet-foot { border-top: 1px solid var(--md-outline-variant); background: var(--x-float); }
+.neb-scrim { z-index: 5000; }
+.neb-sheet, .neb-dialog { overflow: hidden; }
+@media (min-width: 768px) { .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet-head { padding-top: 22px; } }
+
+/* ---------- post / comment overflow menu: compact, anchored, never taller than the room it has ---------- */
+.more-menu { min-width: 188px; max-width: 264px; padding: 6px; border-radius: 20px; z-index: 5200; }
+.more-menu-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 40px; padding: 8px 12px;
+  border: 0; background: transparent; font-family: inherit; font-weight: 500; font-size: 14px; line-height: 1.25; text-align: left; cursor: pointer;
+}
+.more-menu-item .material-symbols-outlined, .more-menu-item .neb-post-icon { font-size: 20px; width: 20px; height: 20px; flex: none; }
+.more-menu-divider { height: 1px; margin: 4px 8px; background: var(--md-outline-variant); }
+
+/* ---------- legacy .modal-box without header/body parts: still a padded, spaced card ---------- */
+.modal-overlay { z-index: 2600; }
+.modal-box:not(:has(> .modal-header, > .modal-body)) { padding: 24px; gap: 4px; overflow-y: auto; }
+.modal-box:not(:has(> .modal-header, > .modal-body)) > h3 {
+  margin: 0 0 8px; font-family: var(--display); font-size: 1.375rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
+}
+.modal-box .edit-form { display: flex; flex-direction: column; gap: 6px; }
+.modal-box .edit-form > label { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: var(--md-on-surface-variant); margin-top: 6px; }
+.modal-box .edit-form :is(input[type=text], textarea) {
+  width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 16px;
+  border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest, var(--md-surface));
+  color: var(--md-on-surface); font: inherit; resize: vertical;
+}
+.modal-box .edit-form :is(input[type=text], textarea):focus { outline: 2px solid var(--md-primary); outline-offset: 0; border-color: transparent; }
+.modal-box .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }

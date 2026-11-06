@@ -95,7 +95,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-name {
@@ -107,7 +107,7 @@
 
 .mkt-verified {
   font-size: 20px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-tagline {
@@ -150,7 +150,7 @@
 
 .mkt-hero-stats b {
   font-size: 1.0625rem;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-stats span {
@@ -283,7 +283,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-post-pin .material-symbols-outlined {
@@ -529,7 +529,7 @@
 
 .mkt-contact-row .material-symbols-outlined {
   font-size: 18px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 /* Label then value, the way the app's contact rows read -- a row that said only
@@ -538,7 +538,7 @@
   min-width: 78px;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-contact-value {

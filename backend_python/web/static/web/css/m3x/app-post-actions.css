@@ -1,0 +1,15 @@
+/* The row under a post (like, comments, views, share). It never overflows its card: the row is a
+   size container, and when it gets narrow the words drop away and the counts and glyphs stay. */
+
+.post-card-actions.post-card-actions {
+  container: pca / inline-size;
+  display: flex; flex-wrap: nowrap; align-items: center; gap: 2px;
+  width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box;
+}
+.post-card-actions.post-card-actions > :is(button, a, .act-btn-stat) { flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+.post-card-actions.post-card-actions > .fp-action-spacer { flex: 1 1 0; min-width: 0; }
+
+@container pca (max-width: 400px) {
+  .post-card-actions .post-action-label { display: none; }
+  .post-card-actions > :is(button, a, .act-btn-stat) { padding-inline: 8px; }
+}

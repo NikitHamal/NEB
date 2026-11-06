@@ -5,10 +5,8 @@
 
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">Marketplace</div>
   <div>
     <h1>Payment verification and approvals</h1>
-    <p>Verify buyer payment screenshots and transaction references to unlock paid content and credit seller earnings.</p>
   </div>
 </div>
 
@@ -50,14 +48,14 @@
       {% if p.payment_proof %}
       <div style="margin-bottom:16px;text-align:center;">
         <a href="{{ p.payment_proof.url }}" target="_blank" style="display:inline-block;">
-          <img src="{{ p.payment_proof.url }}" alt="Payment Proof" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:8px;border:1px solid #cbd5e1;">
+          <img loading="lazy" decoding="async" src="{{ p.payment_proof.url }}" alt="Payment Proof" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:8px;border:1px solid #cbd5e1;">
           <div style="font-size:0.75rem;color:var(--md-primary);margin-top:4px;">Click to enlarge image ↗</div>
         </a>
       </div>
       {% elif p.payment_proof_url %}
       <div style="margin-bottom:16px;text-align:center;">
         <a href="{{ p.payment_proof_url }}" target="_blank">
-          <img src="{{ p.payment_proof_url }}" alt="Payment Proof" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:8px;border:1px solid #cbd5e1;">
+          <img loading="lazy" decoding="async" src="{{ p.payment_proof_url }}" alt="Payment Proof" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:8px;border:1px solid #cbd5e1;">
         </a>
       </div>
       {% endif %}

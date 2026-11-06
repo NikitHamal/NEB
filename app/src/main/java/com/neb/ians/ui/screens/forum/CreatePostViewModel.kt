@@ -10,6 +10,7 @@ import com.neb.ians.data.api.ApiPollCreate
 import com.neb.ians.data.api.ApiPollOptionCreate
 import com.neb.ians.data.api.ApiUserSearchResult
 import com.neb.ians.data.api.WebPostCreateRequest
+import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.applyMention
@@ -20,7 +21,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -70,6 +74,7 @@ data class CreatePostUiState(
     val pollQuestion: String = "",
     val pollOptions: List<PollOptionDraft> = listOf(PollOptionDraft(), PollOptionDraft()),
     val pollAllowMultiple: Boolean = false,
+    val pollAllowAddOptions: Boolean = false,
     val pollExplanation: String = "",
     val pollDurationMs: Long = 0L,
     // @mention autocomplete
@@ -106,6 +111,7 @@ data class CreatePostUiState(
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val forumRepository: ForumRepository,
+    authRepository: AuthRepository,
     private val mediaUploadHelper: ForumMediaUploadHelper,
     private val contentImageRepository: com.neb.ians.data.repository.ContentImageRepository,
     @ApplicationContext private val appContext: Context
@@ -113,6 +119,28 @@ class CreatePostViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(CreatePostUiState())
     val uiState: StateFlow<CreatePostUiState> = _uiState.asStateFlow()
+
+    /** Who the post goes out as, for the identity pill in the composer header. */
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
+    val userPhotoUrl: StateFlow<String?> =
+        authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    /** `@handle` shown under the name in the identity menu. */
+    val userHandle: StateFlow<String> =
+        authRepository.currentUsernameHandleFlow.stateIn(viewModelScope, SharingStarted.Eagerly, "")
+
+    /** The anonymous mask this account posts under, same hash the server uses. */
+    val anonTag: StateFlow<String> =
+        authRepository.currentUserIdFlow
+            .map { com.neb.ians.ui.components.anonTagFor(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
+
+    init {
+        // The feed launcher's identity pick carries into a fresh composer.
+        if (com.neb.ians.ui.components.PostIdentityPreference.anonymous) {
+            _uiState.update { it.copy(isAnonymous = true) }
+        }
+    }
 
     private var mentionJob: Job? = null
     private var loadedEditPostId: String? = null
@@ -270,6 +298,7 @@ class CreatePostViewModel @Inject constructor(
 
     fun setAnonymous(anonymous: Boolean) {
         if (_uiState.value.isEditMode) return // anonymity is immutable after create
+        com.neb.ians.ui.components.PostIdentityPreference.anonymous = anonymous
         _uiState.update { it.copy(isAnonymous = anonymous) }
     }
 
@@ -373,6 +402,10 @@ class CreatePostViewModel @Inject constructor(
         _uiState.update { it.copy(pollAllowMultiple = allow) }
     }
 
+    fun onPollAllowAddOptionsChange(allow: Boolean) {
+        _uiState.update { it.copy(pollAllowAddOptions = allow) }
+    }
+
     fun onPollExplanationChange(value: String) {
         if (value.length <= 500) _uiState.update { it.copy(pollExplanation = value) }
     }
@@ -385,8 +418,9 @@ class CreatePostViewModel @Inject constructor(
 
     fun submitPost(onSuccess: () -> Unit) {
         val state = _uiState.value
-        val title = state.title.trim()
         val content = state.content.text.trim()
+        // The title is optional, as on the web: without one the first line of the post stands in.
+        val title = state.title.trim().ifBlank { derivePostTitle(content) }
         val category = state.effectiveCategory
 
         if (title.isBlank() || content.isBlank()) return
@@ -416,6 +450,7 @@ class CreatePostViewModel @Inject constructor(
                 question = state.pollQuestion.trim(),
                 pollType = state.pollType,
                 allowMultiple = state.pollType == "voting" && state.pollAllowMultiple,
+                allowAddOptions = state.pollType == "voting" && state.pollAllowAddOptions,
                 explanation = if (state.pollType == "mcq") state.pollExplanation.trim() else "",
                 durationMs = state.pollDurationMs,
                 options = options.mapIndexed { index, option ->
@@ -515,4 +550,13 @@ class CreatePostViewModel @Inject constructor(
     fun clearError() {
         _uiState.update { it.copy(error = null) }
     }
+}
+
+/** First readable line of a post, stripped of markdown, for posts written without a title. */
+internal fun derivePostTitle(content: String): String {
+    val line = content.lineSequence()
+        .map { it.replace(Regex("[#*`>_~$\\[\\]()!-]+"), " ").replace(Regex("\\s+"), " ").trim() }
+        .firstOrNull { it.isNotBlank() }
+        .orEmpty()
+    return if (line.length <= 80) line else line.take(79).trimEnd() + "\u2026"
 }

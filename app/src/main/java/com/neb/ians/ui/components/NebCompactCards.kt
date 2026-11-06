@@ -1,5 +1,6 @@
 package com.neb.ians.ui.components
 
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -58,9 +59,9 @@ fun NebCompactCard(
     modifier: Modifier = Modifier,
     width: Dp? = null,
     height: Dp? = null,
-    shape: RoundedCornerShape = RoundedCornerShape(16.dp),
+    shape: RoundedCornerShape = RoundedCornerShape(24.dp),
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLowest,
-    borderColor: Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.16f),
+    borderColor: Color = MaterialTheme.colorScheme.outlineVariant,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val tactile = rememberTactileFeedback()
@@ -69,8 +70,7 @@ fun NebCompactCard(
             .then(if (width != null) Modifier.width(width) else Modifier)
             .then(if (height != null) Modifier.height(height) else Modifier)
             .clip(shape)
-            .clickable {
-                tactile.perform(TactileType.LightTap)
+            .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) {
                 onClick()
             },
         shape = shape,
@@ -158,7 +158,7 @@ fun CompactPeerCard(
                     .fillMaxWidth()
                     .height(28.dp)
                     .clip(CircleShape)
-                    .clickable {
+                    .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) {
                         tactile.perform(TactileType.SelectionChange)
                         onFollowToggle()
                     },
@@ -214,12 +214,14 @@ fun CompactResourceCard(
         height = 156.dp,
         modifier = modifier.testTag("resource_card_${resource.id}")
     ) {
-        // Top banner: 64dp with color or thumbnail
+        // Inset art frame, 20dp radius like the web rcard
         Box(
             modifier = Modifier
+                .padding(6.dp)
                 .fillMaxWidth()
                 .height(64.dp)
-                .background(color.copy(alpha = 0.14f))
+                .clip(RoundedCornerShape(18.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             if (resource.thumbnailUrl.isNotBlank()) {
                 AsyncImage(
@@ -250,12 +252,12 @@ fun CompactResourceCard(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(6.dp),
-                shape = RoundedCornerShape(4.dp),
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f)
+                shape = RoundedCornerShape(10.dp),
+                color = MaterialTheme.colorScheme.surfaceContainerLowest
             ) {
                 Text(
                     text = resource.subject.ifBlank { "General" },
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.SemiBold),
                     color = color,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -268,7 +270,7 @@ fun CompactResourceCard(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp, vertical = 8.dp),
+                .padding(horizontal = 12.dp, vertical = 4.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
@@ -316,13 +318,13 @@ fun CompactNewsCard(
         onClick = onClick,
         width = 232.dp,
         height = 124.dp,
-        borderColor = if (item.isPinned) accent.copy(alpha = 0.6f) else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.85f),
+        borderColor = if (item.isPinned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
         modifier = modifier.testTag("news_card_${item.id}")
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp),
+                .padding(14.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
@@ -331,13 +333,13 @@ fun CompactNewsCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    shape = RoundedCornerShape(4.dp),
-                    color = accent.copy(alpha = 0.12f)
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.secondaryContainer
                 ) {
                     Text(
                         text = item.categoryLabel,
-                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.Bold),
-                        color = accent,
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.SemiBold),
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                     )
                 }
@@ -350,13 +352,13 @@ fun CompactNewsCard(
                         Icon(
                             imageVector = Icons.Filled.PushPin,
                             contentDescription = "Pinned",
-                            tint = accent,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(11.dp)
                         )
                         Text(
                             text = "Pinned",
                             style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.SemiBold),
-                            color = accent
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }

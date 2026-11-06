@@ -17,10 +17,10 @@ import base64
 import io
 import logging
 import re
-import struct
 import time
 import wave
 from typing import Dict, List, Optional
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -43,19 +43,6 @@ _WS = re.compile(r"[ \t]+")
 
 def get_models() -> List[Dict]:
     return [{**m, "capabilities": m.get("capabilities", {"tts": True})} for m in MODELS]
-
-
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome")
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"})
-        return s
 
 
 def _clamp_speed(speed) -> float:
@@ -275,7 +262,7 @@ def generate_tts(text: str, voice: Optional[str] = None, speed: float = 1.0, mod
     if len(chunks) > MAX_CHUNKS:
         return {"status": "error", "error": f"text too long for Paradee ({len(chunks)} batches needed, max {MAX_CHUNKS})"}
 
-    sess = _session()
+    sess = new_session()
     try:
         blobs = []
         for i, chunk in enumerate(chunks):

@@ -3,8 +3,12 @@ URL patterns for the NEBians API.
 All paths are relative to /api/ (prefix added in nebians/urls.py).
 """
 from django.urls import path, include
-from . import views
-from . import views_presence
+from . import views_auth
+from . import views_feed
+from . import views_forum
+from . import views_misc
+from . import views_resources
+from . import views_users
 from . import pdf_assistant_views
 from . import views_wallet
 from . import views_marketplace
@@ -15,136 +19,150 @@ from . import views_content_images
 from . import views_site_theme
 from . import views_syllabus
 from . import views_desktop_auth
+from . import views_content
+from . import views_portfolio
 
 urlpatterns = [
     # Auth
     path('site-theme/', views_site_theme.site_theme, name='site-theme'),
-    path('auth/google/', views.auth_google, name='auth-google'),
-    path('auth/github/', views.auth_github, name='auth-github'),
+    path('auth/google/', views_auth.auth_google, name='auth-google'),
+    path('auth/github/', views_auth.auth_github, name='auth-github'),
+    path('content/manifest/', views_content.content_manifest, name='content-manifest'),
+    path('content/index/', views_content.content_index, name='content-index'),
+    path('content/syllabus/<str:key>/', views_content.content_syllabus, name='content-syllabus'),
+    path('content/study/<str:key>/<str:name>/', views_content.content_study, name='content-study'),
+    path('content/search/', views_content.content_search_view, name='content-search'),
+    path('content/books/', views_content.content_books, name='content-books'),
+    path('content/books/<str:slug>/file/', views_content.content_book_file, name='content-book-file'),
     path('auth/desktop/start/', views_desktop_auth.desktop_auth_start, name='auth-desktop-start'),
     path('auth/desktop/poll/', views_desktop_auth.desktop_auth_poll, name='auth-desktop-poll'),
-    path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),
-    path('auth/email/verify/', views.auth_email_verify, name='auth-email-verify'),
-    path('auth/email/resend/', views.auth_email_resend, name='auth-email-resend'),
-    path('auth/email/login/', views.auth_email_login, name='auth-email-login'),
-    path('auth/email/forgot/', views.auth_email_forgot, name='auth-email-forgot'),
-    path('auth/email/reset-password/', views.auth_email_reset_password, name='auth-email-reset-password'),
-    path('auth/set-password/', views.auth_set_password, name='auth-set-password'),
-    path('auth/change-password/', views.auth_change_password, name='auth-change-password'),
-    path('auth/account-security/', views.auth_account_security, name='auth-account-security'),
-    path('auth/email/change/request/', views.auth_email_change_request, name='auth-email-change-request'),
-    path('auth/email/change/confirm/', views.auth_email_change_confirm, name='auth-email-change-confirm'),
-    path('auth/email/change/cancel/', views.auth_email_change_cancel, name='auth-email-change-cancel'),
-    path('auth/logout/', views.auth_logout, name='auth-logout'),
+    path('auth/email/signup/', views_auth.auth_email_signup, name='auth-email-signup'),
+    path('auth/email/verify/', views_auth.auth_email_verify, name='auth-email-verify'),
+    path('auth/email/resend/', views_auth.auth_email_resend, name='auth-email-resend'),
+    path('auth/email/login/', views_auth.auth_email_login, name='auth-email-login'),
+    path('auth/email/forgot/', views_auth.auth_email_forgot, name='auth-email-forgot'),
+    path('auth/email/reset-password/', views_auth.auth_email_reset_password, name='auth-email-reset-password'),
+    path('auth/set-password/', views_auth.auth_set_password, name='auth-set-password'),
+    path('auth/change-password/', views_auth.auth_change_password, name='auth-change-password'),
+    path('auth/account-security/', views_auth.auth_account_security, name='auth-account-security'),
+    path('auth/email/change/request/', views_auth.auth_email_change_request, name='auth-email-change-request'),
+    path('auth/email/change/confirm/', views_auth.auth_email_change_confirm, name='auth-email-change-confirm'),
+    path('auth/email/change/cancel/', views_auth.auth_email_change_cancel, name='auth-email-change-cancel'),
+    path('auth/logout/', views_auth.auth_logout, name='auth-logout'),
 
     # Users — profile
-    path('users/check-username/', views.check_username, name='check-username'),
-    path('users/profile/', views.user_profile_create_or_update, name='profile-create-update'),
-    path('users/profile/<str:username>/', views.user_profile_get, name='profile-get'),
-    path('users/profile/<str:username>/stats/', views.user_profile_stats, name='profile-stats'),
-    path('users/institutions/', views.institutions_list, name='institutions-list'),
+    path('users/check-username/', views_users.check_username, name='check-username'),
+    path('users/profile/', views_users.user_profile_create_or_update, name='profile-create-update'),
+    path('education/catalog/', views_portfolio.education_catalog_view, name='education-catalog'),
+    path('profile/entries/', views_portfolio.my_entries, name='profile-entries'),
+    path('profile/entries/<int:entry_id>/', views_portfolio.my_entry, name='profile-entry'),
+    path('users/profile/<str:username>/portfolio/', views_portfolio.user_portfolio, name='profile-portfolio'),
+    path('users/profile/<str:username>/', views_users.user_profile_get, name='profile-get'),
+    path('users/profile/<str:username>/stats/', views_users.user_profile_stats, name='profile-stats'),
+    path('users/institutions/', views_users.institutions_list, name='institutions-list'),
 
     # Users — avatar customization (auth required)
     path('users/me/avatar/', views_avatar_api.avatar_style_get, name='avatar-style-get'),
     path('users/me/avatar/customize/', views_avatar_api.avatar_style_update, name='avatar-style-update'),
 
     # Users — photo history (auth required)
-    path('users/me/photos/', views.user_photos, name='user-photos'),
-    path('users/me/analytics/', views.user_private_analytics, name='user-private-analytics'),
-    path('users/me/photos/<int:photo_id>/activate/', views.user_photo_activate, name='user-photo-activate'),
-    path('users/me/delete-account/', views.user_delete_account_request, name='user-delete-account-request'),
+    path('users/me/photos/', views_users.user_photos, name='user-photos'),
+    path('users/me/analytics/', views_users.user_private_analytics, name='user-private-analytics'),
+    path('users/me/photos/<int:photo_id>/activate/', views_users.user_photo_activate, name='user-photo-activate'),
+    path('users/me/delete-account/', views_users.user_delete_account_request, name='user-delete-account-request'),
 
     # Users — follow system
-    path('users/suggestions/', views.user_suggestions, name='user-suggestions'),
-    path('users/search/', views.user_search, name='user-search'),
-    path('users/me/follow-requests/', views.user_follow_requests_list, name='user-follow-requests'),
-    path('users/follow-requests/<str:request_id>/accept/', views.user_follow_request_accept, name='user-follow-request-accept'),
-    path('users/follow-requests/<str:request_id>/reject/', views.user_follow_request_reject, name='user-follow-request-reject'),
-    path('users/<str:user_id>/follow/', views.user_follow_toggle, name='user-follow'),
-    path('users/<str:user_id>/followers/', views.user_followers_list, name='user-followers'),
-    path('users/<str:user_id>/following/', views.user_following_list, name='user-following'),
+    path('users/suggestions/', views_users.user_suggestions, name='user-suggestions'),
+    path('users/search/', views_users.user_search, name='user-search'),
+    path('users/me/follow-requests/', views_users.user_follow_requests_list, name='user-follow-requests'),
+    path('users/follow-requests/<str:request_id>/accept/', views_users.user_follow_request_accept, name='user-follow-request-accept'),
+    path('users/follow-requests/<str:request_id>/reject/', views_users.user_follow_request_reject, name='user-follow-request-reject'),
+    path('users/<str:user_id>/follow/', views_users.user_follow_toggle, name='user-follow'),
+    path('users/<str:user_id>/followers/', views_users.user_followers_list, name='user-followers'),
+    path('users/<str:user_id>/following/', views_users.user_following_list, name='user-following'),
 
     # Resources
-    path('resources/upload/', views.resource_upload, name='resource-upload'),
-    path('resources/upload/anonymous/', views.resource_upload_anonymous, name='resource-upload-anonymous'),
-    path('resources/', views.resources_list, name='resources-list'),
-    path('resources/<str:resource_id>/', views.resource_detail, name='resource-detail'),
-    path('resources/<str:resource_id>/view/', views.resource_view, name='resource-view'),
-    path('resources/<str:resource_id>/like/', views.resource_like, name='resource-like'),
-    path('resources/<str:resource_id>/comments/', views.resource_comments, name='resource-comments'),
-    path('resources/<str:resource_id>/comments/<str:comment_id>/', views.resource_comment_detail, name='resource-comment-detail'),
-    path('resources/<str:resource_id>/comments/<str:comment_id>/like/', views.resource_comment_like, name='resource-comment-like'),
-    path('resources/<str:resource_id>/purchase/', views.resource_purchase, name='resource-purchase'),
+    path('resources/upload/', views_resources.resource_upload, name='resource-upload'),
+    path('resources/upload/anonymous/', views_resources.resource_upload_anonymous, name='resource-upload-anonymous'),
+    path('resources/', views_resources.resources_list, name='resources-list'),
+    path('resources/<str:resource_id>/', views_resources.resource_detail, name='resource-detail'),
+    path('resources/<str:resource_id>/view/', views_resources.resource_view, name='resource-view'),
+    path('resources/<str:resource_id>/like/', views_resources.resource_like, name='resource-like'),
+    path('resources/<str:resource_id>/comments/', views_resources.resource_comments, name='resource-comments'),
+    path('resources/<str:resource_id>/comments/<str:comment_id>/', views_resources.resource_comment_detail, name='resource-comment-detail'),
+    path('resources/<str:resource_id>/comments/<str:comment_id>/like/', views_resources.resource_comment_like, name='resource-comment-like'),
+    path('resources/<str:resource_id>/purchase/', views_resources.resource_purchase, name='resource-purchase'),
     path('resources/<str:resource_id>/pdf-assistant/', pdf_assistant_views.resource_pdf_assistant, name='resource-pdf-assistant'),
 
     # Syllabus categories for native apps
-    path('syllabus/categories/', views.syllabus_categories, name='syllabus-categories'),
+    path('syllabus/categories/', views_resources.syllabus_categories, name='syllabus-categories'),
     path('syllabus/v2/', views_syllabus.syllabus_index, name='syllabus-v2-index'),
     path('syllabus/v2/search/', views_syllabus.syllabus_search, name='syllabus-v2-search'),
     path('syllabus/v2/<str:grade>/<str:subject>/', views_syllabus.syllabus_subject, name='syllabus-v2-subject'),
     path('syllabus/v2/<str:grade>/<str:subject>/unit/<int:unit_no>/', views_syllabus.syllabus_chapter, name='syllabus-v2-chapter'),
     path('syllabus/v2/<str:grade>/<str:subject>/bank/<int:bank_no>/', views_syllabus.syllabus_bank, name='syllabus-v2-bank'),
     path('syllabus/v2/<str:grade>/<str:subject>/guide/', views_syllabus.syllabus_guide, name='syllabus-v2-guide'),
-    path('syllabus/subjects/<str:grade_slug>/<str:subject_slug>/', views.syllabus_subject_detail, name='syllabus-subject-detail'),
+    path('syllabus/subjects/<str:grade_slug>/<str:subject_slug>/', views_resources.syllabus_subject_detail, name='syllabus-subject-detail'),
 
     # Resource Requests
-    path('resource-requests/', views.resource_requests_list, name='resource-requests-list'),
-    path('resource-requests/create/', views.resource_request_create, name='resource-request-create'),
-    path('resource-requests/anonymous/', views.resource_request_create_anonymous, name='resource-request-create-anonymous'),
-    path('resource-requests/<str:request_id>/upvote/', views.resource_request_upvote, name='resource-request-upvote'),
+    path('resource-requests/', views_resources.resource_requests_list, name='resource-requests-list'),
+    path('resource-requests/create/', views_resources.resource_request_create, name='resource-request-create'),
+    path('resource-requests/anonymous/', views_resources.resource_request_create_anonymous, name='resource-request-create-anonymous'),
+    path('resource-requests/<str:request_id>/upvote/', views_resources.resource_request_upvote, name='resource-request-upvote'),
 
     # Search
-    path('search/', views.search_all, name='search-all'),
+    path('search/', views_misc.search_all, name='search-all'),
 
     # Posts — GET list + POST create handled by posts_endpoint dispatcher
-    path('posts/', views.posts_endpoint, name='posts'),
-    path('posts/<str:post_id>/', views.post_detail, name='post-detail'),
-    path('posts/<str:post_id>/view/', views.post_view, name='post-view'),
-    path('posts/<str:post_id>/like/', views.post_like, name='post-like'),
+    path('posts/', views_forum.posts_endpoint, name='posts'),
+    path('posts/impressions/', views_forum.post_impressions, name='post-impressions'),
+    path('posts/<str:post_id>/', views_forum.post_detail, name='post-detail'),
+    path('posts/<str:post_id>/view/', views_forum.post_view, name='post-view'),
+    path('posts/<str:post_id>/insights/', views_forum.post_insights, name='post-insights'),
+    path('posts/<str:post_id>/like/', views_forum.post_like, name='post-like'),
 
-    path('posts/<str:post_id>/images/', views.post_images, name='post-images'),
-    path('forum/uploads/', views.forum_media_upload, name='forum-media-upload'),
+    path('posts/<str:post_id>/images/', views_forum.post_images, name='post-images'),
+    path('forum/uploads/', views_forum.forum_media_upload, name='forum-media-upload'),
     path('content-images/upload/', views_content_images.upload_content_image, name='content-image-upload'),
-    path('polls/<str:poll_id>/vote/', views.poll_vote, name='poll-vote'),
+    path('polls/<str:poll_id>/vote/', views_forum.poll_vote, name='poll-vote'),
+    path('polls/<str:poll_id>/options/', views_forum.poll_options_endpoint, name='poll-options'),
 
     # Intelligent mixed feed — never-empty suggestions (posts + resources)
-    path('feed/suggested/', views.feed_suggested, name='feed-suggested'),
+    path('feed/suggested/', views_feed.feed_suggested, name='feed-suggested'),
 
     # Replies — GET list + POST create handled by replies_endpoint dispatcher
-    path('posts/<str:post_id>/replies/', views.replies_endpoint, name='replies'),
+    path('posts/<str:post_id>/replies/', views_forum.replies_endpoint, name='replies'),
 
     # Replies
-    path('replies/<str:reply_id>/', views.reply_detail, name='reply-detail'),
-    path('replies/<str:reply_id>/like/', views.reply_like, name='reply-like'),
+    path('replies/<str:reply_id>/', views_forum.reply_detail, name='reply-detail'),
+    path('replies/<str:reply_id>/like/', views_forum.reply_like, name='reply-like'),
+    path('replies/<str:reply_id>/label/', views_forum.reply_label, name='reply-label'),
 
     # Edit History
-    path('edit-history/<str:target_type>/<str:target_id>/', views.edit_history, name='edit-history'),
+    path('edit-history/<str:target_type>/<str:target_id>/', views_forum.edit_history, name='edit-history'),
 
     # FCM
-    path('fcm/register/', views.fcm_register, name='fcm-register'),
-    path('fcm/unregister/', views.fcm_unregister, name='fcm-unregister'),
+    path('fcm/register/', views_misc.fcm_register, name='fcm-register'),
+    path('fcm/unregister/', views_misc.fcm_unregister, name='fcm-unregister'),
 
     # Notifications
-    path('notifications/', views.notifications_list, name='notifications-list'),
-    path('notifications/mark-read/', views.notifications_mark_read, name='notifications-mark-read'),
-    path('notifications/unread-count/', views.notifications_unread_count, name='notifications-unread-count'),
+    path('notifications/', views_misc.notifications_list, name='notifications-list'),
+    path('notifications/mark-read/', views_misc.notifications_mark_read, name='notifications-mark-read'),
+    path('notifications/unread-count/', views_misc.notifications_unread_count, name='notifications-unread-count'),
 
     # Analytics tracking (mobile app)
-    path('analytics/track/', views.analytics_track, name='analytics-track'),
-
-    # Presence heartbeat (mobile app)
-    path('presence/heartbeat/', views_presence.presence_heartbeat, name='presence-heartbeat'),
+    path('analytics/track/', views_misc.analytics_track, name='analytics-track'),
 
     # Reports
-    path('reports/', views.report_create, name='report-create'),
+    path('reports/', views_misc.report_create, name='report-create'),
 
     # Realtime discovery (mobile clients)
-    path('realtime/config/', views.realtime_config, name='realtime-config'),
+    path('realtime/config/', views_misc.realtime_config, name='realtime-config'),
 
     # Bookmarks
-    path('bookmarks/toggle/', views.bookmark_toggle, name='bookmark-toggle'),
-    path('bookmarks/', views.bookmark_list, name='bookmark-list'),
-    path('bookmarks/check/', views.bookmark_check, name='bookmark-check'),
+    path('bookmarks/toggle/', views_misc.bookmark_toggle, name='bookmark-toggle'),
+    path('bookmarks/', views_misc.bookmark_list, name='bookmark-list'),
+    path('bookmarks/check/', views_misc.bookmark_check, name='bookmark-check'),
 
     # Community AI chat (Neby AI on Android)
     path('neby-arena/', include('api.arena_urls')),

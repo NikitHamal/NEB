@@ -4,30 +4,19 @@ use egui::{vec2, RichText, Ui};
 
 use super::common::*;
 use crate::actions::Action;
-use crate::config::{SITE_URL, VERSION};
-use crate::data::content::ContentRoot;
+use crate::config::VERSION;
 use crate::data::store::{ReadingWidth, ThemeMode};
 use crate::env::Env;
-use crate::router::Route;
+use crate::router::{AccountTab, Route};
 use crate::theme::fonts;
 use crate::ui::icons::Icon;
 use crate::ui::widgets::{self, BtnKind};
 
 #[derive(Default)]
 pub struct SettingsState {
-    path_input: String,
-    path_msg: Option<(String, bool)>,
+    stats: crate::data::content::CacheStats,
+    stats_at: Option<std::time::Instant>,
     confirm_reset: bool,
-    inited: bool,
-    pw: Option<PwDialog>,
-}
-
-#[derive(Default)]
-struct PwDialog {
-    current: String,
-    new: String,
-    busy: Option<crate::data::tasks::Task<crate::errors::Result<String>>>,
-    error: Option<String>,
 }
 
 fn group(ui: &mut Ui, th: &crate::theme::Theme, title: &str, f: impl FnOnce(&mut Ui)) {
@@ -66,43 +55,26 @@ fn toggle_row(ui: &mut Ui, th: &crate::theme::Theme, title: &str, sub: &str, on:
 }
 
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
-    if !st.inited {
-        st.inited = true;
-        st.path_input = env.content.as_ref().map(|c| c.base.display().to_string()).unwrap_or_default();
-    }
     scroll_page(ui, env, "settings", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Settings", Some("Preferences are saved on this computer."));
+        widgets::screen_header(ui, &th, "Settings");
         ui.set_max_width(ui.available_width().min(760.0));
 
         group(ui, &th, "Account", |ui| {
-            let who = match (&env.store.s.session, env.store.s.guest) {
-                (Some(s), _) => format!("Signed in as {}", s.email),
-                (None, true) => "Browsing as a guest".to_string(),
-                _ => "Not signed in".to_string(),
-            };
-            if link_row(ui, &th, "Profile", &who, Icon::User) {
-                env.go(Route::Profile);
-            }
-            widgets::hairline(ui, &th);
-            if link_row(ui, &th, "Bookmarks", "Saved chapters", Icon::Bookmark) {
-                env.go(Route::Bookmarks);
-            }
-            widgets::hairline(ui, &th);
-            if env.signed_in() {
-                if link_row(ui, &th, "Change password", "Other devices are signed out when you change it", Icon::Key) {
-                    st.pw = Some(PwDialog::default());
+            let who = env.store.s.session.as_ref().map(|s| s.email.clone()).unwrap_or_default();
+            let rows = [
+                ("Edit profile", who.as_str(), Icon::User, Route::Account(AccountTab::Profile)),
+                ("Security", "", Icon::Lock, Route::Account(AccountTab::Security)),
+                ("Privacy and terms", "", Icon::Shield, Route::Account(AccountTab::Privacy)),
+                ("Delete account", "", Icon::Trash, Route::Account(AccountTab::Delete)),
+                ("Bookmarks", "", Icon::Bookmark, Route::Bookmarks),
+            ];
+            for (i, (title, sub, icon, route)) in rows.into_iter().enumerate() {
+                if i > 0 {
+                    widgets::hairline(ui, &th);
                 }
-                widgets::hairline(ui, &th);
-            }
-            if link_row(ui, &th, "Account security", "Email address, sessions and account deletion — opens the NEBians website", Icon::Lock) {
-                env.open_url(SITE_URL);
-            }
-            if env.signed_in() {
-                widgets::hairline(ui, &th);
-                let server = crate::config::api_base();
-                if link_row(ui, &th, "Server", &format!("{server}  (set NEB_API_BASE to change)"), Icon::Cloud) {
-                    env.open_url(SITE_URL);
+                if link_row(ui, &th, title, sub, icon) {
+                    env.go(route);
                 }
             }
         });
@@ -174,43 +146,48 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
             }
         });
 
-        group(ui, &th, "Content", |ui| {
+        group(ui, &th, "Storage & sync", |ui| {
+            if st.stats_at.map(|t| t.elapsed().as_secs() >= 3).unwrap_or(true) {
+                st.stats = env.repo.stats();
+                st.stats_at = Some(std::time::Instant::now());
+            }
+            let server = crate::config::api_base();
             ui.add_space(10.0);
-            widgets::label(ui, RichText::new("Study content folder").font(fonts::medium(15.0)).color(th.p.ink));
-            widgets::label(ui, RichText::new("Your NEB checkout (contains backend_python/web/data) or a bundled content/ folder.").font(fonts::regular(12.5)).color(th.p.ink_muted));
-            ui.add_space(8.0);
-            let w = ui.available_width();
-            widgets::text_field(ui, &th, &mut st.path_input, "/path/to/NEB", Some(Icon::Folder), w, false);
-            ui.add_space(8.0);
-            ui.horizontal_wrapped(|ui| {
-                if widgets::button(ui, &th, "Apply", BtnKind::Primary, Some(Icon::Check), None).clicked() {
-                    match ContentRoot::from_dir(std::path::Path::new(st.path_input.trim())) {
-                        Some(root) => {
-                            env.store.s.prefs.content_dir = Some(root.base.display().to_string());
-                            env.store.touch();
-                            env.set_content(Some(root));
-                            st.path_msg = Some((format!("Loaded {} subjects.", env.tracks.iter().map(|t| t.subjects.len()).sum::<usize>()), true));
-                        }
-                        None => st.path_msg = Some(("That folder has no backend_python/web/data/syllabus/index.json (or data/syllabus/index.json).".into(), false)),
-                    }
-                }
-                if widgets::button(ui, &th, "Auto-detect", BtnKind::Secondary, None, None).clicked() {
-                    match ContentRoot::detect(None, None) {
-                        Some(root) => {
-                            st.path_input = root.base.display().to_string();
-                            env.store.s.prefs.content_dir = None;
-                            env.store.touch();
-                            env.set_content(Some(root));
-                            st.path_msg = Some(("Found content next to the app.".into(), true));
-                        }
-                        None => st.path_msg = Some(("Nothing found next to the app or in its parent folders.".into(), false)),
-                    }
+            widgets::setting_row(ui, &th, "Library server", Some(&server), |ui| {
+                widgets::badge(ui, if matches!(env.status, crate::env::ContentStatus::Ready) { "Connected" } else { "Offline" }, th.p.ok, th.p.ok_soft);
+            });
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            let (cb, bb) = (st.stats.content_bytes, st.stats.book_bytes);
+            widgets::setting_row(ui, &th, "Saved study content", Some(&format!("{} on this computer — chapters and figures you opened or saved offline", crate::util::fmt_bytes(cb))), |ui| {
+                if widgets::button(ui, &th, "Clear", BtnKind::Secondary, Some(Icon::Trash), None).clicked() {
+                    env.repo.clear_content();
+                    env.dl.offline.clear();
+                    env.drop_content_memory();
+                    env.reload_content();
+                    st.stats_at = None;
+                    env.toast("Saved study content cleared");
                 }
             });
-            if let Some((m, ok)) = &st.path_msg {
-                ui.add_space(6.0);
-                ui.add(egui::Label::new(RichText::new(m).color(if *ok { th.p.ok } else { th.p.danger })));
-            }
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            widgets::setting_row(ui, &th, "Downloaded books", Some(&format!("{} in {} PDF files", crate::util::fmt_bytes(bb), st.stats.book_files)), |ui| {
+                if widgets::button(ui, &th, "Delete all", BtnKind::Secondary, Some(Icon::Trash), None).clicked() {
+                    env.repo.clear_books();
+                    st.stats_at = None;
+                    env.toast("Downloaded books deleted");
+                }
+            });
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            widgets::setting_row(ui, &th, "Refresh the library", Some("Check the server for new notes and question banks"), |ui| {
+                if widgets::button(ui, &th, "Refresh", BtnKind::Secondary, Some(Icon::Refresh), None).clicked() {
+                    env.act(crate::actions::Action::ReloadContent);
+                }
+            });
             ui.add_space(10.0);
         });
 
@@ -221,12 +198,20 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         });
 
         group(ui, &th, "About", |ui| {
-            if link_row(ui, &th, "Privacy policy", "How we protect your data", Icon::Lock) {
-                env.open_url(&format!("{SITE_URL}/privacy/"));
+            if link_row(ui, &th, "Help", "Questions, offline use and support", Icon::Info) {
+                env.go(Route::Help);
             }
             widgets::hairline(ui, &th);
-            if link_row(ui, &th, "Terms of service", "Rules and guidelines for usage", Icon::File) {
-                env.open_url(&format!("{SITE_URL}/terms/"));
+            if link_row(ui, &th, "Reading history", "Chapters you opened recently", Icon::History) {
+                env.go(Route::History);
+            }
+            widgets::hairline(ui, &th);
+            if link_row(ui, &th, "Privacy policy", "", Icon::Lock) {
+                env.go(Route::Legal("privacy".into()));
+            }
+            widgets::hairline(ui, &th);
+            if link_row(ui, &th, "Terms of service", "", Icon::File) {
+                env.go(Route::Legal("terms".into()));
             }
             widgets::hairline(ui, &th);
             if link_row(ui, &th, "About NEBians", &format!("Version {VERSION}"), Icon::Info) {
@@ -236,113 +221,31 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
 
         group(ui, &th, "Account control", |ui| {
             ui.add_space(10.0);
-            ui.horizontal_wrapped(|ui| {
-                if env.signed_in() || env.store.s.guest {
-                    if widgets::button(ui, &th, "Sign out", BtnKind::Secondary, Some(Icon::Logout), None).clicked() {
-                        env.act(Action::SignOut);
-                    }
-                } else if widgets::button(ui, &th, "Sign in", BtnKind::Primary, Some(Icon::Login), None).clicked() {
-                    env.act(Action::Replace(Route::Login));
+            crate::ui::widgets::flow(ui, |ui| {
+                if widgets::button(ui, &th, "Sign out", BtnKind::Secondary, Some(Icon::Logout), None).clicked() {
+                    env.act(Action::SignOut);
                 }
                 if widgets::button(ui, &th, "Reset all local data", BtnKind::Danger, Some(Icon::Trash), None).clicked() {
                     st.confirm_reset = true;
                 }
             });
-            ui.add_space(6.0);
-            widgets::label(ui, RichText::new("Resetting removes your profile, bookmarks and reading progress from this computer. Study content is not touched.").font(fonts::regular(12.5)).color(th.p.ink_muted));
             ui.add_space(10.0);
         });
     });
 
-    password_dialog(ui.ctx(), env, st);
     if st.confirm_reset {
         let th = env.theme.clone();
-        let mut open = true;
-        egui::Window::new("Reset all local data?").open(&mut open).collapsible(false).resizable(false).anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0]).show(ui.ctx(), |ui| {
-            ui.add(egui::Label::new("This permanently deletes your profile, bookmarks and progress on this computer."));
-            ui.add_space(10.0);
-            ui.horizontal(|ui| {
-                if widgets::button(ui, &th, "Reset", BtnKind::Danger, None, None).clicked() {
-                    st.confirm_reset = false;
-                    env.act(Action::ResetAll);
-                }
-                if widgets::button(ui, &th, "Cancel", BtnKind::Secondary, None, None).clicked() {
-                    st.confirm_reset = false;
-                }
-            });
+        let mut act = None;
+        let dismissed = crate::ui::dialog::show(ui.ctx(), &th, "reset-local", 440.0, |ui| {
+            crate::ui::dialog::title(ui, &th, "Reset local data?");
+            crate::ui::dialog::body(ui, &th, "Your profile, bookmarks and reading progress on this computer are removed and you are signed out.");
+            act = crate::ui::dialog::confirm_row(ui, &th, "Reset", BtnKind::Danger, true);
         });
-        if !open {
+        if act == Some(true) {
+            env.act(Action::ResetAll);
+        }
+        if act.is_some() || dismissed {
             st.confirm_reset = false;
         }
-    }
-}
-
-fn password_dialog(ctx: &egui::Context, env: &mut Env, st: &mut SettingsState) {
-    let Some(d) = st.pw.as_mut() else { return };
-    let th = env.theme.clone();
-    if let Some(t) = d.busy.as_mut() {
-        if let Some(r) = t.poll() {
-            d.busy = None;
-            match r {
-                Ok(m) => {
-                    env.toast(m);
-                    st.pw = None;
-                    // the server revokes every token on change; sign in again
-                    env.act(Action::SignOut);
-                    return;
-                }
-                Err(e) => {
-                    if env.handle_api_error(&e) {
-                        st.pw = None;
-                        return;
-                    }
-                    d.error = Some(e.to_string());
-                }
-            }
-        }
-    }
-    let d = st.pw.as_mut().unwrap();
-    let mut close = false;
-    let mut submit = false;
-    egui::Window::new("Change password")
-        .title_bar(false)
-        .collapsible(false)
-        .resizable(false)
-        .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
-        .fixed_size([ctx.screen_rect().width().min(460.0) - 40.0, 0.0])
-        .frame(egui::Frame::none().fill(th.p.card).rounding(egui::Rounding::same(28.0)).stroke(egui::Stroke::new(1.0, th.p.hairline)).shadow(ctx.style().visuals.window_shadow).inner_margin(egui::Margin::same(24.0)))
-        .show(ctx, |ui| {
-            let w = ui.available_width();
-            widgets::heading(ui, &th, "Change password", 22.0);
-            widgets::muted(ui, &th, "You will be signed out everywhere and asked to sign in again.");
-            ui.add_space(14.0);
-            widgets::field(ui, &th, &mut d.current, "Current password", Some(Icon::Lock), w, true, false);
-            ui.add_space(10.0);
-            widgets::field(ui, &th, &mut d.new, "New password (8+ characters)", Some(Icon::Key), w, true, false);
-            if let Some(e) = d.error.clone() {
-                ui.add_space(10.0);
-                crate::screens::login::error_banner(ui, &th, &e, w);
-            }
-            ui.add_space(16.0);
-            ui.horizontal(|ui| {
-                right(ui, |ui| {
-                    ui.add_enabled_ui(d.busy.is_none() && !d.current.is_empty() && d.new.len() >= 8, |ui| {
-                        if widgets::button(ui, &th, if d.busy.is_some() { "Saving…" } else { "Change password" }, BtnKind::Primary, None, None).clicked() {
-                            submit = true;
-                        }
-                    });
-                    if widgets::button(ui, &th, "Cancel", BtnKind::Ghost, None, None).clicked() {
-                        close = true;
-                    }
-                });
-            });
-        });
-    if submit {
-        let (cur, new, tok) = (d.current.clone(), d.new.clone(), env.token().unwrap_or_default());
-        d.error = None;
-        d.busy = Some(crate::data::tasks::Task::spawn(ctx, move || crate::data::auth::change_password(&tok, &cur, &new)));
-    }
-    if close || ctx.input(|i| i.key_pressed(egui::Key::Escape)) {
-        st.pw = None;
     }
 }

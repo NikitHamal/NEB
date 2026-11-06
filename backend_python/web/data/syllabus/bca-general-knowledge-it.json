@@ -1,0 +1,202 @@
+{
+ "grade": "bca",
+ "grade_label": "BCA · BCA Entrance",
+ "grade_label_ne": "BCA प्रवेश परीक्षा",
+ "short": "BCA",
+ "kind": "entrance",
+ "subject": "general-knowledge-it",
+ "name": "General Knowledge and IT",
+ "name_ne": "सामान्य ज्ञान तथा सूचना प्रविधि",
+ "icon": "travel_explore",
+ "group": "entrance",
+ "color": "#C2410C",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 10,
+ "exam": "2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking (third-party sources agree; confirm in the year's notice) | English grammar 40 | Mathematics 50 | General Knowledge and IT 10",
+ "areas": [
+  "General Knowledge",
+  "General IT"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Nepal: First Persons, Geography, Government and Culture",
+   "hours": null,
+   "questions": 3,
+   "area": "General Knowledge",
+   "topics": [
+    "First persons and firsts in Nepal",
+    "Geography of Nepal: largest, longest, highest, deepest",
+    "Constitution, federal structure and prime ministers of Nepal",
+    "Literature, art and Miss Nepal"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "First persons and firsts in Nepal"
+    },
+    {
+     "no": "1.2",
+     "title": "Geography of Nepal: largest, longest, highest, deepest"
+    },
+    {
+     "no": "1.3",
+     "title": "Constitution, federal structure and prime ministers"
+    },
+    {
+     "no": "1.4",
+     "title": "Literature, art, national symbols and Miss Nepal"
+    }
+   ],
+   "summary": [
+    "Constitution: 3 Ashwin 2072; republic: 15 Jestha 2065; Democracy Day: 7 Falgun.",
+    "7, 77, 753; 275 + 59.",
+    "Everest 8,848.86 m; Kanchenjunga is third highest.",
+    "Karnali is longest, Koshi largest by volume, Rara largest lake, Phoksundo deepest.",
+    "Balendra Shah became Prime Minister on 27 March 2026."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2027,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "The World: Geography, Organisations, Sports and Science",
+   "hours": null,
+   "questions": 2,
+   "area": "General Knowledge",
+   "topics": [
+    "World records, capitals and nicknames of places",
+    "United Nations and other organisations",
+    "Olympics, football and cricket world cups",
+    "Inventions, discoveries and awards"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "World records, capitals and nicknames"
+    },
+    {
+     "no": "2.2",
+     "title": "United Nations and other organisations"
+    },
+    {
+     "no": "2.3",
+     "title": "Olympics, football and cricket world cups"
+    },
+    {
+     "no": "2.4",
+     "title": "Inventions, discoveries and awards"
+    }
+   ],
+   "summary": [
+    "Russia is the largest, Vatican City the smallest; India is the most populous.",
+    "Canberra, not Sydney; Ottawa, not Toronto.",
+    "UN: 1945, New York, 193 members, five veto powers.",
+    "World Cup winners 2018, 2022, 2026: France, Argentina, Spain.",
+    "Babbage is the father of the computer; Berners-Lee invented the Web."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1642,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Computer Fundamentals, Hardware and Software",
+   "hours": null,
+   "questions": 3,
+   "area": "General IT",
+   "topics": [
+    "Generations, types and parts of a computer",
+    "Input, output and storage devices, memory",
+    "System and application software, operating systems, number systems"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Generations, types and parts of a computer"
+    },
+    {
+     "no": "3.2",
+     "title": "Input, output and storage devices, memory"
+    },
+    {
+     "no": "3.3",
+     "title": "System and application software, operating systems, number systems"
+    }
+   ],
+   "summary": [
+    "OCR, OMR, MICR and barcode readers are input devices.",
+    "RAM loses its data when power is off; ROM does not.",
+    "SSD and HDD are storage, not main memory.",
+    "A compiler translates all at once; an interpreter line by line.",
+    "Fourth generation = microprocessor."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1556,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Internet, E-mail, HTML, Programming and Full Forms",
+   "hours": null,
+   "questions": 2,
+   "area": "General IT",
+   "topics": [
+    "Internet, WWW, e-mail and common protocols",
+    "HTML basics",
+    "Programming languages and concepts",
+    "Important full forms and inventors"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Internet, WWW, e-mail and common protocols"
+    },
+    {
+     "no": "4.2",
+     "title": "HTML basics"
+    },
+    {
+     "no": "4.3",
+     "title": "Programming languages and concepts"
+    },
+    {
+     "no": "4.4",
+     "title": "Important full forms and inventors"
+    }
+   ],
+   "summary": [
+    "HTML is a markup language; <h1> is the largest heading.",
+    "SMTP sends, POP3 and IMAP receive.",
+    "Bcc hides recipients from each other.",
+    "HTTPS means HTTP over a secure connection.",
+    "Learn the creator of each language and the full forms above."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1730,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 4,
+ "topic_count": 15,
+ "notes_ready": 4
+}

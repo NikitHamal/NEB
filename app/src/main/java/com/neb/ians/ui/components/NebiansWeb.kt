@@ -40,6 +40,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -668,7 +669,7 @@ fun WebResourceCard(
     modifier: Modifier = Modifier,
     minWidth: Dp? = 220.dp,
     height: Dp? = null,
-    shape: RoundedCornerShape = WebPanelShape
+    shape: RoundedCornerShape = RoundedCornerShape(28.dp)
 ) {
     val subjectParts = remember(resource.subject) {
         resource.subject.split(",").map { it.trim() }.filter { it.isNotBlank() }
@@ -677,9 +678,9 @@ fun WebResourceCard(
     val subjectTheme = getSubjectTheme(primarySubject)
     val displaySubject = remember(subjectParts, primarySubject) {
         if (subjectParts.size > 1) {
-            "${primarySubject.uppercase()} +${subjectParts.size - 1} MORE"
+            "$primarySubject +${subjectParts.size - 1}"
         } else {
-            primarySubject.uppercase()
+            primarySubject
         }
     }
     val isVideo = remember(resource.type, resource.fileUrl) {
@@ -687,28 +688,35 @@ fun WebResourceCard(
             VideoExtensionRegex.containsMatchIn(resource.fileUrl)
     }
     val tactile = rememberTactileFeedback()
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val pressScale by animateFloatAsState(
+        targetValue = if (pressed) 0.98f else 1f,
+        animationSpec = com.neb.ians.ui.theme.nebFastSpatialSpec(),
+        label = "rcardPress"
+    )
 
-    Card(
+    Column(
         modifier = modifier
             .then(if (minWidth != null) Modifier.width(minWidth) else Modifier.fillMaxWidth())
             .then(if (height != null) Modifier.height(height) else Modifier)
+            .graphicsLayer { scaleX = pressScale; scaleY = pressScale }
             .clip(shape)
-            .clickable(onClick = {
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
+            .clickable(interactionSource = interaction, indication = null) {
                 tactile.perform(TactileType.LightTap)
                 onClick()
-            }),
-        shape = shape,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
+            }
+            .padding(8.dp)
     ) {
-        // The banner is a band of the card's own width, not a fixed slab. A
-        // 110dp strip that looked right on a 220dp grid tile became a letterbox
-        // slit on a tablet's 520dp row, and the drawings inside it size their
-        // density off the box they are given — so the box has to be honest.
+        // The art is a band of the card's own width (see bannerBand) inside an inset 20dp frame.
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .bannerBand(height)
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             if (resource.thumbnailUrl.isNotBlank()) {
                 AsyncImage(
@@ -726,26 +734,14 @@ fun WebResourceCard(
             }
 
             if (isVideo) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.22f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.9f),
-                        shadowElevation = 4.dp
-                    ) {
-                        Box(
-                            modifier = Modifier.size(40.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primaryContainer) {
+                        Box(modifier = Modifier.size(44.dp), contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.PlayArrow,
                                 contentDescription = "Play",
                                 modifier = Modifier.size(28.dp),
-                                tint = Color.Black
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }
@@ -757,14 +753,14 @@ fun WebResourceCard(
                     .align(Alignment.TopStart)
                     .padding(10.dp),
                 shape = WebPillShape,
-                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
+                color = MaterialTheme.colorScheme.surfaceContainerLowest
             ) {
                 Text(
-                    text = resource.type.uppercase(),
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                    text = resource.type.replaceFirstChar { it.uppercase() },
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1
                 )
             }
@@ -774,38 +770,15 @@ fun WebResourceCard(
                         .align(Alignment.TopEnd)
                         .padding(10.dp),
                     shape = WebPillShape,
-                    color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
-                    shadowElevation = 2.dp
+                    color = MaterialTheme.colorScheme.tertiary
                 ) {
                     Text(
                         text = "Rs. ${resource.price.ifBlank { "0" }}",
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.inverseOnSurface,
+                        color = MaterialTheme.colorScheme.onTertiary,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1
-                    )
-                }
-            }
-
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(10.dp)
-                    .size(28.dp),
-                shape = CircleShape,
-                color = subjectTheme.color,
-                shadowElevation = 2.dp
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Icon(
-                        painter = painterResource(id = getSubjectIcon(primarySubject)),
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp),
-                        tint = Color.White
                     )
                 }
             }
@@ -813,23 +786,39 @@ fun WebResourceCard(
         Column(
             modifier = Modifier
                 .then(if (height != null) Modifier.weight(1f) else Modifier.fillMaxWidth())
-                .padding(12.dp)
+                .padding(start = 6.dp, end = 6.dp, top = 12.dp, bottom = 4.dp)
         ) {
-            Surface(
-                shape = WebPillShape,
-                color = subjectTheme.container
-            ) {
-                Text(
-                    text = displaySubject,
-                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 3.dp),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = subjectTheme.onContainer,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                Surface(
+                    shape = RoundedCornerShape(13.dp),
+                    color = subjectTheme.container,
+                    modifier = Modifier.weight(1f, fill = false)
+                ) {
+                    Text(
+                        text = displaySubject,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = subjectTheme.onContainer,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                if (resource.gradeLevel.isNotBlank()) {
+                    Surface(shape = RoundedCornerShape(13.dp), color = MaterialTheme.colorScheme.surfaceContainer) {
+                        Text(
+                            text = resource.gradeLevel,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = resource.title,
                 style = MaterialTheme.typography.bodyMedium,
@@ -839,82 +828,49 @@ fun WebResourceCard(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            // With a fixed card height the footer meta is pinned to the bottom
-            // so every card in a rail shares identical, aligned heights; without
-            // one we keep the original tight wrap-content spacing.
-            if (height != null) {
-                Spacer(modifier = Modifier.weight(1f))
-            } else {
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            Text(
-                text = "${resource.gradeLevel}, ${formatFileSize(resource.fileSize)}",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(6.dp))
+            if (height != null) Spacer(modifier = Modifier.weight(1f)) else Spacer(modifier = Modifier.height(10.dp))
             val uploaderName = resource.uploadedByName.ifBlank { resource.uploadedByUsername.ifBlank { resource.authorName.orEmpty().ifBlank { "NEBians" } } }
-            val photo = resource.uploadedByPhoto
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(7.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Avatar(
-                    name = uploaderName,
-                    imageUrl = photo,
-                    size = 24.dp
-                )
-                Column(modifier = Modifier.weight(1f)) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Text(
-                            text = uploaderName,
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f, fill = false)
-                        )
-                        if (uploaderName.equals("NEBians", ignoreCase = true) || uploaderName.equals("nebians", ignoreCase = true)) {
-                            Icon(
-                                imageVector = Icons.Filled.Verified,
-                                contentDescription = "Verified Official",
-                                modifier = Modifier.size(13.dp),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(3.dp)
-                    ) {
-                        Text(
-                            text = formatTimeAgo(resource.addedAt),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
+                Avatar(name = uploaderName, imageUrl = resource.uploadedByPhoto, size = 26.dp)
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    Text(
+                        text = uploaderName,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    if (uploaderName.equals("NEBians", ignoreCase = true)) {
                         Icon(
-                            imageVector = Icons.Outlined.Visibility,
-                            contentDescription = null,
-                            modifier = Modifier.size(11.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = compactCount(resource.viewCount),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
+                            imageVector = Icons.Filled.Verified,
+                            contentDescription = "Verified",
+                            modifier = Modifier.size(14.dp),
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
+                Icon(
+                    imageVector = Icons.Outlined.Visibility,
+                    contentDescription = null,
+                    modifier = Modifier.size(15.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = compactCount(resource.viewCount),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
             }
         }
     }
@@ -929,7 +885,6 @@ fun WebPostCard(
     compact: Boolean = false
 ) {
     val category = post.category.ifBlank { "General" }
-    val categoryTheme = getSubjectTheme(category)
     val tactile = rememberTactileFeedback()
     Card(
         modifier = modifier
@@ -938,7 +893,7 @@ fun WebPostCard(
                 tactile.perform(TactileType.LightTap)
                 onClick()
             }),
-        shape = WebPanelShape,
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
@@ -953,40 +908,31 @@ fun WebPostCard(
                     size = 38.dp
                 )
                 Column(modifier = Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = post.authorName,
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f, fill = false)
-                        )
-                        Text(
-                            text = "  posted",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1
-                        )
-                    }
                     Text(
-                        text = "$category - ${formatTimeAgo(post.createdAt)}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        text = post.authorName,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
+                    Text(
+                        text = formatTimeAgo(post.createdAt),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1
+                    )
                 }
+                // The web post-card's category: a tonal #tag, not a coloured subject badge.
                 Surface(
                     shape = WebPillShape,
-                    color = categoryTheme.container
+                    color = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Text(
-                        text = category,
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = categoryTheme.onContainer,
+                        text = "#$category",
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -1021,14 +967,19 @@ fun WebPostCard(
                     selected = post.isThumbedUp,
                     onClick = onLikeClick
                 )
-                Surface(
-                    shape = WebPillShape,
-                    color = Color.Transparent,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ChatBubbleOutline,
+                        contentDescription = "Replies",
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     Text(
-                        text = "${post.replyCount} Replies",
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        text = compactCount(post.replyCount),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1
@@ -1049,7 +1000,7 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
         label = "postActionScale"
     )
     val background by animateColorAsState(
-        targetValue = if (selected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent,
+        targetValue = if (selected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
         animationSpec = tween(180),
         label = "postActionBg"
     )
@@ -1067,11 +1018,6 @@ private fun PostAction(text: String, selected: Boolean, onClick: () -> Unit) {
             }
             .clip(WebPillShape)
             .background(background)
-            .border(
-                1.dp,
-                if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
-                WebPillShape
-            )
             .clickable(
                 interactionSource = interactionSource,
                 indication = ripple(bounded = true, color = contentColor),
@@ -1125,23 +1071,19 @@ fun Avatar(
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
     val avatarAnim = remember(resolvedUrl) { if (animate) com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) else null }
     val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
+    val avatarShape: androidx.compose.ui.graphics.Shape =
+        if (isNeby || isAnon || isNebians) CircleShape else rememberAvatarShape(name)
+    val (toneFill, toneInk) = avatarTone(name)
     Box(modifier = modifier.size(size)) {
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(
-                    if (isNeby || hasImageBg) Modifier.border(
-                        1.5.dp,
-                        androidx.compose.material3.MaterialTheme.colorScheme.outlineVariant,
-                        CircleShape
-                    ) else Modifier
-                ),
-            shape = CircleShape,
+            modifier = Modifier.fillMaxSize(),
+            shape = avatarShape,
             color = when {
                 isNeby -> Color.Transparent
                 isNebians -> MaterialTheme.colorScheme.primary
                 hasImageBg -> MaterialTheme.colorScheme.surfaceContainerLowest
-                else -> MaterialTheme.colorScheme.primary
+                isAnon -> MaterialTheme.colorScheme.primary
+                else -> toneFill
             }
         ) {
             if (isAnon) {
@@ -1185,7 +1127,7 @@ fun Avatar(
                         text = name.firstOrNull()?.uppercase() ?: "?",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = toneInk
                     )
                 }
             }
@@ -1196,17 +1138,14 @@ fun Avatar(
             Box(
                 modifier = Modifier
                     .size(badgeSize)
-                    .align(Alignment.BottomEnd)
-                    .background(MaterialTheme.colorScheme.surface, CircleShape)
-                    .padding(1.dp)
-                    .background(MaterialTheme.colorScheme.inverseSurface, CircleShape),
+                    .align(Alignment.BottomEnd),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_crown),
                     contentDescription = "Admin",
-                    tint = MaterialTheme.colorScheme.inverseOnSurface,
-                    modifier = Modifier.size(badgeSize * 0.7f)
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(badgeSize)
                 )
             }
         } else if (effectiveVerificationLevel > 0 && !isNebians) {
@@ -1219,17 +1158,14 @@ fun Avatar(
             Box(
                 modifier = Modifier
                     .size(badgeSize)
-                    .align(Alignment.BottomEnd)
-                    .background(Color.White, CircleShape)
-                    .padding(1.dp)
-                    .background(badgeColor, CircleShape),
+                    .align(Alignment.BottomEnd),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Filled.Verified,
                     contentDescription = "Verified",
-                    tint = Color.White,
-                    modifier = Modifier.size(badgeSize * 0.7f)
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(badgeSize)
                 )
             }
         }
@@ -1360,8 +1296,7 @@ fun LiquidNavContainer(
     Surface(
         modifier = modifier
             .navigationBarsPadding()
-            .padding(horizontal = 18.dp, vertical = 12.dp)
-            .shadow(18.dp, WebPillShape, ambientColor = Color.Black.copy(alpha = 0.10f), spotColor = Color.Black.copy(alpha = 0.16f)),
+            .padding(horizontal = 18.dp, vertical = 12.dp),
         shape = WebPillShape,
         color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.88f),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.72f)),

@@ -1,0 +1,115 @@
+{% extends "landing/base_landing.html" %}
+{% load static %}
+{% block head_css %}<link rel="stylesheet" href="{% static 'web/css/about.css' %}">{% endblock %}
+{% block jsonld %}<script type="application/ld+json">{{ jsonld|safe }}</script>{% endblock %}
+{% block body_class %} ab{% endblock %}
+
+{% block main %}
+{# ---------------------------------------------------------------- hero #}
+<section class="hero ab-hero" aria-labelledby="ab-title">
+  {% include "themes/_decor.html" with t=site_theme %}
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <h1 id="ab-title" class="display">
+        <span class="line intro" style="--i:1"><span>Made in Nepal.</span><i class="glyph shp-cookie g-azure" aria-hidden="true"></i></span>
+        <span class="line intro" style="--i:2"><span>Free to read.</span><i class="glyph shp-sunny g-sky" aria-hidden="true"></i></span>
+        <span class="line intro" style="--i:3"><span>Built together.</span><i class="glyph shp-flower g-aqua" aria-hidden="true"></i></span>
+      </h1>
+      <p class="hero-lede intro" style="--i:4">NEBians, by Consica Labs.</p>
+      <div class="hero-cta intro" style="--i:5">
+        <a class="m3-btn m3-btn-lg" href="#team"><span>Meet the team</span>{% include "components/_arrow.html" %}</a>
+        <a class="m3-btn m3-btn-lg m3-btn-sky" href="{% url 'web:library' %}"><span>Open the library</span></a>
+      </div>
+    </div>
+
+    <div class="stage ab-stage intro" style="--i:3" data-live aria-hidden="true">
+      <span class="stage-blob"></span>
+      <span class="ab-seal">{% include "components/_mark.html" with cls="ab-mark" %}</span>
+      <span class="float f-1 shp-gem g-peri"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/></svg></span>
+      <span class="float f-2 shp-burst g-sky"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
+      <span class="float f-3 shp-clover g-aqua"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span>
+    </div>
+  </div>
+</section>
+
+{# ---------------------------------------------------------------- what it is #}
+<section class="block ab-what" id="what" aria-labelledby="what-h">
+  <div class="wrap">
+    <h2 id="what-h" class="h2" data-reveal>Everything a student looks for.</h2>
+    <div class="ab-bento">
+      {% for p in pillars %}
+      <a class="tile ab-tile t-{{ p.tone }} ab-p-{{ p.key }}" href="{{ p.href }}" data-reveal style="--i:{{ forloop.counter0 }}">
+        <span class="tile-art shp-{{ p.shape }} g-{{ p.tone }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{ p.icon }}"/></svg></span>
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.text }}</p>
+        <span class="tile-go" aria-hidden="true">{% include "components/_arrow.html" %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ---------------------------------------------------------------- how it works #}
+<section class="block block-tight ab-how" id="how" aria-labelledby="how-h">
+  <div class="wrap">
+    <h2 id="how-h" class="h2" data-reveal>How it works.</h2>
+    <ol class="ab-steps" data-reveal>
+      {% for s in steps %}
+      <li class="ab-step" style="--i:{{ forloop.counter0 }}">
+        <span class="ab-num shp-{% cycle 'cookie' 'sunny' 'flower' 'clover' %} g-{% cycle 'azure' 'sky' 'aqua' 'peri' %}" aria-hidden="true">{{ s.n }}</span>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+{# ---------------------------------------------------------------- promises #}
+<section class="ab-promise" aria-labelledby="promise-h">
+  <div class="wrap ab-promise-in">
+    <h2 id="promise-h" class="h2" data-reveal>What you can count on.</h2>
+    <ul class="ab-list">
+      {% for p in promises %}
+      <li class="ab-row" data-reveal style="--i:{{ forloop.counter0 }}">
+        <span class="ab-row-ico shp-{% cycle 'cookie' 'sunny' 'flower' 'clover' %} g-{% cycle 'azure' 'sky' 'aqua' 'peri' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{ p.icon }}"/></svg></span>
+        <span class="ab-row-txt"><b>{{ p.title }}</b><span>{{ p.text }}</span></span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{# ---------------------------------------------------------------- team #}
+<section class="block ab-team-sec" id="team" aria-labelledby="team-h">
+  <div class="wrap">
+    <h2 id="team-h" class="h2" data-reveal>The people behind NEBians.</h2>
+    <div class="ab-team">
+      {% for p in team.lead %}{% include "landing/_person.html" with p=p i=0 %}{% endfor %}
+      <div class="ab-devs">
+        {% for p in team.dev %}{% include "landing/_person.html" with p=p i=forloop.counter %}{% endfor %}
+      </div>
+      <div class="ab-crew-grid">
+        {% for p in team.crew %}{% include "landing/_person.html" with p=p i=forloop.counter %}{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ---------------------------------------------------------------- company #}
+<section class="ab-co" id="company" aria-labelledby="co-h">
+  <div class="wrap ab-co-in">
+    <div class="ab-co-copy" data-reveal>
+      <h2 id="co-h" class="h2">Consica Labs.</h2>
+      <p class="ab-co-line">The company behind NEBians.</p>
+      <a class="m3-btn m3-btn-lg m3-btn-ink" href="mailto:support@nebians.consica.com.np"><span>Contact us</span>{% include "components/_arrow.html" %}</a>
+    </div>
+    <div class="ab-co-art" data-live data-reveal aria-hidden="true">
+      <span class="ab-co-s s-1 shp-burst g-azure-d"></span>
+      <span class="ab-co-s s-2 shp-flower g-sky"></span>
+      <span class="ab-co-s s-3 shp-gem g-aqua"></span>
+      <span class="ab-co-s s-4 shp-cookie g-peri"></span>
+    </div>
+  </div>
+</section>
+{% endblock %}

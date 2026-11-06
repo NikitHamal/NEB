@@ -15,6 +15,6 @@
   <button type="button" class="hf-peer-follow not-following"
           data-action="toggle-follow" data-user-id="{{ person.id }}">{{ person.follow_label }}</button>
   {% else %}
-  <a class="hf-peer-follow" href="{% url 'web:login' %}">{{ person.follow_label }}</a>
+  <a class="hf-peer-follow not-following" href="{% url 'web:login' %}">{{ person.follow_label }}</a>
   {% endif %}
 </div>

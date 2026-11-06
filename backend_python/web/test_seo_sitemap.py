@@ -3,7 +3,6 @@
 The rules that matter are protocol rules: 50,000 URLs per file, and a lastmod
 that means something. Both were being violated.
 """
-import os
 import unittest
 
 
@@ -38,11 +37,13 @@ class SitemapShapeTests(unittest.TestCase):
 
     def test_static_pages_make_no_freshness_claim(self):
         # These are rendered from templates. Stamping them with "now" on every
-        # request teaches a crawler that lastmod is noise.
+        # request teaches a crawler that lastmod is noise. A syllabus chapter and
+        # a news post are database rows, so their modification time means something.
         for entry in seo._static_and_syllabus_entries():
-            if entry['loc'].endswith('/') and 'syllabus' not in entry['loc']:
+            loc = entry['loc']
+            if loc.endswith('/') and 'syllabus' not in loc and '/app/news/' not in loc:
                 self.assertNotIn('lastmod', entry,
-                                 '%s claims a modification time' % entry['loc'])
+                                 '%s claims a modification time' % loc)
 
     def test_no_entry_fabricates_a_lastmod(self):
         for entry in seo._static_and_syllabus_entries():

@@ -28,8 +28,10 @@
 {% comment %} In the head, not in the body. A stylesheet found part-way down
    the document is found after the browser has already painted, so the page
    lays itself out twice on every load. {% endcomment %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261102a">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261105a">
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261105a">
+<link rel="stylesheet" href="{% static 'web/css/skullet.css' %}">
+<script type="module" src="{% static 'web/js/skullet/element.mjs' %}"></script>
 {% endblock %}
 
 {% block footer %}{% endblock %}
@@ -50,9 +52,8 @@
       <div class="hf-center-panel fp-center-panel">
         {% if post %}
         <div class="fp-header-bar">
-          <a href="{% url 'web:home' %}" class="fp-back-btn" data-action="go-back" title="Go back">
-            <span class="material-symbols-outlined">arrow_back</span>
-          </a>
+          {% url 'web:home' as back_href %}
+          {% include "web/partials/_back.html" with back_label="Go back" %}
           <div class="fp-header-title-wrap">
             <h2 class="fp-header-title">Discussion</h2>
             <span class="fp-header-badge neb-tag">#{{ post.category }}</span>
@@ -66,7 +67,7 @@
               {% if post.authorName == 'neby' or post.authorIsBot %}
                 <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
               {% elif post.authorPhotoUrl %}
-                <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
+                <img loading="lazy" decoding="async" src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
                 <span class="fp-avatar-letter" style="display:none;">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
               {% else %}
                 <span class="fp-avatar-letter">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
@@ -80,7 +81,7 @@
             <div class="fp-meta">
               <div class="fp-meta-top author-line">
                 {% if post.isAnonymous %}
-                <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
+                <span class="author">{{ post.authorName }}</span>
                 {% elif post.authorId and post.authorName %}
                 <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorDisplayName|default:post.authorName }}</a>
                 {% else %}
@@ -111,6 +112,11 @@
                   <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg> Share
                 </button>
                 {% if is_authenticated and not is_owner %}
+                {% if is_owner or is_admin %}
+                <button class="more-menu-item" data-action="open-post-insights" data-post-id="{{ post.id }}">
+                  <span class="material-symbols-outlined">insights</span> See insights
+                </button>
+                {% endif %}
                 <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
                   <span class="material-symbols-outlined">flag</span> Report
                 </button>
@@ -131,59 +137,20 @@
             </div>
           </div>
 
+          <div class="fp-post-flags"><button type="button" class="fl-solved-chip" data-solved-chip aria-label="Go to the accepted answer"{% if not post.isResolved %} hidden{% endif %}><span class="material-symbols-outlined" aria-hidden="true">check_circle</span>Solved<span class="material-symbols-outlined fl-solved-go" aria-hidden="true">arrow_downward</span></button></div>
+          <div class="fp-post-view" data-post-view data-post-id="{{ post.id }}" data-images="{{ post.images|image_urls_json }}" data-media="{{ post.attachments|json_attr }}">
           <h1 class="fp-post-title">{{ post.title }}</h1>
           <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
           {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
 
           {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
-
-          {% if post.poll %}
-          <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
-            <div class="fp-poll-type-badge">
-              <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
-              {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
-              {% if post.poll.allowMultiple %}, multiple choice{% endif %}
-            </div>
-            {% if post.poll.question %}
-            <div class="fp-poll-question">{{ post.poll.question }}</div>
-            {% endif %}
-            <div class="fp-poll-options">
-              {% for opt in post.poll.options %}
-              <button class="fp-poll-option {% if post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}fp-poll-option-voted{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}fp-poll-option-correct{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and not opt.isCorrect and post.poll.userVote != opt.id %}fp-poll-option-wrong{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}" data-is-correct="{{ opt.isCorrect|default:'false' }}">
-                <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
-                <div class="fp-poll-option-text">
-                  <span class="fp-poll-option-label">{{ opt.text }}</span>
-                  {% if post.poll.userVote %}
-                  <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
-                  {% endif %}
-                </div>
-                {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
-                <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">done</span>
-                {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
-                <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
-                {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
-                <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">done</span>
-                {% endif %}
-              </button>
-              {% endfor %}
-            </div>
-            {% if post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.explanation %}
-            <div class="fp-poll-explanation">
-              <span class="material-symbols-outlined">lightbulb</span>
-              {{ post.poll.explanation }}
-            </div>
-            {% endif %}
-            <div class="fp-poll-meta">
-              <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
-              {% if post.poll.isExpired %}
-              <span class="fp-poll-expired">Poll ended</span>
-              {% elif post.poll.durationMs > 0 %}
-              <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
-              {% endif %}
-            </div>
+          <span data-reach-post="{{ post.id }}" hidden></span>
+          <script type="text/plain" id="post-original-title">{{ post.title }}</script>
+          <script type="text/plain" id="post-original-content">{{ post.content }}</script>
           </div>
-          {% endif %}
+
+          {% if post.poll %}{% include "web/_poll_card.html" with poll=post.poll %}{% endif %}
 
           <div class="fp-meta-timestamp-row">
             <time>{{ post.createdAt|time_ago }}</time>
@@ -213,7 +180,7 @@
 
         <!-- The one comment composer, roomy variant: this page owns the field. -->
         {% if is_authenticated %}
-        {% include "web/partials/_comment_composer.html" with cc_id="mainReplyWrapper" cc_textarea_id="mainReplyContent" cc_placeholder="Post your reply..." cc_anon_id="mainReplyAnon" cc_attach_action="reply-attach-media" cc_compose_key="main" cc_attach_label="Attach files or study notes" cc_send_id="mainReplySubmit" cc_send_action="submit-main-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-main" cc_input_id="replyMediaInput" %}
+        {% include "web/partials/_comment_composer.html" with cc_id="mainReplyWrapper" cc_poll=True cc_textarea_id="mainReplyContent" cc_placeholder="Post your reply..." cc_anon_id="mainReplyAnon" cc_attach_action="reply-attach-media" cc_compose_key="main" cc_attach_label="Attach files or study notes" cc_send_id="mainReplySubmit" cc_send_action="submit-main-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-main" cc_input_id="replyMediaInput" cc_fc="kinds" cc_max="280" %}
         {% else %}
         <div class="fp-login-prompt" id="replySignIn">
           <p>Sign in to join the discussion and post a reply.</p>
@@ -224,7 +191,7 @@
         <!-- Replies Section -->
         <div id="replies-section">
           <div class="fp-replies-head">
-            <h2 class="fp-section-title">Replies <span class="fp-section-count">{{ post.replyCount }}</span>{% if top_level_replies|length != post.replyCount %}<span class="fp-section-sub">&middot; {{ top_level_replies|length }} threads</span>{% endif %}</h2>
+            <h2 class="fp-section-title">Replies <span class="fp-section-count">{{ post.replyCount }}</span></h2>
             <div class="fp-reply-sort" role="group" aria-label="Sort replies">
               <a href="?sort=oldest" class="fp-reply-sort-btn {% if reply_sort == 'oldest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=oldest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Oldest</a>
               <a href="?sort=newest" class="fp-reply-sort-btn {% if reply_sort == 'newest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=newest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Newest</a>
@@ -247,54 +214,6 @@
     <aside class="hf-side hf-right" aria-label="More for you">
       {% include "web/_home_aside.html" %}
     </aside>
-  </div>
-</div>
-
-<!-- Edit Post Modal -->
-<script type="text/plain" id="post-original-title">{{ post.title }}</script>
-<script type="text/plain" id="post-original-content">{{ post.content }}</script>
-<div class="modal-overlay" id="editPostModal">
-  <div class="modal-box">
-    <h3>Edit Post</h3>
-    <div class="edit-form">
-      <label for="editPostTitle">Title</label>
-      <input type="text" id="editPostTitle">
-      <label for="editPostContent">Content</label>
-      <textarea id="editPostContent" rows="6"></textarea>
-      <div class="form-actions">
-        <button class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
-        <button class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Edit Reply Modal -->
-<div class="modal-overlay" id="editReplyModal">
-  <div class="modal-box">
-    <h3>Edit Reply</h3>
-    <div class="edit-form">
-      <input type="hidden" id="editReplyId">
-      <label for="editReplyContent">Content</label>
-      <textarea id="editReplyContent" rows="4"></textarea>
-      <div class="form-actions">
-        <button class="md-btn md-btn-text" data-action="close-edit-reply-modal">Cancel</button>
-        <button class="md-btn md-btn-filled" data-action="submit-edit-reply">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Delete Confirm Modal -->
-<div class="modal-overlay" id="deleteConfirmModal">
-  <div class="modal-box" style="text-align:center;">
-    <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-error);display:block;margin-bottom:12px;">warning</span>
-    <h3 style="margin-bottom:8px;">Delete Confirmation</h3>
-    <p style="color:var(--md-on-surface-variant);margin-bottom:20px;" id="deleteConfirmText">Are you sure?</p>
-    <div style="display:flex;gap:8px;justify-content:center;">
-      <button class="md-btn md-btn-text" data-action="close-delete-confirm-modal">Cancel</button>
-      <button class="md-btn md-btn-filled" style="background:var(--md-error);" id="deleteConfirmBtn" data-action="confirm-delete">Delete</button>
-    </div>
   </div>
 </div>
 
@@ -324,7 +243,22 @@
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll"></div>
+    {% comment %}The thread body is a skullet reveal: the sample card below is
+    measured, never seen, and its bars hold exactly the space the real replies
+    will take. If the module does not load, the two call sites in this page fall
+    back to plain innerHTML, so the sheet still fills.{% endcomment %}
+    <skullet-reveal class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll" loading label="Loading thread">
+      <div class="fp-thread-reply" aria-hidden="true">
+        <div class="fp-reply-avatar"><span class="fp-reply-avatar-letter">N</span></div>
+        <div class="fp-reply-main">
+          <div class="fp-reply-header">
+            <div class="fp-reply-meta"><span class="fp-reply-author">Loading</span><span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">now</span></div>
+          </div>
+          <div class="fp-reply-body">This card is only measured, never shown: the skeleton is drawn over it, and the real replies take its place the moment they arrive.</div>
+          <div class="fp-reply-actions"><span class="fp-reply-action">Reply</span></div>
+        </div>
+      </div>
+    </skullet-reveal>
     <div class="fp-thread-compose" id="threadCompose" style="display:none;">
       <button type="button" id="threadReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -339,7 +273,7 @@
           </svg>
         </span>
       </button>
-      {% include "web/partials/_comment_composer.html" with cc_id="threadWrapper" cc_textarea_id="threadTextarea" cc_placeholder="Write something..." cc_keydown="handle-thread-reply-key" cc_autofocus=1 cc_anon_id="threadAnon" cc_attach_action="reply-attach-media" cc_compose_key="thread" cc_send_id="threadSubmit" cc_send_action="submit-thread-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-thread" %}
+      {% include "web/partials/_comment_composer.html" with cc_id="threadWrapper" cc_textarea_id="threadTextarea" cc_placeholder="Write something..." cc_keydown="handle-thread-reply-key" cc_autofocus=1 cc_anon_id="threadAnon" cc_attach_action="reply-attach-media" cc_compose_key="thread" cc_send_id="threadSubmit" cc_send_action="submit-thread-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-thread" cc_fc="tools" cc_max="200" %}
     </div>
   </div>
 </div>
@@ -347,6 +281,11 @@
 {% endblock %}
 
 {% block extra_js %}
+{{ label_meta|json_script:"forum-label-meta" }}
+<script src="{% static 'web/js/forum-composer.js' %}"></script>
+<script src="{% static 'web/js/forum-labels.js' %}"></script>
+<script src="{% static 'web/js/forum-attach.js' %}"></script>
+<script src="{% static 'web/js/forum-edit.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
@@ -477,28 +416,6 @@ async function toggleFollowBtn(btn, userId) {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-function startEditPost() {
-  document.getElementById('editPostTitle').value = document.getElementById('post-original-title').textContent;
-  document.getElementById('editPostContent').value = document.getElementById('post-original-content').textContent;
-  document.getElementById('editPostModal').classList.add('active');
-}
-function closeEditPostModal() { document.getElementById('editPostModal').classList.remove('active'); }
-
-async function submitEditPost() {
-  const title = document.getElementById('editPostTitle').value.trim();
-  const content = document.getElementById('editPostContent').value.trim();
-  if (!title || !content) { showSnackbar('Title and content are required.'); return; }
-  try {
-    const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
-      credentials: 'same-origin', body: JSON.stringify({ title, content })
-    });
-    const d = await r.json();
-    if (d && d.id) { closeEditPostModal(); location.reload(); }
-    else { showSnackbar(d.error || 'Failed to edit post.'); }
-  } catch(e) { showSnackbar('Error editing post.'); }
-}
-
 async function archivePost() {
   try {
     const r = await fetch('/ajax/archive/post/' + POST_ID + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
@@ -510,57 +427,27 @@ async function archivePost() {
 
 function deletePost() {
   deleteTarget = { type: 'post', id: POST_ID };
-  document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this post? This cannot be undone.';
-  document.getElementById('deleteConfirmModal').classList.add('active');
+  askDelete('Delete this post?', 'The post and all of its replies will be removed. This cannot be undone.');
 }
 
-function startEditReply(replyId) {
-  var card = document.getElementById('reply-card-' + replyId);
-  var raw = card ? card.getAttribute('data-raw-content') : '';
-  var contentEl = document.getElementById('reply-content-' + replyId);
-  var text = raw || '';
-  if (!text && contentEl) {
-    if (contentEl.querySelector && contentEl.querySelector('.neb-chip')) {
-      try { text = window.InlineMedia ? window.InlineMedia.serializeEditor(contentEl) : contentEl.textContent || ''; } catch(_){ text = contentEl.textContent || ''; }
-    } else {
-      text = contentEl.textContent || '';
-    }
-  }
-  document.getElementById('editReplyId').value = replyId;
-  var ta = document.getElementById('editReplyContent');
-  if (ta) {
-    ta.value = text;
-    if (window.InlineMedia && window.InlineMedia.enhanceTextarea) {
-      try { window.InlineMedia.enhanceTextarea(ta); } catch(_){}
-      if (ta._nebEditor) { try { window.InlineMedia.loadEditor(ta._nebEditor, text); } catch(_){} }
-    }
-  }
-  document.getElementById('editReplyModal').classList.add('active');
-}
-function closeEditReplyModal() { document.getElementById('editReplyModal').classList.remove('active'); }
-
-async function submitEditReply() {
-  const replyId = document.getElementById('editReplyId').value;
-  const content = document.getElementById('editReplyContent').value.trim();
-  if (!content) { showSnackbar('Content is required.'); return; }
+async function askDelete(title, message) {
+  if (deleteTarget.busy) return;
+  deleteTarget.busy = true;
   try {
-    const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
-      credentials: 'same-origin', body: JSON.stringify({ content })
-    });
-    const d = await r.json();
-    if (d && d.id) { closeEditReplyModal(); location.reload(); }
-    else { showSnackbar(d.error || 'Failed to edit reply.'); }
-  } catch(e) { showSnackbar('Error editing reply.'); }
+    const ok = await NebUI.confirm({ icon: 'delete', destructive: true, title: title, message: message, confirmLabel: 'Delete' });
+    if (ok) await confirmDelete();
+  } finally {
+    deleteTarget = { type: '', id: '' };
+  }
 }
 
 function deleteReply(replyId) {
+  if (deleteTarget.busy) return;
   deleteTarget = { type: 'reply', id: replyId };
-  document.getElementById('deleteConfirmText').textContent = 'Are you sure you want to delete this reply? This cannot be undone.';
-  document.getElementById('deleteConfirmModal').classList.add('active');
+  askDelete('Delete this reply?', 'It will be removed for everyone. This cannot be undone.');
 }
 
-function closeDeleteConfirmModal() { document.getElementById('deleteConfirmModal').classList.remove('active'); }
+function closeDeleteConfirmModal() {}
 
 async function confirmDelete() {
   if (!deleteTarget.type) return;
@@ -751,6 +638,14 @@ function clearReplyCompose(key) {
   refreshReplySendBtn(key);
 }
 
+/* skullet appends what it is given, so an HTML string has to arrive as nodes
+   rather than as one big text node. */
+function threadNodes(html) {
+  const t = document.createElement('template');
+  t.innerHTML = html;
+  return t.content;
+}
+
 /* Both composers on this page are the same component, so everything about a
    reply is resolved from its field: the textarea and the send button. */
 var REPLY_COMPOSER_IDS = { main: 'mainReplyWrapper', thread: 'threadWrapper' };
@@ -770,7 +665,10 @@ function refreshReplySendBtn(key) {
   var btn = composer.querySelector('.reply-send-btn');
   var ta = composer.querySelector('textarea');
   var hasMedia = collectReplyAttachments(key).length > 0;
-  if (btn) btn.disabled = !((ta && ta.value.trim()) || hasMedia);
+  var pb = window.NebPollBuilder && composer.closest('[data-poll-scope]') ? NebPollBuilder.root(composer.closest('[data-poll-scope]')) : null;
+  var pollOpen = !!(pb && NebPollBuilder.isOpen(pb));
+  var pollOk = pollOpen && NebPollBuilder.valid(pb);
+  if (btn) btn.disabled = pollOpen ? !pollOk : !((ta && ta.value.trim()) || hasMedia);
 }
 
 var _origRenderReplyMediaList = renderReplyMediaList;
@@ -778,6 +676,8 @@ renderReplyMediaList = function(key) {
   _origRenderReplyMediaList(key);
   refreshReplySendBtn(key);
 };
+
+document.addEventListener('pollchange', function () { refreshReplySendBtn('main'); });
 
 document.addEventListener('DOMContentLoaded', function() {
   /* The send button is enabled by what the field holds: text or staged media. */
@@ -802,10 +702,37 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+async function refreshReplies(focusId, quiet) {
+  const section = document.getElementById('replies-section');
+  if (!section) { location.reload(); return false; }
+  const active = section.querySelector('.fp-reply-sort-active');
+  const sort = active ? (new URL(active.href, location.href)).searchParams.get('sort') : 'oldest';
+  try {
+    const res = await fetch(location.pathname + '?sort=' + encodeURIComponent(sort || 'oldest'), {
+      credentials: 'same-origin', headers: { 'HX-Request': 'true' }
+    });
+    if (!res.ok) throw new Error('refresh failed');
+    section.innerHTML = await res.text();
+    if (window.htmx) window.htmx.process(section);
+    if (window.renderAllMath) window.renderAllMath(section);
+    if (window.NebClamp) window.NebClamp.refresh(section);
+    const card = focusId && document.getElementById('reply-card-' + focusId);
+    if (card) {
+      card.classList.add('is-fresh');
+      if (!quiet) card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      setTimeout(function () { card.classList.remove('is-fresh'); }, 2400);
+    }
+    return true;
+  } catch (e) { return false; }
+}
+
 async function submitMainReply() {
   const content = document.getElementById('mainReplyContent').value.trim();
   if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
-  if (!content && !collectReplyAttachments('main').length) { showSnackbar('Write something or attach a file first.'); return; }
+  const pollRoot = window.NebPollBuilder ? NebPollBuilder.root(replyComposer('main').closest('[data-poll-scope]')) : null;
+  const pollData = pollRoot ? NebPollBuilder.collect(pollRoot) : null;
+  if (pollData && !NebPollBuilder.valid(pollRoot)) { showSnackbar('A poll needs at least two different options.'); return; }
+  if (!content && !pollData && !collectReplyAttachments('main').length) { showSnackbar('Write something or attach a file first.'); return; }
   const composer = replyComposer('main');
   const submitBtn = composer ? composer.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
@@ -815,37 +742,20 @@ async function submitMainReply() {
       credentials: 'same-origin', body: JSON.stringify({
         content: content,
         isAnonymous: !!(document.getElementById('mainReplyAnon') && document.getElementById('mainReplyAnon').checked),
-        attachments: collectReplyAttachments('main')
+        kind: window.ForumComposer ? ForumComposer.kindOf('mainReplyContent') : 'comment',
+        attachments: collectReplyAttachments('main'),
+        poll: pollData
       })
     });
     const d = await r.json();
     if (d && d.id) {
-      // Live insert: prepend the new reply without reloading
-      const list = document.querySelector('.fp-reply-list');
-      if (list && typeof renderThreadReply === 'function') {
-        const tmp = document.createElement('div');
-        tmp.innerHTML = renderThreadReply(d, '');
-        const card = tmp.firstElementChild;
-        if (card) {
-          card.style.opacity = '0';
-          list.insertBefore(card, list.firstChild);
-          requestAnimationFrame(function () {
-            card.style.transition = 'opacity 0.3s';
-            card.style.opacity = '1';
-            if (window.renderAllMath) window.renderAllMath(card);
-          });
-        }
-        // Increment the counter
-        const counters = document.querySelectorAll('[data-reply-count], .fp-reply-count');
-        counters.forEach(function (el) {
-          const cur = parseInt(el.textContent || '0', 10) || 0;
-          el.textContent = cur + 1;
-        });
-      } else {
-        location.reload();
-      }
+      refreshReplies(d.id);
       document.getElementById('mainReplyContent').value = '';
+      document.getElementById('mainReplyContent').dispatchEvent(new Event('input', { bubbles: true }));
+      if (window.ForumComposer) ForumComposer.reset('mainReplyContent');
       clearReplyCompose('main');
+      if (pollRoot) NebPollBuilder.reset(pollRoot);
+      document.querySelectorAll('[data-action="toggle-poll-builder"].is-active').forEach(function (x) { x.classList.remove('is-active'); });
     }
     else { showSnackbar(d.error || 'Failed to submit reply.'); }
   } catch(e) { showSnackbar('Error submitting reply.'); }
@@ -863,7 +773,12 @@ function openThread(replyId) {
   }
   document.getElementById('threadTitle').textContent = 'Thread';
   document.getElementById('threadCount').style.display = 'none';
-  document.getElementById('threadScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>';
+  /* The reveal draws its skeleton from the sample card, or from the shape of
+     the last thread it showed; the plain-div path is only for a blocked
+     module script. */
+  const threadScrollEl = document.getElementById('threadScroll');
+  if (threadScrollEl.load) { threadScrollEl.load(); }
+  else { threadScrollEl.removeAttribute('loading'); threadScrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>'; }
   document.getElementById('threadCompose').style.display = 'none';
   NebUI.open('threadPanel');
   loadThreadReplies(replyId);
@@ -871,8 +786,9 @@ function openThread(replyId) {
 
 let pendingThreadReplyContent = null;
 
-function openThreadReply(parentId, authorName) {
-  pendingThreadReplyContent = (authorName && authorName !== 'Anonymous Nebian') ? '@' + authorName + ' ' : '';
+function openThreadReply(parentId, authorName, isAnonymous) {
+  /* An anonymous handle is not a mention target: @Anon#12ab reaches nobody. */
+  pendingThreadReplyContent = (authorName && !isAnonymous) ? '@' + authorName + ' ' : '';
   activeParentReplyId = parentId;
   openThread(parentId);
 }
@@ -985,12 +901,17 @@ async function loadThreadReplies(replyId) {
       document.getElementById('threadTitle').textContent = title;
       const countEl = document.getElementById('threadCount');
       if (totalReplies > 0) { countEl.textContent = countText; countEl.style.display = ''; } else { countEl.style.display = 'none'; }
-      document.getElementById('threadScroll').innerHTML = html;
+      const threadBody = document.getElementById('threadScroll');
+      if (threadBody.show) { threadBody.show(threadNodes(html)); }
+      else { threadBody.removeAttribute('loading'); threadBody.innerHTML = html; }
       document.getElementById('threadCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
     }
     if (window.renderAllMath) {
       window.renderAllMath(document.getElementById('threadScroll'));
     }
+    /* The sheet only lays out now, so this is the first moment a thread
+       comment can be measured for folding. */
+    if (window.NebClamp) window.NebClamp.refresh(document.getElementById('threadScroll'));
     if (IS_AUTHENTICATED) {
       const threadTA = document.getElementById('threadTextarea');
       if (threadTA) initMentionAutocomplete(threadTA);
@@ -1011,6 +932,25 @@ async function loadThreadReplies(replyId) {
   }
 }
 
+function threadMoreMenu(r) {
+  const own = IS_AUTH && (r.isOwner || (r.authorId && r.authorId === USER_ID));
+  const id = escapeHtml(r.id);
+  const item = function (action, icon, label, cls) {
+    return '<button class="more-menu-item' + (cls ? ' ' + cls : '') + '" data-action="' + action + '" data-reply-id="' + id + '"' +
+      (action === 'report-content' ? ' data-target-type="reply" data-target-id="' + id + '"' : '') +
+      '><span class="material-symbols-outlined">' + icon + '</span> ' + label + '</button>';
+  };
+  let items = item('share-reply', 'share', 'Share');
+  if (IS_AUTH && !own) items += item('report-content', 'flag', 'Report');
+  if (own) {
+    items += '<div class="more-menu-divider"></div>' + item('start-edit-reply', 'edit', 'Edit') +
+      item('archive-reply', 'archive', 'Archive') + item('delete-reply', 'delete', 'Delete reply', 'danger');
+  }
+  return '<div class="more-menu-wrapper"><button class="more-btn" type="button" data-action="toggle-more-menu" data-menu-id="thread-menu-' + id +
+    '" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>' +
+    '<div class="more-menu" id="thread-menu-' + id + '" style="display:none;" data-action="stop-propagation">' + items + '</div></div>';
+}
+
 function renderThreadParent(parent) {
   const parentAnon = !parent.authorId;
   const isNeby = parent.authorName === 'neby' || parent.authorIsBot;
@@ -1022,9 +962,7 @@ function renderThreadParent(parent) {
   const likedClass = parent.isThumbedUp ? 'liked' : '';
   const likedFill = parent.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && (parent.isOwner || parent.authorId === USER_ID))
-    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(parent.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
-    : '';
+  const moreMenu = threadMoreMenu(parent);
   const followBtn = (IS_AUTH && !parentAnon && parent.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (parent.authorFollowed ? 'following' : 'not-following') + '" data-user-id="' + parent.authorId + '" data-action="toggle-follow">' + (parent.authorFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
@@ -1037,15 +975,16 @@ function renderThreadParent(parent) {
         '<div class="fp-reply-meta">' +
           '<div class="author-line">' +
             (parentAnon
-              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
+              ? '<span class="fp-reply-author">' + escapeHtml(parent.authorName || 'Anonymous') + '</span>'
               : (parent.authorId
                 ? '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>'
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
             (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
             '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</span>' +
-            followBtn + ownerBtns +
+            followBtn +
           '</div>' +
         '</div>' +
+        moreMenu +
       '</div>' +
       '<div class="fp-reply-body">' + mentionContent + '</div>' +
       renderAttachmentsHtml(parent.attachments) +
@@ -1120,9 +1059,7 @@ function renderThreadReply(reply, parentInfo, depth) {
   const likedClass = reply.isThumbedUp ? 'liked' : '';
   const likedFill = reply.isThumbedUp ? " style=\"font-variation-settings:'FILL' 1\"" : '';
   const likeIcon = 'thumb_up';
-  const ownerBtns = (IS_AUTH && (reply.isOwner || reply.authorId === USER_ID))
-    ? '<span class="fp-reply-owner"><button class="fp-owner-btn" data-action="edit-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">edit</span></button><button class="fp-owner-btn danger" data-action="delete-reply" data-reply-id="' + escapeHtml(reply.id) + '"><span class="material-symbols-outlined" style="font-size:12px;">delete</span></button></span>'
-    : '';
+  const moreMenu = threadMoreMenu(reply);
   const followBtn = (IS_AUTH && !isAnon && reply.authorId !== USER_ID)
     ? '<button class="follow-btn-inline ' + (reply.isFollowed ? 'following' : 'not-following') + '" data-user-id="' + reply.authorId + '" data-action="toggle-follow">' + (reply.isFollowed ? 'Following' : 'Follow') + '</button>'
     : '';
@@ -1145,27 +1082,33 @@ function renderThreadReply(reply, parentInfo, depth) {
 
   const mentionContent = renderMentions(reply.content);
 
-  return '<div class="fp-thread-reply" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
+  const flState = (reply.label === 'accepted' ? ' is-accepted' : (reply.label === 'spam' ? ' is-spam' : (reply.label === 'incorrect' ? ' is-incorrect' : '')));
+  const flTags = window.ForumLabels ? ForumLabels.tagsHTML(reply) : '';
+  const flMark = (reply.canLabel && !depth && window.ForumLabels) ? ForumLabels.openerButton(reply) : '';
+  return '<div class="fp-thread-reply' + flState + '" data-reply-card="' + escapeHtml(reply.id) + '" data-label="' + escapeHtml(reply.label || '') + '" data-kind="' + escapeHtml(reply.kind || 'comment') + '" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-media="' + JSON.stringify(reply.attachments || []).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
     '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
     '<div class="fp-reply-main">' +
       '<div class="fp-reply-header">' +
         '<div class="fp-reply-meta">' +
           '<div class="author-line">' +
             (isAnon
-              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
+              ? '<span class="fp-reply-author">' + escapeHtml(reply.authorName) + '</span>'
               : (reply.authorId
                 ? '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>'
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
             (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
             '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</span>' +
-            followBtn + ownerBtns +
+            '<div class="fp-reply-tags" data-reply-tags="' + escapeHtml(reply.id) + '"' + (flTags ? '' : ' hidden') + '>' + flTags + '</div>' +
+            followBtn +
           '</div>' +
         '</div>' +
+        moreMenu +
       '</div>' +
       replyingLine +
       '<div class="fp-reply-body">' + mentionContent + '</div>' +
       renderAttachmentsHtml(reply.attachments) +
       '<div class="fp-reply-actions">' +
+        flMark +
         '<button data-action="toggle-reply-like" data-reply-id="' + reply.id + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
           '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
           '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
@@ -1248,6 +1191,8 @@ async function submitThreadReply() {
     const d = await r.json();
     if (d && d.id) {
       textarea.value = '';
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      if (window.ForumComposer) ForumComposer.reset(textarea);
       clearReplyCompose(composeKey);
       activeParentReplyId = activeThreadId;
       const replyingToId = 'threadReplyingTo';
@@ -1274,7 +1219,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 (function bindNebComposers(){
   function enhanceAllFP(){
     if (!window.InlineMedia) return;
-    var _ids = ['mainReplyContent','threadTextarea','editPostContent','editReplyContent'];
+    var _ids = ['mainReplyContent','threadTextarea'];
     _ids.forEach(function(id){ var el=document.getElementById(id); if(el) window.InlineMedia.enhanceTextarea(el); });
   }
   if (document.readyState !== 'loading') setTimeout(enhanceAllFP, 60);
@@ -1290,14 +1235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var btn = e.target.closest('[data-action]');
     if (!btn) return;
     var action = btn.getAttribute('data-action');
-    if (action === 'edit-reply') {
-      var replyId = btn.getAttribute('data-reply-id');
-      var threadReply = btn.closest('.fp-thread-reply');
-      var content = threadReply ? (threadReply.getAttribute('data-reply-content') || '') : '';
-      startEditReply(replyId);
-    } else if (action === 'delete-reply') {
-      deleteReply(btn.getAttribute('data-reply-id'));
-    } else if (action === 'reply-to-author') {
+    if (action === 'reply-to-author') {
       var author = btn.getAttribute('data-author');
       var replyId = btn.getAttribute('data-reply-id') || activeThreadId;
       var threadReply = btn.closest('.fp-thread-reply');
@@ -1535,6 +1473,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (IS_AUTHENTICATED) {
       window.WS.subscribe('user');
     }
+    // After a long gap (hidden tab, lost network) replies may have been missed: offer one refresh.
+    window.addEventListener('neb:realtime-resync', function () {
+      if (window.NebToast) window.NebToast.show('Thread updated', { tone: 'info', duration: 12000, action: { label: 'Refresh', onClick: function () { window.location.reload(); } } });
+    });
     // Live reply delete: remove the card without reloading the page
     window.WS.on('post.' + POST_ID + ':reply.deleted', function (data) {
       if (!data || !data.reply_id) return;
@@ -1552,25 +1494,13 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function () { node.remove(); updateReplyCount(-1); }, 300);
       }
     });
-    // Live reply inserted: prepend to the reply list
     window.WS.on('post.' + POST_ID + ':reply.created', function (data) {
       if (!data || !data.id) return;
-      if (document.getElementById('reply-card-' + data.id)) return; // dedupe
-      const list = document.querySelector('.fp-reply-list');
-      if (!list) return;
-      const tmp = document.createElement('div');
-      tmp.innerHTML = renderThreadReply(data, '');
-      const card = tmp.firstElementChild;
-      if (card) {
-        card.style.opacity = '0';
-        list.insertBefore(card, list.firstChild);
-        requestAnimationFrame(function () {
-          card.style.transition = 'opacity 0.3s';
-          card.style.opacity = '1';
-        });
-        updateReplyCount(1);
-        showSnackbar('New reply from @' + (data.authorName || 'someone'));
-      }
+      if (document.getElementById('reply-card-' + data.id)) return;
+      if (data.parentReplyId || data.parent_reply_id) return;
+      refreshReplies(data.id, true).then(function (ok) {
+        if (ok && data.authorId !== USER_ID) showSnackbar('New reply from @' + (data.authorName || 'someone'));
+      });
     });
     // Live reply like count changes
     window.WS.on('post.' + POST_ID + ':reply.like_changed', function (data) {
@@ -1637,24 +1567,20 @@ registerActions({
   'toggle-bookmark': async function(el) { closeAllMenus(); await toggleBookmark(el.dataset.targetType, el.dataset.targetId, el); },
   'share-post': function(el) { closeAllMenus(); sharePost(el.dataset.postId); },
   'report-content': function(el) { closeAllMenus(); reportContent(el.dataset.targetType, el.dataset.targetId); },
-  'start-edit-post': function() { closeAllMenus(); startEditPost(); },
+  'start-edit-post': function() { closeAllMenus(); ForumEdit.post(POST_ID); },
   'archive-post': function() { closeAllMenus(); archivePost(); },
   'delete-post': function() { closeAllMenus(); deletePost(); },
   'toggle-post-like': function(el) { togglePostLike(el.dataset.postId); },
   'jump-to-replies': function() { jumpToReplies(); },
-  'close-edit-post-modal': function() { closeEditPostModal(); },
-  'submit-edit-post': function() { submitEditPost(); },
   'toggle-follow': async function(el) { await toggleFollowBtn(el, el.dataset.userId); },
   'toggle-reply-like': function(el) { toggleReplyLike(el.dataset.replyId); },
-  'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName); },
+  'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName, el.dataset.anonymous === '1'); },
   'share-reply': function(el) { closeAllMenus(); shareReply(el.dataset.replyId); },
-  'start-edit-reply': function(el) { closeAllMenus(); startEditReply(el.dataset.replyId); },
+  'start-edit-reply': function(el) { closeAllMenus(); ForumEdit.reply(el.dataset.replyId); },
   'archive-reply': function(el) { closeAllMenus(); archiveReply(el.dataset.replyId); },
   'delete-reply': function(el) { closeAllMenus(); deleteReply(el.dataset.replyId); },
   'open-thread': function(el) { openThread(el.dataset.replyId); },
   'submit-main-reply': function() { submitMainReply(); },
-  'close-edit-reply-modal': function() { closeEditReplyModal(); },
-  'submit-edit-reply': function() { submitEditReply(); },
   'close-delete-confirm-modal': function() { closeDeleteConfirmModal(); },
   'confirm-delete': function() { confirmDelete(); },
   'close-thread': function() { closeThread(); },

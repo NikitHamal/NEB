@@ -1,0 +1,251 @@
+/* Admin components, M3 Expressive pass. Loaded last: it owns the surface
+   language (tonal fills, no borders, no shadows) and every hover shape.
+   Rule of the file: anything that shows a hover, press or focus fill has a
+   finite border-radius, so the state layer can never be a square. */
+
+/* ---- Cards and KPI tiles ---- */
+.admin-kpi,
+.admin-card,
+.admin-section-card,
+.admin-form-card,
+.admin-stat-card {
+  background: var(--admin-card);
+  border: 0;
+  border-radius: var(--admin-radius-lg);
+}
+.admin-card,
+.admin-section-card,
+.admin-form-card { padding: 24px; }
+.admin-kpi {
+  padding: 20px;
+  gap: 4px;
+  transition: background var(--admin-fade), border-radius var(--admin-spring);
+}
+@media (hover: hover) {
+  .admin-kpi:hover {
+    background: var(--md-surface-container);
+    border-radius: var(--admin-radius-md);
+  }
+}
+.admin-kpi-grid { gap: 12px; margin-bottom: 24px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.admin-kpi-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--admin-radius-pill);
+}
+.admin-kpi-label { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0; }
+.admin-kpi-value { font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+.admin-kpi-sub { font-size: 0.8125rem; }
+.admin-kpi-sub.up,
+.admin-kpi-sub.down {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 2px 10px;
+  border-radius: var(--admin-radius-pill);
+}
+.admin-kpi-sub.up { background: var(--admin-ok-bg); }
+.admin-kpi-sub.down { background: var(--admin-danger-bg); }
+.admin-panel-grid { gap: 12px; margin-bottom: 24px; }
+.admin-card-head h3,
+.admin-card > h3,
+.admin-card > h3.md-title-medium { font-size: 1.0625rem; font-weight: 600; }
+.admin-card-head { margin-bottom: 12px; }
+.admin-section-h { font-size: 1.125rem; margin: 8px 0 14px; }
+.admin-danger-zone { border: 0; border-radius: var(--admin-radius-lg); background: var(--md-error-container); color: var(--md-on-error-container); }
+.admin-danger-zone h3, .admin-danger-zone p { color: inherit; }
+
+/* ---- List rows ---- */
+.admin-row-item {
+  margin: 0 -12px;
+  padding: 10px 12px;
+  border-top: 0;
+  border-radius: var(--admin-radius-md);
+  transition: background var(--admin-fade-fast);
+}
+@media (hover: hover) {
+  .admin-row-item:hover { background: var(--md-surface-container); }
+}
+.admin-avatar, .admin-avatar-fallback { width: 40px; height: 40px; }
+.admin-view-all {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--admin-radius-pill);
+  color: var(--md-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--admin-fade-fast);
+}
+@media (hover: hover) {
+  .admin-view-all:hover { background: color-mix(in srgb, var(--md-primary) 10%, transparent); }
+}
+
+/* ---- Tabs: tonal pills, never underlines ---- */
+.admin-filter-tabs {
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 2px;
+  border-bottom: 0;
+}
+.admin-filter-tabs a {
+  position: relative;
+  isolation: isolate;
+  min-height: 40px;
+  padding: 0 18px;
+  margin: 0;
+  border: 0;
+  border-radius: var(--admin-radius-pill);
+  background: var(--md-surface-container);
+  color: var(--md-on-surface-variant);
+  font-weight: 500;
+  transition: background var(--admin-fade), color var(--admin-fade-fast), border-radius var(--admin-spring-fast), transform var(--admin-spring-fast);
+}
+.admin-filter-tabs a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--admin-fade-fast);
+}
+@media (hover: hover) {
+  .admin-filter-tabs a:hover { color: var(--md-on-surface); }
+  .admin-filter-tabs a:hover::before { opacity: var(--md-state-hover); }
+}
+.admin-filter-tabs a:active { border-radius: var(--admin-radius-sm); transform: scale(0.97); }
+.admin-filter-tabs a.active,
+.admin-filter-tabs a[aria-current="page"] {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  font-weight: 600;
+}
+.admin-filter-tabs a .material-symbols-outlined { font-size: 18px; }
+
+/* ---- Tables: rounded sheet, rounded row hover ---- */
+.admin-table-wrap {
+  padding: 8px;
+  border: 0;
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-card);
+}
+.admin-table { border-collapse: separate; border-spacing: 0; }
+.admin-table thead th {
+  padding: 10px 16px;
+  border-bottom: 0;
+  background: transparent;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.admin-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 0;
+  transition: background var(--admin-fade-fast);
+}
+.admin-table tbody td:first-child { border-radius: var(--admin-radius-md) 0 0 var(--admin-radius-md); }
+.admin-table tbody td:last-child { border-radius: 0 var(--admin-radius-md) var(--admin-radius-md) 0; }
+@media (hover: hover) {
+  .admin-table tbody tr:hover td { background: var(--md-surface-container); }
+}
+.admin-table-action,
+.admin-actions-cell a:not(.md-btn) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: var(--admin-radius-pill);
+  background: transparent;
+  color: var(--md-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--admin-fade-fast), border-radius var(--admin-spring-fast);
+}
+@media (hover: hover) {
+  .admin-table-action:hover,
+  .admin-actions-cell a:not(.md-btn):hover { background: color-mix(in srgb, var(--md-primary) 12%, transparent); }
+}
+.admin-table-action-destructive { color: var(--md-error); }
+@media (hover: hover) {
+  .admin-table-action-destructive:hover { background: color-mix(in srgb, var(--md-error) 12%, transparent); }
+}
+
+/* ---- Search, pagination, status, empty ---- */
+.admin-search {
+  min-height: 48px;
+  padding: 4px 4px 4px 18px;
+  border: 0;
+  border-radius: var(--admin-radius-pill);
+  background: var(--md-surface-container-high);
+}
+.admin-search:focus-within {
+  border: 0;
+  box-shadow: none;
+  outline: 2px solid var(--md-primary);
+  outline-offset: 0;
+}
+.admin-search input:focus-visible { outline: none; }
+.admin-pagination a,
+.admin-pagination span {
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: var(--admin-radius-pill);
+  transition: background var(--admin-fade-fast), border-radius var(--admin-spring-fast);
+}
+@media (hover: hover) {
+  .admin-pagination a:hover { background: var(--md-surface-container-high); }
+}
+.admin-pagination a:active { border-radius: var(--admin-radius-sm); }
+.admin-pagination .active,
+.admin-pagination [aria-current="page"] {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+.admin-status { padding: 4px 12px; }
+.admin-empty {
+  padding: 56px 24px;
+  border: 0;
+  background: var(--admin-card);
+}
+.admin-empty-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--admin-radius-pill);
+}
+
+/* ---- Fields: rounded outlines, outline focus, no glow ---- */
+.admin-content .md-input,
+.admin-content select.md-input,
+.admin-content textarea.md-input,
+.admin-form-input,
+.admin-select {
+  border-radius: var(--admin-radius-sm);
+}
+.admin-content .md-input:focus,
+.admin-form-input:focus,
+.admin-select:focus {
+  box-shadow: none;
+  border-color: var(--md-primary);
+  outline: 2px solid var(--md-primary);
+  outline-offset: -1px;
+}
+.admin-content .md-btn { min-height: 40px; }
+
+/* ---- Buttons keep the shape they hover with ---- */
+.admin-content .md-btn,
+.admin-content .md-btn-icon,
+.admin-content .admin-btn-sm { border-radius: var(--admin-radius-pill); }
+.admin-content .md-btn:active { border-radius: var(--admin-radius-sm); }
+
+@media (max-width: 600px) {
+  .admin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .admin-kpi { padding: 16px; }
+  .admin-kpi-value { font-size: 1.625rem; }
+  .admin-kpi-top { gap: 8px; }
+  .admin-page-header h1 { font-size: 1.5rem; }
+}

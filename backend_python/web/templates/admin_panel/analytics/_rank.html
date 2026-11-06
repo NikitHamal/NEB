@@ -1,0 +1,22 @@
+{# Ranked list with proportional bars. Context: rows, swatch (optional: colour dots matching a donut). #}
+{% if rows %}
+<ol class="an-rank{% if swatch %} an-rank--swatch{% endif %}">
+  {% for row in rows %}
+  <li class="an-rank-row c{{ forloop.counter }}" style="--w: {{ row.width }}%; --i: {{ forloop.counter0 }}">
+    <div class="an-rank-line">
+      {% if swatch %}<span class="an-dot" aria-hidden="true"></span>{% endif %}
+      <span class="an-rank-name" title="{{ row.name }}">
+        {% if row.href %}<a href="{{ row.href }}" target="_blank" rel="noopener">{{ row.name }}</a>{% else %}{{ row.name }}{% endif %}
+        {% if row.channel_label %}<span class="an-tag">{{ row.channel_label }}</span>{% endif %}
+        {% if row.sub %}<span class="an-tag">{{ row.sub }}</span>{% endif %}
+      </span>
+      <span class="an-rank-num">{{ row.display }}</span>
+      <span class="an-rank-pct">{{ row.pct }}%</span>
+    </div>
+    <div class="an-bar"><span></span></div>
+  </li>
+  {% endfor %}
+</ol>
+{% else %}
+<p class="an-none">No data in this range</p>
+{% endif %}

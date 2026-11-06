@@ -1,0 +1,165 @@
+/* m3x core: the pieces BOTH the landing page and the app use. If you are about to write the
+   same rule in landing.css and in the app overlay, it belongs here instead.
+
+   - shapes: nine polygons with one point count (shapes.css, generated) so any shape morphs
+     into any other with a plain transition. .shp-cookie .shp-sunny .shp-flower .shp-clover
+     .shp-burst .shp-gem .shp-circle .shp-squircle .shp-pebble; each sets --shape and --alt.
+   - fills: .g-azure .g-sky .g-aqua .g-peri (vivid, dark text) and the -d forms (deep, white text)
+   - brand: the N tile + wordmark (templates/components/_brand.html)
+   - pill nav: .m3-pill with a sliding .m3-ind (static/web/js/m3x.js drives it)
+   - buttons: .m3-btn on the landing, .md-btn* in the app, one visual spec
+   - reveal: [data-reveal] springs in once when it scrolls into view */
+
+/* ---------- shapes ---------- */
+[class*="shp-"] { clip-path: var(--shape, var(--shape-circle)); transition: clip-path .8s var(--spring); }
+.shp-circle   { --shape: var(--shape-circle);   --alt: var(--shape-cookie); }
+.shp-cookie   { --shape: var(--shape-cookie);   --alt: var(--shape-flower); }
+.shp-sunny    { --shape: var(--shape-sunny);    --alt: var(--shape-burst); }
+.shp-flower   { --shape: var(--shape-flower);   --alt: var(--shape-clover); }
+.shp-clover   { --shape: var(--shape-clover);   --alt: var(--shape-cookie); }
+.shp-burst    { --shape: var(--shape-burst);    --alt: var(--shape-sunny); }
+.shp-gem      { --shape: var(--shape-gem);      --alt: var(--shape-pebble); }
+.shp-squircle { --shape: var(--shape-squircle); --alt: var(--shape-circle); }
+.shp-pebble   { --shape: var(--shape-pebble);   --alt: var(--shape-gem); }
+@keyframes morph { 0%, 100% { clip-path: var(--shape); } 50% { clip-path: var(--alt); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(40px) scale(.95); } }
+@keyframes pop { from { opacity: 0; transform: scale(0) rotate(-80deg); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } }
+@keyframes m3-enter { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+
+/* ---------- fills ---------- */
+.g-azure { background: var(--azure); color: var(--on-c); }
+.g-sky   { background: var(--sky);   color: var(--on-c); }
+.g-aqua  { background: var(--aqua);  color: var(--on-c); }
+.g-peri  { background: var(--peri);  color: var(--on-c); }
+.g-azure-d { background: var(--azure-d); color: #fff; }
+.g-sky-d   { background: var(--sky-d);   color: #fff; }
+.g-aqua-d  { background: var(--aqua-d);  color: #fff; }
+.g-peri-d  { background: var(--peri-d);  color: #fff; }
+
+/* ---------- brand ---------- */
+.brand { display: flex; align-items: center; gap: 12px; flex: none; color: var(--on); text-decoration: none; }
+.brand-tile {
+  --mark-gap: var(--md-primary);
+  display: grid; place-items: center; width: 44px; height: 44px; flex: none;
+  background: var(--md-primary); color: var(--md-on-primary);
+  --shape: var(--shape-cookie); clip-path: var(--shape);
+  transition: clip-path .8s var(--spring), transform .6s var(--spring);
+}
+.brand-mark { width: 17px; height: 25px; stroke-width: 8; }
+.brand-name { font: 800 24px/1 var(--display); letter-spacing: -.04em; }
+.brand:hover .brand-tile { --shape: var(--shape-flower); transform: rotate(-8deg); }
+.brand:active .brand-tile { transform: scale(.9); }
+[data-theme="dark"] .brand-tile { --mark-gap: var(--md-primary); }
+
+/* ---------- pill nav ----------
+   One indicator slides between links. It follows the pointer and keyboard focus, and comes
+   back to the current link when they leave. The link under the indicator takes the "on"
+   colour (.is-target), not :hover, so text and pill always agree. */
+.m3-pill { --h: 44px; position: relative; display: flex; gap: 2px; }
+.m3-pill > a {
+  position: relative; z-index: 1; display: flex; align-items: center; height: var(--h);
+  padding: 0 18px; border-radius: calc(var(--h) / 2);
+  font: 700 16px/1 var(--body); color: var(--on-var); text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; transition: color .25s, transform .4s var(--spring);
+}
+.m3-pill > a.is-target { color: var(--on-pri-c); }
+.m3-pill > a:active { transform: scale(.95); }
+.m3-pill > a:focus-visible { outline: 3px solid var(--on); outline-offset: -3px; }
+.m3-ind {
+  position: absolute; left: 0; top: 0; z-index: 0; height: var(--h); width: var(--w, 0);
+  border-radius: calc(var(--h) / 2); background: var(--pri-c);
+  transform: translateX(var(--x, 0)); opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.m3-ind.on { opacity: 1; }
+.m3-ind.anim { transition: transform .6s var(--spring-soft), width .6s var(--spring-soft), opacity .25s; }
+
+/* ---------- buttons ----------
+   A pill that squares up on hover and squishes on press. The state layer is a ::before in
+   currentColor so it works on every fill. Landing: .m3-btn. App: .md-btn and its variants. */
+.m3-btn, .md-btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-radius .6s var(--spring), transform .5s var(--spring), background-color .2s, color .2s, border-color .2s;
+}
+.m3-btn::before, .md-btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; transition: opacity .2s; pointer-events: none;
+}
+.m3-btn {
+  --bg: var(--pri); --fg: var(--on-pri); --h: 52px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: var(--h); padding: 0 26px; border: 0; border-radius: calc(var(--h) / 2);
+  background: var(--bg); color: var(--fg); font: 700 17px/1 var(--body); cursor: pointer; white-space: nowrap; text-decoration: none;
+}
+.m3-btn .arrow { width: 22px; height: 22px; transition: transform .6s var(--spring); }
+.m3-btn-sm { --h: 44px; padding: 0 20px; font-size: 16px; }
+.m3-btn-lg { --h: 60px; padding: 0 32px; font-size: 18px; }
+.m3-btn-sky   { --bg: var(--sky-c); --fg: var(--on-c); }
+.m3-btn-ink   { --bg: var(--ink);   --fg: var(--on-ink); }
+.m3-btn-light { --bg: var(--md-surface-container-lowest); --fg: var(--pri); }
+.m3-btn-text  { --bg: transparent;  --fg: var(--pri); }
+.md-btn { cursor: pointer; }
+.md-btn-small { border-radius: var(--md-shape-full); }
+@media (hover: hover) {
+  .m3-btn:hover, .md-btn:hover { }
+  .md-btn-small:hover { }
+  .m3-btn:hover::before, .md-btn:hover::before { opacity: .08; }
+  .m3-btn:hover .arrow { transform: translateX(5px); }
+}
+.m3-btn:active, .md-btn:active { transform: scale(.95); transition-duration: .12s; }
+.m3-btn:active::before, .md-btn:active::before { opacity: .14; }
+.md-btn:disabled, .md-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+
+/* icon buttons: round, square up on hover */
+.md-btn-icon, .md-icon-btn {
+  width: 42px; height: 42px; transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s, color .2s;
+}
+@media (hover: hover) { .md-btn-icon:hover, .md-icon-btn:hover { background: var(--md-surface-container-high); } }
+.md-btn-icon:active, .md-icon-btn:active { transform: scale(.9); }
+
+/* ---------- theme toggle: one button for the landing page and the app (components/_theme_toggle.html) ----------
+   Round, squares up (but never to a corner) on hover, squishes on press; the sun turns into the moon. */
+.theme-btn {
+  --tb: 44px; position: relative; display: grid; place-items: center; flex: none;
+  width: var(--tb); height: var(--tb); padding: 0; border: 0; border-radius: calc(var(--tb) / 2);
+  background: var(--sf-high, var(--md-surface-container-high)); color: var(--on, var(--md-on-surface)); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s;
+}
+@media (hover: hover) { .theme-btn:hover { background: var(--sf-highest, var(--md-surface-container-highest)); } }
+.theme-btn:active { transform: scale(.9); }
+.theme-btn svg { grid-area: 1 / 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .6s var(--spring), opacity .25s; }
+.theme-btn .ic-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+.theme-btn .ic-sun { opacity: 1; }
+[data-theme="dark"] .theme-btn .ic-sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+[data-theme="dark"] .theme-btn .ic-moon { opacity: 1; transform: none; fill: currentColor; }
+.theming::view-transition-old(root), .theming::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theming::view-transition-new(root) { z-index: 2; }
+
+/* ---------- reveal ---------- */
+.js [data-reveal] { opacity: 0; transform: translateY(32px); }
+.js [data-reveal].in {
+  opacity: 1; transform: none;
+  transition: opacity .5s ease, transform 1s var(--spring-soft); transition-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* ---------- focus + selection ---------- */
+:focus-visible { outline: 3px solid var(--md-primary); outline-offset: 3px; }
+::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+/* ---------- navigation between pages: a cross-fade, with the bar staying put ---------- */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .js [data-reveal] { opacity: 1; transform: none; }
+  @view-transition { navigation: none; }
+}
+
+/* Google Play mark inside a button: flat four-colour glyph, no ring, no fill behind it. */
+.gp-btn { gap: 10px; }
+.gp-btn .gp-icon { flex: none; display: block; width: 22px; height: 22px; }

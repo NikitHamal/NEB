@@ -123,7 +123,6 @@ fun PdfPage(
     Box(
         modifier
             .aspectRatio(1f / aspect.coerceAtLeast(0.1f))
-            .then(if (look.shadow) Modifier.shadow(1.5.dp, RectangleShape, clip = false) else Modifier)
             .background(look.paper)
     ) {
         if (image != null) {

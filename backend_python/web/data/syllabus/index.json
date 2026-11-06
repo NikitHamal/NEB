@@ -109,7 +109,7 @@
      "lang": "en",
      "hours": null,
      "unit_count": 20,
-     "topic_count": 108,
+     "topic_count": 109,
      "notes_ready": 20
     }
    ]
@@ -613,6 +613,72 @@
      "unit_count": 3,
      "topic_count": 7,
      "notes_ready": 3,
+     "questions": 100
+    }
+   ]
+  },
+  {
+   "label": "BCA · BCA Entrance",
+   "label_ne": "BCA प्रवेश परीक्षा",
+   "exam": "BCA entrance examination (FOHSS, Tribhuvan University)",
+   "short": "BCA",
+   "kind": "entrance",
+   "grade": "bca",
+   "subjects": [
+    {
+     "subject": "mathematics",
+     "name": "Mathematics",
+     "name_ne": "गणित",
+     "icon": "calculate",
+     "group": "entrance",
+     "color": "#8F5507",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 15,
+     "topic_count": 54,
+     "notes_ready": 15,
+     "questions": 50
+    },
+    {
+     "subject": "english",
+     "name": "English",
+     "name_ne": "अङ्ग्रेजी",
+     "icon": "menu_book",
+     "group": "entrance",
+     "color": "#6B3FA0",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 7,
+     "topic_count": 20,
+     "notes_ready": 7,
+     "questions": 40
+    },
+    {
+     "subject": "general-knowledge-it",
+     "name": "General Knowledge and IT",
+     "name_ne": "सामान्य ज्ञान तथा सूचना प्रविधि",
+     "icon": "travel_explore",
+     "group": "entrance",
+     "color": "#C2410C",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 4,
+     "topic_count": 15,
+     "notes_ready": 4,
+     "questions": 10
+    },
+    {
+     "subject": "model-papers",
+     "name": "Model Papers and Mock Tests",
+     "name_ne": "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा",
+     "icon": "quiz",
+     "group": "practice",
+     "color": "#B02A5B",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 4,
+     "topic_count": 7,
+     "notes_ready": 4,
      "questions": 100
     }
    ]

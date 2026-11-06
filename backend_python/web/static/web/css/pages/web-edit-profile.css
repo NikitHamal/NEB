@@ -101,8 +101,8 @@
   transition: transform var(--md-motion-spatial-fast);
 }
 .epf-identity-avatar:active { transform: scale(0.96); }
-/* Round, like NebAvatar. The Expressive polygons are for glyph tiles and
-   the create button; the app never cuts a face out of one. */
+/* The picture takes the person's avatar shape from app-shapes.css (.av-inset keeps the camera
+   badge whole); the circle below is only the fallback before the script runs. */
 .epf-identity-avatar > img,
 .epf-identity-initial {
   width: 100%;

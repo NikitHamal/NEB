@@ -1,5 +1,19 @@
 """Views Auth extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api.authentication import verify_google_token
+from api.models import Post, Resource, User
+from api.security import get_user_by_auth_token, issue_auth_token, revoke_auth_token
+from api.serializers import UserSerializer
+from api.utils import now_ms
+from django.conf import settings
+from django.contrib import messages
+from django.core.cache import cache
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_GET, require_POST
+from . import api_client as api
+from .view_helpers import _ctx, _https_redirect_uri, _link_oauth_user, _normalize_user_data, logger
 from django.http import HttpResponseRedirect
 
 
@@ -18,7 +32,6 @@ def login_page(request):
         return redirect('web:home')
     stats = cache.get('login_stats')
     if stats is None:
-        from django.db.models import Sum
         total_resources = Resource.objects.filter(approval_status='approved').count()
         total_users = User.objects.count()
         total_posts = Post.objects.filter(is_archived=False).count()
@@ -240,8 +253,8 @@ def google_oauth_callback(request):
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
-        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
-    return redirect('web:edit_profile')
+        return redirect(f"{reverse('web:onboarding')}?next={next_url}")
+    return redirect('web:onboarding')
 
 def github_login(request):
     """Redirect user to GitHub OAuth authorization page."""
@@ -400,8 +413,8 @@ def github_callback(request):
     if is_mobile:
         return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
-        return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
-    return redirect('web:edit_profile')
+        return redirect(f"{reverse('web:onboarding')}?next={next_url}")
+    return redirect('web:onboarding')
 
 def logout(request):
     token = api.get_session_token(request)
@@ -416,12 +429,16 @@ def email_signup_page(request):
     return redirect('/login/?panel=email-signup')
 
 def email_login_page(request):
+    """Old standalone page: sign-in lives on /login/ now."""
     if api.get_session_token(request):
         return redirect('web:home')
-    return render(request, 'web/email_login.html', _ctx(request))
+    return redirect('/login/')
 
 def email_verify_page(request):
-    return render(request, 'web/email_verify.html', _ctx(request))
+    """Old standalone page: the code boxes are a panel on /login/ and need the sign-up that sent it."""
+    if api.get_session_token(request):
+        return redirect('web:home')
+    return redirect('/login/?panel=signup')
 
 def email_forgot_page(request):
     return render(request, 'web/email_forgot.html', _ctx(request))

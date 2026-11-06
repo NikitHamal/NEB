@@ -27,16 +27,38 @@ LEGACY_PREFIXES = (
     'online-learning', 'faq', 'study-space', 'study-lab', 'canvas', 'notifications',
 )
 
-# Every level the library serves. The landing page lists them; each opens the library on it.
+# Every level the library serves. The landing page lets a visitor pick one and shows where to
+# start in it: ``items`` are (label, library query string) pairs, ``query`` opens the whole level.
 LEVELS = [
-    {'name': 'School', 'detail': 'Class 1 to 10 · BLE · SEE', 'query': 'grade=Class+10'},
-    {'name': 'Plus two', 'detail': 'Class 11 and 12 · Science, Management, Humanities, Law, Education', 'query': 'grade=Class+12'},
-    {'name': 'Diploma', 'detail': 'CTEVT and technical programmes', 'query': 'q=Diploma'},
-    {'name': "Bachelor's", 'detail': 'Engineering, Medicine, Nursing, Management, IT, Arts', 'query': 'grade=Bachelor'},
-    {'name': "Master's", 'detail': 'TU, KU, PU and beyond', 'query': 'q=Master'},
-    {'name': 'Entrance', 'detail': 'Medical, engineering and university entrance preparation', 'query': 'q=Entrance'},
+    {'key': 'school', 'name': 'School', 'sub': 'Class 1 to 10, BLE and SEE', 'query': 'grade=Class+10',
+     'items': [('Class 8', 'grade=Class+8'), ('Class 9', 'grade=Class+9'), ('Class 10', 'grade=Class+10'),
+               ('Science', 'grade=Class+10&q=Science'), ('Mathematics', 'grade=Class+10&q=Mathematics'),
+               ('English', 'grade=Class+10&q=English'), ('Social Studies', 'grade=Class+10&q=Social'),
+               ('Computer', 'grade=Class+8&q=Computer')]},
+    {'key': 'plus-two', 'name': 'Plus two', 'sub': 'Class 11 and 12, every stream', 'query': 'grade=Class+12',
+     'items': [('Physics', 'grade=Class+12&q=Physics'), ('Chemistry', 'grade=Class+12&q=Chemistry'),
+               ('Biology', 'grade=Class+12&q=Biology'), ('Mathematics', 'grade=Class+12&q=Mathematics'),
+               ('Accountancy', 'grade=Class+12&q=Accountancy'), ('Economics', 'grade=Class+12&q=Economics'),
+               ('Computer Science', 'grade=Class+12&q=Computer'), ('English', 'grade=Class+12&q=English')]},
+    {'key': 'diploma', 'name': 'Diploma', 'sub': 'CTEVT and technical programmes', 'query': 'q=Diploma',
+     'items': [('Civil', 'q=Diploma+Civil'), ('Computer', 'q=Diploma+Computer'), ('Electrical', 'q=Diploma+Electrical'),
+               ('Pharmacy', 'q=Diploma+Pharmacy'), ('Health', 'q=Diploma+Health'), ('Agriculture', 'q=Diploma+Agriculture')]},
+    {'key': 'bachelors', 'name': "Bachelor's", 'sub': 'Engineering, Medicine, Management, IT and more', 'query': 'grade=Bachelor',
+     'items': [('BCA', 'q=BCA'), ('BBS', 'q=BBS'), ('BBA', 'q=BBA'), ('Engineering', 'q=Engineering'),
+               ('Nursing', 'q=Nursing'), ('MBBS', 'q=MBBS'), ('BSc CSIT', 'q=CSIT')]},
+    {'key': 'masters', 'name': "Master's", 'sub': 'TU, KU, PU and beyond', 'query': 'q=Master',
+     'items': [('MBS', 'q=MBS'), ('MBA', 'q=MBA'), ('MEd', 'q=MEd'), ('MSc', 'q=MSc'), ('MA', 'q=MA')]},
+    {'key': 'entrance', 'name': 'Entrance', 'sub': 'Medical, engineering and university entrance', 'query': 'q=Entrance',
+     'items': [('IOE', 'q=IOE'), ('CEE', 'q=CEE'), ('BCA entrance', 'q=BCA+entrance'), ('CMAT', 'q=CMAT'),
+               ('Model questions', 'q=Model+questions')]},
 ]
 
+# The subjects that scroll past under the hero.
+SUBJECTS = ['Physics', 'Chemistry', 'Biology', 'Mathematics', 'English', 'Accountancy', 'Economics',
+            'Computer Science', 'Social Studies', 'Nepali', 'Law', 'Education', 'Nursing', 'Engineering']
+
+# The study books we write ourselves, one per class.
+BOOK_CLASSES = ['8', '10', '11', '12']
 
 
 def _excerpt(text, limit=170):
@@ -73,6 +95,21 @@ def _live_discussions():
     return data
 
 
+LANDING_SEO = {
+    'title': 'NEBians — Study materials. Study mates.',
+    'description': 'Free notes, past papers and solved study books for every class, field and level in Nepal, and a forum where students answer each other.',
+    'og_description': "Free notes, past papers and solved study books for every class, field and level, and a forum where Nepal's students help each other.",
+    'path': '/',
+}
+
+ABOUT_SEO = {
+    'title': 'About NEBians — Nepal\'s open learning community by Consica Labs',
+    'description': 'NEBians is a free study platform for Nepal: notes, past papers, solved study books and a student forum for every class and level. Meet the team at Consica Labs.',
+    'og_description': 'Free notes, past papers and a student forum for every level in Nepal. Meet the team behind NEBians at Consica Labs.',
+    'path': '/about/',
+}
+
+
 @require_GET
 def landing(request):
     from .views_og import CARD_VERSION
@@ -80,12 +117,36 @@ def landing(request):
         'signed_in': bool(_get_user_id(request)),
         'discussions': _live_discussions(),
         'levels': LEVELS,
+        'subjects': SUBJECTS,
+        'book_classes': BOOK_CLASSES,
         # The landing page carries its own head rather than using base.html,
         # so it has to name the card itself. Taking the version from the
         # renderer means a redesign bumps the URL here too.
         'og_card_version': CARD_VERSION,
+        'seo': LANDING_SEO,
     }
     response = render(request, 'landing/landing.html', ctx)
+    if not ctx['signed_in']:
+        response['Cache-Control'] = 'private, max-age=60'
+    return response
+
+
+@require_GET
+def about(request):
+    from . import about_data
+    from .views_og import CARD_VERSION
+    ctx = {
+        'signed_in': bool(_get_user_id(request)),
+        'seo': ABOUT_SEO,
+        'jsonld': about_data.jsonld(ABOUT_SEO),
+        'team': about_data.team(),
+        'pillars': about_data.PILLARS,
+        'steps': about_data.STEPS,
+        'promises': about_data.PROMISES,
+        'current': 'about',
+        'og_card_version': CARD_VERSION,
+    }
+    response = render(request, 'landing/about.html', ctx)
     if not ctx['signed_in']:
         response['Cache-Control'] = 'private, max-age=60'
     return response

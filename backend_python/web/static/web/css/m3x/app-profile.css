@@ -1,0 +1,170 @@
+/* m3x profile. One tonal card: an inset rounded cover, an avatar in an expressive shape that
+   breaks the cover's edge with a ring cut out of the card colour, one standard badge on its rim,
+   stat tiles, and the tab rail below. The same drawing on a phone and a desktop; only the grid
+   changes. Prefixed .profile-page so it outranks app/ and pages/profile.css. */
+
+.profile-page { --pf-card: var(--md-surface-container-lowest); --badge-ring: var(--pf-card); }
+.profile-page .pf-compact-card {
+  position: relative; background: var(--pf-card); color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant); border-radius: 32px; padding: 8px 8px 20px; overflow: visible;
+}
+.profile-page .pf-card-banner {
+  height: clamp(140px, 22vw, 192px); border-radius: 26px; overflow: hidden; background: var(--md-primary-container);
+}
+.profile-page .pf-banner-photo-scrim { background: color-mix(in srgb, #000 12%, transparent); }
+.profile-page .pf-banner-actions { top: 10px; right: 10px; gap: 8px; }
+.profile-page .pf-banner-action, .profile-page .pf-card-banner .neb-back {
+  width: 40px; height: 40px; border-radius: 50%; border: 0;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-banner-action:hover, .profile-page .pf-card-banner .neb-back:hover { background: var(--md-surface-container-high); }
+.profile-page .pf-banner-action:active, .profile-page .pf-card-banner .neb-back:active { transform: scale(.92); }
+.profile-page .pf-card-banner .neb-back { position: absolute; top: 10px; left: 10px; }
+
+.profile-page .pf-identity-row { padding: 0 14px; align-items: flex-start; }
+.profile-page .pf-avatar-overlap-wrap {
+  --av: 108px; width: var(--av); height: var(--av); margin-top: calc(var(--av) / -2);
+  overflow: visible; background: none;
+}
+.profile-page .pf-avatar-overlap-wrap::before {
+  content: ""; position: absolute; inset: -6px; background: var(--pf-card);
+  clip-path: var(--shape, var(--shape-cookie)); transition: clip-path .8s var(--spring);
+}
+.profile-page .pf-avatar-overlap-wrap:hover::before { clip-path: var(--alt, var(--shape-flower)); }
+.profile-page .pf-avatar-circle {
+  position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: var(--md-primary-container); color: var(--md-on-primary-container); overflow: hidden; box-sizing: border-box;
+}
+.profile-page .pf-avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+.profile-page .pf-avatar-initial { font-family: var(--display); font-size: 2.5rem; font-weight: 700; color: inherit; }
+.profile-page .pf-avatar-bot .pf-avatar-circle { background: var(--md-surface-container-high); }
+
+.profile-page .pf-avatar-cam {
+  position: absolute; left: auto; top: auto; right: 2px; bottom: 2px; z-index: 6;
+  width: 34px; height: 34px; border-radius: 50%; box-sizing: border-box;
+  background: var(--md-primary); color: var(--md-on-primary); border: 3px solid var(--pf-card);
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: border-radius .5s var(--spring), transform .3s var(--spring);
+}
+.profile-page .pf-avatar-cam:hover { }
+.profile-page .pf-avatar-cam:active { transform: scale(.9); }
+.profile-page .pf-avatar-cam span { font-size: 16px !important; color: var(--md-on-primary) !important; }
+
+.profile-page .pf-identity-action { margin-top: 14px; }
+.profile-page .pf-btn {
+  min-height: 44px; padding: 0 22px; gap: 8px; border-radius: 22px; font-weight: 600; border: 0;
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-btn:hover { }
+.profile-page .pf-btn:active { transform: scale(.96); }
+.profile-page .pf-btn-filled { background: var(--md-primary); color: var(--md-on-primary); }
+.profile-page .pf-btn-outlined { background: var(--md-surface-container-lowest); color: var(--md-primary); border: 1.5px solid var(--md-outline-variant); }
+.profile-page .pf-btn-outlined:hover { border-color: var(--md-primary); }
+.profile-page .pf-btn .material-symbols-outlined { font-size: 20px; color: inherit; }
+
+.profile-page .pf-card-body { padding: 14px 14px 0; }
+.profile-page .pf-card-name-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.profile-page .pf-card-name { font-family: var(--display); font-size: 1.75rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; margin: 0; color: var(--md-on-surface); }
+.profile-page .pf-verified {
+  width: 24px; height: 24px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--badge-bg, var(--md-primary)); color: #fff;
+}
+.profile-page .pf-verified .material-symbols-outlined { font-size: 16px; color: #fff; font-variation-settings: 'FILL' 1, 'wght' 700; }
+.profile-page .pf-card-username { color: var(--md-on-surface-variant); font-weight: 500; margin-top: 2px; }
+.profile-page .pf-card-headline { color: var(--md-on-secondary-container); font-weight: 600; margin: 12px 0 0; }
+.profile-page .pf-card-bio { color: var(--md-on-surface); line-height: 1.55; margin: 8px 0 0; }
+.profile-page .pf-meta-flow { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
+.profile-page .pf-meta-item {
+  display: inline-flex; align-items: center; gap: 6px; padding: 0; background: none;
+  color: var(--md-on-surface-variant); font-size: .8125rem; font-weight: 500;
+}
+.profile-page .pf-meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-on-surface-variant); }
+.profile-page .pf-meta-item a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+
+.profile-page .pf-stats-row {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 0; justify-content: stretch; margin-top: 16px; overflow: hidden;
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; background: var(--md-surface-container-lowest);
+}
+.profile-page .pf-stat-col {
+  display: flex; flex-direction: column-reverse; align-items: center; gap: 0; padding: 12px 8px; min-width: 0; text-align: center;
+  background: none; color: var(--md-on-surface); transition: background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-stat-col + .pf-stat-col { border-left: 1px solid var(--md-outline-variant); }
+.profile-page .pf-stat-col[data-action] { cursor: pointer; }
+.profile-page .pf-stat-col[data-action]:hover { background: var(--md-primary-container); }
+.profile-page .pf-stat-col[data-action]:active { transform: scale(.97); }
+.profile-page .pf-stat-num { font-family: var(--display); font-size: 1.375rem; font-weight: 700; line-height: 1.2; color: var(--md-on-surface); }
+.profile-page .pf-stat-label { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: var(--md-on-surface-variant); }
+.profile-page .pf-buttons-row { display: flex; gap: 8px; margin-top: 12px; }
+.profile-page .pf-buttons-row .pf-btn { flex: 1; justify-content: center; }
+
+.profile-page .pf-private {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px;
+  min-height: 320px; padding: 48px 24px; background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant); border-radius: 32px;
+}
+.profile-page .pf-private-icon {
+  width: 72px; height: 72px; display: grid; place-items: center; margin-bottom: 8px;
+  clip-path: var(--shape-cookie); background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.profile-page .pf-private-icon .material-symbols-outlined { font-size: 34px; }
+.profile-page .pf-private h2 { margin: 0; font-family: var(--display); font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); }
+.profile-page .pf-private p { margin: 0; max-width: 300px; color: var(--md-on-surface-variant); line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .profile-page .profile-grid-container { padding: 12px 12px 112px; }
+  .profile-page .pf-compact-card { border-radius: 28px; }
+  .profile-page .pf-card-banner { border-radius: 22px; }
+  .profile-page .pf-avatar-overlap-wrap { --av: 96px; }
+  .profile-page .pf-card-name { font-size: 1.5rem; }
+}
+
+/* ---------- About tab stat tiles: the same tonal tile as the header, no outline ---------- */
+.profile-page .ov-stat {
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; padding: 14px 12px;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface);
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .ov-stat[data-action]:hover { background: var(--md-primary-container); border-radius: 28px; }
+.profile-page .ov-stat[data-action]:active { transform: scale(.97); }
+.profile-page .ov-stat-value { font-family: var(--display); }
+.profile-page .ov-stat-label { font-size: .75rem; font-weight: 600; }
+.profile-page .ov-stat.academic { background: var(--md-primary-container); }
+.profile-page .ov-stat.academic .ov-stat-value,
+.profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
+
+
+/* Profile sheets (web/profile/_follow_modal.html): people list and profile photo, both NebUI sheets. */
+/* Sheet bodies must be allowed to shrink or the foot and the last fields get clipped. */
+.pf-people-sheet, .pf-photo-sheet { display: flex; flex-direction: column; min-height: 0; }
+.pf-people, .pf-photo-body { flex: 1 1 auto; min-height: 0; }
+.pf-people { padding: 0 10px 14px; display: grid; gap: 2px; align-content: start; overflow-y: auto; overscroll-behavior: contain; }
+.pf-people .follow-list-user { margin: 0; padding: 10px 12px; border: 0; border-radius: 20px; transition: background .2s, transform .3s var(--spring); }
+.pf-people .follow-list-user:hover { background: var(--md-surface-container-high); }
+.pf-people .follow-list-user:active { transform: scale(.985); }
+.pf-people .follow-user-name { font-size: .95rem; }
+.pf-people .follow-user-handle { font-size: .8rem; }
+.pf-people .follow-list-empty { padding: 36px 0 28px; }
+.pf-people .follow-list-empty.is-error { color: var(--md-error); }
+.follow-list-empty.is-loading { display: grid; gap: 10px; padding: 8px 12px; }
+.follow-list-empty.is-loading span { height: 52px; border-radius: 20px; background: var(--md-surface-container-high); animation: pfPulse 1.1s ease-in-out infinite alternate; }
+.follow-list-empty.is-loading span:nth-child(2) { animation-delay: .15s; }
+.follow-list-empty.is-loading span:nth-child(3) { animation-delay: .3s; }
+@keyframes pfPulse { from { opacity: .45; } to { opacity: 1; } }
+
+.pf-photo-body { display: grid; gap: 14px; padding: 4px 22px 20px; align-content: start; overflow-y: auto; overscroll-behavior: contain; }
+.photos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.photo-thumb { aspect-ratio: 1; padding: 0; border: 0; cursor: pointer; overflow: hidden; background: var(--md-surface-container-high);
+  border-radius: 22px; transition: border-radius .45s var(--spring), transform .3s var(--spring); }
+.photo-thumb:hover, .photo-thumb:focus-visible { border-radius: 50%; transform: scale(1.04); }
+.photo-thumb.active { border-radius: 50%; }
+.photos-grid:has(.active) .photo-thumb:not(.active) { opacity: .62; }
+.photos-grid:has(.active) .photo-thumb:not(.active):hover { opacity: 1; }
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-upload-btn { width: 100%; justify-content: center; gap: 8px; }
+.photo-upload-btn .material-symbols-outlined { font-size: 20px; }
+.photo-url-row { display: flex; gap: 8px; align-items: stretch; }
+.photo-url-row .photo-url-input { flex: 1; min-width: 0; }
+@media (prefers-reduced-motion: reduce) { .follow-list-empty.is-loading span { animation: none; } .photo-thumb, .pf-people .follow-list-user { transition: none; } }

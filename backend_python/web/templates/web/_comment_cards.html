@@ -8,7 +8,7 @@
         {% if reply.authorName == 'neby' or reply.authorIsBot %}
           <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
         {% elif reply.authorPhotoUrl %}
-          <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
+          <img loading="lazy" decoding="async" src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
           <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
           <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
@@ -17,7 +17,7 @@
       <div class="fp-reply-meta">
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
           {% if reply.isAnonymous %}
-          <span class="fp-reply-author"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> {{ reply.authorName }}</span>
+          <span class="fp-reply-author">{{ reply.authorName }}</span>
           {% elif reply.authorId %}
           <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
           {% else %}
@@ -62,8 +62,9 @@
         </div>
       </div>
     </div>
-    {% if reply.content %}<div class="fp-reply-body" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>{% endif %}
+    {% if reply.content %}<div class="fp-reply-body" data-clamp="132" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>{% endif %}
     {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+    {% if reply.poll %}{% include "web/_poll_card.html" with poll=reply.poll %}{% endif %}
     <div class="fp-reply-actions">
       <button data-action="toggle-comment-like" data-comment-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ reply.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
@@ -93,7 +94,7 @@
             {% if child.authorName == 'neby' or child.authorIsBot %}
               <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
             {% elif child.authorPhotoUrl %}
-              <img src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
+              <img loading="lazy" decoding="async" src="{{ child.authorPhotoUrl }}" alt="" data-fallback="flex" style="width:28px;height:28px;">
               <span class="fp-reply-avatar-letter" style="display:none;font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
             {% else %}
               <span class="fp-reply-avatar-letter" style="font-size:.6rem;">{{ child.authorName|truncate_chars:1|default:"?" }}</span>
@@ -102,7 +103,7 @@
           <div class="fp-reply-meta">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
               {% if child.isAnonymous %}
-              <span class="fp-reply-author" style="font-size:.75rem;"><span class="material-symbols-outlined" style="font-size:12px;vertical-align:-2px;">visibility_off</span> {{ child.authorName }}</span>
+              <span class="fp-reply-author" style="font-size:.75rem;">{{ child.authorName }}</span>
               {% elif child.authorId %}
               <a href="{% url 'web:profile' username=child.authorName %}" class="fp-reply-author" style="font-size:.75rem;">{{ child.authorName }}</a>
               {% else %}
@@ -144,7 +145,7 @@
             </div>
           </div>
         </div>
-        {% if child.content %}<div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>{% endif %}
+        {% if child.content %}<div class="fp-reply-body" data-clamp="110" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>{% endif %}
         {% with attachments=child.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
         <div class="fp-reply-actions" style="margin-top:2px;">
           <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}" style="font-size:.6875rem;">
@@ -171,7 +172,7 @@
           {% if author.username == 'neby' or author.isBot %}
             <div class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
           {% elif author.photoUrl %}
-            <img src="{{ author.photoUrl }}" alt="" data-fallback="flex">
+            <img loading="lazy" decoding="async" src="{{ author.photoUrl }}" alt="" data-fallback="flex">
             <span class="fp-thread-avatar-letter" style="display:none;">{{ author.username|truncate_chars:1|default:"?" }}</span>
           {% else %}
             <span class="fp-thread-avatar-letter">{{ author.username|truncate_chars:1|default:"?" }}</span>

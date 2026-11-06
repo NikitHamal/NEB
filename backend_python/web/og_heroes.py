@@ -13,12 +13,10 @@ composited by og_cards.
 from __future__ import annotations
 
 import math
-from typing import Optional
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw
 
-from .og_art import (RIM, SS, Stage, face_palette, lift, mix, radial_glow,
-                     saturate, soft_shadow)
+from .og_art import (RIM, Stage, face_palette, mix, soft_shadow)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────
@@ -33,12 +31,6 @@ def _line3d(d, stage, x0, y0, x1, y1, z, colour, width):
     a = stage.project(x0, y0, z)
     b = stage.project(x1, y1, z)
     d.line([a, b], fill=colour, width=max(1, int(width)))
-
-
-def _rubber(canvas, base: Image.Image, mask_box, radius: int) -> None:
-    """Round the corners of an already-composited region. Used for plates whose
-    corners read too sharp at card scale."""
-    pass
 
 
 # ── The sculptures ────────────────────────────────────────────────────────

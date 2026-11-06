@@ -1,0 +1,77 @@
+/* m3x mobile overlays. On a phone every dialog is a bottom sheet and every menu is a sheet; both sit
+   above the on-screen keyboard (--neb-kb, written by the viewport tracker in neb-overlays.js) and
+   never grow past the visible viewport (--neb-vh). The body of a dialog scrolls, its head and
+   actions do not, so the buttons are always reachable. Loads after app-overlays.css. */
+
+:root { --neb-kb: 0px; --neb-vh: 100dvh; --neb-vt: 0px; }
+
+.neb-dialog > :is(.neb-dialog-body, .fl-options, .fp-dialog-body) {
+  overflow-y: auto; overscroll-behavior: contain; min-height: 0; flex: 1 1 auto;
+}
+.neb-dialog > :is(.neb-dialog-head, .neb-dialog-actions) { flex: none; }
+.neb-dialog { max-height: min(88dvh, calc(var(--neb-vh) - 24px)); }
+
+@media (max-width: 600px) {
+  .neb-scrim:not(.neb-scrim-side) {
+    padding: 0 0 var(--neb-kb); align-items: flex-end; justify-content: center; box-sizing: border-box;
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog, .upload-progress-dialog {
+    width: 100%; max-width: none; margin: 0;
+    max-height: min(92dvh, calc(var(--neb-vh) - 12px));
+    border-radius: 28px 28px 0 0; border-width: 1px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    opacity: 1; transform: translateY(100%);
+    transition: transform .5s var(--spring);
+  }
+  .neb-scrim[data-open] .neb-dialog { transform: none; }
+  .neb-scrim[data-closing] .neb-dialog { transform: translateY(100%); transition-duration: .22s; }
+  .neb-dialog::before {
+    content: ""; display: block; flex: none; width: 36px; height: 4px; margin: 10px auto 0;
+    border-radius: 2px; background: var(--md-outline-variant);
+  }
+  .neb-dialog-actions { padding-bottom: 16px; }
+
+  .neb-menu.neb-menu-sheet {
+    inset: auto 0 var(--neb-kb) 0;
+    max-height: min(76dvh, calc(var(--neb-vh) - 24px));
+    overflow-y: auto; overscroll-behavior: contain;
+    border-width: 1px 0 0; border-radius: 28px 28px 0 0;
+    background: var(--x-float);
+  }
+  .neb-menu.neb-menu-sheet[data-open] { transform: none; }
+  .neb-menu.neb-menu-sheet .neb-menu-item { min-height: 52px; }
+  .more-menu.neb-menu-sheet { inset: auto 0 var(--neb-kb) 0; max-width: none; max-height: min(76dvh, calc(var(--neb-vh) - 24px)); overflow-y: auto; }
+  .neb-sheet { max-height: min(90dvh, calc(var(--neb-vh) - 12px)); }
+  .modal-overlay { padding: 0 0 var(--neb-kb); align-items: flex-end; }
+  .modal-box {
+    width: 100%; max-width: none; margin: 0; max-height: min(92dvh, calc(var(--neb-vh) - 12px));
+    border-radius: 28px 28px 0 0; border-width: 1px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: translateY(100%); transition: transform .5s var(--spring);
+  }
+  .modal-overlay.active .modal-box { transform: none; }
+}
+
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+  .neb-dialog, .fl-dialog, .fp-dialog { transform: none !important; opacity: 0; transition: opacity .15s !important; }
+  .neb-scrim[data-open] .neb-dialog { opacity: 1; }
+}
+
+/* ---------- phone hardening ----------
+   A blurred scrim with a transformed child is the combination mobile engines (iOS WebKit, some Android WebViews)
+   composite wrongly: the blur layer paints over the sheet and only the blur is visible. On a phone the scrim is a
+   plain tone, and every sheet / dialog gets its own stacking context above it. vh is the fallback for
+   engines without dvh, which would otherwise drop the max-height rules above entirely. */
+@media (max-width: 600px) {
+  .neb-scrim, .neb-menu-scrim, .neb-fab-scrim, .modal-overlay, .hf-post-dialog::backdrop {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: color-mix(in srgb, var(--md-inverse-surface) 52%, transparent);
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog, .upload-progress-dialog, .neb-sheet, .neb-choice-sheet, .modal-box {
+    z-index: 1; isolation: isolate; backface-visibility: hidden;
+  }
+  .neb-dialog, .fl-dialog, .fp-dialog { max-height: 92vh; max-height: min(92dvh, calc(var(--neb-vh) - 12px)); }
+  .neb-menu.neb-menu-sheet { max-height: 76vh; max-height: min(76dvh, calc(var(--neb-vh) - 24px)); }
+  /* the formula/symbol popup and kind menu never grow wider than the screen or sit off its edge */
+  .fc-pop, .fc-kindmenu { max-width: calc(100vw - 16px); }
+  .hf-emoji-popover { max-width: calc(100vw - 16px); }
+}

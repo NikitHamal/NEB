@@ -219,14 +219,6 @@ def ajax_admin_media_airy_voices(request):
 
 
 @require_POST
-def ajax_admin_media_image(request):
-    resp = _require_staff_admin(request)
-    if resp:
-        return JsonResponse({"error": "staff only"}, status=403)
-    return JsonResponse({"error": "Image test not implemented yet."}, status=501)
-
-
-@require_POST
 def ajax_admin_media_stt(request):
     """Inception STT — upload audio/webm, return transcript."""
     resp = _require_staff_admin(request)
@@ -292,7 +284,7 @@ def ajax_admin_media_voice(request):
 
     # Chat via Mercury (voice turn if scenario, else plain chat)
     try:
-        from api.inception_proxy import voice_turn, stream_chat
+        from api.inception_proxy import voice_turn
         import base64
         # Choose voice pipeline if scenario given, else plain Mercury chat
         if scenario_id:

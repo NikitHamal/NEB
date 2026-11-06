@@ -15,7 +15,6 @@ import logging
 
 from django.core.cache import cache
 
-from django.db import transaction
 
 from django.db.models import F
 
@@ -502,67 +501,6 @@ def notify_mention_all(actor_id, target_type, target_id='', message=''):
             )
     except Exception as e:
         logger.error("Failed to send FCM in notify_mention_all: %s", str(e))
-
-def notify_system_broadcast(message, target_type='system', target_id=''):
-    """Send a system notification to all users (skip bots)."""
-    user_ids = list(User.objects.filter(is_bot=False).values_list('id', flat=True))
-    now = now_ms()
-    objs = []
-    for uid in user_ids:
-        objs.append(Notification(
-            id=uuid_str(),
-            recipient_id=uid,
-            actor_id=None,
-            verb='system',
-            target_type=target_type,
-            target_id=target_id,
-            reference_type='',
-            reference_id='',
-            message=message,
-            is_read=False,
-            created_at=now,
-        ))
-
-    Notification.objects.bulk_create(objs)
-
-    User.objects.filter(is_bot=False).update(unread_notification_count=F('unread_notification_count') + 1)
-
-    cache.delete_many([f'unread_count:{uid}' for uid in user_ids])
-
-    # Fan out to all connected users. Each user has their own `user.<id>`
-
-    # group, so we walk them. Cheap because we only push the metadata; the
-
-    # full notification row is fetched on demand by the client.
-
-    for uid in user_ids:
-        _rt.broadcast_notification(uid, {
-            'verb': 'system',
-            'actor_id': None,
-            'target_type': target_type,
-            'target_id': target_id,
-            'message': message,
-            'created_at': now,
-        })
-    _rt.broadcast_system(message)
-
-    try:
-        from api.models import FCMToken
-        from api.fcm_utils import send_fcm_message
-        tokens = list(FCMToken.objects.all().values_list('token', flat=True))
-        if tokens:
-            send_fcm_message(
-                tokens=tokens,
-                title="System Broadcast",
-                body=message,
-                data={
-                    'verb': 'system',
-                    'target_type': target_type,
-                    'target_id': target_id,
-                }
-            )
-    except Exception as e:
-        logger.error("Failed to send FCM in notify_system_broadcast: %s", str(e))
 
 def notify_resource_liked(actor_id, resource_id):
     """Called when someone likes a resource. Creates notification for resource uploader."""

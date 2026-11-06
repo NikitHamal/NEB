@@ -3,7 +3,9 @@
    The skeleton is what shows when /ajax/user-popup/ is slow enough to notice. */
 .fp-user-popup {
   position: fixed;
-  z-index: 950;
+  /* Above the sheets and dialogs (2000-2400): this card is opened from inside
+     a thread, and under them it renders behind the panel. */
+  z-index: 2500;
   width: 252px;
   max-width: calc(100vw - 24px);
   padding: 12px;

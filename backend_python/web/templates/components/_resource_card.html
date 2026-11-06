@@ -1,0 +1,33 @@
+{% load static web_extras %}{% comment %}The one resource card: library, search, related, profile. Params: r, stats (show views/author footer), hl (use search highlight).{% endcomment %}
+{% with subj=r.subject|split:','|first %}
+<a href="{% url 'web:reader' resource_id=r.id %}" class="rcard" style="--sc: {{ subj|subject_color }}">
+  <div class="rcard-art">
+    <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ subj }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
+    {% if r.thumbnail_url %}<img src="{{ r.thumbnail_url }}" alt="" loading="lazy">{% endif %}
+    <span class="rcard-badge"><span class="material-symbols-outlined" aria-hidden="true">{{ r.type|resource_type_icon }}</span>{{ r.type }}</span>
+    {% if r.is_paid or r.isPaid %}<span class="rcard-badge is-paid"><span class="material-symbols-outlined" aria-hidden="true">payments</span>Rs. {{ r.price|floatformat:"0" }}</span>{% endif %}
+  </div>
+  <div class="rcard-body">
+    <div class="rcard-tags">
+      <span class="rcard-tag is-subject">{{ subj }}{% with n=r.subject|split:','|length %}{% if n > 1 %} +{{ n|add:"-1" }}{% endif %}{% endwith %}</span>
+      {% if r.grade_level %}<span class="rcard-tag">{{ r.grade_level }}</span>{% endif %}
+    </div>
+    <h3 class="rcard-title">{% if hl and r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</h3>
+    {% if stats %}
+    {% with author=r.uploaded_by_name|default:r.uploadedByName|default:r.uploadedByUsername|default:r.author_name|default:r.authorName|default:"NEBians" photo=r.uploaded_by_photo|default:r.uploadedByPhoto %}
+    <div class="rcard-foot">
+      <span class="rcard-avatar">
+        {% if author == 'neby' %}<span class="neby-avatar-mini neby-size-sm" data-neby-avatar data-animation="idle"></span>
+        {% elif author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}<span class="material-symbols-outlined" style="font-size:16px">visibility_off</span>
+        {% elif photo %}<img src="{{ photo }}" alt="" loading="lazy">
+        {% elif author == "NEBians" or author == "nebians" %}<img src="{% static 'web/img/n-logo-48.png' %}" alt="" loading="lazy">
+        {% else %}{{ author|truncate_chars:1|default:"N" }}{% endif %}
+      </span>
+      <span class="rcard-by">{% if author == "Anonymous" or author == "Anonymous Nebian" or r.is_anonymous %}Anonymous{% else %}{{ author }}{% if author == "NEBians" or author == "nebians" %}<span class="material-symbols-outlined" aria-label="Verified">verified</span>{% endif %}{% endif %}</span>
+      <span class="rcard-stat"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ r.view_count|default:r.viewCount|short_number }}</span>
+    </div>
+    {% endwith %}
+    {% endif %}
+  </div>
+</a>
+{% endwith %}

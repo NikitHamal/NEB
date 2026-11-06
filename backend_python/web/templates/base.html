@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}{% load asset_tags %}
 {% load web_extras %}
 <!DOCTYPE html>
 {% comment %} data-theme is always one of "light" or "dark", never absent and never "".
@@ -121,24 +121,33 @@
   }
   </script>
   {% block head_extra %}{% endblock %}
-  <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
+  {# Preload only URLs that fonts.css asks for byte-for-byte (a preload with a different query is fetched twice and used by nobody). The icon font carries ?v= in fonts.css, so it carries it here too. Weights 400-700 are the ones the app paints above the fold. #}
   <link rel="preload" href="{% static 'web/fonts/app/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="{% static 'web/css/fonts.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/pixel.css' %}">
-  <script src="{% static 'web/js/pixel-states.js' %}" defer></script>
-  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-500-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-600-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-700-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}?v=20261105a" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% asset 'web/css/fonts.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/material3.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/app.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/pixel.css' %}">
+  {# m3x: the shared Material 3 Expressive layer (tokens, shapes, brand, pill nav, buttons) and the app overlay. Load after app.css, before page CSS. #}
+  <link rel="stylesheet" href="{% asset 'web/css/m3x.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/m3x-app.css' %}">
+  <script src="{% asset 'web/js/m3x.js' %}" defer></script>
+  <script src="{% asset 'web/js/neb-shapes.js' %}" defer></script>
+  <script src="{% asset 'web/js/pixel-states.js' %}" defer></script>
+  {% if site_theme.show_in_app and site_theme.festive %}<link rel="stylesheet" href="{% asset 'web/css/themes.css' %}">
   <style>{{ site_theme.app_css|safe }}</style>
-  <script src="{% static 'web/js/themes.js' %}" defer></script>{% endif %}
-  <link rel="stylesheet" href="{% static 'web/css/forum-media.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/pages/tools.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}">
-  <link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="{% asset 'web/js/themes.js' %}" defer></script>{% endif %}
+  <link rel="stylesheet" href="{% asset 'web/css/forum-media.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/pages/media-player.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/pages/tools.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/neby-avatar.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/neby-pixel.css' %}">
+  <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
   {% block extra_css %}{% endblock %}
-  <link rel="stylesheet" href="{% static 'web/css/ai-widgets.css' %}">
+  <link rel="stylesheet" href="{% asset 'web/css/ai-widgets.css' %}">
   {% comment %} Reconcile the theme before the first paint. The server renders the session's
      choice; localStorage is what the browser last chose and wins over it, and a
      visitor who has never chosen gets their OS preference. Running this here
@@ -159,6 +168,7 @@
      used to block the parser in this same spot for no reason: nothing runs
      before DOMContentLoaded, and they now load at the end of <body>. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/delegated-events.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-toast.js' %}"></script>
 <!-- HTMX global config: disable history cache to ensure clean full page back navigation -->
   <meta name="htmx-config" content='{"historyEnabled":false,"refreshOnHistoryMiss":true}'>
 </head>
@@ -177,38 +187,8 @@
   <!-- Top Navigation Bar -->
   {% block topbar %}
   <header class="md-topbar">
-    <a href="{% url 'web:home' %}" class="md-topbar-brand">
-      <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="topbar-logo" aria-label="NEBians">
-        <defs>
-          <linearGradient id="frontGrad" x1="40" y1="220" x2="800" y2="1350" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0058df"/><stop offset="0.48" stop-color="#004bd4"/><stop offset="1" stop-color="#003cc3"/></linearGradient>
-          <linearGradient id="darkGrad" x1="505" y1="30" x2="960" y2="1290" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07337f"/><stop offset="0.55" stop-color="#052566"/><stop offset="1" stop-color="#021b54"/></linearGradient>
-          <linearGradient id="innerGrad" x1="435" y1="180" x2="780" y2="890" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#06327c"/><stop offset="1" stop-color="#04215e"/></linearGradient>
-          <linearGradient id="lightGrad" x1="305" y1="320" x2="615" y2="705" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a8c5ff"/><stop offset="0.52" stop-color="#90b4fb"/><stop offset="1" stop-color="#82a8f5"/></linearGradient>
-          <linearGradient id="frontShadowGrad" x1="690" y1="780" x2="780" y2="1050" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0030a5" stop-opacity="0.35"/><stop offset="1" stop-color="#001e77" stop-opacity="0"/></linearGradient>
-        </defs>
-        <g transform="translate(210.601 86.137) scale(0.610119)">
-          <g fill="none" stroke="#ffffff" stroke-opacity="0.78" stroke-width="13" stroke-linejoin="round"
-            stroke-linecap="round">
-            <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" />
-            <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" />
-            <path d="M306 320 L307 377 L613 706 L613 485 Z" />
-            <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" />
-          </g>
-          <g stroke-linejoin="round" stroke-linecap="round">
-            <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="url(#darkGrad)" stroke="#eef5ff"
-              stroke-width="8" />
-            <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="url(#innerGrad)" stroke="#eef5ff"
-              stroke-width="8" />
-            <path d="M306 320 L307 377 L613 706 L613 485 Z" fill="url(#lightGrad)" stroke="#eef5ff" stroke-width="8" />
-            <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="url(#frontGrad)"
-              stroke="#eef5ff" stroke-width="8" />
-            <path d="M691 800 L775 887 L775 1052 L691 958 Z" fill="url(#frontShadowGrad)" stroke="none" />
-          </g>
-        </g>
-      </svg>
-      <span>NEBians</span>{% if site_theme.show_in_app and site_theme.festive %}{% include "themes/_motif.html" %}{% endif %}
-    </a>
-    <nav class="md-nav-pill md-topbar-nav">
+    {% url 'web:home' as home_url %}{% if site_theme.show_in_app and site_theme.festive %}{% include "components/_brand.html" with href=home_url motif=1 %}{% else %}{% include "components/_brand.html" with href=home_url %}{% endif %}
+    <nav class="m3-pill md-topbar-nav" data-m3-nav aria-label="Main">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
       <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
@@ -218,13 +198,11 @@
         <span class="material-symbols-outlined">search</span>
       </a>
 
-      <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
-      </button>
+      {% include "components/_theme_toggle.html" %}
       {% if is_authenticated %}
       <div class="profile-dropdown-container" id="profileDropdown">
         <button class="profile-dropdown-trigger" data-action="toggle-profile-dropdown" aria-label="Open user menu">
-          <span class="avatar-ring">
+          <span class="avatar-ring av-inset" data-avatar-seed="{{ user.username }}">
             {% if user.avatar_url %}
             <img src="{{ user.avatar_url }}" alt="Profile">
             {% else %}
@@ -301,6 +279,10 @@
             <span class="material-symbols-outlined">settings</span>
             <span>Settings</span>
           </a>
+          <a href="{% url 'web:about' %}">
+            <span class="material-symbols-outlined">info</span>
+            <span>About</span>
+          </a>
           <a href="{% url 'web:logout' %}" rel="nofollow" class="menu-logout">
             <span class="material-symbols-outlined">logout</span>
             <span>Sign Out</span>
@@ -313,9 +295,6 @@
       {% endif %}
     </div>
   </header>
-  {% if site_theme.show_in_app and site_theme.festive %}
-  <div class="st-app-strip" aria-hidden="true"></div>
-  {% endif %}
   {% endblock %}
 
   <!-- HTMX loading indicator -->
@@ -335,40 +314,28 @@
   <footer class="site-footer">
     {% if not hide_footer_links %}
     <div class="site-footer-inner">
-      <div class="site-footer-brand">
-        <span class="site-footer-logo">NEBians</span>
-        <p class="site-footer-tagline">Nepal's Learning Community — An open learning platform, social network, and knowledge exchange uniting teachers, students, schools, institutions, and curious explorers across all subjects and fields in Nepal.</p>
-      </div>
-      <div class="site-footer-columns">
-        <div class="site-footer-col">
-          <h4 class="site-footer-heading">Community &amp; Tools</h4>
-          <ul class="site-footer-list">
-            <li><a href="{% url 'web:result_check' %}">NEB Result Checker</a></li>
-            <li><a href="{% url 'web:tools_hub' %}">Free Study Tools</a></li>
-            <li><a href="{% url 'web:news_list' %}">Educational News &amp; Blog</a></li>
-            <li><a href="{% url 'web:leaderboard' %}">Community Leaderboard</a></li>
-          </ul>
-        </div>
-        <div class="site-footer-col">
-          <h4 class="site-footer-heading">About &amp; Legal</h4>
-          <ul class="site-footer-list">
-            <li><a href="{% url 'web:faq' %}">Help &amp; FAQ</a></li>
-            <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
-            <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
-            <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>
-          </ul>
-        </div>
-      </div>
+      {% url 'web:home' as footer_home %}{% include "components/_brand.html" with href=footer_home %}
+      <nav class="site-footer-links" aria-label="Footer">
+        <a href="{% url 'web:result_check' %}">Results</a>
+        <a href="{% url 'web:tools_hub' %}">Tools</a>
+        <a href="{% url 'web:news_list' %}">Blog</a>
+        <a href="{% url 'web:leaderboard' %}">Leaderboard</a>
+        <a href="{% url 'web:about' %}">About</a>
+        <a href="{% url 'web:faq' %}">Help</a>
+        <a href="{% url 'web:privacy_policy' %}">Privacy</a>
+        <a href="{% url 'web:terms_of_service' %}">Terms</a>
+        <a href="{% url 'web:copyright_takedown' %}">Copyright</a>
+      </nav>
     </div>
     {% endif %}
     <div class="site-footer-bottom">
-      <p>&copy; 2026 NEBians — Nepal's Learning Community. All rights reserved.</p>
+      <p>&copy; 2026 NEBians</p>
     </div>
   </footer>
   {% endblock %}
 
   <!-- Snackbar container -->
-  <div id="snackbar-container"></div>
+  <div id="snackbar-container" role="status" aria-live="polite"></div>
 
   <script nonce="{{ csp_nonce }}">
     const IS_AUTHENTICATED = {{ is_authenticated|yesno:"true,false" }};
@@ -397,19 +364,6 @@
     });
 
     registerActions({
-      'toggle-theme': function () {
-        const html = document.documentElement;
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        // "light", not "": an empty attribute reads as "no opinion" to every
-        // script that asks, and they then guess from the OS.
-        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        const themeIcon = document.getElementById('theme-icon');
-        themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-        localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        // Canvas-painted art can't inherit a CSS variable; it has to be told.
-        document.dispatchEvent(new CustomEvent('neb:theme-change'));
-        fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
-      },
       'toggle-profile-dropdown': function (el, e) {
         e.stopPropagation();
         const dropdown = document.getElementById('profileDropdown');
@@ -476,23 +430,6 @@
         menu.classList.remove('show');
       }
     });
-
-    // The attribute itself was resolved in <head>, before first paint. All that
-    // is left here is the icon, which needs the DOM.
-    (function () {
-      if (document.documentElement.getAttribute('data-theme') !== 'dark') return;
-      const themeIcon = document.getElementById('theme-icon');
-      if (themeIcon) themeIcon.textContent = 'light_mode';
-    })();
-
-    function showSnackbar(msg, duration = 3000) {
-      const container = document.getElementById('snackbar-container');
-      const el = document.createElement('div');
-      el.className = 'md-snackbar';
-      el.textContent = msg;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), duration);
-    }
 
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({
@@ -672,163 +609,17 @@
           if (wsOnline) stopPolling();
           else startPolling();
         });
+        // After a long gap (hidden tab, lost network) the pushed count may be stale.
+        window.addEventListener('neb:realtime-resync', pollUnreadCount);
         window.WS.start();
         // Hard fallback: if WS never connects in 6s, start polling.
         setTimeout(function () { if (!wsOnline) startPolling(); }, 6000);
       };
       boot();
 
-      // ── Presence heartbeat (web users) ──────────────────────────────
-      var PRESENCE_URL = '/api/presence/heartbeat/';
-      var PRESENCE_INTERVAL = 30000; // 30s
-      var presTimer = null;
-      var presActive = true;
-
-      function sendPresence() {
-        if (!presActive) return;
-        try {
-          fetch(PRESENCE_URL, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ screen: window.location.pathname }),
-          }).catch(function () { });
-        } catch (e) { /* ignore */ }
-      }
-
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') {
-          presActive = true;
-          sendPresence();
-        } else {
-          presActive = false;
-        }
-      });
-
-      sendPresence(); // fire immediately on load
-      presTimer = setInterval(sendPresence, PRESENCE_INTERVAL);
     })();
     {% endif %}
 
-    // Detailed report modal used by forum, resource, profile, and search pages.
-    (function () {
-      var pendingTarget = null;
-      var reasonOptions = [
-        ['spam', 'Spam'],
-        ['abuse', 'Abuse or harassment'],
-        ['inappropriate', 'Inappropriate content'],
-        ['misinformation', 'Misinformation'],
-        ['other', 'Other']
-      ];
-
-      function ensureReportModal() {
-        var existing = document.getElementById('global-report-modal');
-        if (existing) return existing;
-        var modal = document.createElement('div');
-        modal.id = 'global-report-modal';
-        modal.setAttribute('aria-hidden', 'true');
-        modal.style.cssText = 'position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.42);z-index:10000;';
-        modal.innerHTML = '' +
-          '<div role="dialog" aria-modal="true" aria-labelledby="global-report-title" style="width:min(520px,100%);background:var(--md-surface-container-lowest,#fff);color:var(--md-on-surface,#1c1b1f);border:1px solid var(--md-outline-variant,#cac4d0);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25);overflow:hidden;">' +
-          '<div style="display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--md-outline-variant,#cac4d0);">' +
-          '<div style="width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--md-error-container,#f9dedc);color:var(--md-on-error-container,#410e0b);"><span class="material-symbols-outlined">flag</span></div>' +
-          '<div style="flex:1;"><h2 id="global-report-title" style="font-size:18px;line-height:1.3;margin:0;">Report content</h2><p id="global-report-subtitle" style="font-size:13px;color:var(--md-on-surface-variant,#49454f);margin:3px 0 0;">Tell admins what is wrong so they can review it properly.</p></div>' +
-          '<button type="button" data-action="global-report-close" aria-label="Close" style="border:0;background:transparent;color:inherit;cursor:pointer;padding:8px;border-radius:50%;"><span class="material-symbols-outlined">close</span></button>' +
-          '</div>' +
-          '<div style="padding:18px 20px;display:grid;gap:14px;">' +
-          '<label style="display:grid;gap:6px;font-weight:600;font-size:13px;">Reason<select id="global-report-reason" style="width:100%;border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:11px 12px;background:var(--md-surface,#fff);color:inherit;font:inherit;"></select></label>' +
-          '<label style="display:grid;gap:6px;font-weight:600;font-size:13px;">Details<textarea id="global-report-description" data-neb-skip="1" maxlength="1600" rows="5" placeholder="Add links, quotes, context, or what admins should check..." style="width:100%;resize:vertical;border:1px solid var(--md-outline-variant,#cac4d0);border-radius:12px;padding:11px 12px;background:var(--md-surface,#fff);color:inherit;font:inherit;"></textarea></label>' +
-          '<p id="global-report-error" style="display:none;margin:0;color:var(--md-error,#b3261e);font-size:13px;"></p>' +
-          '</div>' +
-          '<div style="display:flex;justify-content:flex-end;gap:10px;padding:14px 20px 18px;border-top:1px solid var(--md-outline-variant,#cac4d0);">' +
-          '<button type="button" data-action="global-report-close" style="border:1px solid var(--md-outline-variant,#cac4d0);background:transparent;color:var(--md-on-surface,#1c1b1f);border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer;">Cancel</button>' +
-          '<button type="button" id="global-report-submit" data-action="global-report-submit" style="border:0;background:var(--md-error,#b3261e);color:var(--md-on-error,#fff);border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer;">Submit report</button>' +
-          '</div></div>';
-        document.body.appendChild(modal);
-        var select = document.getElementById('global-report-reason');
-        reasonOptions.forEach(function (item) {
-          var option = document.createElement('option');
-          option.value = item[0];
-          option.textContent = item[1];
-          select.appendChild(option);
-        });
-        modal.addEventListener('click', function (event) {
-          if (event.target === modal || (event.target.closest && event.target.closest('[data-action="global-report-close"]'))) {
-            closeReportDialog();
-          }
-          if (event.target.closest && event.target.closest('[data-action="global-report-submit"]')) {
-            submitReportDialog();
-          }
-        });
-        return modal;
-      }
-
-      function showReportError(message) {
-        var error = document.getElementById('global-report-error');
-        if (!error) return;
-        error.textContent = message || 'Failed to submit report';
-        error.style.display = '';
-      }
-
-      function openReportDialog(targetType, targetId) {
-        pendingTarget = { targetType: targetType, targetId: targetId };
-        var modal = ensureReportModal();
-        var reason = document.getElementById('global-report-reason');
-        var description = document.getElementById('global-report-description');
-        var error = document.getElementById('global-report-error');
-        if (reason) reason.value = 'other';
-        if (description) description.value = '';
-        if (error) error.style.display = 'none';
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        setTimeout(function () { if (description) description.focus(); }, 40);
-      }
-
-      function closeReportDialog() {
-        var modal = document.getElementById('global-report-modal');
-        if (modal) {
-          modal.style.display = 'none';
-          modal.setAttribute('aria-hidden', 'true');
-        }
-        pendingTarget = null;
-      }
-
-      async function submitReportDialog() {
-        if (!pendingTarget) return;
-        var button = document.getElementById('global-report-submit');
-        var reasonEl = document.getElementById('global-report-reason');
-        var descEl = document.getElementById('global-report-description');
-        var payload = {
-          target_type: pendingTarget.targetType,
-          target_id: pendingTarget.targetId,
-          reason: reasonEl ? reasonEl.value : 'other',
-          description: descEl ? descEl.value.trim() : '',
-          context_path: window.location.pathname + window.location.search + window.location.hash
-        };
-        try {
-          if (button) { button.disabled = true; button.textContent = 'Submitting...'; }
-          var r = await fetch('/ajax/report/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (window.CSRF_TOKEN || '{{ csrf_token }}') },
-            credentials: 'same-origin',
-            body: JSON.stringify(payload)
-          });
-          var d = await r.json().catch(function () { return {}; });
-          if (!r.ok || d.error) throw new Error(d.error || 'Failed to submit report');
-          closeReportDialog();
-          if (typeof showSnackbar === 'function') showSnackbar('Report submitted. Thank you!');
-        } catch (e) {
-          showReportError(e && e.message ? e.message : 'Failed to submit report');
-        } finally {
-          if (button) { button.disabled = false; button.textContent = 'Submit report'; }
-        }
-      }
-
-      window.openReportDialog = openReportDialog;
-      window.closeReportDialog = closeReportDialog;
-      window.submitReportDialog = submitReportDialog;
-      window.reportContent = openReportDialog;
-    })();
 
   </script>
   {% comment %} Moved down from <head>. Order is the order they were in there, and every
@@ -846,14 +637,17 @@
   {% comment %} The author hover card, shared by feed cards and thread names. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/user-popup.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/like-anim.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/report-dialog.js' %}"></script>
   {% comment %} The rails' edge fade and one-card step buttons. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/rail-scroll.js' %}"></script>
   {% comment %} Reply boxes that take the height of what you type. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/textarea-grow.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/identity-chooser.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/clamp-toggle.js' %}"></script>
   {% comment %} The dialog, sheet, picker, menu and choice-control controller.
      One file for all of them; see material3/09-overlays.css. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-overlays.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-select.js' %}"></script>
   {% comment %} NebTabRail's travelling container -- the one thing about the rail
      that needs measuring. The rail is correct without it. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-rail.js' %}"></script>
@@ -863,9 +657,13 @@
   {% comment %} NebChoiceSheet and NebSelectField -- a form field that shows
      what you chose, and the sheet of chips that is how you choose it. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-choice.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  {% comment %} Poll cards + comment poll builder, post insights sheet, view/impression beacons. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% asset 'web/js/poll-card.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-insights.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-reach.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}" defer></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/mhchem.min.js' %}" defer></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/auto-render.min.js' %}" defer></script>
   <script nonce="{{ csp_nonce }}">
     window.KATEX_CONFIG = {
       delimiters: [

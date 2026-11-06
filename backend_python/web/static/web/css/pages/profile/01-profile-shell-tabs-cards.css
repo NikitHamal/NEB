@@ -14,39 +14,11 @@
     position: relative;
     overflow: hidden;
   }
-  /* The cover below this is generative art and stays deep in both themes
+  /* The cover below is generative art and stays deep in both themes
      (ProfileCoverArt.kt says why), so its chrome cannot follow the theme
      either. The dark plate that used to come in here sat at about 1.1:1
-     against the cover -- the icon still read, the button did not. A white
-     plate with fixed dark ink reads on the art and on a user's own photo,
-     which is the same call the media overlays make. */
-  .profile-banner-back-btn {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #16181D;
-    cursor: pointer;
-    z-index: 10;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .profile-banner-back-btn:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.05);
-    text-decoration: none !important;
-  }
-  .profile-banner-back-btn .material-symbols-outlined {
-    font-size: 20px;
-  }
+     against the cover -- the icon still read, the button did not. The shared
+     .neb-back-on-art plate answers that; 07-profile-banner.css places it. */
 
   .profile-banner-art {
     position: absolute;

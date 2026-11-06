@@ -478,7 +478,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--subject-color);
+  color: color-mix(in srgb, var(--subject-color) var(--ink-mix, 58%), var(--md-on-surface));
   border: 1px solid color-mix(in srgb, var(--md-on-surface) 8%, transparent);
   font-size: 18px !important;
   font-variation-settings: 'FILL' 1;
@@ -1439,72 +1439,6 @@
   flex-wrap: wrap;
 }
 
-.avatar-container-verified {
-  position: relative !important;
-  overflow: visible !important;
-}
-
-.avatar-container-verified img,
-.avatar-container-verified .contributor-avatar-letter {
-  border-radius: 50% !important;
-}
-
-.avatar-badge-overlay {
-  position: absolute !important;
-  bottom: -3px !important;
-  right: -3px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: var(--badge-bg, #1B9AF0) !important;
-  background: none !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  z-index: 5 !important;
-  line-height: 0;
-  pointer-events: none;
-}
-
-.avatar-badge-overlay .material-symbols-outlined {
-  font-size: 17px !important;
-  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-  line-height: 1 !important;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.24));
-}
-
-/* The verified seal has its tick knocked out of the glyph, so over a photo the
-   hole showed the photo. A small white tick sits in the hole instead -- the
-   same construction as the reference badge. */
-.avatar-badge-overlay.is-verified::after {
-  content: "check";
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Material Symbols Outlined';
-  font-size: 8.5px;
-  font-weight: 700;
-  line-height: 1;
-  color: #fff;
-  font-variation-settings: 'FILL' 1, 'wght' 700;
-  pointer-events: none;
-}
-
-/* Specific position adjustments for larger profile page avatar */
-.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay {
-  bottom: 0 !important;
-  right: 0 !important;
-}
-
-.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay .material-symbols-outlined {
-  font-size: 28px !important;
-}
-
-.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay.is-verified::after {
-  font-size: 13px;
-}
-
 /* ---- app/03-filters-dialogs.css ---- */
 /* Post card header buttons and badges proportions */
 .post-card-meta .follow-btn-small,
@@ -2002,665 +1936,6 @@
 .subject-pick-item.is-radio .subject-pick-check .material-symbols-outlined { opacity: 0; color: var(--md-on-primary); }
 .subject-pick-item.is-radio.selected .subject-pick-check .material-symbols-outlined { opacity: 1; transform: scale(1); }
 
-/* ---- app/04-auth-layout.css ---- */
-/* ──────────────────────────────────────────────────────────────────
-   Login — a brand panel and a form panel, side by side on a desktop.
-
-   Every surface on the page sits one step higher in dark theme than in
-   light, and every shadow sits far stronger. That was six rules under
-   [data-theme="dark"], each restating a surface token, plus six shadow
-   literals written twice. It is three variables and the shared
-   elevation tokens now: the dark block below restates the three and
-   every rule in the file reads them, so a surface here is declared
-   once and the dark theme answers once.
-   ────────────────────────────────────────────────────────────────── */
-
-/* Page-level, so it is scoped to the body class login.html sets rather
-   than leaking out of app.css onto every page. These three lived in an
-   inline <style> in the template; the component rules that lived with
-   them are at the foot of this file. */
-body.auth-page {
-  background: linear-gradient(135deg, var(--md-n96) 0%, var(--md-n92) 100%) !important;
-  background-attachment: fixed !important;
-}
-[data-theme="dark"] body.auth-page {
-  background: linear-gradient(135deg, var(--md-n3) 0%, var(--md-n8) 100%) !important;
-}
-body.auth-page main,
-body.auth-page .site-main {
-  padding: 0 !important;
-  max-width: none !important;
-}
-/* The topbar keeps its menu, but not the two actions that would send a
-   visitor who is already signing in back to where they are, nor the
-   search they cannot use yet. */
-body.auth-page .md-topbar-actions .md-btn[aria-label="Sign in"],
-body.auth-page .md-topbar-actions .md-btn[aria-label="Register"],
-body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
-  display: none !important;
-}
-
-.auth-shell {
-  /* The card, the form panel, the inputs and the two button families
-     all read these. */
-  --auth-surface: var(--md-surface-container-lowest);
-  --auth-field: var(--md-surface-container-lowest);
-  --auth-field-hover: var(--md-surface-container-low);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: linear-gradient(135deg, var(--md-n96) 0%, var(--md-n92) 100%);
-}
-
-[data-theme="dark"] .auth-shell {
-  --auth-surface: var(--md-surface-container-low);
-  --auth-field: var(--md-surface-container);
-  --auth-field-hover: var(--md-surface-container-high);
-  background: linear-gradient(135deg, var(--md-n3) 0%, var(--md-n8) 100%);
-}
-
-.auth-card-outer {
-  width: 100%;
-  max-width: 1200px;
-  display: grid;
-  grid-template-columns: 1fr;
-  background: var(--auth-surface);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: var(--md-elevation-3);
-  min-height: 600px;
-}
-
-/* ── Form panel (left) ── */
-.auth-form-panel {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 56px;
-  background: var(--auth-surface);
-}
-
-.auth-form-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--md-on-surface);
-  font-weight: 700;
-  font-size: 1.125rem;
-  letter-spacing: -0.01em;
-  width: fit-content;
-}
-.auth-form-logo:hover { text-decoration: none; color: var(--md-on-surface); }
-
-.auth-form-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  max-width: 420px;
-  width: 100%;
-  margin: 8px auto 32px;
-  padding: 16px 0;
-}
-
-.auth-form-head {
-  margin-bottom: 32px;
-}
-.auth-form-head h1 {
-  margin: 0 0 8px;
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--md-on-surface);
-  line-height: 1.1;
-}
-.auth-form-head p {
-  margin: 0;
-  font-size: 0.9375rem;
-  color: var(--md-on-surface-variant);
-  line-height: 1.5;
-}
-
-.auth-form { display: flex; flex-direction: column; gap: 18px; }
-
-.auth-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.auth-field label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  letter-spacing: -0.005em;
-}
-.auth-field input {
-  width: 100%;
-  padding: 13px 16px;
-  border: 1.5px solid var(--md-outline-variant);
-  border-radius: 10px;
-  background: var(--auth-field);
-  color: var(--md-on-surface);
-  font-family: var(--md-font);
-  font-size: 0.9375rem;
-  line-height: 1.4;
-  outline: none;
-  transition: border-color var(--md-transition), box-shadow var(--md-transition);
-  height: 48px;
-  box-sizing: border-box;
-}
-.auth-field input::placeholder { color: var(--md-on-surface-tertiary); }
-.auth-field input:hover { border-color: var(--md-outline); }
-.auth-field input:focus {
-  border-color: var(--md-primary);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-primary) 14%, transparent);
-}
-.auth-field input.has-error {
-  border-color: var(--md-error);
-}
-.auth-field input.has-error:focus {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--md-error) 14%, transparent);
-}
-.auth-field input.auth-code-input {
-  text-align: center;
-  letter-spacing: 0.5em;
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.auth-input-wrap {
-  position: relative;
-}
-.auth-input-wrap input {
-  padding-right: 48px;
-}
-.auth-input-toggle {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--md-on-surface-tertiary);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color var(--md-transition);
-}
-.auth-input-toggle:hover { color: var(--md-on-surface); }
-.auth-input-toggle .material-symbols-outlined { font-size: 20px !important; }
-
-.auth-error {
-  color: var(--md-error);
-  font-size: 0.8125rem;
-  text-align: left;
-  margin: -4px 0 0;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.auth-error:empty { display: none; }
-
-.auth-btn-primary {
-  width: 100%;
-  padding: 13px 20px;
-  border-radius: var(--md-radius-full);
-  border: none;
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  font-family: var(--md-font);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--md-transition);
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 6px;
-}
-/* The M3 hover state layer: the button's own ink at 8% over its own
-   fill. Mixing towards black instead darkened the pale primary the dark
-   theme uses, which took it towards the dark ink sitting on it. */
-.auth-btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--md-on-primary) 8%, var(--md-primary));
-}
-.auth-btn-primary:active:not(:disabled) { transform: scale(0.99); }
-.auth-btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.auth-btn-secondary-full {
-  width: 100%;
-  padding: 12px 18px;
-  border-radius: var(--md-radius-full);
-  border: 1.5px solid var(--md-outline-variant);
-  background: transparent;
-  color: var(--md-on-surface);
-  font-family: var(--md-font);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--md-transition);
-  min-height: 44px;
-}
-.auth-btn-secondary-full:hover { background: var(--auth-field-hover); border-color: var(--md-outline); }
-
-.auth-divider-text {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 22px 0 14px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-}
-.auth-divider-text::before,
-.auth-divider-text::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--md-outline-variant);
-}
-
-.auth-social-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-.auth-btn-social {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 11px 16px;
-  border-radius: var(--md-radius-full);
-  border: 1.5px solid var(--md-outline-variant);
-  background: var(--auth-field);
-  color: var(--md-on-surface);
-  font-family: var(--md-font);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--md-transition);
-  min-height: 48px;
-  text-decoration: none;
-}
-.auth-btn-social:hover {
-  background: var(--auth-field-hover);
-  border-color: var(--md-outline);
-  text-decoration: none;
-}
-
-.auth-form-foot {
-  margin: 0;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--md-on-surface-variant);
-}
-.auth-forgot-link {
-  text-align: right;
-  margin-top: -10px;
-  margin-bottom: 4px;
-}
-.auth-form-link {
-  background: none;
-  border: none;
-  color: var(--md-primary);
-  font-family: var(--md-font);
-  font-size: inherit;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  transition: opacity var(--md-transition);
-}
-.auth-form-link:hover { opacity: 0.8; text-decoration: underline; }
-.auth-form-link:disabled { color: var(--md-on-surface-variant); cursor: not-allowed; text-decoration: none; }
-
-.auth-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  color: var(--md-on-surface-variant);
-  font-family: var(--md-font);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 6px 10px 6px 8px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  align-self: flex-start;
-  transition: background var(--md-transition), color var(--md-transition);
-}
-.auth-back:hover { background: var(--md-surface-container); color: var(--md-on-surface); }
-.auth-back .material-symbols-outlined { font-size: 18px !important; }
-
-/* The spinner itself is .md-loader (material3/08-shapes.css). This class is
-   only the hook the button's JS writes; it has nothing left to say. */
-
-.auth-panel { animation: authFadeIn 250ms ease-out; }
-
-@keyframes authFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Brand panel (right) ── */
-/* The one surface on the page that does not follow the theme: a brand
-   field with white ink on it, the same on a light page as on a dark
-   one. Its colours come from the tonal ramps in 00-palette.css, which
-   are declared once under :root and deliberately not restated for dark
-   theme -- which is what a fixed surface needs. The gradient was a
-   blue-indigo-violet sweep in colours from no palette of ours; it is
-   our own brand blue falling into our own violet now. */
-.auth-brand-panel {
-  --auth-brand-ink: var(--md-n100);
-  position: relative;
-  display: none;
-  overflow: hidden;
-  background: linear-gradient(140deg, var(--md-b40) 0%, var(--md-b30) 45%, var(--md-v30) 100%);
-  color: var(--auth-brand-ink);
-  padding: 56px 48px;
-}
-
-.auth-brand-decor {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--auth-brand-ink) 18%, transparent) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, color-mix(in srgb, var(--auth-brand-ink) 10%, transparent) 0%, transparent 35%);
-  pointer-events: none;
-}
-
-.auth-brand-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  gap: 28px;
-}
-
-.auth-brand-title {
-  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--auth-brand-ink);
-  margin: 0;
-  max-width: 480px;
-}
-.auth-brand-sub {
-  font-size: 1rem;
-  line-height: 1.55;
-  color: color-mix(in srgb, var(--auth-brand-ink) 80%, transparent);
-  margin: 0;
-  max-width: 440px;
-}
-
-/* ── Dashboard mockup ── */
-/* A small piece of the real product, built out of the real tokens and
-   filled with real numbers by the view. It used to be a fixed white
-   card in tailwind greys, which meant a visitor arriving in dark theme
-   was shown a picture of an app that did not look like the one they
-   were about to sign into. It follows the theme now: a light card on
-   the brand field in light theme, a dark one in dark, and either way it
-   is the product. */
-.auth-dashboard-mock {
-  background: var(--auth-surface);
-  border-radius: 14px;
-  padding: 18px;
-  color: var(--md-on-surface);
-  box-shadow: var(--md-elevation-3);
-  margin-top: 8px;
-  max-width: 460px;
-}
-
-.adm-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-/* Three stat tiles, one accent each, washed over the card they sit on
-   so the tile is a tint of the surface rather than a separate colour.
-   The accents are the --neb-accent-* set, so a tile reads the same here
-   as the matching surface does in the app. */
-.adm-tile {
-  position: relative;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--adm-accent, var(--md-primary)) 12%, var(--auth-surface));
-  overflow: hidden;
-  min-height: 78px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.adm-tile--blue { --adm-accent: var(--neb-accent-brand); }
-.adm-tile--green { --adm-accent: var(--neb-accent-green); }
-.adm-tile--purple { --adm-accent: var(--neb-accent-violet); }
-.adm-tile-label {
-  font-size: 0.6875rem;
-  color: var(--md-on-surface-variant);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-.adm-tile-num {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: var(--md-on-surface);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.adm-list {
-  background: var(--auth-surface);
-  border: 1px solid var(--md-outline-variant);
-  border-radius: 10px;
-  padding: 8px;
-}
-.adm-list-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 8px 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--md-on-surface-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.adm-list-head .material-symbols-outlined {
-  font-size: 16px !important;
-  color: var(--md-on-surface-tertiary);
-}
-.adm-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px;
-  border-radius: 8px;
-  transition: background 0.15s;
-}
-.adm-row + .adm-row { border-top: 1px solid var(--md-outline-variant); }
-/* The row carries a subject-* class from the subject_slug filter, so
-   the chip is whatever colour that subject is everywhere else on the
-   site. There were three hand-written subjects here -- physics, math
-   and forum -- and the template interpolates the subject name straight
-   into the class, so every other subject in the curriculum drew an
-   uncoloured square. Chemistry, Biology, English, Nepali and the rest
-   have a colour now, and it is the one their cards already use. */
-.adm-row-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  background: var(--subject-container, var(--md-secondary-container));
-  color: var(--subject-on-container, var(--md-on-secondary-container));
-}
-.adm-row-icon .material-symbols-outlined { font-size: 18px !important; }
-.adm-row-text {
-  flex: 1;
-  min-width: 0;
-}
-.adm-row-title {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.adm-row-sub {
-  font-size: 0.6875rem;
-  color: var(--md-on-surface-tertiary);
-  line-height: 1.2;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.adm-row-pill {
-  font-size: 0.625rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  letter-spacing: 0.04em;
-  flex-shrink: 0;
-}
-
-/* ── Role picker ── */
-/* These lived in an inline <style> in login.html, alongside six rules
-   under html[data-theme="dark"] that each restated var(--md-x, #fallback)
-   with a different fallback hex. The token is always defined, so the
-   fallback never applied and the six dark rules resolved to exactly
-   what they overrode. */
-.auth-role-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-.auth-role-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  border: 2px solid var(--md-outline-variant);
-  background: var(--md-surface-container-low);
-  cursor: pointer;
-  transition: all var(--md-transition);
-  font-family: var(--md-font);
-  text-align: left;
-  color: var(--md-on-surface);
-}
-
-.auth-role-card:hover {
-  border-color: var(--md-primary);
-  background: var(--md-primary-container);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--md-primary) 18%, transparent);
-}
-
-.auth-role-icon {
-  font-size: 28px !important;
-  color: var(--md-primary);
-}
-
-.auth-role-label {
-  display: block;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.auth-role-desc {
-  display: block;
-  font-size: 0.8125rem;
-  color: var(--md-on-surface-variant);
-  margin-top: 2px;
-}
-
-.auth-role-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 8px 0 4px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-}
-
-.auth-role-divider::before,
-.auth-role-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--md-outline-variant);
-}
-
-.auth-role-card-explorer {
-  background: transparent;
-  border-style: dashed;
-  border-color: var(--md-outline);
-}
-
-.auth-role-card-explorer:hover {
-  border-style: solid;
-  background: var(--md-primary-container);
-}
-
-.auth-role-card-explorer .auth-role-icon {
-  color: var(--md-tertiary);
-}
-
-/* ── Desktop split-screen ── */
-@media (min-width: 960px) {
-  .auth-card-outer { grid-template-columns: 1fr 1fr; }
-  .auth-brand-panel { display: flex; }
-  .auth-form-panel { padding: 40px 56px; min-height: 720px; }
-}
-
-/* ── Tablet ── */
-@media (min-width: 720px) and (max-width: 959px) {
-  .auth-form-panel { padding: 32px 40px; }
-  .auth-form-content { max-width: 480px; }
-  .auth-form-head h1 { font-size: 1.875rem; }
-}
-
-/* ── Mobile ── */
-@media (max-width: 719px) {
-  .auth-shell { padding: 12px; align-items: flex-start; }
-  .auth-card-outer {
-    border-radius: 16px;
-  }
-  .auth-form-panel { padding: 28px 20px 20px; }
-  .auth-form-content { margin: 16px auto 0; }
-  .auth-form-head h1 { font-size: 1.625rem; }
-  .auth-social-row {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
 /* ---- app/05-auth-responsive-admin-empty.css ---- */
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
@@ -2753,51 +2028,6 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
   font-size: 0.875rem;
   color: var(--md-on-surface-variant);
   margin-top: 4px;
-}
-
-.admin-layout {
-  display: flex;
-  min-height: calc(100vh - 64px);
-}
-
-.admin-sidebar {
-  width: 260px;
-  background: var(--md-surface-container);
-  padding: 16px 0;
-  border-right: 1px solid var(--md-outline-variant);
-  flex-shrink: 0;
-  position: sticky;
-  top: 64px;
-  height: calc(100vh - 64px);
-  overflow-y: auto;
-}
-
-.admin-sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all var(--md-transition);
-  text-decoration: none;
-}
-
-.admin-sidebar a:hover {
-  background: var(--md-surface-variant);
-  color: var(--md-on-surface);
-  text-decoration: none;
-}
-
-.admin-sidebar a.active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  font-weight: 600;
-}
-
-.admin-sidebar a .material-symbols-outlined {
-  font-size: 20px;
 }
 
 .admin-content {
@@ -3015,7 +2245,6 @@ body.auth-page .md-topbar-actions .md-btn-icon[aria-label="Search"] {
 :focus-visible {
   outline: 2px solid var(--md-primary);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 .md-input:focus-visible,
@@ -3030,100 +2259,7 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-.admin-hamburger {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--md-on-surface);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: var(--md-radius-full);
-}
-
-.admin-hamburger:hover {
-  background: var(--md-surface-variant);
-}
-
-.admin-mobile-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 998;
-}
-
-.admin-mobile-overlay.active {
-  display: block;
-}
-
-.admin-mobile-nav {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 100vh;
-  background: var(--md-surface-container);
-  z-index: 999;
-  padding: 16px 0;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.admin-mobile-nav.active {
-  display: block;
-  transform: translateX(0);
-}
-
-.admin-mobile-nav .mobile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px 16px;
-  border-bottom: 1px solid var(--md-outline-variant);
-  margin-bottom: 8px;
-}
-
-.admin-mobile-nav .mobile-header a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: var(--md-primary);
-  font-weight: 600;
-}
-
-.admin-mobile-nav a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.admin-mobile-nav a:hover {
-  background: var(--md-surface-variant);
-  color: var(--md-on-surface);
-}
-
-.admin-mobile-nav a.active {
-  background: var(--md-secondary-container);
-  color: var(--md-on-secondary-container);
-  font-weight: 600;
-}
-
 @media (max-width: 768px) {
-  .admin-sidebar {
-    display: none;
-  }
-
-  .admin-hamburger {
-    display: inline-flex;
-  }
-
   .hero h1 {
     font-size: 1.75rem;
   }
@@ -3240,92 +2376,6 @@ button:focus-visible {
   /* clip, not hidden: hidden makes main a scroll container, which pushes every
      sticky sidebar down by the header offset instead of letting it stick. */
   overflow-x: clip;
-}
-
-.site-footer {
-  padding: 36px 16px 20px;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-  background: var(--md-surface-container-low);
-  border-top: 1px solid var(--md-border-subtle);
-}
-
-.site-footer-inner {
-  max-width: 1140px;
-  margin: 0 auto;
-  text-align: left;
-}
-
-.site-footer-brand {
-  margin-bottom: 24px;
-  max-width: 680px;
-}
-
-.site-footer-logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--md-primary);
-  letter-spacing: -0.02em;
-  display: inline-block;
-  margin-bottom: 6px;
-}
-
-.site-footer-tagline {
-  margin: 0;
-  line-height: 1.5;
-  color: var(--md-on-surface-variant);
-  font-size: 0.8125rem;
-}
-
-.site-footer-columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 24px 32px;
-  margin-bottom: 28px;
-}
-
-.site-footer-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.site-footer-heading {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-on-surface);
-  margin: 0 0 12px;
-  letter-spacing: 0.01em;
-}
-
-.site-footer-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.site-footer-list li a {
-  color: var(--md-on-surface-variant);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.site-footer-list li a:hover {
-  color: var(--md-primary);
-  text-decoration: underline;
-}
-
-.site-footer-bottom {
-  border-top: 1px solid var(--md-border-subtle);
-  padding-top: 16px;
-  text-align: center;
-  font-size: 0.75rem;
-}
-
-.site-footer-bottom p {
-  margin: 0;
 }
 
 /* ---- Three-dot Menu ---- */
@@ -3468,6 +2518,16 @@ button:focus-visible {
 }
 
 /* Utility actions, on the cover opposite the back button. */
+/* The cover's two chrome clusters are one row: the utility buttons are 34px
+   at 14px, so a 36px circle centres with them at 13px and takes the same
+   inset on its side. */
+.pf-card-banner .neb-back {
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  z-index: 10;
+}
+
 .pf-banner-actions {
   position: absolute;
   top: 14px;
@@ -3534,25 +2594,6 @@ button:focus-visible {
   height: 100%;
 }
 
-/* One slow diagonal pass of light, matching the app's 11s sheen. A 40%-wide
-   band translated across a 240%-wide box: transform only, so the compositor
-   handles it and the canvas underneath is never repainted. */
-.pf-banner-sheen {
-  position: absolute;
-  top: -20%;
-  left: 0;
-  width: 40%;
-  height: 140%;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    color-mix(in srgb, var(--neb-cover-ink) 7%, transparent) 50%,
-    transparent 100%
-  );
-  will-change: transform;
-  animation: pfCoverSheen 11s linear infinite;
-}
 
 /* A rule and a tracked word, bottom-right: the corner the avatar and the
    primary action both leave empty. */
@@ -3598,20 +2639,6 @@ button:focus-visible {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.30) 100%);
-}
-
-@keyframes pfCoverSheen {
-  from { transform: translateX(-120%); }
-  to   { transform: translateX(350%); }
-}
-
-/* Respect reduced-motion: the art is the point, the sheen is garnish. */
-@media (prefers-reduced-motion: reduce) {
-  .pf-banner-sheen {
-    animation: none;
-    opacity: 0.5;
-    transform: translateX(120%);
-  }
 }
 
 /* ---- app/08-profile-card-details.css ---- */
@@ -4219,22 +3246,10 @@ button.cp-media-item-icon.cp-audio-play.playing {
 }
 
 /* ---- app/11-avatar-image-backgrounds.css ---- */
-/* Avatars, drawn the way NebAvatar draws them.
-
-   NebDesign.kt:220 is the whole specification. A photo sits on
-   surfaceContainerLowest behind a 1.5dp outlineVariant stroke, so a
-   transparent PNG reads as a picture rather than a hole. Initials get no
-   stroke at all: they are a filled primaryContainer disc with
-   onPrimaryContainer text, and a ring around a filled disc is noise.
-
-   This file used to stroke every avatar in --md-primary, which put a
-   saturated brand-blue ring on every face on every screen -- the one thing
-   the app never does. `:has(img)` is what lets one rule serve both cases
-   without touching the templates.
-
-   The !important is inherited from that earlier version and has to stay:
-   several of these classes are also declared in page stylesheets that load
-   after app.css. */
+/* Avatar fills. A photo sits on surfaceContainerLowest so a transparent PNG reads as a picture,
+   initials sit on primaryContainer. No avatar has a stroke: the clip-path shape (m3x/app-shapes.css)
+   is the only edge. The !important stays: several of these classes are also declared in page
+   stylesheets that load after app.css. */
 
 .avatar-ring:has(img),
 .profile-dropdown-avatar:has(img),
@@ -4263,7 +3278,7 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .cs-avatar:has(img),
 .follow-user-avatar:has(img) {
   background: var(--md-surface-container-lowest) !important;
-  border: 1.5px solid var(--md-outline-variant) !important;
+  border: 0 !important;
   box-sizing: border-box;
 }
 
@@ -4741,7 +3756,9 @@ button.cp-media-item-icon.cp-audio-play.playing {
    The skeleton is what shows when /ajax/user-popup/ is slow enough to notice. */
 .fp-user-popup {
   position: fixed;
-  z-index: 950;
+  /* Above the sheets and dialogs (2000-2400): this card is opened from inside
+     a thread, and under them it renders behind the panel. */
+  z-index: 2500;
   width: 252px;
   max-width: calc(100vw - 24px);
   padding: 12px;
@@ -5136,12 +4153,12 @@ button.cp-media-item-icon.cp-audio-play.playing {
   transition: border-color 0.15s ease;
 }
 
-/* The ring is an outline, not a second border: the offset leaves the gap that a
-   box-shadow pressed against the stroke never has. */
+/* Focus thickens the field's own stroke from the inside: a second outline
+   outside the border reads as a different object appearing, not as this field
+   being focused. The inset shadow costs no layout. */
 .neb-composer:focus-within {
   border-color: var(--md-primary);
-  outline: 2px solid color-mix(in srgb, var(--md-primary) 45%, transparent);
-  outline-offset: 3px;
+  box-shadow: inset 0 0 0 1px var(--md-primary);
 }
 
 .neb-composer-body {
@@ -5250,6 +4267,13 @@ button.cp-media-item-icon.cp-audio-play.playing {
 .neb-composer .fp-inline-tool .material-symbols-outlined {
   font-size: 20px;
   font-weight: 400;
+}
+
+/* The poll mark is a drawn SVG (components/_poll_icon.html), shared with the home
+   composer, so it takes this surface's size and inherits the ink and hover colour. */
+.neb-composer .fp-inline-tool .poll-icon {
+  width: 20px;
+  height: 20px;
 }
 
 /* ---- Send ----
@@ -5528,5 +4552,150 @@ button.cp-media-item-icon.cp-audio-play.playing {
 @media (prefers-reduced-motion: reduce) {
   .reply-send-btn.is-posting .material-symbols-outlined {
     animation: none;
+  }
+}
+
+/* ---- app/19-clamp-toggle.css ---- */
+/* ---- Clamp and reveal ----
+   A long comment folds to a fixed height, its last line fading out, with a text
+   button that opens the rest. clamp-toggle.js only applies the fold when the
+   content is genuinely taller than the cap, so a short comment never grows a
+   mask or a button. Mark the element with data-clamp="pixels". */
+[data-clamp].is-clamped {
+  max-height: var(--clamp-height, 132px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+}
+
+.neb-clamp-toggle {
+  align-self: flex-start;
+  margin: -4px 0 8px -10px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-primary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.neb-clamp-toggle:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+.neb-clamp-toggle:active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-clamp-toggle {
+    transition: none;
+  }
+}
+
+/* ---- app/20-back-button.css ---- */
+/* One back affordance for every sub-page. It is a 36px circle with a 24px
+   arrow, the shape the discussion header already used. The href is where you
+   land when there is no same-origin history to step back through; the go-back
+   action in delegated-events prefers history.back() when there is. */
+.neb-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-on-surface);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease,
+              transform 0.12s ease;
+}
+
+.neb-back .material-symbols-outlined {
+  flex: none;
+  font-size: 24px;
+}
+
+.neb-back:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+}
+
+.neb-back:active {
+  transform: scale(0.96);
+}
+
+/* focus thickens the circle's own stroke rather than drawing a ring outside it */
+.neb-back:focus-visible {
+  outline: none;
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+/* the row the circle sits in, and what it is going back to */
+.neb-back-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.neb-back-row-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* For a page that opens with the circle above its title in normal flow --
+   what most sub-pages do. A page that puts the circle in a header row with
+   the title does not take it, because a bottom margin would off-centre it. */
+.neb-back-block {
+  margin-bottom: 20px;
+}
+
+/* Cover art is drawn once and does not follow the theme, so a circle that
+   takes its colours from --md-* lands on a background it was never checked
+   against. On art the plate is fixed: white, dark ink, same as the media
+   overlays. The page keeps the positioning; this only owns the legibility. */
+.neb-back-on-art,
+.neb-back-on-art:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: #16181D;
+  border-color: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.neb-back-on-art:hover {
+  background: #fff;
+  color: #16181D;
+}
+
+.neb-back-on-art:focus-visible {
+  border-color: #16181D;
+  color: #16181D;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-back {
+    transition: none;
+  }
+
+  .neb-back:active {
+    transform: none;
   }
 }

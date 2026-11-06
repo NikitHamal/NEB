@@ -5,12 +5,16 @@ use crate::theme::{fonts, Theme};
 
 pub const SHORTCUTS: &[(&str, &str)] = &[
     ("Ctrl + K", "Search everything"),
-    ("Ctrl + 1 … 5", "Home · Library · Search · Bookmarks · Downloads"),
+    ("Ctrl + 1 … 8", "Home · Library · Community · Notifications · Bookmarks · Books · People · Offline"),
     ("Ctrl + ,", "Settings"),
     ("Esc", "Close dialog / go back"),
     ("Alt + ←  /  Alt + →", "Back / forward"),
     ("Ctrl + B", "Bookmark the open chapter"),
-    ("Ctrl + D", "Toggle dark mode"),
+    ("Ctrl + D", "Offline downloads"),
+    ("Ctrl + H", "Reading history"),
+    ("Ctrl + Shift + D", "Toggle dark mode"),
+    ("Tab  /  Shift + Tab", "Move focus between buttons, cards and fields"),
+    ("Enter  /  Space", "Activate the focused item"),
     ("Ctrl + +  /  Ctrl + −  /  Ctrl + 0", "Zoom the interface in / out / reset"),
     ("[   and   ]", "Previous / next chapter (reader)"),
     ("Space · PageDown · PageUp", "Scroll the reader by a page"),

@@ -1,0 +1,4 @@
+/* Display = Bricolage Grotesque (wdth 100, wght 500-800), Body = Figtree. Latin only and
+   self-hosted; Devanagari and Latin Extended fall through to Poppins (see --body). */
+@font-face{font-family:Display;font-weight:500 800;font-display:swap;src:url("../fonts/m3x/display-latin.woff2") format("woff2")}
+@font-face{font-family:Body;font-weight:400 800;font-display:swap;src:url("../fonts/m3x/body-latin.woff2") format("woff2")}

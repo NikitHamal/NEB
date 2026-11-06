@@ -1,0 +1,101 @@
+/* One back affordance for every sub-page. It is a 36px circle with a 24px
+   arrow, the shape the discussion header already used. The href is where you
+   land when there is no same-origin history to step back through; the go-back
+   action in delegated-events prefers history.back() when there is. */
+.neb-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-on-surface);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease,
+              transform 0.12s ease;
+}
+
+.neb-back .material-symbols-outlined {
+  flex: none;
+  font-size: 24px;
+}
+
+.neb-back:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+}
+
+.neb-back:active {
+  transform: scale(0.96);
+}
+
+/* focus thickens the circle's own stroke rather than drawing a ring outside it */
+.neb-back:focus-visible {
+  outline: none;
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+/* the row the circle sits in, and what it is going back to */
+.neb-back-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.neb-back-row-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* For a page that opens with the circle above its title in normal flow --
+   what most sub-pages do. A page that puts the circle in a header row with
+   the title does not take it, because a bottom margin would off-centre it. */
+.neb-back-block {
+  margin-bottom: 20px;
+}
+
+/* Cover art is drawn once and does not follow the theme, so a circle that
+   takes its colours from --md-* lands on a background it was never checked
+   against. On art the plate is fixed: white, dark ink, same as the media
+   overlays. The page keeps the positioning; this only owns the legibility. */
+.neb-back-on-art,
+.neb-back-on-art:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: #16181D;
+  border-color: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.neb-back-on-art:hover {
+  background: #fff;
+  color: #16181D;
+}
+
+.neb-back-on-art:focus-visible {
+  border-color: #16181D;
+  color: #16181D;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-back {
+    transition: none;
+  }
+
+  .neb-back:active {
+    transform: none;
+  }
+}

@@ -72,6 +72,16 @@
 }
 
 /* Utility actions, on the cover opposite the back button. */
+/* The cover's two chrome clusters are one row: the utility buttons are 34px
+   at 14px, so a 36px circle centres with them at 13px and takes the same
+   inset on its side. */
+.pf-card-banner .neb-back {
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  z-index: 10;
+}
+
 .pf-banner-actions {
   position: absolute;
   top: 14px;
@@ -138,25 +148,6 @@
   height: 100%;
 }
 
-/* One slow diagonal pass of light, matching the app's 11s sheen. A 40%-wide
-   band translated across a 240%-wide box: transform only, so the compositor
-   handles it and the canvas underneath is never repainted. */
-.pf-banner-sheen {
-  position: absolute;
-  top: -20%;
-  left: 0;
-  width: 40%;
-  height: 140%;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    color-mix(in srgb, var(--neb-cover-ink) 7%, transparent) 50%,
-    transparent 100%
-  );
-  will-change: transform;
-  animation: pfCoverSheen 11s linear infinite;
-}
 
 /* A rule and a tracked word, bottom-right: the corner the avatar and the
    primary action both leave empty. */
@@ -204,16 +195,4 @@
   background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, 0.30) 100%);
 }
 
-@keyframes pfCoverSheen {
-  from { transform: translateX(-120%); }
-  to   { transform: translateX(350%); }
-}
 
-/* Respect reduced-motion: the art is the point, the sheen is garnish. */
-@media (prefers-reduced-motion: reduce) {
-  .pf-banner-sheen {
-    animation: none;
-    opacity: 0.5;
-    transform: translateX(120%);
-  }
-}

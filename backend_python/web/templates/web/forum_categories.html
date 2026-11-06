@@ -15,9 +15,8 @@
 {% block content %}
 <div class="categories-container">
   <div class="categories-header">
-    <a href="{% url 'web:forum' %}" class="md-btn-icon" title="Back to Forum" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </a>
+    {% url 'web:forum' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Forum" %}
     <h1 class="md-headline-medium-emphasized" style="margin:0;">All Categories</h1>
   </div>
 
