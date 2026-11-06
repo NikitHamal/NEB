@@ -1002,6 +1002,124 @@ The National Information and Communication Technology Policy, 2015 aims to make 
 
 The Electronic Transactions Act, 2063 provides the legal base: it makes digital signatures and electronic records valid, allows government to work electronically, and punishes cybercrime, for example hacking and the publication of illegal material. Together the policy gives direction and the Act gives legal force, but the Act is old and needs updating for social media and data protection.
 
+## 15.10 Extended model answers (10 marks)
+
+A Grade 11 Computer Science long answer is marked for definition, a clear structure, a table or diagram, examples and a conclusion. The three models below show the expected length.
+
+**Extended questions**
+
+1. Explain the types of computer memory and the memory hierarchy, and differentiate between primary and secondary memory. <span class="marks">[10]</span>
+2. Convert 156 from decimal to binary and hexadecimal, add 1011 and 0110, find the 8-bit two's complement of 5, and explain the half adder with its truth table. <span class="marks">[10]</span>
+3. What is information security? Explain the common threats, the safeguards, and the main provisions of the Electronic Transactions Act 2063. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="4" ratio="1.25" caption="Hardware behind the memory answer. (a) An Intel Core CPU die package, the fastest and smallest store of data through its registers and cache. (b) A DDR RAM module: primary memory. (c) The platter and head of a hard disk: secondary memory. (d) A solid-state drive with no moving parts. Speed falls and capacity rises as we move from (a) to (d)."
+@ photo id="cs11/cpu-i7" cap="(a) CPU"
+@ photo id="cs11/ram" cap="(b) RAM module"
+@ photo id="cs11/hdd-platter" cap="(c) Hard-disk platter"
+@ photo id="cs11/ssd" cap="(d) SSD"
+```
+
+### Model answer D1: memory and memory hierarchy (10 marks)
+
+**Introduction.** **Computer memory** is the part of a computer that stores data and instructions, temporarily or permanently. The CPU can use only the data that is placed in memory, so the speed and size of memory decide the speed of the whole computer. Memory is divided into primary, secondary and cache memory.
+
+**Types of memory.**
+
+1. **Registers.** Tiny storage cells inside the CPU that hold the data being processed at this instant. They are the fastest memory, but only a few bytes are available.
+2. **Cache memory.** A small, very fast SRAM between the CPU and RAM that keeps the most used data. L1, L2 and L3 caches are common in a processor.
+3. **Primary memory (main memory).** It includes RAM and ROM. **RAM** is volatile and holds the running programs. **ROM** is non-volatile and holds the start-up program (BIOS).
+4. **Secondary memory.** Hard disk, SSD, pen drive, DVD and tape. It keeps data permanently and has a very large capacity, but is slower.
+5. **Virtual memory.** A part of the hard disk used as an extension of RAM when RAM is full.
+
+**Memory hierarchy.** Memory is arranged like a pyramid: registers at the top, then cache, RAM, SSD or hard disk, and tape or cloud at the bottom. Going down the pyramid, the **capacity increases**, the **cost per byte decreases** and the **speed decreases**. The hierarchy gives a large and cheap memory that appears almost as fast as the smallest memory, because the CPU finds most of the data in the cache.
+
+| Level | Typical size | Speed | Volatile? |
+|---|---|---|---|
+| Registers | Bytes | Fastest | Yes |
+| Cache | 1 to 32 MB | Very fast | Yes |
+| RAM | 4 to 32 GB | Fast | Yes |
+| SSD / HDD | 256 GB to several TB | Slow | No |
+| Tape / cloud | Very large | Slowest | No |
+
+**Difference between primary and secondary memory**
+
+| Basis | Primary memory | Secondary memory |
+|---|---|---|
+| Access | Directly by the CPU | Through the primary memory |
+| Speed | Fast | Slow |
+| Capacity | Small | Large |
+| Cost per byte | High | Low |
+| Volatility | RAM is volatile | Non-volatile |
+| Example | RAM, ROM | HDD, SSD, DVD |
+
+**Conclusion.** Every level of the hierarchy has its job: the cache serves speed, the RAM serves running work and the disk serves permanent storage. A computer with more RAM and an SSD feels faster for exactly this reason.
+
+### Model answer D2: number system and half adder (10 marks)
+
+**Introduction.** A computer works with the **binary** system (base 2) of digits 0 and 1. Humans use decimal (base 10), and **hexadecimal** (base 16) is a short way to write long binary numbers. Conversion between them is a basic skill.
+
+**Decimal 156 to binary (repeated division by 2).**
+
+| Division | Quotient | Remainder |
+|---|---|---|
+| 156 ÷ 2 | 78 | 0 |
+| 78 ÷ 2 | 39 | 0 |
+| 39 ÷ 2 | 19 | 1 |
+| 19 ÷ 2 | 9 | 1 |
+| 9 ÷ 2 | 4 | 1 |
+| 4 ÷ 2 | 2 | 0 |
+| 2 ÷ 2 | 1 | 0 |
+| 1 ÷ 2 | 0 | 1 |
+
+Reading the remainders from the bottom to the top, $156_{10} = 10011100_2$. Check: $128 + 16 + 8 + 4 = 156$.
+
+**Hexadecimal.** Group the bits in fours: $1001\ 1100 = 9\ \text{C}$, so $156_{10} = 9C_{16}$. Check: $9\times16 + 12 = 156$.
+
+**Binary addition.** $1011 + 0110$: $1+0 = 1$; $1+1 = 0$ carry 1; $0+1+1 = 0$ carry 1; $1+0+1 = 0$ carry 1; the last carry gives the leading 1. The sum is $10001_2 = 17_{10}$, and $11 + 6 = 17$.
+
+**Two's complement of 5 (8 bits).** $5 = 00000101$. Invert the bits: $11111010$. Add 1: $11111011$. So $-5 = 11111011$. Check: $00000101 + 11111011 = 100000000$, and the carry out of the 8th bit is discarded, leaving 0.
+
+**Half adder.** A half adder adds two single bits $A$ and $B$ and gives a **Sum** and a **Carry**. Sum is the XOR gate, $S = A \oplus B$, and Carry is the AND gate, $C = A\cdot B$.
+
+| A | B | Sum | Carry |
+|---|---|---|---|
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
+
+**Conclusion.** Division by 2 converts decimal to binary, grouping by four gives hexadecimal, and the half adder shows how logic gates perform arithmetic. Two half adders and an OR gate form a full adder, the building block of the ALU.
+
+### Model answer D3: information security and cyber law (10 marks)
+
+**Introduction.** **Information security** is the protection of data and information systems from unauthorised access, change, theft or destruction. Its three goals are **confidentiality** (only the right person can read), **integrity** (data is not changed) and **availability** (data is there when needed). With ConnectIPS, Fonepay and the Nagarik App, security matters for every citizen of Nepal.
+
+**Threats.**
+
+1. **Virus and worm:** programs that copy themselves and damage files.
+2. **Trojan horse:** a harmful program pretending to be useful.
+3. **Ransomware:** locks the files and demands money.
+4. **Phishing:** a fake email or website that steals passwords and card numbers.
+5. **Hacking:** unauthorised entry into a system.
+6. **Denial of service:** a flood of requests that stops a website.
+7. **Social engineering:** tricking a person into giving secret information.
+8. **Physical threats:** theft, fire, flood and power failure.
+
+**Safeguards.**
+
+| Safeguard | Purpose |
+|---|---|
+| Antivirus and updates | Detect and remove malware |
+| Firewall | Block unauthorised network traffic |
+| Strong passwords and two-factor login | Protect accounts |
+| Encryption and HTTPS | Keep data unreadable in transit |
+| Regular backup | Recover after an attack |
+| User awareness | Avoid phishing and unsafe downloads |
+
+**Electronic Transactions Act, 2063 BS (ETA).** The Act gives legal recognition to digital signatures and electronic records. It declares the following acts as cyber crimes: damaging or stealing computer source code, unauthorised access, publishing illegal material in electronic form, and breach of confidentiality or privacy. The penalties include a fine and imprisonment, and the Act sets up a Cyber Bureau of Nepal Police and an IT Tribunal to try these cases.
+
+**Conclusion.** Security is the result of technology, law and habit together. A strong password, an updated system and the knowledge of the ETA protect both the user and the nation.
+
 ## Chapter summary
 
 - Group B is 5 x 5 = 25 marks and Group C is 2 x 8 = 16 marks; the two C programs are the most predictable use of an 8-mark slot.
