@@ -2408,6 +2408,6 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## Session 91 (eng12 complete, nep12 Group ङ)
 
-- **Done:** `eng12` units 8-35 gained `Group D` (poems, essays, plays, grammar, writing; 575 pp, qa fails=0); eng12 is complete. `nep12` units 1-28 gained `समूह ङ` Nepali model answers (see `bca/POLISH_STATUS.md` Session 91 for push state). **Next:** `nep11`, `nep10`, `nep8`, BCA entrance books, fresh-clone qa sweep, merge to main + syllabus update (all NOT done).
+- **Done:** `nep12` units 1-28 also gained `समूह ङ` (429 pp, qa fails=0, pushed). `eng12` units 8-35 gained `Group D` (poems, essays, plays, grammar, writing; 575 pp, qa fails=0); eng12 is complete. `nep12` units 1-28 gained `समूह ङ` Nepali model answers (see `bca/POLISH_STATUS.md` Session 91 for push state). **Next:** `nep11`, `nep10`, `nep8`, BCA entrance books, fresh-clone qa sweep, merge to main + syllabus update (all NOT done).
 - **Setup:** `sudo -n apt-get update` then install pango/harfbuzz/poppler/fontconfig; `pip3 install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12` + deps incl. matplotlib; fonts install.sh; out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS reading `$NEB_PAT` (PAT never in the repo; the owner should rotate the PAT pasted in the prompt). Shallow single-branch clone.
 - **Gotchas:** qa_pdf.py on 500+ page PDFs needs `nohup` (about 12 min); delete `/app/sheets` before validating /app.
