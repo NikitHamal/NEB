@@ -644,3 +644,80 @@ facts = dict(b=rows[1][1], ppm=ppm, b2=rows[3][1])
 **9.** (a) — Reimer–Tiemann ortho formylation via dichlorocarbene.
 **10.** (b) — Williamson methylation of phenoxide; the ring is not methylated at carbon under these conditions.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare SN1 and SN2 mechanisms and E1 and E2 elimination of haloalkanes with the factors that decide the path. <span class="marks">[10]</span>
+2. Explain the preparation, properties and tests of alcohols, phenols and ethers, including the Lucas test and the acidity of phenol. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.25" caption="Organic compounds in use. (a) Hand sanitiser is mainly ethanol or isopropyl alcohol. (b) Diethyl ether, once the first general anaesthetic, is a volatile ether. (c) DDT is a chlorinated organic compound, effective as an insecticide but banned for its persistence."
+@ photo id="chem12b/sanitizer" cap="(a) Alcohol sanitiser"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ether" cap="(b) Diethyl ether"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ddt" cap="(c) DDT, a haloalkane insecticide"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: nucleophilic substitution and elimination (10 marks)
+
+**Introduction.** In a haloalkane R-X the carbon-halogen bond is polar, so carbon is electrophilic. A **nucleophile** (OH⁻, CN⁻, NH₃) replaces the halide, and with a strong base elimination competes.
+
+**SN2 mechanism.** A **one-step**, bimolecular process in which the nucleophile attacks from the back side, as the leaving group departs, through a single transition state. Rate $= k[\text{RX}][\text{Nu}^-]$ (second order). **Inversion of configuration** (Walden inversion) occurs.
+
+**SN1 mechanism.** A **two-step** process: slow ionisation to a planar carbocation, then fast attack by the nucleophile. Rate $= k[\text{RX}]$ (first order). Optically active compounds give **racemisation** (and rearrangements are possible).
+
+| Feature | SN1 | SN2 |
+|---|---|---|
+| Rate law | $k[\text{RX}]$ | $k[\text{RX}][\text{Nu}]$ |
+| Steps | two, via carbocation | one |
+| Favoured substrate | $3^{\circ} > 2^{\circ}$, allyl, benzyl | $\text{CH}_3 > 1^{\circ} > 2^{\circ}$ |
+| Nucleophile | weak, any | strong, high concentration |
+| Solvent | polar protic (water, alcohol) | polar aprotic (DMSO, acetone) |
+| Stereochemistry | racemisation | inversion |
+| Leaving group | I > Br > Cl > F | I > Br > Cl > F |
+
+**Elimination.** In **E2** a strong base removes the $\beta$-hydrogen in one step as the leaving group departs (anti-periplanar arrangement) and the rate is second order. In **E1** the carbocation formed in the slow step loses a proton. **Saytzeff's rule:** the more substituted (more stable) alkene is the major product, for example 2-bromobutane with alcoholic KOH gives mainly 2-butene.
+
+**Substitution or elimination?** Alcoholic KOH, a strong bulky base, high temperature and $3^{\circ}$ halides favour elimination. Aqueous KOH, a good nucleophile with a weak base, and low temperature favour substitution.
+
+**Special reactions.** Wurtz reaction ($2\text{RX} + 2\text{Na} \to \text{R-R}$), Grignard reagent formation ($\text{RX} + \text{Mg} \to \text{RMgX}$ in dry ether), Finkelstein reaction ($\text{RCl} + \text{NaI} \to \text{RI}$ in acetone), Swarts reaction (formation of RF with AgF) and the Sandmeyer reaction. Aryl halides do not undergo SN1 or SN2 easily because of the partial double-bond character of the C-X bond, but they react by nucleophilic aromatic substitution when there is a nitro group ortho or para to the halogen.
+
+**Numerical.** In SN2 reaction of CH₃Br with OH⁻, doubling both $[\text{CH}_3\text{Br}]$ and $[\text{OH}^-]$ makes the rate $2\times2 = 4$ times larger. For SN1 of $(\text{CH}_3)_3\text{CBr}$, doubling $[\text{OH}^-]$ has no effect and doubling the substrate doubles the rate.
+
+**Conclusion.** Primary halides prefer SN2, tertiary halides prefer SN1 or E1, and a strong bulky base favours E2.
+
+### Model answer D2: alcohols, phenols and ethers (10 marks)
+
+**Introduction.** Alcohols (R-OH), phenols (Ar-OH) and ethers (R-O-R') are the hydroxy and alkoxy derivatives of hydrocarbons.
+
+**Alcohols.**
+
+1. **Preparation:** hydration of alkenes, reduction of aldehydes, ketones and esters ($\text{LiAlH}_4$, $\text{NaBH}_4$), Grignard reagent with carbonyls, and fermentation of sugar for ethanol.
+2. **Hydrogen bonding** gives alcohols a much higher boiling point than ethers of similar mass and a high solubility in water.
+3. **Classification and tests.** In the **Lucas test** (ZnCl₂ in conc. HCl), $3^{\circ}$ alcohols turn cloudy at once, $2^{\circ}$ in about five minutes, and $1^{\circ}$ only on heating, so the order of reactivity is $3^{\circ} > 2^{\circ} > 1^{\circ}$ (carbocation stability).
+4. **Oxidation:** $1^{\circ}$ gives an aldehyde (PCC) then acid (KMnO₄ or K₂Cr₂O₇), $2^{\circ}$ gives a ketone, and $3^{\circ}$ resists oxidation.
+5. **Dehydration:** at $443\ \text{K}$ with conc. H₂SO₄ gives an alkene and at $413\ \text{K}$ an ether.
+
+**Phenol.**
+
+- **Acidity.** Phenol ($\text{p}K_a = 10$) is more acidic than alcohols ($16$ to $18$) because the phenoxide ion is stabilised by resonance, but it is weaker than carbonic acid, so it does not dissolve in NaHCO₃. Electron-withdrawing groups raise the acidity: $\text{p}K_a$ of $2,4,6$-trinitrophenol (picric acid) is $0.4$.
+- **Tests:** violet colour with neutral FeCl₃; white precipitate of $2,4,6$-tribromophenol with bromine water.
+- **Reactions:** Kolbe's reaction (sodium phenoxide with CO₂ gives salicylic acid, the precursor of aspirin), Reimer-Tiemann reaction (CHCl₃ and NaOH give salicylaldehyde) and EAS in the ortho and para positions.
+
+**Ethers.** Prepared by **Williamson's synthesis** ($\text{RONa} + \text{R'X} \to \text{ROR'}$, SN2 and so best with a primary halide). They are inert, volatile and flammable, and form explosive peroxides on standing. Cleavage by HI: $\text{ROR'} + \text{HI} \to \text{ROH} + \text{R'I}$.
+
+| Property | Ethanol | Phenol | Diethyl ether |
+|---|---|---|---|
+| Boiling point | $78^{\circ}\text{C}$ | $182^{\circ}\text{C}$ | $35^{\circ}\text{C}$ |
+| Hydrogen bonding | yes | yes | no |
+| Reaction with Na | yes, H₂ | yes, H₂ | no |
+| Reaction with NaOH | no | yes | no |
+| FeCl₃ | no | violet | no |
+
+**Numerical.** From $9.4\ \text{g}$ of phenol ($0.1\ \text{mol}$), $0.1\ \text{mol}$ of $2,4,6$-tribromophenol ($331\ \text{g mol}^{-1}$) is $33.1\ \text{g}$ at $100\%$. Ethanol ($46$) and dimethyl ether ($46$) have the same molar mass, but their boiling points are $78^{\circ}\text{C}$ and $-24^{\circ}\text{C}$ because of hydrogen bonding.
+
+**Conclusion.** Hydrogen bonding sets the physical properties of alcohols and phenols, resonance explains the acidity of phenol, and ethers are chemically inert.

@@ -808,3 +808,67 @@ NH₃ 192.5, H₂O(g) 188.7, H₂O(l) 69.9 J K⁻¹ mol⁻¹. 1 L atm = 101.3 J.
 **9.** (a) — $\Delta G^\circ = -92.4 - (298)(-0.198) = -92.4 + 59.0 = -33.4$ kJ mol⁻¹. Option (c) subtracts the entropy term as well.
 **10.** (c) — Set $\Delta G^\circ = 0$: $T = \Delta H/\Delta S = 92\,400/198 = 467$ K. Option (a) inverts the ratio.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the first law of thermodynamics, define enthalpy and apply Hess's law with a numerical. <span class="marks">[10]</span>
+2. Explain entropy, Gibbs free energy and spontaneity, and calculate the temperature at which a reaction becomes spontaneous. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.25" caption="Energy changes in chemistry. (a) A calorimeter measures the heat of a reaction. (b) An instant cold pack is endothermic: dissolving ammonium nitrate absorbs heat. (c) A lighter burns butane, an exothermic reaction with a negative enthalpy change."
+@ photo id="ceechem2/calorimeter" cap="(a) Calorimeter"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/coldpack" cap="(b) Endothermic cold pack"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/lighter" cap="(c) Exothermic combustion"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: first law, enthalpy and Hess's law (10 marks)
+
+**Introduction.** A **system** is the part of the universe under study. It may be open, closed or isolated. A **state function** (U, H, S, G, P, V, T) depends only on the state, while heat $q$ and work $w$ are path functions.
+
+**First law.** Energy can be neither created nor destroyed: $\Delta U = q + w$ (IUPAC sign convention: $q$ and $w$ are positive when added to the system). For expansion against an external pressure, $w = -P\Delta V$.
+
+**Enthalpy.** $H = U + PV$, so $\Delta H = \Delta U + P\Delta V$ and for gases $\Delta H = \Delta U + \Delta n_gRT$. At constant pressure $\Delta H = q_p$ and at constant volume $\Delta U = q_v$. A reaction is **exothermic** if $\Delta H < 0$ and **endothermic** if $\Delta H > 0$.
+
+**Types of enthalpy:** formation ($\Delta_fH^{\circ}$, zero for elements in the standard state), combustion, neutralisation ($-57.3\ \text{kJ mol}^{-1}$ for a strong acid and strong base), atomisation, bond dissociation, lattice enthalpy and solution.
+
+**Hess's law.** The total enthalpy change of a reaction is the same whether it takes place in one step or in several steps, because $H$ is a state function. Two uses: $\Delta_rH^{\circ} = \sum\Delta_fH^{\circ}(\text{products}) - \sum\Delta_fH^{\circ}(\text{reactants})$ and $\Delta_rH = \sum(\text{bonds broken}) - \sum(\text{bonds formed})$. The **Born-Haber cycle** applies Hess's law to find lattice enthalpy.
+
+| Heat capacity relation | Formula |
+|---|---|
+| Heat change | $q = mc\Delta T$ |
+| Gases | $C_p - C_v = R$ |
+| Kirchhoff | $\Delta H_2 - \Delta H_1 = \Delta C_p(T_2 - T_1)$ |
+
+**Numerical.** For CH₄ + 2O₂ → CO₂ + 2H₂O(l), with $\Delta_fH^{\circ}$ of $-74.8$, $-393.5$ and $-285.8\ \text{kJ mol}^{-1}$ for CH₄, CO₂ and H₂O: $\Delta_rH^{\circ} = [-393.5 + 2(-285.8)] - [-74.8] = -890.3\ \text{kJ mol}^{-1}$. Burning $16\ \text{g}$ of methane releases $890\ \text{kJ}$. Also, $\Delta U = \Delta H - \Delta n_gRT$, with $\Delta n_g = 1 - 3 = -2$ here, which gives $\Delta U = -890.3 + 2(8.314)(298)/1000 = -885.3\ \text{kJ}$.
+
+**Conclusion.** Hess's law lets us find the enthalpy of any reaction from tabulated formation enthalpies, because enthalpy is a state function.
+
+### Model answer D2: entropy, Gibbs energy and spontaneity (10 marks)
+
+**Introduction.** Many spontaneous processes are exothermic, but some endothermic processes are spontaneous too (melting of ice above $0^{\circ}\text{C}$, dissolving of NH₄NO₃). The additional factor is the disorder, measured by **entropy**.
+
+**Entropy $S$.** A measure of the randomness of a system, $\Delta S = \dfrac{q_{rev}}{T}$ (J K⁻¹ mol⁻¹). It increases for solid → liquid → gas and when moles of gas increase. **Second law:** in a spontaneous process, the entropy of the universe increases: $\Delta S_{total} = \Delta S_{sys} + \Delta S_{surr} > 0$. **Third law:** the entropy of a perfect crystal at $0\ \text{K}$ is zero.
+
+**Gibbs free energy.** $G = H - TS$, and at constant $T$ and $P$:
+
+$$ \Delta G = \Delta H - T\Delta S $$
+
+| $\Delta H$ | $\Delta S$ | $\Delta G$ | Spontaneity |
+|---|---|---|---|
+| negative | positive | always negative | spontaneous at all temperatures |
+| positive | negative | always positive | non-spontaneous at all temperatures |
+| negative | negative | negative at low $T$ | spontaneous at low temperature |
+| positive | positive | negative at high $T$ | spontaneous at high temperature |
+
+At equilibrium $\Delta G = 0$, so $T = \Delta H/\Delta S$. Also $\Delta G^{\circ} = -RT\ln K$, so a large $K$ means a negative $\Delta G^{\circ}$. The maximum non-expansion work obtainable from a process is $-\Delta G$.
+
+**Other points.** (1) For a phase change at its transition temperature, $\Delta S = \Delta H/T$ (for example $\Delta S_{fus}$ of ice $= 6010/273 = 22\ \text{J K}^{-1}\text{mol}^{-1}$). (2) Entropy of the surroundings is $-\Delta H/T$. (3) The Gibbs energy of formation of an element is zero.
+
+**Numerical.** For CaCO₃(s) → CaO(s) + CO₂(g), $\Delta H^{\circ} = +178\ \text{kJ mol}^{-1}$ and $\Delta S^{\circ} = +160.5\ \text{J K}^{-1}\text{mol}^{-1}$. At $298\ \text{K}$, $\Delta G = 178 - 298\times0.1605 = +130\ \text{kJ}$, non-spontaneous. The reaction becomes spontaneous above $T = \dfrac{178\,000}{160.5} = 1109\ \text{K}$ (about $836^{\circ}\text{C}$), which is why limestone is heated in a kiln.
+
+**Conclusion.** $\Delta G = \Delta H - T\Delta S$ combines the energy and disorder factors and shows how temperature can switch a reaction from non-spontaneous to spontaneous.

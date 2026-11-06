@@ -638,3 +638,78 @@ Cu 3d¹⁰ 4s¹.
 **10.** (b) — E = hc/λ = 6.63 × 10⁻³⁴ × 3.0 × 10⁸/(663 × 10⁻⁹) = 3.0 × 10⁻¹⁹ J (≈ 1.9 eV). Option (d) forgets to convert nm to m.
 **11.** (a) — E ∝ Z²/n²: hydrogen n = 2 gives 1/4; Li²⁺ n = 3 gives 9/9 = 1. Ratio 1/4 : 1 = 1 : 4 (−3.4 eV against −13.6 eV).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Bohr's model of the atom, derive the radius and energy of the hydrogen orbits and explain the line spectrum with numericals. <span class="marks">[10]</span>
+2. Explain the four quantum numbers, the rules for filling electrons, the exceptions Cr and Cu, and the magnetic moment with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Electrons and energy levels. (a) Flame tests: each metal ion gives a characteristic colour as excited electrons fall back to lower levels. (b) Transition-metal ions are coloured because of d-d electron jumps. (c) A transmission electron microscope images matter with a beam of electrons of wavelength far shorter than light."
+@ photo id="chem11/flame-colours" cap="(a) Flame colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/tm-colours" cap="(b) d-block colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/tem" cap="(c) Electron microscope"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Bohr's model and the hydrogen spectrum (10 marks)
+
+**Introduction.** Rutherford's model could not explain the stability of the atom or line spectra. Bohr (1913) proposed that an electron moves in fixed circular orbits (energy levels) without radiating, that its angular momentum is $mvr = \dfrac{nh}{2\pi}$, and that radiation is emitted or absorbed only when it jumps between orbits: $\Delta E = hf = \dfrac{hc}{\lambda}$.
+
+**Results for hydrogen and hydrogen-like species** (atomic number $Z$):
+
+1. Radius $r_n = 52.9\,\dfrac{n^2}{Z}\ \text{pm}$.
+2. Speed $v_n = 2.19\times10^6\,\dfrac Zn\ \text{m s}^{-1}$.
+3. Energy $E_n = -13.6\,\dfrac{Z^2}{n^2}\ \text{eV} = -2.18\times10^{-18}\dfrac{Z^2}{n^2}\ \text{J}$.
+4. Spectral lines: $\bar\nu = \dfrac1\lambda = R_HZ^2\left(\dfrac{1}{n_1^2} - \dfrac{1}{n_2^2}\right)$ with $R_H = 1.097\times10^7\ \text{m}^{-1}$.
+
+| Series | $n_1$ | $n_2$ | Region |
+|---|---|---|---|
+| Lyman | 1 | 2, 3, ... | ultraviolet |
+| Balmer | 2 | 3, 4, ... | visible |
+| Paschen | 3 | 4, 5, ... | infrared |
+| Brackett | 4 | 5, 6, ... | infrared |
+| Pfund | 5 | 6, 7, ... | far infrared |
+
+The number of lines for the jump from level $n$ to the ground state, in all possible ways, is $\dfrac{n(n - 1)}{2}$.
+
+**Limitations.** The model fails for atoms with more than one electron, cannot explain the splitting of lines in a magnetic field (Zeeman) or electric field (Stark), and contradicts the **Heisenberg uncertainty principle** ($\Delta x\cdot\Delta p \ge h/4\pi$) and the dual nature of the electron ($\lambda = h/mv$).
+
+**Numerical.**
+
+- The $H_\alpha$ line ($3 \to 2$): $\bar\nu = 1.097\times10^7\times\dfrac{5}{36} = 1.524\times10^6\ \text{m}^{-1}$, so $\lambda = 656\ \text{nm}$.
+- Ionisation energy of He⁺ ($Z = 2$, $n = 1$) $= 13.6\times4 = 54.4\ \text{eV}$.
+- The $n = 4$ orbit of hydrogen has $r = 16\times52.9 = 846\ \text{pm}$, and a jump $4 \to 1$ gives $13.6(1 - \tfrac1{16}) = 12.75\ \text{eV}$.
+
+**Conclusion.** Bohr's model explains the hydrogen spectrum through quantised energy levels but fails for many-electron atoms, which need the quantum mechanical model.
+
+### Model answer D2: quantum numbers and electronic configuration (10 marks)
+
+**Introduction.** In the quantum mechanical model, the position of an electron is described by an **orbital**, a region of high probability, and four quantum numbers.
+
+| Quantum number | Symbol | Allowed values | Tells |
+|---|---|---|---|
+| Principal | $n$ | $1, 2, 3, \ldots$ | shell, size and energy |
+| Azimuthal | $l$ | $0$ to $n - 1$ | subshell shape ($s, p, d, f$) |
+| Magnetic | $m_l$ | $-l$ to $+l$ | orientation, giving $2l + 1$ orbitals |
+| Spin | $m_s$ | $+\tfrac12$ or $-\tfrac12$ | spin direction |
+
+A shell holds $2n^2$ electrons and a subshell $2(2l + 1)$ electrons. The number of radial nodes is $n - l - 1$ and the angular nodes equal $l$.
+
+**Rules for filling.**
+
+1. **Aufbau principle:** orbitals fill in the increasing order of $(n + l)$, and for equal values the lower $n$ first: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, 5s, 4d, ...
+2. **Pauli exclusion principle:** no two electrons in an atom have all four quantum numbers the same, so an orbital holds at most two electrons of opposite spin.
+3. **Hund's rule:** electrons occupy degenerate orbitals singly with parallel spins before pairing.
+
+**Exceptions.** Half-filled and fully filled subshells are extra stable (exchange energy, symmetry). So chromium is $[\text{Ar}]3d^54s^1$ (not $3d^44s^2$) and copper is $[\text{Ar}]3d^{10}4s^1$. In forming cations, electrons leave the $4s$ before the $3d$, for example Fe³⁺ is $[\text{Ar}]3d^5$.
+
+**Magnetic moment.** $\mu = \sqrt{n(n + 2)}\ \text{BM}$, where $n$ is the number of unpaired electrons. A substance with unpaired electrons is **paramagnetic** and one with none is **diamagnetic**.
+
+**Numerical.** Fe³⁺ ($3d^5$) has $n = 5$, so $\mu = \sqrt{35} = 5.92\ \text{BM}$. Cu²⁺ ($3d^9$) has $n = 1$ and $\mu = \sqrt3 = 1.73\ \text{BM}$. Zn²⁺ ($3d^{10}$) has $n = 0$ and is diamagnetic. The valid sets for $n = 3$ give $2n^2 = 18$ electrons in $9$ orbitals.
+
+**Conclusion.** Four quantum numbers fix every electron, and the Aufbau, Pauli and Hund rules, with the special stability of half-filled and fully-filled subshells, give the configuration.

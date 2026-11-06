@@ -590,3 +590,81 @@ facts = dict(cl=rows[1][1], br=rows[0][1], f=rows[2][1], du=300 * DU, loss=(300 
 Haber NH₃ = **Fe/Mo**; Ostwald HNO₃ = **Pt–Rh gauze**; Contact H₂SO₄ = **V₂O₅**.
 The options in at least one question a year are exactly these three, shuffled.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the industrial preparation of ammonia and nitric acid and the properties of nitric acid. <span class="marks">[10]</span>
+2. Describe the manufacture of sulphuric acid by the Contact process, its properties, and the halogens and noble gases in brief. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.25" caption="Non-metals in the lab and home. (a) A Kipp's apparatus gives a steady supply of gases such as H2S or CO2. (b) Sulphur, the raw material for sulphuric acid. (c) Iodised salt contains iodate or iodide, a halogen compound added to prevent goitre."
+@ photo id="chem11/kipp" cap="(a) Kipp's apparatus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/sulfur" cap="(b) Sulphur"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/iodsalt" cap="(c) Iodised salt"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: ammonia and nitric acid (10 marks)
+
+**Introduction.** Nitrogen makes up about $78\%$ of air. Its compounds, ammonia and nitric acid, are the basis of fertilisers (urea, ammonium nitrate) and explosives.
+
+**Ammonia by the Haber process.** N₂ + 3H₂ ⇌ 2NH₃, $\Delta H = -92\ \text{kJ mol}^{-1}$. By Le Chatelier's principle, high pressure and low temperature favour the yield. The conditions used are $200$ atm, $450$ to $500^{\circ}\text{C}$, finely divided iron as the catalyst and molybdenum as the promoter. About $15\%$ conversion per pass is obtained, and the unreacted gas is recycled. In the laboratory, NH₃ is made by heating NH₄Cl with Ca(OH)₂ and dried with quicklime (not with H₂SO₄ or CaCl₂, which react with it).
+
+**Properties of ammonia.** Colourless gas with a pungent smell, very soluble in water (fountain experiment), it is a weak base (NH₃ + H₂O ⇌ NH₄⁺ + OH⁻), a reducing agent (with Cl₂ and CuO), and forms complexes ($[\text{Cu(NH}_3)_4]^{2+}$, deep blue). It gives a white precipitate with Mg²⁺ and a brown precipitate with Nessler's reagent.
+
+**Nitric acid by the Ostwald process.**
+
+1. $4\text{NH}_3 + 5\text{O}_2 \to 4\text{NO} + 6\text{H}_2\text{O}$ over a Pt-Rh gauze at $800^{\circ}\text{C}$ (exothermic).
+2. $2\text{NO} + \text{O}_2 \to 2\text{NO}_2$.
+3. $3\text{NO}_2 + \text{H}_2\text{O} \to 2\text{HNO}_3 + \text{NO}$, with the NO recycled. The acid is $68\%$ by mass and is concentrated further by distilling with H₂SO₄.
+
+**Properties of HNO₃.** It is a strong acid and a powerful oxidising agent, and its products depend on the metal and the concentration.
+
+| Reaction | Products |
+|---|---|
+| Cu + dilute HNO₃ | Cu(NO₃)₂ + NO + H₂O |
+| Cu + concentrated HNO₃ | Cu(NO₃)₂ + NO₂ + H₂O |
+| Zn + very dilute HNO₃ | Zn(NO₃)₂ + NH₄NO₃ + H₂O |
+| Fe, Al, Cr + concentrated HNO₃ | passive (oxide layer) |
+| Au, Pt | no reaction (but aqua regia, $3\text{HCl} : 1\text{HNO}_3$, dissolves them) |
+| S, C, P | oxidised to H₂SO₄, CO₂, H₃PO₄ |
+
+The **brown ring test** for nitrate uses FeSO₄ and concentrated H₂SO₄ to give $[\text{Fe(H}_2\text{O)}_5\text{NO}]^{2+}$.
+
+**Numerical.** From $1\ \text{kg}$ of NH₃ ($17\ \text{g mol}^{-1}$) in the Ostwald process the moles are $58.8$, which give $58.8\ \text{mol}$ of HNO₃ ($63\ \text{g mol}^{-1}$) $= 3.7\ \text{kg}$ of pure acid. In the Haber process, $28\ \text{g}$ of N₂ ($1\ \text{mol}$) at $100\%$ yield gives $34\ \text{g}$ of NH₃.
+
+**Conclusion.** Both processes depend on catalysts: Fe for NH₃ and Pt-Rh for the oxidation of NH₃ to NO.
+
+### Model answer D2: sulphuric acid, halogens and noble gases (10 marks)
+
+**Introduction.** Sulphuric acid, the "king of chemicals", is the most produced industrial chemical. Its consumption is a measure of industrial progress.
+
+**Contact process.**
+
+1. Burn sulphur or roast pyrites: S + O₂ → SO₂.
+2. Purify the gases (remove dust, arsenic and moisture, which would poison the catalyst).
+3. Oxidise: $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197\ \text{kJ}$, with V₂O₅ as catalyst at $450^{\circ}\text{C}$ and $1$ to $2$ atm. The conversion is about $99\%$.
+4. Absorb SO₃ in $98\%$ H₂SO₄ to make **oleum** (H₂S₂O₇), because SO₃ with water would give a mist: $\text{H}_2\text{S}_2\text{O}_7 + \text{H}_2\text{O} \to 2\text{H}_2\text{SO}_4$.
+
+**Properties of H₂SO₄.** Oily, dense and very hygroscopic. It is a strong dibasic acid, a **dehydrating agent** (chars sugar to carbon), and an oxidising agent when hot and concentrated: $\text{Cu} + 2\text{H}_2\text{SO}_4 \to \text{CuSO}_4 + \text{SO}_2 + 2\text{H}_2\text{O}$. It is used for fertilisers, batteries, detergents, petroleum refining, dyes and explosives.
+
+**Halogens (group 17).**
+
+| Halogen | Colour and state | Oxidising power | Special note |
+|---|---|---|---|
+| F₂ | pale yellow gas | strongest | reacts with everything, even Xe |
+| Cl₂ | greenish-yellow gas | strong | bleaching: $\text{Cl}_2 + \text{H}_2\text{O} \to \text{HCl} + \text{HOCl}$ |
+| Br₂ | red-brown liquid | medium | |
+| I₂ | violet solid | weak | sublimes, blue with starch |
+
+Cl₂ is made in the laboratory by MnO₂ + 4HCl → MnCl₂ + Cl₂ + 2H₂O, and a more reactive halogen displaces a less reactive one. Acidity of the hydrogen halides: HF < HCl < HBr < HI, while the boiling point of HF is anomalously high due to hydrogen bonding.
+
+**Noble gases.** Group 18, with complete octets (He has a duplet), are very unreactive. Compounds: XeF₂ (linear), XeF₄ (square planar), XeF₆ (distorted octahedral) and XeO₃ (pyramidal). Uses: He in balloons and for cooling, Ne in signs, Ar in welding and bulbs.
+
+**Numerical.** In the Contact process, $32\ \text{g}$ of S gives $98\ \text{g}$ of H₂SO₄, so $1000\ \text{kg}$ of sulphur gives $3062\ \text{kg}$ of $100\%$ acid, or $3125\ \text{kg}$ of $98\%$ acid.
+
+**Conclusion.** Sulphur is converted to SO₂, SO₃ and then H₂SO₄ through V₂O₅ catalysis, and the halogens show a clear trend in oxidising power from F₂ to I₂.
