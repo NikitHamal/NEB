@@ -537,9 +537,11 @@ than an ordinary cement (≈435 kJ kg⁻¹) because of its large C₃A content, 
 **Introduction.** **Cement** is a fine grey powder which, when mixed with water, sets and hardens to a stone-like mass. **Portland cement** was patented by Joseph Aspdin (1824) and is named after the stone of Portland. It is a mixture of calcium silicates and aluminates made by heating limestone and clay.
 
 **Raw materials.**
+
 - **Limestone (CaCO$_3$)**, about 75–80%, is the source of lime. The **clay or shale** (about 20–25%) gives silica, alumina and iron oxide. The **gypsum** (2–5%) is added at the end to control setting. **Coal** or petcoke is the fuel.
 
 **Steps of the dry process.**
+
 1. **Crushing and grinding.** Limestone and clay are crushed, proportioned and ground together in ball mills to a fine powder called the **raw meal**, which is blended for uniform composition.
 2. **Preheating.** The meal passes down a tower of cyclones, where hot kiln gases heat it to about 800–900 °C, and the limestone starts to decompose.
 3. **Burning in the rotary kiln.** The meal enters a steel cylinder (3–5 m wide, 50–100 m long) that is slightly inclined and rotates slowly. The temperature rises from about 900 °C to 1400–1450 °C in the burning zone, where the reactions take place.

@@ -540,6 +540,7 @@ organochlorines that pass into the river; ECF and TCF sequences avoid them.
 **Raw materials.** Softwoods (pine, spruce) give long fibres and strength, and hardwoods (sal, eucalyptus, poplar) give short fibres and smoothness. In Nepal, non-wood fibres such as **babiyo (sabai) grass**, rice straw and the bark of **lokta** (*Daphne*) shrubs are important, and the recycling of waste paper is widespread.
 
 **Stages.**
+
 1. **Preparation.** Logs are debarked and chipped into pieces of about 2–3 cm, which are screened.
 2. **Pulping.** In the **sulphate (kraft) process** the chips are cooked in a digester at 160–175 °C under 7–9 atm pressure for 2–4 hours with a **white liquor** of NaOH and Na$_2$S. Lignin dissolves and the cellulose fibres are freed. In the **sulphite process** calcium or magnesium hydrogen sulphite is used instead at 130–140 °C. In **mechanical pulping** logs are ground against a stone, which keeps the lignin, so the paper is weak and yellows (newsprint).
 3. **Washing and screening.** The brown pulp is washed from the black liquor, which is burnt to recover the chemicals and heat.

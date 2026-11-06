@@ -574,3 +574,94 @@ so the **period is 4**. The last electron enters 3d, so it is a **d-block**
 element, and for groups 3–10 the group number = (number of d electrons) +
 (number of s electrons) = 6 + 2 = **group 8**. Common oxidation states +2 and +3.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the modern periodic law. Discuss the periodic trends in atomic radius, ionisation energy, electron affinity and electronegativity across a period and down a group. <span class="marks">[10]</span>
+2. Describe the structure of the modern periodic table, its blocks, and the merits and demerits of Mendeleev's table compared with the modern table. <span class="marks">[10]</span>
+
+### Model answer D1: periodic trends (10 marks)
+
+**Introduction.** The **modern periodic law (Moseley, 1913)** states that *the physical and chemical properties of the elements are a periodic function of their atomic numbers.* Properties repeat because the **outer electron configurations** repeat. Two things control the trends: the **effective nuclear charge** $Z_{eff}$ and the **distance** of the valence electrons from the nucleus.
+
+**1. Atomic radius.**
+
+- **Across a period (left to right): decreases.** The nuclear charge increases while the electrons enter the same shell, so $Z_{eff}$ rises and pulls the shell closer. Na (186 pm) to Cl (99 pm).
+- **Down a group: increases.** A new shell is added each time and the screening by inner electrons increases. Li (152 pm) to Cs (265 pm).
+
+**2. Ionisation energy (IE).** The energy needed to remove the most loosely held electron from a gaseous atom: $\text{M}(g) \rightarrow \text{M}^{+}(g) + e^{-}$.
+
+- **Across a period: increases**, since the radius falls and $Z_{eff}$ rises.
+- **Down a group: decreases**, as the outer electron is farther away and better shielded.
+- **Exceptions:** Be (900 kJ/mol) is higher than B (801) since 2s is more stable than 2p; N (1402) is higher than O (1314) since the half-filled 2p³ is stable.
+- IE₁ < IE₂ < IE₃, because it is harder to remove an electron from a positive ion. A big jump shows the removal of a core electron, which identifies the group of an element.
+
+| Element | Na | Mg | Al | Si | P | S | Cl | Ar |
+|---|---|---|---|---|---|---|---|---|
+| IE₁ (kJ/mol) | 496 | 738 | 577 | 786 | 1012 | 1000 | 1251 | 1521 |
+
+**3. Electron affinity (EA).** The energy released when a gaseous atom gains an electron.
+
+- **Across a period: becomes more negative (more energy released).** The halogens have the highest.
+- **Down a group: decreases** in general.
+- **Exception:** chlorine (-349 kJ/mol) has a higher electron affinity than fluorine (-328), because the small 2p subshell of F suffers strong electron-electron repulsion.
+- Noble gases and Be, N have values near zero or positive.
+
+**4. Electronegativity (EN).** The ability of an atom in a bond to attract the shared electrons (Pauling scale, F = 4.0).
+
+- **Increases across a period and decreases down a group.** F (4.0) > O (3.5) > N, Cl (3.0) > C (2.5) > H (2.1).
+- Uses: predicting the polarity of a bond (the difference > 1.7 means mainly ionic) and the nature of oxides.
+
+| Property | Across a period | Down a group |
+|---|---|---|
+| Atomic radius | Decreases | Increases |
+| Ionisation energy | Increases | Decreases |
+| Electron affinity | More negative | Less negative |
+| Electronegativity | Increases | Decreases |
+| Metallic character | Decreases | Increases |
+| Acidic nature of oxides | Increases | Decreases |
+
+**Other trends.** **Ionic radius:** a cation is smaller than its atom (Na⁺ 95 pm, Na 186 pm) and an anion is larger (Cl⁻ 181 pm, Cl 99 pm); in an isoelectronic series (N³⁻, O²⁻, F⁻, Na⁺, Mg²⁺, Al³⁺) the radius falls as the nuclear charge rises.
+
+**Conclusion.** Periodic trends follow from the effective nuclear charge and the atomic size. They help to predict the reactivity, bond type and properties of the elements.
+
+### Model answer D2: structure of the modern periodic table and Mendeleev's table (10 marks)
+
+**Introduction.** Early attempts to classify elements included **Dobereiner's triads**, **Newlands' law of octaves** and **Lothar Meyer's curves**. **Mendeleev (1869)** arranged the elements by increasing atomic mass, and **Moseley (1913)** showed that atomic number is the correct basis.
+
+**Structure of the modern table.**
+
+- **18 vertical groups** and **7 horizontal periods**. Period 1 has 2 elements, periods 2 and 3 have 8 each, periods 4 and 5 have 18 each, period 6 has 32 and period 7 is incomplete.
+- Elements in a group have the **same number of valence electrons** and similar properties.
+- The **period number** is the number of the outermost shell.
+
+**Blocks.**
+
+| Block | Groups | Last electron enters | General configuration | Nature |
+|---|---|---|---|---|
+| s | 1, 2 | s subshell | $ns^{1-2}$ | Reactive metals (alkali, alkaline earth) |
+| p | 13-18 | p subshell | $ns^{2}np^{1-6}$ | Non-metals, metalloids, some metals, noble gases |
+| d | 3-12 | d subshell | $(n-1)d^{1-10}ns^{0-2}$ | Transition metals |
+| f | Lanthanides, actinides | f subshell | $(n-2)f^{1-14}$ | Inner transition metals |
+
+**Merits of Mendeleev's table.** (1) It was the first useful and systematic classification; (2) it **predicted undiscovered elements**, such as eka-aluminium (gallium), eka-silicon (germanium) and eka-boron (scandium), with their properties; (3) it corrected the atomic masses of some elements; (4) it left gaps for new elements.
+
+**Demerits of Mendeleev's table.**
+
+1. **Position of hydrogen** was unclear.
+2. **Anomalous pairs** such as Ar (39.9) before K (39.1), and Te before I, break the order of atomic mass.
+3. **Isotopes** have different atomic masses but one position, and no place was given to them.
+4. Chemically **dissimilar elements** were put in the same group (Cu and Na).
+5. The position of **lanthanides and actinides** was not explained.
+
+**Advantages of the modern table.** It is based on **atomic number**, so the anomalous pairs are resolved; it is related to **electron configuration**, which explains the periodicity; it separates the **s, p, d and f blocks**; it has a place for the isotopes, and a separate row for the lanthanides and actinides.
+
+| Feature | Mendeleev's table | Modern table |
+|---|---|---|
+| Basis | Atomic mass | Atomic number |
+| Groups | 8 (with subgroups) | 18 |
+| Anomalies | Ar-K, Te-I | Resolved |
+| Isotopes | Problem | No problem |
+| Explanation | Empirical | Electron configuration |
+
+**Conclusion.** The modern periodic table links the position of an element to its electron configuration. It improved on Mendeleev's table, which was successful in predicting elements but had faults that were removed by the atomic number basis.

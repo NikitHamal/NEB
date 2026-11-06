@@ -682,3 +682,86 @@ equivalent, i.e. 0.425 kg — from $0\ ^\circ$C:
 
 $\theta = 34\,850/(0.425\times4200) = 34\,850/1785 = 19.5\ ^\circ$C.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the principle of calorimetry. Describe an experiment to find the specific heat capacity of a solid by the method of mixtures, with a numerical. <span class="marks">[10]</span>
+2. Define latent heat. Calculate the heat required to change ice at $-10^{\circ}$C into steam at $100^{\circ}$C and explain the heating curve of water. <span class="marks">[10]</span>
+
+### Model answer D1: calorimetry and the method of mixtures (10 marks)
+
+**Introduction.** **Calorimetry** is the measurement of heat. The **heat capacity** of a body is the heat needed to raise its temperature by $1\ \text{K}$ (J K⁻¹). The **specific heat capacity** $c$ is the heat needed to raise the temperature of $1\ \text{kg}$ of a substance by $1\ \text{K}$ (J kg⁻¹ K⁻¹). The heat gained or lost is
+
+$$ Q = mc\,\Delta\theta $$
+
+Water has a high specific heat capacity of $4200\ \text{J kg}^{-1}\text{K}^{-1}$, which makes it a good coolant and moderates the climate.
+
+**Principle of calorimetry.** *When there is no loss of heat to the surroundings, the heat lost by the hot bodies equals the heat gained by the cold bodies.* This is the **law of conservation of energy** applied to heat.
+
+**Method of mixtures (specific heat of a solid).**
+
+1. **Apparatus:** a copper calorimeter with a stirrer, a lagged outer jacket, a thermometer, a balance, a steam heater and the solid (such as aluminium shot).
+2. **Steps:**
+    - Weigh the empty calorimeter with its stirrer, $m_{1}$.
+    - Fill it about half with water and weigh again to get the mass of water $m_{2}$. Note the initial temperature $\theta_{1}$.
+    - Weigh the solid ($m$) and heat it in steam to $\theta_{2}$ (about $100^{\circ}$C).
+    - Quickly transfer the solid into the calorimeter, stir and note the **highest steady temperature** $\theta$.
+3. **Calculation:** heat lost by the solid = heat gained by water and calorimeter:
+
+$$ mc(\theta_{2} - \theta) = (m_{2}c_{w} + m_{1}c_{1})(\theta - \theta_{1}) $$
+
+so that $c = \dfrac{(m_{2}c_{w} + m_{1}c_{1})(\theta - \theta_{1})}{m(\theta_{2} - \theta)}$.
+
+**Precautions.** Transfer the solid quickly to avoid loss of heat, stir gently, use lagging, keep the initial temperature of water slightly below room temperature and the final temperature slightly above it (this cancels the heat exchange with the room), and keep the thermometer bulb in the water.
+
+**Numerical.** A block of $0.5\ \text{kg}$ of aluminium ($c = 900\ \text{J kg}^{-1}\text{K}^{-1}$) at $100^{\circ}$C is dropped into $1\ \text{kg}$ of water at $20^{\circ}$C. Neglecting the container, the final temperature $\theta$ is found from $0.5\times900\times(100 - \theta) = 1\times4200\times(\theta - 20)$:
+
+$$ \theta = \frac{45000 + 84000}{450 + 4200} = \frac{129000}{4650} = 27.7^{\circ}\text{C} $$
+
+Heat lost by Al $= 450\times72.3 = 32500\ \text{J}$, and heat gained by water $= 4200\times7.7 = 32500\ \text{J}$. ✓
+
+| Substance | $c$ (J kg⁻¹ K⁻¹) |
+|---|---|
+| Water | 4200 |
+| Ice | 2100 |
+| Aluminium | 900 |
+| Copper | 390 |
+| Lead | 130 |
+
+**Conclusion.** The method of mixtures applies the principle of calorimetry: heat lost equals heat gained. The high specific heat of water explains why a sea breeze cools coastal land in the evening.
+
+### Model answer D2: latent heat and the heating curve (10 marks)
+
+**Introduction.** During a change of state, the **temperature stays constant** although heat is supplied. This heat is the **latent heat**, used to overcome the forces between molecules, not to raise the temperature.
+
+**Definitions.**
+
+- **Specific latent heat of fusion** $L_{f}$: the heat needed to change $1\ \text{kg}$ of a solid into liquid at its melting point (ice: $3.36\times10^{5}\ \text{J kg}^{-1}$).
+- **Specific latent heat of vaporisation** $L_{v}$: the heat needed to change $1\ \text{kg}$ of a liquid into vapour at its boiling point (water: $2.26\times10^{6}\ \text{J kg}^{-1}$).
+- The heat for the change of state is $Q = mL$.
+
+**Heating curve of ice (a graph of temperature against heat supplied).**
+
+1. **AB:** ice warms from $-10^{\circ}$C to $0^{\circ}$C, $Q = mc_{ice}\Delta\theta$ (a rising line).
+2. **BC:** ice melts at $0^{\circ}$C, $Q = mL_{f}$ (a flat line).
+3. **CD:** water warms from $0^{\circ}$C to $100^{\circ}$C, $Q = mc_{w}\Delta\theta$ (a rising line, less steep than AB because $c_{w} > c_{ice}$).
+4. **DE:** water boils at $100^{\circ}$C, $Q = mL_{v}$ (a longer flat line).
+5. **EF:** steam is heated above $100^{\circ}$C.
+
+**Numerical.** Heat required to change $100\ \text{g}$ of ice at $-10^{\circ}$C into steam at $100^{\circ}$C:
+
+| Stage | Calculation | Heat (J) |
+|---|---|---|
+| Ice, -10 to 0 degrees C | $0.1\times2100\times10$ | 2,100 |
+| Melting at 0 degrees C | $0.1\times3.36\times10^{5}$ | 33,600 |
+| Water, 0 to 100 degrees C | $0.1\times4200\times100$ | 42,000 |
+| Boiling at 100 degrees C | $0.1\times2.26\times10^{6}$ | 226,000 |
+| **Total** | | **303,700 (about 304 kJ)** |
+
+Boiling takes by far the largest share: 74% of the total heat.
+
+**Why is the latent heat of vaporisation larger?** In melting, the molecules only loosen their grip, but in boiling they must be separated completely against the intermolecular attraction, and the vapour must also do work against the atmosphere as it expands.
+
+**Everyday examples.** A **steam burn** is worse than a burn by boiling water, because the steam gives up $2.26\times10^{6}\ \text{J kg}^{-1}$ when it condenses. Ice cools a drink better than the same mass of cold water, because it also absorbs $3.36\times10^{5}\ \text{J kg}^{-1}$ on melting. **Sweating** cools the body by evaporation, and a **refrigerator** works by the evaporation of a refrigerant. Cooking rice in a pressure cooker uses higher boiling point at higher pressure, which is important at high altitude: in Namche (3440 m) water boils at about $88^{\circ}$C.
+
+**Conclusion.** The temperature remains constant during a change of state, as the energy goes into the latent heat. For water the latent heat of vaporisation is about seven times that of fusion.

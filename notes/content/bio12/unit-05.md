@@ -1086,6 +1086,7 @@ malnutrition and the large storage losses.
 **Introduction.** **Plant tissue culture** is the growing of plant cells, tissues or organs on a sterile nutrient medium under controlled conditions. It depends on **totipotency**, the ability of a living plant cell to give a whole plant.
 
 **Steps.**
+
 1. **Selection of the explant.** A small part (shoot tip, node, leaf piece or anther) is cut from a healthy mother plant. The shoot tip is best because it is nearly free from viruses.
 2. **Sterilisation.** The explant is washed and treated with sodium hypochlorite or ethanol, since any fungus or bacterium would overgrow the culture. Work is done in a laminar-air-flow cabinet.
 3. **Culture medium.** The medium (such as **Murashige and Skoog**) contains mineral salts, sucrose, vitamins and agar. It is sterilised in an autoclave at 121 °C and 15 psi for 15–20 minutes.
@@ -1094,6 +1095,7 @@ malnutrition and the large storage losses.
 6. **Hardening and transfer.** The plantlets are moved gradually from high to low humidity and then planted in soil.
 
 **Applications (8 points).**
+
 1. **Micropropagation.** Thousands of identical plants are raised from one explant in a short time. Banana, orchid and potato seedlings in Nepal are raised in this way.
 2. **Virus-free plants.** The meristem is free from virus, so culturing it gives healthy plants of potato, sugarcane and banana.
 3. **Somaclonal variation.** Variation among cultured cells can be selected for disease resistance and stress tolerance.
@@ -1120,6 +1122,7 @@ malnutrition and the large storage losses.
 | Selectable marker | Antibiotic resistance genes | Identify cells that took up the plasmid |
 
 **Steps.**
+
 1. **Isolation of DNA.** The DNA is released by breaking cells and removing proteins and RNA with enzymes.
 2. **Cutting.** The gene of interest and the vector are cut with the same restriction enzyme, so their sticky ends are complementary.
 3. **Joining.** DNA ligase seals the gene into the vector to form **recombinant DNA**.
@@ -1138,6 +1141,7 @@ malnutrition and the large storage losses.
 **PCR: requirements.** Template DNA, two short **primers** that flank the target, the four nucleotides, a buffer with Mg$^{2+}$ and **Taq polymerase**, a heat-stable enzyme from the bacterium *Thermus aquaticus* that survives 95 °C.
 
 **Each cycle has three steps in a thermal cycler.**
+
 1. **Denaturation** at 94–95 °C for 30 seconds: heat separates the two strands.
 2. **Annealing** at 50–65 °C: the primers pair with the complementary ends of the template.
 3. **Extension** at 72 °C: Taq polymerase adds nucleotides to the 3′ end of each primer and copies the strand.
@@ -1145,6 +1149,7 @@ malnutrition and the large storage losses.
 The number of copies doubles every cycle, so after $n$ cycles there are $2^{n}$ copies from one molecule. After 30 cycles this gives $2^{30} = 1\,073\,741\,824$, about $10^{9}$ copies, in about two hours.
 
 **Gel electrophoresis: principle and steps.** DNA carries a negative charge on its phosphate groups, so in an electric field it moves towards the positive electrode (anode). The gel (**agarose**) acts as a sieve, so small fragments move faster and farther than large ones.
+
 1. The agarose gel is poured with wells and placed in a buffer tank.
 2. DNA samples mixed with loading dye are put in the wells, together with a **DNA ladder** of known sizes.
 3. A current of about 100 V is passed for 30–60 minutes.
