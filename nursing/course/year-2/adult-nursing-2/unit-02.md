@@ -69,8 +69,8 @@ f.text(380, 240, "Give rapid insulin with meals; never skip basal insulin, even 
 @ photo id="nur6/pen" cap="Insulin pen"
 fit 1.0
 focus 0.5 0.5
-mark 0.07 0.48 "1"
-mark 0.82 0.52 "2"
+mark 0.50 0.93 "1"
+mark 0.50 0.17 "2"
 key 1 (a) Needle end (tip): a fresh needle is attached for every injection
 key 2 (a) Dose display and button: dial the units, then press and count to 10
 @ photo id="nur6/inj" cap="Pen injection"
@@ -90,8 +90,8 @@ key 6 (c) Gauze: the wound is cleaned, debrided and offloaded; no weight-bearing
 @ photo id="nur6/graves" cap="Graves' eye disease"
 fit 1.0
 focus 0.5 0.5
-mark 0.28 0.52 "7"
-mark 0.77 0.52 "8"
+mark 0.27 0.60 "7"
+mark 0.77 0.46 "8"
 key 7 (d) Lid retraction: white sclera is visible above the iris
 key 8 (d) Exophthalmos: forward bulging of the eyeball from tissue swelling behind it
 ```
