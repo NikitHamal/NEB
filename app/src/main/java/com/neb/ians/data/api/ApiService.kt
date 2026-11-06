@@ -915,7 +915,10 @@ data class ApiRealtimeConfig(
     @SerialName("sse_url") val sseUrl: String = "",
     val token: String = "",
     @SerialName("expires_in") val expiresIn: Int = 3600,
-    @SerialName("user_channel") val userChannel: String = ""
+    @SerialName("user_channel") val userChannel: String = "",
+    /** Which of the server's Ably apps this token is for, and how many there are (failover). */
+    val shard: Int = 0,
+    val shards: Int = 1
 )
 
 @Serializable
@@ -1842,7 +1845,7 @@ interface ApiService {
 
     // --- Realtime ---
     @GET("api/realtime/config/")
-    suspend fun getRealtimeConfig(): ApiRealtimeConfig
+    suspend fun getRealtimeConfig(@Query("shard") shard: Int? = null): ApiRealtimeConfig
 
     // --- Syllabus (public; exported from the NEBians books, shared with the website) ---
     @GET("api/syllabus/v2/")

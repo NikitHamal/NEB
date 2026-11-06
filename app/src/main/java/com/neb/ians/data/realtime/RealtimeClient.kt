@@ -167,8 +167,9 @@ class RealtimeClient @Inject constructor(
     }
 
     private suspend fun connectLoop() {
+        var shardHint: Int? = null
         while (desiredRunning) {
-            val cfg = fetchConfig()
+            val cfg = fetchConfig(shardHint)
             if (cfg == null) {
                 delay(30_000)
                 continue
@@ -176,7 +177,9 @@ class RealtimeClient @Inject constructor(
             when {
                 cfg.transport == "ably-sse" && cfg.token.isNotBlank() && cfg.sseUrl.isNotBlank() -> {
                     userChannel = cfg.userChannel
-                    runSse(cfg)
+                    val opened = runSse(cfg)
+                    // Same Ably app while it works; the next one when it would not open (quota, outage).
+                    shardHint = if (opened || cfg.shards <= 1) cfg.shard else (cfg.shard + 1) % cfg.shards
                     if (restartRequested) {
                         restartRequested = false
                         continue
@@ -219,11 +222,11 @@ class RealtimeClient @Inject constructor(
     }
 
     /** One SSE stream until it ends, the token nears expiry, or the channel set changes. */
-    private suspend fun runSse(cfg: ApiRealtimeConfig) {
+    private suspend fun runSse(cfg: ApiRealtimeConfig): Boolean {
         val channels = sseChannels(cfg)
         if (channels.isEmpty()) {
             delay(10_000) // nothing subscribed yet: no connection, no cost
-            return
+            return true
         }
         val url = try {
             cfg.sseUrl.toHttpUrl().newBuilder()
@@ -234,19 +237,21 @@ class RealtimeClient @Inject constructor(
                 .build()
         } catch (e: Exception) {
             Log.d(TAG, "bad sse url: ${e.message}")
-            return
+            return false
         }
         val call = sseClient.newCall(
             Request.Builder().url(url).header("Accept", "text/event-stream").build()
         )
         sseCall = call
         val renewAt = System.currentTimeMillis() + cfg.expiresIn * 800L
+        var opened = false
         try {
             withContext(Dispatchers.IO) {
                 call.execute().use { response ->
                     if (!response.isSuccessful) return@use
                     val source = response.body?.source() ?: return@use
                     _connected.value = true
+                    opened = true
                     reconnectAttempt = 0
                     val data = StringBuilder()
                     var id = ""
@@ -272,6 +277,7 @@ class RealtimeClient @Inject constructor(
             _connected.value = false
             sseCall = null
         }
+        return opened
     }
 
     /** An Ably message: {"name": event, "channel": ..., "data": "<json>"}. */
@@ -387,9 +393,9 @@ class RealtimeClient @Inject constructor(
         }
     }
 
-    private suspend fun fetchConfig(): ApiRealtimeConfig? {
+    private suspend fun fetchConfig(shard: Int? = null): ApiRealtimeConfig? {
         return try {
-            apiService.getRealtimeConfig()
+            apiService.getRealtimeConfig(shard)
         } catch (e: Exception) {
             Log.d(TAG, "realtime config fetch failed: ${e.message}")
             null
