@@ -1,6 +1,6 @@
 /* ============================================================================
-   WhisperWeb — single-file on-device Whisper (tiny/base) transcriber
-   Engine: @huggingface/transformers (onnxruntime-web) — WebGPU with WASM fallback
+   WhisperWeb: single-file on-device Whisper (tiny/base) transcriber
+   Engine: @huggingface/transformers (onnxruntime-web): WebGPU with WASM fallback
    Persistence: Cache API (model files, via transformers.js) + IndexedDB (history/settings)
    ========================================================================== */
 
@@ -49,7 +49,7 @@ const Store = (() => {
   };
 })();
 
-/* ---------------- settings — English only ---------------- */
+/* ---------------- settings: English only ---------------- */
 const S = { model:"cactus/whistle", dtype:"q8", dev:"wasm", lang:"en", task:"transcribe",
             ts:true, auto:true, chunk:30, badDev:null };
 async function loadSettings(){
@@ -105,10 +105,10 @@ function configureWasmEnv(device){
     wasm.numThreads = 1;
   }
 }
-/* pick device — English-only build defaults to WASM for stability */
+/* pick device: English-only build defaults to WASM for stability */
 function pickDevice(devSel){
   if(devSel==="webgpu"){
-    if(S.badDev==="webgpu") toast("WebGPU stalled here before — will auto-switch to CPU if it hangs again","warn",5000);
+    if(S.badDev==="webgpu") toast("WebGPU stalled here before: will auto-switch to CPU if it hangs again","warn",5000);
     return "webgpu";
   }
   return "wasm";
@@ -122,7 +122,7 @@ async function switchToWasm(reason){
     try{ TF.env.backends.onnx.wasm.proxy = false; TF.env.backends.onnx.wasm.numThreads = 1; }catch(e){}
   }
   await new Promise(r=>setTimeout(r,150));
-  toast(`⚠️ ${curDev==="webgpu"?"WebGPU":"GPU path"} ${reason} — switching to CPU (WASM) and retrying…`,"warn",6000);
+  toast(`⚠️ ${curDev==="webgpu"?"WebGPU":"GPU path"} ${reason}: switching to CPU (WASM) and retrying…`,"warn",6000);
   const d0 = S.dtype==="fp16"?"q8":S.dtype;
   try{
     return await loadWith(d0,"wasm",S.model);
@@ -155,9 +155,9 @@ async function initEngine(){
   }catch(e){
     console.error(e);
     net.textContent="no network"; led.className="led err";
-    banner(`⚠️ <b>Preview sandbox has no network access</b> — the AI engine can't be fetched here.
+    banner(`⚠️ <b>Preview sandbox has no network access</b>: the AI engine can't be fetched here.
       This is expected inside the workspace preview. <b>Download this file and open it in Chrome/Edge/Firefox</b>
-      (double-click works), or serve it with <code>python serve.py</code> — then the engine + models load and cache normally.
+      (double-click works), or serve it with <code>python serve.py</code>: then the engine + models load and cache normally.
       Everything else in this page (recorder, VAD, waveform, history via memory fallback) still works for testing UI.`);
     return false;
   }
@@ -182,20 +182,20 @@ async function loadPipeline(){
   if(!TF && !(await initEngine())) return null;
   const model=$("selModel").value, dtype=$("selDtype").value, devSel=$("selDev").value;
   const device = pickDevice(devSel);
-  if(dtype==="fp16" && device!=="webgpu"){ toast("fp16 needs WebGPU — falling back to q8","warn"); return loadWith("q8",device,model); }
+  if(dtype==="fp16" && device!=="webgpu"){ toast("fp16 needs WebGPU: falling back to q8","warn"); return loadWith("q8",device,model); }
   try{ return await loadWith(dtype,device,model); }
   catch(e){
     console.error("[loadPipeline] first attempt failed:", e);
     const msg0 = String(e&&e.message||e);
     if(msg0.includes("401") || msg0.includes("Unauthorized")){
-      toast("Model not found (401) — this can happen if the model ID changed. Trying fallback tiny.en…","warn",6000);
+      toast("Model not found (401): this can happen if the model ID changed. Trying fallback tiny.en…","warn",6000);
       $("selModel").value="onnx-community/whisper-tiny.en"; S.model="onnx-community/whisper-tiny.en"; try{await saveSettings();}catch(_){}
       try{ return await loadWith(dtype==="fp16"?"q8":dtype,"wasm","onnx-community/whisper-tiny.en"); }catch(e2){ console.error("[loadPipeline] fallback also failed:",e2); }
     }
     const msg = String(e&&e.message||e);
     const isWebGPUFailure = msg.includes("null function") || msg.includes("WebGPU") || msg.includes("worker not ready") || device!=="wasm";
     if(isWebGPUFailure && device!=="wasm"){
-      toast("WebGPU failed ("+msg.slice(0,90)+") — retrying on WASM/CPU…","warn",6000);
+      toast("WebGPU failed ("+msg.slice(0,90)+"): retrying on WASM/CPU…","warn",6000);
       try{ if(TF&&TF.env&&TF.env.backends&&TF.env.backends.onnx&&TF.env.backends.onnx.wasm){ TF.env.backends.onnx.wasm.proxy=false; TF.env.backends.onnx.wasm.numThreads=1; } }catch(_){}
       await new Promise(r=>setTimeout(r,200));
       try{ return await loadWith(dtype==="fp16"?"q8":dtype,"wasm",model); }catch(e2){
@@ -203,7 +203,7 @@ async function loadPipeline(){
       }
     }
     if(dtype!=="fp32"){
-      toast("q8 failed — retrying fp32 (bigger download)…","warn",5000);
+      toast("q8 failed: retrying fp32 (bigger download)…","warn",5000);
       try{ if(TF&&TF.env&&TF.env.backends&&TF.env.backends.onnx&&TF.env.backends.onnx.wasm){ TF.env.backends.onnx.wasm.proxy=false; TF.env.backends.onnx.wasm.numThreads=1; } }catch(_){}
       return await loadWith("fp32","wasm",model);
     }
@@ -215,7 +215,7 @@ async function loadWith(dtype,device,model){
   if(pipe && pipeKey===key) return pipe;
   if(pipe){ try{ await pipe.dispose(); }catch(e){} pipe=null; await new Promise(r=>setTimeout(r,120)); }
   $("btnLoad").disabled=true; $("btnLoad").innerHTML=`<span class="spin"></span>&nbsp; loading`;
-  $("dlStatus").innerHTML=`<b>${model.split("/")[1]}</b> · ${dtype} · ${device} — fetching/caching…`;
+  $("dlStatus").innerHTML=`<b>${model.split("/")[1]}</b> · ${dtype} · ${device}: fetching/caching…`;
   $("mdlTxt").textContent=model.split("/")[1]+" "+dtype;
   $("devTxt").textContent = device==="webgpu" ? "WebGPU…" : "WASM (CPU)…";
   try{
@@ -241,9 +241,9 @@ async function loadWith(dtype,device,model){
     pipeKey=key; curDev=device; inferCount=0;
     if(device==="webgpu" && S.badDev==="webgpu"){ S.badDev=null; try{await saveSettings();}catch(e){} }
     $("devTxt").textContent = device==="webgpu" ? "WebGPU ⚡" : (isIsolated()?"WASM ⚡ (threads)":"WASM (CPU)");
-    $("dlStatus").innerHTML=`✅ <b>${model.split("/")[1]}</b> (${dtype}, ${device}) ready — cached for offline use`;
-    $("btnLoad").innerHTML="✓ Model ready — reload / switch";
-    toast("Model ready — you can record or drop audio now","ok");
+    $("dlStatus").innerHTML=`✅ <b>${model.split("/")[1]}</b> (${dtype}, ${device}) ready: cached for offline use`;
+    $("btnLoad").innerHTML="✓ Model ready: reload / switch";
+    toast("Model ready: you can record or drop audio now","ok");
     updateCacheInfo();
     return pipe;
   } catch(e){
@@ -280,11 +280,11 @@ function whistleModel(){
 function whistleStatus(m){
   if(m.status==="downloading"){
     dlUI(m.asset==="model"?"whistle/whistle.cact":"whistle/needle.wasm","progress",m.loaded,m.total);
-    if(m.total) $("dlStatus").innerHTML=`<b>whistle</b> — fetching/caching… ${fmtMB(m.loaded||0)} / ${fmtMB(m.total)} MB`;
+    if(m.total) $("dlStatus").innerHTML=`<b>whistle</b>: fetching/caching… ${fmtMB(m.loaded||0)} / ${fmtMB(m.total)} MB`;
   }
   else if(m.status==="cache-hit"){ dlUI(m.asset==="model"?"whistle/whistle.cact":"whistle/needle.wasm","initiate"); }
-  else if(m.status==="loading-engine"){ $("dlStatus").innerHTML=`<b>whistle</b> — starting engine…`; }
-  else if(m.status==="loading-model"){ $("dlStatus").innerHTML=`<b>whistle</b> — loading 17MB model…`; }
+  else if(m.status==="loading-engine"){ $("dlStatus").innerHTML=`<b>whistle</b>: starting engine…`; }
+  else if(m.status==="loading-model"){ $("dlStatus").innerHTML=`<b>whistle</b>: loading 17MB model…`; }
 }
 function ensureWhistle(){
   if(whistleWorker&&whistleReady) return Promise.resolve(true);
@@ -349,14 +349,14 @@ async function loadWhistle(){
   $("btnLoad").disabled=true; $("btnLoad").innerHTML=`<span class="spin"></span>&nbsp; loading`;
   try{
     await ensureWhistle();
-    $("dlStatus").innerHTML=`✅ <b>whistle</b> (17MB, 7 languages) ready — cached for offline use`;
-    $("btnLoad").innerHTML="✓ Whistle ready — reload / switch";
-    toast("Whistle ready — you can record or drop audio now","ok");
+    $("dlStatus").innerHTML=`✅ <b>whistle</b> (17MB, 7 languages) ready: cached for offline use`;
+    $("btnLoad").innerHTML="✓ Whistle ready: reload / switch";
+    toast("Whistle ready: you can record or drop audio now","ok");
     updateCacheInfo();
     return true;
   }catch(e){
     console.error("[loadWhistle]",e);
-    toast("Whistle failed to load: "+(e.message||e)+" — pick a Whisper model instead","err",6000);
+    toast("Whistle failed to load: "+(e.message||e)+": pick a Whisper model instead","err",6000);
     throw e;
   }finally{
     $("btnLoad").disabled=false;
@@ -376,14 +376,14 @@ async function updateCacheInfo(){
     }
     const est = navigator.storage?.estimate ? await navigator.storage.estimate() : null;
     const shown = est?.usage ?? bytes;
-    $("cacheTxt").textContent = shown ? fmtMB(shown)+" MB" : (bytes?"~":"—");
+    $("cacheTxt").textContent = shown ? fmtMB(shown)+" MB" : (bytes?"~":"·");
     $("cacheTag").textContent = shown ? fmtMB(shown)+" MB stored" : "";
   }catch(e){ $("cacheTxt").textContent="n/a"; }
 }
 const langFor = () => "en";
 $("btnPersist").onclick=async()=>{
   try{ const ok=await navigator.storage.persist();
-    toast(ok?"Storage marked persistent — browser won't evict your models 🎉":"Browser declined persistence (install the site as an app or keep visiting)",ok?"ok":"warn",5000);
+    toast(ok?"Storage marked persistent: browser won't evict your models 🎉":"Browser declined persistence (install the site as an app or keep visiting)",ok?"ok":"warn",5000);
   }catch(e){ toast("Persistence API unavailable here","warn"); }
 };
 $("btnWipe").onclick=async()=>{
@@ -391,7 +391,7 @@ $("btnWipe").onclick=async()=>{
     $("dl").innerHTML=""; dlRows.clear(); pipe=null; pipeKey=""; $("mdlTxt").textContent="none";
     S.badDev=null; try{await saveSettings();}catch(e){}
     banner("");
-    await updateCacheInfo(); toast("Model cache + WebGPU blocklist cleared — you can retry WebGPU now","ok");
+    await updateCacheInfo(); toast("Model cache + WebGPU blocklist cleared: you can retry WebGPU now","ok");
   }catch(e){ toast("Couldn't clear: "+e.message,"err"); }
 };
 
@@ -413,8 +413,8 @@ function updStats(){
   const words=SEG.reduce((n,s)=>n+s.text.trim().split(/\s+/).filter(Boolean).length,0);
   $("stW").textContent=words;
   $("stA").textContent=lastRun.audioSec.toFixed(1)+"s";
-  $("stI").textContent=lastRun.inferSec?lastRun.inferSec.toFixed(1)+"s":"—";
-  $("stR").textContent=lastRun.inferSec&&lastRun.inferSec>0?(lastRun.audioSec/lastRun.inferSec).toFixed(2)+"× realtime":"—";
+  $("stI").textContent=lastRun.inferSec?lastRun.inferSec.toFixed(1)+"s":"·";
+  $("stR").textContent=lastRun.inferSec&&lastRun.inferSec>0?(lastRun.audioSec/lastRun.inferSec).toFixed(2)+"× realtime":"·";
 }
 async function saveRun(meta){
   try{
@@ -499,7 +499,7 @@ async function startRec(){
   recording=true; samples=0; inferSecAcc=0; audioSecAcc=0;
   Object.assign(vad,{nf:1e-4,inSpeech:false,speechRun:0,silRun:0,segStart:0,pre:[]});
   SEG=[]; renderTx(); recStart=now();
-  $("btnRec").classList.add("on"); $("recState").textContent="● recording — VAD listening…";
+  $("btnRec").classList.add("on"); $("recState").textContent="● recording: VAD listening…";
   drawVU(true);
 }
 function stopRec(){
@@ -507,7 +507,7 @@ function stopRec(){
   try{ stream&&stream.getTracks().forEach(t=>t.stop()); }catch(e){}
   try{ node&&node.disconnect(); }catch(e){}
   if(vad.inSpeech) finalizeSeg(samples- SR*0.12);
-  $("btnRec").classList.remove("on"); $("recState").textContent="idle — click the red button to record";
+  $("btnRec").classList.remove("on"); $("recState").textContent="idle: click the red button to record";
   audioSecAcc=samples/SR; lastRun={audioSec:audioSecAcc,inferSec:inferSecAcc};
   updStats(); saveRun("mic");
 }
@@ -542,12 +542,12 @@ let segBuf=null,segStartSample=0;
 function finalizeSeg(endSample){
   const start=vad.segStart, len=endSample-start;
   if(len<SR*0.25) return;
-  // we kept audio nowhere except preroll — accumulate live: (segments are assembled on the fly)
+  // we kept audio nowhere except preroll: accumulate live: (segments are assembled on the fly)
   // strategy: capture from preroll + ongoing buffers is complex; instead we record continuously into recBuffer
   const seg=recBuffer.subarray(start,endSample);
   if(!seg||!seg.length) return;
   segQueue.push({f32:Float32Array.from(seg),t0:start/SR,t1:endSample/SR});
-  $("recState").textContent=`● recording — queued segment ${segQueue.length} (${len/SR|0}s)`;
+  $("recState").textContent=`● recording: queued segment ${segQueue.length} (${len/SR|0}s)`;
   runQueue();
 }
 /* continuous recording buffer (supports VAD segmenting) */
@@ -563,7 +563,7 @@ async function runQueue(){
   if(qBusy||!segQueue.length) return; qBusy=true;
   while(segQueue.length){
     const {f32,t0,t1}=segQueue.shift();
-    if(!S.auto){ SEG.push({text:"(segment recorded — auto-transcribe off)",t0,t1,pending:false}); renderTx(); continue; }
+    if(!S.auto){ SEG.push({text:"(segment recorded: auto-transcribe off)",t0,t1,pending:false}); renderTx(); continue; }
     SEG.push({text:"… transcribing",t0,t1,pending:true}); renderTx();
     const t=now();
     try{
@@ -574,8 +574,8 @@ async function runQueue(){
         attempt++;
         const segP=SEG.find(s=>s.pending);
         if(segP) segP.text = attempt===1
-          ? (curDev==="webgpu"&&inferCount===0 ? "… first WebGPU run — compiling shaders" : "… transcribing")
-          : "… GPU stalled — retrying on CPU";
+          ? (curDev==="webgpu"&&inferCount===0 ? "… first WebGPU run: compiling shaders" : "… transcribing")
+          : "… GPU stalled: retrying on CPU";
         renderTx();
         try{
           if(whistleModel()){
@@ -584,7 +584,7 @@ async function runQueue(){
             lastLang=w.language||"en";
             break;
           }
-          if(!pipe) throw new Error("model not ready — reloading");
+          if(!pipe) throw new Error("model not ready: reloading");
           const opts = S.model.endsWith(".en")
             ? { return_timestamps:false }
             : { language:langFor(), task:S.task, return_timestamps:false };
@@ -604,7 +604,7 @@ async function runQueue(){
       inferSecAcc+=(now()-t)/1000; audioSecAcc+=f32.length/SR;
       const seg=SEG.find(s=>s.pending); if(seg){seg.text=(out.text||"").trim()||"(silence)";seg.pending=false;}
       lastRun={audioSec:audioSecAcc,inferSec:inferSecAcc};
-      $("recState").textContent=`● recording — ${inferCount} segment${inferCount>1?"s":""} done (${curDev==="webgpu"?"WebGPU":"CPU"})`;
+      $("recState").textContent=`● recording: ${inferCount} segment${inferCount>1?"s":""} done (${curDev==="webgpu"?"WebGPU":"CPU"})`;
     }catch(e){ console.error(e); const seg=SEG.find(s=>s.pending); if(seg){seg.text="(error: "+e.message+")";seg.pending=false;} }
     renderTx();
     await new Promise(r=>setTimeout(r,0));
@@ -629,7 +629,7 @@ function drawFrame(){
   if(vuOn) requestAnimationFrame(drawFrame);
 }
 
-/* ---------------- file transcription — English only ---------------- */
+/* ---------------- file transcription: English only ---------------- */
 /* Live progressive mode: for files longer than ~36s we transcribe chunk-by-chunk
    and stream results into the transcript view, so a 3-min song shows text
    chunk-by-chunk instead of waiting for the whole file. Short files keep
@@ -669,8 +669,8 @@ async function transcribeFile(buf,name){
         attempt++;
         if(myRun !== _fileAbort) return;
         if(SEG[0]) SEG[0].text = attempt===1
-          ? `… transcribing ${dur.toFixed(1)}s of audio (chunks of ${chunk_s}s)${curDev==="webgpu"&&inferCount===0?" — first run compiles GPU shaders":""}`
-          : "… GPU stalled — retrying on CPU (WASM)";
+          ? `… transcribing ${dur.toFixed(1)}s of audio (chunks of ${chunk_s}s)${curDev==="webgpu"&&inferCount===0?": first run compiles GPU shaders":""}`
+          : "… GPU stalled: retrying on CPU (WASM)";
         renderTx();
         try{
           if(whistleModel()){
@@ -679,7 +679,7 @@ async function transcribeFile(buf,name){
             lastLang=w.language||"en";
             break;
           }
-          if(!p) throw new Error("model not ready — reloading");
+          if(!p) throw new Error("model not ready: reloading");
           const baseOpts = { return_timestamps:true, chunk_length_s: chunk_s, stride_length_s: chunk_s*0.4 };
           const opts = S.model.includes("moonshine") || S.model.endsWith(".en") ? baseOpts : { language:langFor(), task:S.task, ...baseOpts };
           out=await withTimeout(p(f32, opts), 60000+dur*8000, "file inference");
@@ -704,7 +704,7 @@ async function transcribeFile(buf,name){
       if(!SEG.length||!SEG.map(s=>s.text).join("").trim()) SEG=[{text:"(no speech detected)",t0:null}];
       renderTx();
       if(whistleModel()) $("srcTag").textContent=name+" · "+lastLang;
-      $("recState").textContent=`done — ${(infer? (dur/infer).toFixed(2):"?")}× realtime on ${$("devTxt").textContent}`;
+      $("recState").textContent=`done: ${(infer? (dur/infer).toFixed(2):"?")}× realtime on ${$("devTxt").textContent}`;
       toast(`Transcribed ${dur.toFixed(1)}s in ${infer.toFixed(1)}s (${(dur/infer).toFixed(2)}× realtime)`,"ok",4500);
       saveRun("file:"+name);
     }catch(e){
@@ -727,7 +727,7 @@ async function transcribeFile(buf,name){
   const starts=[];
   for(let s=0; s<dur; s+=step_s) starts.push(s);
   const totalChunks = starts.length;
-  toast(`Streaming ${dur.toFixed(0)}s in ${totalChunks} chunks (stride ${stride_s.toFixed(1)}s) — live transcript below`,"", 4000);
+  toast(`Streaming ${dur.toFixed(0)}s in ${totalChunks} chunks (stride ${stride_s.toFixed(1)}s): live transcript below`,"", 4000);
   for(let idx=0; idx<totalChunks; idx++){
     if(myRun !== _fileAbort) return;
     const start = starts[idx];
@@ -738,8 +738,8 @@ async function transcribeFile(buf,name){
     // placeholder for current chunk
     SEG = [...doneSegs, {text:`… transcribing chunk ${idx+1}/${totalChunks} (${start.toFixed(0)}–${end.toFixed(0)}s / ${dur.toFixed(0)}s)`, pending:true, t0:start, t1:end}];
     renderTx();
-    $("recState").textContent=`transcribing ${idx+1}/${totalChunks} — ${((idx)/totalChunks*100).toFixed(0)}%`;
-    $("dlStatus").textContent=`Streaming chunk ${idx+1}/${totalChunks} (${(end-start).toFixed(0)}s) — live below`;
+    $("recState").textContent=`transcribing ${idx+1}/${totalChunks}: ${((idx)/totalChunks*100).toFixed(0)}%`;
+    $("dlStatus").textContent=`Streaming chunk ${idx+1}/${totalChunks} (${(end-start).toFixed(0)}s): live below`;
     const tChunk=now();
     let out=null, attempt=0;
     while(attempt<2){
@@ -752,7 +752,7 @@ async function transcribeFile(buf,name){
           lastLang=w.language||"en";
           break;
         }
-        if(!p) throw new Error("model not ready — reloading");
+        if(!p) throw new Error("model not ready: reloading");
         // For English-only models omit language/task; moonshine also English-like so omit. Keep timestamps for live sub-segments.
         const opts = (S.model.includes("moonshine") || S.model.endsWith(".en")) ? { return_timestamps:true } : { language:langFor(), task:S.task, return_timestamps:true };
         const ms = 25000 + chunk.length/SR*2200;
@@ -804,8 +804,8 @@ async function transcribeFile(buf,name){
   const inferTot=(now()-wall0)/1000;
   lastRun={audioSec:dur,inferSec:inferTot};
   if(whistleModel()) $("srcTag").textContent=name+" · "+lastLang;
-  $("recState").textContent=`done — ${(inferTot? (dur/inferTot).toFixed(2):"?")}× realtime on ${$("devTxt").textContent}`;
-  $("dlStatus").textContent=`✅ ${totalChunks} chunks streamed — ${dur.toFixed(1)}s in ${inferTot.toFixed(1)}s`;
+  $("recState").textContent=`done: ${(inferTot? (dur/inferTot).toFixed(2):"?")}× realtime on ${$("devTxt").textContent}`;
+  $("dlStatus").textContent=`✅ ${totalChunks} chunks streamed: ${dur.toFixed(1)}s in ${inferTot.toFixed(1)}s`;
   toast(`Streamed ${dur.toFixed(1)}s in ${inferTot.toFixed(1)}s (${(dur/inferTot).toFixed(2)}× realtime)`,"ok",5000);
   saveRun("file:"+name);
 }
@@ -844,13 +844,13 @@ addEventListener("keydown",(e)=>{
   if(e.key==="r"||e.key==="R"){recording?stopRec():startRec();}
   else if(e.key==="c"||e.key==="C"){$("btnCopy").click();}
   else if(e.key==="s"||e.key==="S"){$("btnSrt").click();}
-  else if(e.key==="?"){toast("<b>WhisperWeb</b> — Whistle 17MB (default, 7 languages) or Whisper/Moonshine running fully in your browser. Models cache locally (Cache API) and transcripts persist (IndexedDB). No audio ever leaves this device.","",7000);}
+  else if(e.key==="?"){toast("<b>WhisperWeb</b>: Whistle 17MB (default, 7 languages) or Whisper/Moonshine running fully in your browser. Models cache locally (Cache API) and transcripts persist (IndexedDB). No audio ever leaves this device.","",7000);}
 });
 
 /* ---------------- boot ---------------- */
 (async()=>{
   await Store.open();
-  if(!Store.idbOK) banner("ℹ️ IndexedDB is blocked in this sandboxed preview — history will be kept in memory only. In a normal browser tab it persists.");
+  if(!Store.idbOK) banner("ℹ️ IndexedDB is blocked in this sandboxed preview: history will be kept in memory only. In a normal browser tab it persists.");
   await loadSettings();
   await renderHist();
   renderTx();
@@ -859,14 +859,14 @@ addEventListener("keydown",(e)=>{
   const iso=isIsolated();
   if(S.badDev==="webgpu"){
     $("devTxt").textContent = iso ? "WASM ⚡ (threads)" : "WASM (CPU)";
-    banner(`⚠️ WebGPU previously crashed on this device (<code>RuntimeError: null function</code>) — auto-switched to <b>WASM (CPU)</b> for stability. To retry WebGPU, set <b>Device → WebGPU</b> and hit Download. <button onclick="localStorage.clear();location.reload()" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">reset</button> <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:4px;cursor:pointer">dismiss</button>`);
+    banner(`⚠️ WebGPU previously crashed on this device (<code>RuntimeError: null function</code>): auto-switched to <b>WASM (CPU)</b> for stability. To retry WebGPU, set <b>Device → WebGPU</b> and hit Download. <button onclick="localStorage.clear();location.reload()" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">reset</button> <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:4px;cursor:pointer">dismiss</button>`);
   } else if(navigator.gpu) $("devTxt").textContent = iso ? "WebGPU? · WASM ready" : "WASM (CPU) · WebGPU available";
   else $("devTxt").textContent = iso ? "WASM ⚡ (threads)" : "WASM (CPU)";
   if(okEngine && location.protocol==="file:"){
-    banner($("banner").innerHTML + `<br>💡 You're running from <b>file://</b> — blob worklets are restricted and <code>crossOriginIsolated</code> is false (no threads). For max speed: run <code>python serve.py</code> → <code>http://localhost:8000</code> (threads 2–4× faster). <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">dismiss</button>`);
+    banner($("banner").innerHTML + `<br>💡 You're running from <b>file://</b>: blob worklets are restricted and <code>crossOriginIsolated</code> is false (no threads). For max speed: run <code>python serve.py</code> → <code>http://localhost:8000</code> (threads 2–4× faster). <button onclick="document.getElementById('banner').classList.remove('show')" style="background:#2a2213;border:1px solid #5b4a2e;color:#ffd9a0;border-radius:8px;padding:3px 10px;font-size:12px;margin-left:8px;cursor:pointer">dismiss</button>`);
     if(!$("banner").classList.contains("show")) $("banner").classList.add("show");
   } else if(okEngine && !iso){
-    console.warn("[boot] not crossOriginIsolated — WASM will run single-threaded. Use serve.py for threads.");
+    console.warn("[boot] not crossOriginIsolated: WASM will run single-threaded. Use serve.py for threads.");
   }
 
 /* friendly steps updater */
@@ -991,7 +991,7 @@ setTimeout(()=>{
   }
 }, 500);
 
-console.log("WhisperWeb v1.4 ready — whistle-default+turbo+moonshine+distil+tools. engine:",!!TF,"gpu:",!!navigator.gpu,"isolated:",iso,"badDev:",S.badDev);
+console.log("WhisperWeb v1.4 ready: whistle-default+turbo+moonshine+distil+tools. engine:",!!TF,"gpu:",!!navigator.gpu,"isolated:",iso,"badDev:",S.badDev);
 })();
 
 
@@ -1095,7 +1095,7 @@ async function doSentiment(){
     const pP=(pos/tot*100).toFixed(1), pN=(neg/tot*100).toFixed(1);
     let label= pos>neg ? 'POSITIVE' : neg>pos ? 'NEGATIVE' : 'NEUTRAL';
     let emoji = label==='POSITIVE' ? '😊' : label==='NEGATIVE' ? '😟' : '😐';
-    if(out) out.textContent = `${emoji} ${label} — positive ${pP}% / negative ${pN}%  (${chunks.length} sentences, on-device)`;
+    if(out) out.textContent = `${emoji} ${label}: positive ${pP}% / negative ${pN}%  (${chunks.length} sentences, on-device)`;
     toast('Sentiment done','ok');
   }catch(e){ console.error(e); toast('Sentiment failed: '+e.message,'err',5000); if(out) out.textContent='Sentiment failed: '+e.message; }
 }
@@ -1139,9 +1139,9 @@ async function doEmbed(){
       embs.push(Array.from(e.data || e[0]?.data || e));
     }
     embedCache={sents:toEmbed, embs};
-    if(out) out.textContent=`✅ Embedded ${toEmbed.length} sentences — type a query below and hit Find (cosine).`;
+    if(out) out.textContent=`✅ Embedded ${toEmbed.length} sentences: type a query below and hit Find (cosine).`;
     if(box) box.style.display='block';
-    toast('Embeddings ready — search below','ok');
+    toast('Embeddings ready: search below','ok');
   }catch(e){ console.error(e); toast('Embed failed: '+e.message,'err',5000); if(out) out.textContent='Embed failed: '+e.message; }
 }
 async function doEmbedSearch(){
@@ -1155,7 +1155,7 @@ async function doEmbedSearch(){
     const qv=Array.from(qe.data || qe[0]?.data || qe);
     const scored=embedCache.embs.map((e,i)=>({i, score:cosine(qv,e), txt:embedCache.sents[i]}))
       .sort((a,b)=>b.score-a.score).slice(0,5);
-    if(res) res.innerHTML=scored.map((s,idx)=> `<div style="padding:6px 8px;border:1px solid var(--border-line);border-radius:8px;margin-bottom:6px;background:var(--bg-elevated)"><b style="color:var(--text-primary)">#${idx+1} ${(s.score*100).toFixed(1)}%</b> — ${escapeHtml(s.txt)}</div>`).join('') || '<span class="hint">No match</span>';
+    if(res) res.innerHTML=scored.map((s,idx)=> `<div style="padding:6px 8px;border:1px solid var(--border-line);border-radius:8px;margin-bottom:6px;background:var(--bg-elevated)"><b style="color:var(--text-primary)">#${idx+1} ${(s.score*100).toFixed(1)}%</b>: ${escapeHtml(s.txt)}</div>`).join('') || '<span class="hint">No match</span>';
     toast('Search done','ok',2000);
   }catch(e){ console.error(e); toast('Search failed: '+e.message,'err',5000); }
 }

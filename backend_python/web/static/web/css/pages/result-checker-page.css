@@ -24,7 +24,7 @@
     border: 1px solid var(--md-outline-variant);
     border-radius: var(--md-radius-xl);
     padding: 32px 24px;
-    box-shadow: var(--md-elevation-1);
+    box-shadow: none;
     margin-bottom: 24px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
@@ -60,7 +60,7 @@
   .rc-tab.active {
     background: var(--md-primary);
     color: var(--md-on-primary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: none;
   }
   .rc-tab-icon {
     font-size: 18px;
@@ -201,7 +201,7 @@
   .rc-field input:focus, .rc-field select:focus, .rc-field textarea:focus {
     border-color: var(--md-primary);
     background: var(--md-surface-container-lowest);
-    box-shadow: 0 0 0 3px rgba(0, 74, 198, 0.1);
+    box-shadow: none;
   }
   .rc-field select {
     cursor: pointer;
@@ -247,13 +247,13 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(0, 74, 198, 0.12);
+    box-shadow: none;
   }
   .rc-submit:hover:not(:disabled) {
     background: var(--md-primary-container);
     color: var(--md-on-primary-container);
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 74, 198, 0.16);
+    box-shadow: none;
   }
   .rc-submit:active:not(:disabled) {
     transform: translateY(0);
@@ -590,7 +590,7 @@
     background: #fbfaf5;
     color: #1c1917;
     padding: 10mm 12mm;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
     position: relative;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
@@ -855,7 +855,7 @@
       width: 100% !important;
       max-width: none !important;
       padding: 0 !important;
-      box-shadow: none !important;
+      box-shadow: none;
     }
     
     #rc-gradesheet-modal .neb-dialog {
@@ -867,7 +867,7 @@
       height: 297mm !important;
       max-height: 297mm !important;
       border: none !important;
-      box-shadow: none !important;
+      box-shadow: none;
       padding: 0 !important;
       margin: 0 !important;
       background: #ffffff !important;
@@ -891,7 +891,7 @@
     
     .rc-printable-gradesheet {
       border: none !important;
-      box-shadow: none !important;
+      box-shadow: none;
       padding: 10mm 12mm !important;
       background: #ffffff !important;
       width: 210mm !important;
