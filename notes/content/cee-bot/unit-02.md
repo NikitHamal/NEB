@@ -675,3 +675,88 @@ into DNA only inside the host cell.)
 **7.** (d) — Energy comes from oxidising NH₄⁺ to NO₂⁻ without light, and carbon from CO₂: a chemoautotroph such as *Nitrosomonas*.
 **8.** (b) — 6400 ÷ 2130 ≈ 3. Each TMV coat-protein subunit binds three nucleotides of the RNA helix.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Whittaker's five-kingdom classification and the structure and importance of bacteria. <span class="marks">[10]</span>
+2. Describe the structure, multiplication and diseases of viruses, with a comparison to bacteria. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Monera and their relatives. (a) The three main shapes of bacteria: cocci, bacilli and spirilla. (b) Nostoc, a filamentous cyanobacterium that fixes nitrogen in heterocysts. (c) Bacterial colonies grown on nutrient agar in a Petri dish."
+@ photo id="qbank/bacteria-shapes" cap="(a) Bacterial shapes"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/nostoc" cap="(b) Nostoc"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/petri" cap="(c) Colonies on agar"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: five-kingdom classification and bacteria (10 marks)
+
+**Introduction.** Classification groups organisms by their similarities. Linnaeus gave two kingdoms. **R. H. Whittaker (1969)** proposed five kingdoms on the basis of cell structure, body organisation, mode of nutrition, reproduction and phylogeny.
+
+| Kingdom | Cell type | Nutrition | Examples |
+|---|---|---|---|
+| Monera | prokaryotic | autotrophic or heterotrophic | bacteria, cyanobacteria, archaea |
+| Protista | eukaryotic, unicellular | photosynthetic or heterotrophic | Amoeba, Euglena, diatoms |
+| Fungi | eukaryotic, cell wall of chitin | absorptive heterotrophs | Mucor, yeast, mushrooms |
+| Plantae | eukaryotic, cellulose wall | photosynthetic | mosses to flowering plants |
+| Animalia | eukaryotic, no wall | ingestive heterotrophs | sponges to mammals |
+
+**Merits and limits.** The system separates prokaryotes, and it separates fungi from plants. But viruses are not included, and the Archaea were later put in a separate domain by Carl Woese (three domains: Bacteria, Archaea and Eukarya).
+
+**Bacteria.**
+
+1. **Structure.** A cell wall of **peptidoglycan**, a plasma membrane, a nucleoid region of circular DNA (no nuclear membrane), plasmids, $70\text{S}$ ribosomes, and sometimes a capsule, pili and flagella.
+2. **Shapes.** Cocci (spherical), bacilli (rod), vibrio (comma) and spirilla (spiral).
+3. **Gram staining** distinguishes Gram-positive (thick peptidoglycan, purple) and Gram-negative (thin wall, outer membrane, pink) bacteria.
+4. **Nutrition.** Photoautotrophs, chemoautotrophs (nitrifying bacteria), saprotrophs and parasites.
+5. **Reproduction.** Binary fission (every $20$ min for *E. coli*), and genetic recombination by **conjugation**, **transformation** and **transduction**. Endospores resist heat.
+6. **Importance.** Nitrogen fixation (*Rhizobium*, *Azotobacter*), decomposition, curd formation (*Lactobacillus*), antibiotics, genetic engineering and sewage treatment. Harmful: typhoid, cholera, tuberculosis, tetanus and food spoilage.
+
+**Cyanobacteria** (blue-green algae) such as *Nostoc* and *Anabaena* carry out oxygenic photosynthesis, and the heterocysts fix nitrogen. *Azolla* with *Anabaena* is a biofertiliser in rice fields.
+
+**Numerical.** One bacterium dividing every $20$ minutes produces $2^{n}$ cells after $n$ generations. In $2$ hours $n = 6$ and the number is $2^6 = 64$, and in $4$ hours $n = 12$ with $4096$ cells.
+
+**Conclusion.** The five-kingdom system rests on cell type, organisation and nutrition, and bacteria are the prokaryotes with both great harm and great benefit.
+
+### Model answer D2: viruses (10 marks)
+
+**Introduction.** **Viruses** are non-cellular, obligate intracellular parasites of the size of $20$ to $300\ \text{nm}$. They show the characters of both living (multiplication, mutation) and non-living things (crystallisation, no metabolism outside a host). W. Stanley crystallised TMV in 1935, and Ivanovsky and Beijerinck discovered them in tobacco mosaic disease.
+
+**Structure.** A **nucleic acid core** (either DNA or RNA, never both) surrounded by a protein coat, the **capsid**, made of capsomeres. Some animal viruses have an envelope.
+
+- **Bacteriophage** T4: icosahedral head with DNA, a tail sheath and tail fibres.
+- **TMV:** helical rod of single-stranded RNA.
+- **HIV:** an enveloped retrovirus with RNA and reverse transcriptase.
+
+**Multiplication.**
+
+1. **Lytic cycle:** adsorption, penetration, synthesis of viral nucleic acid and protein, assembly and lysis (release).
+2. **Lysogenic cycle:** the phage DNA is integrated into the host chromosome as a **prophage** and is replicated with it, and later may enter the lytic cycle.
+3. **Retroviruses** make DNA from RNA by reverse transcriptase.
+
+**Diseases.**
+
+| Host | Disease |
+|---|---|
+| Human | influenza, polio, rabies, dengue, COVID-19, hepatitis B, AIDS |
+| Plant | tobacco mosaic, potato leaf roll |
+| Animal | foot-and-mouth, bird flu |
+| Bacteria | phage infection |
+
+Control: vaccination, hygiene and antivirals. Antibiotics do not work on viruses. Other agents: **viroids** (naked RNA, potato spindle tuber) and **prions** (infectious proteins, mad cow disease).
+
+| Feature | Virus | Bacterium |
+|---|---|---|
+| Cell structure | non-cellular | prokaryotic cell |
+| Nucleic acid | DNA or RNA | both |
+| Reproduction | only in host cells | independent binary fission |
+| Ribosomes | absent | present |
+| Antibiotics | no effect | effective |
+
+**Numerical.** A phage burst size of $100$ means a single infected cell releases $100$ phages. After three cycles one phage could give $100^3 = 10^6$ phages (in ideal conditions). A virus of $100\ \text{nm}$ is $100\times10^{-9} = 10^{-7}\ \text{m}$, much smaller than a bacterium ($1$ to $5\ \mu\text{m}$).
+
+**Conclusion.** Viruses are acellular parasites that take over the host machinery, so they can be controlled by vaccines, not by antibiotics.

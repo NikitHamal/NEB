@@ -646,3 +646,85 @@ f.text(150, 206, "32 ATP x 30.5 kJ = 976 kJ = 34% of 2,870", size=10.5, color=SL
 **9.** (d) — Only glycolysis pays out; fermentation itself yields no ATP.
 **10.** (b) — Twelve G3P form; ten rebuild the six RuBP and two combine towards one glucose.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the light and dark reactions of photosynthesis and compare C3 and C4 plants. <span class="marks">[10]</span>
+2. Describe aerobic respiration with the energy yield, fermentation and the respiratory quotient. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="2" ratio="1.4" caption="Energy conversion in plants. (a) Spirogyra's ribbon-shaped chloroplasts carry out photosynthesis. (b) Starch grains stained blue-black with iodine are the visible product of photosynthesis stored in the leaf and storage organs."
+@ photo id="ceebot/spirogyra-chl" cap="(a) Chloroplasts of Spirogyra"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/starch" cap="(b) Starch grains"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: photosynthesis (10 marks)
+
+**Introduction.** **Photosynthesis** is the process by which green plants make carbohydrate from CO₂ and water using light energy: In light and in the presence of chlorophyll, $6\text{CO}_2 + 12\text{H}_2\text{O} \to \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 + 6\text{H}_2\text{O}$. The oxygen comes from **water** (shown by Ruben and Kamen with $^{18}\text{O}$).
+
+**Light reaction** (in the **thylakoid** membranes of the grana). Light is absorbed by the pigments of **photosystem II** (P680) and **photosystem I** (P700).
+
+1. **Photolysis of water:** $2\text{H}_2\text{O} \to 4\text{H}^+ + 4e^- + \text{O}_2$.
+2. **Non-cyclic photophosphorylation (Z-scheme):** electrons flow from PS II through plastoquinone, cytochrome $b_6f$ and plastocyanin to PS I and then to ferredoxin and **NADP⁺**, which becomes **NADPH**. The proton gradient drives **ATP synthase**, so ATP is made (chemiosmosis).
+3. **Cyclic photophosphorylation:** only PS I is involved, giving ATP only, with no O₂ or NADPH.
+
+**Dark reaction (Calvin cycle)** in the **stroma**, which needs ATP and NADPH.
+
+1. **Carboxylation:** CO₂ is added to **RuBP** (5C) by **RuBisCO**, giving two molecules of $3$-PGA (3C).
+2. **Reduction:** PGA is changed to G3P (triose phosphate) using ATP and NADPH.
+3. **Regeneration** of RuBP using ATP. For one glucose, the cycle runs $6$ times and uses $18\ \text{ATP}$ and $12\ \text{NADPH}$.
+
+**C3 and C4 plants.**
+
+| Feature | C3 plants | C4 plants |
+|---|---|---|
+| Examples | wheat, rice, potato | maize, sugarcane, sorghum |
+| First product | $3$-PGA (3C) | oxaloacetate (4C) |
+| CO₂ acceptor | RuBP | PEP (PEP carboxylase) |
+| Leaf anatomy | no Kranz | **Kranz** anatomy (bundle sheath) |
+| Photorespiration | high | almost absent |
+| Optimum temperature | $20$ to $25^{\circ}\text{C}$ | $30$ to $45^{\circ}\text{C}$ |
+| Efficiency | lower | higher |
+
+CAM plants (cacti, pineapple) fix CO₂ at night.
+
+**Limiting factors (Blackman).** Light, CO₂ concentration ($0.03\%$ in air), temperature and water. **Photorespiration:** RuBisCO takes up O₂ at high temperature, wasting energy.
+
+**Numerical.** To make $180\ \text{g}$ of glucose, $6\times44 = 264\ \text{g}$ of CO₂ and $108\ \text{g}$ of water are needed and $192\ \text{g}$ of oxygen are released ($6\times32$). A field making $5\ \text{t}$ of glucose uses $7.3\ \text{t}$ of CO₂.
+
+**Conclusion.** The light reaction makes ATP, NADPH and O₂, and the Calvin cycle uses them to fix CO₂ into sugar.
+
+### Model answer D2: respiration (10 marks)
+
+**Introduction.** **Respiration** is the oxidation of food, mainly glucose, to release energy as **ATP**. $\text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 \to 6\text{CO}_2 + 6\text{H}_2\text{O} + 686\ \text{kcal}$.
+
+**Stages of aerobic respiration.**
+
+| Stage | Site | Reaction | Net products per glucose |
+|---|---|---|---|
+| **Glycolysis** | cytoplasm | glucose to $2$ pyruvate | $2$ ATP, $2$ NADH |
+| **Link reaction** | mitochondrial matrix | pyruvate to acetyl-CoA | $2$ NADH, $2\ \text{CO}_2$ |
+| **Krebs cycle** | matrix | acetyl-CoA oxidised | $2$ ATP, $6$ NADH, $2$ FADH₂, $4\ \text{CO}_2$ |
+| **Electron transport (oxidative phosphorylation)** | inner membrane | NADH, FADH₂ oxidised, O₂ final acceptor | about $26$ to $28$ ATP |
+
+**Energy yield.** Each NADH gives about $2.5$ ATP and each FADH₂ about $1.5$ ATP (older textbooks give $3$ and $2$, so a total of $38$). Total $\approx 30$ to $32$ ATP ($36$ to $38$ in the older count). Efficiency $= \dfrac{38\times7.3}{686}\times100 \approx 40\%$, and the rest is lost as heat.
+
+**Anaerobic respiration (fermentation).** Glycolysis followed by conversion of pyruvate to **ethanol** and CO₂ (yeast) or to **lactic acid** (muscle, with a net of only $2$ ATP). It is used in brewing and baking and to make curd.
+
+| Feature | Aerobic | Anaerobic |
+|---|---|---|
+| Oxygen | needed | not needed |
+| Products | CO₂ and H₂O | ethanol and CO₂, or lactic acid |
+| ATP | $30$ to $38$ | $2$ |
+| Site | cytoplasm and mitochondria | cytoplasm |
+
+**Respiratory quotient (RQ).** $\text{RQ} = \dfrac{\text{volume of CO}_2\text{ released}}{\text{volume of O}_2\text{ used}}$. Carbohydrate $= 1.0$; fats $\approx 0.7$; proteins $\approx 0.9$; organic acids $> 1$; anaerobic respiration $= \infty$.
+
+**Relation with photosynthesis.** Photosynthesis stores energy in food and respiration releases it. The compensation point is when the rates of both are equal.
+
+**Numerical.** For tripalmitin and palmitic acid ($\text{C}_{16}\text{H}_{32}\text{O}_2 + 23\text{O}_2 \to 16\text{CO}_2 + 16\text{H}_2\text{O}$), $\text{RQ} = 16/23 = 0.70$. For glucose $\text{RQ} = 6/6 = 1$. For oxalic acid ($2\text{C}_2\text{H}_2\text{O}_4 + \text{O}_2 \to 4\text{CO}_2 + 2\text{H}_2\text{O}$), $\text{RQ} = 4$.
+
+**Conclusion.** Glycolysis, the Krebs cycle and the electron transport chain together release about $30$ to $38$ ATP per glucose, while fermentation gives only $2$.

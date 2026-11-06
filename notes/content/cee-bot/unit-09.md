@@ -677,3 +677,80 @@ over exchanges between homologues.
 **9.** (a) — Tt genotypes are 2/4 of the progeny, and all of them are tall: 1/2.
 **10.** (a) — Recombinants $= 100 - 83 = 17\%$, which is the map distance, 17 cM.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and explain Mendel's laws with monohybrid and dihybrid crosses and the test cross. <span class="marks">[10]</span>
+2. Explain linkage, sex-linked inheritance, mutation and any two genetic disorders. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="3" ratio="1.25" caption="Inheritance in plants and people. (a) Mendel's pea characters, such as round or wrinkled seed and tall or dwarf plant. (b) An Ishihara plate for testing red-green colour blindness, an X-linked recessive trait. (c) White-eyed Drosophila, an X-linked mutant found by Morgan."
+@ photo id="ceebot/mendel-chars" cap="(a) Mendel's pea characters"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/ishihara" cap="(b) Ishihara colour test"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/drosophila-white" cap="(c) White-eyed Drosophila"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Mendel's laws (10 marks)
+
+**Introduction.** **Gregor Johann Mendel** (1822-1884) worked on garden pea (*Pisum sativum*) for eight years, and published in 1866. The pea was a good choice because of its distinct contrasting characters, self-pollination, a short life cycle and many offspring.
+
+**Terms.** Gene, allele, dominant, recessive, homozygous, heterozygous, **genotype** (genetic make-up) and **phenotype** (appearance), $\text{P}$, $\text{F}_1$ and $\text{F}_2$.
+
+**Law of dominance.** When two contrasting alleles are present, only one (the dominant) is expressed in the $\text{F}_1$.
+
+**Law of segregation (purity of gametes).** The two alleles of a gene separate during gamete formation, so each gamete gets only one. **Monohybrid cross:** $\text{TT}$ (tall) $\times$ $\text{tt}$ (dwarf) gives $\text{F}_1$ $\text{Tt}$ (all tall). Selfing gives $\text{F}_2$ with the **phenotypic ratio $3:1$** and the **genotypic ratio $1:2:1$** ($\text{TT} : \text{Tt} : \text{tt}$).
+
+**Law of independent assortment.** The alleles of different genes assort independently into gametes. **Dihybrid cross:** $\text{RRYY}$ (round yellow) $\times$ $\text{rryy}$ (wrinkled green) gives $\text{F}_1$ $\text{RrYy}$. The $\text{F}_2$ phenotypic ratio is $9:3:3:1$ (round yellow : round green : wrinkled yellow : wrinkled green), with $16$ combinations from $4$ types of gamete ($\text{RY}$, $\text{Ry}$, $\text{rY}$, $\text{ry}$).
+
+| Cross | Phenotypic ratio | Genotypic ratio |
+|---|---|---|
+| Monohybrid | $3:1$ | $1:2:1$ |
+| Dihybrid | $9:3:3:1$ | $1:2:1:2:4:2:1:2:1$ |
+| Test cross (with a recessive) | $1:1$ if heterozygous | $1:1$ |
+| Incomplete dominance (*Mirabilis*) | $1:2:1$ | $1:2:1$ |
+| Codominance (ABO blood groups) | | |
+
+**Test cross.** Crossing an individual of dominant phenotype with a **homozygous recessive** to find its genotype. All dominant offspring means that the parent was homozygous, and a $1:1$ ratio means that it was heterozygous. A **back cross** is a cross of the $\text{F}_1$ with either parent.
+
+**Extensions.** **Incomplete dominance:** the $\text{F}_1$ is intermediate (pink in snapdragon). **Codominance:** both alleles are expressed ($\text{I}^\text{A}\text{I}^\text{B}$ gives blood group AB). **Multiple alleles:** ABO has three alleles ($\text{I}^\text{A}$, $\text{I}^\text{B}$ and $i$). **Pleiotropy:** one gene affects several characters.
+
+**Numerical.** For the cross $\text{AaBb} \times \text{AaBb}$, the probability of $\text{aabb}$ is $\dfrac14\times\dfrac14 = \dfrac1{16}$ and of the dominant for both characters $\dfrac34\times\dfrac34 = \dfrac9{16}$. With $\text{F}_2$ of $1600$ plants, the number of tall plants is $1200$ and dwarf $400$. The cross $\text{Aa} \times \text{aa}$ gives $50\%$ $\text{Aa}$.
+
+**Conclusion.** Mendel's laws of dominance, segregation and independent assortment explain the transmission of characters through the gametes.
+
+### Model answer D2: linkage, sex linkage and mutation (10 marks)
+
+**Introduction.** Mendel's independent assortment applies only to genes on different chromosomes. Genes on the same chromosome tend to be inherited together.
+
+**Linkage and crossing over.** **Morgan** showed **linkage** in *Drosophila*. The strength of linkage depends on the distance between genes. Crossing over in prophase I gives **recombinants**. The **recombination frequency** $= \dfrac{\text{recombinants}}{\text{total offspring}}\times100$, and $1\%$ recombination equals one **map unit** (centimorgan). Sturtevant made the first genetic map.
+
+**Sex determination.** In humans, females are $\text{XX}$ and males $\text{XY}$ (male heterogametic). In birds the female is $\text{ZW}$. In grasshoppers it is $\text{XO}$. The sex of the child is decided by the sperm.
+
+**Sex-linked inheritance.** Genes on the X chromosome. A recessive X-linked trait shows more often in males, because the male has only one X (hemizygous), and **skips a generation** through carrier females. Examples: **red-green colour blindness**, **haemophilia** and white eye in *Drosophila*. A carrier mother ($\text{X}^\text{C}\text{X}^\text{c}$) and a normal father ($\text{X}^\text{C}\text{Y}$) have sons with a $50\%$ chance of colour blindness and no affected daughters (half the daughters are carriers).
+
+**Mutation.** A sudden, heritable change in the genetic material.
+
+1. **Gene (point) mutation:** substitution (sickle-cell anaemia: GAG changed to GUG, so glutamic acid is replaced by valine), insertion or deletion (**frame shift**).
+2. **Chromosomal mutation:** deletion, duplication, inversion and translocation.
+3. **Genome mutation (ploidy):** aneuploidy and polyploidy.
+4. **Mutagens:** X-rays, UV, chemicals (mustard gas) and colchicine, which induces polyploidy.
+
+**Genetic disorders.**
+
+| Disorder | Cause | Features |
+|---|---|---|
+| Down syndrome | trisomy $21$ ($47$ chromosomes) | mental retardation, short stature |
+| Turner syndrome | $44 + \text{XO}$ | sterile female |
+| Klinefelter syndrome | $44 + \text{XXY}$ | sterile male |
+| Sickle-cell anaemia | recessive point mutation | abnormal haemoglobin, **autosomal** |
+| Haemophilia | X-linked recessive | blood does not clot |
+| Phenylketonuria | autosomal recessive, enzyme missing | brain damage |
+
+**Numerical.** If $12$ recombinants occur among $100$ offspring, the genes are $12$ map units apart. For a colour-blind man ($\text{X}^\text{c}\text{Y}$) and a normal homozygous woman, all children are phenotypically normal, but all daughters are carriers. The chance that a carrier woman has a colour-blind **child** is $\tfrac14$.
+
+**Conclusion.** Linked genes are inherited together unless separated by crossing over, and mutations cause variation and genetic disorders.
