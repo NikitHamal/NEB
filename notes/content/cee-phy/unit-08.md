@@ -811,3 +811,67 @@ facts = dict(p0=rows[0][1], p20=rows[2][1], p30=rows[3][1], lam=lam)
 **8.** (c) — $T=2.9\times10^{-3}/290\times10^{-9}=1.0\times10^4$ K.
 **9.** (d) — $H=kA\Delta\theta/L=(0.80)(2.0)(20)/0.005=6.4\times10^3$ W. Real windows do better only because of the air films on both surfaces.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain conduction and thermal conductivity, and solve a problem on a composite rod. Compare conduction, convection and radiation. <span class="marks">[10]</span>
+2. State and explain Stefan's law, Wien's law and Newton's law of cooling with numericals. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="3" ratio="1.25" caption="Heat transfer around us. (a) A thermal image of a house or person shows radiation from warm surfaces. (b) An electric kettle heats water by conduction through the element and by convection currents in the water. (c) A cooktop heats the pan by conduction and radiation."
+@ photo id="ceephy3/thermal" cap="(a) Thermal image"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/kettle" cap="(b) Kettle"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/cooktop" cap="(c) Cooktop"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: modes of heat transfer and conduction (10 marks)
+
+**Introduction.** Heat flows from a hot body to a cold one by three modes: conduction, convection and radiation.
+
+**Conduction.** In steady state, the heat flowing through a slab of area $A$ and thickness $d$ in time $t$ is $Q = \dfrac{kA(\theta_1 - \theta_2)t}{d}$, where $k$ is the **thermal conductivity** (W m⁻¹ K⁻¹). Metals have large $k$ (copper about $400$) because free electrons carry the heat. Air has $k \approx 0.026$, which is why wool, foam and double-glazed windows insulate.
+
+**Composite conductors.**
+
+1. In **series**, the same heat current flows through both: $\dfrac{k_1A(\theta_1 - \theta)}{l_1} = \dfrac{k_2A(\theta - \theta_2)}{l_2}$, where $\theta$ is the interface temperature. The equivalent conductivity is $k = \dfrac{l_1 + l_2}{l_1/k_1 + l_2/k_2}$.
+2. In **parallel**, the heat currents add: $k = \dfrac{k_1A_1 + k_2A_2}{A_1 + A_2}$.
+
+| Feature | Conduction | Convection | Radiation |
+|---|---|---|---|
+| Medium needed | Yes (solid) | Yes (fluid) | No |
+| Particle motion | Vibration, no bulk movement | Bulk movement of fluid | None |
+| Speed | Slow | Moderate | Speed of light |
+| Example | Spoon in hot tea | Sea breeze | Sunlight on earth |
+
+**Numerical.** A copper rod ($k = 400$) and a steel rod ($k = 50$), each $0.5\ \text{m}$ long and of equal area, are joined end to end, with the free ends at $100^{\circ}\text{C}$ (copper side) and $0^{\circ}\text{C}$. In steady state, $400(100 - \theta) = 50(\theta - 0)$, so $\theta = 40000/450 = 88.9^{\circ}\text{C}$. Almost all of the temperature drop is across the poor conductor, steel.
+
+**Conclusion.** The rate of conduction is proportional to $kA\,\Delta\theta/d$. In series the poorer conductor controls the interface temperature.
+
+### Model answer D2: radiation laws and Newton's law of cooling (10 marks)
+
+**Introduction.** A **black body** absorbs all radiation that falls on it, and when hot it emits the maximum possible radiation at every wavelength.
+
+**Laws.**
+
+1. **Stefan-Boltzmann law.** The total energy emitted per second per unit area is $E = \sigma T^4$, with $\sigma = 5.67\times10^{-8}\ \text{W m}^{-2}\text{K}^{-4}$. For a body at $T$ in surroundings at $T_0$, the net loss is $\sigma A(T^4 - T_0^4)$, and with emissivity $e$, $e\sigma A(T^4 - T_0^4)$.
+2. **Wien's displacement law.** $\lambda_mT = b = 2.9\times10^{-3}\ \text{m K}$. As the temperature rises, the peak of the spectrum shifts to shorter wavelengths: red-hot, then white-hot.
+3. **Newton's law of cooling.** For a small excess temperature, the rate of loss of heat is proportional to the excess over the surroundings: $-\dfrac{d\theta}{dt} = k(\theta - \theta_0)$. In practice $\dfrac{\theta_1 - \theta_2}{t} = k\left(\dfrac{\theta_1 + \theta_2}{2} - \theta_0\right)$.
+
+**Other points.** Good absorbers are also good emitters (Kirchhoff's law). A polished surface reflects heat and is a poor emitter, so a thermos flask is silvered. Doubling the Kelvin temperature increases the radiated power sixteen times.
+
+| Law | Gives | Graph / use |
+|---|---|---|
+| Stefan | total power $\propto T^4$ | temperature of stars |
+| Wien | $\lambda_m \propto 1/T$ | colour and temperature |
+| Newton | cooling rate $\propto$ excess temperature | cooling curve (exponential) |
+
+**Numerical.**
+
+- The sun's spectrum peaks near $500\ \text{nm}$, so $T = \dfrac{2.9\times10^{-3}}{5\times10^{-7}} = 5800\ \text{K}$. The power per unit area is $5.67\times10^{-8}\times(5800)^4 = 6.4\times10^{7}\ \text{W m}^{-2}$.
+- A liquid cools from $80^{\circ}\text{C}$ to $70^{\circ}\text{C}$ in $5\ \text{min}$ in surroundings of $30^{\circ}\text{C}$. Then $k = \dfrac{10/5}{75 - 30} = \dfrac{2}{45}\ \text{min}^{-1}$. From $70^{\circ}\text{C}$ to $60^{\circ}\text{C}$: $t = \dfrac{10}{k(65 - 30)} = \dfrac{10\times45}{2\times35} = 6.4\ \text{min}$, slower because the excess temperature is lower.
+
+**Conclusion.** Radiated power rises as $T^4$, the peak wavelength falls as $1/T$, and cooling slows down as the body approaches the surroundings.

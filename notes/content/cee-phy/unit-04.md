@@ -689,3 +689,74 @@ facts = dict(dp=0.5 * rho * (70 ** 2 - vb ** 2), lift=rows[2][1], mass=rows[2][1
 **11.** (b) — $F = \eta A\,v/d = 0.5(0.1)(0.2)/0.001 = 10$ N.
 **12.** (a) — $v_t = \frac{2r^2\rho g}{9\eta} = \frac{2(10^{-5})^2(1000)(9.8)}{9(1.8\times10^{-5})} = 0.012$ m s⁻¹ = 1.2 cm s⁻¹; so small a speed that rising air holds clouds up.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and derive Bernoulli's theorem. Give its applications and solve a numerical. <span class="marks">[10]</span>
+2. Define viscosity and state Stokes' law. Derive the terminal velocity of a sphere falling in a liquid and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="2" ratio="1.4" caption="Fluids at work. (a) The curved upper surface of an aeroplane wing makes air move faster above it, so by Bernoulli's principle the pressure there is lower and lift results. (b) A soap bubble is shaped by surface tension, which tries to make the surface area as small as possible."
+@ photo id="ceephy3/wing" cap="(a) Aerofoil lift"
+fit 1.4
+focus 0.5 0.5
+@ photo id="phy12b/bubble" cap="(b) Soap bubble"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: Bernoulli's theorem and its applications (10 marks)
+
+**Introduction.** For the steady, streamline flow of an ideal fluid (incompressible and non-viscous), the **equation of continuity** $A_1v_1 = A_2v_2$ expresses conservation of mass. Bernoulli's theorem expresses conservation of energy.
+
+**Statement.** For the streamline flow of an ideal fluid, the sum of the pressure energy, kinetic energy and potential energy per unit volume is constant at every point: $P + \tfrac12\rho v^2 + \rho gh = \text{constant}$.
+
+**Derivation.** A fluid flows through a pipe from section 1 (area $A_1$, pressure $P_1$, height $h_1$) to section 2. In time $\Delta t$ a volume $V$ passes each section. The net work done by pressure is $(P_1 - P_2)V$. The gain in kinetic energy is $\tfrac12\rho V(v_2^2 - v_1^2)$ and the gain in potential energy is $\rho Vg(h_2 - h_1)$. By the work-energy theorem, $(P_1 - P_2)V = \tfrac12\rho V(v_2^2 - v_1^2) + \rho Vg(h_2 - h_1)$. Dividing by $V$ and rearranging gives $P_1 + \tfrac12\rho v_1^2 + \rho gh_1 = P_2 + \tfrac12\rho v_2^2 + \rho gh_2$.
+
+**Applications.**
+
+1. **Venturi meter.** It measures flow rate from the pressure drop at the narrow throat.
+2. **Aerofoil (wing).** Faster air on top means lower pressure, so there is a net upward lift.
+3. **Atomiser and spray gun.** Fast air over a tube lowers the pressure and pushes the liquid up.
+4. **Speed of efflux** (Torricelli). $v = \sqrt{2gh}$ for a hole at depth $h$.
+5. **Blowing off a roof.** Fast wind over the roof lowers the outside pressure and the inside air pushes the roof up.
+6. **Bunsen burner and carburettor** draw in air or fuel by the same low-pressure effect.
+
+| Quantity | Meaning |
+|---|---|
+| $P$ | static pressure energy per unit volume |
+| $\tfrac12\rho v^2$ | kinetic energy per unit volume |
+| $\rho gh$ | potential energy per unit volume |
+
+**Numerical.** Water ($\rho = 1000\ \text{kg m}^{-3}$) flows at $2\ \text{m s}^{-1}$ in a horizontal pipe of cross-section $40\ \text{cm}^2$, which narrows to $10\ \text{cm}^2$. Continuity gives $v_2 = 2\times40/10 = 8\ \text{m s}^{-1}$. Then $P_1 - P_2 = \tfrac12(1000)(64 - 4) = 3.0\times10^4\ \text{Pa}$.
+
+**Conclusion.** Where a fluid moves faster, its pressure is lower. This one idea explains lift, sprays and flow meters.
+
+### Model answer D2: viscosity, Stokes' law and terminal velocity (10 marks)
+
+**Introduction.** **Viscosity** is the internal friction of a fluid that opposes the relative motion between its layers. Newton's law gives the viscous force $F = \eta A\dfrac{dv}{dx}$, where $\eta$ is the **coefficient of viscosity** with SI unit pascal second (Pa s) and dimensions $[ML^{-1}T^{-1}]$.
+
+**Stokes' law.** A small sphere of radius $r$ moving at speed $v$ through a fluid of viscosity $\eta$ meets a viscous drag $F = 6\pi\eta rv$.
+
+**Terminal velocity.** A sphere of density $\rho$ falls in a liquid of density $\sigma$. Three forces act on it:
+
+1. weight $W = \tfrac43\pi r^3\rho g$ downward;
+2. upthrust $U = \tfrac43\pi r^3\sigma g$ upward;
+3. viscous drag $6\pi\eta rv$ upward, which grows with speed.
+
+At terminal velocity the net force is zero: $\tfrac43\pi r^3(\rho - \sigma)g = 6\pi\eta rv_t$, so
+
+$$ v_t = \frac{2r^2(\rho - \sigma)g}{9\eta} $$
+
+The terminal velocity is proportional to $r^2$, so a large drop falls faster than a small one. A bubble or a lighter object ($\rho < \sigma$) rises with a negative $v_t$.
+
+| Point | Liquid | Gas |
+|---|---|---|
+| Viscosity with temperature | Decreases when heated | Increases when heated |
+| Reason | Weaker molecular attraction | More molecular collisions |
+| Example | Hot oil flows easily | Hot air is more viscous |
+
+**Uses.** Stokes' law explains why raindrops reach a steady speed, why clouds float and how Millikan measured the electron charge. It is also the basis of the falling-ball viscometer.
+
+**Numerical.** A steel ball of radius $1\ \text{mm}$ and density $7800\ \text{kg m}^{-3}$ falls in glycerine ($\sigma = 1260\ \text{kg m}^{-3}$, $\eta = 0.83\ \text{Pa s}$). Then $v_t = \dfrac{2(10^{-3})^2(7800 - 1260)(9.8)}{9(0.83)} = 1.7\times10^{-2}\ \text{m s}^{-1}$, that is about $1.7\ \text{cm s}^{-1}$.
+
+**Conclusion.** The ball speeds up until drag plus upthrust equals the weight, and it then falls at the constant terminal velocity $v_t$.

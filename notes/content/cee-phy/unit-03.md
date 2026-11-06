@@ -568,3 +568,72 @@ facts = dict(L=L, f2=f2, K1=K1, K2=K2, r=K2 / K1)
 **9.** (d) — $\omega = 20/5 = 4$ rad s⁻¹; KE falls from $\frac{1}{2}(2)(100) = 100$ J to $\frac{1}{2}(5)(16) = 40$ J, a loss of 60 J. (b) is the final KE, not the loss.
 **10.** (c) — $\alpha = \frac{Mg(L/2)}{ML^2/3} = \frac{3g}{2L}$, so the end has $a = \alpha L = \frac{3}{2}g = 15$ m s⁻² — more than $g$, which is why (b) is the trap.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define torque, moment of inertia and angular momentum. State the law of conservation of angular momentum with examples and solve a numerical. <span class="marks">[10]</span>
+2. State the parallel and perpendicular axis theorems and find the moment of inertia of a disc. Explain rolling motion with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.4" caption="Rotation in the real world. (a) A skater spins faster when her arms are drawn in because I falls and L = I w stays constant. (b) An electric motor produces torque on its rotor, which gives angular acceleration alpha = torque / I."
+@ photo id="ceephy3/skater" cap="(a) Skater: L = I w is conserved"
+fit 1.4
+focus 0.5 0.45
+@ photo id="ceephy3/motor" cap="(b) Motor rotor under torque"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: torque, moment of inertia and conservation of angular momentum (10 marks)
+
+**Introduction.** Rotational motion has quantities that match linear motion. **Torque** $\vec\tau = \vec r\times\vec F$ turns a body, the **moment of inertia** $I = \sum mr^2$ resists the turning, and **angular momentum** $\vec L = I\vec\omega$ measures the quantity of rotation.
+
+**Relations.**
+
+1. **Torque.** $\tau = rF\sin\theta$, in newton metre. It is zero if the force passes through the axis.
+2. **Newton's law for rotation.** $\tau = I\alpha$, the counterpart of $F = ma$.
+3. **Angular momentum.** For a particle $\vec L = \vec r\times\vec p$, and for a rigid body $L = I\omega$.
+4. **Torque as rate of change.** $\vec\tau = d\vec L/dt$. If $\vec\tau = 0$ then $\vec L$ is constant. This is the law of conservation of angular momentum.
+5. **Rotational kinetic energy.** $K = \tfrac12I\omega^2 = L^2/2I$.
+
+**Examples of the law.**
+
+- A skater or diver pulls in the arms or legs, so $I$ falls and $\omega$ rises.
+- A person on a rotating turntable holding weights changes the speed by moving the weights.
+- Planets move faster near the sun (perihelion), which is Kepler's second law.
+- A helicopter needs a tail rotor so that the reaction torque does not spin the body.
+
+| Linear | Rotational |
+|---|---|
+| $v = u + at$ | $\omega = \omega_0 + \alpha t$ |
+| $s = ut + \tfrac12at^2$ | $\theta = \omega_0t + \tfrac12\alpha t^2$ |
+| $F = ma$ | $\tau = I\alpha$ |
+| $p = mv$ | $L = I\omega$ |
+
+**Numerical.** A skater spins at $2\ \text{rev s}^{-1}$ with $I = 3.0\ \text{kg m}^2$. She pulls her arms in and $I$ becomes $1.0\ \text{kg m}^2$. Then $I_1\omega_1 = I_2\omega_2$ gives $\omega_2 = 3\times2 = 6\ \text{rev s}^{-1}$. The kinetic energy rises from $\tfrac12(3)(4\pi)^2 = 237\ \text{J}$ to $\tfrac12(1)(12\pi)^2 = 711\ \text{J}$, three times larger, because her muscles do work.
+
+**Conclusion.** With no external torque $L$ stays constant, so a smaller moment of inertia means a faster spin.
+
+### Model answer D2: theorems of moment of inertia and rolling (10 marks)
+
+**Introduction.** The moment of inertia depends on the axis. Two theorems let us find it for new axes from known values.
+
+**Theorems.**
+
+1. **Parallel axis theorem.** $I = I_{cm} + Md^2$, where $d$ is the distance between the axis and the parallel axis through the centre of mass. $I_{cm}$ is always the smallest value.
+2. **Perpendicular axis theorem** (plane bodies only). $I_z = I_x + I_y$, where $x$ and $y$ are perpendicular axes in the plane and $z$ is perpendicular to the plane.
+
+**Disc.** For a uniform disc of mass $M$ and radius $R$, about its central axis, $I = \tfrac12MR^2$. Using the perpendicular axis theorem with $I_x = I_y$, a diameter gives $I_d = \tfrac14MR^2$. By the parallel axis theorem, the axis through the edge, perpendicular to the plane, has $I = \tfrac12MR^2 + MR^2 = \tfrac32MR^2$.
+
+| Body (axis) | $I$ |
+|---|---|
+| Ring (centre, perpendicular) | $MR^2$ |
+| Disc (centre, perpendicular) | $\tfrac12MR^2$ |
+| Solid sphere (diameter) | $\tfrac25MR^2$ |
+| Hollow sphere (diameter) | $\tfrac23MR^2$ |
+| Rod (centre) / (end) | $\dfrac{ML^2}{12}$ / $\dfrac{ML^2}{3}$ |
+
+**Rolling without slipping.** The point of contact is at rest, so $v = R\omega$. The total kinetic energy is $K = \tfrac12mv^2 + \tfrac12I\omega^2 = \tfrac12mv^2\left(1 + \dfrac{k^2}{R^2}\right)$, where $k$ is the radius of gyration. On an incline of height $h$, energy conservation gives $v = \sqrt{\dfrac{2gh}{1 + k^2/R^2}}$. The acceleration is $a = \dfrac{g\sin\theta}{1 + k^2/R^2}$, so the order of arrival is solid sphere, disc, hollow sphere and ring, whatever their masses and radii.
+
+**Numerical.** A disc ($M = 2\ \text{kg}$, $R = 0.5\ \text{m}$) has $I = \tfrac12(2)(0.25) = 0.25\ \text{kg m}^2$ about its axis. A torque of $3\ \text{N m}$ gives $\alpha = 12\ \text{rad s}^{-2}$, and after $5\ \text{s}$, $\omega = 60\ \text{rad s}^{-1}$ and $K = \tfrac12(0.25)(3600) = 450\ \text{J}$. Rolling down $h = 3\ \text{m}$ ($g = 10$) it reaches $v = \sqrt{2(10)(3)/1.5} = 6.3\ \text{m s}^{-1}$, while a ring gets only $\sqrt{30} = 5.5\ \text{m s}^{-1}$.
+
+**Conclusion.** Axis theorems extend known values of $I$, and a body with its mass closer to the axis rolls down faster.

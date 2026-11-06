@@ -1030,3 +1030,78 @@ f.text(150, 224, "1,000 h: 60 W = 60 units, 9 W = 9 units", size=10.5, color=NAV
 **10.** (c) — $R = V/I_g - G = 10/10^{-3} - 50 = 9950$ Ω; 10000 Ω forgets to subtract the coil resistance.
 **11.** (a) — $\theta_i = 2\theta_n - \theta_c = 560 - 20 = 540$ °C.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the relation between current and drift velocity, state Ohm's law and Kirchhoff's laws, and solve circuit numericals. <span class="marks">[10]</span>
+2. Describe the Seebeck, Peltier and Thomson effects and the thermoelectric curve of a thermocouple. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="3" ratio="1.25" caption="Electric circuits at work. (a) A digital multimeter measures voltage, current and resistance. (b) A thermocouple produces an emf proportional to the temperature difference between its junctions. (c) A toaster element is a high-resistance wire that turns electrical energy into heat (I squared R)."
+@ photo id="ceephy2/multimeter" cap="(a) Multimeter"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/thermocouple" cap="(b) Thermocouple"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/toaster" cap="(c) Toaster element"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: drift velocity, Ohm's law and Kirchhoff's laws (10 marks)
+
+**Introduction.** Electric current is the rate of flow of charge, $I = dQ/dt$. In a metal it is carried by free electrons that drift slowly under an electric field.
+
+**Drift velocity.** Let $n$ be the number of free electrons per unit volume in a conductor of area $A$. In time $\Delta t$ the electrons that cross a section are those within a length $v_d\Delta t$, so $\Delta Q = neAv_d\Delta t$ and
+
+$$ I = neAv_d, \qquad v_d = \frac{eE\tau}{m} $$
+
+where $\tau$ is the relaxation time (the average time between collisions). The drift speed is tiny, about $10^{-4}\ \text{m s}^{-1}$, yet a lamp lights at once because the field is set up through the wire at nearly the speed of light.
+
+**Ohm's law.** At constant temperature $V = IR$. In microscopic form $\vec J = \sigma\vec E$ and $\rho = \dfrac{m}{ne^2\tau}$, and $R = \rho l/A$. Resistivity of a metal rises with temperature, $R_t = R_0(1 + \alpha t)$, while for a semiconductor it falls.
+
+**Kirchhoff's laws.**
+
+1. **Junction law (KCL).** The algebraic sum of currents at a junction is zero, which is conservation of charge.
+2. **Loop law (KVL).** The algebraic sum of emfs and potential drops in a closed loop is zero, which is conservation of energy.
+
+| Combination | Resistance | Current / voltage |
+|---|---|---|
+| Series | $R = R_1 + R_2$ | same current |
+| Parallel | $\dfrac1R = \dfrac1{R_1} + \dfrac1{R_2}$ | same voltage |
+| Cell with internal resistance | $V = E - Ir$ | $I = \dfrac{E}{R + r}$ |
+
+**Wheatstone bridge.** It is balanced when $\dfrac PQ = \dfrac RS$, and then no current flows through the galvanometer.
+
+**Numerical.**
+
+- A copper wire of cross-section $1\ \text{mm}^2$ carries $2\ \text{A}$ ($n = 8.5\times10^{28}\ \text{m}^{-3}$): $v_d = \dfrac{2}{8.5\times10^{28}\times1.6\times10^{-19}\times10^{-6}} = 1.5\times10^{-4}\ \text{m s}^{-1}$.
+- A cell of $12\ \text{V}$ and $1\ \Omega$ drives a $5\ \Omega$ resistor: $I = 12/6 = 2\ \text{A}$ and the terminal voltage is $12 - 2 = 10\ \text{V}$.
+- A balanced bridge with $P = 10\ \Omega$, $Q = 20\ \Omega$, $R = 30\ \Omega$ has $S = 60\ \Omega$.
+
+**Conclusion.** $I = neAv_d$ links the microscopic and macroscopic view of current, and Kirchhoff's two laws solve any network.
+
+### Model answer D2: thermoelectric effects (10 marks)
+
+**Introduction.** Thermoelectricity links temperature differences and electric potential differences.
+
+**Seebeck effect.** When the two junctions of a loop of two different metals are held at different temperatures, an emf (and a current) appears. It is the basis of the **thermocouple** (for example copper-constantan or iron-constantan). For a small temperature difference, $E = \alpha\theta + \tfrac12\beta\theta^2$, where $\theta$ is measured from the cold junction. The thermoelectric series (Sb, Fe, Cu, ... Bi) tells the direction of the current.
+
+**Thermoelectric curve.** The emf rises to a maximum at the **neutral temperature** $\theta_n = -\alpha/\beta$ and then falls to zero at the **temperature of inversion** $\theta_i = 2\theta_n$ (if the cold junction is $0^{\circ}\text{C}$). For $\theta_i = 2\theta_n - \theta_{cold}$ in general. The neutral temperature does not depend on the cold-junction temperature.
+
+**Peltier effect.** When a current passes through a junction of two metals, heat is absorbed or liberated, depending on the direction of the current. It is reversible, unlike the Joule heating $I^2R$, and it is used in small thermoelectric coolers.
+
+**Thomson effect.** When a current flows in a conductor with a temperature gradient, heat is absorbed or liberated all along the wire, in addition to Joule heating.
+
+| Effect | What happens | Reversible? |
+|---|---|---|
+| Seebeck | temperature difference gives emf | — |
+| Peltier | current gives heating or cooling at a junction | yes |
+| Thomson | current in a temperature gradient gives heat exchange along the wire | yes |
+| Joule | heat $I^2Rt$ | no |
+
+**Uses.** Thermocouples measure high temperatures in furnaces and engines, **thermopiles** detect infrared radiation, and thermoelectric generators power space probes.
+
+**Numerical.** For a thermocouple with $\alpha = 16\ \mu\text{V}\,{}^{\circ}\text{C}^{-1}$ and $\beta = -0.04\ \mu\text{V}\,{}^{\circ}\text{C}^{-2}$, the neutral temperature is $\theta_n = -\dfrac{16}{-0.04} = 400^{\circ}\text{C}$ and the inversion temperature is $800^{\circ}\text{C}$ for the cold junction at $0^{\circ}\text{C}$. The maximum emf is $16(400) - 0.02(400)^2 = 6400 - 3200 = 3200\ \mu\text{V} = 3.2\ \text{mV}$.
+
+**Conclusion.** The Seebeck emf rises, peaks at $\theta_n$ and then reverses at $\theta_i = 2\theta_n$. The Peltier and Thomson effects are reversible heat exchanges.

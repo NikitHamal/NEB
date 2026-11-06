@@ -910,3 +910,69 @@ facts = dict(c4=rows[1][1], c18=rows[3][1], wi=W_ideal, wr=W_real)
 **10.** (b) — Q = nCpΔT = 2 × 29.1 × 20 = 1.16 kJ. Option (a) uses Cv, which would be right only at constant volume; (c) is only the work nRΔT; (d) doubles ΔT.
 **11.** (d) — W = PΔV = nRΔT = 2 × 8.31 × 100 = 1.66 kJ. Option (b) is the heat nCpΔT, (c) is nCvΔT, and (a) is nRΔT for 1 mol.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the pressure exerted by an ideal gas on the basis of kinetic theory and find the rms speed and the mean kinetic energy per molecule. <span class="marks">[10]</span>
+2. State the first and second laws of thermodynamics, explain the thermodynamic processes and the Carnot engine, and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.4" caption="Gases and engines. (a) The fire piston compresses air so quickly (adiabatically) that its temperature rises enough to ignite tinder. (b) An air compressor does work on gas, raising its pressure and temperature."
+@ photo id="phy12b/firepiston" cap="(a) Fire piston"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy3/compressor" cap="(b) Air compressor"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: kinetic theory of gases (10 marks)
+
+**Introduction.** The kinetic theory explains the large-scale properties of a gas from the motion of its molecules.
+
+**Assumptions.** A gas consists of a very large number of identical, tiny molecules in random motion. The collisions are perfectly elastic, there is no force between molecules except during a collision, the volume of the molecules is negligible, and the time of collision is negligible compared with the time between collisions.
+
+**Derivation.** Take $N$ molecules of mass $m$ in a cubical box of side $L$. A molecule moving with velocity component $v_x$ hits a wall and rebounds, so the change of momentum is $2mv_x$. It hits the same wall every $2L/v_x$ seconds, so the force it produces is $mv_x^2/L$. For all molecules, $F = \dfrac{m}{L}\sum v_x^2 = \dfrac{Nm\overline{v_x^2}}{L}$. By symmetry $\overline{v_x^2} = \tfrac13\overline{c^2}$, so the pressure is
+
+$$ P = \frac{F}{L^2} = \frac13\frac{Nm\,\overline{c^2}}{V} = \frac13\rho\,\overline{c^2} $$
+
+**Consequences.**
+
+1. Comparing with $PV = nRT$ ($PV = NkT$): $\tfrac13Nm\overline{c^2} = NkT$.
+2. **Mean kinetic energy per molecule** $= \tfrac12m\overline{c^2} = \tfrac32kT$, which depends only on temperature. Temperature is a measure of the average translational kinetic energy.
+3. **rms speed** $c_{rms} = \sqrt{\dfrac{3kT}{m}} = \sqrt{\dfrac{3RT}{M}} = \sqrt{\dfrac{3P}{\rho}}$.
+4. **Law of equipartition.** Each degree of freedom has energy $\tfrac12kT$ per molecule. A gas with $f$ degrees of freedom has $U = \tfrac f2nRT$.
+5. Boyle's, Charles', Avogadro's and Dalton's laws all follow from $P = \tfrac13\rho\overline{c^2}$.
+
+| Gas | $M\ (\text{g mol}^{-1})$ | $c_{rms}$ at $300\ \text{K}$ |
+|---|---|---|
+| Hydrogen | 2 | $1934\ \text{m s}^{-1}$ |
+| Oxygen | 32 | $484\ \text{m s}^{-1}$ |
+
+**Numerical.** For oxygen, $c_{rms} = \sqrt{3(8.314)(300)/0.032} = 484\ \text{m s}^{-1}$. Hydrogen at the same temperature is four times faster. The mean kinetic energy per molecule is $\tfrac32(1.38\times10^{-23})(300) = 6.2\times10^{-21}\ \text{J}$ for both gases.
+
+**Conclusion.** $P = \tfrac13\rho\overline{c^2}$, and absolute temperature is proportional to the mean kinetic energy of the molecules.
+
+### Model answer D2: laws of thermodynamics and the Carnot engine (10 marks)
+
+**Introduction.** Thermodynamics studies how heat is converted to work. The **zeroth law** says that two bodies in thermal equilibrium with a third are in equilibrium with each other, which defines temperature.
+
+**First law.** Heat supplied equals the increase in internal energy plus the work done by the system: $Q = \Delta U + W$. It is the law of conservation of energy.
+
+**Processes.**
+
+| Process | Condition | Result |
+|---|---|---|
+| Isothermal | $T$ constant, $\Delta U = 0$ | $Q = W = nRT\ln\dfrac{V_2}{V_1}$, $PV$ constant |
+| Isobaric | $P$ constant | $W = P\Delta V$ |
+| Isochoric | $V$ constant | $W = 0$, $Q = \Delta U = nC_v\Delta T$ |
+| Adiabatic | $Q = 0$ | $PV^{\gamma}$ constant, $W = \dfrac{nR(T_1 - T_2)}{\gamma - 1}$ |
+
+Also $C_p - C_v = R$ and $\gamma = C_p/C_v$ ($1.67$ for monatomic and $1.4$ for diatomic gases).
+
+**Second law.** *Kelvin-Planck:* no engine can convert all the heat taken from a single source into work. *Clausius:* heat cannot flow from a cold body to a hot body without external work. So efficiency is always below 100%.
+
+**Carnot engine.** It works between a source at $T_1$ and a sink at $T_2$ in four reversible steps: isothermal expansion, adiabatic expansion, isothermal compression and adiabatic compression. Its efficiency is $\eta = 1 - \dfrac{T_2}{T_1}$, the maximum possible. A refrigerator has the coefficient of performance $\dfrac{T_2}{T_1 - T_2}$.
+
+**Numerical.** A Carnot engine works between $500\ \text{K}$ and $300\ \text{K}$ and takes $1000\ \text{J}$ from the source. Then $\eta = 1 - 300/500 = 40\%$, the work is $400\ \text{J}$ and the heat rejected is $600\ \text{J}$. For one mole of an ideal gas doubling its volume isothermally at $300\ \text{K}$, $W = 8.314\times300\times\ln2 = 1729\ \text{J}$ and $\Delta U = 0$.
+
+**Conclusion.** The first law is about the energy balance and the second law about its direction. Carnot's efficiency $1 - T_2/T_1$ is the upper limit for any engine.
