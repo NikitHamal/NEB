@@ -712,3 +712,73 @@ facts = dict(pk=Vpk, vd=Vd, rip=rip, dc=Vd - rip / 2, tr=Vd - rip)
 **9.** (c) — for a full-wave rectified sine the rms value is $V_0/\sqrt{2}=10/1.414=7.1$ V.
 **10.** (d) — the resistor takes $10-0.7=9.3$ V, so $I=9.3/200=46.5$ mA. Option (a) is $10/200$, which ignores the diode.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the formation of a p-n junction, its forward and reverse characteristics and its use as a rectifier. <span class="marks">[10]</span>
+2. Explain the action of a transistor as an amplifier and the logic gates, showing that NAND is a universal gate. <span class="marks">[10]</span>
+
+```photogrid label="21.H" cols="2" ratio="1.4" caption="Electronics hardware. (a) A NAND gate integrated circuit, the building block of digital logic. (b) Light-emitting diodes: p-n junctions that emit light when forward biased."
+@ photo id="ceephy/nand" cap="(a) NAND gate IC"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy2/leds" cap="(b) LEDs"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: the p-n junction diode and rectification (10 marks)
+
+**Introduction.** A **semiconductor** has a resistivity between that of conductors and insulators, which falls as the temperature rises. In **n-type** silicon, pentavalent impurities (P, As) give free electrons (majority carriers). In **p-type**, trivalent impurities (B, Al) give holes.
+
+**Formation of the junction.** When p and n regions are joined, electrons diffuse from n to p and holes from p to n. The fixed ions left behind form a **depletion layer** with a **barrier potential** of about $0.7\ \text{V}$ for silicon and $0.3\ \text{V}$ for germanium. It stops further diffusion.
+
+**Biasing.**
+
+1. **Forward bias** (p to positive): the barrier is lowered, the depletion layer narrows and the current rises exponentially after the knee voltage. The forward resistance is small.
+2. **Reverse bias:** the depletion layer widens, and only a tiny leakage current (microampere) of minority carriers flows. The resistance is very large, until the **breakdown** (Zener or avalanche) voltage.
+
+**Rectifier.**
+
+| Feature | Half-wave | Full-wave |
+|---|---|---|
+| Diodes | 1 | 2 (centre-tap) or 4 (bridge) |
+| Output frequency | 50 Hz | 100 Hz |
+| Maximum efficiency | $40.6\%$ | $81.2\%$ |
+| Ripple | high | low |
+| DC value | $I_0/\pi$ | $2I_0/\pi$ |
+
+A capacitor filter smooths the output, and a Zener diode in reverse breakdown holds the voltage constant (regulator).
+
+**Other diodes.** An LED emits light in forward bias, a photodiode works in reverse bias and converts light to current, and a solar cell generates a voltage without any bias.
+
+**Numerical.** A full-wave rectifier works from a $50\ \text{Hz}$ supply, so the output ripple frequency is $100\ \text{Hz}$. For a silicon diode in series with a $1\ \text{k}\Omega$ resistor and a $5.7\ \text{V}$ battery in forward bias, $I = \dfrac{5.7 - 0.7}{1000} = 5\ \text{mA}$.
+
+**Conclusion.** A p-n junction conducts mainly in the forward direction, which allows it to convert AC to DC.
+
+### Model answer D2: transistor and logic gates (10 marks)
+
+**Introduction.** A **transistor** has three layers (npn or pnp): the emitter (heavily doped), the thin base (lightly doped) and the collector (largest). The emitter-base junction is forward biased and the collector-base junction is reverse biased.
+
+**Currents.** $I_E = I_B + I_C$. The current gains are $\alpha = I_C/I_E$ (about $0.98$) and $\beta = I_C/I_B$ (about $50$ to $200$), with $\beta = \dfrac{\alpha}{1 - \alpha}$.
+
+**Common-emitter amplifier.** A small change in base current gives a large change in collector current. The voltage gain is $A_v = -\beta\dfrac{R_C}{R_{in}}$, and the output is $180^{\circ}$ out of phase with the input. The transistor is also a **switch**: in cut-off it is OFF and in saturation it is ON.
+
+**Logic gates.**
+
+| Gate | Boolean expression | Output is 1 when |
+|---|---|---|
+| OR | $A + B$ | at least one input is 1 |
+| AND | $A\cdot B$ | both inputs are 1 |
+| NOT | $\bar A$ | the input is 0 |
+| NAND | $\overline{A\cdot B}$ | not both inputs are 1 |
+| NOR | $\overline{A + B}$ | both inputs are 0 |
+| XOR | $A \oplus B$ | the inputs differ |
+
+**NAND as a universal gate.** NOT: join both inputs, $\overline{A\cdot A} = \bar A$. AND: a NAND followed by a NOT-NAND. OR: invert each input, then NAND them, $\overline{\bar A\cdot\bar B} = A + B$ (De Morgan). So any logic circuit can be made from NAND gates alone. NOR is also universal.
+
+**De Morgan's theorems.** $\overline{A + B} = \bar A\cdot\bar B$ and $\overline{A\cdot B} = \bar A + \bar B$.
+
+**Numerical.** If $I_B = 40\ \mu\text{A}$ and $\beta = 100$, then $I_C = 4\ \text{mA}$ and $I_E = 4.04\ \text{mA}$, so $\alpha = 4/4.04 = 0.99$. If the collector load is $2\ \text{k}\Omega$ and the base-circuit input resistance is $1\ \text{k}\Omega$, the voltage gain is $100\times2 = 200$ in magnitude.
+
+**Conclusion.** The transistor amplifies and switches, and NAND or NOR gates alone are enough to build any digital circuit.

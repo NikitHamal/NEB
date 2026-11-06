@@ -641,3 +641,68 @@ f.text(150, 222, "Foucault plane turns 167 deg a day at 27.7 N", size=10.5, colo
 **11.** (d) — $E = \frac{1}{2}m\omega^2A^2 = \frac{1}{2}(0.1)(100)(0.01) = 0.05$ J.
 **12.** (c) — $x = A\sin\omega t = A/2$ at $\omega t = \pi/6$, i.e. $t = T/12 = 2.4/12 = 0.2$ s. (b) is $T/6$, the time from $A/2$ on to $A$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define simple harmonic motion, derive its equations and energy, and find the time period of a spring-mass system and a simple pendulum. <span class="marks">[10]</span>
+2. Explain centripetal force, the banking of roads and motion in a vertical circle with numericals. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="2" ratio="1.4" caption="Oscillations in practice. (a) A simple pendulum swings with a period that depends only on its length and on g. (b) A metronome uses an adjustable weight on a rod to set the period of its oscillation."
+@ photo id="ceephy2/pendulum" cap="(a) Simple pendulum"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ioeeng/metronome" cap="(b) Metronome"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: simple harmonic motion (10 marks)
+
+**Introduction.** **Simple harmonic motion (SHM)** is the to-and-fro motion of a body in which the acceleration is proportional to the displacement from the mean position and always directed towards it: $a = -\omega^2x$.
+
+**Equations.** The solution is $x = A\sin(\omega t + \phi)$, where $A$ is the amplitude and $\omega = 2\pi/T$.
+
+1. **Velocity.** $v = \omega\sqrt{A^2 - x^2}$, maximum $\omega A$ at the mean position and zero at the extremes.
+2. **Acceleration.** $a = -\omega^2x$, maximum $\omega^2A$ at the extremes and zero at the mean position.
+3. **Energy.** Kinetic energy $K = \tfrac12m\omega^2(A^2 - x^2)$, potential energy $U = \tfrac12m\omega^2x^2$, and the total $E = \tfrac12m\omega^2A^2$ is constant.
+4. **Spring-mass system.** The restoring force is $F = -kx$, so $T = 2\pi\sqrt{m/k}$.
+5. **Simple pendulum** (small angles). The restoring force is $-mg\sin\theta \approx -mgx/l$, so $T = 2\pi\sqrt{l/g}$, independent of mass and amplitude.
+
+| Position | $x$ | Speed | Acceleration | $K$ | $U$ |
+|---|---|---|---|---|---|
+| Mean | 0 | maximum | 0 | $E$ | 0 |
+| Extreme | $\pm A$ | 0 | maximum | 0 | $E$ |
+| Half amplitude | $A/2$ | $\tfrac{\sqrt3}{2}\omega A$ | $\omega^2A/2$ | $\tfrac34E$ | $\tfrac14E$ |
+
+**Numerical.** A $2\ \text{kg}$ block on a spring of constant $200\ \text{N m}^{-1}$ has amplitude $5\ \text{cm}$. Then $\omega = \sqrt{200/2} = 10\ \text{rad s}^{-1}$ and $T = 2\pi/10 = 0.63\ \text{s}$. The maximum speed is $\omega A = 0.50\ \text{m s}^{-1}$, the total energy is $\tfrac12(200)(0.05)^2 = 0.25\ \text{J}$, and at $x = 3\ \text{cm}$ the speed is $10\sqrt{0.05^2 - 0.03^2} = 0.40\ \text{m s}^{-1}$. A pendulum of length $1\ \text{m}$ has $T = 2\pi\sqrt{1/9.8} = 2.0\ \text{s}$ (a seconds pendulum is about $0.99\ \text{m}$).
+
+**Conclusion.** SHM is defined by $a = -\omega^2x$. Its period depends on the system (mass and spring constant, or length and $g$) but not on the amplitude.
+
+### Model answer D2: circular motion, banking and the vertical circle (10 marks)
+
+**Introduction.** A body moving in a circle of radius $r$ at speed $v$ has an acceleration $a = v^2/r = \omega^2r$ towards the centre. The inward force that provides it is the **centripetal force** $F = mv^2/r$. It is not a new force: it is supplied by tension, friction, gravity or the normal reaction.
+
+**Banking of roads.** On a level road, friction alone gives the centripetal force, and it may be too small at high speed. The outer edge of a curve is raised by an angle $\theta$. For a vehicle with no help from friction, $N\sin\theta = mv^2/r$ and $N\cos\theta = mg$, so
+
+$$ \tan\theta = \frac{v^2}{rg}, \qquad v_{safe} = \sqrt{rg\tan\theta} $$
+
+With friction coefficient $\mu$ the maximum safe speed is $v = \sqrt{rg\dfrac{\mu + \tan\theta}{1 - \mu\tan\theta}}$.
+
+**Vertical circle.** A mass $m$ on a string of length $r$ is whirled in a vertical plane.
+
+1. At the bottom, $T - mg = mv^2/r$, so $T_{bottom} = mg + mv^2/r$.
+2. At the top, $T + mg = mv^2/r$. The string just stays taut when $T = 0$, which gives $v_{top} = \sqrt{gr}$.
+3. By energy conservation, $v_{bottom}^2 = v_{top}^2 + 4gr$, so the minimum speed at the bottom is $\sqrt{5gr}$.
+4. The tension at the bottom is then $6mg$ and at the top zero, a difference of $6mg$.
+
+| Situation | Source of centripetal force |
+|---|---|
+| Car on a level road | Friction |
+| Banked road | Component of the normal reaction |
+| Planet around the sun | Gravitation |
+| Stone on a string | Tension |
+| Electron in a magnetic field | Magnetic force $qvB$ |
+
+**Numerical.** A bend of radius $40\ \text{m}$ is designed for $20\ \text{m s}^{-1}$. Then $\tan\theta = 400/(40\times10) = 1$, so $\theta = 45^{\circ}$. For a stone of radius $0.4\ \text{m}$, the minimum bottom speed is $\sqrt{5(10)(0.4)} = 4.5\ \text{m s}^{-1}$.
+
+**Conclusion.** The centripetal force is the net inward force. Banking removes the dependence on friction, and a vertical circle needs $\sqrt{5gr}$ at the bottom to complete the loop.
