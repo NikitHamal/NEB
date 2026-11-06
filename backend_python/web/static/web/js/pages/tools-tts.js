@@ -14,11 +14,11 @@ console.error = (...a)=>{
   if(m.includes("preprocessor_config.json") || m.includes("No `image_processor_type`")) return;
   _origError.apply(console,a);
 };
-// Intercept MMS preprocessor fetch — return synthetic 404 so pipeline skips it without network error log
+// Intercept MMS preprocessor fetch: return synthetic 404 so pipeline skips it without network error log
 const _origFetch = window.fetch.bind(window);
 window.fetch = async (url, opts)=>{
   if(typeof url==="string" && url.includes("preprocessor_config.json") && url.includes("mms-tts")){
-    // synthetic 404 — pipeline handles as "no preprocessor" (VITS doesn't need it)
+    // synthetic 404: pipeline handles as "no preprocessor" (VITS doesn't need it)
     return new Response('', {status:404, statusText:'Not Found'});
   }
   return _origFetch(url, opts);
@@ -118,7 +118,7 @@ async function updateCacheInfo(){
     }
     const est = navigator.storage?.estimate ? await navigator.storage.estimate() : null;
     const shown = est?.usage ?? bytes;
-    $("cacheTxt").textContent = shown ? fmtMB(shown)+" MB" : (bytes?"~":"—");
+    $("cacheTxt").textContent = shown ? fmtMB(shown)+" MB" : (bytes?"~":"·");
     $("cacheTag").textContent = shown ? fmtMB(shown)+" MB stored" : "";
   }catch(e){ $("cacheTxt").textContent="n/a"; }
 }
@@ -128,7 +128,7 @@ async function loadKokoro(modelId, dtype, device){
   if(kokoro && pipeKey===key) return kokoro;
   if(kokoro){ try{ kokoro=null; }catch(e){} }
   $("btnLoad").disabled=true; $("btnLoad").innerHTML=`<span class="spin"></span>&nbsp; loading`;
-  $("dlStatus").innerHTML=`<b>${modelId.split("/").pop()}</b> · ${dtype} · ${device} — fetching…`;
+  $("dlStatus").innerHTML=`<b>${modelId.split("/").pop()}</b> · ${dtype} · ${device}: fetching…`;
   $("mdlTxt").textContent=modelId.split("/").pop()+" "+dtype;
   $("devTxt").textContent = device==="webgpu" ? "WebGPU…" : "WASM (CPU)…";
   try{
@@ -140,8 +140,8 @@ async function loadKokoro(modelId, dtype, device){
     });
     pipeKey=key; curDev=device;
     $("devTxt").textContent = device==="webgpu" ? "WebGPU ⚡" : (isIsolated()?"WASM ⚡ (threads)":"WASM (CPU)");
-    $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> (${dtype}, ${device}) ready — cached`;
-    $("btnLoad").innerHTML="✓ TTS ready — reload / switch";
+    $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> (${dtype}, ${device}) ready: cached`;
+    $("btnLoad").innerHTML="✓ TTS ready: reload / switch";
     updateCacheInfo();
     return kokoro;
   }catch(e){
@@ -157,27 +157,27 @@ async function loadMMS(modelId){
   const key=modelId+"|mms";
   if(pipeTTS && pipeKey===key) return pipeTTS;
   $("btnLoad").disabled=true; $("btnLoad").innerHTML=`<span class="spin"></span>&nbsp; loading`;
-  $("dlStatus").innerHTML=`<b>${modelId.split("/").pop()}</b> — fetching…`;
+  $("dlStatus").innerHTML=`<b>${modelId.split("/").pop()}</b>: fetching…`;
   $("mdlTxt").textContent=modelId.split("/").pop();
   const dtypeSel = $("selDtype")?.value || "q8";
   try{
     const { pipeline, env } = transformers;
     env.allowLocalModels=false; env.useBrowserCache=true;
-    // VITS/MMS models are tiny (38MB q8) — use q8 for superfast, fp32 for exact
-    // preprocessor_config.json 404 is expected for VITS (no preprocessor) — pipeline handles it internally
+    // VITS/MMS models are tiny (38MB q8): use q8 for superfast, fp32 for exact
+    // preprocessor_config.json 404 is expected for VITS (no preprocessor): pipeline handles it internally
     pipeTTS = await pipeline('text-to-speech', modelId, {
       dtype: dtypeSel==="fp16"?"fp32":dtypeSel,
       device: $("selDev").value==="webgpu" ? "webgpu" : "wasm",
       progress_callback:(p)=>{ if(p.status) dlUI(p.file||"mms",p.status,p.loaded,p.total); }
     });
     pipeKey=key;
-    $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> ready — try Generate below`;
+    $("dlStatus").innerHTML=`✅ <b>${modelId.split("/").pop()}</b> ready: try Generate below`;
     $("btnLoad").innerHTML="✓ TTS ready";
     return pipeTTS;
   }catch(e){
     const msg=String(e?.message||e);
     if(msg.includes("image_processor_type") || msg.includes("feature_extractor_type")){
-      console.warn("MMS VITS preprocessor missing is expected — trying manual VITS load", e);
+      console.warn("MMS VITS preprocessor missing is expected: trying manual VITS load", e);
       try{
         const { AutoTokenizer, VitsModel } = transformers;
         const tokenizer = await AutoTokenizer.from_pretrained(modelId, {progress_callback:(p)=>{ if(p.status) dlUI(p.file||"tok",p.status,p.loaded,p.total); }});
@@ -204,10 +204,10 @@ async function loadMMS(modelId){
 
 let tinyPipe=null;
 async function loadTinyTTS(){
-  // TinyTTS 1.6M is Node-only (onnxruntime-node + fs) — not browser-runnable via esm.sh.
+  // TinyTTS 1.6M is Node-only (onnxruntime-node + fs): not browser-runnable via esm.sh.
   // We keep the option visible as "ultralight amazing" but fallback to Kokoro q4f16 (70MB) which is the tiny browser alternative.
   // If you need true 3.4MB in browser, use Kokoro q4f16 or MMS 38MB.
-  toast("TinyTTS 1.6M is Node-only — using Kokoro q4f16 70MB tiny fallback (browser)","warn",5000);
+  toast("TinyTTS 1.6M is Node-only: using Kokoro q4f16 70MB tiny fallback (browser)","warn",5000);
   return await loadKokoro("onnx-community/Kokoro-82M-v1.0-ONNX", "q4f16", $("selDev").value || S.dev);
 }
 async function ensureTTS(){
@@ -226,7 +226,7 @@ async function ensureTTS(){
   } else if(isParler || isOute){
     // Parler/OuteTTS are large (880M-500M) and not yet fully optimized for browser ONNX;
     // try transformers pipeline but warn about size
-    toast("Parler/OuteTTS is large — may need 2GB+ RAM, trying…","warn",4000);
+    toast("Parler/OuteTTS is large: may need 2GB+ RAM, trying…","warn",4000);
     return await loadMMS(modelId);
   } else {
     return await loadMMS(modelId);
@@ -250,7 +250,7 @@ function setAudio(blob, meta){
   $("btnCopyText").disabled=false;
   $("btnStop").disabled=false;
   $("audioMeta").textContent = meta || "";
-  $("stModel").textContent = (S.model.split("/").pop()||"—");
+  $("stModel").textContent = (S.model.split("/").pop()||"·");
   $("stVoice").textContent = S.voice;
   $("stSpeed").textContent = S.speed.toFixed(2)+"×";
 }
@@ -258,7 +258,7 @@ function setAudio(blob, meta){
 async function doGenerate(streaming=false){
   const text=$("ttsText").value.trim();
   if(!text){ toast("Type some text first","warn"); return; }
-  if(text.length>2000){ toast("Long text — streaming will chunk it","",3000); streaming=true; }
+  if(text.length>2000){ toast("Long text: streaming will chunk it","",3000); streaming=true; }
   const voice=$("selVoice").value;
   const speed=parseFloat($("speedRange").value)||1.0;
   S.voice=voice; S.speed=speed; S.stream=streaming; await saveSettings();
@@ -275,7 +275,7 @@ async function doGenerate(streaming=false){
     if(!tts) throw new Error("TTS not loaded");
     const rawSel=$("selModel").value;
     const isKokoro = rawSel.includes("Kokoro") || rawSel.includes("tiny-tts");
-    // tiny-tts is Node-only — we already fallback to Kokoro q4f16 in loadTinyTTS, so treat as Kokoro
+    // tiny-tts is Node-only: we already fallback to Kokoro q4f16 in loadTinyTTS, so treat as Kokoro
     if(isKokoro && streaming){
       const splitter=new TextSplitterStream();
       const stream=tts.stream(splitter);
@@ -392,7 +392,7 @@ async function renderHist(){
   try{
     const items=await Store.all("tts");
     const h=$("hist");
-    if(!items.length){h.innerHTML='<div class="hint">No TTS yet — generate some audio.</div>';return;}
+    if(!items.length){h.innerHTML='<div class="hint">No TTS yet: generate some audio.</div>';return;}
     h.innerHTML=items.slice(0,20).map(it=>{
       const time=new Date(it.createdAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
       const kb=(it.size/1024|0)+"KB";
@@ -424,7 +424,7 @@ async function renderHist(){
   }catch(e){}
 }
 
-// voice options per model — updates selVoice when model changes (fixes "voice remains same")
+// voice options per model: updates selVoice when model changes (fixes "voice remains same")
 const VOICE_OPTS = {
   kokoro: [
     {value:"af_heart", text:"af_heart · Heart · American Female ★"},
@@ -541,7 +541,7 @@ $("btnWipe").onclick=async()=>{
   try{ if(window.caches) for(const n of await caches.keys()) await caches.delete(n); $("dl").innerHTML=""; dlRows.clear(); kokoro=null; pipeTTS=null; pipeKey=""; $("mdlTxt").textContent="none"; await updateCacheInfo(); toast("Cache cleared","ok"); }catch(e){toast("Clear failed: "+e.message,"err")}
 };
 
-// custom selects — same as STT (Poppin mono, is-selected pill-bg, keyboard nav, syncUI patch)
+// custom selects: same as STT (Poppin mono, is-selected pill-bg, keyboard nav, syncUI patch)
 function initCustomSelects(){
   const ids=['selModel','selDtype','selDev','selVoice','selFormat'];
   ids.forEach(id=>{

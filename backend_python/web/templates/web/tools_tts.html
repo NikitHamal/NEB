@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Text → Voice — Kokoro — NEBians{% endblock %}
+{% block title %}Text → Voice | Kokoro | NEBians{% endblock %}
 {% block body_class %}tools-audio-page tools-tts-page{% endblock %}
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'web/vendor/remixicon/remixicon.css' %}">
@@ -33,8 +33,8 @@
     </div>
     <div class="pills">
       <span class="pill"><span class="led" id="ledNet"></span><span id="netTxt">engine…</span></span>
-      <span class="pill">device <b id="devTxt">—</b></span>
-      <span class="pill">cache <b id="cacheTxt">—</b></span>
+      <span class="pill">device <b id="devTxt">·</b></span>
+      <span class="pill">cache <b id="cacheTxt">·</b></span>
       <span class="pill">model <b id="mdlTxt">none</b></span>
     </div>
   </header>
@@ -57,11 +57,11 @@
           <button class="btn primary" id="btnGenerate" style="flex:1;justify-content:center"><i class="ri-play-line"></i> Generate speech</button>
           <button class="btn small" id="btnStream" style="flex:1;justify-content:center"><i class="ri-flashlight-line"></i> Stream</button>
         </div>
-        <div id="genStatus" class="statusline">Ready — pick a model on the right.</div>
+        <div id="genStatus" class="statusline">Ready: pick a model on the right.</div>
       </div>
 
       <div class="card">
-        <h2><i class="ri-music-2-line"></i> Audio <span class="tag" id="audioMeta">—</span></h2>
+        <h2><i class="ri-music-2-line"></i> Audio <span class="tag" id="audioMeta">·</span></h2>
         <audio id="audioEl" controls style="width:100%;margin-bottom:10px;display:none"></audio>
         <div id="audioPh" style="background:var(--bg-hover);border:1px dashed var(--border-line);border-radius:10px;padding:18px 14px;text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:0.82rem">
           No audio yet. Generate from text above. Streaming shows chunks live.
@@ -84,10 +84,10 @@
           <span class="hint" id="timingHint"></span>
         </div>
         <div style="margin-top:10px;background:var(--bg-hover);border:1px solid var(--border-line);border-radius:10px;padding:10px 12px;display:flex;gap:12px;flex-wrap:wrap;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">
-          <span>model <b id="stModel" style="color:var(--text-primary)">—</b></span>
-          <span>voice <b id="stVoice" style="color:var(--text-primary)">—</b></span>
-          <span>time <b id="stTime" style="color:var(--text-primary)">—</b></span>
-          <span>speed <b id="stSpeed" style="color:var(--text-primary)">—</b></span>
+          <span>model <b id="stModel" style="color:var(--text-primary)">·</b></span>
+          <span>voice <b id="stVoice" style="color:var(--text-primary)">·</b></span>
+          <span>time <b id="stTime" style="color:var(--text-primary)">·</b></span>
+          <span>speed <b id="stSpeed" style="color:var(--text-primary)">·</b></span>
         </div>
       </div>
 
@@ -98,29 +98,29 @@
 
     <div class="side">
       <div class="card">
-        <h2><i class="ri-cpu-line"></i> 1 · TTS Model — superfast <span class="tag" id="cacheTag"></span></h2>
+        <h2><i class="ri-cpu-line"></i> 1 · TTS Model: superfast <span class="tag" id="cacheTag"></span></h2>
         <div class="field">
           <label>TTS model (on-device)</label>
           <select id="selModel">
-            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q4">kokoro-82M · tiny 86MB q4 ★ superfast</option>
-            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q4f16">kokoro-82M · ultralight 70MB q4f16 ★ tiny</option>
-            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q8" selected>kokoro-82M · small 93MB q8 ★ default superfast</option>
+            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q4">kokoro-82M · tiny 86MB q4 superfast</option>
+            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q4f16">kokoro-82M · ultralight 70MB q4f16 tiny</option>
+            <option value="onnx-community/Kokoro-82M-v1.0-ONNX|q8" selected>kokoro-82M · small 93MB q8 default superfast</option>
             <option value="onnx-community/Kokoro-82M-v1.0-ONNX|fp32">kokoro-82M · medium 300MB fp32 high quality</option>
             <option value="onnx-community/Kokoro-82M-ONNX|q8">kokoro-82M (legacy) · 93MB q8</option>
-            <option value="Xenova/mms-tts-eng|fp32">mms-tts-eng · ultralight 40MB VITS English ★</option>
-            <option value="Xenova/mms-tts-hin|fp32">mms-tts-hin · ultralight 38MB VITS Hindi ★</option>
+            <option value="Xenova/mms-tts-eng|fp32">mms-tts-eng · ultralight 40MB VITS English </option>
+            <option value="Xenova/mms-tts-hin|fp32">mms-tts-hin · ultralight 38MB VITS Hindi </option>
             <option value="Xenova/speecht5_tts|fp32">speecht5 · 120MB English (needs speaker)</option>
-            <option value="onnx-community/OuteTTS-0.2-500M|q4">OuteTTS 500M · amazing 250MB q4 voice-clone ★</option>
-            <option value="parler-tts/parler-tts-mini-v1|fp32">parler-tts-mini 880M · expressive prompt ★</option>
+            <option value="onnx-community/OuteTTS-0.2-500M|q4">OuteTTS 500M · amazing 250MB q4 voice-clone </option>
+            <option value="parler-tts/parler-tts-mini-v1|fp32">parler-tts-mini 880M · expressive prompt </option>
           </select>
-          <div class="model-note"><b>TinyTTS 3.4MB 1.6M</b> 53× Kokoro · <b>Kokoro 82M</b> 70-93MB q4/q8 small ★ · <b>MMS 38MB</b> English+Hindi only (French/Spanish/etc removed). All cache offline.</div>
+          <div class="model-note"><b>TinyTTS 3.4MB 1.6M</b> 53× Kokoro · <b>Kokoro 82M</b> 70-93MB q4/q8 small · <b>MMS 38MB</b> English+Hindi only (French/Spanish/etc removed). All cache offline.</div>
         </div>
         <div class="row2">
           <div class="field">
             <label>Precision</label>
             <select id="selDtype">
               <option value="q4">q4 · 4-bit tiny</option>
-              <option value="q8" selected>q8 · int8 small ★</option>
+              <option value="q8" selected>q8 · int8 small </option>
               <option value="fp32">fp32 · exact</option>
               <option value="fp16">fp16 · WebGPU</option>
             </select>
@@ -128,7 +128,7 @@
           <div class="field">
             <label>Device</label>
             <select id="selDev">
-              <option value="wasm" selected>WASM (CPU) ★ stable</option>
+              <option value="wasm" selected>WASM (CPU) stable</option>
               <option value="webgpu">WebGPU · exp</option>
               <option value="auto">auto</option>
             </select>
@@ -136,7 +136,7 @@
         </div>
         <button class="btn primary" id="btnLoad" style="width:100%;justify-content:center"><i class="ri-download-2-line"></i> Download / load TTS</button>
         <div id="dl"></div>
-        <div class="statusline" id="dlStatus">Models fetch once from Hugging Face CDN, then cached — offline forever.</div>
+        <div class="statusline" id="dlStatus">Models fetch once from Hugging Face CDN, then cached: offline forever.</div>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button class="btn small" id="btnPersist" style="flex:1;justify-content:center"><i class="ri-hard-drive-2-line"></i> Make persistent</button>
           <button class="btn small" id="btnWipe" style="flex:1;justify-content:center"><i class="ri-delete-bin-line"></i> Clear cache</button>
@@ -148,10 +148,10 @@
         <div class="field">
           <label>Voice (Kokoro)</label>
           <select id="selVoice">
-            <option value="af_heart" selected>af_heart · Heart · American Female ★</option>
+            <option value="af_heart" selected>af_heart · Heart · American Female </option>
             <option value="af_bella">af_bella · Bella · American Female 🔥</option>
             <option value="af_sky">af_sky · Sky · American Female</option>
-            <option value="af_nicole">af_nicole · Nicole · American Female 🎧</option>
+            <option value="af_nicole">af_nicole · Nicole · American Female </option>
             <option value="af_sarah">af_sarah · Sarah · American Female</option>
             <option value="am_adam">am_adam · Adam · American Male</option>
             <option value="am_michael">am_michael · Michael · American Male</option>
@@ -160,7 +160,7 @@
             <option value="bm_george">bm_george · George · British Male</option>
             <option value="bm_lewis">bm_lewis · Lewis · British Male</option>
           </select>
-          <div class="hint">Kokoro has 11+ voices — Heart ❤️ is best all-rounder. MMS/Speecht5 use default voice.</div>
+          <div class="hint">Kokoro has 11+ voices: Heart is best all-rounder. MMS/Speecht5 use default voice.</div>
         </div>
         <div class="field">
           <label>Speed</label>
@@ -177,7 +177,7 @@
           </div>
         </div>
         <label class="switch"><input type="checkbox" id="optStream" checked><span>Streaming</span><small>live chunks</small></label>
-        <div class="hint">Streaming uses <code>TextSplitterStream</code> for long text — chunks play as they generate.</div>
+        <div class="hint">Streaming uses <code>TextSplitterStream</code> for long text: chunks play as they generate.</div>
       </div>
 
       <div class="card">
