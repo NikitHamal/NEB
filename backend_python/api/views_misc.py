@@ -434,6 +434,14 @@ def realtime_config(request):
     except Exception:
         user_id = None
     if not user_id:
+        try:  # the app sends `Authorization: Bearer <token>`
+            if request.META.get('HTTP_AUTHORIZATION', '').startswith('Bearer '):
+                bearer_user, bearer_err = _require_user(request)
+                if not bearer_err and bearer_user is not None:
+                    user_id = str(bearer_user.pk)
+        except Exception:
+            user_id = None
+    if not user_id:
         try:
             from web.view_helpers import _get_user_id as _resolve_uid
             uid = _resolve_uid(request)
