@@ -25,6 +25,19 @@ T.update(u1_cg="17.6", u1_cgf="29.5", u1_uo35=35, u1_uo6=210, u1_uorate="0.36", 
          u1_fl=800, u1_bal="1,000", u1_cauti="3.2", u1_perh=156, u1_epo="3,000",
          u1_m1=40, u1_m2="4.0", u1_m3="3,500", u1_m4=75,
          c_cg="9.4", c_uo="28", c_gain="5.5", c_pct="9.8", c_fl=600, c_epo="2,800")
+# ---- Unit 2: endocrine and diabetes nursing
+eag = lambda a: 28.7 * a - 46.7
+tdd = 0.5 * 70; cf = 1800 / tdd; icr = 500 / tdd
+chk("d1", (round(eag(8.0)), round(eag(8.0) / 18, 1), round(78 / 1.65 ** 2, 1), tdd, tdd / 2, round(tdd / 2 / 3, 1), round(cf, 1), round((250 - 120) / cf, 1), round(icr, 1), round(60 / icr, 1)),
+    (183, 10.2, 28.7, 35.0, 17.5, 5.8, 51.4, 2.5, 14.3, 4.2))
+chk("dka", (130 - (94 + 8), round(130 + 1.6 * (600 - 100) / 100), round(2 * 130 + 600 / 18, 1), 0.1 * 70, round(1000 * 20 / 120), 50 * 0.5, 150 * 0.10, round(90 / 120, 2), round(1.6 * 60)),
+    (28, 138, 293.3, 7.0, 167, 25.0, 15.0, 0.75, 96))
+chk("m", (round(eag(7.0)), 140 - (104 + 24), 0.1 * 60, round(1.6 * 50)), (154, 12, 6.0, 80))
+c_tdd = 0.5 * 68; c_cf = 1800 / c_tdd
+chk("c", (round(eag(9.4)), round(68 / 1.55 ** 2, 1), c_tdd, round(c_cf, 1), round((340 - 140) / c_cf, 1), round(95 / 125, 2)), (223, 28.3, 34.0, 52.9, 3.8, 0.76))
+T.update(u2_eag=183, u2_eagm="10.2", u2_bmi="28.7", u2_tdd=35, u2_basal="17.5", u2_bolus="5.8", u2_cf="51.4", u2_corr="2.5", u2_icr="14.3", u2_meal="4.2",
+         u2_ag=28, u2_cna=138, u2_osm="293.3", u2_inf=7, u2_gtt=167, u2_d50=25, u2_d10=15, u2_abi="0.75", u2_thy=96,
+         u2_m1=154, u2_m2=12, u2_m3=6, u2_m4=80, c2_eag=223, c2_bmi="28.3", c2_tdd=34, c2_cf="52.9", c2_corr="3.8", c2_abi="0.76")
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):
