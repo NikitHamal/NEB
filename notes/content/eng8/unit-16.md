@@ -284,3 +284,81 @@ by ink smudging on paper.
 **3.** Time order, correct dates and names, causes, main events and results;
 past tenses; a concluding sentence on the event's importance.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a paragraph on the history of the pen from the reed to the ballpoint. <span class="marks">[10]</span>
+2. Explain how the past simple, past continuous and past perfect are used in narration and write a short anecdote. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="3" ratio="1.0" caption="Three ages of writing. A feather quill pen, a fountain pen writing and a ballpoint pen in close-up: the dip pen, fountain pen and ballpoint described in 'The History of Pens'."
+@ photo id="eng8/quill-pen" cap="Quill pen"
+@ photo id="eng8/fountain-pen" cap="Fountain pen"
+@ photo id="eng8/ballpoint" cap="Ballpoint pen"
+```
+
+### Model answer D1: the history of the pen (10 marks)
+
+**Introduction.** Humans have always needed a tool to write. The pen has changed over thousands of years, from a hollow reed to the modern ballpoint.
+
+**Timeline.**
+
+| Stage | Pen | Fact |
+|---|---|---|
+| 1 | **Reed pen** | Used in ancient Egypt, cut from a hollow plant stem and dipped in ink |
+| 2 | **Quill pen** | A bird's feather, used for about twelve centuries |
+| 3 | **Steel dip pen** | Made by John Mitchell in the 1800s, cheap and strong |
+| 4 | **Fountain pen** | Petrache Poenaru patented one in 1827; Lewis Waterman improved it in 1884 |
+| 5 | **Ballpoint pen** | John Loud patented the idea in 1888; László Bíró made it work in 1943; later Bic made it cheap |
+
+**Model paragraph.**
+
+::: example The history of the pen
+The first writers used a **reed pen**, which they dipped into ink again and again. Later, people discovered that a bird's feather held more ink, and the **quill** became the main pen for about twelve centuries. In the nineteenth century, John Mitchell produced the **steel pen** in large numbers, so writing became cheaper. Then Petrache Poenaru invented the **fountain pen** in 1827, which stored ink inside, and Lewis Waterman improved it in 1884. Finally, László Bíró made the **ballpoint pen** a success in 1943, and Bic made it so cheap that everybody could own one. Today, however, we type more than we write.
+:::
+
+**Tips for a history paragraph (8).**
+
+1. Arrange events in **time order**.
+2. Give **exact dates**.
+3. Use the **past simple**.
+4. Name the **people**.
+5. Give **causes** (*because, so*).
+6. Give **results** (*as a result, therefore*).
+7. Use **sequence words** (*first, later, then, finally*).
+8. End with the **present** situation.
+
+**Conclusion.** A clear timeline and linking words make history easy to read.
+
+### Model answer D2: narration and an anecdote (10 marks)
+
+**Introduction.** In a story the tenses show the **order and length** of events.
+
+**Uses.**
+
+1. **Past simple:** the main events in order: *She went to the market and bought beans.*
+2. **Past continuous:** background or an interrupted action: *I was reading when the lights went out.*
+3. **Past perfect:** an action before another past action: *When I arrived, the bus had left.*
+4. Use **while** with the continuous and **when** with the simple.
+5. Use **after/before** with the past perfect: *After she had eaten, she left.*
+
+**Model anecdote (short).**
+
+::: example An anecdote
+Last winter I was walking to school when I saw a small puppy shivering by the road. It had lost its mother and looked very hungry. I had a sandwich in my bag, so I fed it. When I reached school, I was late, but my teacher smiled when I told her the story. That afternoon I took the puppy home and my mother let me keep it. It taught me that a small act of kindness can change a life.
+:::
+
+**Features of an anecdote.**
+
+6. It is **short** and **true** (or seems true).
+7. It is told in the **first person**.
+8. It has a **point** or lesson at the end.
+
+| Tense | Mark in the anecdote |
+|---|---|
+| Past simple | saw, fed, reached, took |
+| Past continuous | was walking |
+| Past perfect | had lost |
+
+**Conclusion.** Combine the three tenses to make events clear.

@@ -297,3 +297,77 @@ to take rest for a week. (e) The guard ordered the boys not to enter that room.
 the reflection is another dog with a bigger bone, opens its mouth to bark and
 the bone falls into the water); moral: *Greed brings loss.*
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Complete a skeleton story and write its moral. <span class="marks">[10]</span>
+2. Explain reported speech for commands and requests with a table of reporting verbs. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="4" ratio="1.0" caption="Farm, forest and sky. A farmer ploughing a field, a Himalayan monal, an Arctic tern and students outside a classroom connect the folk tale of greed with the poem 'Free Birds'."
+@ photo id="nep11/hali-halo" cap="Ploughing a field"
+@ photo id="nep12/danphe" cap="Himalayan monal (danphe)"
+@ photo id="eng10/arctic-tern" cap="Arctic tern"
+@ photo id="eng8/classroom-sankhu" cap="Students, Sankhu"
+```
+
+### Model answer D1: a skeleton story (10 marks)
+
+**Introduction.** A **skeleton story** gives clues (words or short phrases). We must join them into a complete story in the **past tense**, add a title and a moral.
+
+**Clues:** poor farmer / found golden egg / sold it / wanted more / killed the hen / nothing inside.
+
+**Model story: The Greedy Farmer.**
+
+::: example The Greedy Farmer
+Once upon a time, there lived a poor farmer in a small village in Dhading. One morning he went to his hen house and found a golden egg. He was amazed. He sold it in the market and bought food and clothes for his family. The next day the hen laid another golden egg, and soon the farmer became rich. But he was not satisfied. He thought, "If the hen lays one egg a day, there must be many golden eggs inside her." So he took a knife and killed the hen. To his shock, there was nothing inside. He cried bitterly, but it was too late. He had lost the hen and all his golden eggs.
+
+**Moral:** Greed brings ruin.
+:::
+
+**Steps to follow.**
+
+1. Read **all the clues** and decide their order.
+2. Give a **title**.
+3. Start with *Once upon a time...* and name the place.
+4. Use the **past simple** for events and the **past continuous** for background.
+5. Use **linking words:** *one day, then, soon, but, at last*.
+6. Show the **feelings** of the character.
+7. Use **every clue** at least once.
+8. End with a clear **moral** in one line.
+
+| Part | Words used |
+|---|---|
+| Beginning | Once upon a time, one morning |
+| Middle | but, so, then, soon |
+| End | at last, to his shock |
+| Moral | Greed brings ruin. |
+
+**Conclusion.** Marks go to a title, use of all clues, correct tense, and a moral.
+
+### Model answer D2: reported commands and requests (10 marks)
+
+**Introduction.** To report an order, request or advice we use **reporting verb + person + (not) to + base verb**. We do not use *if* or tense change.
+
+**Rules.**
+
+1. Remove *please* or change it to *requested/asked*.
+2. Choose the reporting verb by purpose: **ordered/told** (command), **asked/requested** (request), **advised** (advice), **warned/forbade** (danger).
+3. Use **to + base verb** for a positive command.
+4. Use **not to + base verb** for a negative command.
+5. *Let's...* is reported with **suggested** + *-ing* or *that*.
+6. *Say* takes no person: *He said to me* becomes *He told me*.
+
+| Direct speech | Reported speech |
+|---|---|
+| The teacher said, "Open your books." | The teacher told us to open our books. |
+| Mother said, "Please help me." | Mother asked me to help her. |
+| The doctor said, "Don't eat oily food." | The doctor advised me not to eat oily food. |
+| The guard said, "Don't enter." | The guard forbade us to enter. |
+| Father said, "Study hard." | Father told me to study hard. |
+
+7. Change pronouns: *my* becomes *his/her*, *your* becomes *my/our/their*.
+8. Commands in the poem *Free Birds* ("Value time!") could be reported: *The poet urges students to value time.*
+
+**Conclusion.** Reporting verb, person, *to*, base verb: these four steps give full marks.

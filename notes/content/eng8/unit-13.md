@@ -321,3 +321,70 @@ pro'portion.
 2078 to 70% in 2079, fell slightly to 68% in 2080, and then jumped sharply to
 85% in 2081, the highest in the period.*
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Describe the chart of Nepal's tiger population and describe a process from a flowchart. <span class="marks">[10]</span>
+2. Explain quantifiers and the review of the present tenses. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.0" caption="Nepal's wildlife success story. A Royal Bengal tiger, a greater one-horned rhinoceros at Chitwan and a safari elephant in Chitwan National Park, where protection has helped numbers recover."
+@ photo id="eng8/bengal-tiger" cap="Royal Bengal tiger"
+@ photo id="eng10/chitwan-rhino" cap="One-horned rhinoceros"
+@ photo id="nep11/chitwan-safari" cap="Elephant safari, Chitwan"
+```
+
+### Model answer D1: describing a chart and a process (10 marks)
+
+**Introduction.** To describe a chart we write an **introduction** (what it shows), an **overview** (the main trend) and **details** with numbers.
+
+| Year | 2009 | 2013 | 2018 | 2022 |
+|---|---|---|---|---|
+| Tigers in Nepal | 121 | 198 | 235 | 355 |
+
+**Model description.**
+
+::: example Nepal's tiger population
+The table shows the number of wild tigers in Nepal in four census years. Overall, the number **rose steadily** and almost **tripled** in thirteen years. In 2009 there were only 121 tigers. By 2013 the number had **increased sharply** to 198, a rise of 77. It then **grew gradually** to 235 in 2018, an increase of 37. The biggest jump came between 2018 and 2022, when it **rose by 120** to reach 355. This success followed the 2010 St. Petersburg Declaration, when Nepal promised to double its tigers, and was helped by anti-poaching units and the protection of national parks such as Banke and Parsa.
+:::
+
+**Check:** 355 divided by 121 is about 2.9, so the number almost tripled; 355 − 121 = 234 tigers more.
+
+**Useful trend words.** *rise, increase, grow, climb* (up); *fall, drop, decline* (down); *remain steady* (same); *sharply, steadily, gradually* (speed).
+
+**Describing a process (flowchart: how water is purified at home).**
+
+1. **First,** the water is collected in a clean pot.
+2. **Then** it is strained through a cloth.
+3. **Next,** it is boiled for ten minutes.
+4. **After that,** it is allowed to cool.
+5. **Finally,** it is stored in a covered container.
+
+Use the **passive** (*is boiled*) and sequence words *first, then, next, finally*.
+
+**Conclusion.** Numbers, trend words and order words make description exact.
+
+### Model answer D2: quantifiers and present tenses (10 marks)
+
+**Quantifiers.**
+
+1. **Countable nouns:** *many, a few, few, fewer, several*: *There are many tigers.*
+2. **Uncountable nouns:** *much, a little, little, less*: *There is little water.*
+3. **Both kinds:** *some, any, a lot of, enough, no, plenty of.*
+4. **some** is used in positive sentences and offers: *Would you like some tea?*
+5. **any** is used in negatives and questions: *I don't have any money. Is there any milk?*
+6. **much** is mostly in negatives and questions: *How much sugar? We don't have much time.*
+
+**Present tenses (review).**
+
+7. **Present simple:** habits and facts: *Tigers eat meat.*
+8. **Present continuous:** now or around now: *The guard is watching the park.* **Present perfect:** result or experience: *Nepal has doubled its tigers.*
+
+| Tense | Form | Example |
+|---|---|---|
+| Present simple | V1 (+s) | She feeds the elephant. |
+| Present continuous | am/is/are + V-ing | They are counting tigers. |
+| Present perfect | has/have + V3 | We have visited Chitwan. |
+
+**Conclusion.** Check whether the noun is countable and whether the sentence is positive, negative or a question.

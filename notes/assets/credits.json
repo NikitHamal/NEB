@@ -19356,6 +19356,32 @@
   "source": "Wikimedia Commons",
   "title": "Black-Awning (Wupeng) Boat"
  },
+ "eng8/ballpoint": {
+  "author": "Daniel Schwen",
+  "bytes": 224620,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng8/ballpoint.jpg",
+  "license": "CC BY-SA 2.5",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Macro_Biro_writing2.jpg",
+  "sha1": "087d7fb0d8ea8ecd",
+  "source": "Wikimedia Commons",
+  "title": "Macro Biro writing2"
+ },
+ "eng8/bell-telephone": {
+  "author": "Gilbert H. Grosvenor Collection, Prints and Photographs Division, Library of Congress.",
+  "bytes": 813862,
+  "credit": "http://www.americaslibrary.gov/jb/recon/jb_recon_telephone_1_e.html",
+  "fetched": "2026-11-06",
+  "file": "eng8/bell-telephone.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Alexander_Graham_Telephone_in_Newyork.jpg",
+  "sha1": "f74f1636190e8c4c",
+  "source": "Wikimedia Commons",
+  "title": "Alexander Graham Telephone in Newyork"
+ },
  "eng8/bengal-tiger": {
   "author": "Supradai",
   "bytes": 251437,
@@ -19394,6 +19420,19 @@
   "sha1": "5041da333a4a542c",
   "source": "Wikimedia Commons",
   "title": "202412 Students outside of classroom, Shree Bhagawati Secondary School, Sankhu"
+ },
+ "eng8/fountain-pen": {
+  "author": "Petar Milošević",
+  "bytes": 355364,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng8/fountain-pen.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fountain_pen_writing_(literacy).jpg",
+  "sha1": "90457c15b02fa40a",
+  "source": "Wikimedia Commons",
+  "title": "Fountain pen writing (literacy)"
  },
  "eng8/khaptad": {
   "author": "Anil Bhatta",
@@ -19447,6 +19486,32 @@
   "source": "Wikimedia Commons",
   "title": "Pen, quill (AM 686187-5)"
  },
+ "eng8/rocket-loco": {
+  "author": "BWard 1997",
+  "bytes": 602958,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng8/rocket-loco.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Stephenson%27s_Rocket_Replica_National_Railway_Museum.jpg",
+  "sha1": "3108ec7736dd6b2b",
+  "source": "Wikimedia Commons",
+  "title": "Stephenson's Rocket Replica National Railway Museum"
+ },
+ "eng8/traffic-police": {
+  "author": "Bijay Chaurasia",
+  "bytes": 674967,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng8/traffic-police.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Traffic_Police_officer_during_Maha_Shivaratri_Celebrations_near_Jaya_Bageshwori_Road,_Kathmandu,_Nepal-070A6986.jpg",
+  "sha1": "7ff922c20eff37e3",
+  "source": "Wikimedia Commons",
+  "title": "Traffic Police officer during Maha Shivaratri Celebrations near Jaya Bageshwori Road, Kathmandu, Nepal-070A6986"
+ },
  "eng8/vulture-nepal": {
   "author": "Mildeep",
   "bytes": 223367,
@@ -19459,6 +19524,32 @@
   "sha1": "4e456b8448177afd",
   "source": "Wikimedia Commons",
   "title": "White-rumped vulture in Chitwan National Park"
+ },
+ "eng8/watt-engine": {
+  "author": "Nicolás Pérez",
+  "bytes": 374360,
+  "credit": "Enciclopedia Libre",
+  "fetched": "2026-11-06",
+  "file": "eng8/watt-engine.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Maquina_vapor_Watt_ETSIIM.jpg",
+  "sha1": "631f4d0633c2ca1c",
+  "source": "Wikimedia Commons",
+  "title": "Maquina vapor Watt ETSIIM"
+ },
+ "eng8/wright-flyer": {
+  "author": "John T. Daniels",
+  "bytes": 357610,
+  "credit": "This image is available from the United States Library of Congress 's Prints and Photographs division under the digital ID cph.3a53266 . This tag does not indic",
+  "fetched": "2026-11-06",
+  "file": "eng8/wright-flyer.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Wrightflyer.jpg",
+  "sha1": "c97978ef63c51d19",
+  "source": "Wikimedia Commons",
+  "title": "Wrightflyer"
  },
  "health8/deuda": {
   "author": "Khaptad Digital Music",

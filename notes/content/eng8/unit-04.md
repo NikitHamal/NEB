@@ -316,3 +316,81 @@ bought bread and eggs (he only wishes he had bought chocolate). (c) True.
 the past simple, feelings (*I felt…, I was delighted…*), one thing you would do
 differently, a closing thought and your name.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a diary entry about a memorable day and explain how a diary differs from a memoir. <span class="marks">[10]</span>
+2. Explain the present perfect and the past simple. Show the difference with examples and a table. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.0" caption="Along the Mustang trail. Marpha village, Ghyakar in Upper Mustang, the Annapurna range seen from Pokhara and terraced fields at Landruk are places a traveller writes about in a memoir or diary."
+@ photo id="nep10/marpha" cap="Marpha village"
+@ photo id="nep10/ghyakar" cap="Ghyakar, Upper Mustang"
+@ photo id="eng10/pokhara-annapurna" cap="Annapurna from Pokhara"
+@ photo id="nep10/terraced-fields" cap="Terraced fields, Landruk"
+```
+
+### Model answer D1: a diary entry (10 marks)
+
+**Introduction.** A **diary** is a private, daily record of events and feelings, written in the first person, mostly in the past tense. A **memoir** is a longer, published account of a part of the writer's life. Both are true, but a diary is short and personal.
+
+**Model diary entry.**
+
+::: example Model diary entry
+Saturday, 14 Kartik 2082  
+9:30 p.m.
+
+Dear Diary,
+
+What a wonderful day! Today our family visited my grandparents in Marpha. We left Pokhara at 5 a.m. and the bus was very bumpy, but my cousin sang songs all the way, so I did not feel bored. At noon we reached Marpha and walked through the stone alleyways between white flat-roofed houses. My grandmother gave us hot apple tea and fresh apples from her garden. I have never tasted apples so sweet! In the evening we saw the snow on Dhaulagiri turn pink. I felt so small and so happy. I want to remember this day forever.
+
+Good night,
+Anil
+:::
+
+**Parts of a diary entry.**
+
+1. **Date** (and sometimes time) at the top.
+2. **Greeting:** *Dear Diary,*
+3. **Opening feeling:** *What a wonderful day!*
+4. **Events in time order:** morning, noon, evening.
+5. **Details:** places, people, food, weather.
+6. **Feelings and opinions:** *I felt so small and happy.*
+7. **Reflection:** what you learned or want to do.
+8. **Sign-off:** *Good night* and your name.
+
+| Point | Diary | Memoir |
+|---|---|---|
+| Length | One day, short | Many events, long |
+| Reader | Only the writer | Public readers |
+| Tense | Past, with some present | Past |
+| Example | Neil's trip to Dhading | A Visit to Mustang |
+
+**Conclusion.** A good diary entry is honest, in order and full of feeling.
+
+### Model answer D2: present perfect and past simple (10 marks)
+
+**Introduction.** Both tenses speak about the past, but the **past simple** is finished and cut off from now, while the **present perfect** is linked to the present.
+
+**Rules and uses.**
+
+1. **Form:** present perfect = *has/have + past participle*; past simple = *verb + -ed* or the second form.
+2. **Past simple** is used with a **finished time**: *yesterday, last year, in 2020, ago*.
+3. **Present perfect** is used when the time is **not stated** or is still going on: *ever, never, already, yet, just, so far*.
+4. Use **since** with a point in time (*since 2078*) and **for** with a length of time (*for three years*).
+5. Use the present perfect for **experience**: *I have visited Muktinath.*
+6. Use it for a **result now**: *I have lost my pen* (so I don't have it).
+7. **Never** mix a finished time with the present perfect: not *I have seen him yesterday*.
+8. Questions: *Have you ever eaten apples from Marpha?* / *When did you go to Mustang?*
+
+| | Present perfect | Past simple |
+|---|---|---|
+| Example | She has lived here since 2075. | She lived in Pokhara in 2070. |
+| Time words | ever, never, yet, since, for | yesterday, last week, ago |
+| Link to now | Yes | No |
+| Question | Have you finished? | Did you finish? |
+
+**Examples from the chapter.** *Neil has never seen such friendly people.* (experience) / *We reached Marpha at noon.* (finished time)
+
+**Conclusion.** Ask yourself: is the time finished and named? If yes, use the past simple; if not, use the present perfect.

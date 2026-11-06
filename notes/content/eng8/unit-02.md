@@ -366,3 +366,81 @@ moral such as *Where there is a will, there is a way.*
 permission question (*Would it be alright if I left at 1 p.m.?*), thanks,
 closing and name.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write an e-mail to a friend about a school trip. Show the parts of an e-mail. <span class="marks">[10]</span>
+2. Explain how yes/no questions and permission requests are formed, with examples. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.0" caption="Messages and journeys. A train status board, an addressed envelope and an old letterhead show how people send news and travel: themes of the father's letter and the boy's journey."
+@ photo id="eng12/train-board" cap="Train status board"
+@ photo id="eng11/envelope" cap="Addressed envelope"
+@ photo id="eng11/letterhead" cap="Letterhead (1898)"
+```
+
+### Model answer D1: an informal e-mail (10 marks)
+
+**Introduction.** An **e-mail** is a message sent over the internet. A friendly e-mail is informal: it uses *Dear* + first name, simple words and short forms.
+
+**Model e-mail.**
+
+::: example Model text
+**To:** sita.gurung@example.com  
+**Subject:** Our school trip to Pokhara
+
+Dear Sita,
+
+How are you? I hope you and your family are well. I am writing to tell you about our school trip. Last Friday our class went to Pokhara by bus. We left at 6 a.m. and reached Phewa Lake at noon. We took a boat, ate dal bhat by the lake and played football on the grass. In the evening we visited the Davis Falls. I was a little afraid when the boat moved, but my teacher held my hand. It was the best day of the term. Please write soon and tell me about your holiday.
+
+Love,  
+Anil
+:::
+
+**Parts of an e-mail.**
+
+1. **To:** the receiver's address.
+2. **Subject:** two to five words about the topic.
+3. **Greeting:** *Dear Sita,*
+4. **Opening line:** a friendly question or thanks.
+5. **Body:** what happened, when, where, with whom.
+6. **Feelings:** one sentence about how you felt.
+7. **Closing line:** *Write soon.*
+8. **Sign-off:** *Love,* / *Your friend,* and your name.
+
+| Informal e-mail | Formal e-mail |
+|---|---|
+| Dear Sita | Dear Sir/Madam |
+| Short forms: *I'm, can't* | Full forms: *I am, cannot* |
+| Love / Yours | Yours faithfully / Yours sincerely |
+
+**Conclusion.** Use the past simple for the story and keep it clear and friendly.
+
+### Model answer D2: yes/no questions and permission (10 marks)
+
+**Introduction.** A **yes/no question** can be answered with *yes* or *no*. It starts with a helping verb.
+
+**Rules.**
+
+1. If there is a helping verb, put it **before the subject**: *She is reading* becomes *Is she reading?*
+2. If there is none, use **do/does/did** and the base verb: *He plays* becomes *Does he play?*
+3. Do not use *does* with *-s* on the main verb: *Does he play?* not *Does he plays?*
+4. Change *some* to **any**: *Do you have any questions?*
+5. A short answer repeats the helping verb: *Yes, I do. / No, she isn't.*
+
+**Asking for, giving and denying permission.**
+
+| Function | Expressions |
+|---|---|
+| Asking | *Can I...? May I...? Is it okay if I...? Would you mind if I opened...?* |
+| Giving | *Sure. Go ahead. Of course. Not at all.* |
+| Denying | *Sorry, you can't. I'm afraid not.* |
+
+6. **Not at all** after *Would you mind* means *yes, you may*.
+7. **May** is more formal than **can**.
+8. Always add *please* and a short reason when you ask a teacher.
+
+**Example dialogue.** Rita: *May I go out, madam? I have a headache.* Teacher: *Of course. Go to the health post.*
+
+**Conclusion.** Correct word order and polite words win full marks.
