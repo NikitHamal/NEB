@@ -642,3 +642,63 @@ a legitimate and fast method.
 **10.** (c) — Son s, father 3s: 3s + 10 = 2(s + 10) gives s = 10, so the father is 30. Check: in 10 years, 40 = 2 × 20.
 **11.** (d) — Two years' interest = 8400 − 7200 = 1,200, so Rs 600 a year. P = 7200 − 1200 = 6,000; R = 600/6000 × 100 = 10 %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Solve problems on percentage, ratio, averages, profit and loss and simple and compound interest, showing the method and a check. <span class="marks">[10]</span>
+2. Solve problems on time and work, speed and distance, ages and mixtures, showing the shortcut and the check. <span class="marks">[10]</span>
+
+### Model answer D1: Percentages, averages, profit and interest (10 marks)
+
+**Introduction.** Most MAT arithmetic uses a few formulae. The skill is to choose the right one and to avoid slips.
+
+**1. Successive percentages.** A price rises by 20% and then falls by 20%. The multiplier is 1.20 × 0.80 = 0.96, so the net change is **−4%** (a loss), not zero. Take any base, say Rs 100: 100 → 120 → 96.
+
+**2. Averages.** *Weighted average:* 30 students average 60 and 20 students average 70, so the mean of all 50 is (30 × 60 + 20 × 70) ÷ 50 = 3200 ÷ 50 = **64**. *New member:* five numbers average 20 (sum 100); adding 26 gives a sum of 126 over 6 numbers, so the new average is **21**.
+
+**3. Profit and loss.** Profit % = (SP − CP) ÷ CP × 100.
+
+| Problem | Working | Answer |
+|---|---|---|
+| CP = Rs 800, SP = Rs 920 | (120 ÷ 800) × 100 | 15% profit |
+| Marked price Rs 500, 10% discount | 500 × 0.90 | Rs 450 |
+| Discount + profit: CP 400, wanted profit 25% | SP = 400 × 1.25 | Rs 500 |
+
+Discount is always on the **marked price**; profit is on the **cost price**.
+
+**4. Interest.** Simple interest SI = PRT ÷ 100. Compound amount A = P(1 + r/100)^n. For Rs 10,000 at 10% for 2 years:
+
+| Type | Result |
+|---|---|
+| SI | 10,000 × 10 × 2 ÷ 100 = Rs 2,000 |
+| Amount (CI) | 10,000 × 1.1² = Rs 12,100, so CI = Rs 2,100 |
+| Difference | CI − SI = Rs 100 |
+
+**Shortcut.** For 2 years the difference between CI and SI is P(r/100)² = 10,000 × (0.1)² = Rs 100, which matches.
+
+**5. Ratio.** If incomes of two people are in the ratio 3 : 5 and their total is Rs 24,000, the shares are 24,000 ÷ 8 = 3,000 per part, so Rs 9,000 and Rs 15,000.
+
+**Conclusion.** Convert percentages to multipliers and always check one answer by a quick reverse calculation.
+
+### Model answer D2: Work, speed, ages and mixtures (10 marks)
+
+**Introduction.** These problems use *rates*: work per day, distance per hour, and the share of a quantity.
+
+**1. Time and work.** Work done per day = 1 ÷ days. A finishes a job in 12 days and B in 18 days. Together, per day: 1/12 + 1/18 = 5/36, so they take 36/5 = **7.2 days**. Shortcut: (12 × 18) ÷ (12 + 18) = 216 ÷ 30 = 7.2 days.
+
+**2. Speed and distance.**
+
+| Case | Working | Answer |
+|---|---|---|
+| Train 150 m long at 54 km/h passes a 250 m platform | speed = 54 × 5/18 = 15 m/s; distance = 150 + 250 = 400 m | 400 ÷ 15 = **26.7 s** |
+| Two trains in opposite directions, 60 and 40 km/h | relative speed = 60 + 40 | 100 km/h |
+| Equal distances at 60 and 40 km/h | average = 2 × 60 × 40 ÷ (60 + 40) | **48 km/h** (not 50) |
+| Boat in still water 12 km/h, stream 3 km/h, 36 km each way | downstream 15, upstream 9 | 36/15 + 36/9 = 2.4 + 4 = **6.4 h** |
+
+**3. Ages.** The father is 4 times as old as his son. After 5 years he will be 3 times as old. Let the son be x: 4x + 5 = 3(x + 5), so x = 10 and the father is 40. Check: 45 = 3 × 15.
+
+**4. Mixtures (alligation).** To make a 30% solution from 20% and 50% solutions, take the distance of each from the target: (50 − 30) : (30 − 20) = 20 : 10 = **2 : 1**, so mix **2 parts of the 20% solution with 1 part of the 50% solution**. Check: (2 × 20 + 1 × 50) ÷ 3 = 90 ÷ 3 = 30.
+
+**5. Estimation.** Round numbers, compute, and compare with the options: 49 × 51 ≈ 50 × 50 = 2,500, so the exact answer 2,499 must be close to 2,500.
+
+**Conclusion.** Write each situation as a rate, compute with a shortcut formula, and always verify with the original statement.
