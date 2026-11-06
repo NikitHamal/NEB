@@ -441,3 +441,86 @@ forecasting, television and communication.
 **4.** A small body of ice, dust, rock and gas moving round the sun in a highly elliptical orbit. Parts (figure in 11.4.2): nucleus — solid icy centre; coma — glowing cloud of gas and dust round the nucleus near the sun; tails — a white dust tail and a bluish ion tail, pointing away from the sun because of the solar wind.
 **5.** Asteroids are small, irregular rocky and metallic bodies revolving round the sun, mostly between Mars and Jupiter. Characteristics: irregular shape (weak gravity), size about 1–1000 km (Ceres about 940 km), made of rock, metal and clay, orbits slightly irregular so they collide; some are Trojans, some near-earth asteroids. Meteoroids are small pieces of rock and metal in the solar system; when one enters the atmosphere at high speed, friction with the air makes it glow and burn, giving a streak of light — a meteor.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain minerals, rocks and the structure of the Earth. Differentiate between igneous, sedimentary and metamorphic rocks. <span class="marks">[10]</span>
+2. Describe the solar system, the universe, constellations and galaxies. Explain space exploration and the use of artificial satellites. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="5" ratio="1.0" caption="From rocks to galaxies. (a) Iron ore, a metallic mineral. (b) Malachite, a copper ore. (c) Limestone, a sedimentary rock. (d) Earth seen rising above the Moon from Apollo 8. (e) The Milky Way in infrared light. The Earth is a small part of a very large universe."
+@ photo id="sci10/iron-ore" cap="(a) Iron ore"
+@ photo id="sci10/malachite" cap="(b) Malachite"
+@ photo id="sci10/limestone" cap="(c) Limestone"
+@ photo id="sci10/earthrise" cap="(d) Earthrise"
+@ photo id="sci10/milky-way" cap="(e) Milky Way"
+```
+
+### Model answer D1: minerals, rocks and the Earth (10 marks)
+
+**Introduction.** The Earth is about **4.6 billion years old**. It is made of rocks, which are made of minerals.
+
+**Minerals.** A **mineral** is a natural substance with a definite chemical composition found in the Earth.
+
+| Metallic minerals | Non-metallic minerals |
+|---|---|
+| Iron ore (haematite), bauxite (aluminium), copper | Limestone, mica, gypsum, coal, salt |
+| Shiny, give metals | Dull, no metals |
+| Used for machines, wire, utensils | Used for cement, fuel, fertiliser |
+
+Nepal has limestone, magnesite, mica, copper and iron in the hills.
+
+**Structure of the Earth.**
+
+| Layer | Thickness | Nature |
+|---|---|---|
+| Crust | 5 to 70 km | Thin, solid and rocky; we live on it |
+| Mantle | About 2,900 km | Hot, partly molten rock |
+| Outer core | About 2,200 km | Liquid iron and nickel |
+| Inner core | About 1,200 km | Solid iron and nickel, very hot |
+
+**Types of rocks.**
+
+| Feature | Igneous | Sedimentary | Metamorphic |
+|---|---|---|---|
+| Formation | Cooling of molten magma or lava | Layers of sediment pressed together | Change of old rocks by heat and pressure |
+| Fossils | None | May contain fossils | Rare |
+| Examples | Granite, basalt | Sandstone, limestone, shale | Marble, slate, gneiss |
+
+**Rock cycle.** Rocks change from one type into another over millions of years.
+
+**Earthquakes.** Movement of the Earth's plates produces earthquakes; the 2015 Gorkha earthquake was caused by the Indian plate moving under the Eurasian plate, which also raises the Himalaya.
+
+**Conclusion.** Minerals make rocks, rocks make the crust, and the study of layers and rocks tells us the history of the Earth.
+
+### Model answer D2: the solar system, universe and space exploration (10 marks)
+
+**Solar system.** The Sun and everything that moves around it: **eight planets**, moons, asteroids, comets and meteors. In order from the Sun: Mercury, Venus, Earth, Mars (inner, rocky planets), then Jupiter, Saturn, Uranus and Neptune (outer, giant planets).
+
+| Body | Fact |
+|---|---|
+| Sun | A star; gives heat and light |
+| Earth | Only planet known to have life; one moon |
+| Venus | Hottest planet |
+| Jupiter | Biggest planet |
+| Saturn | Famous for its bright rings |
+| Asteroids | Rocky pieces between Mars and Jupiter |
+| Comet | Ice and dust with a tail near the Sun |
+| Meteor | A "shooting star": a small rock burning in the air |
+
+**Universe.** Everything that exists: stars, planets, galaxies, and space. A **star** is a hot ball of gas that makes its own light. A **constellation** is a pattern of stars that people have named (Great Bear or Saptarishi, Orion, Scorpius). A **galaxy** is a huge group of stars, gas and dust held by gravity. Our galaxy is the **Milky Way**.
+
+**Space exploration.** The first satellite was **Sputnik (1957)**, the first person in space **Yuri Gagarin (1961)** and the first on the Moon **Neil Armstrong (1969, Apollo 11)**. Probes such as Voyager have gone beyond the planets, rovers explore Mars, and the **International Space Station (ISS)** is a laboratory in orbit.
+
+**Artificial satellites and their uses.**
+
+1. **Communication:** television, telephone and internet links.
+2. **Weather forecasting:** cloud images and storm tracking.
+3. **Navigation:** GPS for maps and vehicles.
+4. **Remote sensing:** study of forests, floods and glaciers.
+5. **Science:** the Hubble telescope looks at distant galaxies.
+
+**Nepal in space.** Nepal's first satellites, NepaliSat-1 and Munal, were built by Nepali engineers.
+
+**Problems.** High cost, space junk and danger for astronauts.
+
+**Conclusion.** Our Earth is a small planet in the solar system, in the Milky Way, one of countless galaxies, and exploring space helps life on Earth.

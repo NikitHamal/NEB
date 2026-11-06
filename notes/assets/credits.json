@@ -22346,6 +22346,19 @@
   "source": "Wikimedia Commons",
   "title": "Portland Cement Bags"
  },
+ "sci10/co2-extinguisher": {
+  "author": "Shift",
+  "bytes": 59258,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "sci10/co2-extinguisher.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Carbon%E2%80%93dioxide%E2%80%93fire%E2%80%93extinguisher.jpg",
+  "sha1": "2b43ca9737428bca",
+  "source": "Wikimedia Commons",
+  "title": "Carbon–dioxide–fire–extinguisher"
+ },
  "sci10/cockroach": {
   "author": "Alvesgaspar",
   "bytes": 143018,
@@ -22540,6 +22553,19 @@
   "sha1": "f47986a19fb4296c",
   "source": "Wikimedia Commons",
   "title": "Recycling of glass bottles, cans and tins. - geograph.org.uk - 1202977"
+ },
+ "sci10/h2-balloon": {
+  "author": "camelNotation",
+  "bytes": 919831,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "sci10/h2-balloon.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Filling_Hydrogen_Balloon.JPG",
+  "sha1": "16eff0b29c04ace4",
+  "source": "Wikimedia Commons",
+  "title": "Filling Hydrogen Balloon"
  },
  "sci10/hdd": {
   "author": "RetroEditor",
@@ -22762,6 +22788,19 @@
   "source": "Wikimedia Commons",
   "title": "Malachite Macro 43"
  },
+ "sci10/mg-burning": {
+  "author": "Capt. John Yossarian",
+  "bytes": 155628,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "sci10/mg-burning.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Magnesium_ribbon_burning.jpg",
+  "sha1": "7b1fc164f8b72020",
+  "source": "Wikimedia Commons",
+  "title": "Magnesium ribbon burning"
+ },
  "sci10/microscope": {
   "author": "Rama",
   "bytes": 167099,
@@ -22853,6 +22892,19 @@
   "source": "Wikimedia Commons",
   "title": "Complete neuron cell diagram en"
  },
+ "sci10/noble-gases": {
+  "author": "Alchemist-hp www.pse-mendelejew.de",
+  "bytes": 188916,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "sci10/noble-gases.jpg",
+  "license": "CC BY-SA 2.0 de",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Edelgase_in_Entladungsroehren.jpg",
+  "sha1": "9a8ff10077185574",
+  "source": "Wikimedia Commons",
+  "title": "Edelgase in Entladungsroehren"
+ },
  "sci10/paramecium": {
   "author": "Doc. RNDr. Josef Reischig, CSc.",
   "bytes": 121438,
@@ -22904,6 +22956,19 @@
   "sha1": "a63b9a23f210c3fc",
   "source": "Wikimedia Commons",
   "title": "Penicillium digitatum orange"
+ },
+ "sci10/periodic-chart": {
+  "author": "SCB2024",
+  "bytes": 156296,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "sci10/periodic-chart.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Periodic_Chart_of_Elements.jpg",
+  "sha1": "5cd53f16b176b889",
+  "source": "Wikimedia Commons",
+  "title": "Periodic Chart of Elements"
  },
  "sci10/pet-bottles": {
   "author": "Radulf del Maresme",

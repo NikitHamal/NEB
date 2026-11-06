@@ -565,3 +565,113 @@ Do not confuse **excretion** (removal of metabolic wastes such as urea and CO₂
 **4.** Ultrafiltration of blood in the glomerulus to Bowman's capsule (about 180 L/day); selective reabsorption of glucose, water, amino acids and salts in the tubule; tubular secretion of extra wastes. The remaining fluid is urine (about 1.5 L/day), sent to the bladder via the ureter.
 **5.** When blood sugar rises after a meal, the pancreas releases insulin and the liver stores glucose as glycogen. When blood sugar falls, the pancreas releases glucagon and the liver turns glycogen into glucose. This is negative feedback; lack of insulin causes diabetes.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the human nervous system. Explain a reflex action and the path of a reflex arc. <span class="marks">[10]</span>
+2. Describe the structure of the human heart and explain double circulation. Calculate the cardiac output of a person. <span class="marks">[10]</span>
+3. Describe the structure of a nephron and explain the formation of urine. What is dialysis and when is it needed? <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="5" ratio="1.0" caption="The body’s control and transport systems. (a) A reflex arc: stimulus, sensory neuron, spinal cord, motor neuron, muscle. (b) A heart with numbered chambers and vessels. (c) A nephron, where blood is filtered and urine formed. (d) A patient on haemodialysis, the machine that does the work of failed kidneys. (e) An electronic monitor that measures blood pressure and pulse, the numbers that tell us how well the heart is working."
+@ photo id="sci10/reflex-arc" cap="(a) Reflex arc"
+@ photo id="sci10/heart" cap="(b) Heart"
+@ photo id="sci10/nephron" cap="(c) Nephron"
+@ photo id="sci10/dialysis" cap="(d) Dialysis"
+@ photo id="sci10/bp-monitor" cap="(e) BP monitor"
+```
+
+### Model answer D1: nervous system and reflex arc (10 marks)
+
+**Introduction.** The **nervous system** receives information from the surroundings and from inside the body, decides what to do, and sends orders to muscles and glands. Its unit is the **neuron** (nerve cell), which has **dendrites** to receive impulses, a **cell body** with the nucleus, and an **axon** to carry impulses away. Impulses travel along neurons as tiny electrical signals and cross the gap between two neurons (the **synapse**) by chemical messengers.
+
+**Parts of the nervous system.**
+
+| Part | Organs | Function |
+|---|---|---|
+| Central nervous system (CNS) | Brain and spinal cord | Receives, understands and decides |
+| Peripheral nervous system (PNS) | Nerves of the head, body and limbs | Carries messages to and from the CNS |
+
+**The brain.**
+
+- **Cerebrum:** the largest part, for thinking, memory, learning, speech and voluntary movement.
+- **Cerebellum:** controls balance and smooth body movement, such as riding a bicycle.
+- **Medulla oblongata:** controls involuntary actions such as heartbeat, breathing and swallowing.
+- **Spinal cord:** carries impulses between the brain and the body and controls reflex actions.
+
+**Reflex action.** A **reflex action** is a quick, automatic and involuntary response to a stimulus that is controlled by the **spinal cord**, not the brain. It saves time, so it protects the body from harm. Examples: pulling the hand from a hot pot, blinking when dust flies toward the eye, the knee jerk.
+
+**Reflex arc.** The path followed by an impulse in a reflex action is the **reflex arc**:
+
+1. **Stimulus**, for example a hot object touches the finger.
+2. **Receptor** (a sense organ in the skin) detects it.
+3. **Sensory neuron** carries the impulse to the spinal cord.
+4. **Relay (connector) neuron** in the spinal cord passes it on.
+5. **Motor neuron** carries the order away from the cord.
+6. **Effector** (the muscle of the arm) contracts.
+7. **Response**: the hand is pulled back, and the brain is told only afterwards.
+
+**Voluntary versus reflex.**
+
+| Voluntary action | Reflex action |
+|---|---|
+| Controlled by the brain | Controlled by the spinal cord |
+| Slower, needs thought | Very fast, automatic |
+| Example: writing, walking | Example: sneezing, blinking |
+
+**Conclusion.** The brain and spinal cord form the control centre, and reflex arcs give the body a fast safety mechanism.
+
+### Model answer D2: the heart and double circulation (10 marks)
+
+**Introduction.** The **heart** is a muscular pump about the size of a fist, lying in the chest slightly to the left. It pumps blood to every part of the body through blood vessels, carrying oxygen, food, hormones and wastes.
+
+**Structure.** The heart has **four chambers**: two upper thin-walled **atria** (right and left) that receive blood, and two lower thick-walled **ventricles** that pump blood out. The left ventricle has the thickest wall because it pumps blood to the whole body. **Valves** (the tricuspid valve on the right and the bicuspid valve on the left) stop the blood from flowing backwards.
+
+| Vessel | Carries blood | Type of blood |
+|---|---|---|
+| Vena cava | From the body to the right atrium | Deoxygenated |
+| Pulmonary artery | From the right ventricle to the lungs | Deoxygenated |
+| Pulmonary vein | From the lungs to the left atrium | Oxygenated |
+| Aorta | From the left ventricle to the body | Oxygenated |
+
+**Double circulation.** In human beings the blood passes through the heart **twice** in one complete round.
+
+- **Pulmonary circulation:** right ventricle → pulmonary artery → lungs (blood gets oxygen and gives up carbon dioxide) → pulmonary veins → left atrium.
+- **Systemic circulation:** left ventricle → aorta → body organs (blood gives oxygen and food) → vena cava → right atrium.
+
+**Advantage.** Oxygenated and deoxygenated blood never mix, and blood reaches the body at high pressure, which supplies the large amount of oxygen needed by a warm-blooded animal.
+
+**Numerical.** A person's heart beats 72 times per minute and pumps 70 mL of blood per beat. Find the cardiac output.
+
+$$\text{Cardiac output} = 72 \times 70 = 5040\ \text{mL/min} = 5.04\ \text{L/min}.$$
+
+In one hour the heart pumps $5.04 \times 60 = 302.4$ litres.
+
+**Heart care.** Take less salt and oily food, exercise daily, do not smoke, and have the blood pressure checked regularly; high blood pressure may cause a heart attack or stroke.
+
+**Conclusion.** The four-chambered heart and double circulation give an efficient supply of oxygen to the body.
+
+### Model answer D3: nephron, urine formation and dialysis (10 marks)
+
+**Introduction.** The **kidneys** remove nitrogenous wastes (urea) and extra water and salts from the blood. Each kidney contains about **one million nephrons**, the structural and functional units of the kidney.
+
+**Structure of a nephron.** A nephron has a cup-shaped **Bowman's capsule** that surrounds a knot of capillaries called the **glomerulus**, followed by a long coiled **renal tubule** (proximal tubule, loop of Henle, distal tubule) that joins a collecting duct.
+
+**Urine formation in three steps.**
+
+1. **Ultrafiltration** in the glomerulus. High blood pressure squeezes water, glucose, amino acids, salts and urea out of the blood into the Bowman's capsule. Blood cells and big proteins stay in the blood. About 180 litres of filtrate is formed per day.
+2. **Selective reabsorption** in the tubule. The useful substances, all the glucose, amino acids, most of the water and salts, return to the blood capillaries around the tubule.
+3. **Tubular secretion.** Extra wastes, such as excess hydrogen ions and drugs, pass from the blood into the tubule.
+
+The remaining fluid, about **1.5 litres per day**, is **urine**. It flows through the ureter to the bladder and leaves through the urethra.
+
+| Stage | Where | What happens |
+|---|---|---|
+| Ultrafiltration | Glomerulus to Bowman's capsule | Filtration under pressure |
+| Reabsorption | Renal tubule | Useful things return to blood |
+| Secretion | Distal tubule | Extra wastes added |
+
+**Dialysis.** When both kidneys fail, urea builds up in the blood and can cause death. In **haemodialysis** the patient's blood is passed through a machine with a thin membrane; urea and extra salts move into the dialysis fluid and the clean blood returns to the body. A patient needs it about three times a week, and it is available in hospitals in Kathmandu, Pokhara and other cities. The other treatment is a **kidney transplant**.
+
+**Care of the kidney.** Drink enough clean water, take less salt, and avoid overuse of painkillers.
+
+**Conclusion.** Nephrons filter blood, reabsorb useful matter and form urine; dialysis does this work artificially when the kidneys fail.

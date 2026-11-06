@@ -324,3 +324,64 @@ In the hills of Nepal, the Gurung and Rai people traditionally collect honey of 
 **3.** Eggs = 1,500 × 20 = 30,000. Failed = 4% × 30,000 = 1,200. Hatched = 28,800. Worker emerges 21 days after 10 May = 31 May.
 **4.** Movable-frame hive with frames and foundation, queen excluder, smoker, veil and gloves, hive tool, bee brush, uncapping knife and honey extractor. Benefits: income from honey, wax and other products; higher crop yield from pollination; low cost, small space; suitable for women and landless people.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the social organisation of a honey bee colony and the life cycle of a honey bee. <span class="marks">[10]</span>
+2. Explain the importance of honey bees and beekeeping to a farmer in Nepal. Write eight points. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="5" ratio="1.0" caption="The hive and its people. (a) A queen bee, longer than her workers, is surrounded by attendants. (b) A worker bee carries pollen on her hind legs. (c) Drone pupae in sealed cells, which the colony raises for mating. (d) A honeycomb of regular hexagonal cells that stores honey and raises young. (e) A beekeeper in protective dress inspects a frame; the bees are calm if the hive is opened gently with smoke."
+@ photo id="sci10/queen-bee" cap="(a) Queen"
+@ photo id="sci10/bee-worker" cap="(b) Worker"
+@ photo id="sci10/drone-pupae" cap="(c) Drone pupae"
+@ photo id="sci10/honeycomb" cap="(d) Honeycomb"
+@ photo id="sci10/beekeeper" cap="(e) Beekeeper"
+```
+
+### Model answer D1: colony and life cycle of the honey bee (10 marks)
+
+**Introduction.** The honey bee (*Apis*) is a **social insect**: thousands of bees live together in one colony and divide the work. A colony has three kinds of bees, the **queen**, the **workers** and the **drones**. The Himalayan cliff bee *Apis laboriosa*, the giant rock bee *Apis dorsata*, the hive bee *Apis cerana* and the introduced *Apis mellifera* are the common species of Nepal.
+
+**The three castes.**
+
+| Feature | Queen | Worker | Drone |
+|---|---|---|---|
+| Number in a colony | One | 20,000 to 60,000 | A few hundred in the season |
+| Sex | Fertile female | Sterile female | Male |
+| Size | Longest | Smallest | Stout and large |
+| Main work | Lays up to 1,500 eggs per day | Collects nectar and pollen, makes honey and wax, feeds larvae, cleans and guards the hive | Mates with the queen |
+| Life span | 2 to 5 years | 6 weeks in summer | 2 to 3 months |
+
+**Division of labour among workers.** A young worker first cleans cells, then feeds the larvae, builds comb, guards the door and finally flies out to collect nectar and pollen. Workers tell their sisters where the flowers are by the **waggle dance**.
+
+**Life cycle: complete metamorphosis.** The honey bee passes through four stages.
+
+1. **Egg.** The queen lays one egg in each cell of the comb. It hatches in about 3 days.
+2. **Larva.** A white, legless, worm-like larva is fed by the workers (royal jelly for the queen larva). It grows for about 6 days.
+3. **Pupa.** The cell is sealed with wax. Inside, the body changes into the adult. This stage lasts about 12 days in a worker.
+4. **Adult.** The adult bee chews the wax cap and comes out.
+
+| Caste | Egg | Larva | Pupa | Total days to adult |
+|---|---|---|---|---|
+| Queen | 3 | 5 | 8 | 16 |
+| Worker | 3 | 6 | 12 | 21 |
+| Drone | 3 | 7 | 14 | 24 |
+
+**Conclusion.** The queen lays the eggs, the workers do all other work, and the drones mate. The colony survives only because all three castes cooperate, which makes the honey bee an excellent example of a social insect.
+
+### Model answer D2: importance of honey bees and beekeeping (10 marks)
+
+**Introduction.** **Apiculture** (beekeeping) is the rearing of honey bees in hives to get honey and other products. It needs little land and little money, so it suits small farmers in hills and the Terai alike.
+
+1. **Honey for food and medicine.** Honey is a natural sweet food rich in sugars, with small amounts of vitamins and minerals. It is used in homes as a quick energy food and a soothing remedy for coughs. The wild honey of the Himalayan cliff bee, gathered by honey hunters in Kaski and Lamjung, is also sold at a high price.
+2. **Beeswax.** Workers make wax from glands on the abdomen to build the comb. Wax is used for candles, polish, cosmetics, ointments and for batik art. A beekeeper can sell the wax of old combs as an extra income.
+3. **Pollination of crops.** While collecting nectar, bees carry pollen from flower to flower. Crops such as mustard, apple, buckwheat, cucumber and pumpkin give much more fruit and seed when bees visit them. In many places the value of the extra crop is greater than the value of the honey.
+4. **Royal jelly and propolis.** Royal jelly is the milky food of the queen and is sold as a health food. Propolis, a sticky gum bees collect from buds, is used to seal gaps in the hive and in some medicines. These products are small in amount but high in price.
+5. **Bee venom and pollen.** Bee venom is used in small amounts in some medicines. Pollen collected by traps is sold as a food supplement and is also used to feed bees in the season of few flowers.
+6. **Employment and income.** A farmer can start with two to five hives and enlarge the number each year. Women and youth in many villages earn from selling honey, wax and bee colonies. Training is given by agriculture offices and cooperatives.
+7. **Protection of biodiversity.** Pollination by bees keeps wild flowers and forest trees producing seed. This helps the survival of plants and of the animals that feed on them.
+8. **Little cost and no harm to land.** Bees collect food from flowers in the neighbourhood, so the beekeeper does not need to buy feed for most of the year. Beekeeping does not use up farmland, and it fits well with other farm work.
+
+**Care of the colony.** Place the hives in a quiet, dry place with shade and clean water nearby, keep them free from ants, wasps and wax moths, feed sugar syrup in the season of few flowers, and use a smoker when opening the hive.
+
+**Conclusion.** Honey bees give honey, wax and pollination services. Beekeeping is therefore a low-cost, eco-friendly farm business that raises both income and crop yield in Nepal.

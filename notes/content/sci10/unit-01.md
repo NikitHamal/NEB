@@ -474,3 +474,86 @@ Report your true data even if it disagrees with your hypothesis. Do not copy fro
 **3.** Volume = 100 − 40 = 60 mL = 60 cm³. Density = 150 / 60 = 2.5 g cm⁻³ = 2500 kg m⁻³.
 **4.** Steps: choose the topic and aim; plan the methods and time table; collect data by counting and weighing the waste from each class for a week; present the data in tables and bar graphs; analyse which waste is largest; conclude and recommend (for example separate bins and composting). Report parts: title page, acknowledgement, introduction and objectives, methods, data and analysis, findings and conclusion, recommendations, references.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the steps of the scientific method with a suitable example. Why are a control and a fair test important? <span class="marks">[10]</span>
+2. What is a vernier calliper? Explain its parts, least count and the method of taking a reading, with a worked example. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="5" ratio="1.0" caption="Instruments that turn the senses into numbers. (a) A vernier calliper reads lengths to 0.01 cm. (b) A mercury barometer measures atmospheric pressure. (c) A digital blood-pressure monitor, as used in a health post. (d) A compound microscope extends sight to cells. (e) Tuning forks of known frequency are standards for sound. Every one of them has a least count, and a good scientist always states it with the reading."
+@ photo id="sci10/vernier" cap="(a) Vernier calliper"
+@ photo id="sci10/barometer" cap="(b) Barometer"
+@ photo id="sci10/bp-monitor" cap="(c) BP monitor"
+@ photo id="sci10/microscope" cap="(d) Microscope"
+@ photo id="sci10/tuning-fork" cap="(e) Tuning forks"
+```
+
+### Model answer D1: the scientific method (10 marks)
+
+**Introduction.** The **scientific method** is an orderly way of finding answers to questions by observing, testing and reasoning, instead of guessing. It works the same way whether a farmer in Chitwan is testing manure or a scientist is testing a medicine. Its strength is that every step can be repeated and checked by other people.
+
+**Steps, using one example.** A farmer notices that maize grows taller in the field near the compost pit.
+
+1. **Observation.** Look carefully and record facts: the maize near the compost pit is taller and greener than the maize far away.
+2. **Problem (question).** Does compost increase the growth of maize?
+3. **Hypothesis.** A testable guess: *maize that gets compost will grow taller than maize that gets none.*
+4. **Experiment.** Plant maize in two sets of pots with the same soil, seed, water and sunlight. Give compost to Set A only.
+5. **Data collection.** Measure the height of every plant each week with a ruler and write it in a table.
+6. **Analysis.** Find the average height of each set and draw a graph of height against time.
+7. **Conclusion.** If Set A is clearly taller, the hypothesis is supported; if not, it is rejected and a new hypothesis is made.
+8. **Report and repeat.** Write the method and results so that others can repeat the test and get the same result.
+
+**Variables in a fair test.**
+
+| Type of variable | Meaning | In the maize experiment |
+|---|---|---|
+| Independent (changed) | The one thing the experimenter changes | Compost given or not given |
+| Dependent (measured) | What changes because of it | Height of the maize plant |
+| Controlled (kept same) | Everything else, so the test is fair | Soil, seed type, water, sunlight, pot size |
+
+**Why a control matters.** Set B (no compost) is the **control**. Without it we could not tell whether the extra growth was caused by compost or by good weather. A test is **fair** only when one variable is changed at a time. Repeating the experiment with many plants reduces the effect of chance.
+
+**Hypothesis, theory and law.** A hypothesis is a testable guess. A theory is a well-tested explanation supported by much evidence. A law is a short statement of a pattern that is always found in nature.
+
+**Conclusion.** The scientific method gives reliable knowledge because it is based on evidence, control of variables and repetition.
+
+### Model answer D2: vernier calliper (10 marks)
+
+**Introduction.** A **vernier calliper** is a precision instrument for measuring the length of small objects, the outside diameter of a ball or wire, the inside diameter of a tube and the depth of a hole. A ruler can read only to 1 mm, but a vernier calliper can read to 0.1 mm (0.01 cm).
+
+**Main parts.**
+
+- **Main scale** with centimetres and millimetres, fixed to the long jaw.
+- **Vernier scale**, a small sliding scale with 10 divisions.
+- **Outside jaws** to hold the object; **inside jaws** (the small upper jaws) for the inside diameter of a pipe.
+- **Depth rod** at the end of the main scale for the depth of a bottle or hole.
+- **Lock screw** to fix the reading.
+
+**Least count (LC).** The least count is the smallest length that the instrument can measure. On a vernier calliper, 10 vernier divisions (VSD) are equal to 9 main-scale divisions (MSD):
+
+$$LC = 1\ \text{MSD} - 1\ \text{VSD} = 1\ \text{mm} - 0.9\ \text{mm} = 0.1\ \text{mm} = 0.01\ \text{cm}.$$
+
+**Method of reading.**
+
+1. Close the jaws and note the **zero error** (the vernier reading when the jaws touch). A positive zero error must be subtracted; a negative one must be added.
+2. Place the object between the jaws and close them gently without squeezing.
+3. Read the **main scale reading (MSR)**: the main-scale mark just before the zero of the vernier.
+4. Find the **vernier division that coincides** with any main-scale mark (VC).
+5. Total reading $= MSR + VC \times LC$, then correct for the zero error.
+
+**Worked example.** A steel ball is measured. MSR $= 2.3$ cm, the 6th vernier division coincides, and the zero error is $+0.02$ cm.
+
+$$\text{Observed reading} = 2.3 + 6 \times 0.01 = 2.36\ \text{cm}, \qquad \text{Corrected reading} = 2.36 - 0.02 = 2.34\ \text{cm}.$$
+
+**Other measuring instruments.**
+
+| Instrument | Measures | Least count |
+|---|---|---|
+| Metre ruler | Length | 1 mm |
+| Vernier calliper | Small lengths, diameters | 0.1 mm |
+| Screw gauge | Thickness of wire, sheet | 0.01 mm |
+| Measuring cylinder | Volume of liquid | 1 mL (usually) |
+| Beam balance | Mass | 0.1 g (typical) |
+| Stopwatch | Time | 0.01 s (digital) |
+
+**Conclusion.** The vernier calliper gives accurate lengths to two decimal places in centimetres. Taking the zero error into account and reading with the eye straight above the scale gives a reliable measurement.

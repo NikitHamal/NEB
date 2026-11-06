@@ -351,3 +351,105 @@ Moving left to right in a period, the elements change from strongly metallic (gr
 **3.** All are in period 3, so the number of shells is constant while the nuclear charge increases from Na (+11) to Al (+13). Atomic size decreases (Na > Mg > Al); ionisation energy increases (Na < Mg < Al, roughly); metallic character decreases (Na > Mg > Al).
 **4.** Mass of Na = (7 + 39) / 2 = 46 / 2 = **23**. The actual atomic mass of sodium is 23, so it fits the law exactly.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare Mendeleev's periodic table with the modern periodic table. State the modern periodic law and the merits and demerits of Mendeleev's table. <span class="marks">[10]</span>
+2. Explain the variation of atomic size, ionisation energy and metallic character across a period and down a group, with examples from the first 20 elements. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="2" ratio="1.45" caption="The table and one of its families. (a) A school chart of the modern periodic table, 18 groups by 7 periods. (b) Noble gases in discharge tubes: each gas glows with its own colour because its outer shell is complete and it is chemically inert, so these tubes are used in signs and lights."
+@ photo id="sci10/periodic-chart" cap="(a) Periodic table chart"
+@ photo id="sci10/noble-gases" cap="(b) Noble gases in discharge tubes"
+```
+
+### Model answer D1: Mendeleev's and the modern periodic table (10 marks)
+
+**Introduction.** Scientists needed a way to organise the more than 100 known elements. **Dobereiner** (triads) and **Newlands** (law of octaves) made early attempts. **Dmitri Mendeleev (1869)** arranged the elements in order of increasing **atomic mass**. **Henry Moseley (1913)** proved that **atomic number** is the real basis of the order.
+
+**Mendeleev's periodic law.** *The properties of elements are a periodic function of their atomic masses.*
+
+**Modern periodic law.** *The properties of elements are a periodic function of their atomic numbers.*
+
+**Merits of Mendeleev's table.**
+
+- Elements with similar properties were placed in the same group.
+- He **left gaps** for undiscovered elements and predicted their properties. Eka-aluminium (gallium), eka-silicon (germanium) and eka-boron (scandium) were found later with nearly the predicted properties.
+- He **corrected the atomic mass** of some elements.
+
+**Demerits of Mendeleev's table.**
+
+- Hydrogen had no fixed position.
+- Isotopes have different masses but the same properties, with no place for them.
+- Some elements with greater atomic mass came before those with less, such as cobalt before nickel and tellurium before iodine.
+- Position of the lanthanides and actinides was not clear.
+
+**The modern periodic table.** It has **18 vertical columns called groups** and **7 horizontal rows called periods**.
+
+| Feature | Group | Period |
+|---|---|---|
+| Direction | Vertical | Horizontal |
+| Number | 18 | 7 |
+| Valence electrons | Same in a group | Increase from 1 to 8 across a period |
+| Number of shells | Increases down | Same across |
+| Properties | Similar | Change gradually |
+
+Period 1 has 2 elements, periods 2 and 3 have 8 each, periods 4 and 5 have 18 each, and period 6 has 32.
+
+**Comparison.**
+
+| Mendeleev's table | Modern table |
+|---|---|
+| Based on atomic mass | Based on atomic number |
+| 8 groups | 18 groups |
+| Gaps left for new elements | Complete, no gaps |
+| Isotopes could not be placed | Isotopes occupy one place |
+| Position of H doubtful | H placed in group 1 |
+
+**Names of groups.** Group 1 are the **alkali metals**, group 2 **alkaline earth metals**, group 17 the **halogens** and group 18 the **noble gases**.
+
+**Conclusion.** Mendeleev's table was a brilliant first step, and the modern table, based on atomic number, removed its faults and is used today.
+
+### Model answer D2: periodic properties (10 marks)
+
+**Introduction.** Properties that change in a regular way with atomic number are **periodic properties**. They depend on the number of electron shells and on the nuclear charge.
+
+**1. Atomic size (radius).**
+
+- **Across a period** it **decreases**. The number of protons increases while the electrons enter the same shell, so the nucleus pulls them closer.
+- **Down a group** it **increases**, as a new shell is added each time.
+
+| Element | Na | Mg | Al | Si | P | S | Cl |
+|---|---|---|---|---|---|---|---|
+| Atomic radius (pm) | 186 | 160 | 143 | 118 | 110 | 103 | 99 |
+
+| Group 1 | Li | Na | K |
+|---|---|---|---|
+| Atomic radius (pm) | 152 | 186 | 227 |
+
+**2. Ionisation energy.** It is the energy needed to remove the outermost electron from a gaseous atom.
+
+- **Across a period** it **increases**, because the atoms are smaller and hold electrons more strongly.
+- **Down a group** it **decreases**, because the outer electron is farther from the nucleus.
+- This is why potassium is more reactive than sodium, and sodium than lithium.
+
+**3. Electronegativity.** The tendency of an atom to attract the shared electrons in a bond. It increases across a period and decreases down a group. Fluorine is the most electronegative element.
+
+**4. Metallic character.** It decreases across a period (Na is a metal, Si a metalloid and Cl a non-metal) and increases down a group (in group 14, carbon is a non-metal and lead is a metal).
+
+**5. Valency.** The valency is 1, 2, 3, 4 across period 3 from Na to Si, then 3, 2, 1, 0 from P to Ar.
+
+| Property | Across a period | Down a group |
+|---|---|---|
+| Atomic size | Decreases | Increases |
+| Ionisation energy | Increases | Decreases |
+| Electronegativity | Increases | Decreases |
+| Metallic character | Decreases | Increases |
+| Non-metallic character | Increases | Decreases |
+
+**Groups of special interest.**
+
+- **Alkali metals** (Li, Na, K): soft, reactive, stored in oil; they react with water to give hydrogen and an alkali.
+- **Halogens** (F, Cl, Br, I): reactive non-metals; reactivity decreases down the group.
+- **Noble gases** (He, Ne, Ar): complete outer shell, so inert; used in neon signs and balloons.
+
+**Conclusion.** The trends can be explained by the nuclear charge and the number of shells, and they allow us to predict the properties of an element from its place in the table.
