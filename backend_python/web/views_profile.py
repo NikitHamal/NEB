@@ -1064,7 +1064,7 @@ def ajax_social_links_track_click(request):
     except SocialLink.DoesNotExist:
         return JsonResponse({'error': 'Link not found'}, status=404)
     clicker_id = _get_user_id(request)
-    if clicker_id is not None and int(clicker_id) == int(link.user_id):
+    if clicker_id is not None and str(clicker_id) == str(link.user_id):
         return JsonResponse({'ok': True})
     is_follower = None
     clicker_gender = ''
@@ -1088,7 +1088,7 @@ def ajax_social_links_track_click(request):
     clicker_country = (request.META.get('HTTP_CF_IPCOUNTRY') or '').strip().upper()
     SocialLinkClick.objects.create(
         link=link, user=link.user,
-        clicker_id=clicker_id, platform=platform,
+        clicker_id=str(clicker_id) if clicker_id is not None else None, platform=platform,
         url=url, created_at=now_ms(),
         is_follower=is_follower,
         clicker_country=clicker_country,

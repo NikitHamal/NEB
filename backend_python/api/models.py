@@ -1910,7 +1910,7 @@ class ProfileEntry(models.Model):
 class SocialLinkClick(models.Model):
     link = models.ForeignKey(SocialLink, on_delete=models.CASCADE, related_name='clicks')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='link_clicks')
-    clicker_id = models.BigIntegerField(blank=True, null=True)
+    clicker_id = models.CharField(max_length=255, blank=True, null=True)
     is_follower = models.BooleanField(null=True, blank=True)
     clicker_country = models.CharField(max_length=100, blank=True, default='')
     clicker_gender = models.CharField(max_length=20, blank=True, default='')
