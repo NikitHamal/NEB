@@ -12,7 +12,7 @@ from django.test import Client, TestCase
 from django.core.exceptions import ValidationError
 from django.db.models import QuerySet
 
-from .models import Resource, User, Post, Reply, FCMToken, Report
+from .models import Resource, User, Post, FCMToken, Report
 from .security import (
     generate_numeric_code,
     hash_password,
@@ -32,6 +32,9 @@ def _create_user(**kwargs):
         'username': f'testuser_{uuid.uuid4().hex[:8]}',
         'email': f'{uuid.uuid4().hex[:8]}@test.com',
         'created_at': int(time.time() * 1000),
+        # Posting and profile writes are gated on verification, so a fixture
+        # that leaves it unset is refused before it reaches what is under test.
+        'email_verified': True,
     }
     defaults.update(kwargs)
     user = User.objects.create(**defaults)
@@ -404,9 +407,14 @@ class ReportTests(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_create_report_success(self):
+        post = Post.objects.create(
+            id=str(uuid.uuid4()), user=self.user, title='Reportable', content='Body',
+            category='General', thumbs_up_count=0, reply_count=0,
+            created_at=int(time.time() * 1000),
+        )
         response = self.client.post(
             '/api/reports/',
-            {'target_type': 'post', 'target_id': 'abc-123', 'reason': 'spam', 'description': 'Test report'},
+            {'target_type': 'post', 'target_id': post.id, 'reason': 'spam', 'description': 'Test report'},
             content_type='application/json',
             **self.auth_header,
         )

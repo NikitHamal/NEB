@@ -1,5 +1,4 @@
 """Social links CRUD service functions used by web views."""
-import json
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from api.models import SocialLink, SOCIAL_PLATFORMS

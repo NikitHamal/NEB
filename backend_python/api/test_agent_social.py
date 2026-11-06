@@ -4,11 +4,10 @@ from unittest import mock
 import os
 
 from api.agent_social.actions import act_reply
-from api.agent_social.auth import issue_agent_key
 from api.agent_social.birth import announce_if_needed
 from api.agent_social.ensure import ensure_neby
 from api.agent_social.heartbeat import tick_neby
-from api.agent_social.models import AgentAction, AgentPersona
+from api.agent_social.models import AgentAction
 from api.agent_social.observer import observe
 from api.models import Follow, NebyTask, Post, PostLike, Reply, User
 from api.neby import process_neby_task

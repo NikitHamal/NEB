@@ -14,7 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.FactCheck
-import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -34,7 +34,7 @@ import com.neb.ians.ui.components.WebTopBar
 fun ToolsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToResultChecker: () -> Unit,
-    onNavigateToCanvas: () -> Unit = {}
+    onNavigateToNotes: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -68,7 +68,7 @@ fun ToolsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(WebPanelShape)
-                        .clickable(onClick = onNavigateToCanvas),
+                        .clickable(onClick = onNavigateToNotes),
                     shape = WebPanelShape,
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -86,7 +86,7 @@ fun ToolsScreen(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.SpaceDashboard,
+                            imageVector = Icons.Outlined.EditNote,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(32.dp)
@@ -97,7 +97,7 @@ fun ToolsScreen(
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 Text(
-                                    text = "NEBians Canvas",
+                                    text = "Notes",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.onSurface

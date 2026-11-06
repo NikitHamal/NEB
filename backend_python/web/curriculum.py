@@ -1,5 +1,4 @@
 import re
-from api.models import Resource
 
 CURRICULUM_MAP = {
     ("Class 12", "English"): [

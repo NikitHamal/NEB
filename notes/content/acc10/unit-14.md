@@ -4,7 +4,7 @@ grade: 10
 title: Agencies Involved in Government Accounting (नेपालको सरकारी लेखा प्रणालीमा संलग्न विभिन्न निकायहरू)
 unit: 14
 hours: 4
-area: Government Accounting of Nepal
+area: Control and Audit
 ---
 
 A budget is not executed by one office. It is prepared by one body, voted by another, released by a third, spent by thousands, accounted for by a fourth, audited by a fifth and examined by a sixth. This unit names the six, says what each does, and explains how the government's money reaches a district office through the banking arrangement.

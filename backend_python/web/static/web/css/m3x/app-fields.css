@@ -1,0 +1,84 @@
+/* One field language. Every text field, picker trigger, select and option card is a white
+   (--x-field) surface with ONE 1.5px stroke. Focus and selection change that stroke's colour and
+   nothing else: no tonal periwinkle well, no outline stacked on a border, no second ring. */
+:root { --x-field: var(--md-surface-container-lowest); --x-field-line: color-mix(in srgb, var(--md-outline) 58%, var(--md-surface)); --x-line-w: 1.5px; }
+
+/* ---------- text fields, pickers, selects ---------- */
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search, .lib-sort-select-wrapper) {
+  background: var(--x-field);
+  color: var(--md-on-surface);
+  border: var(--x-line-w) solid var(--x-field-line);
+  outline: none;
+}
+#homePostForm :is(.hf-identity-trigger, .hf-cat-trigger, .hf-emoji-search-wrap) {
+  background: var(--x-field);
+  color: var(--md-on-surface);
+  border: var(--x-line-w) solid var(--x-field-line);
+}
+#homePostForm :is(.hf-identity-trigger, .hf-cat-trigger):is(:hover, :focus-visible, [aria-expanded="true"]) { border-color: var(--md-primary); background: var(--x-field); }
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search, .lib-sort-select-wrapper):hover:not(:focus):not(:disabled) {
+  border-color: var(--md-outline);
+  background: var(--x-field);
+}
+:root :is(.neb-field, .neb-field-trigger, .neb-sel, .neb-select-field, .md-input, .md-select, .md-textarea, .md-text-field,
+  .subject-pick-search, .subject-pick-add input, .photo-url-input, .hf-cat-own-field, .chat-input-field, .cb-text-input,
+  .ix-formula-field, .admin-search, .admin-palette-search):is(:focus, :focus-visible, :focus-within, .is-open, [aria-expanded="true"]) {
+  border-color: var(--md-primary);
+  background: var(--x-field);
+  outline: none;
+}
+:root :is(.neb-sel, .neb-field-trigger):active { background: var(--x-field); }
+:root :is(.neb-field, .md-input, .md-textarea, .md-text-field)[aria-invalid="true"] { border-color: var(--md-error); }
+:root :is(.neb-field, .md-input, .md-textarea, .md-text-field)::placeholder { color: var(--md-on-surface-tertiary); opacity: 1; }
+:root :is(.neb-field-trigger, .neb-sel) .material-symbols-outlined { color: var(--md-on-surface-variant); }
+:root .md-textarea { padding: 14px 16px; line-height: 1.5; min-height: 112px; resize: vertical; }
+
+/* ---------- option cards and tiles: white, one stroke, the stroke turns primary when picked ---------- */
+.form-group label.neb-option, label.neb-option { display: flex; margin-bottom: 0; }
+:root :is(.neb-option, .neb-tile) {
+  background: var(--x-field);
+  border: var(--x-line-w) solid var(--x-field-line);
+  outline: none;
+}
+@media (hover: hover) {
+  :root :is(.neb-option, .neb-tile):not(.is-selected):not([aria-checked="true"]):not(:has(> input:checked)):hover { border-color: var(--md-outline); }
+}
+:root :is(.neb-option:has(> input:checked), .neb-option.is-selected, .neb-option[aria-checked="true"],
+  .neb-tile.is-selected, .neb-tile[aria-checked="true"], .neb-option:has(> input:focus-visible)) {
+  background: var(--x-field);
+  border-color: var(--md-primary);
+}
+:root :is(.neb-option, .neb-tile):focus-visible { outline: none; border-color: var(--md-primary); }
+:root :is(.neb-option, .neb-tile) > .neb-glyph { background: var(--md-surface-container); color: var(--md-on-surface-variant); }
+:root :is(.neb-option:has(> input:checked), .neb-option.is-selected, .neb-option[aria-checked="true"],
+  .neb-tile.is-selected, .neb-tile[aria-checked="true"]) > .neb-glyph { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+/* Explorer is a role like the others: same card, same blue. No dashes, no violet. */
+:root .role-radio-card-explorer,
+:root .role-radio-card-explorer:has(> input:checked),
+:root .role-radio-card-explorer.is-selected { border-style: solid; background: var(--x-field); }
+:root .role-radio-card-explorer { border-color: var(--x-field-line); }
+:root .role-radio-card-explorer:has(> input:checked),
+:root .role-radio-card-explorer.is-selected { border-color: var(--md-primary); }
+:root .role-radio-card-explorer:has(> input:checked) .neb-option-title,
+:root .role-radio-card-explorer.is-selected .neb-option-title { color: var(--md-primary); }
+:root .role-radio-card-explorer:has(> input:checked) > .neb-glyph,
+:root .role-radio-card-explorer.is-selected > .neb-glyph { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+:root .role-radio-card-explorer:has(> input:checked) > .neb-mark::before,
+:root .role-radio-card-explorer.is-selected > .neb-mark::before { background: var(--md-primary); }
+
+/* the radio mark never shrinks inside a card, whatever the row does around it */
+.neb-option > .neb-mark { flex: none; width: 24px; height: 24px; align-self: center; }
+
+/* a text field swapped to a contenteditable by inline-media.js keeps the single stroke: the global
+   [contenteditable] ring would stack a second one on top of the border it copied from the textarea */
+:root .neb-seamless:is(:focus, :focus-visible) { outline: none; }
+:root .neb-seamless.neb-focus { border-color: var(--md-primary) !important; }
+
+/* a two-column form row that collapses to one column: the group margin already spaces the rows,
+   so the grid gap must not add a second one */
+@media (max-width: 600px) { .form-row { row-gap: 0; } }

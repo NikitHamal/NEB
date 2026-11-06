@@ -1,0 +1,18 @@
+{# One headline number. Context: k = report kpi card. Visitors, visits and pageviews drive the trend chart. #}
+<article class="an-kpi{% if k.key == 'visitors' %} is-selected{% endif %}"
+  {% if k.key == 'visitors' or k.key == 'visits' or k.key == 'pageviews' %}data-metric="{{ k.key }}" role="button" tabindex="0" aria-pressed="{% if k.key == 'visitors' %}true{% else %}false{% endif %}"{% endif %}>
+  <div class="an-kpi-top">
+    <span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">{{ k.icon }}</span></span>
+    <span class="an-kpi-label">{{ k.label }}</span>
+  </div>
+  <div class="an-kpi-value">{{ k.value }}</div>
+  <div class="an-kpi-foot">
+    {% include "admin_panel/analytics/_delta.html" with d=k.delta %}
+    {% if k.spark_line %}
+    <svg class="an-spark" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">
+      <polygon class="an-spark-area" points="{{ k.spark_area }}"/>
+      <polyline class="an-spark-line" points="{{ k.spark_line }}" vector-effect="non-scaling-stroke"/>
+    </svg>
+    {% endif %}
+  </div>
+</article>

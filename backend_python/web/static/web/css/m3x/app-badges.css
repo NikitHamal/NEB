@@ -1,0 +1,38 @@
+/* Badges, last word. ONLY user / role / verification badges are fill-less: Verified, Admin, Teacher, Moderator,
+   institution, bot and the badge on a profile picture. They are a glyph in an ink colour (the on-colour of a
+   tonal pair, readable on the plain surface in both themes), with no fill, stroke or shadow.
+   Everything else -- chips, category and filter pills, subject tags, reply labels (Answer, Correct, Helpful,
+   Solved), count pills, status pills -- keeps its tonal surface; those rules live in their own modules. */
+
+:root { --bd-ink: color-mix(in srgb, var(--md-primary) 72%, var(--md-on-surface)); }
+
+:is(.role-badge, .user-badge) {
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  color: var(--bd-ink);
+}
+
+.role-badge { width: auto; min-width: 0; height: auto; }
+.role-badge .material-symbols-outlined { color: var(--bd-ink); font-size: 18px; }
+.role-badge-admin       { --bd-ink: var(--neb-accent-amber); }
+.role-badge-bot         { --bd-ink: var(--neb-accent-violet); }
+.role-badge-moderator   { --bd-ink: var(--neb-accent-brand); }
+.role-badge-teacher     { --bd-ink: var(--neb-accent-green); }
+.role-badge-institution { --bd-ink: var(--neb-accent-indigo); }
+.role-badge-explorer    { --bd-ink: var(--neb-accent-amber); }
+.role-badge-verified    { --bd-ink: var(--neb-accent-brand); }
+
+.avatar-badge-overlay {
+  --bd: 18px; box-sizing: border-box; width: var(--bd); height: var(--bd); border: 0 !important; background: none !important;
+  color: var(--badge-bg, var(--md-primary));
+}
+.avatar-badge-overlay .material-symbols-outlined,
+.avatar-badge-overlay.is-verified::after {
+  color: var(--badge-bg, var(--md-primary)); font-size: var(--bd); line-height: 1;
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 20;
+  -webkit-text-stroke: 3px var(--badge-ring, var(--md-surface)); paint-order: stroke fill;
+}
+.avatar-badge-overlay.is-verified .material-symbols-outlined { font-size: 0; -webkit-text-stroke: 0; }
+.avatar-badge-overlay.is-verified::after { content: "verified"; font-size: var(--bd); }
+.pf-verified { background: none !important; border: 0 !important; }
+.profile-page .pf-verified .material-symbols-outlined { color: var(--badge-bg, var(--md-primary)); font-size: 22px; }
+.profile-page .pf-verified { width: auto; height: auto; }

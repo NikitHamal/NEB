@@ -2,7 +2,6 @@
 @import url("app/01-activity-resources.css");
 @import url("app/02-badges-actions.css");
 @import url("app/03-filters-dialogs.css");
-@import url("app/04-auth-layout.css");
 @import url("app/05-auth-responsive-admin-empty.css");
 @import url("app/06-follow-menus-ctas.css");
 @import url("app/07-profile-banner.css");
@@ -16,3 +15,5 @@
 @import url("app/16-user-popup.css");
 @import url("app/17-like-animation.css");
 @import url("app/18-comment-composer.css");
+@import url("app/19-clamp-toggle.css");
+@import url("app/20-back-button.css");

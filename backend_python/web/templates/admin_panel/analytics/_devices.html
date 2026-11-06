@@ -1,0 +1,90 @@
+{% load web_extras %}{# Devices and content performance. Staff-only; fed by nebians/analytics/report_devices.py. #}
+{% with d=r.devices %}
+<section class="an-section" id="an-devices" data-section>
+  <h2 class="an-h">Devices and sign-ups</h2>
+  {% if d.tracked %}
+  <div class="an-grid">
+    <div class="an-card an-span-4">
+      <div class="an-card-head"><h3>Sign-ups by device</h3><span class="an-tag">{{ d.signups }}</span></div>
+      {% include "admin_panel/analytics/_rank.html" with rows=d.signup_devices swatch=True %}
+    </div>
+    <div class="an-card an-span-4">
+      <div class="an-card-head"><h3>Sign-ups by system</h3></div>
+      {% include "admin_panel/analytics/_rank.html" with rows=d.signup_os swatch=True %}
+    </div>
+    <div class="an-card an-span-4">
+      <div class="an-card-head"><h3>Website or app</h3></div>
+      {% include "admin_panel/analytics/_rank.html" with rows=d.signup_sources swatch=True %}
+    </div>
+    <div class="an-card an-span-6">
+      <div class="an-card-head"><h3>Who takes part after signing up</h3></div>
+      {% include "admin_panel/analytics/_rank.html" with rows=d.activation %}
+    </div>
+    <div class="an-card an-span-6">
+      <div class="an-card-head"><h3>Browsers on sign-up</h3></div>
+      {% include "admin_panel/analytics/_rank.html" with rows=d.signup_browsers %}
+    </div>
+    <div class="an-card an-span-12">
+      <div class="an-card-head"><h3>Interactions by device</h3></div>
+      <table class="an-tbl">
+        <thead><tr><th>Action</th><th>Total</th><th>People</th><th>Phone</th><th>Tablet</th><th>Computer</th><th>From app</th></tr></thead>
+        <tbody>
+        {% for m in d.matrix %}
+          <tr><td>{{ m.label }}</td><td>{{ m.total }}</td><td>{{ m.actors }}</td><td>{{ m.phone }} <em>{{ m.phone_pct }}%</em></td><td>{{ m.tablet }}</td><td>{{ m.desktop }}</td><td>{{ m.app_pct }}%</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if d.app_versions %}
+    <div class="an-card an-span-3"><div class="an-card-head"><h3>App versions</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.app_versions %}</div>
+    <div class="an-card an-span-3"><div class="an-card-head"><h3>Phone models</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.app_models %}</div>
+    <div class="an-card an-span-3"><div class="an-card-head"><h3>Android versions</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.app_android %}</div>
+    <div class="an-card an-span-3"><div class="an-card-head"><h3>Screens</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.app_screens %}</div>
+    {% endif %}
+    <div class="an-card an-span-12">
+      <div class="an-card-head"><h3>Recent sign-ups</h3></div>
+      <table class="an-tbl">
+        <thead><tr><th>Member</th><th>Joined</th><th>Device</th></tr></thead>
+        <tbody>
+        {% for u in d.recent_signups %}
+          <tr><td>{{ u.name }} <em>@{{ u.username }}</em></td><td>{{ u.at|time_ago }}</td><td>{{ u.device }}</td></tr>
+        {% empty %}
+          <tr><td colspan="3">No sign-ups in this range</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <p class="an-none">Device context is collected from now on. Sign-ups, posts, comments, votes and likes will appear here.</p>
+  {% endif %}
+</section>
+
+<section class="an-section" id="an-posts" data-section>
+  <h2 class="an-h">Posts and polls</h2>
+  <div class="an-grid">
+    <div class="an-card an-span-12">
+      <div class="an-card-head"><h3>Top posts by reach</h3></div>
+      <table class="an-tbl">
+        <thead><tr><th>Post</th><th>Views</th><th>Open rate</th><th>Avg read</th><th>Reactions</th></tr></thead>
+        <tbody>
+        {% for p in d.top_posts %}
+          <tr><td><a href="{% url 'web:forum_post' post_id=p.id %}" target="_blank" rel="noopener">{{ p.title }}</a></td><td>{{ p.views }}</td><td>{% if p.ctr != None %}{{ p.ctr }}%{% endif %}</td><td>{{ p.dwell }} s</td><td>{{ p.reactions }}</td></tr>
+        {% empty %}
+          <tr><td colspan="5">No post views in this range</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="an-card an-span-6"><div class="an-card-head"><h3>Readers by device</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.reach_devices swatch=True %}</div>
+    <div class="an-card an-span-6"><div class="an-card-head"><h3>How readers found posts</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=d.reach_surfaces swatch=True %}</div>
+    <div class="an-card an-span-12">
+      <div class="an-card-head"><h3>Polls</h3></div>
+      <table class="an-tbl">
+        <thead><tr><th>Created</th><th>In comments</th><th>Open to new options</th><th>Options added</th><th>Votes</th></tr></thead>
+        <tbody><tr><td>{{ d.polls.created }}</td><td>{{ d.polls.in_comments }}</td><td>{{ d.polls.open }}</td><td>{{ d.polls.options_added }}</td><td>{{ d.polls.votes }}</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endwith %}

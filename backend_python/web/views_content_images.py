@@ -5,24 +5,18 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 
-from .view_helpers import _get_user_id, _rate_limit
-from api.models import User
+from .json_endpoint import signed_in_member
+from .view_helpers import _rate_limit
 from api import content_images
 
 logger = logging.getLogger(__name__)
 
 
 @require_POST
-def ajax_upload_inline_image(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_upload_inline_image(request, user):
     if _rate_limit(request, 'upload_inline_image', 40, 3600):
         return JsonResponse({'error': 'Too many uploads. Please try again later.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     file_obj = request.FILES.get('image')
     if not file_obj:
         return JsonResponse({'error': 'No image file provided'}, status=400)

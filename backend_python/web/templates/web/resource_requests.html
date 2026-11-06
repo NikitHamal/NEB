@@ -9,165 +9,101 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top: 16px;">
-  <a href="{% url 'web:library' %}" class="back-link" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to Library
-  </a>
+<div class="rq-page">
+  {% url 'web:library' as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Library" %}
 
-  <div class="requests-page" style="padding: 0 0 48px;">
-    <div class="requests-header">
-    <div class="requests-header-content">
-      <h1>Resource Requests</h1>
-      <p>Can't find what you need? Request it here and the community will help.</p>
-      <button class="md-btn md-btn-filled" data-action="toggle-request-form">
-        <span class="material-symbols-outlined">add</span>
-        New Request
-      </button>
-    </div>
-  </div>
+  <header class="rq-head">
+    <h1 class="rq-title">Requests</h1>
+    <button type="button" class="rq-new" data-action="toggle-request-form" aria-controls="request-form">
+      <span class="material-symbols-outlined" aria-hidden="true">add</span>
+      <span>New request</span>
+    </button>
+  </header>
 
-  <div id="request-form" class="request-form-hidden">
-    <form method="post" action="{% url 'web:resource_requests' %}" class="request-form-card">
+  <div id="request-form" class="rq-form-wrap request-form-hidden">
+    <form method="post" action="{% url 'web:resource_requests' %}" class="rq-form">
       {% csrf_token %}
       <input type="hidden" name="action" value="create">
-      <div class="request-form-fields">
+      <div class="upload-field">
+        <label class="md-label" for="req-title">What do you need?</label>
+        <input class="md-input" type="text" id="req-title" name="title" placeholder="Grade 12 Physics past papers" required>
+      </div>
+      <div class="rq-form-row">
         <div class="upload-field">
-          <label class="md-label" for="req-title">What do you need? *</label>
-          <input class="md-input" type="text" id="req-title" name="title" placeholder="e.g. Grade 12 Physics past papers" required>
-        </div>
-        <div class="upload-row">
-          <div class="upload-field upload-field-half">
-            <label class="md-label" for="req-subject">Subject</label>
-            <input class="md-input" type="text" id="req-subject" name="subject" list="subject-list" placeholder="e.g. Physics">
-            <datalist id="subject-list">
-              {% for s in all_subjects %}<option value="{{ s }}">{% endfor %}
-            </datalist>
-          </div>
-          <div class="upload-field upload-field-half">
-            <label class="md-label" for="req-grade">Grade</label>
-            <select class="md-select" id="req-grade" name="grade_level">
-              <option value="">Any</option>
-              <option value="Grade 11">Grade 11</option>
-              <option value="Grade 12">Grade 12</option>
-              <option value="Both">Both</option>
-            </select>
-          </div>
+          <label class="md-label" for="req-subject">Subject</label>
+          <input class="md-input" type="text" id="req-subject" name="subject" list="subject-list" placeholder="Physics">
+          <datalist id="subject-list">{% for s in all_subjects %}{% if s %}<option value="{{ s }}">{% endif %}{% endfor %}</datalist>
         </div>
         <div class="upload-field">
-          <label class="md-label" for="req-desc">Details (optional)</label>
-          <textarea class="md-textarea" id="req-desc" name="description" rows="2" placeholder="More details about what you're looking for..."></textarea>
+          <label class="md-label" for="req-grade">Grade</label>
+          <select class="md-select" id="req-grade" name="grade_level">
+            <option value="">Any</option>
+            <option value="Grade 11">Grade 11</option>
+            <option value="Grade 12">Grade 12</option>
+            <option value="Both">Both</option>
+          </select>
         </div>
       </div>
-      <div class="request-form-actions">
-        <button type="button" class="md-btn md-btn-text" data-action="cancel-request-form">Cancel</button>
-        <button type="submit" class="md-btn md-btn-filled">Submit Request</button>
+      <div class="upload-field">
+        <label class="md-label" for="req-desc">Details</label>
+        <textarea class="md-textarea" id="req-desc" name="description" rows="2"></textarea>
+      </div>
+      <div class="rq-form-actions">
+        <button type="button" class="rq-btn rq-btn-text" data-action="cancel-request-form">Cancel</button>
+        <button type="submit" class="rq-btn rq-btn-filled">Submit</button>
       </div>
     </form>
   </div>
 
-  <div class="requests-filters">
-    <div class="requests-filter-chips">
-      <a href="?status=open" class="md-chip {% if current_status == 'open' %}md-chip-active{% endif %}">Open</a>
-      <a href="?status=fulfilled" class="md-chip {% if current_status == 'fulfilled' %}md-chip-active{% endif %}">Fulfilled</a>
-      <a href="?status=closed" class="md-chip {% if current_status == 'closed' %}md-chip-active{% endif %}">Closed</a>
-      <a href="?status=" class="md-chip {% if not current_status %}md-chip-active{% endif %}">All</a>
+  <form method="get" class="rq-filters" data-autosubmit>
+    <div class="rq-seg" role="radiogroup" aria-label="Status">
+      {% for val, label in status_options %}
+      <label class="rq-seg-opt"><input type="radio" name="status" value="{{ val }}"{% if current_status == val %} checked{% endif %}><span>{{ label }}</span></label>
+      {% endfor %}
     </div>
-  </div>
+    <div class="rq-selects">
+      <select class="rq-select" name="subject" aria-label="Subject">
+        <option value="">All subjects</option>
+        {% for s in all_subjects %}{% if s %}<option value="{{ s }}"{% if s|lower == current_subject|lower %} selected{% endif %}>{{ s }}</option>{% endif %}{% endfor %}
+      </select>
+      <select class="rq-select" name="grade" aria-label="Grade">
+        <option value="">All grades</option>
+        {% for g in all_grades %}{% if g %}<option value="{{ g }}"{% if g|lower == current_grade|lower %} selected{% endif %}>{{ g }}</option>{% endif %}{% endfor %}
+      </select>
+    </div>
+  </form>
 
-  <div class="requests-list">
+  <ul class="rq-list">
     {% for req in requests %}
-    <div class="request-card" data-id="{{ req.id }}">
-      <div class="request-card-main">
-        <div class="request-card-vote">
-          <button class="vote-btn {% if req.is_upvoted %}vote-btn-active{% endif %}" data-action="toggle-upvote" data-request-id="{{ req.id }}" title="Upvote">
-            <span class="material-symbols-outlined">arrow_upward</span>
-          </button>
-          <span class="vote-count">{{ req.upvote_count }}</span>
-        </div>
-        <div class="request-card-content">
-          <div class="request-card-title">{{ req.title }}</div>
-          {% if req.description %}<div class="request-card-desc">{{ req.description|linkify }}</div>{% endif %}
-          <div class="request-card-meta">
-            {% if req.subject %}<span class="request-chip">{{ req.subject }}</span>{% endif %}
-            {% if req.grade_level %}<span class="request-chip">{{ req.grade_level }}</span>{% endif %}
-            <span>{{ req.requested_by_name }}</span>
-            <span>{{ req.created_at|time_ago }}</span>
-          </div>
-        </div>
-        <div class="request-card-status status-{{ req.status }}">
-          {{ req.status|capfirst }}
-        </div>
+    <li class="rq-card" data-id="{{ req.id }}">
+      <button type="button" class="rq-vote{% if req.is_upvoted %} is-on{% endif %}" data-action="toggle-upvote" data-request-id="{{ req.id }}" aria-label="Upvote" aria-pressed="{% if req.is_upvoted %}true{% else %}false{% endif %}">
+        <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+        <span class="vote-count">{{ req.upvote_count }}</span>
+      </button>
+      <div class="rq-body">
+        <h2 class="rq-card-title">{{ req.title }}</h2>
+        {% if req.description %}<p class="rq-desc">{{ req.description|linkify }}</p>{% endif %}
+        <p class="rq-meta">
+          {% if req.subject %}<span>{{ req.subject }}</span>{% endif %}
+          {% if req.grade_level %}<span>{{ req.grade_level }}</span>{% endif %}
+          <span>{{ req.requested_by_name }}</span>
+          <span>{{ req.created_at|time_ago }}</span>
+        </p>
       </div>
-    </div>
+      <span class="rq-status rq-status-{{ req.status }}">
+        <span class="material-symbols-outlined" aria-hidden="true">{% if req.status == 'fulfilled' %}check_circle{% elif req.status == 'closed' %}cancel{% else %}schedule{% endif %}</span>
+        {{ req.status|capfirst }}
+      </span>
+    </li>
     {% empty %}
-    <div class="request-empty">
-      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-on-surface-variant)">inbox</span>
-      <p>No requests yet. Be the first to request a resource!</p>
-    </div>
+    <li class="rq-empty">
+      <span class="material-symbols-outlined" aria-hidden="true">inbox</span>
+      <p>No requests here</p>
+    </li>
     {% endfor %}
-  </div>
+  </ul>
 </div>
-</div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.15s;
-  margin-bottom: 16px;
-}
-.back-link:hover {
-  color: var(--md-primary);
-}
-.back-link .material-symbols-outlined {
-  font-size: 18px;
-}
-.requests-page { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
-.requests-header { background: var(--md-surface-container-high); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; border: 1px solid var(--md-outline-variant); }
-.requests-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 6px; }
-.requests-header p { color: var(--md-on-surface-variant); margin: 0 0 16px; font-size: 0.9375rem; }
-.request-form-hidden { display: none; }
-.request-form-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
-.request-form-fields { display: flex; flex-direction: column; gap: 12px; }
-.request-form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
-.requests-filters { margin-bottom: 16px; }
-.requests-filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.requests-list { display: flex; flex-direction: column; gap: 10px; }
-.request-card { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 14px; padding: 16px; transition: border-color 0.15s; }
-.request-card:hover { border-color: var(--md-primary); }
-.request-card-main { display: flex; gap: 14px; align-items: flex-start; }
-.request-card-vote { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 40px; }
-.vote-btn { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 8px; color: var(--md-on-surface-variant); transition: background 0.15s, color 0.15s; }
-.vote-btn:hover { background: var(--md-primary-container); color: var(--md-primary); }
-.vote-btn-active { color: var(--md-primary); }
-.vote-btn-active:hover { background: var(--md-primary-container); }
-.vote-count { font-size: 0.875rem; font-weight: 600; color: var(--md-on-surface); }
-.request-card-content { flex: 1; min-width: 0; }
-.request-card-title { font-size: 1rem; font-weight: 600; color: var(--md-on-surface); margin-bottom: 4px; }
-.request-card-desc { font-size: 0.875rem; color: var(--md-on-surface-variant); margin-bottom: 6px; line-height: 1.4; }
-.request-card-meta { display: flex; align-items: center; gap: 12px; font-size: 0.8125rem; color: var(--md-on-surface-variant); flex-wrap: wrap; }
-.request-chip { background: var(--md-secondary-container); color: var(--md-on-secondary-container); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
-.request-card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; white-space: nowrap; }
-/* These three were written color-mix(10%, #4caf50, transparent) -- no colour
-   space and the percentage on the wrong side of the colour -- so the browser
-   threw every background away and the pills have always rendered with none.
-   The inks were light-only Material greens, blues and greys besides. */
-.status-open { background: color-mix(in srgb, var(--neb-accent-green) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-green) 76%, var(--md-on-surface)); }
-.status-fulfilled { background: color-mix(in srgb, var(--neb-accent-brand) 13%, transparent); color: color-mix(in srgb, var(--neb-accent-brand) 74%, var(--md-on-surface)); }
-.status-closed { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); color: var(--md-on-surface-variant); }
-.request-empty { text-align: center; padding: 48px 16px; color: var(--md-on-surface-variant); }
-.request-empty p { margin-top: 12px; }
-@media (max-width: 600px) { .upload-row { flex-direction: column; gap: 0; } }
-</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -178,43 +114,32 @@ function toggleUpvote(requestId) {
     headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
     credentials: 'same-origin'
   }).then(function(r) {
-    if (r.status === 401) {
-      window.location.href = '/login/';
-      throw new Error('Unauthorized');
-    }
-    if (!r.ok) {
-      throw new Error('HTTP error ' + r.status);
-    }
+    if (r.status === 401) { window.location.href = '/login/'; throw new Error('Unauthorized'); }
+    if (!r.ok) { throw new Error('HTTP error ' + r.status); }
     return r.json();
   }).then(function(data) {
-    var card = document.querySelector('[data-id="' + requestId + '"]');
+    var card = document.querySelector('.rq-card[data-id="' + requestId + '"]');
     if (!card) return;
-    var btn = card.querySelector('.vote-btn');
-    var count = card.querySelector('.vote-count');
-    if (data.upvoted) {
-      btn.classList.add('vote-btn-active');
-    } else {
-      btn.classList.remove('vote-btn-active');
-    }
-    count.textContent = data.upvote_count;
+    var btn = card.querySelector('.rq-vote');
+    btn.classList.toggle('is-on', !!data.upvoted);
+    btn.setAttribute('aria-pressed', data.upvoted ? 'true' : 'false');
+    card.querySelector('.vote-count').textContent = data.upvote_count;
   }).catch(function(err) {
     console.error('Error toggling upvote:', err);
-    if (!IS_AUTHENTICATED) {
-      window.location.href = '/login/';
-    }
+    if (!IS_AUTHENTICATED) { window.location.href = '/login/'; }
   });
 }
-
+document.querySelectorAll('[data-autosubmit]').forEach(function(f) {
+  f.addEventListener('change', function() { f.submit(); });
+});
 registerActions({
   'toggle-request-form': function() {
-    document.getElementById('request-form').classList.toggle('request-form-hidden');
+    var w = document.getElementById('request-form');
+    w.classList.toggle('request-form-hidden');
+    if (!w.classList.contains('request-form-hidden')) { document.getElementById('req-title').focus(); }
   },
-  'cancel-request-form': function() {
-    document.getElementById('request-form').classList.add('request-form-hidden');
-  },
-  'toggle-upvote': function(el) {
-    toggleUpvote(el.dataset.requestId);
-  }
+  'cancel-request-form': function() { document.getElementById('request-form').classList.add('request-form-hidden'); },
+  'toggle-upvote': function(el) { toggleUpvote(el.dataset.requestId); }
 });
 </script>
 {% endblock %}

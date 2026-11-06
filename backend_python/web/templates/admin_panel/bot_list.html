@@ -9,9 +9,7 @@
   <div class="admin-page-header">
     <div class="admin-page-header-row">
       <div>
-        <div class="admin-eyebrow">AI &amp; Automation</div>
         <h1>AI Bots</h1>
-        <p>Configure AI bots that respond to @mentions — and, if autonomy is on, live on the forum like a person.</p>
       </div>
       <div class="admin-page-actions">
         <a href="{% url 'web:admin_bot_new' %}" class="md-btn md-btn-filled">
@@ -39,9 +37,9 @@
       <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
         {% if bot_user %}
           {% if config.avatar_url %}
-          <img src="{{ config.avatar_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+          <img loading="lazy" decoding="async" src="{{ config.avatar_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
           {% elif bot_user.photo_url %}
-          <img src="{{ bot_user.photo_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+          <img loading="lazy" decoding="async" src="{{ bot_user.photo_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
           {% else %}
           <div style="width:48px;height:48px;border-radius:50%;background:#7C4DFF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <span class="material-symbols-outlined" style="color:white;font-size:24px;">smart_toy</span>
@@ -49,7 +47,7 @@
           {% endif %}
         {% else %}
           {% if config.avatar_url %}
-          <img src="{{ config.avatar_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
+          <img loading="lazy" decoding="async" src="{{ config.avatar_url }}" alt="" style="width:48px;height:48px;border-radius:50%;object-fit:cover;">
           {% else %}
           <div style="width:48px;height:48px;border-radius:50%;background:var(--md-outline-variant);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
             <span class="material-symbols-outlined" style="color:var(--md-on-surface-variant);font-size:24px;">smart_toy</span>

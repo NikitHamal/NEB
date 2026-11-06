@@ -1,0 +1,40 @@
+/* ---- Clamp and reveal ----
+   A long comment folds to a fixed height, its last line fading out, with a text
+   button that opens the rest. clamp-toggle.js only applies the fold when the
+   content is genuinely taller than the cap, so a short comment never grows a
+   mask or a button. Mark the element with data-clamp="pixels". */
+[data-clamp].is-clamped {
+  max-height: var(--clamp-height, 132px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+}
+
+.neb-clamp-toggle {
+  align-self: flex-start;
+  margin: -4px 0 8px -10px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-primary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.neb-clamp-toggle:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+.neb-clamp-toggle:active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-clamp-toggle {
+    transition: none;
+  }
+}

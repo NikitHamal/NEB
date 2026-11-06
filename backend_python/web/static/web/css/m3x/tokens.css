@@ -1,0 +1,165 @@
+/* m3x tokens: the one colour, type and motion scheme for the landing page AND the app.
+
+   Brand colour comes from the NEBians N: front face #0058df, dark faces #052566 / #07337f,
+   light facet #a8c5ff. Everything below is a tonal ramp of that blue, so a surface is never
+   a "grey" and an accent is never a stranger to the logo.
+
+   This file loads AFTER material3.css, so the --md-* roles here replace the generated
+   palette on the web only. (00-palette.css stays as it is: the Android app shares it.)
+   The short aliases (--pri, --surface ...) are what landing.css is written against; they
+   point at the same roles, so the two surfaces can not drift apart. */
+
+:root {
+  color-scheme: light;
+  /* ---- roles: light ---- */
+  --md-primary: #0058df;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #dbe4ff;
+  --md-on-primary-container: #001a52;
+  --md-secondary: #485a80;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #dfe7fa;
+  --md-on-secondary-container: #0f1c3b;
+  --md-tertiary: #006782;
+  --md-on-tertiary: #ffffff;
+  --md-tertiary-container: #c6ecff;
+  --md-on-tertiary-container: #001f2a;
+  --md-background: #f6f8ff;
+  --md-on-background: #0b1530;
+  --md-surface: #f6f8ff;
+  --md-on-surface: #0b1530;
+  --md-surface-variant: #e1e8f8;
+  --md-on-surface-variant: #414b66;
+  --md-on-surface-tertiary: #4f5976;
+  --md-outline: #707a96;
+  --md-outline-variant: #c6d0ea;
+  --md-surface-dim: #d5dcee;
+  --md-surface-bright: #fbfcff;
+  --md-surface-container-lowest: #ffffff;
+  --md-surface-container-low: #f0f4fe;
+  --md-surface-container: #e9eefb;
+  --md-surface-container-high: #e2e8f7;
+  --md-surface-container-highest: #dae1f3;
+  --md-elevated-surface: #ffffff;
+  /* floating surfaces (menus, dialogs, sheets, popovers): white in light, a raised tone in dark */
+  --x-float: #ffffff;
+  --x-float-line: #d3dbef;
+  --md-inverse-surface: #1f2840;
+  --md-inverse-on-surface: #edf1fc;
+  --md-inverse-primary: #b2c5ff;
+  --md-surface-tint: #0058df;
+  --md-primary-fixed: #dbe4ff;
+  --md-primary-fixed-dim: #b2c5ff;
+  --md-on-primary-fixed: #001a52;
+  --md-on-primary-fixed-variant: #003fa6;
+  --md-tertiary-fixed: #c6ecff;
+  --md-tertiary-fixed-dim: #7fd2f2;
+  --md-on-tertiary-fixed: #001f2a;
+  --md-on-tertiary-fixed-variant: #004d63;
+
+  /* ---- tonal accents: the logo's blue family, used for tiles, tags and art ----
+     X = vivid fill (dark text on it), X-c = soft container, X-d = deep fill (white text on it) */
+  --azure: #7aa2ff;  --azure-c: #d7e3ff;  --azure-d: #0047b8;
+  --sky:   #5cc8ff;  --sky-c:   #cdeeff;  --sky-d:   #00598a;
+  --aqua:  #55d9c6;  --aqua-c:  #c6f3eb;  --aqua-d:  #0a6a62;
+  --peri:  #a9b9ff;  --peri-c:  #e3e9ff;  --peri-d:  #2a47a3;
+  --ink: #06235f;    --on-ink:  #e6eeff;
+
+  /* ---- type ---- */
+  --display: Display, "Arial Black", Poppins, system-ui, sans-serif;
+  --body: Body, ui-sans-serif, Poppins, "Poppins Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --md-font: var(--body);
+  --md-font-display: var(--display);
+
+  /* ---- shape ---- */
+  --md-shape-xs: 8px;
+  --md-shape-sm: 12px;
+  --md-shape-md: 16px;
+  --md-shape-lg: 24px;
+  --md-shape-xl: 32px;
+  --md-shape-xxl: 44px;
+  /* a pill is a FINITE radius: 28px is a perfect pill up to 56px tall. 9999px made a hover morph
+     (spring overshoot) pass through 0px, which flashed square corners. */
+  --md-shape-full: 28px;
+  --md-radius-full: 28px;
+
+  /* ---- motion ---- */
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  --md-motion-spatial-fast: .35s var(--spring-fast);
+  --md-motion-spatial: .55s var(--spring);
+  --md-motion-spatial-slow: .8s var(--spring-soft);
+
+  /* ---- no elevation: separation comes from tone, border and shape ---- */
+  --md-elevation-1: none;
+  --md-elevation-2: none;
+  --md-elevation-3: none;
+  --md-shadow: transparent;
+  --md-shadow-lg: transparent;
+
+  /* ---- landing aliases (landing.css is written against these) ---- */
+  --surface: var(--md-surface);
+  --sf-low: var(--md-surface-container-low);
+  --sf: var(--md-surface-container);
+  --sf-high: var(--md-surface-container-high);
+  --sf-highest: var(--md-surface-container-highest);
+  --on: var(--md-on-surface);
+  --on-var: var(--md-on-surface-variant);
+  --outline-var: var(--md-outline-variant);
+  --on-c: #07163a;
+  --pri: var(--md-primary);
+  --on-pri: var(--md-on-primary);
+  --pri-c: var(--md-primary-container);
+  --on-pri-c: var(--md-on-primary-container);
+}
+
+[data-theme="dark"] {
+  --md-primary: #b2c5ff;
+  --md-on-primary: #002a78;
+  --md-primary-container: #003fa6;
+  --md-on-primary-container: #dbe4ff;
+  --md-secondary: #b4c3e6;
+  --md-on-secondary: #1a2a4d;
+  --md-secondary-container: #2a3858;
+  --md-on-secondary-container: #dfe7fa;
+  --md-tertiary: #7fd2f2;
+  --md-on-tertiary: #003546;
+  --md-tertiary-container: #004d63;
+  --md-on-tertiary-container: #c6ecff;
+  --md-background: #090f1f;
+  --md-on-background: #e3e8f7;
+  --md-surface: #090f1f;
+  --md-on-surface: #e3e8f7;
+  --md-surface-variant: #252f48;
+  --md-on-surface-variant: #aab4ce;
+  --md-on-surface-tertiary: #8590ac;
+  --md-outline: #79839f;
+  --md-outline-variant: #2f3a55;
+  --md-surface-dim: #060b17;
+  --md-surface-bright: #2a3550;
+  --md-surface-container-lowest: #060b17;
+  --md-surface-container-low: #0e1528;
+  --md-surface-container: #121a2f;
+  --md-surface-container-high: #1a243c;
+  --md-surface-container-highest: #232e48;
+  --md-elevated-surface: #1a243c;
+  --x-float: #172036;
+  --x-float-line: #2f3a55;
+  --md-inverse-surface: #e3e8f7;
+  --md-inverse-on-surface: #1f2840;
+  --md-inverse-primary: #0058df;
+  --md-surface-tint: #b2c5ff;
+
+  --azure-c: #1c3470;  --azure-d: #9db8ff;
+  --sky-c:   #0b3a52;  --sky-d:   #8fdcff;
+  --aqua-c:  #0b3b37;  --aqua-d:  #8ae9da;
+  --peri-c:  #25306a;  --peri-d:  #c1ccff;
+  --on-c: #e3e8f7;
+  --ink: #16397f;      --on-ink: #e6eeff;
+  color-scheme: dark;
+}
+
+/* a festive theme recolours the accent; tonal containers stay */
+html[data-site-theme]:not([data-site-theme="everyday"]) {
+  --pri: var(--st-accent, var(--md-primary));
+  --sky: var(--st-warm, #5cc8ff);
+}

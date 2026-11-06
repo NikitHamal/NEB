@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px;">
-  <!-- Search bar -->
+<div class="x-page"><div class="x-search">
+  <div class="x-search-hero"><h1 class="x-title">Search</h1></div>
   <div class="search-page-bar">
     <span class="material-symbols-outlined search-icon">search</span>
-    <form method="get" action="{% url 'web:search' %}" id="search-form" style="display:flex;flex:1;min-width:0;align-items:center;gap:6px;">
+    <form method="get" action="{% url 'web:search' %}" id="search-form" style="display:flex;flex:1;min-width:0;align-items:center;">
       <input type="text" name="q" value="{{ query }}" placeholder="Search resources and posts..." autofocus
         hx-get="{% url 'web:search' %}"
         hx-trigger="keyup changed delay:400ms, search"
@@ -29,19 +29,19 @@
     </form>
     <div class="bar-actions">
       {% if query %}
-      <a href="{% url 'web:search' %}" class="clear-btn" title="Clear search" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:var(--md-on-surface-variant);">
-        <span class="material-symbols-outlined" style="font-size:20px">close</span>
+      <a href="{% url 'web:search' %}" class="clear-btn" title="Clear search" aria-label="Clear search">
+        <span class="material-symbols-outlined">close</span>
       </a>
       {% endif %}
-      <button type="button" data-neb-open="filter-dialog" aria-haspopup="dialog" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
-        <span class="material-symbols-outlined" style="font-size:22px">tune</span>
+      <button type="button" data-neb-open="filter-dialog" aria-haspopup="dialog" aria-label="Filters" class="{% if current_subject or current_grade or current_type %}has-filters{% endif %}" title="Filters">
+        <span class="material-symbols-outlined">tune</span>
       </button>
     </div>
   </div>
 
   <!-- Active filter chips -->
   {% if current_subject or current_grade or current_type %}
-  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+  <div class="x-filters" style="margin:14px 0 0;">
     {% if current_subject %}
     <a href="{% url 'web:search' %}?q={{ query }}{% if current_grade %}&grade={{ current_grade }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="search-filter-chip">
       {{ current_subject }} <span class="material-symbols-outlined">close</span>
@@ -57,7 +57,7 @@
       {{ current_type }} <span class="material-symbols-outlined">close</span>
     </a>
     {% endif %}
-    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" style="font-size:0.75rem;color:var(--md-primary);text-decoration:none;align-self:center;">Clear all</a>
+    <a href="{% url 'web:search' %}?q={{ query }}{% if tab and tab != 'all' %}&tab={{ tab }}{% endif %}" class="x-clear">Clear all</a>
   </div>
   {% endif %}
 
@@ -72,13 +72,9 @@
       <div class="neb-sheet-head">
         <div class="neb-sheet-head-text">
           <h2 class="neb-sheet-title" id="filter-dialog-title">Filter</h2>
-          <p class="neb-sheet-sub">
-            {% if current_subject or current_grade or current_type %}
+          {% if current_subject or current_grade or current_type %}<p class="neb-sheet-sub">
               {{ active_filter_count|default:1 }} filter{{ active_filter_count|default:1|pluralize }} active
-            {% else %}
-              Narrow the results down to what you need
-            {% endif %}
-          </p>
+            </p>{% endif %}
         </div>
         <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
           <span class="material-symbols-outlined">close</span>
@@ -136,7 +132,7 @@
 
   <!-- Search results (HTMX target) -->
   {% include "web/_search_results.html" %}
-</div>
+</div></div>
 {% endblock %}
 
 {% block extra_js %}
@@ -174,11 +170,9 @@
         if (d && d.error) { showSnackbar(d.error); return; }
         if (d) {
           if (d.is_following) {
-            el.textContent = 'Following';
-            el.className = el.className.replace('not-following', 'following');
+            nebFollowSet(el, true);
           } else {
-            el.textContent = 'Follow';
-            el.className = el.className.replace('following', 'not-following');
+            nebFollowSet(el, false);
           }
         }
       } catch (e) {

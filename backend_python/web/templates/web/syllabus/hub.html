@@ -3,11 +3,11 @@
 {% block title %}Syllabus for Class 8, 10, 11 and 12{% if syllabus_track_names %} and {{ syllabus_track_names }} Entrance Preparation{% endif %} — Units, Topics and Exam Pattern | NEBians{% endblock %}
 {% block description %}Complete CDC and NEB syllabus for Class 8, Class 10 (SEE), Class 11 and Class 12 with every unit, topic, working hour, exam pattern and key points.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }} with MCQ practice{% if syllabus_track_papers %} and timed model papers{% endif %}.{% endif %} Track your progress topic by topic.{% endblock %}
 {% block nav_library %}active{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">{% endblock %}
 {% block content %}
 <div class="md-container syl-page">
   <nav class="syl-crumbs" aria-label="Breadcrumb"><a href="{% url 'web:library' %}">Library</a><span aria-hidden="true">/</span><span>Syllabus</span></nav>
   {% include "web/syllabus/_hub.html" %}
 </div>
 {% endblock %}
-{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>{% endblock %}
+{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>{% endblock %}

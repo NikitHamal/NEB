@@ -120,11 +120,6 @@ def _is_thinking_model(model):
     return info.get("thinking", False) if info else False
 
 
-def _is_vision_model(model):
-    info = _model_info(model)
-    return info.get("vision", False) if info else False
-
-
 def _build_chat_history(history):
     """Convert simple history list to DeepAI chatHistory format."""
     result = []

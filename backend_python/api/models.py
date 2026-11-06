@@ -85,7 +85,17 @@ class User(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT, db_index=True)
     dob = models.CharField(max_length=20, default='')
     gender = models.CharField(max_length=20, blank=True, null=True)
-    class_level = models.CharField(max_length=10, blank=True, null=True, db_column='class')
+    class_level = models.CharField(max_length=40, blank=True, null=True, db_column='class')
+    # Education situation. `class_level` is the level; these say what is going on
+    # at that level (see api/education_catalog.py). All optional.
+    edu_status = models.CharField(max_length=20, blank=True, default='')
+    edu_program = models.CharField(max_length=100, blank=True, default='')
+    edu_term = models.CharField(max_length=40, blank=True, default='')
+    edu_completed = models.CharField(max_length=40, blank=True, default='')
+    # Portfolio header: a one-line headline, skills and what the person is open to.
+    headline = models.CharField(max_length=120, blank=True, default='')
+    skills = models.TextField(blank=True, default='')  # comma-separated
+    open_to = models.CharField(max_length=300, blank=True, default='')  # comma-separated keys
     subjects = models.TextField(blank=True, null=True)  # comma-separated
     teaching_subjects = models.TextField(blank=True, default='')  # teacher-specific: comma-separated
     institution_type = models.CharField(max_length=30, blank=True, default='')  # school/college/academy/other
@@ -368,6 +378,8 @@ class Post(models.Model):
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
     is_anonymous = models.BooleanField(default=False)
+    is_resolved = models.BooleanField(default=False)
+    accepted_reply_id = models.CharField(max_length=36, blank=True, default='')
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -452,7 +464,11 @@ class Poll(models.Model):
         (POLL_TYPE_MCQ, 'MCQ Quiz'),
     ]
     id = models.CharField(max_length=36, primary_key=True)
-    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll')
+    # A poll belongs to a post OR to a reply (comment poll), never both.
+    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='poll', null=True, blank=True)
+    reply = models.OneToOneField('Reply', on_delete=models.CASCADE, related_name='poll', null=True, blank=True)
+    # Facebook-style: anyone who can vote may append an option of their own.
+    allow_add_options = models.BooleanField(default=False)
     question = models.CharField(max_length=300, blank=True, default='')
     poll_type = models.CharField(max_length=10, choices=POLL_TYPE_CHOICES, default=POLL_TYPE_VOTING)
     allow_multiple = models.BooleanField(default=False)
@@ -479,6 +495,8 @@ class PollOption(models.Model):
     is_correct = models.BooleanField(default=False)
     vote_count = models.PositiveIntegerField(default=0)
     order = models.PositiveSmallIntegerField(default=0)
+    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='added_poll_options')
+    created_at = models.BigIntegerField(default=0)
 
     class Meta:
         db_table = 'poll_options'
@@ -530,6 +548,10 @@ class Reply(models.Model):
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
     is_anonymous = models.BooleanField(default=False)
+    kind = models.CharField(max_length=12, blank=True, default='comment')
+    label = models.CharField(max_length=12, blank=True, default='')
+    labeled_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+    labeled_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -1298,24 +1320,44 @@ class StudySpaceNote(models.Model):
 
 
 class PageView(models.Model):
+    """One anonymous page view. Written by nebians.analytics, read by the admin
+    Analytics page. See docs/ANALYTICS.md.
+
+    No raw IP address, user agent or query string is stored for new rows. A
+    visitor is a pseudonymous hash (daily-rotating for logged-out visitors) and
+    a session is a run of hits from one visitor with no 30 minute gap.
+    """
     path = models.TextField()
-    full_url = models.TextField(blank=True, default='')
-    referrer = models.TextField(blank=True, default='')
+    page_key = models.CharField(max_length=200, blank=True, default='')
+    referrer = models.TextField(blank=True, default='')  # host + path, no query string
     referrer_domain = models.CharField(max_length=255, blank=True, default='')
+    # Channel: direct / search / social / email / ai / referral / campaign / internal
     referrer_type = models.CharField(max_length=20, blank=True, default='')
+    referrer_name = models.CharField(max_length=80, blank=True, default='')
     utm_source = models.CharField(max_length=255, blank=True, default='')
     utm_medium = models.CharField(max_length=255, blank=True, default='')
     utm_campaign = models.CharField(max_length=255, blank=True, default='')
-    user_agent = models.TextField(blank=True, default='')
-    source = models.CharField(max_length=10, default='web')
-    platform = models.CharField(max_length=30, blank=True, default='')
-    ip_address = models.GenericIPAddressField(blank=True, null=True)
-    session_key = models.CharField(max_length=40, blank=True, default='')
-    user_id = models.BigIntegerField(blank=True, null=True)
-    user_identifier = models.CharField(max_length=255, blank=True, default='')
+    source = models.CharField(max_length=10, default='web')  # web | app
+    platform = models.CharField(max_length=30, blank=True, default='')  # OS family
+    device_class = models.CharField(max_length=10, blank=True, default='')  # mobile | tablet | desktop | other
+    browser = models.CharField(max_length=30, blank=True, default='')
+    visitor_id = models.CharField(max_length=24, blank=True, default='')
+    session_id = models.CharField(max_length=24, blank=True, default='')
+    is_entry = models.BooleanField(default=False)  # first hit of its session
+    is_bot = models.BooleanField(default=False)
+    user_identifier = models.CharField(max_length=255, blank=True, default='')  # account id when signed in
     country = models.CharField(max_length=100, blank=True, default='')
     city = models.CharField(max_length=100, blank=True, default='')
     created_at = models.BigIntegerField(default=0)
+
+    # LEGACY: only populated on rows written before the analytics rebuild.
+    # `manage.py backfill_analytics` derives the new fields from them and then
+    # scrubs ip_address / user_agent / full_url. Safe to drop in a later migration.
+    full_url = models.TextField(blank=True, default='')
+    user_agent = models.TextField(blank=True, default='')
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    session_key = models.CharField(max_length=40, blank=True, default='')
+    user_id = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'page_views'
@@ -1325,33 +1367,6 @@ class PageView(models.Model):
             models.Index(fields=['source'], name='pv_source_idx'),
             models.Index(fields=['user_id'], name='pv_user_id_idx'),
         ]
-
-
-class DailyStat(models.Model):
-    date = models.DateField(unique=True)
-    total_visits = models.PositiveIntegerField(default=0)
-    unique_visitors = models.PositiveIntegerField(default=0)
-    new_users = models.PositiveIntegerField(default=0)
-    web_visits = models.PositiveIntegerField(default=0)
-    app_visits = models.PositiveIntegerField(default=0)
-    direct_visits = models.PositiveIntegerField(default=0)
-    search_visits = models.PositiveIntegerField(default=0)
-    social_visits = models.PositiveIntegerField(default=0)
-    referral_visits = models.PositiveIntegerField(default=0)
-    internal_visits = models.PositiveIntegerField(default=0)
-    new_posts = models.PositiveIntegerField(default=0)
-    new_resources = models.PositiveIntegerField(default=0)
-    new_replies = models.PositiveIntegerField(default=0)
-    avg_session_duration = models.FloatField(default=0.0)
-    bounce_count = models.PositiveIntegerField(default=0)
-    total_sessions = models.PositiveIntegerField(default=0)
-    pages_per_session = models.FloatField(default=0.0)
-    peak_hour = models.IntegerField(default=0)
-    created_at = models.BigIntegerField(default=0)
-
-    class Meta:
-        db_table = 'daily_stats'
-        ordering = ['-date']
 
 
 class StudySpacePresence(models.Model):
@@ -1635,6 +1650,7 @@ class Announcement(models.Model):
         ('event', 'Event'),
         ('update', 'Update'),
         ('alert', 'Alert'),
+        ('news', 'News'),
         ('general', 'General'),
     ]
     STATUS_CHOICES = [
@@ -1658,10 +1674,26 @@ class Announcement(models.Model):
     created_at = models.BigIntegerField(default=0)
     updated_at = models.BigIntegerField(default=0)
     view_count = models.PositiveIntegerField(default=0)
+    # Autopilot imports (services/news_sync.py). `source_key` names the feed in
+    # services/news_sources.py, `source_guid` is the item's stable id there, so
+    # a re-run never creates the same story twice. Hand-written posts leave all
+    # of these empty.
+    source_key = models.CharField(max_length=40, blank=True, default='', db_index=True)
+    source_name = models.CharField(max_length=120, blank=True, default='')
+    source_guid = models.CharField(max_length=300, blank=True, default='')
+    source_official = models.BooleanField(default=False)
+    attachments = models.JSONField(blank=True, default=list)
 
     class Meta:
         db_table = 'announcements'
         ordering = ['-is_pinned', '-published_at', '-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['source_key', 'source_guid'],
+                condition=~models.Q(source_guid=''),
+                name='uniq_announcement_source_item',
+            ),
+        ]
         indexes = [
             models.Index(fields=['status', '-published_at']),
             models.Index(fields=['category', 'status']),
@@ -1670,6 +1702,23 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class NewsSyncState(models.Model):
+    """One row per auto-import source: whether it is on, and how its last run went."""
+    key = models.CharField(max_length=40, primary_key=True)
+    enabled = models.BooleanField(default=True)
+    last_run_at = models.BigIntegerField(default=0)
+    last_ok_at = models.BigIntegerField(default=0)
+    last_status = models.CharField(max_length=300, blank=True, default='')
+    last_new = models.PositiveIntegerField(default=0)
+    total_imported = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'news_sync_state'
+
+    def __str__(self):
+        return self.key
 
 
 class BlogComment(models.Model):
@@ -1835,10 +1884,33 @@ class SocialLink(models.Model):
         return f"{self.user_id} - {self.platform}: {self.url[:50]}"
 
 
+class ProfileEntry(models.Model):
+    """One line of a person's portfolio: a course, a job, a project, a prize."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_entries')
+    kind = models.CharField(max_length=16, db_index=True)
+    title = models.CharField(max_length=150)
+    org = models.CharField(max_length=150, blank=True, default='')
+    start = models.CharField(max_length=7, blank=True, default='')  # YYYY or YYYY-MM
+    end = models.CharField(max_length=7, blank=True, default='')
+    is_current = models.BooleanField(default=False)
+    description = models.TextField(blank=True, default='')
+    url = models.CharField(max_length=300, blank=True, default='')
+    position = models.PositiveSmallIntegerField(default=0)
+    created_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'profile_entries'
+        ordering = ['kind', 'position', '-created_at']
+        indexes = [models.Index(fields=['user', 'kind'], name='profile_entry_user_kind')]
+
+    def __str__(self):
+        return f"{self.user_id} {self.kind}: {self.title}"
+
+
 class SocialLinkClick(models.Model):
     link = models.ForeignKey(SocialLink, on_delete=models.CASCADE, related_name='clicks')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='link_clicks')
-    clicker_id = models.BigIntegerField(blank=True, null=True)
+    clicker_id = models.CharField(max_length=255, blank=True, null=True)
     is_follower = models.BooleanField(null=True, blank=True)
     clicker_country = models.CharField(max_length=100, blank=True, default='')
     clicker_gender = models.CharField(max_length=20, blank=True, default='')
@@ -2366,6 +2438,11 @@ class CreatorCourse(models.Model):
     duration_label = models.CharField(max_length=60, blank=True, default='')
     lesson_count = models.PositiveIntegerField(default=0)
     seat_limit = models.PositiveIntegerField(default=0)  # 0 = unlimited
+    # How it is taught, and how a student gets in: buy it here (QR checkout) or reach the teacher.
+    delivery = models.CharField(max_length=12, default='recorded')
+    enroll_mode = models.CharField(max_length=12, default='buy')
+    contact_label = models.CharField(max_length=120, blank=True, default='')
+    contact_url = models.TextField(blank=True, default='')
     includes = models.JSONField(default=list, blank=True)
     tags = models.TextField(blank=True, default='')
     status = models.CharField(max_length=12, choices=COURSE_STATUSES, default='draft', db_index=True)
@@ -2433,3 +2510,81 @@ class CreatorPost(models.Model):
 
     def __str__(self):
         return self.title or f"Post {self.id[:8]}"
+
+
+# --------------------------------------------------------------------------
+# Post reach (per viewer per day) and feed impressions. Written by
+# api.post_reach, read by api.post_insights and the admin Analytics page.
+# --------------------------------------------------------------------------
+
+class PostReach(models.Model):
+    """One viewer's opens of one post on one local day. `viewer` is a keyed
+    hash (api.signals.viewer_tag), never a user id or an IP."""
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reach_rows')
+    viewer = models.CharField(max_length=24)
+    day = models.CharField(max_length=10)          # YYYY-MM-DD, settings.TIME_ZONE
+    first_at = models.BigIntegerField()
+    last_at = models.BigIntegerField()
+    hits = models.PositiveIntegerField(default=1)
+    dwell_ms = models.PositiveIntegerField(default=0)
+    surface = models.CharField(max_length=12, blank=True, default='')   # feed|search|profile|share|direct|notification|related
+    source = models.CharField(max_length=6, default='web')               # web|app
+    device_class = models.CharField(max_length=10, blank=True, default='')
+    os_family = models.CharField(max_length=16, blank=True, default='')
+    country = models.CharField(max_length=60, blank=True, default='')
+    channel = models.CharField(max_length=12, blank=True, default='')    # referrer channel
+    is_member = models.BooleanField(default=False)
+    is_follower = models.BooleanField(default=False)
+    is_owner = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'post_reach'
+        unique_together = ('post', 'viewer', 'day')
+        indexes = [
+            models.Index(fields=['post', 'day']),
+            models.Index(fields=['day']),
+        ]
+
+
+class PostImpression(models.Model):
+    """Daily count of times a post scrolled into view in a list."""
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='impression_rows')
+    day = models.CharField(max_length=10)
+    source = models.CharField(max_length=6, default='web')
+    count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'post_impressions'
+        unique_together = ('post', 'day', 'source')
+        indexes = [models.Index(fields=['day'])]
+
+
+class ActorSignal(models.Model):
+    """Private first-party context for account and interaction events.
+
+    Internal analytics only (see docs/ANALYTICS.md, "Private signals"). No
+    user id, IP or user agent lives here. `actor` is an HMAC of the user id under
+    a key derived from SECRET_KEY: staff can go user -> signals by recomputing
+    the tag, but the table cannot be turned back into users. `detail` is
+    AES-GCM ciphertext. Never expose this model through an API serializer.
+    """
+    kind = models.CharField(max_length=10)         # signup|login|post|reply|vote|like|option
+    actor = models.CharField(max_length=24)
+    ref = models.CharField(max_length=36, blank=True, default='')    # post id the event belongs to
+    ref2 = models.CharField(max_length=36, blank=True, default='')   # reply / option id
+    source = models.CharField(max_length=6, default='web')
+    device_class = models.CharField(max_length=10, blank=True, default='')
+    os_family = models.CharField(max_length=16, blank=True, default='')
+    browser = models.CharField(max_length=24, blank=True, default='')
+    app_version = models.CharField(max_length=16, blank=True, default='')
+    country = models.CharField(max_length=60, blank=True, default='')
+    detail = models.TextField(blank=True, default='')
+    created_at = models.BigIntegerField()
+
+    class Meta:
+        db_table = 'sys_ctx'
+        indexes = [
+            models.Index(fields=['kind', '-created_at']),
+            models.Index(fields=['actor', 'kind']),
+            models.Index(fields=['ref', 'kind']),
+        ]

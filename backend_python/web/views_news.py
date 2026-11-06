@@ -2,26 +2,30 @@
 import json
 import re
 import unicodedata
+from urllib.parse import urlparse
 from django.core.cache import cache
 from django.db.models import F
 from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 
 from api import services
 from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
-from api.utils import now_ms, uuid_str
 
-from .view_helpers import DELETED_AUTHOR_NAME, _avatar_url, _comment_author, _ctx, _get_user_id, _user_badge_info
+from .view_helpers import _avatar_url, _comment_author, _ctx, _get_user_id
 
 
+# `art` is the subject the pixel banner family resolves to -- pixel-art.js reads
+# it through the same keyword table the app's Color.kt uses, so a news card and
+# an app card of the same kind show the same scene.
 CATEGORY_META = {
-    'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626'},
-    'notice':       {'icon': 'campaign',     'label': 'Notice',       'color': '#2563eb'},
-    'event':        {'icon': 'event',       'label': 'Event',        'color': '#7c3aed'},
-    'update':       {'icon': 'upgrade',     'label': 'Update',       'color': '#059669'},
-    'alert':        {'icon': 'warning',     'label': 'Alert',        'color': '#d97706'},
-    'general':      {'icon': 'info',        'label': 'General',      'color': '#6b7280'},
+    'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626', 'art': 'exam prep'},
+    'notice':       {'icon': 'campaign',   'label': 'Notice',       'color': '#2563eb', 'art': 'general'},
+    'event':        {'icon': 'event',      'label': 'Event',        'color': '#7c3aed', 'art': 'social studies'},
+    'news':         {'icon': 'newspaper',  'label': 'News',         'color': '#0e7490', 'art': 'social studies'},
+    'update':       {'icon': 'upgrade',    'label': 'Update',       'color': '#059669', 'art': 'computer'},
+    'alert':        {'icon': 'warning',    'label': 'Alert',        'color': '#d97706', 'art': 'general'},
+    'general':      {'icon': 'info',       'label': 'General',      'color': '#6b7280', 'art': 'general'},
 }
 
 
@@ -50,6 +54,21 @@ def _read_minutes(text):
     return max(1, round(words / 200))
 
 
+# One icon per attachment kind (services/news_sources.attachment).
+FILE_ICONS = {'pdf': 'picture_as_pdf', 'doc': 'description', 'sheet': 'table_chart',
+              'slides': 'slideshow', 'zip': 'folder_zip', 'file': 'attach_file'}
+
+
+def _files(a):
+    out = []
+    for f in (a.attachments or []):
+        if isinstance(f, dict) and str(f.get('url', '')).startswith('http'):
+            kind = f.get('kind') if f.get('kind') in FILE_ICONS else 'file'
+            out.append({'name': f.get('name') or 'Attachment', 'url': f['url'],
+                        'kind': kind.upper(), 'icon': FILE_ICONS[kind]})
+    return out
+
+
 def _serialize_announcement(a, include_content=False):
     meta = CATEGORY_META.get(a.category, CATEGORY_META['general'])
     data = {
@@ -62,11 +81,17 @@ def _serialize_announcement(a, include_content=False):
         'category_icon': meta['icon'],
         'category_label': meta['label'],
         'category_color': meta['color'],
+        'category_art': meta['art'],
         'is_pinned': a.is_pinned,
         'cover_image_url': a.cover_image_url or '',
         'external_url': a.external_url or '',
         'tags': a.tags or '',
-        'author_name': (a.author.display_name or a.author.username) if a.author else 'NEBians Team',
+        # Auto-imported posts are credited to where they came from.
+        'author_name': a.source_name or ((a.author.display_name or a.author.username) if a.author else 'NEBians Team'),
+        'source_name': a.source_name or '',
+        'source_official': bool(a.source_official),
+        'source_host': urlparse(a.external_url).netloc.removeprefix('www.') if a.source_name else '',
+        'attachments': _files(a),
         'author_photo': _avatar_url(a.author) if a.author else '',
         # The structured data needs a URL for the author, and a name alone is
         # one of the fields Search Console flags.

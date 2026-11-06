@@ -1,0 +1,31 @@
+{% comment %}Landing + About top bar. The landing bar carries only the brand, the theme toggle and
+Open app; About keeps the pill nav, its Sign in and the mobile sheet, because that page has nowhere
+else to go. `current="about"` is what tells them apart.{% endcomment %}
+<header class="nav" data-nav>
+  {% include "components/_brand.html" with href="/" %}
+  {% if current == "about" %}
+  <nav class="m3-pill" data-m3-nav aria-label="Main">
+    <a href="/">Home</a>
+    <a href="{% url 'web:library' %}">Library</a>
+    <a href="{% url 'web:about' %}" aria-current="true">About</a>
+  </nav>
+  {% endif %}
+  <div class="nav-end">
+    {% if current == "about" and not signed_in %}<a class="m3-btn m3-btn-text m3-btn-sm nav-signin" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    {% include "components/_theme_toggle.html" %}
+    <a class="m3-btn m3-btn-sm" href="{% url 'web:home' %}"><span>Open app</span>{% include "components/_arrow.html" %}</a>
+    {% if current == "about" %}<button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i><i></i></button>{% endif %}
+  </div>
+</header>
+{% if current == "about" %}
+<div class="menu" id="menu" aria-hidden="true">
+  <nav aria-label="Menu">
+    <a href="/" style="--i:0">Home</a>
+    <a href="{% url 'web:library' %}" style="--i:1">Library</a>
+    <a href="{% url 'web:about' %}" style="--i:2">About</a>
+    {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:6">Sign in</a>{% endif %}
+    <a class="menu-cta" href="{% url 'web:home' %}" style="--i:7">Open app</a>
+  </nav>
+</div>
+{% endif %}
+

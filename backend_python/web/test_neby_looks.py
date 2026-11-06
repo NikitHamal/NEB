@@ -33,7 +33,7 @@ class NebyLookTests(TestCase):
     def test_api_tells_the_app(self):
         NebyConfig.objects.create(look='topi', reactions=False)
         data = self.client.get('/api/site-theme/').json()
-        self.assertEqual(data['neby'], {'look': 'topi', 'ambient': True, 'reactions': False})
+        self.assertEqual(data['neby'], {'look': 'topi', 'ambient': True, 'reactions': False, 'greet': None})
 
     def test_every_look_has_every_state_on_disk(self):
         root = os.path.join(settings.BASE_DIR, 'web', 'static', 'web', 'img', 'neby')

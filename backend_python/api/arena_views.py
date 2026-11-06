@@ -22,16 +22,17 @@ On error:
     data: {"error":{"message":"...","code":"upstream|server"}}\\n\\n
     data: [DONE]\\n\\n
 """
-import json
 import logging
 
-from django.http import StreamingHttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, throttle_classes
 from rest_framework.response import Response
 
+from .arena_common import (
+    Turn, get_owned_session, require_user, sse_done_marker, sse_format, sse_response,
+)
 from .authentication import AuthTokenAuthentication
-from .models import ArenaChatSession, ArenaChatMessage, ArenaChatAttachment, User
+from .models import ArenaChatSession, ArenaChatMessage
 from .throttles import ArenaChatRateThrottle, ArenaListRateThrottle
 from .utils import now_ms, uuid_str
 from .llm import registry
@@ -97,32 +98,6 @@ def _community_proxy(provider):
 
 # ========================= Helpers =========================
 
-def _require_user(request):
-    user = getattr(request, 'user', None)
-    if not isinstance(user, User):
-        return None, Response(
-            {'error': 'Unauthorized — please sign in'},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
-    return user, None
-
-
-def _get_owned_session(user, session_id: str):
-    """Return (session, error_response). 404 if not found, 403 if not owner."""
-    try:
-        sess = ArenaChatSession.objects.get(pk=session_id)
-    except ArenaChatSession.DoesNotExist:
-        return None, Response(
-            {'error': 'Session not found'}, status=status.HTTP_404_NOT_FOUND,
-        )
-    if sess.user_id != user.id:
-        return None, Response(
-            {'error': 'Forbidden — not your session'},
-            status=status.HTTP_403_FORBIDDEN,
-        )
-    return sess, None
-
-
 # ========================= Model list =========================
 
 _MODELS_CACHE_KEY = 'arena:models:list'
@@ -152,7 +127,7 @@ def arena_models(request):
 @throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
 def arena_sessions(request):
     """List or create chat sessions for the current user."""
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
 
@@ -234,10 +209,10 @@ def arena_sessions(request):
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaListRateThrottle, ArenaChatRateThrottle])
 def arena_session_detail(request, session_id: str):
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -303,14 +278,6 @@ def arena_session_detail(request, session_id: str):
 
 # ========================= Send message (streaming) =========================
 
-def _sse_format(obj) -> str:
-    return f"data: {json.dumps(obj, ensure_ascii=False)}\n\n"
-
-
-def _sse_done_marker() -> str:
-    return "data: [DONE]\n\n"
-
-
 def _stream_send(sess, user_content: str):
     """Generator: handle a normal send — persist user msg, stream assistant, persist it."""
     now = now_ms()
@@ -341,8 +308,8 @@ def _stream_regenerate(sess, target_msg_id: str):
     asst_started_at = now_ms()
     target = sess.messages.filter(pk=target_msg_id).first()
     if not target:
-        yield _sse_format({'error': {'message': 'Target message not found', 'code': 'not_found'}})
-        yield _sse_done_marker()
+        yield sse_format({'error': {'message': 'Target message not found', 'code': 'not_found'}})
+        yield sse_done_marker()
         return
 
     yield from _stream_assistant(
@@ -384,17 +351,13 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     """
     proxy = _community_proxy(sess.provider)
     if proxy is None:
-        yield _sse_format({'error': {'message': 'Unknown provider', 'code': 'server'}})
-        yield _sse_done_marker()
+        yield sse_format({'error': {'message': 'Unknown provider', 'code': 'server'}})
+        yield sse_done_marker()
         return
 
+    turn = Turn(sess, user_msg_id, asst_msg_id, asst_started_at)
     if preinsert_assistant:
-        ArenaChatMessage.objects.create(
-            id=asst_msg_id, session=sess, role='assistant',
-            content='', parent_id=user_msg_id,
-            arena_message_id='', finish_reason='', error='',
-            duration_ms=0, created_at=asst_started_at,
-        )
+        turn.create_assistant_row()
 
     mode = upstream_kwargs.get('mode')
     if mode == 'regenerate':
@@ -406,13 +369,7 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     preset = registry.preset(sess.provider)
     model = sess.model_id or (preset.default_model if preset else '')
 
-    # Open header — announce assistant role + ids
-    yield _sse_format({
-        'choices': [{
-            'index': 0,
-            'delta': {'role': 'assistant', 'messageId': asst_msg_id, 'userMessageId': user_msg_id},
-        }],
-    })
+    yield turn.header()
 
     collected_text = ''
     finish_reason = 'stop'
@@ -443,7 +400,7 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
                     if not text:
                         continue
                     collected_text += text
-                    yield _sse_format({
+                    yield sse_format({
                         'choices': [{'index': 0, 'delta': {'content': text}}],
                     })
                 elif t == 'session':
@@ -466,13 +423,13 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
                 elif t == 'error':
                     error_text = chunk.get('error') or chunk.get('message') or 'upstream error'
                     logger.warning("stream[%s]: upstream error: %s", sess.provider, error_text)
-                    yield _sse_format({
+                    yield sse_format({
                         'error': {'message': error_text, 'code': 'upstream'},
                     })
                     break
         except Exception as e:
             logger.exception("stream[%s]: unexpected error: %s", sess.provider, e)
-            yield _sse_format({
+            yield sse_format({
                 'error': {'message': 'Internal streaming error', 'code': 'server'},
             })
             error_text = str(e)
@@ -483,42 +440,11 @@ def _stream_community(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
     # that instead of silently persisting an empty reply.
     if not error_text and not collected_text:
         error_text = f'{sess.provider} returned no answer — try again'
-        yield _sse_format({
+        yield sse_format({
             'error': {'message': error_text, 'code': 'upstream'},
         })
 
-    # Finalise the assistant row
-    duration_ms = max(0, now_ms() - asst_started_at)
-    try:
-        ArenaChatMessage.objects.filter(pk=asst_msg_id).update(
-            content=collected_text,
-            finish_reason=finish_reason,
-            error=error_text[:200],
-            duration_ms=duration_ms,
-            arena_message_id=asst_msg_id,
-        )
-    except Exception as e:
-        logger.exception("stream[%s]: failed to finalize assistant row: %s", sess.provider, e)
-
-    # Bump session counters on success (no arena token to commit)
-    if not error_text and bump_session_counter:
-        try:
-            ArenaChatSession.objects.filter(pk=sess.id).update(
-                message_count=sess.message_count + 1,
-                last_message_at=now_ms(),
-                updated_at=now_ms(),
-            )
-            sess.message_count = sess.message_count + 1
-            sess.last_message_at = now_ms()
-        except Exception as e:
-            logger.warning("stream[%s]: counter commit failed: %s", sess.provider, e)
-
-    # Final SSE event
-    if not error_text:
-        yield _sse_format({
-            'choices': [{'index': 0, 'delta': {}, 'finish_reason': finish_reason}],
-        })
-    yield _sse_done_marker()
+    yield from turn.close(collected_text, finish_reason, error_text, bump_counter=bump_session_counter)
 
 
 def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at: int,
@@ -545,10 +471,10 @@ def _stream_assistant(sess, user_msg_id: str, asst_msg_id: str, asst_started_at:
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaChatRateThrottle])
 def arena_send_message(request, session_id: str):
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
-    sess, err = _get_owned_session(user, session_id)
+    sess, err = get_owned_session(user, session_id)
     if err:
         return err
 
@@ -567,11 +493,7 @@ def arena_send_message(request, session_id: str):
         )
 
     gen = _stream_send(sess, content)
-    response = StreamingHttpResponse(gen, content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(gen)
 
 
 # ========================= Regenerate =========================
@@ -580,7 +502,7 @@ def arena_send_message(request, session_id: str):
 @authentication_classes([AuthTokenAuthentication])
 @throttle_classes([ArenaChatRateThrottle])
 def arena_regenerate(request, message_id: str):
-    user, err = _require_user(request)
+    user, err = require_user(request)
     if err:
         return err
 
@@ -602,8 +524,4 @@ def arena_regenerate(request, message_id: str):
         )
 
     gen = _stream_regenerate(target.session, target.id)
-    response = StreamingHttpResponse(gen, content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no'
-    response['Connection'] = 'keep-alive'
-    return response
+    return sse_response(gen)

@@ -1,7 +1,6 @@
 """Execute social actions as the bot User via existing services."""
 import logging
 
-from django.db.models import F
 
 from api.models import Follow, Post, PostLike, Reply, ReplyLike, User
 from api import services

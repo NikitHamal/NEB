@@ -107,6 +107,11 @@ fun ForumScreen(
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val listState = rememberLazyListState()
+    com.neb.ians.ui.components.TrackPostImpressions(
+        listState = listState,
+        postIdForKey = { it as? String },
+        onVisible = viewModel::reportImpressions
+    )
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -154,7 +159,7 @@ fun ForumScreen(
             Surface(
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 1.dp,
-                shadowElevation = 0.5.dp,
+                shadowElevation = 0.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(
@@ -214,13 +219,15 @@ fun ForumScreen(
                     .navigationBarsPadding()
                     .padding(bottom = 16.dp, end = 12.dp)
                     .size(56.dp),
-                shape = CircleShape,
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
                 containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                elevation = androidx.compose.material3.FloatingActionButtonDefaults.elevation(
+                    0.dp, 0.dp, 0.dp, 0.dp
+                )
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "New Post"
+                com.neb.ians.ui.components.NebIcon(
+                    com.neb.ians.ui.components.NebIcons.Plus, "New Post", size = 24.dp
                 )
             }
         },
@@ -295,11 +302,18 @@ fun ForumScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 88.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        contentPadding = PaddingValues(start = 0.dp, top = 0.dp, end = 0.dp, bottom = 88.dp),
+                        verticalArrangement = Arrangement.spacedBy(0.dp)
                     ) {
+                        item(key = "composer_launcher") {
+                            Column {
+                                com.neb.ians.ui.components.NebComposerLauncher(onOpen = onCreatePostClick)
+                                com.neb.ians.ui.components.NebHairline(Modifier.padding(top = 4.dp))
+                            }
+                        }
                         if (uiState.error != null) {
                             item(key = "error_banner") {
+                                Box(modifier = Modifier.padding(16.dp)) {
                                 if (uiState.error == ApiErrorMapper.WAF_ERROR_MESSAGE) {
                                     WafWarningBanner()
                                 } else {
@@ -308,13 +322,17 @@ fun ForumScreen(
                                         onRetry = { viewModel.refresh() }
                                     )
                                 }
+                                }
                             }
                         }
                         items(uiState.posts, key = { it.id }) { post ->
                             ForumPostCard(
                                 post = post,
                                 isOwnPost = post.isOwner || (uiState.currentUserId != null && post.authorId == uiState.currentUserId),
-                                onClick = { onPostClick(post.id) },
+                                onClick = {
+                                    com.neb.ians.ui.components.PostReachHints.set(post.id, "feed")
+                                    onPostClick(post.id)
+                                },
                                 onLikeClick = { viewModel.toggleThumbsUp(post.id) },
                                 onBookmarkClick = { viewModel.toggleBookmark(post.id) },
                                 onShareClick = { sharePost(context, post.id) },

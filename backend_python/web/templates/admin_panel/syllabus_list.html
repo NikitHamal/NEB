@@ -5,11 +5,9 @@
 
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">Syllabus</div>
   <div class="admin-page-header-row">
     <div>
       <h1>Syllabus chapters</h1>
-      <p>{{ total_count }} total chapters across {{ all_grades|length }} grades and {{ all_subjects|length }} subjects.</p>
     </div>
     <div class="admin-page-actions">
       <a href="{% url 'web:admin_syllabus_create' %}" class="md-btn md-btn-filled" style="text-decoration:none;">

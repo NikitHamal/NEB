@@ -9,7 +9,13 @@
   <div class="hf-side-list">
     {% for p in home_unanswered %}
     <a class="hf-side-row" href="{% url 'web:forum_post' post_id=p.id %}">
-      <span class="hf-side-icon"><span class="material-symbols-outlined">help</span></span>
+      {% if p.images.0 %}
+      <span class="hf-side-thumb"><img src="{{ p.images.0.imageUrl }}" alt="" loading="lazy" decoding="async"></span>
+      {% elif p.attachments.0.thumbnail_url %}
+      <span class="hf-side-thumb"><img src="{{ p.attachments.0.thumbnail_url }}" alt="" loading="lazy" decoding="async"></span>
+      {% else %}
+      <span class="hf-side-icon"><span class="material-symbols-outlined" aria-hidden="true">help</span></span>
+      {% endif %}
       <span class="hf-side-meta">
         <span class="hf-side-title">{{ p.title }}</span>
         <span class="hf-side-sub">{{ p.category }} &middot; {{ p.createdAt|time_ago }}</span>

@@ -5,10 +5,8 @@
 
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">Engagement</div>
   <div>
     <h1>Push notifications</h1>
-    <p>Send instant push messages to filtered groups of users and devices.</p>
   </div>
 </div>
 
@@ -54,11 +52,16 @@
           <option value="" {% if not class_level %}selected{% endif %}>All Classes</option>
           <option value="Class 8" {% if class_level == "Class 8" %}selected{% endif %}>Class 8</option>
           <option value="Class 9" {% if class_level == "Class 9" %}selected{% endif %}>Class 9</option>
-          <option value="Class 10" {% if class_level == "Class 10" %}selected{% endif %}>Class 10 / SEE</option>
-          <option value="Class 11" {% if class_level == "Class 11" %}selected{% endif %}>Class 11</option>
-          <option value="Class 12" {% if class_level == "Class 12" %}selected{% endif %}>Class 12</option>
-          <option value="Bachelor" {% if class_level == "Bachelor" %}selected{% endif %}>Bachelor</option>
-          <option value="Master" {% if class_level == "Master" %}selected{% endif %}>Master</option>
+          <option value="Class 10 / SEE" {% if class_level == "Class 10 / SEE" %}selected{% endif %}>Class 10 / SEE</option>
+          <option value="11" {% if class_level == "11" %}selected{% endif %}>Class 11</option>
+          <option value="12" {% if class_level == "12" %}selected{% endif %}>Class 12</option>
+          <option value="+2 Passout" {% if class_level == "+2 Passout" %}selected{% endif %}>+2 Passout</option>
+          <option value="Diploma" {% if class_level == "Diploma" %}selected{% endif %}>Diploma</option>
+          <option value="Bachelors" {% if class_level == "Bachelors" %}selected{% endif %}>Bachelors</option>
+          <option value="Masters" {% if class_level == "Masters" %}selected{% endif %}>Masters</option>
+          <option value="PhD" {% if class_level == "PhD" %}selected{% endif %}>PhD</option>
+          <option value="Teacher" {% if class_level == "Teacher" %}selected{% endif %}>Teacher / Educator</option>
+          <option value="Other" {% if class_level == "Other" %}selected{% endif %}>Other</option>
         </select>
       </div>
 
@@ -208,26 +211,31 @@
     // Handle submit confirmation
     const form = document.getElementById('pushForm');
     if (form) {
+      let confirmed = false;
       form.addEventListener('submit', function(e) {
+        if (confirmed) return;
+        e.preventDefault();
         const titleVal = document.getElementById('title').value.trim();
         const bodyVal = document.getElementById('body').value.trim();
         if (!titleVal || !bodyVal) {
-          e.preventDefault();
-          alert('Please enter title and message.');
+          showSnackbar('Enter a title and a message first.');
           return;
         }
-        
         const countTokensEl = document.getElementById('count-matching-tokens');
         const tokenCount = countTokensEl ? countTokensEl.textContent : '0';
-        if (tokenCount === '0' || tokenCount === '...') {
-          if (!confirm('Target device count is 0. No one will receive this message. Are you sure you want to proceed?')) {
-            e.preventDefault();
-          }
-        } else {
-          if (!confirm(`Are you sure you want to send this push notification to ${tokenCount} devices?`)) {
-            e.preventDefault();
-          }
-        }
+        const nobody = tokenCount === '0' || tokenCount === '...';
+        adminConfirm({
+          title: nobody ? 'No devices match' : 'Send to ' + tokenCount + ' devices?',
+          message: nobody
+            ? 'The target has 0 devices, so nobody will receive this message.'
+            : 'This push notification goes out immediately and cannot be recalled.',
+          confirmLabel: nobody ? 'Send anyway' : 'Send now',
+          tone: nobody ? 'danger' : 'primary'
+        }).then(function(yes) {
+          if (!yes) return;
+          confirmed = true;
+          form.requestSubmit();
+        });
       });
     }
   });

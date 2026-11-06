@@ -8,7 +8,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/study-lab.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
+<link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/study-space.css' %}?v=1.3">
 <link rel="stylesheet" href="{% static 'web/css/pages/collab-board.css' %}?v=1.6">
 <link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=42">
@@ -18,9 +18,8 @@
 {% block content %}
 <div class="ss-page">
   <div class="ss-topbar">
-    <a href="{% url 'web:study_lab' %}" class="ss-back-btn" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span> <span>Study Lab</span>
-    </a>
+    {% url 'web:study_lab' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Study Lab" %}
     <button class="md-btn md-btn-icon ss-menu-btn" data-action="ss-toggle-sidebar" title="Documents &amp; members" aria-label="Open documents panel">
       <span class="material-symbols-outlined">menu</span>
     </button>
@@ -564,9 +563,9 @@
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/mhchem.min.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/auto-render.min.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs.bundle.js' %}?v=1.1"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/yjs-provider.js' %}?v=1.4"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/tools/tool-groups.js' %}?v=42"></script>

@@ -1,0 +1,18 @@
+{% comment %} The breadcrumb is also the switcher: the root stays a link and each
+   level is a disclosure whose popup lists the siblings as plain links. The trigger
+   carries only its own value, so it is as wide as that word and not as wide as the
+   longest sibling. {% endcomment %}
+<nav class="st-crumbs" aria-label="Breadcrumb" data-st-crumbs>
+  <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a>
+  {% for pick in crumb_picks %}
+  <span aria-hidden="true">/</span>
+  <details class="st-pick{% if pick.mod %} st-pick-{{ pick.mod }}{% endif %}" data-st-pick aria-label="{{ pick.title }}">
+    <summary class="st-pick-b"><span class="st-pick-t">{{ pick.value }}</span><span class="material-symbols-outlined st-pick-i" aria-hidden="true">expand_more</span></summary>
+    <div class="st-pick-menu" role="menu">
+      {% for o in pick.options %}
+      <a class="st-pick-o{% if o.current %} is-current{% endif %}" role="menuitem" href="{{ o.url }}">{{ o.label }}</a>
+      {% endfor %}
+    </div>
+  </details>
+  {% endfor %}
+</nav>

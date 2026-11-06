@@ -41,6 +41,23 @@
   var openMenu = null;
   var scrollLock = { count: 0, top: 0 };
 
+  /* While anything floats over the page the page is inert and every frame steps aside: a PDF or
+   * video frame is composited above backdrop-filter, so without this it stays sharp and bright
+   * through the blur, and keyboard focus can still wander into the page behind. */
+  var inerted = [];
+  function syncOverlayState() {
+    document.documentElement.classList.toggle('neb-has-overlay', stack.length > 0 || !!openMenu);
+    inerted.forEach(function (n) { n.removeAttribute('inert'); });
+    inerted = [];
+    if (!stack.length) return;
+    var top = stack[stack.length - 1].el;
+    Array.prototype.forEach.call(document.body.children, function (n) {
+      if (n === top || n.contains(top) || n.id === 'snackbar-container' || n.hasAttribute('inert') || /^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT)$/.test(n.tagName)) return;
+      n.setAttribute('inert', '');
+      inerted.push(n);
+    });
+  }
+
   function reducedMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
@@ -57,7 +74,11 @@
     document.body.style.left = '0';
     document.body.style.right = '0';
     document.body.style.width = '100%';
-    if (bar > 0) document.body.style.paddingRight = bar + 'px';
+    /* html keeps its scrollbar gutter (scrollbar-gutter: stable), so most pages lose no
+     * width when the body is pinned. Measure what was actually lost after locking and
+     * give back only that, or the page jumps sideways each time a dialog opens. */
+    var lost = bar - (window.innerWidth - document.documentElement.clientWidth);
+    if (lost > 0) document.body.style.paddingRight = lost + 'px';
   }
 
   function unlockScroll() {
@@ -69,7 +90,7 @@
     document.body.style.right = '';
     document.body.style.width = '';
     document.body.style.paddingRight = '';
-    window.scrollTo(0, scrollLock.top);
+    window.scrollTo({ top: scrollLock.top, left: 0, behavior: 'instant' });
   }
 
   function panel(scrim) {
@@ -113,6 +134,25 @@
     }
   }
 
+  /* A fixed overlay is only fixed to the window while no ancestor has a
+   * transform, a filter or paint containment -- any of those makes the ancestor
+   * the containing block, and the "fixed" scrim becomes as tall as the page with
+   * its sheet parked far below the fold. The page-enter spring animates main, so
+   * an overlay opened while that is still running (or in a browser where the
+   * animation never advances) hits exactly this. Lifting the scrim to body is
+   * only done in that case: the normal path leaves the markup where it is. */
+  function liftToBody(el) {
+    if (el.parentElement === document.body) return;
+    for (var n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+      var cs = getComputedStyle(n);
+      if (cs.transform !== 'none' || cs.filter !== 'none' || cs.perspective !== 'none' ||
+          /paint|layout|strict|content/.test(cs.contain)) {
+        document.body.appendChild(el);
+        return;
+      }
+    }
+  }
+
   function open(idOrEl, opts) {
     var el = typeof idOrEl === 'string' ? document.getElementById(idOrEl) : idOrEl;
     if (!el || !el.classList.contains('neb-scrim')) return null;
@@ -122,6 +162,8 @@
     var entry = { el: el, restore: document.activeElement, opts: opts || {} };
     stack.push(entry);
     lockScroll();
+    liftToBody(el);
+    syncOverlayState();
     el.hidden = false;
     el.setAttribute('aria-hidden', 'false');
     /* Now that it has layout, anything that had to be measured can be. */
@@ -163,6 +205,7 @@
 
     var done = function () {
       el.hidden = true;
+      syncOverlayState();
       el.removeAttribute('data-closing');
       el.setAttribute('aria-hidden', 'true');
       if (p) p.style.transform = '';
@@ -278,6 +321,23 @@
     menu.style.visibility = '';
   }
 
+  /* A fixed menu is positioned against the nearest ancestor that has a transform, filter, contain or
+   * container-type, not the viewport -- inside a feed card that put it a card-height below its button.
+   * Open menus live on <body>; they go home when they close so the markup stays where the page put it. */
+  function portalMenu(menu) {
+    if (menu.parentNode === document.body) return;
+    menu.__home = { parent: menu.parentNode, next: menu.nextSibling };
+    document.body.appendChild(menu);
+  }
+
+  function unportalMenu(menu) {
+    var h = menu.__home;
+    if (!h || menu.hasAttribute('data-open')) return;
+    menu.__home = null;
+    if (h.parent && document.contains(h.parent)) h.parent.insertBefore(menu, h.next && h.next.parentNode === h.parent ? h.next : null);
+    else if (menu.parentNode) menu.parentNode.removeChild(menu);
+  }
+
   function showMenu(menu, trigger) {
     if (openMenu && openMenu.menu === menu) { closeMenu(); return; }
     closeMenu();
@@ -285,9 +345,11 @@
      * inline style beats every rule in the stylesheet. Hand the element over
      * to `hidden` once and it stays handed over. */
     if (menu.style.display) menu.style.display = '';
+    portalMenu(menu);
     placeMenu(menu, trigger);
     trigger.setAttribute('aria-expanded', 'true');
     openMenu = { menu: menu, trigger: trigger };
+    syncOverlayState();
     requestAnimationFrame(function () { menu.setAttribute('data-open', ''); });
     menu.dispatchEvent(new CustomEvent('neb:open', { bubbles: true }));
   }
@@ -297,11 +359,12 @@
     var m = openMenu.menu;
     var t = openMenu.trigger;
     openMenu = null;
+    syncOverlayState();
     m.removeAttribute('data-open');
     t.setAttribute('aria-expanded', 'false');
     if (refocus) t.focus();
     hideMenuScrim();
-    var hide = function () { if (!m.hasAttribute('data-open')) m.hidden = true; };
+    var hide = function () { if (!m.hasAttribute('data-open')) { m.hidden = true; unportalMenu(m); } };
     if (reducedMotion()) hide(); else setTimeout(hide, 260);
     m.dispatchEvent(new CustomEvent('neb:close', { bubbles: true }));
   }
@@ -753,7 +816,36 @@
    * dropped when the viewport moves under it. Dropping is the honest answer for
    * a scroll: the trigger has moved, and a menu that follows a scrolling card
    * around is worse than one that closes. */
-  window.addEventListener('resize', function () { closeMenu(); });
+  /* The on-screen keyboard and a collapsing browser bar both fire `resize` with only the height
+   * changed. Closing on those killed the sheet the moment it opened (the scrim stayed, the sheet
+   * did not), so only a real change of width, or of form, drops a menu. */
+  var lastInnerWidth = window.innerWidth;
+  window.addEventListener('resize', function () {
+    var widthChanged = window.innerWidth !== lastInnerWidth;
+    lastInnerWidth = window.innerWidth;
+    if (!openMenu) return;
+    var sheetNow = openMenu.menu.classList.contains('neb-menu-sheet');
+    if (!widthChanged && (sheetNow || asSheet())) return;
+    closeMenu();
+  });
+
+  /* Keep overlays above the keyboard. position:fixed is anchored to the layout viewport, which on
+   * iOS (and Android with overlays-content) does not shrink for the keyboard, so a bottom sheet
+   * pinned to bottom:0 ends up underneath it and only the scrim blur is visible. */
+  (function trackViewport() {
+    var vv = window.visualViewport;
+    var root = document.documentElement;
+    if (!vv) return;
+    function sync() {
+      var kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      root.style.setProperty('--neb-kb', (kb > 40 ? kb : 0) + 'px');
+      root.style.setProperty('--neb-vh', Math.round(vv.height) + 'px');
+      root.style.setProperty('--neb-vt', Math.round(vv.offsetTop) + 'px');
+    }
+    vv.addEventListener('resize', sync);
+    vv.addEventListener('scroll', sync);
+    sync();
+  })();
   window.addEventListener('scroll', function () {
     if (openMenu && openMenu.menu.classList.contains('neb-menu-sheet')) return;
     closeMenu();
@@ -776,6 +868,7 @@
     for (var i = stack.length - 1; i >= 0; i--) {
       if (!document.contains(stack[i].el)) {
         var entry = stack.splice(i, 1)[0];
+        syncOverlayState();
         unlockScroll();
         if (entry.opts && entry.opts.onClose) entry.opts.onClose({ reason: 'swap' });
       }
@@ -789,9 +882,11 @@
    * name above it. This is a real NebDialog that resolves true or false, so a
    * call site changes from `if (confirm(...))` to `if (await NebUI.confirm(...))`
    * and nothing else. */
+  var pendingConfirm = null;
   function confirmDialog(o) {
+    if (pendingConfirm) return pendingConfirm;
     o = o || {};
-    return new Promise(function (resolve) {
+    pendingConfirm = new Promise(function (resolve) {
       var scrim = document.createElement('div');
       scrim.className = 'neb-scrim';
       scrim.hidden = true;
@@ -818,6 +913,7 @@
       function finish(v) {
         if (answered) return;
         answered = true;
+        pendingConfirm = null;
         resolve(v);
         close(scrim, { reason: 'confirm' });
         setTimeout(function () { scrim.remove(); }, 520);
@@ -827,6 +923,7 @@
       scrim.addEventListener('neb:close', function () { finish(false); });
       open(scrim);
     });
+    return pendingConfirm;
   }
 
   function esc(s) {
@@ -916,6 +1013,20 @@
    */
   var LEGACY_MODAL = '.modal-overlay';
 
+  /* A fixed overlay is only fixed to the viewport while no ancestor carries a
+   * transform, filter or opacity animation. <main> does (the page-enter
+   * spring), which trapped the scrim underneath the sticky top bar and
+   * re-based its position onto the page. Dialogs live on <body>, always. */
+  function liftModal(el) {
+    if (el.parentElement !== document.body) document.body.appendChild(el);
+  }
+  function liftAllModals() {
+    Array.prototype.forEach.call(document.querySelectorAll(LEGACY_MODAL), liftModal);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', liftAllModals);
+  else liftAllModals();
+  document.addEventListener('htmx:afterSwap', liftAllModals);
+
   /* Asking the layout rather than the mechanism. These are toggled three
    * different ways -- .active on the forum and profile, an inline display on
    * study_space and study_lab, the hidden attribute on canvas -- and a rect is
@@ -936,6 +1047,7 @@
 
   function legacyAdopt(el) {
     if (stack.some(function (f) { return f.el === el; })) return;
+    liftModal(el);
     /* Announced as a dialog, which none of them were -- a screen reader read
      * them as part of the page they are covering. */
     var p = panel(el);
@@ -944,6 +1056,7 @@
       p.setAttribute('aria-modal', 'true');
     }
     stack.push({ el: el, restore: document.activeElement, opts: {}, legacy: true });
+    syncOverlayState();
     lockScroll();
     focusFirst(el);
   }
@@ -955,6 +1068,7 @@
     for (var i = 0; i < stack.length; i++) {
       if (stack[i].el !== el) continue;
       var entry = stack.splice(i, 1)[0];
+      syncOverlayState();
       unlockScroll();
       if (entry.restore && document.contains(entry.restore)) {
         try { entry.restore.focus({ preventScroll: true }); } catch (e) { entry.restore.focus(); }

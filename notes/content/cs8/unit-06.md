@@ -421,7 +421,7 @@ and which program opens it.
 | `.html` | web page | a web browser |
 | `.zip` | compressed folder | File Explorer, 7-Zip |
 | `.exe` | program that runs on Windows | runs itself — be careful |
-| `.py` / `.bas` | Python / QBASIC program | Python / QBASIC |
+| `.py` | Python program | Python |
 
 In Windows a file name may be up to 255 characters long but may **not**
 contain the characters `\ / : * ? " < > |`. Two files in the same folder cannot

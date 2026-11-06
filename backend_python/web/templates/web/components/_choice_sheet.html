@@ -1,0 +1,42 @@
+{% comment %}
+  One NebChoiceSheet (js/neb-choice.js): chips in a bottom sheet that write a comma-separated answer to a hidden input.
+  Context: sheet_id, input_id, title, options (list of strings); optional: multi (truthy), custom (truthy), field_id.
+{% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="{{ sheet_id }}" data-neb-close hidden
+     data-choice-input="{{ input_id }}"{% if field_id %} data-choice-field="{{ field_id }}"{% endif %}{% if multi %} data-choice-multi{% endif %}>
+  <div class="neb-sheet neb-choice-sheet" role="dialog" aria-modal="true" aria-labelledby="{{ sheet_id }}-title">
+    <div class="neb-sheet-handle"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h3 class="neb-sheet-title" id="{{ sheet_id }}-title">{{ title }}</h3>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="neb-sheet-body">
+      <div class="neb-field-search">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <input class="neb-field" type="text" data-choice-search placeholder="Search" autocomplete="off" aria-label="Search {{ title }}">
+      </div>
+      <div class="neb-chip-row neb-choice-options" data-choice-options role="group" aria-label="{{ title }}">
+        {% for option in options %}
+        <button type="button" class="neb-choice-chip" aria-pressed="false" data-value="{{ option }}">
+          <span class="neb-chip-tick" aria-hidden="true"></span>{{ option }}
+        </button>
+        {% endfor %}
+      </div>
+      <p class="neb-choice-empty" data-choice-empty hidden></p>
+      {% if custom %}
+      <div class="neb-field-row" data-choice-add>
+        <input class="neb-field" type="text" placeholder="Add your own" autocomplete="off" aria-label="Add your own">
+        <button type="button" class="md-btn md-btn-tonal md-btn-small" disabled>Add</button>
+      </div>
+      {% endif %}
+    </div>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-text neb-foot-minor" data-choice-clear disabled>Clear</button>
+      <button type="button" class="md-btn md-btn-filled neb-foot-major" data-choice-done>Done</button>
+    </div>
+  </div>
+</div>

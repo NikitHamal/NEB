@@ -1,126 +1,163 @@
-/* ===== NEBians study-notes print theme =========================
-   Brand: Graphite neutrals + one subject accent, Poppins display. */
+/* ===== NEBians study-notes print theme: M3 Expressive ===========
+   Flat tonal surfaces, finite radii, no shadows, no gradients.
+   Poppins: every display and label string. Source Serif 4: running prose.
+   JetBrains Mono: code. Noto Sans Devanagari: Nepali (build_pdf.DEVA_CSS).
+   Colour roles (--accent, --container, --on-container, --cover...) are
+   written per book by m3x.css_vars(); the defaults below are the fallback. */
 @page {
   size: A4;
-  margin: 19mm 17mm 17mm 17mm;
-  /* NEBians mark, faint, behind the text block */
-  background-image: url("brand/watermark.svg");
-  background-position: 50% 54%;
-  background-repeat: no-repeat;
-  background-size: 104mm auto;
-  @top-left  { content: string(booktitle); font-family: Inter; font-size: 7.6pt;
-               color: #8a8f99; letter-spacing: .06em; text-transform: uppercase; }
-  @top-right { content: string(chaptitle); font-family: Inter; font-size: 7.6pt;
-               color: #8a8f99; letter-spacing: .02em; }
-  @bottom-left  { content: "NEBians — nebians.consica.com.np"; font-family: Inter;
-                  font-size: 7.2pt; color: #b0b5bd; }
-  @bottom-right { content: counter(page); font-family: Inter; font-size: 8.4pt;
-                  color: #5b6472; font-weight: 600; }
+  margin: 21mm 18mm 20mm 18mm;
+  @top-left  { content: string(booktitle); font-family: Poppins; font-weight: 500; font-size: 7.2pt;
+               color: #5b6472; letter-spacing: .07em; text-transform: uppercase; }
+  @top-right { content: string(chaptitle); font-family: Poppins; font-weight: 500; font-size: 7.4pt;
+               color: #5b6472; }
+  @bottom-left  { content: "NEBians \00B7  nebians.consica.com.np"; font-family: Poppins;
+                  font-size: 7pt; color: #7b8290; }
+  @bottom-right { content: counter(page); font-family: Poppins; font-size: 8.6pt;
+                  color: #12151b; font-weight: 600; }
 }
-@page :first { margin: 0; background-image: url("brand/watermark-cover.svg");
-               background-position: 128% 62%; background-size: 150mm auto; @top-left{content:none} @top-right{content:none}
+@page :first { margin: 0; @top-left{content:none} @top-right{content:none}
                @bottom-left{content:none} @bottom-right{content:none} }
-@page cover  { margin: 0; background-image: url("brand/watermark-cover.svg");
-               background-position: 128% 62%; background-size: 150mm auto; @top-left{content:none} @top-right{content:none}
+@page cover  { margin: 0; @top-left{content:none} @top-right{content:none}
                @bottom-left{content:none} @bottom-right{content:none} }
 @page frontmatter { @bottom-right { content: counter(page, lower-roman); } }
 
-:root { --ink:#14181f; --body:#23272f; --muted:#5b6472; --faint:#8a8f99;
-        --rule:#e2e5ea; --wash:#f6f7f9; --accent:#4A42D6; --accent-wash:#f0efff; }
+:root { --ink:#12151b; --body:#1f232b; --muted:#4b5361; --faint:#6b7280;
+        --rule:#dfe3ea; --surface:#f3f5f8; --surface-hi:#e8ecf1; --wash:#f3f5f8;
+        --accent:#3a45c4; --on-accent:#fff; --container:#eceefb; --container-hi:#d9ddf6;
+        --on-container:#171d5c; --cover:#2b3399; --cover-hi:#3a45c4;
+        --accent-wash:#eceefb; }
 
 html { font-family:"Source Serif 4", "Noto Sans Devanagari", serif;
-       font-size:10.2pt; line-height:1.52; color:var(--body);
+       font-size:10.3pt; line-height:1.55; color:var(--body);
        -weasy-hyphens:auto; text-align:justify; }
 body { margin:0; }
-:lang(ne), .deva { font-family:"Noto Sans Devanagari","Source Serif 4",serif; line-height:1.72; }
+:lang(ne), .deva { font-family:"Noto Sans Devanagari","Source Serif 4",serif; line-height:1.74; }
+
+/* ---------- shared chip (tonal pill; UI labels, never on badges of people) ---------- */
+.chip { display:inline-block; font-family:Poppins,sans-serif; font-weight:500; font-size:7.6pt;
+        line-height:1.2; padding:1.3mm 3.6mm; margin:0 1.8mm 1.4mm 0; border-radius:6mm;
+        background:var(--surface-hi); color:var(--body); text-align:left; letter-spacing:.01em;
+        -weasy-hyphens:none; }
 
 /* ---------- cover ---------- */
-.cover { page:cover; height:297mm; width:210mm; position:relative;
-         background:var(--accent); color:#fff; overflow:hidden; }
-.cover .band { position:absolute; inset:0; background:
-    linear-gradient(155deg, var(--accent) 0%, #14181f 155%); }
-.cover .inner { position:relative; padding:34mm 20mm 20mm 20mm; height:100%;
-                box-sizing:border-box; display:block; }
-.cover .brand { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:13pt;
-                letter-spacing:.20em; text-transform:uppercase; opacity:.86; }
-.cover .brand small { display:block; font-weight:400; font-size:7.6pt;
-                letter-spacing:.14em; opacity:.72; margin-top:2mm; }
-.cover h1 { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:44pt;
-            line-height:1.04; margin:54mm 0 0 0; letter-spacing:-.018em; text-align:left; }
-.cover .grade { font-family:Poppins,Inter,sans-serif; font-weight:600; font-size:16pt;
-                margin-top:5mm; opacity:.92; }
-.cover .rule { width:38mm; height:1.6mm; background:#fff; opacity:.9; margin:9mm 0 7mm 0; }
-.cover .sub { font-family:Inter,sans-serif; font-size:10pt; line-height:1.66;
-              opacity:.88; max-width:112mm; text-align:left; }
-.cover .foot { position:absolute; left:20mm; right:20mm; bottom:18mm;
-               font-family:Inter,sans-serif; font-size:8.4pt; opacity:.8;
-               border-top:.4mm solid rgba(255,255,255,.28); padding-top:4mm;
-               display:flex; justify-content:space-between; }
+.cover { page:cover; height:297mm; width:210mm; position:relative; overflow:hidden;
+         background:var(--cover); color:#fff; }
+.cover .inner { position:absolute; left:0; top:0; width:210mm; height:297mm; }
+.cover .lockup { position:absolute; left:18mm; top:18mm; display:flex; align-items:center;
+                 background:#fff; color:var(--cover); border-radius:9mm; padding:2.4mm 6mm 2.4mm 3.8mm;
+                 font-family:Poppins,sans-serif; font-weight:700; font-size:10.5pt;
+                 letter-spacing:.05em; text-transform:uppercase; }
+.cover .lockup svg { margin-right:2.6mm; }
+.cover .titleblock { position:absolute; left:20mm; right:36mm; bottom:64mm; text-align:left; }
+.cover .chips .chip { background:var(--cover-hi); color:#fff; font-size:8.4pt; padding:1.6mm 4.4mm; }
+.cover .chips .chip.solid { background:#fff; color:var(--cover); font-weight:600; }
+.cover h1 { font-family:Poppins,sans-serif; font-weight:700; line-height:1.08; color:#fff;
+            margin:5mm 0 0 0; letter-spacing:-.022em; text-align:left; -weasy-hyphens:none;
+            string-set:none; }
+.cover .foot { position:absolute; left:20mm; right:20mm; bottom:20mm; display:flex;
+               align-items:center; }
+.cover .foot .chip { background:var(--cover-hi); color:#fff; font-size:7.8pt; margin:0 4mm 0 0; }
+.cover .foot .url { font-family:Poppins,sans-serif; font-weight:500; font-size:8pt; color:#fff; }
 
 /* ---------- front matter ---------- */
 .frontmatter { page:frontmatter; }
-.fm-title { font-family:Poppins,Inter,sans-serif; font-weight:700; font-size:19pt;
-            color:var(--ink); margin:0 0 6mm 0; letter-spacing:-.01em; text-align:left; }
-.fm-lead { font-size:10.6pt; color:var(--muted); margin-bottom:7mm; text-align:left; }
+.fm-title { font-family:Poppins,sans-serif; font-weight:700; font-size:23pt; color:var(--ink);
+            margin:0 0 4mm 0; letter-spacing:-.018em; text-align:left; }
+.fm-lead { font-size:10.8pt; color:var(--muted); margin:0 0 6mm 0; text-align:left; }
+.about h2 { margin-top:4.2mm; margin-bottom:2mm; }
+.about p { margin-bottom:2mm; }
+.about .box { margin:3.4mm 0 0 0; padding:3.4mm 5mm 3mm 5mm; }
+.about table { margin:2mm 0 0 0; }
+.about .card { margin:1.6mm 0 0 0; padding:2.6mm 6mm; }
+.about .fm-lead { margin-bottom:2mm; font-size:10pt; line-height:1.5; }
+.about td, .about th { padding-top:1.3mm; padding-bottom:1.3mm; }
+.about .box p { font-size:9pt; line-height:1.45; }
+.about .card li { margin:.4mm 0; font-size:9.2pt; }
+.tiles { display:block; margin:3mm 0 0 0; }
+.tile { display:inline-block; vertical-align:top; box-sizing:border-box; width:49%;
+        margin:0 2% 1.6mm 0; padding:1.8mm 3.6mm; border-radius:4.5mm; background:var(--surface);
+        font-size:8.4pt; line-height:1.4; text-align:left; -weasy-hyphens:none; }
+.tile:nth-child(even) { margin-right:0; }
+.tile b.th { display:block; font-family:Poppins,sans-serif; font-weight:600; font-size:8.8pt;
+               color:var(--accent); margin-bottom:.6mm; }
+.card { background:var(--surface); border-radius:5mm; padding:3.4mm 6mm; margin:2mm 0 4mm 0;
+        break-inside:avoid; }
+.card ul { margin:0; padding-left:5mm; }
+.card li { text-align:left; margin:1mm 0; font-size:9.6pt; }
+.fm-edition { margin-top:3.6mm; font-family:Poppins,sans-serif; font-size:7.8pt; color:var(--faint);
+              text-align:left; line-height:1.9; }
 
-/* ---------- table of contents ---------- */
-.toc h2 { font-family:Poppins,Inter,sans-serif; font-size:19pt; font-weight:700;
-          color:var(--ink); margin:0 0 7mm 0; text-align:left; }
-.toc .area { font-family:Inter,sans-serif; font-size:8pt; font-weight:700;
-             text-transform:uppercase; letter-spacing:.12em; color:var(--accent);
-             margin:6mm 0 2.5mm 0; padding-bottom:1.4mm; border-bottom:.35mm solid var(--rule); }
-.toc a { display:block; text-decoration:none; color:var(--body); font-size:10pt;
-         padding:1.5mm 0; border-bottom:.2mm dotted #e8eaee; text-align:left; }
-.toc a::after { content: target-counter(attr(href), page); float:right;
-                font-family:Inter,sans-serif; font-weight:600; color:var(--muted);
-                font-size:9pt; }
-.toc a .n { display:inline-block; min-width:9mm; font-family:Inter,sans-serif;
-            font-weight:700; color:var(--accent); }
-.toc a .hrs { color:var(--faint); font-size:8.4pt; font-family:Inter,sans-serif; }
+/* ---------- table of contents (always starts on its own page) ---------- */
+.toc { break-before:page; }
+.toc h2 { font-family:Poppins,sans-serif; font-size:23pt; font-weight:700; color:var(--ink);
+          margin:0 0 5mm 0; letter-spacing:-.018em; text-align:left; }
+.toc .area { margin:7mm 0 3mm 0; break-after:avoid; text-align:left; }
+.toc .area .chip { background:var(--container); color:var(--on-container); font-weight:600;
+                   font-size:7.4pt; letter-spacing:.09em; text-transform:uppercase; margin:0; }
+.toc a { position:relative; display:block; text-decoration:none; color:var(--ink);
+         font-family:Poppins,sans-serif; font-weight:500; font-size:9.3pt; line-height:1.38;
+         padding:2.4mm 14mm 2.4mm 13mm; border-bottom:.2mm solid var(--rule);
+         text-align:left; break-inside:avoid; -weasy-hyphens:none; }
+.toc a .n { position:absolute; left:0; top:1.9mm; width:8.2mm; height:8.2mm; line-height:8.2mm;
+            border-radius:2.9mm; text-align:center; background:var(--container);
+            color:var(--accent); font-weight:600; font-size:9pt; }
+.toc a::after { content: target-counter(attr(href), page); position:absolute; right:0; top:2.7mm;
+                font-weight:600; color:var(--muted); font-size:9pt; }
+.toc a .hrs { display:inline-block; font-weight:500; font-size:6.8pt; color:var(--muted);
+              background:var(--surface); border-radius:3mm; padding:.3mm 2mm; margin-left:1.4mm;
+              vertical-align:1px; white-space:nowrap; }
 
-/* ---------- chapter ---------- */
+/* ---------- chapter opener ---------- */
 .chapter { break-before:page; }
 .chapter h1 { string-set: chaptitle content(); }
-.ch-head { border-bottom:.7mm solid var(--accent); padding-bottom:4mm; margin-bottom:6mm; }
-.ch-eyebrow { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
-              letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-.ch-head h1 { font-family:Poppins,Inter,sans-serif; font-size:24pt; font-weight:700;
-              color:var(--ink); margin:2.5mm 0 0 0; line-height:1.14;
-              letter-spacing:-.016em; text-align:left; }
-.ch-meta { font-family:Inter,sans-serif; font-size:8.6pt; color:var(--muted); margin-top:3mm; }
-.ch-meta span + span::before { content:"  •  "; color:var(--rule); }
+.ch-head { display:flex; align-items:center; background:var(--container); border-radius:9mm;
+           padding:8mm 9mm; margin:0 0 4mm 0; break-inside:avoid; }
+.ch-num { flex:none; width:21mm; height:21mm; line-height:21mm; border-radius:7.5mm;
+          background:var(--accent); color:var(--on-accent); text-align:center;
+          font-family:Poppins,sans-serif; font-weight:700; font-size:25pt; margin-right:7mm; }
+.ch-text { flex:1; text-align:left; }
+.ch-eyebrow { font-family:Poppins,sans-serif; font-size:7.4pt; font-weight:600;
+              letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+.ch-head h1 { font-family:Poppins,sans-serif; font-size:21pt; font-weight:700;
+              color:var(--on-container); margin:1.6mm 0 0 0; line-height:1.16;
+              letter-spacing:-.016em; text-align:left; -weasy-hyphens:none; }
+.ch-chips { margin:0 0 6mm 0; text-align:left; }
 
-.syllabus { background:var(--wash); border-left:1.1mm solid var(--accent);
-            padding:4mm 5mm; margin:0 0 7mm 0; break-inside:avoid; }
-.syllabus .t { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
-               letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
-               margin-bottom:2mm; }
+.syllabus { background:var(--surface); border-radius:5mm; padding:4.4mm 6mm 3.4mm 6mm;
+            margin:0 0 7mm 0; break-inside:avoid; }
+.syllabus .t { display:inline-block; font-family:Poppins,sans-serif; font-size:7.2pt; font-weight:600;
+               letter-spacing:.09em; text-transform:uppercase; color:var(--on-container);
+               background:var(--container-hi); border-radius:6mm; padding:1.1mm 3.4mm;
+               margin-bottom:2.6mm; }
 .syllabus ul { margin:0; padding-left:5mm; }
 .syllabus li { font-size:9.2pt; color:var(--body); margin:.8mm 0; text-align:left; }
 
-h2 { font-family:Poppins,Inter,sans-serif; font-size:13.2pt; font-weight:600; color:var(--ink);
-     margin:7mm 0 2.5mm 0; line-height:1.24; letter-spacing:-.008em;
+/* ---------- headings and text ---------- */
+h2 { font-family:Poppins,sans-serif; font-size:13.4pt; font-weight:600; color:var(--ink);
+     margin:8mm 0 2.6mm 0; line-height:1.26; letter-spacing:-.01em;
      break-after:avoid; text-align:left; }
-h3 { font-family:Poppins,Inter,sans-serif; font-size:11pt; font-weight:600; color:var(--ink);
-     margin:5mm 0 1.8mm 0; break-after:avoid; text-align:left; }
-h4 { font-family:Inter,sans-serif; font-size:9.6pt; font-weight:700; color:var(--muted);
-     margin:4mm 0 1.4mm 0; text-transform:uppercase; letter-spacing:.06em;
+h3 { font-family:Poppins,sans-serif; font-size:11pt; font-weight:600; color:var(--ink);
+     margin:5.4mm 0 1.8mm 0; break-after:avoid; text-align:left; line-height:1.3; }
+h4 { font-family:Poppins,sans-serif; font-size:8.4pt; font-weight:600; color:var(--accent);
+     margin:4.4mm 0 1.4mm 0; text-transform:uppercase; letter-spacing:.08em;
      break-after:avoid; text-align:left; }
-p { margin:0 0 2.4mm 0; orphans:2; widows:2; }
+p { margin:0 0 2.5mm 0; orphans:2; widows:2; }
 ul,ol { margin:0 0 2.8mm 0; padding-left:6mm; }
 li.num { list-style-type:none; }
 html:lang(ne) ol:not([class]) { list-style-type:devanagari; }
 li { margin:.9mm 0; }
 li > p { margin:0 0 1mm 0; }
+li::marker { color:var(--accent); font-weight:600; }
 strong { font-weight:600; color:var(--ink); }
 em { font-style:italic; }
 a { color:var(--accent); text-decoration:none; }
 code { font-family:"JetBrains Mono",monospace; font-size:8.6pt;
-       background:var(--wash); padding:.3mm 1mm; border-radius:.8mm; color:#b02a37;
+       background:var(--surface); padding:.3mm 1.2mm; border-radius:1.6mm; color:#9b2c2c;
        -weasy-hyphens:none; hyphens:none; }
-pre { font-family:"JetBrains Mono",monospace; font-size:8.2pt; line-height:1.48;
-      background:#fbfcfd; border:.25mm solid var(--rule); border-left:1mm solid var(--accent);
-      padding:3mm 4mm; margin:3mm 0; overflow-wrap:break-word; white-space:pre-wrap;
+pre { font-family:"JetBrains Mono",monospace; font-size:8.2pt; line-height:1.5;
+      background:var(--surface); border:0; border-radius:4mm;
+      padding:3.6mm 5mm; margin:3.4mm 0; overflow-wrap:break-word; white-space:pre-wrap;
       break-inside:avoid; text-align:left; -weasy-hyphens:none; hyphens:none; }
 pre code { background:none; padding:0; color:var(--ink); }
 
@@ -131,140 +168,137 @@ img.im { vertical-align:baseline; }
 
 /* Nepali formulas are typeset as text (devaeqn.py), not as a mathtext image:
    the script needs real shaping. Only the fraction needs geometry. */
-.eqx { font-family:"Noto Sans Devanagari",Inter,sans-serif; font-size:10.3pt;
-       line-height:1.1; color:#14181f; }
+.eqx { font-family:"Noto Sans Devanagari",Poppins,sans-serif; font-size:10.3pt;
+       line-height:1.1; color:#12151b; }
 .eqx.eqd { font-size:11.6pt; }
 .eqx .fr { display:inline-block; vertical-align:-0.62em; text-align:center;
            margin:0 0.22em; }
 .eqx .fr .fn { display:block; padding:0 0.34em 0.5mm;
-               border-bottom:0.6pt solid #14181f; }
+               border-bottom:0.6pt solid #12151b; }
 .eqx .fr .fd { display:block; padding:0.5mm 0.34em 0; }
-.eqx .sq .sqb { border-top:0.6pt solid #14181f; padding:0 0.14em; }
+.eqx .sq .sqb { border-top:0.6pt solid #12151b; padding:0 0.14em; }
 .eqx sub, .eqx sup { font-size:0.72em; }
 .dm.numbered { position:relative; }
-.dm .eqno { position:absolute; right:0; top:50%; font-family:Inter,sans-serif;
-            font-size:8.6pt; color:var(--muted); }
+.dm .eqno { position:absolute; right:0; top:50%; font-family:Poppins,sans-serif;
+            font-size:8.4pt; color:var(--muted); }
 
 /* ---------- figures ---------- */
-figure { margin:4mm 0; text-align:center; break-inside:avoid; }
+figure { margin:4.4mm 0; text-align:center; break-inside:avoid; }
 figure img { max-width:100%; }
-figcaption { font-family:Inter,sans-serif; font-size:8.4pt; color:var(--muted);
-             margin-top:2mm; line-height:1.46; text-align:center; }
+figcaption { font-family:Poppins,sans-serif; font-size:7.8pt; color:var(--muted);
+             margin-top:2.2mm; line-height:1.5; text-align:center; }
 figcaption b { color:var(--ink); font-weight:600; }
 
 /* ---------- photographs and reference diagrams ---------- */
-/* A real image needs a frame — without one a white-background diagram and a
-   photographic edge sit differently on the page and the block stops reading as
-   one object. */
-figure.photo img { border:.25mm solid var(--rule); border-radius:1.2mm;
-                   background:#fff; }
-figcaption .src { display:block; font-size:7pt; color:var(--faint);
+figure.photo img { border:.25mm solid var(--rule); border-radius:3.4mm; background:#fff; }
+figcaption .src { display:block; font-size:6.6pt; color:var(--faint);
                   margin-top:.9mm; font-style:normal; }
 /* Numbered key under a "numbers version" reference diagram. */
-.photokey { display:block; margin:2mm auto 0 auto; max-width:96%;
-            font-family:Inter,sans-serif; font-size:8pt; color:var(--body);
+.photokey { display:block; margin:2.4mm auto 0 auto; max-width:96%;
+            font-family:Poppins,sans-serif; font-size:7.6pt; color:var(--body);
             text-align:left; column-count:2; column-gap:7mm; }
-.photokey .pk { display:block; break-inside:avoid; padding:.35mm 0;
-                line-height:1.4; }
-.photokey .pk i { display:inline-block; min-width:4.6mm; font-style:normal;
-                  font-weight:700; color:var(--accent); }
+.photokey .pk { display:block; break-inside:avoid; padding:.4mm 0; line-height:1.42; }
+.photokey .pk i { display:inline-block; min-width:4.8mm; font-style:normal;
+                  font-weight:600; color:var(--accent); }
 .photokey.one { column-count:1; }
 
 /* ---------- N-up photo strips / photo+diagram pairs ---------- */
-figure.grid { border:.25mm solid var(--rule); border-radius:1.4mm; padding:2mm 1.5mm 1.6mm 1.5mm;
-              background:#fff; }
-table.pgrid { width:100%; table-layout:fixed; border-collapse:separate; border-spacing:1.4mm 0;
+figure.grid { border:0; border-radius:5mm; padding:2.6mm 2.2mm 2mm 2.2mm; background:var(--surface); }
+table.pgrid { width:100%; table-layout:fixed; border-collapse:separate; border-spacing:1.6mm 0;
               border:0; margin:0; }
 table.pgrid td.gc { border:0; padding:0; vertical-align:top; text-align:center; background:none; }
-table.pgrid td.gc img { width:100%; max-width:100%; border:.2mm solid var(--rule);
-                        border-radius:1mm; display:block; }
-table.pgrid .gcap { font-family:Inter,sans-serif; font-size:7.4pt; line-height:1.34;
-                    color:var(--body); text-align:center; margin-top:1mm; }
+table.pgrid td.gc img { width:100%; max-width:100%; border:0; border-radius:3mm; display:block; }
+table.pgrid .gcap { font-family:Poppins,sans-serif; font-size:6.9pt; line-height:1.36;
+                    color:var(--body); text-align:center; margin-top:1.2mm; }
 table.pgrid .gcap b { color:var(--accent); }
-figure.grid figcaption .src { font-size:6.4pt; }
+figure.grid figcaption .src { font-size:6.2pt; }
 
 /* ---------- picture credits appendix ---------- */
 .credits { font-size:8.6pt; }
 .credits h2 { margin-top:6mm; }
-.credits .cr { break-inside:avoid; padding:1.5mm 0; border-bottom:.2mm dotted #e8eaee;
-               text-align:left; line-height:1.44; }
-.credits .cr b { font-family:Inter,sans-serif; font-weight:600; color:var(--ink); }
+.credits .cr { break-inside:avoid; padding:1.6mm 0; border-bottom:.2mm solid var(--rule);
+               text-align:left; line-height:1.46; }
+.credits .cr b { font-family:Poppins,sans-serif; font-weight:600; color:var(--ink); }
 .credits .cr span { color:var(--muted); }
-.credits .cr code { background:none; font-size:7.6pt; color:var(--faint);
-                    word-break:break-all; }
+.credits .cr code { background:none; font-size:7.4pt; color:var(--faint);
+                    word-break:break-all; padding:0; }
 
-/* ---------- tables ---------- */
-table { width:100%; border-collapse:collapse; margin:3.5mm 0; font-size:9pt;
+/* ---------- tables: tonal header, rounded corners, hairline rows ---------- */
+table { width:100%; border-collapse:separate; border-spacing:0; margin:4mm 0; font-size:9pt;
         break-inside:avoid; }
-caption { caption-side:top; font-family:Inter,sans-serif; font-size:8.4pt;
-          color:var(--muted); text-align:left; margin-bottom:1.6mm; }
-th { font-family:Inter,sans-serif; font-size:8.4pt; font-weight:700; color:var(--ink);
-     text-align:left; background:var(--wash); padding:2mm 2.4mm;
-     border-bottom:.5mm solid var(--accent); }
-td { padding:1.9mm 2.4mm; border-bottom:.25mm solid var(--rule); vertical-align:top;
-     text-align:left; }
-tbody tr:nth-child(even) td { background:#fcfcfd; }
+caption { caption-side:top; font-family:Poppins,sans-serif; font-size:8pt;
+          color:var(--muted); text-align:left; margin-bottom:1.8mm; }
+th { font-family:Poppins,sans-serif; font-size:7.8pt; font-weight:600; color:var(--on-container);
+     text-align:left; background:var(--container); padding:2.3mm 3mm; border:0; }
+th:first-child { border-top-left-radius:3mm; border-bottom-left-radius:3mm; }
+th:last-child  { border-top-right-radius:3mm; border-bottom-right-radius:3mm; }
+td { padding:2.1mm 3mm; border-bottom:.25mm solid var(--rule); vertical-align:top; text-align:left; }
+tbody tr:last-child td { border-bottom:0; }
+tbody tr:nth-child(even) td { background:#fafbfc; }
 
-/* ---------- callouts ---------- */
-.box { padding:3.6mm 4.4mm; margin:4mm 0; break-inside:auto;
-       border:.25mm solid var(--rule); border-radius:1.2mm; background:#fff; }
-.box .bt { font-family:Inter,sans-serif; font-size:7.8pt; font-weight:700;
-           letter-spacing:.12em; text-transform:uppercase; margin-bottom:2mm; }
+/* ---------- callouts: tonal cards with a label pill ---------- */
+.box { padding:4mm 5mm 3.6mm 5mm; margin:4.6mm 0; break-inside:auto;
+       border:0; border-radius:5mm; background:var(--surface); }
+.box .bt { display:inline-block; font-family:Poppins,sans-serif; font-size:7pt; font-weight:600;
+           letter-spacing:.09em; text-transform:uppercase; margin-bottom:2.4mm;
+           padding:1.1mm 3.4mm; border-radius:6mm; background:#3e4654; color:#fff; }
 .box > :last-child { margin-bottom:0; }
-.box.key  { background:var(--accent-wash); border-color:transparent;
-            border-left:1.1mm solid var(--accent); }
-.box.key .bt { color:var(--accent); }
-.box.example { background:#fbfcfd; border-left:1.1mm solid #5b6472; }
-.box.example .bt { color:#5b6472; }
-.box.caution { background:#fff8f2; border-left:1.1mm solid #8F5507; }
-.box.caution .bt { color:#8F5507; }
-.box.tip { background:#f2f9f6; border-left:1.1mm solid #0B6A62; }
-.box.tip .bt { color:#0B6A62; }
-.box.definition { background:#fff; border-left:1.1mm solid var(--ink); }
-.box.definition .bt { color:var(--ink); }
-.box.derivation { background:#fcfcfd; border-left:1.1mm solid #4A42D6; }
-.box.derivation .bt { color:#4A42D6; }
+.box.key { background:var(--container); }
+.box.key .bt { background:var(--accent); color:var(--on-accent); }
+.box.example { background:#f1f3f6; }
+.box.example .bt { background:#3e4654; }
+.box.caution { background:#fff0d9; }
+.box.caution .bt { background:#8a4b00; }
+.box.tip { background:#e0f4ea; }
+.box.tip .bt { background:#0b6b45; }
+.box.definition { background:#fff; border:.4mm solid var(--accent); }
+.box.definition .bt { background:var(--container-hi); color:var(--on-container); }
+.box.derivation { background:#eef1f7; }
+.box.derivation .bt { background:#34445f; }
+.box.note { background:#eaf1f8; }
+.box.note .bt { background:#2f4a66; }
+.box.memory { background:#fff6cf; }
+.box.memory .bt { background:#6b5200; }
 
 /* ---------- questions ---------- */
 .qsec { break-before:auto; margin-top:7mm; }
-.qsec h2 { border-top:.5mm solid var(--rule); padding-top:4mm; }
+.qsec h2 { border-top:.3mm solid var(--rule); padding-top:4.4mm; }
 ol.q { padding-left:7mm; }
 ol.q > li { margin:2.4mm 0; }
-.marks { font-family:Inter,sans-serif; font-size:8.2pt; color:var(--muted); white-space:nowrap; margin-left:3pt; }
-.ans { font-size:9.2pt; color:var(--muted); border-left:.5mm solid var(--rule);
-       padding-left:3mm; margin:1.5mm 0 3mm 0; }
+.marks { font-family:Poppins,sans-serif; font-weight:500; font-size:7.4pt; color:var(--muted);
+         white-space:nowrap; margin-left:3pt; background:var(--surface); border-radius:3mm;
+         padding:.2mm 1.8mm; }
+.ans { font-size:9.2pt; color:var(--body); background:var(--surface); border-radius:3.4mm;
+       padding:2.2mm 3.8mm; margin:1.8mm 0 3.2mm 0; }
 .ans b { color:var(--ink); }
 
 /* paper look for model questions */
 .paper { break-before:page; }
-.paper .ph { text-align:center; border-bottom:.5mm solid var(--ink); padding-bottom:3mm;
+.paper .ph { text-align:center; border-bottom:.4mm solid var(--ink); padding-bottom:3mm;
              margin-bottom:5mm; }
-.paper .ph .code { font-family:Inter,sans-serif; font-size:8.4pt; color:var(--muted);
+.paper .ph .code { font-family:Poppins,sans-serif; font-size:8pt; color:var(--muted);
                    display:flex; justify-content:space-between; }
-.paper .ph h2 { font-family:Poppins,Inter,sans-serif; font-size:15pt; margin:2mm 0 1mm;
+.paper .ph h2 { font-family:Poppins,sans-serif; font-size:15pt; margin:2mm 0 1mm;
                 text-align:center; }
-.paper .ph .meta { font-family:Inter,sans-serif; font-size:9pt; color:var(--muted);
+.paper .ph .meta { font-family:Poppins,sans-serif; font-size:8.6pt; color:var(--muted);
                    display:flex; justify-content:space-between; margin-top:2.5mm; }
-.paper .grp { font-family:Inter,sans-serif; font-weight:700; font-size:10pt;
+.paper .grp { font-family:Poppins,sans-serif; font-weight:600; font-size:10pt;
               text-align:center; margin:5mm 0 1mm; color:var(--ink); }
-.paper .grp small { display:block; font-weight:400; font-size:8.6pt; color:var(--muted); }
+.paper .grp small { display:block; font-weight:400; font-size:8.4pt; color:var(--muted); }
 .nobreak { break-inside:avoid; }
 
 /* short callouts stay whole; long expository boxes may break across pages */
 .box.key, .box.tip, .box.caution, .box.definition, .box.memory { break-inside:avoid; }
 .box > *:first-child { break-after:avoid; }
 
-
-/* ---------- MCQ options and multi-part questions ----------
-   Built by md2html._restructure_questions. Options never justify and never
-   split across a page from their stem. */
+/* ---------- MCQ options and multi-part questions ---------- */
 .opts { display:block; margin:1.6mm 0 0 0; text-align:left; }
 .opt  { display:inline-block; vertical-align:top; box-sizing:border-box;
         padding:0 3mm 0 0; margin:.5mm 0; font-size:9.6pt; text-align:left;
         -weasy-hyphens:none; }
-.opt > i { font-family:Inter,sans-serif; font-style:normal; font-weight:700;
-           font-size:7.8pt; color:var(--accent); background:var(--accent-wash);
-           border-radius:50%; width:3.6mm; height:3.6mm; line-height:3.6mm;
+.opt > i { font-family:Poppins,sans-serif; font-style:normal; font-weight:600;
+           font-size:7.2pt; color:var(--on-container); background:var(--container);
+           border-radius:50%; width:4mm; height:4mm; line-height:4mm;
            text-align:center; display:inline-block; margin-right:1.5mm; }
 .opts.c4 .opt { width:25%; }
 .opts.c2 .opt { width:50%; }
@@ -273,8 +307,8 @@ ol.q > li { margin:2.4mm 0; }
 .parts { display:block; margin:1.4mm 0 0 0; }
 .part  { display:block; margin:1.4mm 0; padding-left:7mm; text-indent:-7mm;
          text-align:left; }
-.part > i { font-family:Inter,sans-serif; font-style:normal; font-weight:700;
-            color:var(--ink); margin-right:1.6mm; }
+.part > i { font-family:Poppins,sans-serif; font-style:normal; font-weight:600;
+            color:var(--accent); margin-right:1.6mm; }
 
 ol.q > li, .qsec ol > li { break-inside:avoid; }
 
@@ -282,35 +316,23 @@ ol.q > li, .qsec ol > li { break-inside:avoid; }
 .ansline { display:block; margin:0 0 1.5mm 0; text-align:left;
            padding-left:6mm; text-indent:-6mm; }
 .ansline:last-child { margin-bottom:0; }
-.box.note { background:#f7f9fc; border-left:1.1mm solid #3b4a63; }
-.box.note .bt { color:#3b4a63; }
 
-/* ---------- chapter summary ----------
-   The page students actually revise from, so it gets a frame of its own. */
-.chsum { display:block; break-inside:auto; margin:7mm 0 5mm 0;
-         background:linear-gradient(180deg,var(--accent-wash) 0%,#ffffff 78%);
-         border:.3mm solid var(--accent); border-radius:1.6mm;
-         padding:5mm 6mm 4mm 6mm; }
-.chsum h2 { margin:0 0 3mm 0; padding:0 0 2.5mm 0; font-size:14pt;
-            color:var(--accent); border-bottom:.3mm solid var(--accent); }
-.chsum h2::before { content:"\2713\00a0\00a0"; font-weight:700; }
+/* ---------- chapter summary: the page students revise from ---------- */
+.chsum { display:block; break-inside:auto; margin:8mm 0 5mm 0;
+         background:var(--container); border:0; border-radius:7mm;
+         padding:6mm 7mm 5mm 7mm; }
+.chsum h2 { margin:0 0 3.4mm 0; padding:0; font-size:14pt; color:var(--on-container); border:0; }
 .chsum ul, .chsum ol { padding-left:5.5mm; margin-bottom:0; }
 .chsum li { margin:1.2mm 0; text-align:left; break-inside:avoid; }
-/* A summary of short points reads as a card of facts, two to a row. */
 .chsum ul.cols2 { columns:2; column-gap:7mm; }
 .chsum ul.cols2 li { margin:0 0 1.6mm 0; }
 .chsum p { text-align:left; }
-.chsum table { background:#fff; }
+.chsum table { background:transparent; }
 .chsum > :last-child { margin-bottom:0; }
 
-
 /* ---------- page economy ---------- */
-/* A heading at the foot of a page with its text overleaf is a wasted line and
-   an orphaned thought; keep each heading with what follows it. */
 h2, h3, h4 { break-after:avoid-page; }
 figure, table, .box, .chsum { break-before:auto; }
-/* Long tables repeat their header rather than losing it at a page turn. */
 thead { display:table-header-group; }
 tr { break-inside:avoid; }
-/* Two short paragraphs should not be split across a page turn. */
 p, li { orphans:2; widows:2; }

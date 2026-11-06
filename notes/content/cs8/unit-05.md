@@ -191,7 +191,7 @@ data.
 ### 4. Language processors
 
 Computers understand only **machine language** — instructions written in 0s
-and 1s. People write programs in easier languages such as Python, C or QBASIC.
+and 1s. People write programs in easier languages such as Python, C or Java.
 A **language processor** (translator) converts them.
 
 ::: definition Language processor
@@ -207,7 +207,7 @@ There are three types: **assembler, compiler and interpreter**.
   language **at once**, producing a separate program file that can then be run
   again and again without translating. C and C++ use compilers.
 - An **interpreter** translates and runs a high-level program **one line at a
-  time**, and stops at the first line with an error. Python and QBASIC use
+  time**, and stops at the first line with an error. Python and JavaScript use
   interpreters.
 
 | Compiler | Interpreter |
@@ -216,7 +216,7 @@ There are three types: **assembler, compiler and interpreter**.
 | lists all the errors after translating | stops at the first error it meets |
 | makes a separate machine-language file (e.g. an `.exe`) | makes no separate file; needs the source every time |
 | the finished program runs fast | runs more slowly, as each line is translated each time |
-| e.g. C, C++ compilers | e.g. Python, QBASIC interpreters |
+| e.g. C, C++ compilers | e.g. Python, JavaScript interpreters |
 
 ::: example Worked example 5.2 — one error, two translators
 **Problem.** A 100-line program has a mistake on line 40. What happens if it is

@@ -5,7 +5,7 @@ Only active when MEILISEARCH_URL is configured.
 """
 import logging
 
-from django.db.models.signals import post_save, post_delete, m2m_changed
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 logger = logging.getLogger(__name__)

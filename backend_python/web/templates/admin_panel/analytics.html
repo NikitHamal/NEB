@@ -1,717 +1,325 @@
 {% extends "admin_panel/base.html" %}
-{% load static web_extras %}
+{% load static %}
 
 {% block title %}Analytics{% endblock %}
 
 {% block content %}
-<div class="admin-page-header">
-  <div class="admin-eyebrow">Overview</div>
-  <div class="admin-page-header-row">
-    <div>
-      <h1>Analytics</h1>
-      <p>Traffic, sessions, and content growth. {{ range_label }} · {{ range_days }} days.</p>
-    </div>
-    <div class="admin-page-actions">
-      {% if daily_stat_records %}
-      <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal">
-        <span class="material-symbols-outlined">download</span> Export CSV
+<div class="an" id="an-root">
+
+  <header class="an-head">
+    <h1>Analytics</h1>
+    <div class="an-head-actions">
+      <span class="an-updated" data-ts="{{ r.generated_at }}"></span>
+      <a class="an-btn an-btn--icon" href="{% url 'web:admin_analytics' %}?{{ range_qs }}&amp;source={{ source }}&amp;refresh=1" aria-label="Refresh" title="Refresh">
+        <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
       </a>
-      {% endif %}
+      <a class="an-btn an-btn--tonal" href="{% url 'web:admin_analytics_export_csv' %}?{{ range_qs }}&amp;source={{ source }}">
+        <span class="material-symbols-outlined" aria-hidden="true">download</span>Export CSV
+      </a>
     </div>
-  </div>
-</div>
+  </header>
 
-<!-- ── Date Range Picker ── -->
-<form method="GET" action="{% url 'web:admin_analytics' %}" class="admin-card" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-  <label class="md-body-medium" style="display:flex;align-items:center;gap:6px;">
-    <span class="material-symbols-outlined" style="font-size:18px;">calendar_month</span> From
-    <input type="date" name="from" value="{{ date_from }}" class="date-input">
-  </label>
-  <label class="md-body-medium" style="display:flex;align-items:center;gap:6px;">
-    To
-    <input type="date" name="to" value="{{ date_to }}" class="date-input">
-  </label>
-  <button type="submit" class="md-btn md-btn-tonal admin-btn-sm">Apply</button>
-  {% if is_custom_range %}
-  <a href="{% url 'web:admin_analytics' %}" class="md-btn md-btn-text admin-btn-sm">Clear</a>
+  <div class="an-toolbar" role="region" aria-label="Report filters">
+    <nav class="an-seg" aria-label="Date range">
+      {% for key, label in range_chips %}
+      <a href="?range={{ key }}&amp;source={{ source }}" class="{% if r.range.key == key %}is-on{% endif %}"{% if r.range.key == key %} aria-current="true"{% endif %}>{{ label }}</a>
+      {% endfor %}
+      <details class="an-pop{% if r.range.key == 'custom' %} is-on{% endif %}">
+        <summary aria-label="Custom range" title="Custom range"><span class="an-pop-label">{% if r.range.key == 'custom' %}{{ r.range.label }}{% else %}Custom{% endif %}</span></summary>
+        <form method="get" class="an-pop-body">
+          <label>From <input type="date" name="from" value="{% if r.range.key == 'custom' %}{{ r.range.from }}{% endif %}" max="{{ max_date }}" required></label>
+          <label>To <input type="date" name="to" value="{% if r.range.key == 'custom' %}{{ r.range.to }}{% endif %}" max="{{ max_date }}" required></label>
+          <input type="hidden" name="source" value="{{ source }}">
+          <button type="submit" class="an-btn an-btn--filled">Apply</button>
+        </form>
+      </details>
+    </nav>
+
+    <nav class="an-seg" aria-label="Traffic source">
+      {% for key, label in source_chips %}
+      <a href="?{{ range_qs }}&amp;source={{ key }}" class="{% if source == key %}is-on{% endif %}"{% if source == key %} aria-current="true"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+
+    {% if r.has_data %}
+    <nav class="an-jump" aria-label="Sections">
+      <a href="#an-overview" data-spy="an-overview">Overview</a>
+      <a href="#an-acquisition" data-spy="an-acquisition">Acquisition</a>
+      <a href="#an-audience" data-spy="an-audience">Audience</a>
+      <a href="#an-members" data-spy="an-members">Members</a>
+      <a href="#an-content" data-spy="an-content">Content</a>
+      <a href="#an-devices" data-spy="an-devices">Devices</a>
+      <a href="#an-posts" data-spy="an-posts">Posts</a>
+    </nav>
+    {% endif %}
+  </div>
+
+  {% if r.needs_backfill %}
+  <div class="an-note" role="status">
+    <span class="material-symbols-outlined" aria-hidden="true">database</span>
+    <p>Older page views are still in the previous format and are left out of these numbers. Run <code>python manage.py backfill_analytics</code> once to include them.</p>
+  </div>
   {% endif %}
-  <span class="md-body-medium" style="color:var(--md-on-surface-variant);margin-left:auto;">
-    {{ range_label }} &middot; {{ range_days }} days
-  </span>
-</form>
 
-{% if not has_data %}
-<div class="admin-empty" style="margin-bottom:20px;">
-  <div class="admin-empty-icon-wrap">
-    <span class="material-symbols-outlined">insights</span>
-  </div>
-  <h3>No data yet</h3>
-  <p>Page view tracking was just enabled. Data will appear here as visitors browse the site.</p>
-</div>
-{% endif %}
+  {% if not r.has_data %}
+  <section class="an-empty" aria-live="polite">
+    <span class="an-empty-icon"><span class="material-symbols-outlined" aria-hidden="true">query_stats</span></span>
+    <h2>No page views in {{ r.range.label|lower }}</h2>
+    <p>Try a longer range{% if source != 'all' %} or switch the source to All{% endif %}.</p>
+    <div class="an-empty-actions">
+      {% if r.range.key != '90d' %}<a class="an-btn an-btn--filled" href="?range=90d&amp;source={{ source }}">Last 90 days</a>{% endif %}
+      {% if source != 'all' %}<a class="an-btn an-btn--tonal" href="?{{ range_qs }}&amp;source=all">All sources</a>{% endif %}
+    </div>
+  </section>
+  {% endif %}
 
-<!-- ── Online Now ── -->
-<div class="online-now-bar admin-card" id="online-now-section">
-  <div class="online-now-header">
-    <span class="material-symbols-outlined online-now-dot">fiber_manual_record</span>
-    <h2>Online Now</h2>
-    <span class="online-now-count" id="online-count-badge">{{ online_count }}</span>
-  </div>
-  <div class="online-user-cards" id="online-user-list">
-    {% for u in online_user_details %}
-    <div class="online-user-card">
-      {% if u.photo_url %}
-      <img src="{{ u.photo_url }}" alt="" class="online-user-avatar" loading="lazy">
-      {% else %}
-      <div class="online-user-avatar online-user-avatar-placeholder">{{ u.display_name|first|upper }}</div>
-      {% endif %}
-      <div class="online-user-info">
-        <span class="online-user-name">{{ u.display_name }}</span>
-        <span class="online-user-screen">{{ u.screen|default:"browsing" }}</span>
+  {% if r.has_data %}
+  <!-- ================= Overview ================= -->
+  <section class="an-section" id="an-overview" data-section>
+    <h2 class="an-h">Overview</h2>
+
+    <div class="an-kpis">
+      {% for k in r.kpis %}{% include "admin_panel/analytics/_kpi.html" %}{% endfor %}
+    </div>
+
+    <div class="an-card an-trend" id="an-trend-card">
+      <div class="an-card-head">
+        <h3>Traffic</h3>
+        <div class="an-card-tools">
+          <div class="an-tabs" role="tablist" aria-label="Metric">
+            <button type="button" role="tab" data-metric="visitors" aria-selected="true">Visitors</button>
+            <button type="button" role="tab" data-metric="visits" aria-selected="false">Visits</button>
+            <button type="button" role="tab" data-metric="pageviews" aria-selected="false">Pageviews</button>
+          </div>
+          <label class="an-switch">
+            <input type="checkbox" id="an-compare" checked>
+            <span class="an-switch-track" aria-hidden="true"><span></span></span>
+            <span class="an-switch-label">Previous period</span>
+          </label>
+        </div>
+      </div>
+      <div class="an-chart" id="an-trend" role="img" aria-label="Traffic over {{ r.range.label|lower }}"></div>
+    </div>
+
+    <div class="an-grid">
+      <div class="an-card an-span-8">
+        <div class="an-card-head">
+          <h3>When people visit</h3>
+          {% if r.heatmap.peak %}<span class="an-chip">Peak {{ r.heatmap.peak.label }}</span>{% endif %}
+        </div>
+        {% if r.heatmap.has_data %}
+        <div class="an-heat-scroll">
+          <div class="an-heat" role="img" aria-label="Pageviews by weekday and hour">
+            <div class="an-heat-row an-heat-axis">
+              <span></span>
+              {% for h in r.heatmap.hours %}<span>{% if h|divisibleby:3 %}{{ h }}{% endif %}</span>{% endfor %}
+            </div>
+            {% for row in r.heatmap.rows %}
+            <div class="an-heat-row">
+              <span class="an-heat-day">{{ row.day }}</span>
+              {% for c in row.cells %}<i class="an-heat-cell" style="--a: {{ c.a }}" title="{{ c.tip }}"></i>{% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% else %}<p class="an-none">No data in this range</p>{% endif %}
+      </div>
+
+      <div class="an-card an-span-4">
+        <div class="an-card-head"><h3>Visit funnel</h3></div>
+        <ol class="an-funnel">
+          {% for step in r.funnel %}
+          <li style="--w: {{ step.width }}%; --i: {{ forloop.counter0 }}">
+            <div class="an-rank-line">
+              <span class="an-rank-name">{{ step.name }}</span>
+              <span class="an-rank-num">{{ step.display }}</span>
+              <span class="an-rank-pct">{{ step.pct }}%</span>
+            </div>
+            <div class="an-bar an-bar--tall"><span></span></div>
+          </li>
+          {% endfor %}
+        </ol>
       </div>
     </div>
-    {% empty %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);margin:8px 0;">No one online right now</p>
-    {% endfor %}
-  </div>
-</div>
+  </section>
 
-<!-- ── Range Snapshot ── -->
-<div class="admin-kpi-grid">
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">visibility</span></span>
-      <span class="admin-kpi-label">{% if is_custom_range %}Visits{% else %}Visits (today){% endif %}</span>
-    </div>
-    <div class="admin-kpi-value">{% if is_custom_range %}{{ range_visits }}{% else %}<span id="stat-today-visits">{{ today_visits }}</span>{% endif %}</div>
-    {% if is_custom_range %}
-    <div class="admin-kpi-sub">{{ range_days }} days</div>
-    {% else %}
-    <div class="admin-kpi-sub" id="stat-visit-delta">
-      {% if visit_delta > 0 %}+{% endif %}{{ visit_delta }} vs yesterday
-    </div>
-    {% endif %}
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">person</span></span>
-      <span class="admin-kpi-label">{% if is_custom_range %}Unique visitors{% else %}Unique visitors (today){% endif %}</span>
-    </div>
-    <div class="admin-kpi-value">{% if is_custom_range %}{{ range_unique }}{% else %}{{ today_unique }}{% endif %}</div>
-    <div class="admin-kpi-sub">{{ total_users }} total users</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">groups</span></span>
-      <span class="admin-kpi-label">Sessions</span>
-    </div>
-    <div class="admin-kpi-value">{{ range_sessions }}</div>
-    <div class="admin-kpi-sub">{{ range_bounce_rate }}% bounce rate</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">web</span></span>
-      <span class="admin-kpi-label">Web visits</span>
-    </div>
-    <div class="admin-kpi-value">{{ range_web }}</div>
-    <div class="admin-kpi-sub">{% widthratio range_web range_visits 100 %}% of traffic</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">phone_android</span></span>
-      <span class="admin-kpi-label">App visits</span>
-    </div>
-    <div class="admin-kpi-value">{{ range_app }}</div>
-    <div class="admin-kpi-sub">{% widthratio range_app range_visits 100 %}% of traffic</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">bar_chart</span></span>
-      <span class="admin-kpi-label">Total (range)</span>
-    </div>
-    <div class="admin-kpi-value">{{ range_visits|default:"0" }}</div>
-    <div class="admin-kpi-sub">{{ total_pageviews }} all time</div>
-  </div>
-</div>
+  <!-- ================= Acquisition ================= -->
+  <section class="an-section" id="an-acquisition" data-section>
+    <h2 class="an-h">Acquisition</h2>
+    <div class="an-grid">
+      <div class="an-card an-span-5">
+        <div class="an-card-head"><h3>Channels</h3></div>
+        {% if r.channels %}
+        <div class="an-donut-wrap">
+          <div class="an-donut" style="background: {{ r.channels_donut }}" role="img" aria-label="Visits by channel">
+            <div class="an-donut-hole"><strong>{{ r.totals.sessions }}</strong><span>visits</span></div>
+          </div>
+        </div>
+        {% endif %}
+        {% include "admin_panel/analytics/_rank.html" with rows=r.channels swatch=True %}
+      </div>
 
-<!-- ── Session Metrics ── -->
-<h2 class="admin-section-h">Session metrics{% if not is_custom_range %} (today){% endif %}</h2>
-<div class="admin-kpi-grid">
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">timeline</span></span>
-      <span class="admin-kpi-label">Total sessions</span>
+      <div class="an-card an-span-7">
+        <div class="an-card-head"><h3>Top sources</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.sources %}
+      </div>
+
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Landing pages</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.landing %}
+      </div>
+
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Campaigns</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.campaigns %}
+      </div>
     </div>
-    <div class="admin-kpi-value">{{ range_sessions }}</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">logout</span></span>
-      <span class="admin-kpi-label">Bounce rate</span>
+  </section>
+
+  <!-- ================= Audience ================= -->
+  <section class="an-section" id="an-audience" data-section>
+    <h2 class="an-h">Audience</h2>
+    <div class="an-grid">
+      <div class="an-card an-span-5">
+        <div class="an-card-head"><h3>Devices</h3></div>
+        {% if r.audience.devices %}
+        <div class="an-donut-wrap">
+          <div class="an-donut" style="background: {{ r.devices_donut }}" role="img" aria-label="Visits by device">
+            <div class="an-donut-hole"><strong>{{ r.totals.sessions }}</strong><span>visits</span></div>
+          </div>
+        </div>
+        {% endif %}
+        {% include "admin_panel/analytics/_rank.html" with rows=r.audience.devices swatch=True %}
+      </div>
+
+      <div class="an-card an-span-7">
+        <div class="an-card-head"><h3>Who is visiting</h3></div>
+        <div class="an-split" aria-label="Members and guests">
+          <div class="an-split-bar">
+            <span class="an-split-a" style="width: {{ r.audience.members_pct }}%"></span>
+          </div>
+          <div class="an-split-legend">
+            <span><i class="an-dot an-dot--a"></i>Members <strong>{{ r.audience.members_visits }}</strong> <em>{{ r.audience.members_pct }}%</em></span>
+            <span><i class="an-dot an-dot--b"></i>Guests <strong>{{ r.audience.guest_visits }}</strong> <em>{{ r.audience.guests_pct }}%</em></span>
+          </div>
+        </div>
+        <div class="an-split">
+          <div class="an-split-bar">
+            {% for s in r.audience.surfaces %}{% if s.name == 'Website' %}<span class="an-split-a" style="width: {{ s.pct }}%"></span>{% endif %}{% endfor %}
+          </div>
+          <div class="an-split-legend">
+            {% for s in r.audience.surfaces %}
+            <span><i class="an-dot {% if s.name == 'Website' %}an-dot--a{% else %}an-dot--b{% endif %}"></i>{{ s.name }} <strong>{{ s.display }}</strong> <em>{{ s.pct }}%</em></span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="an-card an-span-4">
+        <div class="an-card-head"><h3>Operating systems</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.audience.os %}
+      </div>
+      <div class="an-card an-span-4">
+        <div class="an-card-head"><h3>Browsers</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.audience.browsers %}
+      </div>
+      <div class="an-card an-span-4">
+        <div class="an-card-head"><h3>Locations</h3></div>
+        {% if r.audience.countries %}
+          {% include "admin_panel/analytics/_rank.html" with rows=r.audience.countries %}
+          {% if r.audience.geo_known_pct < 100 %}<p class="an-foot">Location known for {{ r.audience.geo_known_pct }}% of visits</p>{% endif %}
+        {% else %}
+          <p class="an-none">No location data. Serve the site behind Cloudflare, or set <code>ANALYTICS_GEO_REMOTE=1</code>.</p>
+        {% endif %}
+      </div>
     </div>
-    <div class="admin-kpi-value">{{ range_bounce_rate }}%</div>
-    <div class="admin-kpi-sub">{{ range_bounce_count }} bounces</div>
-  </div>
-  <div class="admin-kpi">
-    <div class="admin-kpi-top">
-      <span class="admin-kpi-icon"><span class="material-symbols-outlined">description</span></span>
-      <span class="admin-kpi-label">Pages / session</span>
+  </section>
+
+  <!-- ================= Members ================= -->
+  <section class="an-section" id="an-members" data-section>
+    <h2 class="an-h">Members</h2>
+    <div class="an-stats">
+      <div class="an-stat"><span class="an-stat-v">{{ r.retention.dau }}</span><span class="an-stat-l">Daily active</span></div>
+      <div class="an-stat"><span class="an-stat-v">{{ r.retention.wau }}</span><span class="an-stat-l">Weekly active</span></div>
+      <div class="an-stat"><span class="an-stat-v">{{ r.retention.mau }}</span><span class="an-stat-l">Monthly active</span></div>
+      <div class="an-stat an-stat--accent"><span class="an-stat-v">{{ r.retention.stickiness }}%</span><span class="an-stat-l">Stickiness</span></div>
+      <div class="an-stat"><span class="an-stat-v">{{ r.retention.returning_pct }}%</span><span class="an-stat-l">Returning members</span></div>
     </div>
-    <div class="admin-kpi-value">{{ range_pages_per_session }}</div>
-  </div>
-</div>
 
-<!-- ── Charts Row 1: Daily Trend ── -->
-<div class="admin-panel-grid">
-  <div class="admin-card">
-    <h3>Daily Visit Trend{% if is_custom_range %} ({{ range_days }} days){% endif %}</h3>
-    <canvas id="chartDaily" height="200"></canvas>
-  </div>
-  <div class="admin-card">
-    <h3>{% if is_custom_range %}Daily{% else %}User &amp; Content{% endif %} Growth{% if not is_custom_range %} (7 days){% endif %}</h3>
-    <canvas id="chartGrowth" height="200"></canvas>
-  </div>
-</div>
-
-<!-- ── Charts Row 2: Hourly + Peak Hours ── -->
-<div class="admin-panel-grid">
-  <div class="admin-card">
-    <h3>Hourly Breakdown</h3>
-    <canvas id="chartHourly" height="200"></canvas>
-  </div>
-  <div class="admin-card">
-    <h3>Peak Hours</h3>
-    <canvas id="chartPeak" height="200"></canvas>
-  </div>
-</div>
-
-<!-- ── Charts Row 3: Source + Device Class + DOW ── -->
-<div class="admin-grid-3 mb-3">
-  <div class="admin-card">
-    <h3>Traffic Source</h3>
-    <canvas id="chartSource" height="200"></canvas>
-  </div>
-  <div class="admin-card">
-    <h3>Device Class (30 days)</h3>
-    <canvas id="chartDevice" height="200"></canvas>
-  </div>
-  <div class="admin-card">
-    <h3>Day of Week</h3>
-    <canvas id="chartDow" height="200"></canvas>
-  </div>
-</div>
-
-<!-- ── Charts Row 4: Referrer Type ── -->
-<div class="admin-card" style="margin-bottom:20px;">
-  <h3>Referrer Type</h3>
-  <div style="max-width:360px;margin:0 auto;">
-    <canvas id="chartReferrer" height="200"></canvas>
-  </div>
-</div>
-
-<!-- ── Tables ── -->
-<div class="admin-panel-grid">
-  <div class="admin-card">
-    <h3>Top Referrer Domains{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-    {% if top_domains %}
-    <div class="admin-table-wrap" style="margin-bottom:0;">
-    <table class="admin-table">
-      <thead>
-        <tr><th>Domain</th><th class="num">Visits</th></tr>
-      </thead>
-      <tbody>
-        {% for d in top_domains %}
-        <tr>
-          <td>
-            <div class="admin-flex-row" style="gap:8px;min-width:0;">
-            <img src="https://www.google.com/s2/favicons?domain={{ d.referrer_domain }}&sz=16" alt="" width="16" height="16" class="favicon-img" loading="lazy" data-hide-on-error>
-            <span>{{ d.referrer_domain }}</span>
-            </div>
-          </td>
-          <td class="num" style="font-weight:600;">{{ d.count }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    {% if r.demographics.total %}
+    <div class="an-grid">
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Class level</h3><span class="an-chip">{{ r.demographics.total }} members</span></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.demographics.classes %}
+      </div>
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Province</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.demographics.provinces %}
+      </div>
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Gender</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.demographics.gender %}
+      </div>
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Role</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.demographics.roles %}
+      </div>
     </div>
     {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No external referrer data yet.</p>
+    <div class="an-card"><p class="an-none">No signed-in members visited in this range</p></div>
     {% endif %}
-  </div>
-  <div class="admin-card">
-    <h3>Top Pages{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-    {% if top_pages %}
-    <div class="admin-table-wrap" style="margin-bottom:0;">
-    <table class="admin-table">
-      <thead>
-        <tr><th>Page</th><th class="num">Visits</th></tr>
-      </thead>
-      <tbody>
-        {% for p in top_pages %}
-        <tr>
-          <td><code>{{ p.path }}</code></td>
-          <td class="num" style="font-weight:600;">{{ p.count }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  </section>
+
+  <!-- ================= Content ================= -->
+  <section class="an-section" id="an-content" data-section>
+    <h2 class="an-h">Content</h2>
+    <div class="an-grid">
+      <div class="an-card an-span-5">
+        <div class="an-card-head"><h3>Sections</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.content.sections swatch=True %}
+      </div>
+      <div class="an-card an-span-7">
+        <div class="an-card-head"><h3>Top pages</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.content.pages %}
+      </div>
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Top threads</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.content.threads %}
+      </div>
+      <div class="an-card an-span-6">
+        <div class="an-card-head"><h3>Top resources</h3></div>
+        {% include "admin_panel/analytics/_rank.html" with rows=r.content.resources %}
+      </div>
     </div>
-    {% else %}
-    <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No page data yet.</p>
-    {% endif %}
-  </div>
-</div>
-
-<div class="admin-card" style="margin-bottom:24px;">
-  <h3>Referrer Details{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-  {% if referrer_details %}
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-  <table class="admin-table">
-    <thead>
-      <tr><th>Domain</th><th>Type</th><th class="num">Visits</th></tr>
-    </thead>
-      <tbody>
-        {% for r in referrer_details %}
-        <tr>
-          <td>
-            <div class="admin-flex-row" style="gap:8px;min-width:0;">
-            {% if r.referrer_domain %}
-            <img src="https://www.google.com/s2/favicons?domain={{ r.referrer_domain }}&sz=16" alt="" width="16" height="16" class="favicon-img" loading="lazy" data-hide-on-error>
-            {% endif %}
-            <span>{{ r.referrer_domain|default:"(direct)" }}</span>
-            </div>
-          </td>
-          <td><span class="ref-type-badge ref-type-{{ r.referrer_type }}">{{ r.referrer_type }}</span></td>
-          <td class="num" style="font-weight:600;">{{ r.count }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-  </table>
-  </div>
-  {% else %}
-  <p class="md-body-medium" style="color:var(--md-on-surface-variant);">No referrer data yet.</p>
-  {% endif %}
-</div>
-
-{% if platform_data %}
-<div class="admin-card" style="margin-bottom:24px;">
-  <h3>Platform Breakdown{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-  <table class="admin-table">
-    <thead>
-      <tr><th>Platform</th><th class="num">Visits</th><th class="num">Share</th></tr>
-    </thead>
-    <tbody>
-      {% for p in platform_data %}
-      <tr>
-        <td>{{ p.platform|title }}</td>
-        <td class="num" style="font-weight:600;">{{ p.count }}</td>
-        <td style="text-align:right;color:var(--md-on-surface-variant);">{% if source_web > 0 %}{% widthratio p.count source_web 100 %}%{% else %}&mdash;{% endif %}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  </div>
-</div>
-{% endif %}
-
-<!-- 
-── Demographics: Country ── -->
-{% if country_data %}
-<div class="admin-card" style="margin-bottom:24px;">
-  <h3>Top Countries{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-  <table class="admin-table">
-    <thead><tr><th>Country</th><th class="num">Visits</th></tr></thead>
-    <tbody>
-      {% for c in country_data %}
-      <tr><td>{{ c.country }}</td><td class="num" style="font-weight:600;">{{ c.count }}</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  </div>
-</div>
-{% endif %}
-
-<!-- ── Demographics: City ── -->
-{% if city_data %}
-<div class="admin-card" style="margin-bottom:24px;">
-  <h3>Top Cities{% if is_custom_range %} ({{ range_label }}){% endif %}</h3>
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-  <table class="admin-table">
-    <thead><tr><th>City</th><th class="num">Visits</th></tr></thead>
-    <tbody>
-      {% for c in city_data %}
-      <tr><td>{{ c.city }}</td><td class="num" style="font-weight:600;">{{ c.count }}</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  </div>
-</div>
-{% endif %}
-
-<!-- ── Demographics: Gender ── -->
-{% if gender_data %}
-<div class="admin-card" style="margin-bottom:24px;">
-  <h3>Gender Distribution</h3>
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-  <table class="admin-table">
-    <thead><tr><th>Gender</th><th class="num">Visits</th></tr></thead>
-    <tbody>
-      {% for g in gender_data %}
-      <tr><td>{{ g.gender|title }}</td><td class="num" style="font-weight:600;">{{ g.count }}</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  </div>
-</div>
-{% endif %}
-
-<!-- ── DailyStat Records Table ── -->
-{% if daily_stat_records %}
-<div class="admin-card" style="margin-bottom:24px;">
-  <div class="admin-card-head">
-    <h3>Daily Stats{% if is_custom_range %} ({{ range_label }}){% else %} (Last 30 Days){% endif %}</h3>
-    <a href="{% url 'web:admin_analytics_export_csv' %}" class="md-btn md-btn-tonal admin-btn-sm" style="text-decoration:none;">
-      <span class="material-symbols-outlined">download</span> Export CSV
-    </a>
-  </div>
-  <div class="admin-table-wrap" style="margin-bottom:0;">
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th class="num">Visits</th>
-          <th class="num">Unique</th>
-          <th class="num">Sessions</th>
-          <th class="num">Bounce%</th>
-          <th class="num">Pages/Sess</th>
-          <th class="num">Peak Hr</th>
-          <th class="num">Web</th>
-          <th class="num">App</th>
-          <th class="num">Users</th>
-          <th class="num">Posts</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for s in daily_stat_records %}
-        <tr>
-          <td>{{ s.date|date:"M d" }}</td>
-          <td class="num">{{ s.total_visits }}</td>
-          <td class="num">{{ s.unique_visitors }}</td>
-          <td class="num">{{ s.total_sessions }}</td>
-          <td class="num">{% if s.total_sessions > 0 %}{% widthratio s.bounce_count s.total_sessions 100 %}%{% else %}0%{% endif %}</td>
-          <td class="num">{{ s.pages_per_session|floatformat:1 }}</td>
-          <td class="num"><span class="peak-hour-badge">{{ s.peak_hour }}:00</span></td>
-          <td class="num">{{ s.web_visits }}</td>
-          <td class="num">{{ s.app_visits }}</td>
-          <td class="num">{{ s.new_users }}</td>
-          <td class="num">{{ s.new_posts }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-{% endif %}
-
-<div class="auto-refresh-indicator" id="refresh-indicator"{% if is_custom_range %} style="display:none;"{% endif %}>
-  <span class="material-symbols-outlined">sync</span>
-  <span id="refresh-text">Auto-refresh in 60s</span>
-  <span id="refresh-time" style="display:none;"></span>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script nonce="{{ csp_nonce }}">
-(function() {
-  var adminSurface = '#ffffff';
-  var adminOnSurface = '#0B1C30';
-  try {
-    var cs = getComputedStyle(document.body);
-    if (cs.getPropertyValue('--md-surface')) adminSurface = cs.getPropertyValue('--md-surface').trim() || adminSurface;
-    if (cs.getPropertyValue('--md-on-surface')) adminOnSurface = cs.getPropertyValue('--md-on-surface').trim() || adminOnSurface;
-  } catch (e) {}
-  if (window.Chart) {
-    Chart.defaults.font.family = "'Poppins', 'Segoe UI', system-ui, sans-serif";
-    Chart.defaults.color = adminOnSurface;
-  }
-  {% if has_data %}
-  // ── Daily Visit Trend ──
-  var ctxDaily = document.getElementById('chartDaily');
-  if (ctxDaily) {
-    new Chart(ctxDaily, {
-      type: 'line',
-      data: {
-        labels: {{ day_labels|safe }},
-        datasets: [{
-          label: 'Visits',
-          data: {{ day_visits|safe }},
-          borderColor: '#2563EB',
-          backgroundColor: 'rgba(37,99,235,0.1)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 3,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { precision: 0, maxTicksLimit: 15 } },
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } }
-        }
-      }
-    });
-  }
-
-  // ── User & Content Growth ──
-  var ctxGrowth = document.getElementById('chartGrowth');
-  if (ctxGrowth) {
-    new Chart(ctxGrowth, {
-      type: 'bar',
-      data: {
-        labels: {{ day_labels|safe }},
-        datasets: [
-          {
-            label: 'New Users',
-            data: {{ day_users|safe }},
-            backgroundColor: 'rgba(37,99,235,0.7)',
-            borderRadius: 4,
-          },
-          {
-            label: 'New Posts',
-            data: {{ day_posts|safe }},
-            backgroundColor: 'rgba(16,185,129,0.7)',
-            borderRadius: 4,
-          },
-          {
-            label: 'New Resources',
-            data: {{ day_resources|safe }},
-            backgroundColor: 'rgba(245,158,11,0.7)',
-            borderRadius: 4,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } },
-        scales: {
-          y: { beginAtZero: true, ticks: { precision: 0, maxTicksLimit: 15 } },
-          x: { grid: { display: false } }
-        }
-      }
-    });
-  }
-
-  // ── Hourly Breakdown ──
-  var ctxHourly = document.getElementById('chartHourly');
-  if (ctxHourly) {
-    new Chart(ctxHourly, {
-      type: 'bar',
-      data: {
-        labels: {{ hourly_labels|safe }},
-        datasets: [{
-          label: 'Visits',
-          data: {{ hourly_visits|safe }},
-          backgroundColor: 'rgba(16,185,129,0.7)',
-          borderRadius: 2,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { precision: 0, maxTicksLimit: 15 } },
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } }
-        }
-      }
-    });
-  }
-
-  // ── Peak Hours ──
-  var ctxPeak = document.getElementById('chartPeak');
-  if (ctxPeak) {
-    new Chart(ctxPeak, {
-      type: 'bar',
-      data: {
-        labels: {{ peak_hour_labels|safe }},
-        datasets: [{
-          label: 'Total Visits',
-          data: {{ peak_hour_data|safe }},
-          backgroundColor: function(context) {
-            var idx = context.dataIndex;
-            var maxVal = Math.max.apply(null, context.dataset.data);
-            return idx === context.dataset.data.indexOf(maxVal) ? 'rgba(245,158,11,0.9)' : 'rgba(99,102,241,0.5)';
-          },
-          borderRadius: 2,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { precision: 0, maxTicksLimit: 15 } },
-          x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } }
-        }
-      }
-    });
-  }
-
-  // ── Source Breakdown ──
-  var ctxSource = document.getElementById('chartSource');
-  if (ctxSource) {
-    new Chart(ctxSource, {
-      type: 'doughnut',
-      data: {
-        labels: ['Web', 'App'],
-        datasets: [{
-          data: [{{ source_web }}, {{ source_app }}],
-          backgroundColor: ['#2563EB', '#10B981'],
-          borderWidth: 2,
-          borderColor: adminSurface,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } },
-        }
-      }
-    });
-  }
-
-  // ── Device Class ──
-  var ctxDevice = document.getElementById('chartDevice');
-  if (ctxDevice) {
-    new Chart(ctxDevice, {
-      type: 'doughnut',
-      data: {
-        labels: ['Mobile', 'Desktop', 'Tablet', 'Other'],
-        datasets: [{
-          data: [{{ device_mobile }}, {{ device_desktop }}, {{ device_tablet }}, {{ device_other }}],
-          backgroundColor: ['#10B981', '#3B82F6', '#8B5CF6', '#9CA3AF'],
-          borderWidth: 2,
-          borderColor: adminSurface,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
-        }
-      }
-    });
-  }
-
-  // ── Day-of-Week ──
-  var ctxDow = document.getElementById('chartDow');
-  if (ctxDow) {
-    new Chart(ctxDow, {
-      type: 'bar',
-      data: {
-        labels: {{ dow_labels|safe }},
-        datasets: [{
-          label: 'Visits',
-          data: {{ dow_data|safe }},
-          backgroundColor: 'rgba(139,92,246,0.7)',
-          borderRadius: 4,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { precision: 0, maxTicksLimit: 15 } },
-          x: { grid: { display: false } }
-        }
-      }
-    });
-  }
-
-  // ── Referrer Type Breakdown ──
-  var ctxRef = document.getElementById('chartReferrer');
-  if (ctxRef) {
-    new Chart(ctxRef, {
-      type: 'doughnut',
-      data: {
-        labels: ['Direct', 'Search', 'Social', 'Referral', 'Internal'],
-        datasets: [{
-          data: [{{ ref_direct }}, {{ ref_search }}, {{ ref_social }}, {{ ref_referral }}, {{ ref_internal }}],
-          backgroundColor: ['#8B5CF6', '#3B82F6', '#EC4899', '#F59E0B', '#10B981'],
-          borderWidth: 2,
-          borderColor: adminSurface,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } },
-        }
-      }
-    });
-  }
+  </section>
   {% endif %}
 
-  // ── Auto-Refresh (60s) — only for live today view ──
-  {% if is_custom_range %}
-  var refreshTimer = null;
-  document.getElementById('refresh-text').textContent = 'Historical view — auto-refresh off';
-  {% else %}
-  var refreshCountdown = 60;
-  var refreshTimer = setInterval(function() {
-    refreshCountdown--;
-    var el = document.getElementById('refresh-text');
-    if (el) el.textContent = 'Auto-refresh in ' + refreshCountdown + 's';
-    if (refreshCountdown <= 0) {
-      refreshCountdown = 60;
-      fetch('{% url "web:admin_analytics_refresh" %}', { credentials: 'same-origin' })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          var visEl = document.getElementById('stat-today-visits');
-          if (visEl) visEl.textContent = data.today_visits;
-          var deltaEl = document.getElementById('stat-visit-delta');
-          if (deltaEl) {
-            var d = data.visit_delta;
-            deltaEl.textContent = (d > 0 ? '+' : '') + d + ' vs yesterday';
-            deltaEl.style.color = d > 0 ? 'var(--md-tertiary)' : (d < 0 ? 'var(--md-error)' : '');
-          }
-          var badgeEl = document.getElementById('online-count-badge');
-          if (badgeEl) badgeEl.textContent = data.online_count;
-        })
-        .catch(function() {});
-    }
-  }, 1000);
-  {% endif %}
+  {% include "admin_panel/analytics/_devices.html" %}
 
-  // ── Online Users Refresh (30s) ──
-  setInterval(function() {
-    fetch('{% url "web:admin_analytics_online_users" %}', { credentials: 'same-origin' })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var badgeEl = document.getElementById('online-count-badge');
-        if (badgeEl) badgeEl.textContent = data.online_count;
-        var listEl = document.getElementById('online-user-list');
-        if (listEl && data.users && data.users.length > 0) {
-          var html = '';
-          data.users.forEach(function(u) {
-            html += '<div class="online-user-card">';
-            if (u.photo_url) {
-              html += '<img src="' + u.photo_url + '" alt="" class="online-user-avatar" loading="lazy">';
-            } else {
-              html += '<div class="online-user-avatar online-user-avatar-placeholder">' + (u.display_name ? u.display_name.charAt(0).toUpperCase() : '?') + '</div>';
-            }
-            html += '<div class="online-user-info">';
-            html += '<span class="online-user-name">' + u.display_name + '</span>';
-            html += '<span class="online-user-screen">' + (u.screen || 'browsing') + '</span>';
-            html += '</div></div>';
-          });
-          if (html === '') html = '<p class="md-body-medium" style="color:var(--md-on-surface-variant);margin:8px 0;">No one online right now</p>';
-          listEl.innerHTML = html;
-        }
-      })
-      .catch(function() {});
-  }, 30000);
-})();
-</script>
+  <!-- ================= Growth (database counts, independent of page views) ================= -->
+  <section class="an-section" id="an-growth" data-section>
+    <h2 class="an-h">Community growth</h2>
+    <div class="an-grid an-grid--4">
+      {% for g in r.growth %}
+      <article class="an-card an-growth">
+        <div class="an-kpi-top">
+          <span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">{{ g.icon }}</span></span>
+          <span class="an-kpi-label">{{ g.label }}</span>
+        </div>
+        <div class="an-growth-row">
+          <div class="an-kpi-value">{{ g.value }}</div>
+          {% include "admin_panel/analytics/_delta.html" with d=g.delta %}
+        </div>
+        <div class="an-bars" role="img" aria-label="{{ g.label }} per {{ r.range.unit }}">
+          {% for b in g.bars %}<i style="--h: {{ b.h }}%; --i: {{ forloop.counter0 }}" title="{{ b.tip }}"></i>{% endfor %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>
+
+{{ r.chart_json|json_script:"an-data" }}
+<script src="{% static 'web/js/admin-analytics.js' %}" nonce="{{ csp_nonce }}" defer></script>
 {% endblock %}

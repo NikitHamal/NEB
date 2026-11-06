@@ -98,7 +98,7 @@
     "पदक्रम"
    ],
    "stats": {
-    "words": 4293,
+    "words": 4641,
     "figures": 1,
     "examples": 1
    },
@@ -182,7 +182,7 @@
     "कथा"
    ],
    "stats": {
-    "words": 4158,
+    "words": 4449,
     "figures": 1,
     "examples": 1
    },
@@ -266,7 +266,7 @@
     "नियात्रा"
    ],
    "stats": {
-    "words": 3875,
+    "words": 4161,
     "figures": 1,
     "examples": 1
    },
@@ -346,7 +346,7 @@
     "व्यावहारिक लेखन"
    ],
    "stats": {
-    "words": 4128,
+    "words": 4428,
     "figures": 1,
     "examples": 2
    },
@@ -440,7 +440,7 @@
     "उपन्यास"
    ],
    "stats": {
-    "words": 4727,
+    "words": 5023,
     "figures": 2,
     "examples": 1
    },
@@ -524,7 +524,7 @@
     "जीवनी"
    ],
    "stats": {
-    "words": 4258,
+    "words": 4569,
     "figures": 2,
     "examples": 1
    },
@@ -614,7 +614,7 @@
     "गजल"
    ],
    "stats": {
-    "words": 4496,
+    "words": 4799,
     "figures": 2,
     "examples": 1
    },
@@ -703,7 +703,7 @@
     "कथा"
    ],
    "stats": {
-    "words": 4171,
+    "words": 4459,
     "figures": 2,
     "examples": 1
    },
@@ -792,7 +792,7 @@
     "कथा"
    ],
    "stats": {
-    "words": 4786,
+    "words": 5080,
     "figures": 2,
     "examples": 1
    },
@@ -888,7 +888,7 @@
     "वाच्य"
    ],
    "stats": {
-    "words": 5082,
+    "words": 5333,
     "figures": 1,
     "examples": 1
    },
@@ -982,7 +982,7 @@
     "प्रबन्ध"
    ],
    "stats": {
-    "words": 5158,
+    "words": 5457,
     "figures": 2,
     "examples": 1
    },
@@ -1076,7 +1076,7 @@
     "रिपोर्ताज"
    ],
    "stats": {
-    "words": 5215,
+    "words": 5502,
     "figures": 1,
     "examples": 1
    },
@@ -1146,7 +1146,7 @@
     "खुला र बन्द अक्षर"
    ],
    "stats": {
-    "words": 2701,
+    "words": 2981,
     "figures": 2,
     "examples": 3
    },
@@ -1214,7 +1214,7 @@
     "पद र पदवर्ग"
    ],
    "stats": {
-    "words": 2431,
+    "words": 2678,
     "figures": 2,
     "examples": 3
    },
@@ -1293,7 +1293,7 @@
     "पदसङ्गति"
    ],
    "stats": {
-    "words": 2724,
+    "words": 3006,
     "figures": 2,
     "examples": 3
    },
@@ -1354,7 +1354,7 @@
     "उपवाक्य"
    ],
    "stats": {
-    "words": 2534,
+    "words": 2852,
     "figures": 2,
     "examples": 4
    },
@@ -1407,7 +1407,7 @@
     "पक्ष"
    ],
    "stats": {
-    "words": 2400,
+    "words": 2709,
     "figures": 2,
     "examples": 4
    },
@@ -1480,7 +1480,7 @@
     "सङ्केतार्थ भाव"
    ],
    "stats": {
-    "words": 2398,
+    "words": 2734,
     "figures": 2,
     "examples": 3
    },
@@ -1535,7 +1535,7 @@
     "गजल"
    ],
    "stats": {
-    "words": 2563,
+    "words": 2830,
     "figures": 2,
     "examples": 3
    },
@@ -1621,7 +1621,7 @@
     "अव्ययीभाव समास"
    ],
    "stats": {
-    "words": 2435,
+    "words": 2699,
     "figures": 2,
     "examples": 3
    },
@@ -1680,7 +1680,7 @@
     "विभक्ति"
    ],
    "stats": {
-    "words": 2289,
+    "words": 2550,
     "figures": 2,
     "examples": 3
    },
@@ -1734,7 +1734,7 @@
     "वाच्य"
    ],
    "stats": {
-    "words": 2354,
+    "words": 2627,
     "figures": 2,
     "examples": 3
    },
@@ -1777,7 +1777,7 @@
     "लेख्य चिह्न"
    ],
    "stats": {
-    "words": 2317,
+    "words": 2588,
     "figures": 2,
     "examples": 3
    },
@@ -1836,7 +1836,7 @@
     "शब्दकोशीय क्रम"
    ],
    "stats": {
-    "words": 2362,
+    "words": 2604,
     "figures": 2,
     "examples": 3
    },
@@ -1907,7 +1907,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4312,
+    "words": 4604,
     "figures": 3,
     "examples": 6
    },
@@ -1999,7 +1999,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4077,
+    "words": 4395,
     "figures": 4,
     "examples": 1
    },
@@ -2076,9 +2076,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4195,
+    "words": 4551,
     "figures": 4,
-    "examples": 8
+    "examples": 9
    },
    "has_notes": true
   },
@@ -2160,7 +2160,7 @@
     "उखान र टुक्काको भेद"
    ],
    "stats": {
-    "words": 6457,
+    "words": 6743,
     "figures": 2,
     "examples": 4
    },

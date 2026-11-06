@@ -94,11 +94,8 @@
 
 {% block content %}
 <div class="md-container-narrow" style="padding-top:24px; padding-bottom: 48px;">
-  <div style="text-align:left;margin-bottom:24px;">
-    <a href="{% url 'web:settings' %}" class="md-btn md-btn-text" style="padding:4px 8px;margin:-4px -8px;text-decoration:none;" data-action="go-back">
-      <span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;">arrow_back</span> Back to Settings
-    </a>
-  </div>
+  {% url 'web:settings' as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Settings" %}
 
   <div style="margin-bottom: 24px;">
     <h1 style="font-size:1.75rem;font-weight:600;margin:0;">My Avatar</h1>

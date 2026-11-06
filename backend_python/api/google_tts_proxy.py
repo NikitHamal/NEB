@@ -21,6 +21,7 @@ import logging
 import re
 import urllib.parse
 from typing import Dict, List
+from .proxy_http import new_session
 
 logger = logging.getLogger(__name__)
 
@@ -40,21 +41,6 @@ def get_models() -> List[Dict]:
         {**m, "capabilities": m.get("capabilities", {"tts": True})}
         for m in MODELS
     ]
-
-
-def _session():
-    try:
-        from curl_cffi import requests as creq  # type: ignore
-
-        return creq.Session(impersonate="chrome"), True
-    except Exception:
-        import requests as req  # type: ignore
-
-        s = req.Session()
-        s.headers.update(
-            {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"}
-        )
-        return s, False
 
 
 def _chunk_text(text: str, limit: int = 200) -> List[str]:
@@ -84,7 +70,7 @@ def generate_tts(text: str, lang: str = "en", voice: str = "en", model: str = DE
         tl = "en"
 
     chunks = _chunk_text(text, 200)
-    sess, _ = _session()
+    sess = new_session()
     audios = []
     try:
         for chunk in chunks:

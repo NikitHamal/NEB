@@ -1,0 +1,23 @@
+{% load static %}
+<div id="get-app-dialog" class="neb-scrim neb-scrim-bottom" hidden>
+  <div class="neb-sheet ga-sheet" role="dialog" aria-modal="true" aria-labelledby="get-app-title">
+    <div class="neb-sheet-handle"></div>
+    <div class="ga-body">
+      <div class="ga-art" aria-hidden="true"><span class="px-sprite px-downloadTray"></span></div>
+      <h2 class="neb-sheet-title" id="get-app-title">Download in the NEBians app</h2>
+      <div class="ga-list">
+        <a class="ga-row ga-row-live" href="{{ play_store_url|default:'https://play.google.com/store/apps/details?id=com.neb.ians' }}" target="_blank" rel="noopener">
+          <span class="ga-ico material-symbols-outlined" aria-hidden="true">android</span>
+          <span class="ga-name">Android</span>
+          <img src="{% static 'web/img/google-play-badge.svg' %}" alt="Get it on Google Play" width="135" height="40" loading="lazy" decoding="async">
+        </a>
+        <div class="ga-row ga-row-soon" aria-disabled="true">
+          <span class="ga-ico material-symbols-outlined" aria-hidden="true">desktop_windows</span>
+          <span class="ga-name">Desktop</span>
+          <span class="ga-soon">Coming soon</span>
+        </div>
+      </div>
+      <button type="button" class="x-btn x-btn-tonal ga-close" data-neb-close>Not now</button>
+    </div>
+  </div>
+</div>

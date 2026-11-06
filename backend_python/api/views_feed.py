@@ -18,7 +18,7 @@ import time
 import uuid
 from collections import Counter
 
-from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -76,12 +76,6 @@ def _user_interests(user):
     return result
 
 
-def _user_interest_sets(user):
-    """Back-compat: the interest keys as plain sets."""
-    categories, subjects, _ = _user_interests(user)
-    return set(categories), set(subjects)
-
-
 def _affinity(weight):
     """Diminishing returns: the first signal counts most, the tenth adds little."""
     return 0.0 if weight <= 0 else 30.0 + 12.0 * math.log2(1 + weight)
@@ -102,17 +96,6 @@ def _resource_base(resource, now_ms):
     age_h = max(0.0, (now_ms - (resource.added_at or now_ms)) / 3600000.0)
     fresh = 36.0 * 0.5 ** (age_h / _RESOURCE_HALF_LIFE_H)
     return fresh + math.log2(1 + max(engagement, 0))
-
-
-def _score_post(post, now_ms, categories):
-    """Kept for callers and tests: base plus interest, as a single number."""
-    weight = categories.get(_norm(post.category), 0) if isinstance(categories, Counter) else (1 if _norm(post.category) in categories else 0)
-    return _post_base(post, now_ms) + _affinity(weight)
-
-
-def _score_resource(resource, now_ms, subjects):
-    weight = subjects.get(_norm(resource.subject), 0) if isinstance(subjects, Counter) else (1 if _norm(resource.subject) in subjects else 0)
-    return _resource_base(resource, now_ms) + _affinity(weight)
 
 
 _POOLS_KEY = 'suggest_pools_v3'

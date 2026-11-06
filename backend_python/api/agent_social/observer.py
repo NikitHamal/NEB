@@ -1,10 +1,9 @@
 """Scan the forum for things an autonomous agent might care about."""
 import logging
-from datetime import timedelta
 
 from django.db.models import Q
 
-from api.models import Follow, Post, PostLike, Reply, ReplyLike, User
+from api.models import Follow, Post, PostLike, Reply, ReplyLike
 from api.utils import now_ms
 
 from .models import AgentAction
@@ -184,31 +183,6 @@ def observe(persona, bot_user, window_hours=720, limit=100):
         'posts': scored[:limit],
         'replies': scored_replies[:50],
     }
-
-
-def follow_candidates(persona, bot_user, observations, limit=5):
-    out = []
-    seen = set()
-    post_obs = observations.get('posts', []) if isinstance(observations, dict) else observations
-    reply_obs = observations.get('replies', []) if isinstance(observations, dict) else []
-    for row in (reply_obs + post_obs):
-        obj = row.get('reply') or row.get('post')
-        if not obj or getattr(obj, 'is_anonymous', False):
-            continue
-        user = getattr(obj, 'user', None)
-        if not user or user.id in seen or user.id == bot_user.id:
-            continue
-        if getattr(user, 'is_bot', False) or user.is_locked:
-            continue
-        if row.get('already_following_author'):
-            continue
-        if already_acted(persona, 'follow', user.id):
-            continue
-        seen.add(user.id)
-        out.append(user)
-        if len(out) >= limit:
-            break
-    return out
 
 
 def hours_since(ms_ts):
