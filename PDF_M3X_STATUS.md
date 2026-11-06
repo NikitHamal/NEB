@@ -39,3 +39,4 @@ See the table at the bottom (updated as batches are pushed).
 
 | batch | books | state |
 | --- | --- | --- |
+| claim | all 96 books (51 in `notes/pdf`, BCA entrance + course, IOE copies) | a second session is rebuilding every book with this theme in 3-wide batches and pushing each batch; do not start a parallel full rebuild, check `git log` for `pdf rebuild batch` first |

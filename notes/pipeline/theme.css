@@ -65,16 +65,19 @@ body { margin:0; }
 .fm-title { font-family:Poppins,sans-serif; font-weight:700; font-size:23pt; color:var(--ink);
             margin:0 0 4mm 0; letter-spacing:-.018em; text-align:left; }
 .fm-lead { font-size:10.8pt; color:var(--muted); margin:0 0 6mm 0; text-align:left; }
-.about h2 { margin-top:5.4mm; }
+.about h2 { margin-top:4.2mm; margin-bottom:2mm; }
 .about p { margin-bottom:2mm; }
 .about .box { margin:3.4mm 0 0 0; padding:3.4mm 5mm 3mm 5mm; }
 .about table { margin:2mm 0 0 0; }
 .about .card { margin:1.6mm 0 0 0; padding:2.6mm 6mm; }
-.about .fm-lead { margin-bottom:3mm; }
+.about .fm-lead { margin-bottom:2mm; font-size:10pt; line-height:1.5; }
+.about td, .about th { padding-top:1.3mm; padding-bottom:1.3mm; }
+.about .box p { font-size:9pt; line-height:1.45; }
+.about .card li { margin:.4mm 0; font-size:9.2pt; }
 .tiles { display:block; margin:3mm 0 0 0; }
 .tile { display:inline-block; vertical-align:top; box-sizing:border-box; width:49%;
-        margin:0 2% 2mm 0; padding:2.4mm 4mm; border-radius:4.5mm; background:var(--surface);
-        font-size:8.8pt; line-height:1.45; text-align:left; -weasy-hyphens:none; }
+        margin:0 2% 1.6mm 0; padding:1.8mm 3.6mm; border-radius:4.5mm; background:var(--surface);
+        font-size:8.4pt; line-height:1.4; text-align:left; -weasy-hyphens:none; }
 .tile:nth-child(even) { margin-right:0; }
 .tile b.th { display:block; font-family:Poppins,sans-serif; font-weight:600; font-size:8.8pt;
                color:var(--accent); margin-bottom:.6mm; }

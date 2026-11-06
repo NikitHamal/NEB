@@ -71,7 +71,6 @@ def front_html(subject, grade, head, units, exam_notes):
 <div class="box caution"><div class="bt">{L["read"]}</div>
 <p>{L["disclaimer"]}</p></div>
 
-<p class="fm-edition"><span class="chip">{L["edition"]}</span> {L["prep"]}</p>
 </section>"""
 
 
