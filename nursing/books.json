@@ -1,187 +1,187 @@
 {
- "_comment": "Registry of BSc Nursing books. Key = path under nursing/. tools/nebpdf.py builds every key that has unit-NN.md files.",
- "course/year-1/fundamentals-of-nursing": {
-  "name": "Fundamentals of Nursing",
-  "code": "BSN 4-5",
-  "year": 1,
-  "credits": "T100+P510 h",
-  "accent": "#0F766E",
-  "status": "done (5 units, session 1)"
- },
- "course/year-1/integrated-health-sciences-1": {
-  "name": "Integrated Health Sciences I",
-  "code": "BSN 1",
-  "year": 1,
-  "credits": "T150 h",
-  "accent": "#0F766E",
-  "status": "done (5 units, session 2)"
- },
- "course/year-1/integrated-health-sciences-2": {
-  "name": "Integrated Health Sciences II",
-  "code": "BSN 2-3",
-  "year": 1,
-  "credits": "T150+P120 h",
-  "accent": "#0F766E",
-  "status": "done (5 units, session 3)"
- },
- "course/year-1/community-health-nursing": {
-  "name": "Community Health Nursing",
-  "code": "BSN 6-7",
-  "year": 1,
-  "credits": "T100+P180 h",
-  "accent": "#0F766E",
-  "status": "done"
- },
- "course/year-1/nutrition-and-diet-therapy": {
-  "name": "Nutrition and Diet Therapy",
-  "code": "BSN 8",
-  "year": 1,
-  "credits": "T50 h",
-  "accent": "#0F766E",
-  "status": "done (5 units, session 5)"
- },
- "course/year-2/adult-nursing-1": {
-  "name": "Adult Nursing I",
-  "code": "BSN 9",
-  "year": 2,
-  "credits": "T100 h",
-  "accent": "#1D4ED8",
-  "status": "done (5 units, session 6)"
- },
- "course/year-2/adult-nursing-2": {
-  "name": "Adult Nursing II",
-  "code": "BSN 10",
-  "year": 2,
-  "credits": "T100 h",
-  "accent": "#1D4ED8",
-  "status": "done (5 units, session 7)"
- },
- "course/year-2/geriatric-nursing": {
-  "name": "Geriatric Nursing",
-  "code": "BSN 11",
-  "year": 2,
-  "credits": "T40 h",
-  "accent": "#1D4ED8",
-  "status": "done (5 units, session 8)"
- },
- "course/year-2/psychiatric-nursing": {
-  "name": "Psychiatric Nursing",
-  "code": "BSN 13-14",
-  "year": 2,
-  "credits": "T70+P90 h",
-  "accent": "#1D4ED8",
-  "status": "done (5 units, session 9)"
- },
- "course/year-2/nursing-concepts": {
-  "name": "Nursing Concepts",
-  "code": "BSN 15",
-  "year": 2,
-  "credits": "T60 h",
-  "accent": "#1D4ED8",
-  "status": "done (6 units, session 10)"
- },
- "course/year-2/social-and-behavioral-science": {
-  "name": "Social and Behavioral Science",
-  "code": "BSN 16",
-  "year": 2,
-  "credits": "T60 h",
-  "accent": "#1D4ED8",
-  "status": "queued"
- },
- "course/year-3/midwifery-1": {
-  "name": "Midwifery I",
-  "code": "BSN 17-18",
-  "year": 3,
-  "credits": "T70+P180 h",
-  "accent": "#BE185D",
-  "status": "queued"
- },
- "course/year-3/midwifery-2": {
-  "name": "Midwifery II",
-  "code": "BSN 19-20",
-  "year": 3,
-  "credits": "T130+P420 h",
-  "accent": "#BE185D",
-  "status": "queued"
- },
- "course/year-3/child-health-nursing": {
-  "name": "Child Health Nursing",
-  "code": "BSN 21-22",
-  "year": 3,
-  "credits": "T90+P150 h",
-  "accent": "#BE185D",
-  "status": "queued"
- },
- "course/year-3/family-and-reproductive-health-nursing": {
-  "name": "Family and Reproductive Health Nursing",
-  "code": "BSN 23-24",
-  "year": 3,
-  "credits": "T100+P240 h",
-  "accent": "#BE185D",
-  "status": "queued"
- },
- "course/year-4/management-and-health-economics": {
-  "name": "Management and Health Economics",
-  "code": "BSN 25-26",
-  "year": 4,
-  "credits": "T150+P360 h",
-  "accent": "#7C3AED",
-  "status": "queued"
- },
- "course/year-4/educational-science": {
-  "name": "Educational Science",
-  "code": "BSN 27-28",
-  "year": 4,
-  "credits": "T90+P360 h",
-  "accent": "#7C3AED",
-  "status": "queued"
- },
- "course/year-4/research-and-biostatistics": {
-  "name": "Research and Biostatistics",
-  "code": "BSN 29-30",
-  "year": 4,
-  "credits": "T100+P324 h",
-  "accent": "#7C3AED",
-  "status": "queued"
- },
- "entrance/zoology": {
-  "name": "MECEE Zoology for Nursing",
-  "code": "CEE-ZOO",
-  "year": "E",
-  "credits": "40 marks",
-  "accent": "#B45309",
-  "status": "queued"
- },
- "entrance/botany": {
-  "name": "MECEE Botany for Nursing",
-  "code": "CEE-BOT",
-  "year": "E",
-  "credits": "40 marks",
-  "accent": "#B45309",
-  "status": "queued"
- },
- "entrance/chemistry": {
-  "name": "MECEE Chemistry for Nursing",
-  "code": "CEE-CHE",
-  "year": "E",
-  "credits": "50 marks",
-  "accent": "#B45309",
-  "status": "queued"
- },
- "entrance/physics": {
-  "name": "MECEE Physics for Nursing",
-  "code": "CEE-PHY",
-  "year": "E",
-  "credits": "50 marks",
-  "accent": "#B45309",
-  "status": "queued"
- },
- "entrance/mental-agility": {
-  "name": "MECEE Mental Agility Test",
-  "code": "CEE-MAT",
-  "year": "E",
-  "credits": "20 marks",
-  "accent": "#B45309",
-  "status": "queued"
- }
+  "_comment": "Registry of BSc Nursing books. Key = path under nursing/. tools/nebpdf.py builds every key that has unit-NN.md files.",
+  "course/year-1/fundamentals-of-nursing": {
+    "name": "Fundamentals of Nursing",
+    "code": "BSN 4-5",
+    "year": 1,
+    "credits": "T100+P510 h",
+    "accent": "#0F766E",
+    "status": "done (5 units, session 1)"
+  },
+  "course/year-1/integrated-health-sciences-1": {
+    "name": "Integrated Health Sciences I",
+    "code": "BSN 1",
+    "year": 1,
+    "credits": "T150 h",
+    "accent": "#0F766E",
+    "status": "done (5 units, session 2)"
+  },
+  "course/year-1/integrated-health-sciences-2": {
+    "name": "Integrated Health Sciences II",
+    "code": "BSN 2-3",
+    "year": 1,
+    "credits": "T150+P120 h",
+    "accent": "#0F766E",
+    "status": "done (5 units, session 3)"
+  },
+  "course/year-1/community-health-nursing": {
+    "name": "Community Health Nursing",
+    "code": "BSN 6-7",
+    "year": 1,
+    "credits": "T100+P180 h",
+    "accent": "#0F766E",
+    "status": "done"
+  },
+  "course/year-1/nutrition-and-diet-therapy": {
+    "name": "Nutrition and Diet Therapy",
+    "code": "BSN 8",
+    "year": 1,
+    "credits": "T50 h",
+    "accent": "#0F766E",
+    "status": "done (5 units, session 5)"
+  },
+  "course/year-2/adult-nursing-1": {
+    "name": "Adult Nursing I",
+    "code": "BSN 9",
+    "year": 2,
+    "credits": "T100 h",
+    "accent": "#1D4ED8",
+    "status": "done (5 units, session 6)"
+  },
+  "course/year-2/adult-nursing-2": {
+    "name": "Adult Nursing II",
+    "code": "BSN 10",
+    "year": 2,
+    "credits": "T100 h",
+    "accent": "#1D4ED8",
+    "status": "done (5 units, session 7)"
+  },
+  "course/year-2/geriatric-nursing": {
+    "name": "Geriatric Nursing",
+    "code": "BSN 11",
+    "year": 2,
+    "credits": "T40 h",
+    "accent": "#1D4ED8",
+    "status": "done (5 units, session 8)"
+  },
+  "course/year-2/psychiatric-nursing": {
+    "name": "Psychiatric Nursing",
+    "code": "BSN 13-14",
+    "year": 2,
+    "credits": "T70+P90 h",
+    "accent": "#1D4ED8",
+    "status": "done (5 units, session 9)"
+  },
+  "course/year-2/nursing-concepts": {
+    "name": "Nursing Concepts",
+    "code": "BSN 15",
+    "year": 2,
+    "credits": "T60 h",
+    "accent": "#1D4ED8",
+    "status": "done (6 units, session 10)"
+  },
+  "course/year-2/social-and-behavioral-science": {
+    "name": "Social and Behavioral Science",
+    "code": "BSN 16",
+    "year": 2,
+    "credits": "T60 h",
+    "accent": "#1D4ED8",
+    "status": "queued"
+  },
+  "course/year-3/midwifery-1": {
+    "name": "Midwifery I",
+    "code": "BSN 17-18",
+    "year": 3,
+    "credits": "T70+P180 h",
+    "accent": "#BE185D",
+    "status": "in progress (session 13: unit 1 of 5 done)"
+  },
+  "course/year-3/midwifery-2": {
+    "name": "Midwifery II",
+    "code": "BSN 19-20",
+    "year": 3,
+    "credits": "T130+P420 h",
+    "accent": "#BE185D",
+    "status": "queued"
+  },
+  "course/year-3/child-health-nursing": {
+    "name": "Child Health Nursing",
+    "code": "BSN 21-22",
+    "year": 3,
+    "credits": "T90+P150 h",
+    "accent": "#BE185D",
+    "status": "queued"
+  },
+  "course/year-3/family-and-reproductive-health-nursing": {
+    "name": "Family and Reproductive Health Nursing",
+    "code": "BSN 23-24",
+    "year": 3,
+    "credits": "T100+P240 h",
+    "accent": "#BE185D",
+    "status": "queued"
+  },
+  "course/year-4/management-and-health-economics": {
+    "name": "Management and Health Economics",
+    "code": "BSN 25-26",
+    "year": 4,
+    "credits": "T150+P360 h",
+    "accent": "#7C3AED",
+    "status": "queued"
+  },
+  "course/year-4/educational-science": {
+    "name": "Educational Science",
+    "code": "BSN 27-28",
+    "year": 4,
+    "credits": "T90+P360 h",
+    "accent": "#7C3AED",
+    "status": "queued"
+  },
+  "course/year-4/research-and-biostatistics": {
+    "name": "Research and Biostatistics",
+    "code": "BSN 29-30",
+    "year": 4,
+    "credits": "T100+P324 h",
+    "accent": "#7C3AED",
+    "status": "queued"
+  },
+  "entrance/zoology": {
+    "name": "MECEE Zoology for Nursing",
+    "code": "CEE-ZOO",
+    "year": "E",
+    "credits": "40 marks",
+    "accent": "#B45309",
+    "status": "queued"
+  },
+  "entrance/botany": {
+    "name": "MECEE Botany for Nursing",
+    "code": "CEE-BOT",
+    "year": "E",
+    "credits": "40 marks",
+    "accent": "#B45309",
+    "status": "queued"
+  },
+  "entrance/chemistry": {
+    "name": "MECEE Chemistry for Nursing",
+    "code": "CEE-CHE",
+    "year": "E",
+    "credits": "50 marks",
+    "accent": "#B45309",
+    "status": "queued"
+  },
+  "entrance/physics": {
+    "name": "MECEE Physics for Nursing",
+    "code": "CEE-PHY",
+    "year": "E",
+    "credits": "50 marks",
+    "accent": "#B45309",
+    "status": "queued"
+  },
+  "entrance/mental-agility": {
+    "name": "MECEE Mental Agility Test",
+    "code": "CEE-MAT",
+    "year": "E",
+    "credits": "20 marks",
+    "accent": "#B45309",
+    "status": "queued"
+  }
 }
