@@ -184,7 +184,7 @@
         </div>
         <div class="vw-by">
           {% if resource.source_type == 'user' and resource.uploadedByName %}
-            <span class="rcard-avatar">{% if resource.uploadedByPhoto %}<img src="{{ resource.uploadedByPhoto }}" alt="">{% else %}{{ resource.uploadedByName|truncate_chars:1 }}{% endif %}</span>
+            <span class="rcard-avatar">{% if resource.uploadedByPhoto %}<img loading="lazy" decoding="async" src="{{ resource.uploadedByPhoto }}" alt="">{% else %}{{ resource.uploadedByName|truncate_chars:1 }}{% endif %}</span>
             {% if resource.uploadedByUsername %}<a href="{% url 'web:profile' username=resource.uploadedByUsername %}">{{ resource.uploadedByName }}</a>{% else %}<strong>{{ resource.uploadedByName }}</strong>{% endif %}
           {% elif resource.source_type == 'anonymous' %}
             <span class="rcard-avatar"><span class="material-symbols-outlined" style="font-size:16px">person_off</span></span><strong>Anonymous</strong>
@@ -193,7 +193,7 @@
             <strong>{% if resource.sourceLabel %}{{ resource.sourceLabel }}{% else %}External source{% endif %}</strong>
             {% if resource.source_url %}<a href="{{ resource.source_url }}" target="_blank" rel="noopener">Source</a>{% endif %}
           {% else %}
-            <span class="rcard-avatar"><img src="{% static 'web/img/n-logo-48.png' %}" alt=""></span><strong>NEBians</strong>
+            <span class="rcard-avatar"><img loading="lazy" decoding="async" src="{% static 'web/img/n-logo-48.png' %}" alt=""></span><strong>NEBians</strong>
             {% if resource.author_name %}<span>{{ resource.author_name|mention_links_plain }}</span>{% endif %}
           {% endif %}
         </div>

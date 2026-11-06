@@ -42,7 +42,7 @@
       <button type="button" class="epf-identity-avatar av-inset" data-avatar-seed="{{ user.username }}" data-action="trigger-photo-upload"
               aria-label="Change your profile photo">
         {% if user.photo_url %}
-          <img id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
+          <img loading="lazy" decoding="async" id="edit-avatar-preview" src="{{ user.photo_url }}" alt="">
         {% else %}
           <div id="edit-avatar-preview-initial" class="epf-identity-initial">{{ user.display_name|default:user.username|slice:":1"|upper }}</div>
         {% endif %}

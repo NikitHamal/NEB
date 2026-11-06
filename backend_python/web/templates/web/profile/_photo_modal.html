@@ -10,7 +10,7 @@
       <div class="photos-grid" id="photosGrid">
         {% for photo in user_photos %}
           <div class="photo-thumb {% if photo.is_current %}active{% endif %}" data-action="activate-past-photo" data-photo-id="{{ photo.id }}" data-photo-url="{{ photo.url }}">
-            <img src="{{ photo.url }}" alt="">
+            <img loading="lazy" decoding="async" src="{{ photo.url }}" alt="">
           </div>
         {% empty %}
           <div style="grid-column:span 3; text-align:center; padding:16px; color:var(--md-on-surface-variant); font-size:0.875rem;">

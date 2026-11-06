@@ -82,6 +82,6 @@ class PdfReaderAssetsTests(TestCase):
         from pathlib import Path
         web = Path(__file__).parent
         self.assertIn('portalMenu(menu)', (web / 'static/web/js/neb-overlays.js').read_text())
-        home = (web / 'templates/web/home.html').read_text(encoding='utf-8')
+        home = (web / 'static/web/js/pages/home.js').read_text(encoding='utf-8')
         self.assertIn('emojiTarget', home)
         self.assertNotIn('contentInput.selectionStart', home.split('function insertEmoji')[1].split('if (emojiBtn')[0])

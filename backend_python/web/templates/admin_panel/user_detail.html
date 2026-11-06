@@ -26,7 +26,7 @@
     <div class="admin-card" style="margin-bottom:16px;">
       <div class="admin-row-item">
         {% if user_detail.photo_url %}
-        <img src="{{ user_detail.photo_url }}" alt="" class="admin-avatar" data-fallback="flex">
+        <img loading="lazy" decoding="async" src="{{ user_detail.photo_url }}" alt="" class="admin-avatar" data-fallback="flex">
         <div class="admin-avatar-fallback" style="display:none;">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
         {% else %}
         <div class="admin-avatar-fallback">{{ user_detail.display_name|default:user_detail.username|truncate_chars:1|default:"?" }}</div>
@@ -136,7 +136,7 @@
           <input type="text" inputmode="url" id="photo_url" name="photo_url" class="md-input" value="{{ user_detail.photo_url|default:'' }}" placeholder="https://example.com/avatar.png or /media/profile_art/avatar.png">
           {% if user_detail.photo_url %}
           <div style="margin-top:8px;">
-            <img id="photoUrlPreview" src="{{ user_detail.photo_url }}" alt="preview" class="admin-avatar" data-fallback="none">
+            <img loading="lazy" decoding="async" id="photoUrlPreview" src="{{ user_detail.photo_url }}" alt="preview" class="admin-avatar" data-fallback="none">
           </div>
           {% endif %}
           <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">

@@ -11,7 +11,7 @@
       {% elif post.authorName == 'neby' or post.authorIsBot %}
         <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
       {% elif post.authorPhotoUrl %}
-        <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+        <img loading="lazy" decoding="async" src="{{ post.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
         <span class="contributor-avatar-letter" style="display:none;">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
       {% else %}
         <span class="contributor-avatar-letter">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
