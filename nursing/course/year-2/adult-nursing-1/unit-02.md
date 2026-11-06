@@ -178,11 +178,7 @@ A **chest drain** removes air (pneumothorax), blood (haemothorax) or pus (empyem
 
 ```photogrid label="2.4" cols="2" ratio="1.0" caption="Chest-drain system. (a) A public-domain line drawing of the classic two-bottle drain: the patient's tube goes to the first bottle, the water seal and the vent allow air out, and the bottle stays below chest level. (b) The nurse's rules for the underwater-seal bottle."
 @ photo id="nur5/icd" cap="Two-bottle chest drain"
-fit 0.9
-mark 0.30 0.50 "1"
-mark 0.75 0.82 "2"
-key 1 (a) Water level: tube tip 2-3 cm under water forms the seal
-key 2 (a) Chest tube: leaves the pleura and runs down to the bottle
+fit 1.0
 @ svg cap="Bottle rules"
 f = Fig(300, 300)
 f.box(10, 10, 280, 56, "Bottle below chest\nalways", fill=BLUE, stroke=NAVY, size=14, bold=True)

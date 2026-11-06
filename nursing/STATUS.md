@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 5. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 6. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -31,9 +31,15 @@ Updated: end of Session 5. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: SVGs in a 4-up photogrid need font size 14-16 on a 300-wide canvas to reach 6 pt; avoid long single-line labels in boxes (check the rendered page); the file tool only accepts relative paths, so symlink `/tmp/shots` into the project root to read images; keep a pristine copy of each unit template in `/tmp/src/<slug>/` before `--fill`; `chk()` on tuples of floats needs `round()`.
   - Nepal facts verified this session: NDHS 2022 stunting 25%, wasting 8%, underweight 19%, overweight 1%, EBF 0-5 months 56%, anaemia 43% (6-59 months) and 34% (women 15-49), hypertension 18% women and 23% men aged 15+; MSNP-III 2023-2030 (Rs 189 bn); IMAM guideline 2017; Baal Vita; sarbottam pitho 50% cereal 50% pulses.
 
+- **Adult Nursing I (BSN 9), Year 2: DONE (session 6).** 5 units, 54-page PDF, `qa_pdf.py` fails=0 warns=0. U1 Adult nursing in Nepal, perioperative care, WHO checklist, post-op complications, pain, wound healing | U2 Respiratory: oxygen, asthma, COPD, pneumonia, chest drain | U3 Cardiovascular: hypertension, ACS/STEMI, heart failure, AF, BLS/AED | U4 GI and hepatobiliary: ulcer, bleeding, obstruction, stoma, cirrhosis | U5 Haematology: anaemia, sickle/thalassaemia, leukaemia, bleeding disorders, transfusion.
+  - 23 Commons images (slug `nur5`; 30 downloaded, 7 dropped after a contact sheet because they did not show what their titles said: clubbing hands, wound/dehiscence, pitting oedema, hernia, spider angioma, pneumothorax multi-panel, koilonychia), 4-up and 2-up photogrids, 15 SVG figures, 9 executed python blocks, 5-column NANDA-I plans in every unit.
+  - `nursing/tools/check_an1.py`: 100 tokens + 9 executed python blocks + extra asserts (`--verify`).
+  - Lessons: `fit` in a photogrid is a target width/height ratio centre-crop, so a wide drawing must be padded to a square (done in place for `icd` and `ostomy`) or it is cut; photo marks are fractions of the cropped square with y from the bottom, so always view the rendered plate (crop the page with pymupdf using `search_for("Plate X.Y")`); write each unit as two files in `/home/user/sandbox/parts/` (file tool root) and `cat` them together, then `fill_text.py`, `check_an1.py --fill`, `--verify`.
+  - Facts used (searched this session): 2025 AHA/ACC BP guideline (Aug 2025) categories unchanged, target below 130/80, PREVENT; NDHS 2022 hypertension 20%, STEPS 2019 24.5%; NCDs 71% of deaths in Nepal; GOLD 2025 A/B/E.
+
 ## Next (in this order)
-1. **Year 1 is complete (6 books).** Start Year 2: **Adult Nursing I (BSN 9)** `course/year-2/adult-nursing-1` (slug `nur5`; respiratory, cardiovascular, GI, haematology and perioperative nursing; copy `check_nutrition.py` skeleton as `check_an1.py`; photo contact sheet before use; accent #1D4ED8).
-2. Then in `books.json` order: Adult Nursing II, Geriatric Nursing, Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
+1. **Year 1 (6 books) and Adult Nursing I are complete.** Start **Adult Nursing II (BSN 10)** `course/year-2/adult-nursing-2` (slug `nur6`; renal and urinary, endocrine and diabetes, neurology and stroke, musculoskeletal and orthopaedic, oncology and emergency nursing; copy `check_an1.py` as `check_an2.py`; photo contact sheet before use; accent #1D4ED8).
+2. Then in `books.json` order: Geriatric Nursing, Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
 
