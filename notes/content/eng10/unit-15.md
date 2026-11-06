@@ -492,3 +492,78 @@ Subject line, warm greeting, a reason for writing, 3–4 interesting facts, a cl
 
 **2.** Subject line; greeting; the reason for writing; three facts (e.g. rhino, tiger, jungle safari, Tharu culture for Chitwan); best season; offer of hospitality; closing.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a biography of a famous Nepali and an invitation e-mail. <span class="marks">[10]</span>
+2. Explain relative pronouns and prepositions with examples. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.0" caption="People and places. Jhamak Ghimire writing, the Sugarloaf cable car at Rio de Janeiro and the Sugarloaf skyline at sunset: a person who overcame disability and a famous mountain."
+@ photo id="eng10/jhamak" cap="Jhamak Ghimire writing"
+@ photo id="eng10/sugarloaf-cablecar" cap="Sugarloaf cable car"
+@ photo id="eng10/sugarloaf-rio" cap="Sugarloaf, Rio"
+```
+
+### Model answer D1: a biography and an invitation (10 marks)
+
+**Introduction.** A **biography** is written in the third person and in the past tense, in time order: introduction, early life, career, contribution and awards, and conclusion.
+
+**Model biography.**
+
+::: example Jhamak Ghimire
+**Jhamak Kumari Ghimire** was born on 4 July 1980 in Dhankuta, in eastern Nepal. She was born with cerebral palsy and could not use her hands or speak clearly. She never went to school, and some people blamed her for her condition. She learned the alphabet by watching her younger sister study and by scratching the letter *ka* in the dust with a stick, and later she taught herself to write with a pen held between the toes of her left foot. She became a poet, essayist and columnist in spite of many difficulties. Her autobiography, ***Jiwan Kada Ki Phool?***, won the **Madan Puraskar in 2010**. She is a symbol of courage, and her life teaches us that determination is stronger than disability.
+:::
+
+**Model invitation e-mail.**
+
+::: example Invitation e-mail
+**To:** all classmates  
+**Subject:** You are invited: Farewell party!
+
+Dear friends,
+
+Our SEE exams will finish on 20 Chaitra, so let's celebrate! I am inviting you to a farewell party at my house in Lakeside, Pokhara, on **Saturday, 22 Chaitra, at 4 p.m.** There will be music, games and a special dinner. Please let me know by Thursday if you can come. I'm sure it will be fun.
+
+Best wishes,  
+Aarati
+:::
+
+**Points (8).**
+
+1. Name and birth.
+2. Family and early life.
+3. Difficulties.
+4. Education or struggle.
+5. Achievements.
+6. Awards.
+7. Lessons from the life.
+8. Invitation: subject, facts, clear request to reply.
+
+**Conclusion.** Use the past simple and put the events in order.
+
+### Model answer D2: relative pronouns and prepositions (10 marks)
+
+**Relative pronouns.**
+
+1. **who** (people): *Jhamak is a writer who writes with her foot.*
+2. **whom** (object, and after a preposition): *the man to whom I spoke.*
+3. **whose** (possession): *the girl whose poem won the prize.*
+4. **which** (things); **that** (people or things in defining clauses).
+5. **where** (place) and **when** (time).
+6. **Defining clauses** give essential information and have **no commas**; **non-defining clauses** add extra information and have **commas**: *Sugarloaf Mountain, which is 396 m high, stands in Rio.*
+
+**Prepositions.**
+
+7. **at** (clock time, point), **on** (days, surfaces), **in** (months, years, enclosed areas).
+8. **Dependent prepositions:** *afraid of, pleased with, good at, interested in, depend on, famous for.*
+
+| Pronoun | Use | Example |
+|---|---|---|
+| who | people | The woman who wrote the book |
+| which | things | The mountain which rises over the bay |
+| whose | possession | The boy whose father is a pilot |
+| where | place | The town where I was born |
+
+**Conclusion.** Choose the pronoun by what it refers to and check the commas.

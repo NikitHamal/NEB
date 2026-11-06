@@ -395,3 +395,80 @@ Friends, a healthy body is the first wealth. Let us start today. Thank you.
 **1.** *Outline:* subject (*Get well soon*); greeting; sympathy; three pieces of advice (rest, healthy food, medicines on time and a doctor visit); a wish to see him soon; closing.
 **2.** *Outline:* greeting; hook (a healthy mind lives in a healthy body); three benefits (strong heart and muscles, better sleep and mood, lower risk of diabetes and obesity); a call to action (thirty minutes a day); thanks.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write an apology e-mail and a short speech on healthy living. <span class="marks">[10]</span>
+2. Explain reported commands, requests and advice with the correct reporting verbs. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.0" caption="Health in practice. A first-aid class, a village health post, a vegetable market and yoga: care, prevention and diet, the themes of the unit."
+@ photo id="health8/first-aid" cap="First-aid class"
+@ photo id="soc10/health-post" cap="Health post, Pokhara"
+@ photo id="health8/market-veg" cap="Vegetable market"
+@ photo id="health8/yoga-padmasana" cap="Yoga (padmasana)"
+```
+
+### Model answer D1: an apology e-mail and a speech (10 marks)
+
+**Introduction.** An **apology e-mail** says sorry, explains what went wrong, tells what we will do and closes politely. A **speech** is written to be spoken, so it uses a greeting, a clear topic, main points, an appeal and thanks.
+
+**Model apology e-mail.**
+
+::: example Apology e-mail
+**To:** principal@janajyoti.edu.np  
+**Subject:** Apology for missing the health camp
+
+Dear Sir,
+
+I am sorry that I did not attend the health camp on Sunday. I was the volunteer in charge of registration, and my absence caused delay for the students. On that morning my younger brother suddenly got a high fever, and my parents were out of town, so I took him to the hospital. I should have informed you earlier, but my phone had no battery. I promise to arrange a replacement next time and to meet the doctor to collect the list. Please accept my sincere apology.
+
+Yours sincerely,  
+Anita Gurung, Grade 10
+:::
+
+**Model speech: A Healthy Diet.**
+
+::: example Speech
+Respected principal, teachers and dear friends, today I wish to speak about a healthy diet. Obesity and diabetes are growing among young people because of fast food and little exercise. A healthy diet means plenty of vegetables, fruits, pulses and clean water, and less sugar and oil. Our traditional dal, bhat and tarkari with greens is already a balanced meal. Therefore, let us eat on time, walk daily and avoid junk food. Remember: health is wealth. Thank you.
+:::
+
+**Points to remember (8).**
+
+1. Say **sorry** in the first line.
+2. Give the **reason** honestly.
+3. State **what you will do** to fix it.
+4. Keep a **polite, formal** tone.
+5. In a speech, greet the audience properly.
+6. Use **facts** (health risks).
+7. Give a **call to action**.
+8. End with **thanks**.
+
+**Conclusion.** Be sincere in an apology and persuasive in a speech.
+
+### Model answer D2: reported commands and requests (10 marks)
+
+**Introduction.** Commands, requests and advice are reported with **reporting verb + object + (not) to + infinitive**.
+
+| Direct | Reporting verb | Reported |
+|---|---|---|
+| "Take this medicine twice a day." | told / advised | The doctor told me to take the medicine twice a day. |
+| "Please wait here." | requested / asked | The nurse requested us to wait there. |
+| "Don't touch the wound." | warned | She warned me not to touch the wound. |
+| "Go to bed early." | advised | Mother advised him to go to bed early. |
+| "Stand up!" | ordered | The officer ordered them to stand up. |
+| "Let's walk every day." | suggested | He suggested walking every day. |
+
+**Rules.**
+
+1. **No back-shift** is needed because the verb is an infinitive.
+2. Choose the reporting verb by **tone**: *ordered* (strong), *told* (neutral), *requested* (polite), *advised* (helpful), *warned* (danger).
+3. For the negative use **not to**, not *to not*.
+4. Remove *please*; use *requested* or *politely asked*.
+5. *Said* + *that* for statements; *told* + object + *that*; *asked* + *if/whether* for questions.
+6. *Let's* is reported with **suggested + -ing** or **suggested that we should**.
+7. Change pronouns and time words.
+8. Never write *said me*: use *told me* or *said to me*.
+
+**Conclusion.** The tone of the original decides the reporting verb.
