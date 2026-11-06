@@ -336,3 +336,93 @@ f.text(150, 216, "r+/r- = %.2f: octahedral holes, 6:6" % ratio, size=10.5, color
 **7.** (c) — $\sqrt{\frac{16}{2}}$.
 **8.** (a) — $\frac{2}{5}\times5$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mole concept, empirical and molecular formula and the gas laws (ideal gas equation, Graham's law), with numericals. <span class="marks">[10]</span>
+2. Explain ionic equilibrium: pH, weak acids, buffers, hydrolysis and solubility product, with numericals. <span class="marks">[10]</span>
+3. Explain electrochemistry (Daniell cell, Nernst equation, Faraday's laws), first-order kinetics and Hess's law, with numericals. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.25" caption="Physical chemistry in the laboratory. (a) A burette delivers an exact volume in titration. (b) A gas-filled balloon shows the pressure of gas particles. (c) A Kipp's apparatus makes a gas on demand. (d) A Daniell cell converts chemical energy into electrical energy."
+@ photo id="chem11/burette" cap="(a) Burette"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/balloon" cap="(b) Gas balloon"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/kipp" cap="(c) Kipp's apparatus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/daniell" cap="(d) Daniell cell"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Chemical arithmetic and gases (10 marks)
+
+**Introduction.** A **mole** is the amount of substance that contains $6.022\times10^{23}$ particles (Avogadro's number); it has a mass equal to the molar mass in grams, and a gas occupies $22.4\ \text{L}$ at STP.
+
+**Stoichiometry.** $\text{CaCO}_3 + 2\text{HCl} \rightarrow \text{CaCl}_2 + \text{H}_2\text{O} + \text{CO}_2$. For $10\ \text{g}$ of $\text{CaCO}_3$ ($M = 100$): $n = 0.1\ \text{mol}$, so $0.1\ \text{mol}$ of $\text{CO}_2$ forms and its volume at STP is $0.1\times22.4 = 2.24\ \text{L}$.
+
+**Empirical and molecular formula.** A compound has C $40\%$, H $6.7\%$, O $53.3\%$.
+
+| Element | % | ÷ atomic mass | ÷ smallest | Ratio |
+|---|---|---|---|---|
+| C | 40.0 | 3.33 | 1 | 1 |
+| H | 6.7 | 6.7 | 2 | 2 |
+| O | 53.3 | 3.33 | 1 | 1 |
+
+The empirical formula is $\text{CH}_2\text{O}$ (mass 30). If $M = 180$ then $n = 180/30 = 6$, so the molecular formula is $\text{C}_6\text{H}_{12}\text{O}_6$ (glucose).
+
+**Gas laws.**
+
+1. **Boyle:** $PV = $ constant (at constant $T$). **Charles:** $V/T = $ constant (at constant $P$). **Avogadro:** equal volumes of gases at the same $T$ and $P$ hold equal numbers of molecules.
+2. **Ideal gas equation:** $PV = nRT$, with $R = 0.0821\ \text{L atm K}^{-1}\text{mol}^{-1} = 8.314\ \text{J K}^{-1}\text{mol}^{-1}$. For $2\ \text{mol}$ at $300\ \text{K}$ and $2\ \text{atm}$: $V = \frac{2\times0.0821\times300}{2} = 24.6\ \text{L}$.
+3. **Dalton's law:** $P_{total} = p_1 + p_2 + \dots$, with $p_i = x_iP$.
+4. **Graham's law:** the rate of diffusion is inversely proportional to the square root of the molar mass, so $\frac{r_{H_2}}{r_{O_2}} = \sqrt{\frac{32}{2}} = 4$.
+5. **Real gases** deviate at high pressure and low temperature; the **van der Waals** equation $\left(P + \frac{an^2}{V^2}\right)(V - nb) = nRT$ corrects for attraction and molecular volume.
+
+**Conclusion.** The mole links mass, number and gas volume, and the ideal gas equation describes gases when pressure is low and temperature is high.
+
+### Model answer D2: Ionic equilibrium (10 marks)
+
+**Introduction.** In water, acids and bases ionise, and weak electrolytes reach an equilibrium. $K_w = [\text{H}^+][\text{OH}^-] = 10^{-14}$ at $25^\circ\text{C}$ and $\text{pH} = -\log[\text{H}^+]$.
+
+**1. Strong and weak acids.** For $0.01\ \text{M}$ HCl, $\text{pH} = 2$. For a weak acid $[\text{H}^+] = \sqrt{K_aC}$; for $0.1\ \text{M}$ acetic acid ($K_a = 1.8\times10^{-5}$): $[\text{H}^+] = \sqrt{1.8\times10^{-6}} = 1.34\times10^{-3}$, so $\text{pH} = 2.87$. **Ostwald's dilution law:** the degree of ionisation $\alpha = \sqrt{K_a/C}$ increases on dilution.
+
+**2. Buffer solutions.** They resist a change of pH when a little acid or base is added. **Henderson equation:** $\text{pH} = \text{p}K_a + \log\frac{[\text{salt}]}{[\text{acid}]}$. For $0.1\ \text{M}$ $\text{CH}_3\text{COOH}$ with $0.1\ \text{M}$ $\text{CH}_3\text{COONa}$, $\text{pH} = 4.74$; with $0.2\ \text{M}$ salt, $\text{pH} = 4.74 + 0.30 = 5.04$. Blood is a buffer ($\text{H}_2\text{CO}_3/\text{HCO}_3^-$, pH 7.4).
+
+**3. Salt hydrolysis.**
+
+| Salt of | Example | Solution |
+|---|---|---|
+| Strong acid + strong base | NaCl | Neutral |
+| Strong acid + weak base | $\text{NH}_4\text{Cl}$ | Acidic |
+| Weak acid + strong base | $\text{CH}_3\text{COONa}$ | Basic |
+
+For $0.1\ \text{M}$ $\text{NH}_4\text{Cl}$ ($K_b = 1.8\times10^{-5}$): $K_h = \frac{K_w}{K_b} = 5.56\times10^{-10}$, $[\text{H}^+] = \sqrt{K_hC} = 7.45\times10^{-6}$, so $\text{pH} = 5.13$.
+
+**4. Solubility product.** For $\text{AgCl}$, $K_{sp} = [\text{Ag}^+][\text{Cl}^-] = 1.8\times10^{-10}$, so the solubility is $s = \sqrt{K_{sp}} = 1.34\times10^{-5}\ \text{M}$. A salt precipitates when the ionic product exceeds $K_{sp}$. The **common-ion effect** lowers its solubility.
+
+**Conclusion.** The same equilibrium ideas explain pH, buffers, the acidity of salts and the formation of precipitates.
+
+### Model answer D3: Electrochemistry, kinetics and thermochemistry (10 marks)
+
+**Introduction.** Electrochemistry links chemical change with electrical energy.
+
+**1. Daniell cell.** $\text{Zn}\,|\,\text{Zn}^{2+}\,\|\,\text{Cu}^{2+}\,|\,\text{Cu}$: oxidation at the anode ($\text{Zn} \rightarrow \text{Zn}^{2+} + 2e^-$) and reduction at the cathode ($\text{Cu}^{2+} + 2e^- \rightarrow \text{Cu}$). $E^\circ_{cell} = 0.34 - (-0.76) = 1.10\ \text{V}$. The salt bridge completes the circuit. The **Nernst equation:** $E = E^\circ - \frac{0.0592}{n}\log\frac{[\text{Zn}^{2+}]}{[\text{Cu}^{2+}]}$; with $0.1\ \text{M}$ and $1.0\ \text{M}$, $E = 1.10 + 0.0296 = 1.13\ \text{V}$. Also $\Delta G^\circ = -nFE^\circ = -2\times96500\times1.10 = -212\ \text{kJ}$.
+
+**2. Faraday's laws.** The mass deposited is $m = \frac{M\,I\,t}{nF}$. A current of $0.5\ \text{A}$ for $1930\ \text{s}$ carries $965\ \text{C} = 0.01\ \text{mol}$ of electrons, so $0.005\ \text{mol}$ of copper (**0.318 g**) is deposited.
+
+**3. First-order kinetics.** $\ln\frac{[A]_0}{[A]} = kt$ and $t_{1/2} = \frac{0.693}{k}$, independent of concentration. If $k = 0.0693\ \text{min}^{-1}$, then $t_{1/2} = 10\ \text{min}$, and after $30\ \text{min}$ the fraction left is $\left(\frac12\right)^3 = \frac18$. The **Arrhenius equation** $k = Ae^{-E_a/RT}$ shows that a catalyst lowers $E_a$.
+
+**4. Hess's law.** The heat of a reaction is the same by any route. From $\Delta H_c(\text{CH}_4) = -890.3$, $\Delta H_f(\text{CO}_2) = -393.5$ and $\Delta H_f(\text{H}_2\text{O}) = -285.8\ \text{kJ mol}^{-1}$: $\Delta H_f(\text{CH}_4) = -393.5 + 2(-285.8) + 890.3 = -74.8\ \text{kJ mol}^{-1}$.
+
+| Topic | Key equation | Result |
+|---|---|---|
+| Cell emf | $E^\circ_{cathode} - E^\circ_{anode}$ | $1.10\ \text{V}$ |
+| Faraday | $m = MIt/nF$ | $0.318\ \text{g}$ Cu |
+| First order | $t_{1/2} = 0.693/k$ | $10\ \text{min}$ |
+| Hess | Sum of steps | $-74.8\ \text{kJ mol}^{-1}$ |
+
+**Conclusion.** Cell potential, charge, rate and heat of reaction are all calculable from a few standard data and equations.

@@ -188,3 +188,60 @@ f.text(150, 224, "centre bin: %d of 2,000 (theory %d)" % (cnt[5], round(2000 * e
 **5.** (d) — $1-(\frac{1}{2})^3$.
 **6.** (c) — 366 days = 52 weeks + 2 days; the pair contains a Sunday in 2 of 7 equally likely cases.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Find the mean, median, mode, variance and standard deviation of grouped data, and the regression line and correlation of paired data. <span class="marks">[10]</span>
+2. Solve problems using Bayes' theorem and the binomial distribution. <span class="marks">[10]</span>
+
+### Model answer D1: Dispersion, correlation and regression (10 marks)
+
+**Introduction.** Averages describe the centre of data and the standard deviation describes its spread. The coefficient of variation is $CV=\frac{\sigma}{\bar x}\times100\%$.
+
+**Raw data:** $2,4,4,4,5,5,7,9$. Mean $=\frac{40}{8}=5$; median $=4.5$; mode $=4$; the squared deviations are $9,1,1,1,0,0,4,16$ (sum $32$), so variance $=\frac{32}{8}=4$, $\sigma=2$, and $CV=40\%$.
+
+**Grouped data** (50 values):
+
+| Class | $f$ | Mid $x$ | $fx$ | $fx^2$ | Cumulative $f$ |
+|---|---|---|---|---|---|
+| 0–10 | 5 | 5 | 25 | 125 | 5 |
+| 10–20 | 8 | 15 | 120 | 1800 | 13 |
+| 20–30 | 15 | 25 | 375 | 9375 | 28 |
+| 30–40 | 16 | 35 | 560 | 19600 | 44 |
+| 40–50 | 6 | 45 | 270 | 12150 | 50 |
+
+1. **Mean** $=\frac{1350}{50}=27$.
+2. **Variance** $=\frac{43050}{50}-27^2=861-729=132$, so $\sigma=\sqrt{132}=11.49$.
+3. **Median:** $\frac N2=25$ falls in 20–30, so median $=20+\frac{25-13}{15}\times10=28$.
+4. **Mode:** modal class 30–40, so mode $=30+\frac{16-15}{2(16)-15-6}\times10=30.91$.
+
+**Correlation and regression.** For $x=1,2,3,4,5$ and $y=2,4,5,4,5$: $\bar x=3$, $\bar y=4$, $\sum(x-\bar x)(y-\bar y)=6$, $\sum(x-\bar x)^2=10$, $\sum(y-\bar y)^2=6$.
+
+1. $r=\frac{6}{\sqrt{10\times6}}=0.775$.
+2. Slope $b_{yx}=\frac{6}{10}=0.6$; the line is $y-4=0.6(x-3)$, i.e. $y=0.6x+2.2$.
+3. Prediction at $x=6$: $y=5.8$.
+
+**Conclusion.** Spread and relationship are summarised by $\sigma$, $r$ and the regression line, all computed from simple sums.
+
+### Model answer D2: Probability, Bayes' theorem and the binomial distribution (10 marks)
+
+**Introduction.** $P(A\cup B)=P(A)+P(B)-P(A\cap B)$, $P(A\mid B)=\frac{P(A\cap B)}{P(B)}$, and independent events satisfy $P(A\cap B)=P(A)P(B)$.
+
+**Bayes' theorem.** Machines A, B, C make $50\%$, $30\%$ and $20\%$ of the items, and $1\%$, $2\%$ and $3\%$ of their items are defective. An item is found defective: which machine made it?
+
+1. $P(D)=0.5(0.01)+0.3(0.02)+0.2(0.03)=0.005+0.006+0.006=0.017$ (**total probability**).
+2. $P(A\mid D)=\frac{0.005}{0.017}=0.294$.
+3. $P(B\mid D)=\frac{0.006}{0.017}=0.353$.
+4. $P(C\mid D)=\frac{0.006}{0.017}=0.353$.
+5. The three posterior probabilities add up to $1$, and machine A, though it makes half the items, is least likely to be the source.
+
+**Binomial distribution.** $P(X=r)={}^nC_rp^rq^{n-r}$, with mean $np$ and variance $npq$.
+
+| Case | Calculation | Value |
+|---|---|---|
+| 10 fair-coin tosses, exactly 5 heads | $\frac{{}^{10}C_5}{1024}=\frac{252}{1024}$ | $0.246$ |
+| At least 8 heads | $\frac{45+10+1}{1024}$ | $0.0547$ |
+| $n=6$, $p=\frac13$: mean | $np$ | $2$ |
+| $n=6$, $p=\frac13$: variance | $npq=6\cdot\frac13\cdot\frac23$ | $\frac43$ |
+
+**Conclusion.** Bayes' theorem reverses a conditional probability using the total probability, and the binomial model describes repeated independent trials.
