@@ -647,3 +647,120 @@ filled (d¹⁰) subshell is symmetrical and of lower energy.
 = 6.626\times10^{-34}/(9.11\times10^{-24}) = 7.27\times10^{-11}$ m
 $= 0.727$ Å.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the postulates of Bohr's atomic model. Derive the radius and energy of the nth orbit of hydrogen and explain the hydrogen spectrum, with a numerical. <span class="marks">[10]</span>
+2. What are quantum numbers? Describe the shapes of s and p orbitals and the rules for filling electrons, and write the electronic configurations of Cr, Cu and Fe³⁺. <span class="marks">[10]</span>
+3. Explain de Broglie's equation and Heisenberg's uncertainty principle, with numericals, and state the failure of Bohr's model. <span class="marks">[10]</span>
+
+### Model answer D1: Bohr's model and the hydrogen spectrum (10 marks)
+
+**Introduction.** Rutherford's model could not explain why an orbiting electron does not spiral into the nucleus, or the line spectrum of hydrogen. In 1913 Niels Bohr combined Rutherford's nuclear atom with Planck's quantum idea.
+
+**Postulates.**
+
+1. An electron moves in **fixed circular orbits (stationary states)** around the nucleus without radiating energy.
+2. The orbits are allowed only if the **angular momentum is quantised**: $mvr = nh/2\pi$ ($n = 1, 2, 3...$).
+3. Energy is emitted or absorbed only when an electron **jumps** between orbits: $\Delta E = E_{2} - E_{1} = h\nu$.
+4. The electrostatic attraction provides the centripetal force.
+
+**Radius of the nth orbit.** Setting $\dfrac{mv^{2}}{r} = \dfrac{ke^{2}}{r^{2}}$ and using $v = nh/2\pi mr$ gives
+
+$$ r_{n} = \frac{n^{2}h^{2}}{4\pi^{2}mke^{2}} = 0.529\,n^{2}\ \text{Å} $$
+
+**Energy of the nth orbit.** The total energy is the sum of kinetic and potential: $E_{n} = -\dfrac{ke^{2}}{2r_{n}}$, which gives
+
+$$ E_{n} = -\frac{13.6}{n^{2}}\ \text{eV} = -\frac{2.18\times10^{-18}}{n^{2}}\ \text{J} $$
+
+The energy is negative (bound), $E_{1} = -13.6\ \text{eV}$ (ground state), and the **ionisation energy** of hydrogen is 13.6 eV.
+
+**Hydrogen spectrum.** When an electron falls from $n_{2}$ to $n_{1}$,
+
+$$ \frac{1}{\lambda} = R_{H}\left(\frac{1}{n_{1}^{2}} - \frac{1}{n_{2}^{2}}\right), \qquad R_{H} = 1.097\times10^{7}\ \text{m}^{-1} $$
+
+| Series | $n_{1}$ | $n_{2}$ | Region |
+|---|---|---|---|
+| Lyman | 1 | 2, 3, 4... | Ultraviolet |
+| Balmer | 2 | 3, 4, 5... | Visible |
+| Paschen | 3 | 4, 5, 6... | Infrared |
+| Brackett | 4 | 5, 6... | Infrared |
+| Pfund | 5 | 6, 7... | Far infrared |
+
+**Numerical (H-alpha line).** For the Balmer transition $n = 3 \to 2$: $\Delta E = 13.6(1/4 - 1/9) = 1.89\ \text{eV}$, and $1/\lambda = 1.097\times10^{7}\times0.1389 = 1.524\times10^{6}\ \text{m}^{-1}$, so $\lambda = 656\ \text{nm}$ (the red line). The first Lyman line ($2 \to 1$) has $\Delta E = 10.2\ \text{eV}$ and $\lambda = 121.6\ \text{nm}$.
+
+**Merits.** It explained the stability of the atom and the hydrogen line spectrum. **Limitations:** it fails for atoms with more than one electron; it cannot explain the splitting of lines in a magnetic field (Zeeman) or electric field (Stark); it violates the uncertainty principle by giving exact orbits; and it does not explain chemical bonding.
+
+**Conclusion.** Bohr's model introduced quantised energy levels. Its predictions for hydrogen are accurate, but a complete theory needed quantum mechanics.
+
+### Model answer D2: quantum numbers, orbitals and electron configuration (10 marks)
+
+**Introduction.** In the quantum mechanical model an electron's state is described by an **orbital**, a region where the probability of finding the electron is high. Four **quantum numbers** specify an electron.
+
+**The four quantum numbers.**
+
+| Quantum number | Symbol | Allowed values | Gives |
+|---|---|---|---|
+| Principal | $n$ | 1, 2, 3... | Shell, size and energy |
+| Azimuthal (angular momentum) | $l$ | 0 to $n-1$ (s, p, d, f) | Subshell, **shape** |
+| Magnetic | $m_{l}$ | $-l$ to $+l$ | **Orientation**; $(2l+1)$ orbitals |
+| Spin | $m_{s}$ | $+\tfrac12$ or $-\tfrac12$ | Spin of the electron |
+
+A shell $n$ holds $2n^{2}$ electrons. A subshell s holds 2, p holds 6, d holds 10 and f holds 14 electrons.
+
+**Shapes.** An **s orbital** is **spherical**, and it grows larger with $n$ (1s, 2s have a spherical node in 2s). A **p orbital** is **dumb-bell shaped** with two lobes and a nodal plane through the nucleus; there are three, $p_{x}$, $p_{y}$ and $p_{z}$, at right angles to each other and of equal energy.
+
+**Rules for filling.**
+
+1. **Aufbau principle:** electrons fill the **lowest energy** orbital first, in the order of increasing $(n + l)$: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, 5s...
+2. **Pauli's exclusion principle:** no two electrons in an atom can have the same set of four quantum numbers, so an orbital holds at most two electrons of opposite spin.
+3. **Hund's rule:** in degenerate orbitals one electron enters each orbital with parallel spin before pairing starts.
+
+**Electronic configurations.**
+
+- **Cr (Z = 24):** expected 4s² 3d⁴, but **actual [Ar] 3d⁵ 4s¹**, because a half-filled d subshell is extra stable (symmetry and exchange energy).
+- **Cu (Z = 29):** expected 4s² 3d⁹, but **actual [Ar] 3d¹⁰ 4s¹**, because a completely filled d subshell is extra stable.
+- **Fe (Z = 26):** [Ar] 3d⁶ 4s². **Fe³⁺**: the 4s electrons leave first, then one 3d electron, giving **[Ar] 3d⁵** (half-filled and so more stable than Fe²⁺). It has 5 unpaired electrons.
+
+**Example of quantum numbers.** For the last electron of Na (3s¹): $n = 3$, $l = 0$, $m_{l} = 0$, $m_{s} = +\tfrac12$.
+
+**Conclusion.** The four quantum numbers give a complete address of every electron. The filling rules explain the periodic table and the exceptions of chromium and copper arise from the extra stability of half-filled and fully filled subshells.
+
+### Model answer D3: de Broglie wavelength, uncertainty principle and failure of Bohr's model (10 marks)
+
+**Introduction.** Light behaves as both wave and particle. In 1924 Louis de Broglie suggested that **matter also has wave properties**. In 1927 Heisenberg showed that there is a basic limit to how exactly we can know the position and momentum of a small particle.
+
+**de Broglie's equation.** For a photon, $E = h\nu = hc/\lambda$ and $E = mc^{2}$, giving $\lambda = h/mc$. Extending this to a particle of mass $m$ and speed $v$,
+
+$$ \lambda = \frac{h}{mv} = \frac{h}{p} $$
+
+The wave nature was proved by **electron diffraction** (Davisson and Germer, 1927), and it is the basis of the **electron microscope**.
+
+**Numerical 1.** An electron moving at $2.19\times10^{6}\ \text{m s}^{-1}$ (the speed in the first Bohr orbit): $\lambda = \dfrac{6.626\times10^{-34}}{9.109\times10^{-31}\times2.19\times10^{6}} = 3.32\times10^{-10}\ \text{m} = 0.332\ \text{nm}$, about the size of an atom, so wave behaviour matters.
+
+**Numerical 2.** A cricket ball of $0.15\ \text{kg}$ at $40\ \text{m s}^{-1}$: $\lambda = 6.626\times10^{-34}/(0.15\times40) = 1.1\times10^{-34}\ \text{m}$, which is too small to detect. So the wave nature is noticeable only for tiny particles.
+
+**Heisenberg's uncertainty principle.** *It is impossible to measure both the exact position and the exact momentum of a particle at the same time.*
+
+$$ \Delta x\cdot\Delta p \geq \frac{h}{4\pi} $$
+
+**Numerical 3.** If an electron's position is known to $\Delta x = 10^{-10}\ \text{m}$ (the size of an atom), then $\Delta v \geq \dfrac{h}{4\pi m\,\Delta x} = \dfrac{6.626\times10^{-34}}{4\pi\times9.109\times10^{-31}\times10^{-10}} = 5.8\times10^{5}\ \text{m s}^{-1}$. This uncertainty in speed is large, so it makes no sense to talk about a definite path (orbit) of an electron.
+
+**Significance.** The principle replaced Bohr's orbits with **orbitals** and **probability** (the wave function squared gives the probability density).
+
+**Failures of Bohr's model.**
+
+1. It applies only to one-electron species such as H, He⁺ and Li²⁺.
+2. It does not explain the fine structure of spectral lines.
+3. It could not explain the Zeeman and Stark effects.
+4. It treats the electron as a particle only and ignores its wave nature.
+5. It violates the uncertainty principle.
+6. It does not explain the shapes of molecules.
+
+| Idea | Equation | Meaning |
+|---|---|---|
+| de Broglie | $\lambda = h/mv$ | Every moving particle has a wavelength |
+| Heisenberg | $\Delta x\,\Delta p \geq h/4\pi$ | Position and momentum cannot both be exact |
+| Bohr | $mvr = nh/2\pi$ | Quantised orbits (replaced by orbitals) |
+
+**Conclusion.** Matter shows wave-particle duality, and the uncertainty principle sets a limit on our knowledge. These ideas led to the quantum mechanical model of the atom.

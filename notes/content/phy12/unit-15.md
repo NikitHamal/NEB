@@ -597,3 +597,95 @@ $$ I = \frac{E}{R} = \frac{2.0\times10^{-3}}{25} = 8.0\times10^{-5}\ \text{A}
 = 80\ \mu\text{A} $$
 which a sensitive galvanometer reads easily.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is the Seebeck effect? Explain the thermoelectric series, the neutral and inversion temperatures, and calculate the e.m.f. of a thermocouple. <span class="marks">[10]</span>
+2. Describe the Peltier and Thomson effects, and distinguish the Peltier effect from Joule heating. <span class="marks">[10]</span>
+3. What is a thermopile? Describe how thermocouples and thermopiles are used, and give eight applications of thermoelectric effects. <span class="marks">[10]</span>
+
+### Model answer D1: Seebeck effect, neutral and inversion temperatures (10 marks)
+
+**Introduction.** In 1821 T. J. Seebeck found that if the two junctions of a circuit made from two different metals are kept at different temperatures, an **e.m.f. (thermo-e.m.f.) appears and a current flows**. This is the **Seebeck effect**, and the circuit is a **thermocouple**.
+
+**Explanation.** Free-electron densities differ in the two metals. At the hot junction, electrons diffuse more rapidly across the interface than at the cold junction, so a net potential difference is set up around the circuit. Its direction is reversed if the hot and cold ends are exchanged.
+
+**Thermoelectric series.** The metals are arranged in a list such as **Bi, Ni, Co, Pt, Hg, Al, Pb, Sn, Cu, Au, Ag, Zn, Fe, Sb**. At the hot junction the current flows from the metal earlier in the list to the metal later in the list (for a Cu-Fe couple, from copper to iron). The farther apart the metals are in the series, the larger the e.m.f. (the bismuth-antimony pair gives the largest).
+
+**Variation of e.m.f. with temperature.** If the cold junction is at $0^{\circ}$C and the hot junction is at $\theta$, the e.m.f. is found by experiment to be a parabola:
+
+$$ e = a\theta + \tfrac{1}{2}b\theta^{2} $$
+
+where $a$ and $b$ are constants of the pair of metals. The thermoelectric power (Seebeck coefficient) is
+
+$$ S = \frac{de}{d\theta} = a + b\theta $$
+
+1. **Neutral temperature $\theta_{n}$:** the temperature of the hot junction at which the e.m.f. is a **maximum**, so $de/d\theta = 0$, giving $\theta_{n} = -a/b$.
+2. **Inversion temperature $\theta_{i}$:** the temperature at which the e.m.f. falls back to **zero** and then reverses; setting $e = 0$ gives $\theta_{i} = -2a/b = 2\theta_{n}$.
+3. $\theta_{n}$ is independent of the cold-junction temperature, but $\theta_{i}$ depends on it: it is as far above $\theta_{n}$ as the cold junction is below it, $\theta_{i} = 2\theta_{n} - \theta_{c}$.
+
+**Numerical.** For a Cu-Fe couple take $a = 14\ \mu\text{V}\,{}^{\circ}\text{C}^{-1}$ and $b = -0.035\ \mu\text{V}\,{}^{\circ}\text{C}^{-2}$, with the cold junction at $0^{\circ}$C.
+
+- Neutral temperature: $\theta_{n} = -14/(-0.035) = 400^{\circ}$C.
+- Inversion temperature: $\theta_{i} = 2\times400 = 800^{\circ}$C.
+- E.m.f. at $200^{\circ}$C: $e = 14(200) + \tfrac{1}{2}(-0.035)(200)^{2} = 2800 - 700 = 2100\ \mu\text{V}$.
+- Maximum e.m.f. at $400^{\circ}$C: $5600 - 2800 = 2800\ \mu\text{V}$.
+- Seebeck coefficient at $200^{\circ}$C: $14 - 0.035\times200 = 7\ \mu\text{V}\,{}^{\circ}\text{C}^{-1}$.
+
+| Hot junction ($^{\circ}$C) | E.m.f. ($\mu$V) | Remark |
+|---|---|---|
+| 100 | 1225 | Rising |
+| 200 | 2100 | Rising |
+| 400 | 2800 | Maximum, $\theta_{n}$ |
+| 800 | 0 | Inversion, $\theta_{i}$ |
+
+**Conclusion.** The thermo-e.m.f. is a parabolic function of temperature. For a precise thermometer one uses the range below the neutral temperature, where the e.m.f. rises steadily.
+
+### Model answer D2: Peltier and Thomson effects (10 marks)
+
+**Introduction.** The Seebeck effect converts heat into electricity. Its **reverse** was found by Peltier (1834): a current through a junction of two different metals produces **heating or cooling** at the junction.
+
+**Peltier effect.** When a current $I$ is passed through a junction of two different metals, heat is **absorbed** at one junction and **liberated** at the other. Reversing the current reverses the effect. The heat exchanged in time $t$ is $Q = \Pi I t$, where $\Pi$ is the **Peltier coefficient**: the heat absorbed or evolved per unit charge, in J/C (volt). The Peltier and Seebeck coefficients are linked by $\Pi = ST$, where $T$ is the absolute temperature of the junction.
+
+**Explanation.** When electrons pass from a metal where their mean energy is low into one where it is high they absorb energy (**cooling**), and when they move the other way they give the energy up (**heating**).
+
+**Numerical.** For a junction with $S = 7\ \mu\text{V K}^{-1}$ at $T = 300\ \text{K}$: $\Pi = 7\times10^{-6}\times300 = 2.1\times10^{-3}\ \text{V}$. With $I = 2\ \text{A}$ for $10$ minutes the heat exchanged is $Q = \Pi I t = 2.1\times10^{-3}\times2\times600 = 2.52\ \text{J}$.
+
+**Thomson effect (1851).** When a current flows along a **single metal** wire that has a temperature gradient, heat is absorbed or liberated along the wire in addition to Joule heating. The heat per unit charge per unit temperature difference is the **Thomson coefficient** $\sigma$. In copper, the heat is **absorbed** when the current flows from cold to hot; in iron it is the reverse. Thomson also linked all three effects with $\sigma = T\,dS/dT$.
+
+**Comparison of Peltier and Joule heating.**
+
+| Feature | Peltier effect | Joule heating |
+|---|---|---|
+| Occurs at | Junction of two different metals | Whole of the conductor |
+| Depends on | $I$ (first power) | $I^{2}$ |
+| Reversible? | Yes, heating or cooling | No, always heating |
+| Formula | $Q = \Pi I t$ | $Q = I^{2}Rt$ |
+| Use | Cooling, heat pumps | Heaters, fuses |
+
+**Applications of the Peltier effect.** Small **Peltier coolers** (thermoelectric modules) with no moving parts cool CPUs, portable refrigerators, car cup-holders, and small vaccine boxes. Because the heat is moved by electric current, there is no noise or gas refrigerant.
+
+**Conclusion.** The Seebeck, Peltier and Thomson effects are three aspects of the same coupling between heat and charge flow, and they are connected by the Kelvin relations. The Peltier effect is reversible and linear in the current, unlike Joule heating.
+
+### Model answer D3: thermocouple, thermopile and applications (10 marks)
+
+**Introduction.** A single thermocouple gives only a few millivolts, so in a practical instrument several are combined. A **thermopile** consists of a large number of thermocouples connected in series, with alternate junctions at the hot and cold ends. It gives the sum of the e.m.f.s and is much more sensitive.
+
+**Thermopile.** Antimony and bismuth bars are soldered alternately in a compact box. All the odd junctions are blackened and exposed to the radiation, and all the even ones are shielded. If one couple gives $e$, a pile of $n$ couples gives $E = ne$. A pile of 40 Cu-Fe couples, each giving $1.225\ \text{mV}$ for a $100^{\circ}$C difference, gives $40\times1.225 = 49\ \text{mV}$. Joined to a sensitive galvanometer, it can detect a rise of one-thousandth of a degree.
+
+**Thermocouple thermometer.** One junction is kept at a known temperature (ice) and the other is placed where the temperature is required. The e.m.f. is read on a millivoltmeter calibrated in degrees. Its advantages are a **wide range** (-200 to 1600 degrees C), small size, quick response and remote reading.
+
+**Eight applications of thermoelectric effects.**
+
+1. **Furnace and kiln thermometry:** a Pt-Rh thermocouple measures the temperature of brick kilns in Bhaktapur and of cement furnaces.
+2. **Measurement of radiant heat:** a thermopile detects infrared radiation from the Sun and from stars.
+3. **Thermoelectric generators:** spacecraft such as Voyager use the heat of decaying plutonium in a thermopile to make electricity.
+4. **Peltier cooling:** compact refrigerators for medicines and vaccines in remote health posts.
+5. **Fire safety:** the pilot flame of a gas heater heats a thermocouple, whose e.m.f. holds the gas valve open and shuts it if the flame goes out.
+6. **Temperature control:** thermocouples in ovens, incubators and industrial boilers.
+7. **Power from waste heat:** modules on the exhaust pipe or on cooking stoves that charge a mobile phone in villages without electricity.
+8. **Medical and scientific use:** tiny thermocouples measure the temperature inside tissues and in the laboratory.
+
+**Limitations.** The e.m.f. is small and not perfectly linear; the efficiency of the thermoelectric generators is low (around 5-8%), and the junctions need regular calibration.
+
+**Conclusion.** The thermopile is a sensitive heat detector, and the thermocouple is a robust thermometer. With the Peltier effect they find uses from the kitchen to space.
