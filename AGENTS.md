@@ -2063,3 +2063,7 @@ Midwifery I (BSN 17-18) is done on branch `claude/bsc-nursing` (5 units, 65-page
 
 ## BSc Nursing: session 14 handover
 Branch `claude/bsc-nursing`. Midwifery II (`nursing/course/year-3/midwifery-2`) units 1-4 are done and pushed (53-page PDF, qa fails=0, `check_mw2.py`). **Next: Midwifery II unit 5** (puerperal complications, high-risk newborn, MPDSR) then Child Health Nursing, Family and Reproductive Health Nursing, Year 4 books, entrance books. Read `nursing/STATUS.md` for the workflow, helpers (`nursing/tools/helpers/session14`) and lessons. The GitHub PAT must be supplied through an out-of-repo `GIT_ASKPASS` helper and rotated; never commit it.
+
+
+### BSc Nursing: Session 15 handover
+Midwifery II (BSN 19-20) is complete (5 units, 71-page PDF). Next: Child Health Nursing unit 1 (see `nursing/STATUS.md` Next). Helpers in `nursing/tools/helpers/session14/` (`asm.sh N` joins u{N}a-d.md). Keep apostrophes out of photogrid `key` lines. The GitHub PAT used in this session must be rotated by the owner.

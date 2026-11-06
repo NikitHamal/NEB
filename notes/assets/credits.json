@@ -11023,6 +11023,19 @@
   "source": "Wikimedia Commons",
   "title": "Gross pathology of placental abruption"
  },
+ "nur12/abscess": {
+  "author": "Jmelendres",
+  "bytes": 221498,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/abscess.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Breast_Abscess_for_Incision_and_Drainage.jpg",
+  "sha1": "eaeda8ab3533dfe4",
+  "source": "Wikimedia Commons",
+  "title": "Breast Abscess for Incision and Drainage"
+ },
  "nur12/atony": {
   "author": "Princess of Ara",
   "bytes": 83066,
@@ -11101,6 +11114,19 @@
   "source": "Wikimedia Commons",
   "title": "Vacuum Extraction bruised scalp"
  },
+ "nur12/cpap": {
+  "author": "Bobjgalindo",
+  "bytes": 944247,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/cpap.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:CPAP_on_newborn.JPG",
+  "sha1": "582552ea4bf2d5e1",
+  "source": "Wikimedia Commons",
+  "title": "CPAP on newborn"
+ },
  "nur12/cs": {
   "author": "Lnrichard",
   "bytes": 349879,
@@ -11127,6 +11153,19 @@
   "source": "Wikimedia Commons",
   "title": "Comp.Urine.Test.Strip"
  },
+ "nur12/dvt": {
+  "author": "James Heilman, MD",
+  "bytes": 564347,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/dvt.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Deep_vein_thrombosis_of_the_right_leg.jpg",
+  "sha1": "fed884309e0499ef",
+  "source": "Wikimedia Commons",
+  "title": "Deep vein thrombosis of the right leg"
+ },
  "nur12/ectop": {
   "author": "Drvgaikwad , Dr. Vilas Gayakwad",
   "bytes": 473578,
@@ -11152,6 +11191,19 @@
   "sha1": "d79d66afbb68295e",
   "source": "Wikimedia Commons",
   "title": "Combinpedal"
+ },
+ "nur12/hbb": {
+  "author": "American Academy of Pediatrics / Helping Babies Survive; reproduced in Kamath-Rayne BD, Thukral A, Visick MK, et al. (2018)",
+  "bytes": 471789,
+  "credit": "https://www.ghspjournal.org/content/6/3/538",
+  "fetched": "2026-11-06",
+  "file": "nur12/hbb.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Helping-babies-breathe-2018-action-plan.jpg",
+  "sha1": "01675e2230452d10",
+  "source": "Wikimedia Commons",
+  "title": "Helping-babies-breathe-2018-action-plan"
  },
  "nur12/ida": {
   "author": "Ed Uthman from Houston, TX, USA",
@@ -11191,6 +11243,45 @@
   "sha1": "34ec660a33b9885e",
   "source": "Wikimedia Commons",
   "title": "Iron sucrose IV drip"
+ },
+ "nur12/jaund": {
+  "author": "Dr. Hudson",
+  "bytes": 71262,
+  "credit": "http://phil.cdc.gov/phil/home.asp ID#: 5604 US Department of Health and Human Services",
+  "fetched": "2026-11-06",
+  "file": "nur12/jaund.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Jaundice_in_newborn.jpg",
+  "sha1": "27a03653416124f1",
+  "source": "Wikimedia Commons",
+  "title": "Jaundice in newborn"
+ },
+ "nur12/kmc": {
+  "author": "Happi Raphael",
+  "bytes": 341109,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/kmc.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kangaroo_Care_Laquintinie_Hospital_Cameroon.jpg",
+  "sha1": "d14fae2e284dbe4f",
+  "source": "Wikimedia Commons",
+  "title": "Kangaroo Care Laquintinie Hospital Cameroon"
+ },
+ "nur12/mastitis": {
+  "author": "XXXANONXXX3245",
+  "bytes": 242256,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/mastitis.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mastitis_in_breast.jpg",
+  "sha1": "0ed82abdab893af3",
+  "source": "Wikimedia Commons",
+  "title": "Mastitis in breast"
  },
  "nur12/mgso4": {
   "author": "Mark Oniffrey",
@@ -11243,6 +11334,32 @@
   "sha1": "35f0fda6cf8a4e0b",
   "source": "Wikimedia Commons",
   "title": "Treatment of severe preeclampsia"
+ },
+ "nur12/photo": {
+  "author": "Steph masih",
+  "bytes": 423255,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/photo.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Phototherapy1.jpg",
+  "sha1": "9233d72078e9d82c",
+  "source": "Wikimedia Commons",
+  "title": "Phototherapy1"
+ },
+ "nur12/premie": {
+  "author": "PublicDomainPictures",
+  "bytes": 362427,
+  "credit": "https://pixabay.com/photos/baby-incubator-mama-hospital-218149/",
+  "fetched": "2026-11-06",
+  "file": "nur12/premie.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Mother_with_premature_baby_in_incubator.jpg",
+  "sha1": "f19b765b58646518",
+  "source": "Wikimedia Commons",
+  "title": "Mother with premature baby in incubator"
  },
  "nur12/sequel": {
   "author": "FIGOHQ",
