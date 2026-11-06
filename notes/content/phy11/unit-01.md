@@ -703,3 +703,84 @@ $$ n_2 = 6.67\times10^{-11}\,(10^{3})^{-1}(10^{2})^{3} = 6.67\times10^{-11}\time
 
 giving $G = 6.67\times10^{-8}\ \text{dyne cm}^{2}\ \text{g}^{-2}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain significant figures, accuracy and precision, and the types of errors. Derive the rules for combining errors and solve a numerical. <span class="marks">[10]</span>
+2. What is dimensional analysis? State its uses and limitations, and use it to derive a relation and to convert units. <span class="marks">[10]</span>
+
+### Model answer D1: significant figures, errors and their combination (10 marks)
+
+**Introduction.** Every measurement is approximate, so a result is incomplete without an indication of how reliable it is. Significant figures and error analysis describe this reliability.
+
+**Significant figures.** The digits in a measurement that are known reliably, plus one doubtful digit.
+
+1. All non-zero digits are significant ($2.45$ has 3).
+2. Zeros between non-zero digits are significant ($1005$ has 4).
+3. Leading zeros are not significant ($0.0045$ has 2).
+4. Trailing zeros after a decimal point are significant ($2.30$ has 3).
+5. In scientific notation, all digits in the coefficient count ($4.50\times10^{3}$ has 3).
+6. In **addition or subtraction**, the result has as many decimal places as the least precise number; in **multiplication or division**, as many significant figures as the least precise number.
+
+**Accuracy and precision.** **Accuracy** is how close a measurement is to the true value; **precision** is how close repeated measurements are to each other. A watch that is always $5$ minutes fast is precise but not accurate.
+
+**Types of errors.**
+
+- **Systematic errors:** always in the same direction, such as a zero error of a screw gauge, a wrongly calibrated instrument or a personal habit. They can be removed by correction.
+- **Random errors:** irregular, from the observer or the surroundings; they are reduced by taking many readings and the mean.
+- **Gross errors:** a blunder, such as misreading the scale.
+
+**Measures of error.** If $a_1,a_2,\ldots,a_n$ are the readings, the mean is $a_m=\dfrac{\sum a_i}{n}$.
+
+- **Absolute error** $\Delta a_i=|a_m-a_i|$; **mean absolute error** $\Delta a=\dfrac{\sum\Delta a_i}{n}$.
+- **Relative (fractional) error** $=\dfrac{\Delta a}{a_m}$; **percentage error** $=\dfrac{\Delta a}{a_m}\times100\%$.
+
+**Combination of errors.** Let $A\pm\Delta A$ and $B\pm\Delta B$ be two measurements.
+
+1. **Sum or difference** $Z=A\pm B$: $\Delta Z=\Delta A+\Delta B$. The **absolute** errors add, even for a difference.
+2. **Product or quotient** $Z=AB$ or $A/B$: $\dfrac{\Delta Z}{Z}=\dfrac{\Delta A}{A}+\dfrac{\Delta B}{B}$. The **relative** errors add.
+3. **Power** $Z=A^{n}$: $\dfrac{\Delta Z}{Z}=n\dfrac{\Delta A}{A}$.
+
+For $Z=AB$, $Z+\Delta Z=(A\pm\Delta A)(B\pm\Delta B)=AB\pm A\Delta B\pm B\Delta A+\Delta A\Delta B$; neglecting the product of two small errors and dividing by $Z=AB$ gives the rule.
+
+**Numericals.**
+
+1. A rectangle $10.0\pm0.1\ \text{cm}$ by $5.0\pm0.1\ \text{cm}$: the relative errors $1\%+2\%=3\%$, so the area is $50\pm1.5\ \text{cm}^{2}$.
+2. A cube has mass $50.0\pm0.1\ \text{g}$ and edge $2.00\pm0.01\ \text{cm}$. Density $\rho=\dfrac{50.0}{8.00}=6.25\ \text{g cm}^{-3}$. Relative error $=\dfrac{0.1}{50}+3\times\dfrac{0.01}{2.00}=0.002+0.015=0.017$, so $\Delta\rho=0.106$ and $\rho=6.25\pm0.11\ \text{g cm}^{-3}$ ($1.7\%$ error). The edge contributes most of the error.
+
+**Conclusion.** A result must be stated with the correct significant figures and its error; absolute errors add in sums, and relative errors add in products and quotients.
+
+### Model answer D2: dimensional analysis, uses and limitations (10 marks)
+
+**Introduction.** The **dimensions** of a physical quantity show how it depends on the base quantities: mass [M], length [L], time [T] (and current [A], temperature [K]). Dimensional analysis uses them to check and build equations.
+
+**Dimensional formulae.**
+
+| Quantity | Formula | Dimensions |
+|---|---|---|
+| Velocity | length/time | $[LT^{-1}]$ |
+| Acceleration | velocity/time | $[LT^{-2}]$ |
+| Force | $ma$ | $[MLT^{-2}]$ |
+| Work, energy | $F\times d$ | $[ML^{2}T^{-2}]$ |
+| Power | work/time | $[ML^{2}T^{-3}]$ |
+| Pressure | force/area | $[ML^{-1}T^{-2}]$ |
+| Gravitational constant $G$ | $Fr^{2}/m^{2}$ | $[M^{-1}L^{3}T^{-2}]$ |
+
+**Principle of homogeneity.** Only quantities of the same dimensions can be added, subtracted or equated, so every term of a correct equation has the same dimensions.
+
+**Uses.**
+
+1. **Checking an equation.** For $s=ut+\tfrac12at^{2}$, each term has the dimension $[L]$: $[LT^{-1}][T]=[L]$ and $[LT^{-2}][T^{2}]=[L]$, so the equation is dimensionally consistent.
+2. **Deriving a relation.** Suppose the period $T$ of a simple pendulum depends on its length $l$, mass $m$ and gravity $g$: $T=k\,l^{a}m^{b}g^{c}$. Then $[T]=[L]^{a}[M]^{b}[LT^{-2}]^{c}$; comparing the powers: $b=0$, $a+c=0$, $-2c=1$, so $c=-\tfrac12$, $a=\tfrac12$, and $T=k\sqrt{l/g}$ (experiment gives $k=2\pi$). The period does not depend on mass.
+3. **Converting units.** $n_2=n_1\left[\dfrac{M_1}{M_2}\right]^{a}\left[\dfrac{L_1}{L_2}\right]^{b}\left[\dfrac{T_1}{T_2}\right]^{c}$. For $G=6.67\times10^{-11}$ in SI, with $a=-1$, $b=3$, $c=-2$: $G=6.67\times10^{-11}\times(1000)^{-1}\times(100)^{3}=6.67\times10^{-8}$ in CGS units (dyne cm² g⁻²).
+4. **Finding the unit** of a quantity from its dimensions, such as the unit of $G$.
+
+**Limitations.**
+
+1. It does not give the value of a dimensionless constant such as $2\pi$ or $\tfrac12$.
+2. It cannot be used if a quantity depends on more than three variables (without extra information), or for trigonometric, logarithmic and exponential functions.
+3. It cannot decide whether a quantity is a scalar or a vector.
+4. A dimensionally correct equation need not be physically correct: $s=ut+at^{2}$ is dimensionally right but wrong.
+5. Quantities with the same dimensions (work and torque) cannot be told apart.
+
+**Conclusion.** Dimensional analysis checks equations, derives relations and converts units, but it cannot give numerical constants.

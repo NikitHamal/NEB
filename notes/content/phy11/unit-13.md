@@ -804,3 +804,78 @@ $\rho = 0.032/0.0249 = 1.29\ \text{kg m}^{-3}$.
 = \sqrt{2.33\times10^{5}} = 483\ \text{m s}^{-1}$.
 (The same answer follows from $\sqrt{3RT/M}$, as it must.)
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Using the kinetic theory of gases, derive an expression for the pressure exerted by an ideal gas and deduce the average kinetic energy of a molecule. <span class="marks">[10]</span>
+2. State the ideal gas equation, define the Boltzmann constant and the root mean square speed, and solve a numerical on a gas. <span class="marks">[10]</span>
+
+### Model answer D1: pressure of an ideal gas from kinetic theory (10 marks)
+
+**Introduction.** The kinetic theory explains the pressure of a gas as the result of countless molecular collisions with the walls of the container. The gas in a bicycle tyre or in an LPG cylinder at a Kathmandu home pushes on the walls in exactly this way.
+
+**Assumptions of the model.**
+
+1. A gas consists of a very large number of identical molecules in random motion.
+2. The size of a molecule is negligible compared with the distance between molecules.
+3. Collisions with the walls and with each other are perfectly elastic.
+4. There are no forces between molecules except during a collision, and gravity is ignored.
+
+**Derivation.** Take a cube of side $L$ holding $N$ molecules, each of mass $m$.
+
+1. A molecule has velocity components $u$, $v$, $w$ along $x$, $y$, $z$. When it strikes the wall perpendicular to $x$ and rebounds, its momentum change is $mu-(-mu)=2mu$.
+2. To hit the same wall again it must travel $2L$, so the time between collisions is $2L/u$ and the collision rate is $u/2L$.
+3. The force on that wall from this one molecule is (momentum change per collision) × (collisions per second) $= 2mu\times\dfrac{u}{2L}=\dfrac{mu^{2}}{L}$.
+4. Adding all $N$ molecules, $F=\dfrac{m}{L}\left(u_1^{2}+u_2^{2}+\dots\right)=\dfrac{mN\overline{u^{2}}}{L}$.
+5. Pressure is force per area, so $P=\dfrac{F}{L^{2}}=\dfrac{mN\overline{u^{2}}}{L^{3}}=\dfrac{mN\overline{u^{2}}}{V}$.
+6. Because the motion is random, $\overline{u^{2}}=\overline{v^{2}}=\overline{w^{2}}$, so $\overline{c^{2}}=3\overline{u^{2}}$ and
+
+$$ P=\frac{1}{3}\,\frac{mN}{V}\,\overline{c^{2}}=\frac{1}{3}\,\rho\,\overline{c^{2}} $$
+
+**Average kinetic energy.** Write the result as $PV=\tfrac13 Nm\overline{c^{2}}=\tfrac23 N\left(\tfrac12 m\overline{c^{2}}\right)$. Comparing with the ideal gas law $PV=NkT$ gives
+
+$$ \tfrac12 m\overline{c^{2}}=\tfrac32 kT $$
+
+so the **average translational kinetic energy depends only on the absolute temperature**, not on the kind of gas.
+
+| Quantity | Result |
+|---|---|
+| Pressure | $P=\tfrac13\rho\overline{c^{2}}$ |
+| Mean kinetic energy per molecule | $\tfrac32 kT$ |
+| r.m.s. speed | $c_{rms}=\sqrt{3P/\rho}=\sqrt{3kT/m}$ |
+
+**Numerical.** Nitrogen at $1\ \text{atm}$ ($1.013\times10^{5}\ \text{Pa}$) has density $1.25\ \text{kg m}^{-3}$, so $c_{rms}=\sqrt{3\times1.013\times10^{5}/1.25}\approx 493\ \text{m s}^{-1}$.
+
+**Conclusion.** Pressure arises from the momentum given to the walls by colliding molecules, and temperature is a measure of the average molecular kinetic energy.
+
+### Model answer D2: ideal gas equation, Boltzmann constant and r.m.s. speed (10 marks)
+
+**Introduction.** An ideal gas obeys one equation of state at all pressures and temperatures. Real gases such as air and oxygen behave almost ideally at normal pressure and room temperature.
+
+**Gas laws combined.**
+
+- **Boyle's law:** $PV=\text{constant}$ at constant $T$.
+- **Charles' law:** $V/T=\text{constant}$ at constant $P$.
+- **Pressure law:** $P/T=\text{constant}$ at constant $V$.
+- Combining them, $\dfrac{PV}{T}=\text{constant}$, which becomes $PV=nRT$ for $n$ moles, where $R=8.314\ \text{J mol}^{-1}\text{K}^{-1}$ is the **universal gas constant**.
+
+**Boltzmann constant.** For $N$ molecules, $n=N/N_A$, so $PV=\dfrac{N}{N_A}RT=NkT$. The constant
+
+$$ k=\frac{R}{N_A}=\frac{8.314}{6.022\times10^{23}}=1.38\times10^{-23}\ \text{J K}^{-1} $$
+
+is the **gas constant per molecule**. It links the microscopic energy of a molecule to the macroscopic temperature.
+
+**Root mean square speed.** The r.m.s. speed is the square root of the mean of the squares of molecular speeds, $c_{rms}=\sqrt{\overline{c^{2}}}$. From $\tfrac12 m\overline{c^{2}}=\tfrac32kT$,
+
+$$ c_{rms}=\sqrt{\frac{3kT}{m}}=\sqrt{\frac{3RT}{M}} $$
+
+where $M$ is the molar mass in kg. Hence at the same temperature a light gas (hydrogen) moves faster than a heavy gas (oxygen), and $c_{rms}\propto\sqrt{T}$.
+
+**Heat capacities.** For one mole of an ideal gas, $C_p-C_v=R$ (Mayer's relation), because at constant pressure the gas also does work in expanding. A monatomic gas has $C_v=\tfrac32R$ and $C_p=\tfrac52R$.
+
+**Numerical.** For oxygen ($M=0.032\ \text{kg mol}^{-1}$) at $27^{\circ}\text{C}$ ($300\ \text{K}$):
+
+- $c_{rms}=\sqrt{3\times8.314\times300/0.032}\approx 484\ \text{m s}^{-1}$.
+- Mean kinetic energy per molecule $=\tfrac32kT=1.5\times1.38\times10^{-23}\times300=6.21\times10^{-21}\ \text{J}$.
+
+**Conclusion.** The ideal gas law $PV=nRT=NkT$, the constant $k$ and the r.m.s. speed together connect the pressure, temperature and molecular motion of a gas.
