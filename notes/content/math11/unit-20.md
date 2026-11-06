@@ -1192,3 +1192,119 @@ therefore $O(0,0)$, $C(5,0)$, $B(2,6)$ and $A(0,8)$.
 The feasible region is a closed bounded polygon, so the maximum is attained at a
 corner. The greatest value is $Z = 26$, at $x = 2$ and $y = 6$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the bisection method and the Newton-Raphson method, derive the Newton-Raphson formula and find the root of $x^{3}-x-1=0$ by both. <span class="marks">[10]</span>
+2. Derive the trapezoidal rule and Simpson's one-third rule and use them to estimate $\int_0^1\dfrac{dx}{1+x^{2}}$ with $n=4$, comparing with the exact value. <span class="marks">[10]</span>
+3. Solve a linear programming problem by the graphical method. <span class="marks">[10]</span>
+
+### Model answer D1: bisection and Newton-Raphson methods (10 marks)
+
+**Introduction.** Many equations, such as $x^{3}-x-1=0$, cannot be solved by a formula. **Numerical methods** find a root to any required accuracy by repeated approximation.
+
+**Bisection method.** If $f$ is continuous on $[a,b]$ and $f(a)f(b)<0$, there is a root between $a$ and $b$.
+
+1. Find the mid-point $c=\dfrac{a+b}{2}$.
+2. If $f(a)f(c)<0$ the root lies in $[a,c]$, so set $b=c$; otherwise set $a=c$.
+3. Repeat until the interval is as small as required. Each step halves the interval.
+
+**Newton-Raphson method.** Draw the tangent to $y=f(x)$ at $x_n$. It cuts the $X$-axis at $x_{n+1}$. The tangent is $y-f(x_n)=f'(x_n)(x-x_n)$; putting $y=0$,
+
+$$ x_{n+1}=x_n-\frac{f(x_n)}{f'(x_n)} $$
+
+The method converges very quickly when $x_0$ is near the root and $f'(x_n)\neq0$.
+
+**Worked example: $f(x)=x^{3}-x-1$.** Here $f(1)=-1<0$ and $f(2)=5>0$, so a root lies in $(1,2)$.
+
+*Bisection on $[1,2]$:*
+
+| Step | $a$ | $b$ | $c$ | $f(c)$ |
+|---|---|---|---|---|
+| 1 | $1$ | $2$ | $1.5$ | $0.875$ |
+| 2 | $1$ | $1.5$ | $1.25$ | $-0.297$ |
+| 3 | $1.25$ | $1.5$ | $1.375$ | $0.225$ |
+| 4 | $1.25$ | $1.375$ | $1.3125$ | $-0.052$ |
+| 5 | $1.3125$ | $1.375$ | $1.3438$ | $0.083$ |
+| 6 | $1.3125$ | $1.3438$ | $1.3281$ | $0.015$ |
+
+After six steps the root is between $1.3125$ and $1.3281$, so about $1.32$.
+
+*Newton-Raphson with $x_0=1.5$ and $f'(x)=3x^{2}-1$:*
+
+| $n$ | $x_n$ | $f(x_n)$ | $f'(x_n)$ | $x_{n+1}$ |
+|---|---|---|---|---|
+| 0 | $1.5$ | $0.875$ | $5.75$ | $1.3478$ |
+| 1 | $1.3478$ | $0.1007$ | $4.4499$ | $1.3252$ |
+| 2 | $1.3252$ | $0.0021$ | $4.2685$ | $1.32472$ |
+| 3 | $1.32472$ | $0.000001$ | $4.2646$ | $1.32472$ |
+
+The root is $1.3247$ to four decimal places, reached in three steps compared with many more for bisection.
+
+| Feature | Bisection | Newton-Raphson |
+|---|---|---|
+| Needs | sign change on $[a,b]$ | $f'(x)$ and a good $x_0$ |
+| Speed | slow, interval halves each step | very fast |
+| Guarantee | always converges | may fail if $f'\approx0$ |
+
+**Conclusion.** Bisection is safe but slow and Newton-Raphson is fast but needs a good starting value.
+
+### Model answer D2: trapezoidal and Simpson's rules (10 marks)
+
+**Introduction.** When an anti-derivative cannot be found, $\int_a^b f(x)\,dx$ is estimated from values of $f$ at equally spaced points $x_0=a,\ x_1,\dots,x_n=b$ with step $h=\dfrac{b-a}{n}$.
+
+**Trapezoidal rule.** Replace the curve between $x_{i-1}$ and $x_i$ by a straight line; the strip is a trapezium of area $\dfrac h2(y_{i-1}+y_i)$. Adding all $n$ strips,
+
+$$ \int_a^b f\,dx\approx\frac h2\Big[y_0+y_n+2(y_1+y_2+\dots+y_{n-1})\Big] $$
+
+**Simpson's one-third rule** (for even $n$). A parabola through three consecutive points gives the area $\dfrac h3(y_0+4y_1+y_2)$. Adding the pairs of strips,
+
+$$ \int_a^b f\,dx\approx\frac h3\Big[y_0+y_n+4(y_1+y_3+\dots)+2(y_2+y_4+\dots)\Big] $$
+
+**Worked example.** Estimate $\int_0^1\dfrac{dx}{1+x^{2}}$ with $n=4$, so $h=0.25$.
+
+| $x$ | $0$ | $0.25$ | $0.5$ | $0.75$ | $1$ |
+|---|---|---|---|---|---|
+| $y=\dfrac1{1+x^{2}}$ | $1$ | $0.941176$ | $0.8$ | $0.64$ | $0.5$ |
+
+*Trapezoidal rule:* $\dfrac{0.25}{2}\big[1+0.5+2(0.941176+0.8+0.64)\big]=0.125\times6.262352=0.78279$.
+
+*Simpson's rule:* $\dfrac{0.25}{3}\big[1+0.5+4(0.941176+0.64)+2(0.8)\big]=0.083333\times9.424706=0.78539$.
+
+*Exact value:* $\tan^{-1}1=\dfrac\pi4=0.785398$.
+
+| Method | Estimate | Error |
+|---|---|---|
+| Trapezoidal | $0.78279$ | $0.0026$ |
+| Simpson | $0.78539$ | $0.000006$ |
+| Exact | $0.785398$ | $0$ |
+
+Simpson's rule is more accurate because the parabola follows the curve better than a straight line. The trapezoidal rule can be used for any $n$; Simpson's rule needs an even number of strips.
+
+**Conclusion.** Both rules turn an integral into a weighted sum of function values, and Simpson's rule gives a far smaller error for the same $h$.
+
+### Model answer D3: linear programming by the graphical method (10 marks)
+
+**Introduction.** **Linear programming** finds the maximum or minimum of a linear **objective function** subject to linear **constraints**. The graphical method is used for two variables.
+
+**Problem.** Maximise $Z=3x+2y$ subject to $x+y\le4$, $x+3y\le6$, $x\ge0$, $y\ge0$.
+
+**Steps.**
+
+1. **Draw the constraint lines.** $x+y=4$ passes through $(4,0)$ and $(0,4)$. $x+3y=6$ passes through $(6,0)$ and $(0,2)$.
+2. **Shade the feasible region.** Test the origin: $0\le4$ and $0\le6$ are true, so the region lies on the origin side of both lines, within the first quadrant.
+3. **Find the corner points.** The corners of the region are $O(0,0)$, $A(4,0)$, $C(0,2)$ and the intersection $B$ of the two lines. Subtracting the equations, $2y=2$, so $y=1$ and $x=3$, giving $B(3,1)$.
+4. **Evaluate $Z$ at every corner** (the optimum of a linear function occurs at a corner).
+
+| Corner | $Z=3x+2y$ |
+|---|---|
+| $O(0,0)$ | $0$ |
+| $A(4,0)$ | $12$ |
+| $B(3,1)$ | $11$ |
+| $C(0,2)$ | $4$ |
+
+5. **Conclusion of the table.** The maximum value is $Z=12$ at $A(4,0)$.
+
+**Interpretation.** If $x$ and $y$ are the number of two products and $Z$ the profit in thousand rupees, the best plan is to make only the first product, $4$ units.
+
+**Conclusion.** The graphical method finds the best value by testing the corner points of the feasible region.

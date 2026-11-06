@@ -859,3 +859,93 @@ Exactly one $= 50+30+20 = 100$.
 
 *Check:* $100 + 60 + 20 = 180$, and $180 + 20 = 200$. Consistent.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define a statement and the logical connectives. Construct their truth tables, prove that $p\rightarrow q\equiv\sim p\vee q\equiv\sim q\rightarrow\sim p$ and show that $\big[(p\rightarrow q)\wedge(q\rightarrow r)\big]\rightarrow(p\rightarrow r)$ is a tautology. <span class="marks">[10]</span>
+2. State and prove De Morgan's laws and the distributive law for sets. Use the formula for $n(A\cup B\cup C)$ to solve a survey problem with a Venn diagram. <span class="marks">[10]</span>
+
+### Model answer D1: connectives, equivalences and tautology (10 marks)
+
+**Introduction.** A **statement** (proposition) is a declarative sentence that is either true or false, but not both. "Kathmandu is the capital of Nepal" is a statement; "Close the door" is not. Statements are joined by **connectives** to build compound statements, and the truth of a compound statement depends only on the truth of its parts.
+
+**Connectives and their truth tables.**
+
+| $p$ | $q$ | $\sim p$ | $p\wedge q$ | $p\vee q$ | $p\rightarrow q$ | $p\leftrightarrow q$ |
+|---|---|---|---|---|---|---|
+| T | T | F | T | T | T | T |
+| T | F | F | F | T | F | F |
+| F | T | T | F | T | T | F |
+| F | F | T | F | F | T | T |
+
+1. **Negation** $\sim p$ reverses the truth value of $p$.
+2. **Conjunction** $p\wedge q$ ("and") is true only when both are true.
+3. **Disjunction** $p\vee q$ ("or") is false only when both are false.
+4. **Conditional** $p\rightarrow q$ is false only when $p$ is true and $q$ is false.
+5. **Biconditional** $p\leftrightarrow q$ is true when $p$ and $q$ have the same truth value.
+
+**Proof of the equivalences.** Two statements are equivalent if their truth tables are identical.
+
+| $p$ | $q$ | $p\rightarrow q$ | $\sim p\vee q$ | $\sim q\rightarrow\sim p$ |
+|---|---|---|---|---|
+| T | T | T | T | T |
+| T | F | F | F | F |
+| F | T | T | T | T |
+| F | F | T | T | T |
+
+The last three columns agree in every row, so $p\rightarrow q\equiv\sim p\vee q\equiv\sim q\rightarrow\sim p$. The statement $\sim q\rightarrow\sim p$ is the **contrapositive**; it always has the same truth value as the original conditional.
+
+**Tautology (hypothetical syllogism).** Let $S=\big[(p\rightarrow q)\wedge(q\rightarrow r)\big]\rightarrow(p\rightarrow r)$.
+
+| $p$ | $q$ | $r$ | $p\rightarrow q$ | $q\rightarrow r$ | Both | $p\rightarrow r$ | $S$ |
+|---|---|---|---|---|---|---|---|
+| T | T | T | T | T | T | T | T |
+| T | T | F | T | F | F | F | T |
+| T | F | T | F | T | F | T | T |
+| T | F | F | F | T | F | F | T |
+| F | T | T | T | T | T | T | T |
+| F | T | F | T | F | F | T | T |
+| F | F | T | T | T | T | T | T |
+| F | F | F | T | T | T | T | T |
+
+The final column is true in all $2^{3}=8$ rows, so $S$ is a **tautology**. If "$p$: it rains", "$q$: the road is wet" and "$r$: the bus is late", then "rain makes the road wet, a wet road makes the bus late" gives "rain makes the bus late".
+
+**De Morgan's laws for statements.** $\sim(p\wedge q)\equiv\sim p\vee\sim q$ and $\sim(p\vee q)\equiv\sim p\wedge\sim q$. Hence the negation of "Ram is tall and Sita is short" is "Ram is not tall or Sita is not short".
+
+**Conclusion.** The truth table is a complete test for equivalence and tautology; a statement with $n$ variables needs $2^{n}$ rows.
+
+### Model answer D2: set laws and the three-set survey problem (10 marks)
+
+**Introduction.** A **set** is a well-defined collection of objects. For subsets of a universal set $U$, the union $A\cup B$, intersection $A\cap B$ and complement $A'$ obey laws that mirror the laws of logic.
+
+**Theorem 1 (De Morgan): $(A\cup B)'=A'\cap B'$.**
+
+*Proof.* Let $x\in(A\cup B)'$. Then $x\notin A\cup B$, so $x\notin A$ and $x\notin B$. Hence $x\in A'$ and $x\in B'$, that is, $x\in A'\cap B'$. So $(A\cup B)'\subseteq A'\cap B'$. Conversely, if $x\in A'\cap B'$, then $x\notin A$ and $x\notin B$, so $x\notin A\cup B$, giving $x\in(A\cup B)'$. So $A'\cap B'\subseteq(A\cup B)'$. Both inclusions hold, therefore the sets are equal. The law $(A\cap B)'=A'\cup B'$ is proved in the same way.
+
+**Theorem 2 (distributive law): $A\cap(B\cup C)=(A\cap B)\cup(A\cap C)$.**
+
+*Proof.* Let $x\in A\cap(B\cup C)$. Then $x\in A$ and ($x\in B$ or $x\in C$). If $x\in B$, then $x\in A\cap B$; if $x\in C$, then $x\in A\cap C$. In both cases $x\in(A\cap B)\cup(A\cap C)$. Reversing the steps shows the right side is contained in the left side, so the two sets are equal.
+
+**Cardinality formulae.**
+
+- $n(A\cup B)=n(A)+n(B)-n(A\cap B)$
+- $n(A\cup B\cup C)=n(A)+n(B)+n(C)-n(A\cap B)-n(B\cap C)-n(A\cap C)+n(A\cap B\cap C)$
+
+**Worked survey problem.** In a survey of $120$ students of a Kathmandu college, $70$ like momo ($A$), $60$ like thukpa ($B$) and $50$ like chowmein ($C$). Also $n(A\cap B)=30$, $n(B\cap C)=20$, $n(A\cap C)=25$ and $n(A\cap B\cap C)=10$.
+
+1. **Like at least one:** $70+60+50-30-20-25+10=115$.
+2. **Like none:** $120-115=5$.
+3. **Fill the Venn diagram from the centre outwards.** All three: $10$. Only $A\cap B$: $30-10=20$; only $B\cap C$: $20-10=10$; only $A\cap C$: $25-10=15$.
+4. **Only one dish:** only momo $=70-20-15-10=25$; only thukpa $=60-20-10-10=20$; only chowmein $=50-15-10-10=15$.
+5. **Exactly two dishes:** $20+10+15=45$.
+
+| Region | Students |
+|---|---|
+| Only momo, only thukpa, only chowmein | $25,\;20,\;15$ |
+| Exactly two | $45$ |
+| All three | $10$ |
+| None | $5$ |
+
+*Check:* $25+20+15+45+10+5=120$, which equals $n(U)$.
+
+**Conclusion.** Element-chasing proofs establish the set laws, and the inclusion-exclusion formula turns overlapping counts into exact regions of a Venn diagram.

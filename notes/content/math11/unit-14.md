@@ -979,3 +979,83 @@ $$ \vec{MN} = \vec{n}-\vec{m} = \frac{\vec{b}-\vec{a}}{2} = \frac{1}{2}\vec{AB} 
 Since $\vec{MN}$ is a scalar multiple of $\vec{AB}$, the two are parallel, and
 taking magnitudes, $MN = \frac{1}{2}AB$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define collinear, coplanar and linearly dependent vectors, prove the conditions of collinearity and coplanarity and apply them with examples. <span class="marks">[10]</span>
+2. Define the scalar product, state its properties, derive the angle formula and projection, and apply it to work done and a geometrical proof. <span class="marks">[10]</span>
+
+### Model answer D1: collinear, coplanar and linearly dependent vectors (10 marks)
+
+**Introduction.** A **vector** has both magnitude and direction, and is written with components, for example $\vec a=2\hat i+3\hat j-\hat k$. Two or more vectors can be related when they lie along the same line or in the same plane.
+
+**Collinear vectors.** Vectors are **collinear** if they are parallel to the same line.
+
+1. $\vec a$ and $\vec b$ are collinear if and only if $\vec a=\lambda\vec b$ for some scalar $\lambda$.
+2. Three points $A,B,C$ are collinear if and only if $\overrightarrow{AB}=\lambda\overrightarrow{AC}$.
+
+*Example.* $A(1,2,3)$, $B(3,4,7)$, $C(-3,-2,-5)$: $\overrightarrow{AB}=(2,2,4)$ and $\overrightarrow{AC}=(-4,-4,-8)=-2\,\overrightarrow{AB}$. So $A,B,C$ are collinear.
+
+**Coplanar vectors.** Vectors are **coplanar** if they lie in the same plane (or can be drawn parallel to the same plane).
+
+*Theorem.* If $\vec a$ and $\vec b$ are non-collinear, then $\vec c$ is coplanar with them if and only if $\vec c=l\vec a+m\vec b$ for unique scalars $l,m$.
+
+*Proof.* If $\vec c=l\vec a+m\vec b$, then $\vec c$ is the diagonal of a parallelogram with sides along $\vec a$ and $\vec b$, so it lies in their plane. Conversely, if $\vec c$ lies in the plane of $\vec a,\vec b$, resolve it along the two directions by drawing parallels; this gives $l$ and $m$. Uniqueness follows because $l\vec a+m\vec b=l'\vec a+m'\vec b$ implies $(l-l')\vec a=(m'-m)\vec b$, which forces $l=l'$ and $m=m'$ when $\vec a,\vec b$ are non-collinear.
+
+**Linear combination, dependence and independence.** A vector $\lambda_1\vec a_1+\lambda_2\vec a_2+\dots+\lambda_n\vec a_n$ is a **linear combination** of $\vec a_1,\dots,\vec a_n$. The vectors are **linearly dependent** if $\lambda_1\vec a_1+\dots+\lambda_n\vec a_n=\vec 0$ holds with at least one $\lambda_i\neq0$, and **linearly independent** if it holds only when all $\lambda_i=0$.
+
+| Number of vectors | Dependent when | Independent when |
+|---|---|---|
+| Two | collinear | not collinear |
+| Three | coplanar | non-coplanar |
+| Four (in space) | always | never |
+
+**Worked example.** Show that $\vec a=\hat i+2\hat j-\hat k$, $\vec b=2\hat i+\hat j+\hat k$ and $\vec c=4\hat i+5\hat j-\hat k$ are coplanar.
+
+1. Put $\vec c=l\vec a+m\vec b$: $l+2m=4$, $2l+m=5$, $-l+m=-1$.
+2. From the third, $m=l-1$. The first gives $l+2l-2=4$, so $l=2$ and $m=1$.
+3. The second equation: $2(2)+1=5$, which holds. Hence $\vec c=2\vec a+\vec b$ and the vectors are coplanar and linearly dependent.
+4. *Determinant check:* $\begin{vmatrix}1&2&-1\\2&1&1\\4&5&-1\end{vmatrix}=1(-1-5)-2(-2-4)+(-1)(10-4)=-6+12-6=0$.
+
+**Conclusion.** Collinearity means one vector is a multiple of the other; coplanarity means one is a linear combination of two non-collinear vectors; both are special cases of linear dependence.
+
+### Model answer D2: the scalar product and its applications (10 marks)
+
+**Introduction.** The **scalar (dot) product** of two vectors $\vec a$ and $\vec b$ with angle $\theta$ between them ($0\le\theta\le\pi$) is the scalar $\vec a\cdot\vec b=|\vec a||\vec b|\cos\theta$.
+
+**Properties.**
+
+1. $\vec a\cdot\vec b=\vec b\cdot\vec a$ (commutative).
+2. $\vec a\cdot(\vec b+\vec c)=\vec a\cdot\vec b+\vec a\cdot\vec c$ (distributive).
+3. $\vec a\cdot\vec a=|\vec a|^{2}$.
+4. $\hat i\cdot\hat i=\hat j\cdot\hat j=\hat k\cdot\hat k=1$ and $\hat i\cdot\hat j=\hat j\cdot\hat k=\hat k\cdot\hat i=0$.
+5. $\vec a\perp\vec b\iff\vec a\cdot\vec b=0$ for non-zero vectors.
+
+**Component form.** For $\vec a=a_1\hat i+a_2\hat j+a_3\hat k$ and $\vec b=b_1\hat i+b_2\hat j+b_3\hat k$, using properties 2 and 4,
+
+$$ \vec a\cdot\vec b=a_1b_1+a_2b_2+a_3b_3 $$
+
+**Angle between vectors.**
+
+$$ \cos\theta=\frac{\vec a\cdot\vec b}{|\vec a||\vec b|}=\frac{a_1b_1+a_2b_2+a_3b_3}{\sqrt{a_1^{2}+a_2^{2}+a_3^{2}}\sqrt{b_1^{2}+b_2^{2}+b_3^{2}}} $$
+
+**Projection.** The scalar projection of $\vec a$ on $\vec b$ is $\dfrac{\vec a\cdot\vec b}{|\vec b|}$, and the vector projection is $\dfrac{\vec a\cdot\vec b}{|\vec b|^{2}}\,\vec b$.
+
+**Cosine rule from the dot product.** $|\vec a-\vec b|^{2}=(\vec a-\vec b)\cdot(\vec a-\vec b)=|\vec a|^{2}+|\vec b|^{2}-2\vec a\cdot\vec b$, which is $c^{2}=a^{2}+b^{2}-2ab\cos C$.
+
+**Worked examples.**
+
+1. **Angle.** $\vec a=2\hat i+3\hat j-\hat k$ and $\vec b=\hat i-2\hat j+3\hat k$. $\vec a\cdot\vec b=2-6-3=-7$ and $|\vec a|=|\vec b|=\sqrt{14}$. So $\cos\theta=\dfrac{-7}{14}=-\dfrac12$ and $\theta=120^{\circ}$.
+2. **Projection of $\vec a$ on $\vec b$:** $\dfrac{-7}{\sqrt{14}}=-\dfrac{\sqrt{14}}{2}\approx-1.87$. The negative sign shows that the angle is obtuse.
+3. **Perpendicular vectors.** Find $\lambda$ if $2\hat i+\lambda\hat j+\hat k$ is perpendicular to $4\hat i-2\hat j-2\hat k$: $8-2\lambda-2=0$, so $\lambda=3$.
+4. **Work done.** A force $\vec F=3\hat i+2\hat j-\hat k$ newtons moves a body through $\vec d=2\hat i+\hat j+4\hat k$ metres. Work $=\vec F\cdot\vec d=6+2-4=4$ joules.
+5. **Angle in a semicircle is a right angle.** Take the centre as origin, the diameter ends $A(\vec a)$ and $B(-\vec a)$, and $P(\vec p)$ on the circle so that $|\vec p|=|\vec a|$. Then $\overrightarrow{PA}\cdot\overrightarrow{PB}=(\vec a-\vec p)\cdot(-\vec a-\vec p)=|\vec p|^{2}-|\vec a|^{2}=0$, so $\angle APB=90^{\circ}$.
+
+| Quantity | Formula |
+|---|---|
+| Dot product | $|\vec a||\vec b|\cos\theta=a_1b_1+a_2b_2+a_3b_3$ |
+| Angle | $\cos\theta=\dfrac{\vec a\cdot\vec b}{|\vec a||\vec b|}$ |
+| Scalar projection | $\dfrac{\vec a\cdot\vec b}{|\vec b|}$ |
+| Work | $\vec F\cdot\vec d$ |
+
+**Conclusion.** The scalar product converts geometry into arithmetic: it gives angles, projections, tests for perpendicularity and the work done by a force.

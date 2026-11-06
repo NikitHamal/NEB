@@ -688,3 +688,82 @@ $$ = 12 + 2\left[12\left(\tfrac23\right) + 12\left(\tfrac23\right)^{2} + \cdots\
 The bracket is a GP with $a = 8$, $r = \tfrac23$, so its sum is
 $\dfrac{8}{1-\frac23} = 24$. Total distance $= 12 + 2(24) = 60\ \text{m}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the $n$th term and the sum of $n$ terms of an A.P. and of a G.P., define arithmetic and geometric means and solve worked problems. <span class="marks">[10]</span>
+2. Define A.M., G.M. and H.M. of two positive numbers, prove $A\ge G\ge H$ and $G^{2}=AH$, derive the sum of an infinite G.P. and apply it to recurring decimals and a bouncing ball. <span class="marks">[10]</span>
+
+### Model answer D1: A.P. and G.P. (10 marks)
+
+**Introduction.** A **sequence** is a list of numbers formed by a rule; a **series** is the sum of its terms. In an **arithmetic progression** (A.P.) the difference between consecutive terms is constant; in a **geometric progression** (G.P.) the ratio is constant.
+
+**A.P.** Let the first term be $a$ and the common difference $d$.
+
+**(i)** The terms are $a,\ a+d,\ a+2d,\dots$ so the $n$th term is $t_n=a+(n-1)d$.
+
+**(ii)** Write the sum $S_n=a+(a+d)+\dots+l$ with $l=t_n$, and again in reverse order. Adding the two lines, each of the $n$ pairs equals $a+l$, so $2S_n=n(a+l)$. Hence
+
+$$ S_n=\frac n2\,(a+l)=\frac n2\,\big[2a+(n-1)d\big] $$
+
+**(iii)** **Arithmetic mean** of $a$ and $b$ is $\dfrac{a+b}{2}$. To insert $m$ arithmetic means between $a$ and $b$, the common difference is $d=\dfrac{b-a}{m+1}$.
+
+**G.P.** Let the first term be $a$ and the common ratio $r$.
+
+**(i)** The terms are $a,\ ar,\ ar^{2},\dots$ so $t_n=ar^{\,n-1}$.
+
+**(ii)** $S_n=a+ar+\dots+ar^{n-1}$. Multiplying by $r$ gives $rS_n=ar+\dots+ar^{n}$. Subtracting, $S_n(1-r)=a(1-r^{n})$, so
+
+$$ S_n=\frac{a(1-r^{n})}{1-r}=\frac{a(r^{n}-1)}{r-1},\qquad r\neq1 $$
+
+**(iii)** **Geometric mean** of $a$ and $b$ is $\sqrt{ab}$. To insert $m$ geometric means between $a$ and $b$, the ratio is $r=\left(\dfrac ba\right)^{\frac1{m+1}}$.
+
+| | A.P. | G.P. |
+|---|---|---|
+| Defining rule | $t_{n+1}-t_n=d$ | $t_{n+1}/t_n=r$ |
+| $n$th term | $a+(n-1)d$ | $ar^{n-1}$ |
+| Sum of $n$ terms | $\dfrac n2[2a+(n-1)d]$ | $\dfrac{a(r^{n}-1)}{r-1}$ |
+| Mean of $a,b$ | $\dfrac{a+b}2$ | $\sqrt{ab}$ |
+| Three terms | $a-d,\ a,\ a+d$ | $\dfrac ar,\ a,\ ar$ |
+
+**Worked examples.**
+
+1. For the A.P. $3,7,11,\dots$: $t_{20}=3+19\times4=79$ and $S_{20}=\dfrac{20}{2}(3+79)=820$.
+2. **Savings.** A student in Pokhara saves Rs. $1000$ in the first month and Rs. $200$ more each month than the month before. In $12$ months the total is $\dfrac{12}{2}\big[2000+11\times200\big]=6\times4200=$ Rs. $25200$.
+3. Insert $4$ A.M.s between $3$ and $23$: $d=\dfrac{20}{5}=4$, giving $7,11,15,19$.
+4. For the G.P. $2,6,18,\dots$: $S_8=\dfrac{2(3^{8}-1)}{3-1}=3^{8}-1=6560$.
+5. Insert $3$ G.M.s between $2$ and $32$: $r^{4}=16$, so $r=2$, giving $4,8,16$.
+
+**Conclusion.** Both progressions have closed formulae for the $n$th term and the sum; the means are obtained by fixing the common difference or ratio between two given end terms.
+
+### Model answer D2: A.M., G.M., H.M. and the infinite G.P. (10 marks)
+
+**Introduction.** For two positive numbers $a$ and $b$ the three common means are $A=\dfrac{a+b}{2}$, $G=\sqrt{ab}$ and $H=\dfrac{2ab}{a+b}$ (the numbers $a,H,b$ are in harmonic progression, that is $\dfrac1a,\dfrac1H,\dfrac1b$ are in A.P.).
+
+**Theorem 1: $G^{2}=AH$.** $AH=\dfrac{a+b}{2}\times\dfrac{2ab}{a+b}=ab=G^{2}$. So $G$ is the geometric mean of $A$ and $H$.
+
+**Theorem 2: $A\ge G\ge H$, with equality only when $a=b$.**
+
+*Proof.* $A-G=\dfrac{a+b-2\sqrt{ab}}{2}=\dfrac{(\sqrt a-\sqrt b)^{2}}{2}\ge0$, so $A\ge G$. Since $G^{2}=AH$, we have $H=\dfrac{G^{2}}{A}\le\dfrac{G^{2}}{G}=G$ because $A\ge G$. Hence $A\ge G\ge H$. Equality needs $\sqrt a=\sqrt b$.
+
+**Worked example.** Two numbers have A.M. $10$ and G.M. $8$. Then $a+b=20$ and $ab=64$, so $a,b$ are roots of $t^{2}-20t+64=0$, that is $(t-4)(t-16)=0$. The numbers are $4$ and $16$ and $H=\dfrac{2\times64}{20}=6.4$. Check: $AH=10\times6.4=64=G^{2}$, and $10>8>6.4$.
+
+**Infinite G.P.** For $|r|<1$, $r^{n}\to0$ as $n\to\infty$, so
+
+$$ S_\infty=\frac{a}{1-r} $$
+
+If $|r|\ge1$ the series does not have a finite sum.
+
+**Applications.**
+
+1. **Recurring decimal.** $0.\overline{36}=0.36+0.0036+\dots$ has $a=0.36$ and $r=0.01$, so $S_\infty=\dfrac{0.36}{0.99}=\dfrac{36}{99}=\dfrac{4}{11}$.
+2. **Bouncing ball.** A ball is dropped from $10$ m and rebounds to $\dfrac35$ of its previous height each time. The first rebound is $6$ m; going up and down, the distance after the first drop is $2\times\dfrac{6}{1-\frac35}=2\times15=30$ m. The total distance is $10+30=40$ m.
+3. **Sum with ratio $\tfrac12$.** $1+\tfrac12+\tfrac14+\dots=\dfrac{1}{1-\frac12}=2$.
+
+| Mean | Formula for $a=4,\ b=16$ | Value |
+|---|---|---|
+| A.M. | $\dfrac{4+16}{2}$ | $10$ |
+| G.M. | $\sqrt{64}$ | $8$ |
+| H.M. | $\dfrac{2\times64}{20}$ | $6.4$ |
+
+**Conclusion.** The three means are always ordered $A\ge G\ge H$, related by $G^{2}=AH$, and a geometric series with $|r|<1$ has the finite sum $\dfrac{a}{1-r}$.
