@@ -82,6 +82,14 @@ ICT is now part of almost every kind of work.
 **Solution.** *Hardware*: Sita's smartphone, the printed QR code and the payment company's servers. *Software*: Android and the Khalti app. *Data*: the amount (Rs 150), the shop's account number stored in the QR code, and Sita's balance. *Network*: the mobile data or Wi-Fi link and the Internet. *People*: Sita and the shopkeeper. *Procedures*: scan the code, type the amount, confirm with the MPIN, check the confirmation message.
 :::
 
+```photogrid label="11.H" cols="5" ratio="1.1" caption="ICT in Nepal in five pictures. (a) A Nepal Telecom tower carries mobile calls and data. (b) A DishHome dish brings satellite television to homes and hills. (c) Jitsi Meet, a free video-conferencing tool used for online classes. (d) Mahabir Pun, who brought wireless internet to the villages of Nangi and Myagdi. (e) A QR payment terminal: digital payment in an ordinary shop. Together they show ICT as communication, entertainment, learning and money."
+@ photo id="cs8/ict-nt-tower" cap="(a) Mobile tower"
+@ photo id="cs8/ict-dishhome" cap="(b) Satellite TV dish"
+@ photo id="cs8/ict-jitsi" cap="(c) Video conferencing"
+@ photo id="cs8/ict-mahabir-pun" cap="(d) Mahabir Pun, village wireless"
+@ photo id="bca101/qrpay" cap="(e) QR digital payment"
+```
+
 ## 11.2 Communication technologies: telephone, mobile, radio, television, satellite and the Internet
 
 **Communication technology** is the equipment and method used to send a message from a sender to a receiver over a distance. Every one of them needs a **sender**, a **medium** (wire, radio waves, light in a fibre) and a **receiver**. Some carry messages only one way (**broadcast**: radio, television); others carry them both ways (**two-way**: telephone, mobile, Internet).
@@ -526,3 +534,82 @@ Write the advantages and disadvantages under two headings, as numbered points, e
 
 **5.** The digital divide is the gap between people who have access to ICT — devices, the Internet and the skill to use them — and people who do not (1 mark). *Causes in Nepal* (2 marks): the cost of devices and data; difficult hills and mountains where towers and cables are costly to build; weak electricity in some villages; lack of computer skills, especially among older people; most content is in English. The 2021 census showed Internet in 45.7% of urban but only 21.5% of rural households. *Ways to bridge it* (1 mark, any two): cheaper data and devices; more towers and fibre in rural areas; community ICT centres and free Wi-Fi in schools and ward offices; computer classes for adults; content in Nepali and local languages — as Mahabir Pun's Nepal Wireless Networking Project did for the villages of Myagdi.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is ICT? Explain eight advantages and seven disadvantages of ICT, and the digital divide. <span class="marks">[10]</span>
+2. Explain the use of ICT in Nepal in e-governance, digital payment and e-learning. <span class="marks">[10]</span>
+3. Describe the main Internet services. <span class="marks">[10]</span>
+
+### Model answer D1: advantages and disadvantages of ICT (10 marks)
+
+**Introduction.** **ICT (Information and Communication Technology)** is the use of computers, phones, networks, software and the internet to collect, store, process, send and receive information. It has changed education, business, health and daily life (Plate 11.H).
+
+**Advantages.**
+
+1. **Fast communication.** A message or a video call reaches the other side in seconds, anywhere in the world. A student in Kathmandu can talk to a relative in Qatar at a very low cost.
+2. **Easy access to information.** Search engines give answers to nearly any question. Students use e-books and online lessons for their homework.
+3. **Education.** E-learning, video lessons and virtual classes let students learn from home. During the lockdown of 2020, many Nepali schools continued classes with Zoom and Google Meet.
+4. **Business and online shopping.** Shops can reach customers by social media and e-commerce. Farmers can see market prices on a phone.
+5. **Digital payment and banking.** Money can be sent by mobile banking, ConnectIPS, eSewa or Fonepay QR without going to a bank. It saves time and travel.
+6. **E-governance.** Citizens can get forms, bills and certificates online, saving long queues at the office.
+7. **Entertainment.** Music, films, games and television are available on demand.
+8. **Jobs and automation.** ICT creates new jobs, such as software development and freelancing, and machines do dull and dangerous work.
+
+**Disadvantages.**
+
+1. **Cyber crime:** hacking, phishing and identity theft.
+2. **Privacy loss:** personal data may be collected and misused.
+3. **Health problems:** eye strain, poor posture and sleep loss.
+4. **Addiction** to games and social media, which reduces study time.
+5. **Unemployment** in jobs done by machines.
+6. **Fake news** and harmful material spread fast.
+7. **E-waste** and high electricity use from old devices.
+
+**Digital divide.** The **digital divide** is the gap between people who have ICT and the skills to use it and those who do not. It is wider between city and village, rich and poor, and young and old. It can be reduced by cheap internet, school computer labs and digital literacy training, as in the village wireless projects of Mahabir Pun.
+
+**Conclusion.** ICT brings speed and convenience, but we must use it safely and share its benefits widely.
+
+### Model answer D2: ICT in Nepal (10 marks)
+
+**Introduction.** Nepal uses ICT in many fields, and its use grows every year with the spread of mobile phones and internet.
+
+1. **E-governance** means delivering government services through ICT. Examples are online passport and driving-licence forms, online tax filing and the Nagarik App, which gives citizens a digital way to reach government services. It saves time, reduces corruption and makes services open to all.
+2. **Online banking and digital payment.** Banks give mobile banking and internet banking. **ConnectIPS** transfers money between bank accounts, and **Fonepay** works on QR codes at shops, while wallets such as eSewa and Khalti pay bills, recharge phones and buy tickets. The shopkeeper and the customer need no cash.
+3. **E-learning.** Students use online classes, video lessons and e-libraries; the Department of Education and the Curriculum Development Centre make digital books and lessons available. Remote schools with a wireless link can reach teachers and resources outside the village.
+4. **Communication.** Mobile towers of Nepal Telecom and Ncell, and the satellite dishes of DishHome, bring phones, internet and television to most parts of the country.
+5. **Health and agriculture.** Telemedicine lets doctors in cities advise patients in hills, and farmers use phone apps and messages for weather and prices.
+
+| Field | ICT tool | Benefit |
+|---|---|---|
+| Government | Nagarik App, online forms | No queue, saves time |
+| Banking | ConnectIPS, mobile banking | Fast and safe transfer |
+| Payment | Fonepay QR, eSewa, Khalti | Cashless shopping |
+| Education | Online classes, e-library | Learning anywhere |
+| Communication | Mobile tower, DishHome | Contact in remote areas |
+
+**Challenges.** Electricity and internet are unreliable in some areas, many people lack digital skills, and cyber crime is rising.
+
+**Conclusion.** ICT is helping Nepal to make services faster and more open, and it will help reach the goal of a digital Nepal when access and safety improve.
+
+### Model answer D3: Internet services (10 marks)
+
+**Introduction.** The **internet** is the global network of networks, and the services that run on it are the reasons why people use it.
+
+1. **World Wide Web (WWW):** the collection of web pages and sites that we view in a browser by typing a URL.
+2. **E-mail:** the sending of messages and files through an address such as `name@gmail.com`. It is fast, cheap and keeps a record.
+3. **Search engine:** a website such as Google or Bing that finds pages by a keyword. A good keyword makes the results exact.
+4. **Chat and messaging:** instant text, voice and picture messages through apps such as Messenger, Viber and WhatsApp.
+5. **Video conferencing:** a live meeting with sound and video among people in different places, using Zoom, Google Meet or the free Jitsi Meet. It is used for online classes and office meetings.
+6. **Cloud storage:** keeping files on a company's servers so that we can open them from any device, for example Google Drive and OneDrive. It also makes a backup.
+
+| Service | Example | Main use |
+|---|---|---|
+| WWW | Chrome showing a website | Reading and browsing |
+| E-mail | Gmail | Messages and files |
+| Search engine | Google | Finding information |
+| Chat | Messenger, Viber | Quick talk |
+| Video conferencing | Zoom, Jitsi | Online meeting and class |
+| Cloud storage | Google Drive | Saving and sharing files |
+
+**Conclusion.** Internet services make communication, learning and work easy, but they must be used with care for safety and time.

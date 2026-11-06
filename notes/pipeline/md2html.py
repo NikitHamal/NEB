@@ -115,6 +115,7 @@ def _extract_photogrids(body, store, chapter_id):
                                    f'{_html.escape(rec.get("license", ""))}')
                 _, keys, _o = photo.parse_script(script)
                 keys_all += keys
+            cap = re.sub(r"^\(" + chr(97 + k) + r"\)\s*", "", cap)   # the letter is added below; drop a hand-typed duplicate
             cells.append(f'<td class="gc">{img}<div class="gcap"><b>({chr(97 + k)})</b> '
                          f'{_inline_math_html(cap)}</div></td>')
         rows = [cells[i:i + cols] for i in range(0, len(cells), cols)]
