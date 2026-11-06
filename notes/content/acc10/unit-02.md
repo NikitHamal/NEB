@@ -288,3 +288,59 @@ First, students write "commercial bank" when the question asks for the **central
 *Principle (3).* Pooling of risk — many persons exposed to a similar risk each contribute a small premium to a common fund, and the few who actually suffer a loss are compensated from that fund, so the loss of one is shared by all. Three conditions are needed: a large number of similar exposures, a loss that can be measured in money, and an insurable interest.
 *Comparison (4).* Life insurance insures a human life: the event (death) is certain but its time is not, the policy is usually long-term, it has a savings element and a surrender value, and the sum assured is fixed in advance. Non-life insurance insures property or liability: the event is uncertain, the policy is usually for one year and renewable, there is no savings element and no surrender value, and the compensation is limited to the actual loss. Examples: endowment and whole-life policies on the life side; fire, marine, motor, health, crop and livestock policies on the non-life side.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define a commercial bank. Explain its functions in eight points. <span class="marks">[10]</span>
+2. Explain the functions of the central bank of Nepal and distinguish it from a commercial bank. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="5" ratio="1.0" caption="Money and banking. Two offices of Nepal Rastra Bank, an old bank vault, a savings passbook and a bank cheque show the places and papers through which deposits, payments and savings move."
+@ photo id="acc10/nrb-pokhara" cap="NRB, Pokhara"
+@ photo id="acc10/nrb-janakpur" cap="NRB, Janakpur"
+@ photo id="acc10/vault" cap="Bank vault"
+@ photo id="acc10/passbook" cap="Savings passbook"
+@ photo id="acc10/cheque" cap="Cheque"
+```
+
+### Model answer D1: functions of a commercial bank (10 marks)
+
+**Introduction.** A **commercial bank** is a financial institution that accepts deposits from the public and gives loans, mainly for short and medium periods, in order to earn a profit. In Nepal such banks are licensed by Nepal Rastra Bank under the Bank and Financial Institutions Act (class "A" banks).
+
+**Functions.**
+
+1. **Accepting deposits.** The bank takes the savings of people in current, saving and fixed accounts. A teacher in Butwal can keep her salary safely in a savings account and earn interest.
+2. **Giving loans and advances.** The bank lends to traders, farmers and industries as overdrafts, term loans, home loans and education loans. The interest it earns is its main income.
+3. **Payment services.** It collects and pays cheques, drafts and bills for its customers and pays bills through mobile banking, ConnectIPS and Fonepay.
+4. **Remittance and money transfer.** Money sent from abroad or from one town to another is paid through the bank, which is very important for families that depend on foreign employment.
+5. **Agency services.** The bank pays insurance premiums, collects taxes and pays pensions for the government and its customers.
+6. **Foreign exchange.** It buys and sells foreign currency and opens letters of credit for import and export traders.
+7. **Creating credit.** From deposits, the bank gives loans and these loans return as new deposits, which increases the money supply.
+8. **Other services.** Lockers for valuables, ATM and debit or credit cards, guarantees and social services such as lending to the deprived sector.
+
+**Importance.** Commercial banks mobilise savings into investment, support trade and industry, give employment, and help the government to run the payment system.
+
+**Conclusion.** Commercial banks are the most visible financial institutions for the common people, and their services touch every part of daily economic life.
+
+### Model answer D2: Nepal Rastra Bank and commercial banks (10 marks)
+
+**Introduction.** **Nepal Rastra Bank (NRB)** is the central bank of Nepal. It was established in **2013 BS (1956 AD)** under the Nepal Rastra Bank Act, with its head office in Baluwatar, Kathmandu. It is the apex of the financial system and does not do ordinary business with the public.
+
+**Functions of the central bank.**
+
+1. **Issue of notes and coins.** It has the sole right to issue the currency of the country and withdraws old notes.
+2. **Banker, agent and adviser to the government.** It keeps the government's accounts, gives it loans in need and advises on money and economic policy.
+3. **Banker of banks.** Commercial banks keep their reserves with it and borrow from it as a last resort.
+4. **Control of credit and monetary policy.** By setting the cash reserve ratio, the bank rate and the statutory liquidity ratio, it controls the supply of money and keeps prices stable.
+5. **Management of foreign exchange.** It keeps the foreign-exchange reserve and fixes the exchange rate rules (the rupee is pegged to the Indian rupee).
+6. **Regulation and supervision.** It licenses banks and financial institutions and inspects their work to protect depositors.
+7. **Clearing house.** It settles the cheques between banks every day.
+
+| Basis | Central bank (NRB) | Commercial bank |
+|---|---|---|
+| Aim | Public welfare and stability | Profit |
+| Dealings | With the government and banks | With the public and firms |
+| Note issue | Yes, the sole right | No |
+| Credit control | Controls | Follows its directives |
+| Number | One in the country | Many |
+
+**Conclusion.** The central bank guides the financial system, while commercial banks serve the public; each needs the other.
