@@ -654,3 +654,36 @@ Volume at STP = 0.70 × 22.4 = **15.68 L**.
 
 **3.** (a) Rate: the –I effect of chlorine withdraws electron density, making the ring less nucleophilic, so substitution is slower than in benzene — chlorine is deactivating. Orientation: the +R effect feeds the chlorine lone pair into the ring, concentrating electron density at the *ortho* and *para* carbons, so the electrophile attacks there; *para* usually predominates on steric grounds. (b) chlorobenzene < *p*-nitrochlorobenzene < 2,4-dinitrochlorobenzene. Each nitro group placed *ortho* or *para* to the chlorine withdraws electrons by –R and stabilises the negatively charged intermediate formed when the nucleophile adds, so the more such groups there are, the milder the conditions needed. (c) The *para* isomer is symmetrical and almost linear, so its molecules pack tightly and regularly into the crystal lattice; more energy is needed to break that lattice. The *ortho* isomer is bent and packs poorly, giving a much weaker lattice and a far lower melting point.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain why chlorobenzene is much less reactive than a haloalkane towards nucleophilic substitution, and describe its Fittig, Wurtz–Fittig and electrophilic substitution reactions. <span class="marks">[10]</span>
+
+### Model answer D1: reactivity of haloarenes (10 marks)
+
+**Introduction.** **Haloarenes** have a halogen atom bonded directly to a carbon of an aromatic ring, as in chlorobenzene, C$_6$H$_5$Cl. Unlike chloroethane they do not give a precipitate with warm aqueous silver nitrate and are hydrolysed only under drastic conditions.
+
+**Reasons for low reactivity in nucleophilic substitution.**
+1. **Resonance.** The lone pair on chlorine overlaps with the $\pi$ system of the ring, which gives the C–Cl bond a partial double-bond character. This makes the bond stronger and harder to break.
+2. **Hybridisation.** The carbon is sp$^2$ hybridised, which is more electronegative than sp$^3$, so the C–Cl bond is shorter (about 169 pm, against 177 pm in chloroethane) and stronger. The dipole moment is also less (about 1.7 D, against about 2.0–2.2 D for a haloalkane).
+3. **Repulsion.** The electron-rich ring repels an approaching nucleophile, which cannot attack from the back as in S$_N$2.
+4. **Unstable cation.** The phenyl cation required for S$_N$1 is unstable because its empty sp$^2$ orbital lies in the plane of the ring and cannot be stabilised by resonance.
+
+**Forcing the reaction.** Chlorobenzene is converted to phenol by heating with aqueous NaOH at about 623 K and 300 atm (**Dow's process**). Electron-withdrawing groups at the ortho and para positions greatly increase the reactivity: 2,4-dinitrochlorobenzene reacts with warm aqueous NaOH, and 2,4,6-trinitrochlorobenzene (picryl chloride) with water, because they stabilise the negative intermediate.
+
+**Reactions of chlorobenzene.**
+
+| Reaction | Reagent and condition | Product |
+|---|---|---|
+| Fittig reaction | $2\text{C}_6\text{H}_5\text{Br}$ + 2Na, dry ether | Biphenyl, $\text{C}_6\text{H}_5\text{–C}_6\text{H}_5$ + 2NaBr |
+| Wurtz–Fittig reaction | $\text{C}_6\text{H}_5\text{Br} + \text{CH}_3\text{Br}$ + 2Na, dry ether | Toluene, $\text{C}_6\text{H}_5\text{CH}_3$ + 2NaBr |
+| Nitration | Conc. HNO$_3$ + conc. H$_2$SO$_4$ | Mainly $p$-nitrochlorobenzene, with some $o$- |
+| Halogenation | Cl$_2$ / FeCl$_3$ | $p$- and $o$-dichlorobenzene |
+| Sulphonation | Conc. H$_2$SO$_4$ | $p$-Chlorobenzenesulphonic acid |
+| Friedel–Crafts | CH$_3$Cl / AlCl$_3$ | $p$- and $o$-chlorotoluene |
+
+**Electrophilic substitution.** The halogen is **deactivating** (its $-I$ effect withdraws electrons and slows the reaction compared with benzene) but **ortho, para-directing** (its $+M$ effect puts extra electron density on those positions). The para product is generally the major one because of less steric hindrance.
+
+**Uses.** Chlorobenzene is used as a solvent and in the manufacture of phenol, DDT (banned in most countries) and some dyes.
+
+**Conclusion.** The strong, resonance-stabilised C–Cl bond makes haloarenes resistant to nucleophiles, while the ring still undergoes electrophilic substitution at the ortho and para positions.

@@ -720,3 +720,64 @@ horizontal pipe $P_1 - P_2 = \frac{1}{2}\rho(v_2^{2}-v_1^{2})
 hole is $1.8\ \text{m}$ above the ground and the jet leaves horizontally, so
 $t = \sqrt{2(1.8)/9.8} = 0.606\ \text{s}$ and $x = vt = 2.94\ \text{m}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Bernoulli's equation, derive it from the work–energy principle, and describe the Venturi meter with a numerical. <span class="marks">[10]</span>
+2. Define surface tension, derive the excess pressure inside a drop, and derive the rise of liquid in a capillary tube. <span class="marks">[10]</span>
+
+### Model answer D1: Bernoulli's equation and the Venturi meter (10 marks)
+
+**Introduction.** For the steady, streamline flow of an ideal (incompressible, non-viscous) fluid, **Bernoulli's theorem** states that the sum of the pressure energy, kinetic energy and potential energy per unit volume is constant along a streamline:
+
+$$ P + \tfrac{1}{2}\rho v^{2} + \rho g h = \text{constant} $$
+
+**Derivation.** Let the fluid flow through a pipe whose cross-section changes from $A_{1}$ at height $h_{1}$ to $A_{2}$ at height $h_{2}$. In a short time $\Delta t$ the fluid at the lower end moves $\Delta x_{1} = v_{1}\Delta t$ and that at the upper end moves $\Delta x_{2} = v_{2}\Delta t$. By the equation of continuity the same volume $\Delta V = A_{1}\Delta x_{1} = A_{2}\Delta x_{2}$ passes both ends, and its mass is $\rho\,\Delta V$.
+
+Work done by the pressure forces $= P_{1}A_{1}\Delta x_{1} - P_{2}A_{2}\Delta x_{2} = (P_{1} - P_{2})\,\Delta V$.
+
+Change in kinetic energy $= \tfrac{1}{2}\rho\,\Delta V\,(v_{2}^{2} - v_{1}^{2})$, and change in potential energy $= \rho\,\Delta V\,g\,(h_{2} - h_{1})$.
+
+By the work–energy theorem, $P_{1} - P_{2} = \tfrac{1}{2}\rho(v_{2}^{2} - v_{1}^{2}) + \rho g(h_{2} - h_{1})$, which rearranges to $P_{1} + \tfrac{1}{2}\rho v_{1}^{2} + \rho g h_{1} = P_{2} + \tfrac{1}{2}\rho v_{2}^{2} + \rho g h_{2}$.
+
+**Venturi meter.** A Venturi meter measures the speed of flow in a horizontal pipe. It has a wide section of area $A_{1}$ and a narrow throat of area $A_{2}$, with a manometer showing the pressure difference $\Delta P = P_{1} - P_{2}$. For a horizontal pipe ($h_{1} = h_{2}$), Bernoulli's equation and continuity ($A_{1}v_{1} = A_{2}v_{2}$) give
+
+$$ v_{1} = A_{2}\sqrt{\frac{2\,\Delta P}{\rho\,(A_{1}^{2} - A_{2}^{2})}} $$
+
+**Numerical.** Water flows at $2\ \text{m s}^{-1}$ in a horizontal pipe of cross-section $40\ \text{cm}^{2}$ that narrows to $10\ \text{cm}^{2}$. Continuity gives $v_{2} = 2 \times 40/10 = 8\ \text{m s}^{-1}$, and the pressure drop is $\Delta P = \tfrac{1}{2}(1000)(8^{2} - 2^{2}) = 3.0 \times 10^{4}\ \text{Pa}$.
+
+| Application | Bernoulli idea |
+|---|---|
+| Aeroplane wing | Faster air above gives lower pressure, so the lift is upward |
+| Atomiser and Bunsen burner | Fast air reduces the pressure and draws liquid or gas in |
+| Torricelli's law | Speed of efflux $v = \sqrt{2gh}$ |
+| Roof lifted in a storm | Fast wind outside lowers the pressure above the roof |
+
+**Conclusion.** Bernoulli's equation is the law of conservation of energy for a flowing fluid; where the speed is high the pressure is low.
+
+### Model answer D2: surface tension, excess pressure and capillary rise (10 marks)
+
+**Introduction.** **Surface tension** $T$ is the force acting per unit length on an imaginary line drawn on the surface of a liquid, perpendicular to the line and tangent to the surface ($T = F/l$, unit N m$^{-1}$). Equivalently, it is the surface energy per unit area. It arises because molecules on the surface are pulled inward by cohesive forces and so the surface behaves like a stretched skin. For water at room temperature $T = 0.072\ \text{N m}^{-1}$.
+
+**Excess pressure inside a spherical drop.** Let the drop have radius $r$ and let the pressure inside exceed that outside by $p$. Suppose the radius increases by a small amount $\Delta r$ at constant temperature. The work done against surface tension equals the increase in surface energy:
+
+$$ p \times 4\pi r^{2}\,\Delta r = T \times 8\pi r\,\Delta r \quad\Rightarrow\quad p = \frac{2T}{r} $$
+
+A soap bubble has two surfaces, so $p = 4T/r$.
+
+**Capillary rise.** When a clean capillary of radius $r$ is dipped in water, the meniscus is concave, with contact angle $\theta$. The surface tension acts along the wall at angle $\theta$ and gives an upward force $2\pi r\,T\cos\theta$. The raised column of height $h$ has weight $\pi r^{2}h\rho g$. At equilibrium
+
+$$ 2\pi r\,T\cos\theta = \pi r^{2}h\rho g \quad\Rightarrow\quad h = \frac{2T\cos\theta}{r\rho g} $$
+
+So the rise is **inversely proportional to the radius**; for mercury $\theta > 90°$ and the level is depressed.
+
+| Case | Angle of contact | Meniscus | Result |
+|---|---|---|---|
+| Water in glass | Acute (about 0°) | Concave | Rise |
+| Mercury in glass | Obtuse (about 140°) | Convex | Fall |
+
+**Numerical.** In a glass tube of radius $0.50\ \text{mm}$ (with $\theta \approx 0°$), water rises to $h = \dfrac{2(0.072)}{(5.0\times10^{-4})(1000)(9.8)} = 2.94 \times 10^{-2}\ \text{m} \approx 2.9\ \text{cm}$. A soap bubble of the same radius with $T = 0.025\ \text{N m}^{-1}$ has an excess pressure of $4(0.025)/(5.0\times10^{-4}) = 200\ \text{Pa}$.
+
+**Applications.** Capillarity lifts oil in a wick, water in blotting paper and soil water to roots, and detergents work by lowering $T$ so that water wets the cloth.
+
+**Conclusion.** Surface tension produces excess pressure $2T/r$ in a drop and capillary rise $h = 2T\cos\theta/(r\rho g)$ in a narrow tube.
