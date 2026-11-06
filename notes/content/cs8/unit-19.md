@@ -87,6 +87,14 @@ ax.set_xticks([]); ax.set_yticks([])
 | (e) | high-level (C) | compiler (for example GCC) |
 :::
 
+```photogrid label="19.H" cols="5" ratio="1.1" caption="From punched cards to modern editors. (a) A FORTRAN punched card of 1957: one line of a program per card. (b) Grace Hopper, who wrote the first compiler. (c) The page of the logbook of the Harvard Mark II with the first real computer bug, a moth, taped beside the entry. (d) Dennis Ritchie, who created C in 1972. (e) Dev-C++, a free editor in which the program is written, compiled and run in one window."
+@ photo id="bca101/fortrancard" cap="(a) FORTRAN card, 1957"
+@ photo id="bca101/hopper" cap="(b) Grace Hopper, compiler"
+@ photo id="cs8/prog-first-bug" cap="(c) The first real bug, 1947"
+@ photo id="cs12/ritchie" cap="(d) Dennis Ritchie, C"
+@ photo id="cs8/prog-devcpp" cap="(e) Dev-C++ editor"
+```
+
 ## 19.2 Language processors: compiler, interpreter and assembler
 
 ::: definition Language processor (translator)
@@ -601,3 +609,103 @@ Perimeter = 34
 
 Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Differentiate between low-level and high-level languages, and explain the language processors. <span class="marks">[10]</span>
+2. Explain the types of programming errors and the testing and debugging of a program. <span class="marks">[10]</span>
+3. Explain constants, variables and data types with examples. <span class="marks">[10]</span>
+
+### Model answer D1: programming languages and language processors (10 marks)
+
+**Introduction.** A **programming language** is a set of words and rules used to write instructions for a computer. Languages are of two levels, low-level and high-level (Plate 19.H).
+
+**Low-level languages.** *Machine language* is written only in 0s and 1s, the only language the CPU understands directly. It is very fast but hard to write and different for each computer. *Assembly language* uses short codes (mnemonics) such as ADD and MOV instead of 0s and 1s. It is easier than machine language but still depends on the machine.
+
+**High-level languages.** They use English-like words and are easy to learn and write, and the same program can be used on different computers. QBASIC, Python, C and Java are examples.
+
+| Point | Low-level | High-level |
+|---|---|---|
+| Closeness | Near the machine | Near the human language |
+| Ease | Hard to learn and write | Easy |
+| Speed of running | Fast | Slower, usually |
+| Portability | Machine dependent | Can run on different machines |
+| Translation | Machine: none; assembly: assembler | Compiler or interpreter |
+| Examples | Machine code, assembly | QBASIC, Python, C, Java |
+
+**Language processors.** A computer understands only machine language, so a program in any other language must be translated by a **language processor**.
+
+1. **Assembler:** translates assembly language into machine language.
+2. **Compiler:** translates the whole high-level program into machine code at once, and shows all errors together. The compiled program runs fast and can run without the compiler. C is compiled.
+3. **Interpreter:** translates and runs the program line by line. It stops at the first error and is slow, but easy for testing. QBASIC and Python are interpreted.
+
+| Point | Compiler | Interpreter |
+|---|---|---|
+| Translates | The whole program at once | One line at a time |
+| Errors | Shown after the whole program | Shown line by line, stops at the first |
+| Speed | Faster execution | Slower execution |
+| Object code | Created and saved | Not saved |
+| Example | C compiler | QBASIC, Python |
+
+**Conclusion.** Humans write in high-level languages, and processors translate them into the machine language of the computer.
+
+### Model answer D2: errors, testing and debugging (10 marks)
+
+**Introduction.** A mistake in a program is called an **error** or a **bug**. The word came from 1947, when a real moth was found inside the Harvard Mark II computer (Plate 19.H). **Debugging** is finding and removing errors.
+
+**Types of errors.**
+
+1. **Syntax error.** A violation of the rules (grammar) of the language, such as a missing bracket or a misspelt keyword. The translator finds it and the program does not run. Example in QBASIC: `PRNT "Hello"` instead of `PRINT "Hello"`.
+2. **Logical error.** The program runs but gives a wrong answer because the logic is wrong. No error message is shown, so it is the hardest to find. Example: writing `AVG = A + B + C / 3` instead of `AVG = (A + B + C) / 3`; with 6, 9 and 12 the correct answer is 9, but the first gives 6 + 9 + 4 = 19.
+3. **Run-time error.** An error that appears while the program is running, such as dividing by zero or opening a file that is not there. The program stops with a message. Example: `PRINT 10 / 0`.
+
+| Point | Syntax | Logical | Run-time |
+|---|---|---|---|
+| Cause | Wrong grammar | Wrong logic | Impossible operation |
+| Found | Before running, by the translator | After running, by checking the output | While running |
+| Message | Yes | No | Yes |
+| Example | PRNT | Missing brackets | Division by zero |
+
+**Testing and debugging.**
+
+1. **Testing:** run the program with sample data whose answer is already known, including a very small, a very large and a wrong input.
+2. **Dry run:** follow the program by hand with a table of variables to see the values at each step.
+3. **Debugging:** read the error message, locate the line, correct it and run again; print the values of the variables to see where they go wrong.
+
+**Conclusion.** Errors are natural in programming; careful planning, testing with known data and patient debugging produce correct programs.
+
+### Model answer D3: constants, variables and data types (10 marks)
+
+**Introduction.** A program works with data. The data are held in constants and variables, and each has a data type.
+
+**Constant.** A value that does not change while the program runs. A *numeric* constant is a number such as 25 or 3.14. A *string* constant is text in quotation marks, such as `"Nepal"`.
+
+**Variable.** A named place in the memory whose value can change. Rules for a name: it must begin with a letter, may contain letters and digits, has no spaces, and cannot be a reserved word such as PRINT. Example: `MARKS`, `NAME$`.
+
+**Data types in QBASIC.**
+
+| Type | Suffix | Holds | Example |
+|---|---|---|---|
+| String | `$` | Text | `NAME$ = "Asha"` |
+| Integer | % | Whole numbers up to 32,767 | `AGE% = 13` |
+| Long integer | & | Large whole numbers | `POP& = 29164578` |
+| Single precision | ! | Decimals, 7 digits | `PI! = 3.14159` |
+| Double precision | # | Decimals, 15 digits | `G# = 9.80665` |
+
+**Example.**
+
+```
+NAME$ = "Asha"
+AGE% = 13
+PRINT NAME$; AGE%
+```
+
+The output is `Asha  13` (a number is printed with a space for its sign before it).
+
+| Point | Constant | Variable |
+|---|---|---|
+| Value | Fixed | Can change |
+| Example | 100, "Nepal" | `MARKS`, `NAME$` |
+| Memory | Not a named location | Named memory location |
+
+**Conclusion.** Constants give fixed values, variables store changing values, and the data type tells the computer how much memory to use and what operations are allowed.
