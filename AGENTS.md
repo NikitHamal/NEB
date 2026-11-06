@@ -2396,3 +2396,9 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Session 89 addendum 2:** `ioe-eng` (48 pp) gained Group D + strips; `ioe-math` unit 6 `\mathbf` bracing fix. Check the build log for `fell back` before every push. **Next:** `cee-mat`, mocks, eng*/nep* books, fresh-clone qa sweep, then merge to main + syllabus update (all NOT done).
 
 - **Session 89 addendum 3:** `cee-mat` (102 pp) gained Group D method answers in units 1-4. Session 89 total: `cee-zoo`, `ioe-phy`, `ioe-chem`, `ioe-math`, `ioe-eng`, `cee-mat` (all qa fails=0). **Next:** eng8/eng10/eng11/eng12, nep8/10/11/12, BCA entrance books, then merge to main + syllabus update (NOT done).
+
+## Session 90 (eng8 Group D)
+
+- **Done:** `eng8` units 1-19 (191 pp, qa fails=0) gained `Group D` long-writing model answers (2 per unit) plus a horizontal photo strip per unit; 7 new Commons photos registered under `eng8/` (Watt engine, Rocket, Wright Flyer, Bell telephone, fountain pen, ballpoint, traffic police). Exact state and next unit in `bca/POLISH_STATUS.md` (Session 90). Merge to main and syllabus update NOT done (books remain).
+- **Setup:** `sudo -n apt-get update` + install pango/harfbuzz/poppler/fontconfig worked; `pip3 install --user --break-system-packages uv`; `uv venv /tmp/v --python 3.12` + deps; fonts install.sh; out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS echoing `$NEB_PAT` (PAT never in the repo; the owner should rotate the PAT pasted in the prompt). eng8 builds in ~1.5 min.
+- **Gotchas:** markdown has no nl2br: use two trailing spaces or a `::: example Title` box for letters/addresses (blockquote lines merge); delete `/app/sheets` before validating /app.

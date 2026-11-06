@@ -337,3 +337,85 @@ people aged 18–60 — teachers, parents); request to take part; thanks and nam
 starting with verbs (*Boil… Add… Simmer… Pour… Strain… Serve*), one safety
 warning.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a school announcement and a set of instructions. <span class="marks">[10]</span>
+2. Explain reported speech for yes/no questions with a conversion table. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.0" caption="Notices and signs. A village notice board, a 'keep off' sign, a 'no trespassing' sign and the airport sign board at Pokhara all carry short, clear messages in command or passive form."
+@ photo id="eng11/notice-board" cap="Notice board"
+@ photo id="eng12/imperative-sign" cap="Keep off the grass"
+@ photo id="eng12/passive-sign" cap="No trespassing"
+@ photo id="eng8/pokhara-airport" cap="Airport sign, Pokhara"
+```
+
+### Model answer D1: an announcement and instructions (10 marks)
+
+**Introduction.** An **announcement** gives public information in a few words. It answers *what, when, where* and *who*. **Instructions** tell the reader how to do a task in steps.
+
+**Model announcement.**
+
+::: example Model text
+**ANNOUNCEMENT**  
+Attention, students and teachers, please! The annual sports day of our school will be held on **Friday, 20 Falgun 2082, at 10 a.m.** in the school ground. All students must wear sports dress. The chief guest will be the Ward Chairperson. Parents are warmly invited. Thank you.  
+— Sports Committee
+:::
+
+**Model instructions: how to make tea.**
+
+::: example Model text
+**How to make tea**  
+1. Boil one cup of water in a pan.  
+2. Add one spoon of tea leaves and a little ginger.  
+3. Pour in half a cup of milk.  
+4. Add sugar and boil for two minutes.  
+5. Strain it into a cup. **Warning:** hold the pan with a cloth.
+:::
+
+**Points to remember.**
+
+1. Give a **title** or heading.
+2. State the **event, date, time and place**.
+3. Use **present or future** tense in an announcement.
+4. End an announcement with a **request and thanks**.
+5. Number the steps in instructions.
+6. Start each step with an **imperative verb** (*boil, add, pour*).
+7. Put **warnings** at the end or in bold.
+8. Keep sentences short.
+
+| Feature | Announcement | Instructions |
+|---|---|---|
+| Purpose | Inform people | Teach a process |
+| Verbs | *will be held* | *Boil, add* |
+| Ending | Thanks | Warning |
+
+**Conclusion.** Clear order and exact details make a text easy to follow.
+
+### Model answer D2: reported yes/no questions (10 marks)
+
+**Introduction.** In **reported speech** we tell what someone asked without quoting the exact words. A yes/no question is reported with **if** or **whether**.
+
+**Rules.**
+
+1. Use **asked** (or *wanted to know*) + **if/whether**.
+2. Change the question into a **statement order**: subject + verb.
+3. **Remove** the question mark and use a full stop.
+4. Move the tense **one step back** after a past reporting verb.
+5. Change pronouns and time words to fit.
+6. If the reporting verb is *says/asks* (present), do **not** change the tense.
+
+| Direct speech | Reported speech |
+|---|---|
+| "Do you like momo?" she asked. | She asked if I liked momo. |
+| "Is he coming?" Ram asked. | Ram asked whether he was coming. |
+| "Have you finished?" the teacher asked. | The teacher asked if I had finished. |
+| "Can you swim?" he asked me. | He asked if I could swim. |
+| "Will it rain tomorrow?" | She asked if it would rain the next day. |
+
+7. Tense shifts: *do/does* becomes *did*; *is/am* becomes *was*; *can* becomes *could*; *will* becomes *would*.
+8. Never keep *do/does/did* in the reported question.
+
+**Conclusion.** Remember the formula: *asked + if/whether + subject + verb (one tense back)*.

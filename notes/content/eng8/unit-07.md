@@ -302,3 +302,79 @@ negative effects (shortage of young workers, empty villages, family problems,
 risks to workers); conclusion with suggestions (jobs at home, skill training,
 safe migration).
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Explain migration: its causes, benefits and drawbacks, and write a paragraph on weather using a table. <span class="marks">[10]</span>
+2. Explain the three future forms: will, be going to and will have + past participle. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="4" ratio="1.0" caption="Weather, journeys and migration. A migrating Arctic tern, Rara Lake, the airstrip at Lukla and the busy streets of Thamel illustrate weather, travel and people on the move."
+@ photo id="eng10/arctic-tern" cap="Arctic tern (migrant)"
+@ photo id="nep11/rara" cap="Rara Lake"
+@ photo id="nep12/lukla" cap="Lukla airstrip"
+@ photo id="eng12/thamel" cap="Thamel, Kathmandu"
+```
+
+### Model answer D1: migration, causes and effects (10 marks)
+
+**Introduction.** **Migration** means moving from one place to another to live or work. People migrate within a country (from the hills to the Tarai) or to other countries. Birds also migrate with the seasons, as the Arctic tern does.
+
+**Push and pull factors.**
+
+1. **Push factors** drive people out: poverty, unemployment, floods, landslides, lack of schools and hospitals.
+2. **Pull factors** attract them: jobs, better pay, good schools, health care and a modern life.
+
+**Benefits of migration.**
+
+3. **Labour and income:** the money sent home (remittance) supports families and the Nepali economy.
+4. **Skills:** workers learn new skills and bring them home.
+5. **Business and culture:** people share food, music and ideas.
+
+**Drawbacks.**
+
+6. **Brain drain:** skilled doctors, engineers and teachers leave the country.
+7. **Hard life abroad:** low pay, long hours and homesickness.
+8. **Pressure on cities:** crowded roads, pollution and the loss of village culture.
+
+| | Benefit | Drawback |
+|---|---|---|
+| Family | Money for school and food | Children grow up without a parent |
+| Country | Remittance | Loss of young workers |
+| Place of arrival | New workers | Crowding |
+
+**Paragraph from a weather table.** The table shows the weather in several Nepali towns. Nepalgunj was the hottest town with a high of 36.6 °C. Pokhara had the most rainfall, 40.2 mm, while Nepalgunj, Ghorahi and Janakpur had none. Kathmandu was the coolest town.
+
+**Conclusion.** Migration has both benefits and drawbacks, so the country must create jobs at home.
+
+### Model answer D2: future forms (10 marks)
+
+**Introduction.** English has several ways to speak about the future. The choice depends on the **meaning**.
+
+**1. will + base verb.**
+
+1. A **decision made now:** *The phone is ringing. I'll answer it.*
+2. An **opinion or prediction:** *I think it will rain.*
+3. An **offer or promise:** *I'll help you.*
+4. The **first conditional:** *If you study, you will pass.*
+
+**2. be going to + base verb.**
+
+5. A **plan already made:** *We are going to visit Lumbini.*
+6. A **prediction with evidence:** *Look at those clouds! It is going to rain.*
+
+**3. will have + past participle (future perfect).**
+
+7. An action **finished before** a future time: *By 2090 I will have finished my studies.*
+8. It is often used with **by** + time: *By evening, the farmers will have planted all the rice.*
+
+| Form | Structure | Example |
+|---|---|---|
+| Future simple | will + V1 | She will call you. |
+| Going to | am/is/are going to + V1 | He is going to buy a bike. |
+| Future perfect | will have + V3 | They will have left by noon. |
+
+**Speaking: predictions.** Use *I think / I expect / probably / I'm sure...* Example: *I think it will be sunny tomorrow in Pokhara.*
+
+**Conclusion.** Choose *will* for a quick decision, *going to* for a plan or evidence, and *will have* for completion before a time.
