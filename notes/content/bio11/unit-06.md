@@ -462,3 +462,73 @@ biotechnology (use of organisms to make useful products).
 Close by noting that the two schemes cut across each other: the physiology of a
 plant is both botany and physiology, so a single study can sit in both lists.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is life? Explain the characteristics of living organisms and distinguish between living and non-living things. <span class="marks">[10]</span>
+2. Define biology. Describe its main branches, its relation to other sciences, and the role of the microscope, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: characteristics of living organisms (10 marks)
+
+**Introduction.** No single sentence defines life, but all living organisms share a set of properties which non-living things lack. A bean seed, a mushroom and a bull in a Nepali village all show these properties, but a stone does not.
+
+**Characteristics of life.**
+
+1. **Cellular organisation.** All organisms are made of one or more cells, the basic unit of structure and function. Bacteria and *Amoeba* are unicellular, while a tree or a human being is multicellular, with cells grouped into tissues, organs and systems.
+2. **Metabolism.** Living things carry out chemical reactions, building (anabolism) and breaking down (catabolism) substances. Plants make food by photosynthesis and animals obtain it from food. Metabolism is the best single test for life.
+3. **Growth.** Living things grow by the **internal** addition of new material from nutrients, as the seedling grows into a plant. A non-living thing, for example a crystal or a snowball, grows only by adding material on the outside.
+4. **Reproduction.** Organisms make more of their own kind, either asexually (budding in yeast, binary fission in bacteria) or sexually. Reproduction keeps the species alive, even though individuals die.
+5. **Response to stimuli (irritability).** Organisms sense and react to changes: a leaf turns to light, a touch-me-not (*Mimosa*) plant folds its leaves, and a person pulls the hand from a hot pot.
+6. **Homeostasis.** The internal environment, such as temperature, water and pH, is kept steady. A human body stays at about $37^{\circ}\text{C}$ in the cold of Mustang and in the heat of Janakpur.
+7. **Adaptation and evolution.** Populations change over generations to suit the environment: yaks have thick hair for the Himalaya and cactus has spines for the desert.
+8. **Heredity and variation.** Offspring resemble their parents because DNA carries genetic information, but they are not identical, which gives the variation needed for natural selection. Other features are movement, respiration, excretion and ageing and death.
+
+| Feature | Living | Non-living |
+|---|---|---|
+| Cells | Present | Absent |
+| Metabolism | Present | Absent |
+| Growth | From inside | From outside, if any |
+| Reproduction | Present | Absent |
+| Response to stimulus | Present | Absent |
+| Life span | Limited, with death | No life span |
+
+**Conclusion.** Cellular organisation, metabolism, growth, reproduction, response, homeostasis, adaptation and heredity together define a living organism.
+
+### Model answer D2: branches of biology, other sciences and the microscope (10 marks)
+
+**Introduction.** **Biology** (Greek *bios* = life, *logos* = study) is the science of living organisms: their structure, function, growth, origin, evolution and distribution. The word was introduced by **Lamarck** and **Treviranus** in 1802.
+
+**Main branches.**
+
+| Branch | Studies |
+|---|---|
+| Morphology | External form and structure |
+| Anatomy | Internal structure by dissection |
+| Physiology | Functions of organs and systems |
+| Cytology | The cell and its organelles |
+| Histology | Tissues |
+| Genetics | Heredity and variation |
+| Ecology | Relationship of organisms with their environment |
+| Taxonomy | Naming and classification |
+| Embryology | Development of the embryo |
+| Evolution | Origin and change of species |
+| Microbiology | Bacteria, viruses and fungi |
+| Biotechnology | Use of organisms for products and services |
+
+By organism, biology divides into **botany** (plants), **zoology** (animals), and **microbiology**.
+
+**Biology and other sciences.**
+
+1. **Biochemistry** = biology + chemistry: the chemistry of enzymes, DNA and metabolism.
+2. **Biophysics** = biology + physics: nerve impulses, the action of the ear and the eye, X-ray and MRI.
+3. **Biostatistics** = biology + mathematics: analysis of data from clinical trials and surveys.
+4. **Bioinformatics** = biology + computer science: genome databases and the study of proteins.
+5. **Geobiology and environmental science** link biology with the earth and the climate.
+
+**Applied biology and careers in Nepal.** Medicine and nursing (Institute of Medicine), agriculture and veterinary science, forestry, fisheries, biotechnology and pharmacy, conservation (National Trust for Nature Conservation), public health, research, and teaching.
+
+**The microscope.** **Robert Hooke** saw the cells in cork in 1665 using a simple microscope; **Leeuwenhoek** saw bacteria and protozoa; the **cell theory** (Schleiden, Schwann, Virchow) followed from this. A compound microscope has an objective lens and an eyepiece lens, and its magnification is $M=M_{\text{objective}}\times M_{\text{eyepiece}}$. The **electron microscope** uses a beam of electrons and gives magnification up to about $2{,}000{,}000$.
+
+**Numerical.** With a $40\times$ objective and a $10\times$ eyepiece, $M=400\times$. If a cell appears $20\ \text{mm}$ long in the drawing at this magnification, its real length is $\dfrac{20}{400}=0.05\ \text{mm}=50\ \mu\text{m}$.
+
+**Conclusion.** Biology has many branches and links with other sciences; the invention of the microscope made the study of cells and microbes possible.

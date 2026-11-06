@@ -1189,3 +1189,106 @@ Cl₂: 1 mol per 2 electrons → 8.860 × 10³ mol; V = 8.860 × 10³ × 22.4 = 
 (b) NH₃ and CO₂ from the adjacent ammonia plant are compressed to 150–200 atm and fed to an autoclave at 180–190 °C: 2NH₃ + CO₂ → NH₂COONH₄ (fast, exothermic), then NH₂COONH₄ ⇌ NH₂CONH₂ + H₂O (slow, endothermic). The melt is let down to 2 atm in a decomposer where unconverted carbamate splits back to NH₃ + CO₂, which are recycled; the urea solution is concentrated to a 99.7% melt in a vacuum evaporator at 135 °C and sprayed down a prilling tower against cold air to give prills. Credit a flow sheet matching the figure in the text.
 (c) n(NH₃) = 340 ÷ 17 = 20 kmol. From 2NH₃ + CO₂ → NH₂CONH₂ + H₂O, theoretical n(urea) = 10 kmol = 10 × 60 = 600 kg. At 75%: mass = **450 kg**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the manufacture of ammonia by Haber's process, explaining the conditions in terms of Le Chatelier's principle, and the production of urea. <span class="marks">[10]</span>
+2. Describe the manufacture of nitric acid by Ostwald's process and sulphuric acid by the contact process. <span class="marks">[10]</span>
+3. Describe the manufacture of sodium carbonate by the Solvay process and sodium hydroxide by the diaphragm cell. <span class="marks">[10]</span>
+
+### Model answer D1: Haber's process and urea (10 marks)
+
+**Introduction.** Ammonia is the starting material for nitrogen fertilisers, explosives and nitric acid. It is made from atmospheric nitrogen and hydrogen by the process of **Fritz Haber** and **Carl Bosch**.
+
+**Reaction.**
+
+$$ \text{N}_2(g)+3\text{H}_2(g)\rightleftharpoons2\text{NH}_3(g)\qquad\Delta H=-92\ \text{kJ mol}^{-1} $$
+
+The reaction is **exothermic** and the number of gas moles falls from 4 to 2.
+
+**Raw materials.** Nitrogen from fractional distillation of liquid air, hydrogen from natural gas (steam reforming of methane) or electrolysis of water.
+
+**Conditions and reasoning.**
+
+1. **Pressure of 200 atm** (150–300 atm): the forward reaction reduces the number of moles, so a high pressure shifts the equilibrium to the right (Le Chatelier). Higher pressures give a higher yield but a high cost of equipment.
+2. **Temperature of about $450^{\circ}\text{C}$:** the reaction is exothermic, so a low temperature favours the yield; but it is then too slow. $450^{\circ}\text{C}$ is the compromise between rate and yield.
+3. **Catalyst:** finely divided **iron** with $\text{Al}_2\text{O}_3$ and $\text{K}_2\text{O}$ as promoters speeds the reaction without changing the equilibrium.
+4. **Removal of ammonia:** the mixture is cooled, NH₃ liquefies and is removed, and unreacted N₂ and H₂ are recycled. The yield per pass is about 15%, but the overall yield is above 95% by recycling.
+
+**Process.** The purified gases (ratio 1:3) are compressed, heated by heat exchangers, passed over the catalyst bed in the converter, then condensed and the ammonia is collected.
+
+**Urea.** Urea, $\text{CO(NH}_2)_2$, contains **46% nitrogen**, the highest of the solid fertilisers.
+
+- **Reaction 1:** $2\text{NH}_3+\text{CO}_2\rightarrow\text{NH}_2\text{COONH}_4$ (ammonium carbamate), at $180^{\circ}\text{C}$ and 150 atm.
+- **Reaction 2:** $\text{NH}_2\text{COONH}_4\rightarrow\text{CO(NH}_2)_2+\text{H}_2\text{O}$.
+- The urea solution is evaporated, and molten urea is sprayed to make prills (small beads).
+
+**Numerical.** The percentage of nitrogen in urea $=\dfrac{28}{60}\times100=46.7\%$. To apply $46\ \text{kg}$ of nitrogen per hectare, $100\ \text{kg}$ of urea is needed. Nepal imports most of its urea, and farmers often face a shortage at planting time.
+
+| Condition | Value | Reason |
+|---|---|---|
+| Pressure | 200 atm | Fewer moles on the right |
+| Temperature | $450^{\circ}\text{C}$ | Compromise rate and yield |
+| Catalyst | Fe + promoters | Faster rate |
+| Recycling | Unreacted gases | Raises overall yield |
+
+**Conclusion.** Haber's process combines high pressure, a moderate temperature and an iron catalyst to make ammonia, which is converted into urea and other fertilisers.
+
+### Model answer D2: Ostwald's process and the contact process (10 marks)
+
+**Introduction.** Nitric acid and sulphuric acid are the two most important industrial acids. Their manufacture is a classic case of catalytic oxidation.
+
+**A. Nitric acid by Ostwald's process.**
+
+1. **Oxidation of ammonia:** a mixture of ammonia and excess air (1:10) passes over a **platinum-rhodium gauze** catalyst at about $800^{\circ}\text{C}$: $4\text{NH}_3+5\text{O}_2\rightarrow4\text{NO}+6\text{H}_2\text{O}$ ($\Delta H=-905\ \text{kJ}$). The reaction is so exothermic that the catalyst stays hot without extra fuel.
+2. **Oxidation of NO:** the gas is cooled below $150^{\circ}\text{C}$ and reacts with oxygen: $2\text{NO}+\text{O}_2\rightarrow2\text{NO}_2$.
+3. **Absorption:** NO₂ is absorbed in water in the presence of air: $4\text{NO}_2+\text{O}_2+2\text{H}_2\text{O}\rightarrow4\text{HNO}_3$. The acid is about 60% and is concentrated by distillation with sulphuric acid to 68%, or with dehydrating agents to 98%.
+
+**B. Sulphuric acid by the contact process.**
+
+1. **Sulphur dioxide:** by burning sulphur ($\text{S}+\text{O}_2\rightarrow\text{SO}_2$) or roasting pyrite. The gas is purified to remove dust and arsenic, which would poison the catalyst.
+2. **Catalytic oxidation:** $2\text{SO}_2+\text{O}_2\rightleftharpoons2\text{SO}_3$, $\Delta H=-197\ \text{kJ}$, with **vanadium pentoxide ($\text{V}_2\text{O}_5$)** as the catalyst at $450^{\circ}\text{C}$ and 1–2 atm. The reaction is exothermic and reduces the gas moles from 3 to 2, so the low temperature and high pressure favour the yield; but even 1 atm gives a 98% conversion with the catalyst, so higher pressure is not needed.
+3. **Absorption:** SO₃ is absorbed in $98\%$ **concentrated H₂SO₄**, forming oleum, $\text{H}_2\text{S}_2\text{O}_7$: $\text{SO}_3+\text{H}_2\text{SO}_4\rightarrow\text{H}_2\text{S}_2\text{O}_7$. Oleum is diluted to give the required acid: $\text{H}_2\text{S}_2\text{O}_7+\text{H}_2\text{O}\rightarrow2\text{H}_2\text{SO}_4$. Direct absorption in water is avoided since it forms a harmful acid mist.
+
+**Uses.** Nitric acid: fertilisers (ammonium nitrate), explosives (TNT), dyes. Sulphuric acid: fertilisers (superphosphate), car batteries, detergents, metal cleaning and petroleum refining; its consumption is a rough indicator of industrial development.
+
+| Feature | Ostwald (HNO₃) | Contact (H₂SO₄) |
+|---|---|---|
+| Raw material | NH₃ and air | S (or pyrite) and air |
+| Catalyst | Pt-Rh gauze | V₂O₅ |
+| Temperature | $800^{\circ}\text{C}$ | $450^{\circ}\text{C}$ |
+| Intermediate | NO, NO₂ | SO₂, SO₃, oleum |
+
+**Conclusion.** Both processes oxidise a gas catalytically and then absorb the product, platinum for nitric acid and vanadium pentoxide for sulphuric acid.
+
+### Model answer D3: Solvay process and the diaphragm cell (10 marks)
+
+**Introduction.** Washing soda, glass and paper depend on sodium carbonate; soap and paper also need sodium hydroxide. Both are made from common salt.
+
+**A. Sodium carbonate by the ammonia-soda (Solvay) process.**
+
+1. **Ammoniated brine:** ammonia is dissolved in saturated NaCl solution.
+2. **Carbonation:** CO₂ from heating limestone is passed up the Solvay tower: $\text{NaCl}+\text{NH}_3+\text{CO}_2+\text{H}_2\text{O}\rightarrow\text{NaHCO}_3+\text{NH}_4\text{Cl}$. Sodium hydrogencarbonate is the **least soluble** compound present at low temperature and **precipitates**.
+3. **Filtration and heating:** on heating to $150^{\circ}\text{C}$, $2\text{NaHCO}_3\rightarrow\text{Na}_2\text{CO}_3+\text{H}_2\text{O}+\text{CO}_2$; the CO₂ is recycled.
+4. **Ammonia recovery:** lime from limestone slakes to $\text{Ca(OH)}_2$ and heats the filtrate: $2\text{NH}_4\text{Cl}+\text{Ca(OH)}_2\rightarrow2\text{NH}_3+\text{CaCl}_2+2\text{H}_2\text{O}$. The ammonia is reused, and the only waste is calcium chloride.
+5. **Overall:** $2\text{NaCl}+\text{CaCO}_3\rightarrow\text{Na}_2\text{CO}_3+\text{CaCl}_2$.
+
+**B. Sodium hydroxide by the diaphragm cell.**
+
+1. **Electrolyte:** purified saturated brine, fed into the **anode** compartment.
+2. **Anode** (titanium coated with $\text{RuO}_2$): $2\text{Cl}^{-}\rightarrow\text{Cl}_2+2e^{-}$, and chlorine is collected.
+3. **Cathode** (steel mesh): $2\text{H}_2\text{O}+2e^{-}\rightarrow\text{H}_2+2\text{OH}^{-}$, and hydrogen is released.
+4. A porous **asbestos diaphragm** between the compartments lets the brine flow slowly to the cathode but **stops Cl₂ and OH⁻ from mixing**, which would give sodium hypochlorite.
+5. The liquor leaving the cell has about 10–12% NaOH and 15% NaCl; it is evaporated, the less soluble NaCl crystallises and **50% NaOH** is obtained.
+6. **Overall:** $2\text{NaCl}+2\text{H}_2\text{O}\rightarrow2\text{NaOH}+\text{Cl}_2+\text{H}_2$. All three products, NaOH, Cl₂ and H₂, are useful.
+
+| Feature | Solvay | Diaphragm cell |
+|---|---|---|
+| Product | Na₂CO₃ | NaOH (+ Cl₂, H₂) |
+| Raw materials | Brine, NH₃, limestone | Brine, electricity |
+| Key step | NaHCO₃ precipitates | Diaphragm separates the products |
+| By-product | CaCl₂ | Chlorine, hydrogen |
+
+**Uses.** Na₂CO₃: glass, softening of water, paper, detergents. NaOH: soap, paper, textiles, aluminium purification. Cl₂: water treatment (bleaching powder), PVC.
+
+**Conclusion.** The Solvay process recycles ammonia and CO₂ to make soda from salt and limestone, and the diaphragm cell electrolyses brine to give sodium hydroxide, chlorine and hydrogen.

@@ -807,3 +807,72 @@ giving $\delta_m = 37.18^{\circ}$. Since $38.47^{\circ} > 37.18^{\circ}$, the
 deviation here is indeed above the minimum — as it must be for any angle of
 incidence other than $48.59^{\circ}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the deviation of light by a prism and the condition for minimum deviation. Derive the relation $n=\dfrac{\sin\frac{A+\delta_m}{2}}{\sin\frac A2}$. <span class="marks">[10]</span>
+2. Derive an expression for the deviation produced by a small-angle prism and explain its uses. Solve numericals. <span class="marks">[10]</span>
+
+### Model answer D1: minimum deviation and the prism formula (10 marks)
+
+**Introduction.** A prism is a transparent block with two plane refracting faces inclined at an angle $A$, called the **angle of the prism**. A ray entering one face bends towards the base twice, so the emergent ray is turned from its original direction by the **angle of deviation** $\delta$.
+
+**Deviation by a prism.** Let a ray strike face $AB$ at angle of incidence $i_1$, refract at angle $r_1$, strike the second face at angle $r_2$ inside the glass, and emerge at angle $e$.
+
+1. The deviation at the first face is $(i_1-r_1)$ and at the second face is $(e-r_2)$, so the total deviation is $\delta=(i_1-r_1)+(e-r_2)=i_1+e-(r_1+r_2)$.
+2. In the quadrilateral formed by the two faces and the two normals, the angle between the normals is $180^{\circ}-A$, so $r_1+r_2=A$.
+3. Hence $\delta=i_1+e-A$.
+
+**$i$–$\delta$ graph.** As the angle of incidence increases from the smallest value, $\delta$ first falls to a minimum value $\delta_m$ and then rises again. The curve is **symmetric**: the same $\delta$ occurs for two values of $i$, $i_1$ and $e$ being interchanged (the principle of reversibility of light).
+
+**Condition for minimum deviation.** At the minimum, the two values of $i$ coincide, so $i_1=e=i$ and $r_1=r_2=r$. The ray then passes **symmetrically**, parallel to the base of an isosceles prism.
+
+**Derivation of the formula.**
+
+1. From $r_1+r_2=A$ and $r_1=r_2=r$, we get $r=\dfrac A2$.
+2. From $\delta=i_1+e-A$ with $i_1=e=i$ and $\delta=\delta_m$, we get $\delta_m=2i-A$, so $i=\dfrac{A+\delta_m}{2}$.
+3. Apply Snell's law at the first face, $n=\dfrac{\sin i}{\sin r}$:
+
+$$ \boxed{n=\frac{\sin\left(\dfrac{A+\delta_m}{2}\right)}{\sin\left(\dfrac A2\right)}} $$
+
+This is the standard method of finding the refractive index of a glass prism on a spectrometer.
+
+**Numerical.** A prism of $A=60^{\circ}$ is made of glass with $n=1.5$. Then $\sin\frac{A+\delta_m}{2}=1.5\times\sin30^{\circ}=0.75$, so $\frac{A+\delta_m}{2}=48.6^{\circ}$ and $\delta_m=97.2^{\circ}-60^{\circ}=37.2^{\circ}$.
+
+| Quantity | At minimum deviation |
+|---|---|
+| Angles of incidence and emergence | $i=e=(A+\delta_m)/2$ |
+| Angles of refraction | $r_1=r_2=A/2$ |
+| Path inside the prism | Parallel to the base |
+
+**Conclusion.** The deviation is a minimum when the ray passes symmetrically, and measuring $A$ and $\delta_m$ gives the refractive index of the prism material.
+
+### Model answer D2: deviation by a small-angle prism and its uses (10 marks)
+
+**Introduction.** A **thin or small-angle prism** has $A\lesssim10^{\circ}$ and is used with rays that are nearly normal to its faces. It deviates light by a small, nearly constant angle.
+
+**Derivation.** For a small angle of prism and a ray of small incidence, all the angles are small, so $\sin\theta\approx\theta$ (in radians).
+
+1. Snell's law at the first face gives $n=\dfrac{\sin i_1}{\sin r_1}\approx\dfrac{i_1}{r_1}$, so $i_1=nr_1$.
+2. At the second face, $n=\dfrac{\sin e}{\sin r_2}\approx\dfrac{e}{r_2}$, so $e=nr_2$.
+3. Total deviation $\delta=i_1+e-A=n(r_1+r_2)-A=nA-A$, so
+
+$$ \boxed{\delta=(n-1)A} $$
+
+4. The deviation is **independent of the angle of incidence** (for small angles) and depends only on $n$ and $A$.
+
+**Dispersion by a thin prism.** Since $n$ is greater for violet than for red, $\delta_v=(n_v-1)A$ is greater than $\delta_r=(n_r-1)A$. The angular spread is $\delta_v-\delta_r=(n_v-n_r)A$.
+
+**Uses and importance.**
+
+- **Prism spectacles:** a thin prism corrects squint or double vision by shifting the image of an object, as an eye doctor prescribes.
+- **Spectrometer** and **binoculars** use prisms to analyse or redirect light.
+- **Thin prisms in combination:** two thin prisms of different glass can produce deviation without dispersion, or dispersion without deviation, which is the basis of achromatism.
+- **A thick lens** can be treated as a set of thin prisms, which explains why a convex lens bends rays towards the axis and a concave lens bends them away.
+
+**Numericals.**
+
+1. A prism of $A=4^{\circ}$ and $n=1.5$ gives $\delta=(1.5-1)\times4^{\circ}=2^{\circ}$.
+2. A thin crown-glass prism with $A=5^{\circ}$, $n_r=1.514$ and $n_v=1.532$ spreads violet and red by $(1.532-1.514)\times5^{\circ}=0.09^{\circ}$, and deviates the mean ray by $(1.522-1)\times5^{\circ}=2.61^{\circ}$.
+
+**Conclusion.** For small angles a prism deviates a ray by $(n-1)A$ whatever the angle of incidence, which makes thin prisms useful in optical devices and spectacles.

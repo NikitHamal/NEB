@@ -679,3 +679,75 @@ so $v = +1.2\ \text{m}$. The image is virtual, $1.2\ \text{m}$ behind the mirror
 with $m = -1.2/(-0.40) = +3$ — erect and three times as large. It can no longer
 be caught on the wall.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the mirror formula $\dfrac1f=\dfrac1u+\dfrac1v$ for a concave mirror, stating the sign convention used. <span class="marks">[10]</span>
+2. Describe the nature, position and size of the image formed by a concave mirror for different positions of the object, and give uses of spherical mirrors. Solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: derivation of the mirror formula (10 marks)
+
+**Introduction.** The mirror formula connects the object distance $u$, image distance $v$ and focal length $f$ of a spherical mirror. It lets us find where an image forms without drawing a ray diagram.
+
+**New Cartesian sign convention.**
+
+1. All distances are measured **from the pole** $P$ of the mirror.
+2. Distances measured in the direction of the incident light are **positive**; those against it are **negative**.
+3. Heights above the principal axis are positive and below it are negative.
+4. Hence for a real object in front of a concave mirror $u<0$, $f<0$, and a real image has $v<0$.
+
+**Derivation.** Let a small object $AB$ stand on the principal axis in front of a concave mirror of centre of curvature $C$, pole $P$ and focus $F$. Its image is $A'B'$.
+
+1. Draw a ray from $B$ to the pole $P$; it reflects so that the angle of incidence equals the angle of reflection, $\angle BPA=\angle B'PA'$.
+2. The triangles $ABP$ and $A'B'P$ are similar, so $\dfrac{A'B'}{AB}=\dfrac{A'P}{AP}$.
+3. Draw the ray from $B$ parallel to the axis; it passes through $F$ after reflection. Triangles $MPF$ and $A'B'F$ are similar, and since $MP=AB$, $\dfrac{A'B'}{AB}=\dfrac{A'F}{PF}$.
+4. Equating the two ratios, $\dfrac{A'F}{PF}=\dfrac{A'P}{AP}$. For a mirror of small aperture, $A'F=A'P-PF$, so
+
+$$ \frac{A'P-PF}{PF}=\frac{A'P}{AP} $$
+
+5. Apply the sign convention. For a real object and real image in front of the mirror, the measured distances are negative, so $A'P=-v$, $AP=-u$ and $PF=-f$. Substituting,
+
+$$ \frac{-v-(-f)}{-f}=\frac{-v}{-u}\quad\Rightarrow\quad \frac{v-f}{f}=\frac{v}{u}\quad\Rightarrow\quad \frac{v}{f}-1=\frac{v}{u} $$
+
+6. Dividing every term by $v$ gives $\dfrac1f-\dfrac1v=\dfrac1u$, that is
+
+$$ \boxed{\frac1v+\frac1u=\frac1f} $$
+
+**Magnification.** The ratio of image height to object height is $m=\dfrac{h'}{h}=-\dfrac{v}{u}$. A negative $m$ means an inverted image; $|m|>1$ means an enlarged image.
+
+**Numerical.** An object $10\ \text{cm}$ tall is placed $30\ \text{cm}$ in front of a concave mirror of focal length $20\ \text{cm}$. Here $u=-30$ and $f=-20$, so $\dfrac1v=\dfrac1f-\dfrac1u=-\dfrac1{20}+\dfrac1{30}=-\dfrac1{60}$, giving $v=-60\ \text{cm}$. The magnification is $m=-\dfrac{-60}{-30}=-2$, so the image is **real, inverted** and $20\ \text{cm}$ tall.
+
+**Conclusion.** The mirror formula $1/v+1/u=1/f$ holds for concave and convex mirrors alike provided the sign convention is obeyed throughout.
+
+### Model answer D2: images by a concave mirror and uses of mirrors (10 marks)
+
+**Introduction.** The image produced by a concave mirror changes with the position of the object. A concave mirror can give a real image or a virtual image, magnified or diminished.
+
+**Image formation.** Here $C$ is at $2f$ and $F$ is at $f$ from the pole.
+
+| Object position | Image position | Nature | Size |
+|---|---|---|---|
+| At infinity | At $F$ | Real, inverted | Point-sized |
+| Beyond $C$ | Between $F$ and $C$ | Real, inverted | Diminished |
+| At $C$ | At $C$ | Real, inverted | Same size |
+| Between $C$ and $F$ | Beyond $C$ | Real, inverted | Enlarged |
+| At $F$ | At infinity | Real, inverted | Highly enlarged |
+| Between $F$ and $P$ | Behind the mirror | Virtual, erect | Enlarged |
+
+**Rays used to locate an image.**
+
+1. A ray parallel to the principal axis reflects through the focus.
+2. A ray through the focus reflects parallel to the principal axis.
+3. A ray through the centre of curvature returns along its own path.
+4. A ray towards the pole reflects with equal angles on the two sides of the axis.
+
+**Convex mirror.** For every position of the object, a convex mirror forms a **virtual, erect and diminished** image between $P$ and $F$ behind the mirror.
+
+**Uses.**
+
+- **Concave:** shaving mirrors and dentist's mirrors (enlarged virtual image), head-lamps and torches (a source at $F$ gives a parallel beam), solar cookers and parabolic dishes (a parallel beam is focused).
+- **Convex:** vehicle rear-view mirrors and shop security mirrors, because they give a wide field of view and an upright image.
+
+**Numerical.** A dentist holds a concave mirror of focal length $2\ \text{cm}$ at $1\ \text{cm}$ from a tooth. With $u=-1$ and $f=-2$, $\dfrac1v=-\dfrac12+1=\dfrac12$, so $v=+2\ \text{cm}$ (behind the mirror) and $m=-\dfrac{2}{-1}=+2$, a **virtual, erect, twice-enlarged** image.
+
+**Conclusion.** The position of the object relative to $F$ and $C$ decides the image formed, and the same mirror formula describes every case.

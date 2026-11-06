@@ -875,3 +875,88 @@ $Q_1 = 2\times25 = 50\ \mu\text{C}$ and $Q_2 = 3\times25 = 75\ \mu\text{C}$
 Total energy $U = \frac12 C_{eq}V^{2} = \frac12(2.5\times10^{-6})(50)^{2}
 = 3.125\times10^{-3}\ \text{J} = 3.125\ \text{mJ}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define capacitance. Derive the capacitance of a parallel-plate capacitor with and without a dielectric slab. <span class="marks">[10]</span>
+2. Derive the effective capacitance of capacitors in series and in parallel, and the energy stored in a charged capacitor. Solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: parallel-plate capacitor and the effect of a dielectric (10 marks)
+
+**Introduction.** A **capacitor** is a device that stores electric charge and energy. It is used in the flash of a camera, in the power supply of a phone charger, and in the tuning circuit of a radio.
+
+**Capacitance.** If a charge $Q$ on a capacitor raises its potential difference by $V$, then $Q\propto V$ and $C=\dfrac QV$. The unit is the **farad** ($1\ \text{F}=1\ \text{C V}^{-1}$); practical values are $\mu\text{F}$, nF and pF.
+
+**Parallel-plate capacitor (air).** Two parallel plates, each of area $A$, are separated by a small distance $d$, with charges $+Q$ and $-Q$.
+
+1. The surface charge density is $\sigma=\dfrac QA$.
+2. Between the plates, the field is uniform and equals $E=\dfrac{\sigma}{\varepsilon_0}=\dfrac{Q}{\varepsilon_0A}$ (the two sheets each give $\sigma/2\varepsilon_0$ and add).
+3. The potential difference is $V=Ed=\dfrac{Qd}{\varepsilon_0A}$.
+4. The capacitance is
+
+$$ C_0=\frac QV=\frac{\varepsilon_0A}{d} $$
+
+so it **increases with larger area and smaller separation** and does not depend on $Q$ or $V$.
+
+**Effect of a dielectric.** A **dielectric** is an insulator. When it fills the space between the plates, its molecules are polarised and produce an opposing field, so the net field is reduced.
+
+1. The induced surface charge on the dielectric is $-Q_i$ and $+Q_i$ on its two faces, and the net field is $E=\dfrac{Q-Q_i}{\varepsilon_0A}=\dfrac{E_0}{K}$, where $K$ is the **dielectric constant**.
+2. The potential difference falls to $V=\dfrac{V_0}{K}$ for the same charge $Q$.
+3. The capacitance rises to
+
+$$ C=\frac{Q}{V}=K\,C_0=\frac{K\varepsilon_0A}{d}=\frac{\varepsilon A}{d} $$
+
+**Partly filled gap.** A slab of thickness $t$ and constant $K$ in a gap $d$ gives $C=\dfrac{\varepsilon_0A}{d-t+t/K}$.
+
+| Dielectric | Constant $K$ |
+|---|---|
+| Vacuum / air | 1.00 / 1.0006 |
+| Paper | about 3.7 |
+| Mica | about 5 |
+| Water | about 80 |
+
+**Numerical.** With $A=0.01\ \text{m}^{2}$ and $d=1\ \text{mm}$, $C_0=\dfrac{8.85\times10^{-12}\times0.01}{10^{-3}}=8.85\times10^{-11}\ \text{F}=88.5\ \text{pF}$. Filled with mica ($K=5$), $C=442\ \text{pF}$.
+
+**Conclusion.** The capacitance of a parallel-plate capacitor is $\varepsilon_0A/d$ and a dielectric multiplies it by $K$, which is why practical capacitors use thin sheets of dielectric.
+
+### Model answer D2: combinations of capacitors and stored energy (10 marks)
+
+**Introduction.** Capacitors in a circuit are connected in series or in parallel, to get a required capacitance or voltage rating.
+
+**Series combination.** Capacitors $C_1,C_2,C_3$ are joined end to end and connected to a battery $V$.
+
+1. Each capacitor carries the **same charge $Q$**, because charge only moves from plate to plate.
+2. The potential differences add: $V=V_1+V_2+V_3=Q\left(\dfrac1{C_1}+\dfrac1{C_2}+\dfrac1{C_3}\right)$.
+3. With $V=Q/C_s$,
+
+$$ \frac1{C_s}=\frac1{C_1}+\frac1{C_2}+\frac1{C_3} $$
+
+so $C_s$ is **smaller than the smallest** capacitor.
+
+**Parallel combination.** The capacitors are joined across the same two points.
+
+1. Each has the **same potential difference $V$**.
+2. The charges add: $Q=Q_1+Q_2+Q_3=(C_1+C_2+C_3)V$.
+3. Hence $C_p=C_1+C_2+C_3$, **larger than the largest**.
+
+**Energy stored.** While charging a capacitor to a final charge $Q$, a small charge $dq$ is moved across a potential difference $v=q/C$, requiring work $dW=v\,dq=\dfrac qC\,dq$.
+
+$$ U=\int_{0}^{Q}\frac qC\,dq=\frac{Q^{2}}{2C}=\frac12CV^{2}=\frac12QV $$
+
+The energy is stored in the electric field. Per unit volume (energy density) $u=\tfrac12\varepsilon_0E^{2}$.
+
+| Property | Series | Parallel |
+|---|---|---|
+| Charge | Same on each | Divides |
+| Potential difference | Divides | Same on each |
+| Effective capacitance | $1/C_s=\sum 1/C_i$ | $C_p=\sum C_i$ |
+| Effective capacitance is | Smaller than the smallest | Larger than the largest |
+
+**Numerical.** Three capacitors of $2\ \mu\text{F}$, $3\ \mu\text{F}$ and $6\ \mu\text{F}$ are connected to a $12\ \text{V}$ battery.
+
+- Series: $\dfrac1{C_s}=\dfrac12+\dfrac13+\dfrac16=1$, so $C_s=1\ \mu\text{F}$; charge on each $Q=1\times12=12\ \mu\text{C}$, and energy $U=\tfrac12\times10^{-6}\times144=7.2\times10^{-5}\ \text{J}$.
+- Parallel: $C_p=2+3+6=11\ \mu\text{F}$ and $U=\tfrac12\times11\times10^{-6}\times144=7.92\times10^{-4}\ \text{J}$.
+
+A $4\ \mu\text{F}$ capacitor charged to $200\ \text{V}$ stores $\tfrac12\times4\times10^{-6}\times200^{2}=0.08\ \text{J}$.
+
+**Conclusion.** Series reduces the capacitance and shares the voltage; parallel increases the capacitance, and the energy stored is $\tfrac12CV^{2}$.
