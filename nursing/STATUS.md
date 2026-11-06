@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 8. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 9. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -50,9 +50,15 @@ Updated: end of Session 8. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: a Fried or Morse total must be computed in the python block and quoted by token; the first wide strip (MRI) is padded to a square in place with a plain dark band (blurred stretched padding looked wrong); a 2-up plate with `fit 1.0` shows large photos, which is fine; `focus fx fy` chooses the crop (0 = left/top).
   - Facts verified this session: see the book README (census 2021 10.2%, Senior Citizens Act 2063, allowance rates from secondary sources, AGS Beers 2023, WHO elder abuse 15.7%).
 
+- **Psychiatric Nursing (BSN 13-14), Year 2: DONE (session 9).** 5 units, PDF built, `qa_pdf.py` fails=0. U1 Foundations: mental health, NMHS 2020, Nepal service pyramid and mhGAP, Peplau, communication, MSE, defence mechanisms, ethics and law | U2 Schizophrenia and antipsychotics: dopamine pathways, CPZ equivalents, depot volumes, EPS, NMS, metabolic monitoring | U3 Mood disorders and suicide: PHQ-9, lithium, ECT, Nepal Police suicide data, mhGAP risk pathway | U4 Anxiety, OCD, trauma, dissociative: GAD-7, Y-BOCS, PCL-5, psychological first aid, benzodiazepines | U5 Substance use, emergencies, community psychiatry: AUDIT, CIWA-Ar, naloxone, methadone, rapid tranquillisation, rehabilitation.
+  - 24 Commons images (slug `nur8`: Pinel, Hogarth Bedlam, asylum, Rorschach, PET, haloperidol, olanzapine, risperidone, aripiprazole, Van Gogh old man, two ECT machines, fluoxetine, St John's wort, The Scream, amygdala, diazepam, tongba, opium poppy, cannabis, methadone window, alcoholic liver, Mallory bodies, Wernicke MRI), 9 plates with numbered marks, 17 SVGs, 19 executed python blocks, 5-column NANDA-I plans in every unit.
+  - `nursing/tools/check_psy.py`: 95 tokens + 19 python blocks + extra asserts (`--verify`). Case tokens prefixed `c`, `c2` ... `c5`. Unit sections live in `nursing/tools/helpers/session9/sections/` (`head.py`, `u1.py` ... `u5.py`, `tail.py`; `build.sh` concatenates them).
+  - Lessons: **Nepal has no standalone Mental Health Act** (the old STATUS line was wrong); search first and state the Disability Rights Act 2074, Criminal Code s.185 and the 2020 Strategy instead. Crop plates with `pages.sh` then WAIT (the PNG is written after the build; a read straight after can show the previous crop). Files named `x..png` cannot be read by the file tool (double dot). Two Commons files were dropped after the contact sheet (a water-bottle photo titled raksi, an unrelated camp photo) and a nude lithograph was replaced by Van Gogh's Sorrowful Old Man. SVG box text must stay under about 36 characters per line at size 10.5 in a 365 px box. Use `svg` panels inside a 2-up photogrid for photo + schematic pairs.
+  - Facts verified this session: see the book README (NMHS 2020, Nepal Police FY 2080/81, Strategy 2020, mhGAP-IG 2.0, helpline 1166).
+
 ## Next (in this order)
-1. Year 1 and Year 2 books through **Geriatric Nursing (BSN 11)** are complete. Start **Psychiatric Nursing (BSN 13-14)** `course/year-2/psychiatric-nursing` (slug `nur8`; copy `check_ger.py` as `check_psy.py` and replace the unit sections; mental status examination, schizophrenia, mood disorders, anxiety, substance use, suicide and mhGAP Nepal, Mental Health Act, psychotropic drug calculations, therapeutic communication; photo contact sheet before use; accent per `books.json`).
-2. Then in `books.json` order: Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
+1. Year 1 and Year 2 books through **Psychiatric Nursing (BSN 13-14)** are complete. Start **Nursing Concepts (BSN 15)** `course/year-2/nursing-concepts` (slug `nur9`; copy `check_psy.py` as `check_nc.py` and use `nursing/tools/helpers/session9/` as the template: nursing theories (Nightingale, Orem, Roy, Peplau, Watson), nursing process and critical thinking, communication, ethics and leadership, evidence-based practice and research basics, nursing in Nepal; photo contact sheet before use).
+2. Then in `books.json` order: Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
 

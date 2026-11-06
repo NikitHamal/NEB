@@ -28,7 +28,7 @@ Branch `claude/bsc-nursing`. Registry for the build tools is `nursing/books.json
 | 2 | BSN 9 | Adult Nursing I | T100 h | `course/year-2/adult-nursing-1` | **done (session 6)** |
 | 2 | BSN 10 | Adult Nursing II | T100 h | `course/year-2/adult-nursing-2` | **done (session 7)** |
 | 2 | BSN 11 | Geriatric Nursing | T40 h | `course/year-2/geriatric-nursing` | **done (session 8)** |
-| 2 | BSN 13-14 | Psychiatric Nursing | T70+P90 h | `course/year-2/psychiatric-nursing` | queued |
+| 2 | BSN 13-14 | Psychiatric Nursing | T70+P90 h | `course/year-2/psychiatric-nursing` | done (session 9) |
 | 2 | BSN 15 | Nursing Concepts | T60 h | `course/year-2/nursing-concepts` | queued |
 | 2 | BSN 16 | Social and Behavioral Science | T60 h | `course/year-2/social-and-behavioral-science` | queued |
 | 3 | BSN 17-18 | Midwifery I | T70+P180 h | `course/year-3/midwifery-1` | queued |
