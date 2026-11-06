@@ -236,3 +236,78 @@ f.text(150, 226, "(one ring + three double bonds)", size=10.5, color=SLATE)
 **5.** (c) — pentane, 2-methylbutane, 2,2-dimethylpropane.
 **6.** (d) — $\frac{2\times6+2-6}{2}=4$ (3 C=C and 1 ring).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mechanisms of nucleophilic substitution (SN1, SN2), elimination (E1, E2), and the addition and substitution reactions of alkenes and benzene. <span class="marks">[10]</span>
+2. Describe the preparation, properties and distinguishing tests of alcohols, aldehydes, ketones and carboxylic acids. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Organic chemistry. (a) A ball-and-stick model kit shows the shape of organic molecules. (b) Fractional distillation separates liquids by boiling point. (c) A Grignard reagent forms a new C-C bond. (d) Carbon allotropes: diamond, graphite and fullerene."
+@ photo id="ceechem/model-kit" cap="(a) Model kit"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/fractional-distillation" cap="(b) Fractional distillation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/grignard" cap="(c) Grignard reaction"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/carbon-allotropes" cap="(d) Carbon allotropes"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Mechanisms of organic reactions (10 marks)
+
+**Introduction.** A reaction mechanism shows the order of bond breaking and bond making. Reagents are **nucleophiles** (electron-rich, e.g. $\text{OH}^-$, $\text{CN}^-$) or **electrophiles** (electron-poor, e.g. $\text{H}^+$, $\text{NO}_2^+$).
+
+**1. Nucleophilic substitution.**
+
+| Feature | SN2 | SN1 |
+|---|---|---|
+| Steps | One step, backside attack | Two steps via a carbocation |
+| Rate law | Rate $= k[\text{RX}][\text{Nu}]$ (second order) | Rate $= k[\text{RX}]$ (first order) |
+| Substrate | Methyl $>$ primary $>$ secondary | Tertiary $>$ secondary |
+| Stereochemistry | **Inversion** (Walden) | **Racemisation** |
+| Solvent | Polar aprotic (acetone) | Polar protic (water, ethanol) |
+
+For example, $\text{CH}_3\text{Br} + \text{OH}^- \rightarrow \text{CH}_3\text{OH} + \text{Br}^-$ is SN2, and $(\text{CH}_3)_3\text{CBr} + \text{H}_2\text{O} \rightarrow (\text{CH}_3)_3\text{COH}$ is SN1.
+
+**2. Elimination.** Alcoholic KOH removes HX from a haloalkane to give an alkene. **E2** is one step (needs a strong base) and **E1** goes via a carbocation. **Saytzeff's rule:** the more substituted alkene is the major product, e.g. 2-bromobutane gives mainly but-2-ene.
+
+**3. Addition to alkenes (electrophilic).** $\text{CH}_3\text{CH}{=}\text{CH}_2 + \text{HBr} \rightarrow \text{CH}_3\text{CHBrCH}_3$. **Markovnikov's rule:** hydrogen adds to the carbon already holding more hydrogens, as the more stable (secondary) carbocation forms. In the presence of a peroxide, HBr adds the opposite way (**Kharasch** effect, free-radical). Alkenes decolourise bromine water, and **Baeyer's reagent** (cold dilute $\text{KMnO}_4$) gives a diol.
+
+**4. Electrophilic substitution of benzene.** Benzene is stable because of delocalised electrons and prefers substitution to addition: **nitration** ($\text{conc. HNO}_3 + \text{conc. H}_2\text{SO}_4$ makes $\text{NO}_2^+$), **halogenation** ($\text{Cl}_2/\text{FeCl}_3$), **Friedel–Crafts** alkylation ($\text{RCl/AlCl}_3$) and sulphonation. Groups such as $-\text{OH}$ and $-\text{CH}_3$ are **o,p-directing**, and $-\text{NO}_2$ is **m-directing**.
+
+**Conclusion.** Substrate structure decides whether a reaction goes by SN1 or SN2, and the stability of the intermediate decides the product.
+
+### Model answer D2: Alcohols, aldehydes, ketones and acids (10 marks)
+
+**Introduction.** These compounds are oxygen-containing functional groups: $-\text{OH}$, $>\text{C=O}$ and $-\text{COOH}$. They are related by oxidation: primary alcohol $\rightarrow$ aldehyde $\rightarrow$ carboxylic acid.
+
+**Preparation.**
+
+1. **Alcohols:** hydrolysis of haloalkanes with aqueous KOH; hydration of alkenes; fermentation of sugar (ethanol); reduction of aldehydes or ketones; Grignard reagent with carbonyl compounds.
+2. **Aldehydes and ketones:** oxidation of primary and secondary alcohols (with $\text{K}_2\text{Cr}_2\text{O}_7/\text{H}^+$ or by Cu at $573\ \text{K}$ dehydrogenation).
+3. **Acids:** oxidation of aldehydes or primary alcohols; hydrolysis of nitriles and esters.
+
+**Important reactions.**
+
+1. **Alcohols** react with Na to give hydrogen, with acids to form esters (**esterification**), and dehydrate: heated with conc. $\text{H}_2\text{SO}_4$ at $443\ \text{K}$, $\text{C}_2\text{H}_5\text{OH} \rightarrow \text{C}_2\text{H}_4 + \text{H}_2\text{O}$ (at $413\ \text{K}$ diethyl ether forms instead).
+2. **Aldehydes and ketones** undergo nucleophilic addition (HCN, $\text{NaHSO}_3$) and condensation with 2,4-DNP (orange precipitate).
+3. **Acids** are weak acids, react with carbonates, and form esters, acid chlorides, amides and anhydrides.
+
+**Distinguishing tests.**
+
+| Test | Positive for | Observation |
+|---|---|---|
+| **Lucas** reagent ($\text{ZnCl}_2/\text{HCl}$) | Tertiary alcohol (turbid at once), secondary (5 min), primary (no turbidity) | Cloudiness |
+| **Tollens'** (ammoniacal $\text{AgNO}_3$) | Aldehyde | Silver mirror |
+| **Fehling's** | Aliphatic aldehyde | Red precipitate of $\text{Cu}_2\text{O}$ |
+| **Iodoform** ($\text{I}_2/\text{NaOH}$) | $\text{CH}_3\text{CO}-$ or $\text{CH}_3\text{CH(OH)}-$ (ethanol, acetone) | Yellow solid $\text{CHI}_3$ |
+| $\text{NaHCO}_3$ | Carboxylic acid | Brisk effervescence of $\text{CO}_2$ |
+| Neutral $\text{FeCl}_3$ | Phenol | Violet colour |
+
+**Numerical.** In the esterification $\text{CH}_3\text{COOH} + \text{C}_2\text{H}_5\text{OH} \rightleftharpoons \text{CH}_3\text{COOC}_2\text{H}_5 + \text{H}_2\text{O}$, $60\ \text{g}$ of acid ($1\ \text{mol}$) gives at most $88\ \text{g}$ of ethyl acetate, so a $67\%$ yield gives about $59\ \text{g}$.
+
+**Conclusion.** The oxidation ladder connects these four families, and simple chemical tests distinguish them.
