@@ -17,10 +17,8 @@
    styles, which is why every group had slightly different padding and the
    groups themselves were in a different order from the app's. {% endcomment %}
 <div class="st-page">
-  <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text st-back" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to profile
-  </a>
+  {% url 'web:profile' username=user.username as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to profile" %}
 
   <div class="st-head">
     <h1 class="st-title">Settings</h1>
@@ -195,13 +193,14 @@
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
 
-      <div class="st-row">
+      <a href="{% url 'web:about' %}" class="st-row">
         <span class="st-row-icon"><span class="material-symbols-outlined">info</span></span>
         <div class="st-row-text">
-          <p class="st-row-title">Version</p>
-          <p class="st-row-sub">1.0.5</p>
+          <p class="st-row-title">About NEBians</p>
+          <p class="st-row-sub">Version 1.0.5</p>
         </div>
-      </div>
+        <span class="material-symbols-outlined st-chevron">chevron_right</span>
+      </a>
     </div>
   </section>
 
@@ -280,23 +279,8 @@
 
     if (themeSwitch) {
       themeSwitch.addEventListener('change', function () {
-        const isDark = themeSwitch.checked;
-        htmlEl.setAttribute('data-theme', isDark ? 'dark' : '');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) {
-          themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
-        }
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        if (themeStatus) themeStatus.textContent = isDark ? 'On' : 'Off';
-
-        fetch('/ajax/theme/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': CSRF_TOKEN
-          },
-          body: JSON.stringify({ theme: isDark ? 'dark' : 'light' })
-        });
+        window.NebTheme.set(themeSwitch.checked ? 'dark' : 'light');
+        if (themeStatus) themeStatus.textContent = themeSwitch.checked ? 'On' : 'Off';
       });
     }
 

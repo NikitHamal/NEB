@@ -1,19 +1,7 @@
-/* Avatars, drawn the way NebAvatar draws them.
-
-   NebDesign.kt:220 is the whole specification. A photo sits on
-   surfaceContainerLowest behind a 1.5dp outlineVariant stroke, so a
-   transparent PNG reads as a picture rather than a hole. Initials get no
-   stroke at all: they are a filled primaryContainer disc with
-   onPrimaryContainer text, and a ring around a filled disc is noise.
-
-   This file used to stroke every avatar in --md-primary, which put a
-   saturated brand-blue ring on every face on every screen -- the one thing
-   the app never does. `:has(img)` is what lets one rule serve both cases
-   without touching the templates.
-
-   The !important is inherited from that earlier version and has to stay:
-   several of these classes are also declared in page stylesheets that load
-   after app.css. */
+/* Avatar fills. A photo sits on surfaceContainerLowest so a transparent PNG reads as a picture,
+   initials sit on primaryContainer. No avatar has a stroke: the clip-path shape (m3x/app-shapes.css)
+   is the only edge. The !important stays: several of these classes are also declared in page
+   stylesheets that load after app.css. */
 
 .avatar-ring:has(img),
 .profile-dropdown-avatar:has(img),
@@ -42,7 +30,7 @@
 .cs-avatar:has(img),
 .follow-user-avatar:has(img) {
   background: var(--md-surface-container-lowest) !important;
-  border: 1.5px solid var(--md-outline-variant) !important;
+  border: 0 !important;
   box-sizing: border-box;
 }
 

@@ -1,0 +1,126 @@
+/* Voice tools (STT, TTS): the page sheets carry their own warm-neutral tokens.
+   This layer maps them onto the m3x roles so both audio tools follow the site
+   theme, light and dark, in Poppins, flat tonal surfaces, finite radii. */
+body.tools-audio-page {
+  --font-sans: 'Poppins', system-ui, sans-serif;
+  --font-body: var(--font-sans);
+  --font-mono: var(--font-sans);
+  --bg: var(--md-background);
+  --bg-elevated: var(--md-surface-container-low);
+  --bg-hover: var(--md-surface-container-high);
+  --text-primary: var(--md-on-surface);
+  --text-secondary: var(--md-on-surface-variant);
+  --text-muted: var(--md-on-surface-variant);
+  --border-line: var(--md-outline-variant);
+  --border-strong: var(--md-outline);
+  --pill-bg: var(--md-primary);
+  --pill-text: var(--md-on-primary);
+  --pill-hover: var(--md-primary);
+  --accent-link: var(--md-primary);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  font-family: var(--font-sans);
+}
+body.tools-audio-page .theme-toggle,
+body.tools-audio-page .logo small,
+body.tools-audio-page .top-bar:not(:has(a)) { display: none; }
+body.tools-audio-page .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: -.02em; }
+body.tools-audio-page .logo .dot {
+  width: 48px; height: 48px; border-radius: 16px; border: 0; font-size: 22px;
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+}
+body.tools-audio-page .card,
+body.tools-audio-page .mono-card {
+  background: var(--md-surface-container-low);
+  border: 0; border-radius: 28px; padding: 22px;
+  animation: toolsRise .5s var(--md-motion-spatial, cubic-bezier(.2,0,0,1)) both;
+}
+body.tools-audio-page .card:nth-of-type(2) { animation-delay: .06s; }
+body.tools-audio-page .card:nth-of-type(3) { animation-delay: .12s; }
+body.tools-audio-page .card h2 { font-weight: 600; font-size: 1rem; text-transform: none; letter-spacing: 0; }
+body.tools-audio-page .card h2 .tag,
+body.tools-audio-page .pill {
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+  border: 0; border-radius: 12px; font-weight: 500;
+  text-transform: none; letter-spacing: 0;
+}
+body.tools-audio-page .pill b { color: inherit; font-weight: 600; }
+body.tools-audio-page .btn,
+body.tools-audio-page button.btn {
+  border-radius: 28px; font-weight: 500; letter-spacing: 0; text-transform: none;
+  transition: background-color .2s, transform .25s var(--md-motion-spatial-fast, ease), border-radius .25s;
+}
+body.tools-audio-page .btn:hover { transform: translateY(-1px); border-radius: 28px; }
+body.tools-audio-page .btn:active { transform: scale(.97); }
+body.tools-audio-page .btn.primary { background: var(--md-primary); color: var(--md-on-primary); border: 0; }
+body.tools-audio-page .btn.ghost,
+body.tools-audio-page .btn:not(.primary) {
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); border: 0;
+}
+body.tools-audio-page select,
+body.tools-audio-page textarea,
+body.tools-audio-page input[type=text],
+body.tools-audio-page input[type=number] {
+  background: var(--md-surface-container-lowest, var(--md-surface)); color: var(--md-on-surface);
+  border: 1.5px solid var(--md-outline-variant); border-radius: 16px;
+}
+body.tools-audio-page select:focus,
+body.tools-audio-page textarea:focus { outline: none; border-color: var(--md-primary); }
+body.tools-audio-page #transcript,
+body.tools-audio-page .out,
+body.tools-audio-page .audioBox {
+  background: var(--md-surface-container); border: 0; border-radius: 20px; color: var(--md-on-surface);
+}
+body.tools-audio-page .btnRec {
+  width: 64px; height: 64px; border: 0; border-radius: 22px;
+  background: var(--md-primary-container);
+  transition: border-radius .3s var(--md-motion-spatial, ease), transform .2s;
+}
+body.tools-audio-page .btnRec:hover { transform: scale(1.05); }
+body.tools-audio-page .btnRec.on { border-radius: 32px; }
+body.tools-audio-page .recMeta .t { font-variant-numeric: tabular-nums; font-weight: 600; }
+body.tools-audio-page .step .dot { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border: 0; }
+body.tools-audio-page .step.active .dot { background: var(--md-primary); color: var(--md-on-primary); }
+body.tools-audio-page .steps .bar { background: var(--md-outline-variant); }
+body.tools-audio-page video, body.tools-audio-page canvas { border-radius: 20px; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.88); } }
+@keyframes toolsRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { body.tools-audio-page * { animation: none !important; transition: none !important; } }
+
+/* Lazy Tools and Doc Intelligence: tonal panels, no strokes, finite radii, soft motion. */
+.dt-wrap .dt-tools, .dt-wrap .dt-panel, .di-wrap .di-tools, .di-wrap .di-panel {
+  background: var(--md-surface-container-low); border: 0; border-radius: 28px;
+  animation: toolsRise .5s var(--md-motion-spatial, cubic-bezier(.2,0,0,1)) both;
+}
+.dt-wrap .dt-panel, .di-wrap .di-panel { animation-delay: .07s; }
+.dt-wrap .dt-tools-label, .di-wrap .di-tools-label { text-transform: none; letter-spacing: 0; font-size: .8rem; font-weight: 600; }
+.dt-wrap .dt-tool, .di-wrap .di-tool {
+  border-radius: 20px; border: 0; font-weight: 500;
+  transition: background-color .2s, transform .25s var(--md-motion-spatial-fast, ease);
+}
+.dt-wrap .dt-tool:hover, .di-wrap .di-tool:hover { background: var(--md-surface-container-high); transform: translateX(2px); }
+.dt-wrap .dt-tool.active, .di-wrap .di-tool.active { background: var(--md-primary-container); color: var(--md-on-primary-container); border: 0; }
+.dt-wrap .dt-drop {
+  border: 0; border-radius: 28px; background: var(--md-surface-container); padding: 40px 26px;
+  transition: background-color .2s, transform .25s var(--md-motion-spatial-fast, ease);
+}
+.dt-wrap .dt-drop:hover { background: var(--md-primary-container); transform: scale(1.01); }
+.dt-wrap .dt-drop .material-symbols-outlined { font-size: 36px; }
+.dt-wrap .dt-field input, .dt-wrap .dt-field select, .dt-wrap .dt-field textarea {
+  border: 1.5px solid var(--md-outline-variant); border-radius: 16px; background: var(--md-surface-container-lowest, var(--md-surface));
+}
+.dt-wrap .dt-file { border: 0; border-radius: 14px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.dt-wrap .dt-out-file { border: 0; border-radius: 28px; background: var(--md-primary); color: var(--md-on-primary); }
+.dt-wrap .dt-out-file:hover { background: var(--md-primary); transform: translateY(-1px); }
+.dt-wrap .dt-err { border: 0; border-radius: 20px; }
+.di-wrap .di-storage, .di-wrap .di-notice, .di-wrap .di-model-bar {
+  border: 0; border-radius: 20px; background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.di-wrap .di-tool-state, .di-wrap .di-badge { border-radius: 10px; font-weight: 600; letter-spacing: 0; }
+.di-wrap .di-tool-state.ready { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.di-wrap .di-tool-state.off { border: 0; background: var(--md-surface-container-high); }
+.di-wrap .di-badge { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.di-wrap .di-tool-sub { display: none; }
+.di-wrap .di-panel-title { font-weight: 600; }
+.di-wrap canvas, .di-wrap video { border-radius: 20px; }

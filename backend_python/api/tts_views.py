@@ -5,12 +5,7 @@ from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 
 from .throttles import ArenaChatRateThrottle
-
-
-def _require_user(request):
-    from .views import _require_user as _ru
-
-    return _ru(request)
+from .view_helpers import _require_user
 
 
 @api_view(["GET"])
@@ -56,7 +51,7 @@ def tts_generate(request):
 
         result = airy_tts(
             text=text,
-            voice=voice,
+            voice=request.data.get("voice"),
             style=request.data.get("style") or "normal",
             speed=request.data.get("speed") or 1.0,
             language=request.data.get("lang") or request.data.get("language") or "en",

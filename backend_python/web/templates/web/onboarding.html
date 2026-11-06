@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load web_extras asset_tags %}
+
+{% block body_class %}ob-page{% endblock %}
+{% block title %}Welcome to NEBians{% endblock %}
+{% block robots %}
+<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block topbar %}{% endblock %}
+
+{% block content %}
+<div class="ob" id="ob" data-redo="{{ is_redo|yesno:'1,0' }}">
+  <header class="ob-top">
+    <div class="ob-brand">{% url 'web:home' as home_url %}{% include "components/_brand.html" with href=home_url %}</div>
+    <ol class="ob-progress" id="ob-progress" aria-label="Progress"></ol>
+    <a class="ob-exit" href="{% url 'web:home' %}" id="ob-exit" aria-label="Leave setup">
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
+    </a>
+  </header>
+
+  <div class="ob-body">
+    <main class="ob-stage" id="ob-stage" aria-live="polite"></main>
+
+    <aside class="ob-preview" aria-hidden="true">
+      <div class="ob-card" id="ob-card">
+        <div class="ob-card-banner"></div>
+        <div class="ob-card-avatar md-shape-cookie-9" id="ob-card-avatar"><span id="ob-card-initial">N</span></div>
+        <div class="ob-card-name" id="ob-card-name">Your name</div>
+        <div class="ob-card-user" id="ob-card-user">@username</div>
+        <div class="ob-card-edu" id="ob-card-edu"></div>
+        <div class="ob-card-chips" id="ob-card-chips"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="ob-dock">
+    <button type="button" class="ob-btn ob-btn-text" id="ob-back" hidden>
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span>Back</span>
+    </button>
+    <p class="ob-error" id="ob-error" role="alert"></p>
+    <button type="button" class="ob-btn ob-btn-fill" id="ob-next">
+      <span id="ob-next-label">Continue</span>
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </button>
+  </footer>
+</div>
+
+{# The date wheel and gender tiles are the profile editor's own, carried into step two by onboarding.js. #}
+<div hidden id="ob-parts">
+  {% include "components/_dob_field.html" with dob=dob %}
+  {% include "components/_gender_tiles.html" with gender=gender %}
+</div>
+{% include "components/_dob_sheet.html" with dob=dob %}
+
+<noscript><p class="ob-noscript">Setup needs JavaScript. <a href="{% url 'web:edit_profile' %}">Use the plain form</a>.</p></noscript>
+{{ boot|json_script:"ob-boot" }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% asset 'web/js/neb-edu.js' %}" defer></script>
+<script src="{% asset 'web/js/neb-dob-field.js' %}" defer></script>
+<script src="{% asset 'web/js/onboarding.js' %}" defer></script>
+{% endblock %}

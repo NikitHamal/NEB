@@ -21,7 +21,7 @@
    visibly re-laid itself out on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}?v=20261105a">
 {% endblock %}
 
 {% block head_extra %}
@@ -84,12 +84,10 @@
               <div class="neb-art pf-banner-art" data-neb-art="cover"
                    data-neb-role="{{ profile_user.banner_role|default:'MEMBER' }}"
                    data-neb-seed="{{ profile_user.username }}">
-                <div class="pf-banner-sheen" aria-hidden="true"></div>
               </div>
             {% endif %}
-            <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
-              <span class="material-symbols-outlined">arrow_back</span>
-            </a>
+            {% url 'web:home' as back_href %}
+            {% include "web/partials/_back.html" with back_label="Go back" back_class="neb-back-on-art" %}
             {% comment %} The utility actions live on the cover rather than in the text
                column: the app keeps them in the top bar, and down here they
                competed with the name for the first line the eye lands on. {% endcomment %}
@@ -112,7 +110,7 @@
           {% comment %} Avatar and primary action, bottom-aligned across the cover's edge.
              Nothing clips here, so the avatar hangs below the art. {% endcomment %}
           <div class="pf-identity-row">
-            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %} {% if profile_user.verification_level and profile_user.verification_level > 0 %}avatar-container-verified{% endif %}">
+            <div class="pf-avatar-overlap-wrap{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot{% endif %}" data-avatar-seed="{{ profile_user.username }}">
               <div class="pf-avatar-circle{% if profile_user.is_bot or profile_user.username == 'neby' %} pf-avatar-bot-circle{% endif %}" id="profilePageAvatar">
                 {% if profile_user.is_bot or profile_user.username == 'neby' %}
                   <div class="neby-avatar-hero" data-neby-avatar data-hero="true" data-animation="idle" id="profilePageNebyAvatar" title="Neby — tap to play"></div>
@@ -122,11 +120,6 @@
                   <div class="pf-avatar-initial">{{ profile_user.display_name|default:profile_user.username|slice:":1" }}</div>
                 {% endif %}
               </div>
-              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
-                <span class="avatar-badge-overlay is-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
-                  <span class="material-symbols-outlined">verified</span>
-                </span>
-              {% endif %}
               {% if user and user.username == profile_user.username and not profile_user.is_bot and profile_user.username != 'neby' %}
                 <div class="pf-avatar-cam" data-action="open-photo-history-modal" title="Change photo">
                   <span class="material-symbols-outlined">camera_alt</span>
@@ -142,7 +135,7 @@
                 </a>
               {% elif is_authenticated %}
                 <button id="btnFollowToggle" data-action="toggle-follow-user" data-user-id="{{ profile_user.id }}"
-                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}">
+                        class="pf-btn {% if stats.is_following or stats.is_requested %}pf-btn-outlined{% else %}pf-btn-filled{% endif %}{% if stats.is_requested and not stats.is_following %} is-requested{% endif %}">
                   <span class="material-symbols-outlined">{% if stats.is_following %}check{% elif stats.is_requested %}pending{% else %}add{% endif %}</span>
                   <span id="followText">{% if stats.is_following %}Following{% elif stats.is_requested %}Requested{% else %}Follow{% endif %}</span>
                 </button>
@@ -159,7 +152,10 @@
 
             <div class="pf-card-name-row">
               <h1 class="pf-card-name">{{ profile_user.display_name|default:profile_user.username }}</h1>
-              {% if badge_info %}
+              {% if profile_user.verification_level and profile_user.verification_level > 0 %}
+                <span class="pf-verified" style="--badge-bg: {% if profile_user.verification_level == 1 %}#1B9AF0{% elif profile_user.verification_level == 2 %}#2E7D32{% elif profile_user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified"><span class="material-symbols-outlined">check</span></span>
+              {% endif %}
+              {% if badge_info and badge_info.type != 'verified' %}
                 <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}">
                   <span class="material-symbols-outlined">{{ badge_info.icon }}</span>
                 </span>
@@ -171,14 +167,9 @@
             {% endif %}
 
             <!-- Student Subtitle / Role Headline -->
+            {% if not profile_user.is_bot and profile_user.username != 'neby' %}
             <p class="pf-card-headline">
-              {% if profile_user.is_bot or profile_user.username == 'neby' %}
-                <span class="pf-bot-tagline">
-                  <span class="material-symbols-outlined">auto_awesome</span>
-                  {% if agent_persona and agent_persona.tagline %}{{ agent_persona.tagline }}{% else %}Autonomous Agent{% endif %}
-                </span>
-              {% else %}
-                {% if profile_user.role == 'teacher' %}
+                {% if profile_user.headline %}{{ profile_user.headline }}{% elif profile_user.role == 'teacher' %}
                   Teacher{% if profile_user.teaching_subjects %}, {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'institution' %}
                   {% if profile_user.institution_type == 'school' %}School{% elif profile_user.institution_type == 'college' %}College{% elif profile_user.institution_type == 'academy' %}Academy{% else %}Institution{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
@@ -205,28 +196,6 @@
               {% endif %}
             </p>
 
-            {% if profile_user.is_bot or profile_user.username == 'neby' %}
-              <div class="neby-mood-bar">
-                <button type="button" class="neby-mood-pill" data-neby-react="wave">👋 Hi</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="wink">😉 Wink</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="love">❤️ Love</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="kiss">💋 Kiss</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="laugh">😆 Laugh</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="celebrate">🎉 Celebrate</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="cool">😎 Cool</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="surprised">😮 Wow</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="think">🤔 Think</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="read">📖 Read</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="listen">👂 Listen</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="talk">💬 Talk</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="success">✅ Done</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="oops">😅 Oops</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="sad">😢 Sad</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="dizzy">💫 Dizzy</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="sleep">😴 Sleepy</button>
-              </div>
-            {% endif %}
-
             {% comment %} The bio, with no heading over it. A one-paragraph "About" section
                inside a profile is a label for something the reader can already
                see. {% endcomment %}
@@ -245,7 +214,6 @@
                 {% endif %}
               {% endif %}
             </p>
-            {% include "web/_agent_persona_card.html" %}
 
             {% comment %} Where they are, where they study, when they arrived: one wrapped
                line of grey rather than three icon rows stacked vertically. {% endcomment %}
@@ -327,7 +295,7 @@
                 {% for link in social_links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}" data-link-id="{{ link.id }}" data-link-user-id="{{ profile_user.id }}" data-link-platform="{{ link.icon }}" data-link-url="{{ link.url }}">
                   {% if link.platform == 'website' and link.website_domain %}
-                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" data-fallback="inline-block">
+                    <img loading="lazy" decoding="async" src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" data-fallback="inline-block">
                     <span class="material-symbols-outlined" style="display:none;font-size:16px !important;">language</span>
                   {% else %}
                     <span class="material-symbols-outlined">{{ link.icon }}</span>
@@ -356,24 +324,16 @@
       <div class="profile-right-col">
         {% if profile_private %}
           <!-- Private Account Lock Placeholder -->
-          <div class="pf-card" style="text-align: center; padding: 64px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 350px; font-family: 'Poppins', sans-serif;">
-            <div style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--md-outline); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-              <span class="material-symbols-outlined" style="font-size: 36px; color: var(--md-on-surface-variant); opacity: 0.8;">lock</span>
-            </div>
-            <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 8px;">This Account is Private</h2>
-            <p style="font-size: 0.875rem; color: var(--md-on-surface-variant); max-width: 280px; margin: 0; line-height: 1.5;">
-              Follow this account to see their posts, replies, and resources.
-            </p>
+          <div class="pf-private">
+            <span class="pf-private-icon"><span class="material-symbols-outlined">lock</span></span>
+            <h2>This account is private</h2>
+            <p>Follow this account to see their posts, replies, and resources.</p>
           </div>
         {% else %}
           {% if profile_user.is_bot %}
           <!-- Bot: Try @neby CTA card -->
           <div class="pf-bot-cta-card">
             <div class="pf-bot-cta-content">
-              <div class="pf-bot-cta-eyebrow">
-                <span class="material-symbols-outlined">auto_awesome</span>
-                AI ASSISTANT
-              </div>
               <h3 class="pf-bot-cta-title">Try @neby in your next post</h3>
               <p class="pf-bot-cta-desc">
                 I read every post that mentions me. Drop <code>@neby</code> into a question
@@ -430,16 +390,13 @@
                     {% endif %}
                   </div>
                   <div class="post-card-meta">
-                    <div class="post-card-meta-top" style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                    <div class="post-card-meta-top">
                       <a href="{% url 'web:profile' username=profile_user.username %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ profile_user.display_name|default:profile_user.username }}</a>
                       {% if badge_info %}
                       <span class="role-badge role-badge-{{ badge_info.type }}" title="{{ badge_info.label }}"><span class="material-symbols-outlined">{{ badge_info.icon }}</span></span>
                       {% endif %}
-                      {% if is_authenticated and profile_user.id != user.id %}
-                      <button class="follow-btn-small {% if stats.is_following %}following{% else %}not-following{% endif %}" data-action="toggle-follow" data-user-id="{{ profile_user.id }}">{% if stats.is_following %}Following{% else %}Follow{% endif %}</button>
-                      {% endif %}
                     </div>
-                    <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
+                    <div class="post-card-meta-bottom">
                       <span class="post-card-cat neb-tag">#{{ post.category }}</span>
                       <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
                     </div>
@@ -635,7 +592,7 @@
                 {% if r.thumbnail_url or r.type == 'Image' %}
                 <div class="pf-res-image-preview">
                   <a href="{% url 'web:reader' resource_id=r.id %}">
-                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="" data-fallback="none">
+                    <img loading="lazy" decoding="async" src="{{ r.thumbnail_url|default:r.file_url }}" alt="" data-fallback="none">
                     <span class="pf-res-preview-badge">Preview</span>
                   </a>
                 </div>
@@ -722,7 +679,7 @@
                 <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
                   <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: var(--md-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                     {% if req.sender_photo %}
-                      <img src="{{ req.sender_photo }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                      <img loading="lazy" decoding="async" src="{{ req.sender_photo }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                     {% else %}
                       <span style="font-weight: 600; color: var(--md-on-primary);">{{ req.sender_display_name|slice:":1" }}</span>
                     {% endif %}
@@ -948,6 +905,7 @@
             </div>
           {% endif %}
 
+          {% if portfolio %}{% include "web/profile/_portfolio.html" %}{% endif %}
           <!-- Progress -->
           {% if profile_user.subjects and not profile_user.is_bot %}
           <div class="pf-card">
@@ -1470,7 +1428,7 @@ async function toggleFollowUser(uid) {
         return;
       }
       if (d.requested) {
-        btn.className = 'pf-btn pf-btn-outlined';
+        btn.className = 'pf-btn pf-btn-outlined is-requested';
         btn.innerHTML = `<span class="material-symbols-outlined">pending</span><span id="followText">Requested</span>`;
       } else {
         btn.className = d.is_following ? 'pf-btn pf-btn-outlined' : 'pf-btn pf-btn-filled';
@@ -1488,8 +1446,8 @@ async function toggleFollowUser(uid) {
 async function openFollowModal(type) {
   const modal = document.getElementById('followModal');
   document.getElementById('followModalTitle').textContent = type === 'followers' ? 'Followers' : 'Following';
-  document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--md-on-surface-variant);">Loading...</div>';
-  modal.classList.add('active');
+  document.getElementById('followModalBody').innerHTML = '<div class="follow-list-empty is-loading" aria-busy="true"><span></span><span></span><span></span></div>';
+  if (window.NebUI) NebUI.open(modal); else modal.hidden = false;
   try {
     const r = await fetch(`/api/users/{{ profile_user.id }}/${type}/`, { credentials:'same-origin' });
     const d = await r.json();
@@ -1508,18 +1466,23 @@ async function openFollowModal(type) {
         return `<a class="follow-list-user" href="/app/profile/${usernamePath}/"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><span class="follow-user-name">${name}</span><span class="follow-user-handle">@${uname}</span></div><span class="material-symbols-outlined follow-user-open">chevron_right</span></a>`;
       }).join('');
     } else {
-      body.innerHTML = '<div class="follow-list-empty">No users found</div>';
+      body.innerHTML = '<div class="follow-list-empty">' + (type === 'followers' ? 'No followers yet' : 'Not following anyone yet') + '</div>';
     }
-  } catch(e) { document.getElementById('followModalBody').innerHTML = '<div style="text-align:center;color:var(--md-error);padding:16px;">Failed to load</div>'; }
+  } catch(e) { document.getElementById('followModalBody').innerHTML = '<div class="follow-list-empty is-error">Could not load. Try again.</div>'; }
 }
-function closeFollowModal(ev) {
-  if (!ev || ev.target.id==='followModal' || ev.target.closest('.modal-close')) document.getElementById('followModal').classList.remove('active');
+function closeFollowModal() {
+  const modal = document.getElementById('followModal');
+  if (window.NebUI) NebUI.close(modal); else modal.hidden = true;
 }
 
 // Photo modal
-function openPhotoHistoryModal() { document.getElementById('photoHistoryModal')?.classList.add('active'); }
-function closePhotoHistoryModal(ev) {
-  if (!ev || ev.target.id==='photoHistoryModal' || ev.target.closest('.modal-close')) document.getElementById('photoHistoryModal')?.classList.remove('active');
+function openPhotoHistoryModal() {
+  const modal = document.getElementById('photoHistoryModal');
+  if (modal) { if (window.NebUI) NebUI.open(modal); else modal.hidden = false; }
+}
+function closePhotoHistoryModal() {
+  const modal = document.getElementById('photoHistoryModal');
+  if (modal) { if (window.NebUI) NebUI.close(modal); else modal.hidden = true; }
 }
 async function activatePastPhoto(photoId, photoUrl) {
   try {

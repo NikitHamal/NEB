@@ -14,7 +14,7 @@ Usage:
     python manage.py recalculate_counters --user neby
 """
 from django.core.management.base import BaseCommand
-from django.db.models import Count, F
+from django.db.models import Count
 
 from api.models import User, Post, Reply, PostLike, ReplyLike, Follow
 

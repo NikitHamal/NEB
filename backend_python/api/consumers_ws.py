@@ -58,7 +58,6 @@ except ImportError:  # Channels not installed yet
         def __init__(self, *args, **kwargs):
             pass
 
-from django.conf import settings
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
@@ -76,11 +75,6 @@ GRP_STUDY_SPACE_FMT = 'studyspace.{space_id}'
 
 def _is_authenticated(user):
     return bool(user and getattr(user, 'is_authenticated', False) and not getattr(user, 'is_locked', False))
-
-
-def _is_anonymous_allowed(channel: str) -> bool:
-    """Channels any user (logged in or not) can subscribe to."""
-    return channel in {'forum.public'}
 
 
 class _RateLimiter:

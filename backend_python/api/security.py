@@ -1359,7 +1359,6 @@ def extract_video_thumbnail_frame(video_storage_path):
     (missing ffmpeg, non-local storage, unreadable/short video). Purely
     best-effort; never raises.
     """
-    import shutil
     import subprocess
     import tempfile
 

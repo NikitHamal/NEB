@@ -1,0 +1,183 @@
+/* Sign in / create account / verify / reset (web/login.html + js/auth.js).
+   Fields and buttons are the welcome flow's .ob-input / .ob-btn (app-onboard.css), so the two
+   screens cannot drift. Flat tonal surfaces, finite radii, no shadows, no gradients. */
+
+.auth-page { background: var(--md-surface); }
+.auth-page main, .auth-page .site-main { padding: 0 !important; max-width: none !important; }
+
+.ax { min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 16px; padding: 16px; box-sizing: border-box; }
+.ax-side { display: flex; flex-direction: column; padding: 8px clamp(8px, 3vw, 40px) 24px; min-width: 0; align-items: flex-start; }
+.ax-brand { padding: 4px 0 0; }
+.ax { --x-field: var(--md-surface-container-lowest); --x-field-line: var(--md-outline-variant); }
+[data-theme="dark"] .ax { --x-field: var(--md-surface-container-high); --x-field-line: var(--md-outline); color-scheme: dark; }
+.ax-card { margin: auto 0; padding: 28px clamp(20px, 3.4vw, 32px) 32px; width: 100%; max-width: 460px; box-sizing: border-box; align-self: flex-start;
+  border-radius: 32px; background: var(--md-surface-container-low); }
+
+/* ---- mode switch ---- */
+.ax-seg { position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 5px; margin-bottom: 24px;
+  border-radius: 28px; background: var(--md-surface-container-highest); width: 100%; box-sizing: border-box; }
+.ax-seg.is-hidden { display: none; }
+.ax-seg button { position: relative; z-index: 1; min-height: 44px; border: 0; background: transparent; cursor: pointer;
+  font: 600 .95rem var(--md-font); color: var(--md-on-surface-variant); border-radius: 22px; transition: color .25s; }
+.ax-seg button[aria-selected="true"] { color: var(--md-on-primary-container); }
+.ax-seg-pill { position: absolute; z-index: 0; top: 5px; bottom: 5px; left: 0; border-radius: 22px; background: var(--md-primary-container);
+  transition: transform .55s var(--spring), width .55s var(--spring); }
+
+/* ---- panels ---- */
+.ax-panel { display: none; }
+.ax-panel.is-on { display: block; }
+.ax-panel.from-right { animation: axInR .5s var(--spring) both; }
+.ax-panel.from-left { animation: axInL .5s var(--spring) both; }
+@keyframes axInR { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes axInL { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+.ax-title { margin: 0 0 22px; font: 700 clamp(1.8rem, 3.6vw, 2.4rem)/1.1 var(--md-font-display); letter-spacing: -.01em; outline: none; }
+.ax-lead { margin: -10px 0 22px; color: var(--md-on-surface-variant); overflow-wrap: anywhere; }
+.ax-lead strong { color: var(--md-on-surface); }
+.ax-form { display: grid; gap: 4px; }
+.ax-form[hidden] { display: none; }
+.ax-reveal { margin-top: 26px; animation: obRise .55s var(--spring) both; }
+.ax-submit { width: 100%; margin-top: 18px; }
+.ax-error { margin: 10px 2px 0; min-height: 0; font-size: .88rem; font-weight: 500; color: var(--md-error); display: none; }
+.ax-error.on { display: block; animation: obRise .3s var(--spring) both; }
+.ob-input.has-error { border-color: var(--md-error); }
+.ax-link { justify-self: center; margin-top: 10px; padding: 8px 14px; border: 0; background: transparent; cursor: pointer; border-radius: 18px;
+  font: 600 .9rem var(--md-font); color: var(--md-primary); transition: background .2s, border-radius .35s var(--spring); }
+.ax-link:hover { background: var(--md-surface-container-highest); border-radius: 12px; }
+.ax-link:disabled { color: var(--md-on-surface-variant); cursor: default; background: transparent; }
+.ax-back { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 16px -10px; padding: 8px 14px 8px 10px; border: 0; background: transparent;
+  cursor: pointer; border-radius: 20px; font: 600 .9rem var(--md-font); color: var(--md-on-surface-variant); transition: background .2s, border-radius .35s var(--spring); }
+.ax-back:hover { background: var(--md-surface-container-highest); border-radius: 12px; }
+
+/* ---- password, username status, strength ---- */
+.ax-pass, .ax-status-wrap { position: relative; }
+.ax-pass .ob-input { padding-right: 56px; }
+.ax-eye { position: absolute; top: 7px; right: 8px; width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: transparent;
+  cursor: pointer; border-radius: 20px; color: var(--md-on-surface-variant); transition: background .2s, border-radius .35s var(--spring); }
+.ax-eye:hover { background: var(--md-surface-container-highest); border-radius: 12px; }
+.ax-status-wrap .ob-input { padding-right: 96px; }
+.ax-status { position: absolute; top: 50%; right: 16px; transform: translateY(-50%); font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 12px; opacity: 0; transition: opacity .25s; }
+.ax-status.ok { opacity: 1; background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.ax-status.bad { opacity: 1; background: var(--md-error-container, var(--md-surface-container-high)); color: var(--md-on-error-container, var(--md-error)); }
+.ax-meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 4px; }
+.ax-meter i { height: 6px; border-radius: 3px; background: var(--md-outline-variant); transition: background .3s; }
+.ax-meter[data-level="1"] i:nth-child(1) { background: var(--md-error); }
+.ax-meter[data-level="2"] i:nth-child(-n+2), .ax-meter[data-level="3"] i:nth-child(-n+3), .ax-meter[data-level="4"] i { background: var(--md-primary); }
+
+/* ---- code boxes ---- */
+.ax-otp { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.ax-otp input { width: 100%; box-sizing: border-box; height: 64px; text-align: center; font: 700 1.5rem var(--md-font-display); color: var(--md-on-surface);
+  border-radius: 18px; border: 1.5px solid var(--x-field-line); background: var(--x-field); padding: 0;
+  transition: border-color .2s, background .25s, border-radius .35s var(--spring), transform .3s var(--spring); }
+.ax-otp input:focus { outline: none; border-color: var(--md-primary); border-radius: 24px; transform: translateY(-3px); }
+.ax-otp input:focus { background: var(--x-field); }
+.ax-otp input.filled { background: var(--md-primary-container); border-color: transparent; color: var(--md-on-primary-container); }
+.ax-code { letter-spacing: .5em; text-align: center; font-weight: 700; }
+.ax-shake .ax-otp { animation: obShake .4s var(--ease-io); }
+
+/* ---- social ---- */
+.ax-or { display: flex; align-items: center; gap: 14px; margin: 26px 0 18px; color: var(--md-on-surface-variant); font-size: .85rem; }
+.ax-or::before, .ax-or::after { content: ""; flex: 1; height: 1px; background: var(--md-outline-variant); }
+.ax-or span { color: var(--md-on-surface-variant); }
+.ax-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ax-social-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; border-radius: 26px; text-decoration: none;
+  border: 1.5px solid var(--x-field-line); background: var(--x-field); color: var(--md-on-surface); font-weight: 600; font-size: .95rem;
+  transition: background .2s, border-radius .4s var(--spring), transform .3s var(--spring); }
+.ax-social-btn:hover { background: var(--md-surface-container-highest); border-radius: 18px; }
+.ax-social-btn:focus-visible { outline: 0; border-color: var(--md-primary); }
+.ax-social-btn:active { transform: scale(.97); }
+
+.ax-spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: axSpin .7s linear infinite; }
+@keyframes axSpin { to { transform: rotate(360deg); } }
+
+/* ---- art side: shapes that rearrange with the mode ---- */
+.ax-art { position: relative; overflow: hidden; border-radius: 44px; background: var(--md-primary-container); min-height: 480px; }
+.ax-shape { position: absolute; width: var(--w); height: var(--w); left: var(--l); top: var(--t);
+  transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg)) scale(var(--sc, 1));
+  transition: transform 1.1s var(--spring-soft); }
+.ax-shape > span { display: block; width: 100%; height: 100%; background: var(--c); animation: axFloat var(--d, 9s) ease-in-out infinite alternate; }
+@keyframes axFloat { from { transform: translateY(-10px) rotate(-5deg); } to { transform: translateY(12px) rotate(6deg); } }
+.ax-s1 { --w: 22%; --l: 12%; --t: 14%; --c: var(--md-tertiary-container); --d: 8s; }
+.ax-s2 { --w: 18%; --l: 66%; --t: 10%; --c: var(--md-secondary-container); --d: 10s; }
+.ax-s3 { --w: 20%; --l: 70%; --t: 58%; --c: var(--md-primary); --d: 7s; }
+.ax-s4 { --w: 24%; --l: 8%; --t: 62%; --c: var(--md-surface-container-lowest); --d: 11s; }
+.ax-s5 { --w: 12%; --l: 44%; --t: 6%; --c: var(--md-tertiary); --d: 6s; }
+.ax-s6 { --w: 14%; --l: 40%; --t: 80%; --c: var(--md-primary-fixed-dim); --d: 9s; }
+.ax[data-mode="signup"] .ax-s1 { --x: 90%; --y: 30%; --r: 40deg; --sc: 1.15; }
+.ax[data-mode="signup"] .ax-s2 { --x: -120%; --y: 60%; --r: -30deg; }
+.ax[data-mode="signup"] .ax-s3 { --x: -60%; --y: -50%; --r: 70deg; --sc: .9; }
+.ax[data-mode="signup"] .ax-s4 { --x: 110%; --y: -40%; --r: 25deg; --sc: 1.1; }
+.ax[data-mode="signup"] .ax-s5 { --x: -140%; --y: 380%; --sc: 1.5; }
+.ax[data-mode="signup"] .ax-s6 { --x: 60%; --y: -300%; --sc: 1.3; }
+.ax[data-mode="verify"] .ax-s1, .ax[data-mode="forgot"] .ax-s1 { --x: 150%; --y: 160%; --r: -50deg; --sc: .8; }
+.ax[data-mode="verify"] .ax-s2, .ax[data-mode="forgot"] .ax-s2 { --x: -150%; --y: 200%; --r: 60deg; --sc: 1.2; }
+.ax[data-mode="verify"] .ax-s3, .ax[data-mode="forgot"] .ax-s3 { --x: -100%; --y: 20%; --r: -20deg; --sc: 1.25; }
+.ax[data-mode="verify"] .ax-s4, .ax[data-mode="forgot"] .ax-s4 { --x: 140%; --y: -120%; --r: 50deg; --sc: .85; }
+.ax[data-mode="verify"] .ax-s5, .ax[data-mode="forgot"] .ax-s5 { --x: 200%; --y: 500%; --sc: 1.8; }
+.ax[data-mode="verify"] .ax-s6, .ax[data-mode="forgot"] .ax-s6 { --x: -60%; --y: -380%; --sc: 1.6; }
+.ax-core { position: absolute; left: 50%; top: 50%; width: 152px; height: 152px; margin: -76px 0 0 -76px; display: grid; place-items: center;
+  background: var(--md-surface-container-lowest); animation: axCore 14s linear infinite; }
+.ax-core img { width: 88px; height: 88px; animation: axCoreCounter 14s linear infinite; }
+@keyframes axCore { to { transform: rotate(360deg); } }
+@keyframes axCoreCounter { to { transform: rotate(-360deg); } }
+
+@media (max-width: 900px) {
+  .ax { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 0; }
+  .ax-art { display: none; }
+  .ax-side { padding: 16px 20px 24px; }
+  .ax-card { max-width: 480px; margin: 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ax *, .ax *::before, .ax *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ---- spam-folder note and other tonal hints ---- */
+.ax-note { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 18px; padding: 12px 14px; border-radius: 16px;
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-size: .88rem; font-weight: 500; line-height: 1.4; }
+.ax-note .material-symbols-outlined { flex: none; font-size: 20px; margin-top: 1px; }
+.ax-reveal > .ax-note { margin-top: 0; }
+.ax-lead { margin: -10px 0 16px; }
+
+/* ---- the browser's own autofill must not repaint the field in a light colour ---- */
+.ax .ob-input:-webkit-autofill, .ax .ob-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--md-on-surface); caret-color: var(--md-on-surface);
+  transition: background-color 600000s 0s, color 600000s 0s; }
+
+/* ---- dark: the art is a tonal surface with the brand tones as shapes, not a saturated slab ---- */
+[data-theme="dark"] .ax-art { background: var(--md-surface-container); }
+[data-theme="dark"] .ax-s1 { --c: var(--md-tertiary-container); }
+[data-theme="dark"] .ax-s2 { --c: var(--md-secondary-container); }
+[data-theme="dark"] .ax-s3 { --c: var(--md-primary-container); }
+[data-theme="dark"] .ax-s4 { --c: var(--md-surface-container-highest); }
+[data-theme="dark"] .ax-s5 { --c: var(--md-tertiary); }
+[data-theme="dark"] .ax-s6 { --c: var(--md-primary); }
+[data-theme="dark"] .ax-core { background: var(--md-surface-container-highest); }
+
+/* ---- sizes: roomy desktop, centred tablet, full-bleed phone ---- */
+@media (min-width: 1500px) {
+  .ax { grid-template-columns: minmax(0, 680px) minmax(0, 1fr); }
+  .ax-card { max-width: 500px; }
+}
+@media (max-width: 900px) {
+  .ax { min-height: 100dvh; }
+  .ax-side { align-items: stretch; padding: max(16px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom)); }
+  .ax-brand { display: flex; justify-content: center; }
+  .ax-card { margin: auto; padding: 28px 28px 32px; }
+}
+@media (max-width: 600px) {
+  .ax-side { padding: max(12px, env(safe-area-inset-top)) 16px max(20px, env(safe-area-inset-bottom)); }
+  .ax-brand { justify-content: flex-start; }
+  .ax-card { max-width: none; margin: 8px 0 0; padding: 20px 4px 24px; background: transparent; border-radius: 4px; }
+  .ax-title { margin-bottom: 18px; }
+  .ax-social { grid-template-columns: 1fr; }
+  .ax-otp { gap: 6px; }
+  .ax-otp input { height: 56px; border-radius: 16px; font-size: 1.35rem; }
+}
+@media (max-width: 360px) {
+  .ax-otp { gap: 4px; }
+  .ax-otp input { height: 50px; border-radius: 14px; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .ax-card { padding-top: 16px; padding-bottom: 20px; margin: 0 auto; }
+  .ax-seg { margin-bottom: 16px; }
+  .ax-title { margin-bottom: 12px; }
+}

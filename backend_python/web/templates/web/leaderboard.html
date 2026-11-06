@@ -7,58 +7,47 @@
 {% block og_description %}See top student contributors, helpful teachers, and active learners in Nepal on NEBians.{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
 
-{% block extra_css %}
-{% comment %} In the head, not in the body. A stylesheet found part-way down
-   the document is found after the browser has already painted, so the page
-   lays itself out twice on every load. {% endcomment %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-leaderboard.css' %}">
-{% endblock %}
-
 {% block content %}
-<div class="leaderboard-page-container">
-    <a href="{% url 'web:home' %}" class="back-link" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
-
-  <div class="leaderboard-page-header">
-    <span class="material-symbols-outlined" style="font-size:32px; color: var(--md-primary);">emoji_events</span>
-    <h1>Leaderboard</h1>
-  </div>
+<div class="lb-page">
+  {% url 'web:home' as back_href %}
+  {% include "web/partials/_back.html" with back_label="Back to Home" %}
+  <h1 class="lb-title">Leaderboard</h1>
 
   {% if contributors %}
-  <div class="leaderboard-list">
-    {% for contributor in contributors %}
-    <a href="{% url 'web:profile' username=contributor.username %}" class="leaderboard-card {% if forloop.counter <= 3 %}leaderboard-card-top{% endif %}">
-      <div class="leaderboard-rank-badge {% if forloop.counter == 1 %}rank-badge-1{% elif forloop.counter == 2 %}rank-badge-2{% elif forloop.counter == 3 %}rank-badge-3{% else %}rank-badge-default{% endif %}">
-        {{ forloop.counter }}
-      </div>
-      <div class="leaderboard-user-info">
-        <div class="leaderboard-avatar">
-          {% if contributor.photo_url %}
-          <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
-          <span class="leaderboard-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
-          {% else %}
-          <span class="leaderboard-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
-          {% endif %}
-        </div>
-        <div class="leaderboard-meta">
-          <span class="leaderboard-username">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
-          <span class="leaderboard-level">{{ contributor.level }}</span>
-        </div>
-      </div>
-      <div>
-        <span class="leaderboard-score">{{ contributor.formatted_score }}</span>
-        <span class="leaderboard-score-label">pts</span>
-      </div>
-    </a>
+  <ol class="lb-podium" data-count="{{ podium|length }}">
+    {% for c in podium %}
+    <li class="lb-pod lb-pod-{{ c.rank }}">
+      <a href="{% url 'web:profile' username=c.username %}" class="lb-pod-link{% if user and c.username == user.username %} is-me{% endif %}">
+        {% include "web/_lb_avatar.html" with c=c big=True %}
+        <span class="lb-pod-name">{{ c.display_name }}</span>
+        <span class="lb-pod-score">{{ c.formatted_score }}</span>
+        <span class="lb-pod-step"><span class="lb-pod-rank">{{ c.rank }}</span></span>
+      </a>
+    </li>
     {% endfor %}
-  </div>
+  </ol>
+
+  {% if rest %}
+  <ol class="lb-list" start="4">
+    {% for c in rest %}
+    <li>
+      <a href="{% url 'web:profile' username=c.username %}" class="lb-row{% if user and c.username == user.username %} is-me{% endif %}">
+        <span class="lb-rank">{{ c.rank }}</span>
+        {% include "web/_lb_avatar.html" with c=c %}
+        <span class="lb-who">
+          <span class="lb-name">{{ c.display_name }}{% if c.badgeInfo %}<span class="role-badge role-badge-{{ c.badgeInfo.type }}" title="{{ c.badgeInfo.label }}"><span class="material-symbols-outlined">{{ c.badgeInfo.icon }}</span></span>{% endif %}</span>
+          <span class="lb-meter" role="img" aria-label="{{ c.formatted_score }} points"><span style="width:{{ c.pct }}%"></span></span>
+        </span>
+        <span class="lb-score">{{ c.formatted_score }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
   {% else %}
-  <div class="empty-leaderboard">
-    <span class="material-symbols-outlined">emoji_events</span>
-    <h3>No contributors yet</h3>
-    <p>Be the first to contribute and appear here!</p>
+  <div class="lb-empty">
+    <span class="material-symbols-outlined">leaderboard</span>
+    <h2>No contributors yet</h2>
   </div>
   {% endif %}
 </div>

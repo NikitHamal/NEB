@@ -3,7 +3,6 @@
 //! "active indicator" that grows in with a short spring-like ease.
 use egui::{vec2, Align, Align2, Color32, Context, CursorIcon, Frame, Layout, Margin, Rect, Rounding, Sense, Stroke, Ui};
 
-use super::avatar::avatar;
 use super::icons::{self, Icon};
 use super::LayoutMode;
 use crate::env::Env;
@@ -36,7 +35,9 @@ pub fn study_entries() -> Vec<NavEntry> {
     vec![
         entry("Search", Icon::Search, Route::Search, "Ctrl+K"),
         entry("Bookmarks", Icon::Bookmark, Route::Bookmarks, "Ctrl+5"),
-        entry("Downloads", Icon::Download, Route::Downloads, "Ctrl+6"),
+        entry("Books", Icon::Article, Route::Books, "Ctrl+6"),
+        entry("People", Icon::User, Route::People, "Ctrl+7"),
+        entry("Offline", Icon::Download, Route::Downloads, "Ctrl+8"),
     ]
 }
 
@@ -72,7 +73,7 @@ fn wide_item(ui: &mut Ui, th: &Theme, e: &NavEntry, selected: bool, width: f32, 
     }
     ui.painter().rect_filled(rect, Rounding::same(26.0), p.ink.gamma_multiply(0.07 * hover * (1.0 - sel)));
     if resp.has_focus() {
-        ui.painter().rect_stroke(rect.expand(2.0), Rounding::same(28.0), Stroke::new(2.0, p.accent));
+        ui.painter().rect_stroke(rect.expand(2.0), Rounding::same(28.0), Stroke::new(2.0_f32, p.accent));
     }
     let col = if selected { p.on_secondary_container } else { p.ink_muted };
     let col = crate::theme::mix(col, p.ink, hover * 0.6);
@@ -102,7 +103,7 @@ fn stacked_item(ui: &mut Ui, th: &Theme, label: &str, icon: Icon, selected: bool
     }
     ui.painter().rect_filled(Rect::from_center_size(ind_c, ind_full), Rounding::same(16.0), p.ink.gamma_multiply(0.07 * hover * (1.0 - sel)));
     if resp.has_focus() {
-        ui.painter().rect_stroke(Rect::from_center_size(ind_c, ind_full).expand(2.0), Rounding::same(18.0), Stroke::new(2.0, p.accent));
+        ui.painter().rect_stroke(Rect::from_center_size(ind_c, ind_full).expand(2.0), Rounding::same(18.0), Stroke::new(2.0_f32, p.accent));
     }
     let col = if selected { p.on_secondary_container } else { p.ink_muted };
     icons::paint(ui.painter(), Rect::from_center_size(ind_c, vec2(24.0, 24.0)), icon, col);
@@ -119,15 +120,6 @@ fn stacked_item(ui: &mut Ui, th: &Theme, label: &str, icon: Icon, selected: bool
     resp.clicked()
 }
 
-fn section_label(ui: &mut Ui, th: &Theme, text: &str) {
-    ui.add_space(14.0);
-    ui.horizontal(|ui| {
-        ui.add_space(14.0);
-        ui.add(egui::Label::new(egui::RichText::new(text).font(fonts::medium(12.0)).color(th.p.ink_faint)).selectable(false));
-    });
-    ui.add_space(4.0);
-}
-
 pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
     let wide = env.layout == LayoutMode::Wide;
     let th = env.theme.clone();
@@ -136,7 +128,7 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
     egui::SidePanel::left("nav")
         .exact_width(width)
         .resizable(false)
-        .frame(Frame::none().fill(th.p.page).stroke(Stroke::new(1.0, th.p.hairline)).inner_margin(Margin::symmetric(if wide { 14.0 } else { 6.0 }, 16.0)))
+        .frame(Frame::none().fill(th.p.page).stroke(Stroke::new(1.0_f32, th.p.hairline)).inner_margin(Margin::symmetric(if wide { 14.0 } else { 6.0 }, 16.0)))
         .show(ctx, |ui| {
             let inner_w = width - if wide { 28.0 } else { 12.0 };
             ui.horizontal(|ui| {
@@ -145,6 +137,11 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                 if wide {
                     ui.add_space(4.0);
                     super::widgets::label(ui, egui::RichText::new("NEBians").font(fonts::bold(21.0)).color(th.p.ink));
+                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                        if super::theme_toggle::show(ui, &th).clicked() {
+                            env.act(crate::actions::Action::ToggleDark);
+                        }
+                    });
                 }
             });
             ui.add_space(if wide { 20.0 } else { 14.0 });
@@ -161,11 +158,7 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                     env.act(crate::actions::Action::Go(e.route.clone()));
                 }
             }
-            if wide {
-                section_label(ui, &th, "Study tools");
-            } else {
-                ui.add_space(8.0);
-            }
+            ui.add_space(if wide { 16.0 } else { 8.0 });
             for e in study_entries() {
                 let hit = if wide {
                     wide_item(ui, &th, &e, root == e.route, inner_w, 0)
@@ -188,6 +181,14 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                 }
                 ui.add_space(4.0);
                 account_chip(ui, env, &th, current, inner_w, wide);
+                if !wide {
+                    ui.add_space(4.0);
+                    ui.allocate_ui_with_layout(vec2(inner_w, 44.0), Layout::top_down(Align::Center), |ui| {
+                        if super::theme_toggle::show(ui, &th).clicked() {
+                            env.act(crate::actions::Action::ToggleDark);
+                        }
+                    });
+                }
             });
         });
 }
@@ -216,10 +217,11 @@ fn account_chip(ui: &mut Ui, env: &mut Env, th: &Theme, current: &Route, inner_w
     let hover = ui.ctx().animate_bool_with_time(resp.id.with("h"), resp.hovered(), 0.1);
     let selected = matches!(current, Route::Profile);
     let fill = if selected { th.p.secondary_container } else { th.p.card };
-    ui.painter().rect(rect, Rounding::same(22.0), fill, Stroke::new(1.0, th.p.hairline));
+    ui.painter().rect(rect, Rounding::same(22.0), fill, Stroke::new(1.0_f32, th.p.hairline));
     ui.painter().rect_filled(rect, Rounding::same(22.0), th.p.ink.gamma_multiply(0.06 * hover));
     let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect.shrink2(vec2(if wide { 10.0 } else { 0.0 }, 8.0))).layout(if wide { Layout::left_to_right(Align::Center) } else { Layout::top_down(Align::Center) }));
-    avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0);
+    let photo = env.store.s.session.as_ref().map(|s| s.photo_url.clone()).unwrap_or_default();
+    super::remote_image::avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0, &photo);
     if wide {
         child.vertical(|ui| {
             ui.spacing_mut().item_spacing.y = 0.0;
@@ -240,7 +242,7 @@ pub fn bottom_bar(ctx: &Context, env: &mut Env, current: &Route) {
     let unread = env.srv.unread;
     egui::TopBottomPanel::bottom("bottom_nav")
         .exact_height(BOTTOM_BAR_H)
-        .frame(Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).inner_margin(Margin::symmetric(4.0, 0.0)))
+        .frame(Frame::none().fill(th.p.card).stroke(Stroke::new(1.0_f32, th.p.hairline)).inner_margin(Margin::symmetric(4.0, 0.0)))
         .show(ctx, |ui| {
             let mut items = main_entries();
             items.push(entry("You", Icon::Person, Route::Profile, ""));

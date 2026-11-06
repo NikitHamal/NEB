@@ -44,7 +44,7 @@ fn hero(ui: &mut Ui, env: &mut Env) {
         let h = 50.0;
         let (rect, resp) = ui.allocate_exact_size(vec2(ui.available_width().min(640.0), h), Sense::click());
         let hover = ui.ctx().animate_bool_with_time(resp.id.with("h"), resp.hovered(), 0.12);
-        ui.painter().rect(rect, Rounding::same(999.0), th.p.card, Stroke::new(1.0, crate::theme::mix(th.p.hairline_strong, th.p.accent, hover)));
+        ui.painter().rect(rect, Rounding::same(999.0), th.p.card, Stroke::new(1.0_f32, crate::theme::mix(th.p.hairline_strong, th.p.accent, hover)));
         icons::paint(ui.painter(), egui::Rect::from_center_size(egui::pos2(rect.min.x + 26.0, rect.center().y), vec2(20.0, 20.0)), Icon::Search, th.p.ink_muted);
         ui.painter().text(egui::pos2(rect.min.x + 48.0, rect.center().y), egui::Align2::LEFT_CENTER, "Search notes, topics and question banks", fonts::regular(15.0), th.p.ink_faint);
         if !compact {
@@ -57,7 +57,7 @@ fn hero(ui: &mut Ui, env: &mut Env) {
             env.go(Route::Search);
         }
         ui.add_space(16.0);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             if widgets::button(ui, &th, "Open Library", BtnKind::Primary, Some(Icon::Library), None).clicked() {
                 env.go(Route::Library);
             }
@@ -74,14 +74,14 @@ fn hero(ui: &mut Ui, env: &mut Env) {
 fn quick_actions(ui: &mut Ui, env: &mut Env) {
     let th = env.theme.clone();
     let bm = env.store.s.bookmarks.len();
-    let pdfs = env.content.as_ref().map(|c| c.list_pdfs().len()).unwrap_or(0);
+    let books = env.manifest.as_ref().map(|m| m.books).unwrap_or(0);
     let items: Vec<(Icon, &str, String, Route)> = vec![
-        (Icon::Library, "Library", format!("{} chapters ready", env.total_chapters()), Route::Library),
-        (Icon::Bookmark, "Bookmarks", if bm == 0 { "Nothing saved yet".into() } else { format!("{bm} saved") }, Route::Bookmarks),
-        (Icon::Download, "Downloads", if pdfs == 0 { "Offline library".into() } else { format!("{pdfs} study book PDFs") }, Route::Downloads),
-        (Icon::Globe, "Web app", "Forum, Neby AI, Canvas".into(), Route::About),
+        (Icon::Library, "Library", format!("{} chapters", env.total_chapters()), Route::Library),
+        (Icon::Bookmark, "Bookmarks", if bm == 0 { "None saved yet".into() } else { format!("{bm} saved") }, Route::Bookmarks),
+        (Icon::Article, "Study books", if books == 0 { "PDF study books".into() } else { format!("{books} PDF books") }, Route::Books),
+        (Icon::User, "Account", format!("@{}", env.my_username()), Route::Account(crate::router::AccountTab::Profile)),
     ];
-    widgets::grid(ui, 210.0, spacing::GRID_GAP, items.len(), |ui, i, w| {
+    widgets::grid(ui, 180.0, spacing::GRID_GAP, items.len(), |ui, i, w| {
         let (icon, title, sub, route) = &items[i];
         let resp = widgets::card(ui, &th, vec2(w, 78.0), 14.0, |ui| {
             ui.horizontal(|ui| {
@@ -96,11 +96,7 @@ fn quick_actions(ui: &mut Ui, env: &mut Env) {
             });
         });
         if resp.clicked() {
-            if *icon == Icon::Globe {
-                env.open_url(crate::config::SITE_URL);
-            } else {
-                env.go(route.clone());
-            }
+            env.go(route.clone());
         }
     });
     ui.add_space(spacing::SECTION_GAP);

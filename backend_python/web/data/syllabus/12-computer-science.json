@@ -80,7 +80,7 @@
     "Database security"
    ],
    "stats": {
-    "words": 6093,
+    "words": 7665,
     "figures": 10,
     "examples": 4
    },
@@ -181,7 +181,7 @@
     "Topology"
    ],
    "stats": {
-    "words": 4991,
+    "words": 7843,
     "figures": 10,
     "examples": 3
    },
@@ -291,7 +291,7 @@
     "Event and event handler"
    ],
    "stats": {
-    "words": 3565,
+    "words": 4913,
     "figures": 9,
     "examples": 3
    },
@@ -393,7 +393,7 @@
     "Pointer"
    ],
    "stats": {
-    "words": 3415,
+    "words": 4776,
     "figures": 10,
     "examples": 3
    },
@@ -444,7 +444,7 @@
     "Polymorphism"
    ],
    "stats": {
-    "words": 3520,
+    "words": 5387,
     "figures": 7,
     "examples": 3
    },
@@ -513,7 +513,7 @@
     "System/Software Development Life Cycle"
    ],
    "stats": {
-    "words": 4864,
+    "words": 6496,
     "figures": 10,
     "examples": 5
    },
@@ -582,7 +582,7 @@
     "Internet of Things"
    ],
    "stats": {
-    "words": 4081,
+    "words": 7443,
     "figures": 9,
     "examples": 5
    },

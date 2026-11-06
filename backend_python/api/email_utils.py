@@ -39,29 +39,3 @@ def send_verification_email(email, code, username=None):
         return False
 
 
-def send_welcome_email(email, username=None):
-    """
-    Send a welcome email after successful verification.
-    """
-    subject = "Welcome to NEBians!"
-    greeting = f"Hi {username}," if username else "Hi,"
-    body = (
-        f"{greeting}\n\n"
-        f"Welcome to NEBians — your unified platform for NEB study resources, "
-        f"forum discussions, and collaborative learning.\n\n"
-        f"Get started by exploring resources, joining discussions, and completing your profile.\n\n"
-        f"— NEBians Team"
-    )
-    try:
-        send_mail(
-            subject,
-            body,
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-            fail_silently=False,
-        )
-        logger.info("send_welcome_email: sent to %s", email)
-        return True
-    except Exception as e:
-        logger.error("send_welcome_email: failed for %s: %s", email, e)
-        return False

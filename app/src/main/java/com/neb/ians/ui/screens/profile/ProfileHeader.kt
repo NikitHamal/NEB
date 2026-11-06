@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.profile
 
+import com.neb.ians.ui.components.rememberAvatarShape
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -124,7 +125,10 @@ fun ProfileHeader(
             ) {
                 Box(
                     modifier = Modifier
-                        .background(scheme.surface, CircleShape)
+                        .background(
+                            scheme.surface,
+                            if (profile.isBot) CircleShape else rememberAvatarShape(profile.displayName ?: profile.username)
+                        )
                         .padding(4.dp)
                 ) {
                     if (profile.isBot) {
@@ -139,7 +143,6 @@ fun ProfileHeader(
                             imageUrl = profile.photoUrl,
                             size = 84.dp,
                             modifier = Modifier
-                                .clip(CircleShape)
                                 .nebPressable(scale = 0.94f, onClick = onAvatarClick)
                         )
                     }

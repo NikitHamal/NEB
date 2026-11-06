@@ -133,6 +133,7 @@ def is_indexable_post(post: Post) -> bool:
 # on every request is a lie that teaches a crawler to ignore lastmod entirely.
 STATIC_PAGES = (
     ('/', 'daily', '1.0'),
+    ('/about/', 'monthly', '0.8'),
     ('/app/past-papers/', 'daily', '0.9'),
     ('/app/model-questions/', 'daily', '0.9'),
     ('/app/online-learning/', 'weekly', '0.8'),
@@ -383,11 +384,6 @@ def _profile_entries() -> Iterator[Dict[str, str]]:
             'priority': '0.5' if (user.contribution_score or 0) > 0 else '0.3',
             'lastmod': _to_lastmod(user.created_at),
         }
-
-
-def sitemap_index() -> Dict[str, int]:
-    """name -> entry count, for building the index without holding every URL."""
-    return {name: sum(1 for _ in entries) for name, entries in sitemap_groups().items()}
 
 
 def build_sitemap_xml(entries: Optional[Iterable[Dict[str, str]]] = None) -> str:

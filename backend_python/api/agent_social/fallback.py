@@ -152,9 +152,3 @@ def fallback_reply(post, persona_username=NEBY_USERNAME, target_username='', rep
     return (mention + body).replace('—', ', ').replace('--', ', ').strip()
 
 
-def fallback_like_reason(post):
-    return "Honest, specific, and useful to someone else who will search this later."
-
-
-def fallback_follow_reason(username):
-    return f"@{username} is showing up with real work, not noise."

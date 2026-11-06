@@ -4,6 +4,7 @@ from functools import lru_cache
 
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views.decorators.cache import cache_control
 
 from . import study_data, syllabus_data
@@ -35,6 +36,46 @@ def _and_list(items):
 def _unit_word(data):
     """Entrance books call their units chapters, as their PDFs do."""
     return "Unit" if data.get("kind", "school") == "school" else "Chapter"
+
+
+def crumb_pickers(data, study=None, kind=None, number=None):
+    """The breadcrumb doubles as the switcher: class, then subject, then the
+    chapter, bank or guide inside that subject. Each pick carries its own value so
+    the trigger hugs the current label instead of the longest sibling."""
+    grades = syllabus_data.index().get("grades", [])
+    entry = next((g for g in grades if g.get("grade") == data["grade"]), None)
+    word = _unit_word(data)
+
+    def pick(title, options, fallback):
+        return {"title": title, "value": next((o["label"] for o in options if o["current"]), fallback),
+                "options": options}
+
+    picks = [
+        pick("Choose class", [
+            {"url": reverse("web:syllabus_grade", args=[g["grade"]]),
+             "label": g.get("short") or g["grade"],
+             "current": g["grade"] == data["grade"]} for g in grades],
+            data.get("short") or data["grade"]),
+        pick("Choose subject", [
+            {"url": reverse("web:syllabus_subject", args=[data["grade"], s["subject"]]),
+             "label": s.get("name") or s["subject"],
+             "current": s["subject"] == data["subject"]}
+            for s in (entry or {}).get("subjects", [])], data["name"]),
+    ]
+    if study is not None:
+        docs = [
+            {"url": reverse("web:syllabus_chapter", args=[data["grade"], data["subject"], u["no"]]),
+             "label": "%s %s · %s" % (word, u["no"], u["title"]),
+             "current": kind == "unit" and number == u["no"]} for u in data["units"]]
+        docs += [
+            {"url": reverse("web:syllabus_bank", args=[data["grade"], data["subject"], b["no"]]),
+             "label": "Question bank %s" % b["no"],
+             "current": kind == "bank" and number == b["no"]} for b in study["banks"]]
+        if study.get("guide"):
+            docs.append({"url": reverse("web:syllabus_guide", args=[data["grade"], data["subject"]]),
+                         "label": "Exam guide", "current": kind == "guide"})
+        picks.append(dict(pick("Choose %s" % word.lower(), docs, "%s %s" % (word, number)), mod="doc"))
+    return {"crumb_picks": picks}
 
 
 def syllabus_hub(request, grade=None):
@@ -135,7 +176,7 @@ def syllabus_subject(request, grade, subject):
         syl_weight_unit="h" if school else "Qs",
         syl_unit_word=word,
         syl_read_min=sum(u.get("read_min", 0) for u in study["units"]),
-        syl_siblings=(syllabus_data.grade_entry(data["grade"]) or {}).get("subjects", []),
+        **crumb_pickers(data),
         seo_title=seo_title,
         seo_description=seo_description[:300],
         syllabus_course_json=ld_json(syllabus_course_schema(data, page_url)),
@@ -197,6 +238,7 @@ def _reader(request, grade, subject, doc, kind, number=None):
         doc_prev=prev_no,
         doc_next=next_no,
         doc_key="%s/%s/%s%s" % (data["grade"], subject, kind, number or ""),
+        **crumb_pickers(data, study, kind, number),
         seo_title=seo_title,
         seo_description=seo_description[:300],
         chapter_schema_json=ld_json(chapter_schema(data, doc, kind, number, page_url)),

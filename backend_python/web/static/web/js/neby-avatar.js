@@ -540,19 +540,6 @@
     }
   }
 
-  // Delegated CSP-compliant handler for reaction buttons
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-neby-react]');
-    if (btn) {
-      var mood = btn.getAttribute('data-neby-react');
-      var targetId = btn.getAttribute('data-neby-target') || 'profilePageNebyAvatar';
-      var targetEl = document.getElementById(targetId) || document.querySelector('[data-hero="true"]') || document.querySelector('[data-neby-avatar]');
-      if (targetEl && targetEl.__nebyInstance) {
-        targetEl.__nebyInstance.react(mood);
-      }
-    }
-  });
-
   window.NebyAvatar = {
     mount: createNebyInstance,
     initAll: initAll,

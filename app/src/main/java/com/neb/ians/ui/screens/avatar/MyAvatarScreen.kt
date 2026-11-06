@@ -179,8 +179,7 @@ private fun AvatarPreviewCard(uiState: MyAvatarUiState) {
             modifier = Modifier
                 .size(180.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surfaceContainerLowest)
-                .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape),
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest),
             contentAlignment = Alignment.Center
         ) {
             BlobatarImage(

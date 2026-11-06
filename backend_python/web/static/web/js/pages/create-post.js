@@ -1,0 +1,1062 @@
+(function() {
+  var MAX_IMAGES = 10;
+  var MAX_IMAGE_SIZE = 10 * 1024 * 1024;
+  var MAX_TOTAL_SIZE = 100 * 1024 * 1024;
+  var MAX_CONTENT = 20000;
+  var pendingImages = [];
+  var pendingAttachments = [];
+  var MAX_ATTACHMENTS = 4;
+  var pollVisible = false;
+  var submitting = false;
+
+  var titleInput = document.getElementById('cp-title');
+  var selectedCategory = '';
+  var categoryDisplay = document.getElementById('cp-category-display');
+  var categorySelected = document.getElementById('cp-category-selected');
+  var editorBody = document.getElementById('cp-body');
+  var charCount = document.getElementById('cp-char-count');
+  var errorDiv = document.getElementById('cp-error');
+  var submitBtn = document.getElementById('cp-submit');
+  var fileInput = document.getElementById('cp-file-input');
+  var mediaInput = document.getElementById('cp-media-input');
+  var imagesContainer = document.getElementById('cp-images');
+  var imagesGrid = document.getElementById('cp-images-grid');
+  var pollSection = document.getElementById('cp-poll-section');
+  var pollOptions = document.getElementById('cp-poll-options');
+  var previewContent = document.getElementById('cp-preview-content');
+
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function showError(msg) {
+    errorDiv.textContent = msg;
+    errorDiv.classList.add('visible');
+  }
+  function hideError() {
+    errorDiv.textContent = '';
+    errorDiv.classList.remove('visible');
+  }
+
+  function updateCharCount() {
+    var len = (function () {
+      if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function' && editorBody && editorBody.querySelector) {
+        try { return window.InlineMedia.serializeEditor(editorBody).length; } catch (_) {}
+      }
+      return (editorBody.textContent || '').length;
+    })();
+    charCount.textContent = len.toLocaleString() + ' / 20,000';
+    charCount.classList.toggle('warn', len > MAX_CONTENT * 0.9);
+  }
+  editorBody.addEventListener('input', updateCharCount);
+
+  function getContentText() {
+    if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function') {
+      try { return window.InlineMedia.serializeEditor(editorBody); } catch (_) {}
+    }
+    return editorBody.innerText || '';
+  }
+
+  function getContentHtml() {
+    return editorBody.innerHTML;
+  }
+
+  function formatText(before, after, placeholder) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var selectedText = range.toString();
+    var text = selectedText || placeholder;
+    var node = document.createTextNode(before + text + after);
+    range.deleteContents();
+    range.insertNode(node);
+    if (!selectedText) {
+      var newRange = document.createRange();
+      newRange.setStart(node, before.length);
+      newRange.setEnd(node, before.length + text.length);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+    }
+    editorBody.focus();
+    updateCharCount();
+  }
+
+  function insertBlock(tag) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var text = range.toString() || 'Text';
+    var node = document.createTextNode('\n' + tag + text + tag + '\n');
+    range.deleteContents();
+    range.insertNode(node);
+    editorBody.focus();
+    updateCharCount();
+  }
+
+  document.getElementById('cp-toolbar').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    editorBody.focus();
+    switch (action) {
+      case 'format-bold': formatText('**', '**', 'bold text'); break;
+      case 'format-italic': formatText('*', '*', 'italic text'); break;
+      case 'format-code': formatText('`', '`', 'code'); break;
+      case 'format-strikethrough': formatText('~~', '~~', 'text'); break;
+      case 'format-h2': insertBlock('## '); break;
+      case 'format-ul': formatText('\n- ', '', 'list item'); break;
+      case 'format-ol': formatText('\n1. ', '', 'list item'); break;
+      case 'format-blockquote': formatText('\n> ', '', 'quote'); break;
+      case 'format-link':
+        var sel = window.getSelection();
+        var range = sel.getRangeAt(0);
+        var linkText = range.toString() || 'Link text';
+        var url = prompt('Enter URL:', 'https://');
+        if (url) {
+          var node = document.createTextNode('[' + linkText + '](' + url + ')');
+          range.deleteContents();
+          range.insertNode(node);
+        }
+        break;
+      case 'format-math':
+        NebUI.open('cp-math');
+        break;
+    }
+  });
+
+  /* --- Category --- neb-choice.js owns the sheet; the answer arrives here.
+     .neb-field-trigger shows a single value, so it is painted by hand rather
+     than by NebChoice.paint(), which draws pills. */
+  document.getElementById('cp-category-hidden').addEventListener('change', function () {
+    selectedCategory = this.value.trim();
+    categorySelected.textContent = selectedCategory || 'Select a category';
+    categorySelected.classList.toggle('neb-field-trigger-placeholder', !selectedCategory);
+    categoryDisplay.classList.toggle('has-value', !!selectedCategory);
+  });
+
+  /* --- Math Formula Dialog ---
+     The scrim, Escape, the backdrop, the focus trap and the scroll lock are
+     NebUI's. What is left is the preview and what Insert does. */
+  var mathInput = document.getElementById('cp-math-input');
+  var mathPreview = document.getElementById('cp-math-preview');
+  var MATH_HINT = '<span class="cp-math-preview-hint">The formula will appear here</span>';
+
+  function renderMath() {
+    var latex = mathInput.value.trim();
+    if (!latex) { mathPreview.innerHTML = MATH_HINT; return; }
+    try {
+      mathPreview.innerHTML = katex.renderToString(latex, { throwOnError: false, displayMode: true });
+    } catch (e) {
+      mathPreview.innerHTML = '<span class="cp-math-preview-hint">That is not valid LaTeX yet.</span>';
+    }
+  }
+  mathInput.addEventListener('input', renderMath);
+
+  /* An empty box every time, and the caret already in it. */
+  document.getElementById('cp-math').addEventListener('neb:open', function () {
+    mathInput.value = '';
+    mathPreview.innerHTML = MATH_HINT;
+    mathInput.focus();
+  });
+
+  document.getElementById('cp-math-insert').addEventListener('click', function() {
+    var latex = mathInput.value.trim();
+    if (latex) {
+      editorBody.focus();
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0);
+      var node = document.createTextNode('$$' + latex + '$$');
+      range.deleteContents();
+      range.insertNode(node);
+      updateCharCount();
+    }
+    NebUI.close('cp-math');
+  });
+
+  document.querySelectorAll('.cp-math-key').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var latex = this.getAttribute('data-latex');
+      var pos = mathInput.selectionStart;
+      var val = mathInput.value;
+      mathInput.value = val.substring(0, pos) + latex + val.substring(pos);
+      mathInput.focus();
+      mathInput.setSelectionRange(pos + latex.length, pos + latex.length);
+      mathInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  document.querySelector('[data-action="attach-image"]').addEventListener('click', function() {
+    if (pendingImages.length >= MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      return;
+    }
+    fileInput.click();
+  });
+
+  document.querySelector('[data-action="attach-inline-image"]')?.addEventListener('click', function() {
+    var inlineInput = document.getElementById('cp-inline-file-input');
+    if (!inlineInput) return;
+    var chips = (window.InlineMedia && window.InlineMedia.extractIds) ? (window.InlineMedia.extractIds(editorBody.innerHTML || getContentText()) || window.InlineMedia.extractIds(getContentText())).length : (getContentText().match(/\[\[img:\d+\]\]/g) || []).length;
+    var fallbackChips = (getContentText().match(/\[\[img:\d+\]\]/g) || []).length;
+    if (Math.max(chips, fallbackChips) >= 8) { showError('Maximum 8 inline images per post'); return; }
+    inlineInput.click();
+  });
+  (function bindInlineImageEditor(){
+    var inlineInput = document.getElementById('cp-inline-file-input');
+    if (!inlineInput) return;
+    inlineInput.addEventListener('change', function(){
+      if (!window.InlineMedia) return;
+      var files = Array.from(inlineInput.files || []);
+      inlineInput.value = '';
+      files.forEach(function(file){
+        if (!file.type.match(/^image\//)) return;
+        if (file.size > MAX_IMAGE_SIZE) { showError(file.name + ' is too large (max 10 MB per image)'); return; }
+        var curChips = (window.InlineMedia.extractIds(getContentText())).length;
+        if (curChips >= 8) { showError('Maximum 8 inline images per post'); return; }
+        if (window.InlineMedia && editorBody._nebHandleFiles) {
+          // use InlineMedia's upload placeholder+queue via DOM insertion then replace with fake event
+          window.InlineMedia.bindEditor(editorBody);
+          editorBody._nebHandleFiles([file]);
+        } else {
+          // fallback: direct upload then insert chip
+          window.InlineMedia.upload(file, function(err, data){
+            if (err || !data || !data.id) { showError(err ? err.message : 'Inline image upload failed'); return; }
+            if (typeof window.InlineMedia !== 'undefined' && window.InlineMedia.bindEditor) window.InlineMedia.bindEditor(editorBody);
+            var chip = document.createElement('span');
+            chip.className = 'neb-chip neb-chip-editor';
+            chip.setAttribute('data-neb-img', data.id);
+            chip.setAttribute('data-neb-full', data.url);
+            chip.setAttribute('draggable', 'true');
+            chip.innerHTML = '<img src="' + data.thumbUrl + '" alt="Image"><button type="button" class="neb-chip-remove" data-neb-remove="' + data.id + '"><span class="material-symbols-outlined">close</span></button>';
+            editorBody.focus();
+            var sel = window.getSelection();
+            if (sel && sel.rangeCount) { var r = sel.getRangeAt(0); r.deleteContents(); r.insertNode(chip); }
+            else editorBody.appendChild(chip);
+            updateCharCount();
+          });
+        }
+        updateCharCount();
+      });
+    });
+    if (window.InlineMedia) { window.InlineMedia.bindEditor(editorBody); updateCharCount(); }
+    else { window.addEventListener('load', function(){ try{window.InlineMedia.bindEditor(editorBody);}catch(_){} }); }
+  })();
+
+  document.querySelector('[data-action="attach-media"]').addEventListener('click', function() {
+    if (pendingAttachments.length >= MAX_ATTACHMENTS) {
+      showError('Maximum ' + MAX_ATTACHMENTS + ' attachments per post');
+      return;
+    }
+    mediaInput.click();
+  });
+
+  var MEDIA_LIMITS = { video: 150 * 1024 * 1024, audio: 40 * 1024 * 1024, file: 30 * 1024 * 1024 };
+
+  function guessMediaKind(file) {
+    var ext = (file.name.split('.').pop() || '').toLowerCase();
+    if (['mp4', 'm4v', 'webm', 'mov'].indexOf(ext) >= 0) return 'video';
+    if (['mp3', 'm4a', 'aac', 'ogg', 'opus', 'wav', 'flac'].indexOf(ext) >= 0) return 'audio';
+    return 'file';
+  }
+
+  function mediaKindIcon(kind) {
+    return kind === 'video' ? 'videocam' : (kind === 'audio' ? 'music_note' : 'description');
+  }
+
+  function formatBytes(n) {
+    if (!n) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    if (n < 1024 * 1024 * 1024) return (n / 1024 / 1024).toFixed(1) + ' MB';
+    return (n / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  }
+
+  function renderMediaList() {
+    var list = document.getElementById('cp-media-list');
+    if (pendingAttachments.length === 0) { list.style.display = 'none'; list.innerHTML = ''; return; }
+    list.style.display = '';
+    list.innerHTML = '';
+    pendingAttachments.forEach(function(att, idx) {
+      var item = document.createElement('div');
+      item.className = 'cp-media-item';
+      var meta = att.uploading ? 'Uploading…' : (att.kind.charAt(0).toUpperCase() + att.kind.slice(1) + (att.size ? ' • ' + formatBytes(att.size) : ''));
+      item.innerHTML =
+        '<div class="cp-media-item-icon"><span class="material-symbols-outlined" style="font-size:18px">' + mediaKindIcon(att.kind) + '</span></div>' +
+        '<div class="cp-media-item-info">' +
+          '<div class="cp-media-item-name"></div>' +
+          '<div class="cp-media-item-meta">' + meta + '</div>' +
+          (att.uploading ? '<div class="cp-media-item-progress"><div class="cp-media-item-progress-fill"></div></div>' : '') +
+        '</div>' +
+        '<button type="button" class="cp-media-item-remove" title="Remove"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>';
+      item.querySelector('.cp-media-item-name').textContent = att.name;
+      item.querySelector('.cp-media-item-remove').addEventListener('click', function() {
+        pendingAttachments.splice(idx, 1);
+        renderMediaList();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  function setMediaProgress(att, pct) {
+    var list = document.getElementById('cp-media-list');
+    var idx = pendingAttachments.indexOf(att);
+    if (idx < 0) return;
+    var fill = list.children[idx] && list.children[idx].querySelector('.cp-media-item-progress-fill');
+    if (fill) fill.style.width = pct + '%';
+  }
+
+  function uploadMediaFile(file) {
+    var kind = guessMediaKind(file);
+    if (file.size > MEDIA_LIMITS[kind]) {
+      showError(kind === 'video' ? 'Videos are limited to 150 MB' : (kind === 'audio' ? 'Audio files are limited to 40 MB' : 'Attachments are limited to 30 MB'));
+      return;
+    }
+    if (kind === 'video' && pendingAttachments.some(function(a) { return a.kind === 'video'; })) {
+      showError('Maximum 1 video per post');
+      return;
+    }
+    var att = { name: file.name, kind: kind, size: file.size, uploading: true, url: '', mime: '' };
+    pendingAttachments.push(att);
+    renderMediaList();
+    var formData = new FormData();
+    formData.append('file', file);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/forum/uploads/');
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) setMediaProgress(att, Math.round(e.loaded / e.total * 100));
+    };
+    xhr.onload = function() {
+      att.uploading = false;
+      if (xhr.status === 201) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (data.ok && data.attachment) {
+            att.url = data.attachment.url;
+            att.kind = data.attachment.kind || att.kind;
+            att.name = data.attachment.name || att.name;
+            att.size = data.attachment.size || att.size;
+            att.mime = data.attachment.mime || '';
+            att.thumbnail_url = data.attachment.thumbnail_url || '';
+            hideError();
+            renderMediaList();
+            return;
+          }
+        } catch (e) {}
+      }
+      pendingAttachments.splice(pendingAttachments.indexOf(att), 1);
+      renderMediaList();
+      try {
+        var err = JSON.parse(xhr.responseText);
+        showError(err.error || ('Failed to upload ' + file.name));
+      } catch (e) {
+        showError('Failed to upload ' + file.name);
+      }
+    };
+    xhr.onerror = function() {
+      att.uploading = false;
+      pendingAttachments.splice(pendingAttachments.indexOf(att), 1);
+      renderMediaList();
+      showError('Network error uploading ' + file.name);
+    };
+    xhr.send(formData);
+  }
+
+  mediaInput.addEventListener('change', function() {
+    var files = Array.prototype.slice.call(mediaInput.files || []);
+    mediaInput.value = '';
+    files.forEach(function(file) {
+      if (pendingAttachments.length >= MAX_ATTACHMENTS) { showError('Maximum ' + MAX_ATTACHMENTS + ' attachments per post'); return; }
+      uploadMediaFile(file);
+    });
+  });
+
+  document.querySelector('[data-action="toggle-poll"]').addEventListener('click', function() {
+    pollVisible = !pollVisible;
+    pollSection.style.display = pollVisible ? '' : 'none';
+    if (pollVisible) {
+      pollSection.classList.add('active');
+    } else {
+      pollSection.classList.remove('active');
+    }
+  });
+
+  document.querySelector('[data-action="remove-poll"]').addEventListener('click', function() {
+    pollVisible = false;
+    pollSection.style.display = 'none';
+    pollSection.classList.remove('active');
+  });
+
+  var currentPollType = 'voting';
+
+  document.querySelectorAll('.cp-poll-type-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.cp-poll-type-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentPollType = btn.dataset.pollType;
+      document.getElementById('cp-poll-type-val').value = currentPollType;
+      updatePollTypeUI();
+    });
+  });
+
+  function updatePollTypeUI() {
+    var isMcq = currentPollType === 'mcq';
+    document.getElementById('cp-poll-mcq-settings').style.display = isMcq ? '' : 'none';
+    document.getElementById('cp-poll-explanation-row').style.display = isMcq ? '' : 'none';
+    document.getElementById('cp-poll-settings').style.display = isMcq ? 'none' : '';
+    pollOptions.querySelectorAll('.cp-poll-correct-toggle').forEach(function(t) {
+      t.style.display = isMcq ? '' : 'none';
+    });
+    if (!isMcq) {
+      pollOptions.querySelectorAll('.cp-poll-correct-toggle.correct').forEach(function(t) {
+        t.classList.remove('correct');
+        t.querySelector('.material-symbols-outlined').textContent = 'done';
+      });
+    }
+  }
+
+  document.querySelectorAll('#cp-poll-selection-toggle .cp-poll-setting-opt').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#cp-poll-selection-toggle .cp-poll-setting-opt').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var val = btn.dataset.value;
+      document.getElementById('cp-allow-multiple').value = val === 'multiple' ? 'true' : '';
+    });
+  });
+
+  pollOptions.addEventListener('click', function(e) {
+    var correctBtn = e.target.closest('[data-action="toggle-correct"]');
+    if (correctBtn) {
+      correctBtn.classList.toggle('correct');
+      var icon = correctBtn.querySelector('.material-symbols-outlined');
+      if (correctBtn.classList.contains('correct')) {
+        icon.textContent = 'done';
+        icon.style.fontVariationSettings = "'FILL' 1";
+      } else {
+        icon.textContent = 'done';
+        icon.style.fontVariationSettings = '';
+      }
+      return;
+    }
+    var btn = e.target.closest('[data-action="remove-poll-option"]');
+    if (!btn) return;
+    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
+    if (count <= 2) {
+      showError('Poll must have at least 2 options');
+      return;
+    }
+    hideError();
+    var option = btn.closest('.cp-poll-option');
+    option.remove();
+    var remaining = pollOptions.querySelectorAll('.cp-poll-option');
+    remaining.forEach(function(opt, i) {
+      opt.dataset.optionIndex = i;
+      opt.querySelector('.cp-poll-option-num').textContent = i + 1;
+      opt.querySelector('.cp-poll-option-input').placeholder = 'Option ' + (i + 1);
+    });
+  });
+
+  document.querySelector('[data-action="add-poll-option"]').addEventListener('click', function() {
+    var count = pollOptions.querySelectorAll('.cp-poll-option').length;
+    if (count >= 6) {
+      showError('Maximum 6 poll options');
+      return;
+    }
+    hideError();
+    var isMcq = currentPollType === 'mcq';
+    var div = document.createElement('div');
+    div.className = 'cp-poll-option';
+    div.dataset.optionIndex = count;
+    div.innerHTML = '<span class="cp-poll-option-num">' + (count + 1) + '</span>' +
+      '<input type="text" class="cp-poll-option-input" name="poll_option[]" placeholder="Option ' + (count + 1) + '" maxlength="200">' +
+      (isMcq ? '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer"><span class="material-symbols-outlined">done</span></button>' : '<button type="button" class="cp-poll-correct-toggle" data-action="toggle-correct" title="Mark as correct answer" style="display:none"><span class="material-symbols-outlined">done</span></button>') +
+      '<button type="button" class="cp-poll-option-remove" data-action="remove-poll-option"><span class="material-symbols-outlined">close</span></button>';
+    pollOptions.appendChild(div);
+  });
+
+  fileInput.addEventListener('change', function() {
+    var files = Array.from(fileInput.files);
+    if (pendingImages.length + files.length > MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      fileInput.value = '';
+      return;
+    }
+    var totalSize = pendingImages.reduce(function(s, img) { return s + img.originalSize; }, 0);
+    files.forEach(function(f) { totalSize += f.size; });
+    if (totalSize > MAX_TOTAL_SIZE) {
+      showError('Total image size cannot exceed 30 MB');
+      fileInput.value = '';
+      return;
+    }
+    hideError();
+    files.forEach(function(file) {
+      if (!file.type.match(/^image\/(jpeg|png|webp|gif)$/)) {
+        showError('Only JPG, PNG, WEBP, and GIF images are allowed');
+        return;
+      }
+      if (file.size > MAX_IMAGE_SIZE) {
+        showError(file.name + ' is too large (max 10 MB per image)');
+        return;
+      }
+      addImageFile(file);
+    });
+    fileInput.value = '';
+  });
+
+  editorBody.addEventListener('paste', function(e) {
+    var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    var hasImage = false;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        hasImage = true;
+        if (pendingImages.length >= MAX_IMAGES) {
+          showError('Maximum ' + MAX_IMAGES + ' images per post');
+          e.preventDefault();
+          return;
+        }
+        hideError();
+        addImageFile(items[i].getAsFile());
+      }
+    }
+    if (hasImage) e.preventDefault();
+  });
+
+  var dropZone = document.getElementById('cp-editor');
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var files = Array.from(e.dataTransfer.files);
+    var imageFiles = files.filter(function(f) { return f.type.indexOf('image') === 0; });
+    if (imageFiles.length === 0) return;
+    if (pendingImages.length + imageFiles.length > MAX_IMAGES) {
+      showError('Maximum ' + MAX_IMAGES + ' images per post');
+      return;
+    }
+    var totalSize = pendingImages.reduce(function(s, img) { return s + img.originalSize; }, 0);
+    imageFiles.forEach(function(f) { totalSize += f.size; });
+    if (totalSize > MAX_TOTAL_SIZE) {
+      showError('Total image size cannot exceed 30 MB');
+      return;
+    }
+    hideError();
+    imageFiles.forEach(function(file) { addImageFile(file); });
+  });
+
+  function compressImage(file, callback) {
+    var ext = file.name.split('.').pop().toLowerCase();
+    var compressible = ['jpg', 'jpeg', 'png', 'webp', 'bmp'];
+    if (compressible.indexOf(ext) === -1 && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp') {
+      callback(file);
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var maxDim = 2000;
+        var w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        var mimeType = 'image/jpeg';
+        var quality = 0.82;
+        if (file.type === 'image/png') { mimeType = 'image/png'; quality = undefined; }
+        else if (file.type === 'image/webp') { mimeType = 'image/webp'; quality = 0.85; }
+        canvas.toBlob(function(blob) {
+          if (blob && blob.size < file.size) {
+            var compressed = new File([blob], file.name.replace(/\.[^.]+$/, mimeType === 'image/png' ? '.png' : mimeType === 'image/webp' ? '.webp' : '.jpg'), { type: mimeType, lastModified: Date.now() });
+            callback(compressed);
+          } else {
+            callback(file);
+          }
+        }, mimeType, quality);
+      };
+      img.onerror = function() { callback(file); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { callback(file); };
+    reader.readAsDataURL(file);
+  }
+
+  function addImageFile(file) {
+    if (pendingImages.length >= MAX_IMAGES) return;
+    hideError();
+    var thumbUrl = URL.createObjectURL(file);
+    var imgItem = { file: null, originalFile: file, thumbUrl: thumbUrl, originalSize: file.size, compressed: false };
+    pendingImages.push(imgItem);
+    renderImageThumbs();
+    compressImage(file, function(compressed) {
+      imgItem.file = compressed;
+      imgItem.compressed = true;
+      var savings = compressed.size < file.size ? Math.round((1 - compressed.size / file.size) * 100) : 0;
+      if (savings > 0) {
+        var sizeLabel = document.getElementById('cp-img-info-' + (pendingImages.length - 1));
+        if (sizeLabel) sizeLabel.textContent = formatSize(compressed.size) + ' (saved ' + savings + '%)';
+      }
+    });
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  function renderImageThumbs() {
+    imagesGrid.innerHTML = '';
+    if (pendingImages.length === 0) {
+      imagesContainer.style.display = 'none';
+      return;
+    }
+    imagesContainer.style.display = '';
+    pendingImages.forEach(function(img, i) {
+      var thumb = document.createElement('div');
+      thumb.className = 'cp-image-thumb';
+      var imgEl = document.createElement('img');
+      imgEl.src = img.thumbUrl;
+      thumb.appendChild(imgEl);
+      var info = document.createElement('div');
+      info.className = 'cp-image-thumb-info';
+      info.id = 'cp-img-info-' + i;
+      info.textContent = formatSize(img.originalSize);
+      thumb.appendChild(info);
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'cp-image-thumb-remove';
+      removeBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+      removeBtn.addEventListener('click', function() {
+        URL.revokeObjectURL(pendingImages[i].thumbUrl);
+        pendingImages.splice(i, 1);
+        renderImageThumbs();
+      });
+      thumb.appendChild(removeBtn);
+      imagesGrid.appendChild(thumb);
+    });
+  }
+
+  var previewVisible = false;
+  document.querySelector('[data-action="toggle-preview"]').addEventListener('click', function() {
+    previewVisible = !previewVisible;
+    previewContent.classList.toggle('visible', previewVisible);
+    if (previewVisible) renderPreview();
+  });
+
+  function renderMarkdown(text) {
+    var hasInline = window.InlineMedia && text && text.indexOf('[[img:') >= 0;
+    if (hasInline && window.InlineMedia && window.InlineMedia.splitRender) {
+      return window.InlineMedia.splitRender(text, function (piece) {
+        return _renderMarkdownBase(piece, false);
+      });
+    }
+    return _renderMarkdownBase(text, false);
+  }
+  function _renderMarkdownBase(text) {
+    text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*([^*]+?)\*/g, '<em>$1</em>');
+    text = text.replace(/~~(.+?)~~/g, '<del>$1</del>');
+    text = text.replace(/`([^`]+?)`/g, '<code>$1</code>');
+    text = text.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+    text = text.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+    text = text.replace(/\n/g, '<br>');
+    return text;
+  }
+
+  function renderPreview() {
+    var title = titleInput.value.trim() || 'Untitled';
+    var content = getContentText().trim();
+    var contentHtml = content ? renderMarkdown(content) : '<span style="color:var(--md-on-surface-variant)">No content yet</span>';
+    var category = selectedCategory || 'General';
+    var userName = document.querySelector('.topbar-user-name') ? document.querySelector('.topbar-user-name').textContent.trim() : 'You';
+    var userPhoto = document.querySelector('.topbar-avatar img') ? document.querySelector('.topbar-avatar img').src : '';
+    var avatarHtml = userPhoto
+      ? '<img src="' + escapeHtml(userPhoto) + '" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover">'
+      : '<span style="width:40px;height:40px;border-radius:50%;background:var(--md-primary);color:var(--md-on-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem">' + escapeHtml(userName.charAt(0).toUpperCase()) + '</span>';
+
+    var html = '<div class="cp-preview-post">';
+    html += '<div class="cp-preview-post-header">';
+    html += '<div class="cp-preview-avatar">' + avatarHtml + '</div>';
+    html += '<div class="cp-preview-meta">';
+    html += '<div class="cp-preview-meta-top"><span class="cp-preview-author">' + escapeHtml(userName) + '</span>';
+    html += '<a class="cp-preview-category" href="#">' + escapeHtml(category) + '</a>';
+    html += '</div>';
+    html += '<div class="cp-preview-time">just now</div>';
+    html += '</div></div>';
+    html += '<h2 class="cp-preview-title">' + escapeHtml(title) + '</h2>';
+    html += '<div class="cp-preview-body">' + contentHtml + '</div>';
+
+    if (pendingImages.length > 0) {
+      html += '<div class="cp-preview-images">';
+      if (pendingImages.length === 1) {
+        html += '<div class="cp-preview-image-single"><img src="' + pendingImages[0].thumbUrl + '" alt="Preview"></div>';
+      } else if (pendingImages.length === 2) {
+        html += '<div class="cp-preview-image-grid cp-preview-image-grid-2">';
+        pendingImages.forEach(function(img) { html += '<img src="' + img.thumbUrl + '" alt="Preview">'; });
+        html += '</div>';
+      } else {
+        html += '<div class="cp-preview-image-grid cp-preview-image-grid-3">';
+        pendingImages.forEach(function(img) { html += '<img src="' + img.thumbUrl + '" alt="Preview">'; });
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    if (pollVisible) {
+      var pollQuestion = document.getElementById('cp-poll-question').value.trim();
+      var pollType = currentPollType;
+      var optInputs = pollOptions.querySelectorAll('.cp-poll-option-input');
+      var opts = [];
+      optInputs.forEach(function(input) {
+        var v = input.value.trim();
+        if (v) opts.push(v);
+      });
+      if (pollQuestion || opts.length > 0) {
+        html += '<div class="cp-preview-poll">';
+        html += '<div class="cp-preview-poll-badge">';
+        html += '<span class="material-symbols-outlined" style="font-size:14px">' + (pollType === 'mcq' ? 'quiz' : 'how_to_vote') + '</span>';
+        html += (pollType === 'mcq' ? 'MCQ Quiz' : 'Poll');
+        html += '</div>';
+        if (pollQuestion) html += '<div class="cp-preview-poll-question">' + escapeHtml(pollQuestion) + '</div>';
+        html += '<div class="cp-preview-poll-options">';
+        opts.forEach(function(opt) {
+          html += '<div class="cp-preview-poll-option"><span class="cp-preview-poll-option-label">' + escapeHtml(opt) + '</span></div>';
+        });
+        html += '</div></div>';
+      }
+    }
+
+    html += '<div class="cp-preview-actions">';
+    html += '<span class="cp-preview-action"><span class="material-symbols-outlined" style="font-size:16px">thumb_up</span> 0</span>';
+    html += '<span class="cp-preview-action"><span class="material-symbols-outlined" style="font-size:16px">chat_bubble_outline</span> 0</span>';
+    html += '</div>';
+    html += '</div>';
+
+    previewContent.innerHTML = html;
+    try {
+      renderMathInElement(previewContent, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\(', right: '\\)', display: false}
+        ]
+      });
+    } catch (e) {}
+  }
+
+  function uploadImagesSequentially(callback) {
+    if (pendingImages.length === 0) {
+      callback([]);
+      return;
+    }
+    var urls = [];
+    var overlay = document.getElementById('cp-upload-overlay');
+    var progressFill = document.getElementById('cp-upload-progress');
+    var uploadTitle = document.getElementById('cp-upload-title');
+    var uploadDetail = document.getElementById('cp-upload-detail');
+    overlay.style.display = '';
+    progressFill.style.width = '0%';
+    uploadTitle.textContent = 'Uploading images';
+    var total = pendingImages.length;
+    var completed = 0;
+
+    function uploadNext(index) {
+      if (index >= total) {
+        overlay.style.display = 'none';
+        callback(urls);
+        return;
+      }
+      var img = pendingImages[index];
+      var fileToUpload = img.file || img.originalFile;
+      uploadDetail.textContent = 'Uploading ' + (index + 1) + ' of ' + total + '...';
+      var formData = new FormData();
+      formData.append('image', fileToUpload);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/ajax/post/upload-image/');
+      xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          var pct = ((completed + e.loaded / e.total) / total) * 100;
+          progressFill.style.width = pct + '%';
+        }
+      };
+      xhr.onload = function() {
+        completed++;
+        progressFill.style.width = (completed / total * 100) + '%';
+        if (xhr.status === 200) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            urls.push(data.url);
+          } catch (e) {
+            overlay.style.display = 'none';
+            showError('Failed to upload image ' + (index + 1));
+            callback(null);
+            return;
+          }
+        } else {
+          overlay.style.display = 'none';
+          try {
+            var err = JSON.parse(xhr.responseText);
+            showError(err.error || 'Failed to upload image ' + (index + 1));
+          } catch (e) {
+            showError('Failed to upload image ' + (index + 1));
+          }
+          callback(null);
+          return;
+        }
+        uploadNext(index + 1);
+      };
+      xhr.onerror = function() {
+        overlay.style.display = 'none';
+        showError('Network error uploading image ' + (index + 1));
+        callback(null);
+      };
+      xhr.send(formData);
+    }
+    uploadNext(0);
+  }
+
+  submitBtn.addEventListener('click', function() {
+    if (submitting) return;
+    hideError();
+    var title = titleInput.value.trim();
+    var content = getContentText().trim();
+    var category = selectedCategory;
+    if (!title) { showError('Please enter a title'); titleInput.focus(); return; }
+    if (!content) { showError('Please enter some content'); editorBody.focus(); return; }
+    if (!category) { showError('Please select a category'); return; }
+    if (content.length > MAX_CONTENT) { showError('Content is too long (max 20,000 characters)'); return; }
+    if (pendingAttachments.some(function(a) { return a.uploading; })) { showError('Please wait for attachments to finish uploading'); return; }
+
+    for (var ci = 0; ci < pendingImages.length; ci++) {
+      if (!pendingImages[ci].compressed && !pendingImages[ci].file) {
+        showError('Please wait for image compression to finish');
+        return;
+      }
+    }
+
+    var pollData = null;
+    if (pollVisible) {
+      var pollQuestion = document.getElementById('cp-poll-question').value.trim();
+      var optInputs = pollOptions.querySelectorAll('.cp-poll-option-input');
+      var options = [];
+      optInputs.forEach(function(input, i) {
+        var v = input.value.trim();
+        if (v) {
+          var optEl = input.closest('.cp-poll-option');
+          var isCorrect = optEl && optEl.querySelector('.cp-poll-correct-toggle.correct') ? true : false;
+          options.push({ text: v, is_correct: isCorrect, index: i });
+        }
+      });
+      if (options.length < 2) {
+        showError('Poll must have at least 2 non-empty options');
+        return;
+      }
+      if (options.length > 6) {
+        showError('Poll can have at most 6 options');
+        return;
+      }
+      if (currentPollType === 'mcq' && !options.some(function(o) { return o.is_correct; })) {
+        showError('MCQ quiz must have at least one correct answer');
+        return;
+      }
+      pollData = {
+        question: pollQuestion,
+        poll_type: currentPollType,
+        allow_multiple: document.getElementById('cp-allow-multiple').value === 'true',
+        explanation: document.getElementById('cp-poll-explanation').value.trim(),
+        duration_ms: parseInt(document.getElementById('cp-poll-duration').value) || 0,
+        options: options
+      };
+    }
+
+    submitting = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading...';
+
+    uploadImagesSequentially(function(imageUrls) {
+      if (imageUrls === null) {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        return;
+      }
+      submitBtn.textContent = 'Posting...';
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/ajax/post/');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+      xhr.onload = function() {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        if (xhr.status === 201) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            if (data.id) {
+              window.location.href = '/app/forum/post/' + data.id + '/';
+              return;
+            }
+          } catch (e) {}
+        }
+        try {
+          var err = JSON.parse(xhr.responseText);
+          showError(err.error || 'Failed to create post');
+        } catch (e) {
+          showError('Failed to create post');
+        }
+      };
+      xhr.onerror = function() {
+        submitting = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Post Discussion';
+        showError('Network error. Please try again.');
+      };
+      xhr.send(JSON.stringify({
+        title: title,
+        content: content,
+        category: category,
+        images: imageUrls,
+        poll: pollData,
+        isAnonymous: document.getElementById('cp-anonymous').checked,
+        attachments: pendingAttachments.filter(function(a) { return !a.uploading && a.url; }).map(function(a) {
+          return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime,
+                   thumbnail_url: a.thumbnail_url || '' };
+        })
+      }));
+    });
+  });
+
+  var mentionDropdown = null;
+  var mentionItems = [];
+  var mentionSelectedIndex = -1;
+
+  editorBody.addEventListener('input', function(e) {
+    updateCharCount();
+    var text = editorBody.textContent;
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var node = range.startContainer;
+    var offset = range.startOffset;
+    var textBefore = node.textContent.substring(0, offset);
+    var atMatch = textBefore.match(/@(\w{2,})$/);
+    if (!atMatch) { closeMentionDropdown(); return; }
+    var query = atMatch[1];
+    fetch('/ajax/user-search/?q=' + encodeURIComponent(query))
+      .then(function(r) { return r.json(); })
+      .then(function(users) {
+        if (!users.length) { closeMentionDropdown(); return; }
+        showMentionDropdown(users);
+      })
+      .catch(function() { closeMentionDropdown(); });
+  });
+
+  editorBody.addEventListener('keydown', function(e) {
+    if (!mentionDropdown || !mentionDropdown.classList.contains('open')) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      mentionSelectedIndex = Math.min(mentionSelectedIndex + 1, mentionItems.length - 1);
+      highlightMentionItem();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      mentionSelectedIndex = Math.max(mentionSelectedIndex - 1, 0);
+      highlightMentionItem();
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      selectMentionItem(mentionSelectedIndex);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      closeMentionDropdown();
+    }
+  });
+
+  editorBody.addEventListener('blur', function() {
+    setTimeout(closeMentionDropdown, 200);
+  });
+
+  function showMentionDropdown(users) {
+    if (!mentionDropdown) {
+      mentionDropdown = document.createElement('div');
+      mentionDropdown.className = 'cp-mention-dropdown';
+      document.body.appendChild(mentionDropdown);
+    }
+    mentionItems = users;
+    mentionSelectedIndex = 0;
+    var html = '';
+    users.forEach(function(u, i) {
+      var avatarHtml = u.photoUrl
+        ? '<img src="' + escapeHtml(u.photoUrl) + '" alt="" data-fallback="flex"><span class="cp-mention-item-letter" style="display:none;">' + escapeHtml(u.displayName.charAt(0)) + '</span>'
+        : '<span class="cp-mention-item-letter">' + escapeHtml(u.displayName.charAt(0)) + '</span>';
+      html += '<div class="cp-mention-item' + (i === 0 ? ' selected' : '') + '" data-index="' + i + '" data-mousedown-action="select-mention-item" data-hover-action="hover-mention-item">';
+      html += '<div class="cp-mention-item-avatar">' + avatarHtml + '</div>';
+      html += '<div><div class="cp-mention-item-name">' + escapeHtml(u.displayName) + '</div>';
+      html += '<div class="cp-mention-item-username">@' + escapeHtml(u.username) + '</div></div>';
+      html += '</div>';
+    });
+    mentionDropdown.innerHTML = html;
+    mentionDropdown.classList.add('open');
+    var rect = editorBody.getBoundingClientRect();
+    var dh = mentionDropdown.scrollHeight || 200;
+    mentionDropdown.style.top = (rect.top + window.scrollY - dh - 4) + 'px';
+    mentionDropdown.style.left = (rect.left + window.scrollX) + 'px';
+    mentionDropdown.style.width = Math.min(280, rect.width) + 'px';
+  }
+
+  function highlightMentionItem() {
+    if (!mentionDropdown) return;
+    var items = mentionDropdown.querySelectorAll('.cp-mention-item');
+    items.forEach(function(item, i) {
+      item.classList.toggle('selected', i === mentionSelectedIndex);
+    });
+  }
+
+  function selectMentionItem(index) {
+    if (!mentionDropdown || !mentionItems[index]) return;
+    var username = mentionItems[index].username;
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var node = range.startContainer;
+    var offset = range.startOffset;
+    var textBefore = node.textContent.substring(0, offset);
+    var atMatch = textBefore.match(/@\w*$/);
+    if (!atMatch) { closeMentionDropdown(); return; }
+    var atStart = offset - atMatch[0].length;
+    node.textContent = node.textContent.substring(0, atStart) + '@' + username + ' ' + node.textContent.substring(offset);
+    var newOffset = atStart + username.length + 2;
+    var newRange = document.createRange();
+    newRange.setStart(node, newOffset);
+    newRange.setEnd(node, newOffset);
+    sel.removeAllRanges();
+    sel.addRange(newRange);
+    closeMentionDropdown();
+  }
+
+  function closeMentionDropdown() {
+    if (mentionDropdown) {
+      mentionDropdown.classList.remove('open');
+      mentionItems = [];
+      mentionSelectedIndex = -1;
+    }
+  }
+
+  document.addEventListener('mousedown', function(e) {
+    var el = e.target.closest('[data-mousedown-action="select-mention-item"]');
+    if (el) { e.preventDefault(); selectMentionItem(parseInt(el.dataset.index)); }
+  });
+  document.addEventListener('mouseover', function(e) {
+    var el = e.target.closest('[data-hover-action="hover-mention-item"]');
+    if (el) { mentionSelectedIndex = parseInt(el.dataset.index); highlightMentionItem(); }
+  });
+})();

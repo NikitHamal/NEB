@@ -69,7 +69,7 @@
     "Principle of homogeneity"
    ],
    "stats": {
-    "words": 7258,
+    "words": 7943,
     "figures": 3,
     "examples": 8
    },
@@ -124,7 +124,7 @@
     "Principle of conservation of linear momentum"
    ],
    "stats": {
-    "words": 6923,
+    "words": 7574,
     "figures": 3,
     "examples": 6
    },
@@ -171,7 +171,7 @@
     "Angular momentum"
    ],
    "stats": {
-    "words": 5542,
+    "words": 6318,
     "figures": 2,
     "examples": 5
    },
@@ -221,7 +221,7 @@
     "Bernoulli's theorem"
    ],
    "stats": {
-    "words": 6370,
+    "words": 7121,
     "figures": 3,
     "examples": 5
    },
@@ -271,7 +271,7 @@
     "Simple harmonic motion"
    ],
    "stats": {
-    "words": 6111,
+    "words": 6846,
     "figures": 4,
     "examples": 5
    },
@@ -317,7 +317,7 @@
     "Gravitational potential"
    ],
    "stats": {
-    "words": 6409,
+    "words": 7134,
     "figures": 4,
     "examples": 5
    },
@@ -365,7 +365,7 @@
     "Hooke's law"
    ],
    "stats": {
-    "words": 5804,
+    "words": 6480,
     "figures": 4,
     "examples": 6
    },
@@ -411,7 +411,7 @@
     "Black body"
    ],
    "stats": {
-    "words": 6268,
+    "words": 6936,
     "figures": 4,
     "examples": 4
    },
@@ -466,7 +466,7 @@
     "Triple point"
    ],
    "stats": {
-    "words": 8478,
+    "words": 9137,
     "figures": 4,
     "examples": 7
    },
@@ -512,7 +512,7 @@
     "Entropy"
    ],
    "stats": {
-    "words": 7567,
+    "words": 8295,
     "figures": 4,
     "examples": 6
    },
@@ -565,7 +565,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 8298,
+    "words": 9031,
     "figures": 5,
     "examples": 7
    },
@@ -613,7 +613,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7904,
+    "words": 8625,
     "figures": 5,
     "examples": 6
    },
@@ -658,7 +658,7 @@
     "Coherent sources"
    ],
    "stats": {
-    "words": 7700,
+    "words": 8474,
     "figures": 4,
     "examples": 9
    },
@@ -709,7 +709,7 @@
     "Kirchhoff's laws"
    ],
    "stats": {
-    "words": 7736,
+    "words": 8534,
     "figures": 5,
     "examples": 6
    },
@@ -752,7 +752,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7270,
+    "words": 7960,
     "figures": 4,
     "examples": 7
    },
@@ -803,7 +803,7 @@
     "Lenz's law"
    ],
    "stats": {
-    "words": 7018,
+    "words": 7779,
     "figures": 5,
     "examples": 8
    },
@@ -846,7 +846,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7538,
+    "words": 8142,
     "figures": 4,
     "examples": 4
    },
@@ -891,7 +891,7 @@
     "Work function"
    ],
    "stats": {
-    "words": 7213,
+    "words": 7901,
     "figures": 4,
     "examples": 6
    },
@@ -938,7 +938,7 @@
     "Bragg's law"
    ],
    "stats": {
-    "words": 5912,
+    "words": 6602,
     "figures": 3,
     "examples": 5
    },
@@ -986,7 +986,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 6000,
+    "words": 6661,
     "figures": 3,
     "examples": 4
    },
@@ -1029,7 +1029,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5828,
+    "words": 6559,
     "figures": 4,
     "examples": 3
    },
@@ -1072,7 +1072,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5206,
+    "words": 5923,
     "figures": 3,
     "examples": 3
    },

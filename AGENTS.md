@@ -1,4 +1,74 @@
-﻿# NEBians - Project Knowledge Base
+# NEBians - Project Knowledge Base
+
+## Sandbox tooling workaround (file tool is rooted at /app only)
+
+The file-edit tool cannot see paths outside its workspace root (`/app`); bash can. Clone the repo to `/tmp/NEB` and symlink it:
+`ln -sfn /tmp/NEB /app/neb`, then edit with the file tool at `neb/...`. Git auth: use an out-of-repo `GIT_ASKPASS` helper
+(`/tmp/gitenv.sh` that `echo "$GH_PAT"`) and keep `.git/config` token-free; always run `git diff --cached` before pushing.
+The Django landing needs `pip install --user --break-system-packages` of requirements plus `bleach django-htmx meilisearch gradio_client js2py`;
+run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`.
+
+## Android Notes + on-device voice
+
+Read `ANDROID_NOTES_STATUS.md` before touching `app/.../ui/screens/notes/`, `app/.../speech/` or `app/src/main/cpp/`. Models (Whistle STT, Phonon TTS) are never bundled: the user downloads/removes them in the Voice screen. `libptts_ffi.so` is built by `.github/workflows/build-phonon-lib.yml` and committed; `libneedle.a` is vendored. Never build the app locally, push and read the `Build Student Release APKs & AAB` run.
+
+## Android analytics + removed AI/study surfaces
+
+The app has no AI chat, Study Lab or Study Space (removed in session 8, see `ANDROID_M3X_STATUS.md`); the only Neby AI is the PDF reader's overlay (`ui/screens/reader/PdfAssistantOverlay.kt`, rows in `NebyAnswer.kt`) and `@neby` in the forum. Do not add their endpoints back to `ApiService`. The Analytics screen (`ui/screens/analytics/`) reads one v2 payload from `api/user_analytics.py` (`docs/ANALYTICS.md`, member section); change both sides and `data/api/AnalyticsModels.kt` together and run `api.test_user_analytics`.
+
+## Admin panel
+
+Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/css/admin/`. One nav list (`admin_extras.NAV_GROUPS`), M3 confirm dialog instead of `confirm()`, tonal surfaces, finite radii on every hover shape; `web/test_admin_shell.py` enforces it. Analytics: `docs/ANALYTICS.md`.
+
+## Profile pickers (onboarding + edit profile)
+
+Date of birth and gender are `components/_dob_field.html`, `_gender_tiles.html`, `_dob_sheet.html` (wired by `js/neb-dob-field.js`); never build a second one, never `<input type="date">`, never side by side. Education is `NebEdu.picker` in `js/neb-edu.js` fed by `api/education_catalog.py` (`STAGES`, `POPULAR`): add a course there once. Onboarding stays three steps; extra detail belongs in `edit_profile.html`. Status: `TASK_AUTH_ONBOARDING_STATUS.md`.
+
+## Copy rule: never use a dash as punctuation
+
+Never write an em dash, an en dash used as a break, or a double hyphen ("--") in anything a user reads: web copy, templates,
+OG cards, tools pages, PDF furniture, Android strings, commit-free docs shown in the app. Use a period, a comma, a colon or
+"to". Ranges keep a plain hyphen or "to". Authored book markdown is out of scope for now.
+
+## Permanent M3 Expressive bans (web, OG cards, tools, PDFs, Android)
+
+- No box shadows, no emojis, no live badge of any kind, no blue/purple gradients.
+- No circle stroke around a profile picture frame; PP frames use the expressive shapes (cookie, squircle, flower).
+- User, role and verification badges (Verified, Admin, Teacher) carry no background. Chips, filter pills, category tags and
+  comment or post labels (Solved, Answer, Correct, Helpful) keep a tonal surface.
+- Never morph a rounded control into a square on hover (`border-radius: 0`).
+- No taglines, helper text or secondary labels; if a screen needs them to make sense, fix the layout.
+- Poppins in the app, light and dark both at full contrast. `web/test_tools_copy.py` guards tools copy and shadows.
+
+## PDF books (m3x print system)
+
+Read `PDF_M3X_STATUS.md` first. Fix `notes/pipeline/` (theme.css, furniture.py, m3x.py), then rebuild; never hand-edit a PDF.
+Contents always starts on a new page, chapters start on a new page, cards are tonal and rounded, Poppins for every label.
+
+## Web design system (m3x) -- read before touching templates/CSS
+
+- Tokens: `static/web/css/m3x/tokens.css` (`--md-*` roles, `--x-float` = the white/raised surface for every menu, dialog, sheet, popover). Never hard-code a colour; a fill and its label are always a role pair.
+- App layers (bundled into `m3x-app.css` by `python3 tools/css/bundle.py`; run it after any edit, `--check` must pass): `app-overlays.css` (floating surfaces), `app-controls.css`, `app-screens.css` (x-* controls, `rcard` resource card, `bcard`/`bhero` blog cards, `vw-*` viewer), `app-reader.css` (blog article).
+- One resource card: `templates/components/_resource_card.html` (library, search, related). One theme button: `components/_theme_toggle.html`. Tabs/categories: `<nav class="m3-pill x-seg" data-m3-nav>` with `aria-current` on the active link (sliding indicator from `m3x.js`).
+- Radii are finite (pill = 28px) so hover morphs never hit a square corner. No box-shadow anywhere (`web/test_landing.py` enforces it).
+- Resources are view-only: `resource_detail.html` embeds the file (`#toolbar=0`), the media player has no download link, `web/test_viewer.py` guards it. Raw file URLs still exist server-side; a hard block needs signed, streamed responses.
+- Overflow menus (`.more-menu`, `.neb-menu`) are portaled to `<body>` while open (`portalMenu` in `neb-overlays.js`); never position one inside a card, a transformed ancestor re-bases `position: fixed`. One handler for every page: `window.toggleMoreMenu`.
+- Post composer (`_home_composer.html` + `m3x/app-composer.css`, `composer-chips.js`): the emoji picker inserts into the last focused text field (`emojiTarget` in `home.html`), not always the body. Poll duration is a native select kept as source of truth with chips drawn over it. Composer rules are prefixed `#homePostForm` to beat `pages/web-home.css`.
+- Composer writing surface (`composer-editor.js`, `composer-sortable.js`): the textarea has no height cap (it takes its text's height; `.hf-dialog-body` is the one scroller, never add wheel/touch `preventDefault` handlers over the dialog). Photos and attachments reorder by pointer drag or Arrow keys (`NebSortable`, the array order is the post order). `@` opens the mention list (`/ajax/user-search/`, one letter is enough); staff (`is_admin` or `moderator_level`) also get `@all` (`data-can-mention-all`). The popup is appended inside the `<dialog>` (top layer) and corrects for its containing block.
+- Site themes (`themes.css`, `templates/themes/`): the landing garland starts at 80px (below the floating nav), the Tihar motif is the inline SVG `_diya.html`, the season card is a tonal surface (no stroke, no shadow). Static files and `{% asset %}` are cached per process, restart the dev server after CSS edits.
+- PDFs read through `js/pdf-reader.js` (`NebPdf`, PDF.js legacy build vendored in `js/vendor/pdfjs/`), view-only, lazy pages. `resource-viewer.js` falls back to the browser viewer, then to the app card. Download always leads to the get-app dialog.
+- Forum threads: replies carry a `kind` (comment, answer, solution, hint, formula; set by the writer in the composer chips) and a `label` (accepted, correct, partial, incorrect, helpful, spam; set by the discussion author or an admin through `ajax/reply/<id>/label/`, `web/views_forum_tools.py`). Both lists live in `web/forum_labels.py` only; chips, the Mark dialog and the API read that one module. One `accepted` per post (it flips `Post.is_resolved` / `accepted_reply_id`). Writing tools: `js/forum-composer.js` (`data-fc="tools"` on any textarea, `ForumComposer.mount`), labels UI: `js/forum-labels.js`, styles: `m3x/app-forum.css`. Top-level replies are never rendered client-side: after a post or a websocket `reply.created`, `refreshReplies()` in `forum_post.html` re-fetches `#replies-section` (server markup is the single source). Tests: `web/test_forum_labels.py`.
+- In-place editor (`forum-edit.js`, `forum-attach.js`, `m3x/app-edit.css`): one white container (`--md-surface-container-lowest`), one 1px stroke that turns primary on `:focus-within`; the title, tools and text inside have no fill, border or ring (including the contenteditable `InlineMedia` swaps in for the body: `.fe .neb-seamless`). Any plain `<textarea>` that is not a body field needs `data-neb-skip` or `inline-media.js` turns it into a contenteditable. Never tint an editor with a `surface-container-*` fill.
+- Growing fields (`textarea-grow.js`): height is `max(content, --ah-min)` capped by `data-autoheight-max`; the floor is a CSS custom property (the writing tools raise it while open) and `window.NebGrow(el)` re-measures. Call it after anything that changes the floor or clears the value without an `input` event (`ForumComposer` does it on open/close/tall/preview/reset). Never set a `min-height` on an autoheight field, or it cannot shrink or animate.
+- Mobile overlays (`m3x/app-mobile.css`, tracker in `neb-overlays.js`): below 600px every `.neb-dialog`/`.modal-box` is a bottom sheet and every `.neb-menu` is a sheet. `--neb-kb` / `--neb-vh` (visualViewport) lift them above the on-screen keyboard; dialog bodies (`.neb-dialog-body`, `.fl-options`, `.fp-dialog-body`) scroll while head and actions stay put. A height-only `resize` (keyboard, URL bar) must never close a menu sheet; only a width change does. Test short phones (360x640) and simulate the keyboard by setting `--neb-kb`.
+- Avatar shapes (`js/neb-shapes.js`, `m3x/app-shapes.css`): every avatar container gets `data-shape` + `data-tone` hashed from the username (nearest `/profile/<name>` link, or `data-avatar-seed`). To shape a new avatar, add its class to `SEL` in the JS. A container holding `.avatar-badge-overlay` shapes the picture inside it, so the badge on the rim is never clipped. The one badge is a ringed disc (`--badge-ring`); on the profile the verified tick sits beside the name (`.pf-verified`) and the camera is the only badge on the avatar.
+- Report dialog: `js/report-dialog.js` is the only implementation (`window.openReportDialog(type, id)`; the inline copy in `base.html` is gone). Reasons are a chip radiogroup (`.rp-reason`, `app-forum.css`), never a native `<select>`. `.av-inset` on an avatar container keeps its box whole and shapes the picture inside (camera badge, notification dot, ring); the edit-profile, top-bar and composer avatars use it or `data-avatar-seed`. About-tab stat tiles (`.ov-stat`) share the header's tonal tile.
+- Profile (`m3x/app-profile.css`, scoped `.profile-page`): one tonal card, inset rounded cover (no sheen), shaped avatar with a ring cut from the card colour, stat tiles. Same drawing on phone and desktop. Gradients are forbidden by `test_landing.py`.
+- One field language (`m3x/app-fields.css`, loaded after every other m3x module): text fields, pickers, selects and option cards are white (`--x-field`) with ONE 1.5px stroke (`--x-field-line`); hover/focus/selected only change that stroke's colour (primary). Never stack an `outline` on a border, never fill a field with a `surface-container-*` tone. A selector list inside `:is()` takes the highest specificity in it, so never put an `#id` selector in the same `:is()` as the plain classes. A `<label class="neb-option">` inside `.form-group` was squashed to `display:block` by `.form-group label`; the module pins it to flex. Plain-text textareas (profile bio) need `data-neb-skip` or `inline-media.js` swaps in a contenteditable. `pages/tools.css` loads on every page: never put `.md-topbar` rules in a page stylesheet (it wrapped the bar to two rows at 769-900px). Profile feed cards live in `m3x/app-profile-feed.css`: no repeated author, avatar or Follow row on a person's own feed.
+- Playwright on this sandbox needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`; `pkill -f runserver` from the same bash line kills your own shell, start the server with `setsid nohup`.
+- Icon font is a subset: any new icon (including ones named in JS `icon: '...'` or Python tuples) needs `python3 scripts/build_icon_font.py <name>`; `web/test_icon_font.py` fails otherwise. A missing glyph renders its name as text.
+- Sandbox: shallow clone only (`git clone --depth 1`, repo is 2GB+); push after every milestone. Screenshots: playwright (`pip install --user playwright`, `python3 -m playwright install chromium`), symlink the shots dir into `/app` for the file tool.
+- Local run: `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x python3 manage.py runserver --noreload` (restart after template edits: templates are cached with `--noreload`), `manage.py create_mock_users`, `tools/design/seed_demo.py` for a logged-in session.
 
 ## Coding Conventions
 
@@ -19,9 +89,10 @@
 ## Handoff Documents
 
 - **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
+- **`ANDROID_M3X_STATUS.md`** — Android parity with the web m3x system (palette sync script, splash, intro, reply kinds and labels), what is shipped and what is still open.
 - **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
 - **`docs/OG_CARDS.md`** — the drawn link-preview cards (`web/og_cards.py`, `og_art`, `og_heroes`, `og_logo`): the design language, the grid, how to add a card kind or a sculpture, and the two rules that bite — **bump `CARD_VERSION` whenever the drawing changes**, and a card must never 404. Preview with `python3 tools/og/preview.py`.
-- **Video pipelines live in another repo.** The launch films, chapter lessons, the launch reel and every rendered video are in the private `NikitHamal/Video` repo under `neb/` (history imported from this repo, paths rewritten). Nothing under `tools/video`, `tools/lessons`, `tools/reel`, `videos/` or `docs/LAUNCH_VIDEO.md` exists here any more. Those pipelines read this repo's brand assets through `NEBIANS_REPO`, so **after changing the brand palette, hero copy or chips, header nav, the logo, or shipping a new headline feature, run `node neb/tools/video/cli.mjs drift` there** and follow its `neb/docs/LAUNCH_VIDEO.md`.
+- **Video pipelines live in another repo.** The launch films, chapter lessons, the launch reel and every rendered video are in the private `NikitHamal/Video` repo under `neb/` (history imported from this repo, paths rewritten). Nothing under `tools/video`, `tools/lessons`, `tools/reel`, `videos/` or `docs/LAUNCH_VIDEO.md` exists here any more. Those pipelines read this repo's brand assets through `NEBIANS_REPO`, so **after changing the brand palette, hero copy or chips, header nav, the logo, or shipping a new headline feature, run `node neb/tools/video/cli.mjs drift` there** and follow its `neb/docs/LAUNCH_VIDEO.md`. The m3x launch film (`neb/tools/video/m3x-launch/`, Video branches `m3x-launch-film` and `m3x-launch-film-v2`) reads `css/m3x/tokens.css` and `css/m3x/shapes.css` from this repo and mirrors `rcard`, `x-seg`, the forum reply kinds, leaderboard and Follow pill by hand; after changing those, re-run its `stills.py` and fix `ui.py` / `scenes.py`.
 
 ## Overview
 
@@ -199,7 +270,7 @@ com.neb.ians/
 - **Log File:** `/home/consicac/nebians_api/logs/nebians.log`
 - **Domain:** `nebians.consica.com.np` (also `www.nebians.consica.com.np`)
 - **Daphne (WebSocket server):** `127.0.0.1:8001` (background, managed via crontab `@reboot`). Log: `/home/consicac/nebians_api/logs/daphne.log`
-- **Cloudflared (WS tunnel):** Background process; `~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001`. Log: `/home/consicac/nebians_api/logs/cloudflared.log`
+- **Cloudflared (WS tunnel): RETIRED, do not run it (see PERF_REALTIME_STATUS.md).** Was a background process; `~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001`. Log: `/home/consicac/nebians_api/logs/cloudflared.log`
 
 ### CRITICAL: How to Deploy
 **ALWAYS use the local deploy script â€” NEVER use manual SCP/SSH commands.**
@@ -274,7 +345,7 @@ curl -sI https://nebians.consica.com.np/static/web/css/pages/<new-file>.css | he
 ```
 
 **NEVER do these:**
-- Do NOT change `STATICFILES_STORAGE` from `whitenoise.storage.CompressedManifestStaticFilesStorage` â€” note Django 5.1+ `STORAGES['staticfiles']` also exists in settings.py and must stay consistent
+- Do NOT change `STATICFILES_STORAGE` / `STORAGES['staticfiles']` from `whitenoise.storage.CompressedStaticFilesStorage` (settings.py lines 240 and 243, both must stay consistent). **This is NOT the manifest backend** - there is no `staticfiles.json`, no hashed filenames and no cache-busting, so plain `/static/web/css/m3x.css` URLs are correct and expected (verified Nov 2026).
 - Do NOT delete `.gz` files or hashed manifest files from `staticfiles/`
 - Do NOT change `STATIC_ROOT` â€” it must stay as `BASE_DIR / 'staticfiles'`
 
@@ -420,6 +491,8 @@ In light mode, text buttons and outlined buttons had solid blue (`var(--md-prima
 ---
 
 ## Marketplace — Creator Storefronts, Courses and Paid Notes
+
+**Latest (Nov 2026): upload/edit composer, open selling, course delivery/contact — see `UPLOADS_SELLING_STATUS.md`.** Upload and edit-resource are one component (`web/components/_resource_composer.html` + `js/resource-composer.js`); never build a second resource form. Every member can sell; a course is `buy` (QR checkout) or `contact` (reach the teacher).
 
 Added Sep 27, 2026. The paid-notes economy already existed (paid resources +
 QR proof + admin verification + seller wallet); this session made it sellable
@@ -666,7 +739,10 @@ data: [DONE]
 
 ---
 
-## Real-Time WebSockets (Channels + Daphne + Cloudflare Tunnel)
+## Real-Time (HISTORICAL: Channels + Daphne + Cloudflare Tunnel)
+
+> **Superseded.** Realtime now runs over Ably SSE with no tunnel and no socket on our server. Read `PERF_REALTIME_STATUS.md` first. The text below is kept only for the optional self-hosted `WS_PUBLIC_URL` path (canvas / study-space collaboration) and for history; do not start cloudflared.
+
 
 The NEBians web frontend (and any future client) gets live updates â€” new posts, replies, likes, notifications, follow changes, message events â€” over a single WebSocket connection. No polling, no FCM for the web.
 
@@ -767,7 +843,7 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 - `api/routing_ws.py` â€” single route `^ws/?$` â†’ `RealtimeConsumer`
 - `api/consumers_ws.py` â€” `RealtimeConsumer` (auth, heartbeat, batching, permission checks, rate limiting)
 - `api/middleware_ws.py` â€” `JWTAuthMiddleware` (Bearer token auth for WS) + `OriginValidatorMiddleware`
-- `api/realtime.py` â€” broadcast helpers: `broadcast_post_created/updated/deleted/like_changed`, `broadcast_reply_*`, `broadcast_notification`, `broadcast_follow_changed`, `broadcast_unread_count`, `get_health_snapshot`
+- `api/realtime.py` â€” broadcast helpers: `broadcast_post_created/updated/deleted/like_changed`, `broadcast_reply_*`, `broadcast_notification`, `broadcast_follow_changed`, `broadcast_unread_count`
 
 ### Files modified
 - `nebians/settings.py` â€” `INSTALLED_APPS += ['daphne', 'channels']`; `ASGI_APPLICATION = 'nebians.asgi.application'`; `CHANNEL_LAYERS` (Redis or InMemory); `ALLOWED_HOSTS_GLOB` + `ALLOWED_HOST_SUFFIXES` env support
@@ -1678,7 +1754,7 @@ UI/UX revamp â€” home page, library, search, and design system consistency 
 
 14. **Redis cache is persistent across LSAPI workers** â€” Unlike LocMemCache, Redis is shared between all LSAPI workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
 
-15. **CRITICAL: Static files are served from TWO locations â€” do NOT change STATICFILES_STORAGE** â€” LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. The `CompressedManifestStaticFilesStorage` (WhiteNoise) generates hashed filenames (e.g., `app.7d01927028c0.css`) and a `staticfiles.json` manifest. **Never switch to `StaticFilesStorage`** â€” it will break the manifest, delete hashed files, and cause UI corruption.
+15. **CRITICAL: Static files are served from TWO locations â€” do NOT change STATICFILES_STORAGE** â€” LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. WhiteNoise's `CompressedStaticFilesStorage` serves each file under its plain name - there is no `staticfiles.json`, no hashed filenames and no cache-busting (verified Nov 2026, see the corrected section above). **Never switch to `StaticFilesStorage`** â€” it will break the manifest, delete hashed files, and cause UI corruption.
 
 16. **CRITICAL: How to deploy CSS/JS changes correctly** â€” After editing files in `web/static/`, you MUST do BOTH of these:
     - Run `python manage.py collectstatic --noinput` (writes to `staticfiles/`)
@@ -1720,6 +1796,38 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 3. **Gamification & Quests:** Redefining traditional Q&A forum sections as interactive **Academic Quests** with bounties, where students post challenges and peers/teachers earn contribution points for solving them.
 
 **CRITICAL REFERENCE:** A separate, highly detailed product specification and architecture document is available in `docs/SAAS_VISION.md`. Review it to understand the technical plans, DB model adjustments, and UI requirements before designing features related to user roles, quizzing, collaboration rooms, or dashboards.
+
+---
+
+## Working in sandboxed agent sessions (workaround, read first)
+
+- The file tool is rooted at the workspace dir (`/app`) and cannot reach `/tmp`;
+  bash can reach everything. Clone to `/tmp/NEB` and symlink it
+  (`ln -sfn /tmp/NEB /app/neb`), then edit with the file tool using `neb/...` paths.
+- Never put a GitHub token in the repo or `.git/config`. Use an out-of-repo
+  `GIT_ASKPASS` script (`/tmp/gitenv.sh`) that echoes `$NEB_GH_PAT`, and run
+  `git diff --cached | grep -c ghp_` (must print 0) before each commit.
+- Push after every milestone, then verify with `git ls-remote origin <branch>`.
+- Django tests without root: `pip install --user --break-system-packages -r backend_python/requirements.txt`,
+  then `DB_ENGINE=sqlite SECRET_KEY=x DEBUG=1 python3 manage.py test <module>`.
+- Headless Chromium without root: `npm i playwright && npx playwright install chromium`,
+  fetch missing shared libs with `apt-get -o Dir::State::Lists=/tmp/apt/lists -o Dir::Cache=/tmp/apt/cache download <pkg>`,
+  `dpkg -x` them into a folder and export `LD_LIBRARY_PATH`.
+- Analytics internals, definitions and deploy steps: `docs/ANALYTICS.md`.
+
+## Dither art and button scale
+
+- `tools/dither/` (numpy + Pillow) renders the dither art set into `web/static/web/art/dither/` plus `art/dither.json`; browse it at `/admin/dither/`. Add a scene in `scenes_*.py` with `@scene(...)`, then `python3 tools/dither/build.py`. `dune-library-bone` also writes `cover-dunes-mask.png`, the alpha mask behind the resource cover (`.vw-cover::before` in `m3x/app-viewer.css`, tinted by the subject colour).
+- Buttons: 40px for page and dialog actions, 32px compact, 28px Follow (`m3x/app-sizing.css`, `m3x/app-follow.css`). Never put an ID selector inside a shared `:is()` list (it lifts the whole list's specificity); wrap it in `:where()`. Flip follow buttons with `nebFollowSet(btn, on)`.
+
+## Blog autopilot (official notices + education news)
+
+`backend_python/services/news_sources.py` lists the sources (NEB, MoEST, CDC notices; Kathmandu Post, Onlinekhabar, Rising Nepal RSS) and one adapter per kind; `services/news_sync.py` sanitises (bleach), dedupes on `(source_key, source_guid)` and writes `Announcement` rows (`source_*`, `attachments`; categories `notice`/`exam_results`/`news`). Official notices are republished in full; news is headline + excerpt + picture with a "Read full story" card (never the article). Bikram Sambat dates are converted in `news_sources.parse_bs` (table 2078-2090, extend yearly). Autopilot: `NewsAutopilotMiddleware` claims a run with one atomic UPDATE every `NEWS_SYNC_INTERVAL_MIN` (120) and runs on a daemon thread; `python manage.py sync_news [--source neb] [--force]` for cron; `NEWS_AUTOSYNC=0` disables. Admin: Blog & updates page has per-source toggles and "Fetch now". Add a source = one dict in `SOURCES`. Tests: `web/test_news_sync.py` (offline).
+
+## Auth, welcome flow and portfolio (read `TASK_AUTH_ONBOARDING_STATUS.md`)
+
+Role, education situation and the portfolio header are chosen once, in `/welcome/` (`web/views_onboarding.py`, `js/onboarding.js`); sign-up no longer asks a role and nothing is preselected. The one list of Nepal levels, programs, terms and situations is `api/education_catalog.py` (web, API and future Android read it); `class_level` still stores the level *value* and non-"studying" statuses count as global users. Sign-in lives in `login.html` + `js/auth.js`; its fields and buttons are the welcome flow's `.ob-input` / `.ob-btn`. Backend tests run in `.github/workflows/backend-tests.yml`; do not build locally.
+
 ## BCA session 6 environment notes (Semester IV) — tool workaround and toolchain
 
 - **File-tool root.** The File tool is rooted at the sandbox project directory (here `/home/user/sandbox`; `/app` did not exist), not at the repo. Workaround used: `git clone` into `/tmp/NEB`, then `ln -sfn /tmp/NEB /home/user/sandbox/neb`; File-tool paths are then `neb/bca/...`. Bash can write anywhere, so heredocs into `/tmp/NEB/...` also work.
@@ -2420,3 +2528,8 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Setup without extra tools:** `sudo -n apt-get update` + install pango/harfbuzz/poppler/fontconfig; `uv` via `curl -LsSf https://astral.sh/uv/install.sh | sh`; `uv venv --python 3.12 /tmp/v` + deps (weasyprint pymupdf pypdf markdown pygments pillow numpy requests matplotlib fonttools pandas scipy sympy); fonts `install.sh`; out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS echoing `$NEB_PAT` (PAT never in the repo; the owner should rotate the PAT pasted in the prompt).
 - **Merge technique for a >1 GB repo:** after a shallow clone use `git fetch --filter=blob:none origin main:refs/remotes/origin/main` and `git fetch --unshallow --filter=blob:none origin <branch>` (history without blobs, fast), then `git merge-tree --write-tree --name-only origin/main HEAD` to dry-run. Do not run bare `git diff --stat` (it fetches blobs); export GIT_ASKPASS first or promisor fetches fail.
 - **Gotcha:** `pkill -f "<pattern>"` inside a bash tool call kills the tool's own shell when the command line contains the pattern; use `kill $(pgrep -f "^/tmp/v/bin/python pipeline/build_pdf.py <book>")`.
+
+## Session 93 (BCA/NEBians polish: merge to main)
+
+- **Done:** `claude/bca-entrance-complete` merged with `main` (only 7 PDFs conflicted; rebuilt `eng10/11/12`, `nep8/10/11/12` with the m3x print system, qa fails=0); `qa_pdf.py` no longer requires Inter; syllabus and study JSON re-exported (`notes/tools/export_syllabus.py`, `export_study.py`). Details in `bca/POLISH_STATUS.md` (Session 93). The whole queue is complete.
+- **Setup:** shallow clone, `git fetch --shallow-since=<date> origin +refs/heads/main:refs/remotes/origin/main` to get a merge base; out-of-repo GIT_ASKPASS helper reading `$NEB_PAT` (never commit the PAT).

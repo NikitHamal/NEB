@@ -1,0 +1,118 @@
+/* The resource composer (templates/web/components/_resource_composer.html, js/resource-composer.js).
+   It is the forum editor's surface: .fe, .fe-bar, .fe-icon and the .na-row tray come from m3x/app-edit.css and are
+   not redrawn here. This file only adds what a resource has and a post does not: the choice chips, the drop target,
+   the error banner and the sheet fields. No shadows, no gradients, no strokes on anything but the surface. */
+
+.rc-page { max-width: 720px; margin: 0 auto; padding: 8px 16px 64px; }
+.rc-head { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin: 8px 0 16px; }
+.rc-head h1 { margin: 0; }
+
+.fe.rc { margin: 0; position: relative; }
+.fe.rc.is-done { border-color: var(--md-primary); }
+.fe.rc.is-done .fe-save { background: var(--md-primary); color: var(--md-on-primary); }
+.fe.rc .fe-bar { flex-wrap: wrap; row-gap: 4px; }
+.fe.rc .fe-status:empty { display: none; }
+.fe.rc .fe-bar > .md-btn:first-of-type:not(.fe-save) { margin-left: auto; }
+.fe.rc .fe-status + .md-btn { margin-left: 0; }
+.fe.rc.is-dropping .rc-drop { border-color: var(--md-primary); background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+/* Errors: one tonal banner above everything, announced to screen readers, and it moves in rather than blinking. */
+.rc-errors {
+  display: flex; align-items: flex-start; gap: 10px; margin: 12px 12px 0; padding: 12px 14px; box-sizing: border-box;
+  border-radius: 16px; background: var(--md-error-container); color: var(--md-on-error-container);
+}
+.rc-errors[hidden] { display: none; }
+.rc-errors.is-in { animation: rc-in .35s var(--spring) both; }
+.rc-errors .material-symbols-outlined { font-size: 20px; flex: none; margin-top: 1px; }
+.rc-errors ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; font-size: .875rem; font-weight: 600; }
+@keyframes rc-in { from { opacity: 0; transform: translateY(-6px); } }
+
+/* Choice chips: one per decision, each shows its answer. */
+.rc-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 16px 12px; }
+.rc-chip {
+  display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px 0 10px; box-sizing: border-box; max-width: 100%;
+  border: 1px solid var(--md-outline-variant); border-radius: 18px; background: transparent; color: var(--md-on-surface-variant);
+  font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s, transform .25s var(--spring);
+}
+.rc-chip .material-symbols-outlined { font-size: 18px; flex: none; }
+.rc-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rc-chip:hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+.rc-chip:active { transform: scale(.95); }
+.rc-chip.is-set { background: var(--md-secondary-container); border-color: transparent; color: var(--md-on-secondary-container); }
+.rc-chip[aria-invalid="true"] { border-color: var(--md-error); color: var(--md-error); animation: rc-nudge .4s ease; }
+@keyframes rc-nudge { 25% { transform: translateX(-4px); } 60% { transform: translateX(4px); } }
+
+/* Tray and drop target. */
+.rc-tray { padding: 0 8px; }
+.rc-tray[hidden], .rc-drop[hidden] { display: none; }
+.rc-drop {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 0 16px 8px; padding: 22px 12px 8px; box-sizing: border-box;
+  border: 2px dashed var(--md-outline-variant); border-radius: 22px; color: var(--md-on-surface-variant);
+  transition: border-color .2s, background-color .2s, color .2s;
+  animation: rc-in .4s var(--spring) both;
+}
+.rc-drop-main {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 12px; border: 0; background: transparent; color: inherit;
+  font: inherit; cursor: pointer;
+}
+.rc-drop-tile {
+  width: 64px; height: 64px; display: inline-flex; align-items: center; justify-content: center; border-radius: 22px;
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+  transition: border-radius .5s var(--spring), transform .4s var(--spring);
+}
+.rc-drop-tile .material-symbols-outlined { font-size: 30px; }
+.rc-drop-main:hover .rc-drop-tile, .rc-drop-main:focus-visible .rc-drop-tile, .fe.is-dropping .rc-drop-tile { border-radius: 50%; transform: translateY(-3px); }
+.rc-drop-title { font-size: 1rem; font-weight: 700; color: var(--md-on-surface); }
+.rc-drop-title u { text-decoration: none; color: var(--md-primary); }
+.rc-drop-hint { font-size: .8125rem; }
+.rc-drop-link { margin-top: 6px; }
+.rc-drop-link .material-symbols-outlined { font-size: 18px; margin-right: 6px; }
+
+.rc-file-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
+
+/* Sheets. */
+.rc-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 4px 20px 16px; }
+.rc-field { display: grid; gap: 6px; min-width: 0; }
+.rc-wide { grid-column: 1 / -1; }
+.rc-danger:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+.rc-delete-confirm { background: var(--md-error); color: var(--md-on-error); }
+.rc-delete-confirm:disabled { opacity: .6; }
+#rc-price .neb-price { margin: 0; }
+
+@media (max-width: 520px) {
+  .rc-page { padding: 4px 10px 56px; }
+  .rc-chips { padding: 4px 12px 10px; }
+  .rc-drop { margin: 0 12px 8px; padding-top: 18px; }
+  .rc-fields { grid-template-columns: 1fr; padding: 4px 16px 14px; }
+  .rc-wide { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-errors.is-in, .rc-drop, .rc-chip[aria-invalid="true"] { animation: none; }
+  .rc-drop-tile, .rc-chip { transition: none; }
+}
+
+.rc-alt { margin: 20px 0 0; text-align: center; font-size: .875rem; color: var(--md-on-surface-variant); }
+.rc-alt a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+.rc-alt a:hover { text-decoration: underline; }
+
+/* On a phone the back arrow is Cancel; dropping the text button keeps Save on the same row as the tools. */
+@media (max-width: 520px) {
+  .fe.rc #rc-cancel { display: none; }
+  .fe.rc .fe-save { margin-left: auto; }
+}
+
+/* After sharing: one mark that pops in, one line, two actions. */
+.rc-done { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding-top: 56px; }
+.rc-done h1 { margin: 12px 0 0; }
+.rc-done-mark {
+  width: 88px; height: 88px; display: inline-flex; align-items: center; justify-content: center; border-radius: 30px;
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+  animation: rc-pop .7s var(--spring) both;
+}
+.rc-done-mark .material-symbols-outlined { font-size: 44px; }
+.rc-done-line { margin: 0; color: var(--md-on-surface-variant); }
+.rc-done-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.rc-done-actions .material-symbols-outlined { font-size: 18px; margin-right: 6px; }
+@keyframes rc-pop { from { opacity: 0; transform: scale(.5) rotate(-12deg); border-radius: 50%; } }
+@media (prefers-reduced-motion: reduce) { .rc-done-mark { animation: none; } }

@@ -53,12 +53,14 @@
     });
     return out;
   }
-  function slashFocus(input) {
+  function slashFocus(input, onOpen) {
     document.addEventListener('keydown', function (e) {
       if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey) return;
       var a = document.activeElement;
       if (a && (/INPUT|TEXTAREA|SELECT/.test(a.tagName) || a.isContentEditable)) return;
-      e.preventDefault(); input.focus();
+      e.preventDefault();
+      if (onOpen) onOpen();
+      input.focus();
     });
   }
   function subjectStats(prefix, units) {
@@ -75,6 +77,33 @@
     if (m < 60) return m + ' min ago';
     var h = Math.round(m / 60); if (h < 24) return h + ' h ago';
     var d = Math.round(h / 24); return d === 1 ? 'yesterday' : d + ' days ago';
+  }
+
+  /* ------------------------------------------------------------ crumbs */
+  function initCrumbs(nav) {
+    var picks = [].slice.call(nav.querySelectorAll('[data-st-pick]'));
+    function closeOthers(open) { picks.forEach(function (d) { if (d !== open) d.open = false; }); }
+    picks.forEach(function (d) {
+      var sum = d.querySelector('.st-pick-b');
+      /* the menu is capped at 58vh and the bar is sticky at the top, so it always
+         has room below and never needs to flip */
+      d.addEventListener('toggle', function () { if (d.open) closeOthers(d); });
+      d.addEventListener('keydown', function (e) {
+        if (!d.open) return;
+        var items = [].slice.call(d.querySelectorAll('.st-pick-o'));
+        if (!items.length) return;
+        var at = items.indexOf(document.activeElement), n = null;
+        if (e.key === 'ArrowDown') n = at + 1;
+        else if (e.key === 'ArrowUp') n = at <= 0 ? -1 : at - 1;
+        else if (e.key === 'Home') n = 0;
+        else if (e.key === 'End') n = -1;
+        else if (e.key === 'Escape') { d.open = false; sum.focus(); return; }
+        if (n === null) return;
+        e.preventDefault();
+        items[(n + items.length) % items.length].focus();
+      });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('[data-st-pick]')) closeOthers(null); });
   }
 
   /* ------------------------------------------------------------ hub */
@@ -155,7 +184,28 @@
     var input = hub.querySelector('[data-syl-search]');
     var box = hub.querySelector('[data-syl-results]');
     if (!input || !box) return;
+    var field = input.closest('.syl-search');
+    var toggle = field && field.querySelector('[data-syl-search-toggle]');
     var active = -1, seq = 0, timer;
+    function open() {
+      if (!field || field.classList.contains('is-open')) return;
+      field.classList.add('is-open');
+      input.tabIndex = 0;
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
+      if (!field || !field.classList.contains('is-open')) return;
+      field.classList.remove('is-open');
+      input.tabIndex = -1;
+      box.hidden = true;
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    }
+    function clear() {
+      input.value = '';
+      box.hidden = true;
+      box.innerHTML = '';
+      input.setAttribute('aria-expanded', 'false');
+    }
     var src = hub.getAttribute('data-search-url');
     var base = hub.getAttribute('data-base-url');
     function currentGrade() {
@@ -199,9 +249,30 @@
       input.setAttribute('aria-activedescendant', 'syl-r' + active);
       items[active].scrollIntoView({ block: 'nearest' });
     });
-    input.addEventListener('focus', function () { if (box.innerHTML && input.value.trim().length > 1) box.hidden = false; });
-    document.addEventListener('click', function (e) { if (!input.parentNode.contains(e.target)) box.hidden = true; });
-    slashFocus(input);
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        /* open() here rather than only from the focus handler: a focus event is
+           queued as its own task, so waiting for it would leave a visible beat
+           between the click and the bar growing */
+        if (!field.classList.contains('is-open')) { open(); input.focus(); return; }
+        if (input.value) { clear(); input.focus(); return; }
+        input.blur();
+        close();
+      });
+    }
+    /* the field only ever collapses on losing focus while empty, so a click on
+       the magnifier (which blurs first) must not be read as that */
+    input.addEventListener('blur', function (e) { if (!input.value && e.relatedTarget !== toggle) close(); });
+    input.addEventListener('focus', function () {
+      open();
+      if (box.innerHTML && input.value.trim().length > 1) box.hidden = false;
+    });
+    document.addEventListener('click', function (e) {
+      if (field.contains(e.target)) return;
+      box.hidden = true;
+      if (!input.value) close();
+    });
+    slashFocus(input, open);
   }
 
   /* ------------------------------------------------------------ subject */
@@ -354,6 +425,7 @@
   }
 
   function boot() {
+    document.querySelectorAll('[data-st-crumbs]').forEach(initCrumbs);
     document.querySelectorAll('[data-syl-hub]').forEach(initHub);
     document.querySelectorAll('[data-st-subject]').forEach(initSubject);
   }

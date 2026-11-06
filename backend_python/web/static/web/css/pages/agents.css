@@ -112,33 +112,12 @@
   font-size: 0.8rem;
   color: var(--md-on-surface-variant);
 }
-.agent-tagline {
-  font-size: 0.875rem;
-  color: var(--md-on-surface);
-  line-height: 1.45;
-  margin: 0;
-}
 .agent-meta {
   display: flex;
   gap: 12px;
   font-size: 0.75rem;
   color: var(--md-on-surface-variant);
   margin-top: auto;
-}
-.agent-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(124, 77, 255, 0.12);
-  color: #7C4DFF;
-}
-.agent-pill.quiet {
-  background: var(--md-surface-variant);
-  color: var(--md-on-surface-variant);
 }
 .agents-activity {
   display: flex;

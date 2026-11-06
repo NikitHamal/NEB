@@ -68,12 +68,12 @@
         their marketplace card uses. The app reads the same two fields in the same
         order.{% endcomment %}
         {% with hero_image=block.image_url|default:creator.cover_url %}
-          {% if hero_image %}<img class="mkt-hero-cover" src="{{ hero_image }}" alt="">{% endif %}
+          {% if hero_image %}<img loading="lazy" decoding="async" class="mkt-hero-cover" src="{{ hero_image }}" alt="">{% endif %}
         {% endwith %}
         <div class="mkt-hero-inner">
           <div class="mkt-hero-avatar">
             {% if creator.avatar_url %}
-              <img src="{{ creator.avatar_url }}" alt="">
+              <img loading="lazy" decoding="async" src="{{ creator.avatar_url }}" alt="">
             {% else %}
               <span class="mkt-hero-avatar-letter">{{ creator.display_name|truncate_chars:1 }}</span>
             {% endif %}

@@ -16,9 +16,6 @@ pub fn medium(size: f32) -> FontId {
 pub fn bold(size: f32) -> FontId {
     FontId::new(size, FontFamily::Name(BOLD.into()))
 }
-pub fn medium_family() -> FontFamily {
-    FontFamily::Name(MEDIUM.into())
-}
 pub fn bold_family() -> FontFamily {
     FontFamily::Name(BOLD.into())
 }

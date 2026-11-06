@@ -1,5 +1,10 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.components.NebGlyphShapes
+import com.neb.ians.ui.components.nebShape
+import androidx.compose.ui.graphics.SolidColor
+import com.neb.ians.util.TactileType
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,7 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Draw
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.Forum
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
@@ -81,180 +86,6 @@ import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 
 @Composable
-internal fun HomeWelcomePanel(
-    userName: String,
-    onSearchClick: () -> Unit,
-    onStudyLabClick: () -> Unit
-) {
-    val shape = RoundedCornerShape(30.dp)
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .shadow(10.dp, shape, ambientColor = Color.Black.copy(alpha = 0.05f), spotColor = Color.Black.copy(alpha = 0.08f))
-            .clip(shape)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.88f),
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.58f),
-                        MaterialTheme.colorScheme.surfaceContainerLowest
-                    )
-                )
-            )
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f), shape)
-            .padding(20.dp)
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(
-                    text = "Ready to learn, ${userName.ifBlank { "Student" }}?",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "Find notes, continue studying, or get instant help without leaving NEBians.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.78f))
-                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f), RoundedCornerShape(18.dp))
-                    .clickable(onClick = onSearchClick)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Search notes, papers and discussions",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Icon(
-                    imageVector = Icons.Filled.ArrowForward,
-                    contentDescription = "Search",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(19.dp)
-                )
-            }
-
-            Surface(
-                onClick = onStudyLabClick,
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 11.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(9.dp)
-                ) {
-                    Icon(Icons.AutoMirrored.Filled.MenuBook, contentDescription = null, modifier = Modifier.size(19.dp))
-                    Text("Open Study Lab", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-internal fun HomeQuickActions(
-    onStudyLabClick: () -> Unit,
-    onNebyAiClick: () -> Unit,
-    onForumClick: () -> Unit,
-    onUploadClick: () -> Unit
-) {
-    val actions = remember(onStudyLabClick, onNebyAiClick, onForumClick, onUploadClick) {
-        listOf(
-            HomeAction("Study Lab", "Create and revise", Icons.AutoMirrored.Filled.MenuBook, onStudyLabClick),
-            HomeAction("Ask Neby", "Get guided help", Icons.Filled.SmartToy, onNebyAiClick),
-            HomeAction("Forum", "Discuss with peers", Icons.Filled.Forum, onForumClick),
-            HomeAction("Contribute", "Share a resource", Icons.Filled.Upload, onUploadClick)
-        )
-    }
-
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            actions.take(2).forEach { action -> HomeActionCard(action, Modifier.weight(1f)) }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            actions.drop(2).forEach { action -> HomeActionCard(action, Modifier.weight(1f)) }
-        }
-    }
-}
-
-@Composable
-private fun HomeActionCard(action: HomeAction, modifier: Modifier = Modifier) {
-    val shape = RoundedCornerShape(22.dp)
-    Row(
-        modifier = modifier
-            .height(92.dp)
-            .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.42f), shape)
-            .clickable(onClick = action.onClick)
-            .padding(14.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(11.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(42.dp)
-                .background(MaterialTheme.colorScheme.secondaryContainer, CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = action.icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                modifier = Modifier.size(21.dp)
-            )
-        }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = action.title,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(Modifier.height(3.dp))
-            Text(
-                text = action.subtitle,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Composable
 internal fun HomeSubjectStrip(
     subjects: List<String>,
     onSubjectClick: (String) -> Unit
@@ -270,7 +101,7 @@ internal fun HomeSubjectStrip(
                     .clip(RoundedCornerShape(999.dp))
                     .background(color.copy(alpha = 0.11f))
                     .border(1.dp, color.copy(alpha = 0.28f), RoundedCornerShape(999.dp))
-                    .clickable { onSubjectClick(subject) }
+                    .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) { onSubjectClick(subject) }
                     .padding(horizontal = 14.dp, vertical = 9.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(7.dp)
@@ -468,12 +299,7 @@ private fun SuggestedPostCard(
     )
 
     val bannerBrush = remember(categoryTheme) {
-        Brush.linearGradient(
-            listOf(
-                categoryTheme.container,
-                categoryTheme.color.copy(alpha = 0.18f)
-            )
-        )
+        SolidColor(categoryTheme.container)
     }
 
     Card(
@@ -481,7 +307,7 @@ private fun SuggestedPostCard(
             .width(248.dp)
             .height(HomeRailCardHeight)
             .clip(shape)
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
@@ -539,7 +365,7 @@ private fun SuggestedPostCard(
                     shape = WebPillShape,
                     color = if (liked) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f),
-                    shadowElevation = 2.dp
+                    shadowElevation = 0.dp
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
@@ -740,14 +566,6 @@ private fun PostKindPill(icon: ImageVector, label: String) {
 }
 
 @Immutable
-private data class HomeAction(
-    val title: String,
-    val subtitle: String,
-    val icon: ImageVector,
-    val onClick: () -> Unit
-)
-
-@Immutable
 data class HomeFeedFilter(
     val key: String,
     val label: String,
@@ -805,149 +623,6 @@ internal fun HomeFeedFilterStrip(
 }
 
 @Composable
-internal fun HomeStudyHub(
-    userName: String,
-    onStudyLabClick: () -> Unit,
-    onCanvasClick: () -> Unit,
-    onNebyAiClick: () -> Unit,
-    onSearchClick: () -> Unit
-) {
-    val shape = RoundedCornerShape(24.dp)
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(shape)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f),
-                        MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.25f),
-                        MaterialTheme.colorScheme.surfaceContainerLow
-                    )
-                )
-            )
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f), shape)
-            .padding(16.dp)
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Hello, ${userName.ifBlank { "Student" }} 👋",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Text(
-                        text = "Unified learning workspace & peer feed",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Surface(
-                    onClick = onSearchClick,
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.surface,
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
-                ) {
-                    Box(modifier = Modifier.padding(10.dp)) {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = "Search",
-                            modifier = Modifier.size(18.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                }
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                HomeMiniHubButton(
-                    title = "Canvas",
-                    subtitle = "Whiteboard",
-                    icon = Icons.Filled.Draw,
-                    onClick = onCanvasClick,
-                    modifier = Modifier.weight(1f)
-                )
-                HomeMiniHubButton(
-                    title = "Study Lab",
-                    subtitle = "Practice",
-                    icon = Icons.AutoMirrored.Filled.MenuBook,
-                    onClick = onStudyLabClick,
-                    modifier = Modifier.weight(1f)
-                )
-                HomeMiniHubButton(
-                    title = "Ask Neby",
-                    subtitle = "AI Tutor",
-                    icon = Icons.Filled.SmartToy,
-                    onClick = onNebyAiClick,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun HomeMiniHubButton(
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val shape = RoundedCornerShape(16.dp)
-    Surface(
-        onClick = onClick,
-        shape = shape,
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)),
-        modifier = modifier
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.7f), CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.size(17.dp),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
-            Text(
-                text = title,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1
-            )
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1
-            )
-        }
-    }
-}
-
-@Composable
 internal fun HomeFeedResourceHighlight(
     resource: ApiResource,
     onClick: () -> Unit
@@ -967,7 +642,7 @@ internal fun HomeFeedResourceHighlight(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))
@@ -1067,7 +742,7 @@ internal fun HomeEndOfFeedCard(
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), CircleShape),
+                    .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f), nebShape(NebGlyphShapes.Flower)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1146,7 +821,7 @@ internal fun HomeFeedComposerBar(
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .clip(RoundedCornerShape(18.dp))
-            .clickable(onClick = onClick),
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick),
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.16f))

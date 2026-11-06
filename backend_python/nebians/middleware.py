@@ -1,90 +1,34 @@
 import os
+from pathlib import Path
 import time
 import secrets
-from urllib.parse import urlparse
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import DisallowedHost
 from django.http import HttpResponseNotFound
-from django.http.request import validate_host
+from whitenoise.middleware import WhiteNoiseMiddleware
 
-from . import analytics_queue
+from . import analytics
 
 
 def _resolve_ws_public_url():
-    """Resolve the public WebSocket URL (uncached).
+    """Optional self-hosted WebSocket URL (WS_PUBLIC_URL), nothing else.
 
-    Duplicated from web.view_helpers (small wrapper) to avoid a circular
-    import between project middleware and the web app's view helpers.
-    Picks the NEWEST file by mtime that contains a trycloudflare host, so a
-    fresh start_ws_tunnel.log wins over a stale ws_url.txt.
+    Realtime for the site and app goes through Ably (api/realtime_ably.py), so
+    no tunnel is scraped or started any more. Set WS_PUBLIC_URL only if you run
+    Daphne behind a host that can really proxy WebSockets.
     """
-    ws_url = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
-    if not ws_url:
-        ws_url = (os.environ.get('WS_PUBLIC_URL', '') or '').strip()
-    if ws_url:
-        return ws_url
-    import glob as _glob, re as _re
-    candidates = []
-    log_paths = [
-        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-        os.path.join(getattr(settings, 'BASE_DIR', ''), 'logs', 'cloudflared.log'),
-    ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
-    for path in log_paths:
-        try:
-            with open(path, 'rb') as f:
-                f.seek(0, 2)
-                f.seek(max(0, f.tell() - 65536))
-                content = f.read().decode('utf-8', 'ignore')
-            matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if matches:
-                host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                url = 'wss://' + host + '/ws/'
-                try:
-                    mtime = os.path.getmtime(path)
-                except OSError:
-                    mtime = 0
-                candidates.append((mtime, url))
-        except OSError:
-            continue
-    if candidates:
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return candidates[0][1]
-    # Fallback: ws_url.txt cache (not authoritative — logs win even if ws_url.txt newer)
-    ws_url_txt = getattr(settings, 'WS_URL_TXT', '') or os.path.join(
-        getattr(settings, 'BASE_DIR', ''), 'ws_url.txt')
-    try:
-        with open(ws_url_txt) as f:
-            content = f.read().strip()
-        if content:
-            m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
-            if content.startswith('wss://'):
-                return content.strip()
-    except OSError:
-        pass
-    return ''
+    explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
+    if not explicit:
+        explicit = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
+    return explicit
 
 
 def _get_ws_public_url_cached():
-    """Cached (15s) resolution of the public WS URL — avoids per-request file I/O."""
-    # Don't cache empty — next request should retry immediately to pick up a new tunnel.
-    # A down tunnel resolves to '' so clients use polling instead of a dead host.
-    url = cache.get('ws_public_url_resolved')
-    if url is None:
-        url = _resolve_ws_public_url()
-        if url:
-            cache.set('ws_public_url_resolved', url, 15)
-    if url:
-        try:
-            from nebians.tunnel_health import is_tunnel_healthy
-            if not is_tunnel_healthy():
-                return ''
-        except Exception:
-            pass
-    return url
+    """The optional self-hosted WS URL. Read straight from the environment: it used to
+    be cached in Redis, which cost a network round trip on every request (this runs
+    for static files and API calls too) to remember a string that is almost always empty."""
+    return _resolve_ws_public_url()
+
 
 SENSITIVE_PATHS_404 = (
     '/.git/',
@@ -112,6 +56,25 @@ SENSITIVE_PATHS_404 = (
 
 def csp_nonce_context(request):
     return {'csp_nonce': getattr(request, 'csp_nonce', '')}
+
+
+class ResilientWhiteNoiseMiddleware(WhiteNoiseMiddleware):
+    """WhiteNoise, but a file that vanished mid-deploy is a 404, not a 500.
+
+    WhiteNoise indexes STATIC_ROOT once per process, at worker start.
+    `collectstatic --clear` deletes and rewrites that tree while the LSAPI
+    workers are still serving with the old index, so for those few seconds a
+    request can name a compressed file that is momentarily gone. That is a
+    transient miss, not a server error, and it must never mail the admins.
+    """
+
+    def __call__(self, request):
+        if not request.path_info.startswith(self.static_prefix):
+            return super().__call__(request)
+        try:
+            return super().__call__(request)
+        except FileNotFoundError:
+            return HttpResponseNotFound()
 
 
 class BearerCsrfExemptMiddleware:
@@ -190,172 +153,30 @@ class AllowedHostMiddleware:
         return response
 
 
-_SKIP_PREFIXES = (
-    '/static/', '/ajax/', '/api/',
-    '/admin/',
-    '/manifest.json', '/robots.txt', '/sitemap.xml',
-    '/favicon.ico',
-)
-
-_APP_HEADERS = ('HTTP_X_APP_PLATFORM', 'HTTP_X_APP_VERSION')
-
-_SEARCH_DOMAINS = ('google.', 'bing.', 'yahoo.', 'duckduckgo.', 'baidu.', 'yandex.', 'ask.', 'ecosia.', 'qwant.')
-_SOCIAL_DOMAINS = ('facebook.', 'twitter.', 'x.com', 'instagram.', 'linkedin.', 'reddit.', 'tiktok.', 'pinterest.', 'youtube.', 'whatsapp.', 'telegram.', 'discord.', 'snapchat.')
-
-
-def _classify_referrer(referrer_domain, own_domain):
-    if not referrer_domain:
-        return 'direct'
-    if referrer_domain == own_domain or referrer_domain.endswith('.' + own_domain):
-        return 'internal'
-    rd = referrer_domain.lower()
-    for sd in _SEARCH_DOMAINS:
-        if sd in rd:
-            return 'search'
-    for sd in _SOCIAL_DOMAINS:
-        if sd in rd:
-            return 'social'
-    return 'referral'
-
-
-def _resolve_geo(ip_address):
-    """Country/city for an IP, from cache only.
-
-    The lookup itself lives in nebians.analytics_queue and runs on a worker
-    thread. Resolving inline meant a three second upstream timeout sitting in
-    front of the browser's first byte; see that module for why that got worse
-    as traffic grew rather than better.
-    """
-    known = analytics_queue.geo_cached(ip_address)
-    return known if known is not None else ('', '')
-
-
-def _detect_platform(user_agent):
-    if not user_agent:
-        return ''
-    ua = user_agent.lower()
-    if 'android' in ua:
-        return 'android'
-    if 'iphone' in ua or 'ipad' in ua or 'ios' in ua:
-        return 'ios'
-    if 'windows' in ua:
-        return 'windows'
-    if 'macintosh' in ua or 'mac os x' in ua:
-        return 'mac'
-    if 'linux' in ua:
-        return 'linux'
-    if 'cros' in ua:
-        return 'chromeos'
-    return ''
-
-
 class PageViewTrackingMiddleware:
+    """Record one anonymous page view per real, full-page HTML hit.
+
+    All decisions (what counts, who is a bot, what a referrer means) live in
+    nebians.analytics; this class only wires them to the request cycle.
+    """
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         response = self.get_response(request)
 
-        # Anonymous page-cache hits are served without running the view. They
-        # still pass through here because this middleware wraps the cache.
-        # Writing a PageView row per hit would trade the cache win back for
-        # MySQL pressure on an overloaded box, so cached hits are not tracked.
-        if response.get('X-Page-Cache') == 'hit':
-            return response
-
-        if request.method != 'GET':
-            return response
-        if response.status_code != 200:
-            return response
-
-        path = request.path.lower()
-        for prefix in _SKIP_PREFIXES:
-            if path.startswith(prefix):
-                return response
-
-        now = int(time.time() * 1000)
-        referrer = request.META.get('HTTP_REFERER', '') or ''
-        own_domain = request.get_host().split(':')[0].lower()
-
-        referrer_domain = ''
-        if referrer:
-            try:
-                referrer_domain = urlparse(referrer).hostname or ''
-            except Exception:
-                referrer_domain = ''
-
-        referrer_type = _classify_referrer(referrer_domain, own_domain)
-
-        utm_source = request.GET.get('utm_source', '') or ''
-        utm_medium = request.GET.get('utm_medium', '') or ''
-        utm_campaign = request.GET.get('utm_campaign', '') or ''
-
-        user_agent = request.META.get('HTTP_USER_AGENT', '') or ''
-
-        is_app = False
-        for header in _APP_HEADERS:
-            if request.META.get(header, ''):
-                is_app = True
-                break
-        auth = request.META.get('HTTP_AUTHORIZATION', '')
-        if auth.startswith('Bearer ') and not request.COOKIES.get('sessionid'):
-            is_app = True
-
-        source = 'app' if is_app else 'web'
-        platform = ''
-        if is_app:
-            platform = request.META.get('HTTP_X_APP_PLATFORM', '') or _detect_platform(user_agent)
-        else:
-            platform = _detect_platform(user_agent)
-
-        ip_address = request.META.get('REMOTE_ADDR', None)
-        session_key = request.session.session_key or ''
-        user_id = None
-        user_identifier = ''
-        touch_user = ''
-        if hasattr(request, 'user') and request.user.is_authenticated:
-            try:
-                user_id = int(request.user.id) if str(request.user.id).isdigit() else None
-                if user_id is not None:
-                    uid_str = str(request.user.id)
-                    user_identifier = uid_str[:255]
-                    # The last_active write goes with the page view, off the
-                    # request path. Presence stays here: it is three Redis ops
-                    # and it has to be true by the time the next poll reads it.
-                    touch_user = uid_str
-                    try:
-                        cache.sadd('presence:online', uid_str)
-                        cache.expire('presence:online', 300)
-                        cache.set(f'presence:user:{uid_str}', now, 300)
-                    except Exception:
-                        pass
-            except (ValueError, TypeError):
-                pass
-
-        # Geo is filled in by the worker, which is the only place allowed to
-        # spend a network round trip on it.
-        analytics_queue.submit({
-            'path': request.path,
-            'full_url': request.build_absolute_uri(),
-            'referrer': referrer[:2000],
-            'referrer_domain': referrer_domain[:255],
-            'referrer_type': referrer_type,
-            'utm_source': utm_source[:255],
-            'utm_medium': utm_medium[:255],
-            'utm_campaign': utm_campaign[:255],
-            'user_agent': user_agent[:2000],
-            'source': source,
-            'platform': platform,
-            'ip_address': ip_address,
-            'session_key': session_key[:40],
-            'user_id': user_id,
-            'user_identifier': user_identifier,
-            'country': '',
-            'city': '',
-            'created_at': now,
-            '_touch_user': touch_user,
-        })
-
+        # Anonymous page-cache hits are page views like any other. They used to
+        # be skipped (a DB write per hit), which hid most logged-out traffic on
+        # the public pages. Recording is now a non-blocking queue put, so the
+        # cache win is kept and the visit is still counted.
+        try:
+            if analytics.is_trackable_request(request, response):
+                event = analytics.event_from_request(request)
+                if event:
+                    analytics.submit(event)
+        except Exception:
+            pass  # analytics must never break a page
         return response
 
 
@@ -382,7 +203,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://esm.sh", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
+        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://esm.sh", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "https://*.ably.net", "https://*.ably.io", "wss://*.ably.net", "wss://*.ably.io"]
 
         ws_url = _get_ws_public_url_cached()
 

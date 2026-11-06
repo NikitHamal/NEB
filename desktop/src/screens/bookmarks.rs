@@ -10,7 +10,7 @@ use crate::ui::widgets::{self, BtnKind};
 pub fn show(ui: &mut Ui, env: &mut Env) {
     scroll_page(ui, env, "bookmarks", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Bookmarks", Some("Chapters you saved. Press Ctrl+B in the reader to save one."));
+        widgets::screen_header(ui, &th, "Bookmarks");
         let items = env.store.s.bookmarks.clone();
         if items.is_empty() {
             widgets::empty_state(ui, &th, Icon::Bookmark, "No bookmarks yet", "Open a chapter and tap the bookmark icon.");
@@ -48,36 +48,9 @@ pub fn show(ui: &mut Ui, env: &mut Env) {
             env.toast("Bookmark removed");
         }
 
-        ui.add_space(24.0);
-        widgets::section_header(ui, &th, "Reading history", None);
-        let recent = env.store.s.recent.clone();
-        if recent.is_empty() {
-            widgets::muted(ui, &th, "Chapters you open will show up here.");
-        }
-        for r in &recent {
-            let done = env.store.progress(&r.chapter).map(|p| p.done).unwrap_or(false);
-            let resp = widgets::card(ui, &th, vec2(ui.available_width(), 62.0), 12.0, |ui| {
-                ui.horizontal(|ui| {
-                    widgets::subject_badge(ui, &th, &r.subject_name, &r.color, 36.0);
-                    ui.vertical(|ui| {
-                        ui.spacing_mut().item_spacing.y = 1.0;
-                        widgets::label_trunc(ui, RichText::new(&r.title).font(fonts::medium(14.5)).color(th.p.ink));
-                        widgets::label_trunc(ui, RichText::new(format!("{}{}", r.subject_name, if done { "  ·  finished" } else { "" })).font(fonts::regular(12.0)).color(th.p.ink_muted));
-                    });
-                });
-            });
-            if resp.clicked() {
-                open_chapter(env, r.chapter.clone());
-            }
-            ui.add_space(6.0);
-        }
-        if !recent.is_empty() {
-            ui.add_space(8.0);
-            if widgets::button(ui, &th, "Clear reading history", BtnKind::Ghost, Some(Icon::Trash), None).clicked() {
-                env.store.s.recent.clear();
-                env.store.touch();
-                env.toast("Reading history cleared");
-            }
+        ui.add_space(20.0);
+        if widgets::button(ui, &th, "Reading history", BtnKind::Secondary, Some(Icon::History), None).clicked() {
+            env.go(crate::router::Route::History);
         }
     });
 }

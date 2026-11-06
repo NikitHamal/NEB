@@ -1,0 +1,25 @@
+{% comment %} The wheel behind _dob_field.html (NebDateSheet): three snapped columns, the middle
+   row is the answer, and there is no text field to mistype a date into. Pass dob. {% endcomment %}
+<div class="neb-scrim neb-scrim-bottom" id="dob-sheet" role="dialog" aria-modal="true"
+     aria-labelledby="dob-sheet-title" hidden>
+  <div class="neb-sheet neb-sheet-picker">
+    <div class="neb-sheet-handle" aria-hidden="true"></div>
+    <div class="neb-sheet-head">
+      <div class="neb-sheet-head-text">
+        <h2 class="neb-sheet-title" id="dob-sheet-title">Date of birth</h2>
+        <p class="neb-sheet-sub">Only your age is ever shown, never the date.</p>
+      </div>
+      <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="neb-sheet-body neb-sheet-body-flush">
+      <div class="neb-wheel" id="dob-wheel"
+           data-value="{{ dob|default:'' }}" data-min-year="1940" data-default-age="17"></div>
+    </div>
+    <div class="neb-sheet-foot">
+      <button type="button" class="md-btn md-btn-text" data-neb-close>Cancel</button>
+      <button type="button" class="md-btn md-btn-filled" id="dob-confirm">Set date</button>
+    </div>
+  </div>
+</div>

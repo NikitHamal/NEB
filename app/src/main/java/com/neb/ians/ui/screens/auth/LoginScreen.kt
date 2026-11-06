@@ -2,50 +2,57 @@ package com.neb.ians.ui.screens.auth
 
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
-import com.neb.ians.ui.pixel.PixelSkyHero
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.neb.ians.R
+import com.neb.ians.ui.screens.onboarding.Reveal
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.nebAuthPalette
-import com.neb.ians.util.HideStatusBarEffect
 
 /**
- * The auth landing: the hero, the sentence, and the three ways in.
+ * The auth landing: the glyph stage, the name, the three ways in.
  *
- * The only hue on the page is the brand blue, and it appears exactly three
- * times — the word NEBians, and the Terms and Privacy links in
- * [AuthActionButtons]. Everything else, the hero included, stays as it was.
+ * White page, brand blue on the one word that is the brand, springs for every entrance. The
+ * hero morphs, the title and the buttons rise one beat apart, and nothing is explained
+ * twice: the name and the actions are the whole screen.
  */
 @Composable
 fun LoginScreen(
     onNavigateToEmailAuth: () -> Unit
 ) {
-    // Hide status bar on auth screen as requested
-    HideStatusBarEffect()
-
     val context = LocalContext.current
-    // Auth screen is consistently displayed in light mode
     val isDark = false
 
     var isLoading by remember { mutableStateOf(false) }
@@ -76,105 +83,57 @@ fun LoginScreen(
     }
 
     val palette = nebAuthPalette(isDark)
-
-    val screenBgColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFFFFFFF)
-
-    /** The brand word is the brand colour. It is the reason the word is there. */
-    val brandInk = palette.brand
-    val titleTextColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B)
-    val subtitleTextColor = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
+    val screenBg = Color(0xFFFFFFFF)
 
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(screenBgColor)
+            .background(screenBg)
+            .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        val screenHeight = maxHeight
-        val heroHeight = (screenHeight * 0.48f).coerceIn(280.dp, 440.dp)
+        val heroHeight = (maxHeight * 0.44f).coerceIn(260.dp, 400.dp)
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = 24.dp),
+                .padding(bottom = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 1. Top hero
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(heroHeight)
-            ) {
-                // The open book in a dawn sky, in animated pixel art (ui/pixel/PixelSkyScene).
-                PixelSkyHero(
-                    modifier = Modifier.fillMaxSize(),
-                    ground = screenBgColor.toArgb()
-                )
-
-                // Seamless gradient fade from image to screen background
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(110.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(
-                            Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.Transparent,
-                                    screenBgColor.copy(alpha = 0.45f),
-                                    screenBgColor.copy(alpha = 0.85f),
-                                    screenBgColor
-                                )
-                            )
-                        )
-                )
-            }
-
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 2. "Welcome to NEBians" (Poppins 600 bold, brand-blue "NEBians")
-            val welcomeText = buildAnnotatedString {
-                append("Welcome to ")
-                val startBrand = length
-                append("NEBians")
-                val endBrand = length
-                addStyle(
-                    style = SpanStyle(
-                        color = brandInk,
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    start = startBrand,
-                    end = endBrand
+            AuthHero(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(heroHeight),
+                dark = isDark
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Reveal(active = true, index = 3) {
+                Text(
+                    text = buildAnnotatedString {
+                        append("Welcome to ")
+                        pushStyle(SpanStyle(color = palette.brand, fontWeight = FontWeight.SemiBold))
+                        append("NEBians")
+                        pop()
+                    },
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 28.sp,
+                    letterSpacing = (-0.5).sp,
+                    color = Color(0xFF0A0A0B),
+                    textAlign = TextAlign.Center
                 )
             }
 
-            Text(
-                text = welcomeText,
-                fontFamily = Poppins,
-                fontWeight = FontWeight.SemiBold, // Poppins 600
-                fontSize = 27.sp,
-                letterSpacing = (-0.4).sp,
-                color = titleTextColor,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            // Subtitle in Poppins 500
-            Text(
-                text = "The open learning community for Nepal. Connect, learn, share study materials, and explore together.",
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Medium, // Poppins 500
-                fontSize = 14.5.sp,
-                lineHeight = 21.sp,
-                color = subtitleTextColor,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 32.dp)
-            )
-
-            if (!errorMessage.isNullOrBlank()) {
-                Spacer(modifier = Modifier.height(12.dp))
+            AnimatedVisibility(
+                visible = !errorMessage.isNullOrBlank(),
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
+            ) {
                 Text(
                     text = errorMessage ?: "",
                     fontFamily = Poppins,
@@ -182,26 +141,28 @@ fun LoginScreen(
                     fontSize = 13.sp,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, end = 24.dp, top = 12.dp)
                 )
             }
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            // 3. Action Buttons (Google, GitHub, Email, Terms - Poppins 600/500, no shadows)
-            AuthActionButtons(
-                isDark = isDark,
-                isLoading = isLoading,
-                loadingProvider = loadingProvider,
-                onGoogleClick = { launchOAuth("google") },
-                onGitHubClick = { launchOAuth("github") },
-                onEmailClick = onNavigateToEmailAuth,
-                onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
-                onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
-            )
+            Reveal(active = true, index = 5, rise = 40.dp, modifier = Modifier.fillMaxWidth()) {
+                AuthActionButtons(
+                    isDark = isDark,
+                    isLoading = isLoading,
+                    loadingProvider = loadingProvider,
+                    onGoogleClick = { launchOAuth("google") },
+                    onGitHubClick = { launchOAuth("github") },
+                    onEmailClick = onNavigateToEmailAuth,
+                    onTermsClick = { activeLegalSheet = LegalSheetType.TERMS },
+                    onPrivacyClick = { activeLegalSheet = LegalSheetType.PRIVACY }
+                )
+            }
         }
 
-        // Terms of Service & Privacy Policy Bottom Sheet
         AuthLegalSheet(
             sheetType = activeLegalSheet,
             onDismiss = { activeLegalSheet = null },

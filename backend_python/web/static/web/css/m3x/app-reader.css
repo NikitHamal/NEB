@@ -1,0 +1,92 @@
+/* m3x reader: the blog article. Markup and behaviour (progress bar, contents, comments) are unchanged;
+   this is the whole look. A calm 720px column, a display title, a cover that morphs on hover,
+   tonal pills for actions, comments as stacked tonal cards. Loaded after the page stylesheet. */
+
+.nd-progress { position: fixed; left: 0; right: 0; top: 0; height: 4px; z-index: 3000; background: transparent; }
+.nd-progress > span { display: block; height: 100%; width: 0; background: var(--md-primary); border-radius: 0 2px 2px 0; }
+:root .news-detail-page { max-width: 1180px; padding: 20px 24px 120px; }
+:root .nd-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: start; }
+:root .nd-main { min-width: 0; max-width: 760px; margin: 0 auto; width: 100%; }
+:root .news-detail { background: transparent; border: 0; padding: 0; }
+:root .news-detail-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+:root .news-category-badge, :root .news-pin-badge {
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 16px; font: 700 .8125rem/1 var(--md-font);
+  background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 16%, var(--md-surface-container-lowest)); color: color-mix(in srgb, var(--cat-color, var(--md-primary)) 50%, var(--md-on-surface));
+}
+:root .news-pin-badge { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+:root .news-category-badge .material-symbols-outlined, :root .news-pin-badge .material-symbols-outlined { font-size: 16px; }
+:root .news-detail-title { margin: 0 0 14px; font: 700 clamp(2rem, 4.6vw, 3.1rem)/1.1 var(--md-font); letter-spacing: -.03em; color: var(--md-on-surface); }
+:root .news-detail-summary { margin: 0 0 20px; font-size: 1.1875rem; line-height: 1.55; color: var(--md-on-surface-variant); }
+:root .news-detail-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 0; border-block: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); font-size: .875rem; }
+:root .news-detail-meta .news-card-author { color: var(--md-on-surface); font-weight: 600; }
+:root .news-detail-meta .news-card-dot { opacity: .5; }
+:root .news-detail-more-btn { width: 44px; height: 44px; border: 0; border-radius: 22px; background: var(--md-surface-container); color: var(--md-on-surface); cursor: pointer; transition: border-radius .45s var(--spring), background-color .2s; }
+:root .news-detail-more-btn:hover { background: var(--md-surface-container-high); }
+:root .news-detail-cover { margin: 24px 0; border-radius: 32px; overflow: hidden; background: var(--md-surface-container); transition: border-radius .7s var(--spring); }
+:root .news-detail-cover:hover { border-radius: 44px; }
+:root .news-detail-cover img { display: block; width: 100%; height: auto; }
+:root .news-detail-content { font-size: 1.125rem; line-height: 1.85; color: var(--md-on-surface); }
+:root .news-detail-content :is(h2, h3, h4) { font-family: var(--md-font); font-weight: 700; letter-spacing: -.02em; line-height: 1.25; margin: 2em 0 .6em; color: var(--md-on-surface); }
+:root .news-detail-content h2 { font-size: 1.75rem; }
+:root .news-detail-content h3 { font-size: 1.375rem; }
+:root .news-detail-content a { color: var(--md-primary); text-underline-offset: 3px; }
+:root .news-detail-content img { max-width: 100%; height: auto; border-radius: 24px; }
+:root .news-detail-content blockquote { margin: 1.6em 0; padding: 20px 24px; border-radius: 24px; background: var(--md-primary-container); color: var(--md-on-primary-container); border: 0; }
+:root .news-detail-content :is(ul, ol) { padding-left: 1.4em; }
+:root .news-detail-content li::marker { color: var(--md-primary); }
+:root .news-detail-content table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid var(--md-outline-variant); border-radius: 20px; overflow: hidden; font-size: .9375rem; }
+:root .news-detail-content :is(th, td) { padding: 12px 16px; border-bottom: 1px solid var(--md-outline-variant); text-align: left; }
+:root .news-detail-content th { background: var(--md-surface-container); }
+:root .news-detail-content :is(code, pre) { background: var(--md-surface-container); color: var(--md-on-surface); border-radius: 12px; }
+:root .news-detail-content code { padding: 2px 8px; }
+:root .news-detail-content pre { padding: 16px 20px; overflow-x: auto; }
+
+:root .nd-actionbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 32px 0 0; padding: 12px; border-radius: 32px; background: var(--md-surface-container); border: 0; }
+:root .nd-action {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; border: 0; border-radius: 24px; cursor: pointer; text-decoration: none;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface); font: 600 .9375rem/1 var(--md-font);
+  transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s;
+}
+:root .nd-action:hover { background: var(--md-surface-container-high); }
+:root .nd-action:active { transform: scale(.94); }
+:root .nd-action-primary { background: var(--md-primary); color: var(--md-on-primary); }
+:root .nd-action-primary:hover { background: var(--md-primary); }
+:root .nd-action-icon { width: 48px; padding: 0; }
+:root .nd-action .material-symbols-outlined { font-size: 20px; }
+
+:root .nd-comments { margin-top: 48px; }
+:root .nd-comments-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+:root .nd-comments-head h2 { margin: 0; font: 700 1.5rem/1.2 var(--md-font); letter-spacing: -.02em; }
+:root .nd-comments-count { min-width: 32px; height: 32px; padding: 0 10px; display: inline-grid; place-items: center; border-radius: 16px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); font: 700 .875rem/1 var(--md-font); }
+/* The composer is .neb-composer, which draws its own box; the wrapper only holds
+   it and its hint. The signed-out prompt has no composer inside, so it keeps the
+   plate. */
+:root .nd-composer { padding: 0; border: 0; background: none; }
+:root .nd-signin { border-radius: 28px; background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); padding: 16px; color: var(--md-on-surface); }
+:root .nd-signin { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+:root .nd-signin-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 24px; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+:root .nd-signin-text { flex: 1; min-width: 160px; color: var(--md-on-surface); }
+
+:root .nd-related { margin-top: 56px; }
+:root .nd-related-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+:root .nd-related-head h2 { margin: 0; font: 700 1.375rem/1.2 var(--md-font); letter-spacing: -.02em; }
+:root .nd-related-head a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+
+:root .nd-sidebar { position: sticky; top: 92px; display: flex; flex-direction: column; gap: 16px; }
+:root .nd-toc { padding: 20px; border-radius: 28px; background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); }
+:root .nd-side-cta { padding: 22px; border-radius: 28px; background: var(--md-primary-container); color: var(--md-on-primary-container); border: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+:root .nd-side-cta h4 { margin: 0; font: 700 1.25rem/1.2 var(--md-font); color: var(--md-on-primary-container); }
+:root .nd-side-cta .news-sidebar-cta-icon-wrapper { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 24px; background: var(--md-primary); color: var(--md-on-primary); }
+
+@media (max-width: 980px) {
+  :root .nd-layout { grid-template-columns: 1fr; }
+  :root .nd-sidebar { position: static; }
+  :root .nd-toc { display: none; }
+}
+@media (max-width: 640px) {
+  :root .news-detail-page { padding: 14px 14px 120px; }
+  :root .news-detail-content { font-size: 1.0625rem; }
+  :root .news-detail-cover { border-radius: 24px; }
+  :root .nd-actionbar { border-radius: 28px; }
+  :root .nd-action:not(.nd-action-icon):not(.nd-action-primary) { flex: 1; }
+}

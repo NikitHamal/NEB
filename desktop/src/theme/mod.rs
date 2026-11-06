@@ -2,6 +2,7 @@
 //! and the translation of all of that into egui `Visuals` / `Style`.
 pub mod colors;
 pub mod fonts;
+pub mod motion;
 pub mod spacing;
 
 use egui::{Color32, Context, FontFamily, FontId, Rounding, Stroke, TextStyle};
@@ -24,39 +25,40 @@ impl Theme {
         let p = &self.p;
         let mut v = if self.dark { egui::Visuals::dark() } else { egui::Visuals::light() };
         v.panel_fill = p.page;
-        v.window_fill = p.card;
+        v.window_fill = p.surface_high;
         v.extreme_bg_color = p.field;
         v.faint_bg_color = p.field;
         v.code_bg_color = p.field;
         v.override_text_color = Some(p.ink);
         v.hyperlink_color = p.accent;
-        v.window_stroke = Stroke::new(1.0, p.hairline);
+        v.window_stroke = Stroke::new(1.0_f32, p.hairline);
         v.window_rounding = Rounding::same(spacing::PANEL_RADIUS);
-        v.menu_rounding = Rounding::same(10.0);
-        v.window_shadow = egui::epaint::Shadow { offset: egui::vec2(0.0, 8.0), blur: 32.0, spread: 0.0, color: Color32::from_black_alpha(if self.dark { 120 } else { 40 }) };
-        v.popup_shadow = v.window_shadow;
+        v.menu_rounding = Rounding::same(spacing::SHAPE_MD);
+        // No shadows anywhere: separation is tone + outline (same rule as the web).
+        v.window_shadow = egui::epaint::Shadow::NONE;
+        v.popup_shadow = egui::epaint::Shadow::NONE;
         v.selection.bg_fill = if self.dark { mix(p.page, p.accent, 0.40) } else { mix(p.page, p.accent, 0.28) };
-        v.selection.stroke = Stroke::new(1.0, p.accent);
-        let r = Rounding::same(10.0);
+        v.selection.stroke = Stroke::new(1.0_f32, p.accent);
+        let r = Rounding::same(spacing::SHAPE_SM);
         for w in [&mut v.widgets.noninteractive, &mut v.widgets.inactive, &mut v.widgets.hovered, &mut v.widgets.active, &mut v.widgets.open] {
             w.rounding = r;
         }
         v.widgets.noninteractive.bg_fill = p.card;
-        v.widgets.noninteractive.bg_stroke = Stroke::new(1.0, p.hairline);
-        v.widgets.noninteractive.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.noninteractive.bg_stroke = Stroke::new(1.0_f32, p.hairline);
+        v.widgets.noninteractive.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.inactive.bg_fill = p.field;
         v.widgets.inactive.weak_bg_fill = p.field;
-        v.widgets.inactive.bg_stroke = Stroke::new(1.0, p.hairline);
-        v.widgets.inactive.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, p.hairline);
+        v.widgets.inactive.fg_stroke = Stroke::new(1.0_f32, p.ink);
         let hov = mix(p.field, p.ink, 0.06);
         v.widgets.hovered.bg_fill = hov;
         v.widgets.hovered.weak_bg_fill = hov;
-        v.widgets.hovered.bg_stroke = Stroke::new(1.0, p.hairline_strong);
-        v.widgets.hovered.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.hovered.bg_stroke = Stroke::new(1.0_f32, p.hairline_strong);
+        v.widgets.hovered.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.active.bg_fill = mix(p.field, p.ink, 0.12);
         v.widgets.active.weak_bg_fill = mix(p.field, p.ink, 0.12);
-        v.widgets.active.bg_stroke = Stroke::new(1.0, p.accent);
-        v.widgets.active.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.active.bg_stroke = Stroke::new(1.0_f32, p.accent);
+        v.widgets.active.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.open.bg_fill = p.accent_soft;
         v.widgets.open.weak_bg_fill = p.accent_soft;
         ctx.set_visuals(v);

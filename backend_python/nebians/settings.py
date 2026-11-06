@@ -8,7 +8,6 @@ import re
 import sys
 import logging
 from pathlib import Path
-from logging.handlers import RotatingFileHandler
 
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
@@ -99,7 +98,7 @@ MIDDLEWARE = [
     # download. Django masks the CSRF token per response, so the usual BREACH
     # objection to compressing authenticated HTML does not apply here.
     'django.middleware.gzip.GZipMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'nebians.middleware.ResilientWhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'nebians.middleware.AllowedHostMiddleware',
@@ -112,8 +111,10 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'nebians.middleware.SecurityHeadersMiddleware',
     'nebians.middleware.PageViewTrackingMiddleware',
+    'api.signals.SignalContextMiddleware',
     'nebians.middleware.ApiUnhandledExceptionMiddleware',
     'nebians.page_cache.AnonPageCacheMiddleware',
+    'nebians.news_autopilot.NewsAutopilotMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'
@@ -237,10 +238,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # brittle behind LiteSpeed's multi-worker LSAPI: a stale worker holds the old
 # manifest index and 404s every newly-hashed name until it respawns. Plain
 # filenames keep every worker consistent across deploys (gz/br still served).
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'nebians.storage.VersionedStaticFilesStorage'
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "nebians.storage.VersionedStaticFilesStorage"},
 }
 
 def _immutable_file_test(path, _url=None):
@@ -248,6 +249,7 @@ def _immutable_file_test(path, _url=None):
     return 'web/js/needle3/' in p or (_url is not None and 'web/js/needle3/' in _url)
 
 WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
+from nebians.static_headers import static_cache_headers as WHITENOISE_ADD_HEADERS_FUNCTION  # noqa: E402
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
@@ -432,3 +434,11 @@ LOGGING = {
     },
     'root': {'handlers': ['console', 'file'], 'level': os.environ.get('LOG_LEVEL', 'INFO')},
 }
+
+
+# Blog autopilot (services/news_sync.py): official notices and education news are
+# pulled in the background every NEWS_SYNC_INTERVAL_MIN minutes. Off under tests;
+# NEWS_AUTOSYNC=0 turns it off anywhere (`manage.py sync_news` still works).
+import sys as _sys
+NEWS_AUTOSYNC = os.environ.get('NEWS_AUTOSYNC', '1') != '0' and 'test' not in _sys.argv
+NEWS_SYNC_INTERVAL_MIN = int(os.environ.get('NEWS_SYNC_INTERVAL_MIN', '120'))

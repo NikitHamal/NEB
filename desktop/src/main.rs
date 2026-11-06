@@ -8,6 +8,7 @@ mod data;
 mod devtools;
 mod env;
 mod errors;
+mod pdf;
 mod reader;
 mod router;
 mod server;

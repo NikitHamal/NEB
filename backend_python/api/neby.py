@@ -18,7 +18,7 @@ import re
 from django.db import transaction
 from django.db.models import F, Q
 
-from .models import BotConfig, User, Post, Reply, NebyTask
+from .models import BotConfig, Post, Reply, NebyTask
 from .utils import now_ms, uuid_str
 
 logger = logging.getLogger(__name__)

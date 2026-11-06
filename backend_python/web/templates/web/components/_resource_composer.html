@@ -1,0 +1,208 @@
+{% load static web_extras %}
+{% comment %}
+  The resource composer: one surface that uploads a resource and edits one.
+
+  It is the forum editor's surface (.fe) with the same tray rows (.na-row), the same bar and the same sheets, so
+  writing a post, editing a post, sharing a note and editing a note are one gesture. js/resource-composer.js drives it.
+
+  Context: mode ("upload" | "edit"), action, form_data (mapping of field values), subjects, common_tags,
+  education_levels, resource_types, resource_type_default, exam_types, pradesh_options, commission_percent,
+  is_authenticated, cancel_url; edit only: resource, current (file / cover for the tray), link_editable.
+{% endcomment %}
+{% with f=form_data %}
+<form method="post" action="{{ action }}" enctype="multipart/form-data" class="fe rc" id="rc-form"
+      data-mode="{{ mode }}" novalidate>
+  {% csrf_token %}
+
+  <div class="rc-errors" id="rc-errors" role="alert" hidden>
+    <span class="material-symbols-outlined" aria-hidden="true">error</span>
+    <ul id="rc-error-list">{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+  </div>
+
+  <label class="fe-title-wrap">
+    <textarea class="fe-title" id="rc-title" name="title" rows="1" maxlength="200" autocomplete="off"
+              data-neb-skip data-autoheight data-autoheight-max="132"
+              placeholder="Title" aria-label="Title" required>{{ f.title|default:'' }}</textarea>
+  </label>
+
+  <div class="fe-body">
+    <textarea class="fe-text" id="rc-description" name="description" rows="3" data-neb-skip data-autoheight
+              data-autoheight-max="360" placeholder="Describe what is inside" aria-label="Description">{{ f.description|default:'' }}</textarea>
+  </div>
+
+  <div class="rc-chips" role="group" aria-label="Details">
+    <button type="button" class="rc-chip" data-neb-open="rc-subject" data-rc-chip="rc-subject-value" data-rc-label="Subject" data-rc-required>
+      <span class="material-symbols-outlined" aria-hidden="true">category</span><span class="rc-chip-text">Subject</span>
+    </button>
+    <button type="button" class="rc-chip" data-neb-open="rc-level" data-rc-chip="rc-level-value" data-rc-label="Level">
+      <span class="material-symbols-outlined" aria-hidden="true">school</span><span class="rc-chip-text">Level</span>
+    </button>
+    <button type="button" class="rc-chip" data-neb-open="rc-type" data-rc-chip="rc-type-value" data-rc-label="Type">
+      <span class="material-symbols-outlined" aria-hidden="true">deployed_code</span><span class="rc-chip-text">Type</span>
+    </button>
+    <button type="button" class="rc-chip" data-neb-open="rc-tags" data-rc-chip="rc-tags-value" data-rc-label="Tags">
+      <span class="material-symbols-outlined" aria-hidden="true">sell</span><span class="rc-chip-text">Tags</span>
+    </button>
+    <button type="button" class="rc-chip rc-chip-price" data-neb-open="rc-price" data-rc-price>
+      <span class="material-symbols-outlined" aria-hidden="true">payments</span><span class="rc-chip-text">Free</span>
+    </button>
+    <button type="button" class="rc-chip" data-neb-open="rc-more" data-rc-group="rc-more" data-rc-label="More">
+      <span class="material-symbols-outlined" aria-hidden="true">tune</span><span class="rc-chip-text">More</span>
+    </button>
+  </div>
+
+  <input type="hidden" id="rc-subject-value" name="subject" value="{{ f.subject|default:'' }}">
+  <input type="hidden" id="rc-level-value" name="grade_level" value="{{ f.grade_level|default:'' }}">
+  <input type="hidden" id="rc-type-value" name="type" value="{% firstof f.type resource_types.0 %}">
+  <input type="hidden" id="rc-tags-value" name="tags" value="{{ f.tags|default:'' }}">
+
+  <div class="fe-tray rc-tray" id="rc-tray">
+    <div class="na" id="rc-na">
+      <ul class="na-list" id="rc-rows" aria-live="polite"></ul>
+    </div>
+  </div>
+
+  {% if mode == 'upload' %}
+  <div class="rc-drop" id="rc-drop">
+    <button type="button" class="rc-drop-main" id="rc-drop-pick">
+      <span class="rc-drop-tile" aria-hidden="true"><span class="material-symbols-outlined">upload_file</span></span>
+      <span class="rc-drop-title">Drop files here or <u>browse</u></span>
+      <span class="rc-drop-hint">Up to 5 files, 50 MB each</span>
+    </button>
+    <button type="button" class="md-btn md-btn-text rc-drop-link" data-neb-open="rc-links">
+      <span class="material-symbols-outlined" aria-hidden="true">link</span>Use a link instead
+    </button>
+  </div>
+  {% endif %}
+
+  <input type="file" id="rc-file-input" class="rc-file-input" tabindex="-1" aria-hidden="true"
+         {% if mode == 'upload' %}multiple{% endif %}
+         accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.odt,.ods,.odp,.csv,.zip,.rar,.7z,.jpg,.jpeg,.png,.gif,.webp,.bmp,.heic,.heif,.mp4,.mkv,.avi,.mov,.webm,.wmv,.flv,.3gp,.mp3,.wav,.ogg,.flac,.aac,.m4a,.wma,.epub,.mobi">
+  <input type="file" id="rc-cover-input" class="rc-file-input" tabindex="-1" aria-hidden="true" accept="image/jpeg,image/png,image/webp,image/gif">
+
+  <div class="fe-bar">
+    <button type="button" class="fe-icon" id="rc-attach" aria-label="{% if mode == 'edit' %}Replace file{% else %}Add files{% endif %}" title="{% if mode == 'edit' %}Replace file{% else %}Add files{% endif %}">
+      <span class="material-symbols-outlined" aria-hidden="true">attach_file</span><b class="fe-badge" id="rc-badge" hidden></b>
+    </button>
+    <button type="button" class="fe-icon" id="rc-cover-btn" aria-label="Cover image" title="Cover image">
+      <span class="material-symbols-outlined" aria-hidden="true">image</span>
+    </button>
+    <button type="button" class="fe-icon" data-neb-open="rc-links" aria-label="Links and credit" title="Links and credit">
+      <span class="material-symbols-outlined" aria-hidden="true">link</span>
+    </button>
+    {% if mode == 'edit' %}
+    <button type="button" class="fe-icon rc-danger" data-neb-open="rc-delete" aria-label="Delete resource" title="Delete resource">
+      <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+    </button>
+    {% endif %}
+    <span class="fe-status" id="rc-status" role="status" aria-live="polite"></span>
+    <a class="md-btn md-btn-text" href="{{ cancel_url }}" id="rc-cancel">Cancel</a>
+    <button type="submit" class="md-btn md-btn-filled fe-save" id="rc-submit">
+      <span class="material-symbols-outlined" aria-hidden="true">{% if mode == 'edit' %}check{% else %}arrow_upward{% endif %}</span><span>{% if mode == 'edit' %}Save{% else %}Share{% endif %}</span>
+    </button>
+  </div>
+
+  {% include "web/components/_choice_sheet.html" with sheet_id="rc-subject" input_id="rc-subject-value" title="Subjects" options=subjects multi=True custom=True %}
+  {% include "web/components/_choice_sheet.html" with sheet_id="rc-level" input_id="rc-level-value" title="Level" options=education_levels %}
+  {% include "web/components/_choice_sheet.html" with sheet_id="rc-type" input_id="rc-type-value" title="Type" options=resource_types %}
+  {% include "web/components/_choice_sheet.html" with sheet_id="rc-tags" input_id="rc-tags-value" title="Tags" options=common_tags multi=True custom=True %}
+
+  <div class="neb-scrim neb-scrim-bottom" id="rc-price" data-neb-close hidden>
+    <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="rc-price-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="rc-price-title">Price</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="neb-sheet-body">
+        {% include "web/_price_setter.html" with id_prefix="rc" is_paid=f.is_paid price_value=f.price commission_pct=commission_percent title="Sell this resource" mode_title="You keep every sale after the platform fee." %}
+      </div>
+      <div class="neb-sheet-foot">
+        <button type="button" class="md-btn md-btn-filled neb-foot-major" data-neb-close>Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="neb-scrim neb-scrim-bottom" id="rc-more" data-neb-close hidden>
+    <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="rc-more-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="rc-more-title">More details</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="neb-sheet-body rc-fields">
+        <label class="rc-field"><span class="md-label">Exam</span>
+          <select class="md-select" id="exam_type" name="exam_type" data-rc-f>
+            <option value="">Not an exam</option>
+            {% for t in exam_types %}{% if t %}<option value="{{ t }}" {% if f.exam_type == t %}selected{% endif %}>{{ t }}</option>{% endif %}{% endfor %}
+          </select>
+        </label>
+        <label class="rc-field"><span class="md-label">Year</span>
+          <input class="md-input" type="text" name="year" value="{{ f.year|default:'' }}" placeholder="2081" data-rc-f></label>
+        <label class="rc-field"><span class="md-label">Faculty</span>
+          <input class="md-input" type="text" name="faculty" value="{{ f.faculty|default:'' }}" placeholder="Science, Management" data-rc-f></label>
+        <label class="rc-field"><span class="md-label">Program</span>
+          <input class="md-input" type="text" name="program" value="{{ f.program|default:'' }}" placeholder="BSc CSIT, +2 Science" data-rc-f></label>
+        <label class="rc-field"><span class="md-label">School or college</span>
+          <input class="md-input" type="text" name="school" value="{{ f.school|default:'' }}" data-rc-f></label>
+        <label class="rc-field"><span class="md-label">Province</span>
+          <select class="md-select" id="pradesh" name="pradesh" data-rc-f>
+            <option value="">Any</option>
+            {% for p in pradesh_options %}<option value="{{ p }}" {% if f.pradesh == p %}selected{% endif %}>{{ p }}</option>{% endfor %}
+          </select>
+        </label>
+        <label class="rc-field"><span class="md-label">District</span>
+          <input class="md-input" type="text" name="district" value="{{ f.district|default:'' }}" data-rc-f></label>
+      </div>
+      <div class="neb-sheet-foot">
+        <button type="button" class="md-btn md-btn-filled neb-foot-major" data-neb-close>Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="neb-scrim neb-scrim-bottom" id="rc-links" data-neb-close hidden>
+    <div class="neb-sheet" role="dialog" aria-modal="true" aria-labelledby="rc-links-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="rc-links-title">Links and credit</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="neb-sheet-body rc-fields">
+        {% if mode == 'upload' or link_editable %}
+        <label class="rc-field rc-wide"><span class="md-label">File link</span>
+          <input class="md-input" type="text" id="rc-file-url" name="file_url" value="{{ f.file_url|default:'' }}" placeholder="https://drive.google.com/..." data-rc-f></label>
+        {% endif %}
+        <label class="rc-field rc-wide"><span class="md-label">Cover image link</span>
+          <input class="md-input" type="text" id="rc-cover-url" name="thumbnail_url" value="{{ f.thumbnail_url|default:'' }}" placeholder="https://..." data-rc-f></label>
+        <label class="rc-field rc-wide"><span class="md-label">{% if is_authenticated %}Author{% else %}Your name{% endif %}</span>
+          <input class="md-input" type="text" name="author_name" value="{{ f.author_name|default:'' }}" placeholder="{% if is_authenticated %}Prof. Sharma, or @username{% else %}Leave blank to stay anonymous{% endif %}" {% if is_authenticated %}data-mention-user="1"{% endif %} data-rc-f></label>
+        <label class="rc-field"><span class="md-label">Source</span>
+          <input class="md-input" type="text" name="source_label" value="{{ f.source_label|default:'' }}" placeholder="Curriculum Board" data-rc-f></label>
+        <label class="rc-field"><span class="md-label">Source link</span>
+          <input class="md-input" type="text" name="source_url" value="{{ f.source_url|default:'' }}" placeholder="https://..." data-rc-f></label>
+      </div>
+      <div class="neb-sheet-foot">
+        <button type="button" class="md-btn md-btn-filled neb-foot-major" data-neb-close>Done</button>
+      </div>
+    </div>
+  </div>
+
+  {% if mode == 'edit' %}
+  <div class="neb-scrim neb-scrim-bottom" id="rc-delete" data-neb-close hidden>
+    <div class="neb-sheet" role="alertdialog" aria-modal="true" aria-labelledby="rc-delete-title">
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="rc-delete-title">Delete this resource?</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="neb-sheet-foot">
+        <button type="button" class="md-btn md-btn-text neb-foot-minor" data-neb-close>Keep it</button>
+        <button type="button" class="md-btn md-btn-filled neb-foot-major rc-delete-confirm" id="rc-delete-confirm"
+                data-url="{% url 'web:ajax_resource_delete' resource_id=resource.id %}">Delete</button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</form>
+{% endwith %}
+{% if current %}{{ current|json_script:"rc-current" }}{% endif %}

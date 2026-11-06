@@ -1,0 +1,87 @@
+# SCHOOL_REVIEW.md
+
+Branch `polish/school-books-claude` (from `main` f372ce8). Read with SYLLABUS_DIFF.md, SCHOOL_SOURCES.md, SCHOOL_INVENTORY.md, POLISH_ENV.md.
+
+## Bottom line (honest)
+- The brief asks for an end-to-end re-audit and rewrite of 36 school books (~3.3 M words). **That did not happen.** I audited all 36 mechanically and verified six against outside sources; I found and fixed **two** small defects and rebuilt **one** PDF.
+- **The brief's headline example could not be confirmed.** I found no evidence that the current Class 8 curriculum has Python instead of QBASIC. Evidence says QBASIC is still the Class 8 language and that Python replaced it in Class 9 (2082) and Class 10 (2083), where the repo is **already correct**. I therefore did **not** remove QBASIC from `cs8`. This is an open decision for you (SYLLABUS_DIFF.md §1).
+
+## Audited
+- All 36 school slugs (cs8…qbank12): spine ↔ chapter ↔ frontmatter ↔ PDF presence, section coverage, stale-term scan (`notes/tools/school_audit.py`, new, reusable).
+- Outside-source unit/hour checks: cs10, sci10, math10, cs11, chem11, phy11.
+
+## Found
+1. eng10 u4 — model letter by a 20-year-old "after passing my SLC" (SLC no longer exists). Fixed.
+2. acc10 u14 — frontmatter area ≠ spine. Fixed (no PDF effect).
+3. Pipeline portability: `md2html.py` needs Python ≥ 3.12 (SyntaxError on 3.11) and the fonts are not vendored; building without them silently degrades figures. Not changed; documented in SCHOOL_INVENTORY.md.
+4. Everything else flagged by the audit was a false positive or a deliberate keep (listed in SYLLABUS_DIFF.md §4).
+
+## Fixed (SYLLABUS_DIFF items → commits)
+| Item | Commit |
+|---|---|
+| tooling + POLISH_ENV.md + acc10 u14 area | 0e4b9ff |
+| eng10 u4 SLC→SEE + rebuilt PDF | 9892c97 |
+| four audit docs + inventory | see `git log` tip of this branch |
+
+## PDF rebuild evidence (eng10)
+- Rebuilt with the repo pipeline (`build_pdf.py eng10`, Python 3.12.16, WeasyPrint 70, fonts from `fonts/install.sh`): **281 pages**, 5.8 MB; the committed original was 281 pages, 5.96 MB.
+- `pdftotext` diff old↔new: the intended SLC→SEE line plus line-wrap/hyphenation shifts (63 differing lines, same page for every unit start) caused by newer WeasyPrint/Pyphen. Page 60 (the edited page) rendered side-by-side with the original: identical cover/header/watermark/boxes/page number.
+- Not eyeballed: the other 280 pages (identical source, same pipeline; I checked the edited page, unit start pages and the cover only). No `qa_pdf.py` exists in the repo.
+- `audit.py` on eng10 + acc10 chapters:
+```
+ok  ../content/eng10/unit-18.md  | 4792 words, 5 figures, 2 photos, 3 worked examples, OK
+
+==== 33 files, 0 FAILED
+```
+- `school_audit.py` after fixes:
+```
+13 issue(s)
+[OUTDATED?] cs8 u-: old Windows version: u13:1x@L292
+[OUTDATED?] eng8 u-: SLC (replaced by SEE from 2073 BS): u10:1x@L39
+[MISSING] math8 u15: 3 numbered sections for 4 syllabus bullets
+[MISSING] acc10 u12: 6 numbered sections for 9 syllabus bullets
+[MISSING] acc10 u15: 7 numbered sections for 8 syllabus bullets
+[OUTDATED?] cs10 u-: census 2068 population as current: u4:3x@L1672
+[OUTDATED?] eng10 u-: SLC (replaced by SEE from 2073 BS): u15:1x@L455
+[OUTDATED?] qbank10 u-: census 2068 population as current: u14:1x@L68
+[OUTDATED?] qbank10 u-: Python 2 idiom: u22:1x@L552
+[OUTDATED?] cs11 u-: dead browser/plugin: u6:1x@L315
+[OUTDATED?] eng11 u-: SLC (replaced by SEE from 2073 BS): u23:1x@L56
+[OUTDATED?] bio12 u-: census 2068 population as current: u9:3x@L123
+[OUTDATED?] eng12 u-: SLC (replaced by SEE from 2073 BS): u23:1x@L54
+```
+(remaining lines are the reviewed false positives / deliberate keeps.)
+
+## Second finding pass: defects in the repo's own `audit.py`
+The first `audit.py` run on eng10+acc10 reported **3 FAILED chapters** (I initially pasted that tail without reading it; corrected here). All three were real, pre-existing figure defects in untouched source, and are now fixed (see tail above, taken after the fix):
+- `acc10` u12 — figure code had `"\\n"` so the diagram printed a literal backslash-n (4 labels).
+- `acc10` u11 — 5.6 pt labels wider than their boxes; relaid out (3-line labels, 6.0 pt, full-bleed axes).
+- `eng10` u7 — arrow-annotation boxes collided; replaced with line + text.
+Rebuilt PDFs: eng10 (281 pp), acc10 (188 pp), same page counts as before. I eyeballed eng10 p97 (u7 figure), acc10 p133 (u11 figure) and p148; I did **not** eyeball the u12 figure page, only `check.py`-verified it.
+
+## NEW OPEN BUG — broken `\times` after a percent sign (pre-existing, NOT fixed)
+On acc10 p148 ("Step 1 — Provincial share = 30%imes1,20,000 = Rs. 36,000") the multiplication sign prints as the letters `imes`. **Confirmed in the original committed PDF as well** as the rebuild, so it is not caused by my environment. Pattern `\%` … `\times` occurs in: acc10 u03 (9), u07 (1), u12 (2); qbankc10 u03 (1), u04 (7), u05 (4); qbank10 u06 (1) — 25 occurrences, 7 chapters. I confirmed the glitch only on acc10 p148; the other chapters are **unchecked in the PDFs**. Root cause not found: matplotlib mathtext renders `30\% \times 2` correctly on its own, `mathsvg._clean` leaves it unchanged, and a minimal `md2html.convert` test did not reproduce it, so the corruption happens somewhere else in the build. My unconfirmed hypothesis is a `re.sub` replacement string expanding `\t` into a TAB. A source-level workaround would be `\frac{30}{100}\times …`. Not applied: I'd rather fix the pipeline once than patch 25 spots blind.
+
+## Open (nothing below is marked done)
+0. **`\%\times` bug above** — affects shipped acc10/qbankc10/qbank10 PDFs.
+1. **cs8 / qbank8 QBASIC vs Python** — needs the CDC Class 8 primary document or your confirmation of the target course.
+2. **Class 10 English, Nepali, Social, Optional Maths** — verify against the 2083 BS CDC editions (spines cite 2080).
+3. **All C-graded subjects** (see SCHOOL_INVENTORY.md) — no outside-source syllabus re-research, no line-by-line factual reread. Includes classes 11/12 English, Nepali, Maths, Biology, Chemistry 12, Physics 12, CS12, and every Class 8 subject except none verified.
+4. Depth/clarity/typo polish pass over every chapter — not performed.
+5. The CDC library and `moecdc.gov.np/storage` PDFs were unreachable from the sandbox, so no *primary* curriculum PDF was read for classes 8, 11, 12.
+
+## Judgement calls
+- Kept QBASIC in Class 8 (above).
+- Left "an SLC certificate" in eng11/eng12 u23 (valid article example; avoids two large PDF rebuilds).
+- Used the spine as authority when a secondary source disagreed (cs11 unit-8 hours).
+
+## Security
+The PAT you pasted has been shared across sessions and was used here. It was passed per command (`http.extraheader`) and never written to the repo, remote URL or git config. **Rotate it now.**
+
+## Session 3 (continuation) — what was and was not done
+**Fixed**
+1. **`imes` bug (76b9185).** Root cause: 12 TAB characters in markdown source (`\times` authored un-raw → TAB + `imes`), in acc10 u12 (5) and omath8 u02 (7). The earlier "25 sites / 7 chapters / Commerce / Question Bank 10" attribution was wrong: those sites contain a correct `\%` … `\times` and render correctly. Fixed at source (inverse of the corruption), acc10 and omath8 PDFs rebuilt. `school_audit.py` now flags any mid-line TAB/BS/FF/BEL/VT (tested: reports both files before the fix, nothing after). A repo-wide scan found no other eaten escapes (`\b \f \r \a` absent). Because math is drawn as images, `pdftotext` cannot see the bug; verification was source-level plus rendering pages. Side note: omath8 grew 150 → 154 pages; chapter summaries match up to unit 2 (the edited unit) and drift from unit 3 where the source is unchanged, i.e. layout reflow from newer Pyphen/WeasyPrint, not from the fix.
+2. **cs8 QBASIC → Python** (see SYLLABUS_DIFF §6): teacher-confirmed; unit 20 rewritten; 373-page PDF rebuilt; `pdftotext` finds 0 QBASIC. QA found and fixed a defect of my own: the first IDLE figure overflowed its boxes. I also corrected a wrong claim I had drafted (a misspelt `print` is a `NameError`, a run-time error — not a syntax error).
+**Verified against primary vs proxy:** Python depth for Class 8 — proxy (CDC Grade 9 book for the progression; no Class 8 document). Everything else unchanged from sessions 1–2.
+**Judgement calls:** lists/dictionaries/functions left to Class 9; kept the SEE grade program's bands from the old lesson; the monospace font draws `>=` as a ligature (`≥`) in code blocks — house style, unchanged.
+**Still open (honest):** `qbank8` Computer Science QBASIC content; Class 10 2083 edition checks; Class 8/11/12 primary-source retries; every C-graded subject; no subject was upgraded from C this session.

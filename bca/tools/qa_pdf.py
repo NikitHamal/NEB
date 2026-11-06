@@ -6,7 +6,7 @@
     python3 bca/tools/qa_pdf.py path/to/book.pdf
 
 Hard checks (FAIL): cover present; "Contents" page with >= 1 internal link per chapter; every body page
-carries a page number; house fonts embedded (Poppins, Source Serif 4, Inter); no text outside the page
+carries a page number; house fonts embedded (Poppins, Source Serif 4; Inter is optional since the m3x print system); no text outside the page
 margins (overflowing tables / unwrapped code); no code line clipped at the right margin; no leaked TeX
 (`$`, `\\frac`, `\\sqrt`...) in body text; no heading stranded alone at the bottom of a page; PDF title set.
 Soft checks (WARN): near-empty pages (<6% ink area, last page of a chapter excluded), very small fonts.
@@ -29,7 +29,7 @@ def check(path, png_dir=None):
     for p in list(doc)[:40]:
         for f in p.get_fonts():
             fonts.add(f[3])
-    for need in ("Poppins", "SourceSerif4", "Inter"):
+    for need in ("Poppins", "SourceSerif4"):
         if not any(need.lower() in f.lower().replace(" ", "").replace("-", "") for f in fonts):
             fails.append(f"house font not embedded: {need}")
     first = doc[0].get_text()

@@ -1,0 +1,62 @@
+/* m3x toasts (neb-toast.js). A tonal card, not the inverse bar: the surface is the same raised --x-float as menus and
+   dialogs, and only the small icon bubble carries the tone. The stack grows upward from the bottom edge, each slot
+   collapses its own height on exit so the toasts above settle with a spring instead of jumping. No shadows. */
+
+#snackbar-container {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 6000; transform: translateX(-50%);
+  width: min(440px, calc(100vw - 24px)); display: flex; flex-direction: column; pointer-events: none;
+}
+.neb-toast-slot { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .45s var(--spring), opacity .25s; }
+.neb-toast-slot.is-leaving { grid-template-rows: 0fr; opacity: 0; }
+.neb-toast-fit { min-height: 0; overflow: hidden; padding-top: 8px; }
+
+.neb-toast {
+  --tone-bg: var(--md-secondary-container); --tone-fg: var(--md-on-secondary-container);
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 12px; min-height: 56px; box-sizing: border-box;
+  padding: 8px 8px 8px 10px; border-radius: 28px; pointer-events: auto; touch-action: pan-y;
+  background: var(--x-float); color: var(--md-on-surface); border: 1px solid var(--x-float-line);
+  animation: neb-toast-in .6s var(--spring) both;
+  transition: transform .4s var(--spring), opacity .25s, border-radius .4s var(--spring);
+}
+.neb-toast.is-dragging { transition: none; }
+.neb-toast:hover { border-radius: 22px; }
+.neb-toast[data-tone="success"] { --tone-bg: var(--fl-good, #d3f1de); --tone-fg: var(--fl-on-good, #0a3a1c); }
+.neb-toast[data-tone="error"] { --tone-bg: var(--md-error-container); --tone-fg: var(--md-on-error-container); }
+.neb-toast[data-tone="warn"] { --tone-bg: var(--fl-warn, #fde8bd); --tone-fg: var(--fl-on-warn, #432b00); }
+
+.neb-toast-icon {
+  flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: var(--tone-bg); color: var(--tone-fg);
+  animation: neb-toast-icon .7s .12s var(--spring) both;
+}
+.neb-toast-icon .material-symbols-outlined { font-size: 21px; font-variation-settings: 'FILL' 1; }
+.neb-toast-msg { flex: 1; min-width: 0; padding: 4px 0; font-size: .875rem; font-weight: 500; line-height: 1.35; overflow-wrap: anywhere; }
+.neb-toast-action, .neb-toast-x {
+  flex: none; border: 0; cursor: pointer; font: inherit; color: var(--md-primary); background: transparent;
+  transition: background-color .15s, border-radius .4s var(--spring), transform .2s var(--spring);
+}
+.neb-toast-action { height: 36px; padding: 0 14px; border-radius: 18px; font-size: .8125rem; font-weight: 700; }
+.neb-toast-x { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--md-on-surface-variant); }
+.neb-toast-x .material-symbols-outlined { font-size: 19px; }
+.neb-toast-action:hover, .neb-toast-x:hover { background: var(--md-surface-container-high); }
+.neb-toast-action:active, .neb-toast-x:active { transform: scale(.92); }
+
+.neb-toast-bar {
+  position: absolute; left: 18px; right: 18px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0;
+  background: var(--tone-fg); opacity: .35; transform-origin: left center;
+  animation: neb-toast-bar var(--toast-ms, 3600ms) linear both;
+}
+.neb-toast.is-paused .neb-toast-bar { animation-play-state: paused; }
+.neb-toast.is-bump { animation: neb-toast-bump .5s var(--spring); }
+
+@keyframes neb-toast-in { from { opacity: 0; transform: translateY(28px) scale(.9); } }
+@keyframes neb-toast-icon { from { opacity: 0; transform: scale(.3) rotate(-50deg); } }
+@keyframes neb-toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes neb-toast-bump { 0% { transform: scale(1); } 35% { transform: scale(1.04); } 100% { transform: scale(1); } }
+
+@media (max-width: 768px) {
+  #snackbar-container { bottom: calc(88px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .neb-toast, .neb-toast-icon, .neb-toast-slot, .neb-toast-bar { animation: none; transition: none; }
+}

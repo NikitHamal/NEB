@@ -1,5 +1,10 @@
 package com.neb.ians.ui.screens.notifications
 
+import androidx.compose.runtime.remember
+import com.neb.ians.ui.components.NebGlyphShapes
+import com.neb.ians.ui.components.nebShape
+import com.neb.ians.util.TactileType
+import com.neb.ians.ui.components.nebPressable
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,7 +69,7 @@ fun NotificationItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .background(container)
-            .clickable(onClick = onClick)
+            .nebPressable(scale = 0.98f, tactile = TactileType.LightTap, onClick = onClick)
             .padding(horizontal = 14.dp, vertical = 13.dp),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -74,15 +79,15 @@ fun NotificationItem(
                 Box(
                     modifier = Modifier
                         .size(42.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceContainerHighest),
+                        .clip(nebShape(NebGlyphShapes.Cookie))
+                        .background(MaterialTheme.colorScheme.secondaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = null,
                         modifier = Modifier.size(20.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             } else {

@@ -1,7 +1,6 @@
 """Consent page for the desktop browser hand-off (see api/desktop_auth.py)."""
 from urllib.parse import quote
 
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.cache import never_cache
