@@ -938,3 +938,119 @@ Rs 48,000 a year.
 
 **Conclusion.** For most colleges the cloud is cheaper and easier to scale, but a
 reliable Internet link and a clear data policy are essential.
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is artificial intelligence? Explain eight applications of AI and robotics with examples, and write their limitations. <span class="marks">[10]</span>
+2. What is cloud computing? Explain the service models (IaaS, PaaS, SaaS) and deployment models, with advantages and disadvantages. <span class="marks">[10]</span>
+3. Define the Internet of Things (IoT). Explain its architecture and eight applications, with a note on security. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="5" ratio="1.0" caption="Trends in the field. (a) A self-driving car reads the road with cameras and sensors. (b) A robot vacuum cleaner maps a room and cleans it. (c) A data centre hall in which cloud services run. (d) A blade-server chassis packs many servers in one rack. (e) A Raspberry Pi board, a small computer often used for IoT projects. AI, cloud and IoT work best together: sensors give data, the cloud stores it and AI finds the meaning."
+@ photo id="bca302/waymo" cap="(a) Self-driving car"
+@ photo id="bca302/roomba" cap="(b) Robot cleaner"
+@ photo id="bca355/googledc" cap="(c) Data centre"
+@ photo id="bca355/blade" cap="(d) Blade servers"
+@ photo id="cs12/raspi" cap="(e) Raspberry Pi"
+```
+
+### Model answer D1: AI and robotics (10 marks)
+
+**Introduction.** **Artificial Intelligence (AI)** is the branch of computer science that makes machines do tasks which normally need human intelligence, such as learning, reasoning, understanding language and recognising images. **Machine learning** is the part of AI in which a program learns patterns from data instead of being given fixed rules. A **robot** is a programmable machine that senses its surroundings and acts on them; AI gives the robot its "brain".
+
+**Applications of AI and robotics.**
+
+1. **Healthcare.** AI programs read X-rays and scans to spot signs of pneumonia or tuberculosis, and they help doctors to choose treatment. In remote districts, where a radiologist is not available, a scan can be sent for an AI-aided opinion. Surgical robots hold instruments with a very steady hand.
+2. **Education.** AI tutors check answers, suggest practice questions and adapt to the speed of each learner. Language tools translate between Nepali and English, and speech tools read text aloud for visually impaired students. Teachers save time in grading.
+3. **Agriculture.** Drones with cameras and AI find diseased plants and dry patches in a field of rice or tea. Farmers receive advice by phone on when to sow and irrigate, and prices in the market. This raises the yield and reduces the use of chemicals.
+4. **Banking and finance.** Banks use AI to find fraud in card and mobile-wallet payments such as Fonepay and eSewa by noticing unusual behaviour. Chatbots answer customers' questions at any hour. Loan decisions are made faster with credit scoring.
+5. **Transport.** Navigation apps predict traffic in Kathmandu and find the quickest route. Self-driving cars, as tested by Waymo, use cameras and sensors to drive without a driver. Railway and airline companies plan timetables with AI.
+6. **Manufacturing.** Industrial robots weld, paint and assemble cars and electronic goods tirelessly and exactly. They work in places dangerous to people, such as hot furnaces and chemical areas. Quality is checked by cameras that find faults in products.
+7. **Home and daily life.** Robot vacuum cleaners such as Roomba map a room and clean it by themselves. Voice assistants answer questions, set alarms and play music. Streaming sites suggest films using AI.
+8. **Disaster management and security.** Drones search flooded or landslide-hit areas of Nepal to find survivors. Cameras with face and number-plate recognition help traffic police. Weather models predict floods and cloud bursts earlier.
+
+**Limitations.**
+
+| Limitation | Explanation |
+|---|---|
+| Cost | Hardware, data and trained experts are expensive |
+| Job loss | Routine jobs may be replaced |
+| Bias | An AI trained on poor data gives unfair results |
+| No feelings or ethics | It cannot judge right and wrong as a human can |
+| Privacy | Faces and habits can be tracked |
+| Dependence | Over-reliance weakens human skills |
+
+**Conclusion.** AI and robotics improve health, farming, industry and safety. They must be used with human supervision, fair data and clear laws.
+
+### Model answer D2: cloud computing (10 marks)
+
+**Introduction.** **Cloud computing** means using computing services such as servers, storage, databases, software and networking over the **Internet**, on a **pay-as-you-use** basis, instead of buying and running them in one's own office. Gmail, Google Drive, Microsoft 365 and Zoom are everyday examples. The services run in large **data centres**.
+
+**Essential features.** On-demand self-service; access from anywhere through the network; pooling of resources among many users; rapid elasticity (to scale up and down); measured service (pay for what is used).
+
+**Service models.**
+
+| Model | Meaning | User manages | Example |
+|---|---|---|---|
+| **IaaS** (Infrastructure as a Service) | Virtual servers, storage and network are rented | Operating system, software, data | Amazon EC2, Google Compute Engine |
+| **PaaS** (Platform as a Service) | A ready platform to build and run applications | Own application and data | Google App Engine, Heroku |
+| **SaaS** (Software as a Service) | A finished application used through a browser | Only own data and settings | Gmail, Google Docs, Zoom |
+
+A simple example: **IaaS** is like renting an empty room; **PaaS** is like renting a furnished kitchen to cook your own food; **SaaS** is like eating at a restaurant.
+
+**Deployment models.**
+
+| Model | Owned and used by | Example of use |
+|---|---|---|
+| Public cloud | A provider, open to all | Startup using AWS |
+| Private cloud | One organisation only | A bank's own data centre |
+| Hybrid cloud | Mix of public and private | Bank keeps customer data private and uses public cloud for its website |
+| Community cloud | Several organisations with the same needs | Government offices sharing a service |
+
+**Advantages.**
+
+- **Low cost**: no need to buy costly servers; pay only for use.
+- **Scalability**: more power can be added in minutes at festival or exam-result time.
+- **Access from anywhere** on any device, which suits teams working from different places.
+- **Automatic backup and updates** are provided by the supplier.
+- **Disaster recovery**: data copies are kept in many places.
+
+**Disadvantages.**
+
+- It needs a **steady internet connection**, which can be a problem in remote areas.
+- **Security and privacy** concerns arise because the data stays with a third party.
+- **Dependence** on the supplier (vendor lock-in) and possible service outages.
+- Data laws may require some data to stay inside the country.
+
+**Conclusion.** Cloud computing gives flexible, low-cost computing through the Internet, and its models (IaaS, PaaS, SaaS) allow users to choose the level of control they need.
+
+### Model answer D3: Internet of Things (10 marks)
+
+**Introduction.** The **Internet of Things (IoT)** is a network of physical objects ("things") fitted with **sensors, software and network connection** so that they can collect data and exchange it over the Internet with little or no human help. A smart bulb that you control with a phone and a soil sensor that warns a farmer are IoT devices.
+
+**Architecture (four layers).**
+
+1. **Perception (sensing) layer:** sensors and actuators such as temperature, moisture, motion and GPS sensors collect data and perform actions.
+2. **Network layer:** carries the data by Wi-Fi, Bluetooth, Zigbee, LoRa or mobile network to the processing point.
+3. **Processing (cloud) layer:** servers and cloud platforms store and analyse the data.
+4. **Application layer:** the dashboard or mobile app through which the user sees the result and gives commands.
+
+**Applications of IoT.**
+
+1. **Smart home.** Lights, fans, door locks and cameras are controlled by phone and can switch off when nobody is at home, thus saving electricity.
+2. **Agriculture.** Soil-moisture sensors start a drip pump only when the soil is dry. This saves water and raises the yield, and it helps farmers in the dry hills.
+3. **Healthcare.** Wearable bands measure the pulse and oxygen level and send an alert to a doctor if a reading is dangerous. Elderly people can be monitored from far away.
+4. **Smart city and traffic.** Sensors count cars, adjust traffic signals and show free parking spaces. Street lights dim when there are no people.
+5. **Industry.** Sensors on machines detect heat or vibration before a failure and call for maintenance, which prevents costly stoppage.
+6. **Energy.** Smart meters record electricity use and let the supplier and the customer see it, and they help to find leakage and theft.
+7. **Disaster warning.** River-level sensors on a river such as the Koshi send an alarm to villages downstream, giving time to move to safety.
+8. **Logistics and retail.** GPS and RFID tags track parcels and vehicles. Shops follow stock on shelves and fill them in time.
+
+**Security and privacy.** Many cheap devices have weak passwords and are not updated, so hackers can take them over. Rules: change default passwords, keep firmware updated, use encryption, and put IoT devices on a separate network.
+
+| Advantage | Disadvantage |
+|---|---|
+| Saves time, water and energy | Security risk |
+| Remote monitoring and control | Needs internet and power |
+| Early warning and better decisions | Privacy concern, initial cost |
+
+**Conclusion.** IoT links the physical and digital worlds, and with proper security it can improve farming, health, industry and safety in Nepal.

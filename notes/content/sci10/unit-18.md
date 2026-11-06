@@ -372,3 +372,79 @@ The **brisk effervescence with sodium bicarbonate** is the test that separates a
 **3.** CaC₂ + 2H₂O → C₂H₂ + Ca(OH)₂, gas collected over water. Reactions: 2C₂H₂ + 5O₂ → 4CO₂ + 2H₂O; C₂H₂ + 2H₂ → C₂H₆ (Ni).
 **4.** Alkane C₆H₁₄, alkene C₆H₁₂, alkyne C₆H₁₀. Mass of C₆H₁₄ = 72 + 14 = **86**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a hydrocarbon? Describe alkanes, alkenes and alkynes with their general formulae, examples, properties and uses. <span class="marks">[10]</span>
+2. Describe ethanol: its preparation by fermentation, properties and uses. Write short notes on biogas as a hydrocarbon fuel. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.2" caption="Carbon compounds at work. (a) A biogas plant in Nepal converts dung and waste into methane for cooking. (b) A Bunsen burner burns methane or LPG; with enough air the flame is clean and blue. (c) Ethanol made by fermentation is used as a solvent, antiseptic and fuel."
+@ photo id="sci10/biogas" cap="(a) Biogas plant"
+@ photo id="sci10/bunsen" cap="(b) Burner flame"
+@ photo id="sci10/ethanol" cap="(c) Ethanol"
+```
+
+### Model answer D1: alkanes, alkenes and alkynes (10 marks)
+
+**Introduction.** A **hydrocarbon** is a compound that contains only **carbon and hydrogen**. Carbon forms four bonds, joins with itself in chains and rings (**catenation**) and forms millions of compounds. Hydrocarbons are the main part of **petroleum, natural gas and LPG**. A group of compounds with the same functional group and a regular change in formula, differing by $\text{CH}_2$, is a **homologous series**.
+
+**1. Alkanes (saturated).** Only **single bonds** between carbon atoms. General formula $\text{C}_n\text{H}_{2n+2}$.
+
+| Name | Formula | Name | Formula |
+|---|---|---|---|
+| Methane | $\text{CH}_4$ | Butane | $\text{C}_4\text{H}_{10}$ |
+| Ethane | $\text{C}_2\text{H}_6$ | Pentane | $\text{C}_5\text{H}_{12}$ |
+| Propane | $\text{C}_3\text{H}_8$ | Hexane | $\text{C}_6\text{H}_{14}$ |
+
+They are fairly unreactive, but **burn** well: $\text{CH}_4 + 2\text{O}_2 \rightarrow \text{CO}_2 + 2\text{H}_2\text{O} + \text{heat}$. They react with chlorine in sunlight by **substitution**. Uses: methane in biogas and natural gas, **LPG** (propane and butane) in kitchens, petrol and diesel in vehicles, paraffin wax for candles.
+
+**2. Alkenes (unsaturated).** Contain **one carbon-carbon double bond**. General formula $\text{C}_n\text{H}_{2n}$. The first member is **ethene ($\text{C}_2\text{H}_4$)**, then propene ($\text{C}_3\text{H}_6$).
+
+They are more reactive due to the double bond and undergo **addition reactions**: $\text{C}_2\text{H}_4 + \text{H}_2 \rightarrow \text{C}_2\text{H}_6$. They decolourise **bromine water**. Uses: making **polythene** (plastic bags and pipes), ripening of fruit, making ethanol.
+
+**3. Alkynes (unsaturated).** Contain **one carbon-carbon triple bond**. General formula $\text{C}_n\text{H}_{2n-2}$. The first member is **ethyne (acetylene, $\text{C}_2\text{H}_2$)**.
+
+It burns with a very hot, sooty flame. Uses: **oxy-acetylene welding and cutting of metals**, and making other chemicals.
+
+| Feature | Alkane | Alkene | Alkyne |
+|---|---|---|---|
+| Bond | Single | Double | Triple |
+| Type | Saturated | Unsaturated | Unsaturated |
+| General formula | $\text{C}_n\text{H}_{2n+2}$ | $\text{C}_n\text{H}_{2n}$ | $\text{C}_n\text{H}_{2n-2}$ |
+| First member | Methane | Ethene | Ethyne |
+| Main reaction | Substitution | Addition | Addition |
+| Bromine water test | No change | Decolourised | Decolourised |
+| Flame | Clean, blue | Slightly sooty | Very sooty |
+
+**Conclusion.** Hydrocarbons are our main fuels and the raw material for plastics, and their reactions depend on whether the bonds are single, double or triple.
+
+### Model answer D2: ethanol and biogas (10 marks)
+
+**Introduction.** **Ethanol ($\text{C}_2\text{H}_5\text{OH}$)** is the second member of the alcohol series. It is the alcohol present in liquor, in medicine and in the sanitiser that we used during COVID-19.
+
+**Preparation by fermentation.** Sugar solution from sugarcane molasses (as in the sugar mills of the Terai) or from fruit is mixed with **yeast** and kept warm (25 to 35 °C). The enzymes of the yeast (zymase) change glucose into ethanol and carbon dioxide.
+
+$$\text{C}_6\text{H}_{12}\text{O}_6 \rightarrow 2\text{C}_2\text{H}_5\text{OH} + 2\text{CO}_2$$
+
+The liquid contains about 10-15% alcohol, and by **fractional distillation** a strong alcohol (95%) is obtained.
+
+**Properties.**
+
+- Colourless liquid, pleasant smell, **boiling point 78 °C**, mixes with water in all ratios.
+- It **burns** with a clean blue flame: $\text{C}_2\text{H}_5\text{OH} + 3\text{O}_2 \rightarrow 2\text{CO}_2 + 3\text{H}_2\text{O}$.
+- It reacts with sodium to release hydrogen, and with ethanoic acid to form a sweet-smelling **ester** (esterification).
+- It is neutral to litmus.
+
+**Uses.**
+
+1. As a **solvent** for paints, perfume, varnish and medicines.
+2. As **antiseptic and sanitiser** (70% ethanol).
+3. As a **fuel**: mixed with petrol (gasohol) and used in spirit lamps.
+4. In **beverages**, though its overuse harms the liver and the family.
+5. To make **vinegar** (ethanoic acid), ether and many chemicals.
+
+**Harmful effects.** Drinking alcohol damages the liver, brain and stomach, and leads to accidents and violence in families. **Methylated spirit** is made unfit to drink by adding poison.
+
+**Biogas.** Biogas is a mixture of about **60% methane and 40% carbon dioxide** produced when cow dung, kitchen waste and human waste are broken down by bacteria without air (anaerobic digestion) in a biogas plant. Nepal has more than 400,000 household biogas plants. The gas is used for cooking and lighting, and the leftover **slurry** is a good manure. It reduces the use of firewood and LPG, reduces smoke in the kitchen, and prevents forest loss and methane emission.
+
+**Conclusion.** Ethanol made by fermentation is a useful solvent and fuel, and biogas shows how a hydrocarbon fuel can be produced from waste.

@@ -559,3 +559,82 @@ diseases for which there is no vaccine.
 **4.** Dry, wet and cold preservation (table in 3.5). *Wet preservation:* the food is washed or boiled, dried, then kept in strong salt solution, lemon juice, vinegar or mustard oil in an airtight jar; e.g. lemon pickle. *Importance:* food lasts longer, nutrients are kept, seasonal food is available all year, loss to farmers is reduced and food poisoning is prevented. Fungus grows when moisture or air enters (wet vegetables, wet spoon, loose lid, too little oil or salt); prevent it by drying well, using enough oil and salt, an airtight lid and a dry spoon.
 **5.** Microorganisms are living beings too small to see without a microscope. Examples: virus — coronavirus; bacteria — *Rhizobium*; protozoa — *Amoeba*; fungi — yeast; algae — *Chlamydomonas*. Advantages: decomposition and soil fertility; nitrogen fixation; curd and cheese; antibiotics and vaccines; fermentation (bread, *jaand*). Diseases: virus — COVID-19, common cold; bacteria — typhoid, tuberculosis; protozoa — malaria, amoebic dysentery; fungi — ringworm, athlete's foot.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Draw and label plant and animal cells. Differentiate between them and write the functions of the organelles. <span class="marks">[10]</span>
+2. Explain the harmful and useful effects of microorganisms, the methods of food protection and the importance of vaccination. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="5" ratio="1.0" caption="The living cell and its neighbours. (a) Cheek cells under the microscope, each with a nucleus. (b) Onion root cells in different stages of division. (c) Paramecium, a living thing of only one cell. (d) Bread mould, a fungus that spoils food. (e) Bacteria of different shapes. Some of these microorganisms are our helpers and some cause disease."
+@ photo id="sci8/cheek-cells" cap="(a) Cheek cells"
+@ photo id="sci8/onion-root" cap="(b) Onion root cells"
+@ photo id="sci8/paramecium" cap="(c) Paramecium"
+@ photo id="sci8/bread-mould" cap="(d) Bread mould"
+@ photo id="sci10/bacteria-shapes" cap="(e) Bacteria"
+```
+
+### Model answer D1: plant and animal cells (10 marks)
+
+**Introduction.** The **cell** is the basic structural and functional unit of life, discovered by **Robert Hooke (1665)** in cork. Small living things such as amoeba have one cell, while a human has trillions.
+
+**Organelles and their functions.**
+
+| Part | Function |
+|---|---|
+| Cell membrane | Controls what enters and leaves the cell |
+| Cell wall (plant only) | Gives shape and strength |
+| Nucleus | Controls all activities; contains the chromosomes |
+| Cytoplasm | Jelly-like fluid where reactions take place |
+| Mitochondria | "Powerhouse": release energy from food |
+| Chloroplast (plant only) | Contains chlorophyll; makes food by photosynthesis |
+| Vacuole | Stores water and food; very large in plants |
+| Ribosome | Makes proteins |
+
+**Plant cell versus animal cell.**
+
+| Feature | Plant cell | Animal cell |
+|---|---|---|
+| Cell wall | Present | Absent |
+| Shape | Fixed, rectangular | Round or irregular |
+| Chloroplast | Present | Absent |
+| Vacuole | One large | Small and many, or none |
+| Nucleus position | Pushed to the side | In the centre |
+
+**Seeing cells.** A thin peel of onion shows rectangular plant cells with a wall. A scraping from inside the cheek shows animal cells with a nucleus but no wall. Both are seen with a **microscope**.
+
+**Cell, tissue, organ, system.** Similar cells form a **tissue** (muscle), tissues form an **organ** (heart), organs form an **organ system** (circulatory system), and systems form the organism.
+
+**Conclusion.** Plant and animal cells share a membrane, nucleus and cytoplasm, but the wall and chloroplasts make a plant cell different.
+
+### Model answer D2: microorganisms, food protection and vaccination (10 marks)
+
+**Introduction.** **Microorganisms** are living things too small to be seen without a microscope: bacteria, viruses, some fungi and protozoa. Some are useful and some are harmful.
+
+**Useful effects.**
+
+- Bacteria in warm milk make **curd**; yeast makes bread rise and makes alcohol.
+- Bacteria and fungi **decompose** dead plants and animals and return nutrients to the soil.
+- **Penicillium** gives the antibiotic **penicillin**.
+- Some bacteria in the soil fix nitrogen for plants; others help in making biogas.
+
+**Harmful effects.**
+
+| Group | Disease |
+|---|---|
+| Bacteria | Typhoid, cholera, tuberculosis, tetanus |
+| Virus | Cold, influenza, measles, COVID-19 |
+| Protozoa | Malaria, amoebic dysentery |
+| Fungus | Ringworm, bread mould that spoils food |
+
+**Food protection (preservation).** Spoiled food has microorganisms growing in it.
+
+1. **Cooling and refrigeration:** slows growth.
+2. **Boiling and cooking:** kills microorganisms.
+3. **Drying:** dried fish, gundruk, sukuti and spices have no water for microbes.
+4. **Salting and sugar:** pickles and jam draw water out of the microbes.
+5. **Chemical preservatives and vinegar** in pickles.
+6. **Airtight packing and canning.**
+
+**Vaccination.** A **vaccine** has dead or weak germs or parts of them. It trains the body to make **antibodies**, so when the real germ comes later the body kills it quickly. Nepal's free national programme gives BCG, polio, measles-rubella and other vaccines to children. Smallpox was removed from the world by vaccination.
+
+**Conclusion.** Microorganisms are friends and enemies. Cleanliness, safe food and vaccination protect us from the harmful ones.
