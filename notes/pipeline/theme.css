@@ -336,3 +336,12 @@ figure, table, .box, .chsum { break-before:auto; }
 thead { display:table-header-group; }
 tr { break-inside:avoid; }
 p, li { orphans:2; widows:2; }
+
+/* ---------- print fixes: heading kept with its figure/table, dense wide tables ---------- */
+.hk { break-inside:avoid; }
+table.dense { font-size:7.8pt; }
+table.dense th { font-size:6.6pt; padding:1.8mm 1.2mm; }
+table.dense td { padding:1.6mm 1.2mm; overflow-wrap:anywhere; }
+table.dense2 { font-size:7pt; }
+table.dense2 th { font-size:6pt; padding:1.5mm .9mm; }
+table.dense2 td { padding:1.3mm .9mm; overflow-wrap:anywhere; }
