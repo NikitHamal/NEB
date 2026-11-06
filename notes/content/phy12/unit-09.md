@@ -515,3 +515,40 @@ $$ r' = 199\ \text{m} $$
 So the level drops from 92 dB to 60 dB — a factor of about 1600 in intensity —
 between 5 m and about 200 m, exactly as the inverse-square law requires.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the Doppler effect of sound, derive the apparent frequency for a moving source and a moving observer, and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the Doppler effect of sound (10 marks)
+
+**Introduction.** The **Doppler effect** is the apparent change in the frequency of a wave heard by an observer when the source and the observer are in relative motion. The pitch of an ambulance siren rises as it approaches and falls as it moves away.
+
+**Moving source, stationary observer.** Let the source of frequency $f$ move towards the observer with speed $v_{s}$, and let the speed of sound be $v$. In one period $T = 1/f$ the source emits one wave and moves $v_{s}T$ towards the observer, so the wavelength in front of the source is shortened to $\lambda' = (v - v_{s})/f$. The observer hears
+
+$$ f' = \frac{v}{\lambda'} = f\,\frac{v}{v - v_{s}} \quad\text{(approaching)}, \qquad f' = f\,\frac{v}{v + v_{s}} \quad\text{(receding)} $$
+
+**Moving observer, stationary source.** The wavelength $\lambda = v/f$ is unchanged, but the observer moving towards the source with speed $v_{o}$ meets the wave fronts at the relative speed $v + v_{o}$. Therefore
+
+$$ f' = \frac{v + v_{o}}{\lambda} = f\,\frac{v + v_{o}}{v} \quad\text{(towards)}, \qquad f' = f\,\frac{v - v_{o}}{v} \quad\text{(away)} $$
+
+**General formula.** When both move along the line joining them,
+
+$$ f' = f\,\frac{v + v_{o}}{v - v_{s}} $$
+
+This form holds when the observer moves towards the source ($v_{o}$ positive) and the source moves towards the observer ($v_{s}$ positive). For motion away, change the sign of the corresponding speed: $+v_{o}$ becomes $-v_{o}$, and $-v_{s}$ becomes $+v_{s}$.
+
+| Case | Source | Observer | Result |
+|---|---|---|---|
+| 1 | Approaching | At rest | $f' > f$, wavelength shortened |
+| 2 | Receding | At rest | $f' < f$, wavelength lengthened |
+| 3 | At rest | Approaching | $f' > f$, same wavelength, more crests per second |
+| 4 | At rest | Receding | $f' < f$ |
+
+**Numerical.** An ambulance siren has a frequency of $700\ \text{Hz}$ and the vehicle moves at $25\ \text{m s}^{-1}$; the speed of sound is $340\ \text{m s}^{-1}$. A person at rest hears, as it approaches, $f' = 700 \times \dfrac{340}{340 - 25} = 756\ \text{Hz}$, and as it recedes, $f' = 700 \times \dfrac{340}{340 + 25} = 652\ \text{Hz}$. The change in pitch is therefore about $104\ \text{Hz}$.
+
+**Applications.** Police radar guns measure the speed of vehicles on highways from the shift in reflected microwaves, Doppler ultrasound measures the speed of blood in the heart, weather radars track storms and rain, and astronomers use the red shift of light to show that distant galaxies are receding.
+
+**Limitation.** The formula for sound holds only while $v_{s} < v$; if the source moves faster than sound, a shock wave (sonic boom) forms instead.
+
+**Conclusion.** The Doppler shift depends on the relative velocity of the source and the observer along the line joining them, and it is a useful tool for measuring speed.

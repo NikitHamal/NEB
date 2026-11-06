@@ -697,3 +697,74 @@ For $n = 1$: $\sin\theta = \dfrac{n\lambda}{2d} =
 $\theta = 1.76^{\circ}$ — a very small glancing angle, because the electron
 wavelength is far shorter than the plane spacing.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the postulates of Bohr's theory of the hydrogen atom, derive the radius and energy of the nth orbit and account for the spectral series. <span class="marks">[10]</span>
+2. Describe the production of X-rays, the origin of the continuous and the characteristic spectra, and state Bragg's law with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: Bohr's theory of the hydrogen atom (10 marks)
+
+**Introduction.** Rutherford's nuclear atom could not explain why an orbiting electron does not radiate energy and spiral into the nucleus, nor why hydrogen gives only certain spectral lines. In 1913 Niels Bohr solved both problems with three postulates.
+
+**Postulates.**
+1. An electron revolves round the nucleus only in certain **stationary orbits**, in which it does not radiate energy.
+2. The allowed orbits are those in which the angular momentum is an integral multiple of $h/2\pi$: $mvr = \dfrac{nh}{2\pi}$, where $n = 1, 2, 3, \dots$ is the principal quantum number.
+3. Radiation is emitted or absorbed only when the electron jumps from one orbit to another, and the photon has energy $h\nu = E_{i} - E_{f}$.
+
+**Radius.** The electrostatic force provides the centripetal force: $\dfrac{mv^{2}}{r} = \dfrac{1}{4\pi\varepsilon_{0}}\dfrac{e^{2}}{r^{2}}$. Eliminating $v$ with the second postulate,
+
+$$ r_{n} = \frac{\varepsilon_{0}h^{2}}{\pi m e^{2}}\,n^{2} = 0.529\ \text{Å} \times n^{2} $$
+
+so the radius grows as $n^{2}$, and $a_{0} = 0.529\ \text{Å}$ is the Bohr radius.
+
+**Energy.** The total energy of the electron is $E_{n} = \text{KE} + \text{PE} = -\dfrac{e^{2}}{8\pi\varepsilon_{0}r_{n}}$, which gives
+
+$$ E_{n} = -\frac{13.6\ \text{eV}}{n^{2}} $$
+
+The energy is negative because the electron is bound. The ground state ($n = 1$) has $-13.6\ \text{eV}$, so $13.6\ \text{eV}$ is the **ionisation energy** of hydrogen.
+
+**Spectral series.** When the electron falls from $n_{i}$ to $n_{f}$,
+
+$$ \frac{1}{\lambda} = R\left(\frac{1}{n_{f}^{2}} - \frac{1}{n_{i}^{2}}\right), \qquad R = 1.097 \times 10^{7}\ \text{m}^{-1} $$
+
+| Series | Final level $n_{f}$ | Region | Longest wavelength |
+|---|---|---|---|
+| Lyman | 1 | Ultraviolet | 121.5 nm |
+| Balmer | 2 | Visible | 656.3 nm |
+| Paschen | 3 | Infrared | 1875 nm |
+| Brackett | 4 | Infrared | 4051 nm |
+| Pfund | 5 | Far infrared | 7460 nm |
+
+**Numerical.** The first Balmer line ($n = 3 \to 2$): $\dfrac{1}{\lambda} = 1.097\times10^{7}\left(\dfrac{1}{4} - \dfrac{1}{9}\right) = 1.524\times10^{6}\ \text{m}^{-1}$, so $\lambda = 656\ \text{nm}$ (red), and the photon energy is $13.6(1/4 - 1/9) = 1.89\ \text{eV}$.
+
+**Limitations.** The theory fails for atoms with more than one electron, cannot explain the intensities or the fine structure of lines, and was replaced by quantum mechanics.
+
+**Conclusion.** Bohr's theory gives $E_{n} = -13.6/n^{2}\ \text{eV}$ and explains the line spectrum of hydrogen with remarkable accuracy.
+
+### Model answer D2: X-rays, their spectrum and Bragg's law (10 marks)
+
+**Introduction.** X-rays are electromagnetic waves of wavelength about $0.01$–$10\ \text{nm}$ discovered by Röntgen in 1895. They are produced when fast electrons are stopped by a metal target.
+
+**Production (Coolidge tube).** A heated tungsten **filament** (cathode) emits electrons by thermionic emission. A high voltage (30–100 kV) between the cathode and a **tungsten target** (anode) accelerates them. Only about 1% of the energy becomes X-rays and the rest heats the target, which is cooled by copper, water or oil, or rotated. The tube is evacuated to prevent collisions. The **intensity** is controlled by the filament current and the **quality (penetrating power)** by the voltage.
+
+**Spectrum.**
+1. **Continuous spectrum** (bremsstrahlung). Electrons are slowed down by the nuclei, and the lost energy is emitted as a photon of any wavelength above a sharp minimum, given by the Duane–Hunt law: $\lambda_{min} = \dfrac{hc}{eV} = \dfrac{1240}{V(\text{volts})}\ \text{nm}$, when an electron gives all its energy to one photon.
+2. **Characteristic spectrum.** If the electron knocks out an inner-shell electron of the target atom, an outer electron falls into the vacancy and emits a photon of definite energy. The sharp lines (K, L series) depend only on the target element and not on the voltage.
+
+| Property | Continuous | Characteristic |
+|---|---|---|
+| Origin | Deceleration of electrons | Inner-shell transitions |
+| Wavelengths | All above $\lambda_{min}$ | Fixed lines |
+| Depends on target? | No | Yes |
+| Depends on voltage? | Yes ($\lambda_{min}$ shifts) | No (appears above a threshold) |
+
+**Uses.** Medical radiography of broken bones, CT scans and dental imaging, treatment of cancer (radiotherapy), checking of baggage at Tribhuvan International Airport, the detection of cracks in welds, and, through diffraction, the study of crystal structure.
+
+**Bragg's law.** When X-rays strike a crystal with planes of spacing $d$, the rays reflected from successive planes at glancing angle $\theta$ have a path difference of $2d\sin\theta$. They reinforce when
+
+$$ 2d\sin\theta = n\lambda, \qquad n = 1, 2, 3, \dots $$
+
+**Numerical.** For a 40 kV tube, $\lambda_{min} = 1240/40\,000 = 0.031\ \text{nm}$. For a rock-salt crystal with $d = 0.282\ \text{nm}$, a first-order maximum at $\theta = 14°$ gives $\lambda = 2(0.282)\sin 14° = 0.136\ \text{nm}$.
+
+**Conclusion.** X-rays arise from the sudden stopping of fast electrons, and Bragg's law makes them a probe of the structure of crystals.
