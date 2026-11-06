@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 12. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 13. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -65,10 +65,15 @@ Updated: end of Session 12. Branch `claude/bsc-nursing` (from `main`).
   - `qa_pdf.py` fails=0; 28 Commons photographs (slug `nur10`), 6 plates, 14 SVGs, 11 executed python blocks, 51 tokens in `nursing/tools/check_sbs.py`; helpers and per-unit checker sections in `nursing/tools/helpers/session11/` (`asm.sh N`, `pages.sh`, `contact.py`, `get.sh`, `s.sh`).
   - Lessons: in the photogrid `focus fx fy` is the crop centre with **y from the bottom** and `0.0` is treated as unset (use 0.01 or pre-crop the file in place); view a contact sheet first (a pottery file was a building, dropped); the file tool root is `/app` so parts live in `/app/parts`; remove `/app/neb` while writing to avoid tsc lint noise; recompute every sum (the un-reversed Likert total was 36, not 38).
 
+- **Midwifery I (BSN 17-18), Year 3: DONE (session 13).** 5 units, 65-page PDF (`nursing/pdfs/`), `qa_pdf.py` fails=0. U1 Reproductive anatomy, pelvis (types, OC maths), fetal skull, fertilisation, placenta, cord, liquor, fetal circulation | U2 Well-woman and pre-conception care, diagnosis of pregnancy, Naegele EDD, McDonald, GTPAL, physiology, minor disorders | U3 Antenatal care, Leopold grips, screening, Nepal ANC protocol and Aama, danger signs, pre-eclampsia and MgSO4 maths, BPCR, HMIS maths | U4 Normal labour, five Ps, Labour Care Guide 2020, Bishop score, cardinal movements, second stage, AMTSL, oxytocin drip and blood-loss maths | U5 Newborn, golden minute, APGAR, IMNCI danger signs, puerperium, BUBBLE-HEE check, lactation.
+  - 33 licensed images (slug `nur11`), 11 plates, 15 SVGs, 14 executed python blocks, 11 tokens; `nursing/tools/check_mw1.py` (`--verify`). Helpers in `nursing/tools/helpers/session13/` (`asm.sh N` assembles `/app/parts/uNa.md` + `uNb.md` + checker section `kN.py`; `tile.py` contact sheets of PDF pages; `s.sh`, `get.sh`, `contact.py`).
+  - Lessons: the project root of the sandbox is `/home/user/sandbox`, so `sudo ln -sfn /home/user/sandbox /app` makes the old `/app/parts` paths work; Commons search is thin for obstetrics (Leopold 1894 plates, Chamberlen replica and HBB poster were the usable finds); view the contact sheet and the rendered plate before trusting marks; SVG box text must stay under about 60 characters per line at size 10 in a 680 px box.
+  - Facts used (searched session 13): NDHS 2022 (ANC4+ 81%, skilled ANC 94%, facility birth 79%, SBA 80%, PNC within 2 days 70%, NMR 21); Aama four ANC visits at months 4, 6, 8, 9 (incentive amounts differ by source, not quoted); WHO ANC 2016 eight contacts; WHO LCG 2020 (active phase from 5 cm; thresholds 5 cm 6 h, 6 cm 5 h, 7 cm 3 h, 8 cm 2.5 h, 9 cm 2 h; second stage 3 h and 2 h); oxytocin 10 IU IM; misoprostol 600 mcg; MgSO4 4 g IV + 5 g IM each buttock. Check the Safe Motherhood Act 2075 and the current PNC visit count in MoHP circulars.
+
 ## Next (in this order)
-1. **Year 3 Midwifery I (BSN 17-18)** `course/year-3/midwifery-1` (T70+P180, already in `books.json`): plan 5-6 units (reproductive anatomy and pelvis, conception and fetal development, antenatal care and Safe Motherhood/Aama, normal labour with partograph, normal puerperium and newborn). Research first (MoHP Safe Motherhood Roadmap, NDHS 2022 ANC/SBA figures, WHO ANC 2016 and Labour Care Guide 2020). Math: Naegele EDD, Bishop score, APGAR, fundal height, partograph alert and action lines, IFA and calcium counts.
-2. Then Midwifery II, Child Health Nursing, Family and Reproductive Health Nursing (Year 3); Year 4 books; then the five MECEE-BL entrance books.
-3. Optional polish: a few 3-up SVGs still have 5-6 pt text; SBS Unit 5 is long (about 7,700 words) and could be trimmed.
+1. **Year 3 Midwifery II (BSN 19-20)** `course/year-3/midwifery-2` (T130+P420): abnormal pregnancy and labour (APH, PPH, pre-eclampsia in depth, obstructed labour, malpresentations, induction, caesarean), puerperal complications, high-risk newborn; research Nepal MPDSR, BEONC/CEONC signal functions, NMMS 2021. Reuse `helpers/session13` (change the slug in `asm.sh`, `tile.py`, `pages.sh`, copy `check_mw1.py` to `check_mw2.py`, use photo slug `nur12`).
+2. Then Child Health Nursing, Family and Reproductive Health Nursing (Year 3); Year 4 books; then the five MECEE-BL entrance books.
+3. Optional polish: Midwifery I Unit 4 SVG 4.1 mnemonic line is 6 pt text.
 
 ## How to continue (Session 2+)
 1. `git clone --depth 5 --branch claude/bsc-nursing --single-branch https://github.com/NikitHamal/NEB.git /tmp/NEB` (PAT through an out-of-repo `GIT_ASKPASS` helper, never in the repo). Read this file and AGENTS.md section "BSc Nursing".

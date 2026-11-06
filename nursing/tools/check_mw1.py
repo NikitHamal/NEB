@@ -44,6 +44,14 @@ chk("stg", ((_f - _a).seconds // 60, (_b - _f).seconds // 60, (_p - _b).seconds 
 chk("oxy", (60 / 20, round(1000 / 3), round(20 / (1000 / 3 / 60), 1), 600 // 200, 400 - 120, 620 - 120, 1000 / (60 / 15)), (3.0, 333, 3.6, 3, 280, 500, 250.0))
 T.update(c4_bishop="12", c4_active="4 h 45 min")
 # ---- U4-END
+# ---- U5-BEGIN
+# ---- Unit 5: newborn, puerperium, lactation
+from datetime import date as _d, timedelta as _td
+chk("apg", (2 + 2 + 2 + 1 + 1, 2 + 2 + 2 + 1 + 2, 1 + 1 + 1 + 1 + 0, 2 + 1 + 1 + 1 + 0), (8, 9, 4, 5))
+chk("wt", (f"{(3000 - 2790) / 3000 * 100:.1f}", 100 * 2790 / 1000, f"{100 * 2790 / 1000 / 8:.1f}", f"{(3200 - 2950) / 3200 * 100:.1f}", 100 * 2.95, f"{100 * 2.95 / 8:.1f}", f"{(3500 - 3200) / 3500 * 100:.1f}"), ("7.0", 279.0, "34.9", "7.8", 295.0, "36.9", "8.6"))
+chk("pnc", ([(_d(2026, 3, 10) + _td(days=k)).strftime("%d %b") for k in (1, 3, 7, 42)], (_d(2026, 3, 10) + _td(days=7)).strftime("%d %b")), (["11 Mar", "13 Mar", "17 Mar", "21 Apr"], "17 Mar"))
+T.update(c5_loss="7.8", c5_feed="36.9")
+# ---- U5-END
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

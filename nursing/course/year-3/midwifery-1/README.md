@@ -1,6 +1,6 @@
 # Midwifery I (BSN 17-18)
 
-Year 3, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Theory 70 h, practical 180 h. Written in session 13 (units listed below as they are completed).
+Year 3, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Theory 70 h, practical 180 h. Written in session 13 (5 units, about 27,000 words, 65-page PDF, `qa_pdf.py` fails=0).
 
 | Unit | Title | Content |
 |---|---|---|
@@ -8,7 +8,7 @@ Year 3, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Th
 | 2 | Well-woman care, pre-conception care, diagnosis of pregnancy, EDD and fundal height, physiology, minor disorders | Naegele, McDonald, GTPAL, blood volume, BMI and weight gain, anaemia bands; case: Kalpana Rai with nausea and anaemia |
 | 3 | Antenatal care: history, Leopold grips, screening, Nepal ANC protocol, Aama, danger signs, pre-eclampsia and MgSO4, BPCR | HMIS coverage and dropout, MAP, MgSO4 volumes, OGTT cut-offs; case: Maya Magar, severe pre-eclampsia |
 | 4 | Normal labour: five Ps, stages, cardinal movements, Labour Care Guide thresholds, Bishop score, second stage, AMTSL | Bishop score, stage durations, oxytocin drip rate, blood loss by weight; case: Sarita Tamang |
-| 5 | Normal newborn, puerperium and lactation | planned |
+| 5 | Normal newborn, APGAR, puerperium, postnatal check, lactation | APGAR, weight loss, fluid per feed, postnatal visit dates, vitamin A and IFA; case: Mina Gurung, engorgement and cracked nipple |
 
 ## Verification
 `nursing/tools/check_mw1.py --verify nursing/course/year-3/midwifery-1/unit-*.md` (tokens plus executed python blocks).
