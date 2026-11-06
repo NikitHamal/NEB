@@ -23,7 +23,7 @@ Infection needs six links. Break **any one** and the chain fails.
 
 ```svgfig label="4.1" caption="The chain of infection and one way to break each link. Hand hygiene breaks the mode-of-transmission link, vaccination breaks the host link."
 f = Fig(760, 270)
-links = [("1 Agent", "bacteria, virus,\nfungus, parasite", "disinfect, sterilise"), ("2 Reservoir", "patient, staff,\nwater, equipment", "clean, treat source"), ("3 Portal of exit", "blood, sputum,\nstool, wound", "cover wounds, cough etiquette"),
+links = [("1 Agent", "bacteria, virus,\nfungus, parasite", "disinfect, sterilise"), ("2 Reservoir", "patient, staff,\nwater, equipment", "clean, treat source"), ("3 Portal of exit", "blood, sputum,\nstool, wound", "cover wounds,\ncough manners"),
          ("4 Transmission", "contact, droplet,\nairborne, vehicle", "hand hygiene, PPE"), ("5 Portal of entry", "cut, catheter,\ncannula, mouth", "aseptic technique"), ("6 Susceptible host", "newborn, elderly,\ndiabetic, HIV", "vaccinate, nutrition")]
 for i, (a, b, c) in enumerate(links):
     x = 8 + i * 125
@@ -46,21 +46,21 @@ fit 1.0
 mark 0.45 0.80 "1"
 mark 0.50 0.40 "2"
 mark 0.22 0.30 "3"
-key 1 Narrow opening, closed lid
-key 2 Biohazard label and fill line
-key 3 Rigid, puncture-proof body
+key 1 (a) Narrow opening, closed lid
+key 2 (a) Biohazard label and fill line
+key 3 (a) Rigid, puncture-proof body
 @ photo id="nur4/handwash" cap="Hand washing with soap"
 fit 1.0
 mark 0.68 0.78 "1"
 mark 0.74 0.30 "2"
-key 1 Gravity-fed water container
-key 2 Wet hands then soap and rub
+key 1 (b) Gravity-fed water container
+key 2 (b) Wet hands then soap and rub
 @ photo id="nur4/autoclave" cap="Sterile instruments"
 fit 1.0
 mark 0.70 0.88 "1"
 mark 0.28 0.18 "2"
-key 1 Head cover
-key 2 Sterilised instrument roll
+key 1 (c) Head cover
+key 2 (c) Sterilised instrument roll
 ```
 
 ## 4.3 Standard and transmission-based precautions
@@ -155,6 +155,3 @@ Never recap a used needle; put the syringe and needle straight into the sharps c
 | **S:** "I have burning and pain in my lower belly." **O:** Indwelling catheter day 4, T 38.2 °C, cloudy urine, tenderness above pubis. | **Risk for infection** has become actual: **Infection** related to indwelling urinary catheter, as evidenced by fever 38.2 °C and cloudy urine. | **Infection severity:** temperature below 37.5 °C and clear urine within 72 h. | 1. Hand hygiene and sterile technique for every catheter contact; *keeps organisms out.* 2. Collect urine culture aseptically from the port; *identifies the organism.* 3. Give antibiotic on time; *kills bacteria.* 4. Keep the closed system and the bag below the bladder, never on the floor; *prevents reflux.* 5. Meatal care twice daily with soap and water; *reduces colonisation.* 6. Oral fluids 2-3 L if allowed; *flushes the tract.* 7. Ask the doctor daily about removal; *the shortest catheter time is the best prevention.* | Temperature, urine colour and pain reviewed each shift; culture result followed; catheter removed when the order is given. |
 | **O:** Patient and wife unaware of catheter care. | **Deficient knowledge** (catheter care) related to no previous exposure. | Patient and wife state 3 care rules before discharge. | Teach hand washing, bag position, no pulling, and signs to report; *home care depends on the family.* | Teach-back done and recorded. |
 
-:::tip Exam tip
-For any infection question draw or mention the chain of infection and say which link each nursing action breaks. It organises the answer and gains the marks for prevention.
-:::

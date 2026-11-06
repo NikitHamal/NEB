@@ -33,22 +33,22 @@ fit 1.0
 focus 0.55 0.5
 mark 0.80 0.80 "1"
 mark 0.35 0.45 "2"
-key 1 Dial gauge in mmHg
-key 2 Cuff over the brachial artery
+key 1 (a) Dial gauge in mmHg
+key 2 (a) Cuff over the brachial artery
 @ photo id="nur4/spo2" cap="Pulse oximeter"
 fit 1.0
 focus 0.4 0.5
 mark 0.28 0.62 "1"
-key 1 Sensor clip on the fingertip shows SpO2 and pulse
+key 1 (b) Sensor clip on the fingertip shows SpO2 and pulse
 @ photo id="nur4/thermo-digital" cap="Digital thermometer"
 fit 1.0
 focus 0.62 0.5
 mark 0.50 0.58 "1"
-key 1 LCD shows the reading (°C)
+key 1 (c) LCD shows the reading (°C)
 @ photo id="nur4/thermo-hg" cap="Mercury-in-glass thermometer"
 fit 1.0
 mark 0.50 0.50 "1"
-key 1 Scale 35 to 42 °C; 37 marked in red
+key 1 (d) Scale 35 to 42 °C; 37 marked in red
 ```
 
 ## 3.2 Body temperature

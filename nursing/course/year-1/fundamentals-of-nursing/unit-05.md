@@ -25,28 +25,27 @@ A valid order has: patient's name and age, date, drug (generic name), **dose, ro
 
 Check **right patient** (two identifiers: name and hospital number, never the bed), **right drug**, **right dose**, **right route**, **right time**, **right documentation**, **right reason**, **right response** (monitor effect), **right to refuse**, and **right education**. Check the label **three times**: when taking it from the shelf, before preparing, and before giving or discarding the container. For high-alert drugs (insulin, heparin, potassium chloride, opioids) have a second nurse independently verify.
 
-```photogrid label="5.1" cols="3" ratio="1.0" caption="Parenteral access and injection. (a) A peripheral IV cannula with its introducer needle. (b) Subcutaneous injection into the upper arm by a gloved nurse. (c) Needle angle and depth for the four parenteral routes."
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Parenteral access and injection. (a) A peripheral IV cannula with its introducer needle. (b) Subcutaneous injection into the upper arm by a gloved nurse. (c) Needle angle and depth for intradermal, subcutaneous and intramuscular injection (IV cannulas enter at 15-30°)."
 @ photo id="nur4/cannula" cap="IV cannula"
 fit 1.0
 mark 0.86 0.70 "1"
 mark 0.50 0.52 "2"
 mark 0.13 0.38 "3"
-key 1 Hub with injection port
-key 2 Introducer needle inside catheter
-key 3 Sharp needle tip
+key 1 (a) Hub with injection port
+key 2 (a) Introducer needle inside catheter
+key 3 (a) Sharp needle tip
 @ photo id="nur4/sc-inj" cap="Subcutaneous injection"
 fit 1.0
 mark 0.52 0.46 "1"
-key 1 Needle enters the fat layer under the skin
+key 1 (b) Needle enters the fat layer under the skin
 @ svg cap="Needle angle by route"
-f = Fig(270, 270)
-f.box(10, 150, 250, 18, "Epidermis / dermis", fill="#fbcfe8", stroke=SLATE, size=10.5, color=NAVY, r=0)
-f.box(10, 168, 250, 30, "Subcutaneous fat", fill="#fef3c7", stroke=SLATE, size=10.5, color=NAVY, r=0)
-f.box(10, 198, 250, 50, "Muscle", fill="#fecaca", stroke=SLATE, size=10.5, color=NAVY, r=0)
-f.arrow([(30, 100), (80, 148)], color=TEAL, sw=2.5); f.text(52, 90, "ID 10-15°", size=10.5, color=TEAL, bold=True)
-f.arrow([(110, 100), (140, 166)], color=AMBER, sw=2.5); f.text(120, 90, "SC 45°", size=10.5, color=AMBER, bold=True)
-f.arrow([(190, 60), (190, 215)], color=RED, sw=2.5); f.text(195, 50, "IM 90°", size=10.5, color=RED, bold=True)
-f.arrow([(230, 120), (205, 148)], color=NAVY, sw=2.5); f.text(228, 105, "IV 15-30°", size=10.5, color=NAVY, bold=True)
+f = Fig(170, 250)
+f.box(4, 120, 162, 16, "Skin", fill="#fbcfe8", stroke=SLATE, size=10.5, color=NAVY, r=0)
+f.box(4, 136, 162, 36, "Fat", fill="#fef3c7", stroke=SLATE, size=10.5, color=NAVY, r=0)
+f.box(4, 172, 162, 60, "Muscle", fill="#fecaca", stroke=SLATE, size=10.5, color=NAVY, r=0)
+f.arrow([(10, 100), (44, 125)], color=TEAL, sw=2.5); f.text(30, 74, "ID\n10-15°", size=11, color=TEAL, bold=True)
+f.arrow([(66, 92), (96, 150)], color=AMBER, sw=2.5); f.text(82, 62, "SC\n45°", size=11, color=AMBER, bold=True)
+f.arrow([(140, 92), (140, 200)], color=RED, sw=2.5); f.text(140, 62, "IM\n90°", size=11, color=RED, bold=True)
 ```
 
 ## 5.3 Routes and injection techniques
@@ -131,7 +130,7 @@ f.text(380, 130, "Check: 42 drops/min x 480 min / 20 = 1008 mL, within 1% of the
 - Verify patient, drug, dose, route and time every time; document at once.
 - Choose the injection angle and site to match the route: ID 10-15°, SC 45°, IM 90°.
 - Select the cannula gauge to the patient and purpose; watch for phlebitis.
-- Calculate with the formula, check by estimation, and have high-alert drugs verified.
+- Calculate with the formula, check by estimation, and have high-alert drugs verified. Exam tip: write the formula, the substitution and the answer with units.
 
 ## Practice
 
@@ -165,6 +164,3 @@ f.text(380, 130, "Check: 42 drops/min x 480 min / 20 = 1008 mL, within 1% of the
 | **O:** New IV cannula, invasive line. | **Risk for infection** related to invasive IV access. | **Infection severity:** no redness, swelling or pain at the cannula site. | Hand hygiene, aseptic insertion, transparent dated dressing, inspect hourly, change per policy or at first sign of phlebitis; *the cannula is a direct route to the bloodstream.* | Site score zero at every check. |
 | **S:** "Will the injection harm my kidneys?" | **Deficient knowledge** (medication) related to unfamiliarity with the drug. | Patient states purpose and one side effect of gentamicin. | Explain the drug; monitor urine output and hearing complaints; *gentamicin is nephrotoxic and ototoxic.* | Patient teach-back documented; urine output at least 30 mL/h. |
 
-:::tip Exam tip
-For every calculation write the formula, the substitution, the answer **with units** and one line of meaning. Marks are lost for a correct number with no unit.
-:::
