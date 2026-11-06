@@ -5,12 +5,12 @@
 {% block description %}Free PDF and document tools for students and teachers: merge, split, convert, and compress study materials on NEBians.{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'web/css/pages/tools-m3x.css' %}">
 <div class="md-container dt-wrap">
   <header style="margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
     {% url 'web:tools_hub' as back_href %}
     {% include "web/partials/_back.html" with back_label="Back to Study Tools" %}
     <div>
-      <p class="dt-kicker">Powered by Lazy's document engine</p>
       <h1 class="md-headline-large-emphasized" style="margin: 0; line-height: 1.2;">Lazy Tools</h1>
     </div>
   </header>
