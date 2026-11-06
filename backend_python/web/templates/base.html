@@ -609,6 +609,8 @@
           if (wsOnline) stopPolling();
           else startPolling();
         });
+        // After a long gap (hidden tab, lost network) the pushed count may be stale.
+        window.addEventListener('neb:realtime-resync', pollUnreadCount);
         window.WS.start();
         // Hard fallback: if WS never connects in 6s, start polling.
         setTimeout(function () { if (!wsOnline) startPolling(); }, 6000);
