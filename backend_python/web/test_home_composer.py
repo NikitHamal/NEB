@@ -113,8 +113,13 @@ class HomeComposerTests(TestCase):
         self.assertIn('composer-sortable.js', html)
         # the page used to swallow wheel/touch events over the dialog, which killed scrolling
         self.assertNotIn('handleDialogWheel', html)
-        self.assertIn('NebSortable(previewsContainer', html)
-        self.assertIn('NebSortable(mediaListContainer', html)
+        self.assertIn('web/js/pages/home.js', html)
+        import os
+        with open(os.path.join(os.path.dirname(__file__), 'static', 'web', 'js', 'pages', 'home.js'), encoding='utf-8') as fh:
+            home_js = fh.read()
+        self.assertNotIn('handleDialogWheel', home_js)
+        self.assertIn('NebSortable(previewsContainer', home_js)
+        self.assertIn('NebSortable(mediaListContainer', home_js)
         self.assertIn('data-can-mention-all="0"', html)
 
     def test_staff_get_mention_all_in_composer(self):

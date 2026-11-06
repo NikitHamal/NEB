@@ -21,7 +21,7 @@
       <div class="photos-grid" id="photosGrid">
         {% for photo in user_photos %}
         <button type="button" class="photo-thumb {% if photo.is_current %}active{% endif %}" data-action="activate-past-photo" data-photo-id="{{ photo.id }}" data-photo-url="{{ photo.url }}" aria-label="Use this photo" aria-pressed="{% if photo.is_current %}true{% else %}false{% endif %}">
-          <img src="{{ photo.url }}" alt="">
+          <img loading="lazy" decoding="async" src="{{ photo.url }}" alt="">
         </button>
         {% endfor %}
       </div>

@@ -62,7 +62,7 @@
 
           <div class="news-detail-meta">
             <span class="news-card-author">
-              {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
+              {% if announcement.author_photo %}<img loading="lazy" decoding="async" src="{{ announcement.author_photo }}" alt="">{% endif %}
               {{ announcement.author_name|mention_links_plain }}{% if announcement.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}
             </span>
             <span class="news-card-dot" aria-hidden="true">·</span>
@@ -76,7 +76,7 @@
 
         {% if announcement.cover_image_url %}
         <div class="news-detail-cover">
-          <img src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
+          <img loading="lazy" decoding="async" src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
         </div>
         {% endif %}
 
