@@ -396,3 +396,73 @@ Vitamin A protects the eyes and helps children fight disease. The department sai
 **1.** Use the plan in the Tihar model: introduction (name, date, who celebrates); history/belief; people and activities; importance; duration; drawbacks and conclusion.
 **2.** *Model:* **Students Clean the River Bank.** BHAKTAPUR, 5 June — About 300 students and Scouts cleaned the river bank on World Environment Day. They collected 20 sacks of plastic waste. The mayor praised their effort and said that the municipality would put up bins along the river.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write an essay on a festival you know well (Dashain or Indra Jatra) and a short news story about a festival. <span class="marks">[10]</span>
+2. Explain reported questions with a conversion table. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.0" caption="Festivals old and new. The Battle of the Oranges at Ivrea in Italy, the chariot procession of Indra Jatra in Kathmandu and the Dashain tika blessing show how communities celebrate."
+@ photo id="eng10/ivrea-oranges" cap="Battle of the Oranges, Ivrea"
+@ photo id="nep11/indra-jatra" cap="Indra Jatra chariot, Kathmandu"
+@ photo id="soc10/dashain-tika" cap="Dashain tika"
+```
+
+### Model answer D1: a festival essay and a news story (10 marks)
+
+**Introduction.** A **festival essay** covers history, people, activities, importance, duration and drawbacks. A **news story** answers who, what, when, where, why and how.
+
+**Model essay.**
+
+::: example Dashain, the greatest festival of Nepal
+**Dashain, the Greatest Festival of Nepal.** Dashain is the biggest festival of the Hindu people of Nepal and is celebrated for fifteen days in Ashwin or Kartik. It remembers the victory of goddess Durga over the demon Mahishasura, which stands for the victory of good over evil. On the first day, *Ghatasthapana*, a holy pot is filled with sand and barley seeds. On the seventh day, *Fulpati* is carried to Kathmandu. On the tenth day, *Bijaya Dashami*, the elders put *tika* and *jamara* on the foreheads of the younger members and give them blessings and money. Families meet, eat goat meat and sweets, fly kites and play on bamboo swings. The festival brings unity and love, and the migrant workers return to the villages. However, the sacrifice of animals and the large cost of the festival are criticised by some people. Overall, Dashain keeps our culture alive.
+:::
+
+**Model news story.**
+
+::: example News story
+**INDRA JATRA BEGINS IN KATHMANDU**  
+Kathmandu, 3 Ashwin: The eight-day Indra Jatra festival began on Tuesday at Basantapur Durbar Square with the raising of the *Indra Dhwaja* pole. Thousands of people gathered to see the chariot of the living goddess Kumari pull through the old streets. "The festival shows our living heritage," said a local guide. The festival will end on Friday with a *Lakhe* dance.
+:::
+
+**Points for a festival essay (8).**
+
+1. Name and time.
+2. Origin or history.
+3. People who celebrate.
+4. Main activities and food.
+5. Dress and decoration.
+6. Importance (religious, social, cultural).
+7. Problems.
+8. Conclusion with your opinion.
+
+**Conclusion.** Use the present simple for customs and give a personal opinion at the end.
+
+### Model answer D2: reported questions (10 marks)
+
+**Introduction.** A question becomes a **statement** when we report it. The meaning stays the same, but the form changes.
+
+**Rules.**
+
+1. **Yes/no questions:** *asked / wanted to know + if / whether.*
+2. **Wh-questions:** *asked + the same wh-word.*
+3. Use **statement word order** (subject + verb), not auxiliary + subject.
+4. Do not use **do/does/did** in the reported question.
+5. Remove the **question mark** and put a full stop.
+6. Apply **back-shift** and change pronouns and time words.
+
+| Direct | Reported |
+|---|---|
+| "Do you like oranges?" Silvia asked. | Silvia asked if I liked oranges. |
+| "Is the festival dangerous?" he asked. | He wanted to know whether the festival was dangerous. |
+| "Why do they throw oranges?" I asked. | I asked why they threw oranges. |
+| "Where will the teams meet?" she asked. | She asked where the teams would meet. |
+| "Have you seen the parade?" he asked. | He asked if I had seen the parade. |
+| "How many days does Dashain last?" | She asked how many days Dashain lasted. |
+
+7. **If** and **whether** are interchangeable, but **whether** is used with *or not*.
+8. In the chapter, the narrator asks if the red colour is blood or juice; the reported form would be *The narrator wondered whether it was blood or orange juice.*
+
+**Conclusion.** Remember: no auxiliary, no question mark, back-shift, and a full stop.

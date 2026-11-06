@@ -489,3 +489,73 @@ Greet the audience; state the topic early; one idea per paragraph; two real exam
 
 **2.** Greeting; definition of perseverance; examples (Disney, Edison, a Nepali athlete or mountaineer); reasons it works; call to action; thanks.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a speech on success and a congratulation message. <span class="marks">[10]</span>
+2. Explain prepositions of time and place and Kipling's poem *If*. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="3" ratio="1.0" caption="Struggle and success. Walt Disney with his film roll and Mickey Mouse, Rudyard Kipling, the poet of 'If', and Helen Keller, who learned to read and write although she was blind and deaf."
+@ photo id="eng10/disney-mickey" cap="Walt Disney with Mickey Mouse"
+@ photo id="eng10/kipling" cap="Rudyard Kipling"
+@ photo id="eng10/helen-keller" cap="Helen Keller, c. 1904"
+```
+
+### Model answer D1: a speech and a congratulation message (10 marks)
+
+**Introduction.** A **speech** has a greeting, a topic, body points with examples, a conclusion or call to action, and thanks. A **congratulation message** is short and warm.
+
+**Model speech.**
+
+::: example Speech
+Respected principal, teachers and dear friends, good morning. Today I would like to talk about success. Success does not come by luck; it comes through struggle. Walt Disney is a good example. His first company went bankrupt, he lost his first cartoon character, Oswald, and he even suffered a breakdown. But he did not give up. He created Mickey Mouse in 1928, and his film *Snow White* in 1937 made him world famous. So, if we fail once, we should try again. Let us work hard and believe in ourselves. Thank you.
+:::
+
+**Model congratulation message.**
+
+::: example Congratulation message
+**Subject: Congratulations!**  
+Dear Sunita,  
+I was delighted to hear that you stood first in the district in the SEE. You deserve this success because of your hard work and discipline. Your parents, teachers and friends are proud of you. Wishing you more success in the future.  
+Warm regards,  
+Rina
+:::
+
+**Points (8).**
+
+1. Greeting.
+2. Topic.
+3. Example (Disney's struggle).
+4. Second example.
+5. Lesson.
+6. Call to action.
+7. Thanks.
+8. Message: praise, reason, good wishes.
+
+**Conclusion.** Use inspiring language and real examples.
+
+### Model answer D2: prepositions and the poem (10 marks)
+
+**Prepositions.**
+
+1. **at** for clock times and points: *at 6 a.m., at the gate.*
+2. **on** for days, dates and trips: *on Monday, on a trip, on the radio.*
+3. **in** for months, years, periods: *in Magh, in 1928.*
+4. **between ... and**, **from ... to**, **until**, **by** (not later than), **under**, **into**: *Finish the work by Friday.*
+5. Fixed phrases: *at large, out of hand, in time, on time.*
+
+**Poem: *If* (Rudyard Kipling, 1910).**
+
+6. Four stanzas of rhyme *ababcdcd*; a **father's advice to his son**.
+7. **Qualities:** keep calm when others lose their heads; trust yourself; be patient; do not lie or hate; **treat success and failure alike** ("those two impostors"); rebuild what is broken; take risks; hold on by willpower; stay humble among crowds and kings.
+8. **Theme:** self-control, courage and hard work make a person complete: *you'll be a Man, my son!*
+
+| Phrase | Example |
+|---|---|
+| at night | I study at night. |
+| on time | The bus came on time. |
+| in time | We arrived in time to see the start. |
+
+**Conclusion.** Learn the fixed uses of *at, on, in* and remember Kipling's message of self-control.
