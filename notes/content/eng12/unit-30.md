@@ -406,3 +406,32 @@ painting won the prize. (b) I met a doctor yesterday. He treated my grandfather.
 **21.** **The girl sitting near the window is my cousin.** — *who is* is deleted and the *-ing* form remains.
 **22.** **This is the officer to whom I complained.** — a preposition may precede *whom* but never *that*.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the use of prepositions, tense agreement and relative clauses with examples. <span class="marks">[10]</span>
+
+### Model answer D1: prepositions, tenses and relative clauses (10 marks)
+
+**Introduction.** Three areas cause most errors in the Grade 12 grammar paper: prepositions, tense sequence and relative clauses.
+
+1. **Place and time:** *in* the largest container (*in Nepal, in 2080*), *on* a surface or named day (*on the table, on Sunday*), *at* a single point (*at the gate, at 5 o'clock*).
+2. **Since / for:** *since* + a point (*since 2070*), *for* + a period (*for ten years*).
+3. **By / until; between / among:** *by* = not later than; *until* = up to then; *between* two, *among* many.
+4. **Adjective + preposition pairs:** *good at, married to, different from, interested in, afraid of, angry with.*
+5. **No preposition:** *discuss, enter, reach, marry, resemble, obey, describe, emphasise, investigate, comprise.* *Return back*, *repeat again* and *cope up with* are wrong.
+6. **Tense sequence:** a past main verb pulls its subordinate clause into the past, except for universal truths: *He said that the earth moves round the sun.*
+7. **Tense rules:** the present perfect never takes a finished past time (*I have seen him yesterday* is wrong); the earlier of two past events takes the past perfect; stative verbs have no continuous form.
+8. **Relative clauses:** a **defining** clause has no commas, allows *that*, and the object pronoun may be dropped; a **non-defining** clause has commas, forbids *that*, never drops the pronoun, and always follows a proper noun.
+
+| Item | Correct | Wrong |
+|---|---|---|
+| Discuss | We discussed the plan. | We discussed about the plan. |
+| Since | She has lived here since 2070. | She has lived here from 2070. |
+| Present perfect | I saw him yesterday. | I have seen him yesterday. |
+| Non-defining | Kathmandu, which is old, is busy. | Kathmandu, that is old, is busy. |
+
+**Conclusion.** Learn prepositions in pairs, keep the tense sequence and punctuate relative clauses correctly.

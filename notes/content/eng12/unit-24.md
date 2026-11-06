@@ -377,3 +377,56 @@ own tablet, and the number of such classes **is** growing.*
 **24.** **Neither of the answers is correct.** — *neither of* + plural noun takes a singular verb.
 **25.** **He is not interested in politics.** — *politics* stays singular whichever way the sentence is turned.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the main rules of subject-verb agreement, with examples. <span class="marks">[10]</span>
+2. Explain agreement with joined subjects, collective and special nouns and pronouns. <span class="marks">[10]</span>
+
+### Model answer D1: the basic rules of agreement (10 marks)
+
+**Introduction.** In a sentence the verb must agree in number with its subject. The verb agrees with the **head noun** of the subject; of-phrases, participle phrases and relative clauses in between change nothing.
+
+1. **Basic rule:** *The quality of these shoes is very good.* (head noun *quality*)
+2. **And makes a plural:** *Ram and Sita are friends.*
+3. **Exception, one thing or person:** *Bread and butter is my breakfast.*
+4. **Each / every before joined subjects** keep the verb singular: *Every boy and girl has a book.*
+5. **As well as, along with, together with, besides, in addition to** keep the verb agreeing with the **first** subject: *The teacher, along with his students, is going.*
+6. **Singular always:** *each, every, either, neither, one, everyone, nobody, many a, more than one.*
+7. **Plural always:** *both, few, many, several.*
+8. ***A number of* + plural verb; *the number of* + singular verb:** *A number of houses were damaged. The number of accidents is rising.*
+
+| Rule | Example |
+|---|---|
+| Head noun | One of my cousins lives in Australia. |
+| Neither of | Neither of the two candidates has the marks. |
+| A number of | A number of houses were damaged. |
+| The number of | The number of road accidents is rising. |
+
+**Conclusion.** Find the head noun first; ignore the words in between.
+
+### Model answer D2: joined subjects and special nouns (10 marks)
+
+**Introduction.** Some subjects need extra care.
+
+1. **Either … or, neither … nor, not only … but also, or** follow the **proximity rule**: the verb matches the nearer subject: *Either the manager or his assistants have to attend.*
+2. ***Some, all, most, half, none* and fractions** take number from the noun after *of*: *Half of the apples are rotten; half of the milk is spoiled.*
+3. **Singular subjects that look plural:** *Mathematics, physics, news, politics* take a singular verb: *Mathematics has always been my favourite subject.*
+4. **Plural subjects that look singular:** *scissors, trousers, police, cattle, people* take a plural verb: *The police are still looking for the missing girl.*
+5. **Money, distance and time** as one amount take a singular verb: *Twenty thousand rupees is a large sum for a student.*
+6. ***There is / are* and *Here comes / come*** agree with what follows: *There are three books on the table.*
+7. **Pronouns match their antecedents:** *Each student must bring his or her card.*
+8. ***These kinds of books*, not *these kind of books*.**
+
+| Subject | Verb |
+|---|---|
+| Neither Ram nor his friends | have |
+| Neither his friends nor Ram | has |
+| The police | are |
+| News | is |
+| Twenty thousand rupees | is |
+
+**Conclusion.** Match the verb to the real number of the subject, not to the look of the word.

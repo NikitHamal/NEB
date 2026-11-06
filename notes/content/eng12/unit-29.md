@@ -395,3 +395,40 @@ century.***
 **19.** The poem was written **with** a blue pen. — *with* marks the instrument.
 **20.** The hall was crowded **with** students. — *crowded* takes *with*.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain how the passive voice is formed in different tenses and special structures, with examples. <span class="marks">[10]</span>
+
+```photogrid label="29.H" cols="2" ratio="1.4" caption="Rules on signs. A No Trespassing notice and a Keep off the grass sign: public notices use short imperatives, or passive forms such as Trespassers will be prosecuted, because the doer is obvious."
+@ photo id="eng12/passive-sign" cap="A No Trespassing notice"
+@ photo id="eng12/imperative-sign" cap="Keep off the grass: an imperative"
+```
+
+### Model answer D1: the passive voice (10 marks)
+
+**Introduction.** The passive is formed with **be + past participle**, where *be* carries the tense of the original verb. Only **transitive** verbs have a passive.
+
+1. **Basic change:** the object becomes the subject; the subject becomes the *by*-agent. *The peon rang the bell → The bell was rung by the peon.*
+2. **Dropping the agent** when it is unknown, obvious or unimportant: *My bike was stolen.*
+3. **Tenses:** present simple *is done*; past simple *was done*; present perfect *has been done*; future *will be done*.
+4. **No ordinary passive** for the present perfect continuous, past perfect continuous, future continuous and future perfect continuous.
+5. **Modals:** *must be done, can be seen, should have been finished.*
+6. **Two-object verbs** give two passives; the one that begins with the person is preferred: *She was given a prize*; the other inserts *to* (or *for* with *buy, make, cook*): *A prize was given to her.*
+7. **Imperatives** become *Let + object + be + V3* (*Let the door be closed*) or *You are requested / advised / warned to …*
+8. **Special verbs:** *make, let, see, hear, help* take a bare infinitive in the active but *to* in the passive: *He was made to wait.* Impersonal actives give *It is said that …* or *He is said to be / to have been …*. A prepositional verb keeps its preposition: *The baby was looked after.*
+
+*By* marks the doer and *with* the instrument: *The letter was written by Sita with a pen.* *Die, happen, arrive* and *resemble* have no passive.
+
+| Tense | Active | Passive |
+|---|---|---|
+| Present simple | They teach English. | English is taught. |
+| Past simple | They built a bridge. | A bridge was built. |
+| Present perfect | He has finished it. | It has been finished. |
+| Future | They will hold it. | It will be held. |
+| Modal | You must obey rules. | Rules must be obeyed. |
+
+**Conclusion.** Use the passive when the action or the receiver matters more than the doer.

@@ -684,3 +684,53 @@ In the **second** stage, from the 1970s, the economy went global. Politicians in
 
 **2.** Suggest progressive taxes, well-funded public schools and health posts in remote districts, land and housing programmes, employment and skills training, transparent governance, and strong civic movements. End with Moyn's insight that change needs political pressure, not just good laws.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended essay answers (10 marks each, for deeper revision)**
+
+1. Explain Samuel Moyn's argument that human rights are not equipped to fight global inequality. <span class="marks">[10]</span>
+2. Discuss the devices that Moyn uses and his final conclusion. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.1" caption="Scholar, charter and parable. Samuel Moyn, Eleanor Roosevelt holding the Universal Declaration of Human Rights, and the pyre of King Croesus, the parable Moyn uses to end the essay."
+@ photo id="eng12/moyn" cap="Samuel Moyn"
+@ photo id="eng12/udhr-roosevelt" cap="Eleanor Roosevelt with the UDHR"
+@ photo id="eng12/croesus-pyre" cap="Croesus on the pyre"
+```
+
+### Model answer D1: human rights and inequality (10 marks)
+
+**Introduction.** **Samuel Moyn** (born 1972), professor of law and history at Yale, argues in "Human Rights and the Age of Inequality" that human rights are not equipped to fight global inequality.
+
+1. **The Declaration.** The Universal Declaration of Human Rights (10 December 1948, now Human Rights Day) announced **status equality** in Article 1.
+2. **What it left out.** It set **no ceiling on wealth**, that is, no **distributive equality**.
+3. **Floor and ceiling.** Human rights give a **floor of protection** against extreme want; welfare states also gave a **ceiling** on inequality, as in Roosevelt's 1944 promise to end "special privilege for the few".
+4. **Neoliberalism.** From the 1970s "market fundamentalism" dismantled welfare states.
+5. **Bad timing.** Human rights became global exactly when the demand for equality was dropped.
+6. **Global gap.** The wealth gap between rich and poor countries outlasted decolonisation; Myrdal and Hayek shared the 1974 Nobel Prize, but only Hayek's wishes came true.
+7. **Right tools?** The tools of human rights (law, naming and shaming) suit repression and violence, not economic inequality.
+8. **Fair blame.** "Neoliberalism, not human rights, is to blame for neoliberalism."
+
+**Conclusion.** Human rights are valuable, but alone they cannot reduce the gap between rich and poor.
+
+### Model answer D2: devices and conclusion (10 marks)
+
+**Introduction.** Moyn is a scholar, but he argues like a storyteller.
+
+1. **Parable and allusion.** The story of **Croesus** and the lesson of Herodotus close the essay.
+2. **Metaphor.** "Floor" and "ceiling" show two kinds of protection; "hammer and nail" shows that the tool decides the job.
+3. **Thought experiment.** A world in which one man owns everything shows that equal rights can coexist with extreme inequality.
+4. **Irony.** Human rights flourished just as equality was abandoned.
+5. **Concession.** He admits that human rights are valuable against repression and violence.
+6. **The conclusion:** the "mismatch" demands "not a substitute but a supplement".
+7. **Final lesson.** Redistribution needs real political pressure, not only law.
+8. **Nepali link.** The Constitution of Nepal (2072) lists economic and social rights, but reducing poverty also needs budgets, taxes and jobs.
+
+| | Floor | Ceiling |
+|---|---|---|
+| Meaning | Minimum protection | Limit on inequality |
+| Provided by | Human rights | Welfare states |
+| After the 1970s | Kept | Dropped |
+
+**Conclusion.** Human rights should be supplemented with policies that reduce inequality.

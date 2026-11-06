@@ -738,3 +738,55 @@ turn from memories to the loss of libraries; (b) after the New York friendships,
 the students who ignore the shelves; (c) the way people used libraries was changing;
 (d) it is the hinge of the essay, from praise to grief.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended essay answers (10 marks each, for deeper revision)**
+
+1. Describe the libraries that shaped Oliver Sacks's life and explain what each gave him. <span class="marks">[10]</span>
+2. Why was Sacks horrified by the disposal of books, and what does the essay finally argue? <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.1" caption="Writer and libraries. Oliver Sacks (1933–2015), the upper library of Queen's College, Oxford, and the Radcliffe Camera, the reading room of the Bodleian Library."
+@ photo id="eng12/oliver-sacks" cap="Oliver Sacks"
+@ photo id="eng12/queens-upper-library" cap="Queen's College library"
+@ photo id="eng12/radcliffe-camera" cap="Radcliffe Camera, Oxford"
+```
+
+### Model answer D1: the libraries of Sacks's life (10 marks)
+
+**Introduction.** "On Libraries" is a personal essay by the neurologist **Oliver Sacks** (1933–2015), published in *The Threepenny Review* and, as "Libraries", in *Everything in Its Place* (2019). It praises libraries as places of **intellectual freedom, community and serendipitous discovery**.
+
+1. **The home library.** His father's oak-panelled library held Hebrew scholarship, Ibsen and war poets; his mother's held Dickens, Trollope, Shaw, Kipling, Shakespeare and Milton. He read at three or four and was found there when late for meals.
+2. **Willesden Public Library.** His "Ur-library" and "real education". He was "not a good pupil, but … a good learner", free to choose and to "become myself".
+3. **Walker Library and Science Museum library.** Because St Paul's lacked chemistry books, a testimonial got him into the Science Museum library (Mellor, Gmelin).
+4. **Radcliffe Science Library and the Bodleian.** At Oxford these gave him science and old books; the Bodleian was traced to 1602.
+5. **Queen's College library.** Designed by Wren, with catacombs and incunabula, Darwin, Swift, Johnson and Hume: "a sense of history, and of my own language".
+6. **New York, 1965.** He began *Migraine* on top of a refrigerator; the Albert Einstein College of Medicine library gave space, lucky finds and friendships.
+7. **Common pattern.** Every library gave him freedom to follow his own curiosity.
+8. **Style.** First-person memoir, catalogues and metaphors of maze and quest.
+
+**Conclusion.** Sacks's identity as reader, scientist and writer was formed in libraries.
+
+### Model answer D2: the disposal of books and the essay's argument (10 marks)
+
+**Introduction.** In the last part of the essay Sacks turns from memory to alarm.
+
+1. **The change.** By the **1990s** students ignored the shelves and libraries began to dispose of books.
+2. **His reaction.** He was **horrified** and called it "a murder, a crime" (hyperbole).
+3. **The excuse.** He was told that everything "of worth" had been digitised.
+4. **His answer.** A physical book has "its look, its smell, its heft".
+5. **Serendipity.** On shelves a reader finds what he was not looking for; a search box returns only what he asks.
+6. **Community.** Libraries bring readers together, and they stand for freedom.
+7. **Symbol.** The physical book stands for history and for the continuity of knowledge.
+8. **Tone.** Warm and nostalgic at first, then angry.
+
+| Library | What it gave |
+|---|---|
+| Home library | Love of reading |
+| Willesden | Freedom and self |
+| Science Museum | Science books |
+| Queen's, Oxford | Sense of history |
+| Einstein College | Space and friends |
+
+**Conclusion.** The essay argues that libraries are living places of freedom, community and discovery, and that screens cannot replace them.

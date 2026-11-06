@@ -691,3 +691,54 @@ person. So it is a **modern tragedy** in form, subject and spirit.
 
 **2.** Take a side. Poverty can strain love, as the Durand daughters' cruelty shows, but it can also reveal it: Thérèse's last gift of matches and milk. Mention support, communication and honesty as the things that protect a family.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended drama answers (10 marks each, for deeper revision)**
+
+1. Narrate the plot of "Facing Death" and explain why Monsieur Durand decides to die. <span class="marks">[10]</span>
+2. Show how "Facing Death" is a modern tragedy, with its themes, symbols and techniques. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="3" ratio="1.1" caption="Writer, stage and setting. August Strindberg (1849–1912), the Royal Dramatic Theatre in Stockholm, and Lake Léman (Lake Geneva) in Lavaux, where he lived in 1884–87."
+@ photo id="eng12/strindberg" cap="August Strindberg"
+@ photo id="eng12/dramaten" cap="Royal Dramatic Theatre, Stockholm"
+@ photo id="eng12/lavaux-leman" cap="Lake Léman at Lavaux"
+```
+
+### Model answer D1: the plot and Durand's decision (10 marks)
+
+**Introduction.** **August Strindberg** (1849–1912), Swedish dramatist and pioneer of naturalism and expressionism, wrote "Facing Death" after living near Lake Léman in 1884–87; the translators date its publication to 1898.
+
+1. **Situation.** **Monsieur Durand**, a widowed pension-keeper in French Switzerland in the 1880s, is bankrupt.
+2. **His daughters.** Adèle, Annette and Thérèse despise him, repeating their dead mother's lies that he is a foreign-born deserter who wasted their dowry.
+3. **Bills and no bread.** Antonio, a lodger, is told that the pension is bankrupt.
+4. **Antonio and Thérèse.** Antonio kisses Thérèse and is driven out.
+5. **Cruelty.** The daughters take Durand's milk and matches.
+6. **The decision.** Durand says farewell, tells Adèle the truth and his plan, and poisons himself as a candle sets the house alight.
+7. **The motive.** Fire insurance, not life insurance, is the real source of money; Durand tells Thérèse "five thousand if I die", but tells Adèle he sold the life policy.
+8. **Result.** The insurance will save his daughters.
+
+**Conclusion.** Durand dies to pay his daughters' future with the only asset he has left: himself.
+
+### Model answer D2: a modern tragedy (10 marks)
+
+**Introduction.** "Facing Death" is a **modern tragedy**: an ordinary hero, social and economic causes, plain speech and a private death.
+
+1. **Ordinary hero.** A bankrupt innkeeper, not a king.
+2. **Social causes.** Poverty, debt and a dead mother's legacy of lies.
+3. **Themes.** Sacrificial love, ingratitude, honour, truth and lies, and death as release.
+4. **Symbols.** Candle, fire, milk, matches, lake and churchyard.
+5. **Metaphors.** Durand is a "lone brakeman" on a train and the pension a "sinking ship".
+6. **Foreshadowing and dramatic irony.** The audience knows what the daughters do not.
+7. **Naturalism.** Plain detail of bills, bread and kitchen life, with careful stage directions.
+8. **Ending.** Catharsis comes from the father's love and the daughters' late understanding.
+
+| | Classical tragedy | Facing Death |
+|---|---|---|
+| Hero | King or noble | Bankrupt pension-keeper |
+| Cause | Fate, pride | Poverty, family lies |
+| Language | Poetic | Plain speech |
+| Death | Public | Private |
+
+**Conclusion.** Strindberg shows that tragedy can arise in an ordinary kitchen and from ordinary debts.

@@ -623,3 +623,52 @@ easily kindness can be used as a weapon.
 
 **2.** Take a side. Support with the play: the actress's lies work for a while but rest on the wife's trust, and the ending shows they have cost the wife her dignity. Give a real example (a white lie that became a bigger problem) and conclude that trust is easier to keep than to rebuild.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended drama answers (10 marks each, for deeper revision)**
+
+1. Describe how the Famous Actress persuades the Earnest Young Woman that she is innocent. <span class="marks">[10]</span>
+2. Discuss irony, characters and themes in "A Matter of Husbands". <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="2" ratio="1.4" caption="Playwright and stage. Ferenc Molnár (1878–1952) and a proscenium stage, the picture-frame theatre for which one-act comedies like this were written."
+@ photo id="eng12/molnar" cap="Ferenc Molnár"
+@ photo id="eng12/proscenium" cap="A proscenium stage"
+```
+
+### Model answer D1: how the actress persuades the wife (10 marks)
+
+**Introduction.** **Ferenc Molnár** (1878–1952), Hungarian playwright, wrote this one-act comedy, translated into English by Benjamin Glazer (1923).
+
+1. **The plea.** The Earnest Young Woman begs the Famous Actress to "give me back my husband", Alfred, a blond, bespectacled lawyer.
+2. **The evidence.** She has flowers, a love letter and a lock of hair.
+3. **First reaction.** The actress denies everything.
+4. **Clever turn.** The wife admits that she has been cold to Alfred.
+5. **The theory.** The actress says that men of the theatre invent love affairs with actresses to make their wives jealous.
+6. **Each proof explained.** The flowers, letter and hair become tricks.
+7. **Result.** The wife is convinced, apologises, kisses the actress and leaves.
+8. **The twist.** The last line: "All right, Alfred. You can come in now. She has gone."
+
+**Conclusion.** The actress wins by using the wife's guilt and her own acting skill.
+
+### Model answer D2: irony, characters and themes (10 marks)
+
+**Introduction.** The play is a short comedy whose last line changes the meaning of everything before it.
+
+1. **Verbal irony.** The actress's soothing words mean the opposite of the truth.
+2. **Situational irony.** The wife apologises to the woman who has taken her husband.
+3. **Dramatic irony.** After the last line the audience sees what the wife never learns.
+4. **Characters.** The actress is clever, poised and unscrupulous; the wife is earnest, insecure and trusting; Alfred, never seen, is sly.
+5. **Structure.** Quick questions turn into a long speech, then a twist ending.
+6. **Stage directions** are detailed and show gestures that mislead.
+7. **Themes.** Appearance and reality, acting in life, jealousy, deception and self-deception, marriage and trust, and the power of persuasion.
+8. **Comic reversal.** The accuser leaves as the apologiser.
+
+| Character | Trait | Role |
+|---|---|---|
+| Famous Actress | Clever, unscrupulous | Persuader |
+| Earnest Young Woman | Trusting | Victim of the trick |
+| Alfred | Sly | Hidden schemer |
+
+**Conclusion.** The play shows that a skilled actor can make a lie sound like the truth, and that the tricked person often helps the trick.

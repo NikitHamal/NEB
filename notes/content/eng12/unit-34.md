@@ -448,3 +448,58 @@ with a needle. Its usefulness is limited, however, by geography and by season: i
 a ridge with a moist wind, which is rarely where houses stand, and in most hill
 districts the dependable fog lasts only a few weeks. *(78 words)*
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended reading answers (10 marks each, for deeper revision)**
+
+1. Show, with a worked passage, how to answer True / False / Not Given and short-answer questions. <span class="marks">[10]</span>
+2. Show how to answer vocabulary-in-context, inference and "in your own words" questions. <span class="marks">[10]</span>
+
+### Model answer D1: True / False / Not Given and short answers (10 marks)
+
+**Passage.** *The Kathmandu Valley has three old royal cities: Kathmandu, Lalitpur and Bhaktapur. The Valley was badly damaged by the earthquake of 2015, and many temples fell. Since then, volunteers and the government have rebuilt several monuments with traditional bricks and timber. The Valley attracts hundreds of thousands of tourists every year.*
+
+**Method.** The order is: **skim, read the questions, scan and mark the passage, write, check.** Skimming finds the gist; scanning hunts one fact. Scan for numbers, dates and capital letters first.
+
+| Statement | Answer | Reason |
+|---|---|---|
+| The Valley has three old royal cities. | **True** | The passage says it. |
+| The 2015 earthquake left every temple standing. | **False** | The passage says many temples fell. |
+| All the monuments have been rebuilt. | **False** | Only "several" were rebuilt; watch *all*. |
+| The Valley receives more tourists than Pokhara. | **Not Given** | The passage never compares them. |
+
+**Rules.**
+1. **True** = the passage says it.
+2. **False** = the passage says the opposite.
+3. **Not Given** = the passage is silent, however true the statement may be in real life.
+4. Watch the words *all, every, never, only*.
+5. Beware comparisons that were never made.
+6. Beware causes the passage did not claim.
+
+**Short answers.** *What did the volunteers use to rebuild?* → **Traditional bricks and timber.** Copy the key words, keep it short and answer only the question.
+
+### Model answer D2: vocabulary, inference and own words (10 marks)
+
+**Vocabulary in context.** Read the whole sentence, fix the part of speech, look for a signal, then replace and test. *The fog was so dense that we could see nothing.* The signal "so … that we could see nothing" shows that *dense* means **thick**.
+
+**Inference.** An inference must have a line behind it; if nothing in the text points at it, it is a guess.
+
+*Passage: Maya looked at her empty plate, then at the clock, and quietly closed the door.* **Inference:** she was upset or embarrassed about the late meal, because the plate, clock and quiet door suggest disappointment.
+
+**In your own words.** The words must change and the meaning must not.
+
+| Original | Own words |
+|---|---|
+| The government rebuilt monuments using traditional methods. | Officials restored the old buildings with age-old techniques. |
+
+**Checklist.** Answer in a full sentence for 2-mark items; never copy a whole sentence; check spelling and grammar; use the last two minutes to check.
+
+| Question type | Strategy |
+|---|---|
+| True/False/Not Given | Scan, mark, compare words |
+| Short answer | Copy key words, be brief |
+| Vocabulary | Part of speech + signal + test |
+| Inference | Find the line behind it |
+| Own words | Change words, keep meaning |
