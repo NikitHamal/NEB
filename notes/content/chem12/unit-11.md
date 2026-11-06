@@ -804,6 +804,7 @@ The product, **salicylic acid**, is the starting material for **aspirin** (acety
 **Reimer–Tiemann reaction (salicylaldehyde).** Phenol is warmed with chloroform and aqueous NaOH at about 340 K, and then acidified. The electrophile is dichlorocarbene, :CCl$_2$, generated from CHCl$_3$ and the base, which attacks the electron-rich ortho position. The $-\text{CHCl}_{2}$ group is hydrolysed to –CHO, and **salicylaldehyde** (o-hydroxybenzaldehyde) is the main product. With CCl$_4$ instead of CHCl$_3$ the product is salicylic acid.
 
 **Other reactions.**
+
 - **Bromine water** gives a white precipitate of 2,4,6-tribromophenol, and the test is used to detect phenol.
 - **Neutral FeCl$_3$** gives a violet colour.
 - **Nitration** with dilute HNO$_3$ gives o- and p-nitrophenol, and with concentrated HNO$_3$ gives picric acid.

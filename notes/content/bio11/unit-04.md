@@ -925,9 +925,9 @@ few and vulnerable to extinction.
 
 1. **Abiotic:** sunlight, temperature, water, soil, air and minerals.
 2. **Biotic:**
-   - **Producers (autotrophs):** green plants and algae that make food by photosynthesis.
-   - **Consumers (heterotrophs):** primary (herbivores), secondary (carnivores that eat herbivores) and tertiary (top carnivores); omnivores eat both.
-   - **Decomposers:** bacteria and fungi that break dead matter and return nutrients.
+    - **Producers (autotrophs):** green plants and algae that make food by photosynthesis.
+    - **Consumers (heterotrophs):** primary (herbivores), secondary (carnivores that eat herbivores) and tertiary (top carnivores); omnivores eat both.
+    - **Decomposers:** bacteria and fungi that break dead matter and return nutrients.
 
 **Food chain and food web.** A **food chain** is a linear series of feeding: grass → grasshopper → frog → snake → eagle. In nature many chains are linked in a **food web**, which makes the ecosystem more stable.
 

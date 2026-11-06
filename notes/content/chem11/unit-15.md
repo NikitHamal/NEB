@@ -981,3 +981,77 @@ From the equation 2 mol of benzene gives 12 mol of CO₂, i.e. 1 mol gives 6 mol
 so moles of CO₂ = 6 × 0.10 = 0.60 mol.
 Volume at STP = 0.60 × 22.4 = **13.44 dm³**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure of benzene. Explain the Kekule structure, its limitations, the resonance and the molecular orbital picture, and give the evidence for it. <span class="marks">[10]</span>
+2. Describe the electrophilic substitution reactions of benzene (nitration, halogenation, sulphonation, Friedel-Crafts) with the mechanism of nitration, and explain the directive effect of substituents. <span class="marks">[10]</span>
+
+### Model answer D1: structure of benzene (10 marks)
+
+**Introduction.** Benzene, C₆H₆, was isolated by Faraday (1825) from the oil gas. It is the parent **aromatic hydrocarbon**. Its formula suggests a high degree of unsaturation (like three double bonds), yet it behaves very differently from alkenes.
+
+**Kekule's structure (1865).** A planar six-membered ring of carbon atoms with **alternate single and double bonds**, each carbon bonded to one H. Kekule proposed that the double bonds **oscillate** rapidly between two positions.
+
+**Limitations of Kekule's structure.**
+
+1. Benzene does **not decolourise bromine water or Baeyer's reagent** and does not undergo addition easily, as an alkene does.
+2. It prefers **substitution** (nitration, halogenation) to addition.
+3. If single and double bonds alternated, **two 1,2-dibromo isomers** (the Br on a single-bond pair and a double-bond pair) should exist, but only one is known.
+4. All the C-C bonds in benzene are **equal (139 pm)**, intermediate between a single (154 pm) and a double (134 pm) bond.
+5. Its **heat of hydrogenation** is lower than expected.
+
+**Resonance.** Benzene is a **resonance hybrid** of the two Kekule structures (I and II, which differ only in the positions of the double bonds) and the less important Dewar forms. The actual structure is **none** of them but a hybrid in between, so all the C-C bonds are equal. It is shown by a hexagon with a circle inside.
+
+**Resonance (stabilisation) energy.** The heat of hydrogenation of cyclohexene is -120 kJ/mol, so a hypothetical "cyclohexatriene" would release $3\times120 = 360\ \text{kJ/mol}$. The actual value for benzene is only **-208 kJ/mol**. The difference of **152 kJ/mol** is the resonance energy, which makes benzene unusually stable.
+
+**Molecular orbital picture.**
+
+- Each carbon is **sp² hybridized**: two sp² orbitals form σ bonds with neighbouring carbons and one forms a σ bond with H. All the atoms lie in **one plane**, with bond angles of 120 degrees.
+- The unhybridized **2p orbital on each carbon** (six in all) is perpendicular to the plane and overlaps sideways with both neighbours. This forms a continuous cloud of **six delocalised π electrons**, above and below the ring.
+
+**Aromaticity (Huckel's rule).** A compound is aromatic if it is **cyclic, planar, fully conjugated and has $(4n + 2)\ \pi$ electrons** ($n = 0, 1, 2...$). Benzene has 6 π electrons ($n = 1$). Naphthalene has 10; cyclobutadiene (4) is anti-aromatic; cyclohexene is not aromatic.
+
+| Property | Alkene (ethene) | Benzene |
+|---|---|---|
+| C-C bond length | 134 pm (C=C) | 139 pm, all equal |
+| Typical reaction | Addition | Substitution |
+| Bromine water | Decolourised | No reaction |
+| Stability | Less stable | Extra stable (152 kJ/mol) |
+| π electrons | Localised | Delocalised over the ring |
+
+**Conclusion.** The delocalised π cloud makes benzene planar, symmetrical and exceptionally stable. This explains why it prefers substitution reactions that keep the aromatic ring intact.
+
+### Model answer D2: electrophilic substitution in benzene (10 marks)
+
+**Introduction.** The delocalised π electrons of benzene attract **electrophiles** (E⁺). The reaction is **electrophilic aromatic substitution (SEAr)**: an H is replaced by E while the stable aromatic ring is **retained**.
+
+**General mechanism.**
+
+1. **Generation of the electrophile** E⁺ (using a catalyst).
+2. **Attack:** the π electrons attack E⁺, and a **carbocation intermediate (arenium ion, sigma complex)** forms, in which the aromatic character is lost temporarily; the positive charge is delocalised over three carbons. This is the **slow, rate-determining step**.
+3. **Loss of H⁺:** a base removes the proton from the carbon with E, and the aromatic ring is restored.
+
+**Main reactions.**
+
+1. **Nitration:** benzene with a **nitrating mixture** (conc. HNO₃ + conc. H₂SO₄) at 50-60 degrees C gives **nitrobenzene**.
+    - Electrophile: $\text{HNO}_3 + 2\text{H}_2\text{SO}_4 \rightleftharpoons \text{NO}_2^{+} + \text{H}_3\text{O}^{+} + 2\text{HSO}_4^{-}$ (the **nitronium ion**).
+    - Then: benzene + NO₂⁺ → arenium ion → nitrobenzene + H⁺.
+2. **Halogenation:** with Cl₂ or Br₂ and FeCl₃ or FeBr₃ (a Lewis acid) gives chlorobenzene or bromobenzene; the catalyst polarises the halogen, giving $\text{Br}^{+}$ character.
+3. **Sulphonation:** with conc. H₂SO₄ or oleum gives **benzenesulphonic acid**; the electrophile is SO₃, and the reaction is reversible.
+4. **Friedel-Crafts alkylation:** with an alkyl halide (CH₃Cl) and anhydrous AlCl₃ gives **toluene**; the electrophile is CH₃⁺. It may give over-alkylation, and the rearrangement of carbocations.
+5. **Friedel-Crafts acylation:** with an acid chloride (CH₃COCl) and AlCl₃ gives **acetophenone**; the electrophile is the acylium ion, and there is no rearrangement.
+
+**Directive influence of substituents.** A group already on the ring decides the **position** and **rate** of the next substitution.
+
+| Type | Examples | Effect on the ring | Position of new group |
+|---|---|---|---|
+| **Activating, ortho/para directing** | -OH, -NH₂, -OCH₃, -CH₃, -R | Donate electrons, speeding up the reaction | Ortho and para |
+| **Deactivating, meta directing** | -NO₂, -CN, -CHO, -COOH, -SO₃H | Withdraw electrons, slowing the reaction | Meta |
+| **Deactivating, ortho/para directing** | -Cl, -Br, -I | Inductive withdrawal outweighs resonance donation | Ortho and para |
+
+**Explanation.** An electron-donating group stabilises the arenium ion when the attack is at the ortho or para position (the positive charge falls on the carbon bearing the group), so these positions are preferred. An electron-withdrawing group destabilises the ion at ortho and para (the positive charge is next to the withdrawing group), so the **meta** attack, which avoids this, is relatively preferred.
+
+**Examples.** Nitration of toluene gives o- and p-nitrotoluene, and further nitration gives **TNT** (2,4,6-trinitrotoluene). Nitration of nitrobenzene gives **m-dinitrobenzene**. Phenol brominates with bromine water (even without a catalyst) to give 2,4,6-tribromophenol.
+
+**Conclusion.** Benzene undergoes electrophilic substitution via an arenium ion. A group already attached directs the next one to the ortho/para positions (activators) or to the meta position (deactivators).

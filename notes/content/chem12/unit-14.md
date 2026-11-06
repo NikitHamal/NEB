@@ -1070,6 +1070,7 @@ dyes, as required.
 The effect falls with distance: 2-chlorobutanoic acid is stronger than 3-chlorobutanoic acid, which is stronger than 4-chlorobutanoic acid.
 
 **Characteristic reactions of acetic acid.**
+
 1. **With bases and carbonates.** $\text{CH}_3\text{COOH} + \text{NaHCO}_3 \Rightarrow \text{CH}_3\text{COONa} + \text{H}_2\text{O} + \text{CO}_2$, which gives the brisk effervescence used to identify acids.
 2. **Esterification.** With ethanol and a few drops of conc. H$_2$SO$_4$ under reflux, $\text{CH}_3\text{COOH} + \text{C}_2\text{H}_5\text{OH} \rightleftharpoons \text{CH}_3\text{COOC}_2\text{H}_5 + \text{H}_2\text{O}$, giving the fruity ester ethyl acetate.
 3. **Formation of acid derivatives.** With PCl$_5$ or SOCl$_2$ it gives acetyl chloride; heating with P$_2$O$_5$ gives acetic anhydride; ammonium acetate heated gives acetamide.

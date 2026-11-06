@@ -431,6 +431,7 @@ consistent with lactic acid, CH₃CH(OH)COOH (M = 90), which has one –OH and o
 **Preparation.** Magnesium turnings react with an alkyl or aryl halide in **dry diethyl ether**: $\text{CH}_{3}\text{Br} + \text{Mg} \Rightarrow \text{CH}_{3}\text{MgBr}$ (methylmagnesium bromide). Ether is essential because its lone pairs on oxygen solvate and stabilise the reagent. A trace of iodine starts the reaction, and the order of reactivity of halides is R–I > R–Br > R–Cl. All apparatus and reagents must be perfectly **dry**, because Grignard reagents are destroyed by any compound with an acidic hydrogen.
 
 **Reactions.**
+
 1. **With water (or alcohol or amine)** gives an alkane: $\text{CH}_{3}\text{MgBr} + \text{H}_{2}\text{O} \Rightarrow \text{CH}_{4} + \text{Mg(OH)Br}$. This is why the reagent must be kept dry.
 2. **With formaldehyde** gives, after hydrolysis, a **primary alcohol**: $\text{HCHO} + \text{CH}_{3}\text{MgBr} \Rightarrow \text{CH}_{3}\text{CH}_{2}\text{OMgBr} \Rightarrow \text{CH}_{3}\text{CH}_{2}\text{OH}$ (ethanol).
 3. **With any other aldehyde** gives a **secondary alcohol**: $\text{CH}_{3}\text{CHO} + \text{CH}_{3}\text{MgBr} \Rightarrow$ propan-2-ol after hydrolysis.

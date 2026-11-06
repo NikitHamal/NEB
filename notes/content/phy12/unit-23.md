@@ -708,6 +708,7 @@ wavelength is far shorter than the plane spacing.
 **Introduction.** Rutherford's nuclear atom could not explain why an orbiting electron does not radiate energy and spiral into the nucleus, nor why hydrogen gives only certain spectral lines. In 1913 Niels Bohr solved both problems with three postulates.
 
 **Postulates.**
+
 1. An electron revolves round the nucleus only in certain **stationary orbits**, in which it does not radiate energy.
 2. The allowed orbits are those in which the angular momentum is an integral multiple of $h/2\pi$: $mvr = \dfrac{nh}{2\pi}$, where $n = 1, 2, 3, \dots$ is the principal quantum number.
 3. Radiation is emitted or absorbed only when the electron jumps from one orbit to another, and the photon has energy $h\nu = E_{i} - E_{f}$.
@@ -749,6 +750,7 @@ $$ \frac{1}{\lambda} = R\left(\frac{1}{n_{f}^{2}} - \frac{1}{n_{i}^{2}}\right), 
 **Production (Coolidge tube).** A heated tungsten **filament** (cathode) emits electrons by thermionic emission. A high voltage (30–100 kV) between the cathode and a **tungsten target** (anode) accelerates them. Only about 1% of the energy becomes X-rays and the rest heats the target, which is cooled by copper, water or oil, or rotated. The tube is evacuated to prevent collisions. The **intensity** is controlled by the filament current and the **quality (penetrating power)** by the voltage.
 
 **Spectrum.**
+
 1. **Continuous spectrum** (bremsstrahlung). Electrons are slowed down by the nuclei, and the lost energy is emitted as a photon of any wavelength above a sharp minimum, given by the Duane–Hunt law: $\lambda_{min} = \dfrac{hc}{eV} = \dfrac{1240}{V(\text{volts})}\ \text{nm}$, when an electron gives all its energy to one photon.
 2. **Characteristic spectrum.** If the electron knocks out an inner-shell electron of the target atom, an outer electron falls into the vacancy and emits a photon of definite energy. The sharp lines (K, L series) depend only on the target element and not on the voltage.
 
