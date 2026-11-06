@@ -1473,6 +1473,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (IS_AUTHENTICATED) {
       window.WS.subscribe('user');
     }
+    // After a long gap (hidden tab, lost network) replies may have been missed: offer one refresh.
+    window.addEventListener('neb:realtime-resync', function () {
+      if (window.NebToast) window.NebToast.show('Thread updated', { tone: 'info', duration: 12000, action: { label: 'Refresh', onClick: function () { window.location.reload(); } } });
+    });
     // Live reply delete: remove the card without reloading the page
     window.WS.on('post.' + POST_ID + ':reply.deleted', function (data) {
       if (!data || !data.reply_id) return;
