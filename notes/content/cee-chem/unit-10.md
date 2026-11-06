@@ -790,3 +790,85 @@ cell 1.23 V.
 **9.** (b) — $Q = 2.0 \times 1800 = 3600$ C = 0.0373 mol e⁻ → 0.0187 mol Cu = 1.18 g. Option (a) uses 63.5 g per mole of electrons.
 **10.** (c) — Faraday's second law: masses ∝ equivalent weights, 108 : 31.75 : 9. Option (a) uses molar masses and ignores the valencies.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Daniell cell, define standard electrode potential, and apply the Nernst equation with a numerical. <span class="marks">[10]</span>
+2. State Faraday's laws of electrolysis, explain conductance and Kohlrausch's law, and solve numericals. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="3" ratio="1.25" caption="Electrochemistry in daily life. (a) A Daniell cell: zinc and copper half-cells joined by a salt bridge. (b) A battery pack turns chemical energy into electrical energy. (c) A fuel cell stack makes electricity from hydrogen and oxygen with water as the only product."
+@ photo id="chem12/daniell" cap="(a) Daniell cell"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/battery" cap="(b) Battery"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/fuel-cell" cap="(c) Fuel cell"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: galvanic cells, electrode potential and the Nernst equation (10 marks)
+
+**Introduction.** A **galvanic (voltaic) cell** converts the chemical energy of a spontaneous redox reaction into electrical energy. Oxidation occurs at the **anode** (negative) and reduction at the **cathode** (positive). In the Daniell cell:
+
+- Anode: Zn → Zn²⁺ + 2e⁻
+- Cathode: Cu²⁺ + 2e⁻ → Cu
+- Cell notation: Zn | Zn²⁺(1 M) || Cu²⁺(1 M) | Cu
+
+The **salt bridge** (KCl or KNO₃ in agar) completes the circuit and keeps the solutions electrically neutral without mixing them.
+
+**Standard electrode potential.** The potential of an electrode at $1\ \text{M}$, $1\ \text{atm}$ and $25^{\circ}\text{C}$ measured against the **standard hydrogen electrode** (SHE, $0.00\ \text{V}$). $E^{\circ}_{cell} = E^{\circ}_{cathode} - E^{\circ}_{anode}$ (both as reduction potentials). For the Daniell cell: $0.34 - (-0.76) = +1.10\ \text{V}$.
+
+**Electrochemical series.** A more negative $E^{\circ}$ means a stronger reducing agent (Li, K, Zn), and a more positive $E^{\circ}$ means a stronger oxidising agent (F₂, MnO₄⁻). A metal displaces from solution another metal of higher $E^{\circ}$ and one above hydrogen liberates H₂ from dilute acids.
+
+**Nernst equation.** For $aA + bB \to cC + dD$ at $25^{\circ}\text{C}$:
+
+$$ E = E^{\circ} - \frac{0.0592}{n}\log Q $$
+
+**Link with thermodynamics.** $\Delta G^{\circ} = -nFE^{\circ}$, $\Delta G^{\circ} = -RT\ln K$, so $\log K = \dfrac{nE^{\circ}}{0.0592}$. A reaction is spontaneous when $E_{cell} > 0$. At equilibrium $E = 0$ (a dead battery).
+
+| Quantity | Formula |
+|---|---|
+| Free energy | $\Delta G = -nFE$ |
+| Equilibrium constant | $\log K = nE^{\circ}/0.0592$ |
+| Electrode potential | $E = E^{\circ} - \dfrac{0.0592}{n}\log\dfrac1{[M^{n+}]}$ |
+
+**Numerical.** For Zn | Zn²⁺(0.01 M) || Cu²⁺(1 M) | Cu: $E = 1.10 - \dfrac{0.0592}{2}\log\dfrac{0.01}{1} = 1.10 + 0.059 = 1.16\ \text{V}$. Also $\Delta G^{\circ} = -2\times96500\times1.10 = -212\ \text{kJ mol}^{-1}$ and $\log K = \dfrac{2\times1.10}{0.0592} = 37.2$, so $K \approx 10^{37}$, a reaction that essentially goes to completion.
+
+**Conclusion.** The Nernst equation links the cell potential to concentration, and $E^{\circ}$ gives $\Delta G^{\circ}$ and $K$.
+
+### Model answer D2: electrolysis and conductance (10 marks)
+
+**Introduction.** **Electrolysis** uses electrical energy to drive a non-spontaneous reaction. Oxidation occurs at the anode (positive) and reduction at the cathode (negative), the opposite polarity to a galvanic cell.
+
+**Faraday's laws.**
+
+1. **First law:** the mass deposited is proportional to the charge passed: $m = ZQ = ZIt$.
+2. **Second law:** for the same charge, the masses of different substances deposited are proportional to their equivalent weights: $\dfrac{m_1}{m_2} = \dfrac{E_1}{E_2}$.
+
+So $m = \dfrac{M\,I\,t}{nF}$, with $F = 96\,500\ \text{C mol}^{-1}$ (charge of one mole of electrons).
+
+**Products of electrolysis** (the species with the higher reduction potential is discharged at the cathode, and the lower at the anode):
+
+| Electrolyte | Cathode | Anode |
+|---|---|---|
+| Molten NaCl | Na | Cl₂ |
+| Aqueous NaCl | H₂ | Cl₂ |
+| Aqueous CuSO₄ (Pt electrodes) | Cu | O₂ |
+| Aqueous CuSO₄ (Cu electrodes) | Cu deposited | Cu dissolves (refining) |
+| Dilute H₂SO₄ | H₂ | O₂ |
+
+**Conductance.** Resistance $R = \rho l/A$, conductivity $\kappa = 1/\rho$ (S cm⁻¹), **molar conductivity** $\Lambda_m = \dfrac{1000\,\kappa}{C}\ \text{S cm}^2\text{mol}^{-1}$ (with $C$ in mol L⁻¹). For strong electrolytes $\Lambda_m$ rises slowly on dilution ($\Lambda_m = \Lambda_m^{\circ} - A\sqrt C$, Debye-Hückel-Onsager). For weak electrolytes it rises steeply near infinite dilution because ionisation increases.
+
+**Kohlrausch's law.** At infinite dilution, each ion contributes independently: $\Lambda_m^{\circ} = \lambda^{\circ}_+ + \lambda^{\circ}_-$. This gives $\Lambda^{\circ}$ for weak electrolytes, and the degree of ionisation $\alpha = \Lambda_m/\Lambda_m^{\circ}$.
+
+**Batteries.** Primary cells (dry cell), secondary cells (lead-acid with $2\ \text{V}$ per cell, Li-ion) and fuel cells (H₂-O₂, $E^{\circ} = 1.23\ \text{V}$).
+
+**Numerical.**
+
+- $2\ \text{A}$ for $965\ \text{s}$ in CuSO₄: $Q = 1930\ \text{C}$, so $0.020\ \text{mol}$ of electrons deposit $0.010\ \text{mol}$ of Cu, $0.635\ \text{g}$.
+- $\Lambda^{\circ}(\text{CH}_3\text{COOH}) = \Lambda^{\circ}(\text{HCl}) + \Lambda^{\circ}(\text{CH}_3\text{COONa}) - \Lambda^{\circ}(\text{NaCl}) = 426 + 91 - 126 = 391\ \text{S cm}^2\text{mol}^{-1}$.
+- If a $0.1\ \text{M}$ acetic acid has $\Lambda_m = 5.2$, then $\alpha = 5.2/391 = 1.3\%$.
+
+**Conclusion.** Faraday's laws fix the amount of substance for a given charge, and Kohlrausch's law gives the limiting conductivity of weak electrolytes.

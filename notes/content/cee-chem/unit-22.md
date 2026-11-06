@@ -623,3 +623,93 @@ facts = dict(gap=(pig[1][1] - pig[2][1]) * front)
 **9.** (a) — equivalence gives acidic NH₄Cl solution near pH 5, inside methyl orange's range.
 **10.** (b) — moles EDTA = 0.0100×0.0100 = 1.00×10⁻⁴ = moles CaCO₃ equivalent = 10.0 mg in 50.0 mL, i.e. 200 mg L⁻¹.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the principles of chromatography (paper, thin-layer and column) and calculate the $R_f$ value. <span class="marks">[10]</span>
+2. Explain qualitative analysis: flame tests, the identification of anions and the analysis of cations by groups. <span class="marks">[10]</span>
+
+```photogrid label="22.H" cols="3" ratio="1.25" caption="Analytical chemistry in practice. (a) A paper chromatogram separates the dyes of an ink by their different movement with the solvent. (b) The brown ring test confirms nitrate. (c) Flame tests give the metal ions their characteristic colours."
+@ photo id="ceechem2/chroma" cap="(a) Chromatography"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/brown-ring" cap="(b) Brown ring test"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/flame-colours" cap="(c) Flame tests"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: chromatography (10 marks)
+
+**Introduction.** **Chromatography** separates the components of a mixture by their different distribution between a **stationary phase** and a **mobile phase** moving over it. The component with a stronger affinity for the stationary phase moves slower.
+
+**Types.**
+
+1. **Paper chromatography.** A partition technique in which the water held in the cellulose fibres is the stationary phase, and a solvent is the mobile phase. A spot of the sample is placed on a line near the bottom, the paper is placed in the solvent (without the spot touching it), and the solvent rises by capillary action. The paper is dried and the spots are located (with ninhydrin for amino acids or under UV light).
+2. **Thin-layer chromatography (TLC).** A thin layer of silica gel or alumina on a glass plate is the stationary phase (adsorption). It is faster, more sensitive, and uses less material than paper chromatography.
+3. **Column chromatography.** The sample is added to the top of a glass column packed with alumina or silica and eluted with a solvent. The components are collected as separate fractions. It is used for large quantities.
+4. **Gas chromatography (GC) and HPLC.** In GC an inert carrier gas moves the volatile sample through a coated column, and a detector measures the components; HPLC uses a liquid under high pressure.
+
+**Retention factor.**
+
+$$ R_f = \frac{\text{distance moved by the substance}}{\text{distance moved by the solvent front}} $$
+
+$R_f$ is always between $0$ and $1$ and is constant for a substance under fixed conditions (solvent, temperature and paper), so it is used for identification.
+
+| Technique | Stationary phase | Mobile phase | Principle | Use |
+|---|---|---|---|---|
+| Paper | water in cellulose | solvent | partition | amino acids, dyes |
+| TLC | silica or alumina | solvent | adsorption | drugs, purity |
+| Column | alumina | solvent | adsorption | purification |
+| GC | liquid on solid | inert gas | partition | volatile compounds |
+
+**Other methods of purification.** Crystallisation, sublimation (naphthalene, camphor), simple distillation, fractional distillation (liquids with close boiling points), steam distillation (for compounds such as aniline that are immiscible with water) and distillation under reduced pressure (glycerol).
+
+**Numerical.** In a paper chromatogram, the solvent front moves $12.0\ \text{cm}$, spot A moves $3.6\ \text{cm}$ and spot B moves $8.4\ \text{cm}$. So $R_f(\text{A}) = 3.6/12.0 = 0.30$ and $R_f(\text{B}) = 8.4/12.0 = 0.70$. B is less strongly held by the paper, so it moves further. If an unknown spot travels $6.0\ \text{cm}$ in a run where the front moves $10.0\ \text{cm}$, its $R_f = 0.60$.
+
+**Conclusion.** Chromatography separates substances by their different affinity for the two phases, and the $R_f$ value identifies them.
+
+### Model answer D2: qualitative analysis (10 marks)
+
+**Introduction.** Qualitative analysis identifies the cations (basic radicals) and anions (acid radicals) in a salt.
+
+**Preliminary tests.** Colour, smell, action of heat and **flame test**, in which a clean platinum or nichrome wire dipped in concentrated HCl and the salt is held in the flame.
+
+| Ion | Flame colour |
+|---|---|
+| Na⁺ | golden yellow |
+| K⁺ | lilac (through cobalt glass) |
+| Ca²⁺ | brick red |
+| Sr²⁺ | crimson red |
+| Ba²⁺ | apple green |
+| Cu²⁺ | blue-green |
+
+**Tests for anions.**
+
+1. **Carbonate (CO₃²⁻):** effervescence with dilute HCl, CO₂ turns lime water milky.
+2. **Chloride (Cl⁻):** white curdy precipitate with AgNO₃, soluble in NH₄OH; with MnO₂ + conc. H₂SO₄, greenish-yellow Cl₂.
+3. **Bromide and iodide:** pale yellow and yellow precipitate with AgNO₃ (sparingly soluble in NH₄OH, insoluble).
+4. **Sulphate (SO₄²⁻):** white precipitate with BaCl₂, insoluble in HCl.
+5. **Sulphide (S²⁻):** rotten-egg smell with dilute acid; black precipitate with lead acetate paper.
+6. **Nitrate (NO₃⁻): brown ring test:** FeSO₄ then conc. H₂SO₄ down the side of the tube gives a brown ring of $[\text{Fe(H}_2\text{O)}_5\text{NO}]^{2+}$.
+7. **Phosphate:** yellow precipitate with ammonium molybdate in conc. HNO₃.
+
+**Analysis of cations by groups.**
+
+| Group | Reagent | Cations | Precipitate |
+|---|---|---|---|
+| I | dilute HCl | Pb²⁺, Ag⁺, Hg₂²⁺ | white chlorides |
+| II | H₂S in dilute HCl | Cu²⁺, Pb²⁺, Cd²⁺, As³⁺ | black, yellow sulphides |
+| III | NH₄OH with NH₄Cl | Fe³⁺, Al³⁺, Cr³⁺ | brown, white, green hydroxides |
+| IV | H₂S in ammoniacal medium | Zn²⁺, Mn²⁺, Ni²⁺, Co²⁺ | white, buff, black sulphides |
+| V | (NH₄)₂CO₃ | Ca²⁺, Sr²⁺, Ba²⁺ | white carbonates |
+| VI | Na₂HPO₄ | Mg²⁺ | white precipitate |
+| Zero | NaOH, heat | NH₄⁺ | NH₃ gas |
+
+NH₄Cl is added in group III so that the common ion lowers $[\text{OH}^-]$ and prevents the hydroxides of later groups from precipitating (solubility product principle). Confirmatory tests: Fe³⁺ with KSCN (blood red) or $\text{K}_4[\text{Fe(CN)}_6]$ (Prussian blue), Cu²⁺ with excess NH₃ (deep blue) and Al³⁺ with aluminon.
+
+**Numerical.** In group III, to keep $[\text{OH}^-]$ low in $0.1\ \text{M}$ NH₄OH ($K_b = 1.8\times10^{-5}$) with $0.1\ \text{M}$ NH₄Cl, $[\text{OH}^-] = 1.8\times10^{-5}\ \text{M}$, while without NH₄Cl it is $1.3\times10^{-3}\ \text{M}$, which is $74$ times larger. For Mg(OH)₂ ($K_{sp} = 1.8\times10^{-11}$) the precipitate forms only if $[\text{Mg}^{2+}][\text{OH}^-]^2 > K_{sp}$, so at $[\text{OH}^-] = 1.8\times10^{-5}$ and $[\text{Mg}^{2+}] = 0.01\ \text{M}$ the ionic product is $3.2\times10^{-12}$, below $K_{sp}$: no precipitation.
+
+**Conclusion.** Controlling $[\text{OH}^-]$ and $[\text{S}^{2-}]$ by the common ion effect separates the cations into groups before the confirmatory tests.

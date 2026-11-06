@@ -840,3 +840,86 @@ facts = dict(dH=-dH, t=thermite, mj=kg * -dH / 1000, fe=kg * 2 * 55.85)
 **9.** (a) — blue vitriol passes all three gates (colour, dehydration, ammine complex).
 **10.** (b) — black mixture (HgNH₂Cl + finely divided Hg) distinguishes Hg₂²⁺ from Ag⁺ (whose AgCl *dissolves*, option (d)'s decoy) in Group I analysis.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the general principles of extraction of metals: concentration, roasting, calcination, reduction and refining, with the Ellingham diagram. <span class="marks">[10]</span>
+2. Describe the extraction of aluminium by the Hall-Héroult process and of iron in the blast furnace. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="3" ratio="1.25" caption="From ore to metal. (a) Froth flotation floats sulphide ore particles on bubbles, away from the waste rock. (b) Bauxite, the ore of aluminium, is red because of iron oxide. (c) The blast furnace reduces iron ore with carbon monoxide."
+@ photo id="chem11/flotation" cap="(a) Froth flotation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/bauxite" cap="(b) Bauxite"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/blast-furnace" cap="(c) Blast furnace"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: general principles of metallurgy (10 marks)
+
+**Introduction.** A **mineral** is a natural compound of a metal, and an **ore** is a mineral from which the metal can be extracted profitably. **Metallurgy** is the whole process of getting a pure metal from its ore.
+
+**Steps.**
+
+1. **Crushing and concentration (dressing)** removes the gangue.
+   - *Gravity separation* (hydraulic washing) for heavy oxide ores such as haematite and cassiterite.
+   - *Froth flotation* for sulphide ores (galena, zinc blende). Pine oil makes the ore particles float in the froth and the gangue settles. **Depressants** such as NaCN separate ZnS from PbS.
+   - *Magnetic separation* for magnetic ores (magnetite, wolframite and cassiterite).
+   - *Leaching* for chemical separation, for example bauxite with NaOH (Bayer's process).
+2. **Conversion to oxide.**
+   - *Calcination*: heating in limited or no air, for carbonates and hydrated ores, CaCO₃ → CaO + CO₂.
+   - *Roasting*: heating in excess air, for sulphides, $2\text{ZnS} + 3\text{O}_2 \to 2\text{ZnO} + 2\text{SO}_2$.
+3. **Reduction** with carbon (smelting), carbon monoxide, hydrogen, aluminium (thermite, **aluminothermy**), or electrolysis for reactive metals (Na, Al, Mg).
+4. **Refining.** Liquation (Sn, Pb), distillation (Zn, Hg), electrolytic refining (Cu, Ag, Au, Al), zone refining (Si, Ge, Ga for semiconductors), vapour-phase refining (Mond's process for Ni, van Arkel for Zr, Ti) and chromatography.
+
+**Flux and slag.** A flux combines with the gangue to give a fusible slag: CaO (basic flux) for acidic gangue SiO₂, giving CaSiO₃, and SiO₂ for basic gangue.
+
+**Ellingham diagram.** The plot of $\Delta G^{\circ}$ against $T$ for the formation of oxides. A metal whose line lies lower can reduce the oxide of a metal whose line is higher at that temperature, so Al reduces Cr₂O₃ and Fe₂O₃. The line for $2\text{C} + \text{O}_2 \to 2\text{CO}$ slopes downward, so above about $710^{\circ}\text{C}$ carbon can reduce FeO, and above about $1000^{\circ}\text{C}$ ZnO.
+
+| Method | Example | Reason |
+|---|---|---|
+| Reduction by carbon | Zn, Fe, Sn | cheap and the oxide line is above CO |
+| Electrolysis | Na, Mg, Al | very strong affinity for oxygen |
+| Self-reduction | Cu, Pb, Hg from sulphide | $\text{Cu}_2\text{S} + 2\text{Cu}_2\text{O} \to 6\text{Cu} + \text{SO}_2$ |
+| Hydrometallurgy | Au, Ag (cyanide leaching) | $4\text{Au} + 8\text{CN}^- + \text{O}_2 + 2\text{H}_2\text{O} \to 4[\text{Au(CN)}_2]^- + 4\text{OH}^-$, then displacement by Zn |
+
+**Numerical.** To make $1\ \text{tonne}$ of iron from haematite (Fe₂O₃, $160\ \text{g mol}^{-1}$): $112\ \text{g}$ of Fe comes from $160\ \text{g}$ of Fe₂O₃, so $1000\ \text{kg}$ of Fe needs $1429\ \text{kg}$ of pure Fe₂O₃, or $2041\ \text{kg}$ of ore that is $70\%$ pure.
+
+**Conclusion.** The method of reduction is chosen from the position of the metal in the electrochemical and Ellingham series: the more reactive the metal, the more powerful the reduction needed.
+
+### Model answer D2: extraction of aluminium and iron (10 marks)
+
+**Introduction.** Aluminium (from bauxite, Al₂O₃·2H₂O) is extracted by electrolysis and iron (from haematite) by carbon reduction.
+
+**Aluminium: purification (Bayer's process).** Bauxite is heated with concentrated NaOH, which dissolves alumina as sodium aluminate: Al₂O₃ + 2NaOH + 3H₂O → 2Na[Al(OH)₄]. Fe₂O₃ and SiO₂ remain as red mud. The filtrate is seeded with Al(OH)₃ and gives pure Al(OH)₃, which is heated to Al₂O₃.
+
+**Hall-Héroult electrolysis.** Pure alumina is dissolved in molten **cryolite** (Na₃AlF₆) with fluorspar (CaF₂). Cryolite lowers the melting point from $2050^{\circ}\text{C}$ to about $950^{\circ}\text{C}$ and raises the conductivity. A steel tank lined with carbon is the cathode and graphite rods are the anodes.
+
+- Cathode: Al³⁺ + 3e⁻ → Al (liquid, tapped from the bottom).
+- Anode: $2\text{O}^{2-} \to \text{O}_2 + 4\text{e}^-$ and the oxygen burns the anode to CO and CO₂, so the anodes are replaced regularly.
+
+**Iron: blast furnace.** The charge of haematite, coke and limestone is fed from the top and hot air is blown in from the bottom.
+
+| Zone (top to bottom) | Temperature | Reaction |
+|---|---|---|
+| Combustion | about $1900$ K | $\text{C} + \text{O}_2 \to \text{CO}_2$, then $\text{CO}_2 + \text{C} \to 2\text{CO}$ |
+| Reduction | $500$ to $900$ K | $\text{Fe}_2\text{O}_3 + 3\text{CO} \to 2\text{Fe} + 3\text{CO}_2$ (upper part gives $\text{Fe}_3\text{O}_4$ and FeO) |
+| Slag formation | $1000$ to $1500$ K | $\text{CaCO}_3 \to \text{CaO} + \text{CO}_2$, $\text{CaO} + \text{SiO}_2 \to \text{CaSiO}_3$ |
+| Fusion | about $1500$ K | molten iron and slag collect below |
+
+The product is **pig iron** (about $4\%$ C), which is converted to cast iron, wrought iron (almost pure) or steel (by the basic oxygen process).
+
+| Iron type | Carbon |
+|---|---|
+| Wrought iron | $0.1$ to $0.25\%$ |
+| Steel | $0.25$ to $2\%$ |
+| Cast iron | $2$ to $4.5\%$ |
+
+Alloys: stainless steel (Fe, Cr, Ni), duralumin (Al, Cu, Mg, Mn), brass (Cu, Zn), bronze (Cu, Sn).
+
+**Numerical.** To produce $1\ \text{kg}$ of Al: $\dfrac{1000}{27} = 37.0\ \text{mol}$ needs $3\times37.0 = 111\ \text{mol}$ of electrons, so the charge is $111\times96\,500 = 1.07\times10^7\ \text{C}$. At $4\ \text{V}$ the energy is $4.3\times10^7\ \text{J}$, about $11.9\ \text{kWh}$ at least. This is why aluminium smelters need cheap electricity.
+
+**Conclusion.** Aluminium needs electrolysis in molten cryolite because carbon cannot reduce Al₂O₃, while iron is reduced by CO in the blast furnace.

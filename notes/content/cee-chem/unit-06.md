@@ -700,3 +700,81 @@ deliquescent dissolves in absorbed water, hygroscopic merely absorbs it.
 **9.** (d) — 18x/(106 + 18x) = 0.629 gives x = 9.98 ≈ 10: washing soda, Na₂CO₃·10H₂O.
 **10.** (a) — γ = 72 × (0.80 × 20)/(1.0 × 50) = 72 × 0.32 = 23 mN m⁻¹: more, smaller drops mean lower surface tension. (c) inverts the drop ratio.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the gas laws, derive the ideal gas equation and explain Graham's law, Dalton's law and deviations of real gases with numericals. <span class="marks">[10]</span>
+2. Describe the properties of liquids and the types of crystal lattice, and calculate packing efficiency and density of a unit cell. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="3" ratio="1.25" caption="States of matter. (a) A balloon filled with gas: pressure, volume and temperature are linked by the gas laws. (b) A crystal of rock salt shows the regular faces of a cubic lattice. (c) Naphthalene (mothballs) sublimes, passing directly from solid to vapour."
+@ photo id="ceechem2/balloon" cap="(a) Gas in a balloon"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/halite" cap="(b) Cubic crystal"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/mothball" cap="(c) Sublimation of naphthalene"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: gas laws, ideal gas equation and real gases (10 marks)
+
+**Introduction.** A gas has no fixed shape or volume, and its state is given by pressure $P$, volume $V$, temperature $T$ and amount $n$.
+
+**Gas laws.**
+
+| Law | Statement | Expression |
+|---|---|---|
+| Boyle | $V \propto 1/P$ at constant $T$ | $P_1V_1 = P_2V_2$ |
+| Charles | $V \propto T$ at constant $P$ | $V_1/T_1 = V_2/T_2$ |
+| Gay-Lussac | $P \propto T$ at constant $V$ | $P_1/T_1 = P_2/T_2$ |
+| Avogadro | $V \propto n$ at constant $T$ and $P$ | $V/n$ constant |
+
+**Ideal gas equation.** Combining the laws gives $PV = nRT$, where $R = 0.0821\ \text{L atm K}^{-1}\text{mol}^{-1} = 8.314\ \text{J K}^{-1}\text{mol}^{-1}$. Also $PM = dRT$, so the density of a gas is $d = PM/RT$.
+
+**Dalton's law of partial pressures.** $P_{total} = p_1 + p_2 + \cdots$ and $p_i = x_iP_{total}$.
+
+**Graham's law of diffusion.** At constant $T$ and $P$, the rate of diffusion is inversely proportional to the square root of the density (or molar mass): $\dfrac{r_1}{r_2} = \sqrt{\dfrac{M_2}{M_1}}$.
+
+**Kinetic theory results.** $PV = \tfrac13mN\overline{c^2}$; the average kinetic energy is $\tfrac32kT$; $u_{rms} = \sqrt{3RT/M}$, the most probable speed $\sqrt{2RT/M}$ and the average speed $\sqrt{8RT/\pi M}$, in the ratio $1 : 1.128 : 1.224$.
+
+**Real gases.** At high pressure and low temperature, gases deviate from ideal behaviour, because the molecular volume is not negligible and the attractions are not zero. The van der Waals equation is $\left(P + \dfrac{an^2}{V^2}\right)(V - nb) = nRT$, where $a$ corrects for attraction and $b$ for volume. The compressibility factor is $Z = PV/nRT$ ($Z = 1$ for an ideal gas). Above the **critical temperature** a gas cannot be liquefied by pressure alone. The **Boyle temperature** is $T_B = a/Rb$.
+
+**Numerical.**
+
+- $2\ \text{g}$ of H₂ ($1\ \text{mol}$) at $27^{\circ}\text{C}$ in $10\ \text{L}$: $P = \dfrac{1\times0.0821\times300}{10} = 2.46\ \text{atm}$.
+- Graham: $\dfrac{r_{H_2}}{r_{O_2}} = \sqrt{\dfrac{32}{2}} = 4$, so hydrogen diffuses four times as fast as oxygen.
+- Density of CO₂ at STP $= \dfrac{1\times44}{0.0821\times273} = 1.96\ \text{g L}^{-1}$.
+- $u_{rms}$ of O₂ at $300\ \text{K}$ $= \sqrt{\dfrac{3\times8.314\times300}{0.032}} = 484\ \text{m s}^{-1}$.
+
+**Conclusion.** $PV = nRT$ describes an ideal gas, and the van der Waals equation corrects it for molecular size and attractions.
+
+### Model answer D2: liquids and crystalline solids (10 marks)
+
+**Introduction.** Liquids have definite volume but no definite shape, while crystalline solids have a regular, long-range arrangement of particles.
+
+**Properties of liquids.**
+
+1. **Vapour pressure:** the pressure of the vapour in equilibrium with the liquid. It rises with temperature, and the liquid boils when it equals the external pressure. The **Clausius-Clapeyron equation** is $\log\dfrac{p_2}{p_1} = \dfrac{\Delta H_{vap}}{2.303R}\left(\dfrac1{T_1} - \dfrac1{T_2}\right)$.
+2. **Surface tension:** the force per unit length acting along the surface, which causes spherical drops and capillary rise. It decreases as the temperature rises.
+3. **Viscosity:** resistance to flow, which decreases as the temperature rises for liquids.
+4. **Hydrogen bonding** raises the boiling point of water ($100^{\circ}\text{C}$) above that of H₂S.
+
+**Crystal lattices.** The **unit cell** is the smallest repeating unit. The three cubic types:
+
+| Unit cell | Atoms per cell $Z$ | Coordination number | Packing efficiency | Relation of $a$ and $r$ |
+|---|---|---|---|---|
+| Simple cubic | 1 | 6 | $52.4\%$ | $a = 2r$ |
+| Body-centred cubic | 2 | 8 | $68\%$ | $\sqrt3a = 4r$ |
+| Face-centred cubic (ccp) | 4 | 12 | $74\%$ | $\sqrt2a = 4r$ |
+
+Hexagonal close packing also has $74\%$ and coordination number $12$. In a close-packed structure of $N$ atoms there are $N$ octahedral voids and $2N$ tetrahedral voids.
+
+**Density of a unit cell.** $\rho = \dfrac{ZM}{N_Aa^3}$.
+
+**Types of solid.** Ionic (NaCl), covalent network (diamond, SiC), molecular (ice, I₂) and metallic (Cu). **Defects:** Schottky (missing ion pairs, density decreases, in NaCl) and Frenkel (an ion shifts to an interstitial site, density unchanged, in AgCl).
+
+**Numerical.** NaCl is fcc with $Z = 4$, $M = 58.5\ \text{g mol}^{-1}$ and $a = 564\ \text{pm}$: $\rho = \dfrac{4\times58.5}{6.022\times10^{23}\times(5.64\times10^{-8})^3} = 2.17\ \text{g cm}^{-3}$. For copper (fcc) with $a = 361\ \text{pm}$, $r = \dfrac{\sqrt2\times361}{4} = 127.6\ \text{pm}$.
+
+**Conclusion.** fcc and hcp are the most efficient packings ($74\%$), and the density of a crystal follows from $\rho = ZM/N_Aa^3$.

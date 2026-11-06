@@ -882,3 +882,66 @@ f.text(150, 224, "1/4 of modern: %s y" % "{:,.0f}".format(t4), size=10.5, color=
 **9.** (a) — β⁺: Z − 1 at constant A: ${}^{11}B$ (the C-11 of PET chemistry).
 **10.** (b) — half the parent has become daughter: exactly one half-life (with the standard K–Ar caveats about argon loss, which geologists audit with step-heating).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain nuclear stability and the modes of radioactive decay, with the group displacement laws and a decay-series numerical. <span class="marks">[10]</span>
+2. Describe nuclear fission, fusion and the applications of radioisotopes, with half-life numericals. <span class="marks">[10]</span>
+
+### Model answer D1: nuclear stability and modes of decay (10 marks)
+
+**Introduction.** The nucleus contains protons and neutrons (nucleons) held together by the strong nuclear force, which acts over about $10^{-15}\ \text{m}$ and overcomes the proton-proton repulsion. A nuclide is written ${}^A_ZX$.
+
+**Nuclear stability.**
+
+1. **Neutron-proton ratio.** For $Z < 20$ stable nuclei have $n/p \approx 1$. Heavier nuclei need more neutrons to dilute the repulsion, with $n/p$ up to about $1.5$. All nuclei with $Z > 83$ are unstable.
+2. **Magic numbers.** Nuclei with $2, 8, 20, 28, 50, 82$ or $126$ protons or neutrons are unusually stable (${}^4\text{He}$, ${}^{16}\text{O}$, ${}^{40}\text{Ca}$, ${}^{208}\text{Pb}$).
+3. **Even-odd rule.** Even-even nuclei are the most numerous and stable, odd-odd the least.
+4. **Binding energy per nucleon** is maximum ($8.8\ \text{MeV}$) near ${}^{56}\text{Fe}$.
+
+**Modes of decay.**
+
+| Mode | Change | When it occurs | Example |
+|---|---|---|---|
+| $\alpha$ emission | $A - 4$, $Z - 2$ | heavy nuclei, $Z > 82$ | ${}^{238}\text{U} \to {}^{234}\text{Th} + {}^4\text{He}$ |
+| $\beta^-$ emission | $Z + 1$, $A$ same | $n/p$ too high | ${}^{14}\text{C} \to {}^{14}\text{N} + e^- + \bar\nu$ |
+| $\beta^+$ emission | $Z - 1$ | $n/p$ too low | ${}^{11}\text{C} \to {}^{11}\text{B} + e^+ + \nu$ |
+| Electron capture | $Z - 1$ | $n/p$ too low | ${}^{7}\text{Be} + e^- \to {}^{7}\text{Li}$ |
+| $\gamma$ emission | none | excited nucleus | ${}^{60}\text{Ni}^* \to {}^{60}\text{Ni}$ |
+
+**Soddy-Fajans group displacement laws.** Emission of an $\alpha$ particle moves the element two places left in the periodic table, emission of a $\beta^-$ particle moves it one place right. A nucleus with $n/p$ above the stability belt emits $\beta^-$, and below it emits $\beta^+$ or captures an electron.
+
+**Radioactive series.** The 4n (thorium), 4n+1 (neptunium), 4n+2 (uranium) and 4n+3 (actinium) series end in stable lead (or bismuth) isotopes.
+
+**Numerical.** ${}^{238}_{92}\text{U}$ decays to ${}^{206}_{82}\text{Pb}$. The mass number change is $32$, so there are $32/4 = 8$ alpha particles. These reduce $Z$ by $16$, but the actual decrease is $10$, so $16 - 10 = 6$ beta particles are emitted. The decay series therefore has $8\alpha$ and $6\beta^-$ emissions.
+
+**Conclusion.** Nuclei decay to reach a stable $n/p$ ratio, with $\alpha$ for heavy nuclei and $\beta$ or electron capture for those with a wrong $n/p$.
+
+### Model answer D2: fission, fusion, half-life and applications (10 marks)
+
+**Introduction.** In nuclear reactions the energy change is millions of times larger than in chemical reactions, from the mass defect through $E = \Delta mc^2$ ($1\ \text{u} = 931.5\ \text{MeV}$).
+
+**Fission and fusion.**
+
+| Feature | Fission | Fusion |
+|---|---|---|
+| Reaction | ${}^{235}\text{U} + n \to {}^{141}\text{Ba} + {}^{92}\text{Kr} + 3n + 200\ \text{MeV}$ | ${}^2\text{H} + {}^3\text{H} \to {}^4\text{He} + n + 17.6\ \text{MeV}$ |
+| Chain reaction | yes, self-sustaining above critical mass | needs very high temperature |
+| Control | control rods (Cd, B), moderator (heavy water, graphite) | magnetic confinement |
+| Fuel and waste | enriched U, radioactive waste | hydrogen isotopes, little waste |
+| Use | reactors, atom bomb | stars, hydrogen bomb |
+
+**Half-life.** For decay $N = N_0e^{-\lambda t}$ and $t_{1/2} = 0.693/\lambda$. After $n$ half-lives $N = N_0/2^n$.
+
+**Applications of radioisotopes.**
+
+1. **Carbon-14 dating:** the age of wood, bone and fossils from the remaining ${}^{14}\text{C}$ ($t_{1/2} = 5730$ years).
+2. **Uranium-lead dating** for rocks and the age of the earth.
+3. **Medicine:** ${}^{131}\text{I}$ for the thyroid, ${}^{60}\text{Co}$ for cancer, ${}^{99m}\text{Tc}$ for imaging, ${}^{24}\text{Na}$ for blood circulation.
+4. **Agriculture:** ${}^{32}\text{P}$ as a tracer for fertiliser uptake, and irradiation of food.
+5. **Industry:** thickness gauges, leak detection and radiography.
+6. **Chemistry:** isotopic tracers show reaction mechanisms, for example ${}^{18}\text{O}$ in ester hydrolysis.
+
+**Numerical.** ${}^{131}\text{I}$ has $t_{1/2} = 8$ days. From $100\ \text{mg}$, after $32\ \text{days}$ (four half-lives) $100/16 = 6.25\ \text{mg}$ is left. A fossil with $12.5\%$ of the original ${}^{14}\text{C}$ is $3\times5730 = 17\,190$ years old. For ${}^{14}\text{C}$, $\lambda = \dfrac{0.693}{5730} = 1.21\times10^{-4}\ \text{y}^{-1}$.
+
+**Conclusion.** Fission splits heavy nuclei and fusion joins light ones, both releasing energy through the mass defect, and radioisotopes have uses from dating to medicine.

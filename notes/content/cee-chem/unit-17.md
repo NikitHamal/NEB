@@ -636,3 +636,79 @@ facts = dict(e8=rows[1][1], e12=rows[3][1], e14=rows[4][1], e6=rows[0][1])
 **9.** (a) — Markovnikov hydration gives the enol CH₃–C(OH)=CH₂, which tautomerizes to the methyl ketone.
 **10.** (b) — Friedel–Crafts acylation installs –COCH₃; the deactivated product resists a second acylation.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Discuss the preparation and reactions of alkenes and alkynes, including Markovnikov's rule, the peroxide effect and ozonolysis. <span class="marks">[10]</span>
+2. Explain the aromaticity of benzene and the mechanism of electrophilic substitution with directing effects. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.25" caption="Hydrocarbons in daily life. (a) Fractional distillation separates crude oil into LPG, petrol, kerosene and diesel by boiling point. (b) Octane rating measures the resistance of petrol to knocking. (c) A lighter burns butane, an alkane."
+@ photo id="cee-chem/fractional-distillation" cap="(a) Fractional distillation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/octane" cap="(b) Petrol octane rating"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/lighter" cap="(c) Butane lighter"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: alkenes and alkynes (10 marks)
+
+**Introduction.** Alkenes ($\text{C}_n\text{H}_{2n}$) have a C=C bond ($1\sigma + 1\pi$, sp², $120^{\circ}$) and alkynes ($\text{C}_n\text{H}_{2n-2}$) have a C≡C bond ($1\sigma + 2\pi$, sp, $180^{\circ}$). The $\pi$ electrons make them nucleophilic, so they undergo **electrophilic addition**.
+
+**Preparation.** Alkenes: dehydration of alcohols with conc. H₂SO₄ at $443\ \text{K}$ (Saytzeff product), dehydrohalogenation of haloalkanes with alcoholic KOH, and partial hydrogenation of alkynes with Lindlar's catalyst (cis) or Na/liquid NH₃ (trans). Ethyne: $\text{CaC}_2 + 2\text{H}_2\text{O} \to \text{C}_2\text{H}_2 + \text{Ca(OH)}_2$, and from 1,2-dibromoethane with alcoholic KOH.
+
+**Reactions of alkenes.**
+
+1. **Hydrogenation** (Ni, $200^{\circ}\text{C}$, Sabatier-Senderens): alkane.
+2. **Halogenation** (Br₂ in CCl₄): decolourised, the test for unsaturation, giving a vicinal dibromide by the cyclic bromonium ion.
+3. **Addition of HX, Markovnikov's rule:** the hydrogen of HX goes to the carbon with more hydrogens, so propene + HBr gives 2-bromopropane through the more stable $2^{\circ}$ carbocation.
+4. **Peroxide (Kharasch) effect:** with peroxides, HBr adds in the **anti-Markovnikov** way (free-radical chain) to give 1-bromopropane. It does not happen with HCl or HI.
+5. **Hydration:** acid-catalysed gives the Markovnikov alcohol, and hydroboration-oxidation gives the anti-Markovnikov alcohol.
+6. **Oxidation:** cold dilute alkaline KMnO₄ (Baeyer's reagent) gives a diol and decolourises the purple colour; hot KMnO₄ cleaves the bond.
+7. **Ozonolysis:** O₃ then Zn/H₂O gives carbonyl compounds and locates the double bond. Propene gives $\text{CH}_3\text{CHO} + \text{HCHO}$.
+
+**Alkynes.** Terminal alkynes are weakly acidic ($\text{p}K_a \approx 25$, since sp carbon is most electronegative) and give a white precipitate with ammoniacal AgNO₃ and a red one with Cu₂Cl₂, which distinguishes them from alkenes and from internal alkynes. Hydration with HgSO₄/H₂SO₄ gives a ketone (acetaldehyde from ethyne itself) by keto-enol tautomerism.
+
+| Test | Ethane | Ethene | Ethyne |
+|---|---|---|---|
+| Br₂ / CCl₄ | no change | decolourised | decolourised |
+| Baeyer's reagent | no change | decolourised | decolourised |
+| Tollens' reagent (ammoniacal AgNO₃) | no | no | white precipitate |
+| Burning | blue, clean | luminous, smoky | very sooty |
+
+**Numerical.** Complete combustion: $\text{C}_2\text{H}_4 + 3\text{O}_2 \to 2\text{CO}_2 + 2\text{H}_2\text{O}$. $10\ \text{mL}$ of ethene needs $30\ \text{mL}$ of O₂ and gives $20\ \text{mL}$ of CO₂ (at the same $T$ and $P$). For ethyne, $10\ \text{mL}$ needs $25\ \text{mL}$ of O₂. The number of $\sigma$ and $\pi$ bonds in propyne ($\text{CH}_3\text{C}\equiv\text{CH}$) is $6\sigma$ and $2\pi$.
+
+**Conclusion.** Alkenes undergo electrophilic addition by Markovnikov's rule, except HBr with peroxide, and terminal alkynes are further distinguished by their acidic hydrogen.
+
+### Model answer D2: benzene, aromaticity and electrophilic substitution (10 marks)
+
+**Introduction.** Benzene, C₆H₆, is a planar hexagon of six sp² carbons with all C-C bonds equal ($139\ \text{pm}$, between $154$ and $134$). The six $p$ electrons are delocalised above and below the ring and benzene is a resonance hybrid of the two Kekulé structures.
+
+**Aromaticity (Hückel's rule).** A compound is aromatic if it is cyclic, planar, completely conjugated, and has $(4n + 2)\ \pi$ electrons ($n = 0, 1, 2, \ldots$). So benzene ($6$), naphthalene ($10$), anthracene ($14$), the cyclopentadienyl anion ($6$) and pyridine are aromatic, while cyclobutadiene ($4$) is anti-aromatic. Benzene prefers substitution to addition because substitution keeps the aromatic stabilisation.
+
+**Electrophilic aromatic substitution (EAS).** The general mechanism: (1) generation of the electrophile $E^+$, (2) attack of the ring on $E^+$ giving the resonance-stabilised arenium ion (sigma complex), the slow step, and (3) loss of H⁺ to restore the aromatic ring.
+
+| Reaction | Reagent | Electrophile |
+|---|---|---|
+| Nitration | conc. HNO₃ + conc. H₂SO₄ | $\text{NO}_2^+$ |
+| Halogenation | Cl₂ or Br₂ + FeCl₃ or FeBr₃ | $\text{Cl}^+$, $\text{Br}^+$ |
+| Sulphonation | fuming H₂SO₄ | $\text{SO}_3$ |
+| Friedel-Crafts alkylation | RCl + anhydrous AlCl₃ | $\text{R}^+$ |
+| Friedel-Crafts acylation | RCOCl + anhydrous AlCl₃ | $\text{RCO}^+$ |
+
+**Directing effects of substituents.**
+
+1. **Activating, ortho/para directing** (electron-donating): $-\text{OH}$, $-\text{NH}_2$, $-\text{OR}$, $-\text{CH}_3$ and other alkyl groups.
+2. **Deactivating, meta directing** (electron-withdrawing): $-\text{NO}_2$, $-\text{CN}$, $-\text{CHO}$, $-\text{COOH}$, $-\text{SO}_3\text{H}$, $-\text{NR}_3^+$.
+3. **Deactivating but ortho/para directing:** the halogens, because of strong $-I$ but weak $+M$.
+
+Friedel-Crafts reactions fail with strongly deactivated rings (nitrobenzene) and with $-\text{NH}_2$ (which complexes with AlCl₃). Alkylation can rearrange the carbocation, so acylation followed by reduction gives the straight-chain product.
+
+**Other reactions.** Addition of H₂ (Ni, $450\ \text{K}$) gives cyclohexane and of Cl₂ (sunlight) gives hexachlorocyclohexane (BHC, gammexane). Ozonolysis of benzene gives $3$ glyoxal. Combustion gives a sooty flame.
+
+**Numerical.** Nitration of toluene gives about $58\%$ ortho, $4\%$ meta and $38\%$ para, so the o/p isomers make up about $96\%$. The theoretical yield of nitrobenzene from $7.8\ \text{g}$ of benzene ($0.1\ \text{mol}$) is $0.1\ \text{mol} = 12.3\ \text{g}$ (molar mass $123$); at an $80\%$ yield $9.84\ \text{g}$ is obtained.
+
+**Conclusion.** Benzene follows Hückel's rule and is stable, so it undergoes electrophilic substitution, and the substituent present decides the position of the next group.

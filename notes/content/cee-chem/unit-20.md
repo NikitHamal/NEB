@@ -605,3 +605,82 @@ f.text(150, 222, "HCHO 1, other aldehydes 2, ketones 3", size=10.5, color=SLATE,
 **9.** (a) — each methyl of (CH₃)₂Cd acetylates once and stops: CH₃COCH₃.
 **10.** (b) — CH₃Br → CH₃CN (two carbons) → CH₃CH₂NH₂.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare the basicity of amines, the Hinsberg test and the distinction between primary, secondary and tertiary amines. <span class="marks">[10]</span>
+2. Describe the preparation and synthetic uses of diazonium salts, nitro compounds and Grignard reagents. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="3" ratio="1.25" caption="Nitrogen compounds and organometallics. (a) A Grignard reagent is a carbon-magnesium compound that must be made in dry ether. (b) Ferrocene, an organometallic 'sandwich' compound of iron. (c) TNT, 2,4,6-trinitrotoluene, an aromatic nitro compound used as an explosive."
+@ photo id="ceechem/grignard" cap="(a) Grignard reaction set-up"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ferrocene" cap="(b) Ferrocene crystals"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/tnt" cap="(c) TNT"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: amines (10 marks)
+
+**Introduction.** Amines are derivatives of ammonia in which one, two or three hydrogens are replaced by alkyl or aryl groups, giving primary ($1^{\circ}$), secondary ($2^{\circ}$) and tertiary ($3^{\circ}$) amines. The nitrogen is sp³ with a lone pair, which makes amines basic and nucleophilic.
+
+**Basicity.** In water, the order of $\text{p}K_b$ values shows the basic strength:
+
+| Compound | Basic strength in water | Reason |
+|---|---|---|
+| $(\text{C}_2\text{H}_5)_2\text{NH}$ | strongest | $+I$ and good solvation |
+| $(\text{C}_2\text{H}_5)_3\text{N}$ and $\text{C}_2\text{H}_5\text{NH}_2$ | strong | the $3^{\circ}$ amine has less solvation of its ion |
+| $\text{NH}_3$ | weaker | no alkyl group |
+| $\text{C}_6\text{H}_5\text{NH}_2$ | very weak | the lone pair is delocalised into the ring |
+
+So in water for the ethyl amines, $2^{\circ} > 3^{\circ} > 1^{\circ} > \text{NH}_3$, and for the methyl amines $2^{\circ} > 1^{\circ} > 3^{\circ} > \text{NH}_3$. The aromatic amines are weaker bases than ammonia, and electron-donating groups (such as $-\text{CH}_3$) increase the basic strength while electron-withdrawing groups ($-\text{NO}_2$) reduce it.
+
+**Preparation.** Reduction of nitro compounds ($\text{Sn/HCl}$ or $\text{H}_2/\text{Ni}$), reduction of nitriles and amides, **Hofmann bromamide degradation** ($\text{RCONH}_2 + \text{Br}_2 + 4\text{NaOH} \to \text{RNH}_2 + \ldots$, which gives an amine with **one carbon fewer**), ammonolysis of haloalkanes and the Gabriel phthalimide synthesis (pure $1^{\circ}$ amines only).
+
+**Distinction of amines.**
+
+| Test | $1^{\circ}$ | $2^{\circ}$ | $3^{\circ}$ |
+|---|---|---|---|
+| **Hinsberg** (benzenesulphonyl chloride, NaOH) | sulphonamide, soluble in alkali | sulphonamide, insoluble | no reaction |
+| HNO₂ (cold) | N₂ gas, alcohol | yellow oily nitrosamine | soluble salt |
+| Carbylamine (CHCl₃, KOH) | foul-smelling isocyanide | no | no |
+| Acetylation | yes | yes | no |
+
+**Aniline.** It is activated in the ring by $-\text{NH}_2$, so it gives a white precipitate of $2,4,6$-tribromoaniline with bromine water. Direct nitration gives a mixture, since $-\text{NH}_3^+$ forms in acid and directs meta, so the amine is first protected by acetylation.
+
+**Numerical.** In the Hofmann reaction of propanamide ($\text{C}_2\text{H}_5\text{CONH}_2$), the product is ethylamine ($\text{C}_2\text{H}_5\text{NH}_2$), one carbon fewer. From $7.3\ \text{g}$ ($0.1\ \text{mol}$) of propanamide, the theoretical yield is $0.1\ \text{mol} = 4.5\ \text{g}$. Aniline from $12.3\ \text{g}$ of nitrobenzene ($0.1\ \text{mol}$) gives $9.3\ \text{g}$ at a yield of $100\%$.
+
+**Conclusion.** Alkyl groups raise basicity but the aryl group lowers it, and the Hinsberg test with nitrous acid distinguishes the three classes.
+
+### Model answer D2: diazonium salts, nitro compounds and Grignard reagents (10 marks)
+
+**Introduction.** Diazonium salts $\text{ArN}_2^+\text{X}^-$ are the most useful intermediates in aromatic chemistry.
+
+**Diazotisation.** Aniline reacts with NaNO₂ and HCl at $0$ to $5^{\circ}\text{C}$ to give benzenediazonium chloride. It decomposes above $5^{\circ}\text{C}$ (to phenol and N₂), so it is prepared cold and used at once.
+
+**Reactions of diazonium salts.**
+
+1. **Replacement by $-\text{Cl}$, $-\text{Br}$, $-\text{CN}$ (Sandmeyer)** with CuCl, CuBr and CuCN, and the **Gattermann** reaction with Cu powder and HX.
+2. **Replacement by $-\text{I}$** with KI, and by $-\text{F}$ by heating the tetrafluoroborate (Balz-Schiemann).
+3. **Replacement by $-\text{OH}$** by warming with water, and by $-\text{H}$ with $\text{H}_3\text{PO}_2$.
+4. **Coupling reaction.** With phenol (alkaline) or aniline (weakly acidic) at the para position, benzenediazonium chloride gives coloured **azo dyes** ($-\text{N=N}-$), as in the orange dye of $p$-hydroxyazobenzene and methyl orange.
+
+**Nitro compounds.** Nitromethane and nitrobenzene have the $-\text{NO}_2$ group. Nitrobenzene is made from benzene with the nitrating mixture and is reduced to aniline: in acid medium with Sn/HCl to aniline, in neutral medium to phenylhydroxylamine, and in alkaline medium to azobenzene. Aliphatic nitro compounds with $\alpha$-hydrogen show tautomerism (the aci form). Trinitrotoluene (TNT) and picric acid are explosives.
+
+**Grignard reagent.** Prepared as $\text{RX} + \text{Mg} \to \text{RMgX}$ in **dry ether**, because water destroys it ($\text{RMgX} + \text{H}_2\text{O} \to \text{RH} + \text{Mg(OH)X}$). The C-Mg bond is highly polar, so the carbon is a carbanion-like nucleophile.
+
+| Reactant | Product after hydrolysis |
+|---|---|
+| HCHO | primary alcohol (one carbon more) |
+| Other aldehydes | secondary alcohol |
+| Ketones | tertiary alcohol |
+| CO₂ | carboxylic acid |
+| Ethylene oxide | primary alcohol (two carbons more) |
+| Acid chloride / ester | tertiary alcohol |
+
+**Numerical.** $\text{CH}_3\text{MgBr}$ with acetone gives, after hydrolysis, $2$-methylpropan-2-ol ($\text{(CH}_3)_3\text{COH}$, $74\ \text{g mol}^{-1}$), so $0.1\ \text{mol}$ of acetone gives at most $7.4\ \text{g}$. For aniline to chlorobenzene via the Sandmeyer reaction, $9.3\ \text{g}$ ($0.1\ \text{mol}$) gives $11.3\ \text{g}$ of chlorobenzene at best.
+
+**Conclusion.** Diazonium salts, made cold, allow the introduction of $-\text{X}$, $-\text{CN}$, $-\text{OH}$ and azo groups, and Grignard reagents build new C-C bonds under dry conditions.
