@@ -16,10 +16,21 @@ safe in `nebians.static_headers.static_cache_headers`.
 from django.conf import settings
 from whitenoise.storage import CompressedStaticFilesStorage
 
+from nebians import minify
 from nebians.static_headers import IMMUTABLE_EXT, static_cache_headers  # noqa: F401
 
 
 class VersionedStaticFilesStorage(CompressedStaticFilesStorage):
+    def post_process(self, paths, dry_run=False, **options):
+        # Minify first so the .gz/.br copies WhiteNoise writes are of the small bytes.
+        if not dry_run and minify.enabled():
+            saved = 0
+            for name in paths:
+                saved += minify.minify_file(self.path(name), name)
+            if saved:
+                print('Minified static files: -%d KB' % (saved // 1024))
+        yield from super().post_process(paths, dry_run, **options)
+
     def url(self, name):
         url = super().url(name)
         if '?' in url or '#' in url or settings.DEBUG:
