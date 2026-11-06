@@ -752,3 +752,92 @@ f.text(150, 224, "sphere 3/r, cylinder 2/r (r in metres)", size=10.5, color=NAVY
 **11.** (d) — all are features of a cartilaginous fish; *Scoliodon* is the dogfish. The other three are bony fishes with an operculum.
 **12.** (c) — the bipinnaria is the starfish larva; *Echinus* has an echinopluteus, *Holothuria* an auricularia, *Antedon* a doliolaria.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the diagnostic features of the phyla Porifera, Cnidaria, Platyhelminthes and Aschelminthes, with examples. <span class="marks">[10]</span>
+2. Describe the features of the phyla Annelida, Arthropoda, Mollusca and Echinodermata, with examples. <span class="marks">[10]</span>
+3. Classify the phylum Chordata up to classes, giving the main features and examples of each. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="5" ratio="1.1" caption="Animal diversity in the laboratory and in Nepal. (a) Sycon, a sponge. (b) Hydra, a cnidarian. (c) Planaria, a flatworm. (d) Earthworm, an annelid. (e) Rohu, a bony fish common in Nepali ponds."
+@ photo id="bio11/sycon-photo" cap="(a) Sycon"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/hydra" cap="(b) Hydra"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/planaria" cap="(c) Planaria"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/earthworm-ext" cap="(d) Earthworm"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/rohu" cap="(e) Rohu"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Porifera to Aschelminthes (10 marks)
+
+**Introduction.** Animals are multicellular, heterotrophic eukaryotes without cell walls. The simplest non-chordate phyla show how the body plan becomes more complex from cell level to organ level.
+
+1. **Porifera (sponges).** Body with many pores (**ostia**), a large opening (**osculum**) and a central cavity (spongocoel). **Collar cells (choanocytes)** create the water current. Cellular grade of organisation, skeleton of spicules or spongin. Mostly marine. *Sycon, Spongilla* (fresh water), *Euspongia* (bath sponge).
+2. **Cnidaria (Coelenterata).** Radial symmetry, tissue grade, **diploblastic** with a gastro-vascular cavity and a single opening. Stinging cells (**cnidoblasts**) hold nematocysts. Polyp and medusa forms. *Hydra, Obelia, Aurelia* (jellyfish), *Physalia*, sea anemone and corals.
+3. **Platyhelminthes (flatworms).** Bilateral symmetry, dorso-ventrally flattened, **triploblastic and acoelomate**, organ grade, incomplete gut or none, **flame cells** for excretion. Many are parasites. *Planaria* (free-living), *Fasciola hepatica* (liver fluke), *Taenia solium* (pork tapeworm).
+4. **Aschelminthes (Nematoda).** Round, unsegmented, **pseudocoelomate**, complete alimentary canal, separate sexes, cuticle outside. *Ascaris lumbricoides*, *Ancylostoma* (hookworm), *Wuchereria bancrofti* (filaria).
+
+| Phylum | Symmetry | Germ layers | Body cavity | Special feature |
+|---|---|---|---|---|
+| Porifera | Asymmetric or radial | None (cellular) | Spongocoel | Choanocytes |
+| Cnidaria | Radial | Two | Gastro-vascular | Cnidoblasts |
+| Platyhelminthes | Bilateral | Three | Acoelomate | Flame cells |
+| Aschelminthes | Bilateral | Three | Pseudocoelomate | Cuticle, complete gut |
+
+**Importance.** Bath sponges and coral reefs are useful, while the liver fluke, tapeworm, hookworm and *Ascaris* cause disease in Nepali villages where sanitation is poor.
+
+**Conclusion.** From sponges to roundworms there is a trend from cellular to organ-system organisation, from radial to bilateral symmetry and from no gut to a complete gut.
+
+### Model answer D2: Annelida, Arthropoda, Mollusca and Echinodermata (10 marks)
+
+**Introduction.** These four phyla are **coelomate** (or haemocoelic) and have complete digestive systems and well-developed organ systems.
+
+1. **Annelida.** **Metamerically segmented** body, true coelom, closed circulation, ventral nerve cord, **nephridia** for excretion, setae for movement. *Pheretima* (earthworm), *Nereis* (sandworm), *Hirudinaria* (leech).
+2. **Arthropoda.** The largest phylum. **Jointed appendages**, chitinous exoskeleton, moulting (ecdysis), **haemocoel** with open circulation, compound eyes. Classes: Insecta (*Periplaneta*, honeybee), Crustacea (prawn, crab), Arachnida (spider, scorpion), Myriapoda (centipede).
+3. **Mollusca.** Soft unsegmented body in a **mantle** that often secretes a calcareous shell, a muscular **foot**, a **radula** for scraping food, open circulation. *Pila* (apple snail), *Unio* (mussel), *Octopus*, *Sepia*.
+4. **Echinodermata.** Spiny skin, **pentamerous radial symmetry** in the adult (bilateral larva), **water vascular system** with tube feet, entirely marine, no head. *Asterias* (starfish), sea urchin, sea cucumber, brittle star.
+
+| Phylum | Symmetry | Skeleton | Locomotion | Example |
+|---|---|---|---|---|
+| Annelida | Bilateral, segmented | Hydrostatic | Setae, muscles | Earthworm |
+| Arthropoda | Bilateral, segmented | Chitin | Jointed legs, wings | Cockroach |
+| Mollusca | Bilateral | Shell | Foot | Pila |
+| Echinodermata | Radial (adult) | Calcareous ossicles | Tube feet | Starfish |
+
+**Importance.** Earthworms improve soil (vermicompost), honeybees and silkworms give honey and silk (important in Nepal), insects such as *Anopheles* spread malaria, and pearl oysters give pearls.
+
+**Conclusion.** Annelids introduced segmentation, arthropods added jointed limbs, molluscs the shell and echinoderms the water vascular system.
+
+### Model answer D3: Classification of Chordata (10 marks)
+
+**Introduction.** Chordates have a **notochord**, a **dorsal hollow nerve cord**, **pharyngeal gill slits** and a post-anal tail at some stage of life. The phylum has two groups: **Protochordata** (Urochordata, Cephalochordata) and **Vertebrata**.
+
+**Protochordata.** *Herdmania* (Urochordata, notochord only in the larval tail) and *Branchiostoma* (Cephalochordata, notochord all through life).
+
+**Vertebrata** (backbone replaces the notochord, brain in a skull).
+
+1. **Agnatha (cyclostomes):** jawless, round sucking mouth, no paired fins. *Petromyzon* (lamprey), *Myxine*.
+2. **Pisces:** fins, gills, scales, two-chambered heart. Chondrichthyes (cartilage; *Scoliodon*) and Osteichthyes (bone; *Rohu, Labeo*).
+3. **Amphibia:** moist skin, tadpole with gills, adult with lungs, three-chambered heart. *Rana tigrina*, *Bufo*, *Salamandra*.
+4. **Reptilia:** dry scaly skin, lungs, shelled eggs on land, mostly three-chambered heart (crocodile four). *Lizard, snake, tortoise, gharial*.
+5. **Aves:** feathers, wings, beak, hollow bones, **four-chambered heart**, warm-blooded. *Pigeon, vulture, Himalayan monal* (Danphe).
+6. **Mammalia:** hair, **mammary glands**, diaphragm, four-chambered heart, warm-blooded, external ear (pinna). *Man, tiger, rhino, bat, whale, platypus*.
+
+| Class | Skin cover | Respiration | Heart | Body temperature |
+|---|---|---|---|---|
+| Pisces | Scales | Gills | 2 chambers | Cold-blooded |
+| Amphibia | Moist skin | Skin, lungs | 3 chambers | Cold-blooded |
+| Reptilia | Dry scales | Lungs | 3 (4 in crocodile) | Cold-blooded |
+| Aves | Feathers | Lungs and air sacs | 4 chambers | Warm-blooded |
+| Mammalia | Hair | Lungs | 4 chambers | Warm-blooded |
+
+**Conclusion.** Chordates show a progress from gills to lungs and from a two- to a four-chambered heart, which is the basis of adaptation to land life.
