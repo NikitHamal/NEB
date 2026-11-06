@@ -6,7 +6,7 @@ from django.test import TestCase
 
 WEB = Path(__file__).resolve().parent
 HOME_CSS = WEB / 'static' / 'web' / 'css' / 'pages' / 'web-home.css'
-HOME_JS = WEB / 'templates' / 'web' / 'home.html'
+HOME_JS = WEB / 'static' / 'web' / 'js' / 'pages' / 'home.js'
 
 
 class ComposerCollapseTests(TestCase):
@@ -23,4 +23,5 @@ class ComposerCollapseTests(TestCase):
     def test_the_composer_ships_with_its_own_version_stamp(self):
         html = self.client.get('/app/').content.decode()
         self.assertIn('web-home.css', html)
-        self.assertIn('hf-composer-sticky', html)
+        self.assertIn('web/js/pages/home.js', html)
+        self.assertIn('hf-composer-sticky', HOME_JS.read_text(encoding='utf-8'))
