@@ -599,3 +599,41 @@ $Q_2 = Q_1 - W = 2000 - 1170 = 830\ \text{J}$.
 well short because it absorbs and rejects heat over a *range* of temperatures
 rather than at the two extremes.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Carnot cycle, derive the efficiency of a Carnot engine and state why no engine can be 100 percent efficient. <span class="marks">[10]</span>
+
+### Model answer D1: the Carnot engine (10 marks)
+
+**Introduction.** The **Carnot engine** is an ideal reversible heat engine working between a hot reservoir at temperature $T_1$ and a cold reservoir at $T_2$ (in kelvin). It sets the upper limit of efficiency for all engines working between the same temperatures.
+
+**The four steps of the cycle** (using an ideal gas in a cylinder with a movable piston):
+
+1. **Isothermal expansion** at $T_1$: the gas takes heat $Q_1$ from the source and does work; its temperature stays constant.
+2. **Adiabatic expansion:** the gas expands without heat exchange, and does work at the cost of its internal energy, so the temperature falls to $T_2$.
+3. **Isothermal compression** at $T_2$: work is done on the gas, and it gives out heat $Q_2$ to the sink.
+4. **Adiabatic compression:** the gas is compressed without heat exchange and returns to $T_1$, the starting state.
+
+**Efficiency.** The efficiency is the fraction of the heat input that becomes useful work:
+
+$$ \eta = \frac{W}{Q_1} = \frac{Q_1 - Q_2}{Q_1} = 1 - \frac{Q_2}{Q_1} $$
+
+For the isothermal steps, $Q_1 = nRT_1\ln(V_2/V_1)$ and $Q_2 = nRT_2\ln(V_3/V_4)$. The two adiabatic steps give $V_2/V_1 = V_3/V_4$ (from $TV^{\gamma-1} = $ constant), so $Q_2/Q_1 = T_2/T_1$ and
+
+$$ \eta = 1 - \frac{T_2}{T_1} $$
+
+**Meaning of the result.**
+
+| Point | Result |
+|---|---|
+| Depends on | Only $T_1$ and $T_2$, not on the working substance |
+| To raise $\eta$ | Raise $T_1$ or lower $T_2$ |
+| $\eta = 100\%$ | Needs $T_2 = 0\ \text{K}$, which is unattainable |
+| Real engines | Always less efficient than a Carnot engine |
+
+**Why not 100 percent?** The Kelvin–Planck statement of the second law says it is impossible to convert all the heat from a single source into work in a cyclic process; some heat must be rejected to a colder body.
+
+**Numerical.** An engine works between $227^{\circ}\text{C}$ ($500\ \text{K}$) and $27^{\circ}\text{C}$ ($300\ \text{K}$): $\eta = 1 - 300/500 = 0.40 = 40\%$. For $Q_1 = 1000\ \text{J}$, the work is $400\ \text{J}$ and the heat rejected is $600\ \text{J}$.
+
+**Conclusion.** The Carnot efficiency $1 - T_2/T_1$ is the best that any heat engine can reach, and it is always below 100 percent.

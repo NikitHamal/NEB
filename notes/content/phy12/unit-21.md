@@ -452,3 +452,39 @@ Threshold frequency $f_0 = \phi_0/h = (2.28\times1.6\times10^{-19})/(6.63\times1
 Doubling the intensity changes **neither** (c) nor (e): it only doubles the number
 of photoelectrons, and hence the saturation current.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain Einstein's photoelectric equation and use it to explain the laws of photoelectric emission. <span class="marks">[10]</span>
+
+### Model answer D1: Einstein's photoelectric equation (10 marks)
+
+**Introduction.** The **photoelectric effect** is the emission of electrons from a metal surface when light of suitable frequency falls on it. Classical wave theory could not explain it, and Einstein explained it in 1905 using Planck's idea that light travels as packets of energy called **photons**, each of energy $E = hf$.
+
+**Einstein's explanation.** One photon is absorbed by one electron, and the photon gives all its energy to that electron. Part of the energy, the **work function** $\phi$, is used to free the electron from the metal, and the rest becomes its kinetic energy:
+
+$$ hf = \phi + K_{\max} \quad\Rightarrow\quad K_{\max} = hf - \phi = \tfrac{1}{2}mv_{\max}^{2} $$
+
+**Threshold frequency.** When $K_{\max} = 0$, $hf_0 = \phi$, so $f_0 = \phi/h$ and $\lambda_0 = hc/\phi$. Light of a lower frequency, however bright, cannot cause emission.
+
+**Stopping potential.** The reverse voltage $V_s$ that just stops the fastest electrons satisfies $eV_s = K_{\max}$, so
+
+$$ V_s = \frac{h}{e}f - \frac{\phi}{e} $$
+
+A graph of $V_s$ against $f$ is a straight line with slope $h/e$ and intercept on the $f$-axis equal to $f_0$ (Millikan's experiment).
+
+**Laws explained.**
+
+| Observation | Explanation by the photon theory |
+|---|---|
+| No emission below $f_0$ | A photon of lower energy than $\phi$ cannot free an electron |
+| Emission is instantaneous | One photon gives its energy to one electron at once; there is no waiting to collect energy |
+| $K_{\max}$ depends on frequency, not intensity | $K_{\max} = hf - \phi$; intensity only changes the number of photons |
+| Photocurrent is proportional to intensity | More photons per second free more electrons |
+| $V_s$ depends on frequency | $eV_s = K_{\max}$ |
+
+**Numerical.** Ultraviolet light of $\lambda = 250\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$. The photon energy is $1240/250 = 4.96\ \text{eV}$, so $K_{\max} = 4.96 - 2.30 = 2.66\ \text{eV}$, the stopping potential is $2.66\ \text{V}$, and $v_{\max} = \sqrt{2K_{\max}/m} = 9.7 \times 10^{5}\ \text{m s}^{-1}$. The threshold wavelength is $\lambda_0 = 1240/2.3 = 539\ \text{nm}$.
+
+**Applications.** Photocells in automatic doors and street lights, light meters, solar cells and the sound track of films.
+
+**Conclusion.** Einstein's equation $hf = \phi + K_{\max}$ explains every feature of the photoelectric effect and shows that light has a particle nature.
