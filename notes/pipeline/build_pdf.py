@@ -127,6 +127,7 @@ def build(slug, verbose=True):
 <style>{m3x.css_vars(accent)}
 html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format(g=i18n.num(grade))}"}}
 @page{{@bottom-left{{content:"{L["footer"]}";{DEVA_FONT}}}@bottom-right{{content:counter(page{", devanagari" if L["digits"] else ""});{DEVA_FONT}}}@top-left{{{DEVA_FONT}}}@top-right{{{DEVA_FONT}}}}}
+@page cover{{@top-left{{content:none}}@top-right{{content:none}}@bottom-left{{content:none}}@bottom-right{{content:none}}}}
 @page frontmatter{{@bottom-right{{content:counter(page,{"devanagari" if L["digits"] else "lower-roman"});{DEVA_FONT}}}}}</style>
 </head><body>
 {cover_html(slug, subject, grade, accent, code, head)}
