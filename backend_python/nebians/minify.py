@@ -46,6 +46,8 @@ def minify_text(name, text):
 def minify_file(path, name=None):
     """Rewrite one file; returns bytes saved (0 when untouched)."""
     name = (name or path).replace(os.sep, '/')
+    if not name.lower().endswith(('.css', '.js')) or any(part in name.lower() for part in SKIP_PARTS):
+        return 0  # never open images, audio or fonts as text
     try:
         with open(path, 'r', encoding='utf-8', newline='') as fh:
             text = fh.read()
