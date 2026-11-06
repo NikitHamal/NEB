@@ -145,6 +145,13 @@ on Windows, or code editors such as **Notepad++**, **Visual Studio Code** and
 Sublime Text, which colour the tags. The file is saved with the extension
 **.html** (or .htm) and opened in a **browser**.
 
+```photogrid label="10.H" cols="4" ratio="1.25" caption="The web from birth to today. (a) The NeXT computer that served the first web page in 1990, with a handwritten note saying: this machine is a server, do not power it down. (b) A modern browser, Firefox, shows a web page that the HTML tells it to build. (c) A data centre, where today the servers of websites live. (d) The padlock of HTTPS shows that the connection to the site is encrypted. A page is written in HTML, kept on a server, fetched by a browser and carried over the internet."
+@ photo id="cs8/web-first-server" cap="(a) The first web server, 1990"
+@ photo id="cs8/web-firefox" cap="(b) A browser showing a page"
+@ photo id="cs12/datacenter" cap="(c) A data centre of servers"
+@ photo id="cs11/https-padlock" cap="(d) HTTPS padlock"
+```
+
 ## 10.2 Structure of an HTML document: html, head, title and body
 
 Every web page has the same skeleton:
@@ -891,3 +898,95 @@ pages — Google Chrome, Firefox. *URL:* the unique address of a web page —
 `<h1>Nepal</h1>`. *Hyperlink:* text or a picture that opens another page when
 clicked — `<a href="about.html">About us</a>`.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain web page, website, web browser, URL and HTML. Describe the structure of an HTML document with an example. <span class="marks">[10]</span>
+2. Write the HTML tags for headings, formatting, lists, images, links and tables, and make a small web page. <span class="marks">[10]</span>
+
+### Model answer D1: the web and the structure of an HTML document (10 marks)
+
+**Introduction.** The **World Wide Web (WWW)** is a huge collection of linked web pages stored on servers all over the world and reached through the internet. It was invented by Tim Berners-Lee in 1989–1990 (Plate 10.H).
+
+1. **Web page:** one document of the web written in HTML, which may have text, pictures, audio, video and links.
+2. **Website:** a collection of related web pages under one domain name, such as a school's website. The first page is the **home page**.
+3. **Web browser:** the software that fetches and shows web pages: Chrome, Firefox, Edge and Safari.
+4. **URL (Uniform Resource Locator):** the address of a page, for example `https://www.example.com.np/about.html`. It has the protocol (`https`), the domain name (`www.example.com.np`) and the page or file name (`about.html`).
+5. **HTML (HyperText Markup Language):** the language of web pages. It uses **tags** in angle brackets to tell the browser how to show the content. Most tags come in pairs, an opening tag `<b>` and a closing tag `</b>`.
+
+**Structure of an HTML document.**
+
+```html
+<html>
+  <head>
+    <title>My School</title>
+  </head>
+  <body>
+    <h1>Welcome to Our School</h1>
+    <p>This is my first web page.</p>
+  </body>
+</html>
+```
+
+| Tag | Meaning |
+|---|---|
+| `<html>` | Holds the whole document |
+| `<head>` | Information about the page, not shown in the page area |
+| `<title>` | The name shown on the browser tab |
+| `<body>` | Everything that the visitor sees |
+
+**Steps to make a page.** Open Notepad, type the code, save it as `index.html` with the type *All Files*, and double-click the file; it opens in the browser.
+
+**Conclusion.** An HTML page is plain text with tags; the head holds the title and the body holds the content, and the browser turns the tags into the page we see.
+
+### Model answer D2: HTML tags and a small web page (10 marks)
+
+**Introduction.** HTML tags format the text, make lists, put in pictures, link to other pages and build tables. The tags below are grouped by their use.
+
+| Purpose | Tag | Example |
+|---|---|---|
+| Headings (largest to smallest) | `<h1>` to `<h6>` | `<h2>Our Class</h2>` |
+| Paragraph | `<p>` | `<p>Hello</p>` |
+| Line break (no closing tag) | `<br>` | `Line one<br>Line two` |
+| Bold, italic, underline | `<b>`, `<i>`, `<u>` | `<b>Important</b>` |
+| Font | `<font>` | `<font color="red">Red</font>` |
+| Unordered list | `<ul>` and `<li>` | bullets |
+| Ordered list | `<ol>` and `<li>` | numbers |
+| Image | `<img src="">` | `<img src="school.jpg" width="200">` |
+| Link | `<a href="">` | `<a href="page2.html">Next</a>` |
+| Table | `<table>`, `<tr>`, `<th>`, `<td>` | rows and cells |
+
+**A small web page.**
+
+```html
+<html>
+  <head><title>Class 8 Page</title></head>
+  <body>
+    <h1>Class 8 Computer Science</h1>
+    <p>Our <b>subjects</b> are:</p>
+    <ol>
+      <li>Nepali</li>
+      <li>English</li>
+      <li>Computer Science</li>
+    </ol>
+    <img src="class.jpg" width="200">
+    <table border="1">
+      <tr><th>Name</th><th>Roll</th></tr>
+      <tr><td>Asha</td><td>1</td></tr>
+      <tr><td>Bikash</td><td>2</td></tr>
+    </table>
+    <a href="contact.html">Contact us</a>
+  </body>
+</html>
+```
+
+**How it appears.** A large heading, a paragraph with the word *subjects* in bold, a numbered list of three subjects, a picture 200 pixels wide, a table with a border and two data rows, and a clickable link to the page `contact.html`.
+
+**Points to remember.**
+
+1. `<tr>` makes a row, `<th>` a bold heading cell and `<td>` a data cell.
+2. `src` tells the picture's file; `href` tells the link's target.
+3. Keep the image in the same folder as the page, or give its full path.
+4. Every opened tag must be closed, except tags such as `<br>` and `<img>`.
+
+**Conclusion.** With only a few tags we can build a complete page with a heading, text, a list, a picture, a table and a link, and we see the result by opening the file in a browser.
