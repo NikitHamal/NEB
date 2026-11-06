@@ -887,3 +887,78 @@ The near-point setting gives the larger magnification, but the eye must
 accommodate fully and tires quickly; the infinity setting ($M = 5$) is used for
 prolonged viewing because the eye stays relaxed.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the lens maker's formula $\dfrac1f=(n-1)\left(\dfrac1{R_1}-\dfrac1{R_2}\right)$ for a thin lens, stating the assumptions. <span class="marks">[10]</span>
+2. Define the power of a lens and derive the power of two thin lenses in contact. Explain the angular magnification of a simple microscope and solve numericals. <span class="marks">[10]</span>
+
+### Model answer D1: the lens maker's formula (10 marks)
+
+**Introduction.** The lens maker's formula tells a lens maker what curvature and material to choose to obtain a required focal length. It follows from refraction at the two spherical surfaces of the lens.
+
+**Assumptions.**
+
+1. The lens is **thin**, so the distances are measured from its optical centre.
+2. The aperture is small, so the rays are close to the principal axis.
+3. The object is a point on the axis, and the light is of a single colour.
+
+**Refraction at one spherical surface.** For light going from a medium of index $n_1$ to one of index $n_2$ at a surface of radius $R$, with the Cartesian sign convention,
+
+$$ \frac{n_2}{v}-\frac{n_1}{u}=\frac{n_2-n_1}{R} $$
+
+**Derivation.** Let a lens of refractive index $n$ stand in air ($n=1$). Light from an object $O$ at distance $u$ meets the first surface (radius $R_1$) and, if the second surface were absent, would form an image $I_1$ at distance $v_1$.
+
+1. At the first surface, $\dfrac{n}{v_1}-\dfrac1u=\dfrac{n-1}{R_1}$ ... (1)
+2. $I_1$ acts as a **virtual object** for the second surface (radius $R_2$), going from glass into air, so $\dfrac1v-\dfrac{n}{v_1}=\dfrac{1-n}{R_2}$ ... (2)
+3. Add (1) and (2): the $n/v_1$ terms cancel, giving
+
+$$ \frac1v-\frac1u=(n-1)\left(\frac1{R_1}-\frac1{R_2}\right) $$
+
+4. For an object at infinity, $u=\infty$ and $v=f$, so
+
+$$ \boxed{\frac1f=(n-1)\left(\frac1{R_1}-\frac1{R_2}\right)} $$
+
+5. Putting this in the earlier result gives the **lens formula** $\dfrac1v-\dfrac1u=\dfrac1f$.
+
+**Reading the result.**
+
+- A **biconvex** lens has $R_1>0$ and $R_2<0$, so $f>0$ (converging).
+- A **biconcave** lens has $R_1<0$ and $R_2>0$, so $f<0$ (diverging).
+- For a lens in a medium of index $n_m$, replace $(n-1)$ by $\left(\dfrac{n}{n_m}-1\right)$; a glass lens in water is much weaker than in air.
+
+**Numerical.** A biconvex lens of glass $n=1.5$ has $R_1=+20\ \text{cm}$ and $R_2=-20\ \text{cm}$. Then $\dfrac1f=0.5\times\left(\dfrac1{20}+\dfrac1{20}\right)=\dfrac1{20}$, so $f=20\ \text{cm}$.
+
+**Conclusion.** The focal length depends on the refractive index and on the two radii of curvature, and the formula applies to every thin lens once the signs are used correctly.
+
+### Model answer D2: power of a lens, lenses in contact and simple microscope (10 marks)
+
+**Introduction.** Opticians describe a lens by its power rather than its focal length, because powers of lenses in contact simply add.
+
+**Power.** The **power** of a lens is the reciprocal of its focal length in metres, $P=\dfrac1f$. Its unit is the **dioptre** (D). A converging lens has positive power, and a diverging lens has negative power. The spectacles of a short-sighted student in Pokhara may be $-2.5\ \text{D}$, meaning a concave lens of focal length $-40\ \text{cm}$.
+
+**Two thin lenses in contact.** Let lenses of focal lengths $f_1$ and $f_2$ touch.
+
+1. The first lens forms an image at $v_1$: $\dfrac1{v_1}-\dfrac1u=\dfrac1{f_1}$.
+2. This image is the object for the second lens: $\dfrac1v-\dfrac1{v_1}=\dfrac1{f_2}$.
+3. Adding, $\dfrac1v-\dfrac1u=\dfrac1{f_1}+\dfrac1{f_2}=\dfrac1F$, so
+
+$$ \frac1F=\frac1{f_1}+\frac1{f_2}\qquad\text{or}\qquad P=P_1+P_2 $$
+
+**Simple microscope (magnifying glass).** A convex lens of short focal length $f$ forms a virtual, erect, enlarged image when the object is within $f$.
+
+- **Angular magnification** $M=\dfrac{\text{angle subtended by the image}}{\text{angle subtended by the object at the near point}}$.
+- Image at the near point $D=25\ \text{cm}$: $M=1+\dfrac Df$.
+- Image at infinity (relaxed eye): $M=\dfrac Df$.
+
+| Condition | Magnification | Use |
+|---|---|---|
+| Image at $25\ \text{cm}$ | $1+D/f$ | Maximum, with some eye strain |
+| Image at infinity | $D/f$ | Comfortable, long viewing |
+
+**Numericals.**
+
+1. A $+4\ \text{D}$ lens in contact with a $-2\ \text{D}$ lens has $P=+2\ \text{D}$, so $F=+0.5\ \text{m}=50\ \text{cm}$, a converging combination.
+2. A magnifying glass of $f=5\ \text{cm}$ gives $M=1+25/5=6$ with the image at the near point, and $M=5$ with the image at infinity.
+
+**Conclusion.** Power is the reciprocal of the focal length in metres; powers of thin lenses in contact add, and a short-focus lens gives a large angular magnification as a simple microscope.

@@ -765,3 +765,74 @@ $$ \sigma = e\,n_i(\mu_e+\mu_h) = 1.6\times10^{-19}\times2.4\times10^{19}\times0
 $$ \sigma = 3.84\times0.58 = 2.23\ \Omega^{-1}\text{m}^{-1} $$
 $$ \rho = \frac{1}{\sigma} = \frac{1}{2.23} = 0.45\ \Omega\,\text{m} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the formation of energy bands in solids and distinguish metals, insulators and semiconductors on the basis of band theory. <span class="marks">[10]</span>
+2. Distinguish between intrinsic and extrinsic semiconductors, and explain n-type and p-type semiconductors with the effect of temperature. <span class="marks">[10]</span>
+
+### Model answer D1: energy bands and the classification of solids (10 marks)
+
+**Introduction.** An isolated atom has sharp energy levels. In a solid, millions of atoms are close together, and their levels merge into broad **energy bands**. Band theory explains why copper conducts, why diamond does not, and why silicon lies between them.
+
+**Formation of bands.**
+
+1. In a single atom, each electron has one of a few discrete energy levels.
+2. When $N$ atoms come close, the Pauli exclusion principle forbids two electrons in the same state, so each level splits into $N$ closely spaced levels.
+3. For large $N$, these levels form a nearly continuous **band**.
+4. Between the bands lie **forbidden gaps** with no allowed energy.
+
+**Important bands.**
+
+- **Valence band:** the highest band occupied by electrons at $0\ \text{K}$; it contains the electrons that form bonds.
+- **Conduction band:** the next higher band, which is empty or partly filled; electrons here are free to move and carry current.
+- **Forbidden energy gap $E_g$:** the gap between the top of the valence band and the bottom of the conduction band.
+
+**Classification.**
+
+1. **Metals (conductors):** the conduction band either **overlaps** the valence band or is partly filled, so $E_g=0$. A very small electric field can move electrons, giving high conductivity (copper, aluminium).
+2. **Insulators:** the valence band is full, the conduction band is empty, and $E_g$ is **large** ($>3\ \text{eV}$). Thermal energy at room temperature ($0.026\ \text{eV}$) cannot lift electrons across the gap (diamond $5.5\ \text{eV}$, glass).
+3. **Semiconductors:** the gap is **small** ($E_g\approx1\ \text{eV}$). At $0\ \text{K}$ they are insulators, but at room temperature a few electrons gain enough energy to cross the gap, leaving **holes** in the valence band (silicon $1.1\ \text{eV}$, germanium $0.67\ \text{eV}$).
+
+| Property | Metal | Semiconductor | Insulator |
+|---|---|---|---|
+| Energy gap | 0 (overlap) | about 0.1 – 3 eV | more than 3 eV |
+| Conduction band at $0\ \text{K}$ | Partly filled | Empty | Empty |
+| Resistivity ($\Omega\,\text{m}$) | $10^{-8}$ | $10^{-5}$ to $10^{3}$ | $10^{10}$ to $10^{16}$ |
+| Effect of heating | Resistance rises | Resistance falls | Little change |
+| Example | Cu, Al | Si, Ge | Diamond, glass |
+
+**Why a semiconductor's resistance falls on heating.** More electrons cross the gap, so more charge carriers (electrons and holes) become available. The number of carriers grows faster than the collisions that oppose the flow, so the conductivity rises. This is used in thermistors for temperature sensing.
+
+**Conclusion.** Band theory divides solids by the width of the forbidden gap: zero for metals, small for semiconductors and large for insulators.
+
+### Model answer D2: intrinsic and extrinsic semiconductors (10 marks)
+
+**Introduction.** Pure semiconductors conduct poorly. Adding a tiny amount of impurity (**doping**), about one atom in $10^{7}$, increases the conductivity enormously. Doped silicon is the basis of every transistor and chip.
+
+**Intrinsic semiconductor.** A pure semiconductor such as silicon or germanium (4 valence electrons, each bonded to four neighbours).
+
+- At $T>0\ \text{K}$, thermal energy breaks some bonds, forming equal numbers of electrons and holes, $n_e=n_h=n_i$.
+- Its conductivity is low and depends strongly on temperature.
+
+**Extrinsic semiconductor.** A semiconductor doped with a controlled impurity.
+
+1. **n-type:** a **pentavalent** impurity (phosphorus, arsenic, antimony) with five valence electrons. Four form bonds and the fifth is almost free, giving a **donor level** just below the conduction band. Electrons are the **majority carriers** and holes the minority carriers.
+2. **p-type:** a **trivalent** impurity (boron, aluminium, indium) with three valence electrons. One bond is incomplete, which behaves as a **hole**, giving an **acceptor level** just above the valence band. Holes are the **majority carriers** and electrons the minority carriers.
+
+Both n-type and p-type crystals remain electrically **neutral** overall.
+
+**Law of mass action.** In thermal equilibrium, $n_en_h=n_i^{2}$, so adding donors increases $n_e$ and automatically decreases $n_h$.
+
+| Feature | Intrinsic | n-type | p-type |
+|---|---|---|---|
+| Impurity | None | Pentavalent (P, As, Sb) | Trivalent (B, Al, In) |
+| Majority carrier | Electrons = holes | Electrons | Holes |
+| Extra energy level | None | Donor, near the conduction band | Acceptor, near the valence band |
+| Conductivity | Low | High | High |
+
+**Effect of temperature.** At low temperatures an extrinsic semiconductor conducts only through its impurity atoms; at moderate temperatures all impurity atoms are ionised and the conductivity is nearly constant; at very high temperatures intrinsic carriers dominate and the benefit of doping is lost.
+
+**Numerical.** Silicon has $n_i=1.5\times10^{16}\ \text{m}^{-3}$ at $300\ \text{K}$. Doping with $10^{22}\ \text{m}^{-3}$ donors gives $n_e\approx10^{22}\ \text{m}^{-3}$, so $n_h=\dfrac{n_i^{2}}{n_e}=\dfrac{2.25\times10^{32}}{10^{22}}=2.25\times10^{10}\ \text{m}^{-3}$. Electrons now outnumber holes by a factor of about $4.4\times10^{11}$.
+
+**Conclusion.** Doping produces n-type or p-type semiconductors with a large and controllable number of majority carriers; combining them forms the p-n junction, the basis of electronics.

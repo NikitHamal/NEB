@@ -582,3 +582,74 @@ north-facing slopes; and the Himalaya casts a rain shadow that creates a cold
 desert on its northern side. Nepal therefore carries tropical and arctic
 vegetation in the same country.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the factors that decide vegetation and explain the vegetation zones of Nepal with their altitude and typical plants. <span class="marks">[10]</span>
+2. Explain the damage done to vegetation by human activities, and the methods of in-situ and ex-situ conservation. <span class="marks">[10]</span>
+
+### Model answer D1: factors and the vegetation zones of Nepal (10 marks)
+
+**Introduction.** **Vegetation** is the total plant cover of an area. Nepal rises from about $60\ \text{m}$ in the Terai to $8{,}849\ \text{m}$ at Sagarmatha in less than $200\ \text{km}$, so the vegetation changes from tropical forest to ice-bound rock over a short distance. About $45\%$ of the land is covered by forest and shrubs.
+
+**Factors deciding the vegetation.**
+
+1. **Altitude:** temperature falls by about $6^{\circ}\text{C}$ for every $1{,}000\ \text{m}$ of height.
+2. **Temperature and light:** decide the growing season and the type of plant.
+3. **Rainfall and humidity:** the eastern hills receive more monsoon rain than the west, so forests are richer in the east.
+4. **Soil:** depth, nutrients and water-holding capacity.
+5. **Slope and aspect:** a south-facing slope is warm and dry and a north-facing slope is cool and moist.
+6. **Biotic factors:** grazing, cutting and fire by people and animals.
+
+**Vegetation zones of Nepal.**
+
+| Zone | Altitude | Climate | Typical plants |
+|---|---|---|---|
+| Tropical | below $1{,}000\ \text{m}$ | Hot, humid | **Sal** (*Shorea robusta*), sissoo, khair, silk cotton, grassland of the Terai |
+| Subtropical | $1{,}000$–$2{,}000\ \text{m}$ | Warm | Chir pine, *Schima*, *Castanopsis*, alder |
+| Temperate | $2{,}000$–$3{,}000\ \text{m}$ | Cool | Oak (*Quercus*), maple, rhododendron, laurel |
+| Subalpine | $3{,}000$–$4{,}000\ \text{m}$ | Cold | Fir (*Abies*), birch (*Betula utilis*), rhododendron |
+| Alpine | $4{,}000$–$5{,}000\ \text{m}$ | Very cold | Juniper, dwarf rhododendron, meadow herbs |
+| Nival | above $5{,}000\ \text{m}$ | Snow and ice | Mosses, lichens, a few cushion plants |
+
+**Special features.**
+
+- The **Terai** forests of sal, and the grasslands of Chitwan and Bardia, shelter the rhinoceros and the tiger.
+- The **rhododendron** (*lali gurans*) is the national flower, and forests of it bloom at $2{,}000$–$3{,}500\ \text{m}$ in spring.
+- The **rain-shadow** valleys north of the Himalaya (Mustang, Dolpa) are dry, and the vegetation resembles the cold desert of Tibet.
+- **Medicinal herbs** such as *jatamansi* and *yarsagumba* grow in the alpine zone.
+
+**Conclusion.** Altitude, temperature, rainfall and soil arrange the vegetation of Nepal in six zones, from the sal forest of the Terai to the lichens of the nival zone.
+
+### Model answer D2: human impact and conservation (10 marks)
+
+**Introduction.** Vegetation supplies oxygen, timber, fuel, fodder, medicines and watershed protection, and yet human activity damages it fast. Conservation means the wise use and protection of plant resources.
+
+**Damage by human activities.**
+
+1. **Deforestation** for farmland, timber and settlement; the Terai forest has lost large areas to farming.
+2. **Overgrazing** by livestock stops regeneration of seedlings.
+3. **Fuelwood and fodder collection**, because a large share of rural homes cook with firewood.
+4. **Forest fire**, often set by people, in the dry season (March–May).
+5. **Urbanisation and roads** fragmenting forest, for instance in the Kathmandu valley.
+6. **Invasive alien plants** such as *Mikania micrantha*, *Lantana camara* and *Eupatorium* (*banmara*) smother native vegetation.
+7. **Over-collection of medicinal plants** such as yew and *yarsagumba*.
+8. **Climate change**, which shifts the zones to a higher altitude.
+
+**Consequences.** Soil erosion and landslides, loss of habitat and species, drying of springs, floods and increased atmospheric CO₂.
+
+**Conservation methods.**
+
+- **In-situ conservation** (in the natural habitat): national parks (Chitwan, 1973, the first), wildlife reserves, conservation areas (Annapurna), buffer zones and **community forestry** through user groups (more than $22{,}000$ in Nepal).
+- **Ex-situ conservation** (outside the habitat): botanical gardens (Godawari National Botanical Garden), seed banks (cold storage of seeds), tissue culture and gene banks.
+
+| Feature | In-situ | Ex-situ |
+|---|---|---|
+| Place | Natural habitat | Outside, in a garden or bank |
+| Species conserved | Whole ecosystem | Individual species |
+| Cost | Lower | Higher |
+| Examples | Chitwan, Sagarmatha national parks | Botanical gardens, seed banks |
+
+**Other measures.** Afforestation and reforestation, laws on forest and wildlife, education, alternative energy (biogas and improved stoves), and international agreements such as CITES and the Ramsar Convention (Nepal has several Ramsar sites, including Koshi Tappu and Ghodaghodi Tal).
+
+**Conclusion.** Human pressure on forest can be reduced by protecting habitats in-situ, preserving species ex-situ and involving local communities.
