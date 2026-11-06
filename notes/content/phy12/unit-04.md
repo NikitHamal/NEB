@@ -603,3 +603,34 @@ $\Delta U_2 = 0$ and $Q_2 = W_2 = 758\ \text{J}$.
 $W = 758\ \text{J}$, $\Delta U = 1559\ \text{J}$, which satisfies
 $Q = \Delta U + W$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define isothermal and adiabatic processes, derive the work done in each for an ideal gas and compare them, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: isothermal and adiabatic processes of an ideal gas (10 marks)
+
+**Introduction.** The **first law of thermodynamics** states that the heat supplied to a system equals the increase in its internal energy plus the work done by it: $\Delta Q = \Delta U + \Delta W$. Applying it to an ideal gas under two ideal conditions gives the isothermal and the adiabatic process.
+
+**Isothermal process.** The temperature is constant ($\Delta T = 0$), and the process is slow so that the gas stays in thermal contact with its surroundings. For an ideal gas the internal energy depends only on temperature, so $\Delta U = 0$ and $\Delta Q = \Delta W$. The law is $PV = $ constant (Boyle's law). The work done in expanding from $V_{1}$ to $V_{2}$ is
+
+$$ W = \int_{V_{1}}^{V_{2}} P\,dV = nRT\int_{V_{1}}^{V_{2}}\frac{dV}{V} = nRT\ln\frac{V_{2}}{V_{1}} $$
+
+**Adiabatic process.** No heat enters or leaves ($\Delta Q = 0$), as when the process is very fast or the walls are insulated. Then $\Delta U = -\Delta W$, so an expanding gas cools. The law is $PV^{\gamma} = $ constant, or $TV^{\gamma - 1} = $ constant, with $\gamma = C_{p}/C_{v}$. The work done is
+
+$$ W = \frac{P_{1}V_{1} - P_{2}V_{2}}{\gamma - 1} = \frac{nR\,(T_{1} - T_{2})}{\gamma - 1} $$
+
+**Why the adiabatic curve is steeper.** At any point the slope of the isotherm is $-P/V$ and that of the adiabat is $-\gamma P/V$. Because $\gamma > 1$, the adiabatic curve falls more steeply on the P–V diagram, and so the work done in an adiabatic expansion is smaller than in an isothermal one between the same volumes.
+
+| Property | Isothermal | Adiabatic |
+|---|---|---|
+| Condition | $T$ constant | $Q = 0$ |
+| Equation | $PV = $ constant | $PV^{\gamma} = $ constant |
+| Internal energy | No change | Changes ($\Delta U = -W$) |
+| Heat exchange | Yes, $Q = W$ | None |
+| Speed | Slow | Fast |
+| Example | Melting ice at 0 °C, slow expansion | Sound in air, bicycle pump, cloud formation |
+
+**Numerical.** 2 mol of an ideal gas expand isothermally at $300\ \text{K}$ to double the volume: $W = 2(8.314)(300)\ln 2 = 3.46 \times 10^{3}\ \text{J}$, and the heat absorbed is the same. For 1 mol of a monatomic gas ($\gamma = 5/3$) expanding adiabatically from $300\ \text{K}$ to twice the volume, $T_{2} = 300\,(1/2)^{2/3} = 189\ \text{K}$ and $W = \dfrac{8.314\,(300 - 189)}{2/3} \approx 1.38 \times 10^{3}\ \text{J}$, which is smaller than the isothermal value for the same volume change.
+
+**Conclusion.** In an isothermal expansion the work is paid for by absorbed heat, whereas in an adiabatic expansion it is paid for by the internal energy, and the gas cools.

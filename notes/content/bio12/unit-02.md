@@ -910,6 +910,13 @@ key 3 Pulvinus — the swollen joint where the pinnae meet the petiole; its moto
 *Mimosa*'s response is **seismonasty — a nastic, turgor (variation) movement — not thigmotropism and not a growth movement**. Nothing grows and nothing is permanent; the leaf returns to exactly where it was. Thigmo*tropism* is the tendril, which really does grow unequally and really is permanent. Confusing the two is one of the easiest marks to throw away in this unit.
 :::
 
+```photogrid label="2.H" cols="4" ratio="1.0" caption="Plant physiology in four pictures: (a) stomata on a leaf epidermis, the pores through which CO2 enters and water vapour leaves; (b) guttation drops at a leaf margin, the visible result of root pressure on a humid night; (c) a chloroplast with its grana, the site of the light reaction; (d) the leaflets of Mimosa pudica folded after touch, a quick turgor movement."
+@ photo id="bio12/stomata" cap="Stomata on a leaf surface"
+@ photo id="bio12/guttation" cap="Guttation drops at the leaf margin"
+@ photo id="bio12/chloroplast" cap="Chloroplast with grana and stroma"
+@ photo id="bio12/mimosa" cap="Mimosa pudica leaflets folded"
+```
+
 ## Chapter summary
 
 - Water potential $\Psi_w = \Psi_s + \Psi_p$ for an ordinary cell; pure free water is **0 MPa** and every solution is negative. Water moves from higher to lower water potential, and $\Psi_p$ is **negative in the xylem**. DPD is the obsolete equivalent, with $\Psi_w = -\text{DPD}$. Water crosses the root cortex by apoplast, symplast and transmembrane routes, and the **Casparian strip** of lignin in the endodermis forces all of it through at least one plasma membrane; root pressure (0.1–0.2 MPa) is real but far too small to raise sap, and its modern role is refilling embolised vessels.
@@ -1018,3 +1025,77 @@ key 3 Pulvinus — the swollen joint where the pinnae meet the petiole; its moto
 3. Glycolysis in the cytoplasm: investment of 2 ATP at hexokinase and PFK, gross 4 ATP at PGK and pyruvate kinase, net 2 ATP + 2 NADH + 2 pyruvate. Link reaction in the matrix by the pyruvate dehydrogenase complex: 2 CO$_2$ + 2 NADH + 2 acetyl-CoA. Krebs cycle in the matrix, citrate through to oxaloacetate, two turns giving 6 NADH, 2 FADH$_2$, 2 ATP, 4 CO$_2$. ETS on the inner membrane: Complexes I–IV, ubiquinone and cytochrome c, O$_2$ as terminal acceptor, 10 H$^+$ per NADH and 6 per FADH$_2$, 4 H$^+$ per ATP, chemiosmosis at ATP synthase. Tally 2 + 2 + 25 + 3 = 32, or 30 with the glycerol-3-phosphate shuttle; the classical 38 assumed integer P/O ratios that chemiosmosis does not require.
 4. Magnitude of the problem (0.01 MPa m$^{-1}$ plus friction; a 100 m tree needs about 3 MPa). Vital-force theories — Godlewski's relay pump, Bose's pulsation theory — refuted by Strasburger's experiment (poisoned 20 m oak trunks; all living cells killed, ascent continued) and by the arithmetic of Bose's own pulse rate. Capillarity refuted by calculation ($h \approx 0.6$ m for a 25 µm vessel) and by the fact that conduit diameter increases, not decreases, in taller trunks. Cohesion–tension (Dixon and Joly, 1895): transpiration pull from menisci in wall nanopores of radius 5–10 nm generating up to $-30$ MPa; cohesion by hydrogen bonding with measured tensile strength beyond $-25$ MPa; adhesion to the lignocellulose wall. Result is an unbroken column under a negative pressure potential of $-0.5$ to $-3.0$ MPa, energised by solar latent heat alone.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the cohesion–tension theory of the ascent of sap and show why root pressure, vital-force and capillarity theories fail. <span class="marks">[10]</span>
+2. Compare C3, C4 and CAM photosynthesis in a table and explain how C4 and CAM plants overcome photorespiration. <span class="marks">[10]</span>
+3. Describe the four stages of aerobic respiration and calculate the ATP yield of one glucose molecule, explaining the figures 38 and 30–32. <span class="marks">[10]</span>
+
+### Model answer D1: the cohesion–tension theory of the ascent of sap (10 marks)
+
+**Introduction.** The ascent of sap is the upward movement of water and dissolved minerals from the roots to the leaves through the xylem. A tree must lift water against gravity, which costs about 0.01 MPa for every metre of height, and against the friction of the narrow xylem tubes. For a 100 m tree the total is nearly 3 MPa, far more than a living pump could supply. The **cohesion–tension theory** of Dixon and Joly (1895) explains this.
+
+**The theory in six points.**
+
+1. **Transpiration pull is the engine.** Water evaporates from the wet walls of mesophyll cells into the air spaces of the leaf. The water surface in the tiny wall pores (radius 5–10 nm) curves into menisci, and surface tension pulls on the water behind it, creating a tension (negative pressure) that can reach −30 MPa.
+2. **Cohesion holds the column together.** Water molecules attract each other by hydrogen bonds. A thin column in a xylem tube has a measured tensile strength of more than −25 MPa, so it behaves like a stretched thread.
+3. **Adhesion anchors the column.** Water also sticks to the cellulose and lignin of the xylem wall, so the column does not slip back or tear away from the wall.
+4. **The xylem is a low-resistance pipe.** Mature vessels and tracheids are dead, hollow, lignified cells joined end to end, so the tension passes down to the root hairs without a living barrier.
+5. **The root only supplies water.** The tension in the xylem lowers the water potential of the root, so water flows in from the soil along the water-potential gradient. The energy comes from the sun, not from the plant.
+6. **Evidence.** The trunk shrinks slightly in diameter at midday as the tension pulls the walls inward; a pressure bomb measures negative sap pressure in a cut shoot; and ultrasonic clicks are heard when a column breaks (cavitation) and air enters.
+
+| Theory | Claim | Why it fails |
+|---|---|---|
+| Root pressure | Roots push water up | Only 0.1–0.2 MPa, enough for 10–20 m; absent at midday and in many conifers |
+| Vital force (Godlewski, Bose) | Living cells pump the water | Sap still rises in stems whose living cells are killed by heat or poison (Strasburger) |
+| Capillarity | Narrow tubes raise water | Gives only about 0.6 m in a 25 µm vessel; wider vessels in taller trees |
+
+**Conclusion.** Only the cohesion–tension theory explains the rise of water to the top of Sal and Chir pine trees of Nepal, because it needs no living cells and no energy from the plant except that supplied by the sun's heat.
+
+### Model answer D2: C3, C4 and CAM photosynthesis compared (10 marks)
+
+**Introduction.** In most plants (C3) the enzyme **RuBisCO** fixes CO$_2$ into 3-phosphoglyceric acid. RuBisCO also binds O$_2$, which starts **photorespiration**, a wasteful process that releases CO$_2$ and can cost up to 25–30% of fixed carbon in hot, dry weather. C4 and CAM plants have evolved two different ways to avoid it.
+
+**How C4 plants avoid it (spatial separation).** In leaves with **Kranz anatomy**, the mesophyll cells surround a ring of bundle-sheath cells. In the mesophyll, **PEP carboxylase**, which cannot bind O$_2$, fixes CO$_2$ into the 4-carbon oxaloacetate, which becomes malate. The malate moves into the bundle sheath and is decarboxylated, raising the CO$_2$ concentration around RuBisCO 10–20 times. The Calvin cycle then runs in almost no oxygen competition, and the 3-carbon pyruvate returns to regenerate PEP at a cost of 2 ATP.
+
+**How CAM plants avoid it (temporal separation).** Succulents keep stomata **closed by day** to save water and open them **at night**. At night PEP carboxylase fixes CO$_2$ into malic acid stored in the vacuole, which is why the sap is acidic in the morning. By day the malic acid is decarboxylated inside the closed leaf, and the released CO$_2$ is fixed by the Calvin cycle using light energy.
+
+| Feature | C3 | C4 | CAM |
+|---|---|---|---|
+| First stable product | 3-PGA (3 C) | Oxaloacetate (4 C) | Oxaloacetate / malate (4 C) |
+| Primary carboxylase | RuBisCO | PEP carboxylase, then RuBisCO | PEP carboxylase at night, RuBisCO by day |
+| Kranz anatomy | Absent | Present | Absent |
+| Photorespiration | High | Almost none | Almost none |
+| ATP per CO$_2$ fixed | 3 | 5 | more than 3 |
+| Stomata | Open by day | Open by day | Open at night |
+| Optimum temperature | 20–25 °C | 30–40 °C | 30–35 °C |
+| Water lost per g dry matter | 450–950 g | 250–350 g | 50–55 g |
+| Examples | Wheat, rice, potato | Maize, sugarcane, sorghum | Pineapple, Agave, Opuntia |
+
+**Conclusion.** C4 plants are best for hot and bright places (maize in the Terai), CAM plants for deserts, and C3 plants for cool and moist ones; the extra ATP is the price paid for saving carbon or water.
+
+### Model answer D3: aerobic respiration and the ATP yield of one glucose (10 marks)
+
+**Introduction.** Aerobic respiration oxidises glucose completely to CO$_2$ and H$_2$O using oxygen: C$_6$H$_{12}$O$_6$ + 6 O$_2$ → 6 CO$_2$ + 6 H$_2$O + energy. The energy is trapped as ATP in four stages.
+
+1. **Glycolysis (cytoplasm).** Glucose (6 C) is split into two pyruvate (3 C). Two ATP are used at hexokinase and phosphofructokinase, and four are made by substrate-level phosphorylation, so the net gain is **2 ATP, 2 NADH and 2 pyruvate**.
+2. **Link reaction (mitochondrial matrix).** Each pyruvate is decarboxylated and oxidised by the pyruvate dehydrogenase complex to acetyl-CoA, giving 1 NADH and 1 CO$_2$. For one glucose this is **2 NADH and 2 CO$_2$**.
+3. **Krebs cycle (matrix).** Each acetyl-CoA joins oxaloacetate to form citrate and is oxidised in eight steps. One turn gives 3 NADH, 1 FADH$_2$, 1 ATP (or GTP) and 2 CO$_2$; two turns give **6 NADH, 2 FADH$_2$, 2 ATP and 4 CO$_2$**.
+4. **Electron transport system (inner mitochondrial membrane).** NADH and FADH$_2$ pass electrons through complexes I–IV to oxygen. Protons pumped into the intermembrane space return through ATP synthase, which makes ATP (oxidative phosphorylation). Oxygen is the final electron acceptor and forms water.
+
+**ATP calculation.**
+
+| Source | Reduced carriers | Classical value | Modern value |
+|---|---|---|---|
+| Glycolysis, substrate level | 2 ATP | 2 | 2 |
+| Glycolysis NADH (2) | shuttle dependent | 4–6 | 3–5 |
+| Link reaction NADH (2) | 2 | 6 | 5 |
+| Krebs substrate level | 2 ATP | 2 | 2 |
+| Krebs NADH (6) | 6 | 18 | 15 |
+| Krebs FADH$_2$ (2) | 2 | 4 | 3 |
+| **Total** | | **38** | **30–32** |
+
+**Why 38 and why 30–32.** The older figure used whole-number P/O ratios of 3 per NADH and 2 per FADH$_2$. About 10 H$^+$ are pumped per NADH and about 4 H$^+$ are needed per ATP, so the P/O ratio is 2.5 for NADH and 1.5 for FADH$_2$. Cytoplasmic NADH enters by the malate–aspartate shuttle (heart, liver; 2.5 ATP each, total 32) or by the glycerol-phosphate shuttle (muscle, brain; 1.5 ATP each, total 30). Part of the proton gradient is also spent on moving pyruvate and phosphate.
+
+**Conclusion.** One glucose gives 30–32 ATP, about one-third of the 2870 kJ released by its complete oxidation being trapped; the rest escapes as heat, which keeps the body warm.

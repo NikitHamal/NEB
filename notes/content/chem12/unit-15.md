@@ -514,3 +514,38 @@ acetanilide, nitrate, then hydrolyse.
 (b) Moles of benzene = 78 / 78 = 1.00 mol. Nitrobenzene = 1.00 × 0.70 = 0.70 mol.
 Aniline = 0.70 × 0.85 = 0.595 mol = 0.595 × 93 = **55.3 g**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the reduction of nitrobenzene in acidic, neutral and alkaline media and explain its electrophilic substitution reactions. <span class="marks">[10]</span>
+
+### Model answer D1: reduction and electrophilic substitution of nitrobenzene (10 marks)
+
+**Introduction.** **Nitrobenzene** (C$_6$H$_5$NO$_2$, oil of mirbane) is a pale yellow oily liquid with an almond-like smell, made by nitrating benzene with a mixture of concentrated HNO$_3$ and concentrated H$_2$SO$_4$ at 330–335 K. It is poisonous, and is used in the manufacture of aniline.
+
+**Reduction.** The product of reducing the –NO$_2$ group depends on the medium.
+
+| Medium | Reagent | Product |
+|---|---|---|
+| Strongly acidic | Sn / conc. HCl, Fe / HCl or H$_2$ / Ni | **Aniline**, C$_6$H$_5$NH$_2$ (complete reduction) |
+| Neutral | Zn dust / NH$_4$Cl solution | **N-phenylhydroxylamine**, C$_6$H$_5$NHOH |
+| Alkaline | Zn / NaOH (limited Zn) | **Azoxybenzene**, then **azobenzene** |
+| Strongly alkaline, excess Zn | Zn / NaOH, excess | **Hydrazobenzene**, C$_6$H$_5$NH–NHC$_6$H$_5$ |
+| Metal hydride | LiAlH$_4$ | Azobenzene |
+
+Overall in acid: $\text{C}_6\text{H}_5\text{NO}_2 + 6[\text{H}] \Rightarrow \text{C}_6\text{H}_5\text{NH}_2 + 2\text{H}_2\text{O}$. In the alkaline medium the intermediate nitroso compound and the hydroxylamine condense to give the azoxy compound, which is the reason for the bimolecular products.
+
+**Electrophilic substitution.** The nitro group is strongly electron withdrawing, both through the $-I$ effect and through the $-M$ (resonance) effect, so the ring is **deactivated** and the reactions need more severe conditions than benzene. The ortho and para positions carry the most positive charge, and the electrophile therefore attacks the **meta** position, which is relatively less deficient in electrons. The nitro group is a **meta director**.
+
+| Reaction | Conditions | Main product |
+|---|---|---|
+| Nitration | Fuming HNO$_3$ + conc. H$_2$SO$_4$, 365 K | *m*-Dinitrobenzene (93%) |
+| Halogenation | Br$_2$ / Fe, heat | *m*-Bromonitrobenzene |
+| Sulphonation | Fuming H$_2$SO$_4$, heat | *m*-Nitrobenzenesulphonic acid |
+| Friedel–Crafts | CH$_3$Cl / AlCl$_3$ | **No reaction** (ring too deactivated; AlCl$_3$ complexes with the nitro group) |
+
+**Nucleophilic substitution.** On the contrary, the same effect makes the ortho and para positions open to nucleophiles when a leaving group is present, for example the easy hydrolysis of 2,4-dinitrochlorobenzene.
+
+**Uses.** Nitrobenzene is the starting material for aniline and the azo dyes; it is used in shoe and floor polish, as a solvent and in perfumery. Poly-nitro compounds are powerful explosives: **TNT** (2,4,6-trinitrotoluene), picric acid, and nitroglycerine used in blasting during road building in Nepal. Nitromethane is a fuel for racing cars.
+
+**Conclusion.** The reduction products of nitrobenzene vary with the medium, and the electron-withdrawing nitro group directs electrophiles to the meta position.

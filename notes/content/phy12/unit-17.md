@@ -607,3 +607,44 @@ paramagnetic with $\chi_m = C/(T-T_C)$, a value smaller by several orders of
 magnitude. For iron $T_C = 1043\ \text{K}$; a red-hot iron nail is not attracted
 by a magnet.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain hysteresis in a ferromagnetic material with the B–H curve, define retentivity and coercivity, and discuss the choice of materials for a permanent magnet and a transformer core. <span class="marks">[10]</span>
+
+### Model answer D1: magnetic hysteresis and the choice of materials (10 marks)
+
+**Introduction.** **Hysteresis** is the lagging of the magnetic induction $B$ behind the magnetising field $H$ when a ferromagnetic material is taken through a cycle of magnetisation and demagnetisation. The word means "to lag behind".
+
+**The B–H loop.** Place an unmagnetised iron specimen in a solenoid and increase the current slowly.
+1. **Initial curve (O to a).** $B$ rises with $H$ along the virgin curve until it reaches **saturation** at point a, when all the magnetic domains are aligned.
+2. **Reducing H to zero (a to b).** When $H$ is reduced to zero, $B$ does not fall to zero but retains the value Ob. This is the **retentivity (remanence)**, the residual magnetism left in the material.
+3. **Reverse field (b to c).** The current is reversed, and a reverse field Oc is needed to bring $B$ to zero. This is the **coercivity** (coercive field), a measure of the reverse field needed to remove the residual magnetism.
+4. **Saturation in the reverse direction (c to d)** and then back through e and f to a complete a closed loop.
+
+**Energy loss.** The area of the loop equals the energy lost as heat per unit volume per cycle, because the domains are turned back and forth against internal friction. Loss per second = (area of the loop) × (volume) × (frequency).
+
+**Comparison of soft and hard materials.**
+
+| Property | Soft iron | Steel |
+|---|---|---|
+| Loop | Narrow, tall, small area | Wide, large area |
+| Retentivity | High | High |
+| Coercivity | Low | High |
+| Hysteresis loss | Small | Large |
+| Easily magnetised and demagnetised? | Yes | No |
+| Use | Transformer cores, electromagnets, motors, generators | Permanent magnets, compass needles, loudspeaker magnets |
+
+**Choice of materials.** A **permanent magnet** needs high retentivity (to give a strong field) and high coercivity (so it is not demagnetised by stray fields), so steel and alloys such as alnico are chosen. A **transformer core** is magnetised and demagnetised 100 times a second at 50 Hz, so a small loop area (low coercivity, small loss) is essential, and soft iron or silicon steel is used. Laminated cores also reduce eddy-current losses.
+
+**Types of magnetic materials.**
+
+| Type | Susceptibility | Behaviour in a field | Example |
+|---|---|---|---|
+| Diamagnetic | Small, negative | Weakly repelled | Bismuth, copper, water |
+| Paramagnetic | Small, positive | Weakly attracted | Aluminium, platinum, oxygen |
+| Ferromagnetic | Large, positive | Strongly attracted; domains | Iron, nickel, cobalt |
+
+**Numerical.** The B–H loop of a transformer core has an area of $400\ \text{J m}^{-3}$ per cycle. If the core volume is $2.0 \times 10^{-3}\ \text{m}^{3}$ and the supply is $50\ \text{Hz}$, the energy lost per cycle is $400 \times 2.0 \times 10^{-3} = 0.80\ \text{J}$ and the power lost is $0.80 \times 50 = 40\ \text{W}$, which appears as heat in the core.
+
+**Conclusion.** The area of the hysteresis loop is the energy wasted per cycle, so soft magnetic materials are used where the field alternates and hard materials where permanent magnetism is wanted.
