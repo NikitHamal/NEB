@@ -381,3 +381,38 @@ V3*. 2. The time is past, so *have* becomes *had*. 3. Order: *had* + *my scooter
 **25.** The letter was **written** by my elder sister. — the passive uses V3, not V2.
 **26.** This song was sung by **her** … — a pronoun after *by* takes the object form.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the passive voice and the causative constructions with tense forms. <span class="marks">[10]</span>
+
+### Model answer D1: passive and causatives (10 marks)
+
+**Introduction.** In the passive the subject receives the action: **subject + be + V3 (+ by agent)**. Only transitive verbs have a passive, and the **tense never changes**; only the form of *be* does.
+
+| Tense | Passive form | Example |
+|---|---|---|
+| Present simple | is/are + V3 | Rice is grown in the Tarai. |
+| Present continuous | is/are being + V3 | The road is being built. |
+| Present perfect | has/have been + V3 | The report has been sent. |
+| Past simple | was/were + V3 | The bridge was built in 1990. |
+| Future | will be + V3 | The result will be published. |
+| Modal | modal + be + V3 | It must be done. |
+
+**Rules.**
+
+1. Use the passive when the doer is **unknown, unimportant or obvious**.
+2. Add **by + agent** only if it matters.
+3. Questions: *Was the letter written by her?*
+4. Verbs with two objects have two passives: *He was given a prize. / A prize was given to him.*
+
+**Causatives.**
+
+5. **have + person + base verb:** *I had the tailor stitch it.*
+6. **get + person + to + verb:** *She got him to help.*
+7. **make/let + person + base verb:** *The teacher made us write.*
+8. **have/get + thing + V3:** *We had the house painted.*
+
+**Conclusion.** For the passive: object to subject, correct *be*, then V3.

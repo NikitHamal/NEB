@@ -520,3 +520,64 @@ and says that because the Giant once let him play in his garden he shall today
 come to the child's garden, which is Paradise. That afternoon the children find
 the Giant lying dead under the tree, covered all over with white blossoms.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how selfishness becomes the Giant's own punishment and how he is redeemed in "The Selfish Giant". <span class="marks">[10]</span>
+2. Discuss the symbolism and the Christian allegory of the story. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.0" caption="The author and the sign. Oscar Wilde (photograph by Napoleon Sarony), a 'No trespassing' sign like the Giant's notice, and children outside a classroom."
+@ photo id="eng11/wilde" cap="Oscar Wilde"
+@ photo id="eng12/passive-sign" cap="A trespass warning"
+@ photo id="eng8/classroom-sankhu" cap="Children at school"
+```
+
+### Model answer D1: selfishness and redemption (10 marks)
+
+**Introduction.** "The Selfish Giant" is a literary fairy tale by **Oscar Wilde** from *The Happy Prince and Other Tales* (1888). On the surface it is a children's story, but it carries a serious lesson about greed, love and forgiveness.
+
+**Selfishness as punishment.**
+
+1. The Giant returns after **seven years** with the Cornish ogre and finds children playing in his garden.
+2. He drives them out, builds a **high wall** and puts up the notice **TRESPASSERS WILL BE PROSECUTED**.
+3. Because of this, **Spring, Summer and Autumn never come**; only Snow, Frost, North Wind and Hail settle in his garden.
+4. The Giant cannot understand why spring is late; he does not see that **his selfishness is the cause**.
+
+**Redemption.**
+
+5. A **linnet's song** and the scent of flowers show that the children have crept in through a hole in the wall.
+6. He sees **one small boy**, too little to climb the tree, crying, and his heart **melts**.
+7. He lifts the boy into the tree, **breaks down the wall** and gives the garden to the children.
+8. Years later the Giant dies in peace, having learnt that **"the children are the most beautiful flowers of all."**
+
+| Before | After |
+|---|---|
+| Wall and notice | Wall destroyed |
+| Winter all year | Spring returns |
+| Lonely, cold, angry | Loved, warm, happy |
+
+**Conclusion.** Wilde shows that selfishness isolates a person, while generosity brings back the joy of life.
+
+### Model answer D2: symbols and allegory (10 marks)
+
+**Introduction.** A story is an **allegory** when its characters and objects stand for larger ideas. Wilde's tale has clear symbols.
+
+1. The **garden** stands for the world, or for the human heart.
+2. The **wall** stands for selfishness and the barriers that separate people.
+3. The **seasons** show moral conditions: winter is the result of a cold heart; spring is the result of love.
+4. The **children** stand for innocence and the future.
+5. The **small boy** who cannot climb is the one who touches the Giant most. He is a symbol of the weak who need help.
+6. The **wounds on the boy's hands and feet**, which the Giant sees later, and the words *"Today you shall come with me to my garden, which is Paradise"* suggest that the boy is **Christ**.
+7. The **white blossoms** on the Giant's grave give a Christian ending of peace.
+8. Wilde, a leader of the Aesthetic movement, wrote in simple, **musical language** with personification (Frost and Hail "dance").
+
+| Symbol | Meaning |
+|---|---|
+| Wall | Selfishness |
+| Winter | Cold-heartedness |
+| Spring | Love and kindness |
+| Boy | Innocence, Christ |
+
+**Conclusion.** The tale works at two levels: a charming story for children and a moral parable for adults.

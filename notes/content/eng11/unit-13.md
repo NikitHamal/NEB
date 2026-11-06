@@ -450,3 +450,50 @@ their outward details in every generation, and should; what must be preserved is
 the relationship of respect between the community, its ancestors and the natural
 world.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain Frank LaPena's view of tradition. <span class="marks">[10]</span>
+2. How do the essay's ideas apply to living traditions in Nepal? <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="3" ratio="1.0" caption="Living traditions of Nepal. A Sakela dance by Kirat Rai women, the Dashain tika blessing and the Indra Jatra chariot procession: traditions learnt from elders and kept alive by taking part."
+@ photo id="nep12/sakela-rai" cap="Sakela dance, Rai women"
+@ photo id="soc10/dashain-tika" cap="Dashain tika"
+@ photo id="nep11/indra-jatra" cap="Indra Jatra chariot"
+```
+
+### Model answer D1: LaPena's view (10 marks)
+
+**Introduction.** **Frank LaPena** (1937–2019), a Nomtipom Wintu artist, dancer and professor, writes from inside the tradition he describes.
+
+1. **Thesis:** tradition is a **living practice**, not a collection of facts or objects.
+2. It **belongs to a community**.
+3. Receiving it creates a **duty** to live it and pass it on.
+4. A **traditional person** is defined by **participation** (ceremony, obligation, discipline), not by knowledge or ownership.
+5. Tradition is learnt from **elders**, **orally** and **by doing**.
+6. Knowledge is **earned**; some of it is sacred and restricted.
+7. Ceremonial art is made for **use**, not display; an object in a museum is cut off from the setting that gave it meaning.
+8. Living traditions **change**, but the relationship behind them must not.
+
+| Museum view | LaPena's view |
+|---|---|
+| Object | Practice |
+| Display | Use |
+| Owner | Community |
+
+**Conclusion.** For LaPena a tradition survives only when people live it.
+
+### Model answer D2: living traditions in Nepal (10 marks)
+
+1. **Sakela** of the Kirat Rai people is learnt by taking part in the dance, as LaPena says.
+2. **Dashain tika** is received from elders, with duty to give blessings later.
+3. **Indra Jatra** keeps the community together through a shared procession.
+4. The knowledge passes **orally**: stories, songs and rules are told by grandparents.
+5. Some rituals are **restricted** to priests or special groups.
+6. **Change** occurs: new clothes, music and media, but the meaning stays.
+7. Danger: when traditions are only **performed for tourists**, they lose their living meaning.
+8. We should **respect elders**, **take part** and **teach** younger people.
+
+**Conclusion.** Tradition lives in people, not in books or museums.

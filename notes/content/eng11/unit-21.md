@@ -474,3 +474,37 @@ the noun. Always test the word in its own sentence.
 **29.** Preposition — it relates the noun phrase *the bank and the post office* to *the shop*.
 **30.** Conjunction — it joins a subordinate clause to the main clause.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the eight word classes with examples and the rules for uncountable nouns and contracted forms. <span class="marks">[10]</span>
+
+### Model answer D1: word classes (10 marks)
+
+**Introduction.** A **word class** (part of speech) is decided by the **job the word does in that sentence**, not by its spelling. English has eight classes plus determiners.
+
+| Class | Job | Example |
+|---|---|---|
+| Noun | names a person, place, thing or idea | *Pokhara, honesty* |
+| Pronoun | replaces a noun | *she, they, it* |
+| Verb | action or state | *run, is* |
+| Adjective | describes a noun | *tall, honest* |
+| Adverb | describes a verb, adjective or adverb | *quickly, very* |
+| Preposition | shows relation | *in, on, between* |
+| Conjunction | joins words or clauses | *and, because* |
+| Determiner | introduces a noun | *a, the, some, my* |
+
+**Rules.**
+
+1. The same word can change class: *Light* (noun), *a light bag* (adjective), *to light a lamp* (verb).
+2. **Uncountable nouns** have no plural and no *a/an*: *information, advice, furniture, luggage, equipment, news*.
+3. Use **a piece of** to count them: *a piece of advice*.
+4. They take a **singular verb**: *The news is good.*
+5. **Contractions** join words with an apostrophe: *I'm, don't, can't, won't, it's (it is), who's (who is)*.
+6. **its** (possessive) has no apostrophe; **it's** means *it is* or *it has*.
+7. Avoid contractions in **formal writing**.
+8. **Dictionary use:** find the class label (n., v., adj.), the pronunciation, the meaning, and example sentences.
+
+**Conclusion.** Always ask: what job does the word do here?

@@ -500,3 +500,56 @@ was ready to perish for it; here he surrenders the last of it, and places himsel
 lower than the man who ruined him. Everything afterwards — Makar's confession, the
 release order, Aksionov's death — is consequence rather than struggle.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Narrate Aksionov's sufferings and explain how he changes in prison. <span class="marks">[10]</span>
+2. Discuss the theme of forgiveness and the meaning of the title. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.4" caption="Truth and justice. Leo Tolstoy (1897) and Eleanor Roosevelt holding the Universal Declaration of Human Rights, a document about fair trial and dignity."
+@ photo id="eng10/tolstoy" cap="Leo Tolstoy, 1897"
+@ photo id="eng12/udhr-roosevelt" cap="Universal Declaration of Human Rights"
+```
+
+### Model answer D1: Aksionov's suffering and change (10 marks)
+
+**Introduction.** In Leo Tolstoy's story (1872), a good merchant is punished for a crime he did not do. The title comes from a Russian proverb.
+
+**His sufferings.**
+
+1. Aksionov, a merchant of **Vladimir**, ignores his wife's warning dream and travels to the **Nizhny fair**.
+2. At an inn a fellow merchant is **murdered**, and a **blood-stained knife** is found in Aksionov's bag.
+3. The police do not believe him; he is **flogged** and sent to **Siberia for twenty-six years**.
+4. His wife asks, *"Was it not you who did it?"*, and his last hope of human help dies.
+
+**His change.**
+
+5. He **stops petitioning** the authorities and turns to prayer.
+6. In prison he becomes **"Grandfather"** and **"The Saint"**, loved by the other prisoners for his calm.
+7. Makar Semyonich, the real murderer, arrives; Aksionov **knows the truth** but chooses silence.
+8. When Makar confesses, Aksionov **forgives** him, and he dies soon after in peace.
+
+| Stage | Aksionov |
+|---|---|
+| Before | Cheerful, trusting |
+| In prison | Sad, then prayerful |
+| End | Saintly, forgiving |
+
+**Conclusion.** Suffering does not destroy Aksionov; it makes him wise and gentle.
+
+### Model answer D2: forgiveness and the title (10 marks)
+
+**Introduction.** The proverb *"God sees the truth, but waits"* means that justice is slow but certain.
+
+1. **Human justice fails:** the court trusts the evidence of the knife and not the man's character.
+2. **Divine justice waits:** the truth is revealed only after twenty-six years, when Makar's tunnel is discovered.
+3. **Forgiveness is the climax:** Aksionov could harm Makar by telling the officers, but he stays silent.
+4. Makar's **confession** shows that guilt is a heavy punishment.
+5. Aksionov says, *"God will forgive you,"* and shows that **real freedom is inner peace**.
+6. The wife's words show how **suspicion** can destroy trust.
+7. Tolstoy, a moral thinker, believes in **Christian love and humility**.
+8. The release order arrives after his death, so **earthly justice comes too late**.
+
+**Conclusion.** The story teaches that patience, faith and forgiveness are greater than revenge.

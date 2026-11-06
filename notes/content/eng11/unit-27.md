@@ -403,3 +403,33 @@ takes *would* + V1, and the meaning is negative, because he is in fact here.
 **25.** If you **heat** ice, it melts. — a zero conditional uses the present in both clauses.
 **26.** I wish I **had taken** the earlier flight. — a past regret takes *wish* + past perfect.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the four types of conditional sentences with rules and examples. <span class="marks">[10]</span>
+
+### Model answer D1: conditionals (10 marks)
+
+**Introduction.** A **conditional sentence** has an *if*-clause (condition) and a main clause (result).
+
+| Type | Form | Meaning | Example |
+|---|---|---|---|
+| 0 | if + present, present | Always true | If you heat ice, it melts. |
+| 1 | if + present, **will** + V1 | Real future possibility | If it rains, we will stay in. |
+| 2 | if + past (*were* for all persons), **would** + V1 | Unreal present | If I were rich, I would travel. |
+| 3 | if + had + V3, **would have** + V3 | Unreal past, regret | If he had studied, he would have passed. |
+
+**Rules.**
+
+1. **No will/would** in the *if*-clause.
+2. **Unless** = *if not*.
+3. **Provided that / as long as** = only if.
+4. Use **might/could** in the main clause for less certainty.
+5. **Mixed conditional:** *If I had studied medicine, I would be a doctor now.*
+6. **Inversion** in formal English: *Had he known, he would have come. Were I you, I would go.*
+7. Put a **comma** after the *if*-clause when it comes first.
+8. **Wish** takes the same pattern: *I wish I were taller.*
+
+**Conclusion.** Decide how real the condition is, then match the pattern.

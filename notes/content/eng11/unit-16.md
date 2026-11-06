@@ -765,3 +765,49 @@ which is a far worse thing. Because the essay stops there, with no reassurance a
 no conclusion, the question is left with the reader rather than with the writer —
 which is precisely where she wants it.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the writer defines poverty in "What is Poverty?". <span class="marks">[10]</span>
+2. Discuss why the usual solutions (school, clinic, welfare) fail and what the real obstacle is. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="2" ratio="1.4" caption="Poverty seen. President Lyndon Johnson's poverty tour in Appalachia (1964) and child labour in a brick kiln in Nepal: poverty as a trap in two countries."
+@ photo id="eng11/appalachia-poverty-1964" cap="Poverty tour, Appalachia, 1964"
+@ photo id="soc10/brick-kiln" cap="Child labour, brick kiln, Nepal"
+```
+
+### Model answer D1: the definition of poverty (10 marks)
+
+**Introduction.** "What is Poverty?" (1971) is an anonymous American **definition essay** sent from West Virginia to the editor George Henderson; nothing is known about "Jo Goodwin Parker".
+
+1. The narrator is a **young woman made old by hardship**, living eight miles from town with three children on **seventy-eight dollars a month**.
+2. She says poverty is **not only a lack of money**; it is a **total condition**.
+3. It is a **permanent smell**.
+4. It is **permanent tiredness**.
+5. It is **dirt that cannot be washed away** without soap or hot water.
+6. It is **insects, illness and danger**.
+7. **Working made her poorer:** she earned twenty-two dollars a week and paid twenty for childcare; her children were injured, so she had to stop.
+8. Poverty is a **trap, not a choice**.
+
+| Idea | Meaning |
+|---|---|
+| Smell, dirt | Daily humiliation |
+| Work trap | No way out |
+| Shame | Cost of asking for help |
+
+**Conclusion.** The writer makes the reader feel what statistics cannot show.
+
+### Model answer D2: failed solutions and the real obstacle (10 marks)
+
+1. **Asking for help** costs shame: the wrong office, the repeated story, the waiting, **"the red cloud of shame"**.
+2. **Schools** cannot help children who have no books and poor health.
+3. **Clinics** are eight miles away, and the lift must be paid for "one way or another".
+4. **Welfare** is seventy-eight dollars and a humiliation.
+5. Her greatest obstacle is **prejudice**.
+6. The **respectable neighbour** complains about immoral mothers while demanding a price for a car ride.
+7. The tone is **direct, bitter and dignified**; the style is plain and the sentences are short.
+8. **Theme:** poverty is a social condition, and the poor need respect as well as money.
+
+**Conclusion.** The essay asks the comfortable reader to understand, not to judge.

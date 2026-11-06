@@ -394,3 +394,46 @@ the adjective *salty* after *so* and attach the second sentence with *that*.
 **25.** He is the man **who** helped us during the flood. — *which* cannot refer to a person.
 **26.** The pen **which my uncle gave me** was lying on the desk. — the clause must stand next to its own noun.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain relative clauses (defining and non-defining) and the main connectives. <span class="marks">[10]</span>
+
+### Model answer D1: relative clauses and connectives (10 marks)
+
+**Introduction.** A **relative clause** goes **immediately after the noun** it describes.
+
+| Pronoun | Use |
+|---|---|
+| who / whom | people (subject / object) |
+| which | things |
+| whose | possession |
+| where / when / why | place / time / reason |
+| that | people or things, defining only |
+
+**Defining and non-defining.**
+
+1. A **defining** clause identifies the noun: **no commas**, *that* allowed, and the object pronoun may be dropped: *The book (that) I read was long.*
+2. A **non-defining** clause adds extra information: **commas**, no *that*, and the pronoun cannot be dropped: *Pokhara, which is a lake city, is beautiful.*
+3. **Whom** is formal; use it after a preposition: *the man to whom I spoke*.
+
+**Connectives.**
+
+| Meaning | Connectives |
+|---|---|
+| Addition | and, moreover, in addition |
+| Contrast | but, although, however, whereas |
+| Reason | because, since, as |
+| Result | so, therefore, as a result |
+| Purpose | so that, in order to |
+| Time | when, while, before, after, until |
+
+4. **Although/though** + clause; **despite** + noun or -ing.
+5. **However** begins a sentence and takes a comma.
+6. **Because of** + noun; **because** + clause.
+7. Use **so that** with *can/could/will*.
+8. A **semicolon** can join closely related sentences.
+
+**Conclusion.** Check the pronoun, the commas and what follows the connective.

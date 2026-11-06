@@ -507,3 +507,56 @@ his mother will find him in a moment — the snakes having been imaginary all al
 the game has become real and the boy has been lost for good. Dahl provides no
 evidence for either, and that refusal is the source of the ending's power.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe the game the boy invents in "The Wish" and show how imagination becomes fear. <span class="marks">[10]</span>
+2. Discuss the ending and the author's technique. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="2" ratio="1.4" caption="Dahl and childhood. Roald Dahl's leather flying helmet from his RAF days, and children outside a school: the author and the age of the story's hero."
+@ photo id="eng11/dahl-helmet" cap="Roald Dahl's flying helmet"
+@ photo id="eng8/classroom-sankhu" cap="Children outside a classroom"
+```
+
+### Model answer D1: the game and the fear (10 marks)
+
+**Introduction.** Roald Dahl (1916–1990), a British writer of Norwegian parents, published "The Wish" in *Someone Like You* (1953). It shows how a child's imagination can create terror.
+
+**The game.**
+
+1. A small boy is alone in the hall; he picks a **scab** from his knee and then studies the large **red, black and yellow carpet**.
+2. He invents a game: **black** is poisonous snakes, **red** is red-hot coals, **yellow** is safe.
+3. The prize for crossing the hall is **a puppy** for his birthday the next day.
+
+**From imagination to fear.**
+
+4. As he walks, the danger becomes **real to him**; the snakes seem to stir and watch.
+5. He shows **physical signs of fear**: his heart beats faster, his breath is short.
+6. A **wide band of black** forces him to take an enormous stride.
+7. He loses his balance, **whirls his arms** and puts his hand down on black. He **screams**.
+8. The tension grows by **short sentences** and close attention to the child's feelings.
+
+| Colour | Boy's meaning |
+|---|---|
+| Black | Snakes: death |
+| Red | Hot coals: pain |
+| Yellow | Safe |
+
+**Conclusion.** Dahl shows that a child's game can feel as serious as real danger.
+
+### Model answer D2: ending and technique (10 marks)
+
+**Introduction.** The story ends in a way that leaves the reader to decide what happened.
+
+1. The ending takes place **outside in the sunshine**, as the mother searches for the boy.
+2. The reader is left to wonder if the **boy died** or only imagined his fall.
+3. It is a story about **perspective**: what is small to an adult is huge to a child.
+4. Dahl uses a **third-person limited** point of view, so we know only what the boy knows.
+5. **Sensory language** (the carpet's colours, the sounds) makes the scene vivid.
+6. **Suspense** grows step by step as he crosses.
+7. The **puppy** shows his innocent wish; a harmless wish leads to a terrible risk.
+8. Dahl's trademark is the **macabre twist** in an ordinary setting.
+
+**Conclusion.** Dahl uses a simple setting, a child's mind and an open ending to create fear and wonder.

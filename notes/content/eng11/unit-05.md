@@ -499,3 +499,56 @@ only that he will not kill anyone if he is paid. It gives the story its title an
 states its theme — that the end of the war brought ordinary people a new name for
 their danger rather than safety from it.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe Jonathan Iwegbu's attitude to life after the war and the way his family rebuilds. <span class="marks">[10]</span>
+2. Explain the meaning of "Civil Peace" and the role of the night robbers. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="2" ratio="1.4" caption="Work and survival. Chinua Achebe (2008) and a family planting paddy in Nepal: ordinary people who rebuild life through hard work."
+@ photo id="eng11/achebe" cap="Chinua Achebe, 2008"
+@ photo id="nep12/ropai" cap="Planting paddy"
+```
+
+### Model answer D1: Jonathan's attitude and rebuilding (10 marks)
+
+**Introduction.** Chinua Achebe (1930–2013), the Nigerian author of *Things Fall Apart*, set "Civil Peace" (1972) just after the Biafran War (1967–70). The hero, Jonathan Iwegbu, survives with courage and humour.
+
+**His attitude.**
+
+1. He counts **five "inestimable blessings"**: his own head, his wife Maria's and those of three of his four children.
+2. He often says, **"Nothing puzzles God,"** accepting fate with faith.
+3. He is **practical**: he guards his bicycle by burying it.
+4. He is **hard-working**: after the war the bicycle becomes a taxi.
+
+**How the family rebuilds.**
+
+5. The taxi earns **115 pounds in two weeks**, which takes them back to **Enugu**.
+6. Their small **zinc house** still stands among ruins.
+7. The **whole family works**: mangoes, akara balls and a palm-wine bar, since the coal mine will not reopen.
+8. At the treasury, Jonathan gets a **twenty-pound ex gratia** payment, which the crowd calls "egg-rasher".
+
+| Source | Result |
+|---|---|
+| Bicycle taxi | 115 pounds |
+| Family trade | Daily income |
+| Ex gratia | 20 pounds |
+
+**Conclusion.** Jonathan shows that hope and work, not complaints, rebuild a life.
+
+### Model answer D2: the title and the robbers (10 marks)
+
+**Introduction.** The title is **ironic**: the war has ended, but there is no real peace.
+
+1. **"Civil Peace"** is the name of the peace after the **civil war**, but ordinary people still face poverty and crime.
+2. At night, thieves ("the Wicked") come to the house and demand money.
+3. Jonathan and his family **cry "Thief! Thief!"** for neighbours, police and soldiers, but **nobody comes**.
+4. The leader of the thieves mockingly says that the police will not help, and **"This time na Civil Peace"**: law has collapsed.
+5. Jonathan **hands over the whole twenty pounds** of his ex gratia money.
+6. The thieves take it, wish the family a good night and go; the family is **frightened but safe**.
+7. Next morning Jonathan shrugs it off, because the money was **"egg-rasher" money**, easy come, easy go, and he says again that **nothing puzzles God**; the family is back at work.
+8. Achebe uses **irony**, a repeated refrain, the bicycle as a symbol and **Nigerian Pidgin English**; the message is that **resilience** is the real peace.
+
+**Conclusion.** Achebe shows that the end of war does not remove danger, but a strong spirit can survive it.

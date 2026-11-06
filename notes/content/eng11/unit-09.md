@@ -449,3 +449,55 @@ the goodbye into a short interval, and the last two lines promise return in spit
 of any distance. The stanza therefore ends on the idea of coming back, not of
 going away, and the final movement of the poem is towards the beloved.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Analyse the similes, hyperbole and form of "A Red, Red Rose". <span class="marks">[10]</span>
+2. Explain the stanza-by-stanza meaning and the theme of the poem. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="3" ratio="1.0" caption="Poets of song and nature. Robert Burns (after Nasmyth, 1794), William Wordsworth (portrait by Pickersgill) and Walt Whitman: three poets in the units on poetry."
+@ photo id="eng11/burns" cap="Robert Burns (1794)"
+@ photo id="eng10/wordsworth" cap="William Wordsworth"
+@ photo id="eng10/whitman" cap="Walt Whitman"
+```
+
+### Model answer D1: devices and form (10 marks)
+
+**Introduction.** "A Red, Red Rose" (1794) by **Robert Burns** is a four-stanza **Scots love song**, built from older folk material.
+
+**Devices.**
+
+1. **Two similes** in stanza 1: *my love is like a red, red rose* and *like the melody that's sweetly played in tune*.
+2. **Hyperbole:** he will love her **until the seas go dry** and the rocks melt with the sun.
+3. **Repetition:** *red, red; till a' the seas gang dry*.
+4. **Symbolism:** the **rose** stands for beauty, freshness and love.
+5. **Imagery** from nature: rose, seas, rocks, sand.
+
+**Form.**
+
+6. **Four quatrains** in the **ballad stanza**.
+7. Lines alternate **iambic tetrameter** and **iambic trimeter**.
+8. The rhyme scheme is **ABCB**.
+
+| Device | Example |
+|---|---|
+| Simile | Like a red, red rose |
+| Hyperbole | Till the seas run dry |
+| Repetition | Red, red |
+
+**Conclusion.** Simple words and strong images give the poem its musical, folk-song quality.
+
+### Model answer D2: meaning and theme (10 marks)
+
+1. **Stanza 1:** praises the beloved as fresh as a new rose and as sweet as music.
+2. **Stanza 2:** she is so beautiful that he will love her **until the seas dry**.
+3. **Stanza 3:** he will love her **until the rocks melt** and the sands of life run out.
+4. **Stanza 4:** a **farewell**: he must leave but promises to return **though it were ten thousand miles**.
+5. The poem moves from **praise** to **promise** to **parting**.
+6. **Tone:** passionate, tender and sincere.
+7. **Theme:** love that lasts for ever and can cross distance and time.
+8. The simple **folk language** makes the feeling universal.
+
+**Conclusion.** The poem says that true love is deep, lasting and as natural as a flower.

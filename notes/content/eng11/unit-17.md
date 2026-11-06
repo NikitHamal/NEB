@@ -780,3 +780,43 @@ research only decides whether they kill a million people or a hundred. The claim
 is therefore modest and defensible — research buys us time and warning, which is
 all that can honestly be promised.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Summarise the Geneva story and explain how scientists solved the problem of detecting nuclear tests. <span class="marks">[10]</span>
+2. Discuss the author's answer to "If you are so clever, why are you so poor?". <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="2" ratio="1.4" caption="Scientists. Vladimir Keilis-Borok, the author of the essay, and Stephen Hawking in 2008: scientists whose joy in discovery matters more than money."
+@ photo id="eng11/keilis-borok" cap="Vladimir Keilis-Borok"
+@ photo id="nep12/hawking" cap="Stephen Hawking, 2008"
+```
+
+### Model answer D1: the Geneva story (10 marks)
+
+**Introduction.** The essay is by **Vladimir Keilis-Borok (1921–2013)**, a Russian mathematical geophysicist, later at UCLA, and co-director of the earthquake-prediction programme at the ICTP in Trieste.
+
+1. In **1960**, at the height of the Cold War, he was summoned from Moscow to **Geneva**.
+2. The American scientist **Frank Press** had quoted his work.
+3. The problem: if the powers **ban nuclear tests** and one cheats with a secret **underground explosion**, how can the others detect it?
+4. The answer lay in **seismology**: explosions and earthquakes shake the ground differently.
+5. Experts from both sides of the **Iron Curtain** succeeded because they were all scientists.
+6. They shared a language of **hard evidence**, **ranking by expertise alone** and **persistent self-criticism**.
+7. Their solution let politicians reach the **nuclear test ban**.
+8. Lesson: a scientist is never lonely abroad.
+
+**Conclusion.** Science can build bridges where politics builds walls.
+
+### Model answer D2: the answer to the taunt (10 marks)
+
+1. The essay opens with the taunt **"If you are so clever, why are you so poor?"**
+2. He answers with **Tolstoy**: a scientist, like a writer, is someone who **cannot live without** the work.
+3. In place of money come **freedom**, **camaraderie**, **independence**, **self-earned promotion** and the **joy of discovery**.
+4. Science is a **common human language**.
+5. It depends on **honesty**: evidence, not rank, decides.
+6. The Geneva story proves that science serves **peace**.
+7. His closing line: **"while there is science, there is hope of survival and well-being for all of us."**
+8. The tone is **warm, personal and hopeful**.
+
+**Conclusion.** Real wealth for a scientist is freedom and discovery, and science is a token of humankind's survival.

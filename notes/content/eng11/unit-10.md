@@ -460,3 +460,53 @@ eyes, taste — to the sweeping "sans everything" empties the life out completel
 There is no consolation offered and no rhyme to soften it; the play's most famous
 line is a line of pure absence.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain the extended metaphor "All the world's a stage" and list the seven ages. <span class="marks">[10]</span>
+2. Discuss the form, tone and meaning of the speech. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="3" ratio="1.0" caption="Stage and speech. The Chandos-type portrait of William Shakespeare, the proscenium arch of a theatre and the interior of the Royal Dramatic Theatre in Stockholm: the world of the stage."
+@ photo id="bcaeng/shakes" cap="William Shakespeare"
+@ photo id="eng12/proscenium" cap="Theatre proscenium arch"
+@ photo id="eng12/dramaten" cap="Royal Dramatic Theatre, Stockholm"
+```
+
+### Model answer D1: the metaphor and the seven ages (10 marks)
+
+**Introduction.** The speech is spoken by **Jaques** in Shakespeare's *As You Like It*, **Act II, Scene vii**, in the Forest of Arden. It is a dramatic speech, and Jaques's gloom is his own.
+
+**The extended metaphor.** The **world is a stage**; people are **actors**; birth and death are **entrances and exits**; and each person plays **seven parts**.
+
+**The seven ages.**
+
+1. **Infant:** mewling and puking in the nurse's arms.
+2. **Schoolboy:** with a satchel and a shining face, creeping unwillingly to school.
+3. **Lover:** sighing like a furnace and writing a ballad to his lady.
+4. **Soldier:** full of strange oaths, quick to quarrel, seeking the "bubble reputation".
+5. **Justice:** with a round belly and wise sayings.
+6. **Pantaloon:** thin, with spectacles and a shrunk voice.
+7. **Second childishness:** without teeth, eyes, taste, everything.
+
+| Age | Image |
+|---|---|
+| 1 | Infant |
+| 4 | Soldier |
+| 7 | Second childhood |
+
+**Conclusion.** Shakespeare compares human life to a play with a fixed beginning, middle and end.
+
+### Model answer D2: form, tone and meaning (10 marks)
+
+1. The speech is in **blank verse**: unrhymed iambic pentameter.
+2. It is **one unbroken verse paragraph**, like the flow of life.
+3. The **tone** is cynical, witty and melancholy.
+4. Each age has a **vivid image**, many from comic observation.
+5. The speech moves from **helplessness to helplessness**: life is a circle.
+6. **Theme:** life is short, role-bound and ends in loss.
+7. It is **not the whole play's view**: *As You Like It* is a comedy that praises love and kindness.
+8. The metaphor remains one of the most quoted lines in English.
+
+**Conclusion.** The speech gives a sharp, humorous picture of life, but it is only Jaques's opinion.

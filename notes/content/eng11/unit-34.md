@@ -388,3 +388,41 @@ passage* means the passage's own form; changing it to *reluctant* loses the mark
 sentences.
 **15.** Read the questions, underlining the key word in each, before reading the passage.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (7 to 10 marks each, for deeper revision)**
+
+1. Explain a step-by-step strategy for an unseen reading passage (15 marks). <span class="marks">[10]</span>
+
+```photogrid label="34.H" cols="3" ratio="1.0" caption="Passages from real life. A newspaper page, a letter to the editor and an old letterhead: unseen passages are drawn from articles, letters and notices like these."
+@ photo id="eng11/newspaper" cap="Newspaper page"
+@ photo id="eng12/letter-to-editor" cap="Letter to the editor"
+@ photo id="eng11/letterhead" cap="Old letterhead"
+```
+
+### Model answer D1: the strategy for an unseen passage (10 marks)
+
+**Introduction.** Question 1 is **15 marks** on an unseen passage of 350–500 words with six to nine mixed questions, in about **30–35 minutes**.
+
+**Strategy.**
+
+1. **Read the questions first**, so you know what to look for.
+2. **Skim** the passage for its shape (title, first and last sentences of paragraphs).
+3. **Read closely with a pencil**, marking where each answer lives.
+4. **Skimming** finds the shape; **scanning** finds one item such as a date or name.
+5. **True/false:** find the sentence and give the evidence.
+6. **Reference questions** (*What does "it" refer to?*): substitute your answer and test it.
+7. **Vocabulary in context:** use the words around the unknown word and check the class.
+8. **Inference and opinion:** answer in your own words, with a short reason from the text.
+
+| Question type | Rule |
+|---|---|
+| Fact | One exact sentence |
+| Reference | Substitute and test |
+| Meaning | Use context |
+| Opinion | Reason from the text |
+
+**Time plan:** 5 minutes for questions and skimming, 20 for reading and answering, 5 for checking.
+
+**Conclusion.** A clear method saves time and wins marks.
