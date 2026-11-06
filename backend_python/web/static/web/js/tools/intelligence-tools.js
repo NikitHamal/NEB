@@ -158,7 +158,7 @@ function renderList(){
     b.type="button"; b.className="di-tool"; b.dataset.id=t.id;
     var st = state.readyMap[t.id];
     var cls = st===true ? "ready" : st===false ? "off" : "off";
-    var label = st===true ? "Ready" : st===false ? "Setup" : "—";
+    var label = st===true ? "Ready" : st===false ? "Setup" : "·";
     b.innerHTML='<span class="material-symbols-outlined">'+esc(t.icon||"build")+'</span><div class="di-tool-main"><div class="di-tool-title">'+esc(t.label)+'</div><div class="di-tool-sub">'+esc(t.desc.slice(0,52))+' · '+esc(t.size)+'</div></div><span class="di-tool-state '+cls+'">'+label+'</span>';
     b.addEventListener("click",function(){ selectTool(t.id); });
     el.appendChild(b);
@@ -195,7 +195,7 @@ function selectTool(id){
 
 async function updateModelBar(t){
   if(!t.files || !t.files.length){
-    $("diModelStatus").textContent="Ready — no download needed";
+    $("diModelStatus").textContent="Ready: no download needed";
     $("diSetupBtn").style.display="none";
     $("diRemoveBtn").style.display="none";
     return;
@@ -223,13 +223,13 @@ function renderWhisperSTT(root, tool){
   <div class="di-work">\
     <div style="padding:14px;border-radius:12px;background:var(--md-surface);border:1px solid var(--md-outline-variant);display:flex;gap:12px;align-items:center">\
       <span class="material-symbols-outlined" style="font-size:28px;color:var(--md-primary)">mic</span>\
-      <div style="flex:1"><div style="font-weight:700">Voice → Text — Whisper</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">tiny.en 39MB to turbo 400MB · English+Hindi · VAD · timestamps · 100% offline</div></div>\
+      <div style="flex:1"><div style="font-weight:700">Voice → Text: Whisper</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">tiny.en 39MB to turbo 400MB · English+Hindi · VAD · timestamps · 100% offline</div></div>\
       <a href="/app/tools/whisper/" target="_blank" class="md-btn md-btn-primary" style="gap:6px"><span class="material-symbols-outlined">open_in_new</span> Open</a>\
     </div>\
     <div style="border:1px solid var(--md-outline-variant);border-radius:12px;overflow:hidden;height:72vh;min-height:520px;background:var(--md-surface-container-lowest)">\
       <iframe src="/app/tools/whisper/" style="width:100%;height:100%;border:0" loading="lazy" title="Whisper STT"></iframe>\
     </div>\
-    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Whisper page — also available directly at <a href="/app/tools/whisper/" style="color:var(--md-primary)">/tools/whisper/</a>. One-time model download, then offline forever.</div>\
+    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Whisper page: also available directly at <a href="/app/tools/whisper/" style="color:var(--md-primary)">/tools/whisper/</a>. One-time model download, then offline forever.</div>\
   </div>';
 }
 function renderKokoroTTS(root, tool){
@@ -237,13 +237,13 @@ function renderKokoroTTS(root, tool){
   <div class="di-work">\
     <div style="padding:14px;border-radius:12px;background:var(--md-surface);border:1px solid var(--md-outline-variant);display:flex;gap:12px;align-items:center">\
       <span class="material-symbols-outlined" style="font-size:28px;color:var(--md-primary)">volume_up</span>\
-      <div style="flex:1"><div style="font-weight:700">Text → Voice — Kokoro</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">Kokoro 82M tiny 70MB to medium 300MB · MMS Hindi 38MB · 11 voices · streaming · offline</div></div>\
+      <div style="flex:1"><div style="font-weight:700">Text → Voice: Kokoro</div><div style="font-size:.82rem;color:var(--md-on-surface-variant)">Kokoro 82M tiny 70MB to medium 300MB · MMS Hindi 38MB · 11 voices · streaming · offline</div></div>\
       <a href="/app/tools/tts/" target="_blank" class="md-btn md-btn-primary" style="gap:6px"><span class="material-symbols-outlined">open_in_new</span> Open</a>\
     </div>\
     <div style="border:1px solid var(--md-outline-variant);border-radius:12px;overflow:hidden;height:72vh;min-height:520px;background:var(--md-surface-container-lowest)">\
       <iframe src="/app/tools/tts/" style="width:100%;height:100%;border:0" loading="lazy" title="Kokoro TTS"></iframe>\
     </div>\
-    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Kokoro page — also at <a href="/app/tools/tts/" style="color:var(--md-primary)">/tools/tts/</a>. Voices: af_heart/bella/sky/nicole/sarah/adam/michael/bf_emma/…</div>\
+    <div style="font-size:.82rem;color:var(--md-on-surface-variant)">Opens the full Kokoro page: also at <a href="/app/tools/tts/" style="color:var(--md-primary)">/tools/tts/</a>. Voices: af_heart/bella/sky/nicole/sarah/adam/michael/bf_emma/…</div>\
   </div>';
 }
 
@@ -483,10 +483,10 @@ async function runHandwritten(tool){
     }
     var tokens = seq.slice(1).map(function(id){ return vocab[id] || ""; }).filter(Boolean);
     var latex = tokens.join(" ").replace(/\s+/g," ").replace(/\\ /g,"\\").trim();
-    latex = latex.replace(/<eos>|<bos>|<pad>/g,"").trim() || "\\text{(no result — try clearer writing)}";
+    latex = latex.replace(/<eos>|<bos>|<pad>/g,"").trim() || "\\text{(no result: try clearer writing)}";
     $("hwLatex").textContent=latex;
     renderKatex(latex);
-    showSnack("Done — offline");
+    showSnack("Done: offline");
   }catch(e){
     console.error(e);
     $("hwLatex").textContent="Error: "+(e.message||e);
@@ -501,7 +501,7 @@ var scanWorker=null;
 function renderScan(root, tool){
   root.innerHTML='\
   <div class="di-work">\
-    <div class="di-drop" id="scanDrop"><span class="material-symbols-outlined">document_scanner</span><div><strong>Drop image or PDF page</strong><span class="di-drop-sub">JPG/PNG/PDF — printed NEB papers, notes. Runs offline.</span></div><input type="file" id="scanFile" accept="image/*,application/pdf" hidden></div>\
+    <div class="di-drop" id="scanDrop"><span class="material-symbols-outlined">document_scanner</span><div><strong>Drop image or PDF page</strong><span class="di-drop-sub">JPG/PNG/PDF: printed NEB papers, notes. Runs offline.</span></div><input type="file" id="scanFile" accept="image/*,application/pdf" hidden></div>\
     <div id="scanPreview" style="display:none"><img id="scanImg" style="max-width:100%;border-radius:10px;border:1px solid var(--md-outline-variant)"></div>\
     <div style="display:flex;gap:8px;flex-wrap:wrap">\
       <button class="md-btn md-btn-primary" id="scanRun"><span class="material-symbols-outlined">text_fields</span> Extract Text</button>\
@@ -567,12 +567,12 @@ async function doScanOCR(){
     }
     var ret=await scanWorker.recognize(imageSource);
     var text=(ret.data && ret.data.text) ? ret.data.text.trim() : "";
-    if(!text) text="(No text found — try a clearer, higher-contrast scan)";
+    if(!text) text="(No text found: try a clearer, higher-contrast scan)";
     text = text.replace(/\n{3,}/g,"\n\n").trim();
     out.value=text;
     showSnack("Done offline");
   }catch(e){
-    out.value="Error: "+(e.message||e)+"\nTip: retry when online — first run needs ~2MB download.";
+    out.value="Error: "+(e.message||e)+"\nTip: retry when online: first run needs ~2MB download.";
     console.error(e);
   }finally{
     btn.disabled=false; btn.innerHTML='<span class="material-symbols-outlined">text_fields</span> Extract Text';
@@ -653,16 +653,16 @@ function savePhotoPdf(canvas){
   if(typeof window.jspdf!=="undefined") return;
   var imgData=canvas.toDataURL("image/jpeg",0.88);
   var win=window.open("","_blank");
-  if(!win){ showSnack("Pop-up blocked — instead Save image then use Images → PDF"); return; }
+  if(!win){ showSnack("Pop-up blocked: instead Save image then use Images → PDF"); return; }
   win.document.write('<html><head><title>Scan</title></head><body style="margin:0;display:grid;place-items:center;min-height:100vh;background:#f3f4f6"><img src="'+imgData+'" style="max-width:100%;box-shadow:0 8px 30px rgba(0,0,0,.15)"><script>window.print()<\/script></body></html>');
-  showSnack("Opened print view — Save as PDF there");
+  showSnack("Opened print view: Save as PDF there");
 }
 
 // TABLE
 function renderTable(root, tool){
   root.innerHTML='\
   <div class="di-work">\
-    <div class="di-drop" id="tblDrop"><span class="material-symbols-outlined">table</span><div><strong>Drop table photo</strong><span class="di-drop-sub">Shares OCR — extracts rows to CSV.</span></div><input type="file" id="tblFile" accept="image/*" hidden></div>\
+    <div class="di-drop" id="tblDrop"><span class="material-symbols-outlined">table</span><div><strong>Drop table photo</strong><span class="di-drop-sub">Shares OCR: extracts rows to CSV.</span></div><input type="file" id="tblFile" accept="image/*" hidden></div>\
     <button class="md-btn md-btn-primary" id="tblRun"><span class="material-symbols-outlined">table_rows</span> Extract to CSV</button>\
     <div class="di-result"><div class="di-result-label">CSV</div><textarea id="tblOut" rows="8" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--md-outline-variant);background:var(--md-surface);font-family:monospace;font-size:.85rem" placeholder="Rows appear here…"></textarea>\
       <div class="di-actions" style="margin-top:8px"><button class="md-btn md-btn-outlined" id="tblCopy"><span class="material-symbols-outlined">content_copy</span> Copy CSV</button><button class="md-btn md-btn-outlined" id="tblDl"><span class="material-symbols-outlined">download</span> Download .csv</button></div>\
@@ -720,7 +720,7 @@ document.addEventListener("DOMContentLoaded", async function(){
       });
       $("diModelStatus").textContent="Ready offline · forever";
       btn.style.display="none"; $("diRemoveBtn").style.display="inline-flex";
-      showSnack("Ready — now offline forever");
+      showSnack("Ready: now offline forever");
       await refreshReady();
       selectTool(t.id);
     }catch(e){

@@ -202,13 +202,13 @@
 
     // No status badge shown in app
 
-    var gpa = data.gpa || '—';
+    var gpa = data.gpa || '·';
     document.getElementById('rc-gpa-num').textContent = gpa;
-    document.getElementById('rc-grade').textContent = data.grade ? 'Grade: ' + data.grade : '—';
+    document.getElementById('rc-grade').textContent = data.grade ? 'Grade: ' + data.grade : '·';
 
     var gpaCard = document.getElementById('rc-gpa-card');
     gpaCard.className = 'rc-gpa-card';
-    if (gpa !== '—' && !isNaN(parseFloat(gpa))) {
+    if (gpa !== '·' && !isNaN(parseFloat(gpa))) {
       var score = parseFloat(gpa);
       if (score >= 3.2) {
         gpaCard.classList.add('gpa-high');
@@ -219,11 +219,11 @@
       }
     }
 
-    document.getElementById('rc-name').textContent = data.student_name || '—';
-    document.getElementById('rc-exam').textContent = data.exam || '—';
+    document.getElementById('rc-name').textContent = data.student_name || '·';
+    document.getElementById('rc-exam').textContent = data.exam || '·';
     document.getElementById('rc-batch').textContent = data.batch || document.getElementById('batch').value;
-    document.getElementById('rc-symbol').textContent = data.symbol || '—';
-    document.getElementById('rc-school').textContent = data.school || '—';
+    document.getElementById('rc-symbol').textContent = data.symbol || '·';
+    document.getElementById('rc-school').textContent = data.school || '·';
 
     var tbody = document.getElementById('rc-subjects-body');
     tbody.innerHTML = '';
@@ -239,9 +239,9 @@
             '<div class="subject-name">' + escapeHtml(s.name) + '</div>' +
             (s.code ? '<div class="subject-code">' + escapeHtml(s.code) + '</div>' : '') +
           '</td>' +
-          '<td>' + escapeHtml(s.credit_hour || '—') + '</td>' +
-          '<td><span class="grade-badge ' + clean + '">' + escapeHtml(gradeVal || '—') + '</span></td>' +
-          '<td>' + escapeHtml(s.grade_point || '—') + '</td>';
+          '<td>' + escapeHtml(s.credit_hour || '·') + '</td>' +
+          '<td><span class="grade-badge ' + clean + '">' + escapeHtml(gradeVal || '·') + '</span></td>' +
+          '<td>' + escapeHtml(s.grade_point || '·') + '</td>';
           
         tbody.appendChild(tr);
       });
@@ -330,8 +330,8 @@
       tr.innerHTML = 
         '<td>' + escapeHtml(symbol) + '</td>' +
         '<td class="bulk-name" style="opacity: 0.5;">Checking...</td>' +
-        '<td class="bulk-gpa">—</td>' +
-        '<td class="bulk-grade">—</td>';
+        '<td class="bulk-gpa">-</td>' +
+        '<td class="bulk-grade">-</td>';
       tbody.appendChild(tr);
 
       var csrf = document.querySelector('[name=csrfmiddlewaretoken]');
@@ -355,30 +355,30 @@
           var d = resp.data;
           resultsData.push({
             symbol: symbol,
-            name: d.student_name || '—',
-            gpa: d.gpa || '—',
-            grade: d.grade || '—',
+            name: d.student_name || '·',
+            gpa: d.gpa || '·',
+            grade: d.grade || '·',
             status: resp.cached ? 'Cached' : 'Fresh'
           });
           
-          row.querySelector('.bulk-name').textContent = d.student_name || '—';
+          row.querySelector('.bulk-name').textContent = d.student_name || '·';
           row.querySelector('.bulk-name').style.opacity = '1';
-          row.querySelector('.bulk-gpa').textContent = d.gpa || '—';
+          row.querySelector('.bulk-gpa').textContent = d.gpa || '·';
           row.querySelector('.bulk-gpa').style.color = ''; // reset color
-          row.querySelector('.bulk-grade').textContent = d.grade || '—';
+          row.querySelector('.bulk-grade').textContent = d.grade || '·';
         } else {
           resultsData.push({
             symbol: symbol,
-            name: '—',
-            gpa: '—',
-            grade: '—',
+            name: '·',
+            gpa: '·',
+            grade: '·',
             status: resp.error || 'Failed'
           });
-          row.querySelector('.bulk-name').textContent = '—';
+          row.querySelector('.bulk-name').textContent = '·';
           row.querySelector('.bulk-name').style.opacity = '1';
           row.querySelector('.bulk-gpa').textContent = resp.error || 'Failed';
           row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for failure
-          row.querySelector('.bulk-grade').textContent = '—';
+          row.querySelector('.bulk-grade').textContent = '·';
         }
 
         var delay = resp.cached ? 0 : 500;
@@ -391,18 +391,18 @@
         updateProgress();
         resultsData.push({
           symbol: symbol,
-          name: '—',
-          gpa: '—',
-          grade: '—',
+          name: '·',
+          gpa: '·',
+          grade: '·',
           status: 'Error'
         });
         
         var row = document.getElementById('bulk-row-' + index);
         if (row) {
-          row.querySelector('.bulk-name').textContent = '—';
+          row.querySelector('.bulk-name').textContent = '·';
           row.querySelector('.bulk-gpa').textContent = 'Error';
           row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for error
-          row.querySelector('.bulk-grade').textContent = '—';
+          row.querySelector('.bulk-grade').textContent = '·';
         }
         setTimeout(function() {
           checkNext(index + 1);
@@ -498,7 +498,7 @@
     }).then(function(canvas) {
       var link = document.createElement('a');
       var name = document.getElementById('gs-student-name').textContent;
-      if (!name || name === '—') name = 'Gradesheet';
+      if (!name || name === '·') name = 'Gradesheet';
       link.download = 'NEBians_Gradesheet_' + name.replace(/\s+/g, '_') + '.jpg';
       link.href = canvas.toDataURL('image/jpeg', 0.88);
       link.click();
@@ -535,18 +535,18 @@
     
     if (isSee) {
       officeName.textContent = 'UNOFFICIAL SEE RESULT' + (isReexam ? ' (SUPPLEMENTARY)' : '');
-      examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)' + (isReexam ? ' — SUPPLEMENTARY' : '');
+      examTypeDesc.textContent = 'SECONDARY EDUCATION EXAMINATION (GRADE X)' + (isReexam ? ': SUPPLEMENTARY' : '');
       document.getElementById('gs-th-credit-hour').style.display = 'none';
     } else {
       officeName.textContent = 'UNOFFICIAL CLASS 12 RESULT' + (isReexam ? ' (RE-EXAM)' : '');
-      examTypeDesc.textContent = 'SCHOOL LEAVING CERTIFICATE EXAMINATION (GRADE XII)' + (isReexam ? ' — RE-EXAM' : '');
+      examTypeDesc.textContent = 'SCHOOL LEAVING CERTIFICATE EXAMINATION (GRADE XII)' + (isReexam ? ': RE-EXAM' : '');
       document.getElementById('gs-th-credit-hour').style.display = '';
     }
 
     // Populate student metadata
-    document.getElementById('gs-student-name').textContent = (data.student_name || '—').toUpperCase();
-    document.getElementById('gs-student-symbol').textContent = data.symbol || '—';
-    document.getElementById('gs-student-school').textContent = (data.school || '—').toUpperCase();
+    document.getElementById('gs-student-name').textContent = (data.student_name || '·').toUpperCase();
+    document.getElementById('gs-student-symbol').textContent = data.symbol || '·';
+    document.getElementById('gs-student-school').textContent = (data.school || '·').toUpperCase();
     
     var regNo = data.registration_no;
     if (!regNo) {
@@ -562,7 +562,7 @@
     if (!dobVal && data.dob) {
       dobVal = data.dob;
     }
-    document.getElementById('gs-student-dob').textContent = dobVal || '—';
+    document.getElementById('gs-student-dob').textContent = dobVal || '·';
     
     var batchVal = data.batch || document.getElementById('batch').value;
     document.getElementById('gs-student-batch').textContent = batchVal + ' BS';
@@ -570,8 +570,8 @@
     document.getElementById('gs-issue-date').textContent = batchVal + '/04/15 BS';
 
     // Populate overall GPA and final grade
-    document.getElementById('gs-final-gpa').textContent = data.gpa || '—';
-    document.getElementById('gs-final-grade').textContent = data.grade || '—';
+    document.getElementById('gs-final-gpa').textContent = data.gpa || '·';
+    document.getElementById('gs-final-grade').textContent = data.grade || '·';
 
     // Populate subject rows
     var tbody = document.getElementById('gs-grades-body');
@@ -586,15 +586,15 @@
         tr.appendChild(tdSn);
 
         var tdCode = document.createElement('td');
-        tdCode.textContent = s.code || '—';
+        tdCode.textContent = s.code || '·';
         tr.appendChild(tdCode);
 
         var tdName = document.createElement('td');
-        tdName.textContent = s.name || '—';
+        tdName.textContent = s.name || '·';
         tr.appendChild(tdName);
 
         var tdCredit = document.createElement('td');
-        tdCredit.textContent = s.credit_hour || '—';
+        tdCredit.textContent = s.credit_hour || '·';
         if (isSee) {
           tdCredit.style.display = 'none';
         } else {
@@ -603,12 +603,12 @@
         tr.appendChild(tdCredit);
 
         var tdGrade = document.createElement('td');
-        tdGrade.textContent = s.grade || '—';
+        tdGrade.textContent = s.grade || '·';
         tdGrade.style.fontWeight = '700';
         tr.appendChild(tdGrade);
 
         var tdGp = document.createElement('td');
-        tdGp.textContent = s.grade_point || '—';
+        tdGp.textContent = s.grade_point || '·';
         tr.appendChild(tdGp);
 
         tbody.appendChild(tr);
@@ -723,9 +723,9 @@
 
     var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
     var values = [
-      data.symbol || '—',
+      data.symbol || '·',
       (data.exam || '12') + '  •  ' + (data.batch || document.getElementById('batch').value) + ' BS',
-      data.school || '—'
+      data.school || '·'
     ];
     
     ctx.textAlign = 'left';
@@ -784,7 +784,7 @@
     ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 56px "Poppins", sans-serif';
     ctx.letterSpacing = '0px';
-    ctx.fillText(data.gpa || '—', cx, cy + 18);
+    ctx.fillText(data.gpa || '·', cx, cy + 18);
 
     ctx.save();
     ctx.fillStyle = gpaColor;
