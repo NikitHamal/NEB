@@ -580,3 +580,40 @@ $$ f_1 = \frac{v}{2L} = \frac{200}{2\times1.0} = 100\ \text{Hz} $$
 (c) $f\propto 1/L$, so $L' = L f_1/f' = 1.0\times(100/250) = 0.40\ \text{m}$.
 The bridge must be placed 40 cm from one end.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the harmonics produced in a closed and an open pipe and compare them. Find the frequencies for a pipe of given length. <span class="marks">[10]</span>
+
+### Model answer D1: harmonics in closed and open pipes (10 marks)
+
+**Introduction.** When air in a pipe is made to vibrate, stationary waves form. At a **closed end** the air cannot move, so there is a **node (N)**, and at an **open end** the air moves freely, so there is an **antinode (A)**.
+
+**Closed pipe (one end closed).** The simplest vibration has a node at the closed end and an antinode at the open end, so the length is a quarter of a wavelength: $L = \lambda_1/4$.
+
+$$ f_1 = \frac{v}{4L} $$
+
+The next possible stationary wave has $L = 3\lambda_3/4$, so $f_3 = 3v/4L = 3f_1$. Only **odd harmonics** are present:
+
+$$ f_n = (2n-1)\frac{v}{4L} = f_1,\ 3f_1,\ 5f_1,\ \ldots $$
+
+**Open pipe (both ends open).** There is an antinode at each end, so $L = \lambda_1/2$:
+
+$$ f_1 = \frac{v}{2L}, \qquad f_n = n\,\frac{v}{2L} = f_1,\ 2f_1,\ 3f_1,\ \ldots $$
+
+**All harmonics** (odd and even) are present.
+
+| Point | Closed pipe | Open pipe |
+|---|---|---|
+| Ends | Node at the closed end, antinode at the open end | Antinode at both ends |
+| Fundamental | $v/4L$ | $v/2L$ |
+| Harmonics present | Odd only: $f, 3f, 5f$ | All: $f, 2f, 3f$ |
+| Overtones | $3f, 5f, \ldots$ | $2f, 3f, \ldots$ |
+| Quality of sound | Poorer, fewer harmonics | Richer, more harmonics |
+| Pitch for the same $L$ | Lower (half) | Higher |
+
+**Numerical.** A pipe of length $0.60\ \text{m}$ in air with $v = 340\ \text{m s}^{-1}$. Closed: $f_1 = 340/(4 \times 0.60) = 141.7\ \text{Hz}$; the next are $425\ \text{Hz}$ and $708\ \text{Hz}$. Open: $f_1 = 340/(2 \times 0.60) = 283.3\ \text{Hz}$; the next are $566.7\ \text{Hz}$ and $850\ \text{Hz}$.
+
+**End correction.** The antinode lies a little outside the open end, so the effective length is $L + 0.6r$ for a pipe of radius $r$; the real frequencies are slightly lower than the ideal ones.
+
+**Conclusion.** A closed pipe gives only odd harmonics and an open pipe gives all harmonics, and an open pipe sounds an octave higher than a closed pipe of the same length.

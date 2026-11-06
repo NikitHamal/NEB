@@ -1076,3 +1076,46 @@ CH₃CH(OH)CH₂CH₃ --conc. H₂SO₄, 443 K--> CH₃CH=CHCH₃ + H₂O, so **
 Also acceptable as supporting evidence: X + 3I₂ + 4NaOH → CHI₃ + CH₃CH₂COONa +
 3NaI + 3H₂O.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Distinguish aldehydes from ketones, and explain the aldol condensation and the Cannizzaro reaction with mechanisms and examples. <span class="marks">[10]</span>
+
+### Model answer D1: aldehydes and ketones, aldol and Cannizzaro reactions (10 marks)
+
+**Introduction.** Aldehydes (R–CHO) and ketones (R–CO–R′) both contain the carbonyl group C=O, which is polar, with carbon positive. Both undergo **nucleophilic addition**, but aldehydes are more reactive (less steric hindrance and only one electron-donating group).
+
+**Tests to distinguish aldehydes from ketones.**
+
+| Test | Aldehyde | Ketone |
+|---|---|---|
+| Tollens' reagent [Ag(NH₃)₂]⁺ | Silver mirror | No reaction |
+| Fehling's solution (Cu²⁺, tartrate) | Red precipitate of Cu₂O (aliphatic aldehydes) | No reaction |
+| Schiff's reagent | Pink or magenta colour | No colour |
+| Oxidation | Easily gives an acid | Not easily oxidised |
+| 2,4-DNP | Orange-yellow precipitate | Orange-yellow precipitate (both) |
+
+**Aldol condensation.** Aldehydes and ketones with at least one **α-hydrogen** (a hydrogen on the carbon next to C=O) react in the presence of dilute alkali.
+
+1. The base removes an α-hydrogen from ethanal to form an enolate ion: CH₃CHO + OH⁻ → ⁻CH₂CHO + H₂O.
+2. The enolate attacks the C=O carbon of a second molecule to form an alkoxide, which takes H⁺ from water to give the **aldol** (3-hydroxybutanal): 2CH₃CHO → CH₃CH(OH)CH₂CHO.
+3. On heating, the aldol loses water to give an α,β-unsaturated aldehyde, **but-2-enal** (crotonaldehyde): CH₃CH(OH)CH₂CHO → CH₃CH=CHCHO + H₂O.
+
+**Cannizzaro reaction.** Aldehydes with **no α-hydrogen** (HCHO, C₆H₅CHO) react with concentrated alkali by **self oxidation and reduction (disproportionation)**: one molecule is oxidised to the acid salt and the other is reduced to the alcohol.
+
+2HCHO + NaOH(conc.) → CH₃OH + HCOONa
+
+2C₆H₅CHO + NaOH(conc.) → C₆H₅CH₂OH + C₆H₅COONa
+
+The hydroxide adds to one C=O, and the hydride ion (H⁻) from this adduct transfers to a second aldehyde molecule.
+
+| Point | Aldol | Cannizzaro |
+|---|---|---|
+| Aldehyde needs | An α-hydrogen | No α-hydrogen |
+| Alkali | Dilute | Concentrated |
+| Products | β-hydroxy aldehyde, then unsaturated aldehyde | Alcohol + salt of acid |
+| Example | Ethanal | Methanal, benzaldehyde |
+
+**Test for methyl ketones and ethanal.** The iodoform test (I₂/NaOH) gives yellow CHI₃ with CH₃CO– compounds, such as propanone.
+
+**Conclusion.** Tollens', Fehling's and Schiff's reagents separate aldehydes from ketones; aldehydes with α-hydrogen undergo the aldol condensation and those without undergo the Cannizzaro reaction.

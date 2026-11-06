@@ -816,3 +816,50 @@ proportional to the quantity of electricity passed, $m = Zit$. Second law: with
 the same quantity of electricity, the masses liberated in different electrolytes
 are proportional to their equivalent weights.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Daniell cell, derive the Nernst equation for it and state Faraday's laws of electrolysis with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the Daniell cell, Nernst equation and Faraday's laws (10 marks)
+
+**Introduction.** A **galvanic (electrochemical) cell** converts the energy of a spontaneous redox reaction into electrical energy. The **Daniell cell** is a classic example.
+
+**Daniell cell.** A zinc rod dips in ZnSO₄ solution (anode) and a copper rod in CuSO₄ solution (cathode); the two solutions are joined by a salt bridge (KCl or KNO₃ in agar), which completes the circuit and keeps the solutions neutral.
+
+| Electrode | Reaction | Change |
+|---|---|---|
+| Anode (−) | Zn → Zn²⁺ + 2e⁻ | Oxidation |
+| Cathode (+) | Cu²⁺ + 2e⁻ → Cu | Reduction |
+| Overall | Zn + Cu²⁺ → Zn²⁺ + Cu | Redox |
+
+Cell notation: Zn | Zn²⁺(1 M) ‖ Cu²⁺(1 M) | Cu. Standard emf: $E^{\circ}_{\text{cell}} = E^{\circ}_{\text{cathode}} - E^{\circ}_{\text{anode}} = 0.34 - (-0.76) = 1.10\ \text{V}$.
+
+**Nernst equation.** The free-energy change is $\Delta G = \Delta G^{\circ} + RT\ln Q$ and $\Delta G = -nFE$. Hence $-nFE = -nFE^{\circ} + RT\ln Q$, so
+
+$$ E = E^{\circ} - \frac{RT}{nF}\ln Q $$
+
+At $298\ \text{K}$ this becomes
+
+$$ E = E^{\circ} - \frac{0.0592}{n}\log Q $$
+
+For the Daniell cell, $n = 2$ and $Q = [\text{Zn}^{2+}]/[\text{Cu}^{2+}]$. With $[\text{Zn}^{2+}] = 0.10\ \text{M}$ and $[\text{Cu}^{2+}] = 1.0\ \text{M}$:
+
+$$ E = 1.10 - \frac{0.0592}{2}\log\frac{0.10}{1.0} = 1.10 + 0.0296 = 1.13\ \text{V} $$
+
+The standard free-energy change is $\Delta G^{\circ} = -nFE^{\circ} = -2 \times 96500 \times 1.10 = -212\ \text{kJ mol}^{-1}$ (spontaneous).
+
+**Faraday's laws of electrolysis.**
+
+1. **First law:** the mass of a substance deposited or liberated at an electrode is proportional to the quantity of electricity passed: $m = ZQ = ZIt$.
+2. **Second law:** when the same quantity of electricity passes through different electrolytes, the masses liberated are proportional to their equivalent weights. One faraday ($F = 96500\ \text{C}$) liberates one gram-equivalent of any substance.
+
+$$ m = \frac{M\,I\,t}{nF} $$
+
+**Numerical.** A current of $5.0\ \text{A}$ passes through CuSO₄ solution for $30\ \text{min}$. $Q = 5.0 \times 1800 = 9000\ \text{C}$ and
+
+$$ m = \frac{63.5 \times 9000}{2 \times 96500} = 2.96\ \text{g of copper} $$
+
+**Applications of electrolysis.** Electroplating, purification of copper, extraction of sodium and aluminium, and production of NaOH and Cl₂.
+
+**Conclusion.** The Nernst equation gives the emf at any concentration, and Faraday's laws connect the quantity of electricity with the mass deposited.

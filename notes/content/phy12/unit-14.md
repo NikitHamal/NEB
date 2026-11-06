@@ -814,3 +814,46 @@ $I = P/V = 1000/220 = 4.55\ \text{A}$.
 Energy $= 1.0\ \text{kW} \times 5\ \text{h} \times 30 = 150\ \text{kWh}$, so the
 cost is $150 \times 10 = $ NPR $1500$ per month.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Kirchhoff's laws and use them to find the currents in a two-battery circuit. <span class="marks">[10]</span>
+
+### Model answer D1: Kirchhoff's laws (10 marks)
+
+**Introduction.** Some circuits cannot be reduced to a simple series or parallel combination. **Kirchhoff's laws** are two rules that solve any network of resistors and cells.
+
+**Kirchhoff's first law (junction rule).** The algebraic sum of the currents at a junction is zero; the current entering a junction equals the current leaving it:
+
+$$ \sum I = 0 $$
+
+It is a statement of the **conservation of charge**.
+
+**Kirchhoff's second law (loop rule).** In any closed loop the algebraic sum of the emfs equals the algebraic sum of the products $IR$:
+
+$$ \sum E = \sum IR $$
+
+It is a statement of the **conservation of energy**. **Sign rules:** an emf is positive when we go through the cell from the negative to the positive terminal; $IR$ is positive when we go along the direction of the current.
+
+**Application.** Two cells $E_1 = 10\ \text{V}$ and $E_2 = 4\ \text{V}$ (negligible internal resistance) are joined in parallel branches with $R_1 = 2\ \Omega$ and $R_2 = 1\ \Omega$, and both feed a common resistor $R_3 = 3\ \Omega$. Let $I_1$ and $I_2$ be the currents leaving the cells; by the junction rule $I_3 = I_1 + I_2$ passes through $R_3$.
+
+Loop 1 (cell $E_1$, $R_1$, $R_3$):
+
+$$ 10 = 2I_1 + 3(I_1 + I_2) \ \Rightarrow\ 5I_1 + 3I_2 = 10 $$
+
+Loop 2 (cell $E_2$, $R_2$, $R_3$):
+
+$$ 4 = 1\cdot I_2 + 3(I_1 + I_2) \ \Rightarrow\ 3I_1 + 4I_2 = 4 $$
+
+Solving the two equations: $I_1 = 28/11 = 2.55\ \text{A}$ and $I_2 = -10/11 = -0.91\ \text{A}$. Then $I_3 = 18/11 = 1.64\ \text{A}$.
+
+**Check.** Loop 2: $3(2.545) + 4(-0.909) = 7.64 - 3.64 = 4\ \text{V}$, as required.
+
+**Meaning of the negative sign.** $I_2$ is negative, so the current actually flows *into* the $4\ \text{V}$ cell: it is being charged by the stronger $10\ \text{V}$ cell.
+
+| Law | Based on | Statement |
+|---|---|---|
+| First (junction) | Conservation of charge | $\sum I = 0$ at a junction |
+| Second (loop) | Conservation of energy | $\sum E = \sum IR$ in a loop |
+
+**Conclusion.** Writing one junction equation and one loop equation for each independent loop gives enough equations to find all unknown currents.
