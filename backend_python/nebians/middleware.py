@@ -11,60 +11,16 @@ from . import analytics
 
 
 def _resolve_ws_public_url():
-    """Resolve the public WebSocket URL (uncached).
+    """Optional self-hosted WebSocket URL (WS_PUBLIC_URL), nothing else.
 
-    Duplicated from web.view_helpers (small wrapper) to avoid a circular
-    import between project middleware and the web app's view helpers.
-    Picks the NEWEST file by mtime that contains a trycloudflare host, so a
-    fresh start_ws_tunnel.log wins over a stale ws_url.txt.
+    Realtime for the site and app goes through Ably (api/realtime_ably.py), so
+    no tunnel is scraped or started any more. Set WS_PUBLIC_URL only if you run
+    Daphne behind a host that can really proxy WebSockets.
     """
-    ws_url = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
-    if not ws_url:
-        ws_url = (os.environ.get('WS_PUBLIC_URL', '') or '').strip()
-    if ws_url:
-        return ws_url
-    import glob as _glob, re as _re
-    candidates = []
-    log_paths = [
-        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-        os.path.join(getattr(settings, 'BASE_DIR', ''), 'logs', 'cloudflared.log'),
-    ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
-    for path in log_paths:
-        try:
-            with open(path, 'rb') as f:
-                f.seek(0, 2)
-                f.seek(max(0, f.tell() - 65536))
-                content = f.read().decode('utf-8', 'ignore')
-            matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if matches:
-                host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                url = 'wss://' + host + '/ws/'
-                try:
-                    mtime = os.path.getmtime(path)
-                except OSError:
-                    mtime = 0
-                candidates.append((mtime, url))
-        except OSError:
-            continue
-    if candidates:
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return candidates[0][1]
-    # Fallback: ws_url.txt cache (not authoritative — logs win even if ws_url.txt newer)
-    ws_url_txt = getattr(settings, 'WS_URL_TXT', '') or os.path.join(
-        getattr(settings, 'BASE_DIR', ''), 'ws_url.txt')
-    try:
-        with open(ws_url_txt) as f:
-            content = f.read().strip()
-        if content:
-            m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
-            if content.startswith('wss://'):
-                return content.strip()
-    except OSError:
-        pass
-    return ''
+    explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
+    if not explicit:
+        explicit = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
+    return explicit
 
 
 def _get_ws_public_url_cached():
@@ -76,13 +32,6 @@ def _get_ws_public_url_cached():
         url = _resolve_ws_public_url()
         if url:
             cache.set('ws_public_url_resolved', url, 15)
-    if url:
-        try:
-            from nebians.tunnel_health import is_tunnel_healthy
-            if not is_tunnel_healthy():
-                return ''
-        except Exception:
-            pass
     return url
 
 SENSITIVE_PATHS_404 = (
@@ -258,7 +207,7 @@ class SecurityHeadersMiddleware:
 
         nonce = getattr(request, 'csp_nonce', '')
         img_sources = "img-src 'self' data: https:;"
-        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://esm.sh", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "wss://*.trycloudflare.com", "https://*.trycloudflare.com"]
+        connect_sources = ["'self'", "data:", "blob:", "https://accounts.google.com", "https://cdn.jsdelivr.net", "https://esm.sh", "https://tessdata.projectnaptha.com", "https://huggingface.co", "https://*.huggingface.co", "https://github.com", "https://*.githubusercontent.com", "https://*.ably.net", "https://*.ably.io", "wss://*.ably.net", "wss://*.ably.io"]
 
         ws_url = _get_ws_public_url_cached()
 

@@ -29,6 +29,7 @@ from .consumers_ws import (
     GRP_STUDY_SPACE_FMT,
     GRP_USER_FMT,
 )
+from . import realtime_ably
 from .utils import now_ms
 
 logger = logging.getLogger(__name__)
@@ -37,9 +38,20 @@ logger = logging.getLogger(__name__)
 _redis_circuit_open_until = 0.0
 
 
+def _daphne_wanted() -> bool:
+    """Only fan out through Channels when a self-hosted WS endpoint is configured."""
+    import os
+    return bool(os.environ.get('WS_PUBLIC_URL', '').strip())
+
+
 def _send(group: str, event: str, data: Dict[str, Any]):
     """Push an event to a single group. Best effort, never fatal."""
     global _redis_circuit_open_until
+    # Hosted transport first: one queued POST, never blocks the request.
+    stamped = {**data, 'ts': now_ms()}
+    hosted = realtime_ably.publish(group, event, stamped)
+    if hosted and not _daphne_wanted():
+        return
     now = time.time()
     if now < _redis_circuit_open_until:
         return
