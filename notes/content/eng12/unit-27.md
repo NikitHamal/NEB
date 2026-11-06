@@ -378,3 +378,32 @@ A universal truth stays in the present even though everything around it shifts.
 **21.** The officer said to the peon, **"Bring the file at once."** — the infinitive becomes an imperative.
 **22.** He said, **"Alas! I have failed the test."** — *with sorrow* signals the interjection *Alas!*
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the rules for changing direct speech into reported speech, with examples of each sentence type. <span class="marks">[10]</span>
+
+### Model answer D1: reported speech (10 marks)
+
+**Introduction.** Reported speech gives the meaning of what someone said without quoting it. It changes the **reporting verb and link word, the pronouns, the tense, the time and place words, and the word order of questions**.
+
+1. **Backshift:** present → past, past → past perfect, *will → would*, *can → could*, *may → might*, *must → had to*. The past perfect does not move.
+2. **No backshift** after a present or future reporting verb, for universal truths, for unreal conditionals and *wish*, and for *would, could, might, should, ought to, used to*.
+3. **Pronouns:** first person follows the subject of the reporting verb, second person follows its object, third person is unchanged.
+4. **Statements** take *that*: *She said, "I am tired" → She said that she was tired.*
+5. **Yes/no questions** take *if / whether*: *He asked, "Do you like tea?" → He asked if I liked tea.*
+6. **Wh-questions** keep the wh-word: *"Where do you live?" → He asked where I lived.* The reported question has **statement word order**, no *do / does / did*, and no question mark.
+7. **Imperatives** become *to* + base verb (*not to* for negatives): *"Close the door." → He told me to close the door.*
+8. **Verbs:** *say that / say to somebody that / tell somebody that*; *tell* never takes *to* before the listener. Exclamations use *exclaim with joy / sorrow that*; greetings and thanks have their own verbs.
+
+| Direct | Reported |
+|---|---|
+| "I am hungry," she said. | She said that she was hungry. |
+| "Are you ready?" he asked me. | He asked me if I was ready. |
+| "Don't be late," said the teacher. | The teacher told us not to be late. |
+| "The earth is round," he said. | He said that the earth is round. |
+
+**Conclusion.** Change the verb, pronouns, tense, time words and word order, and remember the exceptions where no backshift is needed.

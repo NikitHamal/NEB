@@ -452,3 +452,50 @@ you what my neighbour thinks about it.*
 **11.** A memoir is true and is told by the person it happened to, and it includes that person's later understanding of it.
 **12.** *We shall go on grading memory, then, until we are willing to set a harder kind of paper.* — restate in new words and end on something forward-looking.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended writing answers (10 marks each, for deeper revision)**
+
+1. Write a model argumentative essay (300–400 words) with a clear thesis and a concession. <span class="marks">[10]</span>
+2. Write a model memoir of one episode with two voices. <span class="marks">[10]</span>
+
+### Model answer D1: an argumentative essay (10 marks)
+
+**Topic.** Mobile phones do more harm than good to school students.
+
+**Plan.** Hourglass shape: general opening → thesis → three body paragraphs (point, evidence, explanation, link) → concession and answer → conclusion that widens out.
+
+**Model essay.**
+
+**Phones in the Schoolbag**
+
+Walk into any bus in Kathmandu at seven in the morning and you will see the same scene: a row of students, heads bowed, faces lit by small screens. Phones have become the most powerful object in a young person's life. Although they can help students learn, they do more harm than good, because they steal attention, damage sleep and weaken real friendships.
+
+First, phones destroy concentration. A student who stops every few minutes to read a message needs several minutes to return to the lesson. A teacher at a Pokhara school reports that Grade 10 students who keep their phones on the desk finish only half of the homework that the others complete. Learning needs long, quiet effort, and constant alerts break that effort into pieces.
+
+Second, phones damage sleep and health. Many students scroll videos until midnight and then struggle to wake for school. Tired students forget more, lose their temper more easily and perform worse in tests. Bright screens late at night also delay sleep, so the harm is physical as well as mental.
+
+Third, phones weaken friendships. Friends sit together but talk to their screens, and some students feel lonely when others post more "likes". A conversation face to face teaches patience, tone and kindness that a message cannot.
+
+It is true that phones can help. A student can watch a lesson on algebra, look up a word or join an online class during a lockdown. However, these benefits depend on discipline. In practice, most students spend far more time on games and videos than on study, so the educational use is the smaller part.
+
+In conclusion, a phone is a tool, but a tool that is always switched on cannot be used wisely by a tired and distracted mind. Schools and parents should therefore allow phones only for set purposes, so that technology serves education and not the other way round.
+
+### Model answer D2: a memoir of one episode (10 marks)
+
+**Rule.** One episode, first person, past tense, heavy in sensory detail, told in **two voices**: the person it happened to and the person remembering.
+
+**The Kite of Dashain**
+
+I was nine, and the roof of our house in Bhaktapur smelled of dried corn and fresh paint. It was the week of Dashain, and the sky above the city was full of kites, red, yellow and green, tugging at their strings like impatient birds. My uncle had given me a kite with a long blue tail. "Hold the string loosely," he said, "and let the wind do the work."
+
+I did not listen. I pulled too hard, the string snapped, and my kite floated away over the temple roofs. I stood there with a cut finger and a hot face. Then my uncle laughed, put a new reel in my hand and said, "Now you know. Try again." This time I let the wind lead, and the kite climbed higher than any other.
+
+Today, whenever I try too hard to control something, I remember that roof, the smell of corn and the voice that said let the wind do the work. At nine I thought I had lost a kite. Now I know I had gained a lesson in patience.
+
+| Voice | Role |
+|---|---|
+| The child | Describes what happened and what he felt |
+| The adult | Reflects on what it meant |

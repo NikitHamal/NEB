@@ -902,3 +902,52 @@ webs are made of threads, and a person who knows exactly which threads hold her
 can sometimes cut one. De Burgos did not abolish the old guard of Puerto Rico in
 1938. She did something smaller and more possible: when they called her name at
 their parade, she was not there.
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the speaker of "I Was My Own Route" frees herself from the old guard and discovers her own path. <span class="marks">[10]</span>
+2. Discuss the poem as a statement of women's liberation and of identity in the present. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.4" caption="Poet and new routes. A bust of Julia de Burgos (1914–1953) and Nepali schoolgirls on their way to class, a reminder that education lets every girl choose her own route."
+@ photo id="eng12/de-burgos-bust" cap="Bust of Julia de Burgos"
+@ photo id="soc10/school-girls" cap="Schoolgirls in Nepal"
+```
+
+### Model answer D1: freeing herself and finding her route (10 marks)
+
+**Introduction.** **Julia de Burgos** (1914–1953), born in Carolina, Puerto Rico, was a teacher, nationalist and journalist. "Yo misma fui mi ruta" appeared in *Poema en veinte surcos* (1938); the English text is **Jack Agüeros's translation**. The poem has **thirty-seven lines in six free-verse stanzas** (9, 3, 10, 6, 1 and 8 lines).
+
+1. **Confession.** The speaker once tried to be what men wanted: "an attempt at life", "a game of hide and seek with my being".
+2. **Decision.** She declares herself "**made of nows**" and walks forward.
+3. **Mockery.** She mocks the ashes of the past and heads for "the kiss of new paths".
+4. **Attack.** The old guard tries to tear her back with desperate flapping wings.
+5. **Resistance.** Every whiplash only separates her look further from the "distant, familiar horizons".
+6. **Liberation.** Unpinned forever, her face expands from within into "a feeling of intimate liberation".
+7. **The summit line**: "And I was all in me as was life in me".
+8. **Final act.** When the heralds announce her at the regal parade, her desire to follow men **warps** and the homage is left waiting.
+
+**Conclusion.** She does not fight the old order for its honours; she simply walks past them.
+
+### Model answer D2: liberation and identity (10 marks)
+
+**Introduction.** The poem is a declaration of independence for a woman who refuses to be defined by men.
+
+1. **Theme of identity in the present.** "Made of nows" means that she belongs to the present, not to inherited roles.
+2. **Theme of freedom from inside.** Freedom is a feeling that expands from within, not a gift from society.
+3. **Theme of resistance.** The old guard uses force, yet each whiplash makes her stronger.
+4. **Land imagery.** She claims all the soils of the earth, "soils without history, without a future and without edges".
+5. **Structure.** The last stanza repeats the first word for word but **ends differently**, showing how much has changed.
+6. **Form.** Free verse with stanzas of uneven length suits a speaker who refuses fixed patterns.
+7. **Tone.** Defiant, proud and calm.
+8. **Biographical link.** De Burgos was a precursor of the Nuyorican poets and a teacher and journalist in New York.
+
+| | Opening stanza | Closing stanza |
+|---|---|---|
+| Words | Same | Same |
+| Speaker | Not yet free | Free |
+| Ending | Follows the old way | Declines the honour |
+
+**Conclusion.** The poem's argument is that identity lives in the present and inside the self, and that the final act of freedom is to decline the honour the old order offers.

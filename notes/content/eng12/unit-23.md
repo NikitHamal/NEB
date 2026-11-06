@@ -399,3 +399,55 @@ advice**, but **each of the students** had **a** different doubt.*
 **24.** **Each of the sisters is studying medicine.** — *each of* + plural noun + singular verb.
 **25.** **I need a little more time.** — *a little* needs an uncountable noun, so *minutes* becomes *time*.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the use of a, an, the and the zero article with examples. <span class="marks">[10]</span>
+2. Explain the use of quantifiers with countable and uncountable nouns. <span class="marks">[10]</span>
+
+### Model answer D1: the articles (10 marks)
+
+**Introduction.** A determiner opens the noun phrase, and only **one central determiner** is allowed: write *this book of mine*, never *my this book*. The articles are *a / an*, *the* and the **zero article**.
+
+1. **A or an is chosen by sound, not spelling:** *a university, a one-way street; an hour, an honest man, an MP*.
+2. ***The* means the reader knows which one.** It is used for a second mention: *I saw a dog; the dog was big.*
+3. ***The* with unique things:** the sun, the sky, the Himalayas.
+4. ***The* with superlatives and ordinals:** the highest peak, the first prize.
+5. ***The* with rivers, ranges, plural country names, instruments and adjectives used as nouns:** the Koshi, the Alps, the Philippines, the guitar, the poor.
+6. **Zero article with proper names, generic plurals and uncountables:** *Nepal, Dogs are loyal, Water is life.*
+7. **Zero article with languages, games, meals and festivals:** *She speaks Nepali. We play football. They had lunch. Dashain is near.*
+8. **Zero article with *by bus* and institutions used for their purpose:** *go to school, go to hospital.*
+
+| Use | Example |
+|---|---|
+| a (consonant sound) | a university |
+| an (vowel sound) | an hour |
+| the (known) | The book you gave me |
+| zero (general) | Children need love |
+
+**Conclusion.** Choose *a / an* by sound, *the* by shared knowledge, and no article for general ideas.
+
+### Model answer D2: quantifiers (10 marks)
+
+**Introduction.** Quantifiers tell us how much or how many; the right one depends on the noun.
+
+1. ***Much, (a) little, a great deal of* + uncountable:** *How much money do you need?*
+2. ***Many, (a) few, a large number of* + plural countable:** *There were many passengers.*
+3. ***A lot of* with either type:** *a lot of rice, a lot of students.*
+4. ***Few / little* = almost none (negative):** *We had little time, so we missed the tickets.*
+5. ***A few / a little* = some (positive):** *He speaks a little English, so he can manage in Delhi.*
+6. ***Each, every, either, neither* + singular noun + singular verb:** *Every student must bring his or her admit card.*
+7. ***Fewer* counts, *less* measures:** *fewer students, less water.*
+8. **Uncountables:** *information, advice, furniture, luggage, equipment, news, work, money, hair* take no -s and are counted with *a piece of / an item of*.
+
+| Noun type | Quantifiers |
+|---|---|
+| Uncountable | much, little, a little, less |
+| Plural countable | many, few, a few, fewer |
+| Both | a lot of, some, any |
+| Singular countable | each, every, either, neither |
+
+**Conclusion.** Decide first whether the noun is countable, then choose the quantifier.

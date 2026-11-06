@@ -402,3 +402,59 @@ a taxi, but you **should come** with me, **shouldn't you?***
 **25.** **You mustn't pluck flowers in this garden.** — *mustn't* states a prohibition.
 **26.** **I needn't have taken a raincoat.** — the action was done, but it turned out to be unnecessary.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the meanings of the modal verbs with examples of ability, permission, obligation and advice. <span class="marks">[10]</span>
+2. Explain the certainty scale and the perfect modals (modal + have + V3). <span class="marks">[10]</span>
+
+### Model answer D1: modals of ability, permission, obligation and advice (10 marks)
+
+**Introduction.** The nine modals are *can, could, may, might, will, would, shall, should* and *must*. They take **no -s, no do, and a bare infinitive**. Two modals never stand together; use a semi-modal instead (*will be able to*, *have to*).
+
+1. **Ability:** *can / could* for general ability: *She can speak three languages.*
+2. **Single past success:** *was / were able to*: *He was able to solve it.*
+3. **Missing forms:** *be able to*: *You will be able to ...*
+4. **Permission:** *can < could < may < might* in formality: *May I use your pen, sir?*
+5. **Prohibition:** *mustn't*: *Students must not use mobile phones in the examination hall.*
+6. **No obligation:** *needn't* or *don't have to*: *You needn't hurry.*
+7. **Obligation:** *must* comes from the speaker; *have to* comes from outside; the past of both is *had to*.
+8. **Advice:** *should / ought to*, and *had better + bare infinitive* for urgent advice on one occasion: *You had better see a doctor.*
+
+| Meaning | Modal | Example |
+|---|---|---|
+| Ability | can, could | She can swim. |
+| Permission | may, could | May I come in? |
+| Prohibition | mustn't | You mustn't smoke. |
+| No necessity | needn't | You needn't pay. |
+| Obligation | must, have to | I have to attend. |
+| Advice | should, ought to | You should rest. |
+
+**Conclusion.** Choose the modal by meaning and formality, not by habit.
+
+### Model answer D2: certainty and perfect modals (10 marks)
+
+**Introduction.** Modals also show how sure the speaker is, and with *have + V3* they talk about the past.
+
+1. **Certainty scale:** **must** (sure it is true) > *will / should* > *may* > *might / could* > **can't** (sure it is false).
+2. **Example:** *The lights are on, so somebody must be inside.*
+3. **Negative certainty:** *He can't be in Pokhara; I met him in Bhaktapur this morning.*
+4. **must have + V3:** sure it happened.
+5. **can't have + V3:** sure it did not happen.
+6. **may / might have + V3:** unknown possibility in the past.
+7. **should have + V3:** it did not happen, and it was right to do it.
+8. **needn't have + V3:** it happened but was not necessary.
+
+| Form | Meaning | Example |
+|---|---|---|
+| must have gone | Sure it happened | She must have gone home. |
+| can't have seen | Sure it did not | He can't have seen us. |
+| might have missed | Possible | They might have missed the bus. |
+| should have studied | Did not, but ought to | I should have studied. |
+
+**Past habit:** *used to + V1* for habits and states; *would + V1* for repeated actions only; *be used to + V-ing* means "accustomed to".
+
+**Conclusion.** The certainty scale and the perfect modals let us talk about probability and regret precisely.

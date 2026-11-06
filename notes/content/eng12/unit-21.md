@@ -405,3 +405,57 @@ in Bhotahity last week?*
 **27.** **Whom did you meet at the airport?** — an object question inverts and uses *did* + base form.
 **28.** **Why did she resign?** — un-embedding restores the inversion and moves the tense onto *did*.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain how question tags are formed in English, with the irregular cases. <span class="marks">[10]</span>
+2. Explain how direct, wh- and embedded (indirect) questions are formed and the mistakes Nepali speakers make. <span class="marks">[10]</span>
+
+### Model answer D1: forming question tags (10 marks)
+
+**Introduction.** A **question tag** is a short question added to a statement to check information or ask for agreement. It is built from an **operator + pronoun**, it has the **opposite polarity** to the statement, and it keeps the **same tense and person** as the verb.
+
+1. **Positive statement, negative tag:** *Your sister works at Bir Hospital, doesn't she?*
+2. **Negative statement, positive tag:** *There is no electricity in the hostel, is there?*
+3. **No auxiliary in the statement:** supply *do / does / did*: *She sings well, doesn't she?*
+4. **Negative tags are always contracted:** *isn't he, doesn't she, won't they*.
+5. **Irregular tags:** *I am the shortest → aren't I?*; *I'm not late → am I?*; *Let's leave → shall we?*; *Switch off the fan → will you?*
+6. **Pronoun rules:** *Nobody / Everybody → they* (*Everybody has paid, haven't they?*); *Nothing / This / That → it*; *There is → isn't there?*
+7. **Special verbs:** *used to → didn't* (*He used to live in Ilam, didn't he?*); *had better → hadn't*; *have to → don't*; *ought to → oughtn't or shouldn't*.
+8. **Negative-meaning words** such as *never, seldom, rarely, hardly, scarcely, barely, few, little, no, none* make the statement negative, so the tag is positive: *He hardly speaks, does he?*
+
+| Statement | Tag |
+|---|---|
+| She plays the madal, | doesn't she? |
+| They aren't coming, | are they? |
+| I am right, | aren't I? |
+| Let's go, | shall we? |
+| Nobody called, | did they? |
+| He seldom comes, | does he? |
+
+**Conclusion.** To make a tag correctly, find the operator, reverse the polarity, choose the right pronoun and remember the irregular cases.
+
+### Model answer D2: direct and embedded questions (10 marks)
+
+**Introduction.** Direct questions **invert** the subject and the operator; embedded questions inside another sentence do not.
+
+1. **Yes/no question:** operator + subject + base verb: *Do you live in Pokhara?*
+2. **Wh- question:** wh-word + operator + subject + base verb: *Where do you live?*
+3. **Subject wh- question:** no *do / does / did*: *Who wrote it?* (not *Who did write it?*)
+4. **Embedded question:** drops the inversion and the *do*: *Do you know where he lives?*
+5. **Yes/no inside a statement** needs *if* or *whether*: *I asked if she had paid.*
+6. **Tense shift** in reported speech: *He asked where I was going.*
+7. **Common Nepali error:** *Do you know where does he live?* is wrong.
+8. **Another error:** *Tell me what is your name* is wrong; write *Tell me what your name is.*
+
+| Type | Correct | Wrong |
+|---|---|---|
+| Direct wh- | What does he want? | What he wants? |
+| Subject wh- | Who called you? | Who did call you? |
+| Embedded | I wonder where she lives. | I wonder where does she live. |
+| Embedded yes/no | Ask whether he has come. | Ask has he come. |
+
+**Conclusion.** Invert for direct questions; keep normal word order for embedded ones.

@@ -552,3 +552,57 @@ climax is given the most space; the title does not give the ending away.)*
 **9.** The piles **are turned** every week. — present simple passive, as a process description requires.
 **10.** The chart shows how two hundred students travelled to their campus in 2081. — the title's words are replaced, not reordered.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended writing answers (10 marks each, for deeper revision)**
+
+1. Write a full model description of a bar chart (150–200 words) and explain the four moves. <span class="marks">[10]</span>
+2. Describe a process from a diagram and write a story from an outline. <span class="marks">[10]</span>
+
+```photogrid label="31.H" cols="2" ratio="1.4" caption="Reading data in real life. A train status board at New Delhi railway station, a table of figures that must be read for title, units and key before it is described."
+@ photo id="eng12/train-board" cap="Train status board, New Delhi"
+@ photo id="eng11/notice-board" cap="A village notice board"
+```
+
+### Model answer D1: describing a chart (10 marks)
+
+**Question.** The table shows illustrative data on the number of students (in thousands) taking the SEE, by province, in two years. Describe it in 150–200 words.
+
+| Province | 2077 | 2080 |
+|---|---|---|
+| Koshi | 60 | 66 |
+| Madhesh | 58 | 72 |
+| Bagmati | 80 | 78 |
+| Gandaki | 28 | 30 |
+
+**Model answer.** The table compares the number of students, in thousands, who sat the SEE in four provinces in 2077 and 2080. Overall, Madhesh showed the sharpest rise, whereas Bagmati was the only province to record a fall.
+
+In 2077 Bagmati had the largest number of candidates, at 80 thousand, followed by Koshi (60 thousand) and Madhesh (58 thousand), while Gandaki had the fewest, at 28 thousand. Three years later the picture had changed. The figure for Madhesh climbed steeply by 14 thousand to 72 thousand, which overtook Koshi, where the number rose more slowly from 60 to 66 thousand. Gandaki edged up marginally to 30 thousand. By contrast, Bagmati fell slightly from 80 to 78 thousand, although it still remained the highest.
+
+In conclusion, the general pattern was growth in three of the four provinces, with Madhesh closing the gap on Bagmati.
+
+**The four moves.**
+1. **Paraphrase the title.**
+2. **Give the overview** (the main trend and the main exception).
+3. **Group the details with figures**, comparing instead of listing.
+4. **Close on the pattern.**
+
+Remember: describe, never explain; do not give causes unless asked.
+
+### Model answer D2: a process and a story from an outline (10 marks)
+
+**Process.** Use the **present simple passive** plus sequencers and open by counting the stages. *The diagram shows how tea is made in four stages. First, fresh leaves are plucked and spread out to wither. Next, they are rolled and left to oxidise. Then they are dried in hot air. Finally, the dried tea is sorted and packed.*
+
+**Story from an outline.** Read all the notes first; invent only the frame; write in the **simple past**; give the **climax** the most weight; include one line of direct speech; put the title and moral last.
+
+*Outline: A poor boy — finds a purse — returns it — rewarded.*
+
+**An Honest Boy.** Bishal, a poor boy of Dhankuta, walked to school every morning. One day he found a purse on the road. It held five thousand rupees and a card. His family needed money, but Bishal remembered his mother's words: "Honesty is the best wealth." He ran to the address on the card and gave the purse to its owner, a shopkeeper. The man was amazed. "Few people would do this," he said, and he paid Bishal's school fees for the year. **Moral:** honesty is always rewarded.
+
+| Task | Tense | Key skill |
+|---|---|---|
+| Chart | Past or present | Compare and group |
+| Process | Present passive | Sequencers |
+| Story | Simple past | Climax and moral |
