@@ -185,3 +185,69 @@ Correct the error in each sentence. <span class="marks">[1 each]</span>
 ::: tip The writing mark you can always collect
 Spend the first thirty seconds of every writing task drawing the skeleton — addresses, date, subject line, or the three paragraph headings. The format mark is then safe, and you can give the rest of your time to content, which is where the thinking is.
 :::
+
+## 9.10 Extended model answers (writing tasks)
+
+In the English paper, the long writing tasks carry the most marks. A good answer has the correct **format**, a clear **plan**, simple and correct sentences, and a neat finish. Study the two models below, then write your own on a different topic.
+
+**Extended questions**
+
+1. Write an essay of about 250 words on **Plastic Pollution**. <span class="marks">[10]</span>
+2. You are Anita Rai of Biratnagar. Write a formal letter to the Editor of a national daily about the problem of garbage in your town. <span class="marks">[10]</span>
+
+### Model answer D1: essay on plastic pollution (10 marks)
+
+**Plan.** Introduction (what and why) → causes → effects → solutions → conclusion. Use four short paragraphs and linking words such as *firstly*, *moreover*, *as a result* and *therefore*.
+
+**Plastic Pollution**
+
+Plastic is one of the most useful things made by humans. Bags, bottles, pipes and toys are all made of it because it is cheap, light and strong. However, the same quality makes it dangerous, because plastic does not rot. Plastic pollution has now become a serious problem in Nepal and in the whole world.
+
+There are several causes of plastic pollution. Firstly, people use thin polythene bags once and throw them away. Secondly, many shopkeepers and customers do not know where to put the waste. Moreover, plastic bottles of water and soft drinks are thrown along the trekking trails, rivers and roads. In cities such as Kathmandu, the Bagmati River carries a large amount of plastic waste.
+
+The effects are very harmful. Plastic bags block drains, and as a result the streets are flooded in the rainy season. Cows and other animals eat the bags and fall ill. When plastic is burned, it gives out poisonous smoke that harms our lungs. In the sea, tiny pieces of plastic enter the bodies of fish, and finally they reach our food.
+
+Fortunately, we can reduce this problem. We should carry a cloth bag when we go shopping and refuse thin plastic. Bottles should be reused, and plastic waste should be separated and sent for recycling. Schools can organise clean-up campaigns and the government must apply the rules strictly.
+
+In conclusion, plastic is a good servant but a bad master. If every person acts a little, our rivers, hills and cities will become clean again. Let us all say no to plastic and protect our beautiful country.
+
+**Marking checklist.**
+
+| Element | What the examiner looks for | Marks |
+|---|---|---|
+| Content | Causes, effects and solutions with Nepali examples | 4 |
+| Organisation | Introduction, body paragraphs and conclusion | 3 |
+| Language | Correct tenses, linking words, no spelling mistakes | 2 |
+| Presentation | Title, neat handwriting, about 250 words | 1 |
+
+### Model answer D2: formal letter to the editor (10 marks)
+
+**Plan.** Sender's address → date → receiver's address → salutation → subject line → body in three paragraphs → subscription → signature.
+
+Biratnagar-4, Morang
+12 Baisakh 2082
+
+The Editor
+The Kantipur Daily
+Kathmandu
+
+Dear Sir,
+
+**Subject: Garbage problem in Biratnagar**
+
+Through the columns of your esteemed newspaper, I would like to draw the attention of the municipality to the growing problem of garbage in our town.
+
+Garbage is piled along the main road near the bus park for several days. It smells bad and attracts flies, dogs and mosquitoes. During the rainy season it flows into the drains and blocks them, which causes dirty water to stand in the streets. Many shopkeepers and passers-by complain, but nobody takes action. As a result, there is a danger of diseases such as dysentery, typhoid and dengue.
+
+I therefore request the municipality to put covered bins at every crossing and to collect the waste daily. Citizens should also be taught to separate wet and dry waste. I hope that the authorities will take quick action and that you will kindly publish this letter.
+
+Yours faithfully,
+Anita Rai
+
+**Points to remember.**
+
+1. A formal letter uses *Dear Sir* and *Yours faithfully*; a letter to a friend uses *Dear Ram* and *Yours lovingly*.
+2. The subject line states the matter in a few words and is written in bold or underlined.
+3. Keep the tone polite and give facts, not anger.
+4. End with a request or a suggestion.
+

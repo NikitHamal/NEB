@@ -287,6 +287,101 @@ Every question is an original **practice** question written to the CDC pattern. 
 **3.** $P(A\cup B)=P(A)+P(B)-P(A\cap B)$, so $P(A\cap B)=\frac35+\frac12-\frac45=\frac{6+5-8}{10}=$ **$\frac{3}{10}$**.
 :::
 
+## 6.19 Extended model answers (10 marks)
+
+Long problems in the SEE Mathematics paper are marked for the formula, the substitution, the steps and a checked answer. The models below show the full layout.
+
+**Extended questions**
+
+1. Rs 50,000 is invested for 3 years at 10 percent per annum compounded annually. Find the amount, the compound interest and its difference from the simple interest. Also find the value of a motorbike bought for Rs 2,40,000 after 2 years at a depreciation of 10 percent a year. <span class="marks">[10]</span>
+2. A cone has base radius 7 cm and height 24 cm. Find its slant height, curved surface area and volume. Find the volume and surface area of a sphere of the same radius. Take $\pi = \frac{22}{7}$. <span class="marks">[10]</span>
+3. The length of a rectangle is 5 m more than its width and its area is 84 m². Form a quadratic equation, solve it, and find the sides and the perimeter. <span class="marks">[10]</span>
+
+### Model answer D1: compound interest and depreciation (10 marks)
+
+**Introduction.** In **compound interest**, the interest of each year is added to the principal, so the next year's interest is calculated on the larger sum. The amount after $T$ years at $R$ percent is $A = P\left(1 + \frac{R}{100}\right)^T$ and the compound interest is $CI = A - P$. In **depreciation**, a value falls each year, and $V = P\left(1 - \frac{R}{100}\right)^T$.
+
+**Part 1: compound interest.** $P = 50{,}000$, $R = 10$, $T = 3$.
+
+$A = 50{,}000\left(1 + \frac{10}{100}\right)^3 = 50{,}000\times(1.1)^3 = 50{,}000\times 1.331 =$ **Rs 66,550**.
+
+$CI = 66{,}550 - 50{,}000 =$ **Rs 16,550**.
+
+**Check by yearly steps.**
+
+| Year | Principal (Rs) | Interest at 10 percent (Rs) | Amount (Rs) |
+|---|---|---|---|
+| 1 | 50,000 | 5,000 | 55,000 |
+| 2 | 55,000 | 5,500 | 60,500 |
+| 3 | 60,500 | 6,050 | 66,550 |
+
+**Simple interest for comparison.** $SI = \frac{50{,}000\times 3\times 10}{100} = \text{Rs } 15{,}000$. Difference $= 16{,}550 - 15{,}000 =$ **Rs 1,550**.
+
+**Part 2: depreciation.** $P = 2{,}40{,}000$, $R = 10$, $T = 2$.
+
+$V = 2{,}40{,}000\times\left(1 - \frac{10}{100}\right)^2 = 2{,}40{,}000\times 0.9^2 = 2{,}40{,}000\times 0.81 =$ **Rs 1,94,400**.
+
+**Conclusion.** Compound interest earns Rs 1,550 more than simple interest in three years, and the gap widens with time, which is why a long fixed deposit grows faster. The motorbike loses Rs 45,600 of its value in two years.
+
+### Model answer D2: cone and sphere (10 marks)
+
+**Introduction.** A cone of base radius $r$, height $h$ and slant height $l$ has $l^2 = r^2 + h^2$, curved surface area $\pi r l$ and volume $\frac{1}{3}\pi r^2 h$. A sphere of radius $r$ has surface area $4\pi r^2$ and volume $\frac{4}{3}\pi r^3$.
+
+**Cone.** $r = 7$, $h = 24$.
+
+1. Slant height: $l = \sqrt{7^2 + 24^2} = \sqrt{49 + 576} = \sqrt{625} =$ **25 cm**.
+2. Curved surface area: $\pi r l = \frac{22}{7}\times 7\times 25 =$ **550 cm²**.
+3. Volume: $\frac{1}{3}\times\frac{22}{7}\times 49\times 24 = \frac{22\times 7\times 24}{3} = 22\times 56 =$ **1,232 cm³**.
+
+**Sphere.** $r = 7$.
+
+1. Surface area: $4\pi r^2 = 4\times\frac{22}{7}\times 49 = 4\times 22\times 7 =$ **616 cm²**.
+2. Volume: $\frac{4}{3}\pi r^3 = \frac{4}{3}\times\frac{22}{7}\times 343 = \frac{4\times 22\times 49}{3} = \frac{4312}{3} =$ **1,437.33 cm³**.
+
+| Solid | Formula | Result |
+|---|---|---|
+| Cone, slant height | √(r² + h²) | 25 cm |
+| Cone, curved surface | πrl | 550 cm² |
+| Cone, volume | ⅓πr²h | 1,232 cm³ |
+| Sphere, surface | 4πr² | 616 cm² |
+| Sphere, volume | ⁴⁄₃πr³ | 1,437.33 cm³ |
+
+**Check.** The 7-24-25 triangle is a Pythagorean triple, so $l = 25$ is exact. A cone and a hemisphere of equal radius and height have volumes in the ratio 1 : 2 when $h = r$, a useful memory check for the formulas.
+
+**Conclusion.** The sphere has the greater volume because the cone of height 24 cm is narrow. Always find the slant height first when the question gives only $r$ and $h$.
+
+### Model answer D3: quadratic equation from a word problem (10 marks)
+
+**Introduction.** A **quadratic equation** has the form $ax^2 + bx + c = 0$ with $a \ne 0$. It is solved by factorisation, by completing the square or by the formula $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+
+**Formation.** Let the width be $x$ m. Then the length is $(x + 5)$ m, and area $=$ length $\times$ width gives
+
+$x(x + 5) = 84 \Rightarrow x^2 + 5x - 84 = 0$.
+
+**Solution by factorisation.** We need two numbers with product $-84$ and sum $+5$: they are $+12$ and $-7$.
+
+$x^2 + 12x - 7x - 84 = 0$
+
+$x(x + 12) - 7(x + 12) = 0$
+
+$(x + 12)(x - 7) = 0$, so $x = -12$ or $x = 7$.
+
+**Rejection.** A length cannot be negative, so $x = 7$.
+
+**Answer.** Width $=$ **7 m**, length $= 7 + 5 =$ **12 m**, perimeter $= 2(12 + 7) =$ **38 m**.
+
+**Check by the formula.** $b^2 - 4ac = 25 + 336 = 361$ and $\sqrt{361} = 19$, so $x = \frac{-5 \pm 19}{2} = 7$ or $-12$. The same roots appear.
+
+| Step | Result |
+|---|---|
+| Equation | $x^2 + 5x - 84 = 0$ |
+| Discriminant | 361 (perfect square, rational roots) |
+| Roots | 7 and −12 |
+| Valid width | 7 m |
+| Area check | $7\times 12 = 84$ m² |
+
+**Conclusion.** Form the equation from the story, solve it, reject any answer that makes no sense in the problem, and verify in the original statement.
+
 ## Chapter summary
 
 - The 16 questions of the paper break into parts of 1 to 3 marks; this chapter practises the 3- and 4-mark forms chapter by chapter.
