@@ -563,3 +563,77 @@ f.text(150, 222, "100 m needs about 1.96 MPa suction", size=10.5, color=SLATE, b
 **7.** (b) — Exosmosis into the hypertonic mount has plasmolysed them; water would deplasmolyse living cells.
 **8.** (a) — Ψg rises 0.01 MPa per metre: $30 \times 0.01 = 0.3$ MPa (friction costs extra on top).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain water potential, osmosis and the absorption of water by roots with the apoplast and symplast pathways. <span class="marks">[10]</span>
+2. Describe transpiration, the mechanism of stomatal opening, the ascent of sap and the translocation of food. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="2" ratio="1.4" caption="Water in plants. (a) Plasmolysis in a strong solution shows how water leaves a cell by osmosis when the outside water potential is lower. (b) A very tall tree lifts water over 100 m, which is explained by the cohesion-tension theory."
+@ photo id="ceebot/plasmolysis" cap="(a) Plasmolysed cells"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/redwood" cap="(b) Ascent of sap in tall trees"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: water potential, osmosis and absorption (10 marks)
+
+**Introduction.** Water moves into, through and out of plants by physical processes. Its tendency to move is measured as **water potential** $\Psi_w$ (in pascal or MPa), which is $0$ for pure water at standard pressure.
+
+**Components.** $\Psi_w = \Psi_s + \Psi_p$, where $\Psi_s$ is the **solute (osmotic) potential** (always negative) and $\Psi_p$ the **pressure potential** (positive in a turgid cell). Water moves from a region of **higher** to **lower** water potential.
+
+**Osmosis.** The diffusion of water across a selectively permeable membrane.
+
+| Condition | Effect on a cell |
+|---|---|
+| In **hypotonic** solution (higher $\Psi_w$ outside) | **endosmosis**; the cell becomes turgid |
+| In **hypertonic** solution | **exosmosis**; the protoplast shrinks, which is **plasmolysis** |
+| In **isotonic** solution | no net movement |
+
+At full turgor, $\Psi_p = -\Psi_s$, so $\Psi_w = 0$. **Turgor pressure** gives rigidity to young plants. Imbibition (swelling of seeds and wood) is the absorption of water by hydrophilic colloids such as cellulose and proteins.
+
+**Absorption by roots.** The **root hairs** greatly increase the surface and absorb water mainly by osmosis from the soil solution. The water crosses the cortex by two pathways:
+
+1. **Apoplast:** through the cell walls and spaces, with no crossing of membranes. It is blocked at the **endodermis** by the **Casparian strip** (suberin).
+2. **Symplast:** through the cytoplasm via **plasmodesmata**, and so the water must pass through the cell membranes at the endodermis, which controls what enters the xylem.
+
+**Active absorption** (the root cells use energy) produces **root pressure**, shown by guttation and bleeding. **Passive absorption** (about $98\%$) results from the pull of transpiration.
+
+**Mycorrhiza** (fungal association) helps absorb phosphate and water.
+
+**Numerical.** Cell A has $\Psi_s = -1.0$ and $\Psi_p = 0.4$, so $\Psi_w = -0.6\ \text{MPa}$. Cell B has $\Psi_w = -0.9\ \text{MPa}$. Water flows from A to B since A has the higher potential. In a plasmolysed cell $\Psi_p = 0$, so $\Psi_w = \Psi_s$.
+
+**Conclusion.** Water enters the root along a gradient of water potential, and the endodermis forces it through the cell membranes.
+
+### Model answer D2: transpiration, ascent of sap and translocation (10 marks)
+
+**Introduction.** **Transpiration** is the loss of water as vapour from the aerial parts, mainly through the **stomata** ($90\%$), the cuticle ($5\%$) and lenticels. A single maize plant loses about $2$ litres a day, and about $98\%$ of the absorbed water is lost.
+
+**Value.** It is a "necessary evil": it pulls water and minerals up, cools the leaf and keeps cells turgid, but it can wilt the plant.
+
+**Factors.** Light, temperature, low humidity and wind increase it. Water supply and leaf structure (thick cuticle, sunken stomata, few stomata) affect it. **Antitranspirants** (such as aspirin and kaolin) reduce it.
+
+**Stomatal mechanism (active $\text{K}^+$ theory).** In light, the guard cells take up $\text{K}^+$ ions by a proton pump (using ATP from the light reaction), and malate forms. The $\Psi_s$ becomes more negative, water enters and the guard cells become turgid and bow outwards, so the **stoma opens**. In the dark or under stress, **abscisic acid (ABA)** causes $\text{K}^+$ to leave, so the stoma closes. Guard cells have thicker inner walls, so they curve.
+
+**Ascent of sap (cohesion-tension theory, Dixon and Joly).**
+
+1. Evaporation from the leaf mesophyll creates a **tension** (negative pressure) in the xylem.
+2. Water molecules cling together by **cohesion** (hydrogen bonds), and to the xylem walls by **adhesion**.
+3. A continuous water column in the narrow vessels is pulled up from the root to the leaf. The column holds, and the tension can be as great as $-1$ to $-3\ \text{MPa}$.
+
+Root pressure is only $0.1$ to $0.2\ \text{MPa}$ and is not enough for tall trees.
+
+**Translocation of food (Münch's pressure-flow hypothesis).** Sugar is loaded into the sieve tubes at the **source** (leaf), which lowers $\Psi_s$, so water enters from the xylem and a high turgor pressure forms. The sap flows to the **sink** (root, fruit), where the sugar is unloaded and the water returns. It is bidirectional (in different sieve tubes) and needs living cells.
+
+| Feature | Xylem transport | Phloem transport |
+|---|---|---|
+| Substance | water and minerals | sucrose and amino acids |
+| Direction | upward | up and down |
+| Cells | dead | living |
+| Force | transpiration pull | pressure flow |
+
+**Numerical.** A leaf with $200$ stomata per $\text{mm}^2$ and a leaf area of $50\ \text{cm}^2$ ($5000\ \text{mm}^2$) has $10^6$ stomata. If a plant lost $450\ \text{g}$ of water to make $1\ \text{g}$ of dry matter, a crop of $10\ \text{t}$ of dry matter would transpire $4500\ \text{t}$ of water.
+
+**Conclusion.** Transpiration pull and cohesion lift the sap in the xylem, while pressure flow moves food through the phloem.

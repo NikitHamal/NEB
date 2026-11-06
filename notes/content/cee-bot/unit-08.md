@@ -833,3 +833,69 @@ f.text(150, 224, "hybrid share = 2 / 2^n after the first round", size=10.5, colo
 **8.** (a) — Two forks copy at 2000 nucleotides per second in total, so 4.6 × 10⁶ ÷ 2000 = 2300 s ≈ 38 minutes. Option (b) forgets that there are two forks.
 **9.** (b) — G = C = 30 %, so G + C = 60 % and A + T = 40 %; A = T = 20 %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Watson-Crick model of DNA and the semi-conservative replication of DNA. <span class="marks">[10]</span>
+2. Explain transcription, the genetic code, translation and the lac operon. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="2" ratio="1.4" caption="Heredity at the molecular and organism level. (a) A physical model of the DNA double helix shows the two antiparallel strands and the stacked base pairs. (b) Drosophila with white eyes, the mutant used by T. H. Morgan to show sex linkage."
+@ photo id="ceebot/dna-model" cap="(a) DNA double helix model"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/drosophila-white" cap="(b) White-eyed Drosophila"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: structure and replication of DNA (10 marks)
+
+**Introduction.** DNA is the genetic material of most organisms. Griffith (transformation), Avery, MacLeod and McCarty (DNA is the transforming principle) and **Hershey and Chase (1952)** with radioactive $^{32}\text{P}$ and $^{35}\text{S}$ in bacteriophage proved it.
+
+**Watson and Crick model (1953).**
+
+1. DNA is a **double helix** of two **antiparallel** polynucleotide strands ($5' \to 3'$ and $3' \to 5'$).
+2. The backbone is of sugar (deoxyribose) and phosphate, linked by $3'$-$5'$ phosphodiester bonds. The bases are inside.
+3. **Base pairing:** A with T by two hydrogen bonds, and G with C by three (**Chargaff's rule:** $A = T$, $G = C$, purines equal pyrimidines).
+4. The helix is right-handed, with a diameter of $2\ \text{nm}$, a pitch of $3.4\ \text{nm}$ with $10$ base pairs per turn (so the distance between base pairs is $0.34\ \text{nm}$).
+5. The sequence of bases carries the genetic information.
+
+**Semi-conservative replication.** (Shown by **Meselson and Stahl, 1958** using $^{15}\text{N}$ and $^{14}\text{N}$ in *E. coli*.) Each new DNA has **one old and one new strand**.
+
+1. **Helicase** unwinds the helix at the origin and forms the **replication fork**. Single-strand binding proteins keep it open.
+2. **Primase** makes a short RNA primer.
+3. **DNA polymerase III** adds nucleotides only in the $5' \to 3'$ direction. The **leading strand** is made continuously and the **lagging strand** in short **Okazaki fragments**.
+4. **DNA polymerase I** removes the primers and **DNA ligase** joins the fragments. Proofreading keeps the error rate to about $1$ in $10^9$.
+
+| Feature | DNA | RNA |
+|---|---|---|
+| Sugar | deoxyribose | ribose |
+| Bases | A, T, G, C | A, U, G, C |
+| Strands | double | single |
+| Types | one genetic type | mRNA, tRNA, rRNA |
+| Stability | stable | less stable |
+
+**Numerical.** If a DNA has $30\%$ adenine, then $\text{T} = 30\%$ and $\text{G} = \text{C} = 20\%$ each. A stretch of $1000$ base pairs has a length of $340\ \text{nm}$ and about $100$ turns. The human haploid genome of $3.2\times10^9$ bp has a length of about $1.1\ \text{m}$ per haploid set.
+
+**Conclusion.** The complementary base pairing of the double helix allows each strand to act as a template, so replication is semi-conservative and accurate.
+
+### Model answer D2: gene expression and the lac operon (10 marks)
+
+**Introduction.** The **central dogma** (Crick): DNA → RNA → protein. Transcription makes RNA from DNA, and translation makes protein from mRNA.
+
+**Transcription.** **RNA polymerase** binds at the **promoter** and reads the **template strand** ($3' \to 5'$) to make mRNA ($5' \to 3'$). Initiation, elongation and termination follow. In **eukaryotes** the primary transcript is processed: a $5'$ cap, a poly-A tail and **splicing** removes introns, leaving exons.
+
+**Genetic code.** Triplet **codons** of mRNA code for amino acids ($4^3 = 64$ codons). Properties: it is triplet, **degenerate** (most amino acids have more than one codon), non-overlapping, **universal**, unambiguous and has no punctuation. $\text{AUG}$ is the **start** codon (methionine) and UAA, UAG and UGA are **stop** codons ($61$ code for amino acids). (Nirenberg, Khorana and Holley worked out the code.)
+
+**Translation.** (On ribosomes in the cytoplasm.)
+
+1. **Activation:** each amino acid is joined to its tRNA by aminoacyl-tRNA synthetase using ATP.
+2. **Initiation:** the small subunit binds mRNA, the initiator tRNA (anticodon UAC) reads AUG and the large subunit joins.
+3. **Elongation:** tRNA brings amino acids to the A site, a **peptide bond** forms in the P site, and the ribosome moves along the mRNA by one codon (translocation).
+4. **Termination:** a stop codon is reached and the release factor frees the polypeptide.
+
+**Lac operon (Jacob and Monod, 1961).** A model of the regulation of gene expression in *E. coli*. The operon has a regulator gene $i$, a promoter, an operator and the structural genes $z$ ($\beta$-galactosidase), $y$ (permease) and $a$ (transacetylase). Without lactose, the **repressor** binds the operator and blocks transcription. With lactose, the **inducer** (allolactose) binds the repressor, which releases the operator, so the genes are switched on. It is an example of **inducible negative control**.
+
+**Numerical.** An mRNA of $300$ nucleotides has $100$ codons, and the polypeptide has about $99$ amino acids if the last codon is a stop codon. The template DNA sequence $3'\text{-TACGGT-}5'$ gives mRNA $5'\text{-AUGCCA-}3'$, which codes for methionine-proline. One mutation changing $\text{CAG}$ to $\text{UAG}$ makes a stop codon (a nonsense mutation).
+
+**Conclusion.** Genes are transcribed to mRNA and translated using the genetic code, and operons switch genes on and off according to need.

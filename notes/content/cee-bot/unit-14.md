@@ -562,3 +562,85 @@ f.text(150, 214, "heterozygotes = 100 / 2^n per cent", size=10.5, color=NAVY, bo
 **7.** (d) — The micropylar trio: egg flanked by two synergids with their filiform apparatus.
 **8.** (c) — Antipodals are gametophyte cells, haploid: $18 / 2 = 9$ chromosomes.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the development of the male and female gametophytes in an angiosperm. <span class="marks">[10]</span>
+2. Describe pollination, double fertilisation and the development of the seed and fruit, and note apomixis and polyembryony. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="2" ratio="1.4" caption="Reproduction in flowering plants. (a) A bee carries pollen from flower to flower, an example of biotic pollination. (b) A scanning electron micrograph of pollen grains, whose sculptured exine adapts them to stick to insects or fly in the wind."
+@ photo id="ceebot/bee-rose" cap="(a) Insect pollination"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/pollen-sem" cap="(b) Pollen grains (SEM)"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: microsporogenesis and megasporogenesis (10 marks)
+
+**Introduction.** The flower is the reproductive organ of angiosperms, with sepals (calyx), petals (corolla), stamens (androecium) and carpels (gynoecium). The sporophyte makes **spores** by meiosis, and the spores grow into the **gametophytes**.
+
+**Male gametophyte (microsporogenesis).**
+
+1. A young **anther** is **tetrasporangiate** (four pollen sacs, bilobed). The wall has the epidermis, endothecium, middle layers and the nutritive **tapetum**.
+2. The central **sporogenous tissue** forms **microspore mother cells (pollen mother cells, $2n$)**, each of which divides by **meiosis** into a **tetrad** of four haploid microspores.
+3. Each microspore becomes a **pollen grain** with a double wall: the tough **exine** (of **sporopollenin**) and the thin **intine**. The nucleus divides by mitosis to give a large **vegetative cell** and a small **generative cell**. The generative cell later divides into two **male gametes**.
+4. A pollen grain is the **male gametophyte**, and it is shed at the $2$-celled or $3$-celled stage.
+
+**Female gametophyte (megasporogenesis).**
+
+1. The **ovule** has a stalk (funicle), integuments, a micropyle and the **nucellus**. A **megaspore mother cell ($2n$)** forms in the nucellus.
+2. Meiosis gives **four megaspores**, of which **three degenerate** and one at the chalazal end functions.
+3. The functional megaspore divides by three mitotic divisions to give $8$ nuclei in the **embryo sac** (the female gametophyte, **monosporic, Polygonum type**).
+4. The final arrangement is **7 cells and 8 nuclei:**
+
+| Position | Cells |
+|---|---|
+| Micropylar end | **egg apparatus**: one **egg** and two **synergids** |
+| Centre | **central cell** with **two polar nuclei** |
+| Chalazal end | three **antipodal cells** |
+
+**Contrast.**
+
+| Feature | Male gametophyte | Female gametophyte |
+|---|---|---|
+| Spore | microspore | megaspore |
+| Number of spores that work | all $4$ | $1$ of $4$ |
+| Mature structure | $2$ or $3$ celled pollen grain | $7$ cells, $8$ nuclei |
+| Location | anther | ovule in ovary |
+
+**Numerical.** $100$ pollen mother cells make $400$ pollen grains. A plant with $2n = 24$ has $n = 12$ in the pollen. A flower with $4$ stamens, each with $4$ pollen sacs holding $1000$ grains, produces $16\,000$ pollen grains. A single megaspore mother cell gives $1$ embryo sac of $8$ nuclei.
+
+**Conclusion.** Meiosis makes four spores in both cases, but only the pollen gets all four to work, while in the ovule only one forms the embryo sac.
+
+### Model answer D2: pollination, double fertilisation and seed and fruit (10 marks)
+
+**Introduction.** **Pollination** is the transfer of pollen from the anther to the stigma. **Self-pollination** (autogamy) occurs in the same flower and **cross-pollination** (allogamy) between flowers of different plants.
+
+**Agents.**
+
+| Agent | Name | Flower features | Example |
+|---|---|---|---|
+| Wind | anemophily | small, no scent, feathery stigma, light pollen | maize, grasses |
+| Insect | entomophily | colour, scent, nectar, sticky pollen | rose, mustard |
+| Water | hydrophily | pollen without wall | *Vallisneria* |
+| Bird | ornithophily | red, tubular | bottlebrush |
+| Bat | chiropterophily | night-opening | banana, *Kigelia* |
+
+Devices for cross-pollination: **dichogamy**, **self-incompatibility**, **herkogamy** and unisexual flowers (dioecy as in papaya). Cleistogamous flowers never open.
+
+**Double fertilisation (Nawaschin, 1898).** The pollen tube grows through the style to the ovule, entering the **micropyle** (**porogamy**). It discharges **two male gametes** into the embryo sac.
+
+1. **Syngamy:** one male gamete fuses with the **egg** to form the **diploid zygote ($2n$)**.
+2. **Triple fusion:** the other male gamete fuses with the two polar nuclei to form the **primary endosperm nucleus ($3n$)**, which is the specific feature of angiosperms.
+
+**After fertilisation.**
+
+1. The zygote forms the **embryo** (plumule, radicle and cotyledons), the PEN forms the **endosperm** (triploid, food storage), the integuments form the **seed coat**, the ovule becomes the **seed** and the ovary becomes the **fruit** (the **pericarp**).
+2. **Albuminous** seeds retain endosperm (wheat, castor) and **non-albuminous** seeds use it up (pea, bean). In the **false fruits** (apple) other parts, such as the thalamus, also grow.
+3. **Parthenocarpy** forms fruit without fertilisation (banana), and **apomixis** forms seeds without fertilisation (some grasses). **Polyembryony** is the presence of more than one embryo in a seed (citrus, mango).
+
+**Numerical.** If $2n = 24$ in the plant, the endosperm has $3n = 36$ chromosomes and the egg has $12$. Each embryo sac needs $2$ male gametes, so $500$ ovules need $1000$ male gametes, and so $500$ pollen tubes. A fruit with $20$ seeds needs $20$ fertilised ovules.
+
+**Conclusion.** Double fertilisation gives a $2n$ embryo and a $3n$ endosperm in one event, and the ovary and ovule change into the fruit and seed.

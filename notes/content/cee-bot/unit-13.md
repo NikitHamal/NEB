@@ -559,3 +559,74 @@ f.text(150, 222, "half of 90 = 45 is reached at day 3.3", size=10.5, color=SLATE
 **7.** (c) — The block is physical — water cannot enter — so breaching the coat is the direct cure.
 **8.** (b) — Exogenous GA mimics the embryo signal, standardising amylase output across the batch.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the plant growth regulators (auxin, gibberellin, cytokinin, ethylene and abscisic acid) with their physiological effects. <span class="marks">[10]</span>
+2. Describe seed germination, dormancy, photoperiodism, vernalisation and tropic movements. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="2" ratio="1.4" caption="Growth and response. (a) A bean seed germinating: the radicle emerges first and the cotyledons supply food. (b) Phototropism: the shoot bends towards the light because auxin collects on the shaded side and makes those cells grow longer."
+@ photo id="ceebot/bean-germ" cap="(a) Seed germination"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/phototropism" cap="(b) Phototropism"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: plant growth regulators (10 marks)
+
+**Introduction.** **Plant growth regulators (phytohormones)** are organic substances, made in one part and active in very low concentration, that control growth and development. Growth has **cell division**, **elongation** and **maturation** phases.
+
+| Hormone | Discovery | Main effects | Practical use |
+|---|---|---|---|
+| **Auxin** (IAA) | Darwin, Went (*Avena* curvature test) | cell elongation, apical dominance, phototropism, root initiation, parthenocarpy | rooting powder, weedkiller 2,4-D, tomato fruit set |
+| **Gibberellin** (GA₃) | Kurosawa (*bakanae* disease of rice) | stem elongation, breaks dormancy, bolting, fruit size | big seedless grapes, malting of barley |
+| **Cytokinin** (kinetin, zeatin) | Skoog and Miller | cell division, delays senescence, breaks apical dominance, shoot formation | tissue culture, keeping leaves green |
+| **Ethylene** (gas) | Neljubow | fruit ripening, leaf and fruit abscission, senescence, triple response | ripening of banana, mango (ethephon) |
+| **Abscisic acid (ABA)** | Addicott | closes stomata, induces dormancy, seed maturation, stress hormone | reduces water loss |
+
+**Points.**
+
+1. **Apical dominance:** auxin from the apical bud inhibits the lateral buds. Removal of the tip (pruning, in tea bushes) allows branching. Cytokinin opposes it.
+2. **Ratio in tissue culture:** a high auxin to cytokinin ratio gives roots, a low ratio gives shoots, and an equal ratio gives callus.
+3. **Antagonism:** gibberellin and ABA act in opposite ways on seed dormancy ($\text{GA}$ promotes and $\text{ABA}$ inhibits germination).
+4. **Senescence and abscission** are controlled by ethylene and ABA, while **florigen** is the flowering signal.
+5. Synthetic regulators: NAA, 2,4-D (kills dicot weeds in cereals) and ethephon.
+
+**Numerical.** In an *Avena* curvature test, a coleoptile bends $12^{\circ}$ with a $1\ \text{mg L}^{-1}$ auxin block and $24^{\circ}$ with a $2\ \text{mg L}^{-1}$ block, so the curvature is proportional to concentration over this range. A growth of a stem from $4$ to $10\ \text{cm}$ in $5$ days means an absolute rate of $1.2\ \text{cm day}^{-1}$.
+
+**Conclusion.** Each hormone has several effects, and growth is a result of their balance and interaction.
+
+### Model answer D2: germination, dormancy, photoperiodism and tropism (10 marks)
+
+**Introduction.** A seed is a ripened ovule with an embryo and stored food. Under suitable conditions, it **germinates**.
+
+**Conditions for germination.** Adequate **water**, **oxygen**, suitable **temperature** and, in some seeds, light. **Viable** seeds have a living embryo (tested by tetrazolium chloride, which turns living tissue red).
+
+**Stages and types.**
+
+1. **Imbibition**, activation of enzymes (amylase and protease) and mobilisation of food.
+2. **Radicle** emergence, then the plumule.
+3. **Epigeal germination:** the cotyledons are brought above the soil by the elongation of the **hypocotyl** (bean, castor, cucumber).
+4. **Hypogeal germination:** the cotyledons stay below ground because the **epicotyl** elongates (pea, maize, gram).
+
+**Dormancy.** A resting period of a viable seed. Causes: a hard seed coat (**scarification** with acid or abrasion), immature embryo, **inhibitors** (ABA), and the need for **stratification** (cold). Importance: it protects seeds from bad seasons and allows dispersal.
+
+**Photoperiodism.** The response to the length of the day, controlled by the pigment **phytochrome** ($\text{P}_r \rightleftharpoons \text{P}_{fr}$). Garner and Allard worked on tobacco.
+
+| Type | Condition | Examples |
+|---|---|---|
+| Short-day plants (SDP) | flower when the night is longer than a critical length | rice, soybean, chrysanthemum |
+| Long-day plants (LDP) | flower when the night is shorter | wheat, spinach, radish |
+| Day-neutral | not affected | tomato, cotton, maize |
+
+In fact it is the length of the **dark period** that is important, and a flash of red light in the night breaks the dark period.
+
+**Vernalisation.** Cold treatment of seeds or seedlings to induce flowering (winter wheat, Lysenko), a method used to get a crop in a different season.
+
+**Tropisms** are growth movements in response to a directional stimulus: **phototropism** (shoot positive, root negative), **geotropism** (root positive), **hydrotropism** (roots to water), **chemotropism** (pollen tube) and **thigmotropism** (tendrils). **Nastic movements** are not directional (the touch-me-not *Mimosa pudica*, the opening of flowers).
+
+**Numerical.** If $45$ out of $50$ seeds germinate, the germination percentage is $90\%$. For a seed lot with $90\%$ germination and $98\%$ purity, the pure live seed is $0.9\times0.98 = 88\%$, so to get $1000$ live seedlings, about $1136$ seeds are needed.
+
+**Conclusion.** Germination needs water, oxygen and warmth, and light-dependent processes such as flowering are controlled by phytochrome.

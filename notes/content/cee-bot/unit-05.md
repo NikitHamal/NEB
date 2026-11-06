@@ -797,3 +797,88 @@ f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
 **9.** (d) — Neem twigs are stems, tulasi is used for its leaves, and ginger's rhizome is an underground stem.
 **10.** (a) — Sessile flowers in acropetal order on an elongated axis make a spike. A raceme has stalked flowers; a cyme has the oldest flower at the tip.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the characters of Brassicaceae, Fabaceae and Solanaceae with floral formulae and economic importance. <span class="marks">[10]</span>
+2. Describe the economic importance of plants: cereals, pulses, fibres, spices and the medicinal plants of Nepal. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="4" ratio="1.1" caption="Plant families and useful plants. (a) Mustard, Brassicaceae, with four petals in a cross. (b) Pea, Fabaceae, with a butterfly-shaped corolla. (c) Potato, Solanaceae, with a five-lobed corolla. (d) Yarsagumba, the caterpillar fungus of the Nepali Himalaya."
+@ photo id="cee-bot/mustard" cap="(a) Mustard"
+fit 1.1
+focus 0.5 0.5
+@ photo id="cee-bot/pea-flower" cap="(b) Pea flower"
+fit 1.1
+focus 0.5 0.5
+@ photo id="cee-bot/potato-flower" cap="(c) Potato flower"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceebot/yarsagumba" cap="(d) Yarsagumba"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Brassicaceae, Fabaceae and Solanaceae (10 marks)
+
+**Introduction.** Angiosperms are classified into **dicots** (two cotyledons, net venation, tap root, tetramerous or pentamerous flowers) and **monocots** (one cotyledon, parallel venation, fibrous roots, trimerous flowers). Families are recognised by floral characters.
+
+| Feature | Brassicaceae (Cruciferae) | Fabaceae (Papilionoideae) | Solanaceae |
+|---|---|---|---|
+| Habit | herbs | herbs, shrubs, trees | herbs, shrubs |
+| Leaf | simple, alternate | compound, with stipules | simple, alternate |
+| Inflorescence | raceme | raceme | cymose |
+| Flower | actinomorphic, bisexual | zygomorphic, bisexual | actinomorphic, bisexual |
+| Calyx | 4 sepals, free | 5, gamosepalous | 5, gamosepalous, persistent |
+| Corolla | 4 petals in a **cross** | 5: standard, 2 wings, 2 keel (**vexillary**) | 5, gamopetalous |
+| Androecium | 6, **tetradynamous** (4 long + 2 short) | 10, diadelphous (9 + 1) | 5, epipetalous |
+| Gynoecium | bicarpellary, superior, **replum** | monocarpellary, superior | bicarpellary, superior, obliquely placed |
+| Fruit | **siliqua** or silicula | **legume** | berry or capsule |
+| Floral formula | ⊕ ⚥ K₂₊₂ C₄ A₂₊₄ G(₂) | % ⚥ K₍₅₎ C₅ A₍₉₎₊₁ G₁ | ⊕ ⚥ K₍₅₎ C₍₅₎ A₅ G₍₂₎ |
+
+(The superior ovary is the **hypogynous** condition in all three.)
+
+**Economic importance.**
+
+1. **Brassicaceae:** vegetables (cabbage, cauliflower, radish, turnip), oil (mustard, rapeseed, a staple oilseed in Nepal's Terai), ornamentals (candytuft) and a weed (shepherd's purse). *Arabidopsis* is the model plant of genetics.
+2. **Fabaceae:** pulses (lentil, soyabean, gram, pea), fodder (clover, alfalfa), timber (Dalbergia, or sisau), dye (indigo), medicine (Glycyrrhiza, liquorice) and green manure (Sesbania). **Root nodules** with *Rhizobium* fix nitrogen.
+3. **Solanaceae:** food (potato, tomato, brinjal, chilli), drug plants (**Atropa** belladonna giving atropine, Datura, tobacco) and ornamentals (petunia).
+
+**Numerical.** For a tetradynamous flower the stamens number $2 + 4 = 6$ and the petals are $4$, so the ratio of stamens to petals is $1.5$. A legume pod with $8$ seeds, and a plant with $25$ pods, gives $200$ seeds.
+
+**Conclusion.** Family identification rests on a few constant floral characters, and each of these three families is of high economic value.
+
+### Model answer D2: economic botany (10 marks)
+
+**Introduction.** **Economic botany** is the study of plants of use to man for food, fibre, fuel, medicine, shelter and industry.
+
+**Food plants.**
+
+1. **Cereals** (Poaceae) are the staple: rice (*Oryza sativa*, the main crop of the Terai), wheat, maize, millet (*kodo*) and barley, rich in starch.
+2. **Pulses** (Fabaceae) are protein-rich (lentil, black gram, soyabean) and enrich the soil.
+3. **Oilseeds:** mustard, sesame, groundnut and sunflower.
+4. **Sugar:** sugarcane (*Saccharum officinarum*) and sugar beet.
+5. **Fruits and vegetables** give vitamins and minerals, and **beverages** are tea (*Camellia sinensis*, grown in Ilam) and coffee (*Coffea arabica*, grown in Gulmi and Lalitpur).
+
+**Fibre plants.** Cotton (seed hairs), jute (stem fibre of *Corchorus*, grown in the Terai), hemp and flax, **lokta** (*Daphne*), whose bark gives the traditional Nepali paper, and coir (coconut fruit).
+
+**Spices.** Large cardamom (*Amomum subulatum*, Ilam, a major export of Nepal), turmeric, ginger, black pepper, cloves and chilli.
+
+**Medicinal plants of Nepal.**
+
+| Plant | Part | Use |
+|---|---|---|
+| *Rauvolfia serpentina* (sarpagandha) | root | reserpine for high blood pressure |
+| *Ophiocordyceps sinensis* (yarsagumba) | fungus on caterpillar | tonic, high value |
+| *Azadirachta indica* (neem) | leaf, bark | antiseptic, insecticide |
+| *Ocimum sanctum* (tulsi) | leaf | cough, cold |
+| *Taxus wallichiana* (Himalayan yew) | bark | taxol, anticancer |
+| *Swertia chirayita* (chiraito) | whole plant | fever, digestion |
+| *Aloe vera* | leaf | skin care |
+
+**Conservation.** Over-collection of Himalayan herbs threatens species, so CITES, community forestry and cultivation help. The Department of Plant Resources in Kathmandu and national parks conserve medicinal plants.
+
+**Other products.** Timber (sal, *Shorea robusta*), rubber (*Hevea*), resin, tannins and the bio-fuel crop jatropha.
+
+**Numerical.** If a hectare of rice gives $4\ \text{t}$ of paddy, which gives $65\%$ rice on milling, then it yields $2.6\ \text{t}$ of rice. A country of $30$ million people eating $0.4\ \text{kg}$ of cereal per person per day needs $12\,000\ \text{t}$ per day, or about $4.4$ million tonnes per year.
+
+**Conclusion.** Cereals, pulses and oilseeds feed the people, fibres and spices bring income, and Nepal's medicinal plants need careful conservation.

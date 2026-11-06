@@ -687,3 +687,83 @@ f.text(150, 222, "meiosis halves it; fertilization restores it", size=10.5, colo
 **7.** (a) — The prothallus grows from a spore made by meiosis, so it is haploid: n = 40.
 **8.** (c) — Many cotyledons, haploid endosperm and naked seeds mark *Pinus*. *Cycas* is also a gymnosperm but has two cotyledons; maize and pea have triploid endosperm and fruits.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the life cycle of a bryophyte (*Marchantia*) and show the alternation of generations. <span class="marks">[10]</span>
+2. Describe the structure and life cycle of a fern (*Dryopteris*) and a gymnosperm (*Pinus*), with a comparison. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Land plants without flowers. (a) Marchantia, a liverwort, with its flat, lobed gametophyte thallus. (b) The underside of a fern frond with sori, clusters of sporangia. (c) Male cones of Pinus, which release large amounts of wind-borne pollen."
+@ photo id="cee-bot/marchantia" cap="(a) Marchantia thallus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/fern-sori" cap="(b) Fern sori"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/pine-male" cap="(c) Pine male cones"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: bryophytes and alternation of generations (10 marks)
+
+**Introduction.** **Bryophytes** (liverworts, hornworts and mosses) are the "amphibians of the plant kingdom": small, non-vascular plants that need water for fertilisation. The dominant plant is the haploid **gametophyte**.
+
+**Features.** No true roots (rhizoids instead), no xylem or phloem, a cuticle that is thin, and a multicellular **jacketed** sex organ. The sporophyte depends on the gametophyte.
+
+**Life cycle of *Marchantia*.**
+
+1. **Gametophyte:** a flat, dichotomously branched, dorsiventral thallus with rhizoids and **gemma cups** for vegetative reproduction. It is dioecious.
+2. **Male plant:** an **antheridiophore** (disc-shaped) with antheridia, producing biflagellate antherozoids.
+3. **Female plant:** an **archegoniophore** (star-shaped, with finger-like rays) with archegonia, each with an egg.
+4. **Fertilisation:** the antherozoids swim in a film of water (rain splash) to the egg. The zygote forms.
+5. **Sporophyte:** a diploid **sporogonium** with a foot, a seta and a capsule, which remains attached to the female gametophyte. Meiosis in the capsule gives haploid **spores** (with **elaters** that help dispersal).
+6. A spore germinates into a protonema-like stage and grows into a new thallus.
+
+**Alternation of generations.** A cycle in which a haploid gametophyte (gamete-producing) alternates with a diploid sporophyte (spore-producing).
+
+| Group | Dominant stage | Sporophyte |
+|---|---|---|
+| Bryophyta | gametophyte | dependent on the gametophyte |
+| Pteridophyta | sporophyte | independent |
+| Gymnosperms, angiosperms | sporophyte | gametophyte reduced and dependent |
+
+**Importance.** *Sphagnum* peat moss is used as fuel and for soil moisture and packing plants, mosses are pioneers of **primary succession** on rock, they prevent soil erosion and they are indicators of acid rain. *Funaria* is a common moss.
+
+**Numerical.** If a sporangium makes $10$ spore mother cells, then meiosis gives $4\times10 = 40$ haploid spores. For a plant with $n = 9$ in the gametophyte, the sporophyte has $2n = 18$.
+
+**Conclusion.** In bryophytes, the visible plant is the haploid gametophyte, and water is required for the swimming antherozoids to reach the egg.
+
+### Model answer D2: pteridophytes and gymnosperms (10 marks)
+
+**Introduction.** **Pteridophytes** are the first vascular land plants, with true roots, stems and leaves, xylem and phloem, but no seeds. **Gymnosperms** are seed plants with **naked seeds**.
+
+**Fern (*Dryopteris*).**
+
+1. **Sporophyte:** a dominant plant with an underground rhizome, adventitious roots and large compound leaves (fronds), with circinate vernation. The stele is a dictyostele.
+2. **Sori** on the underside of fronds hold **sporangia**, each with an **annulus** that rips it open to release haploid spores. The sorus is covered by an indusium.
+3. **Gametophyte:** a small, green, heart-shaped, free-living **prothallus** with rhizoids, antheridia and archegonia. It is monoecious.
+4. **Fertilisation** needs water and gives a zygote which grows into the new sporophyte.
+
+**Pine (*Pinus*).**
+
+1. **Sporophyte:** a tall tree with a tap root, a woody stem, needle leaves in clusters of $2$ ($3$ or $5$ in some), **resin canals** and a xerophytic structure (sunken stomata, thick cuticle).
+2. **Male cones** in clusters bear microsporophylls with microsporangia producing **winged pollen grains**.
+3. **Female cones** (woody) bear megasporophylls with ovules, and the megaspore forms a female gametophyte with archegonia.
+4. **Pollination** is by wind. There is no need for water, and a **pollen tube** carries the male nuclei (**siphonogamy**).
+5. **Seeds** are naked and winged. They form two years after pollination.
+
+| Feature | Fern | Pine |
+|---|---|---|
+| Dominant stage | sporophyte | sporophyte |
+| Spores | homosporous | heterosporous |
+| Gametophyte | free-living | retained in the sporophyte |
+| Water for fertilisation | needed | not needed |
+| Seed | absent | naked seed |
+| Vascular tissue | no vessels | tracheids, no vessels |
+
+**Examples and uses.** Pteridophytes: *Selaginella*, *Equisetum*, *Lycopodium*, *Azolla* (a biofertiliser). Gymnosperms: Cycas, Pinus, Ginkgo, Ephedra (ephedrine), and the redwood. Pine gives timber, resin, turpentine and paper pulp, and the Himalayan Pinus roxburghii is common in Nepal's mid hills.
+
+**Numerical.** If a fern frond has $20$ sori with $40$ sporangia each, and each holds $48$ spores, then $20\times40\times48 = 38\,400$ spores per frond. A pine pollen grain is only $60\ \mu\text{m}$ but may reach thousands of kilometres by wind.
+
+**Conclusion.** The sporophyte dominates in both, but the pine does not need water for fertilisation and its ovule becomes a seed.
