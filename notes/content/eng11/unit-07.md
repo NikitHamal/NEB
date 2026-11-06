@@ -534,3 +534,53 @@ wants to kill is the man giving him the advice. And the warning is paid for by t
 person it is designed to deceive, who walks away grateful to his own would-be
 murderer.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe how the astrologer works and why people trust him. <span class="marks">[10]</span>
+2. Discuss the irony of the ending of "An Astrologer's Day". <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Street trade. R. K. Narayan in Mysore and a Kathmandu morning market: the street, with its sellers and flares, is the setting of the astrologer's work."
+@ photo id="eng11/narayan" cap="R. K. Narayan"
+@ photo id="health8/market-veg" cap="Morning street market"
+```
+
+### Model answer D1: how the astrologer works (10 marks)
+
+**Introduction.** R. K. Narayan (1906–2001) set his stories in the imaginary town of **Malgudi**. "An Astrologer's Day" is the title story of his 1947 collection.
+
+**The astrologer's method.**
+
+1. He sits under a **tamarind tree on Town Hall Road**, among other street sellers.
+2. He is lit only by the **flares** of the neighbouring stalls.
+3. His **ash, vermilion, turban, cowrie shells and charts** are pure stage-craft.
+4. He knows **nothing about astrology**.
+5. He uses **observation**: a customer's clothes, face and manner tell him a lot.
+6. He uses **flattery** and clever, general words.
+7. He has a **"working analysis of mankind's troubles: marriage, money and the tangles of human ties"**.
+8. People believe him because they **want to hear** hopeful words.
+
+| Tool | Purpose |
+|---|---|
+| Costume and charts | Look of authority |
+| Observation | Guess about the client |
+| General talk | Fits every problem |
+
+**Conclusion.** The astrologer's success depends on psychology, not on the stars.
+
+### Model answer D2: the ironic ending (10 marks)
+
+**Introduction.** The ending is full of **irony**: what the characters believe and the truth are opposite.
+
+1. A last customer, **Guru Nayak**, challenges him; they make a **wager**.
+2. A struck match shows the astrologer the man's face, and he tries to **call the bet off**; he is afraid.
+3. He then tells Guru Nayak, **accurately**, that he was stabbed, pushed into a well and left for dead.
+4. He also says that the **attacker is dead**, and warns Guru Nayak to leave the village and never return.
+5. The astrologer is **the man who had stabbed him** years earlier; his knowledge came from his own past, not from the stars.
+6. At home he tells his wife that a **great load is off his mind**, since he had thought he was a murderer.
+7. The irony: the false astrologer gives a **true prediction** only because he knows the facts.
+8. Narayan also shows **humour and humanity**: the astrologer left his village to escape the law and became a fake who helps people.
+
+**Conclusion.** The surprise ending shows that fate is made by people and chance, not by the stars.

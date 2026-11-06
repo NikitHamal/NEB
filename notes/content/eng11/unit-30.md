@@ -397,3 +397,36 @@ better than any other student**.*
 **25.** He is **too tired** to walk any further. — *too … to* shows an impossible result; *very* cannot be used here.
 **26.** The soup tastes **delicious**. — after a linking verb use an adjective.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain prepositions of time and place, and the rules for adjectives and adverbs. <span class="marks">[10]</span>
+
+### Model answer D1: prepositions, adjectives and adverbs (10 marks)
+
+**Prepositions of time.**
+
+1. **at** a clock time; **on** a day or date; **in** a month, season or year.
+2. **since** + point; **for** + length; **by** = not later than; **until** = up to.
+
+**Prepositions of place.**
+
+3. **at** a point, **on** a surface, **in** an area; **between** two, **among** more than two.
+4. **beside** = next to; **besides** = in addition.
+
+**Adjectives and adverbs.**
+
+5. An **adjective** describes a noun and follows linking verbs (*be, seem, feel, look, taste*): *The soup tastes good.*
+6. An **adverb** describes a verb, adjective or adverb: *She sings well.*
+7. Many adverbs end in **-ly**; some do not (*fast, hard, late*); **hardly** ≠ *hard*, **lately** ≠ *late*.
+8. **Order of adjectives:** opinion, size, age, shape, colour, origin, material, purpose: *a beautiful small old wooden box*.
+
+| Adjective | Adverb |
+|---|---|
+| good | well |
+| quick | quickly |
+| hard | hard |
+
+**Conclusion.** Learn the fixed prepositions and check whether the word describes a noun or a verb.

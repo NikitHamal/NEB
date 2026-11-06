@@ -18576,6 +18576,19 @@
   "source": "Wikimedia Commons",
   "title": "William Wordsworth Portrait by H. W. Pickersgill"
  },
+ "eng11/achebe": {
+  "author": "Stuart C. Shapiro",
+  "bytes": 85196,
+  "credit": "photo taken by Stuart C. Shapiro",
+  "fetched": "2026-11-06",
+  "file": "eng11/achebe.jpg",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chinua_Achebe,_2008_(cropped).jpg",
+  "sha1": "bec09f521021c1d5",
+  "source": "Wikimedia Commons",
+  "title": "Chinua Achebe, 2008 (cropped)"
+ },
  "eng11/alvarez-quintero": {
   "author": "Crónica Gráfica",
   "bytes": 2033247,
@@ -18602,6 +18615,32 @@
   "source": "Wikimedia Commons",
   "title": "President Johnson poverty tour"
  },
+ "eng11/burns": {
+  "author": "John Beugo",
+  "bytes": 1138202,
+  "credit": "The 1794 Robert Burns portrait after A. Nasmyth by J. Beugo. Poems, Chiefly in the Scottish Dialect.",
+  "fetched": "2026-11-06",
+  "file": "eng11/burns.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:1794_Robert_Burns_portrait_after_A._Nasmyth_by_J._Beugo.jpg",
+  "sha1": "8aea82b74b4609e0",
+  "source": "Wikimedia Commons",
+  "title": "1794 Robert Burns portrait after A. Nasmyth by J. Beugo"
+ },
+ "eng11/cummings": {
+  "author": "Orango01",
+  "bytes": 485414,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng11/cummings.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Self-Portrait_by_E._E._Cummings,_circa._1920s.jpg",
+  "sha1": "c0d8bed01062ada8",
+  "source": "Wikimedia Commons",
+  "title": "Self-Portrait by E. E. Cummings, circa. 1920s"
+ },
  "eng11/cv": {
   "author": "Colin8317a",
   "bytes": 255088,
@@ -18614,6 +18653,19 @@
   "sha1": "6ec48d93a3221ae5",
   "source": "Wikimedia Commons",
   "title": "Example CV Resume (Director Level)"
+ },
+ "eng11/dahl-helmet": {
+  "author": "DeFacto",
+  "bytes": 575763,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "eng11/dahl-helmet.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Roald_Dahl%27s_leather_flying_helmet.jpg",
+  "sha1": "a1f0192bb4a9c512",
+  "source": "Wikimedia Commons",
+  "title": "Roald Dahl's leather flying helmet"
  },
  "eng11/envelope": {
   "author": "Unknown author",
@@ -18632,7 +18684,7 @@
   "author": "Biswarup Ganguly",
   "bytes": 534711,
   "credit": "Own work",
-  "fetched": "2026-09-28",
+  "fetched": "2026-11-06",
   "file": "eng11/haldane-avenue-kolkata.jpg",
   "license": "CC BY 3.0",
   "license_url": "https://creativecommons.org/licenses/by/3.0",
@@ -18643,14 +18695,14 @@
  },
  "eng11/haldane-plaque-oxford": {
   "author": "Jpbowen",
-  "bytes": 233000,
+  "bytes": 253260,
   "credit": "Own work",
-  "fetched": "2026-09-28",
+  "fetched": "2026-11-06",
   "file": "eng11/haldane-plaque-oxford.jpg",
   "license": "CC BY-SA 3.0",
   "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
   "page": "https://commons.wikimedia.org/wiki/File:Haldane_blue_plaque,_Oxford.JPG",
-  "sha1": "4e5a4c32049f8a69",
+  "sha1": "c66dd31cd30b3ac4",
   "source": "Wikimedia Commons",
   "title": "Haldane blue plaque, Oxford"
  },
@@ -18693,6 +18745,32 @@
   "source": "Wikimedia Commons",
   "title": "Letter from George Underwood (1898)"
  },
+ "eng11/maupassant": {
+  "author": "Liébert, Alphonse (Tournay, 30–11–1826 - Paris, 18–06–1913), photographe",
+  "bytes": 718367,
+  "credit": "https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/portrait-de-guy-de-maupassant-1850-1893-romancier-0#infos-principales",
+  "fetched": "2026-11-06",
+  "file": "eng11/maupassant.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Portrait_de_Guy_de_Maupassant,_(1850-1893),_romancier,_PH16994.jpg",
+  "sha1": "a0924c0d0dca9fa5",
+  "source": "Wikimedia Commons",
+  "title": "Portrait de Guy de Maupassant, (1850-1893), romancier, PH16994"
+ },
+ "eng11/narayan": {
+  "author": "R. K. Balaraman (photographer)",
+  "bytes": 49050,
+  "credit": "http://www.frontline.in/multimedia/dynamic/03008/FL30_RKN_1_3008718g.jpg (taken from here )",
+  "fetched": "2026-11-06",
+  "file": "eng11/narayan.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:RK_Narayan_in_Mysore.jpg",
+  "sha1": "f93789aabde67d44",
+  "source": "Wikimedia Commons",
+  "title": "RK Narayan in Mysore"
+ },
  "eng11/newspaper": {
   "author": "Nigerian observer Newspaper",
   "bytes": 533995,
@@ -18719,6 +18797,19 @@
   "source": "Wikimedia Commons",
   "title": "Calbourne notice board, IW"
  },
+ "eng11/poe": {
+  "author": "Unknown author Unknown author ; Restored by Yann Forget and Adam Cuerden",
+  "bytes": 2749933,
+  "credit": "Derived from File:Edgar Allan Poe, circa 1849, restored.jpg ; originally from http://www.getty.edu/art/gettyguide/artObjectDetails?artobj=39406",
+  "fetched": "2026-11-06",
+  "file": "eng11/poe.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Edgar_Allan_Poe,_circa_1849,_restored,_squared_off.jpg",
+  "sha1": "1b8634df4ddcf2ea",
+  "source": "Wikimedia Commons",
+  "title": "Edgar Allan Poe, circa 1849, restored, squared off"
+ },
  "eng11/steve-jobs-1984": {
   "author": "Photo: Bernard Gotfryd - Edited from tif by Cart",
   "bytes": 344244,
@@ -18744,6 +18835,19 @@
   "sha1": "dbcf125dcf11814d",
   "source": "Wikimedia Commons",
   "title": "Susan Glaspell portrait, ca. 1918"
+ },
+ "eng11/wilde": {
+  "author": "Napoleon Sarony / Adam Cuerden",
+  "bytes": 1036233,
+  "credit": "This image is available from the United States Library of Congress 's Prints and Photographs division under the digital ID ppmsca.07757 . This tag does not indi",
+  "fetched": "2026-11-06",
+  "file": "eng11/wilde.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Oscar_Wilde_by_Napoleon_Sarony._Three-quarter-length_photograph,_seated.jpg",
+  "sha1": "fbf8434b76c1356d",
+  "source": "Wikimedia Commons",
+  "title": "Oscar Wilde by Napoleon Sarony. Three-quarter-length photograph, seated"
  },
  "eng12/aracataca-station": {
   "author": "Jdvillalobos",
