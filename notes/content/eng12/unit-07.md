@@ -515,3 +515,43 @@ gladness that he has escaped. (d) The ending is fitting because it is quiet and 
 story to the ordinary life from which it began, and it leaves the reader to decide what has been lost.
 :::
 
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how the villagers treat the old man in "A Very Old Man with Enormous Wings". <span class="marks">[10]</span>
+2. Discuss magical realism and the themes of the story. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Author and town. Gabriel García Márquez and the railway station at Aracataca, the Colombian town where he was born and which inspired his imagined Macondo."
+@ photo id="eng12/marquez" cap="Gabriel García Márquez"
+@ photo id="eng12/aracataca-station" cap="Aracataca railway station"
+```
+
+### Model answer D1: how the villagers treat him (10 marks)
+
+**Introduction.** The story is by the Colombian writer **Gabriel García Márquez** (1927–2014; Nobel Prize 1982), written in 1968 and subtitled *A Tale for Children*.
+
+1. After **three days of rain**, Pelayo finds a very old, filthy man with **huge buzzard's wings** in his muddy courtyard.
+2. He and his wife **Elisenda** first think him a castaway.
+3. A neighbour woman calls him an **angel**.
+4. **Father Gonzaga** greets him in Latin, doubts that he is an angel and **writes to Rome**.
+5. They **lock him in the chicken coop**, and Elisenda **charges five cents** to see him.
+6. **Crowds** come, torment and exploit him, and the family grows rich.
+7. A **travelling show** with a woman changed into a spider takes the crowd away; the couple build a mansion with **iron bars on the windows**.
+8. The angel grows ill, survives a winter, grows new feathers and **flies away**: Elisenda watches him become **"an imaginary dot on the horizon of the sea"**.
+
+**Conclusion.** The people turn a wonder into a spectacle and treat a helpless being cruelly.
+
+### Model answer D2: magical realism and themes (10 marks)
+
+1. **Magical realism** presents a miracle in a plain, realistic way.
+2. The narrator is **calm and deadpan**: nobody is amazed for long.
+3. The angel's only supernatural virtue is **patience**; his "miracles" are comic.
+4. **Themes:** the way people turn a wonder into a spectacle.
+5. **Greed and commercialism:** the family gets rich from the visitors.
+6. **Cruelty to the weak** and the limits of religious and scientific knowledge.
+7. **Old age and dignity:** the old man is never proved to be an angel; the interest is in how people treat him.
+8. **Techniques:** irony, satire, hyperbole and symbol.
+
+**Conclusion.** The story is a satire on human greed and our failure to respect the helpless.

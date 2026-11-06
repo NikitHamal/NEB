@@ -920,3 +920,50 @@ Gaston is delighted by a sentence he has misunderstood — and obliges each read
 decide what a "respectable woman" is likely to do, thereby testing the very
 assumption the title raises.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how Mrs. Baroda's attitude to Gouvernail changes in "A Respectable Woman". <span class="marks">[10]</span>
+2. Discuss the title, the symbols and the theme of the story. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="2" ratio="1.4" caption="Writer and poet. Kate Chopin, author of the story, and Walt Whitman, the poet whom Gouvernail quotes beneath the live oak."
+@ photo id="eng12/kate-chopin" cap="Kate Chopin"
+@ photo id="eng10/whitman" cap="Walt Whitman"
+```
+
+### Model answer D1: a change of attitude (10 marks)
+
+**Introduction.** "A Respectable Woman" by **Kate Chopin** (1850–1904) was first published in *Vogue* on 15 February 1894 and collected in *A Night in Acadie* (1897).
+
+1. Mrs. Baroda is annoyed that her husband **Gaston** has invited his old college friend **Gouvernail**, a journalist, to their Louisiana sugar plantation.
+2. She has **decided to dislike a man she has never met**.
+3. The real Gouvernail is **quiet, undemanding** and not interested in impressing her.
+4. This first **puzzles** her and then leaves her **"piqued"**.
+5. At night on a **bench beneath a live oak**, he sits beside her, quotes **Whitman** to the darkness and talks of his lost ambitions.
+6. She feels that **"her physical being was for the moment predominant"** and longs to touch him.
+7. She **resists**: "the stronger the impulse grew... the further, in fact, did she draw away"; she leaves for the city on the early train and tells nobody.
+8. A year later **she herself proposes** that Gouvernail visit again.
+
+| Stage | Her feeling |
+|---|---|
+| Before | Dislike |
+| Meeting | Puzzled, piqued |
+| Night | Strong attraction |
+| End | Wishes him to return |
+
+**Conclusion.** The change from dislike to attraction is shown through small, subtle moments.
+
+### Model answer D2: title, symbols and theme (10 marks)
+
+1. The **title** is ironic: a "respectable woman" is one who obeys the rules, yet she feels a forbidden desire.
+2. She **does not confess**, because "there are some battles in life which a human being must fight alone".
+3. The **night, moon and live oak** create a mood of mystery and romance.
+4. **Whitman's poetry** stands for freedom and the senses.
+5. Her **reserve** is a symbol of the rules for women of her time.
+6. **Gaston** is trusting and unaware.
+7. **Theme:** desire, self-control and the inner life of a married woman.
+8. The story ends with **ambiguity**: the reader must guess her real motive.
+
+**Conclusion.** Chopin shows the quiet struggle between duty and desire.
