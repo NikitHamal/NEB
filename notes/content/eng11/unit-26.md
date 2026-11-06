@@ -421,3 +421,32 @@ that** it **was a very precious thing**.*
 **25.** My friend said that he **would** meet me the next day. — *will* backshifts to *would*.
 **26.** She said that the sun **rises** in the east. — a universal truth keeps the present tense.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain reported speech with the four changes and the exceptions. <span class="marks">[10]</span>
+
+### Model answer D1: reported speech (10 marks)
+
+**Introduction.** Reported speech gives the meaning of the speaker's words. Make **four changes, in order**: reporting verb and link, tense, pronouns, then time and place words.
+
+**Rules.**
+
+1. **Reporting verb and link:** statements *said that*; yes/no questions *asked if/whether*; wh-questions *asked + wh-word*; commands *told + person + (not) to + verb*.
+2. **Tense (back-shift):** present simple → past simple; present continuous → past continuous; present perfect → past perfect; past simple → past perfect; *will* → *would*; *can* → *could*; *may* → *might*.
+3. **Pronouns:** change to match the new speaker and listener.
+4. **Time and place:** *now → then, today → that day, tomorrow → the next day, yesterday → the day before, here → there*.
+5. **Tell** needs a person (*told me*); **say** does not (*said that*).
+6. **No back-shift** when the reporting verb is present or future, when the statement is a universal truth, or when it is still true.
+7. Questions become statements: **no auxiliary, no question mark**.
+8. **Function verbs** (*apologised, advised, warned, suggested, promised*) give shorter reports.
+
+| Direct | Reported |
+|---|---|
+| "I am tired," he said. | He said that he was tired. |
+| "Where do you live?" she asked. | She asked where I lived. |
+| "Don't be late," Mother said. | Mother told me not to be late. |
+
+**Conclusion.** Work through the four changes in order every time.

@@ -441,3 +441,52 @@ the boys have about five hours of leisure to the girls' three.
 **8.** Sales increased in 2019, **rose further** in 2020 and **climbed again** in 2021. — vary the verb; repetition costs language marks.
 **9.** The pass rate fell in 2078. — a description reports what the chart shows and nothing more.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (7 to 10 marks each, for deeper revision)**
+
+1. Write a story from the outline: *poor boy – finds purse – returns it – reward – scholarship – moral*. <span class="marks">[7]</span>
+2. Explain how to punctuate direct speech and how to expand notes into a story. <span class="marks">[7]</span>
+
+```photogrid label="31.H" cols="3" ratio="1.0" caption="Where stories begin. A village classroom, a morning market and a newspaper page: everyday scenes from which guided-writing stories are drawn."
+@ photo id="eng8/classroom-sankhu" cap="Village classroom"
+@ photo id="health8/market-veg" cap="Morning market"
+@ photo id="eng11/newspaper" cap="Newspaper"
+```
+
+### Model answer D1: a story from an outline (7 marks)
+
+**Introduction.** In guided writing the notes are given; we supply the sentences in the **simple past**, **third person**, with a title and a moral.
+
+::: example An honest boy
+**An Honest Boy.** Once upon a time, there lived a poor boy named Dipak in a village of Syangja. He sold peanuts near the bus park to pay for his school fees. One evening he found a **purse** on the road. It was full of money and had a card with an address. Although Dipak needed money badly, he did not keep it. The next morning he went to the address and returned the purse to the owner, a businessman. The man was so pleased that he gave Dipak a reward of Rs. 5,000. He was also impressed by the boy's honesty and promised to pay for his education. Dipak received a **scholarship** and became a teacher in time. **Moral:** Honesty is the best policy.
+:::
+
+**Steps.**
+
+1. Read **all the notes** first.
+2. Invent a **who, where and when**.
+3. Expand each note into **two to four sentences**.
+4. Write a **paragraph for each stage**.
+5. Add the **title** and the **moral** last.
+6. Use **linking words**: *one evening, so, although, in time*.
+7. Keep the length at **150–200 words**.
+8. Check tense and spelling.
+
+**Marking:** content 3, organisation 2, language 2.
+
+### Model answer D2: direct speech and expansion (7 marks)
+
+**Rules for direct speech.**
+
+1. Put a **comma** before the speech: *Dipak said, "I found a purse."*
+2. Start the speech with a **capital letter**.
+3. Put the **punctuation inside** the closing quotation marks.
+4. Start a **new line for each new speaker**.
+
+*"Is this yours?" asked Dipak. "Yes, thank you," said the man.*
+
+**Expanding notes.** Note: *found purse*. Expanded: *One evening, while walking home from school, Dipak saw a brown purse lying near a tea shop. He picked it up and looked inside.*
+
+**Conclusion.** Add details of place, time and feeling, but keep to the notes.

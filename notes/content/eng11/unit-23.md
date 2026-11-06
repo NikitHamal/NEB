@@ -425,3 +425,35 @@ need an information about their rights.*
 **25.** Each of the students **was** given a certificate. — *each of* takes a singular verb.
 **26.** I met **a** university professor … — *university* begins with the consonant sound /j/.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Explain the use of articles, determiners and quantifiers with rules. <span class="marks">[10]</span>
+
+### Model answer D1: articles and quantifiers (10 marks)
+
+**Introduction.** A singular countable noun needs a **determiner**: *a/an, the*, a possessive or a demonstrative. A bare singular countable noun is almost always an error.
+
+**Articles.**
+
+1. **a/an** = first mention or one of a class: *I saw a tiger.*
+2. **the** = the listener knows which one: *The tiger was big.*
+3. **an** before a vowel **sound**: *an hour, an MA*; **a** before a consonant sound: *a university*.
+4. **No article** with plural or uncountable general ideas: *Books are useful.*
+
+**Quantifiers.**
+
+| For | Use |
+|---|---|
+| Countable | *many, few, a few, fewer, several* |
+| Uncountable | *much, little, a little, less* |
+| Both | *some, any, a lot of, plenty of, enough* |
+
+5. **few / little** = almost none (negative); **a few / a little** = some (positive).
+6. **some** in positive sentences and offers; **any** in negatives and questions.
+7. **Each, every** + singular noun; **all, both** + plural.
+8. **The** is used with superlatives, unique things (*the sun*) and rivers or mountain ranges (*the Himalayas*).
+
+**Conclusion.** Decide: countable or not, first mention or known, sound of the first letter.

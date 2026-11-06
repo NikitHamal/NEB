@@ -443,3 +443,57 @@ judgement supported by evidence.
 serious difficulty for teachers.* The stock phrase and the vague *headache* both belong
 to speech, not to an essay.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (7 to 10 marks each, for deeper revision)**
+
+1. Write an argumentative essay: "Social media does more harm than good." <span class="marks">[10]</span>
+2. Explain the four kinds of essay and how a paragraph and an essay are built. <span class="marks">[10]</span>
+
+```photogrid label="33.H" cols="3" ratio="1.0" caption="Material for essays. A smartphone, a college library and a newspaper: sources of ideas for essays on technology, learning and public affairs."
+@ photo id="cs8/os-android-phone" cap="Smartphone"
+@ photo id="eng12/queens-upper-library" cap="College library"
+@ photo id="eng11/newspaper" cap="Newspaper"
+```
+
+### Model answer D1: an argumentative essay (10 marks)
+
+**Introduction.** Question 6 is worth **10 marks**: about 4 for content, 3 for organisation and 3 for language. We plan for five minutes, write for twenty and check for five.
+
+::: example Social media: more harm than good?
+**Social media: more harm than good?** Social media has become part of daily life for most young people in Nepal. Although it helps us to stay in touch and to learn, I believe that it does more harm than good. First, it wastes time: many students spend hours scrolling instead of studying. Second, it spreads false news that can cause panic and hatred. Third, constant comparison with other people's perfect photos harms mental health and self-confidence. Supporters argue that it connects families, helps small businesses and raises funds in emergencies, and this is true. However, these benefits are possible only when the platform is used carefully, and most users do not do so. Therefore, unless we limit our time and check our sources, social media will harm more than it helps.
+:::
+
+**Structure (8 points).**
+
+1. **Funnel opening:** a general statement.
+2. A one-sentence **thesis**.
+3. **Body paragraph 1** with an example.
+4. **Body paragraph 2** with an example.
+5. **Body paragraph 3** with an example.
+6. The **opposing view** and your reply.
+7. A **conclusion** that widens out and adds nothing new.
+8. **Linking words** (*first, however, therefore*).
+
+**Conclusion.** An argument needs a clear thesis, evidence and a fair look at the other side.
+
+### Model answer D2: kinds of essay and paragraphs (10 marks)
+
+| Kind | Purpose | Example title |
+|---|---|---|
+| Narrative | Tells a story | A memorable journey |
+| Descriptive | Paints a picture | My village in monsoon |
+| Expository | Explains | Causes of air pollution |
+| Argumentative | Persuades | Should school uniforms be abolished? |
+
+1. A **paragraph** is **one idea**: a topic sentence, supporting sentences in a chosen order, and a closing sentence.
+2. **Unity** means every sentence supports the topic; **coherence** means the sentences are linked and in order.
+3. An essay is a **funnel**: general opening, thesis, body paragraphs that defend it, and a conclusion that widens out.
+4. Use **transition words** between paragraphs.
+5. Use **specific examples**, not general claims.
+6. Vary **sentence length**.
+7. Write a **title** that matches the thesis.
+8. **Check** spelling, agreement and tense.
+
+**Conclusion.** Plan, write in paragraphs and revise.

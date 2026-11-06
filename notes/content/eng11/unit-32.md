@@ -462,3 +462,64 @@ be put up on this board on 8 Falgun. Practice sessions are cancelled until then.
 **9.** **I am afraid I cannot attend the meeting.** — contractions are for informal writing only.
 **10.** A notice is impersonal: there is no *I* and no *you*. Write **All students are informed that the picnic has been cancelled.**
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (7 to 10 marks each, for deeper revision)**
+
+1. Write a formal letter of complaint and a formal notice. <span class="marks">[8]</span>
+2. Explain the format and register of formal letters, e-mails and applications. <span class="marks">[8]</span>
+
+```photogrid label="32.H" cols="4" ratio="1.0" caption="Tools of functional writing. A curriculum vitae, an addressed envelope, an old business letterhead and a village notice board: formats that must be right in a letter, application or notice."
+@ photo id="eng11/cv" cap="Curriculum vitae"
+@ photo id="eng11/envelope" cap="Addressed envelope"
+@ photo id="eng11/letterhead" cap="Letterhead (1898)"
+@ photo id="eng11/notice-board" cap="Notice board"
+```
+
+### Model answer D1: a letter of complaint and a notice (8 marks)
+
+::: example Formal letter of complaint
+Tilottama-4, Rupandehi  
+18 Jestha 2082
+
+The Manager  
+Nepal Electricity Authority, Butwal Branch  
+Butwal
+
+**Subject: Complaint about wrong electricity bill**
+
+Dear Sir/Madam,
+
+I am writing to complain about my electricity bill for Baisakh, which shows 480 units, although my family uses only about 150 units a month. The meter number on the bill (4471) is also not mine. I regret to trouble you, but I paid Rs. 4,800 last month by mistake, and I now request a refund or an adjustment in the next bill. I should be grateful if you would check the meter and send me a corrected bill within a week. I enclose a copy of the bill and my receipt.
+
+Yours faithfully,  
+Ramesh Poudel
+:::
+
+::: example Notice
+**SHREE JANAJYOTI SECONDARY SCHOOL**  
+**NOTICE** — 20 Jestha 2082  
+**Blood donation camp.** All students of grades 11 and 12 are informed that a blood donation camp will be held in the school hall on 25 Jestha at 10 a.m. Interested students above 18 should register with the Red Cross coordinator by 23 Jestha.  
+Headteacher
+:::
+
+### Model answer D2: format and register (8 marks)
+
+**Block-style formal letter, in order:** sender's address, date, receiver's address, subject, salutation, three body paragraphs, close, signature, name and post.
+
+1. *Dear Sir/Madam* → **Yours faithfully**; *Dear Mr Rai* → **Yours sincerely**.
+2. Only the **first word** of the close is capitalised.
+3. Use **formal register**: *I should be grateful if you would...*, *I regret any inconvenience.*
+4. Avoid contractions and slang.
+5. **E-mail:** a clear subject, greeting, short paragraphs and sign-off.
+6. **Application:** name the post, reference to the advertisement, qualification, skills, enclosures.
+7. **Notice:** issuer, heading, date, event, time, place, who, contact, and the designation of the writer.
+8. Marks: about **half for format**, half for **language and register**.
+
+| Format | Greeting | Close |
+|---|---|---|
+| Unknown reader | Dear Sir/Madam | Yours faithfully |
+| Named reader | Dear Mr Rai | Yours sincerely |
+
+**Conclusion.** Fix the skeleton before writing, then fill it with polite, exact sentences.
