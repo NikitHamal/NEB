@@ -561,7 +561,7 @@ Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 
 **Low-level languages.** *Machine language* is written only in 0s and 1s, the only language the CPU understands directly. It is very fast but hard to write and different for each computer. *Assembly language* uses short codes (mnemonics) such as ADD and MOV instead of 0s and 1s. It is easier than machine language but still depends on the machine.
 
-**High-level languages.** They use English-like words and are easy to learn and write, and the same program can be used on different computers. QBASIC, Python, C and Java are examples.
+**High-level languages.** They use English-like words and are easy to learn and write, and the same program can be used on different computers. Python, C and Java are examples.
 
 | Point | Low-level | High-level |
 |---|---|---|
@@ -570,13 +570,13 @@ Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 | Speed of running | Fast | Slower, usually |
 | Portability | Machine dependent | Can run on different machines |
 | Translation | Machine: none; assembly: assembler | Compiler or interpreter |
-| Examples | Machine code, assembly | QBASIC, Python, C, Java |
+| Examples | Machine code, assembly | Python, C, Java |
 
 **Language processors.** A computer understands only machine language, so a program in any other language must be translated by a **language processor**.
 
 1. **Assembler:** translates assembly language into machine language.
 2. **Compiler:** translates the whole high-level program into machine code at once, and shows all errors together. The compiled program runs fast and can run without the compiler. C is compiled.
-3. **Interpreter:** translates and runs the program line by line. It stops at the first error and is slow, but easy for testing. QBASIC and Python are interpreted.
+3. **Interpreter:** translates and runs the program line by line. It stops at the first error and is slow, but easy for testing. Python is interpreted.
 
 | Point | Compiler | Interpreter |
 |---|---|---|
@@ -584,7 +584,7 @@ Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 | Errors | Shown after the whole program | Shown line by line, stops at the first |
 | Speed | Faster execution | Slower execution |
 | Object code | Created and saved | Not saved |
-| Example | C compiler | QBASIC, Python |
+| Example | C compiler | Python |
 
 **Conclusion.** Humans write in high-level languages, and processors translate them into the machine language of the computer.
 
@@ -594,7 +594,7 @@ Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 
 **Types of errors.**
 
-1. **Syntax error.** A violation of the rules (grammar) of the language, such as a missing bracket or a misspelt keyword. The translator finds it and the program does not run. Example in QBASIC: `PRNT "Hello"` instead of `PRINT "Hello"`.
+1. **Syntax error.** A violation of the rules (grammar) of the language, such as a missing bracket or a misspelt keyword. The translator finds it and the program does not run. Example in Python: `pront("Hello")` instead of `print("Hello")`.
 2. **Logical error.** The program runs but gives a wrong answer because the logic is wrong. No error message is shown, so it is the hardest to find. Example: writing `AVG = A + B + C / 3` instead of `AVG = (A + B + C) / 3`; with 6, 9 and 12 the correct answer is 9, but the first gives 6 + 9 + 4 = 19.
 3. **Run-time error.** An error that appears while the program is running, such as dividing by zero or opening a file that is not there. The program stops with a message. Example: `PRINT 10 / 0`.
 
@@ -619,32 +619,31 @@ Check: 12 × 5 = 60 and 2 × (12 + 5) = 34 ✓.
 
 **Constant.** A value that does not change while the program runs. A *numeric* constant is a number such as 25 or 3.14. A *string* constant is text in quotation marks, such as `"Nepal"`.
 
-**Variable.** A named place in the memory whose value can change. Rules for a name: it must begin with a letter, may contain letters and digits, has no spaces, and cannot be a reserved word such as PRINT. Example: `MARKS`, `NAME$`.
+**Variable.** A named place in the memory whose value can change. Rules for a name: it must begin with a letter, may contain letters and digits, has no spaces, and cannot be a reserved word such as `print`. Example: `marks`, `name`.
 
-**Data types in QBASIC.**
+**Data types in Python.**
 
-| Type | Suffix | Holds | Example |
+| Type | Name | Holds | Example |
 |---|---|---|---|
-| String | `$` | Text | `NAME$ = "Asha"` |
-| Integer | % | Whole numbers up to 32,767 | `AGE% = 13` |
-| Long integer | & | Large whole numbers | `POP& = 29164578` |
-| Single precision | ! | Decimals, 7 digits | `PI! = 3.14159` |
-| Double precision | # | Decimals, 15 digits | `G# = 9.80665` |
+| Text | `str` | Letters and words | `name = "Asha"` |
+| Whole number | `int` | Whole numbers of any size | `age = 13` |
+| Decimal number | `float` | Numbers with a decimal point | `pi = 3.14159` |
+| Truth value | `bool` | `True` or `False` | `passed = True` |
 
 **Example.**
 
 ```
-NAME$ = "Asha"
-AGE% = 13
-PRINT NAME$; AGE%
+name = "Asha"
+age = 13
+print(name, age)
 ```
 
-The output is `Asha  13` (a number is printed with a space for its sign before it).
+The output is `Asha 13` (`print` separates the items with one space).
 
 | Point | Constant | Variable |
 |---|---|---|
 | Value | Fixed | Can change |
-| Example | 100, "Nepal" | `MARKS`, `NAME$` |
+| Example | 100, "Nepal" | `marks`, `name` |
 | Memory | Not a named location | Named memory location |
 
 **Conclusion.** Constants give fixed values, variables store changing values, and the data type tells the computer how much memory to use and what operations are allowed.
