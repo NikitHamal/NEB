@@ -429,4 +429,9 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
+    # WeasyPrint ignores <ol start="N">: a list resumed after a display
+    # equation would restart at 1. Mirror the attribute with a counter reset.
+    htm = re.sub(r'<ol start="(\d+)"(?![^>]*style=)>',
+                 lambda m: f'<ol start="{m.group(1)}" style="counter-reset:list-item {int(m.group(1)) - 1}">',
+                 htm)
     return meta, htm, n[0]

@@ -812,3 +812,99 @@ $A^{-1} = \mathrm{adj}\,A / |A|$.
 (b) See Worked example 6.12: $D = 7$, $D_x = 7$, $D_y = 14$, $D_z = 21$, so
 $x = 1$, $y = 2$, $z = 3$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the transpose, minor, cofactor and adjoint of a matrix. State the properties of the transpose and find the inverse of a $3\times3$ matrix by the adjoint method with verification. <span class="marks">[10]</span>
+2. State the properties of determinants, prove that $\begin{vmatrix}1&a&a^{2}\\1&b&b^{2}\\1&c&c^{2}\end{vmatrix}=(a-b)(b-c)(c-a)$ and solve a system of three equations by Cramer's rule. <span class="marks">[10]</span>
+
+### Model answer D1: transpose, adjoint and inverse (10 marks)
+
+**Introduction.** A **matrix** is a rectangular array of numbers arranged in rows and columns. For square matrices the determinant, adjoint and inverse give a method to solve linear equations.
+
+**Transpose.** The transpose $A^{T}$ is obtained by interchanging rows and columns. Properties:
+
+1. $(A^{T})^{T}=A$.
+2. $(A+B)^{T}=A^{T}+B^{T}$ and $(kA)^{T}=kA^{T}$.
+3. $(AB)^{T}=B^{T}A^{T}$ (the order reverses).
+
+*Check of 3.* Let $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ and $B=\begin{pmatrix}0&1\\1&0\end{pmatrix}$. Then $AB=\begin{pmatrix}2&1\\4&3\end{pmatrix}$, so $(AB)^{T}=\begin{pmatrix}2&4\\1&3\end{pmatrix}$, and $B^{T}A^{T}=\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}1&3\\2&4\end{pmatrix}=\begin{pmatrix}2&4\\1&3\end{pmatrix}$.
+
+**Minor, cofactor, adjoint.**
+
+- The **minor** $M_{ij}$ is the determinant left after deleting row $i$ and column $j$.
+- The **cofactor** is $C_{ij}=(-1)^{i+j}M_{ij}$.
+- The **adjoint** $\operatorname{adj}A$ is the transpose of the matrix of cofactors.
+- $A\,(\operatorname{adj}A)=(\operatorname{adj}A)\,A=|A|\,I$, so $A^{-1}=\dfrac{1}{|A|}\operatorname{adj}A$ when $|A|\neq0$. A matrix with $|A|=0$ is **singular** and has no inverse.
+
+**Worked example.** Find the inverse of $A=\begin{pmatrix}1&2&3\\0&1&4\\5&6&0\end{pmatrix}$.
+
+**Step 1: determinant** (expanding along the first row):
+
+$$ |A|=1(0-24)-2(0-20)+3(0-5)=-24+40-15=1 $$
+
+**Step 2: cofactors.**
+
+| | Column 1 | Column 2 | Column 3 |
+|---|---|---|---|
+| Row 1 | $C_{11}=-24$ | $C_{12}=20$ | $C_{13}=-5$ |
+| Row 2 | $C_{21}=18$ | $C_{22}=-15$ | $C_{23}=4$ |
+| Row 3 | $C_{31}=5$ | $C_{32}=-4$ | $C_{33}=1$ |
+
+**Step 3: adjoint** (transpose of the cofactor matrix):
+
+$$ \operatorname{adj}A=\begin{pmatrix}-24&18&5\\20&-15&-4\\-5&4&1\end{pmatrix} $$
+
+**Step 4: inverse.** Since $|A|=1$, $A^{-1}=\operatorname{adj}A$.
+
+**Step 5: verification.** Row 1 of $A$ with the three columns of $A^{-1}$: $-24+40-15=1$, $18-30+12=0$, $5-8+3=0$. Row 2: $20-20=0$, $-15+16=1$, $-4+4=0$. Row 3: $-120+120=0$, $90-90=0$, $25-24=1$. So $AA^{-1}=I$.
+
+**Conclusion.** The inverse is the adjoint divided by the determinant, and checking $AA^{-1}=I$ confirms every cofactor.
+
+### Model answer D2: properties of determinants, Vandermonde and Cramer's rule (10 marks)
+
+**Introduction.** The **determinant** of a square matrix is a single number that tells whether the matrix is invertible and gives the solution of linear equations.
+
+**Properties (stated without proof).**
+
+1. $|A^{T}|=|A|$; rows and columns play the same role.
+2. Interchanging two rows (or columns) changes the sign of the determinant.
+3. If two rows (or columns) are identical, or proportional, the determinant is $0$.
+4. Multiplying one row by $k$ multiplies the determinant by $k$; a common factor of a row can be taken out.
+5. Adding a multiple of one row to another row does not change the value.
+6. If every element of a row is $0$, the determinant is $0$.
+7. $|AB|=|A||B|$.
+8. For a triangular matrix the determinant is the product of the diagonal entries.
+
+**Proof that the determinant equals $(a-b)(b-c)(c-a)$.** Let $\Delta$ be the given determinant.
+
+- Apply $R_1\to R_1-R_2$ and $R_2\to R_2-R_3$ (property 5):
+
+$$ \Delta=\begin{vmatrix}0&a-b&a^{2}-b^{2}\\0&b-c&b^{2}-c^{2}\\1&c&c^{2}\end{vmatrix} $$
+
+- Take $(a-b)$ out of $R_1$ and $(b-c)$ out of $R_2$ (property 4):
+
+$$ \Delta=(a-b)(b-c)\begin{vmatrix}0&1&a+b\\0&1&b+c\\1&c&c^{2}\end{vmatrix} $$
+
+- Expand along the first column: $\Delta=(a-b)(b-c)\,[\,1\cdot\{(b+c)-(a+b)\}\,]=(a-b)(b-c)(c-a)$.
+
+*Numerical check.* For $a=1,b=2,c=3$ the determinant is $1(18-12)-1(9-4)+1(3-2)=2$, and $(1-2)(2-3)(3-1)=2$.
+
+**Cramer's rule.** For $AX=B$ with $\Delta=|A|\neq0$, $x=\dfrac{\Delta_x}{\Delta}$, $y=\dfrac{\Delta_y}{\Delta}$, $z=\dfrac{\Delta_z}{\Delta}$, where $\Delta_x$ is $\Delta$ with the first column replaced by $B$, and so on.
+
+**Worked example.** Solve $x+2y+3z=14$, $y+4z=14$, $5x+6y=17$.
+
+- $\Delta=\begin{vmatrix}1&2&3\\0&1&4\\5&6&0\end{vmatrix}=1$ (from Model answer D1).
+- $\Delta_x=\begin{vmatrix}14&2&3\\14&1&4\\17&6&0\end{vmatrix}=14(-24)-2(-68)+3(67)=-336+136+201=1$.
+- $\Delta_y=\begin{vmatrix}1&14&3\\0&14&4\\5&17&0\end{vmatrix}=1(-68)-14(-20)+3(-70)=-68+280-210=2$.
+- $\Delta_z=\begin{vmatrix}1&2&14\\0&1&14\\5&6&17\end{vmatrix}=1(-67)-2(-70)+14(-5)=-67+140-70=3$.
+
+So $x=1,\ y=2,\ z=3$. Substituting: $1+4+9=14$, $2+12=14$ and $5+12=17$; all three equations are satisfied.
+
+| Case | Meaning |
+|---|---|
+| $\Delta\neq0$ | unique solution |
+| $\Delta=0$ and some $\Delta_x,\Delta_y,\Delta_z\neq0$ | no solution |
+| $\Delta=\Delta_x=\Delta_y=\Delta_z=0$ | infinitely many solutions or none (need more tests) |
+
+**Conclusion.** Row operations simplify determinants, and Cramer's rule solves a non-singular system by taking ratios of determinants.
