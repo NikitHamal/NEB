@@ -2060,3 +2060,6 @@ Role, education situation and the portfolio header are chosen once, in `/welcome
 
 ## BSc Nursing handover (session 13)
 Midwifery I (BSN 17-18) is done on branch `claude/bsc-nursing` (5 units, 65-page PDF). Next: Midwifery II (`nursing/course/year-3/midwifery-2`). Read `nursing/STATUS.md` first.
+
+## BSc Nursing: session 14 handover
+Branch `claude/bsc-nursing`. Midwifery II (`nursing/course/year-3/midwifery-2`) units 1-4 are done and pushed (53-page PDF, qa fails=0, `check_mw2.py`). **Next: Midwifery II unit 5** (puerperal complications, high-risk newborn, MPDSR) then Child Health Nursing, Family and Reproductive Health Nursing, Year 4 books, entrance books. Read `nursing/STATUS.md` for the workflow, helpers (`nursing/tools/helpers/session14`) and lessons. The GitHub PAT must be supplied through an out-of-repo `GIT_ASKPASS` helper and rotated; never commit it.

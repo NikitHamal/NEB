@@ -11062,6 +11062,58 @@
   "source": "Wikimedia Commons",
   "title": "UterusBallon2"
  },
+ "nur12/breech": {
+  "author": "Bonnie Urquhart Gruenberg",
+  "bytes": 360045,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/breech.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Breech_delivery,_fetus_wrapped_in_blanket.jpg",
+  "sha1": "d13cb0a9d439c501",
+  "source": "Wikimedia Commons",
+  "title": "Breech delivery, fetus wrapped in blanket"
+ },
+ "nur12/burton": {
+  "author": "Unknown author",
+  "bytes": 480404,
+  "credit": "https://wellcomeimages.org/indexplus/obf_images/b9/54/4307cadfd9fe3e4bfa14de5d2e8e.jpg Gallery: https://wellcomeimages.org/indexplus/image/L0008317.html Wellcom",
+  "fetched": "2026-11-06",
+  "file": "nur12/burton.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:%22Burton%22_obstetical_forceps_Wellcome_L0008317.jpg",
+  "sha1": "1d2f8279a6afe778",
+  "source": "Wikimedia Commons",
+  "title": "\"Burton\" obstetical forceps Wellcome L0008317"
+ },
+ "nur12/chignon": {
+  "author": "User:Ravedave",
+  "bytes": 30952,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/chignon.jpg",
+  "license": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Vacuum_Extraction_bruised_scalp.JPG",
+  "sha1": "ef4d56ae5868fef3",
+  "source": "Wikimedia Commons",
+  "title": "Vacuum Extraction bruised scalp"
+ },
+ "nur12/cs": {
+  "author": "Lnrichard",
+  "bytes": 349879,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/cs.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cesarean_section.jpg",
+  "sha1": "8c8b4a0b5ec283b2",
+  "source": "Wikimedia Commons",
+  "title": "Cesarean section"
+ },
  "nur12/dip": {
   "author": "J3D3",
   "bytes": 622520,
@@ -11192,6 +11244,19 @@
   "source": "Wikimedia Commons",
   "title": "Treatment of severe preeclampsia"
  },
+ "nur12/sequel": {
+  "author": "FIGOHQ",
+  "bytes": 1108133,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/sequel.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Prolonged_obstructed_labour_sequelae.jpg",
+  "sha1": "a9e3312b3ade8ebe",
+  "source": "Wikimedia Commons",
+  "title": "Prolonged obstructed labour sequelae"
+ },
  "nur12/tubal": {
   "author": "Ed Uthman, MD ( Flickr , Wikipedia )",
   "bytes": 1550667,
@@ -11217,6 +11282,19 @@
   "sha1": "725208328ecff6e3",
   "source": "Wikimedia Commons",
   "title": "Tranexamic acid (cropped)"
+ },
+ "nur12/vent": {
+  "author": "Sarindam7",
+  "bytes": 447431,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/vent.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Metallic_Ventouse_cup1.jpg",
+  "sha1": "3dfab24f8c80cc6f",
+  "source": "Wikimedia Commons",
+  "title": "Metallic Ventouse cup1"
  },
  "nur2/bone": {
   "author": "Berkshire Community College Bioscience Image Library",

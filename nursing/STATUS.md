@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 13. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 14. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -70,8 +70,12 @@ Updated: end of Session 13. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: the project root of the sandbox is `/home/user/sandbox`, so `sudo ln -sfn /home/user/sandbox /app` makes the old `/app/parts` paths work; Commons search is thin for obstetrics (Leopold 1894 plates, Chamberlen replica and HBB poster were the usable finds); view the contact sheet and the rendered plate before trusting marks; SVG box text must stay under about 60 characters per line at size 10 in a 680 px box.
   - Facts used (searched session 13): NDHS 2022 (ANC4+ 81%, skilled ANC 94%, facility birth 79%, SBA 80%, PNC within 2 days 70%, NMR 21); Aama four ANC visits at months 4, 6, 8, 9 (incentive amounts differ by source, not quoted); WHO ANC 2016 eight contacts; WHO LCG 2020 (active phase from 5 cm; thresholds 5 cm 6 h, 6 cm 5 h, 7 cm 3 h, 8 cm 2.5 h, 9 cm 2 h; second stage 3 h and 2 h); oxytocin 10 IU IM; misoprostol 600 mcg; MgSO4 4 g IV + 5 g IM each buttock. Check the Safe Motherhood Act 2075 and the current PNC visit count in MoHP circulars.
 
+- **Midwifery II (BSN 19-20), Year 3: IN PROGRESS, units 1-4 DONE (session 14).** 53-page PDF, `qa_pdf.py` fails=0. U1 Bleeding in pregnancy (abortion, ectopic, mole, APH, praevia, abruption) | U2 PPH (WHO 2025 MOTIVE bundle, escalation ladder, inversion, tears) | U3 Hypertensive disorders, eclampsia, MgSO4, HELLP, anaemia, GDM, heart disease | U4 Abnormal labour (breech, HELPERR, obstructed labour, cord prolapse, induction, instrumental, caesarean, BEONC/CEONC).
+  - 19 licensed Commons images (slug `nur12`: abruption, mole, ruptured ectopic, tubal pregnancy, atonic uterus, inversion, TXA vial, NASG, balloon tamponade pair, MgSO4 vial, pitting oedema, dipstick, iron smear, IV iron, ventouse, forceps, chignon, caesarean, breech illustration, FIGO obstructed-labour figure), 8 plates, 12 SVGs, 8+ executed python blocks, `nursing/tools/check_mw2.py` (`--verify`), helpers in `nursing/tools/helpers/session14/` (`asm.sh N` assembles `/app/parts/uNa/b/c.md` + checker section `kN.py`; `tile.py`, `s.sh`, `get.sh`, `contact.py`, `pages.sh`).
+  - Lessons: `build_book.sh` needs the book folder to exist and `books.json` status set; SVG text in 115-px boxes drops to 5.9 pt (use 3x2 grids with 235-px boxes, size 10.5); python blocks in a unit run independently (do not reuse variables across blocks); photogrid marks use original-image fractions with y from the BOTTOM; the TOC page spilling by two lines only gives a warn on small books.
+
 ## Next (in this order)
-1. **Year 3 Midwifery II (BSN 19-20)** `course/year-3/midwifery-2` (T130+P420): abnormal pregnancy and labour (APH, PPH, pre-eclampsia in depth, obstructed labour, malpresentations, induction, caesarean), puerperal complications, high-risk newborn; research Nepal MPDSR, BEONC/CEONC signal functions, NMMS 2021. Reuse `helpers/session13` (change the slug in `asm.sh`, `tile.py`, `pages.sh`, copy `check_mw1.py` to `check_mw2.py`, use photo slug `nur12`).
+1. **Finish Year 3 Midwifery II unit 5** (`course/year-3/midwifery-2/unit-05.md`, hours about 24): puerperal complications (sepsis and the Nepal MDR, thromboembolism, mastitis and breast abscess, postpartum depression and psychosis, subinvolution, secondary PPH link to unit 2) and the high-risk newborn (preterm and LBW, KMC, Helping Babies Breathe and neonatal resuscitation, birth asphyxia, neonatal sepsis, jaundice with bilirubin thresholds, hypoglycaemia, IMNCI danger signs, Nepal NMR 21), then MPDSR, near-miss review and respectful maternity care. Research first: Nepal KMC and CHX cord guidance, WHO 2022 newborn recommendations, MPDSR. Use photo slug `nur12`, copy `/app/parts` workflow (write u5a/u5b/u5c, `k5.py`, `bash nursing/tools/helpers/session14/asm.sh 5`), then set the registry status to done and rebuild.
 2. Then Child Health Nursing, Family and Reproductive Health Nursing (Year 3); Year 4 books; then the five MECEE-BL entrance books.
 3. Optional polish: Midwifery I Unit 4 SVG 4.1 mnemonic line is 6 pt text.
 
