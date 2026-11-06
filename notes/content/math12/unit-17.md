@@ -1052,3 +1052,81 @@ $$ \pi \approx 4T = 3.131176 \qquad\text{and}\qquad \pi \approx 4S = 3.141569 $$
 Simpson's rule gives $\pi$ correct to four decimal places from the same five
 ordinates ($\pi = 3.141593$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define a group, state the axioms and prove the uniqueness of the identity and the inverse, with examples of finite and infinite groups. <span class="marks">[10]</span>
+2. State and prove Rolle's theorem, state the mean value theorem, and explain trapezoidal and Simpson's rules with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: groups (10 marks)
+
+**Introduction.** A group is a set with one operation that follows four simple rules. Groups describe symmetry and are used in cryptography and in physics.
+
+**Binary operation.** A rule $*$ that combines two elements of a set $G$ to give an element of $G$ (closure). Addition on integers is a binary operation.
+
+**Group axioms.** $(G,*)$ is a group if:
+
+1. **Closure:** $a*b\in G$ for all $a,b\in G$.
+2. **Associativity:** $(a*b)*c=a*(b*c)$.
+3. **Identity:** there is $e\in G$ with $a*e=e*a=a$ for all $a$.
+4. **Inverse:** for every $a$ there is $a^{-1}\in G$ with $a*a^{-1}=a^{-1}*a=e$.
+
+If also $a*b=b*a$ for all elements, the group is **abelian (commutative)**. A group with a finite number of elements is a **finite group**; its number of elements is its **order**.
+
+**Examples.**
+
+| Set and operation | Group? | Type |
+|---|---|---|
+| $(\mathbb Z,+)$ | Yes (identity $0$, inverse $-a$) | Infinite abelian |
+| $(\mathbb R\setminus\{0\},\times)$ | Yes (identity $1$, inverse $1/a$) | Infinite abelian |
+| $(\mathbb N,+)$ | No (no identity or inverses) | |
+| $\{1,-1,i,-i\}$ under $\times$ | Yes, order $4$ | Finite abelian |
+| $\{1,\omega,\omega^{2}\}$ under $\times$ | Yes, order $3$ | Finite abelian |
+| Integers mod $4$ under $+$ | Yes, order $4$ | Finite abelian |
+| $(\mathbb Z,-)$ | No (not associative) | |
+
+*Addition modulo 4:* the elements are $0,1,2,3$; for example $3+2\equiv1$. The identity is $0$, and the inverses are $0\to0$, $1\to3$, $2\to2$, $3\to1$.
+
+**Theorem 1: the identity is unique.** Suppose $e$ and $e'$ are both identities. Then $e=e*e'$ (since $e'$ is an identity) and $e*e'=e'$ (since $e$ is an identity), so $e=e'$.
+
+**Theorem 2: the inverse is unique.** Suppose $b$ and $c$ are both inverses of $a$. Then $b=b*e=b*(a*c)=(b*a)*c=e*c=c$.
+
+**Theorem 3: cancellation.** If $a*b=a*c$, multiplying on the left by $a^{-1}$ gives $b=c$. Also $(a*b)^{-1}=b^{-1}*a^{-1}$.
+
+**Conclusion.** A group needs closure, associativity, an identity and inverses; the identity and inverse of each element are unique.
+
+### Model answer D2: Rolle's theorem, the mean value theorem and numerical integration (10 marks)
+
+**Introduction.** These results connect the average rate of change of a function with its instantaneous rate, and give methods to approximate areas.
+
+**Rolle's theorem.** If $f$ is **continuous on $[a,b]$**, **differentiable on $(a,b)$** and $f(a)=f(b)$, then there is at least one $c\in(a,b)$ with $f'(c)=0$.
+
+*Geometrical meaning:* between two points at the same height, the graph has a horizontal tangent.
+
+*Proof.* A continuous function on a closed interval has a maximum $M$ and a minimum $m$. If $M=m$, $f$ is constant and $f'=0$ everywhere. Otherwise, one of $M$, $m$ differs from $f(a)=f(b)$, so it is attained at an interior point $c$, and at an interior extremum of a differentiable function $f'(c)=0$.
+
+*Example:* $f(x)=x^{2}-4x+3$ on $[1,3]$: $f(1)=f(3)=0$ and $f'(x)=2x-4=0$ gives $c=2\in(1,3)$.
+
+**Mean value theorem (Lagrange).** If $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, there is $c\in(a,b)$ with
+
+$$ f'(c)=\frac{f(b)-f(a)}{b-a} $$
+
+*Meaning:* somewhere the tangent is parallel to the chord. *Proof:* apply Rolle's theorem to $\phi(x)=f(x)-f(a)-\dfrac{f(b)-f(a)}{b-a}(x-a)$, which has $\phi(a)=\phi(b)=0$. *Example:* $f(x)=x^{3}$ on $[0,2]$: $3c^{2}=\dfrac{8-0}{2}=4$ gives $c=\dfrac{2}{\sqrt3}=1.155$. Speed application: if a bus covers $120\ \text{km}$ in $2$ hours, at some moment its speed is exactly $60\ \text{km h}^{-1}$.
+
+**Numerical integration** of $\int_a^bf(x)dx$ with $n$ strips of width $h=\dfrac{b-a}{n}$:
+
+- **Trapezoidal rule:** $\dfrac h2\big[f_0+2(f_1+\cdots+f_{n-1})+f_n\big]$.
+- **Simpson's $\tfrac13$ rule** ($n$ even): $\dfrac h3\big[f_0+4(f_1+f_3+\cdots)+2(f_2+f_4+\cdots)+f_n\big]$.
+
+*Numerical:* $\int_0^1x^{2}dx$ with $n=4$, $h=0.25$: $f=0,\,0.0625,\,0.25,\,0.5625,\,1$.
+
+- Trapezoidal: $0.125\big[0+2(0.0625+0.25+0.5625)+1\big]=0.125\times2.75=0.34375$.
+- Simpson: $\dfrac{0.25}{3}\big[0+4(0.0625+0.5625)+2(0.25)+1\big]=\dfrac{0.25}{3}\times4=0.3333$.
+- The exact value is $\dfrac13$, so Simpson's rule is exact here and the trapezoidal rule has an error of $0.0104$.
+
+| Rule | Approximates the curve by | Accuracy |
+|---|---|---|
+| Trapezoidal | Straight lines | Error $\propto h^{2}$ |
+| Simpson | Parabolas | Error $\propto h^{4}$ |
+
+**Conclusion.** Rolle's theorem and the mean value theorem guarantee a point where the tangent matches the chord, and Simpson's rule gives more accurate integrals than the trapezoidal rule.

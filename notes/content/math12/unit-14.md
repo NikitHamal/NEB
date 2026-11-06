@@ -1292,3 +1292,74 @@ The general solution is
 
 $$ x^{2} + 3xy + 2y^{2} = C $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the order and degree of a differential equation, and solve first-order equations by separation of variables and the homogeneous method. <span class="marks">[10]</span>
+2. Solve linear and exact differential equations, and apply differential equations to cooling and population growth. <span class="marks">[10]</span>
+
+### Model answer D1: order, degree, separable and homogeneous equations (10 marks)
+
+**Introduction.** A **differential equation** involves an unknown function and its derivatives. They model growth, cooling, motion and electric circuits.
+
+**Order and degree.**
+
+- The **order** is the highest derivative present.
+- The **degree** is the power of the highest-order derivative when the equation is a polynomial in the derivatives.
+- *Examples:* $\dfrac{dy}{dx}+y=x$ is of order $1$, degree $1$; $\left(\dfrac{d^{2}y}{dx^{2}}\right)^{3}+\dfrac{dy}{dx}=0$ is of order $2$, degree $3$.
+
+**Solutions.** The **general solution** has as many arbitrary constants as the order; a **particular solution** is obtained by using the initial conditions.
+
+**Separable variables.** If the equation can be written as $f(y)\,dy=g(x)\,dx$, integrate both sides.
+
+*Example:* $\dfrac{dy}{dx}=xy$. Separate: $\dfrac{dy}{y}=x\,dx$; integrate: $\ln|y|=\dfrac{x^{2}}2+c$, so $y=Ae^{x^{2}/2}$. With $y(0)=2$, $A=2$, so $y=2e^{x^{2}/2}$.
+
+**Homogeneous equation.** $\dfrac{dy}{dx}=F\!\left(\dfrac yx\right)$, that is, $f(x,y)$ is homogeneous of degree $0$.
+
+1. Put $y=vx$, so $\dfrac{dy}{dx}=v+x\dfrac{dv}{dx}$.
+2. The equation becomes $x\dfrac{dv}{dx}=F(v)-v$, which is separable: $\dfrac{dv}{F(v)-v}=\dfrac{dx}x$.
+3. Integrate and replace $v$ by $\dfrac yx$.
+
+*Example:* $\dfrac{dy}{dx}=\dfrac{x+y}{x}=1+\dfrac yx$. With $y=vx$: $v+x\dfrac{dv}{dx}=1+v$, so $x\dfrac{dv}{dx}=1$ and $v=\ln|x|+c$. The solution is $y=x(\ln|x|+c)$.
+
+*Example 2:* $\dfrac{dy}{dx}=\dfrac{y}{x}$: $x\dfrac{dv}{dx}=0$, so $v=c$ and $y=cx$ (straight lines through the origin).
+
+| Type | Form | Method |
+|---|---|---|
+| Separable | $f(y)dy=g(x)dx$ | Integrate both sides |
+| Homogeneous | $\dfrac{dy}{dx}=F(y/x)$ | Put $y=vx$ |
+| Linear | $\dfrac{dy}{dx}+Py=Q$ | Integrating factor |
+| Exact | $M\,dx+N\,dy=0$, $M_y=N_x$ | Find $F(x,y)=c$ |
+
+**Conclusion.** Separable equations are integrated directly, and homogeneous equations become separable after the substitution $y=vx$.
+
+### Model answer D2: linear and exact equations and applications (10 marks)
+
+**Introduction.** Two further first-order types, the linear and exact equations, together with the separable form, cover most applications.
+
+**Linear equation.** $\dfrac{dy}{dx}+P(x)\,y=Q(x)$.
+
+1. The **integrating factor** is $\text{IF}=e^{\int P\,dx}$.
+2. Multiplying through, the left side becomes $\dfrac{d}{dx}(y\cdot\text{IF})$, so $y\cdot\text{IF}=\int Q\cdot\text{IF}\,dx+C$.
+
+*Example:* $\dfrac{dy}{dx}+\dfrac yx=x^{2}$. $\text{IF}=e^{\int dx/x}=x$. Then $\dfrac{d}{dx}(xy)=x^{3}$, so $xy=\dfrac{x^{4}}4+C$ and $y=\dfrac{x^{3}}4+\dfrac Cx$.
+
+**Exact equation.** $M\,dx+N\,dy=0$ is exact if $\dfrac{\partial M}{\partial y}=\dfrac{\partial N}{\partial x}$. The solution is $F(x,y)=c$ where $F_x=M$ and $F_y=N$: integrate $M$ with respect to $x$ (treating $y$ as constant) and add the terms of $N$ that are free of $x$.
+
+*Example:* $(2xy+3)\,dx+(x^{2}+4y)\,dy=0$. $M_y=2x=N_x$, so it is exact. Integrating $M$: $x^{2}y+3x$; the part of $N$ without $x$ is $4y$, giving $2y^{2}$. The solution is $x^{2}y+3x+2y^{2}=c$.
+
+**Application 1: Newton's law of cooling.** The rate of cooling is proportional to the difference from the surroundings: $\dfrac{dT}{dt}=-k(T-T_s)$. Separating, $T-T_s=(T_0-T_s)e^{-kt}$.
+
+*Example:* tea at $90^{\circ}\text{C}$ in a room at $20^{\circ}\text{C}$ cools to $70^{\circ}\text{C}$ in $10$ minutes. $50=70e^{-10k}$, so $k=\dfrac{\ln1.4}{10}=0.0336\ \text{min}^{-1}$. It reaches $40^{\circ}\text{C}$ when $20=70e^{-kt}$, i.e. $t=\dfrac{\ln3.5}{0.0336}=37.2$ minutes.
+
+**Application 2: population growth.** $\dfrac{dP}{dt}=kP$ gives $P=P_0e^{kt}$. A town of $10{,}000$ whose population doubles in $10$ years has $k=\dfrac{\ln2}{10}$, and after $25$ years $P=10000\times2^{2.5}=56{,}569$.
+
+**Application 3: radioactive decay.** $\dfrac{dN}{dt}=-\lambda N$ gives $N=N_0e^{-\lambda t}$, with half-life $T_{1/2}=\dfrac{\ln2}{\lambda}$.
+
+| Application | Equation | Solution |
+|---|---|---|
+| Cooling | $\dfrac{dT}{dt}=-k(T-T_s)$ | $T=T_s+(T_0-T_s)e^{-kt}$ |
+| Growth | $\dfrac{dP}{dt}=kP$ | $P=P_0e^{kt}$ |
+| Decay | $\dfrac{dN}{dt}=-\lambda N$ | $N=N_0e^{-\lambda t}$ |
+
+**Conclusion.** Linear equations are solved with an integrating factor, exact equations by finding a potential function, and the same methods describe cooling, growth and decay.
