@@ -699,6 +699,56 @@ Check: $\mu_0(H+M)=4\pi\times10^{-7}(200+1.2\times10^{5})=0.151$ T ✓ — the
 magnetisation, not the applied field, supplies almost all of $B$.
 :::
 
+```photogrid label="15.1" cols="2" ratio="1.2" caption="Field falls as 1 / r^3. (a) Filaments of iron line up along the field of a bar magnet; lines crowd at the poles where the field is strongest. (b) On the axis of a short magnet B = (mu0 / 4 pi) 2m / r^3. For an assumed magnetic moment m = 1.0 A m^2 the field is 0.20 mT at 10 cm, 5 times the Earth's horizontal field of 40 microtesla (assumed), and falls eight-fold when r doubles. The magnet's field equals the Earth's at r = 17.1 cm, beyond which a compass ignores it."
+@ photo id="ceephy/filings" cap="Iron filings show the field lines of a bar magnet, crowded near the poles"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Axial field of a bar magnet against the Earth's field"
+mu = 4e-7 * math.pi; m = 1.0; BE = 40e-6
+B = lambda r: mu / (4 * math.pi) * 2 * m / r ** 3
+req = (mu / (4 * math.pi) * 2 * m / BE) ** (1 / 3)
+assert abs(B(0.1) - 2e-4) < 1e-9 and abs(B(0.2) * 8 - B(0.1)) < 1e-12 and abs(req - 0.171) < 0.001
+facts = dict(b10="%.2f" % (B(0.1) * 1e3), mult="%.0f" % (B(0.1) / BE), req="%.1f" % (req * 100))
+f = Fig(300, 236)
+f.text(150, 14, "log B against r on the magnet axis", size=10.5, color=NAVY, bold=True)
+lg = lambda r_cm: math.log10(B(r_cm / 100))
+X = lambda r: 44 + (r - 5) * 9; Y = lambda l: 54 + (-2.7 - l) * 36
+f.line(X(5), Y(-5.3), 280, Y(-5.3), color=SLATE, sw=1.4); f.line(X(5), Y(-5.3), X(5), 34, color=SOFT, sw=1.2)
+pts = [(X(r), Y(lg(r))) for r in range(5, 31)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+ye = Y(math.log10(BE)); f.line(X(5), ye, 280, ye, color=AMBER, sw=1.4, dash=True)
+f.text(278, ye - 8, "Earth 40 uT", size=10.5, color=AMBER, bold=True, anchor="end")
+f.line(X(req * 100), ye, X(req * 100), Y(-5.3), color=TEAL, sw=1.2, dash=True); f.circle(X(req * 100), ye, 4, fill=TEAL, stroke=TEAL)
+for r in (10, 20, 30): f.text(X(r), Y(-5.3) + 13, "%d" % r, size=10.5, color=SLATE)
+f.text(150, 192, "B = %.2f mT at 10 cm (%.0f x Earth)" % (B(0.1) * 1e3, B(0.1) / BE), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "equal to Earth at r = %.1f cm" % (req * 100), size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "r in cm; m = 1.0 A m^2 assumed", size=10.5, color=SLATE)
+```
+
+```photogrid label="15.2" cols="2" ratio="1.2" caption="Why the motor needs a commutator. (a) The split-ring commutator and carbon brushes reverse the current in the coil every half turn. (b) The cell computes the torque on a coil of 100 turns, area 12 cm2, carrying 2 A in a field of 0.2 T: the maximum, when the plane of the coil is parallel to the field, is 48 mN m, and it falls as sin(a) to zero when the plane is perpendicular. Because the commutator keeps the torque in one direction, the mean torque is 2 / pi of the maximum, 30.6 mN m, and at 3000 rpm the motor delivers about 9.6 W of mechanical power. Without the commutator the coil would only swing back and forth."
+@ photo id="ceephy3/motor" cap="The commutator and brushes of a DC motor"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Torque on a current-carrying coil"
+import math
+N, B, I = 100, 0.2, 2.0
+A = 0.04 * 0.03
+tmax = N * B * I * A
+rows = [("%d deg" % a, tmax * math.sin(math.radians(a)) * 1000) for a in (90, 60, 30, 0)]
+mean = tmax * 2 / math.pi
+P = mean * 2 * math.pi * 3000 / 60
+assert round(tmax, 3) == 0.048 and round(P, 1) == 9.6
+f = Fig(300, 236)
+f.text(150, 12, "Torque tau = N B I A sin(a), mN m", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=50, fmt="%.1f", x0=56, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 158, "a = angle between the coil plane and the field", size=10, color=SLATE, bold=True)
+f.text(150, 178, "N = 100, B = 0.2 T, I = 2 A, A = 12 cm2", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "mean torque (commutated) = %.1f mN m" % (mean * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "power at 3000 rpm = %.1f W" % P, size=10.5, color=NAVY, bold=True)
+facts = dict(t=tmax * 1000, m=mean * 1000, P=P)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -937,3 +987,67 @@ magnetisation, not the applied field, supplies almost all of $B$.
 **10.** (b) — $\dfrac{F}{L}=\dfrac{\mu_0I_1I_2}{2\pi d}=\dfrac{(4\pi\times10^{-7})(50)}{2\pi(0.10)}=1.0\times10^{-4}$ N m⁻¹, attractive.
 **11.** (a) — $v=\dfrac{qBr}{m}=\dfrac{(1.6\times10^{-19})(0.20)(0.10)}{1.67\times10^{-27}}=1.9\times10^{6}$ m s⁻¹. Option (b) doubles it by using the diameter.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the Biot-Savart law. Derive the magnetic field at the centre of a circular coil and inside a solenoid, and the force between two parallel wires. <span class="marks">[10]</span>
+2. Derive the motion of a charged particle in a magnetic field, and compare diamagnetic, paramagnetic and ferromagnetic materials. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.25" caption="Magnetism at work. (a) Iron filings trace the magnetic field lines of a bar magnet from pole to pole. (b) A moving-coil galvanometer uses the torque on a coil in a magnetic field. (c) A diamagnetic material, such as graphite, is repelled by a strong magnet."
+@ photo id="ceephy/filings" cap="(a) Field lines"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/galvanometer" cap="(b) Galvanometer"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/diamag" cap="(c) Diamagnetic levitation"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: magnetic fields of currents (10 marks)
+
+**Introduction.** A moving charge produces a magnetic field. The **Biot-Savart law** gives the field $d\vec B$ of a small current element $I\,d\vec l$ at a point with position vector $\vec r$:
+
+$$ dB = \frac{\mu_0}{4\pi}\frac{I\,dl\sin\theta}{r^2}, \qquad \mu_0 = 4\pi\times10^{-7}\ \text{T m A}^{-1} $$
+
+**Circular coil.** Every element of a coil of radius $R$ is perpendicular to the line to the centre ($\theta = 90^{\circ}$, $r = R$). Summing $dl$ over the circumference $2\pi R$: $B = \dfrac{\mu_0I}{4\pi R^2}\times2\pi R = \dfrac{\mu_0I}{2R}$, and for $N$ turns $B = \dfrac{\mu_0NI}{2R}$. On the axis at a distance $x$, $B = \dfrac{\mu_0NIR^2}{2(R^2 + x^2)^{3/2}}$.
+
+**Ampere's circuital law.** $\oint\vec B\cdot d\vec l = \mu_0I_{enclosed}$.
+
+1. **Straight wire:** $B = \dfrac{\mu_0I}{2\pi r}$.
+2. **Long solenoid:** a rectangular loop gives $Bl = \mu_0nlI$, so $B = \mu_0nI$ inside and almost zero outside, where $n$ is the number of turns per unit length.
+3. **Toroid:** $B = \dfrac{\mu_0NI}{2\pi r}$.
+
+**Force between parallel wires.** Wire 1 produces $B_1 = \dfrac{\mu_0I_1}{2\pi d}$ at wire 2, and the force on a length $l$ of wire 2 is $F = I_2lB_1$, so $\dfrac Fl = \dfrac{\mu_0I_1I_2}{2\pi d}$. The force is **attractive** for currents in the same direction. This defines the **ampere**: the constant current in two infinite parallel wires $1\ \text{m}$ apart that gives a force of $2\times10^{-7}\ \text{N}$ per metre of length.
+
+**Numerical.** A coil of $50$ turns and radius $10\ \text{cm}$ carrying $2\ \text{A}$ has $B = \dfrac{4\pi\times10^{-7}\times50\times2}{2\times0.1} = 6.3\times10^{-4}\ \text{T}$. A solenoid with $1000$ turns per metre carrying $2\ \text{A}$ has $B = 4\pi\times10^{-7}\times1000\times2 = 2.5\times10^{-3}\ \text{T}$. Two wires with $10\ \text{A}$ each, $10\ \text{cm}$ apart, attract with $\dfrac{2\times10^{-7}\times100}{0.1} = 2\times10^{-4}\ \text{N m}^{-1}$.
+
+**Conclusion.** The field inside a solenoid is uniform and equal to $\mu_0nI$, and parallel currents attract.
+
+### Model answer D2: charged particle in a field and magnetic materials (10 marks)
+
+**Introduction.** A magnetic force $\vec F = q\vec v\times\vec B$ acts on a moving charge. It is perpendicular to both $\vec v$ and $\vec B$, so it does no work and the speed does not change.
+
+**Circular motion.** If $\vec v \perp \vec B$, the magnetic force gives the centripetal force: $qvB = \dfrac{mv^2}{r}$.
+
+1. **Radius:** $r = \dfrac{mv}{qB} = \dfrac{p}{qB}$.
+2. **Period:** $T = \dfrac{2\pi m}{qB}$, independent of the speed, which is the working principle of the cyclotron.
+3. **If $\vec v$ is at an angle $\theta$ to $\vec B$,** the path is a helix with pitch $\dfrac{2\pi m}{qB}v\cos\theta$.
+4. **Velocity selector.** With crossed fields, the particles with $v = E/B$ pass undeflected.
+5. **Lorentz force.** In both fields, $\vec F = q(\vec E + \vec v\times\vec B)$.
+
+**Magnetic materials.**
+
+| Property | Diamagnetic | Paramagnetic | Ferromagnetic |
+|---|---|---|---|
+| Susceptibility $\chi$ | small, negative | small, positive | large, positive |
+| In a field | weakly repelled | weakly attracted | strongly attracted |
+| Effect of temperature | none | $\chi \propto 1/T$ (Curie) | becomes paramagnetic above the Curie point |
+| Examples | bismuth, copper, water | aluminium, platinum | iron, cobalt, nickel |
+
+**Hysteresis.** The $B$-$H$ loop of a ferromagnet shows **retentivity** and **coercivity**. Soft iron has a thin loop (small energy loss), so it is used in transformer cores and electromagnets. Steel has a broad loop, so it is used for permanent magnets. The area of the loop is the energy lost per cycle per unit volume.
+
+**Numerical.** A proton ($m = 1.67\times10^{-27}\ \text{kg}$, $q = 1.6\times10^{-19}\ \text{C}$) moves at $10^6\ \text{m s}^{-1}$ perpendicular to $B = 0.1\ \text{T}$: $r = \dfrac{1.67\times10^{-27}\times10^6}{1.6\times10^{-19}\times0.1} = 0.104\ \text{m}$ and $T = \dfrac{2\pi\times1.67\times10^{-27}}{1.6\times10^{-19}\times0.1} = 6.6\times10^{-7}\ \text{s}$.
+
+**Conclusion.** A charge circles with $r = mv/qB$, and ferromagnetic materials are classified as soft or hard by their hysteresis loops.

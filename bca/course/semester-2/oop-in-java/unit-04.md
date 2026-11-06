@@ -85,6 +85,28 @@ Arithmetic: / by zero
 - **Stack trace** reads top-down: the first line is where it was thrown, the lines below are the callers. `e.printStackTrace()` for diagnostics.
 - **Assertions** (`assert x > 0 : "msg";`, enabled with `java -ea`) check internal invariants during testing.
 
+### Exceptions as circuit breakers
+
+A circuit breaker cuts one faulty circuit so the rest of the house keeps its power. An exception handler does the same for a program: the fault is thrown, caught at a chosen place, and the other work goes on. Java's own rules decide which exception a fault raises. Plate 4.1 lists five everyday faults, the exception each one throws and whether it is checked (the compiler forces you to handle it) or unchecked.
+
+```photogrid label="4.1" cols="2" ratio="1.0" caption="Isolate the fault. (a) A household breaker panel: a fault trips one breaker and the other circuits keep working. (b) Five common faults, the exception Java throws for each, and whether it is checked or unchecked; only the IOException family must be handled or declared."
+@ photo id="bca153/breaker" cap="Breaker panel: one fault is cut off, the rest continue"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Fault, exception, checked or unchecked"
+rows = [("10 / 0 (int)", "ArithmeticException", False), ("Integer.parseInt(\"abc\")", "NumberFormatException", False), ("arr[5] on 3 cells", "ArrayIndexOutOfBounds", False), ("s.length() when s is null", "NullPointerException", False), ("new FileReader(\"x.txt\") missing", "FileNotFoundException", True)]
+assert sum(1 for *_, c in rows if c) == 1
+f = Fig(400, 250)
+f.text(200, 16, "Fault and the exception it throws", size=11, color=NAVY, bold=True)
+for i, (a, b, c) in enumerate(rows):
+    y = 28 + i * 40
+    f.box(6, y, 388, 34, "", fill=ROSE if c else MINT, stroke=RED if c else TEAL, r=4)
+    f.text(12, y + 11, a, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(12, y + 25, b, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(386, y + 17, "checked" if c else "unchecked", size=10.5, color=RED if c else TEAL, bold=True, anchor="end", vmid=True)
+f.text(200, 238, "Unchecked = RuntimeException family; checked = must catch or declare.", size=10.5, color=SLATE)
+```
+
 ## 4.2 Strings
 
 `String` is an **immutable** sequence of UTF-16 characters: no method changes it, they return a new string. Because of this, string literals can be shared in the **string pool**.
@@ -127,6 +149,34 @@ true
 **Why `StringBuilder`:** `s += x` in a loop creates a new string each time, giving O(n²) copying; a builder appends in amortised O(1).
 
 Frequent methods: `length`, `charAt`, `substring(i, j)`, `indexOf`, `lastIndexOf`, `contains`, `startsWith`, `endsWith`, `equals`, `equalsIgnoreCase`, `compareTo`, `toUpperCase`, `toLowerCase`, `trim`/`strip`, `replace`, `split(regex)`, `isEmpty`/`isBlank`, `format`, `join`, `repeat`, `toCharArray`, `String.valueOf(x)`. **Text blocks** (`"""…"""`) hold multi-line text. **Regular expressions** (`java.util.regex`): `"2082-05-14".matches("\\d{4}-\\d{2}-\\d{2}")` is true; `Pattern`/`Matcher` find groups. Since `==` compares references, **always use `equals`** for content.
+
+### Strings are shared, and never change
+
+The Java string pool keeps one copy of each literal, so identical literals are one object, like identical containers stacked in a yard that all hold the same standard cargo. `new String("NEB")` deliberately makes a second object, so `==` between them is false although `equals` is true. Strings are immutable, so `s = s + x` in a loop builds a new string each time and copies all the old characters; for n appends that is 1 + 2 + ... + n copies, against only n for a `StringBuilder`. Plate 4.2 shows both facts.
+
+```photogrid label="4.2" cols="2" ratio="1.4" caption="Shared and unchangeable. (a) Stacked shipping containers: identical standard units. (b) String comparisons for the literal NEB (same pool object, new String creates another) and the number of character copies when appending one character n times: string concatenation copies n(n+1)/2 characters, StringBuilder about n."
+@ photo id="bca153/containers" cap="Standard containers: identical units shared by everyone"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="String pool and the cost of concatenation"
+cmp = [("\"NEB\" == \"NEB\"", "true", "one pool object", TEAL, MINT), ("new String(\"NEB\") == \"NEB\"", "false", "two objects", RED, ROSE), ("new String(\"NEB\").equals(\"NEB\")", "true", "same characters", TEAL, MINT)]
+cp = {n: n * (n + 1) // 2 for n in (10, 100, 1000)}
+assert cp == {10: 55, 100: 5050, 1000: 500500}
+f = Fig(400, 250)
+for i, (a, v, why, st, fl) in enumerate(cmp):
+    y = 8 + i * 38
+    f.box(6, y, 388, 32, "", fill=fl, stroke=st, r=4)
+    f.text(12, y + 10, a, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(12, y + 23, why, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(386, y + 16, v, size=12, color=st, bold=True, anchor="end", vmid=True)
+f.text(200, 136, "Characters copied by s = s + \"x\" (n times)", size=10.5, color=NAVY, bold=True)
+for i, (n, c) in enumerate(cp.items()):
+    y = 146 + i * 30
+    f.text(10, y + 10, f"n = {n:,}", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = max(c / 500500 * 200, 4)
+    f.box(80, y, w, 12, "", fill=ROSE, stroke=RED, r=2); f.text(86 + w, y + 6, f"{c:,}", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+    f.box(80, y + 14, max(n / 500500 * 200, 3), 8, "", fill=MINT, stroke=TEAL, r=1); f.text(90 + max(n / 500500 * 200, 3), y + 18, f"StringBuilder: about {n:,}", size=10.5, color=TEAL, anchor="start", vmid=True)
+```
 
 ## 4.3 Wrapper classes, `Math`, dates
 

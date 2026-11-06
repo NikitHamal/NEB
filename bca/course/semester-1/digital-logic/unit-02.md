@@ -175,6 +175,163 @@ seg(48, 32, 16, 50, "f", on["f"]); seg(146, 32, 16, 50, "b", on["b"]); seg(48, 1
 f.text(235, 70, "BCD input", size=10, color=NAVY, bold=True); f.text(235, 92, "D C B A", size=11, color=SLATE, bold=True); f.text(235, 114, "0 1 0 1", size=14, color=TEAL, bold=True)
 f.text(235, 140, "digit 5", size=10, color=NAVY, bold=True)
 ```
+```photogrid label="2.2" cols="2" ratio="1.4" caption="Codes you could hold in your hand. (a) A Teletype Model 33, the machine on which the 7-bit ASCII code was first used widely in the 1960s. (b) Real punched paper tapes: each row of holes is one character, with the holes standing for the 1 bits of its code."
+@ photo id="bca103/asr33" cap="Teletype Model 33: keyboard, printer and tape punch in one machine"
+fit 1.4
+focus 0.5 0.5
+@ photo id="bca103/tape8" cap="Paper tape: a row of up to 8 holes per character, plus the small sprocket holes"
+fit 1.4
+focus 0.5 0.5
+```
+
+```svgfig label="2.4" caption="The word NEB as it would be punched on 8-level paper tape: seven ASCII bits plus an even-parity bit. Codes and parity were computed in code; a lost or extra hole makes the count of 1s odd, which exposes the error."
+word = "NEB"
+rows = []
+for ch in word:
+    c = ord(ch); ones = bin(c).count("1"); par = ones & 1
+    rows.append((ch, c, par, (par << 7) | c))
+assert [(r[0], r[1], r[2]) for r in rows] == [("N", 78, 0), ("E", 69, 1), ("B", 66, 0)]
+assert all(bin(r[3]).count("1") % 2 == 0 for r in rows)
+f = Fig(760, 250)
+f.text(380, 16, "Eight-level tape: one row per character, holes = 1 (most significant bit at the top, parity bit P)", size=11, color=NAVY, bold=True)
+f.text(40, 40, "P  b6 b5 b4 b3 b2 b1 b0", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(300, 40, "Char   Code   1s   Parity bit", size=10.5, color=NAVY, bold=True, anchor="start")
+for i, (ch, c, par, byte) in enumerate(rows):
+    y = 56 + i * 56
+    f.box(30, y, 230, 46, "", fill=SAND, stroke=AMBER, r=4)
+    for k in range(8):
+        v = (byte >> (7 - k)) & 1
+        f.circle(46 + k * 28, y + 23, 9 if v else 3, fill="#1e293b" if v else "#cbd5e1", stroke="#1e293b", sw=1, label="")
+    f.text(300, y + 23, f"'{ch}'   {c:>3} = {c:07b}   {bin(c).count('1')}   {par}", size=11, color=SLATE, bold=True, anchor="start", vmid=True)
+f.box(520, 56, 224, 158, "", fill=BLUE, stroke=NAVY)
+f.text(632, 78, "Even parity", size=11, color=NAVY, bold=True)
+for j, t in enumerate(["Total number of 1 bits in each", "row is always even: N has 4,", "E has 3 + parity 1 = 4, B has 2.", "If a hole is missed, the row has", "an odd count and the reader", "knows the character is wrong."]):
+    f.text(632, 102 + j * 18, t, size=10.5, color=SLATE)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.3" caption="Why shaft encoders use Gray code. (a) A rotary encoder: a shaft position is read as a binary pattern from a coded disc. (b) For a 3-bit disc, the worst reading error while the disc moves from one sector to the next, if the bits do not all change at exactly the same instant, computed for every transition: plain binary can be off by 3 positions, Gray code by 0."
+@ photo id="bca103/encoder" cap="Rotary encoder: the coded disc sits inside the case"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Worst misread at each of the 8 sector boundaries"
+def gray(n): return n ^ (n >> 1)
+def ungray(g):
+    n = 0
+    while g: n ^= g; g >>= 1
+    return n
+def worst(code, dec, a, b):
+    ca, cb = code(a), code(b); diff = ca ^ cb; bitsl = [i for i in range(3) if diff >> i & 1]; w = 0
+    for m in range(1 << len(bitsl)):
+        r = ca
+        for j, bi in enumerate(bitsl):
+            if m >> j & 1: r ^= 1 << bi
+        v = dec(r); w = max(w, min(abs(v - a), abs(v - b)))
+    return w
+ident = lambda x: x
+tr = [(i, (i + 1) % 8) for i in range(8)]
+wb = [worst(ident, ident, a, b) for a, b in tr]; wg = [worst(gray, ungray, a, b) for a, b in tr]
+assert max(wb) == 3 and max(wg) == 0 and wb[3] == 3 and wb[0] == 0
+f = Fig(400, 300)
+f.text(200, 16, "Worst error in sector positions", size=11, color=NAVY, bold=True)
+for i, ((a, b), x, g) in enumerate(zip(tr, wb, wg)):
+    y = 34 + i * 30
+    f.text(10, y + 10, f"{a} to {b}", size=10, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(60, y, max(x * 60, 3), 11, "", fill=ROSE, stroke=RED, r=2); f.text(66 + x * 60, y + 6, f"binary {x}", size=9.5, color=RED, bold=True, anchor="start", vmid=True)
+    f.box(60, y + 13, 3, 11, "", fill=MINT, stroke=TEAL, r=1); f.text(70, y + 19, f"Gray {g}", size=9.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(200, 288, "3 to 4 changes all three bits (011 to 100).", size=10, color=SLATE)
+```
+
+```photogrid label="2.4" cols="2" ratio="1.4" caption="Decimal digits in hardware. (a) Nixie tubes, the glowing-digit displays of the 1960s calculators; each tube is driven by a BCD decoder that lights one of ten digits. (b) Bits needed to store the same number in BCD and in pure binary, computed for four values."
+@ photo id="bca103/nixie" cap="Nixie tubes: one tube per decimal digit, driven from 4-bit BCD"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="BCD costs more bits than binary"
+vals = [99, 2025, 9999999, 999999999]
+bits = [(v, 4 * len(str(v)), v.bit_length()) for v in vals]
+assert bits == [(99, 8, 7), (2025, 16, 11), (9999999, 28, 24), (999999999, 36, 30)]
+assert format(2025, "04d") == "2025" and " ".join(f"{int(d):04b}" for d in "2025") == "0010 0000 0010 0101"
+f = Fig(400, 290)
+f.text(200, 16, "Bits needed", size=11, color=NAVY, bold=True)
+for i, (v, b, n) in enumerate(bits):
+    y = 36 + i * 56
+    f.text(10, y + 8, f"{v:,}", size=11, color=NAVY, bold=True, anchor="start")
+    f.box(10, y + 14, b / 36 * 300, 16, "", fill=SAND, stroke=AMBER, r=3); f.text(16 + b / 36 * 300, y + 22, f"BCD {b}", size=10, color=AMBER, bold=True, anchor="start", vmid=True)
+    f.box(10, y + 33, n / 36 * 300, 16, "", fill=MINT, stroke=TEAL, r=3); f.text(16 + n / 36 * 300, y + 41, f"binary {n}", size=10, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(200, 266, "2025 in BCD = 0010 0000 0010 0101 (16 bits); in binary 11111101001 (11 bits).", size=9.5, color=SLATE)
+assert format(2025, "b") == "11111101001"
+```
+
+```photogrid label="2.5" cols="2" ratio="1.5" caption="A code that checks itself. (a) An EAN-13 barcode on a packet: the last digit is a check digit that lets the scanner detect a misread. (b) The check digit of the number printed under that barcode, 4620017455554, recalculated with alternating weights 1 and 3: the last digit must come out as 4."
+@ photo id="bca103/ean13" cap="EAN-13 barcode: 12 data digits and 1 check digit"
+fit 1.5
+focus 0.5 0.5
+@ svg cap="Check digit = (10 - weighted sum mod 10) mod 10"
+d = [int(c) for c in "462001745555"]
+wsum = sum(x * (1 if i % 2 == 0 else 3) for i, x in enumerate(d)); chk = (10 - wsum % 10) % 10
+assert wsum == 86 and chk == 4
+bad = d[:]; bad[5], bad[6] = bad[6], bad[5]
+wb2 = sum(x * (1 if i % 2 == 0 else 3) for i, x in enumerate(bad)); chk2 = (10 - wb2 % 10) % 10
+assert chk2 != chk
+f = Fig(400, 270)
+f.text(200, 16, "Barcode number 462001745555-?", size=11, color=NAVY, bold=True)
+for i, x in enumerate(d):
+    wgt = 1 if i % 2 == 0 else 3
+    f.box(8 + i * 31, 30, 28, 28, str(x), fill=BLUE, stroke=NAVY, size=11, bold=True)
+    f.text(22 + i * 31, 74, f"x{wgt}", size=10, color=AMBER, bold=True)
+f.box(8 + 12 * 31, 30, 28, 28, "?", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.text(200, 108, f"Weighted sum = {wsum}", size=11, color=SLATE, bold=True)
+f.text(200, 130, f"{wsum} mod 10 = {wsum % 10}, so check digit = 10 - {wsum % 10} = {chk}", size=11, color=SLATE, bold=True)
+f.box(40, 150, 320, 52, "", fill=MINT, stroke=TEAL)
+f.text(200, 168, f"Valid number: 4620017455554 (check digit {chk})", size=10.5, color=TEAL, bold=True)
+f.text(200, 188, "A scanner repeats this sum and rejects a mismatch.", size=10.5, color=SLATE)
+f.text(200, 222, f"Swap two neighbours ({d[5]} and {d[6]}): the check digit would be {chk2},", size=10, color=RED)
+f.text(200, 240, f"not {chk}, so that mistake is caught.", size=10, color=RED)
+```
+
+```svgfig label="2.5" caption="Hamming (7,4) in action, simulated for the data 1011. A single flipped bit is located by the three parity checks and repaired; a double error is repaired wrongly. All 7 single errors and all 21 double errors were tried."
+import itertools
+def enc(d1, d2, d3, d4):
+    p1, p2, p3 = d1 ^ d2 ^ d4, d1 ^ d3 ^ d4, d2 ^ d3 ^ d4
+    return [p1, p2, d1, p3, d2, d3, d4]
+def syn(c): return (c[0] ^ c[2] ^ c[4] ^ c[6]) | ((c[1] ^ c[2] ^ c[5] ^ c[6]) << 1) | ((c[3] ^ c[4] ^ c[5] ^ c[6]) << 2)
+def fix(c):
+    s = syn(c); c = c[:]
+    if s: c[s - 1] ^= 1
+    return c
+cw = enc(1, 0, 1, 1)
+assert "".join(map(str, cw)) == "0110011" and syn(cw) == 0
+ok1 = 0
+for i in range(7):
+    r = cw[:]; r[i] ^= 1
+    ok1 += fix(r) == cw
+ok2 = 0
+for i, j in itertools.combinations(range(7), 2):
+    r = cw[:]; r[i] ^= 1; r[j] ^= 1
+    ok2 += fix(r) == cw
+assert ok1 == 7 and ok2 == 0
+r = cw[:]; r[4] ^= 1
+assert syn(r) == 5 and fix(r) == cw
+f = Fig(760, 270)
+f.text(380, 16, "Positions 1 to 7: p1 p2 d1 p3 d2 d3 d4   (parity bits at 1, 2 and 4)", size=11, color=NAVY, bold=True)
+labels = ["p1", "p2", "d1", "p3", "d2", "d3", "d4"]
+def row(y, bits, title, hl=None, col=NAVY, fl=BLUE):
+    f.text(10, y + 15, title, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+    for k in range(7):
+        h = hl == k
+        f.box(210 + k * 46, y, 40, 30, str(bits[k]), fill=ROSE if h else fl, stroke=RED if h else col, size=12, bold=True)
+for k, l in enumerate(labels): f.text(230 + k * 46, 46, l, size=10, color=SLATE, bold=True)
+row(54, cw, "1. Sent codeword", None, TEAL, MINT)
+row(94, r, "2. Received (position 5 flipped)", 4, RED, ROSE)
+row(134, fix(r), "3. After correction", None, TEAL, MINT)
+f.box(540, 54, 210, 110, "", fill=SAND, stroke=AMBER)
+f.text(645, 76, "Syndrome s3 s2 s1 = 101", size=10.5, color=AMBER, bold=True)
+for j, t in enumerate(["= 5 in binary, so the error", "is at position 5: flip it back.", "s1 checks 1,3,5,7; s2 checks 2,3,6,7;", "s3 checks 4,5,6,7."]):
+    f.text(645, 98 + j * 16, t, size=10, color=SLATE)
+f.text(380, 196, "Single errors repaired: 7 of 7.     Double errors repaired: 0 of 21 (they are 'fixed' to a wrong word).", size=11, color=NAVY, bold=True)
+f.text(380, 218, "Minimum distance 3 can correct 1 error or detect 2, not both: an extra overall parity bit (SECDED) is used in ECC memory.", size=10.5, color=SLATE)
+f.text(380, 238, "Server RAM in banks and data centres uses this idea so that a cosmic-ray bit flip does not corrupt a record.", size=10.5, color=SLATE)
+```
+
 ## 2.6 Why computers use binary and codes: eight reasons
 
 1. **Two states are easy to build.** A transistor is either off or on, and a capacitor either holds charge or does not. Building a reliable ten-level device would be far harder. This is why every chip, from a calculator to the Nepal Rastra Bank server, is built on two states.
@@ -185,6 +342,17 @@ f.text(235, 140, "digit 5", size=10, color=NAVY, bold=True)
 6. **Codes carry meaning.** ASCII and Unicode map characters to numbers, so Nepali text in Devanagari can be stored as code points. BCD keeps decimal digits separate for calculators and meters. Gray code changes one bit at a time, which prevents errors in position encoders.
 7. **Codes detect errors.** A parity bit added to a byte makes the count of 1s even (or odd), so any single flipped bit is noticed. CRC and Hamming codes go further. Mobile networks and memory chips use them all the time.
 8. **Floating point covers a huge range.** IEEE-754 stores a number as sign, exponent and fraction, so one 32-bit word can hold values from about 10⁻³⁸ to 10³⁸. It is the format used in spreadsheets, games and scientific code. The price is limited precision, about seven decimal digits for single precision.
+
+### 2.6.1 Eight codes you meet every day in Nepal
+
+1. **Unicode and UTF-8.** Every letter of Devanagari, such as न (U+0928), has a code point, and UTF-8 stores it in 3 bytes. This is why a Nepali SMS or a Facebook post in Nepali shows correctly on any phone. Older fonts such as Preeti used ASCII codes and displayed garbage on other systems.
+2. **ASCII.** English letters and digits use 7-bit ASCII, for example A = 65. Programs written in C, Java and Python use it for strings and file names. It began on teleprinters like the one in Plate 2.2.
+3. **BCD.** The digits on a digital weighing scale, a petrol pump or an electricity meter are driven from BCD, one 4-bit group per decimal digit. BCD avoids rounding of decimal fractions, which matters for money. It costs more bits than binary (Plate 2.4).
+4. **Gray code.** Rotary encoders in lifts, machine tools and mouse wheels use Gray code so that one step changes one bit only. This prevents wild misreadings at sector edges (Plate 2.3). Karnaugh maps also use the Gray order.
+5. **Parity bit.** Serial lines and older memory use a parity bit so that a single flipped bit is noticed. The sender makes the number of 1s even and the receiver checks it (Figure 2.4). It cannot find two errors together.
+6. **Hamming code.** ECC memory in servers, for example those running the banking systems of Kathmandu, corrects a single bit error by itself (Figure 2.5). The check bits are placed at the power-of-two positions. A flipped bit costs no data and no downtime.
+7. **Barcodes.** The EAN-13 code on a packet of noodles carries 12 digits and a check digit, and the till looks up the price from it (Plate 2.5). A wrongly scanned digit fails the check and the scanner beeps again. Libraries use the same method for ISBN numbers.
+8. **QR codes.** The Fonepay QR code on a shop counter holds the merchant data and uses Reed-Solomon error correction so that it can be read even when partly torn or dirty. It is a two-dimensional cousin of the barcode. The phone camera decodes it in a fraction of a second.
 
 ## Formula and fact sheet
 
@@ -291,3 +459,49 @@ The answer is 0110 0101 = **65**, which is correct. The rule: if a digit sum is 
 | Parity | data + 1 | detects odd number of errors | memory, serial links |
 
 *Conclusion.* No single code is best. Each code trades extra bits or extra logic for convenience, speed or safety, and a designer picks the code that suits the job.
+
+**Q (5 marks). What is Gray code? Convert binary 1011 to Gray code and state why it is used in shaft encoders.**
+
+**Gray code** is a binary code in which two consecutive numbers differ in **exactly one bit**. It is also called a reflected binary code and is not a weighted code.
+
+**Binary to Gray.** Keep the most significant bit; every other Gray bit is the XOR of the binary bit with the bit on its left. For 1011: G3 = 1; G2 = 1 ⊕ 0 = 1; G1 = 0 ⊕ 1 = 1; G0 = 1 ⊕ 1 = 0, so **Gray = 1110**. Back to binary: B3 = 1; B2 = 1 ⊕ 1 = 0; B1 = 0 ⊕ 1 = 1; B0 = 1 ⊕ 0 = 1, giving 1011 again.
+
+| Decimal | Binary | Gray |
+|---|---|---|
+| 3 | 011 | 010 |
+| 4 | 100 | 110 |
+| 5 | 101 | 111 |
+
+**Why in encoders.** In pure binary the step from 3 (011) to 4 (100) changes all three bits, and the sensors never switch at exactly the same instant, so the reader may see 111 (7) or 000 (0). Plate 2.3 computed the worst error as 3 positions for binary and 0 for Gray, because Gray changes one bit and so can only show the old or the new position. Uses: rotary encoders in lifts and robots, Karnaugh maps and digital-to-analog converters.
+
+**Q (10 marks). Explain the common binary codes (BCD, excess-3, Gray, ASCII) and the error-detecting and error-correcting codes (parity and Hamming).**
+
+**Introduction.** A **code** represents numbers, letters or other information by groups of bits. Codes are chosen for ease of conversion, for safety against errors or for universal exchange of text (Plates 2.2 to 2.5).
+
+**A. Numeric codes**
+
+1. **BCD (8421):** each decimal digit has its own 4-bit group, so 2025 = 0010 0000 0010 0101. It is easy to display (Nixie tubes, seven-segment displays) but needs more bits than binary: 16 bits against 11 for 2025.
+2. **Excess-3:** BCD plus 3, so 47 = 0111 1010. It is self-complementing: the 9's complement is found by inverting each bit, which simplified old decimal adders.
+3. **Gray code:** one bit changes between successive numbers; used in shaft encoders and K-maps (Plate 2.3).
+
+**B. Alphanumeric codes**
+
+4. **ASCII:** a 7-bit code for 128 characters; A = 65, a = 97, 0 = 48. On 8-level tape the eighth bit is a parity bit (Figure 2.4).
+5. **Unicode/UTF-8:** assigns a number to every character of every script; Devanagari letters take 3 bytes in UTF-8.
+
+**C. Error codes**
+
+6. **Parity:** one extra bit makes the count of 1s even or odd. It detects any odd number of errors, but cannot locate or correct them, and misses two errors together.
+7. **Hamming (7,4):** three parity bits at positions 1, 2 and 4 protect four data bits. The three checks give a syndrome that is the position of the wrong bit (Figure 2.5): all 7 single errors were corrected, but double errors are not.
+8. **Check digits:** EAN-13 and ISBN add one digit computed with weights 1 and 3; a swap or misread digit makes the check fail (Plate 2.5).
+
+| Code | Bits per symbol | Property | Use |
+|---|---|---|---|
+| BCD | 4 per digit | direct decimal | meters, displays |
+| Excess-3 | 4 per digit | self-complementing | old adders |
+| Gray | n | one-bit change | encoders, K-maps |
+| ASCII | 7 | text | files, terminals |
+| Parity | +1 | detects odd errors | serial ports |
+| Hamming (7,4) | 7 for 4 data | corrects 1 error | ECC memory |
+
+**Conclusion.** No single code serves all needs. BCD suits decimal displays, Gray suits mechanical sensors, ASCII and Unicode serve text, and parity, Hamming and check digits protect data. A designer chooses the code that makes the hardware simplest and the data safest.

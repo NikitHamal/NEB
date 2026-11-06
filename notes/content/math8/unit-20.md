@@ -390,6 +390,18 @@ Distance $= \sqrt{8^2 + 6^2} = \sqrt{64 + 36} = \sqrt{100} = \textbf{10 km}$
 from the start.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) Write the three-figure bearings of north-east, south-west and north-west. (b) The bearing of $B$ from $A$ is $070^\circ$: find the bearing of $A$ from $B$. (c) The bearing of $A$ from $B$ is $130^\circ$: find the bearing of $B$ from $A$. <span class="marks">[5]</span>
+2. (a) A tree 12 m tall is drawn to the scale 1 cm : 2 m. Find the height in the drawing and write the scale as a ratio. (b) A path measures 7.5 cm on this drawing: find its real length. (c) A plot 30 m by 18 m is drawn at the scale $1:500$: find the sides of the drawing. <span class="marks">[5]</span>
+3. A hiker walks 3 km due east and then 4 km due north. (a) Find how far she is from the start. (b) Find the bearing of her finishing point from the start, to the nearest degree. (c) Find the bearing of the start from the finishing point. Describe the scale drawing you would use. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) North-east $=045^\circ$, south-west $=225^\circ$, north-west $=315^\circ$ (bearings are measured clockwise from north, in three figures). (b) The back bearing is found by adding $180^\circ$ to a bearing below $180^\circ$: $070+180=250^\circ$. (c) The back bearing of $130^\circ$ is $130+180=310^\circ$. (For a bearing above $180^\circ$ subtract $180^\circ$.)
+**2.** (a) $12\div2=6$ cm. As a ratio: $2\text{ m}=200$ cm, so 1 cm : 200 cm is $1:200$. (b) $7.5\times2=15$ m. (c) $30\text{ m}=3000$ cm, and $3000\div500=6$ cm; $18\text{ m}=1800$ cm, and $1800\div500=3.6$ cm. The drawing is a rectangle 6 cm by 3.6 cm.
+**3.** (a) The two legs form a right angle, so the distance is $\sqrt{3^2+4^2}=\sqrt{25}=5$ km. (b) The finishing point is 3 km east and 4 km north of the start. The angle east of north is found from $\tan\theta=\frac34$, so $\theta\approx36.9^\circ\approx37^\circ$ and the bearing is $037^\circ$. (c) The back bearing is $037+180=217^\circ$. **Scale drawing:** use 1 cm : 1 km; draw a north line, mark 3 cm east then 4 cm north, join start to finish (5 cm), and measure the bearing with a protractor clockwise from north.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

@@ -333,6 +333,24 @@ $f = \omega/2\pi = 100\ \text{Hz}$.
 gives $x = 0, 2, 4, 6\ \text{cm}$, confirming the spacing.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.2" caption="Nodes mark where nothing moves. (a) When a Chladni plate is bowed or driven, sand moves away from the vibrating regions and collects along the nodal lines. (b) In every stationary wave the nodes are half a wavelength apart, and the wavelength is v / f. The cell uses the speed of sound in air, 343 m/s: at 500 Hz the nodes are 34.3 cm apart, at 1000 Hz 17.15 cm and at 4000 Hz only 4.29 cm. The same halving of the spacing for each doubling of the frequency is why the patterns on the plate become more finely divided at high frequency, and why the harmonics of a string or a pipe have more nodes."
+@ photo id="phy12b/chladni" cap="Brass Chladni plates on a stand"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Distance between nodes of a stationary sound wave"
+v = 343.0
+rows = [("%d Hz" % fr, v / (2 * fr) * 100) for fr in (500, 1000, 2000, 4000)]
+assert round(rows[0][1], 1) == 34.3 and round(rows[3][1], 2) == 4.29
+f = Fig(300, 236)
+f.text(150, 12, "Node-to-node distance in air, cm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=36, fmt="%.2f", x0=60, y0=30, bw=170, gap=30)
+f.text(150, 158, "nodes are lambda / 2 apart, lambda = v / f", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "v = 343 m/s in air at 20 deg C", size=10, color=SLATE, bold=True)
+f.text(150, 198, "on a plate, sand gathers at the nodes", size=10, color=SLATE, bold=True)
+f.text(150, 216, "so higher f gives finer patterns", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1])
+```
+
 ## Chapter summary
 
 - A progressive wave carries energy and momentum through a medium without
@@ -439,3 +457,44 @@ $$ y = 0.02\sin(500\pi t - 1.25\pi x)\ \text{m} $$
 
 $(v_p)_{\max} = a\omega = 0.02 \times 500\pi = 10\pi = 31.4\ \text{m s}^{-1}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the formation of stationary waves in a stretched string, derive the frequencies of its modes and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: stationary waves on a stretched string (10 marks)
+
+**Introduction.** A **stationary (standing) wave** is formed by the superposition of two identical progressive waves travelling in opposite directions. It has fixed points of zero amplitude (**nodes**) and points of maximum amplitude (**antinodes**), and it does not carry energy along the medium.
+
+**Equation.** Let the incident wave be $y_{1} = A\sin(\omega t - kx)$ and the wave reflected from the other end be $y_{2} = A\sin(\omega t + kx)$. The resultant is
+
+$$ y = y_{1} + y_{2} = 2A\cos(kx)\,\sin(\omega t) $$
+
+The amplitude $2A\cos kx$ depends on position, and every particle vibrates with the same frequency but a different amplitude.
+
+- **Nodes** occur where $\cos kx = 0$, at points half a wavelength apart.
+- **Antinodes** are midway between nodes, also $\lambda/2$ apart, with amplitude $2A$.
+
+**Modes of a string fixed at both ends.** The ends must be nodes, so the length must hold a whole number of half wavelengths: $L = n\,\dfrac{\lambda}{2}$. With the speed of the wave $v = \sqrt{T/\mu}$ ($T$ the tension, $\mu$ the mass per unit length) the frequencies are
+
+$$ f_{n} = \frac{n\,v}{2L} = \frac{n}{2L}\sqrt{\frac{T}{\mu}}, \qquad n = 1, 2, 3, \dots $$
+
+The lowest, $f_{1}$, is the **fundamental** (first harmonic); the others are overtones with frequencies in the ratio 1 : 2 : 3. A string therefore supports all harmonics.
+
+| Mode | Loops | Nodes | Antinodes | Frequency |
+|---|---|---|---|---|
+| Fundamental | 1 | 2 | 1 | $f_{1} = v/2L$ |
+| Second harmonic | 2 | 3 | 2 | $2f_{1}$ |
+| Third harmonic | 3 | 4 | 3 | $3f_{1}$ |
+
+**Laws of vibrating strings.** $f \propto 1/L$ (length), $f \propto \sqrt{T}$ (tension) and $f \propto 1/\sqrt{\mu}$ (mass per unit length). These are used in the sitar, the violin and the Nepali sarangi, where the player changes the sounding length with a finger.
+
+| Feature | Progressive wave | Stationary wave |
+|---|---|---|
+| Energy | Transferred | Not transferred; confined to loops |
+| Amplitude | Same for all particles | Zero at nodes, maximum at antinodes |
+| Phase | Changes from point to point | Same within a loop, opposite in neighbouring loops |
+
+**Numerical.** A string of length $0.80\ \text{m}$ and mass per unit length $2.0\ \text{g m}^{-1}$ is under a tension of $80\ \text{N}$. The speed is $v = \sqrt{80/0.0020} = 200\ \text{m s}^{-1}$, so $f_{1} = 200/(2 \times 0.80) = 125\ \text{Hz}$, with $f_{2} = 250\ \text{Hz}$ and $f_{3} = 375\ \text{Hz}$. Doubling the tension raises $f_{1}$ by $\sqrt{2}$ to $177\ \text{Hz}$.
+
+**Conclusion.** Reflection at the fixed ends produces a stationary wave whose allowed frequencies are $f_{n} = (n/2L)\sqrt{T/\mu}$.

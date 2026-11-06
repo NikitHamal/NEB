@@ -577,6 +577,52 @@ $\frac{1}{2}(1.0\times10^8)(5.0\times10^{-4}) = 2.5\times10^4$ J m⁻³ — the 
 as it must be.
 :::
 
+```photogrid label="7.1" cols="2" ratio="1.2" caption="Stress, strain and a safety factor. (a) Each hanger of a suspension bridge is a long steel rope that stretches a little under load. (b) For an assumed hanger 50 m long and 4.0 cm in diameter carrying 200 kN with Young modulus 2.0 x 10^11 Pa, the stress is F / A = 159 MPa, the strain is stress / Y = 0.80 x 10^-3 and the extension is 39.8 mm, so the rope stores 1/2 F dL = 3,979 J. Taking 250 MPa as yield and 400 MPa as breaking stress (typical mild steel, assumed), the margins are 1.57 to yield and 2.51 to breaking."
+@ photo id="ceephy/bridge" cap="Cables of a suspension bridge are steel wires working in tension"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Working stress against yield and breaking stress"
+Y_ = 200e9; L = 50.0; d = 0.04; F = 200e3; A = math.pi * (d / 2) ** 2
+sig = F / A; eps = sig / Y_; dL = eps * L; E = 0.5 * F * dL
+yld, brk = 250e6, 400e6
+assert abs(sig / 1e6 - 159.15) < 0.05 and abs(dL * 1000 - 39.79) < 0.05 and abs(E - 3979) < 2
+facts = dict(sig="%.0f" % (sig / 1e6), eps="%.2f" % (eps * 1000), dL="%.1f" % (dL * 1000), E="{:,.0f}".format(E), ym="%.2f" % (yld / sig), sf="%.2f" % (brk / sig))
+f = Fig(300, 236)
+f.text(150, 14, "Stress in one hanger, MPa", size=10.5, color=NAVY, bold=True)
+rows = (("working stress (F / A)", sig, TEAL, BLUE), ("yield stress (assumed)", yld, AMBER, SAND), ("breaking stress (assumed)", brk, RED, ROSE))
+for i, (lab, v, col, fl) in enumerate(rows):
+    y = 34 + i * 46
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v / 1e6 * 0.4
+    f.box(14, y + 12, w, 16, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 20, "%.0f" % (v / 1e6), size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "strain = %.2f x 10^-3 (dimensionless)" % (eps * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "extension %.1f mm; energy %.0f J" % (dL * 1000, E), size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "margin to yield %.2f, to break %.2f" % (yld / sig, brk / sig), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="7.2" cols="2" ratio="1.2" caption="Stiffness decides the stretch. (a) A steel wire rope is made of many thin strands twisted together, which makes it flexible but strong. (b) The cell hangs a 100 kg load on a single wire 2 m long and 2 mm in diameter. The stress is force over area, 312 MPa, the same for every material. The extension then depends on Young's modulus, e = stress x L / Y. Steel (Y = 200 GPa) stretches 3.12 mm, a strain of only 0.00156, copper stretches 5.33 mm, and soft lead 39.0 mm, which is why steel is chosen for cranes and lifts where a small extension is needed."
+@ photo id="ceephy3/rope" cap="A steel wire rope wound on a drum"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Extension of wires of different materials"
+import math
+L, d, load = 2.0, 2e-3, 100 * 9.8
+A = math.pi * (d / 2) ** 2
+stress = load / A
+Y = [("steel", 200e9), ("copper", 117e9), ("aluminium", 69e9), ("lead", 16e9)]
+rows = [(n, stress * L / y * 1000) for n, y in Y]
+assert round(rows[0][1], 2) == 3.12 and round(rows[3][1], 1) == 39.0
+f = Fig(300, 236)
+f.text(150, 12, "Extension of a 2 m, 2 mm wire, mm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=40, fmt="%.2f", x0=70, y0=30, bw=150, gap=30)
+f.text(150, 158, "load 100 kg: F = 980 N, A = %.3f mm2" % (A * 1e6), size=10, color=SLATE, bold=True)
+f.text(150, 180, "stress = F / A = %.0f MPa" % (stress / 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "extension = stress x L / Y", size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "steel strain = %.5f" % (stress / 200e9), size=10, color=SLATE, bold=True)
+facts = dict(s=stress / 1e6, st=rows[0][1], cu=rows[1][1], pb=rows[3][1], strain=stress / 200e9)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -764,3 +810,74 @@ as it must be.
 **9.** (c) — $U=\frac{1}{2}kx^2 = \frac{1}{2}(200)(0.05)^2 = 0.25$ J. Option (d) 5.0 J comes from using $\frac{1}{2}kx$ and never squaring the extension.
 **10.** (a) — $F=\text{stress}\times A = (1.0\times10^9)(0.50\times10^{-6}) = 500$ N.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Hooke's law and explain the stress-strain curve and the three elastic moduli. <span class="marks">[10]</span>
+2. Derive the energy stored in a stretched wire, define Poisson's ratio and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Elasticity in structures. (a) A suspension bridge hangs from steel cables whose stress must stay well below the elastic limit. (b) A rope shares a load between many strands, and its breaking stress sets the safe load."
+@ photo id="ceephy3/bridge" cap="(a) Steel cables of a bridge"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy3/rope" cap="(b) Rope under tension"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: Hooke's law, the stress-strain curve and moduli (10 marks)
+
+**Introduction.** **Elasticity** is the property of a body to regain its original size and shape after the deforming force is removed. **Stress** is the restoring force per unit area, $\sigma = F/A$ (Pa). **Strain** is the fractional change, a number with no unit.
+
+**Hooke's law.** Within the elastic limit, stress is proportional to strain. The constant is the **modulus of elasticity**: $E = \text{stress}/\text{strain}$.
+
+**Stress-strain curve** for a ductile wire such as steel:
+
+1. **OA:** straight line, Hooke's law holds, and the slope is Young's modulus. A is the proportional limit.
+2. **AB:** the wire is still elastic but not linear. B is the **elastic limit** (yield point).
+3. **BC:** beyond B the wire is permanently deformed (plastic region). At C the wire flows with little extra stress.
+4. **CD:** stress rises to the **ultimate tensile strength** at D. Then the wire thins (necks) and breaks at E.
+
+**Moduli.**
+
+| Modulus | Definition | Formula | Applies to |
+|---|---|---|---|
+| Young's $Y$ | longitudinal stress / strain | $\dfrac{FL}{A\,\Delta L}$ | solids |
+| Bulk $K$ | volume stress / strain | $-\dfrac{\Delta P\,V}{\Delta V}$ | solids, liquids, gases |
+| Rigidity $\eta$ | shear stress / shear strain | $\dfrac{F}{A\theta}$ | solids only |
+
+The compressibility is $1/K$. A **brittle** material (glass) breaks soon after the elastic limit, a **ductile** one (copper) has a long plastic region, and a **perfectly elastic** body (quartz) obeys Hooke's law closely.
+
+**Numerical.** A steel wire of diameter $1\ \text{mm}$ and length $2\ \text{m}$ ($Y = 2\times10^{11}\ \text{Pa}$) carries $100\ \text{N}$. Then $A = \pi(0.5\times10^{-3})^2 = 7.85\times10^{-7}\ \text{m}^2$, stress $= 1.27\times10^{8}\ \text{Pa}$, strain $= 6.4\times10^{-4}$, and the extension $\Delta L = 6.4\times10^{-4}\times2 = 1.27\ \text{mm}$.
+
+**Conclusion.** The slope of the straight part of the curve is $Y$. Engineers keep the stress well below the elastic limit.
+
+### Model answer D2: elastic energy and Poisson's ratio (10 marks)
+
+**Introduction.** Work is done to stretch a wire, and it is stored as **elastic potential energy**. It is returned when the wire returns to its normal length.
+
+**Derivation.** The force rises from $0$ to $F$ as the extension grows from $0$ to $\Delta L$. By Hooke's law $F' = \dfrac{YA}{L}x$ at extension $x$, so
+
+$$ W = \int_0^{\Delta L}\frac{YA}{L}x\,dx = \frac{YA\,\Delta L^2}{2L} = \tfrac12F\,\Delta L $$
+
+The energy per unit volume is $u = \dfrac{W}{AL} = \tfrac12\times\text{stress}\times\text{strain} = \dfrac{\sigma^2}{2Y}$.
+
+**Poisson's ratio.** When a wire is stretched, it becomes thinner. The ratio of lateral strain to longitudinal strain is Poisson's ratio, $\nu = \dfrac{\Delta d/d}{\Delta L/L}$. It has no unit, is between $0$ and $0.5$ for ordinary solids (about $0.3$ for steel), and has a theoretical limit $0.5$ for an incompressible material.
+
+**Other points.**
+
+1. The spring constant of a wire is $k = YA/L$, so a thicker or shorter wire is stiffer.
+2. A wire cooled while its ends are clamped develops a **thermal stress** $Y\alpha\,\Delta\theta$. This is why railway tracks have expansion gaps.
+3. When a wire is stretched beyond the elastic limit, the area of the stress-strain loop is lost as heat (**hysteresis**), as in rubber used in shock absorbers.
+4. The relation between the moduli is $Y = 3K(1 - 2\nu)$.
+
+| Wire factor | Effect on extension $\Delta L = FL/AY$ |
+|---|---|
+| Length doubled | doubled |
+| Radius doubled | $\tfrac14$ |
+| Material with larger $Y$ | smaller |
+| Load doubled | doubled |
+
+**Numerical.** For the wire in D1: $W = \tfrac12(100)(1.27\times10^{-3}) = 0.064\ \text{J}$. The volume is $7.85\times10^{-7}\times2 = 1.57\times10^{-6}\ \text{m}^3$, so $u = 0.064/1.57\times10^{-6} = 4.1\times10^{4}\ \text{J m}^{-3}$. This agrees with $\tfrac12(1.27\times10^8)(6.4\times10^{-4}) = 4.1\times10^4$.
+
+**Conclusion.** The stored energy is $\tfrac12F\,\Delta L$, or $\tfrac12\times$ stress $\times$ strain per unit volume.

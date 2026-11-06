@@ -430,6 +430,56 @@ ax.legend(loc='lower right', fontsize=8.4, frameon=False)
 - The last drop is added dropwise, and the flask is swirled after each addition.
 :::
 
+```photogrid label="8.1" cols="2" ratio="1.2" caption="One drop changes the pH by six units. (a) A burette delivers titrant slowly until the indicator changes. (b) For 25.0 mL of 0.100 M HCl and 0.100 M NaOH the pH is 1.00 at the start, 3.70 at 24.9 mL, exactly 7.00 at 25.0 mL and 10.30 at 25.1 mL. A 0.2 mL range crosses 6.6 pH units, so methyl orange (3.1 to 4.4) and phenolphthalein (8.3 to 10) both change colour within one drop of the true end-point at 25.0 mL, and either indicator can be used for a strong acid and a strong base."
+@ photo id="chem12/titration" cap="A burette in a clamp: the volume of titrant is read to 0.05 mL"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Titration curve: 25.0 mL of 0.100 M HCl with 0.100 M NaOH"
+Ca, Va, Cb = 0.100, 25.0, 0.100
+def pH(Vb):
+    n = Ca * Va - Cb * Vb; V = Va + Vb
+    if abs(n) < 1e-9: return 7.0
+    return -math.log10(n / V) if n > 0 else 14 + math.log10(-n / V)
+p0, p1, p2 = pH(0), pH(24.9), pH(25.1)
+assert abs(p0 - 1.0) < 1e-9 and abs(p1 - 3.70) < 0.01 and abs(p2 - 10.30) < 0.01 and pH(25.0) == 7.0
+facts = dict(p0="%.2f" % p0, p1="%.2f" % p1, p2="%.2f" % p2, jump="%.1f" % (p2 - p1), veq="%.1f" % (Ca * Va / Cb))
+f = Fig(300, 236)
+f.text(150, 14, "pH against volume of NaOH added", size=10.5, color=NAVY, bold=True)
+X = lambda v: 40 + v * 4.8; Y = lambda p: 160 - p * 9.2
+f.box(X(0), Y(10), X(50) - X(0), Y(8.3) - Y(10), fill=SAND, stroke=SAND, r=0, sw=0)
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+pts = [(X(v), Y(pH(v))) for v in [i * 0.5 for i in range(0, 100)] + [24.9, 25.0, 25.1] if True]
+pts.sort()
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+f.circle(X(25), Y(7), 4, fill=AMBER, stroke=AMBER)
+f.text(X(25) + 8, Y(7) + 14, "end-point 25.0 mL, pH 7", size=10.5, color=AMBER, bold=True, anchor="start")
+for v in (0, 25, 50): f.text(X(v), Y(0) + 13, "%d" % v, size=10.5, color=SLATE)
+for p in (2, 7, 12): f.text(35, Y(p), "%d" % p, size=10.5, color=SLATE, anchor="end", vmid=True)
+f.text(150, 190, "24.9 mL: pH %.2f; 25.1 mL: pH %.2f" % (p1, p2), size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "0.2 mL spans %.1f pH units" % (p2 - p1), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "shaded band: phenolphthalein, pH 8.3 to 10", size=10.5, color=SLATE)
+```
+
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Making a primary standard. (a) A volumetric flask is graduated to hold exactly 500 mL at 20 degrees C, so the concentration of the solution made in it is known from the mass dissolved. (b) The cell computes mass = M x V x C for 0.1000 M: sodium carbonate needs 5.30 g, oxalic acid dihydrate 6.30 g, potassium dichromate 14.71 g and borax 19.07 g. A primary standard is weighed directly, so it must be pure, stable and of high molar mass. With a balance good to 0.2 mg the weighing error is 0.0038 per cent for sodium carbonate and only 0.0010 per cent for borax, which is why a larger molar mass makes a better primary standard."
+@ photo id="ceechem2/flask" cap="A 500 mL volumetric flask"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Mass of primary standard for 500 mL of 0.1000 M"
+V, C = 0.5, 0.1
+data = [("Na2CO3", 105.99), ("H2C2O4.2H2O", 126.07), ("borax", 381.37), ("K2Cr2O7", 294.19)]
+rows = [(n, M * V * C) for n, M in data]
+assert round(rows[0][1], 2) == 5.30 and round(rows[1][1], 2) == 6.30 and round(rows[3][1], 2) == 14.71
+err = [0.0002 / m * 100 for _, m in rows]
+f = Fig(300, 236)
+f.text(150, 12, "Grams for 500 mL of 0.1000 M", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=20, fmt="%.2f g", x0=86, y0=32, bw=130, gap=30)
+f.text(150, 166, "relative error of a 0.2 mg balance:", size=10, color=SLATE, bold=True)
+f.text(150, 186, "Na2CO3 %.4f%%, borax %.4f%%" % (err[0], err[2]), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "a heavier molar mass means a bigger weighing", size=10, color=SLATE, bold=True)
+f.text(150, 222, "and a smaller weighing error", size=10, color=SLATE, bold=True)
+facts = dict(na=rows[0][1], ox=rows[1][1], bx=rows[2][1], cr=rows[3][1], e1=err[0], e2=err[2])
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |
@@ -634,3 +684,75 @@ salt. Secondary standards: NaOH, KOH, HCl, H₂SO₄, KMnO₄, Na₂S₂O₃, I�
 **8.** (b) — 0.020 g = 20 mg in 1.00 kg, so 20 ppm. Option (a) forgets to convert grams to milligrams.
 **9.** (c) — Moles of HCl $= 0.0480 \times 0.100 = 0.00480$; mass of NaOH $= 0.00480 \times 40 = 0.192$ g; purity $= 0.192/0.200 = 96$ %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain acid-base titration, the choice of indicator and the use of primary standards, with a numerical on purity. <span class="marks">[10]</span>
+2. Describe iodometric and complexometric (EDTA) titrations and determine copper and the hardness of water. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="3" ratio="1.25" caption="Volumetric analysis. (a) Copper(II) sulphate, whose solution is titrated iodometrically. (b) Indicators signal the end point. (c) A graduated flask is used to prepare the standard solution."
+@ photo id="chem12/cuso4" cap="(a) Copper(II) sulphate"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/indicator" cap="(b) Indicator colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/volflask" cap="(c) Volumetric flask"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: acid-base titration and standard solutions (10 marks)
+
+**Introduction.** **Titration** finds the concentration of an unknown solution by reacting it with a solution of known concentration (the **standard solution**). The **end point** is the stage at which the indicator changes colour, and the **equivalence point** is when the chemically equivalent amounts have reacted.
+
+**Primary and secondary standards.** A **primary standard** (anhydrous Na₂CO₃, oxalic acid dihydrate, potassium hydrogen phthalate, K₂Cr₂O₇) is pure, stable, non-hygroscopic, has a high molar mass and is soluble. NaOH, HCl and KMnO₄ are **secondary standards**, which must be standardised against a primary standard.
+
+**Choice of indicator.**
+
+| Titration | pH at equivalence | Suitable indicator |
+|---|---|---|
+| Strong acid - strong base | 7 (pH jump $3$ to $11$) | any: methyl orange or phenolphthalein |
+| Weak acid - strong base | above 7 | phenolphthalein ($8.3$ to $10$) |
+| Strong acid - weak base | below 7 | methyl orange ($3.1$ to $4.4$) |
+| Weak acid - weak base | near 7, no sharp jump | no suitable indicator |
+
+An indicator is a weak acid or base whose ionised and unionised forms have different colours. It changes colour around $\text{pH} = \text{p}K_{In} \pm 1$.
+
+**Calculations.** At the end point $M_1V_1/n_1 = M_2V_2/n_2$, where $n$ is the stoichiometric coefficient, or for normality $N_1V_1 = N_2V_2$.
+
+1. Standardise HCl with Na₂CO₃ (methyl orange): Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂.
+2. The pH curve is nearly vertical near the equivalence point and shows which indicator is suitable.
+3. In a titration with carbonate and bicarbonate mixtures, phenolphthalein (first end point) and methyl orange (second end point) give both.
+
+**Numerical.** A $25\ \text{mL}$ sample of NaOH needs $20.0\ \text{mL}$ of $0.10\ \text{M}$ HCl: $M = \dfrac{0.10\times20.0}{25} = 0.080\ \text{M}$. A $0.500\ \text{g}$ sample of impure Na₂CO₃ needs $40.0\ \text{mL}$ of $0.200\ \text{M}$ HCl. Moles of HCl $= 8.0\ \text{mmol}$, so Na₂CO₃ $= 4.0\ \text{mmol} = 0.424\ \text{g}$ and the purity is $\dfrac{0.424}{0.500}\times100 = 84.8\%$.
+
+**Conclusion.** The indicator must change colour in the steep part of the titration curve, and a primary standard is needed to fix the strength of any secondary standard.
+
+### Model answer D2: iodometry and complexometric titration (10 marks)
+
+**Introduction.** Iodometric titrations use iodine/iodide and thiosulphate, and complexometric titrations use the chelating agent EDTA.
+
+**Iodometry (estimation of copper).** Cu²⁺ oxidises iodide to iodine and the iodine liberated is titrated against sodium thiosulphate:
+
+2Cu²⁺ + 4I⁻ → 2CuI + I₂ and I₂ + 2S₂O₃²⁻ → 2I⁻ + S₄O₆²⁻.
+
+Starch is added **near the end point** as indicator (deep blue with iodine) and the end point is the disappearance of the blue colour. So one Cu²⁺ is equivalent to one S₂O₃²⁻. Sodium thiosulphate is standardised with K₂Cr₂O₇ by the same iodometric method, because it is not a primary standard.
+
+**Complexometric titration with EDTA.** EDTA (ethylenediaminetetraacetic acid, as its disodium salt) forms a $1:1$ water-soluble chelate with most metal ions, through two N and four O donor atoms. The titration is done in a buffer at $\text{pH} = 10$ (NH₃/NH₄Cl) with **Eriochrome Black T** as indicator: the wine-red metal-indicator complex changes to blue when EDTA takes away the metal.
+
+**Hardness of water.** **Temporary hardness** is due to Ca(HCO₃)₂ and Mg(HCO₃)₂ and is removed by boiling or by Clark's method. **Permanent hardness** is due to chlorides and sulphates and is removed by adding washing soda (Na₂CO₃), permutit (zeolite) or ion exchange. Hardness is expressed as mg of CaCO₃ per litre (ppm).
+
+| Method | Titrant | Indicator | Analyte |
+|---|---|---|---|
+| Acid-base | HCl or NaOH | phenolphthalein, methyl orange | acids, bases |
+| Redox | KMnO₄ | self | Fe²⁺, oxalate |
+| Iodometric | Na₂S₂O₃ | starch | Cu²⁺, oxidants |
+| Complexometric | EDTA | Eriochrome Black T | Ca²⁺, Mg²⁺ |
+
+**Numerical.**
+
+- $25\ \text{mL}$ of a copper solution liberates iodine needing $20.0\ \text{mL}$ of $0.050\ \text{M}$ thiosulphate: $\text{Cu}^{2+} = \dfrac{0.050\times20.0}{25} = 0.040\ \text{M}$, or $2.54\ \text{g L}^{-1}$.
+- $50\ \text{mL}$ of water needs $10.0\ \text{mL}$ of $0.010\ \text{M}$ EDTA. Moles of Ca²⁺ $= 0.10\ \text{mmol}$, so in $1\ \text{L}$ there are $2.0\ \text{mmol}$, equal to $200\ \text{mg}$ of CaCO₃, a hardness of $200\ \text{ppm}$ (very hard).
+
+**Conclusion.** Starch is added late in iodometry, and EDTA titration at pH $10$ with Eriochrome Black T measures the total hardness of water.

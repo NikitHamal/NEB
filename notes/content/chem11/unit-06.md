@@ -467,6 +467,35 @@ $$ m_{Cu} = \frac{31.75 \times 2700}{96500} = 0.888\ \text{g} $$
 $E_{Ag}/E_{Cu} = 108/31.75 = 3.40$. The two agree.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Corrosion is a spontaneous redox reaction in which iron is oxidised to Fe2+ while oxygen from the air is reduced, and the standard electrode potentials predict how strongly it proceeds. (a) A rusted iron surface. (b) Taking E for Fe2+/Fe as -0.44 V and for oxygen as +1.23 V, the cell potential is 1.67 V and the free energy change is -322 kJ per two electrons, so rusting is strongly spontaneous. Zinc lies lower, at -0.76 V, so in contact with iron it gives up electrons first (0.32 V). That is why the corrugated roofing sheets seen across Nepal are galvanised, and a scratch does not expose the iron to attack."
+@ photo id="chem11/rust" cap="Rust on iron: iron is oxidised and oxygen is reduced"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Standard electrode potentials and the cell for rusting"
+E = [("Zn2+/Zn", -0.76), ("Fe2+/Fe", -0.44), ("H+/H2", 0.00), ("Cu2+/Cu", 0.34), ("O2/H2O", 1.23)]
+Ecell_rust = 1.23 - (-0.44)
+dG = -2 * 96485 * Ecell_rust / 1000
+Ecell_zn = -0.44 - (-0.76)
+assert abs(dG + 322.4) < 0.5 and abs(Ecell_zn - 0.32) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Standard potential E (volt, acid solution)", size=10.5, color=NAVY, bold=True)
+zx, sc = 120, 70
+f.line(zx, 26, zx, 150, color=SLATE, sw=1.2)
+for i, (nm, v) in enumerate(E):
+    y = 30 + i * 24
+    c = RED if v < 0 else NAVY
+    f.box(min(zx, zx + v * sc), y, abs(v) * sc, 16, "", fill=c, stroke=c, r=1)
+    if v < 0:
+        f.text(zx + 6, y + 9, "%s  %+.2f" % (nm, v), size=10, bold=True, anchor="start", vmid=True)
+    else:
+        f.text(zx + v * sc + 6, y + 9, "%s  %+.2f" % (nm, v), size=10, bold=True, anchor="start", vmid=True, color=c)
+f.text(150, 170, "rusting: E(cell) = 1.23 - (-0.44) = %.2f V" % Ecell_rust, size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "dG = -nFE = -2 x 96485 x %.2f = %.0f kJ" % (Ecell_rust, dG), size=10.5, color=RED, bold=True)
+f.text(150, 206, "Zn / Fe pair: E = %.2f V, Zn corrodes first" % Ecell_zn, size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "so galvanised sheet protects the iron", size=10.5, color=SLATE)
+facts = dict(E="%.2f" % Ecell_rust, dG="%.0f" % dG, Ez="%.2f" % Ecell_zn)
+```
+
 ## Chapter summary
 
 - Classically, oxidation is addition of oxygen or removal of hydrogen; electronically
@@ -591,3 +620,125 @@ $m = 108 \times 2700/96500 = 3.02$ g. Copper: $E = 63.5/2 = 31.75$, so
 $m = 31.75 \times 2700/96500 = 0.888$ g. The ratio 3.40 equals $E_{Ag}/E_{Cu}$, as
 the second law requires.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Balance the redox reaction between permanganate and ferrous ion in acid medium by the ion-electron method and by the oxidation number method. Explain the rules for oxidation numbers. <span class="marks">[10]</span>
+2. State Faraday's laws of electrolysis and solve numericals on copper and aluminium. <span class="marks">[10]</span>
+3. Describe the electrolysis of molten sodium chloride and of aqueous brine, and give eight applications of electrolysis. <span class="marks">[10]</span>
+
+### Model answer D1: balancing redox reactions (10 marks)
+
+**Introduction.** In a **redox reaction** one species is **oxidised** (loses electrons, oxidation number increases) and another is **reduced** (gains electrons, oxidation number decreases). OIL RIG: Oxidation Is Loss, Reduction Is Gain. The **oxidising agent** is reduced and the **reducing agent** is oxidised.
+
+**Rules for oxidation numbers.**
+
+1. The oxidation number of an atom in an **element** is zero (Na, O₂, S₈).
+2. For a **monatomic ion** it equals the charge (Na⁺ = +1, Cl⁻ = -1).
+3. The sum of the oxidation numbers in a **neutral compound is zero**, and in a **polyatomic ion equals the ion's charge**.
+4. Group 1 metals are +1; group 2 are +2; fluorine is always -1.
+5. **Hydrogen is +1** (except -1 in metal hydrides) and **oxygen is -2** (except -1 in peroxides and +2 in OF₂).
+Example: in KMnO₄, +1 + x + 4(-2) = 0, so Mn is **+7**; in Cr₂O₇²⁻, 2x - 14 = -2, so Cr is **+6**.
+
+**Problem.** $\text{MnO}_4^{-} + \text{Fe}^{2+} \rightarrow \text{Mn}^{2+} + \text{Fe}^{3+}$ in acid solution.
+
+**A. Ion-electron (half-reaction) method.**
+
+1. **Oxidation half:** $\text{Fe}^{2+} \rightarrow \text{Fe}^{3+} + e^{-}$.
+2. **Reduction half:** $\text{MnO}_4^{-} \rightarrow \text{Mn}^{2+}$. Balance O with 4 H₂O on the right: $\text{MnO}_4^{-} \rightarrow \text{Mn}^{2+} + 4\text{H}_2\text{O}$. Balance H with 8 H⁺ on the left: $\text{MnO}_4^{-} + 8\text{H}^{+} \rightarrow \text{Mn}^{2+} + 4\text{H}_2\text{O}$. Balance charge with 5 electrons: $\text{MnO}_4^{-} + 8\text{H}^{+} + 5e^{-} \rightarrow \text{Mn}^{2+} + 4\text{H}_2\text{O}$.
+3. **Equalise the electrons:** multiply the oxidation half by 5 and add.
+4. **Final equation:**
+
+$$ \text{MnO}_4^{-} + 5\text{Fe}^{2+} + 8\text{H}^{+} \rightarrow \text{Mn}^{2+} + 5\text{Fe}^{3+} + 4\text{H}_2\text{O} $$
+
+Check: charge on the left is $-1 + 10 + 8 = +17$, and on the right $+2 + 15 = +17$. ✓ Atoms of O and H also balance.
+
+**B. Oxidation number method.**
+
+1. Mn changes from +7 to +2: a **decrease of 5**. Fe changes from +2 to +3: an **increase of 1**.
+2. Equalise: 1 Mn needs 5 Fe, so the ratio is $\text{MnO}_4^{-} : \text{Fe}^{2+} = 1 : 5$.
+3. Balance the O with H₂O and the H with H⁺ (acidic medium), giving the same final equation.
+
+| Step | Ion-electron method | Oxidation number method |
+|---|---|---|
+| Basis | Half-reactions and electrons | Change in oxidation number |
+| Needs | Medium (acid or base) | Medium for H₂O and H⁺ |
+| Best for | Ionic reactions | Molecular equations |
+
+**Medium effect.** In alkaline solution, balance H by adding H₂O and OH⁻ instead. Permanganate changes to MnO₂ (neutral) or MnO₄²⁻ (strongly basic), not Mn²⁺.
+
+**Application.** This reaction is the basis of **permanganate titration**: the purple colour of MnO₄⁻ disappears until the end point, when one drop gives a permanent pink colour (self-indicator).
+
+**Conclusion.** A redox equation is balanced when the electrons lost equal the electrons gained. Both methods give the same equation: $\text{MnO}_4^{-} + 5\text{Fe}^{2+} + 8\text{H}^{+} \rightarrow \text{Mn}^{2+} + 5\text{Fe}^{3+} + 4\text{H}_2\text{O}$.
+
+### Model answer D2: Faraday's laws of electrolysis (10 marks)
+
+**Introduction.** **Electrolysis** is the chemical decomposition of an electrolyte by the passage of electric current. Michael Faraday (1833) found the quantitative relations between the electricity passed and the substance deposited.
+
+**Faraday's first law.** *The mass of a substance deposited or liberated at an electrode is directly proportional to the quantity of electricity passed.*
+
+$$ m = Z\,Q = Z\,I\,t $$
+
+where $Z$ is the **electrochemical equivalent** (mass deposited by 1 coulomb) in g C⁻¹.
+
+**Faraday's second law.** *When the same quantity of electricity passes through different electrolytes in series, the masses of substances deposited are proportional to their equivalent masses.*
+
+**Faraday constant.** One mole of electrons carries $F = 96500\ \text{C}$ (96485 C). Combining the laws for an ion of charge $z$ and molar mass $M$:
+
+$$ m = \frac{M}{zF}\,I\,t $$
+
+| Ion | Electrode reaction | Charge to deposit 1 mol |
+|---|---|---|
+| Na⁺ | $\text{Na}^{+} + e^{-} \rightarrow \text{Na}$ | 1 F = 96500 C |
+| Cu²⁺ | $\text{Cu}^{2+} + 2e^{-} \rightarrow \text{Cu}$ | 2 F = 193000 C |
+| Al³⁺ | $\text{Al}^{3+} + 3e^{-} \rightarrow \text{Al}$ | 3 F = 289500 C |
+
+**Numerical 1 (copper).** A current of $2\ \text{A}$ passes through copper sulphate solution for $30$ minutes (Cu = 63.5). $Q = 2\times1800 = 3600\ \text{C}$, and $m = \dfrac{63.5}{2\times96500}\times3600 = \mathbf{1.18\ g}$.
+
+**Numerical 2 (aluminium).** How long must a current of $10\ \text{A}$ flow to obtain 9 g of Al (Al = 27) from molten alumina? Moles of Al = 9/27 = 1/3 mol; electrons needed = 3 × 1/3 = 1 mol = 96500 C. Time $= 96500/10 = 9650\ \text{s} = \mathbf{2.68\ hours}$.
+
+**Numerical 3 (second law).** The same current passes through silver nitrate and copper sulphate in series, depositing 1.08 g of Ag (Ag = 108). Moles of Ag = 0.01, so 0.01 mol e⁻ passed, and Cu deposited = 0.005 mol × 63.5 = **0.318 g**, which agrees with the ratio of the equivalent masses 108 : 31.75.
+
+**Limitations.** In practice the current efficiency is below 100% because of side reactions, so the actual mass is less than the theoretical value.
+
+**Conclusion.** One faraday of charge (96500 C) deposits one equivalent of any substance. The relation $m = MIt/zF$ is used for electroplating and metal refining.
+
+### Model answer D3: electrolysis of molten NaCl, brine and its applications (10 marks)
+
+**Introduction.** In electrolysis, positive ions (cations) go to the **cathode** (reduction) and negative ions (anions) to the **anode** (oxidation). The products depend on whether the electrolyte is molten or aqueous.
+
+**1. Molten sodium chloride (Downs cell).** Only Na⁺ and Cl⁻ are present.
+
+- Cathode: $\text{Na}^{+} + e^{-} \rightarrow \text{Na}$ (molten sodium).
+- Anode: $2\text{Cl}^{-} \rightarrow \text{Cl}_2 + 2e^{-}$ (chlorine gas).
+- Overall: $2\text{NaCl} \rightarrow 2\text{Na} + \text{Cl}_2$.
+Calcium chloride is added to lower the melting point from 801 °C to about 600 °C.
+
+**2. Aqueous sodium chloride (brine).** Ions present: Na⁺, Cl⁻, H⁺ and OH⁻ (from water).
+
+- Cathode: water is **more easily reduced** than Na⁺, so $2\text{H}_2\text{O} + 2e^{-} \rightarrow \text{H}_2 + 2\text{OH}^{-}$.
+- Anode: Cl⁻ is oxidised (at high concentration) to give $2\text{Cl}^{-} \rightarrow \text{Cl}_2 + 2e^{-}$.
+- Solution left: **NaOH**.
+- Overall: $2\text{NaCl} + 2\text{H}_2\text{O} \rightarrow 2\text{NaOH} + \text{H}_2 + \text{Cl}_2$ (the **chlor-alkali process**).
+
+| Feature | Molten NaCl | Aqueous NaCl |
+|---|---|---|
+| Cathode product | Sodium metal | Hydrogen gas |
+| Anode product | Chlorine | Chlorine |
+| Other product | None | NaOH solution |
+| Reason | Only Na⁺ and Cl⁻ | Water competes |
+
+**Factors deciding the product.** The **standard electrode potential** (a species with a higher reduction potential is reduced first), the **concentration** of ions and the nature of the **electrode** (an active copper anode dissolves instead).
+
+**Eight applications of electrolysis.**
+
+1. **Electroplating:** a thin layer of silver, gold, nickel or chromium is applied to utensils, jewellery and bicycle parts.
+2. **Extraction of reactive metals:** sodium, potassium, magnesium and calcium from their molten salts, and **aluminium** (Hall-Héroult process) from alumina in cryolite.
+3. **Refining of metals:** impure copper is the anode and pure copper the cathode in copper sulphate, giving 99.99% pure copper for electric wires.
+4. **Chlor-alkali industry:** NaOH, Cl₂ and H₂, used in soap, paper and water treatment.
+5. **Production of hydrogen** by the electrolysis of water, a clean fuel.
+6. **Anodising** of aluminium to form a hard, protective oxide layer.
+7. **Manufacture of chemicals** such as sodium chlorate, fluorine and hydrogen peroxide.
+8. **Electrotyping and purifying water**, and in batteries (charging a lead-acid battery is electrolysis in reverse).
+
+**Conclusion.** The products of electrolysis depend on the electrolyte and on the competing ions. Molten NaCl gives sodium and chlorine, brine gives hydrogen, chlorine and NaOH, and electrolysis is essential to metallurgy and chemical industry.

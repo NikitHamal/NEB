@@ -385,6 +385,58 @@ frequency of its circuit to that of the station (electrical resonance, Chapter 1
 in an earthquake, buildings whose natural frequency matches the frequency of the ground
 shaking sway most violently.
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Simple harmonic motion with numbers. (a) Tuning forks: a struck prong moves to and fro with a fixed frequency, the model of SHM. (b) For a 440 Hz fork and an assumed amplitude A = 0.5 mm, the period is T = 1 / f = 2.27 ms and omega = 2 pi f = 2,765 rad/s. The displacement x = A sin(omega t) gives a maximum speed v = A omega = 1.38 m/s at the centre and a maximum acceleration a = A omega^2 = 3,822 m/s^2 at the ends, where the speed is zero. Taking numerical derivatives of x confirms both values, and the acceleration is always -omega^2 x, directed to the centre."
+@ photo id="sci10/tuning-fork" cap="Tuning forks: each prong executes simple harmonic motion"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="x, v and a of a 440 Hz prong over 1.5 periods"
+import math
+fr, A = 440.0, 0.5e-3; w = 2 * math.pi * fr; T = 1 / fr
+x = lambda t: A * math.sin(w * t)
+dt = 1e-9
+vnum = lambda t: (x(t + dt) - x(t - dt)) / (2 * dt)
+anum = lambda t: (x(t + 1e-6) - 2 * x(t) + x(t - 1e-6)) / 1e-12
+vm, am = A * w, A * w * w
+assert abs(vnum(0) - vm) / vm < 1e-5 and abs(anum(T / 4) + am) / am < 1e-3
+assert abs(anum(T / 8) + w * w * x(T / 8)) / am < 1e-3
+facts = dict(T="%.2f" % (T * 1000), w="{:,.0f}".format(w), vm="%.2f" % vm, am="{:,.0f}".format(am))
+f = Fig(300, 236)
+f.text(150, 14, "normalised x / A, v / vmax, a / amax", size=10.5, color=NAVY, bold=True)
+X = lambda t: 20 + t / (1.5 * T) * 262; Y = lambda u: 102 - u * 56
+f.line(X(0), Y(0), 284, Y(0), color=SLATE, sw=1.2)
+for name, fn, col in (("x", lambda t: math.sin(w * t), NAVY), ("v", lambda t: math.cos(w * t), AMBER), ("a", lambda t: -math.sin(w * t), RED)):
+    pts = [(1.5 * T * i / 90, fn(1.5 * T * i / 90)) for i in range(91)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(X(a), Y(b), X(c), Y(d), color=col, sw=2 if name != "a" else 1.6, dash=(name == "a"))
+f.text(32, 40, "x", size=10.5, color=NAVY, bold=True); f.text(52, 40, "v leads x by 90 degrees", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(190, 168, "a = -omega^2 x", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 188, "T = %.2f ms, omega = %s rad/s" % (T * 1000, "{:,.0f}".format(w)), size=10.5, color=SLATE, bold=True)
+f.text(150, 204, "vmax = A omega = %.2f m/s (at x = 0)" % vm, size=10.5, color=AMBER, bold=True)
+f.text(150, 220, "amax = A omega^2 = {:,.0f} m/s^2 (at x = +-A)".format(am), size=10.5, color=RED, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="A pendulum measures g and the Earth's spin. (a) A Foucault pendulum: a heavy bob on a long wire swings in a fixed plane while the floor turns beneath it, so the swing appears to rotate; the compass rose on the floor marks the angle. At latitude phi the plane turns through 360 sin phi degrees a day, which at Kathmandu (27.7 degrees north) is 167 degrees a day, a full turn in 51.6 hours. (b) The period of a simple pendulum is T = 2 pi sqrt(L / g), independent of the mass and (for small angles) of the amplitude. With g = 9.81 m/s2 a length of 0.994 m gives T = 2.00 s (the seconds pendulum), and a quarter of that length gives half the period. On the Moon (g = 1.62 m/s2) the same 0.994 m pendulum takes 4.92 s, which is how T measures g."
+@ photo id="ceephy2/pendulum" cap="A Foucault pendulum with its compass rose on the floor"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Period of a simple pendulum on Earth and on the Moon"
+import math
+gE, gM = 9.81, 1.62
+Tp = lambda L, g: 2 * math.pi * math.sqrt(L / g)
+assert round(Tp(0.994, gE), 2) == 2.00 and abs(Tp(0.2485, gE) - 1.0) < 0.01 and round(Tp(0.994, gM), 2) == 4.92
+rate = 360 * math.sin(math.radians(27.7))
+assert round(rate) == 167 and round(360 / rate * 24, 1) == 51.6
+f = Fig(300, 236)
+f.text(150, 12, "T = 2 pi sqrt(L / g)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 2), (0, 8))
+ax.grid(0.5, 2).axes("L m", "T s")
+ax.curve(lambda L: Tp(L, gM), 0, 2, color=AMBER, dash=True)
+ax.curve(lambda L: Tp(L, gE), 0, 2, color=RED)
+ax.pt(0.994, 2.0, "2.00 s", dx=8, dy=14)
+f.text(ax.X(1.35), ax.Y(7.0), "Moon", size=10.5, color=AMBER, bold=True)
+f.text(ax.X(1.45), ax.Y(3.9), "Earth", size=10.5, color=RED, bold=True)
+f.text(150, 206, "L = 0.994 m: 2.00 s here, 4.92 s on the Moon", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "Foucault plane turns 167 deg a day at 27.7 N", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -589,3 +641,68 @@ shaking sway most violently.
 **11.** (d) — $E = \frac{1}{2}m\omega^2A^2 = \frac{1}{2}(0.1)(100)(0.01) = 0.05$ J.
 **12.** (c) — $x = A\sin\omega t = A/2$ at $\omega t = \pi/6$, i.e. $t = T/12 = 2.4/12 = 0.2$ s. (b) is $T/6$, the time from $A/2$ on to $A$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define simple harmonic motion, derive its equations and energy, and find the time period of a spring-mass system and a simple pendulum. <span class="marks">[10]</span>
+2. Explain centripetal force, the banking of roads and motion in a vertical circle with numericals. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="2" ratio="1.4" caption="Oscillations in practice. (a) A simple pendulum swings with a period that depends only on its length and on g. (b) A metronome uses an adjustable weight on a rod to set the period of its oscillation."
+@ photo id="ceephy2/pendulum" cap="(a) Simple pendulum"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ioeeng/metronome" cap="(b) Metronome"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: simple harmonic motion (10 marks)
+
+**Introduction.** **Simple harmonic motion (SHM)** is the to-and-fro motion of a body in which the acceleration is proportional to the displacement from the mean position and always directed towards it: $a = -\omega^2x$.
+
+**Equations.** The solution is $x = A\sin(\omega t + \phi)$, where $A$ is the amplitude and $\omega = 2\pi/T$.
+
+1. **Velocity.** $v = \omega\sqrt{A^2 - x^2}$, maximum $\omega A$ at the mean position and zero at the extremes.
+2. **Acceleration.** $a = -\omega^2x$, maximum $\omega^2A$ at the extremes and zero at the mean position.
+3. **Energy.** Kinetic energy $K = \tfrac12m\omega^2(A^2 - x^2)$, potential energy $U = \tfrac12m\omega^2x^2$, and the total $E = \tfrac12m\omega^2A^2$ is constant.
+4. **Spring-mass system.** The restoring force is $F = -kx$, so $T = 2\pi\sqrt{m/k}$.
+5. **Simple pendulum** (small angles). The restoring force is $-mg\sin\theta \approx -mgx/l$, so $T = 2\pi\sqrt{l/g}$, independent of mass and amplitude.
+
+| Position | $x$ | Speed | Acceleration | $K$ | $U$ |
+|---|---|---|---|---|---|
+| Mean | 0 | maximum | 0 | $E$ | 0 |
+| Extreme | $\pm A$ | 0 | maximum | 0 | $E$ |
+| Half amplitude | $A/2$ | $\tfrac{\sqrt3}{2}\omega A$ | $\omega^2A/2$ | $\tfrac34E$ | $\tfrac14E$ |
+
+**Numerical.** A $2\ \text{kg}$ block on a spring of constant $200\ \text{N m}^{-1}$ has amplitude $5\ \text{cm}$. Then $\omega = \sqrt{200/2} = 10\ \text{rad s}^{-1}$ and $T = 2\pi/10 = 0.63\ \text{s}$. The maximum speed is $\omega A = 0.50\ \text{m s}^{-1}$, the total energy is $\tfrac12(200)(0.05)^2 = 0.25\ \text{J}$, and at $x = 3\ \text{cm}$ the speed is $10\sqrt{0.05^2 - 0.03^2} = 0.40\ \text{m s}^{-1}$. A pendulum of length $1\ \text{m}$ has $T = 2\pi\sqrt{1/9.8} = 2.0\ \text{s}$ (a seconds pendulum is about $0.99\ \text{m}$).
+
+**Conclusion.** SHM is defined by $a = -\omega^2x$. Its period depends on the system (mass and spring constant, or length and $g$) but not on the amplitude.
+
+### Model answer D2: circular motion, banking and the vertical circle (10 marks)
+
+**Introduction.** A body moving in a circle of radius $r$ at speed $v$ has an acceleration $a = v^2/r = \omega^2r$ towards the centre. The inward force that provides it is the **centripetal force** $F = mv^2/r$. It is not a new force: it is supplied by tension, friction, gravity or the normal reaction.
+
+**Banking of roads.** On a level road, friction alone gives the centripetal force, and it may be too small at high speed. The outer edge of a curve is raised by an angle $\theta$. For a vehicle with no help from friction, $N\sin\theta = mv^2/r$ and $N\cos\theta = mg$, so
+
+$$ \tan\theta = \frac{v^2}{rg}, \qquad v_{safe} = \sqrt{rg\tan\theta} $$
+
+With friction coefficient $\mu$ the maximum safe speed is $v = \sqrt{rg\dfrac{\mu + \tan\theta}{1 - \mu\tan\theta}}$.
+
+**Vertical circle.** A mass $m$ on a string of length $r$ is whirled in a vertical plane.
+
+1. At the bottom, $T - mg = mv^2/r$, so $T_{bottom} = mg + mv^2/r$.
+2. At the top, $T + mg = mv^2/r$. The string just stays taut when $T = 0$, which gives $v_{top} = \sqrt{gr}$.
+3. By energy conservation, $v_{bottom}^2 = v_{top}^2 + 4gr$, so the minimum speed at the bottom is $\sqrt{5gr}$.
+4. The tension at the bottom is then $6mg$ and at the top zero, a difference of $6mg$.
+
+| Situation | Source of centripetal force |
+|---|---|
+| Car on a level road | Friction |
+| Banked road | Component of the normal reaction |
+| Planet around the sun | Gravitation |
+| Stone on a string | Tension |
+| Electron in a magnetic field | Magnetic force $qvB$ |
+
+**Numerical.** A bend of radius $40\ \text{m}$ is designed for $20\ \text{m s}^{-1}$. Then $\tan\theta = 400/(40\times10) = 1$, so $\theta = 45^{\circ}$. For a stone of radius $0.4\ \text{m}$, the minimum bottom speed is $\sqrt{5(10)(0.4)} = 4.5\ \text{m s}^{-1}$.
+
+**Conclusion.** The centripetal force is the net inward force. Banking removes the dependence on friction, and a vertical circle needs $\sqrt{5gr}$ at the bottom to complete the loop.

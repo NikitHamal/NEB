@@ -29,17 +29,130 @@ Voice, reported speech and question tags are all rule-driven, so every question 
 
 Imperatives: *Open the door* → *Let the door be opened.* Questions: *Who wrote this book?* → *By whom was this book written?* Intransitive verbs have no passive.
 
+```photogrid label="4.1" cols="3" ratio="1.0" caption="Voice depends on who or what we want to put first. (a) The Taj Mahal: The Taj Mahal was built by Shah Jahan puts the building first, because the building is the topic. (b) Tenzing Norgay, who with Edmund Hillary first climbed Everest in 1953: Everest was first climbed by Tenzing and Hillary is the passive. (c) A telephone: reported speech tells what someone said on the phone without quoting the exact words (Fig 4.2)."
+@ photo id="bcaeng/taj" cap="Passive: built by Shah Jahan"
+focus 0.5 0.5
+@ photo id="bcagk/tenzing" cap="Everest was climbed in 1953"
+focus 0.5 0.3
+@ photo id="bca105/phone" cap="Reported speech: what was said"
+focus 0.5 0.5
+```
+
+```svgfig label="4.1" caption="Active to passive by swapping. The object of the active sentence becomes the subject, the verb becomes be + past participle (V3) in the same tense, and the old subject goes after by. The table builds each passive from its parts in the cell (object + be-form + V3 + by-phrase) and asserts that it equals the sentence in the book, from simple present to the modal must."
+rows = [("Simple present", "She writes a letter.", "a letter", "is written", "her"), ("Present continuous", "They are building a bridge.", "a bridge", "is being built", "them"),
+        ("Present perfect", "He has finished the work.", "the work", "has been finished", "him"), ("Simple past", "The boy broke the window.", "the window", "was broken", "the boy"),
+        ("Past perfect", "He had done it.", "it", "had been done", "him"), ("Simple future", "They will complete it.", "it", "will be completed", "them"),
+        ("Modal", "You must obey the rules.", "the rules", "must be obeyed", None)]
+exp = ["A letter is written by her.", "A bridge is being built by them.", "The work has been finished by him.", "The window was broken by the boy.", "It had been done by him.", "It will be completed by them.", "The rules must be obeyed."]
+def make(o, aux, by):
+    s = o[0].upper() + o[1:] + " " + aux
+    return s + (" by " + by if by else "") + "."
+assert [make(r[2], r[3], r[4]) for r in rows] == exp
+f = Fig(780, 340)
+for k, (x, w, t, c) in enumerate([(20, 110, "She", NAVY), (140, 110, "writes", TEAL), (260, 130, "a letter", RED)]):
+    f.box(x, 24, w, 28, t, fill=BLUE, stroke=c, color=c, size=11.5, bold=True)
+for k, (x, w, t, c) in enumerate([(430, 130, "A letter", RED), (570, 120, "is written", TEAL), (700, 70, "by her", NAVY)]):
+    f.box(x, 24, w, 28, t, fill=MINT, stroke=c, color=c, size=11.5, bold=True)
+f.arrow([(325, 52), (325, 70), (495, 70), (495, 54)], color=RED); f.arrow([(75, 52), (75, 84), (735, 84), (735, 54)], color=NAVY)
+f.text(210, 18, "ACTIVE", size=10.5, color=SLATE, bold=True); f.text(600, 18, "PASSIVE", size=10.5, color=SLATE, bold=True)
+f.text(410, 104, "object moves to the front; verb = be + V3; subject goes after by", size=10.5, color=RED, bold=True)
+for j, (hd, x, w) in enumerate([("tense", 14, 140), ("active", 158, 260), ("passive (built in the cell)", 422, 340)]):
+    f.box(x, 118, w, 24, hd, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+for i, r in enumerate(rows):
+    y = 146 + i * 27
+    f.box(14, y, 140, 25, r[0], fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5, bold=True)
+    f.box(158, y, 260, 25, r[1], fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5)
+    f.box(422, y, 340, 25, make(r[2], r[3], r[4]), fill=MINT, stroke=TEAL, color=TEAL, size=10.5, bold=True)
+```
+
 ## 4.2 Reported speech
 
 - **Back-shift**: simple present → simple past; present continuous → past continuous; present perfect → past perfect; simple past → past perfect; *will* → *would*; *can* → *could*. A **universal truth** does not shift (The teacher said that the earth moves round the sun).
 - **Words**: now → then; today → that day; tomorrow → the next day; yesterday → the day before; here → there; this → that.
 - **Statements** use *said/told that*; **yes–no questions** use *asked + if/whether* with normal word order (She asked whether he would help her); **wh-questions** keep the wh-word (He asked where I was going); **commands** use *told/ordered + to*; **exclamations** use *exclaimed with joy/sorrow that*.
 
+```svgfig label="4.2" caption="Reported speech steps one tense back. The cell moves each pronoun, verb and time word with a small dictionary and checks the results: I am happy now becomes he was happy then; I will come tomorrow becomes he would come the next day; I can swim here becomes he could swim there. A universal truth does not shift: the teacher said that the earth moves round the sun."
+mp = {"I": "he", "am": "was", "will": "would", "can": "could", "now": "then", "tomorrow": "the next day", "here": "there", "yesterday": "the day before", "today": "that day"}
+def rep(s): return " ".join(mp.get(w, w) for w in s.split())
+ex = [("I am happy now", "he was happy then"), ("I will come tomorrow", "he would come the next day"), ("I can swim here", "he could swim there")]
+assert all(rep(a) == b for a, b in ex)
+f = Fig(780, 340)
+f.text(190, 20, "Verbs step back one tense", size=11.5, color=NAVY, bold=True)
+pairs = [("simple present", "simple past"), ("present continuous", "past continuous"), ("present perfect", "past perfect"), ("simple past", "past perfect"), ("will", "would"), ("can", "could")]
+for i, (a, b) in enumerate(pairs):
+    y = 34 + i * 38
+    f.box(14, y, 150, 28, a, fill=BLUE, stroke=NAVY, color=NAVY, size=10.5, bold=True); f.arrow([(166, y + 14), (214, y + 14)], color=RED)
+    f.box(216, y, 150, 28, b, fill=SAND, stroke=AMBER, color=AMBER, size=10.5, bold=True)
+f.text(590, 20, "Words change too", size=11.5, color=NAVY, bold=True)
+words = [("now", "then"), ("today", "that day"), ("tomorrow", "the next day"), ("yesterday", "the day before"), ("here", "there"), ("this", "that")]
+for i, (a, b) in enumerate(words):
+    y = 34 + i * 26
+    f.box(420, y, 130, 22, a, fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5, bold=True); f.text(566, y + 15, "to", size=10.5, color=RED, bold=True)
+    f.box(588, y, 170, 22, b, fill=MINT, stroke=TEAL, color=TEAL, size=10.5, bold=True)
+for i, (a, b) in enumerate(ex):
+    f.text(20, 280 + i * 18, 'He said, "' + a + '"  =  He said that ' + b, size=10.5, color=SLATE, anchor="start", bold=(i == 0))
+f.text(420, 232, "no back-shift for a universal truth:", size=10.5, color=RED, anchor="start", bold=True)
+f.text(420, 252, "the teacher said that the earth moves round the sun", size=10.5, color=SLATE, anchor="start")
+f.text(420, 290, "statement: said that;  yes/no: asked if or whether", size=10.5, color=NAVY, anchor="start", bold=True)
+f.text(420, 310, "command: told + to;  wh-question keeps the wh-word", size=10.5, color=NAVY, anchor="start", bold=True)
+```
+
 ## 4.3 Question tags
 
 - Positive statement → negative tag; negative → positive. The tag repeats the auxiliary (none → *do/does/did*).
 - Special: *I am* → **aren't I?**; *Let us / Let's* → **shall we?**; imperatives → **will you?**; *there is* → **isn't there?**; *nobody, everyone, someone* → **they**; *used to* → **didn't**; *had better* → **hadn't**; *ought to* → **oughtn't**.
 - Negative-meaning words (*never, hardly, seldom, rarely, nobody, neither*) make the statement negative, so the tag is **positive**: He never lies, does he?
+
+```svgfig label="4.3" caption="Question tags flip the polarity. A positive statement takes a negative tag and a negative statement takes a positive tag; the tag repeats the auxiliary and uses a pronoun. The cell builds the regular tags (is to isn't she, plays to doesn't he, went to didn't you) and checks them, then lists the special ones: I am takes aren't I, let's takes shall we, a command takes will you, and a negative word such as never or nobody makes the statement negative, so the tag is positive."
+CON = {"is": "isn't", "are": "aren't", "was": "wasn't", "has": "hasn't", "have": "haven't", "does": "doesn't", "do": "don't", "did": "didn't", "will": "won't", "can": "can't"}
+INV = {v: k for k, v in CON.items()}
+def tag(pron, aux, neg):
+    return ("%s %s?" % (INV[aux] if neg else CON[aux], pron))
+assert tag("she", "is", False) == "isn't she?" and tag("they", "don't", True) == "do they?" and tag("he", "does", False) == "doesn't he?" and tag("you", "did", False) == "didn't you?"
+rows = [("She is clever,", tag("she", "is", False), "positive, negative tag"), ("They don't play,", tag("they", "don't", True), "negative, positive tag"), ("He plays cricket,", tag("he", "does", False), "no auxiliary: use does"),
+        ("You went to Pokhara,", tag("you", "did", False), "past: didn't"), ("He never lies,", "does he?", "never is negative"), ("Nobody came,", "did they?", "nobody: negative, they"),
+        ("I am late,", "aren't I?", "special"), ("Let's go,", "shall we?", "special"), ("Open the door,", "will you?", "command")]
+f = Fig(780, 330)
+for hd, x, w in [("statement", 14, 260), ("tag", 278, 200), ("why", 482, 280)]:
+    f.box(x, 8, w, 24, hd, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+for i, (a, b, c) in enumerate(rows):
+    y = 36 + i * 31
+    sp = i >= 4
+    f.box(14, y, 260, 27, a, fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5, bold=True)
+    f.box(278, y, 200, 27, b, fill=(SAND if sp else MINT), stroke=(AMBER if sp else TEAL), color=(AMBER if sp else TEAL), size=11, bold=True)
+    f.box(482, y, 280, 27, c, fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5)
+```
+
+## 4.4 Eight traps in voice, narration and tags
+
+These topics are rule-based, so a careful check of each step removes almost every error. The eight traps below are the ones that appear most often as wrong options.
+
+1. **Keep the tense when you change the voice.** *She writes a letter* becomes *A letter is written by her*, still present simple (Fig 4.1). Use *be* in the same tense plus the past participle. Changing the tense is the most common error.
+2. **Change the pronoun form.** *He* becomes *by him*, *they* becomes *by them* and *I* becomes *by me*. The subject of the passive is the old object, so *me* becomes *I*. Check every pronoun when you swap.
+3. **Intransitive verbs have no passive.** *He sleeps* and *The sun rises* have no object, so no passive can be formed. The verbs *arrive*, *go* and *seem* are in the same group. If there is no object, the option with a passive is wrong.
+4. **Present continuous and perfect need *being* and *been*.** *They are building a bridge* becomes *A bridge is being built*, and *He has finished the work* becomes *The work has been finished* (Fig 4.1). A modal keeps *be*: *must be obeyed*. Students often drop *being* or *been*.
+5. **Back-shift one tense in reported speech.** Direct *I am happy* becomes *he was happy*, *will* becomes *would* and *can* becomes *could* (Fig 4.2). If the reporting verb is present (*He says*), no shift is needed. A universal truth also stays in the present: *He said that the earth moves round the sun*.
+6. **Change the time and place words.** *Now* becomes *then*, *today* becomes *that day*, *tomorrow* becomes *the next day*, *here* becomes *there* and *this* becomes *that*. The change depends on the moment of reporting. Do not forget to change the pronoun also.
+7. **Questions become statements in reported speech.** A yes-no question uses *asked if/whether* and normal order: *She asked whether he would help her*. A wh-question keeps the wh-word: *He asked where I was going*. Remove the question mark and the auxiliary inversion.
+8. **The tag flips the polarity.** A positive statement has a negative tag and a negative statement has a positive tag (Fig 4.3). Remember *I am* → *aren't I?*, *Let's* → *shall we?*, commands → *will you?*, and *nobody* or *never* give a positive tag. The tag pronoun for *everyone* and *nobody* is *they*.
+
+### 4.4.1 Worked checks
+
+**Q. Change into the passive: "They are building a bridge."**
+
+**Answer.** The tense is present continuous, so the passive is **A bridge is being built by them** (Fig 4.1).
+
+**Q. Change into indirect speech: He said, "I will come tomorrow."**
+
+**Answer.** *I* becomes *he*, *will* becomes *would* and *tomorrow* becomes *the next day*. The result is **He said that he would come the next day** (Fig 4.2).
+
+**Q. Add a question tag: "Nobody came, ____?"**
+
+**Answer.** *Nobody* has a negative meaning, so the tag is positive and uses *they*: "Nobody came, **did they**?" (Fig 4.3).
+
+**Q. Add a question tag: "I am late, ____?"**
+
+**Answer.** The special form is **aren't I?** (Fig 4.3).
 
 ## Formula and fact sheet
 

@@ -683,6 +683,95 @@ $f^{-1}(-0.5)=\frac{1-1}{-2.5}=0$ ✓.
    $f\left(\frac{11}{3}\right)=\frac{11-1}{2}=5$ ✓.
 :::
 
+## 18.13 Extended model answers (10 marks)
+
+Optional Mathematics answers are marked for method. Write the formula, the steps, a table where it helps, and verify the answer by substitution.
+
+**Extended questions**
+
+1. Solve $2x + 3y = 8$ and $x + 2y = 5$ by the matrix method. <span class="marks">[10]</span>
+2. If $\alpha$ and $\beta$ are the roots of $2x^2 - 7x + 3 = 0$, find $\alpha^2 + \beta^2$, $\alpha - \beta$ and the equation whose roots are $\frac{1}{\alpha}$ and $\frac{1}{\beta}$. <span class="marks">[10]</span>
+3. From a point the angle of elevation of the top of a tower is $30°$. After walking 40 m towards the tower the angle becomes $60°$. Find the height of the tower. <span class="marks">[10]</span>
+
+### Model answer D1: solving equations by the matrix method (10 marks)
+
+**Introduction.** A pair of linear equations can be written as $AX = B$. If the determinant of $A$ is not zero, then $A^{-1}$ exists and $X = A^{-1}B$. For $A = \begin{pmatrix}a&b\\c&d\end{pmatrix}$ the determinant is $|A| = ad - bc$ and $A^{-1} = \frac{1}{|A|}\begin{pmatrix}d&-b\\-c&a\end{pmatrix}$.
+
+**Matrix form.** $\begin{pmatrix}2&3\\1&2\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix} = \begin{pmatrix}8\\5\end{pmatrix}$.
+
+**Determinant.** $|A| = 2(2) - 3(1) = 4 - 3 = 1 \ne 0$, so the inverse exists.
+
+**Inverse.** $A^{-1} = \frac{1}{1}\begin{pmatrix}2&-3\\-1&2\end{pmatrix} = \begin{pmatrix}2&-3\\-1&2\end{pmatrix}$.
+
+**Solution.** $X = A^{-1}B = \begin{pmatrix}2&-3\\-1&2\end{pmatrix}\begin{pmatrix}8\\5\end{pmatrix} = \begin{pmatrix}2(8) - 3(5)\\-1(8) + 2(5)\end{pmatrix} = \begin{pmatrix}1\\2\end{pmatrix}$.
+
+So $x = 1$ and $y = 2$.
+
+**Verification.**
+
+| Equation | Substitution | Result |
+|---|---|---|
+| $2x + 3y = 8$ | 2(1) + 3(2) = 2 + 6 | 8, true |
+| $x + 2y = 5$ | 1 + 2(2) = 1 + 4 | 5, true |
+
+**Check of the inverse.** $AA^{-1} = \begin{pmatrix}2&3\\1&2\end{pmatrix}\begin{pmatrix}2&-3\\-1&2\end{pmatrix} = \begin{pmatrix}4-3&-6+6\\2-2&-3+4\end{pmatrix} = \begin{pmatrix}1&0\\0&1\end{pmatrix}$, the identity matrix.
+
+**Conclusion.** The matrix method gives both unknowns at once. It fails when the determinant is zero, which means the lines are parallel or coincident.
+
+### Model answer D2: roots of a quadratic equation (10 marks)
+
+**Introduction.** For $ax^2 + bx + c = 0$ with roots $\alpha$ and $\beta$, the sum of roots is $\alpha + \beta = -\frac{b}{a}$ and the product is $\alpha\beta = \frac{c}{a}$. These let us find many expressions without solving the equation.
+
+**Sum and product.** For $2x^2 - 7x + 3 = 0$: $\alpha + \beta = \frac{7}{2}$ and $\alpha\beta = \frac{3}{2}$.
+
+**Part 1: $\alpha^2 + \beta^2$.** $\alpha^2 + \beta^2 = (\alpha + \beta)^2 - 2\alpha\beta = \frac{49}{4} - 3 = \frac{37}{4}$.
+
+**Part 2: $\alpha - \beta$.** $(\alpha - \beta)^2 = (\alpha + \beta)^2 - 4\alpha\beta = \frac{49}{4} - 6 = \frac{25}{4}$, so $\alpha - \beta = \pm\frac{5}{2}$.
+
+**Part 3: new equation with roots $\frac{1}{\alpha}$ and $\frac{1}{\beta}$.**
+
+Sum $= \frac{1}{\alpha} + \frac{1}{\beta} = \frac{\alpha + \beta}{\alpha\beta} = \frac{7/2}{3/2} = \frac{7}{3}$.
+
+Product $= \frac{1}{\alpha\beta} = \frac{2}{3}$.
+
+The equation is $x^2 - (\text{sum})x + \text{product} = 0$, that is $x^2 - \frac{7}{3}x + \frac{2}{3} = 0$, or **$3x^2 - 7x + 2 = 0$**.
+
+**Check by actual roots.** $2x^2 - 7x + 3 = (2x - 1)(x - 3)$, so the roots are $3$ and $\frac{1}{2}$. Then $\alpha^2 + \beta^2 = 9 + \frac{1}{4} = \frac{37}{4}$ and $\alpha - \beta = \frac{5}{2}$, as found. The reciprocal roots are $\frac{1}{3}$ and $2$, and $3x^2 - 7x + 2 = (3x - 1)(x - 2)$ has exactly these roots.
+
+| Quantity | Working | Result |
+|---|---|---|
+| Sum | −b/a | 7/2 |
+| Product | c/a | 3/2 |
+| α² + β² | (sum)² − 2(product) | 37/4 |
+| α − β | √[(sum)² − 4(product)] | ±5/2 |
+| New equation | roots 1/α, 1/β | 3x² − 7x + 2 = 0 |
+
+**Conclusion.** The relations between roots and coefficients save time and give an independent check on the actual roots.
+
+### Model answer D3: height and distance (10 marks)
+
+**Introduction.** The angle of elevation is the angle between the horizontal and the line of sight to an object above it. In a right triangle $\tan\theta = \frac{\text{perpendicular}}{\text{base}}$. Remember $\tan 30° = \frac{1}{\sqrt{3}}$ and $\tan 60° = \sqrt{3}$.
+
+**Figure and data.** Let the tower be $PQ$ of height $h$ metres, with $Q$ at the foot. The first point is $A$ and the second point is $B$, 40 m nearer, so $AB = 40$ m. Let $BQ = x$ metres, so $AQ = x + 40$.
+
+**From the second point $B$ (angle $60°$).** $\tan 60° = \frac{h}{x}$, so $h = x\sqrt{3}$ ... (1).
+
+**From the first point $A$ (angle $30°$).** $\tan 30° = \frac{h}{x + 40}$, so $h = \frac{x + 40}{\sqrt{3}}$ ... (2).
+
+**Solving.** Equate (1) and (2): $x\sqrt{3} = \frac{x + 40}{\sqrt{3}}$. Multiply by $\sqrt{3}$: $3x = x + 40$, so $2x = 40$ and $x = 20$.
+
+$h = x\sqrt{3} = 20\sqrt{3} = 20\times 1.732 =$ **34.64 m**.
+
+**Check.** From $A$: distance $= 60$ m and $\tan 30° = \frac{34.64}{60} = 0.577$, which equals $\frac{1}{\sqrt{3}}$. 
+
+| Item | Value |
+|---|---|
+| Distance of B from the foot | 20 m |
+| Distance of A from the foot | 60 m |
+| Height of the tower | $20\sqrt{3} \approx 34.64$ m |
+
+**Conclusion.** Two angles of elevation and one distance walked are enough to find a height without climbing. The same method is used by surveyors to measure hills and tall buildings.
+
 ## Chapter summary
 
 - **Sequences:** $t_n=a+(n-1)d$, $S_n=\frac n2\{2a+(n-1)d\}$; $t_n=ar^{n-1}$,

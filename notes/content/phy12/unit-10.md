@@ -379,6 +379,26 @@ $$ \Delta t = \frac{(n-1)x}{c} = \frac{0.5 \times 2.0\times10^{-3}}{3\times10^{8
  = 3.3\times10^{-12}\ \text{s} $$
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.2" caption="Light as a ruler. (a) In a Michelson interferometer a beam is split and the two halves return from two mirrors to form rings. Moving one mirror by half a wavelength makes the whole pattern shift by one fringe, because the path of that beam changes by one full wavelength on the way out and back. (b) The cell uses the yellow line of sodium, 589.3 nm: one fringe means a shift of 294.7 nm, a movement of 0.1 mm passes 339 fringes and 1 mm passes 3394. Counting 3200 fringes shows a displacement of 0.943 mm. The method measures tiny lengths and, run backwards with a known length, gives the wavelength of light. It proves that light behaves as a wave."
+@ photo id="phy12b/interf" cap="Circular fringes in a Michelson interferometer lit by a sodium lamp"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Counting fringes to measure a length"
+lam = 589.3e-9
+rows = [("%g mm" % d, 2 * d * 1e-3 / lam) for d in (0.01, 0.1, 0.5, 1.0)]
+assert round(rows[1][1]) == 339 and round(rows[3][1]) == 3394
+N = 3200
+d_ = N * lam / 2 * 1000
+f = Fig(300, 236)
+f.text(150, 12, "Fringes counted when the mirror moves", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3500, fmt="%.0f", x0=58, y0=30, bw=160, gap=30)
+f.text(150, 158, "N = 2 d / lambda; sodium D line 589.3 nm", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "one fringe = a mirror shift of %.1f nm" % (lam / 2 * 1e9), size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "3200 fringes mean d = %.3f mm" % d_, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "light waves make a ruler of 0.3 micrometre", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[1][1], b=rows[3][1], one=lam / 2 * 1e9, d=d_)
+```
+
 ## Chapter summary
 
 - A **wavefront** is the locus of points vibrating in the same phase; a **ray** is
@@ -475,3 +495,86 @@ $$ \text{time} = \frac{6.80\times10^{-2}}{2.0\times10^{8}} = 3.4\times10^{-10}\ 
 $$ d = \frac{t\,\sin(i-r)}{\cos r} = \frac{6.0 \times \sin 16.9^\circ}{0.8819}
  = \frac{6.0 \times 0.2902}{0.8819} = 1.97\ \text{cm} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Huygens' principle. Using it, prove the law of reflection of a plane wave at a plane surface. <span class="marks">[10]</span>
+2. Using Huygens' wave theory, explain refraction of light at a plane surface and derive Snell's law and the relation $n = c/v$. Give a numerical example. <span class="marks">[10]</span>
+
+### Model answer D1: Huygens' principle and the law of reflection (10 marks)
+
+**Introduction.** A **wavefront** is the locus of all points that vibrate in the same phase at an instant. Wavefronts are *spherical* from a point source, *cylindrical* from a line source and *plane* from a very distant source such as the Sun. A ray is the normal to the wavefront.
+
+**Huygens' principle (1678).**
+
+1. Every point on a wavefront acts as a **new source of secondary wavelets**, which spread out in all directions with the speed of light in that medium.
+2. The **new wavefront** after a time $t$ is the **forward envelope** (the common tangent) of these secondary wavelets.
+This allows us to find the shape of a wavefront at a later time from its shape now.
+
+**Limitation.** The principle does not explain why the wavelets do not go backwards (the "back-wave" problem). It was improved by Fresnel, who added interference of the wavelets.
+
+**Proof of the law of reflection.** Let a plane wavefront $AB$ fall obliquely on a plane reflecting surface $MN$ in air, with the speed of light $c$.
+
+1. At $t = 0$ the point $A$ of the wavefront touches the surface at $A$, while $B$ is at a distance $BC$ from the surface.
+2. The point $B$ reaches the surface at $C$ after a time $t = BC/c$. During this time the secondary wavelet from $A$ spreads in the same medium by a distance $AD = ct$, which is a hemisphere of radius $ct$ about $A$.
+3. The reflected wavefront is the tangent from $C$ to this hemisphere, touching it at $D$.
+4. Consider the right-angled triangles $ABC$ and $ADC$. They have a **common hypotenuse** $AC$, and $BC = AD = ct$.
+5. So the triangles are congruent, giving $\angle BAC = \angle DCA$.
+6. The angle of incidence $i$ is the angle between the incident wavefront and the surface, which equals $\angle BAC$, and the angle of reflection $r$ is $\angle DCA$. Hence
+
+$$ i = r $$
+
+7. The incident ray, the reflected ray and the normal lie in **one plane**, because all the construction is in the plane of the figure.
+
+| Item | Incident wavefront | Reflected wavefront |
+|---|---|---|
+| Speed | $c$ | $c$ (same medium) |
+| Wavelength | $\lambda$ | $\lambda$ (unchanged) |
+| Frequency | $f$ | $f$ (unchanged) |
+| Angle | $i$ | $r = i$ |
+
+**Conclusion.** Huygens' construction shows that reflection leaves the speed, frequency and wavelength unchanged and makes the angle of reflection equal to the angle of incidence. The result also holds for curved mirrors if the surface is small enough to be called plane.
+
+### Model answer D2: refraction by wave theory and Snell's law (10 marks)
+
+**Introduction.** When light passes from one medium to another its **speed changes**, and a slanting wavefront changes direction, which is called **refraction**. The wave theory gives a clear reason for this, and it predicts that light moves **slower in a denser medium**, which the particle theory of Newton got wrong.
+
+**Derivation.** Let a plane wavefront $AB$ travelling in air with speed $v_{1} = c$ meet a plane glass surface $MN$, in which the speed is $v_{2}$ (with $v_{2} < v_{1}$).
+
+1. At $t = 0$ the wavefront touches the surface at $A$, with $B$ at a distance $BC$ away.
+2. Point $B$ reaches the surface at $C$ after a time $t = BC/v_{1}$.
+3. In the same time $t$ the secondary wavelet from $A$ travels in glass a distance $AE = v_{2}t$, a hemisphere of smaller radius than $BC = v_{1}t$.
+4. The refracted wavefront is the tangent $CE$ from $C$ to this hemisphere.
+5. The angle of incidence $i = \angle BAC$ and the angle of refraction $r = \angle ACE$. In the right-angled triangles $ABC$ and $AEC$:
+
+$$ \sin i = \frac{BC}{AC} = \frac{v_{1}t}{AC}, \qquad \sin r = \frac{AE}{AC} = \frac{v_{2}t}{AC} $$
+
+6. Dividing,
+
+$$ \frac{\sin i}{\sin r} = \frac{v_{1}}{v_{2}} = \text{constant} = {}_{1}n_{2} $$
+
+This is **Snell's law**. Since the refractive index of a medium is $n = c/v$, we also have $n_{1}\sin i = n_{2}\sin r$.
+
+**Consequences.**
+
+1. If $v_{2} < v_{1}$, then $r < i$ and the ray **bends towards the normal** in the denser medium.
+2. The **frequency does not change**, as it is fixed by the source; so $\lambda_{2}/\lambda_{1} = v_{2}/v_{1} = 1/n$, and the wavelength is shorter in the denser medium.
+3. Rays are reversible, so the path from glass to air bends away from the normal.
+4. The ratio of the speeds gives the **relative refractive index** ${}_{1}n_{2} = n_{2}/n_{1}$.
+
+| Quantity | Air to glass | Change |
+|---|---|---|
+| Speed | $c$ to $c/n$ | Decreases |
+| Wavelength | $\lambda$ to $\lambda/n$ | Decreases |
+| Frequency | $f$ | Unchanged |
+| Direction | Bends | Towards the normal |
+
+**Numerical.** Light of wavelength $600\ \text{nm}$ in air enters glass of refractive index $n = 1.5$ at an angle of incidence $45^{\circ}$. Then
+
+- the speed in glass is $v = c/n = 3\times10^{8}/1.5 = 2.0\times10^{8}\ \text{m s}^{-1}$;
+- the wavelength in glass is $\lambda' = 600/1.5 = 400\ \text{nm}$;
+- the frequency is $f = c/\lambda = 5\times10^{14}\ \text{Hz}$ in both media;
+- the angle of refraction is $\sin r = \sin45^{\circ}/1.5 = 0.4714$, so $r = 28.1^{\circ}$.
+The critical angle for glass to air is $\sin^{-1}(1/1.5) = 41.8^{\circ}$.
+
+**Conclusion.** Huygens' theory explains refraction through the change of speed, derives Snell's law from it, and shows that the frequency stays the same while the wavelength changes. The prediction that light is slower in water than in air was confirmed by Foucault in 1850.

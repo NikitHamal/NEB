@@ -377,6 +377,25 @@ lignin means a milder cook, less chemical and less effluent — but they are bul
 seasonal and low in ash-free fibre, which is why a mill must sit close to its
 fields.
 
+```photogrid label="20.P" cols="2" ratio="1.2" caption="Making pulp means removing lignin. (a) Handmade lokta paper is a Nepali craft: the bark fibre of the Daphne shrub is cooked in alkali, beaten and spread to dry. (b) Wood is about half cellulose, and chemical pulping dissolves the lignin that holds the fibres together, so the pulp yield is less than 50 per cent. The cell shows that a tonne of kraft pulp (yield 47 per cent) needs 2.13 t of dry wood and a soda process 2.22 t, against 1.08 t for mechanical pulp, which keeps the lignin and so yellows with age. A ream of 500 sheets of A4 paper of 5 g each weighs 2.5 kg and needs about 5.3 kg of dry wood by the kraft process."
+@ photo id="chem12b/lokta" cap="People at a lokta paper site in Nepal"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Wood needed for a tonne of pulp"
+yields = [("mechanical", 93), ("sulfite", 50), ("kraft", 47), ("soda", 45)]
+rows = [(n, 100 / y) for n, y in yields]
+assert round(rows[2][1], 2) == 2.13
+ream = 500 * 5.0 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Dry wood per tonne of pulp, tonnes", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=2.5, fmt="%.2f", x0=76, y0=30, bw=150, gap=30)
+f.text(150, 158, "yield: mechanical 93%, sulfite 50%, kraft 47%, soda 45%", size=9.5, color=SLATE, bold=True)
+f.text(150, 178, "wood = 1 / yield (lignin is removed)", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "one ream of A4 (500 x 5 g) = %.1f kg of paper" % ream, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "needs %.1f kg of dry wood by kraft pulping" % (ream * rows[2][1]), size=10.5, color=NAVY, bold=True)
+facts = dict(m=rows[0][1], k=rows[2][1], s=rows[3][1], ream=ream, w=ream * rows[2][1])
+```
+
 ## Chapter summary
 
 - Paper is a mat of cellulose fibres, (C₆H₁₀O₅)ₙ, bonded by hydrogen bonds;
@@ -509,3 +528,41 @@ extraction and hydrogen peroxide stages between. Elemental chlorine was abandone
 because it chlorinates lignin to dioxins and other toxic, persistent
 organochlorines that pass into the river; ECF and TCF sequences avoid them.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the manufacture of paper from wood by the sulphate (kraft) process, the stages of paper making and the qualities of paper, and mention hand-made paper of Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: the manufacture of paper (10 marks)
+
+**Introduction.** **Paper** is a thin sheet made from a web of cellulose fibres, which are matted together, pressed and dried. The fibres are obtained from wood (the main source), grasses, straw, bagasse, rags and waste paper. Wood contains about 40–50% cellulose, 20–30% **lignin**, which acts as a glue, and hemicellulose.
+
+**Raw materials.** Softwoods (pine, spruce) give long fibres and strength, and hardwoods (sal, eucalyptus, poplar) give short fibres and smoothness. In Nepal, non-wood fibres such as **babiyo (sabai) grass**, rice straw and the bark of **lokta** (*Daphne*) shrubs are important, and the recycling of waste paper is widespread.
+
+**Stages.**
+
+1. **Preparation.** Logs are debarked and chipped into pieces of about 2–3 cm, which are screened.
+2. **Pulping.** In the **sulphate (kraft) process** the chips are cooked in a digester at 160–175 °C under 7–9 atm pressure for 2–4 hours with a **white liquor** of NaOH and Na$_2$S. Lignin dissolves and the cellulose fibres are freed. In the **sulphite process** calcium or magnesium hydrogen sulphite is used instead at 130–140 °C. In **mechanical pulping** logs are ground against a stone, which keeps the lignin, so the paper is weak and yellows (newsprint).
+3. **Washing and screening.** The brown pulp is washed from the black liquor, which is burnt to recover the chemicals and heat.
+4. **Bleaching.** The brown pulp is bleached to make white paper, with chlorine dioxide, hydrogen peroxide, oxygen or chlorine. Chlorine-free methods are preferred to cut pollution by chlorinated organics.
+5. **Beating and refining.** The pulp is beaten in water to fray and fibrillate the fibres so that they bond strongly together.
+6. **Additives.** **Fillers** (china clay, CaCO$_3$, TiO$_2$) improve opacity and smoothness; **sizing** with rosin and alum makes the paper resist ink spreading; dyes and optical brighteners are added.
+7. **Paper machine.** The dilute pulp (99% water) flows on to a moving wire mesh, where water drains and the fibres interlock into a web; it then goes through press rolls and steam-heated dryers to give the finished sheet.
+8. **Calendering and finishing.** The sheet is passed between heavy polished rolls to give a smooth surface, then reeled, cut and packed.
+
+**Flow sheet.** Wood → chipping → digester (NaOH + Na$_2$S) → washing → bleaching → beating → filler and size → paper machine → drying → calendering → reel.
+
+**Qualities of paper.**
+
+| Quality | Meaning |
+|---|---|
+| Strength | Tensile and tearing strength, depends on fibre length |
+| Opacity | Resistance to show-through of print |
+| Smoothness and gloss | Surface finish for printing |
+| Brightness | Whiteness, measured by reflectance |
+| Porosity and sizing | Absorption of ink |
+| Basis weight | Mass per square metre (80 g m$^{-2}$ for office paper) |
+
+**Pollution and remedy.** Pulp mills produce black liquor, coloured effluent with chlorinated compounds and foul-smelling sulphur gases, which are treated by recovery boilers, effluent treatment, and by recycling paper, which saves trees and about half the energy.
+
+**Conclusion.** Paper is made by freeing cellulose fibres from lignin, bleaching them and forming them into a sheet, with lokta paper being a valued Nepali craft product.

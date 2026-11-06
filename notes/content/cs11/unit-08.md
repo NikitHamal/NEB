@@ -61,6 +61,12 @@ Not every unethical act is a crime. Reading a friend's chat over their shoulder
 is unethical but not punishable; guessing their password and logging in is both.
 Ethics is the wider circle, law the smaller one inside it.
 
+```photogrid label="8.D" cols="3" ratio="1.3" caption="The digital society has benefits, costs and risks. (a) A QR payment terminal: the Fonepay, eSewa and Khalti style of payment that has moved shops in Nepal from cash to phones. (b) Discarded electronics: the e-waste that results when devices are replaced every few years, an ethical and environmental cost. (c) A phishing message imitating a bank, the commonest way in which these payment systems are attacked. Ethics asks what we should do with these tools, security asks how we protect them, and law punishes those who abuse them."
+@ photo id="bca101/qrpay" cap="(a) QR payment terminal"
+@ photo id="bca101/ewaste" cap="(b) E-waste being sorted"
+@ photo id="bca101/phish" cap="(c) A phishing message"
+```
+
 ## 8.2 Concept of information security
 
 ::: definition Information security
@@ -293,6 +299,17 @@ Beyond the technical layer: never open attachments from unknown senders, never
 share an OTP, log out of shared computers, review the permissions an app asks
 for, and — because prevention sometimes fails — report an offence promptly, since
 Nepali law sets a short deadline for doing so (§8.8).
+
+### Eight ways to protect yourself from cybercrime, explained
+
+1. **Use strong, different passwords.** A strong password has at least 12 characters with letters, digits and symbols. If one site is hacked, a different password keeps the others safe. A password manager remembers them for you.
+2. **Turn on two-factor authentication (2FA).** After the password, the service asks for a code sent to your phone or app. A thief who steals the password still cannot enter. Banks, Gmail and eSewa all offer it.
+3. **Keep software updated.** Updates close security holes that malware uses. An old, unpatched system can be infected simply by visiting a bad site. Switch on automatic updates for the operating system and browser.
+4. **Install antivirus and a firewall.** Antivirus scans files for known malware, and the firewall blocks unwanted network connections. Together they give a first line of defence. Pirated antivirus tools do not update and give false safety.
+5. **Do not click unknown links or attachments.** Phishing emails and SMS copy the logos of banks and ministries. Check the sender and the web address before you act. Never share an OTP or PIN with anyone, even a person who claims to be from the bank.
+6. **Check for HTTPS before entering private data.** The padlock shows that the connection is encrypted. It does not prove that the site is honest, so also read the domain name carefully. Avoid banking on public Wi-Fi.
+7. **Back up your data.** Keep copies on an external drive or in the cloud. If ransomware locks the files, you can restore them without paying. Follow the 3-2-1 rule: three copies, two media, one off-site.
+8. **Limit what you share online.** Date of birth, citizenship number and location help thieves to impersonate you. Set social-media accounts to private and think before posting. Report cyberbullying or fraud to the Nepal Police Cyber Bureau.
 
 ## 8.6 Intellectual Property Right
 
@@ -538,6 +555,37 @@ practice lags behind the Privacy Act; and rural connectivity and digital literac
 remain uneven. These are exactly the points an examiner wants in a *critically
 examine* question.
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="A password or PIN is secure only if guessing it is impractical, and the number of possibilities grows as the alphabet size raised to the length. (a) A bank ATM, where a four-digit PIN is safe only because the machine locks the card after three wrong tries. (b) Without such a lock, an attacker making a billion guesses a second tries every 4-digit PIN in 1e-05 s, every 8-letter lowercase password in 209 s, and every 8-character password using all keyboard symbols in 71 days. A 12-character password pushes the time to 1.5e+07 years. Long passphrases, different for each account, and two-step verification are therefore the best protection against cybercrime."
+@ photo id="bca101/atm-nepal" cap="An ATM in Nepal, protected by a card and a PIN"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Time to try every password at one billion guesses per second"
+import math
+cases = [("4-digit PIN", 10**4), ("8 lowercase", 26**8), ("8 letters + digits", 62**8), ("8 any character", 94**8), ("12 any character", 94**12)]
+rate = 1e9
+def human(s):
+    if s < 1: return "%.0e s" % s if s < 1e-3 else "%.1f ms" % (s * 1000)
+    if s < 3600: return "%.0f s" % s
+    if s < 86400: return "%.1f hours" % (s / 3600)
+    if s < 3.156e7: return "%.0f days" % (s / 86400)
+    return "%.1e years" % (s / 3.156e7)
+T = [(nm, n, n / rate) for nm, n in cases]
+assert abs(T[1][2] - 208.8) < 0.5 and abs(T[3][2] / 86400 - 70.9) < 0.5 and T[4][2] / 3.156e7 > 1e7
+f = Fig(300, 236)
+f.text(150, 14, "Search time for the whole key space", size=10.5, color=NAVY, bold=True)
+cols = [AMBER, TEAL, NAVY, RED, RED]
+for i, (nm, n, t) in enumerate(T):
+    y = 28 + i * 32
+    w = 8 + (math.log10(t) + 5) * 9.2
+    f.text(8, y + 8, nm, size=10, bold=True, anchor="start")
+    f.box(8, y + 12, w, 13, "", fill=cols[i], stroke=cols[i], r=1)
+    f.text(8 + w + 5, y + 19, human(t), size=10, color=cols[i], bold=True, anchor="start", vmid=True)
+f.text(150, 194, "key space = (alphabet size) ^ length", size=10.5, color=SLATE, bold=True)
+f.text(150, 210, "94^8 = %.2e,  94^12 = %.2e" % (94**8, 94**12), size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "length helps more than odd symbols", size=10.5, color=RED, bold=True)
+facts = dict(pin=human(T[0][2]), low=human(T[1][2]), full=human(T[3][2]), twelve=human(T[4][2]))
+```
+
 ## Chapter summary
 
 Information security rests on the **CIA triad** — confidentiality, integrity and
@@ -726,3 +774,128 @@ commerce, with the law member as chairperson. An appeal against its order or
 decision must be filed with the Information Technology Appellate Tribunal within
 **35 days**.
 :::
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Define cybercrime. Explain its types and the measures to protect against it. <span class="marks">[10]</span>
+2. What is information security? Explain the CIA triad, the types of malware and the methods of protection. <span class="marks">[10]</span>
+3. Explain the Electronic Transactions Act 2063 and the ICT policy of Nepal. Critically examine them. <span class="marks">[10]</span>
+
+### Model answer D1: cybercrime, its types and prevention (10 marks)
+
+**Introduction.** **Cybercrime** is any illegal act in which a computer, a network or a mobile phone is
+the tool, the target or the place of the crime. As payments, government services and
+education move online in Nepal through ConnectIPS, Fonepay and the Nagarik App, the criminals also move online.
+
+**Types.**
+
+1. **Hacking and cracking:** gaining unauthorised access to a system; a cracker does so with criminal intent.
+2. **Phishing:** a forged email, SMS or web page imitating a bank to steal passwords or card numbers.
+3. **Identity theft:** using another person's name, citizenship number or photo to open accounts or take loans.
+4. **Cyberbullying and cyberstalking:** repeated threats, humiliation or following of a person online.
+5. **Denial-of-service (DoS) attack:** flooding a server with bogus requests so that genuine users cannot reach it.
+6. **Software piracy:** copying or using licensed software, films or books without payment.
+7. **Malware and ransomware:** harmful programs that damage or lock files and demand money.
+8. **Online fraud:** fake shops, lottery messages and card skimming.
+
+| Crime | Target | Typical harm |
+|---|---|---|
+| Phishing | Individual | Loss of money, stolen account |
+| Hacking | System | Stolen or altered data |
+| DoS | Website | Service unavailable |
+| Piracy | Owner of software | Lost income |
+| Cyberbullying | Person | Mental stress |
+
+**Prevention.**
+
+1. Use long, unique passwords and two-factor authentication.
+2. Keep the system and browser updated.
+3. Install antivirus and a firewall.
+4. Never click unknown links or share an OTP.
+5. Check for HTTPS and read the domain name.
+6. Take regular backups.
+7. Limit personal details shared on social media.
+8. Report crimes to the Cyber Bureau of Nepal Police.
+
+**Conclusion.** Technology alone cannot stop cybercrime; careful users, strong passwords
+and a good law together make the digital society safer.
+
+### Model answer D2: information security, CIA triad and malware (10 marks)
+
+**Introduction.** **Information security** is the protection of information and information systems from
+unauthorised access, use, change or destruction. Its three goals form the **CIA triad**.
+
+| Goal | Meaning | Example of attack | Example of protection |
+|---|---|---|---|
+| **C**onfidentiality | Only authorised people can read the data | A keylogger steals a password | Encryption, passwords, 2FA |
+| **I**ntegrity | Data is not changed without permission | A student alters marks in a database | Hashing, digital signature, access rights |
+| **A**vailability | The system is usable when needed | A DDoS attack on a bank site | Backups, firewalls, spare servers |
+
+**Malware** is malicious software. The main types are:
+
+1. **Virus:** attaches itself to a host file and spreads when the file is run or copied.
+2. **Worm:** a standalone program that copies itself across a network without any user action.
+3. **Trojan horse:** looks useful, is installed willingly, then opens a back door; it does not replicate.
+4. **Ransomware:** encrypts the files and demands payment for the key.
+5. **Spyware and keylogger:** secretly record what the user does or types.
+6. **Adware:** shows unwanted advertisements.
+7. **Spam:** unwanted bulk email, often a carrier of malware and phishing.
+
+**Symptoms of infection.** The computer slows down, files disappear, pop-ups appear, the antivirus is
+switched off, or programs start by themselves.
+
+**Methods of protection.** Install antivirus and update it, use a firewall, apply software updates,
+avoid pirated software, scan USB drives, use strong passwords, encrypt sensitive data and keep
+backups. A **digital signature** protects integrity: the sender hashes the message and encrypts the
+digest with the private key; the receiver decrypts it with the public key and compares it with a new hash.
+
+| Point | Virus | Worm | Trojan |
+|---|---|---|---|
+| Needs a host file | Yes | No | No (disguised) |
+| Spreads by itself | No | Yes | No |
+| Main damage | Corrupts files | Uses bandwidth | Back door, theft |
+
+**Conclusion.** Security is a continuing process of keeping the information secret,
+correct and available, using both technical tools and careful behaviour.
+
+### Model answer D3: Electronic Transactions Act 2063 and ICT policy (10 marks)
+
+**Introduction.** **Cyber law** governs the use of computers, the internet and electronic information.
+Nepal's principal cyber law is the **Electronic Transactions Act, 2063 (2008)**, published
+on 22 Mansir 2063 (8 December 2006) as Act number 27 of 2063. It has **12 chapters and 80
+sections** and aims to give electronic records and digital signatures legal reliability and to
+punish their misuse.
+
+**Scope.**
+
+1. Legal recognition of electronic records and digital signatures.
+2. Dispatch and receipt of electronic messages.
+3. The Controller and certifying authorities.
+4. Digital signature certificates and the duties of subscribers.
+5. Use of electronic records in government (e-government).
+6. Liability of network service providers.
+7. Computer-related offences (Chapter 9).
+8. The Information Technology Tribunal and the Appellate Tribunal.
+
+| Section | Offence | Maximum punishment |
+|---|---|---|
+| 44 | Pirating, destroying or altering computer source code | Rs 200,000 or 3 years or both |
+| 45 | Unauthorised access to computer materials | Rs 200,000 or 3 years or both |
+| 46 | Damaging a computer or information system | Rs 200,000 or 3 years or both |
+| 47 | Publishing illegal material in electronic form | Rs 100,000 or 5 years or both |
+| 48 | Divulging confidentiality | Rs 100,000 or 2 years or both |
+
+Cases are heard by the three-member **Information Technology Tribunal** under section 60, and an appeal
+goes to the **Appellate Tribunal within 35 days**.
+
+**ICT policy.** The **National Information and Communication Technology Policy, 2015** aims to build an
+information- and knowledge-based society through affordable broadband, ICT in every school, online
+government services, a stronger IT industry and attention to cyber security. The **Digital Nepal
+Framework** turns this into projects in sectors such as digital foundation, health, education, finance
+and tourism. Related laws are the Copyright Act 2059, the Individual Privacy Act 2075 and the Right to Information Act 2064.
+
+**Critical examination.** The Act dates from 2006 and does not squarely cover social-media harm, cloud
+computing, cross-border data or artificial intelligence; the 35-day limit defeats many complaints; and
+rural connectivity and digital literacy remain uneven.
+
+**Conclusion.** The Act and the policy give Nepal a legal base for digital services, but they must be updated to match new technologies.

@@ -38,6 +38,34 @@ Idioms, phrasal verbs and prepositions are about 6 of the 40 English marks, and 
 | turn a blind eye | pretend not to see |
 | caught red-handed | caught in the act |
 
+```photogrid label="2.1" cols="3" ratio="1.0" caption="Idioms start as pictures. (a) William Shakespeare, whose plays contain many phrases we still use, such as break the ice. (b) A piece of cake, which is where the idiom a piece of cake (something very easy) comes from: a slice of cake takes no effort. (c) The Finnish icebreaker Sampo (1898) literally breaking the ice; to break the ice in conversation means to ease the first awkward moment. The literal picture helps you remember the meaning (Fig 2.1)."
+@ photo id="bcaeng/shakes" cap="Shakespeare: phrases that last"
+focus 0.5 0.3
+@ photo id="bcaeng/cake" cap="A piece of cake: very easy"
+focus 0.5 0.5
+@ photo id="bcaeng/icebreaker" cap="Break the ice: start a talk"
+focus 0.5 0.6
+```
+
+```svgfig label="2.1" caption="Sixteen idioms from the list, sorted by meaning instead of alphabetically. Sorting by theme is the fastest way to learn them: secrets and honesty, time and work, amount and condition, and facing situations. The cell checks that each idiom appears once, so no idiom is lost between the groups."
+groups = [("Secrets and honesty", [("spill the beans", "reveal a secret"), ("let the cat out of the bag", "reveal a secret by mistake"), ("caught red-handed", "caught in the act"), ("turn a blind eye", "pretend not to see")]),
+          ("Time and work", [("once in a blue moon", "very rarely"), ("burn the midnight oil", "work late at night"), ("in the nick of time", "just in time"), ("call it a day", "stop working")]),
+          ("Amount and condition", [("lion's share", "the largest part"), ("cost an arm and a leg", "be very expensive"), ("a piece of cake", "something very easy"), ("under the weather", "slightly ill")]),
+          ("Facing situations", [("bite the bullet", "face something unpleasant"), ("break the ice", "ease the awkward start"), ("beat around the bush", "avoid the main point"), ("hit the nail on the head", "be exactly right")])]
+allid = [a for g in groups for a, b in g[1]]
+assert len(allid) == 16 and len(set(allid)) == 16
+f = Fig(780, 330)
+cols = [BLUE, SAND, MINT, ROSE]; edges = [NAVY, AMBER, TEAL, RED]
+for i, (t, items) in enumerate(groups):
+    x = 10 + i * 192
+    f.box(x, 10, 184, 310, "", fill=cols[i], stroke=edges[i], r=5)
+    f.text(x + 92, 34, t, size=11.5, color=edges[i], bold=True)
+    for j, (a, b) in enumerate(items):
+        y = 70 + j * 62
+        f.text(x + 10, y, a, size=10.5, color=SLATE, anchor="start", bold=True)
+        f.text(x + 10, y + 18, "= " + b, size=10.5, color=SLATE, anchor="start")
+```
+
 ## 2.2 Phrasal verbs
 
 | Phrasal verb | Meaning |
@@ -59,6 +87,26 @@ Idioms, phrasal verbs and prepositions are about 6 of the 40 English marks, and 
 | set off | begin a journey |
 | bring up | raise (a child) |
 
+```svgfig label="2.2" caption="Two verbs that make many phrasal verbs. The same verb changes its meaning completely with the particle: take over (assume control), take after (resemble a parent), take off (leave the ground), take in (deceive or understand), take up (begin a habit); look after (care for), look into (investigate), look up to (respect), look down on (despise), look forward to (await eagerly, followed by -ing). Treat each phrasal verb as one word with one meaning."
+f = Fig(780, 340)
+hubs = [("take", 200, [("over", "assume control"), ("after", "resemble a parent"), ("off", "leave the ground"), ("in", "deceive; understand"), ("up", "begin a habit")]),
+        ("look", 580, [("after", "care for"), ("into", "investigate"), ("up to", "respect"), ("down on", "despise"), ("forward to", "await eagerly (+ing)")])]
+import math
+for nm, cx, sp in hubs:
+    cy = 170
+    for k, (p, m) in enumerate(sp):
+        a = math.radians(-90 + k * 72 + 36 - 36)
+        x = cx + 120 * math.cos(a); y = cy + 120 * math.sin(a)
+        f.line(cx, cy, x, y, color="#94a3b8", sw=1.4)
+    f.circle(cx, cy, 34, fill=NAVY, stroke=NAVY, label=nm, size=15, color="#ffffff")
+    for k, (p, m) in enumerate(sp):
+        a = math.radians(-90 + k * 72)
+        x = cx + 120 * math.cos(a); y = cy + 120 * math.sin(a)
+        f.box(x - 52, y - 20, 104, 40, "", fill=BLUE, stroke=NAVY, r=5)
+        f.text(x, y - 3, nm + " " + p, size=10.5, color=NAVY, bold=True)
+        f.text(x, y + 13, m, size=9.5, color=SLATE)
+```
+
 ## 2.3 Words followed by prepositions, and the use of prepositions
 
 | Word | Preposition |
@@ -76,6 +124,61 @@ Idioms, phrasal verbs and prepositions are about 6 of the 40 English marks, and 
 | comply / agree / sympathise | with |
 
 **Time and place.** *at* a clock time or point (at 10 a.m., at the gate); *on* days and dates (on Sunday, on 5 May); *in* months, years, longer periods (in July, in 2026). *Since* a point in time, *for* a duration. *Between* two, *among* more than two. *By* a deadline, *till/until* a continuing action. *During* a period, *within* a time limit.
+
+```svgfig label="2.3" caption="Prepositions of time as nested boxes: at is the smallest (a clock time or a point), on is a day or a date, in is a month, year or long period. Since gives the starting point and for gives the length: since 2020 means for 6 years in 2026, which the cell computes. Between is used for two things, among for more than two."
+yr0, yr1 = 2020, 2026
+assert yr1 - yr0 == 6
+f = Fig(780, 330)
+f.box(14, 14, 380, 300, "", fill=BLUE, stroke=NAVY, r=6); f.text(204, 40, "IN: months, years, seasons, long periods", size=11, color=NAVY, bold=True)
+f.text(204, 62, "in July, in 2026, in winter, in the morning", size=10.5, color=SLATE)
+f.box(44, 82, 320, 190, "", fill=SAND, stroke=AMBER, r=6); f.text(204, 108, "ON: days and dates", size=11, color=AMBER, bold=True)
+f.text(204, 130, "on Sunday, on 5 May, on my birthday", size=10.5, color=SLATE)
+f.box(84, 150, 240, 100, "", fill=MINT, stroke=TEAL, r=6); f.text(204, 176, "AT: clock times, points", size=11, color=TEAL, bold=True)
+f.text(204, 198, "at 10 a.m., at noon, at night,", size=10.5, color=SLATE); f.text(204, 216, "at the gate, at the bus park", size=10.5, color=SLATE)
+f.text(580, 30, "since and for", size=12, color=NAVY, bold=True)
+f.arrow([(430, 120), (750, 120)], color=SLATE, sw=2)
+for y in range(2020, 2027):
+    x = 450 + (y - 2020) * 48
+    f.circle(x, 120, 4.5, fill=(NAVY if y in (2020, 2026) else "#ffffff"), stroke=NAVY); f.text(x, 146, str(y), size=10.5, color=SLATE, bold=True)
+f.arrow([(450, 84), (738, 84)], color=TEAL, sw=2, both=True)
+f.text(594, 74, "for 6 years (duration)", size=11, color=TEAL, bold=True)
+f.text(450, 190, "since 2020 (starting point)", size=11, color=RED, bold=True, anchor="start")
+f.text(430, 232, "I have lived in Pokhara since 2020.", size=10.5, color=SLATE, anchor="start")
+f.text(430, 252, "I have lived in Pokhara for 6 years.", size=10.5, color=SLATE, anchor="start")
+f.text(430, 286, "between = two (between Kathmandu and Pokhara)", size=10.5, color=NAVY, anchor="start", bold=True)
+f.text(430, 308, "among = more than two (among the 77 districts)", size=10.5, color=NAVY, anchor="start", bold=True)
+```
+
+## 2.4 Eight traps in idioms, phrasal verbs and prepositions
+
+These items depend on exact wording, so one wrong small word changes the answer. Learn the exact forms below.
+
+1. **An idiom has one meaning, and the literal meaning is wrong.** *Spill the beans* has nothing to do with food: it means reveal a secret (Fig 2.1). If an option describes the literal picture, it is the trap. Choose the option that matches the figurative meaning.
+2. **Do not change the words of an idiom.** It is *hit the nail on the head*, not "hit the nail in the head", and *let the cat out of the bag*, not "let the cat out of the box". Idiom questions often include a version with one word changed. Learn each idiom as a block.
+3. **Two idioms can mean almost the same.** *Spill the beans* and *let the cat out of the bag* both mean revealing a secret, but the second suggests it happened by mistake. Read the sentence for words such as "accidentally". Check the small difference before you choose.
+4. **The particle changes the verb.** *Take after* means resemble, *take off* means leave the ground, and *take over* means assume control (Fig 2.2). Never guess from the verb alone. Learn each phrasal verb as one word.
+5. **A phrasal verb can be split, but not always.** You can say *put off the meeting* or *put the meeting off*, but with a pronoun you must say *put it off*. Some, like *look after*, cannot be split at all. In the sentence-completion questions check whether the order is correct.
+6. **After *look forward to* use -ing.** "I look forward to meeting you" is correct; "I look forward to meet you" is wrong, because *to* is a preposition here, not part of an infinitive. The same applies to *used to* (being used to *walking*). Look at the word after *to*.
+7. **Learn the fixed preposition pairs.** *Depend on*, *interested in*, *good at*, *proud of*, *different from*, *married to* and *superior to* are fixed (Fig 2.3). Do not use *than* after *superior* or *inferior*. Remember that you *prefer* tea *to* coffee, not "than coffee".
+8. **At, on, in go from small to large; since and for are not the same.** Use *at* for a clock time, *on* for a day or date, and *in* for a month or year (Fig 2.3). *Since* names a starting point (since 2020) and *for* gives a length of time (for six years). Use *between* for two and *among* for more than two.
+
+### 2.4.1 Worked checks
+
+**Q. What does "a piece of cake" mean?**
+
+**Answer.** It means something very easy, because eating a piece of cake needs no effort (Fig 2.1). It does not mean something sweet or a small portion.
+
+**Q. Choose the correct phrasal verb: "She ____ her mother." (takes after / takes off)**
+
+**Answer.** **Takes after** means resembles a parent, so the sentence is "She takes after her mother." *Takes off* would mean removes or leaves the ground (Fig 2.2).
+
+**Q. Correct the sentence: "I am looking forward to meet you."**
+
+**Answer.** The word *to* is a preposition here, so the verb takes -ing: "I am looking forward to **meeting** you."
+
+**Q. Fill in the blank: "I have lived here ____ 2020." (since / for)**
+
+**Answer.** 2020 is a starting point, so use **since**. With a length of time use *for*: "I have lived here for six years" (Fig 2.3).
 
 ## Formula and fact sheet
 

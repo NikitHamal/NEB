@@ -420,6 +420,53 @@ $=\dfrac{4.4\times10^{17}}{3.16\times10^{7}}=1.4\times10^{10}$ years.
 the correction for the changing expansion rate is only a few per cent.
 :::
 
+```photogrid label="22.1" cols="2" ratio="1.2" caption="Near light speed and heavy particles. (a) ATLAS surrounds one of the collision points of the Large Hadron Collider. (b) A 6.8 TeV proton has gamma = E / (m c^2) = 7,247, so its speed falls short of c by only 2.85 m/s and it circles the 26.659 km ring 11,245 times a second. The log-scale chart of rest energies shows the Higgs boson at 125.25 GeV, 133 times the proton, and the top quark at 172.7 GeV; the electron is 1,836 times lighter than the proton."
+@ photo id="ceephy/atlas" cap="The ATLAS detector on the Large Hadron Collider ring at CERN"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rest masses of some particles, log scale"
+c = 299792458.0; mp = 0.938272; E = 6800.0
+gam = E / mp; beta = math.sqrt(1 - 1 / gam ** 2); v = beta * c; ring = 26658.883
+rev = v / ring
+assert abs(gam - 7247.3) < 0.5 and 11245 < rev < 11246 and 2.7 < c - v < 3.0
+masses = (("electron", 0.000511), ("proton", 0.938272), ("W boson", 80.38), ("Z boson", 91.19), ("Higgs boson", 125.25), ("top quark", 172.7))
+hp = 125.25 / 0.938272; pe = 0.938272 / 0.000511
+assert abs(hp - 133.5) < 0.1 and abs(pe - 1836) < 1
+facts = dict(gam="{:,.0f}".format(gam), dv="%.2f" % (c - v), rev="{:,.0f}".format(rev), hp="%.0f" % hp, pe="{:,.0f}".format(pe))
+f = Fig(300, 262)
+f.text(150, 14, "rest energy mc^2 in GeV (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (lab, m) in enumerate(masses):
+    y = 26 + i * 26
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = (math.log10(m) + 3.5) * 34
+    col, fl = (RED, ROSE) if "Higgs" in lab else (TEAL, MINT)
+    f.box(14, y + 10, w, 10, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 15, "%.4g" % m, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "proton at 6.8 TeV: gamma = %s" % "{:,.0f}".format(gam), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "c - v = %.2f m/s" % (c - v), size=10.5, color=NAVY, bold=True)
+f.text(150, 236, "%s laps of the ring per second" % "{:,.0f}".format(rev), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="22.2" cols="2" ratio="1.2" caption="The farther, the faster. (a) Two galaxies in collision, photographed by the Hubble Space Telescope. Light from distant galaxies is shifted to longer wavelengths, which is read as motion away from us. (b) Hubble's law, v = H0 d, with H0 = 70 km/s per megaparsec, is evaluated in the cell. A galaxy 100 Mpc away recedes at 7000 km/s, 0.023 of the speed of light, and one 1000 Mpc away at 0.233 c. Running the expansion backwards, the time since all galaxies were together is 1 / H0 = 14.0 billion years, a first estimate of the age of the universe, close to the accepted 13.8 billion years."
+@ photo id="ceephy3/galaxies" cap="Two interacting galaxies photographed by the Hubble Space Telescope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Hubble's law"
+H0 = 70.0
+rows = [("%d Mpc" % d, H0 * d / 1000) for d in (10, 100, 500, 1000)]
+tH = 977.8 / H0
+assert round(tH, 2) == 13.97 and round(rows[1][1], 1) == 7.0
+c = 299792.458
+f = Fig(300, 236)
+f.text(150, 12, "Recession speed v = H0 d, thousand km/s", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=75, fmt="%.1f", x0=66, y0=30, bw=160, gap=30)
+f.text(150, 158, "H0 = 70 km/s per megaparsec (1 Mpc = 3.26 Mly)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "at 100 Mpc: v = 7000 km/s = %.3f c" % (7000 / c), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "at 1000 Mpc: v = %.3f c" % (70000 / c), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "Hubble time 1 / H0 = %.1f billion years" % tH, size=10.5, color=RED, bold=True)
+facts = dict(t=tH, v100=7000, f100=7000 / c, f1000=70000 / c)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |
@@ -611,3 +658,78 @@ the correction for the changing expansion rate is only a few per cent.
 **8.** (b) — the total energy $1.02$ MeV is shared equally by two photons, so each carries $0.511$ MeV.
 **9.** (d) — the Hubble time is inversely proportional to $H_0$, so doubling $H_0$ halves it to about 7 Gyr.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify the fundamental particles and forces and describe the Standard Model. <span class="marks">[10]</span>
+2. Explain the Big Bang theory, the expansion of the universe, Hubble's law and dark matter with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="22.H" cols="3" ratio="1.25" caption="From particles to the cosmos. (a) The Large Hadron Collider at CERN smashes protons together to study fundamental particles. (b) The cosmic microwave background is the relic radiation of the Big Bang. (c) The Hubble Ultra Deep Field shows thousands of distant galaxies."
+@ photo id="phy11/lhc" cap="(a) LHC detector"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/cmb" cap="(b) Microwave background"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/hudf" cap="(c) Deep field"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: fundamental particles and the Standard Model (10 marks)
+
+**Introduction.** Matter is made of molecules, atoms, and then protons and neutrons, which are in turn made of **quarks**. The Standard Model describes all known fundamental particles and three of the four forces.
+
+**Fundamental particles.**
+
+1. **Quarks** (six flavours: up, down, charm, strange, top, bottom) with charges $+\tfrac23e$ or $-\tfrac13e$. They are never found alone (confinement). A proton is $uud$ (charge $+1$) and a neutron is $udd$ (charge $0$).
+2. **Leptons** (electron, muon, tau and their neutrinos) have no strong interaction. Charged leptons have charge $-e$, neutrinos are neutral.
+3. **Gauge bosons** carry the forces: photon, $W^{\pm}$ and $Z^0$, gluons, and the hypothetical graviton.
+4. **Higgs boson**, discovered at the LHC in 2012, is linked with the field that gives other particles their mass.
+
+**Antiparticles.** Every particle has an antiparticle of the same mass and opposite charge (positron, antiproton). A particle and its antiparticle annihilate into photons, and a photon of energy above $1.02\ \text{MeV}$ can produce an electron-positron pair.
+
+**Fundamental forces.**
+
+| Force | Relative strength | Range | Carrier |
+|---|---|---|---|
+| Strong | 1 | $10^{-15}\ \text{m}$ | gluon |
+| Electromagnetic | $10^{-2}$ | infinite | photon |
+| Weak | $10^{-6}$ | $10^{-18}\ \text{m}$ | $W^{\pm}$, $Z^0$ |
+| Gravitational | $10^{-38}$ | infinite | graviton (hypothetical) |
+
+**Classification.** **Hadrons** feel the strong force. They are **baryons** (three quarks, such as proton and neutron) and **mesons** (quark and antiquark, such as the pion). **Leptons** do not feel it.
+
+**Conservation laws.** Charge, energy, momentum, baryon number and lepton number are conserved. In beta decay, $n \to p + e^- + \bar\nu_e$ conserves charge, baryon number and lepton number (the antineutrino has lepton number $-1$).
+
+**Numerical.** The charge of a $uud$ combination is $\tfrac23 + \tfrac23 - \tfrac13 = +1$. For an electron-positron annihilation at rest, the two photons share $2\times0.511 = 1.022\ \text{MeV}$, so each has $0.511\ \text{MeV}$.
+
+**Conclusion.** Six quarks, six leptons, the force-carrying bosons and the Higgs make up the Standard Model, with gravity still outside it.
+
+### Model answer D2: the Big Bang, Hubble's law and dark matter (10 marks)
+
+**Introduction.** Modern cosmology says that the universe began about $13.8$ billion years ago in a hot, dense state and has been expanding and cooling since.
+
+**Evidence for the Big Bang.**
+
+1. **Hubble's law.** Distant galaxies recede with a speed proportional to their distance: $v = H_0d$, with $H_0 \approx 70\ \text{km s}^{-1}\text{Mpc}^{-1}$. The light is **red-shifted**, with $z = \dfrac{\Delta\lambda}{\lambda} \approx \dfrac vc$.
+2. **Cosmic microwave background (CMB).** A uniform radiation at $2.7\ \text{K}$ (discovered by Penzias and Wilson in 1965) is the cooled remnant of the early universe.
+3. **Abundance of light elements.** About $75\%$ hydrogen and $25\%$ helium by mass, as predicted.
+
+**Age of the universe.** $t \approx 1/H_0$, which for $H_0 = 70$ gives about $14$ billion years.
+
+**Dark matter and dark energy.** Stars at the edge of galaxies orbit faster than the visible mass can explain, so there must be unseen **dark matter**. Supernova observations show that the expansion is accelerating, which is attributed to **dark energy**. The universe is about $5\%$ ordinary matter, $27\%$ dark matter and $68\%$ dark energy.
+
+| Era | Event |
+|---|---|
+| $t = 0$ | Big Bang |
+| $10^{-6}\ \text{s}$ | quarks form protons and neutrons |
+| 3 minutes | nuclei of H and He form |
+| 380 000 years | atoms form; light travels freely (CMB) |
+| 1 billion years | first stars and galaxies |
+
+**Recent trends.** Gravitational waves (LIGO, 2015), exoplanets, nanotechnology, superconductivity, quantum computers and the Nepali small-satellite programme (NepaliSat-1, 2019) are other recent areas.
+
+**Numerical.** A galaxy $100\ \text{Mpc}$ away recedes at $v = 70\times100 = 7000\ \text{km s}^{-1}$, so $z = 7000/3\times10^5 = 0.023$. The age is $1/H_0 = 977.8/70 = 14\ \text{Gyr}$.
+
+**Conclusion.** The red shift, the CMB and the light-element abundance support the Big Bang, and dark matter and dark energy remain the greatest open puzzles.

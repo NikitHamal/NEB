@@ -701,6 +701,30 @@ $x^{4}$ is $(2x)^{4}/4!$, so the coefficient is
 $$ \frac{2^{4}}{4!} = \frac{16}{24} = \frac{2}{3} $$
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Each pin on a Galton board sends the ball left or right, so reaching bin k after 8 rows can happen in 8Ck different paths. (a) The board with its rows of pins. (b) The coefficients of the expansion of (a + b)^8, taken from math.comb, are 1, 8, 28, 56, 70, 56, 28, 8, 1. Their sum is 2^8 = 256, the total number of left-right routes. The middle bin gets 70 of them, a share of 27.3%, while bins k = 3 and 5 each get 21.9%. This is why the binomial coefficients are also the numbers in row 8 of Pascal's triangle and why the balls pile up in a bell shape."
+@ photo id="math12/galton" cap="A Galton board: a ball takes a left or right turn at each row of pins"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Row 8 of Pascal's triangle"
+n = 8
+row = [math.comb(n, k) for k in range(n + 1)]
+assert sum(row) == 2 ** n == 256 and row[4] == 70 and row[0] == 1
+f = Fig(300, 236)
+f.text(150, 14, "Coefficients of (a + b)^8", size=10.5, color=NAVY, bold=True)
+base, hmax, bw = 176, 120, 24
+for k, v in enumerate(row):
+    h = hmax * v / 70.0
+    x = 30 + k * 29
+    mid = (k == 4)
+    f.box(x, base - h, bw, h, fill=SAND if mid else BLUE, stroke=AMBER if mid else NAVY, r=2)
+    f.text(x + bw / 2, base - h - 8, str(v), size=10.5, color=AMBER if mid else NAVY, bold=True)
+    f.text(x + bw / 2, base + 13, "k=%d" % k, size=9.5, color=SLATE)
+share = row[4] / 256.0
+f.text(150, 208, "sum of the row = 2^8 = %d" % sum(row), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "middle term: 70 / 256 = %.1f%%" % (100 * share), size=10.5, color=AMBER, bold=True)
+facts = dict(s=sum(row), m=row[4], sh=100 * share, e=row[3] / 256.0 * 100)
+```
+
 ## Chapter summary
 
 - $(a+b)^{n} = \sum_{r=0}^{n}{}^{n}C_{r}a^{n-r}b^{r}$ for a positive integer $n$;
@@ -951,3 +975,82 @@ $$ = 2\left(0.2 + 0.0026667 + 0.000064 + 0.0000018\right) = 2(0.2027325)
 
 So $\log_{e}1.5 \approx 0.4055$ (true value $0.4054651$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove the binomial theorem for a positive integer index. Find the general term, middle term and term independent of $x$ with examples. <span class="marks">[10]</span>
+2. State the binomial theorem for a rational index and use it to expand expressions and to find approximate values. <span class="marks">[10]</span>
+
+### Model answer D1: binomial theorem for a positive integer (10 marks)
+
+**Introduction.** A **binomial** is an expression with two terms such as $a+b$. The binomial theorem gives its $n$th power without repeated multiplication.
+
+**Statement.** For a positive integer $n$,
+
+$$ (a+b)^{n}={}^{n}C_0a^{n}+{}^{n}C_1a^{n-1}b+{}^{n}C_2a^{n-2}b^{2}+\cdots+{}^{n}C_nb^{n}=\sum_{r=0}^{n}{}^{n}C_r\,a^{n-r}b^{r} $$
+
+**Proof by induction.**
+
+1. For $n=1$, $(a+b)^{1}={}^{1}C_0a+{}^{1}C_1b=a+b$, so it is true.
+2. Assume it is true for $n=k$. Multiplying both sides by $(a+b)$ and collecting the coefficient of $a^{k+1-r}b^{r}$ gives $^{k}C_r+{}^{k}C_{r-1}$.
+3. By Pascal's rule, $^{k}C_r+{}^{k}C_{r-1}={}^{k+1}C_r$, so the formula holds for $n=k+1$.
+4. By induction it is true for all positive integers $n$.
+
+**Features of the expansion.**
+
+1. There are $n+1$ terms.
+2. The powers of $a$ fall from $n$ to $0$, and those of $b$ rise from $0$ to $n$; the sum of the powers in each term is $n$.
+3. The coefficients are symmetric ($^{n}C_r={}^{n}C_{n-r}$) and form Pascal's triangle.
+4. The sum of the coefficients in $(1+x)^{n}$ is $2^{n}$.
+
+**General term.** $T_{r+1}={}^{n}C_r\,a^{n-r}b^{r}$.
+
+**Middle term.** If $n$ is **even**, there is one middle term, the $\left(\dfrac n2+1\right)$th. If $n$ is **odd**, there are two, the $\dfrac{n+1}{2}$th and $\dfrac{n+3}{2}$th.
+
+| Result | Formula |
+|---|---|
+| General term | $T_{r+1}={}^{n}C_ra^{n-r}b^{r}$ |
+| Number of terms | $n+1$ |
+| Sum of coefficients | $2^{n}$ |
+| Middle term ($n$ even) | $T_{n/2+1}$ |
+
+**Worked examples.**
+
+1. $(x+2)^{5}=x^{5}+10x^{4}+40x^{3}+80x^{2}+80x+32$, since the coefficients are $1,5,10,10,5,1$ multiplied by $2^{r}$.
+2. Middle term of $\left(x+\dfrac1x\right)^{10}$: it is $T_6={}^{10}C_5\,x^{5}\left(\dfrac1x\right)^{5}=252$.
+3. **Term independent of $x$** in $\left(2x^{2}-\dfrac1x\right)^{9}$: $T_{r+1}={}^{9}C_r(2x^{2})^{9-r}\left(-\dfrac1x\right)^{r}={}^{9}C_r\,2^{9-r}(-1)^{r}x^{18-3r}$. Set $18-3r=0$, so $r=6$, and the term is $^{9}C_6\times2^{3}\times1=84\times8=672$.
+4. **Approximation:** $(1.01)^{10}=(1+0.01)^{10}\approx1+10(0.01)+45(0.01)^{2}+120(0.01)^{3}=1.10462$.
+
+**Conclusion.** The binomial theorem expands $(a+b)^{n}$ with coefficients $^{n}C_r$, and the general term gives any required term directly.
+
+### Model answer D2: binomial theorem for a rational index (10 marks)
+
+**Introduction.** Newton extended the theorem to negative and fractional indices. The expansion then has **infinitely many terms**, and it is valid only when $|x|<1$.
+
+**Statement.** For any rational number $n$ and $|x|<1$,
+
+$$ (1+x)^{n}=1+nx+\frac{n(n-1)}{2!}x^{2}+\frac{n(n-1)(n-2)}{3!}x^{3}+\cdots $$
+
+The general term is $T_{r+1}=\dfrac{n(n-1)\cdots(n-r+1)}{r!}\,x^{r}$. If $n$ is a positive integer, the series stops at $r=n$ and gives the usual theorem.
+
+**Important expansions ($|x|<1$).**
+
+| Expression | Expansion |
+|---|---|
+| $(1+x)^{-1}$ | $1-x+x^{2}-x^{3}+\cdots$ |
+| $(1-x)^{-1}$ | $1+x+x^{2}+x^{3}+\cdots$ |
+| $(1+x)^{-2}$ | $1-2x+3x^{2}-4x^{3}+\cdots$ |
+| $(1-x)^{-2}$ | $1+2x+3x^{2}+4x^{3}+\cdots$ |
+| $(1+x)^{1/2}$ | $1+\tfrac12x-\tfrac18x^{2}+\tfrac1{16}x^{3}-\cdots$ |
+
+**Method for $(a+x)^{n}$.** Write $(a+x)^{n}=a^{n}\left(1+\dfrac xa\right)^{n}$, which is valid for $\left|\dfrac xa\right|<1$.
+
+**Worked examples.**
+
+1. **Expansion.** $(3-2x)^{-2}=\dfrac19\left(1-\dfrac{2x}3\right)^{-2}=\dfrac19\left[1+2\left(\dfrac{2x}3\right)+3\left(\dfrac{2x}3\right)^{2}+\cdots\right]=\dfrac19\left[1+\dfrac{4x}3+\dfrac{4x^{2}}3+\cdots\right]$, valid for $|x|<\dfrac32$.
+2. **Square root.** $\sqrt{99}=10\,(1-0.01)^{1/2}\approx10\left[1-\tfrac12(0.01)-\tfrac18(0.01)^{2}\right]=10(0.9949875)=9.949875$, correct to six figures (actual $9.949874$).
+3. **Cube root.** $\sqrt[3]{1.03}=(1+0.03)^{1/3}\approx1+\dfrac{0.03}{3}-\dfrac{(0.03)^{2}}{9}=1.0099$.
+4. **Approximation for small $x$.** $(1+x)^{n}\approx1+nx$. For $x=0.02$ and $n=-3$, $(1.02)^{-3}\approx0.94$; this is used in physics, for example for small relative errors.
+5. **Coefficient.** The coefficient of $x^{3}$ in $(1-x)^{-2}$ is $4$.
+
+**Conclusion.** For a rational index the theorem gives an infinite series valid for $|x|<1$, which allows quick approximations of roots and powers.

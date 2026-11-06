@@ -291,3 +291,65 @@ Step 6 — (e) Paper, ink and registers are consumables → **21121, Office mate
 *Provisions for its operation (3).* All government receipts credited to it; expenditure only under an appropriation act; use only for the approved purposes; emergency expenditure from the contingency fund, later regularised; managed by the Ministry of Finance and accounted by the FCGO; payment only by the officer authorised to draw.
 *Difference from the single account fund (3).* The consolidated fund is about **authority and ownership** — it is the government's main fund and its use is controlled by the legislature. The single account fund is about **the mechanics of day-to-day banking** — each office keeps one operating bank account for all its receipts and payments, recorded in the bank cash book, which replaced the practice of several accounts for several schemes. A payment from the single account fund of an office is valid only if it falls within an appropriation from the consolidated fund.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is government accounting? Explain the main bases of government accounting in Nepal and distinguish it from commercial accounting. <span class="marks">[10]</span>
+2. Explain the consolidated fund and the single account fund, and the levels of government accounting in Nepal. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="3" ratio="1.0" caption="Where public money is decided. The Ministry of Finance prepares the budget, Singha Durbar was the seat of the first parliament and the government offices, and the Federal Parliament building passes the appropriation act."
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/singha-durbar" cap="Singha Durbar"
+@ photo id="acc10/parliament" cap="Federal Parliament building"
+```
+
+### Model answer D1: bases and differences (10 marks)
+
+**Introduction.** **Government accounting** is the system of recording, classifying and reporting the revenue, expenditure, property, funds and liabilities of government offices, in order to show how public money was raised and used. It is run under the Financial Procedures and Fiscal Responsibility Act and its rules, and directed by the Financial Comptroller General Office (FCGO).
+
+**Main bases.**
+
+1. **Legal basis.** Accounting is done under the Constitution, the Act and rules, and the directives of the FCGO.
+2. **Cash basis.** Revenue is recorded when cash is received and expenditure when cash is paid.
+3. **Double-entry system.** Every transaction has a debit and a credit effect.
+4. **Fund basis.** Each fund (consolidated, divisible, retention) is accounted for separately.
+5. **Uniform formats and chart of accounts.** All offices use the same forms and code lists.
+6. **Budget classification.** Receipts and payments are recorded under the heads in the budget.
+7. **Two levels of accounting.** The central level and the operating level.
+8. **Banking arrangement and audit.** Money is kept in authorised banks and accounts are audited by the Auditor General.
+
+| Basis | Government accounting | Commercial accounting |
+|---|---|---|
+| Objective | Accountability for public money | Profit |
+| Basis of records | Mainly cash basis | Accrual basis |
+| Budget | Binding, expenditure only under appropriation | Only a guide |
+| Funds | Separate funds | One capital |
+| Statements | Revenue and expenditure statements, fund statements | Trading, profit and loss, balance sheet |
+| Performance | Measured by use of budget and results | Measured by profit |
+| Audit | By the Auditor General | By a chartered accountant |
+| Forms | Prescribed by the government | Chosen by the business |
+
+**Conclusion.** The two systems both use double entry, but government accounting protects public money, and commercial accounting measures profit.
+
+### Model answer D2: funds and levels of accounting (10 marks)
+
+**Introduction.** Government accounting in Nepal has to follow the federal structure of three levels (federal, provincial and local) and the rule that all public money belongs to one main fund.
+
+**Consolidated fund.** The government's main account. All revenue and loans are paid into it, and **no money can be taken from it except under an appropriation made by law**. Emergency expenditure may be made from the contingency fund and is regularised later. It is managed by the Ministry of Finance and accounted for by the FCGO.
+
+**Single account fund.** The system of **day-to-day banking**: each office keeps a single operating bank account for all its receipts and payments, entered in the bank cash book. It replaced the old practice of many accounts for many schemes. A payment from the single account is valid only if it is within an appropriation from the consolidated fund.
+
+| Basis | Consolidated fund | Single account fund |
+|---|---|---|
+| Concerns | Authority and ownership | Mechanics of banking |
+| Controlled by | The legislature through appropriation | The FCGO and the Treasury offices |
+| Kept in | The government's main account | The office's operating account |
+| Purpose | To protect public money | To simplify accounts and control |
+
+**Levels of accounting.**
+
+1. **Federal, provincial and local levels.** Each government keeps its own accounts according to its own budget, using common formats and the common chart of accounts.
+2. **Central level accounting.** The FCGO, the Treasury and Comptroller Offices, and the ministries consolidate information from all offices and prepare the national financial statement.
+3. **Operating level accounting.** The office that spends or collects money (a school, a ward office or a district office) keeps the primary records: the bank cash book, vouchers, store books and monthly statements.
+
+**Conclusion.** The consolidated fund gives the authority, the single account gives control in practice, and the levels of accounting carry the information from the ward office to the Parliament.

@@ -308,6 +308,29 @@ is biological, primary is physical** — 'secondary' sounds lesser and is in
 fact the heart of the plant.
 :::
 
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Cleaning sewage in two stages. (a) An aeration tank of an activated-sludge plant, where bubbled air feeds the bacteria that digest the waste. (b) Biochemical oxygen demand (BOD) measures the organic load as the oxygen that microbes need. Raw sewage of 250 mg/L loses 35 per cent in primary settling (to 162.5 mg/L) and 90 per cent of the rest in the aeration tank and clarifier (to 16.25 mg/L), an overall removal of 93.5 per cent. A town sending 1 million litres a day would otherwise release 250 kg of BOD daily; after treatment only 16.2 kg. Water fit for discharge must usually stay below about 30 mg/L."
+@ photo id="bio12/aeration-tank" cap="Aeration tank of a sewage plant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="BOD at each stage (mg/L)"
+b0 = 250.0
+b1 = b0 * (1 - 0.35)
+b2 = b1 * (1 - 0.90)
+tot = 100 * (b0 - b2) / b0
+assert abs(b1 - 162.5) < 1e-9 and abs(b2 - 16.25) < 1e-9 and abs(tot - 93.5) < 1e-9
+facts = dict(b1="%.1f" % b1, b2="%.2f" % b2, tot="%.1f" % tot, in_="%.0f" % (b0 * 1e6 / 1e6), out="%.1f" % (b2 * 1e6 / 1e6))
+f = Fig(300, 236)
+f.text(150, 12, "Raw sewage to effluent", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, c, fl) in enumerate((("raw sewage", b0, RED, ROSE), ("after primary settling (-35%)", b1, AMBER, SAND), ("after activated sludge (-90%)", b2, TEAL, MINT))):
+    y = 30 + i * 46
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = v / 250 * 210
+    f.box(10, y + 8, w, 22, fill=fl, stroke=c, r=2)
+    f.text(10 + w + 6, y + 19, "%.4g" % v, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "overall removal = 93.5 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "1 ML/day: 250 kg BOD in, 16.3 kg out", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Autograft = self; isograft = identical genotype; allograft = same species,
@@ -527,3 +550,88 @@ fact the heart of the plant.
 **9.** (a) — The indicator reveals a contamination route, not the identity of every pathogen.
 **10.** (a) — Bt specificity depends on ingestion, gut pH/proteases and epithelial receptors.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe tissue and organ transplantation, in-vitro fertilisation, amniocentesis and transgenic animals. <span class="marks">[10]</span>
+2. Describe the role of microbes in dairy and beverages, sewage and drinking-water treatment and biological control. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="4" ratio="1.25" caption="Biotechnology at work. (a) PCR amplifies a tiny sample of DNA. (b) A DNA gel under UV light shows bands used in identification. (c) An aeration tank of a sewage plant holds the activated sludge. (d) Plant tissue culture produces many identical plantlets."
+@ photo id="bio12/pcr" cap="(a) PCR"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/gel-uv" cap="(b) Gel under UV"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/aeration-tank" cap="(c) Aeration tank"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-bot/tissue-culture" cap="(d) Tissue culture"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Medical technology (10 marks)
+
+**Introduction.** Modern medicine uses transplantation, assisted reproduction, prenatal diagnosis and genetic engineering to treat disease and help families.
+
+**1. Tissue and organ transplantation.** An organ or tissue of a **donor** replaces a failed one in the **recipient**.
+
+| Type | Meaning |
+|---|---|
+| Autograft | From one part of the body to another (skin graft) |
+| Isograft | Between identical twins |
+| Allograft | Between two unrelated persons of one species (kidney) |
+| Xenograft | Between species (pig heart valve) |
+
+The immune system may cause **rejection**, so doctors match **HLA and blood group** and use **immunosuppressants** such as cyclosporin. Kidney transplants are done in Nepal; the organs can come from a living relative or a brain-dead donor.
+
+**2. In-vitro fertilisation (IVF) — "test-tube baby".** Steps:
+
+1. The woman receives hormones to produce several eggs.
+2. Eggs are collected from the ovary and sperm from the male.
+3. They are mixed in a dish (fertilisation outside the body).
+4. The zygote divides to an 8-celled embryo.
+5. The embryo is placed in the uterus (**embryo transfer**) for implantation.
+
+Louise Brown (1978, UK) was the first IVF baby. **ZIFT and GIFT** place a zygote or the gametes in the oviduct.
+
+**3. Amniocentesis.** At 15–18 weeks a needle takes a little **amniotic fluid** from the womb under ultrasound. The foetal cells are cultured and checked for chromosomal disorders such as **Down syndrome** (trisomy 21), and for metabolic diseases. Using it to find the sex of the baby for abortion is **illegal** in Nepal.
+
+**4. Transgenic animals.** An animal that carries a foreign gene in its genome. Examples: mice for cancer research, **Rosie** the cow whose milk had human α-lactalbumin, sheep making human α-1-antitrypsin, and fish that grow faster. Uses: drug production, disease models, and safety testing of vaccines.
+
+**Conclusion.** These technologies save lives and treat infertility, but they raise ethical issues that need laws and careful use.
+
+### Model answer D2: Applied microbiology (10 marks)
+
+**Introduction.** Microbes are used to make food, to clean water and to protect crops.
+
+**1. Dairy and beverages.**
+
+1. **Curd:** *Lactobacillus* (lactic acid bacteria) changes lactose to lactic acid, which coagulates milk protein and also gives vitamin B12.
+2. **Cheese:** *Streptococcus lactis* ripens it; the holes in **Swiss cheese** come from CO₂ made by *Propionibacterium*.
+3. **Alcoholic drinks:** yeast (*Saccharomyces cerevisiae*) ferments sugar into ethanol and CO₂: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂. Nepali **jaand** and raksi use this in a traditional way with *murcha* starter.
+4. **Bread and idli:** yeast gas makes the dough rise.
+
+**2. Sewage treatment.**
+
+| Stage | Process |
+|---|---|
+| Primary | Screening, grit removal, sedimentation; solids settle as sludge |
+| Secondary | Effluent goes to the **aeration tank**; air and **activated sludge** microbes digest organic matter, lowering the **BOD** (biological oxygen demand) |
+| Tertiary | Chlorination or UV removes germs before discharge into a river |
+
+The sludge is digested anaerobically in a digester to make **biogas** (methane), which is widely used in Nepali homes.
+
+**3. Drinking-water treatment.** Sedimentation → **coagulation** with alum (flocs trap particles) → **filtration** through sand → **disinfection** by chlorine (0.2–0.5 mg/L) or boiling or the SODIS method.
+
+**4. Biological control.** Pests are controlled by living organisms.
+
+1. ***Bacillus thuringiensis* (Bt)** toxin kills caterpillars.
+2. **Baculovirus** controls insect pests.
+3. ***Trichoderma*** fungus protects plants from soil fungi.
+4. **Ladybird beetles** eat aphids, and ***Gambusia*** fish eat mosquito larvae.
+
+**Advantages.** No chemical residue, safe for man and soil, and cheaper for farmers who practise organic farming in Nepal.
+
+**Conclusion.** Microbes provide food, clean water and natural pest control, which makes them very important to human welfare.

@@ -342,3 +342,74 @@ day when we first met.
 Mahakavi and contribution to Nepali literature; death and legacy — every note
 used, joined with relative clauses (*who*, *which*).
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a short biography of Sir Isaac Newton and a leaflet on Khaptad National Park. <span class="marks">[10]</span>
+2. Explain relative clauses and the use of articles with examples. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.0" caption="A scientist and a park. A portrait of Sir Isaac Newton (1689), the open meadows of Khaptad National Park and Ayurvedic herbs of the kind found in the Himalayan hills."
+@ photo id="eng8/newton-portrait" cap="Isaac Newton, 1689"
+@ photo id="eng8/khaptad" cap="Khaptad meadow"
+@ photo id="nep10/ayurvedic-herbs" cap="Himalayan herbs"
+```
+
+### Model answer D1: biography and leaflet (10 marks)
+
+**Introduction.** A **biography** is the life story of a real person, written in the third person and mostly in the past simple. A **leaflet** gives useful facts about a place in short headings.
+
+**Model biography.**
+
+::: example Sir Isaac Newton
+**Sir Isaac Newton** was born in 1643 at Woolsthorpe, England. As a child he was dull at school, but he was very clever with his hands and made models of windmills and clocks. He entered Cambridge University at the age of 19 and became a professor when he was only 26. He built a mirror telescope and explained the **theory of gravitation**, which says that every object attracts every other object. He was famous for being absent-minded: he once forgot to eat his dinner while thinking. Newton died in 1727 and is remembered as one of the greatest scientists of all time.
+:::
+
+**Model leaflet: Khaptad National Park.**
+
+| Heading | Information |
+|---|---|
+| Where | Four districts of Sudurpaschim Province |
+| Established | 1984; area 225 square km |
+| Attractions | Khaptad Daha (lake), Triveni, Sahashra Linga (3,276 m), 22 patans (meadows) |
+| Wildlife | 266 birds and 23 mammals |
+| Entry fee | Rs. 100 for Nepalis |
+| Best time | Spring and autumn |
+
+**Points for a good biography (8).**
+
+1. Name, birth date and place.
+2. Childhood and family.
+3. Education.
+4. Main work or discovery.
+5. Special qualities.
+6. Problems and success.
+7. Death or present life.
+8. Why he or she is remembered.
+
+**Conclusion.** Use the past simple for a biography and headings for a leaflet.
+
+### Model answer D2: relative clauses and articles (10 marks)
+
+**Relative clauses.**
+
+1. **who** for people: *Newton, who was born in 1643, discovered gravity.*
+2. **which** for things: *This is the park which we visited.*
+3. **whose** for possession: *The boy whose bag was lost cried.*
+4. **where** for places and **when** for time: *Khaptad is a place where you can see many herbs.*
+5. **that** can replace *who/which* in a defining clause, but **not after a comma**.
+
+**Articles.**
+
+6. **a/an** by **sound**, not spelling: *a university, an hour.*
+7. **the** for a specific or unique thing, a superlative and instruments: *the sun, the best, the guitar.*
+8. **No article** for meals, sports and languages: *We play cricket after breakfast. She speaks Nepali.*
+
+| Wrong | Correct |
+|---|---|
+| He is a honest man. | He is an honest man. |
+| I like the football. | I like football. |
+| The man which came was tall. | The man who came was tall. |
+
+**Conclusion.** Pick the relative word by what it refers to, and the article by sound and meaning.

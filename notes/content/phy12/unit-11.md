@@ -344,6 +344,26 @@ $$ I = 4I_0\cos^{2}\!\left(\frac{\pi}{3}\right)
 = 4I_0 (0.5)^{2} = I_0 = \frac{I_{\max}}{4} $$
 :::
 
+```photogrid label="11.P" cols="2" ratio="1.2" caption="Colour without any pigment. (a) A soap bubble shows bands of colour that move as the film drains and thins. (b) Light reflected from the front and back surfaces of the film interferes. With a film of index 1.33 the reflection at the outer face changes phase by half a wave, so the strongest reflection occurs when 2 n t = (m + 1/2) lambda. For m = 0 this gives a thickness of 122 nm for red, 103 nm for green and 85 nm for blue, and the second order for green needs 310 nm. Where the film becomes much thinner than a quarter of the wavelength of blue light the two reflections cancel and the film looks black, just before it breaks."
+@ photo id="phy12b/bubble" cap="A soap bubble showing coloured interference bands"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Soap-film thickness and the colour it reflects"
+n = 1.33
+rows = [("red 650 nm", 650 / (4 * n)), ("green 550 nm", 550 / (4 * n)), ("blue 450 nm", 450 / (4 * n))]
+assert round(rows[1][1]) == 103
+f = Fig(300, 236)
+f.text(150, 12, "Thinnest film that reflects it best, nm", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=170, fmt="%.0f", x0=92, y0=30, bw=140, gap=32,
+      colors=[(ROSE, RED), (MINT, TEAL), (BLUE, NAVY)])
+f.text(150, 140, "2 n t = (m + 1/2) lambda, m = 0, n = 1.33", size=10.5, color=NAVY, bold=True)
+f.text(150, 160, "(one reflection with a half-wave phase jump)", size=10, color=SLATE, bold=True)
+f.text(150, 182, "second order (m = 1): t = %.0f nm for green" % (3 * 550 / (4 * n)), size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "a film thinning to under 85 nm turns dark", size=10, color=SLATE, bold=True)
+f.text(150, 216, "then the bubble bursts", size=10, color=SLATE, bold=True)
+facts = dict(r=rows[0][1], g=rows[1][1], b=rows[2][1], g2=3 * 550 / (4 * n))
+```
+
 ## Chapter summary
 
 - Superposition gives $I = I_1 + I_2 + 2\sqrt{I_1I_2}\cos\phi$, with
@@ -437,3 +457,42 @@ $1.767 + 1.4725 = 3.24\ \text{mm}$.
 (c) $\beta' = \dfrac{442\times10^{-9}\times1.0}{1.0\times10^{-3}} = 0.442\ \text{mm}$
 — blue light gives narrower fringes.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the expression for fringe width in Young's double-slit experiment. Obtain the conditions of bright and dark fringes and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: Young's double-slit experiment (10 marks)
+
+**Introduction.** In **Young's double-slit experiment** light from a single narrow slit falls on two close slits $S_1$ and $S_2$, which act as two coherent sources. The overlapping waves produce alternate bright and dark bands, called **interference fringes**, on a screen.
+
+**Setup.** Let the slits be a distance $d$ apart, and the screen a distance $D$ from them ($D \gg d$). Take a point $P$ on the screen at a distance $y$ from the central point $O$.
+
+**Path difference.** For small angles $\theta$ the path difference between the waves from $S_1$ and $S_2$ reaching $P$ is
+
+$$ \Delta = S_2P - S_1P \approx d\sin\theta \approx d\tan\theta = \frac{yd}{D} $$
+
+**Bright fringes** (constructive interference) occur when the path difference is a whole number of wavelengths:
+
+$$ \frac{yd}{D} = n\lambda \ \Rightarrow\ y_n = \frac{n\lambda D}{d}, \quad n = 0, 1, 2, \ldots $$
+
+**Dark fringes** (destructive interference) occur when the path difference is an odd number of half wavelengths:
+
+$$ \frac{yd}{D} = \left(n + \tfrac{1}{2}\right)\lambda \ \Rightarrow\ y_n = \left(n + \tfrac{1}{2}\right)\frac{\lambda D}{d} $$
+
+**Fringe width** is the distance between two consecutive bright (or dark) fringes:
+
+$$ \beta = y_{n+1} - y_n = \frac{\lambda D}{d} $$
+
+| Point | Bright fringe | Dark fringe |
+|---|---|---|
+| Path difference | $n\lambda$ | $(n + \tfrac{1}{2})\lambda$ |
+| Phase difference | $2n\pi$ | $(2n+1)\pi$ |
+| Resultant intensity | Maximum, $4I_0$ | Minimum, zero |
+| Position | $n\beta$ | $(n + \tfrac{1}{2})\beta$ |
+
+**Result.** The fringes are equally spaced, and $\beta$ increases with $\lambda$ and $D$ and decreases when the slits are moved farther apart. With white light the central fringe is white, and the others are coloured because red has a wider $\beta$ than violet.
+
+**Numerical.** $\lambda = 600\ \text{nm}$, $D = 1.5\ \text{m}$ and $d = 0.30\ \text{mm}$ give $\beta = (600 \times 10^{-9})(1.5)/(0.30 \times 10^{-3}) = 3.0\ \text{mm}$. The 4th bright fringe is at $4\beta = 12\ \text{mm}$ and the 3rd dark fringe at $2.5\beta = 7.5\ \text{mm}$ from the centre.
+
+**Conclusion.** Interference of the two coherent beams gives equally spaced fringes of width $\beta = \lambda D/d$, which is also a way to measure the wavelength of light.

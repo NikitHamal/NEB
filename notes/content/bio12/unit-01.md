@@ -1136,6 +1136,27 @@ in a root the xylem and phloem are on alternating radii.
    phloem outside, and a cork cambium — here arising from the **pericycle** —
    forms the periderm. The epiblema and cortex are shed.
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A stomata count is made more reliable by the stomatal index, which compares stomata with all the epidermal cells in the same field. (a) A scanning electron micrograph showing a stoma with its guard cells. (b) Sample counts from a dicot leaf give an index of 27.1 for the lower surface and 8.6 for the upper surface, a ratio of 3.2 to 1. The lower surface faces away from the sun, so water is lost more slowly there while carbon dioxide still enters. Floating leaves such as the water lily show the opposite pattern, with stomata only on the upper side. The index is used to separate species and to detect changes in air carbon dioxide."
+@ photo id="bio12/stomata" cap="Scanning electron micrograph of stomata on a leaf surface"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Stomatal index of the two leaf surfaces"
+S_lo, E_lo = 38, 102
+S_up, E_up = 12, 128
+si = lambda s, e: 100.0 * s / (s + e)
+lo, up = si(S_lo, E_lo), si(S_up, E_up)
+assert round(lo, 1) == 27.1 and round(up, 1) == 8.6
+f = Fig(300, 236)
+f.text(150, 14, "SI = S / (S + E) x 100", size=10.5, color=NAVY, bold=True)
+hbars(f, [("Lower", lo), ("Upper", up)], vmax=35, fmt="%.1f", x0=60, y0=40, bw=190, gap=34, colors=[(MINT, TEAL), (SAND, AMBER)])
+f.text(150, 124, "lower: S = %d, E = %d" % (S_lo, E_lo), size=10.5, color=TEAL, bold=True)
+f.text(150, 142, "upper: S = %d, E = %d" % (S_up, E_up), size=10.5, color=AMBER, bold=True)
+f.text(150, 170, "S = stomata, E = ordinary epidermal cells", size=10, color=SLATE, bold=True)
+f.text(150, 192, "ratio lower : upper = %.1f : 1" % (lo / up), size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "sample counts from five fields of view", size=9.5, color=SLATE, bold=True)
+facts = dict(lo=lo, up=up, rt=lo / up)
+```
+
 ## Chapter summary
 
 - A **tissue** is a group of cells of common origin doing one job. Tissues are
@@ -1283,3 +1304,124 @@ everything outside the vascular cambium, that is, the secondary phloem together
 with the periderm and the crushed remains of cortex and epidermis. Gas exchange
 continues through **lenticels**.
 :::
+
+```photogrid label="1.H" cols="5" ratio="1.0" caption="Plant anatomy in five sections, left to right: (a) a dicot root with a small central stele; (b) a monocot root with a large pith; (c) a dicot stem with its ring of bundles; (d) a monocot stem with scattered bundles; (e) the annual rings of a woody stem, the product of secondary growth."
+@ photo id="bio12/dicot-root-ts" cap="Dicot root, T.S."
+@ photo id="bio12/monocot-root-ts" cap="Monocot root, T.S."
+@ photo id="bio12/dicot-stem-ts" cap="Dicot stem, T.S."
+@ photo id="bio12/monocot-stem-ts" cap="Monocot stem, T.S."
+@ photo id="bio12/annual-rings" cap="Annual rings (Tilia)"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the secondary growth of a dicot stem. Explain the formation of the cambial ring, the activity of the cambium, annual rings and the formation of bark. <span class="marks">[10]</span>
+2. Describe the structure and function of the complex permanent tissues, xylem and phloem, and give eight points that distinguish them. <span class="marks">[10]</span>
+3. Differentiate between the anatomy of a dicot stem and a monocot stem, and between a dicot root and a monocot root, with labelled diagrams. <span class="marks">[10]</span>
+
+### Model answer D1: secondary growth of a dicot stem (10 marks)
+
+**Introduction.** **Secondary growth** is the increase in the *girth* (thickness) of a stem or root caused by the lateral meristems, the **vascular cambium** and the **cork cambium**. It occurs in gymnosperms and dicots, and it is absent from most monocots. Primary growth, in contrast, increases length through the apical meristems.
+
+**Step 1: formation of the complete cambial ring.** In a young dicot stem the bundles are *open*, meaning a strip of **fascicular (intrafascicular) cambium** lies between xylem and phloem in every bundle. The parenchyma cells of the medullary rays opposite these strips become meristematic and form the **interfascicular cambium**. The two parts join to make a complete **cambial ring**.
+
+**Step 2: activity of the cambial ring.**
+
+1. The cambial cells divide **tangentially** (parallel to the surface).
+2. The inner daughter cells become **secondary xylem**, and the outer ones become **secondary phloem**.
+3. The cambium makes **more xylem than phloem** (about 10 to 1), so the wood accumulates towards the centre.
+4. The ring is pushed outwards, so its circumference must also increase; the cambium therefore also divides **radially**.
+5. Some cells form **secondary medullary (vascular) rays** that carry water and food sideways.
+6. The older primary phloem is crushed and the primary xylem is pushed towards the pith.
+
+**Annual rings.** In temperate and hilly regions such as the mid-hills of Nepal the cambium is active in spring and slow in autumn.
+
+- **Spring (early) wood** has wide vessels with thin walls and is light in colour.
+- **Autumn (late) wood** has narrow vessels with thick walls and is dark.
+- One light band plus one dark band is one **annual ring**. The count of rings gives the age of the tree (**dendrochronology**).
+
+**Heartwood and sapwood.** The inner, older secondary xylem becomes **heartwood (duramen)**: it is dark, dead, plugged with tannins, resins and tyloses, and gives only support. The outer, younger part is **sapwood (alburnum)**: it is light, living in part, and conducts water.
+
+**Step 3: cork cambium and bark.** The growth in girth cracks the epidermis. A **cork cambium (phellogen)** arises in the cortex and divides to form **cork (phellem)** outwards and **secondary cortex (phelloderm)** inwards. These three layers together are the **periderm**. Gaps called **lenticels** allow gas exchange. All the tissues outside the vascular cambium are called **bark** (the term includes the cork, the cortex and the secondary phloem).
+
+| Feature | Heartwood | Sapwood |
+|---|---|---|
+| Position | Centre | Outside the heartwood |
+| Colour | Dark | Light |
+| Function | Support only | Conducts water and minerals |
+| Cells | Dead, filled with tannins and resins | Partly living |
+| Timber value | High, durable (sal, sissoo) | Lower, decays quickly |
+
+**Conclusion.** Secondary growth gives a tree the thickness it needs to hold a large crown and to conduct more water. The wood of the sal and sissoo that supports Nepal's furniture industry is simply secondary xylem.
+
+### Model answer D2: xylem and phloem (10 marks)
+
+**Introduction.** Xylem and phloem are **complex permanent tissues**, made of more than one cell type working together. Both lie in the same vascular bundle and form the **conducting tissue** of the plant. Xylem carries water and minerals upwards, and phloem carries the food made in the leaves to all other parts.
+
+**Xylem.** It has four components:
+
+1. **Tracheids**: long, spindle-shaped, dead cells with lignified walls and bordered pits; the only water-conducting cells of gymnosperms.
+2. **Vessels (tracheae)**: long tubes made of vessel elements whose end walls are dissolved; wider and quicker than tracheids; found in angiosperms.
+3. **Xylem fibres**: sclerenchyma that give mechanical strength.
+4. **Xylem parenchyma**: the only living cells; they store starch and fat and help the sideways movement of water.
+
+The walls are thickened with **lignin** in annular, spiral, scalariform, reticulate or pitted patterns. **Protoxylem** (first formed, narrow) and **metaxylem** (later, wide) show the direction of development: in a root the xylem is **exarch**, and in a stem it is **endarch**.
+
+**Phloem.** It also has four components:
+
+1. **Sieve tubes**: long living cells joined end to end by perforated **sieve plates**; they have no nucleus when mature.
+2. **Companion cells**: small cells beside each sieve tube, connected by plasmodesmata; their nucleus controls the sieve tube and they load sugar into it.
+3. **Phloem parenchyma**: stores and carries food (absent in monocots).
+4. **Phloem fibres (bast)**: dead sclerenchyma used to make jute and flax; the only dead cells of the phloem.
+
+**Eight points of difference.**
+
+| No. | Xylem | Phloem |
+|---|---|---|
+| 1 | Conducts water and minerals | Conducts organic food (sucrose) |
+| 2 | Movement is upward only | Movement is in both directions |
+| 3 | Main elements are tracheids and vessels | Main elements are sieve tubes and companion cells |
+| 4 | Mostly dead cells | Mostly living cells |
+| 5 | Walls are thick and lignified | Walls are thin and of cellulose |
+| 6 | Cells have no cytoplasm | Sieve tubes have cytoplasm without nucleus |
+| 7 | Companion cells are absent | Companion cells are present (angiosperms) |
+| 8 | Gives mechanical support (wood) | Gives little support, except through the fibres |
+
+**Significance.** Without xylem the leaves would not receive water for photosynthesis, and without phloem the roots, fruit and seeds would starve. A ring of bark cut around a tree (girdling) removes the phloem, and the tree dies slowly because its roots cannot get food.
+
+**Conclusion.** The two tissues are a pair: the xylem is the plant's pipeline and the phloem is its delivery service. Their different structure fits their different tasks.
+
+### Model answer D3: dicot and monocot stem and root (10 marks)
+
+**Introduction.** Flowering plants fall into **dicots** (two cotyledons, such as mustard, sunflower and the bean) and **monocots** (one cotyledon, such as maize, rice and wheat). The difference in their seed shows up again in the arrangement of the tissues in root and stem.
+
+**Anatomy of a dicot stem (sunflower, *Helianthus*).** From outside to inside: a single-layered **epidermis** with hairs and a cuticle; a **hypodermis** of collenchyma; a **cortex** of parenchyma; the **endodermis** (starch sheath); the **pericycle** of sclerenchyma; and a ring of **conjoint, collateral, open** vascular bundles, with a large **pith** in the centre and **medullary rays** between the bundles.
+
+**Anatomy of a monocot stem (maize, *Zea mays*).** The epidermis is covered with a thick cuticle, and a **sclerenchymatous hypodermis** lies below it. There is **no cortex, endodermis, pericycle or pith** in separate form: the **ground tissue** is one mass of parenchyma. The many **conjoint, collateral, closed** bundles are scattered, and each is surrounded by a sclerenchymatous sheath. The bundles are smaller and more crowded near the periphery.
+
+| Feature | Dicot stem | Monocot stem |
+|---|---|---|
+| Hypodermis | Collenchyma | Sclerenchyma |
+| Ground tissue | Cortex, endodermis, pericycle and pith | One undifferentiated mass |
+| Vascular bundles | Few, in a ring | Many, scattered |
+| Cambium | Present (open bundles) | Absent (closed bundles) |
+| Bundle sheath | Absent | Present |
+| Secondary growth | Occurs | Does not occur |
+| Phloem parenchyma | Present | Absent |
+| Pith | Large, well developed | Absent |
+
+**Anatomy of a dicot root (sunflower, bean).** From outside: **epiblema** (piliferous layer with root hairs), a **cortex** of parenchyma, the **endodermis** with **Casparian strips**, the **pericycle** (which produces lateral roots) and the **stele**. There are usually **2 to 6 (diarch to hexarch) xylem bundles** with phloem lying on separate radii (radial), the pith is **small or absent**, and a cambium forms later between xylem and phloem.
+
+**Anatomy of a monocot root (maize).** The layers are the same, but the xylem bundles are **many (polyarch, more than six)**, the **pith is large and well developed**, there is **no cambium** and so **no secondary growth**.
+
+| Feature | Dicot root | Monocot root |
+|---|---|---|
+| Xylem bundles | 2 to 6 (diarch to hexarch) | More than 6 (polyarch) |
+| Pith | Small or absent | Large and well developed |
+| Cambium | Develops later | Never develops |
+| Secondary growth | Occurs | Does not occur |
+| Conjunctive tissue | Parenchyma, changes into cambium | Sclerenchyma |
+
+**Diagram guide.** Draw a circle for each section, mark the parts above in the order of the table, and label ring or scattered bundles clearly. In a root draw xylem as a star with phloem between the arms.
+
+**Conclusion.** The ring arrangement and the cambium of a dicot allow secondary growth and woody trees. The scattered, closed bundles of a monocot give a flexible stem, which is why maize and bamboo bend in the wind without breaking.

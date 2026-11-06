@@ -627,6 +627,29 @@ the true current; a voltmeter of finite resistance always reads slightly **less*
 the true pd.
 :::
 
+```photogrid label="14.2" cols="2" ratio="1.2" caption="A meter is a galvanometer plus one resistor. (a) A digital multimeter: its ammeter and voltmeter ranges are set by resistors inside. (b) Take a galvanometer of resistance 100 ohm that gives full-scale deflection at 1 mA. To read up to a current I it needs a low-resistance shunt in parallel, S = Ig Rg / (I - Ig): 11.1 ohm for 10 mA, 1.01 ohm for 100 mA and 0.100 ohm for 1 A, so an ammeter has a very small resistance. To read up to a voltage V it needs a high-resistance multiplier in series, R = V / Ig - Rg: 900 ohm for 1 V, 9,900 ohm for 10 V and 99,900 ohm for 100 V, so a voltmeter has a very large resistance. The bars use a log scale because the values span six orders of ten."
+@ photo id="ceephy2/multimeter" cap="A digital multimeter with its probes"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Shunts and multipliers for a 100 ohm, 1 mA galvanometer"
+import math
+Rg, Ig = 100.0, 1e-3
+S = lambda I: Ig * Rg / (I - Ig)
+M = lambda V: V / Ig - Rg
+rows = [("10 mA", S(0.01), 0), ("100 mA", S(0.1), 0), ("1 A", S(1.0), 0), ("1 V", M(1), 1), ("10 V", M(10), 1), ("100 V", M(100), 1)]
+assert [round(r[1], 3) for r in rows] == [11.111, 1.01, 0.1, 900.0, 9900.0, 99900.0]
+f = Fig(300, 236)
+f.text(150, 12, "Resistance added (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (n, val, kind) in enumerate(rows):
+    y = 30 + i * 28
+    w = (math.log10(val) + 1.2) / (math.log10(99900) + 1.2) * 130
+    f.text(8, y + 10, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(62, y, w, 20, fill=BLUE if kind == 0 else SAND, stroke=NAVY if kind == 0 else AMBER, r=2)
+    f.text(62 + w + 6, y + 10, ("%.3g ohm" % val) if val < 1000 else "{:,.0f} ohm".format(val), size=10.5, color=NAVY if kind == 0 else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "ammeter: small shunt in parallel", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "voltmeter: large multiplier in series", size=10.5, color=AMBER, bold=True)
+```
+
 ## 14.4 Seebeck and Peltier effects; the thermocouple
 
 ### 14.4.1 The Seebeck effect
@@ -745,6 +768,27 @@ and the need to keep the reference junction at a known temperature.
 - **Peltier cooler** — a current cools one junction; used in small refrigerators,
   cooled CCD cameras and electronic component cooling.
 - **Industrial thermometry** — thermocouples in furnaces, kilns and engines.
+
+```photogrid label="14.1" cols="2" ratio="1.2" caption="Resistance rises with temperature. (a) The coiled tungsten filament runs at about 2,700 K. (b) For a 60 W, 230 V lamp P = V^2 / R gives a hot resistance of 882 ohm and a working current of 0.261 A. With a temperature coefficient of 0.0045 per kelvin (assumed, linear model) the cold resistance at 20 C is only 74.5 ohm, so the switch-on current is 3.09 A, 11.8 times the working current, which is why lamps burn out as they are switched on. Over 1,000 h a 60 W lamp uses 60 units and a 9 W LED lamp 9."
+@ photo id="ceephy/filament" cap="A coiled tungsten filament glowing in an incandescent lamp"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Hot and cold resistance and current of a 60 W lamp"
+V = 230.0; P = 60.0; Th = 2700.0; Tc = 293.0; al = 0.0045
+Rh = V ** 2 / P; I = P / V; ratio = 1 + al * (Th - Tc); Rc = Rh / ratio; Ic = V / Rc
+assert abs(Rh - 881.67) < 0.01 and abs(I - 0.2609) < 1e-3 and abs(Ic / I - ratio) < 1e-9
+facts = dict(rh="%.0f" % Rh, i="%.3f" % I, rc="%.1f" % Rc, ic="%.2f" % Ic, ratio="%.1f" % ratio, e60="%.0f" % (P), e9="%.0f" % 9)
+f = Fig(300, 236)
+f.text(150, 14, "Resistance (ohm) and current (A)", size=10.5, color=NAVY, bold=True)
+for i, (lab, v, sc, col, fl, fmt) in enumerate((("hot R (working)", Rh, 0.22, AMBER, SAND, "%.0f"), ("cold R at 20 C", Rc, 0.22, TEAL, MINT, "%.1f"), ("working current", I, 60, AMBER, SAND, "%.3f"), ("switch-on current", Ic, 60, RED, ROSE, "%.2f"))):
+    y = 28 + i * 40 + (10 if i > 1 else 0)
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = max(v * sc, 3)
+    f.box(14, y + 10, w, 14, fill=fl, stroke=col, r=2, sw=1.6)
+    f.text(14 + w + 5, y + 17, fmt % v, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "inrush = %.1f x working current" % ratio, size=10.5, color=RED, bold=True)
+f.text(150, 224, "1,000 h: 60 W = 60 units, 9 W = 9 units", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -986,3 +1030,78 @@ and the need to keep the reference junction at a known temperature.
 **10.** (c) — $R = V/I_g - G = 10/10^{-3} - 50 = 9950$ Ω; 10000 Ω forgets to subtract the coil resistance.
 **11.** (a) — $\theta_i = 2\theta_n - \theta_c = 560 - 20 = 540$ °C.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the relation between current and drift velocity, state Ohm's law and Kirchhoff's laws, and solve circuit numericals. <span class="marks">[10]</span>
+2. Describe the Seebeck, Peltier and Thomson effects and the thermoelectric curve of a thermocouple. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="3" ratio="1.25" caption="Electric circuits at work. (a) A digital multimeter measures voltage, current and resistance. (b) A thermocouple produces an emf proportional to the temperature difference between its junctions. (c) A toaster element is a high-resistance wire that turns electrical energy into heat (I squared R)."
+@ photo id="ceephy2/multimeter" cap="(a) Multimeter"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/thermocouple" cap="(b) Thermocouple"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/toaster" cap="(c) Toaster element"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: drift velocity, Ohm's law and Kirchhoff's laws (10 marks)
+
+**Introduction.** Electric current is the rate of flow of charge, $I = dQ/dt$. In a metal it is carried by free electrons that drift slowly under an electric field.
+
+**Drift velocity.** Let $n$ be the number of free electrons per unit volume in a conductor of area $A$. In time $\Delta t$ the electrons that cross a section are those within a length $v_d\Delta t$, so $\Delta Q = neAv_d\Delta t$ and
+
+$$ I = neAv_d, \qquad v_d = \frac{eE\tau}{m} $$
+
+where $\tau$ is the relaxation time (the average time between collisions). The drift speed is tiny, about $10^{-4}\ \text{m s}^{-1}$, yet a lamp lights at once because the field is set up through the wire at nearly the speed of light.
+
+**Ohm's law.** At constant temperature $V = IR$. In microscopic form $\vec J = \sigma\vec E$ and $\rho = \dfrac{m}{ne^2\tau}$, and $R = \rho l/A$. Resistivity of a metal rises with temperature, $R_t = R_0(1 + \alpha t)$, while for a semiconductor it falls.
+
+**Kirchhoff's laws.**
+
+1. **Junction law (KCL).** The algebraic sum of currents at a junction is zero, which is conservation of charge.
+2. **Loop law (KVL).** The algebraic sum of emfs and potential drops in a closed loop is zero, which is conservation of energy.
+
+| Combination | Resistance | Current / voltage |
+|---|---|---|
+| Series | $R = R_1 + R_2$ | same current |
+| Parallel | $\dfrac1R = \dfrac1{R_1} + \dfrac1{R_2}$ | same voltage |
+| Cell with internal resistance | $V = E - Ir$ | $I = \dfrac{E}{R + r}$ |
+
+**Wheatstone bridge.** It is balanced when $\dfrac PQ = \dfrac RS$, and then no current flows through the galvanometer.
+
+**Numerical.**
+
+- A copper wire of cross-section $1\ \text{mm}^2$ carries $2\ \text{A}$ ($n = 8.5\times10^{28}\ \text{m}^{-3}$): $v_d = \dfrac{2}{8.5\times10^{28}\times1.6\times10^{-19}\times10^{-6}} = 1.5\times10^{-4}\ \text{m s}^{-1}$.
+- A cell of $12\ \text{V}$ and $1\ \Omega$ drives a $5\ \Omega$ resistor: $I = 12/6 = 2\ \text{A}$ and the terminal voltage is $12 - 2 = 10\ \text{V}$.
+- A balanced bridge with $P = 10\ \Omega$, $Q = 20\ \Omega$, $R = 30\ \Omega$ has $S = 60\ \Omega$.
+
+**Conclusion.** $I = neAv_d$ links the microscopic and macroscopic view of current, and Kirchhoff's two laws solve any network.
+
+### Model answer D2: thermoelectric effects (10 marks)
+
+**Introduction.** Thermoelectricity links temperature differences and electric potential differences.
+
+**Seebeck effect.** When the two junctions of a loop of two different metals are held at different temperatures, an emf (and a current) appears. It is the basis of the **thermocouple** (for example copper-constantan or iron-constantan). For a small temperature difference, $E = \alpha\theta + \tfrac12\beta\theta^2$, where $\theta$ is measured from the cold junction. The thermoelectric series (Sb, Fe, Cu, ... Bi) tells the direction of the current.
+
+**Thermoelectric curve.** The emf rises to a maximum at the **neutral temperature** $\theta_n = -\alpha/\beta$ and then falls to zero at the **temperature of inversion** $\theta_i = 2\theta_n$ (if the cold junction is $0^{\circ}\text{C}$). For $\theta_i = 2\theta_n - \theta_{cold}$ in general. The neutral temperature does not depend on the cold-junction temperature.
+
+**Peltier effect.** When a current passes through a junction of two metals, heat is absorbed or liberated, depending on the direction of the current. It is reversible, unlike the Joule heating $I^2R$, and it is used in small thermoelectric coolers.
+
+**Thomson effect.** When a current flows in a conductor with a temperature gradient, heat is absorbed or liberated all along the wire, in addition to Joule heating.
+
+| Effect | What happens | Reversible? |
+|---|---|---|
+| Seebeck | temperature difference gives emf | — |
+| Peltier | current gives heating or cooling at a junction | yes |
+| Thomson | current in a temperature gradient gives heat exchange along the wire | yes |
+| Joule | heat $I^2Rt$ | no |
+
+**Uses.** Thermocouples measure high temperatures in furnaces and engines, **thermopiles** detect infrared radiation, and thermoelectric generators power space probes.
+
+**Numerical.** For a thermocouple with $\alpha = 16\ \mu\text{V}\,{}^{\circ}\text{C}^{-1}$ and $\beta = -0.04\ \mu\text{V}\,{}^{\circ}\text{C}^{-2}$, the neutral temperature is $\theta_n = -\dfrac{16}{-0.04} = 400^{\circ}\text{C}$ and the inversion temperature is $800^{\circ}\text{C}$ for the cold junction at $0^{\circ}\text{C}$. The maximum emf is $16(400) - 0.02(400)^2 = 6400 - 3200 = 3200\ \mu\text{V} = 3.2\ \text{mV}$.
+
+**Conclusion.** The Seebeck emf rises, peaks at $\theta_n$ and then reverses at $\theta_i = 2\theta_n$. The Peltier and Thomson effects are reversible heat exchanges.

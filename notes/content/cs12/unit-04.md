@@ -698,6 +698,8 @@ ax.set_xlim(0.0, 6.0); ax.set_ylim(0.10, 2.25)
 ax.axis("off")
 ```
 
+<div style="break-before:page"></div>
+
 ## 4.11 Pointer expression and assignment; call by value and call by reference
 
 ```figure caption="Call by value copies the data, so the original cannot change. Call by reference copies the address, so the function reaches the original itself."
@@ -1058,6 +1060,42 @@ Marks are given for the `"wb"`/`"rb"` modes, the `NULL` check, `sizeof(struct
 student)` as the record size, and closing the file after each phase.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="C was written by Dennis Ritchie, and a structure in C shows how the compiler places data in memory. (a) Ritchie receiving the Japan Prize. (b) The ctypes module reports that a struct holding char, int, char and double occupies 24 bytes, though its fields need only 14. The compiler inserts padding so that the int starts at a multiple of 4 and the double at offset 16. Declaring the members in order of size, double then int then the two chars, gives 16 bytes. The record shrinks by 8 bytes, which matters when a program stores a million of them in an array or a binary file."
+@ photo id="cs12/ritchie" cap="Dennis Ritchie (right), who created the C language at Bell Labs"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Struct padding measured with ctypes"
+import ctypes
+class A(ctypes.Structure):
+    _fields_ = [("a", ctypes.c_char), ("b", ctypes.c_int), ("c", ctypes.c_char), ("d", ctypes.c_double)]
+class B(ctypes.Structure):
+    _fields_ = [("d", ctypes.c_double), ("b", ctypes.c_int), ("a", ctypes.c_char), ("c", ctypes.c_char)]
+sa, sb = ctypes.sizeof(A), ctypes.sizeof(B)
+assert (sa, sb) == (24, 16) and A.b.offset == 4 and A.d.offset == 16
+def strip(y, T, names, col):
+    used = {}
+    for n in names:
+        fld = getattr(T, n)
+        used[n] = (fld.offset, fld.size)
+    w = 11
+    for i in range(ctypes.sizeof(T)):
+        f.box(8 + i * w, y, w - 1, 16, fill="#e2e8f0", stroke="#cbd5e1", sw=0.6, r=1)
+    for n, (o, s) in used.items():
+        f.box(8 + o * w, y, s * w - 1, 16, fill=col[n], stroke=NAVY, sw=1, r=1)
+        f.text(8 + o * w + s * w / 2, y + 8, n, size=9, color=NAVY, bold=True, vmid=True)
+col = dict(a=SAND, b=BLUE, c=ROSE, d=MINT)
+f = Fig(300, 236)
+f.text(150, 14, "Bytes of a struct: grey cells are padding", size=10.5, color=NAVY, bold=True)
+f.text(8, 40, "char a; int b; char c; double d;", size=10, color=SLATE, bold=True, anchor="start")
+strip(48, A, "abcd", col)
+f.text(8, 40 + 70, "double d; int b; char a; char c;", size=10, color=SLATE, bold=True, anchor="start")
+strip(118, B, "dbac", col)
+f.text(150, 176, "top: sizeof = %d bytes" % sa, size=10.5, color=RED, bold=True)
+f.text(150, 208, "bottom: sizeof = %d bytes" % sb, size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "8 bytes saved per record", size=10, color=SLATE, bold=True)
+facts = dict(sa=sa, sb=sb, save=sa - sb, off=A.d.offset)
+```
+
 ## Chapter summary
 
 - A C program is a set of functions; `main()` is the one that runs first.
@@ -1135,6 +1173,96 @@ $2 \times 1 = 2$ is returned, then $3 \times 2 = 6$, then $4 \times 6 = 24$. So
 `1 1 2 6 24 120 720 5040 40320` in section 4.6.
 :::
 
+::: note Answers to Group B questions 1, 2, 4, 5 and 6
+**1.** A **function** is a named, self-contained block of statements that performs
+one task and may be called from many places; it takes arguments and may return a
+value. A **library function** is already written and stored in a standard header,
+for example `printf()` (`stdio.h`), `sqrt()` (`math.h`) and `strlen()`
+(`string.h`); the programmer only includes the header and calls it. A
+**user-defined function** is written by the programmer for a particular job, for
+example `int factorial(int n)`. Library functions are tested, fast to use and cannot
+be changed, whereas user-defined functions fit the problem exactly but must be
+written, tested and maintained by the programmer. Four advantages of functions:
+**(i)** a program is divided into small, easy-to-understand parts (modularity);
+**(ii)** code written once is reused many times, so the program is shorter;
+**(iii)** errors are easy to find because each function can be tested separately;
+**(iv)** many programmers can work on different functions of a large project. Other
+advantages are easier maintenance and the ability to build libraries.
+
+**2.**
+
+| Point | Automatic (`auto`) | External (`extern`) |
+|---|---|---|
+| Declared | Inside a function or block | Outside all functions (global) |
+| Scope | Only that function or block | Whole program, in every function |
+| Default value | Garbage (undefined) | Zero |
+| Lifetime | Created on entry, destroyed on exit | Whole run of the program |
+| Memory | Stack | Data segment |
+
+```c
+int g = 5;                       /* external: visible everywhere */
+void demo(void) {
+    int a = 1;                   /* automatic: new copy on every call */
+    a++;
+    g++;
+    printf("a=%d g=%d\n", a, g);
+}
+```
+Calling `demo()` twice prints `a=2 g=6` and then `a=2 g=7`. The automatic variable
+`a` starts again at 1 on every call, so it is always 2 after the increment, while the
+external variable `g` remembers its value between calls and keeps growing.
+
+**4.**
+
+| Point | Structure | Union |
+|---|---|---|
+| Keyword | `struct` | `union` |
+| Memory | Separate space for every member | One space shared by all members |
+| Size | Sum of member sizes (plus padding) | Size of the largest member |
+| Access | All members usable at once | Only one member holds a valid value at a time |
+| Use | A record such as a student | Saving memory when one of several values is needed |
+
+```c
+struct Student { int roll; char name[20]; float marks; };   /* sizeof = 28 bytes */
+union  Data    { int i; float f; char s[20]; };              /* sizeof = 20 bytes */
+```
+On a typical machine the structure takes 4 + 20 + 4 = 28 bytes, while the union
+takes only 20 bytes, the size of its largest member `s`. Writing to one member of a
+union overwrites the others.
+
+**5.** A **pointer** is a variable that stores the *address* of another variable.
+It is declared with `*`, for example `int *p;`. The **address-of operator `&`**
+gives the address of a variable: `p = &x;` stores the address of `x` in `p`. The
+**indirection (dereference) operator `*`** gives the value stored at the address:
+`*p` is the value of `x`. In **call by reference** the addresses are passed, so the
+function changes the original variables.
+
+```c
+void swap(int *a, int *b) { int t = *a; *a = *b; *b = t; }
+int main(void) {
+    int x = 10, y = 20;
+    swap(&x, &y);
+    printf("x=%d y=%d\n", x, y);   /* prints x=20 y=10 */
+    return 0;
+}
+```
+Because `swap` works on the addresses of `x` and `y`, the values are really
+exchanged in `main`. With call by value, only copies would be swapped and `x` and `y`
+would stay 10 and 20.
+
+**6.** A **data file** is a named collection of data stored permanently on a disk, so
+that it remains after the program ends. In a **sequential file** the records are read
+or written one after another from the start, and to reach the 100th record the first
+99 must be passed; text files made with `fprintf` are of this kind. In a **random
+(direct) access file** the program can jump straight to any record with `fseek()`
+without reading the earlier ones, which is faster for large files such as a database.
+File modes: `"r"` opens an existing file for **reading** (it fails if the file does
+not exist); `"w"` opens a file for **writing** and creates it, or erases the old
+contents if it exists; `"a"` opens a file for **appending**, so new data are added at
+the end and the old data are kept. Always check that `fopen()` did not return `NULL`
+and always close the file with `fclose()`.
+:::
+
 **Group C — Long answer (8 marks each)**
 
 1. (a) What is a structure? Write a C program that reads the roll number, name
@@ -1159,3 +1287,127 @@ Part (b): `fp = fopen("student.txt","w")`, a `NULL` check, three `fprintf`s,
 `while (fscanf(fp, "%d %s %f", &n, name, &marks) != EOF)` — printed in full in
 section 4.14.
 :::
+
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is a function? Explain the types, the parts of a function and the advantages with a program. <span class="marks">[10]</span>
+2. What is a structure? Write a program with an array of structures and differentiate a structure from a union. <span class="marks">[10]</span>
+3. Explain pointers, call by value and call by reference with programs. <span class="marks">[10]</span>
+
+### Model answer D1: functions in C (10 marks)
+
+**Introduction.** A **function** is a named block of statements that performs one task
+and can be called whenever needed. Every C program has at least one function,
+`main()`.
+
+**Types.** **Library functions** are supplied with the compiler (`printf`, `sqrt`,
+`strlen`). **User-defined functions** are written by the programmer.
+
+**Parts of a function.**
+
+1. **Function prototype (declaration):** tells the compiler the name, return type and
+   parameters, e.g. `int factorial(int n);`
+2. **Function definition:** the header and the body that contain the code.
+3. **Function call:** a statement that uses the function, e.g. `f = factorial(5);`
+4. **Return statement:** sends a value back and ends the function.
+
+```c
+#include <stdio.h>
+int factorial(int n);                  /* prototype */
+int main(void) {
+    printf("%d\n", factorial(5));      /* call: prints 120 */
+    return 0;
+}
+int factorial(int n) {                 /* definition */
+    int f = 1, i;
+    for (i = 2; i <= n; i++) f *= i;
+    return f;                          /* return */
+}
+```
+
+**Advantages.** (1) Modularity; (2) reuse of code; (3) shorter programs; (4) easy
+testing and debugging; (5) teamwork on large programs; (6) easier maintenance; (7) a
+function can be placed in a library; (8) it hides details from the caller.
+
+| Basis | Library function | User-defined function |
+|---|---|---|
+| Written by | Compiler maker | Programmer |
+| Header file | Needed (`stdio.h`) | Not needed |
+| Can be changed | No | Yes |
+
+**Conclusion.** Functions divide a large problem into small, testable pieces, which is
+the basis of structured programming.
+
+### Model answer D2: structure and union (10 marks)
+
+**Introduction.** A **structure** is a user-defined data type that groups variables of
+different types under one name; it models a record such as a student.
+
+```c
+#include <stdio.h>
+struct Student { int roll; char name[20]; float marks; };
+int main(void) {
+    struct Student s[3] = {{1,"Anisha",78.5f},{2,"Bikash",64.0f},{3,"Chandra",91.5f}};
+    float total = 0; int i;
+    for (i = 0; i < 3; i++) {
+        printf("%d %-8s %.1f\n", s[i].roll, s[i].name, s[i].marks);
+        total += s[i].marks;
+    }
+    printf("Average = %.2f\n", total / 3);
+    return 0;
+}
+```
+This program prints the three records and `Average = 78.00` (78.5 + 64.0 + 91.5 =
+234.0, and 234.0 / 3 = 78.0). Members are reached with the dot operator, and an array of
+structures stores many records.
+
+| Point | Structure | Union |
+|---|---|---|
+| Keyword | `struct` | `union` |
+| Memory | Each member has its own space | All members share one space |
+| Size of the example above | 28 bytes | 20 bytes (largest member) |
+| Members in use | All together | One at a time |
+| Use | Records | Saving memory |
+
+**Conclusion.** A structure keeps related data together, an array of structures makes a
+small database in memory, and a union saves memory when only one value is needed at a
+time.
+
+### Model answer D3: pointers and call by value / reference (10 marks)
+
+**Introduction.** A **pointer** is a variable that holds the address of another
+variable. `int *p = &x;` makes `p` point to `x`; `*p` reads or changes the value of
+`x`.
+
+**Operators.** `&` (address-of) gives the address of a variable. `*` (indirection)
+gives the value at an address.
+
+**Call by value.** The function receives copies of the arguments, so changes inside the
+function do not affect the original variables.
+
+```c
+void swapByValue(int a, int b) { int t = a; a = b; b = t; }      /* swaps copies */
+```
+After `swapByValue(x, y)` with `x = 10` and `y = 20`, the output is still `x = 10, y = 20`.
+
+**Call by reference.** The function receives addresses and works on the originals.
+
+```c
+void swapByReference(int *a, int *b) { int t = *a; *a = *b; *b = t; }
+/* call: swapByReference(&x, &y); output: x = 20, y = 10 */
+```
+
+| Point | Call by value | Call by reference |
+|---|---|---|
+| What is passed | A copy of the value | The address |
+| Effect on the original | None | Changes it |
+| Parameters | `int a` | `int *a` |
+| Use | Safe calculation | Swapping, returning many values |
+
+**Advantages of pointers.** They allow dynamic memory, efficient passing of arrays and
+structures, and several return values from a function.
+
+**Conclusion.** Pointers give C its power over memory and are the key to call by
+reference, but they must be used carefully because a wrong address can crash a
+program.

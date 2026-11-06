@@ -24,6 +24,35 @@ A synchronous sequential circuit has **inputs** x, a block of **flip-flops** hol
 
 A Mealy machine and its equivalent Moore machine produce the same sequence, though the Mealy output appears one clock earlier.
 
+```photogrid label="5.1" cols="2" ratio="1.3" caption="A finite state machine you can walk through. (a) Turnstiles at a station gate: each one is either locked or unlocked. (b) The same gate as a one-flip-flop machine, run on a stream of ten events: a coin sets the state to Unlocked, a push through an unlocked gate returns it to Locked, and a push against a locked gate does nothing."
+@ photo id="bca103/turnstile" cap="Turnstile gate: two states, Locked and Unlocked"
+fit 1.3
+focus 0.5 0.4
+call 0.5 0.9 0.35 0.45 "arm blocks you when Locked"
+@ svg cap="Q+ = coin + Q.push' on the stream C P P C C P - P C P"
+ev = "CPPCCP-PCP"; q = 0; log = []; passes = blocked = wasted = 0
+for e in ev:
+    c, p = e == "C", e == "P"
+    if p and q: passes += 1
+    if p and not q: blocked += 1
+    if c and q: wasted += 1
+    q = int(c or (q and not p)); log.append((e, q))
+assert [s for _, s in log] == [1, 0, 0, 1, 1, 0, 0, 0, 1, 0] and (passes, blocked, wasted) == (3, 2, 1)
+name = {"C": "coin", "P": "push", "-": "idle"}
+f = Fig(400, 322)
+f.text(10, 16, "Event", size=10.5, color=NAVY, bold=True, anchor="start"); f.text(110, 16, "State after", size=10.5, color=NAVY, bold=True, anchor="start"); f.text(235, 16, "Result", size=10.5, color=NAVY, bold=True, anchor="start")
+q = 0
+for i, (e, s) in enumerate(log):
+    y = 26 + i * 26
+    res = "person passes" if (e == "P" and q) else "blocked" if e == "P" else "coin wasted" if (e == "C" and q) else "unlocked" if e == "C" else "-"
+    f.box(6, y, 388, 22, "", fill=MINT if s else SOFT, stroke=TEAL if s else "#94a3b8", r=4, sw=1)
+    f.text(14, y + 11, f"{i + 1}. {name[e]}", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(110, y + 11, f"Q = {s}  ({'Unlocked' if s else 'Locked'})", size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(235, y + 11, res, size=10.5, color=RED if res in ("blocked", "coin wasted") else TEAL, bold=True, anchor="start", vmid=True)
+    q = s
+f.text(200, 304, f"Totals: {passes} people passed, {blocked} blocked, {wasted} coin wasted.", size=10.5, color=NAVY, bold=True)
+```
+
 ## 5.2 Design procedure
 
 1. Understand the specification; draw the **state diagram**.
@@ -100,11 +129,78 @@ f.text(690, 110, "Input 10101", size=10, color=NAVY, bold=True); f.text(690, 130
 f.text(690, 150, "z = 0 0 1 0 1", size=10, color=RED, bold=True); f.text(690, 170, "two detections", size=9.5, color=SLATE)
 ```
 
+```svgfig label="5.2" caption="Mealy against Moore on the same input stream 1 0 1 0 1 1 0 1 for the overlapping 101 detector, simulated clock by clock. The Mealy machine needs 3 states and answers in the same clock cycle as the last input bit; the Moore machine needs 4 states and its output appears one cycle later."
+mealy = {("S0", 0): ("S0", 0), ("S0", 1): ("S1", 0), ("S1", 0): ("S2", 0), ("S1", 1): ("S1", 0), ("S2", 0): ("S0", 0), ("S2", 1): ("S1", 1)}
+moore = {("A", 0): "A", ("A", 1): "B", ("B", 0): "C", ("B", 1): "B", ("C", 0): "A", ("C", 1): "D", ("D", 0): "C", ("D", 1): "B"}
+x = [1, 0, 1, 0, 1, 1, 0, 1]
+s, zm, sm = "S0", [], []
+for b in x:
+    s, z = mealy[(s, b)]; zm.append(z); sm.append(s)
+t, zo, so = "A", [0], ["A"]
+for b in x:
+    t = moore[(t, b)]; zo.append(1 if t == "D" else 0); so.append(t)
+assert zm == [0, 0, 1, 0, 1, 0, 0, 1] and zo == [0, 0, 0, 1, 0, 1, 0, 0, 1]
+assert zo[1:] == zm and sum(zm) == sum(zo) == 3
+f = Fig(760, 270)
+f.text(380, 16, "Input stream x and the two outputs (1 = pattern 101 just completed)", size=11.5, color=NAVY, bold=True)
+cx = lambda k: 150 + k * 66
+f.text(10, 50, "Cycle", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(10, 78, "Input x", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(10, 110, "Mealy state", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(10, 138, "Mealy z", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(10, 176, "Moore state", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(10, 204, "Moore z", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+for k in range(9):
+    f.text(cx(k) + 24, 50, str(k + 1), size=10.5, color=SLATE, bold=True, vmid=True)
+    if k < 8:
+        f.box(cx(k), 64, 48, 26, str(x[k]), fill=BLUE, stroke=NAVY, size=11, bold=True)
+        f.box(cx(k), 96, 48, 26, sm[k], fill=SAND, stroke=AMBER, size=10.5)
+        f.box(cx(k), 124, 48, 26, str(zm[k]), fill=ROSE if zm[k] else SOFT, stroke=RED if zm[k] else "#94a3b8", size=11, bold=True)
+    f.box(cx(k), 162, 48, 26, so[k], fill=MINT, stroke=TEAL, size=10.5)
+    f.box(cx(k), 190, 48, 26, str(zo[k]), fill=ROSE if zo[k] else SOFT, stroke=RED if zo[k] else "#94a3b8", size=11, bold=True)
+f.text(380, 242, "Moore z lags Mealy z by one clock because it depends only on the state reached after the bit.", size=10.5, color=SLATE, bold=True)
+f.text(380, 260, "Both find the same 3 patterns (cycles 3, 5 and 8 for Mealy), but Moore needs one more state and flip-flop code.", size=10.5, color=SLATE)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.0" caption="How big is the memory of a machine? (a) A lift call button: behind the panel a state machine remembers floor and direction. (b) The number of flip-flops k = ceil(log2 N) needed for N states, computed for six machines, with the unused codes that become don't-cares."
+@ photo id="bca103/liftpanel" cap="Lift controller: the state is the floor and the direction of travel"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="States N, flip-flops k, unused codes 2^k - N"
+import math
+ms = [("Turnstile", 2), ("101 detector, Mealy", 3), ("101 detector, Moore", 4), ("3-phase signal G-Y-R", 3), ("Lift, 3 floors x (idle, up, down)", 9), ("MOD-60 clock counter", 60)]
+rows = [(n, N, math.ceil(math.log2(N)), 2 ** math.ceil(math.log2(N)) - N) for n, N in ms]
+assert [r[2:] for r in rows] == [(1, 0), (2, 1), (2, 0), (2, 1), (4, 7), (6, 4)]
+f = Fig(400, 340)
+f.text(8, 16, "Machine", size=10.5, color=NAVY, bold=True, anchor="start")
+for x, h in ((220, "N"), (258, "k"), (300, "Unused")): f.text(x, 16, h, size=10.5, color=NAVY, bold=True, anchor="start")
+for i, (n, N, k, u) in enumerate(rows):
+    y = 28 + i * 50
+    f.box(4, y, 392, 44, "", fill=BLUE if i % 2 == 0 else SOFT, stroke="#cbd5e1", r=4, sw=1)
+    f.text(10, y + 16, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(220, y + 16, str(N), size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(258, y + 16, str(k), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+    f.text(300, y + 16, str(u), size=10.5, color=SLATE, anchor="start", vmid=True)
+    for j in range(k): f.box(10 + j * 22, y + 26, 18, 12, "", fill=MINT, stroke=TEAL, r=2)
+f.text(200, 332, "Each green square is one flip-flop.", size=10, color=SLATE)
+```
+
 ## 5.5 Counter design as a special case
 
 A counter is an FSM with no inputs. The mod-3 JK design in Unit 4 and the Gray counter D₁ = Q₀, D₀ = Q₁' follow the same seven steps. For the Gray counter 00 → 01 → 11 → 10 → 00: next Q₁ sequence is 0, 1, 1, 0 and next Q₀ is 1, 1, 0, 0 for the present states 00, 01, 11, 10, which reads directly as D₁ = Q₀ and D₀ = Q₁'.
 
 **Lock-out.** If an unused state (like 11 above) leads to another unused state forever, the counter is stuck after a power glitch. Design every unused state to enter the main sequence, as the MOD-3 design does.
+
+## 5.6 Eight applications of finite state machines
+
+1. **Traffic signals.** A signal controller is a Moore machine whose states are the lamp patterns, such as green, yellow and red. A timer or a sensor gives the input that moves it to the next state. The signals at a busy junction in Kathmandu run on this idea.
+2. **Lifts.** The state is the present floor and the direction of travel, and the inputs are the buttons pressed (Plate 5.2). The machine decides to stop, open the door or move on. Every modern lift in a Nepali building uses a controller of this kind.
+3. **Turnstiles and ticket gates.** The two-state machine of Plate 5.1 lets one person through for each coin or ticket. Stadium gates, parking barriers and airport boarding gates follow the same rule. The same pattern is used for any lock that opens once and then closes again.
+4. **Vending and coin machines.** The state records the money inserted so far, and the output releases the item when the total is enough. Each coin is an input event. Ticket machines and prepaid payphones were built this way.
+5. **ATM and keypad locks.** An ATM moves through card inserted, PIN entry, amount selection and cash dispensing. A wrong PIN three times sends it to a blocked state. A digital door lock with a secret code is a sequence detector like the 101 detector.
+6. **Pattern matching in software.** The compilers of C and Java use a state machine to recognise words and numbers in the source code. Search tools and virus scanners match text using state machines too. The 101 detector of Section 5.4 is the smallest example.
+7. **Communication protocols.** TCP, which carries every web page, is defined as a state machine with states such as LISTEN, SYN-SENT and ESTABLISHED. Each packet that arrives is an input. A protocol bug is often a missing arrow in the state diagram.
+8. **Household appliances.** A washing machine moves through fill, wash, rinse and spin, and a microwave oven through set, cook and beep. Each step ends by a timer or a sensor. Because the machine has few states, the controller chip is cheap.
 
 ## Formula and fact sheet
 
@@ -183,3 +279,56 @@ In a Mealy machine, Z = g(Q, X) and Q⁺ = f(Q, X); in a Moore machine, Z = g(Q)
 *Step 7: check with 10101.* S0 → S1 → S2 → S1 (z = 1) → S2 → S1 (z = 1), giving z = 0, 0, 1, 0, 1, which matches the specification.
 
 *Conclusion.* The procedure (specification, diagram, table, reduction, assignment, equations, circuit) is the same for every sequential design; a counter is the special case in which the next state does not depend on the input.
+
+**Q (5 marks). How many flip-flops are needed for a sequential machine? What is state assignment?**
+
+A machine with **N states** needs **k flip-flops** where 2ᵏ ≥ N, that is k = ⌈log₂ N⌉. Each state gets a different k-bit code, and this choice is called **state assignment**. Plate 5.2 lists real examples: a turnstile has 2 states and needs 1 flip-flop, the Mealy 101 detector has 3 states and needs 2, a lift with 3 floors and three movement modes has 9 states and needs 4.
+
+1. **Count the states** from the state diagram after state reduction, because fewer states can mean fewer flip-flops.
+2. **Find k** from 2ᵏ ≥ N.
+3. **Assign codes.** Any assignment works, but good ones give simpler equations: states that follow one another should differ in few bits.
+4. **Treat the unused codes as don't-cares** on the Karnaugh maps; the 101 detector has code 11 unused, which makes the equations shorter.
+
+| Machine | N | k | Unused codes |
+|---|---|---|---|
+| Turnstile | 2 | 1 | 0 |
+| 101 Mealy | 3 | 2 | 1 |
+| 101 Moore | 4 | 2 | 0 |
+| 3 floors × (idle, up, down) | 9 | 4 | 7 |
+
+**Example.** For the 101 detector with S₀ = 00, S₁ = 01 and S₂ = 10, the code 11 never occurs, so it is marked X in the next-state maps. Figure 5.2 shows that the Moore version needs one more state (4 instead of 3), although both use 2 flip-flops here.
+
+**Q (10 marks). Design a turnstile controller using a D flip-flop. Verify it with a sequence of events.**
+
+**Introduction.** A turnstile (Plate 5.1) has an arm that is **Locked** until a coin is inserted and then **Unlocked** until one person pushes through. It is a good example of a sequential machine because its behaviour depends on its history. We design it as a **Moore machine**, since the output "arm free" depends only on the state.
+
+**Step 1: specification.** Inputs: C = coin inserted, P = push on the arm. In each clock cycle at most one of them is 1. Output U = 1 when the arm is free.
+
+**Step 2: states.** L (Locked, U = 0) and U (Unlocked, U = 1). Two states need k = 1 flip-flop; assign L = 0 and U = 1, so Q is the output itself.
+
+**Step 3: state table.**
+
+| Present Q | C P | Next Q⁺ | Meaning |
+|---|---|---|---|
+| 0 (L) | 0 0 | 0 | stay locked |
+| 0 (L) | 0 1 | 0 | push is blocked |
+| 0 (L) | 1 0 | 1 | coin unlocks |
+| 1 (U) | 0 0 | 1 | stay unlocked |
+| 1 (U) | 0 1 | 0 | person passes, lock again |
+| 1 (U) | 1 0 | 1 | extra coin is wasted |
+
+**Step 4: equation.** The next state is 1 when a coin arrives or when the gate is unlocked and nobody pushes, so **D = Q⁺ = C + Q·P′**. The case C = P = 1 never occurs and is a don't-care.
+
+**Step 5: circuit.** One D flip-flop, one NOT gate (P′), one AND gate (Q·P′) and one OR gate (C + Q·P′). Output U = Q. A clear input sets Q = 0 at power-up so that the gate starts Locked.
+
+**Step 6: verification.** The events C P P C C P idle P C P give the states 1, 0, 0, 1, 1, 0, 0, 0, 1, 0 (Plate 5.1). Three persons passed, two pushes were blocked and one coin was wasted, which is exactly what the specification demands.
+
+| Part | Choice |
+|---|---|
+| Machine type | Moore |
+| Number of states | 2 |
+| Flip-flops | 1 D flip-flop |
+| Gates | NOT, AND, OR |
+| Equation | D = C + Q·P′ |
+
+**Conclusion.** The same procedure of specification, states, table, equation, circuit and verification works for a machine of any size. Only the number of flip-flops and the size of the Karnaugh maps grow. A designer must always check the don't-care input combinations and give the machine a safe starting state.

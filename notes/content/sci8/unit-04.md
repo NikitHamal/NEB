@@ -421,3 +421,74 @@ that they take ownership of the road.
 **4.** SDGs are 17 global goals with 169 targets and 232 indicators, adopted by 193 UN members in 2015 for 2016–2030. Nepal's efforts: Climate Change Council and cabinet meeting at Kalapatthar (2009); lowering Tsho Rolpa; community forests; periodic plans for poverty reduction, education and employment; National Environment Policy 2076 and Environment Protection Act 2076.
 **5.** Protect local forests, wetlands and springs and declare community conservation areas; control forest fire, overgrazing and illegal sand mining; remove invasive plants; promote tree planting and nurseries of native species; support eco-clubs and awareness programmes; manage waste and ban plastic bags; plan roads with environmental study.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain biodiversity, its levels and importance. Describe the threats to biodiversity and the ways of conserving it in Nepal. <span class="marks">[10]</span>
+2. Explain ecosystem, food chain and food web. Describe sustainable development and the Sustainable Development Goals. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="5" ratio="1.0" caption="Nepal’s living wealth. (a) The forest of Chitwan National Park. (b) A Bengal tiger in Bardiya. (c) A one-horned rhinoceros. (d) A snow leopard of the high Himalaya. (e) A biogas plant, a local way to save forests. Habitat, species and human care are all parts of biodiversity."
+@ photo id="sci8/chitwan-forest" cap="(a) Chitwan forest"
+@ photo id="sci10/tiger" cap="(b) Tiger"
+@ photo id="sci10/rhino" cap="(c) Rhino"
+@ photo id="sci10/snow-leopard" cap="(d) Snow leopard"
+@ photo id="sci10/biogas" cap="(e) Biogas plant"
+```
+
+### Model answer D1: biodiversity and its conservation (10 marks)
+
+**Introduction.** **Biodiversity** means the variety of all living things in an area, plants, animals and microorganisms, and the places where they live. Nepal is small, yet it has more than 6,500 flowering plant species, about 880 birds and 210 mammals because of its range from the Terai to the Himalaya.
+
+**Levels of biodiversity.**
+
+| Level | Meaning | Example |
+|---|---|---|
+| Genetic | Variety within one species | Many varieties of rice |
+| Species | Variety of species in an area | Tiger, rhino, deer in Chitwan |
+| Ecosystem | Variety of habitats | Forest, wetland, grassland, mountain |
+
+**Importance.** It gives food, medicine, timber and fuel, keeps the balance of nature, maintains clean air, water and soil, brings income through tourism, and has cultural and beauty value.
+
+**Threats.**
+
+1. **Habitat loss:** cutting forests for farms, roads and towns.
+2. **Poaching and illegal trade** of rhino horn, tiger skin and pangolin scales.
+3. **Pollution** of air, water and soil.
+4. **Over-use** of forest and fish resources.
+5. **Climate change**, which shifts habitats and melts glaciers.
+6. **Invasive species** such as the weed *Mikania*, which smothers native plants.
+7. **Human-wildlife conflict**, when wild animals destroy crops or harm people.
+
+**Conservation.**
+
+- **In-situ** (in the natural place): national parks (Chitwan, Sagarmatha), wildlife reserves and conservation areas (Annapurna).
+- **Ex-situ** (outside): zoos, botanical gardens and seed banks.
+- **Community forests** and buffer zones involving local people, strict laws, awareness programmes, tree plantation.
+
+**Conclusion.** Biodiversity is the wealth of Nepal. Protection by law, parks and local people's participation will keep it for future generations.
+
+### Model answer D2: ecosystem and sustainable development (10 marks)
+
+**Introduction.** An **ecosystem** is a community of living things (biotic) interacting with the non-living (abiotic) things such as air, water, soil and sunlight around them. A pond, a forest and a farm are ecosystems.
+
+**Food chain and food web.** A **food chain** shows who eats whom, with arrows pointing to the eater: **grass → grasshopper → frog → snake → eagle**. In it the green plants are **producers**, animals that eat plants are **primary consumers**, those that eat them are **secondary** and **tertiary consumers**, and bacteria and fungi are **decomposers**. A **food web** is many connected food chains and gives a better picture of nature. If one species vanishes, others in the web are affected.
+
+| Role | Example |
+|---|---|
+| Producer | Grass, rice, algae |
+| Primary consumer | Deer, goat, grasshopper |
+| Secondary consumer | Frog, small bird |
+| Tertiary consumer | Tiger, eagle |
+| Decomposer | Bacteria, mushroom |
+
+**Sustainable development.** Development that meets the needs of the **present generation without harming the ability of future generations** to meet theirs.
+
+**Three aspects.** Economic (income and jobs), social (education, health, equality) and environmental (protect nature).
+
+**Principles.** Use resources carefully, reduce waste (reduce, reuse, recycle), protect biodiversity, share benefits fairly and involve local people.
+
+**Sustainable Development Goals (SDGs).** In 2015, the world adopted **17 goals** to be achieved by **2030**, such as no poverty, zero hunger, good health, quality education, gender equality, clean water, clean energy, climate action and life on land. Nepal has made its own national plan for them.
+
+**Local initiatives.** Community forests, biogas plants, solar lamps, waste segregation in municipalities and school eco-clubs.
+
+**Conclusion.** Ecosystems are linked by food chains, and sustainable development keeps both people and nature healthy.

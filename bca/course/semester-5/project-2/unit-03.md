@@ -186,6 +186,43 @@ The list follows the idea of the OWASP Top 10, a widely used awareness list of w
 7. **Limit and log.** Rate-limit logins, and write a log line for each login, failure and status change with time and user name. Never log passwords or tokens. Logs are what let you answer "what happened?" after an incident.
 8. **Update and back up.** Old libraries have known holes, so update them before the demo. Take a daily database backup and test a restore once. A backup you have never restored is only a hope.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Why ClinicQ never stores passwords as plain hashes. (a) A combination lock has only 10,000 codes, but each guess needs a person to turn the dial, which is what a slow hash does to an attacker. (b) The same password, sita2081, was hashed for two users. With plain SHA-256 both digests are identical (e3f8c103), so one cracked password exposes every user who picked it. With a random salt per user and PBKDF2 the digests differ (5136641d and 5156a41d). If an attacker tries 10 billion guesses a second (an assumed figure for a graphics-card rig), all 208,827,064,576 eight-letter lowercase passwords fall in 21 seconds against a plain hash, but in 145 days when each guess must repeat 600,000 PBKDF2 rounds. A salted slow hash does not make weak passwords strong, it makes every guess expensive."
+@ photo id="bcapj/padlock" cap="A combination lock: 10,000 codes, one slow guess each"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Salted slow hash vs plain hash"
+import hashlib
+pw = b"sita2081"
+fast = lambda p: hashlib.sha256(p).hexdigest()
+s1, s2 = bytes.fromhex("a1b2c3d4e5f60718"), bytes.fromhex("0918273645546372")
+slow = lambda p, s: hashlib.pbkdf2_hmac("sha256", p, s, 100000).hex()
+a, b = fast(pw), fast(pw)
+h1, h2 = slow(pw, s1), slow(pw, s2)
+assert a == b and h1 != h2
+space = 26 ** 8
+RATE = 10 ** 10
+IT = 600000
+t_fast = space / RATE
+t_slow = space / (RATE / IT)
+def dur(s):
+    return "%d seconds" % round(s) if s < 600 else "%d days" % round(s / 86400)
+facts = dict(space=format(space, ","), tf=dur(t_fast), ts=dur(t_slow), it=format(IT, ","), h1=h1[:8], h2=h2[:8], a=a[:8])
+f = Fig(300, 236)
+f.text(150, 12, "Two users, the same password", size=10.5, color=NAVY, bold=True)
+f.text(8, 34, "plain SHA-256", size=10.5, color=RED, bold=True, anchor="start")
+f.box(8, 40, 130, 20, a[:12], fill="#fecaca", stroke=RED, size=10.5, r=3, sw=1)
+f.box(162, 40, 130, 20, b[:12], fill="#fecaca", stroke=RED, size=10.5, r=3, sw=1)
+f.text(150, 74, "identical: crack one, crack both", size=10.5, color=RED, bold=True)
+f.text(8, 98, "salted PBKDF2", size=10.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 104, 130, 20, h1[:12], fill="#bbf7d0", stroke=TEAL, size=10.5, r=3, sw=1)
+f.box(162, 104, 130, 20, h2[:12], fill="#bbf7d0", stroke=TEAL, size=10.5, r=3, sw=1)
+f.text(150, 138, "different salt, different hash", size=10.5, color=TEAL, bold=True)
+f.text(150, 164, "8 lowercase letters = %s guesses" % format(space, ","), size=10.5, color=NAVY, bold=True)
+f.text(150, 182, "plain hash at 10 billion/s: %s" % dur(t_fast), size=10.5, color=RED, bold=True)
+f.text(150, 198, "PBKDF2 x %s: %s" % (format(IT, ","), dur(t_slow)), size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "attacker speed is an assumption", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Authentication = who you are (401). Authorisation = what you may do (403).

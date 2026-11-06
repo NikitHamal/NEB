@@ -145,6 +145,13 @@ call 0.62 0.15 0.77 0.035 "status bar: average and sum"
 call 0.66 0.50 0.82 0.57 "list of functions"
 ```
 
+```photogrid label="8.H" cols="4" ratio="1.25" caption="Tables of numbers behind everyday Nepali scenes. (a) A barcode gives the shop a product code, which is looked up in a price table. (b) A QR payment terminal records each sale as a row of data. (c) An ATM works on account tables. (d) A smart electricity meter produces a table of readings that becomes the bill. Whenever data come in rows and columns and are added, averaged or compared, a spreadsheet is the tool."
+@ photo id="bca103/ean13" cap="(a) Barcode: product code"
+@ photo id="bca101/qrpay" cap="(b) QR payment: sales rows"
+@ photo id="bca101/atm-nepal" cap="(c) ATM: account tables"
+@ photo id="bca101/smartmeter" cap="(d) Smart meter: readings"
+```
+
 ## 8.2 Entering and editing data; data types; AutoFill
 
 **Entering data.** Click a cell (or move to it with the arrow keys), type, and
@@ -731,3 +738,84 @@ add a chart title with Chart Design → Add Chart Element → Chart Title.
 `=IF(MIN(B2:F2)>=40,"Pass","Fail")` gives **Fail**, because the lowest mark,
 38, is below 40.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a spreadsheet? Explain its eight main features and uses. <span class="marks">[10]</span>
+2. A teacher keeps the marks of three students in a spreadsheet. Explain the formulas and functions used to find the total, average, result and highest total. <span class="marks">[10]</span>
+3. Differentiate between relative and absolute cell references, with a worked example. <span class="marks">[10]</span>
+
+### Model answer D1: features and uses of a spreadsheet (10 marks)
+
+**Introduction.** A **spreadsheet** is application software that arranges data in rows and columns and calculates with them. A file is a **workbook**, made of **worksheets**; the meeting of a row and a column is a **cell** with an address such as B3. MS Excel, LibreOffice Calc and Google Sheets are examples (Plate 8.H).
+
+1. **Automatic calculation.** When a formula is typed, the answer appears at once. If a number changes, the answer is recalculated without any extra work. A shopkeeper can change a price and see the new bill immediately.
+2. **Formulas and functions.** Ready-made functions such as SUM, AVERAGE, MAX, MIN, COUNT and IF do long calculations in one step. A teacher can total the marks of 40 students by copying one formula.
+3. **Large capacity.** A worksheet has over a million rows and 16,000 columns, so very large tables can be kept. A municipality can keep the records of thousands of households.
+4. **Charts and graphs.** Data can be shown as column, bar, line or pie charts. A chart makes a comparison clear, such as the monthly sales of a shop.
+5. **Sorting and filtering.** Data can be arranged in ascending or descending order, or filtered to show only chosen rows. A school can list the students who scored above 80.
+6. **Formatting.** Number formats (currency, percentage, date), colours, borders and alignment make a sheet easy to read.
+7. **AutoFill and copying.** Series such as 1, 2, 3 or Sunday, Monday can be filled by dragging the fill handle, and formulas can be copied with the references adjusted.
+8. **Saving, printing and sharing.** The workbook can be saved, printed or shared online so that several people can edit it together.
+
+**Uses.** Marks sheets, accounts and budgets, salary and billing, attendance, inventory, and science data.
+
+**Conclusion.** A spreadsheet saves time, avoids calculation mistakes and shows data clearly, so it is used in schools, offices, shops and banks.
+
+### Model answer D2: marks sheet with formulas and functions (10 marks)
+
+**Introduction.** A teacher enters the marks of three students in the cells A1 to G4. A **formula** starts with an equals sign (=); a **function** is a ready-made formula such as SUM.
+
+| | A | B | C | D | E | F | G |
+|---|---|---|---|---|---|---|---|
+| 1 | Name | Nepali | English | Maths | Total | Average | Result |
+| 2 | Asha | 72 | 65 | 80 | 217 | 72.33 | Pass |
+| 3 | Bikash | 45 | 38 | 52 | 135 | 45.00 | Pass |
+| 4 | Chandra | 88 | 91 | 79 | 258 | 86.00 | Pass |
+
+1. **Total** in E2: `=SUM(B2:D2)` adds 72 + 65 + 80 = 217. Copy it down to E3 and E4.
+2. **Average** in F2: `=AVERAGE(B2:D2)` gives 217 ÷ 3 = 72.33.
+3. **Result** in G2: `=IF(F2>=40,"Pass","Fail")`. The condition is true because 72.33 is at least 40, so the cell shows Pass. The IF function has three parts: the test, the value if true, and the value if false.
+4. **Highest total:** `=MAX(E2:E4)` gives 258, the lowest total `=MIN(E2:E4)` gives 135, and the number of students `=COUNT(E2:E4)` gives 3.
+5. **Chart:** select A1:A4 and E1:E4, click **Insert** → **Column Chart** to compare the totals of the three students.
+
+| Function | Use | Result here |
+|---|---|---|
+| SUM | Adds the numbers in a range | 217 |
+| AVERAGE | Finds the mean | 72.33 |
+| MAX | Largest value | 258 |
+| MIN | Smallest value | 135 |
+| COUNT | Counts numeric cells | 3 |
+| IF | Decides between two answers | Pass |
+
+**Conclusion.** One formula written for the first student can be copied for all, and every answer changes by itself if a mark is corrected.
+
+### Model answer D3: relative and absolute references (10 marks)
+
+**Introduction.** A **cell reference** tells a formula which cell to use. There are two main kinds, and the difference shows when a formula is copied.
+
+**Relative reference.** It changes when the formula is copied to another cell. If `=B2*C2` in D2 is copied to D3, it becomes `=B3*C3`. Because the row moves, the reference moves with it. This is the default (A1 style).
+
+**Absolute reference.** It does not change when copied. A dollar sign is placed before the column letter and the row number, for example `$G$1`. It is typed by pressing **F4** after the cell reference. It is used when one cell, such as a tax rate, must be used by all formulas.
+
+**Worked example.** A shop bill with a 13 percent VAT rate kept in G1 (0.13).
+
+| | A | B | C | D | E |
+|---|---|---|---|---|---|
+| 1 | Item | Rate (Rs) | Quantity | Amount (Rs) | VAT (Rs) |
+| 2 | Pen | 20 | 10 | 200 | 26 |
+| 3 | Copy | 60 | 5 | 300 | 39 |
+| 4 | Ruler | 25 | 4 | 100 | 13 |
+
+- Amount in D2: `=B2*C2` (relative); copied down it gives `=B3*C3`, `=B4*C4`.
+- VAT in E2: `=D2*G1` is wrong when copied, because it becomes `=D3*G2`, which points to an empty cell. The correct formula is `=D2*$G$1`; copied down, it is `=D3*$G$1`, always using the same rate.
+- Total amount: `=SUM(D2:D4)` = 600, total VAT = 78.
+
+| Point | Relative | Absolute |
+|---|---|---|
+| Form | B2 | $B$2 |
+| When copied | Changes | Stays fixed |
+| Use | Row-wise or column-wise calculation | A fixed value such as a rate |
+| Shortcut | Default | F4 key |
+
+**Conclusion.** Use a relative reference when each row has its own data, and an absolute reference when every formula must use the same cell.

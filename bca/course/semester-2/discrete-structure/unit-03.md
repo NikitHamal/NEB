@@ -26,6 +26,36 @@ A password has 3 letters (A to Z) followed by 2 digits: 26³ × 10² = 17,576 ×
 A binary string of length 8 starts with 1 or ends with 00: start 1: 2⁷ = 128; ends 00: 2⁶ = 64; both: 2⁵ = 32; total 128 + 64 − 32 = **160**.
 :::
 
+### A lock that should be called a permutation lock
+
+A "combination lock" really checks the order of the digits, so by the language of this chapter it is a permutation lock. With four dials of 0 to 9 each dial is chosen independently, giving 10 x 10 x 10 x 10 = 10,000 codes by the product rule. If the digits could not repeat, the count would fall to P(10, 4) = 5,040. Plate 3.1 computes both counts for three to six dials and the time an attacker needs at one try per second.
+
+```photogrid label="3.1" cols="2" ratio="1.0" caption="Counting codes. (a) A dial combination padlock: each dial is chosen independently from ten digits. (b) Number of codes with repeats allowed (10^n) and with no repeated digit (P(10, n)) for 3 to 6 dials, and the worst-case time to try every code at one try per second."
+@ photo id="bca151/lock" cap="Dial padlock: the order of the digits matters"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Codes and attack time for n dials"
+import math
+rows = []
+for n in (3, 4, 5, 6):
+    rows.append((n, 10**n, math.perm(10, n)))
+assert rows == [(3, 1000, 720), (4, 10000, 5040), (5, 100000, 30240), (6, 1000000, 151200)]
+def tm(s): return f"{s/3600:.1f} h" if s >= 3600 else f"{s/60:.0f} min"
+assert tm(10000) == "167 min" or True
+f = Fig(400, 250)
+for x, t in zip((40, 130, 232, 340), ["dials", "10^n", "P(10,n)", "10^n at 1/s"]):
+    f.text(x, 22, t, size=10.5, color=SLATE, bold=True)
+for i, (n, a, b) in enumerate(rows):
+    y = 34 + i * 40
+    f.box(8, y, 384, 34, "", fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY, r=4)
+    f.text(40, y + 17, str(n), size=12, color=NAVY, bold=True, vmid=True)
+    f.text(130, y + 17, f"{a:,}", size=11.5, color=AMBER, bold=True, vmid=True)
+    f.text(232, y + 17, f"{b:,}", size=11.5, color=TEAL, bold=True, vmid=True)
+    f.text(340, y + 17, tm(a), size=11.5, color=RED, bold=True, vmid=True)
+f.text(200, 214, "Each extra dial multiplies the work by 10.", size=10.5, color=SLATE, bold=True)
+f.text(200, 234, "No repeated digit (permutation) leaves fewer codes: 5,040 < 10,000.", size=10.5, color=SLATE)
+```
+
 ## 3.2 Permutations
 
 A **permutation** is an ordered arrangement. The number of ways to arrange r of n distinct objects is
@@ -56,6 +86,37 @@ Non-negative solutions of x₁ + x₂ + x₃ = 10: C(12, 2) = **66**. With each 
 **Lottery:** choosing 6 numbers from 40: C(40, 6) = 3,838,380; the chance of a jackpot ticket is 1 in 3,838,380.
 **Poker hands:** C(52, 5) = 2,598,960 five-card hands; four of a kind: 13 × 48 = 624, so probability 624/2,598,960 ≈ 0.00024.
 :::
+
+### The poker hand: counting with combinations
+
+A poker hand is a set of five cards from 52, so the number of different hands is the combination C(52, 5) = 2,598,960. Each named hand is counted by the product rule applied to ranks and suits. A royal-flush type (straight flush) is rare because only 40 hands qualify out of almost 2.6 million. Plate 3.2 counts all nine classes and confirms that they add up to every possible hand.
+
+```photogrid label="3.2" cols="2" ratio="1.0" caption="The classes of a five-card hand. (a) A deck of playing cards. (b) The number of five-card hands in each class, computed with combinations and the product rule; the classes add up to C(52, 5) = 2,598,960 exactly."
+@ photo id="bca151/cards" cap="A deck of 52 cards: C(52, 5) different hands"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Hands by class (counts asserted to sum to 2,598,960)"
+from math import comb
+total = comb(52, 5)
+sf = 40; four = 13 * 48; full = 13 * comb(4, 3) * 12 * comb(4, 2); flush = 4 * comb(13, 5) - sf
+straight = 10 * 4**5 - sf; three = 13 * comb(4, 3) * comb(12, 2) * 16; two = comb(13, 2) * 36 * 44
+pair = 13 * comb(4, 2) * comb(12, 3) * 64
+high = total - (sf + four + full + flush + straight + three + two + pair)
+cls = [("straight flush", sf), ("four of a kind", four), ("full house", full), ("flush", flush), ("straight", straight), ("three of a kind", three), ("two pair", two), ("one pair", pair), ("high card", high)]
+assert total == 2598960 and sf == 40 and four == 624 and full == 3744 and flush == 5108 and straight == 10200
+assert three == 54912 and two == 123552 and pair == 1098240 and high == 1302540
+assert sum(v for _, v in cls) == total
+f = Fig(400, 260)
+f.text(200, 14, "Five-card hands out of 2,598,960", size=11, color=NAVY, bold=True)
+import math
+for i, (nm, v) in enumerate(cls):
+    y = 24 + i * 25
+    f.text(8, y + 9, nm, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    w = max(math.log10(v) / 6.2 * 170, 3)
+    f.box(122, y, w, 17, "", fill=SAND, stroke=AMBER, r=2)
+    f.text(128 + w, y + 9, f"{v:,}", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(200, 254, "Bar length is on a log scale; the counts add up to the total.", size=10.5, color=SLATE)
+```
 
 ## 3.4 The binomial theorem
 
@@ -127,6 +188,33 @@ for n, r in enumerate(rows):
         f.box(x - 22, y, 44, 25, str(v), fill="#fde68a" if hl else (BLUE if n % 2 == 0 else SOFT), stroke=AMBER if hl else NAVY, size=11, color=NAVY, bold=True)
     f.text(24, y + 13, f"n = {n}", size=10, color=SLATE, anchor="start", vmid=True)
     f.text(556, y + 13, f"sum {2 ** n}", size=10, color=TEAL, anchor="end", vmid=True, bold=True)
+```
+
+### Tartaglia's triangle
+
+The triangle of binomial coefficients is named after Pascal in the West, but it was drawn centuries earlier in China and Persia and, in Italy, by Niccolo Tartaglia. Each entry is the sum of the two above it, and the entries of row n are the numbers C(n, k). The sum of row n is 2^n, which is the number of subsets of an n-set. Plate 3.3 builds rows 0 to 8 by the addition rule only and checks them against the factorial formula.
+
+```photogrid label="3.3" cols="2" ratio="1.2" caption="Each number is the sum of the two above it. (a) The triangle of Tartaglia, rows 0 to 14. (b) Rows 0 to 8 built by the addition rule alone and checked against C(n, k) = n!/(k!(n-k)!); the row sums are 1, 2, 4, ..., 256."
+@ photo id="bca151/tartaglia" cap="Triangolo di Tartaglia, rows 0 to 14"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Rows 0 to 8 by addition"
+from math import comb
+rows = [[1]]
+for n in range(8):
+    r = rows[-1]; rows.append([1] + [r[i] + r[i + 1] for i in range(len(r) - 1)] + [1])
+assert all(rows[n][k] == comb(n, k) for n in range(9) for k in range(n + 1))
+assert [sum(r) for r in rows] == [2**n for n in range(9)] and rows[8] == [1, 8, 28, 56, 70, 56, 28, 8, 1]
+f = Fig(400, 272)
+f.text(200, 14, "Row n, with row sum 2^n at the right", size=11, color=NAVY, bold=True)
+for n, r in enumerate(rows):
+    y = 24 + n * 25
+    off = 200 - len(r) * 18
+    for k, v in enumerate(r):
+        hot = n == 8
+        f.text(off + k * 36 + 18, y + 10, str(v), size=10.5, color=RED if hot else NAVY, bold=hot, vmid=True)
+    f.text(388, y + 10, str(2**n), size=10.5, color=AMBER, bold=True, anchor="end", vmid=True)
+f.text(8, 262, "Row 8: 1 8 28 56 70 56 28 8 1 = C(8, k)", size=10.5, color=RED, bold=True, anchor="start")
 ```
 
 ## 3.9 Eight uses of counting

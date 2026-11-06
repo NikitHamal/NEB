@@ -554,6 +554,32 @@ $$ \vec{\tau} = (-2\hat{i} + 5\hat{j} + \hat{k})\ \text{N m} $$
 with magnitude $\sqrt{4 + 25 + 1} = \sqrt{30} = 5.48\ \text{N m}$.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="A vector can be replaced by two perpendicular components that together have the same effect, and each component can then be treated separately. (a) A kite pulls on its string with a tension of 40 N at 60 degrees above the ground. (b) The horizontal component is T cos 60 = 20.0 N and the vertical component is T sin 60 = 34.6 N, and the squares of the two add to 1600, which is T squared, confirming that resolving did not change the magnitude. The vertical part supports the kite against its weight; the horizontal part must be balanced by the holder's grip and the friction under the feet."
+@ photo id="phy11/kite" cap="A kite held by its string against the wind"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Resolving the string tension into components"
+import math
+T, th = 40.0, 60.0
+Tx, Ty = T * math.cos(math.radians(th)), T * math.sin(math.radians(th))
+assert abs(Tx**2 + Ty**2 - T**2) < 1e-9 and abs(Tx - 20) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Tension 40 N at 60 deg above the ground", size=10.5, color=NAVY, bold=True)
+ox, oy, s = 50, 180, 4.2
+f.line(ox - 10, oy, 285, oy, color=SLATE, sw=1)
+f.poly([(ox, oy), (ox + Tx * s, oy), (ox + Tx * s, oy - Ty * s)], fill=BLUE, stroke=BLUE, sw=0.5)
+f.arrow([(ox, oy), (ox + Tx * s, oy - Ty * s)], color=NAVY, sw=2.4, label="T = 40 N", lpos=(ox + Tx * s * 0.5 - 28, oy - Ty * s * 0.5 - 6))
+f.arrow([(ox, oy), (ox + Tx * s, oy)], color=RED, sw=2.2)
+f.arrow([(ox + Tx * s, oy), (ox + Tx * s, oy - Ty * s)], color=TEAL, sw=2.2)
+f.raw('<path d="M %.1f %.1f A 30 30 0 0 0 %.1f %.1f" fill="none" stroke="%s" stroke-width="1.4"/>' % (ox + 30, oy, ox + 30 * math.cos(math.radians(th)), oy - 30 * math.sin(math.radians(th)), AMBER))
+f.text(ox + 42, oy - 10, "60", size=10.5, color=AMBER, bold=True)
+f.text(ox + Tx * s / 2, oy + 16, "Tx = T cos 60 = %.1f N" % Tx, size=10.5, color=RED, bold=True)
+f.text(ox + Tx * s + 8, oy - Ty * s / 2, "Ty = T sin 60\n= %.1f N" % Ty, size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(150, 214, "Tx^2 + Ty^2 = %.0f = T^2 (check)" % (Tx**2 + Ty**2), size=10.5, color=SLATE, bold=True)
+f.text(150, 228, "Ty pulls up, Tx pulls toward the holder", size=10.5, color=SLATE)
+facts = dict(Tx="%.1f" % Tx, Ty="%.1f" % Ty, chk="%.0f" % (Tx**2 + Ty**2))
+```
+
 ## Chapter summary
 
 - Scalars need a magnitude only; vectors need magnitude **and** direction and
@@ -657,3 +683,88 @@ $A = 5$, $B = \sqrt{29} = 5.385$, so $\cos\theta = 23/26.93 = 0.854$ and
 $\theta = 31.3^{\circ}$. Area of the triangle
 $= \frac{1}{2}(14) = 7$ square units.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the triangle, parallelogram and polygon laws of vector addition, and derive the magnitude and direction of the resultant of two vectors. <span class="marks">[10]</span>
+2. Explain the resolution of a vector, unit vectors, and the scalar and vector products with their properties and examples. <span class="marks">[10]</span>
+
+### Model answer D1: laws of vector addition (10 marks)
+
+**Introduction.** A **vector** has both magnitude and direction (displacement, velocity, force); a **scalar** has only magnitude (mass, time, energy). Vectors add by geometric rules, not by simple arithmetic: $3\ \text{m}$ east plus $4\ \text{m}$ north is $5\ \text{m}$ at an angle, not $7\ \text{m}$.
+
+**Triangle law.** If two vectors are represented in magnitude and direction by two sides of a triangle taken in the same order, their resultant is represented by the **third side taken in the opposite order**. Place the tail of $\vec B$ at the head of $\vec A$; the resultant $\vec R$ runs from the tail of $\vec A$ to the head of $\vec B$.
+
+**Parallelogram law.** If two vectors act at a point and are represented by two adjacent sides of a parallelogram, the resultant is represented by the **diagonal** drawn from the same point.
+
+**Derivation of the magnitude and direction.** Let $\vec A$ and $\vec B$ be at angle $\theta$ (from tail to tail). In the parallelogram $OPRQ$, with $OP=A$, $OQ=B$ and diagonal $OR=R$, draw $RN$ perpendicular to $OP$ extended.
+
+1. Since $PR$ is equal and parallel to $OQ$, the right triangle $PNR$ gives $PN=B\cos\theta$ and $RN=B\sin\theta$.
+2. In the right triangle $ORN$, $OR^{2}=ON^{2}+RN^{2}=(A+B\cos\theta)^{2}+(B\sin\theta)^{2}$.
+3. Expanding and using $\sin^{2}\theta+\cos^{2}\theta=1$:
+
+$$ R=\sqrt{A^{2}+B^{2}+2AB\cos\theta} $$
+
+4. The angle $\alpha$ that the resultant makes with $\vec A$ is
+
+$$ \tan\alpha=\frac{RN}{ON}=\frac{B\sin\theta}{A+B\cos\theta} $$
+
+**Special cases.**
+
+| Angle $\theta$ | Resultant $R$ | Remark |
+|---|---|---|
+| $0^{\circ}$ | $A+B$ | Maximum, same direction |
+| $90^{\circ}$ | $\sqrt{A^{2}+B^{2}}$ | $\tan\alpha=B/A$ |
+| $180^{\circ}$ | $|A-B|$ | Minimum, opposite direction |
+
+**Polygon law.** If a number of vectors are represented by the sides of a polygon taken in order, the **closing side taken in the opposite order** is their resultant. A man walking $3$ steps east, $4$ north and $2$ west can be represented by this polygon.
+
+**Subtraction.** $\vec A-\vec B=\vec A+(-\vec B)$, with $-\vec B$ the vector of equal magnitude in the opposite direction.
+
+**Numericals.**
+
+1. $A=3$ and $B=4$ at $90^{\circ}$: $R=\sqrt{9+16}=5$ and $\tan\alpha=\dfrac43$, so $\alpha=53.1^{\circ}$.
+2. Two forces $8\ \text{N}$ and $6\ \text{N}$ at $60^{\circ}$: $R=\sqrt{64+36+2(8)(6)\cos60^{\circ}}=\sqrt{148}=12.2\ \text{N}$ and $\tan\alpha=\dfrac{6\sin60^{\circ}}{8+6\cos60^{\circ}}=\dfrac{5.196}{11}=0.472$, so $\alpha=25.3^{\circ}$ to the $8\ \text{N}$ force.
+
+**Conclusion.** Vectors are added by the triangle, parallelogram or polygon law; the resultant has magnitude $\sqrt{A^{2}+B^{2}+2AB\cos\theta}$.
+
+### Model answer D2: resolution, unit vectors, scalar and vector products (10 marks)
+
+**Introduction.** A vector can be replaced by components, and vectors can be multiplied in two different ways, giving a scalar or a vector. These operations are the basis of work, torque and magnetic force.
+
+**Resolution of a vector.** Splitting a vector into two or three perpendicular components. For a vector $\vec F$ at angle $\theta$ to the $x$-axis:
+
+$$ F_x=F\cos\theta,\qquad F_y=F\sin\theta,\qquad F=\sqrt{F_x^{2}+F_y^{2}},\qquad \tan\theta=\frac{F_y}{F_x} $$
+
+*Example:* a $50\ \text{N}$ pull on a sledge at $30^{\circ}$ above the ground has a horizontal component $50\cos30^{\circ}=43.3\ \text{N}$ and a vertical component $25\ \text{N}$.
+
+**Unit vectors.** A vector of magnitude $1$ that gives direction: $\hat i$, $\hat j$, $\hat k$ along $x$, $y$, $z$. Any vector is $\vec A=A_x\hat i+A_y\hat j+A_z\hat k$, with $|\vec A|=\sqrt{A_x^{2}+A_y^{2}+A_z^{2}}$ and $\hat A=\vec A/|\vec A|$.
+
+**Scalar (dot) product.** $\vec A\cdot\vec B=AB\cos\theta=A_xB_x+A_yB_y+A_zB_z$; the result is a **scalar**.
+
+- It is commutative: $\vec A\cdot\vec B=\vec B\cdot\vec A$.
+- $\hat i\cdot\hat i=1$ and $\hat i\cdot\hat j=0$.
+- It is zero for perpendicular vectors.
+- *Examples:* work $W=\vec F\cdot\vec d$, power $P=\vec F\cdot\vec v$.
+
+**Vector (cross) product.** $\vec A\times\vec B=AB\sin\theta\,\hat n$, where $\hat n$ is perpendicular to both vectors, given by the **right-hand rule**; the result is a **vector**.
+
+- It is **not commutative**: $\vec A\times\vec B=-\vec B\times\vec A$.
+- $\hat i\times\hat j=\hat k$, $\hat j\times\hat k=\hat i$, $\hat k\times\hat i=\hat j$, and $\vec A\times\vec A=0$.
+- Its magnitude is the area of the parallelogram formed by the two vectors.
+- *Examples:* torque $\vec\tau=\vec r\times\vec F$, angular momentum $\vec L=\vec r\times\vec p$, magnetic force $\vec F=q\vec v\times\vec B$.
+
+| Feature | Dot product | Cross product |
+|---|---|---|
+| Result | Scalar | Vector |
+| Formula | $AB\cos\theta$ | $AB\sin\theta\,\hat n$ |
+| Commutative | Yes | No |
+| Zero when | Perpendicular | Parallel |
+| Maximum when | Parallel | Perpendicular |
+
+**Numerical.** For $\vec A=2\hat i+3\hat j+\hat k$ and $\vec B=\hat i-2\hat j+4\hat k$:
+
+- $\vec A\cdot\vec B=2-6+4=0$, so the vectors are **perpendicular**.
+- $\vec A\times\vec B=(12+2)\hat i-(8-1)\hat j+(-4-3)\hat k=14\hat i-7\hat j-7\hat k$, with magnitude $\sqrt{196+49+49}=17.1$. This agrees with $|A||B|\sin90^{\circ}=\sqrt{14}\times\sqrt{21}=17.1$.
+
+**Conclusion.** Resolution gives components along the axes; the dot product of two vectors is a scalar and the cross product is a vector perpendicular to both.

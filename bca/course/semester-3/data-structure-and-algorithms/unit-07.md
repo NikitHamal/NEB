@@ -301,6 +301,133 @@ MIN node 3 value (seen so far) = 2
 MAX chooses 3; leaves examined = 7 of 9
 ```
 
+## 7.8 Seeing the ideas: trees, balance and compression
+
+Trees are the structure of hierarchy: a university with its faculties, campuses and departments, a folder with its sub-folders, a family with its generations. In 1962 two Soviet mathematicians, Georgy Adelson-Velsky and Evgenii Landis, published the first self-balancing search tree, which is named AVL after them. It solved a real problem: an ordinary binary search tree built from sorted data degenerates into a chain and loses all its speed.
+
+```photogrid label="7.1" cols="2" ratio="1.2" caption="A tree and its inventor. (a) Georgy Adelson-Velsky (photographed in Moscow in 1980), co-inventor of the AVL tree in 1962, the first data structure that keeps a search tree balanced automatically. (b) The binary search tree made by inserting 50, 30, 70, 20, 40, 60, 80 in that order. Everything in the left subtree of a node is smaller than the node and everything in the right subtree is larger, so the inorder traversal lists the keys in sorted order. The height is 2 and the tree has 7 nodes, the largest possible for that height."
+@ photo id="bca201/adelson" cap="Georgy Adelson-Velsky (AVL tree)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Binary search tree of 7 keys"
+f = Fig(300, 230)
+pts = {50: (150, 30), 30: (80, 90), 70: (220, 90), 20: (45, 155), 40: (115, 155), 60: (185, 155), 80: (255, 155)}
+for a, b in [(50, 30), (50, 70), (30, 20), (30, 40), (70, 60), (70, 80)]:
+    f.line(pts[a][0], pts[a][1], pts[b][0], pts[b][1], color=SLATE, sw=1.4)
+for k, (x, y) in pts.items():
+    f.circle(x, y, 18, fill=BLUE if k in (50, 30, 70) else MINT, stroke=NAVY if k in (50, 30, 70) else TEAL, label=str(k), size=11)
+f.text(150, 210, "inorder: 20 30 40 50 60 70 80 (sorted)", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="7.1" caption="The three depth-first traversals of the same binary search tree. Preorder visits the root first (root, left, right): 50 30 20 40 70 60 80. Inorder visits the left subtree, then the root, then the right subtree: 20 30 40 50 60 70 80, which is sorted order for a search tree. Postorder visits the root last (left, right, root): 20 40 30 60 80 70 50. Postorder is used to delete a tree safely, because children are freed before their parent. Each traversal visits every node once, so each takes O(n) time."
+f = Fig(580, 170)
+rows = [("Preorder  (N L R)", "50  30  20  40  70  60  80", NAVY, BLUE), ("Inorder  (L N R)", "20  30  40  50  60  70  80", TEAL, MINT), ("Postorder  (L R N)", "20  40  30  60  80  70  50", AMBER, SAND)]
+for i, (nm, seq, st, fl) in enumerate(rows):
+    y = 12 + i * 50
+    f.text(10, y + 20, nm, size=10.5, color=st, bold=True, anchor="start")
+    for j, v in enumerate(seq.split()):
+        f.box(190 + j * 54, y, 48, 38, v, fill=fl, stroke=st, size=12, bold=True, r=0)
+f.text(290, 164, "visit order is left to right in each row; every node appears exactly once", size=9.5, color=SLATE)
+```
+
+```svgfig label="7.2" caption="An AVL tree repairs imbalance by rotation. The balance factor of a node is height(left) minus height(right) and must be -1, 0 or +1. Inserting 10, 20, 30 in that order makes a right-leaning chain; the balance factor of the root 10 becomes -2. A single left rotation at 10 lifts 20 to the root: 10 becomes its left child and 30 stays its right child, and all balance factors are 0. The in-order sequence 10 20 30 is unchanged, so the search property is preserved. An AVL tree with n nodes always has height of O(log n)."
+f = Fig(580, 230)
+f.text(130, 14, "after inserting 10, 20, 30", size=10.5, color=RED, bold=True)
+for (x, y, v, bf) in [(130, 50, 10, "-2"), (130, 110, 20, "-1"), (130, 170, 30, "0")]:
+    f.circle(x, y, 18, fill=ROSE if bf == "-2" else BLUE, stroke=RED if bf == "-2" else NAVY, label=str(v), size=11)
+    f.text(x + 34, y + 4, "BF " + bf, size=9.5, color=RED if bf == "-2" else SLATE, bold=True, anchor="start")
+f.line(130, 68, 130, 92, color=SLATE); f.line(130, 128, 130, 152, color=SLATE)
+f.arrow([(250, 105), (330, 105)], color=AMBER, sw=2.0)
+f.text(290, 90, "left rotation", size=10, color=AMBER, bold=True)
+f.text(290, 124, "at node 10", size=10, color=AMBER, bold=True)
+f.text(450, 14, "balanced", size=10.5, color=TEAL, bold=True)
+for (x, y, v) in [(450, 50, 20), (400, 120, 10), (500, 120, 30)]:
+    f.circle(x, y, 18, fill=MINT, stroke=TEAL, label=str(v), size=11)
+f.line(450, 68, 408, 104, color=SLATE); f.line(450, 68, 492, 104, color=SLATE)
+f.text(450, 168, "all BF = 0, height 1", size=10, color=TEAL, bold=True)
+f.text(290, 215, "rotation costs O(1) and keeps the tree height near log2 n", size=10, color=SLATE, bold=True)
+```
+
+```svgfig label="7.3" caption="Huffman coding for six symbols with frequencies A 45, B 13, C 12, D 16, E 9, F 5 (total 100). The two smallest weights are merged repeatedly: F 5 + E 9 = 14; C 12 + B 13 = 25; 14 + D 16 = 30; 25 + 30 = 55; A 45 + 55 = 100. Reading 0 for a left branch and 1 for a right branch gives the prefix codes A 0, C 100, B 101, F 1100, E 1101, D 111. The average code length is 2.24 bits against 3 bits for fixed-length codes, so 100 symbols need 224 bits instead of 300, a saving of 25.3 per cent."
+f = Fig(580, 270)
+def nd(x, y, s, fl=BLUE, st=NAVY, r=19):
+    f.circle(x, y, r, fill=fl, stroke=st, label=s, size=9.5)
+nd(290, 24, "100")
+nd(150, 76, "A 45", fl=MINT, st=TEAL); nd(380, 76, "55")
+f.line(290, 43, 160, 60, color=SLATE); f.line(290, 43, 372, 58, color=SLATE)
+f.text(210, 44, "0", size=10, color=RED, bold=True); f.text(345, 44, "1", size=10, color=RED, bold=True)
+nd(300, 128, "25"); nd(460, 128, "30")
+f.line(380, 95, 308, 112, color=SLATE); f.line(380, 95, 452, 112, color=SLATE)
+nd(250, 182, "C 12", fl=MINT, st=TEAL); nd(350, 182, "B 13", fl=MINT, st=TEAL)
+f.line(300, 147, 256, 164, color=SLATE); f.line(300, 147, 344, 164, color=SLATE)
+nd(420, 182, "14"); nd(510, 182, "D 16", fl=MINT, st=TEAL)
+f.line(460, 147, 424, 164, color=SLATE); f.line(460, 147, 506, 164, color=SLATE)
+nd(390, 236, "F 5", fl=MINT, st=TEAL, r=17); nd(452, 236, "E 9", fl=MINT, st=TEAL, r=17)
+f.line(420, 201, 394, 220, color=SLATE); f.line(420, 201, 448, 220, color=SLATE)
+f.text(10, 148, "codes", size=11, color=NAVY, bold=True, anchor="start")
+for k, c in enumerate(["A   0", "C   100", "B   101", "D   111", "F   1100", "E   1101"]):
+    f.text(10, 170 + k * 15, c, size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(200, 255, "bits: 224 vs 300 fixed", size=10, color=RED, bold=True)
+```
+
+A tree is only fast when it is bushy. The banyan below is a living reminder that one trunk can spread into many branches, but a binary search tree can also grow into a single long branch if keys arrive in sorted order. The plate counts how bad that can get.
+
+```photogrid label="7.2" cols="2" ratio="1.3" caption="Shape decides speed. (a) A banyan tree: one root, many branches, and every leaf close to the trunk. (b) The same 127 keys inserted into a plain binary search tree in three different orders. Sorted input makes a chain of height 127, so one search can need 127 comparisons; a random order gave height 13; a perfectly balanced tree has only 7 levels (2^7 - 1 = 127). An AVL tree can never be worse than 9 levels for 127 keys, because the fewest nodes an AVL tree of height h can have are 1, 2, 4, 7, 12, 20, 33, 54, 88, 143 for h = 1 to 10. All heights are computed in the figure."
+@ photo id="bca203/banyan" cap="Banyan tree: one trunk, many branches"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Height of a BST holding 127 keys"
+import random
+def bst_height(keys):
+    root = None; hmax = 0
+    nodes = {}
+    for k in keys:
+        if not nodes: nodes[k] = [None, None, 1]; root = k; hmax = 1; continue
+        cur = root; d = 1
+        while True:
+            d += 1; side = 0 if k < cur else 1
+            nx = nodes[cur][side]
+            if nx is None: nodes[cur][side] = k; nodes[k] = [None, None, d]; break
+            cur = nx
+        hmax = max(hmax, d)
+    return hmax
+keys = list(range(1, 128))
+hs = bst_height(keys)
+rnd = keys[:]; random.Random(2081).shuffle(rnd)
+hr = bst_height(rnd)
+def balanced(lo, hi):
+    if lo > hi: return []
+    m = (lo + hi) // 2
+    return [m] + balanced(lo, m - 1) + balanced(m + 1, hi)
+hb = bst_height(balanced(1, 127))
+Nmin = [1, 2]
+while len(Nmin) < 10: Nmin.append(Nmin[-1] + Nmin[-2] + 1)
+havl = max(h for h in range(1, 11) if Nmin[h - 1] <= 127)
+assert (hs, hb, havl) == (127, 7, 9) and Nmin == [1, 2, 4, 7, 12, 20, 33, 54, 88, 143] and 7 <= hr <= 20
+print("random height", hr)
+bars = [("sorted input", hs, RED), ("random order", hr, AMBER), ("AVL worst case", havl, TEAL), ("perfectly balanced", hb, TEAL)]
+f = Fig(300, 214)
+f.text(150, 11, "levels (= worst-case comparisons), 127 keys", size=10, color=NAVY, bold=True)
+for i, (k, v, c) in enumerate(bars):
+    y = 26 + i * 36
+    f.text(6, y + 7, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    w = 180 * v / 127
+    f.box(6, y + 13, max(w, 2), 14, "", fill=c, stroke=c, r=2)
+    f.text(6 + max(w, 2) + 6, y + 21, str(v), size=10, color=c, bold=True, anchor="start")
+f.text(150, 188, "log2(127 + 1) = 7: that is why balancing matters", size=9.5, color=AMBER, bold=True)
+```
+
+### 7.8.1 Eight applications of trees
+
+1. **File systems.** Every operating system keeps files in a tree of folders with the root at the top. A path such as `C:/College/BCA/Notes` is a walk from the root to a node. Creating, deleting and searching folders are tree operations.
+2. **Organisation and hierarchy.** The structure of Tribhuvan University (the university, its faculties, campuses and departments) or of Nepal's government (federal, province, local level) is a tree. An organisation chart lets a program answer questions such as "who reports to whom" quickly. Each node has exactly one parent.
+3. **Web pages and documents.** A browser turns HTML into a tree called the DOM, with the page at the root and headings, paragraphs and images below. JavaScript changes the page by editing nodes of this tree. The same idea is used for XML and JSON documents.
+4. **Searching ordered data.** A binary search tree finds a key in about log2 n comparisons when balanced: 1,000,000 records need about 20 steps. AVL and B-trees keep the tree balanced, so the speed is guaranteed. Dictionaries and sets in many languages use them.
+5. **Database indexes.** B-trees and B+ trees, which are many-way trees, keep database indexes sorted on disk. A search in a table of millions of rows, such as the voter list, needs only three or four disk reads. Banks and DBMS products use them everywhere.
+6. **Data compression.** Huffman coding builds a binary tree whose leaves are symbols and gives frequent symbols short codes (Figure 7.3). It is a part of the ZIP and JPEG formats. Saving 25 per cent of the bits, as in the example, cuts storage and download cost.
+7. **Expression trees in compilers.** A compiler stores the expression `(8 + 2) * 3` as a tree with operators inside and operands at the leaves. Inorder gives the infix form, postorder gives postfix, and evaluating the tree gives the value. This links trees with the stack of Unit 2.
+8. **Game and decision trees.** A game tree lists the possible moves of both players, and the minimax rule chooses the best move. Chess, tic-tac-toe and many decision systems use it. Pruning branches that cannot matter makes the search fast enough to play.
+
 ## Formula and fact sheet
 
 - n nodes → n − 1 edges. Binary tree of height h: ≤ 2^(h+1) − 1 nodes. leaves = (nodes with 2 children) + 1.
@@ -343,3 +470,61 @@ MAX chooses 3; leaves examined = 7 of 9
 **9.** Sorted insertions give each node only a right child, so height = n − 1 and search is O(n). AVL rotations keep |BF| ≤ 1, so height stays O(log n).
 **10.** 2⁵ − 1 = **31**.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Define a binary search tree. Construct it from the keys 50, 30, 70, 20, 40, 60, 80 and write the three traversals. (5 marks)**
+
+A **binary tree** is a tree in which each node has at most two children, a left child and a right child. A **binary search tree (BST)** is a binary tree in which, for every node, all keys in the left subtree are smaller than the node's key and all keys in the right subtree are larger. (Duplicates are either refused or placed consistently to one side.)
+
+**Construction (Plate 7.1b).** Insert 50: it becomes the root. 30 < 50, so it goes left. 70 > 50, so it goes right. 20 < 50, < 30: left of 30. 40 < 50, > 30: right of 30. 60 > 50, < 70: left of 70. 80 > 50, > 70: right of 70. The result is a full tree of height 2 with 7 nodes.
+
+**Traversals (Figure 7.1).**
+- **Preorder** (root, left, right): 50, 30, 20, 40, 70, 60, 80.
+- **Inorder** (left, root, right): 20, 30, 40, 50, 60, 70, 80, which is sorted.
+- **Postorder** (left, right, root): 20, 40, 30, 60, 80, 70, 50.
+
+Search, insertion and deletion each take O(h) time where h is the height: O(log n) for a balanced tree but O(n) in the worst case, when keys arrive in sorted order and the tree becomes a chain.
+
+**Q2. What is an AVL tree? Explain the rotations used to keep it balanced with an example. (5 marks)**
+
+An **AVL tree** is a self-balancing binary search tree in which the **balance factor** of every node, `height(left) - height(right)`, is -1, 0 or +1. If an insertion or deletion makes some node's balance factor +2 or -2, the tree is repaired by **rotations**, which are O(1) local changes that preserve the inorder sequence. Because of this rule the height of an AVL tree with n nodes is at most about 1.44 log2 n, so search, insertion and deletion are all **O(log n)** in the worst case.
+
+**The four cases**
+1. **Left-left (LL):** the new key is inserted in the left subtree of the left child; fix with one **right rotation**.
+2. **Right-right (RR):** inserted in the right subtree of the right child; fix with one **left rotation**.
+3. **Left-right (LR):** inserted in the right subtree of the left child; fix with a left rotation on the child, then a right rotation on the node.
+4. **Right-left (RL):** inserted in the left subtree of the right child; fix with a right rotation on the child, then a left rotation on the node.
+
+**Example (Figure 7.2).** Inserting 10, 20, 30 gives a chain, and node 10 has balance factor -2 (right-right case). A left rotation at 10 makes 20 the root with children 10 and 30; every balance factor becomes 0 and the height falls from 2 to 1. The inorder order 10, 20, 30 does not change.
+
+**Q3. Explain the Huffman algorithm. Build the Huffman tree and codes for A 45, B 13, C 12, D 16, E 9, F 5 and calculate the saving. (10 marks)**
+
+**Introduction.** Huffman coding is a lossless compression method that gives short bit codes to frequent symbols and long codes to rare ones. It builds a binary tree bottom-up and is an example of the **greedy method**, because at each step it makes the locally best choice. The codes are **prefix codes**: no code is the beginning of another, so a stream of bits can be decoded without separators.
+
+**Algorithm.**
+1. Count the frequency of each symbol and create one leaf node for each.
+2. Put all nodes in a priority queue (a min-heap) ordered by weight.
+3. While more than one node remains: remove the two nodes of smallest weight, create a new internal node whose weight is their sum with these two as children, and insert it back.
+4. The remaining node is the root. Label every left edge 0 and every right edge 1.
+5. The code of a symbol is the sequence of labels on the path from the root to its leaf.
+
+**Worked example (Figure 7.3).** The merges are: F 5 + E 9 = 14; C 12 + B 13 = 25; 14 + D 16 = 30; 25 + 30 = 55; A 45 + 55 = 100. The codes are:
+
+| Symbol | Frequency | Code | Length | Frequency x length |
+|---|---|---|---|---|
+| A | 45 | 0 | 1 | 45 |
+| B | 13 | 101 | 3 | 39 |
+| C | 12 | 100 | 3 | 36 |
+| D | 16 | 111 | 3 | 48 |
+| E | 9 | 1101 | 4 | 36 |
+| F | 5 | 1100 | 4 | 20 |
+| **Total** | **100** | | | **224** |
+
+**Saving.** A fixed-length code for 6 symbols needs 3 bits each, so 100 symbols need 300 bits. Huffman needs 224 bits, an average of 2.24 bits per symbol. The saving is (300 - 224) / 300 = 25.3 per cent.
+
+**Decoding.** The bit stream `0 101 1100 0` is read from the root: `0` reaches leaf A; `101` reaches B; `1100` reaches F; `0` reaches A. The decoded text is A B F A. Since no code is a prefix of another, there is only one way to read the stream.
+
+**Complexity.** With a heap the algorithm takes O(n log n) for n distinct symbols. The tree is optimal: no other prefix code has a smaller average length.
+
+**Conclusion.** Huffman coding shows how a tree and a priority queue together solve a practical problem, and the same method works inside ZIP and JPEG files.

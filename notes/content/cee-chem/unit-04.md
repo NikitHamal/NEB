@@ -405,6 +405,59 @@ electronegative atom and a lone pair on another; HCl, with a large, less electro
 forms only dipole–dipole attractions.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Why salt forms. (a) Rock salt crystals are cubic, each ion surrounded by six of opposite charge. (b) In the Born-Haber cycle the formation enthalpy of NaCl, -411 kJ/mol, is the sum of sublimation of Na (+107), half the Cl2 bond enthalpy (+122), ionisation of Na (+496), electron gain of Cl (-349) and the lattice enthalpy. Solving gives a lattice enthalpy of -787 kJ/mol. Making the ions costs 376 kJ/mol of energy, and the lattice energy pays back more than 2.1 times that, which is why the compound is stable."
+@ photo id="chem11/halite-crystal" cap="A crystal of rock salt: a cubic lattice of Na+ and Cl- ions"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Born-Haber cycle for NaCl (kJ/mol)"
+hf = -411; sub = 107; bde = 122; ie = 496; ea = -349
+u = hf - (sub + bde + ie + ea); steps = [sub, bde, ie, ea, u]
+lev = [0]
+for s in steps: lev.append(lev[-1] + s)
+assert u == -787 and lev[-1] == hf and max(lev) == 725
+up = sub + bde + ie + ea
+facts = dict(hf=hf, ea=ea, u=u, up=up, ratio="%.1f" % (-u / up))
+f = Fig(300, 244)
+f.text(150, 14, "energy level of the species, kJ/mol", size=10.5, color=NAVY, bold=True)
+Y = lambda v: 40 + (725 - v) * 0.115
+names = ("Na sub", "Cl2 bond", "Na IE", "Cl EA", "lattice")
+for i, s in enumerate(steps):
+    x = 18 + i * 52; a, b = lev[i], lev[i + 1]
+    col, fl = (RED, ROSE) if s > 0 else (TEAL, MINT)
+    f.box(x, Y(max(a, b)), 40, abs(b - a) * 0.115, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(x + 20, Y(max(a, b)) - 8, "%+d" % s, size=10.5, color=col, bold=True)
+    f.text(x + 20, 190, names[i], size=9.5, color=SLATE)
+f.line(18, Y(0), 280, Y(0), color=SLATE, sw=1.0, dash=True)
+f.text(282, Y(0) - 4, "0", size=10.5, color=SLATE, anchor="end")
+f.line(18, Y(hf), 280, Y(hf), color=AMBER, sw=1.2, dash=True)
+f.text(282, Y(hf) + 12, "Hf = %d" % hf, size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(150, 208, "lattice enthalpy = %d kJ/mol" % u, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "ion formation costs +%d kJ/mol" % up, size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Hydrogen bonds hold water together. (a) A water strider walks on water because hydrogen bonding gives the surface a high tension of 72 mN/m at 25 degrees C. (b) The cell fits a straight line to the boiling points of H2S, H2Se and H2Te against molar mass and extends it to H2O. Without hydrogen bonds water, with a molar mass of 18, would boil near 200 K (-73 degrees C) and be a gas at room temperature. It actually boils at 373 K, higher by 173 K. The same hydrogen bonding explains the high surface tension, the low density of ice and the anomalies of HF and NH3."
+@ photo id="ceechem2/strider" cap="A water strider standing on water"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Boiling points of group 16 hydrides"
+import numpy as np
+M = np.array([34.08, 80.98, 129.62])
+T = np.array([212.8, 231.9, 271.2])
+k, b = np.polyfit(M, T, 1)
+pred = k * 18.015 + b
+actual = 373.15
+assert 195 < pred < 205
+f = Fig(300, 236)
+f.text(150, 12, "Boiling point of H2X, kelvin", size=10.5, color=NAVY, bold=True)
+rows = [("H2S", 212.8), ("H2Se", 231.9), ("H2Te", 271.2), ("H2O (trend)", pred), ("H2O (real)", actual)]
+hbars(f, rows, vmax=400, fmt="%.0f", x0=84, y0=28, bw=170, gap=28,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (BLUE, NAVY), (SOFT, SLATE), (ROSE, RED)])
+f.text(150, 188, "gap caused by hydrogen bonding: %.0f K" % (actual - pred), size=10.5, color=RED, bold=True)
+f.text(150, 206, "trend line through S, Se, Te predicts %.0f K" % pred, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "(about %.0f deg C) for water" % (pred - 273.15), size=10.5, color=SLATE, bold=True)
+facts = dict(pred=pred, pc=pred - 273.15, gap=actual - pred)
+```
+
 ## Formula and fact sheet
 
 | Item | Formula or fact |
@@ -596,3 +649,84 @@ NH₃ 1.47 D, NF₃ 0.23 D. Boiling points: H₂O 100 °C > HF 19.5 °C > NH₃ 
 **9.** (a) — Each H₂O has two H atoms and two lone pairs, so it can average two hydrogen bonds per molecule; HF has three lone pairs but only one H, so it averages one.
 **10.** (c) — Cl₂O about 111° > H₂O 104.5° > OF₂ 103° > H₂S 92°. Electronegative F pulls the bond pairs outward (smaller angle); the bulky Cl atoms push each other apart.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the VSEPR theory and the shapes of molecules, with hybridisation in BeCl₂, BF₃, CH₄, NH₃, H₂O, PCl₅ and SF₆. <span class="marks">[10]</span>
+2. Explain molecular orbital theory, the bond order of N₂, O₂ and the paramagnetism of O₂, and compare ionic, covalent and metallic bonds. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Bonding and structure. (a) A ball-and-stick model makes bond angles and molecular shape visible. (b) Rock salt, an ionic solid, is built from a lattice of Na+ and Cl- ions. (c) Graphite, diamond and fullerenes show how carbon bonding decides properties."
+@ photo id="ceechem/model-kit" cap="(a) Molecular model"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/halite-crystal" cap="(b) Ionic crystal (halite)"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/carbon-allotropes" cap="(c) Carbon allotropes"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: VSEPR theory and hybridisation (10 marks)
+
+**Introduction.** The **VSEPR theory** (Sidgwick-Powell, Gillespie-Nyholm) says that the shape of a molecule depends on the repulsion between the electron pairs in the valence shell of the central atom. The repulsion order is lone pair-lone pair > lone pair-bond pair > bond pair-bond pair.
+
+**Hybridisation.** The mixing of atomic orbitals of nearly equal energy to form the same number of equivalent hybrid orbitals. The type is found from the **steric number** (bond pairs + lone pairs).
+
+| Steric number | Hybridisation | Lone pairs | Shape | Bond angle | Example |
+|---|---|---|---|---|---|
+| 2 | sp | 0 | linear | $180^{\circ}$ | BeCl₂, CO₂ |
+| 3 | sp² | 0 | trigonal planar | $120^{\circ}$ | BF₃ |
+| 3 | sp² | 1 | bent | $<120^{\circ}$ | SO₂ |
+| 4 | sp³ | 0 | tetrahedral | $109.5^{\circ}$ | CH₄ |
+| 4 | sp³ | 1 | pyramidal | $107^{\circ}$ | NH₃ |
+| 4 | sp³ | 2 | bent | $104.5^{\circ}$ | H₂O |
+| 5 | sp³d | 0 | trigonal bipyramidal | $90^{\circ}$, $120^{\circ}$ | PCl₅ |
+| 5 | sp³d | 2 | T-shaped / linear | | ClF₃ / XeF₂ |
+| 6 | sp³d² | 0 | octahedral | $90^{\circ}$ | SF₆ |
+| 6 | sp³d² | 2 | square planar | $90^{\circ}$ | XeF₄ |
+
+**Explaining the angles.** In CH₄, NH₃ and H₂O the central atom is sp³ in all three, but lone pairs repel more than bond pairs, so the angle drops from $109.5^{\circ}$ to $107^{\circ}$ and $104.5^{\circ}$.
+
+**Sigma and pi bonds.** A **sigma ($\sigma$) bond** is formed by head-on overlap and a **pi ($\pi$) bond** by sideways overlap of $p$ orbitals. A double bond is $1\sigma + 1\pi$ and a triple bond is $1\sigma + 2\pi$. Ethene C₂H₄ has $5\sigma + 1\pi$ and sp² carbons, ethyne C₂H₂ has $3\sigma + 2\pi$ and sp carbons.
+
+**Counting.** The steric number $= \tfrac12(V + M - C + A)$, where $V$ is the valence electrons of the central atom, $M$ the monovalent atoms, $C$ the cationic charge and $A$ the anionic charge. For NH₄⁺: $\tfrac12(5 + 4 - 1) = 4$, sp³, tetrahedral. For SF₄: $\tfrac12(6 + 4) = 5$, sp³d, seesaw. For XeF₄: $\tfrac12(8 + 4) = 6$, sp³d², square planar.
+
+**Conclusion.** The steric number gives the hybridisation and the arrangement of electron pairs, and the lone pairs squeeze the angles below the ideal values.
+
+### Model answer D2: molecular orbital theory and types of bond (10 marks)
+
+**Introduction.** In **MO theory**, atomic orbitals combine to form molecular orbitals: a lower-energy **bonding** MO ($\sigma$, $\pi$) and a higher-energy **antibonding** MO ($\sigma^*$, $\pi^*$). The number of MOs equals the number of AOs combined.
+
+**Rules.** Fill by the Aufbau, Pauli and Hund rules. **Bond order** $= \tfrac12(N_b - N_a)$. A bond order greater than $0$ means the molecule is stable. A higher bond order means a shorter, stronger bond.
+
+**Energy order.**
+
+1. For O₂, F₂ and Ne₂: $\sigma_{1s} < \sigma^*_{1s} < \sigma_{2s} < \sigma^*_{2s} < \sigma_{2p_z} < \pi_{2p_x} = \pi_{2p_y} < \pi^*_{2p_x} = \pi^*_{2p_y} < \sigma^*_{2p_z}$.
+2. For B₂, C₂ and N₂ and lighter, the $\pi_{2p}$ levels lie below $\sigma_{2p_z}$ (s-p mixing).
+
+| Species | Valence electrons | Bond order | Magnetism |
+|---|---|---|---|
+| N₂ | 10 | 3 | diamagnetic |
+| O₂ | 12 | 2 | paramagnetic (two unpaired electrons in $\pi^*$) |
+| O₂⁺ | 11 | 2.5 | paramagnetic |
+| O₂⁻ (superoxide) | 13 | 1.5 | paramagnetic |
+| O₂²⁻ (peroxide) | 14 | 1 | diamagnetic |
+| He₂ | 4 | 0 | does not exist |
+
+The order of bond length is O₂⁺ < O₂ < O₂⁻ < O₂²⁻. The paramagnetism of liquid oxygen, which sticks to a magnet, is explained by MO theory and not by Lewis structures.
+
+**Types of bond.**
+
+| Feature | Ionic | Covalent | Metallic |
+|---|---|---|---|
+| Formation | transfer of electrons | sharing of electrons | sea of delocalised electrons |
+| Melting point | high | low (molecular) | variable, usually high |
+| Conductivity | molten or dissolved | poor | good |
+| Example | NaCl | CH₄ | Cu |
+
+Ionic compounds form easily with a large electronegativity difference, low ionisation enthalpy, high electron gain enthalpy and high lattice enthalpy. By Fajans' rules, a small cation, a large anion and a high charge increase covalent character (AgCl is more covalent than NaCl).
+
+**Numerical.** For O₂ the valence MO occupancy is $\sigma_{2s}^2\sigma_{2s}^{*2}\sigma_{2p}^2\pi_{2p}^4\pi_{2p}^{*2}$, so $N_b = 8$, $N_a = 4$ and the bond order is $\tfrac12(8 - 4) = 2$. For N₂, $N_b = 8$, $N_a = 2$ and the bond order is $3$.
+
+**Conclusion.** MO theory predicts bond order and magnetism correctly, and the bond type of any compound depends on electronegativity difference and polarisation.

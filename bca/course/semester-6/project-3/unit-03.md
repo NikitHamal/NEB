@@ -228,6 +228,55 @@ Two safeguards make the advice safe. **Rain override:** if the weather node or f
 7. **Evidence for funding.** A seven-day chart with before and after figures is a stronger proposal to a ward office or an NGO than a promise. Clean data with a stated missing percentage makes the evidence credible.
 8. **Teaching and research.** Stored, cleaned data can be shared (without personal details) with the college agriculture department for study. A documented cleaning method lets others repeat and trust the analysis.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Forecasting needs a fair test. (a) A rain gauge records one number a day, and a few months of such numbers are all a farmer has to forecast tomorrow. (b) A synthetic soil-moisture series with a slow 60-day wetting and drying cycle plus noise of 2.5 points (fixed seed) was split in two: the first 60 days chose the smoothing constant (a = 0.5), and the last 60 days, never seen during the choice, were used to score three forecasts by mean absolute error. Copying yesterday gives 2.83 points of error, a 7-day average 2.54 and exponential smoothing 2.5; the best method here is smoothing a=0.50. The series is simulated, so the ranking is a lesson in method, not a claim about real fields: with real KhetSense data the same split must be repeated, and a method that wins only on the data it was tuned on has proved nothing."
+@ photo id="bcapj/raingauge" cap="A rain gauge: the daily measurement series begins here"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Three forecasts on 60 unseen days"
+import numpy as np
+rng = np.random.default_rng(2081)
+n = 120
+t = np.arange(n)
+y = 30 + 5 * np.sin(2 * np.pi * t / 60) + rng.normal(0, 2.5, n)
+def ses(a, alpha):
+    s = a[0]
+    out = [s]
+    for v in a[:-1]:
+        s = alpha * v + (1 - alpha) * s
+        out.append(s)
+    return np.array(out)
+mae = lambda p, a: float(np.mean(np.abs(p - a)))
+alphas = [i / 20 for i in range(1, 20)]
+best_a = min(alphas, key=lambda a: mae(ses(y[:60], a)[1:], y[1:60]))
+tr, te = slice(60, n), y[60:]
+naive = y[59:n - 1]
+ma7 = np.array([y[i - 7:i].mean() for i in range(60, n)])
+sm = ses(y, best_a)[60:]
+e = {"naive": mae(naive, te), "7-day mean": mae(ma7, te), "smoothing a=%.2f" % best_a: mae(sm, te)}
+best = min(e, key=e.get)
+assert best.startswith('smoothing')
+facts = dict(best=best, e1=round(e["naive"], 2), e2=round(e["7-day mean"], 2), e3=round(list(e.values())[2], 2), a=best_a)
+f = Fig(300, 236)
+f.text(150, 12, "next-day moisture, mean absolute error", size=10.5, color=NAVY, bold=True)
+x0, y0, W, H = 10, 90, 280, 60
+for i in range(60, n):
+    pass
+sc = lambda v: y0 - (v - 20) / 20 * H
+for i in range(61, n):
+    X0, X1 = x0 + (i - 61) / 59 * W, x0 + (i - 60) / 59 * W
+    f.line(X0, sc(y[i - 1]), X1, sc(y[i]), color=NAVY, sw=1.6)
+    f.line(X0, sc(naive[i - 61]), X1, sc(naive[i - 60]), color=RED, sw=0.9)
+f.text(150, 106, "blue actual, red naive (copy yesterday)", size=10.5, color=SLATE)
+vals = list(e.items())
+mx = max(e.values())
+for i, (k, v) in enumerate(vals):
+    yy = 122 + i * 32
+    f.text(8, yy + 10, k, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(112, yy, v / mx * 130, 22, "", fill="#bbf7d0" if k == best else "#fde68a", stroke=SLATE, r=3, sw=1)
+    f.text(118 + v / mx * 130, yy + 11, "%.2f" % v, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 232, "winner: %s" % best, size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Primary key (node, id) makes retried inserts harmless; CHECK constraints refuse impossible values.

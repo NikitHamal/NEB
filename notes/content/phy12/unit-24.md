@@ -450,6 +450,28 @@ $1/r^{2}$), and use **shielding** — lead aprons, thick concrete walls, remote
 handling tongs. Workers wear film badges or thermoluminescent dosimeters, and
 radioactive waste is sealed in lead-lined containers.
 
+```photogrid label="24.P" cols="2" ratio="1.2" caption="A radioactive source that lasts a lifetime. (a) Inside an ionisation smoke detector a tiny disc of americium-241 emits alpha particles that ionise the air between two plates and let a small current flow; smoke reduces the current and sets off the alarm. (b) The decay law N = N0 exp(-lambda t) with a half-life of 432.2 years gives the fraction left: 96.8 per cent after 20 years, 85.2 per cent after 100 years and 20.1 per cent after 1000 years. A source of 1 microcurie, 37 kBq, holds only 7.3e+14 atoms, a mass of 0.29 microgram, because the half-life is so long that few decays per second come from a lot of atoms. The long half-life is why the detector works for years without any change."
+@ photo id="phy12b/smoke" cap="Inside a smoke detector: the americium-241 source behind its warning label"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of the americium-241 source"
+import math
+T = 432.2
+rows = [("%d y" % t, math.exp(-math.log(2) * t / T) * 100) for t in (20, 100, 432, 1000)]
+assert round(rows[0][1], 1) == 96.8 and round(rows[1][1], 1) == 85.2 and round(rows[3][1], 1) == 20.1
+A = 37000.0
+N = A * T * 3.156e7 / math.log(2)
+mass = N * 241 / 6.022e23 * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Americium-241 left after t, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=105, fmt="%.1f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "N = N0 exp(-lambda t), half-life 432.2 y", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "source of 1 microcurie = 37 kBq", size=10, color=SLATE, bold=True)
+f.text(150, 198, "contains %.1e atoms" % N, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "a mass of only %.2f microgram" % mass, size=10.5, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[3][1], N=N, m=mass)
+```
+
 ## Chapter summary
 
 - Binding energy per nucleon peaks near $A \approx 56$ at about 8.8 MeV; nuclei
@@ -548,3 +570,48 @@ $$ A = \lambda N = (2.41\times10^{-5})(1.25\times10^{19})
 
 (equivalently $A = A_0/8$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and derive the law of radioactive decay. Define half-life and decay constant, and relate them with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the law of radioactive decay (10 marks)
+
+**Introduction.** **Radioactivity** is the spontaneous emission of radiation ($\alpha$, $\beta$ or $\gamma$) from an unstable nucleus. It is a random process: we cannot say when a particular nucleus will decay, but for a large number of nuclei the rate is predictable.
+
+**Law of radioactive decay.** The number of nuclei that decay per second (the activity) is directly proportional to the number of undecayed nuclei present at that moment.
+
+**Derivation.** Let $N$ be the number of undecayed nuclei at time $t$. In a short time $dt$ the number that decay is $-dN$, and
+
+$$ -\frac{dN}{dt} = \lambda N $$
+
+where $\lambda$ is the **decay constant**. Separating the variables and integrating from $N_0$ at $t = 0$ to $N$ at $t$:
+
+$$ \int_{N_0}^{N}\frac{dN}{N} = -\lambda\int_{0}^{t}dt \ \Rightarrow\ \ln\frac{N}{N_0} = -\lambda t $$
+
+$$ N = N_0 e^{-\lambda t} $$
+
+The number of nuclei falls **exponentially** with time.
+
+**Decay constant.** $\lambda$ is the probability of decay of one nucleus per unit time; its unit is $\text{s}^{-1}$. Also $\lambda = 1/\tau$, where $\tau$ is the mean life.
+
+**Half-life.** The **half-life** $T_{1/2}$ is the time in which half of the nuclei decay. Putting $N = N_0/2$:
+
+$$ \frac{1}{2} = e^{-\lambda T_{1/2}} \ \Rightarrow\ T_{1/2} = \frac{\ln 2}{\lambda} = \frac{0.693}{\lambda} $$
+
+After $n$ half-lives, $N = N_0/2^{n}$.
+
+**Activity.** $A = \lambda N = A_0 e^{-\lambda t}$, measured in becquerel (Bq, one decay per second).
+
+| Quantity | Symbol | Relation |
+|---|---|---|
+| Decay constant | $\lambda$ | $0.693/T_{1/2}$ |
+| Half-life | $T_{1/2}$ | $0.693/\lambda$ |
+| Mean life | $\tau$ | $1/\lambda = 1.44\,T_{1/2}$ |
+| Activity | $A$ | $\lambda N$ |
+
+**Numerical.** Iodine-131 used in thyroid treatment has $T_{1/2} = 8.0\ \text{days}$. A sample has $N_0 = 1.0 \times 10^{20}$ nuclei. Then $\lambda = 0.693/(8 \times 86400) = 1.0 \times 10^{-6}\ \text{s}^{-1}$, so the initial activity is $A_0 = \lambda N_0 = 1.0 \times 10^{14}\ \text{Bq}$. After $24$ days (3 half-lives) $N = N_0/8 = 1.25 \times 10^{19}$, and the activity is $1.25 \times 10^{13}\ \text{Bq}$.
+
+**Applications.** Radioactive dating (carbon-14), medical tracers and treatment, and sterilisation of instruments.
+
+**Conclusion.** Radioactive decay is exponential; the half-life is constant for a given nuclide and gives a time scale for dating and for the safe storage of radioactive waste.

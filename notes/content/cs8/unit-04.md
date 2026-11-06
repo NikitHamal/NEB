@@ -191,6 +191,13 @@ Digital computers are also grouped by their **size, speed, storage, cost and
 number of users**. From biggest to smallest they are supercomputers,
 mainframes, minicomputers and microcomputers.
 
+```photogrid label="4.S" cols="4" ratio="1.25" caption="The four sizes of digital computer. (a) A supercomputer, Frontier, fills a hall and runs thousands of processors for weather and science. (b) A mainframe, the IBM z15, serves thousands of users at a bank or airline. (c) A minicomputer, the DEC PDP-11, once served one department or laboratory. (d) A microcomputer used as a workstation, the size of a desk, serves one person. Going from (a) to (d) the speed, size, cost and number of users all go down."
+@ photo id="cs8/type-frontier" cap="(a) Supercomputer"
+@ photo id="cs8/type-mainframe" cap="(b) Mainframe"
+@ photo id="bca102/pdp11" cap="(c) Minicomputer"
+@ photo id="cs8/type-workstation" cap="(d) Microcomputer"
+```
+
 ### Supercomputer
 
 ::: definition Supercomputer
@@ -642,3 +649,57 @@ cheap and reliable. (d) A **workstation** or a **supercomputer/server
 cluster**, depending on size: analysing thousands of scans needs very high
 processing power and parallel processing.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Classify computers by size. Explain each type with its uses and examples. <span class="marks">[10]</span>
+2. Classify computers by working principle and by purpose. Differentiate analog, digital and hybrid computers. <span class="marks">[10]</span>
+
+### Model answer D1: classification by size (10 marks)
+
+**Introduction.** Digital computers are grouped by size, speed, storage, cost and number of users into **supercomputers, mainframes, minicomputers and microcomputers** (Plate 4.S).
+
+1. **Supercomputer:** the fastest and most costly, built from thousands of processors working together. Uses: weather forecasting, space research, earthquake study, nuclear simulations and AI training. Examples: Frontier (USA), Fugaku (Japan), PARAM (India).
+2. **Mainframe:** a large, powerful computer that serves thousands of users at the same time and handles huge amounts of data. Uses: banks, airlines, insurance companies, government records. Example: IBM z15.
+3. **Minicomputer:** medium-sized, less costly than a mainframe, shared by tens of users, used by a department of a company or a laboratory. Examples: DEC PDP-11, IBM AS/400.
+4. **Microcomputer:** small and cheap, built around a microprocessor, used by one person. It has five forms: **desktop, laptop, tablet, smartphone and workstation**. Examples: IBM PC, a laptop, a phone.
+
+| Point | Super | Mainframe | Mini | Micro |
+|---|---|---|---|---|
+| Speed | Highest | Very high | High | Moderate |
+| Size | Hall | Room | Cabinet | Desk or pocket |
+| Users | A few at a time on huge tasks | Thousands | Tens | One |
+| Cost | Highest | Very high | Medium | Low |
+| Example | Frontier | IBM z15 | PDP-11 | Laptop |
+
+**Conclusion.** The bigger the computer, the faster and more costly it is and the more users it serves; the microcomputer is the one we use daily.
+
+### Model answer D2: classification by principle and by purpose (10 marks)
+
+**By working principle.**
+
+1. **Analog computer:** works on continuously changing physical quantities such as temperature, speed or pressure, and gives results as readings on a scale. Examples: a clinical thermometer, a speedometer, a petrol-pump meter. It is fast but not very accurate.
+2. **Digital computer:** works on discrete values, the digits 0 and 1 (binary), and gives results as numbers. It is accurate and general-purpose. Examples: desktop, laptop, smartphone.
+3. **Hybrid computer:** combines both. It measures a quantity in analog form, converts it into digital for processing and shows the result. Examples: the ECG machine in a hospital, a petrol pump, a CT scanner.
+
+| Point | Analog | Digital | Hybrid |
+|---|---|---|---|
+| Data | Continuous | Discrete (0, 1) | Both |
+| Accuracy | Less | High | High |
+| Storage | Little | Large | Large |
+| Use | Measurement | General | Hospitals, industry |
+| Example | Thermometer | Laptop | ECG machine |
+
+**By purpose.**
+
+1. **General-purpose computers** can do many different jobs when given different programs, such as the PC, laptop and phone.
+2. **Special-purpose computers** are built for one task, and the program is fixed inside, such as the computer of a washing machine, an ATM, a traffic light or a calculator. They do their job quickly and cheaply but cannot do anything else.
+
+| Point | General purpose | Special purpose |
+|---|---|---|
+| Jobs | Many | One |
+| Program | Can be changed | Fixed |
+| Cost | Higher | Lower |
+| Example | Laptop | Digital watch |
+
+**Conclusion.** Analog computers measure, digital computers calculate and hybrid computers do both, while the purpose decides whether the machine is general or special.

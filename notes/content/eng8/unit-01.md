@@ -389,3 +389,90 @@ faithfully, Students of Grade 8.
 **6.** Marks for: an opening sentence (what the timetable is for), every day in
 order, times and subjects stated correctly, linking words, present simple.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a formal request letter to your headteacher asking for a school tour to the Central Zoo. <span class="marks">[10]</span>
+2. Explain the modal verbs *can, could* and *would* and the present simple tense with examples. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.0" caption="Central Zoo, Jawalakhel. An elephant, a Royal Bengal tiger, a white-rumped vulture and students outside a village classroom: animals a school tour to the zoo can show and the learners who plan it."
+@ photo id="eng8/central-zoo" cap="Elephant, Central Zoo"
+@ photo id="eng8/bengal-tiger" cap="Bengal tiger"
+@ photo id="eng8/vulture-nepal" cap="White-rumped vulture"
+@ photo id="eng8/classroom-sankhu" cap="Students, Sankhu"
+```
+
+### Model answer D1: a formal request letter (10 marks)
+
+**Introduction.** A **formal request letter** is written to a person in authority, such as a headteacher. It uses polite language, a clear subject line and a fixed layout. The writer must give the reason for the request, the details, and thanks.
+
+**Model letter.**
+
+::: example Model text
+Shree Janajyoti Secondary School, Gorkha  
+12 Baisakh 2082
+
+The Headteacher  
+Shree Janajyoti Secondary School, Gorkha
+
+**Subject: Request for a school tour to the Central Zoo**
+
+Respected Sir/Madam,
+
+We, the students of grade 8, thank you for the new science laboratory this year. We are now studying the chapter on wild animals, and we would like to see them with our own eyes. So we kindly request you to arrange a one-day tour to the Central Zoo, Jawalakhel, on a Friday in Jestha. We would travel by school bus, and every student would pay Rs. 300 for the ticket and lunch. Our class teacher, Mrs. Karki, has agreed to lead the group. We would be grateful if you could give us permission and a bus.
+
+Yours faithfully,  
+Grade 8 students
+:::
+
+**How the letter is built (the points an examiner looks for).**
+
+1. **Sender's address and date** at the top right (or left).
+2. **Receiver's name and address** below the date.
+3. **Subject line** that tells the purpose in one short phrase.
+4. **Salutation:** *Respected Sir/Madam,* with a comma.
+5. **Opening:** a polite thank-you or a friendly sentence.
+6. **Body:** the problem or need, then the request with *would* or *could*.
+7. **Closing:** *Yours faithfully* for an unknown or formal reader, then the name.
+8. **Language:** polite modals, no short forms, no slang.
+
+| Part | Weak writing | Good writing |
+|---|---|---|
+| Request | Give us a bus. | We would be grateful if you could arrange a bus. |
+| Reason | We want to go. | We are studying wild animals this term. |
+| Ending | Bye | Yours faithfully |
+
+**Conclusion.** A good letter is short, polite and complete: layout 3 marks, content 4 marks, language 3 marks.
+
+### Model answer D2: modal verbs and the present simple (10 marks)
+
+**Introduction.** A **modal verb** is a helping verb such as *can, could* and *would*. It comes before the base verb and never takes *-s*. The **present simple** tells about habits, facts and timetables.
+
+**Uses of the modal verbs.**
+
+1. **can** = present ability: *Raima can read a timetable.*
+2. **can** = informal request: *Can you open the door?*
+3. **could** = past ability: *I could swim when I was six.*
+4. **could** = polite request: *Could you tell me the time?*
+5. **would** = very polite request: *Would you help me, please?*
+6. **would** = imagined result: *I would buy a book if I had Rs. 500.*
+7. **would rather** = preference: *I would rather stay at home.*
+8. **Question form:** the modal goes first: *Can she sing?*
+
+**The present simple (rules).**
+
+1. Use it for a **habit**: *She walks to school.*
+2. Use it for a **fact**: *Water boils at 100 °C.*
+3. Use it for a **timetable**: *The tour starts at 9 a.m.*
+4. With *he/she/it* add **-s/-es**; *study* becomes *studies*.
+5. Negative and question use **do/does + base verb**: *He doesn't eat meat. Does he eat meat?*
+
+| Form | I / you / we / they | He / she / it |
+|---|---|---|
+| Positive | play | plays |
+| Negative | do not play | does not play |
+| Question | Do ... play? | Does ... play? |
+
+**Conclusion.** Remember that after a modal and after *does* the verb stays in its base form.

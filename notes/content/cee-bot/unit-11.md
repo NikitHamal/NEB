@@ -98,6 +98,33 @@ low DPD → high DPD, i.e. **A → B**. In potentials: Ψw(A) = −12 + 5 = **�
 two vocabularies are one physics with opposite sign conventions — which is
 exactly what the paper tests.
 :::
+```photogrid label="11.1" cols="2" ratio="1.2" caption="How a cell decides whether water enters or leaves. (a) Red onion epidermal cells in a strong solution: the purple vacuole shrinks and the membrane pulls away from the wall (plasmolysis). (b) The water potential of a cell is its solute potential plus its pressure potential. A cell with solute potential -0.90 MPa and pressure potential +0.40 MPa has a water potential of -0.50 MPa. A 0.3 M sucrose solution has -iCRT = -0.74 MPa at 25 degrees C, which is lower, so water leaves the cell and the cell loses turgor. Incipient plasmolysis happens when the outside solution equals the cell solute potential, at about 0.36 M sucrose."
+@ photo id="ceebot/plasmolysis" cap="Plasmolysis in red onion epidermal cells"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Water potential of a turgid cell and of 0.3 M sucrose (MPa)"
+R, T = 0.008314, 298.15
+ps_sol = -1 * 0.3 * R * T
+ps_cell, pp_cell = -0.90, 0.40
+pc = ps_cell + pp_cell
+cinc = -ps_cell / (R * T)
+assert abs(ps_sol + 0.7437) < 1e-3 and abs(pc + 0.50) < 1e-9 and abs(cinc - 0.363) < 1e-3 and ps_sol < pc
+facts = dict(ps="%.2f" % abs(ps_sol), pc="%.2f" % pc, cinc="%.2f" % cinc)
+f = Fig(300, 236)
+f.text(150, 12, "Bars left of zero are negative", size=10.5, color=NAVY, bold=True)
+rows = (("cell: solute potential", ps_cell, RED, ROSE), ("cell: pressure potential", pp_cell, TEAL, MINT), ("cell: water potential", pc, NAVY, BLUE), ("0.3 M sucrose: water potential", ps_sol, AMBER, SAND))
+x0, sc = 160, 130
+f.line(x0, 24, x0, 186, color=SLATE)
+for i, (lab, v, c, fl) in enumerate(rows):
+    y = 28 + i * 39
+    f.text(8, y + 2, lab, size=10.5, color=SLATE, anchor="start")
+    w = abs(v) * sc
+    f.box(x0 - w if v < 0 else x0, y + 10, w, 16, fill=fl, stroke=c, r=2)
+    f.text(x0 - w - 5 if v < 0 else x0 + w + 5, y + 18, "%+.2f" % v, size=10.5, color=c, bold=True, anchor="end" if v < 0 else "start", vmid=True)
+f.text(150, 208, "-0.74 is below -0.50: water moves out", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "incipient plasmolysis near %s M" % facts["cinc"], size=10.5, color=SLATE, bold=True)
+```
+
 ## 11.2 Osmotic pressure and potential, water potential, wall pressure and turgor pressure
 
 The **water potential** Ψw is the free energy of water per unit volume,
@@ -333,6 +360,30 @@ alive.
 **Solution.** For Cell A, $\Psi_w = -\text{OP} + \text{TP} = -14 + 8 = -6\text{ atm}$ ($\text{DPD} = 6\text{ atm}$). For Cell B, $\Psi_w = -12 + 3 = -9\text{ atm}$ ($\text{DPD} = 9\text{ atm}$). Water moves from higher (less negative) $\Psi_w$ to lower $\Psi_w$ (lower DPD to higher DPD): **from Cell A to Cell B**.
 :::
 
+```photogrid label="11.2" cols="2" ratio="1.2" caption="Lifting water 100 m. (a) A coast redwood, one of the tallest trees, lifts water from soil to leaves about 100 m up. (b) Capillary rise h = 2 T cos(theta)/(rho g r) is only 1.48 m in a xylem vessel of radius 10 micrometres (T = 0.0728 N/m, rho = 1,000 kg/m3), so it cannot be the main cause. Gravity alone needs a tension of 0.00981 MPa per metre, 0.98 MPa at 100 m; with an equal friction loss in the narrow xylem the leaf end must pull with 1.96 MPa. Transpiration provides that suction and the cohesion of water molecules transmits it, the cohesion-tension theory."
+@ photo id="ceebot/redwood" cap="Coast redwoods"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="Tension in the xylem against height (gravity and friction)"
+rho, g, Tn = 1000.0, 9.81, 0.0728
+cap = lambda r: 2 * Tn / (rho * g * r)
+grav = rho * g / 1e6
+assert abs(cap(10e-6) - 1.484) < 0.001 and abs(grav - 0.00981) < 1e-9
+facts = dict(h10="%.2f" % cap(10e-6), g100="%.2f" % (grav * 100), t100="%.2f" % (2 * grav * 100))
+f = Fig(300, 236)
+f.text(150, 12, "Tension (MPa) against height (m)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 120), (0, 2.4))
+ax.grid(30, 0.6).axes("m", "MPa")
+ax.curve(lambda h: grav * h, 0, 120, color=AMBER, dash=True)
+ax.curve(lambda h: 2 * grav * h, 0, 120, color=RED)
+ax.pt(100, 2 * grav * 100, "1.96", dx=-6, dy=-10, anchor="end")
+ax.pt(100, grav * 100, "0.98", dx=0, dy=18, anchor="middle", color=AMBER)
+f.text(52, 50, "red: gravity + friction", size=10.5, color=RED, bold=True, anchor="start")
+f.text(52, 64, "amber: gravity only", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 206, "capillary rise in 10 um vessel: 1.48 m only", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "100 m needs about 1.96 MPa suction", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 - **Water moves high Ψw → low Ψw.** Pure water Ψw = 0; cells and solutions negative. 1 MPa = 10 bar ≈ 9.87 atm.
@@ -512,3 +563,77 @@ alive.
 **7.** (b) — Exosmosis into the hypertonic mount has plasmolysed them; water would deplasmolyse living cells.
 **8.** (a) — Ψg rises 0.01 MPa per metre: $30 \times 0.01 = 0.3$ MPa (friction costs extra on top).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain water potential, osmosis and the absorption of water by roots with the apoplast and symplast pathways. <span class="marks">[10]</span>
+2. Describe transpiration, the mechanism of stomatal opening, the ascent of sap and the translocation of food. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="2" ratio="1.4" caption="Water in plants. (a) Plasmolysis in a strong solution shows how water leaves a cell by osmosis when the outside water potential is lower. (b) A very tall tree lifts water over 100 m, which is explained by the cohesion-tension theory."
+@ photo id="ceebot/plasmolysis" cap="(a) Plasmolysed cells"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/redwood" cap="(b) Ascent of sap in tall trees"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: water potential, osmosis and absorption (10 marks)
+
+**Introduction.** Water moves into, through and out of plants by physical processes. Its tendency to move is measured as **water potential** $\Psi_w$ (in pascal or MPa), which is $0$ for pure water at standard pressure.
+
+**Components.** $\Psi_w = \Psi_s + \Psi_p$, where $\Psi_s$ is the **solute (osmotic) potential** (always negative) and $\Psi_p$ the **pressure potential** (positive in a turgid cell). Water moves from a region of **higher** to **lower** water potential.
+
+**Osmosis.** The diffusion of water across a selectively permeable membrane.
+
+| Condition | Effect on a cell |
+|---|---|
+| In **hypotonic** solution (higher $\Psi_w$ outside) | **endosmosis**; the cell becomes turgid |
+| In **hypertonic** solution | **exosmosis**; the protoplast shrinks, which is **plasmolysis** |
+| In **isotonic** solution | no net movement |
+
+At full turgor, $\Psi_p = -\Psi_s$, so $\Psi_w = 0$. **Turgor pressure** gives rigidity to young plants. Imbibition (swelling of seeds and wood) is the absorption of water by hydrophilic colloids such as cellulose and proteins.
+
+**Absorption by roots.** The **root hairs** greatly increase the surface and absorb water mainly by osmosis from the soil solution. The water crosses the cortex by two pathways:
+
+1. **Apoplast:** through the cell walls and spaces, with no crossing of membranes. It is blocked at the **endodermis** by the **Casparian strip** (suberin).
+2. **Symplast:** through the cytoplasm via **plasmodesmata**, and so the water must pass through the cell membranes at the endodermis, which controls what enters the xylem.
+
+**Active absorption** (the root cells use energy) produces **root pressure**, shown by guttation and bleeding. **Passive absorption** (about $98\%$) results from the pull of transpiration.
+
+**Mycorrhiza** (fungal association) helps absorb phosphate and water.
+
+**Numerical.** Cell A has $\Psi_s = -1.0$ and $\Psi_p = 0.4$, so $\Psi_w = -0.6\ \text{MPa}$. Cell B has $\Psi_w = -0.9\ \text{MPa}$. Water flows from A to B since A has the higher potential. In a plasmolysed cell $\Psi_p = 0$, so $\Psi_w = \Psi_s$.
+
+**Conclusion.** Water enters the root along a gradient of water potential, and the endodermis forces it through the cell membranes.
+
+### Model answer D2: transpiration, ascent of sap and translocation (10 marks)
+
+**Introduction.** **Transpiration** is the loss of water as vapour from the aerial parts, mainly through the **stomata** ($90\%$), the cuticle ($5\%$) and lenticels. A single maize plant loses about $2$ litres a day, and about $98\%$ of the absorbed water is lost.
+
+**Value.** It is a "necessary evil": it pulls water and minerals up, cools the leaf and keeps cells turgid, but it can wilt the plant.
+
+**Factors.** Light, temperature, low humidity and wind increase it. Water supply and leaf structure (thick cuticle, sunken stomata, few stomata) affect it. **Antitranspirants** (such as aspirin and kaolin) reduce it.
+
+**Stomatal mechanism (active $\text{K}^+$ theory).** In light, the guard cells take up $\text{K}^+$ ions by a proton pump (using ATP from the light reaction), and malate forms. The $\Psi_s$ becomes more negative, water enters and the guard cells become turgid and bow outwards, so the **stoma opens**. In the dark or under stress, **abscisic acid (ABA)** causes $\text{K}^+$ to leave, so the stoma closes. Guard cells have thicker inner walls, so they curve.
+
+**Ascent of sap (cohesion-tension theory, Dixon and Joly).**
+
+1. Evaporation from the leaf mesophyll creates a **tension** (negative pressure) in the xylem.
+2. Water molecules cling together by **cohesion** (hydrogen bonds), and to the xylem walls by **adhesion**.
+3. A continuous water column in the narrow vessels is pulled up from the root to the leaf. The column holds, and the tension can be as great as $-1$ to $-3\ \text{MPa}$.
+
+Root pressure is only $0.1$ to $0.2\ \text{MPa}$ and is not enough for tall trees.
+
+**Translocation of food (Münch's pressure-flow hypothesis).** Sugar is loaded into the sieve tubes at the **source** (leaf), which lowers $\Psi_s$, so water enters from the xylem and a high turgor pressure forms. The sap flows to the **sink** (root, fruit), where the sugar is unloaded and the water returns. It is bidirectional (in different sieve tubes) and needs living cells.
+
+| Feature | Xylem transport | Phloem transport |
+|---|---|---|
+| Substance | water and minerals | sucrose and amino acids |
+| Direction | upward | up and down |
+| Cells | dead | living |
+| Force | transpiration pull | pressure flow |
+
+**Numerical.** A leaf with $200$ stomata per $\text{mm}^2$ and a leaf area of $50\ \text{cm}^2$ ($5000\ \text{mm}^2$) has $10^6$ stomata. If a plant lost $450\ \text{g}$ of water to make $1\ \text{g}$ of dry matter, a crop of $10\ \text{t}$ of dry matter would transpire $4500\ \text{t}$ of water.
+
+**Conclusion.** Transpiration pull and cohesion lift the sap in the xylem, while pressure flow moves food through the phloem.

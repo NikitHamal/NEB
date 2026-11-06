@@ -521,3 +521,74 @@ presentation in class.
 **2.** **Title:** Study of plant and animal cells. **Objective:** to observe and draw an onion-peel cell and a human cheek cell. **Materials:** onion, clean toothpick, slides, cover slips, iodine or methylene blue, water, forceps, needle, microscope. **Steps:** (i) Peel a thin layer from the inside of an onion scale, place it in a drop of water on a slide, add a drop of iodine, cover gently. (ii) Scrape the inside of your cheek gently with the flat end of a clean toothpick, spread it on another slide, add methylene blue and cover. (iii) Observe both under low power then high power. **Questions for the worksheet:** Draw and label each cell. Which cell has a cell wall? Which shows a large vacuole? Write two differences between the two cells. **Precautions:** avoid air bubbles under the cover slip; use a fresh toothpick; wash hands.
 **3.** **Objective:** to find the methods families use to preserve food. **Method:** questionnaire and interview of 30 families chosen fairly (e.g. every third house). **Questionnaire:** (1) Which foods do you preserve? (2) Which method do you use — drying, salting, pickling, refrigeration, smoking, other? (3) How long does the food stay good? **Report parts:** title, background, objective, data collection method, analysis (table and bar diagram of methods), conclusion and suggestions, annex (questionnaire).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the steps of the scientific method with an example. Why are observation and a fair test important? <span class="marks">[10]</span>
+2. Write eight rules of laboratory safety and explain the common apparatus and the measurement of length, mass and time. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="5" ratio="1.0" caption="Tools of the laboratory. (a) A compound microscope for looking at cells. (b) A Bunsen burner for heating. (c) Litmus paper to test acids and bases. (d) A vernier calliper for small lengths. (e) A barometer for air pressure. Choosing the right instrument is the first step of every experiment."
+@ photo id="sci10/microscope" cap="(a) Microscope"
+@ photo id="sci10/bunsen" cap="(b) Bunsen burner"
+@ photo id="sci10/litmus" cap="(c) Litmus paper"
+@ photo id="sci10/vernier" cap="(d) Vernier calliper"
+@ photo id="sci10/barometer" cap="(e) Barometer"
+```
+
+### Model answer D1: the scientific method (10 marks)
+
+**Introduction.** The **scientific method** is a step-by-step way of finding the answer to a question using observation and experiment. It lets us trust our answers because anyone can repeat the steps and check them.
+
+**Steps, with an example.** Rina notices that her bean seeds sprout faster on the window shelf than in a dark cupboard.
+
+1. **Observation:** seeds on the shelf sprouted in 4 days; seeds in the cupboard took 8 days.
+2. **Problem:** does light make seeds sprout faster?
+3. **Hypothesis (guess to test):** seeds kept in light sprout faster than seeds kept in the dark.
+4. **Experiment:** put 10 seeds on wet cotton in each of two dishes of the same size, give both the same water and temperature, and keep one dish in light and one in the dark.
+5. **Record data:** count the sprouted seeds each day and write them in a table.
+6. **Analysis:** compare the two tables or draw a bar graph.
+7. **Conclusion:** accept or reject the hypothesis according to the results.
+8. **Report:** write what was done so that others can repeat it.
+
+**Fair test.** Only **one thing** (the independent variable: light) is changed. All others (water, seeds, temperature, dish) are kept the same (controlled variables). What we measure is the dependent variable (number of seeds sprouted). The dish in the dark is the **control**.
+
+| Variable | In Rina's test |
+|---|---|
+| Changed | Light or dark |
+| Measured | Number of sprouted seeds |
+| Kept the same | Water, temperature, kind of seed, dish |
+
+**Why observation matters.** Careful observation uses the senses and instruments, gives facts and raises questions. A conclusion must come from the data, not from a wish.
+
+**Conclusion.** The scientific method has observation, hypothesis, experiment, data and conclusion, and a fair test makes the result reliable.
+
+### Model answer D2: laboratory safety and measurement (10 marks)
+
+**Introduction.** A laboratory has glass, flames, chemicals and electricity, so safe behaviour protects everybody.
+
+**Eight safety rules.**
+
+1. Enter the laboratory only with the teacher's permission and walk, never run.
+2. Wear an apron and, where needed, goggles and gloves, and tie back long hair.
+3. Never taste or smell chemicals directly; waft the vapour gently toward your nose if the teacher asks.
+4. Read the label of every bottle twice before use, and never return unused chemicals to the bottle.
+5. Handle a Bunsen burner or spirit lamp carefully and keep paper and cloth away from the flame.
+6. Heat a test tube at a slant, with its mouth pointing away from everyone.
+7. Report every breakage, cut or spill to the teacher at once, and keep a first-aid box and a fire extinguisher ready.
+8. Wash hands after the work and leave the table clean.
+
+**Common apparatus.** Beaker, test tube, conical flask, measuring cylinder, funnel, tripod stand, spirit lamp, thermometer and microscope.
+
+**Measurement.** To measure is to compare a quantity with a standard unit.
+
+| Quantity | SI unit | Instrument |
+|---|---|---|
+| Length | metre (m) | Metre scale, measuring tape |
+| Mass | kilogram (kg) | Beam balance |
+| Time | second (s) | Stopwatch, clock |
+| Volume | cubic metre; litre (L) for liquids | Measuring cylinder |
+| Temperature | kelvin; degree Celsius | Thermometer |
+
+**Reading a measuring cylinder.** Keep the eye level with the bottom of the curved surface of the liquid, to avoid an error called **parallax**.
+
+**Conclusion.** Following safety rules and using the right instrument in the right way give safe work and correct results.

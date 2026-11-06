@@ -97,6 +97,12 @@ ax.text(cx, cy + 0.18, "your\ncomputer", ha="center", va="center", fontsize=7.6,
 Students often call every harmful program a virus. **Malware** is the general name. A virus is the kind that hides inside other files; a worm, a Trojan horse, spyware, adware and ransomware are different kinds, as the next section shows. Write "malware" when you mean all of them.
 :::
 
+```photogrid label="13.H" cols="3" ratio="1.3" caption="Malware, from the first PC virus to today. (a) The boot sector of a floppy disk, the place where the Brain virus of 1986 hid. (b) The map of countries hit by the WannaCry ransomware in May 2017. (c) ClamTk, a free antivirus program for Linux that scans files for known threats. A virus enters through a disk, a network or a download; the antivirus is the guard that scans for it."
+@ photo id="cs8/vir-brain-bootsector" cap="(a) Brain virus, 1986"
+@ photo id="cs8/vir-wannacry-map" cap="(b) WannaCry spread, 2017"
+@ photo id="cs8/vir-clamtk" cap="(c) An antivirus scanner"
+```
+
 ## 13.2 Types of malware: virus, worm, Trojan horse, spyware, adware and ransomware
 
 ```figure caption="The malware family. Each kind is named by what it does: how it spreads (virus, worm), how it gets in (Trojan horse) or what harm it does (spyware, adware, ransomware)."
@@ -432,3 +438,62 @@ With your teacher: (1) Open the antivirus on a lab computer and note the date of
 
 **5.** The slowness and adverts point to **adware** (and possibly spyware) on the computers, and the shortcut folders to a **pen-drive virus or worm** (1 mark). Plan (3 marks): disconnect each infected computer from the network; update the antivirus and run a full scan, quarantining or deleting what it finds; uninstall unknown programs and browser extensions and reset the browsers; scan customers' pen drives and show hidden files so they can recover the real folders; install all Windows updates and keep the firewall on; switch off AutoPlay and give customers a standard account that cannot install programs; and keep a clean backup of the café's own files under the 3-2-1 rule.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a computer virus? Explain the types of malware and the symptoms of an infected computer. <span class="marks">[10]</span>
+2. Explain how an antivirus works and eight ways of protecting a computer from malware. <span class="marks">[10]</span>
+
+### Model answer D1: virus, malware and symptoms (10 marks)
+
+**Introduction.** A **computer virus** is a harmful program that copies itself, attaches to other files and spreads from one computer to another, usually without the user's knowledge. It can delete files, slow the computer or steal data. The first PC virus, Brain, appeared in 1986 (Plate 13.H). **Malware** (malicious software) is the general name for all such harmful programs.
+
+**How a virus spreads.** Through pen drives and other removable disks, e-mail attachments, downloads from unsafe websites, pirated software and infected networks.
+
+**Types of malware.**
+
+| Type | What it does | Example |
+|---|---|---|
+| Virus | Attaches itself to a file or program and needs the user to run it | Brain, Michelangelo |
+| Worm | Spreads by itself through networks without a host file | ILOVEYOU, Blaster |
+| Trojan horse | Looks like a useful program but hides a harmful one | Fake game or crack |
+| Spyware | Secretly watches the user and steals passwords and habits | Keylogger |
+| Adware | Shows unwanted advertisements, often slowing the system | Pop-up ads |
+| Ransomware | Locks files and asks for money to open them | WannaCry (2017) |
+
+**Symptoms of an infected computer.**
+
+1. The computer becomes slow or hangs often.
+2. Strange pop-ups, messages or advertisements appear.
+3. Files or folders disappear, change size or cannot be opened.
+4. Programs open or close by themselves.
+5. The pen drive shows shortcut files instead of the real folders.
+6. The antivirus or Task Manager is turned off by itself.
+7. The browser's home page changes, or e-mails are sent without the user knowing.
+
+**Conclusion.** Viruses and other malware can cause loss of data, money and privacy, so we must know their kinds and signs and act at once when we see them.
+
+### Model answer D2: antivirus and protection (10 marks)
+
+**Introduction.** An **antivirus program** is a utility that finds, blocks and removes malware. Examples are Windows Defender, Kaspersky, Avast, Quick Heal and ClamAV.
+
+**How an antivirus works.**
+
+1. **Signature scanning:** it compares files with a database of the known patterns (signatures) of viruses.
+2. **Heuristic scanning:** it watches for suspicious behaviour, such as a program changing many files, to catch new viruses.
+3. **Real-time protection:** it checks every file being opened, downloaded or copied, in the background.
+4. **Action:** it **cleans** the file, puts it in **quarantine** or **deletes** it.
+5. **Updates:** the signature database must be updated often, because new viruses appear every day.
+
+**Eight ways to protect the computer.**
+
+1. **Install an antivirus** and keep it turned on and updated, so that new threats can be caught.
+2. **Update the operating system** and programs, because updates close the gaps that malware uses. WannaCry spread to computers that were not updated.
+3. **Scan pen drives** before opening them; a shared pen drive is a common carrier in schools.
+4. **Do not open unknown attachments or links**; phishing e-mails carry most ransomware.
+5. **Download only from official sites** and avoid pirated or cracked software, which often hides a Trojan.
+6. **Use strong passwords** of letters, numbers and symbols, different for every account, with two-step verification where possible.
+7. **Take regular backups** on an external disk or in the cloud, so that nothing is lost even if ransomware locks the files.
+8. **Use a firewall and safe browsing**: look for the HTTPS padlock and avoid doubtful sites.
+
+**Conclusion.** No antivirus can stop everything, so protection needs both good software and good habits.

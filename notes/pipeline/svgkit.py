@@ -7,6 +7,7 @@ import html, math
 NAVY, SLATE, TEAL, AMBER, RED = "#1e3a8a", "#334155", "#0f766e", "#b45309", "#b91c1c"
 SOFT, BLUE, MINT, SAND, ROSE = "#f8fafc", "#eff6ff", "#ecfdf5", "#fffbeb", "#fef2f2"
 FONT = "Inter, 'DejaVu Sans', Arial, sans-serif"
+MONO = "'JetBrains Mono', 'DejaVu Sans Mono', monospace"
 WARN = []
 
 
@@ -37,7 +38,7 @@ class Fig:
         wt = ' font-weight="700"' if bold else ""
         it = ' font-style="italic"' if italic else ""
         for i, ln in enumerate(lines):
-            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{FONT}" font-size="{size}" '
+            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{MONO if "$" in ln else FONT}" font-size="{size}" '
                           f'fill="{color}" text-anchor="{anchor}"{wt}{it}>{_e(ln)}</text>')
         return self
 
@@ -233,3 +234,18 @@ class Axes:
     def tag(self, x, y, s, size=10.5, color=SLATE, bold=False, anchor="middle"):
         self.f.text(self.X(x), self.Y(y), s, size=size, color=color, bold=bold, anchor=anchor)
         return self
+
+
+def hbars(f, rows, x0=100, y0=34, bw=150, gap=None, vmax=None, fmt="%.2f", colors=None, size=10):
+    """Horizontal bar chart inside a Fig: rows = [(name, value), ...]; bars are scaled to vmax."""
+    gap = gap or min(32, 150 // max(1, len(rows)))
+    vmax = vmax or max(v for _, v in rows)
+    pal = colors or [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED), (SOFT, SLATE)]
+    for i, (n, v) in enumerate(rows):
+        y = y0 + i * gap
+        fl, st = pal[i % len(pal)]
+        w = max(2, round(bw * v / vmax, 1))
+        f.text(x0 - 6, y + 8, n, size=size, color=SLATE, bold=True, anchor="end", vmid=True)
+        f.box(x0, y, w, 16, fill=fl, stroke=st, r=2)
+        f.text(x0 + w + 4, y + 8, fmt % v, size=size, color=st, bold=True, anchor="start", vmid=True)
+    return f

@@ -100,6 +100,32 @@ contain only one of the two answers. When none of the options matches, you have 
 wrong rule, not a wrong question.
 :::
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="A famous series: 1, 1, 2, 3, 5, 8, 13, 21 ... in which each term is the sum of the two before it. (a) A chambered nautilus: its shell grows as a logarithmic spiral, often compared with the Fibonacci spiral, though the nautilus ratio is not exactly golden. (b) The ratio of each term to the one before it, 1, 2, 1.5, 1.67, 1.6, 1.625 ..., zig-zags and settles at 1.618, the golden ratio (1 + sqrt 5) / 2. By the twelfth term (144) the ratio 233 / 144 = 1.6181 agrees with it to three decimal places. In a number-series question, test the differences first, then the ratios, then sums of two or three previous terms, and finally squares, cubes and alternating patterns."
+@ photo id="ceemat/nautilus" cap="A chambered nautilus"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Ratio of successive Fibonacci terms"
+F = [1, 1]
+while len(F) < 14:
+    F.append(F[-1] + F[-2])
+rt = [F[i + 1] / F[i] for i in range(12)]
+phi = (1 + 5 ** 0.5) / 2
+assert F[:12] == [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144] and F[12] == 233
+assert abs(rt[-1] - phi) < 1e-3 and round(rt[-1], 4) == 1.6181
+f = Fig(300, 236)
+f.text(150, 12, "Ratio F(n+1) / F(n) settles at 1.618", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (1, 12), (0.8, 2.2))
+ax.grid(1, 0.4, yfmt=lambda v: "%.1f" % v).axes("n", "ratio")
+ax.hline(phi, color=AMBER)
+for i in range(11):
+    f.line(ax.X(i + 1), ax.Y(rt[i]), ax.X(i + 2), ax.Y(rt[i + 1]), color=RED, sw=1.6)
+for i in range(12):
+    ax.pt(i + 1, rt[i], "", r=3)
+f.text(ax.X(12), ax.Y(phi) - 8, "1.618", size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(150, 206, "1, 2, 1.5, 1.67, 1.6, 1.625, 1.615 ...", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "F13 / F12 = 233 / 144 = 1.6181", size=10.5, color=SLATE, bold=True)
+```
+
 ## 3.2 Letter and alphanumeric series
 
 Change every letter to its position and the letter series becomes a number series.
@@ -277,6 +303,56 @@ come from forgetting that the hour hand moves. And the mirror rule 11:60 − t i
 mirror placed beside the clock; check one time in your head (mirror 3:00 must give
 9:00) before using it.
 :::
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Clock problems use relative speed. (a) A clock face with its hands. (b) The minute hand turns 6 degrees a minute and the hour hand 0.5 degrees a minute, so the minute hand gains 5.5 degrees a minute. The angle between the hands at H hours M minutes is |30H - 5.5M| (or 360 minus that if it exceeds 180). Over 12 hours the graph touches zero 11 times, not 12, because the hands overlap every 720 / 11 = 65 5/11 minutes: the first overlap is at 1 h 5 5/11 min. The hands are at right angles 22 times and in a straight line 11 times in 12 hours. At 3:00 the angle is 90 degrees and at 6:00 it is 180."
+@ photo id="ceemat/clock" cap="A clock face with hour and minute hands"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Angle between the hands over 12 hours"
+ang = lambda t: min(abs(0.5 * t - 6 * (t % 60)) % 360, 360 - abs(0.5 * t - 6 * (t % 60)) % 360)
+assert ang(180) == 90 and ang(0) == 0 and ang(360) == 180
+assert all(ang(k * 720 / 11) < 1e-9 for k in range(11)) and round(720 / 11, 2) == 65.45
+rt = sum(1 for k in range(60) if 0 <= (90 + 180 * k) / 5.5 < 720)
+st = sum(1 for k in range(60) if 0 <= (180 + 360 * k) / 5.5 < 720)
+assert rt == 22 and st == 11
+f = Fig(300, 236)
+f.text(150, 12, "Angle between the hands, 12 hours", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 720), (0, 180))
+ax.grid(120, 90, xfmt=lambda v: "%dh" % (v // 60)).axes("time", "deg")
+ax.curve(ang, 0, 720, color=NAVY, sw=1.5, n=1500)
+for k in range(11):
+    ax.pt(k * 720 / 11, 0, "", r=3, color=RED)
+f.text(150, 206, "overlaps (red) every 65 5/11 min: 11 in 12 h", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "right angle 22 times, straight line 11 times", size=10.5, color=SLATE, bold=True)
+```
+
+```photogrid label="3.3" cols="2" ratio="1.2" caption="Calendar problems use odd days, the days left over after taking out whole weeks. (a) A wall calendar with 24 October 2007 boxed. (b) Counting from year 1 of the Gregorian calendar, 100 years hold 24 leap years and so 36,524 days, which is 5 odd days; 200 years give 3, 300 years give 1 and 400 years give 0, so the calendar repeats exactly every 400 years. For 24 October 2007: 2000 years give 0, the six years 2001-2006 give 6 + 1 leap day = 7 = 0, and 1 January to 24 October is 297 days = 3 odd days; 0 + 0 + 3 = 3, which is Wednesday (Sunday = 0, Monday = 1 ...). The year 2000 was a leap year but 1900 was not: century years must be divisible by 400."
+@ photo id="ceemat/calendar" cap="A wall calendar, 24 October 2007 boxed"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Odd days in 100, 200, 300 and 400 years"
+import datetime
+leap = lambda y: y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+odd = lambda n: sum(366 if leap(y) else 365 for y in range(1, n + 1)) % 7
+vals = [odd(n) for n in (100, 200, 300, 400)]
+assert vals == [5, 3, 1, 0]
+days = sum((31, 28, 31, 30, 31, 30, 31, 31, 30)) + 24
+o1 = (6 * 1 + sum(1 for y in range(2001, 2007) if leap(y))) % 7
+assert days == 297 and days % 7 == 3 and o1 == 0 and datetime.date(2007, 10, 24).strftime("%A") == "Wednesday"
+f = Fig(300, 236)
+f.text(150, 12, "Odd days in whole centuries", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(zip((100, 200, 300, 400), vals)):
+    x = 44 + i * 62
+    h = max(v * 13, 2)
+    f.box(x, 100 - h, 36, h, fill=SAND if v else MINT, stroke=AMBER if v else TEAL, r=2)
+    f.text(x + 18, 100 - h - 8, str(v), size=11, color=AMBER if v else TEAL, bold=True)
+    f.text(x + 18, 114, "%d yr" % n, size=10.5, color=SLATE, bold=True)
+f.text(10, 140, "2000 yr: 0 odd days", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(10, 158, "2001-06: 6 yr + 1 leap day = 0 odd", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(10, 176, "1 Jan-24 Oct 2007: 297 days = 3 odd", size=10.5, color=SLATE, bold=True, anchor="start")
+f.text(10, 194, "0 + 0 + 3 = 3: Wednesday (Sun = 0)", size=10.5, color=RED, bold=True, anchor="start")
+f.text(150, 222, "calendar repeats every 400 years", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -542,3 +618,65 @@ ax.set_xlim(-1.4, 5.0); ax.set_ylim(-0.1, 3.1); ax.set_aspect('equal'); ax.axis(
 **10.** (d) — In each column, top² + middle² = bottom: 9 + 16 = 25, 25 + 144 = 169, so 36 + 64 = 100. 196 = (6 + 8)² squares the sum instead.
 **11.** (a) — |30 × 9 − 5.5 × 15| = |270 − 82.5| = 187.5°, which is more than 180°, so the angle is 360 − 187.5 = 172.5°.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain a systematic method for number series and letter series and solve problems of each common type. <span class="marks">[10]</span>
+2. Explain the rules of the calendar and the clock and solve problems on odd days, the day of a date and angles between the hands. <span class="marks">[10]</span>
+
+### Model answer D1: Number and letter series (10 marks)
+
+**Introduction.** A series follows a rule. A fixed order of checks finds the rule quickly.
+
+**Order of checks.** (1) Differences; (2) differences of differences; (3) ratios; (4) squares, cubes, primes; (5) alternate terms; (6) mixed operations.
+
+| Type | Series | Rule | Next term |
+|---|---|---|---|
+| Arithmetic | 5, 9, 13, 17 | +4 | 21 |
+| Second-order differences | 2, 6, 12, 20, 30 | differences 4, 6, 8, 10, so next +12 | **42** (n × (n + 1)) |
+| Geometric | 3, 6, 12, 24 | × 2 | 48 |
+| Squares | 1, 4, 9, 16 | n² | 25 |
+| Primes | 2, 3, 5, 7, 11 | prime numbers | 13 |
+| Fibonacci type | 1, 1, 2, 3, 5, 8 | sum of previous two | 13 |
+| Factorials | 1, 2, 6, 24, 120 | × 2, × 3, × 4, × 5, × 6 | **720** |
+| Descending squares | 100, 81, 64, 49 | 10², 9², 8², 7² | 36 |
+
+**Two interleaved series.** 2, 5, 4, 10, 8, 15, … The odd places are 2, 4, 8 (× 2), so the next is 16; the even places are 5, 10, 15 (+ 5), so the next is 20. The series continues **16, 20**.
+
+**Letter series.** Convert letters to positions (A = 1 … Z = 26). Example: A, C, F, J, O, … positions 1, 3, 6, 10, 15, with differences 2, 3, 4, 5, so the next difference is 6: 15 + 6 = 21 = **U**. Opposite letters: the opposite of a letter at position p is at 27 − p (A–Z, B–Y).
+
+**Missing number in a figure.** In a triangle with 4, 5, 6 outside and 120 inside, the product is 4 × 5 × 6 = 120. Test the *same* rule in the second figure before using it.
+
+**Exam tip.** If the numbers grow slowly, try differences; if they grow fast, try multiplication, squares or cubes.
+
+**Conclusion.** Use the order of checks, test the rule on every term, and only then give the next term.
+
+### Model answer D2: Calendar and clock reasoning (10 marks)
+
+**Introduction.** The calendar repeats in a 7-day week, so only the **remainder after dividing by 7** (the odd days) matters.
+
+**Calendar rules.**
+
+1. An ordinary year has 365 days = 52 weeks + **1 odd day**; a leap year has **2 odd days**.
+2. **100 years = 5 odd days**, 200 years = 3, 300 years = 1, 400 years = 0.
+3. Months with 31 days give 3 odd days, with 30 days give 2, and February gives 0 (or 1 in a leap year).
+4. Leap year: divisible by 4, but a century year only if divisible by 400 (so 1900 was not a leap year, 2000 was).
+
+**Worked problem.** What day was 15 August 1947? Verify: the day is **Friday**. A quick check by odd days: 1600 years = 0 odd days; 300 years = 1; 46 completed years from 1901 to 1946 have 11 leap years, so 46 + 11 = 57 odd days = 1; days from 1 January to 15 August 1947 = 31 + 28 + 31 + 30 + 31 + 30 + 31 + 15 = 227 days = 3 odd days. Total = 0 + 1 + 1 + 3 = 5, which is **Friday** (0 = Sunday). Similarly, 26 January 2000 was a **Wednesday**.
+
+**Clock rules.**
+
+1. The minute hand moves 6° per minute and the hour hand 0.5° per minute, so the angle between them at H hours M minutes is |30H − 5.5M|.
+2. The hands **coincide 22 times** and are **at right angles 44 times** in a day.
+3. Mirror image of a clock time T is 11:60 − T; the water image is 6:00 − T.
+
+| Time | Working | Angle |
+|---|---|---|
+| 3:40 | \|90 − 220\| | 130° |
+| 4:20 | \|120 − 110\| | 10° |
+| 9:00 | \|270 − 0\| | 270°, so 90° the short way |
+| 12:30 | \|0 − 165\| | 165° (take the smaller of x and 360 − x) |
+
+**Mirror example.** The mirror image of 3:25 is 11:60 − 3:25 = **8:35**; its water image is 6:00 − 3:25 = **2:35**.
+
+**Conclusion.** Reduce the calendar to odd days and the clock to degrees per minute; both turn long counting into one short calculation.

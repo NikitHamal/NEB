@@ -542,6 +542,33 @@ ax.set_xticks(x); ax.set_xlim(0.3,5.9); ax.set_ylim(0,11.8)
 ax.spines[['top','right']].set_visible(False); ax.grid(axis='y',alpha=0.45)
 ```
 
+```photogrid label="15.P" cols="2" ratio="1.27" caption="Two classes can have the same average and still be very different, so statistics adds measures of spread. (a) A student at an examination desk. (b) Ten sample marks have mean 56.0, range 39 and variance 139.80, so the standard deviation is 11.82. The shaded band from 44.2 to 67.8 marks, one standard deviation either side of the mean, holds 6 of the ten scores. A smaller standard deviation would mean the class is more uniform. Because it uses every score and has the same units as the marks, the standard deviation is the preferred measure of dispersion."
+@ photo id="math11/exam" cap="A student writing an examination: scores that spread around a mean"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mean, standard deviation and the one-sigma band"
+x = [35, 42, 48, 50, 55, 58, 62, 66, 70, 74]
+n = len(x); mean = sum(x) / n; var = sum((v - mean) ** 2 for v in x) / n; sd = math.sqrt(var)
+med = (x[4] + x[5]) / 2; rg = max(x) - min(x); inside = sum(1 for v in x if abs(v - mean) <= sd)
+assert abs(mean - 56) < 1e-9 and inside >= 6
+f = Fig(300, 236)
+f.text(150, 14, "Marks of ten students", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 30, 40, 250, 100, (30, 80), (0, 1))
+f.box(ax.X(mean - sd), ax.Y(0.95), ax.X(mean + sd) - ax.X(mean - sd), ax.Y(0.0) - ax.Y(0.95), fill=MINT, stroke=TEAL, r=2, dash=True)
+ax.grid(10, 1, labels=False)
+f.line(ax.X(30), ax.Y(0), ax.X(80), ax.Y(0), color=SLATE, sw=1.4)
+for v in range(30, 81, 10):
+    f.text(ax.X(v), ax.Y(0) + 13, str(v), size=9.5, color=SLATE)
+for v in x:
+    f.circle(ax.X(v), ax.Y(0.45), 5, fill=BLUE, stroke=NAVY, sw=1.5)
+f.line(ax.X(mean), ax.Y(0.95), ax.X(mean), ax.Y(0), color=RED, sw=2)
+f.text(ax.X(mean), ax.Y(0.95) - 6, "mean %.1f" % mean, size=9.5, color=RED, bold=True)
+f.text(150, 176, "median %.1f, range %d, variance %.2f" % (med, rg, var), size=10.5, color=NAVY, bold=True)
+f.text(150, 194, "SD = sqrt(variance) = %.2f" % sd, size=10.5, color=TEAL, bold=True)
+f.text(150, 212, "mean +- SD = %.1f to %.1f holds %d of 10" % (mean - sd, mean + sd, inside), size=10, color=SLATE, bold=True)
+facts = dict(m=mean, v=var, sd=sd, i=inside, r=rg, lo=mean - sd, hi=mean + sd)
+```
+
 ## Chapter summary
 
 - Dispersion measures spread about the average. Range $= L-S$;
@@ -728,3 +755,86 @@ $\sigma = 10.35$.
 
 $S_k = \frac{31.67-30}{10.35} = 0.16$: a slight positive skew.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define variance and standard deviation. Derive their formulae for ungrouped and grouped data and calculate them for given data by the step-deviation method. <span class="marks">[10]</span>
+2. Define the coefficient of variation and Karl Pearson's coefficient of skewness, and use them to compare the consistency and the shape of two distributions. <span class="marks">[10]</span>
+
+### Model answer D1: variance and standard deviation (10 marks)
+
+**Introduction.** Two classes may have the same average mark but very different spread. A **measure of dispersion** shows how far the observations lie from their centre. The most important one is the **standard deviation**, the square root of the **variance**, which is the mean of the squared deviations from the mean.
+
+**Formulae.**
+
+| Data | Variance $\sigma^{2}$ | Standard deviation $\sigma$ |
+|---|---|---|
+| Ungrouped | $\dfrac{\sum(x-\bar x)^{2}}{N}=\dfrac{\sum x^{2}}{N}-\bar x^{2}$ | $\sqrt{\sigma^{2}}$ |
+| Grouped (direct) | $\dfrac{\sum f(x-\bar x)^{2}}{N}$ | $\sqrt{\sigma^{2}}$ |
+| Step deviation, $d=\dfrac{x-A}{h}$ | $h^{2}\left[\dfrac{\sum fd^{2}}{N}-\left(\dfrac{\sum fd}{N}\right)^{2}\right]$ | $h\sqrt{\dfrac{\sum fd^{2}}{N}-\left(\dfrac{\sum fd}{N}\right)^{2}}$ |
+
+**Derivation of the shortcut.** $\sum(x-\bar x)^{2}=\sum x^{2}-2\bar x\sum x+N\bar x^{2}=\sum x^{2}-2N\bar x^{2}+N\bar x^{2}=\sum x^{2}-N\bar x^{2}$. Dividing by $N$ gives $\sigma^{2}=\dfrac{\sum x^{2}}{N}-\bar x^{2}$.
+
+**Properties.** $\sigma$ is never negative; it does not change if the same number is added to every observation; if every observation is multiplied by $k$, $\sigma$ is multiplied by $|k|$.
+
+**Worked example 1 (ungrouped).** Marks of eight students: $4,8,6,10,12,5,9,6$. The mean is $\dfrac{60}{8}=7.5$. The squared deviations are $12.25,\ 0.25,\ 2.25,\ 6.25,\ 20.25,\ 6.25,\ 2.25,\ 2.25$, total $52$. So $\sigma^{2}=\dfrac{52}{8}=6.5$ and $\sigma=\sqrt{6.5}\approx2.55$.
+
+**Worked example 2 (grouped, step deviation).** Take assumed mean $A=25$ and $h=10$.
+
+| Class | $f$ | $x$ | $d=\dfrac{x-25}{10}$ | $fd$ | $fd^{2}$ |
+|---|---|---|---|---|---|
+| $0$-$10$ | $5$ | $5$ | $-2$ | $-10$ | $20$ |
+| $10$-$20$ | $8$ | $15$ | $-1$ | $-8$ | $8$ |
+| $20$-$30$ | $15$ | $25$ | $0$ | $0$ | $0$ |
+| $30$-$40$ | $16$ | $35$ | $1$ | $16$ | $16$ |
+| $40$-$50$ | $6$ | $45$ | $2$ | $12$ | $24$ |
+| Total | $50$ | | | $10$ | $68$ |
+
+Mean $\bar x=25+10\times\dfrac{10}{50}=27$. Variance $=100\left[\dfrac{68}{50}-\left(\dfrac{10}{50}\right)^{2}\right]=100\,(1.36-0.04)=132$, so $\sigma=\sqrt{132}\approx11.49$.
+
+**Why standard deviation is preferred.** It uses every observation, is suited to algebra and is the basis of the normal distribution, correlation and sampling theory. Its weakness is that it is affected by extreme values and carries the unit of the data.
+
+**Conclusion.** The variance is the mean square deviation and the standard deviation its square root; for grouped data the step-deviation method gives an exact result with small numbers.
+
+### Model answer D2: coefficient of variation and skewness (10 marks)
+
+**Introduction.** The standard deviation depends on the units, so it cannot compare data in different units or with very different averages. Relative measures solve this problem.
+
+**Coefficient of variation.**
+
+$$ \text{C.V.}=\frac{\sigma}{\bar x}\times100\% $$
+
+The series with the smaller C.V. is **more consistent** (more uniform); the larger C.V. means more variable.
+
+*Example 1.* Two batches of students: Batch A has mean $65$ and $\sigma=13$; Batch B has mean $58$ and $\sigma=8.7$.
+
+| | Mean | $\sigma$ | C.V. |
+|---|---|---|---|
+| Batch A | $65$ | $13$ | $\dfrac{13}{65}\times100=20\%$ |
+| Batch B | $58$ | $8.7$ | $\dfrac{8.7}{58}\times100=15\%$ |
+
+Batch A has the higher average, but Batch B is more consistent.
+
+*Example 2.* Two cricket players: Player P scores a mean of $50$ with $\sigma=5$ (C.V. $=10\%$); Player Q a mean of $80$ with $\sigma=6$ (C.V. $=7.5\%$). Q is more consistent.
+
+**Skewness.** A distribution is **symmetric** if the mean, median and mode coincide. It is **positively skewed** if the long tail extends to the right (mean $>$ median $>$ mode) and **negatively skewed** if the tail is on the left (mean $<$ median $<$ mode).
+
+**Karl Pearson's coefficient of skewness.**
+
+$$ S_k=\frac{\bar x-\text{Mode}}{\sigma}\qquad\text{or, when the mode is ill-defined,}\qquad S_k=\frac{3(\bar x-\text{Median})}{\sigma} $$
+
+| $S_k$ | Shape |
+|---|---|
+| $>0$ | positively skewed |
+| $=0$ | symmetric |
+| $<0$ | negatively skewed |
+
+The value usually lies between $-3$ and $+3$.
+
+**Worked examples.**
+
+1. A distribution has mean $40$, mode $36$ and $\sigma=8$. $S_k=\dfrac{40-36}{8}=0.5$, so it is moderately positively skewed.
+2. Mean $62$, median $60$, $\sigma=10$: $S_k=\dfrac{3(62-60)}{10}=0.6$, positively skewed (a few high incomes pull the mean upward, as in the wages of a company).
+3. For the marks $4,5,6,6,8,9,10,12$: mean $7.5$, median $\dfrac{6+8}{2}=7$ and $\sigma\approx2.55$, so $S_k=\dfrac{3(7.5-7)}{2.55}\approx0.59$.
+
+**Conclusion.** The coefficient of variation compares consistency across data sets, and Karl Pearson's coefficient measures both the direction and the degree of asymmetry.

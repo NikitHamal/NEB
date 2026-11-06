@@ -565,6 +565,30 @@ $20\ \text{cm}$ from the $4\ \mu\text{C}$ charge — nearer the smaller charge, 
 it must be. Note the answer does not depend on the third charge at all.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="Coulomb's law says the force between two point charges is proportional to the product of the charges and inversely proportional to the square of their separation. (a) A rubbed balloon attracts hair. (b) Two charges of 1 microcoulomb exert 0.90 N on each other at 10 cm, and 3.60 N at 5 cm, four times more, as the inverse-square curve shows. Between the proton and electron of a hydrogen atom the electric force exceeds gravity by a factor of 2.27e+39. That is why everyday contact forces, which are electric in origin, are strong while gravity matters only for very large masses such as planets."
+@ photo id="phy11/balloon" cap="A charged balloon attracts hair across a small gap"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Coulomb force between two 1 microcoulomb charges"
+k = 8.99e9
+q = 1e-6
+F = lambda r: k * q * q / r**2
+assert abs(F(0.10) - 0.899) < 1e-3 and abs(F(0.05) / F(0.10) - 4) < 1e-9
+ke, G, me, mp, e = 8.99e9, 6.674e-11, 9.109e-31, 1.673e-27, 1.602e-19
+ratio = ke * e**2 / (G * me * mp)
+f = Fig(300, 236)
+f.text(150, 14, "F = k q1 q2 / r^2 for q1 = q2 = 1 uC", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.3), (0, 4))
+ax.grid(0.05, 1, size=9, xfmt=lambda v: "%.2f" % v); ax.axes("r (m)", "F (N)")
+ax.curve(F, 0.048, 0.3, color=NAVY, sw=2.4)
+ax.pt(0.10, F(0.10), "%.2f N at 10 cm" % F(0.10), dx=10, dy=-6, color=RED)
+ax.pt(0.05, F(0.05), "%.2f N at 5 cm" % F(0.05), dx=10, dy=4, color=RED)
+f.text(150, 207, "half the distance -> %.0f times the force" % (F(0.05) / F(0.10)), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "H atom: Fe/Fg = %.2e" % ratio, size=10.5, color=RED, bold=True)
+f.text(150, 231, "electric force beats gravity enormously", size=10.5, color=SLATE)
+facts = dict(F10="%.2f" % F(0.10), F5="%.2f" % F(0.05), r="%.2e" % ratio)
+```
+
 ## Chapter summary
 
 - Charge is quantised ($q = \pm ne$, $e = 1.6\times10^{-19}\ \text{C}$),
@@ -689,3 +713,67 @@ from the $4\ \mu\text{C}$ charge). The test charge $q_0$ appears as a common
 factor on both sides of the equation and cancels, so neither its magnitude nor its
 sign affects the position of the null point.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Coulomb's law, express it in vector form, define the coulomb and compare the electric and gravitational forces. <span class="marks">[10]</span>
+2. Describe the three methods of charging, explain the properties of electric charge and find the force on a charge due to several charges. <span class="marks">[10]</span>
+
+### Model answer D1: Coulomb's law and its comparison with gravitation (10 marks)
+
+**Introduction.** Charles Coulomb used a torsion balance in 1785 to measure the force between small charged spheres. His result is the basic law of electrostatics.
+
+**Statement.** The force of attraction or repulsion between two **point charges** is **directly proportional to the product of the charges** and **inversely proportional to the square of the distance** between them, and acts along the line joining them.
+
+**Formula.**
+
+$$ F=\frac{1}{4\pi\varepsilon_0}\,\frac{q_1q_2}{r^{2}}=k\,\frac{q_1q_2}{r^{2}} $$
+
+where $k=9\times10^{9}\ \text{N m}^{2}\text{C}^{-2}$ and the permittivity of free space is $\varepsilon_0=8.85\times10^{-12}\ \text{C}^{2}\text{N}^{-1}\text{m}^{-2}$.
+
+**Vector form.** The force on $q_2$ due to $q_1$ is $\vec F_{21}=k\dfrac{q_1q_2}{r^{2}}\,\hat r_{12}$, where $\hat r_{12}$ is the unit vector from $q_1$ to $q_2$. Like charges repel and unlike charges attract, and $\vec F_{12}=-\vec F_{21}$ (Newton's third law).
+
+**Definition of the coulomb.** One **coulomb** is that charge which, placed $1\ \text{m}$ from an equal charge in vacuum, repels it with a force of $9\times10^{9}\ \text{N}$. One electron has charge $1.6\times10^{-19}\ \text{C}$, so $1\ \text{C}$ is about $6.25\times10^{18}$ electrons.
+
+**Effect of a medium.** In a medium of dielectric constant (relative permittivity) $K=\varepsilon/\varepsilon_0$, the force is reduced to $F_m=\dfrac{F}{K}$. For water, $K=80$, so the force becomes $\tfrac1{80}$ of that in air, the reason salts dissolve in water.
+
+**Comparison with gravitation.**
+
+| Feature | Electric force | Gravitational force |
+|---|---|---|
+| Law | $kq_1q_2/r^{2}$ | $Gm_1m_2/r^{2}$ |
+| Nature | Attractive or repulsive | Always attractive |
+| Depends on medium | Yes | No |
+| Relative strength | Very strong | Very weak |
+
+**Numerical.** For two protons at any distance, $\dfrac{F_e}{F_g}=\dfrac{ke^{2}}{Gm_p^{2}}=\dfrac{8.99\times10^{9}\times(1.602\times10^{-19})^{2}}{6.674\times10^{-11}\times(1.673\times10^{-27})^{2}}\approx1.2\times10^{36}$. The electric force is $10^{36}$ times larger, so gravity is negligible inside atoms.
+
+**Conclusion.** Coulomb's law is an inverse-square law like gravitation, but the electric force is far stronger, can repel, and depends on the medium.
+
+### Model answer D2: charging, properties of charge and force by many charges (10 marks)
+
+**Introduction.** Matter is neutral because it has equal positive and negative charge. An object becomes charged when it gains or loses electrons.
+
+**Methods of charging.**
+
+1. **By friction:** rubbing a glass rod with silk transfers electrons from the rod to the silk, so the rod becomes positive and the silk negative. A comb rubbed in dry Himalayan winter air picks up paper bits in the same way.
+2. **By conduction (contact):** a charged body touching a neutral conductor shares its charge, and both get the **same kind** of charge.
+3. **By induction:** a charged rod is brought near, without touching, an insulated conductor. The near end acquires the opposite charge and the far end the same charge. If the far end is earthed and then the earth connection is removed before the rod is taken away, the conductor keeps a charge **opposite** to the rod's charge.
+
+**Properties of electric charge.**
+
+- **Quantisation:** $q=\pm ne$ with $n$ an integer.
+- **Conservation:** the total charge of an isolated system never changes.
+- **Additive:** charges add algebraically as scalars.
+- **Two kinds:** positive and negative; like charges repel and unlike charges attract.
+- **Charge is invariant:** it does not change with the speed of the body.
+
+**Superposition principle.** The force on a charge due to several charges is the **vector sum** of the individual Coulomb forces, each calculated as if the others were absent.
+
+**Numerical.** Charges $A=+4\ \mu\text{C}$ at $x=0$, $B=-2\ \mu\text{C}$ at $x=0.10\ \text{m}$ and $C=+1\ \mu\text{C}$ at $x=0.30\ \text{m}$ lie on a line. Find the force on $B$.
+
+- From $A$ (attraction, towards $-x$): $F_{BA}=\dfrac{9\times10^{9}\times4\times10^{-6}\times2\times10^{-6}}{(0.10)^{2}}=7.2\ \text{N}$.
+- From $C$ (attraction, towards $+x$): $F_{BC}=\dfrac{9\times10^{9}\times2\times10^{-6}\times1\times10^{-6}}{(0.20)^{2}}=0.45\ \text{N}$.
+- Net force $=7.2-0.45=6.75\ \text{N}$ towards $A$.
+
+**Conclusion.** Charging is a transfer of electrons by friction, contact or induction; charge is quantised and conserved, and the net force on a charge is the vector sum of the forces from the others.

@@ -360,3 +360,85 @@ Students often say that iron rusts because it reacts with oxygen alone. Dry air 
 **3.** The reactivity series ranks metals by decreasing reactivity. (i) Displacement: Zn + CuSO₄ → ZnSO₄ + Cu. (ii) Reaction with acid: Mg and Zn give H₂ with dilute acids but Cu does not. (iii) It chooses the extraction method.
 **4.** Molar mass of Al₂O₃ = 102; it contains 54 of aluminium. Mass of Al = (54 / 102) × 204 = 54 × 2 = **108 kg**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Differentiate between metals and non-metals. Explain the reactivity series and its uses. <span class="marks">[10]</span>
+2. Describe the extraction of iron in a blast furnace. Explain corrosion of iron and the methods of preventing it. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="5" ratio="1.0" caption="From rock to metal. (a) Iron ore (haematite) is the raw material of the blast furnace. (b) Bauxite is the ore of aluminium. (c) Malachite is a green ore of copper. (d) A blast furnace in operation reduces the ore with carbon monoxide. (e) Rust is iron returning to its oxide. Ores come out of the ground, and corrosion pulls the metal back toward them."
+@ photo id="sci10/iron-ore" cap="(a) Iron ore"
+@ photo id="sci10/bauxite" cap="(b) Bauxite"
+@ photo id="sci10/malachite" cap="(c) Malachite"
+@ photo id="sci10/blast-furnace" cap="(d) Blast furnace"
+@ photo id="sci10/rust" cap="(e) Rust"
+```
+
+### Model answer D1: metals, non-metals and the reactivity series (10 marks)
+
+**Introduction.** Most elements are **metals**. Non-metals are fewer but include the gases essential to life. Metals are shiny, hard solids with good conduction, whereas non-metals are dull and brittle with poor conduction.
+
+| Property | Metals | Non-metals |
+|---|---|---|
+| Lustre | Shiny | Dull (except iodine, graphite) |
+| Conduction of heat and electricity | Good | Poor (graphite conducts) |
+| Malleable and ductile | Yes | No, brittle |
+| Hardness and density | Hard and dense (except Na, K) | Soft or gases, low density |
+| Melting point | High (except mercury) | Low |
+| Sonorous | Yes | No |
+| Oxides | Basic | Acidic |
+| Examples | Iron, copper, gold, aluminium | Carbon, sulphur, oxygen, chlorine |
+
+**Reactivity series.** Metals are arranged in the order of decreasing reactivity:
+
+**K > Na > Ca > Mg > Al > Zn > Fe > Pb > H > Cu > Ag > Au**
+
+| Metal group | Reaction with water | Reaction with dilute acid |
+|---|---|---|
+| K, Na, Ca | Cold water, vigorous, gives hydrogen | Violent |
+| Mg, Al, Zn, Fe | Steam only | Gives hydrogen |
+| Cu, Ag, Au | No reaction | No reaction |
+
+**Uses of the series.**
+
+1. **Predicting displacement.** A metal higher in the series displaces one lower down from its salt solution. Zinc displaces copper from copper sulphate, but copper cannot displace zinc.
+2. **Choice of extraction method.** Very reactive metals (K, Na, Ca, Mg, Al) are extracted by **electrolysis**; the middle ones (Zn, Fe, Pb) by **reduction with carbon**; the least reactive (Cu, Ag, Au) are often found free or are extracted by simple heating.
+3. **Safe storage.** Sodium and potassium are kept under kerosene since they react with air and water.
+4. **Use of metals.** Gold and silver do not tarnish, so they are used for jewellery; iron is cheap and strong, so it is used in buildings.
+
+**Minerals and ores.** A **mineral** is any natural substance containing a metal compound. An **ore** is a mineral from which the metal can be extracted cheaply. Bauxite ($\text{Al}_2\text{O}_3 \cdot 2\text{H}_2\text{O}$) is the ore of aluminium, haematite ($\text{Fe}_2\text{O}_3$) of iron, and malachite of copper.
+
+**Alloys.** An alloy is a mixture of metals: brass (Cu + Zn), bronze (Cu + Sn), steel (Fe + C), stainless steel (Fe + Cr + Ni).
+
+**Conclusion.** The reactivity series gathers the chemical behaviour of metals in one list and is used to predict reactions and to select the method of extraction.
+
+### Model answer D2: blast furnace and corrosion of iron (10 marks)
+
+**Introduction.** Iron is the most-used metal. It is extracted from **haematite ($\text{Fe}_2\text{O}_3$)** in a tall steel tower lined with fire bricks called the **blast furnace**.
+
+**Raw materials.** Iron ore (haematite), **coke** (carbon, fuel and reducing agent), **limestone** (flux) and a blast of hot air.
+
+**Reactions in the furnace.**
+
+1. **Burning of coke.** $\text{C} + \text{O}_2 \rightarrow \text{CO}_2$ gives heat, then $\text{CO}_2 + \text{C} \rightarrow 2\text{CO}$ forms carbon monoxide.
+2. **Reduction of ore.** $\text{Fe}_2\text{O}_3 + 3\text{CO} \rightarrow 2\text{Fe} + 3\text{CO}_2$. The iron melts and sinks to the bottom.
+3. **Removal of impurities.** Limestone breaks down, $\text{CaCO}_3 \rightarrow \text{CaO} + \text{CO}_2$, and the lime combines with sand, $\text{CaO} + \text{SiO}_2 \rightarrow \text{CaSiO}_3$ (**slag**). Slag floats on iron and is removed separately.
+
+The molten iron tapped from the bottom is called **pig iron** (about 4% carbon). It is further purified to make **steel**, which is tougher.
+
+**Corrosion of iron (rusting).** Iron slowly turns into reddish-brown, flaky **hydrated iron oxide** ($\text{Fe}_2\text{O}_3 \cdot x\text{H}_2\text{O}$) when it is exposed to **both air (oxygen) and moisture**. A nail kept in dry air or in boiled water does not rust. Salt and acid rain make rusting faster; this is a big problem in humid areas of the Terai.
+
+**Harm of rusting.** Bridges, roofs, vehicles, pipes and tools are weakened and the loss is very large each year.
+
+**Methods of prevention.**
+
+| Method | How it works | Example |
+|---|---|---|
+| Painting | Keeps out air and water | Bridges, gates |
+| Oiling and greasing | Oil film covers the metal | Machines, bicycle chain |
+| Galvanising | Coating with zinc, which reacts first | GI sheets and pipes |
+| Electroplating | Coating with chromium or nickel | Bicycle handles |
+| Alloying | Stainless steel does not rust | Kitchen utensils |
+| Sacrificial protection | A more reactive metal such as magnesium corrodes instead | Underground pipes, ships |
+
+**Conclusion.** Iron is extracted by reduction of its ore with carbon monoxide in the blast furnace, and its rusting is stopped by keeping air and moisture away from it.

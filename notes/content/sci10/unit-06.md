@@ -530,3 +530,62 @@ Sustainable development means meeting today's needs without harming the ability 
 **3.** Grasshopper = 10% of 50,000 = 5,000 kJ; frog = 500 kJ; snake = 50 kJ; eagle = 5 kJ. Pyramid: widest base grass (50,000), then grasshopper (5,000), frog (500), snake (50), top eagle (5).
 **4.** Reduce, reuse and recycle; segregate waste at source into biodegradable, recyclable and hazardous; compost kitchen waste or use vermicompost; make biogas from dung and kitchen waste; sanitary landfill for the remaining waste; avoid open burning; treat sewage; e-waste to authorised recyclers.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is environmental pollution? Describe the causes, effects and control of air, water and soil pollution with examples from Nepal. <span class="marks">[10]</span>
+2. Explain the conservation of biodiversity in Nepal. Write eight points and mention the in-situ and ex-situ methods. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="5" ratio="1.0" caption="Pressure on nature and the answers. (a) Dust and smoke over Kathmandu Valley. (b) Solid waste on the bank of the Bagmati. (c) Plastic that does not rot. (d) The Khumbu glacier, shrinking with the warming climate. (e) A one-horned rhinoceros in Chitwan, a conservation success. Pollution is mostly caused by people, and so is the solution."
+@ photo id="sci10/air-kathmandu" cap="(a) Air pollution"
+@ photo id="sci10/bagmati-waste" cap="(b) River waste"
+@ photo id="sci10/plastic-waste" cap="(c) Plastic waste"
+@ photo id="sci10/khumbu-glacier" cap="(d) Khumbu glacier"
+@ photo id="sci10/rhino" cap="(e) Rhino, Chitwan"
+```
+
+### Model answer D1: environmental pollution (10 marks)
+
+**Introduction.** **Pollution** is the addition of harmful substances to air, water or soil so that they become unfit for living things. The substances are called **pollutants**. Growth of towns, vehicles, factories, farming chemicals and waste are the main causes in Nepal.
+
+| Type | Main causes | Effects | Control |
+|---|---|---|---|
+| Air pollution | Smoke from vehicles and brick kilns, burning of waste and wood, dust from roads, factory gases | Asthma, bronchitis, eye irritation, acid rain, poor visibility, global warming | Use electric and well-maintained vehicles, stop burning of waste, plant trees, use clean cooking fuel such as biogas and LPG, move brick kilns to zig-zag technology |
+| Water pollution | Sewage, solid waste dumped in rivers (such as the Bagmati), chemical fertilisers, industry wastes, oil | Typhoid, cholera, diarrhoea; death of fish; unsafe drinking water | Treat sewage, boil or filter drinking water, stop dumping, use less chemical fertiliser, public awareness |
+| Soil pollution | Plastics, pesticides, chemical fertilisers, industrial waste, mining | Poor crop growth, poisoning of the food chain, loss of useful soil organisms | Use compost, reduce plastic, use the 3 R's, safe disposal in landfill sites |
+
+**Important points.**
+
+- **Air in Kathmandu Valley.** The valley is a bowl surrounded by hills, so dust and smoke stay trapped, especially in winter, and the Air Quality Index often rises to unhealthy levels.
+- **Rivers.** Untreated waste and sewage have made rivers such as the Bagmati and the Bishnumati dirty in the city section, and fish and other life are reduced.
+- **Plastic.** Plastic does not rot in soil, and it blocks drains and harms cattle that eat it. Nepal has banned very thin plastic bags and encourages cloth bags.
+- **Greenhouse gases.** Carbon dioxide and methane trap heat and raise the temperature of the Earth. Glaciers of the Himalaya such as the Khumbu glacier are shrinking as a result.
+
+**The 3 R's: reduce, reuse, recycle.** Buy only what you need, use things again (refill bottles, reuse paper), and send glass, metals and paper for recycling. Compost kitchen waste and make biogas from cow dung to reduce waste and fuel use.
+
+**Conclusion.** Pollution damages health, farming and wildlife. It can be controlled by law, by cleaner technology and by each person's daily habits.
+
+### Model answer D2: conservation of biodiversity in Nepal (10 marks)
+
+**Introduction.** **Biodiversity** is the variety of living things in an area. Although Nepal is only 0.1 percent of the world's land, it has a very rich biodiversity because it ranges from the hot Terai (60 m) to the top of Sagarmatha (8,849 m). **Conservation** means using resources wisely so that they remain for the future.
+
+1. **Why conserve? Food and medicine.** Wild plants and animals give food, herbs and the gene stock for better crops. If a species vanishes, we lose its possible uses forever.
+2. **Balance of nature.** Each species has a place in a food chain. Removing the tiger from a forest would let deer increase and the grass would be overeaten.
+3. **Income from tourism.** Visitors come to see the one-horned rhino, tiger and snow leopard. This gives work to guides, hotels and local people.
+4. **National parks and reserves.** Nepal has 12 national parks, 1 hunting reserve, 6 conservation areas and 1 wildlife reserve. Chitwan National Park (1973), the first one, protects rhinos, tigers and gharial.
+5. **Buffer zones and community forests.** Local people receive a share of park income and manage forests of their own. Community forests have helped the green cover of the middle hills to increase.
+6. **Laws and punishment.** The National Parks and Wildlife Conservation Act punishes poaching and trade in rhino horn, tiger bones and skins, pangolin scales and other parts.
+7. **Breeding and rescue.** Gharial, vulture and rhino breeding centres help to raise the population of rare species, and rescued animals are returned to the wild.
+8. **Education and community participation.** Schools, eco-clubs, media and local people are taught to protect nature, and anti-poaching units are formed in villages.
+
+**In-situ and ex-situ conservation.**
+
+| In-situ (in the natural place) | Ex-situ (outside the natural place) |
+|---|---|
+| National parks, wildlife reserves, conservation areas, community forests | Zoo, botanical garden, seed bank, gene bank, captive breeding centre |
+| Example: Chitwan National Park, Sagarmatha National Park | Example: Central Zoo (Jawalakhel), National Botanical Garden (Godawari) |
+| Animals live in their natural habitat | Animals are cared for by people |
+
+**Threats.** Loss of forests, poaching, illegal trade, human-wildlife conflict, pollution and climate change.
+
+**Conclusion.** A mix of protected areas, people's participation and strict laws has raised the numbers of rhinos and tigers in Nepal, which shows that conservation can succeed.

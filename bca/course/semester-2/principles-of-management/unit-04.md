@@ -139,6 +139,120 @@ Conflicts: line may resent staff advice; staff may feel unheard. Remedy: clear r
 
 **Staffing** means filling and keeping filled the positions in the structure: **human-resource planning** (forecasting needs), **recruitment** (attracting candidates: advertisements, campus drives, referrals), **selection** (screening, tests, interviews, reference checks, medical, offer), **orientation/induction**, **training and development**, **performance appraisal**, **compensation**, **promotion, transfer and separation**. Good staffing puts "the right person at the right job at the right time."
 
+```photogrid label="4.1" cols="2" ratio="1.0" caption="Organising in practice: one organisation, many locations. (a) The Nepal Rastra Bank office at Pokhara. The central bank has its head office in Kathmandu and regional offices in other cities; each regional office is given authority over local tasks such as currency exchange and supervision of local banks, which is decentralisation of authority in a single organisation. (b) The reporting chain that makes such an arrangement work: the head office keeps policy and the big decisions, while the regional manager answers to a head-office department and directs local section heads."
+@ photo id="bca156/nrb" cap="Nepal Rastra Bank, Pokhara office"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.35 0.4 0.2 "regional office"
+@ svg cap="Head office and regional office"
+f = Fig(260, 260)
+f.box(60, 8, 140, 36, "Head office\nKathmandu", fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True)
+f.box(60, 80, 140, 36, "Regional manager\nPokhara", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(5, 152, 80, 36, "Currency\nsection", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(90, 152, 80, 36, "Bank\nsupervision", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(175, 152, 80, 36, "Accounts\nsection", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(130, 44), (130, 80)], color=SLATE, sw=1.8)
+f.arrow([(130, 116), (45, 152)], color=SLATE, sw=1.5)
+f.arrow([(130, 116), (130, 152)], color=SLATE, sw=1.5)
+f.arrow([(130, 116), (215, 152)], color=SLATE, sw=1.5)
+f.text(130, 214, "policy: head office", size=10.5, color=NAVY, bold=True)
+f.text(130, 232, "local action: region", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="4.1" caption="Line and staff authority in a college. The line (solid) runs from the campus chief through the heads of department to the teachers; it carries the authority to decide and command. Staff positions (dashed) such as the examination adviser and the IT officer give specialised advice and service but have no authority over the line. Unity of command means each teacher has one boss, the head of department."
+f = Fig(580, 260)
+f.box(215, 8, 150, 38, "Campus chief", fill=NAVY, stroke=NAVY, color="#ffffff", size=12, bold=True)
+f.box(10, 90, 140, 34, "Examination adviser\n(staff)", fill=SAND, stroke=AMBER, size=10.5, bold=True, dash=True)
+f.box(430, 90, 140, 34, "IT officer\n(staff)", fill=SAND, stroke=AMBER, size=10.5, bold=True, dash=True)
+f.box(215, 100, 150, 34, "Head of Computing", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(80, 190, 130, 34, "Head of Management", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(370, 190, 130, 34, "Teachers (Computing)", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.arrow([(290, 46), (290, 100)], color=SLATE, sw=2)
+f.arrow([(290, 134), (290, 160), (435, 160), (435, 190)], color=SLATE, sw=2)
+f.arrow([(290, 134), (290, 160), (145, 160), (145, 190)], color=SLATE, sw=2)
+f.arrow([(150, 107), (215, 80), (215, 60)], color=AMBER, sw=1.4, dash=True)
+f.arrow([(430, 107), (365, 80), (365, 60)], color=AMBER, sw=1.4, dash=True)
+f.text(290, 246, "solid = line authority; dashed = staff advice", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="4.2" caption="Four bases of departmentalisation, shown for a Nepali company. Functional grouping puts similar jobs together (production, marketing, finance). Product grouping gives each product line its own team. Geographic grouping organises by region. Customer grouping organises by type of buyer. Each basis gains one kind of focus and loses another, so large organisations often mix them."
+f = Fig(580, 230)
+def chart(x, title, kids, fl, st):
+    f.box(x, 8, 130, 30, title, fill=fl, stroke=st, size=11, bold=True)
+    f.line(x + 65, 38, x + 65, 52, color=SLATE, sw=1.4)
+    f.line(x + 17, 52, x + 113, 52, color=SLATE, sw=1.4)
+    for i, k in enumerate(kids):
+        cx = x + 17 + i * 48
+        f.line(cx, 52, cx, 66, color=SLATE, sw=1.4)
+        f.box(cx - 22, 66, 44, 56, k, fill=SOFT, stroke=st, size=8.5, bold=True)
+chart(5, "Functional", ["Pro-\nduc-\ntion", "Mar-\nket-\ning", "Fin-\nance"], BLUE, NAVY)
+chart(150, "Product", ["Noo-\ndles", "Bis-\ncuits", "Bev-\nerage"], MINT, TEAL)
+chart(295, "Geographic", ["Cen-\ntral", "Wes-\ntern", "East-\nern"], SAND, AMBER)
+chart(440, "Customer", ["Re-\ntail", "Hotel", "Gov-\nt."], ROSE, RED)
+f.text(290, 150, "Each basis answers a different question", size=11, color=SLATE, bold=True)
+rows = [("Functional", "efficient use of skills", "slow cross-team work"), ("Product", "product focus, clear profit", "duplicated staff"), ("Geographic", "local knowledge, fast service", "inconsistent standards"), ("Customer", "tailored service", "needs many specialists")]
+for i, (a, b, c) in enumerate(rows):
+    y = 170 + i * 15
+    f.text(10, y, a, size=9.5, color=NAVY, bold=True, anchor="start")
+    f.text(95, y, "+ " + b, size=9.5, color=TEAL, anchor="start")
+    f.text(340, y, "- " + c, size=9.5, color=RED, anchor="start")
+```
+
+```svgfig label="4.3" caption="Span of management decides the shape. Suppose 4,096 operating staff must be supervised. With a span of 4 there are six levels of management and 1 + 4 + 16 + 64 + 256 + 1,024 = 1,365 managers (tall). With a span of 8 there are four levels and 1 + 8 + 64 + 512 = 585 managers (flat), but each manager has 44 possible Graicunas relationships to handle with 4 subordinates against 1,080 with 8. The flat form saves 780 managers and speeds communication; the tall form gives closer supervision."
+f = Fig(580, 260)
+def tree(cx, widths, label, col, st):
+    y = 20
+    for i, n in enumerate(widths):
+        w = 14 + i * 22
+        f.box(cx - w / 2, y, w, 24, "", fill=col, stroke=st)
+        y += 34
+    f.text(cx, y + 10, label, size=10.5, color=st, bold=True)
+tree(140, [1, 4, 16, 64, 256, 1024], "Span 4: 6 levels\n1,365 managers", MINT, TEAL)
+tree(430, [1, 8, 64, 512], "Span 8: 4 levels\n585 managers", SAND, AMBER)
+f.text(290, 12, "Both supervise 4,096 operating staff", size=10.5, color=SLATE, bold=True)
+f.text(430, 218, "Graicunas relationships\nper manager: n = 4 -> 44\nn = 8 -> 1,080", size=10, color=RED, bold=True)
+```
+
+### 4.6.1 Eight advantages of delegation
+
+1. **It frees managers for important work.** A manager who does everything personally has no time for planning or for solving serious problems. Delegating routine tasks, such as approving small expenses, lets a branch manager think about growth and customers. The manager's time is the scarcest resource in an organisation.
+2. **It speeds up decisions.** When a decision must travel up to the top and back, customers wait and chances are lost. A counter officer who may approve a small cash withdrawal on the spot serves the customer in minutes. Delegation moves the decision to where the information is.
+3. **It develops subordinates.** People learn by taking responsibility, making decisions and sometimes making mistakes. A teacher who is asked to organise the examination timetable learns skills that prepare for the role of head of department. Delegation is therefore also a training method.
+4. **It improves motivation and morale.** Staff who are trusted with real authority feel respected and take more pride in their work. Their commitment is stronger than when they only follow orders. Higher morale reduces absence and turnover.
+5. **It makes better use of expert knowledge.** The person closest to a task often knows it best. A sales officer in Biratnagar understands local buyers better than the head office in Kathmandu does. Delegating to such people gives better decisions.
+6. **It supports growth.** An organisation whose owner makes every decision cannot grow beyond what one person can handle. Delegation lets a small shop become a chain of shops by creating managers who run each outlet. This is how many Nepali family businesses have expanded.
+7. **It prepares successors.** When a manager leaves or falls ill, a delegated team can continue the work without a crisis. Delegation therefore reduces the risk of depending on one person. It also gives the organisation a ready pool of future managers.
+8. **It makes the structure more flexible.** Authority spread through the organisation lets each unit adjust to local changes without waiting for orders. A decentralised organisation (Plate 4.1) can respond to different regions while following one policy. Responsibility and accountability, however, stay with the delegating manager, who must still control the results.
+
+```photogrid label="4.2" cols="2" ratio="1.2" caption="How many people can one manager supervise? (a) A conductor in front of a large group: with a shared score and a clear signal one person can lead many, but every added player also adds relationships to watch. (b) V. A. Graicunas (1933) counted the direct single, group and cross relationships between a manager and n subordinates as n(2^(n-1) + n - 1). That gives 6 for two subordinates, 44 for four, 100 for five, 222 for six and 1,080 for eight, so the supervisory load grows far faster than the head count. The span also fixes the height of the organisation: for 4,096 employees a span of 4 needs 6 levels, a span of 16 needs 3 and a span of 64 needs only 2. A narrow span means close control but a tall, slow, costly hierarchy; a wide span means a flat, quick one that works only when jobs are routine, staff are skilled and goals are clear."
+@ photo id="bcamg/conductor" cap="One conductor, a large group"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Graicunas relationships and levels for 4,096 staff"
+import math
+g = lambda n: n * (2 ** (n - 1) + n - 1)
+ns = [2, 4, 5, 6, 8]; gv = [g(n) for n in ns]
+assert gv == [6, 44, 100, 222, 1080]
+lv = [math.ceil(math.log(4096, s) - 1e-9) for s in (4, 16, 64)]
+assert lv == [6, 3, 2]
+f = Fig(300, 240)
+f.text(150, 14, "relationships to watch, by span n", size=10.5, color=NAVY, bold=True)
+for i, (n, v) in enumerate(zip(ns, gv)):
+    y = 24 + i * 19
+    f.text(40, y + 7, f"n = {n}", size=10.5, color=NAVY, anchor="end", vmid=True)
+    w = 200 * v / 1080
+    f.box(46, y, max(w, 2), 14, "", fill="#b91c1c" if v > 200 else "#1d6fb8", stroke=NAVY, r=0, sw=1)
+    f.text(46 + max(w, 2) + 5, y + 7, f"{v:,}", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+f.text(150, 134, "levels needed for 4,096 employees", size=10.5, color=NAVY, bold=True)
+for i, (s, l) in enumerate(zip((4, 16, 64), lv)):
+    y = 146 + i * 22
+    f.text(56, y + 8, f"span {s}", size=10.5, color=NAVY, anchor="end", vmid=True)
+    for k in range(l):
+        f.box(62 + k * 30, y, 26, 16, "", fill="#99f6e4", stroke="#0f766e", r=0, sw=1)
+    f.text(62 + l * 30 + 4, y + 8, f"{l} levels", size=10.5, color="#0f766e", anchor="start", bold=True, vmid=True)
+f.text(150, 224, "wide span = flat and fast, if staff are skilled", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Organising process: objectives → activities → divide work → group (departmentalise) → assign authority → staff → coordinate.
@@ -182,3 +296,70 @@ Conflicts: line may resent staff advice; staff may feel unheard. Remedy: clear r
 **9.** Matrix: two bosses, flexible but dual command; team-based: cross-functional, fast but consensus is slow; network: outsourced core, low overhead but less control.
 **10.** Principal/Campus chief at the top; below him Academic, Administration, Finance, Examination, and IT departments; under Academic: BCA programme, BBS programme, library, labs.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). What is departmentalisation? Explain its bases with examples.**
+
+*Introduction.* Departmentalisation is the grouping of jobs and activities into units (departments) so that related work is coordinated under one manager. The basis chosen shapes the whole structure; Figure 4.2 shows four common ones.
+
+1. **Functional.** Jobs are grouped by the business function: production, marketing, finance and personnel. The gain is efficient use of specialised skills; the weakness is slow cooperation between departments.
+2. **Product.** Each product line has its own team, for example noodles, biscuits and beverages in a food company. It gives product focus and clear profit responsibility but duplicates staff.
+3. **Geographic.** Units are set up by region, such as central, western and eastern branches of a bank. It gives local knowledge and quick service but may lead to inconsistent standards.
+4. **Customer.** Units serve types of buyers such as retail, hotel and government customers. It offers tailored service but needs many specialists.
+5. **Process and project.** Jobs are grouped by stages of work (cutting, stitching, packing in a garment factory) or by project (a construction team for each building).
+
+*Conclusion.* No basis is best everywhere; large organisations combine several, for example functional departments at the head office and geographic units in the field.
+
+**Q2 (5 marks). Explain span of management. State the factors affecting it and show with Graicunas's formula why it should be limited.**
+
+*Introduction.* The span of management is the number of subordinates who report directly to one manager. It decides whether the organisation is tall or flat (Figure 4.3).
+
+1. **Tall and flat.** A narrow span gives many levels, close supervision and slow communication; a wide span gives few levels, quick communication and more independence for staff. With 4,096 operating staff, a span of 4 needs 1,365 managers in six levels, but a span of 8 needs only 585 in four levels.
+2. **Factors widening the span.** Skilled and trained subordinates, clear plans and standards, similar and routine tasks, good communication systems, a capable manager and staff working in one place.
+3. **Factors narrowing the span.** Complex or risky work, unskilled staff, scattered locations and a manager with many other duties.
+4. **Graicunas's formula.** The number of possible relationships for n subordinates is n(2^(n-1) + n - 1). For n = 4 it is 4 x (8 + 3) = 44; for n = 5 it is 5 x (16 + 4) = 100; for n = 6 it is 6 x (32 + 5) = 222; for n = 8 it is 8 x (128 + 7) = 1,080.
+5. **Meaning.** Each added subordinate multiplies, rather than adds to, the manager's coordination load, so there is a practical limit, often quoted as about five to eight at the top and wider at the operating level.
+
+*Conclusion.* The right span is a balance between control and cost and depends on the people and the task.
+
+**Q3 (10 marks). Explain authority, responsibility and accountability. Describe delegation of authority, its process, barriers and the principles of effective delegation. Distinguish centralisation from decentralisation.**
+
+*Introduction.* Organising joins people through relationships of authority. Understanding authority, responsibility, accountability and delegation is central to the structure in Figure 4.1 and to the head-office and regional arrangement in Plate 4.1.
+
+**Authority, responsibility and accountability.** *Authority* is the right to make decisions, give orders and use resources. *Responsibility* is the obligation to perform the assigned duties. *Accountability* is the duty to report on results and accept the consequences. Authority can be delegated; accountability cannot; and responsibility should be matched with authority, otherwise a person is held to blame without the power to act. *Line* authority runs down the chain of command, while *staff* authority is advisory (Figure 4.1).
+
+**Delegation.** It is the process by which a manager assigns part of the work together with the authority to do it, and creates the obligation of the subordinate to complete it. Its steps are: (1) assign the duty clearly; (2) grant the necessary authority; (3) create the obligation to perform; (4) keep accountability with the delegating manager and follow up. Its advantages are in section 4.6.1.
+
+**Barriers.** The manager may fear losing power, think "I can do it faster myself", lack trust in subordinates or lack skill in explaining the task. Subordinates may fear mistakes, lack confidence or feel they are overloaded.
+
+**Principles of effective delegation.** Delegate results, not methods; match authority to responsibility; choose the right person; give clear instructions and deadlines; establish controls and feedback; and accept that mistakes will happen and are used for learning.
+
+**Centralisation and decentralisation.** Centralisation keeps most decision-making at the top; decentralisation spreads it to lower levels. Delegation is the process, while decentralisation is the result when delegation is systematic and wide.
+
+| Basis | Centralisation | Decentralisation |
+|---|---|---|
+| Decision-making | at the top | spread through levels |
+| Speed | slow for local matters | quick |
+| Uniformity | high | may vary by unit |
+| Managerial training | little | much |
+| Suits | small organisations, crises | large, diverse, quickly changing ones |
+| Nepali example | a small family shop | regional offices such as NRB Pokhara |
+
+*Conclusion.* Effective organising matches authority with responsibility, uses delegation to speed decisions and to build people, and chooses an appropriate degree of decentralisation. However much is delegated, the manager remains accountable.
+
+**Q4 (5 marks). Distinguish mechanistic from organic organisations (Burns and Stalker).**
+
+*Introduction.* Tom Burns and G. M. Stalker (1961) found that firms in stable conditions used rigid structures, while firms in rapidly changing conditions used flexible ones.
+
+| Basis | Mechanistic | Organic |
+|---|---|---|
+| Tasks | narrow, specialised | broad, shared |
+| Rules | many, formal | few, flexible |
+| Authority | at the top, strict chain | spread, based on knowledge |
+| Communication | vertical, orders downward | lateral, advice and discussion |
+| Decisions | centralised | decentralised |
+| Environment | stable | changing and uncertain |
+| Example | government revenue office | software start-up |
+
+*Conclusion.* Neither is better in itself; the right structure depends on the environment, which is the contingency view.

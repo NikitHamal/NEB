@@ -47,6 +47,34 @@ JK removes the SR forbidden state by making 11 mean toggle. A D flip-flop is a J
 
 **Asynchronous inputs.** **Preset** (set to 1) and **Clear** (reset to 0) act immediately, overriding the clock. They initialise counters and registers at power-up.
 
+```photogrid label="4.1" cols="2" ratio="1.3" caption="Why edge triggering exists. (a) A real JK flip-flop in a 14-pin package (74LS73): two of these fit in one small chip. (b) The race-around of a level-triggered JK flip-flop with J = K = 1, simulated in 10 ns steps: the output toggles once per propagation delay while the clock is high, so the final state depends on the pulse width. An edge-triggered flip-flop toggles exactly once."
+@ photo id="bca103/jk73" cap="74LS73: dual JK flip-flop with clear (14-pin DIP)"
+fit 1.3
+focus 0.5 0.45
+call 0.5 0.9 0.5 0.52 "Pin 1 notch end"
+@ svg cap="Level-triggered JK, J = K = 1, t_pd = 10 ns, Q starts at 0"
+tp = 10; rows = []
+for tw in (5, 15, 25, 35, 40, 50):
+    q, t, n = 0, tp, 0
+    while t <= tw:
+        q ^= 1; n += 1; t += tp
+    rows.append((tw, n, q))
+assert rows == [(5, 0, 0), (15, 1, 1), (25, 2, 0), (35, 3, 1), (40, 4, 0), (50, 5, 1)]
+f = Fig(400, 310)
+f.text(200, 16, "Clock-high time vs result", size=11, color=NAVY, bold=True)
+for x, h in ((20, "Pulse"), (110, "Toggles"), (195, "Final Q"), (290, "Edge-triggered Q")): f.text(x, 40, h, size=10.5, color=NAVY, bold=True, anchor="start")
+for i, (tw, n, q) in enumerate(rows):
+    y = 54 + i * 34
+    bad = n != 1
+    f.box(8, y, 384, 28, "", fill=ROSE if bad else MINT, stroke=RED if bad else TEAL, r=4, sw=1)
+    f.text(20, y + 14, f"{tw} ns", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(110, y + 14, str(n), size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(195, y + 14, str(q), size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(290, y + 14, "1 (toggled once)", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(200, 272, "Red rows: the level-triggered result is wrong or unpredictable.", size=10, color=SLATE)
+f.text(200, 292, "A 5 ns pulse is missed; 25 ns toggles twice and ends where it began.", size=10, color=SLATE)
+```
+
 ## 4.2 Counters
 
 A **counter** is a sequential circuit that steps through a fixed sequence of states, one per clock pulse. **Modulus** (MOD) = number of distinct states. n flip-flops give at most 2ⁿ states, so MOD ≤ 2ⁿ.
@@ -122,6 +150,25 @@ f.text(48, 296, "count", size=10.5, color=NAVY, bold=True, anchor="end")
 f.text(380, 326, "outputs change on the falling edge of the previous stage (ripple delay ignored here)", size=9.5, color=SLATE)
 ```
 
+```photogrid label="4.2" cols="2" ratio="1.25" caption="Clock and speed. (a) An NE555 timer in 8-pin DIP and surface-mount packages: the cheapest way to make a clock pulse for a small counter. (b) Maximum clock frequency of a ripple counter and a synchronous counter (flip-flop delay 15 ns, one AND gate 10 ns): the ripple counter slows down as bits are added, the synchronous counter does not."
+@ photo id="bca103/ne555" cap="NE555 timer: astable clock source for counter experiments"
+fit 1.25
+focus 0.5 0.5
+@ svg cap="f_max = 1 / settling time (computed)"
+tpd, tg = 15, 10
+res = {n: (1000 / (n * tpd), 1000 / (tpd + tg)) for n in (4, 8, 16)}
+assert [round(res[n][0], 1) for n in res] == [16.7, 8.3, 4.2] and all(round(v[1]) == 40 for v in res.values())
+f = Fig(400, 310)
+f.text(200, 16, "Maximum clock frequency (MHz)", size=11, color=NAVY, bold=True)
+for i, n in enumerate(res):
+    y = 40 + i * 78
+    f.text(10, y + 8, f"{n}-bit counter", size=10.5, color=NAVY, bold=True, anchor="start")
+    r, s = res[n]
+    f.box(10, y + 18, r / 40 * 230 + 2, 22, "", fill=ROSE, stroke=RED); f.text(10 + r / 40 * 230 + 8, y + 29, f"ripple {r:.1f}", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(10, y + 44, s / 40 * 230 + 2, 22, "", fill=MINT, stroke=TEAL); f.text(10 + s / 40 * 230 + 8, y + 55, f"synchronous {s:.0f}", size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(200, 294, "Ripple settling time = n x 15 ns; synchronous = 15 + 10 ns.", size=10, color=SLATE)
+```
+
 ## 4.3 Registers
 
 A **register** is a group of flip-flops holding a binary word, all sharing one clock; an n-bit register stores n bits. A **shift register** also moves the bits one position on each clock pulse. Four modes:
@@ -158,6 +205,81 @@ f.text(575, 176, "Four more clocks move them out", size=10.5, color=SLATE); f.te
 f.text(575, 214, "Delay = n clock periods for n bits.", size=10.5, color=SLATE)
 ```
 
+```photogrid label="4.3" cols="3" ratio="1.2" caption="Flip-flops in real equipment. (a) A SN74ALS74 dual D flip-flop, the chip that holds two bits. (b) Three 74HC595 8-bit shift registers on a circuit board: they turn a few wires from a microcontroller into many output lines. (c) A laboratory frequency counter: a gate and a chain of counter stages count the pulses of the input in a fixed time."
+@ photo id="bca103/ff74" cap="74ALS74: two D flip-flops in one 14-pin chip"
+fit 1.2
+focus 0.5 0.5
+@ photo id="bca103/sr595" cap="74HC595 shift registers (SOIC) on a board"
+fit 1.2
+focus 0.5 0.5
+@ photo id="bca103/freqctr" cap="Frequency counter: counts pulses in a 1 s gate"
+fit 1.2
+focus 0.5 0.4
+```
+
+```svgfig label="4.3" caption="Serial-to-parallel conversion in an 8-bit shift register, simulated clock by clock. The letter N (ASCII 78 = 01001110) arrives on one wire, most significant bit first; after eight clocks the eight outputs Q7 to Q0 hold the whole byte."
+byte = ord("N"); bits = [(byte >> (7 - i)) & 1 for i in range(8)]
+reg, hist = 0, []
+for b in bits:
+    reg = ((reg << 1) | b) & 0xFF
+    hist.append(reg)
+assert bits == [0, 1, 0, 0, 1, 1, 1, 0] and hist[-1] == 0x4E and hist[0] == 0 and hist[1] == 1 and hist[3] == 0b100
+f = Fig(760, 300)
+f.text(10, 16, "Clock", size=10.5, color=NAVY, bold=True, anchor="start"); f.text(70, 16, "Serial in", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(300, 16, "Register contents Q7 ... Q0", size=10.5, color=NAVY, bold=True, anchor="start")
+for i, (b, r) in enumerate(zip(bits, hist)):
+    y = 30 + i * 28
+    f.text(24, y + 12, str(i + 1), size=10.5, color=SLATE, bold=True, vmid=True)
+    f.box(70, y, 44, 24, str(b), fill=SAND if b else SOFT, stroke=AMBER, size=11, bold=True)
+    f.arrow([(116, y + 12), (160, y + 12)], color=SLATE)
+    for k in range(8):
+        v = (r >> (7 - k)) & 1
+        f.box(170 + k * 34, y, 30, 24, str(v), fill=MINT if v else SOFT, stroke=TEAL if v else "#94a3b8", size=11, bold=True)
+f.box(470, 30, 280, 100, "", fill=BLUE, stroke=NAVY)
+f.text(610, 52, "After clock 8", size=11, color=NAVY, bold=True)
+f.text(610, 76, f"Q7..Q0 = {hist[-1]:08b} = 0x{hist[-1]:02X} = {hist[-1]}", size=11, color=SLATE, bold=True)
+f.text(610, 98, "which is the ASCII code of the letter N.", size=10.5, color=SLATE)
+f.text(610, 118, "Each bit moved one place per clock.", size=10.5, color=SLATE)
+f.box(470, 146, 280, 100, "", fill=SAND, stroke=AMBER)
+f.text(610, 168, "Why it matters", size=11, color=AMBER, bold=True)
+f.text(610, 190, "A UART or USB port receives one bit at a time", size=10.5, color=SLATE)
+f.text(610, 208, "and uses exactly this circuit to hand the", size=10.5, color=SLATE)
+f.text(610, 226, "CPU a whole byte in 8 clock periods.", size=10.5, color=SLATE)
+```
+
+```svgfig label="4.4" caption="Four flip-flops, three kinds of counter. Every one of the 16 possible states was run for 20 clocks to see which ones fall into the intended counting cycle: ring and Johnson counters need a preset or clear at power-up."
+def ring(s): return ((s >> 1) | ((s & 1) << 3)) & 15
+def john(s): return ((s >> 1) | ((~s & 1) << 3)) & 15
+def binc(s): return (s + 1) & 15
+def cyc(fn, s0):
+    s, n = fn(s0), 1
+    while s != s0 and n < 40: s, n = fn(s), n + 1
+    return n
+def reach(fn, valid):
+    ok = 0
+    for s in range(16):
+        x = s
+        for _ in range(20): x = fn(x)
+        ok += x in valid
+    return ok
+V = {"ring": {8, 4, 2, 1}, "john": {0, 8, 12, 14, 15, 7, 3, 1}}
+R = [("Ring", ring, 8, V["ring"]), ("Johnson (twisted ring)", john, 0, V["john"]), ("Binary up", binc, 0, set(range(16)))]
+out = [(nm, cyc(fn, s0), reach(fn, v)) for nm, fn, s0, v in R]
+assert out == [("Ring", 4, 4), ("Johnson (twisted ring)", 8, 8), ("Binary up", 16, 16)] and ring(0) == 0
+f = Fig(760, 250)
+f.text(380, 16, "Same four flip-flops, different counting cycle (MOD number)", size=11.5, color=NAVY, bold=True)
+for x, h in ((10, "Counter"), (230, "MOD (cycle length)"), (440, "States that reach the cycle")): f.text(x, 42, h, size=10.5, color=NAVY, bold=True, anchor="start")
+notes = ["start 1000, one 1 moves round; decoding needs no gates", "start 0000, 2n states; decode any state with a 2-input AND", "all 16 states used; decoder needs 4-input gates"]
+for i, ((nm, m, ok), nt) in enumerate(zip(out, notes)):
+    y = 56 + i * 52
+    f.box(6, y, 748, 44, "", fill=[SAND, BLUE, MINT][i], stroke=[AMBER, NAVY, TEAL][i], r=5, sw=1)
+    f.text(14, y + 14, nm, size=11, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(14, y + 32, nt, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.text(230, y + 22, f"MOD-{m}", size=12, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(440, y + 22, f"{ok} of 16" + ("  (0000 stays 0000: preset needed)" if i == 0 else "  (other 8 states loop forever)" if i == 1 else "  (self-starting)"), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(380, 230, "Lesson: a ring or Johnson counter must be preset or cleared when power comes on.", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.4 Applications of flip-flops, counters and registers: eight uses
 
 1. **Memory cells.** A flip-flop stores one bit as long as power is on. Registers inside a CPU and the cache memory are arrays of such cells. A 32-bit register is simply 32 flip-flops sharing one clock.
@@ -168,6 +290,17 @@ f.text(575, 214, "Delay = n clock periods for n bits.", size=10.5, color=SLATE)
 6. **Delay lines and pipelines.** A shift register delays a signal by a known number of clock periods. Pipelined CPUs put registers between stages to hold each instruction while the next one starts. This raises the speed of the whole processor.
 7. **Ring and Johnson counters for control.** A ring counter keeps one flip-flop at 1 and moves it around. It gives timing pulses that switch traffic lights or step a stepper motor in sequence. Johnson counters give 2n states from n flip-flops.
 8. **Synchronisation and debouncing.** A D flip-flop samples an input at the clock edge, which turns a noisy or asynchronous signal into a clean one. Keyboard keys and push buttons need this because their contacts bounce. It also protects the CPU from signals that arrive at random times.
+
+### 4.4.1 Eight places where Nepali users meet flip-flops and counters
+
+1. **Digital watch and clock.** A 32.768 kHz crystal feeds a chain of 15 flip-flops that halves the frequency to exactly 1 Hz. More counters turn seconds into minutes and hours. Every wristwatch and wall clock sold in Kathmandu works this way.
+2. **Electricity meter.** The digital meters of Nepal Electricity Authority count pulses from the measuring chip, and each group of pulses is one unit of energy. Counters and registers hold the running reading that you see on the display. The register keeps the value even during a short power cut.
+3. **Bank token display.** The counter at a bank queue is an up counter with a decoder for a seven-segment display. When the clerk presses the button, the counter adds one. Reset puts it back to zero at the start of the day.
+4. **Traffic lights.** A ring-type counter steps through green, yellow and red, and a timer sets how long each lasts. Junctions such as Ratna Park and Kalanki use controllers built on the same idea. The signals change in a fixed order without any person.
+5. **Lifts.** A register remembers which floor buttons were pressed and which floor the car has reached. The control logic compares them and starts or stops the motor. The memory of every press is stored in flip-flops.
+6. **Mobile phones and computers.** The CPU registers, cache and RAM cells are arrays of flip-flop-like cells. A 64-bit processor has dozens of 64-bit registers made of such cells. All of them are written at the clock edge, billions of times per second.
+7. **Keyboards and buttons.** A D flip-flop samples the key line on the clock and removes the jitter of a bouncing contact. Without it one key press could appear as several letters. USB keyboards and ATM keypads rely on this.
+8. **Serial ports and Wi-Fi.** Shift registers turn the serial bit stream of USB, UART and Ethernet into bytes, and bytes back into a stream (Figure 4.3). Routers and modems do this millions of times each second. Without it computers could not talk over a single wire or antenna.
 
 ## Formula and fact sheet
 
@@ -252,3 +385,69 @@ Characteristic equation: **Q⁺ = JQ' + K'Q**. In an SR flip-flop the input S = 
 | Use | frequency dividers | CPUs, high-speed counters |
 
 *Conclusion.* The ripple counter is simple, cheap and good as a frequency divider; when speed matters, a synchronous counter is used because all flip-flops change at the same instant.
+
+**Q (5 marks). What is the race-around condition in a JK flip-flop? How is it removed?**
+
+In a **level-triggered JK flip-flop** with J = K = 1 the output toggles each time the signal has travelled through the gates, that is once per propagation delay t_pd, for as long as the clock is high. If the clock-high time t_w is longer than t_pd, the output **races around**: it toggles many times and the final state cannot be predicted. Plate 4.1 simulates a flip-flop with t_pd = 10 ns:
+
+| Clock pulse | Toggles | Final Q |
+|---|---|---|
+| 5 ns | 0 | 0 (pulse missed) |
+| 15 ns | 1 | 1 |
+| 25 ns | 2 | 0 |
+| 35 ns | 3 | 1 |
+| 50 ns | 5 | 1 |
+
+**Remedies**
+
+1. **Edge triggering:** the flip-flop reads its inputs only at the rising or falling edge, so it toggles once per clock whatever the pulse width.
+2. **Master-slave construction:** two latches in series; the master follows the inputs while the clock is high, the slave copies it only when the clock falls, so the output cannot change twice in one pulse.
+3. **Narrow clock pulse:** make t_w smaller than t_pd. It is unreliable because the delay varies with temperature, so it is not used.
+
+**Example.** The 74LS73 of Plate 4.1 is a JK flip-flop that changes only at the falling clock edge, so J = K = 1 gives a clean divide-by-2.
+
+**Q (5 marks). Design a MOD-6 asynchronous (ripple) counter.**
+
+A MOD-6 counter counts 0 to 5 and returns to 0, so it needs 3 flip-flops (2³ = 8 ≥ 6). Use three T (or JK with J = K = 1) flip-flops with negative-edge clock, each clocked by the previous output, which gives a free-running MOD-8 counter.
+
+1. **Count sequence:** 000, 001, 010, 011, 100, 101, then 110 would come next.
+2. **Detect the first unwanted state 110:** connect Q2 and Q1 to a **NAND gate**. Its output goes low only when Q2 = Q1 = 1, which is first true at 110 (state 6).
+3. **Clear:** connect the NAND output to the active-low **Clear** inputs of all three flip-flops, so the counter returns to 000 at once.
+
+| Clock pulse | Q2 Q1 Q0 |
+|---|---|
+| 0 | 000 |
+| 1 | 001 |
+| 2 | 010 |
+| 3 | 011 |
+| 4 | 100 |
+| 5 | 101 |
+| 6 | 110 → cleared → 000 |
+
+State 110 lasts only a few nanoseconds, so it is not seen as a count. **Frequency division:** the Q2 output has frequency f / 6, so a 6 kHz clock gives 1 kHz at Q2 (the duty cycle is one-third, not 50%). Plate 4.2 shows that the settling time grows with the number of stages, which is the main limit of ripple counters.
+
+**Q (10 marks). Explain the types of shift register and their applications.**
+
+**Introduction.** A **shift register** is a group of flip-flops connected in a chain, all with the same clock, in which the stored bits move one place at every clock pulse. An n-bit register is made of n flip-flops, usually D type, and stores an n-bit word (Plate 4.3 shows real shift-register chips).
+
+**Types**
+
+1. **Serial-in serial-out (SISO):** data enter and leave one bit at a time; it works as a delay line. A 4-bit SISO delays a signal by 4 clock periods.
+2. **Serial-in parallel-out (SIPO):** bits enter one by one and all outputs are read together. Figure 4.3 shows the letter N (01001110) collected in 8 clocks. Used in the receiver of a UART.
+3. **Parallel-in serial-out (PISO):** a load line puts all bits in at once, then they are sent out one by one. Used in the transmitter of a serial port and in keyboard scanning.
+4. **Parallel-in parallel-out (PIPO):** all bits load and leave together at one clock; it is a plain storage register as inside a CPU.
+5. **Bidirectional register:** a direction control makes the bits move left or right. Shifting left multiplies a binary number by 2 and shifting right divides it by 2.
+6. **Universal shift register:** has mode inputs to choose hold, shift left, shift right or parallel load; the 74194 is the standard chip.
+7. **Ring counter:** the last output is fed back to the first input, so one 1 circulates (MOD-n with n flip-flops).
+8. **Johnson counter:** the inverted last output is fed back; it gives MOD-2n, so four flip-flops give 8 states (Figure 4.4).
+
+| Type | Input | Output | Typical use |
+|---|---|---|---|
+| SISO | serial | serial | delay line |
+| SIPO | serial | parallel | UART receiver, 74HC595 |
+| PISO | parallel | serial | UART transmitter |
+| PIPO | parallel | parallel | CPU register |
+
+**Applications.** Serial-to-parallel and parallel-to-serial conversion, time delay, multiplying and dividing by 2, ring and Johnson counters for control timing, and extra output pins for a microcontroller through a 74HC595.
+
+**Conclusion.** Shift registers are the simplest sequential circuits and the key link between serial communication and parallel processing. By choosing the way data enter and leave, one chain of flip-flops can act as storage, delay line, converter or counter.

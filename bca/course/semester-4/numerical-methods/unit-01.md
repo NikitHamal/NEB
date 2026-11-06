@@ -305,6 +305,34 @@ f.text(306, 222, "log10 of the error", size=10, color=SLATE)
 7. **Speed and cost.** Newton's method reaches six decimals in two or three steps, where bisection needs nineteen. Choosing a better method saves computer time in programs that run millions of times. This matters in games, simulations and mobile apps.
 8. **Computers use them anyway.** Every scientific calculator, spreadsheet solver and programming library (NumPy, MATLAB) runs these algorithms inside. A student who knows them can choose the right tool and understand when the answer is unreliable. This is the base for data science and engineering software.
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="A rounding error that grew with uptime. (a) A Patriot air-defence battery, one of the systems whose software counted time in tenths of a second. (b) The number 0.1 has no finite binary form, so a 24-bit register that keeps 23 binary places stores it as 0.0999999046, short by 9.54e-08 second on every tick. The error is invisible in one tick, but after 8 hours of continuous running the clock is 27 milliseconds wrong, which moves a target travelling at 1,676 metres a second by about 46 metres, and after 100 hours it is 0.34 second and 575 metres wrong. The sums were done with exact fractions. The lesson for numerical methods is that a tiny relative error multiplied by a large count is large, so count in integers where possible and know the bits you have."
+@ photo id="bcanm/patriot" cap="A Patriot battery (Romanian Army): software clock matters"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="0.1 s stored in 23 bits: drift per hour"
+from fractions import Fraction
+tick = Fraction(1, 10)
+stored = Fraction(int(tick * 2 ** 23), 2 ** 23)
+err = float(tick - stored)
+assert 9.0e-8 < err < 1.0e-7
+hours = [1, 8, 20, 48, 100]
+drift = {h: err * h * 3600 * 10 for h in hours}
+SCUD = 1676
+facts = dict(err="%.3g" % err, d100=round(drift[100], 2), d8=round(drift[8] * 1000), m100=round(drift[100] * SCUD), m8=round(drift[8] * SCUD), bits=23)
+f = Fig(300, 236)
+f.text(150, 12, "0.1 s chopped: %.2e s lost per tick" % err, size=10.5, color=NAVY, bold=True)
+mx = drift[100]
+for i, h in enumerate(hours):
+    y = 30 + i * 30
+    f.text(8, y + 11, "%d h" % h, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = max(drift[h] / mx * 120, 3)
+    f.box(46, y, w, 22, "", fill="#fecaca" if h >= 20 else "#fde68a", stroke=SLATE, r=3, sw=1)
+    f.text(52 + w, y + 11, "%.0f ms = %.0f m" % (drift[h] * 1000, drift[h] * SCUD), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 192, "clock error x target speed 1,676 m/s", size=10.5, color=SLATE)
+f.text(150, 210, "tracking window is lost after long uptime", size=10.5, color=RED, bold=True)
+f.text(150, 226, "fix: reboot, or exact arithmetic", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Bisection: c = (a + b)/2; steps n ≥ log₂((b − a)/ε).

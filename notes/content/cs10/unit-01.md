@@ -502,6 +502,12 @@ crosses whole countries, while infrared and Bluetooth reach only a few metres.
 In a "differences" answer use the points in the table above instead.
 :::
 
+```photogrid label="1.M" cols="3" ratio="1.25" caption="The three guided media side by side. (a) Unshielded twisted pair (UTP): four pairs of copper wires twisted together, used inside every school lab up to 100 m. (b) Coaxial cable cut open: a copper core, insulation, a braided shield and an outer jacket, used by cable-TV operators. (c) Optical-fibre cable: glass strands that carry light, immune to lightning and electrical noise, used between buildings and by Nepal's internet service providers."
+@ photo id="cs12/utp-cable" cap="(a) UTP twisted-pair cable"
+@ photo id="cs12/coaxial-cable-cut" cap="(b) Coaxial cable, cut open"
+@ photo id="bca101/fibre-cable" cap="(c) Optical-fibre cable"
+```
+
 ## 1.3 Connectors: RJ-45, RJ-11, BNC, fibre connectors and the media converter
 
 ::: definition Connector
@@ -651,6 +657,14 @@ room.
 between telephone lines and the Internet, or an IoT gateway between sensors and
 a cloud server. In everyday use, the **default gateway** of a computer is the
 router address to which it sends every packet meant for another network.
+
+```photogrid label="1.D" cols="5" ratio="1.1" caption="Five networking devices. (a) A network interface card (NIC) that gives a computer its connection and MAC address. (b) A hub, which repeats every signal to every port. (c) A switch, which sends each frame only to the port of the destination. (d) A router, which joins different networks and chooses the path of each packet. (e) A modem, which converts digital data to signals for the telephone or cable line and back again."
+@ photo id="bca101/nic" cap="(a) NIC"
+@ photo id="bca101/nethub" cap="(b) Hub"
+@ photo id="bca101/switch" cap="(c) Switch"
+@ photo id="bca101/router" cap="(d) Router"
+@ photo id="cs12/modem" cap="(e) Modem"
+```
 
 ```photo id="cs10/switch-rack" caption="Network equipment in a rack. The grey CAT6 patch cables run from the patch panels at the top, where the wall cables of each room end, to the Ethernet switches below; the switches join every room into one LAN." width="70"
 call 0.21 0.95 0.30 0.80 "patch panels"
@@ -827,6 +841,19 @@ cables**, and each computer needs $n-1 =$ **5 network ports**.
 least 6 ports; each computer needs only **1 port**. This is why LANs are built
 as stars: the mesh's reliability costs far more cable and hardware.
 :::
+
+### Eight advantages of a computer network, explained
+
+1. **Resource sharing.** One printer, scanner or file server can serve everybody on the network. A school buys one laser printer for the whole computer lab instead of one for each computer. This lowers the cost of hardware.
+2. **Software and data sharing.** Programs and files kept on a server can be used from any computer. Every teacher opens the same marks file instead of copying it on pen drives. The data stay up to date for everyone.
+3. **Fast communication.** Email, chat and video calls deliver messages in seconds. Teachers send notices to hundreds of students at once. During a lockdown, online classes in Nepal ran over networks.
+4. **Centralised backup and security.** Data on a server can be backed up in one place and protected with passwords. If one computer fails, the files are not lost. The administrator controls who can read or change what.
+5. **Lower cost.** Sharing hardware, software licences and internet connections reduces what an organisation spends. One broadband line shared through a router costs less than one line per PC.
+6. **Reliability.** Important data can be stored on more than one server, so work continues if one fails. A bank keeps copies of its records in different places. This keeps ATMs and ConnectIPS working.
+7. **Remote access and e-services.** People can work from home or from a branch and still reach the office files. Citizens apply for a passport, pay electricity bills or check results online without visiting an office.
+8. **Scalability.** New computers are added by connecting another cable or Wi-Fi device without rebuilding the network. A growing school can extend its lab easily.
+
+**Seven disadvantages.** (1) The initial cost of cables, switches and servers is high. (2) A network needs a skilled administrator. (3) Viruses and hackers can spread from one computer to all. (4) If the server or main switch fails, many users are stopped. (5) Cables and equipment need maintenance. (6) Unauthorised access threatens privacy. (7) Heavy use slows the network.
 
 ## 1.6 Networks by coverage: PAN, LAN, MAN and WAN
 
@@ -1603,3 +1630,94 @@ across a city or valley joining many LANs, e.g. a cable-TV or ISP network in
 Kathmandu Valley. *WAN:* a network across a country or the world, using links
 of many organisations, e.g. the Internet.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is network topology? Explain bus, star, ring, mesh and tree topologies with their advantages and disadvantages. <span class="marks">[10]</span>
+2. What are communication media? Explain guided and unguided media with examples. <span class="marks">[10]</span>
+3. Explain PAN, LAN, MAN and WAN. Differentiate client-server from peer-to-peer networks. <span class="marks">[10]</span>
+
+### Model answer D1: network topologies (10 marks)
+
+**Introduction.** **Network topology** is the pattern, or layout, in which the computers and devices of a network
+are connected. The **physical topology** shows how the cables are laid and the **logical topology** shows how data flows.
+The common topologies are bus, star, ring, mesh and tree.
+
+1. **Bus:** all computers are attached to one common cable, the backbone, with a terminator at each end.
+2. **Star:** every computer has its own cable to a central hub or switch.
+3. **Ring:** each computer is joined to exactly two neighbours, forming a closed loop, and data travels in one direction.
+4. **Mesh:** every node is linked to every other node (full mesh) or to several of them (partial mesh). A full mesh of $n$ nodes needs $\frac{n(n-1)}{2}$ cables, so five nodes need 10.
+5. **Tree (hybrid):** several star networks are joined to a bus backbone or to one another in layers, like a school with a switch in each lab joined to a main switch.
+
+| Topology | Advantages | Disadvantages |
+|---|---|---|
+| Bus | Cheap, needs least cable, easy to extend | A break in the backbone stops all; slow when busy; hard to find faults |
+| Star | A faulty cable affects one computer; easy to add or find faults; fast | The central switch is a single point of failure; more cable |
+| Ring | Orderly access, no collisions, suits heavy traffic | One break can stop the ring; slow to add nodes |
+| Mesh | Most reliable, data takes another path; secure | Very expensive, complex, many ports |
+| Tree | Easy to expand in groups, good fault isolation | Backbone failure cuts the groups apart; costly |
+
+**Which to use?** A school lab uses a star with a switch because it is cheap and easy to repair. A bank linking
+its branch offices uses a partial mesh for reliability. A campus with several buildings uses a tree.
+
+**Conclusion.** The star is the most common LAN topology today, but the choice depends on cost, reliability and size.
+
+### Model answer D2: communication media (10 marks)
+
+**Introduction.** A **communication medium** is the path through which data travels from the sender to the
+receiver. Media are of two kinds: **guided (wired)** media, where the signal follows a physical cable, and
+**unguided (wireless)** media, where it travels through air or space (see Figure 1.M for the three cables).
+
+**Guided media.**
+
+1. **Twisted-pair cable:** pairs of copper wires twisted to reduce interference. UTP (unshielded) is used in LANs with an RJ-45 connector up to 100 m; STP (shielded) is used where noise is high. Cat5e gives 1 Gbps and Cat6 up to 10 Gbps over short runs.
+2. **Coaxial cable:** a copper core, insulator, braided shield and jacket. It carries cable-TV signals and is better shielded than twisted pair, but thicker and more costly.
+3. **Optical-fibre cable:** glass or plastic strands carry pulses of light by total internal reflection. It has very high speed and bandwidth, covers many kilometres and is immune to electrical noise and lightning, but it is costly and needs skill to join.
+
+**Unguided media.**
+
+1. **Radio waves:** travel in all directions, pass through walls, used in FM radio, Wi-Fi and Bluetooth.
+2. **Microwaves:** narrow beams between towers in line of sight, used by mobile networks such as Nepal Telecom's towers.
+3. **Infrared:** very short range, line of sight, used in a TV remote.
+4. **Satellite:** a signal is sent to a satellite and returned to a wide area, used for TV, GPS and remote villages.
+
+| Point | Twisted pair | Coaxial | Optical fibre |
+|---|---|---|---|
+| Carries | Electric signal | Electric signal | Light |
+| Speed | Medium | High | Very high |
+| Distance | 100 m | Few hundred metres | Many kilometres |
+| Interference | Affected | Less affected | None |
+| Cost | Lowest | Medium | Highest |
+
+**Conclusion.** Copper is cheap for short runs, fibre is best for long links and speed, and wireless gives
+mobility, so most networks use a mixture of these media.
+
+### Model answer D3: types of network by coverage, and network architecture (10 marks)
+
+**Introduction.** Networks are classified by the area they cover and by the way their computers share work.
+
+| Type | Area | Owner | Example |
+|---|---|---|---|
+| PAN | About 10 m around one person | Individual | Phone and Bluetooth earbuds |
+| LAN | A room, building or campus | One organisation | School computer lab |
+| MAN | A city or valley | ISP or council | Cable-TV network in Kathmandu Valley |
+| WAN | Country or the world | Many organisations | The Internet |
+
+**Features.** A LAN is fast (100 Mbps to 10 Gbps), cheap and privately owned. A MAN joins several LANs across a city.
+A WAN uses leased lines, fibre and satellites, is slower and costly, and is managed by many operators.
+
+**Client-server and peer-to-peer.** In a **client-server** network a powerful dedicated computer, the **server**,
+stores data and provides services, and the **clients** request them. In a **peer-to-peer (P2P)** network every
+computer is equal, acting as both client and server.
+
+| Point | Client-server | Peer-to-peer |
+|---|---|---|
+| Control | Central server | None, every computer is equal |
+| Security | Strong, central | Weak, each user decides |
+| Cost | High (server, administrator) | Low |
+| Backup | Central | On each computer |
+| Number of computers | Many | Up to about 10 |
+| Example | School server, bank | Two-three home computers |
+
+**Conclusion.** A school choosing a LAN with a server gets security and central backup, while a small home
+network is cheaper as peer-to-peer.

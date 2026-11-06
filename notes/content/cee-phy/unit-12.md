@@ -676,6 +676,57 @@ formula. In a combination question ask at once: *in contact or separated?* In a
 chapter.
 :::
 
+```photogrid label="12.1" cols="2" ratio="1.2" caption="A rainbow is refraction plus one internal reflection. (a) Sunlight entering a raindrop is bent, reflected at the back and bent again, so the ray turns through D = 180 + 2i - 4r. (b) The elevation 4r - 2i of the emerging ray peaks at i with cos^2 i = (n^2 - 1) / 3: 59.5 degrees and 42.4 degrees for red (n = 1.331) and 58.8 degrees and 40.5 degrees for violet (n = 1.344). Rays pile up near these maxima, so red appears at 42.4 degrees and violet at 40.5 degrees from the anti-solar point, red outside, as in the photograph."
+@ photo id="ceephy/rainbow" cap="A double rainbow over hills: raindrops refract, reflect once inside and refract again"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Elevation of the primary bow against angle of incidence"
+def eps(i, n): return 4 * math.asin(math.sin(i) / n) - 2 * i
+def peak(n):
+    i = math.acos(math.sqrt((n * n - 1) / 3)); return math.degrees(eps(i, n)), math.degrees(i)
+er, ir = peak(1.331); ev, iv = peak(1.344)
+brute = max(math.degrees(eps(math.radians(k / 100), 1.331)) for k in range(100, 8900))
+assert 42.2 < er < 42.5 and 40.5 < ev < 40.8 and abs(brute - er) < 0.01
+facts = dict(er="%.1f" % er, ir="%.1f" % ir, ev="%.1f" % ev, iv="%.1f" % iv)
+f = Fig(300, 236)
+f.text(150, 14, "elevation e = 4r - 2i against i", size=10.5, color=NAVY, bold=True)
+X = lambda i: 40 + i * 2.6; Y = lambda e: 160 - e * 2.9
+f.line(X(0), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+for n, col in ((1.331, RED), (1.344, "#6d28d9")):
+    pts = [(X(k), Y(math.degrees(eps(math.radians(k), n)))) for k in range(0, 90, 2)]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(ir), Y(0), X(ir), Y(er), color=AMBER, sw=1.2, dash=True)
+f.text(X(ir) - 10, Y(er) + 50, "red %.1f" % er, size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(ir) - 10, Y(er) + 64, "violet %.1f" % ev, size=10.5, color="#6d28d9", bold=True, anchor="end")
+for i in (0, 30, 60, 90): f.text(X(i), Y(0) + 13, "%d" % i, size=10.5, color=SLATE)
+f.text(150, 192, "peak at i = %.1f (red), %.1f (violet)" % (ir, iv), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "bow width %.1f degrees; red outside" % (er - ev), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "angles in degrees; i = incidence", size=10.5, color=SLATE)
+```
+
+```photogrid label="12.2" cols="2" ratio="1.2" caption="Light trapped in glass. (a) An optical fibre cable carries many glass fibres, each thinner than a hair, that guide light by total internal reflection. (b) The cell computes the critical angle from sin c = n2 / n1: 41.8 degrees for glass in air, 48.8 for water, and 24.4 for diamond, whose small angle explains its sparkle. In a fibre, a core of index 1.48 is wrapped in a cladding of index 1.46, so the critical angle at their boundary is 80.6 degrees. The numerical aperture is 0.2425, which means only light entering within 14.0 degrees of the axis is guided. Such fibres carry internet traffic with tiny loss over many kilometres."
+@ photo id="ceephy3/fibre" cap="An optical fibre cable"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Total internal reflection and the optical fibre"
+import math
+def crit(n1, n2=1.0):
+    return math.degrees(math.asin(n2 / n1))
+rows = [("diamond", crit(2.42)), ("glass-air", crit(1.5)), ("water-air", crit(1.33)), ("fibre core", crit(1.48, 1.46))]
+NA = math.sqrt(1.48 ** 2 - 1.46 ** 2)
+acc = math.degrees(math.asin(NA))
+assert round(rows[1][1], 1) == 41.8 and round(rows[3][1], 1) == 80.6 and round(acc, 1) == 14.0
+f = Fig(300, 236)
+f.text(150, 12, "Critical angle, degrees", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=90, fmt="%.1f", x0=76, y0=30, bw=170, gap=30,
+      colors=[(ROSE, RED), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER)])
+f.text(150, 158, "sin(c) = n2 / n1", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "core 1.48, cladding 1.46: rays hitting at", size=10, color=SLATE, bold=True)
+f.text(150, 194, "more than %.1f deg to the normal are trapped" % rows[3][1], size=10, color=SLATE, bold=True)
+f.text(150, 214, "NA = %.4f, acceptance half-angle %.1f deg" % (NA, acc), size=10.5, color=NAVY, bold=True)
+facts = dict(g=rows[1][1], w=rows[2][1], d=rows[0][1], c=rows[3][1], na=NA, acc=acc)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -916,3 +967,67 @@ chapter.
 **11.** (c) — in contact the power would be zero, but separated by $d = 0.2$ m, $P = 0 - (0.2)(5)(-5) = +5$ D. The separation term revives the power.
 **12.** (a) — the factor $(\mu-1)$ becomes $(\mu/1.333 - 1) = 0.125$, one quarter of 0.5, so $1/f$ is quartered and $f$ is four times larger: 80 cm.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain refraction, total internal reflection and the optical fibre. Derive the prism formula and solve a numerical. <span class="marks">[10]</span>
+2. Derive the lens formula and lens maker's formula, and explain dispersion with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="3" ratio="1.25" caption="Light bending in practice. (a) A glass prism disperses white light into its spectrum. (b) An optical fibre carries light by repeated total internal reflection. (c) A rainbow forms by refraction, internal reflection and dispersion in raindrops."
+@ photo id="cee-phy/prism-dispersion" cap="(a) Dispersion by a prism"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/fibre" cap="(b) Optical fibre"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/rainbow" cap="(c) Rainbow"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: refraction, total internal reflection and the prism (10 marks)
+
+**Introduction.** **Refraction** is the bending of light at the boundary of two media because its speed changes. **Snell's law:** $\dfrac{\sin i}{\sin r} = {}_1n_2 = \dfrac{n_2}{n_1} = \dfrac{v_1}{v_2}$, where $n = c/v$ is the refractive index.
+
+**Total internal reflection (TIR).** When light goes from a denser to a rarer medium, the angle of refraction exceeds the angle of incidence. At the **critical angle** $C$ the refracted ray grazes the surface, with $\sin C = \dfrac{n_2}{n_1} = \dfrac1n$ (rarer medium air). For $i > C$ all the light is reflected.
+
+*Conditions:* (1) the light goes from a denser to a rarer medium; (2) the angle of incidence is greater than $C$.
+
+**Applications of TIR.** Optical fibre (core $n_1$ greater than cladding $n_2$), endoscope, diamond sparkle, mirage, totally reflecting prisms in binoculars and periscopes, and the shine of an air bubble in water.
+
+**Prism.** For a prism of angle $A$, the angle of deviation is $\delta = i + e - A$. The deviation is minimum when the ray passes symmetrically ($i = e$, $r_1 = r_2 = A/2$) and
+
+$$ n = \frac{\sin\left(\dfrac{A + \delta_m}{2}\right)}{\sin\left(\dfrac A2\right)} $$
+
+For a thin prism ($A$ small), $\delta = (n - 1)A$. The $i$-$\delta$ graph is a U-shaped curve with a minimum at $\delta_m$.
+
+| Medium | $n$ | Critical angle (to air) |
+|---|---|---|
+| Water | 1.33 | $48.8^{\circ}$ |
+| Crown glass | 1.5 | $41.8^{\circ}$ |
+| Diamond | 2.42 | $24.4^{\circ}$ |
+
+**Numerical.** For glass with $n = 1.5$: $\sin C = 1/1.5$ gives $C = 41.8^{\circ}$. For a $60^{\circ}$ prism of the same glass, $\sin\dfrac{A + \delta_m}{2} = 1.5\sin30^{\circ} = 0.75$, so $\dfrac{A + \delta_m}{2} = 48.6^{\circ}$ and $\delta_m = 37.2^{\circ}$.
+
+**Conclusion.** TIR needs a denser-to-rarer path with $i > C$, and a prism gives its minimum deviation when the ray passes symmetrically.
+
+### Model answer D2: lens formula, lens maker's formula and dispersion (10 marks)
+
+**Introduction.** A lens refracts light at two spherical surfaces. For a thin lens we use the Cartesian sign convention, with distances measured from the optical centre and positive in the direction of the incident light.
+
+**Lens formula.** $\dfrac1v - \dfrac1u = \dfrac1f$. The linear magnification is $m = \dfrac vu$. For a real image $m < 0$ (inverted).
+
+**Lens maker's formula.** $\dfrac1f = (n - 1)\left(\dfrac1{R_1} - \dfrac1{R_2}\right)$, where $n$ is the refractive index of the lens relative to the medium. Immersing a glass lens in a liquid of higher index makes a convex lens behave as a concave one. The **power** is $P = 1/f$ in dioptre ($f$ in metres). For lenses in contact $P = P_1 + P_2$.
+
+**Dispersion.** White light splits into seven colours because $n$ depends on wavelength (violet bends most, red least). The **dispersive power** is $\omega = \dfrac{n_v - n_r}{n_y - 1}$. A combination of two prisms of different glass can give dispersion without deviation (achromatic) or deviation without dispersion. A single lens has **chromatic aberration** (colour fringes), corrected by an achromatic doublet, with $\dfrac{\omega_1}{f_1} + \dfrac{\omega_2}{f_2} = 0$.
+
+| Defect | Cause | Cure |
+|---|---|---|
+| Spherical aberration | marginal rays focus nearer | stop, parabolic mirror |
+| Chromatic aberration | $n$ varies with colour | achromatic doublet |
+| Myopia | image in front of retina | concave lens |
+| Hypermetropia | image behind retina | convex lens |
+
+**Numerical.** A convex lens has $f = 20\ \text{cm}$ and an object is placed $30\ \text{cm}$ away: $\dfrac1v = \dfrac1{20} - \dfrac1{30} = \dfrac1{60}$, so $v = 60\ \text{cm}$ and $m = 60/(-30) = -2$: real, inverted, twice as large. For a double-convex lens of glass $n = 1.5$ and $R_1 = 20\ \text{cm}$, $R_2 = -20\ \text{cm}$, $\dfrac1f = 0.5\times\dfrac2{20}$, so $f = 20\ \text{cm}$ and $P = +5\ \text{D}$.
+
+**Conclusion.** The lens formula and lens maker's formula together link the image position to the shape and material of the lens, and dispersion arises because $n$ varies with colour.

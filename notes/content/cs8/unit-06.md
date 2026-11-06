@@ -100,6 +100,13 @@ driver). (b) **Process management** — multitasking. (c) **Security** — user
 sign-in. (d) **File management**. (e) **Memory management**.
 :::
 
+```photogrid label="6.O" cols="4" ratio="1.25" caption="Four faces of an operating system. (a) MS-DOS: a character user interface, where every command is typed. (b) Ubuntu Linux: a free, open-source graphical desktop. (c) Android: a touch-screen mobile operating system. (d) The Windows blue screen: the operating system also stops and reports a fault when it meets a serious error. Whatever the face, the job underneath is the same: manage the hardware and give the user a way to work."
+@ photo id="bca101/dos" cap="(a) MS-DOS: typed commands"
+@ photo id="bca101/ubuntu" cap="(b) Ubuntu: graphical desktop"
+@ photo id="cs8/os-android-phone" cap="(c) Android: touch screen"
+@ photo id="bca251/bsod" cap="(d) Windows error screen"
+```
+
 ## 6.2 Types of operating system: single-user and multi-user, CUI and GUI, desktop and mobile
 
 ### Single-user and multi-user
@@ -136,7 +143,7 @@ touching.
 MS-DOS, the Linux terminal (bash) and Windows' Command Prompt and PowerShell
 are CUIs. Windows, macOS, Ubuntu's desktop, Android and iOS are GUIs.
 
-```photo id="cs8/os-bash-session" caption="A character user interface: a session in the bash shell of Linux. The user types a command after the prompt (user@host: ~ $) and the computer answers in lines of text; here ls -al lists the files in a folder and tree draws the folder's contents." width="52"
+```photo id="cs8/os-bash-session" caption="A character user interface: a session in the bash shell of Linux. The user types a command after the prompt (user@host, ending in a dollar sign) and the computer answers in lines of text; here ls -al lists the files in a folder and tree draws the folder's contents." width="52"
 crop 0.0 0.30 1.0 1.0
 ```
 
@@ -796,3 +803,59 @@ account → *I don't have this person's sign-in information* → *Add a user
 without a Microsoft account* → enter a user name and password → Next. The new
 account is a Standard user (check under Change account type).
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is an operating system? Explain its eight main functions. <span class="marks">[10]</span>
+2. Differentiate between CUI and GUI, and explain the types of operating system with examples. <span class="marks">[10]</span>
+
+### Model answer D1: functions of an operating system (10 marks)
+
+**Introduction.** An **operating system (OS)** is the system software that manages all the hardware and software of a computer and gives the user a way to work with it. It is the first program loaded when the computer starts and the last one to stop. Windows, Linux, macOS, Android and iOS are common examples (Plate 6.O).
+
+1. **Booting and starting.** When we press the power button, the OS is loaded from the disk into the main memory (RAM). It checks that the hardware is working and then shows the desktop. Without the OS the computer would be a lifeless machine.
+2. **Process (processor) management.** The OS decides which program uses the CPU and for how long. It lets many programs run together, so we can play music, type in Word and download a file at the same time. This is called multitasking. The Task Manager of Windows shows these running programs.
+3. **Memory management.** Every running program needs some RAM. The OS gives memory to a program when it starts and takes it back when the program closes. It also stops one program from spoiling the memory of another.
+4. **File management.** The OS keeps files and folders in an orderly way on the disk. It lets us create, open, copy, move, rename and delete them, and it remembers where each file is stored. File Explorer is the tool we use for this.
+5. **Device management.** The OS controls the keyboard, mouse, printer, scanner and other devices through small programs called device drivers. When we plug in a pen drive, the OS recognises it at once. If the driver is missing, the device will not work properly.
+6. **User interface.** The OS provides the screen through which we talk to the computer. It may be a command line (CUI), a graphical desktop with icons and windows (GUI) or a touch screen as in a phone.
+7. **Security and access control.** The OS protects the computer with user accounts, passwords and permissions. It also gives updates that close the gaps used by viruses. A school computer lab can keep student accounts separate from the teacher account.
+8. **Error handling and utilities.** The OS watches for faults, shows messages when something goes wrong and offers tools such as Disk Cleanup, Defender and Device Manager to keep the computer healthy.
+
+| Function | What the OS does | Example in Windows |
+|---|---|---|
+| Process management | Shares the CPU among programs | Task Manager |
+| Memory management | Gives and takes back RAM | Virtual memory |
+| File management | Organises files and folders | File Explorer |
+| Device management | Controls hardware by drivers | Device Manager |
+| Security | Accounts, passwords, updates | Windows Defender |
+
+**Conclusion.** The operating system is the manager of the computer. It starts the machine, shares the CPU and memory, looks after the files and devices, protects the system and gives the user an easy interface.
+
+### Model answer D2: CUI, GUI and types of operating system (10 marks)
+
+**Introduction.** The part of the operating system that the user sees and uses is called the **user interface**. The two chief kinds are the character user interface (CUI) and the graphical user interface (GUI).
+
+**CUI (command line).** The user types a command and presses Enter, and the computer answers in text. MS-DOS and the bash shell of Linux are examples. In MS-DOS, `dir` lists the files, `cd` changes the folder and `copy` copies a file. A CUI needs very little memory and is fast for an expert, but the user must remember the commands.
+
+**GUI (graphical).** The user works with icons, windows, menus and a pointer. We click and drag with the mouse, or touch the screen. Windows, macOS, Ubuntu and Android are examples. A GUI is easy for beginners, but it needs more memory and a faster processor.
+
+| Point | CUI | GUI |
+|---|---|---|
+| Full form | Character User Interface | Graphical User Interface |
+| Input | Typed commands | Mouse, touch, keyboard |
+| Ease of use | Hard, commands must be learnt | Easy, icons and menus |
+| Memory needed | Very small | Large |
+| Speed for experts | Fast | Slower |
+| Example | MS-DOS, bash | Windows 11, Android |
+
+**Types of operating system.**
+
+1. **Single-user:** only one user works at a time, for example a home PC with Windows.
+2. **Multi-user:** many users share one computer at once through terminals, for example Linux servers or the computer of a bank.
+3. **Single-tasking:** only one program runs at a time, as in MS-DOS.
+4. **Multitasking:** many programs run together, as in Windows and Android.
+5. **Desktop OS:** made for PCs and laptops with a keyboard and mouse: Windows, macOS, Ubuntu.
+6. **Mobile OS:** made for touch-screen phones and tablets: Android and iOS.
+
+**Conclusion.** A CUI is light and powerful but hard to learn, while a GUI is friendly and is used by almost everyone today. Operating systems are also grouped by the number of users, the number of tasks and the kind of device.

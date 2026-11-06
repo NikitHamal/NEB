@@ -111,6 +111,64 @@ f.text(290, 130, "perpendicular pairs", size=10, color=SLATE, italic=True)
 7. **Signals and communication.** A radio or mobile signal is a vector in a space of waveforms; the Fourier transform is a change of basis. Filters are linear transformations. FM stations in Nepal share the air because their signals sit in different directions of this space.
 8. **Differential equations and systems.** The solutions of a linear homogeneous equation form a vector space whose dimension equals the order of the equation. Knowing a basis of solutions gives every solution as a combination. The same idea explains the null space of a matrix.
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Colour is a vector in R^3. (a) An LCD screen under a microscope: every pixel is three subpixels, red, green and blue, and each colour on screen is a combination r e1 + g e2 + b e3 of the three basis vectors with 0 <= r, g, b <= 255. (b) Converting to grey is the linear map Y = 0.299 r + 0.587 g + 0.114 b. It is linear: for the colours c1 = (200, 50, 0) and c2 = (40, 100, 150) the grey of the sum, 176.9, equals the sum of the greys, 89.1 + 87.8. Its matrix [0.299 0.587 0.114] has rank 1, so the nullity is 3 - 1 = 2: a whole plane of different colours (all with Y = 0) is thrown onto black, which is why two very different colours can look identical in a grey print. Rank-nullity: 1 + 2 = 3."
+@ photo id="bcamath/lcdsub" cap="LCD subpixels: red, green, blue"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Grey conversion is linear, rank 1, nullity 2"
+import sympy
+c1 = (200, 50, 0); c2 = (40, 100, 150); cs = tuple(a + b for a, b in zip(c1, c2))
+w = (0.299, 0.587, 0.114)
+Y = lambda c: sum(a * b for a, b in zip(w, c))
+assert abs(Y(cs) - (Y(c1) + Y(c2))) < 1e-9 and round(Y(c1), 1) == 89.1 and round(Y(c2), 1) == 87.8 and round(Y(cs), 1) == 176.9
+Mx = sympy.Matrix([[299, 587, 114]])
+assert Mx.rank() == 1 and len(Mx.nullspace()) == 2 and Mx.rank() + len(Mx.nullspace()) == 3
+hexc = lambda c: "#%02x%02x%02x" % tuple(int(round(v)) for v in c)
+g = lambda c: (Y(c), Y(c), Y(c))
+f = Fig(300, 240)
+def sw(x, y, c, lab, s=52):
+    f.box(x, y, s, s, "", fill=hexc(c), stroke=SLATE, r=4)
+    f.text(x + s / 2, y + s + 14, lab, size=10.5, color=SLATE, bold=True)
+sw(14, 20, c1, "c1 (200,50,0)"); f.text(84, 46, "+", size=18, color=SLATE, bold=True, vmid=True)
+sw(98, 20, c2, "c2 (40,100,150)"); f.text(168, 46, "=", size=18, color=SLATE, bold=True, vmid=True)
+sw(182, 20, cs, "c1 + c2")
+sw(14, 110, g(c1), "Y = 89.1"); f.text(84, 136, "+", size=18, color=SLATE, bold=True, vmid=True)
+sw(98, 110, g(c2), "Y = 87.8"); f.text(168, 136, "=", size=18, color=SLATE, bold=True, vmid=True)
+sw(182, 110, g(cs), "Y = 176.9")
+f.text(150, 208, "grey of the sum = sum of the greys: linear", size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "rank 1 + nullity 2 = 3 (RGB dimensions)", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.2" caption="Right angles by calculation. (a) A set square: a carpenter or draughtsman checks that two lines are perpendicular; a vector space with an inner product does the same with the dot product. (b) The Gram-Schmidt step on a = (3, 1) and b = (2, 2). The projection of b on a is (a.b / a.a) a = (8 / 10) a = (2.4, 0.8), and what is left, b - proj = (-0.4, 1.2), is perpendicular to a because a.(-0.4, 1.2) = -1.2 + 1.2 = 0. The angle between a and b is arccos(8 / (sqrt(10) x sqrt(8))) = 26.57 degrees. An orthogonal basis makes coordinates trivial to compute: each coordinate is a single dot product, which is why QR factorisation and least-squares fitting use it."
+@ photo id="bcamath/setsquare" cap="A set square: a right angle to check against"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Projection and the perpendicular part"
+import numpy as np
+a = np.array([3.0, 1.0]); b = np.array([2.0, 2.0])
+p = (a @ b) / (a @ a) * a; r = b - p
+assert np.allclose(p, [2.4, 0.8]) and np.allclose(r, [-0.4, 1.2]) and abs(a @ r) < 1e-12
+ang = np.degrees(np.arccos(a @ b / (np.linalg.norm(a) * np.linalg.norm(b))))
+assert round(ang, 2) == 26.57 and a @ b == 8
+f = Fig(300, 240)
+O = (28, 200); S = 42
+P = lambda v: (O[0] + v[0] * S, O[1] - v[1] * S)
+f.line(O[0], O[1], 170, O[1], color="#94a3b8", sw=1); f.line(O[0], O[1], O[0], 70, color="#94a3b8", sw=1)
+f.arrow([P((0, 0)), P(a)], color=NAVY, sw=2.4); f.arrow([P((0, 0)), P(b)], color=TEAL, sw=2.4)
+f.line(*P(p), *P(b), color=RED, sw=2.2); f.line(*P((0, 0)), *P(p), color=AMBER, sw=3.2, dash=True)
+q = P(p); f.line(q[0] - 7, q[1] - 2, q[0] - 7 + 0, q[1] - 2, color=RED, sw=1)
+f.box(q[0] - 1, q[1] - 11, 10, 10, "", fill="none", stroke=RED, r=0, sw=1.2)
+f.text(P(a)[0] + 6, P(a)[1] + 4, "a", size=11, color=NAVY, bold=True, anchor="start")
+f.text(P(b)[0] - 4, P(b)[1] - 8, "b", size=11, color=TEAL, bold=True)
+f.text(P(p)[0] - 6, P(p)[1] + 18, "proj", size=10.5, color=AMBER, bold=True)
+f.text(180, 50, "a.b = 8", size=10.5, color=SLATE, anchor="start")
+f.text(180, 70, "proj = (2.4, 0.8)", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(180, 90, "b - proj = (-0.4, 1.2)", size=10.5, color=RED, bold=True, anchor="start")
+f.text(180, 110, "a.(b - proj) = 0", size=10.5, color=RED, bold=True, anchor="start")
+f.text(180, 130, "angle(a, b) = 26.57", size=10.5, color=SLATE, anchor="start")
+f.text(150, 228, "red part meets a at a right angle", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Subspace test: contains 0, closed under + and scalar multiplication.

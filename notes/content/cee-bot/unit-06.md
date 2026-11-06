@@ -168,6 +168,28 @@ A parasite lives **on or in** its host and usually does not kill it at once; a p
 **kills** its prey.
 :::
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Energy runs out up a food chain. (a) A pond community: algae and submerged plants are the producers, and every animal depends on them. (b) Only about one tenth of the energy of one level reaches the next (the 10 per cent law); the rest is lost as heat in respiration or stays in dead matter. Starting from 10,000 kJ per square metre per year in the producers, the levels carry 1,000, 100 and 10 kJ, so a top carnivore gets only 0.1 per cent of what the plants fixed and needs about 1,000 kg of plant matter for each kilogram of its own growth. This is why food chains rarely have more than four or five links."
+@ photo id="ceebot/pond" cap="A pond community: water, algae and plants"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy at each trophic level (kJ per sq m per year)"
+levels = (("Producers (algae, plants)", 10000), ("Primary consumers (snails)", 1000), ("Secondary (small fish)", 100), ("Tertiary (large fish)", 10))
+for (a, x), (b, y) in zip(levels, levels[1:]):
+    assert abs(y / x - 0.1) < 1e-12
+top = 100 * levels[-1][1] / levels[0][1]
+facts = dict(top="%.1f" % top, ratio="{:,}".format(levels[0][1] // levels[-1][1]))
+f = Fig(300, 236)
+f.text(150, 12, "10 per cent law (bar length = log10)", size=10.5, color=NAVY, bold=True)
+cols = ((TEAL, MINT), (TEAL, "#d1fae5"), (AMBER, SAND), (RED, ROSE))
+for i, ((lab, e), (c, fl)) in enumerate(zip(levels, cols)):
+    y = 30 + i * 44
+    w = 52 * math.log10(e) - 10
+    f.box(150 - w / 2, y + 12, w, 22, fill=fl, stroke=c, r=2)
+    f.text(150, y + 23, "{:,} kJ".format(e), size=10.5, color=c, bold=True, vmid=True)
+    f.text(150, y + 6, lab, size=10.5, color=SLATE)
+f.text(150, 214, "90 per cent is lost at each step as heat", size=10.5, color=NAVY, bold=True)
+```
+
 ## 6.2 Carbon and nitrogen cycles; greenhouse effect, acid rain, ozone depletion and climate change
 
 ### The carbon cycle
@@ -342,6 +364,25 @@ The enhanced greenhouse effect has raised the global mean surface temperature by
 The consequences are already visible: more landslides, winter water shortage in mid-hill
 towns and a longer dengue season in the Terai. Adaptation means community forest
 management, GLOF early-warning systems and check dams on fragile slopes.
+
+```photogrid label="6.2" cols="2" ratio="1.2" caption="More carbon dioxide, more trapped heat. (a) A sal forest in Chitwan stores carbon in wood and soil and is one of the sinks that slow the build-up in the air. (b) The extra radiative forcing from carbon dioxide is approximately 5.35 x ln(C/280) watts per square metre, with C in parts per million and 280 ppm as the pre-industrial value. At 420 ppm it is 2.17 W/m2, at 560 ppm (a doubling) 3.71 W/m2 and at 840 ppm 5.88 W/m2. The curve bends over, so each extra ppm adds less than the one before, but the total still grows without limit."
+@ photo id="bio11/sal-forest" cap="Sal forest in Chitwan, a carbon sink"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Forcing from CO2 compared with 280 ppm"
+F = lambda c: 5.35 * math.log(c / 280)
+assert abs(F(420) - 2.169) < 0.001 and abs(F(560) - 3.708) < 0.001 and abs(F(840) - 5.877) < 0.001
+facts = dict(f420="%.2f" % F(420), f560="%.2f" % F(560), f840="%.2f" % F(840))
+f = Fig(300, 236)
+f.text(150, 12, "Forcing (W/m2) against CO2 (ppm)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 150, (280, 840), (0, 6))
+ax.grid(140, 2).axes("ppm", "W/m2")
+ax.curve(F, 280, 840, color=RED)
+ax.pt(420, F(420), "2.17", dx=6, dy=16)
+ax.pt(560, F(560), "3.71", dx=6, dy=16)
+ax.pt(840, F(840), "5.88", dx=-4, dy=20, anchor="middle")
+f.text(150, 224, "each doubling adds 3.71 W/m2", size=10.5, color=NAVY, bold=True)
+```
 
 ## 6.3 Forest types of Nepal; biological invasion
 
@@ -786,3 +827,74 @@ form.
 **11.** (c) — pH 3 is 10⁻³ mol L⁻¹ and pH 5 is 10⁻⁵ mol L⁻¹: a fall by a factor of 100.
 **12.** (b) — Biomass accumulates in the trees and soil organic matter from litter, so both rise.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the structure and function of an ecosystem: energy flow, food chains, ecological pyramids and nutrient cycling. <span class="marks">[10]</span>
+2. Describe ecological succession, the major vegetation types of Nepal and the attributes of a population. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="2" ratio="1.4" caption="Ecosystems. (a) A pond is a self-contained aquatic ecosystem with producers (algae, plants), consumers and decomposers. (b) A bee visiting a rose shows the interaction of pollinators and plants, a mutualism that sustains the food web."
+@ photo id="ceebot/pond" cap="(a) Pond ecosystem"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/bee-rose" cap="(b) Plant-pollinator mutualism"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: ecosystem structure, energy flow and nutrient cycling (10 marks)
+
+**Introduction.** An **ecosystem** (Tansley, 1935) is a functional unit of nature consisting of the living community (biotic) and its non-living environment (abiotic), interacting with each other.
+
+**Components.** (1) **Abiotic:** light, temperature, water, soil and minerals. (2) **Producers:** green plants and algae. (3) **Consumers:** primary (herbivores), secondary and tertiary (carnivores), and omnivores. (4) **Decomposers:** bacteria and fungi, which release minerals back.
+
+**Energy flow.** The sun is the source, and only about $1\%$ of the incident light is fixed in photosynthesis. Energy flows in **one direction** (it is not recycled), and at each trophic level much is lost as heat in respiration.
+
+1. **Gross primary productivity (GPP)** is the total organic matter made by producers. **Net primary productivity** $\text{NPP} = \text{GPP} - R$, the energy available to consumers.
+2. **Lindeman's 10% law:** only about $10\%$ of the energy passes from one trophic level to the next.
+3. **Food chain:** grass → grasshopper → frog → snake → eagle (grazing food chain). In a **detritus food chain** the dead matter is the start.
+4. A **food web** is the network of interlinked food chains and gives stability.
+
+**Ecological pyramids.**
+
+| Pyramid | Shape in a grassland | Shape in a pond | Reason |
+|---|---|---|---|
+| Number | upright | may be inverted (a tree with many insects) | |
+| Biomass | upright | inverted in the sea (phytoplankton) | |
+| Energy | always upright | always upright | energy is lost at each step |
+
+**Nutrient cycling.** Minerals move between the living and non-living in **biogeochemical cycles**. In the **carbon cycle** CO₂ is fixed in photosynthesis and returned by respiration, decay and burning. In the **nitrogen cycle**: nitrogen fixation (*Rhizobium*, *Azotobacter*, lightning), ammonification, nitrification (*Nitrosomonas* then *Nitrobacter*) and denitrification (*Pseudomonas*).
+
+**Numerical.** If producers have $10\,000\ \text{kJ}$ of energy, the primary consumers get $1000\ \text{kJ}$, the secondary consumers $100\ \text{kJ}$ and the tertiary consumers $10\ \text{kJ}$. For GPP $= 20\,000$ and respiration $= 8000\ \text{kcal m}^{-2}\text{y}^{-1}$, $\text{NPP} = 12\,000$.
+
+**Conclusion.** Energy flows in one direction and is lost at each step, while nutrients are cycled again and again.
+
+### Model answer D2: succession, vegetation and populations (10 marks)
+
+**Introduction.** **Ecological succession** is the orderly, gradual and predictable replacement of one community by another until a stable **climax community** is reached.
+
+**Types and stages.**
+
+1. **Primary succession** starts on a bare area with no soil (new rock, lava, a dry pond). **Pioneer** species (lichens and algae) are followed by mosses, herbs, shrubs and trees. Lichens secrete acids that weather the rock.
+2. **Secondary succession** occurs where soil exists after a disturbance (an abandoned field, a fire), and is faster.
+3. **Hydrosere** begins in water: phytoplankton → submerged → floating → reed swamp → sedge-meadow → woodland. **Xerosere** begins on dry rock.
+
+During succession the biomass, species diversity and complexity rise, and the community modifies the environment so much that it favours the next seral stage.
+
+**Vegetation of Nepal.** The altitude gives a range from tropical to alpine.
+
+| Zone (altitude) | Vegetation |
+|---|---|
+| Tropical, Terai (below $1000$ m) | sal (*Shorea robusta*) forest, grasslands in Chitwan |
+| Subtropical ($1000$ to $2000$ m) | *Schima-Castanopsis*, chir pine |
+| Temperate ($2000$ to $3000$ m) | oak, rhododendron (the national flower, *lali gurans*) |
+| Subalpine ($3000$ to $4000$ m) | fir, birch, juniper |
+| Alpine (above $4000$ m) | alpine meadows and shrubs |
+
+**Population attributes.** Natality, mortality, age structure, sex ratio and density. Growth is **exponential** ($\dfrac{dN}{dt} = rN$, J-shaped, in unlimited conditions) or **logistic** ($\dfrac{dN}{dt} = rN\left(\dfrac{K - N}{K}\right)$, S-shaped, with a carrying capacity $K$). Interactions: competition, predation, parasitism, mutualism, commensalism and amensalism.
+
+**Biodiversity.** Nepal is only $0.1\%$ of the world's land but holds about $3\%$ of its flowering plants. It has protected areas (Chitwan, Sagarmatha) covering about $23\%$ of the land and is a biodiversity hotspot of the Himalaya.
+
+**Numerical.** A population of $100$ with a growth rate $r = 0.1\ \text{per year}$ in exponential growth is $100e^{1} = 272$ after $10$ years. For logistic growth with $K = 1000$ and $N = 500$, $\dfrac{dN}{dt} = 0.1\times500\times0.5 = 25$ per year, the maximum rate.
+
+**Conclusion.** Succession ends in a stable climax, and populations grow logistically up to the carrying capacity of the environment.

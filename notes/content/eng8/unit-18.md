@@ -292,3 +292,73 @@ play basketball. (c) The water is too cold (for us) to swim in.
 alternatives such as bicycles and school buses); the other side (saves time,
 lack of transport); conclusion restating the opinion; connectives.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write an opinion essay on road accidents in Nepal and how to reduce them. <span class="marks">[10]</span>
+2. Explain *too* and *enough*, subject–verb agreement and the message of the poem *Long Life*. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="2" ratio="1.6" caption="Roads and safety. A traffic police officer on a Kathmandu road and a self-driving test car with sensors: people and technology that help to make roads safer."
+@ photo id="eng8/traffic-police" cap="Traffic police officer, Kathmandu"
+@ photo id="eng10/waymo" cap="Self-driving test car"
+```
+
+### Model answer D1: road accidents in Nepal (10 marks)
+
+**Introduction.** Road accidents kill and injure thousands of people in Nepal every year. Many people blame only poor roads, but this is not the whole truth.
+
+**Model essay.**
+
+::: example Are poor roads solely to blame?
+**Road accidents in Nepal.** In my opinion, bad roads are only one cause of accidents. First, many drivers are careless: they overtake on curves, drive too fast, or use a phone. Second, young riders on motorbikes often ride without helmets and show off. Third, some drivers drink alcohol before driving. Of course, narrow, broken and muddy roads in the hills make driving risky, especially in the monsoon. However, even good roads become dangerous when people break the rules. To reduce accidents, the government should raise the age for a licence, check drivers strictly, punish drink-driving, and build better roads in coordination with the local governments. Parents and schools must also teach road safety. Only the work of all can save lives.
+:::
+
+**Opinion expressions.**
+
+| Function | Expressions |
+|---|---|
+| Ask | *What do you think about...? How do you feel about...?* |
+| Give | *In my opinion... I believe... As far as I am concerned...* |
+| Agree | *I agree. You are right.* |
+| Disagree | *I'm afraid I don't agree. On the contrary...* |
+
+**Causes and solutions (8 points).**
+
+1. Over-speeding.
+2. Drink-driving.
+3. No helmets or seat belts.
+4. Poor road conditions.
+5. Weak law enforcement.
+6. Road safety lessons in school.
+7. A higher licence age and regular tests.
+8. Better coordination for road building.
+
+**Conclusion.** State your opinion, support it, and propose practical solutions.
+
+### Model answer D2: too/enough, agreement and the poem (10 marks)
+
+**too and enough.**
+
+1. **too + adjective + to + verb** gives a **negative** result: *He is too tired to walk.*
+2. **adjective + enough + to + verb** gives a **positive** result: *She is old enough to vote.*
+3. *too young* means *not old enough*: *He is too young to drive = He is not old enough to drive.*
+4. **enough** comes **before a noun** (*enough water*) and **after an adjective** (*tall enough*).
+
+**Subject–verb agreement.**
+
+5. **and** gives a plural verb; **everyone, one of, each** give a singular verb: *One of the drivers was drunk.*
+6. **Amounts and subjects like economics, news** take a singular verb: *Ten kilometres is a long way.*
+7. **or/nor:** the verb agrees with the nearer subject; **some of + plural** takes a plural verb.
+
+**Poem: *Long Life*.** The poet says that life is **too short** for complaints and grudges, but **long enough** for beauty, laughter, compassion and generosity.
+
+8. **Message:** do not waste time in anger; use life to be kind and to enjoy beauty.
+
+| Sentence | Meaning |
+|---|---|
+| He is too weak to lift it. | He cannot lift it. |
+| He is strong enough to lift it. | He can lift it. |
+
+**Conclusion.** Link *too* with a negative result and *enough* with a positive one.

@@ -391,6 +391,69 @@ call 0.70 0.10 0.76 0.24 "Slender pedicel"
 | **Solanaceae** | **potato** (*Solanum tuberosum*), tomato, brinjal (*S. melongena*), chilli and capsicum (*Capsicum*) | tobacco (*Nicotiana*, nicotine); *Datura* (hyoscine, also called scopolamine; atropine); *Atropa belladonna* (atropine, dilates the pupil); *Withania* (ashwagandha); *Petunia*, ornamental |
 | **Liliaceae** | **onion** (*Allium cepa*), **garlic** (*A. sativum*), *Asparagus racemosus* (kurilo, also medicinal) | *Aloe vera* (ghiukumari; burns, skin); **colchicine** from *Colchicum* and *Gloriosa* (induces polyploidy, treats gout); *Smilax* (sarsaparilla); lilies and tulips, ornamental |
 
+```photogrid label="5.1" cols="2" ratio="1.1" caption="Two families by their flowers. (a) A mustard flower is radially symmetrical with four sepals, four petals in a cross, six stamens and two joined carpels. (b) Its floral diagram, drawn from these counts, gives K2+2 C4 A2+4 G(2): the four long and two short stamens are tetradynamous. (c) A pea flower is bilateral, with a standard, two wings and a keel of two joined petals. (d) Its diagram gives K(5) C1+2+(2) A(9)+1 G1: nine stamens are fused into a tube and one is free (diadelphous). The counts of each whorl are what examiners ask for, so draw the diagram and then write the formula from it."
+@ photo id="cee-bot/mustard" cap="Mustard flowers (Brassicaceae)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Floral diagram of mustard (Brassicaceae)"
+import math
+def ell(cx, cy, a, b, ang, n=36):
+    c, s = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    return [(round(cx + a*math.cos(t)*c - b*math.sin(t)*s, 1), round(cy + a*math.cos(t)*s + b*math.sin(t)*c, 1)) for t in [2*math.pi*i/n for i in range(n)]]
+def pol(r, ang, cx=150, cy=112):
+    return cx + r*math.cos(math.radians(ang)), cy - r*math.sin(math.radians(ang))
+
+cx, cy = 150, 100
+sep = [pol(80, a, cx, cy) + (a,) for a in (0, 90, 180, 270)]
+pet = [pol(60, a, cx, cy) + (a,) for a in (45, 135, 225, 315)]
+sta = [pol(42, a, cx, cy) for a in (0, 180, 70, 110, 250, 290)]
+assert (len(sep), len(pet), len(sta)) == (4, 4, 6)
+facts = dict(fm1="K2+2 C4 A2+4 G(2)")
+f = Fig(300, 236)
+f.circle(cx, cy, 90, fill="#ffffff", stroke="#e2e8f0", sw=1)
+for x, y, a in sep:
+    f.poly(ell(x, y, 13, 5, a + 90), fill="#bbf7d0", stroke=TEAL)
+for x, y, a in pet:
+    f.poly(ell(x, y, 19, 10, a), fill="#fef3c7", stroke=AMBER)
+for i, (x, y) in enumerate(sta):
+    f.circle(round(x, 1), round(y, 1), 5.5 if i < 2 else 5.5 + 1, fill="#fde68a" if i >= 2 else "#fed7aa", stroke=AMBER, sw=1.3)
+f.poly(ell(cx, cy, 15, 9, 0), fill=ROSE, stroke=RED)
+f.line(cx - 15, cy, cx + 15, cy, color=RED, sw=1)
+f.text(150, 206, "K2+2 C4 A2+4 G(2); actinomorphic", size=10.5, color=NAVY, bold=True)
+f.text(150, 221, "2 short + 4 long stamens (tetradynamous)", size=10.5, color=SLATE)
+@ photo id="cee-bot/pea-flower" cap="Pea flowers (Fabaceae)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Floral diagram of pea (Fabaceae)"
+import math
+def ell(cx, cy, a, b, ang, n=36):
+    c, s = math.cos(math.radians(ang)), math.sin(math.radians(ang))
+    return [(round(cx + a*math.cos(t)*c - b*math.sin(t)*s, 1), round(cy + a*math.cos(t)*s + b*math.sin(t)*c, 1)) for t in [2*math.pi*i/n for i in range(n)]]
+def pol(r, ang, cx=150, cy=112):
+    return cx + r*math.cos(math.radians(ang)), cy - r*math.sin(math.radians(ang))
+
+cx, cy = 150, 100
+ring = [pol(80, 90 + 72 * k, cx, cy) + (90 + 72 * k,) for k in range(5)]
+fused = [pol(34, 195 + k * 18.75, cx, cy) for k in range(9)]
+assert len(ring) == 5 and len(fused) + 1 == 10
+facts = dict(fm2="K(5) C1+2+(2) A(9)+1 G1")
+f = Fig(300, 236)
+f.circle(cx, cy, 80, fill="#ffffff", stroke=TEAL, sw=1.2)
+for x, y, a in ring:
+    f.poly(ell(x, y, 11, 4.5, a + 90), fill="#bbf7d0", stroke=TEAL)
+f.poly(ell(*pol(58, 90, cx, cy), 24, 9, 0), fill="#fce7f3", stroke="#be185d")
+for a in (15, 165):
+    f.poly(ell(*pol(58, a, cx, cy), 17, 7, a), fill="#fbcfe8", stroke="#be185d")
+for a in (262, 278):
+    f.poly(ell(*pol(52, a, cx, cy), 16, 7, 0), fill="#f9a8d4", stroke="#be185d")
+for x, y in fused:
+    f.circle(round(x, 1), round(y, 1), 4.2, fill="#fde68a", stroke=AMBER, sw=1.2)
+f.circle(*pol(34, 90, cx, cy), 4.2, fill="#fed7aa", stroke=AMBER, sw=1.2)
+f.poly(ell(cx, cy, 8, 5, 0), fill=ROSE, stroke=RED)
+f.text(150, 206, "K(5) C1+2+(2) A(9)+1 G1; zygomorphic", size=10.5, color=NAVY, bold=True)
+f.text(150, 221, "diadelphous: 9 joined + 1 free stamen", size=10.5, color=SLATE)
+```
+
 ## 5.3 Economic importance of plant groups in Nepal
 
 | Group | Useful | Harmful |
@@ -502,6 +565,30 @@ largest ginger producers and exports much of it to India.
 
 **Solution.** *Rauwolfia serpentina* yields the indole alkaloid **reserpine** (antihypertensive) from its **dried roots**. *Ophiocordyceps sinensis* is an ascomycete entomopathogenic fungus fruiting from the caterpillar of *Thitarodes* in alpine meadows ($3{,}500\text{–}5{,}000\text{ m}$), valued for **cordycepin**; the whole **stroma + mycosed larva** is collected.
 :::
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Why yarsagumba grows where it does. (a) A dried Ophiocordyceps sinensis (yarsagumba), a fungus on an insect larva, beside a matchstick for scale. It is harvested in Nepal between about 3,200 and 4,800 m. (b) With a lapse rate of 6.5 degrees C per km and a mean annual temperature of 18.0 degrees C at Kathmandu (1,400 m), the temperature falls to 6.3 degrees C at 3,200 m and -4.1 degrees C at 4,800 m; the freezing level lies near 4,169 m. The cold alpine meadow that the fungus needs is therefore a belt of altitude, which is why climate warming pushes the harvest uphill."
+@ photo id="ceebot/yarsagumba" cap="Dried yarsagumba beside a matchstick"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Temperature against altitude (lapse rate 6.5 C per km)"
+T0, z0, L = 18.0, 1400, 6.5
+T = lambda z: T0 - L * (z - z0) / 1000
+zf = z0 + T0 / L * 1000
+assert round(zf) == 4169 and abs(T(3200) - 6.3) < 1e-9 and abs(T(4800) + 4.1) < 1e-9
+facts = dict(t32="%.1f" % T(3200), t48="%.1f" % T(4800), zf="{:,}".format(round(zf)))
+f = Fig(300, 236)
+f.text(150, 12, "Mean annual temperature (C) and altitude (km)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (1000, 5000), (-8, 20))
+f.box(ax.X(3200), ax.Y(20), ax.X(4800) - ax.X(3200), ax.Y(-8) - ax.Y(20), fill=MINT, stroke=TEAL, r=0, dash=True)
+ax.grid(1000, 7, xfmt=lambda v: "%d" % (v // 1000)).axes("km", "C")
+ax.curve(T, 1000, 5000, color=RED)
+f.text(ax.X(4000), ax.Y(17), "yarsagumba\nbelt", size=10.5, color=TEAL, bold=True)
+ax.pt(3200, T(3200), "6.3", dx=-8, dy=16, anchor="end")
+ax.pt(zf, 0, "0", dx=8, dy=-8, anchor="start", color=NAVY)
+ax.pt(4800, T(4800), "-4.1", dx=-8, dy=16, anchor="end")
+f.text(150, 206, "freezing level near %s m" % facts["zf"], size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "Kathmandu: 1,400 m, 18.0 C", size=10.5, color=SLATE)
+```
 
 ## Formula and fact sheet
 
@@ -710,3 +797,88 @@ largest ginger producers and exports much of it to India.
 **9.** (d) — Neem twigs are stems, tulasi is used for its leaves, and ginger's rhizome is an underground stem.
 **10.** (a) — Sessile flowers in acropetal order on an elongated axis make a spike. A raceme has stalked flowers; a cyme has the oldest flower at the tip.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the characters of Brassicaceae, Fabaceae and Solanaceae with floral formulae and economic importance. <span class="marks">[10]</span>
+2. Describe the economic importance of plants: cereals, pulses, fibres, spices and the medicinal plants of Nepal. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="4" ratio="1.1" caption="Plant families and useful plants. (a) Mustard, Brassicaceae, with four petals in a cross. (b) Pea, Fabaceae, with a butterfly-shaped corolla. (c) Potato, Solanaceae, with a five-lobed corolla. (d) Yarsagumba, the caterpillar fungus of the Nepali Himalaya."
+@ photo id="cee-bot/mustard" cap="(a) Mustard"
+fit 1.1
+focus 0.5 0.5
+@ photo id="cee-bot/pea-flower" cap="(b) Pea flower"
+fit 1.1
+focus 0.5 0.5
+@ photo id="cee-bot/potato-flower" cap="(c) Potato flower"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceebot/yarsagumba" cap="(d) Yarsagumba"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Brassicaceae, Fabaceae and Solanaceae (10 marks)
+
+**Introduction.** Angiosperms are classified into **dicots** (two cotyledons, net venation, tap root, tetramerous or pentamerous flowers) and **monocots** (one cotyledon, parallel venation, fibrous roots, trimerous flowers). Families are recognised by floral characters.
+
+| Feature | Brassicaceae (Cruciferae) | Fabaceae (Papilionoideae) | Solanaceae |
+|---|---|---|---|
+| Habit | herbs | herbs, shrubs, trees | herbs, shrubs |
+| Leaf | simple, alternate | compound, with stipules | simple, alternate |
+| Inflorescence | raceme | raceme | cymose |
+| Flower | actinomorphic, bisexual | zygomorphic, bisexual | actinomorphic, bisexual |
+| Calyx | 4 sepals, free | 5, gamosepalous | 5, gamosepalous, persistent |
+| Corolla | 4 petals in a **cross** | 5: standard, 2 wings, 2 keel (**vexillary**) | 5, gamopetalous |
+| Androecium | 6, **tetradynamous** (4 long + 2 short) | 10, diadelphous (9 + 1) | 5, epipetalous |
+| Gynoecium | bicarpellary, superior, **replum** | monocarpellary, superior | bicarpellary, superior, obliquely placed |
+| Fruit | **siliqua** or silicula | **legume** | berry or capsule |
+| Floral formula | ⊕ ⚥ K₂₊₂ C₄ A₂₊₄ G(₂) | % ⚥ K₍₅₎ C₅ A₍₉₎₊₁ G₁ | ⊕ ⚥ K₍₅₎ C₍₅₎ A₅ G₍₂₎ |
+
+(The superior ovary is the **hypogynous** condition in all three.)
+
+**Economic importance.**
+
+1. **Brassicaceae:** vegetables (cabbage, cauliflower, radish, turnip), oil (mustard, rapeseed, a staple oilseed in Nepal's Terai), ornamentals (candytuft) and a weed (shepherd's purse). *Arabidopsis* is the model plant of genetics.
+2. **Fabaceae:** pulses (lentil, soyabean, gram, pea), fodder (clover, alfalfa), timber (Dalbergia, or sisau), dye (indigo), medicine (Glycyrrhiza, liquorice) and green manure (Sesbania). **Root nodules** with *Rhizobium* fix nitrogen.
+3. **Solanaceae:** food (potato, tomato, brinjal, chilli), drug plants (**Atropa** belladonna giving atropine, Datura, tobacco) and ornamentals (petunia).
+
+**Numerical.** For a tetradynamous flower the stamens number $2 + 4 = 6$ and the petals are $4$, so the ratio of stamens to petals is $1.5$. A legume pod with $8$ seeds, and a plant with $25$ pods, gives $200$ seeds.
+
+**Conclusion.** Family identification rests on a few constant floral characters, and each of these three families is of high economic value.
+
+### Model answer D2: economic botany (10 marks)
+
+**Introduction.** **Economic botany** is the study of plants of use to man for food, fibre, fuel, medicine, shelter and industry.
+
+**Food plants.**
+
+1. **Cereals** (Poaceae) are the staple: rice (*Oryza sativa*, the main crop of the Terai), wheat, maize, millet (*kodo*) and barley, rich in starch.
+2. **Pulses** (Fabaceae) are protein-rich (lentil, black gram, soyabean) and enrich the soil.
+3. **Oilseeds:** mustard, sesame, groundnut and sunflower.
+4. **Sugar:** sugarcane (*Saccharum officinarum*) and sugar beet.
+5. **Fruits and vegetables** give vitamins and minerals, and **beverages** are tea (*Camellia sinensis*, grown in Ilam) and coffee (*Coffea arabica*, grown in Gulmi and Lalitpur).
+
+**Fibre plants.** Cotton (seed hairs), jute (stem fibre of *Corchorus*, grown in the Terai), hemp and flax, **lokta** (*Daphne*), whose bark gives the traditional Nepali paper, and coir (coconut fruit).
+
+**Spices.** Large cardamom (*Amomum subulatum*, Ilam, a major export of Nepal), turmeric, ginger, black pepper, cloves and chilli.
+
+**Medicinal plants of Nepal.**
+
+| Plant | Part | Use |
+|---|---|---|
+| *Rauvolfia serpentina* (sarpagandha) | root | reserpine for high blood pressure |
+| *Ophiocordyceps sinensis* (yarsagumba) | fungus on caterpillar | tonic, high value |
+| *Azadirachta indica* (neem) | leaf, bark | antiseptic, insecticide |
+| *Ocimum sanctum* (tulsi) | leaf | cough, cold |
+| *Taxus wallichiana* (Himalayan yew) | bark | taxol, anticancer |
+| *Swertia chirayita* (chiraito) | whole plant | fever, digestion |
+| *Aloe vera* | leaf | skin care |
+
+**Conservation.** Over-collection of Himalayan herbs threatens species, so CITES, community forestry and cultivation help. The Department of Plant Resources in Kathmandu and national parks conserve medicinal plants.
+
+**Other products.** Timber (sal, *Shorea robusta*), rubber (*Hevea*), resin, tannins and the bio-fuel crop jatropha.
+
+**Numerical.** If a hectare of rice gives $4\ \text{t}$ of paddy, which gives $65\%$ rice on milling, then it yields $2.6\ \text{t}$ of rice. A country of $30$ million people eating $0.4\ \text{kg}$ of cereal per person per day needs $12\,000\ \text{t}$ per day, or about $4.4$ million tonnes per year.
+
+**Conclusion.** Cereals, pulses and oilseeds feed the people, fibres and spices bring income, and Nepal's medicinal plants need careful conservation.

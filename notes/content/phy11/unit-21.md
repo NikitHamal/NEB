@@ -591,6 +591,30 @@ Check: $W = Fd = 5\times10^{-5}\times0.02 = 1.0\times10^{-6}\ \text{J}$. The two
 routes agree, as they must in a uniform field.
 :::
 
+```photogrid label="21.P" cols="2" ratio="1.27" caption="The potential of a charged sphere is constant inside and on its surface and falls as 1/r outside, while the field is the negative slope of the potential graph. (a) A student touching a Van de Graaff generator, whose hairs repel each other. (b) A sphere of radius 15 cm at 300 kV holds a charge of 5.0 microcoulombs, since V = kQ/R. The potential has fallen to 150 kV at 30 cm, and the surface field is V/R = 2.0 MV/m, close to the breakdown field of air near 3 MV/m, which is why such machines crackle. A sharp point would concentrate the field and leak charge sooner."
+@ photo id="phy11/vdghair" cap="A student's hair rises on a charged Van de Graaff sphere"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Potential and field of a charged sphere of radius 15 cm"
+k = 8.99e9
+R, V0 = 0.15, 300e3
+Q = V0 * R / k
+E_s = V0 / R
+V = lambda r: V0 if r <= R else k * Q / r
+assert abs(Q * 1e6 - 5.005) < 0.01 and abs(V(0.30) - 150e3) < 1
+f = Fig(300, 236)
+f.text(150, 14, "Potential V(r) of a 300 kV sphere", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 0.6), (0, 320))
+ax.grid(0.1, 80, size=9, xfmt=lambda v: "%.1f" % v); ax.axes("r (m)", "V (kV)")
+ax.curve(lambda r: V(r) / 1e3, 0.0, 0.6, color=NAVY, sw=2.4, n=300)
+ax.vline(R, color=AMBER)
+ax.pt(0.30, V(0.30) / 1e3, "150 kV at 30 cm", dx=8, dy=-10, color=RED)
+f.text(150, 207, "Q = V R / k = %.2f uC" % (Q * 1e6), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "E at surface = V/R = %.1f MV/m" % (E_s / 1e6), size=10.5, color=RED, bold=True)
+f.text(150, 231, "air breaks down near 3 MV/m (sparks)", size=10.5, color=SLATE)
+facts = dict(Q="%.1f" % (Q * 1e6), E="%.1f" % (E_s / 1e6), v30="%.0f" % (V(0.30) / 1e3))
+```
+
 ## Chapter summary
 
 - Potential difference $V_B - V_A = W_{AB}/q$, in volts (J C⁻¹); absolute
@@ -684,3 +708,82 @@ work would be needed to pull them apart.
 
 (c) $W = qV = 2\times10^{-6}\times9\times10^{4} = 0.18\ \text{J}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define electric potential and potential difference, derive the potential due to a point charge and relate potential to potential energy. <span class="marks">[10]</span>
+2. What are equipotential surfaces? State their properties and derive the relation between electric field and potential gradient. <span class="marks">[10]</span>
+
+### Model answer D1: electric potential due to a point charge (10 marks)
+
+**Introduction.** The electric field describes the force on a charge, but a scalar quantity, the **electric potential**, is easier to work with because it has no direction.
+
+**Definitions.**
+
+- **Potential difference** between two points $=\dfrac{\text{work done in moving a test charge between them}}{\text{the charge}}$, $V_B-V_A=\dfrac{W_{AB}}{q_0}$. The unit is the volt, $1\ \text{V}=1\ \text{J C}^{-1}$.
+- **Potential at a point** is the work done per unit positive charge in bringing it from **infinity** to that point.
+- **Electric potential energy** of a charge $q$ at a point of potential $V$ is $U=qV$.
+
+**Derivation of the potential due to a point charge $q$.** Bring a unit positive test charge from infinity to a point $P$ at distance $r$ from $q$.
+
+1. At a distance $x$, the force on the test charge is $F=\dfrac{1}{4\pi\varepsilon_0}\dfrac{q}{x^{2}}$ (repulsive for $q>0$).
+2. The external work done for a small displacement $dx$ against this force is $dW=-F\,dx$ (the displacement is inward).
+3. Total work from $x=\infty$ to $x=r$:
+
+$$ V=-\int_{\infty}^{r}\frac{1}{4\pi\varepsilon_0}\frac{q}{x^{2}}\,dx=\frac{q}{4\pi\varepsilon_0}\left[\frac1x\right]_{\infty}^{r}=\frac{1}{4\pi\varepsilon_0}\,\frac{q}{r} $$
+
+4. Potential is **positive** near a positive charge and **negative** near a negative charge, and it falls as $1/r$.
+
+**Potential energy of two charges.** $U=\dfrac{1}{4\pi\varepsilon_0}\dfrac{q_1q_2}{r}$: positive for like charges, negative for unlike charges (a bound system such as the hydrogen atom).
+
+**Many charges.** The potential is the **algebraic sum** $V=\sum\dfrac{kq_i}{r_i}$, which is simpler than the vector addition used for the field.
+
+| Quantity | Type | Point-charge formula |
+|---|---|---|
+| Field $E$ | Vector | $kq/r^{2}$ |
+| Potential $V$ | Scalar | $kq/r$ |
+| Potential energy $U$ | Scalar | $kq_1q_2/r$ |
+
+**Numerical.** A charge of $2\ \text{nC}$ gives $V=\dfrac{9\times10^{9}\times2\times10^{-9}}{0.10}=180\ \text{V}$ at $0.10\ \text{m}$ and $60\ \text{V}$ at $0.30\ \text{m}$. A charge of $1\ \mu\text{C}$ moving from the first point to the second is acted on by the field, which does $W=q(V_1-V_2)=10^{-6}\times120=1.2\times10^{-4}\ \text{J}$.
+
+**Conclusion.** The potential due to a point charge is $kq/r$; potentials add as scalars, and the work to move a charge is $q\,\Delta V$.
+
+### Model answer D2: equipotential surfaces and potential gradient (10 marks)
+
+**Introduction.** An **equipotential surface** is a surface on which every point is at the **same electric potential**. Map contours on a hillside are similar: they join points of equal height.
+
+**Properties of equipotential surfaces.**
+
+1. No work is done in moving a charge **along** an equipotential surface, since $\Delta V=0$.
+2. The electric field is always **perpendicular** to an equipotential surface at every point.
+3. Two equipotential surfaces never intersect, since a point cannot have two potentials.
+4. The field points from higher to lower potential.
+5. Closely spaced surfaces mean a strong field; widely spaced ones mean a weak field.
+6. The surface of a conductor in electrostatic equilibrium is an equipotential surface.
+
+**Shapes.**
+
+| Source | Equipotential surfaces |
+|---|---|
+| Point charge | Concentric spheres |
+| Uniform field | Parallel planes, perpendicular to the field |
+| Dipole | Curved surfaces, with a zero-potential plane in the middle |
+| Line charge | Coaxial cylinders |
+
+**Potential gradient.** Let two nearby equipotential surfaces have potentials $V$ and $V+dV$, separated by a perpendicular distance $dr$.
+
+1. To move a unit positive charge from the surface at $V+dV$ to the surface at $V$ against the field, the work is $-E\,dr$ (taking $\vec E$ along $+r$), so $dV=-E\,dr$.
+2. Therefore
+
+$$ E=-\frac{dV}{dr} $$
+
+The rate of change of potential with distance is the **potential gradient**, and the field is its negative. The minus sign shows that the field points in the direction of decreasing potential.
+
+3. For a uniform field between parallel plates with potential difference $V$ and gap $d$, $E=\dfrac Vd$, giving the equivalent unit $\text{V m}^{-1}$.
+
+**Numerical.** Two plates $4\ \text{mm}$ apart are connected to $200\ \text{V}$.
+
+- $E=\dfrac{200}{0.004}=5\times10^{4}\ \text{V m}^{-1}$.
+- An electron released at the negative plate gains $K=eV=1.6\times10^{-19}\times200=3.2\times10^{-17}\ \text{J}$, so $v=\sqrt{\dfrac{2eV}{m}}=\sqrt{\dfrac{2\times3.2\times10^{-17}}{9.11\times10^{-31}}}\approx8.4\times10^{6}\ \text{m s}^{-1}$.
+
+**Conclusion.** Equipotential surfaces are perpendicular to the field lines, and the field equals the negative potential gradient, $E=-dV/dr$.

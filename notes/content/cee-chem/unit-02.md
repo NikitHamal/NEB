@@ -394,6 +394,63 @@ orbital).
 total **n − 1**.
 :::
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Lines, not a continuum. (a) A spectroscope shows the sharp lines of an excited gas. (b) For hydrogen 1/lambda = R (1/2^2 - 1/n^2) with R = 1.0968 x 10^7 per metre gives the visible Balmer lines at 656.5 nm (n = 3, red), 486.3 nm (n = 4, blue-green), 434.2 nm (n = 5) and 410.3 nm (n = 6, violet), photon energies 1.89, 2.55, 2.86 and 3.02 eV. The lines crowd towards the series limit at 364.7 nm (n = infinity), where the electron is just freed from level 2."
+@ photo id="phy12/spectroscope" cap="A laboratory spectroscope splits light from a discharge tube into lines"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Balmer lines of hydrogen from the Rydberg formula"
+def rgb(l):
+    if l < 440: r, g, b = (440 - l) / 40, 0, 1
+    elif l < 490: r, g, b = 0, (l - 440) / 50, 1
+    elif l < 510: r, g, b = 0, 1, (510 - l) / 20
+    elif l < 580: r, g, b = (l - 510) / 70, 1, 0
+    elif l < 645: r, g, b = 1, (645 - l) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * c) for c in (r, g, b))
+R = 1.0968e7; hc = 1239.84
+lam = lambda n: 1e9 / (R * (0.25 - 1 / n ** 2))
+L = {n: lam(n) for n in (3, 4, 5, 6)}; lim = 1e9 / (R * 0.25)
+assert abs(L[3] - 656.5) < 0.3 and abs(L[4] - 486.3) < 0.3 and abs(L[6] - 410.3) < 0.3 and abs(lim - 364.8) < 0.3
+facts = dict(l3="%.1f" % L[3], l4="%.1f" % L[4], l5="%.1f" % L[5], l6="%.1f" % L[6], e3="%.2f" % (hc / L[3]), e4="%.2f" % (hc / L[4]), e5="%.2f" % (hc / L[5]), e6="%.2f" % (hc / L[6]), lim="%.1f" % lim)
+f = Fig(300, 236)
+f.text(150, 14, "Balmer series, n to 2", size=10.5, color=NAVY, bold=True)
+X = lambda l: 20 + (l - 360) / 340 * 260
+f.box(20, 34, 260, 70, fill="#0f172a", stroke="#0f172a", r=2)
+for n, l in L.items():
+    f.line(X(l), 34, X(l), 104, color=rgb(l) if l < 640 else "#ef4444", sw=3)
+    f.text(X(l), 118, "%d" % n, size=10.5, color=NAVY, bold=True)
+f.line(X(lim), 34, X(lim), 104, color="#94a3b8", sw=1.2, dash=True)
+f.text(X(lim) + 3, 130, "limit", size=10.5, color=SLATE, anchor="start")
+for l in (400, 500, 600, 700): f.text(X(l), 146, "%d" % l, size=10.5, color=SLATE)
+f.text(150, 164, "wavelength in nm", size=10.5, color=SLATE)
+f.text(150, 184, "n=3: %.1f nm, %.2f eV" % (L[3], hc / L[3]), size=10.5, color=RED, bold=True)
+f.text(150, 202, "n=6: %.1f nm, %.2f eV" % (L[6], hc / L[6]), size=10.5, color="#6d28d9", bold=True)
+f.text(150, 220, "series limit %.1f nm" % lim, size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Seeing atoms needs a short wavelength. (a) A transmission electron microscope accelerates electrons through tens of kilovolts and focuses them with magnetic lenses. (b) The cell applies de Broglie's relation, wavelength = h / p, with the relativistic correction for fast electrons: an electron accelerated through 100 V has a wavelength of 0.1226 nm, close to a bond length, while at 100 kV it is only 3.70 pm and at 200 kV 2.51 pm. Green light has a wavelength of 550 nm, about 219304 times longer than a 200 kV electron wave, so electrons resolve details that light cannot. The wave nature of matter is not a theory on paper but the working principle of an instrument."
+@ photo id="ceechem2/tem" cap="A transmission electron microscope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="de Broglie wavelength of accelerated electrons"
+import math
+h, m, e, c = 6.62607e-34, 9.10938e-31, 1.602177e-19, 2.99792458e8
+def lam(V):
+    return h / math.sqrt(2 * m * e * V * (1 + e * V / (2 * m * c * c)))
+rows = [(v, lam(v) * 1e12) for v in (100, 1000, 100000, 200000)]
+assert round(rows[0][1] / 1000, 4) == 0.1226 and round(rows[2][1], 2) == 3.70 and round(rows[3][1], 2) == 2.51
+f = Fig(300, 236)
+f.text(150, 12, "Electron wavelength, picometres", size=10.5, color=NAVY, bold=True)
+import math as _m
+hbars(f, [("%s V" % format(v, ","), _m.log10(p)) for v, p in rows], vmax=_m.log10(rows[0][1]), fmt="%.2f", x0=76, bw=130)
+for i, (v, p) in enumerate(rows):
+    f.text(292, 42 + i * 32, "%.2f pm" % p, size=9.5, color=SLATE, bold=True, anchor="end", vmid=True)
+f.text(150, 178, "bar length = log10 of wavelength (pm)", size=10, color=SLATE, bold=True)
+f.text(150, 200, "green light: 550 nm = 550,000 pm", size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "200 kV electron is %d times shorter" % round(550000 / rows[3][1]), size=10.5, color=SLATE, bold=True)
+facts = dict(l100=rows[0][1] / 1000, k100=rows[2][1], k200=rows[3][1], ratio=round(550000 / rows[3][1]))
+```
+
 ## Formula and fact sheet
 
 | Quantity | Formula / value |
@@ -581,3 +638,78 @@ Cu 3d¹⁰ 4s¹.
 **10.** (b) — E = hc/λ = 6.63 × 10⁻³⁴ × 3.0 × 10⁸/(663 × 10⁻⁹) = 3.0 × 10⁻¹⁹ J (≈ 1.9 eV). Option (d) forgets to convert nm to m.
 **11.** (a) — E ∝ Z²/n²: hydrogen n = 2 gives 1/4; Li²⁺ n = 3 gives 9/9 = 1. Ratio 1/4 : 1 = 1 : 4 (−3.4 eV against −13.6 eV).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Bohr's model of the atom, derive the radius and energy of the hydrogen orbits and explain the line spectrum with numericals. <span class="marks">[10]</span>
+2. Explain the four quantum numbers, the rules for filling electrons, the exceptions Cr and Cu, and the magnetic moment with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Electrons and energy levels. (a) Flame tests: each metal ion gives a characteristic colour as excited electrons fall back to lower levels. (b) Transition-metal ions are coloured because of d-d electron jumps. (c) A transmission electron microscope images matter with a beam of electrons of wavelength far shorter than light."
+@ photo id="chem11/flame-colours" cap="(a) Flame colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/tm-colours" cap="(b) d-block colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/tem" cap="(c) Electron microscope"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Bohr's model and the hydrogen spectrum (10 marks)
+
+**Introduction.** Rutherford's model could not explain the stability of the atom or line spectra. Bohr (1913) proposed that an electron moves in fixed circular orbits (energy levels) without radiating, that its angular momentum is $mvr = \dfrac{nh}{2\pi}$, and that radiation is emitted or absorbed only when it jumps between orbits: $\Delta E = hf = \dfrac{hc}{\lambda}$.
+
+**Results for hydrogen and hydrogen-like species** (atomic number $Z$):
+
+1. Radius $r_n = 52.9\,\dfrac{n^2}{Z}\ \text{pm}$.
+2. Speed $v_n = 2.19\times10^6\,\dfrac Zn\ \text{m s}^{-1}$.
+3. Energy $E_n = -13.6\,\dfrac{Z^2}{n^2}\ \text{eV} = -2.18\times10^{-18}\dfrac{Z^2}{n^2}\ \text{J}$.
+4. Spectral lines: $\bar\nu = \dfrac1\lambda = R_HZ^2\left(\dfrac{1}{n_1^2} - \dfrac{1}{n_2^2}\right)$ with $R_H = 1.097\times10^7\ \text{m}^{-1}$.
+
+| Series | $n_1$ | $n_2$ | Region |
+|---|---|---|---|
+| Lyman | 1 | 2, 3, ... | ultraviolet |
+| Balmer | 2 | 3, 4, ... | visible |
+| Paschen | 3 | 4, 5, ... | infrared |
+| Brackett | 4 | 5, 6, ... | infrared |
+| Pfund | 5 | 6, 7, ... | far infrared |
+
+The number of lines for the jump from level $n$ to the ground state, in all possible ways, is $\dfrac{n(n - 1)}{2}$.
+
+**Limitations.** The model fails for atoms with more than one electron, cannot explain the splitting of lines in a magnetic field (Zeeman) or electric field (Stark), and contradicts the **Heisenberg uncertainty principle** ($\Delta x\cdot\Delta p \ge h/4\pi$) and the dual nature of the electron ($\lambda = h/mv$).
+
+**Numerical.**
+
+- The $H_\alpha$ line ($3 \to 2$): $\bar\nu = 1.097\times10^7\times\dfrac{5}{36} = 1.524\times10^6\ \text{m}^{-1}$, so $\lambda = 656\ \text{nm}$.
+- Ionisation energy of He⁺ ($Z = 2$, $n = 1$) $= 13.6\times4 = 54.4\ \text{eV}$.
+- The $n = 4$ orbit of hydrogen has $r = 16\times52.9 = 846\ \text{pm}$, and a jump $4 \to 1$ gives $13.6(1 - \tfrac1{16}) = 12.75\ \text{eV}$.
+
+**Conclusion.** Bohr's model explains the hydrogen spectrum through quantised energy levels but fails for many-electron atoms, which need the quantum mechanical model.
+
+### Model answer D2: quantum numbers and electronic configuration (10 marks)
+
+**Introduction.** In the quantum mechanical model, the position of an electron is described by an **orbital**, a region of high probability, and four quantum numbers.
+
+| Quantum number | Symbol | Allowed values | Tells |
+|---|---|---|---|
+| Principal | $n$ | $1, 2, 3, \ldots$ | shell, size and energy |
+| Azimuthal | $l$ | $0$ to $n - 1$ | subshell shape ($s, p, d, f$) |
+| Magnetic | $m_l$ | $-l$ to $+l$ | orientation, giving $2l + 1$ orbitals |
+| Spin | $m_s$ | $+\tfrac12$ or $-\tfrac12$ | spin direction |
+
+A shell holds $2n^2$ electrons and a subshell $2(2l + 1)$ electrons. The number of radial nodes is $n - l - 1$ and the angular nodes equal $l$.
+
+**Rules for filling.**
+
+1. **Aufbau principle:** orbitals fill in the increasing order of $(n + l)$, and for equal values the lower $n$ first: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, 5s, 4d, ...
+2. **Pauli exclusion principle:** no two electrons in an atom have all four quantum numbers the same, so an orbital holds at most two electrons of opposite spin.
+3. **Hund's rule:** electrons occupy degenerate orbitals singly with parallel spins before pairing.
+
+**Exceptions.** Half-filled and fully filled subshells are extra stable (exchange energy, symmetry). So chromium is $[\text{Ar}]3d^54s^1$ (not $3d^44s^2$) and copper is $[\text{Ar}]3d^{10}4s^1$. In forming cations, electrons leave the $4s$ before the $3d$, for example Fe³⁺ is $[\text{Ar}]3d^5$.
+
+**Magnetic moment.** $\mu = \sqrt{n(n + 2)}\ \text{BM}$, where $n$ is the number of unpaired electrons. A substance with unpaired electrons is **paramagnetic** and one with none is **diamagnetic**.
+
+**Numerical.** Fe³⁺ ($3d^5$) has $n = 5$, so $\mu = \sqrt{35} = 5.92\ \text{BM}$. Cu²⁺ ($3d^9$) has $n = 1$ and $\mu = \sqrt3 = 1.73\ \text{BM}$. Zn²⁺ ($3d^{10}$) has $n = 0$ and is diamagnetic. The valid sets for $n = 3$ give $2n^2 = 18$ electrons in $9$ orbitals.
+
+**Conclusion.** Four quantum numbers fix every electron, and the Aufbau, Pauli and Hund rules, with the special stability of half-filled and fully-filled subshells, give the configuration.

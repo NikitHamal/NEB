@@ -648,6 +648,39 @@ the combination gives **dispersion without deviation**, which is exactly what a
 direct-vision spectroscope needs.
 :::
 
+```photogrid label="18.P" cols="2" ratio="1.27" caption="A lens bends blue light more than red, so a single lens cannot bring all colours to one focus, and white edges in a photograph acquire coloured fringes. (a) Chromatic aberration at the edge of a road marking. (b) Using the indices for crown and flint glass, the dispersive power w = (nF - nC)/(nD - 1) is 0.0157 for crown and 0.0274 for flint. An achromatic doublet needs w1/f1 + w2/f2 = 0, and for a combined focal length of 20 cm this requires a convex crown lens of 8.6 cm and a concave flint lens of 15.0 cm. Cameras and microscopes use such doublets so that red and blue meet at the same point."
+@ photo id="phy11/fringes" cap="Coloured fringes at a white edge caused by chromatic aberration"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Refractive index against wavelength for crown and flint glass"
+lam = lambda x: x
+lC, lF, ld = 0.6563, 0.4861, 0.5876
+def cauchy(nC, nF):
+    B = (nF - nC) / (1 / lF**2 - 1 / lC**2)
+    return nC - B / lC**2, B
+Ac, Bc = cauchy(1.5143, 1.5224)
+Af, Bf = cauchy(1.6150, 1.6320)
+nc = lambda l: Ac + Bc / l**2
+nf = lambda l: Af + Bf / l**2
+wc = (nc(lF) - nc(lC)) / (nc(ld) - 1)
+wf = (nf(lF) - nf(lC)) / (nf(ld) - 1)
+fc = 20.0
+f1 = fc * (1 - wc / wf); f2 = -f1 * wf / wc
+assert abs(1 / f1 + 1 / f2 - 1 / fc) < 1e-12 and abs(wc / f1 + wf / f2) < 1e-12
+f = Fig(300, 236)
+f.text(150, 14, "Dispersion of crown and flint glass", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 236, 146, (0.4, 0.7), (1.50, 1.64))
+ax.grid(0.1, 0.02, size=9, xfmt=lambda v: "%.1f" % v, yfmt=lambda v: "%.2f" % v); ax.axes("wavelength (um)", "n")
+ax.curve(nf, 0.4, 0.7, color=RED, sw=2.4)
+ax.curve(nc, 0.4, 0.7, color=NAVY, sw=2.4)
+ax.tag(0.58, 1.628, "flint", color=RED, bold=True)
+ax.tag(0.58, 1.526, "crown", color=NAVY, bold=True)
+f.text(150, 207, "w(crown) = %.4f   w(flint) = %.4f" % (wc, wf), size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "achromat of f = 20 cm: f1 = %+.1f cm (convex)" % f1, size=10.5, color=RED, bold=True)
+f.text(150, 231, "f2 = %.1f cm (concave); w/f sums to zero" % f2, size=10.5, color=RED, bold=True)
+facts = dict(wc="%.4f" % wc, wf="%.4f" % wf, f1="%.1f" % f1, f2="%.1f" % abs(f2))
+```
+
 ## Chapter summary
 
 - Dispersion happens because $n$ depends on wavelength, with $n_V > n_R$; for a
@@ -746,3 +779,77 @@ concave).
 
 $$ \omega = \frac{f_R-f_V}{f_Y} = \frac{20.4-19.6}{20.0} = \frac{0.8}{20.0} = 0.04 $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is dispersion of light? Explain how a pure spectrum is obtained and define the dispersive power of a material. <span class="marks">[10]</span>
+2. Explain chromatic and spherical aberration of a lens and their remedies. Derive the condition of achromatism for two thin lenses in contact. <span class="marks">[10]</span>
+
+### Model answer D1: dispersion, pure spectrum and dispersive power (10 marks)
+
+**Introduction.** When a beam of white light passes through a glass prism, it splits into a band of colours: violet, indigo, blue, green, yellow, orange and red (VIBGYOR). This splitting is called **dispersion**. The rainbow seen over the hills after monsoon rain is dispersion by raindrops.
+
+**Cause of dispersion.** The refractive index of a material depends on the wavelength: $n$ is **largest for violet** (shortest wavelength) and **smallest for red**. In glass, violet therefore travels more slowly and is deviated more than red.
+
+**Pure spectrum.** A spectrum in which the colours do **not overlap** is a pure spectrum. Sunlight through a narrow slit and a prism gives an impure spectrum because the colour images overlap. A pure spectrum is obtained with the following arrangement:
+
+1. A **narrow slit** illuminated by the source.
+2. A **collimating lens** that makes the rays from the slit parallel.
+3. A **prism** set at minimum deviation, so that each colour is deviated by a definite angle.
+4. A **focusing (telescope) lens** that forms a sharp image of the slit in each colour on a screen.
+
+In this arrangement, a separate, sharp slit image is formed for every colour, and the images do not overlap.
+
+**Angular dispersion and dispersive power.**
+
+- **Angular dispersion:** the angle between the violet and red rays, $\delta_v-\delta_r=(n_v-n_r)A$ for a thin prism.
+- **Mean deviation:** that for the yellow (mean) ray, $\delta_y=(n_y-1)A$.
+- **Dispersive power** is the ratio of the angular dispersion to the mean deviation:
+
+$$ \omega=\frac{\delta_v-\delta_r}{\delta_y}=\frac{n_v-n_r}{n_y-1} $$
+
+It has **no unit** and depends only on the material, not on the angle of the prism.
+
+| Material | Dispersive power | Remark |
+|---|---|---|
+| Crown glass | about 0.02 – 0.03 | Low dispersion |
+| Flint glass | about 0.04 – 0.05 | High dispersion |
+| Water | about 0.02 | Gives the rainbow |
+
+**Numerical.** For a crown glass, $n_v=1.532$, $n_r=1.514$ and $n_y=1.522$, so $\omega=\dfrac{1.532-1.514}{1.522-1}=\dfrac{0.018}{0.522}=0.0345$.
+
+**Conclusion.** Dispersion occurs because the refractive index varies with wavelength; a pure spectrum needs a slit, collimator, prism and focusing lens, and dispersive power measures how strongly a material spreads colours.
+
+### Model answer D2: aberrations and achromatism (10 marks)
+
+**Introduction.** A real lens does not form a perfect point image. The defects are called **aberrations**; two important ones are chromatic and spherical aberration.
+
+**Chromatic aberration.**
+
+- White light is dispersed, so a convex lens has a shorter focal length for violet ($f_v$) than for red ($f_r$), and the image has coloured edges.
+- The **longitudinal chromatic aberration** is the distance $f_r-f_v$ along the axis.
+- **Remedy:** an **achromatic doublet**, a convex crown-glass lens cemented to a concave flint-glass lens.
+
+**Spherical aberration.**
+
+- Rays that strike the outer part (margin) of a spherical lens or mirror are bent more than rays near the axis, so they cross the axis at a different point and the image is blurred.
+- **Remedies:** a stop (diaphragm) to cut off marginal rays; a **plano-convex** lens with the curved side towards the incident parallel light; use of two lenses; a **parabolic** mirror in telescopes and head-lamps.
+
+**Condition for achromatism.** Two thin lenses in contact have focal lengths $f_1$, $f_2$ and dispersive powers $\omega_1$, $\omega_2$.
+
+1. The combined focal length for a colour satisfies $\dfrac1F=\dfrac1{f_1}+\dfrac1{f_2}$.
+2. Using the lens maker's formula, the change of $1/f$ between violet and red is $\dfrac{\omega_1}{f_1}$ for lens 1 and $\dfrac{\omega_2}{f_2}$ for lens 2.
+3. For the combination to have the same focal length for red and violet, the net change must be zero:
+
+$$ \boxed{\frac{\omega_1}{f_1}+\frac{\omega_2}{f_2}=0} $$
+
+4. Hence $f_1$ and $f_2$ must have **opposite signs**: one lens converges and the other diverges, and $\dfrac{f_1}{f_2}=-\dfrac{\omega_1}{\omega_2}$.
+
+| Aberration | Cause | Remedy |
+|---|---|---|
+| Chromatic | $n$ depends on colour | Achromatic doublet |
+| Spherical | Marginal rays bend more | Stop, plano-convex lens, parabolic mirror |
+
+**Numerical.** A crown lens ($\omega_1=0.02$, $f_1=+20\ \text{cm}$) is combined with a flint lens of $\omega_2=0.04$. Then $f_2=-f_1\dfrac{\omega_2}{\omega_1}=-20\times2=-40\ \text{cm}$, and the combination has $F=\dfrac{20\times(-40)}{20-40}=+40\ \text{cm}$, a converging achromat.
+
+**Conclusion.** Chromatic aberration comes from dispersion and spherical aberration from lens shape; an achromatic doublet with $\omega_1/f_1+\omega_2/f_2=0$ removes the colour fringes.

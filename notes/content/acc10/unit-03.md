@@ -256,3 +256,60 @@ Retailer: sale Rs. 2,60,000; output tax $= 13\% \times 2{,}60{,}000 = Rs.\ 33{,}
 Total deposited $= 26{,}000 + 5{,}200 + 2{,}600 = Rs.\ 33{,}800$.
 Verification: $13\% \times 2{,}60{,}000 = Rs.\ 33{,}800$. Equal — the whole tax is ultimately borne by the consumer and collected in instalments along the chain.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a tax? Explain direct and indirect taxes with examples and a comparison table. <span class="marks">[10]</span>
+2. What is Value Added Tax? Explain its features and show by an example how the VAT payable is found. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.0" caption="Where tax money goes. The Ministry of Finance prepares the budget, Singha Durbar houses the main offices of government, and an old Nepali banknote reminds us that taxes have always supported the state."
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/singha-durbar" cap="Singha Durbar"
+@ photo id="acc10/old-note" cap="Old Nepali note"
+```
+
+### Model answer D1: direct and indirect taxes (10 marks)
+
+**Introduction.** A **tax** is a compulsory payment made by people and firms to the government, without a direct return for the payment, to meet the costs of public services such as roads, schools, health and security. In Nepal taxes are collected by the federal government, the provinces and the local levels as the Constitution provides.
+
+**Direct tax.** A tax whose burden **falls on the person who pays it** and cannot be shifted to another. Examples: income tax, property (land and building) tax, house and land registration tax and vehicle tax.
+
+**Indirect tax.** A tax that is first paid by the seller but whose burden is **shifted to the consumer** through the price. Examples: value added tax, excise duty and customs duty.
+
+| Basis | Direct tax | Indirect tax |
+|---|---|---|
+| Burden | Cannot be shifted | Can be shifted to the consumer |
+| Examples | Income tax, property tax | VAT, excise, customs duty |
+| Rate | Often progressive (more income, higher rate) | Same rate for rich and poor |
+| Evasion | Harder | Easier |
+| Effect | Reduces inequality | May fall heavily on the poor |
+| Collection cost | Higher | Lower |
+
+**Objectives of taxation.** To raise revenue; to reduce inequality of income; to protect home industries (customs duty); to control the use of harmful goods such as tobacco and alcohol (excise); and to encourage saving and investment through tax rebates.
+
+**Conclusion.** A sound tax system uses both: direct taxes for fairness and indirect taxes for large and steady revenue.
+
+### Model answer D2: Value Added Tax (10 marks)
+
+**Introduction.** **VAT** is a tax levied at every stage of production and distribution on the **value added** at that stage. The tax is finally borne by the consumer. In Nepal VAT was introduced in 2054 BS (1997) and the standard rate is **13%**. A business must register for VAT when its turnover crosses the limit set by law, and it issues a tax invoice for each sale.
+
+**Features.**
+
+1. **Multi-stage tax.** It is charged at each stage, from the producer to the retailer.
+2. **Input credit.** The tax paid on purchases (input VAT) is deducted from the tax charged on sales (output VAT), so there is no double taxation.
+3. **Borne by the consumer.** The final buyer pays it through the price.
+4. **Tax invoice and records.** Every registered seller keeps invoices and files a return every month.
+5. **Single standard rate** of 13%, with some goods and services exempt (for example basic agricultural products, education and health services) or zero-rated (exports).
+6. **Self-checking.** Each buyer asks for a bill to claim a credit, which reduces evasion.
+
+**Example.** A wholesaler buys goods for Rs 30,000 and pays VAT of 13%. He sells them for Rs 50,000 plus VAT.
+
+| Item | Calculation | Amount (Rs) |
+|---|---|---|
+| Output VAT on sales | 13% of 50,000 | 6,500 |
+| Input VAT on purchases | 13% of 30,000 | 3,900 |
+| **VAT payable to the Inland Revenue Office** | 6,500 − 3,900 | **2,600** |
+
+The VAT payable equals 13% of the value added: $13\%\times(50{,}000-30{,}000)=2{,}600$ ✓.
+
+**Conclusion.** VAT is the largest source of revenue of the government of Nepal, and a customer who always takes a VAT bill helps both the nation and himself.

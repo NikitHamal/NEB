@@ -320,6 +320,31 @@ eddy loops can only be small and the loss falls sharply. Eddy-current loss grows
 $B^2f^2t^2$ for sheet thickness $t$, which is why cores are made of thin sheets and why
 high-frequency cores use ferrite.
 
+```photogrid label="16.2" cols="2" ratio="1.2" caption="Why electricity travels at high voltage. (a) A high-voltage transmission line on lattice steel towers. A power station sends 10 MW along a line of total resistance 5 ohm; the current is I = P / V and the heat lost in the line is I^2 R = (P / V)^2 R. At 11 kV the current is 909 A and the loss is 4.13 MW, 41.3 per cent of everything sent. At 33 kV the loss is 4.6 per cent, at 132 kV only 0.29 per cent (28.7 kW) and at 220 kV 0.10 per cent, the voltages of Nepal's main transmission network. Raising the voltage 12 times (11 to 132 kV) cuts the loss 144 times. This is the job of the step-up transformer at the power station and the step-down transformers near the consumer; alternating current is used because a transformer needs a changing flux."
+@ photo id="ceephy2/tower" cap="A high-voltage transmission line on steel towers"
+fit 1.2
+focus 0.6 0.4
+@ svg cap="Line loss when 10 MW is sent along 5 ohm"
+import math
+P, Rl = 10e6, 5.0
+loss = lambda V: (P / V) ** 2 * Rl
+vs = (11e3, 33e3, 132e3, 220e3)
+pc = [100 * loss(V) / P for V in vs]
+assert round(P / 11e3) == 909 and round(loss(11e3) / 1e6, 2) == 4.13
+assert [round(x, 2) for x in pc] == [41.32, 4.59, 0.29, 0.10]
+assert abs(loss(11e3) / loss(132e3) - 144) < 1e-9 and round(loss(132e3) / 1e3, 1) == 28.7
+f = Fig(300, 236)
+f.text(150, 12, "Percentage of 10 MW lost (log scale)", size=10.5, color=NAVY, bold=True)
+for i, (V, x) in enumerate(zip(vs, pc)):
+    y = 34 + i * 38
+    w = (math.log10(x) + 1.3) / (math.log10(41.32) + 1.3) * 150
+    f.text(8, y + 13, "%d kV" % (V / 1e3), size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(54, y, w, 26, fill=SAND if i == 0 else MINT, stroke=AMBER if i == 0 else TEAL, r=2)
+    f.text(54 + w + 6, y + 13, "%.2f %%" % x, size=10.5, color=AMBER if i == 0 else TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "loss = (P / V)^2 R: 12 x the voltage", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "gives 144 times less loss", size=10.5, color=SLATE, bold=True)
+```
+
 ## 16.2 Self and mutual inductance; energy stored in an inductor
 
 ### 16.2.1 Self-inductance
@@ -752,6 +777,35 @@ The rms output would be $V_0/\sqrt{2}=8.5$ V; the mean is lower because the wave
 not sinusoidal.
 :::
 
+```photogrid label="16.1" cols="2" ratio="1.2" caption="Eddy currents heat the pan. (a) A coil under the glass carries alternating current; the changing flux induces eddy currents in the iron pan. (b) With a field of 2 mT at 25 kHz (assumed) through a 9 cm base the peak emf is 2 pi f B A = 8.0 V. The skin depth sqrt(2 rho / omega mu) is 0.10 mm for steel (rho 1.0 x 10^-7 ohm m, relative permeability 100, assumed) at 25 kHz but 2.25 mm at 50 Hz, so the heat is confined to a thin layer of the base. Aluminium has 0.52 mm at 25 kHz, and its low resistivity makes it a poor load."
+@ photo id="ceephy/cooktop" cap="An induction hob boils water in a steel pan while the glass stays cool"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Skin depth of steel and aluminium against frequency"
+mu0 = 4e-7 * math.pi
+def delta(f, rho, mur): return math.sqrt(2 * rho / (2 * math.pi * f * mu0 * mur)) * 1000
+steel = lambda f: delta(f, 1.0e-7, 100); alu = lambda f: delta(f, 2.65e-8, 1)
+emf = 2 * math.pi * 25000 * 2e-3 * math.pi * 0.09 ** 2
+assert abs(emf - 7.99) < 0.02 and abs(steel(25000) - 0.1006) < 1e-3 and abs(steel(50) - 2.25) < 0.01 and abs(alu(25000) - 0.518) < 0.002
+facts = dict(emf="%.1f" % emf, ds25="%.2f" % steel(25000), ds50="%.2f" % steel(50), da25="%.2f" % alu(25000))
+f = Fig(300, 236)
+f.text(150, 14, "skin depth (mm) against frequency", size=10.5, color=NAVY, bold=True)
+X = lambda fr: 40 + (math.log10(fr) - 1.5) * 70; Y = lambda d: 40 + (1.2 - math.log10(d)) * 38.5
+f.line(X(31.6), Y(0.04), 285, Y(0.04), color=SLATE, sw=1.4); f.line(X(31.6), Y(0.04), X(31.6), 34, color=SOFT, sw=1.2)
+for fn, col in ((steel, TEAL), (alu, AMBER)):
+    fr = [10 ** (1.5 + k * 0.1) for k in range(36)]
+    pts = [(X(q), Y(fn(q))) for q in fr]
+    for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=col, sw=2.4)
+f.line(X(25000), Y(0.04), X(25000), 40, color=RED, sw=1.2, dash=True)
+f.text(X(25000) - 4, 50, "25 kHz", size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(150), Y(steel(150)) + 18, "steel", size=10.5, color=TEAL, bold=True)
+f.text(X(150), Y(alu(150)) - 14, "aluminium", size=10.5, color=AMBER, bold=True)
+for fr, lab in ((100, "100"), (1000, "1k"), (10000, "10k"), (100000, "100k")): f.text(X(fr), Y(0.04) + 13, lab, size=10.5, color=SLATE)
+f.text(150, 192, "peak emf %.1f V in the pan base" % emf, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "steel: %.2f mm at 25 kHz, %.2f mm at 50 Hz" % (steel(25000), steel(50)), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "frequency in Hz (log scale)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -988,3 +1042,67 @@ not sinusoidal.
 **10.** (d) — $P=V_{rms}I_{rms}\cos\phi=(220)(2.0)(0.50)=220$ W. Option (a) forgets the power factor; (c) uses $\sin60^{\circ}$ instead.
 **11.** (b) — $P_{in}=220(2.0)=440$ W, so $P_{out}=0.80(440)=352$ W and $I_s=352/22=16$ A. Option (a) ignores the efficiency.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Faraday's and Lenz's laws, derive the motional emf and explain self- and mutual inductance with the energy stored in an inductor. <span class="marks">[10]</span>
+2. Analyse a series LCR circuit with an AC source: impedance, resonance and power factor. Describe the transformer. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="2" ratio="1.4" caption="Induction in machines. (a) A transformer links two coils on an iron core and changes AC voltage by the turns ratio. (b) An alternator rotates a coil in a magnetic field so that the flux changes continuously and an AC emf is induced."
+@ photo id="phy12b/transformer" cap="(a) Transformer"
+fit 1.4
+focus 0.5 0.5
+@ photo id="sci10/alternator" cap="(b) Alternator"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: electromagnetic induction and inductance (10 marks)
+
+**Introduction.** Whenever the magnetic flux linked with a circuit changes, an emf is induced in it. Magnetic flux is $\Phi = BA\cos\theta$, in weber.
+
+**Laws.**
+
+1. **Faraday's law:** the induced emf equals the rate of change of flux linkage, $\varepsilon = -N\dfrac{d\Phi}{dt}$.
+2. **Lenz's law:** the induced current opposes the change that produces it. The minus sign expresses this, and it is a statement of conservation of energy: if the current helped the change, energy would be created from nothing.
+
+**Motional emf.** A rod of length $l$ moves at speed $v$ perpendicular to a field $B$ on rails. The area changes at the rate $lv$, so $\varepsilon = Blv$. The current is $I = Blv/R$, the force opposing the motion is $F = B^2l^2v/R$ and the power supplied is $Fv = \varepsilon^2/R$.
+
+**Inductance.**
+
+| Quantity | Definition | Formula |
+|---|---|---|
+| Self-inductance $L$ | flux linkage per unit current | $\varepsilon = -L\dfrac{dI}{dt}$, solenoid $L = \mu_0n^2Al$ |
+| Mutual inductance $M$ | flux in coil 2 per unit current in coil 1 | $\varepsilon_2 = -M\dfrac{dI_1}{dt}$ |
+| Energy in an inductor | work to build up current | $U = \tfrac12LI^2$ |
+
+The unit of $L$ and $M$ is the henry. Energy density of a magnetic field is $\dfrac{B^2}{2\mu_0}$.
+
+**Other effects.** Eddy currents are induced in solid conductors, giving electromagnetic braking and induction heating, but also wasting energy in transformer cores (reduced by lamination). A DC generator has a commutator, an AC generator slip rings.
+
+**Numerical.** A rod $0.5\ \text{m}$ long moves at $4\ \text{m s}^{-1}$ in $B = 0.2\ \text{T}$: $\varepsilon = 0.2\times0.5\times4 = 0.4\ \text{V}$. In a circuit of $2\ \Omega$ the current is $0.2\ \text{A}$, the retarding force $0.2\times0.5\times0.2 = 0.02\ \text{N}$ and the power $0.08\ \text{W}$ (equal to $Fv = 0.02\times4$). A solenoid with $L = 0.5\ \text{H}$ carrying $4\ \text{A}$ stores $\tfrac12(0.5)(16) = 4\ \text{J}$.
+
+**Conclusion.** The induced emf is the rate of change of flux, and its direction (Lenz) ensures energy conservation.
+
+### Model answer D2: AC circuits and the transformer (10 marks)
+
+**Introduction.** For an AC source $V = V_0\sin\omega t$: $V_{rms} = V_0/\sqrt2$. A resistor has $V$ and $I$ in phase. In an inductor, $V$ **leads** $I$ by $90^{\circ}$ with reactance $X_L = \omega L$. In a capacitor, $V$ **lags** $I$ by $90^{\circ}$ with reactance $X_C = 1/\omega C$.
+
+**Series LCR circuit.** The impedance is $Z = \sqrt{R^2 + (X_L - X_C)^2}$, the current is $I = V/Z$ and the phase angle is $\tan\phi = \dfrac{X_L - X_C}{R}$.
+
+**Resonance.** When $X_L = X_C$, $Z = R$ is minimum and the current is maximum. The resonant frequency is $f_0 = \dfrac1{2\pi\sqrt{LC}}$. The sharpness is given by the quality factor $Q = \dfrac{\omega_0L}{R}$. Radio tuning uses this.
+
+**Power.** The average power is $P = V_{rms}I_{rms}\cos\phi$, where $\cos\phi = R/Z$ is the **power factor**. In a pure inductor or capacitor $P = 0$, and the current is called **wattless**.
+
+**Transformer.** It works on mutual induction. For an ideal transformer, $\dfrac{V_s}{V_p} = \dfrac{N_s}{N_p} = \dfrac{I_p}{I_s}$. A step-up transformer has $N_s > N_p$. Efficiency is $\dfrac{P_{out}}{P_{in}}$. Losses are copper loss ($I^2R$), eddy current loss, hysteresis loss, flux leakage and humming; they are reduced by thick wire, laminated cores, soft iron and a good winding. Power is transmitted at high voltage so that $I^2R$ loss in the lines is low.
+
+| Circuit | Phase of current | Power |
+|---|---|---|
+| R only | in phase | $VI$ |
+| L only | lags $90^{\circ}$ | 0 |
+| C only | leads $90^{\circ}$ | 0 |
+| LCR at resonance | in phase | $VI$ (maximum) |
+
+**Numerical.** $R = 30\ \Omega$, $L = 0.2\ \text{H}$, $C = 100\ \mu\text{F}$, $220\ \text{V}$, $50\ \text{Hz}$: $X_L = 62.8\ \Omega$, $X_C = 31.8\ \Omega$, so $Z = \sqrt{30^2 + 31^2} = 43.1\ \Omega$, $I = 5.1\ \text{A}$, $\cos\phi = 0.70$ and $P = I^2R = 780\ \text{W}$. The resonant frequency is $f_0 = 1/(2\pi\sqrt{0.2\times10^{-4}}) = 35.6\ \text{Hz}$. A transformer stepping $220\ \text{V}$ down to $11\ \text{V}$ has a turns ratio $20:1$.
+
+**Conclusion.** Current in an LCR circuit is greatest at resonance, and only the resistance consumes average power.
