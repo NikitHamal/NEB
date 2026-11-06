@@ -1165,3 +1165,43 @@ colour changes within one drop of the equivalence point. Methyl orange (3.1–4.
 lies far below it, in the buffer region, and would change colour long before the
 acid was neutralised.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a buffer solution? Explain how an acidic buffer resists a change of pH, derive the Henderson equation and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: buffer solutions and the Henderson equation (10 marks)
+
+**Introduction.** A **buffer solution** is a solution whose pH changes very little when a small amount of a strong acid or a strong base is added, or when it is diluted. It contains a weak acid and its salt (acidic buffer, for example CH₃COOH + CH₃COONa) or a weak base and its salt (basic buffer, for example NH₄OH + NH₄Cl).
+
+**Types.**
+
+| Type | Composition | Example | pH |
+|---|---|---|---|
+| Acidic buffer | Weak acid + salt of the weak acid with a strong base | CH₃COOH + CH₃COONa | Less than 7 |
+| Basic buffer | Weak base + salt of the weak base with a strong acid | NH₄OH + NH₄Cl | More than 7 |
+
+**Action of an acidic buffer.** In the mixture, acetic acid is only slightly ionised, but sodium acetate is fully ionised, so the solution has a large reserve of CH₃COOH (acid reserve) and CH₃COO⁻ (base reserve).
+
+1. **On adding a little strong acid (H⁺):** the extra H⁺ combines with the large supply of CH₃COO⁻ to form CH₃COOH: CH₃COO⁻ + H⁺ → CH₃COOH. The H⁺ is removed, so the pH hardly falls.
+2. **On adding a little strong base (OH⁻):** the OH⁻ is neutralised by CH₃COOH: CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O. The pH hardly rises.
+
+**Henderson equation.** For the weak acid HA, $K_a = [\text{H}^{+}][\text{A}^{-}]/[\text{HA}]$. Taking logarithms and rearranging:
+
+$$ \text{pH} = \text{p}K_a + \log\frac{[\text{salt}]}{[\text{acid}]} $$
+
+For a basic buffer: $\text{pOH} = \text{p}K_b + \log\dfrac{[\text{salt}]}{[\text{base}]}$. A buffer works best when $[\text{salt}] \approx [\text{acid}]$, that is, when pH is near p$K_a$.
+
+**Numerical.** One litre of buffer contains $0.10\ \text{mol}$ CH₃COOH and $0.10\ \text{mol}$ CH₃COONa; p$K_a = 4.76$.
+
+$$ \text{pH} = 4.76 + \log\frac{0.10}{0.10} = 4.76 $$
+
+After adding $0.01\ \text{mol}$ NaOH, acid falls to $0.09$ and salt rises to $0.11\ \text{mol}$:
+
+$$ \text{pH} = 4.76 + \log\frac{0.11}{0.09} = 4.76 + 0.09 = 4.85 $$
+
+The pH changed by only 0.09. The same amount of NaOH in 1 L of pure water would raise the pH from 7 to 12.
+
+**Uses.** Blood is buffered at pH 7.4 (carbonic acid–bicarbonate), and buffers are used in fermentation, medicines, electroplating and analysis.
+
+**Conclusion.** A buffer holds its pH nearly constant because it has both an acid and a base reserve, and the Henderson equation gives its pH from the ratio salt/acid.

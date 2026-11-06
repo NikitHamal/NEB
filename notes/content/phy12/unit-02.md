@@ -619,3 +619,37 @@ clock records $43244 \times 2 = 86488\ \text{s}$.
 
 Gain per day $= 86488 - 86400 \approx 88\ \text{s}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Show that the motion of a mass on a spring is simple harmonic and derive its energy. Calculate the period and the energies for given data. <span class="marks">[10]</span>
+
+### Model answer D1: mass on a spring, SHM and energy (10 marks)
+
+**Introduction.** A body is in **simple harmonic motion (SHM)** when its acceleration is directly proportional to its displacement from the equilibrium position and is always directed towards it, $a = -\omega^{2}x$.
+
+**Proof for a spring.** Let a mass $m$ on a smooth horizontal surface be joined to a spring of force constant $k$ and pulled through $x$ from the equilibrium position. By Hooke's law the restoring force is $F = -kx$ (the minus sign shows that it opposes the displacement). By Newton's second law $F = ma$, so
+
+$$ a = -\frac{k}{m}\,x = -\omega^{2}x, \qquad \omega = \sqrt{\frac{k}{m}} $$
+
+Because $a \propto -x$, the motion is SHM. The time period is
+
+$$ T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}} $$
+
+**Energy.** With displacement $x = A\sin\omega t$ the velocity is $v = \omega\sqrt{A^{2}-x^{2}}$.
+
+$$ E_k = \tfrac{1}{2}mv^{2} = \tfrac{1}{2}k\,(A^{2}-x^{2}), \qquad E_p = \tfrac{1}{2}kx^{2} $$
+
+$$ E = E_k + E_p = \tfrac{1}{2}kA^{2} = \text{constant} $$
+
+The kinetic energy is greatest (equal to $\tfrac{1}{2}kA^{2}$) at the mean position and zero at the extremes, while the potential energy is the reverse; the total stays constant, so energy is conserved.
+
+| Position | Displacement | Speed | $E_k$ | $E_p$ |
+|---|---|---|---|---|
+| Mean | 0 | maximum, $A\omega$ | $\tfrac{1}{2}kA^{2}$ | 0 |
+| Extreme | $\pm A$ | 0 | 0 | $\tfrac{1}{2}kA^{2}$ |
+| Between | $x$ | $\omega\sqrt{A^{2}-x^{2}}$ | $\tfrac{1}{2}k(A^{2}-x^{2})$ | $\tfrac{1}{2}kx^{2}$ |
+
+**Numerical.** A mass of $0.50\ \text{kg}$ on a spring of $k = 200\ \text{N m}^{-1}$ has amplitude $0.10\ \text{m}$. Then $\omega = \sqrt{200/0.50} = 20\ \text{rad s}^{-1}$ and $T = 2\pi/20 = 0.314\ \text{s}$. The total energy is $\tfrac{1}{2}(200)(0.10)^{2} = 1.0\ \text{J}$, the maximum speed is $A\omega = 2.0\ \text{m s}^{-1}$, and at $x = 0.06\ \text{m}$, $E_p = \tfrac{1}{2}(200)(0.06)^{2} = 0.36\ \text{J}$ and $E_k = 1.0 - 0.36 = 0.64\ \text{J}$.
+
+**Conclusion.** A spring-mass system performs SHM with period independent of the amplitude, and its total energy $\tfrac{1}{2}kA^{2}$ changes between kinetic and potential forms.

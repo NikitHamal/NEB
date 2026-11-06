@@ -1181,3 +1181,41 @@ Current sensitivity $= \dfrac{NBA}{c}
 Outside the toroid (and in the central hole) the Amperian loop encloses no net
 current, so $B = 0$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the radius and time period of a charged particle moving in a uniform magnetic field, and describe how a cyclotron uses it. <span class="marks">[10]</span>
+
+### Model answer D1: charged particle in a magnetic field and the cyclotron (10 marks)
+
+**Introduction.** A charge $q$ moving with velocity $\vec v$ in a magnetic field $\vec B$ feels the force $\vec F = q\,\vec v \times \vec B$. The force is perpendicular to both $\vec v$ and $\vec B$, so it does no work and the speed does not change.
+
+**Circular motion.** Let a particle of mass $m$ enter a uniform field at right angles to it. The magnetic force $qvB$ always acts towards a fixed point and provides the centripetal force:
+
+$$ qvB = \frac{mv^{2}}{r} \ \Rightarrow\ r = \frac{mv}{qB} $$
+
+The time for one revolution is
+
+$$ T = \frac{2\pi r}{v} = \frac{2\pi m}{qB}, \qquad f = \frac{qB}{2\pi m} $$
+
+**Important result.** $T$ and $f$ do **not** depend on the speed or the radius of the path; a faster particle goes round a bigger circle in the same time. $f$ is called the **cyclotron frequency**.
+
+**If the velocity makes an angle $\theta$ with the field,** the component $v\cos\theta$ along $B$ is not changed and the component $v\sin\theta$ makes the circle, so the path is a **helix**.
+
+**Cyclotron.** A cyclotron accelerates charged particles such as protons to high energy.
+
+1. Two hollow D-shaped metal boxes (**dees**) are placed in a strong, uniform magnetic field, with a small gap between them.
+2. An alternating voltage of frequency equal to $f = qB/2\pi m$ is applied across the gap.
+3. A proton at the centre is pulled across the gap and enters a dee; the field bends it into a semicircle.
+4. By the time it returns to the gap, the voltage has reversed, so it is accelerated again and gains energy $qV$.
+5. Each time its speed is greater, so its circle is larger; it spirals outwards and leaves at the rim with the maximum speed $v = qBR/m$.
+
+| Quantity | Formula |
+|---|---|
+| Radius of path | $r = mv/qB$ |
+| Time period | $T = 2\pi m/qB$ |
+| Final kinetic energy | $E_k = q^{2}B^{2}R^{2}/2m$ |
+
+**Numerical.** A proton ($m = 1.67 \times 10^{-27}\ \text{kg}$, $q = 1.6 \times 10^{-19}\ \text{C}$) moves at $2.0 \times 10^{6}\ \text{m s}^{-1}$ in $B = 0.50\ \text{T}$: $r = 4.2\ \text{cm}$, $T = 1.31 \times 10^{-7}\ \text{s}$ and $f = 7.6\ \text{MHz}$.
+
+**Conclusion.** Because the period does not depend on the speed, a fixed-frequency voltage can keep accelerating the particles in a cyclotron.

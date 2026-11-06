@@ -809,3 +809,42 @@ $V = 0.050 \times 22.4 = 1.12\ \text{dm}^{3}$ — as stated.
 Equations: 2CH₃CH₂CH₂OH + 2Na → 2CH₃CH₂CH₂ONa + H₂↑;
 CH₃CH₂CH₂OH + [O] → CH₃CH₂CHO + H₂O; CH₃CH₂CHO + [O] → CH₃CH₂COOH.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the laboratory preparation of ethanol and the reactions of alcohols; how are primary, secondary and tertiary alcohols distinguished? <span class="marks">[10]</span>
+
+### Model answer D1: preparation, properties and tests of alcohols (10 marks)
+
+**Introduction.** **Alcohols** contain the hydroxyl group –OH attached to a saturated carbon (general formula CₙH₂ₙ₊₁OH). They are classed as primary (1°), secondary (2°) or tertiary (3°) by the number of alkyl groups on the carbon bearing the –OH.
+
+**Preparation of ethanol.**
+
+1. **From bromoethane (hydrolysis):** CH₃CH₂Br + aq. KOH → CH₃CH₂OH + KBr.
+2. **By hydration of ethene:** CH₂=CH₂ + H₂O → CH₃CH₂OH, with conc. H₂SO₄ or H₃PO₄ catalyst, 300 °C and 60 atm.
+3. **By reduction of ethanal:** CH₃CHO + H₂ → CH₃CH₂OH (Ni catalyst), or with LiAlH₄.
+4. **From a Grignard reagent:** CH₃MgBr + HCHO, then H₂O, gives CH₃CH₂OH (primary alcohol).
+5. **By fermentation of glucose:** C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂, with zymase of yeast at 25–35 °C.
+
+**Reactions of alcohols.**
+
+| Reaction | Equation | Product |
+|---|---|---|
+| With sodium | 2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂ | Sodium ethoxide, H₂ gas |
+| With PCl₅ or SOCl₂ | C₂H₅OH + PCl₅ → C₂H₅Cl + POCl₃ + HCl | Chloroethane |
+| Esterification | C₂H₅OH + CH₃COOH ⇌ CH₃COOC₂H₅ + H₂O | Ethyl ethanoate |
+| Dehydration at 170 °C | C₂H₅OH → C₂H₄ + H₂O (conc. H₂SO₄) | Ethene |
+| Dehydration at 140 °C | 2C₂H₅OH → C₂H₅OC₂H₅ + H₂O | Diethyl ether |
+| Oxidation | C₂H₅OH → CH₃CHO → CH₃COOH (K₂Cr₂O₇ / H⁺) | Ethanal, ethanoic acid |
+
+**Distinguishing 1°, 2° and 3° alcohols.**
+
+1. **Lucas test** (anhydrous ZnCl₂ in conc. HCl): a tertiary alcohol turns cloudy at once; a secondary one in about 5 minutes; a primary one only on heating, or not at all.
+2. **Oxidation:** a primary alcohol gives an aldehyde and then an acid; a secondary alcohol gives a ketone; a tertiary alcohol resists oxidation under mild conditions.
+3. **Dehydrogenation (Cu, 573 K):** 1° gives an aldehyde, 2° a ketone and 3° an alkene.
+
+**Test for ethanol.** The **iodoform test**: warm with I₂ and NaOH; a yellow precipitate of CHI₃ with a medicinal smell forms (also by CH₃CH(OH)R).
+
+**Uses.** Ethanol is a solvent, a fuel (blended in petrol), an antiseptic and a raw material for ether and acetic acid; methanol is used for formaldehyde and as a solvent, and it is poisonous.
+
+**Conclusion.** Alcohols are made by hydrolysis, hydration, reduction or fermentation, and the Lucas test and oxidation distinguish their three classes.

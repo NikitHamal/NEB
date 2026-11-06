@@ -641,3 +641,43 @@ very slightly, because the supply is almost exactly at the resonant frequency
 
 (e) $P = I^{2}R = (2.2)^{2}\times100 = 484\ \text{W}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Analyse a series LCR circuit: derive the impedance and the condition of resonance, and find the resonant frequency and Q factor. <span class="marks">[10]</span>
+
+### Model answer D1: series LCR circuit and resonance (10 marks)
+
+**Introduction.** In a **series LCR circuit** a resistor $R$, inductor $L$ and capacitor $C$ are joined in series to an AC source $V = V_0\sin\omega t$. The same current flows through all three, but the voltages across them differ in phase.
+
+**Phasors.** The voltage across $R$ is in phase with the current; across $L$ it **leads** the current by $90^{\circ}$; across $C$ it **lags** by $90^{\circ}$. The reactances are $X_L = \omega L$ and $X_C = 1/\omega C$. Since $V_L$ and $V_C$ act in opposite directions, the net reactive voltage is $V_L - V_C$, at right angles to $V_R$:
+
+$$ V^{2} = V_R^{2} + (V_L - V_C)^{2} = I^{2}\left[R^{2} + (X_L - X_C)^{2}\right] $$
+
+**Impedance and phase.**
+
+$$ Z = \sqrt{R^{2} + \left(\omega L - \frac{1}{\omega C}\right)^{2}}, \qquad \tan\phi = \frac{X_L - X_C}{R} $$
+
+The current is $I = V/Z$.
+
+**Resonance.** When $X_L = X_C$, the two reactances cancel, so $Z = R$ is **minimum**, the current is **maximum** ($V/R$), and the phase angle is zero. This happens at
+
+$$ \omega_0 L = \frac{1}{\omega_0 C} \ \Rightarrow\ \omega_0 = \frac{1}{\sqrt{LC}}, \qquad f_0 = \frac{1}{2\pi\sqrt{LC}} $$
+
+**Quality factor.** The sharpness of the resonance is measured by
+
+$$ Q = \frac{\omega_0 L}{R} = \frac{1}{\omega_0 CR} = \frac{1}{R}\sqrt{\frac{L}{C}} $$
+
+A large $Q$ (small $R$) means a narrow, sharp resonance curve, which is why a radio can pick one station out of many.
+
+| Frequency | Reactance | Z | Circuit behaves as |
+|---|---|---|---|
+| $f < f_0$ | $X_C > X_L$ | Greater than $R$ | Capacitive; current leads |
+| $f = f_0$ | $X_L = X_C$ | $R$ (minimum) | Purely resistive |
+| $f > f_0$ | $X_L > X_C$ | Greater than $R$ | Inductive; current lags |
+
+**Numerical.** $R = 30\ \Omega$, $L = 0.20\ \text{H}$, $C = 50\ \mu\text{F}$ and $V = 220\ \text{V}$. $\omega_0 = 1/\sqrt{0.20 \times 50 \times 10^{-6}} = 316\ \text{rad s}^{-1}$, so $f_0 = 50.3\ \text{Hz}$. At resonance $Z = 30\ \Omega$ and $I = 220/30 = 7.33\ \text{A}$. $Q = \omega_0 L/R = 316 \times 0.20/30 = 2.11$.
+
+**Application.** Tuning of a radio or a mobile phone receiver works by changing $C$ until $f_0$ equals the frequency of the station wanted.
+
+**Conclusion.** At resonance the impedance is the smallest and the current the largest, and $Q$ tells how sharp the tuning is.
