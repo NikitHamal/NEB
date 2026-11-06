@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 7. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 8. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -43,8 +43,15 @@ Updated: end of Session 7. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: tall or wide photos (pen, crutch, Graves) are padded to a square with a blurred background in place; the insulin pen was cropped to a band and rotated so it fills the cell; use `focus 0.5 0.0` to keep the top of a tall photo (fingers in the cast); `/tmp/ast.py` shadows the stdlib `ast` for any Python run from `/tmp` (keep helpers in `/tmp/h/`); write parts to `/app/parts/` (not under the `/app/neb` symlink, which makes the file tool print tsc noise) and `cat` them together; Plate and Figure numbers share the sequence in a unit (svg 1.1, plate 1.2, svg 1.3).
   - Facts used (searched this session): STEPS 2019 raised blood sugar 5.8% of adults 15-69; plus standard guidelines listed in the book README.
 
+- **Geriatric Nursing (BSN 11), Year 2: DONE (session 8).** 5 units, 54-page PDF, `qa_pdf.py` fails=0. U1 Ageing, Nepal demography, comprehensive geriatric assessment (Katz, Barthel, gait speed, TUG, Fried frailty) | U2 Falls, Morse, orthostatic hypotension, hip fracture, osteoarthritis, walking aids | U3 Delirium (CAM, 4AT), dementia (Mini-Cog accuracy, MMSE, donepezil), depression and suicide risk | U4 Medicines: pharmacokinetics, CrCl dosing, half-life, polypharmacy, Beers 2023, deprescribing | U5 Pressure injury (Braden, NPIAP), incontinence, elder abuse, palliative care, Senior Citizens Act 2063.
+  - 20 Commons photographs (slug `nur7`; 21 downloaded, 1 unused Nepali market portrait deleted: older woman, grip dynamometer, cataract, hearing aid, walker, cane set, grab bar, cane on street, DHS X-ray, knee OA, Alzheimer histology, amyloid plaque, MRI AD/DLB/NC, Lewy pathology, pill box, blister card, hands with blister, pressure injury, pad, older Nepali woman), seven plates with numbered marks, 13 SVG figures, 15 executed python blocks, 5-column NANDA-I plans in every unit.
+  - `nursing/tools/check_ger.py`: 102 tokens + 15 executed python blocks + extra asserts (`--verify`). Case tokens are prefixed `c`, `c2` ... `c5`.
+  - Workflow that worked (helpers saved in `nursing/tools/helpers/session8/`): write each unit as two files `/app/parts/uNa.md`, `uNb.md` with the file tool (no symlink under `/app/neb`, which prints tsc noise; use `/tmp/NEB` paths in bash), keep per-unit checker sections `uN.py` plus `head.py` and `tail.py` (`build.sh` concatenates them into `check_<slug>.py`), `asm.sh N` joins the parts, fills python text blocks and tokens and verifies, `pages.sh "Plate X.Y" ...` rebuilds the PDF and crops plates (search for the caption label with a trailing full stop, e.g. `Figure 5.1.`, because body text also mentions `Figure 5.1`). View the cropped plate to check marks.
+  - Lessons: a Fried or Morse total must be computed in the python block and quoted by token; the first wide strip (MRI) is padded to a square in place with a plain dark band (blurred stretched padding looked wrong); a 2-up plate with `fit 1.0` shows large photos, which is fine; `focus fx fy` chooses the crop (0 = left/top).
+  - Facts verified this session: see the book README (census 2021 10.2%, Senior Citizens Act 2063, allowance rates from secondary sources, AGS Beers 2023, WHO elder abuse 15.7%).
+
 ## Next (in this order)
-1. **Year 1 (6 books), Adult Nursing I and Adult Nursing II are complete.** Start **Geriatric Nursing (BSN 11)** `course/year-2/geriatric-nursing` (slug `nur7`; ageing physiology, falls, dementia, delirium, polypharmacy, Beers criteria, pressure injury, elder abuse and Nepal Senior Citizens Act 2063; copy `check_an2.py` as `check_ger.py`; photo contact sheet before use; accent per `books.json`).
+1. Year 1 and Year 2 books through **Geriatric Nursing (BSN 11)** are complete. Start **Psychiatric Nursing (BSN 13-14)** `course/year-2/psychiatric-nursing` (slug `nur8`; copy `check_ger.py` as `check_psy.py` and replace the unit sections; mental status examination, schizophrenia, mood disorders, anxiety, substance use, suicide and mhGAP Nepal, Mental Health Act, psychotropic drug calculations, therapeutic communication; photo contact sheet before use; accent per `books.json`).
 2. Then in `books.json` order: Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
