@@ -528,3 +528,90 @@ Do not confuse the pupil with the retina. The pupil is the hole; the retina is t
 **4.** $\sin r = \dfrac{\sin 40°}{1.33} = \dfrac{0.643}{1.33} = 0.483$, so $r \approx 28.9°$.
 **5.** $\dfrac{1}{v} = \dfrac{1}{15} - \dfrac{1}{10} = \dfrac{2-3}{30} = -\dfrac{1}{30}$, so $v = -30$ cm. The image is virtual and on the same side as the object. $m = 30/10 = 3$; virtual, erect and three times larger (a magnifying glass).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a wave? Differentiate between transverse and longitudinal waves. Explain the characteristics of sound and solve numericals on the wave equation and echo. <span class="marks">[10]</span>
+2. State the laws of refraction. Explain image formation by a convex lens, the lens formula, and the defects of the human eye. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="4" ratio="1.15" caption="Waves and lenses in instruments. (a) Tuning forks of different frequencies give notes of different pitch. (b) A convex lens as a magnifying glass forms a virtual, bigger image. (c) A compound microscope uses two convex lenses to see cells. (d) The human eye, with a convex lens that focuses an image on the retina; myopia and hypermetropia are corrected with spectacles."
+@ photo id="sci10/tuning-fork" cap="(a) Tuning forks"
+@ photo id="sci10/convex-lens" cap="(b) Convex lens"
+@ photo id="sci10/microscope" cap="(c) Microscope"
+@ photo id="sci10/eye" cap="(d) Human eye"
+```
+
+### Model answer D1: waves and sound (10 marks)
+
+**Introduction.** A **wave** is a disturbance that carries energy from one place to another without carrying the matter. Light, sound and water ripples are examples. Waves are of two main types.
+
+| Feature | Transverse wave | Longitudinal wave |
+|---|---|---|
+| Particle motion | At right angles to the direction of the wave | Along the direction of the wave |
+| Shape | Crests and troughs | Compressions and rarefactions |
+| Medium | Solids, surface of liquids, or none (light) | Solids, liquids and gases |
+| Example | Light, wave on a rope | Sound |
+
+**Wave terms.** The **amplitude** is the maximum displacement of a particle; the **wavelength ($\lambda$)** is the distance between two successive crests; the **frequency ($f$)** is the number of waves per second in hertz (Hz); the **time period** is $T = 1/f$. They are linked by
+
+$$v = f\lambda.$$
+
+**Sound.** Sound is a **longitudinal mechanical wave**. It needs a material medium and cannot travel in a vacuum. It travels fastest in solids and slowest in gases: about **330 m/s in air**, 1,500 m/s in water and 5,000 m/s in steel. Humans can hear from **20 Hz to 20,000 Hz**; above this is ultrasound, used in medical scans and by bats.
+
+**Characteristics of sound.**
+
+- **Loudness** depends on the amplitude. It is measured in decibels (dB), and noise above 85 dB for long periods can damage hearing.
+- **Pitch** depends on the frequency. A baby's voice has a higher pitch than a man's voice.
+- **Quality (timbre)** lets us tell a flute from a sitar, even when the pitch and loudness are the same.
+
+**Echo.** An echo is a reflected sound heard at least 0.1 s after the original. The minimum distance to a reflecting wall in air is $330 \times 0.1 \div 2 \approx 17$ m.
+
+**Numerical 1.** A tuning fork of frequency 256 Hz produces sound of wavelength 1.29 m. Find the speed of sound.
+
+$$v = f\lambda = 256 \times 1.29 \approx 330\ \text{m/s}.$$
+
+**Numerical 2.** A person shouts toward a cliff and hears the echo after 3 s. Find the distance to the cliff.
+
+$$d = \frac{vt}{2} = \frac{330 \times 3}{2} = 495\ \text{m}.$$
+
+**Uses of sound.** Echo sounding (sonar) finds the depth of the sea, ultrasound scans show a baby in the womb, and ultrasonic cleaning removes dirt from small parts.
+
+**Conclusion.** Sound is a longitudinal wave that needs a medium, and its speed, pitch and loudness depend on frequency, amplitude and the material it passes through.
+
+### Model answer D2: refraction, the convex lens and the eye (10 marks)
+
+**Introduction.** **Refraction** is the bending of light when it passes from one transparent medium into another because its speed changes. A pencil in water looks bent for this reason.
+
+**Laws of refraction.**
+
+1. The incident ray, the refracted ray and the normal at the point of incidence all lie in the **same plane**.
+2. **Snell's law:** $\dfrac{\sin i}{\sin r} = n$, a constant called the **refractive index** of the second medium with respect to the first. For glass, $n \approx 1.5$.
+
+**Convex lens.** A convex lens is thicker in the middle and **converges** parallel rays at its focus. Its **focal length ($f$)** is the distance from the optical centre to the focus. The lens formula (real-is-positive) is
+
+$$\frac{1}{f} = \frac{1}{u} + \frac{1}{v}, \qquad \text{magnification } m = \frac{v}{u}.$$
+
+| Object position | Image |
+|---|---|
+| Beyond 2F | Real, inverted, smaller |
+| At 2F | Real, inverted, same size |
+| Between F and 2F | Real, inverted, bigger |
+| Within F | Virtual, upright, bigger (magnifying glass) |
+
+**Numerical.** An object is 15 cm from a convex lens of focal length 10 cm. Find the image distance and the magnification.
+
+$$\frac{1}{v} = \frac{1}{10} - \frac{1}{15} = \frac{3-2}{30} = \frac{1}{30}, \quad v = 30\ \text{cm}, \quad m = \frac{30}{15} = 2.$$
+
+The image is real, inverted and twice as large. The **power** of a lens is $P = 1/f$ (in metres). A lens of $f = 25$ cm has $P = +4$ D.
+
+**Defects of the eye.**
+
+| Defect | Problem | Cause | Correction |
+|---|---|---|---|
+| Myopia (short sight) | Far objects blurred | Eyeball too long | Concave lens |
+| Hypermetropia (long sight) | Near objects blurred | Eyeball too short | Convex lens |
+| Presbyopia | Near vision lost with age | Weak eye muscles | Bifocal lens |
+
+**Optical instruments.** A **simple microscope** (magnifying glass) uses one convex lens. A **compound microscope** has two convex lenses, an objective with a very short focal length and an eyepiece, and is used in biology to see cells.
+
+**Conclusion.** Refraction explains how lenses form images, and the correct lens can repair vision defects of the eye.

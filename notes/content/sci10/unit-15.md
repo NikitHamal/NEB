@@ -380,3 +380,99 @@ Write the acid's negative part (Cl⁻, SO₄²⁻, NO₃⁻) and the base's posi
 **3.** Fe₂O₃ has 2 Fe and 3 O. Put 2 before Fe: 2Fe. Oxygen is 3 on the right and 2 on the left; take the lowest common multiple 6: 3O₂ on the left and 2Fe₂O₃ on the right; then Fe is 4, so 4Fe. **4Fe + 3O₂ → 2Fe₂O₃.**
 **4.** pH is a scale from 0 to 14 that shows acidity or basicity: below 7 acidic, 7 neutral, above 7 basic. With litmus: if blue litmus turns red, the liquid is acidic; if red litmus turns blue, it is basic; if neither changes, it is neutral.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the main types of chemical reaction with a balanced equation and an example of each. <span class="marks">[10]</span>
+2. What are acids, bases and salts? Explain indicators, the pH scale and neutralisation, with the uses of neutralisation in daily life. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.2" caption="Reactions you can see. (a) Magnesium burning with a brilliant white flame forms white magnesium oxide, a combination reaction. (b) Litmus paper shows an acid by turning red and a base by turning blue. (c) Rust on iron is the slow oxidation of iron by air and moisture, and it ruins bridges, roofs and tools."
+@ photo id="sci10/mg-burning" cap="(a) Burning magnesium"
+@ photo id="sci10/litmus" cap="(b) Litmus paper"
+@ photo id="sci10/rust" cap="(c) Rusting of iron"
+```
+
+### Model answer D1: types of chemical reactions (10 marks)
+
+**Introduction.** In a **chemical reaction**, the **reactants** change into new substances, the **products**, with new properties. Signs are a change in colour, formation of gas or a precipitate, a change in temperature or light. A reaction is shown by a balanced chemical equation, in which atoms on both sides are equal as mass is conserved.
+
+**1. Combination (synthesis).** Two or more substances combine to form one product.
+
+$$2\text{Mg} + \text{O}_2 \rightarrow 2\text{MgO}$$
+
+Magnesium burns with a dazzling white flame and leaves white ash. Other examples: $\text{C} + \text{O}_2 \rightarrow \text{CO}_2$ and $\text{CaO} + \text{H}_2\text{O} \rightarrow \text{Ca(OH)}_2$ (slaking of lime).
+
+**2. Decomposition.** One compound breaks down into two or more simpler substances, by heat, light or electricity.
+
+$$\text{CaCO}_3 \rightarrow \text{CaO} + \text{CO}_2$$
+
+Examples: electrolysis of water, $2\text{H}_2\text{O} \rightarrow 2\text{H}_2 + \text{O}_2$, and the heating of limestone in the cement industry.
+
+**3. Displacement.** A more reactive element displaces a less reactive element from its compound.
+
+$$\text{Zn} + \text{CuSO}_4 \rightarrow \text{ZnSO}_4 + \text{Cu}$$
+
+The blue colour of copper sulphate fades and red-brown copper is deposited.
+
+**4. Double displacement.** Two compounds exchange ions. If a solid is formed, it is called a **precipitate**.
+
+$$\text{AgNO}_3 + \text{NaCl} \rightarrow \text{AgCl}\downarrow + \text{NaNO}_3$$
+
+A white precipitate of silver chloride forms. **Neutralisation** is a double displacement: $\text{HCl} + \text{NaOH} \rightarrow \text{NaCl} + \text{H}_2\text{O}$.
+
+**5. Oxidation and reduction (redox).** Oxidation is the gain of oxygen (or loss of electrons) and reduction is the loss of oxygen (or gain of electrons). They occur together.
+
+$$\text{CuO} + \text{H}_2 \rightarrow \text{Cu} + \text{H}_2\text{O}$$
+
+Hydrogen is oxidised and copper oxide is reduced. **Rusting** of iron is slow oxidation.
+
+| Type | General form | Example |
+|---|---|---|
+| Combination | A + B → AB | Burning of magnesium |
+| Decomposition | AB → A + B | Heating of limestone |
+| Displacement | A + BC → AC + B | Zinc in copper sulphate |
+| Double displacement | AB + CD → AD + CB | Silver nitrate and salt |
+| Redox | Gain and loss of oxygen | Rusting; burning of fuel |
+
+**Exothermic and endothermic.** Reactions that give out heat (burning, respiration) are **exothermic**; those that absorb heat (photosynthesis, decomposition of limestone) are **endothermic**.
+
+**Conclusion.** Learning the types helps in writing equations and in predicting the products.
+
+### Model answer D2: acids, bases, pH and neutralisation (10 marks)
+
+**Introduction.** **Acids** taste sour, turn blue litmus red and give $\text{H}^+$ ions in water (HCl, $\text{H}_2\text{SO}_4$, citric acid in lemon, lactic acid in curd). **Bases** taste bitter, feel soapy, turn red litmus blue and give $\text{OH}^-$ ions (NaOH, $\text{Ca(OH)}_2$, ammonia). A base that dissolves in water is an **alkali**.
+
+**Indicators.** An **indicator** shows by colour change whether a solution is acidic or basic.
+
+| Indicator | In acid | In base |
+|---|---|---|
+| Litmus | Blue turns red | Red turns blue |
+| Phenolphthalein | Colourless | Pink |
+| Methyl orange | Red | Yellow |
+| Turmeric | Yellow | Red-brown |
+
+The juice of red cabbage and the flower of hibiscus can also be used as natural indicators.
+
+**The pH scale.** pH is a number from 0 to 14 that tells how acidic or basic a solution is. A pH below 7 is acidic, 7 is neutral (pure water) and above 7 is basic.
+
+| Substance | Lemon juice | Vinegar | Milk | Pure water | Baking soda | Soap | Caustic soda |
+|---|---|---|---|---|---|---|---|
+| pH | 2 | 3 | 6.5 | 7 | 8.5 | 10 | 14 |
+
+**Neutralisation.** A reaction between an acid and a base to form a **salt and water**.
+
+$$\text{Acid} + \text{Base} \rightarrow \text{Salt} + \text{Water}$$
+
+$$\text{NaOH} + \text{HCl} \rightarrow \text{NaCl} + \text{H}_2\text{O}$$
+
+**Salts.** Common salt (NaCl), washing soda ($\text{Na}_2\text{CO}_3$) and baking soda ($\text{NaHCO}_3$).
+
+**Uses of neutralisation in daily life.**
+
+1. **Indigestion.** Antacid tablets (magnesium hydroxide) neutralise the excess hydrochloric acid in the stomach.
+2. **Tooth decay.** Toothpaste is basic and neutralises the acids made by mouth bacteria.
+3. **Soil treatment.** Farmers add lime (calcium hydroxide) to acidic soil of the hills to make it fit for crops.
+4. **Insect stings.** A bee sting is acidic and is treated with baking soda; a wasp sting is basic and is treated with vinegar.
+5. **Factory waste.** Acidic waste is neutralised with lime before it is released into a river.
+
+**Conclusion.** Acids and bases are common in the kitchen, the body and the farm. The pH scale and neutralisation help us to use them safely.

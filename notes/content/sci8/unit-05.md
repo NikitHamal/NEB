@@ -543,3 +543,72 @@ until adulthood.
 **5.** The seed absorbs water and swells, the coat softens, enzymes change stored food into simple sugar, the radicle emerges and grows down, then the plumule grows up and the cotyledons open as the first leaves (draw a bean seedling with seed coat, radicle, plumule and cotyledons). Air gives oxygen for respiration, which releases the energy needed for cell division and growth; seeds in waterlogged soil fail for lack of oxygen.
 **6.** Fertilisation needs the male gametes, which reach the ovule only in a pollen tube that grows from pollen lying on the stigma; without pollination no pollen reaches the stigma, so no pollen tube, no male gamete and no fertilisation (except in parthenocarpic fruits, which have no seeds). If the style is removed, the stigma is also lost and the pollen tube has no path to the ovary, so fertilisation and seed formation cannot occur.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the parts of a flower. Explain pollination and fertilisation in flowering plants. <span class="marks">[10]</span>
+2. Explain the structure of a seed, germination and the ways of seed dispersal. Write about nutrition and respiration in living things. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="5" ratio="1.0" caption="Life begins again. (a) A bean from seed to seedling. (b) A honey bee collecting nectar carries pollen. (c) A pea flower. (d) A hibiscus flower with its stamens and pistil. (e) Pea pods hold the seeds that come from fertilised ovules."
+@ photo id="sci8/bean-germination" cap="(a) Germination"
+@ photo id="sci8/bee-pollination" cap="(b) Pollinating bee"
+@ photo id="sci10/pea-flower" cap="(c) Pea flower"
+@ photo id="sci10/hibiscus" cap="(d) Hibiscus"
+@ photo id="sci10/pea-pods" cap="(e) Pea pods"
+```
+
+### Model answer D1: flower, pollination and fertilisation (10 marks)
+
+**Introduction.** **Reproduction** is the production of new living things of the same kind. A flower is the reproductive organ of a flowering plant.
+
+**Parts of a flower.**
+
+| Part | Function |
+|---|---|
+| Sepals (calyx) | Green; protect the bud |
+| Petals (corolla) | Colourful; attract insects |
+| Stamen (male): anther and filament | Anther makes pollen grains |
+| Pistil or carpel (female): stigma, style, ovary | Stigma receives pollen; ovary has ovules |
+
+**Pollination.** The transfer of pollen from the anther to the stigma is **pollination**.
+
+- **Self-pollination:** pollen goes to the stigma of the same flower or plant (peas).
+- **Cross-pollination:** pollen goes to another plant of the same kind. It gives healthier seeds.
+
+**Agents of pollination.**
+
+| Agent | Flower features | Example |
+|---|---|---|
+| Insects (bees) | Bright, scented, with nectar | Mustard, apple |
+| Wind | Small, light dusty pollen | Maize, rice |
+| Water | Aquatic plants | Hydrilla |
+| Birds and bats | Large, bright flowers | Banana |
+
+**Fertilisation.** After pollination, the pollen grain grows a **pollen tube** down the style to the ovary. The male gamete joins the egg cell in the ovule. This joining is **fertilisation**; the fertilised egg (zygote) becomes the embryo.
+
+**After fertilisation.** The **ovule becomes the seed** and the **ovary becomes the fruit**. Petals and stamens wither.
+
+**Importance of bees.** Honey bees help pollination and so raise the yield of mustard, apple and cucumber.
+
+**Conclusion.** Pollination moves pollen, fertilisation joins the gametes, and the result is seeds and fruit.
+
+### Model answer D2: seed, germination, dispersal, nutrition and respiration (10 marks)
+
+**Structure of a seed.** A seed has a **seed coat** (protection), an **embryo** (a baby plant with a **radicle** that becomes the root and a **plumule** that becomes the shoot) and one or two **cotyledons** (stored food). Bean is a dicot (two cotyledons) and maize is a monocot (one).
+
+**Germination.** The growth of the embryo into a seedling is **germination**. It needs **water, air (oxygen) and a suitable temperature**. Light is not needed for the sprouting. The seed takes in water and swells, the seed coat breaks, the radicle appears first and grows down, and then the plumule grows up.
+
+**Seed dispersal.** Scattering of seeds away from the parent plant avoids competition.
+
+| Agent | Feature of seed | Example |
+|---|---|---|
+| Wind | Light, with wings or hairs | Maple, dandelion, cotton |
+| Water | Floating, waterproof | Coconut, lotus |
+| Animals | Hooks or sweet fruits | Bidens, mango |
+| Explosion | Pods burst and throw seeds | Pea, balsam |
+
+**Nutrition.** Plants make food by **photosynthesis**: carbon dioxide + water, in sunlight and chlorophyll, gives glucose and oxygen. Animals take ready-made food (digestion).
+
+**Respiration.** All living things release energy from food by respiration: glucose + oxygen gives carbon dioxide + water + energy. It goes on day and night. **Growth** is a permanent increase in size.
+
+**Conclusion.** A seed with air, water and warmth grows into a plant, and photosynthesis and respiration keep living things alive.

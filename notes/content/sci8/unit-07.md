@@ -672,3 +672,80 @@ energy source; solar panels and biogas plants are common in villages.
 **6.** $m=500$ g $=0.5$ kg, $\Delta t=85-25=60$ °C. $Q=0.5\times4200\times60=126\,000$ J $=126$ kJ.
 **7.** Causes: traffic and horns, factories, construction, loudspeakers and loud music. Effects: hearing loss and eardrum damage; high blood pressure, stress and sleeplessness; loss of concentration. Control: trees along roads, silencers and fewer horns, low-volume music and TV, industries away from settlements, awareness programmes.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Differentiate between heat and temperature. Explain the three modes of heat transfer and the working of a vacuum flask. <span class="marks">[10]</span>
+2. State the laws of reflection. Explain the images formed by plane and spherical mirrors and by a convex lens, with uses. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="5" ratio="1.0" caption="Heat and light in use. (a) A vacuum flask keeps heat in or out. (b) A Bunsen flame shows heat and light together. (c) Solar panels in a Nepali village use sunlight. (d) A convex lens as a magnifier. (e) A compound microscope with several lenses. Heat travels by three routes, and light is bent by lenses to make images."
+@ photo id="sci10/vacuum-flask" cap="(a) Vacuum flask"
+@ photo id="sci10/bunsen" cap="(b) Bunsen flame"
+@ photo id="sci10/solar-nepal" cap="(c) Solar panels"
+@ photo id="sci10/convex-lens" cap="(d) Convex lens"
+@ photo id="sci10/microscope" cap="(e) Microscope"
+```
+
+### Model answer D1: heat, temperature and heat transfer (10 marks)
+
+**Introduction.** **Heat** is a form of energy that flows from a hotter body to a colder one. **Temperature** tells how hot or cold a body is.
+
+| Heat | Temperature |
+|---|---|
+| A form of energy | Degree of hotness |
+| Unit: joule (J) | Unit: degree Celsius (°C) or kelvin (K) |
+| Measured by calorimeter | Measured by thermometer |
+| Depends on mass and kind of substance | Does not depend on mass |
+
+**Thermometer scales.** On the Celsius scale water freezes at 0 °C and boils at 100 °C; on the Fahrenheit scale at 32 °F and 212 °F. The conversion is $F = \tfrac{9}{5}C + 32$; for 37 °C (body temperature), $F = 98.6$ °F.
+
+**Modes of heat transfer.**
+
+| Mode | Needs a medium? | Explanation | Example |
+|---|---|---|---|
+| Conduction | Yes (solid) | Particles pass the heat on by vibration | Metal spoon in a hot pot |
+| Convection | Yes (fluid) | Hot fluid rises, cold fluid sinks, forming currents | Boiling water, sea breeze |
+| Radiation | No | Heat travels as waves | Heat of the Sun, a fire |
+
+**Daily applications.** Metal pans conduct heat and wooden handles resist it. Heaters are placed low and fans high for good convection. Light-coloured clothes reflect heat in summer, and dark surfaces absorb it, so solar water heaters are black.
+
+**Thermal expansion.** Solids, liquids and gases expand on heating. Gaps are left in rails and bridges. Water is an exception between 0 °C and 4 °C.
+
+**Vacuum flask.** It has double glass walls with a vacuum between them (stops conduction and convection), silvered surfaces (reflect radiation), and a stopper and cork support (insulators). So hot things stay hot and cold things stay cold.
+
+**Specific heat capacity.** The heat needed to raise the temperature of 1 kg of a substance by 1 °C. Water has a high value (4200 J/kg °C), so it is used for cooling and hot-water bags.
+
+**Conclusion.** Heat flows by conduction, convection and radiation, and good insulation or good conduction can be chosen for a purpose.
+
+### Model answer D2: reflection of light, mirrors and lenses (10 marks)
+
+**Laws of reflection.**
+
+1. The incident ray, the reflected ray and the normal lie in the same plane.
+2. The angle of incidence equals the angle of reflection ($i = r$).
+
+**Plane mirror image.** Virtual, upright, same size, laterally inverted, as far behind the mirror as the object is in front.
+
+**Spherical mirrors.**
+
+| Mirror | Shape | Image | Uses |
+|---|---|---|---|
+| Concave | Curved inward; converges light | Real and inverted, or virtual, upright and magnified when the object is very near | Shaving mirror, dentist mirror, torch reflector, headlight |
+| Convex | Curved outward; diverges light | Always virtual, upright, smaller | Rear-view mirror of vehicles, shop security mirror |
+
+The **focal length** is half of the radius of curvature: $f = R/2$.
+
+**Refraction.** The bending of light when it passes from one medium into another, for example a pencil that looks bent in water or the apparent shallow depth of a pond.
+
+**Lenses.**
+
+| Lens | Effect | Uses |
+|---|---|---|
+| Convex | Converges rays; thick in the middle | Magnifying glass, camera, microscope, spectacles for long sight |
+| Concave | Diverges rays; thin in the middle | Spectacles for short sight |
+
+A convex lens used as a magnifier gives a virtual, upright and bigger image when the object is closer than the focus. If the object is far, the image is real, inverted and smaller.
+
+**Human eye.** The eye has a convex lens that makes a real, inverted image on the retina and the brain turns it upright. **Short sight** is corrected by concave lenses and **long sight** by convex lenses.
+
+**Conclusion.** Mirrors reflect and lenses refract light, and the type of image depends on the position of the object.

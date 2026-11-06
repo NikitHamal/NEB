@@ -484,3 +484,80 @@ These are due to a change in the number of chromosomes, usually from a mistake i
 **3.** Man X^c Y, woman X^C X^C. Gametes: X^c, Y and X^C. Children: X^C X^c (carrier girls, normal sight) and X^C Y (normal boys). All children have normal sight; the daughters are carriers.
 **4.** Female XX makes eggs with X only. Male XY makes sperms of X and Y in equal numbers. X-sperm + egg = XX girl; Y-sperm + egg = XY boy. The chance is 50 : 50. The father's sperm decides.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and explain Mendel's law of segregation using a monohybrid cross of tall and dwarf pea plants up to the F2 generation. <span class="marks">[10]</span>
+2. Explain how the sex of a child is determined in human beings. Describe Down syndrome, Turner syndrome and Klinefelter syndrome. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.15" caption="Heredity seen with the eye. (a) A pea flower, the organ Mendel crossed by hand. (b) Pea pods whose seeds show round and wrinkled forms. (c) A human karyotype, 46 chromosomes arranged in 23 pairs. (d) A karyotype with three copies of chromosome 21, the cause of Down syndrome. Mendel counted whole plants; today doctors can count chromosomes."
+@ photo id="sci10/pea-flower" cap="(a) Pea flower"
+@ photo id="sci10/pea-pods" cap="(b) Pea pods"
+@ photo id="sci10/karyotype" cap="(c) Normal karyotype"
+@ photo id="sci10/trisomy21" cap="(d) Trisomy 21"
+```
+
+### Model answer D1: Mendel's monohybrid cross (10 marks)
+
+**Introduction.** **Gregor Johann Mendel** (1822-1884), an Austrian monk, is called the **father of genetics**. He crossed garden pea plants (*Pisum sativum*) in the monastery garden and counted the offspring. The pea was a good choice because it grows quickly, has clear contrasting characters (tall and dwarf, round and wrinkled), and can be self-pollinated or cross-pollinated by hand. A cross that studies **one pair of contrasting characters** is a **monohybrid cross**.
+
+**The cross.** Let **T** be the gene for tallness (dominant) and **t** the gene for dwarfness (recessive).
+
+1. **Parent generation (P).** A pure tall plant (TT) is crossed with a pure dwarf plant (tt). The tall plant gives only T gametes, the dwarf gives only t gametes.
+2. **First filial generation (F1).** All plants are tall, with genotype **Tt**. The dwarf character has not been lost; it is only hidden.
+3. **Self-pollination of F1.** Tt × Tt. Each plant gives two kinds of gametes, T and t, in equal numbers.
+4. **Second filial generation (F2).** The gametes combine by chance, as shown in the Punnett square.
+
+| | T | t |
+|---|---|---|
+| **T** | TT (tall) | Tt (tall) |
+| **t** | Tt (tall) | tt (dwarf) |
+
+**Results.**
+
+| Item | F2 result |
+|---|---|
+| Phenotypic ratio (what is seen) | 3 tall : 1 dwarf |
+| Genotypic ratio (genes present) | 1 TT : 2 Tt : 1 tt |
+| Example from 400 plants | About 300 tall and 100 dwarf |
+
+**Mendel's laws explained.**
+
+- **Law of dominance.** When two different alleles are present, only the dominant one shows in the F1 generation (all Tt plants are tall).
+- **Law of segregation (purity of gametes).** The two alleles of a pair separate during the formation of gametes, so each gamete carries only one allele (T or t). The dwarf character reappears in F2 because t was never lost.
+
+**Test cross.** To find whether a tall plant is TT or Tt, cross it with a dwarf (tt) plant. If all the offspring are tall, the plant is TT; if half are dwarf, it is Tt.
+
+**Conclusion.** The 3 : 1 ratio proves that characters are carried by separate units (genes) that pass unchanged from parent to child, and this is the basis of heredity.
+
+### Model answer D2: sex determination and chromosomal disorders (10 marks)
+
+**Introduction.** A human body cell has **46 chromosomes**, arranged in **23 pairs**. Twenty-two pairs are **autosomes** and one pair is the **sex chromosomes**: **XX in a female and XY in a male**.
+
+**Sex determination.**
+
+1. A mother has only X chromosomes, so every egg carries one **X**.
+2. A father's sperm are of two kinds in equal numbers: half carry **X** and half carry **Y**.
+3. If an X-sperm fertilises the egg, the child is **XX, a girl**. If a Y-sperm fertilises it, the child is **XY, a boy**.
+4. The chance of a boy or a girl is therefore **50 : 50**, and it is the **father's sperm** that decides the sex. A mother cannot be blamed for the sex of a child.
+
+| | X (egg) | X (egg) |
+|---|---|---|
+| **X (sperm)** | XX girl | XX girl |
+| **Y (sperm)** | XY boy | XY boy |
+
+Here the four squares give 2 girls : 2 boys, which is the 1 : 1 ratio.
+
+**Chromosomal disorders.** These arise when a cell gets too many or too few chromosomes, usually because chromosomes fail to separate during the formation of the egg or sperm.
+
+| Disorder | Chromosomes | Cause | Features |
+|---|---|---|---|
+| Down syndrome | 47, an extra chromosome 21 (trisomy 21) | Non-separation of chromosome 21 | Slow mental growth, short height, slanting eyes, flat face, heart defects |
+| Turner syndrome | 45, XO female | One X chromosome is missing | Short height, no ovary development, so no periods and no children |
+| Klinefelter syndrome | 47, XXY male | An extra X chromosome | Tall body, small testes, little sperm, often sterile |
+
+**Karyotype.** A **karyotype** is a picture of all the chromosomes of a person, arranged in pairs by size. Doctors use it to find these disorders.
+
+**Prevention and care.** The chance of Down syndrome rises with the mother's age, so regular antenatal check-ups at a health post or hospital are advised. Children with these syndromes can lead meaningful lives with love, education and medical care.
+
+**Conclusion.** The sex of the child depends on the sperm, and wrong numbers of chromosomes cause syndromes. A karyotype helps in diagnosis.

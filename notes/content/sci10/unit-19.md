@@ -397,3 +397,73 @@ Management follows the **4 Rs**: **Reduce** the use of plastic bags (carry a clo
 **3.** (a) Urea = 92 / 0.46 = **200 kg**. (b) Ammonium nitrate = 92 / 0.35 = **262.9 kg** (about 263 kg).
 **4.** A polymer is a large molecule formed from many monomers. Thermoplastics (polythene, PVC) soften on heating; thermosetting plastics (Bakelite, melamine) do not. Management: reduce, reuse, recycle, refuse; ban thin bags; use jute or paper bags.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain how soap is made. Compare soap with detergent. <span class="marks">[10]</span>
+2. Describe the chemicals used in daily life (cement, glass, fertilisers, plastics, soap). Explain eight points on their importance and harm. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="5" ratio="1.0" caption="Chemistry in the market. (a) Bags of Portland cement, the basis of construction. (b) Bars of soap made by saponification. (c) Granular urea fertiliser for the farm. (d) Collected glass bottles and cans for recycling. (e) PET bottles baled for recycling. Each product has a chemical story, and each can be reused to reduce waste."
+@ photo id="sci10/cement" cap="(a) Cement"
+@ photo id="sci10/soap" cap="(b) Soap"
+@ photo id="sci10/urea" cap="(c) Urea fertiliser"
+@ photo id="sci10/glass-recycling" cap="(d) Glass recycling"
+@ photo id="sci10/pet-bottles" cap="(e) PET bottles"
+```
+
+### Model answer D1: soap and detergent (10 marks)
+
+**Introduction.** Soap and detergent are **cleansing agents**. Water alone cannot remove oily dirt because oil does not dissolve in water. Soap is the **sodium or potassium salt of a long-chain fatty acid**.
+
+**Manufacture of soap (saponification).**
+
+1. Heat **oil or fat** (coconut, palm, mustard oil, tallow) with a strong alkali such as **sodium hydroxide (caustic soda)** solution in a large pan.
+2. The reaction is called **saponification**.
+
+$$\text{Fat or oil} + \text{NaOH} \rightarrow \text{Soap} + \text{Glycerol}$$
+
+3. **Salting out.** Common salt is added, and soap, being less soluble, floats on top.
+4. The soap is separated, washed, mixed with perfume, colour and filler, then **cut into bars**. Glycerol, the by-product, is valuable and is used in cosmetics and medicines.
+
+**How soap cleans.** A soap molecule has a **water-loving head** and a **water-hating tail**. The tails stick into the oil and the heads stay in the water. The oil is pulled off the cloth as small drops (an emulsion), which are washed away.
+
+**Problem of hard water.** Water that contains calcium and magnesium salts is **hard water**. Soap forms a sticky white **scum** with it, and it wastes soap, while a detergent works well.
+
+**Detergents.** These are **sodium salts of sulphonic acids** made from petroleum products. They are not affected by hard water and form no scum.
+
+| Feature | Soap | Detergent |
+|---|---|---|
+| Raw material | Natural oil and fat | Petroleum chemicals |
+| Chemical type | Salt of fatty acid | Salt of sulphonic acid |
+| In hard water | Forms scum, poor cleaning | Cleans well |
+| Biodegradable | Yes | Many are not (older types) |
+| Effect on environment | Gentle | May pollute rivers, forms foam |
+| Use | Bathing, laundry | Laundry, dish washing |
+
+**Environment.** Some detergents contain phosphates and are not decomposed by bacteria. They cause foam and algae growth in lakes (as in Phewa Lake), so **biodegradable** detergents should be used.
+
+**Conclusion.** Soap is made by saponification of fat, and detergent is the better cleaner for hard water, but soap is gentler on the environment.
+
+### Model answer D2: chemicals used in daily life (10 marks)
+
+**Introduction.** Many substances made by the chemical industry are used in our homes, farms and buildings. They improve living but must be used wisely.
+
+1. **Cement.** Cement is made by heating limestone and clay in a kiln and grinding the clinker with a little gypsum. When mixed with sand and water, it sets into a hard mass. It is the key material of houses, bridges and dams, and Nepal has many cement factories in Udayapur, Hetauda and Nawalparasi. Its drawback is that making it releases carbon dioxide.
+2. **Glass.** Glass is made by melting sand, soda ash and limestone at a high temperature. It is transparent, smooth and does not react with most chemicals. It is used for windows, bottles, spectacles and laboratory apparatus, and it can be recycled again and again.
+3. **Chemical fertilisers.** Urea, DAP and potash give the plants nitrogen, phosphorus and potassium. They raise the yield of rice, wheat and maize, which helps to feed a growing population. Too much use makes the soil hard and pollutes the water, so farmers should combine them with compost.
+4. **Pesticides.** These chemicals kill insects, weeds and fungus that damage crops. They protect the harvest, but they are poisonous to people, birds and bees, so one must follow the directions and wait before eating the produce.
+5. **Plastics.** Plastics are polymers that are light, strong, cheap and waterproof. They are used in bottles, pipes, bags and toys. They do not rot, so they pollute the land and rivers, and they must be reduced, reused and recycled.
+6. **Soap and detergent.** They clean body, clothes and dishes, and keep people healthy by removing germs and dirt. Biodegradable ones should be used to protect water.
+7. **Medicines.** Antibiotics, painkillers and vaccines come from chemical industry and save lives. They should be taken only on a doctor's advice, because misuse makes germs resistant.
+8. **Food preservatives and additives.** Salt, sugar, vinegar and sodium benzoate keep food from spoiling, and flavours and colours make it attractive. Over-use of artificial additives may harm health, so we should read the label.
+
+**Recycling.** Glass bottles, plastic (PET) bottles, paper and metals can be collected, cleaned and recycled in factories to save resources and reduce waste.
+
+| Chemical | Main raw material | Main use |
+|---|---|---|
+| Cement | Limestone, clay | Construction |
+| Glass | Sand, soda ash, limestone | Windows, bottles |
+| Urea | Ammonia and carbon dioxide | Fertiliser |
+| Plastic | Petroleum | Containers, pipes |
+
+**Conclusion.** Chemicals make life easier and food plentiful. We must use them carefully, avoid waste and protect the environment.
