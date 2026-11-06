@@ -639,3 +639,54 @@ among persons." For each, be ready to say: who is speaking or being quoted, what
 before, what the line means in plain words, and how it supports the argument that marriage is an
 institution.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended essay answers (10 marks each, for deeper revision)**
+
+1. Explain how Steven L. Nock describes marriage as a social institution. <span class="marks">[10]</span>
+2. Discuss Durkheim's argument, cohabitation and the idea of normative marriage in the essay. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="3" ratio="1.1" caption="Thinker and rites. Emile Durkheim, whose argument Nock uses, and two stages of a Nepali Hindu wedding, an institution with rules that come from outside the couple."
+@ photo id="eng12/durkheim" cap="Emile Durkheim"
+@ photo id="eng12/nepali-hindu-wedding" cap="Nepali Hindu wedding"
+@ photo id="eng12/nepali-marriage-ritual" cap="A marriage ritual in Nepal"
+```
+
+### Model answer D1: marriage as an institution (10 marks)
+
+**Introduction.** **Steven L. Nock** (1950–2008), Commonwealth Professor of Sociology at the University of Virginia, wrote *Marriage in Men's Lives* (Oxford University Press, 1998). This essay is from its second chapter.
+
+1. **More than two people.** A marriage is "much more than the sum of two spouses".
+2. **Definition.** It is a relationship defined by **legal, moral and conventional assumptions**.
+3. **Institution.** It is culturally patterned and integrated into education, the economy and politics.
+4. **Outside rules.** Its rules originate outside the couple, like those of a school or a bank.
+5. **Soft boundaries.** The commonly understood limits distinguish marriage from all other relationships.
+6. **Social capital.** Marriage builds networks bound by trust and obligations to kin: "an individual asset" that exists only in relationships.
+7. **Social control.** The institution guides how husbands and wives behave.
+8. **Style.** Definition and thesis first, then authority (Durkheim, Coleman), contrast, rhetorical questions and metaphors.
+
+**Conclusion.** For Nock, marriage is a social structure that shapes individuals, not only a private love story.
+
+### Model answer D2: Durkheim, cohabitation and normative marriage (10 marks)
+
+**Introduction.** Nock supports his thesis with a classic sociologist, a comparison and a list of norms.
+
+1. **Durkheim's argument.** Human desires for comfort, luxury and prestige never end.
+2. **Marriage as "an organ of society".** It restrains a man's impulses.
+3. **Moral equilibrium.** It gives him structure.
+4. **Cohabitation.** It gives freedom but no template, no enforceable pledges and not even a word for a partner.
+5. **Marriage supplies a pattern** backed by law, religion and custom.
+6. **Six dimensions of normative marriage in America:** voluntary; mature adults; heterosexual; husband as principal earner; sexual fidelity; parenthood.
+7. **Metaphors.** Organ, capital, template and thread.
+8. **Nepali link.** A Nepali wedding, with priest, witnesses and families, shows the institution at work.
+
+| | Marriage | Cohabitation |
+|---|---|---|
+| Template | Yes | No |
+| Pledges | Enforceable | Not enforceable |
+| Backing | Law, religion, custom | Little |
+| Word for partner | Husband, wife | Unclear |
+
+**Conclusion.** Nock argues that marriage gives individuals a pattern for life and keeps society stable.

@@ -544,3 +544,71 @@ rather than by irritation.
 **11.** Your full name, your class or designation, and a contact number.
 **12.** *Sales assistant (part-time), Namaste Stores, Butwal, 2080–2081: billing, stock records, customer handling.*
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended writing answers (10 marks each, for deeper revision)**
+
+1. Write a model letter to the editor on a public issue. <span class="marks">[10]</span>
+2. Write a model application and an outline of a CV. <span class="marks">[10]</span>
+
+```photogrid label="32.H" cols="2" ratio="1.4" caption="Formal documents. A letters page from a 1940s newspaper, the Heart Mountain Sentinel, and an example curriculum vitae, two of the formats set in Question 5."
+@ photo id="eng12/letter-to-editor" cap="Letters to the editor, 1940s"
+@ photo id="eng11/cv" cap="An example CV"
+```
+
+### Model answer D1: a letter to the editor (10 marks)
+
+**Question.** Write a letter to the editor of *The Kathmandu Post* about the dust and traffic problem in your town (150–200 words).
+
+> Ward No. 5, Butwal  
+> 15 Magh, 2082
+>
+> The Editor  
+> *The Kathmandu Post*  
+> Kathmandu
+>
+> Dear Sir/Madam,
+>
+> **Subject: Dust and traffic jams on the Butwal–Bhairahawa road**
+>
+> Through the columns of your newspaper, I wish to draw the attention of the authorities to the dust and traffic jams on the Butwal–Bhairahawa road. The road has been under repair for more than eight months, and the work is still not finished.
+>
+> Every morning, students and office-goers wait for up to forty minutes in a line of buses and trucks. The dust causes coughs and eye problems; last week the local health post reported more than sixty cases. Shopkeepers say that their sales have fallen by half.
+>
+> I request the road department to set a clear completion date, to sprinkle water twice a day and to use traffic police at peak hours. I should be grateful if you would publish this letter.
+>
+> Yours faithfully,  
+> Anita Sharma  
+> Butwal
+
+**Features.** Sender's address and date top right; the editor's address on the left; *Dear Sir/Madam*; a subject line; one issue; evidence with dates and numbers; a named remedy; *Yours faithfully* with the full name and place. Use a formal register: *I should be grateful if ...*
+
+### Model answer D2: an application and a CV (10 marks)
+
+**Question.** Apply for the post of a computer teacher advertised in *Gorkhapatra* on 10 Falgun.
+
+Four paragraphs: **(1)** the post and where it was advertised; **(2)** the qualification; **(3)** what you have done; **(4)** availability and enclosures.
+
+> Dear Sir,
+>
+> **Subject: Application for the post of Computer Teacher**
+>
+> With reference to your advertisement in *Gorkhapatra* of 10 Falgun, I wish to apply for the post of Computer Teacher in your school.
+>
+> I hold a Bachelor's degree in Computer Science from Tribhuvan University, with first division. I also hold a diploma in office software.
+>
+> For two years I have taught basic computing to Grade 8 students at a community school and trained teachers in using the school's EMIS software. I can work with Word, Excel and PowerPoint.
+>
+> I am available for an interview at any time, and I enclose my CV and copies of my certificates. Thank you for your time and consideration.
+>
+> Yours faithfully,  
+> Bimal Rai
+
+**CV headings (reverse date order):** Personal details; Career objective; Education; Work experience; Skills; Interests; References.
+
+| Letter ending | Greeting |
+|---|---|
+| Yours faithfully | Dear Sir / Madam |
+| Yours sincerely | Dear Mr Sharma |

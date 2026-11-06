@@ -350,3 +350,32 @@ meeting now.* — Rewrite as a conditional beginning *If he …*
 **22.** **If he had taken my advice, he would not be in difficulty now.** — a mixed conditional: past condition, present result.
 **23.** **I wish I had booked the ticket in advance.** — regret about the past takes *wish* + past perfect.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the four types of conditional sentences with examples and the related structures. <span class="marks">[10]</span>
+
+### Model answer D1: conditional sentences (10 marks)
+
+**Introduction.** A conditional sentence has an *if*-clause and a main clause. The tense pattern shows how real or unreal the condition is.
+
+1. **Type 0:** *if* + present, present: a general truth. *If you heat ice, it melts.*
+2. **Type 1:** *if* + present, *will / can / may* + base verb: a real possibility. *If it rains, we will stay home.*
+3. **Type 2:** *if* + past (*were* for all persons), *would / could / might* + base verb: untrue or unlikely now. *If I were a bird, I would fly.*
+4. **Type 3:** *if* + past perfect, *would / could / might have* + past participle: impossible, because the time is past. *If I had studied, I would have passed.*
+5. **Never put *will* or *would* in the if-clause;** a fronted if-clause takes a comma.
+6. **Mixed conditionals:** a past condition with a present result (*If I had taken the medicine, I would be well now*).
+7. **Dropping *if* by inversion:** *Were I you, ... Had I known, ... Should you need help, ...*
+8. **Related structures:** *unless* = *if not*; *in case* means "as a precaution" and takes the present; *but for* takes a noun phrase; *wish / if only* + past = regret about now, + past perfect = regret about the past, + *would* = annoyance; *It is high time* and *would rather* (with a new subject) take the past tense.
+
+| Type | If-clause | Main clause | Meaning |
+|---|---|---|---|
+| 0 | present | present | General truth |
+| 1 | present | will + base | Real possibility |
+| 2 | past | would + base | Unreal now |
+| 3 | past perfect | would have + V3 | Impossible past |
+
+**Conclusion.** Match the tense pattern to how real the situation is.
