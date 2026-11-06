@@ -77,9 +77,9 @@ key 1 (a) Fracture line through the end of the radius, with the broken end displ
 key 2 (a) Carpal bones: look at the alignment of the wrist for associated injury
 @ photo id="nur6/cast" cap="Plaster slab on forearm"
 fit 1.0
-focus 0.5 0.35
-mark 0.50 0.40 "3"
-mark 0.45 0.82 "4"
+focus 0.5 0.0
+mark 0.50 0.30 "3"
+mark 0.40 0.76 "4"
 key 3 (b) Slab and bandage: snug but never tight; two fingers should fit under the edge
 key 4 (b) Fingers: leave free to check colour, warmth, movement and feeling every hour at first
 @ photo id="nur6/exfix" cap="External fixator"

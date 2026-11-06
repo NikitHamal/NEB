@@ -54,6 +54,17 @@ chk("om", (round((0.75 - 1.0) / 0.10, 1), 158 - 40, 15 * 50, round(0.1 * 70, 1))
 chk("oc", (70 * 62, round(1500 / (70 * 62) * 100, 1), round(0.1 * 62, 1), 15 * 62, 172 - 40, 80 - 50), (4340, 34.6, 6.2, 930, 132, 30))
 T.update(u4_t="-3.2", u4_trac=6, u4_crutch=130, u4_diclo=3, u4_para=900, u4_dp=25, u4_ebv="4,200", u4_loss="35.7", u4_m1="-2.5", u4_m2=118, u4_m3=750, u4_m4=7,
          c4_ebv="4,340", c4_loss="34.6", c4_trac="6.2", c4_para=930, c4_crutch=132, c4_dp=30)
+# ---- Unit 5: oncology and emergency nursing
+import math
+bsa = lambda h, w: round(math.sqrt(h * w / 3600), 2)
+chk("on", (bsa(165, 60), round(600 * bsa(165, 60)), round(60 * bsa(165, 60), 1), round(2500 * 0.28), round(45 / 500 * 100, 1)), (1.66, 996, 99.6, 700, 9.0))
+tb = 9 + 18 + 9
+chk("em", (tb, 4 * 70 * tb, 4 * 70 * tb // 2, 4 * 70 * tb // 2 // 8, 4 * 70 * tb // 2 // 16, round(126 / 84, 1), round(2 / 0.6, 1), 2 + 4 + 8, 0.5 / 1.0),
+    (36, 10080, 5040, 630, 315, 1.5, 3.3, 14, 0.5))
+chk("m", (4 * 60 * 20 // 2, 4 * 60 * 20 // 2 // 8, round(3000 * 0.20), bsa(150, 54)), (2400, 300, 600, 1.5))
+chk("c", (bsa(158, 52), round(600 * bsa(158, 52)), round(60 * bsa(158, 52), 1), round(1800 * 0.30), 30 * 52, 52 * 0.5), (1.51, 906, 90.6, 540, 1560, 26.0))
+T.update(u5_bsa="1.66", u5_cyc=996, u5_doxo="99.6", u5_anc=700, u5_via="9.0", u5_tbsa=36, u5_park="10,080", u5_first="5,040", u5_rate=630, u5_rate2=315, u5_si="1.5", u5_atr="3.3", u5_atrcum=14, u5_adr="0.5",
+         u5_m1="2,400", u5_m2=300, u5_m3=600, u5_m4="1.5", c5_bsa="1.51", c5_cyc=906, c5_doxo="90.6", c5_anc=540, c5_fl="1,560", c5_uo=26)
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):
