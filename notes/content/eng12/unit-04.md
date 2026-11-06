@@ -717,3 +717,43 @@ cunning, and completes the irony: the victim has won. It also happens at the mom
 late for the characters to profit from the knowledge.
 :::
 
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Narrate the story of Evans and Hooker and explain the cause of their deaths. <span class="marks">[10]</span>
+2. Discuss the themes and the techniques of "The Treasure in the Forest". <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="2" ratio="1.4" caption="Adventure at sea. H. G. Wells, the author, and a scale model of a Spanish galleon: the treasure ship of the story's dream."
+@ photo id="eng12/hg-wells" cap="H. G. Wells"
+@ photo id="eng12/galleon-model" cap="Model of a Spanish galleon"
+```
+
+### Model answer D1: the story and the deaths (10 marks)
+
+**Introduction.** "The Treasure in the Forest" by **H. G. Wells** (1866–1946) was first published in *Pall Mall Budget* on 23 August 1894.
+
+1. Two British adventurers, **Evans and Hooker**, approach a tropical island by canoe with a **stolen Chinese map**.
+2. A **dotted line** runs from a gap in the coral reef to a clump of palms; the **star** marks the treasure where the line cuts a river.
+3. In a dream Evans recalls how they overheard three Chinese men talk of a **Spanish galleon's treasure**, which **Chang-hi** had found and reburied "very safe", and how they took the map by force.
+4. They drink at the river and cross the cool, silent forest.
+5. They find a **dead Chinese man beside a dug hole** with gold ingots half uncovered; Hooker thinks a snake killed him.
+6. Evans is **pricked by a "little thorn" twice** while loading the gold; he becomes irritable and ill and **dies in convulsions**.
+7. Hooker is pricked in the thumb and understands that the map's **"little dashes" were poisoned thorns** and Chang-hi's "safety" a trap.
+8. He waits, dying, beside the gold.
+
+**Conclusion.** Greed leads both men to death by the very trap they overlooked.
+
+### Model answer D2: themes and techniques (10 marks)
+
+1. **Greed and punishment:** the gold kills the thieves.
+2. **Appearance and reality:** the "dashes" on the map look harmless.
+3. **Nature as silent judge:** the quiet forest hides the thorns.
+4. **Prejudice** blinds the men: they did not respect Chang-hi's cleverness.
+5. **Foreshadowing:** the dream and the dead man warn of danger.
+6. **Suspense** builds step by step in the forest.
+7. **Dramatic irony:** the reader senses the danger before Hooker does.
+8. **Close third-person viewpoint,** symbolism and pathetic fallacy complete the effect.
+
+**Conclusion.** Wells combines adventure and moral irony to show that greed destroys.
