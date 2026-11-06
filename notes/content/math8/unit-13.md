@@ -407,6 +407,18 @@ parallel sides are supplementary*. $\angle S = \angle Q = 108°$ — *opposite
 angles*. Check: $72 + 108 + 72 + 108 = 360°$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. (a) Two supplementary angles are $(2x+10)^\circ$ and $(3x-5)^\circ$, find $x$ and both angles. (b) Two complementary angles are in the ratio $2:3$. Find them. <span class="marks">[5]</span>
+2. In the figure a transversal $PQ$ cuts the parallel lines $AB$ and $CD$ at $P$ and $Q$. The co-interior angles are $\angle APQ=(3x+5)^\circ$ and $\angle PQC=(2x+25)^\circ$. Find $x$, both angles, and the other six angles formed, giving a reason for each. <span class="marks">[5]</span>
+3. (a) In triangle $ABC$, $\angle A=50^\circ$ and $\angle B=60^\circ$. The side $BC$ is extended to $D$. Find $\angle ACB$ and the exterior angle $\angle ACD$. (b) Two straight lines intersect and two vertically opposite angles are $(4y-10)^\circ$ and $(2y+30)^\circ$. Find $y$ and the other pair of angles. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Supplementary angles add to $180^\circ$: $(2x+10)+(3x-5)=180$, so $5x+5=180$ and $x=35$. The angles are $2(35)+10=80^\circ$ and $3(35)-5=100^\circ$; $80+100=180$ ✓. (b) Parts $2+3=5$ and the sum is $90^\circ$, so one part is $18^\circ$: the angles are $36^\circ$ and $54^\circ$.
+**2.** Co-interior angles between parallel lines are supplementary: $(3x+5)+(2x+25)=180$, so $5x+30=180$ and $x=30$. $\angle APQ=95^\circ$ and $\angle PQC=85^\circ$. The other six angles: $\angle BPQ=180-95=85^\circ$ (linear pair); $\angle PQD=180-85=95^\circ$ (linear pair); the vertically opposite angles at each point give the remaining two at $P$ ($95^\circ$ and $85^\circ$) and the remaining two at $Q$ ($95^\circ$ and $85^\circ$). So the eight angles are four of $95^\circ$ and four of $85^\circ$. Corresponding angles ($\angle APQ$ and the angle at $Q$ on the same side of the transversal) are equal, which agrees.
+**3.** (a) Angle sum: $\angle ACB=180-(50+60)=70^\circ$. The exterior angle $\angle ACD=180-70=110^\circ$ (linear pair). **Check:** exterior angle $=$ sum of the opposite interior angles $=50+60=110^\circ$ ✓. (b) Vertically opposite angles are equal: $4y-10=2y+30$, so $2y=40$ and $y=20$. Each is $70^\circ$. The other pair, each adjacent to a $70^\circ$ angle on a straight line, are $180-70=110^\circ$ each. **Check:** $70+110+70+110=360$ ✓.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

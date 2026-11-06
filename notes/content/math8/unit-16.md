@@ -363,6 +363,18 @@ $1.92+0.96+1.44=4.32$ ✓.
 **Check.** $200\times15=3000$ ✓.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. A triangular prism has a right-angled triangle as its base with perpendicular sides 6 cm and 8 cm, and the prism is 12 cm long. Find the hypotenuse, the volume and the total surface area. Count its faces, edges and vertices and verify Euler's formula. <span class="marks">[5]</span>
+2. A square pyramid has a base of side 10 cm and a vertical height of 12 cm. Find its slant height, volume, lateral surface area and total surface area. <span class="marks">[5]</span>
+3. (a) A rectangular tank is 2 m long, 1.5 m wide and 1 m deep. How many litres does it hold, and in how many minutes will a pump delivering 40 litres per minute fill it? (b) How many cubes of edge 5 cm can be packed in a box 20 cm by 15 cm by 10 cm? <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Hypotenuse $=\sqrt{6^2+8^2}=10$ cm. Base area $=\frac12\times6\times8=24$ cm². Volume $=24\times12=288$ cm³. Perimeter of the base $=6+8+10=24$ cm, so the lateral area $=24\times12=288$ cm² (three rectangles: $72+96+120$ ✓). Total surface area $=288+2\times24=336$ cm². Faces $F=5$, edges $E=9$, vertices $V=6$: $V-E+F=6-9+5=2$ ✓.
+**2.** Half the base is 5 cm, and the slant height is the hypotenuse of the right triangle formed with the height: $l=\sqrt{12^2+5^2}=\sqrt{169}=13$ cm. Volume $=\frac13\times\text{base}\times h=\frac13\times100\times12=400$ cm³. Lateral area $=4\times\frac12\times10\times13=260$ cm². Total surface area $=260+100=360$ cm².
+**3.** (a) Volume $=2\times1.5\times1=3$ m³ $=3000$ litres (1 m³ $=1000$ litres). Time $=3000\div40=75$ minutes. (b) Volume of the box $=20\times15\times10=3000$ cm³; one cube $=5^3=125$ cm³, so $3000\div125=24$ cubes. **Check by rows:** $20\div5=4$, $15\div5=3$, $10\div5=2$ and $4\times3\times2=24$ ✓.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>
