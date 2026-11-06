@@ -371,3 +371,74 @@ Check: COGS $= 50{,}000 + 3{,}00{,}000 + 10{,}000 + 40{,}000 - 65{,}000 = Rs.\ 3
 
 Gross profit Rs. 85,000; net profit Rs. 29,000; balance sheet total Rs. 2,25,000.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What are final accounts? Explain their components and objectives, and the adjustments made at the year end. <span class="marks">[10]</span>
+2. From the following balances of a trader as on 31 Ashad prepare the trading account, the profit and loss account and the balance sheet. Opening stock 20,000; purchases 1,20,000; purchases returns 4,000; sales 2,10,000; sales returns 10,000; carriage inwards 3,000; wages 12,000; rent 6,000; salaries 24,000; office expenses 5,000; building 76,000; furniture 40,000; debtors 35,000; creditors 25,000; cash and bank 30,000; capital 1,50,000; drawings 8,000. Adjustments: closing stock 30,000; salaries outstanding 2,000; depreciation on furniture 4,000. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="4" ratio="1.0" caption="From books to statements. The ledger and cash book supply the balances, an adding machine and a computer workstation help to total them, and the final accounts summarise the year."
+@ photo id="acc10/ledger" cap="Ledger"
+@ photo id="acc10/cash-book" cap="Cash book"
+@ photo id="acc10/adding-machine" cap="Adding machine"
+@ photo id="acc10/workstation" cap="Accounting on a computer"
+```
+
+### Model answer D1: final accounts (10 marks)
+
+**Introduction.** **Final accounts** are the financial statements prepared at the end of the accounting year to show the profit or loss for the year and the financial position on the last day. Every trader wants to know how much he earned and what he owns and owes.
+
+**Components.**
+
+1. **Trading account** – shows the gross profit or gross loss: net sales less the cost of goods sold (opening stock + net purchases + direct expenses − closing stock).
+2. **Profit and loss account** – starts from gross profit, adds other incomes and deducts indirect expenses (rent, salaries, depreciation) to find net profit or net loss.
+3. **Balance sheet** – lists assets on one side and liabilities and capital on the other; it shows that assets equal liabilities plus capital.
+4. **Notes to the accounts** – explain the policies and the details of the main items.
+
+**Objectives.** To find the gross and net result; to show the financial position; to supply the data for income tax and VAT; to help in a loan application; to let the owner compare years; to satisfy the law and audit.
+
+**Adjustments at the year end.** Closing stock; outstanding expenses (added to the expense and shown as a liability); prepaid expenses (deducted and shown as an asset); accrued income; income received in advance; depreciation (reduces the asset and is an expense); bad debts and a provision for doubtful debts; interest on capital and drawings. Each adjustment appears **twice**: once in the profit and loss account and once in the balance sheet.
+
+**Conclusion.** Final accounts turn the day-to-day entries into a picture the owner, the bank and the tax office can read.
+
+### Model answer D2: preparation of the final accounts (10 marks)
+
+**Trading account for the year ended 31 Ashad (Rs).**
+
+| Particulars | Rs | Particulars | Rs |
+|---|---|---|---|
+| To Opening stock | 20,000 | By Sales | 2,10,000 |
+| To Purchases | 1,20,000 | Less: returns | (10,000) |
+| Less: returns | (4,000) | **Net sales** | 2,00,000 |
+| **Net purchases** | 1,16,000 | By Closing stock | 30,000 |
+| To Carriage inwards | 3,000 | | |
+| To Wages | 12,000 | | |
+| To **Gross profit** c/d | 79,000 | | |
+| **Total** | **2,30,000** | **Total** | **2,30,000** |
+
+**Profit and loss account (Rs).**
+
+| Particulars | Rs | Particulars | Rs |
+|---|---|---|---|
+| To Rent | 6,000 | By Gross profit b/d | 79,000 |
+| To Salaries 24,000 + outstanding 2,000 | 26,000 | | |
+| To Office expenses | 5,000 | | |
+| To Depreciation on furniture | 4,000 | | |
+| To **Net profit** (to capital) | 38,000 | | |
+| **Total** | **79,000** | **Total** | **79,000** |
+
+**Balance sheet as on 31 Ashad (Rs).**
+
+| Liabilities | Rs | Assets | Rs |
+|---|---|---|---|
+| Capital | 1,50,000 | Building | 76,000 |
+| Add: net profit | 38,000 | Furniture 40,000 − depreciation 4,000 | 36,000 |
+| Less: drawings | (8,000) | Closing stock | 30,000 |
+| | 1,80,000 | Debtors | 35,000 |
+| Creditors | 25,000 | Cash and bank | 30,000 |
+| Outstanding salaries | 2,000 | | |
+| **Total** | **2,07,000** | **Total** | **2,07,000** |
+
+**Working.** Cost of goods sold $=20{,}000+1{,}16{,}000+3{,}000+12{,}000-30{,}000=1{,}21{,}000$, so gross profit $=2{,}00{,}000-1{,}21{,}000=79{,}000$ ✓. Indirect expenses $=6{,}000+26{,}000+5{,}000+4{,}000=41{,}000$, so net profit $=79{,}000-41{,}000=38{,}000$ ✓. The outstanding salary of Rs 2,000 appears twice: as an expense in the profit and loss account and as a liability in the balance sheet.
+
+**Conclusion.** Gross profit is Rs 79,000 and net profit Rs 38,000; the balance sheet agrees at Rs 2,07,000.
