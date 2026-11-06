@@ -36,7 +36,7 @@
         <div class="bhero-meta"><strong>{{ a.author_name|mention_links_plain }}{% if a.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}</strong><span>{{ a.published_at|time_ago }}</span><span>{{ a.view_count|short_number }} views</span></div>
       </div>
       <div class="bhero-art">
-        {% if a.cover_image_url %}<img src="{{ a.cover_image_url }}" alt="">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>{% endif %}
+        {% if a.cover_image_url %}<img loading="lazy" decoding="async" src="{{ a.cover_image_url }}" alt="">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>{% endif %}
       </div>
     </a>
     {% endif %}

@@ -49,6 +49,6 @@ class FocusAndInsetTests(TestCase):
 
 class MentionPopupTests(TestCase):
     def test_pick_does_not_close_dialog(self):
-        home = open(os.path.join(os.path.dirname(__file__), 'templates', 'web', 'home.html'), encoding='utf-8').read()
+        home = open(os.path.join(os.path.dirname(__file__), 'static', 'web', 'js', 'pages', 'home.js'), encoding='utf-8').read()
         self.assertIn('pressedOnBackdrop', home)
         self.assertIn('swallow', _read('js', 'composer-editor.js'))

@@ -31,7 +31,7 @@
   <div class="mkt-course-hero">
     <div class="mkt-course-hero-art">
       <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ course.tags|first|default:'Study' }}" data-neb-seed="{{ course.id }}|course"></div>
-      {% if course.cover_url %}<img src="{{ course.cover_url }}" alt="">{% endif %}
+      {% if course.cover_url %}<img loading="lazy" decoding="async" src="{{ course.cover_url }}" alt="">{% endif %}
     </div>
     <div class="mkt-course-hero-copy">
       <span class="mkt-hero-kind">{{ course.is_free|yesno:"Free offering,Paid offering" }}</span>
@@ -155,7 +155,7 @@
 
           {% if company_qr_url %}
             <div class="mkt-qr">
-              <img src="{{ company_qr_url }}" alt="NEBians payment QR">
+              <img loading="lazy" decoding="async" src="{{ company_qr_url }}" alt="NEBians payment QR">
               <span>{{ company_qr_caption|default:"NEBians — Company QR" }}</span>
             </div>
           {% else %}

@@ -127,7 +127,7 @@
           <div class="mkt-image-fields">
             <div class="mkt-image-field">
               <span class="mkt-image-preview mkt-image-preview-round" data-mkt-preview-for="avatar_url">
-                {% if creator.avatar_url %}<img src="{{ creator.avatar_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">account_circle</span>{% endif %}
+                {% if creator.avatar_url %}<img loading="lazy" decoding="async" src="{{ creator.avatar_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">account_circle</span>{% endif %}
               </span>
               <div class="mkt-image-field-body">
                 <label class="md-label" for="mkt-avatar">Profile picture</label>
@@ -138,7 +138,7 @@
             </div>
             <div class="mkt-image-field">
               <span class="mkt-image-preview mkt-image-preview-wide" data-mkt-preview-for="cover_url">
-                {% if creator.cover_url %}<img src="{{ creator.cover_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">image</span>{% endif %}
+                {% if creator.cover_url %}<img loading="lazy" decoding="async" src="{{ creator.cover_url }}" alt="">{% else %}<span class="material-symbols-outlined" aria-hidden="true">image</span>{% endif %}
               </span>
               <div class="mkt-image-field-body">
                 <label class="md-label" for="mkt-cover">Cover picture</label>

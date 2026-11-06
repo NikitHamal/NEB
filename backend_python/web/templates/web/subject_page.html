@@ -467,7 +467,7 @@
                   {% if p.authorName == 'neby' or p.authorIsBot %}
                     <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
                   {% elif p.authorPhotoUrl %}
-                    <img src="{{ p.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
+                    <img loading="lazy" decoding="async" src="{{ p.authorPhotoUrl }}" alt="" data-fallback="inline-flex">
                     <span class="contributor-avatar-letter" style="display:none;">{{ p.authorName|truncate_chars:1|default:"?" }}</span>
                   {% else %}
                     <span class="contributor-avatar-letter">{{ p.authorName|truncate_chars:1|default:"?" }}</span>

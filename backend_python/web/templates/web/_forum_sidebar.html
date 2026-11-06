@@ -50,7 +50,7 @@
       <a href="{% url 'web:profile' username=contributor.username %}" class="forum-contributor-row">
         <div class="forum-contributor-avatar {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
           {% if contributor.photo_url %}
-          <img src="{{ contributor.photo_url }}" alt="" data-fallback="inline-flex">
+          <img loading="lazy" decoding="async" src="{{ contributor.photo_url }}" alt="" data-fallback="inline-flex">
           <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
           {% else %}
           <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
