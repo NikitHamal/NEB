@@ -906,3 +906,81 @@ $4R\sin\frac{A}{2}\sin\frac{B}{2}\sin\frac{C}{2} = 32.5 \times 0.1231 = 4.00 = r
 and $4R\sin\frac{A}{2}\cos\frac{B}{2}\cos\frac{C}{2} = 32.5 \times 0.3231
 = 10.5 = r_1$ ✓.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove the sine rule and the cosine rule, and deduce the projection formulae. <span class="marks">[10]</span>
+2. Derive the formulae for the area of a triangle (including Heron's formula), the circumradius $R$ and the inradius $r$, and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: sine rule, cosine rule and projection formulae (10 marks)
+
+**Introduction.** In a triangle $ABC$, the sides opposite to the angles $A$, $B$, $C$ are $a$, $b$, $c$. The sine and cosine rules connect sides and angles of any triangle, not only right-angled ones.
+
+**Sine rule.** $\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R$, where $R$ is the circumradius.
+
+*Proof.* Draw the circumcircle with centre $O$. Draw the diameter $BD$ through $B$, so that $BD=2R$ and $\angle BCD=90^{\circ}$ (angle in a semicircle). The angles $D$ and $A$ stand on the same arc $BC$, so $\angle D=\angle A$. In the right triangle $BCD$, $\sin D=\dfrac{BC}{BD}$, so $\sin A=\dfrac{a}{2R}$ and $\dfrac{a}{\sin A}=2R$. In the same way, $\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R$. (If $A$ is obtuse, $\angle D=180^{\circ}-A$ and $\sin D=\sin A$, so the result is unchanged.)
+
+**Cosine rule.** $a^{2}=b^{2}+c^{2}-2bc\cos A$ (and similarly for $b$ and $c$), or $\cos A=\dfrac{b^{2}+c^{2}-a^{2}}{2bc}$.
+
+*Proof.* Place $A$ at the origin with $AB$ along the $x$-axis: $B=(c,0)$, $C=(b\cos A,\ b\sin A)$. By the distance formula,
+
+$$ a^{2}=BC^{2}=(b\cos A-c)^{2}+(b\sin A)^{2}=b^{2}(\cos^{2}A+\sin^{2}A)-2bc\cos A+c^{2}=b^{2}+c^{2}-2bc\cos A $$
+
+When $A=90^{\circ}$ it becomes Pythagoras' theorem.
+
+**Projection formulae.** $a=b\cos C+c\cos B$, $b=c\cos A+a\cos C$, $c=a\cos B+b\cos A$.
+
+*Proof.* Drop the perpendicular from $A$ to $BC$ with foot $D$. Then $BC=BD+DC=c\cos B+b\cos C$. The others follow cyclically. (They also come from adding the cosine-rule equations suitably.)
+
+| Rule | Formula | Used when given |
+|---|---|---|
+| Sine rule | $\dfrac a{\sin A}=\dfrac b{\sin B}$ | Two angles and a side, or two sides and an opposite angle |
+| Cosine rule | $a^{2}=b^{2}+c^{2}-2bc\cos A$ | Three sides, or two sides and the included angle |
+| Projection | $a=b\cos C+c\cos B$ | Proving identities |
+
+**Worked examples.**
+
+1. Given $b=7$, $c=8$ and $A=60^{\circ}$: $a^{2}=49+64-2(7)(8)\cos60^{\circ}=113-56=57$, so $a=7.55$. Then $\sin B=\dfrac{7\sin60^{\circ}}{7.55}$, giving $B=53.4^{\circ}$.
+2. For $a=7$, $b=8$, $c=9$: $\cos A=\dfrac{64+81-49}{2(8)(9)}=\dfrac{96}{144}=\dfrac23$, so $A=48.2^{\circ}$.
+3. **Identity.** Using the sine rule, $a\sin(B-C)+b\sin(C-A)+c\sin(A-B)=0$, since each term is $2R\sin A\sin(B-C)$ etc., and these cancel in pairs.
+
+**Conclusion.** The sine rule links sides to opposite angles through $2R$, and the cosine rule generalises Pythagoras' theorem.
+
+### Model answer D2: area, circumradius and inradius (10 marks)
+
+**Introduction.** Surveyors in Nepal find the area of a plot from its measured sides and angles; these formulae are used for that.
+
+**Area $\Delta$ of a triangle.**
+
+1. $\Delta=\tfrac12\,ab\sin C=\tfrac12\,bc\sin A=\tfrac12\,ca\sin B$ (from the height $h=b\sin C$).
+2. **Heron's formula:** with the semi-perimeter $s=\dfrac{a+b+c}2$,
+
+$$ \Delta=\sqrt{s(s-a)(s-b)(s-c)} $$
+
+*Derivation.* $\Delta=\tfrac12bc\sin A$ and $\sin A=2\sin\dfrac A2\cos\dfrac A2$. With the half-angle formulae $\sin\dfrac A2=\sqrt{\dfrac{(s-b)(s-c)}{bc}}$ and $\cos\dfrac A2=\sqrt{\dfrac{s(s-a)}{bc}}$, we get $\Delta=bc\sqrt{\dfrac{s(s-a)(s-b)(s-c)}{b^{2}c^{2}}}$, which gives Heron's formula.
+
+**Circumradius.** From the sine rule $a=2R\sin A$, so
+
+$$ R=\frac{a}{2\sin A}=\frac{abc}{4\Delta} $$
+
+**Inradius.** The incircle (centre $I$, radius $r$) touches the three sides. Joining $I$ to the vertices splits the triangle into three triangles of heights $r$:
+
+$$ \Delta=\tfrac12ar+\tfrac12br+\tfrac12cr=rs\quad\Rightarrow\quad r=\frac{\Delta}{s} $$
+
+Also, $r=(s-a)\tan\dfrac A2$, and the **half-angle formulae** are $\tan\dfrac A2=\dfrac{r}{s-a}=\sqrt{\dfrac{(s-b)(s-c)}{s(s-a)}}$.
+
+| Quantity | Formula |
+|---|---|
+| Area | $\tfrac12ab\sin C=\sqrt{s(s-a)(s-b)(s-c)}$ |
+| Circumradius | $R=\dfrac{abc}{4\Delta}$ |
+| Inradius | $r=\dfrac{\Delta}{s}$ |
+| Half-angle | $\sin\dfrac A2=\sqrt{\dfrac{(s-b)(s-c)}{bc}}$ |
+
+**Numerical.** For a plot with sides $7\ \text{m}$, $8\ \text{m}$ and $9\ \text{m}$:
+
+- $s=12$, so $\Delta=\sqrt{12\times5\times4\times3}=\sqrt{720}=26.83\ \text{m}^{2}$.
+- $R=\dfrac{7\times8\times9}{4\times26.83}=\dfrac{504}{107.3}=4.70\ \text{m}$.
+- $r=\dfrac{26.83}{12}=2.24\ \text{m}$.
+- Check by the half-angle: $\tan\dfrac A2=\dfrac r{s-a}=\dfrac{2.236}{5}=0.447$, so $A=2\times24.1^{\circ}=48.2^{\circ}$, in agreement with the cosine rule.
+
+**Conclusion.** The area is $\tfrac12ab\sin C$ or Heron's formula; $R=abc/4\Delta$ and $r=\Delta/s$ connect the circles of a triangle with its sides.

@@ -918,3 +918,82 @@ triples which form no triangle:
 
 $$ 120 - 4 = 116 \text{ triangles} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the fundamental principle of counting. Derive the formulae for permutations of $n$ different objects, of objects not all different and for circular permutations, with worked examples. <span class="marks">[10]</span>
+2. Derive $^{n}C_r=\dfrac{n!}{r!(n-r)!}$, prove its main properties and solve selection problems with conditions. <span class="marks">[10]</span>
+
+### Model answer D1: counting principle and permutations (10 marks)
+
+**Introduction.** A **permutation** is an arrangement of objects in a definite order, where the order matters. The number of ways in which the officers of a club can be chosen, or the digits of a mobile PIN arranged, is found by permutations.
+
+**Fundamental principle of counting.**
+
+1. **Multiplication rule:** if one task can be done in $m$ ways and, after it, another task in $n$ ways, the two together can be done in $m\times n$ ways.
+2. **Addition rule:** if the tasks cannot happen together, with $m$ ways for one and $n$ for the other, then either can be done in $m+n$ ways.
+
+**Factorial.** $n!=n(n-1)(n-2)\cdots3\cdot2\cdot1$, with $0!=1$.
+
+**Permutation of $n$ different objects taken $r$ at a time.** There are $r$ places. The first place can be filled in $n$ ways, the second in $(n-1)$ ways, ... and the $r$th in $n-r+1$ ways. By the multiplication rule
+
+$$ {}^{n}P_r=n(n-1)\cdots(n-r+1)=\frac{n!}{(n-r)!},\qquad {}^{n}P_n=n! $$
+
+**Permutations of objects not all alike.** If of $n$ objects, $p$ are of one kind, $q$ of another and $r$ of a third, the number of arrangements is
+
+$$ \frac{n!}{p!\,q!\,r!} $$
+
+because each arrangement is counted $p!\,q!\,r!$ times when the like objects are treated as different.
+
+**Circular permutations.** If $n$ different objects are arranged round a circle, one fixes a position as the reference, so the number is $(n-1)!$. For a necklace or a garland, which can be turned over, the number is $\dfrac{(n-1)!}{2}$.
+
+**Repeated use.** If each of $r$ places can be filled in $n$ ways with repetition allowed, the number is $n^{r}$.
+
+| Case | Number of arrangements |
+|---|---|
+| $r$ of $n$ different objects | $\dfrac{n!}{(n-r)!}$ |
+| All $n$, with repeats $p,q,r$ | $\dfrac{n!}{p!q!r!}$ |
+| Round a table | $(n-1)!$ |
+| With repetition | $n^{r}$ |
+
+**Worked examples.**
+
+1. Letters of **COMMITTEE** ($9$ letters, with M, T, E twice each): $\dfrac{9!}{2!\,2!\,2!}=\dfrac{362880}{8}=45360$.
+2. Four-digit numbers from the digits $1$–$5$: without repetition $^{5}P_4=120$, with repetition $5^{4}=625$. Even numbers without repetition: the last digit is $2$ or $4$ (2 ways), and the other three places in $^{4}P_3=24$ ways, so $2\times24=48$.
+3. Letters of **ARRANGE** ($7$ letters, A twice and R twice): $\dfrac{7!}{2!2!}=1260$. With the vowels A, A, E together: treat them as a block; the objects R, R, N, G and the block give $\dfrac{5!}{2!}=60$ arrangements, and the block can be arranged in $\dfrac{3!}{2!}=3$ ways, so $60\times3=180$.
+4. Six guests round a dinner table: $(6-1)!=120$ ways.
+
+**Conclusion.** The multiplication principle leads to $^{n}P_r=n!/(n-r)!$, and the formulae are adjusted when objects repeat or are arranged round a circle.
+
+### Model answer D2: combinations, properties and selection problems (10 marks)
+
+**Introduction.** A **combination** is a selection of objects in which the order does **not** matter. Choosing a committee of $5$ from a class is a combination, but choosing a president and a secretary is a permutation.
+
+**Derivation.** Each selection of $r$ objects out of $n$ can be arranged in $r!$ ways. So the number of permutations is $r!$ times the number of combinations:
+
+$$ {}^{n}P_r=r!\;{}^{n}C_r\quad\Rightarrow\quad {}^{n}C_r=\frac{n!}{r!\,(n-r)!} $$
+
+**Properties.**
+
+1. $^{n}C_r={}^{n}C_{n-r}$ (choosing $r$ to take is the same as choosing $n-r$ to leave). Hence if $^{n}C_a={}^{n}C_b$, then $a=b$ or $a+b=n$.
+2. $^{n}C_r+{}^{n}C_{r-1}={}^{n+1}C_r$ (Pascal's rule).
+
+*Proof of 2.* $\dfrac{n!}{r!(n-r)!}+\dfrac{n!}{(r-1)!(n-r+1)!}=\dfrac{n!}{r!(n-r+1)!}\big[(n-r+1)+r\big]=\dfrac{(n+1)!}{r!(n+1-r)!}$.
+
+3. $^{n}C_r=\dfrac nr\,{}^{n-1}C_{r-1}$.
+4. $^{n}C_0=^{n}C_n=1$ and $^{n}C_1=n$; the sum of all, $\sum{}^{n}C_r=2^{n}$.
+
+**Selection with conditions.**
+
+- *At least / at most* problems are solved by subtracting the unwanted cases from the total.
+- *Geometry:* the number of lines through $n$ points, no three collinear, is $^{n}C_2$; the number of diagonals of an $n$-sided polygon is $^{n}C_2-n=\dfrac{n(n-3)}{2}$.
+
+**Worked examples.**
+
+1. **Committee.** A committee of $5$ is chosen from $6$ men and $4$ women with **at least 2 women**. Total $^{10}C_5=252$. Exclude no woman ($^{6}C_5=6$) and one woman ($^{4}C_1\times{}^{6}C_4=4\times15=60$): $252-6-60=186$.
+2. **Handshakes.** Among $12$ people each pair shakes hands once: $^{12}C_2=66$.
+3. **Lines and triangles.** From $8$ points of which $3$ are collinear: lines $=\,^{8}C_2-{}^{3}C_2+1=28-3+1=26$, triangles $=\,^{8}C_3-{}^{3}C_3=56-1=55$.
+4. **Hexagon diagonals:** $\dfrac{6\times3}{2}=9$.
+5. **Equation.** If $^{n}C_9={}^{n}C_7$, then $n=9+7=16$.
+
+**Conclusion.** Dividing permutations by $r!$ gives combinations; their properties and the complement method solve most selection problems.

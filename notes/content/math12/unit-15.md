@@ -1190,3 +1190,94 @@ $x = 3$, $y = 4$. The corners are $(0,0)$, $(5,0)$, $(3,4)$, $(0,5)$:
 
 The maximum is $24$ at $(3,4)$, agreeing with the simplex result.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the Gauss elimination and Gauss-Seidel methods for a system of linear equations, with a worked example of the iterative method. <span class="marks">[10]</span>
+2. Explain linear programming, formulate a problem, and solve it by the graphical (corner point) method and the simplex method. <span class="marks">[10]</span>
+
+### Model answer D1: Gauss elimination and Gauss-Seidel methods (10 marks)
+
+**Introduction.** Large systems of linear equations arise in engineering, in the network flow of electricity and in economics. Computers solve them with the direct method of Gauss elimination or an iterative method such as Gauss-Seidel.
+
+**Gauss elimination (direct method).**
+
+1. Write the augmented matrix $[A|B]$.
+2. Use row operations to make all entries below the diagonal zero (**forward elimination**), always choosing the largest available pivot to reduce rounding error (**partial pivoting**).
+3. Solve for the unknowns from the last equation upwards (**back substitution**).
+4. The method gives the exact answer, apart from rounding, in a fixed number of steps, about $\tfrac23n^{3}$ operations for $n$ equations.
+
+**Gauss-Seidel (iterative method).** Solve each equation for its diagonal variable and use the **latest available values** at each step.
+
+For $a_{11}x+a_{12}y+a_{13}z=b_1$, etc., starting from a guess:
+
+$$ x^{(k+1)}=\frac{b_1-a_{12}y^{(k)}-a_{13}z^{(k)}}{a_{11}},\ \ y^{(k+1)}=\frac{b_2-a_{21}x^{(k+1)}-a_{23}z^{(k)}}{a_{22}},\ \ z^{(k+1)}=\frac{b_3-a_{31}x^{(k+1)}-a_{32}y^{(k+1)}}{a_{33}} $$
+
+**Condition for convergence.** The method converges if the matrix is **diagonally dominant**: $|a_{ii}|>\sum_{j\neq i}|a_{ij}|$ in every row. The equations may need rearranging to meet it.
+
+**Worked example.** Solve $10x+y+z=12$, $x+10y+z=12$, $x+y+10z=12$ from $(0,0,0)$. Diagonal dominance holds ($10>1+1$).
+
+| Iteration | $x$ | $y$ | $z$ |
+|---|---|---|---|
+| 0 | 0 | 0 | 0 |
+| 1 | 1.2000 | 1.0800 | 0.9720 |
+| 2 | 0.9948 | 1.0033 | 1.0002 |
+| 3 | 0.9997 | 1.0000 | 1.0000 |
+| 4 | 1.0000 | 1.0000 | 1.0000 |
+
+Step 1: $x=\dfrac{12-0-0}{10}=1.2$, then $y=\dfrac{12-1.2-0}{10}=1.08$, then $z=\dfrac{12-1.2-1.08}{10}=0.972$. The exact solution is $x=y=z=1$.
+
+| Feature | Gauss elimination | Gauss-Seidel |
+|---|---|---|
+| Type | Direct | Iterative |
+| Result | Exact (apart from rounding) | Approximate, within a tolerance |
+| Best for | Small or dense systems | Large, sparse, diagonally dominant systems |
+| Condition | Non-zero pivots | Diagonal dominance |
+
+**Accuracy of a computed answer.** The error of an iterative answer is estimated by the **change between successive iterations**; stop when it is below a tolerance, say $10^{-4}$. Rounding error accumulates in direct methods, and ill-conditioned systems magnify small errors.
+
+**Conclusion.** Gauss elimination solves a system in a fixed number of steps, whereas Gauss-Seidel improves a guess repeatedly and converges for diagonally dominant systems.
+
+### Model answer D2: linear programming (10 marks)
+
+**Introduction.** **Linear programming** finds the best value (maximum profit or minimum cost) of a linear **objective function** subject to linear **constraints** (inequalities). A factory in Hetauda planning its products with limited machine hours is a typical application.
+
+**Formulation.**
+
+1. Define the **decision variables** $x$ and $y$ (quantities of the two products), with $x,y\geq0$.
+2. Write the **objective function** to be maximised or minimised, $Z=ax+by$.
+3. Write each limited resource as a **constraint**.
+
+*Example.* A bakery makes cakes ($x$) and pastries ($y$) with profits Rs 300 and Rs 200 per unit (use hundreds of rupees, $Z=3x+2y$). Oven time gives $x+y\leq4$ and mixer time gives $x+3y\leq6$.
+
+**Graphical (corner point) method.**
+
+1. Draw the constraint lines and shade the **feasible region**, which is a convex polygon.
+2. Find its **corner points**: the optimum value of $Z$ always occurs at a corner.
+3. Evaluate $Z$ at each corner and choose the best.
+
+For the example the corner points are $(0,0)$, $(4,0)$, $(0,2)$ and the intersection of $x+y=4$ and $x+3y=6$, which is $(3,1)$.
+
+| Corner | $Z=3x+2y$ |
+|---|---|
+| $(0,0)$ | $0$ |
+| $(4,0)$ | $12$ |
+| $(3,1)$ | $11$ |
+| $(0,2)$ | $4$ |
+
+The **maximum is $Z=12$ at $(4,0)$**: make $4$ cakes and no pastries, a profit of Rs 1,200.
+
+**Simplex method.**
+
+1. Add **slack variables** $s_1,s_2\geq0$ to convert the inequalities to equations: $x+y+s_1=4$, $x+3y+s_2=6$, and write $Z-3x-2y=0$.
+2. In the tableau, the **entering variable** is the one with the most negative entry in the $Z$ row ($x$, with $-3$).
+3. The **leaving variable** comes from the minimum ratio test: $\dfrac41=4$ and $\dfrac61=6$, so the first row is the pivot.
+4. After the pivot, $x=4$, $s_2=2$ and the $Z$ row becomes $Z+y+3s_1=12$; there is no negative entry, so the solution is **optimal**: $Z=12$, $x=4$, $y=0$.
+
+| Feature | Graphical | Simplex |
+|---|---|---|
+| Variables | Two | Any number |
+| Idea | Compare corners | Move from corner to corner, improving $Z$ |
+| Stop when | All corners checked | No negative entry in the $Z$ row |
+
+**Conclusion.** Linear programming optimises a linear objective under linear constraints, and the optimum lies at a corner of the feasible region, found graphically or by the simplex method.
