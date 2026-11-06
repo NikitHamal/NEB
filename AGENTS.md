@@ -2392,3 +2392,5 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Gotchas:** the File tool only sees `/app`: copy PNG sheets to `/app/sheets/` and delete the folder before validating /app.
 
 - **Session 89 addendum (IOE):** `ioe-phy` (61 pp), `ioe-chem` (38 pp) and `ioe-math` (7 units) gained `Group D` 10-mark answers (numericals recomputed); `ioe-phy`/`ioe-chem` also got photo strips; `ioe-phy` and `ioe-chem` PDFs were built for the first time. Each qa fails=0. **Next:** `ioe-eng`, `ioe-mock`, `cee-mat`, `cee-mock` (MCQ-only), language books, the fresh-clone qa sweep, then merge to main + syllabus update (NOT done). `ALLOW_DOLLAR=1` lets the Group D helper accept math. See `bca/POLISH_STATUS.md`.
+
+- **Session 89 addendum 2:** `ioe-eng` (48 pp) gained Group D + strips; `ioe-math` unit 6 `\mathbf` bracing fix. Check the build log for `fell back` before every push. **Next:** `cee-mat`, mocks, eng*/nep* books, fresh-clone qa sweep, then merge to main + syllabus update (all NOT done).

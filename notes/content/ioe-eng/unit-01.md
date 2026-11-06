@@ -283,3 +283,115 @@ f.text(150, 214, "5 words changed; six test sentences all match", size=10.5, col
 **5.** (d) — *mathematics* is singular despite its *-s*.
 **6.** (b) — *will* → *would*.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the rules for the sequence of tenses and for subject–verb agreement (concord), with examples. <span class="marks">[10]</span>
+2. State the rules for changing direct speech into indirect speech for statements, questions, commands and exclamations, with examples. <span class="marks">[10]</span>
+3. Explain the kinds of sentences and show how sentences are transformed without changing the meaning. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.25" caption="Grammar in real life. (a) A clock face places an action in time, which is the job of tense. (b) A man reading a newspaper meets reported speech in every news story. (c) A press conference: reporters turn the speaker's exact words into indirect speech."
+@ photo id="ioeeng/clock" cap="(a) Clock face"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/newspaper" cap="(b) Newspaper"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/press" cap="(c) Press conference"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Sequence of tenses and concord (10 marks)
+
+**Introduction.** The **sequence of tenses** is the rule that the tense of the verb in a subordinate clause agrees with the tense of the verb in the main clause. **Concord** is the agreement of a verb with its subject in number and person.
+
+**Rules of the sequence of tenses.**
+
+1. **Past main verb gives a past subordinate verb.** *He said that he was ill.* *She knew that I had finished the work.*
+2. **Present or future main verb allows any tense.** *He says that he was ill.* *I shall tell him that you have come.*
+3. **A universal truth stays in the present tense.** *The teacher told us that the earth moves round the sun.*
+4. **Clauses of comparison (than, as) take any tense that fits the sense.** *She loved him more than she loves me.*
+5. **Clauses of purpose** after a past verb use *would, could* or *might*. *He worked hard so that he might pass.*
+6. **Past perfect shows the earlier action** when two past actions are told. *The train had left before we reached the station.*
+
+**Rules of concord.**
+
+| Rule | Correct sentence | Common error |
+|---|---|---|
+| Each, every, either, neither, one are singular | *Each of the boys has a book.* | *Each of the boys have…* |
+| Collective noun as a unit is singular | *The committee has decided.* | *The committee have decided* (when acting as one) |
+| *A number of* is plural, *the number of* is singular | *A number of students are absent. The number of students is small.* | *The number of students are…* |
+| Either…or / neither…nor: verb agrees with the nearer subject | *Neither the teacher nor the students were present.* | *…was present* |
+| Words joined by *with, along with, as well as* do not change the verb | *The principal, along with the teachers, is coming.* | *…are coming* |
+| Nouns plural in form but singular in sense | *Mathematics is my favourite subject. The news is good.* | *Mathematics are…* |
+| A sum of money, distance or time is one amount | *Ten kilometres is a long walk.* | *Ten kilometres are…* |
+| *One of the* + plural noun takes a singular verb | *One of my friends is a pilot.* | *One of my friends are…* |
+
+**Additional points.** Two singular subjects joined by *and* take a plural verb (*Ram and Sita are here*), unless they name one person (*The poet and singer is dead*). In a relative clause, *who* agrees with its antecedent (*He is one of those students who work hard*).
+
+**Conclusion.** A correct sentence keeps the tense of the clauses in step and makes each verb agree with its true subject, so these rules are tested in every entrance paper.
+
+### Model answer D2: Direct and indirect speech (10 marks)
+
+**Introduction.** **Direct speech** quotes the exact words of a speaker; **indirect (reported) speech** gives their meaning in the reporter's words, without quotation marks.
+
+**General rules (reporting verb in the past).**
+
+1. **Inverted commas** are removed and *that* is added for statements.
+2. **Pronouns** change to fit the reporter: *He said, "I am tired"* becomes *He said that he was tired.*
+3. **Tenses move one step back** (see the table).
+4. **Words of time and place change.**
+
+| Direct | Indirect |
+|---|---|
+| am, is, are | was, were |
+| simple present (works) | simple past (worked) |
+| present perfect (has worked) | past perfect (had worked) |
+| simple past (worked) | past perfect (had worked) |
+| will, can, may | would, could, might |
+| now, today, tomorrow | then, that day, the next day |
+| yesterday, ago | the day before, before |
+| here, this, these | there, that, those |
+
+**Questions.** The reporting verb becomes *asked* and the word order becomes that of a statement, with no question mark. *He said to me, "Where do you live?"* becomes *He asked me where I lived.* A yes/no question uses *if* or *whether*: *She said, "Is it raining?"* becomes *She asked whether it was raining.*
+
+**Commands and requests.** Use *told, ordered, asked, advised* with *to + infinitive*; the negative uses *not to*. *The teacher said, "Open your books."* becomes *The teacher told us to open our books.* *He said, "Don't make a noise."* becomes *He told them not to make a noise.*
+
+**Exclamations and wishes.** Use *exclaimed with joy/sorrow that* or *wished*. *She said, "Hurrah! We have won!"* becomes *She exclaimed with joy that they had won.* *He said, "May you live long!"* becomes *He prayed that I might live long.*
+
+**Worked examples.**
+
+1. *Hari said, "I shall go to Pokhara tomorrow."* → Hari said that he would go to Pokhara the next day.
+2. *"I have lost my pen," said Mina.* → Mina said that she had lost her pen.
+3. *She said to him, "Why are you late?"* → She asked him why he was late.
+4. *The captain said, "Let us win this match."* → The captain proposed that they should win that match.
+
+**Exception.** If the reporting verb is in the present or future, or the statement is a universal truth, the tense does not change: *He says, "I am busy"* → *He says that he is busy.*
+
+**Conclusion.** Changing speech needs four steps: choose the reporting verb, change the pronouns, step the tense back and change the time and place words.
+
+### Model answer D3: Kinds of sentences and transformation (10 marks)
+
+**Introduction.** Sentences are classified by **purpose** (assertive, interrogative, imperative, exclamatory, optative) and by **structure** (simple, compound, complex). **Transformation** changes the form of a sentence without changing its meaning.
+
+**By structure.**
+
+| Kind | Meaning | Example |
+|---|---|---|
+| Simple | One finite verb, one clause | *He opened the door and left.* (two actions, one subject) |
+| Compound | Two or more main clauses joined by *and, but, or, so* | *He was tired, but he kept walking.* |
+| Complex | One main clause plus one or more subordinate clauses | *Although he was tired, he kept walking.* |
+
+**Types of transformation with examples.**
+
+1. **Affirmative ↔ negative.** *He is the tallest boy.* ↔ *No other boy is as tall as he.* *She is always late.* ↔ *She is never on time.*
+2. **Assertive ↔ interrogative.** *Nobody can deny this fact.* ↔ *Who can deny this fact?*
+3. **Assertive ↔ exclamatory.** *It is a very beautiful flower.* ↔ *What a beautiful flower it is!*
+4. **Degrees of comparison.** *Gold is more precious than any other metal.* ↔ *Gold is the most precious metal.* ↔ *No other metal is as precious as gold.*
+5. **Simple ↔ compound.** *Besides being clever, he is hard-working.* ↔ *He is not only clever but also hard-working.*
+6. **Simple ↔ complex.** *On seeing the tiger, the boy ran away.* ↔ *As soon as the boy saw the tiger, he ran away.*
+7. **Compound ↔ complex.** *Work hard, or you will fail.* ↔ *Unless you work hard, you will fail.*
+8. **Use of *too…to*.** *He is too weak to walk.* ↔ *He is so weak that he cannot walk.*
+
+**Conclusion.** Transformation does not change meaning, so the best method is to find the central idea first and then rebuild the sentence in the new form.
