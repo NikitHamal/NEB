@@ -47,6 +47,13 @@ chk("nc", (4 + 3 + 6, round((180 + 2 * 100) / 3, 1), round(0.9 * 64, 1), round(0
     (13, 126.7, 57.6, 5.8, 51.8, 32.0, 160.0, 12.0, 9.5))
 T.update(u3_gcs=9, u3_map="83.3", u3_cpp="53.3", u3_alt=63, u3_bolus="6.3", u3_inf="56.7", u3_man=35, u3_manml=175, u3_gtt=88, u3_phe="1,400", u3_phemin=28, u3_dzp=2, u3_cha=4,
          u3_m1=12, u3_m2=70, u3_m3=72, u3_m4=150, c3_gcs=13, c3_map="126.7", c3_alt="57.6", c3_bolus="5.8", c3_inf="51.8", c3_man=32, c3_manml=160, c3_end="12:00", c3_needle="09:00")
+# ---- Unit 4: musculoskeletal and orthopaedic nursing
+chk("o", (round((0.62 - 1.0) / 0.12, 1), round(0.1 * 60, 1), 170 - 40, 75 / 25, 15 * 60, 70 - 45, 70 * 60, round(1500 / 4200 * 100, 1), round(70 * 60 * 0.15)),
+    (-3.2, 6.0, 130, 3.0, 900, 25, 4200, 35.7, 630))
+chk("om", (round((0.75 - 1.0) / 0.10, 1), 158 - 40, 15 * 50, round(0.1 * 70, 1)), (-2.5, 118, 750, 7.0))
+chk("oc", (70 * 62, round(1500 / (70 * 62) * 100, 1), round(0.1 * 62, 1), 15 * 62, 172 - 40, 80 - 50), (4340, 34.6, 6.2, 930, 132, 30))
+T.update(u4_t="-3.2", u4_trac=6, u4_crutch=130, u4_diclo=3, u4_para=900, u4_dp=25, u4_ebv="4,200", u4_loss="35.7", u4_m1="-2.5", u4_m2=118, u4_m3=750, u4_m4=7,
+         c4_ebv="4,340", c4_loss="34.6", c4_trac="6.2", c4_para=930, c4_crutch=132, c4_dp=30)
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):
