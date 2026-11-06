@@ -335,3 +335,34 @@ he is generous, **despite** his own losses.*
 **25.** **Hardly had I reached the counter when the last ticket was sold.** — inversion, past perfect, then *when*.
 **26.** **It was such an interesting film that we watched it twice.** — *such* + *a/an* + adjective + noun + *that*.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended grammar answers (10 marks each, for deeper revision)**
+
+1. Explain the four types of connectives and the common errors in using them. <span class="marks">[10]</span>
+
+### Model answer D1: connectives and discourse markers (10 marks)
+
+**Introduction.** Connectives join ideas. They fall into **four grammatical types**, and each has its own requirement.
+
+1. **Subordinator + clause:** *because, although, while, if, since*. *Although it rained, we played.*
+2. **Coordinator + clause, with a comma before:** the FANBOYS: *for, and, nor, but, or, yet, so*. *He was tired, but he worked.*
+3. **Discourse marker + new sentence or semicolon:** *however, therefore, moreover, nevertheless, consequently*. *It rained; however, we played.*
+4. **Preposition + noun or -ing:** *because of, in spite of, despite*. *Despite the rain, we played.*
+5. **Comma rule:** a fronted subordinate clause takes a comma; the same clause at the end does not.
+6. **Comma splice:** *however, therefore* and the like cannot join two clauses with a comma alone.
+7. **Never double a connective:** *although … but*, *because … so*, *though … yet* are wrong. Write *Although he was ill, he came.*
+8. **Pairs and patterns:** *No sooner … than* (with inversion), *hardly / scarcely … when*, *so … that*, *such a … that*, *too … to*, *lest … should*.
+
+**Negatives to avoid.** *Unless* already means *if not*; *lest* and *too … to* are already negative, so do not add another *not*. *Despite* takes no *of*; *in spite of* does. *Beside* means next to; *besides* means in addition to.
+
+| Type | Examples | Correct sentence |
+|---|---|---|
+| Subordinator | because, although | Because it rained, we stayed. |
+| Coordinator | but, so, yet | He was ill, so he rested. |
+| Discourse marker | however, therefore | He was ill; therefore, he rested. |
+| Preposition | despite, because of | Despite his illness, he came. |
+
+**Conclusion.** Choose the connective by its type, punctuate it correctly and never double it.

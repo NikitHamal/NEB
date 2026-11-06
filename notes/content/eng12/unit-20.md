@@ -650,3 +650,53 @@ proves the poet's claim: laughter can make people see a wrong more clearly than 
 
 **2.** Define satire; say it uses humour and exaggeration to expose faults; give examples (newspaper cartoons, comic plays, "The Bull"); explain how laughter can change attitudes more than lecture; end by noting that satire must be fair and aim at injustice, not individuals.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended drama answers (10 marks each, for deeper revision)**
+
+1. Narrate how Laxminarayan, Jitman and Gore save themselves after the death of the king's bull. <span class="marks">[10]</span>
+2. Discuss "The Bull" as a satire on feudalism and absolute power. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="2" ratio="1.4" caption="Playwright and palace. Bhimnidhi Tiwari (1911–1973), founder of the Nepal Natak Sangh, and the Nautalle Durbar of Basantapur, a palace of the kind where the play's king lived."
+@ photo id="eng12/tiwari" cap="Bhimnidhi Tiwari"
+@ photo id="eng12/nautalle-durbar" cap="Nautalle Durbar, Kathmandu"
+```
+
+### Model answer D1: how the three men save themselves (10 marks)
+
+**Introduction.** **Bhimnidhi Tiwari** (1911–1973), Nepali poet, dramatist and reformer, wrote the one-act satire "The Bull". It is set in Kathmandu in **Ashwin, BS 1854**, in the reign of **Ranabahadur Shah**, who was fond of bulls.
+
+1. **The bad news.** The cowherds **Jitman** and **Gore** tell the bull-doctor **Laxminarayan** that the king's bull, **Male**, has died, apparently from rich food.
+2. **Fear.** Each man knows the king may punish the bearer of bad news.
+3. **The plan.** Laxminarayan tells the king that the bull is ill and needs a change of climate.
+4. **The king's decision.** He will see the bull at **Thulo Gauchar**.
+5. **The staging.** Laxminarayan runs ahead and makes the cowherds massage and fan the dead bull.
+6. **The verdict.** The king declares the bull dead.
+7. **The performance.** The cowherds weep loudly and are given 400 and 500 rupees.
+8. **Relief.** All three are safe; the cunning has worked.
+
+**Conclusion.** The men survive not by truth but by quick lies and acting, because truth would be dangerous.
+
+### Model answer D2: satire on feudalism (10 marks)
+
+**Introduction.** "The Bull" criticises a society in which an animal is valued more than the people who care for it.
+
+1. **Absolute power.** The king's whim decides life and death.
+2. **Dehumanisation.** The cowherds are afraid for themselves while the bull is mourned.
+3. **Fear and chakari.** Flattery and fear rule the court.
+4. **Hypocrisy.** Everyone pretends to grieve or to hope.
+5. **Patriarchy and polygamy** appear in the king's household.
+6. **Survival by cunning.** The powerless must lie to live.
+7. **Techniques.** Satire, dramatic, situational and verbal irony, black comedy and farce, contrast, suspense and stage business.
+8. **Symbols.** The **bull** (the king's power and vanity) and the **hookah** (royal ease).
+
+| Theme | Example |
+|---|---|
+| Feudalism | King's whim rules |
+| Dehumanisation | Bull valued above men |
+| Hypocrisy | False weeping |
+| Cunning | The staged massage |
+
+**Conclusion.** The play makes the audience laugh at the absurd court and then think about how fear shapes public life.

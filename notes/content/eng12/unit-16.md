@@ -635,3 +635,54 @@ leave it to readers around the world to puncture the hot-air balloons inflated b
 tribes." Say who speaks, what comes before and after, what it means in plain words, and how it
 supports the thesis that you are not the centre of the world.
 :::
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended essay answers (10 marks each, for deeper revision)**
+
+1. Explain Harari's argument that "you are not the centre of the world", with the examples he gives. <span class="marks">[10]</span>
+2. Discuss the satire and the devices used in "Humility". <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="2" ratio="1.4" caption="Author and perspective. Yuval Noah Harari (born 1976) and the Pale Blue Dot photograph, in which the whole of humanity occupies less than one pixel."
+@ photo id="eng12/harari" cap="Yuval Noah Harari"
+@ photo id="eng12/pale-blue-dot" cap="The Pale Blue Dot"
+```
+
+### Model answer D1: "you are not the centre of the world" (10 marks)
+
+**Introduction.** **Yuval Noah Harari** (born 1976), historian at the Hebrew University of Jerusalem and author of *Sapiens*, *Homo Deus* and *21 Lessons for the 21st Century*, wrote "Humility" as an extract from chapter 12 of the last. His thesis is that most people believe their culture is the linchpin of history.
+
+1. **Greeks.** They credit Homer, Plato and Athens.
+2. **Chinese nationalists.** They trace history to the Yellow Emperor, Xia and Shang; others are "a pale copy".
+3. **Hindu nativists.** They cite Bhardwaj, Vishwamitra, Kanad and the Mahabharata.
+4. **Pious Muslims.** For them history before Muhammad is irrelevant and the ummah is central.
+5. **Others.** British, French, Germans and many more make the same claim; the **Aztecs** believed sacrifice kept the sun rising.
+6. **Verdict.** "All these claims are false": wilful ignorance of history and "more than a hint of racism".
+7. **Truth.** No present nation or religion existed when humans colonised the world, domesticated plants and animals, built cities, and invented writing and money.
+8. **Universal abilities.** Morality, art, spirituality and creativity are embedded in our DNA; they began in **Stone Age Africa**.
+
+**Conclusion.** Harari asks readers to give up tribal pride and see themselves as one human species.
+
+### Model answer D2: satire and devices (10 marks)
+
+**Introduction.** The essay criticises collective pride by using humour as a weapon.
+
+1. **Satire.** The claims of each tribe are made to look foolish.
+2. **Irony.** Harari praises each group's "contribution" and then shows that it is false.
+3. **Catalogue.** A long list of nations makes the pattern unmistakable.
+4. **Rhetorical questions** challenge the reader to think.
+5. **Hyperbole.** Claims that the cosmos exists so rabbis can study the Talmud.
+6. **Personal anecdote.** He admits his own people, the **Jews**, do the same: the "yoga" story with Abraham, Hebrew letters and Genesis 25:6.
+7. **Method.** "More polite to criticise one's own people"; he leaves readers to "puncture the hot-air balloons inflated by their own tribes".
+8. **Metaphor.** The "hot-air balloon" is empty pride.
+
+| Device | Example |
+|---|---|
+| Catalogue | Greeks, Chinese, Hindus, Muslims, Aztecs |
+| Irony | Praise followed by refutation |
+| Hyperbole | Cosmos exists for the Talmud |
+| Metaphor | Hot-air balloons |
+| Anecdote | The Jewish yoga story |
+
+**Conclusion.** Humility means accepting that our group is one small part of a long human story that began in Africa.

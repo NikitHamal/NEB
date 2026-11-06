@@ -792,3 +792,54 @@ meeting our neighbours, and a bearable answer to death. Where religion supplies
 those things kindly, as it does in Eli Jenkins's prayer, it remains one of the
 most valuable institutions we have. Where it supplies them cruelly, the
 invention has failed, and Voltaire would have been the first to say so.
+
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe how Dylan Thomas moves through a whole day in "Every Morning I Wake". <span class="marks">[10]</span>
+2. Discuss the form, the voice and the central themes of the poem. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="2" ratio="1.4" caption="Poet and place. Dylan Thomas (about 1938) and the boathouse at Laugharne in Wales, the real village that inspired the invented Llareggub of the play."
+@ photo id="eng12/dylan-thomas" cap="Dylan Thomas, about 1938"
+@ photo id="eng12/thomas-boathouse" cap="The Boathouse at Laugharne"
+```
+
+### Model answer D1: the day in the poem (10 marks)
+
+**Introduction.** "Every Morning I Wake" is the sunset poem of **Reverend Eli Jenkins** in Dylan Thomas's radio play *Under Milk Wood*, first read in New York in May 1953 and first broadcast by the BBC in January 1954, after Thomas's death at thirty-nine.
+
+1. **Setting:** the play covers one spring day in the invented Welsh village of **Llareggub**.
+2. **Stanza 1, the morning prayer:** the minister asks God to keep a **loving eye on "all poor creatures born to die"**.
+3. **Stanza 2, the evening blessing:** he blesses the town and admits frankly that survival is **"touch-and-go"**.
+4. **Stanza 3, the plea for fair judgement:** "We are not wholly bad or good / Who live our lives under Milk Wood".
+5. **Stanza 4, the request for "another day":** he asks to see one more day.
+6. **The close:** the whole community bows to the setting sun and says "**good-bye – but just for now!**"
+7. **The movement** from morning to night mirrors a life from waking to death.
+8. **The speaker asks for mercy, not miracles**: he does not demand rain, money or revenge.
+
+**Conclusion.** The day is a small model of a life, and the poem accepts its end with gentle courage.
+
+### Model answer D2: form, voice and themes (10 marks)
+
+**Introduction.** The poem is sixteen lines of simple speech, yet it carries a whole outlook on life.
+
+1. **Form:** four quatrains made of **eight perfect rhyming couplets**: *aabb ccdd eeff gghh*.
+2. **Metre:** loose **iambic tetrameter**, close to a prayer or hymn.
+3. **The unbroken couplets** supply the reassurance that the words are too honest to promise.
+4. **Voice:** a village minister speaking for a community, not for himself alone.
+5. **Theme of mercy:** he asks God to judge the people fairly because they are "not wholly bad or good".
+6. **Theme of mortality:** he faces death without fear and calls life "touch-and-go".
+7. **Theme of community:** the final bow to the sun is made by the whole village.
+8. **Tone:** humble, humorous and warm.
+
+| Feature | Detail |
+|---|---|
+| Form | 4 quatrains, 8 couplets |
+| Rhyme | aabb ccdd eeff gghh |
+| Speaker | Rev. Eli Jenkins |
+| Central request | Mercy and "another day" |
+| Last words | "good-bye – but just for now!" |
+
+**Conclusion.** The poem teaches that ordinary people can meet the end of a day, and of a life, with humility and cheer.
