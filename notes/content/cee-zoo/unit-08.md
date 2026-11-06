@@ -827,3 +827,81 @@ share of the numerical questions.
 **9.** (b) — the tubule secretes H⁺ to remove acid; potassium secretion (a) is increased in alkalosis, not acidosis.
 **10.** (a) — counter-current flow keeps the concentration difference across the membrane all the way along, so diffusion continues.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the human excretory organs and the structure of a nephron. <span class="marks">[10]</span>
+2. Explain the formation of urine and its regulation, and describe the common renal disorders. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="4" ratio="1.25" caption="The excretory system. (a) A numbered diagram of the nephron. (b) A section through a kidney showing cortex, medulla and pelvis. (c) The human urinary system. (d) A haemodialysis machine, which does the work of failed kidneys."
+@ photo id="bio12/nephron-numbered" cap="(a) Nephron"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/kidney-gray" cap="(b) Kidney"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/urinary-system" cap="(c) Urinary system"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/dialysis" cap="(d) Dialysis"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Excretory organs and the nephron (10 marks)
+
+**Introduction.** **Excretion** is the removal of metabolic wastes such as urea, uric acid, creatinine and carbon dioxide. Humans are **ureotelic**, as the main waste is urea made in the liver.
+
+**Excretory organs.**
+
+1. **Kidneys:** a pair of bean-shaped organs behind the abdominal cavity, each about 10 cm long, that make urine and keep water, salt and pH balanced.
+2. **Ureters:** muscular tubes that carry urine to the bladder by peristalsis.
+3. **Urinary bladder:** stores urine (about 300–500 mL) with transitional epithelium.
+4. **Urethra:** carries urine out; about 4 cm in women and 20 cm in men.
+5. **Other organs:** **skin** (sweat: water, salts, a little urea), **lungs** (CO₂, water vapour) and **liver** (bile pigments).
+
+**Structure of the kidney.** A tough capsule covers the kidney. The outer **cortex** and inner **medulla** (with 8–18 **pyramids**) lead into the **renal pelvis**. Each kidney has about **one million nephrons**.
+
+**Structure of a nephron.**
+
+| Part | Structure | Function |
+|---|---|---|
+| **Malpighian body** | Bowman's capsule + glomerulus (a tuft of capillaries) | Ultrafiltration of blood |
+| **PCT** (proximal convoluted tubule) | Cuboidal cells with brush border | Reabsorption of glucose, amino acids, salts, water |
+| **Loop of Henle** | Descending and ascending limbs in the medulla | Concentrates the urine |
+| **DCT** (distal convoluted tubule) | Cuboidal cells | Selective reabsorption and secretion of K⁺, H⁺ |
+| **Collecting duct** | Receives urine from many nephrons | Final water reabsorption; leads to pelvis |
+
+Blood enters the glomerulus by the **afferent arteriole** (wider) and leaves through the **efferent arteriole** (narrower), so a high pressure builds up. **Cortical nephrons** have short loops and **juxtamedullary nephrons** have long loops and are important in concentrating urine. The **vasa recta** are capillaries along the loop.
+
+**Conclusion.** The nephron is the structural and functional unit of the kidney, with each part adapted to filter, reabsorb or secrete.
+
+### Model answer D2: Urine formation, regulation and disorders (10 marks)
+
+**Introduction.** Urine is formed in three steps in the nephron: ultrafiltration, selective reabsorption and tubular secretion.
+
+1. **Ultrafiltration (glomerulus):** the high pressure (about 60 mm Hg) forces water, glucose, salts, amino acids and urea through three layers (capillary endothelium, basement membrane and podocytes) into Bowman's capsule. Proteins and blood cells stay behind. The **glomerular filtration rate (GFR)** is about **125 mL/min**, or 125 × 60 × 24 = **180 litres** a day.
+2. **Selective reabsorption:** nearly all glucose and amino acids, and about 65% of water and Na⁺, return to the blood in the PCT by active transport and diffusion.
+3. **Tubular secretion:** H⁺, K⁺, ammonia and drugs pass from blood to tubule, mainly in the DCT, which controls blood pH.
+4. **Concentration of urine:** the loop of Henle and vasa recta work as a **counter-current system**, producing a salty medulla (up to 1200 mOsm/L). Water leaves the collecting duct by osmosis.
+
+Only about 1.5 L of urine is made per day, so 180 − 1.5 = 178.5 L is reabsorbed, i.e. **99.2%**. Normal urine is pale yellow, acidic (pH about 6), with 95% water and 2.5% urea.
+
+**Regulation.**
+
+| Hormone | Gland | Action |
+|---|---|---|
+| **ADH** (vasopressin) | Posterior pituitary | Makes the collecting duct permeable to water; urine becomes concentrated |
+| **Aldosterone** | Adrenal cortex | Increases Na⁺ reabsorption and K⁺ secretion |
+| **Renin–angiotensin** | Juxtaglomerular cells | Raises blood pressure; releases aldosterone |
+| **ANF** | Atria of heart | Opposes renin; lowers BP and increases urine |
+
+**Renal disorders.**
+
+1. **Kidney stones (renal calculi):** crystals of calcium oxalate or phosphate; severe pain.
+2. **Glomerulonephritis:** inflammation of glomeruli, often after a throat infection.
+3. **Uraemia:** build-up of urea in the blood when the kidneys fail.
+4. **Diabetes insipidus:** lack of ADH, giving large volumes of dilute urine.
+5. **Treatment:** **haemodialysis** (a dialysing machine cleans the blood through a membrane) or a **kidney transplant**, available in Nepal at several hospitals.
+
+**Conclusion.** The kidney filters 180 L of fluid daily and returns nearly all of it, keeping the body's internal environment steady.

@@ -718,3 +718,99 @@ f.text(150, 210, "2011-2021: 3.5 per cent, doubling in 20 years", size=10.5, col
 **9.** (b) — $(752-409)/409\times100\approx83.9\%$.
 **10.** (b) — Conservation areas use a multiple-use, community-participatory model.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe animal behaviour (reflex actions, taxes, migration) and the adaptations of aquatic, terrestrial and volant animals. <span class="marks">[10]</span>
+2. Describe air, water and soil pollution and the effects of pesticides, with control measures. <span class="marks">[10]</span>
+3. Describe biodiversity conservation, the protected areas of Nepal, Ramsar sites, hotspots and the IUCN categories. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="5" ratio="1.1" caption="Biota and conservation. (a) Smog over a city, a sign of air pollution. (b) The Bengal tiger, a flagship species of Chitwan and Bardia. (c) The one-horned rhinoceros of Chitwan. (d) The red panda of the eastern hills. (e) A vulture, whose numbers fell sharply after the use of the drug diclofenac."
+@ photo id="ceezoo/smog" cap="(a) Smog"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/tiger" cap="(b) Tiger"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/rhino" cap="(c) Rhino"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/red-panda" cap="(d) Red panda"
+fit 1.1
+focus 0.5 0.5
+@ photo id="eng8/vulture-nepal" cap="(e) Vulture"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Behaviour and adaptations (10 marks)
+
+**Introduction.** **Behaviour** is the response of an animal to a stimulus. It helps survival and reproduction.
+
+**Types of behaviour.**
+
+1. **Reflex action:** a quick, automatic, involuntary response through the spinal cord (reflex arc), such as withdrawing a hand from fire or blinking.
+2. **Conditioned reflex:** a learned response. Pavlov's dog salivated at a bell that was paired with food.
+3. **Taxes:** movement towards or away from a stimulus, such as **phototaxis** (moths to a lamp), **chemotaxis** (sperm to the egg), **geotaxis** and **hydrotaxis** (earthworm).
+4. **Migration:** a regular, long journey for food or breeding. The Siberian **Amur falcon**, bar-headed geese crossing the Himalaya, and the salmon are examples; Nepal's wetlands such as Koshi Tappu receive many winter birds.
+
+**Adaptations.**
+
+| Habitat | Examples of adaptation |
+|---|---|
+| **Aquatic** | Streamlined body, fins or webbed feet, gills, swim bladder, scales (rohu, dolphin) |
+| **Terrestrial** | *Cursorial*: long limbs, hoofs (deer, horse); *fossorial*: strong forelimbs for burrowing (mole); *arboreal*: grasping hands and tails (monkey); thick skin or fur in cold hills (yak) |
+| **Volant (flying)** | Feathers, hollow bones, wings, strong breast muscles, four-chambered heart (birds); skin membrane (bat) |
+
+**Conclusion.** Behaviour and structural adaptations help animals respond to their surroundings and survive in each habitat.
+
+### Model answer D2: Pollution and pesticides (10 marks)
+
+**Introduction.** **Pollution** is an unwanted change in air, water or soil that harms living things.
+
+| Type | Main pollutants | Effects | Control |
+|---|---|---|---|
+| **Air** | CO, SO₂, NOₓ, particulate matter (PM2.5, PM10), smoke, CFCs | Asthma, bronchitis, acid rain, smog, ozone depletion, global warming | Clean fuel, catalytic converters, public transport, banning old vehicles, tree planting |
+| **Water** | Sewage, detergents, fertiliser, industrial wastes, plastics | Typhoid and cholera, **eutrophication**, fish death, high **BOD** | Sewage treatment, ban on dumping, safe disposal |
+| **Soil** | Plastics, chemicals, excess fertiliser, pesticides | Loss of fertility, poisoning of crops | Compost, organic farming, recycling |
+
+**Examples from Nepal.** In winter the **Kathmandu Valley** often has PM2.5 levels many times higher than the WHO guideline of 15 μg/m³ (24-hour average), because of vehicles, brick kilns and burning waste. The **Bagmati** and **Bishnumati** rivers receive untreated sewage.
+
+**Pesticides.** Chemicals that kill pests (insecticides, herbicides, fungicides).
+
+1. **DDT** is persistent and passes along the food chain by **biomagnification**: water 0.000003 ppm → plankton 0.04 → fish 2 → fish-eating birds 25 ppm, which thins their egg shells.
+2. Pesticides kill useful insects such as bees and also contaminate water.
+3. The drug **diclofenac**, used for cattle, caused vultures to fall by over 90%.
+4. **Alternatives:** integrated pest management, biological control and crop rotation.
+
+**Conclusion.** Pollution damages health and ecosystems, so treatment, laws and public awareness are all needed.
+
+### Model answer D3: Conservation biology (10 marks)
+
+**Introduction.** **Biodiversity** is the variety of life at three levels: **genetic**, **species** and **ecosystem**. Its loss is caused by habitat destruction, over-hunting, pollution, invasive species and climate change. **Conservation** is the wise use of nature.
+
+**Methods.**
+
+1. **In-situ conservation:** protection in the natural habitat, in national parks, wildlife reserves, conservation areas and sacred groves.
+2. **Ex-situ conservation:** protection outside the habitat in zoos, botanical gardens, seed banks, gene banks and the **gharial breeding centre** at Chitwan.
+
+**Protected areas of Nepal.** Nepal has **12 national parks** (for example **Chitwan**, Bardia, Sagarmatha, Langtang, Rara, Shey-Phoksundo, Khaptad, Makalu Barun, Shivapuri-Nagarjun, Banke, Parsa, Shuklaphanta), a wildlife reserve (**Koshi Tappu**), a hunting reserve (**Dhorpatan**), 6 conservation areas (such as **Annapurna, Manaslu, Kanchenjunga**) and buffer zones. About a quarter of the land is protected. **Chitwan** (1973) was Nepal's first national park and a World Heritage Site.
+
+**Ramsar sites.** The Ramsar Convention (1971) protects wetlands; Nepal's sites include **Koshi Tappu, Beeshazari Tal, Ghodaghodi Tal, Jagdishpur Reservoir, Gokyo lakes, Rara, Phoksundo, Gosainkunda, Mai Pokhari and Phewa Tal**.
+
+**Biodiversity hotspots.** An area with at least 1,500 endemic plant species and at least 70% of its original habitat lost. The **Himalaya hotspot** includes Nepal.
+
+**IUCN Red List categories.**
+
+| Category | Meaning | Example |
+|---|---|---|
+| Extinct (EX) | No living member | Dodo |
+| Critically Endangered (CR) | Extremely high risk | Gharial, white-rumped vulture |
+| Endangered (EN) | Very high risk | Bengal tiger, red panda |
+| Vulnerable (VU) | High risk | One-horned rhinoceros, snow leopard |
+| Near Threatened (NT) | Close to threatened | – |
+| Least Concern (LC) | Widespread | House sparrow |
+
+**Success in Nepal.** The rhino population in Nepal rose to about 750 (2021 count: 752), and wild tigers to about 355 (2022), helped by anti-poaching units and community-run buffer zones.
+
+**Conclusion.** Protected areas, community involvement and law enforcement together keep Nepal's rich biodiversity safe.

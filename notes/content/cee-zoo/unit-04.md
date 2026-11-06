@@ -900,3 +900,111 @@ urea, carnivore).
 **11.** (a) — the spiral valve sends the most deoxygenated blood to the lungs and skin through the pulmocutaneous arch; the pulmonary vein brings blood *to* the heart.
 **12.** (c) — only the male's ureter is a urinogenital duct; in the female the oviduct is separate.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the life cycle of *Plasmodium vivax* and the types of malaria. <span class="marks">[10]</span>
+2. Describe the external features, body systems and economic importance of the earthworm (*Pheretima*). <span class="marks">[10]</span>
+3. Describe the external features and the digestive, respiratory, circulatory and excretory systems of the frog (*Rana tigrina*). <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="5" ratio="1.1" caption="Three type animals. (a) Plasmodium inside red blood cells in a stained blood smear. (b) A female Anopheles mosquito, the vector of malaria. (c) An earthworm dissected from the back to show the organ systems. (d) The internal organs of a frog. (e) The living frog Rana tigrina."
+@ photo id="cee-zoo/plasmodium-smear" cap="(a) Plasmodium"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceezoo/anopheles" cap="(b) Anopheles"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/earthworm-dissect" cap="(c) Earthworm"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/frog-internal" cap="(d) Frog dissection"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bio11/rana-tigrina" cap="(e) Rana tigrina"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Life cycle of *Plasmodium vivax* and types of malaria (10 marks)
+
+**Introduction.** *Plasmodium* is a unicellular **sporozoan** parasite of man that causes **malaria**. It is **digenetic**: it lives in two hosts. **Man** is the intermediate host (asexual cycle, **schizogony**) and the **female *Anopheles* mosquito** is the definitive host (sexual cycle, **sporogony**).
+
+**Life cycle in man.**
+
+1. **Infection:** an infected female *Anopheles* injects **sporozoites** with saliva when she bites.
+2. **Pre-erythrocytic (liver) cycle:** the sporozoites enter liver cells and divide by schizogony for about 7–10 days, giving thousands of **merozoites**.
+3. **Erythrocytic cycle:** merozoites enter red blood cells and grow into a ring-shaped **trophozoite**, then an amoeboid form, then a **schizont**, which divides into 12–24 merozoites.
+4. **Release:** the red cell bursts, releasing merozoites, **haemozoin** and toxins. This produces the typical **chill, fever and sweating** every 48 hours in *P. vivax*.
+5. **Gametocytes:** after several cycles some merozoites form **micro- and macrogametocytes**, which wait in the blood.
+6. **Relapse:** in *P. vivax* and *P. ovale* dormant liver stages (**hypnozoites**) may start the cycle again after months.
+
+**Life cycle in the mosquito.**
+
+1. A female *Anopheles* sucks blood and takes in the gametocytes.
+2. In her gut the gametes fuse (**fertilisation**) to form a zygote, which becomes a motile **ookinete**.
+3. It enters the stomach wall and forms an **oocyst**, which divides by sporogony into thousands of **sporozoites**.
+4. They move to the salivary glands, ready to infect the next person (7–10 days).
+
+**Types of malaria.**
+
+| Species | Disease | Fever repeats | Note |
+|---|---|---|---|
+| *P. vivax* | Benign tertian | Every 48 h | Common in the Nepali Terai; relapses |
+| *P. falciparum* | Malignant tertian | 36–48 h, irregular | Most dangerous; cerebral malaria |
+| *P. malariae* | Quartan | Every 72 h | Mild, long-lasting |
+| *P. ovale* | Mild tertian | Every 48 h | Rare |
+
+**Control and prevention.** Drain stagnant water, use larvicides and **insecticide-treated bed nets**, spray houses, take antimalarial drugs (chloroquine, artemisinin combination therapy), and diagnose early by blood smear or rapid test. Nepal's malaria cases are now mostly in the Terai and border districts.
+
+**Conclusion.** The cycle needs both man and the female *Anopheles*, so breaking the contact between them is the best way to control malaria.
+
+### Model answer D2: Earthworm (*Pheretima*) (10 marks)
+
+**Introduction.** Earthworms are annelids of the class Oligochaeta that live in burrows in moist, humus-rich soil and come out at night. Aristotle called them the "intestines of the soil".
+
+**External features.** The body is long, cylindrical and made of **100–120 segments** (metameres) with no head or appendages. The first segment has the **prostomium** (a sensory lobe over the mouth). Segments 14–16 form the **clitellum** (a glandular ring that makes the cocoon). Each segment has a ring of S-shaped **setae** for locomotion. The openings include the female genital pore (segment 14), a pair of male pores (segment 18) and **spermathecal pores** (between segments 5 and 9).
+
+**Body systems.**
+
+1. **Digestive:** mouth → buccal cavity → pharynx (with salivary glands) → oesophagus (**calciferous glands** neutralise the humic acid) → **gizzard** (grinds soil) → stomach → intestine with a fold called the **typhlosole** that increases the absorbing surface → anus.
+2. **Circulatory:** closed; dorsal and ventral vessels joined by **four pairs of hearts**; the red pigment **haemoglobin** is dissolved in the plasma.
+3. **Respiratory:** exchange of gases through the moist skin (cutaneous respiration).
+4. **Excretory:** tiny coiled tubes, the **nephridia** (septal, pharyngeal and integumentary), remove urea and ammonia.
+5. **Nervous:** a nerve ring around the pharynx with cerebral ganglia, and a double ventral nerve cord with a ganglion in each segment; sense organs include touch and light cells.
+6. **Reproductive:** hermaphrodite but **cross-fertilisation** occurs, since the male and female organs mature at different times (protandry). Sperms are exchanged during mating, and the clitellum forms a cocoon that holds fertilised eggs. Development is direct.
+
+**Economic importance.**
+
+| Useful | Harmful or limit |
+|---|---|
+| Burrowing aerates and drains soil | Some may carry parasite eggs |
+| Casts add nitrogen, phosphorus and potassium | Can damage seedlings in nurseries |
+| Used in **vermicompost** units in Nepal | Sensitive to chemicals and drought |
+| Fish bait | – |
+
+**Conclusion.** The earthworm is a "farmer's friend" whose segmented body, closed circulation and nephridia are good examples of the annelid plan.
+
+### Model answer D3: The frog (*Rana tigrina*) (10 marks)
+
+**Introduction.** The common Indian bullfrog, *Rana tigrina*, is an amphibian that lives near ponds and paddy fields and is active in the monsoon.
+
+**External features.** The body has a head and trunk with no neck. The skin is smooth, moist and mucous, often olive-green with dark patches. The eyes have **nictitating membranes**, and behind them is the **tympanum**. The forelimb has 4 digits and the **webbed hind limb** has 5 for jumping and swimming. The male has **vocal sacs** and **nuptial pads**.
+
+**Body systems.**
+
+1. **Digestive:** a wide mouth with a **bifid, sticky tongue**, small maxillary and vomerine teeth; then oesophagus, **stomach**, intestine, rectum and **cloaca**. The liver (with bile) and pancreas help. The frog is carnivorous.
+2. **Respiratory:** three modes — **cutaneous** (skin, in water and in hibernation), **buccopharyngeal** (mouth lining) and **pulmonary** (a pair of simple lungs on land).
+3. **Circulatory:** **three-chambered heart** (two atria, one ventricle) with a sinus venosus and truncus arteriosus. Blood is partly mixed. The red cells are oval and nucleated. There are **hepatic portal** and **renal portal** systems.
+4. **Excretory:** a pair of kidneys (mesonephric) with ureters to the cloaca and a urinary bladder. Frogs excrete **urea** (ureotelic).
+5. **Nervous:** brain (fore-, mid- and hind-brain) in the cranium, with **10 pairs of cranial nerves** and a spinal cord with 10 pairs of spinal nerves.
+6. **Reproduction:** sexes are separate. **External fertilisation** takes place in water, eggs hatch into **tadpoles** that undergo **metamorphosis** controlled by thyroxine.
+
+| Feature | Earthworm | Frog |
+|---|---|---|
+| Phylum | Annelida | Chordata |
+| Heart | Four pairs of hearts, closed | Three-chambered |
+| Respiration | Skin | Skin, mouth, lungs |
+| Excretion | Nephridia | Kidneys |
+| Sexes | Hermaphrodite | Separate |
+
+**Conclusion.** The frog's three ways of breathing and its tadpole stage show its position between water and land life.
