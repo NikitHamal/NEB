@@ -649,3 +649,84 @@ NH₃ 1.47 D, NF₃ 0.23 D. Boiling points: H₂O 100 °C > HF 19.5 °C > NH₃ 
 **9.** (a) — Each H₂O has two H atoms and two lone pairs, so it can average two hydrogen bonds per molecule; HF has three lone pairs but only one H, so it averages one.
 **10.** (c) — Cl₂O about 111° > H₂O 104.5° > OF₂ 103° > H₂S 92°. Electronegative F pulls the bond pairs outward (smaller angle); the bulky Cl atoms push each other apart.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the VSEPR theory and the shapes of molecules, with hybridisation in BeCl₂, BF₃, CH₄, NH₃, H₂O, PCl₅ and SF₆. <span class="marks">[10]</span>
+2. Explain molecular orbital theory, the bond order of N₂, O₂ and the paramagnetism of O₂, and compare ionic, covalent and metallic bonds. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Bonding and structure. (a) A ball-and-stick model makes bond angles and molecular shape visible. (b) Rock salt, an ionic solid, is built from a lattice of Na+ and Cl- ions. (c) Graphite, diamond and fullerenes show how carbon bonding decides properties."
+@ photo id="ceechem/model-kit" cap="(a) Molecular model"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/halite-crystal" cap="(b) Ionic crystal (halite)"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-chem/carbon-allotropes" cap="(c) Carbon allotropes"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: VSEPR theory and hybridisation (10 marks)
+
+**Introduction.** The **VSEPR theory** (Sidgwick-Powell, Gillespie-Nyholm) says that the shape of a molecule depends on the repulsion between the electron pairs in the valence shell of the central atom. The repulsion order is lone pair-lone pair > lone pair-bond pair > bond pair-bond pair.
+
+**Hybridisation.** The mixing of atomic orbitals of nearly equal energy to form the same number of equivalent hybrid orbitals. The type is found from the **steric number** (bond pairs + lone pairs).
+
+| Steric number | Hybridisation | Lone pairs | Shape | Bond angle | Example |
+|---|---|---|---|---|---|
+| 2 | sp | 0 | linear | $180^{\circ}$ | BeCl₂, CO₂ |
+| 3 | sp² | 0 | trigonal planar | $120^{\circ}$ | BF₃ |
+| 3 | sp² | 1 | bent | $<120^{\circ}$ | SO₂ |
+| 4 | sp³ | 0 | tetrahedral | $109.5^{\circ}$ | CH₄ |
+| 4 | sp³ | 1 | pyramidal | $107^{\circ}$ | NH₃ |
+| 4 | sp³ | 2 | bent | $104.5^{\circ}$ | H₂O |
+| 5 | sp³d | 0 | trigonal bipyramidal | $90^{\circ}$, $120^{\circ}$ | PCl₅ |
+| 5 | sp³d | 2 | T-shaped / linear | | ClF₃ / XeF₂ |
+| 6 | sp³d² | 0 | octahedral | $90^{\circ}$ | SF₆ |
+| 6 | sp³d² | 2 | square planar | $90^{\circ}$ | XeF₄ |
+
+**Explaining the angles.** In CH₄, NH₃ and H₂O the central atom is sp³ in all three, but lone pairs repel more than bond pairs, so the angle drops from $109.5^{\circ}$ to $107^{\circ}$ and $104.5^{\circ}$.
+
+**Sigma and pi bonds.** A **sigma ($\sigma$) bond** is formed by head-on overlap and a **pi ($\pi$) bond** by sideways overlap of $p$ orbitals. A double bond is $1\sigma + 1\pi$ and a triple bond is $1\sigma + 2\pi$. Ethene C₂H₄ has $5\sigma + 1\pi$ and sp² carbons, ethyne C₂H₂ has $3\sigma + 2\pi$ and sp carbons.
+
+**Counting.** The steric number $= \tfrac12(V + M - C + A)$, where $V$ is the valence electrons of the central atom, $M$ the monovalent atoms, $C$ the cationic charge and $A$ the anionic charge. For NH₄⁺: $\tfrac12(5 + 4 - 1) = 4$, sp³, tetrahedral. For SF₄: $\tfrac12(6 + 4) = 5$, sp³d, seesaw. For XeF₄: $\tfrac12(8 + 4) = 6$, sp³d², square planar.
+
+**Conclusion.** The steric number gives the hybridisation and the arrangement of electron pairs, and the lone pairs squeeze the angles below the ideal values.
+
+### Model answer D2: molecular orbital theory and types of bond (10 marks)
+
+**Introduction.** In **MO theory**, atomic orbitals combine to form molecular orbitals: a lower-energy **bonding** MO ($\sigma$, $\pi$) and a higher-energy **antibonding** MO ($\sigma^*$, $\pi^*$). The number of MOs equals the number of AOs combined.
+
+**Rules.** Fill by the Aufbau, Pauli and Hund rules. **Bond order** $= \tfrac12(N_b - N_a)$. A bond order greater than $0$ means the molecule is stable. A higher bond order means a shorter, stronger bond.
+
+**Energy order.**
+
+1. For O₂, F₂ and Ne₂: $\sigma_{1s} < \sigma^*_{1s} < \sigma_{2s} < \sigma^*_{2s} < \sigma_{2p_z} < \pi_{2p_x} = \pi_{2p_y} < \pi^*_{2p_x} = \pi^*_{2p_y} < \sigma^*_{2p_z}$.
+2. For B₂, C₂ and N₂ and lighter, the $\pi_{2p}$ levels lie below $\sigma_{2p_z}$ (s-p mixing).
+
+| Species | Valence electrons | Bond order | Magnetism |
+|---|---|---|---|
+| N₂ | 10 | 3 | diamagnetic |
+| O₂ | 12 | 2 | paramagnetic (two unpaired electrons in $\pi^*$) |
+| O₂⁺ | 11 | 2.5 | paramagnetic |
+| O₂⁻ (superoxide) | 13 | 1.5 | paramagnetic |
+| O₂²⁻ (peroxide) | 14 | 1 | diamagnetic |
+| He₂ | 4 | 0 | does not exist |
+
+The order of bond length is O₂⁺ < O₂ < O₂⁻ < O₂²⁻. The paramagnetism of liquid oxygen, which sticks to a magnet, is explained by MO theory and not by Lewis structures.
+
+**Types of bond.**
+
+| Feature | Ionic | Covalent | Metallic |
+|---|---|---|---|
+| Formation | transfer of electrons | sharing of electrons | sea of delocalised electrons |
+| Melting point | high | low (molecular) | variable, usually high |
+| Conductivity | molten or dissolved | poor | good |
+| Example | NaCl | CH₄ | Cu |
+
+Ionic compounds form easily with a large electronegativity difference, low ionisation enthalpy, high electron gain enthalpy and high lattice enthalpy. By Fajans' rules, a small cation, a large anion and a high charge increase covalent character (AgCl is more covalent than NaCl).
+
+**Numerical.** For O₂ the valence MO occupancy is $\sigma_{2s}^2\sigma_{2s}^{*2}\sigma_{2p}^2\pi_{2p}^4\pi_{2p}^{*2}$, so $N_b = 8$, $N_a = 4$ and the bond order is $\tfrac12(8 - 4) = 2$. For N₂, $N_b = 8$, $N_a = 2$ and the bond order is $3$.
+
+**Conclusion.** MO theory predicts bond order and magnetism correctly, and the bond type of any compound depends on electronegativity difference and polarisation.

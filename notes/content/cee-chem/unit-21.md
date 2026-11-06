@@ -616,3 +616,85 @@ facts = dict(ls=caco3, co2=co2, T=T, TC=T - 273.15)
 **9.** (a) — penetrating γ rays shadow internal voids/cracks onto a detector, under strict radiological control.
 **10.** (b) — NH₄⁺ + 2O₂ → NO₃⁻ + 2H⁺ + H₂O in nitrification, so liming plans accompany ammonium fertilizers.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the classification, preparation and uses of polymers (nylon, polythene, Bakelite, rubber, PVC). <span class="marks">[10]</span>
+2. Explain soaps and detergents, the cleansing action, and the role of drugs, fertilisers and cement in daily life. <span class="marks">[10]</span>
+
+```photogrid label="21.H" cols="3" ratio="1.25" caption="Chemistry in service to mankind. (a) Soap, made by saponification of fats and oils. (b) A synthetic detergent powder. (c) PET plastic bottles, a condensation polymer of ethylene glycol and terephthalic acid, which can be recycled."
+@ photo id="chem12b/soap" cap="(a) Soap"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/detergent" cap="(b) Detergent"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/pet" cap="(c) PET plastic"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: polymers (10 marks)
+
+**Introduction.** A **polymer** is a very large molecule (molar mass $10^4$ to $10^6$) made of many repeating units (**monomers**) joined by covalent bonds. The process is **polymerisation**.
+
+**Classification.**
+
+1. **By source:** natural (cellulose, proteins, natural rubber), synthetic (nylon, PVC) and semi-synthetic (rayon, cellulose acetate).
+2. **By structure:** linear (HDPE), branched (LDPE) and cross-linked (Bakelite, vulcanised rubber).
+3. **By mode:** addition (chain) polymers from unsaturated monomers, and condensation (step) polymers with loss of a small molecule such as water.
+4. **By behaviour:** thermoplastics (soften on heating; polythene, PVC) and thermosets (set permanently; Bakelite).
+
+**Important polymers.**
+
+| Polymer | Monomer(s) | Type | Use |
+|---|---|---|---|
+| Polythene (LDPE / HDPE) | ethene | addition | bags, bottles, pipes |
+| PVC | vinyl chloride | addition | pipes, cables, floor |
+| Teflon (PTFE) | tetrafluoroethene | addition | non-stick pans |
+| Polystyrene | styrene | addition | packaging, thermocol |
+| Orlon (acrilan) | acrylonitrile | addition | wool substitute |
+| Nylon-6,6 | hexamethylenediamine and adipic acid | condensation | fibres, ropes |
+| Nylon-6 | caprolactam | ring-opening | tyre cord, fibres |
+| Terylene (PET) | ethylene glycol and terephthalic acid | condensation | clothes, bottles |
+| Bakelite | phenol and formaldehyde | condensation, cross-linked | switches, handles |
+| Natural rubber | isoprene (cis-1,4) | addition | tyres, gloves |
+| Buna-S | butadiene and styrene | co-polymer | tyres |
+
+**Rubber.** Natural rubber is cis-polyisoprene. It is soft and sticky, so it is **vulcanised** by heating with sulphur, which forms cross-links, giving a harder and more elastic material.
+
+**Mechanism of addition polymerisation.** Initiation by a free-radical initiator (benzoyl peroxide), propagation and termination.
+
+**Degree of polymerisation.** Molar mass of the polymer = $n\times$ molar mass of the monomer. **Biodegradable polymers** such as PHBV and nylon-2-nylon-6 reduce the plastic waste problem, and Nepal has banned plastic bags thinner than $20\ \mu\text{m}$.
+
+**Numerical.** Polythene of molar mass $28\,000$ has $n = \dfrac{28\,000}{28} = 1000$ ethene units. For nylon-6,6 made from $1\ \text{mol}$ each of the diamine ($116$) and adipic acid ($146$), the repeat unit loses $2\ \text{H}_2\text{O}$ and has mass $116 + 146 - 36 = 226$.
+
+**Conclusion.** Polymers are classified by source, structure and mode of formation, and the cross-linking determines whether a plastic is soft or rigid.
+
+### Model answer D2: soaps, detergents, drugs, fertilisers and cement (10 marks)
+
+**Introduction.** Applied chemistry converts raw materials into products for health, agriculture and construction.
+
+**Soaps and detergents.**
+
+1. **Soap** is the sodium or potassium salt of a long-chain fatty acid, made by **saponification** of fat with NaOH: $\text{fat} + 3\text{NaOH} \to 3\text{RCOONa} + \text{glycerol}$. Salting out with NaCl separates the soap.
+2. **Cleansing action.** The molecule has a hydrophilic head ($-\text{COO}^-$) and a hydrophobic tail. In water the tails surround grease and the heads face the water, forming **micelles** that lift off the dirt.
+3. **Hard water** contains Ca²⁺ and Mg²⁺, which give an insoluble scum with soap. **Detergents** (sodium alkylbenzenesulphonates, $\text{R-C}_6\text{H}_4\text{-SO}_3^-\text{Na}^+$) form soluble calcium salts, so they work in hard water. Branched-chain detergents are not biodegradable and cause foam in rivers, so straight-chain types (LAS) are used.
+
+**Drugs.** Analgesics (aspirin, paracetamol), antipyretics, **antibiotics** (penicillin), antiseptics (dettol, which acts on living tissue) and disinfectants (chlorine, for non-living things), antacids (Mg(OH)₂, which neutralise acid), tranquilisers, antihistamines and antimalarials (chloroquine, artemisinin).
+
+**Fertilisers.**
+
+| Fertiliser | Nutrient | % N, P or K |
+|---|---|---|
+| Urea, $\text{CO(NH}_2)_2$ | N | $46\%$ |
+| Ammonium nitrate | N | $35\%$ |
+| DAP, $(\text{NH}_4)_2\text{HPO}_4$ | N and P | $18$-$46$-$0$ |
+| Potash, KCl | K | $60\%\ \text{K}_2\text{O}$ |
+| NPK mix | N, P, K | e.g. $20$-$20$-$20$ |
+
+**Cement.** A mixture of calcium silicates and aluminates, prepared by heating limestone and clay at about $1500^{\circ}\text{C}$ in a rotary kiln, grinding the **clinker** with $2$ to $3\%$ gypsum, which slows the setting. The main compounds are tricalcium silicate ($\text{Ca}_3\text{SiO}_5$), dicalcium silicate, tricalcium aluminate and a ferrite phase. Setting is a hydration process.
+
+**Numerical.** Urea contains $\dfrac{28}{60}\times100 = 46.7\%$ nitrogen. To supply $46\ \text{kg}$ of nitrogen per hectare, about $100\ \text{kg}$ of urea is used. Saponification of $890\ \text{g}$ ($1\ \text{mol}$) of tristearin needs $3\ \text{mol}$ of NaOH ($120\ \text{g}$) and gives $3\ \text{mol}$ of sodium stearate ($918\ \text{g}$) and $92\ \text{g}$ of glycerol.
+
+**Conclusion.** Soap and detergent molecules clean through micelle formation, and the choice of a fertiliser, drug or cement depends on the nutrient, action or composition needed.

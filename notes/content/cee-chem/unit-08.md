@@ -684,3 +684,75 @@ salt. Secondary standards: NaOH, KOH, HCl, H₂SO₄, KMnO₄, Na₂S₂O₃, I�
 **8.** (b) — 0.020 g = 20 mg in 1.00 kg, so 20 ppm. Option (a) forgets to convert grams to milligrams.
 **9.** (c) — Moles of HCl $= 0.0480 \times 0.100 = 0.00480$; mass of NaOH $= 0.00480 \times 40 = 0.192$ g; purity $= 0.192/0.200 = 96$ %.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain acid-base titration, the choice of indicator and the use of primary standards, with a numerical on purity. <span class="marks">[10]</span>
+2. Describe iodometric and complexometric (EDTA) titrations and determine copper and the hardness of water. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="3" ratio="1.25" caption="Volumetric analysis. (a) Copper(II) sulphate, whose solution is titrated iodometrically. (b) Indicators signal the end point. (c) A graduated flask is used to prepare the standard solution."
+@ photo id="chem12/cuso4" cap="(a) Copper(II) sulphate"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/indicator" cap="(b) Indicator colours"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/volflask" cap="(c) Volumetric flask"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: acid-base titration and standard solutions (10 marks)
+
+**Introduction.** **Titration** finds the concentration of an unknown solution by reacting it with a solution of known concentration (the **standard solution**). The **end point** is the stage at which the indicator changes colour, and the **equivalence point** is when the chemically equivalent amounts have reacted.
+
+**Primary and secondary standards.** A **primary standard** (anhydrous Na₂CO₃, oxalic acid dihydrate, potassium hydrogen phthalate, K₂Cr₂O₇) is pure, stable, non-hygroscopic, has a high molar mass and is soluble. NaOH, HCl and KMnO₄ are **secondary standards**, which must be standardised against a primary standard.
+
+**Choice of indicator.**
+
+| Titration | pH at equivalence | Suitable indicator |
+|---|---|---|
+| Strong acid - strong base | 7 (pH jump $3$ to $11$) | any: methyl orange or phenolphthalein |
+| Weak acid - strong base | above 7 | phenolphthalein ($8.3$ to $10$) |
+| Strong acid - weak base | below 7 | methyl orange ($3.1$ to $4.4$) |
+| Weak acid - weak base | near 7, no sharp jump | no suitable indicator |
+
+An indicator is a weak acid or base whose ionised and unionised forms have different colours. It changes colour around $\text{pH} = \text{p}K_{In} \pm 1$.
+
+**Calculations.** At the end point $M_1V_1/n_1 = M_2V_2/n_2$, where $n$ is the stoichiometric coefficient, or for normality $N_1V_1 = N_2V_2$.
+
+1. Standardise HCl with Na₂CO₃ (methyl orange): Na₂CO₃ + 2HCl → 2NaCl + H₂O + CO₂.
+2. The pH curve is nearly vertical near the equivalence point and shows which indicator is suitable.
+3. In a titration with carbonate and bicarbonate mixtures, phenolphthalein (first end point) and methyl orange (second end point) give both.
+
+**Numerical.** A $25\ \text{mL}$ sample of NaOH needs $20.0\ \text{mL}$ of $0.10\ \text{M}$ HCl: $M = \dfrac{0.10\times20.0}{25} = 0.080\ \text{M}$. A $0.500\ \text{g}$ sample of impure Na₂CO₃ needs $40.0\ \text{mL}$ of $0.200\ \text{M}$ HCl. Moles of HCl $= 8.0\ \text{mmol}$, so Na₂CO₃ $= 4.0\ \text{mmol} = 0.424\ \text{g}$ and the purity is $\dfrac{0.424}{0.500}\times100 = 84.8\%$.
+
+**Conclusion.** The indicator must change colour in the steep part of the titration curve, and a primary standard is needed to fix the strength of any secondary standard.
+
+### Model answer D2: iodometry and complexometric titration (10 marks)
+
+**Introduction.** Iodometric titrations use iodine/iodide and thiosulphate, and complexometric titrations use the chelating agent EDTA.
+
+**Iodometry (estimation of copper).** Cu²⁺ oxidises iodide to iodine and the iodine liberated is titrated against sodium thiosulphate:
+
+2Cu²⁺ + 4I⁻ → 2CuI + I₂ and I₂ + 2S₂O₃²⁻ → 2I⁻ + S₄O₆²⁻.
+
+Starch is added **near the end point** as indicator (deep blue with iodine) and the end point is the disappearance of the blue colour. So one Cu²⁺ is equivalent to one S₂O₃²⁻. Sodium thiosulphate is standardised with K₂Cr₂O₇ by the same iodometric method, because it is not a primary standard.
+
+**Complexometric titration with EDTA.** EDTA (ethylenediaminetetraacetic acid, as its disodium salt) forms a $1:1$ water-soluble chelate with most metal ions, through two N and four O donor atoms. The titration is done in a buffer at $\text{pH} = 10$ (NH₃/NH₄Cl) with **Eriochrome Black T** as indicator: the wine-red metal-indicator complex changes to blue when EDTA takes away the metal.
+
+**Hardness of water.** **Temporary hardness** is due to Ca(HCO₃)₂ and Mg(HCO₃)₂ and is removed by boiling or by Clark's method. **Permanent hardness** is due to chlorides and sulphates and is removed by adding washing soda (Na₂CO₃), permutit (zeolite) or ion exchange. Hardness is expressed as mg of CaCO₃ per litre (ppm).
+
+| Method | Titrant | Indicator | Analyte |
+|---|---|---|---|
+| Acid-base | HCl or NaOH | phenolphthalein, methyl orange | acids, bases |
+| Redox | KMnO₄ | self | Fe²⁺, oxalate |
+| Iodometric | Na₂S₂O₃ | starch | Cu²⁺, oxidants |
+| Complexometric | EDTA | Eriochrome Black T | Ca²⁺, Mg²⁺ |
+
+**Numerical.**
+
+- $25\ \text{mL}$ of a copper solution liberates iodine needing $20.0\ \text{mL}$ of $0.050\ \text{M}$ thiosulphate: $\text{Cu}^{2+} = \dfrac{0.050\times20.0}{25} = 0.040\ \text{M}$, or $2.54\ \text{g L}^{-1}$.
+- $50\ \text{mL}$ of water needs $10.0\ \text{mL}$ of $0.010\ \text{M}$ EDTA. Moles of Ca²⁺ $= 0.10\ \text{mmol}$, so in $1\ \text{L}$ there are $2.0\ \text{mmol}$, equal to $200\ \text{mg}$ of CaCO₃, a hardness of $200\ \text{ppm}$ (very hard).
+
+**Conclusion.** Starch is added late in iodometry, and EDTA titration at pH $10$ with Eriochrome Black T measures the total hardness of water.
