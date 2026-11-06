@@ -967,3 +967,67 @@ facts = dict(g=rows[1][1], w=rows[2][1], d=rows[0][1], c=rows[3][1], na=NA, acc=
 **11.** (c) — in contact the power would be zero, but separated by $d = 0.2$ m, $P = 0 - (0.2)(5)(-5) = +5$ D. The separation term revives the power.
 **12.** (a) — the factor $(\mu-1)$ becomes $(\mu/1.333 - 1) = 0.125$, one quarter of 0.5, so $1/f$ is quartered and $f$ is four times larger: 80 cm.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain refraction, total internal reflection and the optical fibre. Derive the prism formula and solve a numerical. <span class="marks">[10]</span>
+2. Derive the lens formula and lens maker's formula, and explain dispersion with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="3" ratio="1.25" caption="Light bending in practice. (a) A glass prism disperses white light into its spectrum. (b) An optical fibre carries light by repeated total internal reflection. (c) A rainbow forms by refraction, internal reflection and dispersion in raindrops."
+@ photo id="cee-phy/prism-dispersion" cap="(a) Dispersion by a prism"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy3/fibre" cap="(b) Optical fibre"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/rainbow" cap="(c) Rainbow"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: refraction, total internal reflection and the prism (10 marks)
+
+**Introduction.** **Refraction** is the bending of light at the boundary of two media because its speed changes. **Snell's law:** $\dfrac{\sin i}{\sin r} = {}_1n_2 = \dfrac{n_2}{n_1} = \dfrac{v_1}{v_2}$, where $n = c/v$ is the refractive index.
+
+**Total internal reflection (TIR).** When light goes from a denser to a rarer medium, the angle of refraction exceeds the angle of incidence. At the **critical angle** $C$ the refracted ray grazes the surface, with $\sin C = \dfrac{n_2}{n_1} = \dfrac1n$ (rarer medium air). For $i > C$ all the light is reflected.
+
+*Conditions:* (1) the light goes from a denser to a rarer medium; (2) the angle of incidence is greater than $C$.
+
+**Applications of TIR.** Optical fibre (core $n_1$ greater than cladding $n_2$), endoscope, diamond sparkle, mirage, totally reflecting prisms in binoculars and periscopes, and the shine of an air bubble in water.
+
+**Prism.** For a prism of angle $A$, the angle of deviation is $\delta = i + e - A$. The deviation is minimum when the ray passes symmetrically ($i = e$, $r_1 = r_2 = A/2$) and
+
+$$ n = \frac{\sin\left(\dfrac{A + \delta_m}{2}\right)}{\sin\left(\dfrac A2\right)} $$
+
+For a thin prism ($A$ small), $\delta = (n - 1)A$. The $i$-$\delta$ graph is a U-shaped curve with a minimum at $\delta_m$.
+
+| Medium | $n$ | Critical angle (to air) |
+|---|---|---|
+| Water | 1.33 | $48.8^{\circ}$ |
+| Crown glass | 1.5 | $41.8^{\circ}$ |
+| Diamond | 2.42 | $24.4^{\circ}$ |
+
+**Numerical.** For glass with $n = 1.5$: $\sin C = 1/1.5$ gives $C = 41.8^{\circ}$. For a $60^{\circ}$ prism of the same glass, $\sin\dfrac{A + \delta_m}{2} = 1.5\sin30^{\circ} = 0.75$, so $\dfrac{A + \delta_m}{2} = 48.6^{\circ}$ and $\delta_m = 37.2^{\circ}$.
+
+**Conclusion.** TIR needs a denser-to-rarer path with $i > C$, and a prism gives its minimum deviation when the ray passes symmetrically.
+
+### Model answer D2: lens formula, lens maker's formula and dispersion (10 marks)
+
+**Introduction.** A lens refracts light at two spherical surfaces. For a thin lens we use the Cartesian sign convention, with distances measured from the optical centre and positive in the direction of the incident light.
+
+**Lens formula.** $\dfrac1v - \dfrac1u = \dfrac1f$. The linear magnification is $m = \dfrac vu$. For a real image $m < 0$ (inverted).
+
+**Lens maker's formula.** $\dfrac1f = (n - 1)\left(\dfrac1{R_1} - \dfrac1{R_2}\right)$, where $n$ is the refractive index of the lens relative to the medium. Immersing a glass lens in a liquid of higher index makes a convex lens behave as a concave one. The **power** is $P = 1/f$ in dioptre ($f$ in metres). For lenses in contact $P = P_1 + P_2$.
+
+**Dispersion.** White light splits into seven colours because $n$ depends on wavelength (violet bends most, red least). The **dispersive power** is $\omega = \dfrac{n_v - n_r}{n_y - 1}$. A combination of two prisms of different glass can give dispersion without deviation (achromatic) or deviation without dispersion. A single lens has **chromatic aberration** (colour fringes), corrected by an achromatic doublet, with $\dfrac{\omega_1}{f_1} + \dfrac{\omega_2}{f_2} = 0$.
+
+| Defect | Cause | Cure |
+|---|---|---|
+| Spherical aberration | marginal rays focus nearer | stop, parabolic mirror |
+| Chromatic aberration | $n$ varies with colour | achromatic doublet |
+| Myopia | image in front of retina | concave lens |
+| Hypermetropia | image behind retina | convex lens |
+
+**Numerical.** A convex lens has $f = 20\ \text{cm}$ and an object is placed $30\ \text{cm}$ away: $\dfrac1v = \dfrac1{20} - \dfrac1{30} = \dfrac1{60}$, so $v = 60\ \text{cm}$ and $m = 60/(-30) = -2$: real, inverted, twice as large. For a double-convex lens of glass $n = 1.5$ and $R_1 = 20\ \text{cm}$, $R_2 = -20\ \text{cm}$, $\dfrac1f = 0.5\times\dfrac2{20}$, so $f = 20\ \text{cm}$ and $P = +5\ \text{D}$.
+
+**Conclusion.** The lens formula and lens maker's formula together link the image position to the shape and material of the lens, and dispersion arises because $n$ varies with colour.

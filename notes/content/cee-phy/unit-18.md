@@ -878,3 +878,74 @@ f.text(150, 222, "red (1.91 eV) never does", size=10.5, color=SLATE, bold=True)
 **10.** (d) — $E=V/d=2.0\times10^{4}$ V m⁻¹; $q=mg/E=(3.2\times10^{-15})(10)/(2.0\times10^{4})=1.6\times10^{-18}$ C, which is 10 electrons.
 **11.** (c) — $y_1=V_dL^2/(4dV_a)=100(0.020)^2/(4\times0.010\times1000)=1.0\times10^{-3}$ m $=1.0$ mm.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the photoelectric effect, state its laws and explain Einstein's equation. Solve a numerical. <span class="marks">[10]</span>
+2. Explain de Broglie's hypothesis, the Davisson-Germer experiment and the dual nature of matter. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.25" caption="Electrons and light. (a) A phototube converts light into a current, as in the old sound-film reader and light meters. (b) Thomson's tube measured the charge-to-mass ratio of electrons. (c) A Millikan-type apparatus measured the charge on a single electron."
+@ photo id="ceephy/photocell" cap="(a) Photocell"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/thomson" cap="(b) Thomson tube"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12/millikan" cap="(c) Millikan apparatus"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: the photoelectric effect (10 marks)
+
+**Introduction.** The **photoelectric effect** is the emission of electrons from a metal surface when light of suitable frequency falls on it. Hertz discovered it in 1887, and Einstein explained it in 1905 with the **photon** idea: light travels as quanta of energy $E = hf$ ($h = 6.63\times10^{-34}\ \text{J s}$).
+
+**Experimental laws.**
+
+1. Emission occurs only if the frequency exceeds a **threshold frequency** $f_0$ that depends on the metal, however intense the light is.
+2. The emission is instantaneous (less than $10^{-9}\ \text{s}$).
+3. The photocurrent is proportional to the **intensity** of the light (for $f > f_0$).
+4. The maximum kinetic energy of the electrons depends on the frequency and not on the intensity.
+5. A reverse (stopping) potential $V_0$ stops all electrons, with $eV_0 = K_{max}$.
+
+**Failure of the wave theory.** It predicted that energy could build up with time (delay), that more intense light gives faster electrons, and that any frequency should work. None of these is observed.
+
+**Einstein's equation.** One photon gives all its energy to one electron: $hf = \phi + K_{max}$, where $\phi = hf_0$ is the work function. Hence $K_{max} = \tfrac12mv_{max}^2 = hf - hf_0 = eV_0$.
+
+| Graph | Shape | Gives |
+|---|---|---|
+| $K_{max}$ against $f$ | straight line, intercept on the $f$ axis at $f_0$ | slope $= h$ |
+| $V_0$ against $f$ | straight line | slope $= h/e$ |
+| Current against intensity | straight line | more photons, more electrons |
+
+**Numerical.** Light of wavelength $300\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$. The photon energy is $\dfrac{1240}{300} = 4.13\ \text{eV}$, so $K_{max} = 4.13 - 2.3 = 1.83\ \text{eV}$ and $V_0 = 1.83\ \text{V}$. The speed is $v = \sqrt{\dfrac{2\times1.83\times1.6\times10^{-19}}{9.11\times10^{-31}}} = 8.0\times10^5\ \text{m s}^{-1}$. The threshold wavelength is $1240/2.3 = 539\ \text{nm}$.
+
+**Conclusion.** The photoelectric effect shows that light has a particle nature. The energy of the electron depends on frequency, and the number of electrons on intensity.
+
+### Model answer D2: matter waves and the dual nature of radiation (10 marks)
+
+**Introduction.** Light shows interference (wave) and the photoelectric effect (particle). In 1924 de Broglie proposed that matter has the same dual nature.
+
+**de Broglie wavelength.** For a particle of momentum $p$: $\lambda = \dfrac hp = \dfrac h{mv}$. For a charged particle accelerated through a potential $V$:
+
+$$ \lambda = \frac{h}{\sqrt{2meV}}, \qquad \lambda(\text{electron}) = \frac{1.227}{\sqrt V}\ \text{nm} $$
+
+For ordinary objects $\lambda$ is far too small to notice, for example a $0.1\ \text{kg}$ ball at $10\ \text{m s}^{-1}$ has $\lambda = 6.6\times10^{-34}\ \text{m}$.
+
+**Davisson-Germer experiment (1927).** A beam of electrons accelerated through $54\ \text{V}$ was scattered from a nickel crystal. The intensity was maximum at a scattering angle of $50^{\circ}$. The crystal spacing gave $d\sin\theta = \lambda$ and so $\lambda = 0.165\ \text{nm}$, in agreement with de Broglie's value $1.227/\sqrt{54} = 0.167\ \text{nm}$. This confirmed the wave nature of electrons.
+
+**Applications and points.**
+
+1. The **electron microscope** uses electrons with $\lambda$ about $0.01\ \text{nm}$, so its resolution is far better than that of a light microscope.
+2. Photon properties: energy $hf$, momentum $h/\lambda$, zero rest mass, speed $c$.
+3. **Heisenberg uncertainty principle:** $\Delta x\,\Delta p \ge \dfrac{h}{4\pi}$.
+4. Radiation pressure on a surface is $I/c$ for absorption and $2I/c$ for reflection.
+
+| Property | Wave nature | Particle nature |
+|---|---|---|
+| Light | interference, diffraction | photoelectric effect, Compton effect |
+| Electron | electron diffraction | tracks in a cloud chamber |
+
+**Numerical.** For an electron accelerated through $100\ \text{V}$, $\lambda = 1.227/10 = 0.123\ \text{nm}$. A proton with the same kinetic energy has a wavelength smaller by $\sqrt{1836} = 43$ times, about $0.0029\ \text{nm}$.
+
+**Conclusion.** Particles and radiation both behave as waves and particles. The wave character matters only when $\lambda$ is comparable to the sizes involved.

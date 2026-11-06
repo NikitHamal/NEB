@@ -918,3 +918,65 @@ facts = dict(w=rows[1][1], s=rows[3][1], r=ratio, lat=rows[2][1])
 **8.** (a) — mean excess 30 K gives 10 K in 10 min; for the next 5 K the mean excess is 22.5 K, so the rate is 0.75 K min⁻¹ and the time is 5/0.75 ≈ 6.7 min. The exponential law gives 6.6 min.
 **9.** (b) — heat to remove = 0.200 × 4200 × 50 = 42 000 J; m = 42 000/(3.36 × 10⁵) = 0.125 kg = 125 g.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the coefficients of linear, area and volume expansion, show that $\alpha:\beta:\gamma = 1:2:3$, and explain the anomalous expansion of water. <span class="marks">[10]</span>
+2. State the principle of calorimetry, define specific and latent heats and solve a mixture problem with ice. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="2" ratio="1.4" caption="Heat and expansion. (a) A bimetallic strip bends when heated because the two metals expand by different amounts, which is how a thermostat switch works. (b) A calorimeter is a thermally insulated vessel used to measure heat exchanged by the principle of calorimetry."
+@ photo id="ioephy/bimetal" cap="(a) Bimetallic strip"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceechem2/calorimeter" cap="(b) Calorimeter"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: thermal expansion of solids and liquids (10 marks)
+
+**Introduction.** Most substances expand on heating because the molecules vibrate with greater amplitude and the average distance between them increases.
+
+**Coefficients.** The coefficient of **linear** expansion is $\alpha = \dfrac{\Delta L}{L\,\Delta\theta}$, of **area** expansion $\beta = \dfrac{\Delta A}{A\,\Delta\theta}$, and of **volume** expansion $\gamma = \dfrac{\Delta V}{V\,\Delta\theta}$. The unit of each is K⁻¹ (or $^{\circ}\text{C}^{-1}$).
+
+**Relation.** For a square plate of side $L$, the new side is $L(1 + \alpha\theta)$, so the new area is $L^2(1 + \alpha\theta)^2 \approx L^2(1 + 2\alpha\theta)$ and $\beta = 2\alpha$. For a cube the volume is $L^3(1 + 3\alpha\theta)$ and $\gamma = 3\alpha$. Hence $\alpha:\beta:\gamma = 1:2:3$.
+
+**Liquids.** A liquid has two coefficients. The **apparent** expansion is what we see relative to the vessel, and the **real** expansion adds the expansion of the vessel: $\gamma_r = \gamma_a + \gamma_g$. The density changes as $\rho' = \rho/(1 + \gamma\theta)$.
+
+**Anomalous expansion of water.** Between $0^{\circ}\text{C}$ and $4^{\circ}\text{C}$ water contracts when heated, so its density is maximum, $1000\ \text{kg m}^{-3}$, at $4^{\circ}\text{C}$. Above $4^{\circ}\text{C}$ it expands normally. In a lake in winter, the surface cools to $4^{\circ}\text{C}$ and sinks; then the surface water cools further and freezes first. Ice floats and insulates the water below, so fish survive.
+
+| Material | $\alpha\ (\text{K}^{-1})$ |
+|---|---|
+| Steel | $1.2\times10^{-5}$ |
+| Aluminium | $2.3\times10^{-5}$ |
+| Glass (ordinary) | $0.9\times10^{-5}$ |
+| Invar | $\approx 10^{-6}$ |
+
+**Applications and effects.** Gaps in railway tracks and bridges, rivetting hot, fitting an iron tyre on a wheel, the bimetal thermostat and the compensated pendulum of a clock (invar), all use expansion.
+
+**Numerical.** A steel rail $30\ \text{m}$ long at $20^{\circ}\text{C}$ is heated to $50^{\circ}\text{C}$: $\Delta L = 30\times1.2\times10^{-5}\times30 = 1.08\times10^{-2}\ \text{m} = 10.8\ \text{mm}$. If it could not expand, the thermal stress would be $Y\alpha\Delta\theta = 2\times10^{11}\times1.2\times10^{-5}\times30 = 7.2\times10^{7}\ \text{Pa}$.
+
+**Conclusion.** $\gamma = 3\alpha$ for isotropic solids, and water's maximum density at $4^{\circ}\text{C}$ protects aquatic life.
+
+### Model answer D2: calorimetry, specific heat and latent heat (10 marks)
+
+**Introduction.** **Heat** is the energy that flows because of a temperature difference. Its SI unit is joule ($1\ \text{cal} = 4.2\ \text{J}$).
+
+**Definitions.**
+
+1. **Heat capacity** $C = Q/\Delta\theta$ (J K⁻¹).
+2. **Specific heat capacity** $c = \dfrac{Q}{m\,\Delta\theta}$ (J kg⁻¹ K⁻¹). For water $c = 4200$, which is high, so water is a good coolant and the sea moderates the climate.
+3. **Latent heat** $L = Q/m$ is the heat to change the state at constant temperature. For ice, $L_f = 3.36\times10^5\ \text{J kg}^{-1}$ and for steam, $L_v = 2.26\times10^6\ \text{J kg}^{-1}$.
+
+**Principle of calorimetry.** If no heat is lost, the heat lost by the hot bodies equals the heat gained by the cold bodies. This follows from the conservation of energy.
+
+| Process | Heat formula |
+|---|---|
+| Temperature change | $Q = mc\,\Delta\theta$ |
+| Melting or freezing | $Q = mL_f$ |
+| Boiling or condensing | $Q = mL_v$ |
+| Water equivalent | $W = mc/c_{water}$ |
+
+**Numerical.** $50\ \text{g}$ of ice at $0^{\circ}\text{C}$ is added to $200\ \text{g}$ of water at $40^{\circ}\text{C}$ in an insulated vessel. Heat needed to melt the ice $= 0.050\times3.36\times10^5 = 16\,800\ \text{J}$. Heat the water can give up in cooling to $0^{\circ}\text{C}$ $= 0.200\times4200\times40 = 33\,600\ \text{J}$, which is more, so all the ice melts. The remaining $16\,800\ \text{J}$ warms the total $250\ \text{g}$: $\Delta\theta = \dfrac{16\,800}{0.250\times4200} = 16^{\circ}\text{C}$. The final temperature is $16^{\circ}\text{C}$.
+
+**Conclusion.** Calorimetry rests on energy conservation. During a change of state the temperature stays constant, because the heat is used to break molecular bonds.

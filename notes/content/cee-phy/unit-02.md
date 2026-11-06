@@ -711,3 +711,66 @@ facts = dict(J=J, a=rows[0][1], b=rows[2][1], nb=rows[2][1] * 1000 / W, na=rows[
 **11.** (a) — each half makes 60° with the vertical: $2T\cos60^{\circ} = 20$ N gives $T = 20$ N.
 **12.** (c) — force = momentum delivered per second = $nmv = 10(0.020)(500) = 100$ N.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and prove the law of conservation of linear momentum. Discuss elastic and inelastic collisions with a numerical. <span class="marks">[10]</span>
+2. State the work-energy theorem, define power and solve a problem on a moving vehicle. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="3" ratio="1.25" caption="Momentum in action. (a) A car airbag lengthens the stopping time so the force on the passenger falls. (b) An inflated balloon releasing air moves forward by reaction, as a rocket does. (c) The LHC detector records collisions in which total momentum is conserved."
+@ photo id="ceephy3/airbag" cap="(a) Airbag"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/balloon" cap="(b) Jet reaction"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/lhc" cap="(c) Collisions at the LHC"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: conservation of momentum and collisions (10 marks)
+
+**Introduction.** **Linear momentum** is $\vec p = m\vec v$. Newton's second law states that the force is the rate of change of momentum, $\vec F = d\vec p/dt$.
+
+**Law.** If no external force acts on a system, its total linear momentum remains constant.
+
+**Proof.** Two bodies $A$ and $B$ collide. During the contact, $A$ pushes $B$ with force $\vec F_{AB}$ and $B$ pushes $A$ with $\vec F_{BA}$. By Newton's third law $\vec F_{AB} = -\vec F_{BA}$, and the contact time $\Delta t$ is the same for both. So the impulses cancel: $\Delta\vec p_A = -\Delta\vec p_B$, and $m_1u_1 + m_2u_2 = m_1v_1 + m_2v_2$.
+
+**Types of collision.**
+
+| Feature | Elastic | Inelastic (perfectly) |
+|---|---|---|
+| Momentum | Conserved | Conserved |
+| Kinetic energy | Conserved | Not conserved (some becomes heat, sound, deformation) |
+| After collision | Bodies separate | Bodies stick together |
+| Relative speed | $v_2 - v_1 = u_1 - u_2$ | $v_1 = v_2$ |
+| Example | Gas molecules, billiard balls | Bullet embedded in a wooden block |
+
+For an elastic head-on collision with $u_2 = 0$: $v_1 = \dfrac{m_1 - m_2}{m_1 + m_2}u_1$ and $v_2 = \dfrac{2m_1}{m_1 + m_2}u_1$.
+
+**Numerical.** A $2\ \text{kg}$ body moving at $6\ \text{m s}^{-1}$ hits a $4\ \text{kg}$ body at rest.
+
+- *Elastic:* $v_1 = \dfrac{2-4}{6}(6) = -2\ \text{m s}^{-1}$ and $v_2 = \dfrac{4}{6}(6) = 4\ \text{m s}^{-1}$. Kinetic energy before $= \tfrac12(2)(36) = 36\ \text{J}$ and after $= \tfrac12(2)(4) + \tfrac12(4)(16) = 4 + 32 = 36\ \text{J}$.
+- *Perfectly inelastic:* $v = \dfrac{12}{6} = 2\ \text{m s}^{-1}$. Kinetic energy after $= \tfrac12(6)(4) = 12\ \text{J}$, so $24\ \text{J}$ is lost.
+
+**Conclusion.** Momentum is conserved in every collision when no external force acts, while kinetic energy is conserved only in an elastic collision.
+
+### Model answer D2: work-energy theorem and power (10 marks)
+
+**Introduction.** **Work** is $W = Fs\cos\theta$, the product of the force and the displacement along the force. It is a scalar with unit joule. **Power** is the rate of doing work, $P = W/t = \vec F\cdot\vec v$, with unit watt.
+
+**Work-energy theorem.** The work done by the net force on a body equals the change in its kinetic energy. Proof: for constant $F$, $v^2 = u^2 + 2as$ gives $as = \tfrac12(v^2 - u^2)$. Multiplying by $m$: $Fs = \tfrac12mv^2 - \tfrac12mu^2$, that is $W = \Delta K$.
+
+**Points to remember.**
+
+1. **Kinetic energy** $K = \tfrac12mv^2 = p^2/2m$; **gravitational potential energy** $U = mgh$.
+2. For a **conservative force** (gravity, spring) the work is independent of the path, and $K + U$ stays constant.
+3. The area under a force-displacement graph is the work done. For a spring $W = \tfrac12kx^2$.
+4. Friction is non-conservative: it converts mechanical energy into heat.
+5. $1\ \text{horse power} = 746\ \text{W}$, and $1\ \text{kWh} = 3.6\times10^6\ \text{J}$.
+6. At a steady speed, engine power $P = Fv$, where $F$ equals the total resistance.
+
+**Numerical.** A car of mass $1000\ \text{kg}$ speeds up from $10\ \text{m s}^{-1}$ to $20\ \text{m s}^{-1}$ in $5\ \text{s}$. The work done is $\Delta K = \tfrac12(1000)(400 - 100) = 1.5\times10^5\ \text{J}$, so the average power is $1.5\times10^5/5 = 3.0\times10^4\ \text{W} = 30\ \text{kW}$. If the same car then cruises at $20\ \text{m s}^{-1}$ against a total resistance of $900\ \text{N}$, the power needed is $900 \times 20 = 18\ \text{kW}$.
+
+**Conclusion.** The net work done on a body equals its gain in kinetic energy, and power tells how fast this work is done.

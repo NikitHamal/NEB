@@ -1042,3 +1042,67 @@ f.text(150, 228, "frequency in Hz (log scale)", size=10.5, color=SLATE)
 **10.** (d) — $P=V_{rms}I_{rms}\cos\phi=(220)(2.0)(0.50)=220$ W. Option (a) forgets the power factor; (c) uses $\sin60^{\circ}$ instead.
 **11.** (b) — $P_{in}=220(2.0)=440$ W, so $P_{out}=0.80(440)=352$ W and $I_s=352/22=16$ A. Option (a) ignores the efficiency.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Faraday's and Lenz's laws, derive the motional emf and explain self- and mutual inductance with the energy stored in an inductor. <span class="marks">[10]</span>
+2. Analyse a series LCR circuit with an AC source: impedance, resonance and power factor. Describe the transformer. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="2" ratio="1.4" caption="Induction in machines. (a) A transformer links two coils on an iron core and changes AC voltage by the turns ratio. (b) An alternator rotates a coil in a magnetic field so that the flux changes continuously and an AC emf is induced."
+@ photo id="phy12b/transformer" cap="(a) Transformer"
+fit 1.4
+focus 0.5 0.5
+@ photo id="sci10/alternator" cap="(b) Alternator"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: electromagnetic induction and inductance (10 marks)
+
+**Introduction.** Whenever the magnetic flux linked with a circuit changes, an emf is induced in it. Magnetic flux is $\Phi = BA\cos\theta$, in weber.
+
+**Laws.**
+
+1. **Faraday's law:** the induced emf equals the rate of change of flux linkage, $\varepsilon = -N\dfrac{d\Phi}{dt}$.
+2. **Lenz's law:** the induced current opposes the change that produces it. The minus sign expresses this, and it is a statement of conservation of energy: if the current helped the change, energy would be created from nothing.
+
+**Motional emf.** A rod of length $l$ moves at speed $v$ perpendicular to a field $B$ on rails. The area changes at the rate $lv$, so $\varepsilon = Blv$. The current is $I = Blv/R$, the force opposing the motion is $F = B^2l^2v/R$ and the power supplied is $Fv = \varepsilon^2/R$.
+
+**Inductance.**
+
+| Quantity | Definition | Formula |
+|---|---|---|
+| Self-inductance $L$ | flux linkage per unit current | $\varepsilon = -L\dfrac{dI}{dt}$, solenoid $L = \mu_0n^2Al$ |
+| Mutual inductance $M$ | flux in coil 2 per unit current in coil 1 | $\varepsilon_2 = -M\dfrac{dI_1}{dt}$ |
+| Energy in an inductor | work to build up current | $U = \tfrac12LI^2$ |
+
+The unit of $L$ and $M$ is the henry. Energy density of a magnetic field is $\dfrac{B^2}{2\mu_0}$.
+
+**Other effects.** Eddy currents are induced in solid conductors, giving electromagnetic braking and induction heating, but also wasting energy in transformer cores (reduced by lamination). A DC generator has a commutator, an AC generator slip rings.
+
+**Numerical.** A rod $0.5\ \text{m}$ long moves at $4\ \text{m s}^{-1}$ in $B = 0.2\ \text{T}$: $\varepsilon = 0.2\times0.5\times4 = 0.4\ \text{V}$. In a circuit of $2\ \Omega$ the current is $0.2\ \text{A}$, the retarding force $0.2\times0.5\times0.2 = 0.02\ \text{N}$ and the power $0.08\ \text{W}$ (equal to $Fv = 0.02\times4$). A solenoid with $L = 0.5\ \text{H}$ carrying $4\ \text{A}$ stores $\tfrac12(0.5)(16) = 4\ \text{J}$.
+
+**Conclusion.** The induced emf is the rate of change of flux, and its direction (Lenz) ensures energy conservation.
+
+### Model answer D2: AC circuits and the transformer (10 marks)
+
+**Introduction.** For an AC source $V = V_0\sin\omega t$: $V_{rms} = V_0/\sqrt2$. A resistor has $V$ and $I$ in phase. In an inductor, $V$ **leads** $I$ by $90^{\circ}$ with reactance $X_L = \omega L$. In a capacitor, $V$ **lags** $I$ by $90^{\circ}$ with reactance $X_C = 1/\omega C$.
+
+**Series LCR circuit.** The impedance is $Z = \sqrt{R^2 + (X_L - X_C)^2}$, the current is $I = V/Z$ and the phase angle is $\tan\phi = \dfrac{X_L - X_C}{R}$.
+
+**Resonance.** When $X_L = X_C$, $Z = R$ is minimum and the current is maximum. The resonant frequency is $f_0 = \dfrac1{2\pi\sqrt{LC}}$. The sharpness is given by the quality factor $Q = \dfrac{\omega_0L}{R}$. Radio tuning uses this.
+
+**Power.** The average power is $P = V_{rms}I_{rms}\cos\phi$, where $\cos\phi = R/Z$ is the **power factor**. In a pure inductor or capacitor $P = 0$, and the current is called **wattless**.
+
+**Transformer.** It works on mutual induction. For an ideal transformer, $\dfrac{V_s}{V_p} = \dfrac{N_s}{N_p} = \dfrac{I_p}{I_s}$. A step-up transformer has $N_s > N_p$. Efficiency is $\dfrac{P_{out}}{P_{in}}$. Losses are copper loss ($I^2R$), eddy current loss, hysteresis loss, flux leakage and humming; they are reduced by thick wire, laminated cores, soft iron and a good winding. Power is transmitted at high voltage so that $I^2R$ loss in the lines is low.
+
+| Circuit | Phase of current | Power |
+|---|---|---|
+| R only | in phase | $VI$ |
+| L only | lags $90^{\circ}$ | 0 |
+| C only | leads $90^{\circ}$ | 0 |
+| LCR at resonance | in phase | $VI$ (maximum) |
+
+**Numerical.** $R = 30\ \Omega$, $L = 0.2\ \text{H}$, $C = 100\ \mu\text{F}$, $220\ \text{V}$, $50\ \text{Hz}$: $X_L = 62.8\ \Omega$, $X_C = 31.8\ \Omega$, so $Z = \sqrt{30^2 + 31^2} = 43.1\ \Omega$, $I = 5.1\ \text{A}$, $\cos\phi = 0.70$ and $P = I^2R = 780\ \text{W}$. The resonant frequency is $f_0 = 1/(2\pi\sqrt{0.2\times10^{-4}}) = 35.6\ \text{Hz}$. A transformer stepping $220\ \text{V}$ down to $11\ \text{V}$ has a turns ratio $20:1$.
+
+**Conclusion.** Current in an LCR circuit is greatest at resonance, and only the resistance consumes average power.

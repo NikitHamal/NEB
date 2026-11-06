@@ -821,3 +821,69 @@ f.text(150, 220, "weightless = free fall, not zero gravity", size=10.5, color=TE
 **9.** (a) — $r = (GMT^2/4\pi^2)^{1/3} = (4.0\times10^{14}(86400)^2/39.5)^{1/3} = 4.2\times10^7$ m. Option (b) is the height above the surface, not the radius.
 **10.** (c) — $E = -GMm/2r = -mgR^2/(2)(2R) = -mgR/4 = -(500)(9.8)(6.4\times10^6)/4 = -7.8\times10^9$ J.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Newton's law of gravitation. Derive the variation of $g$ with height and depth and solve a numerical. <span class="marks">[10]</span>
+2. Derive the orbital and escape velocities. Describe the geostationary satellite and Kepler's laws. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="2" ratio="1.4" caption="Gravity on every scale. (a) A GPS receiver relies on satellites in medium Earth orbit, whose period is about 12 hours. (b) The Andromeda galaxy is held together, and bound to the Milky Way, by gravitation."
+@ photo id="phy11/gps" cap="(a) GPS satellites"
+fit 1.4
+focus 0.5 0.5
+@ photo id="phy11/andromeda" cap="(b) Andromeda galaxy"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: gravitation and variation of $g$ (10 marks)
+
+**Introduction.** **Newton's law of gravitation:** every particle attracts every other with a force proportional to the product of their masses and inversely proportional to the square of the distance between them: $F = \dfrac{Gm_1m_2}{r^2}$, with $G = 6.67\times10^{-11}\ \text{N m}^2\text{kg}^{-2}$ and dimensions $[M^{-1}L^3T^{-2}]$. The force is attractive, central and conservative.
+
+**Acceleration due to gravity.** At the surface of the earth (mass $M$, radius $R$), $mg = GMm/R^2$, so $g = GM/R^2 = 9.8\ \text{m s}^{-2}$. Also $g = \tfrac43\pi G\rho R$.
+
+**Variation of $g$.**
+
+1. **Height $h$.** $g' = \dfrac{GM}{(R + h)^2} = g\left(1 + \dfrac hR\right)^{-2}$, and for $h \ll R$, $g' \approx g\left(1 - \dfrac{2h}{R}\right)$.
+2. **Depth $d$.** Only the mass of the inner sphere attracts, so $g' = g\left(1 - \dfrac dR\right)$. At the centre $g = 0$.
+3. **Latitude $\lambda$.** Because of rotation, $g' = g - R\omega^2\cos^2\lambda$. It is least at the equator and greatest at the poles.
+4. **Shape.** The earth is flattened at the poles, so $R$ is smaller there and $g$ is larger.
+
+| Place | Value of $g$ |
+|---|---|
+| Surface | $g$ |
+| At height $R$ | $g/4$ |
+| At depth $R/2$ | $g/2$ |
+| Centre of earth | 0 |
+| Poles / equator | $9.83$ / $9.78\ \text{m s}^{-2}$ |
+
+**Numerical.** At a height of $320\ \text{km}$ ($R = 6400\ \text{km}$), $g' \approx 9.8(1 - 2\times0.05) = 8.8\ \text{m s}^{-2}$. At a depth of $1600\ \text{km}$, $g' = 9.8(1 - 0.25) = 7.35\ \text{m s}^{-2}$. A $60\ \text{kg}$ person has weight $588\ \text{N}$ on the surface and $441\ \text{N}$ at that depth, while the mass stays $60\ \text{kg}$.
+
+**Conclusion.** $g$ decreases both above and below the surface. It is maximum at the surface, and mass is constant while weight changes.
+
+### Model answer D2: orbital velocity, escape velocity and Kepler's laws (10 marks)
+
+**Introduction.** A satellite moves in a circle only because gravity supplies the centripetal force. A body thrown fast enough can leave the earth for good.
+
+**Orbital velocity.** Gravity provides the centripetal force: $\dfrac{GMm}{(R + h)^2} = \dfrac{mv^2}{R + h}$, so $v_o = \sqrt{\dfrac{GM}{R + h}}$. Near the surface $v_o = \sqrt{gR} = 7.9\ \text{km s}^{-1}$ and the period is $T = 2\pi\sqrt{R/g} \approx 84\ \text{minutes}$.
+
+**Escape velocity.** The work done against gravity to take a mass $m$ from the surface to infinity is $GMm/R$. Equating this to kinetic energy: $\tfrac12mv_e^2 = \dfrac{GMm}{R}$, so $v_e = \sqrt{2gR} = 11.2\ \text{km s}^{-1}$. Hence $v_e = \sqrt2\,v_o$. It does not depend on the mass or the direction of projection. The moon has no atmosphere because $v_e$ is only $2.4\ \text{km s}^{-1}$, so gas molecules escape.
+
+**Satellites.** The total energy of an orbiting satellite is $E = -\dfrac{GMm}{2r}$, which is $-K$. A **geostationary satellite** has a period of 24 h, orbits in the equatorial plane from west to east at a height of about $36\,000\ \text{km}$ ($r \approx 42\,300\ \text{km}$), and appears fixed in the sky. It is used for communication and weather.
+
+**Kepler's laws.**
+
+1. Law of orbits: each planet moves in an ellipse with the sun at one focus.
+2. Law of areas: the line from the sun to the planet sweeps equal areas in equal times (conservation of angular momentum).
+3. Law of periods: $T^2 \propto a^3$, where $a$ is the semi-major axis.
+
+| Quantity | Formula | Value for earth |
+|---|---|---|
+| Orbital speed (surface) | $\sqrt{gR}$ | $7.9\ \text{km s}^{-1}$ |
+| Escape speed | $\sqrt{2gR}$ | $11.2\ \text{km s}^{-1}$ |
+| Geostationary period | $2\pi\sqrt{r^3/GM}$ | $24\ \text{h}$ |
+| Satellite energy | $-GMm/2r$ | negative: bound |
+
+**Numerical.** With $g = 9.8\ \text{m s}^{-2}$ and $R = 6.4\times10^6\ \text{m}$: $v_o = \sqrt{6.27\times10^7} = 7.9\times10^3\ \text{m s}^{-1}$ and $v_e = 1.12\times10^4\ \text{m s}^{-1}$. A planet with a period of $8$ years has $a^3 = 64$, so $a = 4\ \text{AU}$.
+
+**Conclusion.** $v_o = \sqrt{gR}$ and $v_e = \sqrt2\,v_o$. Kepler's laws follow from the inverse square law and conservation of angular momentum.

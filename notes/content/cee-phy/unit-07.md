@@ -810,3 +810,74 @@ facts = dict(s=stress / 1e6, st=rows[0][1], cu=rows[1][1], pb=rows[3][1], strain
 **9.** (c) — $U=\frac{1}{2}kx^2 = \frac{1}{2}(200)(0.05)^2 = 0.25$ J. Option (d) 5.0 J comes from using $\frac{1}{2}kx$ and never squaring the extension.
 **10.** (a) — $F=\text{stress}\times A = (1.0\times10^9)(0.50\times10^{-6}) = 500$ N.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Hooke's law and explain the stress-strain curve and the three elastic moduli. <span class="marks">[10]</span>
+2. Derive the energy stored in a stretched wire, define Poisson's ratio and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Elasticity in structures. (a) A suspension bridge hangs from steel cables whose stress must stay well below the elastic limit. (b) A rope shares a load between many strands, and its breaking stress sets the safe load."
+@ photo id="ceephy3/bridge" cap="(a) Steel cables of a bridge"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy3/rope" cap="(b) Rope under tension"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: Hooke's law, the stress-strain curve and moduli (10 marks)
+
+**Introduction.** **Elasticity** is the property of a body to regain its original size and shape after the deforming force is removed. **Stress** is the restoring force per unit area, $\sigma = F/A$ (Pa). **Strain** is the fractional change, a number with no unit.
+
+**Hooke's law.** Within the elastic limit, stress is proportional to strain. The constant is the **modulus of elasticity**: $E = \text{stress}/\text{strain}$.
+
+**Stress-strain curve** for a ductile wire such as steel:
+
+1. **OA:** straight line, Hooke's law holds, and the slope is Young's modulus. A is the proportional limit.
+2. **AB:** the wire is still elastic but not linear. B is the **elastic limit** (yield point).
+3. **BC:** beyond B the wire is permanently deformed (plastic region). At C the wire flows with little extra stress.
+4. **CD:** stress rises to the **ultimate tensile strength** at D. Then the wire thins (necks) and breaks at E.
+
+**Moduli.**
+
+| Modulus | Definition | Formula | Applies to |
+|---|---|---|---|
+| Young's $Y$ | longitudinal stress / strain | $\dfrac{FL}{A\,\Delta L}$ | solids |
+| Bulk $K$ | volume stress / strain | $-\dfrac{\Delta P\,V}{\Delta V}$ | solids, liquids, gases |
+| Rigidity $\eta$ | shear stress / shear strain | $\dfrac{F}{A\theta}$ | solids only |
+
+The compressibility is $1/K$. A **brittle** material (glass) breaks soon after the elastic limit, a **ductile** one (copper) has a long plastic region, and a **perfectly elastic** body (quartz) obeys Hooke's law closely.
+
+**Numerical.** A steel wire of diameter $1\ \text{mm}$ and length $2\ \text{m}$ ($Y = 2\times10^{11}\ \text{Pa}$) carries $100\ \text{N}$. Then $A = \pi(0.5\times10^{-3})^2 = 7.85\times10^{-7}\ \text{m}^2$, stress $= 1.27\times10^{8}\ \text{Pa}$, strain $= 6.4\times10^{-4}$, and the extension $\Delta L = 6.4\times10^{-4}\times2 = 1.27\ \text{mm}$.
+
+**Conclusion.** The slope of the straight part of the curve is $Y$. Engineers keep the stress well below the elastic limit.
+
+### Model answer D2: elastic energy and Poisson's ratio (10 marks)
+
+**Introduction.** Work is done to stretch a wire, and it is stored as **elastic potential energy**. It is returned when the wire returns to its normal length.
+
+**Derivation.** The force rises from $0$ to $F$ as the extension grows from $0$ to $\Delta L$. By Hooke's law $F' = \dfrac{YA}{L}x$ at extension $x$, so
+
+$$ W = \int_0^{\Delta L}\frac{YA}{L}x\,dx = \frac{YA\,\Delta L^2}{2L} = \tfrac12F\,\Delta L $$
+
+The energy per unit volume is $u = \dfrac{W}{AL} = \tfrac12\times\text{stress}\times\text{strain} = \dfrac{\sigma^2}{2Y}$.
+
+**Poisson's ratio.** When a wire is stretched, it becomes thinner. The ratio of lateral strain to longitudinal strain is Poisson's ratio, $\nu = \dfrac{\Delta d/d}{\Delta L/L}$. It has no unit, is between $0$ and $0.5$ for ordinary solids (about $0.3$ for steel), and has a theoretical limit $0.5$ for an incompressible material.
+
+**Other points.**
+
+1. The spring constant of a wire is $k = YA/L$, so a thicker or shorter wire is stiffer.
+2. A wire cooled while its ends are clamped develops a **thermal stress** $Y\alpha\,\Delta\theta$. This is why railway tracks have expansion gaps.
+3. When a wire is stretched beyond the elastic limit, the area of the stress-strain loop is lost as heat (**hysteresis**), as in rubber used in shock absorbers.
+4. The relation between the moduli is $Y = 3K(1 - 2\nu)$.
+
+| Wire factor | Effect on extension $\Delta L = FL/AY$ |
+|---|---|
+| Length doubled | doubled |
+| Radius doubled | $\tfrac14$ |
+| Material with larger $Y$ | smaller |
+| Load doubled | doubled |
+
+**Numerical.** For the wire in D1: $W = \tfrac12(100)(1.27\times10^{-3}) = 0.064\ \text{J}$. The volume is $7.85\times10^{-7}\times2 = 1.57\times10^{-6}\ \text{m}^3$, so $u = 0.064/1.57\times10^{-6} = 4.1\times10^{4}\ \text{J m}^{-3}$. This agrees with $\tfrac12(1.27\times10^8)(6.4\times10^{-4}) = 4.1\times10^4$.
+
+**Conclusion.** The stored energy is $\tfrac12F\,\Delta L$, or $\tfrac12\times$ stress $\times$ strain per unit volume.
