@@ -7,7 +7,7 @@ Year 3, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Th
 | 1 | Reproductive anatomy, pelvis, fertilisation, placenta, fetal circulation, fetal skull | Pelvic types and diameters, obstetric conjugate, skull diameters and moulding, ovulation and implantation dates, placenta, liquor, cord, three fetal shunts; case: short-statured primigravida |
 | 2 | Well-woman care, pre-conception care, diagnosis of pregnancy, EDD and fundal height, physiology, minor disorders | Naegele, McDonald, GTPAL, blood volume, BMI and weight gain, anaemia bands; case: Kalpana Rai with nausea and anaemia |
 | 3 | Antenatal care: history, Leopold grips, screening, Nepal ANC protocol, Aama, danger signs, pre-eclampsia and MgSO4, BPCR | HMIS coverage and dropout, MAP, MgSO4 volumes, OGTT cut-offs; case: Maya Magar, severe pre-eclampsia |
-| 4 | Normal labour, mechanism, Labour Care Guide, third stage | planned |
+| 4 | Normal labour: five Ps, stages, cardinal movements, Labour Care Guide thresholds, Bishop score, second stage, AMTSL | Bishop score, stage durations, oxytocin drip rate, blood loss by weight; case: Sarita Tamang |
 | 5 | Normal newborn, puerperium and lactation | planned |
 
 ## Verification

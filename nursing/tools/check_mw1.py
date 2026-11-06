@@ -36,6 +36,14 @@ chk("mg", (round((160 + 2 * 110) / 3, 1), 4 / 0.5, 5 / 0.5, 4 + 10, 5 / 0.5, 5 *
 chk("pq", (350 / 500 * 100, round((150 + 200) / 3, 1)), (70.0, 116.7))
 T.update(c3_map="126.7", u3_ifa="108,000", u3_stock="118,800")
 # ---- U3-END
+# ---- U4-BEGIN
+# ---- Unit 4: normal labour
+from datetime import datetime as _dt
+_a, _f, _b, _p, _t7 = _dt(2026, 3, 14, 6, 0), _dt(2026, 3, 14, 10, 45), _dt(2026, 3, 14, 11, 30), _dt(2026, 3, 14, 11, 42), _dt(2026, 3, 14, 8, 30)
+chk("stg", ((_f - _a).seconds // 60, (_b - _f).seconds // 60, (_p - _b).seconds // 60, round(2 / ((_t7 - _a).seconds / 3600), 1), 3 + 3 + 2 + 2 + 2, 2 + 1 + 1 + 1 + 1), (285, 45, 12, 0.8, 12, 6))
+chk("oxy", (60 / 20, round(1000 / 3), round(20 / (1000 / 3 / 60), 1), 600 // 200, 400 - 120, 620 - 120, 1000 / (60 / 15)), (3.0, 333, 3.6, 3, 280, 500, 250.0))
+T.update(c4_bishop="12", c4_active="4 h 45 min")
+# ---- U4-END
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):
