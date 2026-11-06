@@ -119,6 +119,45 @@ They explain a device, a process, a material, a safety rule or a measurement. Ex
 **4.** (c) — the passage compares recall with rereading.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Measuring a passage before you read it. (a) A newspaper reader: the aim in the exam is to read fast enough to leave time for the questions. (b) The three practice passages of this chapter are measured by a short program: 152, 165 and 99 words, average sentence lengths of 19.0 and 20.6 words for the first two, and Flesch reading-ease scores of 58, 51 and 49 (syllables estimated by a vowel-group rule, so values are approximate). At an assumed 180 words per minute they take about 51, 55 and 33 seconds to read once. The inference passage scores lowest and the technical one has the longest sentences, so both need a careful first reading."
+@ photo id="ioeeng/newspaper" cap="A reader at a cafe terrace: reading speed decides how much time is left for answers"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Words, Flesch ease and reading time of the practice passages"
+import re
+TXT = ['Cities have always been shaped by the way people move. The earliest towns were small enough to cross on foot, so shops, homes and workplaces stood close together. When the railway arrived, towns stretched along the tracks, and when the car became common, they spread out into wide suburbs that most people could only reach by driving. Planners now see the cost: long commutes, polluted air and roads so crowded that new lanes fill up within a few years of opening. Several cities have therefore begun to reverse the trend. They are building cycle lanes, protecting pavements and encouraging homes, offices and markets to share the same neighbourhoods. Early results suggest that such changes do not slow business; shops on pedestrian streets often report more customers, not fewer. The lesson is not that cars should disappear, but that a city designed around the car alone leaves many of its residents worse off.', 'A transformer changes the voltage of an alternating current without changing its frequency. It consists of two coils of insulated wire, the primary and the secondary, wound on a common core made of thin laminated sheets of soft iron. When an alternating voltage is applied to the primary, it produces a changing magnetic flux in the core, and this flux induces a voltage in the secondary. The ratio of the voltages is equal to the ratio of the number of turns in the two coils. A step-up transformer has more turns in the secondary and raises the voltage, whereas a step-down transformer does the opposite. Because the power cannot increase, a rise in voltage is always accompanied by a fall in current. This is why electricity is sent over long distances at very high voltage: the smaller current wastes less energy as heat in the transmission lines. The core is laminated, not solid, to reduce the eddy currents that would otherwise heat it.', 'Many students believe that the best way to learn is to read the same chapter several times. The comfortable feeling of familiarity is, however, easily mistaken for understanding. Researchers who compare study habits repeatedly find that students who close the book and try to recall what they have read remember far more a week later than those who simply reread. Testing yourself is harder and feels less productive in the moment, which is precisely why many learners avoid it. The wise student treats difficulty not as a sign of failure but as evidence that the memory is being strengthened.']
+def syl(w):
+    n = len(re.findall("[aeiouy]+", w.lower()))
+    if w.lower().endswith("e") and n > 1 and not w.lower().endswith(("le", "ee")): n -= 1
+    return max(1, n)
+def stats(t):
+    w = re.findall("[A-Za-z']+", t); s = len(re.findall("[.!?](?: |$)", t)); sy = sum(syl(x) for x in w)
+    fre = 206.835 - 1.015 * len(w) / s - 84.6 * sy / len(w)
+    return len(w), s, len(w) / s, fre
+R = [stats(x) for x in TXT]
+assert [r[0] for r in R] == [152, 165, 99]
+fre = [r[3] for r in R]; secs = [r[0] / 180 * 60 for r in R]
+assert fre[2] < fre[1] < fre[0] and R[1][2] == max(r[2] for r in R)
+facts = dict(w1=R[0][0], w2=R[1][0], w3=R[2][0], f1="%.0f" % fre[0], f2="%.0f" % fre[1], f3="%.0f" % fre[2], s1="%.0f" % secs[0], s2="%.0f" % secs[1], s3="%.0f" % secs[2], l1="%.1f" % R[0][2], l2="%.1f" % R[1][2])
+f = Fig(300, 236)
+f.text(150, 14, "the three practice passages of this chapter", size=10.5, color=NAVY, bold=True)
+names = ["P1 general", "P2 technical", "P3 inference"]
+cols = [(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)]
+f.text(8, 34, "Reading ease (Flesch, higher = easier)", size=10.5, color=SLATE, bold=True, anchor="start")
+for i in range(3):
+    y = 44 + i * 26
+    f.text(8, y + 10, names[i], size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(92, y, max(fre[i], 1) * 1.8, 20, "", fill=cols[i][0], stroke=cols[i][1], r=3)
+    f.text(92 + max(fre[i], 1) * 1.8 + 6, y + 10, "%.0f" % fre[i], size=10.5, color=cols[i][1], bold=True, anchor="start", vmid=True)
+f.text(8, 134, "Words, and time to read at 180 words per minute", size=10.5, color=SLATE, bold=True, anchor="start")
+for i in range(3):
+    y = 144 + i * 26
+    f.text(8, y + 10, names[i], size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(92, y, R[i][0] * 0.5, 20, "", fill=cols[i][0], stroke=cols[i][1], r=3)
+    f.text(92 + R[i][0] * 0.5 + 6, y + 10, "%d words, %.0f s" % (R[i][0], secs[i]), size=10.5, color=cols[i][1], bold=True, anchor="start", vmid=True)
+f.text(150, 226, "P3 reads hardest; P2 has the longest sentences", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Step | Action |
@@ -187,3 +226,74 @@ Read the passage below and answer the questions.
 **4.** (a) — "surplus power can be sold in summer".
 **5.** (c) — solar farms are not mentioned.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Read a technical passage and answer questions on its main idea, vocabulary in context, inference and reference, giving reasons. <span class="marks">[10]</span>
+2. Explain a method for reading a passage under time pressure and answering true/false, inference and tone questions. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Passages come from news, places and daily life. (a) A man reading a newspaper at a café terrace. (b) Kathmandu Durbar Square, a common subject of descriptive passages. (c) Boudhanath Stupa, another place that reading passages describe."
+@ photo id="ioeeng/newspaper" cap="(a) Newspaper reader"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/durbar" cap="(b) Durbar Square"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioeeng/stupa" cap="(c) Boudhanath Stupa"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: A technical passage worked in full (10 marks)
+
+**Passage (about 120 words).** *A solar water heater has three main parts: a collector, an insulated tank and connecting pipes. The collector is a flat box with a black metal plate under a sheet of glass. Sunlight passes through the glass and heats the plate, and the glass traps the heat inside, just as a closed car becomes hot in the sun. Water in the tubes fixed to the plate becomes warm and, being lighter, rises to the tank by natural circulation, while cold water sinks to take its place. No pump is needed. In Nepal such heaters are popular in hotels and homes, because they reduce the use of electricity and firewood. However, they work poorly on cloudy days, so many users keep an electric heater as a back-up.*
+
+**Questions and model answers.**
+
+1. **Main idea:** *(c) A solar heater uses sunlight to warm water, with a few limits.* The passage explains the parts, the working, the use and the weakness. The wrong options cover only one part each.
+2. **Vocabulary:** *"insulated"* means **covered to stop heat escaping**. The clue is that the tank keeps the water warm.
+3. **Reference:** *"they"* in "because **they** reduce the use of electricity and firewood" refers to **such heaters (solar water heaters)**, the plural noun that the sentence just named.
+4. **Inference:** *Why do many users keep an electric heater?* **Because the solar heater gives too little heat on cloudy days.** The word "however" signals the limit, and "back-up" tells us the reason.
+5. **True or false:** *"A pump is needed to move the water."* **False.** The passage says "No pump is needed" because natural circulation moves the water.
+6. **Comparison:** *The glass is compared to* **a closed car** in sunlight, which shows that glass traps heat.
+7. **Tone:** *The writer's tone is* **informative and balanced**, as it gives both a benefit and a drawback without strong emotion.
+8. **Title:** *"How a Solar Water Heater Works."*
+
+**Technique used.** The answers come from the exact words of the passage, not from outside knowledge, and a wrong option usually contains a word that the passage never says or that changes its meaning ("always", "only", "never").
+
+| Question type | Where to look | Warning |
+|---|---|---|
+| Main idea | First and last sentences | Avoid options that cover only one detail |
+| Vocabulary in context | Words around the term | Do not use the first meaning that comes to mind |
+| Reference | The noun just before the pronoun | Check singular and plural |
+| Inference | Signal words (however, therefore) | Must be supported by the text |
+| True/False | The exact sentence | Beware of *only, always, never* |
+
+**Conclusion.** Every answer must be traced to a sentence in the passage; this removes guessing and saves time.
+
+### Model answer D2: Reading strategy under time pressure (10 marks)
+
+**Introduction.** The English paper has about 4 comprehension questions, and a long passage can use up the time of the whole section. A fixed method makes the reading fast and accurate.
+
+**Method (8 steps).**
+
+1. **Read the questions first** (not the options), so that you know what to look for.
+2. **Skim the passage** in about 30 seconds: the title, the first sentence of each paragraph and the last sentence.
+3. **Read the passage once at normal speed**, marking names, numbers and signal words (*but, however, therefore, although*).
+4. **Answer the main-idea question last**, because the details will have made the main idea clear.
+5. **Find each answer in the text** and underline the proof sentence before choosing an option.
+6. **Remove wrong options:** an option that is too general, too extreme, or true in real life but not in the passage is wrong.
+7. **For vocabulary, replace the word** with each option and check the sentence still makes sense.
+8. **For tone and attitude questions,** look at adjectives and verbs: *praise, criticise, warn, explain*.
+
+**Example of eliminating options.** The passage says: *"Most Nepali farmers still depend on the monsoon for irrigation."* The question: *Which statement is true?* (a) All farmers use machines. (b) Most farmers depend on rain. (c) Rain never falls in Nepal. (d) The monsoon is useless. Option (a) is extreme (*all*), (c) is extreme (*never*), (d) contradicts the text, so the answer is **(b)**.
+
+**Time plan.** A 150-word passage and 4 questions in about 4 minutes: 30 seconds for questions, 90 seconds for reading, 120 seconds for the answers. Practice passages in this chapter average 152, 165 and 99 words, so this plan fits.
+
+| Step | Time | Result |
+|---|---|---|
+| Questions and skim | 40 s | Know what to find |
+| Careful reading | 90 s | Marked text |
+| Answers with proof | 110 s | Four checked answers |
+
+**Conclusion.** A short, repeatable routine of reading the questions, skimming, locating proof and eliminating options turns comprehension into a safe scoring section.

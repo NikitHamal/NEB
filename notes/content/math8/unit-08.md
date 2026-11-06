@@ -523,6 +523,18 @@ Walls $= 2 \times 3.5 \times (6+5) = 77$ m²; less the door $2$ m² gives
 **Total $=$ Rs 21,750.**
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. A rectangular garden 28 m long and 20 m wide has a circular pond of radius 7 m. Find (a) the area of the pond, (b) the area left for grass, and (c) the cost of planting grass at Rs 25 per m². Take $\pi=\frac{22}{7}$. <span class="marks">[5]</span>
+2. A closed cylindrical tank has radius 7 cm and height 20 cm. Find its curved surface area, total surface area and volume, and say how many litres it holds. ($\pi=\frac{22}{7}$; 1000 cm³ $=$ 1 litre.) <span class="marks">[5]</span>
+3. (a) A trapezium-shaped field has parallel sides 30 m and 18 m, and the distance between them is 12 m. Find its area. (b) The diagonals of a rhombus are 16 cm and 12 cm. Find its area, its side and its perimeter. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Pond $=\pi r^2=\frac{22}{7}\times7\times7=154$ m². (b) Garden $=28\times20=560$ m², so grass area $=560-154=406$ m². (c) Cost $=406\times25=\text{Rs }10{,}150$.
+**2.** Curved surface area $=2\pi rh=2\times\frac{22}{7}\times7\times20=880$ cm². Total surface area $=2\pi r(r+h)=2\times\frac{22}{7}\times7\times27=1188$ cm². Volume $=\pi r^2h=\frac{22}{7}\times49\times20=3080$ cm³, which is $3.08$ litres. (Check: the two circular ends are $2\times154=308$ cm², and $880+308=1188$ ✓.)
+**3.** (a) Area of a trapezium $=\frac12(a+b)h=\frac12(30+18)\times12=288$ m². (b) Area of a rhombus $=\frac12d_1d_2=\frac12\times16\times12=96$ cm². The diagonals bisect each other at right angles, so each side is the hypotenuse of a right triangle with legs 8 cm and 6 cm: side $=\sqrt{64+36}=\sqrt{100}=10$ cm. Perimeter $=4\times10=40$ cm.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

@@ -312,3 +312,75 @@ The exaggerated eating words (gobbled, wolfed, burp) add to the fun.
 **5.** Introduction (what the hobby is), why you like it, how you do it, what
 you have gained, future plans; present simple and *like/enjoy + -ing*.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write an essay on "My Hobby" and explain how to talk about likes and dislikes. <span class="marks">[10]</span>
+2. Explain the use of the -ing form and the infinitive, and the formation of wh-questions. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="4" ratio="1.0" caption="Birds of Nepal. A Himalayan monal (the national bird, danphe), a white-rumped vulture, an Arctic tern and a cabbage white butterfly: living things a bird watcher like Hari Sharan Nepali learned to know."
+@ photo id="nep12/danphe" cap="Himalayan monal (danphe)"
+@ photo id="eng8/vulture-nepal" cap="White-rumped vulture"
+@ photo id="eng10/arctic-tern" cap="Arctic tern"
+@ photo id="eng10/cabbage-white" cap="Cabbage white butterfly"
+```
+
+### Model answer D1: an essay on a hobby (10 marks)
+
+**Introduction.** A **hobby** is an activity we enjoy in our free time. Hobbies make us happy, teach us new skills and keep us away from bad habits.
+
+**Model essay.**
+
+::: example Bird watching, my favourite hobby
+**Bird watching, my favourite hobby.** My hobby is bird watching. I started it two years ago when my uncle took me to Phulchoki hill and showed me a beautiful bird through his binoculars. I enjoy getting up early, walking quietly and listening to bird songs. I keep a small notebook where I write the name, colour and place of every bird I see. So far I have noted more than sixty kinds. Bird watching has taught me to be patient and to love nature. It costs very little, and anyone can do it. Nepal has more than 880 species of birds, so there is always something new to see. I would like to be an ornithologist, like Hari Sharan Nepali, who dedicated his life to birds.
+:::
+
+**Expressing likes, dislikes and preferences.**
+
+| Function | Expressions |
+|---|---|
+| Like | *I love/enjoy/adore + -ing; I'm fond of...* |
+| Dislike | *I hate/can't stand/don't like + -ing* |
+| Preference | *I prefer reading to watching TV. I'd rather read than watch TV.* |
+
+**Points for the essay (8).**
+
+1. Name the hobby.
+2. How and when you started.
+3. What you do.
+4. What you enjoy most.
+5. What you need.
+6. Benefits.
+7. Problems and how you solve them.
+8. Future plans.
+
+**Conclusion.** Use the present simple for habits and add one example from your own life.
+
+### Model answer D2: -ing form, infinitive and wh-questions (10 marks)
+
+**Verb + -ing.**
+
+1. Use the **-ing form** after: *enjoy, mind, avoid, finish, keep, practise, suggest*: *She enjoys singing.*
+2. After a **preposition** always use -ing: *He is good at drawing. Thank you for helping me.*
+3. The -ing form can be the **subject**: *Walking is healthy.*
+
+**Verb + to-infinitive.**
+
+4. Use **to + base verb** after: *want, would like, agree, learn, decide, hope, plan*: *I decided to join the club.*
+5. Some verbs take **both**, with a change in meaning: *I stopped smoking* (gave up) / *I stopped to smoke* (paused in order to smoke).
+
+**Wh-questions.**
+
+6. Formula: **wh-word + auxiliary + subject + main verb**: *Where did you see the bird?*
+7. In a **subject question** (wh-word is the subject) do not use *do/did*: *Who discovered the bird?* (not *Who did discover*).
+8. Wh-words: *what, who, whom, whose, which, when, where, why, how, how many, how long*.
+
+| Statement | Wh-question |
+|---|---|
+| She lives in Pokhara. | Where does she live? |
+| Ram broke the window. | Who broke the window? |
+| The bird has 4 chicks. | How many chicks has the bird? |
+
+**Conclusion.** Learn which verbs take -ing and which take *to*, and keep the question word order.

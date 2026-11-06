@@ -420,6 +420,29 @@ books with the same title.
 | Typical file | `.docx`, `.odt` | `.xlsx`, `.ods` | `.pptx`, `.odp` | `.accdb`, `.sql` |
 | Example | MS Word, Writer | MS Excel, Calc | PowerPoint, Impress | MS Access, MySQL |
 
+### Advantages and limitations of application packages
+
+**Eight advantages**
+
+1. **Low cost.** The maker sells one program to thousands of buyers, so the price per user is small. A school can buy or download an office suite for a few thousand rupees, or use LibreOffice free of charge. Writing the same software privately would cost lakhs.
+2. **Ready to use.** A package is tested and installed within minutes, so work can begin the same day. A bank clerk does not have to wait months for a programmer. This saves time as well as money.
+3. **Reliable and well tested.** Because millions of people use it, most bugs have been found and removed in earlier versions. Crashes and wrong answers are therefore rare. A formula such as SUM in a spreadsheet can be trusted.
+4. **Easy to learn.** Menus, toolbars and shortcuts such as Ctrl+C and Ctrl+S are the same in every program of the suite. A student who learns Word finds Excel familiar. Videos, books and classroom courses are easy to find.
+5. **Regular updates and support.** The maker releases security patches and new features, and offers a help desk or an online forum. Updates close holes through which viruses could enter. Microsoft 365 and Google Workspace update automatically.
+6. **Compatibility and data sharing.** Files made in common formats such as DOCX, XLSX, PDF and CSV open on any computer. A table copied from Excel can be pasted into a Word report or a PowerPoint slide. This helps offices that exchange files with banks and ministries.
+7. **Many functions in one suite.** Letters, calculations, presentations and databases are all covered by one purchase. Staff do not need to learn separate unrelated tools. An office needs only one licence type.
+8. **Training and skills are portable.** An employee who knows an office package can work in any organisation. Job advertisements for Tribhuvan University offices, banks and municipalities ask for exactly these skills. This makes learning the package a useful investment.
+
+**Seven limitations**
+
+1. **Not made to measure.** A package cannot match the exact workflow of one organisation, so some features are missing or unused. A hospital needs patient wards and bed numbers that Excel does not know.
+2. **Unused features.** Large suites contain hundreds of functions most users never touch, which take up disk space and memory.
+3. **Licence cost for many users.** The price grows with the number of computers, and a yearly subscription must be renewed.
+4. **Piracy and security risk.** Cracked copies carry viruses and receive no updates.
+5. **Vendor dependence.** The user must follow the maker's pricing, changes and end-of-support dates, as happened when support for Windows 10 ended in October 2025.
+6. **Limited customisation.** Reports and screens can be changed only within what the package permits.
+7. **File-format lock-in.** Files saved in a special format may not open perfectly in a competing package.
+
 ## 4.2 Introduction to domain-specific tools
 
 ::: definition Domain-specific software
@@ -474,6 +497,13 @@ arw((3.05,2.35),(4.20,2.35))
 arw((6.70,2.35),(7.85,2.35))
 arw((5.45,0.77),(5.45,1.10))
 ax.set_xlim(0.0,10.90); ax.set_ylim(0.02,4.05); ax.set_aspect('equal'); ax.axis('off')
+```
+
+```photogrid label="4.D" cols="4" ratio="1.25" caption="Domain-specific software sits behind everyday Nepali scenes. (a) An EAN-13 barcode, scanned at a shop counter, is the input of an inventory system. (b) A payment terminal showing a QR code feeds the day's sales into the accounting system. (c) A bank ATM is the front end of a banking package that updates the customer's balance. (d) A smart electricity meter reports readings to a billing system. In each case the screen the user sees is only the front of a package that stores master data, processes transactions and prints reports."
+@ photo id="bca103/ean13" cap="(a) Barcode: inventory input"
+@ photo id="bca101/qrpay" cap="(b) QR payment terminal"
+@ photo id="bca101/atm-nepal" cap="(c) ATM: banking package"
+@ photo id="bca101/smartmeter" cap="(d) Smart meter: billing"
 ```
 
 ### (a) School management system
@@ -590,6 +620,39 @@ types, prevents duplicate keys, links tables, handles many users at once and
 copes with millions of records — none of which a spreadsheet does well.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="An office package lets a clerk store records and run calculations on them without writing a program; the paper filing cabinet is the ancestor of the database and the spreadsheet. (a) Files in a cabinet. (b) In the worksheet, a formula such as =SUM(B2:D2) adds a row, =AVERAGE gives the mean and =RANK orders the totals. The four students score between 185 and 252, so Chandra is ranked first with an average of 84.0, and the Math column averages 72.5. When the formula is copied down, the row numbers change automatically, which is called relative cell reference, and results update at once if any mark is corrected."
+@ photo id="bca101/filecab" cap="Paper files in a cabinet, the model for a database package"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A spreadsheet of marks with SUM, AVERAGE and RANK"
+students = [("Aasha", 78, 85, 72), ("Bikash", 65, 70, 88), ("Chandra", 92, 81, 79), ("Dipa", 55, 62, 68)]
+tot = [sum(s[1:]) for s in students]
+avg = [t / 3 for t in tot]
+rank = [sorted(tot, reverse=True).index(t) + 1 for t in tot]
+mathavg = sum(s[1] for s in students) / 4
+assert tot == [235, 223, 252, 185] and rank == [2, 3, 1, 4] and abs(mathavg - 72.5) < 1e-9
+f = Fig(300, 236)
+f.box(8, 6, 284, 22, "", fill=SOFT, stroke=SLATE, r=2, sw=1)
+f.text(16, 17, "fx   =SUM(B2:D2)", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+xs = [8, 70, 108, 146, 184, 232]
+ws = [62, 38, 38, 38, 48, 60]
+hdr = ["Name", "Math", "Sci", "Eng", "Total", "Avg / Rank"]
+def cell(c, r, s, bold=False, fill="#ffffff", col=SLATE):
+    f.box(xs[c], 36 + r * 24, ws[c], 24, s, fill=fill, stroke="#94a3b8", color=col, size=10, bold=bold, r=0, sw=0.8)
+for c, h in enumerate(hdr):
+    cell(c, 0, h, True, BLUE, NAVY)
+for r, s in enumerate(students):
+    for c in range(4):
+        cell(c, r + 1, str(s[c]), c == 0)
+    cell(4, r + 1, str(tot[r]), True, SAND, AMBER)
+    cell(5, r + 1, "%.1f / %d" % (avg[r], rank[r]), True, MINT, TEAL)
+f.text(150, 174, "Total = SUM(B2:D2),  Avg = AVERAGE(B2:D2)", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "Rank = RANK(E2, E2:E5)", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "class average in Math = %.1f" % mathavg, size=10.5, color=RED, bold=True)
+f.text(150, 226, "copy the formula down: cell names adjust", size=10.5, color=SLATE)
+facts = dict(top="Chandra", t=max(tot), ma="%.1f" % mathavg, a="%.1f" % max(avg))
+```
+
 ## Chapter summary
 
 - An **application package** is ready-made software sold to many users; an
@@ -683,6 +746,27 @@ the software that creates and manages it; a **field** is one column or attribute
 a **record** is one complete row about one entity; a **primary key** is a field
 whose value is unique and never empty, so it identifies a record. Examples of a
 DBMS: MS Access and MySQL (also Oracle, PostgreSQL).
+**1.** An **application package** is ready-made software made for general use and sold to many users. The four components of an office package are:
+
+| Component | MS Office / LibreOffice | Two features |
+|---|---|---|
+| Word processor | Word / Writer | Formatting of text; spelling check; mail merge; tables and pictures |
+| Spreadsheet | Excel / Calc | Formulas and functions; charts; sorting and filtering; what-if analysis |
+| Presentation tool | PowerPoint / Impress | Slides with animation and transitions; slide master; speaker notes |
+| DBMS | Access / Base | Tables, queries, forms and reports; relationships; data validation |
+
+**5.** Domain-specific software is written for one field of work, such as a school or a hotel.
+
+| Point | General purpose package | Domain-specific software |
+|---|---|---|
+| Users | Everybody | One line of business |
+| Features | Broad but shallow | Exactly what the field needs |
+| Cost | Low, mass produced | Higher, may be custom built |
+| Training | General computer skill | Job-specific training |
+| Example | MS Word, MS Excel | School management, payroll |
+
+**6.** *Inventory management system.* Inputs: item master (code, name, rate, reorder level), purchase bills, sales bills scanned by barcode. Processing: stock balance = opening + purchases − sales; the reorder level is checked. Outputs: stock report, low-stock warning, purchase order, stock valuation. *Hotel management system.* Inputs: room master and tariff, guest booking and check-in details, food and laundry orders. Processing: room allocation, bill calculation with 13% VAT and service charge, availability update at check-out. Outputs: guest invoice, room status board, occupancy and revenue reports.
+
 :::
 
 **Group C — Long answer (8 marks each)**
@@ -729,3 +813,112 @@ wind readings from ground stations, radar and satellites; processing —
 numerical weather prediction models run on supercomputers; outputs — forecast
 maps, rainfall and flood warnings, aviation bulletins.
 :::
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. What is a spreadsheet package? Explain its features and show how the total, average and result are calculated, with an example. <span class="marks">[10]</span>
+2. What is a DBMS? Explain its objects, key terms and advantages, with an example from a school. <span class="marks">[10]</span>
+3. What is domain-specific software? Compare it with a general purpose package and explain any four such systems. <span class="marks">[10]</span>
+
+### Model answer D1: spreadsheet package, features and formulas (10 marks)
+
+**Introduction.** A **spreadsheet package** is application software that arranges data in a
+grid of rows and columns and calculates results automatically with formulas. MS Excel,
+LibreOffice Calc and Google Sheets are examples. The point where a column meets a row is
+a **cell**, addressed as `B3`; a block of cells is a **range**, written `B2:D4`; one page of
+cells is a **worksheet**, and the file holding several worksheets is a **workbook**.
+
+**Features.**
+
+1. **Formulas and functions:** `=SUM(B2:D2)`, `AVERAGE`, `MAX`, `MIN`, `COUNT`, `IF`, `RANK`.
+2. **Automatic recalculation:** change one mark and every dependent result changes at once.
+3. **Cell references:** relative (`B2`), absolute (`$B$2`) and mixed (`B$2`), which control what happens when a formula is copied.
+4. **Charts and graphs:** column, line and pie charts are drawn from the cells.
+5. **Sorting and filtering:** a class list can be arranged by total or filtered to show only the failed students.
+6. **Formatting and validation:** number formats, colours, conditional formatting and data validation rules.
+7. **Multiple worksheets and import or export:** CSV, PDF and database files.
+8. **What-if analysis and pivot tables:** changing an input to see the effect, and summarising large lists.
+
+**Worked example.** Names are in column A and the marks of three subjects in `B` to `D`.
+
+| | A | B Math | C Science | D English | E Total | F Average | G Result |
+|---|---|:-:|:-:|:-:|:-:|:-:|---|
+| 2 | Asha | 78 | 85 | 70 | 233 | 77.7 | Pass |
+| 3 | Bikash | 45 | 38 | 52 | 135 | 45.0 | Pass |
+| 4 | Chandra | 30 | 28 | 41 | 99 | 33.0 | Fail |
+
+In row 2 the formulas are `E2` `=SUM(B2:D2)`, `F2` `=AVERAGE(B2:D2)` and `G2`
+`=IF(F2>=40,"Pass","Fail")`. They are copied down with the fill handle, and the relative
+references become `B3:D3` and `B4:D4`. The highest total is `=MAX($E$2:$E$4)`, which gives 233; the
+dollar signs keep the range fixed when the formula is copied.
+
+**Conclusion.** A spreadsheet replaces hand calculation with formulas that update by
+themselves, which is why every school result sheet and office budget is prepared in one.
+
+### Model answer D2: DBMS, objects and advantages (10 marks)
+
+**Introduction.** A **database** is an organised collection of related data, and a **DBMS
+(Database Management System)** is the software that creates, stores, protects and retrieves it.
+MS Access, MySQL, Oracle and PostgreSQL are examples. A school keeps students, subjects and
+marks in a database instead of in separate paper registers.
+
+**Key terms.** A **table** stores data in rows and columns. A **field** is one column (an attribute),
+such as `Name`. A **record** is one complete row about one entity. A **primary key** is a field
+whose values are unique and never empty, such as `StudentID`. A **foreign key** is a field
+in one table that holds the primary key of another table and links the two.
+
+| StudentID (primary key) | Name | Class |
+|:-:|---|:-:|
+| 101 | Asha Karki | 11 |
+| 102 | Bikash Rai | 11 |
+
+| MarkID | StudentID (foreign key) | Subject | Marks |
+|:-:|:-:|---|:-:|
+| 1 | 101 | Computer | 78 |
+| 2 | 102 | Computer | 45 |
+
+**Objects of MS Access.** **Tables** hold the data; **queries** select, sort and calculate; **forms**
+give a friendly screen for entering one record; **reports** make printable output such as a
+mark ledger; (macros and modules automate tasks).
+
+**Advantages.**
+
+1. Less data **redundancy**, because each fact is stored once.
+2. Better **consistency**, since a changed address is changed everywhere.
+3. **Security** through passwords and user rights.
+4. **Data sharing** by many users at the same time.
+5. **Integrity** rules, such as no two students with the same ID.
+6. Fast **search and report** generation with queries.
+7. Backup and **recovery** after a failure.
+8. **Data independence**: programs are not affected when the storage changes.
+
+**Conclusion.** A DBMS turns scattered records into one shared, secure and consistent
+store, which is why schools, banks and the Tribhuvan University EMIS all depend on one.
+
+### Model answer D3: domain-specific software (10 marks)
+
+**Introduction.** **Domain-specific software** is application software designed for one
+particular field of work. It has the rules, forms and reports of that field built in, so it cannot be
+used usefully anywhere else. Almost every such system follows the pattern **input,
+processing, output**, working on a stored **master file**.
+
+| Point | General purpose package | Domain-specific software |
+|---|---|---|
+| Users | Everybody | One line of business |
+| Features | Broad but shallow | Exactly what the field needs |
+| Cost | Low | Higher, often custom built |
+| Training | General computer skill | Job-specific training |
+| Example | Excel for keeping stock | A full inventory system |
+
+**Four systems.**
+
+1. **School management system.** Inputs: admission forms, daily attendance, exam marks and fee receipts. Processing: validation, totals, grading and dues. Outputs: mark ledger, grade sheet, fee report and SMS to parents. Government schools report through **IEMIS**.
+2. **Inventory management system.** Inputs: item codes, purchase bills and sales scanned by barcode. Processing: stock balance = opening + purchases − sales, with a reorder level check. Outputs: stock report, purchase order and stock valuation.
+3. **Payroll system.** Inputs: employee master, attendance, overtime, leave and loans. Processing: gross pay, then tax, provident fund and other deductions, then net pay. Outputs: pay slips, bank transfer file and tax return.
+4. **Weather forecasting system.** Inputs: temperature, pressure, humidity, rainfall and wind readings from stations, radar and satellites. Processing: numerical models on a supercomputer. Outputs: forecast maps and rainfall or flood warnings, as issued in Nepal by the **Department of Hydrology and Meteorology (DHM)**.
+
+**Why domain-specific?** It saves time because the work-flow is ready, reduces errors by
+validating entries, and produces the official reports a regulator expects.
+
+**Conclusion.** General packages serve everybody, but a business whose work follows fixed
+rules is better served by a system built around those rules.

@@ -49,6 +49,32 @@ Geometric: 1 + r + … + rⁿ = (rⁿ⁺¹ − 1)/(r − 1) (r ≠ 1): step: (r�
 
 **Common mistakes:** forgetting the base case; assuming what must be proved; using a step that only works for some k; "proving" false statements (all horses are the same colour fails at k = 1 → 2).
 
+### Induction: knock over the first domino, then prove each one knocks the next
+
+Mathematical induction is the domino argument written as a proof. The base case says the first domino falls. The inductive step says: if domino k falls, then domino k + 1 falls. Together they make every domino fall. Plate 4.1 uses the claim "the sum of the first n odd numbers is n squared": the table checks it for the first eight values, and the step k^2 + (2k + 1) = (k + 1)^2 is checked for k = 1 to 50, though the algebra proves it for every k.
+
+```photogrid label="4.1" cols="2" ratio="1.3" caption="Every domino knocks over the next. (a) Dominoes: the picture of the inductive step. (b) The claim 1 + 3 + 5 + ... + (2n - 1) = n^2 checked for n = 1 to 8; adding the next odd number 2k + 1 to k^2 always gives (k + 1)^2, which is the inductive step."
+@ photo id="bca151/domino" cap="Dominoes: if one falls, the next one falls"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Sum of the first n odd numbers is n squared"
+rows = []
+for n in range(1, 9):
+    odds = [2 * i - 1 for i in range(1, n + 1)]
+    rows.append((n, odds, sum(odds)))
+assert all(s == n * n for n, _, s in rows) and rows[7][2] == 64
+assert all(k * k + (2 * k + 1) == (k + 1) ** 2 for k in range(1, 51))
+f = Fig(400, 250)
+f.text(200, 16, "n,  sum of the first n odd numbers,  n^2", size=11, color=NAVY, bold=True)
+for i, (n, odds, s) in enumerate(rows):
+    y = 28 + i * 24
+    f.text(10, y + 10, f"n={n}", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(56, y + 10, " + ".join(map(str, odds[-5:])) if n <= 5 else "... + " + " + ".join(map(str, odds[-4:])), size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(300, y, 40, 20, str(s), fill=MINT, stroke=TEAL, color=TEAL, size=10.5, bold=True)
+    f.box(346, y, 44, 20, f"{n}^2={n * n}", fill=SAND, stroke=AMBER, color=AMBER, size=10.5, bold=True)
+f.text(200, 232, "Step: k^2 + (2k + 1) = (k + 1)^2  (checked for k = 1..50)", size=10.5, color=SLATE, bold=True)
+```
+
 ## 4.2 Recursive definitions
 
 A **recursive definition** has a **base** and a **recursive rule**.
@@ -96,6 +122,39 @@ aₙ = 4aₙ₋₁ − 4aₙ₋₂, a₀ = 1, a₁ = 3. (r − 2)² = 0 ⇒ aₙ
 **Non-homogeneous** aₙ = (homogeneous part) + f(n): the solution is aₙ = (homogeneous solution) + (one particular solution). For constant f, try a constant; for f(n) = n, try pn + q. Example: aₙ = 2aₙ₋₁ + 1, a₀ = 0: particular aₙ = −1 (since −1 = −2 + 1), homogeneous A·2ⁿ; a₀ = A − 1 = 0 ⇒ **aₙ = 2ⁿ − 1**.
 
 **Modelling.** *Tower of Hanoi:* moving n discs needs Tₙ = 2Tₙ₋₁ + 1, T₁ = 1 ⇒ **Tₙ = 2ⁿ − 1**: 10 discs take 1023 moves; 64 discs take about 1.8 × 10¹⁹. *Compound interest:* Bₙ = 1.05Bₙ₋₁ + 1000 (a yearly deposit). *Bit strings with no two consecutive 0s:* sₙ = sₙ₋₁ + sₙ₋₂, s₁ = 2, s₂ = 3 → 2, 3, 5, 8, 13 (a Fibonacci shift: s₅ = 13). *Counting regions:* n lines in a plane (general position) give Rₙ = Rₙ₋₁ + n, R₀ = 1 ⇒ Rₙ = 1 + n(n + 1)/2.
+
+### Fibonacci in a sunflower
+
+The Fibonacci numbers come from the recurrence F(n+1) = F(n) + F(n-1). The ratio of neighbours settles quickly at the golden ratio 1.618..., and a plant that places each new seed 137.5 degrees (the golden angle) round the previous one packs the seeds with no gaps and no straight rays. Counting the spirals on a sunflower head usually gives two neighbouring Fibonacci numbers such as 34 and 55. Plate 4.2 computes the ratios for n = 1 to 12 and the golden angle.
+
+```photogrid label="4.2" cols="2" ratio="1.4" caption="A recurrence in a flower. (a) The centre of a sunflower: the seeds lie on two sets of spirals, usually counted as neighbouring Fibonacci numbers. (b) Ratios F(n+1)/F(n) for n = 1 to 12 settle at the golden ratio 1.6180; the golden angle 360 x (1 - 1/1.618...) is 137.5 degrees."
+@ photo id="bca151/sunflower" cap="Sunflower head: seeds packed on Fibonacci spirals"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Ratio of neighbouring Fibonacci numbers"
+import math
+fib = [1, 1]
+while len(fib) < 14: fib.append(fib[-1] + fib[-2])
+ratios = [fib[i + 1] / fib[i] for i in range(12)]
+phi = (1 + math.sqrt(5)) / 2
+assert fib[:12] == [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144] and abs(ratios[-1] - phi) < 1e-3 and abs(phi - 1.6180339) < 1e-6
+ang = 360 * (1 - 1 / phi); assert abs(ang - 137.5078) < 1e-3
+f = Fig(400, 250)
+f.text(200, 16, "F(n+1) / F(n)", size=11, color=NAVY, bold=True)
+L, T, W, H = 40, 30, 340, 140
+f.line(L, T + H, L + W, T + H, color=SLATE); f.line(L, T, L, T + H, color=SLATE)
+lo, hi = 1.0, 2.1
+Y = lambda v: T + H - (v - lo) / (hi - lo) * H
+f.line(L, Y(phi), L + W, Y(phi), color=AMBER, dash=True)
+f.text(L + W - 2, Y(phi) - 6, "1.618", size=10.5, color=AMBER, bold=True, anchor="end")
+for i, r in enumerate(ratios):
+    x = L + 14 + i * 27
+    f.circle(x, Y(r), 4.5, fill=ROSE if r > phi else MINT, stroke=RED if r > phi else TEAL)
+    f.text(x, T + H + 14, str(i + 1), size=10.5, color=SLATE)
+for v in (1.0, 1.5, 2.0): f.text(L - 4, Y(v) + 4, f"{v:.1f}", size=10.5, color=SLATE, anchor="end")
+f.text(200, 212, "n = 12: 144/89 = 1.6180   (n = 1: 1/1 = 1.0, n = 2: 2/1 = 2.0)", size=10.5, color=SLATE, bold=True)
+f.text(200, 232, "Golden angle = 360 x (1 - 1/1.618) = 137.5 degrees", size=10.5, color=SLATE)
+```
 
 ## 4.4 Divide-and-conquer recurrences
 

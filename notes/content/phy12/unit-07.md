@@ -369,6 +369,26 @@ given 498 m — an error of 14 m, which is why the temperature correction is
 worth doing.
 :::
 
+```photogrid label="7.P" cols="2" ratio="1.2" caption="Counting seconds between flash and thunder. (a) Lightning and thunder start together, but light arrives almost at once and sound arrives later. (b) The speed of sound in air rises with temperature, v = 331 + 0.61 T metres per second, which is 349.3 m/s at 30 degrees C. A delay of 3 s therefore means the strike was 1.05 km away, and 10 s means 3.49 km. The light from a strike 3.5 km away takes only 11.6 microseconds, so the delay is entirely due to the sound. The rule of thumb of about 3 seconds per kilometre follows from these numbers."
+@ photo id="phy12b/lightning" cap="Lightning in a night thunderstorm"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Distance of lightning from the delay of thunder"
+T = 30
+v = 331 + 0.61 * T
+rows = [("%d s" % t, v * t / 1000) for t in (1, 3, 5, 10)]
+assert round(v, 1) == 349.3 and round(rows[3][1], 2) == 3.49
+tl = rows[3][1] * 1000 / 3e8 * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Distance of the strike, km", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=3.7, fmt="%.2f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 158, "delay between flash and thunder shown", size=10, color=SLATE, bold=True)
+f.text(150, 178, "v = 331 + 0.61 T = %.1f m/s at 30 deg C" % v, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "at 0 deg C: 331 m/s, %.0f m less in 3 s" % ((v - 331) * 3), size=10, color=SLATE, bold=True)
+f.text(150, 216, "the flash takes only %.1f microseconds" % tl, size=10.5, color=NAVY, bold=True)
+facts = dict(v=v, d3=rows[1][1], d10=rows[3][1], tl=tl)
+```
+
 ## Chapter summary
 
 - Every wave obeys $v=f\lambda$, but the speed itself is set by the medium:
@@ -472,3 +492,107 @@ The echo now takes about 0.07 s longer — a small but measurable delay, and a
 reminder that any echo or resonance-tube measurement of $v$ must record the air
 temperature.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive Newton's formula for the speed of sound in a gas, state its error and explain Laplace's correction. Calculate the speed of sound in air at NTP by both formulae. <span class="marks">[10]</span>
+2. Discuss the effect of temperature, pressure, humidity and wind on the speed of sound in air, with a numerical example. <span class="marks">[10]</span>
+3. Derive an expression for the speed of a longitudinal wave in a solid and in a liquid, and compare the speeds in steel, water and air. <span class="marks">[10]</span>
+
+### Model answer D1: Newton's formula and Laplace's correction (10 marks)
+
+**Introduction.** Sound travels in a gas as a series of **compressions and rarefactions**. Newton (1687) tried to find its speed from the elasticity and density of the gas, but his answer disagreed with experiment. Laplace (1816) removed the error.
+
+**Newton's formula.** The speed of a longitudinal wave is $v = \sqrt{E/\rho}$, where $E$ is the modulus of elasticity of the medium and $\rho$ is its density. Newton assumed that the compressions and rarefactions are so slow that the temperature of the air stays constant (an **isothermal** change). For an isothermal change $PV = $ constant, so the bulk modulus is $E = P$, the pressure. Hence
+
+$$ v = \sqrt{\frac{P}{\rho}} $$
+
+**Numerical (Newton).** At NTP $P = 1.013\times10^{5}\ \text{Pa}$ and $\rho = 1.293\ \text{kg m}^{-3}$, so $v = \sqrt{1.013\times10^{5}/1.293} = 280\ \text{m s}^{-1}$. The measured value is $332\ \text{m s}^{-1}$, so Newton's value is about **16% too low**.
+
+**Laplace's correction.** Laplace argued that:
+
+1. Sound vibrates the air so rapidly (hundreds of times each second) that the heat produced in a compression has no time to flow away to the rarefaction.
+2. Air is also a **poor conductor of heat**.
+3. So the change is **adiabatic**, not isothermal, and for an adiabatic change $PV^{\gamma} = $ constant.
+
+From $PV^{\gamma} = $ constant, the adiabatic bulk modulus is $E = \gamma P$, where $\gamma = C_{p}/C_{v}$. The corrected formula is
+
+$$ v = \sqrt{\frac{\gamma P}{\rho}} $$
+
+**Numerical (Laplace).** For air $\gamma = 1.4$, so $v = \sqrt{1.4}\times 280 = 1.183\times280 = 331\ \text{m s}^{-1}$, in excellent agreement with the measured value.
+
+| Quantity | Newton | Laplace |
+|---|---|---|
+| Assumption | Isothermal change | Adiabatic change |
+| Bulk modulus | $P$ | $\gamma P$ |
+| Formula | $\sqrt{P/\rho}$ | $\sqrt{\gamma P/\rho}$ |
+| Value at NTP | $280\ \text{m s}^{-1}$ | $331\ \text{m s}^{-1}$ |
+| Agreement with experiment | Poor | Very good |
+
+**Conclusion.** The speed of sound depends on the elastic and inertial properties of the medium. Laplace's correction replaced the isothermal modulus $P$ by the adiabatic modulus $\gamma P$, which makes the speed $\sqrt{\gamma} = 1.18$ times larger than Newton's value.
+
+### Model answer D2: effect of temperature, pressure, humidity and wind (10 marks)
+
+**Introduction.** Since $v = \sqrt{\gamma P/\rho}$ and the gas law gives $P/\rho = RT/M$, the speed of sound in air is determined by the properties of the air itself. We examine each factor in turn.
+
+**1. Effect of temperature.** Because $P/\rho = RT/M$, we get $v = \sqrt{\gamma RT/M}$, so $v \propto \sqrt{T}$. For two temperatures,
+
+$$ \frac{v_{2}}{v_{1}} = \sqrt{\frac{T_{2}}{T_{1}}} $$
+
+For a small rise, $v_{t} = v_{0} + 0.61\,t$ where $t$ is in $^{\circ}$C. The speed rises by about $0.61\ \text{m s}^{-1}$ for each degree, which is why the same horn sounds slightly higher in pitch on a hot day in the Terai than on a cold morning in Dolpa.
+
+**2. Effect of pressure.** At a constant temperature, $P/\rho$ is constant (Boyle's law: if $P$ doubles, $\rho$ doubles). Therefore **the speed of sound is independent of pressure**. This is why the speed of sound does not change between the top of a hill and its foot, if the temperature is the same, though the temperature does change with altitude.
+
+**3. Effect of humidity.** Water vapour has a molecular mass of 18, which is lighter than the 29 of the dry air. Moist air is therefore less dense than dry air at the same pressure, so $v$ is larger. **Sound travels faster in humid air**, and this is why distant sounds seem clearer in the humid monsoon.
+
+**4. Effect of wind.** Sound moves faster along the wind and slower against it. If the wind speed is $w$, the speed relative to the ground is $v + w$ downwind and $v - w$ upwind. It also bends the wave fronts, so a speaker is heard better downwind.
+
+**5. Effect of the nature of gas.** A lighter gas has a higher speed: $v \propto 1/\sqrt{M}$. In hydrogen the speed is about 1270 m/s, which is nearly four times that in air.
+
+| Factor | Effect on speed of sound | Reason |
+|---|---|---|
+| Temperature rises | Increases, $v \propto \sqrt{T}$ | Molecules move faster |
+| Pressure changes at constant $T$ | No effect | $P/\rho$ stays constant |
+| Humidity rises | Increases | Moist air is less dense |
+| Wind along the wave | Increases by $w$ | Medium itself moves |
+| Gas of lower molar mass | Increases | $\rho$ smaller at the same $P$ |
+
+**Numerical.** The speed of sound at $0^{\circ}$C is $331\ \text{m s}^{-1}$. At $27^{\circ}$C ($300\ \text{K}$), $v = 331\sqrt{300/273} = 347\ \text{m s}^{-1}$. The formula $331 + 0.61\times27 = 347.5\ \text{m s}^{-1}$ agrees well. The temperature at which the speed is double the value at $0^{\circ}$C would be $4\times273 = 1092\ \text{K}$.
+
+**Conclusion.** The speed of sound in air rises with temperature and humidity, is independent of pressure, and is changed by wind. These facts are used in echo-sounding and weather instruments.
+
+### Model answer D3: speed of longitudinal waves in solids and liquids (10 marks)
+
+**Introduction.** A longitudinal wave in any medium has the speed $v = \sqrt{(\text{elastic modulus})/(\text{density})}$. The modulus depends on how the medium resists deformation. A solid rod resists a change of length (Young's modulus) while a liquid resists a change of volume (bulk modulus).
+
+**Derivation for a solid rod.** Consider a thin rod of density $\rho$ and Young's modulus $Y$, with a pulse travelling along it.
+
+1. A compression pulse of speed $v$ passes a section of area $A$ in a short time $\Delta t$ and compresses a length $v\,\Delta t$ by an amount $\Delta x$.
+2. The strain is $\Delta x/(v\Delta t)$. The face of the rod moves with the particle speed $u = \Delta x/\Delta t$, so the strain is $u/v$.
+3. The stress is therefore $Y u/v$, and the force on the face is $F = YAu/v$.
+4. The momentum of the mass $\rho A v\,\Delta t$ set moving at speed $u$ is $\rho A v u\,\Delta t$, and the impulse is $F\Delta t$.
+5. Equating them, $YAu\,\Delta t/v = \rho A v u\,\Delta t$, which gives $v^{2} = Y/\rho$.
+
+$$ v = \sqrt{\frac{Y}{\rho}} \quad\text{(solid)} $$
+
+**For a liquid.** The same argument with the bulk modulus $B = -\Delta P/(\Delta V/V)$ gives
+
+$$ v = \sqrt{\frac{B}{\rho}} \quad\text{(liquid)} $$
+
+For a gas, $B$ is replaced by $\gamma P$.
+
+**Numerical comparison.**
+
+- **Steel:** $Y = 2.0\times10^{11}\ \text{Pa}$, $\rho = 7800\ \text{kg m}^{-3}$, so $v = \sqrt{2.0\times10^{11}/7800} = 5.06\times10^{3}\ \text{m s}^{-1}$.
+- **Water:** $B = 2.2\times10^{9}\ \text{Pa}$, $\rho = 1000\ \text{kg m}^{-3}$, so $v = \sqrt{2.2\times10^{6}} = 1.48\times10^{3}\ \text{m s}^{-1}$.
+- **Air:** $v = 331\ \text{m s}^{-1}$ at $0^{\circ}$C.
+
+| Medium | Modulus (Pa) | Density ($\text{kg m}^{-3}$) | Speed ($\text{m s}^{-1}$) |
+|---|---|---|---|
+| Steel | $2.0\times10^{11}$ | 7800 | 5064 |
+| Water | $2.2\times10^{9}$ | 1000 | 1483 |
+| Air (adiabatic) | $1.4\times10^{5}$ | 1.29 | 331 |
+
+**Discussion.** Steel is nearly eight times denser than water, yet sound is more than three times faster in it, because its modulus is about 90 times larger. In general the speed in solids is greater than in liquids, and that in liquids is greater than in gases. A railway worker can hear an approaching train through the rails long before it is heard through the air.
+
+**Conclusion.** The speed of a longitudinal wave is $\sqrt{\text{modulus}/\text{density}}$. A high modulus and a low density give a high speed, which explains the order solid > liquid > gas.

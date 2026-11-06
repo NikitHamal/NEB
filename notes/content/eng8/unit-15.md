@@ -318,3 +318,72 @@ where, who should take part, what to bring (gloves, sacks), the issuer
 the opposing view and your reply; conclusion; connectives of reason and
 contrast.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write an opinion essay: "We must protect our natural habitats", and a school notice. <span class="marks">[10]</span>
+2. Explain connectives of reason, purpose and contrast. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="4" ratio="1.0" caption="Habitats to protect. A white-rumped vulture, a greater one-horned rhinoceros, a Khaptad meadow and a village notice board remind us of species, places and the notices that call people to act."
+@ photo id="eng8/vulture-nepal" cap="White-rumped vulture"
+@ photo id="eng10/chitwan-rhino" cap="One-horned rhinoceros"
+@ photo id="eng8/khaptad" cap="Khaptad meadow"
+@ photo id="eng11/notice-board" cap="Notice board"
+```
+
+### Model answer D1: an opinion essay and a notice (10 marks)
+
+**Introduction.** In an **opinion essay** we state our view, give reasons with examples, discuss the other side and conclude.
+
+**Model essay.**
+
+::: example We must protect our natural habitats
+**We must protect our natural habitats.** In my opinion, protecting natural habitats is the duty of every citizen. First, a wild animal cannot live for long outside its home, so when a forest is cut, the animals die. For example, vultures have almost disappeared from many parts of Nepal because of poisoned cattle medicine. Second, forests give us food, fuel, medicine and clean air. Third, habitat loss is permanent: an extinct species never returns. Some people argue that we need land for farms and roads. However, roads can be built carefully, and tourism in parks like Chitwan brings income. Therefore, I strongly believe we must conserve habitats for ourselves and for future generations.
+:::
+
+**Model notice.**
+
+::: example Notice
+**SHREE JANAJYOTI SECONDARY SCHOOL, POKHARA**  
+**NOTICE** — 20 Jestha 2082  
+**Clean-up Campaign.** All students of grades 6 to 10 are informed that a clean-up campaign will be held on **Saturday, 23 Jestha**, from 8 a.m. at the school gate. Please bring gloves and a bag.  
+Headteacher
+:::
+
+**Structure of an opinion essay (8).**
+
+1. Title.
+2. Introduction with the opinion.
+3. Reason 1 with example.
+4. Reason 2 with example.
+5. Reason 3 with example.
+6. The other side (*Some people argue...*).
+7. Your reply (*However...*).
+8. Conclusion.
+
+**Conclusion.** A clear opinion, three supported reasons and a fair look at the other side earn full marks.
+
+### Model answer D2: connectives (10 marks)
+
+**Introduction.** **Connectives** join ideas and show the relation between them.
+
+| Meaning | Before a clause | Before a noun or -ing | Example |
+|---|---|---|---|
+| Reason | because | because of | We stayed home because it rained. / ...because of the rain. |
+| Purpose | so that | to / in order to | He saved money so that he could buy a bike. / He saved to buy a bike. |
+| Contrast | although, though, while | in spite of, despite | Although it was cold, we went out. / In spite of the cold, we went out. |
+
+**Rules.**
+
+1. **Because** is followed by a **clause** (subject + verb); **because of** by a **noun**.
+2. **So that** is followed by a clause, often with *can/could/will/would*.
+3. **To/in order to** is followed by the **base verb**.
+4. **Although** and **in spite of** show a surprising result; use only one of *although* or *but* in a sentence.
+5. **However** starts a new sentence, with a comma after it: *It was late. However, we continued.*
+6. **Therefore, so, as a result** show effect.
+7. **In spite of** is followed by a noun or -ing: *in spite of being tired.*
+8. Link sentences to improve flow: *Forests are cut. As a result, animals lose their homes.*
+
+**Conclusion.** Check the grammar after each connective: clause, noun, or verb.

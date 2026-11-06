@@ -869,6 +869,36 @@ two applications. A labelled sketch of the plasmid or the cycle earns marks
 even when the question does not ask for a diagram.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="PCR copies a chosen stretch of DNA by repeating three temperature steps, and each cycle doubles the number of copies. (a) Two thermal cyclers in a laboratory. (b) Starting from one template, 10 cycles give 1,024 copies and 30 cycles give 1,073,741,824, because the number is 2^n. A cycle of denaturation at 94 degrees, annealing at 55 degrees and extension at 72 degrees takes 120 seconds, so 30 cycles need 60 minutes. A heat-stable Taq polymerase from a hot-spring bacterium survives each heating step. Real yields slowly drop below 2^n as the reagents run out, so the machine stops after about 35 cycles."
+@ photo id="bio12/pcr" cap="Thermal cyclers: PCR machines that heat and cool DNA samples"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Copies after n PCR cycles from one template"
+cyc = [10, 20, 25, 30, 35]
+copies = [2 ** n for n in cyc]
+assert copies[0] == 1024 and copies[3] == 1073741824
+f = Fig(300, 236)
+f.text(150, 14, "Copies = 2^n (bar length = cycles)", size=10.5, color=NAVY, bold=True)
+for i, (n, c) in enumerate(zip(cyc, copies)):
+    y = 34 + i * 28
+    w = 150 * n / 35.0
+    lab = format(c, ",") if c < 10 ** 7 else "%.1e" % c
+    f.text(70, y + 8, "%d cycles" % n, size=10, color=SLATE, bold=True, anchor="end", vmid=True)
+    f.box(76, y, w, 16, fill=MINT if n < 30 else SAND, stroke=TEAL if n < 30 else AMBER, r=2)
+    f.text(76 + w + 4, y + 8, lab, size=9.5, color=TEAL if n < 30 else AMBER, bold=True, anchor="start", vmid=True)
+cyc_t = 30 + 30 + 60
+f.text(150, 188, "one cycle: 94 C 30 s, 55 C 30 s, 72 C 60 s", size=10, color=NAVY, bold=True)
+f.text(150, 206, "= %d s per cycle, 30 cycles = %d min" % (cyc_t, 30 * cyc_t // 60), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "about a billion copies in one hour", size=10, color=RED, bold=True)
+facts = dict(c30=copies[3], c10=copies[0], t=30 * cyc_t // 60)
+```
+
+```photogrid label="5.H" cols="3" ratio="1.0" caption="Biotechnology in three pictures: (a) a thermal cycler, the machine that repeats the three temperature steps of PCR; (b) an agarose gel under UV light, where DNA fragments appear as bands that separate by size; (c) Eisenia fetida, the red worm used in vermicompost, an organic bio-fertilizer."
+@ photo id="bio12/pcr" cap="Thermal cycler for PCR"
+@ photo id="bio12/gel-uv" cap="DNA bands in agarose gel under UV"
+@ photo id="bio12/vermicompost" cap="Red worms in a vermicompost bin"
+```
+
 ## Chapter summary
 
 - **Tissue culture** works because plant cells are **totipotent**. Explant →
@@ -1044,3 +1074,92 @@ aflatoxin and unapproved GM material in imports; (v) biofortified crops such as
 Golden Rice and zinc-rich wheat and better post-harvest storage reduce
 malnutrition and the large storage losses.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the steps of plant tissue culture and give eight applications. <span class="marks">[10]</span>
+2. Describe the steps of recombinant DNA technology, naming the tools, and explain how human insulin is produced. <span class="marks">[10]</span>
+3. Explain the principle and steps of PCR and of gel electrophoresis, with their uses. <span class="marks">[10]</span>
+
+### Model answer D1: plant tissue culture, steps and applications (10 marks)
+
+**Introduction.** **Plant tissue culture** is the growing of plant cells, tissues or organs on a sterile nutrient medium under controlled conditions. It depends on **totipotency**, the ability of a living plant cell to give a whole plant.
+
+**Steps.**
+
+1. **Selection of the explant.** A small part (shoot tip, node, leaf piece or anther) is cut from a healthy mother plant. The shoot tip is best because it is nearly free from viruses.
+2. **Sterilisation.** The explant is washed and treated with sodium hypochlorite or ethanol, since any fungus or bacterium would overgrow the culture. Work is done in a laminar-air-flow cabinet.
+3. **Culture medium.** The medium (such as **Murashige and Skoog**) contains mineral salts, sucrose, vitamins and agar. It is sterilised in an autoclave at 121 °C and 15 psi for 15–20 minutes.
+4. **Callus induction.** With a high auxin level the explant forms a mass of undifferentiated cells, the **callus**.
+5. **Differentiation.** A high cytokinin to auxin ratio gives **shoots**, and a high auxin to cytokinin ratio gives **roots**.
+6. **Hardening and transfer.** The plantlets are moved gradually from high to low humidity and then planted in soil.
+
+**Applications (8 points).**
+
+1. **Micropropagation.** Thousands of identical plants are raised from one explant in a short time. Banana, orchid and potato seedlings in Nepal are raised in this way.
+2. **Virus-free plants.** The meristem is free from virus, so culturing it gives healthy plants of potato, sugarcane and banana.
+3. **Somaclonal variation.** Variation among cultured cells can be selected for disease resistance and stress tolerance.
+4. **Somatic hybridization.** Protoplasts from two species can be fused to get hybrids that cannot be obtained by crossing; the tomato–potato "pomato" is the best-known example.
+5. **Haploid plants.** Anthers cultured on medium give haploids, which become homozygous when their chromosomes are doubled and shorten breeding time.
+6. **Conservation.** Rare and endangered plants, such as medicinal orchids, can be stored as cultures and seed banks.
+7. **Secondary metabolites.** Cell cultures produce drugs such as shikonin and taxol in fermenters.
+8. **Embryo rescue and artificial seed.** Embryos of wide crosses that would die are saved by culture, and somatic embryos can be coated to make artificial seeds.
+
+**Conclusion.** Tissue culture gives fast, disease-free and uniform planting material and supports the conservation of rare plants.
+
+### Model answer D2: recombinant DNA technology and human insulin (10 marks)
+
+**Introduction.** **Recombinant DNA technology** is the joining of DNA from two different sources in a test tube and its introduction into a host, where it is copied and expressed. It is the basis of genetic engineering.
+
+**Tools.**
+
+| Tool | Example | Role |
+|---|---|---|
+| Restriction enzyme | EcoRI cuts G↓AATTC | Cuts DNA at a specific palindromic site, leaving sticky ends |
+| DNA ligase | T4 ligase | Joins the cut ends of vector and insert |
+| Vector | Plasmid pBR322 | Carries the gene into the host and replicates there; has an origin of replication and selectable markers |
+| Host | *E. coli* | Multiplies the recombinant plasmid |
+| Selectable marker | Antibiotic resistance genes | Identify cells that took up the plasmid |
+
+**Steps.**
+
+1. **Isolation of DNA.** The DNA is released by breaking cells and removing proteins and RNA with enzymes.
+2. **Cutting.** The gene of interest and the vector are cut with the same restriction enzyme, so their sticky ends are complementary.
+3. **Joining.** DNA ligase seals the gene into the vector to form **recombinant DNA**.
+4. **Transformation.** The recombinant plasmid is introduced into *E. coli* using calcium chloride and heat shock, which makes the membrane permeable.
+5. **Selection.** Bacteria are plated on antibiotic agar, so that only cells with the plasmid grow; insertional inactivation (blue–white colonies) shows those with the insert.
+6. **Expression and harvest.** The selected clone is grown in a bioreactor, and the protein is extracted and purified.
+
+**Human insulin.** Insulin has two chains, **A (21 amino acids)** and **B (30 amino acids)**, joined by disulphide bonds. In 1982 Eli Lilly began selling the first recombinant insulin (Humulin), made by inserting the genes for the A and B chains into separate plasmids of *E. coli*. The chains are produced separately, then mixed and joined by disulphide bonds. Later, the gene for proinsulin was used. Recombinant insulin avoids the allergy risks and supply limits of pig and cattle insulin.
+
+**Conclusion.** Restriction enzymes, ligase, vectors and hosts together make it possible to produce human proteins such as insulin, growth hormone and vaccines in bacteria at low cost.
+
+### Model answer D3: PCR and gel electrophoresis (10 marks)
+
+**Introduction.** The **polymerase chain reaction (PCR)** was invented by Kary Mullis (1983). It makes millions of copies of a chosen DNA segment in a few hours, and **gel electrophoresis** then separates and shows the fragments.
+
+**PCR: requirements.** Template DNA, two short **primers** that flank the target, the four nucleotides, a buffer with Mg$^{2+}$ and **Taq polymerase**, a heat-stable enzyme from the bacterium *Thermus aquaticus* that survives 95 °C.
+
+**Each cycle has three steps in a thermal cycler.**
+
+1. **Denaturation** at 94–95 °C for 30 seconds: heat separates the two strands.
+2. **Annealing** at 50–65 °C: the primers pair with the complementary ends of the template.
+3. **Extension** at 72 °C: Taq polymerase adds nucleotides to the 3′ end of each primer and copies the strand.
+
+The number of copies doubles every cycle, so after $n$ cycles there are $2^{n}$ copies from one molecule. After 30 cycles this gives $2^{30} = 1\,073\,741\,824$, about $10^{9}$ copies, in about two hours.
+
+**Gel electrophoresis: principle and steps.** DNA carries a negative charge on its phosphate groups, so in an electric field it moves towards the positive electrode (anode). The gel (**agarose**) acts as a sieve, so small fragments move faster and farther than large ones.
+
+1. The agarose gel is poured with wells and placed in a buffer tank.
+2. DNA samples mixed with loading dye are put in the wells, together with a **DNA ladder** of known sizes.
+3. A current of about 100 V is passed for 30–60 minutes.
+4. The gel is stained with ethidium bromide or a safer dye and viewed under UV light, where DNA appears as bright bands. Fragment sizes are read by comparison with the ladder.
+
+| Technique | Principle | Result |
+|---|---|---|
+| PCR | Repeated heating and cooling with Taq polymerase | Millions of copies of a target |
+| Gel electrophoresis | Charge and size in an electric field | Bands arranged by fragment length |
+
+**Uses.** RT-PCR detected the COVID-19 virus in Nepal's laboratories, and PCR with electrophoresis is used in DNA fingerprinting in forensic cases, paternity tests, the diagnosis of genetic diseases and tuberculosis, and the study of biodiversity.
+
+**Conclusion.** PCR supplies enough DNA from a tiny sample, and electrophoresis converts it into a readable pattern, and together they underlie modern diagnosis and forensics.

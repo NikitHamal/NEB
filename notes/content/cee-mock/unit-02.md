@@ -464,6 +464,32 @@ you got *right* too; that is where the paper teaches.
 200. A cube painted red on all its faces is cut into 27 identical smaller cubes. How many small cubes have exactly one face painted?
    (a) 8 (b) 6 (c) 12 (d) 1
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="The key has no pattern to exploit. (a) A stethoscope, the everyday instrument of the MBBS and BSc Nursing careers that this paper opens. (b) The 200 correct options of Model Paper 1 are spread as A 49, B 49, C 53 and D 49, close to the 50 each that pure chance gives; the chi-square statistic is 0.24 on 3 degrees of freedom, far below the 5 per cent critical value 7.81, and the longest run of one letter is 2. Real MEC papers are balanced in the same way, so there is no letter to prefer. Marking C for all 200 questions would score 53 - 0.25 x 147 = 16.25 marks, a few per cent of the paper, whereas knowledge, not pattern-hunting, wins marks."
+@ photo id="ceemock/stethoscope" cap="A stethoscope, the instrument of the careers this paper opens"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Model Paper 1: how often each option is correct"
+cnt = (49, 49, 53, 49)
+assert sum(cnt) == 200
+chi = sum((o - 50) ** 2 / 50 for o in cnt)
+assert abs(chi - 0.2400) < 1e-3 and chi < 7.81
+best = max(cnt); sc = best - 0.25 * (200 - best)
+assert abs(sc - (16.25)) < 1e-9
+f = Fig(300, 236)
+f.text(150, 12, "Model Paper 1: correct options", size=10.5, color=NAVY, bold=True)
+f.line(28, 150, 276, 150, color=SLATE, sw=1.4)
+for i, c in enumerate(cnt):
+    x = 44 + i * 58
+    h = c * 2.2
+    f.box(x, 150 - h, 38, h, fill=BLUE, stroke=NAVY, r=2)
+    f.text(x + 19, 150 - h - 8, str(c), size=11, color=NAVY, bold=True)
+    f.text(x + 19, 166, "ABCD"[i], size=11, color=SLATE, bold=True)
+f.line(28, 150 - 110, 276, 150 - 110, color=AMBER, sw=1.4, dash=True)
+f.text(150, 188, "dashed line = 50 expected per option", size=10.5, color=AMBER, bold=True)
+f.text(150, 206, "chi-square %.2f (5%% limit 7.81)" % chi, size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "longest run 2; all C scores %.2f" % sc, size=10.5, color=SLATE, bold=True)
+```
+
 ## Answer key and explanations
 
 ::: note Answers — Zoology (1–40)

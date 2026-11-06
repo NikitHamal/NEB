@@ -273,6 +273,51 @@ for x, title, col, pts in cols:
         ax.text(x + 0.22, y, lab, ha='left', va='center', fontsize=7.8, color=INK)
 ```
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="Oxidation numbers decide the stoichiometry. (a) Coloured ions such as permanganate (purple) and Fe2+ (pale green) make redox end-points visible. (b) In MnO4- + 5Fe2+ + 8H+ gives Mn2+ + 5Fe3+ + 4H2O manganese falls from +7 to +2 and gains 5 electrons, while each iron rises from +2 to +3 and loses 1, so 5 Fe2+ are needed. If 25.0 mL of Fe2+ solution needs 22.5 mL of 0.0200 M permanganate, then n(Fe2+) = 0.00225 mol, the concentration is 0.0900 M and 250 mL holds 1.257 g of iron."
+@ photo id="chem12/tm-colours" cap="Transition-metal ions in solution: the colour depends on the metal and its oxidation state"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Electron bookkeeping in a permanganate titration of Fe2+"
+nMn = 0.0200 * 0.0225; nFe = 5 * nMn; c = nFe / 0.0250; mFe = c * 0.250 * 55.845
+assert (7 - 2) == 5 * (3 - 2) and abs(nFe - 2.25e-3) < 1e-12 and abs(c - 0.0900) < 1e-9 and abs(mFe - 1.2565) < 1e-3
+facts = dict(nfe="%.5f" % nFe, c="%.4f" % c, mfe="%.3f" % mFe)
+f = Fig(300, 236)
+f.text(150, 14, "Oxidation number changes", size=10.5, color=NAVY, bold=True)
+f.box(14, 30, 120, 30, label="Mn  +7", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(134, 45), (166, 45)], color=SLATE)
+f.box(166, 30, 120, 30, label="Mn  +2", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.text(150, 76, "gains 5 electrons (reduced)", size=10.5, color=RED, bold=True)
+for i in range(5):
+    x = 14 + i * 56
+    f.box(x, 96, 48, 24, label="Fe +2", fill=MINT, stroke=TEAL, size=10, bold=True)
+    f.arrow([(x + 24, 120), (x + 24, 138)], color=SLATE)
+    f.box(x, 138, 48, 24, label="Fe +3", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.text(150, 180, "5 Fe lose 5 electrons (oxidised)", size=10.5, color=AMBER, bold=True)
+f.text(150, 200, "n(Fe2+) = 5 x %.5f = %.5f mol" % (nMn, nFe), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "c = %.4f M; %.3f g Fe in 250 mL" % (c, mFe), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="A redox reaction you can see. (a) Warming glucose or an aldehyde with Tollens' reagent, [Ag(NH3)2]+, coats the glass with metallic silver. The aldehyde is oxidised to a carboxylate (the carbon goes up in oxidation number) and Ag+ is reduced to Ag. (b) The cell counts electrons: each Ag+ takes one electron, and the aldehyde group gives two (formaldehyde, which is oxidised on to CO2, gives four). One gram of formaldehyde therefore deposits 14.37 g of silver, but one gram of glucose only 1.20 g. A real mirror film 100 nm thick over 10 cm2 holds only 1.05 mg of silver, so a few milligrams of sugar are enough to make it."
+@ photo id="ceechem2/mirror" cap="A silver mirror formed in a test tube (Tollens' test)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Silver deposited per gram of aldehyde"
+Ag = 107.87
+data = [("HCHO", 30.03, 4), ("CH3CHO", 44.05, 2), ("C6H5CHO", 106.12, 2), ("glucose", 180.16, 2)]
+rows = [(n, k * Ag / M) for n, M, k in data]
+assert round(rows[0][1], 2) == 14.37 and round(rows[3][1], 2) == 1.20
+area, th, rho = 10.0, 100e-7, 10.49
+mg = area * th * rho * 1000
+f = Fig(300, 236)
+f.text(150, 12, "Grams of Ag formed per gram of aldehyde", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=14.5, fmt="%.2f", x0=66, y0=30, bw=170, gap=30)
+f.text(150, 164, "Ag+ + e- gives Ag: HCHO gives 4 Ag, others 2", size=10, color=SLATE, bold=True)
+f.text(150, 192, "a 10 cm2 mirror, 100 nm thick:", size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "only %.2f mg of silver" % mg, size=10.5, color=NAVY, bold=True)
+f.text(150, 226, "= %.1f micromol of Ag" % (mg / Ag * 1000), size=10.5, color=SLATE, bold=True)
+facts = dict(hcho=rows[0][1], glu=rows[3][1], mg=mg)
+```
+
 ## Formula and fact sheet
 
 | Item | Rule |
@@ -451,3 +496,78 @@ for x, title, col, pts in cols:
 **8.** (c) — Cr₂O₇²⁻ gains 6 electrons, so x = 6 Fe²⁺; 7 H₂O need y = 14 H⁺. Charge: −2 + 12 + 14 = +24 = 6 + 18. ✓
 **9.** (a) — Five Cl go 0 → −1 (Cl⁻, reduced) and one goes 0 → +5 (ClO₃⁻, oxidised): 5 × 1 e⁻ gained = 1 × 5 e⁻ lost.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain oxidation number, and balance a redox equation by the ion-electron method (acidic and basic medium). <span class="marks">[10]</span>
+2. Discuss the types of redox reactions, including disproportionation, and solve a redox titration numerical using equivalents. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="3" ratio="1.25" caption="Redox in practice. (a) Rusting: iron is oxidised by oxygen and water. (b) A titration, where permanganate is reduced as iron(II) is oxidised, shows the end point by a permanent pink colour. (c) The thermite reaction, in which aluminium reduces iron(III) oxide with intense heat."
+@ photo id="chem11/rust" cap="(a) Rusting of iron"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/titration" cap="(b) Redox titration"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem2/thermite" cap="(c) Thermite reaction"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: oxidation number and the ion-electron method (10 marks)
+
+**Introduction.** **Oxidation** is loss of electrons (increase in oxidation number) and **reduction** is gain of electrons (decrease). The two always occur together, so the reaction is a **redox** reaction. The **oxidising agent** is reduced and the **reducing agent** is oxidised.
+
+**Rules for oxidation number.** (1) An element in its free state is $0$. (2) A monatomic ion has its charge. (3) Oxygen is $-2$ (except $-1$ in peroxides, $-\tfrac12$ in superoxides and $+2$ in OF₂). (4) Hydrogen is $+1$ (except $-1$ in metal hydrides). (5) The sum equals the charge of the species. (6) Fluorine is always $-1$.
+
+**Examples.** Mn in KMnO₄ is $+7$, Cr in Cr₂O₇²⁻ is $+6$, S in H₂SO₄ is $+6$, S in Na₂S₂O₃ averages $+2$, and N in NH₄⁺ is $-3$.
+
+**Ion-electron method (acidic medium).** Balance MnO₄⁻ + Fe²⁺ → Mn²⁺ + Fe³⁺.
+
+1. Split into half reactions: MnO₄⁻ → Mn²⁺ and Fe²⁺ → Fe³⁺.
+2. Balance atoms other than H and O.
+3. Balance O by adding H₂O, then H by adding H⁺: MnO₄⁻ + 8H⁺ → Mn²⁺ + 4H₂O.
+4. Balance charge with electrons: MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O, and Fe²⁺ → Fe³⁺ + e⁻.
+5. Multiply the second by 5 and add: **MnO₄⁻ + 8H⁺ + 5Fe²⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O**.
+
+**Basic medium.** First balance as in acid, then add the same number of OH⁻ as H⁺ to both sides and combine H⁺ + OH⁻ into H₂O. For example, MnO₄⁻ + 3e⁻ + 2H₂O → MnO₂ + 4OH⁻.
+
+| Oxidant | Product in acid | Product in neutral/alkaline | Electrons per ion |
+|---|---|---|---|
+| KMnO₄ | Mn²⁺ | MnO₂ (neutral), MnO₄²⁻ (strongly alkaline) | 5 (acid), 3 (neutral) |
+| K₂Cr₂O₇ | 2Cr³⁺ | — | 6 |
+| Cl₂ | Cl⁻ | Cl⁻ | 2 |
+
+**Numerical.** Oxalate: 2MnO₄⁻ + 5C₂O₄²⁻ + 16H⁺ → 2Mn²⁺ + 10CO₂ + 8H₂O. $0.1\ \text{mol}$ of oxalate needs $0.04\ \text{mol}$ of permanganate, so $0.04/0.02 = 2\ \text{L}$ of $0.02\ \text{M}$ KMnO₄.
+
+**Conclusion.** Oxidation number identifies what is oxidised and reduced, and the ion-electron method balances atoms and charge in both media.
+
+### Model answer D2: types of redox reactions and redox titration (10 marks)
+
+**Introduction.** Redox reactions are classified by what happens to the species oxidised and reduced.
+
+| Type | Description | Example |
+|---|---|---|
+| Combination | two substances combine | C + O₂ → CO₂ |
+| Decomposition | a compound breaks down (at least one element is free) | 2H₂O₂ → 2H₂O + O₂ |
+| Displacement | a more reactive element displaces another | Zn + CuSO₄ → ZnSO₄ + Cu |
+| Disproportionation | the same element is oxidised and reduced | Cl₂ + 2OH⁻ → Cl⁻ + ClO⁻ + H₂O |
+| Comproportionation | one element in two oxidation states gives one state | IO₃⁻ + 5I⁻ + 6H⁺ → 3I₂ + 3H₂O |
+
+Examples of disproportionation: 2H₂O₂ → 2H₂O + O₂ (oxygen $-1$ to $-2$ and $0$), and 3MnO₄²⁻ + 4H⁺ → 2MnO₄⁻ + MnO₂ + 2H₂O. A decomposition reaction need not be redox (CaCO₃ → CaO + CO₂ is not), and a combination reaction is not redox if no oxidation numbers change.
+
+**Equivalent weight and n-factor.** The equivalent weight $= \dfrac{M}{n}$, where $n$ is the number of electrons exchanged per formula unit. The law of equivalence says that at the end point, **equivalents of oxidant = equivalents of reductant**, so $N_1V_1 = N_2V_2$ (or $n_1M_1V_1 = n_2M_2V_2$).
+
+| Substance | Reaction | n-factor | Equivalent weight |
+|---|---|---|---|
+| KMnO₄ (acid) | Mn⁷⁺ to Mn²⁺ | 5 | $158/5 = 31.6$ |
+| K₂Cr₂O₇ | 2Cr⁶⁺ to 2Cr³⁺ | 6 | $294/6 = 49$ |
+| FeSO₄ | Fe²⁺ to Fe³⁺ | 1 | 152 |
+| H₂C₂O₄ | C³⁺ to C⁴⁺ | 2 | $90/2 = 45$ |
+| Na₂S₂O₃ | with I₂ | 1 | 158 |
+
+KMnO₄ is a **self-indicator**, so no separate indicator is needed, and it is titrated in the presence of dilute H₂SO₄ (never HCl, which would be oxidised, or HNO₃, which is itself an oxidant).
+
+**Numerical.** $25\ \text{mL}$ of an Fe²⁺ solution needs $20\ \text{mL}$ of $0.02\ \text{M}$ KMnO₄. Then $1\times M\times25 = 5\times0.02\times20$, so $M = 0.08\ \text{M}$ and the concentration of Fe²⁺ is $0.08\times55.85 = 4.47\ \text{g L}^{-1}$.
+
+**Conclusion.** Redox reactions include combination, decomposition, displacement and disproportionation, and the law of equivalence $n_1M_1V_1 = n_2M_2V_2$ gives the unknown concentration in a titration.

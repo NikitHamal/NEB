@@ -642,6 +642,28 @@ At the highest point the velocity is purely horizontal, so the speed is
 $u_x = 15\ \text{m s}^{-1}$.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="A speedometer reads speed, and plotting its readings against time gives a velocity-time graph whose slope is acceleration and whose area is distance. (a) A speedometer dial. (b) A car speeds up at 2 m/s2 for 10 s, cruises at 20 m/s for 10 s and brakes at 4 m/s2 for 5 s. The areas of the triangle, rectangle and second triangle are 100, 200 and 50 m, so the car travels 350 m in all. The program computes the same total by splitting the graph exactly as the equations of motion would, which is why the graph is a faster check than substituting into s = ut + at^2/2 stage by stage."
+@ photo id="ceephy/speedo" cap="A speedometer shows the speed that a v-t graph plots against time"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Area under a velocity-time graph"
+def v(t):
+    if t <= 10: return 2.0 * t
+    if t <= 20: return 20.0
+    return max(0.0, 20.0 - 4.0 * (t - 20))
+d1 = 0.5 * 10 * 20; d2 = 10 * 20; d3 = 0.5 * 5 * 20; dist = d1 + d2 + d3
+assert dist == 350 and v(25) == 0
+f = Fig(300, 236)
+f.text(150, 14, "Car: 0 to 20 m/s, cruise, then brake", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 28), (0, 24))
+ax.grid(5, 5, size=9); ax.axes("t (s)", "v (m/s)")
+ax.area(v, 0, 25, fill="#bfdbfe", n=250)
+ax.curve(v, 0, 25, color=NAVY, sw=2.4, n=250)
+f.text(150, 208, "a = +2, 0, -4 m/s^2 in the three stages", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "area = %.0f + %.0f + %.0f = %.0f m travelled" % (d1, d2, d3, dist), size=10.5, color=RED, bold=True)
+facts = dict(d=dist, d1=d1, d2=d2, d3=d3)
+```
+
 ## Chapter summary
 
 - Instantaneous velocity is $v = dx/dt$ (slope of the tangent to the $x$–$t$
@@ -712,3 +734,107 @@ i.e. $t^{2}-4t-10=0$, giving $t = 2+\sqrt{14} = 5.74\ \text{s}$.
 (c) $v_y = u_y - gt = 20 - 57.4 = -37.4\ \text{m s}^{-1}$, so
 $v = \sqrt{34.64^{2}+37.4^{2}} = 51.0\ \text{m s}^{-1}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the three equations of uniformly accelerated motion by the graphical method, and solve a numerical. <span class="marks">[10]</span>
+2. What is a projectile? Derive expressions for the path, time of flight, maximum height and range, and find the angle of maximum range. <span class="marks">[10]</span>
+3. Describe the motion of a body under gravity. Derive the distance travelled in the $n$th second, and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: equations of motion by the graphical method (10 marks)
+
+**Introduction.** A body moves with **uniform acceleration** if its velocity changes by equal amounts in equal intervals of time. Let the initial velocity be $u$, the final velocity be $v$ after a time $t$, the acceleration be $a$ and the displacement be $s$.
+
+**Graph.** In the velocity-time graph the line $AB$ starts at height $OA = u$ at $t = 0$ and rises to $BC = v$ at time $t$. The area under the line is the displacement, and the slope is the acceleration.
+
+**1. First equation (v = u + at).** The slope of the graph is the acceleration:
+
+$$ a = \frac{BD}{AD} = \frac{v - u}{t} \quad\Rightarrow\quad v = u + at $$
+
+**2. Second equation (s = ut + ½at²).** The displacement is the area of the trapezium $OABC$, which is the sum of the rectangle $OADC$ (area $ut$) and the triangle $ABD$ (area $\tfrac{1}{2}\times t\times(v-u)$):
+
+$$ s = ut + \tfrac{1}{2}t(v - u) = ut + \tfrac{1}{2}t(at) = ut + \tfrac{1}{2}at^{2} $$
+
+**3. Third equation (v² = u² + 2as).** The area of the trapezium is also (average of the parallel sides) times the base: $s = \tfrac{1}{2}(u + v)t$. From the first equation $t = (v - u)/a$, so
+
+$$ s = \frac{(u+v)(v-u)}{2a} = \frac{v^{2} - u^{2}}{2a} \quad\Rightarrow\quad v^{2} = u^{2} + 2as $$
+
+| Equation | Missing quantity | Use when |
+|---|---|---|
+| $v = u + at$ | $s$ | Time and velocity needed |
+| $s = ut + \tfrac12 at^{2}$ | $v$ | Displacement from time |
+| $v^{2} = u^{2} + 2as$ | $t$ | Time is not given |
+| $s = \tfrac12(u+v)t$ | $a$ | Average velocity known |
+
+**Numerical.** A minibus on the Prithvi Highway speeds up from $10\ \text{m s}^{-1}$ to $30\ \text{m s}^{-1}$ in $8\ \text{s}$. Then $a = (30 - 10)/8 = 2.5\ \text{m s}^{-2}$ and $s = \tfrac12(10 + 30)\times8 = 160\ \text{m}$. Check: $v^{2} = 100 + 2(2.5)(160) = 900$, so $v = 30\ \text{m s}^{-1}$. ✓
+
+**Conclusion.** These equations hold only for **constant acceleration** in a straight line. For variable acceleration, calculus or the graph must be used instead.
+
+### Model answer D2: projectile motion (10 marks)
+
+**Introduction.** A **projectile** is a body thrown into the air that then moves under gravity alone (air resistance is neglected). Its path is a **parabola**. A kicked football, a javelin and water from a hose are examples. The key idea is that the horizontal and vertical motions are **independent**.
+
+**Resolution.** Let the body be thrown with speed $u$ at an angle $\theta$ above the horizontal.
+
+- Horizontal: $u_{x} = u\cos\theta$, with $a_{x} = 0$ (uniform velocity).
+- Vertical: $u_{y} = u\sin\theta$, with $a_{y} = -g$ (uniformly decelerated going up).
+
+**Path.** After time $t$: $x = u\cos\theta\,t$ and $y = u\sin\theta\,t - \tfrac{1}{2}gt^{2}$. Eliminating $t$,
+
+$$ y = x\tan\theta - \frac{g x^{2}}{2u^{2}\cos^{2}\theta} $$
+
+This is of the form $y = bx - cx^{2}$, a **parabola**.
+
+**Time of flight.** The body returns to the ground when $y = 0$: $0 = u\sin\theta\,T - \tfrac{1}{2}gT^{2}$, so $T = \dfrac{2u\sin\theta}{g}$.
+
+**Maximum height.** At the top, $v_{y} = 0$; with $v^{2} = u^{2} + 2as$, $0 = u^{2}\sin^{2}\theta - 2gH$, so $H = \dfrac{u^{2}\sin^{2}\theta}{2g}$.
+
+**Horizontal range.** $R = u\cos\theta\times T = \dfrac{2u^{2}\sin\theta\cos\theta}{g}$, that is
+
+$$ R = \frac{u^{2}\sin2\theta}{g} $$
+
+**Angle of maximum range.** $R$ is maximum when $\sin2\theta = 1$, so $\theta = 45^{\circ}$ and $R_{max} = u^{2}/g$. Angles $\theta$ and $(90^{\circ} - \theta)$ give the **same range**, because $\sin2\theta = \sin(180^{\circ} - 2\theta)$.
+
+| Quantity | Formula | At $\theta = 30^{\circ}$, $u = 50\ \text{m s}^{-1}$ |
+|---|---|---|
+| Time of flight | $2u\sin\theta/g$ | $5.10\ \text{s}$ |
+| Maximum height | $u^{2}\sin^{2}\theta/2g$ | $31.9\ \text{m}$ |
+| Range | $u^{2}\sin2\theta/g$ | $220.9\ \text{m}$ |
+| Maximum possible range | $u^{2}/g$ | $255.1\ \text{m}$ |
+
+**Numerical.** A stone is thrown at $50\ \text{m s}^{-1}$ at $30^{\circ}$ to the ground, with $g = 9.8\ \text{m s}^{-2}$. The values are in the table above: for example $R = 2500\sin60^{\circ}/9.8 = 220.9\ \text{m}$. The same range is obtained at $60^{\circ}$.
+
+**Conclusion.** A projectile follows a parabola, with a uniform horizontal velocity and a vertical motion governed by $g$. The ranges at complementary angles are equal and the maximum is at $45^{\circ}$.
+
+### Model answer D3: motion under gravity and distance in the nth second (10 marks)
+
+**Introduction.** A body moving only under the pull of the Earth has the constant acceleration $g = 9.8\ \text{m s}^{-2}$ downwards, independent of its mass (in the absence of air). Galileo showed this at Pisa; Apollo 15 astronaut David Scott showed a hammer and a feather landing together on the Moon.
+
+**Sign convention.** Take upward as positive. For a body thrown up, $a = -g$; for a body dropped from rest, taking down as positive, $u = 0$ and $a = +g$.
+
+**Equations of free fall (from rest).**
+$$ v = gt, \qquad h = \tfrac{1}{2}gt^{2}, \qquad v^{2} = 2gh $$
+
+**Body thrown vertically upward with speed $u$.**
+
+1. **Time to the top:** $0 = u - gt$, so $t = u/g$.
+2. **Maximum height:** $H = u^{2}/2g$.
+3. **Total time of flight:** $T = 2u/g$ (time up equals time down).
+4. **Speed on return** to the starting point is $u$ downward.
+
+**Distance travelled in the nth second.** The distance in the $n$th second is the difference of the distances in $n$ seconds and $(n-1)$ seconds:
+
+$$ s_{n} = \left(un + \tfrac{1}{2}an^{2}\right) - \left[u(n-1) + \tfrac{1}{2}a(n-1)^{2}\right] = u + \tfrac{a}{2}(2n - 1) $$
+
+For a body falling from rest, $s_{n} = \tfrac{g}{2}(2n-1)$. The distances in successive seconds are in the ratio $1 : 3 : 5 : 7 \ldots$.
+
+| Second | Distance fallen ($g = 9.8$) |
+|---|---|
+| 1st | $4.9\ \text{m}$ |
+| 2nd | $14.7\ \text{m}$ |
+| 3rd | $24.5\ \text{m}$ |
+| 5th | $44.1\ \text{m}$ |
+
+**Numerical.** A ball is thrown vertically up at $20\ \text{m s}^{-1}$. The maximum height is $H = 400/(2\times9.8) = 20.4\ \text{m}$, the time to the top is $20/9.8 = 2.04\ \text{s}$, and the total time of flight is $4.08\ \text{s}$. A stone dropped from a bridge covers $\tfrac{9.8}{2}(2\times5 - 1) = 44.1\ \text{m}$ in its 5th second.
+
+**Conclusion.** For vertical motion all that changes from the straight-line equations is $a = \pm g$. The symmetry (equal times up and down, equal speeds at equal heights) simplifies many problems.

@@ -373,6 +373,18 @@ Check: $9^{-2}=\frac{1}{81}$ and $\frac{1}{27}\times3^{-1}=\frac{1}{81}$ ✓.
 (ii) $\frac{1}{125} = 5^{-3}$, so $2x = -3$ and $x = -\frac{3}{2} = -1.5$.
 :::
 
+**Group D — Long problems (5 marks each)**
+
+1. Simplify: (a) $\dfrac{3^5\times9^2}{27^2}$, (b) $16^{3/4}$, (c) $(a^2b^{-3})^{-2}$, writing the answer with positive indices. <span class="marks">[5]</span>
+2. Solve for $x$: (a) $3^{2x-1}=81$, (b) $2^{x+3}=4^{x-1}$, (c) $5^{x}\times25=625$. Check each answer. <span class="marks">[5]</span>
+3. (a) Show that $\dfrac{1}{1+x^{a-b}}+\dfrac{1}{1+x^{b-a}}=1$. (b) Find the value of $\dfrac{2^{n+1}+2^{n}}{2^{n+2}-2^{n}}$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** (a) Write every number as a power of 3: $\dfrac{3^5\times(3^2)^2}{(3^3)^2}=\dfrac{3^5\times3^4}{3^6}=3^{9-6}=3^3=27$. (b) $16^{3/4}=(2^4)^{3/4}=2^3=8$. (c) $(a^2b^{-3})^{-2}=a^{-4}b^{6}=\dfrac{b^6}{a^4}$.
+**2.** (a) $3^{2x-1}=3^4$, so $2x-1=4$ and $x=\frac52=2.5$. (b) $2^{x+3}=(2^2)^{x-1}=2^{2x-2}$, so $x+3=2x-2$ and $x=5$. (c) $5^x\times5^2=5^4$, so $x+2=4$ and $x=2$. **Checks:** $3^{4}=81$ ✓; $2^{8}=256=4^{4}$ ✓; $25\times25=625$ ✓.
+**3.** (a) Since $x^{b-a}=\dfrac{1}{x^{a-b}}$, the second fraction is $\dfrac{1}{1+\frac{1}{x^{a-b}}}=\dfrac{x^{a-b}}{x^{a-b}+1}$. Adding: $\dfrac{1+x^{a-b}}{1+x^{a-b}}=1$ ✓. (b) Take $2^n$ out of the top and the bottom: $\dfrac{2^n(2+1)}{2^n(4-1)}=\dfrac{3}{3}=1$.
+:::
+
 ## Objective practice
 
 **Choose the correct answer.** <span class="marks">[5×1=5]</span>

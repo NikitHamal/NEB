@@ -182,6 +182,48 @@ B: batch each hour       average 0.505 mA  ->  165.1 days
 7. **Timestamp at the server and keep the node's counter.** A node without a real-time clock drifts by seconds per day. Let the server stamp the receive time and keep the node's reading id; together they allow out-of-order and late messages to be placed correctly.
 8. **Send a health message too.** Include battery voltage and signal strength every hour. A falling voltage warns the owner days before the node dies, and a silent node (no message for 2 hours) raises an alert instead of leaving a flat line.
 
+```photogrid label="2.2" cols="2" ratio="1.2" caption="Cleaning a noisy sensor. (a) A low-cost soil probe pushed into a field: loose contact, a passing cart or a loose wire gives an occasional absurd reading. (b) A true drying curve (40 falling to 34 per cent) was disturbed with Gaussian noise (sd 1) and six random spikes of plus or minus 25 points, with a fixed seed. The raw readings are 4.52 points away from the truth on average (RMS). A moving average of five spreads every spike over five readings and still leaves 2.02, while a median of five throws each spike away completely and leaves only 0.59. The rule for KhetSense is therefore to use a median filter first to remove spikes, then a mean filter if smoother lines are needed, and to keep the raw value in the database for audit."
+@ photo id="bcapj/soilsensor" cap="A soil-moisture sensor pushed into the ground"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Raw, moving average and median filters"
+import numpy as np
+rng = np.random.default_rng(2081)
+n = 200
+truth = 40 - 6 * np.arange(n) / n
+x = truth + rng.normal(0, 1.0, n)
+idx = rng.choice(np.arange(5, n - 5), 6, replace=False)
+x[idx] += rng.choice([-25, 25], 6)
+def mavg(a, k=5):
+    p = np.pad(a, k // 2, mode="edge")
+    return np.array([p[i:i + k].mean() for i in range(len(a))])
+def med(a, k=5):
+    p = np.pad(a, k // 2, mode="edge")
+    return np.array([np.median(p[i:i + k]) for i in range(len(a))])
+rm = lambda y: float(np.sqrt(np.mean((y - truth) ** 2)))
+e = [rm(x), rm(mavg(x)), rm(med(x))]
+assert e[2] < e[1] < e[0]
+facts = dict(raw=round(e[0], 2), ma=round(e[1], 2), med=round(e[2], 2), n=n)
+f = Fig(300, 236)
+f.text(150, 12, "moisture %, 200 readings, 6 spikes", size=10.5, color=NAVY, bold=True)
+x0, y0, W, H = 10, 112, 280, 80
+sc = lambda v: y0 - (v - 10) / 60 * H
+mm = med(x)
+for i in range(1, n):
+    X0, X1 = x0 + (i - 1) / n * W, x0 + i / n * W
+    f.line(X0, sc(min(max(x[i - 1], 10), 70)), X1, sc(min(max(x[i], 10), 70)), color="#94a3b8", sw=0.8)
+    f.line(X0, sc(mm[i - 1]), X1, sc(mm[i]), color=NAVY, sw=1.8)
+f.text(150, 128, "grey raw, blue median-of-5", size=10.5, color=SLATE)
+names = ["raw", "mean of 5", "median of 5"]
+cols = ["#fecaca", "#fde68a", "#bbf7d0"]
+for i in range(3):
+    y = 142 + i * 28
+    f.text(8, y + 10, names[i], size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(84, y, e[i] / e[0] * 150, 20, "", fill=cols[i], stroke=SLATE, r=3, sw=1)
+    f.text(90 + e[i] / e[0] * 150, y + 10, "%.2f" % e[i], size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 232, "RMS error against the true curve", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - ADC: counts = 2^bits; one step = Vref ÷ (2^bits − 1). ESP32: 12 bits, 3.3 V, about 0.8 mV per step.

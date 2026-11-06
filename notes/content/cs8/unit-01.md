@@ -420,6 +420,17 @@ are accurate **if the data and program are correct**, and give GIGO as the
 reason why computers sometimes produce wrong results.
 :::
 
+### Eight advantages of using computers, explained
+
+1. **High speed.** A computer does millions of calculations in one second. A school can prepare the results of 800 students in minutes instead of days. This saves time for teachers.
+2. **Accuracy.** A computer makes no mistake in calculation if the program and the data are correct. Bank balances and electricity bills are calculated exactly. Errors come only from wrong input.
+3. **Large storage.** A small pen drive can hold thousands of books. Old records of the whole school can be kept in one place and found quickly. This saves paper and space.
+4. **Diligence.** A computer does not get tired or bored, so it can repeat the same job millions of times with the same care. ATMs work all day and night.
+5. **Versatility.** The same computer can write letters, play music, show films and run games just by changing the program. This is why one device can be used by a doctor, a farmer and a student.
+6. **Communication.** Email, video calls and social media connect people in seconds. A student in Nepal can talk to a relative abroad. Online classes became possible.
+7. **Automation.** A computer can do a whole job by itself once it is given the instructions. The traffic lights of Kathmandu and the machines in a factory are controlled automatically.
+8. **Easy access to information.** The internet gives answers on every subject. Students use it for projects, and farmers see the price of vegetables in the market. We must still check that the information is true.
+
 ## 1.4 Limitations of a computer and its effects on society
 
 ### Limitations
@@ -694,3 +705,62 @@ amount from her account and adds it to the school's account. *Output:* a
 notification to the school. *Storage:* the transaction, her new balance and
 the receipt are saved in the wallet company's database for future reference.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Define a computer. Explain its characteristics with examples. <span class="marks">[10]</span>
+2. Explain the IPOS cycle with a diagram and example. State the limitations of a computer. <span class="marks">[10]</span>
+
+### Model answer D1: computer and its characteristics (10 marks)
+
+**Introduction.** A **computer** is an electronic machine that accepts data as input, processes it by following a set of instructions called a program, stores the result and gives it back as output. It works under the control of a program, and its parts are the **hardware** (the parts we can touch) and the **software** (the programs).
+
+**Characteristics.**
+
+1. **Speed:** it works with electric signals, so it finishes a job in seconds that a person needs months to do. Speed is measured in milliseconds, microseconds and nanoseconds.
+2. **Accuracy:** it gives correct results every time if the data and program are correct, so we say "garbage in, garbage out".
+3. **Diligence:** it does not feel tired, bored or sleepy and can work for hours with the same quality.
+4. **Storage:** it keeps a very large amount of data in memory and disks, which can be found again in a moment.
+5. **Versatility:** one computer can be used for typing, drawing, calculating, music and games.
+6. **Automation:** after the instructions are given, it does the job by itself without help.
+
+| Characteristic | Example from Nepal |
+|---|---|
+| Speed | Results of the SEE are prepared by computer |
+| Accuracy | Bank interest and electricity bills |
+| Diligence | An ATM that works all night |
+| Storage | The census record of the country |
+| Versatility | A phone used as camera, radio and calculator |
+| Automation | Machine control in a factory |
+
+**Conclusion.** Because of these characteristics, computers are used in schools, banks, hospitals and offices, but they cannot think for themselves.
+
+### Model answer D2: IPOS cycle and limitations (10 marks)
+
+**Introduction.** Every computer works in four steps called the **IPOS cycle**: **Input, Process, Output and Storage**.
+
+1. **Input:** data and instructions are given with an input device such as a keyboard, mouse, scanner or microphone.
+2. **Process:** the CPU (central processing unit) carries out calculations and comparisons on the data.
+3. **Output:** the result is shown on an output device, such as a monitor, printer or speaker.
+4. **Storage:** data and results are saved in memory or on a disk to be used again.
+
+**Example.** A teacher types the marks of a student (input). The computer adds them and finds the percentage (process). The report card is printed (output). The marks are saved on the disk (storage).
+
+**Limitations of a computer.**
+
+1. It has **no intelligence** of its own and does only what the program says.
+2. It cannot **think or decide** by feeling, as a person can.
+3. It depends on **electricity**, so a power cut stops it.
+4. It needs correct **input**; wrong data gives wrong results.
+5. It can be damaged by **viruses** and hackers.
+6. It is costly to buy and to repair.
+7. **Overuse** may harm eyes, posture and social life; **e-waste** harms the environment.
+
+| Point | Human being | Computer |
+|---|---|---|
+| Speed | Slow | Very fast |
+| Tiredness | Gets tired | Does not |
+| Thinking | Thinks and feels | Follows instructions only |
+| Mistakes | May make them | Only if input is wrong |
+
+**Conclusion.** The IPOS cycle shows how a computer works, and knowing its limits teaches us to use it carefully.

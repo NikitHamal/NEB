@@ -176,6 +176,34 @@ for i, (t, d, fl, st) in enumerate(lic):
 7. **Fairness and respect for people.** Treat colleagues, users and clients without discrimination by gender, caste, religion, language or ability. Make software that is accessible, for example with Nepali-language support and readable text. Fairness widens the number of people who can benefit.
 8. **Accountability and whistle-blowing.** Accept responsibility for your decisions and mistakes, and report serious wrongdoing through proper channels when the public may be harmed. Keep records of your decisions. Courage to speak up is part of professional ethics.
 
+```photogrid label="5.1" cols="2" ratio="1.4" caption="Anonymous data is often not anonymous. (a) A national identity card: name, birth date and sex are enough to point at one person. (b) A simulated list (seeded random numbers, no real people) describes each person only by ward (32 values), birth year (60 values) and gender (2 values), with no names. In a group of 1,000 people, 768 of them (76.8 per cent) are the only person with their combination, so anyone who knows a neighbour's ward, age and gender can find that row; in a city of 10,000 the share of unique rows is 7.4 per cent because many more people share each combination. Ward alone makes nobody unique. The lesson for an IT professional is that removing names is not enough: collect only the fields you need, group ages into bands, and test how many rows are unique before releasing a data set (the idea of k-anonymity)."
+@ photo id="bcapc/idcard" cap="An identity card: three fields can identify a person"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Share of people unique on ward + birth year + gender"
+import numpy as np
+rng = np.random.default_rng(2081)
+res = []
+for pop in (1000, 10000):
+    w = rng.integers(1, 33, pop); y = rng.integers(0, 60, pop); g = rng.integers(0, 2, pop)
+    key = w * 1000 + y * 10 + g
+    u, c = np.unique(key, return_counts=True)
+    uw, cw = np.unique(w, return_counts=True)
+    res.append((int((c == 1).sum()), pop, int((cw == 1).sum())))
+assert res[0][0] == 768 and res[1][0] == 741 and res[0][2] == 0 and res[1][2] == 0
+f = Fig(300, 240)
+f.text(150, 14, "32 wards x 60 birth years x 2 = 3,840 combos", size=10.5, color=NAVY, bold=True)
+for i, ((k, pop, _), col) in enumerate(zip(res, ["#b91c1c", "#0f766e"])):
+    y = 34 + i * 62
+    f.text(10, y + 6, f"{pop:,} people", size=10.5, color=NAVY, anchor="start", bold=True)
+    f.box(10, y + 14, 240, 18, "", fill="#f1f5f9", stroke=SLATE, r=0, sw=1)
+    f.box(10, y + 14, 240 * k / pop, 18, "", fill=col, stroke=col, r=0)
+    f.text(10, y + 46, f"{k} unique = {k / pop * 100:.1f}%", size=10.5, color=col, anchor="start", bold=True)
+f.text(150, 176, "ward alone: 0 unique rows in both groups", size=10.5, color=SLATE)
+f.text(150, 196, "smaller groups are easier to re-identify", size=10.5, color=RED, bold=True)
+f.text(150, 216, "fix: age bands, fewer fields, test first", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Theories: utilitarian (outcomes), deontological (duty), virtue (character), rights, justice.

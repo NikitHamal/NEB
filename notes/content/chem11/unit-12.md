@@ -900,6 +900,33 @@ number of α-hydrogens available, which is why
 and why the same order of stability appears again for free radicals and for
 substituted alkenes.
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="Carbon is tetravalent and forms four single bonds directed to the corners of a tetrahedron, and its ability to join to other carbon atoms in chains is called catenation. (a) A model kit shows the tetrahedral angle. (b) The angle is arccos(-1/3) = 109.47 degrees. A saturated chain of n carbons has 3n + 1 bonds, so decane has 31. The number of possible structures grows fast, from 2 isomers for C4 to 75 for C10, which explains why there are millions of organic compounds from only a handful of elements, and why a separate branch of chemistry exists for them."
+@ photo id="ceechem/model-kit" cap="A molecular model kit showing tetrahedral carbon atoms"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Number of isomers of alkanes CnH2n+2 and the C-C bonds"
+import math
+iso = {4: 2, 5: 3, 6: 5, 7: 9, 8: 18, 9: 35, 10: 75}
+ang = math.degrees(math.acos(-1 / 3))
+assert abs(ang - 109.47) < 0.01 and iso[10] == 75
+bonds = lambda n: (n - 1) + (2 * n + 2)
+assert bonds(10) == 31 == 3 * 10 + 1
+f = Fig(300, 236)
+f.text(150, 14, "Structural isomers of CnH2n+2", size=10.5, color=NAVY, bold=True)
+base = 138
+for i, (n, v) in enumerate(iso.items()):
+    x = 24 + i * 38
+    h = v / 75 * 100
+    f.box(x, base - h, 28, h, "", fill=RED if n == 10 else NAVY, stroke=RED if n == 10 else NAVY, r=1)
+    f.text(x + 14, base - h - 6, str(v), size=10.5, bold=True, color=RED if n == 10 else NAVY)
+    f.text(x + 14, base + 14, "C%d" % n, size=10, color=SLATE, bold=True)
+f.text(150, 172, "tetrahedral angle = arccos(-1/3) = %.2f deg" % ang, size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "bonds in CnH2n+2 = (n-1) + (2n+2) = 3n+1", size=10.5, color=RED, bold=True)
+f.text(150, 208, "decane: %d bonds, %d isomers" % (bonds(10), iso[10]), size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "catenation makes this growth possible", size=10.5, color=SLATE)
+facts = dict(ang="%.2f" % ang, b="%d" % bonds(10), i="%d" % iso[10], i4=iso[4])
+```
+
 ## Chapter summary
 
 - Organic chemistry is the chemistry of hydrocarbons and their derivatives. The
@@ -1036,3 +1063,75 @@ is CH with empirical mass 13. Molecular mass = 2 × 13 = 26, so
 $n = 26/13 = 2$ and the molecular formula is **C₂H₂** (ethyne).
 Blend: $\text{ON} = \dfrac{75(96) + 25(84)}{100} = \dfrac{7200 + 2100}{100} = 93$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain tetravalency and catenation of carbon, describe the classification of organic compounds and discuss the characteristics of a homologous series. <span class="marks">[10]</span>
+2. Explain cracking and reforming of petroleum, the octane number and cetane number, and the common gasoline additives. <span class="marks">[10]</span>
+
+### Model answer D1: carbon, classification and homologous series (10 marks)
+
+**Introduction.** Organic chemistry is the study of carbon compounds. More than ten million are known, which is far more than all the compounds of the other elements together, and the reason lies in the nature of the carbon atom.
+
+**Tetravalency of carbon.** The ground-state configuration of carbon is $1s^{2}2s^{2}2p^{2}$, which would give a valency of 2. One $2s$ electron is promoted to the empty $2p$ orbital, and the four orbitals mix to give four equivalent $sp^{3}$ hybrid orbitals directed to the corners of a tetrahedron ($109.5^{\circ}$). Carbon forms **four covalent bonds**. The other types are $sp^{2}$ (trigonal planar, $120^{\circ}$, ethene) and $sp$ (linear, $180^{\circ}$, ethyne).
+
+**Catenation.** The property of atoms to bond to each other forming long chains and rings. Carbon is the best example, because the C–C bond is strong ($348\ \text{kJ mol}^{-1}$), the carbon atom is small, and the bond does not react easily with water or air. Silicon has the weaker Si–Si bond ($226\ \text{kJ mol}^{-1}$), so its chains are short.
+
+**Reasons for the vast number of organic compounds.** Tetravalency, catenation, formation of single, double and triple bonds, and isomerism.
+
+**Classification.**
+
+1. **Acyclic (open-chain)**: saturated (alkanes) and unsaturated (alkenes, alkynes).
+2. **Cyclic (closed-chain)**: **homocyclic**, with rings of carbon only (**alicyclic**, such as cyclohexane, and **aromatic**, such as benzene) and **heterocyclic**, with a ring containing N, O or S (pyridine).
+
+**Functional group and homologous series.** A **functional group** is an atom or group that decides the chemical properties of a compound (–OH, –CHO, –COOH, –NH₂). A **homologous series** is a family of compounds with the same functional group and general formula, each member differing from the next by a –CH₂– unit.
+
+| Family | Functional group | General formula | First member |
+|---|---|---|---|
+| Alkane | C–C | CₙH₂ₙ₊₂ | Methane |
+| Alkene | C=C | CₙH₂ₙ | Ethene |
+| Alkyne | C≡C | CₙH₂ₙ₋₂ | Ethyne |
+| Alcohol | –OH | CₙH₂ₙ₊₁OH | Methanol |
+| Aldehyde | –CHO | CₙH₂ₙ₊₁CHO | Methanal |
+| Carboxylic acid | –COOH | CₙH₂ₙ₊₁COOH | Methanoic acid |
+
+**Characteristics of a homologous series.**
+
+1. All members have the same general formula and the same functional group.
+2. Consecutive members differ by $\text{CH}_2$ ($14\ \text{u}$).
+3. Their chemical properties are similar.
+4. Their physical properties change gradually (boiling point rises with molar mass).
+5. They can be prepared by similar methods.
+
+**Conclusion.** Carbon forms four bonds in several hybrid states and links to itself in chains and rings, so it forms an enormous number of compounds, ordered in homologous series by functional group.
+
+### Model answer D2: cracking, reforming, octane and cetane numbers (10 marks)
+
+**Introduction.** Crude petroleum is separated by fractional distillation. The fractions do not match the market demand: too much heavy oil and too little petrol. **Cracking** and **reforming** adjust the supply. Nepal imports all its petrol and diesel from the refineries of India through the depots of Nepal Oil Corporation.
+
+**Cracking.** The breaking of large hydrocarbon molecules into smaller and more useful ones.
+
+- **Thermal cracking:** heating at $450$–$750^{\circ}\text{C}$ and high pressure; it produces alkenes through free-radical reactions: $\text{C}_{12}\text{H}_{26}\rightarrow\text{C}_{6}\text{H}_{14}+2\text{C}_{3}\text{H}_{6}$ (approximately).
+- **Catalytic cracking:** at about $500^{\circ}\text{C}$ and low pressure with a zeolite or alumina-silica catalyst; it gives a higher yield of branched and aromatic hydrocarbons, so the petrol has a higher octane number.
+- **Importance:** it gives more petrol and also ethene and propene, the raw materials of plastics.
+
+**Reforming.** The conversion of straight-chain alkanes of low octane number into branched alkanes, cycloalkanes and aromatics of high octane number, using a platinum catalyst at about $500^{\circ}\text{C}$. For example, n-hexane is converted into benzene and hydrogen, and n-heptane into toluene.
+
+**Octane number.** A measure of the **anti-knocking quality of petrol**. Knocking is early, uneven burning of the fuel in the engine. By definition, **iso-octane (2,2,4-trimethylpentane) = 100** and **n-heptane = 0**. A petrol with octane number 91 behaves like a mixture of 91% iso-octane and 9% n-heptane. Branched and aromatic hydrocarbons have a high octane number; straight-chain alkanes have a low one.
+
+**Cetane number.** A measure of the **ignition quality of diesel**. Hexadecane (cetane) is given the value 100, and a reference compound of poor ignition quality the value near 0. A high cetane number means a short delay before ignition, so a smooth engine start. Straight-chain alkanes have a **high** cetane number, the opposite of the octane scale.
+
+**Gasoline additives.**
+
+1. **Tetraethyl lead, $\text{Pb(C}_2\text{H}_5)_4$**, was added to increase the octane number, but it was banned (Nepal ended leaded petrol in 1999) because lead is toxic and poisons catalytic converters.
+2. **Ethanol and MTBE** (methyl tertiary-butyl ether) are oxygenates that raise the octane number and reduce carbon monoxide.
+3. **Detergents** keep injectors clean; **anti-oxidants** stop gum formation.
+
+| Feature | Octane number | Cetane number |
+|---|---|---|
+| Fuel | Petrol | Diesel |
+| Measures | Resistance to knocking | Ease of ignition |
+| Reference fuels | Iso-octane 100, n-heptane 0 | Cetane 100 |
+| Best hydrocarbons | Branched, aromatic | Straight-chain |
+
+**Conclusion.** Cracking and reforming turn heavy fractions into high-quality petrol, whose anti-knocking quality is measured by the octane number and that of diesel by the cetane number.

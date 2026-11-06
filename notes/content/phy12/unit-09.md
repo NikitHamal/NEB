@@ -394,6 +394,27 @@ $$ f' = 1.1094\times400 = 443.8\ \text{Hz} $$
 The horn sounds about 44 Hz sharper than it really is.
 :::
 
+```photogrid label="9.P" cols="2" ratio="1.2" caption="Source motion and observer motion are different. (a) The ambulance is the moving source of sound. (b) The cell uses the general Doppler formula f' = f (c + vo) / (c - vs) for a siren of 700 Hz and a sound speed of 343 m/s. A source moving towards a still listener at 25 m/s gives 755.0 Hz, but a listener moving towards a still source at 25 m/s hears 751.0 Hz. When both move towards each other the frequency is 810.1 Hz, and when the source moves away from the listener it falls to 652.4 Hz. The two cases differ because it is the medium, the air, that carries the wave at a fixed speed c: the source changes the wavelength, while the observer changes only the rate at which wavefronts are met."
+@ photo id="ceephy3/ambulance" cap="An ambulance with a siren, a moving source of sound"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Doppler effect when the source and the observer both move"
+c, f0 = 343.0, 700.0
+def fo(vs, vo):
+    return f0 * (c + vo) / (c - vs)
+rows = [("source 25", fo(25, 0)), ("observer 25", fo(0, 25)), ("both 25", fo(25, 25)), ("source 25, away", f0 * c / (c + 25))]
+assert round(rows[0][1], 1) == 755.0 and round(rows[1][1], 1) == 751.0 and round(rows[2][1], 1) == 810.1
+f = Fig(300, 236)
+f.text(150, 12, "Frequency heard, Hz (siren 700 Hz)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=850, fmt="%.1f", x0=100, y0=30, bw=130, gap=30,
+      colors=[(SAND, AMBER), (MINT, TEAL), (ROSE, RED), (BLUE, NAVY)])
+f.text(150, 158, "f' = f (c + v_o) / (c - v_s)", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "speeds in m/s; c = 343 m/s", size=10, color=SLATE, bold=True)
+f.text(150, 198, "moving source and moving observer", size=10, color=SLATE, bold=True)
+f.text(150, 216, "are not equivalent, only close at low speed", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], c=rows[2][1], d=rows[3][1])
+```
+
 ## Chapter summary
 
 - Excess pressure $\Delta P = -B\,\partial y/\partial x$; the pressure amplitude
@@ -494,3 +515,40 @@ $$ r' = 199\ \text{m} $$
 So the level drops from 92 dB to 60 dB — a factor of about 1600 in intensity —
 between 5 m and about 200 m, exactly as the inverse-square law requires.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the Doppler effect of sound, derive the apparent frequency for a moving source and a moving observer, and solve a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the Doppler effect of sound (10 marks)
+
+**Introduction.** The **Doppler effect** is the apparent change in the frequency of a wave heard by an observer when the source and the observer are in relative motion. The pitch of an ambulance siren rises as it approaches and falls as it moves away.
+
+**Moving source, stationary observer.** Let the source of frequency $f$ move towards the observer with speed $v_{s}$, and let the speed of sound be $v$. In one period $T = 1/f$ the source emits one wave and moves $v_{s}T$ towards the observer, so the wavelength in front of the source is shortened to $\lambda' = (v - v_{s})/f$. The observer hears
+
+$$ f' = \frac{v}{\lambda'} = f\,\frac{v}{v - v_{s}} \quad\text{(approaching)}, \qquad f' = f\,\frac{v}{v + v_{s}} \quad\text{(receding)} $$
+
+**Moving observer, stationary source.** The wavelength $\lambda = v/f$ is unchanged, but the observer moving towards the source with speed $v_{o}$ meets the wave fronts at the relative speed $v + v_{o}$. Therefore
+
+$$ f' = \frac{v + v_{o}}{\lambda} = f\,\frac{v + v_{o}}{v} \quad\text{(towards)}, \qquad f' = f\,\frac{v - v_{o}}{v} \quad\text{(away)} $$
+
+**General formula.** When both move along the line joining them,
+
+$$ f' = f\,\frac{v + v_{o}}{v - v_{s}} $$
+
+This form holds when the observer moves towards the source ($v_{o}$ positive) and the source moves towards the observer ($v_{s}$ positive). For motion away, change the sign of the corresponding speed: $+v_{o}$ becomes $-v_{o}$, and $-v_{s}$ becomes $+v_{s}$.
+
+| Case | Source | Observer | Result |
+|---|---|---|---|
+| 1 | Approaching | At rest | $f' > f$, wavelength shortened |
+| 2 | Receding | At rest | $f' < f$, wavelength lengthened |
+| 3 | At rest | Approaching | $f' > f$, same wavelength, more crests per second |
+| 4 | At rest | Receding | $f' < f$ |
+
+**Numerical.** An ambulance siren has a frequency of $700\ \text{Hz}$ and the vehicle moves at $25\ \text{m s}^{-1}$; the speed of sound is $340\ \text{m s}^{-1}$. A person at rest hears, as it approaches, $f' = 700 \times \dfrac{340}{340 - 25} = 756\ \text{Hz}$, and as it recedes, $f' = 700 \times \dfrac{340}{340 + 25} = 652\ \text{Hz}$. The change in pitch is therefore about $104\ \text{Hz}$.
+
+**Applications.** Police radar guns measure the speed of vehicles on highways from the shift in reflected microwaves, Doppler ultrasound measures the speed of blood in the heart, weather radars track storms and rain, and astronomers use the red shift of light to show that distant galaxies are receding.
+
+**Limitation.** The formula for sound holds only while $v_{s} < v$; if the source moves faster than sound, a shock wave (sonic boom) forms instead.
+
+**Conclusion.** The Doppler shift depends on the relative velocity of the source and the observer along the line joining them, and it is a useful tool for measuring speed.

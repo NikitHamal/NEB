@@ -525,6 +525,35 @@ Living systems use the same chemistry: the iron in haemoglobin carries oxygen,
 cobalt sits at the centre of vitamin B₁₂, and zinc is the active site of
 carbonic anhydrase.
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="Transition metal ions are coloured because light of one wavelength lifts an electron from a lower to a higher d level, and we see the colours that are left. (a) Solutions of several transition metal ions. (b) The splitting is Delta(o) = N h c / lambda. The hexaaquatitanium(III) ion absorbs near 500 nm, which gives 239 kJ per mole and a violet solution. The tetraamminecopper(II) ion absorbs near 600 nm, giving 199 kJ, and the hexaaquacopper(II) ion near 800 nm, giving 150 kJ. Replacing water by ammonia widens the splitting and shifts the colour, which is why the copper solution turns deep blue."
+@ photo id="chem12/tm-solutions" cap="Aqueous solutions of transition metal ions in many colours"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Crystal-field splitting from the colour absorbed"
+h, c, NA = 6.626e-34, 2.998e8, 6.022e23
+rows = [("Ti(H2O)6 3+", 500, "#7e3fa8", "violet"), ("Cu(NH3)4 2+", 600, "#1d3fa8", "deep blue"), ("Cu(H2O)6 2+", 800, "#7fb6e8", "pale blue")]
+def delta(nm):
+    return h * c / (nm * 1e-9) * NA / 1000.0
+vals = [delta(r[1]) for r in rows]
+assert abs(vals[0] - 239.3) < 0.5
+f = Fig(300, 236)
+f.text(150, 14, "Delta(o) = N h c / wavelength absorbed", size=10.5, color=NAVY, bold=True)
+f.text(40, 36, "ion", size=9.5, bold=True); f.text(150, 36, "absorbs", size=9.5, bold=True); f.text(250, 36, "Delta(o)", size=9.5, bold=True)
+for i, ((nm, lam, col, cn), d) in enumerate(zip(rows, vals)):
+    y = 46 + i * 38
+    f.box(8, y, 24, 30, "", fill=col, stroke=col, r=3)
+    f.text(40, y + 15, nm, size=10, anchor="start", vmid=True, color=SLATE)
+    f.text(150, y + 15, "%d nm" % lam, size=10.5, vmid=True, color=NAVY, bold=True)
+    f.box(188, y + 4, d / 250.0 * 40, 22, "", fill=col, stroke=col, r=2)
+    f.text(188 + d / 250.0 * 40 + 4, y + 15, "", size=9)
+    f.text(292, y + 15, "%.0f kJ/mol" % d, size=10, anchor="end", vmid=True, color="#ffffff" if False else NAVY, bold=True)
+f.text(150, 176, "swatch = the colour you see (complementary)", size=9.5, color=SLATE)
+f.text(150, 194, "longer wavelength -> smaller splitting", size=10.5, color=RED, bold=True)
+f.text(150, 211, "NH3 is a stronger-field ligand than H2O", size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "(approximate absorption maxima)", size=9.5, color=SLATE)
+facts = dict(a="%.0f" % vals[0], b="%.0f" % vals[1], c="%.0f" % vals[2])
+```
+
 ## Chapter summary
 
 - A transition element has a partially filled d subshell in the atom or in a
@@ -660,3 +689,37 @@ the electrons than to promote them, giving $t_{2g}^{6}e_{g}^{0}$ with no
 unpaired electrons: low spin, diamagnetic, and
 $\text{CFSE} = -0.4(6)\Delta_{o} = -2.4\Delta_{o}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the characteristic properties of the transition metals, giving eight points, and account for their magnetic properties. <span class="marks">[10]</span>
+
+### Model answer D1: characteristic properties of the transition metals (10 marks)
+
+**Introduction.** **Transition metals** are the d-block elements that have a partly filled d subshell in the atom or in at least one of their common ions. The first series (Sc to Zn) has the general electronic configuration $[\text{Ar}]\,3d^{1\text{–}10}4s^{1\text{–}2}$. Because the 3d and 4s energies are close, both take part in bonding.
+
+**Eight characteristic properties.**
+
+1. **Variable oxidation states.** Both 4s and 3d electrons can be used, so manganese shows +2 to +7 and iron +2 and +3. The states usually differ by one unit, unlike the p-block, where they differ by two.
+2. **Coloured compounds.** Visible light excites an electron between split d orbitals (a d–d transition) and the complementary colour is seen. Cu$^{2+}$ is blue, Fe$^{3+}$ is yellow-brown and MnO$_4^-$ is purple, but Zn$^{2+}$ (d$^{10}$) and Sc$^{3+}$ (d$^{0}$) are colourless.
+3. **Complex formation.** Small, highly charged ions with empty d orbitals accept lone pairs from ligands, as in $[\text{Cu(NH}_3)_4]^{2+}$ and $[\text{Fe(CN)}_6]^{4-}$.
+4. **Catalytic activity.** They provide a surface or change their oxidation state to give a new low-energy path. Iron is used in the Haber process, V$_2$O$_5$ in the contact process and nickel in the hydrogenation of oils.
+5. **Magnetic properties.** Unpaired d electrons make the ions paramagnetic. The spin-only moment is $\mu = \sqrt{n(n+2)}$ Bohr magnetons.
+6. **High melting points and hardness.** Both the 3d and 4s electrons form strong metallic bonds, so tungsten melts at 3422 °C. Zinc and mercury are exceptions as the d$^{10}$ shell does not take part.
+7. **Alloy formation.** Atomic sizes are similar, so one metal can replace another in the lattice. Steel and stainless steel (Fe, Cr, Ni) are important examples.
+8. **Interstitial compounds.** Small atoms such as H, C and N fit into the holes in the lattice, giving hard, non-stoichiometric compounds such as steel (Fe–C) and TiC.
+
+**Spin-only magnetic moment.**
+
+| Ion | Configuration | Unpaired electrons $n$ | $\mu$ (BM) |
+|---|---|---|---|
+| Ti$^{3+}$ | $3d^{1}$ | 1 | 1.73 |
+| Cu$^{2+}$ | $3d^{9}$ | 1 | 1.73 |
+| Cr$^{3+}$ | $3d^{3}$ | 3 | 3.87 |
+| Fe$^{2+}$ | $3d^{6}$ | 4 | 4.90 |
+| Mn$^{2+}$, Fe$^{3+}$ | $3d^{5}$ | 5 | 5.92 |
+| Zn$^{2+}$ | $3d^{10}$ | 0 | 0 (diamagnetic) |
+
+**Why Zn, Cd and Hg are not true transition metals.** Their ions have a full $d^{10}$ shell, so they show only one oxidation state (+2) and give colourless compounds. They have low melting points and are not good catalysts.
+
+**Conclusion.** The partly filled d subshell explains the variable oxidation state, colour, magnetism and catalytic power of the transition metals.

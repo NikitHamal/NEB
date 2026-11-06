@@ -795,6 +795,28 @@ lac or pearl culture is practised in Nepal** — Nepal is landlocked, and appear
 on no list of lac-producing countries.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Biogas is made when bacteria digest dung in a sealed digester without oxygen, and the gas is about 60 per cent methane, the same fuel as LPG. (a) A household plant. (b) With a round-figure yield of 0.036 cubic metres of gas per kilogram of fresh dung, four cattle that give 10 kg each per day produce 1.44 cubic metres a day. One burner at 0.3 cubic metres an hour then cooks for 4.8 hours. Taking about 0.43 kg of LPG for every cubic metre of biogas, this replaces roughly 15.9 fourteen-kilogram cylinders in a year. The leftover slurry is a rich organic manure, so the plant also cuts chemical fertiliser and smoke inside Nepali kitchens."
+@ photo id="sci10/biogas" cap="A household biogas plant: digester, gas holder and kitchen stove line"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Biogas from cattle dung for a household"
+Y, BURN, LPG, CYL = 0.036, 0.3, 0.43, 14.2
+rows = [("2 cattle", 2), ("4 cattle", 4), ("6 cattle", 6), ("8 cattle", 8)]
+gas = [n * 10 * Y for _, n in rows]
+hours = gas[1] / BURN
+cyl = gas[1] * 365 * LPG / CYL
+assert abs(gas[1] - 1.44) < 1e-9 and abs(hours - 4.8) < 1e-9 and abs(cyl - 15.9) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "Gas per day, m3 (10 kg dung per animal)", size=10, color=NAVY, bold=True)
+hbars(f, [(n, g) for (n, _), g in zip(rows, gas)], vmax=3.0, fmt="%.2f", x0=64, y0=32, bw=170, gap=28,
+      colors=[(MINT, TEAL), (BLUE, NAVY), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 160, "yield assumed 0.036 m3 per kg fresh dung", size=10, color=SLATE, bold=True)
+f.text(150, 179, "4 cattle: 40 kg -> %.2f m3 a day" % gas[1], size=10.5, color=NAVY, bold=True)
+f.text(150, 197, "one burner (0.3 m3/h) runs %.1f h" % hours, size=10.5, color=TEAL, bold=True)
+f.text(150, 215, "saves %.1f LPG cylinders (14.2 kg)/yr" % cyl, size=10.5, color=RED, bold=True)
+facts = dict(g=gas[1], h=hours, c=cyl)
+```
+
 ## 10.2 Microbial diseases and application of microbiology
 
 **Microbiology** is the study of organisms too small to see unaided —
@@ -1253,6 +1275,27 @@ ax.annotate("", xy=(8.05, 5.80), xytext=(7.45, 5.80),
 fig.tight_layout()
 ```
 
+```photogrid label="10.Q" cols="2" ratio="1.27" caption="A disease can no longer spread through a community when enough people are immune, and that fraction depends on how many others one case infects, the basic reproduction number R0. (a) A child receiving a vaccine at an immunisation clinic in Pokhara. (b) The threshold is 1 minus 1 over R0, giving 93.3 per cent for measles, 83.3 for polio, 80.0 for smallpox and 66.7 for the original COVID-19 virus. Because a measles vaccine protects about 95 per cent of the people who receive it, coverage must reach 98.2 per cent, which is why Nepal gives two doses and runs catch-up campaigns. Herd immunity protects babies and people who cannot be vaccinated."
+@ photo id="bio12/immun-pokhara" cap="Immunisation clinic at the District Public Health Office in Pokhara"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Herd-immunity threshold = 1 - 1/R0"
+rows = [("measles", 15.0), ("polio", 6.0), ("smallpox", 5.0), ("COVID-19", 3.0)]
+hit = [(1 - 1 / r) * 100 for _, r in rows]
+assert abs(hit[0] - 93.3) < 0.05 and abs(hit[3] - 66.7) < 0.05
+cover = hit[0] / 95 * 100
+f = Fig(300, 236)
+f.text(150, 14, "Vaccinated share needed, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, [(n, h) for (n, _), h in zip(rows, hit)], vmax=100, fmt="%.1f", x0=70, y0=32, bw=168, gap=28,
+      colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 152, "R0: measles 15, polio 6, smallpox 5, COVID 3", size=9.5, color=SLATE, bold=True)
+f.text(150, 172, "threshold = 1 - 1/R0", size=10.5, color=NAVY, bold=True)
+f.text(150, 192, "measles vaccine 95 % effective:", size=10, color=SLATE, bold=True)
+f.text(150, 210, "coverage needed = %.1f %%" % cover, size=10.5, color=RED, bold=True)
+f.text(150, 227, "so measles needs two doses", size=10, color=TEAL, bold=True)
+facts = dict(m=hit[0], p=hit[1], s=hit[2], c=hit[3], cov=cover)
+```
+
 ## Chapter summary
 
 - **Apiculture** is the keeping of *Apis* species in hives. Nepal's hive bee is
@@ -1482,3 +1525,165 @@ SARS-CoV-2 is a **virus** with no wall, no ribosome, no gyrase and no metabolism
 of its own, so no antibiotic target exists; it needs antivirals or vaccination,
 and using antibiotics anyway only selects for resistant bacteria.
 :::
+
+```photogrid label="10.H" cols="5" ratio="1.0" caption="Applied zoology and microbiology, left to right: (a) a movable-frame beehive; (b) a Bombyx mori moth on its cocoon; (c) catla, a surface-feeding carp of composite fish culture; (d) Eisenia fetida in a vermicompost bin; (e) the aeration tank of a sewage treatment plant."
+@ photo id="bio12/bee-frame" cap="Beehive frame"
+@ photo id="bio12/silkworm-cocoon" cap="Silkworm moth and cocoon"
+@ photo id="bio12/fish-catla" cap="Catla carp"
+@ photo id="bio12/vermicompost" cap="Vermicompost bin"
+@ photo id="bio12/aeration-tank" cap="Sewage aeration tank"
+```
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the life cycle of the silkworm *Bombyx mori* and the process of sericulture, with eight points of economic importance. <span class="marks">[10]</span>
+2. What is composite fish culture? Describe the selection of fish, the preparation of the pond and the management, with the advantages. <span class="marks">[10]</span>
+3. What is vermicomposting? Describe its method, its advantages, and compare it with ordinary compost. <span class="marks">[10]</span>
+4. Describe vaccines and antibiotics, and the role of microorganisms in sewage treatment. <span class="marks">[10]</span>
+
+### Model answer D1: sericulture and the life cycle of *Bombyx mori* (10 marks)
+
+**Introduction.** **Sericulture** is the rearing of silkworms to obtain **silk**, the "queen of fibres". The commercial silkworm is the domesticated **mulberry silkworm, *Bombyx mori*** (class Insecta, order Lepidoptera). Silk is a protein fibre made of **fibroin** held together by **sericin**.
+
+**Life cycle (complete metamorphosis).**
+
+1. **Egg:** the female moth lays 300 to 500 eggs (called "silkworm seed"). Under controlled temperature of about 25 degrees Celsius the eggs hatch in 10 days.
+2. **Larva (silkworm):** the larva feeds on **mulberry leaves** and grows through **five instars with four moults** in about 25 to 30 days, increasing its weight about 10,000 times.
+3. **Pupa:** the mature larva stops eating and spins a **cocoon** of a single continuous silk thread, 600 to 900 m long, from the **salivary (silk) glands**, in 2 to 3 days. Inside it changes into a pupa.
+4. **Adult:** the moth emerges in 10 to 12 days by dissolving a hole in the cocoon. It is white, cannot fly, does not feed and lives for only a few days.
+
+**Process of sericulture.**
+
+- **Mulberry cultivation:** the plantation of fast-growing varieties as feed.
+- **Rearing:** the larvae are kept on trays in clean, ventilated rooms at 24-28 degrees Celsius and are fed fresh leaves 3 to 4 times a day.
+- **Mounting:** ripe larvae are placed on **mountages** (bamboo or card frames) to spin.
+- **Harvesting:** the cocoons are collected about 5 to 6 days after spinning.
+- **Stifling:** the pupae are killed with hot air or steam so that the moth does not break the thread.
+- **Reeling:** the cocoons are boiled to soften the sericin, and the threads from 6 to 8 cocoons are reeled into one raw silk yarn.
+- **Seed production:** some cocoons are kept to produce moths for the next crop.
+
+**Eight points of economic importance.**
+
+1. **Income:** it gives a quick cash crop in 30 to 35 days, a boon for small farmers in places like Kavre, Kaski and Chitwan.
+2. **Employment:** it employs women and families at home, from leaf picking to reeling.
+3. **Low capital:** it needs little land and equipment.
+4. **Exports:** high-grade silk and products earn foreign exchange.
+5. **By-products:** the pupae are used as fish feed and poultry feed, and the waste as manure and biogas feed.
+6. **Use of marginal land:** mulberry grows on terrace edges and prevents soil erosion.
+7. **Cultural value:** silk is woven into fine cloths and Nepali *dhaka* and *pashmina* blends.
+8. **Rural development:** the government supports sericulture in many districts.
+
+**Conclusion.** Sericulture combines agriculture and industry; one cocoon gives a thread nearly a kilometre long, and with proper management it improves rural livelihoods.
+
+### Model answer D2: composite fish culture (10 marks)
+
+**Introduction.** **Pisciculture** is the rearing of fish in ponds and tanks. **Composite (polyculture) fish culture** rears **five or six species together in one pond**, chosen so that each feeds in a different zone and no species competes for food. It uses all the natural food of the pond and gives a yield of 3 to 5 tonnes per hectare per year.
+
+**Selection of species.** Three Indian major carps and three exotic carps are used.
+
+| Fish | Feeding zone | Food |
+|---|---|---|
+| **Catla** (*Labeo catla*) | Surface | Zooplankton |
+| **Silver carp** (*Hypophthalmichthys*) | Surface | Phytoplankton |
+| **Rohu** (*Labeo rohita*) | Column (middle) | Zooplankton, plant matter |
+| **Grass carp** (*Ctenopharyngodon*) | Column/surface | Aquatic weeds, leaves |
+| **Mrigal** (*Cirrhinus mrigala*) | Bottom | Detritus, decayed matter |
+| **Common carp** (*Cyprinus carpio*) | Bottom | Insects, snails, detritus |
+
+**Preparation of the pond.**
+
+1. **Select a site** of clayey soil that holds water, with a source of water and drainage.
+2. **Drain and dry** the pond and remove weeds and predatory fish (such as the snakehead).
+3. **Apply lime** (200-250 kg per hectare) to correct acidity and kill pests.
+4. **Manure** with cow dung, poultry droppings or compost to make plankton bloom.
+5. **Fill** with water to a depth of 1.5 to 2 m.
+6. **Stock** with fingerlings of 10 to 15 cm.
+
+**Management.**
+
+- Supply **supplementary feed** such as rice bran and oil-cake daily.
+- Maintain **water quality** (temperature, pH 7-8, dissolved oxygen above 5 mg/L).
+- **Fertilise** regularly and aerate in hot weather.
+- Take care of **disease** (e.g. fin rot) and remove predators.
+- **Harvest** after 8 to 12 months by netting.
+
+**Advantages.**
+
+1. All feeding zones are used and the yield is high.
+2. Fish do not compete for food.
+3. Cheap, nutritious protein for the family, which is important in Nepal where fish are eaten in the Terai.
+4. Grass carp control the weeds in the pond.
+5. Mixing species reduces the risk of disease loss.
+6. It gives employment and income in rural Nepal.
+7. Pond silt becomes a good fertiliser, and water can be used for irrigation.
+8. The cost of production is low.
+
+**Conclusion.** A well-managed composite pond works like a small ecosystem, converting the pond's plankton, weeds and waste into protein.
+
+### Model answer D3: vermicomposting (10 marks)
+
+**Introduction.** **Vermicomposting** is the conversion of organic wastes into a dark, nutrient-rich manure, **vermicompost**, with the help of earthworms. The most common species are the epigeic (surface-living) worms **Eisenia fetida** (red wiggler) and *Eudrilus eugeniae*. Earthworms are called the "farmer's friend".
+
+**Method.**
+
+1. **Select a place:** a shady, cool, well-drained site, or a pit, tank or wooden box.
+2. **Prepare the bed:** put a layer of coconut husk, straw or dry leaves for drainage and then a layer of old cow dung.
+3. **Add the wastes:** kitchen scraps, crop residues and green manure, partly pre-decomposed for about 15 days, so that heat does not kill the worms. Avoid meat, oil, plastic and citrus in big amounts.
+4. **Introduce the worms:** about 1 kg (1000 worms) per square metre.
+5. **Manage:** keep the moisture at about 60 to 70% by sprinkling water, cover with a jute sack, keep the temperature at 20 to 30 degrees Celsius and protect from ants and birds.
+6. **Harvest:** after 45 to 60 days the compost is dark and granular like tea powder. Stop watering for 2 days so that worms move to the bottom, then collect the top, sieve it and dry it in the shade.
+7. **Use:** apply 2 to 5 tonnes per hectare. The liquid, **vermiwash**, is sprayed on leaves.
+
+**Advantages (8 points).**
+
+1. **Rich in nutrients** (N, P, K and micronutrients) and hormones.
+2. **Improves soil structure,** aeration and water-holding capacity.
+3. **Reduces garbage:** it turns kitchen and farm waste into value.
+4. **Cheap and simple:** can be made at home on a roof or in a courtyard in Kathmandu.
+5. **Odourless and free from harmful germs.**
+6. **Increases crop yield** and the quality of vegetables, so it suits organic farming.
+7. **Reduces the use of chemical fertilisers** and so the cost and the pollution.
+8. **Employment:** earthworms and compost can be sold.
+
+| Feature | Vermicompost | Ordinary compost |
+|---|---|---|
+| Agent | Earthworms with microbes | Microbes alone |
+| Time | 45-60 days | 3-6 months |
+| Nutrient content | Higher | Lower |
+| Smell | Almost none | Often unpleasant |
+| Temperature | Low (cool) | High (60 degrees Celsius) |
+
+**Conclusion.** Vermicomposting solves two problems together, waste and soil fertility, and it is one of the best practical techniques for sustainable farming.
+
+### Model answer D4: vaccines, antibiotics and sewage treatment (10 marks)
+
+**Introduction.** Microorganisms cause disease but they are also used to prevent and cure it and to clean the environment. Three examples are vaccines, antibiotics and sewage treatment.
+
+**1. Vaccines.** A **vaccine** is a preparation of a weakened or killed pathogen, or a part of it, that induces **active artificial immunity** without causing disease. It stimulates B and T cells and creates **memory cells**, so that a later exposure leads to a quick, strong **secondary response**.
+
+- **Live attenuated:** BCG (tuberculosis), measles, polio (OPV).
+- **Killed (inactivated):** injectable polio (IPV), rabies.
+- **Toxoid:** diphtheria and tetanus.
+- **Subunit and recombinant:** hepatitis B (made in yeast), HPV.
+- **mRNA:** COVID-19.
+Nepal's national immunisation programme gives BCG, DPT-HepB-Hib, polio, measles-rubella and typhoid vaccines free of cost. **Herd immunity** protects those who cannot be vaccinated.
+
+**2. Antibiotics.** These are chemicals made by microorganisms (or synthetic copies) that **kill or stop the growth of bacteria** but do not harm the host. Penicillin was discovered by **Alexander Fleming (1928)** from *Penicillium*. Streptomycin comes from *Streptomyces*.
+
+| Mode of action | Example |
+|---|---|
+| Blocks the cell wall | Penicillin, cephalosporins |
+| Blocks protein synthesis (70S ribosome) | Tetracycline, streptomycin |
+| Blocks DNA replication | Ciprofloxacin |
+| Damages the cell membrane | Polymyxin |
+
+Antibiotics do not work against viruses. **Resistance** appears when they are misused, so one must finish the course, and not buy medicines without a prescription.
+
+**3. Sewage treatment.** Sewage is wastewater with organic matter and germs. In a plant such as the Guheshwori treatment plant in Kathmandu:
+
+1. **Primary treatment** removes solids by screening, grit removal and **sedimentation**, producing sludge.
+2. **Secondary (biological) treatment** pumps the water into an **aeration tank** where aerobic bacteria (a **flocs** of *Zoogloea*) digest the organic matter; the **BOD** falls. The mixture settles in a clarifier and part of the activated sludge is recycled.
+3. **Sludge digestion:** anaerobic bacteria in digesters convert the sludge into **biogas** (methane and carbon dioxide) which can be used as fuel.
+4. **Tertiary treatment** disinfects the water with chlorine or UV before release into the river.
+
+**Conclusion.** Vaccines prevent, antibiotics cure and sewage treatment protects water; all three rely on the careful use of microbes and the knowledge of microbiology.

@@ -114,6 +114,99 @@ $(f\circ g)(x)=f(g(x))$; in general $f\circ g\ne g\circ f$, but composition is a
 To find a **range**, solve $y=f(x)$ for $x$ and ask for which $y$ a real $x$ exists (e.g. $y=\frac{1}{1+x^2}\Rightarrow x^2=\frac{1-y}{y}\ge0\Rightarrow 0<y\le1$).
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Counting with sets. (a) A Venn design on a bridge in Hull: overlapping circles are the picture of intersection and union. (b) A survey of 100 students on three subjects: the eight regions hold 20, 12, 8, 10, 6, 4, 15 and 25 students. From them n(M) = 51, n(P) = 41, n(C) = 33, n(M and P) = 25, n(M and C) = 21, n(P and C) = 19. The formula n(M or P or C) = n(M) + n(P) + n(C) - n(M and P) - n(M and C) - n(P and C) + n(M and P and C) gives 75, which agrees with 100 - 25 = 75."
+@ photo id="bcamath/vennbridge" cap="Venn diagrams worked into the railings of a bridge"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Three-set survey: inclusion-exclusion checked by regions"
+import itertools
+R = dict(M=20, P=12, C=8, MP=10, MC=6, PC=4, MPC=15, none=25)
+nm = R["M"] + R["MP"] + R["MC"] + R["MPC"]; np_ = R["P"] + R["MP"] + R["PC"] + R["MPC"]; nc = R["C"] + R["MC"] + R["PC"] + R["MPC"]
+nmp = R["MP"] + R["MPC"]; nmc = R["MC"] + R["MPC"]; npc = R["PC"] + R["MPC"]
+union = nm + np_ + nc - nmp - nmc - npc + R["MPC"]
+assert sum(R.values()) == 100 and union == 100 - R["none"] == 75 and (nm, np_, nc, nmp, nmc, npc) == (51, 41, 33, 25, 21, 19)
+facts = dict(only_m=R["M"], only_p=R["P"], only_c=R["C"], mp=R["MP"], mc=R["MC"], pc=R["PC"], mpc=R["MPC"], none=R["none"], nm=nm, np_=np_, nc=nc, nmp=nmp, nmc=nmc, npc=npc, union=union)
+cen = dict(M=(112, 92), P=(188, 92), C=(150, 150)); r = 54
+lab = dict(M=((84, 76), "M"), P=((216, 76), "P"), C=((150, 184), "C"), MP=((150, 66), "MP"), MC=((114, 128), "MC"), PC=((186, 128), "PC"), MPC=((150, 106), "MPC"))
+for k, ((x, y), s) in lab.items():
+    inside = "".join(c for c in "MPC" if (x - cen[c][0]) ** 2 + (y - cen[c][1]) ** 2 < r * r)
+    assert inside == (s if len(s) > 1 else s), (k, inside)
+f = Fig(300, 236)
+f.text(150, 14, "100 students: Maths M, Physics P, Chemistry C", size=10.5, color=NAVY, bold=True)
+cols = dict(M=("#bfdbfe", NAVY), P=("#fde68a", AMBER), C=("#a7f3d0", TEAL))
+for c in "MPC":
+    f.raw('<circle cx="%d" cy="%d" r="%d" fill="%s" fill-opacity="0.55" stroke="%s" stroke-width="2"/>' % (cen[c][0], cen[c][1], r, cols[c][0], cols[c][1]))
+f.text(66, 52, "M", size=12, color=NAVY, bold=True); f.text(234, 52, "P", size=12, color=AMBER, bold=True); f.text(96, 190, "C", size=12, color=TEAL, bold=True)
+for k, ((x, y), s) in lab.items():
+    f.text(x, y, R[k], size=11.5, color=SLATE, bold=True, vmid=True)
+f.text(278, 196, "none: %d" % R["none"], size=10.5, color=RED, bold=True, anchor="end")
+f.text(150, 226, "51+41+33-25-21-19+15 = 75", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="A function is a rule with exactly one output for each input. (a) In a vending machine each button gives one drink, so buttons to drinks is a function; two buttons may give the same drink, and a drink that no button gives lies outside the range. (b) With 3 buttons and 4 drinks there are 64 possible functions (4 choices for each of 3 buttons), of which 24 are one-one (4 x 3 x 2) and 0 are onto, because 3 buttons cannot cover 4 drinks. With 4 buttons and 3 drinks, 81 functions exist, 0 are one-one and 36 are onto; the last number is 3^4 - 3 x 2^4 + 3. All counts are found by listing every function."
+@ photo id="ioemath/vending" cap="A vending machine: press a button, get one drink"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Counting functions by listing every mapping"
+import itertools
+def count(nA, nB):
+    tot = inj = onto = 0
+    for m in itertools.product(range(nB), repeat=nA):
+        tot += 1; inj += len(set(m)) == nA; onto += len(set(m)) == nB
+    return tot, inj, onto
+t1, i1, o1 = count(3, 4); t2, i2, o2 = count(4, 3)
+assert (t1, i1, o1) == (64, 24, 0) and (t2, i2, o2) == (81, 0, 36) and o2 == 3 ** 4 - 3 * 2 ** 4 + 3
+facts = dict(tot1=t1, inj1=i1, onto1=o1, tot2=t2, inj2=i2, onto2=o2)
+f = Fig(300, 236)
+f.text(150, 14, "one function from 3 buttons to 4 drinks", size=10.5, color=NAVY, bold=True)
+btn = ["A1", "A2", "A3"]; drk = ["Cola", "Lemon", "Water", "Juice"]; mp = [0, 0, 2]
+for i, b in enumerate(btn): f.box(30, 34 + i * 34, 52, 24, b, fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=12)
+for j, d in enumerate(drk): f.box(206, 28 + j * 28, 66, 22, d, fill=(MINT if j in mp else SOFT), stroke=(TEAL if j in mp else SOFT), color=(TEAL if j in mp else SLATE), size=10.5, bold=True, r=11)
+for i, j in enumerate(mp): f.arrow([(82, 46 + i * 34), (206, 39 + j * 28)], color=AMBER, sw=1.5)
+f.text(150, 140, "A1 and A2 both give Cola: many-one", size=10.5, color=AMBER, bold=True)
+f.text(150, 156, "range = {Cola, Water}, Lemon and Juice unused", size=10.5, color=TEAL, bold=True)
+rows = [("3 buttons to 4 drinks", "%d" % t1, "%d" % i1, "%d" % o1), ("4 buttons to 3 drinks", "%d" % t2, "%d" % i2, "%d" % o2)]
+f.box(10, 176, 280, 20, "", fill=BLUE, stroke=NAVY, r=3)
+for x, s in ((14, "case"), (150, "all"), (196, "one-one"), (254, "onto")): f.text(x, 186, s, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+for k, (a, b, c, d) in enumerate(rows):
+    y = 198 + k * 18
+    f.text(14, y + 8, a, size=10.5, color=SLATE, anchor="start", vmid=True)
+    for x, s in ((150, b), (196, c), (254, d)): f.text(x, y + 8, s, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+```
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Logic laws checked by truth tables. (a) A staircase lamp with two switches is on when exactly one switch is up, which is p XOR q; it is also the negation of p if and only if q. (b) The table lists every truth value of p and q. Columns 3 and 4 are identical, so the two statements are equivalent. Columns 5, 6 and 7 are identical, so p implies q equals (not p) or q equals the contrapositive (not q) implies (not p), while the converse in column 8 differs in 2 of the 4 rows. A statement that is true in all rows is a tautology; 4 of the 6 statements tested are tautologies."
+@ photo id="bca155/lightswitch" cap="A light switch: the lamp state is a logic function of the switch positions"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Truth table: XOR, implication, contrapositive, converse"
+import itertools
+rows = list(itertools.product([1, 0], repeat=2))
+imp = lambda a, b: int((not a) or b)
+cols = {"xor": [p ^ q for p, q in rows], "nbi": [int(not (p == q)) for p, q in rows], "imp": [imp(p, q) for p, q in rows],
+        "ndis": [int((not p) or q) for p, q in rows], "cp": [imp(1 - q, 1 - p) for p, q in rows], "conv": [imp(q, p) for p, q in rows]}
+assert cols["xor"] == cols["nbi"] and cols["imp"] == cols["ndis"] == cols["cp"] and cols["conv"] != cols["imp"]
+diff = sum(a != b for a, b in zip(cols["conv"], cols["imp"]))
+stm = [lambda p, q: p or not p, lambda p, q: imp(p and q, p), lambda p, q: imp(p, q), lambda p, q: imp(p, p or q), lambda p, q: (p ^ q) or (p == q), lambda p, q: imp(q, p)]
+taut = sum(all(s(p, q) for p, q in rows) for s in stm)
+assert diff == 2 and taut == 4
+facts = dict(diff=diff, taut=taut, nstat=len(stm))
+f = Fig(300, 236)
+f.text(150, 14, "T = 1, F = 0; 2-switch lamp = XOR", size=10.5, color=NAVY, bold=True)
+heads = ["p", "q", "XOR", "~(p\n=q)", "p>q", "~p\nv q", "~q>\n~p", "q>p"]
+fills = [BLUE, BLUE, MINT, MINT, SAND, SAND, SAND, ROSE]; strokes = [NAVY, NAVY, TEAL, TEAL, AMBER, AMBER, AMBER, RED]
+data = [[p, q, cols["xor"][i], cols["nbi"][i], cols["imp"][i], cols["ndis"][i], cols["cp"][i], cols["conv"][i]] for i, (p, q) in enumerate(rows)]
+w = 35
+for c, h in enumerate(heads): f.box(10 + c * w, 28, w - 2, 30, h, fill=fills[c], stroke=strokes[c], size=10.5, bold=True, r=3)
+for r_, row in enumerate(data):
+    for c, v in enumerate(row):
+        hot = c == 7 and v != row[4]
+        f.box(10 + c * w, 60 + r_ * 28, w - 2, 24, str(v), fill=(ROSE if hot else SOFT), stroke=(RED if hot else strokes[c]), size=11, bold=True, r=3, color=(RED if hot else SLATE))
+f.line(10, 180, 290, 180, color=SOFT, sw=1)
+f.text(150, 192, "columns 3 = 4:  XOR = not (p iff q)", size=10.5, color=TEAL, bold=True)
+f.text(150, 208, "columns 5 = 6 = 7:  implication = contrapositive", size=10.5, color=AMBER, bold=True)
+f.text(150, 224, "column 8 (converse) differs in %d rows" % diff, size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -245,3 +338,60 @@ To find a **range**, solve $y=f(x)$ for $x$ and ask for which $y$ a real $x$ exi
 **6.** (c) — all functions $2^3=8$, minus the 2 constant ones: 6.
 **7.** (a) — $n(P(A))=4$, so $n(P(P(A)))=2^4=16$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. In a survey of 100 students, $n(M)=50$, $n(P)=45$, $n(C)=40$, $n(M\cap P)=20$, $n(P\cap C)=15$, $n(M\cap C)=18$ and $n(M\cap P\cap C)=8$. Find the number in each region, and prove that $(p\to q)\wedge(q\to r)\Rightarrow(p\to r)$ is a tautology. <span class="marks">[10]</span>
+2. Find the domain and range of a function, the inverse of a rational function, and compare $f\circ g$ with $g\circ f$. <span class="marks">[10]</span>
+
+### Model answer D1: Sets, Venn diagrams and logic (10 marks)
+
+**Introduction.** For three finite sets the **inclusion–exclusion** rule gives
+$$n(M\cup P\cup C)=n(M)+n(P)+n(C)-n(M\cap P)-n(P\cap C)-n(M\cap C)+n(M\cap P\cap C).$$
+
+**Solution.** Work from the middle outwards.
+
+1. **All three:** $8$.
+2. **Exactly two:** $M,P$ only $=20-8=12$; $P,C$ only $=15-8=7$; $M,C$ only $=18-8=10$.
+3. **Only one:** $M$ only $=50-12-10-8=20$; $P$ only $=45-12-7-8=18$; $C$ only $=40-10-7-8=15$.
+4. **Union:** $20+18+15+12+7+10+8=90$, which matches $50+45+40-20-15-18+8=90$.
+5. **None of the three:** $100-90=10$.
+
+| Region | Students |
+|---|---|
+| Only M / only P / only C | 20 / 18 / 15 |
+| Exactly two subjects | 29 |
+| All three | 8 |
+| None | 10 |
+
+**Logic.** A **tautology** is true in every row of the truth table. Since $p\to q\equiv\neg p\vee q$, we test $[(p\to q)\wedge(q\to r)]\to(p\to r)$ in the eight cases of $(p,q,r)$. The antecedent is true only when $p\to q$ and $q\to r$ are both true: $(T,T,T)$, $(F,T,T)$, $(F,F,T)$, $(F,F,F)$ and $(F,T,F)$ is excluded since $q\to r$ is false. In each admitted row, $p\to r$ is true ($TT$, $FT$, $FT$, $FF$). The whole statement is therefore true in all 8 rows: it is a tautology (**hypothetical syllogism**).
+
+**Useful laws.** De Morgan: $\neg(p\wedge q)\equiv\neg p\vee\neg q$. Contrapositive: $p\to q\equiv\neg q\to\neg p$. Inequalities: $\lvert 2x-3\rvert<5\Rightarrow -1<x<4$ and $\lvert x-2\rvert\ge3\Rightarrow x\le-1$ or $x\ge5$.
+
+**Conclusion.** Working from the three-way intersection outwards avoids double counting, and a truth table settles any logical identity.
+
+### Model answer D2: Functions, inverse and composition (10 marks)
+
+**Introduction.** A **function** $f:A\to B$ gives exactly one output for each input. The **domain** is the set of allowed inputs and the **range** is the set of outputs.
+
+**1. Domain and range.** For $f(x)=\frac{\sqrt{x-1}}{x-3}$ we need $x-1\ge0$ and $x\ne3$, so the domain is $[1,\infty)\setminus\{3\}$. For $f(x)=x^2-4x+3=(x-2)^2-1$, the range is $[-1,\infty)$.
+
+**2. Inverse.** A function has an inverse only if it is **one-one and onto**. For $f(x)=\frac{2x+1}{x-3}$ ($x\ne3$):
+
+1. Put $y=\frac{2x+1}{x-3}$, so $y(x-3)=2x+1$.
+2. Collect $x$: $x(y-2)=3y+1$, so $x=\frac{3y+1}{y-2}$.
+3. Hence $f^{-1}(x)=\frac{3x+1}{x-2}$, with $x\ne2$.
+4. Check: $f(f^{-1}(x))=x$. The graph of $f^{-1}$ is the reflection of $f$ in the line $y=x$.
+
+**3. Composite functions.** Let $f(x)=2x+1$ and $g(x)=x^2$.
+
+| Function | Rule | Value at $x=2$ |
+|---|---|---|
+| $f\circ g$ | $f(g(x))=2x^2+1$ | $9$ |
+| $g\circ f$ | $g(f(x))=(2x+1)^2$ | $25$ |
+
+So $f\circ g\ne g\circ f$ in general: composition is not commutative. It is associative, and $(f\circ g)^{-1}=g^{-1}\circ f^{-1}$.
+
+**4. Types.** Even: $f(-x)=f(x)$ (e.g. $x^2$); odd: $f(-x)=-f(x)$ (e.g. $x^3$); one-one: $f(a)=f(b)\Rightarrow a=b$ (horizontal line test).
+
+**Conclusion.** The inverse undoes the function, and the order matters when functions are composed.

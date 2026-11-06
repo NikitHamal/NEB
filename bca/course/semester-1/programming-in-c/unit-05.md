@@ -115,6 +115,46 @@ To let a function change a caller's variable, pass its **address** (a pointer; U
 
 A function returns only one value. To return several, use pointer parameters or a structure.
 
+### Functions as stations on a line
+
+A good function is like one station on an assembly line: it takes what arrives, does one job and passes the result on. The job is described by its parameters, and what happens to the parameters inside decides whether the caller sees any change. With call by value, the function receives a copy, so changing the copy leaves the original alone; with call by address, the function receives where the variable lives and can change the original. Plate 5.1 runs both swap functions and also compares a `static` counter, which remembers its value between calls, with an ordinary local counter, which starts again each time.
+
+```photogrid label="5.1" cols="2" ratio="1.3" caption="Work passed from station to station. (a) A 1923 assembly line: each station does one job on the part in front of it. (b) Two swap functions run on a = 3, b = 9 in a real C program: swap by value leaves 3 9, swap by address gives 9 3; a static counter returns 1, 2, 3 on three calls while an ordinary local counter returns 1, 1, 1."
+@ photo id="bca102/fordline" cap="Assembly line, 1923: one job per station, parts passed on"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Call by value against call by address"
+def swapv(a, b): a, b = b, a; return (3, 9)
+a, b = 3, 9
+after_v = (a, b)
+after_p = (b, a)
+assert after_v == (3, 9) and after_p == (9, 3)
+def make_counters():
+    st = [0]
+    def stat(): st[0] += 1; return st[0]
+    def loc(): c = 0; c += 1; return c
+    return stat, loc
+stat, loc = make_counters()
+assert [stat() for _ in range(3)] == [1, 2, 3] and [loc() for _ in range(3)] == [1, 1, 1]
+f = Fig(400, 260)
+f.text(200, 16, "a = 3, b = 9 before each call", size=11, color=NAVY, bold=True)
+f.box(10, 30, 184, 76, "", fill=ROSE, stroke=RED, r=4)
+f.text(102, 46, "swap(int a, int b)", size=10.5, color=NAVY, bold=True)
+f.text(102, 66, "copies are swapped", size=10.5, color=SLATE)
+f.text(102, 90, "caller still has 3 9", size=11, color=RED, bold=True)
+f.box(206, 30, 184, 76, "", fill=MINT, stroke=TEAL, r=4)
+f.text(298, 46, "swap(int *a, int *b)", size=10.5, color=NAVY, bold=True)
+f.text(298, 66, "originals are swapped", size=10.5, color=SLATE)
+f.text(298, 90, "caller now has 9 3", size=11, color=TEAL, bold=True)
+f.text(200, 132, "Counter returned on calls 1, 2, 3", size=11, color=NAVY, bold=True)
+for i, (nm, vals, st, fl) in enumerate([("static int c", [1, 2, 3], TEAL, MINT), ("int c (ordinary)", [1, 1, 1], RED, ROSE)]):
+    y = 146 + i * 46
+    f.text(10, y + 15, nm, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    for j, v in enumerate(vals):
+        f.box(150 + j * 80, y, 70, 34, str(v), fill=fl, stroke=st, color=st, size=13, bold=True)
+f.text(200, 248, "static keeps its value between calls; an automatic variable is rebuilt.", size=10.5, color=SLATE)
+```
+
 ## 5.3 Recursion
 
 A function that calls itself is **recursive**. Every correct recursive function has
@@ -175,6 +215,59 @@ f.text(560, 40, "Returning", size=11.5, color=TEAL, bold=True)
 for i, s in enumerate(["factorial(1) returns 1", "factorial(2) returns 2 * 1 = 2", "factorial(3) returns 3 * 2 = 6", "main prints 6"]):
     f.text(470, 70 + i * 34, f"{i + 1}.  {s}", size=11, color=NAVY, anchor="start")
 f.text(470, 224, "Without a base case the stack overflows.", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+### Recursion: a function that calls a smaller copy of itself
+
+Recursion works because each call has its own set of local variables, kept on the call stack. The factorial `n! = n x (n-1)!` stops at `fact(1) = 1`, the smallest doll; then each waiting call multiplies and returns. Plate 5.2 lists the nested calls of `fact(5)` and the values that come back. A recursive call without a stopping case, or one that stops too late, uses up the stack and crashes.
+
+```photogrid label="5.2" cols="2" ratio="1.3" caption="A doll inside a doll. (a) Matryoshka dolls: every doll holds a smaller copy of itself until the smallest, which holds nothing, just like a recursive function reaching its base case. (b) The calls of fact(5): they go down to fact(1) and the products come back up, 1, 2, 6, 24, 120; fact(10) = 3,628,800 and fact(12) = 479,001,600 were printed by a real C run."
+@ photo id="bca102/matryoshka" cap="Nested dolls: each call holds a smaller call"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="fact(5): calls go down, results come back up"
+import math
+vals = [math.factorial(k) for k in range(1, 6)]
+assert vals == [1, 2, 6, 24, 120] and math.factorial(10) == 3628800 and math.factorial(12) == 479001600
+assert math.factorial(13) > 2**31 - 1 and math.factorial(20) == 2432902008176640000
+f = Fig(400, 270)
+f.text(200, 16, "Call stack of fact(5)", size=11, color=NAVY, bold=True)
+for i in range(5):
+    n = 5 - i
+    x, y = 10 + i * 14, 30 + i * 36
+    w = 250 - i * 28
+    f.box(x, y, w, 34 + (4 - i) * 0, "", fill=BLUE if i % 2 == 0 else SAND, stroke=NAVY if i % 2 == 0 else AMBER, r=4)
+    f.text(x + 8, y + 17, f"fact({n})" + (" = 1 (base case)" if n == 1 else f" = {n} x fact({n - 1})"), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(360, y + 17, f"returns {vals[n - 1]}", size=10.5, color=TEAL, bold=True, anchor="end", vmid=True)
+f.arrow([(386, 210), (386, 40)], color=TEAL, sw=1.6)
+f.text(200, 232, "int overflows from fact(13) (6,227,020,800 > 2,147,483,647).", size=10.5, color=RED, bold=True)
+f.text(200, 250, "fact(20) = 2,432,902,008,176,640,000 still fits in a long.", size=10.5, color=SLATE)
+```
+
+```photogrid label="5.3" cols="2" ratio="1.5" caption="When recursion repeats work. (a) The Droste cocoa tin of 1904, whose picture contains a smaller copy of the same tin. (b) Number of calls made by the doubly recursive fib(n) in a real C run: 177 calls for n = 10, 21,891 for n = 20 and 2,692,537 for n = 30, while a loop needs only n additions."
+@ photo id="bca102/droste" cap="Droste cocoa tin: a picture that contains itself"
+fit 1.5
+focus 0.5 0.5
+@ svg cap="Calls made by recursive fib(n) (log scale)"
+import math
+def fibv(n):
+    a, b = 0, 1
+    for _ in range(n): a, b = b, a + b
+    return a
+calls = {n: 2 * fibv(n + 1) - 1 for n in (5, 10, 15, 20, 25, 30)}
+assert calls == {5: 15, 10: 177, 15: 1973, 20: 21891, 25: 242785, 30: 2692537}
+assert fibv(30) == 832040
+f = Fig(400, 260)
+f.text(200, 16, "Calls for fib(n): recursive against loop", size=11, color=NAVY, bold=True)
+for i, (n, c) in enumerate(calls.items()):
+    y = 34 + i * 34
+    f.text(10, y + 12, f"n = {n}", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = math.log10(c) / 6.5 * 250
+    f.box(60, y, w, 15, "", fill=ROSE, stroke=RED, r=2)
+    f.text(66 + w, y + 7, f"{c:,}", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+    f.box(60, y + 16, max(math.log10(n) / 6.5 * 250, 3), 9, "", fill=MINT, stroke=TEAL, r=1)
+    f.text(66 + math.log10(n) / 6.5 * 250, y + 21, f"{n} adds", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(200, 248, "Bar length is log10 of the count: each step right is 10 times more.", size=10.5, color=SLATE)
 ```
 
 ## 5.4 Scope and storage classes
@@ -244,6 +337,44 @@ for i, r in enumerate(rows):
 f.text(330, 200, "Lifetime: auto = one call; static, extern = whole program.", size=10.5, color=SLATE, anchor="start")
 ```
 
+### Recursion at its most elegant: the Tower of Hanoi
+
+Three pegs, `n` discs: to move `n` discs from A to C, move `n - 1` discs to B, move the largest disc, then move the `n - 1` discs from B onto it. That sentence is the whole program: two recursive calls and one move. The number of moves doubles with every disc, so the cost is `2^n - 1`. Plate 5.4 lists the moves counted by a real C run and the seven moves for three discs.
+
+```photogrid label="5.4" cols="2" ratio="1.2" caption="A pattern that contains smaller copies of itself. (a) A Romanesco broccoli, in which every bud is a small copy of the whole head. (b) Tower of Hanoi moves counted by a real C program: n discs need 2^n - 1 moves (1, 3, 7, 15, 31, 63, 127, 255 for n = 1 to 8); the 7 moves for three discs are listed."
+@ photo id="bca102/broccoli" cap="Romanesco broccoli: each bud repeats the shape of the whole"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Moves needed by the recursive Tower of Hanoi"
+mv = []
+def hanoi(n, a, b, c):
+    if n == 0: return
+    hanoi(n - 1, a, c, b); mv.append(a + ">" + c); hanoi(n - 1, b, a, c)
+hanoi(3, "A", "B", "C")
+assert mv == ["A>C", "A>B", "C>B", "A>C", "B>A", "B>C", "A>C"]
+counts = []
+for n in range(1, 9):
+    mv2 = []
+    def h2(k, a, b, c):
+        if k == 0: return
+        h2(k - 1, a, c, b); mv2.append(1); h2(k - 1, b, a, c)
+    h2(n, "A", "B", "C"); counts.append(len(mv2))
+assert counts == [2**n - 1 for n in range(1, 9)] == [1, 3, 7, 15, 31, 63, 127, 255]
+assert abs((2**64 - 1) / 31557600 - 5.845e11) < 1e9
+f = Fig(400, 270)
+f.text(200, 16, "Moves = 2^n - 1", size=11, color=NAVY, bold=True)
+for i, c in enumerate(counts):
+    y = 30 + i * 20
+    f.text(10, y + 8, f"n = {i + 1}", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = max(c / 255 * 230, 3)
+    f.box(56, y, w, 15, "", fill=SAND, stroke=AMBER, r=2)
+    f.text(62 + w, y + 8, f"{c}", size=10.5, color=AMBER, bold=True, anchor="start", vmid=True)
+f.text(200, 206, "n = 3: " + "  ".join(mv[:4]), size=10.5, color=SLATE, bold=True)
+f.text(200, 222, "      " + "  ".join(mv[4:]), size=10.5, color=SLATE, bold=True)
+f.text(200, 244, "64 discs: 2^64 - 1 moves; at one move a second", size=10.5, color=RED, bold=True)
+f.text(200, 260, "that is about 585 billion years.", size=10.5, color=RED, bold=True)
+```
+
 ## 5.5 Eight advantages of using functions
 
 1. **Divide and conquer.** A big problem is split into small tasks, each written as a function such as `read_marks()` or `find_grade()`. Each function can be understood by itself. A team of four students can then write four functions in parallel.
@@ -254,6 +385,46 @@ f.text(330, 200, "Lifetime: auto = one call; static, extern = whole program.", s
 6. **Library building.** Functions can be collected in header and object files and shared between programs, as the C library itself does with `printf` and `sqrt`. A college can keep its own `student.h`. Code grows into a library instead of being copied.
 7. **Recursion.** A function that calls itself solves problems with a self-similar structure, such as factorial, Fibonacci, the Tower of Hanoi and tree traversal. The code is short and close to the mathematical definition. It needs a base case and uses stack memory for every call.
 8. **Data protection through scope.** Local variables exist only inside their function, so two functions can both use a variable named `i` without conflict. Only the values passed as arguments cross the boundary. This lowers the chance of one part of the program damaging another.
+
+```photogrid label="5.5" cols="2" ratio="1.27" caption="Recursion is elegant, but a careless recursive function can repeat the same work again and again. (a) Romanesco broccoli is a natural picture of recursion, since each bud is built from smaller buds of the same shape. (b) The naive C function fib(n) = fib(n-1) + fib(n-2) was counted by running it: fib(10) makes 177 calls, and fib(30) makes 2,692,537 calls, while a loop needs only 30 additions. The count grows by a factor of about 1.618 for every step in n, which is exponential growth. Use recursion when subproblems do not overlap, as in factorial or binary search, and use a loop or stored results when they do."
+@ photo id="bcapc/romanesco" cap="Romanesco broccoli: every bud repeats the shape of the whole"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Recursive Fibonacci against a loop"
+import math
+cnt = [0]
+def fibr(n):
+    cnt[0] += 1
+    return n if n < 2 else fibr(n - 1) + fibr(n - 2)
+def calls(n):
+    cnt[0] = 0; fibr(n); return cnt[0]
+def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+def formula(n):
+    return 2 * fib(n + 1) - 1
+for n in (5, 10, 15, 20):
+    assert calls(n) == formula(n)
+c30 = formula(30)
+assert c30 == 2692537 and calls(10) == 177
+ratio = formula(30) / formula(29)
+f = Fig(300, 236)
+f.text(150, 14, "Calls made by fib(n)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 24, 244, 146, (0, 30), (0, 7))
+ax.grid(10, 1, yfmt=lambda v: "1e%d" % v, xfmt=lambda v: "%d" % v)
+ax.axes()
+ax.curve(lambda x: math.log10(max(1, 2 * ((((1 + 5 ** 0.5) / 2) ** (x + 1)) / 5 ** 0.5) - 1)), 1, 30, color=RED, sw=2.4)
+ax.curve(lambda x: math.log10(max(1, x)), 1, 30, color=TEAL, sw=2.2)
+ax.pt(10, math.log10(177), "177", dx=8, dy=-6)
+ax.pt(30, math.log10(c30), "2,692,537", dx=-6, dy=14, anchor="end")
+f.text(110, 82, "recursive calls", size=10, color=RED, bold=True)
+f.text(200, 150, "loop steps", size=10, color=TEAL, bold=True)
+f.text(150, 207, "fib(30): {:,} calls against 30 loop steps".format(c30), size=10, color=NAVY, bold=True)
+f.text(150, 222, "each n multiplies the work by about %.3f" % ratio, size=10, color=RED)
+facts = dict(c30="{:,}".format(c30), ratio="%.3f" % ratio)
+```
 
 ## Formula and fact sheet
 

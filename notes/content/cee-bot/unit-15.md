@@ -172,6 +172,25 @@ the set without cell division, giving a fully homozygous line of **28
 chromosomes** in two generations instead of the six or more that repeated
 selfing would need.
 :::
+```photogrid label="15.1" cols="2" ratio="1.2" caption="Micropropagation multiplies a plant very fast. (a) Plantlets growing in culture on a nutrient medium. (b) If one explant gives 5 shoots at each 4-week subculture and every shoot is subcultured, the number is 5 to the power n: 5, 25, 125, 625, 3,125 and 15,625 after 1 to 6 cycles. One piece of tissue thus gives 15,625 plantlets within 24 weeks, all genetically identical and free of disease if the explant was a meristem. Banana, orchids and potato seed tubers are multiplied this way, and ginger and cardamom are also under study in Nepal."
+@ photo id="cee-bot/tissue-culture" cap="Plantlets in tissue culture"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Plantlets after n subcultures (5 shoots each, log scale)"
+N = [5 ** n for n in range(1, 7)]
+assert N[-1] == 15625 and N[2] == 125
+facts = {"a%d" % (i + 1): "{:,}".format(v) for i, v in enumerate(N)}
+f = Fig(300, 236)
+f.text(150, 12, "log10 (plantlets) against cycles", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 6), (0, 5))
+ax.grid(1, 1).axes("n", "log N")
+ax.curve(lambda n: n * math.log10(5), 0, 6, color=TEAL)
+for n, v in enumerate(N, 1):
+    ax.pt(n, math.log10(v), "{:,}".format(v) if n in (1, 3, 6) else "", dx=-6, dy=-9, anchor="end", r=3.4)
+f.text(150, 206, "24 weeks (6 cycles): 15,625 plantlets", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "slope = log10 5 = 0.699 per cycle", size=10.5, color=SLATE, bold=True)
+```
+
 ## 15.2 Genetic engineering: concept and applications
 
 **Genetic engineering (recombinant DNA technology)** isolates a gene,
@@ -268,6 +287,28 @@ signed the **Cartagena Protocol on Biosafety** framework (National
 Biosafety Framework 2006; a Supreme Court interim order in 2014 halted
 GM seed import), and **no GM crop is registered for cultivation in
 Nepal** — border seed samples are PCR-tested.
+
+```photogrid label="15.2" cols="2" ratio="1.2" caption="Biological nitrogen fixation in money and kilograms. (a) A section of a legume root nodule: the dark-stained cells are packed with Rhizobium bacteria that fix nitrogen. (b) A good legume crop fixes about 100 kg of nitrogen per hectare in a year (a typical figure). To supply the same nitrogen by fertilizer a farmer would apply 217 kg of urea (46 per cent N), 476 kg of ammonium sulphate (21 per cent N) or 556 kg of diammonium phosphate (18 per cent N). Seed inoculated with Rhizobium biofertilizer, and green manure of legumes such as dhaincha, therefore save fertilizer that Nepal must import."
+@ photo id="ceebot/rhizobium" cap="Section of a legume root nodule"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Fertilizer needed to equal 100 kg of fixed nitrogen (kg)"
+need = 100.0
+fert = (("Urea (46% N)", 46), ("Ammonium sulphate (21% N)", 21), ("DAP (18% N)", 18))
+amt = [need / p * 100 for _, p in fert]
+assert round(amt[0]) == 217 and round(amt[1]) == 476 and round(amt[2]) == 556
+facts = dict(urea="%.0f" % amt[0], **{"as": "%.0f" % amt[1]}, dap="%.0f" % amt[2])
+f = Fig(300, 236)
+f.text(150, 12, "Product needed for 100 kg N per hectare", size=10.5, color=NAVY, bold=True)
+for i, ((lab, p), a) in enumerate(zip(fert, amt)):
+    y = 30 + i * 46
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = a / 556 * 200
+    f.box(10, y + 8, w, 20, fill=SAND if i else MINT, stroke=AMBER if i else TEAL, r=2)
+    f.text(10 + w + 6, y + 18, "%.0f kg" % a, size=10.5, color=AMBER if i else TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "kg product = 100 / (per cent N) x 100", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "legume crop: about 100 kg N per ha a year", size=10.5, color=SLATE, bold=True)
+```
 
 ## 15.3 Biofertilizers, green manures, plant breeding, bio-engineering, food safety and security
 
@@ -382,6 +423,25 @@ because the meristem lacks the virus**, not because the medium kills it;
 and **Bt toxin is insect-specific**, activated only in the alkaline
 lepidopteran gut — it is not a general poison.
 :::
+
+```photogrid label="15.3" cols="2" ratio="1.2" caption="Azolla, the green manure of rice fields. (a) Azolla carries the nitrogen-fixing cyanobacterium Anabaena in cavities of its leaves. (b) If its biomass doubles every 3 days under good conditions, 100 g gives 100 x 2^(t/3) g: 3.2 kg after 15 days and 102.4 kg after 30 days, until space or phosphorus runs out. A mat ploughed into the paddy before rice transplanting releases its nitrogen as it decays; Azolla is also used as feed for ducks, fish and cattle. The calculation is an upper limit, since a real mat stops growing once it covers the water."
+@ photo id="cee-bot/azolla" cap="Azolla mat on water"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Azolla biomass if it doubles every 3 days (start 100 g)"
+B = lambda t: 0.1 * 2 ** (t / 3)
+assert abs(B(15) - 3.2) < 1e-9 and abs(B(30) - 102.4) < 1e-9
+facts = dict(d15="%.1f" % B(15), d30="%.1f" % B(30))
+f = Fig(300, 236)
+f.text(150, 12, "Biomass (kg) against days", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 30), (0, 110))
+ax.grid(5, 25).axes("day", "kg")
+ax.curve(B, 0, 30, color=TEAL)
+ax.pt(15, B(15), "3.2 kg", dx=0, dy=-10, anchor="middle")
+ax.pt(30, B(30), "102.4 kg", dx=-8, dy=16, anchor="end")
+f.text(150, 206, "doubling every 3 days: x 1,024 in 30 days", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "upper limit; real mats stop at full cover", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -591,3 +651,90 @@ lepidopteran gut — it is not a general poison.
 **9.** (a) — Chakrabarty's multi-plasmid *Pseudomonas putida* degrades several crude-oil components.
 **10.** (c) — Doubled haploids are homozygous at every locus in a single generation.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe plant tissue culture: techniques, totipotency, stages and applications. <span class="marks">[10]</span>
+2. Describe plant breeding, biofertilisers and the use of genetic engineering in agriculture (Bt cotton, golden rice). <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.25" caption="Applied botany. (a) Plantlets growing from explants in a tissue culture vessel. (b) A callus, an undifferentiated mass of cells grown on nutrient medium. (c) Root nodules of a legume hold Rhizobium bacteria that fix atmospheric nitrogen."
+@ photo id="cee-bot/tissue-culture" cap="(a) Micropropagation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="qbank/plant-callus" cap="(b) Callus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-bot/root-nodules" cap="(c) Root nodules"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: plant tissue culture (10 marks)
+
+**Introduction.** **Plant tissue culture** is the growth of plant cells, tissues or organs on a sterile nutrient medium under controlled conditions. It rests on **totipotency**: the ability of a single living plant cell to form a whole plant (Haberlandt, Steward).
+
+**Technique.**
+
+1. **Explant:** a small piece of tissue (shoot tip, leaf, node) is taken from a healthy plant and **surface-sterilised** (with sodium hypochlorite or mercuric chloride).
+2. **Medium:** **Murashige and Skoog (MS) medium** with macro- and micro-nutrients, sucrose (the carbon source), vitamins, agar (the solidifying agent) and **plant growth regulators**.
+3. **Aseptic conditions:** a laminar-air-flow cabinet, autoclaved ($121^{\circ}\text{C}$, $15$ psi) medium and instruments, and a culture room at $25^{\circ}\text{C}$ with a light cycle.
+4. **Callus induction:** with auxin (2,4-D) to form an undifferentiated mass.
+5. **Differentiation:** the ratio of **auxin to cytokinin** determines the result (high ratio for roots, low ratio for shoots).
+6. **Hardening** of the plantlets and transfer to soil.
+
+**Applications.**
+
+| Application | Description | Example |
+|---|---|---|
+| **Micropropagation** | mass cloning | banana, orchids, potato, sugarcane |
+| **Virus-free plants** | **meristem culture** (meristem is virus-free) | potato, sugarcane |
+| **Haploid production** | **anther culture** | pure lines in rice |
+| **Somaclonal variation** | useful variants | disease-resistant lines |
+| **Protoplast fusion** | **somatic hybrids** | **pomato** (potato and tomato) |
+| **Secondary metabolites** | cell suspension culture | shikonin, taxol, vincristine |
+| **Embryo rescue** | grows hybrid embryos | wide crosses |
+| **Germplasm storage** | cryopreservation in liquid nitrogen | rare species |
+| **Production of synthetic seeds** | encapsulated somatic embryos | elite clones |
+
+Orchids and the medicinal plants of Nepal, such as the Himalayan yew, can be propagated by tissue culture, which helps to conserve them.
+
+**Numerical.** If one explant gives $5$ shoots each $4$ weeks, after four cycles one gets $5^4 = 625$ plantlets, and after five cycles $3125$ from a single explant in about $20$ weeks. A medium made at $30\ \text{g L}^{-1}$ sucrose needs $15\ \text{g}$ for $500\ \text{mL}$.
+
+**Conclusion.** Because of totipotency, one cell or explant can be grown into a complete plant, so tissue culture produces large numbers of disease-free clones quickly.
+
+### Model answer D2: plant breeding, biofertilisers and genetic engineering (10 marks)
+
+**Introduction.** Crop production has to meet the needs of a growing population, and the strategies include conventional breeding, biofertilisers and biotechnology.
+
+**Plant breeding.**
+
+1. **Steps:** collection of variability (germplasm), evaluation and selection of parents, cross-hybridisation, selection and testing of the recombinants, and release of the new variety.
+2. **Methods:** selection, hybridisation, mutation breeding (gamma rays), polyploidy breeding (colchicine) and **heterosis** (hybrid vigour in maize).
+3. **The Green Revolution:** high-yielding dwarf wheat (Norman Borlaug) and rice (IR8) increased food production but needed fertiliser and water.
+4. **Biofortification** improves nutrition, for example **iron-rich rice** and **provitamin A**-rich maize.
+
+**Biofertilisers.** Living organisms that enrich the soil with nutrients.
+
+| Biofertiliser | Organism | Function |
+|---|---|---|
+| Rhizobium | symbiotic bacteria in legume roots | fixes nitrogen |
+| Azotobacter, Azospirillum | free-living bacteria | fix nitrogen |
+| Anabaena with Azolla | cyanobacterium in fern | fixes nitrogen in rice fields |
+| Mycorrhiza | fungi | take up phosphorus |
+| Phosphate-solubilising bacteria | Pseudomonas | release phosphate |
+
+They reduce the use of chemical fertilisers, cost less and are eco-friendly.
+
+**Genetic engineering and GM crops.**
+
+1. **Bt cotton:** the gene *cry* from *Bacillus thuringiensis* produces a protein toxin that kills the bollworm, so less pesticide is needed.
+2. **Golden rice:** carries genes for **$\beta$-carotene** (provitamin A) to tackle vitamin A deficiency.
+3. **Herbicide-resistant** soyabean, **Flavr Savr** tomato (slow ripening), and **virus-resistant** papaya.
+4. **Tools:** a **vector** (the *Ti plasmid* of *Agrobacterium tumefaciens*) or a gene gun carries the gene into the plant cell, which is then regenerated by tissue culture.
+5. **Concerns:** biosafety, allergy, effect on non-target insects, gene flow and the patent rights.
+
+**Other topics.** **Single-cell protein** (*Spirulina*), biopesticides, **biogas** and the biodegradation of waste.
+
+**Numerical.** If a field of $10$ hectares fixes $40\ \text{kg N ha}^{-1}$ with *Rhizobium* in a legume crop, the saving is $400\ \text{kg}$ of nitrogen, which is the same as $400/0.46 = 870\ \text{kg}$ of urea. A GM crop that cuts $6$ pesticide sprays to $2$, for a $4$-spray saving, reduces the cost by $4\times1500 = 6000$ rupees per hectare (if each spray costs Rs. 1500).
+
+**Conclusion.** Breeding, biofertilisers and genetic engineering together help to raise yield, cut chemical use and improve the nutritional value of crops.

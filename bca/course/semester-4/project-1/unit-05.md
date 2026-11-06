@@ -164,6 +164,35 @@ Colleges set their own marks. The table below is a **typical pattern for plannin
 7. **Credit sources openly.** Say which libraries, templates or tutorials helped, and show them in the references. Examiners respect honest credit and punish hidden copying. If asked "is this your code?", answer exactly.
 8. **Listen to the whole question.** Wait until the examiner finishes, repeat it in your own words if needed, and answer only what was asked. Short, correct answers are better than long wandering ones. If you did not understand, ask politely.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Ten minutes is shorter than it feels. (a) A stopwatch: in a viva the clock is a silent examiner, and the panel stops talks that overrun. (b) The ten-minute defence is split into six parts that add up to 10 minutes including questions, with the live demo given 3 minutes because it is the part that proves the project works. The last two minutes are for the panel's questions, so the talk itself is 8 minutes. At a calm 130 words a minute it holds only about 1040 words, far fewer than most students put on their slides. If the speaker rushes to 160 words a minute the talk ends in 6.5 minutes and looks unprepared, and at a slow 110 words a minute it needs 9.5 minutes and eats into the question time. Rehearse out loud with a timer, and mark on the printed script where you must be at minutes 3, 6 and 8."
+@ photo id="bcapj/stopwatch" cap="A stopwatch: the examiner's other marker"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="A 10-minute talk as a time budget"
+segs = [("Hook and problem", 1.0), ("Design and ER", 1.5), ("Live demo", 3.0), ("Results and tests", 1.5), ("Limits and future", 1.0), ("Thanks and questions", 2.0)]
+WPM = 130
+total = sum(m for _, m in segs)
+assert total == 10.0
+words = sum(round(m * WPM) for _, m in segs[:-1])
+t_fast = words / 160
+t_slow = words / 110
+facts = dict(total=int(total), words=words, wpm=WPM, fast=round(t_fast, 1), slow=round(t_slow, 1), demo=int(segs[2][1]))
+f = Fig(300, 236)
+f.text(150, 12, "Time budget, minutes : seconds", size=10.5, color=NAVY, bold=True)
+clock = 0.0
+cols = [BLUE, MINT, "#fde68a", BLUE, MINT, "#e5e7eb"]
+for i, (n, m) in enumerate(segs):
+    y = 24 + i * 25
+    s0 = int(clock * 60)
+    s1 = int((clock + m) * 60)
+    f.box(4, y, 24 * m + 6, 20, "", fill=cols[i], stroke=SLATE, r=3, sw=1)
+    f.text(34 + 24 * m, y + 10, "%s  %d:%02d-%d:%02d" % (n, s0 // 60, s0 % 60, s1 // 60, s1 % 60), size=10.5, color=NAVY, anchor="start", vmid=True)
+    clock += m
+f.text(150, 188, "talk: %d words in 8 min at %d wpm" % (words, WPM), size=10.5, color=NAVY, bold=True)
+f.text(150, 205, "at 160 wpm: %.1f min (rushed)" % t_fast, size=10.5, color=AMBER, bold=True)
+f.text(150, 221, "at 110 wpm: %.1f min (eats Q&A)" % t_slow, size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Report chapters: Introduction, Background, Analysis, Design, Implementation and testing, Conclusion, plus references and appendices.

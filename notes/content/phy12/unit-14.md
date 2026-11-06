@@ -672,6 +672,26 @@ $$ R = \frac{V^{2}}{P} = \frac{230^{2}}{1500} = \frac{52900}{1500}
 = 35.3\ \Omega $$
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.2" caption="Joule heating at work. (a) The element of a toaster is a thin high-resistance wire that glows when current passes through it. (b) The cell works from the power rating on the label and the 230 V supply of Nepal. An 800 W toaster draws I = P / V = 3.48 A, which means a resistance of 66.1 ohm, while a 2000 W kettle draws 8.70 A and needs a thicker cable and a fuse of higher rating. Two minutes of toasting converts 96 kJ of electrical energy to heat by Joule's law H = I2 R t, which is only 0.0267 of a kilowatt-hour unit on the electricity meter."
+@ photo id="phy12b/toaster" cap="The glowing heating element of a toaster"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Current and energy used by heating appliances"
+V = 230.0
+rows = [("toaster 800 W", 800 / V), ("iron 1000 W", 1000 / V), ("heater 1500 W", 1500 / V), ("kettle 2000 W", 2000 / V)]
+assert round(rows[0][1], 2) == 3.48
+R = V ** 2 / 800
+E = 800 * 120 / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Current drawn from 230 V, amperes", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=9, fmt="%.2f", x0=100, y0=30, bw=140, gap=30)
+f.text(150, 158, "I = P / V; H = I^2 R t = P t", size=10.5, color=NAVY, bold=True)
+f.text(150, 178, "toaster element resistance R = %.1f ohm" % R, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "2 minutes of toasting: %.0f kJ" % E, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "= %.4f kWh, one unit is 3600 kJ" % (E / 3600), size=10, color=SLATE, bold=True)
+facts = dict(i=rows[0][1], R=R, E=E, k=rows[3][1])
+```
+
 ## Chapter summary
 
 - Kirchhoff's junction law $\sum I = 0$ expresses conservation of charge; the
@@ -794,3 +814,46 @@ $I = P/V = 1000/220 = 4.55\ \text{A}$.
 Energy $= 1.0\ \text{kW} \times 5\ \text{h} \times 30 = 150\ \text{kWh}$, so the
 cost is $150 \times 10 = $ NPR $1500$ per month.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Kirchhoff's laws and use them to find the currents in a two-battery circuit. <span class="marks">[10]</span>
+
+### Model answer D1: Kirchhoff's laws (10 marks)
+
+**Introduction.** Some circuits cannot be reduced to a simple series or parallel combination. **Kirchhoff's laws** are two rules that solve any network of resistors and cells.
+
+**Kirchhoff's first law (junction rule).** The algebraic sum of the currents at a junction is zero; the current entering a junction equals the current leaving it:
+
+$$ \sum I = 0 $$
+
+It is a statement of the **conservation of charge**.
+
+**Kirchhoff's second law (loop rule).** In any closed loop the algebraic sum of the emfs equals the algebraic sum of the products $IR$:
+
+$$ \sum E = \sum IR $$
+
+It is a statement of the **conservation of energy**. **Sign rules:** an emf is positive when we go through the cell from the negative to the positive terminal; $IR$ is positive when we go along the direction of the current.
+
+**Application.** Two cells $E_1 = 10\ \text{V}$ and $E_2 = 4\ \text{V}$ (negligible internal resistance) are joined in parallel branches with $R_1 = 2\ \Omega$ and $R_2 = 1\ \Omega$, and both feed a common resistor $R_3 = 3\ \Omega$. Let $I_1$ and $I_2$ be the currents leaving the cells; by the junction rule $I_3 = I_1 + I_2$ passes through $R_3$.
+
+Loop 1 (cell $E_1$, $R_1$, $R_3$):
+
+$$ 10 = 2I_1 + 3(I_1 + I_2) \ \Rightarrow\ 5I_1 + 3I_2 = 10 $$
+
+Loop 2 (cell $E_2$, $R_2$, $R_3$):
+
+$$ 4 = 1\cdot I_2 + 3(I_1 + I_2) \ \Rightarrow\ 3I_1 + 4I_2 = 4 $$
+
+Solving the two equations: $I_1 = 28/11 = 2.55\ \text{A}$ and $I_2 = -10/11 = -0.91\ \text{A}$. Then $I_3 = 18/11 = 1.64\ \text{A}$.
+
+**Check.** Loop 2: $3(2.545) + 4(-0.909) = 7.64 - 3.64 = 4\ \text{V}$, as required.
+
+**Meaning of the negative sign.** $I_2$ is negative, so the current actually flows *into* the $4\ \text{V}$ cell: it is being charged by the stronger $10\ \text{V}$ cell.
+
+| Law | Based on | Statement |
+|---|---|---|
+| First (junction) | Conservation of charge | $\sum I = 0$ at a junction |
+| Second (loop) | Conservation of energy | $\sum E = \sum IR$ in a loop |
+
+**Conclusion.** Writing one junction equation and one loop equation for each independent loop gives enough equations to find all unknown currents.

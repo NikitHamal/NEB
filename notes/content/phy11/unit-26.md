@@ -568,6 +568,65 @@ Briefly, the merger radiated more power than every star in the observable
 universe combined.
 :::
 
+```photogrid label="26.P1" cols="2" ratio="1.27" caption="Particle physicists study the building blocks of matter by accelerating protons to very high energy and colliding them, and special relativity governs everything about the beam. (a) The tunnel of the Large Hadron Collider, 26.7 km round. (b) A 6.5 TeV proton has gamma = 6928, so its speed is only 3.1 m/s below the speed of light, and it circles the ring 11245 times every second. To bend such a proton on a circle of radius 2804 m the dipole magnets must give 7.73 T, which needs superconducting coils cooled to 1.9 K. The energy is raised stage by stage through four machines."
+@ photo id="phy11/lhc" cap="The LHC tunnel with its blue superconducting dipole magnets"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Energy gained along the CERN accelerator chain (log scale)"
+import math
+c, mp = 299792458.0, 0.938272
+E = 6500.0
+gam = E / mp
+beta = math.sqrt(1 - 1 / gam**2)
+gap = c * (1 - beta)
+Lc = 26659.0
+rev = c / Lc
+rho = 2804.0
+B = E / (0.2998 * rho)
+assert abs(gam - 6927.6) < 1 and abs(rev - 11245) < 2 and abs(B - 7.73) < 0.02 and 2.8 < gap < 3.4
+f = Fig(300, 236)
+f.text(150, 14, "Proton energy in the accelerator chain", size=10.5, color=NAVY, bold=True)
+rows = [("Linac", 0.05, NAVY), ("PS", 25.0, TEAL), ("SPS", 450.0, AMBER), ("LHC", 6500.0, RED)]
+labels = ["0.05 GeV", "25 GeV", "450 GeV", "6500 GeV"]
+for i, (nm, e, col) in enumerate(rows):
+    y = 30 + i * 28
+    w = 24 + 30 * math.log10(e / 0.05)
+    f.text(8, y + 11, nm, size=10.5, anchor="start", bold=True)
+    f.box(50, y, w, 20, "", fill=col, stroke=col, r=2)
+    f.text(50 + w + 6, y + 11, labels[i], size=10, color=col, bold=True, anchor="start")
+f.text(150, 158, "gamma = E/mc2 = %.0f" % gam, size=10.5, color=NAVY, bold=True)
+f.text(150, 174, "c - v = %.1f m/s (almost light speed)" % gap, size=10.5, color=RED, bold=True)
+f.text(150, 192, "laps per second = c/L = %.0f" % rev, size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "dipole field B = p/(0.2998 rho) = %.2f T" % B, size=10.5, color=RED, bold=True)
+f.text(150, 227, "bending radius rho = 2804 m", size=10.5, color=SLATE)
+facts = dict(gam="%.0f" % gam, gap="%.1f" % gap, rev="%.0f" % rev, B="%.2f" % B)
+```
+
+```photogrid label="26.P2" cols="2" ratio="1.27" caption="Edwin Hubble found that distant galaxies recede faster the farther away they are, with speed v = H0 d, which means the universe is expanding. (a) Galaxies in deep space. (b) With H0 = 70 km/s per megaparsec, the Coma cluster at 100 Mpc recedes at 7000 km/s, a redshift of z = 0.023, while the nearer Virgo cluster moves away at only 1155 km/s. Running the expansion backward at a steady rate, the reciprocal of H0 gives 14.0 billion years, a rough age of the universe; allowing for the changing rate of expansion gives 13.8 billion years. The straight line is the evidence for the big bang model."
+@ photo id="ceephy3/galaxies" cap="A group of galaxies photographed in deep space"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Hubble's law: recession speed against distance"
+H0 = 70.0
+gal = [("Virgo", 16.5), ("Perseus", 72.0), ("Hydra", 50.0), ("Coma", 100.0)]
+vs = [(n, d, H0 * d) for n, d in gal]
+assert abs(vs[3][2] - 7000) < 1e-9
+Mpc_km = 3.0857e19
+age = Mpc_km / H0 / 3.156e7 / 1e9
+assert abs(age - 13.97) < 0.05
+f = Fig(300, 236)
+f.text(150, 14, "v = H0 d with H0 = 70 km/s/Mpc", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 48, 26, 232, 146, (0, 120), (0, 8400))
+ax.grid(20, 2000, size=9); ax.axes("d (Mpc)", "v (km/s)")
+ax.curve(lambda d: H0 * d, 0, 120, color=NAVY, sw=2.4)
+for n, d, v in vs:
+    ax.pt(d, v, "%s %g" % (n, v), dx=8 if n in ("Virgo", "Hydra") else -8, dy=14 if n in ("Virgo", "Hydra") else -8, color=RED, anchor="start" if n in ("Virgo", "Hydra") else "end")
+f.text(150, 207, "1/H0 = %.1f billion years" % age, size=10.5, color=NAVY, bold=True)
+f.text(150, 219, "age of the universe (steady expansion)", size=10.5, color=SLATE)
+f.text(150, 231, "Coma: z = v/c = %.3f" % (7000 / 299792.458), size=10.5, color=RED, bold=True)
+facts = dict(age="%.1f" % age, vc="%.0f" % vs[3][2], z="%.3f" % (7000 / 299792.458))
+```
+
 ## Chapter summary
 
 - Every particle has an antiparticle of equal mass and opposite charge. Pair
@@ -730,3 +789,76 @@ $v_e = \sqrt{2GM/R}$; and putting $v_e = c$ to obtain
 
 $$ R_s = \frac{2GM}{c^{2}} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify the elementary particles. Explain quarks, leptons, antiparticles and the four fundamental interactions with their exchange particles. <span class="marks">[10]</span>
+2. Describe the Big Bang theory with its evidence, state Hubble's law, estimate the age of the universe and describe a black hole. <span class="marks">[10]</span>
+
+### Model answer D1: elementary particles and fundamental forces (10 marks)
+
+**Introduction.** Particle physics searches for the smallest building blocks of matter and the forces between them. The Standard Model, tested at CERN (the Large Hadron Collider), summarises our present understanding.
+
+**Classification of matter particles.**
+
+1. **Leptons** are fundamental particles that do not feel the strong force: the electron, muon, tau and their neutrinos ($\nu_e,\nu_\mu,\nu_\tau$). There are **six** leptons.
+2. **Quarks** are fundamental particles with fractional charge. There are **six** flavours: up ($+\tfrac23e$), down ($-\tfrac13e$), charm ($+\tfrac23e$), strange ($-\tfrac13e$), top ($+\tfrac23e$) and bottom ($-\tfrac13e$).
+3. **Hadrons** are particles made of quarks. **Baryons** have three quarks (proton $uud$, charge $\tfrac23+\tfrac23-\tfrac13=+1$; neutron $udd$, charge $\tfrac23-\tfrac13-\tfrac13=0$) and **mesons** have a quark and an antiquark (pion $u\bar d$).
+
+**Antiparticles.** Each particle has an antiparticle with the **same mass** and **opposite charge** (and opposite other quantum numbers): the positron $e^{+}$, antiproton $\bar p$ and antineutron $\bar n$. When a particle meets its antiparticle, they annihilate and release energy as photons.
+
+**Four fundamental interactions.**
+
+| Interaction | Acts on | Exchange particle | Relative strength | Range |
+|---|---|---|---|---|
+| Strong | Quarks, hadrons | Gluon | 1 | about $10^{-15}\ \text{m}$ |
+| Electromagnetic | Charged particles | Photon | $10^{-2}$ | Infinite |
+| Weak | All matter particles | $W^{\pm}$, $Z^{0}$ bosons | $10^{-6}$ | about $10^{-18}\ \text{m}$ |
+| Gravitational | All masses | Graviton (not yet detected) | $10^{-39}$ | Infinite |
+
+**Role of each force.** The strong force holds quarks together in protons and neutrons, and binds nucleons into a nucleus. The electromagnetic force binds electrons to the nucleus and governs chemistry. The weak force is responsible for **beta decay**, $n\to p+e^{-}+\bar\nu_e$. Gravity holds planets, stars and galaxies together.
+
+**Conservation laws.** In every reaction, charge, energy, momentum, lepton number and baryon number are conserved. For beta decay, charge: $0\to+1-1+0$; lepton number: $0\to0+1-1=0$.
+
+**Higgs boson.** Discovered in 2012 at CERN, this particle is linked with the field that gives mass to the other particles.
+
+**Conclusion.** Matter consists of quarks and leptons, held together by four interactions carried by exchange particles; antiparticles exist for each of them.
+
+### Model answer D2: the Big Bang, Hubble's law and black holes (10 marks)
+
+**Introduction.** Cosmology studies the origin, structure and fate of the universe. The most widely accepted theory is the **Big Bang**.
+
+**Big Bang theory.** About $13.8$ billion years ago, all matter, energy, space and time began in an extremely hot, dense state which has been **expanding and cooling** ever since. The universe is not expanding into space: space itself stretches.
+
+**Evidence.**
+
+1. **Expansion of the universe (Hubble's law):** distant galaxies recede from us, and their light is **red-shifted**.
+2. **Cosmic microwave background (CMB):** a uniform radiation at $2.7\ \text{K}$ from every direction, discovered by Penzias and Wilson in 1965, is the cooled glow of the early universe.
+3. **Abundance of light elements:** about $75\%$ hydrogen and $25\%$ helium by mass, as predicted for the first few minutes.
+
+**Hubble's law.** The recession speed of a galaxy is proportional to its distance:
+
+$$ v=H_0\,d $$
+
+where $H_0\approx70\ \text{km s}^{-1}\text{Mpc}^{-1}$ is the **Hubble constant** and $1\ \text{Mpc}=3.09\times10^{22}\ \text{m}$.
+
+**Age of the universe.** If the expansion rate had been constant, the time since all the galaxies were together is $t=\dfrac dv=\dfrac1{H_0}$.
+
+- $t=\dfrac{3.09\times10^{19}\ \text{km}}{70\ \text{km s}^{-1}}=4.4\times10^{17}\ \text{s}\approx1.4\times10^{10}\ \text{years}$, about **14 billion years**, which agrees closely with other estimates.
+
+**Redshift.** For a galaxy at $100\ \text{Mpc}$, $v=70\times100=7000\ \text{km s}^{-1}$ and $z=\dfrac vc=\dfrac{7000}{3\times10^{5}}=0.023$.
+
+**Black holes.** A black hole is a region of space from which not even light can escape, because the escape speed from its surface exceeds $c$. Setting $v_e=\sqrt{2GM/R}=c$, the **Schwarzschild radius** is
+
+$$ R_s=\frac{2GM}{c^{2}} $$
+
+For the Sun, $R_s=\dfrac{2\times6.67\times10^{-11}\times2\times10^{30}}{(3\times10^{8})^{2}}\approx3\ \text{km}$, and for the Earth about $9\ \text{mm}$. Black holes form when massive stars collapse at the end of their lives.
+
+| Concept | Key point |
+|---|---|
+| Big Bang | Universe began about 13.8 billion years ago |
+| Hubble's law | $v=H_0d$ |
+| CMB | $2.7\ \text{K}$ relic radiation |
+| Black hole | $R_s=2GM/c^{2}$ |
+
+**Conclusion.** The Big Bang is supported by the expansion, the microwave background and the abundance of light elements, and Hubble's law gives the age of the universe as about 14 billion years.

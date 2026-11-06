@@ -410,6 +410,27 @@ of it radon gas seeping from the ground). Protection rests on three things:
 **time** (minimum exposure), with film badges or dosimeters worn to record the
 dose received.
 
+```photogrid label="21.P" cols="2" ratio="1.2" caption="A short half-life for a safe scan. (a) A PET report shows slices through the body, with bright spots where the sugar tracer fluorodeoxyglucose, labelled with fluorine-18, is taken up by active tissue such as a tumour. (b) Fluorine-18 decays by positron emission with a half-life of 109.77 minutes. The cell shows 68.5 per cent left after 1 hour, 46.9 per cent after 2 hours, 22.0 per cent after 4 hours and only 10.3 per cent after 6 hours, so the patient's exposure is short but the tracer must be made in a cyclotron close to the hospital. Each positron meets an electron and annihilates into two photons of 1 keV, which the ring of detectors records."
+@ photo id="chem12b/pet" cap="A positron emission tomography (PET) scan report"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of fluorine-18 used in PET"
+import math
+T = 109.77
+rows = [("1 h", math.exp(-math.log(2) * 60 / T) * 100), ("2 h", math.exp(-math.log(2) * 120 / T) * 100),
+        ("4 h", math.exp(-math.log(2) * 240 / T) * 100), ("6 h", math.exp(-math.log(2) * 360 / T) * 100)]
+assert round(rows[0][1], 1) == 68.5 and round(rows[3][1], 1) == 10.3
+E = 9.109e-31 * (2.998e8) ** 2 / 1.602e-13
+f = Fig(300, 236)
+f.text(150, 12, "Fluorine-18 left after t, per cent", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=105, fmt="%.1f", x0=44, y0=30, bw=170, gap=30)
+f.text(150, 158, "half-life 109.77 min; decay is beta-plus", size=10, color=SLATE, bold=True)
+f.text(150, 178, "p -> n + positron + neutrino", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "positron meets electron: two photons of", size=10, color=SLATE, bold=True)
+f.text(150, 214, "%.0f keV (m c^2) leave in opposite directions" % E, size=10.5, color=NAVY, bold=True)
+facts = dict(a=rows[0][1], b=rows[1][1], d=rows[2][1], e=rows[3][1], E=E)
+```
+
 ## Chapter summary
 
 - Radioactivity is the spontaneous disintegration of an unstable nucleus;
@@ -555,3 +576,48 @@ must not be contaminated with modern carbon.
 Energy = 1.28 × 10²¹ × 200 = 2.56 × 10²³ MeV
 = 2.56 × 10²³ × 1.602 × 10⁻¹³ = **4.1 × 10¹⁰ J** (4.1 × 10⁷ kJ).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Distinguish nuclear fission from nuclear fusion, describe the working of a nuclear reactor, and solve numerical problems on radioactive decay and energy release. <span class="marks">[10]</span>
+
+### Model answer D1: nuclear fission, fusion and the reactor (10 marks)
+
+**Introduction.** A **nuclear reaction** changes the nucleus of an atom and releases or absorbs a very large amount of energy compared with a chemical reaction. The source is the **mass defect**, converted by Einstein's relation $E = \Delta m\,c^{2}$, where 1 atomic mass unit corresponds to 931.5 MeV.
+
+**Nuclear fission.** A heavy nucleus splits into two medium-sized nuclei and a few neutrons when it is struck by a slow neutron:
+
+$$ {}^{235}_{92}\text{U} + {}^{1}_{0}n \Rightarrow {}^{141}_{56}\text{Ba} + {}^{92}_{36}\text{Kr} + 3\,{}^{1}_{0}n + \text{energy} $$
+
+About 200 MeV is released per fission. The released neutrons strike other nuclei, which gives a **chain reaction**. If it is uncontrolled, as in an atomic bomb, an explosion results; if controlled, as in a reactor, the energy is released steadily. The **critical mass** is the minimum mass of fissile material to sustain a chain reaction.
+
+**Nuclear fusion.** Two light nuclei join to form a heavier one, as in the Sun:
+
+$$ {}^{2}_{1}\text{H} + {}^{3}_{1}\text{H} \Rightarrow {}^{4}_{2}\text{He} + {}^{1}_{0}n + 17.6\ \text{MeV} $$
+
+It needs a temperature of about $10^{7}$–$10^{8}$ K to overcome the repulsion between nuclei, so it is called a **thermonuclear reaction**, and it is the principle of the hydrogen bomb.
+
+| Feature | Fission | Fusion |
+|---|---|---|
+| Process | Heavy nucleus splits | Light nuclei join |
+| Fuel | U-235, Pu-239 | Deuterium, tritium |
+| Conditions | Slow neutrons, ordinary temperature | $10^{7}$–$10^{8}$ K |
+| Energy per reaction | About 200 MeV | 17.6 MeV (but more per kg of fuel) |
+| Radioactive waste | Large, long-lived | Little |
+| Control | Possible (reactors) | Not yet achieved commercially |
+
+**Nuclear reactor.** The main parts are the **fuel** (enriched uranium, 3–5% U-235, as rods), the **moderator** (heavy water, graphite or ordinary water) that slows neutrons to thermal speed, **control rods** (cadmium or boron) that absorb neutrons and so regulate the reaction, the **coolant** (water or liquid sodium) that carries heat to the steam generator, and a thick concrete **shield**. The heat makes steam, which drives a turbine and generator.
+
+**Radioactive decay.** The activity is $A = A_{0}e^{-\lambda t}$ and the half-life is $t_{1/2} = 0.693/\lambda$. After $n$ half-lives the amount left is $N_{0}/2^{n}$. The SI unit of activity is the **becquerel** (1 decay per second); 1 curie = $3.7 \times 10^{10}$ Bq.
+
+**Numerical.**
+
+1. **Iodine-131** ($t_{1/2} = 8$ days), used in treating thyroid disease: from 100 mg, after 24 days (3 half-lives) $100/2^{3} = 12.5\ \text{mg}$ remains.
+2. **Carbon dating.** Living things have a constant ratio of C-14, with $t_{1/2} = 5730$ years. A wooden relic with only 25% of the original C-14 (two half-lives) is $2 \times 5730 = 11\,460$ years old.
+3. **Fusion energy.** $1\ \text{g}$ of deuterium–tritium mixture releases about $3.4 \times 10^{11}\ \text{J}$, roughly 8 tonnes of oil equivalent.
+
+**Uses of radioactivity.** Cobalt-60 is used in cancer radiotherapy, in sterilising medical equipment and in food irradiation; tracers show leaks in pipes; radioisotopes are used in smoke detectors (Am-241) and in finding the age of rocks and fossils.
+
+**Hazards.** Radiation damages cells and can cause cancer, and radioactive waste must be shielded and stored for thousands of years.
+
+**Conclusion.** Fission is the basis of today's nuclear power stations, while fusion promises cleaner energy in the future; both come from the conversion of mass into energy.

@@ -376,6 +376,91 @@ $$ M_o=40+\frac{18-14}{36-14-7}\times20=40+\frac{4}{15}\times20\approx40+5.33=45
 Write the formula before the numbers. Show the table in statistics and the figure in height and distance, because those are where method marks live. And finish with a check, by substitution, by a second method, or by asking whether the answer is sensible: a tree 18 m tall is believable; one 180 m tall is not.
 :::
 
+## 21.11 Extended model answers (8 to 10 marks)
+
+Long problems in Optional Mathematics are marked step by step. Always write the formula, the substitution, the working and the checked answer.
+
+**Extended questions**
+
+1. If $A = \begin{pmatrix}2&3\\1&4\end{pmatrix}$ and $B = \begin{pmatrix}1&0\\2&5\end{pmatrix}$, find $A + B$, $B - A$, $AB$ and $BA$, and show that $AB \ne BA$. <span class="marks">[10]</span>
+2. The vertices of a triangle are $A(2, 3)$, $B(6, 7)$ and $C(8, 3)$. Find the length of $AB$, the midpoint of $AB$, the point dividing $AB$ in the ratio $1:3$ and the area of the triangle. <span class="marks">[10]</span>
+3. For the sequence 3, 7, 11, 15, ... find the general term, the 20th term and the sum of the first 20 terms, and state whether 99 is a term. <span class="marks">[10]</span>
+
+### Model answer D1: matrix operations (10 marks)
+
+**Introduction.** A **matrix** is a rectangular arrangement of numbers in rows and columns. Matrices of the same order are added or subtracted by working on corresponding elements. Two matrices are multiplied by taking each row of the first with each column of the second. Both given matrices are of order $2\times 2$.
+
+**Addition.** $A + B = \begin{pmatrix}2+1&3+0\\1+2&4+5\end{pmatrix} = \begin{pmatrix}3&3\\3&9\end{pmatrix}$.
+
+**Subtraction.** $B - A = \begin{pmatrix}1-2&0-3\\2-1&5-4\end{pmatrix} = \begin{pmatrix}-1&-3\\1&1\end{pmatrix}$.
+
+**Product $AB$.** Row 1 of $A$ with column 1 of $B$: $2(1) + 3(2) = 8$. Row 1 with column 2: $2(0) + 3(5) = 15$. Row 2 with column 1: $1(1) + 4(2) = 9$. Row 2 with column 2: $1(0) + 4(5) = 20$.
+
+$AB = \begin{pmatrix}8&15\\9&20\end{pmatrix}$.
+
+**Product $BA$.** Row 1 of $B$ with column 1 of $A$: $1(2) + 0(1) = 2$. Row 1 with column 2: $1(3) + 0(4) = 3$. Row 2 with column 1: $2(2) + 5(1) = 9$. Row 2 with column 2: $2(3) + 5(4) = 26$.
+
+$BA = \begin{pmatrix}2&3\\9&26\end{pmatrix}$.
+
+**Comparison.** Since $\begin{pmatrix}8&15\\9&20\end{pmatrix} \ne \begin{pmatrix}2&3\\9&26\end{pmatrix}$, we have $AB \ne BA$.
+
+| Operation | Result | Rule |
+|---|---|---|
+| A + B | (3 3; 3 9) | add matching elements |
+| B − A | (−1 −3; 1 1) | subtract matching elements |
+| AB | (8 15; 9 20) | row × column |
+| BA | (2 3; 9 26) | row × column |
+
+**Conclusion.** Addition of matrices is commutative, but multiplication is not, so the order of the factors must always be kept.
+
+### Model answer D2: coordinate geometry of a triangle (10 marks)
+
+**Introduction.** For points $(x_1, y_1)$ and $(x_2, y_2)$ the distance is $d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$, the midpoint is $\left(\frac{x_1+x_2}{2}, \frac{y_1+y_2}{2}\right)$ and the point dividing in the ratio $m:n$ is $\left(\frac{mx_2+nx_1}{m+n}, \frac{my_2+ny_1}{m+n}\right)$.
+
+**Length of $AB$.** $d = \sqrt{(6-2)^2 + (7-3)^2} = \sqrt{16 + 16} = \sqrt{32} = 4\sqrt{2} \approx 5.66$ units.
+
+**Midpoint of $AB$.** $\left(\frac{2+6}{2}, \frac{3+7}{2}\right) = (4, 5)$.
+
+**Point dividing $AB$ in the ratio $1:3$.** With $m = 1$, $n = 3$: $x = \frac{1(6) + 3(2)}{4} = \frac{12}{4} = 3$ and $y = \frac{1(7) + 3(3)}{4} = \frac{16}{4} = 4$. The point is $(3, 4)$.
+
+**Area of triangle $ABC$.** $\text{Area} = \frac{1}{2}\left|x_1(y_2-y_3) + x_2(y_3-y_1) + x_3(y_1-y_2)\right|$.
+
+$= \frac{1}{2}\left|2(7-3) + 6(3-3) + 8(3-7)\right| = \frac{1}{2}\left|8 + 0 - 32\right| = \frac{1}{2}(24) =$ **12 square units**.
+
+**Check by base and height.** Side $AC$ is horizontal with length $8 - 2 = 6$. The height from $B$ is $7 - 3 = 4$. Area $= \frac{1}{2}\times 6\times 4 = 12$. This agrees.
+
+| Quantity | Result |
+|---|---|
+| Length AB | $4\sqrt2$ units |
+| Midpoint of AB | (4, 5) |
+| Point dividing AB as 1:3 | (3, 4) |
+| Area of the triangle | 12 square units |
+
+**Conclusion.** A single set of formulas gives every length, point and area, and a second method confirms the area.
+
+### Model answer D3: arithmetic sequence (10 marks)
+
+**Introduction.** A sequence in which each term is obtained by adding the same number to the previous term is called an **arithmetic sequence**. The fixed number is the common difference $d$. The general term is $t_n = a + (n-1)d$ and the sum of $n$ terms is $S_n = \frac{n}{2}\left[2a + (n-1)d\right]$.
+
+**General term.** Here $a = 3$ and $d = 7 - 3 = 4$ (also $11 - 7 = 4$ and $15 - 11 = 4$). So $t_n = 3 + (n-1)4 = 4n - 1$.
+
+**Test.** $t_1 = 3$, $t_2 = 7$, $t_3 = 11$, $t_4 = 15$, which agree with the given terms.
+
+**20th term.** $t_{20} = 4(20) - 1 =$ **79**.
+
+**Sum of 20 terms.** $S_{20} = \frac{20}{2}\left[2(3) + 19(4)\right] = 10\,(6 + 76) = 10\times 82 =$ **820**. Check with the average method: $\frac{3 + 79}{2}\times 20 = 41\times 20 = 820$.
+
+**Is 99 a term?** Put $4n - 1 = 99$, so $4n = 100$ and $n = 25$, a whole number. Hence 99 is the **25th term**. For comparison, 100 is not a term because $4n = 101$ gives a fraction.
+
+| Question | Working | Answer |
+|---|---|---|
+| General term | 3 + (n − 1)4 | 4n − 1 |
+| 20th term | 4(20) − 1 | 79 |
+| Sum of 20 terms | 10(6 + 76) | 820 |
+| Is 99 a term? | 4n − 1 = 99 | Yes, n = 25 |
+
+**Conclusion.** Once $a$ and $d$ are known, every question on an arithmetic sequence reduces to substitution in two formulas, and a term is checked by solving for $n$.
+
 ## Chapter summary
 
 - A 2-mark answer is two visible steps; a 4-mark answer is figure or table, formula, substitution, working and a checked answer.

@@ -309,3 +309,72 @@ lead (what, where, when, casualties), body (rescue work, injured taken to
 hospital, road blocked, a reported statement from an official), third person,
 past tense.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a news report on the opening of Pokhara International Airport and a short story with a moral. <span class="marks">[10]</span>
+2. Explain reported speech: statements, questions and commands, with back-shift and time-word changes. <span class="marks">[10]</span>
+
+```photogrid label="19.H" cols="4" ratio="1.0" caption="Birds and airports. The sign board at Pokhara International Airport, the airstrip at Lukla, a white-rumped vulture and an Arctic tern link the news report with the tale of two birds."
+@ photo id="eng8/pokhara-airport" cap="Pokhara airport sign"
+@ photo id="nep12/lukla" cap="Lukla airstrip"
+@ photo id="eng8/vulture-nepal" cap="White-rumped vulture"
+@ photo id="eng10/arctic-tern" cap="Arctic tern"
+```
+
+### Model answer D1: a news report and a story (10 marks)
+
+**Introduction.** A **news report** tells a recent event in the **past tense** and in order of importance: the most important facts come first.
+
+**Model report.**
+
+::: example News report
+**PRIA INAUGURATED, FIRST A320 LANDS**  
+By a reporter, Pokhara, 17 Poush 2079
+
+Pokhara International Airport, the third international airport of Nepal, was inaugurated on 1 January 2023. Prime Minister Pushpa Kamal Dahal opened it in a ceremony attended by ministers, diplomats and thousands of local people. A Himalaya Airlines Airbus A320 landed as the first aircraft. "This airport will bring tourists and jobs to the whole region," said the Prime Minister. Local business owners hoped that hotels and trekking companies would grow.
+:::
+
+**Model story with moral: A Tale of Two Birds (short).** Twin birds were raised in two homes: one near a band of robbers, the other near a hermit. The first bird shouted rude words; the second spoke kindly. A king who passed by was shocked by the first and charmed by the second. **Moral:** *One is known by the company one keeps.*
+
+**Points for a news report (8).**
+
+1. Headline.
+2. Byline.
+3. Dateline.
+4. Lead (5W1H).
+5. Body with details.
+6. Quotation from a person.
+7. Past tense and passive voice.
+8. A short closing fact.
+
+**Conclusion.** Facts first, quotation next, and no personal opinion.
+
+### Model answer D2: reported speech (10 marks)
+
+**Introduction.** In reported speech we give the meaning of what someone said. If the reporting verb is in the **past**, the tenses go **one step back**.
+
+| Direct | Reported |
+|---|---|
+| "I like tea," she said. | She said that she liked tea. |
+| "I am reading," he said. | He said that he was reading. |
+| "I have finished," Sita said. | Sita said that she had finished. |
+| "I will come," Ram said. | Ram said that he would come. |
+| "Where do you live?" he asked. | He asked where I lived. |
+| "Do you swim?" she asked. | She asked if I swam. |
+| "Don't be late," Mother said. | Mother told me not to be late. |
+
+**Rules.**
+
+1. Statements: **said/told + that**.
+2. Yes/no questions: **asked + if/whether**.
+3. Wh-questions: **asked + wh-word + statement order**.
+4. Commands: **told/ordered/requested + (not) to + verb**.
+5. **No back-shift** after *says* or for **universal truths**: *The teacher said that the earth goes round the sun.*
+6. Time and place words change: *now → then, today → that day, tomorrow → the next day, yesterday → the day before, here → there, this → that.*
+7. Pronouns change to suit the speaker.
+8. *Told* needs a person (*told me*); *said* does not.
+
+**Conclusion.** Choose the reporting verb, shift the tense, and change pronouns and time words.

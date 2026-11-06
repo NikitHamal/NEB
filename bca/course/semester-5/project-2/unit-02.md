@@ -229,6 +229,73 @@ Error replies should be **safe and useful**: say what the client did wrong (`nam
 7. **Validation documents the rules.** A reader sees `phone must be digits` in the code and learns the business rule. The tests in Unit 4 repeat the same rules as examples.
 8. **Examiners ask for it.** A common viva question is "what happens if I send a blank name?". A project whose answer is "400, shown here" scores better than one that crashes.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Two clerks, one counter: all possible orders. (a) A queue-token display at a hospital counter; each new patient takes the next number. (b) Suppose the counter holds 41 and each of two clerks does two steps: read the counter (R), then write back the value they read plus 1 (W). The steps of each clerk keep their order, but the two clerks can interleave in 6 ways. In 2 of them (clerk 1 finishes before clerk 2 starts, or the reverse) the counter ends at 43, which is correct. In the other 4 both clerks read 41 before either writes, so both write 42 and one token is lost: a 67 per cent chance of a lost update in this simplest case. The cure is to make read-and-write one indivisible step, with a database transaction, a row lock or a single UPDATE counter = counter + 1 statement, and to add a UNIQUE constraint as the last line of defence."
+@ photo id="bcapj/token" cap="A queue-token display: B-003 is next"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="All 6 interleavings of two clerks, start value 41"
+import itertools
+res = []
+for perm in sorted(set(itertools.permutations(["R1", "W1", "R2", "W2"]))):
+    if perm.index("R1") < perm.index("W1") and perm.index("R2") < perm.index("W2"):
+        v = 41; loc = {}
+        for s in perm:
+            if s[0] == "R": loc[s[1]] = v
+            else: v = loc[s[1]] + 1
+        res.append((perm, v))
+assert len(res) == 6 and sum(v == 43 for _, v in res) == 2 and sum(v == 42 for _, v in res) == 4
+f = Fig(300, 240)
+f.text(150, 14, "R = read counter, W = write read + 1", size=10.5, color=NAVY, bold=True)
+for i, (perm, v) in enumerate(res):
+    y = 26 + i * 29
+    for k, s in enumerate(perm):
+        col = "#bfdbfe" if s[1] == "1" else "#fde68a"
+        f.box(8 + k * 42, y, 38, 22, s, fill=col, stroke=NAVY, color=NAVY, size=10.5, bold=s[0] == "W", r=4, sw=1)
+    ok = v == 43
+    f.box(184, y, 106, 22, f"ends {v}: " + ("correct" if ok else "lost one"), fill="#bbf7d0" if ok else "#fecaca", stroke="#0f766e" if ok else "#b91c1c", color="#0f766e" if ok else "#b91c1c", size=10.5, bold=True, r=4, sw=1)
+f.text(150, 214, "4 of 6 orders lose an update (67%)", size=10.5, color=RED, bold=True)
+f.text(150, 230, "fix: transaction, lock or one UPDATE", size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="2.3" cols="2" ratio="1.27" caption="A race condition happens when the result depends on the timing of two actions that share data. (a) A switch joins the clerks' computers to one server, so two requests can arrive in the same instant. (b) Each clerk reads the last token, 41, adds one and writes it back. Enumerating every order of the four steps in which each clerk reads before writing gives 6 schedules, and 4 of them leave the counter at 42, so two patients get the same token; only 2 give the correct 43. That is 67 per cent of schedules. A single atomic UPDATE inside a transaction, plus a UNIQUE constraint, makes the wrong ones impossible."
+@ photo id="bca306/switch" cap="The network switch connecting two clerks to one server"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Two clerks, one token counter: lost update"
+import itertools
+def run(order):
+    counter = 41
+    reg = {}
+    for who, op in order:
+        if op == "read":
+            reg[who] = counter
+        else:
+            counter = reg[who] + 1
+    return counter
+orders = [o for o in itertools.permutations([("A", "read"), ("A", "write"), ("B", "read"), ("B", "write")]) if o.index(("A", "read")) < o.index(("A", "write")) and o.index(("B", "read")) < o.index(("B", "write"))]
+res = [run(o) for o in orders]
+bad = res.count(42)
+good = res.count(43)
+assert len(orders) == 6 and bad + good == 6 and (bad, good) == (4, 2)
+f = Fig(300, 236)
+f.text(150, 14, "Two clerks both issue the next token (last = 41)", size=10, color=NAVY, bold=True)
+lanes = [("A: read", 30, NAVY), ("A: write", 100, NAVY), ("B: read", 60, TEAL), ("B: write", 130, TEAL)]
+f.text(8, 40, "Clerk A", size=10, anchor="start", bold=True, color=NAVY)
+f.box(60, 32, 90, 16, "read 41", fill=BLUE, stroke=NAVY, size=9, r=2)
+f.box(200, 32, 90, 16, "write 42", fill=BLUE, stroke=NAVY, size=9, r=2)
+f.text(8, 68, "Clerk B", size=10, anchor="start", bold=True, color=TEAL)
+f.box(100, 60, 90, 16, "read 41", fill=MINT, stroke=TEAL, size=9, r=2)
+f.box(200, 60, 90, 16, "write 42", fill=MINT, stroke=TEAL, size=9, r=2)
+f.text(150, 98, "both patients receive token 42: lost update", size=10, color=RED, bold=True)
+f.text(150, 124, "all %d valid interleavings of 4 steps:" % len(orders), size=10, color=SLATE)
+f.box(30, 134, 240 * bad / 6.0, 24, "%d give 42 (wrong)" % bad, fill=RED, stroke=RED, color="#ffffff", size=9.5, bold=True, r=2)
+f.box(30 + 240 * bad / 6.0, 134, 240 * good / 6.0, 24, "%d give 43" % good, fill=TEAL, stroke=TEAL, color="#ffffff", size=9, bold=True, r=2)
+f.text(150, 184, "%.0f %% of the schedules lose an update" % (100.0 * bad / 6), size=10.5, color=RED, bold=True)
+f.text(150, 202, "fix: UPDATE ... SET n = n + 1 inside a transaction,", size=9.5, color=NAVY)
+f.text(150, 216, "or a UNIQUE constraint on (day, token)", size=9.5, color=NAVY)
+facts = dict(bad=bad, good=good, pct="%.0f" % (100.0 * bad / 6))
+```
+
 ## Formula and fact sheet
 
 - Request line: `METHOD /path HTTP/1.1`; reply status line: `HTTP/1.1 201 Created`.

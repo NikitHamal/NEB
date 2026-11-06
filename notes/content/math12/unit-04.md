@@ -656,6 +656,35 @@ above is wrong by a factor of $\log_{10} e = 0.4343$ if you read it as a base-10
 logarithm.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.27" caption="A nautilus adds chambers that are each larger than the last by nearly the same factor, giving a growth pattern like a geometric series. (a) A cutaway shell. (b) The ratios 1/1, 2/1, 3/2, 5/3 and so on, computed from the Fibonacci sequence, swing above and below 1.618 and then settle. By the eleventh term the ratio is 89/55 = 1.6182, only 0.0001 from the golden ratio (1 + sqrt 5)/2 = 1.6180. A Fibonacci sequence is not geometric, but its terms behave geometrically for large n, which is why the same ratio keeps appearing in spirals, leaves and seed heads."
+@ photo id="math12/nautilus" cap="A sectioned nautilus shell, whose chambers grow in a near-constant ratio"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Fibonacci ratios settle at 1.618"
+F = [1, 1]
+while len(F) < 12:
+    F.append(F[-1] + F[-2])
+ratios = [F[i + 1] / F[i] for i in range(10)]
+phi = (1 + 5 ** 0.5) / 2
+assert F[10] == 89 and F[9] == 55 and abs(ratios[-1] - phi) < 1e-3
+f = Fig(300, 236)
+f.text(150, 14, "Ratio of consecutive Fibonacci terms", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 11), (0.9, 2.1))
+ax.grid(2, 0.2, size=9, yfmt=lambda v: "%.1f" % v)
+ax.axes("n", "")
+ax.hline(phi, color=AMBER)
+prev = None
+for i, rt in enumerate(ratios):
+    p = (ax.X(i + 1), ax.Y(rt))
+    if prev: f.line(prev[0], prev[1], p[0], p[1], color=NAVY, sw=1.6)
+    prev = p
+    ax.pt(i + 1, rt, r=3, color=NAVY)
+f.text(284, ax.Y(phi) - 6, "1.618", size=10, color=AMBER, bold=True, anchor="end")
+f.text(150, 208, "F11 / F10 = 89 / 55 = %.4f" % ratios[-1], size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "limit = (1 + sqrt5) / 2 = %.4f" % phi, size=10.5, color=AMBER, bold=True)
+facts = dict(r=ratios[-1], phi=phi, e=abs(ratios[-1] - phi))
+```
+
 ## Chapter summary
 
 - $\sum_{k=1}^{n} k = \dfrac{n(n+1)}{2}$,
@@ -890,3 +919,84 @@ $$ \log 1.1 = 2\left(\frac{1}{21} + \frac{1}{3(21)^{3}} + \cdots\right)
 
 So $\log 1.1 \approx 0.0953$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the $n$th term and the sum of $n$ terms of an arithmetic progression and a geometric progression. Explain the means and the infinite geometric series. <span class="marks">[10]</span>
+2. Explain the harmonic progression, the relation between AM, GM and HM, and derive the sums $\sum n$, $\sum n^{2}$ and $\sum n^{3}$ with examples. <span class="marks">[10]</span>
+
+### Model answer D1: arithmetic and geometric progressions (10 marks)
+
+**Introduction.** A **sequence** is a list of numbers in a definite order, and a **series** is the sum of its terms. Two simple types are common: the arithmetic and the geometric progression. Monthly savings that increase by a fixed amount form an AP, and money earning compound interest forms a GP.
+
+**Arithmetic progression (AP).** Each term is obtained by adding a constant, the **common difference** $d$: $a,\ a+d,\ a+2d,\dots$
+
+1. **$n$th term:** $t_n=a+(n-1)d$.
+2. **Sum of $n$ terms:** write $S_n=a+(a+d)+\cdots+l$ and again in reverse order, and add: $2S_n=n(a+l)$, so
+
+$$ S_n=\frac n2\,(a+l)=\frac n2\,\big[2a+(n-1)d\big] $$
+
+3. **Arithmetic mean** of $a$ and $b$: $\dfrac{a+b}2$. To insert $m$ means between $a$ and $b$, $d=\dfrac{b-a}{m+1}$.
+
+**Geometric progression (GP).** Each term is obtained by multiplying by the **common ratio** $r$: $a,\ ar,\ ar^{2},\dots$
+
+1. **$n$th term:** $t_n=ar^{\,n-1}$.
+2. **Sum:** $S_n=a+ar+\cdots+ar^{n-1}$; multiplying by $r$ and subtracting gives $S_n(1-r)=a(1-r^{n})$, so
+
+$$ S_n=\frac{a(1-r^{n})}{1-r}=\frac{a(r^{n}-1)}{r-1}\quad(r\neq1) $$
+
+3. **Sum to infinity:** if $|r|<1$, $r^{n}\to0$, so $S_\infty=\dfrac{a}{1-r}$.
+4. **Geometric mean** of $a$ and $b$: $\sqrt{ab}$.
+
+| Feature | AP | GP |
+|---|---|---|
+| Rule | Add $d$ | Multiply by $r$ |
+| $n$th term | $a+(n-1)d$ | $ar^{n-1}$ |
+| Sum | $\dfrac n2[2a+(n-1)d]$ | $\dfrac{a(r^{n}-1)}{r-1}$ |
+| Mean of $a,b$ | $\dfrac{a+b}2$ | $\sqrt{ab}$ |
+| Graph of terms | Straight line | Exponential |
+
+**Worked examples.**
+
+1. AP with $a=5$, $d=3$: $t_{20}=5+19\times3=62$ and $S_{20}=10\,(10+57)=670$.
+2. A student saves Rs 1,000 in the first month and increases the saving by Rs 200 each month. After $12$ months the total is $S_{12}=6\,[2000+11\times200]=\text{Rs }25{,}200$.
+3. GP with $a=2$, $r=3$: $S_6=\dfrac{2(3^{6}-1)}{2}=728$.
+4. $8+4+2+1+\cdots=\dfrac{8}{1-\tfrac12}=16$.
+5. Three AMs between $4$ and $20$: $d=\dfrac{20-4}{4}=4$, so $8,12,16$.
+
+**Conclusion.** An AP grows by a fixed difference and a GP by a fixed ratio; their sums have simple closed forms, and the infinite sum exists when $|r|<1$.
+
+### Model answer D2: harmonic progression and standard sums (10 marks)
+
+**Introduction.** A sequence is a **harmonic progression (HP)** if the reciprocals of its terms form an AP: $\dfrac1a,\dfrac1{a+d},\dfrac1{a+2d},\dots$ HP problems are converted into AP problems by taking reciprocals.
+
+**Harmonic mean.** For two numbers $a$ and $b$, $\text{HM}=\dfrac{2ab}{a+b}$ (reciprocal of the AM of the reciprocals). It is the correct average for speeds over equal distances: a trip to Pokhara at $60\ \text{km h}^{-1}$ and back at $40\ \text{km h}^{-1}$ has an average speed $\dfrac{2\times60\times40}{100}=48\ \text{km h}^{-1}$.
+
+**Relation between AM, GM and HM.** For two positive numbers:
+
+$$ \text{AM}\geq\text{GM}\geq\text{HM},\qquad \text{GM}^{2}=\text{AM}\times\text{HM} $$
+
+*Proof.* $\text{AM}-\text{GM}=\dfrac{a+b}2-\sqrt{ab}=\dfrac{(\sqrt a-\sqrt b)^{2}}2\geq0$. Also $\text{AM}\times\text{HM}=\dfrac{a+b}2\cdot\dfrac{2ab}{a+b}=ab=\text{GM}^{2}$. Equality holds only when $a=b$.
+
+*Check:* for $4$ and $9$: $\text{AM}=6.5$, $\text{GM}=6$, $\text{HM}=\dfrac{72}{13}=5.54$, and $6.5\times5.54=36=6^{2}$.
+
+**Standard sums.**
+
+$$ \sum_{k=1}^{n}k=\frac{n(n+1)}2,\qquad \sum_{k=1}^{n}k^{2}=\frac{n(n+1)(2n+1)}6,\qquad \sum_{k=1}^{n}k^{3}=\left[\frac{n(n+1)}2\right]^{2} $$
+
+**Derivation of $\sum k^{2}$.** Use the identity $(k+1)^{3}-k^{3}=3k^{2}+3k+1$ and add for $k=1$ to $n$. The left side telescopes to $(n+1)^{3}-1$, so
+
+$$ (n+1)^{3}-1=3\sum k^{2}+3\cdot\frac{n(n+1)}2+n $$
+
+and solving gives $\sum k^{2}=\dfrac{n(n+1)(2n+1)}6$.
+
+**Sum of a series by the general term.** For $1\cdot2+2\cdot3+\cdots+n(n+1)$ the $k$th term is $k^{2}+k$, so the sum is $\dfrac{n(n+1)(2n+1)}6+\dfrac{n(n+1)}2=\dfrac{n(n+1)(n+2)}3$.
+
+**Worked examples.**
+
+1. $1^{2}+2^{2}+\cdots+10^{2}=\dfrac{10\times11\times21}6=385$ and $1^{3}+\cdots+10^{3}=55^{2}=3025$.
+2. $1\cdot2+2\cdot3+\cdots+10\cdot11=\dfrac{10\times11\times12}3=440$.
+3. The HP $1,\dfrac12,\dfrac13,\dfrac14,\dots$ has reciprocals $1,2,3,4,\dots$ in AP, so the 10th term is $\dfrac1{10}$. The HP with 3rd term $\dfrac16$ and 5th term $\dfrac1{10}$ has reciprocals $6$ and $10$ at positions 3 and 5, so $d=2$ and the first term of the AP is $2$, giving the HP $\dfrac12,\dfrac14,\dfrac16,\dfrac18,\dfrac1{10},\dots$
+4. **Compound growth:** Rs 10,000 at $10\%$ compound interest for $5$ years is the 6th term of a GP: $10000\times1.1^{5}=\text{Rs }16{,}105$.
+
+**Conclusion.** The HP is the reciprocal of an AP, $\text{GM}^{2}=\text{AM}\times\text{HM}$, and the standard sums let us add many series in closed form.

@@ -889,6 +889,34 @@ $\blacksquare$ (The companion result, from subtracting, is
 $x^{n} - \dfrac{1}{x^{n}} = 2i\sin n\theta$.)
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Alternating current is written with complex numbers because a rotating arrow, or phasor, gives the same wave seen on an oscilloscope. (a) The screen of a scope showing a wave. (b) The point 3 + 4i is plotted on the Argand plane; its modulus is 5 and its argument is 53.13 degrees. Multiplying z by its conjugate gives 25, which equals |z|^2, so the product is always real. Squaring gives -7 + 24i, with the modulus squared and the angle doubled to 106.26 degrees. A mains supply of 230 V at 50 Hz is one such phasor turning 50 times each second."
+@ photo id="math12/oscilloscope" cap="An oscilloscope showing a sine-type wave, which a phasor describes"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The complex number 3 + 4i in the Argand plane"
+z = complex(3, 4); zc = z.conjugate()
+r = abs(z); th = math.degrees(math.atan2(z.imag, z.real))
+assert r == 5 and round(th, 2) == 53.13 and (z * zc).real == 25 and z * z == complex(-7, 24)
+f = Fig(300, 236)
+f.text(150, 14, "z = 3 + 4i in the Argand plane", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 36, 26, 144, 162, (-1, 7), (-4.5, 4.5))
+ax.grid(1, 1, size=9)
+ax.axes("Re", "Im")
+O = (ax.X(0), ax.Y(0))
+f.arrow([O, (ax.X(3), ax.Y(4))], color=NAVY, sw=2.2)
+f.arrow([O, (ax.X(3), ax.Y(-4))], color=RED, sw=2.2)
+f.line(ax.X(3), ax.Y(4), ax.X(3), ax.Y(-4), color=SLATE, dash=True)
+ax.pt(3, 4, "z", dx=-12, dy=-4, color=NAVY)
+ax.pt(3, -4, "conj z", dx=-8, dy=14, color=RED, size=10)
+f.text(196, 60, "|z| = %d" % r, size=11, color=NAVY, bold=True, anchor="start")
+f.text(196, 84, "arg z = %.2f deg" % th, size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(196, 118, "z . conj z = %d" % (z * zc).real, size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(196, 140, "= |z|^2", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(196, 174, "z^2 = %d + %di" % ((z * z).real, (z * z).imag), size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 214, "squaring doubles the angle: %.1f deg" % (2 * th), size=10.5, color=SLATE, bold=True)
+facts = dict(r=r, th=th, p=(z * zc).real, zr=(z * z).real, zi=(z * z).imag, th2=2 * th)
+```
+
 ## Chapter summary
 
 - Polar form: $z = r(\cos\theta + i\sin\theta)$ with $r = |z| =
@@ -1101,3 +1129,81 @@ $(a+b+c)$ and using the standard identity
 $(a+b+c)\left(a^{2}+b^{2}+c^{2}-ab-bc-ca\right) = a^{3}+b^{3}+c^{3}-3abc$
 completes the proof.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define a complex number, its conjugate and modulus. Prove the main properties and solve problems on division and square roots. <span class="marks">[10]</span>
+2. Express a complex number in polar form, state and use De Moivre's theorem, and explain the cube roots of unity with their properties. <span class="marks">[10]</span>
+
+### Model answer D1: algebra of complex numbers (10 marks)
+
+**Introduction.** The equation $x^{2}+1=0$ has no real root. The number $i$ with $i^{2}=-1$ was introduced to solve it, and numbers of the form $z=x+iy$ ($x,y$ real) are called **complex numbers**. They are used in electrical engineering (AC circuits) and signal processing.
+
+**Definitions.**
+
+- $x=\text{Re}(z)$ is the **real part** and $y=\text{Im}(z)$ the **imaginary part**.
+- The **conjugate** of $z=x+iy$ is $\bar z=x-iy$.
+- The **modulus** is $|z|=\sqrt{x^{2}+y^{2}}$, the distance of the point $(x,y)$ in the Argand plane from the origin.
+- Powers of $i$: $i^{2}=-1$, $i^{3}=-i$, $i^{4}=1$; in general $i^{4k+r}=i^{r}$.
+
+**Operations.** For $z_1=a+ib$ and $z_2=c+id$:
+
+1. $z_1\pm z_2=(a\pm c)+i(b\pm d)$.
+2. $z_1z_2=(ac-bd)+i(ad+bc)$.
+3. $\dfrac{z_1}{z_2}=\dfrac{z_1\bar z_2}{|z_2|^{2}}=\dfrac{(ac+bd)+i(bc-ad)}{c^{2}+d^{2}}$: **multiply the numerator and denominator by the conjugate** of the denominator.
+4. $z=\bar z$ if and only if $z$ is real, and $z\bar z=|z|^{2}$.
+
+**Properties of the conjugate and the modulus.**
+
+| Property | Statement |
+|---|---|
+| Conjugate of a sum | $\overline{z_1+z_2}=\bar z_1+\bar z_2$ |
+| Conjugate of a product | $\overline{z_1z_2}=\bar z_1\,\bar z_2$ |
+| Modulus of a product | $|z_1z_2|=|z_1||z_2|$ |
+| Modulus of a quotient | $\left|\dfrac{z_1}{z_2}\right|=\dfrac{|z_1|}{|z_2|}$ |
+| Triangle inequality | $|z_1+z_2|\leq|z_1|+|z_2|$ |
+| Real and imaginary parts | $\text{Re}(z)=\dfrac{z+\bar z}2$, $\text{Im}(z)=\dfrac{z-\bar z}{2i}$ |
+
+*Proof of the product property.* $|z_1z_2|^{2}=z_1z_2\,\overline{z_1z_2}=(z_1\bar z_1)(z_2\bar z_2)=|z_1|^{2}|z_2|^{2}$.
+
+**Square root of a complex number.** To find $\sqrt{a+ib}$, let $(x+iy)^{2}=a+ib$, so $x^{2}-y^{2}=a$ and $2xy=b$, and solve.
+
+**Worked examples.**
+
+1. $\dfrac{3+4i}{1-2i}=\dfrac{(3+4i)(1+2i)}{1+4}=\dfrac{3+6i+4i-8}{5}=-1+2i$.
+2. Find $\sqrt{-5+12i}$: with $x^{2}-y^{2}=-5$ and $xy=6$, the solution is $x=2$, $y=3$. Check: $(2+3i)^{2}=4-9+12i=-5+12i$. So $\sqrt{-5+12i}=\pm(2+3i)$.
+3. $|3+4i|=5$, and $i^{25}=i^{24}\cdot i=i$.
+4. If $z=2-3i$, then $z\bar z=4+9=13=|z|^{2}$.
+
+**Conclusion.** Complex numbers are added and multiplied like binomials with $i^{2}=-1$, divided by using the conjugate, and the modulus of a product is the product of the moduli.
+
+### Model answer D2: polar form, De Moivre's theorem and cube roots of unity (10 marks)
+
+**Introduction.** The point $(x,y)$ can also be fixed by its distance $r$ from the origin and its angle $\theta$ with the $x$-axis. This gives the polar form, which makes multiplication, powers and roots easy.
+
+**Polar form.** $z=x+iy=r(\cos\theta+i\sin\theta)$, where $r=|z|=\sqrt{x^{2}+y^{2}}$ and $\theta=\arg z$ with $\tan\theta=\dfrac yx$ (the quadrant of the point must be checked). Shorthand: $r\,\text{cis}\,\theta$.
+
+*Example:* $1+i=\sqrt2\,(\cos45^{\circ}+i\sin45^{\circ})$.
+
+**Product and quotient.** For $z_1=r_1\text{cis}\,\theta_1$ and $z_2=r_2\text{cis}\,\theta_2$: $z_1z_2=r_1r_2\,\text{cis}(\theta_1+\theta_2)$ and $\dfrac{z_1}{z_2}=\dfrac{r_1}{r_2}\text{cis}(\theta_1-\theta_2)$. Multiplication multiplies the moduli and adds the arguments.
+
+**De Moivre's theorem.** For any integer $n$,
+
+$$ (\cos\theta+i\sin\theta)^{n}=\cos n\theta+i\sin n\theta $$
+
+*Proof for positive $n$ by induction.* True for $n=1$. If true for $n=k$, then $(\cos\theta+i\sin\theta)^{k+1}=(\cos k\theta+i\sin k\theta)(\cos\theta+i\sin\theta)=\cos(k+1)\theta+i\sin(k+1)\theta$ using the angle-addition formulae, so it holds for $k+1$.
+
+**Use:** $(1+i)^{8}=\left(\sqrt2\right)^{8}\text{cis}\,360^{\circ}=16\,(1+0i)=16$. It is also used to find the $n$th roots: $z^{1/n}=r^{1/n}\text{cis}\dfrac{\theta+2k\pi}{n}$, $k=0,1,\dots,n-1$.
+
+**Cube roots of unity.** Solving $x^{3}=1$, i.e. $(x-1)(x^{2}+x+1)=0$, gives $1,\ \omega=\dfrac{-1+i\sqrt3}{2},\ \omega^{2}=\dfrac{-1-i\sqrt3}{2}$.
+
+**Properties of $\omega$.**
+
+1. $\omega^{3}=1$ and $\omega^{3k}=1$.
+2. $1+\omega+\omega^{2}=0$ (the sum of the roots).
+3. $\omega^{2}=\bar\omega=\dfrac1\omega$ and $|\omega|=1$.
+4. The three roots lie on the unit circle at $0^{\circ},120^{\circ},240^{\circ}$, forming an equilateral triangle.
+
+**Worked example.** Evaluate $(1+\omega-\omega^{2})(1-\omega+\omega^{2})$. Since $1+\omega=-\omega^{2}$, the first factor is $-2\omega^{2}$; since $1+\omega^{2}=-\omega$, the second is $-2\omega$. The product is $4\omega^{3}=4$.
+
+**Conclusion.** The polar form turns multiplication into a rotation and scaling, De Moivre's theorem gives powers and roots, and $\omega$ satisfies $1+\omega+\omega^{2}=0$.

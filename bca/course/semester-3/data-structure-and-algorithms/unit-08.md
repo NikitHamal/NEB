@@ -193,6 +193,161 @@ radix       5 11 12 22 25 47 64 90
 
 Any **comparison-based** sort needs at least log₂(n!) ≈ n log₂ n comparisons in the worst case, so merge and heap sort are asymptotically optimal; radix beats this bound only because it does not compare keys. In practice libraries use hybrids (e.g. quick/insertion or merge/insertion).
 
+## 8.10 Seeing the ideas: sorting by machine and by method
+
+Sorting is among the oldest uses of machines. Before electronic computers, the punched cards of the 1890 census and of later business data were sorted mechanically: the IBM 082 sorter, one of the machines in the photograph, drops each card into one of twelve pockets according to a digit in one chosen column, and the operator repeats the pass for the next column. This is exactly the **radix sort** of Section 8.7, performed with steel and paper. The method of **quick sort**, which is the fastest general method in practice, was invented in 1959 by Tony Hoare while he was a young programmer in Moscow.
+
+```photogrid label="8.1" cols="2" ratio="1.2" caption="Sorting then and now. (a) An IBM 082 card sorter at the Living Computer Museum in Seattle: a stack of punched cards is fed in and each card falls into the pocket for its digit in one column; sorting numbers of d digits needs d passes, one per column from the right, which is least-significant-digit radix sort. (b) Sir Tony Hoare, who invented quick sort in 1959 and was given the Turing Award in 1980."
+@ photo id="bca201/sorter" cap="IBM 082 card sorter (radix sort in steel)"
+fit 1.2
+focus 0.45 0.55
+call 0.5 0.35 0.04 0.9 "12 pockets"
+@ photo id="bca201/hoare" cap="Sir Tony Hoare, inventor of quick sort"
+fit 1.2
+focus 0.5 0.4
+```
+
+```svgfig label="8.1" caption="Merge sort on 38, 27, 43, 3, 9, 82, 10. The array is split in halves again and again until each piece has one item (top half of the figure), and the sorted pieces are then merged in pairs (bottom half): 27 38 and 3 43 become 3 27 38 43; 9 82 and 10 become 9 10 82; the final merge gives 3 9 10 27 38 43 82. There are about log2 n levels (3 for 7 items) and each level does O(n) work, so the time is O(n log n) in every case; the price is O(n) extra memory."
+f = Fig(580, 270)
+def row(y, groups, fl, st):
+    n = sum(len(g) for g in groups)
+    x = 20
+    for g in groups:
+        for v in g:
+            f.box(x, y, 34, 26, str(v), fill=fl, stroke=st, size=10.5, bold=True, r=0)
+            x += 34
+        x += 22
+f.text(10, 14, "split", size=10.5, color=RED, bold=True, anchor="start")
+row(22, [[38, 27, 43, 3, 9, 82, 10]], BLUE, NAVY)
+row(66, [[38, 27, 43, 3], [9, 82, 10]], BLUE, NAVY)
+row(110, [[38, 27], [43, 3], [9, 82], [10]], BLUE, NAVY)
+f.text(10, 152, "merge", size=10.5, color=TEAL, bold=True, anchor="start")
+row(160, [[27, 38], [3, 43], [9, 82], [10]], MINT, TEAL)
+row(204, [[3, 27, 38, 43], [9, 10, 82]], MINT, TEAL)
+row(246, [[3, 9, 10, 27, 38, 43, 82]], SAND, AMBER)
+```
+
+```svgfig label="8.2" caption="One partition step of quick sort (Lomuto scheme) on 10, 80, 30, 90, 40, 50, 70 with the last item 70 as pivot. The index i marks the end of the region of items not larger than the pivot. Scanning j from the left: 10 stays; 80 and 90 are larger, so skipped; 30, 40 and 50 are each swapped into the small region. Finally the pivot is swapped with the item after the small region. The result 10 30 40 50 | 70 | 90 80 has the pivot 70 in its final place at index 4, with all smaller items to its left and all larger to its right; the two sides are then sorted recursively."
+f = Fig(580, 200)
+f.text(290, 12, "before: pivot = 70 (last)", size=10.5, color=NAVY, bold=True)
+for i, v in enumerate([10, 80, 30, 90, 40, 50, 70]):
+    f.box(110 + i * 54, 22, 48, 32, str(v), fill=SAND if v == 70 else BLUE, stroke=AMBER if v == 70 else NAVY, size=12, bold=True, r=0)
+f.arrow([(290, 70), (290, 100)], color=AMBER, sw=1.8)
+f.text(290, 66, "partition: 10, 30, 40, 50 are not larger than 70", size=10, color=SLATE, bold=True)
+f.text(290, 112, "after: pivot in its final position (index 4)", size=10.5, color=TEAL, bold=True)
+res = [10, 30, 40, 50, 70, 90, 80]
+for i, v in enumerate(res):
+    f.box(110 + i * 54, 122, 48, 32, str(v), fill=MINT if i < 4 else (SAND if i == 4 else ROSE), stroke=TEAL if i < 4 else (AMBER if i == 4 else RED), size=12, bold=True, r=0)
+f.text(218, 172, "sort left part", size=10, color=TEAL, bold=True)
+f.text(488, 172, "sort right part", size=10, color=RED, bold=True)
+f.text(380, 190, "pivot fixed", size=10, color=AMBER, bold=True)
+```
+
+```svgfig label="8.3" caption="Why the choice of sorting method matters, for the number of comparisons (bars on a logarithmic scale; each step to the right is ten times more). For n = 1,000 a quadratic method such as bubble sort needs n(n - 1) / 2 = 499,500 comparisons while merge sort needs about n log2 n = 9,966, which is 50 times fewer. For n = 1,000,000 bubble sort needs 499,999,500,000 comparisons and merge sort about 19,931,569, which is about 25,000 times fewer; at 10 million comparisons per second that is 13.9 hours against 2 seconds."
+import math
+f = Fig(580, 230)
+data = [("n = 1,000   bubble", 499500, RED, ROSE), ("n = 1,000   merge", 9966, TEAL, MINT), ("n = 1,000,000   bubble", 499999500000, RED, ROSE), ("n = 1,000,000   merge", 19931569, TEAL, MINT)]
+for i, (nm, v, st, fl) in enumerate(data):
+    y = 14 + i * 52
+    f.text(8, y + 16, nm, size=10, color=st, bold=True, anchor="start")
+    f.box(170, y, 20 + 33 * math.log10(v), 30, "{:,}".format(v), fill=fl, stroke=st, size=10, bold=True)
+f.text(290, 222, "499,999,500,000 / 19,931,569 = about 25,000", size=9.5, color=SLATE)
+```
+
+### 8.10.1 Eight applications of sorting
+
+1. **Searching faster.** Binary search needs a sorted array and finds a key among 1,000,000 items in 20 steps. Sorting once and searching many times is cheaper than scanning each time. Electoral rolls and student registers are kept sorted for this reason.
+2. **Merit lists and rank lists.** A TU or entrance-examination merit list is a list sorted by marks in descending order. Ties are broken by a second key, so the sort must be able to use several keys. A stable sort keeps equal entries in their old order.
+3. **Databases.** The `ORDER BY` clause of SQL sorts the rows of a result, and sorted indexes make queries fast. Merge-based external sorting orders tables that are larger than memory. Every bank statement you view is sorted by date.
+4. **Finding duplicates and statistics.** After sorting, equal items stand together, so duplicates are found in one pass. The median, the quartiles and the mode of a data set are also easy to find in a sorted list. Statisticians use this daily.
+5. **Computer graphics.** A renderer sorts objects by distance from the camera so that near objects hide far ones. Sorting makes games and maps display correctly. Without it, the picture would show things in the wrong order.
+6. **Merging data.** Two sorted lists can be merged in a single pass, which is the heart of merge sort. This is how a bank combines daily transaction files into one ledger. Sorting before merging keeps the work linear.
+7. **Scheduling and priority work.** Operating systems sort tasks by deadline or priority, and heap sort gives the next task in O(log n). Delivery and ride-hailing services sort requests by distance or waiting time. The next job is always taken from the front.
+8. **Library and directory order.** Books on a shelf, words in a dictionary and files in a folder are sorted by title, name or date. The order lets users find an item without a search tool. This is the oldest use of sorting, long before computers.
+
+```photogrid label="8.2" cols="2" ratio="1.2" caption="Everybody has sorted something by hand. (a) A card player arranging a hand: picking up one card at a time and sliding it into place among the cards already held is exactly insertion sort. (b) The same idea measured on a real shuffled 13-card hand (seeded shuffle 8 4 1 13 2 7 9 6 12 10 11 3 5). The hand has 35 inversions (pairs in the wrong order) and insertion sort makes exactly 35 shifts, 45 comparisons. Selection sort always makes 78 comparisons (13 x 12 / 2), bubble sort 75 and merge sort 36. For sorted input insertion sort needs only 12 comparisons, for reversed input 78, which is why it is the best choice for nearly sorted data. All counts come from running the algorithms in the figure."
+@ photo id="bca201/cards" cap="Sorting a hand of cards"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Comparisons to sort a 13-card hand"
+import random
+rng = random.Random(2081); hand = rng.sample(range(1, 14), 13)
+assert hand == [8, 4, 1, 13, 2, 7, 9, 6, 12, 10, 11, 3, 5]
+def ins(a):
+    a = a[:]; c = 0; s = 0
+    for i in range(1, len(a)):
+        k = a[i]; j = i - 1
+        while j >= 0:
+            c += 1
+            if a[j] > k: a[j + 1] = a[j]; j -= 1; s += 1
+            else: break
+        a[j + 1] = k
+    return c, s
+def bub(a):
+    a = a[:]; c = 0; n = len(a); sw = True
+    while sw:
+        sw = False
+        for i in range(n - 1):
+            c += 1
+            if a[i] > a[i + 1]: a[i], a[i + 1] = a[i + 1], a[i]; sw = True
+        n -= 1
+    return c
+def mrg(a):
+    c = [0]
+    def ms(x):
+        if len(x) <= 1: return x
+        m = len(x) // 2; l = ms(x[:m]); r = ms(x[m:]); o = []; i = j = 0
+        while i < len(l) and j < len(r):
+            c[0] += 1
+            if l[i] <= r[j]: o.append(l[i]); i += 1
+            else: o.append(r[j]); j += 1
+        return o + l[i:] + r[j:]
+    ms(a); return c[0]
+inv = sum(1 for i in range(13) for j in range(i + 1, 13) if hand[i] > hand[j])
+ci, si = ins(hand)
+assert (ci, si, inv) == (45, 35, 35) and bub(hand) == 75 and mrg(hand) == 36
+assert ins(sorted(hand))[0] == 12 and ins(sorted(hand, reverse=True))[0] == 78
+f = Fig(300, 240)
+for i, v in enumerate(hand):
+    f.box(11 + i * 21, 10, 20, 26, str(v), fill=BLUE, stroke=NAVY, size=10.5, r=2, bold=True)
+f.text(150, 54, "35 inversions = 35 shifts in insertion sort", size=10.5, color=NAVY, bold=True)
+rows = [("Selection", 78, SAND, AMBER), ("Bubble", bub(hand), ROSE, RED), ("Insertion", ci, MINT, TEAL), ("Merge", mrg(hand), BLUE, NAVY)]
+for i, (nm, v, fl, st) in enumerate(rows):
+    y = 76 + i * 28
+    f.text(10, y + 11, nm, size=10.5, color=st, bold=True, anchor="start", vmid=True)
+    f.box(78, y, v * 2.4, 22, "", fill=fl, stroke=st, r=2)
+    f.text(78 + v * 2.4 + 6, y + 11, str(v), size=10.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 200, "insertion sort: best 12, this hand 45, worst 78", size=10.5, color=SLATE)
+f.text(150, 220, "comparisons (fewer is faster)", size=10.5, color=SLATE)
+```
+
+```photogrid label="8.3" cols="2" ratio="1.2" caption="Two inventions by one famous mind, and a sort with no comparisons. (a) John von Neumann, who in 1945 described merge sort for the EDVAC, one of the first stored-program computers, and who also gave us the architecture in which the program and the data sit in the same memory. (b) Radix sort (least significant digit first) on the seven numbers 329, 457, 657, 839, 436, 720, 355. Pass 1 sorts by the units digit, pass 2 by the tens digit and pass 3 by the hundreds digit, each time keeping equal keys in their old order (a stable sort). After 3 passes the list is sorted: 329, 355, 436, 457, 657, 720, 839. Radix sort never compares two numbers with each other; it costs d x (n + k) steps for d digits, n numbers and radix k, so about 3 x (7 + 10) = 51 steps here."
+@ photo id="bca201/neumann" cap="John von Neumann (merge sort, 1945)"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="LSD radix sort in three stable passes"
+a = [329, 457, 657, 839, 436, 720, 355]
+stages = [("input", a, None)]
+cur = a
+for d, nm in [(1, "pass 1: units digit"), (10, "pass 2: tens digit"), (100, "pass 3: hundreds digit")]:
+    cur = sorted(cur, key=lambda x: (x // d) % 10)
+    stages.append((nm, cur, d))
+assert stages[1][1] == [720, 355, 436, 457, 657, 329, 839]
+assert stages[2][1] == [720, 329, 436, 839, 355, 457, 657]
+assert stages[3][1] == [329, 355, 436, 457, 657, 720, 839] == sorted(a)
+f = Fig(300, 240)
+for r, (nm, arr, d) in enumerate(stages):
+    y = 22 + r * 52
+    f.text(17, y - 6, nm, size=10.5, color=NAVY if d else SLATE, bold=True, anchor="start")
+    for j, v in enumerate(arr):
+        x = 17 + j * 38
+        f.box(x, y, 36, 26, str(v), fill=(MINT if r == 3 else BLUE), stroke=(TEAL if r == 3 else NAVY), size=11, r=2, bold=True)
+        if d:
+            off = {1: 6.7, 10: 0, 100: -6.7}[d]
+            f.line(x + 18 + off - 3.3, y + 21, x + 18 + off + 3.3, y + 21, color=RED, sw=2)
+f.text(150, 232, "d x (n + k) = 3 x (7 + 10) = 51 steps, no comparisons", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Selection: n(n−1)/2 comparisons, n−1 swaps. Bubble/insertion worst: n(n−1)/2.
@@ -233,3 +388,62 @@ Any **comparison-based** sort needs at least log₂(n!) ≈ n log₂ n compariso
 **9.** (a) Insertion sort (O(n) when nearly sorted). (b) Heap sort. (c) Radix sort (6 digits, linear).
 **10.** When the pivot is repeatedly the minimum or maximum, e.g. a first- or last-element pivot on already sorted data: partitions of sizes 0 and n − 1 give n + (n−1) + … = O(n²).
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Explain bubble sort with an algorithm and trace it for 5, 1, 4, 2, 8. State its complexity. (5 marks)**
+
+**Bubble sort** repeatedly compares adjacent items and swaps them if they are in the wrong order. After each pass the largest remaining item has "bubbled" to the end of the unsorted part.
+
+**Algorithm**
+1. For `pass` from 1 to `n - 1`: set `swapped = 0`.
+2. For `j` from 0 to `n - pass - 1`: if `a[j] > a[j + 1]`, swap them and set `swapped = 1`.
+3. If `swapped` is 0 after a pass, stop, because the array is sorted.
+
+**Trace for 5, 1, 4, 2, 8**
+- Pass 1: (5,1) swap: 1 5 4 2 8; (5,4) swap: 1 4 5 2 8; (5,2) swap: 1 4 2 5 8; (5,8) no swap. Result: **1 4 2 5 8**.
+- Pass 2: (1,4) no; (4,2) swap: 1 2 4 5 8; (4,5) no. Result: **1 2 4 5 8**.
+- Pass 3: (1,2) no; (2,4) no; no swap, so the algorithm stops with **1 2 4 5 8**.
+
+**Complexity.** Worst and average time are O(n squared), about n(n - 1) / 2 comparisons (499,500 for n = 1,000). The best case, an already sorted array, is O(n) thanks to the `swapped` flag. Space is O(1) and the sort is stable and in place. It is simple to teach but too slow for large data (Figure 8.3).
+
+**Q2. Explain quick sort with the partition step. Give its best, average and worst-case time. (5 marks)**
+
+**Quick sort** (Tony Hoare, 1959) is a divide-and-conquer method. It picks a **pivot**, partitions the array so that smaller items lie on the left of the pivot and larger items on the right, and then sorts the two parts recursively. The pivot is then in its final position.
+
+**Algorithm.** `quicksort(a, low, high)`: if `low < high`, set `p = partition(a, low, high)`, then call `quicksort(a, low, p - 1)` and `quicksort(a, p + 1, high)`.
+
+**Partition (Lomuto).** Take `a[high]` as the pivot and keep an index `i = low - 1`. For `j` from `low` to `high - 1`, if `a[j] <= pivot` then increase `i` and swap `a[i]` with `a[j]`. Finally swap `a[i + 1]` with the pivot and return `i + 1`.
+
+**Example (Figure 8.2).** For 10, 80, 30, 90, 40, 50, 70 with pivot 70, the items 10, 30, 40, 50 move to the small region and the final swap gives 10 30 40 50 | 70 | 90 80; 70 is at index 4 for good.
+
+**Complexity**
+- **Best and average:** O(n log n), when the pivot splits the array roughly in half.
+- **Worst:** O(n squared), when the pivot is always the smallest or largest item, for example a sorted array with the last item as pivot. Choosing a random or median-of-three pivot makes this very unlikely.
+- **Space:** O(log n) for the recursion stack on average; the sort is in place but not stable.
+
+In practice quick sort is often the fastest method because its inner loop is short and works on neighbouring memory.
+
+**Q3. Explain merge sort with an example and compare the common sorting algorithms. (10 marks)**
+
+**Introduction.** Merge sort (John von Neumann, 1945) is a divide-and-conquer method that guarantees O(n log n) time. Its key operation is **merging** two sorted lists into one sorted list in a single pass.
+
+**Algorithm.** `mergesort(a, low, high)`: (1) if `low >= high`, return (one item is sorted); (2) `mid = (low + high) / 2`; (3) `mergesort(a, low, mid)`; (4) `mergesort(a, mid + 1, high)`; (5) merge the two sorted halves.
+
+**Merging.** Keep one pointer at the start of each half and a temporary array. Repeatedly copy the smaller of the two items under the pointers and advance that pointer; when one half is finished, copy the rest of the other. Copy the temporary array back. Merging n items costs at most n - 1 comparisons.
+
+**Example (Figure 8.1).** The array 38, 27, 43, 3, 9, 82, 10 is split into 38 27 43 3 and 9 82 10, then into 38 27, 43 3, 9 82 and 10. Merging gives 27 38, 3 43, 9 82 and 10, then 3 27 38 43 and 9 10 82, and finally 3 9 10 27 38 43 82.
+
+**Complexity.** The recursion has about log2 n levels and each level does O(n) work, so the time is O(n log n) in the best, average and worst cases. It needs O(n) extra space and is stable. It is the base of external sorting for files larger than memory.
+
+| Algorithm | Best | Average | Worst | Space | Stable | Note |
+|---|---|---|---|---|---|---|
+| Bubble | O(n) | O(n squared) | O(n squared) | O(1) | yes | simple, slow |
+| Selection | O(n squared) | O(n squared) | O(n squared) | O(1) | no | fewest swaps |
+| Insertion | O(n) | O(n squared) | O(n squared) | O(1) | yes | good for nearly sorted |
+| Quick | O(n log n) | O(n log n) | O(n squared) | O(log n) | no | fastest in practice |
+| Merge | O(n log n) | O(n log n) | O(n log n) | O(n) | yes | guaranteed speed |
+| Heap | O(n log n) | O(n log n) | O(n log n) | O(1) | no | in place, guaranteed |
+| Radix | O(d(n + k)) | O(d(n + k)) | O(d(n + k)) | O(n + k) | yes | integers, keys |
+
+**Conclusion.** For small or nearly sorted data insertion sort is enough; for general data quick sort is usually fastest; when worst-case speed or stability is required merge sort is chosen. For 1,000,000 items the gap between O(n squared) and O(n log n) is the gap between 13.9 hours and 2 seconds, so the choice of algorithm matters more than the speed of the machine.

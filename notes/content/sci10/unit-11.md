@@ -448,3 +448,93 @@ Losses in real transformers: heat in the coil wires (copper loss), eddy currents
 **4.** $V_s = 220 \times \dfrac{50}{1000} = 11$ V. $I_p = \dfrac{V_sI_s}{V_p} = \dfrac{11 \times 4}{220} = 0.2$ A.
 **5.** Describe the coil in the magnetic field, split-ring commutator, brushes. Forces on the two sides are opposite by the left-hand rule, which turn the coil; the commutator reverses the current each half turn, so the rotation continues in one direction.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Ohm's law. Derive the formulae for resistors in series and in parallel and solve a numerical problem. Calculate the cost of electrical energy. <span class="marks">[10]</span>
+2. Explain electromagnetic induction. Describe the working of an AC generator and a transformer, and the use of transformers in Nepal's power supply. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="4" ratio="1.15" caption="From power station to pole. (a) An alternator turns the rotation of a turbine into alternating current. (b) A pole-mounted transformer steps 11,000 V down to 220 V for homes. (c) A large power transformer at a substation steps voltages up or down. (d) A nail electromagnet: current in a coil magnetises iron, the effect that links electricity and magnetism."
+@ photo id="sci10/alternator" cap="(a) Alternator"
+@ photo id="sci10/transformer-pole" cap="(b) Pole transformer"
+@ photo id="sci10/transformer" cap="(c) Power transformer"
+@ photo id="sci10/electromagnet" cap="(d) Electromagnet"
+```
+
+### Model answer D1: Ohm's law, resistors and electrical energy (10 marks)
+
+**Introduction.** **Electric current** is the flow of charge. Its unit is the ampere (A). **Potential difference (voltage)**, measured in volt (V), is the energy given to each coulomb of charge. **Resistance** is the opposition to the flow of current, measured in ohm ($\Omega$).
+
+**Ohm's law.** *At constant temperature, the current through a conductor is directly proportional to the potential difference across its ends.*
+
+$$V = IR.$$
+
+The graph of $V$ against $I$ for a metal wire is a straight line through the origin. The slope is the resistance.
+
+**Factors affecting the resistance of a wire:** $R = \rho\dfrac{l}{A}$: it increases with **length**, decreases with **cross-section area**, depends on the **material** (copper is a good conductor, nichrome a poor one) and increases with **temperature**.
+
+**Resistors in series.** The same current $I$ flows through each. The total voltage is $V = V_1 + V_2$, so $IR_s = IR_1 + IR_2$ and
+
+$$R_s = R_1 + R_2.$$
+
+**Resistors in parallel.** The voltage across each is the same. The currents add: $I = I_1 + I_2$, so $\dfrac{V}{R_p} = \dfrac{V}{R_1} + \dfrac{V}{R_2}$ and
+
+$$\frac{1}{R_p} = \frac{1}{R_1} + \frac{1}{R_2}.$$
+
+| Feature | Series | Parallel |
+|---|---|---|
+| Current | Same in all | Divides among branches |
+| Voltage | Divides | Same across all |
+| Total resistance | Greater than the largest | Less than the smallest |
+| If one device fails | All stop | Others keep working |
+| Use | Fuse, switch | House wiring |
+
+**Numerical 1.** Two resistors of 4 $\Omega$ and 6 $\Omega$ are joined across a 12 V battery. Find the current in (a) series and (b) parallel.
+
+(a) $R_s = 10\ \Omega$, $I = 12/10 = 1.2$ A. (b) $R_p = \dfrac{4 \times 6}{4 + 6} = 2.4\ \Omega$, $I = 12/2.4 = 5$ A.
+
+**Electrical power and energy.** $P = VI = I^2R$ in watts, and energy $E = Pt$. The commercial unit is the **kilowatt-hour (kWh)**, called one "unit": $1\ \text{kWh} = 3.6 \times 10^6$ J.
+
+**Numerical 2.** Five 40 W bulbs are used for 6 hours a day for 30 days. Find the units used and the cost at Rs 10 per unit.
+
+Total power $= 5 \times 40 = 200$ W $= 0.2$ kW. Energy $= 0.2 \times 6 \times 30 = 36$ kWh. Cost $= 36 \times 10 =$ Rs 360.
+
+**Saving electricity.** Use LED lamps, switch off unused devices and choose appliances with a good energy rating.
+
+**Conclusion.** Ohm's law links voltage, current and resistance; household devices are in parallel so that each gets the full 220 V.
+
+### Model answer D2: induction, generator and transformer (10 marks)
+
+**Introduction.** **Michael Faraday (1831)** discovered that a current can be produced by a changing magnetic field. This is **electromagnetic induction**, the principle of nearly all power stations.
+
+**Faraday's law.** *Whenever the magnetic flux linked with a coil changes, an e.m.f. is induced in the coil. The induced e.m.f. is larger when the magnet moves faster, when the coil has more turns, and when the magnet is stronger.* The direction of the induced current opposes the change that produces it (Lenz's law).
+
+**AC generator (alternator).**
+
+1. **Parts:** a rectangular coil (armature) of many turns, strong magnets, two slip rings and two carbon brushes.
+2. The coil is rotated in the magnetic field by a turbine driven by water, steam or wind.
+3. As the coil rotates, the flux changes, and an e.m.f. is induced. In each half turn, the direction reverses, so the output is **alternating current (AC)**.
+4. Slip rings and brushes carry the current to the outer circuit without twisting the wires.
+
+In Nepal's hydropower stations (Kaligandaki, Marsyangdi, Upper Tamakoshi), falling river water turns a turbine and the alternator makes AC at 50 Hz.
+
+**Transformer.** A **transformer** changes an alternating voltage by mutual induction. It has a **primary coil** and a **secondary coil** on a soft iron core.
+
+$$\frac{V_s}{V_p} = \frac{N_s}{N_p}$$
+
+| Type | $N_s$ compared with $N_p$ | Voltage | Use |
+|---|---|---|---|
+| Step-up | $N_s > N_p$ | Increased | At the power station before long transmission |
+| Step-down | $N_s < N_p$ | Decreased | At the pole near homes: 11,000 V to 220 V |
+
+For an ideal transformer, power in = power out: $V_pI_p = V_sI_s$. Real transformers have a small loss due to heat in the coils and the core, and they work only with AC.
+
+**Numerical.** A pole transformer changes 11,000 V to 220 V. The primary has 5,000 turns. Find the number of turns in the secondary.
+
+$$N_s = N_p \times \frac{V_s}{V_p} = 5000 \times \frac{220}{11000} = 100\ \text{turns}.$$
+
+**Why high voltage for transmission?** For a given power, a higher voltage means a smaller current, and a smaller current wastes less energy as heat in the wires ($P_{loss} = I^2R$). Hence electricity is sent at 132 kV or 220 kV and then stepped down.
+
+**DC motor versus generator.** A motor changes electrical energy into motion; a generator changes motion into electrical energy.
+
+**Conclusion.** Induction produces electricity in generators, and transformers allow it to be transmitted efficiently and delivered safely to our homes.

@@ -34,3 +34,7 @@ python3 bca/tools/nebpdf.py entrance
 ## Facts that expire
 
 Current-affairs answers in `gk-and-it/unit-01`, `unit-02` and Model Papers questions 91–100 are dated to 2026. Re-check them before every exam year. The 2083 exam was scheduled for 16 August 2026 per the TU notice reproduced on edusanjal.com.
+
+## Polished books (session 54 onward)
+
+Books listed in `.polished` (currently `gk-and-it`) carry photo plates, SVG figures, eight-trap sections and worked checks. They are edited **in this folder**, not in `notes/content/`, and `bca/tools/sync_entrance.sh` skips them so a sync never overwrites the polish. The reader app still builds from the plain `notes/content/bca-*` copy.

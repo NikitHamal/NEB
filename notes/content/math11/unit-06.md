@@ -611,6 +611,37 @@ solution. Geometrically the two lines are parallel, which is exactly what a zero
 determinant detects.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="A dot-matrix display is a real matrix: each LED sits at a row and a column and is on or off. (a) The back of an LED board. (b) The program multiplies the 2 x 2 matrices A and B using row-by-column sums to give AB = [[2, 5], [1, 5]]. The determinant of the product is 5, equal to |A| x |B|, which is a useful check. The inverse of A is found from the adjoint divided by |A|, and A times it gives the identity matrix. Multiplying in the other order, BA = [[4, 7], [1, 3]], is a different matrix, so matrix multiplication is not commutative."
+@ photo id="math11/ledmatrix" cap="An LED dot-matrix board: a grid of rows and columns, i.e. a matrix"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Matrix product and the determinant rule"
+A = [[2, 1], [1, 3]]; B = [[1, 2], [0, 1]]
+mul = lambda X, Y: [[sum(X[i][k] * Y[k][j] for k in range(2)) for j in range(2)] for i in range(2)]
+det = lambda X: X[0][0] * X[1][1] - X[0][1] * X[1][0]
+AB = mul(A, B); dA, dB, dAB = det(A), det(B), det(AB)
+inv = [[A[1][1] / dA, -A[0][1] / dA], [-A[1][0] / dA, A[0][0] / dA]]
+chk = mul(A, inv)
+assert AB == [[2, 5], [1, 5]] and dAB == dA * dB == 5 and [[round(v, 9) for v in r] for r in chk] == [[1.0, 0.0], [0.0, 1.0]]
+f = Fig(300, 236)
+f.text(150, 14, "A x B = AB and |AB| = |A| |B|", size=10.5, color=NAVY, bold=True)
+def mat(x, y, M, name, fl, st):
+    f.text(x + 29, y - 8, name, size=11, color=st, bold=True)
+    for i in range(2):
+        for j in range(2):
+            f.box(x + j * 30, y + i * 28, 28, 26, "%g" % M[i][j], fill=fl, stroke=st, size=11, bold=True, r=3)
+mat(8, 44, A, "A", BLUE, NAVY); f.text(80, 70, "x", size=14, color=SLATE, bold=True)
+mat(98, 44, B, "B", MINT, TEAL); f.text(170, 70, "=", size=14, color=SLATE, bold=True)
+mat(190, 44, AB, "AB", SAND, AMBER)
+f.text(150, 124, "|A| = %d, |B| = %d, |AB| = %d = %d x %d" % (dA, dB, dAB, dA, dB), size=10.5, color=NAVY, bold=True)
+f.text(150, 148, "A^-1 = (1/%d) [[3, -1], [-1, 2]]" % dA, size=10.5, color=TEAL, bold=True)
+f.text(150, 170, "A A^-1 = [[1, 0], [0, 1]] = I (checked)", size=10.5, color=TEAL, bold=True)
+f.text(150, 198, "AB is not BA in general:", size=10, color=SLATE, bold=True)
+BA = mul(B, A)
+f.text(150, 214, "BA = [[%d, %d], [%d, %d]]" % (BA[0][0], BA[0][1], BA[1][0], BA[1][1]), size=10.5, color=RED, bold=True)
+facts = dict(d=dAB, ab=str(AB), ba=str(BA))
+```
+
 ## Chapter summary
 
 - $(AB)_{ij}$ is row $i$ of $A$ against column $j$ of $B$; $AB$ needs
@@ -781,3 +812,99 @@ $A^{-1} = \mathrm{adj}\,A / |A|$.
 (b) See Worked example 6.12: $D = 7$, $D_x = 7$, $D_y = 14$, $D_z = 21$, so
 $x = 1$, $y = 2$, $z = 3$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the transpose, minor, cofactor and adjoint of a matrix. State the properties of the transpose and find the inverse of a $3\times3$ matrix by the adjoint method with verification. <span class="marks">[10]</span>
+2. State the properties of determinants, prove that $\begin{vmatrix}1&a&a^{2}\\1&b&b^{2}\\1&c&c^{2}\end{vmatrix}=(a-b)(b-c)(c-a)$ and solve a system of three equations by Cramer's rule. <span class="marks">[10]</span>
+
+### Model answer D1: transpose, adjoint and inverse (10 marks)
+
+**Introduction.** A **matrix** is a rectangular array of numbers arranged in rows and columns. For square matrices the determinant, adjoint and inverse give a method to solve linear equations.
+
+**Transpose.** The transpose $A^{T}$ is obtained by interchanging rows and columns. Properties:
+
+1. $(A^{T})^{T}=A$.
+2. $(A+B)^{T}=A^{T}+B^{T}$ and $(kA)^{T}=kA^{T}$.
+3. $(AB)^{T}=B^{T}A^{T}$ (the order reverses).
+
+*Check of 3.* Let $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ and $B=\begin{pmatrix}0&1\\1&0\end{pmatrix}$. Then $AB=\begin{pmatrix}2&1\\4&3\end{pmatrix}$, so $(AB)^{T}=\begin{pmatrix}2&4\\1&3\end{pmatrix}$, and $B^{T}A^{T}=\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}1&3\\2&4\end{pmatrix}=\begin{pmatrix}2&4\\1&3\end{pmatrix}$.
+
+**Minor, cofactor, adjoint.**
+
+- The **minor** $M_{ij}$ is the determinant left after deleting row $i$ and column $j$.
+- The **cofactor** is $C_{ij}=(-1)^{i+j}M_{ij}$.
+- The **adjoint** $\operatorname{adj}A$ is the transpose of the matrix of cofactors.
+- $A\,(\operatorname{adj}A)=(\operatorname{adj}A)\,A=|A|\,I$, so $A^{-1}=\dfrac{1}{|A|}\operatorname{adj}A$ when $|A|\neq0$. A matrix with $|A|=0$ is **singular** and has no inverse.
+
+**Worked example.** Find the inverse of $A=\begin{pmatrix}1&2&3\\0&1&4\\5&6&0\end{pmatrix}$.
+
+**Step 1: determinant** (expanding along the first row):
+
+$$ |A|=1(0-24)-2(0-20)+3(0-5)=-24+40-15=1 $$
+
+**Step 2: cofactors.**
+
+| | Column 1 | Column 2 | Column 3 |
+|---|---|---|---|
+| Row 1 | $C_{11}=-24$ | $C_{12}=20$ | $C_{13}=-5$ |
+| Row 2 | $C_{21}=18$ | $C_{22}=-15$ | $C_{23}=4$ |
+| Row 3 | $C_{31}=5$ | $C_{32}=-4$ | $C_{33}=1$ |
+
+**Step 3: adjoint** (transpose of the cofactor matrix):
+
+$$ \operatorname{adj}A=\begin{pmatrix}-24&18&5\\20&-15&-4\\-5&4&1\end{pmatrix} $$
+
+**Step 4: inverse.** Since $|A|=1$, $A^{-1}=\operatorname{adj}A$.
+
+**Step 5: verification.** Row 1 of $A$ with the three columns of $A^{-1}$: $-24+40-15=1$, $18-30+12=0$, $5-8+3=0$. Row 2: $20-20=0$, $-15+16=1$, $-4+4=0$. Row 3: $-120+120=0$, $90-90=0$, $25-24=1$. So $AA^{-1}=I$.
+
+**Conclusion.** The inverse is the adjoint divided by the determinant, and checking $AA^{-1}=I$ confirms every cofactor.
+
+### Model answer D2: properties of determinants, Vandermonde and Cramer's rule (10 marks)
+
+**Introduction.** The **determinant** of a square matrix is a single number that tells whether the matrix is invertible and gives the solution of linear equations.
+
+**Properties (stated without proof).**
+
+1. $|A^{T}|=|A|$; rows and columns play the same role.
+2. Interchanging two rows (or columns) changes the sign of the determinant.
+3. If two rows (or columns) are identical, or proportional, the determinant is $0$.
+4. Multiplying one row by $k$ multiplies the determinant by $k$; a common factor of a row can be taken out.
+5. Adding a multiple of one row to another row does not change the value.
+6. If every element of a row is $0$, the determinant is $0$.
+7. $|AB|=|A||B|$.
+8. For a triangular matrix the determinant is the product of the diagonal entries.
+
+**Proof that the determinant equals $(a-b)(b-c)(c-a)$.** Let $\Delta$ be the given determinant.
+
+- Apply $R_1\to R_1-R_2$ and $R_2\to R_2-R_3$ (property 5):
+
+$$ \Delta=\begin{vmatrix}0&a-b&a^{2}-b^{2}\\0&b-c&b^{2}-c^{2}\\1&c&c^{2}\end{vmatrix} $$
+
+- Take $(a-b)$ out of $R_1$ and $(b-c)$ out of $R_2$ (property 4):
+
+$$ \Delta=(a-b)(b-c)\begin{vmatrix}0&1&a+b\\0&1&b+c\\1&c&c^{2}\end{vmatrix} $$
+
+- Expand along the first column: $\Delta=(a-b)(b-c)\,[\,1\cdot\{(b+c)-(a+b)\}\,]=(a-b)(b-c)(c-a)$.
+
+*Numerical check.* For $a=1,b=2,c=3$ the determinant is $1(18-12)-1(9-4)+1(3-2)=2$, and $(1-2)(2-3)(3-1)=2$.
+
+**Cramer's rule.** For $AX=B$ with $\Delta=|A|\neq0$, $x=\dfrac{\Delta_x}{\Delta}$, $y=\dfrac{\Delta_y}{\Delta}$, $z=\dfrac{\Delta_z}{\Delta}$, where $\Delta_x$ is $\Delta$ with the first column replaced by $B$, and so on.
+
+**Worked example.** Solve $x+2y+3z=14$, $y+4z=14$, $5x+6y=17$.
+
+- $\Delta=\begin{vmatrix}1&2&3\\0&1&4\\5&6&0\end{vmatrix}=1$ (from Model answer D1).
+- $\Delta_x=\begin{vmatrix}14&2&3\\14&1&4\\17&6&0\end{vmatrix}=14(-24)-2(-68)+3(67)=-336+136+201=1$.
+- $\Delta_y=\begin{vmatrix}1&14&3\\0&14&4\\5&17&0\end{vmatrix}=1(-68)-14(-20)+3(-70)=-68+280-210=2$.
+- $\Delta_z=\begin{vmatrix}1&2&14\\0&1&14\\5&6&17\end{vmatrix}=1(-67)-2(-70)+14(-5)=-67+140-70=3$.
+
+So $x=1,\ y=2,\ z=3$. Substituting: $1+4+9=14$, $2+12=14$ and $5+12=17$; all three equations are satisfied.
+
+| Case | Meaning |
+|---|---|
+| $\Delta\neq0$ | unique solution |
+| $\Delta=0$ and some $\Delta_x,\Delta_y,\Delta_z\neq0$ | no solution |
+| $\Delta=\Delta_x=\Delta_y=\Delta_z=0$ | infinitely many solutions or none (need more tests) |
+
+**Conclusion.** Row operations simplify determinants, and Cramer's rule solves a non-singular system by taking ratios of determinants.

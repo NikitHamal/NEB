@@ -287,6 +287,29 @@ ax.axis('off')
 ```photo id="bio11/dryopteris" caption="The underside of a *Dryopteris* frond: each pinnule carries rounded brown sori, each a cluster of sporangia that is covered, while young, by a kidney-shaped indusium." width="66"
 ```
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="A fern frond is a spore factory. (a) The underside of a fern frond carries brown sori, each a cluster of sporangia. (b) A sporangium contains 16 spore mother cells; each divides by meiosis into 4 haploid spores, so it releases 64 spores. With about 50 sporangia in a sorus and 40 sori on a frond the count rises to 3,200 per sorus and 128,000 per frond (typical order of magnitude, bar lengths are logarithmic). Each spore that lands on damp ground can grow into a heart-shaped prothallus, the haploid gametophyte."
+@ photo id="ceebot/fern-sori" cap="Underside of a fern frond with sori"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Spore count from one cell up to a whole frond (log scale)"
+smc, sp_sorus, sori = 16, 50, 40
+s_sp = smc * 4
+s_sorus = s_sp * sp_sorus
+s_frond = s_sorus * sori
+assert (s_sp, s_sorus, s_frond) == (64, 3200, 128000)
+facts = dict(s_sp=str(s_sp), s_sorus="{:,}".format(s_sorus), s_frond="{:,}".format(s_frond))
+f = Fig(300, 236)
+f.text(150, 12, "Spores produced (bar length = log10)", size=10.5, color=NAVY, bold=True)
+rows = (("1 spore mother cell", 4), ("1 sporangium (16 cells)", 64), ("1 sorus (50 sporangia)", 3200), ("1 frond (40 sori)", 128000))
+for i, (lab, n) in enumerate(rows):
+    y = 34 + i * 40
+    f.text(10, y, lab, size=10.5, color=SLATE, anchor="start")
+    w = 36 * math.log10(n)
+    f.box(10, y + 8, w, 16, fill=MINT, stroke=TEAL, r=2)
+    f.text(10 + w + 6, y + 16, "{:,}".format(n), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "meiosis: 2n spore mother cell -> 4 spores (n)", size=10.5, color=NAVY, bold=True)
+```
+
 ## 4.3 Gymnosperms; *Pinus*
 
 ### General characters
@@ -469,6 +492,25 @@ the gametophyte; the zygote is the first cell of the sporophyte.
 **Solution.** Hygroscopic elaters without a columella characterise the liverwort ***Marchantia*** (A); a central columella and a two-ringed 32-tooth peristome characterise the moss ***Funaria*** (B).
 :::
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Where the chromosome number changes in a pine (2n = 24). (a) Male cones of a pine shed pollen in spring; each pollen grain is the male gametophyte. (b) Meiosis cuts the number from 24 to 12 when spores form; fertilization restores 24 in the zygote. The female gametophyte, which becomes the food store of the seed, stays haploid (n = 12), unlike the triploid (3n) endosperm of a flowering plant, so a pine seed holds three generations: the old sporophyte coat, the haploid food store and the new diploid embryo."
+@ photo id="ceebot/pine-male" cap="Male pollen cones of a pine"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Chromosome number at each stage of the pine life cycle"
+stages = (("Tree (sporophyte)", 24), ("Microspore mother cell", 24), ("Pollen grain (male gam.)", 12), ("Functional megaspore", 12), ("Female gametophyte", 12), ("Egg cell", 12), ("Zygote and embryo", 24))
+assert all(n in (12, 24) for _, n in stages)
+facts = dict(nend=str(stages[4][1]))
+f = Fig(300, 236)
+f.text(150, 12, "Pinus: chromosomes per cell (2n = 24)", size=10.5, color=NAVY, bold=True)
+for i, (lab, n) in enumerate(stages):
+    y = 26 + i * 26
+    two = n == 24
+    f.text(6, y + 10, lab, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.box(150, y, n * 5.6, 20, fill=BLUE if two else SAND, stroke=NAVY if two else AMBER, r=2)
+    f.text(150 + n * 5.6 / 2, y + 10, ("2n = 24" if two else "n = 12"), size=10.5, color=NAVY if two else AMBER, bold=True, vmid=True)
+f.text(150, 222, "meiosis halves it; fertilization restores it", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact |
@@ -645,3 +687,83 @@ the gametophyte; the zygote is the first cell of the sporophyte.
 **7.** (a) — The prothallus grows from a spore made by meiosis, so it is haploid: n = 40.
 **8.** (c) — Many cotyledons, haploid endosperm and naked seeds mark *Pinus*. *Cycas* is also a gymnosperm but has two cotyledons; maize and pea have triploid endosperm and fruits.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the life cycle of a bryophyte (*Marchantia*) and show the alternation of generations. <span class="marks">[10]</span>
+2. Describe the structure and life cycle of a fern (*Dryopteris*) and a gymnosperm (*Pinus*), with a comparison. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.25" caption="Land plants without flowers. (a) Marchantia, a liverwort, with its flat, lobed gametophyte thallus. (b) The underside of a fern frond with sori, clusters of sporangia. (c) Male cones of Pinus, which release large amounts of wind-borne pollen."
+@ photo id="cee-bot/marchantia" cap="(a) Marchantia thallus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/fern-sori" cap="(b) Fern sori"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceebot/pine-male" cap="(c) Pine male cones"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: bryophytes and alternation of generations (10 marks)
+
+**Introduction.** **Bryophytes** (liverworts, hornworts and mosses) are the "amphibians of the plant kingdom": small, non-vascular plants that need water for fertilisation. The dominant plant is the haploid **gametophyte**.
+
+**Features.** No true roots (rhizoids instead), no xylem or phloem, a cuticle that is thin, and a multicellular **jacketed** sex organ. The sporophyte depends on the gametophyte.
+
+**Life cycle of *Marchantia*.**
+
+1. **Gametophyte:** a flat, dichotomously branched, dorsiventral thallus with rhizoids and **gemma cups** for vegetative reproduction. It is dioecious.
+2. **Male plant:** an **antheridiophore** (disc-shaped) with antheridia, producing biflagellate antherozoids.
+3. **Female plant:** an **archegoniophore** (star-shaped, with finger-like rays) with archegonia, each with an egg.
+4. **Fertilisation:** the antherozoids swim in a film of water (rain splash) to the egg. The zygote forms.
+5. **Sporophyte:** a diploid **sporogonium** with a foot, a seta and a capsule, which remains attached to the female gametophyte. Meiosis in the capsule gives haploid **spores** (with **elaters** that help dispersal).
+6. A spore germinates into a protonema-like stage and grows into a new thallus.
+
+**Alternation of generations.** A cycle in which a haploid gametophyte (gamete-producing) alternates with a diploid sporophyte (spore-producing).
+
+| Group | Dominant stage | Sporophyte |
+|---|---|---|
+| Bryophyta | gametophyte | dependent on the gametophyte |
+| Pteridophyta | sporophyte | independent |
+| Gymnosperms, angiosperms | sporophyte | gametophyte reduced and dependent |
+
+**Importance.** *Sphagnum* peat moss is used as fuel and for soil moisture and packing plants, mosses are pioneers of **primary succession** on rock, they prevent soil erosion and they are indicators of acid rain. *Funaria* is a common moss.
+
+**Numerical.** If a sporangium makes $10$ spore mother cells, then meiosis gives $4\times10 = 40$ haploid spores. For a plant with $n = 9$ in the gametophyte, the sporophyte has $2n = 18$.
+
+**Conclusion.** In bryophytes, the visible plant is the haploid gametophyte, and water is required for the swimming antherozoids to reach the egg.
+
+### Model answer D2: pteridophytes and gymnosperms (10 marks)
+
+**Introduction.** **Pteridophytes** are the first vascular land plants, with true roots, stems and leaves, xylem and phloem, but no seeds. **Gymnosperms** are seed plants with **naked seeds**.
+
+**Fern (*Dryopteris*).**
+
+1. **Sporophyte:** a dominant plant with an underground rhizome, adventitious roots and large compound leaves (fronds), with circinate vernation. The stele is a dictyostele.
+2. **Sori** on the underside of fronds hold **sporangia**, each with an **annulus** that rips it open to release haploid spores. The sorus is covered by an indusium.
+3. **Gametophyte:** a small, green, heart-shaped, free-living **prothallus** with rhizoids, antheridia and archegonia. It is monoecious.
+4. **Fertilisation** needs water and gives a zygote which grows into the new sporophyte.
+
+**Pine (*Pinus*).**
+
+1. **Sporophyte:** a tall tree with a tap root, a woody stem, needle leaves in clusters of $2$ ($3$ or $5$ in some), **resin canals** and a xerophytic structure (sunken stomata, thick cuticle).
+2. **Male cones** in clusters bear microsporophylls with microsporangia producing **winged pollen grains**.
+3. **Female cones** (woody) bear megasporophylls with ovules, and the megaspore forms a female gametophyte with archegonia.
+4. **Pollination** is by wind. There is no need for water, and a **pollen tube** carries the male nuclei (**siphonogamy**).
+5. **Seeds** are naked and winged. They form two years after pollination.
+
+| Feature | Fern | Pine |
+|---|---|---|
+| Dominant stage | sporophyte | sporophyte |
+| Spores | homosporous | heterosporous |
+| Gametophyte | free-living | retained in the sporophyte |
+| Water for fertilisation | needed | not needed |
+| Seed | absent | naked seed |
+| Vascular tissue | no vessels | tracheids, no vessels |
+
+**Examples and uses.** Pteridophytes: *Selaginella*, *Equisetum*, *Lycopodium*, *Azolla* (a biofertiliser). Gymnosperms: Cycas, Pinus, Ginkgo, Ephedra (ephedrine), and the redwood. Pine gives timber, resin, turpentine and paper pulp, and the Himalayan Pinus roxburghii is common in Nepal's mid hills.
+
+**Numerical.** If a fern frond has $20$ sori with $40$ sporangia each, and each holds $48$ spores, then $20\times40\times48 = 38\,400$ spores per frond. A pine pollen grain is only $60\ \mu\text{m}$ but may reach thousands of kilometres by wind.
+
+**Conclusion.** The sporophyte dominates in both, but the pine does not need water for fertilisation and its ovule becomes a seed.

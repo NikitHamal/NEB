@@ -1557,6 +1557,141 @@ since $f'(c)=0$. So $f(x_2)=f(x_1)$ for all $x_1,x_2$: $f$ is constant. ∎
 Most repeated: **"is $(S,*)$ an abelian group?"** with the five properties checked one by one (2079, 2080), and **"does $f$ obey the Mean Value Theorem?"** — always test continuity and differentiability at the joining point of a piecewise function (2080). These topics are sometimes missed in revision because they are labelled "retained"; they are still examinable.
 :::
 
+## 12.18 Extended model answers (10 marks)
+
+A Grade 12 Mathematics long answer is marked line by line: the formula, the substitution, the working, the result with units and a short conclusion. The four models below show the length and layout of a full 10-mark solution, and every number was checked by computation.
+
+**Extended questions**
+
+1. Calculate the coefficient of correlation and both regression lines for the data given, and estimate $y$ for $x = 7$. <span class="marks">[10]</span>
+2. Find the equation of an ellipse and a hyperbola from the given data, and find the foci, eccentricity and latus rectum of $9x^2 + 16y^2 = 144$. <span class="marks">[10]</span>
+3. Find the area enclosed by $y = x^2$ and $y = 2x$ and the volume of revolution about the x-axis; then maximise the area of a fenced field. <span class="marks">[10]</span>
+4. State and apply Bayes' theorem to a three-factory problem. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="4" ratio="1.25" caption="Mathematics in the real world. (a) A scientific calculator, used to check the arithmetic of each answer. (b) Dice, the classic randomizer of probability. (c) A Galton box, whose pins make balls fall into a bell-shaped (binomial) pile. (d) A student using a theodolite to measure angles in the field."
+@ photo id="math12/calc" cap="(a) Calculator"
+@ photo id="math12/dice" cap="(b) Dice"
+@ photo id="math12/galton" cap="(c) Galton box"
+@ photo id="math12/theodolite" cap="(d) Theodolite"
+```
+
+### Model answer D1: correlation and regression (10 marks)
+
+**Question.** The marks of five students in Mathematics ($x$) and Physics ($y$) are: $x$ = 2, 4, 6, 8, 10 and $y$ = 3, 7, 5, 10, 12. Find $r$, the two regression lines, and estimate $y$ when $x = 7$.
+
+**Step 1: means.** $n = 5$, $\bar{x} = 30/5 = 6$ and $\bar{y} = 37/5 = 7.4$.
+
+**Step 2: table of deviations.**
+
+| $x$ | $y$ | $x - \bar{x}$ | $y - \bar{y}$ | $(x-\bar{x})^2$ | $(y-\bar{y})^2$ | $(x-\bar{x})(y-\bar{y})$ |
+|---|---|---|---|---|---|---|
+| 2 | 3 | -4 | -4.4 | 16 | 19.36 | 17.6 |
+| 4 | 7 | -2 | -0.4 | 4 | 0.16 | 0.8 |
+| 6 | 5 | 0 | -2.4 | 0 | 5.76 | 0 |
+| 8 | 10 | 2 | 2.6 | 4 | 6.76 | 5.2 |
+| 10 | 12 | 4 | 4.6 | 16 | 21.16 | 18.4 |
+| **Sum** | | | | **40** | **53.2** | **42** |
+
+**Step 3: coefficient of correlation.**
+
+$$r = \frac{\sum(x-\bar{x})(y-\bar{y})}{\sqrt{\sum(x-\bar{x})^2 \sum(y-\bar{y})^2}} = \frac{42}{\sqrt{40 \times 53.2}} = \frac{42}{46.13} = 0.91$$
+
+The correlation is strong and positive.
+
+**Step 4: regression coefficients.**
+
+1. $b_{yx} = \dfrac{42}{40} = 1.05$ and $b_{xy} = \dfrac{42}{53.2} = 0.789$.
+2. Check: $b_{yx}\, b_{xy} = 0.829 = r^2$, and $\sqrt{0.829} = 0.91$, so the working agrees.
+
+**Step 5: regression lines.**
+
+- $y$ on $x$: $y - 7.4 = 1.05(x - 6)$, that is $y = 1.05x + 1.1$.
+- $x$ on $y$: $x - 6 = 0.789(y - 7.4)$, that is $x = 0.789y + 0.158$.
+
+**Step 6: estimate.** For $x = 7$, $y = 1.05 \times 7 + 1.1 = 8.45$. For $y = 9$, $x = 0.789 \times 9 + 0.158 = 7.26$.
+
+**Conclusion.** A student scoring 7 in Mathematics is expected to score about 8.5 in Physics. The two lines meet at the point of means (6, 7.4), and since $r$ is close to 1 they are close together.
+
+### Model answer D2: conic sections (10 marks)
+
+**Part (a): the ellipse $9x^2 + 16y^2 = 144$.** Divide by 144 to get $\dfrac{x^2}{16} + \dfrac{y^2}{9} = 1$, so $a^2 = 16$, $b^2 = 9$ and $a = 4 > b = 3$; the major axis is along the x-axis.
+
+1. $c^2 = a^2 - b^2 = 16 - 9 = 7$, so $c = \sqrt{7}$.
+2. **Foci:** $(\pm\sqrt{7},\, 0)$, about $(\pm 2.65, 0)$.
+3. **Eccentricity:** $e = c/a = \sqrt{7}/4 = 0.66$.
+4. **Vertices:** $(\pm 4, 0)$; the minor-axis ends are $(0, \pm 3)$.
+5. **Latus rectum:** $\dfrac{2b^2}{a} = \dfrac{18}{4} = 4.5$.
+6. **Directrices:** $x = \pm a/e = \pm 16/\sqrt{7} = \pm 6.05$.
+
+**Part (b): the equation of an ellipse** with foci $(\pm 3, 0)$ and $e = 3/5$. Here $c = 3$, $e = c/a$ gives $a = 5$, and $b^2 = a^2 - c^2 = 25 - 9 = 16$. The ellipse is $\dfrac{x^2}{25} + \dfrac{y^2}{16} = 1$.
+
+**Part (c): the hyperbola** $\dfrac{x^2}{16} - \dfrac{y^2}{9} = 1$ has $c^2 = a^2 + b^2 = 25$, so the foci are $(\pm 5, 0)$, $e = 5/4$ and the asymptotes are $y = \pm\dfrac{3}{4}x$.
+
+| Property | Ellipse $\frac{x^2}{16} + \frac{y^2}{9} = 1$ | Hyperbola $\frac{x^2}{16} - \frac{y^2}{9} = 1$ |
+|---|---|---|
+| Relation of $c$ | $c^2 = a^2 - b^2$ | $c^2 = a^2 + b^2$ |
+| Foci | $(\pm\sqrt{7}, 0)$ | $(\pm 5, 0)$ |
+| Eccentricity | $e < 1$: $0.66$ | $e > 1$: $1.25$ |
+| Latus rectum | 4.5 | $2b^2/a = 4.5$ |
+| Shape | Closed curve | Two open branches with asymptotes |
+
+**Conclusion.** The value of $e$ decides the conic: $e < 1$ ellipse, $e = 1$ parabola, $e > 1$ hyperbola. The orbit of a satellite is an ellipse, and the Parabolic dish of a TV antenna uses the focus property.
+
+### Model answer D3: area, volume and maximum (10 marks)
+
+**Part (a): area.** The curves $y = x^2$ and $y = 2x$ meet where $x^2 = 2x$, so $x = 0$ and $x = 2$. Between these points the line is above the parabola (at $x = 1$, line 2, parabola 1).
+
+$$A = \int_0^2 (2x - x^2)\,dx = \left[x^2 - \frac{x^3}{3}\right]_0^2 = 4 - \frac{8}{3} = \frac{4}{3}\ \text{square units}$$
+
+**Part (b): volume** of the region revolved about the x-axis. Using the washer method:
+
+$$V = \pi\int_0^2 \big[(2x)^2 - (x^2)^2\big]\,dx = \pi\left[\frac{4x^3}{3} - \frac{x^5}{5}\right]_0^2 = \pi\left(\frac{32}{3} - \frac{32}{5}\right) = \frac{64\pi}{15} \approx 13.4\ \text{cubic units}$$
+
+**Part (c): maximum area.** A farmer has 100 m of fence to enclose a rectangular field along a straight river, so only three sides need fencing.
+
+1. Let the two sides at right angles to the river be $x$ and the side parallel be $y$. Then $2x + y = 100$, so $y = 100 - 2x$.
+2. Area $A = x(100 - 2x) = 100x - 2x^2$.
+3. $\dfrac{dA}{dx} = 100 - 4x = 0$ gives $x = 25$.
+4. $\dfrac{d^2A}{dx^2} = -4 < 0$, so the area is a **maximum**.
+5. $y = 100 - 50 = 50$ m and $A_{max} = 25 \times 50 = 1250\ \text{m}^2$.
+
+| Part | Method | Result |
+|---|---|---|
+| (a) | Definite integral of the difference | $4/3$ |
+| (b) | Washer method | $64\pi/15$ |
+| (c) | First and second derivative tests | $1250\ \text{m}^2$ at $25 \times 50$ |
+
+**Conclusion.** Integration finds areas and volumes, and differentiation finds the best possible dimensions. In the field problem the side along the river is twice the other side.
+
+### Model answer D4: Bayes' theorem (10 marks)
+
+**Statement.** If $E_1, E_2, \ldots, E_n$ are mutually exclusive and exhaustive events and $A$ is any event with $P(A) > 0$, then
+
+$$P(E_i \mid A) = \frac{P(E_i)\,P(A \mid E_i)}{\sum_{j} P(E_j)\,P(A \mid E_j)}$$
+
+**Question.** Three factories A, B and C produce 50 per cent, 30 per cent and 20 per cent of the bulbs of a shop, and 2 per cent, 3 per cent and 5 per cent of their bulbs are defective. A bulb chosen at random is found defective. Find the probability that it came from each factory.
+
+**Step 1: prior and conditional probabilities.**
+
+| Factory | $P(E)$ | $P(D \mid E)$ | $P(E)\,P(D \mid E)$ |
+|---|---|---|---|
+| A | 0.50 | 0.02 | 0.010 |
+| B | 0.30 | 0.03 | 0.009 |
+| C | 0.20 | 0.05 | 0.010 |
+| **Total** | 1.00 | | **0.029** |
+
+**Step 2: total probability of a defective bulb.** $P(D) = 0.010 + 0.009 + 0.010 = 0.029$.
+
+**Step 3: posterior probabilities.**
+
+1. $P(A \mid D) = \dfrac{0.010}{0.029} = 0.345$.
+2. $P(B \mid D) = \dfrac{0.009}{0.029} = 0.310$.
+3. $P(C \mid D) = \dfrac{0.010}{0.029} = 0.345$.
+
+**Step 4: check.** $0.345 + 0.310 + 0.345 = 1$, so the working is consistent.
+
+**Conclusion.** Factory C makes only 20 per cent of the bulbs, but because its defect rate is high it is as likely as A to be the source of a defective bulb (34.5 per cent). Bayes' theorem updates the prior probability using the evidence.
+
 ## Chapter summary
 
 The table gathers what the verified papers (2079, 2080, 2081, 2082 and the CDC model 2080) ask, unit by unit, so that you can allocate revision time.

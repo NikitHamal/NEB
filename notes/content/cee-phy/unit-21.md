@@ -447,6 +447,59 @@ gate then gives $Y=\bar A\cdot B$.
 For $A=1$, $B=1$: $\bar A=0$, so $Y=0\cdot1=0$.
 :::
 
+```photogrid label="21.1" cols="2" ratio="1.2" caption="A NAND gate in transistors. (a) The die of a 74HC00 holds four two-input NAND gates, sixteen transistors in all. (b) Each gate has two p-type transistors in parallel (pull-up) and two n-type in series (pull-down). For every input pair exactly one network conducts, giving Y = 1 unless A = B = 1. Because NAND is universal, a NOT needs 1 NAND, an AND needs 2 and an OR needs 3; the cell checks every case. This is why one cheap chip can build any logic circuit."
+@ photo id="ceephy/nand" cap="Microphotograph of a 74HC00 chip: four NAND gates etched in silicon"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="CMOS NAND truth table from its two networks"
+def nand(A, B):
+    pun = (A == 0) or (B == 0); pdn = (A == 1) and (B == 1)
+    assert pun != pdn
+    return (1 if pun else 0), pun, pdn
+rows = [(A, B) + nand(A, B) for A in (0, 1) for B in (0, 1)]
+assert [r[2] for r in rows] == [1, 1, 1, 0]
+N = lambda a, b: 1 - (a & b); NOT = lambda a: N(a, a); AND = lambda a, b: NOT(N(a, b)); OR = lambda a, b: N(NOT(a), NOT(b))
+assert all(NOT(a) == 1 - a and AND(a, b) == (a & b) and OR(a, b) == (a | b) for a in (0, 1) for b in (0, 1))
+facts = dict(nn=1, na=2, no=3)
+f = Fig(300, 236)
+f.text(150, 14, "Two-input CMOS NAND", size=10.5, color=NAVY, bold=True)
+heads = ("A", "B", "pull-up", "pull-down", "Y")
+xs = (20, 56, 92, 150, 220); ws = (36, 36, 58, 70, 60)
+for x, w, h in zip(xs, ws, heads): f.box(x, 28, w, 24, label=h, fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=2)
+for i, (A, B, Y, pun, pdn) in enumerate(rows):
+    y = 56 + i * 28
+    vals = ("%d" % A, "%d" % B, "ON" if pun else "off", "ON" if pdn else "off", "%d" % Y)
+    for x, w, v in zip(xs, ws, vals):
+        on = v == "ON"
+        f.box(x, y, w, 24, label=v, fill=MINT if on else SOFT, stroke=TEAL if on else SLATE, size=10.5, bold=on or v in ("0", "1"), r=2, color=TEAL if on else SLATE)
+f.text(150, 186, "exactly one network is ON each row", size=10.5, color=NAVY, bold=True)
+f.text(150, 204, "NOT = 1 NAND, AND = 2, OR = 3", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "74HC00: 4 gates x 4 transistors = 16", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="21.2" cols="2" ratio="1.2" caption="From alternating to direct current. (a) A bridge package holds four diodes in one block, with two AC terminals and a positive and a negative output. (b) The cell follows a 12 V rms supply: its peak is 16.97 V, and since two diodes in series each drop about 0.7 V, the output peaks at 15.57 V. A 2200 microfarad capacitor supplying 0.5 A at the full-wave frequency of 100 Hz lets the voltage sag by the ripple I / (2 f C) = 2.27 V, so the output swings between 13.30 V and 15.57 V with a mean near 14.43 V. A larger capacitor or a smaller load current makes the output smoother."
+@ photo id="ceephy3/bridge" cap="A diode bridge rectifier package"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Full-wave bridge rectifier with a filter capacitor"
+import math
+Vrms = 12.0
+Vpk = Vrms * math.sqrt(2)
+Vd = Vpk - 2 * 0.7
+I, fr, C = 0.5, 50.0, 2200e-6
+rip = I / (2 * fr * C)
+rows = [("AC rms", Vrms), ("AC peak", Vpk), ("after diodes", Vd), ("DC mean", Vd - rip / 2), ("trough", Vd - rip)]
+assert round(Vpk, 2) == 16.97 and round(rip, 2) == 2.27
+f = Fig(300, 236)
+f.text(150, 12, "12 V transformer, bridge, 2200 uF, volts", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=18, fmt="%.2f", x0=84, y0=30, bw=150, gap=26,
+      colors=[(BLUE, NAVY), (BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 176, "two diodes conduct at a time: drop 2 x 0.7 V", size=10, color=SLATE, bold=True)
+f.text(150, 196, "ripple = I / (2 f C) = %.2f V (V p-p)" % rip, size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "full wave: ripple at 100 Hz, half of half-wave's", size=10, color=SLATE, bold=True)
+facts = dict(pk=Vpk, vd=Vd, rip=rip, dc=Vd - rip / 2, tr=Vd - rip)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact or formula |
@@ -659,3 +712,73 @@ For $A=1$, $B=1$: $\bar A=0$, so $Y=0\cdot1=0$.
 **9.** (c) — for a full-wave rectified sine the rms value is $V_0/\sqrt{2}=10/1.414=7.1$ V.
 **10.** (d) — the resistor takes $10-0.7=9.3$ V, so $I=9.3/200=46.5$ mA. Option (a) is $10/200$, which ignores the diode.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the formation of a p-n junction, its forward and reverse characteristics and its use as a rectifier. <span class="marks">[10]</span>
+2. Explain the action of a transistor as an amplifier and the logic gates, showing that NAND is a universal gate. <span class="marks">[10]</span>
+
+```photogrid label="21.H" cols="2" ratio="1.4" caption="Electronics hardware. (a) A NAND gate integrated circuit, the building block of digital logic. (b) Light-emitting diodes: p-n junctions that emit light when forward biased."
+@ photo id="ceephy/nand" cap="(a) NAND gate IC"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy2/leds" cap="(b) LEDs"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: the p-n junction diode and rectification (10 marks)
+
+**Introduction.** A **semiconductor** has a resistivity between that of conductors and insulators, which falls as the temperature rises. In **n-type** silicon, pentavalent impurities (P, As) give free electrons (majority carriers). In **p-type**, trivalent impurities (B, Al) give holes.
+
+**Formation of the junction.** When p and n regions are joined, electrons diffuse from n to p and holes from p to n. The fixed ions left behind form a **depletion layer** with a **barrier potential** of about $0.7\ \text{V}$ for silicon and $0.3\ \text{V}$ for germanium. It stops further diffusion.
+
+**Biasing.**
+
+1. **Forward bias** (p to positive): the barrier is lowered, the depletion layer narrows and the current rises exponentially after the knee voltage. The forward resistance is small.
+2. **Reverse bias:** the depletion layer widens, and only a tiny leakage current (microampere) of minority carriers flows. The resistance is very large, until the **breakdown** (Zener or avalanche) voltage.
+
+**Rectifier.**
+
+| Feature | Half-wave | Full-wave |
+|---|---|---|
+| Diodes | 1 | 2 (centre-tap) or 4 (bridge) |
+| Output frequency | 50 Hz | 100 Hz |
+| Maximum efficiency | $40.6\%$ | $81.2\%$ |
+| Ripple | high | low |
+| DC value | $I_0/\pi$ | $2I_0/\pi$ |
+
+A capacitor filter smooths the output, and a Zener diode in reverse breakdown holds the voltage constant (regulator).
+
+**Other diodes.** An LED emits light in forward bias, a photodiode works in reverse bias and converts light to current, and a solar cell generates a voltage without any bias.
+
+**Numerical.** A full-wave rectifier works from a $50\ \text{Hz}$ supply, so the output ripple frequency is $100\ \text{Hz}$. For a silicon diode in series with a $1\ \text{k}\Omega$ resistor and a $5.7\ \text{V}$ battery in forward bias, $I = \dfrac{5.7 - 0.7}{1000} = 5\ \text{mA}$.
+
+**Conclusion.** A p-n junction conducts mainly in the forward direction, which allows it to convert AC to DC.
+
+### Model answer D2: transistor and logic gates (10 marks)
+
+**Introduction.** A **transistor** has three layers (npn or pnp): the emitter (heavily doped), the thin base (lightly doped) and the collector (largest). The emitter-base junction is forward biased and the collector-base junction is reverse biased.
+
+**Currents.** $I_E = I_B + I_C$. The current gains are $\alpha = I_C/I_E$ (about $0.98$) and $\beta = I_C/I_B$ (about $50$ to $200$), with $\beta = \dfrac{\alpha}{1 - \alpha}$.
+
+**Common-emitter amplifier.** A small change in base current gives a large change in collector current. The voltage gain is $A_v = -\beta\dfrac{R_C}{R_{in}}$, and the output is $180^{\circ}$ out of phase with the input. The transistor is also a **switch**: in cut-off it is OFF and in saturation it is ON.
+
+**Logic gates.**
+
+| Gate | Boolean expression | Output is 1 when |
+|---|---|---|
+| OR | $A + B$ | at least one input is 1 |
+| AND | $A\cdot B$ | both inputs are 1 |
+| NOT | $\bar A$ | the input is 0 |
+| NAND | $\overline{A\cdot B}$ | not both inputs are 1 |
+| NOR | $\overline{A + B}$ | both inputs are 0 |
+| XOR | $A \oplus B$ | the inputs differ |
+
+**NAND as a universal gate.** NOT: join both inputs, $\overline{A\cdot A} = \bar A$. AND: a NAND followed by a NOT-NAND. OR: invert each input, then NAND them, $\overline{\bar A\cdot\bar B} = A + B$ (De Morgan). So any logic circuit can be made from NAND gates alone. NOR is also universal.
+
+**De Morgan's theorems.** $\overline{A + B} = \bar A\cdot\bar B$ and $\overline{A\cdot B} = \bar A + \bar B$.
+
+**Numerical.** If $I_B = 40\ \mu\text{A}$ and $\beta = 100$, then $I_C = 4\ \text{mA}$ and $I_E = 4.04\ \text{mA}$, so $\alpha = 4/4.04 = 0.99$. If the collector load is $2\ \text{k}\Omega$ and the base-circuit input resistance is $1\ \text{k}\Omega$, the voltage gain is $100\times2 = 200$ in magnitude.
+
+**Conclusion.** The transistor amplifies and switches, and NAND or NOR gates alone are enough to build any digital circuit.

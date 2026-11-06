@@ -148,6 +148,37 @@ Write each requirement as a story: *As a [role] I want [action] so that [benefit
 7. **Copying a tutorial without understanding it.** The viva asks "why this status code?" and the answer is silence. Keep a design note for every decision and be able to defend it.
 8. **No backup and no log.** When a bug corrupts data or a stranger logs in, there is no evidence. Back up the database daily and log every login and status change with time and user.
 
+```photogrid label="1.2" cols="2" ratio="1.27" caption="A web project has three tiers, the browser, the application server and the database, and the user feels the sum of all three. (a) A phone on a mobile network is the client of ClinicQ. (b) With a round-trip time of 60 ms, the DNS lookup, TCP connection, TLS handshake and HTTP request each cost one round trip, so the network takes 240 ms of the 340 ms total, which is 71 per cent. The server code and the database query add only 100 ms. Fetching 20 files one after another would need 3.2 s, while four rounds of six parallel requests need 0.6 s. Reduce round trips by bundling files, caching and keeping connections open."
+@ photo id="bcapj/celltower" cap="A mobile-network tower, the first hop of every phone client; the client of every web project"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Where 340 ms go when a ClinicQ page loads"
+rtt = 60
+steps = [("DNS lookup", 1 * rtt, SLATE), ("TCP connect", 1 * rtt, AMBER), ("TLS 1.3 handshake", 1 * rtt, TEAL), ("HTTP request/response", 1 * rtt, NAVY), ("Server code", 80, RED), ("Database query", 20, "#7c3aed")]
+total = sum(s[1] for s in steps)
+net = 4 * rtt
+assert total == 340 and net == 240
+seq = 20 * (rtt + 80 + 20)
+par = 4 * (rtt + 80 + 20)
+f = Fig(300, 236)
+f.text(150, 14, "One page load on 4G, RTT = 60 ms", size=10.5, color=NAVY, bold=True)
+x = 10
+sc = 280.0 / total
+for nm, ms, c in steps:
+    f.box(x, 28, ms * sc, 26, "", fill=c, stroke=c, r=1)
+    x += ms * sc
+for i, (nm, ms, c) in enumerate(steps):
+    y = 70 + i * 17
+    f.box(14, y, 10, 10, "", fill=c, stroke=c, r=2)
+    f.text(30, y + 5, nm, size=9.5, anchor="start", vmid=True)
+    f.text(190, y + 5, "%d ms" % ms, size=9.5, anchor="end", vmid=True, bold=True, color=c)
+    f.text(292, y + 5, "%.0f %%" % (100.0 * ms / total), size=9.5, anchor="end", vmid=True)
+f.text(150, 186, "total = %d ms; the network alone is %d ms (%.0f %%)" % (total, net, 100.0 * net / total), size=9.5, color=RED, bold=True)
+f.text(150, 203, "20 files one by one: %.1f s; 4 rounds of 6 parallel: %.1f s" % (seq / 1000.0, par / 1000.0), size=9.5, color=NAVY, bold=True)
+f.text(150, 220, "fewer round trips beat a faster server", size=10, color=TEAL, bold=True)
+facts = dict(total=total, net=net, seq="%.1f" % (seq / 1000.0), par="%.1f" % (par / 1000.0), pct="%.0f" % (100.0 * net / total))
+```
+
 ## Formula and fact sheet
 
 - Three tiers: presentation, logic, data. HTTPS is terminated at the proxy.

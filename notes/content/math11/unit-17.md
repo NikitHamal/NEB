@@ -738,6 +738,28 @@ relies on.
 For example $f(x) = x^{3}-x-1$ is a polynomial, hence continuous. Since
 $f(1) = -1 < 0$ and $f(2) = 5 > 0$, a root lies between 1 and 2.
 
+```photogrid label="17.P" cols="2" ratio="1.27" caption="A limit asks what a function approaches, not what it equals, and sin(x)/x at x = 0 is the classic case because 0/0 has no value. (a) A protractor used to measure angles. (b) Taking x in radians, the program evaluates the ratio for shrinking x: 0.841471 at 1, 0.998334 at 0.1 and 0.999983 at 0.01. The values climb toward 1 from below, so the limit is 1, shown by the hollow point on the graph where the function itself is undefined. The result is the basis of the derivative of sin x and is true only when the angle is in radians, not degrees."
+@ photo id="math11/protractor" cap="A protractor measures angles; limits describe the angle going to zero"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="The limit of sin(x) / x as x tends to 0"
+g = lambda x: math.sin(x) / x
+vals = [(1.0, g(1.0)), (0.5, g(0.5)), (0.1, g(0.1)), (0.01, g(0.01))]
+assert abs(vals[-1][1] - 1) < 1.7e-5 and all(vals[i][1] < vals[i + 1][1] < 1 for i in range(3))
+f = Fig(300, 236)
+f.text(150, 14, "y = sin(x) / x  (x in radians)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 120, (-12, 12), (-0.4, 1.2))
+ax.grid(4, 0.4, size=9, yfmt=lambda v: "%.1f" % v); ax.axes("x", "y")
+ax.curve(g, -12, 12, color=NAVY, sw=2.4, n=480)
+ax.hline(1, color=AMBER)
+ax.pt(0, 1, "", color=RED, hollow=True)
+f.text(ax.X(2.5), ax.Y(1) - 6, "limit 1 (x = 0 excluded)", size=10, color=RED, bold=True, anchor="start")
+for i, (x, v) in enumerate(vals):
+    f.text(150, 176 + i * 14, "x = %-5g  sin x / x = %.6f" % (x, v), size=9.5, color=SLATE if i < 3 else TEAL, bold=True)
+f.text(150, 232, "lim = 1, so sin x is about x for small x", size=9.5, color=NAVY, bold=True)
+facts = dict(a=vals[0][1], b=vals[2][1], c=vals[3][1])
+```
+
 ## Chapter summary
 
 - $\lim_{x\to a}f(x) = L$ describes the behaviour of $f$ **near** $a$, never at
@@ -899,3 +921,82 @@ $\dfrac{(5^{x}-1)-(3^{x}-1)}{x} = \dfrac{5^{x}-1}{x}-\dfrac{3^{x}-1}{x}
 
 *Third* ($1^{\infty}$): $(1+2x)^{1/3x} = \left[(1+2x)^{1/2x}\right]^{2/3} \to e^{2/3}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the concept of a limit, state the limit theorems and standard limits, prove $\lim\limits_{x\to0}\dfrac{\sin x}{x}=1$ and evaluate limits of algebraic and transcendental functions. <span class="marks">[10]</span>
+2. Describe the indeterminate forms and the methods of removing them, define continuity at a point and find unknown constants and the types of discontinuity. <span class="marks">[10]</span>
+
+### Model answer D1: limit theorems and standard limits (10 marks)
+
+**Introduction.** We say $\lim\limits_{x\to a}f(x)=L$ if $f(x)$ gets as close as we please to $L$ when $x$ is taken sufficiently close to $a$ (but not equal to $a$). The limit exists only if the left-hand limit $\lim\limits_{x\to a^{-}}f(x)$ and the right-hand limit $\lim\limits_{x\to a^{+}}f(x)$ are equal.
+
+**Limit theorems.** If $\lim f=l$ and $\lim g=m$ as $x\to a$, then
+
+1. $\lim(f\pm g)=l\pm m$.
+2. $\lim(fg)=lm$ and $\lim(kf)=kl$.
+3. $\lim\dfrac fg=\dfrac lm$ provided $m\neq0$.
+4. $\lim[f(x)]^{n}=l^{n}$.
+
+**Standard limits.**
+
+| Limit | Value |
+|---|---|
+| $\displaystyle\lim_{x\to a}\frac{x^{n}-a^{n}}{x-a}$ | $na^{n-1}$ |
+| $\displaystyle\lim_{x\to0}\frac{\sin x}{x}$ and $\displaystyle\lim_{x\to0}\frac{\tan x}{x}$ | $1$ |
+| $\displaystyle\lim_{x\to0}\frac{e^{x}-1}{x}$ | $1$ |
+| $\displaystyle\lim_{x\to0}\frac{a^{x}-1}{x}$ | $\ln a$ |
+| $\displaystyle\lim_{x\to0}(1+x)^{1/x}=\lim_{x\to\infty}\left(1+\frac1x\right)^{x}$ | $e$ |
+
+**Proof that $\lim\limits_{x\to0}\dfrac{\sin x}{x}=1$ (squeeze).** Take $0<x<\dfrac\pi2$ radians in a unit circle with centre $O$. The area of $\triangle OAB$ is $\dfrac12\sin x$, of the sector is $\dfrac12x$ and of the bigger triangle $OAT$ is $\dfrac12\tan x$. Since the areas increase, $\sin x<x<\tan x$. Dividing by $\sin x$, $1<\dfrac{x}{\sin x}<\dfrac1{\cos x}$, so $\cos x<\dfrac{\sin x}{x}<1$. As $x\to0$, $\cos x\to1$, so by the squeeze principle $\dfrac{\sin x}{x}\to1$. The same holds for $x\to0^{-}$ because $\dfrac{\sin x}{x}$ is an even function.
+
+**Worked examples.**
+
+1. $\lim\limits_{x\to3}\dfrac{x^{2}-9}{x-3}=\lim(x+3)=6$.
+2. $\lim\limits_{x\to0}\dfrac{\sqrt{x+4}-2}{x}$: multiply by the conjugate, $\dfrac{(x+4)-4}{x(\sqrt{x+4}+2)}=\dfrac{1}{\sqrt{x+4}+2}\to\dfrac14$.
+3. $\lim\limits_{x\to0}\dfrac{\sin5x}{3x}=\dfrac53\lim\dfrac{\sin5x}{5x}=\dfrac53$.
+4. $\lim\limits_{x\to0}\dfrac{1-\cos x}{x^{2}}=\lim\dfrac{2\sin^{2}(x/2)}{x^{2}}=\dfrac12\left(\lim\dfrac{\sin(x/2)}{x/2}\right)^{2}=\dfrac12$.
+5. $\lim\limits_{x\to\infty}\left(1+\dfrac2x\right)^{x}=\left[\left(1+\dfrac2x\right)^{x/2}\right]^{2}\to e^{2}$.
+6. $\lim\limits_{x\to2}\dfrac{x^{5}-32}{x-2}=5\times2^{4}=80$.
+
+**Conclusion.** Limits are evaluated by algebraic simplification or by reducing to a standard limit, and the squeeze principle justifies $\dfrac{\sin x}{x}\to1$.
+
+### Model answer D2: indeterminate forms and continuity (10 marks)
+
+**Introduction.** Direct substitution sometimes gives a meaningless form. The seven **indeterminate forms** are $\dfrac00,\ \dfrac\infty\infty,\ 0\cdot\infty,\ \infty-\infty,\ 1^{\infty},\ 0^{0},\ \infty^{0}$. Each must be rewritten before the limit can be found.
+
+**Methods of removing the indeterminacy.**
+
+1. **Factorisation and cancelling** for $\dfrac00$, as in $\dfrac{x^{2}-4}{x-2}=x+2$.
+2. **Rationalisation** when roots appear.
+3. **Dividing by the highest power** for $\dfrac\infty\infty$ at infinity.
+4. **Combining fractions or rationalising** for $\infty-\infty$.
+5. **Standard limits** (such as $e$) for $1^{\infty}$.
+
+**Worked examples.**
+
+- $\lim\limits_{x\to\infty}\dfrac{2x^{2}-3x+1}{x^{2}-1}=\lim\dfrac{2-\frac3x+\frac1{x^{2}}}{1-\frac1{x^{2}}}=2$.
+- $\lim\limits_{x\to\infty}\left(\sqrt{x^{2}+x}-x\right)=\lim\dfrac{x}{\sqrt{x^{2}+x}+x}=\lim\dfrac{1}{\sqrt{1+\frac1x}+1}=\dfrac12$.
+
+**Continuity.** A function $f$ is **continuous at $x=a$** if all three conditions hold:
+
+1. $f(a)$ is defined;
+2. $\lim\limits_{x\to a}f(x)$ exists, that is, the left and right limits are equal;
+3. $\lim\limits_{x\to a}f(x)=f(a)$.
+
+$f$ is continuous on an interval if it is continuous at every point of it. Polynomials, $\sin x$, $\cos x$ and $e^{x}$ are continuous everywhere.
+
+**Types of discontinuity.**
+
+| Type | Description | Example |
+|---|---|---|
+| Removable | limit exists but $\ne f(a)$ or $f(a)$ undefined | $\dfrac{x^{2}-4}{x-2}$ at $x=2$ |
+| Jump | left and right limits differ | $\dfrac{|x|}{x}$ at $0$ (limits $-1$ and $1$) |
+| Infinite | function tends to $\pm\infty$ | $\dfrac1x$ at $0$ |
+
+**Finding constants.**
+
+1. Let $f(x)=\dfrac{x^{2}-4}{x-2}$ for $x\neq2$ and $f(2)=k$. The limit at $2$ is $\lim(x+2)=4$, so $f$ is continuous at $2$ when $k=4$.
+2. Let $f(x)=3x+k$ for $x\le2$ and $f(x)=x^{2}-1$ for $x>2$. Left limit $=6+k$; right limit $=4-1=3$. For continuity $6+k=3$, so $k=-3$.
+
+**Conclusion.** Indeterminate forms are removed by algebra, and continuity at a point requires that the limit exists and equals the value of the function.

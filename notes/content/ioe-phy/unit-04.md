@@ -52,6 +52,27 @@ A wave transfers energy without transferring matter. **Transverse** (displacemen
 The wavelength of the closed-pipe fundamental is $4L$ (not $2L$). A change in pressure at constant temperature does not change the speed of sound. Light has no Doppler dependence on a medium but sound does.
 :::
 
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Open and closed pipes. (a) Organ pipes: each pipe sounds one note and the pipe length fixes the pitch. An open pipe has an antinode at both ends and supports every harmonic, $f = nv/2L$; a closed pipe has a node at the shut end and supports only odd harmonics, $f = (2n - 1)v/4L$. (b) Frequencies computed for a 0.85 m pipe with the speed of sound 340 m per s: the closed pipe sounds an octave lower and misses the even harmonics."
+@ photo id="ioephy/organ" cap="Organ pipes of different lengths"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="0.85 m pipe, v = 340 m/s: allowed frequencies"
+v, L = 340.0, 0.85
+op = [n * v / (2 * L) for n in range(1, 5)]; cl = [(2 * n - 1) * v / (4 * L) for n in range(1, 5)]
+assert op == [200, 400, 600, 800] and cl == [100, 300, 500, 700]
+f = Fig(300, 236)
+f.text(80, 14, "open pipe", size=10.5, color=TEAL, bold=True); f.text(220, 14, "closed pipe", size=10.5, color=AMBER, bold=True)
+Y = lambda hz: 206 - hz * 0.2
+f.line(150, 24, 150, 206, color=SLATE, sw=1)
+for k in range(0, 900, 100):
+    f.text(150, Y(k) + 3, str(k), size=9.5, color=SLATE, bg=None) if False else None
+for i, hz in enumerate(op):
+    f.box(20, Y(hz) - 9, 100, 18, "f%d = %d Hz" % (i + 1, hz), fill=MINT, stroke=TEAL, size=10.5, bold=True, r=3)
+for i, hz in enumerate(cl):
+    f.box(180, Y(hz) - 9, 110, 18, "f%d = %d Hz" % (2 * i + 1, hz), fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.text(150, 230, "ratios 1:2:3:4 and 1:3:5:7", size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -151,3 +172,67 @@ The wavelength of the closed-pipe fundamental is $4L$ (not $2L$). A change in pr
 **3.** (d) — $400\times\frac{340}{300}=453$ Hz.
 **4.** (c) — intensities add: 10 times, $+10$ dB.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain stationary waves in a stretched string, an open pipe and a closed pipe, with the harmonics and numericals. <span class="marks">[10]</span>
+2. Derive the speed of sound in a gas, and explain beats, the Doppler effect and the intensity level of sound. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="4" ratio="1.25" caption="Waves and sound. (a) An organ pipe sounds because of a stationary wave in an air column. (b) Chladni figures show nodal lines of a vibrating plate. (c) A guitar string vibrates in harmonics. (d) An oscilloscope displays a sound wave as a trace."
+@ photo id="ioephy/organ" cap="(a) Organ pipe"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/chladni" cap="(b) Chladni figure"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/guitar" cap="(c) Guitar"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy12b/scope" cap="(d) Oscilloscope"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Stationary waves in strings and pipes (10 marks)
+
+**Introduction.** A **stationary (standing) wave** forms when two identical waves travel in opposite directions. It has fixed **nodes** (zero displacement) and **antinodes** (maximum displacement) a half wavelength $\frac{\lambda}{2}$ apart, and it carries no net energy.
+
+**Stretched string (fixed at both ends).** The speed is $v = \sqrt{T/\mu}$ and the allowed wavelengths are $\lambda_n = \frac{2L}{n}$, so
+$$f_n = \frac{n}{2L}\sqrt{\frac{T}{\mu}},\quad n = 1, 2, 3, \dots$$
+All harmonics are present. **Numerical:** $L = 0.6\ \text{m}$, $T = 100\ \text{N}$, $\mu = 0.01\ \text{kg m}^{-1}$: $v = 100\ \text{m s}^{-1}$, $f_1 = 100/1.2 = 83.3\ \text{Hz}$, $f_2 = 166.7\ \text{Hz}$, $f_3 = 250\ \text{Hz}$. **Laws:** $f \propto 1/L$, $f \propto \sqrt{T}$, $f \propto 1/\sqrt{\mu}$.
+
+**Open pipe (both ends open, antinodes at both ends).** $f_n = \frac{nv}{2L}$. All harmonics are present. For $L = 0.5\ \text{m}$ and $v = 340\ \text{m s}^{-1}$: $f_1 = 340\ \text{Hz}$, then $680$ and $1020\ \text{Hz}$.
+
+**Closed pipe (one end closed: node at the closed end, antinode at the open end).** $f_n = \frac{(2n-1)v}{4L}$. Only **odd harmonics** are present. For $L = 0.5\ \text{m}$: $f_1 = 170\ \text{Hz}$, and the next are $510\ \text{Hz}$ and $850\ \text{Hz}$ (ratio 1:3:5).
+
+**End correction.** The antinode is slightly outside the open end, so the effective length is $L + e$, with $e \approx 0.6r$. In the resonance-tube experiment, $v = 2(l_2 - l_1)f$ eliminates $e$.
+
+| Source | Harmonics | Fundamental |
+|---|---|---|
+| String, both ends fixed | All | $v/2L$ |
+| Open pipe | All | $v/2L$ |
+| Closed pipe | Odd only | $v/4L$ |
+
+**Conclusion.** The boundary conditions fix the wavelengths, so the tone of an instrument depends on its length and on which harmonics are present.
+
+### Model answer D2: Speed of sound, beats, Doppler effect and intensity (10 marks)
+
+**Introduction.** Sound is a longitudinal mechanical wave that needs a medium.
+
+**Speed of sound.** Newton assumed isothermal changes and got $v = \sqrt{P/\rho}$ (about $280\ \text{m s}^{-1}$), which is wrong. **Laplace** said that compressions are so fast that they are **adiabatic**, so
+$$v = \sqrt{\frac{\gamma P}{\rho}}.$$
+For air, $\gamma = 1.4$, $P = 1.013\times10^5\ \text{Pa}$, $\rho = 1.29\ \text{kg m}^{-3}$: $v = 331.6\ \text{m s}^{-1}$ at $0^\circ\text{C}$. The speed increases about $0.61\ \text{m s}^{-1}$ per $^\circ\text{C}$, so it is about $343\ \text{m s}^{-1}$ at $20^\circ\text{C}$. It does not depend on pressure at constant temperature, and it increases with humidity.
+
+**Beats.** Two sounds of nearby frequencies $f_1$ and $f_2$ give periodic loud-soft variations. The **beat frequency** is $|f_1 - f_2|$; for $256\ \text{Hz}$ and $260\ \text{Hz}$ it is **4 beats per second**. Musicians use beats to tune instruments.
+
+**Doppler effect.** The apparent frequency changes when the source or observer moves: $f' = f\,\frac{v \pm v_o}{v \mp v_s}$. **Numerical:** a $340\ \text{Hz}$ siren moving at $20\ \text{m s}^{-1}$ towards a still observer ($v = 340$): $f' = 340\times\frac{340}{320} = 361\ \text{Hz}$, and when moving away $f' = 340\times\frac{340}{360} = 321\ \text{Hz}$. It is used in radar, ultrasound blood-flow scans and speed guns.
+
+**Intensity level.** The loudness is measured by $\beta = 10\log_{10}\frac{I}{I_0}$ decibels, with $I_0 = 10^{-12}\ \text{W m}^{-2}$. For $I = 10^{-6}$ the level is $60\ \text{dB}$, and two such sources together ($2\times10^{-6}$) give $63\ \text{dB}$, not $120\ \text{dB}$.
+
+| Effect | Cause | Formula |
+|---|---|---|
+| Beats | Two close frequencies | $\lvert f_1 - f_2\rvert$ |
+| Doppler | Relative motion | $f' = f\,\frac{v \pm v_o}{v \mp v_s}$ |
+| Sound level | Logarithmic scale | $10\log(I/I_0)$ |
+
+**Conclusion.** The adiabatic correction of Laplace gives the correct speed, and beats, the Doppler effect and the decibel scale describe how we hear sound.

@@ -74,6 +74,29 @@ With $s=\frac{a+b+c}{2}$ and area $\Delta$:
 
 **Solving triangles.** SSS: cosine rule. SAS: cosine rule then sine rule. ASA: third angle and sine rule. **SSA** is ambiguous: with $A$ acute and $a<b$, there are two triangles if $a>b\sin A$, one right triangle if $a=b\sin A$, none if $a<b\sin A$.
 
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Trigonometry from a shadow. (a) A sundial on a church wall: the gnomon's shadow marks the time because the sun's altitude and direction change through the day. (b) At local noon the sun's altitude is alpha = 90 degrees - latitude + declination. For Kathmandu (27.7 degrees N) and a 20 cm gnomon, the shadow length is s = h / tan(alpha) = h cot(alpha). The three values are computed for the two solstices and the equinox; in June the shadow almost vanishes, in December it is about seventeen times longer."
+@ photo id="ioemath/sundial" cap="A sundial: the shadow of the gnomon tells the time"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Noon shadow of a 20 cm gnomon at 27.7 N"
+import math
+lat, h = 27.7, 20.0
+cases = [("June solstice", 23.44, AMBER, SAND), ("equinox", 0.0, TEAL, MINT), ("December solstice", -23.44, NAVY, BLUE)]
+res = []
+for n, dec, c, b in cases:
+    al = 90 - lat + dec; s = h / math.tan(math.radians(al)); res.append((n, al, s, c, b))
+assert abs(res[1][1] - 62.3) < 1e-9 and abs(res[0][2] - 1.49) < 0.02 and abs(res[1][2] - 10.5) < 0.1 and abs(res[2][2] - 24.8) < 0.1
+f = Fig(300, 236)
+f.text(150, 14, "altitude and shadow at local noon", size=10.5, color=NAVY, bold=True)
+for i, (n, al, s, c, b) in enumerate(res):
+    y = 30 + i * 52; w = 220 * s / 24.8
+    f.text(8, y, "%s: altitude %.1f°" % (n, al), size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, max(w, 4), 20, "", fill=b, stroke=c, r=3, sw=1)
+    f.text(max(w, 4) + 14, y + 16, "%.1f cm" % s, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "s = h / tan(α),  α = 90° - φ + δ", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "December shadow is %.0f times June's" % (res[2][2] / res[0][2]), size=10.5, color=RED, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -186,3 +209,59 @@ With $s=\frac{a+b+c}{2}$ and area $\Delta$:
 **5.** (d) — $\sqrt{3}\cos x+\sin x=2\cos(x-\frac{\pi}{6})=2$, so $x=\frac{\pi}{6}$.
 **6.** (c) — $c^2=4+4-2\cdot4\cos120^\circ=12$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Solve trigonometric equations and give general values; find principal values of inverse functions and prove $\tan^{-1}\frac12+\tan^{-1}\frac13=\frac\pi4$. <span class="marks">[10]</span>
+2. For the triangle with $a=13$, $b=14$, $c=15$ find the angles, area, circumradius, inradius and the distance from a vertex to the incentre. <span class="marks">[10]</span>
+
+### Model answer D1: Equations and inverse functions (10 marks)
+
+**Introduction.** General solutions: $\sin x=\sin\alpha\Rightarrow x=n\pi+(-1)^n\alpha$; $\cos x=\cos\alpha\Rightarrow x=2n\pi\pm\alpha$; $\tan x=\tan\alpha\Rightarrow x=n\pi+\alpha$ ($n\in\mathbb{Z}$).
+
+**Equation.** Solve $2\cos^2x+3\sin x=3$.
+
+1. Replace $\cos^2x=1-\sin^2x$: $2-2\sin^2x+3\sin x-3=0$.
+2. This gives $2\sin^2x-3\sin x+1=0$, or $(2\sin x-1)(\sin x-1)=0$.
+3. $\sin x=\frac12\Rightarrow x=n\pi+(-1)^n\frac\pi6$.
+4. $\sin x=1\Rightarrow x=2n\pi+\frac\pi2$.
+
+**Principal values.**
+
+| Function | Principal range | Example |
+|---|---|---|
+| $\sin^{-1}x$ | $[-\frac\pi2,\frac\pi2]$ | $\sin^{-1}(-\frac12)=-\frac\pi6$ |
+| $\cos^{-1}x$ | $[0,\pi]$ | $\cos^{-1}(-\frac12)=\frac{2\pi}3$ |
+| $\tan^{-1}x$ | $(-\frac\pi2,\frac\pi2)$ | $\tan^{-1}(-1)=-\frac\pi4$ |
+
+**Identities.** $\sin^{-1}x+\cos^{-1}x=\frac\pi2$ and $\tan^{-1}x+\tan^{-1}y=\tan^{-1}\frac{x+y}{1-xy}$ for $xy<1$.
+
+**Proof.** $\tan^{-1}\frac12+\tan^{-1}\frac13=\tan^{-1}\frac{\frac12+\frac13}{1-\frac16}=\tan^{-1}\frac{5/6}{5/6}=\tan^{-1}1=\frac\pi4$.
+
+**Conclusion.** Reduce to one trigonometric ratio, factorise, and write all general values; use principal ranges for inverse functions.
+
+### Model answer D2: Properties of triangles (10 marks)
+
+**Introduction.** For a triangle with sides $a,b,c$, semi-perimeter $s$, circumradius $R$ and inradius $r$: **sine rule** $\frac{a}{\sin A}=2R$; **cosine rule** $\cos A=\frac{b^2+c^2-a^2}{2bc}$; area $\Delta=\sqrt{s(s-a)(s-b)(s-c)}=\frac12bc\sin A=rs=\frac{abc}{4R}$.
+
+**Solution for $13,14,15$.** $s=21$.
+
+| Quantity | Working | Value |
+|---|---|---|
+| Area $\Delta$ | $\sqrt{21\cdot8\cdot7\cdot6}$ | $84$ |
+| $\cos A$ | $\frac{196+225-169}{2\cdot14\cdot15}=0.6$ | $A=53.13^\circ$ |
+| $\cos B$ | $\frac{169+225-196}{2\cdot13\cdot15}=0.5077$ | $B=59.49^\circ$ |
+| $\cos C$ | $\frac{169+196-225}{2\cdot13\cdot14}=0.3846$ | $C=67.38^\circ$ |
+| Circumradius $R$ | $\frac{abc}{4\Delta}=\frac{2730}{336}$ | $8.125$ |
+| Inradius $r$ | $\frac{\Delta}{s}=\frac{84}{21}$ | $4$ |
+
+The angles add up to $53.13+59.49+67.38=180^\circ$.
+
+**Centres of the triangle.**
+
+1. **Circumcentre:** intersection of perpendicular bisectors; equidistant from the vertices.
+2. **Incentre:** intersection of angle bisectors; equidistant from the sides. The distance from vertex $A$ is $AI=\frac{r}{\sin(A/2)}$. Here $\sin\frac A2=\sqrt{\frac{1-0.6}{2}}=0.4472$, so $AI=\frac{4}{0.4472}=8.94$.
+3. **Orthocentre:** intersection of the altitudes; the distance from $A$ to the orthocentre is $2R\cos A=2(8.125)(0.6)=9.75$.
+4. **Centroid:** intersection of the medians; divides each median $2:1$.
+
+**Conclusion.** The area formula, sine rule and cosine rule together find every element and every centre of a triangle.

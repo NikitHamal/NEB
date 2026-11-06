@@ -581,3 +581,90 @@ learning), because the machine found the pattern from data.
 **4.** VR is a computer-made 3-D imitation of an environment that a user experiences through a headset and sensors as if it were real. Sectors: military training and PTSD therapy, education (virtual field trips), sports training and broadcasting, mental health (anxiety, phobia), medical surgery training, fashion, architecture.
 **5.** Cloud computing is using remote servers on the internet to store, manage and process data and programs instead of a local computer. Services: online file storage (e.g. Google Drive), e-mail, web hosting, running software online. Advantages: low cost (pay only for use); access from anywhere; reliable backup; strong security.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the main tools of ICT. Explain the working of a search engine, website and ISP. <span class="marks">[10]</span>
+2. What is cybercrime? Explain eight rules of safe and ethical use of the internet, with the cyber law of Nepal. <span class="marks">[10]</span>
+3. Explain robotics, virtual reality, artificial intelligence and cloud computing with uses. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="5" ratio="1.0" caption="Tools of ICT. (a) A Wi-Fi router brings the internet into a room. (b) A network switch joins school computers. (c) A Raspberry Pi is a tiny computer used in student projects. (d) A robot vacuum cleaner is a household robot. (e) A data centre holds the cloud, where our files and websites live."
+@ photo id="sci10/router" cap="(a) Router"
+@ photo id="sci10/switch" cap="(b) Switch"
+@ photo id="cs12/raspi" cap="(c) Raspberry Pi"
+@ photo id="bca302/roomba" cap="(d) Robot cleaner"
+@ photo id="bca355/googledc" cap="(e) Data centre"
+```
+
+### Model answer D1: tools of ICT, search engine, website and ISP (10 marks)
+
+**Introduction.** **ICT** means Information and Communication Technology: the tools used to collect, store, process and share information.
+
+**Tools of ICT.**
+
+| Tool | Use |
+|---|---|
+| Computer, laptop, tablet | Processing, writing, learning |
+| Mobile phone | Calls, messages, internet, payments |
+| Router and switch | Connect devices to a network |
+| Projector and smart board | Teaching in class |
+| Camera and scanner | Capturing pictures and documents |
+| Radio, television, satellite | Mass communication |
+
+**Internet.** The **internet** is a worldwide network of computers. **ISP (Internet Service Provider)** is a company, such as Worldlink or Nepal Telecom, that gives us the connection.
+
+**Website and web browser.** A **website** is a group of connected web pages with an address (URL) such as www.moe.gov.np. A **web browser** (Chrome, Firefox) is the program that opens the pages.
+
+**Search engine.** A **search engine** (Google, Bing) finds web pages for the words that we type. It works in three steps: (1) it **crawls** the web using robots to collect pages, (2) it **indexes** them as a huge list, and (3) it **ranks** them to show the best match first.
+
+**How to search well.** Use clear key words, put an exact phrase in quotation marks, and check the source before you trust a result.
+
+**How an ISP connects us.** Our device sends a request to the ISP through a modem or router by fibre, cable or mobile data; the ISP sends it onward to the server that stores the page and brings back the answer.
+
+**Conclusion.** ICT tools, the internet, search engines and ISPs together let students and citizens find and share information quickly.
+
+### Model answer D2: cybercrime and safe use of the internet (10 marks)
+
+**Introduction.** **Cybercrime** is a crime committed with a computer or the internet, such as hacking, online fraud, phishing, spreading viruses, cyber bullying and posting private photos without permission.
+
+**Eight rules of safe and ethical use.**
+
+1. Keep **strong passwords** of letters, numbers and symbols, and never share them.
+2. Do not give your **OTP, PIN or card number** to anybody.
+3. Do not open **unknown links, messages or attachments**; they may be phishing or contain viruses.
+4. Keep **antivirus** and the operating system updated.
+5. Do not post **private information** such as address, phone number or school timetable on social media.
+6. Be **polite and respectful**; do not bully or spread rumours and fake news.
+7. Respect **copyright**: do not copy others' work and say it is yours (plagiarism), and give credit.
+8. Tell a parent or teacher at once if you are bullied or threatened online.
+
+**Computer code of conduct.** Do not use a computer to harm others, to steal, to spread false information or to access other people's files without permission.
+
+**Cyber law.** Nepal's **Electronic Transactions Act, 2063 (2006)** punishes hacking, damaging data, publishing illegal material and online fraud with fines and imprisonment. Complaints can be given to the **Cyber Bureau of Nepal Police**.
+
+| Threat | Meaning | Protection |
+|---|---|---|
+| Virus | A harmful program that spreads | Antivirus, no unknown files |
+| Phishing | Fake message that steals information | Check sender, never share OTP |
+| Hacking | Entering a system without permission | Strong password, updates |
+| Cyber bullying | Harassing someone online | Block, report, tell an adult |
+
+**Conclusion.** The internet is a great tool, but we must use it carefully, legally and kindly.
+
+### Model answer D3: robotics, VR, AI and cloud computing (10 marks)
+
+**Introduction.** New technologies are changing work, learning and health.
+
+- **Robotics.** A **robot** is a machine that can be programmed to do tasks. Parts: sensors, controller and actuators (motors). Uses: car factories, bomb disposal, surgery, exploring Mars and floor cleaning.
+- **Virtual reality (VR).** VR creates a computer-made 3D world that we see through a headset and interact with. Uses: flight and driving training, virtual tours of museums, safe practice for doctors and games.
+- **Artificial intelligence (AI).** AI makes a computer learn and decide like a human. Uses: voice assistants, translation, face recognition, spotting diseases in X-rays and suggesting videos.
+- **Cloud computing.** Storage and software kept on internet servers and used from any place. Examples: Google Drive and Gmail. We pay only for what we use, and files are safe if our phone is lost.
+
+| Technology | Advantage | Disadvantage |
+|---|---|---|
+| Robotics | Exact, tireless, safe for dangerous work | Costly, may reduce some jobs |
+| VR | Safe, real-like training | Costly, dizziness with long use |
+| AI | Quick decisions | Can be biased; privacy |
+| Cloud | Access anywhere, backup | Needs internet; security |
+
+**Conclusion.** Robotics, VR, AI and cloud computing make work easier, but they need skill, money and careful rules.

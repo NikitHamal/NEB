@@ -397,3 +397,79 @@ Do not place yeast in Plantae or bacteria in Plantae. Yeast is a (unicellular) f
 **3.** Kingdom Animalia → Phylum Chordata → Class Mammalia → Order Primates → Family Hominidae → Genus *Homo* → Species *Homo sapiens*. Rules: Latin; italics (or underlined); genus name begins with a capital letter and species with a small letter; genus first, then species.
 **4.** Pisces: scales and gills, rohu. Amphibia: moist skin, lungs and skin in adult, frog. Reptilia: dry scaly skin, lungs, lizard. Aves: feathers, warm-blooded, pigeon. Mammalia: hair, mammary glands, warm-blooded, human.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the five-kingdom system of classification with the main characteristics and examples of each kingdom. <span class="marks">[10]</span>
+2. Classify the plant kingdom into its main divisions and differentiate between monocot and dicot plants. <span class="marks">[10]</span>
+
+```photogrid label="2.H" cols="5" ratio="1.0" caption="One organism from each kingdom. (a) Bacteria (Monera) have no nucleus. (b) Paramecium (Protista) is one cell with a nucleus. (c) A mushroom (Fungi) absorbs food from dead matter. (d) A hibiscus (Plantae) makes food with chlorophyll. (e) A frog (Animalia) eats other organisms. Notice that size does not decide the kingdom; cell type and feeding do."
+@ photo id="sci10/bacteria-shapes" cap="(a) Bacteria, Monera"
+@ photo id="sci10/paramecium" cap="(b) Paramecium, Protista"
+@ photo id="sci10/mushroom" cap="(c) Mushroom, Fungi"
+@ photo id="sci10/hibiscus" cap="(d) Hibiscus, Plantae"
+@ photo id="sci10/frog" cap="(e) Frog, Animalia"
+```
+
+### Model answer D1: five-kingdom classification (10 marks)
+
+**Introduction.** There are millions of kinds of living things, so scientists put them into groups. **R. H. Whittaker (1969)** divided all living beings into **five kingdoms** on the basis of the type of cell (without or with a nucleus), the number of cells, the way of getting food and the body organisation. The system is easy to use and is the one taught in school.
+
+**1. Kingdom Monera.** These are **single-celled organisms without a true nucleus** (prokaryotes). They have a cell wall but no nuclear membrane. Examples: *Escherichia coli*, *Bacillus*, *Nostoc* and blue-green algae. Some cause diseases such as typhoid and cholera, while others make curd from milk.
+
+**2. Kingdom Protista.** These are mostly **single-celled organisms with a true nucleus**, living in water or damp places. Some make food by photosynthesis (*Euglena*), others eat food (*Amoeba*, *Paramecium*). *Plasmodium* is a protist that causes malaria.
+
+**3. Kingdom Fungi.** Fungi have **cell walls but no chlorophyll**, so they cannot make their own food. They feed on dead or living matter (saprophytes or parasites) by absorbing it. Examples: mushroom, yeast, *Penicillium* (the source of penicillin) and bread mould.
+
+**4. Kingdom Plantae.** Plants are many-celled organisms with **cell walls of cellulose and chlorophyll**. They make food by photosynthesis, so they are **autotrophs**. Examples: moss, fern, pine, rice, hibiscus.
+
+**5. Kingdom Animalia.** Animals are many-celled organisms with **no cell wall and no chlorophyll**. They depend on other living things for food (**heterotrophs**) and most can move. Examples: earthworm, cockroach, rohu, frog, pigeon, human beings.
+
+**Comparison table.**
+
+| Kingdom | Cell type | Number of cells | Cell wall | Nutrition | Example |
+|---|---|---|---|---|---|
+| Monera | Prokaryotic | One | Present | Autotroph or heterotroph | Bacteria |
+| Protista | Eukaryotic | Mostly one | Some | Autotroph or heterotroph | Amoeba |
+| Fungi | Eukaryotic | Mostly many | Present (not cellulose) | Absorb dead matter | Mushroom |
+| Plantae | Eukaryotic | Many | Cellulose | Autotroph | Hibiscus |
+| Animalia | Eukaryotic | Many | Absent | Heterotroph | Frog |
+
+**Conclusion.** The five-kingdom system arranges living things from simple to complex and helps us to identify, study and protect the biodiversity of Nepal.
+
+### Model answer D2: divisions of the plant kingdom and monocot versus dicot (10 marks)
+
+**Introduction.** Kingdom Plantae is divided into groups by the presence of **true roots, stems and leaves**, **vascular tissue** (xylem and phloem for carrying water and food) and **seeds**.
+
+**Divisions of the plant kingdom.**
+
+| Division | Body | Vascular tissue | Seeds / flowers | Examples |
+|---|---|---|---|---|
+| Thallophyta (algae) | Thallus, no root, stem or leaf | Absent | None | *Spirogyra*, *Ulothrix* |
+| Bryophyta | Small, leaf-like, with rhizoids | Absent | None; spores | Moss, liverwort |
+| Pteridophyta | True root, stem and leaves | Present | None; spores in sori | Fern, horsetail |
+| Gymnosperms | Trees and shrubs | Present | Naked seeds in cones | Pine, cycas |
+| Angiosperms | Herbs, shrubs, trees | Present | Seeds in fruits; flowers | Rice, mango, hibiscus |
+
+**Key points.**
+
+- **Thallophyta** are simple plants of ponds and streams.
+- **Bryophytes** need water for fertilisation and grow on damp rocks and walls, as moss does in the hills of Nepal.
+- **Pteridophytes** show the first vascular tissue and carry spores under the leaf in small brown spots called **sori**.
+- **Gymnosperms** have "naked seeds" because the seeds are not enclosed in a fruit.
+- **Angiosperms** are the largest group. They are divided into **monocots** (one seed leaf) and **dicots** (two seed leaves).
+
+**Monocot versus dicot.**
+
+| Feature | Monocot | Dicot |
+|---|---|---|
+| Seed leaf (cotyledon) | One | Two |
+| Root | Fibrous | Tap root |
+| Leaf veins | Parallel | Net-like |
+| Flower parts | In threes | In fours or fives |
+| Vascular bundles in stem | Scattered | In a ring |
+| Examples | Maize, rice, wheat | Pea, mango, hibiscus |
+
+**Importance.** Plants supply food, oxygen, timber, medicine (such as *timur* and *jatamansi* from the Himalayas) and fuel. They also prevent soil erosion on the steep hills of Nepal.
+
+**Conclusion.** Plant classification moves from simple thallus plants to seed-bearing flowering plants, and the monocot-dicot difference is the most useful in practical identification.

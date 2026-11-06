@@ -1270,6 +1270,27 @@ add the moduli of the pieces — exactly as you do when a single curve crosses t
 axis.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="If a pump delivers water at a rate that grows as t^2, the volume stored is the area under the rate curve. (a) A rooftop water tank. (b) Six rectangles under y = x^2 on 0 to 3 give a lower estimate of 6.875 and an upper estimate of 11.375. With 600 rectangles the two bounds squeeze together to 8.9775 and 9.0225. The anti-derivative x^3/3 gives the exact area 9 m3 in one step. The anti-derivative is therefore the shortcut that replaces an endless sum of thin rectangles, which is the idea behind the fundamental theorem of calculus."
+@ photo id="math11/tank" cap="A rooftop water tank, filled by a pump whose flow increases with time"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Area under y = x^2 by rectangles"
+def left(n): return sum((3.0 * i / n) ** 2 * (3.0 / n) for i in range(n))
+def right(n): return sum((3.0 * (i + 1) / n) ** 2 * (3.0 / n) for i in range(n))
+exact = 3 ** 3 / 3.0
+assert exact == 9 and left(6) < exact < right(6) and abs(right(600) - 9) < 0.03
+f = Fig(300, 236)
+f.text(150, 14, "Area of y = x^2 from 0 to 3 (rate in m3/h)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 140, (0, 3.3), (0, 10))
+ax.grid(1, 2, size=9); ax.axes("t (h)", "y")
+ax.bars(lambda x: x * x, 0, 3, 6, mode="left")
+ax.curve(lambda x: x * x, 0, 3.2, color=NAVY, sw=2.4)
+f.text(150, 200, "n = 6: lower %.3f, upper %.3f" % (left(6), right(6)), size=10.5, color=AMBER, bold=True)
+f.text(150, 215, "n = 600: lower %.4f, upper %.4f" % (left(600), right(600)), size=10, color=SLATE, bold=True)
+f.text(150, 230, "exact = x^3/3 from 0 to 3 = %d m3" % exact, size=10.5, color=NAVY, bold=True)
+facts = dict(l6=left(6), r6=right(6), l=left(600), r=right(600), e=exact)
+```
+
 ## Chapter summary
 
 - $\int f(x)dx = F(x)+C$ means $F'(x)=f(x)$. The constant $C$ is compulsory in an
@@ -1488,3 +1509,79 @@ it lies above the axis between them. Hence
 $$ A = \int_{0}^{2}(2x-x^{2})dx = \left[x^{2}-\frac{x^{3}}{3}\right]_{0}^{2}
  = 4 - \frac{8}{3} = \frac{4}{3} \ \text{square units} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the anti-derivative, list the standard integrals and evaluate integrals by substitution and by parts, including $\int e^{x}\sin x\,dx$. <span class="marks">[10]</span>
+2. State the fundamental theorem of calculus and the properties of the definite integral, and find areas under a curve and between two curves. <span class="marks">[10]</span>
+
+### Model answer D1: standard integrals, substitution and by parts (10 marks)
+
+**Introduction.** If $F'(x)=f(x)$, then $F$ is an **anti-derivative** of $f$ and we write $\int f(x)\,dx=F(x)+C$, where $C$ is the arbitrary constant of integration. Integration reverses differentiation.
+
+**Standard integrals.**
+
+| $f(x)$ | $\int f(x)\,dx$ |
+|---|---|
+| $x^{n}\ (n\neq-1)$ | $\dfrac{x^{n+1}}{n+1}+C$ |
+| $\dfrac1x$ | $\ln|x|+C$ |
+| $e^{x}$ | $e^{x}+C$ |
+| $a^{x}$ | $\dfrac{a^{x}}{\ln a}+C$ |
+| $\sin x$ | $-\cos x+C$ |
+| $\cos x$ | $\sin x+C$ |
+| $\sec^{2}x$ | $\tan x+C$ |
+
+**Substitution.** Put $u=g(x)$ so that $du=g'(x)\,dx$, and integrate in terms of $u$.
+
+1. $\int\dfrac{2x}{x^{2}+1}dx$: with $u=x^{2}+1$, $du=2x\,dx$, the integral is $\int\dfrac{du}{u}=\ln(x^{2}+1)+C$.
+2. $\int x\sqrt{x^{2}+1}\,dx$: with $u=x^{2}+1$, $x\,dx=\dfrac{du}{2}$, so $\dfrac12\int u^{1/2}du=\dfrac13(x^{2}+1)^{3/2}+C$.
+
+**Integration by parts.** From the product rule, $\int u\,dv=uv-\int v\,du$. Choose $u$ by the order **L**ogarithmic, **I**nverse, **A**lgebraic, **T**rigonometric, **E**xponential (LIATE).
+
+1. $\int xe^{x}dx$: take $u=x$ and $dv=e^{x}dx$, so $v=e^{x}$. Then $xe^{x}-\int e^{x}dx=e^{x}(x-1)+C$.
+2. $\int\ln x\,dx$: take $u=\ln x$ and $dv=dx$. Then $x\ln x-\int1\,dx=x\ln x-x+C$.
+3. $\int x^{2}\ln x\,dx$: take $u=\ln x$ and $dv=x^{2}dx$, so $v=\dfrac{x^{3}}{3}$. Then $\dfrac{x^{3}}{3}\ln x-\int\dfrac{x^{2}}{3}dx=\dfrac{x^{3}}{3}\ln x-\dfrac{x^{3}}{9}+C$.
+
+**Cyclic example: $I=\int e^{x}\sin x\,dx$.** Taking $u=\sin x$ and $dv=e^{x}dx$, $I=e^{x}\sin x-\int e^{x}\cos x\,dx$. Applying parts again to the last integral, $\int e^{x}\cos x\,dx=e^{x}\cos x+\int e^{x}\sin x\,dx=e^{x}\cos x+I$. Therefore $I=e^{x}\sin x-e^{x}\cos x-I$, so
+
+$$ I=\frac{e^{x}(\sin x-\cos x)}{2}+C $$
+
+*Check by differentiation:* $\dfrac12\left[e^{x}(\sin x-\cos x)+e^{x}(\cos x+\sin x)\right]=e^{x}\sin x$.
+
+**Conclusion.** Substitution undoes the chain rule and parts undoes the product rule; every answer is checked by differentiating it.
+
+### Model answer D2: definite integrals and area (10 marks)
+
+**Introduction.** The **definite integral** $\int_a^b f(x)\,dx$ is the limit of the sum of thin rectangles under the curve from $x=a$ to $x=b$. It is a number, not a function.
+
+**Fundamental theorem of calculus.** If $F'(x)=f(x)$ on $[a,b]$, then
+
+$$ \int_a^b f(x)\,dx=F(b)-F(a) $$
+
+**Properties.**
+
+1. $\int_a^b f\,dx=-\int_b^a f\,dx$.
+2. $\int_a^b f\,dx=\int_a^c f\,dx+\int_c^b f\,dx$.
+3. $\int_a^b f(x)\,dx=\int_a^b f(a+b-x)\,dx$.
+4. $\int_{-a}^{a}f\,dx=2\int_0^a f\,dx$ for an even function, and $0$ for an odd function.
+
+**Evaluations.**
+
+1. $\int_0^2(3x^{2}+2x+1)dx=\left[x^{3}+x^{2}+x\right]_0^2=8+4+2=14$.
+2. $\int_0^{\pi/2}\sin x\,dx=\left[-\cos x\right]_0^{\pi/2}=0+1=1$.
+3. $\int_0^1xe^{x}dx=\left[e^{x}(x-1)\right]_0^1=0-(-1)=1$.
+4. **Change of limits.** $\int_0^1 2x(x^{2}+1)^{3}dx$: let $u=x^{2}+1$; when $x=0$, $u=1$, and when $x=1$, $u=2$. The integral becomes $\int_1^2u^{3}du=\dfrac{2^{4}-1}{4}=\dfrac{15}{4}$.
+
+**Area under a curve.** If $f(x)\ge0$ on $[a,b]$, the area between the curve and the $X$-axis is $\int_a^b f(x)\,dx$. If the curve is below the axis, take the absolute value. The area between $y=f(x)$ (upper) and $y=g(x)$ (lower) is $\int_a^b[f(x)-g(x)]\,dx$.
+
+**Worked areas.**
+
+| Region | Limits | Area |
+|---|---|---|
+| Under $y=4-x^{2}$ and above the $X$-axis | $-2$ to $2$ | $2\left[4x-\dfrac{x^{3}}{3}\right]_0^2=2\left(8-\dfrac83\right)=\dfrac{32}{3}$ |
+| Between $y=x$ and $y=x^{2}$ | $0$ to $1$ | $\left[\dfrac{x^{2}}{2}-\dfrac{x^{3}}{3}\right]_0^1=\dfrac16$ |
+| Between $y=2x$ and $y=x^{2}$ | $0$ to $2$ | $\left[x^{2}-\dfrac{x^{3}}{3}\right]_0^2=4-\dfrac83=\dfrac43$ |
+
+The limits come from solving the two equations together: $x=x^{2}$ gives $x=0,1$, and $2x=x^{2}$ gives $x=0,2$.
+
+**Conclusion.** The fundamental theorem converts a definite integral into a difference of values of the anti-derivative, and areas are found by integrating the difference between the upper and lower curves.

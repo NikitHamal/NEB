@@ -540,6 +540,25 @@ non-negative root. Similarly, $|x| = k$ has **two** solutions whenever $k > 0$, 
 **none** when $k < 0$ — an equation such as $|3x-1| = -4$ has no solution at all.
 :::
 
+```photogrid label="2.P" cols="2" ratio="1.27" caption="Every measurement on a ruler is rational, yet the diagonal of a unit square is the irrational number sqrt 2. (a) A steel rule with fine divisions. (b) Starting from 1/1 and using the step (p, q) -> (p + 2q, p + q), the program produces better and better fractions, and the last one, 99/70, is correct to 4.14 decimal places of 1.414214. In each step p^2 - 2q^2 is only plus or minus 1, so no fraction ever squares to exactly 2. Real numbers therefore fill gaps that fractions leave on the number line, which is the point of the chapter."
+@ photo id="math11/ruler" cap="A steel rule can show a length, but never an exact irrational one"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rational approximations to the square root of 2"
+p, q = 1, 1; rows = []; r2 = math.sqrt(2)
+for i in range(6):
+    rows.append(("%d/%d" % (p, q), -math.log10(abs(p / q - r2)), p * p - 2 * q * q))
+    p, q = p + 2 * q, p + q
+assert [r[2] for r in rows] == [-1, 1, -1, 1, -1, 1] and rows[-1][0] == "99/70"
+f = Fig(300, 236)
+f.text(150, 14, "Correct decimals of p/q for the root of 2", size=10.5, color=NAVY, bold=True)
+hbars(f, [(r[0], r[1]) for r in rows], vmax=5, fmt="%.2f", x0=64, y0=30, bw=170, gap=24, size=9.5, colors=[(BLUE, NAVY)] * 3 + [(MINT, TEAL)] * 3)
+f.text(150, 188, "p^2 - 2q^2 = -1, +1, -1, +1 ... never 0", size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "1/1, 3/2, 7/5, 17/12, 41/29, 99/70", size=9.5, color=SLATE, bold=True)
+f.text(150, 224, "each fraction is closer, none is exact", size=10, color=RED, bold=True)
+facts = dict(last=rows[-1][0], d=rows[-1][1], r=r2)
+```
+
 ## Chapter summary
 
 - $\mathbb{N} \subset \mathbb{W} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R}$;
@@ -702,3 +721,85 @@ $(x-2) + (x+1) = 5 \Rightarrow 2x - 1 = 5 \Rightarrow x = 3$. Valid, as $3 \ge 2
 Solution set $\{-2, 3\}$. *Check:* at $x=-2$, $|-4| + |-1| = 4+1 = 5$ ✓; at $x=3$,
 $|1| + |4| = 1+4 = 5$ ✓.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify real numbers, prove that $\sqrt2$ is irrational and show how $\sqrt2$ and $\sqrt3$ are located on the number line. <span class="marks">[10]</span>
+2. Define intervals and absolute value, state their properties, prove the triangle inequality and solve inequalities involving $|x|$. <span class="marks">[10]</span>
+
+### Model answer D1: classification, irrationality and the number line (10 marks)
+
+**Introduction.** The set $\mathbb{R}$ of **real numbers** contains every number that can be placed on a straight number line. Each real number corresponds to exactly one point of the line and each point to exactly one real number.
+
+**Classification.**
+
+| Set | Symbol | Examples |
+|---|---|---|
+| Natural | $\mathbb{N}$ | $1,2,3,\dots$ |
+| Whole | $\mathbb{W}$ | $0,1,2,\dots$ |
+| Integers | $\mathbb{Z}$ | $\dots,-2,-1,0,1,2,\dots$ |
+| Rational | $\mathbb{Q}$ | $\dfrac pq$ with $q\neq0$, e.g. $\dfrac{-3}{4},\;0.25,\;0.\overline{3}$ |
+| Irrational | $\mathbb{Q}'$ | $\sqrt2,\;\sqrt3,\;\pi,\;e$ |
+
+A rational number has a terminating or recurring decimal; an irrational number has a non-terminating, non-recurring decimal. Always $\mathbb{N}\subset\mathbb{W}\subset\mathbb{Z}\subset\mathbb{Q}\subset\mathbb{R}$ and $\mathbb{R}=\mathbb{Q}\cup\mathbb{Q}'$.
+
+**Theorem: $\sqrt2$ is irrational.**
+
+*Proof (by contradiction).* Suppose $\sqrt2=\dfrac pq$ where $p,q$ are integers with no common factor and $q\neq0$. Squaring, $p^{2}=2q^{2}$, so $p^{2}$ is even, and therefore $p$ is even. Write $p=2k$. Then $4k^{2}=2q^{2}$, so $q^{2}=2k^{2}$ and $q$ is even too. Now $p$ and $q$ have the common factor $2$, which contradicts our assumption. Hence $\sqrt2$ is not rational.
+
+**Density.** Between any two distinct real numbers there is a rational number and an irrational number; for example, between $1$ and $2$ lie $1.5$ and $\sqrt2$.
+
+**Locating $\sqrt2$ and $\sqrt3$ on the number line.**
+
+1. Mark $O$ at $0$ and $A$ at $1$ on the number line.
+2. At $A$ draw $AB\perp OA$ with $AB=1$ unit. By Pythagoras $OB=\sqrt{1^{2}+1^{2}}=\sqrt2$.
+3. With centre $O$ and radius $OB$, draw an arc to cut the number line at $P$. Then $OP=\sqrt2\approx1.414$.
+4. At $P$ draw $PC\perp OP$ with $PC=1$. Then $OC=\sqrt{(\sqrt2)^{2}+1^{2}}=\sqrt3$, and an arc of radius $OC$ marks $\sqrt3\approx1.732$.
+
+Repeating the process gives $\sqrt4=2,\sqrt5,\sqrt6,\dots$, the "square-root spiral".
+
+**Properties of real numbers.** Closure, commutative, associative and distributive laws hold for $+$ and $\times$; $0$ and $1$ are the identities; every real number has an additive inverse and every non-zero number a multiplicative inverse. The sum of a rational and an irrational is irrational, for example $2+\sqrt2$.
+
+**Conclusion.** Rational and irrational numbers together fill the number line without gaps, and a compass with Pythagoras' theorem can mark any $\sqrt n$ exactly.
+
+### Model answer D2: intervals, absolute value and inequalities (10 marks)
+
+**Introduction.** An **interval** is a set of real numbers lying between two end points. The **absolute value** $|x|$ is the distance of $x$ from $0$ on the number line, so it is never negative.
+
+**Intervals.**
+
+| Type | Set notation | Interval | Ends |
+|---|---|---|---|
+| Open | $\{x:a<x<b\}$ | $(a,b)$ | not included |
+| Closed | $\{x:a\le x\le b\}$ | $[a,b]$ | both included |
+| Half-open | $\{x:a\le x<b\}$ | $[a,b)$ | $a$ only |
+| Infinite | $\{x:x\ge a\}$ | $[a,\infty)$ | $a$ included |
+
+For $A=[-2,5)$ and $B=(1,8]$: $A\cup B=[-2,8]$, $A\cap B=(1,5)$, $A-B=[-2,1]$ and $B-A=[5,8]$.
+
+**Definition of absolute value.** $|x|=x$ if $x\ge0$ and $|x|=-x$ if $x<0$. So $|-7|=7$ and $|3-\pi|=\pi-3$.
+
+**Properties.**
+
+1. $|x|\ge0$, and $|x|=0$ only when $x=0$.
+2. $|xy|=|x||y|$ and $\left|\dfrac xy\right|=\dfrac{|x|}{|y|}$ for $y\neq0$.
+3. For $a>0$: $|x|<a\iff-a<x<a$, and $|x|>a\iff x<-a$ or $x>a$.
+4. $|x+y|\le|x|+|y|$ (triangle inequality).
+
+**Proof of the triangle inequality.** For every real $x$, $-|x|\le x\le|x|$, and likewise $-|y|\le y\le|y|$. Adding, $-(|x|+|y|)\le x+y\le|x|+|y|$. By property 3 this means $|x+y|\le|x|+|y|$.
+
+**Worked inequalities.**
+
+1. $|2x-3|<5$ gives $-5<2x-3<5$, so $-2<2x<8$ and $-1<x<4$. Solution set $(-1,4)$.
+2. $|x-2|\ge3$ gives $x-2\le-3$ or $x-2\ge3$, so $x\le-1$ or $x\ge5$. Solution set $(-\infty,-1]\cup[5,\infty)$.
+3. $|x-1|+|x-3|\le4$. Split at the critical points $1$ and $3$.
+
+| Region | Expression | Condition | Solution |
+|---|---|---|---|
+| $x<1$ | $4-2x\le4$ | $x\ge0$ | $0\le x<1$ |
+| $1\le x\le3$ | $2\le4$ | always true | $1\le x\le3$ |
+| $x>3$ | $2x-4\le4$ | $x\le4$ | $3<x\le4$ |
+
+Combining the three regions, the solution is $[0,4]$.
+
+**Conclusion.** Intervals describe solution sets compactly, and splitting at the points where each modulus changes sign solves any inequality with absolute values.

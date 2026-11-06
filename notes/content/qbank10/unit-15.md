@@ -247,6 +247,85 @@ fig.tight_layout()
 **Solution.** Fall = 6.5 × 3 = 19.5 °C. Temperature = 30 − 19.5 = **10.5 °C**.
 :::
 
+## 15.12 Extended model answers (10 marks)
+
+In Social Studies, a 10-mark answer needs an introduction, six to eight explained points with Nepali examples, a table where possible, and a short conclusion.
+
+**Extended questions**
+
+1. Explain the structure of the federal system of Nepal and the importance of federalism. <span class="marks">[10]</span>
+2. Explain the causes and effects of rapid population growth in Nepal and suggest measures to manage it. <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="4" ratio="1.25" caption="Pictures for the answers. (a) The seven provinces of Nepal. (b) The Federal Parliament building in Kathmandu. (c) A voter casting a vote in a local election. (d) Basantapur Durbar Square during the 2015 earthquake: dense settlement and weak buildings raise the risk of a disaster."
+@ photo id="soc10/provinces" cap="(a) Seven provinces"
+@ photo id="soc10/parliament" cap="(b) Federal Parliament"
+@ photo id="soc10/voter" cap="(c) Voter in a local election"
+@ photo id="soc10/quake-basantapur" cap="(d) Basantapur, 2015"
+```
+
+### Model answer D1: federalism in Nepal (10 marks)
+
+**Introduction.** **Federalism** is a system of government in which power is divided between a central government and regional governments, each independent in its own field. The Constitution of Nepal, promulgated on 3 Ashoj 2072 (20 September 2015), made Nepal a federal democratic republic. It replaced the old unitary system, in which all decisions were taken in Kathmandu.
+
+**Structure.** There are three levels of government.
+
+| Level | Number | Main bodies |
+|---|---|---|
+| Federal | 1 | Federal Parliament (House of Representatives and National Assembly), Prime Minister and Cabinet |
+| Province | 7 | Provincial Assembly, Chief Minister and Council of Ministers |
+| Local | 753 | 6 metropolitan cities, 11 sub-metropolitan cities, 276 municipalities, 460 rural municipalities |
+
+Each level has its own powers listed in the Schedules of the Constitution. The federal level handles defence, foreign affairs, currency and national planning. Provinces look after provincial police, health services and roads, while local levels manage basic education, local roads, water supply and health posts. Some powers, such as electricity and forests, are shared.
+
+**Importance of federalism.**
+
+1. **Decisions are taken near the people.** A ward chairperson can solve a problem of a village without waiting for approval from Singha Durbar.
+2. **Inclusion.** Women, Dalits and marginalised groups are guaranteed seats in the local bodies.
+3. **Balanced development.** Provinces plan for their own roads, hydropower and tourism, and remote areas get a fair share of the budget.
+4. **Better services.** Birth, marriage and migration certificates and recommendations are given at the ward office.
+5. **Protection of culture and language.** Local governments can promote local languages, festivals and traditions.
+6. **Training in democracy.** More citizens become elected leaders and learn to manage a budget.
+7. **Stronger national unity.** When every region has a role in governing, people feel that the state belongs to them.
+
+**Challenges.** Shortage of skilled staff, overlap of powers, low local income and slow making of laws.
+
+**Conclusion.** Federalism brings government to the doorstep of the citizen. Its success depends on honest leaders, clear laws and good cooperation among the three levels.
+
+### Model answer D2: population growth in Nepal (10 marks)
+
+**Introduction.** **Population growth** is the increase in the number of people living in a country. The population of Nepal was about 29.2 million in the census of 2078 BS. The growth rate is now about 0.9 percent a year, which is lower than before, but the country still faces many problems because of the large number of people compared with its resources.
+
+**Causes of rapid growth.**
+
+1. **High birth rate in the past.** Early marriage and the wish for sons kept families large.
+2. **Fall in death rate.** Vaccination, health posts, clean water and medicines lowered child and adult deaths, but the birth rate fell more slowly.
+3. **Poverty and illiteracy.** Poor families think that more children mean more hands for work.
+4. **Social beliefs.** Religious and cultural beliefs favour large families.
+5. **Lack of family planning.** In remote areas there is little knowledge or access to contraceptives.
+6. **Rural economy.** In an agricultural society, children help on the farm.
+
+**Effects.**
+
+| Area | Effect |
+|---|---|
+| Food | Pressure on the land; small farms and food shortage |
+| Health and education | Crowded schools and hospitals |
+| Employment | Unemployment and foreign migration |
+| Environment | Deforestation, pollution in Kathmandu, loss of wildlife habitat |
+| Settlement | Unplanned cities, squatters and disaster risk |
+| Economy | Low saving and low capital for development |
+
+**Measures to manage the population.**
+
+1. Provide free and compulsory education, especially for girls.
+2. Spread family-planning services through health posts and female community health volunteers.
+3. Stop child marriage by law and awareness.
+4. Create jobs and skills training so that young people use their ability at home.
+5. Promote planned cities and safe building codes.
+6. Run mass-media programmes for a small, happy family.
+
+**Conclusion.** A large population can be a resource if it is healthy, educated and skilled. Nepal must manage growth with education, health and jobs so that every citizen can live with dignity.
+
 ## Chapter summary
 
 - A 4-mark answer is four points in 60 to 80 words; a 7-mark answer is an introduction, five developed points with facts and a conclusion in about 150 words.

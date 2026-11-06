@@ -143,6 +143,8 @@ ax.set_aspect('equal'); ax.axis('off')
 
 ```photo id="bio11/staph" caption="Spherical bacteria (cocci) of *Staphylococcus*, in the irregular grape-like clusters that give the genus its name, seen in a stained smear." width="74"
 ```
+<div style="break-before:page"></div>
+
 ### Structure of a bacterial cell
 
 ```figure caption="Ultrastructure of a rod-shaped bacterium. Compare it with the eukaryotic cell of Unit 1: there is no nuclear envelope and no membrane-bound organelle of any kind."
@@ -685,6 +687,31 @@ If the question says *impacts*, give both benefits and hazards — two or three 
 each — or you forfeit half the marks.
 :::
 
+```photogrid label="3.P" cols="2" ratio="1.27" caption="Bacteria multiply by binary fission, so one cell becomes two, then four, then eight, and the population grows geometrically. (a) Colonies on an agar plate, each colony a clone grown from a single cell. (b) With a generation time of 20 minutes there are 72 doublings in a day, so one bacterium would give 2^72, or 4.7 x 10^21, cells, a mass of about 4,722 tonnes at one picogram a cell. Because the vertical axis is logarithmic, constant doubling is a straight line. Real cultures never do this: nutrients run out and wastes build up, so the log phase soon gives way to the stationary phase."
+@ photo id="bio11/colonies" cap="Bacterial colonies growing on an agar plate"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Doubling every 20 minutes for 24 hours"
+import math
+g = 20.0
+doublings = 24 * 60 / g
+assert doublings == 72
+cells = 2 ** 72
+mass_t = cells * 1e-12 / 1e6
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 240, 146, (0, 24), (0, 24))
+ax.grid(4, 4, yfmt=lambda v: "1e%d" % v, xfmt=lambda v: "%d h" % v)
+ax.axes()
+ax.curve(lambda t: t * 3 * math.log10(2), 0, 24, color=NAVY, sw=2.4)
+for t, lab, dx, dy in [(3, "512", 6, -8), (8, "1.7e7", 6, -8), (24, "4.7e21", -6, 14)]:
+    ax.pt(t, t * 3 * math.log10(2), lab, dx=dx, dy=dy, anchor="start" if dx > 0 else "end")
+f.text(150, 14, "Cells from one bacterium (log scale)", size=10.5, color=NAVY, bold=True)
+f.text(150, 207, "72 doublings: 2^72 = %.2e cells" % cells, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "at 1 pg each this is about %s tonnes" % "{:,.0f}".format(mass_t), size=10.5, color=RED, bold=True)
+f.text(150, 234, "in reality food runs out within hours", size=9.5, color=SLATE)
+facts = dict(cells="4.7 x 10^21", mass="{:,.0f}".format(mass_t), d=int(doublings))
+```
+
 ## Chapter summary
 
 - Monera contains all prokaryotes: no nuclear envelope, no membrane-bound
@@ -795,3 +822,115 @@ many generations; the host survives, and only when induced by ultraviolet light
 or chemicals does the prophage excise itself and enter the lytic cycle.
 Bacteriophage λ is the standard example.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure, nutrition and reproduction of bacteria, and give eight points of their economic importance. <span class="marks">[10]</span>
+2. Describe the structure of a virus and the lytic and lysogenic cycles of a bacteriophage, and compare viruses with living and non-living things. <span class="marks">[10]</span>
+3. Describe the impacts of biotechnology in microbiology, giving eight applications. <span class="marks">[10]</span>
+
+### Model answer D1: bacteria (10 marks)
+
+**Introduction.** Bacteria are **prokaryotic, unicellular** microorganisms of the kingdom **Monera**. They live everywhere, from the soil of the Terai to the hot springs of Tatopani, and are the oldest known life forms.
+
+**Structure.** A typical cell is 0.5 to 5 micrometres long and has:
+
+- **Cell wall** of **peptidoglycan (murein)**; it gives the shape. Gram-positive bacteria have a thick wall and stain purple, and Gram-negative ones have a thin wall with an outer membrane and stain pink.
+- **Plasma membrane** and a **capsule** or slime layer (protection).
+- **Cytoplasm** with 70S ribosomes, but **no membrane-bound organelles**.
+- **Nucleoid:** a single circular DNA without a nuclear membrane, and extra small circles called **plasmids**.
+- **Flagella** (movement) and **pili** (attachment; the sex pilus for conjugation).
+- Shapes: **cocci** (spherical), **bacilli** (rod), **vibrio** (comma), **spirilla** (spiral).
+
+**Nutrition.** **Autotrophic** (photosynthetic such as cyanobacteria, or chemosynthetic such as nitrifying bacteria) or **heterotrophic** (saprophytic, parasitic or symbiotic, for example *Rhizobium* in legume roots).
+
+**Reproduction.**
+
+1. **Asexual by binary fission:** the DNA replicates and the cell splits into two in about 20 minutes under the best conditions.
+2. **Endospores** form in unfavourable conditions (*Bacillus*, *Clostridium*), resisting heat and drying.
+3. **Genetic recombination (a sexual-like process):** **conjugation** (DNA passes through a pilus), **transformation** (uptake of naked DNA) and **transduction** (DNA carried by a bacteriophage).
+
+**Eight points of economic importance.**
+
+1. **Nitrogen fixation:** *Rhizobium* and *Azotobacter* enrich the soil and so raise the yield of lentils.
+2. **Curd and cheese:** *Lactobacillus* turns milk into curd, the basis of Nepal's dairy products.
+3. **Decomposition:** bacteria recycle dead matter to nutrients.
+4. **Sewage treatment and biogas:** bacteria digest wastes and produce methane.
+5. **Antibiotics:** *Streptomyces* gives streptomycin and tetracycline.
+6. **Genetic engineering:** *E. coli* is used to make insulin and growth hormone.
+7. **Diseases:** cholera, typhoid, tuberculosis and tetanus (harmful).
+8. **Food spoilage and food poisoning** (harmful), and bioleaching of metals such as copper.
+
+| Feature | Bacteria (prokaryote) | Eukaryotic cell |
+|---|---|---|
+| Nucleus | No membrane (nucleoid) | True nucleus |
+| DNA | Circular | Linear with histones |
+| Ribosomes | 70S | 80S |
+| Organelles | No membrane-bound | Present |
+
+**Conclusion.** Bacteria are simple in structure but varied in their nutrition and role. They are friends in farming, food, medicine and recycling, and enemies as the cause of many diseases.
+
+### Model answer D2: structure of a virus and the phage life cycle (10 marks)
+
+**Introduction.** A **virus** is an **obligate intracellular parasite**, ultramicroscopic (20 to 300 nm) and made only of nucleic acid in a protein coat. It can reproduce only inside a living host cell. A virus that infects bacteria is a **bacteriophage**.
+
+**Structure.**
+
+- **Genome:** either DNA or RNA (never both), single- or double-stranded.
+- **Capsid:** a protein coat made of subunits called **capsomeres**, which protects the genome.
+- **Envelope:** some viruses (HIV, influenza, SARS-CoV-2) have an outer lipid membrane with spikes; others are "naked".
+- **T4 bacteriophage:** a hexagonal head with dsDNA, a contractile tail sheath, a base plate and tail fibres.
+
+**Lytic cycle (virulent phage, e.g. T4).**
+
+1. **Attachment:** the tail fibres bind to receptors on the bacterial wall.
+2. **Penetration:** the sheath contracts and the DNA is injected; the empty capsid remains outside.
+3. **Biosynthesis:** the host machinery is taken over, host DNA is broken down and phage DNA and proteins are made.
+4. **Assembly (maturation):** new phage heads and tails are put together.
+5. **Release:** lysozyme **bursts (lyses)** the cell and 100 to 200 new phages come out in 25 to 30 minutes.
+
+**Lysogenic cycle (temperate phage, e.g. lambda).** The phage DNA integrates into the bacterial chromosome as a **prophage** and is copied with it at every cell division. It stays latent until a stress (UV light) **induces** it to enter the lytic cycle.
+
+| Feature | Lytic cycle | Lysogenic cycle |
+|---|---|---|
+| Host cell | Destroyed | Not destroyed for generations |
+| Phage DNA | Free, replicates at once | Integrated as prophage |
+| Type of phage | Virulent | Temperate |
+| Result | New phages released | Latent infection |
+
+**Viruses: living or non-living?**
+
+- **Non-living features:** crystallise, have no cells, no metabolism or growth outside a host, no response.
+- **Living features:** have genetic material, reproduce (inside a host), mutate and evolve.
+So viruses lie on the border between the living and the non-living.
+
+**Diseases.** Human: influenza, COVID-19, dengue (spread in Kathmandu and the Terai), rabies, hepatitis B, HIV/AIDS. Plant: tobacco mosaic and citrus tristeza. Control: vaccination, hygiene and vector control; antibiotics do not work on viruses.
+
+**Conclusion.** A virus is a nucleic-acid genome in a protein coat that needs a host cell to multiply. The lytic cycle quickly destroys the host while the lysogenic cycle hides inside it.
+
+### Model answer D3: impacts of biotechnology in microbiology (10 marks)
+
+**Introduction.** **Biotechnology** is the use of living organisms, cells or their products to make useful products or to solve problems. **Microbial biotechnology** uses bacteria, fungi and viruses, because they grow fast, are easy to modify and are cheap to culture.
+
+**Eight impacts.**
+
+1. **Medicine and vaccines.** Genetically engineered *E. coli* makes **human insulin**, growth hormone and interferon in large quantity. The hepatitis B vaccine is made in yeast, and mRNA vaccines against COVID-19 used a similar approach.
+2. **Antibiotics.** *Penicillium* and *Streptomyces* are grown in huge fermentation tanks (fermenters) to give penicillin, streptomycin and other drugs, and they saved millions of lives.
+3. **Food and drink.** Yeast makes bread and alcohol; *Lactobacillus* makes curd, cheese and yogurt; fungi make soy sauce; *Spirulina* and single-cell protein add nutrition.
+4. **Agriculture.** Biofertilisers (*Rhizobium*, *Azotobacter*, blue-green algae), and biopesticides like *Bacillus thuringiensis* (Bt toxin) reduce chemical use. Bt crops resist insects.
+5. **Environment.** **Bioremediation** uses bacteria to clean oil spills and toxic wastes, and sewage treatment and **biogas** plants turn waste into energy, which is common in rural Nepal.
+6. **Industry.** Microbes produce enzymes (amylase, protease for detergents), organic acids (citric acid by *Aspergillus*), and **bioethanol** as a fuel.
+7. **Diagnosis and research.** PCR uses a heat-stable enzyme from *Thermus aquaticus* (Taq polymerase) to diagnose TB, typhoid, dengue and COVID-19, and restriction enzymes cut DNA in gene cloning.
+8. **Mining (bioleaching).** *Thiobacillus ferrooxidans* extracts copper and uranium from low-grade ores.
+
+**Risks and ethics.** Genetically modified microbes may harm the environment if released; antibiotic-resistant bacteria may spread; and **bioweapons** are a danger. Safety rules and biosafety laws, such as the Nepal's Biosafety framework, are needed.
+
+| Area | Microbe | Product |
+|---|---|---|
+| Medicine | *E. coli* (engineered) | Insulin |
+| Food | *Lactobacillus* | Curd |
+| Antibiotic | *Penicillium* | Penicillin |
+| Pest control | *Bacillus thuringiensis* | Bt toxin |
+| Fuel | Methanogens | Biogas |
+
+**Conclusion.** Microbial biotechnology affects health, food, farming, industry and the environment. Used with care, it is a powerful tool to meet human needs sustainably.

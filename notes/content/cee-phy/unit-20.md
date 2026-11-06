@@ -415,6 +415,27 @@ does. In a long chain the slowest step controls the overall rate, and after enou
 time the whole chain reaches **secular equilibrium**, in which every member decays
 at the same activity.
 
+```photogrid label="20.2" cols="2" ratio="1.2" caption="Half-life decides how an isotope is used. (a) A survey Geiger counter with its probe: the count rate falls with the activity of the source, A = A0 (1/2)^(t / T). (b) Technetium-99m, the workhorse of diagnostic imaging, has a half-life of 6.01 hours, so after 24 hours only 6.3 per cent is left and the patient's dose is small. Iodine-131, used for thyroid treatment, has a half-life of 8.02 days: 91.7 per cent remains after a day and 84.1 per cent after two, so it irradiates the thyroid for weeks. Cobalt-60 (5.27 years) loses only 1.1 per cent in 30 days, which suits a radiotherapy source that is replaced every few years. A short half-life gives less dose; a long half-life gives a steady source."
+@ photo id="ceephy2/geiger" cap="A survey Geiger counter with its probe"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Activity left over 48 hours for Tc-99m and I-131"
+T_tc, T_i, T_co = 6.01, 8.02 * 24, 5.27 * 365.25 * 24
+rem = lambda t, T: 100 * 0.5 ** (t / T)
+assert round(rem(24, T_tc), 1) == 6.3 and round(rem(24, T_i), 1) == 91.7 and round(rem(48, T_i), 1) == 84.1
+assert round(100 - rem(30 * 24, T_co), 1) == 1.1
+f = Fig(300, 236)
+f.text(150, 12, "Percentage of activity left", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 48), (0, 100))
+ax.grid(12, 25, xfmt=lambda x: "%dh" % x).axes("t", "%")
+ax.curve(lambda t: rem(t, T_i), 0, 48, color=TEAL)
+ax.curve(lambda t: rem(t, T_tc), 0, 48, color=RED)
+ax.pt(24, rem(24, T_tc), "Tc-99m: 6.3%", dx=8, dy=-8)
+ax.pt(24, rem(24, T_i), "I-131: 91.7%", dx=8, dy=-8, color=TEAL)
+f.text(150, 206, "Tc-99m (6.01 h): 6.3 per cent left at 24 h", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "I-131 (8.02 d): 91.7 per cent left at 24 h", size=10.5, color=SLATE, bold=True)
+```
+
 ## 20.4 Medical uses of nuclear radiation and its health hazards
 
 ### Diagnosis
@@ -481,6 +502,33 @@ alpha particles cannot escape the casing. A diagnostic tracer is safe because th
 activity is small and the half-life short. The hazard comes from **dose**, not from
 the mere presence of a radioactive atom.
 :::
+
+```photogrid label="20.1" cols="2" ratio="1.2" caption="Alpha decay and half-life. (a) Each straight track is a helium nucleus slowing down in supersaturated vapour, all about the same length. (b) For Ra-226 to Rn-222 + He-4 the mass loss gives Q = 4.87 MeV; momentum conservation gives the alpha 4.78 MeV and the recoiling radon only 0.09 MeV. Geiger's rule R = 0.318 E^1.5 cm predicts about 3.3 cm in air, matching the short tracks. With T = 1,600 y, N / N0 = (1/2)^(t / T): 95.8 per cent remains after 100 y and 25 per cent after 3,200 y."
+@ photo id="ceephy/cloud" cap="Straight, thick alpha tracks from a radium source in a cloud chamber"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Decay of radium-226 against time"
+u = 931.494; mRa, mRn, mHe = 226.0254098, 222.0175782, 4.0026033
+Q = (mRa - mRn - mHe) * u; Ka = Q * 222 / 226; Kr = Q - Ka; rng = 0.318 * Ka ** 1.5
+frac = lambda t: 0.5 ** (t / 1600)
+assert abs(Q - 4.87) < 0.01 and abs(Ka - 4.784) < 0.01 and abs(rng - 3.33) < 0.02 and abs(frac(3200) - 0.25) < 1e-12
+facts = dict(q="%.2f" % Q, ka="%.2f" % Ka, kr="%.2f" % Kr, rng="%.1f" % rng, f100="%.1f" % (frac(100) * 100), f3200="%.0f" % (frac(3200) * 100))
+f = Fig(300, 244)
+f.text(150, 14, "N / N0 = (1/2)^(t / 1600 y)", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t / 4800 * 240; Y = lambda v: 150 - v * 105
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+pts = [(X(t), Y(frac(t))) for t in range(0, 4801, 100)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=NAVY, sw=2.6)
+for t, v in ((1600, 0.5), (3200, 0.25)):
+    f.line(X(t), Y(0), X(t), Y(v), color=AMBER, sw=1.2, dash=True); f.line(X(0), Y(v), X(t), Y(v), color=AMBER, sw=1.2, dash=True)
+    f.circle(X(t), Y(v), 4, fill=AMBER, stroke=AMBER)
+    f.text(X(t) + 8, Y(v) - 8, "%g" % v, size=10.5, color=AMBER, bold=True, anchor="start")
+for t in (0, 1600, 3200, 4800): f.text(X(t), Y(0) + 13, "%d" % t, size=10.5, color=SLATE)
+f.text(150, 178, "years", size=10.5, color=SLATE)
+f.text(150, 196, "Q = %.2f MeV: alpha %.2f, Rn %.2f MeV" % (Q, Ka, Kr), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "air range about %.1f cm (Geiger)" % rng, size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "%.1f per cent left after 100 years" % (frac(100) * 100), size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -701,3 +749,66 @@ the mere presence of a radioactive atom.
 **9.** (a) — $R = 1.2\times27^{1/3} = 1.2\times3 = 3.6$ fm.
 **10.** (b) — by definition of the conversion: 1 u of mass ↔ 931.5 MeV.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of radioactive decay and derive the relation between half-life, mean life and decay constant. Explain the types of radiation and solve numericals. <span class="marks">[10]</span>
+2. Define mass defect and binding energy, and explain nuclear fission and fusion with numericals. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="2" ratio="1.4" caption="Detecting radiation. (a) A Geiger-Muller counter clicks for each ionising particle that enters its tube. (b) The same counter, in a laboratory set-up, is used to measure the activity of a source and to find the half-life."
+@ photo id="ceephy2/geiger" cap="(a) Geiger-Muller counter"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ioephy/geiger" cap="(b) Counter in the laboratory"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: radioactive decay (10 marks)
+
+**Introduction.** **Radioactivity** is the spontaneous emission of radiation from unstable nuclei (Becquerel, 1896). It is a random, statistical process unaffected by temperature, pressure or chemical state.
+
+**Radiations.**
+
+| Property | Alpha | Beta | Gamma |
+|---|---|---|---|
+| Nature | helium nucleus ${}^4_2\text{He}$ | electron (or positron) | photon |
+| Charge | $+2e$ | $-e$ | 0 |
+| Penetration | paper stops it | few mm of aluminium | thick lead |
+| Ionising power | highest | medium | lowest |
+| Effect on the nucleus | $A$ decreases by 4, $Z$ by 2 | $Z$ changes by 1, $A$ same | no change in $A$, $Z$ |
+
+**Law of decay.** The rate of decay is proportional to the number of undecayed nuclei: $\dfrac{dN}{dt} = -\lambda N$, so $N = N_0e^{-\lambda t}$, where $\lambda$ is the **decay constant**.
+
+1. **Half-life** $T_{1/2}$: time for half the nuclei to decay, $T_{1/2} = \dfrac{\ln2}{\lambda} = \dfrac{0.693}{\lambda}$.
+2. **Mean life** $\tau = \dfrac1\lambda = 1.44\,T_{1/2}$.
+3. **Activity** $A = \lambda N = A_0e^{-\lambda t}$, in becquerel ($1\ \text{Bq} = 1\ \text{decay per second}$; $1\ \text{Ci} = 3.7\times10^{10}\ \text{Bq}$).
+4. After $n$ half-lives, $N = N_0/2^n$.
+
+**Uses.** Carbon dating, medical tracers and cancer therapy (cobalt-60), sterilisation of food, smoke detectors and thickness gauges.
+
+**Numerical.** A sample of $64\ \text{g}$ with $T_{1/2} = 8$ days leaves $64/2^3 = 8\ \text{g}$ after $24$ days. In carbon dating, a wooden relic that has $25\%$ of the original ${}^{14}\text{C}$ is $2\times5730 = 11\,460$ years old. For $T_{1/2} = 5\ \text{days}$, $\lambda = 0.693/5 = 0.139\ \text{day}^{-1}$ and the mean life is $7.2$ days.
+
+**Conclusion.** Decay is exponential. After each half-life the activity halves, whatever the starting amount.
+
+### Model answer D2: binding energy, fission and fusion (10 marks)
+
+**Introduction.** The mass of a nucleus is less than the sum of the masses of its nucleons. This difference is the **mass defect** $\Delta m = Zm_p + (A - Z)m_n - M$. By Einstein's relation $E = mc^2$, the **binding energy** is $E_b = \Delta m\times931.5\ \text{MeV}$ (for $\Delta m$ in u).
+
+**Binding energy curve.** $E_b/A$ rises steeply to about $8.8\ \text{MeV}$ at ${}^{56}\text{Fe}$ (the most stable) and then falls slowly to $7.6\ \text{MeV}$ for uranium. Light nuclei can release energy by **fusion**, and heavy nuclei by **fission**.
+
+| Feature | Fission | Fusion |
+|---|---|---|
+| Process | heavy nucleus splits | light nuclei join |
+| Example | ${}^{235}\text{U} + n \to {}^{141}\text{Ba} + {}^{92}\text{Kr} + 3n$ | $\text{D} + \text{T} \to {}^4\text{He} + n$ |
+| Energy per reaction | about $200\ \text{MeV}$ | $17.6\ \text{MeV}$ |
+| Energy per kilogram | high | even higher |
+| Conditions | slow neutrons | $10^7$ to $10^8\ \text{K}$ |
+| Use | reactors, bombs | the sun, hydrogen bomb |
+| Waste | radioactive | little |
+
+**Nuclear reactor.** The fuel is enriched uranium, the **moderator** (heavy water or graphite) slows neutrons, **control rods** (cadmium, boron) absorb neutrons to keep the multiplication factor $k = 1$, and the coolant removes heat. In a bomb, $k > 1$ and the chain reaction is uncontrolled.
+
+**Numerical.** For ${}^4_2\text{He}$: $\Delta m = 2(1.007825) + 2(1.008665) - 4.002603 = 0.029377\ \text{u}$, so $E_b = 0.029377\times931.5 = 27.4\ \text{MeV}$ and $E_b/A = 6.84\ \text{MeV}$ per nucleon. Fission of $1\ \text{kg}$ of ${}^{235}\text{U}$ involves $\dfrac{1000}{235}\times6.02\times10^{23} = 2.56\times10^{24}$ nuclei, giving $2.56\times10^{24}\times200\ \text{MeV} = 8.2\times10^{13}\ \text{J}$, which equals about $2.3\times10^{7}\ \text{kWh}$.
+
+**Conclusion.** Energy is released when nuclei move toward the peak of the binding energy curve, by fission for heavy nuclei and by fusion for light ones.

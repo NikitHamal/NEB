@@ -855,3 +855,131 @@ swimming sperm.
   medicine, industry, ornamental, harmful), not written as a list of plant
   names.
 :::
+
+## 9.3 Extended model answers (10 marks)
+
+A Grade 11 Biology long answer is marked for a definition, a labelled diagram, a table of differences or an ordered description, an example, and a conclusion. The four models below show the length of a full 10-mark answer.
+
+**Extended questions**
+
+1. Describe the structure and function of the cell organelles, and differentiate between plant and animal cells. <span class="marks">[10]</span>
+2. What are enzymes? Explain their properties, the mechanism of enzyme action and the factors affecting enzyme activity. <span class="marks">[10]</span>
+3. Describe the stages of mitosis and differentiate between mitosis and meiosis. <span class="marks">[10]</span>
+4. Describe the family Fabaceae with its floral formula, floral diagram features and economic importance. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="5" ratio="1.1" caption="Seeing the cell. (a) A compound light microscope, the instrument that first revealed cells. (b) The structure of an animal cell. (c) Mitochondria in a mammalian lung cell under the electron microscope, the site of aerobic respiration. (d) A chloroplast in a leaf cell, the site of photosynthesis. (e) Cells in an onion root tip, among them cells in the stages of mitosis."
+@ photo id="bio11/microscope" cap="(a) Microscope"
+@ photo id="bio11/animal-cell" cap="(b) Animal cell"
+@ photo id="bio11/mito-tem" cap="(c) Mitochondria"
+@ photo id="bio11/chloroplast-tem" cap="(d) Chloroplast"
+@ photo id="bio11/onion-root" cap="(e) Mitosis in onion root"
+```
+
+### Model answer D1: cell organelles and plant versus animal cells (10 marks)
+
+**Introduction.** The **cell** is the structural and functional unit of life. Every living organism is made of one or more cells, and every cell comes from a pre-existing cell. A eukaryotic cell contains a true nucleus and many membrane-bound organelles, each with a special job.
+
+**Structure and function of organelles.**
+
+1. **Plasma membrane.** A fluid mosaic of phospholipids and proteins that controls what enters and leaves the cell.
+2. **Nucleus.** Surrounded by a double membrane with pores; it holds the chromatin (DNA with protein) and the nucleolus, and controls all cell activities.
+3. **Mitochondria.** Have a smooth outer and a folded inner membrane (cristae); they release energy as ATP, so they are the **powerhouses**.
+4. **Endoplasmic reticulum.** Rough ER (with ribosomes) makes proteins; smooth ER makes lipids and detoxifies.
+5. **Golgi apparatus.** Stacks of flattened sacs that modify, sort and package proteins into vesicles.
+6. **Lysosomes.** Sacs of digestive enzymes that destroy worn-out organelles and germs; they are the **suicide bags**.
+7. **Plastids.** Chloroplasts hold chlorophyll and carry out photosynthesis; chromoplasts hold pigments; leucoplasts store starch.
+8. **Vacuole, ribosomes and cytoskeleton.** The large central vacuole stores water and sap; ribosomes build proteins; microtubules give shape and movement.
+
+| Basis | Plant cell | Animal cell |
+|---|---|---|
+| Cell wall | Present (cellulose) | Absent |
+| Plastids | Present | Absent |
+| Vacuole | One large central | Small or absent |
+| Centrioles | Absent in higher plants | Present |
+| Shape | Fixed, usually regular | Irregular, can change |
+| Stored food | Starch | Glycogen |
+
+**Conclusion.** The organelles divide the work of the cell just as the departments divide the work of a hospital. The cell wall, plastids and large vacuole make a plant cell different from an animal cell.
+
+### Model answer D2: enzymes (10 marks)
+
+**Introduction.** **Enzymes** are biological catalysts, mostly **proteins**, that speed up chemical reactions in living cells without being used up. Almost every reaction of metabolism, from digestion of food to copying of DNA, needs an enzyme. Amylase in saliva, pepsin in the stomach and catalase in liver are common examples.
+
+**Properties.**
+
+1. **Catalytic power.** A very small amount works on a large amount of substrate, because the enzyme is released unchanged after each reaction.
+2. **Specificity.** One enzyme works on one substrate, or one kind of bond; maltase acts only on maltose.
+3. **Protein nature.** They are denatured by heat, strong acids and heavy metals.
+4. **Reversible action.** Many enzymes can drive a reaction in either direction, depending on the concentrations.
+5. **Sensitivity.** They work best at an **optimum temperature and pH**.
+
+**Mechanism: the lock-and-key and induced-fit models.** The substrate fits into the **active site** of the enzyme to make an enzyme-substrate complex. The enzyme lowers the **activation energy**, the products form and leave, and the enzyme is free again. In the **induced-fit** model the active site changes shape slightly to grip the substrate more closely.
+
+$$\text{E} + \text{S} \rightleftharpoons \text{ES} \rightarrow \text{E} + \text{P}$$
+
+**Factors affecting activity.**
+
+| Factor | Effect |
+|---|---|
+| Temperature | Rate roughly doubles for each 10 °C rise up to the optimum (about 37 °C for human enzymes); above about 50 °C the enzyme is denatured and the rate falls to zero |
+| pH | Each enzyme has an optimum pH (pepsin about 2, amylase about 7, trypsin about 8); a change breaks ionic bonds in the active site |
+| Substrate concentration | Rate rises, then levels off when all active sites are occupied |
+| Enzyme concentration | Rate is directly proportional when substrate is in excess |
+| Inhibitors | **Competitive** inhibitors resemble the substrate and block the active site; **non-competitive** inhibitors bind elsewhere and change the shape |
+
+**Conclusion.** Without enzymes the reactions of life would be too slow to support the body. Their sensitivity to temperature and pH is the reason a high fever is dangerous.
+
+### Model answer D3: mitosis, and mitosis versus meiosis (10 marks)
+
+**Introduction.** **Mitosis** is the division of a somatic cell into two identical daughter cells with the same chromosome number as the parent. It follows the **interphase** (G₁, S, G₂), during which DNA is replicated.
+
+**Stages of mitosis.**
+
+1. **Prophase.** Chromatin condenses into chromosomes, each of two sister chromatids joined at the centromere; the nucleolus and nuclear envelope disappear, and spindle fibres begin to form.
+2. **Metaphase.** The chromosomes line up at the equator of the spindle, attached by their centromeres.
+3. **Anaphase.** The centromeres divide and the sister chromatids are pulled to opposite poles.
+4. **Telophase.** The chromosomes reach the poles and uncoil, the nuclear envelope forms again, and the nucleolus reappears.
+5. **Cytokinesis.** The cytoplasm divides: by a furrow in animal cells and by a cell plate in plant cells.
+
+**Significance.** It gives growth, repair of wounds, replacement of cells, asexual reproduction and a constant chromosome number.
+
+| Basis | Mitosis | Meiosis |
+|---|---|---|
+| Occurs in | Somatic cells | Germ cells (gametes, spores) |
+| Number of divisions | One | Two |
+| Daughter cells | Two | Four |
+| Chromosome number | Same as parent (2n) | Half (n) |
+| Crossing over | Absent | Present in prophase I |
+| Genetic make-up | Identical | Different (variation) |
+| Role | Growth and repair | Gamete formation |
+
+**Conclusion.** Mitosis keeps the body's cells identical; meiosis halves the chromosomes so that fertilisation restores the normal number and shuffles the genes.
+
+### Model answer D4: family Fabaceae (10 marks)
+
+**Introduction.** Fabaceae (Leguminosae) is the pea or bean family, the third largest family of flowering plants. Its members have roots with nodules that fix nitrogen, so they enrich the soil.
+
+**Description.**
+
+1. **Habit.** Herbs, shrubs or trees, for example pea, gram and Dalbergia (sissoo).
+2. **Root.** Tap root with **root nodules** holding *Rhizobium*.
+3. **Stem.** Herbaceous or woody, often a climber with tendrils.
+4. **Leaf.** Alternate, stipulate, usually compound (pinnate), with leaf-base swelling (pulvinus).
+5. **Inflorescence.** Racemose.
+6. **Flower.** Bisexual, **zygomorphic**, hypogynous or perigynous, pentamerous.
+7. **Calyx and corolla.** Five sepals joined at the base; five petals forming the **papilionaceous** corolla: one large standard, two lateral wings and two joined keel petals.
+8. **Androecium.** Ten stamens, usually **diadelphous** (9 + 1).
+9. **Gynoecium.** One carpel with a superior ovary of one chamber and marginal placentation.
+10. **Fruit and seed.** A legume (pod); seed without endosperm.
+
+**Floral formula.** % ⚥ K (5) C 1+2+(2) A (9)+1 G 1 (superior ovary, so no line above G).
+
+| Use | Examples |
+|---|---|
+| Food (pulses) | Lentil, soybean, pea, gram |
+| Timber | Sissoo (*Dalbergia sissoo*) |
+| Fodder and green manure | Clover, *Sesbania* |
+| Medicine | Liquorice (*Glycyrrhiza*) |
+| Ornamental | Sweet pea, *Bauhinia* |
+
+**Conclusion.** The papilionaceous corolla and diadelphous stamens identify the family, and the nodules make legumes important in crop rotation in Nepali farms.

@@ -80,6 +80,42 @@ The `else` pairs with `if (b)`. To attach it to the outer `if`, wrap the inner o
 
 Checks: 2000 → leap (400); 1900 → not (100 but not 400); 2024 → leap; 2026 → not.
 
+### A decision with a time axis: the traffic light
+
+A traffic-light controller is a decision made again and again. At every second it asks which part of the cycle the clock is in and then switches the lamps: if the position is below 40 the light is green, below 45 it is yellow, otherwise red. Plate 3.1 runs that controller for 300 seconds with `if`/`else if` and a `switch` on the state; the three cycles of 100 seconds give 120 s of green, 15 s of yellow and 165 s of red. Note how the two decision tools work together: `if` chooses the state from a range, and `switch` acts on the exact state value.
+
+```photogrid label="3.1" cols="2" ratio="1.1" caption="Decisions repeated every second. (a) A traffic signal head: only one lamp is lit at a time. (b) A C program that decides the state from clock % 100 (green below 40, yellow below 45, red otherwise) run for 300 seconds: three cycles, totals computed by the program."
+@ photo id="bca102/traffic" cap="Traffic signal: one state is selected every second"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Three cycles of a 100-second signal"
+def state(t):
+    p = t % 100
+    return 0 if p < 40 else (1 if p < 45 else 2)
+seq = [state(t) for t in range(300)]
+assert (seq.count(0), seq.count(1), seq.count(2)) == (120, 15, 165)
+runs = []
+for t, s in enumerate(seq):
+    if not runs or runs[-1][0] != s: runs.append([s, t, 1])
+    else: runs[-1][2] += 1
+assert len(runs) == 9
+fills = [("#bbf7d0", TEAL), ("#fde68a", AMBER), ("#fecaca", RED)]
+f = Fig(400, 250)
+f.text(200, 16, "Lamp state for t = 0 to 299 s", size=11, color=NAVY, bold=True)
+sc = 380 / 300
+for s, t0, n in runs:
+    fl, st = fills[s]
+    f.box(10 + t0 * sc, 40, n * sc, 40, "", fill=fl, stroke=st, r=1)
+for t in (0, 100, 200, 300):
+    f.line(10 + t * sc, 82, 10 + t * sc, 92, color=SLATE)
+    f.text(10 + t * sc, 106, f"{t}", size=10.5, color=SLATE, anchor="middle")
+for i, (nm, k, (fl, st)) in enumerate(zip(["green", "yellow", "red"], [120, 15, 165], fills)):
+    y = 128 + i * 30
+    f.box(14, y, 24, 20, "", fill=fl, stroke=st, r=3)
+    f.text(48, y + 10, f"{nm}: {k} s = {k / 3:.0f} s per cycle", size=11, color=SLATE, bold=True, anchor="start", vmid=True)
+f.text(200, 236, "9 state changes in 300 s (3 per cycle); asserted by a simulation.", size=10.5, color=SLATE)
+```
+
 ## 3.2 The `switch` statement
 
 ```text
@@ -122,6 +158,39 @@ two three end
 ```
 
 The second switch shows the danger: with no `break`, `n = 2` prints "two", "three" and "end". Use `switch` for a menu or a fixed set of values; use `if` for ranges.
+
+### The switch that keeps falling
+
+Each `case` is only a label, not a closed box. After the matching label, C keeps running the following statements until it meets `break` or the closing brace. That behaviour is called fall-through and it is the usual cause of the "extra output" bug. Plate 3.2 runs the same four inputs through two versions of a menu: one with `break` after every case, and one where `case 1` and `case 3` forget it. Fall-through is useful when it is meant, for example `case 'a': case 'e': case 'i':` sharing one action for vowels.
+
+```photogrid label="3.2" cols="2" ratio="1.1" caption="Selecting one of several positions. (a) A rotary selector switch: a knob with named positions, the hardware idea behind switch. (b) Output of a real C program for k = 1 to 4, with and without break statements."
+@ photo id="bca102/selector" cap="Rotary selector: the knob points to exactly one position"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Same menu, with and without break"
+def with_break(k): return {1: "A", 2: "B", 3: "C"}.get(k, "D")
+def fall(k):
+    out = []
+    if k == 1: out += ["A", "B"]
+    elif k == 2: out += ["B"]
+    elif k == 3: out += ["C", "D"]
+    else: out += ["D"]
+    return " ".join(out)
+assert [fall(k) for k in range(1, 5)] == ["A B", "B", "C D", "D"]
+assert [with_break(k) for k in range(1, 5)] == ["A", "B", "C", "D"]
+f = Fig(400, 250)
+f.text(200, 16, "Printed output for k = 1..4", size=11, color=NAVY, bold=True)
+f.text(86, 40, "k", size=10.5, color=SLATE, bold=True)
+f.text(190, 40, "break everywhere", size=10.5, color=TEAL, bold=True)
+f.text(320, 40, "missing breaks", size=10.5, color=RED, bold=True)
+for k in range(1, 5):
+    y = 50 + (k - 1) * 40
+    ok = with_break(k) == fall(k).replace(" ", "")
+    f.box(60, y, 54, 32, str(k), fill=BLUE, stroke=NAVY, color=NAVY, size=12, bold=True)
+    f.box(124, y, 130, 32, with_break(k), fill=MINT, stroke=TEAL, color=TEAL, size=12, bold=True)
+    f.box(264, y, 130, 32, fall(k), fill=MINT if ok else ROSE, stroke=TEAL if ok else RED, color=TEAL if ok else RED, size=12, bold=True)
+f.text(200, 232, "case 1 prints A B and case 3 prints C D: execution fell through.", size=10.5, color=SLATE)
+```
 
 ## 3.3 Loops
 
@@ -250,6 +319,35 @@ f.text(380, 214, "while: entry-controlled (test, then body).   do-while: exit-co
 f.text(380, 236, "for (init; test; update) is a while loop with the three parts on one line.", size=10.5, color=SLATE)
 ```
 
+### Counting trips through a loop
+
+The three loop statements are not interchangeable at the boundary. `for` and `while` test first, so they may run zero times; `do-while` tests last, so it always runs at least once. Plate 3.3 counts the real trips for three values of n, and also counts the trips of a nested loop and of a loop that uses `continue` and `break`. These numbers are the answers to a favourite exam question: how many times does the body run?
+
+```photogrid label="3.3" cols="2" ratio="1.1" caption="How many times does the body run? (a) A rotary selector on the console of an IBM 1620, a 1960s computer whose programs were loops over memory addresses. (b) Trips counted by a real C program for three loop forms and three limits, plus a nested loop (1+2+...+10 = 55 trips) and a loop with continue and break (sum 867)."
+@ photo id="bca102/ibm1620" cap="IBM 1620 console: selector for the memory address register display"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Trips taken by for, while and do-while"
+rows = []
+for n in (0, 1, 5):
+    fr = len(range(n)); wh = fr; do = max(1, n)
+    rows.append((n, fr, wh, do))
+assert rows == [(0, 0, 0, 1), (1, 1, 1, 1), (5, 5, 5, 5)]
+assert sum(i for i in range(1, 101) if i % 3 and i <= 50) == 867 and sum(range(1, 11)) == 55
+f = Fig(400, 250)
+f.text(200, 16, "Body executions", size=11, color=NAVY, bold=True)
+for j, h in enumerate(["limit n", "for", "while", "do-while"]):
+    f.text(70 + j * 90, 42, h, size=10.5, color=SLATE, bold=True)
+for i, r in enumerate(rows):
+    y = 52 + i * 38
+    for j, v in enumerate(r):
+        hot = j == 3 and r[0] == 0
+        f.box(30 + j * 90, y, 80, 30, str(v), fill=ROSE if hot else BLUE, stroke=RED if hot else NAVY, color=RED if hot else NAVY, size=12, bold=True)
+f.text(200, 184, "n = 0: do-while still runs once.", size=10.5, color=RED, bold=True)
+f.text(200, 208, "for i = 1..10, for j = 1..i  ->  55 trips", size=10.5, color=SLATE, bold=True)
+f.text(200, 228, "i = 1..100, skip multiples of 3, stop above 50  ->  sum 867", size=10.5, color=SLATE, bold=True)
+```
+
 ## 3.4 `break`, `continue`, `goto`
 
 - `break` leaves the *innermost* loop or `switch` immediately.
@@ -282,6 +380,43 @@ Trace: even `i` skipped; at `i = 9` (odd, > 7) the loop breaks, so `i` is 9 afte
 ::: caution Loop traps
 `for (i = 0; i < 5; i++);` — the stray semicolon is an empty body; the following block runs once. `while (i = 5)` assigns instead of testing. `for (float x = 0; x != 1.0; x += 0.1)` may never terminate because 0.1 has no exact binary form; compare with `<` or a tolerance. An unsigned counter counting down with `i >= 0` never ends because it cannot go negative.
 :::
+
+### The loop that nobody could prove would end
+
+Edsger Dijkstra argued in 1968 that unrestricted `goto` makes programs hard to understand, and the structured statements of this chapter (`if`, `switch`, `for`, `while`, `do-while`) grew from that idea. Even a very short loop can behave in a way that is hard to predict. The Collatz rule (halve an even number, triple and add one to an odd number) is a two-line `while` loop, yet nobody has proved that it always reaches 1. Plate 3.4 plots the real trajectory of 27, which takes 111 steps and climbs to 9,232 before collapsing.
+
+```photogrid label="3.4" cols="2" ratio="1.1" caption="A short loop with a long life. (a) Edsger W. Dijkstra, whose 1968 letter on goto helped make structured programming standard. (b) The path of the Collatz loop starting from 27, computed by the same while loop as in C: 111 steps and a peak of 9,232."
+@ photo id="bca102/dijkstra" cap="Edsger W. Dijkstra (1930-2002)"
+fit 1.1
+focus 0.5 0.35
+@ svg cap="while (n != 1) from n = 27"
+n, path = 27, [27]
+while n != 1:
+    n = n // 2 if n % 2 == 0 else 3 * n + 1
+    path.append(n)
+assert len(path) - 1 == 111 and max(path) == 9232
+def steps(s):
+    c = 0
+    while s != 1:
+        s = s // 2 if s % 2 == 0 else 3 * s + 1; c += 1
+    return c
+assert max(range(1, 100), key=steps) == 97 and steps(97) == 118
+f = Fig(400, 260)
+f.text(200, 16, "Collatz path of 27 (value against step)", size=11, color=NAVY, bold=True)
+L, T, W, H = 40, 34, 340, 170
+f.line(L, T + H, L + W, T + H, color=SLATE); f.line(L, T, L, T + H, color=SLATE)
+pts = [(L + i / 111 * W, T + H - v / 9232 * H) for i, v in enumerate(path)]
+for a, b in zip(pts, pts[1:]):
+    f.line(a[0], a[1], b[0], b[1], color=NAVY, sw=1.3)
+pk = path.index(9232)
+f.circle(pts[pk][0], pts[pk][1], 4, fill=ROSE, stroke=RED)
+f.text(pts[pk][0] + 8, pts[pk][1] + 4, f"9,232 at step {pk}", size=10.5, color=RED, bold=True, anchor="start")
+for v in (0, 4000, 9232):
+    f.text(L - 4, T + H - v / 9232 * H + 4, f"{v:,}", size=10.5, color=SLATE, anchor="end")
+f.text(L, T + H + 16, "0", size=10.5, color=SLATE); f.text(L + W, T + H + 16, "111", size=10.5, color=SLATE)
+f.text(200, 238, "Below 100 the longest start is 97: 118 steps.", size=10.5, color=SLATE, bold=True)
+f.text(200, 254, "No one has proved that every start ends at 1.", size=10.5, color=SLATE)
+```
 
 ## 3.5 Eight uses of loops and decisions in real programs
 

@@ -39,6 +39,8 @@ tube from mouth to anus, about 8–10 m long in an adult) and the **associated
 digestive glands** (salivary glands, liver with gall bladder, and pancreas),
 which lie outside the tube and pour their secretions into it through ducts.
 
+<div style="break-before:page"></div>
+
 ### The alimentary canal
 
 ```photo id="bio12/alimentary" caption="The human alimentary canal with its associated glands, anterior view. Numbers 1–11 are the mouth and pharynx region, 12–17 the glands, 18–30 the intestines." width="62"
@@ -2323,6 +2325,54 @@ $$ \frac{448}{1\,000\,000} \times 100 \approx 0.045\,\% $$
 Fewer than one oocyte in two thousand is ever ovulated; the rest degenerate by **atresia**. This is why a female is born with all the oocytes she will ever have, yet never runs short of them before menopause.
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.27" caption="Blood pressure is written as systolic over diastolic, but the average pressure driving blood through the organs is the mean arterial pressure. (a) A sphygmomanometer cuff with a stethoscope at the elbow. (b) For 120/80 mmHg the MAP is 93.3 mmHg and the pulse pressure is 40 mmHg. A reading of 150/95 gives 113.3, and 170/105, a stage-2 hypertension level, gives 126.7. A low reading of 90/60 gives 70.0, near the lower limit. Because diastole lasts longer than systole, MAP is closer to the diastolic value, which is why one-third of the pulse pressure is added rather than half."
+@ photo id="bio12/bp" cap="Measuring blood pressure with a sphygmomanometer and a stethoscope"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Mean arterial pressure for four readings"
+cases = [("120/80", 120, 80), ("150/95", 150, 95), ("170/105", 170, 105), ("90/60", 90, 60)]
+mp = [d + (s - d) / 3.0 for _, s, d in cases]
+pp = [s - d for _, s, d in cases]
+assert round(mp[0], 1) == 93.3 and pp == [40, 55, 65, 30]
+f = Fig(300, 236)
+f.text(150, 14, "MAP = diastolic + (systolic - diastolic)/3", size=10, color=NAVY, bold=True)
+hbars(f, [(c[0], m) for c, m in zip(cases, mp)], vmax=140, fmt="%.1f", x0=64, y0=34, bw=170, gap=30,
+      colors=[(MINT, TEAL), (SAND, AMBER), (ROSE, RED), (BLUE, NAVY)])
+f.text(150, 164, "pulse pressure = systolic - diastolic", size=10.5, color=SLATE, bold=True)
+f.text(150, 182, "= %d, %d, %d, %d mmHg" % tuple(pp), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "normal MAP about 70 to 100 mmHg", size=10, color=TEAL, bold=True)
+f.text(150, 220, "120/80: heart pushes, arteries recoil", size=10, color=SLATE, bold=True)
+facts = dict(m0=mp[0], m1=mp[1], m2=mp[2], m3=mp[3], p0=pp[0])
+```
+
+```photogrid label="8.Q" cols="2" ratio="1.27" caption="An ECG records the electrical activity of the heart, and the grid lets a student read the heart rate quickly. (a) An ECG tracing on graph paper. (b) Each large box is 0.2 seconds, so the rate is 300 divided by the number of large boxes between two R waves: 100 beats per minute for 3 boxes, 75 for 4, 60 for 5 and 50 for 6. Rates below 60 are called bradycardia and above 100 tachycardia. With a stroke volume of 70 mL, a heart rate of 75 gives a cardiac output of 5.25 litres per minute, close to the resting average for an adult."
+@ photo id="bio12/ecg" cap="A 12-lead electrocardiogram printed on grid paper"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heart rate from the R-R interval"
+boxes = [3, 4, 5, 6]
+hr = [300.0 / b for b in boxes]
+sv = 70.0; co = [h * sv / 1000.0 for h in hr]
+assert hr == [100.0, 75.0, 60.0, 50.0] and abs(co[1] - 5.25) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Heart rate = 300 / large boxes between R waves", size=10, color=NAVY, bold=True)
+hbars(f, [("RR = %d boxes" % b, h) for b, h in zip(boxes, hr)], vmax=120, fmt="%.0f bpm", x0=84, y0=34, bw=140, gap=30,
+      colors=[(ROSE, RED), (MINT, TEAL), (BLUE, NAVY), (SAND, AMBER)], size=9.5)
+f.text(150, 164, "one large box = 0.2 s, so 5 boxes = 1 s", size=10, color=SLATE, bold=True)
+f.text(150, 184, "cardiac output = HR x stroke volume", size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "75 x 70 mL = %.2f L per min" % co[1], size=10.5, color=TEAL, bold=True)
+f.text(150, 220, "normal resting rate: 60 to 100 bpm", size=10, color=SLATE, bold=True)
+facts = dict(h3=hr[0], h4=hr[1], h5=hr[2], h6=hr[3], co=co[1])
+```
+
+```photogrid label="8.H" cols="5" ratio="1.0" caption="Five organ systems of the human body: (a) the heart in section with the direction of blood flow; (b) alveoli, where the lungs exchange gases; (c) a numbered nephron, the filtering unit of the kidney; (d) the brain in sagittal section; (e) the human eye with its labelled parts."
+@ photo id="bio12/heart-numbered" cap="Heart: chambers, valves and vessels"
+@ photo id="bio12/alveoli" cap="Alveoli and capillaries in the lung"
+@ photo id="bio12/nephron-numbered" cap="Nephron: glomerulus, tubule, loop"
+@ photo id="bio12/brain-sagittal" cap="Brain in sagittal section"
+@ photo id="bio12/eye-labelled" cap="Human eye anatomy"
+```
+
 ## Chapter summary
 
 - **Digestion** is chemical hydrolysis by enzymes, each with its own optimum pH: salivary amylase 6.8, pepsin 1.5–2.0, pancreatic and intestinal enzymes 7–8. Absorption happens in the ileum across **villi**, which raise the surface area to about 250 m².
@@ -2445,3 +2495,118 @@ More than 99 % of the 180 L is reabsorbed, leaving 1–1.5 L of urine.
 *Secretory / luteal phase (days 15–28).* Under LH the ruptured follicle becomes the **corpus luteum**, which secretes **progesterone** (with some oestrogen). Progesterone makes the endometrium thick, soft, glandular and richly supplied with blood — ready for implantation — and inhibits FSH and LH so no new follicle develops.
 *If fertilisation occurs*, the implanted embryo secretes **hCG**, which keeps the corpus luteum alive for about three months. Progesterone therefore stays high, the endometrium is not shed, menstruation stops and the pregnancy is maintained until the placenta takes over hormone production. If fertilisation does not occur, the corpus luteum degenerates into the **corpus albicans** around day 26, hormone levels collapse, and the next menstrual phase begins.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure of the human heart and explain the cardiac cycle with its timing, heart sounds and cardiac output. <span class="marks">[10]</span>
+2. Describe the structure of a nephron and explain the formation of urine in its three steps. <span class="marks">[10]</span>
+3. Explain how a nerve impulse is generated and conducted, and how it crosses a synapse. <span class="marks">[10]</span>
+4. Describe the menstrual cycle with the hormones that control it. <span class="marks">[10]</span>
+
+### Model answer D1: the human heart and the cardiac cycle (10 marks)
+
+**Introduction.** The heart is a hollow, muscular, four-chambered pump about the size of a closed fist, lying in the thoracic cavity between the lungs and slightly tilted to the left. It is covered by a double-layered sac, the **pericardium**, whose fluid reduces friction. It beats about 72 times a minute throughout life.
+
+**Structure.**
+
+1. **Chambers.** Two thin-walled **atria** receive blood and two thick-walled **ventricles** pump it out. The left ventricle has the thickest wall (about 3 times the right), since it drives blood around the whole body.
+2. **Valves.** The **tricuspid valve** (three flaps) guards the right atrioventricular opening and the **bicuspid (mitral) valve** the left. The **pulmonary** and **aortic semilunar valves** guard the exits of the ventricles. Tendinous cords (chordae tendineae) and papillary muscles keep the flaps from turning inside out.
+3. **Vessels.** The right side receives deoxygenated blood from the superior and inferior venae cavae and sends it to the lungs by the pulmonary artery. The left side receives oxygenated blood from the lungs by four pulmonary veins and sends it into the aorta.
+4. **Conducting system.** The heart is **myogenic**: the **sinoatrial (SA) node** (the pacemaker) starts each beat, the signal reaches the **atrioventricular (AV) node**, then the bundle of His and the Purkinje fibres.
+
+**The cardiac cycle (0.8 s at 72 beats per minute).**
+
+| Phase | Duration | Events |
+|---|---|---|
+| Atrial systole | 0.1 s | Atria contract and finish filling the ventricles; AV valves open |
+| Ventricular systole | 0.3 s | AV valves close ("lub"), pressure rises, semilunar valves open and blood is ejected |
+| Joint diastole | 0.4 s | Semilunar valves close ("dup"); atria fill; AV valves open and ventricles fill passively |
+
+**Heart sounds.** The first sound "lub" is long and low, produced by the closure of the AV valves. The second sound "dup" is short and sharp, produced by the closure of the semilunar valves. Abnormal sounds, called murmurs, show faulty valves.
+
+**Cardiac output.** Stroke volume (blood pumped per beat) is about 70 mL, so cardiac output = heart rate × stroke volume = $72 \times 70 = 5040$ mL, or about **5 litres per minute**, which is roughly the entire blood volume. In exercise it may rise to 20–25 litres per minute.
+
+**Conclusion.** The valves force blood in one direction, and the SA node keeps a regular rhythm, so the heart moves about 7200 litres of blood a day.
+
+### Model answer D2: the nephron and urine formation (10 marks)
+
+**Introduction.** The **nephron** is the structural and functional unit of the kidney. Each kidney has about one million nephrons, and together they filter the blood and form urine, maintaining the water, salt and acid–base balance of the body.
+
+**Structure of a nephron.**
+
+1. **Renal (Malpighian) corpuscle.** A knot of capillaries, the **glomerulus**, fits inside a double-walled cup, **Bowman's capsule**. The afferent arteriole is wider than the efferent arteriole, which keeps the pressure high.
+2. **Proximal convoluted tubule (PCT).** A coiled tube lined by cuboidal cells with a brush border.
+3. **Loop of Henle.** It has a thin descending limb (permeable to water) and an ascending limb (permeable to salts, impermeable to water). In juxtamedullary nephrons it dips deep into the medulla.
+4. **Distal convoluted tubule (DCT)** and the **collecting duct**, which receives urine from many nephrons and opens into the renal pelvis.
+5. **Peritubular capillaries and vasa recta** surround the tubules.
+
+**Urine formation.**
+
+1. **Ultrafiltration** (glomerulus). The net filtration pressure is the glomerular blood pressure (about 55 mmHg) minus the colloid osmotic pressure of blood (30 mmHg) and the capsular pressure (15 mmHg), which is about **10 mmHg**. Water, glucose, salts, amino acids and urea pass through the filtration membrane, but blood cells and large proteins do not. The **glomerular filtration rate** is about 125 mL per minute, or 180 litres a day.
+2. **Selective reabsorption.** About 99% of the filtrate is reabsorbed. In the PCT all glucose and amino acids, 65–70% of the water and sodium and much of the bicarbonate are returned to the blood. The loop of Henle and the DCT reabsorb more water and salts under hormonal control.
+3. **Tubular secretion.** H$^+$, K$^+$, NH$_4^+$, creatinine and some drugs are added from the blood to the filtrate, particularly in the DCT, which helps to regulate pH and potassium.
+
+**Concentration of urine.** The **countercurrent mechanism** of the loop of Henle and vasa recta builds an osmotic gradient in the medulla from about 300 mOsm/L in the cortex to up to 1200 mOsm/L at the tip. **ADH** from the posterior pituitary makes the collecting duct permeable to water, so water leaves by osmosis and a small volume of concentrated urine forms.
+
+| Step | Site | Main process |
+|---|---|---|
+| Ultrafiltration | Glomerulus | Passive, pressure driven |
+| Reabsorption | PCT, loop, DCT | Active and passive |
+| Secretion | DCT | Active |
+
+**Conclusion.** From 180 litres of filtrate only 1–1.5 litres of urine is produced each day; failure of the nephrons is treated by dialysis or by a kidney transplant.
+
+### Model answer D3: nerve impulse and synaptic transmission (10 marks)
+
+**Introduction.** A nerve impulse is a wave of electrical change (an **action potential**) that travels along the axon of a neuron. It is an all-or-none event with the same size for every impulse.
+
+**Resting potential.** At rest the outside of the axon is positive relative to the inside, with a potential of about **−70 mV**. The membrane is more permeable to K$^+$ than to Na$^+$, and the **sodium–potassium pump** removes 3 Na$^+$ and brings in 2 K$^+$ for each ATP, so there is more Na$^+$ outside and more K$^+$ inside.
+
+**Action potential.**
+
+1. **Stimulus and threshold.** A stimulus opens a few voltage-gated Na$^+$ channels; if the membrane reaches the **threshold of about −55 mV**, many more open.
+2. **Depolarisation.** Na$^+$ rushes in, and the inside becomes positive, reaching about **+30 mV**.
+3. **Repolarisation.** Na$^+$ channels close and K$^+$ channels open, so K$^+$ flows out and the inside again becomes negative.
+4. **Hyperpolarisation and recovery.** The potential falls briefly below −70 mV, and the pump restores the original ion distribution. During the **refractory period** a new impulse cannot or can hardly be started, so impulses travel in one direction.
+
+**Conduction.** In an unmyelinated axon each patch of membrane depolarises its neighbour, so the impulse moves at 0.5–2 m/s. In a **myelinated axon**, the myelin sheath insulates the axon, so the impulse jumps from one **node of Ranvier** to the next (**saltatory conduction**), which is faster (up to 120 m/s) and saves energy.
+
+**Synaptic transmission.**
+
+1. The impulse reaches the axon terminal and opens voltage-gated Ca$^{2+}$ channels.
+2. Ca$^{2+}$ entry makes vesicles fuse with the membrane and release a neurotransmitter, such as acetylcholine, into the **synaptic cleft** (about 20 nm).
+3. The neurotransmitter binds to receptors on the postsynaptic membrane and opens ion channels, which starts a new impulse.
+4. The transmitter is broken down (acetylcholinesterase) or taken back, so the signal ends.
+
+| Feature | Unmyelinated | Myelinated |
+|---|---|---|
+| Speed | 0.5–2 m/s | up to 120 m/s |
+| Conduction | Continuous | Saltatory |
+| Energy use | High | Low |
+
+**Conclusion.** The impulse is electrical along the axon and chemical across the synapse, which makes the nervous system quick and one-way.
+
+### Model answer D4: the menstrual cycle and its hormones (10 marks)
+
+**Introduction.** The menstrual cycle is the series of changes in the ovary and uterus that repeats about every **28 days** from puberty (menarche, at 11–14 years) to menopause (45–50 years), except during pregnancy. It prepares the uterus to receive a fertilised egg.
+
+**Phases (28-day model).**
+
+| Phase | Days | Ovary | Uterus (endometrium) | Hormones |
+|---|---|---|---|---|
+| Menstrual | 1–5 | Primary follicles begin to grow | Endometrium breaks down; 50–80 mL blood and tissue lost | Oestrogen and progesterone low |
+| Follicular (proliferative) | 6–13 | Graafian follicle matures | Endometrium repaired and thickens | FSH rises, oestrogen rises |
+| Ovulation | 14 | Follicle ruptures and the secondary oocyte is released | Thick, rich in glands | **LH surge** (and FSH peak) triggered by high oestrogen |
+| Luteal (secretory) | 15–28 | Corpus luteum forms from the empty follicle | Glands secrete, blood supply increases | Progesterone high, some oestrogen |
+
+**Hormonal control.**
+
+1. The hypothalamus releases GnRH, and the anterior pituitary releases **FSH**, which stimulates growth of the follicle.
+2. The follicle secretes **oestrogen**, which thickens the endometrium. High oestrogen makes a positive feedback on the pituitary and gives the **LH surge** around day 13–14.
+3. LH causes **ovulation** and forms the **corpus luteum**, which makes **progesterone** (and some oestrogen) to maintain the endometrium.
+4. If the egg is **not fertilised**, the corpus luteum degenerates after about 10–12 days, hormone levels fall, and the endometrium is shed as menstruation. High progesterone also gives negative feedback to keep FSH and LH low.
+5. If the egg is **fertilised**, the embryo secretes **hCG**, which maintains the corpus luteum, and the cycle stops; this hormone is detected by pregnancy tests.
+
+**Fertile period.** The egg survives about 24 hours and sperm 2–3 days, so the fertile window is about days 10–15.
+
+**Conclusion.** The cycle is controlled by feedback between the hypothalamus, pituitary and ovary, and it ends either in menstruation or in pregnancy.

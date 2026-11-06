@@ -255,6 +255,29 @@ alumina and iron oxide, which will raise the C₃A content, make the cement set
 faster and lower its sulphate resistance. Adding sand would correct it.
 :::
 
+```photogrid label="19.P" cols="2" ratio="1.27" caption="Clinker is the grey, marble-sized product that leaves the rotary kiln at about 1450 degrees; grinding it with 3 to 5 per cent gypsum makes Portland cement. (a) Clinker nodules. (b) The Bogue equations turn the oxide analysis of a typical clinker into its four compounds: tricalcium silicate 55.6 per cent, dicalcium silicate 18.3, tricalcium aluminate 9.0 and the ferrite phase 10.0. C3S hardens fast and gives early strength, while C2S hydrates slowly and keeps adding strength for months. The lime in the clinker comes from limestone, so each 100 kg of clinker releases at least 50.7 kg of carbon dioxide from the chemistry alone, before any fuel is burned."
+@ photo id="chem12/clinker" cap="Cement clinker nodules as they leave the rotary kiln"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Bogue composition of a typical OPC clinker"
+C, S, A, F, SO3 = 64.5, 21.0, 5.5, 3.3, 2.0
+c3s = 4.071 * C - 7.600 * S - 6.718 * A - 1.430 * F - 2.852 * SO3
+c2s = 2.867 * S - 0.7544 * c3s
+c3a = 2.650 * A - 1.692 * F
+c4af = 3.043 * F
+assert 55 < c3s < 57 and 18 < c2s < 19 and abs(c3a - 9.0) < 0.2 and abs(c4af - 10.04) < 0.1
+co2 = C * 44.0 / 56.0
+f = Fig(300, 236)
+f.text(150, 14, "Bogue compounds, % of clinker", size=10.5, color=NAVY, bold=True)
+hbars(f, [("C3S", c3s), ("C2S", c2s), ("C3A", c3a), ("C4AF", c4af)], vmax=70, fmt="%.1f %%", x0=56, y0=32, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 168, "oxides: CaO 64.5, SiO2 21.0, Al2O3 5.5,", size=10, color=SLATE, bold=True)
+f.text(150, 183, "Fe2O3 3.3, SO3 2.0 (per cent)", size=10, color=SLATE, bold=True)
+f.text(150, 202, "C3S gives early strength, C2S later", size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "CO2 from CaO alone: %.1f kg per 100 kg" % co2, size=10.5, color=RED, bold=True)
+facts = dict(c3s=c3s, c2s=c2s, c3a=c3a, c4af=c4af, co2=co2)
+```
+
 ## 19.4 Types of cement: OPC and PPC
 
 | | Ordinary Portland Cement (OPC) | Portland Pozzolana Cement (PPC) |
@@ -504,3 +527,51 @@ gel needles bind the aggregate, so the concrete must be kept wet while curing.
 than an ordinary cement (≈435 kJ kg⁻¹) because of its large C₃A content, so it is
 **not** suitable for a thick dam wall; a low-heat PPC should be used instead.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the manufacture of Portland cement by the dry process with the chemistry of the kiln, the composition of cement and the setting reactions, and mention the cement industry of Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: manufacture of Portland cement (10 marks)
+
+**Introduction.** **Cement** is a fine grey powder which, when mixed with water, sets and hardens to a stone-like mass. **Portland cement** was patented by Joseph Aspdin (1824) and is named after the stone of Portland. It is a mixture of calcium silicates and aluminates made by heating limestone and clay.
+
+**Raw materials.**
+
+- **Limestone (CaCO$_3$)**, about 75–80%, is the source of lime. The **clay or shale** (about 20–25%) gives silica, alumina and iron oxide. The **gypsum** (2–5%) is added at the end to control setting. **Coal** or petcoke is the fuel.
+
+**Steps of the dry process.**
+
+1. **Crushing and grinding.** Limestone and clay are crushed, proportioned and ground together in ball mills to a fine powder called the **raw meal**, which is blended for uniform composition.
+2. **Preheating.** The meal passes down a tower of cyclones, where hot kiln gases heat it to about 800–900 °C, and the limestone starts to decompose.
+3. **Burning in the rotary kiln.** The meal enters a steel cylinder (3–5 m wide, 50–100 m long) that is slightly inclined and rotates slowly. The temperature rises from about 900 °C to 1400–1450 °C in the burning zone, where the reactions take place.
+4. **Cooling and clinker.** The hot product leaves as hard grey nodules, the **clinker**, which is cooled rapidly with air.
+5. **Grinding with gypsum.** The clinker is ground together with 2–5% gypsum to a very fine powder, which is stored in silos and packed.
+
+**Reactions in the kiln.**
+
+| Zone | Temperature | Reaction |
+|---|---|---|
+| Drying | up to 200 °C | Loss of water |
+| Calcination | 600–900 °C | $\text{CaCO}_3 \Rightarrow \text{CaO} + \text{CO}_2$ |
+| Solid-state reaction | 900–1250 °C | Lime reacts with silica, alumina and iron oxide to form belite and aluminate |
+| Clinkering | 1300–1450 °C | $2\text{CaO} + \text{SiO}_2 \Rightarrow \text{Ca}_2\text{SiO}_4$; then $\text{Ca}_2\text{SiO}_4 + \text{CaO} \Rightarrow \text{Ca}_3\text{SiO}_5$ |
+
+**Composition of the clinker.**
+
+| Compound | Formula | Short name | Approximate % | Role |
+|---|---|---|---|---|
+| Tricalcium silicate | 3CaO·SiO$_2$ | Alite | 40–50 | Early strength, fast setting |
+| Dicalcium silicate | 2CaO·SiO$_2$ | Belite | 25–30 | Later strength |
+| Tricalcium aluminate | 3CaO·Al$_2$O$_3$ | Celite | 7–12 | Very quick setting; heat |
+| Tetracalcium aluminoferrite | 4CaO·Al$_2$O$_3$·Fe$_2$O$_3$ | Felite | 8–12 | Colour, fluxing |
+
+**Setting and hardening.** When mixed with water, the aluminate hydrates rapidly, and this would make the cement "flash set". **Gypsum** reacts with it to form ettringite, which slows the reaction and lets the concrete be worked for a few hours. The silicates then hydrate slowly to **calcium silicate hydrate gel** and calcium hydroxide, which give long-term strength. The reaction is exothermic. Curing with water for 7–28 days is essential for strength.
+
+**Types.** **OPC** (ordinary Portland cement) is graded 33, 43 or 53, according to the compressive strength in MPa after 28 days; **PPC** (Portland pozzolana cement) has 15–35% fly ash or pozzolana and is more resistant to sulphates and gives less heat.
+
+**Environmental note.** Calcination alone releases CO$_2$: since 1 kg of CaCO$_3$ gives 0.56 kg of CaO, a clinker containing about 65% CaO releases about $0.65 \times 44/56 = 0.51$ t of CO$_2$ per tonne of clinker, besides that from the fuel. Cement works therefore account for about 7–8% of world CO$_2$ emissions.
+
+**Nepal.** Limestone is plentiful in Udayapur, Makwanpur, Palpa, Arghakhanchi, Dang and Surkhet, but coal and gypsum are imported. The state-owned Hetauda and Udayapur cement industries and many private clinker plants now supply a large part of the demand for construction, although Nepal still imports clinker and cement.
+
+**Conclusion.** Burning lime and clay at about 1450 °C forms the clinker, and adding gypsum gives cement that sets at a controlled rate.

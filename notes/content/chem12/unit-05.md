@@ -653,6 +653,39 @@ of nitrogen or sulphur, and the only product is drinkable water; it runs
 continuously as long as fuel is supplied. **Disadvantages:** the platinum
 catalyst is expensive, and hydrogen is difficult to store and transport safely.
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="A battery is a set of voltaic cells in series, and each cell obeys E(cell) = E(cathode) - E(anode). (a) A lead-acid car battery, whose six cells share one case. (b) The PbO2 electrode has E = +1.69 V and the Pb electrode -0.36 V, so each cell gives 2.05 V and six cells give 12.3 V. Using dG = -nFE with n = 2, each mole of reaction releases 396 kJ. A 60 Ah battery passes 216,000 coulombs, using about 232 g of lead in each cell and storing 738 Wh. Because the reaction is reversible, the alternator can recharge the cells while the engine runs."
+@ photo id="chem12/battery" cap="A lead-acid car battery of six cells in series"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="A lead-acid battery: cell voltage to stored energy"
+F = 96485.0
+E1, E2 = 1.69, -0.36
+Ecell = E1 - E2
+dG = -2 * F * Ecell / 1000
+Etot = 6 * Ecell
+Ah = 60.0
+ne = Ah * 3600 / F
+pb = ne / 2 * 207.2
+Wh = Etot * Ah
+assert abs(Ecell - 2.05) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "PbO2 / Pb cell: E = 1.69 - (-0.36) = %.2f V" % Ecell, size=10, color=NAVY, bold=True)
+for i in range(6):
+    x = 10 + i * 47
+    f.box(x, 26, 43, 44, "", fill=BLUE, stroke=NAVY, r=3)
+    f.text(x + 21.5, 42, "%.2f V" % Ecell, size=9.5, color=NAVY, bold=True)
+    f.text(x + 21.5, 58, "= %.2f" % ((i + 1) * Ecell), size=9, color=SLATE)
+f.text(150, 90, "six cells in series: %.1f V" % Etot, size=11, color=TEAL, bold=True)
+rows = [("dG per cell = -n F E", "%.0f kJ/mol" % dG, RED), ("Charge of a 60 Ah battery", "%.0f C = %.2f mol e-" % (Ah * 3600, ne), NAVY), ("Lead used per cell, fully flat", "%.0f g" % pb, AMBER), ("Stored energy  V x Ah", "%.0f Wh" % Wh, TEAL)]
+for i, (a, b, c) in enumerate(rows):
+    y = 108 + i * 30
+    f.box(8, y, 284, 24, "", fill=SOFT, stroke=c, r=4)
+    f.text(14, y + 12, a, size=9.5, color=SLATE, anchor="start", vmid=True)
+    f.text(286, y + 12, b, size=10, color=c, bold=True, anchor="end", vmid=True)
+f.text(150, 238 - 8, "recharging reverses the cell reaction", size=9.5, color=SLATE)
+facts = dict(E="%.2f" % Ecell, Et="%.1f" % Etot, dG="%.0f" % (-dG), pb="%.0f" % pb, Wh="%.0f" % Wh)
+```
+
 ## Chapter summary
 
 - Electrode potential arises from the electrical double layer at a
@@ -783,3 +816,50 @@ proportional to the quantity of electricity passed, $m = Zit$. Second law: with
 the same quantity of electricity, the masses liberated in different electrolytes
 are proportional to their equivalent weights.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Daniell cell, derive the Nernst equation for it and state Faraday's laws of electrolysis with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the Daniell cell, Nernst equation and Faraday's laws (10 marks)
+
+**Introduction.** A **galvanic (electrochemical) cell** converts the energy of a spontaneous redox reaction into electrical energy. The **Daniell cell** is a classic example.
+
+**Daniell cell.** A zinc rod dips in ZnSO₄ solution (anode) and a copper rod in CuSO₄ solution (cathode); the two solutions are joined by a salt bridge (KCl or KNO₃ in agar), which completes the circuit and keeps the solutions neutral.
+
+| Electrode | Reaction | Change |
+|---|---|---|
+| Anode (−) | Zn → Zn²⁺ + 2e⁻ | Oxidation |
+| Cathode (+) | Cu²⁺ + 2e⁻ → Cu | Reduction |
+| Overall | Zn + Cu²⁺ → Zn²⁺ + Cu | Redox |
+
+Cell notation: Zn | Zn²⁺(1 M) ‖ Cu²⁺(1 M) | Cu. Standard emf: $E^{\circ}_{\text{cell}} = E^{\circ}_{\text{cathode}} - E^{\circ}_{\text{anode}} = 0.34 - (-0.76) = 1.10\ \text{V}$.
+
+**Nernst equation.** The free-energy change is $\Delta G = \Delta G^{\circ} + RT\ln Q$ and $\Delta G = -nFE$. Hence $-nFE = -nFE^{\circ} + RT\ln Q$, so
+
+$$ E = E^{\circ} - \frac{RT}{nF}\ln Q $$
+
+At $298\ \text{K}$ this becomes
+
+$$ E = E^{\circ} - \frac{0.0592}{n}\log Q $$
+
+For the Daniell cell, $n = 2$ and $Q = [\text{Zn}^{2+}]/[\text{Cu}^{2+}]$. With $[\text{Zn}^{2+}] = 0.10\ \text{M}$ and $[\text{Cu}^{2+}] = 1.0\ \text{M}$:
+
+$$ E = 1.10 - \frac{0.0592}{2}\log\frac{0.10}{1.0} = 1.10 + 0.0296 = 1.13\ \text{V} $$
+
+The standard free-energy change is $\Delta G^{\circ} = -nFE^{\circ} = -2 \times 96500 \times 1.10 = -212\ \text{kJ mol}^{-1}$ (spontaneous).
+
+**Faraday's laws of electrolysis.**
+
+1. **First law:** the mass of a substance deposited or liberated at an electrode is proportional to the quantity of electricity passed: $m = ZQ = ZIt$.
+2. **Second law:** when the same quantity of electricity passes through different electrolytes, the masses liberated are proportional to their equivalent weights. One faraday ($F = 96500\ \text{C}$) liberates one gram-equivalent of any substance.
+
+$$ m = \frac{M\,I\,t}{nF} $$
+
+**Numerical.** A current of $5.0\ \text{A}$ passes through CuSO₄ solution for $30\ \text{min}$. $Q = 5.0 \times 1800 = 9000\ \text{C}$ and
+
+$$ m = \frac{63.5 \times 9000}{2 \times 96500} = 2.96\ \text{g of copper} $$
+
+**Applications of electrolysis.** Electroplating, purification of copper, extraction of sodium and aluminium, and production of NaOH and Cl₂.
+
+**Conclusion.** The Nernst equation gives the emf at any concentration, and Faraday's laws connect the quantity of electricity with the mass deposited.

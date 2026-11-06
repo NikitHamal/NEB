@@ -136,6 +136,41 @@ f.text(390, 205, "Deliverable of each phase shown in teal; 12 weeks in total", s
 7. **Testing only at the end.** Bugs found in week 12 cannot be fixed. Write a few test cases with each module (Unit 4) so the demo does not depend on luck.
 8. **Report written in the last week.** The report becomes copied text with screenshots that do not match the code. Write each chapter as its phase finishes, so the report records what you actually did.
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="A fair way to pick the project idea. (a) A wall of sticky notes: brainstorming produces many ideas quickly, but the choice must be made with a rule. (b) Four candidate ideas were scored from 1 to 5 on usefulness, doability in 12 weeks, data already at hand and novelty (invented scores), and a weighted sum with weights 40, 30, 20 and 10 per cent put the Book exchange at 3.9 out of 5. To test whether the result depends on those weights, 10,000 other weightings were drawn at random (fixed seed): the book exchange still wins 49 per cent of the time, the mess tracker 26, the bus tracker 26 and the seat finder 0. An idea that wins only under one weighting is a fragile choice; one that wins under most is safe, and the supervisor meeting is the place to defend the scores."
+@ photo id="bcapj/stickies" cap="A wall of ideas: choose with a rule, not a mood"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Weighted idea matrix and 10,000 other weightings"
+import numpy as np
+ideas = ["Book exchange", "Mess tracker", "Bus tracker", "Seat finder"]
+crit = ["Useful", "Doable in 12 wk", "Data at hand", "Novel"]
+S = np.array([[4, 4, 4, 3], [3, 5, 4, 2], [5, 2, 2, 4], [3, 4, 3, 3]], float)
+w = np.array([0.4, 0.3, 0.2, 0.1])
+tot = S @ w
+rng = np.random.default_rng(2081)
+W = rng.dirichlet(np.ones(4), 10000)
+win = np.bincount(np.argmax(W @ S.T, axis=1), minlength=4) / 10000
+assert int(np.argmax(tot)) == 0 and abs(tot[0] - 3.9) < 1e-9
+facts = dict(best=ideas[int(np.argmax(tot))], t=round(float(tot[0]), 2), w0=round(win[0] * 100), w1=round(win[1] * 100), w2=round(win[2] * 100), w3=round(win[3] * 100))
+f = Fig(300, 236)
+f.text(150, 12, "scores 1-5 (invented), weights 40/30/20/10", size=10.5, color=NAVY, bold=True)
+for j, c in enumerate(crit):
+    f.text(119 + j * 42, 34, ["Use", "Do", "Data", "New"][j], size=10.5, color=NAVY, bold=True)
+f.text(272, 34, "Sum", size=10.5, color=NAVY, bold=True)
+for i, nm in enumerate(ideas):
+    y = 42 + i * 24
+    f.box(4, y, 96, 20, nm, fill=BLUE if i else "#bbf7d0", stroke=NAVY, size=10.5, bold=True, r=3, sw=1)
+    for j in range(4):
+        f.box(99 + j * 42, y, 40, 20, "%d" % S[i][j], fill="#f1f5f9", stroke=SLATE, size=10.5, r=2, sw=1)
+    f.box(246, y, 48, 20, "%.2f" % tot[i], fill="#fde68a", stroke=AMBER, size=10.5, bold=True, r=3, sw=1)
+f.text(150, 152, "how often each idea wins over 10,000 random weightings", size=10.5, color=NAVY, bold=True)
+for i, nm in enumerate(ideas):
+    y = 162 + i * 17
+    f.text(4, y + 7, nm, size=10.5, color=NAVY, anchor="start", vmid=True)
+    f.box(104, y, win[i] * 180, 13, "", fill="#bbf7d0" if i == 0 else "#e5e7eb", stroke=SLATE, r=2, sw=1)
+    f.text(108 + win[i] * 180, y + 7, "%d%%" % round(win[i] * 100), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+```
+
 ## Formula and fact sheet
 
 - Weighted feasibility score = Σ (weight × mark); go if ≥ 7 out of 10.

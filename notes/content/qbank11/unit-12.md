@@ -535,6 +535,77 @@ The root lies in $(1.3125,1.375)$, so $x\approx1.34$ (the true root is $1.3247$)
 (iii) Distance in the 5th second $=s_5-s_4$. $s_4=4(4)+\frac{1}{2}(2)(16)=32$ m, so the distance is $45-32=13$ m. (Formula check: $u+\frac{a}{2}(2n-1)=4+1\times9=13$.)
 :::
 
+## 12.22 Extended model answers (10 marks)
+
+Long problems in Grade 11 Mathematics carry 5 to 10 marks and are marked for method. The two models below show the full layout: formula, steps, table, check and conclusion.
+
+**Extended questions**
+
+1. Solve $x + y + z = 6$, $2x - y + z = 3$, $x + 2y - z = 2$ by Cramer's rule. <span class="marks">[10]</span>
+2. A square sheet of tin of side 24 cm is made into an open box by cutting equal squares from the corners and folding up the sides. Find the side of the square cut so that the volume is maximum, and find the maximum volume. <span class="marks">[10]</span>
+
+### Model answer D1: Cramer's rule for three equations (10 marks)
+
+**Introduction.** **Cramer's rule** solves $n$ linear equations in $n$ unknowns by determinants. If $\Delta \ne 0$ then $x = \frac{\Delta_x}{\Delta}$, $y = \frac{\Delta_y}{\Delta}$, $z = \frac{\Delta_z}{\Delta}$, where $\Delta_x$ is $\Delta$ with the column of $x$ replaced by the constants. If $\Delta = 0$, the system has no unique solution.
+
+**The determinant of the coefficients.**
+
+$\Delta = \begin{vmatrix}1&1&1\\2&-1&1\\1&2&-1\end{vmatrix} = 1\,[(-1)(-1) - (1)(2)] - 1\,[(2)(-1) - (1)(1)] + 1\,[(2)(2) - (-1)(1)]$
+
+$= 1(1 - 2) - 1(-2 - 1) + 1(4 + 1) = -1 + 3 + 5 = 7$.
+
+Since $\Delta = 7 \ne 0$, the solution is unique.
+
+**Finding $\Delta_x$.** Replace column 1 by $(6, 3, 2)$.
+
+$\Delta_x = \begin{vmatrix}6&1&1\\3&-1&1\\2&2&-1\end{vmatrix} = 6(1 - 2) - 1(-3 - 2) + 1(6 + 2) = -6 + 5 + 8 = 7$.
+
+**Finding $\Delta_y$.** Replace column 2 by $(6, 3, 2)$.
+
+$\Delta_y = \begin{vmatrix}1&6&1\\2&3&1\\1&2&-1\end{vmatrix} = 1(-3 - 2) - 6(-2 - 1) + 1(4 - 3) = -5 + 18 + 1 = 14$.
+
+**Finding $\Delta_z$.** Replace column 3 by $(6, 3, 2)$.
+
+$\Delta_z = \begin{vmatrix}1&1&6\\2&-1&3\\1&2&2\end{vmatrix} = 1(-2 - 6) - 1(4 - 3) + 6(4 + 1) = -8 - 1 + 30 = 21$.
+
+**Solution.** $x = \frac{7}{7} = 1$, $y = \frac{14}{7} = 2$, $z = \frac{21}{7} = 3$.
+
+| Equation | Substitution | Result |
+|---|---|---|
+| $x + y + z = 6$ | 1 + 2 + 3 | 6, true |
+| $2x - y + z = 3$ | 2 − 2 + 3 | 3, true |
+| $x + 2y - z = 2$ | 1 + 4 − 3 | 2, true |
+
+**Conclusion.** The solution is $(x, y, z) = (1, 2, 3)$. Cramer's rule is neat for three unknowns, but each determinant needs care with signs, so always verify in all three equations.
+
+### Model answer D2: maximum volume of an open box (10 marks)
+
+**Introduction.** Maximum and minimum problems are solved by differentiation. We write the quantity as a function of one variable, find the **critical points** where $\frac{dV}{dx} = 0$, and use the **second derivative** to decide: $\frac{d^2V}{dx^2} < 0$ gives a maximum and $> 0$ gives a minimum.
+
+**Formation.** Let the side of each cut square be $x$ cm. After folding, the box has length $= 24 - 2x$, breadth $= 24 - 2x$ and height $= x$. The cut must be less than half the side, so $0 < x < 12$.
+
+$V = x(24 - 2x)^2 = x(576 - 96x + 4x^2) = 4x^3 - 96x^2 + 576x$.
+
+**First derivative.** $\frac{dV}{dx} = 12x^2 - 192x + 576 = 12(x^2 - 16x + 48) = 12(x - 4)(x - 12)$.
+
+**Critical points.** $\frac{dV}{dx} = 0$ gives $x = 4$ or $x = 12$. The value $x = 12$ is rejected because it leaves no base ($24 - 24 = 0$). So $x = 4$.
+
+**Second derivative.** $\frac{d^2V}{dx^2} = 24x - 192$. At $x = 4$ it is $24(4) - 192 = -96 < 0$, so the volume is a **maximum**.
+
+**Maximum volume.** $V = 4\,(24 - 8)^2 = 4\times 16^2 = 4\times 256 =$ **1,024 cm³**.
+
+| $x$ (cm) | Base side $24 - 2x$ | Volume $V$ (cm³) |
+|---|---|---|
+| 2 | 20 | 800 |
+| 3 | 18 | 972 |
+| 4 | 16 | 1,024 |
+| 5 | 14 | 980 |
+| 6 | 12 | 864 |
+
+The table agrees: the volume rises to 1,024 at $x = 4$ and then falls.
+
+**Conclusion.** Cutting a square of side **4 cm** from each corner gives the box of greatest volume, **1,024 cm³**. The same method finds the cheapest tank, the largest field for a fixed fence and the best price for the greatest profit.
+
 ## Chapter summary
 
 - Write **every step** in Group B and C: formula, substitution, simplification, final answer.

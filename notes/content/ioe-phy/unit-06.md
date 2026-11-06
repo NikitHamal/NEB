@@ -78,6 +78,55 @@ De Morgan: $\overline{A\cdot B}=\bar A+\bar B$, $\overline{A+B}=\bar A\cdot\bar 
 - **Environment:** energy crisis, greenhouse effect and global warming, ozone layer depletion by CFCs (UV-B), pollution.
 - **New materials:** **nanotechnology** (1–100 nm; properties change with size), **superconductors** (zero resistance below $T_c$, Meissner effect — expel magnetic field; used in MRI and maglev), distinguished from a **perfect conductor** (which does not expel fields).
 
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Counting random decays. (a) A Geiger-Muller counter: each click is one ionising particle entering the tube, and the clicks come at random even though their average rate is steady. (b) A seeded simulation of 2,000 identical nuclei with half-life 10 min, each nucleus decaying independently with probability $1 - 2^{-1/10}$ every minute. The dots follow $N = N_0 (1/2)^{t/T}$ closely but not exactly; the first time the count falls to half is close to the true half-life, and the activity is $\\lambda N$ with $\\lambda = \\ln 2 / T$."
+@ photo id="ioephy/geiger" cap="A Geiger-Muller counter"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="2,000 nuclei, T = 10 min: simulation vs formula"
+import random, math
+rnd = random.Random(2081)
+N0, T = 2000, 10.0; p = 1 - 2 ** (-1 / T)
+N = N0; sim = [N]
+for m in range(40):
+    N -= sum(1 for _ in range(N) if rnd.random() < p); sim.append(N)
+half = next(m for m, n in enumerate(sim) if n <= N0 / 2)
+lam = math.log(2) / T
+assert abs(half - 10) <= 1 and abs(sim[20] - N0 / 4) < 60
+f = Fig(300, 236)
+X = lambda t: 40 + t * 6.2; Y = lambda n: 170 - n * 0.075
+f.line(40, 170, 290, 170, color=SLATE, sw=1.2); f.line(40, 170, 40, 14, color=SLATE, sw=1.2)
+pts = [(X(t), Y(N0 * 0.5 ** (t / T))) for t in range(0, 41)]
+for a, b in zip(pts, pts[1:]): f.line(a[0], a[1], b[0], b[1], color=TEAL, sw=1.8)
+for t, n in enumerate(sim):
+    if t % 2 == 0: f.circle(X(t), Y(n), 2.8, fill=RED, stroke=RED)
+for t in (0, 10, 20, 30, 40): f.text(X(t), 184, str(t), size=10.5, color=SLATE)
+for n in (0, 1000, 2000): f.text(34, Y(n) + 4, format(n, ","), size=10.5, color=SLATE, anchor="end")
+f.text(165, 200, "time in minutes", size=10.5, color=SLATE)
+f.text(150, 218, "count halves at %d min (T = 10); N(20) = %d (expect 500)" % (half, sim[20]), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "start activity = λ N0 = %d per min" % round(lam * N0), size=10.5, color=TEAL, bold=True)
+```
+
+```photogrid label="6.2" cols="2" ratio="1.2" caption="Photon energy sets the colour. (a) A 5 mm LED with its tiny chip on the anvil of the lead frame: when an electron falls across the band gap of the semiconductor, one photon leaves with energy equal to the gap. (b) $E = hc/\\lambda = 1239.8$ eV nm$/\\lambda$ for three typical LED colours, computed here. Blue needs the widest gap, so a blue LED needs a higher forward voltage than a red one; the energy of one blue photon is only about $4\\times10^{-19}$ J, which is why one LED emits billions every nanosecond."
+@ photo id="ioephy/led" cap="A 5 mm LED: the chip sits in the reflector cup"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Photon energy for three LED colours"
+hc = 1239.84; e = 1.602e-19
+leds = [("red 630 nm", 630, "#dc2626", "#fecaca"), ("green 525 nm", 525, "#16a34a", "#bbf7d0"), ("blue 465 nm", 465, "#2563eb", "#bfdbfe")]
+E = [hc / w for _, w, _, _ in leds]
+assert abs(E[0] - 1.97) < 0.01 and abs(E[2] - 2.67) < 0.01
+f = Fig(300, 236)
+f.text(150, 14, "E = hc / λ", size=10.5, color=NAVY, bold=True)
+for i, ((n, w, c, bg), en) in enumerate(zip(leds, E)):
+    y = 34 + i * 46; wd = 200 * en / 2.8
+    f.text(8, y, n, size=10.5, color=c, bold=True, anchor="start")
+    f.box(8, y + 6, wd, 20, "", fill=bg, stroke=c, r=3, sw=1)
+    f.text(wd + 14, y + 16, "%.2f eV" % en, size=10.5, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 186, "1 blue photon = %.2fe-19 J" % (E[2] * e * 1e19), size=10.5, color=NAVY, bold=True)
+f.text(150, 206, "band gap about equals photon energy", size=10.5, color=SLATE)
+f.text(150, 226, "ratio blue : red = %.2f (shorter wave, more energy)" % (E[2] / E[0]), size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -180,3 +229,67 @@ De Morgan: $\overline{A\cdot B}=\bar A+\bar B$, $\overline{A+B}=\bar A\cdot\bar 
 **3.** (c) — $\beta=\frac{0.98}{0.02}=49$.
 **4.** (d) — $\Delta p\ge\frac{\hbar}{2\Delta x}=\frac{1.05\times10^{-34}}{2\times10^{-10}}=5.3\times10^{-25}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the photoelectric effect with Einstein's equation, the de Broglie hypothesis and the Bohr model of hydrogen, with numericals. <span class="marks">[10]</span>
+2. Explain p-n junction diodes, rectification and the transistor, and describe radioactive decay and nuclear binding energy with numericals. <span class="marks">[10]</span>
+
+```photogrid label="6.H" cols="5" ratio="1.1" caption="Modern physics in use. (a) A Geiger counter detects ionising radiation. (b) An LED emits photons across a semiconductor junction. (c) A photocell turns light into current by the photoelectric effect. (d) An X-ray image forms by differential absorption. (e) A solar panel is a large-area p-n junction."
+@ photo id="ioephy/geiger" cap="(a) Geiger counter"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ioephy/led" cap="(b) LED"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceephy/photocell" cap="(c) Photocell"
+fit 1.1
+focus 0.5 0.5
+@ photo id="ceephy/xray" cap="(d) X-ray image"
+fit 1.1
+focus 0.5 0.5
+@ photo id="phy12b/solar" cap="(e) Solar panel"
+fit 1.1
+focus 0.5 0.5
+```
+
+### Model answer D1: Photons, matter waves and the Bohr atom (10 marks)
+
+**Introduction.** Classical physics could not explain the photoelectric effect or atomic spectra, so quantum ideas were needed.
+
+**Photoelectric effect.** Light of high enough frequency ejects electrons from a metal. Observations: (a) there is a **threshold frequency** $f_0$ below which no electrons are emitted, however bright the light; (b) the maximum kinetic energy depends on frequency, not on intensity; (c) emission is instantaneous; (d) the photocurrent is proportional to intensity. **Einstein's equation:** each photon gives all its energy $hf$ to one electron:
+$$hf = \phi + K_{\max},\quad K_{\max} = eV_s.$$
+**Numerical:** sodium has $\phi = 2.3\ \text{eV}$. For $\lambda = 400\ \text{nm}$, $E = \frac{1240}{400} = 3.1\ \text{eV}$, so $K_{\max} = 0.8\ \text{eV}$ and the stopping potential is $0.8\ \text{V}$. The threshold wavelength is $\frac{1240}{2.3} = 539\ \text{nm}$. Uses: photocells, automatic doors and light meters.
+
+**de Broglie hypothesis.** Matter has wave nature: $\lambda = \frac{h}{p} = \frac{h}{mv}$. For an electron accelerated through $V$ volts, $\lambda = \frac{1.227}{\sqrt{V}}\ \text{nm}$; at $100\ \text{V}$, $\lambda = 0.1227\ \text{nm}$, comparable with atomic spacing, which makes the **electron microscope** possible and was confirmed by Davisson and Germer.
+
+**Bohr model of hydrogen.** Postulates: (1) electrons move in **stationary orbits** without radiating; (2) angular momentum $L = \frac{nh}{2\pi}$; (3) a photon is emitted or absorbed when an electron jumps, $hf = E_i - E_f$. The energy is $E_n = -\frac{13.6}{n^2}\ \text{eV}$. For $n = 3 \to 2$: $\Delta E = 13.6\left(\frac14 - \frac19\right) = 1.89\ \text{eV}$, giving $\lambda = 656\ \text{nm}$ (red, the first **Balmer** line).
+
+| Idea | Key equation | Example value |
+|---|---|---|
+| Photoelectric | $hf = \phi + K_{\max}$ | $0.8\ \text{eV}$ |
+| de Broglie | $\lambda = h/p$ | $0.1227\ \text{nm}$ |
+| Bohr energy | $E_n = -13.6/n^2$ | $-3.4\ \text{eV}$ for $n = 2$ |
+
+**Conclusion.** Light shows particle behaviour and matter shows wave behaviour, which is the basis of quantum mechanics.
+
+### Model answer D2: Semiconductors and the nucleus (10 marks)
+
+**Introduction.** Semiconductors (Si, Ge) have a small band gap. **Doping** with a pentavalent atom (P, As) gives **n-type**, and a trivalent atom (B, Al) gives **p-type**.
+
+**p-n junction diode.** Electrons and holes diffuse across the junction and leave a **depletion layer** with a barrier potential (about $0.7\ \text{V}$ for Si, $0.3\ \text{V}$ for Ge). In **forward bias** the barrier is reduced and current flows; in **reverse bias** only a tiny leakage current flows. Uses: **half-wave and full-wave rectifiers** (with a bridge of four diodes), LEDs, solar cells and Zener voltage regulation.
+
+**Transistor.** A three-layer device (n-p-n or p-n-p) with emitter, base and collector. As an **amplifier** a small base current controls a large collector current, with $\beta = \frac{I_C}{I_B}$ and $I_E = I_B + I_C$. As a **switch** it is either cut off or saturated. Logic gates (AND, OR, NOT, NAND, NOR) are made from it.
+
+**Radioactivity.** The nucleus of an unstable atom emits alpha ($^4_2\text{He}$), beta (electron) or gamma rays. **Decay law:** $N = N_0e^{-\lambda t}$, with half-life $T_{1/2} = \frac{0.693}{\lambda}$, so $N = N_0\left(\frac12\right)^{t/T}$. **Numerical:** iodine-131 has $T = 8$ days, so $80\ \text{g}$ left for $24$ days (3 half-lives) becomes $\frac{80}{2^3} = 10\ \text{g}$. The activity is $A = \lambda N$, and $\lambda = \frac{0.693}{8\times86400} = 1.0\times10^{-6}\ \text{s}^{-1}$.
+
+**Binding energy.** $E = \Delta m\,c^2$ and $1\ \text{u} = 931.5\ \text{MeV}$. For helium-4: $\Delta m = 2(1.007825) + 2(1.008665) - 4.002603 = 0.030377\ \text{u}$, so $E_b = 28.3\ \text{MeV}$, or $7.07\ \text{MeV}$ per nucleon. **Fission** (U-235 + n) and **fusion** (hydrogen to helium in the Sun) both release energy because the products have a higher binding energy per nucleon.
+
+| Device or effect | Principle | Use |
+|---|---|---|
+| Diode | One-way conduction | Rectifier, LED |
+| Transistor | Current control | Amplifier, switch |
+| Radioactive decay | $N = N_0e^{-\lambda t}$ | Medical tracers, dating |
+| Fission, fusion | Mass defect | Power, the Sun |
+
+**Conclusion.** Semiconductors run modern electronics, and the nucleus stores energy that is released in decay, fission and fusion.

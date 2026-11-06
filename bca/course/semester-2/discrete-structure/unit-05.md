@@ -50,6 +50,35 @@ K₅ has 5·4/2 = **10** edges. A graph has degrees 3, 3, 2, 2, 2: sum 12, so |E
 
 For the graph with edges 1–2, 1–3, 2–3, 3–4: adjacency lists 1: [2, 3], 2: [1, 3], 3: [1, 2, 4], 4: [3]. Degrees 2, 2, 3, 1, sum 8 = 2·4 ✓.
 
+### The seven bridges, as a graph
+
+Leonhard Euler turned a puzzle about the bridges of Konigsberg into the first theorem of graph theory. He ignored the shape of the land and kept only four land masses (vertices) and seven bridges (edges). A walk that uses every bridge exactly once can exist only if zero or two vertices have an odd degree. Plate 5.1 counts the degrees from the bridge list: all four land masses are odd, so no such walk exists.
+
+```photogrid label="5.1" cols="2" ratio="1.4" caption="The puzzle that began graph theory. (a) A seventeenth-century map of Konigsberg with its seven bridges. (b) The same city as a multigraph: land masses A, B, C, D and the seven bridges; the degrees 5, 3, 3, 3 are all odd, so a walk that crosses each bridge exactly once is impossible."
+@ photo id="bca151/konigsberg" cap="Konigsberg and its seven bridges (Merian's map, 1652)"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Degrees of the four land masses"
+from collections import Counter
+bridges = [("A", "B"), ("A", "B"), ("A", "C"), ("A", "C"), ("A", "D"), ("B", "D"), ("C", "D")]
+deg = Counter()
+for u, v in bridges: deg[u] += 1; deg[v] += 1
+assert dict(deg) == {"A": 5, "B": 3, "C": 3, "D": 3} and sum(deg.values()) == 14 == 2 * len(bridges)
+assert sum(1 for d in deg.values() if d % 2) == 4
+pos = {"A": (110, 120), "B": (200, 44), "C": (200, 190), "D": (300, 120)}
+f = Fig(400, 250)
+for (u, v) in [("A", "B"), ("A", "C")]:
+    for off in (-5, 5):
+        (x1, y1), (x2, y2) = pos[u], pos[v]
+        f.line(x1 + off, y1 + off, x2 + off, y2 + off, color=SLATE, sw=1.6)
+for u, v in [("A", "D"), ("B", "D"), ("C", "D")]:
+    f.line(*pos[u], *pos[v], color=SLATE, sw=1.6)
+for k, (x, y) in pos.items():
+    f.circle(x, y, 20, fill=ROSE, stroke=RED, label=k, size=13, color=RED)
+    f.text(x + (0 if k in "BC" else (-34 if k == "A" else 34)), y + (-30 if k == "B" else (36 if k == "C" else 4)), f"deg {deg[k]}", size=10.5, color=RED, bold=True)
+f.text(200, 244, "4 odd vertices: an Euler walk needs 0 or 2.", size=10.5, color=SLATE, bold=True)
+```
+
 ## 5.2 Traversal, connectivity and Euler/Hamilton
 
 **Breadth-first search (BFS)** explores by layers using a queue and finds shortest paths (in edges). **Depth-first search (DFS)** goes as deep as possible using a stack or recursion; used for cycle detection, topological sort and components. Both run in O(V + E) with adjacency lists.
@@ -64,6 +93,30 @@ Graph (alphabetical neighbour order): A: B, C; B: A, D; C: A, D, E; D: B, C, F; 
 
 **Hamilton circuit** visits every vertex exactly once. There is no simple criterion (the problem is NP-complete). **Dirac's sufficient condition**: n ≥ 3 and deg(v) ≥ n/2 for all v. The **travelling salesman problem** asks for the cheapest Hamilton circuit; K₁₀ has 9!/2 = 181,440 distinct circuits.
 
+### Euler's formula V - E + F = 2
+
+For a connected graph drawn on a plane without crossings, the number of vertices minus the number of edges plus the number of faces (counting the outside) is always 2. The five regular solids, flattened onto a plane, all obey it. This fact is what proves that K5 and K3,3 cannot be drawn without crossings. Plate 5.2 checks V - E + F for the five Platonic solids from their vertex, edge and face counts.
+
+```photogrid label="5.2" cols="2" ratio="1.1" caption="A number that never changes. (a) Leonhard Euler, painted by Jakob Emanuel Handmann in 1753. (b) Vertices, edges and faces of the five regular solids; in every row V - E + F = 2, and each edge is shared by two faces so E = (sum of face sides) / 2."
+@ photo id="bca151/euler" cap="Leonhard Euler (1707-1783)"
+fit 1.1
+focus 0.5 0.4
+@ svg cap="V - E + F for the five regular solids"
+solids = [("tetrahedron", 4, 6, 4, 3), ("cube", 8, 12, 6, 4), ("octahedron", 6, 12, 8, 3), ("dodecahedron", 20, 30, 12, 5), ("icosahedron", 12, 30, 20, 3)]
+for nm, v, e, fc, s in solids:
+    assert v - e + fc == 2 and fc * s == 2 * e
+f = Fig(400, 250)
+for x, t in zip((50, 130, 180, 230, 342), ["solid", "V", "E", "F", "V - E + F"]):
+    f.text(x, 20, t, size=10.5, color=SLATE, bold=True)
+for i, (nm, v, e, fc, s) in enumerate(solids):
+    y = 30 + i * 38
+    f.box(6, y, 388, 32, "", fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY, r=4)
+    f.text(14, y + 16, nm, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    for x, val in zip((130, 180, 230), (v, e, fc)): f.text(x, y + 16, str(val), size=12, color=SLATE, bold=True, vmid=True)
+    f.box(292, y + 4, 98, 24, f"{v} - {e} + {fc} = {v - e + fc}", fill=MINT, stroke=TEAL, color=TEAL, size=10.5, bold=True)
+f.text(200, 232, "Always 2: the outside region counts as a face.", size=10.5, color=SLATE, bold=True)
+```
+
 ## 5.3 Planarity and colouring
 
 A graph is **planar** if it can be drawn without crossing edges. **Euler's formula** for a connected planar graph: **V − E + F = 2** (F counts the outer face). For simple planar graphs with V ≥ 3: **E ≤ 3V − 6** (and E ≤ 2V − 4 if bipartite). **K₅** (10 > 3·5 − 6 = 9) and **K₃,₃** (9 > 2·6 − 4 = 8) are not planar, and **Kuratowski's theorem** says a graph is planar iff it contains no subdivision of K₅ or K₃,₃.
@@ -73,6 +126,41 @@ A graph is **planar** if it can be drawn without crossing edges. **Euler's formu
 ::: example Worked example: exam timetable
 Exams A, B, C, D, E; clashes: A–B, A–C, B–C, C–D, D–E. A, B, C form a triangle, so χ ≥ 3. Colour A = 1, B = 2, C = 3, D = 1, E = 2: valid with 3 slots. **χ = 3.**
 :::
+
+### Colouring a map
+
+To colour a map, treat each region as a vertex and join two vertices when the regions share a border; neighbouring regions need different colours. The four colour theorem says four colours always suffice for a map on a plane. A simple greedy rule, giving each region the smallest colour not used by its neighbours, often needs fewer. Plate 5.3 colours a hub region ringed by six neighbours: the greedy method uses three colours, and the check confirms no two neighbours share one.
+
+```photogrid label="5.3" cols="2" ratio="1.3" caption="Four colours are enough. (a) A world map coloured with four colours so that no two bordering countries match. (b) A hub region R0 surrounded by six regions R1 to R6, coloured by the greedy rule: the hub gets colour 1, the ring alternates 2 and 3, so three colours are used; the check finds no edge with equal colours."
+@ photo id="bca151/fourcolor" cap="World map in four colours (four colour theorem)"
+fit 1.3
+focus 0.5 0.5
+@ svg cap="Greedy colouring of a hub with six neighbours"
+import math
+adj = {0: [1, 2, 3, 4, 5, 6]}
+for i in range(1, 7): adj[i] = [0, i % 6 + 1, (i - 2) % 6 + 1]
+col = {}
+for v in range(7):
+    used = {col[u] for u in adj[v] if u in col}
+    col[v] = next(c for c in range(1, 8) if c not in used)
+assert all(col[u] != col[v] for v in adj for u in adj[v]) and max(col.values()) == 3
+assert col[0] == 1 and [col[i] for i in range(1, 7)] == [2, 3, 2, 3, 2, 3]
+paint = {1: ("#fecaca", RED), 2: ("#bfdbfe", NAVY), 3: ("#bbf7d0", TEAL)}
+pts = {0: (200, 130)}
+for i in range(1, 7):
+    a = math.radians(-90 + 60 * (i - 1)); pts[i] = (200 + 90 * math.cos(a), 130 + 90 * math.sin(a))
+f = Fig(400, 250)
+for v in range(7):
+    for u in adj[v]:
+        if u > v: f.line(*pts[v], *pts[u], color=SLATE, sw=1.4)
+for v, (x, y) in pts.items():
+    fl, st = paint[col[v]]
+    f.circle(x, y, 17, fill=fl, stroke=st, label=f"R{v}", size=11, color=st)
+f.text(52, 20, "colour 1 / 2 / 3", size=10.5, color=SLATE, bold=True)
+for i, c in enumerate((1, 2, 3)): f.circle(112 + i * 26, 16, 8, fill=paint[c][0], stroke=paint[c][1])
+f.text(200, 244, "3 colours used; 12 edges, none joins equal colours.", size=10.5, color=SLATE, bold=True)
+assert sum(len(a) for a in adj.values()) // 2 == 12
+```
 
 ## 5.4 Weighted graphs: shortest paths and spanning trees
 

@@ -153,6 +153,133 @@ A workplace-organisation method with five Japanese words beginning with S:
 - **Challenges**: political instability and policy changes, weak infrastructure and energy, bureaucratic delay and corruption, **brain drain and shortage of skilled managers**, small domestic market and trade deficit, informal economy, weak enforcement of contracts, financial-sector risks, and vulnerability to disasters.
 - **What it demands of managers**: ethical leadership, adaptability, professional training of staff, use of technology, community and environmental responsibility, and the ability to compete regionally and globally.
 
+```photogrid label="6.1" cols="3" ratio="1.0" caption="Three pioneers of quality control. (a) Walter A. Shewhart (1891-1967) of Bell Telephone Laboratories, who invented the control chart in the 1920s to tell ordinary variation from signals that need action. (b) W. Edwards Deming (1900-1993), Shewhart's follower, who taught statistical quality control to Japanese engineers after 1950 and argued that most defects are caused by the system, which only management can change. (c) Taiichi Ohno (1912-1990) of Toyota, the architect of the Toyota Production System, built on just-in-time production, respect for people and continuous improvement (kaizen). The three together form the intellectual line behind modern Total Quality Management."
+@ photo id="bca156/shewhart" cap="Shewhart: control chart"
+fit 1.0
+focus 0.5 0.35
+@ photo id="bca156/deming" cap="Deming: system and PDCA"
+fit 1.0
+focus 0.5 0.4
+@ photo id="bca156/ohno" cap="Ohno: Toyota Production System"
+fit 1.0
+focus 0.5 0.35
+```
+
+```svgfig label="6.1" caption="The control process and the three timings of control. Step 1 set standards; step 2 measure actual performance; step 3 compare actual with standard; step 4 take corrective action (or revise the standard if it was unrealistic). Feedforward control acts before the work starts (checking inputs and plans), concurrent control acts during the work (supervision and real-time monitoring), and feedback control acts after the work (reports and audits)."
+f = Fig(580, 260)
+f.box(10, 20, 110, 56, "1 SET\nSTANDARDS", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(150, 20, 110, 56, "2 MEASURE\nPERFORMANCE", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(290, 20, 110, 56, "3 COMPARE\nWITH STANDARD", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(430, 20, 140, 56, "4 CORRECT OR\nREVISE STANDARD", fill=ROSE, stroke=RED, size=11, bold=True)
+for a, b in [(120, 150), (260, 290), (400, 430)]:
+    f.arrow([(a, 48), (b, 48)], color=SLATE, sw=2)
+f.arrow([(500, 76), (500, 105), (65, 105), (65, 76)], color=RED, sw=1.6, dash=True)
+f.text(290, 98, "corrective action returns to planning", size=10, color=RED, bold=True)
+f.line(20, 150, 560, 150, color=SLATE, sw=1.6)
+f.text(290, 136, "time of the work", size=10.5, color=SLATE, bold=True)
+f.box(20, 160, 150, 56, "FEEDFORWARD\nbefore: check inputs,\nplans, skills", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(215, 160, 150, 56, "CONCURRENT\nduring: supervision,\nlive monitoring", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(410, 160, 150, 56, "FEEDBACK\nafter: reports,\naudits, results", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.text(290, 240, "Example: a college checks lab computers before the exam, watches the hall, then reviews results", size=10, color=SLATE)
+```
+
+```svgfig label="6.2" caption="A control chart for the mean of 5 exam-paper marking times (minutes) per sample, 20 samples. The centre line is the target 50 minutes, and the control limits are set three standard errors (1.5 minutes each) either side: 45.5 and 54.5. Sample 12 (55.2) lies above the upper limit, a signal of a special cause such as a new marker unfamiliar with the scheme, so the process should be investigated. All other points are inside the limits and show ordinary variation. The mean of all 20 samples is 50.77 minutes."
+f = Fig(580, 270)
+d = [49.8, 50.6, 51.2, 48.9, 50.1, 49.5, 52.0, 50.7, 51.8, 53.1, 52.4, 55.2, 50.3, 49.2, 48.7, 50.9, 51.1, 49.6, 50.2, 50.0]
+X = lambda i: 70 + i * 22
+Y = lambda v: 230 - (v - 43) * 14
+f.line(70, 230, 500, 230, color=SLATE, sw=1.6)
+f.line(70, 20, 70, 230, color=SLATE, sw=1.6)
+for v in (45, 48, 51, 54, 57):
+    f.line(65, Y(v), 70, Y(v), color=SLATE)
+    f.text(62, Y(v), str(v), size=10, color=SLATE, anchor="end", vmid=True)
+f.line(70, Y(54.5), 500, Y(54.5), color=RED, sw=1.6, dash=True)
+f.line(70, Y(45.5), 500, Y(45.5), color=RED, sw=1.6, dash=True)
+f.line(70, Y(50), 500, Y(50), color=TEAL, sw=1.8)
+f.text(504, Y(54.5), "UCL 54.5", size=9.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(504, Y(45.5), "LCL 45.5", size=9.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(504, Y(50), "target 50", size=9.5, color=TEAL, bold=True, anchor="start", vmid=True)
+pts = " ".join(str(X(i)) + "," + str(round(Y(v), 1)) for i, v in enumerate(d))
+f.raw('<polyline points="' + pts + '" fill="none" stroke="#1e3a8a" stroke-width="1.8"/>')
+for i, v in enumerate(d):
+    out = v > 54.5 or v < 45.5
+    f.circle(X(i), Y(v), 4.5 if out else 3.2, fill=ROSE if out else "#ffffff", stroke=RED if out else NAVY, sw=1.6)
+f.text(X(11), Y(55.2) - 14, "out of control: sample 12", size=10, color=RED, bold=True)
+f.text(305, 258, "sample number (1 to 20)", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="6.3" caption="The PDCA (Deming or Shewhart) cycle is the engine of kaizen. Plan the change and the target; Do it on a small scale; Check the results against the plan; Act by adopting the change or trying again. Each turn lifts the standard a little, like a wedge that stops the process from sliding back, which is why continuous improvement is said to have no end. The 5S practice (sort, set in order, shine, standardise, sustain) is a workplace routine that supports it."
+f = Fig(580, 260)
+f.circle(150, 130, 100, fill=SOFT, stroke=SLATE, sw=1.2)
+f.box(95, 30, 110, 44, "PLAN\ntarget and method", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(200, 108, 110, 44, "DO\ntry on small scale", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(95, 186, 110, 44, "CHECK\ncompare results", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(0, 108, 100, 44, "ACT\nadopt or retry", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(205, 52), (255, 52), (255, 108)], color=SLATE, sw=1.8)
+f.arrow([(255, 152), (255, 208), (205, 208)], color=SLATE, sw=1.8)
+f.arrow([(95, 208), (45, 208), (45, 152)], color=SLATE, sw=1.8)
+f.arrow([(45, 108), (45, 52), (95, 52)], color=SLATE, sw=1.8)
+f.text(450, 20, "5S in a college lab", size=11.5, color=NAVY, bold=True)
+fs = [("1 Seiri  SORT", "remove broken equipment"), ("2 Seiton  SET IN ORDER", "label every cable and tool"), ("3 Seiso  SHINE", "clean daily, spot faults"), ("4 Seiketsu  STANDARDISE", "same layout in every lab"), ("5 Shitsuke  SUSTAIN", "weekly audit, habit")]
+for i, (a, b) in enumerate(fs):
+    f.text(350, 52 + i * 38, a, size=10.5, color=TEAL, bold=True, anchor="start")
+    f.text(350, 67 + i * 38, b, size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="6.4" caption="A Pareto chart of 100 late assignment submissions in a college. Bars show the number of cases by cause in descending order and the line shows the cumulative percentage. The first two causes (unclear deadline 42, computer or lab problems 25) account for 67 percent, and the first three for 82 percent, which illustrates the Pareto principle that a few causes produce most of the problems. Fixing the deadline notice and lab access first gives the biggest gain."
+f = Fig(580, 260)
+names = ["Unclear\ndeadline", "Lab / PC\nproblems", "Power /\ninternet", "Illness", "Other"]
+c = [42, 25, 15, 8, 10]
+tot = sum(c)
+f.line(70, 210, 520, 210, color=SLATE, sw=1.6)
+f.line(70, 20, 70, 210, color=SLATE, sw=1.6)
+f.line(520, 20, 520, 210, color=SLATE, sw=1.2)
+for v in (0, 25, 50, 75, 100):
+    y = 210 - v * 1.9
+    f.line(65, y, 70, y, color=SLATE)
+    f.text(62, y, str(v), size=10, color=SLATE, anchor="end", vmid=True)
+    f.text(526, y, str(v) + "%", size=10, color=AMBER, anchor="start", vmid=True)
+cum = 0
+pp = []
+for i, (n, v) in enumerate(zip(names, c)):
+    x = 85 + i * 85
+    f.box(x, 210 - v * 1.9, 70, v * 1.9, str(v), fill=BLUE, stroke=NAVY, size=11, bold=True)
+    f.text(x + 35, 230, n, size=10, color=SLATE, bold=True)
+    cum += v
+    pp.append((x + 35, 210 - cum * 1.9))
+f.raw('<polyline points="' + " ".join(str(a) + "," + str(b) for a, b in pp) + '" fill="none" stroke="#b45309" stroke-width="2"/>')
+for (a, b), k in zip(pp, [42, 67, 82, 90, 100]):
+    f.circle(a, b, 3.5, fill=SAND, stroke=AMBER, sw=1.6)
+    f.text(a + 4, b - 10, str(k) + "%", size=9.5, color=AMBER, bold=True, anchor="start")
+```
+
+```svgfig label="6.5" caption="A fishbone (Ishikawa, cause-and-effect) diagram for the problem 'examination results are published late'. The head is the effect; each main bone is a category of cause (people, method, machine, material, environment, measurement) and the small notes are possible root causes found by brainstorming. The next step is to test which cause is real, for instance with a Pareto chart, before acting."
+f = Fig(580, 270)
+f.line(30, 135, 470, 135, color=SLATE, sw=3)
+f.box(470, 105, 105, 60, "Results\npublished\nlate", fill=ROSE, stroke=RED, size=11, bold=True)
+top = [("PEOPLE", 90, "too few examiners"), ("METHOD", 230, "manual totalling"), ("MACHINE", 370, "old computers")]
+bot = [("MATERIAL", 90, "scripts arrive late"), ("ENVIRONMENT", 230, "power cuts"), ("MEASUREMENT", 370, "no marking deadline")]
+for n, x, note in top:
+    f.line(x, 40, x + 50, 135, color=NAVY, sw=2)
+    f.box(x - 40, 14, 90, 26, n, fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.text(x + 5, 80, note, size=9.5, color=SLATE, anchor="end")
+for n, x, note in bot:
+    f.line(x, 230, x + 50, 135, color=TEAL, sw=2)
+    f.box(x - 45, 230, 100, 26, n, fill=MINT, stroke=TEAL, size=10, bold=True)
+    f.text(x + 5, 192, note, size=9.5, color=SLATE, anchor="end")
+```
+
+### 6.6.1 Eight benefits of Total Quality Management
+
+1. **It improves customer satisfaction.** TQM begins with the customer's needs and measures quality as the customer sees it. A bank that cuts the waiting time at the counter and corrects errors in statements keeps its depositors. Satisfied customers return and recommend the organisation to others.
+2. **It reduces defects and rework.** By finding causes with tools such as the fishbone and Pareto chart (Figures 6.4 and 6.5), teams remove the source of the error rather than correcting each mistake. Fewer errors mean less rework and fewer complaints. The saving appears directly in lower costs.
+3. **It lowers costs.** Preventing defects is cheaper than inspecting and repairing them after the event. Waste in time, material and effort falls when processes are improved step by step. Many firms find that better quality and lower cost go together.
+4. **It involves every employee.** TQM asks everyone, from the clerk to the managing director, to take responsibility for quality. Quality circles and suggestion schemes give staff a voice. This raises morale and the sense of ownership.
+5. **It creates a culture of continuous improvement.** The PDCA cycle (Figure 6.3) and kaizen make small improvements a daily habit instead of an occasional project. Small gains accumulate into large ones over the years. This is how Toyota became a world leader.
+6. **It improves decisions through data.** TQM uses facts, charts and measurement, as the control chart in Figure 6.2 does, instead of opinions. Managers can then tell a real problem from ordinary variation and avoid reacting to every small change. Decisions become easier to defend.
+7. **It strengthens supplier and partner relationships.** Quality of output depends on quality of inputs, so TQM builds long-term cooperation with suppliers. A hotel that works with a reliable vegetable supplier gets consistent quality. Shared standards reduce disputes and delays.
+8. **It gives a competitive advantage in global markets.** Quality standards such as ISO 9001 and Six Sigma are recognised worldwide, so firms that meet them find it easier to export and to win contracts. For Nepali producers of carpets, tea and software services, quality is a main route to foreign buyers. Quality therefore supports national as well as company growth.
+
 ## Formula and fact sheet
 
 - Control process: set standards → measure → compare → correct. Types: feedforward (before), concurrent (during), feedback (after).
@@ -194,3 +321,77 @@ A workplace-organisation method with five Japanese words beginning with S:
 **9.** Opportunities: new markets, cheaper inputs, outsourcing contracts, technology transfer. Challenges: cultural differences, exchange-rate and political risk, strong foreign competitors, brain drain, dependence on neighbours' trade routes.
 **10.** A mix of family-run private firms, public enterprises, cooperatives and NGOs; hierarchical, relationship-based practice shifting towards professional management; trends in digital payments, start-ups, ISO quality, CSR and federalism; challenges of instability, infrastructure, corruption and skill shortages.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). Explain the four steps of the control process. A department budgeted Rs 5,00,000 and spent Rs 5,60,000: find and interpret the variance.**
+
+*Introduction.* Controlling is the function of ensuring that actual performance matches plans and of correcting deviations. Figure 6.1 shows its four steps.
+
+1. **Set standards.** Standards are measurable targets taken from the plan: budget, quality level, time limit or sales target.
+2. **Measure performance.** Actual results are collected by reports, observation, sampling and information systems.
+3. **Compare with the standard.** The deviation is calculated and tested for significance; small deviations are tolerated.
+4. **Take corrective action.** The cause is found and fixed, or the standard is revised if it was unrealistic.
+
+*Numerical example.* Variance = actual - budget = 5,60,000 - 5,00,000 = Rs 60,000, which is 60,000 / 5,00,000 = **12 percent over budget** (an adverse variance). The manager should find the cause (price rise, waste or extra work), correct it, and report to the top. A 2 percent variance might be ignored under *management by exception*, but 12 percent needs action.
+
+*Conclusion.* Control closes the management cycle by feeding the findings back to planning.
+
+**Q2 (5 marks). What is Total Quality Management? Explain its principles and Deming's contribution.**
+
+*Introduction.* TQM is an organisation-wide approach in which every person and process is committed to meeting customer needs through continuous improvement. Its roots lie in Shewhart, Deming and Ohno (Plate 6.1).
+
+1. **Customer focus.** Quality is defined by the customer, not by the producer.
+2. **Total employee involvement.** Everyone is responsible for quality, through teams and quality circles.
+3. **Process centred.** Work is seen as a chain of processes to be improved, since most defects arise from the system.
+4. **Continuous improvement.** The PDCA cycle (Figure 6.3) keeps raising standards.
+5. **Decisions based on facts.** Charts and statistics (Figures 6.2, 6.4 and 6.5) replace guesswork.
+6. **Leadership and supplier partnership.** Top management must lead, and suppliers are treated as partners.
+
+*Deming.* He insisted that management, not workers, is responsible for most quality problems, urged an end to dependence on inspection, promoted statistical control and the PDCA cycle, and set out fourteen points that include building constant purpose, driving out fear and removing numerical quotas.
+
+*Conclusion.* TQM treats quality as a way of managing everything, not as a department.
+
+**Q3 (10 marks). Define control. Explain the control process, the types of control, the characteristics of an effective control system and the common control techniques.**
+
+*Introduction.* Control is the management function of setting standards, measuring performance, comparing results and correcting deviations so that organisational goals are achieved. It is the last function in the cycle of Figure 1.2 but it depends on planning because without goals there is nothing to control against.
+
+**The process.** Four steps, as shown in Figure 6.1: set standards, measure performance, compare, take corrective action. A control chart (Figure 6.2) is a good example: the target is the standard, the points are the measurements, and a point outside the limits triggers action.
+
+**Types by timing.** *Feedforward* control acts before the activity (checking inputs, preventive maintenance, selection tests). *Concurrent* control acts during the activity (supervision, live monitoring). *Feedback* control acts afterwards (financial statements, audits, examination results). Feedforward is the most effective but needs good forecasts; feedback is the commonest but acts after the damage.
+
+**Characteristics of an effective control system.** It should be accurate, timely, economical, understandable, flexible, focused on critical points, related to the plan and the structure, acceptable to people, and should point to corrective action. Management by exception means that managers look only at significant deviations.
+
+**Techniques.**
+
+1. *Budgetary control*: comparing actual and budgeted income and expenditure; variance analysis.
+2. *Ratio analysis*: liquidity, profitability and efficiency ratios of financial statements.
+3. *Break-even analysis*: the volume needed to cover costs (Figure 3.3).
+4. *Statistical quality control*: control charts and sampling inspection.
+5. *Management audit and internal audit*: independent review of performance and compliance.
+6. *PERT and CPM*: network control of project time and cost.
+7. *Management information systems*: timely and accurate reports.
+8. *Pareto and fishbone analysis*: finding the vital causes of a problem (Figures 6.4 and 6.5).
+
+| Basis | Feedforward | Concurrent | Feedback |
+|---|---|---|---|
+| Time | before | during | after |
+| Aim | prevent problems | correct on the spot | learn for the future |
+| Example | check lab computers before the exam | invigilation | result analysis |
+| Weakness | needs good forecasts | needs supervision time | too late for the present case |
+
+**Problems of control.** Resistance by employees who feel watched, too much emphasis on what is easy to measure, high cost, and the danger of encouraging people to meet the number instead of the goal.
+
+*Conclusion.* An effective control system is timely, focused on critical points and accepted by the people it measures. It turns plans into results by making sure that deviations are detected and corrected, and it feeds experience into the next round of planning.
+
+**Q4 (5 marks). Explain Kaizen, Six Sigma and 5S. A process made 12 defects in 4,000 units, each with 5 opportunities for defect; find the DPMO.**
+
+*Introduction.* These are three modern quality practices that grew from Japanese and American industrial experience.
+
+1. **Kaizen** means "change for the better": continuous, small improvements made by everyone, using the PDCA cycle (Figure 6.3). It costs little and builds a habit.
+2. **Six Sigma** is a data-driven programme (Motorola, 1986) that aims at no more than 3.4 defects per million opportunities. Its improvement method is DMAIC: define, measure, analyse, improve, control.
+3. **5S** is a workplace routine: sort, set in order, shine, standardise, sustain.
+4. **DPMO** = defects / (units x opportunities per unit) x 1,000,000 = 12 / (4,000 x 5) x 1,000,000 = 12 / 20,000 x 1,000,000 = **600 DPMO**. This is far above the Six Sigma level of 3.4, so more improvement is needed.
+5. **Difference.** Kaizen is a continuous, people-based philosophy; Six Sigma is a project-based statistical method; 5S is a housekeeping routine that supports both.
+
+*Conclusion.* Together they give a workable route to better quality at low cost, even for a small Nepali firm.

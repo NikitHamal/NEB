@@ -670,3 +670,75 @@ $$ \sqrt{-8-6i} = \pm(1-3i) $$
 
 **Check.** $(1-3i)^{2} = 1 - 6i + 9i^{2} = 1 - 6i - 9 = -8-6i$. Correct.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the imaginary unit and a complex number. Explain the algebra of complex numbers, the Argand diagram, the modulus and the conjugate, and prove their main properties. <span class="marks">[10]</span>
+2. Derive the square root of a complex number, find $\sqrt{3+4i}$, $\sqrt{-5+12i}$, $\sqrt{-8-6i}$ and solve quadratic equations with complex roots. <span class="marks">[10]</span>
+
+### Model answer D1: algebra, Argand diagram, modulus and conjugate (10 marks)
+
+**Introduction.** The equation $x^{2}+1=0$ has no real root. Mathematicians therefore define the **imaginary unit** $i$ with $i^{2}=-1$. A **complex number** is $z=x+iy$ with $x,y\in\mathbb{R}$; $x$ is the **real part** and $y$ the **imaginary part**. Complex numbers are used in alternating-current circuits, for example in the Nepal Electricity Authority grid.
+
+**Powers of $i$.** $i^{2}=-1$, $i^{3}=-i$, $i^{4}=1$, and the pattern repeats every four powers. So $i^{99}=i^{96}\cdot i^{3}=-i$.
+
+**Algebra of complex numbers.** Let $z_1=a+ib$ and $z_2=c+id$.
+
+1. **Equality:** $z_1=z_2$ means $a=c$ and $b=d$.
+2. **Addition:** $z_1+z_2=(a+c)+i(b+d)$.
+3. **Multiplication:** $z_1z_2=(ac-bd)+i(ad+bc)$.
+4. **Division:** multiply the numerator and denominator by the conjugate of the denominator:
+
+$$ \frac{2+3i}{1-i}=\frac{(2+3i)(1+i)}{(1-i)(1+i)}=\frac{2+5i-3}{2}=\frac{-1+5i}{2} $$
+
+**Argand diagram.** The number $x+iy$ is represented by the point $P(x,y)$ in the plane, with the X-axis as the real axis and the Y-axis as the imaginary axis. Addition of complex numbers follows the parallelogram law for the vectors $\overrightarrow{OP}$.
+
+**Modulus and conjugate.**
+
+- The **modulus** is $|z|=\sqrt{x^{2}+y^{2}}$, the distance of $P$ from the origin.
+- The **conjugate** is $\bar z=x-iy$, the reflection of $P$ in the real axis.
+
+**Properties and proofs.**
+
+1. $z\bar z=(x+iy)(x-iy)=x^{2}+y^{2}=|z|^{2}$.
+2. $\overline{z_1+z_2}=\bar z_1+\bar z_2$ and $\overline{z_1z_2}=\bar z_1\bar z_2$.
+3. $|z_1z_2|=|z_1||z_2|$. *Proof:* $|z_1z_2|^{2}=(z_1z_2)(\bar z_1\bar z_2)=(z_1\bar z_1)(z_2\bar z_2)=|z_1|^{2}|z_2|^{2}$.
+4. $\left|\dfrac{z_1}{z_2}\right|=\dfrac{|z_1|}{|z_2|}$ and $|z_1+z_2|\le|z_1|+|z_2|$ (triangle inequality).
+5. $z$ is real if and only if $z=\bar z$, and $z+\bar z=2x$, $z-\bar z=2iy$.
+
+**Numerical check of 3.** For $z_1=1+i$ and $z_2=2+3i$: $z_1z_2=(2-3)+i(3+2)=-1+5i$, so $|z_1z_2|=\sqrt{26}$; and $|z_1||z_2|=\sqrt2\times\sqrt{13}=\sqrt{26}$.
+
+**Conclusion.** Complex numbers obey the same algebra as real numbers with $i^{2}=-1$; the modulus measures size, the conjugate gives real results on multiplication, and the Argand diagram makes them geometric.
+
+### Model answer D2: square root of a complex number and complex roots (10 marks)
+
+**Introduction.** Every non-zero complex number has exactly two square roots, which are negatives of each other. Finding them allows every quadratic equation with real or complex coefficients to be solved.
+
+**Derivation.** Let $\sqrt{a+ib}=x+iy$. Squaring, $x^{2}-y^{2}=a$ and $2xy=b$. Also $|z|=\sqrt{a^{2}+b^{2}}=x^{2}+y^{2}$, since the modulus of the square equals the square of the modulus. Adding and subtracting with $x^{2}-y^{2}=a$:
+
+$$ x^{2}=\frac{|z|+a}{2},\qquad y^{2}=\frac{|z|-a}{2} $$
+
+Therefore
+
+$$ \sqrt{a+ib}=\text{plus or minus}\left[\sqrt{\frac{|z|+a}{2}}+i\,\varepsilon\sqrt{\frac{|z|-a}{2}}\right] $$
+
+where $\varepsilon=+1$ if $b>0$ and $\varepsilon=-1$ if $b<0$ (so that $2xy$ has the sign of $b$).
+
+**Worked examples.**
+
+| Number | Modulus $r$ | $x=\sqrt{\frac{r+a}{2}}$ | $y=\sqrt{\frac{r-a}{2}}$ | Square roots | Check |
+|---|---|---|---|---|---|
+| $3+4i$ | $5$ | $2$ | $1$ | $\pm(2+i)$ | $(2+i)^{2}=3+4i$ |
+| $-5+12i$ | $13$ | $2$ | $3$ | $\pm(2+3i)$ | $(2+3i)^{2}=-5+12i$ |
+| $-8-6i$ | $10$ | $1$ | $3$ | $\pm(1-3i)$ | $(1-3i)^{2}=-8-6i$ |
+
+In the third case $b<0$, so $x$ and $y$ take opposite signs.
+
+**Quadratic equations with complex roots.**
+
+1. $z^{2}-4z+13=0$. Here $D=16-52=-36$, so $z=\dfrac{4\pm6i}{2}=2\pm3i$. The roots are conjugates, as always for real coefficients; their sum is $4$ and their product $4+9=13$.
+2. $z^{2}-(3+i)z+(2+i)=0$ has a complex coefficient. $D=(3+i)^{2}-4(2+i)=9+6i-1-8-4i=2i$. The square root of $2i$ is $\pm(1+i)$ because $(1+i)^{2}=2i$. Therefore $z=\dfrac{(3+i)\pm(1+i)}{2}$, giving $z=2+i$ or $z=1$. *Check:* $(z-1)\big(z-(2+i)\big)=z^{2}-(3+i)z+(2+i)$.
+
+**Solving a real-equation problem.** Find real $x,y$ if $(x+iy)^{2}=3+4i$. From the first table row, $x+iy=\pm(2+i)$, so $(x,y)=(2,1)$ or $(-2,-1)$.
+
+**Conclusion.** Equating real and imaginary parts, or using the formula in terms of $|z|$, gives the two square roots, and complex roots of real quadratics always occur as conjugate pairs.
