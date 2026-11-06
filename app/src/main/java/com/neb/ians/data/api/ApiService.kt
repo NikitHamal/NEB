@@ -909,7 +909,13 @@ data class ApiProfileResourcesResponse(
 @Serializable
 data class ApiRealtimeConfig(
     @SerialName("ws_url") val wsUrl: String = "",
-    @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25
+    @SerialName("heartbeat_interval") val heartbeatInterval: Int = 25,
+    /** "ably-sse" (hosted, default), "ws" (self-hosted) or "none". */
+    val transport: String = "none",
+    @SerialName("sse_url") val sseUrl: String = "",
+    val token: String = "",
+    @SerialName("expires_in") val expiresIn: Int = 3600,
+    @SerialName("user_channel") val userChannel: String = ""
 )
 
 @Serializable

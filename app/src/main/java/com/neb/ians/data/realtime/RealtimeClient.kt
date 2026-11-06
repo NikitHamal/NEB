@@ -1,6 +1,7 @@
 package com.neb.ians.data.realtime
 
 import android.util.Log
+import com.neb.ians.data.api.ApiRealtimeConfig
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +23,10 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonPrimitive
+import okhttp3.Call
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -40,8 +45,12 @@ data class RealtimeEvent(
 )
 
 /**
- * WebSocket client for the NEBians realtime layer (Channels/Daphne behind a
- * Cloudflare tunnel). Mirrors the web `realtime.js` behavior:
+ * Realtime client for NEBians. Mirrors the web `realtime.js`:
+ *  - hosted transport: Server-Sent Events straight to Ably with a short-lived
+ *    subscribe token from GET /api/realtime/config/ (no tunnel, the server holds
+ *    no socket). The old self-hosted WebSocket is used only if the server says so.
+ *  - the stream is dropped while the app is stopped (Ably counts concurrent
+ *    connections) and resumed with lastEvent so nothing is missed
  *  - URL discovery via GET /api/realtime/config/
  *  - Bearer-token auth (Authorization header)
  *  - auto-reconnect with exponential backoff (1s -> 30s)
@@ -63,7 +72,16 @@ class RealtimeClient @Inject constructor(
         .pingInterval(25, TimeUnit.SECONDS)
         .build()
 
+    private val sseClient = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
+        .build()
+
     private var webSocket: WebSocket? = null
+    @Volatile private var sseCall: Call? = null
+    @Volatile private var restartRequested = false
+    @Volatile private var lastEventId = ""
+    @Volatile private var userChannel = ""
     private var connectJob: Job? = null
     private var reconnectAttempt = 0
     @Volatile private var desiredRunning = false
@@ -95,6 +113,7 @@ class RealtimeClient @Inject constructor(
     fun stop() {
         desiredRunning = false
         connectJob?.cancel()
+        sseCall?.cancel()
         webSocket?.close(1000, "bye")
         webSocket = null
         _connected.value = false
@@ -122,10 +141,13 @@ class RealtimeClient @Inject constructor(
         synchronized(lock) {
             val count = subscriptions.getOrPut(channel) { 0 }
             subscriptions[channel] = count + 1
-            if (count == 0) sendRaw(buildJsonObject {
-                put("action", "subscribe")
-                put("channel", channel)
-            }.toString())
+            if (count == 0) {
+                sendRaw(buildJsonObject {
+                    put("action", "subscribe")
+                    put("channel", channel)
+                }.toString())
+                requestSseRestart()
+            }
         }
         return {
             synchronized(lock) {
@@ -136,6 +158,7 @@ class RealtimeClient @Inject constructor(
                         put("action", "unsubscribe")
                         put("channel", channel)
                     }.toString())
+                    requestSseRestart()
                 } else {
                     subscriptions[channel] = current - 1
                 }
@@ -145,11 +168,133 @@ class RealtimeClient @Inject constructor(
 
     private suspend fun connectLoop() {
         while (desiredRunning) {
-            val url = resolveUrl()
-            if (url.isNullOrBlank()) {
+            val cfg = fetchConfig()
+            if (cfg == null) {
                 delay(30_000)
                 continue
             }
+            when {
+                cfg.transport == "ably-sse" && cfg.token.isNotBlank() && cfg.sseUrl.isNotBlank() -> {
+                    userChannel = cfg.userChannel
+                    runSse(cfg)
+                    if (restartRequested) {
+                        restartRequested = false
+                        continue
+                    }
+                }
+                cfg.wsUrl.isNotBlank() -> {
+                    runWebSocket(cfg.wsUrl)
+                }
+                else -> {
+                    delay(60_000)
+                    continue
+                }
+            }
+            if (!desiredRunning) break
+            reconnectAttempt++
+            val backoff = min(30_000L, 1000L shl min(reconnectAttempt, 5))
+            delay(backoff)
+        }
+    }
+
+    /** Channels this client may read through Ably (private user channels only for the signed-in user). */
+    private fun sseChannels(cfg: ApiRealtimeConfig): List<String> {
+        val wanted = synchronized(lock) { subscriptions.keys.toList() }
+        val out = LinkedHashSet<String>()
+        for (ch in wanted) {
+            when {
+                ch == "user" -> if (cfg.userChannel.isNotBlank()) out.add(cfg.userChannel)
+                ch.startsWith("user.") -> if (ch == cfg.userChannel) out.add(ch)
+                ch == "forum.public" || ch.startsWith("post.") || ch.startsWith("resource.") ||
+                    ch.startsWith("resource_request.") -> out.add(ch)
+            }
+        }
+        return out.toList()
+    }
+
+    private fun requestSseRestart() {
+        val call = sseCall ?: return
+        restartRequested = true
+        call.cancel()
+    }
+
+    /** One SSE stream until it ends, the token nears expiry, or the channel set changes. */
+    private suspend fun runSse(cfg: ApiRealtimeConfig) {
+        val channels = sseChannels(cfg)
+        if (channels.isEmpty()) {
+            delay(10_000) // nothing subscribed yet: no connection, no cost
+            return
+        }
+        val url = try {
+            cfg.sseUrl.toHttpUrl().newBuilder()
+                .addQueryParameter("v", "1.2")
+                .addQueryParameter("accessToken", cfg.token)
+                .addQueryParameter("channels", channels.joinToString(","))
+                .apply { if (lastEventId.isNotBlank()) addQueryParameter("lastEvent", lastEventId) }
+                .build()
+        } catch (e: Exception) {
+            Log.d(TAG, "bad sse url: ${e.message}")
+            return
+        }
+        val call = sseClient.newCall(
+            Request.Builder().url(url).header("Accept", "text/event-stream").build()
+        )
+        sseCall = call
+        val renewAt = System.currentTimeMillis() + cfg.expiresIn * 800L
+        try {
+            withContext(Dispatchers.IO) {
+                call.execute().use { response ->
+                    if (!response.isSuccessful) return@use
+                    val source = response.body?.source() ?: return@use
+                    _connected.value = true
+                    reconnectAttempt = 0
+                    val data = StringBuilder()
+                    var id = ""
+                    while (desiredRunning && !call.isCanceled()) {
+                        val line = source.readUtf8Line() ?: break
+                        if (line.isEmpty()) {
+                            if (data.isNotEmpty()) handleAbly(data.toString())
+                            data.setLength(0)
+                            if (id.isNotEmpty()) lastEventId = id
+                            continue
+                        }
+                        when {
+                            line.startsWith("data:") -> data.append(line.removePrefix("data:").trim())
+                            line.startsWith("id:") -> id = line.removePrefix("id:").trim()
+                        }
+                        if (System.currentTimeMillis() > renewAt) break
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "sse ended: ${e.message}")
+        } finally {
+            _connected.value = false
+            sseCall = null
+        }
+    }
+
+    /** An Ably message: {"name": event, "channel": ..., "data": "<json>"}. */
+    private fun handleAbly(text: String) {
+        try {
+            val obj = json.parseToJsonElement(text).jsonObject
+            val event = obj["name"]?.jsonPrimitive?.content ?: return
+            var channel = obj["channel"]?.jsonPrimitive?.content ?: return
+            if (userChannel.isNotBlank() && channel == userChannel) channel = "user"
+            val raw = obj["data"]
+            val data = when {
+                raw is JsonPrimitive && raw.isString -> json.parseToJsonElement(raw.content)
+                else -> raw
+            }
+            dispatchEvent(channel, event, data as? JsonObject)
+        } catch (e: Exception) {
+            Log.d(TAG, "sse message parse failed: ${e.message}")
+        }
+    }
+
+    /** Legacy self-hosted WebSocket (only when the server publishes a ws_url). */
+    private suspend fun runWebSocket(url: String) {
+        run {
             val token = authRepository.getToken()
             val cookieManager = android.webkit.CookieManager.getInstance()
             val currentCookies = cookieManager.getCookie("https://nebians.consica.com.np/")
@@ -196,10 +341,6 @@ class RealtimeClient @Inject constructor(
 
             closed.await()
             webSocket = null
-            if (!desiredRunning) break
-            reconnectAttempt++
-            val backoff = min(30_000L, 1000L shl min(reconnectAttempt, 5))
-            delay(backoff)
         }
     }
 
@@ -246,10 +387,9 @@ class RealtimeClient @Inject constructor(
         }
     }
 
-    private suspend fun resolveUrl(): String? {
+    private suspend fun fetchConfig(): ApiRealtimeConfig? {
         return try {
-            val cfg = apiService.getRealtimeConfig()
-            cfg.wsUrl.ifBlank { null }
+            apiService.getRealtimeConfig()
         } catch (e: Exception) {
             Log.d(TAG, "realtime config fetch failed: ${e.message}")
             null
