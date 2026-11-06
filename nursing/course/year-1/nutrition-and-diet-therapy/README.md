@@ -13,7 +13,7 @@ Year 1, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Th
 ## Verification
 
 - Every number is computed by `nursing/tools/check_nutrition.py` (115 tokens, 8 executed Python blocks, extra asserts); run with `--verify`.
-- Real open-licensed photographs from Wikimedia Commons (slug `nur4`, credits auto-generated).
+- 21 real open-licensed photographs from Wikimedia Commons (slug `nur4`, credits auto-generated) and 13 SVG figures.
 
 ## Source and honesty
 
