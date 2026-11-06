@@ -1,398 +1,334 @@
-/* NEBians real-time client.
+/* NEBians realtime client.
  *
- * Single WebSocket connection to /ws/ that dispatches typed events to
- * page-level subscribers. Handles reconnect, heartbeat, tab-visibility
- * pause, and a polling fallback when the WebSocket is down.
+ * Transport: Server-Sent Events straight to Ably (no SDK, no tunnel, and this
+ * server holds no socket). The server only hands out a short-lived subscribe
+ * token from /api/realtime/config/ and publishes events over HTTPS.
  *
- * Usage (from page templates):
- *   WS.subscribe('post.<id>');
- *   WS.subscribe('user');
- *   WS.subscribe('forum.public');
- *   WS.subscribe('resource.<id>');
- *   WS.on('post.<id>:reply.created', function(data) { ... });
- *   WS.on('user:notification.new',  function(data) { ... });
- *   WS.on('forum.public:post.created', function(data) { ... });
+ *   WS.subscribe('forum.public');  WS.subscribe('post.<id>');  WS.subscribe('user');
+ *   WS.on('post.<id>:reply.created', fn);  WS.on('user:notification.new', fn);
  *
- * Channel event names mirror what the server emits (api/realtime.py).
+ * What keeps it light:
+ *   - no channels subscribed -> no connection and no request at all
+ *   - subscribe calls made in the same tick share ONE connection
+ *   - a tab that is hidden for 30s drops its stream (Ably free plan counts
+ *     concurrent connections) and resumes, with lastEventId, when it is back
+ *   - token renewed at ~80% of its life, reconnect backoff with jitter
  *
- * The WS endpoint URL is auto-detected from window.location:
- *   - https -> wss://<host>/ws/
- *   - http  -> ws://<host>/ws/
- *   - data-ws-url attribute on <body> overrides the default (used for
- *     staging environments where the WS endpoint is on a different host,
- *     e.g. ws.nebians.consica.com.np).
+ * `WS_CONFIG.url` / WS_PUBLIC_URL still selects the old self-hosted WebSocket.
  */
 (function (global) {
   'use strict';
 
-  var STATE = {
-    DISCONNECTED: 'disconnected',
-    CONNECTING: 'connecting',
-    CONNECTED: 'connected',
-    CLOSED: 'closed',
-  };
+  var STATE = { DISCONNECTED: 'disconnected', CONNECTING: 'connecting', CONNECTED: 'connected', CLOSED: 'closed' };
+  var HIDDEN_GRACE = 30000;
+  var RESYNC_AFTER = 110000;
+  var MIN_DELAY = 1500;
+  var MAX_DELAY = 60000;
 
-  var config = global.WS_CONFIG || {};
-  var wsUrl = config.url || deriveUrl();
-  var heartbeatInterval = 25000;
-  var minReconnectDelay = 1000;
-  var maxReconnectDelay = 30000;
-  var reconnectDelay = minReconnectDelay;
-  var state = STATE.DISCONNECTED;
-  var socket = null;
+  var state = STATE.CLOSED;
   var channels = new Set();
-  var handlers = Object.create(null); // 'channel:event' -> Set<fn>
-  var heartbeatTimer = null;
-  var lastPingTs = 0;
-  var reconnectTimer = null;
-  var paused = false;
+  var handlers = Object.create(null);
   var healthListeners = new Set();
-  var lastEventTs = 0;
-  var baseWsUrl = null; // extracted from wsUrl (without query string)
-  var haveRefetched = false; // prevent infinite refetch loops
-  var consecutiveFailures = 0;
-  var lastFailedBase = '';
-  var lastRefetchTs = 0;
-  var MIN_REFETCH_INTERVAL = 30000;
+  var cfg = null;
+  var es = null;
+  var ws = null;
+  var lastEventId = '';
+  var lastSeen = 0;
+  var delay = MIN_DELAY;
+  var timers = { connect: null, renew: null, hidden: null, reopen: null };
+  var starting = false;
+  var wantOpen = false;
 
-  // ----- URL derivation -----------------------------------------------------
-
-  function deriveUrl() {
-    var explicit = document.body && document.body.getAttribute('data-ws-url');
-    if (explicit) return explicit;
-    var proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-    return proto + '//' + location.host + '/ws/';
-  }
-
-  // ----- Public API ---------------------------------------------------------
-
-  function subscribe(channel) {
-    if (!channel) return;
-    if (channels.has(channel)) return;
-    channels.add(channel);
-    if (state === STATE.CONNECTED) {
-      sendRaw({ action: 'subscribe', channel: channel });
-    }
-  }
-
-  function unsubscribe(channel) {
-    if (!channel) return;
-    if (!channels.delete(channel)) return;
-    if (state === STATE.CONNECTED) {
-      sendRaw({ action: 'unsubscribe', channel: channel });
-    }
-  }
-
-  function on(eventKey, fn) {
-    if (!eventKey || typeof fn !== 'function') return;
-    var bucket = handlers[eventKey] || (handlers[eventKey] = new Set());
-    bucket.add(fn);
-    return function off() { bucket.delete(fn); };
-  }
-
-  function off(eventKey, fn) {
-    if (!handlers[eventKey]) return;
-    if (fn) handlers[eventKey].delete(fn);
-    else delete handlers[eventKey];
-  }
-
-  function getState() { return state; }
-
-  function isOpen() { return state === STATE.CONNECTED; }
-
-  function onHealth(fn) {
-    healthListeners.add(fn);
-    fn(state);
-    return function () { healthListeners.delete(fn); };
-  }
-
-  function start() {
-    if (state === STATE.CONNECTING || state === STATE.CONNECTED) return;
-    connect();
-  }
-
-  function stop() {
-    paused = true;
-    if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
-    if (socket) {
-      try { socket.close(1000, 'client stop'); } catch (e) { /* ignore */ }
-    }
-    setState(STATE.CLOSED);
-  }
-
-  // ----- internals ----------------------------------------------------------
-
-  function connect() {
-    if (!wsUrl) {
-      // No tunnel URL available — rely on polling fallback, retry later.
-      scheduleReconnect();
-      return;
-    }
-    setState(STATE.CONNECTING);
-    if (!baseWsUrl) {
-      var qidx = wsUrl.indexOf('?');
-      baseWsUrl = qidx >= 0 ? wsUrl.substring(0, qidx) : wsUrl;
-    }
-    try {
-      socket = new WebSocket(wsUrl);
-    } catch (e) {
-      console.warn('[ws] WebSocket construction failed:', e);
-      scheduleReconnect();
-      return;
-    }
-
-    socket.addEventListener('open', function () {
-      reconnectDelay = minReconnectDelay;
-      consecutiveFailures = 0;
-      lastFailedBase = '';
-      setState(STATE.CONNECTED);
-      // Re-subscribe to all channels on (re)connect.
-      channels.forEach(function (ch) {
-        sendRaw({ action: 'subscribe', channel: ch });
-      });
-      startHeartbeat();
-    });
-
-    socket.addEventListener('message', function (ev) {
-      handleMessage(ev.data);
-    });
-
-    socket.addEventListener('close', function (ev) {
-      stopHeartbeat();
-      if (state !== STATE.CLOSED) {
-        setState(STATE.DISCONNECTED);
-        var failedBase = baseWsUrl || wsUrl;
-        if (failedBase) {
-          if (failedBase === lastFailedBase) consecutiveFailures += 1;
-          else { consecutiveFailures = 1; lastFailedBase = failedBase; }
-        }
-        if (!paused) scheduleReconnect();
-      } else {
-        consecutiveFailures = 0;
-        lastFailedBase = '';
-      }
-    });
-
-    socket.addEventListener('error', function () {
-      stopHeartbeat();
-      // 'close' will fire right after; reconnect happens there.
-    });
-  }
-
-  function refetchWsUrl(callback) {
-    var now = Date.now();
-    if (wsUrl && (now - lastRefetchTs < MIN_REFETCH_INTERVAL)) {
-      callback();
-      return;
-    }
-    lastRefetchTs = now;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/realtime/config/', true);
-    xhr.withCredentials = true;
-    xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 400) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          if (data.ws_url) {
-            var newBase = data.ws_url;
-            // Fresh URL from server resets failure streak if host changed
-            if (newBase !== baseWsUrl) {
-              consecutiveFailures = 0;
-              lastFailedBase = '';
-            }
-            baseWsUrl = newBase;
-            if (data.ticket) {
-              wsUrl = baseWsUrl + '?ticket=' + data.ticket;
-            } else {
-              var ticket = getTicketFromUrl(wsUrl);
-              wsUrl = baseWsUrl + (ticket ? ticket : '');
-            }
-            if (global.WS_CONFIG) global.WS_CONFIG.url = wsUrl;
-            if (document.body) document.body.setAttribute('data-ws-url', wsUrl);
-          } else if (data.hasOwnProperty('ws_url') && !data.ws_url) {
-            // Server explicitly says no tunnel — don't keep hammering a dead host.
-            // Clear URL so we fall back to polling until tunnel recovers.
-            if (consecutiveFailures >= 2) {
-              baseWsUrl = '';
-              wsUrl = '';
-              if (global.WS_CONFIG) global.WS_CONFIG.url = '';
-              if (document.body) document.body.removeAttribute('data-ws-url');
-            }
-          }
-        } catch (e) { /* ignore parse errors */ }
-      } else if (xhr.status === 429) {
-        reconnectDelay = Math.max(reconnectDelay, 45000);
-      }
-      callback();
-    };
-    xhr.onerror = function () { callback(); };
-    xhr.send();
-  }
-
-  function getTicketFromUrl(url) {
-    var idx = url.indexOf('?');
-    return idx >= 0 ? url.substring(idx) : '';
-  }
-
-  function scheduleReconnect() {
-    if (paused) return;
-    if (reconnectTimer) return;
-    // If we've had several consecutive failures to the same host, back off harder
-    // to avoid spamming the console and the dead tunnel.
-    var effectiveDelay = reconnectDelay;
-    if (consecutiveFailures >= 3) {
-      effectiveDelay = Math.min(reconnectDelay * 2, maxReconnectDelay);
-    }
-    if (!wsUrl && consecutiveFailures >= 2) {
-      // No valid URL — poll for recovery every 30s instead of tight loop.
-      effectiveDelay = maxReconnectDelay;
-    }
-    var jitter = Math.random() * 0.3 * effectiveDelay;
-    var delay = effectiveDelay + jitter;
-    reconnectTimer = setTimeout(function () {
-      reconnectTimer = null;
-      reconnectDelay = Math.min(reconnectDelay * 2, maxReconnectDelay);
-      // Refetch the WS URL from the server before reconnecting, so we get
-      // the latest tunnel URL if cloudflared has restarted since page load.
-      refetchWsUrl(function () {
-        connect();
-      });
-    }, delay);
-  }
+  function now() { return Date.now(); }
+  function clearTimer(name) { if (timers[name]) { clearTimeout(timers[name]); timers[name] = null; } }
 
   function setState(s) {
     if (state === s) return;
     state = s;
+    if (document.body) document.body.setAttribute('data-ws-state', s);
     healthListeners.forEach(function (fn) { try { fn(s); } catch (e) { /* ignore */ } });
-    document.body && document.body.setAttribute('data-ws-state', s);
   }
 
-  function sendRaw(obj) {
-    if (state !== STATE.CONNECTED || !socket || socket.readyState !== 1) {
-      if (socket && (socket.readyState === 2 || socket.readyState === 3)) {
-        stopHeartbeat();
-        if (state === STATE.CONNECTED) {
-          setState(STATE.DISCONNECTED);
-          if (!paused) scheduleReconnect();
-        }
+  // ----- public API ----------------------------------------------------------
+
+  function subscribe(channel) {
+    if (!channel || channels.has(channel)) return;
+    channels.add(channel);
+    wantOpen = true;
+    if (cfg && cfg.transport === 'ws') {
+      if (ws && ws.readyState === 1) sendRaw({ action: 'subscribe', channel: channel });
+      return;
+    }
+    scheduleReopen();
+  }
+
+  function unsubscribe(channel) {
+    if (!channel || !channels.delete(channel)) return;
+    if (cfg && cfg.transport === 'ws') {
+      if (ws && ws.readyState === 1) sendRaw({ action: 'unsubscribe', channel: channel });
+      return;
+    }
+    if (!channels.size) closeStream(); else scheduleReopen();
+  }
+
+  function on(key, fn) {
+    if (!key || typeof fn !== 'function') return function () {};
+    var bucket = handlers[key] || (handlers[key] = new Set());
+    bucket.add(fn);
+    return function () { bucket.delete(fn); };
+  }
+
+  function off(key, fn) {
+    if (!handlers[key]) return;
+    if (fn) handlers[key].delete(fn); else delete handlers[key];
+  }
+
+  function onHealth(fn) {
+    healthListeners.add(fn);
+    try { fn(state); } catch (e) { /* ignore */ }
+    return function () { healthListeners.delete(fn); };
+  }
+
+  function isOpen() { return state === STATE.CONNECTED; }
+  function getState() { return state; }
+
+  function start() {
+    wantOpen = true;
+    if (state === STATE.CONNECTING || state === STATE.CONNECTED || starting) return;
+    boot();
+  }
+
+  function stop() {
+    wantOpen = false;
+    clearTimer('connect'); clearTimer('renew'); clearTimer('reopen'); clearTimer('hidden');
+    closeStream();
+    setState(STATE.CLOSED);
+  }
+
+  // ----- config + connect ----------------------------------------------------
+
+  function fetchConfig(done) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/realtime/config/', true);
+    xhr.withCredentials = true;
+    xhr.onload = function () {
+      var data = null;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { data = JSON.parse(xhr.responseText); } catch (e) { data = null; }
       }
-      return false;
-    }
-    try {
-      socket.send(JSON.stringify(obj));
-      return true;
-    } catch (e) {
-      return false;
-    }
+      done(data, xhr.status);
+    };
+    xhr.onerror = function () { done(null, 0); };
+    xhr.send();
   }
 
-  function handleMessage(raw) {
+  function boot() {
+    if (!wantOpen || !channels.size) return;
+    starting = true;
+    setState(STATE.CONNECTING);
+    var explicit = (global.WS_CONFIG && global.WS_CONFIG.url) || '';
+    fetchConfig(function (data, status) {
+      starting = false;
+      if (!wantOpen) return;
+      if (!data || (data.transport !== 'ably-sse' && data.transport !== 'ws' && !explicit)) {
+        // Nothing to connect to (or server unreachable): stay quiet, look again later.
+        setState(STATE.DISCONNECTED);
+        retry(status === 429 ? 120000 : 300000);
+        return;
+      }
+      cfg = data;
+      if (data.transport !== 'ably-sse') {
+        cfg = { transport: 'ws', url: data.ws_url || explicit };
+        openWebSocket();
+        return;
+      }
+      openStream();
+    });
+  }
+
+  function retry(ms) {
+    clearTimer('connect');
+    var wait = ms || Math.min(delay, MAX_DELAY);
+    wait += Math.random() * wait * 0.3;
+    timers.connect = setTimeout(function () {
+      timers.connect = null;
+      delay = Math.min(delay * 2, MAX_DELAY);
+      boot();
+    }, wait);
+  }
+
+  function ablyChannelList() {
+    var list = [];
+    channels.forEach(function (ch) {
+      if (ch === 'user') { if (cfg.user_channel) list.push(cfg.user_channel); return; }
+      if (ch.indexOf('user.') === 0 && ch !== cfg.user_channel) return; // private: not ours
+      if (/^(forum\.public|post\.|resource\.|resource_request\.|user\.)/.test(ch)) list.push(ch);
+    });
+    return list;
+  }
+
+  function openStream() {
+    closeStream(true);
+    var list = ablyChannelList();
+    if (!list.length || !cfg || !cfg.token || typeof EventSource === 'undefined') {
+      setState(STATE.DISCONNECTED);
+      return;
+    }
+    var url = cfg.sse_url + '?v=1.2&accessToken=' + encodeURIComponent(cfg.token) +
+      '&channels=' + list.map(encodeURIComponent).join(',') +
+      (lastEventId ? '&lastEvent=' + encodeURIComponent(lastEventId) : '');
+    setState(STATE.CONNECTING);
+    var source = new EventSource(url);
+    es = source;
+    source.onopen = function () {
+      if (es !== source) return;
+      if (lastSeen && now() - lastSeen > RESYNC_AFTER) {
+        try { global.dispatchEvent(new CustomEvent('neb:realtime-resync')); } catch (e) { /* ignore */ }
+      }
+      lastSeen = now();
+      delay = MIN_DELAY;
+      setState(STATE.CONNECTED);
+    };
+    source.onmessage = function (ev) {
+      if (es !== source) return;
+      lastSeen = now();
+      if (ev.lastEventId) lastEventId = ev.lastEventId;
+      handleAbly(ev.data);
+    };
+    source.onerror = function () {
+      if (es !== source) return;
+      // EventSource retries on its own for network blips; a CLOSED stream is an
+      // auth or quota failure, so fetch a fresh token and start over.
+      if (source.readyState === 2) {
+        source.close();
+        es = null;
+        setState(STATE.DISCONNECTED);
+        if (wantOpen && !document.hidden) retry();
+      } else {
+        setState(STATE.CONNECTING);
+      }
+    };
+    clearTimer('renew');
+    var life = (cfg.expires_in || 3600) * 800;
+    timers.renew = setTimeout(renewToken, life);
+  }
+
+  function renewToken() {
+    timers.renew = null;
+    if (!wantOpen || !es) return;
+    fetchConfig(function (data) {
+      if (data && data.token) { cfg = data; openStream(); }
+      else retry(30000);
+    });
+  }
+
+  function closeStream(keepState) {
+    clearTimer('renew');
+    if (es) { try { es.close(); } catch (e) { /* ignore */ } es = null; }
+    if (ws) { try { ws.close(1000, 'client'); } catch (e) { /* ignore */ } ws = null; }
+    if (!keepState && state !== STATE.CLOSED) setState(STATE.DISCONNECTED);
+  }
+
+  function scheduleReopen() {
+    clearTimer('reopen');
+    timers.reopen = setTimeout(function () {
+      timers.reopen = null;
+      if (!wantOpen || !channels.size || document.hidden) return;
+      if (!cfg) { if (!starting) boot(); return; }
+      openStream();
+    }, 120);
+  }
+
+  // ----- Ably message -> page event -------------------------------------------
+
+  function handleAbly(raw) {
     var msg;
     try { msg = JSON.parse(raw); } catch (e) { return; }
     if (!msg || typeof msg !== 'object') return;
-    var type = msg.type;
-    if (type === 'pong') {
-      lastPingTs = Date.now();
-      return;
-    }
-    if (type === 'ping') {
-      sendRaw({ action: 'pong' });
-      lastEventTs = Date.now();
-      return;
-    }
-    if (type === 'ready') {
-      heartbeatInterval = msg.heartbeat_interval || 25000;
-      lastPingTs = Date.now();
-      return;
-    }
-    if (type === 'event') {
-      lastEventTs = Date.now();
-      dispatch(msg.channel, msg.event, msg.data);
-      return;
-    }
-    if (type === 'subscribed' || type === 'unsubscribed' || type === 'since_ack') {
-      return;
-    }
-    if (type === 'error') {
-      console.warn('[ws] server error:', msg.code, msg.message);
-    }
+    var items = Array.isArray(msg) ? msg : [msg];
+    items.forEach(function (m) {
+      if (!m || !m.name || !m.channel) return;
+      var data = m.data;
+      if (typeof data === 'string') { try { data = JSON.parse(data); } catch (e) { /* keep string */ } }
+      var channel = m.channel;
+      if (cfg && cfg.user_channel && channel === cfg.user_channel) {
+        dispatch('user', m.name, data);
+        if (channels.has(channel)) dispatch(channel, m.name, data);
+      } else {
+        dispatch(channel, m.name, data);
+      }
+    });
   }
 
   function dispatch(channel, event, data) {
-    // Specific: 'post.<id>:reply.created'
-    var specific = channel + ':' + event;
-    fire(handlers[specific], data, channel, event);
-    // Wildcard on channel: 'post.<id>:*'
+    fire(handlers[channel + ':' + event], data, channel, event);
     fire(handlers[channel + ':*'], data, channel, event);
-    // Wildcard on event across all channels: '*:reply.created'
     fire(handlers['*:' + event], data, channel, event);
-    // Global wildcard
     fire(handlers['*'], data, channel, event);
   }
 
   function fire(bucket, data, channel, event) {
     if (!bucket) return;
     bucket.forEach(function (fn) {
-      try { fn(data, channel, event); } catch (e) { console.error('[ws] handler error:', e); }
+      try { fn(data, channel, event); } catch (e) { console.error('[realtime] handler error:', e); }
     });
   }
 
-  // ----- heartbeat ----------------------------------------------------------
+  // ----- self-hosted WebSocket (only when WS_PUBLIC_URL is configured) --------
 
-  function startHeartbeat() {
-    stopHeartbeat();
-    heartbeatTimer = setInterval(function () {
-      if (state !== STATE.CONNECTED || !socket || socket.readyState !== 1) {
-        stopHeartbeat();
-        return;
-      }
-      // If the server hasn't pinged us in 2x interval, our connection may be
-      // half-closed. Force a ping so we can detect a dead socket faster.
-      var sinceServer = Date.now() - lastEventTs;
-      if (sinceServer > heartbeatInterval * 2) {
-        sendRaw({ action: 'ping', ts: Date.now() });
-      }
-    }, heartbeatInterval);
+  function sendRaw(obj) {
+    if (!ws || ws.readyState !== 1) return false;
+    try { ws.send(JSON.stringify(obj)); return true; } catch (e) { return false; }
   }
 
-  function stopHeartbeat() {
-    if (heartbeatTimer) { clearInterval(heartbeatTimer); heartbeatTimer = null; }
+  function openWebSocket() {
+    closeStream(true);
+    if (!cfg || !cfg.url || typeof WebSocket === 'undefined') { setState(STATE.DISCONNECTED); return; }
+    var sock;
+    try { sock = new WebSocket(cfg.url); } catch (e) { setState(STATE.DISCONNECTED); retry(); return; }
+    ws = sock;
+    sock.onopen = function () {
+      delay = MIN_DELAY;
+      setState(STATE.CONNECTED);
+      channels.forEach(function (ch) { sendRaw({ action: 'subscribe', channel: ch }); });
+    };
+    sock.onmessage = function (ev) {
+      var msg;
+      try { msg = JSON.parse(ev.data); } catch (e) { return; }
+      if (!msg) return;
+      if (msg.type === 'ping') sendRaw({ action: 'pong' });
+      else if (msg.type === 'event') dispatch(msg.channel, msg.event, msg.data);
+    };
+    sock.onclose = function () {
+      if (ws !== sock) return;
+      ws = null;
+      setState(STATE.DISCONNECTED);
+      if (wantOpen && !document.hidden) retry();
+    };
   }
 
-  // ----- tab visibility & Back-Forward Cache (bfcache) lifecycle ------------
+  // ----- tab lifecycle ---------------------------------------------------------
 
   document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible') {
-      if (paused) { paused = false; start(); }
-      else if (state === STATE.DISCONNECTED || state === STATE.CLOSED) start();
+    if (document.hidden) {
+      clearTimer('hidden');
+      timers.hidden = setTimeout(function () {
+        timers.hidden = null;
+        if (document.hidden) { clearTimer('connect'); closeStream(); }
+      }, HIDDEN_GRACE);
+      return;
+    }
+    clearTimer('hidden');
+    if (wantOpen && channels.size && state !== STATE.CONNECTED && state !== STATE.CONNECTING) {
+      if (cfg) openStream(); else boot();
     }
   });
 
-  // When page enters Back-Forward Cache (bfcache), close socket cleanly.
-  window.addEventListener('pagehide', function (ev) {
-    if (ev.persisted || socket) {
-      try {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-          socket.close(1000, 'pagehide');
-        }
-      } catch (e) { /* ignore */ }
-    }
+  global.addEventListener('pagehide', function () { clearTimer('connect'); closeStream(); });
+  global.addEventListener('pageshow', function (ev) {
+    if (ev.persisted && wantOpen && channels.size) { cfg ? openStream() : boot(); }
   });
 
-  // When restored from Back-Forward Cache (bfcache), resume realtime connection.
-  window.addEventListener('pageshow', function (ev) {
-    if (ev.persisted) {
-      paused = false;
-      start();
-    }
-  });
-
-  window.addEventListener('beforeunload', function () {
-    try { if (socket) socket.close(1000, 'page unload'); } catch (e) { /* ignore */ }
-  });
-
-  // Expose
   global.WS = {
     start: start,
     stop: stop,
