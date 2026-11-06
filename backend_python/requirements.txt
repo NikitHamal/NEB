@@ -14,6 +14,8 @@ charset-normalizer==2.0.12
 urllib3==2.8.0
 python-dotenv==1.2.4
 whitenoise==6.12.0
+rjsmin>=1.2.5
+rcssmin>=1.2.2
 google-auth==2.53.0
 redis==8.1.0
 pycryptodome==4.2.0
