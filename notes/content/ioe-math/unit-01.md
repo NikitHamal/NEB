@@ -338,3 +338,60 @@ f.text(150, 224, "column 8 (converse) differs in %d rows" % diff, size=10.5, col
 **6.** (c) — all functions $2^3=8$, minus the 2 constant ones: 6.
 **7.** (a) — $n(P(A))=4$, so $n(P(P(A)))=2^4=16$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. In a survey of 100 students, $n(M)=50$, $n(P)=45$, $n(C)=40$, $n(M\cap P)=20$, $n(P\cap C)=15$, $n(M\cap C)=18$ and $n(M\cap P\cap C)=8$. Find the number in each region, and prove that $(p\to q)\wedge(q\to r)\Rightarrow(p\to r)$ is a tautology. <span class="marks">[10]</span>
+2. Find the domain and range of a function, the inverse of a rational function, and compare $f\circ g$ with $g\circ f$. <span class="marks">[10]</span>
+
+### Model answer D1: Sets, Venn diagrams and logic (10 marks)
+
+**Introduction.** For three finite sets the **inclusion–exclusion** rule gives
+$$n(M\cup P\cup C)=n(M)+n(P)+n(C)-n(M\cap P)-n(P\cap C)-n(M\cap C)+n(M\cap P\cap C).$$
+
+**Solution.** Work from the middle outwards.
+
+1. **All three:** $8$.
+2. **Exactly two:** $M,P$ only $=20-8=12$; $P,C$ only $=15-8=7$; $M,C$ only $=18-8=10$.
+3. **Only one:** $M$ only $=50-12-10-8=20$; $P$ only $=45-12-7-8=18$; $C$ only $=40-10-7-8=15$.
+4. **Union:** $20+18+15+12+7+10+8=90$, which matches $50+45+40-20-15-18+8=90$.
+5. **None of the three:** $100-90=10$.
+
+| Region | Students |
+|---|---|
+| Only M / only P / only C | 20 / 18 / 15 |
+| Exactly two subjects | 29 |
+| All three | 8 |
+| None | 10 |
+
+**Logic.** A **tautology** is true in every row of the truth table. Since $p\to q\equiv\neg p\vee q$, we test $[(p\to q)\wedge(q\to r)]\to(p\to r)$ in the eight cases of $(p,q,r)$. The antecedent is true only when $p\to q$ and $q\to r$ are both true: $(T,T,T)$, $(F,T,T)$, $(F,F,T)$, $(F,F,F)$ and $(F,T,F)$ is excluded since $q\to r$ is false. In each admitted row, $p\to r$ is true ($TT$, $FT$, $FT$, $FF$). The whole statement is therefore true in all 8 rows: it is a tautology (**hypothetical syllogism**).
+
+**Useful laws.** De Morgan: $\neg(p\wedge q)\equiv\neg p\vee\neg q$. Contrapositive: $p\to q\equiv\neg q\to\neg p$. Inequalities: $\lvert 2x-3\rvert<5\Rightarrow -1<x<4$ and $\lvert x-2\rvert\ge3\Rightarrow x\le-1$ or $x\ge5$.
+
+**Conclusion.** Working from the three-way intersection outwards avoids double counting, and a truth table settles any logical identity.
+
+### Model answer D2: Functions, inverse and composition (10 marks)
+
+**Introduction.** A **function** $f:A\to B$ gives exactly one output for each input. The **domain** is the set of allowed inputs and the **range** is the set of outputs.
+
+**1. Domain and range.** For $f(x)=\frac{\sqrt{x-1}}{x-3}$ we need $x-1\ge0$ and $x\ne3$, so the domain is $[1,\infty)\setminus\{3\}$. For $f(x)=x^2-4x+3=(x-2)^2-1$, the range is $[-1,\infty)$.
+
+**2. Inverse.** A function has an inverse only if it is **one-one and onto**. For $f(x)=\frac{2x+1}{x-3}$ ($x\ne3$):
+
+1. Put $y=\frac{2x+1}{x-3}$, so $y(x-3)=2x+1$.
+2. Collect $x$: $x(y-2)=3y+1$, so $x=\frac{3y+1}{y-2}$.
+3. Hence $f^{-1}(x)=\frac{3x+1}{x-2}$, with $x\ne2$.
+4. Check: $f(f^{-1}(x))=x$. The graph of $f^{-1}$ is the reflection of $f$ in the line $y=x$.
+
+**3. Composite functions.** Let $f(x)=2x+1$ and $g(x)=x^2$.
+
+| Function | Rule | Value at $x=2$ |
+|---|---|---|
+| $f\circ g$ | $f(g(x))=2x^2+1$ | $9$ |
+| $g\circ f$ | $g(f(x))=(2x+1)^2$ | $25$ |
+
+So $f\circ g\ne g\circ f$ in general: composition is not commutative. It is associative, and $(f\circ g)^{-1}=g^{-1}\circ f^{-1}$.
+
+**4. Types.** Even: $f(-x)=f(x)$ (e.g. $x^2$); odd: $f(-x)=-f(x)$ (e.g. $x^3$); one-one: $f(a)=f(b)\Rightarrow a=b$ (horizontal line test).
+
+**Conclusion.** The inverse undoes the function, and the order matters when functions are composed.

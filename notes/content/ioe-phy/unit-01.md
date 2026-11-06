@@ -258,3 +258,108 @@ f.text(150, 230, "lifting 1,000 kg needs only %d N" % round(need), size=10.5, co
 **7.** (a) — $h\propto\frac{1}{r}$: halving the radius doubles the rise.
 **8.** (d) — $v_t\propto r^2$, ratio 4.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the time of flight, maximum height and range of a projectile and solve a numerical. <span class="marks">[10]</span>
+2. Explain motion in a horizontal circle, a banked road and a vertical circle, with the condition for completing the loop. <span class="marks">[10]</span>
+3. State and prove the equation of continuity and Bernoulli's principle; give four applications and a numerical. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.25" caption="Mechanics in practice. (a) A hydraulic jack multiplies force by Pascal's law. (b) A kite is held by the balance of tension, weight and wind force. (c) A beam balance compares masses by balancing torques. (d) A vernier caliper reads lengths to 0.1 mm."
+@ photo id="ioephy/jack" cap="(a) Hydraulic jack"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/kite" cap="(b) Kite"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/balance" cap="(c) Beam balance"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/vernier" cap="(d) Vernier caliper"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Projectile motion (10 marks)
+
+**Introduction.** A **projectile** is a body thrown into the air that then moves only under gravity (air resistance neglected). The path is a **parabola**, because the horizontal and vertical motions are independent.
+
+**Derivation.** Let the body be thrown with speed $u$ at angle $\theta$ above the horizontal.
+
+1. **Components:** $u_x = u\cos\theta$ (constant) and $u_y = u\sin\theta$ (changing by $-g$ each second).
+2. **Time of flight:** the vertical displacement is zero at landing, so $0 = u\sin\theta\,T - \frac{1}{2}gT^2$ and
+$$T=\frac{2u\sin\theta}{g}.$$
+3. **Maximum height:** at the top $v_y = 0$, so $0 = u^2\sin^2\theta - 2gH$ and
+$$H=\frac{u^2\sin^2\theta}{2g}.$$
+4. **Range:** $R = u\cos\theta \times T = \frac{2u^2\sin\theta\cos\theta}{g}$, so
+$$R=\frac{u^2\sin 2\theta}{g}.$$
+5. **Maximum range** is at $\theta=45^\circ$, where $R_{\max}=u^2/g$. Angles $\theta$ and $(90^\circ-\theta)$ give the same range.
+6. **Equation of path:** eliminating $t$ gives $y = x\tan\theta - \frac{gx^2}{2u^2\cos^2\theta}$, which is a parabola.
+
+**Numerical.** A ball is thrown at $40\ \text{m s}^{-1}$ at $30^\circ$ ($g=10\ \text{m s}^{-2}$).
+
+| Quantity | Working | Answer |
+|---|---|---|
+| Time of flight | $2\times40\times0.5/10$ | $4\ \text{s}$ |
+| Maximum height | $1600\times0.25/20$ | $20\ \text{m}$ |
+| Range | $1600\times0.866/10$ | $138.6\ \text{m}$ |
+| Speed at the top | $40\cos30^\circ$ | $34.6\ \text{m s}^{-1}$ |
+
+**Conclusion.** The horizontal speed never changes, and the height and time depend only on the vertical component, so a $45^\circ$ throw gives the longest range.
+
+### Model answer D2: Circular motion (10 marks)
+
+**Introduction.** A body in uniform circular motion has constant speed but changing direction, so it has a **centripetal acceleration** $a = \frac{v^2}{r} = \omega^2 r$ towards the centre, and needs a force $F = \frac{mv^2}{r}$.
+
+**1. Horizontal circle.** A stone whirled on a string has tension as the centripetal force. A car on a flat road uses **friction**: $\mu mg \ge \frac{mv^2}{r}$, so the safe speed is $v \le \sqrt{\mu r g}$.
+
+**2. Banked road.** For a road banked at angle $\theta$ the normal reaction has a horizontal part $N\sin\theta = \frac{mv^2}{r}$ and a vertical part $N\cos\theta = mg$. Dividing:
+$$\tan\theta=\frac{v^2}{rg}.$$
+For $v = 20\ \text{m s}^{-1}$ and $r = 100\ \text{m}$: $\tan\theta = 400/(100\times10) = 0.4$, so $\theta \approx 21.8^\circ$.
+
+**3. Vertical circle** (mass $m$ on a string of length $r$).
+
+1. At the **top**: $T + mg = \frac{mv_{t}^2}{r}$. The least speed is when $T = 0$, so $v_{t} = \sqrt{gr}$.
+2. At the **bottom**: $T - mg = \frac{mv_b^2}{r}$.
+3. By conservation of energy, $\frac{1}{2}mv_b^2 = \frac{1}{2}mv_t^2 + mg(2r)$, so $v_b^2 = v_t^2 + 4gr$.
+4. For the minimum case $v_b = \sqrt{5gr}$.
+5. The tension difference between the bottom and top is $6mg$.
+
+**Numerical.** For $r = 0.9\ \text{m}$ and $g = 10$: $v_{t} = \sqrt{9} = 3\ \text{m s}^{-1}$ and $v_b = \sqrt{45} = 6.7\ \text{m s}^{-1}$.
+
+| Case | Centripetal force from | Condition |
+|---|---|---|
+| Stone on string | Tension | $T = mv^2/r$ |
+| Flat road | Friction | $v \le \sqrt{\mu rg}$ |
+| Banked road | Component of $N$ | $\tan\theta = v^2/rg$ |
+| Vertical loop | Tension + weight | $v_b \ge \sqrt{5gr}$ |
+| Satellite | Gravity | $v = \sqrt{GM/r}$ |
+
+**Conclusion.** Every circular motion needs a net inward force, and for the vertical loop the string must stay taut at the top.
+
+### Model answer D3: Equation of continuity and Bernoulli's principle (10 marks)
+
+**Introduction.** For an ideal fluid (incompressible, non-viscous, steady flow) two laws describe the flow: conservation of mass and conservation of energy.
+
+**Equation of continuity.** The mass entering a pipe per second equals the mass leaving, so $A_1v_1 = A_2v_2$. The fluid speeds up where the pipe narrows.
+
+**Bernoulli's principle.** Along a streamline
+$$P + \frac{1}{2}\rho v^2 + \rho gh = \text{constant}.$$
+**Proof (outline).** The work done by the pressure difference on a small volume $V$ is $(P_1 - P_2)V$. This equals the gain in kinetic energy, $\frac{1}{2}\rho V(v_2^2 - v_1^2)$, plus the gain in potential energy, $\rho V g(h_2 - h_1)$. Dividing by $V$ gives the result.
+
+**Applications.**
+
+1. **Torricelli's theorem:** the speed of efflux from a hole at depth $h$ is $v = \sqrt{2gh}$.
+2. **Venturi meter:** measures flow speed from the pressure drop in a narrow throat.
+3. **Aerofoil lift:** faster air over the curved top gives lower pressure than below.
+4. **Atomiser and spray gun:** fast air over a tube lowers the pressure and draws liquid up.
+
+**Numerical.** In a pipe $A_1 = 20\ \text{cm}^2$, $v_1 = 2\ \text{m s}^{-1}$ and $A_2 = 5\ \text{cm}^2$. Then $v_2 = 20\times2/5 = 8\ \text{m s}^{-1}$, and (horizontal pipe, water) $P_1 - P_2 = \frac{1}{2}\times1000\times(64 - 4) = 30{,}000\ \text{Pa}$. For a tank with a hole at $1.8\ \text{m}$ depth, $v = \sqrt{2\times10\times1.8} = 6\ \text{m s}^{-1}$.
+
+| Law | Conserves | Equation |
+|---|---|---|
+| Continuity | Mass | $Av = \text{constant}$ |
+| Bernoulli | Energy | $P + \frac{1}{2}\rho v^2 + \rho gh = \text{constant}$ |
+| Pascal | Pressure transmission | $F_1/A_1 = F_2/A_2$ (hydraulic jack) |
+
+**Conclusion.** Where a fluid moves faster its pressure is lower, which explains the flight of aeroplanes and the working of sprays and flow meters.
