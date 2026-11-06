@@ -22,7 +22,7 @@ Branch `claude/bsc-nursing`. Registry for the build tools is `nursing/books.json
 |---|---|---|---|---|---|
 | 1 | BSN 4-5 | Fundamentals of Nursing | T100+P510 h | `course/year-1/fundamentals-of-nursing` | **done (session 1)** |
 | 1 | BSN 1 | Integrated Health Sciences I | T150 h | `course/year-1/integrated-health-sciences-1` | **done (session 2)** |
-| 1 | BSN 2-3 | Integrated Health Sciences II | T150+P120 h | `course/year-1/integrated-health-sciences-2` | queued |
+| 1 | BSN 2-3 | Integrated Health Sciences II | T150+P120 h | `course/year-1/integrated-health-sciences-2` | **done (session 3)** |
 | 1 | BSN 6-7 | Community Health Nursing | T100+P180 h | `course/year-1/community-health-nursing` | queued |
 | 1 | BSN 8 | Nutrition and Diet Therapy | T50 h | `course/year-1/nutrition-and-diet-therapy` | queued |
 | 2 | BSN 9 | Adult Nursing I | T100 h | `course/year-2/adult-nursing-1` | queued |
