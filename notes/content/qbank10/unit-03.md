@@ -356,6 +356,111 @@ $$ V_2=V_1\frac{T_2}{T_1}=300\times\frac{400}{300}=400\ \text{cm}^3 $$
 **4.** **Nitrogen** (N) promotes leaf and stem growth; **phosphorus** (P) helps roots and flowering; **potassium** (K) improves disease resistance and fruit quality. Overuse pollutes water (eutrophication), harms soil organisms and can burn crops.
 :::
 
+## 3.20 Extended model answers (10 marks)
+
+In the SEE Science paper the long answer is marked for a clear structure: definition, labelled diagram or table, points in order, equation or calculation, and a conclusion. Study the three models below.
+
+**Extended questions**
+
+1. Describe the structure of the human heart and explain double circulation. Differentiate between arteries and veins. <span class="marks">[10]</span>
+2. Describe the extraction of iron from its ore in a blast furnace, giving the reactions. <span class="marks">[10]</span>
+3. State the lens formula. An object is placed 30 cm from a convex lens of focal length 10 cm. Find the image distance, magnification and power, and describe the image. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Pictures for the three answers. (a) A real human heart, showing the thick-walled muscle and the big vessels. (b) A blood smear: red cells carry oxygen, white cells fight germs. (c) Iron ore, the raw material of the blast furnace. (d) A convex lens, which converges parallel rays to a focus. Real objects make the diagrams easier to remember."
+@ photo id="sci10/heart-real" cap="(a) Human heart"
+@ photo id="sci10/blood-smear" cap="(b) Blood smear"
+@ photo id="sci10/iron-ore" cap="(c) Iron ore"
+@ photo id="sci10/convex-lens" cap="(d) Convex lens"
+```
+
+### Model answer D1: human heart and double circulation (10 marks)
+
+**Introduction.** The **heart** is a hollow, muscular, fist-sized organ that pumps blood to every part of the body. It lies in the chest between the two lungs, slightly to the left, and beats about 72 times a minute at rest. Blood carries oxygen, food, hormones and wastes, so the heart keeps every cell alive.
+
+**Structure.** The heart has four chambers.
+
+1. **Right atrium** receives deoxygenated blood from the body through the vena cava.
+2. **Right ventricle** pumps this blood to the lungs through the pulmonary artery.
+3. **Left atrium** receives oxygenated blood from the lungs through the pulmonary veins.
+4. **Left ventricle** has the thickest wall and pumps oxygenated blood to the whole body through the aorta.
+
+A muscular wall called the **septum** separates the right and left sides, so oxygenated and deoxygenated blood never mix. **Valves** between atrium and ventricle (tricuspid on the right, bicuspid on the left) and at the exits of the ventricles make blood flow in one direction only. The "lub-dub" sound is the closing of these valves.
+
+**Double circulation.** In humans blood passes through the heart **twice** in one complete round.
+
+1. **Pulmonary circulation:** right ventricle → lungs → left atrium. Blood loses carbon dioxide and takes oxygen in the lungs.
+2. **Systemic circulation:** left ventricle → body → right atrium. Oxygenated blood gives oxygen and food to the tissues and returns with carbon dioxide.
+
+Double circulation keeps oxygenated and deoxygenated blood apart and keeps the pressure high, so warm-blooded animals get enough oxygen to make body heat.
+
+**Difference between arteries and veins**
+
+| Basis | Artery | Vein |
+|---|---|---|
+| Direction | Carries blood away from the heart | Carries blood towards the heart |
+| Blood | Oxygenated (except pulmonary artery) | Deoxygenated (except pulmonary vein) |
+| Wall | Thick and elastic | Thin |
+| Valves | Absent | Present |
+| Pressure | High, pulse can be felt | Low |
+| Position | Deep in the body | Close to the skin |
+
+**Conclusion.** The four-chambered heart and double circulation make the human blood system efficient. Blood pressure of about 120/80 mm of mercury is normal, and a healthy diet, exercise and no smoking protect the heart.
+
+### Model answer D2: extraction of iron (10 marks)
+
+**Introduction.** Iron is extracted from its ores by **metallurgy**. The chief ores are **haematite** ($Fe_2O_3$) and magnetite ($Fe_3O_4$). The extraction is done in a tall steel furnace lined with fire-bricks, called the **blast furnace**. Iron is the most used metal, in bridges, rods, vehicles and tools.
+
+**Steps of metallurgy.**
+
+1. **Crushing and concentration.** The ore is crushed and washed to remove soil and stones.
+2. **Roasting.** It is heated in air to drive out moisture and change impurities into oxides.
+3. **Charging.** A mixture of roasted ore, **coke** (carbon, the fuel and reducing agent) and **limestone** (the flux) is fed from the top.
+4. **Hot blast.** Hot air is blown in from the bottom through pipes called tuyeres.
+
+**Reactions inside the furnace.**
+
+| Zone | Reaction |
+|---|---|
+| Bottom (burning of coke) | $C + O_2 \rightarrow CO_2$ |
+| Middle (carbon monoxide forms) | $CO_2 + C \rightarrow 2CO$ |
+| Upper (reduction of ore) | $Fe_2O_3 + 3CO \rightarrow 2Fe + 3CO_2$ |
+| Limestone breaks down | $CaCO_3 \rightarrow CaO + CO_2$ |
+| Slag formation | $CaO + SiO_2 \rightarrow CaSiO_3$ (slag) |
+
+The molten iron sinks to the bottom, where it is tapped. The lighter slag floats on top of it and is removed separately, so it protects the iron from oxidation.
+
+**Products.** The iron from the furnace is **pig iron** (cast iron) with about 4 percent carbon. It is hard but brittle. By removing carbon it is changed to **wrought iron** (almost pure) or to **steel** (0.1 to 1.5 percent carbon, with chromium and nickel for stainless steel).
+
+**Rusting and its prevention.** Iron rusts in moist air: $4Fe + 3O_2 + 2xH_2O \rightarrow 2Fe_2O_3\cdot xH_2O$. It is prevented by painting, oiling, galvanising with zinc, or alloying.
+
+**Conclusion.** Coke reduces the ore, limestone removes the sand as slag, and hot air keeps the furnace burning. Nepal imports most of its iron and steel, and the Himalayan rivers could power steel mills in future.
+
+### Model answer D3: lens formula and numerical (10 marks)
+
+**Introduction.** A **convex lens** is thicker in the middle and converges parallel rays to the **principal focus**. Its focal length $f$ is the distance from the optical centre to the focus. The lens is used in a camera, a magnifying glass, a microscope and spectacles for long sight.
+
+**Lens formula and magnification.** Using the real-is-positive convention, $\frac{1}{f} = \frac{1}{u} + \frac{1}{v}$, where $u$ is the object distance and $v$ is the image distance. Magnification $m = \frac{v}{u} = \frac{\text{height of image}}{\text{height of object}}$. Power of a lens $P = \frac{1}{f}$ with $f$ in metres, measured in dioptre (D).
+
+**Numerical.** Given $u = 30$ cm, $f = 10$ cm.
+
+1. Image distance: $\frac{1}{v} = \frac{1}{f} - \frac{1}{u} = \frac{1}{10} - \frac{1}{30} = \frac{3-1}{30} = \frac{2}{30}$, so $v =$ **15 cm**.
+2. Magnification: $m = \frac{v}{u} = \frac{15}{30} =$ **0.5**.
+3. Power: $f = 10\text{ cm} = 0.1\text{ m}$, so $P = \frac{1}{0.1} =$ **+10 D**.
+
+**Nature of the image.** Because $v$ is positive, the image is **real**; it is formed on the opposite side of the lens, **inverted** and **diminished** to half the size of the object. The object is beyond $2f$ (20 cm), so the image lies between $f$ and $2f$.
+
+**Images by a convex lens**
+
+| Object position | Image position | Nature |
+|---|---|---|
+| Beyond 2f | Between f and 2f | Real, inverted, smaller |
+| At 2f | At 2f | Real, inverted, same size |
+| Between f and 2f | Beyond 2f | Real, inverted, larger |
+| At f | Infinity | Real, inverted, highly magnified |
+| Between O and f | Same side as object | Virtual, erect, larger |
+
+**Conclusion.** The lens formula gives the exact position and size of an image. A camera works like this answer: the film or sensor is placed between f and 2f to get a small, real, inverted picture of a distant object.
+
 ## Chapter summary
 
 - A 2-mark answer needs two separate points; a 4-mark answer needs four creditable steps. Numericals earn marks for formula, substitution, answer and unit.
