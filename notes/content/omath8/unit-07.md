@@ -649,3 +649,15 @@ A **clinometer** measures angles of elevation. Tape a drinking straw along the s
 **4.** (i) $4\left(\frac{1}{2}\right)^2+3\left(\frac{1}{\sqrt{3}}\right)^2-8\cdot\frac{1}{\sqrt{2}}\cdot\frac{1}{\sqrt{2}}=1+1-4=-2$. (ii) $\frac{1}{2}+\left(-\frac{1}{2}\right)-(-1)=1$. (iii) LHS $=\cos\theta(-\cos\theta)+(-\sin\theta)(\sin\theta)=-(\cos^2\theta+\sin^2\theta)=-1=$ RHS.
 **5.** (i) A vertical line $CF$ of 45 m for the cliff, a horizontal line through $C$, the boat $D$ on the ground level with $F$, and the line of sight $CD$; the $30^\circ$ angle between the horizontal and $CD$ at $C$, and an equal $30^\circ$ at $D$ (alternate angles). (ii) $\tan30^\circ=\frac{45}{FD}$, so $FD=45\sqrt{3}\approx77.94$ m. (iii) $\sin30^\circ=\frac{45}{CD}$, so $CD=90$ m. Check: $45^2+77.94^2\approx2025+6075=8100=90^2$ ✓.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. (i) Convert $150^\circ$ to radians. (ii) Convert $\frac{3\pi}{4}$ radians to degrees. (iii) Convert $72^\circ$ to grades. (iv) Convert $\frac{\pi}{5}$ radians to degrees. <span class="marks">[5]</span>
+2. If $\sin\theta=\frac{5}{13}$ and $\theta$ is acute, find $\cos\theta$, $\tan\theta$ and $\sec\theta$, and verify $\sin^2\theta+\cos^2\theta=1$. Prove that $(1-\cos^2\theta)(1+\cot^2\theta)=1$. <span class="marks">[5]</span>
+3. (i) Find the value of $\sin^245^\circ+\cos^245^\circ+\tan60^\circ\tan30^\circ$. (ii) The angle of elevation of the top of a tower from a point 50 m from its foot is $60^\circ$: find the height of the tower. (iii) A 20 m ladder leans against a wall making $60^\circ$ with the ground: find how high it reaches and how far its foot is from the wall. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** Use $180^\circ=\pi$ radians $=200$ grades. (i) $150\times\frac{\pi}{180}=\frac{5\pi}{6}$ radians. (ii) $\frac{3\pi}{4}\times\frac{180}{\pi}=135^\circ$. (iii) $72\times\frac{200}{180}=80$ grades. (iv) $\frac{\pi}{5}\times\frac{180}{\pi}=36^\circ$.
+**2.** In the right triangle, perpendicular $=5$ and hypotenuse $=13$, so the base $=\sqrt{169-25}=12$. $\cos\theta=\frac{12}{13}$, $\tan\theta=\frac{5}{12}$, $\sec\theta=\frac{13}{12}$. **Check:** $\left(\frac5{13}\right)^2+\left(\frac{12}{13}\right)^2=\frac{25+144}{169}=1$ ✓. *Proof.* $1-\cos^2\theta=\sin^2\theta$ and $1+\cot^2\theta=\operatorname{cosec}^2\theta$, so the left side $=\sin^2\theta\times\frac{1}{\sin^2\theta}=1=$ right side. ∎
+**3.** (i) $\sin45^\circ=\cos45^\circ=\frac{1}{\sqrt2}$, so $\sin^245^\circ+\cos^245^\circ=\frac12+\frac12=1$; and $\tan60^\circ\tan30^\circ=\sqrt3\times\frac{1}{\sqrt3}=1$. The value is $1+1=2$. (ii) $\tan60^\circ=\frac{h}{50}$, so $h=50\sqrt3\approx86.6$ m. (iii) Height $=20\sin60^\circ=20\times\frac{\sqrt3}{2}=10\sqrt3\approx17.3$ m; distance of the foot $=20\cos60^\circ=20\times\frac12=10$ m. **Check:** $10^2+(10\sqrt3)^2=100+300=400=20^2$ ✓.
+:::
