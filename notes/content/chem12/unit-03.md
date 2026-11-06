@@ -1094,3 +1094,40 @@ $$ = e^{10.02} = 2.25\times10^{4} $$
 The catalysed reaction is about twenty-two thousand times faster, even though
 $\Delta H$ and the equilibrium constant are unchanged.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the order and molecularity of a reaction, derive the integrated rate equation of a first-order reaction and the expression for its half-life. <span class="marks">[10]</span>
+
+### Model answer D1: rate law and first-order kinetics (10 marks)
+
+**Introduction.** **Chemical kinetics** studies the rate of a reaction and the factors that affect it. The **rate law** expresses the rate in terms of the concentrations of the reactants, each raised to a power found by experiment. For A + B → products, $\text{rate} = k[\text{A}]^{m}[\text{B}]^{n}$; the **order** is $m + n$ and $k$ is the rate constant.
+
+**Order and molecularity.**
+
+| Point | Order | Molecularity |
+|---|---|---|
+| Meaning | Sum of the powers of concentrations in the rate law | Number of molecules colliding in the elementary step |
+| Found by | Experiment | Theory (mechanism) |
+| Values | Zero, fractional or whole | Whole number only (1, 2, 3) |
+| Applies to | Overall reaction | Elementary step |
+
+**Finding the order from data.** For three runs of A + B → P: $[\text{A}] = 0.1,\ [\text{B}] = 0.1,$ rate $= 2.0 \times 10^{-3}$; $[\text{A}] = 0.2,\ [\text{B}] = 0.1,$ rate $= 4.0 \times 10^{-3}$; $[\text{A}] = 0.1,\ [\text{B}] = 0.2,$ rate $= 8.0 \times 10^{-3}\ \text{mol L}^{-1}\text{s}^{-1}$. Doubling $[\text{A}]$ doubles the rate (first order in A), and doubling $[\text{B}]$ makes the rate four times (second order in B). So $\text{rate} = k[\text{A}][\text{B}]^{2}$ and the order is 3, with $k = 2.0 \times 10^{-3}/(0.1 \times 0.1^{2}) = 2.0\ \text{L}^{2}\text{mol}^{-2}\text{s}^{-1}$.
+
+**Integrated equation for a first-order reaction** A → products. Rate $= -d[\text{A}]/dt = k[\text{A}]$. Rearranging and integrating from $[\text{A}]_0$ at $t = 0$ to $[\text{A}]$ at $t$:
+
+$$ \int_{[A]_0}^{[A]}\frac{d[A]}{[A]} = -k\int_{0}^{t}dt \ \Rightarrow\ \ln\frac{[A]}{[A]_0} = -kt $$
+
+$$ k = \frac{2.303}{t}\log\frac{[A]_0}{[A]} $$
+
+**Half-life.** When $[\text{A}] = [\text{A}]_0/2$ at $t = t_{1/2}$:
+
+$$ t_{1/2} = \frac{2.303\log 2}{k} = \frac{0.693}{k} $$
+
+The half-life of a first-order reaction is **independent of the initial concentration**. (For zero order $t_{1/2} = [\text{A}]_0/2k$, and for second order $t_{1/2} = 1/k[\text{A}]_0$.)
+
+**Numerical.** A first-order reaction has $t_{1/2} = 30\ \text{min}$. Then $k = 0.693/30 = 0.0231\ \text{min}^{-1}$. After 90 min (three half-lives) $1/8 = 12.5\%$ is left. The time for 90 percent completion is
+
+$$ t = \frac{2.303}{0.0231}\log\frac{100}{10} = 99.7\ \text{min} $$
+
+**Conclusion.** The rate law is found only by experiment; for a first-order reaction $\ln[\text{A}]$ falls linearly with time and the half-life is constant, $0.693/k$.

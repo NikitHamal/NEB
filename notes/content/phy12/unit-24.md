@@ -570,3 +570,48 @@ $$ A = \lambda N = (2.41\times10^{-5})(1.25\times10^{19})
 
 (equivalently $A = A_0/8$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and derive the law of radioactive decay. Define half-life and decay constant, and relate them with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: the law of radioactive decay (10 marks)
+
+**Introduction.** **Radioactivity** is the spontaneous emission of radiation ($\alpha$, $\beta$ or $\gamma$) from an unstable nucleus. It is a random process: we cannot say when a particular nucleus will decay, but for a large number of nuclei the rate is predictable.
+
+**Law of radioactive decay.** The number of nuclei that decay per second (the activity) is directly proportional to the number of undecayed nuclei present at that moment.
+
+**Derivation.** Let $N$ be the number of undecayed nuclei at time $t$. In a short time $dt$ the number that decay is $-dN$, and
+
+$$ -\frac{dN}{dt} = \lambda N $$
+
+where $\lambda$ is the **decay constant**. Separating the variables and integrating from $N_0$ at $t = 0$ to $N$ at $t$:
+
+$$ \int_{N_0}^{N}\frac{dN}{N} = -\lambda\int_{0}^{t}dt \ \Rightarrow\ \ln\frac{N}{N_0} = -\lambda t $$
+
+$$ N = N_0 e^{-\lambda t} $$
+
+The number of nuclei falls **exponentially** with time.
+
+**Decay constant.** $\lambda$ is the probability of decay of one nucleus per unit time; its unit is $\text{s}^{-1}$. Also $\lambda = 1/\tau$, where $\tau$ is the mean life.
+
+**Half-life.** The **half-life** $T_{1/2}$ is the time in which half of the nuclei decay. Putting $N = N_0/2$:
+
+$$ \frac{1}{2} = e^{-\lambda T_{1/2}} \ \Rightarrow\ T_{1/2} = \frac{\ln 2}{\lambda} = \frac{0.693}{\lambda} $$
+
+After $n$ half-lives, $N = N_0/2^{n}$.
+
+**Activity.** $A = \lambda N = A_0 e^{-\lambda t}$, measured in becquerel (Bq, one decay per second).
+
+| Quantity | Symbol | Relation |
+|---|---|---|
+| Decay constant | $\lambda$ | $0.693/T_{1/2}$ |
+| Half-life | $T_{1/2}$ | $0.693/\lambda$ |
+| Mean life | $\tau$ | $1/\lambda = 1.44\,T_{1/2}$ |
+| Activity | $A$ | $\lambda N$ |
+
+**Numerical.** Iodine-131 used in thyroid treatment has $T_{1/2} = 8.0\ \text{days}$. A sample has $N_0 = 1.0 \times 10^{20}$ nuclei. Then $\lambda = 0.693/(8 \times 86400) = 1.0 \times 10^{-6}\ \text{s}^{-1}$, so the initial activity is $A_0 = \lambda N_0 = 1.0 \times 10^{14}\ \text{Bq}$. After $24$ days (3 half-lives) $N = N_0/8 = 1.25 \times 10^{19}$, and the activity is $1.25 \times 10^{13}\ \text{Bq}$.
+
+**Applications.** Radioactive dating (carbon-14), medical tracers and treatment, and sterilisation of instruments.
+
+**Conclusion.** Radioactive decay is exponential; the half-life is constant for a given nuclide and gives a time scale for dating and for the safe storage of radioactive waste.
