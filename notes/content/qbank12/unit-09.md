@@ -1557,6 +1557,144 @@ Zoology **Q21 is always a health-and-society question**: peer pressure and smoki
 **9.** **Causative agent [1].** *Mycobacterium tuberculosis*, a rod-shaped **acid-fast** bacillus. **Transmission [2].** Airborne droplets when a person with active lung TB coughs, sneezes or talks; sometimes infected milk (*M. bovis*); the risk rises in crowded, badly ventilated rooms. **Symptoms [2].** **Cough for more than two weeks**, sometimes with blood in the sputum, evening fever, night sweats, weight loss, loss of appetite, chest pain and fatigue. **Prevention [2].** **BCG vaccination** at birth; finding and treating cases early with **DOTS** (directly observed treatment, short course: rifampicin, isoniazid, pyrazinamide and ethambutol for two months, then rifampicin and isoniazid, six months in all) to cut the source; cover the mouth when coughing; good ventilation and sunlight; nutrition; screening of contacts; avoid spitting. **Disease of poverty [1].** It spreads where people live in overcrowded, poorly ventilated houses, are malnourished and have little access to health care, and poverty keeps them from completing treatment; the disease in turn makes the earner ill and deepens poverty.
 :::
 
+## 9.11 Extended model answers (10 marks)
+
+A Grade 12 Biology long answer is marked for definitions, an ordered description, a labelled diagram, a table and a conclusion. The four models below show the length expected for 10 marks.
+
+**Extended questions**
+
+1. State Mendel's laws of inheritance. Explain a dihybrid cross with a Punnett square and the expected ratio, and compare it with a test cross. <span class="marks">[10]</span>
+2. Describe the Polymerase Chain Reaction and gel electrophoresis, with their steps, principle and uses. <span class="marks">[10]</span>
+3. Describe the structure of a nephron and explain how urine is formed. <span class="marks">[10]</span>
+4. Describe aerobic respiration and calculate the net ATP produced from one molecule of glucose. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="5" ratio="1.05" caption="Biology in the laboratory and the field. (a) Garden pea pods; Mendel studied the seven pairs of contrasting characters of the pea. (b) A human karyotype, the chromosomes arranged in pairs. (c) A PCR thermal cycler. (d) DNA bands in an agarose gel under UV light. (e) A numbered diagram of the nephron."
+@ photo id="bio12/peas" cap="(a) Pea pods"
+@ photo id="bio12/karyotype" cap="(b) Karyotype"
+@ photo id="bio12/pcr" cap="(c) PCR machine"
+@ photo id="bio12/gel-uv" cap="(d) Gel bands"
+@ photo id="bio12/nephron-numbered" cap="(e) Nephron"
+```
+
+### Model answer D1: Mendel's laws and the dihybrid cross (10 marks)
+
+**Introduction.** Gregor Mendel, the "father of genetics", worked on the garden pea (*Pisum sativum*) from 1856 to 1863. He chose it because it has clear contrasting characters, a short life cycle, self-pollination and easy cross-pollination, and many seeds.
+
+**Mendel's laws.**
+
+1. **Law of dominance.** When two contrasting alleles are present, only one, the dominant allele, shows in the hybrid.
+2. **Law of segregation (purity of gametes).** The two alleles of a gene separate during gamete formation, so each gamete carries only one.
+3. **Law of independent assortment.** Alleles of different genes assort independently of each other in the gametes, which holds for genes on different chromosomes.
+
+**Dihybrid cross.** Cross a round yellow plant (RRYY) with a wrinkled green plant (rryy). The F₁ are all round yellow (RrYy). When F₁ self-pollinate, each parent makes four gametes in equal numbers: RY, Ry, rY and ry. A 4 × 4 Punnett square gives 16 combinations.
+
+| Phenotype | Genotypes | Number out of 16 |
+|---|---|---|
+| Round yellow | RRYY, RRYy, RrYY, RrYy | 9 |
+| Round green | RRyy, Rryy | 3 |
+| Wrinkled yellow | rrYY, rrYy | 3 |
+| Wrinkled green | rryy | 1 |
+
+The **phenotypic ratio is 9 : 3 : 3 : 1** and the **genotypic ratio is 1 : 2 : 2 : 4 : 1 : 2 : 1 : 2 : 1** with 9 genotypes.
+
+**Numerical.** Out of 320 F₂ plants, the expected numbers are $320 \times 9/16 = 180$ round yellow, $60$ round green, $60$ wrinkled yellow and $20$ wrinkled green.
+
+**Test cross.** The plant of unknown genotype is crossed with the **homozygous recessive** (rryy). If it is RrYy, the offspring are in the ratio **1 : 1 : 1 : 1**; if it is RRYY, all offspring are round yellow.
+
+| Basis | Dihybrid F₂ | Test cross |
+|---|---|---|
+| Parents | RrYy × RrYy | RrYy × rryy |
+| Ratio | 9 : 3 : 3 : 1 | 1 : 1 : 1 : 1 |
+| Purpose | Show independent assortment | Find an unknown genotype |
+
+**Conclusion.** The 9 : 3 : 3 : 1 ratio is the product of two monohybrid 3 : 1 ratios, which shows that the two genes are inherited independently.
+
+### Model answer D2: PCR and gel electrophoresis (10 marks)
+
+**Introduction.** The **Polymerase Chain Reaction (PCR)**, invented by Kary Mullis in 1983, makes millions of copies of a chosen DNA segment in a test tube in a few hours. **Gel electrophoresis** then separates and displays the DNA fragments.
+
+**Requirements of PCR.** Template DNA, two short **primers** that mark the two ends of the target, heat-stable **Taq polymerase** (from the bacterium *Thermus aquaticus*), the four nucleotides (dNTPs), buffer with Mg²⁺ ions, and a thermal cycler.
+
+**Steps (each cycle).**
+
+1. **Denaturation** at about 94 °C: the double strand separates into single strands.
+2. **Annealing** at 50 to 65 °C: the primers bind to the complementary sequences on each strand.
+3. **Extension** at 72 °C: Taq polymerase adds nucleotides to the primers and builds new strands.
+4. The cycle is repeated 25 to 35 times, and the number of copies doubles each time.
+
+**Numerical.** After $n$ cycles one molecule gives $2^n$ copies: after 30 cycles it is $2^{30} = 1.07 \times 10^9$ copies.
+
+**Gel electrophoresis.**
+
+1. DNA is cut with restriction enzymes or amplified by PCR.
+2. The samples are loaded into wells at the **negative (cathode)** end of an **agarose** gel in a buffer tank.
+3. An electric field is applied. DNA is **negatively charged** (phosphate groups), so it moves towards the **positive (anode)** end.
+4. **Smaller fragments move faster and farther** through the gel pores.
+5. The gel is stained with ethidium bromide (or a safer dye) and seen as bands under UV light; a ladder of known sizes is used for comparison.
+
+| Technique | Aim | Key condition |
+|---|---|---|
+| PCR | Amplify DNA | Temperature cycles with Taq polymerase |
+| Gel electrophoresis | Separate and size fragments | Electric field across agarose |
+
+**Uses.** Diagnosis of infectious diseases such as tuberculosis and COVID-19 (RT-PCR), DNA fingerprinting in crime and paternity cases, identification of genetic disorders, and the study of the evolution of organisms.
+
+**Conclusion.** PCR makes DNA abundant and electrophoresis makes it visible. Together they are the basis of modern molecular diagnosis, including in laboratories in Nepal.
+
+### Model answer D3: the nephron and urine formation (10 marks)
+
+**Introduction.** The **nephron** is the structural and functional unit of the kidney. Each human kidney has about one million nephrons, which filter the blood, remove nitrogenous waste and control water and salt.
+
+**Structure of a nephron.**
+
+1. **Renal corpuscle.** It has a tuft of capillaries, the **glomerulus**, enclosed in a cup, **Bowman's capsule**.
+2. **Proximal convoluted tubule (PCT).** A coiled tube lined with cells having a brush border.
+3. **Loop of Henle.** A U-shaped loop with a descending limb (permeable to water) and an ascending limb (permeable to salt).
+4. **Distal convoluted tubule (DCT).** Another coiled part, in the cortex.
+5. **Collecting duct.** Joins many nephrons and carries urine to the renal pelvis.
+
+**Urine formation.**
+
+1. **Ultrafiltration** in the glomerulus. High blood pressure (the afferent vessel is wider than the efferent) forces water, glucose, salts and urea through the filtration membrane; blood cells and proteins stay behind. The filtration rate is about 125 mL per minute, or about 180 litres a day.
+2. **Selective reabsorption.** In the PCT about 65 per cent of the water and nearly all the glucose, amino acids and much of the salt are reabsorbed. In the loop of Henle a **countercurrent mechanism** builds a salt gradient in the medulla.
+3. **Tubular secretion.** In the PCT and DCT, H⁺, K⁺, creatinine and drugs pass from the blood into the filtrate, which helps to keep blood pH constant.
+4. **Concentration of urine.** In the collecting duct, **ADH (antidiuretic hormone)** makes the wall permeable to water, which leaves by osmosis to give a concentrated urine.
+
+| Region | Main process | Substances |
+|---|---|---|
+| Glomerulus | Filtration | Water, glucose, urea, salts |
+| PCT | Reabsorption (65%) | Glucose, amino acids, Na⁺, water |
+| Loop of Henle | Concentration gradient | Water, NaCl |
+| DCT | Secretion and regulation | H⁺, K⁺, water |
+| Collecting duct | Final water reabsorption | Water (under ADH) |
+
+**Numerical.** If 180 L is filtered and 1.5 L urine is passed, then $(180 - 1.5)/180 = 99.2$ per cent of the filtrate is reabsorbed.
+
+**Conclusion.** Normal urine is about 95 per cent water with urea, uric acid and salts, and contains no glucose or protein; their presence signals disease such as diabetes or nephritis.
+
+### Model answer D4: aerobic respiration and net ATP (10 marks)
+
+**Introduction.** **Aerobic respiration** is the complete oxidation of glucose to carbon dioxide and water using oxygen, releasing energy as ATP: $\text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 \to 6\text{CO}_2 + 6\text{H}_2\text{O} + \text{energy}$.
+
+**Stages.**
+
+1. **Glycolysis (EMP pathway)** in the cytoplasm. Glucose (6C) forms two pyruvate (3C). It uses 2 ATP and makes 4 ATP, so the **net gain is 2 ATP** and 2 NADH.
+2. **Link reaction** in the mitochondrial matrix. Each pyruvate loses CO₂ and becomes acetyl-CoA, giving 1 NADH each (2 NADH in all).
+3. **Krebs (citric acid) cycle** in the matrix. Each acetyl-CoA gives 2 CO₂, 3 NADH, 1 FADH₂ and 1 ATP (as GTP). For two turns: 4 CO₂, 6 NADH, 2 FADH₂ and 2 ATP.
+4. **Electron transport chain and oxidative phosphorylation** on the inner mitochondrial membrane. NADH and FADH₂ pass electrons along the carriers to oxygen, and ATP synthase makes ATP using the proton gradient.
+
+| Stage | ATP (direct) | NADH | FADH₂ |
+|---|---|---|---|
+| Glycolysis | 2 | 2 | 0 |
+| Link reaction | 0 | 2 | 0 |
+| Krebs cycle | 2 | 6 | 2 |
+| **Total** | **4** | **10** | **2** |
+
+**Calculation (classical value).** Each NADH gives 3 ATP and each FADH₂ gives 2 ATP: $10 \times 3 + 2 \times 2 = 34$, plus 4 direct ATP = **38 ATP**. Taking 2 ATP for the transport of cytoplasmic NADH into the mitochondria, many books give **36 ATP**. Modern measurements (2.5 and 1.5 ATP per NADH and FADH₂) give about 30 to 32 ATP.
+
+**Energy efficiency.** The 38 ATP store $38 \times 30.5 = 1159$ kJ of the 2870 kJ in one mole of glucose, an efficiency of about 40 per cent; the rest is released as heat.
+
+**Conclusion.** Aerobic respiration yields about 15 times more ATP than anaerobic glycolysis (2 ATP), which is why oxygen is vital for the active tissues of the body.
 
 ## Chapter summary
 
