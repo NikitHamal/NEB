@@ -742,3 +742,85 @@ $\text{area} = \frac12\times 10\times 4.8 = 24$ square units.
 Check with the determinant formula:
 $\frac12|2(1-9)+8(9-1)+2(1-1)| = \frac12|-16+64| = 24$ ✓.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the formula for the length of the perpendicular from a point $(x_1,y_1)$ to the line $ax+by+c=0$, deduce the distance between parallel lines and solve worked problems. <span class="marks">[10]</span>
+2. Derive the equations of the bisectors of the angles between two lines, identify the bisector of the acute angle and the angle containing the origin, and give a worked example. <span class="marks">[10]</span>
+
+### Model answer D1: perpendicular distance from a point to a line (10 marks)
+
+**Introduction.** The shortest distance from a point to a line is the length of the perpendicular. This is used to find the height of a triangle, the radius of a circle touching a line and the distance between parallel roads on a map.
+
+**Theorem.** The length of the perpendicular from $P(x_1,y_1)$ to the line $ax+by+c=0$ is
+
+$$ d=\frac{|ax_1+by_1+c|}{\sqrt{a^{2}+b^{2}}} $$
+
+**Proof.** Let the line $L:ax+by+c=0$ meet the X-axis at $A\left(-\dfrac ca,0\right)$ and the Y-axis at $B\left(0,-\dfrac cb\right)$ (take $a,b,c\neq0$). The area of $\triangle PAB$ can be found in two ways.
+
+**(i) By the coordinate formula:**
+
+$$ \text{Area}=\frac12\left|x_1\left(0+\frac cb\right)+\left(-\frac ca\right)\left(-\frac cb-y_1\right)+0\right|=\frac{|c|}{2|ab|}\,|ax_1+by_1+c| $$
+
+**(ii) By base and height:** the base $AB=\sqrt{\dfrac{c^{2}}{a^{2}}+\dfrac{c^{2}}{b^{2}}}=\dfrac{|c|\sqrt{a^{2}+b^{2}}}{|ab|}$ and the height is $d$, so the area is $\dfrac12\cdot\dfrac{|c|\sqrt{a^{2}+b^{2}}}{|ab|}\cdot d$.
+
+Equating the two areas, $d\sqrt{a^{2}+b^{2}}=|ax_1+by_1+c|$, which gives the formula.
+
+**Corollary 1: distance of the origin.** Put $x_1=y_1=0$: $d=\dfrac{|c|}{\sqrt{a^{2}+b^{2}}}$.
+
+**Corollary 2: distance between parallel lines.** The lines $ax+by+c_1=0$ and $ax+by+c_2=0$ are parallel. Take any point on the first line and apply the formula to the second:
+
+$$ d=\frac{|c_1-c_2|}{\sqrt{a^{2}+b^{2}}} $$
+
+(the coefficients of $x$ and $y$ must be made identical first).
+
+**Worked examples.**
+
+1. **Point to line.** From $(2,3)$ to $3x+4y-5=0$: $d=\dfrac{|6+12-5|}{\sqrt{9+16}}=\dfrac{13}{5}=2.6$ units.
+2. **Parallel lines.** $3x+4y+5=0$ and $3x+4y-10=0$: $d=\dfrac{|5-(-10)|}{5}=3$ units. For $6x+8y+7=0$ and $3x+4y-1=0$, rewrite the second as $6x+8y-2=0$; then $d=\dfrac{|7-(-2)|}{10}=0.9$.
+3. **Origin to a line through two points.** The line through $(2,3)$ and $(5,7)$ has slope $\dfrac43$, so $y-3=\dfrac43(x-2)$, that is $4x-3y+1=0$. The distance from the origin is $\dfrac1{5}=0.2$.
+4. **Height of a triangle.** For the triangle $A(1,1),\ B(5,1),\ C(3,4)$, the base $AB$ lies on $y-1=0$. The height from $C$ is $\dfrac{|4-1|}{1}=3$, so the area is $\dfrac12\times4\times3=6$ square units.
+5. **Line at a given distance.** The lines parallel to $3x+4y=0$ at a distance $2$ from it: $3x+4y+c=0$ with $\dfrac{|c|}{5}=2$, so $c=10$ or $-10$.
+
+| Situation | Formula |
+|---|---|
+| Point $(x_1,y_1)$ to $ax+by+c=0$ | $\dfrac{|ax_1+by_1+c|}{\sqrt{a^{2}+b^{2}}}$ |
+| Origin to line | $\dfrac{|c|}{\sqrt{a^{2}+b^{2}}}$ |
+| Parallel lines | $\dfrac{|c_1-c_2|}{\sqrt{a^{2}+b^{2}}}$ |
+
+**Conclusion.** Comparing two expressions for the same area gives the perpendicular distance, and every other distance in the chapter follows from it.
+
+### Model answer D2: bisectors of the angles between two lines (10 marks)
+
+**Introduction.** Two intersecting lines form two pairs of vertically opposite angles. The two **bisectors** of these angles are perpendicular to each other.
+
+**Derivation.** Let the lines be $L_1:a_1x+b_1y+c_1=0$ and $L_2:a_2x+b_2y+c_2=0$. Every point $P(x,y)$ on a bisector is equidistant from both lines. By the perpendicular-distance formula
+
+$$ \frac{|a_1x+b_1y+c_1|}{\sqrt{a_1^{2}+b_1^{2}}}=\frac{|a_2x+b_2y+c_2|}{\sqrt{a_2^{2}+b_2^{2}}} $$
+
+Removing the modulus signs gives the two bisectors
+
+$$ \frac{a_1x+b_1y+c_1}{\sqrt{a_1^{2}+b_1^{2}}}=\pm\frac{a_2x+b_2y+c_2}{\sqrt{a_2^{2}+b_2^{2}}} $$
+
+**Which bisector is which.** Write both equations with $c_1>0$ and $c_2>0$ (multiply by $-1$ if necessary).
+
+1. The bisector with the **plus** sign is the bisector of the angle that **contains the origin**.
+2. Compute $a_1a_2+b_1b_2$. If it is **positive**, the angle containing the origin is **obtuse**, and the plus sign gives the **obtuse-angle** bisector (the minus sign gives the acute). If it is **negative**, the plus sign gives the acute-angle bisector.
+
+**Worked example.** Find the bisectors of $3x+4y-5=0$ and $5x-12y+7=0$.
+
+1. The lengths are $\sqrt{9+16}=5$ and $\sqrt{25+144}=13$.
+2. Make $c_1$ positive: $L_1$ becomes $-3x-4y+5=0$; $c_2=7$ is already positive.
+3. **Plus sign:** $\dfrac{-3x-4y+5}{5}=\dfrac{5x-12y+7}{13}$, so $-39x-52y+65=25x-60y+35$, which gives $64x-8y-30=0$, that is $32x-4y-15=0$.
+4. **Minus sign:** $-39x-52y+65=-25x+60y-35$ gives $-14x-112y+100=0$, that is $7x+56y-50=0$.
+5. **Check of perpendicularity.** The slopes are $8$ and $-\dfrac18$, and $8\times\left(-\dfrac18\right)=-1$.
+6. **Identification.** $a_1a_2+b_1b_2=(-3)(5)+(-4)(-12)=33>0$. So the angle containing the origin is obtuse, and the plus bisector $32x-4y-15=0$ bisects the obtuse angle; $7x+56y-50=0$ bisects the acute angle.
+
+| Bisector | Equation | Slope | Bisects |
+|---|---|---|---|
+| Plus sign | $32x-4y-15=0$ | $8$ | obtuse angle (contains origin) |
+| Minus sign | $7x+56y-50=0$ | $-\dfrac18$ | acute angle |
+
+**Another use.** A point on a bisector can be found by choosing equal perpendicular distances; for example, a circle touching both lines has its centre on one of these bisectors.
+
+**Conclusion.** Equating the perpendicular distances gives both bisectors, and the sign of $a_1a_2+b_1b_2$ (with $c_1,c_2>0$) decides which one bisects the acute angle.
