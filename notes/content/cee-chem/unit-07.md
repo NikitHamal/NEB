@@ -1021,3 +1021,67 @@ Logs worth memorising: log 2 = 0.30, log 3 = 0.48, log 5 = 0.70, log 7 = 0.85.
 **10.** (c) — pH $= 7 + \tfrac{1}{2}(\text{p}K_a + \log C) = 7 + \tfrac{1}{2}(4.74 - 1.00) = 8.87$. Option (a) is the pH of the corresponding NH₄Cl-type salt, and (d) would need a much stronger base.
 :::
 
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of mass action and Le Chatelier's principle. Derive the relation between $K_p$ and $K_c$ and calculate the equilibrium concentrations. <span class="marks">[10]</span>
+2. Explain pH, buffer solutions, the solubility product and the common ion effect with numericals. <span class="marks">[10]</span>
+
+```photogrid label="7.H" cols="2" ratio="1.4" caption="Equilibrium in the laboratory. (a) Cobalt(II) chloride solution is pink in the cold and blue when hot, because the equilibrium Co(H2O)6(2+) + 4Cl(-) <=> CoCl4(2-) + 6H2O shifts with temperature. (b) Acid-base indicators change colour over a narrow pH range, so they show the position of an ionic equilibrium."
+@ photo id="chem11/cocl2" cap="(a) Temperature shifts an equilibrium"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceechem2/indicator" cap="(b) Indicator colours across the pH scale"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: chemical equilibrium and Le Chatelier's principle (10 marks)
+
+**Introduction.** A reversible reaction reaches **equilibrium** when the rate of the forward reaction equals the rate of the reverse reaction. The concentrations then remain constant, but the reaction is **dynamic**, not stopped.
+
+**Law of mass action.** For $aA + bB \rightleftharpoons cC + dD$, $K_c = \dfrac{[C]^c[D]^d}{[A]^a[B]^b}$. $K_p$ is the same expression in partial pressures. The relation is $K_p = K_c(RT)^{\Delta n}$, where $\Delta n = (c + d) - (a + b)$ for gases. $K_p = K_c$ when $\Delta n = 0$.
+
+**Reaction quotient.** $Q$ has the same form as $K$ but uses the present concentrations. If $Q < K$, the reaction goes forward; if $Q > K$ it goes backward; if $Q = K$ it is at equilibrium. Reversing the reaction gives $1/K$, doubling the equation squares $K$, and adding two reactions multiplies their $K$ values.
+
+**Le Chatelier's principle.** If a stress is applied to a system at equilibrium, the system shifts to oppose the change.
+
+| Change | Effect (N₂ + 3H₂ ⇌ 2NH₃, $\Delta H < 0$) |
+|---|---|
+| Add N₂ or H₂ | shifts forward |
+| Remove NH₃ | shifts forward |
+| Increase pressure | shifts to fewer moles (forward) |
+| Raise temperature | shifts to the endothermic (backward) side, and $K$ falls |
+| Add a catalyst | no shift, equilibrium reached faster |
+| Add an inert gas at constant $V$ | no change |
+
+**Industrial use.** In Haber's process, about $200$ atm, $450$ to $500^{\circ}\text{C}$ and an iron catalyst with a promoter give a good compromise between yield and rate.
+
+**Numerical.** For H₂ + I₂ ⇌ 2HI with $K_c = 50$, start with $1\ \text{mol}$ each in $1\ \text{L}$. At equilibrium $[\text{HI}] = 2x$ and $[\text{H}_2] = [\text{I}_2] = 1 - x$. Then $\dfrac{(2x)^2}{(1 - x)^2} = 50$ gives $\dfrac{2x}{1 - x} = 7.07$, so $x = 0.78$, $[\text{HI}] = 1.56\ \text{M}$ and $[\text{H}_2] = [\text{I}_2] = 0.22\ \text{M}$. For N₂ + 3H₂ ⇌ 2NH₃ at $500\ \text{K}$, $\Delta n = -2$, so $K_p = K_c(0.0821\times500)^{-2} = K_c/1685$.
+
+**Conclusion.** $K$ depends only on temperature, and Le Chatelier's principle predicts the direction of the shift for a change in concentration, pressure or temperature.
+
+### Model answer D2: pH, buffers and solubility product (10 marks)
+
+**Introduction.** Ionic equilibria involve weak acids and bases (partial ionisation) and sparingly soluble salts.
+
+**pH.** $\text{pH} = -\log[\text{H}^+]$, $\text{pOH} = -\log[\text{OH}^-]$, and $\text{pH} + \text{pOH} = 14$ at $25^{\circ}\text{C}$ ($K_w = 10^{-14}$). For a weak acid $K_a = \dfrac{[\text{H}^+][\text{A}^-]}{[\text{HA}]}$ and $[\text{H}^+] = \sqrt{K_aC}$ (when $\alpha \ll 1$), with the degree of ionisation $\alpha = \sqrt{K_a/C}$ (**Ostwald's dilution law**). Also $K_aK_b = K_w$ for a conjugate pair.
+
+**Acid-base theories.** Arrhenius (H⁺/OH⁻), Brønsted-Lowry (proton donor/acceptor, conjugate pairs) and Lewis (electron pair acceptor/donor).
+
+**Buffer solutions** resist a change in pH on adding small amounts of acid or base. They are a weak acid with its salt (acetic acid and sodium acetate, acidic buffer) or a weak base with its salt (NH₄OH and NH₄Cl). The **Henderson-Hasselbalch equation** is $\text{pH} = \text{p}K_a + \log\dfrac{[\text{salt}]}{[\text{acid}]}$. The buffer capacity is greatest when $[\text{salt}] = [\text{acid}]$. Blood (H₂CO₃/HCO₃⁻, pH $7.4$) is a natural buffer.
+
+**Solubility product.** For $A_xB_y \rightleftharpoons xA^{y+} + yB^{x-}$, $K_{sp} = [A^{y+}]^x[B^{x-}]^y$. A precipitate forms when the ionic product exceeds $K_{sp}$. For a salt of type AB, $s = \sqrt{K_{sp}}$, for type AB₂, $s = \sqrt[3]{K_{sp}/4}$. The **common ion effect** lowers the solubility of a salt by adding an ion it already has, which is the basis of qualitative analysis.
+
+| Salt type | Example | $K_{sp}$ in terms of $s$ |
+|---|---|---|
+| AB | AgCl | $s^2$ |
+| AB₂ | Ca(OH)₂, PbCl₂ | $4s^3$ |
+| AB₃ | Al(OH)₃ | $27s^4$ |
+
+**Numerical.**
+
+- $0.1\ \text{M}$ acetic acid ($K_a = 1.8\times10^{-5}$): $[\text{H}^+] = \sqrt{1.8\times10^{-6}} = 1.34\times10^{-3}\ \text{M}$, pH $= 2.87$, and $\alpha = 1.3\%$.
+- A buffer of $0.1\ \text{M}$ acid and $0.1\ \text{M}$ acetate has $\text{pH} = \text{p}K_a = 4.74$. With $0.2\ \text{M}$ acetate it is $4.74 + 0.30 = 5.04$.
+- AgCl ($K_{sp} = 1.8\times10^{-10}$): $s = 1.34\times10^{-5}\ \text{M}$ in water but only $1.8\times10^{-9}\ \text{M}$ in $0.1\ \text{M}$ NaCl.
+
+**Conclusion.** $K_a$ gives pH of weak acids, the Henderson equation gives buffer pH, and $K_{sp}$ predicts precipitation and the common ion effect.

@@ -674,3 +674,72 @@ f.text(150, 222, "1 g butane burns to 3.03 g CO2", size=10.5, color=SLATE, bold=
 **9.** (a) — the tertiary cation benefits most from hyperconjugation/inductive donation by three methyl groups.
 **10.** (b) — benzyl anion delocalizes its lone pair/negative charge into the aromatic π system; alkyl anions cannot.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the inductive, mesomeric (resonance), electromeric effects and hyperconjugation and their effects on acidity and stability of intermediates. <span class="marks">[10]</span>
+2. Explain structural and stereoisomerism (geometrical and optical) with R/S and E/Z nomenclature. <span class="marks">[10]</span>
+
+```photogrid label="16.H" cols="2" ratio="1.4" caption="Shape and handedness. (a) Mirror images are not superimposable in a chiral molecule, just as left and right hands differ. (b) A model kit lets us build isomers and see why two arrangements of the same atoms are different compounds."
+@ photo id="ceechem2/mirror" cap="(a) A mirror image"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceechem/model-kit" cap="(b) Building isomers"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: electronic effects in organic molecules (10 marks)
+
+**Introduction.** The movement of electrons in a molecule explains its reactivity, acidity, basicity and the stability of its intermediates.
+
+**Electronic effects.**
+
+1. **Inductive effect (I).** The permanent polarisation of a $\sigma$ bond by an electronegative atom, passing along the chain and falling off rapidly (negligible after three carbons). **$-I$ groups:** $-\text{NO}_2 > -\text{CN} > -\text{F} > -\text{Cl} > -\text{Br} > -\text{OH} > -\text{C}_6\text{H}_5$. **$+I$ groups:** alkyl groups, increasing in the order $\text{CH}_3 < \text{C}_2\text{H}_5 < (\text{CH}_3)_2\text{CH} < (\text{CH}_3)_3\text{C}$.
+2. **Resonance (mesomeric) effect (M or R).** Delocalisation of $\pi$ electrons or lone pairs through a conjugated system. The actual structure is a **resonance hybrid** that is more stable than any contributing structure, and the stabilisation is the **resonance energy** (benzene $150\ \text{kJ mol}^{-1}$). $+M$ groups: $-\text{OH}$, $-\text{NH}_2$, $-\text{OR}$, halogens. $-M$ groups: $-\text{NO}_2$, $-\text{CHO}$, $-\text{CN}$, $-\text{COOH}$.
+3. **Electromeric effect.** A temporary shift of $\pi$ electrons to one atom in the presence of an attacking reagent, which reverses when the reagent is removed.
+4. **Hyperconjugation.** Delocalisation of the $\sigma$ electrons of a C-H bond next to a double bond, a carbocation or a free radical ("no-bond resonance"). The more the $\alpha$-hydrogens, the greater the stability, so $(\text{CH}_3)_3\text{C}^+ > (\text{CH}_3)_2\text{CH}^+ > \text{CH}_3\text{CH}_2^+ > \text{CH}_3^+$ (the order is also followed by free radicals).
+
+**Applications.**
+
+| Property | Order | Reason |
+|---|---|---|
+| Acid strength | FCH₂COOH > ClCH₂COOH > BrCH₂COOH > CH₃COOH | $-I$ of halogen stabilises the anion |
+| Acid strength | HCOOH > CH₃COOH | $+I$ of the methyl group destabilises the anion |
+| Acid strength | picric acid > phenol > ethanol | resonance stabilisation of the anion |
+| Basicity (gas phase) | $3^{\circ} > 2^{\circ} > 1^{\circ} > \text{NH}_3$ | $+I$ of alkyl groups |
+| Carbanion stability | $\text{CH}_3^- > 1^{\circ} > 2^{\circ} > 3^{\circ}$ | alkyl groups destabilise |
+
+The C-Cl bond in chlorobenzene is shorter and less reactive than in chloroethane because the lone pair of Cl is delocalised in the ring (partial double-bond character).
+
+**Reactive intermediates.** Carbocations (sp², planar, electrophilic), carbanions (sp³, pyramidal), free radicals (sp², planar) and carbenes (:CH₂).
+
+**Numerical (pKa).** Acetic acid $\text{p}K_a = 4.76$, chloroacetic $2.86$ and trichloroacetic $0.65$. So chloroacetic acid is stronger by $K_a$ ratio $10^{4.76 - 2.86} = 10^{1.9} \approx 80$ times.
+
+**Conclusion.** The $-I$ and $-M$ groups increase acidity, and hyperconjugation with $+I$ effects explains the stability order of carbocations.
+
+### Model answer D2: isomerism and stereochemistry (10 marks)
+
+**Introduction.** **Isomers** have the same molecular formula but different structures or arrangements of atoms.
+
+**Structural isomerism.** Chain (butane and isobutane), position (1-propanol and 2-propanol), functional group (ethanol and dimethyl ether, C₂H₆O), metamerism (diethyl ether and methyl propyl ether), tautomerism (keto-enol of acetone) and ring-chain isomerism.
+
+**Stereoisomerism.**
+
+1. **Geometrical (cis-trans, E-Z) isomerism.** Arises from restricted rotation about a C=C bond or in a ring, when each carbon of the double bond has two different groups. In the **CIP rules**, the group with higher atomic number gets higher priority. **Z** (zusammen) means the higher priority groups are on the same side and **E** (entgegen) on opposite sides. Trans isomers are usually more stable and have higher melting points; cis isomers have higher dipole moment and boiling points (maleic acid and fumaric acid).
+2. **Optical isomerism.** Arises from **chirality**: a carbon attached to four different groups (a stereocentre) gives a molecule not superimposable on its mirror image. The pair of mirror images are **enantiomers**, which rotate plane-polarised light equally in opposite directions ($d$ or $+$, $l$ or $-$) and are otherwise identical in physical properties. A $50:50$ mixture is a **racemic mixture** and is optically inactive (external compensation).
+3. **Diastereomers** are stereoisomers that are not mirror images and have different physical properties. A **meso** compound has stereocentres but an internal plane of symmetry, so it is inactive (internal compensation), as in meso-tartaric acid.
+
+**R/S configuration.** Rank the four groups by CIP priority and view with the lowest priority away from you. A clockwise path from highest to lowest is **R** and anticlockwise is **S**.
+
+| Number of stereocentres $n$ | Stereoisomers without symmetry | Enantiomer pairs |
+|---|---|---|
+| 1 | 2 | 1 |
+| 2 | 4 | 2 |
+| 3 | 8 | 4 |
+
+**Examples.** Lactic acid, CH₃CH(OH)COOH, has one stereocentre and $2$ enantiomers. Tartaric acid, HOOC-CH(OH)-CH(OH)-COOH, has $2$ stereocentres but only $3$ stereoisomers ($d$, $l$ and meso) because of symmetry. Biologically, enzymes recognise one enantiomer only, such as $\text{L}$-amino acids and $\text{D}$-glucose.
+
+**Numerical.** The compound CH₃-CH(OH)-CH(Cl)-CH₃ has $n = 2$ different stereocentres, so it has $2^2 = 4$ stereoisomers. A compound with $n$ different stereocentres has $2^n$ stereoisomers. The specific rotation is $[\alpha] = \dfrac{\alpha_{obs}}{l\,c}$, so a reading of $+6.6^{\circ}$ in a $2\ \text{dm}$ tube with $c = 0.5\ \text{g mL}^{-1}$ gives $[\alpha] = \dfrac{6.6}{2\times0.5} = +6.6^{\circ}$.
+
+**Conclusion.** Chirality needs four different groups and geometrical isomerism needs restricted rotation with two different groups on each carbon.
