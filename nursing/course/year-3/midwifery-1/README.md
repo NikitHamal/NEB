@@ -5,7 +5,7 @@ Year 3, BSc Nursing (Tribhuvan University IOM and affiliated Nepal campuses). Th
 | Unit | Title | Content |
 |---|---|---|
 | 1 | Reproductive anatomy, pelvis, fertilisation, placenta, fetal circulation, fetal skull | Pelvic types and diameters, obstetric conjugate, skull diameters and moulding, ovulation and implantation dates, placenta, liquor, cord, three fetal shunts; case: short-statured primigravida |
-| 2 | Well-woman care, pregnancy diagnosis, physiology of pregnancy, minor disorders | planned |
+| 2 | Well-woman care, pre-conception care, diagnosis of pregnancy, EDD and fundal height, physiology, minor disorders | Naegele, McDonald, GTPAL, blood volume, BMI and weight gain, anaemia bands; case: Kalpana Rai with nausea and anaemia |
 | 3 | Antenatal care, Safe Motherhood and Aama, screening, birth preparedness | planned |
 | 4 | Normal labour, mechanism, Labour Care Guide, third stage | planned |
 | 5 | Normal newborn, puerperium and lactation | planned |

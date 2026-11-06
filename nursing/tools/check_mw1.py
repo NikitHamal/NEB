@@ -18,6 +18,17 @@ chk("oc", (12.0 - 1.5, 11.5 - 1.5, 12.5 - 1.5, 13.0 - 11.5), (10.5, 10.0, 11.0, 
 chk("afi", (round(4.2 + 3.8 + 5.1 + 4.9, 1), 3.0 + 2.5 + 4.0 + 3.5, 3000 // 500), (18.0, 13.0, 6))
 T.update(u1_oc="10.5", c1_oc="10.0")
 # ---- U1-END
+# ---- U2-BEGIN
+# ---- Unit 2: well-woman care, dating, physiology, minor disorders
+from datetime import date, timedelta
+_l = date(2025, 10, 12); _e = _l + timedelta(days=280)
+chk("edd", (_e, (date(2026, 2, 1) - _l).days, divmod((date(2026, 2, 1) - _l).days, 7), round(32 * 8 / 7, 1), round(32 / 3.5, 1)), (date(2026, 7, 19), 112, (16, 0), 36.6, 9.1))
+chk("naeg", (date(2025, 10, 12).replace(year=2026) + timedelta(days=0) == date(2026, 10, 12), date(2025, 10, 12) + timedelta(days=7), date(2026, 1, 20) + timedelta(days=280)), (True, date(2025, 10, 19), date(2026, 10, 27)))
+chk("blood", (round(4.5 * 1.4, 2), round(2.7 * 1.5 + 1.8 * 1.25, 2), round(1.8 * 1.25 / 6.3 * 100, 1), round(1.8 / 4.5 * 100)), (6.3, 6.3, 35.7, 40))
+_k = date(2025, 9, 8)
+chk("kal", ((_k + timedelta(days=280)), divmod((date(2026, 1, 18) - _k).days, 7), f"{52 / 1.55 ** 2:.1f}", 52 + 11.5, 52 + 16, 2 * 60, 2 * 30), (date(2026, 6, 15), (18, 6), "21.6", 63.5, 68.0, 120, 60))
+T.update(c2_edd="15 June 2026", c2_bmi="21.6")
+# ---- U2-END
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

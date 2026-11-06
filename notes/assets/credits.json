@@ -10607,6 +10607,32 @@
   "source": "Wikimedia Commons",
   "title": "Wilhelm Wundt"
  },
+ "nur11/anc": {
+  "author": "DFID - UK Department for International Development",
+  "bytes": 401519,
+  "credit": "https://www.flickr.com/photos/14214150@N02/38312286261/",
+  "fetched": "2026-11-06",
+  "file": "nur11/anc.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Tania_is_a_midwife_for_UNFPA_in_Kutapalong_refugee_camp._Every_day_around_30_women_come_to_the_clinic_for_check-ups.jpg",
+  "sha1": "fd68cb1dab8d9953",
+  "source": "Wikimedia Commons",
+  "title": "Tania is a midwife for UNFPA in Kutapalong refugee camp. Every day around 30 women come to the clinic for check-ups"
+ },
+ "nur11/doppler": {
+  "author": "Cognito100",
+  "bytes": 537340,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/doppler.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sonoline_B_by_Baby_Doppler_.jpg",
+  "sha1": "206efd41a461c554",
+  "source": "Wikimedia Commons",
+  "title": "Sonoline B by Baby Doppler "
+ },
  "nur11/hsg": {
   "author": "Jmarchn",
   "bytes": 597261,
@@ -10619,6 +10645,19 @@
   "sha1": "7875eb019c573e8c",
   "source": "Wikimedia Commons",
   "title": "Hysterosalpingography Normal"
+ },
+ "nur11/linea": {
+  "author": "Warinhari",
+  "bytes": 708668,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/linea.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Linea_nigra_line_2016.jpg",
+  "sha1": "938c9007228877a3",
+  "source": "Wikimedia Commons",
+  "title": "Linea nigra line 2016"
  },
  "nur11/pelvis": {
   "author": "Henry Vandyke Carter",
@@ -10646,6 +10685,19 @@
   "source": "Wikimedia Commons",
   "title": "Diagram of the female pelvis Wellcome L0038287"
  },
+ "nur11/pinard": {
+  "author": "US Army Africa",
+  "bytes": 680492,
+  "credit": "https://www.flickr.com/photos/usarmyafrica/4034859430/sizes/l/",
+  "fetched": "2026-11-06",
+  "file": "nur11/pinard.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Pinard_horn_Uganda_US_Army_nurse.jpg",
+  "sha1": "cadcc7e36cdde60d",
+  "source": "Wikimedia Commons",
+  "title": "Pinard horn Uganda US Army nurse"
+ },
  "nur11/placenta": {
   "author": "Iain and Sarah from London, UK",
   "bytes": 581363,
@@ -10659,6 +10711,32 @@
   "source": "Wikimedia Commons",
   "title": "Human Placenta and Umbilical cord"
  },
+ "nur11/prenatal": {
+  "author": "Ragesoss",
+  "bytes": 437997,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/prenatal.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Prenatal_vitamin_tablets.jpg",
+  "sha1": "ec4f39c885da03ca",
+  "source": "Wikimedia Commons",
+  "title": "Prenatal vitamin tablets"
+ },
+ "nur11/ptest": {
+  "author": "Ajay Kumar Chaurasiya",
+  "bytes": 498414,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/ptest.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Urine_Pregnancy_Test_Positive_and_Negative.jpg",
+  "sha1": "0aefedf8a379c233",
+  "source": "Wikimedia Commons",
+  "title": "Urine Pregnancy Test Positive and Negative"
+ },
  "nur11/sperm": {
   "author": "Prof. Ideal",
   "bytes": 319738,
@@ -10671,6 +10749,19 @@
   "sha1": "88befd03ac17634a",
   "source": "Wikimedia Commons",
   "title": "Human sperm under microscope"
+ },
+ "nur11/striae": {
+  "author": "FatM1ke",
+  "bytes": 358801,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur11/striae.jpg",
+  "license": "CC BY-SA 2.5",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Belly_Strech_Marks.jpg",
+  "sha1": "8001db476f41f5fc",
+  "source": "Wikimedia Commons",
+  "title": "Belly Strech Marks"
  },
  "nur11/us20": {
   "author": "Goleisureintl",
