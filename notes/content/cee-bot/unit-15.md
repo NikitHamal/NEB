@@ -651,3 +651,90 @@ f.text(150, 222, "upper limit; real mats stop at full cover", size=10.5, color=S
 **9.** (a) — Chakrabarty's multi-plasmid *Pseudomonas putida* degrades several crude-oil components.
 **10.** (c) — Doubled haploids are homozygous at every locus in a single generation.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe plant tissue culture: techniques, totipotency, stages and applications. <span class="marks">[10]</span>
+2. Describe plant breeding, biofertilisers and the use of genetic engineering in agriculture (Bt cotton, golden rice). <span class="marks">[10]</span>
+
+```photogrid label="15.H" cols="3" ratio="1.25" caption="Applied botany. (a) Plantlets growing from explants in a tissue culture vessel. (b) A callus, an undifferentiated mass of cells grown on nutrient medium. (c) Root nodules of a legume hold Rhizobium bacteria that fix atmospheric nitrogen."
+@ photo id="cee-bot/tissue-culture" cap="(a) Micropropagation"
+fit 1.25
+focus 0.5 0.5
+@ photo id="qbank/plant-callus" cap="(b) Callus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-bot/root-nodules" cap="(c) Root nodules"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: plant tissue culture (10 marks)
+
+**Introduction.** **Plant tissue culture** is the growth of plant cells, tissues or organs on a sterile nutrient medium under controlled conditions. It rests on **totipotency**: the ability of a single living plant cell to form a whole plant (Haberlandt, Steward).
+
+**Technique.**
+
+1. **Explant:** a small piece of tissue (shoot tip, leaf, node) is taken from a healthy plant and **surface-sterilised** (with sodium hypochlorite or mercuric chloride).
+2. **Medium:** **Murashige and Skoog (MS) medium** with macro- and micro-nutrients, sucrose (the carbon source), vitamins, agar (the solidifying agent) and **plant growth regulators**.
+3. **Aseptic conditions:** a laminar-air-flow cabinet, autoclaved ($121^{\circ}\text{C}$, $15$ psi) medium and instruments, and a culture room at $25^{\circ}\text{C}$ with a light cycle.
+4. **Callus induction:** with auxin (2,4-D) to form an undifferentiated mass.
+5. **Differentiation:** the ratio of **auxin to cytokinin** determines the result (high ratio for roots, low ratio for shoots).
+6. **Hardening** of the plantlets and transfer to soil.
+
+**Applications.**
+
+| Application | Description | Example |
+|---|---|---|
+| **Micropropagation** | mass cloning | banana, orchids, potato, sugarcane |
+| **Virus-free plants** | **meristem culture** (meristem is virus-free) | potato, sugarcane |
+| **Haploid production** | **anther culture** | pure lines in rice |
+| **Somaclonal variation** | useful variants | disease-resistant lines |
+| **Protoplast fusion** | **somatic hybrids** | **pomato** (potato and tomato) |
+| **Secondary metabolites** | cell suspension culture | shikonin, taxol, vincristine |
+| **Embryo rescue** | grows hybrid embryos | wide crosses |
+| **Germplasm storage** | cryopreservation in liquid nitrogen | rare species |
+| **Production of synthetic seeds** | encapsulated somatic embryos | elite clones |
+
+Orchids and the medicinal plants of Nepal, such as the Himalayan yew, can be propagated by tissue culture, which helps to conserve them.
+
+**Numerical.** If one explant gives $5$ shoots each $4$ weeks, after four cycles one gets $5^4 = 625$ plantlets, and after five cycles $3125$ from a single explant in about $20$ weeks. A medium made at $30\ \text{g L}^{-1}$ sucrose needs $15\ \text{g}$ for $500\ \text{mL}$.
+
+**Conclusion.** Because of totipotency, one cell or explant can be grown into a complete plant, so tissue culture produces large numbers of disease-free clones quickly.
+
+### Model answer D2: plant breeding, biofertilisers and genetic engineering (10 marks)
+
+**Introduction.** Crop production has to meet the needs of a growing population, and the strategies include conventional breeding, biofertilisers and biotechnology.
+
+**Plant breeding.**
+
+1. **Steps:** collection of variability (germplasm), evaluation and selection of parents, cross-hybridisation, selection and testing of the recombinants, and release of the new variety.
+2. **Methods:** selection, hybridisation, mutation breeding (gamma rays), polyploidy breeding (colchicine) and **heterosis** (hybrid vigour in maize).
+3. **The Green Revolution:** high-yielding dwarf wheat (Norman Borlaug) and rice (IR8) increased food production but needed fertiliser and water.
+4. **Biofortification** improves nutrition, for example **iron-rich rice** and **provitamin A**-rich maize.
+
+**Biofertilisers.** Living organisms that enrich the soil with nutrients.
+
+| Biofertiliser | Organism | Function |
+|---|---|---|
+| Rhizobium | symbiotic bacteria in legume roots | fixes nitrogen |
+| Azotobacter, Azospirillum | free-living bacteria | fix nitrogen |
+| Anabaena with Azolla | cyanobacterium in fern | fixes nitrogen in rice fields |
+| Mycorrhiza | fungi | take up phosphorus |
+| Phosphate-solubilising bacteria | Pseudomonas | release phosphate |
+
+They reduce the use of chemical fertilisers, cost less and are eco-friendly.
+
+**Genetic engineering and GM crops.**
+
+1. **Bt cotton:** the gene *cry* from *Bacillus thuringiensis* produces a protein toxin that kills the bollworm, so less pesticide is needed.
+2. **Golden rice:** carries genes for **$\beta$-carotene** (provitamin A) to tackle vitamin A deficiency.
+3. **Herbicide-resistant** soyabean, **Flavr Savr** tomato (slow ripening), and **virus-resistant** papaya.
+4. **Tools:** a **vector** (the *Ti plasmid* of *Agrobacterium tumefaciens*) or a gene gun carries the gene into the plant cell, which is then regenerated by tissue culture.
+5. **Concerns:** biosafety, allergy, effect on non-target insects, gene flow and the patent rights.
+
+**Other topics.** **Single-cell protein** (*Spirulina*), biopesticides, **biogas** and the biodegradation of waste.
+
+**Numerical.** If a field of $10$ hectares fixes $40\ \text{kg N ha}^{-1}$ with *Rhizobium* in a legume crop, the saving is $400\ \text{kg}$ of nitrogen, which is the same as $400/0.46 = 870\ \text{kg}$ of urea. A GM crop that cuts $6$ pesticide sprays to $2$, for a $4$-spray saving, reduces the cost by $4\times1500 = 6000$ rupees per hectare (if each spray costs Rs. 1500).
+
+**Conclusion.** Breeding, biofertilisers and genetic engineering together help to raise yield, cut chemical use and improve the nutritional value of crops.
