@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 6. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 7. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -37,9 +37,15 @@ Updated: end of Session 6. Branch `claude/bsc-nursing` (from `main`).
   - Lessons: `fit` in a photogrid is a target width/height ratio centre-crop, so a wide drawing must be padded to a square (done in place for `icd` and `ostomy`) or it is cut; photo marks are fractions of the cropped square with y from the bottom, so always view the rendered plate (crop the page with pymupdf using `search_for("Plate X.Y")`); write each unit as two files in `/home/user/sandbox/parts/` (file tool root) and `cat` them together, then `fill_text.py`, `check_an1.py --fill`, `--verify`.
   - Facts used (searched this session): 2025 AHA/ACC BP guideline (Aug 2025) categories unchanged, target below 130/80, PREVENT; NDHS 2022 hypertension 20%, STEPS 2019 24.5%; NCDs 71% of deaths in Nepal; GOLD 2025 A/B/E.
 
+- **Adult Nursing II (BSN 10), Year 2: DONE (session 7).** 5 units, 57-page PDF, `qa_pdf.py` fails=0 warns=2 (page 3 is front matter, page 25 holds only the unit 2 exam-tip box). U1 Renal and urinary: AKI, CKD, CAUTI, stones, haemodialysis | U2 Endocrine: diabetes, insulin, DKA, diabetic foot, thyroid | U3 Neurology: GCS, ICP, stroke, head injury, seizures, meningitis | U4 Musculoskeletal: fractures, casts, traction, crutches, osteoporosis | U5 Oncology and emergency: chemotherapy, triage, burns, shock, OP poisoning, snakebite.
+  - 20 Commons photographs (slug `nur6`; 26 downloaded, 6 dropped after a contact sheet: catheter-on-genitals for modesty, Cushing striae, a colour CT of unclear type, leukoplakia that was not visible, a "snake bite" that showed only paint marks, a Thomas splint on a wall), five 4-up plates with numbered marks, 12 SVG figures, 10 executed python blocks, 5-column NANDA-I plans in every unit.
+  - `nursing/tools/check_an2.py`: 121 tokens + 10 executed python blocks + extra asserts (`--verify`). Case tokens are prefixed `c`, `c2` ... `c5`.
+  - Lessons: tall or wide photos (pen, crutch, Graves) are padded to a square with a blurred background in place; the insulin pen was cropped to a band and rotated so it fills the cell; use `focus 0.5 0.0` to keep the top of a tall photo (fingers in the cast); `/tmp/ast.py` shadows the stdlib `ast` for any Python run from `/tmp` (keep helpers in `/tmp/h/`); write parts to `/app/parts/` (not under the `/app/neb` symlink, which makes the file tool print tsc noise) and `cat` them together; Plate and Figure numbers share the sequence in a unit (svg 1.1, plate 1.2, svg 1.3).
+  - Facts used (searched this session): STEPS 2019 raised blood sugar 5.8% of adults 15-69; plus standard guidelines listed in the book README.
+
 ## Next (in this order)
-1. **Year 1 (6 books) and Adult Nursing I are complete.** Start **Adult Nursing II (BSN 10)** `course/year-2/adult-nursing-2` (slug `nur6`; renal and urinary, endocrine and diabetes, neurology and stroke, musculoskeletal and orthopaedic, oncology and emergency nursing; copy `check_an1.py` as `check_an2.py`; photo contact sheet before use; accent #1D4ED8).
-2. Then in `books.json` order: Geriatric Nursing, Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
+1. **Year 1 (6 books), Adult Nursing I and Adult Nursing II are complete.** Start **Geriatric Nursing (BSN 11)** `course/year-2/geriatric-nursing` (slug `nur7`; ageing physiology, falls, dementia, delirium, polypharmacy, Beers criteria, pressure injury, elder abuse and Nepal Senior Citizens Act 2063; copy `check_an2.py` as `check_ger.py`; photo contact sheet before use; accent per `books.json`).
+2. Then in `books.json` order: Psychiatric Nursing, Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
 

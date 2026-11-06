@@ -97,7 +97,7 @@ key 4 (b) Fibroglandular tissue: the white, dense breast tissue seen on mammogra
 fit 1.0
 focus 0.5 0.5
 mark 0.45 0.50 "5"
-mark 0.10 0.62 "6"
+mark 0.14 0.54 "6"
 key 5 (c) Windlass and buckle: twist until the bleeding stops, then lock; write the time on it
 key 6 (c) Strap: apply 5-7 cm above the wound over the clothes, never over a joint
 @ photo id="nur6/triage" cap="Triage in a drill"
