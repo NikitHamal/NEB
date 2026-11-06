@@ -116,6 +116,64 @@ f.text(ox2 + 110, 40, "both columns on one line: singular", size=10.5, color=SLA
 7. **Cryptography.** The Hill cipher encrypts blocks of letters by multiplying with a key matrix; decryption needs the inverse matrix modulo 26. It teaches why a determinant of zero makes a key useless.
 8. **Statistics and data tables.** A census table (districts by age group) is a matrix. Totals, averages and correlations come from matrix products. Spreadsheets and databases are everyday matrix tools.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Order matters. (a) Arthur Cayley, who in 1858 published the first paper on the algebra of matrices, including the rule for multiplying them. (b) Take A = [[1, 2], [3, 4]] and the swap matrix B = [[0, 1], [1, 0]]. Then AB = [[2, 1], [4, 3]] (the columns of A are swapped) but BA = [[3, 4], [1, 2]] (the rows of A are swapped), so AB is not BA. The determinant of A is 1 x 4 - 2 x 3 = -2, which is not zero, so A has the inverse A^-1 = (1 / -2) [[4, -2], [-3, 1]] = [[-2, 1], [3/2, -1/2]], and the figure checks that A times A^-1 is the identity. Also det(AB) = det(A) det(B) = (-2)(-1) = 2. All entries are computed with exact fractions."
+@ photo id="bcamath/cayley" cap="Arthur Cayley (matrix algebra, 1858)"
+fit 1.2
+focus 0.5 0.35
+@ svg cap="AB and BA differ; A times its inverse is I"
+from fractions import Fraction as Fr
+def mul(X, Y): return [[sum(X[i][k] * Y[k][j] for k in range(2)) for j in range(2)] for i in range(2)]
+def det(X): return X[0][0] * X[1][1] - X[0][1] * X[1][0]
+A = [[Fr(1), Fr(2)], [Fr(3), Fr(4)]]; B = [[Fr(0), Fr(1)], [Fr(1), Fr(0)]]
+d = det(A); Ai = [[A[1][1] / d, -A[0][1] / d], [-A[1][0] / d, A[0][0] / d]]
+AB = mul(A, B); BA = mul(B, A)
+assert AB == [[2, 1], [4, 3]] and BA == [[3, 4], [1, 2]] and AB != BA
+assert d == -2 and Ai == [[-2, 1], [Fr(3, 2), Fr(-1, 2)]] and mul(A, Ai) == [[1, 0], [0, 1]]
+assert det(AB) == det(A) * det(B) == 2
+def fmt(v): return str(v)
+f = Fig(300, 240)
+def mat(x, y, M, fl=BLUE, st=NAVY):
+    for i in range(2):
+        for j in range(2):
+            f.box(x + j * 29, y + i * 22, 28, 20, fmt(M[i][j]), fill=fl, stroke=st, size=10.5, r=2, bold=True)
+def op(x, y, s): f.text(x, y, s, size=13, color=SLATE, bold=True, vmid=True)
+rows = [(10, A, B, AB, "=", "cols swapped", MINT, TEAL), (66, B, A, BA, "=", "rows swapped", ROSE, RED), (122, A, Ai, [[1, 0], [0, 1]], "=", "A A^-1 = I", SAND, AMBER)]
+for y, X, Y, Z, e, note, fl, st in rows:
+    mat(6, y, X); op(68, y + 21, "x"); mat(76, y, Y); op(138, y + 21, e); mat(146, y, Z, fl, st)
+    f.text(208, y + 21, note, size=10.5, color=st, bold=True, anchor="start", vmid=True)
+f.text(150, 188, "det A = -2, det B = -1, det AB = 2 = (-2)(-1)", size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "AB is not BA: the order of rotations matters", size=10.5, color=SLATE)
+f.text(150, 226, "exact fractions, no rounding", size=10.5, color=SLATE)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="A picture is a matrix. (a) A small dot-matrix LED display: every character is a grid of lit and unlit dots, which is a matrix of 1s and 0s. (b) The letter A as a 7 x 5 matrix with 18 lit dots, and its transpose, a 5 x 7 matrix whose rows are the columns of the original. Turning a picture a quarter turn clockwise is the transpose followed by reversing each row; the program checks that the transpose of the transpose is the original, that the 18 lit dots are all still there, and that the rotation matrix [[0, -1], [1, 0]] has determinant +1 (a pure turn) while the mirror matrix [[-1, 0], [0, 1]] has determinant -1 (a reflection). This is how phones rotate photographs."
+@ photo id="bcamath/dotmatrix" cap="A dot-matrix LED display"
+fit 1.2
+focus 0.55 0.5
+@ svg cap="Letter A as a matrix, its transpose and a turn"
+A = ["01110", "10001", "10001", "11111", "10001", "10001", "10001"]
+M = [[int(c) for c in r] for r in A]
+T = [list(r) for r in zip(*M)]
+R = [r[::-1] for r in T]
+assert len(M) == 7 and len(M[0]) == 5 and len(T) == 5 and len(T[0]) == 7
+assert [list(r) for r in zip(*T)] == M and sum(map(sum, M)) == sum(map(sum, T)) == sum(map(sum, R)) == 18
+det = lambda a, b, c, d: a * d - b * c
+assert det(0, -1, 1, 0) == 1 and det(-1, 0, 0, 1) == -1
+f = Fig(300, 240)
+def grid(x, y, G, s=12):
+    for i, row in enumerate(G):
+        for j, v in enumerate(row):
+            f.circle(x + j * s + s / 2, y + i * s + s / 2, 4.6, fill=(RED if v else SOFT), stroke=(RED if v else "#cbd5e1"), sw=1)
+grid(14, 30, M); grid(110, 30, T); grid(206, 30, R)
+f.text(44, 22, "A: 7 x 5", size=10.5, color=NAVY, bold=True)
+f.text(140, 22, "A^T: 5 x 7", size=10.5, color=NAVY, bold=True)
+f.text(236, 22, "turned", size=10.5, color=TEAL, bold=True)
+f.text(150, 140, "18 lit dots in each of the three pictures", size=10.5, color=SLATE)
+f.box(5, 160, 140, 34, "turn [[0, -1], [1, 0]]\ndet = +1", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(155, 160, 140, 34, "mirror [[-1, 0], [0, 1]]\ndet = -1", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.text(150, 216, "transpose of transpose = original (checked)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - (AB)ᵢⱼ = Σ aᵢₖ bₖⱼ; AB ≠ BA; (AB)ᵀ = BᵀAᵀ; (AB)⁻¹ = B⁻¹A⁻¹.

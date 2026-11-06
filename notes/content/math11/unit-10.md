@@ -496,6 +496,29 @@ Cancelling $\sin\theta$ at the start would have lost the entire family
 $\theta = n\pi$ — a guaranteed loss of marks.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="A rider on a Ferris wheel of radius 40 m with its centre 45 m above ground has height h = 45 - 40 cos(theta) after turning through theta. (a) A large Ferris wheel. (b) To find when the rider is 65 m high, solve cos(theta) = -1/2. The program finds theta = 120 degrees and 240 degrees in the first turn, and the red points repeat every 360 degrees. The general solution is theta = 360n + 120 or 360n - 120. A trigonometric equation has infinitely many solutions because the functions are periodic, so the general value must be written with n."
+@ photo id="math11/ferris" cap="A Ferris wheel: height changes like a cosine of the turning angle"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Solving 45 - 40 cos(theta) = 65"
+R, H0, target = 40.0, 45.0, 65.0
+h = lambda t: H0 - R * math.cos(math.radians(t))
+c = (H0 - target) / R
+t1 = math.degrees(math.acos(c)); t2 = 360 - t1
+assert abs(c + 0.5) < 1e-12 and round(t1) == 120 and round(t2) == 240 and abs(h(t1) - 65) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Height h = 45 - 40 cos(theta), metres", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 720), (0, 95))
+ax.grid(120, 20, size=9, xfmt=lambda v: "%d" % v); ax.axes("deg", "h")
+ax.curve(h, 0, 720, color=NAVY, sw=2.4)
+ax.hline(65, color=AMBER)
+for t in (t1, t2, t1 + 360, t2 + 360):
+    ax.pt(t, 65, "", color=RED, r=3.8)
+f.text(150, 208, "cos(theta) = -1/2: theta = 120 and 240 deg", size=10.5, color=NAVY, bold=True)
+f.text(150, 224, "general: theta = 360n + 120 or 360n - 120 (n integer)", size=9.5, color=SLATE, bold=True)
+facts = dict(a=t1, b=t2, c=c)
+```
+
 ## Chapter summary
 
 - A trigonometric equation has infinitely many roots; the answer required is the
@@ -620,3 +643,83 @@ or $\cos\theta = -\frac12 \Rightarrow \theta = 2n\pi\pm\frac{2\pi}{3}$.
 Check $\theta = \frac{\pi}{2}$: $1+0-1 = 0$ ✓; check $\theta = \frac{2\pi}{3}$:
 $\frac{\sqrt{3}}{2}-\frac{\sqrt{3}}{2}+0 = 0$ ✓.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the general solutions of $\sin\theta=\sin\alpha$, $\cos\theta=\cos\alpha$ and $\tan\theta=\tan\alpha$ and use them to solve standard equations. <span class="marks">[10]</span>
+2. Solve trigonometric equations of the quadratic, linear $a\sin\theta+b\cos\theta=c$ and multiple-angle types, giving the general values and the principal solutions. <span class="marks">[10]</span>
+
+### Model answer D1: general solutions of the three basic equations (10 marks)
+
+**Introduction.** A **trigonometric equation** is true only for particular values of the angle. Because the circular functions are periodic, an equation has infinitely many solutions; the formula that gives all of them is the **general solution**. The solutions in $[0,2\pi)$ are the **principal solutions**.
+
+**Result 1: $\sin\theta=\sin\alpha\Rightarrow\theta=n\pi+(-1)^{n}\alpha,\ n\in\mathbb{Z}$.**
+
+*Proof.* $\sin\theta-\sin\alpha=0$ gives $2\cos\dfrac{\theta+\alpha}{2}\sin\dfrac{\theta-\alpha}{2}=0$. Either $\cos\dfrac{\theta+\alpha}2=0$, so $\dfrac{\theta+\alpha}2=(2m+1)\dfrac\pi2$ and $\theta=(2m+1)\pi-\alpha$; or $\sin\dfrac{\theta-\alpha}2=0$, so $\theta=2m\pi+\alpha$. The first gives odd multiples of $\pi$ with $-\alpha$, the second even multiples of $\pi$ with $+\alpha$; both are written together as $\theta=n\pi+(-1)^{n}\alpha$.
+
+**Result 2: $\cos\theta=\cos\alpha\Rightarrow\theta=2n\pi\pm\alpha$.** From $\cos\theta-\cos\alpha=0$, $-2\sin\dfrac{\theta+\alpha}2\sin\dfrac{\theta-\alpha}2=0$, so $\theta+\alpha=2n\pi$ or $\theta-\alpha=2n\pi$.
+
+**Result 3: $\tan\theta=\tan\alpha\Rightarrow\theta=n\pi+\alpha$.** Since $\sin(\theta-\alpha)=0$, $\theta-\alpha=n\pi$ because the period of $\tan$ is $\pi$.
+
+**Special cases.**
+
+| Equation | General solution |
+|---|---|
+| $\sin\theta=0$ | $\theta=n\pi$ |
+| $\cos\theta=0$ | $\theta=(2n+1)\dfrac\pi2$ |
+| $\tan\theta=0$ | $\theta=n\pi$ |
+| $\sin\theta=1$ | $\theta=2n\pi+\dfrac\pi2$ |
+| $\cos\theta=1$ | $\theta=2n\pi$ |
+| $\sin^{2}\theta=\sin^{2}\alpha$ (or $\cos^{2}$, $\tan^{2}$) | $\theta=n\pi\pm\alpha$ |
+
+**Worked examples.**
+
+1. $\sin\theta=\dfrac12=\sin\dfrac\pi6$ gives $\theta=n\pi+(-1)^{n}\dfrac\pi6$. For $n=0,1$ this gives $\dfrac\pi6$ and $\pi-\dfrac\pi6=\dfrac{5\pi}6$, which are the principal solutions.
+2. $\cos\theta=-\dfrac12=\cos\dfrac{2\pi}3$ gives $\theta=2n\pi\pm\dfrac{2\pi}3$; principal solutions $\dfrac{2\pi}3$ and $\dfrac{4\pi}3$.
+3. $\tan\theta=\sqrt3=\tan\dfrac\pi3$ gives $\theta=n\pi+\dfrac\pi3$; principal solutions $\dfrac\pi3$ and $\dfrac{4\pi}3$.
+4. $\sin^{2}\theta=\dfrac34=\sin^{2}\dfrac\pi3$ gives $\theta=n\pi\pm\dfrac\pi3$.
+5. $\sin\theta=\dfrac{\sqrt3}{2}$ and $\cos\theta=-\dfrac12$ together: the angle in the second quadrant is $\dfrac{2\pi}3$, so $\theta=2n\pi+\dfrac{2\pi}3$.
+
+**Method.** First reduce the equation to one of the three forms with a known angle $\alpha$; always choose $\alpha$ as the principal value (or an acute angle for a positive right-hand side).
+
+**Conclusion.** The three formulae $n\pi+(-1)^{n}\alpha$, $2n\pi\pm\alpha$ and $n\pi+\alpha$ give every solution of the basic equations.
+
+### Model answer D2: solving different types of equations (10 marks)
+
+**Introduction.** Most examination equations reduce to a basic one after factorising, using an identity or converting a sum into a single ratio.
+
+**Type 1: quadratic in a ratio.** Solve $2\sin^{2}\theta+\sin\theta-1=0$. Factorising, $(2\sin\theta-1)(\sin\theta+1)=0$. So $\sin\theta=\dfrac12$ or $\sin\theta=-1$.
+
+- $\sin\theta=\dfrac12$ gives $\theta=n\pi+(-1)^{n}\dfrac\pi6$.
+- $\sin\theta=-1=\sin\left(-\dfrac\pi2\right)$ gives $\theta=2n\pi-\dfrac\pi2$.
+
+In $[0,2\pi)$ the solutions are $\dfrac\pi6,\ \dfrac{5\pi}6,\ \dfrac{3\pi}2$.
+
+**Type 2: $a\sin\theta+b\cos\theta=c$.** Divide by $\sqrt{a^{2}+b^{2}}$ and write $\dfrac a{\sqrt{a^{2}+b^{2}}}=\cos\phi$, $\dfrac b{\sqrt{a^{2}+b^{2}}}=\sin\phi$, so that $\sin(\theta+\phi)=\dfrac c{\sqrt{a^{2}+b^{2}}}$. A solution exists only if $|c|\le\sqrt{a^{2}+b^{2}}$.
+
+*Example.* $\sin\theta+\cos\theta=1$. Dividing by $\sqrt2$, $\sin\left(\theta+\dfrac\pi4\right)=\dfrac1{\sqrt2}=\sin\dfrac\pi4$. Hence $\theta+\dfrac\pi4=n\pi+(-1)^{n}\dfrac\pi4$.
+
+- For even $n=2m$: $\theta=2m\pi$.
+- For odd $n=2m+1$: $\theta=(2m+1)\pi-\dfrac\pi4-\dfrac\pi4=2m\pi+\dfrac\pi2$.
+
+So $\theta=2m\pi$ or $2m\pi+\dfrac\pi2$. Check: $\theta=0$ gives $0+1=1$; $\theta=\dfrac\pi2$ gives $1+0=1$.
+
+**Type 3: multiple angles.** Solve $\sin3\theta=\sin\theta$. Then $3\theta=n\pi+(-1)^{n}\theta$.
+
+- $n$ even $(n=2m)$: $3\theta=2m\pi+\theta$, so $\theta=m\pi$.
+- $n$ odd $(n=2m+1)$: $3\theta=(2m+1)\pi-\theta$, so $\theta=(2m+1)\dfrac\pi4$.
+
+Check $\theta=\dfrac\pi4$: $\sin\dfrac{3\pi}4=\dfrac{\sqrt2}2=\sin\dfrac\pi4$.
+
+**Type 4: using an identity.** Solve $\cos2\theta=\sin\theta$. Replace $\cos2\theta=1-2\sin^{2}\theta$: $2\sin^{2}\theta+\sin\theta-1=0$, the equation of Type 1. The solutions are $\theta=n\pi+(-1)^{n}\dfrac\pi6$ or $2n\pi-\dfrac\pi2$.
+
+| Type | Strategy | Key step |
+|---|---|---|
+| Quadratic | factorise | solve each ratio |
+| $a\sin\theta+b\cos\theta=c$ | divide by $\sqrt{a^{2}+b^{2}}$ | single sine |
+| Multiple angle | use $\sin A=\sin B$ formula | split even and odd $n$ |
+| Mixed ratios | use identity | convert to one ratio |
+
+**Caution.** Squaring an equation can introduce false roots, so substitute the answers back. Never cancel a common factor such as $\sin\theta$ without noting that $\sin\theta=0$ is also a solution.
+
+**Conclusion.** Reduce the equation to a basic form, apply the general solution formulae and verify the results against the original equation.

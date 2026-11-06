@@ -324,3 +324,85 @@ room should be kept clean.
 apology with a clear reason, a promise to meet soon or send a gift, warm
 closing (*With love*) and name.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a reply to an invitation letter and an e-mail accepting an offer. <span class="marks">[10]</span>
+2. Explain the active and passive voice with a tense table. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.0" caption="Journeys by rail. The status board at New Delhi Railway Station, Darbhanga Railway Station and the station at Aracataca recall the railway carriage in Stevenson's poem."
+@ photo id="eng12/train-board" cap="Train status board"
+@ photo id="nep10/darbhanga-station" cap="Darbhanga station"
+@ photo id="eng12/aracataca-station" cap="Aracataca station"
+```
+
+### Model answer D1: replying to an invitation (10 marks)
+
+**Introduction.** A **reply letter** thanks the sender, says clearly whether we accept or decline, gives a reason and closes warmly.
+
+**Model reply (acceptance).**
+
+::: example Reply to an invitation
+Biratnagar-3, Morang  
+10 Poush 2082
+
+Dear Uncle,
+
+Thank you very much for your kind invitation to my cousin's wedding on 25 Poush. I am delighted to accept. I will arrive on 24 Poush by the morning bus and stay for three days. My parents will also come, and my sister is looking forward to meeting everybody. Please tell me if I can bring anything.
+
+With love,  
+Kiran
+:::
+
+**Model reply (declining).** *Thank you for inviting me to your birthday party. I would love to come, but I am sorry to say that I have my final examination on that day. I wish you a very happy birthday and hope to meet you soon.*
+
+**Offers and answers.**
+
+1. **Offer:** *Can I help you? Shall I carry your bag? Would you like me to open the window?*
+2. **Accept:** *Yes, please. That would be very kind.*
+3. **Decline:** *No, thank you. I can manage.*
+
+**Points (8).**
+
+4. Address and date.
+5. A friendly greeting.
+6. Thanks for the invitation.
+7. Clear acceptance or refusal.
+8. A reason, arrival details, and a warm closing.
+
+| | Accept | Decline |
+|---|---|---|
+| Opening | I am delighted to accept | I am sorry I cannot come |
+| Reason | travel plan | exam / illness |
+| Ending | See you soon | Best wishes |
+
+**Conclusion.** Be polite, clear and brief.
+
+### Model answer D2: active and passive voice (10 marks)
+
+**Introduction.** In the **active voice** the subject does the action; in the **passive** the subject receives the action. We use the passive when the doer is unknown or unimportant.
+
+**Rules.**
+
+1. The **object** of the active sentence becomes the **subject**.
+2. Use the correct form of **be** (same tense as the active verb).
+3. Use the **past participle (V3)** of the main verb.
+4. Add **by + doer** only if it is important.
+5. Only **transitive** verbs (those with an object) can be passive.
+
+| Tense | Active | Passive |
+|---|---|---|
+| Present simple | They grow rice. | Rice is grown. |
+| Past simple | Bell invented the telephone. | The telephone was invented by Bell. |
+| Present continuous | They are repairing the road. | The road is being repaired. |
+| Present perfect | He has written a letter. | A letter has been written. |
+| Future simple | We will plant trees. | Trees will be planted. |
+| Modal | You must obey rules. | Rules must be obeyed. |
+
+6. **Examples in the chapter:** *Naresh helped a stranger* (active); *The stranger was helped by Naresh* (passive).
+7. **Poem:** in *From a Railway Carriage* Stevenson uses similes and a galloping rhythm: sights flash past, "a glimpse and gone for ever".
+8. **Moral of the story:** selfless kindness is rewarded.
+
+**Conclusion.** Object to subject, *be* in the same tense, then V3.

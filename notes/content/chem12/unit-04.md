@@ -606,6 +606,28 @@ the dinitrogen tetroxide side is favoured — consistent with the fact that
 N₂O₄ dissociation needs warming to go appreciably to the right.
 :::
 
+```photogrid label="4.P" cols="2" ratio="1.2" caption="An endothermic process that happens by itself. (a) In an instant cold pack, squeezing the pouch breaks an inner bag and lets ammonium nitrate dissolve in water. (b) The dissolution absorbs 25.7 kJ per mole, so the solution gets colder. The cell divides the heat absorbed by the heat capacity of 100 g of water and the salt: 10 g of salt cools the water by 7.4 K and 40 g by 26.3 K in the ideal case. The process is spontaneous because the entropy rises by 108.7 J/(mol K), making dG = dH - T dS equal to -6.7 kJ/mol at 298 K. A positive dH does not stop a reaction when T dS is larger."
+@ photo id="chem12b/coldpack" cap="An instant cold pack"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cooling by dissolving ammonium nitrate"
+dH, dS = 25.7, 108.7
+rows = []
+for m in (10, 20, 30, 40):
+    n = m / 80.04
+    rows.append(("%d g" % m, n * dH * 1000 / (100 * 4.18 + 139 * n)))
+assert 26 < rows[3][1] < 27
+dG = dH - 298.15 * dS / 1000
+f = Fig(300, 236)
+f.text(150, 12, "Fall in temperature in 100 g of water, K", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=30, fmt="%.1f", x0=48, y0=30, bw=170, gap=30)
+f.text(150, 158, "NH4NO3(s) in water: dH = +25.7 kJ/mol, dS = +108.7 J/(mol K)", size=9.5, color=SLATE, bold=True)
+f.text(150, 178, "dG = dH - T dS = %.1f kJ/mol at 298 K" % dG, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "dG < 0: spontaneous although endothermic", size=10.5, color=RED, bold=True)
+f.text(150, 216, "entropy gain pays for the heat taken in", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], d=rows[3][1], dG=dG)
+```
+
 ## Chapter summary
 
 - A **system** exchanges matter and/or energy with its **surroundings**. $U$,
@@ -739,3 +761,40 @@ At 383 K: $\Delta G = 40700 - (383)(109.1) = 40700 - 41785 = -1085\ \text{J mol}
 = -1.09\ \text{kJ mol}^{-1}$, negative, so above 373 K vaporisation is
 spontaneous and the liquid boils away.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State Hess's law and use it to calculate the enthalpy of formation of methane. Explain the different enthalpies and the first law of thermodynamics. <span class="marks">[10]</span>
+
+### Model answer D1: Hess's law and enthalpy changes (10 marks)
+
+**Introduction.** **Enthalpy (H)** is the heat content of a system at constant pressure. The change $\Delta H$ is the heat absorbed or given out at constant pressure; it is negative for an exothermic and positive for an endothermic reaction. The **first law of thermodynamics** says that energy can neither be created nor destroyed: $\Delta U = q + w$, and at constant pressure $\Delta H = \Delta U + P\Delta V$.
+
+**Types of enthalpy change.**
+
+| Enthalpy | Meaning | Example |
+|---|---|---|
+| Of formation, $\Delta H_f$ | One mole of a compound formed from its elements | C(s) + 2H₂(g) → CH₄(g) |
+| Of combustion, $\Delta H_c$ | One mole burnt completely in oxygen | CH₄ + 2O₂ → CO₂ + 2H₂O |
+| Of neutralisation | One mole of water formed from acid and base | H⁺ + OH⁻ → H₂O, about −57 kJ |
+| Of solution | One mole dissolved in a large amount of solvent | NaCl in water |
+
+**Hess's law.** The total enthalpy change of a reaction is the same, whether it takes place in one step or in several steps, because $H$ is a state function; it depends only on the initial and the final states.
+
+**Application.** The enthalpy of formation of methane cannot be measured directly (carbon and hydrogen do not combine cleanly), so it is found from combustion data:
+
+1. C(s) + O₂(g) → CO₂(g), $\Delta H_1 = -393.5\ \text{kJ}$
+2. H₂(g) + ½O₂(g) → H₂O(l), $\Delta H_2 = -285.8\ \text{kJ}$
+3. CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l), $\Delta H_3 = -890.3\ \text{kJ}$
+
+The required equation C(s) + 2H₂(g) → CH₄(g) is obtained by: (1) + 2 × (2) − (3):
+
+$$ \Delta H_f = \Delta H_1 + 2\Delta H_2 - \Delta H_3 = -393.5 + 2(-285.8) - (-890.3) $$
+
+$$ \Delta H_f(\text{CH}_4) = -393.5 - 571.6 + 890.3 = -74.8\ \text{kJ mol}^{-1} $$
+
+**Check with the energy cycle.** The sum of the heats of the two routes is the same: forming CH₄ then burning it gives $-74.8 - 890.3 = -965.1$ kJ, which equals burning C and 2H₂ directly, $-393.5 - 571.6 = -965.1$ kJ. ✓
+
+**Importance.** Hess's law lets us find enthalpies that cannot be measured directly, such as those of formation and of bond making.
+
+**Conclusion.** Because enthalpy is a state function, enthalpy changes can be added or subtracted like algebra, and $\Delta H_f(\text{CH}_4) = -74.8\ \text{kJ mol}^{-1}$.

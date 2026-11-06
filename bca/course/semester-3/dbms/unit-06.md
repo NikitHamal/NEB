@@ -315,6 +315,134 @@ DROP VIEW student_results;
 
 `CREATE OR REPLACE VIEW` (Oracle and PostgreSQL; MySQL the same; SQL Server uses `ALTER VIEW`) changes a view's definition. A view with joins or aggregates is usually **read-only**; a simple single-table view can be updated through (`WITH CHECK OPTION` forces new rows to satisfy its `WHERE`). A **materialised view** stores its result physically and must be refreshed.
 
+## 6.8 Seeing the ideas: how a query is really read
+
+All results below were produced by a real PostgreSQL server on the sample database of Section 6.1 (departments BCA, BIT, BBS; students Sita, Ram, Hari, Gita; courses C1 DBMS, C2 DSA, C3 Web Technology; four enrolment rows). The same query text is read in a different order from the order in which it is written, and a few small figures make that order clear.
+
+```photogrid label="6.1" cols="2" ratio="1.1" caption="From campus to query result. (a) The Tribhuvan University campus at Kirtipur, Kathmandu. A university keeps millions of rows of students, subjects and marks, and every result look-up is a SELECT with a join. (b) The view result_view stores one join query under a name; the user writes SELECT * FROM result_view and receives the joined rows with a computed grade column, without knowing which base tables are involved."
+@ photo id="bca202/tu" cap="Tribhuvan University, Kirtipur"
+fit 1.1
+focus 0.5 0.45
+call 0.5 0.12 0.50 0.40 "results, fees, records: rows"
+@ svg cap="result_view (real output)"
+f = Fig(300, 250)
+f.text(150, 12, "SELECT * FROM result_view ORDER BY marks DESC", size=8.5, color=NAVY, bold=True)
+hd = [("name", 55), ("title", 55), ("marks", 50), ("grade", 110)]
+rows = [("Hari", "DSA", "91", "Distinction"), ("Sita", "DBMS", "85", "Distinction"), ("Sita", "DSA", "72", "First"), ("Ram", "DBMS", "64", "First")]
+for j, (h, w) in enumerate(hd):
+    xx = 10 + sum(c[1] for c in hd[:j])
+    f.box(xx, 24, w, 24, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True, r=0)
+    for i, r in enumerate(rows):
+        f.box(xx, 48 + i * 24, w, 24, r[j], fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY, size=9.5, r=0, bold=(j == 3))
+f.box(10, 160, 270, 78, "The view is a stored query,\nnot a stored copy of the data.\nChange a mark in enrollment and\nthe view shows it at once.", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+```
+
+```svgfig label="6.1" caption="The logical order in which SQL evaluates a query, shown with the query SELECT c.title, COUNT(e.sid) FROM course c LEFT JOIN enrollment e ON e.cid = c.cid GROUP BY c.title ORDER BY c.title. FROM and JOIN come first and build the working rows (4 enrolment rows plus the unmatched course C3 give 5 rows). WHERE filters rows, GROUP BY forms groups (3 groups), HAVING filters groups, SELECT computes the output columns, and ORDER BY sorts last. This is why a column alias defined in SELECT cannot be used in WHERE, and why aggregates cannot appear in WHERE."
+f = Fig(580, 200)
+steps = [("1 FROM / JOIN", "5 working rows\n(C3 kept by LEFT JOIN)", BLUE, NAVY), ("2 WHERE", "filter rows\n(none here)", SAND, AMBER), ("3 GROUP BY", "3 groups\nDBMS, DSA, Web", MINT, TEAL), ("4 HAVING", "filter groups\n(none here)", SAND, AMBER), ("5 SELECT", "title, COUNT\n= 2, 2, 0", BLUE, NAVY), ("6 ORDER BY", "sort the 3 rows\nby title", ROSE, RED)]
+for i, (a, b, fl, st) in enumerate(steps):
+    x = 4 + i * 96
+    f.box(x, 14, 88, 24, a, fill=st, stroke=st, color="#ffffff", size=9, bold=True)
+    f.box(x, 38, 88, 56, b, fill=fl, stroke=st, size=9, bold=False)
+    if i < 5:
+        f.arrow([(x + 88, 26), (x + 96, 26)], color=SLATE, sw=1.4)
+f.box(10, 118, 560, 62, "Result: DBMS 2 | DSA 2 | Web Technology 0\nWHERE cannot use aggregates (use HAVING); HAVING cannot see rows, only groups.\nLEFT JOIN keeps course C3 with a count of 0 because COUNT(e.sid) ignores NULL.", fill=SOFT, stroke=SLATE, size=10, bold=True)
+```
+
+```svgfig label="6.2" caption="NULL and three-valued logic. A comparison with NULL is neither true nor false but unknown, and WHERE keeps only rows for which the condition is true. So WHERE dept_id <> 10 returns only Hari (20); Gita, whose dept_id is NULL, is silently dropped. Adding OR dept_id IS NULL brings her back. The same idea explains why COUNT(dept_id) is 3 while COUNT(*) is 4."
+f = Fig(580, 230)
+hd = [("name", 80), ("dept_id", 80), ("dept_id <> 10", 120), ("kept by WHERE?", 120)]
+rows = [("Sita", "10", "FALSE", "no"), ("Ram", "10", "FALSE", "no"), ("Hari", "20", "TRUE", "yes"), ("Gita", "NULL", "UNKNOWN", "no")]
+for j, (h, w) in enumerate(hd):
+    xx = 6 + sum(c[1] for c in hd[:j])
+    f.box(xx, 8, w, 24, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True, r=0)
+    for i, r in enumerate(rows):
+        bad = (i == 3)
+        f.box(xx, 32 + i * 24, w, 24, r[j], fill=ROSE if bad else (BLUE if i % 2 == 0 else SOFT), stroke=RED if bad else NAVY, size=9.5, r=0, bold=(j == 3))
+f.box(440, 8, 130, 120, "COUNT(*) = 4\nCOUNT(dept_id) = 3\nCOUNT(DISTINCT\ncity) = 3\n\nAggregates ignore NULL", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(6, 150, 560, 70, "WHERE dept_id <> 10                       -> Hari\nWHERE dept_id <> 10 OR dept_id IS NULL  -> Hari, Gita\nTest for NULL only with IS NULL / IS NOT NULL, never with = NULL.", fill=SAND, stroke=AMBER, size=10, bold=True)
+```
+
+```svgfig label="6.3" caption="Two kinds of subquery with real results. In the uncorrelated query on the left the inner query SELECT AVG(marks) runs once and returns 78; the outer query then keeps the students whose marks exceed 78, namely Sita (85) and Hari (91). In the correlated query on the right the inner query refers to the outer row (e.sid = s.sid) and runs again for every student; NOT EXISTS keeps Gita, the only student with no enrolment."
+f = Fig(580, 240)
+f.text(145, 12, "Uncorrelated: inner runs once", size=10.5, color=TEAL, bold=True)
+f.box(10, 24, 270, 40, "SELECT name FROM student WHERE sid IN (\n SELECT sid FROM enrollment WHERE marks >", fill=SOFT, stroke=SLATE, size=8.5)
+f.box(10, 70, 270, 24, "(SELECT AVG(marks) FROM enrollment))", fill=MINT, stroke=TEAL, size=8.5, bold=True)
+f.arrow([(145, 94), (145, 112)], color=SLATE, sw=1.5, label="AVG = 78", lpos=(200, 106), lsize=9)
+f.box(30, 112, 230, 30, "marks > 78: sid 1 (85), sid 3 (91)", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
+f.arrow([(145, 142), (145, 160)], color=SLATE, sw=1.5)
+f.box(60, 160, 170, 30, "Sita, Hari", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.text(435, 12, "Correlated: inner runs per row", size=10.5, color=RED, bold=True)
+f.box(300, 24, 270, 64, "SELECT name FROM student s WHERE\nNOT EXISTS (SELECT 1 FROM enrollment e\n WHERE e.sid = s.sid)", fill=SOFT, stroke=SLATE, size=8.5)
+rowsx = [("Sita", "has rows -> out"), ("Ram", "has rows -> out"), ("Hari", "has rows -> out"), ("Gita", "no rows -> KEPT")]
+for i, (n, r) in enumerate(rowsx):
+    f.box(300, 96 + i * 24, 70, 24, n, fill=BLUE, stroke=NAVY, size=9.5, r=0, bold=True)
+    f.box(370, 96 + i * 24, 200, 24, r, fill=(ROSE if i == 3 else SOFT), stroke=NAVY, size=9.5, r=0, bold=(i == 3))
+f.text(435, 206, "result: Gita", size=11, color=RED, bold=True)
+f.text(290, 232, "IN and comparison subqueries usually run once; EXISTS tests are checked per outer row", size=9.5, color=SLATE, bold=True)
+```
+
+Joins and indexes look abstract until you count. The two plates below use two six-row tables and a 200,000-row table on a real PostgreSQL 15 server and report exactly what came back and how many pages of disk were touched.
+
+```photogrid label="6.2" cols="2" ratio="1.1" caption="Joins as overlaps. (a) John Venn (1834-1923), whose diagrams of overlapping circles we still use for sets and for joins. (b) Table A holds the keys 1, 2, 3, 4, 5 and NULL, table B holds 3, 4, 5, 6, 7, 7. Three keys match, so INNER JOIN returns 3 rows; LEFT JOIN adds the 3 unmatched rows of A (1, 2 and the NULL row) to give 6; RIGHT JOIN adds the 3 unmatched rows of B (6, 7, 7) to give 6; FULL JOIN keeps both sides, 9; CROSS JOIN pairs every row with every row, 6 x 6 = 36. NULL never equals anything, so it never matches. All counts are from a real PostgreSQL run."
+@ photo id="bcamath/venn" cap="John Venn (1834-1923)"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Join counts for two six-row tables"
+A = [1, 2, 3, 4, 5, None]; B = [3, 4, 5, 6, 7, 7]
+inner = len([1 for a in A for b in B if a is not None and a == b])
+una = len([a for a in A if a is None or a not in B]); unb = len([b for b in B if b not in A])
+counts = [("INNER", inner), ("LEFT", inner + una), ("RIGHT", inner + unb), ("FULL", inner + una + unb), ("CROSS", len(A) * len(B))]
+assert [c for _, c in counts] == [3, 6, 6, 9, 36]
+f = Fig(300, 250)
+f.circle(86, 76, 56, fill="#dbeafe", stroke=NAVY)
+f.circle(162, 76, 56, fill="#dcfce7", stroke=TEAL)
+f.text(54, 56, "A only", size=9.5, color=NAVY, bold=True)
+f.text(54, 76, "1, 2, NULL", size=9.5, color=NAVY)
+f.text(54, 94, "= 3 rows", size=9.5, color=NAVY, bold=True)
+f.text(124, 56, "match", size=9.5, color=SLATE, bold=True)
+f.text(124, 76, "3, 4, 5", size=9.5, color=SLATE)
+f.text(124, 94, "= 3 rows", size=9.5, color=SLATE, bold=True)
+f.text(198, 56, "B only", size=9.5, color=TEAL, bold=True)
+f.text(198, 76, "6, 7, 7", size=9.5, color=TEAL)
+f.text(198, 94, "= 3 rows", size=9.5, color=TEAL, bold=True)
+f.text(86, 16, "table A", size=10, color=NAVY, bold=True); f.text(162, 16, "table B", size=10, color=TEAL, bold=True)
+for i, (k, v) in enumerate(counts):
+    y = 148 + i * 20
+    f.text(16, y + 8, k + " JOIN", size=10, color=SLATE, bold=True, anchor="start")
+    f.box(104, y, max(v * 4.0, 2), 14, "", fill=(RED if k == "CROSS" else TEAL), stroke=(RED if k == "CROSS" else TEAL), r=2)
+    f.text(104 + v * 4.0 + 6, y + 8, str(v), size=10, color=(RED if k == "CROSS" else TEAL), bold=True, anchor="start")
+```
+
+```photogrid label="6.3" cols="2" ratio="1.1" caption="Why an index helps. (a) Library stacks: finding a book by walking every aisle is a sequential scan, while the catalogue card that names the shelf is an index. (b) On a table of 200,000 rows occupying 3,449 pages of 8 kB (27,592 kB), a query for one row by primary key read 4 pages through the index. A query for v = 500 (200 matching rows) without an index read all 3,449 pages and discarded 199,800 rows; with an index on v it read 202 pages (200 table pages and 2 index pages). The index cost 1,352 kB of extra disk. Page counts are the Buffers lines of EXPLAIN (ANALYZE, BUFFERS)."
+@ photo id="bca202/stacks" cap="Library stacks, University of Illinois"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Pages read by three plans (EXPLAIN, BUFFERS)"
+plans = [("Seq Scan, v = 500", 3449, RED), ("Bitmap + index, v = 500", 202, AMBER), ("Index Scan, id = 123456", 4, TEAL)]
+assert 3449 * 8 == 27592 and 200 + 2 == 202 and 200 * 1000 == 200000
+f = Fig(300, 232)
+f.text(150, 11, "8 kB pages read, 200,000-row table", size=10, color=NAVY, bold=True)
+for i, (k, v, c) in enumerate(plans):
+    y = 28 + i * 52
+    f.text(6, y + 6, k, size=9.5, color=SLATE, bold=True, anchor="start")
+    w = 190 * v / 3449
+    f.box(6, y + 14, max(w, 2), 18, "", fill=c, stroke=c, r=2)
+    f.text(6 + max(w, 2) + 6, y + 24, "{:,} pages".format(v), size=10, color=c, bold=True, anchor="start")
+f.box(6, 186, 288, 38, "index on v costs 1,352 kB (table 27,592 kB):\nfaster reads, slower writes, more disk", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+### 6.8.1 Eight benefits of views
+
+1. **Simplicity for the user.** A view hides a long join behind a short name. A clerk writes `SELECT * FROM result_view` instead of joining three tables, and cannot make a join mistake. Complex logic is written once by an expert and reused by everyone.
+2. **Security.** A view can show only some columns and rows, such as a student's name and marks without fee details. Users are given permission on the view and none on the base tables. A teller in a Nepali bank can therefore see balances and not loan files.
+3. **Logical data independence.** If a base table is split or renamed, the view can be redefined to give the same columns. Programs that use the view keep working. This is the logical data independence of the three-level architecture in practice.
+4. **Always current data.** A view stores its query, not a copy of the data. When a mark changes in enrollment, the next `SELECT` from result_view shows the new value at once. Reports based on views never go out of date.
+5. **Consistent business rules.** A computed column such as the grade in result_view (80 or more is Distinction, 60 or more is First) is defined in one place. Every report that uses the view applies the same rule. This prevents two reports giving different grades to the same student.
+6. **Different views for different people.** The exam office, the library and the principal can each have a view of the same tables in the layout they need. The tables are not copied or duplicated. Each group works with the shape of data that suits its work.
+7. **Simpler reports and tools.** Reporting tools and spreadsheets can connect to a view as if it were a table. Developers do not need to understand the underlying design. Report writing becomes faster.
+8. **Controlled updates.** A simple view on one table can be used to insert, update or delete rows, and `WITH CHECK OPTION` refuses changes that would make a row disappear from the view. Views with joins, groups or aggregates are generally read-only. This keeps updates predictable and safe.
+
 ## Formula and fact sheet
 
 - Evaluation order: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY.
@@ -355,3 +483,69 @@ DROP VIEW student_results;
 **8.** `CREATE VIEW bca_students AS SELECT * FROM student WHERE dept_id = 10;`
 **9.** `WHERE` filters rows before grouping, `HAVING` filters groups after aggregation. `UNION` removes duplicate rows, `UNION ALL` keeps them (and is faster).
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). What is a join? Explain inner join and left outer join with examples.**
+
+*Introduction.* A join combines rows from two or more tables on a related column, usually a foreign key matched to a primary key. It rebuilds, at query time, the facts that normalisation spread over several tables.
+
+1. **Inner join.** It returns only the rows that match in both tables. The query `SELECT s.name, c.title, e.marks FROM student s JOIN enrollment e ON e.sid = s.sid JOIN course c ON c.cid = e.cid WHERE e.marks >= 70 ORDER BY e.marks DESC;` returned Hari (DSA, 91), Sita (DBMS, 85) and Sita (DSA, 72). Ram's 64 was removed by WHERE.
+2. **Left outer join.** It keeps every row of the left table and fills the right side with NULL when there is no match. `SELECT s.name, d.dept_name FROM student s LEFT JOIN department d ON d.dept_id = s.dept_id;` returned Sita BCA, Ram BCA, Hari BIT and Gita with an empty department, whereas the inner join would have dropped Gita.
+3. **Right and full outer join.** The right outer join keeps every row of the right table, and the full outer join keeps unmatched rows from both sides.
+4. **Cross join.** It pairs every row with every row: 4 students and 3 departments give 12 rows. It is rarely wanted by accident.
+5. **Joining three tables.** Each extra table needs its own ON condition, as with student, enrollment and course above.
+
+*Conclusion.* Use an inner join when only matching rows matter and an outer join when rows must not be lost, for example listing all students including those without a department.
+
+**Q2 (5 marks). Differentiate WHERE and HAVING. Explain GROUP BY with an example.**
+
+*Introduction.* GROUP BY collects rows with the same value in the chosen column into groups so that an aggregate function (COUNT, SUM, AVG, MIN, MAX) gives one result per group (Figure 6.1).
+
+1. **GROUP BY.** `SELECT c.title, COUNT(e.sid) AS takers, AVG(e.marks) FROM course c LEFT JOIN enrollment e ON e.cid = c.cid GROUP BY c.title;` returned DBMS 2 and 74.5, DSA 2 and 81.5, and Web Technology 0 with a NULL average.
+2. **WHERE.** It filters individual rows before grouping, and it cannot contain aggregate functions.
+3. **HAVING.** It filters groups after grouping and can use aggregates. `SELECT city, COUNT(*) FROM student GROUP BY city HAVING COUNT(*) > 1;` returned only Kathmandu, with 2 students.
+4. **Order of work.** FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY.
+5. **Rule.** Every column in SELECT must be either in GROUP BY or inside an aggregate function.
+6. **NULL.** Aggregates ignore NULL: COUNT(dept_id) is 3 but COUNT(*) is 4.
+
+| Point | WHERE | HAVING |
+|---|---|---|
+| Filters | rows | groups |
+| Applied | before GROUP BY | after GROUP BY |
+| Aggregates | not allowed | allowed |
+
+*Conclusion.* WHERE reduces the rows that enter the groups, and HAVING reduces the groups that leave.
+
+**Q3 (10 marks). What is a nested query (subquery)? Explain the types with examples, and describe views with their advantages.**
+
+*Introduction.* A subquery is a SELECT statement written inside another statement, in the WHERE, FROM or SELECT part. It lets the answer of one question become the input of another, so a question such as "who scored above the average?" needs one statement and not two (Figure 6.3). A view stores such a query under a name.
+
+*Types of subquery.*
+1. **Scalar subquery** returns one value, for example `(SELECT AVG(marks) FROM enrollment)`, which is 78.
+2. **Multi-row subquery** returns a column of values and is used with IN, ANY or ALL. The query `SELECT name FROM student WHERE sid IN (SELECT sid FROM enrollment WHERE marks > (SELECT AVG(marks) FROM enrollment));` returned Sita and Hari.
+3. **Correlated subquery** refers to the outer row and runs for each row. `SELECT name FROM student s WHERE NOT EXISTS (SELECT 1 FROM enrollment e WHERE e.sid = s.sid);` returned Gita, who has no enrolment.
+4. **Derived table** is a subquery in FROM that acts as a temporary table.
+5. **EXISTS and NOT EXISTS** test only whether the inner query returns any row, and are usually safe with NULL values, unlike `NOT IN`.
+
+*Views.* A view is a named SELECT stored in the database:
+
+```sql
+CREATE VIEW result_view AS
+SELECT s.name, c.title, e.marks,
+       CASE WHEN e.marks >= 80 THEN 'Distinction'
+            WHEN e.marks >= 60 THEN 'First' ELSE 'Pass' END AS grade
+FROM student s JOIN enrollment e ON e.sid = s.sid JOIN course c ON c.cid = e.cid;
+```
+
+Selecting from it returned four rows: Hari DSA 91 Distinction, Sita DBMS 85 Distinction, Sita DSA 72 First and Ram DBMS 64 First.
+
+*Advantages of views.* Simplicity (a long join becomes one name), security (hide columns and rows), logical data independence, always-current data, one place for business rules, and different shapes of the same data for different users (Section 6.8.1).
+
+| Point | Subquery | View |
+|---|---|---|
+| Lives | inside one statement | in the database, reusable |
+| Stores data | no | no (stores the query) |
+| Purpose | answer a step of a question | simplify and protect |
+
+*Conclusion.* Subqueries let SQL express multi-step questions in one statement, and views package such queries so that users get simple, secure and always up-to-date access to the data.

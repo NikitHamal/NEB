@@ -293,6 +293,37 @@ who compute each percentage from scratch make four chances for an error instead
 of one. Always finish by adding the percentages to check they give 100.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="Percentage composition is the mass of each element in 100 g of a compound, found as (atomic mass x number of atoms) / molar mass x 100. (a) Hydrated copper sulphate crystals. (b) For CuSO4.5H2O the molar mass is 249.68 g/mol and copper makes up 25.45 %, while in the anhydrous salt (M = 159.61) it makes up 39.82 %. The difference is the water of crystallisation, 36.08 % of the crystal, which leaves as steam on heating and turns the blue crystals into white powder. The same arithmetic lets an analyst check the purity of a fertiliser or a drug against its label."
+@ photo id="chem12/cuso4" cap="Blue crystals of hydrated copper sulphate"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Percentage composition of CuSO4.5H2O and CuSO4"
+Cu, S, O, H = 63.55, 32.06, 15.999, 1.008
+M_an = Cu + S + 4 * O
+M_hy = M_an + 5 * (2 * H + O)
+hy = dict(Cu=Cu / M_hy * 100, S=S / M_hy * 100, O=(4 * O + 5 * O) / M_hy * 100, H=10 * H / M_hy * 100)
+an = dict(Cu=Cu / M_an * 100, S=S / M_an * 100, O=4 * O / M_an * 100, H=0.0)
+assert abs(sum(hy.values()) - 100) < 1e-9 and abs(sum(an.values()) - 100) < 1e-9
+water = 5 * (2 * H + O) / M_hy * 100
+assert abs(M_hy - 249.68) < 0.02 and abs(water - 36.08) < 0.05
+cols = dict(Cu=RED, S=AMBER, O=NAVY, H=TEAL)
+f = Fig(300, 236)
+f.text(150, 14, "Mass percentage of each element", size=10.5, color=NAVY, bold=True)
+for row, (title, d, y) in enumerate([("CuSO4.5H2O  M = %.2f" % M_hy, hy, 30), ("CuSO4  M = %.2f" % M_an, an, 100)]):
+    f.text(20, y, title, size=10.5, bold=True, anchor="start")
+    x = 20
+    for k in ("Cu", "S", "O", "H"):
+        w = d[k] * 2.6
+        if w > 0:
+            f.box(x, y + 8, w, 26, k if w > 20 else "", fill=cols[k], stroke=cols[k], color="#ffffff", size=10.5, bold=True, r=0)
+        x += w
+    f.text(20, y + 52, "  ".join("%s %.1f" % (k, d[k]) for k in ("Cu", "S", "O", "H") if d[k] > 0), size=10, color=SLATE, anchor="start")
+f.text(150, 182, "water of crystallisation = %.2f %%" % water, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "heating drives off 90.08 g per 249.68 g", size=10.5, color=RED, bold=True)
+f.text(150, 214, "(blue crystals turn white anhydrous powder)", size=10.5, color=SLATE)
+facts = dict(Mh="%.2f" % M_hy, Ma="%.2f" % M_an, cu="%.2f" % hy["Cu"], w="%.2f" % water, cua="%.2f" % an["Cu"])
+```
+
 ## Chapter summary
 
 - Chemistry studies the composition, structure, properties and transformations of
@@ -384,3 +415,84 @@ Ammonium sulphate bag: 0.2121 × 50 = 10.61 kg of N.
 Ammonium sulphate: Rs 600 / 10.61 kg = Rs 56.6 per kg of N.
 Urea is the cheaper source of nitrogen, even though the bag costs more.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mole concept and Avogadro's number, and show how molar mass, molar volume and the number of particles are related, with numericals. <span class="marks">[10]</span>
+2. How are the percentage composition, the empirical formula and the molecular formula of a compound determined? Explain limiting reagent and percentage yield with numericals. <span class="marks">[10]</span>
+
+### Model answer D1: the mole concept and Avogadro's number (10 marks)
+
+**Introduction.** Atoms and molecules are far too small to count or weigh one by one. Chemists therefore count them in large groups called **moles**, just as a shopkeeper in Kathmandu sells eggs by the dozen or by the crate.
+
+**Definitions.**
+
+- **Mole:** the amount of a substance that contains as many elementary entities (atoms, molecules, ions or electrons) as there are atoms in exactly $12\ \text{g}$ of carbon-12.
+- **Avogadro's number** ($N_A$): the number of entities in one mole, $N_A=6.022\times10^{23}\ \text{mol}^{-1}$.
+- **Atomic mass unit (u):** $\tfrac1{12}$ of the mass of one carbon-12 atom, $1.66\times10^{-27}\ \text{kg}$.
+- **Molar mass:** the mass of one mole in grams, numerically equal to the relative atomic or molecular mass (H₂O: $18\ \text{g mol}^{-1}$).
+- **Molar volume:** one mole of any gas occupies $22.4\ \text{L}$ at STP ($0^{\circ}\text{C}$, $1\ \text{atm}$) and about $24\ \text{L}$ at room temperature (Avogadro's law).
+
+**Relations between the quantities.**
+
+$$ n=\frac{m}{M}=\frac{N}{N_A}=\frac{V_{\text{STP}}}{22.4\ \text{L}} $$
+
+where $n$ is the number of moles, $m$ the mass, $M$ the molar mass, $N$ the number of particles and $V$ the volume of the gas.
+
+**Concentration units.** **Molarity** $=\dfrac{\text{moles of solute}}{\text{litres of solution}}$, and **molality** $=\dfrac{\text{moles of solute}}{\text{kg of solvent}}$.
+
+| Quantity | Symbol | Unit | Link to the mole |
+|---|---|---|---|
+| Mass | $m$ | g | $n=m/M$ |
+| Particles | $N$ | none | $n=N/N_A$ |
+| Gas volume | $V$ | L | $n=V/22.4$ at STP |
+| Molarity | $M$ | mol L⁻¹ | $n=MV$ |
+
+**Why the mole is important.**
+
+1. It links the invisible atomic world to the weighable laboratory quantities.
+2. Chemical equations are read in moles: $2\text{H}_2+\text{O}_2\rightarrow2\text{H}_2\text{O}$ means 2 mol of hydrogen react with 1 mol of oxygen.
+3. It is the basis of all calculations on formulae, solutions and gases.
+
+**Numericals.**
+
+1. **Particles in a mass.** In $18\ \text{g}$ of water, $n=18/18=1\ \text{mol}$, so $N=6.022\times10^{23}$ molecules, and the number of atoms is $3\times6.022\times10^{23}=1.81\times10^{24}$.
+2. **Volume of gas.** $11\ \text{g}$ of CO₂ ($M=44$) is $0.25\ \text{mol}$ and occupies $0.25\times22.4=5.6\ \text{L}$ at STP.
+3. **Mass of one molecule.** One molecule of water has mass $\dfrac{18}{6.022\times10^{23}}=2.99\times10^{-23}\ \text{g}$.
+
+**Conclusion.** The mole is the chemist's counting unit, connecting mass, number of particles and gas volume through the molar mass, Avogadro's number and the molar volume.
+
+### Model answer D2: formulae, limiting reagent and percentage yield (10 marks)
+
+**Introduction.** The composition of a compound is found by analysis and expressed by its formulae. Industrial chemists then use the mole ratios of the balanced equation to plan reactions.
+
+**Percentage composition.** $\%\text{ of element}=\dfrac{\text{mass of the element in one mole}}{\text{molar mass}}\times100$. For calcium carbonate CaCO₃ ($M=100$): Ca $=40\%$, C $=12\%$, O $=48\%$.
+
+**Empirical and molecular formula.**
+
+1. The **empirical formula** gives the simplest whole-number ratio of atoms; the **molecular formula** gives the actual number of atoms in a molecule, $=(\text{empirical formula})_n$ with $n=\dfrac{\text{molar mass}}{\text{empirical formula mass}}$.
+2. Steps: (a) write the percentage (or mass) of each element; (b) divide by the atomic mass to get moles; (c) divide all by the smallest to get the ratio; (d) multiply to remove fractions; (e) compare the molar mass to find $n$.
+
+**Worked example.** A compound contains $40.0\%$ C, $6.67\%$ H and $53.3\%$ O, and its molar mass is $180$.
+
+| Element | % | Moles | Ratio |
+|---|---|---|---|
+| C | 40.0 | $40.0/12=3.33$ | 1 |
+| H | 6.67 | $6.67/1=6.67$ | 2 |
+| O | 53.3 | $53.3/16=3.33$ | 1 |
+
+The empirical formula is **CH₂O** (mass $30$), so $n=180/30=6$ and the molecular formula is **C₆H₁₂O₆** (glucose).
+
+**Limiting reagent.** In a reaction, the reactant that is consumed first and decides how much product forms is the **limiting reagent**; the other reactant is in **excess**.
+
+- *Example:* $5\ \text{g}$ of H₂ ($2.5\ \text{mol}$) reacts with $32\ \text{g}$ of O₂ ($1\ \text{mol}$) in $2\text{H}_2+\text{O}_2\rightarrow2\text{H}_2\text{O}$.
+- $1\ \text{mol}$ of O₂ needs only $2\ \text{mol}$ of H₂, so **O₂ is limiting**, and water formed $=2\ \text{mol}=36\ \text{g}$.
+- Hydrogen left over $=2.5-2=0.5\ \text{mol}=1\ \text{g}$.
+
+**Percentage yield.**
+
+$$ \%\text{ yield}=\frac{\text{actual yield}}{\text{theoretical yield}}\times100 $$
+
+*Example:* heating $100\ \text{g}$ of CaCO₃ should give $56\ \text{g}$ of CaO (theoretical). If $50\ \text{g}$ is obtained, the yield is $\dfrac{50}{56}\times100=89.3\%$. Real yields are below $100\%$ because of side reactions, incomplete reaction and losses.
+
+**Conclusion.** Percentage composition leads to the empirical formula, the molar mass gives the molecular formula, and the limiting reagent and percentage yield are the basis of industrial planning.

@@ -108,6 +108,14 @@ ax.text(0, -0.30, "HARDWARE", ha="center", va="top", fontsize=7.4,
 ax.set_xlim(-4.6, 4.6); ax.set_ylim(-0.75, 3.05); ax.axis("off")
 ```
 
+```photogrid label="5.H" cols="5" ratio="1.1" caption="From machine code to C. (a) A punched card carrying a Fortran statement, the first widely used high-level language (1957). (b) Grace Hopper, who wrote the first compiler in 1952 so that people could program in English-like words. (c) The DEC PDP-11 minicomputer on which UNIX and C grew up. (d) Dennis Ritchie, who created C in 1972. (e) The cover of The C Programming Language (1978), which defined K and R C. Every step moved the programmer further from the machine's own binary language and made programs easier to write, read and move between computers."
+@ photo id="bca101/fortrancard" cap="(a) Fortran card, 1957"
+@ photo id="bca101/hopper" cap="(b) Grace Hopper, first compiler"
+@ photo id="bca102/pdp11" cap="(c) DEC PDP-11"
+@ photo id="cs12/ritchie" cap="(d) Dennis Ritchie, C (1972)"
+@ photo id="bca102/kr-cover" cap="(e) K and R book, 1978"
+```
+
 ## 5.2 Compiler, interpreter and assembler
 
 A CPU can execute only machine code, so every program written in any other
@@ -686,6 +694,17 @@ program with no `main()` will compile its pieces but refuse to link. The braces
 `{ }` that open and close `main()` must match, and every statement inside ends
 with a **semicolon**.
 :::
+
+### The eight features of C, explained
+
+1. **General purpose and structured.** C can write an operating system, a database or a calculator. Programs are built from functions and the three control structures, so a large problem can be broken into small parts. This makes the code easy to test and to share among a team.
+2. **Middle-level language.** C has the readability of a high-level language and, at the same time, low-level tools such as pointers and bitwise operators. A programmer can reach memory directly, which is why UNIX, Linux and most of Windows are written mainly in C. For this reason it is called a "middle-level" language.
+3. **Portable.** The same source code can be compiled on Windows, Linux, macOS and on a small microcontroller such as an Arduino with only small changes. Only the compiler is machine specific. This saves the cost of rewriting a program for each computer.
+4. **Rich library of functions.** Hundreds of ready-made functions such as `printf`, `scanf`, `sqrt` and `strlen` come with the compiler in header files. A beginner can print, read, calculate and handle strings without writing these from scratch. This shortens the time to write a program.
+5. **Fast and efficient.** A C program is compiled to machine code, so it runs very fast and uses little memory. Games, device drivers and the firmware of a mobile phone use C for this reason. Python programs are often a hundred times slower for the same loop.
+6. **Small language with only 32 keywords.** There are few words to learn: `int`, `if`, `for`, `while`, `return` and so on. A student can learn the whole language in one term. The small size also helps the compiler to be small and fast.
+7. **Extensible.** The user can write new functions and save them in own header files, which can then be used in any program. The library therefore grows with the programmer. Large projects are made by joining many such files.
+8. **Case sensitive and supports pointers and dynamic memory.** `sum`, `Sum` and `SUM` are three different names, so the programmer must be careful. Pointers and functions such as `malloc` let a program ask for memory while it runs. These tools are powerful but need care to avoid errors.
 
 ## 5.8 The C preprocessor and header files; character set; comments
 
@@ -1515,6 +1534,34 @@ a-a-a-a (Sagarmatha), i (is), i (in), e-a (Nepal) = 8; the remaining 11 letters
 are consonants. ✓
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="ASCII has only 128 codes, so it cannot hold Nepali, and Unicode gives every character of every script its own number called a code point. (a) The Devanagari alphabet chart. (b) In UTF-8 the English word Nepal needs five characters and five bytes, but the Nepali spelling needs five characters and fifteen bytes, because each Devanagari code point takes three bytes. The letter ka is U+0915, the number 2325, stored as the bytes E0 A4 95. The word Namaste has 6 characters yet 18 bytes. A program that counts bytes instead of characters therefore gets the wrong length for Nepali text, which matters in forms such as the Nagarik App."
+@ photo id="cs11/varnamala" cap="The Devanagari alphabet chart used for Nepali"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Characters versus bytes in UTF-8"
+words = [("Nepal", "Nepal"), ("Nepali word", "\u0928\u0947\u092a\u093e\u0932"), ("Namaste", "\u0928\u092e\u0938\u094d\u0924\u0947"), ("Sagarmatha", "\u0938\u0917\u0930\u092e\u093e\u0925\u093e")]
+data = []
+for nm, s in words:
+    data.append((nm, len(s), len(s.encode("utf-8")), len(s.encode("utf-16-le")), len(s.encode("utf-32-le"))))
+assert data[0][1] == data[0][2] == 5 and data[2][1:3] == (6, 18) and data[3][1:3] == (7, 21)
+ka = "\u0915"
+hexs = " ".join("%02X" % b for b in ka.encode("utf-8"))
+assert ord(ka) == 2325 and hexs == "E0 A4 95"
+f = Fig(300, 236)
+f.text(150, 14, "Code points and bytes per string", size=10.5, color=NAVY, bold=True)
+f.box(98, 22, 10, 10, "", fill=AMBER, stroke=AMBER, r=2); f.text(112, 27, "characters", size=9.5, anchor="start", vmid=True)
+f.box(184, 22, 10, 10, "", fill=NAVY, stroke=NAVY, r=2); f.text(198, 27, "UTF-8 bytes", size=9.5, anchor="start", vmid=True)
+for i, (nm, cp, u8, u16, u32) in enumerate(data):
+    y = 42 + i * 34
+    f.text(6, y + 14, nm, size=10, anchor="start", vmid=True)
+    f.box(98, y, cp * 8, 12, "", fill=AMBER, stroke=AMBER, r=2); f.text(98 + cp * 8 + 4, y + 6, str(cp), size=9.5, anchor="start", vmid=True)
+    f.box(98, y + 14, u8 * 8, 12, "", fill=NAVY, stroke=NAVY, r=2); f.text(98 + u8 * 8 + 4, y + 20, str(u8), size=9.5, anchor="start", vmid=True)
+f.text(150, 192, "U+0915 (ka) = %d  ->  bytes %s" % (ord(ka), hexs), size=10, color=RED, bold=True)
+f.text(150, 208, "ASCII letters need 1 byte, Devanagari 3 bytes", size=10, color=NAVY)
+f.text(150, 224, "Namaste: 6 characters but 18 bytes", size=10.5, color=TEAL, bold=True)
+facts = dict(b=data[2][2])
+```
+
 ## Chapter summary
 
 - Languages run from **1GL machine code** (binary, machine dependent, fastest) up
@@ -1795,3 +1842,176 @@ int main(void)
 Tested outputs: `madam` gives `"madam" is a palindrome`; `nepal` gives
 `"nepal" is not a palindrome`.
 :::
+
+**Group D — Long answer (10 marks each), with full model answers**
+
+1. Explain the levels of programming languages and compare the compiler, the interpreter and the assembler. <span class="marks">[10]</span>
+2. Explain the control structures of C with a program for selection and a program for iteration. <span class="marks">[10]</span>
+3. What is an array? Explain one-dimensional and two-dimensional arrays with programs. <span class="marks">[10]</span>
+
+### Model answer D1: programming languages and language translators (10 marks)
+
+**Introduction.** A **programming language** is a set of words and rules used to give
+instructions to a computer. A computer understands only binary, so a program in any other language
+must be **translated**. Languages are grouped by how close they are to the machine.
+
+| Level | Language | How instructions look | Advantages | Limitations |
+|---|---|---|---|---|
+| Low level | Machine language | Binary 0s and 1s | Runs directly, fastest | Hard to write, machine specific |
+| Low level | Assembly language | Mnemonics such as `ADD`, `MOV` | Faster, close to hardware | Needs assembler, machine specific |
+| High level | C, Python, Java | English-like statements | Easy, portable | Needs translator, slower than machine code |
+| Fourth generation (4GL) | SQL, report generators | Say what is wanted, not how | Very fast to develop | Less control, runs slower |
+
+**Language translators.** Three kinds of translator are used.
+
+1. **Assembler:** converts assembly language into machine code, one instruction for one instruction.
+2. **Compiler:** reads the **whole** program, reports **all** errors together and produces an
+   object or executable file that can run again and again without the source (C, C++).
+3. **Interpreter:** translates and runs **one statement at a time**, stops at the first error
+   and produces no object file (Python, BASIC).
+
+| Point | Compiler | Interpreter |
+|---|---|---|
+| Unit translated | Whole program | One statement |
+| Errors | Listed all together | Reported one at a time |
+| Object file | Produced | Not produced |
+| Speed of running | Fast | Slow |
+| Debugging | Harder | Easier |
+| Examples | C, C++ | Python, BASIC |
+
+**Process.** Source code, written in an editor, is compiled to an object file, the linker joins
+it with library code, and the loader places the executable in memory (Figure 5.H shows how the
+languages developed from Fortran to C).
+
+**Conclusion.** Machine and assembly languages give control, high-level languages give
+productivity, and the translator is the bridge between them.
+
+### Model answer D2: control structures of C (10 marks)
+
+**Introduction.** The order in which statements are executed is called the **flow of control**. Structured
+programming uses only three control structures, each with one entry and one exit: **sequence**,
+**selection** and **iteration**.
+
+1. **Sequence:** statements run one after another from top to bottom.
+2. **Selection (decision):** one of two or more paths is chosen by a condition, using `if`,
+   `if-else`, `if-else-if`, nested `if` or `switch`.
+3. **Iteration (loop):** a block repeats while a condition is true, using `while`, `do-while`
+   or `for`. A `while` loop tests first, a `do-while` loop tests at the end and so runs at least once.
+
+**Selection program.**
+
+```c
+#include <stdio.h>
+int main(void)
+{
+    int marks;
+    char grade;
+    printf("Enter marks (0-100): ");
+    scanf("%d", &marks);
+    if (marks < 0 || marks > 100)      printf("Invalid marks\n");
+    else {
+        if (marks >= 80)      grade = 'A';
+        else if (marks >= 60) grade = 'B';
+        else if (marks >= 40) grade = 'C';
+        else                  grade = 'F';
+        printf("Marks = %d, Grade = %c\n", marks, grade);
+    }
+    return 0;
+}
+```
+
+Tested output: input 72 prints `Marks = 72, Grade = B`; input 35 prints `Marks = 35, Grade = F`.
+
+**Iteration program.**
+
+```c
+#include <stdio.h>
+int main(void)
+{
+    int n, i;
+    long fact = 1;
+    int sum = 0;
+    printf("Enter n: ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++) {
+        sum += i;
+        fact *= i;
+    }
+    printf("Sum of 1 to %d = %d\n", n, sum);
+    printf("Factorial of %d = %ld\n", n, fact);
+    return 0;
+}
+```
+
+Tested output: for n = 5 it prints `Sum of 1 to 5 = 15` and `Factorial of 5 = 120`.
+
+| Structure | C statements | Use |
+|---|---|---|
+| Sequence | Ordinary statements | Steps done once in order |
+| Selection | `if`, `if-else`, `switch` | Choosing between actions |
+| Iteration | `for`, `while`, `do-while` | Repeating actions |
+
+**Conclusion.** Any problem can be solved with these three structures, so programs written with them are easy to read, test and correct.
+
+### Model answer D3: arrays, one-dimensional and two-dimensional (10 marks)
+
+**Introduction.** An **array** is a collection of a fixed number of elements of the **same data type**
+stored in **consecutive memory locations** under one name. Each element is reached by an
+**index** that starts at **0**, so `a[0]` is the first and `a[4]` the last of five. It avoids declaring
+many separate variables such as `m1`, `m2`, `m3`.
+
+| Point | One-dimensional | Two-dimensional |
+|---|---|---|
+| Idea | A list | A table of rows and columns |
+| Declaration | `int a[5];` | `int m[2][3];` |
+| Index | One, `a[i]` | Two, `m[i][j]` |
+| Initialisation | `int a[5] = {9, 3, 7, 1, 5};` | `int m[2][3] = {{1,2,3},{4,5,6}};` |
+| Loops needed | One `for` | Two nested `for` |
+| Use | Marks of one subject | Matrix, seating plan |
+
+The size must be a constant, and C does not check whether an index is outside the array.
+
+**One-dimensional program: sort five numbers (bubble sort).**
+
+```c
+#include <stdio.h>
+int main(void)
+{
+    int a[5], i, j, t;
+    printf("Enter 5 numbers: ");
+    for (i = 0; i < 5; i++) scanf("%d", &a[i]);
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4 - i; j++)
+            if (a[j] > a[j + 1]) { t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; }
+    printf("Ascending order:");
+    for (i = 0; i < 5; i++) printf(" %d", a[i]);
+    printf("\nSmallest = %d, Largest = %d\n", a[0], a[4]);
+    return 0;
+}
+```
+
+Tested: the input `9 3 7 1 5` prints `Ascending order: 1 3 5 7 9` and `Smallest = 1, Largest = 9`.
+
+**Two-dimensional program: transpose of a 2 × 3 matrix.**
+
+```c
+#include <stdio.h>
+int main(void)
+{
+    int m[2][3] = {{1, 2, 3}, {4, 5, 6}}, t[3][2], i, j;
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < 3; j++)
+            t[j][i] = m[i][j];
+    printf("Transpose:\n");
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 2; j++) printf("%d ", t[i][j]);
+        printf("\n");
+    }
+    return 0;
+}
+```
+
+The output is the three rows `1 4`, `2 5` and `3 6`: rows have become columns.
+
+**Conclusion.** Arrays let one name hold many values and let loops process them, so
+a one-dimensional array stores lists and a two-dimensional array stores tables and matrices.

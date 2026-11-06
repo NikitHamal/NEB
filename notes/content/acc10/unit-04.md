@@ -276,3 +276,58 @@ Students write "cash account is debited because cash came in" without looking at
 *Standards in Nepal (3).* Issued by the Institute of Chartered Accountants of Nepal through its Accounting Standards Board: NFRS for listed companies and large public-interest entities; NFRS for SMEs for smaller entities; NAS for the rest. Give examples such as NAS 2 (inventories), NAS 16 (property, plant and equipment), NAS 18 (revenue) and NAS 7 (cash flows).
 *Importance (4).* Comparability — two businesses in the same trade can be compared; consistency — the same basis year after year; reliability — a lender can trust a statement prepared under standards without inspecting the books; auditability — the auditor has an objective yardstick. For a bank considering a loan, standards mean that the profit, the assets and the liabilities it reads have been measured by rules it knows, so it can assess the borrower's ability to repay and the security honestly and quickly, and can compare the borrower with others. (Marks are given for the definition, the Nepali framework and the explanation of importance.)
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define accounting. Explain the objectives and importance of financial accounting in eight points. <span class="marks">[10]</span>
+2. What are accounting standards? Explain the need for them and the Nepal Accounting Standards. <span class="marks">[10]</span>
+
+```photogrid label="4.H" cols="3" ratio="1.0" caption="Tools of the accountant. A ledger and a cash book hold the records of transactions, and an adding machine speeds up the totals; the same work is done today in software."
+@ photo id="acc10/ledger" cap="Ledger"
+@ photo id="acc10/cash-book" cap="Cash book"
+@ photo id="acc10/adding-machine" cap="Adding machine"
+```
+
+### Model answer D1: objectives and importance of financial accounting (10 marks)
+
+**Introduction.** **Accounting** is the art of recording, classifying, summarising and interpreting the financial transactions of an organisation in terms of money, and of communicating the results to the users. **Financial accounting** is the branch that records the transactions and prepares the final accounts and reports for the owners and other outside users.
+
+**Objectives and importance.**
+
+1. **Keeping systematic records.** The memory of the owner is not enough; the transactions are written in the books in order.
+2. **Finding the profit or loss.** The income statement shows the result of the year; a shopkeeper in Bhaktapur knows whether the year was profitable.
+3. **Showing the financial position.** The balance sheet shows what the business owns (assets) and owes (liabilities and capital) on the closing date.
+4. **Control over assets.** Accounts tell which assets exist and prevent loss or fraud.
+5. **Help in taxation.** Correct accounts are needed to file income tax and VAT returns with the Inland Revenue Department.
+6. **Help in borrowing.** A bank asks for the accounts before it gives a loan.
+7. **Information for decisions.** Owners, managers, lenders and investors take decisions from accounting reports.
+8. **Legal evidence and comparison.** Books are evidence in a dispute, and accounts of different years can be compared for progress.
+
+**Users of accounting information.** Owners, managers, employees, creditors, banks, the government and the public.
+
+**Conclusion.** Financial accounting is called the language of business; a business that does not keep accounts cannot say how well it is doing.
+
+### Model answer D2: accounting standards and Nepal Accounting Standards (10 marks)
+
+**Introduction.** **Accounting standards** are the written rules and guidelines issued by a recognised body on how business transactions should be recorded, measured and reported in the financial statements.
+
+**Need and importance.**
+
+1. They bring **uniformity**, so that all firms follow the same method.
+2. Statements of different firms become **comparable**.
+3. Statements are **reliable** because they follow accepted rules.
+4. They **reduce manipulation** of profit and assets.
+5. They help the **auditor** to give an opinion.
+6. They build the **confidence** of investors, banks and foreign partners.
+
+**Nepal Accounting Standards (NAS).** In Nepal, the **Accounting Standards Board**, formed under the Nepal Chartered Accountants Act, issues the standards, and the **Institute of Chartered Accountants of Nepal (ICAN)** supports their use. Earlier standards were called **Nepal Accounting Standards (NAS)**; later Nepal adopted **Nepal Financial Reporting Standards (NFRS)**, based on international (IFRS) standards, for public-interest entities, with a simpler version for small and medium enterprises. Standards deal with subjects such as presentation of financial statements, inventories, cash flow statements, property, plant and equipment, revenue and income taxes.
+
+**Chart of accounts.** A list of the heads of accounts (assets, liabilities, capital, income and expenses), each with a code, so that every transaction is posted to the correct account.
+
+| Basis | With standards | Without standards |
+|---|---|---|
+| Method | Uniform | Different for each firm |
+| Comparison | Possible | Difficult |
+| Trust | High | Low |
+
+**Conclusion.** Standards make the accounts of one business understandable to another, which is necessary for a fair market.

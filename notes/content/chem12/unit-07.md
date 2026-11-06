@@ -1133,6 +1133,26 @@ $$ m = 0.500 \times 108 = 54.0\ \text{g of silver} $$
 | Fe³⁺ | reddish-brown precipitate | insoluble | reddish-brown | KSCN gives blood-red |
 | Ag⁺ | brown Ag₂O | insoluble | dissolves (Tollens') | white AgCl, soluble in NH₃ |
 
+```photogrid label="7.P" cols="2" ratio="1.2" caption="A coating that sacrifices itself. (a) Hot-dip galvanising coats steel with zinc; the crystals of solidifying zinc give the surface its spangled look. (b) The cell turns a coating thickness into a mass: a layer 85 micrometres thick, a common value for structural steel, is 607 g of zinc per square metre. Because zinc has the lower electrode potential (-0.76 V against -0.44 V for iron) it is oxidised first even where the coating is scratched. Consuming that zinc as Zn2+ means passing 1.79e+06 coulombs per square metre, which at an assumed corrosion current of 1 mA per square metre lasts about 57 years, one reason galvanised roofing sheets are so widely used in Nepal."
+@ photo id="chem12b/galv" cap="A hot-dip galvanised steel surface with its zinc crystals (spangle)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Zinc coating and its sacrificial life"
+rho = 7.14
+rows = [("%d um" % t, rho * t * 1e-4 * 1e4) for t in (25, 50, 85, 100)]
+assert round(rows[2][1]) == 607
+q = rows[2][1] / 65.38 * 2 * 96485
+yrs = q / 1e-3 / 3.156e7
+f = Fig(300, 236)
+f.text(150, 12, "Zinc per square metre of steel, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=760, fmt="%.0f", x0=56, y0=30, bw=160, gap=30)
+f.text(150, 158, "mass = density x thickness x area (7.14 g/cm3)", size=10, color=SLATE, bold=True)
+f.text(150, 178, "Zn: -0.76 V; Fe: -0.44 V: Zn corrodes first", size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "85 um holds %.2e C of Zn2+ charge" % q, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "at 1 mA per m2 it lasts about %.0f years" % yrs, size=10.5, color=NAVY, bold=True)
+facts = dict(m=rows[2][1], q=q, y=yrs)
+```
+
 ## Chapter summary
 
 - **Copper** comes from copper pyrite, CuFeS₂: froth flotation → roasting →
@@ -1333,3 +1353,38 @@ blister copper is only 98% copper, the mass of blister copper is
 
 $$ m = \frac{147.1}{0.98} = 150.1\ \text{kg} \approx 150\ \text{kg} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the extraction of iron from haematite in the blast furnace with the reactions in each zone, and compare the three forms of iron. <span class="marks">[10]</span>
+
+### Model answer D1: metallurgy of iron in the blast furnace (10 marks)
+
+**Introduction.** Iron is extracted from its oxides: **haematite** (Fe$_2$O$_3$), **magnetite** (Fe$_3$O$_4$) and siderite (FeCO$_3$). The method is the carbon reduction of the oxide in a **blast furnace**, a steel tower about 30 m high lined with fire brick.
+
+**Charge.** The mixture fed from the top (the cup-and-cone arrangement) contains **calcined ore** (roasted to remove moisture, CO$_2$, sulphur and arsenic), **coke** (fuel and reducing agent) and **limestone** (flux), in the approximate ratio 8 : 4 : 1. A hot blast of air at about 900 °C is blown in near the bottom through the tuyeres.
+
+**Reactions in the furnace.**
+
+| Zone | Temperature | Reactions |
+|---|---|---|
+| Combustion (bottom) | 1500–2000 °C | $\text{C} + \text{O}_2 \Rightarrow \text{CO}_2$ (exothermic), then $\text{CO}_2 + \text{C} \Rightarrow 2\text{CO}$ |
+| Fusion | about 1200 °C | $\text{FeO} + \text{C} \Rightarrow \text{Fe} + \text{CO}$; iron melts and slag forms |
+| Slag formation | 1000–1200 °C | $\text{CaCO}_3 \Rightarrow \text{CaO} + \text{CO}_2$; then $\text{CaO} + \text{SiO}_2 \Rightarrow \text{CaSiO}_3$ (slag) |
+| Reduction (middle) | 500–900 °C | $3\text{Fe}_2\text{O}_3 + \text{CO} \Rightarrow 2\text{Fe}_3\text{O}_4 + \text{CO}_2$; $\text{Fe}_3\text{O}_4 + \text{CO} \Rightarrow 3\text{FeO} + \text{CO}_2$; $\text{FeO} + \text{CO} \Rightarrow \text{Fe} + \text{CO}_2$ |
+| Top | 200–500 °C | Drying and preheating of the charge |
+
+Overall, $\text{Fe}_2\text{O}_3 + 3\text{CO} \Rightarrow 2\text{Fe} + 3\text{CO}_2$. The molten iron sinks to the hearth, with the lighter **slag** floating on top to protect it from oxidation. The two are tapped separately; the iron is run into moulds as **pig iron** (about 4% carbon and impurities of S, P, Si and Mn). The waste gas, rich in CO, is used to heat the blast in Cowper stoves.
+
+**Forms of iron.**
+
+| Property | Cast iron | Wrought iron | Steel |
+|---|---|---|---|
+| Carbon content | 2–4.5% | 0.1–0.25% | 0.25–2% |
+| Made by | Remelting pig iron | Puddling process (purest) | Bessemer, open hearth, basic oxygen |
+| Properties | Hard, brittle, cannot be forged | Soft, malleable, ductile | Hard, tough, elastic |
+| Uses | Pipes, stoves, machine beds | Chains, nails, anchors | Rebars, rails, tools, vehicles |
+
+**Rusting and its prevention.** Iron rusts (hydrated Fe$_2$O$_3$) in moist air; it is prevented by painting, galvanising (zinc coating), tin plating, alloying with chromium, or by cathodic protection. In Nepal the corrosion-resistant steel rods used in building are an essential material for earthquake-resistant construction.
+
+**Conclusion.** In the blast furnace carbon monoxide reduces the iron oxide to iron, and limestone removes the silica impurity as a slag.

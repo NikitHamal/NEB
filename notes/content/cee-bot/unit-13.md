@@ -169,6 +169,32 @@ division — arithmetic growth (a constant addition per day) would look linear
 instead of explosive, and seedlings are exponential until reserves or space
 say otherwise.
 :::
+```photogrid label="13.1" cols="2" ratio="1.2" caption="Why a shoot bends to the light. (a) Seedlings leaning towards a light source. (b) In the Cholodny-Went model light drives auxin to the shaded side, here 70 per cent shaded to 30 per cent lit. If elongation is proportional to auxin and the lit side grows 10 per cent in a 20 mm stem, the shaded side grows 23.3 per cent: it lengthens 4.67 mm against 2.00 mm, a difference of 2.67 mm across a 2 mm stem. The curvature angle is the difference divided by the width, 76 degrees. Auxin therefore controls direction, not growth alone, which is also what lets roots bend down in gravity."
+@ photo id="ceebot/phototropism" cap="Seedlings bending towards light"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Unequal growth of the two sides of a stem (model)"
+L, w = 20.0, 2.0
+g_lit = 0.10
+g_sh = g_lit * 70 / 30
+dl, ds = L * g_lit, L * g_sh
+diff = ds - dl
+ang = math.degrees(diff / w)
+assert abs(ds - 4.667) < 0.001 and abs(ang - 76.4) < 0.1
+facts = dict(gs="%.1f" % (g_sh * 100), ds="%.2f" % ds, dl="%.2f" % dl, diff="%.2f" % diff, ang="%.0f" % ang)
+f = Fig(300, 236)
+f.text(150, 12, "Growth of each side of a 20 mm stem (mm)", size=10.5, color=NAVY, bold=True)
+sc = 18
+for i, (lab, d, c, fl, auxin) in enumerate((("lit side", dl, AMBER, SAND, "30% auxin"), ("shaded side", ds, TEAL, MINT, "70% auxin"))):
+    x = 60 + i * 110
+    f.box(x, 170 - 20 * 4.2, 50, 20 * 4.2, fill="#ffffff", stroke=SLATE, r=1, dash=True)
+    f.box(x, 170 - 20 * 4.2 - d * 4.2, 50, d * 4.2, fill=fl, stroke=c, r=1)
+    f.text(x + 25, 170 - 20 * 4.2 - d * 4.2 - 7, "+%.2f mm" % d, size=10.5, color=c, bold=True)
+    f.text(x + 25, 187, lab, size=10.5, color=c, bold=True)
+    f.text(x + 25, 201, auxin, size=10.5, color=SLATE)
+f.text(150, 222, "bend = %.2f / 2 = %.0f degrees" % (diff, ang), size=10.5, color=NAVY, bold=True)
+```
+
 ## 13.2 Seed germination and its types; seed dormancy
 
 **Germination** is the resumption of active growth of the embryo,
@@ -330,6 +356,32 @@ student's first answer.
 
 **Solution.** Germination depends only on the **last** flash: because the final flash is **red (R, 660 nm)**, $P_r$ is converted to active $P_{fr}$ and the seeds **germinate**. In Skoog–Miller callus culture, a **low auxin : high cytokinin** ratio induces **shoot morphogenesis** (caulogenesis).
 :::
+
+```photogrid label="13.2" cols="2" ratio="1.2" caption="Measuring germination. (a) Navy bean seeds at successive stages: the radicle emerges first, then the shoot (epigeal germination, the cotyledons are lifted above the soil). (b) Out of 100 seeds, the cumulative number germinated on days 0 to 8 was 0, 0, 12, 38, 62, 80, 88, 90, 90. The germination percentage is 90 per cent. Interpolating between day 3 (38) and day 4 (62), half of the final germination (T50) is reached at day 3.3, and the mean germination time, the sum of (seeds per day x day) divided by seeds germinated, is 3.9 days. Dormant seeds would give a flat line until a treatment such as gibberellin or scarification is applied."
+@ photo id="ceebot/bean-germ" cap="Bean seed to seedling, days 0 to 8"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cumulative germination of 100 seeds (%)"
+cum = (0, 0, 12, 38, 62, 80, 88, 90, 90)
+new = [cum[i] - (cum[i - 1] if i else 0) for i in range(len(cum))]
+gp = cum[-1]
+t50 = 3 + (gp / 2 - cum[3]) / (cum[4] - cum[3])
+mgt = sum(n * d for d, n in enumerate(new)) / sum(new)
+assert gp == 90 and abs(t50 - 3.29) < 0.01 and abs(mgt - 350 / 90) < 1e-9
+facts = dict(gp=gp, t50="%.1f" % t50, mgt="%.1f" % mgt)
+f = Fig(300, 236)
+f.text(150, 12, "Germinated seeds (%) against day", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 8), (0, 100))
+ax.grid(1, 25).axes("day", "%")
+pts = [(ax.X(d), ax.Y(c)) for d, c in enumerate(cum)]
+f.raw('<polyline points="%s" fill="none" stroke="%s" stroke-width="2.2"/>' % (" ".join("%s,%s" % p for p in pts), TEAL))
+for d, c in enumerate(cum):
+    ax.pt(d, c, r=3, color=TEAL)
+ax.hline(45, 0, t50, color=RED).vline(t50, 0, 45, color=RED)
+ax.pt(t50, 45, "T50 = %.1f d" % t50, dx=10, dy=18, color=RED)
+f.text(150, 206, "final germination %d%%, mean time %.1f days" % (gp, mgt), size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "half of 90 = 45 is reached at day 3.3", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -507,3 +559,74 @@ student's first answer.
 **7.** (c) — The block is physical — water cannot enter — so breaching the coat is the direct cure.
 **8.** (b) — Exogenous GA mimics the embryo signal, standardising amylase output across the batch.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the plant growth regulators (auxin, gibberellin, cytokinin, ethylene and abscisic acid) with their physiological effects. <span class="marks">[10]</span>
+2. Describe seed germination, dormancy, photoperiodism, vernalisation and tropic movements. <span class="marks">[10]</span>
+
+```photogrid label="13.H" cols="2" ratio="1.4" caption="Growth and response. (a) A bean seed germinating: the radicle emerges first and the cotyledons supply food. (b) Phototropism: the shoot bends towards the light because auxin collects on the shaded side and makes those cells grow longer."
+@ photo id="ceebot/bean-germ" cap="(a) Seed germination"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/phototropism" cap="(b) Phototropism"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: plant growth regulators (10 marks)
+
+**Introduction.** **Plant growth regulators (phytohormones)** are organic substances, made in one part and active in very low concentration, that control growth and development. Growth has **cell division**, **elongation** and **maturation** phases.
+
+| Hormone | Discovery | Main effects | Practical use |
+|---|---|---|---|
+| **Auxin** (IAA) | Darwin, Went (*Avena* curvature test) | cell elongation, apical dominance, phototropism, root initiation, parthenocarpy | rooting powder, weedkiller 2,4-D, tomato fruit set |
+| **Gibberellin** (GA₃) | Kurosawa (*bakanae* disease of rice) | stem elongation, breaks dormancy, bolting, fruit size | big seedless grapes, malting of barley |
+| **Cytokinin** (kinetin, zeatin) | Skoog and Miller | cell division, delays senescence, breaks apical dominance, shoot formation | tissue culture, keeping leaves green |
+| **Ethylene** (gas) | Neljubow | fruit ripening, leaf and fruit abscission, senescence, triple response | ripening of banana, mango (ethephon) |
+| **Abscisic acid (ABA)** | Addicott | closes stomata, induces dormancy, seed maturation, stress hormone | reduces water loss |
+
+**Points.**
+
+1. **Apical dominance:** auxin from the apical bud inhibits the lateral buds. Removal of the tip (pruning, in tea bushes) allows branching. Cytokinin opposes it.
+2. **Ratio in tissue culture:** a high auxin to cytokinin ratio gives roots, a low ratio gives shoots, and an equal ratio gives callus.
+3. **Antagonism:** gibberellin and ABA act in opposite ways on seed dormancy ($\text{GA}$ promotes and $\text{ABA}$ inhibits germination).
+4. **Senescence and abscission** are controlled by ethylene and ABA, while **florigen** is the flowering signal.
+5. Synthetic regulators: NAA, 2,4-D (kills dicot weeds in cereals) and ethephon.
+
+**Numerical.** In an *Avena* curvature test, a coleoptile bends $12^{\circ}$ with a $1\ \text{mg L}^{-1}$ auxin block and $24^{\circ}$ with a $2\ \text{mg L}^{-1}$ block, so the curvature is proportional to concentration over this range. A growth of a stem from $4$ to $10\ \text{cm}$ in $5$ days means an absolute rate of $1.2\ \text{cm day}^{-1}$.
+
+**Conclusion.** Each hormone has several effects, and growth is a result of their balance and interaction.
+
+### Model answer D2: germination, dormancy, photoperiodism and tropism (10 marks)
+
+**Introduction.** A seed is a ripened ovule with an embryo and stored food. Under suitable conditions, it **germinates**.
+
+**Conditions for germination.** Adequate **water**, **oxygen**, suitable **temperature** and, in some seeds, light. **Viable** seeds have a living embryo (tested by tetrazolium chloride, which turns living tissue red).
+
+**Stages and types.**
+
+1. **Imbibition**, activation of enzymes (amylase and protease) and mobilisation of food.
+2. **Radicle** emergence, then the plumule.
+3. **Epigeal germination:** the cotyledons are brought above the soil by the elongation of the **hypocotyl** (bean, castor, cucumber).
+4. **Hypogeal germination:** the cotyledons stay below ground because the **epicotyl** elongates (pea, maize, gram).
+
+**Dormancy.** A resting period of a viable seed. Causes: a hard seed coat (**scarification** with acid or abrasion), immature embryo, **inhibitors** (ABA), and the need for **stratification** (cold). Importance: it protects seeds from bad seasons and allows dispersal.
+
+**Photoperiodism.** The response to the length of the day, controlled by the pigment **phytochrome** ($\text{P}_r \rightleftharpoons \text{P}_{fr}$). Garner and Allard worked on tobacco.
+
+| Type | Condition | Examples |
+|---|---|---|
+| Short-day plants (SDP) | flower when the night is longer than a critical length | rice, soybean, chrysanthemum |
+| Long-day plants (LDP) | flower when the night is shorter | wheat, spinach, radish |
+| Day-neutral | not affected | tomato, cotton, maize |
+
+In fact it is the length of the **dark period** that is important, and a flash of red light in the night breaks the dark period.
+
+**Vernalisation.** Cold treatment of seeds or seedlings to induce flowering (winter wheat, Lysenko), a method used to get a crop in a different season.
+
+**Tropisms** are growth movements in response to a directional stimulus: **phototropism** (shoot positive, root negative), **geotropism** (root positive), **hydrotropism** (roots to water), **chemotropism** (pollen tube) and **thigmotropism** (tendrils). **Nastic movements** are not directional (the touch-me-not *Mimosa pudica*, the opening of flowers).
+
+**Numerical.** If $45$ out of $50$ seeds germinate, the germination percentage is $90\%$. For a seed lot with $90\%$ germination and $98\%$ purity, the pure live seed is $0.9\times0.98 = 88\%$, so to get $1000$ live seedlings, about $1136$ seeds are needed.
+
+**Conclusion.** Germination needs water, oxygen and warmth, and light-dependent processes such as flowering are controlled by phytochrome.

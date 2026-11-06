@@ -1321,6 +1321,29 @@ $f''$ changes sign at both $x = 0$ and $x = 2$, so there are **two points of
 inflection**: $(0, 10)$ and $(2, -6)$, since $f(2) = 16 - 32 + 10 = -6$.
 :::
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="A speedometer shows the derivative of distance with respect to time, the limit of average speed over shorter and shorter intervals. (a) A scooter speedometer. (b) For s(t) = t^3/2 - 3t^2 + 8t, the average speed from t = 4 to t = 6 is 16.0 m/s, over one second it is 11.50 m/s and over 0.1 s it is 8.305 m/s. These slopes of secants approach the slope of the red tangent, v(4) = s'(4) = 8 m/s, which equals 28.8 km/h. The derivative formula is exactly the shortcut that avoids repeating this limit for each value of t."
+@ photo id="math12/speedo" cap="A scooter speedometer, the meter that reads a derivative"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="From average speed to speed at an instant"
+s = lambda t: 0.5 * t ** 3 - 3 * t ** 2 + 8 * t
+v = lambda t: 1.5 * t ** 2 - 6 * t + 8
+sec = lambda h: (s(4 + h) - s(4)) / h
+assert s(4) == 16 and v(4) == 8 and abs(sec(1e-6) - 8) < 1e-4
+f = Fig(300, 236)
+f.text(150, 14, "s(t) = t^3/2 - 3t^2 + 8t  (metres)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 8), (0, 140))
+ax.grid(2, 20, size=9)
+ax.axes("t", "s")
+ax.curve(s, 0, 8, color=NAVY, sw=2.4)
+ax.curve(lambda t: 16 + 8 * (t - 4), 1.5, 6.5, color=RED, sw=1.8)
+ax.pt(4, 16, "", color=RED)
+f.text(ax.X(0.4), ax.Y(68), "tangent: slope 8 at t = 4", size=10, color=RED, bold=True, anchor="start")
+f.text(150, 208, "average over 4 to 6 s: %.1f m/s" % sec(2), size=10.5, color=SLATE, bold=True)
+f.text(150, 224, "h = 1: %.2f   h = 0.1: %.3f   limit: v(4) = %d m/s" % (sec(1), sec(0.1), v(4)), size=9.5, color=NAVY, bold=True)
+facts = dict(s2=sec(2), s1=sec(1), s01=sec(0.1), v4=v(4), kmh=v(4) * 3.6)
+```
+
 ## Chapter summary
 
 - The standard derivatives, the product, quotient and chain rules, and the
@@ -1676,3 +1699,112 @@ At $x = 2$, $f''(2) = 6 > 0$, so a local **minimum** of
 
 $$ f(2) = 16 - 36 + 24 + 5 = 9 $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State L'Hospital's rule and use it to evaluate limits of the forms $0/0$, $\infty/\infty$ and $0\cdot\infty$. Give the derivatives of the hyperbolic functions. <span class="marks">[10]</span>
+2. Find the equations of the tangent and normal to a curve, and explain the derivative as a rate of change with worked examples. <span class="marks">[10]</span>
+3. Explain the tests for maxima and minima and points of inflection, and solve an optimisation problem. <span class="marks">[10]</span>
+
+### Model answer D1: L'Hospital's rule and hyperbolic functions (10 marks)
+
+**Introduction.** Some limits give the meaningless forms $\dfrac00$ or $\dfrac\infty\infty$ when we substitute directly. L'Hospital's rule resolves them with derivatives.
+
+**Statement.** If $f(x)$ and $g(x)$ are differentiable and $\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}$ has the form $\dfrac00$ or $\dfrac\infty\infty$, then
+
+$$ \lim_{x\to a}\frac{f(x)}{g(x)}=\lim_{x\to a}\frac{f'(x)}{g'(x)} $$
+
+provided the right-hand limit exists. The rule may be **repeated** if the new limit is again indeterminate. Note: differentiate the numerator and the denominator **separately**, not as a quotient.
+
+**Other forms.**
+
+1. **$0\cdot\infty$:** rewrite $f\cdot g$ as $\dfrac{f}{1/g}$.
+2. **$\infty-\infty$:** combine into a single fraction.
+3. **$1^{\infty},0^{0},\infty^{0}$:** take the logarithm, $\ln y=g\ln f$, and evaluate the limit of $\ln y$.
+
+**Worked examples.**
+
+1. $\displaystyle\lim_{x\to0}\frac{\sin x}{x}=\lim\frac{\cos x}{1}=1$.
+2. $\displaystyle\lim_{x\to0}\frac{e^{x}-1-x}{x^{2}}$ is $\dfrac00$; once: $\dfrac{e^{x}-1}{2x}$ is $\dfrac00$; twice: $\dfrac{e^{x}}{2}\to\dfrac12$.
+3. $\displaystyle\lim_{x\to\infty}\frac{\ln x}{x}=\lim\frac{1/x}{1}=0$ (the $\dfrac\infty\infty$ form).
+4. $\displaystyle\lim_{x\to0^{+}}x\ln x=\lim\frac{\ln x}{1/x}=\lim\frac{1/x}{-1/x^{2}}=\lim(-x)=0$.
+5. $\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^{2}}=\lim\frac{\sin x}{2x}=\frac12$.
+
+**Hyperbolic functions.** $\sinh x=\dfrac{e^{x}-e^{-x}}{2}$, $\cosh x=\dfrac{e^{x}+e^{-x}}{2}$, $\tanh x=\dfrac{\sinh x}{\cosh x}$, with $\cosh^{2}x-\sinh^{2}x=1$.
+
+| Function | Derivative |
+|---|---|
+| $\sinh x$ | $\cosh x$ |
+| $\cosh x$ | $\sinh x$ |
+| $\tanh x$ | $\text{sech}^{2}x$ |
+| $\sinh^{-1}x$ | $\dfrac{1}{\sqrt{x^{2}+1}}$ |
+| $\cosh^{-1}x$ ($x>1$) | $\dfrac{1}{\sqrt{x^{2}-1}}$ |
+| $\tanh^{-1}x$ ($|x|<1$) | $\dfrac{1}{1-x^{2}}$ |
+
+*Proof for $\sinh x$:* $\dfrac{d}{dx}\dfrac{e^{x}-e^{-x}}2=\dfrac{e^{x}+e^{-x}}2=\cosh x$. A hanging cable such as a bridge cable or power line takes the shape of $y=a\cosh(x/a)$ (a catenary).
+
+**Conclusion.** L'Hospital's rule replaces an indeterminate quotient by the quotient of derivatives, and other indeterminate forms are first converted into that form.
+
+### Model answer D2: tangent, normal and rates of change (10 marks)
+
+**Introduction.** The derivative $\dfrac{dy}{dx}$ is the slope of the tangent to the curve $y=f(x)$, and also the rate at which $y$ changes with $x$.
+
+**Tangent and normal.** At a point $(x_1,y_1)$ of the curve with slope $m=\left.\dfrac{dy}{dx}\right|_{(x_1,y_1)}$:
+
+- **Tangent:** $y-y_1=m(x-x_1)$.
+- **Normal** (perpendicular to the tangent, slope $-\dfrac1m$): $y-y_1=-\dfrac1m(x-x_1)$.
+- The tangent is horizontal if $m=0$, and vertical if $m\to\infty$ (the normal is then horizontal).
+
+*Example.* For $y=x^{2}-4x+5$ at $x=3$: $y=9-12+5=2$ and $\dfrac{dy}{dx}=2x-4=2$. The tangent is $y-2=2(x-3)$, i.e. $y=2x-4$; the normal is $y-2=-\tfrac12(x-3)$, i.e. $x+2y=7$.
+
+**Derivative as a rate of change.** If a quantity $y$ depends on $x$, and both depend on time $t$, the chain rule gives $\dfrac{dy}{dt}=\dfrac{dy}{dx}\cdot\dfrac{dx}{dt}$ (related rates).
+
+**Method.** (1) Draw a figure and define the variables; (2) write the relation; (3) differentiate with respect to $t$; (4) substitute the instant values.
+
+**Worked examples.**
+
+1. **Balloon.** A spherical balloon's radius grows at $2\ \text{cm s}^{-1}$. Volume $V=\tfrac43\pi r^{3}$, so $\dfrac{dV}{dt}=4\pi r^{2}\dfrac{dr}{dt}$. At $r=10\ \text{cm}$: $4\pi(100)(2)=800\pi=2513\ \text{cm}^{3}\text{s}^{-1}$. The surface area $S=4\pi r^{2}$ grows at $8\pi r\dfrac{dr}{dt}=160\pi=503\ \text{cm}^{2}\text{s}^{-1}$.
+2. **Ladder.** A $10\ \text{m}$ ladder leans against a wall, and its foot slides away at $2\ \text{m s}^{-1}$. With $x^{2}+y^{2}=100$, $x\dfrac{dx}{dt}+y\dfrac{dy}{dt}=0$. When $x=6$, $y=8$, and $\dfrac{dy}{dt}=-\dfrac{6}{8}\times2=-1.5\ \text{m s}^{-1}$: the top slides down at $1.5\ \text{m s}^{-1}$.
+3. **Motion.** If $s=t^{3}-6t^{2}+9t$, the velocity is $v=3t^{2}-12t+9$ and the acceleration $a=6t-12$; the body is at rest at $t=1$ and $t=3\ \text{s}$.
+
+**Differentials.** $dy=f'(x)\,dx$ gives approximations: $\sqrt{26}\approx5+\dfrac{1}{2\times5}=5.1$.
+
+**Conclusion.** The derivative gives the tangent slope and the instantaneous rate, and related rates link changing quantities through the chain rule.
+
+### Model answer D3: maxima, minima and points of inflection (10 marks)
+
+**Introduction.** To find the greatest profit, the least cost or the largest area, we find the maximum or minimum of a function with calculus.
+
+**Increasing and decreasing.** $f$ increases where $f'(x)>0$ and decreases where $f'(x)<0$.
+
+**Critical points.** A point where $f'(x)=0$ (or does not exist).
+
+**First derivative test.** If $f'$ changes from positive to negative at $c$, $f$ has a **local maximum**; from negative to positive, a **local minimum**; no change of sign gives neither.
+
+**Second derivative test.** At a critical point $c$ with $f'(c)=0$:
+
+- $f''(c)<0$: **maximum** (concave down);
+- $f''(c)>0$: **minimum** (concave up);
+- $f''(c)=0$: the test fails, use the first derivative test.
+
+**Concavity and inflection.** The curve is concave up where $f''>0$ and concave down where $f''<0$. A **point of inflection** is where the concavity changes, with $f''(x)=0$ and a change of sign.
+
+| Test | Maximum | Minimum |
+|---|---|---|
+| $f'$ sign change | $+\to-$ | $-\to+$ |
+| $f''$ | $<0$ | $>0$ |
+| Shape | $\cap$ | $\cup$ |
+
+**Worked example 1.** $f(x)=2x^{3}-9x^{2}+12x+5$. $f'(x)=6x^{2}-18x+12=6(x-1)(x-2)$, so $x=1,2$. $f''(x)=12x-18$.
+
+- $f''(1)=-6<0$: **maximum**, $f(1)=10$.
+- $f''(2)=6>0$: **minimum**, $f(2)=9$.
+- $f''=0$ at $x=1.5$ with a change of sign, so $(1.5,\,9.5)$ is a **point of inflection**.
+
+**Worked example 2 (box).** An open box is made from a $24\ \text{cm}\times24\ \text{cm}$ sheet by cutting a square of side $x$ from each corner. $V=x(24-2x)^{2}$, so $V'=(24-2x)^{2}-4x(24-2x)=(24-2x)(24-6x)$, which is zero at $x=4$ ($x=12$ gives $V=0$). $V''=24x-192=-96<0$ at $x=4$, so $V$ is a maximum: $V=4\times16^{2}=1024\ \text{cm}^{3}$.
+
+**Worked example 3 (fence).** A farmer has $80\ \text{m}$ of fence to enclose a rectangle against a straight wall (three sides). With width $x$, area $A=x(80-2x)$, $A'=80-4x=0$ gives $x=20$, length $40$, and $A_{max}=800\ \text{m}^{2}$.
+
+**Method for optimisation.** (1) Form a function of one variable; (2) find the critical points; (3) test them; (4) check the end points of the domain.
+
+**Conclusion.** The critical points of $f$ are found from $f'=0$ and classified by the sign of $f''$, and the same method solves practical optimisation problems.

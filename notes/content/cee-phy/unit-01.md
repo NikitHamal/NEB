@@ -535,6 +535,56 @@ Only T = 2π√(l/g) can be correct — and you never needed the derivation. Not
 2.4 × 1.35 = 3.24 on a calculator, but the answer may carry only **two** significant figures (that of 2.4): **3.2**. The rule: multiplication/division follows the **fewest significant figures**; addition/subtraction follows the **fewest decimal places**. Examiners place 3.24 and 3.2 side by side precisely to catch this.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Area under a speed-time graph is distance. (a) A speedometer shows instantaneous speed, here up to 220 km/h; 100 km/h equals 27.78 m/s because you divide by 3.6. (b) A car that speeds up uniformly from rest to 100 km/h in 8.0 s has a = 3.47 m/s^2, only 0.35 g, and covers s = 1/2 a t^2 = 111.1 m. Braking at 6.0 m/s^2 takes 4.63 s and 64.3 m (v^2 = 2as). The triangle of base 12.63 s and height 27.78 m/s has area 175.4 m, the total distance, which is exactly the sum of the two pieces."
+@ photo id="ceephy/speedo" cap="A car speedometer reads the magnitude of the instantaneous velocity, v = ds/dt"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Speed-time graph: 0 to 100 km/h, then braking"
+v0 = 100 / 3.6; ta = 8.0; a = v0 / ta; sa = 0.5 * a * ta ** 2
+ab = 6.0; tb = v0 / ab; sb = v0 ** 2 / (2 * ab); T = ta + tb; tot = sa + sb
+assert abs(tot - 0.5 * v0 * T) < 1e-9 and abs(a / 9.8 - 0.3545) < 1e-3
+facts = dict(v0="%.2f" % v0, a="%.2f" % a, ag="%.2f" % (a / 9.8), sa="%.1f" % sa, tb="%.2f" % tb, sb="%.1f" % sb, T="%.2f" % T, tot="%.1f" % tot)
+f = Fig(300, 236)
+f.text(150, 14, "v-t graph of one start and one stop", size=10.5, color=NAVY, bold=True)
+X = lambda t: 40 + t * 18; Y = lambda v: 150 - v * 3.6
+f.poly([(X(0), Y(0)), (X(ta), Y(v0)), (X(T), Y(0))], fill=BLUE, stroke=NAVY, sw=2.4)
+f.line(X(0), Y(0), 285, Y(0), color=SLATE, sw=1.4); f.line(X(0), Y(0), X(0), 34, color=SOFT, sw=1.2)
+f.line(X(ta), Y(v0), X(ta), Y(0), color=AMBER, sw=1.2, dash=True)
+for t in (0, 4, 8, 12): f.text(X(t), Y(0) + 13, "%d" % t, size=10.5, color=SLATE)
+f.text(X(ta), Y(v0) - 8, "%.2f m/s" % v0, size=10.5, color=AMBER, bold=True)
+f.text(X(4.6), Y(0) - 14, "area %.1f m" % sa, size=10.5, color=NAVY, bold=True)
+f.text(X(10.3), Y(0) - 12, "%.1f m" % sb, size=10.5, color=NAVY, bold=True)
+f.text(150, 184, "slope up = %.2f m/s^2 (%.2f g)" % (a, a / 9.8), size=10.5, color=NAVY, bold=True)
+f.text(150, 202, "total distance %.1f m in %.2f s" % (tot, T), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "t in seconds; braking 6.0 m/s^2", size=10.5, color=SLATE)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="Projectile motion in one picture. (a) A stroboscopic photograph of a bouncing ball: the images are taken at equal time intervals, so the equal horizontal spacing shows a constant horizontal velocity, while the vertical spacing shows gravity slowing the ball on the way up and speeding it on the way down; each arc is a parabola. (b) A projectile launched at u = 20 m/s with g = 9.8 m/s2 has range R = u^2 sin 2 theta / g. The range is greatest at 45 degrees (40.8 m), two angles that add to 90 degrees give the same range (30 and 60 degrees both give 35.3 m, and 15 and 75 degrees both give 20.4 m), and at 45 degrees the maximum height is u^2 sin^2 theta / 2g = 10.2 m with a flight time of 2.89 s. These are for air-free flight from and to the same level."
+@ photo id="ceephy2/strobe" cap="A stroboscopic photograph of a bouncing ball"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Range against launch angle at 20 m/s"
+import math
+u, g = 20.0, 9.8
+R = lambda th: u * u * math.sin(math.radians(2 * th)) / g
+assert round(R(45), 1) == 40.8 and abs(R(30) - R(60)) < 1e-9 and abs(R(15) - R(75)) < 1e-9
+assert round(R(30), 1) == 35.3 and round(R(15), 1) == 20.4 and round(R(75), 1) == 20.4
+H = (u * math.sin(math.radians(45))) ** 2 / (2 * g)
+T = 2 * u * math.sin(math.radians(45)) / g
+assert round(H, 1) == 10.2 and round(T, 2) == 2.89
+f = Fig(300, 236)
+f.text(150, 12, "Range R(theta), u = 20 m/s", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 90), (0, 45))
+ax.grid(15, 10).axes("deg", "m")
+ax.curve(R, 0, 90, color=RED)
+ax.pt(45, R(45), "45 deg: 40.8 m", dx=-6, dy=-8, anchor="end")
+ax.pt(30, R(30), "", r=3.6, color=TEAL)
+ax.pt(60, R(60), "", r=3.6, color=TEAL)
+ax.hline(R(30), 30, 60, color=TEAL)
+f.text(150, 206, "30 and 60 deg both give 35.3 m (sum 90)", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "at 45 deg: height 10.2 m, flight 2.89 s", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -727,3 +777,67 @@ Only T = 2π√(l/g) can be correct — and you never needed the derivation. Not
 **9.** (b) — $T = kl^xg^y$: $[T] = [L]^x[LT^{-2}]^y$ gives $x + y = 0$ and $-2y = 1$, so $y = -\frac{1}{2}$, $x = \frac{1}{2}$: $T \propto \sqrt{l/g}$.
 **10.** (d) — $\sin2\theta = Rg/u^2 = 200/400 = 0.5$, so $2\theta = 30^{\circ}$ or $150^{\circ}$: $\theta = 15^{\circ}$ or $75^{\circ}$ (complementary, as expected).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the time of flight, maximum height and range of a projectile and solve a numerical. <span class="marks">[10]</span>
+2. Explain dimensional analysis, its uses and limitations, and combine errors in a measurement. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.25" caption="Instruments and motion behind the answers. (a) A vernier calliper reads lengths to 0.1 mm. (b) A micrometer screw gauge reads to 0.01 mm. (c) A speedometer shows instantaneous speed, a scalar, while velocity needs a direction."
+@ photo id="phy11/vernier" cap="(a) Vernier calliper"
+fit 1.25
+focus 0.5 0.5
+@ photo id="phy11/micrometer" cap="(b) Micrometer"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/speedo" cap="(c) Speedometer"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: projectile motion (10 marks)
+
+**Introduction.** A **projectile** is a body thrown into the air that then moves under gravity alone. Air resistance is ignored. Its path is a **parabola** because the horizontal motion is uniform and the vertical motion is uniformly accelerated.
+
+**Derivation.** Let the speed of projection be $u$ at an angle $\theta$ above the horizontal. The components are $u_x = u\cos\theta$ and $u_y = u\sin\theta$.
+
+1. **Time of flight.** The body returns to ground level when $y = 0$: $0 = (u\sin\theta)T - \tfrac12 gT^2$, so $T = \dfrac{2u\sin\theta}{g}$.
+2. **Maximum height.** At the top $v_y = 0$, so $0 = u^2\sin^2\theta - 2gH$ and $H = \dfrac{u^2\sin^2\theta}{2g}$.
+3. **Range.** The horizontal distance is $R = u_xT = u\cos\theta\cdot\dfrac{2u\sin\theta}{g} = \dfrac{u^2\sin2\theta}{g}$.
+4. **Equation of path.** Eliminating $t$ from $x = u\cos\theta\,t$ and $y = u\sin\theta\,t - \tfrac12gt^2$ gives $y = x\tan\theta - \dfrac{gx^2}{2u^2\cos^2\theta}$, a parabola.
+5. **Maximum range.** $R$ is greatest when $\sin2\theta = 1$, that is $\theta = 45^{\circ}$, and then $R_{max} = u^2/g$. Angles $\theta$ and $90^{\circ}-\theta$ give the same range, and $H = R\tan\theta/4$.
+
+| Quantity | Formula | Depends on |
+|---|---|---|
+| Time of flight $T$ | $2u\sin\theta/g$ | $u$, $\theta$, $g$ |
+| Maximum height $H$ | $u^2\sin^2\theta/2g$ | $u$, $\theta$, $g$ |
+| Range $R$ | $u^2\sin2\theta/g$ | $u$, $\theta$, $g$ |
+| Speed at top | $u\cos\theta$ | $u$, $\theta$ only |
+
+**Numerical.** A ball is thrown at $50\ \text{m s}^{-1}$ at $37^{\circ}$ ($\sin37^{\circ} = 0.6$, $\cos37^{\circ} = 0.8$, $g = 10\ \text{m s}^{-2}$). Then $T = 2(50)(0.6)/10 = 6\ \text{s}$, $H = (30)^2/20 = 45\ \text{m}$ and $R = 40 \times 6 = 240\ \text{m}$. The speed at the top is $40\ \text{m s}^{-1}$, purely horizontal.
+
+**Conclusion.** The two components are independent. Time and height depend on $u\sin\theta$, range on $u^2\sin 2\theta$, and the maximum range is at $45^{\circ}$.
+
+### Model answer D2: dimensional analysis and combination of errors (10 marks)
+
+**Introduction.** The **dimensions** of a quantity show how it depends on the base quantities mass $[M]$, length $[L]$ and time $[T]$. **Dimensional analysis** uses the rule that every term in a physical equation must have the same dimensions (the principle of homogeneity).
+
+**Uses.**
+
+1. **Checking an equation.** For $s = ut + \tfrac12at^2$, each term has dimension $[L]$, so the equation is dimensionally correct.
+2. **Converting units.** $n_2 = n_1\left[\dfrac{M_1}{M_2}\right]^a\left[\dfrac{L_1}{L_2}\right]^b\left[\dfrac{T_1}{T_2}\right]^c$. For example $1\ \text{N} = 10^5$ dyne.
+3. **Deriving a relation.** For a pendulum, assume $T = k\,l^xm^yg^z$. Matching $[T]$ gives $y = 0$, $x = \tfrac12$, $z = -\tfrac12$, so $T = k\sqrt{l/g}$ (with $k = 2\pi$ found by experiment).
+
+**Limitations.** It cannot find dimensionless constants such as $\tfrac12$ or $2\pi$. It fails for relations containing sums of terms, trigonometric, logarithmic or exponential functions, and it cannot decide whether a quantity is a scalar or a vector. A dimensionally correct equation need not be physically correct.
+
+**Combination of errors.**
+
+| Operation | Rule |
+|---|---|
+| $Z = A + B$ or $A - B$ | $\Delta Z = \Delta A + \Delta B$ (absolute errors add) |
+| $Z = AB$ or $A/B$ | $\dfrac{\Delta Z}{Z} = \dfrac{\Delta A}{A} + \dfrac{\Delta B}{B}$ |
+| $Z = A^nB^m$ | $\dfrac{\Delta Z}{Z} = n\dfrac{\Delta A}{A} + m\dfrac{\Delta B}{B}$ |
+
+**Numerical.** In a pendulum experiment $l = 100.0 \pm 0.1\ \text{cm}$ and $T = 2.00 \pm 0.02\ \text{s}$. From $g = 4\pi^2l/T^2$, $\dfrac{\Delta g}{g} = \dfrac{0.1}{100} + 2\left(\dfrac{0.02}{2.00}\right) = 0.001 + 0.020 = 0.021$, which is $2.1\%$. Also $g = 4\pi^2(1.000)/4.00 = 9.87\ \text{m s}^{-2}$, so $\Delta g = 0.21\ \text{m s}^{-2}$ and $g = 9.87 \pm 0.21\ \text{m s}^{-2}$.
+
+**Conclusion.** Dimensional analysis checks and guides an equation but never proves it. In experiments the quantity with the highest power or the biggest percentage error (here $T$) controls the final accuracy.

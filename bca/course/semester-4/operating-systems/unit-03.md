@@ -546,6 +546,134 @@ When a process arrives at the same instant another's quantum expires, convention
 Three periodic tasks (run time C, period T): (1, 4), (2, 6), (1, 8). Utilisation = 1/4 + 2/6 + 1/8 = 0.25 + 0.333 + 0.125 = **0.708**. The RMS bound for n = 3 is 3(2^(1/3) − 1) = **0.7798**, and 0.708 ≤ 0.7798, so RMS guarantees all deadlines; EDF would as well since 0.708 ≤ 1.
 :::
 
+## 3.5 Seeing the ideas: states, races, semaphores and schedules
+
+Process management is the heart of an operating system and the most examined unit. The plate links three everyday pictures to the three big ideas of the unit: a ticket queue is a ready queue, five diners and five forks are a synchronisation puzzle, and Edsger Dijkstra gave us the semaphore. The figures then draw the process states, a race condition, a semaphore-protected buffer, the thread models and four schedules whose averages are computed from a single data set.
+
+```photogrid label="3.1" cols="3" ratio="1.1" caption="Three pictures for three ideas. (a) A queue at a ticket window is the ready queue: the process at the front gets the CPU next, and the scheduling algorithm decides who stands at the front. (b) The dining philosophers: five philosophers share five forks, and each needs two. If all pick up their left fork together, nobody can eat, which is a deadlock. (c) Edsger Dijkstra, who invented the semaphore (P and V operations) and posed the dining philosophers problem in 1965."
+@ photo id="bca201/queue" cap="Ticket queue = ready queue"
+fit 1.1
+focus 0.5 0.5
+call 0.3 0.5 0.04 0.9 "front = next to run"
+@ photo id="bca251/philosophers" cap="Dining philosophers"
+fit 1.1
+focus 0.5 0.5
+call 0.5 0.5 0.04 0.9 "5 forks, 5 diners"
+@ photo id="bca201/dijkstra" cap="Edsger W. Dijkstra"
+fit 1.1
+focus 0.5 0.3
+call 0.5 0.5 0.04 0.9 "inventor of P and V"
+```
+
+```svgfig label="3.1" caption="The five-state process model. A new process is admitted to the ready queue. The dispatcher moves one ready process to running. A running process returns to ready when its time slice ends (timer interrupt), moves to waiting when it requests I/O or an event, and to terminated when it finishes. When the I/O completes, the process moves from waiting back to ready, never directly to running."
+f = Fig(580, 230)
+f.circle(60, 100, 36, fill=SOFT, stroke=SLATE, label="New", size=10.5)
+f.circle(200, 100, 38, fill=SAND, stroke=AMBER, label="Ready", size=10.5)
+f.circle(380, 100, 38, fill=MINT, stroke=TEAL, label="Running", size=10.5)
+f.circle(520, 100, 38, fill=ROSE, stroke=RED, label="Done", size=10.5)
+f.circle(290, 200, 30, fill=BLUE, stroke=NAVY, label="Waiting", size=10)
+f.arrow([(96, 100), (162, 100)], color=SLATE, sw=1.6, label="admit", lpos=(129, 90))
+f.arrow([(238, 88), (342, 88)], color=TEAL, sw=1.6, label="dispatch", lpos=(290, 78))
+f.arrow([(342, 112), (238, 112)], color=AMBER, sw=1.6, label="timeout", lpos=(290, 126))
+f.arrow([(418, 100), (482, 100)], color=RED, sw=1.6, label="exit", lpos=(450, 90))
+f.arrow([(360, 134), (310, 176)], color=NAVY, sw=1.6, label="I/O request", lpos=(372, 168))
+f.arrow([(268, 178), (218, 134)], color=NAVY, sw=1.6, label="I/O done", lpos=(206, 168))
+f.text(290, 18, "only the dispatcher can move a process from Ready to Running", size=10, color=AMBER, bold=True)
+```
+
+```svgfig label="3.2" caption="A race condition on a shared counter. Two threads share count = 5. Thread 1 executes count++ and Thread 2 executes count--, so the correct final value is 5. Each statement is really three machine steps (load, change, store). In the interleaving shown, both threads load 5, Thread 1 stores 6 and then Thread 2 stores 4, so the update of Thread 1 is lost and the result is 4. Run in a different order the result could be 5 or 6, which is why the outcome cannot be trusted."
+f = Fig(580, 250)
+f.text(120, 14, "Thread 1: count++", size=10.5, color=NAVY, bold=True)
+f.text(290, 14, "Thread 2: count--", size=10.5, color=RED, bold=True)
+f.text(480, 14, "shared count", size=10.5, color=SLATE, bold=True)
+rows = [("1  r1 = count (5)", "", "5"), ("", "2  r2 = count (5)", "5"), ("3  r1 = r1 + 1 (6)", "", "5"), ("", "4  r2 = r2 - 1 (4)", "5"), ("5  count = r1", "", "6"), ("", "6  count = r2", "4")]
+for i, (a, b, c) in enumerate(rows):
+    y = 28 + i * 30
+    f.box(10, y, 220, 26, a, fill=BLUE if a else SOFT, stroke=NAVY if a else "#cbd5e1", size=10, bold=bool(a))
+    f.box(235, y, 215, 26, b, fill=ROSE if b else SOFT, stroke=RED if b else "#cbd5e1", size=10, bold=bool(b))
+    f.box(480, y, 60, 26, c, fill=SAND, stroke=AMBER, size=11, bold=True)
+f.text(290, 224, "expected 5, got 4: the update of Thread 1 was lost", size=11, color=RED, bold=True)
+f.text(290, 242, "fix: protect count++ and count-- with a mutex (critical section)", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="3.3" caption="A bounded buffer of N = 5 slots protected by three semaphores. empty counts free slots (starts at 5), full counts filled slots (starts at 0) and mutex (starts at 1) allows one process into the buffer at a time. The producer does wait(empty), wait(mutex), insert, signal(mutex), signal(full). The consumer does wait(full), wait(mutex), remove, signal(mutex), signal(empty). The snapshot shows three items inserted: empty = 2, full = 3, mutex = 1. If the buffer is full the producer sleeps on empty, and if it is empty the consumer sleeps on full."
+f = Fig(580, 230)
+f.box(10, 20, 100, 60, "Producer\nwait(empty)\nwait(mutex)", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+for i in range(5):
+    f.box(150 + i * 54, 30, 50, 40, "item" if i < 3 else "", fill=BLUE if i < 3 else SOFT, stroke=NAVY, size=10, bold=True, r=0, dash=(i >= 3))
+f.box(470, 20, 100, 60, "Consumer\nwait(full)\nwait(mutex)", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.arrow([(110, 50), (148, 50)], color=AMBER, sw=1.8)
+f.arrow([(422, 50), (468, 50)], color=TEAL, sw=1.8)
+f.text(285, 14, "buffer, N = 5", size=10.5, color=NAVY, bold=True)
+f.box(40, 110, 150, 40, "empty = 2\n(free slots)", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.box(215, 110, 150, 40, "full = 3\n(filled slots)", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.box(390, 110, 150, 40, "mutex = 1\n(buffer unlocked)", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.text(290, 178, "empty + full = 5 = N always", size=10.5, color=AMBER, bold=True)
+f.text(290, 200, "swapping the two wait calls in the producer can deadlock the system", size=10, color=RED, bold=True)
+f.text(290, 220, "(never wait(mutex) before wait(empty))", size=10, color=RED, bold=True)
+```
+
+```svgfig label="3.4" caption="Four schedules for the same four processes: P1 (arrival 0, burst 8), P2 (1, 4), P3 (2, 9) and P4 (3, 5). The Gantt charts are drawn to scale. FCFS gives average waiting time 8.75 and turnaround 15.25. Non-preemptive SJF gives 7.75 and 14.25. SRTF, the preemptive form, gives the best values, 6.50 and 13.00. Round robin with quantum 3 gives 13.50 and 20.00 but responds to every process within 9 time units and needs 9 context switches. Waiting time = turnaround time - burst time."
+cols = {"P1": BLUE, "P2": MINT, "P3": SAND, "P4": ROSE}
+edge = {"P1": NAVY, "P2": TEAL, "P3": AMBER, "P4": RED}
+charts = [
+ ("FCFS", [("P1",0,8),("P2",8,12),("P3",12,21),("P4",21,26)], "avg wait 8.75, turnaround 15.25"),
+ ("SJF", [("P1",0,8),("P2",8,12),("P4",12,17),("P3",17,26)], "avg wait 7.75, turnaround 14.25"),
+ ("SRTF", [("P1",0,1),("P2",1,5),("P4",5,10),("P1",10,17),("P3",17,26)], "avg wait 6.50, turnaround 13.00"),
+ ("RR q=3", [("P1",0,3),("P2",3,6),("P3",6,9),("P4",9,12),("P1",12,15),("P2",15,16),("P3",16,19),("P4",19,21),("P1",21,23),("P3",23,26)], "avg wait 13.50, turnaround 20.00"),
+]
+f = Fig(580, 290)
+S = 17
+for k, (nm, segs, note) in enumerate(charts):
+    y = 8 + k * 70
+    f.text(8, y + 14, nm, size=10.5, color=NAVY, bold=True, anchor="start")
+    for p, a, b in segs:
+        f.box(70 + a * S, y, (b - a) * S, 28, p if b - a >= 2 else "", fill=cols[p], stroke=edge[p], size=9.5, bold=True, r=0)
+    for t in sorted({s[1] for s in segs} | {26}):
+        f.text(70 + t * S, y + 40, str(t), size=8.5, color=SLATE)
+    f.text(70, y + 58, note, size=9.5, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="3.5" caption="Thread models. Many-to-one maps many user threads to one kernel thread: creation is cheap but one blocking call blocks all threads and there is no use of multiple cores. One-to-one gives each user thread its own kernel thread (Linux, Windows): true parallelism on a multicore CPU, at the cost of a kernel thread per user thread. Many-to-many multiplexes many user threads onto a smaller number of kernel threads, combining the benefits but being harder to build."
+f = Fig(580, 230)
+titles = ["Many-to-one", "One-to-one", "Many-to-many"]
+xs = [10, 205, 400]
+for t, x in zip(titles, xs):
+    f.text(x + 85, 14, t, size=11, color=NAVY, bold=True)
+    f.text(x + 85, 132, "kernel threads", size=9, color=SLATE)
+for j in range(3):
+    f.box(10 + j * 56, 30, 50, 28, "U%d" % (j + 1), fill=SAND, stroke=AMBER, size=10, bold=True)
+    f.box(205 + j * 56, 30, 50, 28, "U%d" % (j + 1), fill=SAND, stroke=AMBER, size=10, bold=True)
+    f.box(400 + j * 56, 30, 50, 28, "U%d" % (j + 1), fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(65, 90, 50, 28, "K1", fill=BLUE, stroke=NAVY, size=10, bold=True)
+for j in range(3):
+    f.arrow([(35 + j * 56, 58), (90, 90)], color=SLATE, sw=1.2)
+    f.box(205 + j * 56, 90, 50, 28, "K%d" % (j + 1), fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.arrow([(230 + j * 56, 58), (230 + j * 56, 90)], color=SLATE, sw=1.2)
+for j in range(2):
+    f.box(430 + j * 70, 90, 50, 28, "K%d" % (j + 1), fill=BLUE, stroke=NAVY, size=10, bold=True)
+for j in range(3):
+    f.arrow([(425 + j * 56, 58), (455, 90)], color=SLATE, sw=1.2)
+    f.arrow([(425 + j * 56, 58), (525, 90)], color=SLATE, sw=1.2)
+f.text(90, 152, "one core only", size=10, color=RED, bold=True)
+f.text(90, 168, "one block stops all", size=10, color=RED, bold=True)
+f.text(285, 150, "parallel on many cores", size=10, color=TEAL, bold=True)
+f.text(285, 168, "one kernel thread each", size=10, color=AMBER, bold=True)
+f.text(490, 150, "flexible but complex", size=10, color=AMBER, bold=True)
+f.text(290, 205, "Linux and Windows use one-to-one", size=10.5, color=NAVY, bold=True)
+```
+
+### 3.5.1 Eight advantages of multithreading
+
+1. **Responsiveness.** A program can keep working while one thread waits for a slow job. A browser keeps scrolling while another thread downloads a page. The user never sees a frozen window.
+2. **Resource sharing.** Threads of one process share code, data and open files by default. They can exchange data through ordinary variables, without system calls. This is much easier than message passing between separate processes.
+3. **Economy.** Creating a thread and switching between threads costs much less than doing the same for processes, because the memory map does not change. A web server can start a thread for every request in microseconds. This is how a result website survives thousands of students checking marks at once.
+4. **Use of multiple cores.** A multithreaded program can run its threads on different cores at the same time. A video converter that splits a movie into four parts finishes almost four times faster on four cores. A single-threaded program leaves the other cores idle.
+5. **Simple program structure.** Different jobs, such as reading input, calculating and drawing, can each be written as a thread. Each thread contains simple sequential code. This is easier to understand than one large loop that does everything.
+6. **Better use of the CPU during I/O.** While one thread waits for the disk or network, another thread of the same process uses the CPU. Throughput rises without more hardware. A Fonepay server that waits for a bank reply can serve other customers in the meantime.
+7. **Scalability.** Programs written with threads can take advantage of more cores when the hardware is upgraded. A server with 32 cores can run 32 worker threads without any change in design. The same code serves a small college lab and a national portal.
+8. **Background services.** Threads suit tasks such as auto-save, spell checking, logging and garbage collection. They run quietly beside the main job. A word processor saving a thesis every minute is an example.
+
 ## Formula and fact sheet
 
 - **TAT = CT − AT; WT = TAT − BT; response = first run − AT.**
@@ -598,3 +726,111 @@ Three periodic tasks (run time C, period T): (1, 4), (2, 6), (1, 8). Utilisation
 **13.** Conflicts: R1(A) before W2(A): T1 → T2; W2(A) before W1(A): T2 → T1. Cycle, so **not** conflict-serializable.
 **14.** U = 2/5 + 2/7 + 3/10 = 0.4 + 0.2857 + 0.3 = 0.9857. The bound for n = 3 is 0.7798. Since 0.9857 > 0.7798 the *sufficient* test fails; RMS is **not guaranteed** (the test is not necessary, so one would then run an exact analysis), but EDF's bound is U ≤ 1 and holds.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Distinguish between a program and a process. Explain the states of a process with a diagram. (5 marks)**
+
+A **program** is a passive file of instructions stored on disk, for example `a.out`. A **process** is a program in execution: it has a program counter, registers, a stack, a heap, a data section and a **process control block (PCB)** that the OS keeps for it. Opening the same editor twice creates two processes of one program.
+
+A process passes through five **states** (Figure 3.1):
+
+1. **New:** the process is being created and its PCB is built.
+2. **Ready:** it is loaded and waits in the ready queue for the CPU.
+3. **Running:** the CPU is executing its instructions.
+4. **Waiting (blocked):** it waits for an event such as I/O completion.
+5. **Terminated:** it has finished and its resources are released.
+
+The transitions are: admit (new to ready), dispatch (ready to running, by the scheduler), timeout (running to ready, when the time slice ends), I/O request (running to waiting), I/O completion (waiting to ready) and exit (running to terminated). Note that a waiting process never goes directly to running; it must first queue in the ready state.
+
+The PCB stores the state, program counter, CPU registers, scheduling information, memory limits and open files, so that the OS can stop and later resume the process by a **context switch**.
+
+**Q2. Differentiate between a process and a thread. Explain the multithreading models. (5 marks)**
+
+A **thread** is a unit of CPU execution inside a process. It has its own program counter, registers and stack but shares the code, data and open files of its process. A process with several threads can do several things at once.
+
+| Point | Process | Thread |
+|---|---|---|
+| Memory | own address space | shares the address space |
+| Creation cost | high | low |
+| Context switch | slow (memory map changes) | fast |
+| Communication | IPC needed | shared variables |
+| Failure | isolated from others | can crash the whole process |
+
+**Models (Figure 3.5).** In **many-to-one**, many user threads share one kernel thread; it is cheap but a blocking call blocks all threads and only one core is used. In **one-to-one**, each user thread has its own kernel thread, giving real parallelism at the cost of more kernel resources; Linux and Windows use it. In **many-to-many**, many user threads are multiplexed over a smaller number of kernel threads, which is flexible but complex.
+
+**Q3. What is a race condition? Explain the critical section problem and solve the producer-consumer problem with semaphores. (10 marks)**
+
+**Introduction.** When several processes or threads read and write shared data and the final result depends on the order in which they run, the situation is a **race condition**. In Figure 3.2 two threads execute `count++` and `count--` on count = 5. Both load 5, one stores 6, the other stores 4, and the result is 4 instead of 5.
+
+**Critical section problem.** The part of the code that touches shared data is the **critical section**. A correct solution must satisfy three requirements:
+
+1. **Mutual exclusion:** only one process is inside its critical section at a time.
+2. **Progress:** if no process is inside, a process that wants to enter cannot be postponed forever by processes outside.
+3. **Bounded waiting:** a limit exists on how many times others may enter before a waiting process gets its turn.
+
+Software solutions such as Peterson's algorithm and hardware support such as test-and-set meet these requirements, but busy waiting wastes CPU time. The usual tool is the **semaphore**, an integer with two atomic operations: `wait(S)` (P) decrements S and blocks if S is already 0, and `signal(S)` (V) increments S and wakes one waiting process.
+
+**Producer-consumer with a buffer of N slots.**
+
+```text
+semaphore mutex = 1, empty = N, full = 0
+
+Producer:                 Consumer:
+  wait(empty)               wait(full)
+  wait(mutex)               wait(mutex)
+  insert item               remove item
+  signal(mutex)             signal(mutex)
+  signal(full)              signal(empty)
+```
+
+`empty` counts free slots, so the producer sleeps when the buffer is full. `full` counts items, so the consumer sleeps when it is empty. `mutex` makes the insertion and removal atomic. If the producer called `wait(mutex)` before `wait(empty)`, it could hold the mutex while sleeping and the consumer could never enter: a deadlock. Figure 3.3 shows the buffer with N = 5 and three items (empty = 2, full = 3, mutex = 1).
+
+| Tool | Idea | Weakness |
+|---|---|---|
+| Lock variable | simple flag | not atomic |
+| Peterson | two processes, shared turn | busy waiting |
+| Semaphore | counter with sleep and wakeup | easy to misorder |
+| Monitor | language-level lock | needs language support |
+
+**Conclusion.** Race conditions are prevented by making critical sections mutually exclusive, and semaphores do this without wasting CPU time.
+
+**Q4. Explain the CPU scheduling algorithms FCFS, SJF, SRTF and Round Robin. Compare them with the data P1 (0, 8), P2 (1, 4), P3 (2, 9), P4 (3, 5). (10 marks)**
+
+**Introduction.** The scheduler chooses which ready process receives the CPU. Common criteria are CPU utilisation, throughput, turnaround time (completion minus arrival), waiting time (turnaround minus burst) and response time.
+
+**FCFS** serves processes in arrival order and is non-preemptive. It is simple but short jobs wait behind a long one (the convoy effect). **SJF** picks the ready process with the shortest burst; it gives the minimum average waiting time among non-preemptive methods but may starve long jobs and needs a burst estimate. **SRTF** is the preemptive SJF: a new arrival with a shorter remaining time takes the CPU. **Round robin** gives each process a quantum and puts it at the rear of the queue when the quantum expires; it is fair and has good response time, but a very small quantum wastes time in context switches and a very large one behaves like FCFS.
+
+**Worked result (Figure 3.4).** The Gantt charts give:
+
+| Algorithm | Order of execution | Average waiting | Average turnaround |
+|---|---|---|---|
+| FCFS | P1, P2, P3, P4 | 8.75 | 15.25 |
+| SJF | P1, P2, P4, P3 | 7.75 | 14.25 |
+| SRTF | P1, P2, P4, P1, P3 | 6.50 | 13.00 |
+| RR, q = 3 | P1, P2, P3, P4, P1, ... | 13.50 | 20.00 |
+
+For SRTF, P2 arrives at time 1 with burst 4 and preempts P1 (remaining 7), then P4 (5) runs before P1 resumes. Waiting times are P1 = 9, P2 = 0, P3 = 15, P4 = 2, total 26, average 6.50.
+
+**Conclusion.** SRTF minimises average waiting but needs predictions and can starve long jobs. Round robin has the worst averages here but serves every process within 9 time units, which is why time-sharing systems use it.
+
+**Q5. A round-robin scheduler uses a time quantum of 3. Draw the Gantt chart for P1 (0, 8), P2 (1, 4), P3 (2, 9), P4 (3, 5) and find the average waiting time and turnaround time. (5 marks)**
+
+**Method.** Processes wait in a queue. Each runs for at most 3 units; an unfinished process goes to the rear, after any process that arrived during its slice.
+
+**Gantt chart:**
+
+| P1 | P2 | P3 | P4 | P1 | P2 | P3 | P4 | P1 | P3 |
+|---|---|---|---|---|---|---|---|---|---|
+| 0-3 | 3-6 | 6-9 | 9-12 | 12-15 | 15-16 | 16-19 | 19-21 | 21-23 | 23-26 |
+
+**Completion, turnaround (TAT = completion - arrival) and waiting (WT = TAT - burst):**
+
+| Process | Arrival | Burst | Completion | TAT | WT |
+|---|---|---|---|---|---|
+| P1 | 0 | 8 | 23 | 23 | 15 |
+| P2 | 1 | 4 | 16 | 15 | 11 |
+| P3 | 2 | 9 | 26 | 24 | 15 |
+| P4 | 3 | 5 | 21 | 18 | 13 |
+
+Average waiting time = (15 + 11 + 15 + 13) / 4 = 54 / 4 = **13.5**. Average turnaround time = (23 + 15 + 24 + 18) / 4 = 80 / 4 = **20.0**. There are 10 slices and so 9 context switches. Every process gets the CPU for the first time by time 9, so the response time is good even though the averages are poor.

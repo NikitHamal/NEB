@@ -172,6 +172,13 @@ key 8 Status bar: page number and word count
 key 9 View buttons and zoom slider
 ```
 
+```photogrid label="7.H" cols="4" ratio="1.25" caption="The hardware of word processing. (a) The keyboard types the text; the QWERTY layout was designed for typewriters in the 1870s. (b) The mouse points, selects and clicks. (c) An inkjet printer puts the finished document on paper. (d) A flatbed scanner turns a printed page or photograph into a picture that can be inserted into the document. The word processor is the software; these four are the devices that feed it and carry its result out."
+@ photo id="bca102/qwerty" cap="(a) Keyboard: input of text"
+@ photo id="bca155/mouse" cap="(b) Mouse: pointing, selecting"
+@ photo id="bcagk/inkjet" cap="(c) Inkjet printer: output"
+@ photo id="bcagk/scanner" cap="(d) Scanner: pictures in"
+```
+
 ## 7.2 Creating, saving, opening and printing a document
 
 **Create a new document.** Open Word and click **Blank document**, or press
@@ -861,3 +868,74 @@ shading:* a box or background colour behind a paragraph.
 Printed pages = 8 × 4 = **32**.
 Both sides: 8 ÷ 2 = 4 sheets per copy, so 4 × 4 = **16 sheets**.
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a word processor? Explain its eight main features. <span class="marks">[10]</span>
+2. Explain the formatting of a document: character, paragraph and page formatting, with headers and footers. <span class="marks">[10]</span>
+3. What is mail merge? Write the steps of mail merge with the parts needed. <span class="marks">[10]</span>
+
+### Model answer D1: features of a word processor (10 marks)
+
+**Introduction.** A **word processor** is application software used to create, edit, format, save and print text documents such as letters, reports, notices and books. MS Word, LibreOffice Writer and Google Docs are examples. It has replaced the typewriter because mistakes can be corrected before anything is printed (Plate 7.H).
+
+1. **Easy editing.** Text can be inserted, deleted, cut, copied and pasted at any place. If we make a mistake we press Undo, so no page has to be typed again. A headteacher can correct a notice in seconds.
+2. **Formatting.** The font, size, colour, bold, italic, alignment and line spacing can be changed. This makes a document neat and easy to read. A school magazine uses such formatting for headings and articles.
+3. **Spelling and grammar check.** The program underlines wrong spellings in red and grammar mistakes in blue. It suggests the correct word, which helps students write error-free English. Find and Replace changes a word everywhere in a long file at once.
+4. **Tables, pictures and shapes.** A table can arrange marks or a timetable in rows and columns. Pictures, shapes, charts and WordArt make a report attractive. A project report often has all of these.
+5. **Header, footer and page numbers.** Text such as the school name can be repeated at the top or bottom of every page, and pages can be numbered automatically. This is needed for long documents.
+6. **Page layout.** The paper size (A4, Letter), margins, orientation and columns can be set. A newspaper-style page can be made with columns.
+7. **Mail merge.** One letter can be sent to many people, each with a different name and address. A school uses it to send result letters to all parents.
+8. **Saving, printing and sharing.** The document is saved as a file, printed on paper or shared as PDF or by e-mail. Google Docs lets many people work on one document at the same time.
+
+**Conclusion.** A word processor saves time and paper, gives a neat result and lets us correct and reuse our work. It is the most used application in schools and offices.
+
+### Model answer D2: formatting a document (10 marks)
+
+**Introduction.** **Formatting** means changing the appearance of a document without changing its meaning. In MS Word the commands are on the **Home**, **Layout** and **Insert** tabs. There are three levels of formatting.
+
+1. **Character (font) formatting** changes single letters or words: font type (Arial, Times New Roman), font size, **bold** (Ctrl + B), *italic* (Ctrl + I), underline (Ctrl + U), font colour, superscript (x²) and subscript (H₂O).
+2. **Paragraph formatting** changes a whole paragraph: alignment (left, centre, right, justify), line spacing, indentation, and the space before and after, and bullets and numbering.
+3. **Page formatting** changes the whole page: paper size, margins, orientation (portrait or landscape), columns and page borders.
+
+**Header, footer and page number.** A **header** is text that appears at the top margin of every page, and a **footer** at the bottom margin. Steps: click **Insert** → **Header** → choose a style → type the text, for example the school name → **Close Header and Footer**. Page numbers: **Insert** → **Page Number** → choose the position.
+
+| Type | Applies to | Examples of commands |
+|---|---|---|
+| Character | Selected letters and words | Font, size, bold, colour |
+| Paragraph | One whole paragraph | Alignment, spacing, bullets |
+| Page | Every page | Margins, orientation, columns |
+| Header and footer | Top and bottom of each page | School name, page number |
+
+**A worked case.** To make a notice: select the title → centre it, set the size to 20 and bold; select the body → set Times New Roman 12, justified, line spacing 1.5; set the margins to 2.5 cm; add the date in the footer.
+
+**Conclusion.** Good formatting makes the document clear and attractive, and each level of formatting has its own use.
+
+### Model answer D3: mail merge (10 marks)
+
+**Introduction.** **Mail merge** is the feature that joins one common document with a list of data (names and addresses) to produce many personalised copies. It saves the work of typing the same letter again and again.
+
+**Parts of mail merge.**
+
+1. **Main document:** the letter with the fixed text, such as an invitation to a parents' meeting.
+2. **Data source:** a table (Word table, Excel sheet or database) with one row for each person and one column for each field, such as Name, Address and Marks.
+3. **Merge fields:** place-holders such as «Name» in the main document, which are replaced by the data of each row.
+
+| Name | Address | Class |
+|---|---|---|
+| Asha Gurung | Pokhara | 8 |
+| Bikash Thapa | Butwal | 8 |
+| Chandra Rai | Dharan | 8 |
+
+**Steps in MS Word.**
+
+1. Type the main letter and leave the places for the name and address.
+2. Click **Mailings** → **Start Mail Merge** → **Letters**.
+3. Click **Select Recipients** → **Use an Existing List** and choose the file; or **Type a New List**.
+4. Put the cursor where the name goes and click **Insert Merge Field** → **Name**; repeat for the other fields.
+5. Click **Preview Results** to see each letter.
+6. Click **Finish & Merge** → **Print Documents** or **Edit Individual Documents**.
+
+**Uses.** Result letters, invitations, certificates, address labels, and bills.
+
+**Conclusion.** Mail merge needs a main document and a data source, and it produces one personal letter for each record, saving time and avoiding mistakes.

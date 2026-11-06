@@ -63,6 +63,37 @@ Error: Deposit must be positive
 
 Points to notice: `balance` is `private`, so the only way to change it is through methods that enforce the rules (**encapsulation**); `id` is `final`, so it is assigned once; the second constructor calls the first with `this(...)` (**constructor chaining**); `count` is `static`, shared by all objects; and `println(a + " " + b)` calls `toString()` automatically.
 
+### A class is a plan, an object is a thing built from it
+
+An architect's drawing is not a building; it only says what a building will have. A class is the same: it lists the fields and methods, and `new` builds an object from it in memory. Every object has its own copy of the fields plus a small header that the JVM needs. For a `Student` with an `int id`, a reference `name` and a `double marks`, a typical 64-bit HotSpot JVM with compressed references uses 12 bytes of header, 4 + 4 + 8 bytes of fields, and rounds up to a multiple of 8. Plate 2.1 adds this up and shows that three objects of the same class cost three times as much.
+
+```photogrid label="2.1" cols="2" ratio="1.4" caption="One plan, many buildings. (a) An architectural drawing of a building front: it describes the building but is not one. (b) The size of one Student object on a typical 64-bit HotSpot JVM (12-byte header, int 4, compressed reference 4, double 8, padded to a multiple of 8) and of 1, 100 and 1,000,000 such objects, computed from those figures."
+@ photo id="bca153/blueprint" cap="Architect's blueprint (1920): the plan, not the building"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Memory of Student objects"
+fields = [("header", 12), ("int id", 4), ("String name (reference)", 4), ("double marks", 8)]
+raw = sum(b for _, b in fields); size = (raw + 7) // 8 * 8
+assert raw == 28 and size == 32
+f = Fig(400, 250)
+f.text(200, 16, "One Student object = 32 bytes", size=11, color=NAVY, bold=True)
+x = 10
+for nm, b in fields:
+    w = b * 11
+    f.box(x, 32, w - 2, 36, "", fill=BLUE if nm != "header" else SAND, stroke=NAVY if nm != "header" else AMBER, r=3)
+    f.text(x + w / 2 - 1, 46, f"{b} B", size=10.5, color=NAVY, bold=True)
+    x += w
+f.box(x, 32, 4 * 11 - 2, 36, "", fill=SOFT, stroke=SLATE, r=3); f.text(x + 21, 46, "pad 4", size=10.5, color=SLATE, bold=True)
+for i, (nm, b) in enumerate(fields):
+    f.text(14, 92 + i * 18, f"{nm}: {b} bytes", size=10.5, color=SLATE, anchor="start")
+f.text(14, 168, "12 + 4 + 4 + 8 = 28, rounded up to 32 (multiple of 8)", size=10.5, color=NAVY, bold=True, anchor="start")
+for i, n in enumerate((1, 100, 1000000)):
+    y = 184 + i * 22
+    f.box(14, y, 372, 18, "", fill=SAND if i < 2 else ROSE, stroke=AMBER if i < 2 else RED, r=3)
+    f.text(20, y + 9, f"{n:,} object(s)", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(380, y + 9, f"{n * size:,} bytes" + (" = 32 MB" if n == 1000000 else ""), size=10.5, color=RED if i == 2 else AMBER, bold=True, anchor="end", vmid=True)
+```
+
 ## 2.2 Members, `this`, `static` and `final`
 
 | Keyword | Meaning |
@@ -159,6 +190,39 @@ public class EqHash {
 ```
 
 Without the overrides, the two `P(1, 2)` objects would be different references and the set would hold 3 elements.
+
+### Same data, different objects: == against equals
+
+Two cookies from the same cutter have the same shape but are two cookies. In Java, `==` on references asks whether both names point to the same object; `equals` asks whether the contents are equal, once you override it. If you override `equals` you must override `hashCode` so that equal objects give equal hash codes, or `HashMap` and `HashSet` will lose your objects. Plate 2.2 computes the hash code by the same rule as `Objects.hash(id, name)` and shows the four possible outcomes.
+
+```photogrid label="2.2" cols="2" ratio="1.4" caption="Same shape, different cookie. (a) An old tin cookie cutter: every cookie it makes has the same shape but is a separate piece. (b) Two Student objects with the same id 101 and name Sita: == is false (two objects), equals is true after override, and the hash codes are equal; hash code computed by Java's own formula (31 x previous + element hash)."
+@ photo id="bca153/cutter" cap="Cookie cutter: equal shapes, separate cookies"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="== against equals and the hash contract"
+def jhash(s):
+    h = 0
+    for c in s: h = (31 * h + ord(c)) & 0xFFFFFFFF
+    return h - (1 << 32) if h >= (1 << 31) else h
+def objhash(*hs):
+    r = 1
+    for h in hs: r = (31 * r + h) & 0xFFFFFFFF
+    return r - (1 << 32) if r >= (1 << 31) else r
+assert jhash("NEB") == 77163 and jhash("Aa") == jhash("BB") == 2112
+h1 = objhash(101, jhash("Sita")); h2 = objhash(101, jhash("Sita"))
+assert h1 == h2
+f = Fig(400, 250)
+f.box(8, 26, 180, 62, "", fill=BLUE, stroke=NAVY, r=4); f.text(98, 44, "a  (id 101, Sita)", size=10.5, color=NAVY, bold=True); f.text(98, 66, "new Student(101, \"Sita\")", size=10.5, color=SLATE)
+f.box(212, 26, 180, 62, "", fill=BLUE, stroke=NAVY, r=4); f.text(302, 44, "b  (id 101, Sita)", size=10.5, color=NAVY, bold=True); f.text(302, 66, "new Student(101, \"Sita\")", size=10.5, color=SLATE)
+rows = [("a == b", "false", "two objects", RED, ROSE), ("a.equals(b)", "true", "after overriding equals", TEAL, MINT), ("a.hashCode() == b.hashCode()", "true", f"both {h1:,}", TEAL, MINT)]
+for i, (q, v, why, st, fl) in enumerate(rows):
+    y = 106 + i * 40
+    f.box(8, y, 384, 34, "", fill=fl, stroke=st, r=4)
+    f.text(14, y + 11, q, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(14, y + 25, why, size=10.5, color=SLATE, anchor="start", vmid=True)
+    f.text(384, y + 17, v, size=13, color=st, bold=True, anchor="end", vmid=True)
+f.text(200, 240, "\"NEB\".hashCode() = 77,163 and \"Aa\", \"BB\" both give 2,112.", size=10.5, color=SLATE)
+```
 
 ## 2.6 Enums, records and nested classes
 

@@ -259,6 +259,63 @@ for i, (nm, s, r, c) in enumerate(rows):
 7. **Cryptocurrency and blockchain.** A wallet address is derived from a public key, and a transaction is authorised by a signature made with the matching private key (elliptic-curve signatures). Anyone can verify the payment, and nobody can spend without the private key. Losing the key means losing the funds.
 8. **Smart cards and national ID.** Chips in bank cards, passports and national ID cards store a private key that never leaves the chip. The chip signs a challenge from a reader to prove that the card is genuine. ECC is favoured here because its small keys fit small chips.
 
+```photogrid label="4.2" cols="2" ratio="1.2" caption="Public and private keys in one worked example. (a) A letterbox: anyone can post a letter through the slot, but only the owner with the key can open the box, which is the public-key idea. (b) With the textbook primes p = 61 and q = 53 the modulus is n = 3233. The public key (e = 17, n) turns the message 65 into the ciphertext 2790, and only the private exponent d = 2753 turns it back, all computed with modular exponentiation. The security rests on factoring: trial division on products of two primes of 8, 12, 16 and 20 bits was timed in steps, and every extra 4 bits multiplies the work by about 16 (the 20-bit case already needs 524291 steps). For a 2048-bit modulus the same method would need about 10^308 steps, or 10^299 seconds at a billion steps a second, which is why real RSA keys are that long. The toy key is for learning only."
+@ photo id="bcacrypt/mailbox" cap="A letterbox: anyone posts, only the owner opens"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Toy RSA and the cost of factoring n"
+import math
+p, q, e = 61, 53, 17
+n = p * q
+phi = (p - 1) * (q - 1)
+dd = pow(e, -1, phi)
+m = 65
+c = pow(m, e, n)
+assert (n, dd, c) == (3233, 2753, 2790) and pow(c, dd, n) == m
+def spf_steps(nn):
+    s = 0
+    k = 3
+    while nn % k:
+        k += 2
+        s += 1
+    return s + 1
+def nextprime(x):
+    x += 1 if x % 2 == 0 else 2
+    while any(x % k == 0 for k in range(3, math.isqrt(x) + 1, 2)):
+        x += 2
+    return x
+rows = []
+for bits in (8, 12, 16, 20):
+    pp = nextprime(2 ** bits)
+    qq = nextprime(pp + 1000)
+    st = spf_steps(pp * qq)
+    rows.append((bits, st))
+assert rows[0][1] < rows[1][1] < rows[2][1] < rows[3][1]
+log2048 = 1022 * math.log10(2)
+secs = log2048 - 9
+facts = dict(n=n, d=dd, c=c, lg=round(log2048), sec=round(secs), s20=rows[3][1])
+f = Fig(300, 236)
+f.text(150, 12, "p=61, q=53, e=17: n=%d, d=%d" % (n, dd), size=10.5, color=NAVY, bold=True)
+f.box(6, 24, 70, 24, "m = 65", fill=BLUE, stroke=NAVY, size=11, bold=True, r=4, sw=1)
+f.box(115, 24, 70, 24, "c = %d" % c, fill="#fde68a", stroke=AMBER, size=11, bold=True, r=4, sw=1)
+f.box(224, 24, 70, 24, "m = %d" % pow(c, dd, n), fill="#bbf7d0", stroke=TEAL, size=11, bold=True, r=4, sw=1)
+f.arrow([(76, 36), (115, 36)], color=SLATE)
+f.text(75, 62, "encrypt: m^17 mod n", size=10.5, color=SLATE)
+f.arrow([(185, 36), (224, 36)], color=SLATE)
+f.text(225, 62, "decrypt: c^d mod n", size=10.5, color=SLATE)
+f.text(150, 76, "trial-division steps to factor n = p x q", size=10.5, color=NAVY, bold=True)
+import math as _m
+for i, (b, st) in enumerate(rows):
+    y = 86 + i * 24
+    f.text(8, y + 8, "%d-bit primes" % b, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    w = 14 * _m.log10(st)
+    f.box(96, y, w, 18, "", fill="#fecaca", stroke=SLATE, r=3, sw=1)
+    f.text(102 + w, y + 9, format(st, ","), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 198, "each +4 bits: about 16 times the work", size=10.5, color=RED, bold=True)
+f.text(150, 214, "2048-bit n: about 10^%d steps" % round(log2048), size=10.5, color=RED, bold=True)
+f.text(150, 230, "= 10^%d s at 10^9 steps/s" % round(secs), size=10.5, color=TEAL, bold=True)
+```
+
 ## Chapter summary
 
 - Public-key cryptography removes the shared-secret problem: n users need n key pairs instead of n(n − 1)/2, and it is used to exchange symmetric keys (hybrid encryption).

@@ -915,6 +915,25 @@ Atom check on step 3: C₄H₆O + 2H₂ = C₄H₁₀O ✓ — butan-1-ol.
 choice here.)
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.2" caption="Two tests for the carbonyl group. (a) A silver mirror in the test tube shows an aldehyde: only aldehydes are oxidised by the mild oxidant Tollens' reagent. (b) The cell shows the first test, with 2,4-dinitrophenylhydrazine, which condenses with any aldehyde or ketone (loss of one water molecule) to give an orange or yellow solid. The theoretical mass of the precipitate is 7.00 g per gram of methanal, 4.10 g per gram of propanone and 2.70 g per gram of benzaldehyde, because a light carbonyl compound gains the most mass. The melting point of the dried derivative then identifies the compound, while Tollens' or Fehling's test tells an aldehyde from a ketone."
+@ photo id="ceechem2/mirror" cap="A silver mirror formed by an aldehyde in Tollens' test"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Mass of 2,4-DNP derivative per gram of carbonyl compound"
+dnp = 198.14
+data = [("methanal", 30.03), ("ethanal", 44.05), ("propanone", 58.08), ("benzaldehyde", 106.12)]
+rows = [(n, (M + dnp - 18.015) / M) for n, M in data]
+assert round(rows[0][1], 2) == 7.00 and round(rows[2][1], 2) == 4.10
+f = Fig(300, 236)
+f.text(150, 12, "Grams of 2,4-DNP hydrazone per gram", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=7.5, fmt="%.2f", x0=84, y0=30, bw=150, gap=30)
+f.text(150, 158, "RR'C=O + 2,4-DNP gives the hydrazone + H2O", size=10, color=NAVY, bold=True)
+f.text(150, 178, "all carbonyls give the orange precipitate", size=10, color=SLATE, bold=True)
+f.text(150, 198, "only aldehydes also reduce Tollens' reagent", size=10.5, color=RED, bold=True)
+f.text(150, 216, "so: DNP for C=O, Tollens to tell RCHO", size=10, color=SLATE, bold=True)
+facts = dict(a=rows[0][1], b=rows[2][1], c=rows[3][1])
+```
+
 ## Chapter summary
 
 - Aldehydes are R—CHO, ketones R—CO—R′; both are CₙH₂ₙO and are **functional
@@ -1057,3 +1076,46 @@ CH₃CH(OH)CH₂CH₃ --conc. H₂SO₄, 443 K--> CH₃CH=CHCH₃ + H₂O, so **
 Also acceptable as supporting evidence: X + 3I₂ + 4NaOH → CHI₃ + CH₃CH₂COONa +
 3NaI + 3H₂O.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Distinguish aldehydes from ketones, and explain the aldol condensation and the Cannizzaro reaction with mechanisms and examples. <span class="marks">[10]</span>
+
+### Model answer D1: aldehydes and ketones, aldol and Cannizzaro reactions (10 marks)
+
+**Introduction.** Aldehydes (R–CHO) and ketones (R–CO–R′) both contain the carbonyl group C=O, which is polar, with carbon positive. Both undergo **nucleophilic addition**, but aldehydes are more reactive (less steric hindrance and only one electron-donating group).
+
+**Tests to distinguish aldehydes from ketones.**
+
+| Test | Aldehyde | Ketone |
+|---|---|---|
+| Tollens' reagent [Ag(NH₃)₂]⁺ | Silver mirror | No reaction |
+| Fehling's solution (Cu²⁺, tartrate) | Red precipitate of Cu₂O (aliphatic aldehydes) | No reaction |
+| Schiff's reagent | Pink or magenta colour | No colour |
+| Oxidation | Easily gives an acid | Not easily oxidised |
+| 2,4-DNP | Orange-yellow precipitate | Orange-yellow precipitate (both) |
+
+**Aldol condensation.** Aldehydes and ketones with at least one **α-hydrogen** (a hydrogen on the carbon next to C=O) react in the presence of dilute alkali.
+
+1. The base removes an α-hydrogen from ethanal to form an enolate ion: CH₃CHO + OH⁻ → ⁻CH₂CHO + H₂O.
+2. The enolate attacks the C=O carbon of a second molecule to form an alkoxide, which takes H⁺ from water to give the **aldol** (3-hydroxybutanal): 2CH₃CHO → CH₃CH(OH)CH₂CHO.
+3. On heating, the aldol loses water to give an α,β-unsaturated aldehyde, **but-2-enal** (crotonaldehyde): CH₃CH(OH)CH₂CHO → CH₃CH=CHCHO + H₂O.
+
+**Cannizzaro reaction.** Aldehydes with **no α-hydrogen** (HCHO, C₆H₅CHO) react with concentrated alkali by **self oxidation and reduction (disproportionation)**: one molecule is oxidised to the acid salt and the other is reduced to the alcohol.
+
+2HCHO + NaOH(conc.) → CH₃OH + HCOONa
+
+2C₆H₅CHO + NaOH(conc.) → C₆H₅CH₂OH + C₆H₅COONa
+
+The hydroxide adds to one C=O, and the hydride ion (H⁻) from this adduct transfers to a second aldehyde molecule.
+
+| Point | Aldol | Cannizzaro |
+|---|---|---|
+| Aldehyde needs | An α-hydrogen | No α-hydrogen |
+| Alkali | Dilute | Concentrated |
+| Products | β-hydroxy aldehyde, then unsaturated aldehyde | Alcohol + salt of acid |
+| Example | Ethanal | Methanal, benzaldehyde |
+
+**Test for methyl ketones and ethanal.** The iodoform test (I₂/NaOH) gives yellow CHI₃ with CH₃CO– compounds, such as propanone.
+
+**Conclusion.** Tollens', Fehling's and Schiff's reagents separate aldehydes from ketones; aldehydes with α-hydrogen undergo the aldol condensation and those without undergo the Cannizzaro reaction.

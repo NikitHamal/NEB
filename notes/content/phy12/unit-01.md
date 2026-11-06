@@ -498,6 +498,38 @@ The kinetic energy increases by $24\ \text{J}$, supplied by the work the student
 does in pulling the weights inwards.
 :::
 
+```photogrid label="1.P" cols="2" ratio="1.27" caption="With no external torque, angular momentum L = I w stays constant, so a smaller moment of inertia means a faster spin. (a) A skater draws her arms in during a spin. (b) With I = 3.6 kg m2 and one revolution a second, L is 22.6 kg m2 per second. Pulling in the arms lowers I to 1.2 kg m2, so the spin rises to 3.0 revolutions a second. The kinetic energy grows from 71 J to 213 J, three times larger, and the extra 142 J is the work her muscles do against the outward pull on her arms. Divers, dancers and neutron stars use the same law."
+@ photo id="ceephy3/skater" cap="An ice skater pulling her arms in to spin faster"
+fit 1.27
+focus 0.5 0.45
+@ svg cap="Angular momentum is conserved while energy is not"
+import math
+I1, I2 = 3.6, 1.2
+w1 = 2 * math.pi * 1.0
+L = I1 * w1
+w2 = L / I2
+assert abs(I2 * w2 - L) < 1e-9
+K1, K2 = 0.5 * I1 * w1 ** 2, 0.5 * I2 * w2 ** 2
+work = K2 - K1
+assert abs(K2 / K1 - 3.0) < 1e-9
+f = Fig(300, 236)
+f.text(150, 14, "Arms out (blue) against arms in (red)", size=10.5, color=NAVY, bold=True)
+groups = [("L = I w", L, L, "%.1f" % L, "%.1f" % L), ("w (rev/s)", 1.0, w2 / (2 * math.pi), "1.0", "%.1f" % (w2 / (2 * math.pi))), ("KE (J)", K1, K2, "%.0f" % K1, "%.0f" % K2)]
+for i, (nm, a, b, la, lb) in enumerate(groups):
+    x = 22 + i * 92
+    m = max(a, b)
+    for j, (v, lab, c) in enumerate([(a, la, NAVY), (b, lb, RED)]):
+        h = 110 * v / m
+        f.box(x + j * 32, 140 - h, 28, h, "", fill=c, stroke=c, r=2)
+        f.text(x + j * 32 + 14, 134 - h, lab, size=9.5, color=c, bold=True)
+    f.text(x + 30, 156, nm, size=10)
+f.line(14, 141, 290, 141, color=SLATE, sw=1.2)
+f.text(150, 182, "I falls from 3.6 to 1.2 kg m2, so w rises 3 times", size=10, color=NAVY, bold=True)
+f.text(150, 200, "KE rises 3 times: %.0f J to %.0f J" % (K1, K2), size=10.5, color=RED, bold=True)
+f.text(150, 217, "the skater does %.0f J of work with her muscles" % work, size=10, color=SLATE)
+facts = dict(L="%.1f" % L, w2="%.1f" % (w2 / (2 * math.pi)), K1="%.0f" % K1, K2="%.0f" % K2, work="%.0f" % work)
+```
+
 ## Chapter summary
 
 - For constant $\alpha$: $\omega = \omega_0 + \alpha t$,
@@ -606,3 +638,33 @@ $|\tau| = I|\alpha| = 25 \times 1.571 = 39.3\ \text{N m}$.
 $\theta = \frac{1}{2}(\omega_0 + 0)t = \frac{1}{2}(62.83)(40) = 1257\ \text{rad}$,
 so the number of revolutions $= 1257/2\pi = 200$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the moment of inertia of a uniform rod about an axis through its centre and about one end, and solve a torque problem. <span class="marks">[10]</span>
+
+### Model answer D1: moment of inertia of a uniform rod and rotational dynamics (10 marks)
+
+**Introduction.** The **moment of inertia** $I = \sum m r^{2}$ of a body about an axis measures its resistance to a change in rotational motion, just as mass does in linear motion. For a continuous body it is the integral $I = \int r^{2}\,dm$. It depends on the mass, on the way the mass is distributed and on the position of the axis.
+
+**Rod about an axis through the centre.** Take a uniform thin rod of mass $M$ and length $L$, with the axis through its midpoint perpendicular to its length. Consider a small element of length $dx$ at distance $x$ from the axis. Its mass is $dm = \dfrac{M}{L}\,dx$ and its moment of inertia is $x^{2}\,dm$. Therefore
+
+$$ I_{c} = \int_{-L/2}^{+L/2} x^{2}\,\frac{M}{L}\,dx = \frac{M}{L}\left[\frac{x^{3}}{3}\right]_{-L/2}^{L/2} = \frac{M}{L}\cdot\frac{L^{3}}{12} = \frac{ML^{2}}{12} $$
+
+**Rod about one end.** By the **parallel-axis theorem**, $I = I_{c} + Md^{2}$, where $d$ is the distance between the parallel axes. For an axis through one end, $d = L/2$, so
+
+$$ I_{end} = \frac{ML^{2}}{12} + M\left(\frac{L}{2}\right)^{2} = \frac{ML^{2}}{3} $$
+
+**Rotational equations.** The torque is $\tau = I\alpha$ (the rotational form of $F = ma$), the kinetic energy of rotation is $\tfrac{1}{2}I\omega^{2}$, and the angular momentum is $L = I\omega$. If no external torque acts, $I\omega$ is constant, which explains why a skater spins faster when her arms are pulled in.
+
+| Linear quantity | Rotational quantity | Relation |
+|---|---|---|
+| Displacement $s$ | Angle $\theta$ | $s = r\theta$ |
+| Velocity $v$ | Angular velocity $\omega$ | $v = r\omega$ |
+| Mass $m$ | Moment of inertia $I$ | $I = \sum mr^{2}$ |
+| Force $F$ | Torque $\tau$ | $\tau = rF\sin\theta$ |
+| Momentum $p = mv$ | Angular momentum $I\omega$ | conserved if $\tau = 0$ |
+
+**Numerical.** A uniform rod has mass $0.50\ \text{kg}$ and length $1.2\ \text{m}$. Then $I_{c} = 0.50 \times 1.44/12 = 0.060\ \text{kg m}^{2}$ and $I_{end} = 0.50 \times 1.44/3 = 0.24\ \text{kg m}^{2}$. A constant torque of $0.60\ \text{N m}$ about the end gives $\alpha = \tau/I = 0.60/0.24 = 2.5\ \text{rad s}^{-2}$. After 4 s, $\omega = 10\ \text{rad s}^{-1}$ and the rotational kinetic energy is $\tfrac{1}{2}(0.24)(10)^{2} = 12\ \text{J}$.
+
+**Conclusion.** The moment of inertia of a rod is $ML^{2}/12$ about its centre and $ML^{2}/3$ about its end, four times larger, because the mass is farther from the axis.

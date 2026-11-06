@@ -900,6 +900,28 @@ $$ m_{\text{theoretical}} = 0.200\times119.5 = 23.9\ \text{g} $$
 $$ m_{\text{actual}} = 0.60\times23.9 = 14.3\ \text{g} $$
 :::
 
+```photogrid label="8.P" cols="2" ratio="1.2" caption="Heavier halogen, higher boiling point. (a) Chlorofluorocarbons are haloalkanes; their chlorine atoms, set free by ultraviolet light, destroy stratospheric ozone, as this satellite map of the Antarctic hole shows. (b) The cell lists the boiling points of the methyl halides: methyl fluoride boils at 194.7 K, methyl iodide at 315.5 K. A straight-line fit against the molar mass has a slope of 1.00 K per g/mol, because a larger halogen has more electrons and stronger London dispersion forces, which outweigh the smaller polarity of the C-I bond. The same trend explains why iodoalkanes are liquids and why the weak C-I bond (213 kJ/mol) makes them the most reactive in substitution."
+@ photo id="ceechem2/ozone" cap="NASA map of the 2024 Antarctic ozone hole, caused by chlorine from CFCs"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Boiling points of the methyl halides"
+import numpy as np
+M = np.array([34.03, 50.49, 94.94, 141.94])
+bp = np.array([-78.4, -24.2, 3.6, 42.4]) + 273.15
+rows = [("CH3F", bp[0]), ("CH3Cl", bp[1]), ("CH3Br", bp[2]), ("CH3I", bp[3])]
+k, b = np.polyfit(M, bp, 1)
+assert 0.5 < k < 2.5
+f = Fig(300, 236)
+f.text(150, 12, "Boiling point of CH3X, kelvin", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=330, fmt="%.1f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "molar mass 34.0, 50.5, 94.9, 141.9 g/mol", size=10, color=SLATE, bold=True)
+f.text(150, 178, "least-squares slope: %.2f K per g/mol" % k, size=10.5, color=NAVY, bold=True)
+f.text(150, 198, "bigger halogen, more dispersion force", size=10, color=SLATE, bold=True)
+f.text(150, 216, "C-X bond: C-Cl 339, C-I 213 kJ/mol (weaker)", size=10, color=NAVY, bold=True)
+facts = dict(k=k, a=rows[0][1], d=rows[3][1])
+```
+
 ## Chapter summary
 
 - A monohaloalkane is CₙH₂ₙ₊₁X. It is 1°, 2° or 3° according to the number of
@@ -1091,3 +1113,43 @@ hydroxide the reaction is mainly **S<sub>N</sub>2**, giving propan-2-ol with
 inversion at the chiral centre; in a highly ionising solvent with dilute
 hydroxide it drifts towards S<sub>N</sub>1 and partial racemisation.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the S<sub>N</sub>1 and S<sub>N</sub>2 mechanisms of nucleophilic substitution in haloalkanes and compare them. <span class="marks">[10]</span>
+
+### Model answer D1: S<sub>N</sub>1 and S<sub>N</sub>2 mechanisms (10 marks)
+
+**Introduction.** Haloalkanes (R–X) have a polar C–X bond in which carbon is slightly positive, so they react with nucleophiles (Nu⁻, rich in electrons), which replace the halogen: R–X + Nu⁻ → R–Nu + X⁻. This is **nucleophilic substitution**, and it follows two mechanisms.
+
+**S<sub>N</sub>2 (substitution nucleophilic bimolecular).** It is a one-step reaction. For bromomethane with hydroxide, CH₃Br + OH⁻ → CH₃OH + Br⁻:
+
+1. The nucleophile attacks the carbon from the side **opposite** to the leaving group (back-side attack).
+2. A **transition state** forms in which C is partly bonded to both OH and Br.
+3. Br⁻ leaves as OH bonds fully. The three other groups flip like an umbrella in a gale, so the configuration is **inverted** (Walden inversion).
+
+$$ \text{rate} = k[\text{R–X}][\text{Nu}^{-}] \quad\text{(second order)} $$
+
+**S<sub>N</sub>1 (substitution nucleophilic unimolecular).** It is a two-step reaction. For tert-butyl bromide, (CH₃)₃CBr + OH⁻ → (CH₃)₃COH + Br⁻:
+
+1. **Slow step:** the C–Br bond breaks to give a planar carbocation (CH₃)₃C⁺ and Br⁻.
+2. **Fast step:** the nucleophile attacks the carbocation from either side.
+
+$$ \text{rate} = k[\text{R–X}] \quad\text{(first order)} $$
+
+If the carbon is chiral, attack from both faces gives a **racemic mixture** (racemisation).
+
+| Point | S<sub>N</sub>1 | S<sub>N</sub>2 |
+|---|---|---|
+| Steps | Two | One |
+| Rate law | $k[\text{RX}]$ | $k[\text{RX}][\text{Nu}]$ |
+| Molecularity | Unimolecular | Bimolecular |
+| Intermediate | Carbocation | None (transition state) |
+| Stereochemistry | Racemisation | Inversion |
+| Favoured by | Tertiary halide, polar protic solvent, weak nucleophile | Primary halide (CH₃X > 1° > 2°), polar aprotic solvent, strong nucleophile |
+| Order of reactivity | 3° > 2° > 1° | CH₃ > 1° > 2° > 3° |
+| Reason | Stable carbocation | Little steric hindrance |
+
+**Leaving group.** For both, the order is I⁻ > Br⁻ > Cl⁻ > F⁻, because a weaker C–X bond breaks more easily (C–I is the weakest).
+
+**Conclusion.** Primary haloalkanes react by S<sub>N</sub>2 with inversion, tertiary ones by S<sub>N</sub>1 through a carbocation with racemisation, and secondary ones may follow either path.

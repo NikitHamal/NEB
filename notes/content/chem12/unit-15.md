@@ -373,6 +373,29 @@ amide) on first for a para product.
 | Aromatic nitro drugs | chloramphenicol, nitrofurantoin and metronidazole — the last is prescribed widely in Nepal for giardiasis and amoebic dysentery |
 | Nitro musks | fixatives in cheap perfumes |
 
+```photogrid label="15.P" cols="2" ratio="1.2" caption="An explosive turns into hot gas. (a) An old stereograph shows workers drilling and charging holes with dynamite, whose active ingredient is nitroglycerine, an ester of nitric acid and not a true nitro compound. (b) The balanced equation gives 29 moles of gas from every 4 moles, 0.0319 mol per gram. At 273 K that is 0.72 L, but at the explosion temperature of 3000 K it expands to 7.86 L. Since a gram of the liquid occupies only 0.63 mL, the gas volume is about 12,500 times larger, produced in microseconds. Nitro explosives such as TNT work in the same way: they contain their own oxidiser in the molecule, so the reaction is extremely fast."
+@ photo id="chem12b/dynamite" cap="A stereograph of workers drilling and charging holes with dynamite"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Gas produced by one gram of nitroglycerine"
+M = 227.09
+n = 7.25 / M
+R = 0.082057
+rows = [("273 K", n * R * 273.15), ("1000 K", n * R * 1000), ("2000 K", n * R * 2000), ("3000 K", n * R * 3000)]
+assert round(rows[0][1], 3) == 0.716
+V0 = 1 / 1.59 / 1000
+ratio = rows[3][1] / V0
+f = Fig(300, 236)
+f.text(150, 12, "Gas from 1 g of nitroglycerine at 1 atm, litres", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=8.5, fmt="%.2f", x0=56, y0=30, bw=160, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 154, "4 C3H5N3O9 gives 12 CO2 + 10 H2O + 6 N2 + O2", size=10, color=NAVY, bold=True)
+f.text(150, 172, "29 mol of gas from 4 mol: %.4f mol per gram" % n, size=10, color=NAVY, bold=True)
+f.text(150, 192, "liquid volume of 1 g: %.2f mL (d = 1.59)" % (V0 * 1000), size=10, color=SLATE, bold=True)
+f.text(150, 210, "expansion at 3000 K: about %s times" % format(round(ratio, -2), ","), size=10.5, color=RED, bold=True)
+facts = dict(n=n, g273=rows[0][1], g3000=rows[3][1], r=round(ratio, -2), v0=V0 * 1000)
+```
+
 ## Chapter summary
 
 - Nitroalkanes are R–NO₂ (CₙH₂ₙ₊₁NO₂); the nitro group is a resonance hybrid with
@@ -491,3 +514,38 @@ acetanilide, nitrate, then hydrolyse.
 (b) Moles of benzene = 78 / 78 = 1.00 mol. Nitrobenzene = 1.00 × 0.70 = 0.70 mol.
 Aniline = 0.70 × 0.85 = 0.595 mol = 0.595 × 93 = **55.3 g**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the reduction of nitrobenzene in acidic, neutral and alkaline media and explain its electrophilic substitution reactions. <span class="marks">[10]</span>
+
+### Model answer D1: reduction and electrophilic substitution of nitrobenzene (10 marks)
+
+**Introduction.** **Nitrobenzene** (C$_6$H$_5$NO$_2$, oil of mirbane) is a pale yellow oily liquid with an almond-like smell, made by nitrating benzene with a mixture of concentrated HNO$_3$ and concentrated H$_2$SO$_4$ at 330–335 K. It is poisonous, and is used in the manufacture of aniline.
+
+**Reduction.** The product of reducing the –NO$_2$ group depends on the medium.
+
+| Medium | Reagent | Product |
+|---|---|---|
+| Strongly acidic | Sn / conc. HCl, Fe / HCl or H$_2$ / Ni | **Aniline**, C$_6$H$_5$NH$_2$ (complete reduction) |
+| Neutral | Zn dust / NH$_4$Cl solution | **N-phenylhydroxylamine**, C$_6$H$_5$NHOH |
+| Alkaline | Zn / NaOH (limited Zn) | **Azoxybenzene**, then **azobenzene** |
+| Strongly alkaline, excess Zn | Zn / NaOH, excess | **Hydrazobenzene**, C$_6$H$_5$NH–NHC$_6$H$_5$ |
+| Metal hydride | LiAlH$_4$ | Azobenzene |
+
+Overall in acid: $\text{C}_6\text{H}_5\text{NO}_2 + 6[\text{H}] \Rightarrow \text{C}_6\text{H}_5\text{NH}_2 + 2\text{H}_2\text{O}$. In the alkaline medium the intermediate nitroso compound and the hydroxylamine condense to give the azoxy compound, which is the reason for the bimolecular products.
+
+**Electrophilic substitution.** The nitro group is strongly electron withdrawing, both through the $-I$ effect and through the $-M$ (resonance) effect, so the ring is **deactivated** and the reactions need more severe conditions than benzene. The ortho and para positions carry the most positive charge, and the electrophile therefore attacks the **meta** position, which is relatively less deficient in electrons. The nitro group is a **meta director**.
+
+| Reaction | Conditions | Main product |
+|---|---|---|
+| Nitration | Fuming HNO$_3$ + conc. H$_2$SO$_4$, 365 K | *m*-Dinitrobenzene (93%) |
+| Halogenation | Br$_2$ / Fe, heat | *m*-Bromonitrobenzene |
+| Sulphonation | Fuming H$_2$SO$_4$, heat | *m*-Nitrobenzenesulphonic acid |
+| Friedel–Crafts | CH$_3$Cl / AlCl$_3$ | **No reaction** (ring too deactivated; AlCl$_3$ complexes with the nitro group) |
+
+**Nucleophilic substitution.** On the contrary, the same effect makes the ortho and para positions open to nucleophiles when a leaving group is present, for example the easy hydrolysis of 2,4-dinitrochlorobenzene.
+
+**Uses.** Nitrobenzene is the starting material for aniline and the azo dyes; it is used in shoe and floor polish, as a solvent and in perfumery. Poly-nitro compounds are powerful explosives: **TNT** (2,4,6-trinitrotoluene), picric acid, and nitroglycerine used in blasting during road building in Nepal. Nitromethane is a fuel for racing cars.
+
+**Conclusion.** The reduction products of nitrobenzene vary with the medium, and the electron-withdrawing nitro group directs electrophiles to the meta position.

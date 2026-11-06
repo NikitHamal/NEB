@@ -313,6 +313,33 @@ forestry restoring the mid-hills, the rise of the one-horned rhino in Chitwan, o
 tissue-cultured banana plantlets raised at Khumaltar.
 :::
 
+```photogrid label="6.P" cols="2" ratio="1.27" caption="The compound microscope magnifies a specimen twice, by the objective and by the eyepiece, so the total magnification is the product of the two. (a) Budding yeast cells, each about 10 micrometres across. (b) With a 10x eyepiece and a field number of 18 mm, the field of view is the field number divided by the objective power: 4500 um with the 4x objective, 450 um at 40x and 180 um at 100x. A 10 um yeast cell therefore fills about 1/45 of the field at 400x, and at 1000x only 18 cells fit across. Always focus first at low power, since high power narrows the field and the working distance."
+@ photo id="bio11/yeast-cells" cap="Yeast cells seen under a compound microscope"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Field of view and cells visible at each objective (eyepiece 10x, field number 18 mm)"
+obj = [(4, NAVY), (10, TEAL), (40, AMBER), (100, RED)]
+fn = 18.0
+cell_um = 10.0
+res = []
+for o, c in obj:
+    fov = fn / o * 1000
+    res.append((o, o * 10, fov, fov / cell_um, c))
+assert res[1][2] == 1800 and res[3][3] == 18.0
+f = Fig(300, 236)
+f.text(150, 14, "Total magnification = objective x eyepiece", size=10.5, color=NAVY, bold=True)
+for i, (o, tm, fov, n, c) in enumerate(res):
+    y = 30 + i * 34
+    f.text(8, y + 14, "%dx" % tm, size=10.5, bold=True, anchor="start")
+    f.box(50, y, fov / 4500 * 100 + 4, 22, "", fill=c, stroke=c, r=2)
+    f.text(50 + fov / 4500 * 100 + 10, y + 12, "%.0f um, %.0f cells" % (fov, n), size=10, color=c, bold=True, anchor="start", vmid=True)
+f.text(150, 176, "field diameter = field number / objective", size=10.5, color=SLATE, bold=True)
+f.text(150, 194, "cells across = diameter / 10 um (yeast)", size=10.5, color=NAVY, bold=True)
+f.text(150, 212, "100x objective: %.0f um field, only %.0f cells" % (res[3][2], res[3][3]), size=10.5, color=RED, bold=True)
+f.text(150, 228, "higher power sees more detail of less area", size=10.5, color=SLATE)
+facts = dict(f4="%.0f" % res[0][2], f40="%.0f" % res[2][2], c40="%.0f" % res[2][3], f100="%.0f" % res[3][2], c100="%.0f" % res[3][3])
+```
+
 ## Chapter summary
 
 - **Biology** is the science of living organisms; from Greek *bios* (life) and
@@ -435,3 +462,73 @@ biotechnology (use of organisms to make useful products).
 Close by noting that the two schemes cut across each other: the physiology of a
 plant is both botany and physiology, so a single study can sit in both lists.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is life? Explain the characteristics of living organisms and distinguish between living and non-living things. <span class="marks">[10]</span>
+2. Define biology. Describe its main branches, its relation to other sciences, and the role of the microscope, with a numerical. <span class="marks">[10]</span>
+
+### Model answer D1: characteristics of living organisms (10 marks)
+
+**Introduction.** No single sentence defines life, but all living organisms share a set of properties which non-living things lack. A bean seed, a mushroom and a bull in a Nepali village all show these properties, but a stone does not.
+
+**Characteristics of life.**
+
+1. **Cellular organisation.** All organisms are made of one or more cells, the basic unit of structure and function. Bacteria and *Amoeba* are unicellular, while a tree or a human being is multicellular, with cells grouped into tissues, organs and systems.
+2. **Metabolism.** Living things carry out chemical reactions, building (anabolism) and breaking down (catabolism) substances. Plants make food by photosynthesis and animals obtain it from food. Metabolism is the best single test for life.
+3. **Growth.** Living things grow by the **internal** addition of new material from nutrients, as the seedling grows into a plant. A non-living thing, for example a crystal or a snowball, grows only by adding material on the outside.
+4. **Reproduction.** Organisms make more of their own kind, either asexually (budding in yeast, binary fission in bacteria) or sexually. Reproduction keeps the species alive, even though individuals die.
+5. **Response to stimuli (irritability).** Organisms sense and react to changes: a leaf turns to light, a touch-me-not (*Mimosa*) plant folds its leaves, and a person pulls the hand from a hot pot.
+6. **Homeostasis.** The internal environment, such as temperature, water and pH, is kept steady. A human body stays at about $37^{\circ}\text{C}$ in the cold of Mustang and in the heat of Janakpur.
+7. **Adaptation and evolution.** Populations change over generations to suit the environment: yaks have thick hair for the Himalaya and cactus has spines for the desert.
+8. **Heredity and variation.** Offspring resemble their parents because DNA carries genetic information, but they are not identical, which gives the variation needed for natural selection. Other features are movement, respiration, excretion and ageing and death.
+
+| Feature | Living | Non-living |
+|---|---|---|
+| Cells | Present | Absent |
+| Metabolism | Present | Absent |
+| Growth | From inside | From outside, if any |
+| Reproduction | Present | Absent |
+| Response to stimulus | Present | Absent |
+| Life span | Limited, with death | No life span |
+
+**Conclusion.** Cellular organisation, metabolism, growth, reproduction, response, homeostasis, adaptation and heredity together define a living organism.
+
+### Model answer D2: branches of biology, other sciences and the microscope (10 marks)
+
+**Introduction.** **Biology** (Greek *bios* = life, *logos* = study) is the science of living organisms: their structure, function, growth, origin, evolution and distribution. The word was introduced by **Lamarck** and **Treviranus** in 1802.
+
+**Main branches.**
+
+| Branch | Studies |
+|---|---|
+| Morphology | External form and structure |
+| Anatomy | Internal structure by dissection |
+| Physiology | Functions of organs and systems |
+| Cytology | The cell and its organelles |
+| Histology | Tissues |
+| Genetics | Heredity and variation |
+| Ecology | Relationship of organisms with their environment |
+| Taxonomy | Naming and classification |
+| Embryology | Development of the embryo |
+| Evolution | Origin and change of species |
+| Microbiology | Bacteria, viruses and fungi |
+| Biotechnology | Use of organisms for products and services |
+
+By organism, biology divides into **botany** (plants), **zoology** (animals), and **microbiology**.
+
+**Biology and other sciences.**
+
+1. **Biochemistry** = biology + chemistry: the chemistry of enzymes, DNA and metabolism.
+2. **Biophysics** = biology + physics: nerve impulses, the action of the ear and the eye, X-ray and MRI.
+3. **Biostatistics** = biology + mathematics: analysis of data from clinical trials and surveys.
+4. **Bioinformatics** = biology + computer science: genome databases and the study of proteins.
+5. **Geobiology and environmental science** link biology with the earth and the climate.
+
+**Applied biology and careers in Nepal.** Medicine and nursing (Institute of Medicine), agriculture and veterinary science, forestry, fisheries, biotechnology and pharmacy, conservation (National Trust for Nature Conservation), public health, research, and teaching.
+
+**The microscope.** **Robert Hooke** saw the cells in cork in 1665 using a simple microscope; **Leeuwenhoek** saw bacteria and protozoa; the **cell theory** (Schleiden, Schwann, Virchow) followed from this. A compound microscope has an objective lens and an eyepiece lens, and its magnification is $M=M_{\text{objective}}\times M_{\text{eyepiece}}$. The **electron microscope** uses a beam of electrons and gives magnification up to about $2{,}000{,}000$.
+
+**Numerical.** With a $40\times$ objective and a $10\times$ eyepiece, $M=400\times$. If a cell appears $20\ \text{mm}$ long in the drawing at this magnification, its real length is $\dfrac{20}{400}=0.05\ \text{mm}=50\ \mu\text{m}$.
+
+**Conclusion.** Biology has many branches and links with other sciences; the invention of the microscope made the study of cells and microbes possible.

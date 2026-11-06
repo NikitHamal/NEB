@@ -490,3 +490,15 @@ The matrices $P$, $Q$, $R$, $S$, $T$, $U$, $V$ and $W$ are those in the figure a
 **4.** $A+B=[(4,4),(2,2)]$, so $3(A+B)=[(12,12),(6,6)]$. $3A=[(6,0),(-3,9)]$ and $3B=[(6,12),(9,-3)]$, so $3A+3B=[(12,12),(6,6)]$; verified. From $2X-A=B$: $2X=A+B=[(4,4),(2,2)]$, so $X=[(2,2),(1,1)]$. Check: $2X-A=[(4-2,\ 4-0),(2+1,\ 2-3)]=[(2,4),(3,-1)]=B$ ✓.
 **5.** $P$: square, upper triangular (its element below the diagonal is 0). $Q$: square. $R$: rectangular, $2\times3$. $S$: square, symmetric. $T$: square, diagonal, scalar, symmetric, upper and lower triangular. $U$: square, upper triangular. $V$: row, rectangular. $W$: column, rectangular. $T-5I=[(5,0,0),(0,5,0),(0,0,5)]-[(5,0,0),(0,5,0),(0,0,5)]=O$, the zero matrix; so $T=5I$: every scalar matrix is a scalar multiple of the unit matrix.
 :::
+
+**Group D — Long problems (5 marks each)**
+
+1. If $A=\begin{pmatrix}2&1\\3&4\end{pmatrix}$ and $B=\begin{pmatrix}1&0\\5&2\end{pmatrix}$, find $A+B$, $A-B$ and $2A-3B$. State the order of each result. <span class="marks">[5]</span>
+2. (i) Find $x$ and $y$ if $\begin{pmatrix}x+y&2\\3&x-y\end{pmatrix}=\begin{pmatrix}5&2\\3&1\end{pmatrix}$. (ii) Find the matrix $X$ if $X+\begin{pmatrix}1&2\\3&4\end{pmatrix}=\begin{pmatrix}5&6\\7&8\end{pmatrix}$. <span class="marks">[5]</span>
+3. For $A=\begin{pmatrix}1&2\\3&4\end{pmatrix}$ and $B=\begin{pmatrix}0&1\\2&3\end{pmatrix}$ verify that $A+B=B+A$, and show that $A+(-A)=O$ and $A+O=A$. Name the type of the matrix $\begin{pmatrix}1&2\\2&3\end{pmatrix}$ and of $\begin{pmatrix}5&0\\0&5\end{pmatrix}$. <span class="marks">[5]</span>
+
+::: note Answers to Group D
+**1.** $A+B=\begin{pmatrix}3&1\\8&6\end{pmatrix}$. $A-B=\begin{pmatrix}1&1\\-2&2\end{pmatrix}$. For $2A-3B$: $2A=\begin{pmatrix}4&2\\6&8\end{pmatrix}$ and $3B=\begin{pmatrix}3&0\\15&6\end{pmatrix}$, so $2A-3B=\begin{pmatrix}1&2\\-9&2\end{pmatrix}$. Every result is of order $2\times2$ (matrices are added and subtracted element by element, so they must have the same order).
+**2.** (i) Equal matrices have equal elements: $x+y=5$ and $x-y=1$. Adding, $2x=6$, so $x=3$ and $y=2$. (ii) $X=\begin{pmatrix}5&6\\7&8\end{pmatrix}-\begin{pmatrix}1&2\\3&4\end{pmatrix}=\begin{pmatrix}4&4\\4&4\end{pmatrix}$.
+**3.** $A+B=\begin{pmatrix}1&3\\5&7\end{pmatrix}$ and $B+A=\begin{pmatrix}1&3\\5&7\end{pmatrix}$: equal, so addition is commutative. $-A=\begin{pmatrix}-1&-2\\-3&-4\end{pmatrix}$ and $A+(-A)=\begin{pmatrix}0&0\\0&0\end{pmatrix}=O$ (the additive inverse). $A+O=A$ since adding zeros changes nothing (the zero matrix is the additive identity). The matrix $\begin{pmatrix}1&2\\2&3\end{pmatrix}$ is a **symmetric** matrix (it equals its transpose); $\begin{pmatrix}5&0\\0&5\end{pmatrix}$ is a **scalar** matrix (a diagonal matrix with equal diagonal elements).
+:::

@@ -426,3 +426,90 @@ Hot air rises, but heat is not a thing that rises. Heat moves from hot to cold i
 **4.** $Q_1 = mL_f = 2 \times 3.36\times10^5 = 6.72\times10^5$ J. $Q_2 = 2 \times 4200 \times 30 = 2.52\times10^5$ J. Total $= 9.24\times10^5$ J.
 **5.** Use the comparison table: conduction in solids (iron rod), convection in fluids (sea breeze, boiling water), radiation without a medium (sunlight).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define specific heat capacity and latent heat. Derive the heat equations and solve numerical problems on each. <span class="marks">[10]</span>
+2. Describe conduction, convection and radiation with examples. Explain how a vacuum flask keeps liquids hot or cold. <span class="marks">[10]</span>
+3. What is thermal expansion? Explain eight effects and applications of expansion of solids. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="3" ratio="1.2" caption="Heat on the move. (a) A vacuum flask is built to stop conduction, convection and radiation together. (b) A Bunsen burner flame, with the different zones of a flame. (c) Solar panels in a remote village in Nepal capture radiant heat and light from the Sun, which reaches us across empty space."
+@ photo id="sci10/vacuum-flask" cap="(a) Vacuum flask"
+@ photo id="sci10/bunsen" cap="(b) Bunsen flame"
+@ photo id="sci10/solar-nepal" cap="(c) Solar panels"
+```
+
+### Model answer D1: specific heat capacity and latent heat (10 marks)
+
+**Introduction.** **Heat** is the energy that flows from a hot body to a cold body because of a temperature difference. Its SI unit is the joule (J). Temperature tells how hot something is; heat tells how much energy it has transferred.
+
+**Specific heat capacity.** The **specific heat capacity (c)** of a substance is the amount of heat needed to raise the temperature of **1 kg** of the substance by **1 °C (or 1 K)**. Its unit is J kg⁻¹ K⁻¹. If a body of mass $m$ is heated through a temperature change $\Delta T$, the heat absorbed is
+
+$$Q = mc\Delta T.$$
+
+| Substance | Water | Ice | Aluminium | Iron | Copper |
+|---|---|---|---|---|---|
+| c (J kg⁻¹ K⁻¹) | 4200 | 2100 | 900 | 450 | 390 |
+
+Water has a very large specific heat, so it heats and cools slowly. For this reason coastal places have mild weather, water is used to cool engines and hot-water bottles keep warm for long. A copper or iron pan, with small $c$, heats up quickly on a stove.
+
+**Numerical 1.** How much heat is needed to raise the temperature of 2 kg of water from 20 °C to 70 °C?
+
+$$Q = 2 \times 4200 \times (70 - 20) = 420{,}000\ \text{J} = 420\ \text{kJ}.$$
+
+**Latent heat.** When a substance changes state, heat is taken in or given out **without any change in temperature**. This hidden heat is **latent heat**.
+
+- **Latent heat of fusion (melting):** the heat needed to change 1 kg of a solid into a liquid at its melting point. For ice it is **336,000 J/kg**.
+- **Latent heat of vaporisation (boiling):** the heat needed to change 1 kg of a liquid into gas at its boiling point. For water it is **2,260,000 J/kg**.
+
+$$Q = mL.$$
+
+**Numerical 2.** How much heat is needed to change 100 g of ice at 0 °C into water at 20 °C?
+
+Melting: $Q_1 = 0.1 \times 336000 = 33{,}600$ J. Warming: $Q_2 = 0.1 \times 4200 \times 20 = 8{,}400$ J. Total $= 33{,}600 + 8{,}400 = 42{,}000$ J.
+
+**Applications of latent heat.** Ice cools a drink better than cold water because it takes 336 kJ per kg while melting. Steam burns more than boiling water because each kilogram of steam gives out 2,260 kJ when it condenses. Sweat cools the body by taking latent heat from the skin as it evaporates.
+
+**Conclusion.** The heat for a change of temperature is $mc\Delta T$ and for a change of state it is $mL$. Together they explain cooking, weather and body cooling.
+
+### Model answer D2: modes of heat transfer and the vacuum flask (10 marks)
+
+**Introduction.** Heat moves from one place to another in three ways: by conduction, convection and radiation.
+
+| Mode | Medium needed | How the heat moves | Example |
+|---|---|---|---|
+| Conduction | Solid (best in metals) | Vibrating particles pass energy to neighbours; particles do not travel | Iron spoon becoming hot in a pot of dal |
+| Convection | Liquid or gas | Hot fluid becomes lighter and rises; cold fluid sinks and replaces it | Boiling water; sea breeze; heating a room by a heater |
+| Radiation | None; works in vacuum | Heat travels as infrared waves at the speed of light | Heat of the Sun reaching the Earth; the heat felt near a fire |
+
+**Good and bad conductors.** Metals such as copper, aluminium and iron are good conductors, so cooking pots are made of them. Wood, plastic, air and wool are poor conductors (insulators), so handles are of wood or plastic and woollen sweaters keep us warm by trapping air.
+
+**Radiation points.** Dark, rough surfaces are good absorbers and good emitters of heat; bright, shiny surfaces are poor absorbers and poor emitters. We wear white or light clothes in summer, and a **solar cooker** is painted black inside to absorb more sunlight.
+
+**The vacuum flask (Thermos).** A vacuum flask is designed to stop all three kinds of heat transfer.
+
+1. It has a **double-walled glass bottle** with the air removed from between the walls. A vacuum stops **conduction and convection**.
+2. The walls are **silvered** (shiny) on the inner sides. This reflects the heat radiation back, so **radiation** is reduced.
+3. The bottle rests on **cork or plastic supports**, which are poor conductors.
+4. A **plastic stopper** at the top stops heat loss by convection and evaporation.
+
+So hot tea stays hot, and cold water stays cold, for many hours. People use these on treks to Everest Base Camp.
+
+**Conclusion.** Conduction, convection and radiation are the three ways in which heat flows, and a vacuum flask uses a vacuum, silver coating and insulation to block all three.
+
+### Model answer D3: thermal expansion, effects and applications (10 marks)
+
+**Introduction.** Most substances **expand** when heated and **contract** when cooled, as their particles vibrate more and move slightly farther apart. The increase of length per unit length per degree rise of temperature is the **coefficient of linear expansion (α)**.
+
+1. **Gaps in railway tracks.** Rails are laid with small gaps between them. In summer the rails expand and the gaps close, so the track does not bend. Without gaps the track would buckle.
+2. **Expansion joints in bridges and roads.** Long bridges have joints of rubber or metal so that the deck can expand freely. This prevents cracks in concrete roads and bridges.
+3. **Overhead wires.** Electric and telephone wires are hung loosely. In winter they contract, and if they were tight, they could snap.
+4. **Bimetallic strip.** Two metals, such as brass and iron, are riveted together. Brass expands more, so the strip bends on heating. This is used in fire alarms, electric irons and thermostats to switch the current off.
+5. **Fitting an iron rim on a wooden wheel.** The iron ring is made slightly smaller than the wheel, heated until it expands, fitted over the wheel and cooled with water. It shrinks and grips the wheel very tightly.
+6. **Thermometers.** The mercury or alcohol in a thermometer expands evenly with temperature, so its length shows how hot something is.
+7. **Cracking of glass.** If hot water is poured into a thick cold glass, the inside expands before the outside and the glass can crack. Laboratory glass (Pyrex) expands very little to avoid this.
+8. **Anomalous expansion of water.** Between 0 °C and 4 °C it contracts on heating. Its density is greatest at **4 °C**. Because of this, ice floats and the lake bottom stays at 4 °C in winter, so that fish can survive in the cold lakes of the Himalaya.
+
+**Gases and liquids.** Gases expand most, liquids less, and solids the least when heated equally.
+
+**Conclusion.** Expansion is a useful and also a harmful effect of heat. Engineers allow for it in structures and use it in machines.

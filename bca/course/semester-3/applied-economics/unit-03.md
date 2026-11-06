@@ -121,6 +121,68 @@ f.text(155, 250, "(a) equilibrium at A", size=11, color=SLATE, italic=True)
 f.text(448, 250, "(b) price rise: A → C → B", size=11, color=SLATE, italic=True)
 ```
 
+```photogrid label="3.1" cols="2" ratio="1.0" caption="Diminishing marginal utility at a wedding buffet. (a) A thali: the first helping is worth the most. (b) Illustrative utility of five rounds of food, measured in rupees one is willing to pay: 300, 220, 140, 60 and -20 (the fifth round makes you uncomfortable). Total utility rises 300, 520, 660, 720 and then falls to 700. At a restaurant charging Rs 100 a round, a rational diner buys while MU >= price, that is three rounds, for a surplus of (300 + 220 + 140) - 3 x 100 = Rs 360. At a free buffet the price is zero, so the diner eats until MU reaches zero, four rounds, and total utility peaks at 720. Marginal utility, not total utility, decides how much we buy."
+@ photo id="bcaeco/thali" cap="A thali: first helping, highest utility"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Marginal utility of five rounds of food"
+mu = [300, 220, 140, 60, -20]
+tu = [sum(mu[:i + 1]) for i in range(5)]
+assert tu == [300, 520, 660, 720, 700]
+paid = [m for m in mu if m >= 100]; assert len(paid) == 3 and sum(paid) - 3 * 100 == 360
+free = [m for m in mu if m >= 0]; assert len(free) == 4 and sum(free) == 720
+f = Fig(300, 240)
+base, sc = 130, 0.33
+f.text(150, 14, "marginal utility of each round (Rs)", size=10.5, color=NAVY, bold=True)
+for i, m in enumerate(mu):
+    x = 24 + i * 52
+    top = base - m * sc if m > 0 else base
+    h = abs(m) * sc
+    f.box(x, top, 36, h, "", fill=BLUE if m >= 100 else ("#fde68a" if m >= 0 else "#fecaca"), stroke=NAVY, r=0, sw=1)
+    f.text(x + 18, (top - 7) if m > 0 else (base + h + 10), str(m), size=10.5, color=NAVY if m > 0 else RED, bold=True)
+    f.text(x + 18, base + 28, f"round {i + 1}", size=10.5, color=SLATE)
+f.line(12, base, 290, base, color=SLATE, sw=1.2)
+f.line(12, base - 100 * sc, 290, base - 100 * sc, color=AMBER, sw=1.6, dash=True)
+f.text(286, base - 100 * sc - 6, "price Rs 100", size=10.5, color=AMBER, bold=True, anchor="end")
+f.text(150, 190, "pay Rs 100: 3 rounds, surplus Rs 360", size=10.5, color=TEAL, bold=True)
+f.text(150, 208, "free buffet: 4 rounds, TU peaks at 720", size=10.5, color=RED, bold=True)
+f.text(150, 226, "stop when MU < price (MU = 0 if free)", size=10.5, color=NAVY)
+```
+
+```photogrid label="3.2" cols="2" ratio="1.0" caption="Three shapes of indifference curve. (a) A weather map: contour lines join places of equal pressure, just as an indifference curve joins bundles of equal utility, and a higher line means a higher value. (b) Perfect substitutes (utility X + Y, such as two brands of the same tea): straight lines, MRS = 1 everywhere. Perfect complements (utility min(X, Y), such as left and right shoes): L-shaped, extra of one good alone adds nothing. The usual case (utility X x Y): curves convex to the origin; on U = 16 the bundles (2, 8), (4, 4) and (8, 2) have MRS = Y / X = 4, 1 and 0.25, so the more of X you hold, the less Y you will give up for another unit of X. This falling MRS is the diminishing marginal rate of substitution."
+@ photo id="bcaeco/wxmap" cap="Contour lines on a weather map"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Substitutes, complements and the usual convex case"
+pts = [(2, 8), (4, 4), (8, 2)]
+assert all(x * y == 16 for x, y in pts) and [y / x for x, y in pts] == [4, 1, 0.25]
+f = Fig(300, 240)
+S = 8
+def panel(ox, title, sub):
+    oy = 30
+    f.line(ox, oy, ox, oy + 10 * S, color=SLATE, sw=1.4); f.line(ox, oy + 10 * S, ox + 10 * S, oy + 10 * S, color=SLATE, sw=1.4)
+    f.text(ox + 40, oy + 10 * S + 16, title, size=10.5, color=NAVY, bold=True)
+    f.text(ox + 40, oy + 10 * S + 32, sub, size=10.5, color=TEAL, bold=True)
+    return lambda x, y: (ox + x * S, oy + 10 * S - y * S)
+P = panel(8, "substitutes", "MRS = 1")
+for c, col in [(4, "#93c5fd"), (7, BLUE), (10, NAVY)]:
+    (a, b), (c2, d) = P(c, 0), P(0, c); f.line(a, b, c2, d, color=col, sw=2)
+P = panel(106, "complements", "no trade-off")
+for k, col in [(2, "#93c5fd"), (4, BLUE), (6, NAVY)]:
+    a = P(k, 10); b = P(k, k); c = P(10, k)
+    f.line(a[0], a[1], b[0], b[1], color=col, sw=2); f.line(b[0], b[1], c[0], c[1], color=col, sw=2)
+P = panel(204, "usual case", "MRS 4, 1, 0.25")
+for U, col in [(8, "#93c5fd"), (16, BLUE), (32, NAVY)]:
+    xs = [U / 10 + i * (10 - U / 10) / 30 for i in range(31)]
+    for x1, x2 in zip(xs, xs[1:]):
+        a = P(x1, U / x1); b = P(x2, U / x2); f.line(a[0], a[1], b[0], b[1], color=col, sw=2)
+for x, y in pts:
+    a = P(x, y); f.circle(a[0], a[1], 3.2, fill=RED, stroke=RED, sw=1)
+f.text(150, 14, "X on the horizontal axis, Y on the vertical", size=10.5, color=SLATE)
+f.text(150, 186, "tea/coffee   left/right shoe   X times Y", size=10.5, color=SLATE)
+f.text(150, 212, "lines get higher = more utility", size=10.5, color=NAVY, bold=True)
+```
+
 ## 3.5 Eight uses of utility and indifference-curve analysis
 
 1. **Explaining why the demand curve slopes down.** Because each extra unit gives less satisfaction, a buyer will take more only at a lower price. A mobile-data user who already has plenty of gigabytes will buy another pack only at a discount. This is the root of the law of demand.

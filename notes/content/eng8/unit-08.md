@@ -333,3 +333,74 @@ child? (c) She didn't use to like vegetables.
 one memorable incident, feelings and what you learnt; past tenses used
 correctly.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a narrative essay, "A Day I Will Never Forget". <span class="marks">[10]</span>
+2. Name eight inventions from the chapter and explain the past simple, the past continuous, the past perfect and *used to*. <span class="marks">[10]</span>
+
+```photogrid label="8.H" cols="4" ratio="1.0" caption="Inventions that changed the world. A Watt-type steam engine, a replica of Stephenson's Rocket, the Wright Flyer in flight in 1903 and an early telephone are four of the machines named in the chapter."
+@ photo id="eng8/watt-engine" cap="Watt-type steam engine"
+@ photo id="eng8/rocket-loco" cap="Stephenson's Rocket (replica)"
+@ photo id="eng8/wright-flyer" cap="Wright Flyer, 1903"
+@ photo id="eng8/bell-telephone" cap="Early telephone"
+```
+
+### Model answer D1: a narrative essay (10 marks)
+
+**Introduction.** A **narrative essay** tells a true or imagined story in time order. It answers *what happened, when, where, who* and *how I felt*.
+
+**Model essay.**
+
+::: example A day I will never forget
+**The Day I Won the Race.** It was a bright morning in Chaitra when our school held its annual sports day. I was nervous because I was going to run the 100 metres for the first time. While I was tying my shoelaces, my friend Binod whispered, "Believe in yourself." When the whistle blew, I ran as fast as I could. Halfway through the race, I had fallen behind two runners, but I did not give up. I heard my classmates shouting my name, and suddenly I felt new strength. I crossed the line first by only a step. The headteacher gave me a gold medal, and my mother, who had come from the village, hugged me with tears in her eyes. I will never forget that proud moment.
+:::
+
+**Planning points.**
+
+1. Give a **title**.
+2. Begin with **time and place**.
+3. Say **how you felt** before the event.
+4. Use the **past simple** for the main events.
+5. Use the **past continuous** for background (*While I was tying...*).
+6. Use the **past perfect** for earlier events (*I had fallen behind*).
+7. Show **feelings** and use direct speech once.
+8. End with a **lesson or feeling**.
+
+| Paragraph | Content |
+|---|---|
+| 1 | Setting, nervous feeling |
+| 2 | The main event |
+| 3 | Result and feelings |
+
+**Conclusion.** Order, tenses and feeling make a good narrative.
+
+### Model answer D2: inventions and tenses (10 marks)
+
+**Inventions in the text.**
+
+| Inventor | Invention | Year |
+|---|---|---|
+| James Watt | Steam engine | 1700s |
+| George Stephenson | Steam locomotive | 1800s |
+| Gottlieb Daimler | Car | 1885 |
+| Michael Faraday | Electricity (generator) | 1830s |
+| Wright brothers | Aeroplane | 1903 |
+| Sputnik 1 | First satellite | 1957 |
+| Alexander Graham Bell | Telephone | 1876 |
+| Martin Cooper | Mobile phone | 1973 |
+
+**Tenses.**
+
+1. **Past simple:** a finished action: *Bell invented the telephone in 1876.*
+2. **Past continuous** (*was/were + -ing*): an action in progress: *The farmer was working when the son hid the shoes.*
+3. **Past perfect** (*had + V3*): an earlier past action: *The father had put coins in the shoes before the farmer arrived.*
+4. When two actions happen, the **long one is continuous** and the **short one is simple**: *I was walking when it started to rain.*
+5. **used to + base verb** = a past habit that has stopped: *People used to write letters; now they send messages.*
+6. Negative: *didn't use to*; question: *Did you use to...?*
+7. **used to** has no present form; for present habits use the present simple.
+8. The story *Having Fun* teaches that real joy is in giving: the poor farmer could buy medicine and food with the coins.
+
+**Conclusion.** Choose the tense by the order and length of the actions.

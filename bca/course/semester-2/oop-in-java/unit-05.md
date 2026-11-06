@@ -55,6 +55,39 @@ public class Gen {
 - **Wildcards**: `List<?>` (unknown), `List<? extends Number>` (read-only producer), `List<? super Integer>` (consumer): "PECS: producer extends, consumer super".
 - **Type erasure**: generics exist only at compile time; at run time `List<String>` and `List<Integer>` are both `List`, so you cannot do `new T()`, `instanceof List<String>` or create generic arrays. Primitives are not allowed (`List<int>` is illegal; use `List<Integer>`).
 
+### Generics: a typed container
+
+A shipping container is labelled with what it holds, and the port refuses to load a different cargo. `List<String>` is the same idea: the compiler knows the cargo type, so adding an `Integer` is rejected before the program runs, and no cast is needed when you take an element out. Under the surface a `HashMap` uses `hashCode` to choose a bucket among 16 at the start. Plate 5.1 computes the bucket for six names with Java's own formulas: `h ^ (h >>> 16)` then `& 15`.
+
+```photogrid label="5.1" cols="2" ratio="1.4" caption="A labelled container and a bucket choice. (a) Stacked shipping containers, each for one kind of cargo. (b) The bucket (0 to 15) that a HashMap with 16 buckets chooses for six names, computed with String.hashCode and the HashMap spreading step h ^ (h >>> 16); two names in one bucket form a collision."
+@ photo id="bca153/containers" cap="Containers: one label, one kind of cargo"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="HashMap bucket for each name"
+def jhash(s):
+    h = 0
+    for c in s: h = (31 * h + ord(c)) & 0xFFFFFFFF
+    return h
+def bucket(s, n=16):
+    h = jhash(s); return (h ^ (h >> 16)) & (n - 1)
+names = ["Sita", "Ram", "Gita", "Hari", "Maya", "Bikash"]
+bk = {n: bucket(n) for n in names}
+assert jhash("NEB") == 77163 and all(0 <= b < 16 for b in bk.values())
+from collections import Counter
+cnt = Counter(bk.values())
+f = Fig(400, 250)
+f.text(200, 16, "name  ->  hashCode  ->  bucket (of 16)", size=11, color=NAVY, bold=True)
+for i, n in enumerate(names):
+    y = 28 + i * 28
+    f.box(6, y, 388, 24, "", fill=BLUE if cnt[bk[n]] == 1 else ROSE, stroke=NAVY if cnt[bk[n]] == 1 else RED, r=3)
+    f.text(12, y + 12, n, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(180, y + 12, f"{jhash(n):,}", size=10.5, color=SLATE, anchor="middle", vmid=True)
+    f.text(384, y + 12, f"bucket {bk[n]}", size=10.5, color=RED if cnt[bk[n]] > 1 else TEAL, bold=True, anchor="end", vmid=True)
+col = sum(1 for v in cnt.values() if v > 1)
+f.text(200, 214, "Red rows share a bucket (collision)." if col else "All six names fall in different buckets.", size=10.5, color=SLATE, bold=True)
+f.text(200, 234, "hashCode (unsigned shown) -> (h ^ (h >>> 16)) & 15", size=10.5, color=SLATE)
+```
+
 ## 5.2 The Collections Framework
 
 ```text
@@ -167,6 +200,29 @@ IntSummaryStatistics{count=6, sum=108, min=4, average=18.000000, max=42}
 ```
 
 `parallelStream()` splits work across cores, helpful only for large CPU-bound data with no shared state. `Optional<T>` models "maybe absent" (`findFirst().orElse(default)`) and avoids `null` returns.
+
+### A stream is a pipeline
+
+A water filter passes water through stages, each removing something, and what leaves is cleaner than what entered. A stream pipeline in Java is the same: a source, some intermediate stages such as `filter` and `map`, and one terminal stage such as `sum` that pulls the data through. Nothing runs until the terminal stage is called. Plate 5.2 follows the numbers 1 to 10 through `filter(even)`, `map(square)` and `sum`: ten items go in, five survive the filter, five are squared and one total comes out.
+
+```photogrid label="5.2" cols="2" ratio="1.4" caption="Stages that each do one job. (a) An under-sink water filter: water goes through stages and comes out cleaner. (b) The stream IntStream.rangeClosed(1, 10).filter(even).map(square).sum() traced stage by stage: 10 items, 5 even numbers, their squares 4, 16, 36, 64, 100 and the total 220."
+@ photo id="bca153/filter" cap="Water filter: each stage does one job on what flows through"
+fit 1.4
+focus 0.5 0.5
+@ svg cap="Numbers 1 to 10 through filter, map and sum"
+src = list(range(1, 11)); ev = [x for x in src if x % 2 == 0]; sq = [x * x for x in ev]; tot = sum(sq)
+assert ev == [2, 4, 6, 8, 10] and sq == [4, 16, 36, 64, 100] and tot == 220
+f = Fig(400, 250)
+f.text(200, 16, "IntStream.rangeClosed(1, 10)", size=11, color=NAVY, bold=True)
+stages = [("source", src, BLUE, NAVY), ("filter(x -> x % 2 == 0)", ev, MINT, TEAL), ("map(x -> x * x)", sq, SAND, AMBER)]
+for i, (nm, d, fl, st) in enumerate(stages):
+    y = 28 + i * 58
+    f.text(8, y + 6, f"{nm}: {len(d)} items", size=10.5, color=st, bold=True, anchor="start")
+    for j, v in enumerate(d): f.box(8 + j * 38.5, y + 14, 36, 24, str(v), fill=fl, stroke=st, color=st, size=10.5, bold=True)
+    if i < 2: f.arrow([(200, y + 40), (200, y + 56)], color=SLATE, sw=1.4)
+f.box(8, 204, 384, 38, "", fill=ROSE, stroke=RED, r=4)
+f.text(200, 223, "sum()  ->  4 + 16 + 36 + 64 + 100 = 220", size=12, color=RED, bold=True)
+```
 
 ## 5.5 File I/O
 

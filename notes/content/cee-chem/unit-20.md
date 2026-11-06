@@ -105,6 +105,34 @@ far more acidic than anything else present: it would protonate the
 carbanion carbon instantly, giving methane and Mg(OH)Br — the reagent
 suiciding on the solvent instead of carboxylating.
 :::
+```photogrid label="20.1" cols="2" ratio="1.2" caption="Oxygen balance explains how explosives burn. (a) Crystals of TNT (2,4,6-trinitrotoluene), made by nitrating toluene. (b) The oxygen balance OB = -1600 x (2C + H/2 - O) / M is the percentage of oxygen in surplus (+) or short (-) for converting all carbon to CO2 and all hydrogen to H2O. Nitroglycerin (+3.5) and ammonium nitrate (+20.0) carry more oxygen than they need, nitromethane (-39.3) and picric acid (-45.4) are short, and TNT is the shortest at -74.0, which is why it burns with black smoke and soot and is often mixed with ammonium nitrate (amatol). The nitro group NO2 is both the oxygen donor and the reason these compounds are shock-sensitive."
+@ photo id="ceechem/tnt" cap="TNT crystals (2,4,6-trinitrotoluene)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Oxygen balance of five nitro explosives"
+mass = dict(C=12.011, H=1.008, N=14.007, O=15.999)
+def ob(c, h, n, o):
+    m = c * mass["C"] + h * mass["H"] + n * mass["N"] + o * mass["O"]
+    return -1600 / m * (2 * c + h / 2 - o)
+rows = (("nitroglycerin", ob(3, 5, 3, 9)), ("NH4NO3", ob(0, 4, 2, 3)), ("nitromethane", ob(1, 3, 1, 2)), ("picric acid", ob(6, 3, 3, 7)), ("TNT", ob(7, 5, 3, 6)))
+assert [round(v, 1) for _, v in rows] == [3.5, 20.0, -39.3, -45.4, -74.0]
+f = Fig(300, 236)
+f.text(150, 12, "Oxygen balance, per cent", size=10.5, color=NAVY, bold=True)
+z, s = 170, 1.5
+f.line(z, 26, z, 190, color=SLATE, sw=1.4)
+for i, (n, v) in enumerate(rows):
+    y = 30 + i * 32
+    x0 = z if v > 0 else z + v * s
+    f.box(x0, y, abs(v) * s, 22, fill=MINT if v > 0 else SAND, stroke=TEAL if v > 0 else AMBER, r=2)
+    if v > 0:
+        f.text(z + v * s + 6, y + 11, "%s %+.1f" % (n, v), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+    else:
+        f.text(z + 6, y + 11, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+        f.text(x0 - 4, y + 11, "%.1f" % v, size=10.5, color=AMBER, bold=True, anchor="end", vmid=True)
+f.text(150, 206, "OB = -1600 (2C + H/2 - O) / M", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "TNT is oxygen-poor: it burns with soot", size=10.5, color=SLATE, bold=True)
+```
+
 ## 20.2 Amines: classification, preparation, basicity, Hoffmann separation and aniline
 
 ### Classification and clean routes to primary amines
@@ -227,6 +255,32 @@ The traps: in the **gas phase** (no solvation) the order is purely inductive, 3�
 The **carbylamine** (foul-smelling isocyanide) test is given by **primary amines only**; **Hoffmann bromamide** converts an amide into an amine with **one carbon fewer** (the carbonyl carbon is lost as carbonate); and aniline's diazotisation must be done at **0–5 °C** — the diazonium salt decomposes (to phenol, releasing N₂) if the mixture warms up.
 :::
 
+```photogrid label="20.2" cols="2" ratio="1.2" caption="Basicity decides the smell and the chemistry of amines. (a) Fish on a market stall: the smell of stale fish is trimethylamine, released as the proteins decay; it is a gas-like volatile base, which is why lemon juice (an acid) turns it into an odourless salt. (b) For 0.1 mol/L solutions the cell solves Kb = x^2 / (0.1 - x) exactly from the pKa of each conjugate acid (NH3 9.25, CH3NH2 10.66, (CH3)2NH 10.73, (CH3)3N 9.80, aniline 4.60). The pH order, dimethylamine > methylamine > trimethylamine > ammonia >> aniline, shows two effects: alkyl groups push electrons towards nitrogen (+I effect) and raise basicity, but in water the extra hydration of the ion in primary and secondary amines beats the third alkyl group. Aniline is weak (pH 8.80) because its lone pair is delocalised into the benzene ring."
+@ photo id="ceechem/fish" cap="Fish on a market stall: the smell is trimethylamine"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="pH of 0.1 mol/L amine solutions"
+import math
+data = (("NH3", 9.25), ("CH3NH2", 10.66), ("(CH3)2NH", 10.73), ("(CH3)3N", 9.80), ("PhNH2", 4.60))
+def ph(pka, c=0.1):
+    kb = 10 ** -(14 - pka)
+    x = (-kb + math.sqrt(kb * kb + 4 * kb * c)) / 2
+    return 14 + math.log10(x)
+v = [ph(p) for _, p in data]
+assert v[2] > v[1] > v[3] > v[0] > v[4] and all(abs(a - b) < 0.006 for a, b in zip(v, [11.122, 11.815, 11.849, 11.395, 8.8]))
+f = Fig(300, 236)
+f.text(150, 12, "pH of 0.1 mol/L solutions", size=10.5, color=NAVY, bold=True)
+f.line(14, 160, 288, 160, color=SLATE, sw=1.4)
+for i, ((n, p), y) in enumerate(zip(data, v)):
+    x = 20 + i * 54
+    h = (y - 7) * 26
+    f.box(x, 160 - h, 40, h, fill=BLUE if i < 4 else SAND, stroke=NAVY if i < 4 else AMBER, r=2)
+    f.text(x + 20, 160 - h - 8, "%.2f" % y, size=10.5, color=NAVY if i < 4 else AMBER, bold=True)
+    f.text(x + 20, 174, n, size=9.5, color=SLATE, bold=True)
+f.text(150, 206, "bars start at pH 7 (neutral water)", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "aniline: lone pair delocalised into the ring", size=10.5, color=SLATE, bold=True)
+```
+
 ## 20.3 Organolithium, organocopper and organocadmium compounds; the Grignard reagent
 
 An **organometallic compound** contains a direct carbon–metal bond. Because carbon is more
@@ -318,6 +372,29 @@ tertiary lack; and **any acidic hydrogen — water, alcohol, terminal
 alkyne — kills a Grignard**, so dry ether is not a preference but a
 condition of existence.
 :::
+
+```photogrid label="20.3" cols="2" ratio="1.2" caption="The Grignard reagent builds alcohols from carbonyl compounds. (a) Victor Grignard (1871-1912), who discovered organomagnesium halides and received the 1912 Nobel Prize in Chemistry. (b) Methylmagnesium iodide, CH3MgI, adds to methanal (HCHO) to give a primary alcohol, ethanol; to ethanal to give a secondary alcohol, propan-2-ol; and to propanone to give a tertiary alcohol, 2-methylpropan-2-ol (t-butyl alcohol). The cell works out from the molar masses (46.07, 60.10 and 74.12 g/mol; CH3I = 141.94 g/mol) how much methyl iodide is needed for 10 g of each product at 100 per cent yield: 30.8 g, 23.6 g and 19.1 g. All glassware and ether must be dry, because the reagent is destroyed by water: CH3MgI + H2O gives CH4 + Mg(OH)I."
+@ photo id="ceechem/grignard" cap="Victor Grignard, Nobel Prize in Chemistry 1912"
+fit 1.2
+focus 0.5 0.3
+@ svg cap="Methyl iodide needed for 10 g of each alcohol"
+m = dict(C=12.011, H=1.008, O=15.999, I=126.904)
+mm = lambda c, h, o: c * m["C"] + h * m["H"] + o * m["O"]
+MeI = m["C"] + 3 * m["H"] + m["I"]
+rows = (("HCHO", "ethanol 1°", mm(2, 6, 1)), ("CH3CHO", "2-propanol 2°", mm(3, 8, 1)), ("(CH3)2CO", "t-BuOH 3°", mm(4, 10, 1)))
+g = [10 / M * MeI for _, _, M in rows]
+assert [round(M, 2) for _, _, M in rows] == [46.07, 60.10, 74.12] and round(MeI, 2) == 141.94
+assert [round(x, 1) for x in g] == [30.8, 23.6, 19.1]
+f = Fig(300, 236)
+f.text(150, 12, "g of CH3I per 10 g of alcohol", size=10.5, color=NAVY, bold=True)
+for i, ((a, n, M), v) in enumerate(zip(rows, g)):
+    y = 40 + i * 48
+    f.text(8, y + 14, a, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(84, y, v * 4.0, 28, n, fill=[BLUE, SAND, MINT][i], stroke=[NAVY, AMBER, TEAL][i], size=10.5, bold=True, r=3)
+    f.text(84 + v * 4.0 + 6, y + 14, "%.1f g" % v, size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "RMgX + C=O gives 1, 2 or 3 degree alcohol", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "HCHO 1, other aldehydes 2, ketones 3", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -528,3 +605,82 @@ condition of existence.
 **9.** (a) — each methyl of (CH₃)₂Cd acetylates once and stops: CH₃COCH₃.
 **10.** (b) — CH₃Br → CH₃CN (two carbons) → CH₃CH₂NH₂.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare the basicity of amines, the Hinsberg test and the distinction between primary, secondary and tertiary amines. <span class="marks">[10]</span>
+2. Describe the preparation and synthetic uses of diazonium salts, nitro compounds and Grignard reagents. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="3" ratio="1.25" caption="Nitrogen compounds and organometallics. (a) A Grignard reagent is a carbon-magnesium compound that must be made in dry ether. (b) Ferrocene, an organometallic 'sandwich' compound of iron. (c) TNT, 2,4,6-trinitrotoluene, an aromatic nitro compound used as an explosive."
+@ photo id="ceechem/grignard" cap="(a) Grignard reaction set-up"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ferrocene" cap="(b) Ferrocene crystals"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/tnt" cap="(c) TNT"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: amines (10 marks)
+
+**Introduction.** Amines are derivatives of ammonia in which one, two or three hydrogens are replaced by alkyl or aryl groups, giving primary ($1^{\circ}$), secondary ($2^{\circ}$) and tertiary ($3^{\circ}$) amines. The nitrogen is sp³ with a lone pair, which makes amines basic and nucleophilic.
+
+**Basicity.** In water, the order of $\text{p}K_b$ values shows the basic strength:
+
+| Compound | Basic strength in water | Reason |
+|---|---|---|
+| $(\text{C}_2\text{H}_5)_2\text{NH}$ | strongest | $+I$ and good solvation |
+| $(\text{C}_2\text{H}_5)_3\text{N}$ and $\text{C}_2\text{H}_5\text{NH}_2$ | strong | the $3^{\circ}$ amine has less solvation of its ion |
+| $\text{NH}_3$ | weaker | no alkyl group |
+| $\text{C}_6\text{H}_5\text{NH}_2$ | very weak | the lone pair is delocalised into the ring |
+
+So in water for the ethyl amines, $2^{\circ} > 3^{\circ} > 1^{\circ} > \text{NH}_3$, and for the methyl amines $2^{\circ} > 1^{\circ} > 3^{\circ} > \text{NH}_3$. The aromatic amines are weaker bases than ammonia, and electron-donating groups (such as $-\text{CH}_3$) increase the basic strength while electron-withdrawing groups ($-\text{NO}_2$) reduce it.
+
+**Preparation.** Reduction of nitro compounds ($\text{Sn/HCl}$ or $\text{H}_2/\text{Ni}$), reduction of nitriles and amides, **Hofmann bromamide degradation** ($\text{RCONH}_2 + \text{Br}_2 + 4\text{NaOH} \to \text{RNH}_2 + \ldots$, which gives an amine with **one carbon fewer**), ammonolysis of haloalkanes and the Gabriel phthalimide synthesis (pure $1^{\circ}$ amines only).
+
+**Distinction of amines.**
+
+| Test | $1^{\circ}$ | $2^{\circ}$ | $3^{\circ}$ |
+|---|---|---|---|
+| **Hinsberg** (benzenesulphonyl chloride, NaOH) | sulphonamide, soluble in alkali | sulphonamide, insoluble | no reaction |
+| HNO₂ (cold) | N₂ gas, alcohol | yellow oily nitrosamine | soluble salt |
+| Carbylamine (CHCl₃, KOH) | foul-smelling isocyanide | no | no |
+| Acetylation | yes | yes | no |
+
+**Aniline.** It is activated in the ring by $-\text{NH}_2$, so it gives a white precipitate of $2,4,6$-tribromoaniline with bromine water. Direct nitration gives a mixture, since $-\text{NH}_3^+$ forms in acid and directs meta, so the amine is first protected by acetylation.
+
+**Numerical.** In the Hofmann reaction of propanamide ($\text{C}_2\text{H}_5\text{CONH}_2$), the product is ethylamine ($\text{C}_2\text{H}_5\text{NH}_2$), one carbon fewer. From $7.3\ \text{g}$ ($0.1\ \text{mol}$) of propanamide, the theoretical yield is $0.1\ \text{mol} = 4.5\ \text{g}$. Aniline from $12.3\ \text{g}$ of nitrobenzene ($0.1\ \text{mol}$) gives $9.3\ \text{g}$ at a yield of $100\%$.
+
+**Conclusion.** Alkyl groups raise basicity but the aryl group lowers it, and the Hinsberg test with nitrous acid distinguishes the three classes.
+
+### Model answer D2: diazonium salts, nitro compounds and Grignard reagents (10 marks)
+
+**Introduction.** Diazonium salts $\text{ArN}_2^+\text{X}^-$ are the most useful intermediates in aromatic chemistry.
+
+**Diazotisation.** Aniline reacts with NaNO₂ and HCl at $0$ to $5^{\circ}\text{C}$ to give benzenediazonium chloride. It decomposes above $5^{\circ}\text{C}$ (to phenol and N₂), so it is prepared cold and used at once.
+
+**Reactions of diazonium salts.**
+
+1. **Replacement by $-\text{Cl}$, $-\text{Br}$, $-\text{CN}$ (Sandmeyer)** with CuCl, CuBr and CuCN, and the **Gattermann** reaction with Cu powder and HX.
+2. **Replacement by $-\text{I}$** with KI, and by $-\text{F}$ by heating the tetrafluoroborate (Balz-Schiemann).
+3. **Replacement by $-\text{OH}$** by warming with water, and by $-\text{H}$ with $\text{H}_3\text{PO}_2$.
+4. **Coupling reaction.** With phenol (alkaline) or aniline (weakly acidic) at the para position, benzenediazonium chloride gives coloured **azo dyes** ($-\text{N=N}-$), as in the orange dye of $p$-hydroxyazobenzene and methyl orange.
+
+**Nitro compounds.** Nitromethane and nitrobenzene have the $-\text{NO}_2$ group. Nitrobenzene is made from benzene with the nitrating mixture and is reduced to aniline: in acid medium with Sn/HCl to aniline, in neutral medium to phenylhydroxylamine, and in alkaline medium to azobenzene. Aliphatic nitro compounds with $\alpha$-hydrogen show tautomerism (the aci form). Trinitrotoluene (TNT) and picric acid are explosives.
+
+**Grignard reagent.** Prepared as $\text{RX} + \text{Mg} \to \text{RMgX}$ in **dry ether**, because water destroys it ($\text{RMgX} + \text{H}_2\text{O} \to \text{RH} + \text{Mg(OH)X}$). The C-Mg bond is highly polar, so the carbon is a carbanion-like nucleophile.
+
+| Reactant | Product after hydrolysis |
+|---|---|
+| HCHO | primary alcohol (one carbon more) |
+| Other aldehydes | secondary alcohol |
+| Ketones | tertiary alcohol |
+| CO₂ | carboxylic acid |
+| Ethylene oxide | primary alcohol (two carbons more) |
+| Acid chloride / ester | tertiary alcohol |
+
+**Numerical.** $\text{CH}_3\text{MgBr}$ with acetone gives, after hydrolysis, $2$-methylpropan-2-ol ($\text{(CH}_3)_3\text{COH}$, $74\ \text{g mol}^{-1}$), so $0.1\ \text{mol}$ of acetone gives at most $7.4\ \text{g}$. For aniline to chlorobenzene via the Sandmeyer reaction, $9.3\ \text{g}$ ($0.1\ \text{mol}$) gives $11.3\ \text{g}$ of chlorobenzene at best.
+
+**Conclusion.** Diazonium salts, made cold, allow the introduction of $-\text{X}$, $-\text{CN}$, $-\text{OH}$ and azo groups, and Grignard reagents build new C-C bonds under dry conditions.

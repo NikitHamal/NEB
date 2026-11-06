@@ -245,6 +245,35 @@ Now the variations become one-step: 25 *secondary* spermatocytes → 25 × 2 = 5
 Fertilisation occurs in the **ampulla of the fallopian (uterine) tube**, not in the uterus. Sperms are **produced** in the seminiferous tubules but **mature and are stored** in the **epididymis**. **Sertoli** cells nourish the developing sperms and secrete inhibin; **Leydig (interstitial)** cells secrete testosterone — MCQs routinely exchange these two.
 :::
 
+```photogrid label="11.1" cols="2" ratio="1.2" caption="Counting the cells made by meiosis. (a) A diagram of a human spermatozoon: head with acrosome, middle piece of mitochondria, and a tail. (b) Start with 100 primary germ cells (2n = 46). In the male each primary spermatocyte gives 2 secondary spermatocytes and then 4 spermatids, so 100 give 400 sperm, all functional. In the female each primary oocyte gives 1 ovum and 3 polar bodies, because the cytoplasm is shared unequally, so 100 give 100 ova and 300 polar bodies that die. The female stores the food for the zygote; the male makes many small mobile cells."
+@ photo id="bio12/sperm" cap="Human spermatozoon (diagram)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cells after each division from 100 germ cells"
+n0 = 100
+male = [n0, n0 * 2, n0 * 4]
+female_func = [n0, n0, n0]
+polar = [0, n0, n0 * 3]
+assert male[-1] == 400 and polar[-1] == 300
+facts = dict(s=male[-1], o=female_func[-1], pb=polar[-1])
+f = Fig(300, 236)
+f.text(150, 12, "Spermatogenesis and oogenesis", size=10.5, color=NAVY, bold=True)
+heads = ("2n = 46", "meiosis I", "meiosis II")
+fem = ("100 oocytes", "100 second.\noocytes", "100 ova")
+for j, h in enumerate(heads):
+    f.text(90 + j * 82, 30, h, size=10.5, color=SLATE, bold=True)
+f.text(4, 70, "male", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(4, 140, "female", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+for j in range(3):
+    x = 54 + j * 82
+    f.box(x, 44, 72, 40, fill=MINT, stroke=TEAL, r=3, label="%d\n%s" % (male[j], "cells" if j == 0 else "n = 23"), size=10.5, bold=True)
+    f.box(x, 112, 72, 36, fill=ROSE, stroke=RED, r=3, label=fem[j], size=10.5, bold=True)
+    if polar[j]:
+        f.box(x, 154, 72, 26, fill="#f1f5f9", stroke=SLATE, r=3, label="%d polar" % polar[j], size=10.5, bold=True, dash=True)
+f.text(150, 206, "100 spermatocytes -> 400 sperm", size=10.5, color=TEAL, bold=True)
+f.text(150, 222, "100 oocytes -> 100 ova + 300 polar bodies", size=10.5, color=RED, bold=True)
+```
+
 ## 11.3 The ovarian and menstrual cycles
 
 The ovarian cycle (follicle growth, ovulation and corpus luteum) and uterine/
@@ -605,3 +634,102 @@ spermatogonium, 1 ovum (+3 polar bodies) per oogonium**.
 **9.** (d) — Early pregnancy depends on luteal progesterone before the luteoplacental shift.
 **10.** (c) — $(400/400000)\times100=0.1\%$; most follicles undergo atresia.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the male and female reproductive systems of man. <span class="marks">[10]</span>
+2. Describe spermatogenesis and oogenesis and compare them. <span class="marks">[10]</span>
+3. Describe the ovarian and menstrual cycles and their hormonal control. <span class="marks">[10]</span>
+
+```photogrid label="11.H" cols="3" ratio="1.25" caption="Human reproduction. (a) The male reproductive system. (b) The female reproductive system. (c) Human sperm cells, each with an acrosome, a middle piece and a tail."
+@ photo id="bio12/male-repro" cap="(a) Male system"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/female-repro" cap="(b) Female system"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio12/sperm" cap="(c) Sperm"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Male and female reproductive systems (10 marks)
+
+**Introduction.** Humans are **sexually reproducing, viviparous** animals with internal fertilisation.
+
+**Male system.**
+
+1. **Testes:** a pair in the **scrotum**, which keeps them 2–3 °C below body temperature. Seminiferous tubules make sperms and **Leydig (interstitial) cells** make testosterone; Sertoli cells nourish the sperm.
+2. **Duct system:** epididymis (stores sperm) → vas deferens → ejaculatory duct → urethra inside the penis.
+3. **Accessory glands:** **seminal vesicles** (fructose, 60% of semen), **prostate** (alkaline fluid) and **Cowper's glands** (lubricating mucus). Sperm and secretions form **semen** (about 3 mL, with 60–100 million sperm per mL).
+
+**Female system.**
+
+1. **Ovaries:** a pair in the lower abdomen that produce eggs and oestrogen and progesterone.
+2. **Fallopian tubes (oviducts):** with the funnel-shaped **infundibulum** and ciliated lining; the site of **fertilisation**.
+3. **Uterus (womb):** a pear-shaped muscular organ; the wall has perimetrium, **myometrium** and **endometrium** where the embryo implants.
+4. **Cervix and vagina:** the cervix is the neck of the uterus; the vagina is the birth canal.
+5. **External genitalia and mammary glands:** the vulva; the breasts produce milk under prolactin and oxytocin.
+
+| Organ | Male | Female |
+|---|---|---|
+| Gonad | Testis | Ovary |
+| Gamete | Sperm | Ovum |
+| Hormones | Testosterone | Oestrogen, progesterone |
+| Gamete number | Millions | One (usually) a month |
+| Fertilisation site | – | Ampulla of the oviduct |
+
+**Conclusion.** Each organ has a clear role in forming gametes, bringing them together and nourishing the embryo.
+
+### Model answer D2: Gametogenesis (10 marks)
+
+**Introduction.** **Gametogenesis** is the formation of haploid gametes from diploid germ cells in the gonads. It has multiplication, growth and maturation phases.
+
+**Spermatogenesis (in the seminiferous tubules, starts at puberty).**
+
+1. **Multiplication:** spermatogonia (2n = 46) divide by mitosis.
+2. **Growth:** some grow into **primary spermatocytes** (2n).
+3. **Maturation:** meiosis I gives two **secondary spermatocytes** (n = 23), and meiosis II gives four **spermatids** (n).
+4. **Spermiogenesis:** spermatids change into **spermatozoa** (no division). Each has a **head** (nucleus with the **acrosome** that has enzymes), a **middle piece** (mitochondria for energy) and a **tail** for swimming.
+
+**Oogenesis (in the ovary).**
+
+1. **Multiplication:** in the foetus oogonia divide by mitosis.
+2. **Growth:** they become **primary oocytes** that start meiosis I, but stop at prophase I until puberty. A girl is born with about 2 million primary oocytes, and only about 400 ovulate.
+3. **Maturation:** at each cycle meiosis I is completed, giving a large **secondary oocyte** and a small **first polar body**. The secondary oocyte stops at metaphase II and is released at ovulation.
+4. Only if a sperm enters does meiosis II finish, giving the **ovum** and a second polar body.
+
+| Feature | Spermatogenesis | Oogenesis |
+|---|---|---|
+| Starts | Puberty | Foetal life (stops, resumes at puberty) |
+| Time | Continues through life | Stops at menopause (about 50) |
+| Product of one cell | 4 sperms | 1 ovum + 3 polar bodies |
+| Size | Small, motile | Large, non-motile |
+| Number | Millions | About 400 |
+
+**Fertilisation.** A sperm releases acrosomal enzymes (hyaluronidase) to pass through the egg coat. The nuclei fuse to form a **zygote** (2n = 46).
+
+**Conclusion.** Spermatogenesis is continuous and produces many small gametes, but oogenesis is limited and gives one large, food-rich egg.
+
+### Model answer D3: Ovarian and menstrual cycles (10 marks)
+
+**Introduction.** In women the cycle repeats about every **28 days** from puberty (menarche, 12–14 years) to menopause (about 45–50 years). It is controlled by the hypothalamus, pituitary and ovarian hormones.
+
+**Phases.**
+
+1. **Menstrual phase (days 1–5):** the endometrium breaks down and about 50–100 mL of blood and tissue is discharged because the levels of oestrogen and progesterone have dropped.
+2. **Follicular (proliferative) phase (days 6–13):** **FSH** from the pituitary matures a Graafian follicle, which makes **oestrogen**. Oestrogen rebuilds the endometrium.
+3. **Ovulation (day 14):** a surge of **LH** (with FSH) bursts the follicle and releases the secondary oocyte.
+4. **Luteal (secretory) phase (days 15–28):** the ruptured follicle becomes the **corpus luteum**, which secretes **progesterone** (and oestrogen). The endometrium becomes thick, glandular and ready for implantation.
+5. **If fertilisation does not occur,** the corpus luteum degenerates after about 10 days, hormone levels fall and menstruation begins. **If it occurs,** the embryo makes **hCG**, which keeps the corpus luteum active, and menstruation stops (pregnancy).
+
+| Hormone | Source | Main action |
+|---|---|---|
+| FSH | Anterior pituitary | Follicle growth |
+| LH | Anterior pituitary | Ovulation, corpus luteum |
+| Oestrogen | Follicle | Builds endometrium; LH surge |
+| Progesterone | Corpus luteum | Maintains endometrium |
+
+**Numerical.** If the last period began on day 1 and the cycle is 28 days, ovulation is on day 14 and the fertile days are about days 12–16. For a 30-day cycle, ovulation is about day 16.
+
+**Conclusion.** The two cycles run together, so the uterus is ready exactly when the egg arrives in the oviduct.

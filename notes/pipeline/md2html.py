@@ -115,6 +115,7 @@ def _extract_photogrids(body, store, chapter_id):
                                    f'{_html.escape(rec.get("license", ""))}')
                 _, keys, _o = photo.parse_script(script)
                 keys_all += keys
+            cap = re.sub(r"^\(" + chr(97 + k) + r"\)\s*", "", cap)   # the letter is added below; drop a hand-typed duplicate
             cells.append(f'<td class="gc">{img}<div class="gcap"><b>({chr(97 + k)})</b> '
                          f'{_inline_math_html(cap)}</div></td>')
         rows = [cells[i:i + cols] for i in range(0, len(cells), cols)]
@@ -428,4 +429,9 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
+    # WeasyPrint ignores <ol start="N">: a list resumed after a display
+    # equation would restart at 1. Mirror the attribute with a counter reset.
+    htm = re.sub(r'<ol start="(\d+)"(?![^>]*style=)>',
+                 lambda m: f'<ol start="{m.group(1)}" style="counter-reset:list-item {int(m.group(1)) - 1}">',
+                 htm)
     return meta, htm, n[0]

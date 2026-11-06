@@ -159,6 +159,31 @@ secondary growth arrives later. (iv) **Monocot root** — polyarch xylem and a
 large pith, no cambium ever. Four slides, four answers, each from two or
 three diagnostic features — exactly how the paper frames it.
 :::
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Reading a tree from its rings. (a) The cut trunk of a woody dicot shows concentric annual rings: each is one layer of secondary xylem, wide, light early wood in spring and narrow, dark late wood in autumn. (b) Twelve rings were measured (total radius 32.0 mm, mean 2.67 mm). Any ring thinner than half the mean (1.33 mm) marks a stress year such as drought: here rings 5 and 10. The tree is 12 years old, and ring patterns of old timber are used to date houses and to read past rainfall in the Himalaya."
+@ photo id="bio12/annual-rings" cap="Annual rings in a woody dicot stem"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Width of 12 rings, from the pith outwards (mm)"
+w = (3.2, 3.0, 2.8, 3.4, 1.1, 2.6, 3.1, 3.3, 2.9, 0.9, 2.7, 3.0)
+tot = sum(w); mean = tot / len(w); half = mean / 2
+dry = [i + 1 for i, x in enumerate(w) if x < half]
+assert abs(tot - 32.0) < 1e-9 and dry == [5, 10]
+facts = dict(tot="%.1f" % tot, mean="%.2f" % mean, half="%.2f" % half, d1=dry[0], d2=dry[1], n=len(w))
+f = Fig(300, 236)
+f.text(150, 12, "Ring width (mm) by year of growth", size=10.5, color=NAVY, bold=True)
+base, sc = 178, 32
+for i, x in enumerate(w):
+    d = (i + 1) in dry
+    f.box(16 + i * 22.5, base - x * sc, 17, x * sc, fill=ROSE if d else SAND, stroke=RED if d else AMBER, r=1)
+    f.text(16 + i * 22.5 + 8.5, base + 13, str(i + 1), size=10.5, color=RED if d else SLATE, bold=d)
+    f.text(16 + i * 22.5 + 8.5, base - x * sc - 5, "%.1f" % x, size=9.5, color=RED if d else SLATE)
+f.line(12, base, 292, base, color=SLATE)
+f.line(12, base - mean * sc, 292, base - mean * sc, color=TEAL, dash=True)
+f.text(14, 207, "teal dashes: mean 2.67 mm", size=10.5, color=TEAL, bold=True, anchor="start")
+f.line(12, base - half * sc, 292, base - half * sc, color=RED, dash=True)
+f.text(14, 222, "red dashes: half the mean, 1.33 mm", size=10.5, color=RED, bold=True, anchor="start")
+```
+
 ## 10.2 Types of vascular bundles
 
 A **vascular bundle** is a strand of xylem and phloem. The paper asks you
@@ -438,6 +463,29 @@ phloem only** — xylem's dead pipes need no attendants.
 **Solution.** Radial bundles + exarch protoxylem = **root**; polyarch condition ($>6$ xylem arches) + large persistent pith = **monocot root** (e.g., maize).
 :::
 
+```photogrid label="10.2" cols="2" ratio="1.2" caption="Counting stomata. (a) Pores in the leaf epidermis, each flanked by two guard cells. (b) The stomatal index is S/(S + E) x 100, where S is the number of stomata and E the number of ordinary epidermal cells in the same fields; it does not change with the size of the cells, unlike the stomatal density. Five microscope fields of a dicot leaf gave 94 stomata and 325 epidermal cells on the lower surface (index 22.4 per cent) but only 15 and 404 on the upper surface (index 3.6 per cent). More stomata sit below, where the air is cooler and less water is lost."
+@ photo id="bio12/stomata" cap="Stomata and guard cells"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Stomatal index of the two leaf surfaces"
+lo = (94, 325); up = (15, 404)
+si = lambda s, e: 100 * s / (s + e)
+assert abs(si(*lo) - 22.43) < 0.01 and abs(si(*up) - 3.58) < 0.01
+facts = dict(sil="%.1f" % si(*lo), siu="%.1f" % si(*up))
+f = Fig(300, 236)
+f.text(150, 12, "Stomatal index = S/(S + E) x 100", size=10.5, color=NAVY, bold=True)
+base, sc = 170, 5.2
+for i, (lab, d, c, fl) in enumerate((("Lower surface", lo, TEAL, MINT), ("Upper surface", up, AMBER, SAND))):
+    v = si(*d)
+    x = 52 + i * 118
+    f.box(x, base - v * sc, 60, v * sc, fill=fl, stroke=c, r=2)
+    f.text(x + 30, base - v * sc - 7, "%.1f%%" % v, size=11, color=c, bold=True)
+    f.text(x + 30, base + 14, lab, size=10.5, color=SLATE, bold=True)
+    f.text(x + 30, base + 28, "S = %d, E = %d" % d, size=10.5, color=c)
+f.line(30, base, 290, base, color=SLATE)
+f.text(150, 224, "sum of 5 microscope fields per surface", size=10.5, color=SLATE, bold=True)
+```
+
 ## Formula and fact sheet
 
 - **Meristem characters**: thin walls, dense cytoplasm, big nucleus, tiny vacuoles, no spaces. Apical = length; intercalary = grasses; lateral = thickness (vascular + cork cambium).
@@ -647,3 +695,74 @@ phloem only** — xylem's dead pipes need no attendants.
 **9.** (b) — Each root hair is a tubular extension of one epiblema (rhizodermis) cell.
 **10.** (a) — Phloem flanking xylem on both sides defines the bicollateral conjoint bundle.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the types of plant tissues, with the structure and function of xylem and phloem. <span class="marks">[10]</span>
+2. Describe the anatomy of a dicot and a monocot stem and the secondary growth in a dicot stem. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.4" caption="Plant anatomy. (a) A transverse section of a sunflower (dicot) stem shows vascular bundles in a ring. (b) The trunk of a large tree shows annual rings from secondary growth by the vascular cambium."
+@ photo id="qbank/sunflower-stem" cap="(a) Sunflower stem (T.S.)"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/redwood" cap="(b) Secondary growth: a big trunk"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: plant tissues (10 marks)
+
+**Introduction.** A **tissue** is a group of similar cells with a common origin that do a common job. Plant tissues are **meristematic** (dividing) or **permanent** (non-dividing).
+
+**Meristematic tissue.** Cells are small, thin-walled and with dense cytoplasm, a large nucleus and no vacuole. By position they are **apical** (in root and shoot tips, giving primary growth in length), **lateral** (vascular cambium and cork cambium, giving growth in girth) and **intercalary** (at the base of leaves and internodes in grasses).
+
+**Permanent tissue.**
+
+| Tissue | Cells | Function and example |
+|---|---|---|
+| **Parenchyma** | living, thin-walled | storage, photosynthesis (chlorenchyma), buoyancy (aerenchyma) |
+| **Collenchyma** | living, cellulose and pectin thickened at corners | flexible support in young stems and petioles |
+| **Sclerenchyma** | dead, **lignified** walls: fibres and sclereids | strength (jute fibres, nut shell) |
+| **Epidermis** | single layer with cuticle, stomata, root hairs | protection, gas exchange |
+| **Xylem** | tracheids, vessels, fibres, parenchyma | water conduction |
+| **Phloem** | sieve tubes, companion cells, fibres, parenchyma | food conduction |
+
+**Xylem.** The main conducting tissue for water and minerals (**unidirectional**, upwards). **Tracheids** (long, tapering, with pits) are present in all vascular plants, and **vessels** (wide, with perforated end walls) are mostly in angiosperms. Only the xylem parenchyma is living. In the stem, **protoxylem** lies towards the centre (**endarch**, as in the stem) and **metaxylem** towards the outside.
+
+**Phloem.** Conducts the food made in leaves (**bidirectional**). **Sieve tubes** (living, with sieve plates and without a nucleus) are helped by the **companion cells**, which have a nucleus and supply energy. Gymnosperms have sieve cells and albuminous cells.
+
+**Tissue systems.** (1) Epidermal, (2) ground (cortex, pith) and (3) vascular, with the vascular bundles being **conjoint, collateral, open** (cambium present, in dicot stems) or **closed** (monocots), **radial** (roots) or bicollateral (cucurbits).
+
+**Numerical.** A stem with $12$ vascular bundles in a ring, each having $1$ strip of phloem and $1$ of xylem, has $24$ strips. The tension needed to raise water $100\ \text{m}$ in a tall tree is about $\rho gh = 1000\times9.8\times100 = 0.98\ \text{MPa}$ (about $1\ \text{MPa}$) at least, enough to need the cohesion-tension mechanism.
+
+**Conclusion.** Meristems make new cells, permanent tissues give protection, support and conduction, and xylem and phloem carry water and food.
+
+### Model answer D2: anatomy of dicot and monocot stems and secondary growth (10 marks)
+
+**Introduction.** The internal structure of a stem differs in dicots and monocots, as seen in a transverse section.
+
+| Feature | Dicot stem (sunflower) | Monocot stem (maize) |
+|---|---|---|
+| Hypodermis | collenchymatous | sclerenchymatous |
+| Ground tissue | cortex, endodermis, pericycle and pith | not differentiated |
+| Vascular bundles | few, in a **ring** | many, **scattered** |
+| Bundle type | conjoint, collateral, **open** (cambium) | conjoint, collateral, **closed** |
+| Bundle sheath | absent | present |
+| Pith | large, central | absent |
+| Secondary growth | present | absent |
+
+**Dicot stem details.** The epidermis has a cuticle and hairs. Under it, the **hypodermis**, then the **cortex** with the **endodermis** (starch sheath), the **pericycle** (sclerenchyma caps), and the vascular bundles with **xylem inside** and **phloem outside** and a **cambium** between them (endarch xylem). Medullary rays lie between the bundles, and there is a central pith.
+
+**Secondary growth in a dicot stem.**
+
+1. **Cambial ring.** The **intrafascicular cambium** (in the bundles) joins the **interfascicular cambium** (from the medullary rays) to form a complete ring.
+2. The cambium cuts off **secondary xylem** (wood) inwards in large amounts, and **secondary phloem** outwards in smaller amounts.
+3. **Annual rings.** In spring, wide vessels give light **spring wood**, and in autumn, narrow vessels give dark **autumn wood**. One of each makes **one annual ring**, so counting rings gives the age of a tree (**dendrochronology**).
+4. **Heartwood** (dark, dead, resin- and tannin-filled, for strength) and **sapwood** (light, conducts water).
+5. **Cork cambium (phellogen)** forms in the cortex, cutting off **cork (phellem)** outwards and **secondary cortex (phelloderm)** inwards. Together these make the **periderm**, which replaces the epidermis, with **lenticels** for gas exchange. **Bark** is all the tissue outside the vascular cambium.
+
+Monocots lack a cambium, so they do not grow in girth, except some such as palms and *Dracaena* by anomalous growth.
+
+**Numerical.** A tree trunk with $45$ complete annual rings is $45$ years old. If its radius grows from $10$ to $12\ \text{cm}$ in $5$ years, the mean ring width is $\dfrac{2\ \text{cm}}{5} = 4\ \text{mm}$ per year. The girth of the trunk at a radius of $12\ \text{cm}$ is $2\pi(12) = 75\ \text{cm}$.
+
+**Conclusion.** A dicot stem has a ring of open vascular bundles and so can grow in thickness by cambium, while a monocot stem has scattered closed bundles and cannot.

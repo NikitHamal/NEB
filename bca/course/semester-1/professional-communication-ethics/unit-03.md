@@ -198,6 +198,28 @@ Use one consistent style (APA or IEEE) throughout the document, and ask your dep
 7. **Proofread before sending.** Read aloud, check names, numbers, attachments and spelling. A wrong name or missing attachment looks careless. Spell-check does not find "form" typed instead of "from".
 8. **Give credit and respect copyright.** Quote or paraphrase with a source, never copy-paste another student's work as your own. Plagiarism can cancel a result at Tribhuvan University. Writing in your own words with references is both honest and a better learning method.
 
+```photogrid label="3.2" cols="2" ratio="1.0" caption="Every email has a reading cost. (a) A post office: a century ago the letter was the only business writing, and its length was limited by the cost of paper and the walk to the counter; email removed the cost to the writer but not to the reader. (b) Assume a reader takes in 200 words a minute (an assumption). A 120-word email costs 36 seconds and a 480-word email 144 seconds. For a manager who reads 50 such emails a day, that is 30 minutes against 2 hours, a difference of 90 minutes every working day. Put the request and the deadline in the first two lines, use one subject line that says the topic and the action ('Result sheet for BCA 3rd semester: approval needed by Friday'), and move background to the end. Short does not mean rude; it means the reader can act without searching."
+@ photo id="bcapc/postoffice" cap="A post office, home of the business letter"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Reading time of 50 emails a day at 200 words/min"
+wpm = 200
+sec = [round(w / wpm * 60) for w in (120, 480)]
+day = [s * 50 / 60 for s in sec]
+assert sec == [36, 144] and day == [30.0, 120.0] and day[1] - day[0] == 90
+f = Fig(300, 240)
+f.text(150, 14, "200 words a minute (assumed)", size=10.5, color=SLATE)
+for i, (lab, w, s, d, col) in enumerate([("120-word email", 120, sec[0], day[0], "#0f766e"), ("480-word email", 480, sec[1], day[1], "#b91c1c")]):
+    y = 32 + i * 76
+    f.text(10, y + 6, lab, size=10.5, color=NAVY, anchor="start", bold=True)
+    f.box(10, y + 14, 200 * s / 144, 16, "", fill=col, stroke=col, r=0)
+    f.text(10 + 200 * s / 144 + 5, y + 22, f"{s} s", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+    f.box(10, y + 36, 200 * d / 120, 16, "", fill=col, stroke=col, r=0)
+    f.text(10 + 200 * d / 120 + 5, y + 44, f"{d:.0f} min/day", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+f.text(150, 196, "bars: one email, then 50 a day", size=10.5, color=SLATE)
+f.text(150, 216, "saving 90 minutes every working day", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Email: specific subject → greeting → purpose first → details → action + deadline → closing.

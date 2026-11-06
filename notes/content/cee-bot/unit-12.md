@@ -139,6 +139,30 @@ substrate-level ATP (2 glycolysis, 2 GTP) plus ~10 NADH × 2.5 and ~2 FADH₂ ×
 1.5 ≈ 25 + 3 = 28 oxidative → **30–32 ATP per glucose**, against the 2 ATP of
 fermentation: oxygen is worth fifteen-fold.
 :::
+```photogrid label="12.1" cols="2" ratio="1.2" caption="Colour of light and energy of a photon. (a) A single spiral chloroplast of Spirogyra: the pigments sit in its thylakoid membranes. (b) Chlorophyll a absorbs strongly in the blue-violet (about 430 nm) and the red (about 662 nm); green light is mostly reflected, which is why leaves look green. The energy of one photon is E = hc/lambda = 1,239.84/lambda(nm) eV, giving 2.88 eV at 430 nm and 1.87 eV at 662 nm. The reaction centres P680 (photosystem II, 1.82 eV) and P700 (photosystem I, 1.77 eV) absorb the longest wavelengths that still drive the reaction."
+@ photo id="ceebot/spirogyra-chl" cap="Spiral chloroplast in a Spirogyra cell"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Absorption of chlorophyll a (schematic) and photon energy"
+E = lambda nm: 1239.84 / nm
+assert abs(E(430) - 2.883) < 0.001 and abs(E(662) - 1.873) < 0.001 and abs(E(680) - 1.823) < 0.001 and abs(E(700) - 1.771) < 0.001
+facts = dict(e430="%.2f" % E(430), e662="%.2f" % E(662), e680="%.2f" % E(680), e700="%.2f" % E(700))
+A = lambda l: math.exp(-((l - 430) / 22) ** 2 / 2) + 0.78 * math.exp(-((l - 662) / 17) ** 2 / 2) + 0.12
+f = Fig(300, 236)
+f.text(150, 12, "Relative absorption against wavelength (nm)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (400, 700), (0, 1.2))
+cols = ("#7c3aed", "#2563eb", "#16a34a", "#eab308", "#f97316", "#dc2626")
+for k, c in enumerate(cols):
+    f.box(ax.X(400 + k * 50), ax.Y(0) + 17, ax.X(450 + k * 50) - ax.X(400 + k * 50), 8, fill=c, stroke=c, r=0, sw=0.5)
+ax.grid(50, 0.4, xfmt=lambda v: "%d" % v).axes("nm", "A")
+ax.curve(A, 400, 700, color=TEAL)
+ax.pt(430, A(430), "2.88 eV", dx=8, dy=4)
+ax.pt(662, A(662), "1.87 eV", dx=-8, dy=-8, anchor="end")
+ax.vline(680, 0, 0.85, color=RED).vline(700, 0, 0.5, color=NAVY)
+f.text(150, 214, "red line P680 1.82 eV; navy line P700 1.77 eV", size=10.5, color=SLATE, bold=True)
+f.text(150, 228, "E (eV) = 1,239.84 / wavelength (nm)", size=10.5, color=NAVY, bold=True)
+```
+
 ## 12.2 Calvin cycle (C3), Hatch–Slack pathway (C4) and photorespiration; factors; bacterial photosynthesis
 
 The **Calvin cycle** (Calvin, Benson, Bassham; Nobel 1961) runs in the
@@ -207,6 +231,32 @@ exchange); the **CO₂ compensation point** is the equivalent CO₂ level
 are most effective; temperature governs through enzyme kinetics (rate
 roughly doubling per 10 °C to an optimum, then crashing); water shortage
 acts by closing stomata.
+
+```photogrid label="12.2" cols="2" ratio="1.2" caption="How much of the light is kept. (a) A chloroplast in section: stacked grana of thylakoids in a matrix, the sites of light reactions and of the Calvin cycle. (b) At least 8 photons are needed per CO2, 48 for one glucose. At 680 nm each photon carries 1.82 eV, so 48 photons carry 8,444 kJ per mole of glucose, while one mole of glucose stores 2,870 kJ. The best possible conversion is 34 per cent. Real leaves reach far less because light is reflected, wasted at saturation or lost in photorespiration, and a field crop stores only 1 to 2 per cent of the sunlight that falls on it."
+@ photo id="bio11/chloroplast-tem" cap="Chloroplast in section (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Energy of 48 photons (680 nm) and what a glucose stores (kJ/mol)"
+Eph = 1239.84 / 680
+kj = 48 * Eph * 96.485
+eff = 2870 / kj * 100
+assert abs(kj - 8444) < 5 and abs(eff - 34.0) < 0.2
+facts = dict(e="%.2f" % Eph, kj="{:,}".format(int(round(kj))), eff="%.0f" % eff)
+f = Fig(300, 236)
+f.text(150, 12, "Light energy absorbed and energy stored", size=10.5, color=NAVY, bold=True)
+sc = 230 / kj
+f.text(10, 42, "48 photons at 680 nm", size=10.5, color=SLATE, anchor="start")
+f.box(10, 50, kj * sc, 24, fill=SAND, stroke=AMBER, r=2)
+f.text(10 + kj * sc / 2, 62, "%s kJ" % facts["kj"], size=10.5, color=AMBER, bold=True, vmid=True)
+f.text(10, 100, "stored as 1 glucose", size=10.5, color=SLATE, anchor="start")
+f.box(10, 108, 2870 * sc, 24, fill=MINT, stroke=TEAL, r=2)
+f.text(10 + 2870 * sc / 2, 120, "2,870 kJ", size=10.5, color=TEAL, bold=True, vmid=True)
+f.box(10 + 2870 * sc, 108, (kj - 2870) * sc, 24, fill="#f1f5f9", stroke=SLATE, r=2, dash=True)
+f.text(10 + 2870 * sc + (kj - 2870) * sc / 2, 120, "lost", size=10.5, color=SLATE, bold=True, vmid=True)
+f.text(150, 168, "maximum efficiency = 2,870 / %s" % facts["kj"], size=10.5, color=NAVY, bold=True)
+f.text(150, 186, "= %s per cent" % facts["eff"], size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "field crops store only 1 to 2 per cent of sunlight", size=10.5, color=SLATE, bold=True)
+```
 
 ## 12.3 Aerobic and anaerobic respiration: glycolysis, oxidative decarboxylation, Krebs cycle, electron transport and oxidative phosphorylation; factors
 
@@ -356,6 +406,34 @@ second** — numbering follows discovery, electrons follow energy; the
 only via ATP and NADPH; and **photorespiration consumes, it does not
 produce** — CO₂ out, ATP spent, no sugar, which is exactly why C₄ exists.
 :::
+
+```photogrid label="12.3" cols="2" ratio="1.2" caption="Counting ATP from one glucose. (a) Mitochondria in a lung cell: the cristae carry the electron transport chain. (b) Glycolysis gives 2 ATP and 2 NADH, the link reaction 2 NADH, and the Krebs cycle 2 ATP, 6 NADH and 2 FADH2, so substrate-level ATP is 4, with 10 NADH and 2 FADH2 to oxidise. The older textbook yield uses 3 ATP per NADH and 2 per FADH2: 4 + 30 + 4 = 38 ATP. Modern measurements use 2.5 and 1.5: 4 + 25 + 3 = 32 ATP, which captures 34 per cent of the 2,870 kJ in glucose (30.5 kJ per ATP). Anaerobic fermentation nets only 2 ATP."
+@ photo id="bio11/mito-tem" cap="Mitochondria in a lung cell (TEM)"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="ATP from one glucose: older and modern counts"
+sub, nadh, fadh = 4, 10, 2
+old = sub + nadh * 3 + fadh * 2
+new = sub + nadh * 2.5 + fadh * 1.5
+eff = new * 30.5 / 2870 * 100
+assert old == 38 and new == 32 and abs(eff - 34.0) < 0.1
+facts = dict(old=old, new="%d" % new, eff="%.0f" % eff)
+f = Fig(300, 236)
+f.text(150, 12, "ATP per glucose (aerobic)", size=10.5, color=NAVY, bold=True)
+sc = 6.0
+for i, (lab, a, b, c) in enumerate((("older count", nadh * 3, fadh * 2, old), ("modern count", nadh * 2.5, fadh * 1.5, new))):
+    y = 36 + i * 62
+    f.text(10, y, lab + ": %g ATP" % c, size=10.5, color=NAVY, bold=True, anchor="start")
+    x = 10
+    for v, fl, st, nm in ((sub, SAND, AMBER, "sub"), (a, BLUE, NAVY, "NADH"), (b, MINT, TEAL, "FADH2")):
+        f.box(x, y + 8, v * sc, 22, fill=fl, stroke=st, r=0, sw=1.2)
+        f.text(x + v * sc / 2, y + 19, "%g" % v, size=10.5, color=st, bold=True, vmid=True)
+        x += v * sc
+f.box(14, 172, 12, 12, fill=SAND, stroke=AMBER, r=0); f.text(30, 178, "substrate-level", size=10.5, color=AMBER, anchor="start", vmid=True)
+f.box(128, 172, 12, 12, fill=BLUE, stroke=NAVY, r=0); f.text(144, 178, "NADH", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(206, 172, 12, 12, fill=MINT, stroke=TEAL, r=0); f.text(222, 178, "FADH2", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(150, 206, "32 ATP x 30.5 kJ = 976 kJ = 34% of 2,870", size=10.5, color=SLATE, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -568,3 +646,85 @@ produce** — CO₂ out, ATP spent, no sugar, which is exactly why C₄ exists.
 **9.** (d) — Only glycolysis pays out; fermentation itself yields no ATP.
 **10.** (b) — Twelve G3P form; ten rebuild the six RuBP and two combine towards one glucose.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the light and dark reactions of photosynthesis and compare C3 and C4 plants. <span class="marks">[10]</span>
+2. Describe aerobic respiration with the energy yield, fermentation and the respiratory quotient. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="2" ratio="1.4" caption="Energy conversion in plants. (a) Spirogyra's ribbon-shaped chloroplasts carry out photosynthesis. (b) Starch grains stained blue-black with iodine are the visible product of photosynthesis stored in the leaf and storage organs."
+@ photo id="ceebot/spirogyra-chl" cap="(a) Chloroplasts of Spirogyra"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceebot/starch" cap="(b) Starch grains"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: photosynthesis (10 marks)
+
+**Introduction.** **Photosynthesis** is the process by which green plants make carbohydrate from CO₂ and water using light energy: In light and in the presence of chlorophyll, $6\text{CO}_2 + 12\text{H}_2\text{O} \to \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 + 6\text{H}_2\text{O}$. The oxygen comes from **water** (shown by Ruben and Kamen with $^{18}\text{O}$).
+
+**Light reaction** (in the **thylakoid** membranes of the grana). Light is absorbed by the pigments of **photosystem II** (P680) and **photosystem I** (P700).
+
+1. **Photolysis of water:** $2\text{H}_2\text{O} \to 4\text{H}^+ + 4e^- + \text{O}_2$.
+2. **Non-cyclic photophosphorylation (Z-scheme):** electrons flow from PS II through plastoquinone, cytochrome $b_6f$ and plastocyanin to PS I and then to ferredoxin and **NADP⁺**, which becomes **NADPH**. The proton gradient drives **ATP synthase**, so ATP is made (chemiosmosis).
+3. **Cyclic photophosphorylation:** only PS I is involved, giving ATP only, with no O₂ or NADPH.
+
+**Dark reaction (Calvin cycle)** in the **stroma**, which needs ATP and NADPH.
+
+1. **Carboxylation:** CO₂ is added to **RuBP** (5C) by **RuBisCO**, giving two molecules of $3$-PGA (3C).
+2. **Reduction:** PGA is changed to G3P (triose phosphate) using ATP and NADPH.
+3. **Regeneration** of RuBP using ATP. For one glucose, the cycle runs $6$ times and uses $18\ \text{ATP}$ and $12\ \text{NADPH}$.
+
+**C3 and C4 plants.**
+
+| Feature | C3 plants | C4 plants |
+|---|---|---|
+| Examples | wheat, rice, potato | maize, sugarcane, sorghum |
+| First product | $3$-PGA (3C) | oxaloacetate (4C) |
+| CO₂ acceptor | RuBP | PEP (PEP carboxylase) |
+| Leaf anatomy | no Kranz | **Kranz** anatomy (bundle sheath) |
+| Photorespiration | high | almost absent |
+| Optimum temperature | $20$ to $25^{\circ}\text{C}$ | $30$ to $45^{\circ}\text{C}$ |
+| Efficiency | lower | higher |
+
+CAM plants (cacti, pineapple) fix CO₂ at night.
+
+**Limiting factors (Blackman).** Light, CO₂ concentration ($0.03\%$ in air), temperature and water. **Photorespiration:** RuBisCO takes up O₂ at high temperature, wasting energy.
+
+**Numerical.** To make $180\ \text{g}$ of glucose, $6\times44 = 264\ \text{g}$ of CO₂ and $108\ \text{g}$ of water are needed and $192\ \text{g}$ of oxygen are released ($6\times32$). A field making $5\ \text{t}$ of glucose uses $7.3\ \text{t}$ of CO₂.
+
+**Conclusion.** The light reaction makes ATP, NADPH and O₂, and the Calvin cycle uses them to fix CO₂ into sugar.
+
+### Model answer D2: respiration (10 marks)
+
+**Introduction.** **Respiration** is the oxidation of food, mainly glucose, to release energy as **ATP**. $\text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 \to 6\text{CO}_2 + 6\text{H}_2\text{O} + 686\ \text{kcal}$.
+
+**Stages of aerobic respiration.**
+
+| Stage | Site | Reaction | Net products per glucose |
+|---|---|---|---|
+| **Glycolysis** | cytoplasm | glucose to $2$ pyruvate | $2$ ATP, $2$ NADH |
+| **Link reaction** | mitochondrial matrix | pyruvate to acetyl-CoA | $2$ NADH, $2\ \text{CO}_2$ |
+| **Krebs cycle** | matrix | acetyl-CoA oxidised | $2$ ATP, $6$ NADH, $2$ FADH₂, $4\ \text{CO}_2$ |
+| **Electron transport (oxidative phosphorylation)** | inner membrane | NADH, FADH₂ oxidised, O₂ final acceptor | about $26$ to $28$ ATP |
+
+**Energy yield.** Each NADH gives about $2.5$ ATP and each FADH₂ about $1.5$ ATP (older textbooks give $3$ and $2$, so a total of $38$). Total $\approx 30$ to $32$ ATP ($36$ to $38$ in the older count). Efficiency $= \dfrac{38\times7.3}{686}\times100 \approx 40\%$, and the rest is lost as heat.
+
+**Anaerobic respiration (fermentation).** Glycolysis followed by conversion of pyruvate to **ethanol** and CO₂ (yeast) or to **lactic acid** (muscle, with a net of only $2$ ATP). It is used in brewing and baking and to make curd.
+
+| Feature | Aerobic | Anaerobic |
+|---|---|---|
+| Oxygen | needed | not needed |
+| Products | CO₂ and H₂O | ethanol and CO₂, or lactic acid |
+| ATP | $30$ to $38$ | $2$ |
+| Site | cytoplasm and mitochondria | cytoplasm |
+
+**Respiratory quotient (RQ).** $\text{RQ} = \dfrac{\text{volume of CO}_2\text{ released}}{\text{volume of O}_2\text{ used}}$. Carbohydrate $= 1.0$; fats $\approx 0.7$; proteins $\approx 0.9$; organic acids $> 1$; anaerobic respiration $= \infty$.
+
+**Relation with photosynthesis.** Photosynthesis stores energy in food and respiration releases it. The compensation point is when the rates of both are equal.
+
+**Numerical.** For tripalmitin and palmitic acid ($\text{C}_{16}\text{H}_{32}\text{O}_2 + 23\text{O}_2 \to 16\text{CO}_2 + 16\text{H}_2\text{O}$), $\text{RQ} = 16/23 = 0.70$. For glucose $\text{RQ} = 6/6 = 1$. For oxalic acid ($2\text{C}_2\text{H}_2\text{O}_4 + \text{O}_2 \to 4\text{CO}_2 + 2\text{H}_2\text{O}$), $\text{RQ} = 4$.
+
+**Conclusion.** Glycolysis, the Krebs cycle and the electron transport chain together release about $30$ to $38$ ATP per glucose, while fermentation gives only $2$.

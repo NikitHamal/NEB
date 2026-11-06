@@ -279,6 +279,48 @@ f.text(290, 30, "recomposition: only readers of the changed state re-run", size=
 7. **Plan for width classes.** Make the layout adapt at 600 dp and use fragments so that a list and a detail can be shown side by side (Plate 3.2). Foldables and tablets are growing in the market and a school may give students tablets. One code base, two layouts, and no change to the logic.
 8. **Make targets reachable and readable.** Keep tap targets at 48 dp or more, give images content descriptions for TalkBack, and keep colour contrast high for sunlight. A farmer using a market-price app outdoors needs large, high-contrast text. These checks cost almost nothing at design time.
 
+```photogrid label="3.3" cols="2" ratio="1.2" caption="Why long lists in Android use RecyclerView. (a) A baggage carousel has a few bags in view at a time and the belt reuses the same surface: a RecyclerView likewise keeps only the rows on screen and reuses the row views that scroll out of sight. (b) A simulation scrolls through a list of 10,000 rows with 8 visible. A plain list that inflates one view per row creates 10,000 views, while the recycling list inflates only 8 and rebinds new data into them 10,000 times. With assumed costs of 0.4 millisecond to inflate a row and 0.05 millisecond to bind it, the work falls from 4.5 seconds to 0.5 seconds and the memory use stays constant however long the list is. The costs are assumptions for the exercise, but the counts are exact."
+@ photo id="bcamob/carousel" cap="A baggage carousel: the same belt, bags reused"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="RecyclerView: 10,000 rows, few row views"
+N, VIS = 10000, 8
+pool = []
+c = {"made": 0, "bind": 0}
+screen = []
+def get():
+    if pool:
+        return pool.pop()
+    c["made"] += 1
+    return c["made"]
+for pos in range(VIS):
+    screen.append(get())
+    c["bind"] += 1
+for pos in range(VIS, N):
+    pool.append(screen.pop(0))
+    screen.append(get())
+    c["bind"] += 1
+naive = N
+INFL, BIND = 0.4, 0.05
+t_rec = c["made"] * INFL + c["bind"] * BIND
+t_naive = naive * (INFL + BIND)
+assert c["made"] <= VIS + 1 and c["bind"] == N
+facts = dict(made=c["made"], bind=format(c["bind"], ","), naive=format(naive, ","), tr=round(t_rec / 1000, 1), tn=round(t_naive / 1000, 1))
+f = Fig(300, 236)
+f.text(150, 12, "scroll through 10,000 rows, 8 on screen", size=10.5, color=NAVY, bold=True)
+for k, (lab, v, col, sub) in enumerate([("row views created", (c["made"], naive), None, None)]):
+    pass
+f.text(8, 38, "plain list: one view per row", size=10.5, color=RED, bold=True, anchor="start")
+f.box(8, 44, 280, 22, "%s views inflated" % format(naive, ","), fill="#fecaca", stroke=RED, size=10.5, bold=True, r=3, sw=1)
+f.text(8, 90, "RecyclerView: views are recycled", size=10.5, color=TEAL, bold=True, anchor="start")
+f.box(8, 96, max(280 * c["made"] / naive, 6), 22, "", fill="#bbf7d0", stroke=TEAL, r=3, sw=1)
+f.text(20, 107, "%d views inflated, %s bound" % (c["made"], format(c["bind"], ",")), size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 150, "assumed cost: inflate 0.4 ms, bind 0.05 ms", size=10.5, color=SLATE)
+f.text(150, 172, "plain list: %.1f s of work" % (t_naive / 1000), size=10.5, color=RED, bold=True)
+f.text(150, 190, "recycled: %.1f s of work" % (t_rec / 1000), size=10.5, color=TEAL, bold=True)
+f.text(150, 214, "memory stays at about 8 row views", size=10.5, color=NAVY, bold=True)
+```
+
 ## Chapter summary
 
 - UIs are trees of Views in ViewGroups; ConstraintLayout gives flat, responsive screens; resource qualifiers supply Nepali text, dark mode, tablets and density-specific assets.

@@ -213,6 +213,39 @@ TOTAL 77 / 100
 7. **Close the loop in writing.** After the defence, note every question you could not answer and every correction the panel asked for, and fix the report before final submission. Examiners often ask for changes and later check that they were made.
 8. **Write a one-page reflection.** State what you built, what you would do differently, what you learned about data and about people, and what you want to learn next. It becomes the paragraph in your CV and the answer to "tell me about your final-year project" in a job interview.
 
+```photogrid label="5.2" cols="2" ratio="1.2" caption="What an originality check actually sees. (a) A magnifying glass over a book: the examiner and the plagiarism checker both look at the exact words. (b) A one-sentence source was compared with three student sentences by the share of three-word runs they have in common. Changing three words of the source (occurs for happens, badly for poorly) still leaves 69 per cent of the triples identical, an obvious copy. Rewriting the idea in one's own words and adding a citation shares only 0 per cent, and an unrelated sentence 0 per cent. The method is crude and real checkers are more elaborate, but the lesson holds: copy, change-a-few-words and paste is detected, while understanding the idea, saying it in your own sentence and citing the source is allowed and scores better. Keep the cited source in the reference list."
+@ photo id="bcapj/lens" cap="A magnifying glass: the examiner reads closely"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Word-triple overlap with a source paragraph"
+import re
+src = "Overfitting happens when a model learns the noise in the training data instead of the pattern, so it scores very well on training data and poorly on new data."
+copy = "Overfitting occurs when a model learns the noise in the training data instead of the pattern, so it scores very well on training data and badly on new data."
+para = "A model that memorises random quirks of its training set will look excellent there but fail on unseen cases (Author, Year)."
+other = "The Android activity lifecycle has callbacks that run when a screen is shown or hidden."
+def sh(t):
+    w = re.findall(r"[a-z']+", t.lower())
+    return {tuple(w[i:i + 3]) for i in range(len(w) - 2)}
+def jac(a, b):
+    A, B = sh(a), sh(b)
+    return len(A & B) / len(A | B)
+v = [jac(src, copy), jac(src, para), jac(src, other)]
+assert v[0] > 0.5 and v[1] < 0.1 and v[2] == 0
+facts = dict(c=round(v[0] * 100), p=round(v[1] * 100), o=round(v[2] * 100))
+f = Fig(300, 236)
+f.text(150, 12, "shared word-triples with the source (%)", size=10.5, color=NAVY, bold=True)
+labs = ["copy, 3 words swapped", "own words + citation", "unrelated sentence"]
+cols = ["#fecaca", "#bbf7d0", "#e5e7eb"]
+for i, (l, x) in enumerate(zip(labs, v)):
+    y = 30 + i * 52
+    f.text(8, y + 6, l, size=10.5, color=NAVY, bold=True, anchor="start")
+    f.box(8, y + 14, max(x * 270, 3), 22, "", fill=cols[i], stroke=SLATE, r=3, sw=1)
+    f.text(14 + max(x * 270, 3), y + 25, "%d%%" % round(x * 100), size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "a checker flags long shared runs", size=10.5, color=RED, bold=True)
+f.text(150, 212, "swapping words does not hide a copy", size=10.5, color=RED, bold=True)
+f.text(150, 228, "paraphrase + citation is honest use", size=10.5, color=TEAL, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Item | Fact |

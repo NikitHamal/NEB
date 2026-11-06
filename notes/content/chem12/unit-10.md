@@ -631,6 +631,24 @@ The point of the question is the condition: the same reagent at two temperatures
 gives two different products.
 :::
 
+```photogrid label="10.P" cols="2" ratio="1.2" caption="Why sanitisers are about 70 per cent ethanol. (a) A dispenser stand gives out an alcohol-based sanitiser, an application of ethanol as an antiseptic. Ethanol denatures the protein of germs best when some water is present to let it enter the cell, so 60 to 80 per cent is used rather than the pure liquid. (b) The cell dilutes 95 per cent ethanol with C1 V1 = C2 V2: to make 100 mL of a 70 per cent product, 73.7 mL of stock is made up with water to the mark (26.3 mL of water, nominally), which holds 1.20 mol of ethanol. A 60 per cent product needs 63.2 mL of stock and a 90 per cent product 94.7 mL."
+@ photo id="chem12b/sanitizer" cap="A hand sanitiser dispenser stand"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Diluting 95 per cent ethanol to a sanitiser"
+rows = [("%d %%" % c, c * 100 / 95) for c in (60, 70, 80, 90)]
+assert round(rows[1][1], 1) == 73.7
+mol = 70 * 0.789 / 46.07
+f = Fig(300, 236)
+f.text(150, 12, "mL of 95% ethanol per 100 mL of product", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=100, fmt="%.1f", x0=52, y0=30, bw=170, gap=30)
+f.text(150, 158, "C1 V1 = C2 V2, then top up to 100 mL with water", size=10, color=SLATE, bold=True)
+f.text(150, 178, "70%%: %.1f mL of ethanol stock, %.1f mL of water" % (rows[1][1], 100 - rows[1][1]), size=10, color=NAVY, bold=True)
+f.text(150, 198, "70 mL of ethanol = %.1f g = %.2f mol" % (70 * 0.789, mol), size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "volumes shrink about 3% on mixing: use the mark", size=10, color=SLATE, bold=True)
+facts = dict(v70=rows[1][1], w70=100 - rows[1][1], v60=rows[0][1], v90=rows[3][1], mol=mol)
+```
+
 ## Chapter summary
 
 - A monohydric alcohol is CₙH₂ₙ₊₁OH; it is 1°, 2° or 3° according to the number
@@ -791,3 +809,42 @@ $V = 0.050 \times 22.4 = 1.12\ \text{dm}^{3}$ — as stated.
 Equations: 2CH₃CH₂CH₂OH + 2Na → 2CH₃CH₂CH₂ONa + H₂↑;
 CH₃CH₂CH₂OH + [O] → CH₃CH₂CHO + H₂O; CH₃CH₂CHO + [O] → CH₃CH₂COOH.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the laboratory preparation of ethanol and the reactions of alcohols; how are primary, secondary and tertiary alcohols distinguished? <span class="marks">[10]</span>
+
+### Model answer D1: preparation, properties and tests of alcohols (10 marks)
+
+**Introduction.** **Alcohols** contain the hydroxyl group –OH attached to a saturated carbon (general formula CₙH₂ₙ₊₁OH). They are classed as primary (1°), secondary (2°) or tertiary (3°) by the number of alkyl groups on the carbon bearing the –OH.
+
+**Preparation of ethanol.**
+
+1. **From bromoethane (hydrolysis):** CH₃CH₂Br + aq. KOH → CH₃CH₂OH + KBr.
+2. **By hydration of ethene:** CH₂=CH₂ + H₂O → CH₃CH₂OH, with conc. H₂SO₄ or H₃PO₄ catalyst, 300 °C and 60 atm.
+3. **By reduction of ethanal:** CH₃CHO + H₂ → CH₃CH₂OH (Ni catalyst), or with LiAlH₄.
+4. **From a Grignard reagent:** CH₃MgBr + HCHO, then H₂O, gives CH₃CH₂OH (primary alcohol).
+5. **By fermentation of glucose:** C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂, with zymase of yeast at 25–35 °C.
+
+**Reactions of alcohols.**
+
+| Reaction | Equation | Product |
+|---|---|---|
+| With sodium | 2C₂H₅OH + 2Na → 2C₂H₅ONa + H₂ | Sodium ethoxide, H₂ gas |
+| With PCl₅ or SOCl₂ | C₂H₅OH + PCl₅ → C₂H₅Cl + POCl₃ + HCl | Chloroethane |
+| Esterification | C₂H₅OH + CH₃COOH ⇌ CH₃COOC₂H₅ + H₂O | Ethyl ethanoate |
+| Dehydration at 170 °C | C₂H₅OH → C₂H₄ + H₂O (conc. H₂SO₄) | Ethene |
+| Dehydration at 140 °C | 2C₂H₅OH → C₂H₅OC₂H₅ + H₂O | Diethyl ether |
+| Oxidation | C₂H₅OH → CH₃CHO → CH₃COOH (K₂Cr₂O₇ / H⁺) | Ethanal, ethanoic acid |
+
+**Distinguishing 1°, 2° and 3° alcohols.**
+
+1. **Lucas test** (anhydrous ZnCl₂ in conc. HCl): a tertiary alcohol turns cloudy at once; a secondary one in about 5 minutes; a primary one only on heating, or not at all.
+2. **Oxidation:** a primary alcohol gives an aldehyde and then an acid; a secondary alcohol gives a ketone; a tertiary alcohol resists oxidation under mild conditions.
+3. **Dehydrogenation (Cu, 573 K):** 1° gives an aldehyde, 2° a ketone and 3° an alkene.
+
+**Test for ethanol.** The **iodoform test**: warm with I₂ and NaOH; a yellow precipitate of CHI₃ with a medicinal smell forms (also by CH₃CH(OH)R).
+
+**Uses.** Ethanol is a solvent, a fuel (blended in petrol), an antiseptic and a raw material for ether and acetic acid; methanol is used for formaldehyde and as a solvent, and it is poisonous.
+
+**Conclusion.** Alcohols are made by hydrolysis, hydration, reduction or fermentation, and the Lucas test and oxidation distinguish their three classes.

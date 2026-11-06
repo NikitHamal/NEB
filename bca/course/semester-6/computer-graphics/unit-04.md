@@ -178,6 +178,78 @@ pan(6, [(10, 40), (60, 10), (110, 50), (60, 90)], "none", SLATE, True, "input po
 pan(296, [(50, 80), (20, 50), (20, 34), (43.33, 20), (72.5, 20), (100, 42), (100, 58), (72.5, 80)], MINT, TEAL, False, "clipped polygon (8 vertices)")
 ```
 
+Clipping is cutting a picture down to the part that fits the window. The first plate counts how many of 10,000 random lines Cohen-Sutherland can settle with no arithmetic, and the second clips a triangle with the Sutherland-Hodgman algorithm.
+
+```photogrid label="4.1" cols="2" ratio="0.85" caption="Cheap tests settle only some lines: for random lines in this world, 6.3 per cent are accepted and 23.3 per cent rejected by bit tests, and 70.4 per cent still need the next step. (a) A paper silhouette being cut: only what lies inside the outline is kept, which is the idea of a clipping window. (b) 10,000 random line segments in a 160 x 160 world (random.Random(2081)) tested against the window (40, 40)-(120, 120) with 4-bit Cohen-Sutherland region codes. Lines with both codes 0000 are accepted at once, lines whose codes share a 1 bit are rejected at once, and only the remaining lines need an intersection to be calculated. The three shares are computed in the figure and add up to 100 per cent."
+@ photo id="bca-cg/scissors" cap="Cutting a silhouette from paper"
+fit 0.85
+focus 0.5 0.5
+@ svg cap="Cohen-Sutherland outcomes for 10,000 lines"
+import random
+rg = random.Random(2081); xl, xr, yb, yt = 40, 120, 40, 120
+def code(x, y): return (x < xl) * 1 + (x > xr) * 2 + (y < yb) * 4 + (y > yt) * 8
+acc = rej = clip = 0
+N = 10000
+for _ in range(N):
+    x1, y1, x2, y2 = [rg.uniform(0, 160) for _ in range(4)]
+    a, b = code(x1, y1), code(x2, y2)
+    if a == 0 and b == 0: acc += 1
+    elif a & b: rej += 1
+    else: clip += 1
+assert acc + rej + clip == N and rej > acc and clip > 0
+print("accept", acc, "reject", rej, "clip", clip)
+f = Fig(300, 236)
+f.text(150, 11, "10,000 random lines, window 40..120", size=10, color=NAVY, bold=True)
+parts = [("trivially accepted (0000 and 0000)", acc, TEAL), ("trivially rejected (codes share a 1 bit)", rej, RED), ("need an intersection calculated", clip, AMBER)]
+x = 8
+for nm, v, col in parts:
+    w = 284 * v / N
+    f.box(x, 24, w, 24, "", fill=col, stroke="#ffffff", sw=1, r=0)
+    x += w
+for i, (nm, v, col) in enumerate(parts):
+    y = 64 + i * 32
+    f.box(8, y, 12, 12, "", fill=col, stroke=col, r=2)
+    f.text(26, y + 6, nm, size=9.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.text(26, y + 20, "{:,} lines = {:.1f} per cent".format(v, 100 * v / N), size=10, color=col, bold=True, anchor="start", vmid=True)
+f.box(8, 168, 284, 56, "accept and reject are decided with bit tests only\n(a | b = 0 accept; a & b != 0 reject);\nthe rest (a window this small in a big world) need\nintersection tests; some of those still miss the window", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+```
+
+```photogrid label="4.2" cols="2" ratio="0.85" caption="Clipping a polygon edge by edge. (a) Ivan Sutherland, who built Sketchpad (1963), the first interactive graphics program, and co-authored the polygon-clipping algorithm used here with Gary Hodgman. (b) The triangle (10, 10), (110, 30), (60, 120) clipped against the window x 20 to 100, y 20 to 100 by Sutherland-Hodgman: the polygon is clipped against the left, right, bottom and top edge in turn, and each pass can add vertices. The clipped result has more vertices than the triangle; the figure lists them, and the area (shoelace formula) falls from the original to the visible part."
+@ photo id="bca-cg/ivan" cap="Ivan E. Sutherland"
+fit 0.85
+focus 0.5 0.6
+@ svg cap="Sutherland-Hodgman on a triangle (computed)"
+def clip_edge(poly, inside, inter):
+    out = []
+    for i in range(len(poly)):
+        cur, prv = poly[i], poly[i - 1]
+        if inside(cur):
+            if not inside(prv): out.append(inter(prv, cur))
+            out.append(cur)
+        elif inside(prv): out.append(inter(prv, cur))
+    return out
+def ix(x0): return lambda p, q: (x0, p[1] + (q[1] - p[1]) * (x0 - p[0]) / (q[0] - p[0]))
+def iy(y0): return lambda p, q: (p[0] + (q[0] - p[0]) * (y0 - p[1]) / (q[1] - p[1]), y0)
+tri = [(10, 10), (110, 30), (60, 120)]
+P = clip_edge(tri, lambda p: p[0] >= 20, ix(20))
+P = clip_edge(P, lambda p: p[0] <= 100, ix(100))
+P = clip_edge(P, lambda p: p[1] >= 20, iy(20))
+P = clip_edge(P, lambda p: p[1] <= 100, iy(100))
+def area(poly): return abs(sum(poly[i - 1][0] * poly[i][1] - poly[i][0] * poly[i - 1][1] for i in range(len(poly)))) / 2
+assert len(P) > 3 and all(20 - 1e-9 <= x <= 100 + 1e-9 and 20 - 1e-9 <= y <= 100 + 1e-9 for x, y in P) and area(P) < area(tri)
+print("vertices", len(P), "areas", area(tri), area(P))
+f = Fig(300, 236)
+k = 1.5; X = lambda x: 8 + x * k; Y = lambda y: 200 - y * k
+f.box(X(20), Y(100), 80 * k, 80 * k, "", fill="#ffffff", stroke=RED, sw=1.6, r=0, dash=True)
+f.poly([(X(x), Y(y)) for x, y in tri], fill="#dbeafe", stroke=NAVY, sw=1.2)
+f.poly([(X(x), Y(y)) for x, y in P], fill="#99f6e4", stroke=TEAL, sw=1.8)
+f.text(8, 214, "red dashes: window; blue: triangle; green: clipped", size=9, color=SLATE, bold=True, anchor="start")
+f.text(8, 228, "area %.0f -> %.0f; %d vertices after clipping" % (area(tri), area(P), len(P)), size=9.5, color=TEAL, bold=True, anchor="start")
+for i, (x, y) in enumerate(P):
+    f.text(204, 22 + i * 15, "%d (%.1f, %.1f)" % (i + 1, x, y), size=9, color=TEAL, bold=True, anchor="start")
+f.text(204, 8, "output vertices", size=9, color=NAVY, bold=True, anchor="start")
+```
+
 ### 4.5.1 Eight uses of clipping in graphics systems
 
 1. **Showing only the visible part of a scene.** A game or map draws only what lies inside the screen. Everything else is discarded early, so no time is wasted on it. This keeps the frame rate high.

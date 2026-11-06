@@ -309,6 +309,62 @@ f.text(90, 120, "5  update DOM", size=10, color=TEAL, bold=True)
 7. **Plugins and an ecosystem.** Date pickers, sliders, data tables and validation plugins are available for jQuery and plug into the same selector style. Many admin templates used by Nepali software companies still include them. Reusing a tested plugin saves days of work.
 8. **When to avoid it.** Modern JavaScript offers `querySelectorAll`, `classList`, `fetch` and arrow functions, and frameworks such as React and Vue manage the page themselves. A new small project may not need the 87 KB (about 30 KB compressed) library. Keep jQuery for maintaining existing sites and for quick scripts, and learn the plain DOM first.
 
+```photogrid label="6.2" cols="2" ratio="1.2" caption="Why delegation beats binding to every item. (a) Dominoes: one push on the first tile travels along the whole chain, as a click on a link travels up through its parents. (b) A click on an anchor inside a list item bubbles through 7 nodes (a, li, ul, div, body, html, document), and any ancestor on the way can handle it. Binding a handler to each li costs one handler per item (3, 100 or 1,000 of them) and, worse, an item added later has no handler at all: the simulation shows 0 handlers firing for the new item. One delegated handler on the ul costs a single binding and fires 1 time for the new item, because the click still bubbles up to it. In jQuery this is the two-argument form on with a selector, and it is the standard fix for lists that grow, such as a chat or a cart."
+@ photo id="bcawt/dominoes" cap="Dominoes: one push travels along the chain"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Event bubbling and delegated handlers"
+parent = {"a": "li", "li": "ul#list", "ul#list": "div#app", "div#app": "body", "body": "html", "html": "document"}
+def path(n):
+    p = [n]
+    while p[-1] in parent:
+        p.append(parent[p[-1]])
+    return p
+chain = path("a")
+assert chain == ["a", "li", "ul#list", "div#app", "body", "html", "document"]
+class List:
+    def __init__(self, n):
+        self.items = n
+        self.direct = set(range(n))
+        self.delegated = True
+    def add(self):
+        self.items += 1
+    def click(self, i):
+        fired = []
+        if i in self.direct:
+            fired.append("li handler")
+        if self.delegated:
+            fired.append("ul handler")
+        return fired
+L = List(3)
+L.add()
+new_direct = len([h for h in L.click(3) if h == "li handler"])
+new_deleg = len([h for h in L.click(3) if h == "ul handler"])
+assert (new_direct, new_deleg) == (0, 1)
+facts = dict(steps=len(chain), nd=new_direct, nl=new_deleg)
+f = Fig(300, 236)
+f.text(75, 12, "click on <a>: order up", size=10.5, color=NAVY, bold=True)
+for i, n in enumerate(chain):
+    y = 22 + i * 30
+    hot = n == "ul#list"
+    f.box(8, y, 118, 22, "%d  %s" % (i + 1, n), fill="#fde68a" if hot else BLUE, stroke=AMBER if hot else NAVY, size=10.5, bold=True, r=3, sw=1)
+    if i < len(chain) - 1:
+        f.arrow([(67, y), (67, y - 8)], color=SLATE, sw=1.2)
+f.text(214, 12, "handlers bound", size=10.5, color=NAVY, bold=True)
+f.text(172, 30, "items", size=10.5, color=SLATE, bold=True)
+f.text(218, 30, "direct", size=10.5, color=RED, bold=True)
+f.text(268, 30, "delegated", size=10.5, color=TEAL, bold=True)
+for i, n in enumerate([3, 100, 1000]):
+    y = 46 + i * 26
+    f.text(172, y, str(n), size=10.5, color=NAVY, bold=True, vmid=True)
+    f.text(218, y, str(n), size=10.5, color=RED, vmid=True)
+    f.text(268, y, "1", size=10.5, color=TEAL, bold=True, vmid=True)
+f.text(214, 140, "li added later is clicked:", size=10.5, color=NAVY, bold=True)
+f.text(214, 160, "direct fires %d" % new_direct, size=10.5, color=RED, bold=True)
+f.text(214, 178, "delegated fires %d" % new_deleg, size=10.5, color=TEAL, bold=True)
+f.text(214, 206, ".on('click', 'li', fn)", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Pattern: `$(selector).action()`; `$(function(){ … })` runs on DOM ready.

@@ -312,3 +312,72 @@ answering what/where/when/how (*Fifteen shops were burnt in a fire at Kalanki
 market on … night*), body with the loss, cause, fire brigade's work and no
 casualties; past tense; third person.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (8 to 10 marks each, for deeper revision)**
+
+1. Write a news story and a short speech. <span class="marks">[10]</span>
+2. Explain the four types of conditional sentences with examples. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="3" ratio="1.0" caption="From newspaper to page. An old newspaper, the masthead of Gorkhapatra and the first issue of Gorkhapatra show where news stories are printed and read."
+@ photo id="eng11/newspaper" cap="Newspaper page"
+@ photo id="nep11/gorkhapatra" cap="Gorkhapatra masthead"
+@ photo id="nep12/gorkhapatra-first" cap="First Gorkhapatra"
+```
+
+### Model answer D1: a news story and a speech (10 marks)
+
+**Introduction.** A **news story** reports a recent event. It has a headline, byline, dateline, a lead paragraph (5W1H) and a body.
+
+**Model news story.**
+
+::: example News story
+**STUDENTS PLANT 500 TREES ON WORLD ENVIRONMENT DAY**  
+By our reporter, Pokhara, 5 Jestha
+
+Students of Shree Janajyoti Secondary School planted 500 saplings on the hill behind the school on Thursday to mark World Environment Day. The programme, organised by the Eco Club, began at 8 a.m. and continued until noon. "We want our hill to be green again," said Binita Rai, president of the club. The Ward Chairperson, who was the chief guest, promised to provide water pipes. Teachers, parents and the Red Cross volunteers also joined. The students will water the plants every day.
+:::
+
+**Model speech (short).**
+
+::: example Speech
+Good morning, respected principal, teachers and friends. Today I would like to speak about the importance of trees. Trees give us oxygen, shade, fruit and firewood. They hold the soil and stop landslides. If we cut them carelessly, we will suffer. So let us plant at least one tree each. Thank you very much.
+:::
+
+**Parts.**
+
+1. **Headline:** short and in the present tense.
+2. **Byline:** who wrote it.
+3. **Dateline:** place and date.
+4. **Lead:** *who, what, when, where, why, how*.
+5. **Body:** details and quotations.
+6. **Speech greeting.**
+7. **Points with examples.**
+8. **Conclusion and thanks.**
+
+**Conclusion.** News is factual and in the past tense; a speech is spoken and persuasive.
+
+### Model answer D2: conditional sentences (10 marks)
+
+**Introduction.** A **conditional sentence** has an *if*-clause (condition) and a main clause (result).
+
+| Type | Use | Structure | Example |
+|---|---|---|---|
+| Zero | Facts always true | If + present, present | If you heat ice, it melts. |
+| First | Real future possibility | If + present, will + V1 | If it rains, we will stay home. |
+| Second | Unreal present or future | If + past, would + V1 | If I had wings, I would fly. |
+| Third | Unreal past | If + had + V3, would have + V3 | If he had studied, he would have passed. |
+
+**Rules.**
+
+1. Do **not** use *will* or *would* in the *if*-clause.
+2. In **formal English** use *were* for all persons in the second conditional: *If I were you, I would apologise.*
+3. A comma follows the *if*-clause when it comes first.
+4. *Unless* means *if not*: *Unless you hurry, you will be late.*
+5. **Poem:** in *If I was a Superhero* the speaker wishes to fly, clean the oceans and feed the poor: all second conditional wishes.
+6. **Story:** in *The Magic Mirror* the line "If you had been as confident, you might have been the queen" is a third conditional.
+7. *Might* or *could* can replace *would* to show less certainty.
+8. A **mixed** form is possible: *If I had studied, I would be a doctor now.*
+
+**Conclusion.** Identify how real the condition is and choose the type.

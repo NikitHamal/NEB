@@ -388,6 +388,54 @@ substituting.
 **Solution.** Because *tert*-butyl bromide is $3^\circ$ and $\text{CH}_3\text{O}^-$ is a strong base, $E2$ elimination dominates to give **2-methylpropene** ($(\text{CH}_3)_2\text{C=CH}_2$). Williamson synthesis requires an **unhindered ($1^\circ$/methyl) halide**: react **sodium *tert*-butoxide** ($(\text{CH}_3)_3\text{CONa}$) with **iodomethane** ($\text{CH}_3\text{I}$) via $S_N2$.
 :::
 
+```photogrid label="18.1" cols="2" ratio="1.2" caption="How much alcohol is in a drink? (a) Ethanol is a polar liquid that mixes with water in any ratio. (b) A 750 mL bottle at 40 per cent alcohol by volume holds 300 mL of ethanol, 236.7 g at 0.789 g/mL, or 5.14 mol (M = 46.07 g/mol). That is 34.5 per cent by mass, because ethanol is lighter than water. A glass of beer (330 mL, 5 per cent), wine (150 mL, 12 per cent) or whisky (30 mL, 40 per cent) holds 13.0, 14.2 and 9.5 g, nearly the same, so a bottle equals about 18 beers and has an energy value of 1,679 kcal."
+@ photo id="sci10/ethanol" cap="Ethanol, the alcohol of drinks and of sanitiser"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Grams of ethanol in common drinks"
+d = 0.789; M = 46.07
+g = 300 * d; mol = g / M; mass = g / (g + 450) * 100
+beer, wine, whisky = 330 * 0.05 * d, 150 * 0.12 * d, 30 * 0.40 * d
+kcal = g * 29.67 / 4.184
+assert abs(g - 236.7) < 0.05 and abs(mol - 5.138) < 0.005 and abs(mass - 34.5) < 0.1 and abs(g / beer - 18.2) < 0.1
+facts = dict(g="%.1f" % g, mol="%.2f" % mol, mass="%.1f" % mass, beer="%.1f" % beer, wine="%.1f" % wine, whisky="%.1f" % whisky, n="%.0f" % (g / beer), kcal="{:,.0f}".format(kcal))
+f = Fig(300, 236)
+f.text(150, 14, "grams of ethanol per serving", size=10.5, color=NAVY, bold=True)
+for i, (lab, v) in enumerate((("beer 330 mL, 5 per cent", beer), ("wine 150 mL, 12 per cent", wine), ("whisky 30 mL, 40 per cent", whisky))):
+    y = 28 + i * 38
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    w = v * 12
+    f.box(14, y + 10, w, 16, fill=MINT, stroke=TEAL, r=2, sw=1.4)
+    f.text(14 + w + 5, y + 18, "%.1f g" % v, size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 154, "bottle: 750 mL at 40 per cent", size=10.5, color=NAVY, bold=True)
+f.text(150, 172, "%.1f g = %.2f mol ethanol" % (g, mol), size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "%.1f per cent by mass, about %.0f beers" % (mass, g / beer), size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "energy about %s kcal" % "{:,.0f}".format(kcal), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="18.2" cols="2" ratio="1.2" caption="Ethanol vapour in the breath. (a) A handheld tester draws a breath sample through a fuel cell or a semiconductor sensor and shows the alcohol level. (b) Ethanol is volatile and dissolves in water, so alcohol in the blood of the lung capillaries evaporates into the air in the lungs until a fixed ratio is reached (Henry's law). At body temperature there is about 2100 times more alcohol in a volume of blood than in the same volume of breath. A blood alcohol level of 0.05 g per 100 mL (0.5 g/L) therefore gives 0.238 mg per litre of breath, about 130 ppm of vapour, and a level of 0.15 g per 100 mL gives 0.714 mg per litre."
+@ photo id="ceechem2/breath" cap="A breath alcohol tester (Drivesafe)"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Breath alcohol and blood alcohol"
+ratio = 2100.0
+rows = []
+for bac in (0.02, 0.05, 0.08, 0.15):
+    gL = bac * 10
+    rows.append(("%.2f g/dL" % bac, gL / ratio * 1000))
+assert round(rows[1][1], 3) == 0.238
+Vm = 0.082057 * 307.15
+ppm = rows[1][1] / 1000 / 46.07 * Vm * 1e6
+f = Fig(300, 236)
+f.text(150, 12, "Alcohol in breath, mg per litre", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=0.8, fmt="%.3f", x0=70, y0=30, bw=150, gap=30)
+f.text(150, 160, "blood : breath = 2100 : 1 at 34 C (Henry's law)", size=10, color=SLATE, bold=True)
+f.text(150, 184, "0.05 g/dL = 0.5 g/L = %.3f mg per L of breath" % rows[1][1], size=10, color=NAVY, bold=True)
+f.text(150, 204, "= %.0f ppm of ethanol vapour by volume" % ppm, size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "(C2H5OH = 46.07 g/mol, 25.2 L/mol at 34 C)", size=10, color=SLATE, bold=True)
+facts = dict(b=rows[1][1], ppm=ppm, b2=rows[3][1])
+```
+
 ## Formula and fact sheet
 
 | Topic | Must-know |
@@ -596,3 +644,80 @@ substituting.
 **9.** (a) — Reimer–Tiemann ortho formylation via dichlorocarbene.
 **10.** (b) — Williamson methylation of phenoxide; the ring is not methylated at carbon under these conditions.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare SN1 and SN2 mechanisms and E1 and E2 elimination of haloalkanes with the factors that decide the path. <span class="marks">[10]</span>
+2. Explain the preparation, properties and tests of alcohols, phenols and ethers, including the Lucas test and the acidity of phenol. <span class="marks">[10]</span>
+
+```photogrid label="18.H" cols="3" ratio="1.25" caption="Organic compounds in use. (a) Hand sanitiser is mainly ethanol or isopropyl alcohol. (b) Diethyl ether, once the first general anaesthetic, is a volatile ether. (c) DDT is a chlorinated organic compound, effective as an insecticide but banned for its persistence."
+@ photo id="chem12b/sanitizer" cap="(a) Alcohol sanitiser"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ether" cap="(b) Diethyl ether"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12b/ddt" cap="(c) DDT, a haloalkane insecticide"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: nucleophilic substitution and elimination (10 marks)
+
+**Introduction.** In a haloalkane R-X the carbon-halogen bond is polar, so carbon is electrophilic. A **nucleophile** (OH⁻, CN⁻, NH₃) replaces the halide, and with a strong base elimination competes.
+
+**SN2 mechanism.** A **one-step**, bimolecular process in which the nucleophile attacks from the back side, as the leaving group departs, through a single transition state. Rate $= k[\text{RX}][\text{Nu}^-]$ (second order). **Inversion of configuration** (Walden inversion) occurs.
+
+**SN1 mechanism.** A **two-step** process: slow ionisation to a planar carbocation, then fast attack by the nucleophile. Rate $= k[\text{RX}]$ (first order). Optically active compounds give **racemisation** (and rearrangements are possible).
+
+| Feature | SN1 | SN2 |
+|---|---|---|
+| Rate law | $k[\text{RX}]$ | $k[\text{RX}][\text{Nu}]$ |
+| Steps | two, via carbocation | one |
+| Favoured substrate | $3^{\circ} > 2^{\circ}$, allyl, benzyl | $\text{CH}_3 > 1^{\circ} > 2^{\circ}$ |
+| Nucleophile | weak, any | strong, high concentration |
+| Solvent | polar protic (water, alcohol) | polar aprotic (DMSO, acetone) |
+| Stereochemistry | racemisation | inversion |
+| Leaving group | I > Br > Cl > F | I > Br > Cl > F |
+
+**Elimination.** In **E2** a strong base removes the $\beta$-hydrogen in one step as the leaving group departs (anti-periplanar arrangement) and the rate is second order. In **E1** the carbocation formed in the slow step loses a proton. **Saytzeff's rule:** the more substituted (more stable) alkene is the major product, for example 2-bromobutane with alcoholic KOH gives mainly 2-butene.
+
+**Substitution or elimination?** Alcoholic KOH, a strong bulky base, high temperature and $3^{\circ}$ halides favour elimination. Aqueous KOH, a good nucleophile with a weak base, and low temperature favour substitution.
+
+**Special reactions.** Wurtz reaction ($2\text{RX} + 2\text{Na} \to \text{R-R}$), Grignard reagent formation ($\text{RX} + \text{Mg} \to \text{RMgX}$ in dry ether), Finkelstein reaction ($\text{RCl} + \text{NaI} \to \text{RI}$ in acetone), Swarts reaction (formation of RF with AgF) and the Sandmeyer reaction. Aryl halides do not undergo SN1 or SN2 easily because of the partial double-bond character of the C-X bond, but they react by nucleophilic aromatic substitution when there is a nitro group ortho or para to the halogen.
+
+**Numerical.** In SN2 reaction of CH₃Br with OH⁻, doubling both $[\text{CH}_3\text{Br}]$ and $[\text{OH}^-]$ makes the rate $2\times2 = 4$ times larger. For SN1 of $(\text{CH}_3)_3\text{CBr}$, doubling $[\text{OH}^-]$ has no effect and doubling the substrate doubles the rate.
+
+**Conclusion.** Primary halides prefer SN2, tertiary halides prefer SN1 or E1, and a strong bulky base favours E2.
+
+### Model answer D2: alcohols, phenols and ethers (10 marks)
+
+**Introduction.** Alcohols (R-OH), phenols (Ar-OH) and ethers (R-O-R') are the hydroxy and alkoxy derivatives of hydrocarbons.
+
+**Alcohols.**
+
+1. **Preparation:** hydration of alkenes, reduction of aldehydes, ketones and esters ($\text{LiAlH}_4$, $\text{NaBH}_4$), Grignard reagent with carbonyls, and fermentation of sugar for ethanol.
+2. **Hydrogen bonding** gives alcohols a much higher boiling point than ethers of similar mass and a high solubility in water.
+3. **Classification and tests.** In the **Lucas test** (ZnCl₂ in conc. HCl), $3^{\circ}$ alcohols turn cloudy at once, $2^{\circ}$ in about five minutes, and $1^{\circ}$ only on heating, so the order of reactivity is $3^{\circ} > 2^{\circ} > 1^{\circ}$ (carbocation stability).
+4. **Oxidation:** $1^{\circ}$ gives an aldehyde (PCC) then acid (KMnO₄ or K₂Cr₂O₇), $2^{\circ}$ gives a ketone, and $3^{\circ}$ resists oxidation.
+5. **Dehydration:** at $443\ \text{K}$ with conc. H₂SO₄ gives an alkene and at $413\ \text{K}$ an ether.
+
+**Phenol.**
+
+- **Acidity.** Phenol ($\text{p}K_a = 10$) is more acidic than alcohols ($16$ to $18$) because the phenoxide ion is stabilised by resonance, but it is weaker than carbonic acid, so it does not dissolve in NaHCO₃. Electron-withdrawing groups raise the acidity: $\text{p}K_a$ of $2,4,6$-trinitrophenol (picric acid) is $0.4$.
+- **Tests:** violet colour with neutral FeCl₃; white precipitate of $2,4,6$-tribromophenol with bromine water.
+- **Reactions:** Kolbe's reaction (sodium phenoxide with CO₂ gives salicylic acid, the precursor of aspirin), Reimer-Tiemann reaction (CHCl₃ and NaOH give salicylaldehyde) and EAS in the ortho and para positions.
+
+**Ethers.** Prepared by **Williamson's synthesis** ($\text{RONa} + \text{R'X} \to \text{ROR'}$, SN2 and so best with a primary halide). They are inert, volatile and flammable, and form explosive peroxides on standing. Cleavage by HI: $\text{ROR'} + \text{HI} \to \text{ROH} + \text{R'I}$.
+
+| Property | Ethanol | Phenol | Diethyl ether |
+|---|---|---|---|
+| Boiling point | $78^{\circ}\text{C}$ | $182^{\circ}\text{C}$ | $35^{\circ}\text{C}$ |
+| Hydrogen bonding | yes | yes | no |
+| Reaction with Na | yes, H₂ | yes, H₂ | no |
+| Reaction with NaOH | no | yes | no |
+| FeCl₃ | no | violet | no |
+
+**Numerical.** From $9.4\ \text{g}$ of phenol ($0.1\ \text{mol}$), $0.1\ \text{mol}$ of $2,4,6$-tribromophenol ($331\ \text{g mol}^{-1}$) is $33.1\ \text{g}$ at $100\%$. Ethanol ($46$) and dimethyl ether ($46$) have the same molar mass, but their boiling points are $78^{\circ}\text{C}$ and $-24^{\circ}\text{C}$ because of hydrogen bonding.
+
+**Conclusion.** Hydrogen bonding sets the physical properties of alcohols and phenols, resonance explains the acidity of phenol, and ethers are chemically inert.

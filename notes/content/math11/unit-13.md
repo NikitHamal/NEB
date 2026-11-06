@@ -551,6 +551,38 @@ taking a square root: compare $AB^{2}$ with $BC^{2}$ for triangles, and compare
 arithmetic slips, not to missing ideas.
 :::
 
+```photogrid label="13.P" cols="2" ratio="1.27" caption="A cube puzzle is a model of three-dimensional space: any corner is fixed by an ordered triple (x, y, z). (a) A 3 x 3 x 3 puzzle cube. (b) With one corner at the origin and the opposite corner at (3, 3, 3), the distance formula gives the face diagonal 4.243 and the space diagonal 5.196, which is the side times root 3. The midpoint formula puts the centre of the cube at (1.5, 1.5, 1.5). The program draws every edge from the eight computed vertices using a simple oblique projection, so the picture and the numbers come from the same coordinates."
+@ photo id="math11/rubik" cap="A 3 x 3 x 3 cube: positions are described by three coordinates"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Face and space diagonals of a cube of side 3"
+s = 3.0
+dist = lambda p, q: math.sqrt(sum((a - b) ** 2 for a, b in zip(p, q)))
+O = (0, 0, 0); G = (3, 3, 3); F = (3, 3, 0)
+face, space = dist(O, F), dist(O, G)
+mid = tuple((a + b) / 2 for a, b in zip(O, G))
+assert abs(face - 3 * math.sqrt(2)) < 1e-9 and abs(space - 3 * math.sqrt(3)) < 1e-9 and mid == (1.5, 1.5, 1.5)
+sc = 32
+P3 = lambda x, y, z: (60 + sc * x + 0.45 * sc * y, 168 - sc * z - 0.32 * sc * y)
+f = Fig(300, 236)
+f.text(150, 14, "Cube from (0,0,0) to (3,3,3)", size=10.5, color=NAVY, bold=True)
+import itertools
+V = list(itertools.product([0, 3], repeat=3))
+for p in V:
+    for q in V:
+        if p < q and sum(a != b for a, b in zip(p, q)) == 1:
+            a, b = P3(*p), P3(*q); f.line(a[0], a[1], b[0], b[1], color=NAVY, sw=1.5)
+a, b = P3(*O), P3(*G); f.line(a[0], a[1], b[0], b[1], color=RED, sw=2.2, dash=True)
+a, b = P3(*O), P3(*F); f.line(a[0], a[1], b[0], b[1], color=AMBER, sw=2, dash=True)
+f.text(P3(*O)[0] - 6, P3(*O)[1] + 14, "O", size=11, color=NAVY, bold=True)
+f.text(P3(*G)[0] + 8, P3(*G)[1] - 4, "(3,3,3)", size=9.5, color=RED, bold=True, anchor="start")
+f.text(P3(*F)[0] + 6, P3(*F)[1] + 12, "(3,3,0)", size=9.5, color=AMBER, bold=True, anchor="start")
+f.text(150, 190, "OF = sqrt(9 + 9 + 0) = %.3f (face)" % face, size=10.5, color=AMBER, bold=True)
+f.text(150, 206, "OG = sqrt(9 + 9 + 9) = %.3f (space)" % space, size=10.5, color=RED, bold=True)
+f.text(150, 222, "midpoint of OG = (%.1f, %.1f, %.1f)" % mid, size=10.5, color=NAVY, bold=True)
+facts = dict(f=face, s=space)
+```
+
 ## Chapter summary
 
 - Three mutually perpendicular axes give three coordinate planes ($x=0$, $y=0$,
@@ -679,3 +711,85 @@ The midpoint of $BC$ is $D = \left(\frac{1-1}{2},\ \frac{-3+1}{2},\ \frac{-4+2}{
 so the median from $A$ has length
 $$ AD = \sqrt{(0-3)^{2}+(-1+1)^{2}+(-1-2)^{2}} = \sqrt{9+0+9} = \sqrt{18} = 3\sqrt{2}\ \text{units} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the coordinate system in space, derive the distance formula between two points and use it for collinearity and shape problems. <span class="marks">[10]</span>
+2. Define direction cosines and direction ratios, prove $l^{2}+m^{2}+n^{2}=1$, find them for a line joining two points and derive the angle between two lines. <span class="marks">[10]</span>
+
+### Model answer D1: points in space and the distance formula (10 marks)
+
+**Introduction.** A point in space is located by three mutually perpendicular axes $OX$, $OY$, $OZ$ meeting at the origin $O$. The ordered triple $(x,y,z)$ gives the distance of the point from the $YZ$-plane, the $ZX$-plane and the $XY$-plane respectively. Drone navigation and the location of a mobile tower use such coordinates (latitude, longitude, height).
+
+**Octants.** The three coordinate planes divide space into eight **octants**.
+
+| Octant | Signs of $(x,y,z)$ |
+|---|---|
+| I | $(+,+,+)$ |
+| II | $(-,+,+)$ |
+| III | $(-,-,+)$ |
+| IV | $(+,-,+)$ |
+| V | $(+,+,-)$ |
+| VI | $(-,+,-)$ |
+| VII | $(-,-,-)$ |
+| VIII | $(+,-,-)$ |
+
+**Special points.** A point on the $X$-axis has the form $(x,0,0)$; on the $XY$-plane, $(x,y,0)$. For $P(3,-4,5)$ the distance from the $XY$-plane is $5$, and from the $X$-axis is $\sqrt{(-4)^{2}+5^{2}}=\sqrt{41}$.
+
+**Theorem: distance formula.** The distance between $P(x_1,y_1,z_1)$ and $Q(x_2,y_2,z_2)$ is
+
+$$ PQ=\sqrt{(x_2-x_1)^{2}+(y_2-y_1)^{2}+(z_2-z_1)^{2}} $$
+
+*Proof.* Through $P$ and $Q$ draw planes parallel to the coordinate planes to form a rectangular box with $PQ$ as a diagonal. The edges of the box are $|x_2-x_1|$, $|y_2-y_1|$ and $|z_2-z_1|$. The diagonal of the base is $d$ with $d^{2}=(x_2-x_1)^{2}+(y_2-y_1)^{2}$, and $PQ$ is the hypotenuse of a right-angled triangle with sides $d$ and $|z_2-z_1|$. Pythagoras' theorem gives the formula. The distance from the origin is $\sqrt{x^{2}+y^{2}+z^{2}}$. The mid-point of $PQ$ is $\left(\dfrac{x_1+x_2}{2},\dfrac{y_1+y_2}{2},\dfrac{z_1+z_2}{2}\right)$.
+
+**Worked examples.**
+
+1. $A(1,2,3)$ and $B(4,6,15)$: $AB=\sqrt{9+16+144}=\sqrt{169}=13$.
+2. **Collinearity.** $A(3,2,-4)$, $B(5,4,-6)$, $C(9,8,-10)$: $AB=\sqrt{4+4+4}=2\sqrt3$, $BC=\sqrt{16+16+16}=4\sqrt3$ and $AC=\sqrt{36+36+36}=6\sqrt3$. Since $AB+BC=AC$, the points are collinear.
+3. **Right-angled triangle.** $P(0,7,10)$, $Q(-1,6,6)$, $R(-4,9,6)$: $PQ^{2}=1+1+16=18$, $QR^{2}=9+9+0=18$ and $PR^{2}=16+4+16=36$. As $PQ^{2}+QR^{2}=PR^{2}$, the triangle is right-angled at $Q$, and isosceles because $PQ=QR$.
+4. **Locus.** The point $(x,y,z)$ equidistant from $(1,0,0)$ and $(0,1,0)$ satisfies $(x-1)^{2}+y^{2}+z^{2}=x^{2}+(y-1)^{2}+z^{2}$, which gives $x=y$.
+
+| Test | Condition |
+|---|---|
+| Collinear | the largest distance equals the sum of the other two |
+| Right angle | $a^{2}+b^{2}=c^{2}$ |
+| Equilateral | all three sides equal |
+
+**Conclusion.** The distance formula is Pythagoras' theorem applied twice, and it settles questions about collinearity, shapes and loci in space.
+
+### Model answer D2: direction cosines, direction ratios and the angle between lines (10 marks)
+
+**Introduction.** A line through the origin makes angles $\alpha,\beta,\gamma$ with the positive $X$, $Y$, $Z$ axes. The cosines $l=\cos\alpha$, $m=\cos\beta$, $n=\cos\gamma$ are the **direction cosines** (d.c.s) of the line. Any three numbers $a,b,c$ proportional to $l,m,n$ are **direction ratios** (d.r.s).
+
+**Theorem: $l^{2}+m^{2}+n^{2}=1$.**
+
+*Proof.* Let $P(x,y,z)$ be a point on the line with $OP=r$. The projections of $OP$ on the axes give $x=lr$, $y=mr$, $z=nr$. Since $OP^{2}=x^{2}+y^{2}+z^{2}$, $r^{2}=r^{2}(l^{2}+m^{2}+n^{2})$, so $l^{2}+m^{2}+n^{2}=1$.
+
+**Relation between d.r.s and d.c.s.** If $a,b,c$ are d.r.s, then
+
+$$ l=\frac{a}{\sqrt{a^{2}+b^{2}+c^{2}}},\quad m=\frac{b}{\sqrt{a^{2}+b^{2}+c^{2}}},\quad n=\frac{c}{\sqrt{a^{2}+b^{2}+c^{2}}} $$
+
+The d.c.s are unique up to the sign for the two opposite senses of the line; d.r.s are not unique.
+
+**Line joining two points.** For $P(x_1,y_1,z_1)$ and $Q(x_2,y_2,z_2)$ the d.r.s of $PQ$ are $x_2-x_1,\ y_2-y_1,\ z_2-z_1$, and the d.c.s are these divided by $PQ$.
+
+*Example.* For $P(1,2,3)$ and $Q(3,-1,9)$: d.r.s $2,-3,6$, $PQ=\sqrt{4+9+36}=7$, so d.c.s are $\dfrac27,-\dfrac37,\dfrac67$. Check: $\dfrac{4+9+36}{49}=1$.
+
+**Axes and special lines.** The d.c.s of the $X$-axis are $1,0,0$; of the $Y$-axis $0,1,0$. A line equally inclined to the axes has $l=m=n=\dfrac1{\sqrt3}$, so each angle is $\cos^{-1}\dfrac1{\sqrt3}\approx54.74^{\circ}$ (the body diagonal of a cube).
+
+**Theorem: angle between two lines.** If the lines have d.c.s $l_1,m_1,n_1$ and $l_2,m_2,n_2$ then
+
+$$ \cos\theta=l_1l_2+m_1m_2+n_1n_2 $$
+
+*Proof.* Draw lines through the origin parallel to the given lines and take $P(l_1,m_1,n_1)$ and $Q(l_2,m_2,n_2)$ on them at unit distance from $O$. Then $PQ^{2}=(l_1-l_2)^{2}+(m_1-m_2)^{2}+(n_1-n_2)^{2}=2-2(l_1l_2+m_1m_2+n_1n_2)$ using $l^{2}+m^{2}+n^{2}=1$ for each line. The cosine rule in $\triangle OPQ$ gives $PQ^{2}=1+1-2\cos\theta$. Comparing, we get the result. With d.r.s $a_1,b_1,c_1$ and $a_2,b_2,c_2$,
+
+$$ \cos\theta=\frac{a_1a_2+b_1b_2+c_1c_2}{\sqrt{a_1^{2}+b_1^{2}+c_1^{2}}\,\sqrt{a_2^{2}+b_2^{2}+c_2^{2}}} $$
+
+**Conditions.** The lines are **perpendicular** if $a_1a_2+b_1b_2+c_1c_2=0$ and **parallel** if $\dfrac{a_1}{a_2}=\dfrac{b_1}{b_2}=\dfrac{c_1}{c_2}$.
+
+**Worked examples.**
+
+1. D.r.s $2,3,6$ and $1,2,2$: dot product $=2+6+12=20$; lengths $7$ and $3$, so $\cos\theta=\dfrac{20}{21}$ and $\theta\approx17.75^{\circ}$.
+2. D.r.s $1,2,2$ and $2,-2,1$: dot product $=2-4+2=0$, so the lines are perpendicular.
+
+**Conclusion.** The d.c.s of a line satisfy $l^{2}+m^{2}+n^{2}=1$, are found from the d.r.s by dividing by the length, and determine the angle between two lines.

@@ -187,6 +187,54 @@ for i, (a, b, c) in enumerate(R):
 7. **Separate capital from revenue items.** The purchase of furniture is capital and goes to the balance sheet, while carriage inwards is a cost of goods. Misplacing them shifts profit and hides assets. Check any large item again.
 8. **Prove the balance sheet.** After all adjustments, assets must equal equity plus liabilities (7,69,000 each). Then compare ratios with last year to spot odd movements. A statement that balances and looks reasonable is ready for the auditor.
 
+```photogrid label="6.1" cols="2" ratio="1.1" caption="From sales to net profit. (a) A Kathmandu shopkeeper at work; every shop must show the owner what is left after costs. (b) Illustrative year: sales Rs 5,00,000; opening stock 60,000; purchases 3,20,000; closing stock 80,000. Cost of goods sold = 60,000 + 3,20,000 - 80,000 = Rs 3,00,000, so gross profit is 5,00,000 - 3,00,000 = Rs 2,00,000, a gross margin of 40%. Expenses of salaries 70,000, rent 36,000 and depreciation 14,000 total Rs 1,20,000, leaving a net profit of Rs 80,000, a net margin of 16%. The Trading Account stops at gross profit; the Profit and Loss Account carries on to net profit; the balance sheet then shows where the money sits."
+@ photo id="bcafa/shop" cap="A shop in Kathmandu"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Waterfall from sales to net profit (thousand rupees)"
+sales, ops, pur, cls = 500000, 60000, 320000, 80000
+cogs = ops + pur - cls; gp = sales - cogs; exp = 70000 + 36000 + 14000; npf = gp - exp
+assert (cogs, gp, exp, npf) == (300000, 200000, 120000, 80000) and gp / sales == 0.4 and npf / sales == 0.16
+rows = [("Sales", 0, sales, "#1d6fb8"), ("Cost of goods sold", gp, sales, "#b91c1c"), ("Gross profit", 0, gp, "#0f766e"), ("Expenses", npf, gp, "#b91c1c"), ("Net profit", 0, npf, "#0f766e")]
+f = Fig(300, 240)
+f.text(150, 14, "Trading and Profit and Loss account", size=10.5, color=NAVY, bold=True)
+x0, sc = 118, 150 / 500.0
+for i, (lab, lo, hi, col) in enumerate(rows):
+    y = 26 + i * 30
+    f.text(112, y + 10, lab, size=10.5, color=NAVY, anchor="end", vmid=True)
+    f.box(x0 + lo / 1000 * sc, y, (hi - lo) / 1000 * sc, 20, "", fill=col, stroke=col, r=0)
+    v = hi - lo
+    f.text(x0 + hi / 1000 * sc + 4, y + 10, f"{v / 1000:.0f}", size=10.5, color=col, anchor="start", bold=True, vmid=True)
+f.text(150, 188, "COGS = 60 + 320 - 80 = 300", size=10.5, color=SLATE)
+f.text(150, 206, "gross margin 40%, net margin 16%", size=10.5, color=TEAL, bold=True)
+f.text(150, 224, "expenses 70 + 36 + 14 = 120", size=10.5, color=NAVY)
+```
+
+```photogrid label="6.2" cols="2" ratio="1.1" caption="Year-end adjustments always keep the balance sheet in balance. (a) A balance scale: both pans must weigh the same. (b) Four adjustments and their effect on assets (A), liabilities (L) and profit (P): accrued wages of Rs 5,000 raise a liability and cut profit; prepaid insurance of Rs 3,000 raises an asset and lifts profit; depreciation of Rs 14,000 cuts an asset and profit; a provision for doubtful debts of 2% on debtors of Rs 1,00,000 cuts an asset (debtors) by Rs 2,000 and profit by the same. Each line obeys change in A = change in L + change in P. Together assets fall by Rs 13,000, liabilities rise by Rs 5,000 and profit falls by Rs 18,000, and -13,000 = 5,000 - 18,000. A profit of Rs 1,04,000 before adjustments becomes Rs 86,000 after them."
+@ photo id="bcafa/scale" cap="A balance scale: both pans equal"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Effect of each adjustment (rupees)"
+adj = [("Accrued wages", 0, 5000, -5000), ("Prepaid insur.", 3000, 0, 3000), ("Depreciation", -14000, 0, -14000), ("Bad-debt prov.", -round(0.02 * 100000), 0, -2000)]
+assert all(a == l + p for _, a, l, p in adj)
+tA, tL, tP = (sum(r[k] for r in adj) for k in (1, 2, 3))
+assert (tA, tL, tP) == (-13000, 5000, -18000) and tA == tL + tP and 104000 + tP == 86000
+f = Fig(300, 240)
+f.text(150, 14, "change in assets = liabilities + profit", size=10.5, color=NAVY, bold=True)
+f.text(142, 34, "A", size=10.5, color=NAVY, bold=True); f.text(200, 34, "L", size=10.5, color=NAVY, bold=True); f.text(262, 34, "P", size=10.5, color=NAVY, bold=True)
+def fm(v): return f"{v:+,}" if v else "0"
+rows = adj + [("Total", tA, tL, tP)]
+for i, (lab, a, l, p) in enumerate(rows):
+    y = 48 + i * 30
+    tot = i == len(rows) - 1
+    if tot: f.line(8, y - 8, 292, y - 8, color=SLATE, sw=1.2)
+    f.text(8, y + 8, lab, size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+    for x, v in ((160, a), (216, l), (280, p)):
+        f.text(x, y + 8, fm(v), size=10.5, color="#b91c1c" if v < 0 else ("#0f766e" if v > 0 else SLATE), anchor="end", bold=True, vmid=True)
+f.text(150, 214, "every row: A = L + P  (checked in code)", size=10.5, color=TEAL, bold=True)
+f.text(150, 230, "profit 1,04,000 -> 86,000", size=10.5, color=RED, bold=True)
+```
+
 ## 6.9 Summary and exercises
 
 The Trading Account measures gross profit, the Profit and Loss Account measures net profit after operating items and the Balance Sheet reports position; every year-end adjustment has a double effect, and a balancing balance sheet confirms that none was forgotten.

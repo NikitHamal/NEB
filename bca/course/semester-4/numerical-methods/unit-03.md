@@ -222,6 +222,51 @@ for i, (t, e, st, fl) in enumerate(D):
 7. **Error control by Romberg and step halving.** Halving the step and extrapolating improves the answer without a formula for the error. We know how many digits to trust. This makes numerical results reliable.
 8. **Solving differential equations.** Euler and Runge-Kutta methods in the next unit are built from the same ideas of stepping and averaging slopes. Understanding integration therefore opens the way to simulation. Weather and engineering models rest on it.
 
+```photogrid label="3.2" cols="2" ratio="1.2" caption="From depth readings to river flow. (a) A river gauging station: staff measure the depth at fixed distances across the channel, integrate the depths to get the cross-section area, and multiply by the mean velocity to get the discharge. (b) An idealised 10-metre channel with a smooth bed has an exact area of 15.279 square metres. Four trapezoids give 14.485 (an error of 5.2 per cent), while Simpson's rule with the same four strips gives 15.314 (error 0.23 per cent), because it fits parabolas instead of straight lines. Ten trapezoids reach 15.153. At an assumed mean velocity of 0.8 metres a second the flow is 12.2 cubic metres a second. The shape is invented for the exercise; real beds are rough, so the more strips surveyed the better."
+@ photo id="bcanm/gauging" cap="A river gauging station: depth and flow are integrated"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Channel cross-section: trapezoid vs Simpson"
+import math
+L = 10.0
+d = lambda x: 2.4 * math.sin(math.pi * x / L)
+exact = 2.4 * 2 * L / math.pi
+def trap(n):
+    h = L / n
+    return h * (d(0) / 2 + sum(d(i * h) for i in range(1, n)) + d(L) / 2)
+def simp(n):
+    h = L / n
+    return h / 3 * (d(0) + d(L) + 4 * sum(d(i * h) for i in range(1, n, 2)) + 2 * sum(d(i * h) for i in range(2, n, 2)))
+ns = [2, 4, 10]
+et = [abs(trap(n) - exact) for n in ns]
+es = [abs(simp(n) - exact) for n in ns]
+assert et[0] > et[1] > et[2] and es[1] < et[1] / 10
+Q = exact * 0.8
+facts = dict(ex=round(exact, 3), t4=round(trap(4), 3), s4=round(simp(4), 3), t10=round(trap(10), 3), q=round(Q, 1), e4t=round(100 * et[1] / exact, 1), e4s=round(100 * es[1] / exact, 2))
+f = Fig(300, 236)
+f.text(150, 12, "10 m wide channel, depth 2.4 sin(pi x / 10)", size=10.5, color=NAVY, bold=True)
+x0, y0, W = 20, 36, 260
+X = lambda x: x0 + x / L * W
+Y = lambda v: y0 + v * 30
+pts = [(X(i * L / 4), Y(d(i * L / 4))) for i in range(5)]
+f.poly([(X(0), y0)] + pts + [(X(L), y0)], fill="#dbeafe", stroke=BLUE, sw=1)
+for i in range(1, 100):
+    a, b = (i - 1) * L / 99, i * L / 99
+    f.line(X(a), Y(d(a)), X(b), Y(d(b)), color=NAVY, sw=2)
+f.line(x0, y0, x0 + W, y0, color=SLATE)
+f.text(150, 28 + 0, "water surface", size=10.5, color=SLATE)
+f.text(150, 124, "blue = 4 trapezoids, line = true bed", size=10.5, color=SLATE)
+hdr = ["strips", "trapezoid", "Simpson"]
+for j, t in enumerate(hdr):
+    f.text(60 + j * 90, 146, t, size=10.5, color=NAVY, bold=True)
+for i, n in enumerate(ns):
+    y = 164 + i * 20
+    f.text(60, y, str(n), size=10.5, color=NAVY, bold=True)
+    f.text(150, y, "%.3f" % trap(n), size=10.5, color=RED)
+    f.text(240, y, "%.3f" % simp(n), size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "exact area %.3f m2, flow at 0.8 m/s = %.1f m3/s" % (exact, Q), size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 - Forward/backward: O(h); central: [f(x + h) − f(x − h)]/2h, O(h²); f″ ≈ [f(x + h) − 2f(x) + f(x − h)]/h².

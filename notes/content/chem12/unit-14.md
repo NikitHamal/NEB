@@ -882,6 +882,26 @@ CH₃CH₂CONH₂ + Br₂ + 4NaOH → CH₃CH₂NH₂ + Na₂CO₃ + 2NaBr + 2H�
 so **S = ethylamine, C₂H₅NH₂ = C₂H₇N** ✓, which is basic as required.
 :::
 
+```photogrid label="14.P" cols="2" ratio="1.2" caption="Vinegar is a dilute carboxylic acid. (a) A bottle of vinegar, which is about 5 per cent acetic acid by mass per volume. (b) The cell finds the amount in a 500 mL bottle, 0.4163 mol or 0.833 M. Neutralising it needs 16.65 g of sodium hydroxide or 34.98 g of sodium bicarbonate, forming 34.15 g of sodium acetate in either case. With bicarbonate each mole of acid also releases a mole of carbon dioxide, 10.0 L at room temperature, which is the fizzing seen when baking soda is added. This reaction with carbonates and bicarbonates is the standard test that distinguishes a carboxylic acid from a phenol."
+@ photo id="chem12b/vinegar" cap="Bottles of vinegar, a 5 per cent solution of acetic acid"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Neutralising a bottle of vinegar"
+n = 50 * 0.5 / 60.05
+rows = [("acetic acid", n * 60.05), ("NaOH", n * 40.00), ("NaHCO3", n * 84.01), ("CH3COONa", n * 82.03)]
+assert round(rows[1][1], 2) == 16.65
+co2 = n * 24.0
+f = Fig(300, 236)
+f.text(150, 12, "500 mL of 5% vinegar, grams", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=40, fmt="%.2f", x0=84, y0=30, bw=150, gap=30,
+      colors=[(ROSE, RED), (BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)])
+f.text(150, 158, "5%% w/v = 50 g/L: %.4f mol in 500 mL (%.3f M)" % (n, n / 0.5), size=10, color=NAVY, bold=True)
+f.text(150, 178, "NaOH needed %.2f g; sodium acetate formed %.2f g" % (rows[1][1], rows[3][1]), size=9.5, color=NAVY, bold=True)
+f.text(150, 198, "with NaHCO3: %.1f L of CO2 at room temperature" % co2, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "(24 L/mol), the fizz seen with baking soda", size=10, color=SLATE, bold=True)
+facts = dict(n=n, M=n / 0.5, na=rows[1][1], bic=rows[2][1], ac=rows[3][1], co2=co2)
+```
+
 ## Chapter summary
 
 - Carboxylic acids are R—COOH, CₙH₂ₙO₂; the carboxyl carbon is always C-1. They
@@ -1026,3 +1046,40 @@ C₆H₅CONH₂ + Br₂ + 4NaOH → C₆H₅NH₂ + Na₂CO₃ + 2NaBr + 2H₂O,
 **E = aniline, C₆H₇N** ✓ — and aniline is diazotised and coupled to give azo
 dyes, as required.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the acidity of carboxylic acids and the effect of substituents on it, and describe five characteristic reactions of acetic acid including the HVZ reaction. <span class="marks">[10]</span>
+
+### Model answer D1: acidity and reactions of carboxylic acids (10 marks)
+
+**Introduction.** **Carboxylic acids** contain the carboxyl group –COOH. They are much stronger acids than alcohols and phenols because the carboxylate ion RCOO$^{-}$ is stabilised by resonance, in which the negative charge is shared equally between two oxygen atoms (both C–O bonds are 127 pm long). They form hydrogen-bonded **dimers**, which makes their boiling points higher than those of alcohols of similar mass (acetic acid 118 °C, propan-1-ol 97 °C).
+
+**Effect of substituents on acid strength.** Electron-withdrawing groups disperse the negative charge of the anion and raise acidity, whereas electron-releasing groups do the opposite.
+
+| Acid | $pK_{a}$ | Reason |
+|---|---|---|
+| Trichloroacetic acid | 0.65 | Three Cl atoms, strong $-I$ effect |
+| Dichloroacetic acid | 1.29 | Two Cl |
+| Chloroacetic acid | 2.86 | One Cl |
+| Formic acid | 3.75 | No alkyl group |
+| Benzoic acid | 4.20 | Phenyl is slightly electron withdrawing |
+| Acetic acid | 4.76 | Methyl group releases electrons |
+| Propanoic acid | 4.87 | Ethyl group releases more |
+
+The effect falls with distance: 2-chlorobutanoic acid is stronger than 3-chlorobutanoic acid, which is stronger than 4-chlorobutanoic acid.
+
+**Characteristic reactions of acetic acid.**
+
+1. **With bases and carbonates.** $\text{CH}_3\text{COOH} + \text{NaHCO}_3 \Rightarrow \text{CH}_3\text{COONa} + \text{H}_2\text{O} + \text{CO}_2$, which gives the brisk effervescence used to identify acids.
+2. **Esterification.** With ethanol and a few drops of conc. H$_2$SO$_4$ under reflux, $\text{CH}_3\text{COOH} + \text{C}_2\text{H}_5\text{OH} \rightleftharpoons \text{CH}_3\text{COOC}_2\text{H}_5 + \text{H}_2\text{O}$, giving the fruity ester ethyl acetate.
+3. **Formation of acid derivatives.** With PCl$_5$ or SOCl$_2$ it gives acetyl chloride; heating with P$_2$O$_5$ gives acetic anhydride; ammonium acetate heated gives acetamide.
+4. **Reduction.** LiAlH$_4$ in dry ether reduces it to ethanol; the ordinary reagents NaBH$_4$ and H$_2$/Ni do not.
+5. **Decarboxylation.** Heating the sodium salt with soda lime (NaOH + CaO) gives methane: $\text{CH}_3\text{COONa} + \text{NaOH} \Rightarrow \text{CH}_4 + \text{Na}_2\text{CO}_3$.
+6. **HVZ reaction.** Acids with an $\alpha$-hydrogen react with Cl$_2$ or Br$_2$ in the presence of red phosphorus, followed by water, to give the $\alpha$-halo acid: $\text{CH}_3\text{COOH} + \text{Cl}_2 \Rightarrow \text{ClCH}_2\text{COOH} + \text{HCl}$. Repetition gives di- and trichloroacetic acids. Formic and benzoic acids have no $\alpha$-hydrogen and do not undergo it.
+
+**Order of reactivity of the acid derivatives** towards nucleophiles: acid chloride > acid anhydride > ester > amide, because the better the leaving group, the faster the reaction. All hydrolyse back to the acid.
+
+**Uses.** Dilute acetic acid is vinegar; formic acid is used in leather tanning and rubber coagulation; benzoic acid and sodium benzoate are food preservatives; and long-chain acids such as stearic acid are made into soap.
+
+**Conclusion.** The resonance-stabilised carboxylate ion makes carboxylic acids the strongest common organic acids, and their –OH can be replaced to give a family of useful derivatives.

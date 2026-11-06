@@ -476,6 +476,28 @@ two options differ by exactly your coefficient ratio, recheck that step before
 choosing.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="From a weighing to a gas volume. (a) A volumetric flask holds exactly 250 mL at its mark, so a solution of known molarity is made by dissolving a weighed mass. (b) For 0.100 M Na2CO3 (M = 105.99 g/mol) the mass is 0.100 x 0.250 x 105.99 = 2.650 g, which is 0.025 mol. It reacts as Na2CO3 + 2HCl gives 2NaCl + H2O + CO2. With 40.0 mL of 1.00 M HCl (0.040 mol) the acid is the limiting reagent, so 0.020 mol of carbonate react, 0.530 g of it is left over and 0.448 L of CO2 form at STP (22.4 L/mol)."
+@ photo id="chem12/volflask" cap="A volumetric flask: one calibration mark at 250 mL"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Moles used and left when 40 mL of HCl meets Na2CO3"
+M = 105.99; n1 = 0.100 * 0.250; m = n1 * M; n2 = 1.00 * 0.0400
+used = min(n1, n2 / 2); left = (n1 - used) * M; nco2 = used; v = nco2 * 22.4
+assert abs(m - 2.650) < 1e-3 and abs(used - 0.020) < 1e-12 and abs(left - 0.530) < 1e-3 and abs(v - 0.448) < 1e-9
+facts = dict(m="%.3f" % m, n1="%.3f" % n1, n2="%.3f" % n2, used="%.3f" % used, left="%.3f" % left, v="%.3f" % v)
+f = Fig(300, 236)
+f.text(150, 14, "Na2CO3 + 2HCl: moles at the start (box) and used (fill)", size=10, color=NAVY, bold=True)
+for i, (lab, tot, u, col, fl) in enumerate((("Na2CO3", n1, used, TEAL, MINT), ("HCl", n2, n2, AMBER, SAND), ("CO2 formed", nco2, nco2, RED, ROSE))):
+    y = 34 + i * 42
+    f.text(14, y + 4, lab, size=10.5, color=SLATE, anchor="start")
+    f.box(14, y + 12, tot * 5000, 16, fill="#ffffff", stroke=col, r=2, sw=1.4)
+    f.box(14, y + 12, u * 5000, 16, fill=fl, stroke=col, r=2, sw=1.4)
+    f.text(14 + tot * 5000 + 6, y + 20, "%.3f mol" % tot if i < 2 else "%.3f mol" % u, size=10.5, color=col, bold=True, anchor="start", vmid=True)
+f.text(150, 172, "HCl is limiting: 2 mol HCl per mol Na2CO3", size=10.5, color=NAVY, bold=True)
+f.text(150, 190, "left over: %.3f g Na2CO3" % left, size=10.5, color=NAVY, bold=True)
+f.text(150, 208, "CO2: %.3f L at STP" % v, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Quantity | Relation |
@@ -670,3 +692,75 @@ Molar volumes: 22.4 L (273 K, 1 atm, the CEE value) · 22.7 L (273 K, 1 bar) ·
 **10.** (a) — C₂H₄ + 3O₂ → 2CO₂ + 2H₂O; at the same T and P volumes follow the coefficients: 3 × 2.8 = 8.4 L. Option (c) is the CO₂ formed.
 **11.** (c) — CaCO₃ = 900 g = 9 mol → 9 mol CaO = 9 × 56 = 504 g. Option (b) is the CO₂ lost (9 × 44 g); (a) ignores the purity.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mole concept and Avogadro's number. Determine an empirical and molecular formula and solve limiting-reagent problems. <span class="marks">[10]</span>
+2. Define the concentration terms (molarity, molality, mole fraction, ppm) and solve a dilution problem with a numerical. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="3" ratio="1.25" caption="Apparatus of quantitative chemistry. (a) A volumetric flask holds an exact volume, so a solution of known molarity can be made. (b) A burette delivers a measured volume of titrant. (c) A ball-and-stick kit shows how atoms combine in the ratio of a formula."
+@ photo id="ceechem2/flask" cap="(a) Volumetric flask"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/burette" cap="(b) Burette"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceechem/model-kit" cap="(c) Molecular model kit"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: mole concept, formula determination and stoichiometry (10 marks)
+
+**Introduction.** One **mole** is the amount of substance that contains as many elementary entities as there are atoms in $12\ \text{g}$ of carbon-12, that is $N_A = 6.022\times10^{23}\ \text{mol}^{-1}$ (Avogadro's number). The mass of one mole in grams is the molar mass.
+
+**Mole relations.**
+
+1. Number of moles $n = \dfrac{\text{mass}}{\text{molar mass}} = \dfrac{\text{number of particles}}{6.022\times10^{23}}$.
+2. For a gas, one mole occupies $22.4\ \text{L}$ at STP ($0^{\circ}\text{C}$, $1\ \text{atm}$), and $22.7\ \text{L}$ at $0^{\circ}\text{C}$, $1\ \text{bar}$.
+3. **Avogadro's law:** equal volumes of gases at the same temperature and pressure contain equal numbers of molecules.
+4. Law of conservation of mass, law of definite proportions, law of multiple proportions and Gay-Lussac's law of volumes are the laws of chemical combination.
+
+**Empirical and molecular formula.** The steps are: percentage to mass, mass to moles, divide by the smallest, convert to whole numbers. The molecular formula is $n\times$ the empirical formula, where $n = \dfrac{\text{molar mass}}{\text{empirical formula mass}}$.
+
+| Element | % | Moles | Ratio |
+|---|---|---|---|
+| C | 40.00 | 3.33 | 1 |
+| H | 6.67 | 6.67 | 2 |
+| O | 53.33 | 3.33 | 1 |
+
+The empirical formula is CH₂O (mass $30$). With molar mass $180$, $n = 6$ and the molecular formula is **C₆H₁₂O₆** (glucose).
+
+**Limiting reagent.** The reactant that is used up first decides the amount of product. For 2H₂ + O₂ → 2H₂O, take $4\ \text{g}$ of H₂ ($2\ \text{mol}$) and $24\ \text{g}$ of O₂ ($0.75\ \text{mol}$). O₂ needs $1.5\ \text{mol}$ of H₂, so **O₂ is limiting**. Water formed $= 1.5\ \text{mol} = 27\ \text{g}$ and unused H₂ $= 0.5\ \text{mol} = 1\ \text{g}$.
+
+**Stoichiometry with gases.** For CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂, $10\ \text{g}$ of CaCO₃ ($0.1\ \text{mol}$) gives $0.1\ \text{mol}$ of CO₂, which is $4.4\ \text{g}$ or $2.24\ \text{L}$ at STP. Percentage yield $= \dfrac{\text{actual}}{\text{theoretical}}\times100$.
+
+**Conclusion.** The mole links mass, number of particles and gas volume, and the balanced equation gives the mole ratio for every stoichiometry calculation.
+
+### Model answer D2: concentration terms and dilution (10 marks)
+
+**Introduction.** The concentration of a solution tells how much solute is present in a given amount of solution or solvent.
+
+| Term | Definition | Formula | Depends on temperature? |
+|---|---|---|---|
+| Molarity $M$ | moles of solute per litre of solution | $\dfrac{n}{V\ (\text{L})}$ | yes |
+| Molality $m$ | moles of solute per kg of solvent | $\dfrac{n}{W\ (\text{kg})}$ | no |
+| Mole fraction $x$ | moles of one component per total moles | $\dfrac{n_A}{n_A + n_B}$ | no |
+| Mass percent | grams of solute per 100 g of solution | $\dfrac{w}{W}\times100$ | no |
+| ppm | parts per million by mass | $\dfrac{w}{W}\times10^6$ | no |
+| Normality $N$ | gram equivalents per litre | $M\times n\text{-factor}$ | yes |
+
+The sum of all the mole fractions is $1$. Molality is preferred for physical measurements because it does not change with temperature.
+
+**Conversion.** For a solution of mass percent $w$ and density $d\ (\text{g mL}^{-1})$, $M = \dfrac{10\,w\,d}{\text{molar mass}}$.
+
+**Dilution.** The number of moles of solute stays constant when water is added: $M_1V_1 = M_2V_2$. For acid dilution, always add the acid to the water slowly with stirring.
+
+**Numerical.**
+
+- Concentrated sulphuric acid is $98\%$ by mass with $d = 1.84\ \text{g mL}^{-1}$: $M = \dfrac{10\times98\times1.84}{98} = 18.4\ \text{M}$.
+- To prepare $250\ \text{mL}$ of $1\ \text{M}$ acid: $V_1 = \dfrac{1\times250}{18.4} = 13.6\ \text{mL}$ of the concentrated acid is made up to $250\ \text{mL}$.
+- $4\ \text{g}$ of NaOH in $500\ \text{mL}$ gives $\dfrac{0.1}{0.5} = 0.2\ \text{M}$.
+- A solution of $46\ \text{g}$ ethanol ($1\ \text{mol}$) in $54\ \text{g}$ water ($3\ \text{mol}$): $x_{ethanol} = 0.25$, $x_{water} = 0.75$, and the molality is $\dfrac{1}{0.054} = 18.5\ \text{mol kg}^{-1}$.
+
+**Conclusion.** Molarity and normality change with temperature while molality and mole fraction do not, and $M_1V_1 = M_2V_2$ is the key to dilution.

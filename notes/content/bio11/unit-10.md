@@ -625,6 +625,29 @@ was the first protected area in Nepal where local people were made managers
 rather than trespassers, and it remains the model that buffer zones and
 community forests follow.
 
+```photogrid label="10.P" cols="2" ratio="1.27" caption="Conservation biology aims to protect species and the habitats they depend on, and Nepal's tiger programme is among the best known successes. (a) A Bengal tiger. (b) National counts found 121 tigers in 2010, 235 in 2018 and 355 in 2022. Fitting an exponential curve between the first and last survey gives a growth of 9.4 % a year and a doubling time of 7.7 years, though the curve will flatten as the parks fill up, since the carrying capacity of a habitat sets the limit. Protected areas such as Chitwan, Bardiya and Parsa, community forests and anti-poaching patrols made this recovery possible."
+@ photo id="sci10/tiger" cap="A Bengal tiger in the Terai, the recovery symbol of Nepal's conservation"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Tiger numbers in Nepal and a fitted growth curve"
+import math
+data = [(2010, 121), (2018, 235), (2022, 355)]
+r = (355 / 121) ** (1 / 12) - 1
+dt = math.log(2) / math.log(1 + r)
+N = lambda y: 121 * (1 + r) ** (y - 2010)
+assert abs(r - 0.0938) < 0.001 and abs(dt - 7.7) < 0.1 and abs(N(2022) - 355) < 1e-6
+f = Fig(300, 236)
+f.text(150, 14, "Wild tigers counted in Nepal", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 26, 240, 146, (2008, 2024), (0, 400))
+ax.grid(4, 100, size=9, xfmt=lambda v: "%d" % v); ax.axes("year", "tigers")
+ax.curve(N, 2010, 2024, color=NAVY, sw=2.2, dash=True)
+for y, n in data:
+    ax.pt(y, n, "%d" % n, dx=-8 if y == 2022 else 8, dy=-8 if y != 2018 else 16, color=RED, anchor="end" if y == 2022 else "start")
+f.text(150, 207, "growth (355/121)^(1/12) - 1 = %.1f %% a year" % (r * 100), size=10.5, color=NAVY, bold=True)
+f.text(150, 220, "doubling time = ln 2 / ln(1+r) = %.1f years" % dt, size=10.5, color=RED, bold=True)
+facts = dict(r="%.1f" % (r * 100), dt="%.1f" % dt)
+```
+
 ## Chapter summary
 
 - **Conservation biology** is the mission-oriented science of protecting
@@ -811,3 +834,118 @@ restaurant at Pithauli, declared a Vulture Safe Zone of about 30,000 km², bred
 birds in captivity and released the first captive-bred white-rumped vultures in
 South Asia in 2017, and counts have risen since about 2013.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe in-situ and ex-situ conservation with examples from Nepal, and compare them in a table. <span class="marks">[10]</span>
+2. What are the threats to biodiversity? Explain the causes of its loss and give eight reasons why biodiversity should be conserved. <span class="marks">[10]</span>
+3. Describe the wildlife and protected areas of Nepal, and the conservation of the one-horned rhinoceros and the tiger. <span class="marks">[10]</span>
+
+### Model answer D1: in-situ and ex-situ conservation (10 marks)
+
+**Introduction.** **Conservation biology** is the scientific study of the protection and management of biodiversity. Biodiversity can be conserved *in its natural habitat* (in-situ) or *outside it* (ex-situ).
+
+**In-situ conservation ("on site").** The species are protected in their **natural habitat**, where they can continue to evolve.
+
+1. **National parks:** areas for the protection of ecosystems and scenic beauty with strict rules. Nepal's first was **Chitwan National Park (1973)**, a UNESCO World Heritage Site. **Sagarmatha National Park (1976)** protects the high Himalaya.
+2. **Wildlife reserves:** to protect wild animals, such as the **Koshi Tappu Wildlife Reserve** (the wild water buffalo and migratory birds).
+3. **Hunting reserve:** **Dhorpatan** (the blue sheep, regulated hunting).
+4. **Conservation areas:** people live and use the land sustainably, such as the **Annapurna Conservation Area (1986)**, Manaslu, Kanchenjunga and Gaurishankar.
+5. **Buffer zones:** around the national parks; the local people share the income.
+6. **Biosphere reserves, sacred groves, Ramsar sites** (Ghodaghodi Tal, Beeshazari Tal and Koshi Tappu) and **community forests**.
+Nepal has about **23% of its area** under protected areas: 12 national parks, 1 wildlife reserve, 1 hunting reserve, 6 conservation areas and 13 buffer zones.
+
+**Ex-situ conservation ("off site").** The species are protected **outside** their natural habitat.
+
+1. **Zoos:** the Central Zoo at Jawalakhel keeps and breeds animals.
+2. **Botanical gardens:** the National Botanical Garden at Godawari.
+3. **Gene banks and seed banks:** seeds and tissues kept at low temperature; Nepal's **National Agriculture Genetic Resources Centre (Genebank)** at Khumaltar holds the landraces of rice and other crops.
+4. **Cryopreservation:** sperm, eggs and embryos stored in liquid nitrogen at -196 °C.
+5. **Tissue culture** and **captive breeding**: the gharial breeding centre at Chitwan, vulture breeding at Kasara, and the reintroduction of the animals into the wild.
+
+| Feature | In-situ | Ex-situ |
+|---|---|---|
+| Place | Natural habitat | Outside the habitat (zoo, gene bank) |
+| Cost | Lower per species | Higher |
+| Species protected | Whole ecosystem | Individual species |
+| Evolution | Continues naturally | Stops or is limited |
+| Genetic diversity | Maintained | May be lost in small populations |
+| Examples | Chitwan National Park | Zoo, seed bank |
+| Best for | Species that are numerous or in good habitat | Critically endangered species |
+
+**Advantages and limits.** In-situ conservation protects the entire web of life and is cheaper, but it needs large areas and protection from poaching. Ex-situ conservation provides a safety net for species that are almost extinct, but it is costly, and animals in zoos may lose natural behaviour.
+
+**Conclusion.** The best approach is to use both: protect habitats in-situ, and keep ex-situ backup populations for the most endangered species.
+
+### Model answer D2: threats to biodiversity and reasons for conservation (10 marks)
+
+**Introduction.** **Biodiversity** is the variety of life at three levels: **genetic, species and ecosystem diversity**. Nepal occupies 0.1% of the world's area but has about **3.2% of the world's flowering plants and over 8% of its bird species**, because of its range from 60 m to 8,849 m altitude. Today species are going extinct 100 to 1000 times faster than the natural rate.
+
+**Causes of the loss of biodiversity: "HIPPO".**
+
+1. **Habitat loss and fragmentation (H):** conversion of forests to farms, roads and cities; the Terai forest has been cleared for settlement.
+2. **Invasive species (I):** *Mikania micrantha* (the "mile-a-minute" weed) and *Eichhornia* (water hyacinth) smother native plants, in the Chitwan grassland.
+3. **Pollution (P):** pesticides and chemicals, such as **diclofenac**, which killed more than 95% of Nepal's vultures.
+4. **Population growth (P):** more demand for land and resources.
+5. **Over-exploitation (O):** poaching of rhinos, tigers and pangolins, over-harvesting of medicinal herbs such as *yarsagumba*, and over-fishing.
+6. **Climate change:** shifting of habitats upward.
+7. **Co-extinction** and human-wildlife conflict.
+
+**Categories of threat (IUCN Red List).** Extinct, Extinct in the Wild, **Critically Endangered, Endangered, Vulnerable**, Near Threatened, Least Concern. Examples: the **gharial** (critically endangered), the **red panda** (endangered) and the **snow leopard** (vulnerable).
+
+**Eight reasons for conservation.**
+
+1. **Food:** wild relatives of rice, wheat and maize provide genes for disease resistance and high yield.
+2. **Medicine:** about 25% of drugs come from plants, such as taxol from the yew and artemisinin; Nepal has about 2000 medicinal plants.
+3. **Ecosystem services:** forests protect watersheds, prevent landslides and floods, purify the air and water and pollinate crops.
+4. **Climate regulation:** forests store carbon.
+5. **Economic value:** wildlife **tourism** at Chitwan, Bardia and Sagarmatha provides income and jobs.
+6. **Cultural and religious value:** many animals and plants are sacred in Nepali culture, such as the cow, the peepal tree and the red panda.
+7. **Scientific and educational value** for research.
+8. **Ethical value:** all species have a right to exist, and we must protect them for the future generations.
+
+| Threat | Nepal example |
+|---|---|
+| Habitat loss | Terai forest clearance |
+| Invasive species | *Mikania* in Chitwan |
+| Pollution | Diclofenac and vultures |
+| Over-exploitation | Rhino poaching, yarsagumba |
+| Climate change | Glaciers, upward shift of species |
+
+**Conclusion.** Biodiversity is declining mostly because of human actions, but it supplies food, medicine, clean water and income. Protecting habitats, controlling invasive species and public participation are essential.
+
+### Model answer D3: wildlife of Nepal, rhino and tiger conservation (10 marks)
+
+**Introduction.** Nepal's varied climate supports **about 208 species of mammals, about 886 species of birds**, over 100 species of reptiles and amphibians, and about 6,500 flowering plants. Its **protected area system** covers about a quarter of the country.
+
+**Notable wildlife by region.**
+
+- **Terai:** the **one-horned rhinoceros**, **Bengal tiger**, Asian elephant, gharial, marsh mugger, swamp deer, and the Bengal florican.
+- **Hills:** leopard, Himalayan black bear, red panda, musk deer and the Danphe (the national bird, the Himalayan monal).
+- **High Himalaya:** snow leopard, blue sheep, Himalayan tahr, yak and the bar-headed goose.
+
+**Protected areas (examples).**
+
+| Area | Type | Year | Main species |
+|---|---|---|---|
+| Chitwan | National park | 1973 | Rhino, tiger, gharial |
+| Bardia | National park | 1988 | Tiger, elephant, Gangetic dolphin |
+| Sagarmatha | National park | 1976 | Snow leopard, tahr |
+| Langtang | National park | 1976 | Red panda, musk deer |
+| Koshi Tappu | Wildlife reserve | 1976 | Wild water buffalo, birds |
+| Annapurna | Conservation area | 1986 | Snow leopard, blue sheep |
+
+**One-horned rhinoceros (*Rhinoceros unicornis*).** The rhino was reduced to about **100 in the 1960s** because of hunting and loss of habitat. Conservation measures:
+
+1. Chitwan National Park was created in 1973.
+2. The **Army guards** and anti-poaching units protect the animals.
+3. **Translocation** to Bardia and Shuklaphanta.
+4. **Community involvement** through buffer zone programmes; the local people receive 30-50% of the park income.
+5. **Zero-poaching years:** Nepal achieved several years without rhino poaching.
+The population is about **752 in 2021**, from 645 in 2015.
+
+**Tiger (*Panthera tigris tigris*).** There were about 121 tigers in 2009. Nepal pledged at the St. Petersburg summit (2010) to **double** its tiger numbers by 2022, and the 2022 count of **355** tigers was the biggest success in the world: it more than doubled. The success came from habitat management, **wildlife corridors** between parks (the Terai Arc Landscape), anti-poaching and community support.
+
+**Problems.** Human-wildlife conflict (crop raiding, tiger attacks), poaching for horn and skin, invasive weeds, floods and climate change.
+
+**Conclusion.** Nepal's conservation success in the protection of rhinos and tigers shows that strong laws, army protection and community benefit sharing can bring back endangered species.

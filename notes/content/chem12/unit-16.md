@@ -501,6 +501,25 @@ directing effect *ortho/para* while reducing the activation enough to stop
 polysubstitution and oxidation.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.2" caption="From a primary amine to a dye. (a) Methyl orange, one of the indicators on this tray, is an azo dye made by diazotising an aromatic amine and coupling it with another. (b) Sulfanilic acid (an aromatic primary amine) is treated with sodium nitrite and acid below 5 degrees C to give a diazonium salt, which couples with N,N-dimethylaniline. The cell uses the 1 : 1 : 1 mole ratio: 5.77 mmol, or 1.00 g, of sulfanilic acid needs 0.398 g of sodium nitrite and 0.700 g of dimethylaniline, and gives a theoretical 1.89 g of methyl orange. The temperature must stay near 0 degrees C, because above 5 degrees C the diazonium ion loses nitrogen and gives a phenol instead."
+@ photo id="ceechem2/indicator" cap="Indicator drops on a tray: methyl orange is an azo dye"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Making methyl orange from sulfanilic acid"
+n = 1.00 / 173.19
+rows = [("sulfanilic acid", 1.00), ("NaNO2", n * 69.00), ("dimethylaniline", n * 121.18), ("methyl orange", n * 327.33)]
+assert round(rows[3][1], 2) == 1.89
+f = Fig(300, 236)
+f.text(150, 12, "Grams for 1.00 g of sulfanilic acid (1 : 1 : 1)", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=2.1, fmt="%.3f", x0=98, y0=30, bw=140, gap=30,
+      colors=[(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL), (ROSE, RED)])
+f.text(150, 158, "ArNH2 + NaNO2 + 2HCl at 0-5 C gives ArN2+Cl-", size=10, color=NAVY, bold=True)
+f.text(150, 176, "then coupling at the para position of the amine", size=10, color=NAVY, bold=True)
+f.text(150, 196, "%.2f mmol of each reactant" % (n * 1000), size=10.5, color=NAVY, bold=True)
+f.text(150, 214, "above 5 C the diazonium ion loses N2", size=10, color=RED, bold=True)
+facts = dict(m=n * 1000, nitrite=n * 69.0, dma=n * 121.18, mo=n * 327.33)
+```
+
 ## Chapter summary
 
 - Amines are 1° (RNH₂), 2° (R₂NH) or 3° (R₃N) by the number of carbons on
@@ -650,3 +669,48 @@ Nitrous acid: RNH₂ + HNO₂ → ROH + N₂↑ + H₂O.
 CH₃NH₂ (M = 31). Theoretical mass = 0.150 × 31 = 4.65 g; at 70 % yield,
 mass = 4.65 × 0.70 = **3.26 g**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Compare the basicity of aliphatic amines and aniline, explain the preparation of aniline and its conversion to a diazonium salt and an azo dye. <span class="marks">[10]</span>
+
+### Model answer D1: amines, basicity and diazonium salts (10 marks)
+
+**Introduction.** **Amines** are derivatives of ammonia in which hydrogen atoms are replaced by alkyl or aryl groups: primary (R–NH₂), secondary (R₂NH) and tertiary (R₃N). Like ammonia, they have a lone pair of electrons on nitrogen, so they are Lewis bases.
+
+**Basicity.** Basic strength depends on how readily nitrogen gives its lone pair to a proton.
+
+1. **Alkyl groups push electrons (+I effect)** towards nitrogen, which makes the lone pair more available, so aliphatic amines are **stronger bases than ammonia**.
+2. **In water the stability of the ion R₃NH⁺ also matters** (hydration by hydrogen bonding), so the order is $\text{(C}_2\text{H}_5)_2\text{NH} > \text{(C}_2\text{H}_5)_3\text{N} > \text{C}_2\text{H}_5\text{NH}_2 > \text{NH}_3$ for ethyl amines.
+3. **In aniline** the lone pair of N is delocalised into the benzene ring by resonance, so it is less available: aniline is a **much weaker base** than ethylamine and even than ammonia ($\text{p}K_b$: ethylamine 3.3, ammonia 4.7, aniline 9.4).
+
+| Compound | $\text{p}K_b$ (about) | Reason |
+|---|---|---|
+| Diethylamine | 3.0 | Two +I groups, good hydration |
+| Ethylamine | 3.3 | +I effect |
+| Ammonia | 4.7 | Reference |
+| Aniline | 9.4 | Lone pair delocalised in the ring |
+
+**Preparation of aniline.** Nitrobenzene is reduced with Sn and conc. HCl (or by H₂ over Ni): C₆H₅NO₂ + 6[H] → C₆H₅NH₂ + 2H₂O. Alternatively, benzamide is treated with Br₂ and NaOH (Hofmann bromamide reaction), losing one carbon atom.
+
+**Diazotisation.** Aniline reacts with nitrous acid (NaNO₂ + HCl) at **0–5 °C** to give benzenediazonium chloride:
+
+C₆H₅NH₂ + NaNO₂ + 2HCl → C₆H₅N₂⁺Cl⁻ + NaCl + 2H₂O
+
+It must be kept below 5 °C, because it decomposes above this temperature, giving phenol and nitrogen.
+
+**Reactions of the diazonium salt.**
+
+| Reaction | Reagent | Product |
+|---|---|---|
+| Sandmeyer | CuCl / HCl, CuBr / HBr, CuCN / KCN | Chlorobenzene, bromobenzene, benzonitrile |
+| Replacement by iodine | KI | Iodobenzene |
+| Replacement by hydrogen | H₃PO₂ | Benzene |
+| Replacement by –OH | Warm water | Phenol |
+| Coupling | Phenol (alkaline) or aniline | **Azo dye** (–N=N–), coloured |
+
+**Azo dye.** Benzenediazonium chloride reacts with phenol in alkaline solution at 0–5 °C to form *p*-hydroxyazobenzene, an orange dye: C₆H₅N₂⁺Cl⁻ + C₆H₅OH → C₆H₅–N=N–C₆H₄OH + HCl. With aniline it gives yellow *p*-aminoazobenzene. Azo dyes colour textiles and foods.
+
+**Test for primary aromatic amines.** The orange-red dye formed with an alkaline solution of 2-naphthol after diazotisation.
+
+**Conclusion.** Aliphatic amines are stronger bases than ammonia and aniline is weaker, and aniline is a useful starting material for diazonium salts, from which many aromatic compounds and dyes are made.

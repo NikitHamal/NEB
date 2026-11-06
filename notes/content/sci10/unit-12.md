@@ -391,3 +391,80 @@ When asked to "explain how a geostationary satellite is useful", give: orbit at 
 **4.** $T^2 = r^3 = 9^3 = 729$, so $T = 27$ years.
 **5.** A satellite that appears fixed above one point of the Earth. Conditions: orbit above the equator at about 36,000 km, revolves west to east, period 24 h. Uses: TV and communication, weather watching.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Big Bang theory and the evidence supporting it. <span class="marks">[10]</span>
+2. Describe the solar system, with a table of its planets. Explain the life cycle of a star and the future of the Sun. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="5" ratio="1.0" caption="From the Sun to the galaxy. (a) The Solar System, from the Sun to Neptune. (b) A solar flare from the Sun, a middle-aged main-sequence star. (c) Jupiter, the largest planet. (d) Saturn and its rings. (e) The Milky Way in infrared light: our home galaxy is one among about two trillion."
+@ photo id="sci10/solar-system" cap="(a) Solar System"
+@ photo id="sci10/sun-flare" cap="(b) Solar flare"
+@ photo id="sci10/jupiter" cap="(c) Jupiter"
+@ photo id="sci10/saturn" cap="(d) Saturn"
+@ photo id="sci10/milky-way" cap="(e) Milky Way"
+```
+
+### Model answer D1: the Big Bang theory (10 marks)
+
+**Introduction.** The **universe** is everything that exists: all matter, energy, space and time. It contains about two trillion galaxies, and our galaxy, the Milky Way, has over 100 billion stars. The most accepted theory about its origin is the **Big Bang theory**.
+
+**The theory.** About **13.8 billion years ago**, all matter and energy were packed in an extremely hot and dense point. It suddenly began to expand, and space itself started stretching. This was **not an explosion in space; it was an expansion of space**.
+
+**Stages in the history of the universe.**
+
+1. **The first second.** The universe was hotter than billions of degrees. Matter and energy were mixed. It expanded very quickly.
+2. **After some minutes.** Protons and neutrons joined to form nuclei of hydrogen and helium.
+3. **After about 380,000 years.** The universe cooled to about 3,000 K. Electrons joined with nuclei to form atoms, and light could travel freely. This light is still around us.
+4. **After hundreds of millions of years.** Gravity pulled gas clouds together to form the first stars and galaxies.
+5. **After about 9 billion years.** Our Sun and the solar system formed, around 4.6 billion years ago.
+
+**Evidence for the theory.**
+
+| Evidence | Meaning |
+|---|---|
+| **Expansion of the universe** (Hubble, 1929): distant galaxies move away and the farther they are, the faster they go | If the galaxies were closer in the past, everything began from one point |
+| **Red shift:** light from distant galaxies is shifted toward red | Shows the galaxies are receding |
+| **Cosmic microwave background radiation (CMBR):** weak microwaves from all directions at 2.7 K | The leftover glow of the hot early universe |
+| **Abundance of light elements:** about 75% hydrogen and 25% helium | Matches the prediction of the early hot universe |
+
+**Fate and other ideas.** The universe may continue to expand for ever (Big Freeze), or gravity may stop it and pull it back together (Big Crunch). Present observations show the expansion is speeding up due to **dark energy**.
+
+**Conclusion.** The Big Bang theory is supported by strong observational evidence, and the Hubble Ultra Deep Field shows young galaxies billions of years old.
+
+### Model answer D2: the solar system and the life of a star (10 marks)
+
+**Introduction.** The **solar system** is the Sun and all objects bound to it by gravity: eight planets, their moons, dwarf planets, asteroids, comets and meteoroids. The Sun contains 99.8 percent of its mass.
+
+| Planet | Type | Moons | Notes |
+|---|---|---|---|
+| Mercury | Rocky | 0 | Nearest to the Sun, no atmosphere |
+| Venus | Rocky | 0 | Hottest planet (about 460 °C), thick CO₂ |
+| Earth | Rocky | 1 | Only known planet with life |
+| Mars | Rocky | 2 | Red, polar ice caps, rovers search for past life |
+| Jupiter | Gas giant | Many | Largest, Great Red Spot |
+| Saturn | Gas giant | Many | Bright rings |
+| Uranus | Ice giant | Many | Rotates on its side |
+| Neptune | Ice giant | Many | Farthest, strong winds |
+
+The **asteroid belt** lies between Mars and Jupiter. **Comets** are balls of ice and dust with a tail that grows when they come close to the Sun, as Halley's comet does every 76 years.
+
+**Life cycle of a star.**
+
+1. **Nebula:** a huge cloud of gas (hydrogen) and dust.
+2. **Protostar:** gravity pulls the cloud together and it heats up.
+3. **Main-sequence star:** hydrogen fuses into helium and gives out energy. The Sun is in this stage and will stay for about 10 billion years in total.
+4. **Red giant:** when the hydrogen is used up, the star swells and cools.
+5. **Fate depends on mass.**
+
+| Mass of star | End |
+|---|---|
+| Small or medium (like the Sun) | Sheds outer layers (planetary nebula), the core becomes a **white dwarf**, and finally cools to a black dwarf |
+| Large | Red supergiant, explodes as a **supernova**, leaves a **neutron star** |
+| Very large | Supernova, the core collapses to a **black hole** |
+
+**Future of the Sun.** In about 5 billion years the Sun will become a red giant, then a white dwarf.
+
+**Space exploration.** Telescopes, satellites, probes (Voyager), rovers on Mars, and space stations like the ISS have increased our knowledge. Nepal's first satellites, NepaliSat-1 and the Munal satellite, were built by Nepali engineers and launched in 2019 and 2020.
+
+**Conclusion.** The solar system is one small part of the Milky Way, and stars are born, live and die according to their mass.

@@ -91,6 +91,106 @@ Relative atomic mass is on the carbon-12 scale (1 u $=\frac{1}{12}$ of C-12 $=1.
 
 Bond order from MO theory: O₂ has two unpaired electrons (paramagnetic), N₂ has the highest bond order (3). Ethyne has $3\sigma+2\pi$ bonds. Dipole moments: BF₃, CO₂, CH₄ are non-polar though bonds are polar; H₂O, NH₃ are polar.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Volumetric analysis in numbers. (a) A burette clamp on a stand, the support for the glass burette from which the analyst adds the standard solution drop by drop until the indicator changes colour at the end point. (b) The titration of 25.0 mL of 0.100 M NaOH with 0.100 M HCl, computed from the ion balance. The pH hardly moves until the last drops, then jumps by about six units within 0.2 mL; that steep jump is why phenolphthalein (8.3 to 10) and methyl orange (3.1 to 4.4) both work for a strong acid with a strong base."
+@ photo id="chem12/titration" cap="A burette clamp, the support of a titration"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="pH while 0.1 M HCl is added to 25.0 mL of 0.1 M NaOH"
+import math
+def pH(v):
+    n = 2.5 - 0.1 * v; vt = 25 + v
+    if abs(n) < 1e-12: return 7.0
+    c = abs(n) / vt * 1000 / 1000 / 1.0
+    c = abs(n) / vt
+    return 14 + math.log10(c) if n > 0 else -math.log10(c)
+pts = [(v / 2, pH(v / 2)) for v in range(0, 101)]
+assert abs(pH(24.9) - 10.30) < 0.01 and abs(pH(25.1) - 3.70) < 0.01 and pH(25.0) == 7.0 and abs(pH(0) - 13.0) < 1e-9
+f = Fig(300, 236)
+X = lambda v: 40 + v * 5.0; Y = lambda p: 186 - p * 12
+f.line(40, 186, 292, 186, color=SLATE, sw=1.2); f.line(40, 186, 40, 14, color=SLATE, sw=1.2)
+for a, b in zip(pts, pts[1:]): f.line(X(a[0]), Y(a[1]), X(b[0]), Y(b[1]), color=TEAL, sw=2)
+f.line(X(25), 186, X(25), Y(7), color=AMBER, sw=1.2, dash=True)
+for p in (0, 7, 14): f.text(34, Y(p) + 4, str(p), size=10.5, color=SLATE, anchor="end")
+for v in (0, 25, 50): f.text(X(v), 200, str(v), size=10.5, color=SLATE)
+f.text(166, 214, "volume of HCl added (mL)", size=10.5, color=SLATE)
+f.text(150, 230, "24.9 mL: pH %.1f   25.1 mL: pH %.1f   end point 25.0" % (pH(24.9), pH(25.1)), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="From electrode potentials to work. (a) A Daniell cell on a laboratory bench: zinc in zinc sulfate, copper in copper sulfate, joined by a salt bridge and a wire. (b) With E-standard = +0.34 - (-0.76) = 1.10 V, the Nernst equation E = 1.10 - (0.0592/2) log Q gives the voltage for any ratio Q = [Zn2+]/[Cu2+] at 298 K. The graph is computed; the standard free-energy change is -nFE = -212 kJ per mole of zinc and the equilibrium constant K = 10^(2E/0.0592) is about 10^37, so the cell reaction goes almost to completion."
+@ photo id="chem12/daniell" cap="A Daniell cell: zinc and copper half-cells"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cell voltage against log of [Zn2+]/[Cu2+]"
+import math
+E0 = 0.34 - (-0.76)
+E = lambda lq: E0 - 0.0592 / 2 * lq
+dG = -2 * 96485 * E0 / 1000; logK = 2 * E0 / 0.0592
+assert abs(E0 - 1.10) < 1e-9 and abs(dG + 212.3) < 0.1 and abs(logK - 37.2) < 0.1 and abs(E(2) - 1.0408) < 1e-3
+f = Fig(300, 236)
+X = lambda q: 150 + q * 32; Y = lambda e: 40 + (1.20 - e) * 600
+f.line(22, Y(1.0), 290, Y(1.0), color=SOFT, sw=1)
+f.line(X(-4), Y(1.20), X(-4), Y(0.96), color=SLATE, sw=1.2)
+f.line(X(-4), Y(E(-4)), X(4), Y(E(4)), color=TEAL, sw=2.2)
+for q in (-4, -2, 0, 2, 4):
+    f.circle(X(q), Y(E(q)), 3.5, fill=AMBER, stroke=AMBER)
+    f.text(X(q), Y(E(q)) - 10 if q < 3 else Y(E(q)) + 16, "%.3f" % E(q), size=10.5, color=NAVY, bold=True)
+for q in (-4, 0, 4): f.text(X(q), 150, "log Q = %d" % q, size=10.5, color=SLATE)
+f.text(150, 14, "E = 1.10 - 0.0296 log Q  (volts, 298 K)", size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "dG = -2 x 96,485 x 1.10 = %.0f kJ/mol" % dG, size=10.5, color=TEAL, bold=True)
+f.text(150, 196, "log K = 2 x 1.10 / 0.0592 = %.1f" % logK, size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "E falls as products build up; E = 0 at K", size=10.5, color=SLATE)
+```
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Light from atoms. (a) Metal salts in a flame: each element gives its own colour because its electrons fall between fixed energy levels and emit photons of fixed energy. (b) Hydrogen's visible Balmer lines, computed from the Rydberg formula 1/lambda = R (1/2^2 - 1/n^2) with R = 1.0968 x 10^7 per m, for n = 3, 4, 5, 6 (jumps down to n = 2). The sodium D line at 589 nm is marked for comparison; photon energy is E = 1239.8 eV nm / lambda."
+@ photo id="chem11/flame-colours" cap="Flame colours of metal salts"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Balmer lines of hydrogen, n to 2"
+R = 1.09678e7
+lines = [(n, 1e9 / (R * (1 / 4 - 1 / n ** 2))) for n in (3, 4, 5, 6)]
+assert [round(l) for n, l in lines] == [656, 486, 434, 410]
+def rgb(w):
+    if w < 440: r, g, b = (440 - w) / 60, 0, 1
+    elif w < 490: r, g, b = 0, (w - 440) / 50, 1
+    elif w < 510: r, g, b = 0, 1, (510 - w) / 20
+    elif w < 580: r, g, b = (w - 510) / 70, 1, 0
+    elif w < 645: r, g, b = 1, (645 - w) / 65, 0
+    else: r, g, b = 1, 0, 0
+    return "#%02x%02x%02x" % tuple(int(255 * max(0, min(1, v))) for v in (r, g, b))
+f = Fig(300, 236)
+X = lambda w: 12 + (w - 380) * (276 / 400)
+f.box(12, 30, 276, 70, "", fill="#111111", stroke=SLATE, r=2, sw=1)
+for n, w in lines: f.line(X(w), 30, X(w), 100, color=rgb(w), sw=3)
+f.line(X(589), 30, X(589), 100, color="#facc15", sw=1.2, dash=True)
+for t in (400, 500, 600, 700): f.text(X(t), 116, str(t), size=10.5, color=SLATE)
+f.text(150, 14, "wavelength in nm", size=10.5, color=NAVY, bold=True)
+for i, (n, w) in enumerate(lines):
+    f.text(8 + (i % 2) * 150, 144 + (i // 2) * 20, "%d to 2: %.1f nm, %.2f eV" % (n, w, 1239.84 / w), size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(150, 196, "dashed yellow: sodium D line, 589 nm", size=10.5, color=AMBER, bold=True)
+f.text(150, 216, "convergence limit (n = infinity): %.1f nm" % (4e9 / R), size=10.5, color=SLATE)
+```
+
+```photogrid label="1.4" cols="2" ratio="1.2" caption="From a crystal to a number. (a) A crystal of rock salt (halite). (b) Sodium chloride is face-centred cubic with four formula units per unit cell and edge a = 564 pm. Density = Z M / (N_A a^3) is computed from those facts and agrees with the measured 2.16 g per cm^3. The radius ratio 95/181 = 0.52 lies between 0.414 and 0.732, so each ion has six neighbours of the opposite sign (octahedral, 6:6 coordination)."
+@ photo id="chem11/halite-crystal" cap="Halite, crystalline sodium chloride"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="NaCl: density from the unit cell"
+NA = 6.022e23; a = 564e-10; Z = 4; M = 22.99 + 35.45
+rho = Z * M / (NA * a ** 3)
+assert abs(rho - 2.164) < 0.01
+ratio = 95 / 181
+assert 0.414 < ratio < 0.732
+f = Fig(300, 236)
+for i in range(5):
+    for j in range(5):
+        cl = (i + j) % 2 == 0
+        f.circle(36 + i * 36, 34 + j * 26, 12 if cl else 7, fill="#bbf7d0" if cl else "#bfdbfe", stroke=TEAL if cl else NAVY, sw=1.2)
+f.text(150, 14, "layer of the lattice: Cl big, Na small", size=10.5, color=NAVY, bold=True)
+f.text(150, 176, "rho = 4 x %.2f / (6.022e23 x (5.64e-8 cm)^3)" % M, size=10.5, color=SLATE)
+f.text(150, 196, "= %.3f g/cm3 (measured 2.165)" % rho, size=10.5, color=TEAL, bold=True)
+f.text(150, 216, "r+/r- = %.2f: octahedral holes, 6:6" % ratio, size=10.5, color=NAVY, bold=True)
+```
+
 ## Formula and fact sheet
 
 | Topic | Result |
@@ -236,3 +336,93 @@ Bond order from MO theory: O₂ has two unpaired electrons (paramagnetic), N₂ 
 **7.** (c) — $\sqrt{\frac{16}{2}}$.
 **8.** (a) — $\frac{2}{5}\times5$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the mole concept, empirical and molecular formula and the gas laws (ideal gas equation, Graham's law), with numericals. <span class="marks">[10]</span>
+2. Explain ionic equilibrium: pH, weak acids, buffers, hydrolysis and solubility product, with numericals. <span class="marks">[10]</span>
+3. Explain electrochemistry (Daniell cell, Nernst equation, Faraday's laws), first-order kinetics and Hess's law, with numericals. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.25" caption="Physical chemistry in the laboratory. (a) A burette delivers an exact volume in titration. (b) A gas-filled balloon shows the pressure of gas particles. (c) A Kipp's apparatus makes a gas on demand. (d) A Daniell cell converts chemical energy into electrical energy."
+@ photo id="chem11/burette" cap="(a) Burette"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/balloon" cap="(b) Gas balloon"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem11/kipp" cap="(c) Kipp's apparatus"
+fit 1.25
+focus 0.5 0.5
+@ photo id="chem12/daniell" cap="(d) Daniell cell"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Chemical arithmetic and gases (10 marks)
+
+**Introduction.** A **mole** is the amount of substance that contains $6.022\times10^{23}$ particles (Avogadro's number); it has a mass equal to the molar mass in grams, and a gas occupies $22.4\ \text{L}$ at STP.
+
+**Stoichiometry.** $\text{CaCO}_3 + 2\text{HCl} \rightarrow \text{CaCl}_2 + \text{H}_2\text{O} + \text{CO}_2$. For $10\ \text{g}$ of $\text{CaCO}_3$ ($M = 100$): $n = 0.1\ \text{mol}$, so $0.1\ \text{mol}$ of $\text{CO}_2$ forms and its volume at STP is $0.1\times22.4 = 2.24\ \text{L}$.
+
+**Empirical and molecular formula.** A compound has C $40\%$, H $6.7\%$, O $53.3\%$.
+
+| Element | % | ÷ atomic mass | ÷ smallest | Ratio |
+|---|---|---|---|---|
+| C | 40.0 | 3.33 | 1 | 1 |
+| H | 6.7 | 6.7 | 2 | 2 |
+| O | 53.3 | 3.33 | 1 | 1 |
+
+The empirical formula is $\text{CH}_2\text{O}$ (mass 30). If $M = 180$ then $n = 180/30 = 6$, so the molecular formula is $\text{C}_6\text{H}_{12}\text{O}_6$ (glucose).
+
+**Gas laws.**
+
+1. **Boyle:** $PV = $ constant (at constant $T$). **Charles:** $V/T = $ constant (at constant $P$). **Avogadro:** equal volumes of gases at the same $T$ and $P$ hold equal numbers of molecules.
+2. **Ideal gas equation:** $PV = nRT$, with $R = 0.0821\ \text{L atm K}^{-1}\text{mol}^{-1} = 8.314\ \text{J K}^{-1}\text{mol}^{-1}$. For $2\ \text{mol}$ at $300\ \text{K}$ and $2\ \text{atm}$: $V = \frac{2\times0.0821\times300}{2} = 24.6\ \text{L}$.
+3. **Dalton's law:** $P_{total} = p_1 + p_2 + \dots$, with $p_i = x_iP$.
+4. **Graham's law:** the rate of diffusion is inversely proportional to the square root of the molar mass, so $\frac{r_{H_2}}{r_{O_2}} = \sqrt{\frac{32}{2}} = 4$.
+5. **Real gases** deviate at high pressure and low temperature; the **van der Waals** equation $\left(P + \frac{an^2}{V^2}\right)(V - nb) = nRT$ corrects for attraction and molecular volume.
+
+**Conclusion.** The mole links mass, number and gas volume, and the ideal gas equation describes gases when pressure is low and temperature is high.
+
+### Model answer D2: Ionic equilibrium (10 marks)
+
+**Introduction.** In water, acids and bases ionise, and weak electrolytes reach an equilibrium. $K_w = [\text{H}^+][\text{OH}^-] = 10^{-14}$ at $25^\circ\text{C}$ and $\text{pH} = -\log[\text{H}^+]$.
+
+**1. Strong and weak acids.** For $0.01\ \text{M}$ HCl, $\text{pH} = 2$. For a weak acid $[\text{H}^+] = \sqrt{K_aC}$; for $0.1\ \text{M}$ acetic acid ($K_a = 1.8\times10^{-5}$): $[\text{H}^+] = \sqrt{1.8\times10^{-6}} = 1.34\times10^{-3}$, so $\text{pH} = 2.87$. **Ostwald's dilution law:** the degree of ionisation $\alpha = \sqrt{K_a/C}$ increases on dilution.
+
+**2. Buffer solutions.** They resist a change of pH when a little acid or base is added. **Henderson equation:** $\text{pH} = \text{p}K_a + \log\frac{[\text{salt}]}{[\text{acid}]}$. For $0.1\ \text{M}$ $\text{CH}_3\text{COOH}$ with $0.1\ \text{M}$ $\text{CH}_3\text{COONa}$, $\text{pH} = 4.74$; with $0.2\ \text{M}$ salt, $\text{pH} = 4.74 + 0.30 = 5.04$. Blood is a buffer ($\text{H}_2\text{CO}_3/\text{HCO}_3^-$, pH 7.4).
+
+**3. Salt hydrolysis.**
+
+| Salt of | Example | Solution |
+|---|---|---|
+| Strong acid + strong base | NaCl | Neutral |
+| Strong acid + weak base | $\text{NH}_4\text{Cl}$ | Acidic |
+| Weak acid + strong base | $\text{CH}_3\text{COONa}$ | Basic |
+
+For $0.1\ \text{M}$ $\text{NH}_4\text{Cl}$ ($K_b = 1.8\times10^{-5}$): $K_h = \frac{K_w}{K_b} = 5.56\times10^{-10}$, $[\text{H}^+] = \sqrt{K_hC} = 7.45\times10^{-6}$, so $\text{pH} = 5.13$.
+
+**4. Solubility product.** For $\text{AgCl}$, $K_{sp} = [\text{Ag}^+][\text{Cl}^-] = 1.8\times10^{-10}$, so the solubility is $s = \sqrt{K_{sp}} = 1.34\times10^{-5}\ \text{M}$. A salt precipitates when the ionic product exceeds $K_{sp}$. The **common-ion effect** lowers its solubility.
+
+**Conclusion.** The same equilibrium ideas explain pH, buffers, the acidity of salts and the formation of precipitates.
+
+### Model answer D3: Electrochemistry, kinetics and thermochemistry (10 marks)
+
+**Introduction.** Electrochemistry links chemical change with electrical energy.
+
+**1. Daniell cell.** $\text{Zn}\,|\,\text{Zn}^{2+}\,\|\,\text{Cu}^{2+}\,|\,\text{Cu}$: oxidation at the anode ($\text{Zn} \rightarrow \text{Zn}^{2+} + 2e^-$) and reduction at the cathode ($\text{Cu}^{2+} + 2e^- \rightarrow \text{Cu}$). $E^\circ_{cell} = 0.34 - (-0.76) = 1.10\ \text{V}$. The salt bridge completes the circuit. The **Nernst equation:** $E = E^\circ - \frac{0.0592}{n}\log\frac{[\text{Zn}^{2+}]}{[\text{Cu}^{2+}]}$; with $0.1\ \text{M}$ and $1.0\ \text{M}$, $E = 1.10 + 0.0296 = 1.13\ \text{V}$. Also $\Delta G^\circ = -nFE^\circ = -2\times96500\times1.10 = -212\ \text{kJ}$.
+
+**2. Faraday's laws.** The mass deposited is $m = \frac{M\,I\,t}{nF}$. A current of $0.5\ \text{A}$ for $1930\ \text{s}$ carries $965\ \text{C} = 0.01\ \text{mol}$ of electrons, so $0.005\ \text{mol}$ of copper (**0.318 g**) is deposited.
+
+**3. First-order kinetics.** $\ln\frac{[A]_0}{[A]} = kt$ and $t_{1/2} = \frac{0.693}{k}$, independent of concentration. If $k = 0.0693\ \text{min}^{-1}$, then $t_{1/2} = 10\ \text{min}$, and after $30\ \text{min}$ the fraction left is $\left(\frac12\right)^3 = \frac18$. The **Arrhenius equation** $k = Ae^{-E_a/RT}$ shows that a catalyst lowers $E_a$.
+
+**4. Hess's law.** The heat of a reaction is the same by any route. From $\Delta H_c(\text{CH}_4) = -890.3$, $\Delta H_f(\text{CO}_2) = -393.5$ and $\Delta H_f(\text{H}_2\text{O}) = -285.8\ \text{kJ mol}^{-1}$: $\Delta H_f(\text{CH}_4) = -393.5 + 2(-285.8) + 890.3 = -74.8\ \text{kJ mol}^{-1}$.
+
+| Topic | Key equation | Result |
+|---|---|---|
+| Cell emf | $E^\circ_{cathode} - E^\circ_{anode}$ | $1.10\ \text{V}$ |
+| Faraday | $m = MIt/nF$ | $0.318\ \text{g}$ Cu |
+| First order | $t_{1/2} = 0.693/k$ | $10\ \text{min}$ |
+| Hess | Sum of steps | $-74.8\ \text{kJ mol}^{-1}$ |
+
+**Conclusion.** Cell potential, charge, rate and heat of reaction are all calculable from a few standard data and equations.

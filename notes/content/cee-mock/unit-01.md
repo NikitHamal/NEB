@@ -105,6 +105,28 @@ make sure your next bubble is 88, not a second 87. Practice papers exist
 partly to make this mechanical discipline automatic.
 :::
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="The paper is a time budget. (a) Candidates writing an entrance examination in a large hall: one booklet, one OMR sheet, one clock. (b) The 200 questions split 40 Zoology, 40 Botany, 50 Chemistry, 50 Physics and 20 Mental Agility Test. With 180 minutes for 200 questions you have 54 seconds a question, so a fair time budget is 36 minutes each for Zoology and Botany, 45 each for Chemistry and Physics and 18 for the MAT. Chemistry and Physics together carry 100 questions, exactly half the paper (25 per cent each), while the MAT carries only 10 per cent; recall-type biology questions are usually answered in under 40 seconds, which banks time for numerical Physics and Chemistry. Check your clock at the end of each subject block."
+@ photo id="ceemock/exam-hall" cap="Students writing an examination in a large hall"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Questions and time budget by subject"
+subj = (("Zoology", 40), ("Botany", 40), ("Chemistry", 50), ("Physics", 50), ("MAT", 20))
+tot = sum(q for _, q in subj)
+per = 180 * 60 / tot
+mins = [q * per / 60 for _, q in subj]
+assert tot == 200 and per == 54 and mins == [36, 36, 45, 45, 18] and sum(mins) == 180
+assert (50 + 50) / tot == 0.5 and 20 / tot == 0.1
+f = Fig(300, 236)
+f.text(150, 12, "200 questions, 180 minutes", size=10.5, color=NAVY, bold=True)
+for i, (n, q) in enumerate(subj):
+    y = 30 + i * 33
+    f.text(8, y + 12, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(78, y, q * 3.2, 24, "%d q" % q, fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+    f.text(78 + q * 3.2 + 6, y + 12, "%d min" % mins[i], size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "54 seconds a question on average", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "Chemistry + Physics = half the paper", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.3 Negative marking and when to guess
 
 Candidates fear the −0.25 far more than arithmetic justifies. Consider a
@@ -165,6 +187,26 @@ unseen questions remain — a stuck numerical and a one-line recall item
 are both worth exactly one mark. Keep five minutes at the end
 exclusively for OMR hygiene: every row filled, no doubles, no strays.
 
+```photogrid label="1.2" cols="2" ratio="1.2" caption="A guess is worth more than a blank. (a) A multiple-choice paper: four or five printed options and one best answer. (b) Suppose you are sure of 120 questions and doubtful about the other 80. Leaving the 80 blank scores 120. Guessing them blindly (1 in 4) adds 80 x 0.0625 = 5 marks, because each guess is worth p - (1 - p) x 0.25 = +0.06. Striking out one option first (1 in 3) adds 13.3 marks and striking out two (1 in 2) adds 30 marks, so the same knowledge gives 120, 125, 133 or 150. The lesson of the rule is not to guess wildly but to eliminate: use the stem, the units, the extremes and the options that contradict each other before you mark."
+@ photo id="ceemock/mcq" cap="A sample multiple-choice question with options marked"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Marks gained on 80 doubtful questions"
+E = lambda p: p - (1 - p) * 0.25
+rows = (("blank", 0.0), ("blind guess", 1 / 4), ("1 option out", 1 / 3), ("2 options out", 1 / 2))
+gain = [0 if p == 0 else 80 * E(p) for _, p in rows]
+assert [round(120 + g, 1) for g in gain] == [120.0, 125.0, 133.3, 150.0]
+f = Fig(300, 236)
+f.text(150, 12, "120 sure + 80 doubtful questions", size=10.5, color=NAVY, bold=True)
+for i, ((n, p), g) in enumerate(zip(rows, gain)):
+    y = 34 + i * 40
+    f.text(8, y + 13, n, size=10.5, color=SLATE, bold=True, anchor="start", vmid=True)
+    f.box(104, y, max(g * 4.4, 2), 26, fill=MINT if g else SAND, stroke=TEAL if g else AMBER, r=3)
+    f.text(104 + max(g * 4.4, 2) + 6, y + 13, "%.1f" % (120 + g), size=10.5, color=TEAL if g else AMBER, bold=True, anchor="start", vmid=True)
+f.text(150, 206, "score: 120, 125, 133, 150 out of 200", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "eliminate first, then guess", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.4 A study plan for the last 120, 60 and 15 days
 
 Plans fail when they are built on topics instead of on **questions**.
@@ -207,6 +249,53 @@ rest — sleep is a performance drug; nobody's rank ever rose on an
 all-night cram. Throughout, guard the basics that scores silently
 depend on: regular sleep, daylight, food your stomach already knows,
 and a phone that is off more than it is on.
+
+```photogrid label="1.3" cols="2" ratio="1.2" caption="Spend time in proportion to marks. (a) A reading room: the revision hours are limited, so they must be placed where the questions are. (b) The official weightage lists 27 areas (Zoology 4, Botany 8, Chemistry 5, Physics 6, MAT 4). Sorted from the heaviest, the curve shows how fast questions are covered: the top 15 areas (the two 17-question Chemistry areas, Human Biology 15, Modern Physics 12, Evolution 11 and so on) hold 151 of the 200 questions, 75.5 per cent of the paper, while the 12 lightest areas hold only 49. This is why a 60-day plan that owns the heaviest chapters beats one that skims everything, and why the 15-day triage starts with Human Physiology, Physical and Organic Chemistry and Modern Physics."
+@ photo id="ceemock/library" cap="Students studying in a reading room"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Cumulative questions covered, heaviest area first"
+areas = [11, 6, 15, 8] + [2, 9, 4, 5, 6, 3, 6, 5] + [17, 10, 17, 3, 3] + [10, 7, 8, 9, 4, 12] + [5, 5, 5, 5]
+assert len(areas) == 27 and sum(areas) == 200
+s = sorted(areas, reverse=True)
+cum = list(__import__('itertools').accumulate(s))
+k = next(i + 1 for i, c in enumerate(cum) if c >= 150)
+assert k == 15 and cum[k - 1] == 151 and 200 - cum[k - 1] == 49
+f = Fig(300, 236)
+f.text(150, 12, "27 areas, heaviest first", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 28, 234, 150, (0, 27), (0, 200))
+ax.grid(5, 50).axes("areas", "q")
+for i in range(27):
+    f.line(ax.X(i), ax.Y(0 if i == 0 else cum[i - 1]), ax.X(i + 1), ax.Y(cum[i]), color=RED, sw=2)
+ax.hline(150, color=AMBER)
+ax.pt(k, cum[k - 1], "15 areas = 151 q", dx=8, dy=18)
+f.text(150, 206, "top 15 of 27 areas hold 151 of 200 questions", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "(75.5 per cent of the whole paper)", size=10.5, color=SLATE, bold=True)
+```
+
+```photogrid label="1.4" cols="2" ratio="1.2" caption="Three plans, one shape: build, then rehearse. (a) A wall calendar: each plan is a count of the days on it. (b) With 120 days, 100 go to the chapter-by-chapter build and the last 20 to the model papers and the error notebook. With 60 days, 40 go to the heaviest chapters and the last 20 alternate between a paper under exam conditions and its autopsy. With 15 days, 9 go to key boxes, formula sheets and summaries of the highest-weight units, 5 to the papers and 1 is a rest day. In all three the final stretch is practice under the clock, not new reading, and one rest day a week is part of the plan."
+@ photo id="ceemat/calendar" cap="A wall calendar: the plan is counted in days"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="How the days are shared in the 120, 60 and 15-day plans"
+plans = (("120 days: build, then papers + autopsy", ((100, "100 d", BLUE, NAVY), (20, "20 d", SAND, AMBER))),
+         ("60 days: heavy chapters, then alternate", ((40, "40 d", BLUE, NAVY), (20, "20 d", SAND, AMBER))),
+         ("15 days: 9 key, 5 papers, 1 rest", ((9, "9 d", BLUE, NAVY), (5, "5 d", SAND, AMBER), (1, "1", MINT, TEAL))))
+assert [sum(p[0] for p in segs) for _, segs in plans] == [120, 60, 15]
+f = Fig(300, 236)
+f.text(150, 12, "Days in each plan", size=10.5, color=NAVY, bold=True)
+for j, (t, segs) in enumerate(plans):
+    y0 = 30 + j * 56
+    tt = sum(p[0] for p in segs)
+    f.text(10, y0 + 6, t, size=10.5, color=SLATE, bold=True, anchor="start")
+    x = 10
+    for n, lab, fl, st in segs:
+        w = 280 * n / tt
+        f.box(x, y0 + 16, w, 28, lab, fill=fl, stroke=st, size=10.5, bold=True, r=0)
+        x += w
+f.text(150, 206, "every plan ends with papers, not new theory", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "one rest day a week is part of the plan", size=10.5, color=SLATE, bold=True)
+```
 
 ## 1.5 How to use the model papers in this book
 

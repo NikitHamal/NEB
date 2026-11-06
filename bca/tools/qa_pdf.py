@@ -36,6 +36,9 @@ def check(path, png_dir=None):
     if "NEBians".lower() not in first.lower():
         fails.append("page 1 is not the NEBians cover")
     toc_page = next((i for i in range(min(n, 8)) if re.search(r"^\s*Contents\s*$", doc[i].get_text(), re.M)), None)
+    if toc_page is None:   # Nepali books title the list "विषयसूची": accept the first page with many internal links
+        toc_page = next((i for i in range(min(n, 8)) if sum(1 for l in doc[i].get_links()
+                         if l.get("kind") in (fitz.LINK_GOTO, fitz.LINK_NAMED)) >= 5), None)
     if toc_page is None:
         fails.append("no Contents page in the first 8 pages")
     else:
@@ -69,6 +72,12 @@ def check(path, png_dir=None):
                         warns.append(f"p{i+1}: tiny text {s['size']:.1f}pt {s['text'][:30]!r}")
         prose = " ".join(sp["text"] for b in d["blocks"] if b["type"] == 0 for l in b["lines"]
                          for sp in l["spans"] if "mono" not in sp["font"].lower())   # code may contain $ and \\
+        # Noto Sans Devanagari (semibold) maps the "pri"/"kri" conjunct glyphs to "$" in
+        # its ToUnicode table: a "$" touching a Devanagari letter is a text-extraction
+        # artefact of the font, not leaked TeX (the page itself renders correctly).
+        # (the same font also maps the matra glyphs to stray Latin-extended letters U+0180-02AF.)
+        _dv = "[\u0900-\u097F\u0180-\u02AF]"
+        prose = re.sub(r"(?<=" + _dv + r")\s?\$|\$\s?(?=" + _dv + ")", "", prose)
         if i >= body_start and leak.search(prose):
             m = leak.search(prose)
             fails.append(f"p{i+1}: leaked TeX / stray '$' near {prose[max(0,m.start()-25):m.end()+25]!r}")

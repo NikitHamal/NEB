@@ -85,6 +85,31 @@ Net annual benefit = 350,000 − 100,000 = **250,000**. The 5-year annuity facto
 
 **Sensitivity analysis** repeats the calculation with pessimistic numbers (benefits 25% lower, cost 25% higher) to see whether the decision survives.
 
+```photogrid label="2.1" cols="2" ratio="1.2" caption="Cost and time estimates can be wrong by a factor of ten. (a) Sydney Opera House: approved in 1959 with an estimate of 7 million Australian dollars and a four-year build (finish 1963); it opened in 1973 at 102 million, which is 14.6 times the estimate (an overrun of 1,357 per cent) and 3.5 times the planned duration. (b) The college result system of Section 2.4 has development cost NPR 500,000 and a discounted net benefit of NPR 947,697 over five years, so its NPV stays positive until the cost has grown by 947,697 / 500,000 - 1 = 89.5 per cent. A feasibility study therefore asks two questions: is the NPV positive, and how large an overrun can it survive? Sensitivity analysis with a pessimistic case answers the second; the Opera House had no such margin."
+@ photo id="bcasad/opera" cap="Sydney Opera House, finished 1973"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Planned against actual, and the safety margin"
+plan_c, act_c, plan_t, act_t = 7, 102, 1963 - 1959, 1973 - 1959
+margin = 947697 / 500000 - 1
+assert round(act_c / plan_c, 1) == 14.6 and round((act_c / plan_c - 1) * 100) == 1357
+assert round(act_t / plan_t, 1) == 3.5 and round(margin * 100, 1) == 89.5
+f = Fig(300, 240)
+f.text(150, 14, "Sydney Opera House (1959 start)", size=10.5, color=NAVY, bold=True)
+def pair(y, lab, a, b, unit_):
+    f.text(8, y, lab, size=10.5, color=SLATE, anchor="start", bold=True)
+    for k, (v, col, nm) in enumerate([(a, TEAL, "plan"), (b, RED, "actual")]):
+        w = 150 * v / b
+        f.box(60, y + 8 + k * 20, w, 15, "", fill=col, stroke=col, r=0)
+        f.text(60 + w + 5, y + 16 + k * 20, f"{v} {unit_} ({nm})", size=10.5, color=NAVY, anchor="start", vmid=True)
+pair(34, "Cost (AUD million)", plan_c, act_c, "M")
+pair(98, "Years", plan_t, act_t, "yr")
+f.box(10, 160, 280, 64, "", fill="#f1f5f9", stroke=SLATE, r=6, sw=1)
+f.text(150, 178, "College result system: NPV > 0 until", size=10.5, color=NAVY, bold=True)
+f.text(150, 196, "cost overrun reaches 89.5%", size=10.5, color=TEAL, bold=True)
+f.text(150, 214, "Opera House overran 1,357%", size=10.5, color=RED, bold=True)
+```
+
 ## 2.5 Building and reviewing the baseline project plan
 
 The **Baseline Project Plan (BPP)** is the major deliverable of planning: the best current estimate of scope, benefits, costs, risks and resources, which later phases are measured against. Typical contents:
@@ -125,6 +150,37 @@ for i, (n, a, b, c) in enumerate(tasks):
     f.text(112, y + 9, n, size=10.5, color=NAVY, anchor="end", bold=True, vmid=True)
     f.box(x0 + a * w / 10, y, (b - a) * w / 10, 18, "", fill=c, stroke=NAVY)
 f.text(350, 222, "weeks", size=10, color=SLATE)
+```
+
+```photogrid label="2.2" cols="2" ratio="1.0" caption="Critical path method (CPM) on a simplified plan. (a) Henry L. Gantt (1861-1919), the engineer who introduced the bar chart used for scheduling. (b) Seven tasks in whole weeks: Planning 2, Analysis 2 (after Planning), Design 2 (after Analysis), Coding 3 and Test planning 2 (both after Design), Testing 2 (after Coding and Test planning) and Training 1 (after Coding). A forward pass gives each task's earliest start and finish; a backward pass from the 11-week deadline gives the latest finish; the difference is slack. Planning, Analysis, Design, Coding and Testing have zero slack, so they form the critical path of 2 + 2 + 2 + 3 + 2 = 11 weeks, and a one-week delay to any of them delays the whole project. Test planning and Training each have one week of slack, so they can slip a week without harm."
+@ photo id="bcasad/gantt" cap="Henry L. Gantt, scheduling pioneer"
+fit 1.0
+focus 0.5 0.3
+@ svg cap="Forward and backward pass, slack in pale boxes"
+T = [("Planning", 2, []), ("Analysis", 2, [0]), ("Design", 2, [1]), ("Coding", 3, [2]), ("Test plan", 2, [2]), ("Testing", 2, [3, 4]), ("Training", 1, [3])]
+es, ef = [], []
+for n, d, p in T:
+    s = max([ef[i] for i in p], default=0); es.append(s); ef.append(s + d)
+L = max(ef); lf = [L] * len(T)
+for i in range(len(T) - 1, -1, -1):
+    succ = [j for j, t in enumerate(T) if i in t[2]]
+    lf[i] = min([lf[j] - T[j][1] for j in succ], default=L)
+slack = [lf[i] - ef[i] for i in range(len(T))]
+assert L == 11 and slack == [0, 0, 0, 0, 1, 0, 1] and es == [0, 2, 4, 6, 6, 9, 9]
+f = Fig(300, 240)
+x0, sc = 72, 20
+f.text(150, 12, "weeks (red = critical, pale = slack)", size=10.5, color=SLATE)
+for k in range(0, 12, 2):
+    f.line(x0 + k * sc, 22, x0 + k * sc, 196, color="#e2e8f0", sw=1)
+    f.text(x0 + k * sc, 208, str(k), size=10.5, color=SLATE)
+for i, (n, d, p) in enumerate(T):
+    y = 28 + i * 24
+    f.text(66, y + 9, n, size=10.5, color=NAVY, anchor="end", bold=True, vmid=True)
+    if slack[i]:
+        f.box(x0 + ef[i] * sc, y, slack[i] * sc, 18, "", fill="#f1f5f9", stroke=SLATE, r=0, sw=1)
+    crit = slack[i] == 0
+    f.box(x0 + es[i] * sc, y, d * sc, 18, "", fill="#fecaca" if crit else "#bfdbfe", stroke=RED if crit else NAVY, r=0, sw=1.2)
+f.text(150, 228, "critical path: 2 + 2 + 2 + 3 + 2 = 11 weeks", size=10.5, color=RED, bold=True)
 ```
 
 ## 2.7 Eight reasons to do a feasibility study first

@@ -271,6 +271,403 @@ print("%04X" % inet_checksum(hdr))
 011100101010
 B861
 ```
+## 3.10 Seeing the ideas: frames, checks, windows and shared media
+
+The data link layer is where a raw bit stream becomes a trustworthy sequence of frames. Plate 3.1 shows the history and the hardware of that idea: an early Ethernet transceiver signed by its inventor, the plaque of ALOHAnet (the radio network from which Ethernet's random access grew), a memory module that corrects its own errors with a Hamming-type code, and a token-ring adapter, the controlled-access rival that lost. Plate 3.2 shows the boxes that connect a LAN, from the hub (one shared wire) to the switch (one private wire per host). Plate 3.3 shows the wireless side. Figures 3.1 to 3.12 then run the unit's calculations on real bit patterns: stuffing, the CRC division, the Internet checksum, a Hamming code, window protocols, ALOHA, backoff, the Ethernet frame, switch learning, Wi-Fi timing, spanning tree and VLAN tags.
+
+```photogrid label="3.1" cols="4" ratio="1.0" caption="Four ideas of the data link layer in hardware and history. (a) An early 3Com Ethernet transceiver signed by Bob Metcalfe, the inventor of Ethernet (CC0): the box that clamped onto the shared coaxial cable and listened for collisions. (b) The IEEE milestone plaque for the ALOHA packet radio network of 1971 (public domain): stations transmit at will and retry after a random wait, the idea behind Ethernet's random access. (c) A server memory module with a nine-chip row, 72 bits for every 64 data bits (CC BY-SA 4.0): the 8 extra bits are an error-correcting code that repairs any single flipped bit. (d) A token-ring adapter (CC0): only the station holding the token may send, a controlled-access method with bounded delay."
+@ photo id="bca301/ethconn" cap="Early Ethernet transceiver"
+fit 1.0
+focus 0.4 0.45
+@ photo id="bca301/aloha" cap="ALOHAnet plaque (1971)"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca301/eccdimm" cap="ECC memory module"
+fit 1.0
+focus 0.5 0.35
+call 0.62 0.12 0.5 0.62 "72 bits for 64 of data"
+@ photo id="bca301/tokenring" cap="Token-ring adapter"
+fit 1.0
+focus 0.5 0.5
+```
+
+```photogrid label="3.2" cols="3" ratio="1.25" caption="From shared wire to private wire. (a) An eight-port hub (CC BY 4.0): every bit that enters one port is repeated on all the others, so all hosts share one collision domain and CSMA/CD is essential. (b) Rows of switch ports (CC BY-SA 4.0): each port is its own collision domain and a full-duplex link, so no collisions can happen. (c) The inside of a 28-port gigabit switch (CC BY-SA 3.0): the central chip (the switching ASIC) holds the MAC address table that Figure 3.10 shows being learned, and each port has its own transformer and PHY."
+@ photo id="bca301/hub" cap="Hub: one collision domain"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca301/ports" cap="Switch ports: one domain each"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca301/switchint" cap="Inside a switch"
+fit 1.25
+focus 0.5 0.5
+call 0.62 0.1 0.62 0.45 "switching chip"
+```
+
+```photogrid label="3.3" cols="3" ratio="1.25" caption="The wireless data link. (a) A Linksys WRT54G, the best-selling home Wi-Fi router (CC BY-SA 3.0): an 802.11g access point, a switch and a router in one box. (b) An outdoor access point on a brick wall (CC BY 4.0): the flat panel is a directional antenna, and radio cannot detect collisions while sending, so Wi-Fi must use CSMA/CA. (c) A network interface card (public domain, bca101): the 48-bit MAC address burnt into every card, wired or wireless, is the address that the data link layer uses."
+@ photo id="bca301/wrt54g" cap="Home Wi-Fi router"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca301/apout" cap="Outdoor access point"
+fit 1.25
+focus 0.5 0.35
+@ photo id="bca101/nic" cap="NIC with a MAC address"
+fit 1.25
+focus 0.5 0.5
+```
+
+```svgfig label="3.1" caption="Stuffing, worked on real data. Top: PPP byte stuffing. The data bytes 41 7E 42 7D 43 contain the flag 7E and the escape 7D, so each is preceded by 7D and XORed with 20 (7E becomes 7D 5E, 7D becomes 7D 5D); the frame is wrapped in two 7E flags. Nine bytes go out for five. Bottom: HDLC bit stuffing of 0111111011111011111. After every run of five 1s the sender inserts a 0 (red), and the run counter restarts. 19 bits become 22; the receiver deletes the 0 that follows five 1s and recovers the original, and the flag 01111110 can never appear inside a frame."
+f = Fig(580, 270)
+f.text(8, 18, "Byte stuffing (PPP)", size=11, color=NAVY, bold=True, anchor="start")
+orig = ["41", "7E", "42", "7D", "43"]
+f.text(8, 52, "data", size=10, color=SLATE, anchor="start", vmid=True)
+for i, b in enumerate(orig):
+    f.box(60 + i * 38, 38, 36, 28, b, fill=BLUE if b not in ("7E", "7D") else SAND, stroke=NAVY if b not in ("7E", "7D") else AMBER, size=11, bold=True, r=3)
+tx = [("7E", "flag"), ("41", ""), ("7D", "esc"), ("5E", ""), ("42", ""), ("7D", "esc"), ("5D", ""), ("43", ""), ("7E", "flag")]
+f.text(8, 112, "sent", size=10, color=SLATE, anchor="start", vmid=True)
+for i, (b, k) in enumerate(tx):
+    fl, st = (MINT, TEAL) if k == "flag" else ((SAND, AMBER) if k == "esc" or b in ("5E", "5D") else (BLUE, NAVY))
+    f.box(60 + i * 38, 98, 36, 28, b, fill=fl, stroke=st, size=11, bold=True, r=3)
+    if k: f.text(60 + i * 38 + 18, 140, k, size=9.5, color=st, bold=True)
+f.arrow([(60 + 19, 68), (60 + 19 + 38, 96)], color="#94a3b8", sw=1)
+f.text(330, 52, "5 bytes become 9: 2 flags + 2 escapes", size=10, color=RED, bold=True, anchor="start", vmid=True)
+f.text(8, 172, "Bit stuffing (HDLC)", size=11, color=NAVY, bold=True, anchor="start")
+d = "0111111011111011111"
+o, ins, c = "", [], 0
+for b in d:
+    o += b
+    c = c + 1 if b == "1" else 0
+    if c == 5:
+        ins.append(len(o)); o += "0"; c = 0
+f.text(8, 198, "data", size=10, color=SLATE, anchor="start", vmid=True)
+for i, b in enumerate(d):
+    f.box(54 + i * 22, 186, 20, 24, b, fill=BLUE, stroke=NAVY, size=11, bold=True, r=2)
+f.text(8, 238, "sent", size=10, color=SLATE, anchor="start", vmid=True)
+for i, b in enumerate(o):
+    s = i in ins
+    f.box(54 + i * 22, 226, 20, 24, b, fill="#fee2e2" if s else BLUE, stroke=RED if s else NAVY, size=11, bold=True, r=2, color=RED if s else None)
+f.text(54 + 22 * 22 + 8, 238, "22 bits", size=10, color=RED, bold=True, anchor="start", vmid=True)
+f.text(54 + 19 * 22 + 8, 198, "19 bits", size=10, color=NAVY, bold=True, anchor="start", vmid=True)
+```
+
+```svgfig label="3.2" caption="The CRC division for message 1101011011 and generator 10011 (x^4 + x + 1), exactly as a computer does it. Four zeros are appended (11010110110000). At each step the divisor is XORed under the leading 1 and the result is written beneath it; the four steps leave the remainder 1110 (shown in red). The frame sent is the message followed by the remainder: 11010110111110, which is exactly divisible by the generator. Right: the receiver divides the frame it gets. An intact frame leaves 0000. With bit 4 flipped the remainder is 0111, so the error is caught; every burst up to 4 bits long is caught in the same way."
+f = Fig(580, 290)
+x0, cw = 18, 17
+dv = "10011"
+a = list("11010110110000")
+def line(y, s, x, col=NAVY, bold=False, dim=None):
+    for i, ch in enumerate(s):
+        c2 = col
+        if dim and i < dim: c2 = "#cbd5e1"
+        f.text(x + i * cw + cw / 2, y, ch, size=13, color=c2, bold=bold, vmid=True)
+y = 22
+f.text(x0, 8, "message + 4 zeros", size=9.5, color=SLATE, anchor="start")
+line(y + 6, "".join(a), x0, NAVY, True)
+y += 30
+for i in range(10):
+    if a[i] == "1":
+        line(y, dv, x0 + i * cw, TEAL)
+        f.line(x0 + i * cw, y + 11, x0 + (i + 5) * cw, y + 11, color="#475569", sw=1.2)
+        for j in range(5):
+            a[i + j] = str(int(a[i + j]) ^ int(dv[j]))
+        y += 22
+        line(y, "".join(a), x0, NAVY, False, dim=i + 1)
+        y += 28
+f.box(x0 + 10 * cw - 2, y - 40, 4 * cw + 4, 24, "", fill="none", stroke=RED, r=3, sw=2)
+f.text(x0 + 14 * cw + 10, y - 28, "remainder 1110", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(372, 100, "Sent frame", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(372, 120, "1101011011 + 1110", size=10.5, color=SLATE, anchor="start")
+f.text(372, 138, "= 11010110111110", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(372, 172, "Receiver, frame intact:", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(372, 190, "remainder 0000: accept", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(372, 218, "Receiver, bit 4 flipped:", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(372, 236, "11000110111110 gives 0111", size=10.5, color=SLATE, anchor="start")
+f.text(372, 254, "non-zero: reject", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+```svgfig label="3.3" caption="The Internet checksum of a real IPv4 header, computed. The ten 16-bit words are added with the checksum field taken as 0000. The raw sum is 0x2479C; the carry out of bit 16 (the leading 2) is added back at the low end (end-around carry), giving 0x479E. The one's complement of that is 0xB861, which goes into the header. A receiver that adds all ten words plus 0xB861 gets 0xFFFF and accepts the header; if any word were damaged the total would not be 0xFFFF. The checksum is cheap but weak: swapping two 16-bit words does not change the sum."
+f = Fig(580, 280)
+w = [0x4500, 0x0073, 0x0000, 0x4000, 0x4011, 0x0000, 0xC0A8, 0x0001, 0xC0A8, 0x00C7]
+names = ["version, length", "total length", "identification", "flags, fragment", "TTL, protocol", "checksum (0)", "source 192.168", "source 0.1", "dest 192.168", "dest 0.199"]
+f.text(20, 14, "word", size=10, color=NAVY, bold=True, anchor="start")
+f.text(100, 14, "field", size=10, color=NAVY, bold=True, anchor="start")
+f.text(250, 14, "running sum", size=10, color=NAVY, bold=True, anchor="start")
+s, raw = 0, 0
+for i, v in enumerate(w):
+    y = 34 + i * 21
+    raw += v
+    s += v
+    if s > 0xFFFF: s = (s & 0xFFFF) + 1
+    f.text(20, y, "%04X" % v, size=11, color=SLATE, anchor="start", vmid=True)
+    f.text(100, y, names[i], size=10, color=SLATE, anchor="start", vmid=True)
+    f.text(250, y, "%04X" % s, size=11, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.line(14, y + 10.5, 330, y + 10.5, color="#f1f5f9", sw=1)
+f.box(346, 24, 224, 52, "raw sum 0x%X" % raw, fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.arrow([(458, 76), (458, 100)], color=SLATE)
+f.box(346, 100, 224, 52, "fold the carry: 0x%04X" % s, fill=SAND, stroke=AMBER, size=12, bold=True)
+f.arrow([(458, 152), (458, 176)], color=SLATE)
+f.box(346, 176, 224, 52, "complement: 0x%04X" % (~s & 0xFFFF), fill=MINT, stroke=TEAL, size=12, bold=True)
+f.text(458, 250, "receiver: sum with checksum = FFFF", size=10.5, color=TEAL, bold=True)
+f.text(458, 268, "header accepted", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="3.4" caption="The Hamming (7,4) code for the data 1011, worked on bits. Positions 1, 2 and 4 are parity bits p1, p2 and p4; positions 3, 5, 6, 7 hold the data. Each parity bit covers the positions whose binary number contains its bit (p1: 1, 3, 5, 7; p2: 2, 3, 6, 7; p4: 4, 5, 6, 7) and makes the number of 1s even. The codeword is 0110011. If position 5 flips in transit (0110111), the three checks at the receiver give 1, 0, 1, read as the binary number 101 = 5, the syndrome: it names the bad position, and flipping that bit repairs the word."
+f = Fig(580, 300)
+cx0, bwid = 20, 56
+def hrow(y, bits, bad=None, title=""):
+    f.text(cx0, y - 20, title, size=10.5, color=NAVY, bold=True, anchor="start")
+    lab = ["p1", "p2", "d3", "p4", "d5", "d6", "d7"]
+    for i in range(7):
+        isp = i in (0, 1, 3)
+        isb = (bad == i)
+        f.box(cx0 + i * bwid, y, bwid - 4, 32, bits[i], fill="#fee2e2" if isb else (SAND if isp else BLUE), stroke=RED if isb else (AMBER if isp else NAVY), size=13, bold=True, r=3, color=RED if isb else None)
+        f.text(cx0 + i * bwid + (bwid - 4) / 2, y + 46, "%s (pos %d)" % (lab[i], i + 1), size=9.5, color=SLATE)
+hrow(60, "0110011", None, "Sent codeword (even parity)")
+hrow(168, "0110111", 4, "Received, position 5 flipped")
+for r, (nm, cov) in enumerate((("p1", (0, 2, 4, 6)), ("p2", (1, 2, 5, 6)), ("p4", (3, 4, 5, 6)))):
+    y = 232 + r * 20 - 20 + 20
+for r, (nm, cov) in enumerate((("check 1: positions 1,3,5,7 = 0+1+1+1 = 3, odd: 1", 0), ("check 2: positions 2,3,6,7 = 1+1+1+1 = 4, even: 0", 0), ("check 4: positions 4,5,6,7 = 0+1+1+1 = 3, odd: 1", 0))):
+    f.text(20, 244 + r * 18, nm, size=10, color=SLATE, anchor="start", vmid=True)
+f.box(420, 232, 144, 52, "syndrome 101 = 5", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.text(492, 296, "flip position 5 back", size=10, color=TEAL, bold=True)
+f.text(380, 190, "", size=9)
+```
+
+```svgfig label="3.5" caption="Why a sliding window is needed, computed for frames of t_f = 12 ms on a link with one-way propagation t_p = 20 ms. Top: in stop-and-wait one cycle lasts t_f + 2 t_p = 52 ms but the line is busy only 12 ms of it, so utilisation U = 12 / 52 = 23.1 percent. Bottom: with a window of W frames in flight, U = W x 12 / 52, so W = 1, 2, 3, 4 gives 23.1, 46.2, 69.2 and 92.3 percent, and W = 5 (since 52 / 12 = 4.33, rounded up) fills the line completely. The window must be at least 1 + 2 t_p / t_f frames to keep the sender busy."
+f = Fig(580, 300)
+sc = 5.0
+f.text(8, 14, "Stop-and-wait, one cycle = 52 ms", size=10.5, color=NAVY, bold=True, anchor="start")
+f.box(20, 24, 12 * sc, 24, "send", fill=BLUE, stroke=NAVY, size=10, bold=True, r=2)
+f.box(20 + 12 * sc, 24, 40 * sc, 24, "waiting for the ACK (2 x 20 ms)", fill="#f1f5f9", stroke="#94a3b8", size=10, r=2, color=SLATE)
+f.text(20 + 52 * sc + 8, 36, "U = 12 / 52 = 23.1 %", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(8, 78, "Window W = 5, back-to-back frames", size=10.5, color=NAVY, bold=True, anchor="start")
+for i in range(5):
+    f.box(20 + i * 12 * sc, 88, 12 * sc - 2, 24, "F%d" % i, fill=[BLUE, MINT][i % 2], stroke=[NAVY, TEAL][i % 2], size=10, bold=True, r=2)
+f.arrow([(20 + 52 * sc, 112), (20 + 52 * sc, 130)], color=TEAL, sw=1.4)
+f.text(20 + 52 * sc + 6, 124, "ACK of F0 arrives at 52 ms: line never idle", size=10, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(8, 158, "Utilisation against window size", size=10.5, color=NAVY, bold=True, anchor="start")
+L, T, W, H = 50, 170, 300, 100
+for k in range(0, 5):
+    y = T + H - H * k / 4.0
+    f.line(L, y, L + W, y, color="#e2e8f0", sw=1)
+    f.text(L - 6, y, "%d%%" % (k * 25), size=9.5, color=SLATE, anchor="end", vmid=True)
+for Wn in range(1, 7):
+    u = min(1.0, Wn * 12 / 52.0)
+    x = L + (Wn - 1) * 50 + 8
+    f.box(x, T + H - H * u, 34, H * u, "", fill="#bbf7d0" if u >= 1 else "#bfdbfe", stroke=TEAL if u >= 1 else NAVY, r=0, sw=1)
+    f.text(x + 17, T + H + 14, "W=%d" % Wn, size=9.5, color=SLATE)
+    f.text(x + 17, T + H - H * u - 8, "%.1f" % (u * 100), size=9.5, color=NAVY, bold=True)
+f.text(380, 200, "U = min(1, W x t_f / (t_f + 2 t_p))", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(380, 222, "W needed = ceil(52 / 12) = 5", size=10.5, color=RED, bold=True, anchor="start")
+f.text(380, 244, "3-bit numbers: GBN W <= 7", size=10, color=SLATE, anchor="start")
+f.text(380, 262, "Selective Repeat W <= 4", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.6" caption="Go-Back-N against Selective Repeat on ten frames with window 4 when frame 2 is lost, drawn as the order of transmissions. Go-Back-N sends 0 1 2 3; frame 2 is lost, so the receiver discards 3 (amber) as out of order; after the timeout the sender goes back and resends 2 3 4 5 and then 6 7 8 9: 12 transmissions in all. Selective Repeat sends 0 1 2 3; the receiver buffers 3 (mint); only frame 2 is resent (green), and the window then slides on with 4 to 9: 11 transmissions. The gap widens with a larger window or a higher loss rate."
+f = Fig(580, 230)
+def seqrow(y, items, title, total):
+    f.text(8, y - 18, title, size=10.5, color=NAVY, bold=True, anchor="start")
+    for i, (n, kind) in enumerate(items):
+        fl, st = {"ok": (BLUE, NAVY), "lost": ("#fee2e2", RED), "disc": (SAND, AMBER), "re": ("#bbf7d0", TEAL), "buf": (MINT, TEAL)}[kind]
+        f.box(10 + i * 44, y, 40, 30, str(n), fill=fl, stroke=st, size=12, bold=True, r=3, color=st)
+        if kind == "lost": f.text(10 + i * 44 + 20, y + 44, "lost", size=9.5, color=RED, bold=True)
+        if kind == "disc": f.text(10 + i * 44 + 20, y + 44, "discarded", size=9.5, color=AMBER, bold=True)
+        if kind == "buf": f.text(10 + i * 44 + 20, y + 44, "buffered", size=9.5, color=TEAL, bold=True)
+        if kind == "re": f.text(10 + i * 44 + 20, y + 44, "resent", size=9.5, color=TEAL, bold=True)
+    f.text(10 + len(items) * 44 + 6, y + 15, "= %d" % total, size=12, color=RED, bold=True, anchor="start", vmid=True)
+g = [(0, "ok"), (1, "ok"), (2, "lost"), (3, "disc"), (2, "re"), (3, "re"), (4, "ok"), (5, "ok"), (6, "ok"), (7, "ok"), (8, "ok"), (9, "ok")]
+seqrow(40, g, "Go-Back-N: 12 transmissions", 12)
+s2 = [(0, "ok"), (1, "ok"), (2, "lost"), (3, "buf"), (2, "re"), (4, "ok"), (5, "ok"), (6, "ok"), (7, "ok"), (8, "ok"), (9, "ok")]
+seqrow(140, s2, "Selective Repeat: 11 transmissions", 11)
+f.text(290, 220, "Go-Back-N resends 1 extra frame here; the cost grows with the window and the loss rate", size=10, color=SLATE)
+```
+
+```svgfig label="3.7" caption="Throughput of ALOHA against offered load G (frames attempted per frame time), computed. Pure ALOHA: S = G e^(-2G), a frame is vulnerable for two frame times; the peak is at G = 0.5 with S = 1 / (2e) = 0.184. Slotted ALOHA: S = G e^(-G), vulnerable for one slot; the peak is at G = 1 with S = 1 / e = 0.368, exactly double. Beyond the peak, adding load lowers the throughput because collisions dominate: at G = 3 pure ALOHA delivers only 0.007 and slotted 0.149. More than about 63 percent of the slots are wasted even at the best load."
+f = Fig(580, 270)
+cm = __import__("math")
+L, T, W, H = 56, 14, 330, 210
+f.box(L, T, W, H, "", fill="#ffffff", stroke="#94a3b8", r=2, sw=1.2)
+for k in range(1, 5):
+    f.line(L, T + H * k / 4.0, L + W, T + H * k / 4.0, color="#e2e8f0", sw=1)
+for k in range(5):
+    f.text(L - 6, T + H - H * k / 4.0, "%.2f" % (k * 0.1), size=9.5, color=SLATE, anchor="end", vmid=True)
+for g in range(0, 4):
+    f.text(L + W * g / 3.0, T + H + 14, str(g), size=9.5, color=SLATE)
+f.text(L + W / 2, T + H + 32, "offered load G", size=10, color=SLATE, bold=True)
+f.text(16, T + H / 2, "S", size=11, color=SLATE, bold=True)
+Xg = lambda g: L + W * g / 3.0
+Ys = lambda s: T + H - H * s / 0.4
+for fn, col in ((lambda g: g * cm.exp(-2 * g), "#b91c1c"), (lambda g: g * cm.exp(-g), "#0f766e")):
+    pts = " ".join("%.1f,%.1f" % (Xg(g), Ys(fn(g))) for g in [k * 0.02 for k in range(151)])
+    f.raw('<polyline points="%s" fill="none" stroke="%s" stroke-width="2.6"/>' % (pts, col))
+f.circle(Xg(0.5), Ys(0.1839), 4.5, fill=RED, stroke=RED)
+f.circle(Xg(1.0), Ys(0.3679), 4.5, fill=TEAL, stroke=TEAL)
+f.text(Xg(0.5) + 10, Ys(0.1839) - 10, "pure peak 0.184", size=10, color=RED, bold=True, anchor="start")
+f.text(Xg(1.0) + 10, Ys(0.3679) - 2, "slotted peak 0.368", size=10, color=TEAL, bold=True, anchor="start")
+f.text(Xg(1.75), Ys(0.30), "slotted: G e^(-G)", size=10, color=TEAL, bold=True, anchor="start")
+f.text(Xg(1.3), Ys(0.16), "pure: G e^(-2G)", size=10, color=RED, bold=True, anchor="start")
+rows = [("G", "pure", "slotted"), ("0.5", "0.184", "0.303"), ("1.0", "0.135", "0.368"), ("2.0", "0.037", "0.271"), ("3.0", "0.007", "0.149")]
+for i, r in enumerate(rows):
+    for j, v in enumerate(r):
+        f.text([420, 456, 508][j], 46 + i * 24, v, size=10, color=NAVY if i == 0 else SLATE, bold=(i == 0), anchor="start")
+f.text(420, 190, "slotting doubles the peak", size=10, color=NAVY, bold=True, anchor="start")
+```
+
+```svgfig label="3.8" caption="Binary exponential backoff in classic 10 Mbps Ethernet, computed. After the k-th collision a station waits a random whole number of slot times from 0 to 2^min(k,10) - 1; one slot is 51.2 microseconds (512 bits at 10 Mbps, the time to send the 64 byte minimum frame). The bars show the longest possible wait on a log axis: 51 microseconds after the first collision, 358 after the third, 52 378 (52 ms) after the tenth. The window stops growing at k = 10 and the frame is dropped after 16 attempts. Because the window doubles, a busy network spreads its stations out quickly."
+f = Fig(580, 280)
+cm = __import__("math")
+L, T, W, H = 66, 14, 330, 210
+f.box(L, T, W, H, "", fill="#ffffff", stroke="#94a3b8", r=2, sw=1.2)
+Yl = lambda v: T + H - H * (cm.log10(v) - 1) / 4.0
+for dec, lab in ((10, "10 us"), (100, "100 us"), (1000, "1 ms"), (10000, "10 ms"), (100000, "100 ms")):
+    y = Yl(dec)
+    f.line(L, y, L + W, y, color="#e2e8f0", sw=1)
+    f.text(L - 6, y, lab, size=9.5, color=SLATE, anchor="end", vmid=True)
+for k in range(1, 11):
+    v = (2 ** k - 1) * 51.2
+    x = L + (k - 1) * 33 + 5
+    h = T + H - Yl(v)
+    f.box(x, Yl(v), 23, h, "", fill="#fde68a" if k < 10 else "#fecaca", stroke=AMBER if k < 10 else RED, r=0, sw=1)
+    f.text(x + 11.5, T + H + 14, str(k), size=9.5, color=SLATE)
+    if k in (1, 3, 5, 7, 10):
+        f.text(x + 11.5, Yl(v) - 8, "%d" % round(v), size=9, color=NAVY, bold=True)
+f.text(L + W / 2, T + H + 32, "collision number k", size=10, color=SLATE, bold=True)
+f.text(414, 50, "slot = 51.2 us = 512 bits", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(414, 76, "wait = random(0 .. 2^k - 1)", size=10, color=SLATE, anchor="start")
+f.text(414, 94, "x slot, k capped at 10", size=10, color=SLATE, anchor="start")
+f.text(414, 128, "k = 3: up to 7 slots", size=10, color=SLATE, anchor="start")
+f.text(414, 146, "= 358.4 us", size=10, color=NAVY, bold=True, anchor="start")
+f.text(414, 172, "k = 10: up to 1023 slots", size=10, color=SLATE, anchor="start")
+f.text(414, 190, "= 52 377.6 us", size=10, color=RED, bold=True, anchor="start")
+f.text(414, 216, "give up after 16 tries", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.9" caption="The Ethernet frame and what it really costs on the wire. Each box is a field with its size in bytes (not drawn to scale; the 1500 byte data field would fill the page). The frame proper is 14 + data + 4 bytes; the preamble (7), start delimiter (1) and the 12 byte inter-frame gap add 20 bytes of time on the wire. With 1500 bytes of data the wire carries 1538 byte times and the efficiency is 1500 / 1538 = 97.5 percent. With the smallest data field of 46 bytes the frame is 64 bytes (512 bits, the slot time) and the wire carries 84 byte times: 46 / 84 = 54.8 percent. Small frames waste capacity."
+f = Fig(580, 280)
+flds = [("preamble", 7, "#f1f5f9", "#94a3b8"), ("SFD", 1, "#f1f5f9", "#94a3b8"), ("dest MAC", 6, BLUE, NAVY), ("src MAC", 6, BLUE, NAVY), ("type", 2, SAND, AMBER), ("data 46-1500", 0, MINT, TEAL), ("FCS", 4, "#fee2e2", RED), ("gap", 12, "#f1f5f9", "#94a3b8")]
+ws = [60, 36, 62, 62, 44, 120, 44, 50]
+x = 14
+for (nm, n, fl, st), w_ in zip(flds, ws):
+    f.box(x, 40, w_ - 3, 40, "", fill=fl, stroke=st, r=3, sw=1.3)
+    f.text(x + (w_ - 3) / 2, 54, nm, size=9.5, color=st if st != "#94a3b8" else SLATE, bold=True)
+    f.text(x + (w_ - 3) / 2, 70, ("%d B" % n) if n else "46-1500 B", size=9.5, color=SLATE)
+    x += w_
+f.text(14, 22, "one frame on the wire", size=10.5, color=NAVY, bold=True, anchor="start")
+f.line(14 + 96, 94, 14 + 96 + 62 + 62 + 44 + 120 + 41, 94, color=NAVY, sw=1.4)
+f.text(14 + 96 + 150, 110, "frame: 64 to 1518 bytes", size=10, color=NAVY, bold=True)
+f.text(14, 150, "payload efficiency", size=10.5, color=NAVY, bold=True, anchor="start")
+bars = [("data 1500 B", 1500 / 1538.0, TEAL, "1500 / 1538 = 97.5 %"), ("data 46 B (minimum)", 46 / 84.0, RED, "46 / 84 = 54.8 %")]
+for i, (nm, u, c, tx) in enumerate(bars):
+    y = 166 + i * 44
+    f.text(14, y + 12, nm, size=10, color=SLATE, anchor="start", vmid=True)
+    f.box(150, y, 300, 24, "", fill="#f1f5f9", stroke="#cbd5e1", r=2, sw=1)
+    f.box(150, y, 300 * u, 24, "", fill=c, stroke=c, r=2, sw=1)
+    f.text(460, y + 12, tx, size=10, color=c, bold=True, anchor="start", vmid=True)
+f.text(290, 262, "MAC address: 48 bits, first 24 = vendor (OUI); FF:FF:FF:FF:FF:FF is broadcast", size=10, color=SLATE)
+```
+
+```svgfig label="3.10" caption="A learning switch, simulated step by step on three hosts A, B and C (ports 1, 2, 3) with an empty MAC table. The code in this figure runs the learning rule: record the source address against the arrival port, then forward to the known port or flood. Step 1, A to B: B is unknown, so the frame is flooded to ports 2 and 3 (red) and A = 1 is learned. Step 2, B to A: A is known, so the frame goes only to port 1 (green), and B = 2 is learned. Step 3, A to B: only port 2. Step 4, C to A: only port 1, and C = 3 is learned. After the first frame C never sees the A-B conversation."
+f = Fig(580, 300)
+steps = [("A", "B", 1), ("B", "A", 2), ("A", "B", 1), ("C", "A", 3)]
+port = {"A": 1, "B": 2, "C": 3}
+tab = {}
+for k, (s, d, sp) in enumerate(steps):
+    tab[s] = sp
+    if d in tab and tab[d] != sp: out, kind = [tab[d]], "uni"
+    elif d in tab: out, kind = [], "filter"
+    else: out, kind = [p for p in (1, 2, 3) if p != sp], "flood"
+    cx = 72 + k * 144
+    f.box(cx - 62, 6, 124, 220, "", fill="#ffffff", stroke="#cbd5e1", r=6, sw=1)
+    f.text(cx, 24, "%d. %s to %s" % (k + 1, s, d), size=11, color=NAVY, bold=True)
+    f.box(cx - 34, 44, 68, 30, "switch", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=4)
+    hx = {1: cx - 46, 2: cx, 3: cx + 46}
+    for p in (1, 2, 3):
+        host = "ABC"[p - 1]
+        col, sw = "#cbd5e1", 1.4
+        if p == sp: col, sw = NAVY, 3
+        elif p in out: col, sw = (RED if kind == "flood" else TEAL), 3
+        f.line(hx[p], 74, hx[p], 120, color=col, sw=sw)
+        f.circle(hx[p], 134, 13, fill=SAND if p == sp else "#f1f5f9", stroke=AMBER if p == sp else "#64748b", label=host, size=11, color=NAVY)
+        f.text(hx[p] + (-9 if p == 1 else (0 if p == 2 else 9)), 98, "p%d" % p, size=9.5, color=SLATE)
+    f.text(cx, 166, "flood to %s" % " and ".join(str(p) for p in out) if kind == "flood" else "send to port %d only" % out[0], size=10, color=RED if kind == "flood" else TEAL, bold=True)
+    f.text(cx, 184, "learn %s = %d" % (s, sp), size=10, color=NAVY)
+    f.text(cx, 206, "table: " + ", ".join("%s=%d" % (a, b) for a, b in sorted(tab.items())), size=9.5, color=SLATE)
+f.text(290, 252, "Flooding happens once per unknown destination; after that the table keeps traffic on the right wire.", size=10.5, color=NAVY, bold=True)
+f.text(290, 272, "Entries are removed after about 5 minutes of silence, so a host that moves is learned again.", size=10, color=SLATE)
+```
+
+```svgfig label="3.11" caption="Why Wi-Fi uses CSMA/CA, with numbers. Left: the hidden-station problem. Stations A and C are each within range of the access point (AP) but out of range of each other, so neither can hear the other transmitting and both may send to the AP at once; RTS/CTS lets the AP announce the reservation to both. Right: one successful frame to scale (1 px per 1.4 microseconds) for 802.11a/g with 9 microsecond slots: DIFS = SIFS + 2 slots = 16 + 18 = 34 microseconds, a backoff of 5 slots = 45 microseconds, 200 microseconds of data, SIFS 16 microseconds, and a 44 microsecond ACK; 339 microseconds in all."
+f = Fig(580, 300)
+f.circle(80, 100, 62, fill="#eff6ff", stroke="#93c5fd", sw=1.3, label="")
+f.circle(210, 100, 62, fill="#fef9c3", stroke="#fcd34d", sw=1.3, label="")
+f.circle(60, 100, 16, fill=BLUE, stroke=NAVY, label="A", size=11, color=NAVY)
+f.circle(145, 100, 16, fill=MINT, stroke=TEAL, label="AP", size=10, color=NAVY)
+f.circle(230, 100, 16, fill=BLUE, stroke=NAVY, label="C", size=11, color=NAVY)
+f.text(48, 26, "range of A", size=9.5, color=NAVY, bold=True)
+f.text(220, 26, "range of C", size=9.5, color="#92400e", bold=True)
+f.arrow([(76, 90), (128, 90)], color=RED, sw=1.6)
+f.arrow([(214, 90), (162, 90)], color=RED, sw=1.6)
+f.text(145, 176, "A and C cannot hear each other:", size=10, color=RED, bold=True)
+f.text(145, 192, "both send, the AP hears a collision", size=10, color=RED)
+f.text(145, 214, "RTS / CTS announces the channel", size=10, color=TEAL, bold=True)
+f.text(145, 230, "as reserved to every station", size=10, color=TEAL)
+sc = 1 / 1.4
+segs = [("DIFS", 34, "#f1f5f9", "#64748b"), ("backoff", 45, SAND, AMBER), ("data frame", 200, BLUE, NAVY), ("SIFS", 16, "#f1f5f9", "#64748b"), ("ACK", 44, MINT, TEAL)]
+x = 320
+f.text(320, 22, "one frame, 339 microseconds", size=10.5, color=NAVY, bold=True, anchor="start")
+for nm, d, fl, st in segs:
+    w_ = d * sc
+    f.box(x, 36, w_, 32, "", fill=fl, stroke=st, r=2, sw=1.2)
+    x += w_
+rows = [("DIFS", "16 + 2 x 9 = 34 us"), ("backoff", "5 slots x 9 = 45 us"), ("data frame", "200 us"), ("SIFS", "16 us (ACK has priority)"), ("ACK", "44 us")]
+for i, (a, b) in enumerate(rows):
+    f.box(320, 84 + i * 24, 12, 12, "", fill=segs[i][2], stroke=segs[i][3], r=2, sw=1.2)
+    f.text(340, 90 + i * 24, a, size=10, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.text(410, 90 + i * 24, b, size=10, color=SLATE, anchor="start", vmid=True)
+f.text(320, 224, "ethernet can detect a collision while sending;", size=10, color=SLATE, anchor="start")
+f.text(320, 240, "radio cannot, so Wi-Fi waits and counts down", size=10, color=SLATE, anchor="start")
+f.text(320, 256, "a random backoff first (avoidance)", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="3.12" caption="Two more switch ideas. Left: spanning tree. Three switches joined in a triangle form a loop, and because Ethernet frames carry no hop count a broadcast would circle forever (a broadcast storm). STP elects the switch with the lowest bridge ID as root (S1) and blocks one port (red X) on the redundant link S2-S3, leaving a loop-free tree; if a link fails the blocked port is unblocked. Right: the 4 byte 802.1Q VLAN tag, drawn to scale at 8 px per bit: a 16 bit type 0x8100, 3 bits of priority, 1 drop-eligible bit and a 12 bit VLAN ID, so 2^12 - 2 = 4094 usable VLANs. The tag raises the maximum frame from 1518 to 1522 bytes."
+f = Fig(580, 270)
+f.text(120, 16, "Spanning tree", size=11, color=NAVY, bold=True)
+S = {"S1": (120, 56), "S2": (50, 190), "S3": (190, 190)}
+for a, b, blocked in (("S1", "S2", False), ("S1", "S3", False), ("S2", "S3", True)):
+    (x1, y1), (x2, y2) = S[a], S[b]
+    f.line(x1, y1 + 14, x2, y2 - 14, color=RED if blocked else TEAL, sw=2.4, dash=blocked) if a == "S1" else f.line(x1 + 28, y1, x2 - 28, y2, color=RED if blocked else TEAL, sw=2.4, dash=blocked)
+f.text(120, 200, "X", size=18, color=RED, bold=True)
+f.text(120, 234, "blocked port on S3-S2", size=10, color=RED, bold=True)
+for n, (x, y) in S.items():
+    f.box(x - 30, y - 14, 60, 28, n + (" root" if n == "S1" else ""), fill=MINT if n == "S1" else BLUE, stroke=TEAL if n == "S1" else NAVY, size=10, bold=True, r=4)
+f.text(120, 252, "lowest bridge ID wins: S1", size=10, color=SLATE)
+f.text(412, 16, "802.1Q VLAN tag (32 bits, 8 px per bit)", size=11, color=NAVY, bold=True)
+parts = [("TPID 0x8100", 16, BLUE, NAVY), ("PCP", 3, SAND, AMBER), ("D", 1, "#fee2e2", RED), ("VLAN ID", 12, MINT, TEAL)]
+x = 284
+for nm, bits, fl, st in parts:
+    f.box(x, 40, bits * 8 - 2, 36, "", fill=fl, stroke=st, r=2, sw=1.3)
+    f.text(x + (bits * 8 - 2) / 2, 58, nm if bits > 1 else "", size=9.5, color=st, bold=True, vmid=True)
+    f.text(x + (bits * 8 - 2) / 2, 92 if bits != 1 else 108, "%d bit%s" % (bits, "s" if bits > 1 else ""), size=9.5, color=SLATE)
+    x += bits * 8
+f.text(412, 128, "VID 12 bits: 4096 values,", size=10, color=SLATE)
+f.text(412, 144, "0 and 4095 reserved = 4094 VLANs", size=10, color=SLATE)
+f.text(412, 172, "access port: untagged, one VLAN", size=10, color=NAVY, bold=True)
+f.text(412, 190, "trunk port: tagged, many VLANs", size=10, color=NAVY, bold=True)
+f.text(412, 218, "VLAN to VLAN traffic needs a router", size=10, color=RED, bold=True)
+f.text(412, 236, "(or layer-3 switch): max frame 1522 B", size=10, color=SLATE)
+```
+
+### 3.10.1 Eight uses of data link technology in Nepal
+
+1. **Ethernet in colleges and offices.** Almost every computer lab, bank branch and government office in Nepal is wired with Ethernet over Cat5e or Cat6 to a switch. The Ethernet frame (Fig. 3.9) and its CRC-32 check mean a damaged frame is discarded before the user ever sees it. A switch with one private wire per host (Plate 3.2b) gives each computer its full speed.
+2. **Wi-Fi in homes, hostels and cafes.** A home router (Plate 3.3a) gives a family one access point shared by phones, laptops and televisions. Because radio cannot detect collisions, every device follows the CSMA/CA waiting rules (Fig. 3.11), so a crowded cafe network slows down when many devices contend. Placing the router centrally and choosing a free channel reduces the contention.
+3. **PPPoE login with an ISP.** Many home broadband lines ask the router for a username and password. This is PPP over Ethernet, and PAP or CHAP checks the secret before the ISP's equipment assigns an IP address. Knowing the PPP phases explains why a wrong password gives no IP address at all.
+4. **VLANs on a campus.** A college can keep the administration, the teachers' offices and the student labs on separate VLANs (Fig. 3.12), although they share the same switches. A student's computer then cannot reach the accounts server directly, and a broadcast storm in one lab does not slow another. The tag adds only 4 bytes to each frame.
+5. **Loop protection in hospitals and banks.** A hospital or head office joins its switches in a ring so that one cable cut does not cut off a ward or a floor. Spanning tree blocks the redundant link until it is needed (Fig. 3.12), which prevents broadcast storms. After a cable failure the blocked port opens within seconds with RSTP.
+6. **ECC memory in data centres.** The servers behind ConnectIPS, Fonepay and the banks' systems use memory with an error-correcting code (Plate 3.1c). Eight extra bits protect every 64 data bits, so a flipped bit caused by cosmic rays is corrected silently (Fig. 3.4). One undetected flipped bit in an account balance would be far more costly than a few extra chips.
+7. **Error control in mobile and satellite links.** A mobile phone's radio link repeats damaged blocks with a retransmission protocol (ARQ) and adds forward error correction for the hardest conditions. A window protocol keeps a long, slow link full (Figs. 3.5 and 3.6). This is why a download keeps going when the signal flickers in a hill road.
+8. **Controlled access in industry and old systems.** Polling and token passing give a guaranteed worst-case delay, which random access cannot (Plate 3.1d). Some factory control networks and metering systems still use polling for this reason. CSMA/CD and ALOHA (Fig. 3.7) are the right choice when traffic is bursty and delay is not critical, as in an office.
+
 ## Formula and fact sheet
 
 - Hamming: 2^r ≥ m + r + 1; parity bits at positions 1, 2, 4, 8; syndrome = position of the error. Distance d detects d − 1 and corrects ⌊(d − 1)/2⌋ errors.
@@ -317,3 +714,153 @@ B861
 **11.** The switch records A's address and port, finds B unknown, and floods the frame out of all other ports; later frames to B are sent to one port only.
 **12.** Two stations out of each other's radio range both sense an idle channel and transmit to the same AP, colliding there. With RTS/CTS the AP's CTS is heard by the hidden station, which defers.
 :::
+
+## Model answers for Unit 3
+
+**Q1. Explain error detection in the data link layer. Compute the CRC for the message 1101011011 with generator 10011 and show how the receiver checks it. (10 marks)**
+
+**Introduction.** Noise on a link flips bits, either singly or in bursts. The data link layer therefore adds redundant bits to every frame so that the receiver can detect damage. The common methods are parity, the Internet checksum and the cyclic redundancy check (CRC).
+
+**Methods compared.**
+
+| Method | Redundancy | What it detects | Weakness |
+|---|---|---|---|
+| Single parity bit | 1 bit | every odd number of errors | misses all even numbers of errors |
+| Two-dimensional parity | one bit per row and column | all 1, 2 and 3 bit errors; corrects 1 bit | misses some 4-bit patterns |
+| Internet checksum | 16 bits | most random errors | cannot see swapped words (Fig. 3.3) |
+| CRC-32 | 32 bits | all bursts up to 32 bits, all odd errors, almost all others | needs hardware or tables |
+
+**How the CRC works.** The bit string is treated as a polynomial over GF(2), where addition and subtraction are both XOR. Sender and receiver agree on a generator of degree r (here 10011 = x^4 + x + 1, so r = 4).
+
+1. Append r zeros to the message: 11010110110000.
+2. Divide by the generator using XOR long division (Fig. 3.2).
+3. The remainder (r bits) is 1110.
+4. Send the message followed by the remainder: 11010110111110.
+
+**The receiver.** It divides the whole received frame by the same generator. An intact frame leaves the remainder 0000 and is accepted. If bit 4 is flipped the frame is 11000110111110 and the remainder is 0111, which is not zero, so the frame is discarded and the error is reported.
+
+**Power of a CRC.** A generator of degree r detects every single-bit error, every burst of length not more than r, any odd number of errors when x + 1 is a factor, and a longer burst with probability 1 - 2^-(r-1). Ethernet and Wi-Fi use the 32-bit CRC, which is computed by a small shift register in the hardware.
+
+**Conclusion.** Parity is cheap but weak, the checksum suits software, and the CRC gives the best protection for its few bits. Detection is followed by retransmission, which is the job of flow and error control.
+
+**Q2. Explain the Hamming code. Encode the data 1011 for single-error correction, and show how an error in position 5 is found and corrected. (10 marks)**
+
+**Introduction.** A code with minimum distance d between valid words detects d - 1 errors and corrects (d - 1) / 2 of them (rounded down). Richard Hamming's code puts parity bits at the positions that are powers of two so that the failed checks spell out the position of a bad bit.
+
+**Number of check bits.** For m data bits we need r check bits with 2^r >= m + r + 1. Four data bits need r = 3 (the (7,4) code), eight need r = 4 (the (12,8) code) and eleven need r = 4 (the (15,11) code).
+
+**Encoding 1011 (Fig. 3.4).** The positions are p1 p2 d3 p4 d5 d6 d7. The data bits are d3 = 1, d5 = 0, d6 = 1 and d7 = 1.
+
+1. p1 covers positions 1, 3, 5, 7: 1 + 0 + 1 = 2, even, so p1 = 0.
+2. p2 covers positions 2, 3, 6, 7: 1 + 1 + 1 = 3, so p2 = 1 to make the total even.
+3. p4 covers positions 4, 5, 6, 7: 0 + 1 + 1 = 2, even, so p4 = 0.
+4. The codeword is 0110011.
+
+**Decoding with an error.** Suppose position 5 is flipped and 0110111 arrives. The receiver repeats the three checks: positions 1, 3, 5, 7 contain 0, 1, 1, 1 (odd, check = 1); positions 2, 3, 6, 7 contain 1, 1, 1, 1 (even, check = 0); positions 4, 5, 6, 7 contain 0, 1, 1, 1 (odd, check = 1). Read as a binary number (p4 p2 p1) the checks form 101 = 5. This **syndrome** is the position of the bad bit; flipping it back repairs the word, and the data 1011 is read from positions 3, 5, 6, 7.
+
+| Code | Distance | Detects | Corrects |
+|---|---|---|---|
+| Single parity | 2 | 1 bit | none |
+| Hamming (7,4) | 3 | 2 bits | 1 bit |
+| Extended Hamming (8,4) | 4 | 3 bits | 1 bit, and detects 2 |
+
+**Use.** Error-correcting memory uses an extended Hamming code over 64 data bits with 8 check bits (Plate 3.1c). Forward correction suits links where a retransmission is costly, such as satellites and flash memory.
+
+**Conclusion.** The Hamming code trades extra bits for the power to repair damage without asking the sender again, which detection codes such as CRC cannot do.
+
+**Q3. Explain stop-and-wait, Go-Back-N and Selective Repeat. Compute the utilisation of stop-and-wait for t_f = 12 ms and t_p = 20 ms. (10 marks)**
+
+**Introduction.** **Flow control** keeps a fast sender from overrunning a slow receiver, and **error control** repairs damage using ARQ (automatic repeat request): the receiver acknowledges good frames and the sender retransmits when a timer expires.
+
+**Stop-and-wait.** The sender sends one frame and waits for its acknowledgement. One cycle costs t_f + 2 t_p = 12 + 40 = 52 ms, of which only 12 ms is useful, so the utilisation is U = 12 / 52 = 0.231, that is 23.1 percent (Fig. 3.5). A 1-bit sequence number (0, 1) lets the receiver spot a duplicate when an acknowledgement is lost.
+
+**Sliding window.** Up to W frames may be unacknowledged at once, so U = min(1, W x t_f / (t_f + 2 t_p)). A window of 5 frames fills the line, since 52 / 12 = 4.33. With k-bit sequence numbers the window is at most 2^k - 1 for Go-Back-N and 2^(k-1) for Selective Repeat (7 and 4 for k = 3).
+
+**Go-Back-N.** The receiver accepts only the frame it expects next and sends cumulative acknowledgements. A lost frame makes it discard all later frames, so after the timeout the sender goes back and resends the lost frame and everything after it.
+
+**Selective Repeat.** The receiver buffers out-of-order frames and acknowledges each frame individually, and the sender resends only the frame that timed out.
+
+**Example (Fig. 3.6).** For ten frames with window 4 and frame 2 lost, Go-Back-N makes 12 transmissions (0 1 2 3 2 3 4 5 6 7 8 9) and Selective Repeat makes 11.
+
+| Point | Stop-and-wait | Go-Back-N | Selective Repeat |
+|---|---|---|---|
+| Window (sender) | 1 | up to 2^k - 1 | up to 2^(k-1) |
+| Window (receiver) | 1 | 1 | same as sender |
+| Receiver buffer | none | none | needed |
+| Acknowledgement | each frame | cumulative | individual |
+| Retransmits after a loss | one frame | the lost frame and all after | the lost frame only |
+| Best when | short links | low error rate | high error rate or long delay |
+
+**Conclusion.** Stop-and-wait wastes a long link. Sliding window keeps it busy, and Selective Repeat saves the most bandwidth at the cost of buffer memory and complexity.
+
+**Q4. What is framing? Explain bit stuffing with an example. (5 marks)**
+
+**Framing** cuts the stream of bits from the physical layer into frames, so that the receiver knows where each frame starts and ends. Counting characters is fragile, because one damaged count destroys synchronisation for every later frame. Real protocols therefore use special flag patterns.
+
+1. **Flag.** HDLC marks the start and end of a frame with the flag 01111110.
+2. **The problem.** If the data itself contains 01111110, the receiver would think the frame had ended.
+3. **Bit stuffing.** After every run of five consecutive 1s in the data, the sender inserts an extra 0. The receiver deletes any 0 that follows five 1s, so the data comes out unchanged.
+4. **Example (Fig. 3.1).** The data 0111111011111011111 is sent as 0111110101111100111110. Three zeros are inserted, each after a run of five 1s, and the run counter restarts after each insertion. The 19 data bits become 22 bits on the line.
+5. **Byte stuffing.** PPP uses the flag 7E and an escape byte 7D; a data 7E is sent as 7D 5E.
+
+The cost of stuffing is a small overhead, and the gain is that the flag never appears inside a frame.
+
+**Q5. Describe CSMA/CD and the Ethernet frame. Why must an Ethernet frame be at least 64 bytes? (10 marks)**
+
+**Introduction.** Classic Ethernet (IEEE 802.3) joined many hosts to one shared cable. **CSMA/CD** (carrier sense multiple access with collision detection) is the rule that lets them share it without a controller.
+
+**The algorithm.**
+
+1. **Carrier sense.** A station with a frame listens; if the cable is busy it waits until it is idle.
+2. **Transmit and detect.** When the cable is idle it sends, and keeps listening. If the signal on the wire differs from what it sent, a collision has occurred.
+3. **Jam.** The station stops and sends a short jam signal so that every station knows.
+4. **Backoff.** After the k-th collision it waits a random number of slot times from 0 to 2^min(k,10) - 1, one slot being 51.2 microseconds at 10 Mbps (Fig. 3.8). After 16 failed attempts the frame is dropped.
+
+**Why 64 bytes.** The sender can detect a collision only while it is still sending. A collision at the far end of the cable is heard after one round trip, so the transmission time of the frame must be at least twice the propagation time across the network: t_frame >= 2 t_prop. At 10 Mbps the slot time is 51.2 microseconds, which is 512 bits = 64 bytes. A shorter frame could finish before the collision signal returns, and the sender would wrongly believe it had been delivered. Smaller data fields are padded to 46 bytes.
+
+**The frame (Fig. 3.9).**
+
+| Field | Size | Purpose |
+|---|---|---|
+| Preamble and SFD | 7 + 1 bytes | clock synchronisation |
+| Destination MAC | 6 bytes | receiver address |
+| Source MAC | 6 bytes | sender address |
+| Type | 2 bytes | upper protocol, for example 0x0800 for IPv4 |
+| Data | 46 to 1500 bytes | payload, MTU 1500 |
+| FCS | 4 bytes | CRC-32 error check |
+
+**Efficiency.** With 1500 bytes of data the wire carries 7 + 1 + 14 + 1500 + 4 + 12 = 1538 byte times, so the efficiency is 97.5 percent; for a minimum frame it is 46 / 84 = 54.8 percent.
+
+**Conclusion.** Modern switched Ethernet is full duplex and has no collisions, but it keeps the same frame format, which is why the 64 byte minimum remains.
+
+**Q6. Compare pure ALOHA and slotted ALOHA. (5 marks)**
+
+**ALOHA** is a random access protocol developed for the radio network of the University of Hawaii (Plate 3.1b). A station transmits whenever it has data; if no acknowledgement arrives it waits a random time and tries again.
+
+1. **Pure ALOHA.** Stations transmit at any time. A frame is vulnerable for two frame times, because any transmission that starts one frame time before or after will overlap it. The throughput is S = G e^(-2G), with a maximum of 1 / (2e) = 0.184 at G = 0.5 (Fig. 3.7).
+2. **Slotted ALOHA.** Time is divided into slots of one frame time and stations may begin only at a slot boundary. The vulnerable period falls to one slot and S = G e^(-G), with a maximum of 1 / e = 0.368 at G = 1.
+3. **Result.** Slotting doubles the best throughput, but it needs all stations to be synchronised.
+4. **Overload.** Beyond the peak load, throughput falls because collisions dominate: at G = 3 it is 0.007 for pure ALOHA and 0.149 for slotted ALOHA.
+5. **Legacy.** CSMA improved on ALOHA by listening before sending, and CSMA/CD by also detecting collisions.
+
+**Q7. Explain how a learning switch builds its table and forwards frames. (5 marks)**
+
+A **switch** works at the data link layer. It reads the MAC address of each frame and sends it only where it needs to go (Plate 3.2). It builds its **MAC address table** without any configuration, by learning.
+
+1. **Learn.** When a frame arrives on port p with source address S, the switch records S against p in the table.
+2. **Forward.** If the destination is in the table, the frame is sent only to that port. If the destination port is the arrival port, the frame is filtered and not sent.
+3. **Flood.** If the destination is unknown, or is the broadcast address, the frame is sent out of every port except the one it came in on.
+4. **Ageing.** An entry expires after about five minutes of silence, so a host that moves is learned again.
+5. **Example (Fig. 3.10).** A sends to B on an empty switch: the frame is flooded to ports 2 and 3 and A = 1 is learned. B replies: it goes only to port 1 and B = 2 is learned. After that, A and B talk without bothering C.
+
+A switch therefore separates collision domains, unlike a hub, which repeats every bit everywhere. Loops between switches are prevented by the spanning tree protocol (Fig. 3.12).
+
+**Q8. Why does Wi-Fi use CSMA/CA instead of CSMA/CD? Explain the hidden-station problem and RTS/CTS. (5 marks)**
+
+**Reason.** A radio cannot listen while it transmits, because its own signal is millions of times stronger than the signal it would need to hear. It therefore cannot detect a collision, so Wi-Fi tries to **avoid** collisions instead of detecting them (Plate 3.3b).
+
+1. **Wait for idle.** A station waits until the medium has been idle for a DIFS (34 microseconds in 802.11a/g, that is SIFS 16 plus two 9 microsecond slots).
+2. **Random backoff.** It then counts down a random number of slots, pausing the count whenever the medium becomes busy (Fig. 3.11).
+3. **Acknowledgement.** The receiver sends an ACK after a SIFS of 16 microseconds, which is shorter than DIFS, so the ACK always wins. If no ACK arrives, the sender doubles its backoff window and tries again.
+4. **Hidden station.** Stations A and C are both within range of the access point but not of each other. Each hears the medium as idle, so both send and their frames collide at the access point.
+5. **RTS/CTS.** A sends a short request to send; the access point answers with a clear to send that every station in its range hears, including C. C stays quiet for the stated time, and the long data frame goes through safely. It costs two extra short frames, so it is used mainly for long frames.

@@ -95,6 +95,14 @@ question describes a machine "built with transistors", it is second
 generation whatever the year.
 :::
 
+```photogrid label="3.G" cols="5" ratio="1.1" caption="The five generations of computers in one row. (a) First: vacuum tubes, each as long as a finger, hot and unreliable. (b) Second: a transistor, smaller, cooler and more reliable than a tube. (c) Third: integrated circuits, many transistors on one chip. (d) Fourth: the Intel 4004, the first microprocessor, a whole CPU on one chip (1971). (e) Fifth: a Tensor Processing Unit, a chip built for artificial-intelligence work. The components shrink from the size of a finger to the size of a grain of rice, while the speed grows millions of times."
+@ photo id="cs8/gen-vacuum-tubes" cap="(a) 1st: vacuum tubes"
+@ photo id="bca101/transistor" cap="(b) 2nd: transistor"
+@ photo id="cs8/gen-ic-chips" cap="(c) 3rd: integrated circuits"
+@ photo id="cs8/gen-intel-4004" cap="(d) 4th: microprocessor"
+@ photo id="bca101/tpu" cap="(e) 5th: AI chip (TPU)"
+```
+
 ## 3.2 First generation: vacuum tubes (about 1946–1958)
 
 ::: definition Vacuum tube
@@ -128,6 +136,12 @@ computer used thousands of tubes as its switches: ENIAC had 17,468.
 - They could do only one job at a time.
 
 **Examples:** ENIAC, EDVAC, EDSAC, UNIVAC I, IBM 650, IBM 701.
+
+```photogrid label="3.N" cols="3" ratio="1.3" caption="Generations in action. (a) A technician changes a burnt-out vacuum tube in ENIAC; with 17,000 tubes, one failed every day or two. (b) The IBM 1401, a second-generation machine, was the computer that Nepal used for its census of 2028 BS. (c) A punched card, the input medium of the first three generations; a program or data was a stack of such cards."
+@ photo id="bca101/eniac-tube" cap="(a) Changing a tube in ENIAC"
+@ photo id="bca101/ibm1401" cap="(b) IBM 1401, used in Nepal 2028 BS"
+@ photo id="bca101/punchcard" cap="(c) Punched card"
+```
 
 ## 3.3 Second generation: transistors (about 1958–1964)
 
@@ -595,3 +609,80 @@ Expected number = 2,300 × $2^{10}$ = 2,300 × 1,024 = **2,355,200** (about
 2.4 million). The rule is **Moore's law**. (The real Intel 486 of 1989 had
 about 1.2 million transistors, so the rule is a good rough guide.)
 :::
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. What is a generation of computers? Describe the five generations with their main features. <span class="marks">[10]</span>
+2. Compare the first four generations of computers in a table, with advantages and limitations of each. <span class="marks">[10]</span>
+3. Explain the fifth generation. What is Moore's law? <span class="marks">[10]</span>
+
+### Model answer D1: the five generations of computers (10 marks)
+
+**Introduction.** A **generation** of computers is a stage in the development of computers marked by a change in the main electronic component, which made computers smaller, faster, cheaper and more reliable. There are five generations (Plate 3.G).
+
+1. **First generation (about 1946–1958): vacuum tubes.** Computers were as big as a room, used much electricity, gave off great heat and often broke down. Programs were in machine language; input was by punched cards and output was printed. Examples: ENIAC, UNIVAC I.
+2. **Second generation (about 1958–1964): transistors.** The transistor, invented in 1947 at Bell Labs, replaced the tube. Computers became smaller, faster and cooler. They used magnetic core memory, assembly language and the first high-level languages FORTRAN and COBOL. Examples: IBM 1401 (used in Nepal's census of 2028 BS), IBM 7090.
+3. **Third generation (about 1964–1975): integrated circuits (IC).** Many transistors were put on one small silicon chip. Computers were smaller and cheaper, with keyboards and monitors, and operating systems. Languages: BASIC, Pascal, C. Examples: IBM System/360, PDP-8.
+4. **Fourth generation (about 1975 to the present): microprocessors.** A whole CPU on one chip (LSI and VLSI) made the personal computer possible. Features: GUI, mouse, networks, the internet, laptops and smartphones. Examples: IBM PC, Apple Macintosh.
+5. **Fifth generation (present and future): artificial intelligence.** Computers that can learn, understand speech and decide, using parallel processing, ULSI chips and AI. Examples: voice assistants, chatbots, self-driving cars.
+
+| Generation | Period | Main component | Language | Example |
+|---|---|---|---|---|
+| 1st | 1946–1958 | Vacuum tube | Machine | ENIAC |
+| 2nd | 1958–1964 | Transistor | Assembly, FORTRAN | IBM 1401 |
+| 3rd | 1964–1975 | Integrated circuit | BASIC, C | IBM System/360 |
+| 4th | 1975–now | Microprocessor | C++, Java, Python | IBM PC |
+| 5th | Now and future | AI, ULSI | AI languages | Chatbots |
+
+**Conclusion.** In each generation the computer became smaller, faster, cheaper and more reliable, so that today it fits in a pocket.
+
+### Model answer D2: comparison of the first four generations (10 marks)
+
+**Introduction.** The four generations differ in the component used, the size, the speed and the cost.
+
+| Point | 1st | 2nd | 3rd | 4th |
+|---|---|---|---|---|
+| Component | Vacuum tube | Transistor | IC | Microprocessor |
+| Size | Room-size | Smaller | Cabinet | Desktop, pocket |
+| Speed | Milliseconds | Microseconds | Nanoseconds | Faster than nanoseconds |
+| Memory | Magnetic drum | Magnetic core | Semiconductor | Semiconductor RAM |
+| Heat and power | Very high | Less | Low | Very low |
+| Language | Machine | Assembly, FORTRAN | BASIC, C | Java, Python |
+| Cost | Very high | High | Lower | Low |
+| Example | ENIAC | IBM 1401 | IBM 360 | IBM PC |
+
+**Advantages and limitations.**
+
+1. **First:** it was the first electronic computer and was faster than any machine before; but it was huge, hot, costly, unreliable and hard to program.
+2. **Second:** it was smaller, faster, cooler and more reliable than the first; but it was still costly and needed air-conditioning.
+3. **Third:** it was cheaper, smaller and more reliable and ran several programs; but it was still not for individuals and needed repair of the chips as a unit.
+4. **Fourth:** it was cheap, small, very fast and available to everybody, with networks and the internet; but it creates e-waste, viruses and cyber-crime.
+
+**Conclusion.** The comparison shows a steady move from big, hot and costly machines to small, cool and cheap ones.
+
+### Model answer D3: fifth generation and Moore's law (10 marks)
+
+**Introduction.** The fifth generation is named not after a new component but after a goal: computers that can **learn, reason and understand** like humans. The name comes from Japan's *Fifth Generation Computer Systems* project (1982–1992).
+
+**Features.**
+
+1. **Artificial intelligence (AI):** programs that learn from data, understand speech and recognise faces.
+2. **Natural-language input:** we can speak or write in ordinary words.
+3. **Parallel processing:** one job is divided among many processors working together, so it is done faster.
+4. **ULSI chips:** billions of transistors on one chip.
+5. **Large storage and fast networks:** cloud storage and the internet.
+6. **New technologies under research:** quantum computers and bio-chips.
+7. **AI languages:** Python and Prolog.
+
+**Examples and uses.** Voice assistants such as Google Assistant, AI chatbots, self-driving cars, medical image reading, language translation and robots.
+
+**Moore's law.** In 1965 Gordon Moore observed that the number of transistors on a chip doubles about every two years. The Intel 4004 of 1971 had 2,300 transistors. From 1971 to 1991 is 20 years, or 10 doublings, so the expected number is $2{,}300 \times 2^{10} = 2{,}355{,}200$, about 2.4 million. The real Intel 486 of 1989 had about 1.2 million, so the law is a good guide.
+
+| Point | Fourth generation | Fifth generation |
+|---|---|---|
+| Aim | Fast personal computing | Machines that learn and reason |
+| Key technology | Microprocessor | AI, parallel processing |
+| Input | Keyboard, mouse | Voice, touch, camera |
+| Example | IBM PC | Chatbot, self-driving car |
+
+**Conclusion.** The fifth generation moves computers from only following instructions toward helping us think and decide.

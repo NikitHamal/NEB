@@ -864,6 +864,32 @@ $0.002604$ and $0.000006$ — both comfortably inside their bounds, and Simpson 
 about $400$ times more accurate for the same five ordinates.
 :::
 
+```photogrid label="15.P" cols="2" ratio="1.27" caption="Computational methods find roots when no formula is handy, and the choice of method changes the speed a lot. (a) A pocket calculator, which uses such iterations internally. (b) For f(x) = x^2 - 2 the Newton step (x + 2/x)/2 starting at 1 gives 1.5, 1.41667, 1.414216 and 1.41421356. After four steps the answer is correct to 11.8 decimal places, with error 1.6e-12. Four steps of bisection on [1, 2] reach only 1.6 places because each step gains about 0.3 of a digit. Newton's method roughly doubles the correct digits each time, but it needs the derivative and a good start, while bisection always works once the sign changes."
+@ photo id="math12/calc" cap="A pocket calculator evaluates roots with exactly this kind of iteration"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Newton's method against bisection for root 2"
+f_ = lambda x: x * x - 2
+x = 1.0; newton = []
+for i in range(4):
+    x = x - f_(x) / (2 * x); newton.append(abs(x - math.sqrt(2)))
+lo, hi = 1.0, 2.0; bis = []
+for i in range(4):
+    mid = (lo + hi) / 2
+    if f_(lo) * f_(mid) <= 0: hi = mid
+    else: lo = mid
+    bis.append(abs(mid - math.sqrt(2)))
+dig = lambda e: -math.log10(e)
+assert newton[0] > newton[1] > newton[2] > newton[3] and dig(newton[3]) > 11
+f = Fig(300, 236)
+f.text(150, 14, "Correct decimal places after each step", size=10.5, color=NAVY, bold=True)
+rows = [("Newton %d" % (i + 1), dig(newton[i])) for i in range(4)] + [("Bisection %d" % (i + 1), dig(bis[i])) for i in range(4)]
+hbars(f, rows, vmax=12, fmt="%.1f", x0=84, y0=30, bw=150, gap=20, colors=[(MINT, TEAL)] * 4 + [(SAND, AMBER)] * 4, size=9.5)
+f.text(150, 214, "x(n+1) = x(n) - f/f' = (x + 2/x) / 2", size=10.5, color=NAVY, bold=True)
+f.text(150, 230, "from x0 = 1: 1.5, 1.41667, 1.414216, 1.41421356", size=9.5, color=SLATE, bold=True)
+facts = dict(n4=dig(newton[3]), b4=dig(bis[3]), e4=newton[3])
+```
+
 ## Chapter summary
 
 - **Gauss elimination.** Form $[A\,|\,b]$; use $R_i \rightarrow R_i - m_{ik}R_k$
@@ -1164,3 +1190,94 @@ $x = 3$, $y = 4$. The corners are $(0,0)$, $(5,0)$, $(3,4)$, $(0,5)$:
 
 The maximum is $24$ at $(3,4)$, agreeing with the simplex result.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the Gauss elimination and Gauss-Seidel methods for a system of linear equations, with a worked example of the iterative method. <span class="marks">[10]</span>
+2. Explain linear programming, formulate a problem, and solve it by the graphical (corner point) method and the simplex method. <span class="marks">[10]</span>
+
+### Model answer D1: Gauss elimination and Gauss-Seidel methods (10 marks)
+
+**Introduction.** Large systems of linear equations arise in engineering, in the network flow of electricity and in economics. Computers solve them with the direct method of Gauss elimination or an iterative method such as Gauss-Seidel.
+
+**Gauss elimination (direct method).**
+
+1. Write the augmented matrix $[A|B]$.
+2. Use row operations to make all entries below the diagonal zero (**forward elimination**), always choosing the largest available pivot to reduce rounding error (**partial pivoting**).
+3. Solve for the unknowns from the last equation upwards (**back substitution**).
+4. The method gives the exact answer, apart from rounding, in a fixed number of steps, about $\tfrac23n^{3}$ operations for $n$ equations.
+
+**Gauss-Seidel (iterative method).** Solve each equation for its diagonal variable and use the **latest available values** at each step.
+
+For $a_{11}x+a_{12}y+a_{13}z=b_1$, etc., starting from a guess:
+
+$$ x^{(k+1)}=\frac{b_1-a_{12}y^{(k)}-a_{13}z^{(k)}}{a_{11}},\ \ y^{(k+1)}=\frac{b_2-a_{21}x^{(k+1)}-a_{23}z^{(k)}}{a_{22}},\ \ z^{(k+1)}=\frac{b_3-a_{31}x^{(k+1)}-a_{32}y^{(k+1)}}{a_{33}} $$
+
+**Condition for convergence.** The method converges if the matrix is **diagonally dominant**: $|a_{ii}|>\sum_{j\neq i}|a_{ij}|$ in every row. The equations may need rearranging to meet it.
+
+**Worked example.** Solve $10x+y+z=12$, $x+10y+z=12$, $x+y+10z=12$ from $(0,0,0)$. Diagonal dominance holds ($10>1+1$).
+
+| Iteration | $x$ | $y$ | $z$ |
+|---|---|---|---|
+| 0 | 0 | 0 | 0 |
+| 1 | 1.2000 | 1.0800 | 0.9720 |
+| 2 | 0.9948 | 1.0033 | 1.0002 |
+| 3 | 0.9997 | 1.0000 | 1.0000 |
+| 4 | 1.0000 | 1.0000 | 1.0000 |
+
+Step 1: $x=\dfrac{12-0-0}{10}=1.2$, then $y=\dfrac{12-1.2-0}{10}=1.08$, then $z=\dfrac{12-1.2-1.08}{10}=0.972$. The exact solution is $x=y=z=1$.
+
+| Feature | Gauss elimination | Gauss-Seidel |
+|---|---|---|
+| Type | Direct | Iterative |
+| Result | Exact (apart from rounding) | Approximate, within a tolerance |
+| Best for | Small or dense systems | Large, sparse, diagonally dominant systems |
+| Condition | Non-zero pivots | Diagonal dominance |
+
+**Accuracy of a computed answer.** The error of an iterative answer is estimated by the **change between successive iterations**; stop when it is below a tolerance, say $10^{-4}$. Rounding error accumulates in direct methods, and ill-conditioned systems magnify small errors.
+
+**Conclusion.** Gauss elimination solves a system in a fixed number of steps, whereas Gauss-Seidel improves a guess repeatedly and converges for diagonally dominant systems.
+
+### Model answer D2: linear programming (10 marks)
+
+**Introduction.** **Linear programming** finds the best value (maximum profit or minimum cost) of a linear **objective function** subject to linear **constraints** (inequalities). A factory in Hetauda planning its products with limited machine hours is a typical application.
+
+**Formulation.**
+
+1. Define the **decision variables** $x$ and $y$ (quantities of the two products), with $x,y\geq0$.
+2. Write the **objective function** to be maximised or minimised, $Z=ax+by$.
+3. Write each limited resource as a **constraint**.
+
+*Example.* A bakery makes cakes ($x$) and pastries ($y$) with profits Rs 300 and Rs 200 per unit (use hundreds of rupees, $Z=3x+2y$). Oven time gives $x+y\leq4$ and mixer time gives $x+3y\leq6$.
+
+**Graphical (corner point) method.**
+
+1. Draw the constraint lines and shade the **feasible region**, which is a convex polygon.
+2. Find its **corner points**: the optimum value of $Z$ always occurs at a corner.
+3. Evaluate $Z$ at each corner and choose the best.
+
+For the example the corner points are $(0,0)$, $(4,0)$, $(0,2)$ and the intersection of $x+y=4$ and $x+3y=6$, which is $(3,1)$.
+
+| Corner | $Z=3x+2y$ |
+|---|---|
+| $(0,0)$ | $0$ |
+| $(4,0)$ | $12$ |
+| $(3,1)$ | $11$ |
+| $(0,2)$ | $4$ |
+
+The **maximum is $Z=12$ at $(4,0)$**: make $4$ cakes and no pastries, a profit of Rs 1,200.
+
+**Simplex method.**
+
+1. Add **slack variables** $s_1,s_2\geq0$ to convert the inequalities to equations: $x+y+s_1=4$, $x+3y+s_2=6$, and write $Z-3x-2y=0$.
+2. In the tableau, the **entering variable** is the one with the most negative entry in the $Z$ row ($x$, with $-3$).
+3. The **leaving variable** comes from the minimum ratio test: $\dfrac41=4$ and $\dfrac61=6$, so the first row is the pivot.
+4. After the pivot, $x=4$, $s_2=2$ and the $Z$ row becomes $Z+y+3s_1=12$; there is no negative entry, so the solution is **optimal**: $Z=12$, $x=4$, $y=0$.
+
+| Feature | Graphical | Simplex |
+|---|---|---|
+| Variables | Two | Any number |
+| Idea | Compare corners | Move from corner to corner, improving $Z$ |
+| Stop when | All corners checked | No negative entry in the $Z$ row |
+
+**Conclusion.** Linear programming optimises a linear objective under linear constraints, and the optimum lies at a corner of the feasible region, found graphically or by the simplex method.

@@ -402,6 +402,34 @@ ripple in that field, and detecting it in 2012 confirmed the mechanism." It does
 of the quarks inside its nucleons.
 :::
 
+```photogrid label="25.P" cols="2" ratio="1.27" caption="A seismometer records the fast P waves first and the slower S waves later, and the delay between them gives the distance to the focus. (a) Collapsed brick buildings at Bhaktapur after the Gorkha earthquake of 25 April 2015, which measured Mw 7.8 and killed about 9,000 people. (b) With P waves at 6.0 km per second and S waves at 3.5, each kilometre adds 0.12 seconds of lag, so a lag of 40 s means a distance of 336 km. Three stations give three circles that meet at the epicentre. Because energy grows as 10^(1.5 M), a magnitude 7.8 shock releases 31.6 times the energy of a 6.8 shock."
+@ photo id="phy12/bhaktapur" cap="Collapsed buildings at Bhaktapur after the 2015 earthquake"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Locating an earthquake from the S-P time lag"
+import math
+vp, vs = 6.0, 3.5
+k = 1.0 / vs - 1.0 / vp
+lag = 40.0
+d = lag / k
+tp, ts = d / vp, d / vs
+assert abs(ts - tp - lag) < 1e-9
+ratio = 10 ** (1.5 * (7.8 - 6.8))
+f = Fig(300, 236)
+ax = Axes(f, 40, 24, 244, 146, (0, 800), (0, 240))
+ax.grid(200, 60, xfmt=lambda v: "%d" % v, yfmt=lambda v: "%d" % v)
+ax.axes(xl="km", yl="s")
+ax.curve(lambda x: x / vp, 0, 800, color=NAVY, sw=2.2, label="P", lx=700, ly=150)
+ax.curve(lambda x: x / vs, 0, 800, color=RED, sw=2.2, label="S", lx=560, ly=215)
+ax.vline(d, 0, ts, color=SLATE)
+ax.pt(d, tp, "P %.0f s" % tp, dx=8, dy=14)
+ax.pt(d, ts, "S %.0f s" % ts, dx=-8, dy=-6, anchor="end")
+f.text(150, 14, "Travel times of P (6.0) and S (3.5 km/s) waves", size=10, color=NAVY, bold=True)
+f.text(150, 207, "S-P lag %.0f s gives d = lag / (1/vs - 1/vp) = %.0f km" % (lag, d), size=9.5, color=RED, bold=True)
+f.text(150, 222, "Mw 7.8 against Mw 6.8: %.1f times the energy" % ratio, size=10, color=NAVY, bold=True)
+facts = dict(d="%.0f" % d, ratio="%.1f" % ratio, lag="%.0f" % lag)
+```
+
 ## Chapter summary
 
 - Body waves: **P** (longitudinal, ~6 km s⁻¹, passes through liquids) and **S**
@@ -504,3 +532,106 @@ In electronvolts, $\Delta E = 3.30\times10^{-13}/1.6\times10^{-19}
 \approx 2$ MeV — the measured "width" of the Higgs peak. The shorter the
 lifetime, the broader the peak.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the body waves and surface waves produced by an earthquake. Explain how the distance of an epicentre is found, and give a numerical example. <span class="marks">[10]</span>
+2. What are gravitational waves? How were they detected by LIGO? Describe also the Higgs boson and its importance. <span class="marks">[10]</span>
+3. What is nanotechnology? Explain the reasons behind the special properties of nanomaterials, and give eight applications. <span class="marks">[10]</span>
+
+### Model answer D1: seismic waves and the epicentre (10 marks)
+
+**Introduction.** **Seismology** is the study of earthquakes and the waves that they send through the Earth. The point inside the Earth where rock slips is the **focus (hypocentre)**, and the point on the surface directly above it is the **epicentre**. Nepal lies where the Indian plate pushes under the Eurasian plate at about 2 cm a year, so it is a region of great earthquakes, as in 1934 and on 25 April 2015 (Gorkha, magnitude 7.8).
+
+**Body waves (travel through the interior).**
+
+1. **P-waves (primary, compressional):** longitudinal, with the particles vibrating along the direction of travel. They are the fastest ($5$ to $8\ \text{km s}^{-1}$ in the crust) and travel through **solids, liquids and gases**.
+2. **S-waves (secondary, shear):** transverse, with the particles moving at right angles to the direction of travel. They are slower (about $3$ to $4.5\ \text{km s}^{-1}$) and **cannot pass through liquids**. Their absence on the far side of the Earth shows that the outer core is liquid.
+
+**Surface waves (travel along the ground).** They arrive last but cause the most damage.
+
+1. **Rayleigh waves:** the ground moves in a **backward-rolling ellipse** in the vertical plane, like ocean waves.
+2. **Love waves:** the ground moves **horizontally, at right angles** to the direction of travel, and shake building foundations from side to side.
+Surface waves have larger amplitude and lower frequency than body waves and are slower.
+
+| Wave | Type | Speed | Medium | Motion |
+|---|---|---|---|---|
+| P | Body, longitudinal | Fastest | Solid, liquid, gas | Push-pull |
+| S | Body, transverse | Slower | Solid only | Shear |
+| Love | Surface | Slower than S | Surface layer | Horizontal shake |
+| Rayleigh | Surface | Slowest | Surface layer | Rolling ellipse |
+
+**Finding the epicentre.** A seismograph records the arrival of P and S waves. If the P-wave speed is $v_{P}$ and the S-wave speed is $v_{S}$, the distance $d$ gives the time gap
+
+$$ \Delta t = \frac{d}{v_{S}} - \frac{d}{v_{P}} \quad\Rightarrow\quad d = \Delta t\,\frac{v_{P}v_{S}}{v_{P} - v_{S}} $$
+
+Circles with this radius drawn around **three stations** intersect at the epicentre (triangulation).
+
+**Numerical.** If $v_{P} = 8.0\ \text{km s}^{-1}$, $v_{S} = 4.5\ \text{km s}^{-1}$ and the S-wave arrives $40\ \text{s}$ after the P-wave, then $d = 40\times\dfrac{8.0\times4.5}{8.0 - 4.5} = 40\times10.29 = 411\ \text{km}$.
+
+**Magnitude.** The Richter (moment) scale is logarithmic: each unit increases the amplitude 10 times and the energy about **32 times** ($10^{1.5}$). The Gorkha shock of magnitude 7.8 released about $10^{0.75} = 5.6$ times more energy than its 7.3 aftershock of 12 May 2015.
+
+**Conclusion.** Different seismic waves tell us about the Earth's interior and locate earthquakes. Knowing how they behave guides safe building codes in Nepal.
+
+### Model answer D2: gravitational waves and the Higgs boson (10 marks)
+
+**Introduction.** Two ideas from the past century of physics were confirmed only recently by large experiments: gravitational waves (predicted by Einstein in 1916, seen in 2015) and the Higgs boson (predicted in 1964, found in 2012).
+
+**Gravitational waves.**
+
+1. **Definition.** Einstein's general relativity says that mass curves **space-time**. A mass that accelerates, such as two orbiting black holes, makes ripples in space-time that spread out at the **speed of light**. These are **gravitational waves**.
+2. **Properties.** They are transverse. They stretch space in one direction while squeezing in the perpendicular direction. They are extremely weak and pass through matter almost unaffected.
+3. **Detection (LIGO).** The Laser Interferometer Gravitational-wave Observatory has two **4 km long** perpendicular arms, in the form of a Michelson interferometer, at Hanford and Livingston. A passing wave changes the two arm lengths differently, and the interference pattern shifts.
+4. **First detection.** On 14 September 2015 the signal **GW150914** came from two black holes of about 36 and 29 solar masses merging 1.3 billion years ago, into one of about 62 solar masses.
+5. **Energy.** About 3 solar masses were radiated as gravitational waves: $E = mc^{2} = 3(1.989\times10^{30})(3\times10^{8})^{2} = 5.4\times10^{47}\ \text{J}$.
+6. **Smallness.** The strain was $h = \Delta L/L \approx 10^{-21}$, so for $L = 4\ \text{km}$ the change in length is $\Delta L = 10^{-21}\times4000 = 4\times10^{-18}\ \text{m}$, a thousand times smaller than a proton.
+The 2017 Nobel Prize in Physics honoured Weiss, Barish and Thorne.
+
+**The Higgs boson.**
+
+1. The **Standard Model** describes the particles and forces, but it needs a mechanism to give the particles **mass**.
+2. Peter Higgs and others proposed an invisible **Higgs field** that fills all space. Particles gain mass in proportion to how strongly they interact with it, and the **Higgs boson** is the quantum (excitation) of this field.
+3. It was discovered in 2012 at CERN's Large Hadron Collider by the ATLAS and CMS experiments, in proton-proton collisions.
+4. It has **zero spin and a mass of about $125\ \text{GeV}/c^{2}$**, or $m = 125\times10^{9}\times1.6\times10^{-19}/(3\times10^{8})^{2} = 2.2\times10^{-25}\ \text{kg}$.
+5. It decays at once, for example into two photons, and is identified by those products.
+
+| Feature | Gravitational wave | Higgs boson |
+|---|---|---|
+| Predicted by | Einstein, 1916 | Higgs and others, 1964 |
+| Found | LIGO, 2015 | LHC, 2012 |
+| Nature | Ripple of space-time | Quantum of Higgs field |
+| Importance | A new way to observe the Universe | Explains the origin of mass |
+
+**Conclusion.** LIGO opened a new window on black holes and the early Universe, and the Higgs boson completed the Standard Model. Both show how theory and large-scale experiment advance together.
+
+### Model answer D3: nanotechnology (10 marks)
+
+**Introduction.** **Nanotechnology** is the study and use of materials and devices that have at least one dimension in the range of **1 to 100 nanometres** ($1\ \text{nm} = 10^{-9}\ \text{m}$). At this size, materials behave differently from the same substance in bulk. The idea was proposed by Richard Feynman in 1959 ("There's plenty of room at the bottom").
+
+**Why do nanomaterials have special properties?**
+
+1. **Large surface-to-volume ratio.** For a cube of side $L$ the ratio is $6/L$. For $L = 1\ \text{cm}$ it is $6\ \text{cm}^{-1}$, but for $L = 10\ \text{nm} = 10^{-6}\ \text{cm}$ it is $6\times10^{6}\ \text{cm}^{-1}$, a million times larger. A large fraction of the atoms are on the surface, which makes them highly reactive and good catalysts.
+2. **Quantum confinement.** When a particle is only a few nm wide, the electrons are confined, and the energy levels become discrete and depend on size. The colour of a **quantum dot** thus changes with its size: small dots emit blue and large ones emit red.
+3. Gold nanoparticles look red and not yellow, and carbon becomes very strong as a nanotube.
+
+**Methods of making.**
+
+- **Top-down:** start with a bulk material and cut or grind it down (ball milling, lithography).
+- **Bottom-up:** build from atoms and molecules (chemical vapour deposition, sol-gel, self-assembly).
+
+**Examples.** **Carbon nanotubes** (rolled sheets of graphene, 100 times stronger than steel), **fullerene C60**, **graphene**, silver and gold nanoparticles, and quantum dots.
+
+**Eight applications.**
+
+1. **Medicine:** nanoparticles carry drugs straight to cancer cells, which reduces side effects.
+2. **Electronics:** transistors only a few nm wide in smartphone chips, and flexible displays.
+3. **Energy:** better solar cells, and batteries with nano-electrodes that charge faster.
+4. **Water purification:** nano-filters and silver nanoparticles remove germs from drinking water.
+5. **Textiles:** stain-resistant, antibacterial and UV-protecting clothes.
+6. **Cosmetics:** transparent sunscreens with zinc oxide and titanium dioxide nanoparticles.
+7. **Strong, light materials:** nanocomposites in sports goods, cars and aircraft.
+8. **Agriculture and food:** nano-fertilisers, sensors and packaging that extends shelf life.
+
+**Risks.** The effect of nanoparticles on health and the environment is not fully known; they can enter the lungs and cells, so safe handling and rules are needed.
+
+**Conclusion.** A very large surface-to-volume ratio and quantum effects make nanomaterials very different from bulk materials. Nanotechnology is spreading into medicine, electronics, energy and the environment, and offers solutions in every field.

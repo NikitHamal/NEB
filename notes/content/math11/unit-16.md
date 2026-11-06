@@ -520,6 +520,27 @@ $$ P(A\cup B) = 0.4 + 0.5 - 0.2 = 0.7 $$
 independence means: knowing $B$ happened does not change the chance of $A$.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="A deck of cards is a sample space with 52 equally likely outcomes, so every probability is a simple count. (a) A hand about to cut a deck. (b) The program builds the deck and counts: 13 hearts give P = 0.250, 12 face cards give 0.231, and 3 cards are both. The cards that are a heart or a face number 22, a probability of 0.423. This is the addition rule P(A or B) = P(A) + P(B) - P(A and B): without the subtraction the three face hearts would be counted twice and the answer would be 25/52, which is wrong."
+@ photo id="math11/cards" cap="A deck of 52 cards: a sample space everyone can list"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Heart, face card, and the addition rule"
+suits = "SHDC"; ranks = list(range(1, 14))
+deck = [(s, r) for s in suits for r in ranks]
+H = [c for c in deck if c[0] == "H"]; Fc = [c for c in deck if c[1] >= 11]
+both = [c for c in deck if c[0] == "H" and c[1] >= 11]; either = [c for c in deck if c[0] == "H" or c[1] >= 11]
+assert (len(deck), len(H), len(Fc), len(both), len(either)) == (52, 13, 12, 3, 22) and len(either) == len(H) + len(Fc) - len(both)
+f = Fig(300, 236)
+f.text(150, 14, "Probabilities from 52 equally likely cards", size=10.5, color=NAVY, bold=True)
+rows = [("heart", len(H) / 52.0), ("face card", len(Fc) / 52.0), ("heart and face", len(both) / 52.0), ("heart or face", len(either) / 52.0)]
+hbars(f, rows, vmax=0.5, fmt="%.3f", x0=92, y0=34, bw=150, gap=30, colors=[(ROSE, RED), (BLUE, NAVY), (SAND, AMBER), (MINT, TEAL)], size=9.5)
+f.text(150, 168, "P(A or B) = P(A) + P(B) - P(A and B)", size=10.5, color=NAVY, bold=True)
+f.text(150, 188, "13/52 + 12/52 - 3/52 = 22/52 = %.3f" % (22 / 52.0), size=10.5, color=TEAL, bold=True)
+f.text(150, 208, "the 3 hearts that are face cards are", size=10, color=SLATE, bold=True)
+f.text(150, 222, "counted twice unless we subtract them", size=10, color=SLATE, bold=True)
+facts = dict(ph=13 / 52.0, pf=12 / 52.0, pb=3 / 52.0, pe=22 / 52.0)
+```
+
 ## Chapter summary
 
 - A random experiment has a sample space $S$; an event is a subset of $S$.
@@ -674,3 +695,81 @@ $P(\bar{A}) = \frac{1}{2}$, $P(\bar{B}) = \frac{2}{3}$, $P(\bar{C}) = \frac{3}{4
 
 $$ \frac{1}{2}\cdot\frac{2}{3}\cdot\frac{3}{4} + \frac{1}{2}\cdot\frac{1}{3}\cdot\frac{3}{4} + \frac{1}{2}\cdot\frac{2}{3}\cdot\frac{1}{4} = \frac{6}{24} + \frac{3}{24} + \frac{2}{24} = \frac{11}{24} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define the classical and empirical probability, derive the addition law $P(A\cup B)=P(A)+P(B)-P(A\cap B)$ and solve problems with cards and dice. <span class="marks">[10]</span>
+2. State and prove the multiplication law for dependent and independent events and apply it to draws with and without replacement and to independent trials. <span class="marks">[10]</span>
+
+### Model answer D1: definitions and the addition law (10 marks)
+
+**Introduction.** **Probability** measures the chance that an event occurs. A **random experiment** has several possible outcomes, whose set is the **sample space** $S$; an **event** is a subset of $S$.
+
+**Classical (mathematical) definition.** If an experiment has $n$ equally likely, exhaustive outcomes and $m$ of them favour the event $A$, then
+
+$$ P(A)=\frac{m}{n}=\frac{n(A)}{n(S)},\qquad 0\le P(A)\le1 $$
+
+$P(\text{impossible event})=0$, $P(\text{sure event})=1$ and $P(A')=1-P(A)$.
+
+**Empirical definition.** If an experiment is repeated $N$ times and the event occurs $f$ times, then $P(A)=\lim\limits_{N\to\infty}\dfrac fN$. For example, if $15$ of $500$ bulbs tested in a factory are defective, the empirical probability of a defect is $\dfrac{15}{500}=0.03$. This definition is used when outcomes are not equally likely, such as the chance of rain on a day in Pokhara.
+
+**Mutually exclusive and exhaustive events.** Events that cannot occur together are **mutually exclusive**, so $P(A\cap B)=0$.
+
+**Theorem (addition law).** For any two events,
+
+$$ P(A\cup B)=P(A)+P(B)-P(A\cap B) $$
+
+*Proof.* Write $A\cup B$ as the union of the disjoint parts $A$ and $B\cap A'$, so $n(A\cup B)=n(A)+n(B\cap A')$. Also $B$ is the disjoint union of $A\cap B$ and $A'\cap B$, so $n(B\cap A')=n(B)-n(A\cap B)$. Therefore $n(A\cup B)=n(A)+n(B)-n(A\cap B)$. Dividing by $n(S)$ gives the law. For mutually exclusive events it reduces to $P(A\cup B)=P(A)+P(B)$.
+
+**Worked examples.**
+
+1. **Cards.** A card is drawn from a pack of $52$. $P(\text{heart or king})=\dfrac{13}{52}+\dfrac{4}{52}-\dfrac{1}{52}=\dfrac{16}{52}=\dfrac{4}{13}$.
+2. **Two dice.** The sample space has $36$ equally likely pairs. Sum $8$: $(2,6),(3,5),(4,4),(5,3),(6,2)$, so $P=\dfrac5{36}$. Sum $7$ or $11$: $\dfrac6{36}+\dfrac2{36}=\dfrac8{36}=\dfrac29$ (mutually exclusive).
+3. **Complement.** The probability of at least one head in three tosses of a fair coin is $1-P(\text{no head})=1-\dfrac18=\dfrac78$.
+4. **Union of overlapping events.** In a class, $P(\text{likes football})=0.6$, $P(\text{likes volleyball})=0.5$ and $P(\text{both})=0.3$. The probability of liking at least one is $0.6+0.5-0.3=0.8$, so the probability of liking neither is $0.2$.
+
+| Rule | Formula |
+|---|---|
+| Complement | $P(A')=1-P(A)$ |
+| Exclusive events | $P(A\cup B)=P(A)+P(B)$ |
+| General union | $P(A)+P(B)-P(A\cap B)$ |
+| Odds in favour | $m:(n-m)$ |
+
+**Conclusion.** Probability is a number between $0$ and $1$ found as favourable over total outcomes or as a long-run frequency, and the addition law prevents double-counting of the overlap.
+
+### Model answer D2: multiplication law and independent events (10 marks)
+
+**Introduction.** Events are **independent** if the occurrence of one does not change the probability of the other. Tossing a coin and rolling a die are independent; drawing two cards without replacement is not.
+
+**Conditional probability.** The probability of $B$ given that $A$ has occurred is $P(B|A)=\dfrac{P(A\cap B)}{P(A)}$, $P(A)\neq0$.
+
+**Theorem (multiplication law).**
+
+1. For any events, $P(A\cap B)=P(A)\,P(B|A)$.
+2. For independent events, $P(B|A)=P(B)$, so $P(A\cap B)=P(A)\,P(B)$.
+
+*Proof.* Among $n(S)$ equally likely outcomes, $A$ contains $n(A)$ of them and $A\cap B$ contains $n(A\cap B)$. Then $\dfrac{n(A\cap B)}{n(S)}=\dfrac{n(A)}{n(S)}\cdot\dfrac{n(A\cap B)}{n(A)}=P(A)\,P(B|A)$, because $\dfrac{n(A\cap B)}{n(A)}$ is the share of outcomes in $A$ that also lie in $B$.
+
+**Independence of complements.** If $A$ and $B$ are independent, so are $A$ and $B'$. *Proof:* $P(A\cap B')=P(A)-P(A\cap B)=P(A)-P(A)P(B)=P(A)\,[1-P(B)]=P(A)P(B')$.
+
+**Worked examples.**
+
+1. **Without replacement.** A bag holds $5$ red and $3$ blue balls. Two are drawn one after the other without replacement. $P(\text{both red})=\dfrac58\times\dfrac47=\dfrac{20}{56}=\dfrac5{14}$.
+2. **With replacement.** The same draws with replacement are independent: $P(\text{both red})=\dfrac58\times\dfrac58=\dfrac{25}{64}$.
+3. **Two shooters.** $A$ hits a target with probability $0.6$ and $B$ with $0.7$, independently.
+
+| Event | Calculation | Probability |
+|---|---|---|
+| Both hit | $0.6\times0.7$ | $0.42$ |
+| Neither hits | $0.4\times0.3$ | $0.12$ |
+| At least one hits | $1-0.12$ | $0.88$ |
+| Exactly one hits | $0.6\times0.3+0.4\times0.7$ | $0.46$ |
+
+Check: $0.42+0.46+0.12=1$.
+
+4. **Three tosses.** The probability of the sequence head-tail-head is $\dfrac12\times\dfrac12\times\dfrac12=\dfrac18$.
+5. **Dependent cards.** Two cards are drawn without replacement from $52$; the probability that both are aces is $\dfrac4{52}\times\dfrac3{51}=\dfrac1{221}$.
+
+**Mutually exclusive versus independent.** Two events with non-zero probabilities that are mutually exclusive cannot be independent, because $P(A\cap B)=0\neq P(A)P(B)$.
+
+**Conclusion.** The multiplication law finds the probability that events occur together; the conditional probability is needed when the events are dependent, and independence reduces it to a simple product.

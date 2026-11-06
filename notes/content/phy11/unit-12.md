@@ -552,6 +552,25 @@ evacuated stops conduction and convection; the silvered surfaces have a very low
 emissivity and so radiate and absorb very little; and the narrow insulating
 stopper blocks the only remaining conduction path.
 
+```photogrid label="12.P" cols="2" ratio="1.27" caption="The rate of heat flow through a slab is H = kA dT / d, so a cook should choose pan metals with a large thermal conductivity. (a) A cooktop with a pan. (b) For a pan base of area 0.03 m2 and thickness 3 mm with a 2 K temperature drop, copper passes 7700 W, aluminium 4100 W, steel 1000 W and glass only 20 W. That is why a copper-bottomed pan heats evenly and glass heats slowly. The same formula explains why double glazing, with a layer of still air, cuts the heat lost through a window."
+@ photo id="ceephy/cooktop" cap="A cooktop heats the pan by conduction through its base"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Rate of heat flow through a pan base"
+A, d, dT = 0.03, 0.003, 2.0
+mats = [("copper", 385.0), ("aluminium", 205.0), ("steel", 50.0), ("glass", 1.0)]
+H = [k * A * dT / d for _, k in mats]
+assert abs(H[0] - 7700) < 1e-6 and abs(H[1] - 4100) < 1e-6 and abs(H[2] - 1000) < 1e-6 and abs(H[3] - 20) < 1e-6
+f = Fig(300, 236)
+f.text(150, 14, "H = k A dT / d, in watts", size=10.5, color=NAVY, bold=True)
+hbars(f, [(m[0], h) for m, h in zip(mats, H)], vmax=8000, fmt="%.0f W", x0=72, y0=34, bw=150, gap=30, colors=[(ROSE, RED), (SAND, AMBER), (BLUE, NAVY), (MINT, TEAL)])
+f.text(150, 162, "A = 0.03 m^2, d = 3 mm, dT = 2 K across the base", size=9.5, color=SLATE, bold=True)
+f.text(150, 184, "k (W/m K): Cu 385, Al 205, steel 50, glass 1", size=9.5, color=NAVY, bold=True)
+f.text(150, 204, "rate is proportional to k, A and dT,", size=10, color=SLATE, bold=True)
+f.text(150, 220, "and inversely proportional to thickness d", size=10, color=SLATE, bold=True)
+facts = dict(cu=H[0], al=H[1], st=H[2], gl=H[3])
+```
+
 ## Chapter summary
 
 - Steady conduction: $H = kA(\theta_1-\theta_2)/L = -kA\,d\theta/dx$; thermal
@@ -663,3 +682,85 @@ $T^4 = (8280)^4 = 4.70\times10^{15}$,
 $P = \sigma AT^4 = 5.67\times10^{-8}\times6.16\times10^{18}\times4.70\times10^{15}
 = 1.6\times10^{27}\ \text{W}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the three modes of heat transfer. Define the coefficient of thermal conductivity, derive the rate of heat flow through a slab, and give a numerical. <span class="marks">[10]</span>
+2. State Newton's law of cooling and Stefan's law. Derive the first law from the observed cooling and give applications and a numerical on each. <span class="marks">[10]</span>
+
+### Model answer D1: conduction, convection and radiation (10 marks)
+
+**Introduction.** Heat flows from a hot body to a cold body in three ways: conduction, convection and radiation.
+
+**1. Conduction.** Heat is transferred through a material by the **vibration and collision of particles**, without any bulk movement of the material. In metals, free electrons carry the heat quickly, so metals are good conductors. It occurs mainly in solids. Example: a metal spoon in hot tea becomes hot.
+
+**2. Convection.** Heat is carried by the **actual movement of a fluid** (liquid or gas): the heated part expands, becomes less dense and rises, and cooler fluid sinks to take its place. This gives a **convection current**. Examples: sea breeze, boiling of water, a room heater, and the monsoon winds.
+
+**3. Radiation.** Heat is transferred as **electromagnetic waves (infrared)** which need **no medium** and travel at the speed of light. Example: the warmth of the Sun reaching the Earth through space, and of a fire at a distance.
+
+| Feature | Conduction | Convection | Radiation |
+|---|---|---|---|
+| Medium needed | Yes (mainly solids) | Yes (fluids) | No |
+| Particle movement | Vibrate in place | Move bodily | None |
+| Speed | Slow | Moderate | Speed of light |
+| Example | Spoon in hot tea | Boiling water | Sunlight |
+
+**Thermal conductivity.** In a steady state, the heat flow $Q$ through a slab of area $A$ and thickness $d$, with faces at temperatures $\theta_{1}$ and $\theta_{2}$ in time $t$, is
+
+$$ Q = \frac{kA(\theta_{1} - \theta_{2})\,t}{d} \quad\Rightarrow\quad \frac{Q}{t} = \frac{kA\,\Delta\theta}{d} $$
+
+The **coefficient of thermal conductivity** $k$ is the rate of heat flow per unit area per unit temperature gradient, with unit W m⁻¹ K⁻¹.
+
+**Derivation by observation.** Experiments show that $Q$ is proportional to (i) the area $A$, (ii) the temperature difference $\Delta\theta$, (iii) the time $t$, and (iv) inversely proportional to the thickness $d$. Combining gives $Q \propto A\Delta\theta t/d$, and the constant of proportionality is $k$.
+
+**Numerical.** A brick wall of area $2\ \text{m}^{2}$ and thickness $0.2\ \text{m}$ ($k = 0.6\ \text{W m}^{-1}\text{K}^{-1}$) has faces at $25^{\circ}$C and $5^{\circ}$C. The rate of heat flow is $\dfrac{0.6\times2\times20}{0.2} = 120\ \text{W}$. A copper plate of the same size ($k = 400$) would conduct $8 \times 10^{4}\ \text{W}$, 667 times more.
+
+| Material | $k$ (W m⁻¹ K⁻¹) |
+|---|---|
+| Copper | 400 |
+| Aluminium | 237 |
+| Glass | 1.0 |
+| Brick | 0.6 |
+| Wood | 0.15 |
+| Air | 0.026 |
+
+**Applications.** Cooking vessels are made of metal with plastic or wooden handles; woollen clothes trap air (a poor conductor) to keep the body warm in the cold hills; double-walled **vacuum flasks** reduce all three modes; **igloos** and double glazed windows insulate by trapping air.
+
+**Conclusion.** Conduction, convection and radiation differ in the mechanism of transfer. The rate of conduction is $kA\Delta\theta/d$, so good insulation needs a low $k$ and a large thickness.
+
+### Model answer D2: Newton's law of cooling and Stefan's law (10 marks)
+
+**Introduction.** A hot body loses heat to its surroundings. Newton studied the rate of cooling, and Stefan and Boltzmann studied the radiation emitted by hot bodies.
+
+**Newton's law of cooling.** *The rate of loss of heat of a body is directly proportional to the excess of its temperature over that of the surroundings*, provided that the excess is small (up to about $30^{\circ}$C).
+
+$$ -\frac{d\theta}{dt} = K(\theta - \theta_{0}) $$
+
+**Derivation.** Let $\theta_{0}$ be the temperature of the surroundings and $\theta$ that of the body, of mass $m$ and specific heat $c$. The heat lost in a time $dt$ is $dQ = -mc\,d\theta$. By Newton's law $dQ/dt \propto (\theta - \theta_{0})$, so $-mc\,\dfrac{d\theta}{dt} = k'(\theta - \theta_{0})$. Integrating, with $K = k'/mc$,
+
+$$ \theta - \theta_{0} = (\theta_{i} - \theta_{0})\,e^{-Kt} $$
+
+so the excess temperature falls **exponentially** with time, and the cooling curve is steep at first and flattens later. In terms of the average temperature, $\dfrac{\theta_{1} - \theta_{2}}{t} = K\left(\dfrac{\theta_{1} + \theta_{2}}{2} - \theta_{0}\right)$.
+
+**Numerical.** A cup of tea cools from $80^{\circ}$C to $70^{\circ}$C in 2 minutes in a room at $20^{\circ}$C. Then $\dfrac{10}{2} = K\left(75 - 20\right)$ gives $K = 0.091\ \text{min}^{-1}$. The time for it to cool from $70^{\circ}$C to $60^{\circ}$C is $t = \dfrac{10}{K(65 - 20)} = \dfrac{10}{0.091\times45} = 2.4$ minutes, slightly longer as the excess is smaller.
+
+**Stefan's law (Stefan-Boltzmann law).** *The total energy radiated per second per unit area by a perfect black body is directly proportional to the fourth power of its absolute temperature.*
+
+$$ E = \sigma T^{4}, \qquad \sigma = 5.67\times10^{-8}\ \text{W m}^{-2}\text{K}^{-4} $$
+
+For a body of area $A$ and emissivity $e$ at $T$ in surroundings at $T_{0}$, the net power loss is $P = e\sigma A(T^{4} - T_{0}^{4})$.
+
+**Numerical.** A black body of $1\ \text{m}^{2}$ at $300\ \text{K}$ radiates $5.67\times10^{-8}\times300^{4} = 459\ \text{W}$. At $600\ \text{K}$ (twice the temperature) it radiates $2^{4} = 16$ times as much, $7350\ \text{W}$.
+
+**Comparison.**
+
+| Feature | Newton's law | Stefan's law |
+|---|---|---|
+| Quantity | Rate of cooling | Total radiated power |
+| Dependence | Proportional to $\Delta\theta$ | Proportional to $T^{4}$ |
+| Condition | Small temperature excess | Any temperature, black body |
+| Mode | Mainly convection and conduction | Radiation |
+
+**Applications.** The age of a body at a crime scene is estimated from its cooling; the temperature of the Sun's surface (5800 K) is found from Stefan's law and the solar constant; the filament of an incandescent bulb at 2800 K radiates strongly; a **black** surface absorbs and radiates well, which is why solar water heaters on the roofs of Kathmandu are painted black.
+
+**Conclusion.** Newton's law gives an exponential fall of the temperature excess, and Stefan's law shows that radiation increases as $T^{4}$. They are used in engineering and astronomy.

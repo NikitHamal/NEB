@@ -106,6 +106,64 @@ f.arrow([(300, 155), (386, 151)], color=SLATE, sw=1.4)
 7. **Architecture and structures.** Forces in a truss are vectors that must sum to zero at each joint. Planes describe roofs, walls and slopes. Earthquake-resistant design checks these vector balances.
 8. **Computer vision and AR.** An augmented-reality app finds a flat surface in the camera image (a plane) and places a virtual object on it using the normal. The camera's position and direction are vectors in space.
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="A landing is a line meeting a plane. (a) A Buddha Air ATR 42 landing at Pokhara. (b) Treat the runway as the plane z = 0 and the aeroplane as the point (-5000, 300, 300) m (x along the runway, y sideways, z height) moving with velocity (50, -3, -2.6) m/s. Its path is r(t) = (-5000 + 50 t, 300 - 3 t, 300 - 2.6 t). The path meets the plane when 300 - 2.6 t = 0, that is t = 115.4 s, at the point (769, -46, 0): 769 m beyond the origin mark and 46 m to one side. The speed is |v| = sqrt(50^2 + 3^2 + 2.6^2) = 50.2 m/s (180.6 km/h) and the descent angle is arctan(2.6 / 50.09) = 2.97 degrees, close to the 3 degree glide slope pilots follow. The numbers are illustrative, not from a flight record."
+@ photo id="bcamath/atr42" cap="ATR 42 landing at Pokhara"
+fit 1.2
+focus 0.5 0.55
+@ svg cap="Line r(t) meets the runway plane z = 0"
+import math
+x0, y0, z0 = -5000.0, 300.0, 300.0; vx, vy, vz = 50.0, -3.0, -2.6
+t = -z0 / vz; X = x0 + vx * t; Y = y0 + vy * t
+assert round(t, 1) == 115.4 and round(X) == 769 and round(Y) == -46
+sp = math.sqrt(vx ** 2 + vy ** 2 + vz ** 2); ang = math.degrees(math.atan2(-vz, math.hypot(vx, vy)))
+assert round(sp, 1) == 50.2 and round(sp * 3.6, 1) == 180.6 and round(ang, 2) == 2.97
+f = Fig(300, 240)
+sx = 250 / 6000.0; zx = 0.28; gx = 20; gy = 150
+px = lambda x: gx + (x + 5000) * sx
+f.line(gx, gy, 280, gy, color=SLATE, sw=2.4)
+f.box(px(0) - 1, gy - 1, 2, 12, "", fill=AMBER, stroke=AMBER, r=0)
+f.arrow([(px(x0), gy - z0 * zx), (px(X), gy)], color=TEAL, sw=2.2)
+f.circle(px(x0), gy - z0 * zx, 5, fill=NAVY, stroke=NAVY)
+f.circle(px(X), gy, 5, fill=RED, stroke=RED)
+f.text(px(x0) + 6, gy - z0 * zx - 10, "start (-5000, 300, 300)", size=10.5, color=NAVY, bold=True, anchor="start")
+f.text(px(0), gy + 26, "mark x = 0", size=10.5, color=AMBER, bold=True)
+f.text(px(X) + 4, gy - 12, "touchdown", size=10.5, color=RED, bold=True)
+f.text(150, 192, "side view (height drawn 4x larger than length)", size=10.5, color=SLATE)
+f.text(150, 210, "t = 115.4 s, point (769, -46, 0) m", size=10.5, color=TEAL, bold=True)
+f.text(150, 228, "speed 50.2 m/s, descent angle 2.97 degrees", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Planes, normals and areas on a pyramid. (a) The Great Pyramid of Giza. (b) Take the original base 230.3 m by 230.3 m and height 146.6 m, with the base centred at the origin. A face passes through A = (115.15, -115.15, 0), B = (115.15, 115.15, 0) and the apex C = (0, 0, 146.6). The normal is n = AB x AC = (33,762, 0, 26,519), whose length is 42,931.7. The face leans at arccos(n_z / |n|) = 51.85 degrees to the ground, the same as arctan(146.6 / 115.15). Half the length of the cross product is the face area, 21,466 square metres; four faces cover 85,863 square metres. The volume (1/3) x base area x height is 2,591,795 cubic metres, and the centre of the base is 90.6 m from each face plane."
+@ photo id="bcamath/pyramid" cap="The Great Pyramid of Giza"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Face normal, slope and area of the pyramid"
+import numpy as np, math
+b = 230.3; h = 146.6
+A = np.array([b / 2, -b / 2, 0]); B = np.array([b / 2, b / 2, 0]); C = np.array([0, 0, h])
+n = np.cross(B - A, C - A); L = np.linalg.norm(n)
+phi = math.degrees(math.acos(n[2] / L))
+assert np.allclose(n, [33761.98, 0, 26519.045], atol=0.01) and round(L, 1) == 42931.7
+assert round(phi, 2) == 51.85 == round(math.degrees(math.atan(h / (b / 2))), 2)
+assert round(L / 2) == 21466 and round(2 * L) == 85863 and round(b * b * h / 3) == 2591795
+assert round(abs(n @ (-A)) / L, 1) == 90.6
+f = Fig(300, 240)
+x0, x1, ax = 30, 250, 140; yb = 150; yt = 150 - 146.6 / 115.15 * 110
+f.poly([(x0, yb), (x1, yb), (ax, yt)], fill=SAND, stroke=AMBER, sw=2)
+mx, my = (x1 + ax) / 2, (yb + yt) / 2
+nx, ny = n[0] / L, n[2] / L
+f.arrow([(mx, my), (mx + nx * 46, my - ny * 46)], color=RED, sw=2.4)
+f.text(mx + nx * 46 + 4, my - ny * 46 - 6, "n", size=12, color=RED, bold=True, anchor="start")
+f.text(x1 - 34, yb - 8, "51.85 deg", size=10.5, color=NAVY, bold=True)
+f.text(ax - 12, yt + 14, "C", size=11, color=AMBER, bold=True)
+f.line(ax, yb, ax, yt, color=SLATE, sw=1, dash=True)
+f.text(ax - 28, (yb + yt) / 2, "146.6 m", size=10.5, color=SLATE, bold=True)
+f.text(ax, yb + 16, "230.3 m", size=10.5, color=SLATE, bold=True)
+f.text(150, 192, "n = AB x AC = (33,762, 0, 26,519), |n| = 42,931.7", size=10.5, color=RED, bold=True)
+f.text(150, 210, "face 21,466 m2; four faces 85,863 m2", size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "volume 2,591,795 m3; centre to face 90.6 m", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - a · b = Σaᵢbᵢ = |a||b|cos θ; a × b has length |a||b| sin θ, direction perpendicular.

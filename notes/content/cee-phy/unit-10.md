@@ -620,6 +620,57 @@ entropy has to go somewhere.
 | Clausius | a refrigerator with no work input |
 | Entropy | any spontaneous process that lowers the entropy of an isolated system |
 
+```photogrid label="10.1" cols="2" ratio="1.2" caption="Hot air is lighter air. (a) The burner raises the temperature of the air in the envelope, which stays open at the bottom so its pressure stays at atmospheric. (b) For an envelope of 2,800 m^3 in air at 20 C (density 1.204 kg/m^3) the ideal-gas law gives density in proportion to 1/T. At 100 C the inside density is 0.946 kg/m^3 and the lift is (rho_out - rho_in) V = 723 kg of payload. The envelope holds 116,406 mol of cold air but only 91,449 mol when hot, so 24,956 mol leave through the mouth."
+@ photo id="ceephy/burner" cap="A hot-air balloon burner warms the air inside the envelope"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Lift of a 2,800 cubic metre balloon against air temperature"
+V = 2800.0; P = 101325.0; R = 8.314; T0 = 293.15; rho0 = 1.204
+rho = lambda T: rho0 * T0 / T
+lift = lambda Tc: (rho0 - rho(Tc + 273.15)) * V
+n_out = P * V / (R * T0); n_in = P * V / (R * 373.15)
+assert 720 < lift(100) < 725 and abs(n_out - 116_400) < 400 and n_out > n_in
+facts = dict(rin="%.3f" % rho(373.15), lift="%.0f" % lift(100), nout="{:,.0f}".format(n_out), nin="{:,.0f}".format(n_in), esc="{:,.0f}".format(n_out - n_in))
+f = Fig(300, 236)
+f.text(150, 14, "Lift (kg) = (rho out - rho in) V", size=10.5, color=NAVY, bold=True)
+X = lambda T: 44 + (T - 20) * 2.2; Y = lambda m: 160 - m * 0.13
+f.line(X(20), Y(0), 280, Y(0), color=SLATE, sw=1.4); f.line(X(20), Y(0), X(20), 34, color=SOFT, sw=1.2)
+pts = [(X(T), Y(lift(T))) for T in range(20, 121, 4)]
+for (a, b), (c, d) in zip(pts, pts[1:]): f.line(a, b, c, d, color=AMBER, sw=2.6)
+f.line(X(100), Y(0), X(100), Y(lift(100)), color=TEAL, sw=1.2, dash=True)
+f.circle(X(100), Y(lift(100)), 4, fill=TEAL, stroke=TEAL)
+f.text(X(100) - 8, Y(lift(100)) - 10, "%.0f kg" % lift(100), size=10.5, color=TEAL, bold=True, anchor="end")
+for T in (20, 60, 100): f.text(X(T), Y(0) + 13, "%d C" % T, size=10.5, color=SLATE)
+for m in (250, 500, 750): f.text(38, Y(m), "%d" % m, size=10.5, color=SLATE, anchor="end", vmid=True)
+f.text(150, 192, "inside density %.3f vs 1.204 kg/m^3" % rho(373.15), size=10.5, color=NAVY, bold=True)
+f.text(150, 210, "cold %.0f mol, hot %.0f mol" % (n_out, n_in), size=10.5, color=NAVY, bold=True)
+f.text(150, 228, "%.0f mol escape: n = PV / RT" % (n_out - n_in), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="10.2" cols="2" ratio="1.2" caption="The colder the box, the more the work. (a) The compressor is the heart of a refrigeration plant: it compresses the vapour of the refrigerant, which then condenses and gives heat to the surroundings. (b) The coefficient of performance of an ideal (Carnot) refrigerator is Tc / (Th - Tc). With the kitchen at 30 degrees C the ideal COP is 10.66 for a refrigerator at 4 degrees C, but only 5.32 for a freezer at -18 degrees C. To take 1000 kJ out of the freezer the ideal machine needs 188 kJ of work, and a real machine with a COP of 2.5 needs 400 kJ. The heat rejected at the back is always the heat removed plus the work done."
+@ photo id="ceephy3/compressor" cap="The reciprocating compressor of a refrigeration plant"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Coefficient of performance of a refrigerator"
+Th = 303.15
+rows = []
+for tc in (10, 4, -5, -18):
+    T = tc + 273.15
+    rows.append(("%d C" % tc, T / (Th - T)))
+assert round(rows[1][1], 2) == 10.66 and round(rows[3][1], 2) == 5.32
+W_ideal = 1000 / rows[3][1]
+W_real = 1000 / 2.5
+f = Fig(300, 236)
+f.text(150, 12, "Carnot COP, kitchen at 30 C", size=10.5, color=NAVY, bold=True)
+hbars(f, rows, vmax=15, fmt="%.2f", x0=52, y0=30, bw=170, gap=30,
+      colors=[(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED)])
+f.text(150, 158, "inside temperature shown; COP = Tc / (Th - Tc)", size=10, color=SLATE, bold=True)
+f.text(150, 180, "removing 1000 kJ from a -18 C freezer:", size=10.5, color=NAVY, bold=True)
+f.text(150, 200, "ideal work %.0f kJ, real (COP 2.5) %.0f kJ" % (W_ideal, W_real), size=10.5, color=NAVY, bold=True)
+f.text(150, 218, "colder inside means more work per joule", size=10, color=SLATE, bold=True)
+facts = dict(c4=rows[1][1], c18=rows[3][1], wi=W_ideal, wr=W_real)
+```
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |
@@ -859,3 +910,69 @@ entropy has to go somewhere.
 **10.** (b) — Q = nCpΔT = 2 × 29.1 × 20 = 1.16 kJ. Option (a) uses Cv, which would be right only at constant volume; (c) is only the work nRΔT; (d) doubles ΔT.
 **11.** (d) — W = PΔV = nRΔT = 2 × 8.31 × 100 = 1.66 kJ. Option (b) is the heat nCpΔT, (c) is nCvΔT, and (a) is nRΔT for 1 mol.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the pressure exerted by an ideal gas on the basis of kinetic theory and find the rms speed and the mean kinetic energy per molecule. <span class="marks">[10]</span>
+2. State the first and second laws of thermodynamics, explain the thermodynamic processes and the Carnot engine, and solve a numerical. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="2" ratio="1.4" caption="Gases and engines. (a) The fire piston compresses air so quickly (adiabatically) that its temperature rises enough to ignite tinder. (b) An air compressor does work on gas, raising its pressure and temperature."
+@ photo id="phy12b/firepiston" cap="(a) Fire piston"
+fit 1.4
+focus 0.5 0.5
+@ photo id="ceephy3/compressor" cap="(b) Air compressor"
+fit 1.4
+focus 0.5 0.5
+```
+
+### Model answer D1: kinetic theory of gases (10 marks)
+
+**Introduction.** The kinetic theory explains the large-scale properties of a gas from the motion of its molecules.
+
+**Assumptions.** A gas consists of a very large number of identical, tiny molecules in random motion. The collisions are perfectly elastic, there is no force between molecules except during a collision, the volume of the molecules is negligible, and the time of collision is negligible compared with the time between collisions.
+
+**Derivation.** Take $N$ molecules of mass $m$ in a cubical box of side $L$. A molecule moving with velocity component $v_x$ hits a wall and rebounds, so the change of momentum is $2mv_x$. It hits the same wall every $2L/v_x$ seconds, so the force it produces is $mv_x^2/L$. For all molecules, $F = \dfrac{m}{L}\sum v_x^2 = \dfrac{Nm\overline{v_x^2}}{L}$. By symmetry $\overline{v_x^2} = \tfrac13\overline{c^2}$, so the pressure is
+
+$$ P = \frac{F}{L^2} = \frac13\frac{Nm\,\overline{c^2}}{V} = \frac13\rho\,\overline{c^2} $$
+
+**Consequences.**
+
+1. Comparing with $PV = nRT$ ($PV = NkT$): $\tfrac13Nm\overline{c^2} = NkT$.
+2. **Mean kinetic energy per molecule** $= \tfrac12m\overline{c^2} = \tfrac32kT$, which depends only on temperature. Temperature is a measure of the average translational kinetic energy.
+3. **rms speed** $c_{rms} = \sqrt{\dfrac{3kT}{m}} = \sqrt{\dfrac{3RT}{M}} = \sqrt{\dfrac{3P}{\rho}}$.
+4. **Law of equipartition.** Each degree of freedom has energy $\tfrac12kT$ per molecule. A gas with $f$ degrees of freedom has $U = \tfrac f2nRT$.
+5. Boyle's, Charles', Avogadro's and Dalton's laws all follow from $P = \tfrac13\rho\overline{c^2}$.
+
+| Gas | $M\ (\text{g mol}^{-1})$ | $c_{rms}$ at $300\ \text{K}$ |
+|---|---|---|
+| Hydrogen | 2 | $1934\ \text{m s}^{-1}$ |
+| Oxygen | 32 | $484\ \text{m s}^{-1}$ |
+
+**Numerical.** For oxygen, $c_{rms} = \sqrt{3(8.314)(300)/0.032} = 484\ \text{m s}^{-1}$. Hydrogen at the same temperature is four times faster. The mean kinetic energy per molecule is $\tfrac32(1.38\times10^{-23})(300) = 6.2\times10^{-21}\ \text{J}$ for both gases.
+
+**Conclusion.** $P = \tfrac13\rho\overline{c^2}$, and absolute temperature is proportional to the mean kinetic energy of the molecules.
+
+### Model answer D2: laws of thermodynamics and the Carnot engine (10 marks)
+
+**Introduction.** Thermodynamics studies how heat is converted to work. The **zeroth law** says that two bodies in thermal equilibrium with a third are in equilibrium with each other, which defines temperature.
+
+**First law.** Heat supplied equals the increase in internal energy plus the work done by the system: $Q = \Delta U + W$. It is the law of conservation of energy.
+
+**Processes.**
+
+| Process | Condition | Result |
+|---|---|---|
+| Isothermal | $T$ constant, $\Delta U = 0$ | $Q = W = nRT\ln\dfrac{V_2}{V_1}$, $PV$ constant |
+| Isobaric | $P$ constant | $W = P\Delta V$ |
+| Isochoric | $V$ constant | $W = 0$, $Q = \Delta U = nC_v\Delta T$ |
+| Adiabatic | $Q = 0$ | $PV^{\gamma}$ constant, $W = \dfrac{nR(T_1 - T_2)}{\gamma - 1}$ |
+
+Also $C_p - C_v = R$ and $\gamma = C_p/C_v$ ($1.67$ for monatomic and $1.4$ for diatomic gases).
+
+**Second law.** *Kelvin-Planck:* no engine can convert all the heat taken from a single source into work. *Clausius:* heat cannot flow from a cold body to a hot body without external work. So efficiency is always below 100%.
+
+**Carnot engine.** It works between a source at $T_1$ and a sink at $T_2$ in four reversible steps: isothermal expansion, adiabatic expansion, isothermal compression and adiabatic compression. Its efficiency is $\eta = 1 - \dfrac{T_2}{T_1}$, the maximum possible. A refrigerator has the coefficient of performance $\dfrac{T_2}{T_1 - T_2}$.
+
+**Numerical.** A Carnot engine works between $500\ \text{K}$ and $300\ \text{K}$ and takes $1000\ \text{J}$ from the source. Then $\eta = 1 - 300/500 = 40\%$, the work is $400\ \text{J}$ and the heat rejected is $600\ \text{J}$. For one mole of an ideal gas doubling its volume isothermally at $300\ \text{K}$, $W = 8.314\times300\times\ln2 = 1729\ \text{J}$ and $\Delta U = 0$.
+
+**Conclusion.** The first law is about the energy balance and the second law about its direction. Carnot's efficiency $1 - T_2/T_1$ is the upper limit for any engine.

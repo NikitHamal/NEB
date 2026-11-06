@@ -286,6 +286,28 @@ stages like the **embryo** of a fish, not the adult fish. Haeckel's literal
 - **Serum precipitin test** — **G. H. F. Nuttall (1904)**: rabbit anti-human serum precipitates human serum most strongly, then chimpanzee and gorilla, then orang-utan, then monkeys — the same order as the anatomical tree.
 - Hormones work across species (pig and cattle insulin treated diabetics for decades); DNA–DNA hybridisation puts human and chimpanzee DNA about 98–99 % alike.
 
+```photogrid label="1.1" cols="2" ratio="1.2" caption="Dating fossils needs the right clock. (a) The Berlin specimen of Archaeopteryx, a feathered reptile-like bird about 150 million years old, a classic palaeontological evidence for evolution. (b) Radiocarbon decays with a half-life of 5,730 years, so the fraction left is 0.5 to the power (t/5,730): 50 per cent after 1 half-life, 25 per cent after 2 and 12.5 per cent after 3, i.e. 17,190 years. Beyond about 50,000 years only 0.24 per cent is left, too little to measure, so rocks as old as Archaeopteryx are dated with uranium-238 (half-life 4.47 billion years), of which 97.7 per cent would still remain after 150 million years."
+@ photo id="ceezoo/archaeopteryx" cap="Archaeopteryx, Berlin specimen"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="Fraction of carbon-14 left against age"
+H = 5730.0
+fr = lambda t: 100 * 0.5 ** (t / H)
+assert abs(fr(3 * H) - 12.5) < 1e-9 and round(3 * H) == 17190
+c50 = fr(50000); u150 = 100 * 0.5 ** (150e6 / 4.468e9)
+assert abs(c50 - 0.24) < 0.01 and abs(u150 - 97.7) < 0.1
+facts = dict(f1="%.0f" % fr(H), age="{:,}".format(round(3 * H)), c50="%.2f" % c50, u150="%.1f" % u150)
+f = Fig(300, 236)
+f.text(150, 12, "Carbon-14 remaining (%) against years", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 44, 34, 232, 140, (0, 30000), (0, 100))
+ax.grid(10000, 25, xfmt=lambda v: "%dk" % (v // 1000)).axes("yr", "%")
+ax.curve(fr, 0, 30000, color=RED)
+for k in (1, 2, 3):
+    ax.pt(k * H, fr(k * H), "%g%%" % fr(k * H), dx=8, dy=-8, r=3.6)
+f.text(150, 206, "12.5 per cent left = 3 half-lives = 17,190 yr", size=10.5, color=NAVY, bold=True)
+f.text(150, 222, "useful to about 50,000 yr only (0.24%)", size=10.5, color=SLATE, bold=True)
+```
+
 ## 1.3 Lamarckism, Darwinism and Neo-Darwinism
 
 ### Lamarckism — inheritance of acquired characters
@@ -494,6 +516,26 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 
 **Solution.** (a) Bat forelimb and whale flipper share the pentadactyl bone plan (humerus, radius, ulna, carpals, metacarpals, phalanges) adapted to flight vs swimming: **homologous organs** showing **divergent evolution**. (b) Bat wing (skin fold over tetrapod bones) and butterfly wing (chitinous cuticular outgrowth) share function without common structural origin: **analogous organs** showing **convergent evolution**.
 :::
+
+```photogrid label="1.2" cols="2" ratio="1.2" caption="The human brain trebled in size. (a) A display of fossil hominid skulls: the faces shorten and the braincase grows from the australopithecines to Homo. (b) Typical brain volumes are about 450 cm3 for Australopithecus afarensis, 650 for Homo habilis, 900 for H. erectus, 1,450 for Neanderthals and 1,350 for modern H. sapiens (ranges overlap, so these are round averages). Modern man has 3 times the volume of A. afarensis; the Neanderthal brain was slightly larger than ours, so size alone does not measure intelligence. Ramapithecus is not on the line: it is now regarded as an ape, not a hominid."
+@ photo id="ceezoo/hominid" cap="Fossil hominid skulls on display"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Typical cranial capacity (cm3)"
+sp = (("A. afarensis", 450, "3.5 Myr"), ("H. habilis", 650, "2 Myr"), ("H. erectus", 900, "1.5 Myr"), ("H. neanderthalensis", 1450, "0.1 Myr"), ("H. sapiens", 1350, "now"))
+x = sp[-1][1] / sp[0][1]
+assert abs(x - 3.0) < 1e-9
+facts = dict(x="%.0f" % x)
+f = Fig(300, 236)
+f.text(150, 12, "Cranial capacity of five hominids", size=10.5, color=NAVY, bold=True)
+for i, (n, v, t) in enumerate(sp):
+    y = 28 + i * 37
+    f.text(10, y + 2, "%s (%s)" % (n, t), size=10.5, color=SLATE, anchor="start")
+    w = v / 1450 * 205
+    f.box(10, y + 9, w, 18, fill=MINT if i != 4 else BLUE, stroke=TEAL if i != 4 else NAVY, r=2)
+    f.text(10 + w + 6, y + 18, "%d" % v, size=10.5, color=TEAL if i != 4 else NAVY, bold=True, anchor="start", vmid=True)
+f.text(150, 224, "1,350 / 450 = 3 times", size=10.5, color=NAVY, bold=True)
+```
 
 ## Formula and fact sheet
 
@@ -734,3 +776,106 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 **9.** (c) — vestigial pelvic bones are the remains of hind limbs of land-living ancestors; use and disuse in one lifetime (a) is not inherited.
 **10.** (d) — "lost by disuse and inherited" is Lamarck's use-and-disuse with inheritance of acquired characters.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the Oparin–Haldane theory of the origin of life and the Miller–Urey experiment that supports it. <span class="marks">[10]</span>
+2. Describe the evidences of organic evolution (morphological, anatomical, palaeontological, embryological and biochemical). <span class="marks">[10]</span>
+3. Compare Lamarckism, Darwinism and Neo-Darwinism and explain how natural selection works. <span class="marks">[10]</span>
+
+```photogrid label="1.H" cols="4" ratio="1.25" caption="Evidence for evolution. (a) Darwin's finches show adaptive radiation of beak shape. (b) Horse fossils show a steady change from a small many-toed animal to the one-toed Equus. (c) Archaeopteryx is a connecting link between reptiles and birds. (d) The skulls of hominids show a growing brain case."
+@ photo id="bio11/finches-gould" cap="(a) Finches"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bio11/horse-evo" cap="(b) Horse series"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/archaeopteryx" cap="(c) Archaeopteryx"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceezoo/hominid" cap="(d) Hominid skulls"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Oparin–Haldane theory and the Miller–Urey experiment (10 marks)
+
+**Introduction.** Earth is about 4.6 billion years old and the first cells appeared about 3.5 billion years ago. Early ideas such as special creation, spontaneous generation (disproved by Redi and Pasteur) and panspermia (life arrived from space, Arrhenius) did not explain how life began. The **chemical evolution theory** of A. I. Oparin (1924) and J. B. S. Haldane (1929) says that life arose slowly from non-living matter under the conditions of the young Earth.
+
+**Steps of the Oparin–Haldane theory.**
+
+1. **Primitive atmosphere:** it was **reducing**, with methane (CH₄), ammonia (NH₃), hydrogen (H₂) and water vapour, but no free oxygen.
+2. **Energy sources:** ultraviolet rays, lightning, volcanic heat and cosmic rays drove chemical reactions.
+3. **Simple organic molecules:** the gases reacted to form amino acids, simple sugars, fatty acids and nitrogen bases.
+4. **Hot dilute soup:** rain carried these molecules into the oceans, which became a "primordial soup".
+5. **Macromolecules:** monomers joined to form proteins, polysaccharides and nucleic acids.
+6. **Coacervates (protobionts):** droplets of macromolecules with a membrane-like boundary could take in material and divide. Sidney Fox made similar **proteinoid microspheres**.
+7. **First cell:** a heterotrophic, anaerobic prokaryote that fed on the soup.
+8. **Autotrophs and oxygen:** when food ran short, photosynthetic cells evolved, released oxygen, and later gave rise to aerobic life.
+
+**Miller–Urey experiment (1953).** Stanley Miller and Harold Urey built a closed glass apparatus. One flask held water that was boiled to make vapour. A second flask held the gases CH₄, NH₃ and H₂ in which **high-voltage electric sparks** imitated lightning. A condenser cooled the gas, and the liquid collected in a trap and was returned to the boiling flask, so the cycle ran continuously for about a week. The water turned brown-red, and chromatography showed **amino acids** such as glycine, alanine, aspartic acid and glutamic acid, with urea and simple acids.
+
+| Part of apparatus | Imitates | Result |
+|---|---|---|
+| Boiling flask | Ocean and evaporation | Water vapour to the gas flask |
+| Gas flask with sparks | Atmosphere with lightning | Organic molecules formed |
+| Condenser and trap | Rain into the sea | Amino acids collected |
+
+**Importance and limits.** The experiment gave the first laboratory proof that organic molecules form from inorganic ones. Later work (Oro, 1960) made adenine from hydrogen cyanide. Today many scientists think the early air held more CO₂ and N₂, but similar molecules still form near volcanoes and deep-sea vents.
+
+**Conclusion.** Chemical evolution, supported by the Miller–Urey experiment, is the most accepted explanation of how life began on Earth.
+
+### Model answer D2: Evidences of organic evolution (10 marks)
+
+**Introduction.** **Organic evolution** is the gradual change of living things over many generations. Its proof comes from several branches of biology.
+
+**1. Morphological and anatomical evidence.**
+
+1. **Homologous organs** have the same basic structure but different functions: the forelimb of a human, cat, whale and bat has the same bones (humerus, radius, ulna, carpals, metacarpals, phalanges). They show **divergent evolution** from a common ancestor.
+2. **Analogous organs** have different structure but the same function, such as the wing of a bird and of an insect. They show **convergent evolution**.
+3. **Vestigial organs** are reduced and almost useless: the appendix, wisdom teeth, coccyx and ear muscles of man.
+4. **Connecting links:** *Archaeopteryx* (reptile and bird), *Peripatus* (annelid and arthropod), the lungfish and the duck-billed platypus.
+
+**2. Palaeontological evidence.** **Fossils** in rock layers show that older strata hold simpler forms. The age is found by **radiocarbon dating** (half-life of C-14 = 5,730 years). A fossil with ⅛ of the C-14 of a living organism has passed through three half-lives, so its age is 3 × 5,730 = **17,190 years**. The **horse** series (Eohippus → Mesohippus → Merychippus → Pliohippus → Equus) shows growth in size, reduction of toes from four to one, and longer, stronger teeth.
+
+**3. Embryological evidence.** Embryos of fish, tortoise, chick and man look alike in early stages and have **gill slits** and a tail. Von Baer said that general features appear before special ones. Haeckel's **biogenetic law** ("ontogeny repeats phylogeny") is true only in a loose way.
+
+**4. Biochemical evidence.** All organisms use DNA, the same genetic code, ATP and the same 20 amino acids. The amino-acid sequence of **cytochrome c** differs by only a few residues between man and chimpanzee but by many between man and yeast, so the smaller the difference, the closer the relationship.
+
+**5. Biogeographical evidence.** Darwin's finches on the Galápagos have different beaks for different foods, though they came from one ancestor.
+
+| Evidence | Example | What it shows |
+|---|---|---|
+| Homology | Forelimbs of vertebrates | Common ancestry |
+| Fossils | Horse, Archaeopteryx | Gradual change |
+| Embryology | Gill slits in all embryos | Shared ancestors |
+| Biochemistry | Cytochrome c | Degree of relationship |
+
+**Conclusion.** Evidence from anatomy, fossils, embryos and molecules all points to descent with modification from common ancestors.
+
+### Model answer D3: Lamarckism, Darwinism and Neo-Darwinism (10 marks)
+
+**Introduction.** Three major theories try to explain **how** evolution happens.
+
+**Lamarckism (1809).** In *Philosophie Zoologique* Lamarck proposed (a) the internal urge to grow, (b) **use and disuse** of organs and (c) **inheritance of acquired characters**. Example: the giraffe stretched its neck to reach high leaves, and its offspring inherited the longer neck. **Criticism:** Weismann cut the tails of mice for 22 generations and the young still had normal tails. Acquired changes of body cells are not passed on, as only the germ cells carry heredity.
+
+**Darwinism (1859).** In *The Origin of Species* Darwin (with Wallace) gave five ideas:
+
+1. **Overproduction:** more young are born than can survive.
+2. **Struggle for existence:** they compete for food, space and mates.
+3. **Variation:** no two individuals are exactly alike.
+4. **Natural selection:** the fittest survive and breed.
+5. **Inheritance and speciation:** useful variations pass on, and over many generations new species arise.
+
+Example: in the industrial areas of England the dark form of the peppered moth *Biston betularia* became common because birds ate the pale moths on sooty trees. **Limits:** Darwin could not explain how variations arise or are inherited.
+
+**Neo-Darwinism (modern synthetic theory).** Dobzhansky, Huxley, Mayr and Simpson joined Darwin's idea with genetics. It says that variation arises by **mutation** and **recombination**, and that evolution is a change in gene frequency caused by mutation, gene flow, genetic drift, natural selection and reproductive isolation. By the Hardy–Weinberg law, p² + 2pq + q² = 1. If q² = 0.04 then q = 0.2, p = 0.8, and carriers (2pq) = 2 × 0.8 × 0.2 = **0.32**.
+
+| Point | Lamarckism | Darwinism | Neo-Darwinism |
+|---|---|---|---|
+| Cause of change | Use and disuse | Natural selection | Mutation, selection, drift, isolation |
+| Acquired traits | Inherited | Not discussed | Not inherited |
+| Source of variation | Environment | Unexplained | Mutation and recombination |
+| Basis | Organs | Individuals | Gene frequency |
+
+**Conclusion.** Lamarck started the idea of gradual change, Darwin explained it through natural selection, and Neo-Darwinism completed it with genetics.

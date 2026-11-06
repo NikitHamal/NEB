@@ -850,6 +850,31 @@ $x = (u\cos\theta)t + \frac12 gt^2$. Solve the vertical equation for $t$ first,
 then feed that $t$ into the horizontal one.
 :::
 
+```photogrid label="16.P" cols="2" ratio="1.27" caption="In the mechanics unit a projectile is treated as uniform motion across and uniform acceleration downwards. (a) A javelin thrower in the air. (b) For a speed of 28 m/s the four paths are computed from y = x tan(theta) - gx^2 / (2v^2 cos^2(theta)). Forty-five degrees gives the longest range, R = v^2 / g = 80.0 m. The angles 35 and 55 degrees, which add to 90, share the same range of 75.2 m, but the 55-degree throw goes higher. At 35 degrees the greatest height is 13.2 m and the flight time is 3.28 s. Air resistance and the lift on a javelin shift the best real angle lower than 45 degrees."
+@ photo id="math12/javelin" cap="A javelin thrower: a projectile under gravity"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Range depends on the angle of projection"
+v0 = 28.0; g = 9.8
+rng = lambda d: v0 ** 2 * math.sin(2 * math.radians(d)) / g
+hmx = lambda d: (v0 * math.sin(math.radians(d))) ** 2 / (2 * g)
+tt = lambda d: 2 * v0 * math.sin(math.radians(d)) / g
+assert abs(rng(35) - rng(55)) < 1e-9 and rng(45) > rng(35) and round(rng(45), 1) == 80.0
+f = Fig(300, 236)
+f.text(150, 14, "Paths for v = 28 m/s (g = 9.8)", size=10.5, color=NAVY, bold=True)
+ax = Axes(f, 40, 26, 240, 146, (0, 85), (0, 30))
+ax.grid(20, 10, size=9)
+ax.axes("x (m)", "y")
+cols = {25: TEAL, 35: AMBER, 45: RED, 55: NAVY}
+for d, c in cols.items():
+    th = math.radians(d)
+    ax.curve(lambda x, th=th: x * math.tan(th) - g * x * x / (2 * v0 ** 2 * math.cos(th) ** 2), 0, rng(d), color=c, sw=2.0)
+    ax.tag(rng(d) / 2, hmx(d) + 1.8, "%d deg" % d, size=9.5, color=c, bold=True)
+f.text(150, 208, "R = v^2 sin(2 theta) / g; max %.1f m at 45 deg" % rng(45), size=10, color=NAVY, bold=True)
+f.text(150, 224, "35 and 55 deg both give %.1f m" % rng(35), size=10.5, color=SLATE, bold=True)
+facts = dict(r45=rng(45), r35=rng(35), h35=hmx(35), t35=tt(35))
+```
+
 ## Chapter summary
 
 - Resultant of $P$ and $Q$ at angle $\theta$:
@@ -1102,3 +1127,78 @@ $$ \theta = 15^\circ: \; H = 45(0.2588)^2 = 3.01\ \text{m}; \qquad
 
 The ranges are equal but the high trajectory rises about fourteen times higher.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the triangle law of forces and prove Lami's theorem, with a worked example. <span class="marks">[10]</span>
+2. State Newton's laws of motion and derive the time of flight, maximum height and range of a projectile. <span class="marks">[10]</span>
+
+### Model answer D1: triangle law of forces and Lami's theorem (10 marks)
+
+**Introduction.** Statics studies bodies in equilibrium, such as a lamp hanging from two ropes or a signboard supported by cables.
+
+**Triangle law of forces.** If three forces acting at a point are in equilibrium, they can be represented in magnitude and direction by the three sides of a triangle taken in order. Conversely, if three forces acting at a point are represented by the sides of a triangle taken in order, they are in equilibrium.
+
+**Lami's theorem.** If three forces $P$, $Q$, $R$ acting at a point keep it in equilibrium, each force is proportional to the sine of the angle between the other two:
+
+$$ \frac{P}{\sin\alpha}=\frac{Q}{\sin\beta}=\frac{R}{\sin\gamma} $$
+
+where $\alpha$ is the angle between $Q$ and $R$, $\beta$ between $R$ and $P$, and $\gamma$ between $P$ and $Q$.
+
+**Proof.** Draw the triangle of forces $abc$ with the sides $ab\parallel P$, $bc\parallel Q$ and $ca\parallel R$, in magnitude proportional to $P$, $Q$, $R$. The interior angle at $b$ is $180^{\circ}-\gamma$, at $c$ is $180^{\circ}-\alpha$ and at $a$ is $180^{\circ}-\beta$ (each interior angle is the supplement of the angle between the two forces concerned). By the sine rule in the triangle,
+
+$$ \frac{ab}{\sin(180^{\circ}-\alpha)}=\frac{bc}{\sin(180^{\circ}-\beta)}=\frac{ca}{\sin(180^{\circ}-\gamma)} $$
+
+Since $\sin(180^{\circ}-\theta)=\sin\theta$, and $ab=P$, $bc=Q$, $ca=R$ in proportion, we get $\dfrac{P}{\sin\alpha}=\dfrac{Q}{\sin\beta}=\dfrac{R}{\sin\gamma}$.
+
+**Conditions of use.** Only for **three** forces, coplanar, concurrent and in equilibrium. For more forces, resolve into components with $\sum F_x=0$ and $\sum F_y=0$.
+
+**Worked example.** A load of $W=100\ \text{N}$ is hung from two strings, one at $30^{\circ}$ and the other at $60^{\circ}$ above the horizontal on opposite sides.
+
+- Angle between the two tensions $=180^{\circ}-30^{\circ}-60^{\circ}=90^{\circ}$.
+- The angle between $T_1$ ($30^{\circ}$ string) and the weight is $120^{\circ}$, and between $T_2$ ($60^{\circ}$ string) and the weight is $150^{\circ}$.
+- By Lami: $\dfrac{T_1}{\sin150^{\circ}}=\dfrac{T_2}{\sin120^{\circ}}=\dfrac{100}{\sin90^{\circ}}$, so $T_1=100\times0.5=50\ \text{N}$ and $T_2=100\times0.866=86.6\ \text{N}$.
+- **Check:** horizontal: $50\cos30^{\circ}=43.3=86.6\cos60^{\circ}$; vertical: $50\sin30^{\circ}+86.6\sin60^{\circ}=25+75=100\ \text{N}$.
+
+| Statement | Used for |
+|---|---|
+| Triangle law | Drawing a closed force triangle |
+| Lami's theorem | Finding unknown tensions quickly |
+| $\sum F_x=\sum F_y=0$ | More than three forces |
+
+**Conclusion.** Three forces in equilibrium form a closed triangle, and Lami's theorem relates each force to the sine of the opposite angle.
+
+### Model answer D2: Newton's laws and projectile motion (10 marks)
+
+**Introduction.** Dynamics relates motion to the forces causing it. A cricket ball, a stone thrown from a hill or water from a fountain follows a projectile path.
+
+**Newton's laws.**
+
+1. **First law (inertia):** a body stays at rest or in uniform motion in a straight line unless acted upon by a net external force.
+2. **Second law:** the rate of change of momentum is proportional to the net force: $\vec F=m\vec a$ (for constant mass).
+3. **Third law:** to every action there is an equal and opposite reaction (acting on different bodies).
+
+*Example (lift).* A $60\ \text{kg}$ person in a lift accelerating upwards at $2\ \text{m s}^{-2}$ feels a normal force $N=m(g+a)=60\times11.8=708\ \text{N}$, more than the weight $588\ \text{N}$.
+
+**Projectile motion.** A body is thrown with speed $v_0$ at an angle $\theta$ above the horizontal. Neglecting air resistance: the horizontal acceleration is $0$ and the vertical acceleration is $-g$.
+
+1. **Components:** $v_x=v_0\cos\theta$ (constant) and $v_y=v_0\sin\theta-gt$.
+2. **Position:** $x=v_0\cos\theta\,t$ and $y=v_0\sin\theta\,t-\tfrac12gt^{2}$.
+3. **Path:** eliminating $t$, $y=x\tan\theta-\dfrac{gx^{2}}{2v_0^{2}\cos^{2}\theta}$, a **parabola**.
+4. **Time of flight:** the body returns to the ground when $y=0$: $T=\dfrac{2v_0\sin\theta}{g}$.
+5. **Maximum height:** at the top $v_y=0$, so $t=\dfrac{v_0\sin\theta}g$ and $H=\dfrac{v_0^{2}\sin^{2}\theta}{2g}$.
+6. **Range:** $R=v_0\cos\theta\times T=\dfrac{v_0^{2}\sin2\theta}{g}$. The range is **maximum at $\theta=45^{\circ}$**, $R_{max}=\dfrac{v_0^{2}}g$, and the same range is obtained for angles $\theta$ and $90^{\circ}-\theta$.
+
+| Quantity | Formula |
+|---|---|
+| Time of flight | $\dfrac{2v_0\sin\theta}{g}$ |
+| Maximum height | $\dfrac{v_0^{2}\sin^{2}\theta}{2g}$ |
+| Range | $\dfrac{v_0^{2}\sin2\theta}{g}$ |
+
+**Numerical.** A ball is thrown at $20\ \text{m s}^{-1}$ at $30^{\circ}$ ($g=9.8$):
+
+- $T=\dfrac{2\times20\times0.5}{9.8}=2.04\ \text{s}$.
+- $H=\dfrac{400\times0.25}{19.6}=5.10\ \text{m}$.
+- $R=\dfrac{400\times\sin60^{\circ}}{9.8}=35.3\ \text{m}$; at $45^{\circ}$ the range would be $40.8\ \text{m}$.
+
+**Conclusion.** The horizontal and vertical motions of a projectile are independent, giving a parabolic path with $T$, $H$ and $R$ determined by $v_0$ and $\theta$.

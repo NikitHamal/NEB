@@ -416,6 +416,34 @@ still grows thicker is being conserved, not preserved. NEB answers that describe
 conservation as "stopping all use of the forest" lose marks.
 :::
 
+```photogrid label="5.P" cols="2" ratio="1.27" caption="Vegetation protects soil, stores carbon, regulates water and supports the wildlife that the previous section described. (a) Forest in the Annapurna Conservation Area, one of the protected landscapes managed with local people. (b) The 100-square grid shows the Forest Research and Training Centre figures: forest covers 43.4 per cent of Nepal and other wooded land 2.7 per cent, so 53.9 per cent of the land has no tree cover. On a national area of 147,516 square kilometres the forest is about 64,022 square kilometres, equal to 67 Chitwan National Parks of 952.63 square kilometres each. Community forestry has helped to keep this share high."
+@ photo id="bio11/acap-forest" cap="Forest in the Annapurna Conservation Area"
+fit 1.27
+focus 0.5 0.5
+@ svg cap="Forest cover of Nepal on a 100-square grid"
+forest, wooded = 43.4, 2.7
+other = round(100 - forest - wooded, 1)
+assert abs(forest + wooded - 46.1) < 1e-9 and other == 53.9
+area = 147516
+fkm = forest / 100 * area
+chitwan = 952.63
+ratio = fkm / chitwan
+f = Fig(300, 236)
+f.text(150, 14, "Each square = 1 % of Nepal's area", size=10.5, color=NAVY, bold=True)
+nf = int(round(forest)); nw = int(round(wooded))
+for k in range(100):
+    r, c = divmod(k, 10)
+    col = TEAL if k < nf else (AMBER if k < nf + nw else "#cbd5e1")
+    f.box(70 + c * 16, 24 + r * 16, 14, 14, "", fill=col, stroke=col, r=2)
+f.box(36, 196, 10, 10, "", fill=TEAL, stroke=TEAL, r=2)
+f.text(52, 201, "forest 43.4 %", size=9.5, anchor="start", vmid=True)
+f.box(136, 196, 10, 10, "", fill=AMBER, stroke=AMBER, r=2)
+f.text(152, 201, "other wooded land 2.7 %", size=9.5, anchor="start", vmid=True)
+f.text(150, 218, "forest = %s km2 = %.0f Chitwan parks" % ("{:,.0f}".format(fkm), ratio), size=10.5, color=NAVY, bold=True)
+f.text(150, 232, "forest + wooded land = 46.1 %", size=10, color=SLATE)
+facts = dict(fkm="{:,.0f}".format(fkm), ratio="%.0f" % ratio, other=other)
+```
+
 ## Chapter summary
 
 - **Vegetation** is the plant cover of an area; **flora** is the list of species
@@ -554,3 +582,74 @@ north-facing slopes; and the Himalaya casts a rain shadow that creates a cold
 desert on its northern side. Nepal therefore carries tropical and arctic
 vegetation in the same country.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the factors that decide vegetation and explain the vegetation zones of Nepal with their altitude and typical plants. <span class="marks">[10]</span>
+2. Explain the damage done to vegetation by human activities, and the methods of in-situ and ex-situ conservation. <span class="marks">[10]</span>
+
+### Model answer D1: factors and the vegetation zones of Nepal (10 marks)
+
+**Introduction.** **Vegetation** is the total plant cover of an area. Nepal rises from about $60\ \text{m}$ in the Terai to $8{,}849\ \text{m}$ at Sagarmatha in less than $200\ \text{km}$, so the vegetation changes from tropical forest to ice-bound rock over a short distance. About $45\%$ of the land is covered by forest and shrubs.
+
+**Factors deciding the vegetation.**
+
+1. **Altitude:** temperature falls by about $6^{\circ}\text{C}$ for every $1{,}000\ \text{m}$ of height.
+2. **Temperature and light:** decide the growing season and the type of plant.
+3. **Rainfall and humidity:** the eastern hills receive more monsoon rain than the west, so forests are richer in the east.
+4. **Soil:** depth, nutrients and water-holding capacity.
+5. **Slope and aspect:** a south-facing slope is warm and dry and a north-facing slope is cool and moist.
+6. **Biotic factors:** grazing, cutting and fire by people and animals.
+
+**Vegetation zones of Nepal.**
+
+| Zone | Altitude | Climate | Typical plants |
+|---|---|---|---|
+| Tropical | below $1{,}000\ \text{m}$ | Hot, humid | **Sal** (*Shorea robusta*), sissoo, khair, silk cotton, grassland of the Terai |
+| Subtropical | $1{,}000$–$2{,}000\ \text{m}$ | Warm | Chir pine, *Schima*, *Castanopsis*, alder |
+| Temperate | $2{,}000$–$3{,}000\ \text{m}$ | Cool | Oak (*Quercus*), maple, rhododendron, laurel |
+| Subalpine | $3{,}000$–$4{,}000\ \text{m}$ | Cold | Fir (*Abies*), birch (*Betula utilis*), rhododendron |
+| Alpine | $4{,}000$–$5{,}000\ \text{m}$ | Very cold | Juniper, dwarf rhododendron, meadow herbs |
+| Nival | above $5{,}000\ \text{m}$ | Snow and ice | Mosses, lichens, a few cushion plants |
+
+**Special features.**
+
+- The **Terai** forests of sal, and the grasslands of Chitwan and Bardia, shelter the rhinoceros and the tiger.
+- The **rhododendron** (*lali gurans*) is the national flower, and forests of it bloom at $2{,}000$–$3{,}500\ \text{m}$ in spring.
+- The **rain-shadow** valleys north of the Himalaya (Mustang, Dolpa) are dry, and the vegetation resembles the cold desert of Tibet.
+- **Medicinal herbs** such as *jatamansi* and *yarsagumba* grow in the alpine zone.
+
+**Conclusion.** Altitude, temperature, rainfall and soil arrange the vegetation of Nepal in six zones, from the sal forest of the Terai to the lichens of the nival zone.
+
+### Model answer D2: human impact and conservation (10 marks)
+
+**Introduction.** Vegetation supplies oxygen, timber, fuel, fodder, medicines and watershed protection, and yet human activity damages it fast. Conservation means the wise use and protection of plant resources.
+
+**Damage by human activities.**
+
+1. **Deforestation** for farmland, timber and settlement; the Terai forest has lost large areas to farming.
+2. **Overgrazing** by livestock stops regeneration of seedlings.
+3. **Fuelwood and fodder collection**, because a large share of rural homes cook with firewood.
+4. **Forest fire**, often set by people, in the dry season (March–May).
+5. **Urbanisation and roads** fragmenting forest, for instance in the Kathmandu valley.
+6. **Invasive alien plants** such as *Mikania micrantha*, *Lantana camara* and *Eupatorium* (*banmara*) smother native vegetation.
+7. **Over-collection of medicinal plants** such as yew and *yarsagumba*.
+8. **Climate change**, which shifts the zones to a higher altitude.
+
+**Consequences.** Soil erosion and landslides, loss of habitat and species, drying of springs, floods and increased atmospheric CO₂.
+
+**Conservation methods.**
+
+- **In-situ conservation** (in the natural habitat): national parks (Chitwan, 1973, the first), wildlife reserves, conservation areas (Annapurna), buffer zones and **community forestry** through user groups (more than $22{,}000$ in Nepal).
+- **Ex-situ conservation** (outside the habitat): botanical gardens (Godawari National Botanical Garden), seed banks (cold storage of seeds), tissue culture and gene banks.
+
+| Feature | In-situ | Ex-situ |
+|---|---|---|
+| Place | Natural habitat | Outside, in a garden or bank |
+| Species conserved | Whole ecosystem | Individual species |
+| Cost | Lower | Higher |
+| Examples | Chitwan, Sagarmatha national parks | Botanical gardens, seed banks |
+
+**Other measures.** Afforestation and reforestation, laws on forest and wildlife, education, alternative energy (biogas and improved stoves), and international agreements such as CITES and the Ramsar Convention (Nepal has several Ramsar sites, including Koshi Tappu and Ghodaghodi Tal).
+
+**Conclusion.** Human pressure on forest can be reduced by protecting habitats in-situ, preserving species ex-situ and involving local communities.

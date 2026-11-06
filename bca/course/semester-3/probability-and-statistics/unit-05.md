@@ -119,6 +119,63 @@ f.text(290, 194, "Larger n shrinks the scatter in (c); only better design remove
 7. **Train enumerators and control non-response.** Interviewers must read questions exactly and record answers honestly. Callbacks, a convenient time and a short form raise the response rate. Large non-response is a bigger danger than a small sample.
 8. **Check, enter and report with care.** Edit forms for gaps, use double entry or range checks, and keep a log of changes. Report the frame, the sample size, the response rate and the margin of error. Honest reporting lets readers judge how far to trust the numbers.
 
+```photogrid label="5.1" cols="2" ratio="1.2" caption="A big sample can still be wrong. (a) A ballot urn on a monument to universal suffrage in Paris. In 1936 the American magazine Literary Digest mailed ten million ballots, got 2.4 million back and predicted that Landon would beat Roosevelt with 57 percent of the vote; Roosevelt won with about 61 percent. The list came from car and telephone owners, a biased frame. (b) A simulation of the same mistake: in a population of 10,000 voters exactly 30 percent support a party, but supporters are more likely to own a phone (90 percent against 50 percent), so the phone list is 43.5 percent supporters. Over 500 polls of 400 people, random samples from everybody average 0.301 (spread 0.023), while samples from the phone list average 0.434 (spread 0.024). The spread is the same; the bias is not, and a bigger sample does not remove bias."
+@ photo id="bcamath/urn" cap="A ballot urn (suffrage monument, Paris)"
+fit 1.2
+focus 0.5 0.45
+@ svg cap="500 polls of 400: random sample vs phone list"
+import numpy as np
+rng = np.random.default_rng(2081); N = 10000; sup = np.zeros(N, bool); sup[:3000] = True
+pin = np.where(sup, 0.9, 0.5); frame = rng.random(N) < pin; fr = np.where(frame)[0]
+a = np.array([sup[rng.choice(N, 400, replace=False)].mean() for _ in range(500)])
+b = np.array([sup[rng.choice(fr, 400, replace=False)].mean() for _ in range(500)])
+assert round(sup[fr].mean(), 3) == 0.435 and round(a.mean(), 3) == 0.301 and round(b.mean(), 3) == 0.434
+assert round(a.std(), 3) == 0.023 and round(b.std(), 3) == 0.024
+edges = np.arange(0.22, 0.54, 0.02); ha, _ = np.histogram(a, edges); hb, _ = np.histogram(b, edges)
+f = Fig(300, 240)
+base = 160; sc = 100 / max(ha.max(), hb.max())
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+for i in range(len(ha)):
+    x = 14 + i * 17.5
+    f.box(x, base - ha[i] * sc, 8, max(ha[i] * sc, 0.5), "", fill=BLUE, stroke=NAVY, r=0, sw=0.8)
+    f.box(x + 8, base - hb[i] * sc, 8, max(hb[i] * sc, 0.5), "", fill=ROSE, stroke=RED, r=0, sw=0.8)
+for v in (0.30, 0.40, 0.50):
+    x = 14 + (v - 0.22) / 0.02 * 17.5
+    f.text(x, base + 14, f"{v:.2f}", size=10.5, color=SLATE)
+x30 = 14 + (0.30 - 0.22) / 0.02 * 17.5
+f.line(x30, 40, x30, base, color=AMBER, sw=1.6, dash=True); f.text(x30 + 4, 38, "true 0.30", size=10.5, color=AMBER, bold=True, anchor="start")
+f.box(150, 12, 10, 10, "", fill=BLUE, stroke=NAVY, r=0); f.text(164, 18, "random: mean 0.301", size=10.5, color=NAVY, bold=True, anchor="start", vmid=True)
+f.box(150, 26, 10, 10, "", fill=ROSE, stroke=RED, r=0); f.text(164, 32, "phone list: 0.434", size=10.5, color=RED, bold=True, anchor="start", vmid=True)
+f.text(150, 196, "sample proportion supporting (500 polls each)", size=10.5, color=SLATE)
+f.text(150, 218, "same spread 0.023, but the phone list is biased", size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="5.2" cols="2" ratio="1.2" caption="Chance makes errors that shrink with the square root of the sample size. (a) Dice: the simplest random-number generator. (b) The sampling error (standard error) of a proportion p = 0.30 is sqrt(p (1 - p) / n). For n = 100, 400 and 1,600 the formula gives 0.0458, 0.0229 and 0.0115, and 2,000 simulated surveys of each size (seed 2081) gave 0.0462, 0.0226 and 0.0112. Each time the sample is multiplied by 4, the error is halved. This is why sampling error can be controlled by paying for a larger sample, whereas a non-sampling error such as a badly worded question or a missing group is not reduced at all by a larger sample."
+@ photo id="bcamath/dice" cap="Dice: a simple random mechanism"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Standard error of a proportion, p = 0.30"
+import numpy as np
+rng = np.random.default_rng(2081); res = []
+for n in (100, 400, 1600):
+    p = rng.binomial(n, 0.3, 2000) / n; res.append((n, float(p.std()), (0.21 / n) ** 0.5))
+assert [round(t, 4) for _, _, t in res] == [0.0458, 0.0229, 0.0115] and [round(m, 4) for _, m, _ in res] == [0.0462, 0.0226, 0.0112]
+f = Fig(300, 240)
+base = 170; sc = 110 / 0.05
+f.line(10, base, 292, base, color=SLATE, sw=1.2)
+for i, (n, m, t) in enumerate(res):
+    x = 30 + i * 90
+    f.box(x, base - m * sc, 30, m * sc, "", fill=BLUE, stroke=NAVY, r=0)
+    f.box(x + 32, base - t * sc, 30, t * sc, "", fill=MINT, stroke=TEAL, r=0)
+    f.text(x + 15, base - m * sc - 8, f"{m:.4f}", size=10.5, color=NAVY, bold=True)
+    f.text(x + 47, base - t * sc - 20, f"{t:.4f}", size=10.5, color=TEAL, bold=True)
+    f.text(x + 31, base + 16, f"n = {n:,}", size=10.5, color=SLATE, bold=True)
+f.box(40, 14, 10, 10, "", fill=BLUE, stroke=NAVY, r=0); f.text(54, 19, "simulated", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.box(140, 14, 10, 10, "", fill=MINT, stroke=TEAL, r=0); f.text(154, 19, "formula", size=10.5, color=TEAL, anchor="start", vmid=True)
+f.text(150, 210, "4 times the sample, half the error", size=10.5, color=RED, bold=True)
+f.text(150, 228, "2,000 surveys for each n", size=10.5, color=SLATE)
+```
+
 ## Formula and fact sheet
 
 - Sampling fraction f = n/N. Proportion: n₀ = z²p(1 − p)/e² (p = 0.5 worst case). Mean: n₀ = z²σ²/e².
