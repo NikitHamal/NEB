@@ -831,3 +831,127 @@ $$ \rho = \frac{ZM}{a^{3}N_A} = \frac{2 \times 56}{2.364\times10^{-23} \times 6.
 
 which is the density of iron.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the postulates of the kinetic theory of gases. Deduce Boyle's law, Charles' law and Avogadro's law from it. <span class="marks">[10]</span>
+2. Derive the ideal gas equation and explain the deviation of real gases from ideal behaviour, with van der Waals' equation. <span class="marks">[10]</span>
+3. Describe the unit cells of cubic crystals: simple, body-centred and face-centred. Calculate the density of copper. <span class="marks">[10]</span>
+
+### Model answer D1: kinetic theory and the gas laws (10 marks)
+
+**Introduction.** The **kinetic molecular theory** (Clausius, Maxwell and Boltzmann) explains the behaviour of gases from the motion of their molecules.
+
+**Postulates.**
+
+1. A gas is made of a very large number of **tiny molecules** whose size is negligible compared with the distances between them.
+2. The molecules move **randomly in straight lines** with all speeds, and change direction only on collisions.
+3. Collisions with each other and with the walls are **perfectly elastic**, so there is no loss of energy.
+4. There is **no attraction or repulsion** between molecules.
+5. The **pressure** is the result of the molecules' collisions with the walls.
+6. The **average kinetic energy** is directly proportional to the absolute temperature, $\bar{E}_{k} \propto T$ (and does not depend on the kind of gas).
+
+**Kinetic gas equation.** For $N$ molecules of mass $m$ in a volume $V$,
+
+$$ PV = \tfrac{1}{3}\,mN\,\overline{c^{2}} $$
+
+where $\overline{c^{2}}$ is the mean-square speed. Since $\bar{E}_{k} = \tfrac12 m\overline{c^{2}} = \tfrac32 kT$ per molecule, $PV = \tfrac{2}{3}N\bar{E}_{k}$.
+
+**Deduction of the gas laws.**
+
+1. **Boyle's law (constant $T$).** At constant $T$, $\bar{E}_{k}$ is constant so $PV = \tfrac23N\bar{E}_{k}$ = constant. Hence $P \propto 1/V$.
+2. **Charles' law (constant $P$).** $PV = \tfrac23N\bar{E}_{k}$ and $\bar{E}_{k} \propto T$, so at constant $P$, $V \propto T$.
+3. **Gay-Lussac's (pressure) law (constant $V$).** $P \propto \bar{E}_{k} \propto T$.
+4. **Avogadro's law.** For two gases at the same $P$, $V$ and $T$, the average kinetic energy is equal. From $PV = \tfrac23N\bar{E}_{k}$ both have the same $N$: equal volumes contain equal numbers of molecules.
+5. **Graham's law of diffusion.** At the same $T$, $\tfrac12m_{1}\overline{c_{1}^{2}} = \tfrac12m_{2}\overline{c_{2}^{2}}$, so rate $\propto 1/\sqrt{M}$.
+6. **Dalton's law of partial pressures:** molecules do not interact, so each gas exerts its own pressure.
+
+**Numerical.** The root-mean-square speed of nitrogen at $300\ \text{K}$ is $c_{rms} = \sqrt{3RT/M} = \sqrt{3\times8.314\times300/0.028} = 517\ \text{m s}^{-1}$. Hydrogen at the same temperature moves $\sqrt{14} = 3.7$ times faster.
+
+| Law | Fixed | Relation | From the theory |
+|---|---|---|---|
+| Boyle | $T$, $n$ | $PV$ = constant | $\bar{E}_{k}$ constant |
+| Charles | $P$, $n$ | $V/T$ = constant | $\bar{E}_{k} \propto T$ |
+| Gay-Lussac | $V$, $n$ | $P/T$ = constant | $P \propto \bar{E}_{k}$ |
+| Avogadro | $P$, $T$ | $V \propto n$ | Same $\bar{E}_{k}$, same $N$ |
+
+**Conclusion.** The kinetic theory shows that the gas laws are results of random molecular motion, and that the absolute temperature is a measure of the average kinetic energy of the molecules.
+
+### Model answer D2: ideal gas equation and real gases (10 marks)
+
+**Introduction.** An **ideal gas** obeys the gas laws at all temperatures and pressures. Its molecules have no volume and no attraction. No real gas is ideal, but at low pressure and high temperature real gases come close.
+
+**Ideal gas equation.** Combining the laws:
+
+- Boyle: $V \propto 1/P$; Charles: $V \propto T$; Avogadro: $V \propto n$.
+- So $V \propto nT/P$, or
+
+$$ PV = nRT $$
+
+$R$ is the **universal gas constant**: $R = 0.0821\ \text{L atm K}^{-1}\text{mol}^{-1} = 8.314\ \text{J K}^{-1}\text{mol}^{-1}$. It is the same for all gases, and the **molar volume** at STP (273.15 K, 1 atm) is $V = RT/P = 22.4\ \text{L}$.
+
+**Numericals.**
+
+1. **Volume.** 2 mol of a gas at $300\ \text{K}$ and $2\ \text{atm}$: $V = \dfrac{2\times0.0821\times300}{2} = 24.6\ \text{L}$.
+2. **Molar mass.** A gas has a density of $1.25\ \text{g L}^{-1}$ at STP, so $M = \rho\times22.4 = 1.25\times22.4 = 28\ \text{g mol}^{-1}$. The gas is N₂ or CO.
+
+**Deviation of real gases.** The compressibility factor $Z = PV/nRT$ is 1 for an ideal gas. For real gases:
+
+- At **high pressure** $Z > 1$ because the **volume of the molecules** is no longer negligible.
+- At **moderate pressure and low temperature** $Z < 1$ because **attractive forces** make the volume smaller than expected.
+- At **high temperature and low pressure** $Z \approx 1$.
+
+**Reasons.** Two postulates of the kinetic theory fail: (i) molecules do have a finite volume, and (ii) there are attractive forces between them, especially near condensation.
+
+**Van der Waals' equation.** For one mole:
+
+$$ \left(P + \frac{a}{V^{2}}\right)(V - b) = RT $$
+
+- $a$ corrects for the **attraction** (pressure correction). A higher $a$ means stronger forces and easier liquefaction.
+- $b$ corrects for the **volume** of the molecules (about four times their actual volume).
+
+| Gas | $a$ (L² atm mol⁻²) | $b$ (L mol⁻¹) | Remark |
+|---|---|---|---|
+| H₂ | 0.244 | 0.0266 | Nearly ideal |
+| N₂ | 1.39 | 0.0391 | Fairly ideal |
+| CO₂ | 3.59 | 0.0427 | Liquefies easily |
+| NH₃ | 4.17 | 0.0371 | Strong attraction |
+
+**Liquefaction.** Above the **critical temperature** a gas cannot be liquefied by pressure alone. The **Joule-Thomson effect** is used for cooling and for liquefying air.
+
+**Conclusion.** The ideal gas equation $PV = nRT$ is accurate for real gases at low pressure and high temperature. The van der Waals equation corrects for the molecular volume and the intermolecular attraction and describes real gases much better.
+
+### Model answer D3: cubic unit cells and the density of copper (10 marks)
+
+**Introduction.** A **crystalline solid** has its particles (atoms, ions or molecules) arranged in a regular, repeating pattern called the **crystal lattice**. The smallest repeating unit of the lattice is the **unit cell**, described by its edge length $a$.
+
+**Three cubic unit cells.**
+
+| Property | Simple cubic (sc) | Body-centred cubic (bcc) | Face-centred cubic (fcc) |
+|---|---|---|---|
+| Particles at | 8 corners | 8 corners + 1 body centre | 8 corners + 6 face centres |
+| Atoms per cell | $8\times\tfrac18 = 1$ | $8\times\tfrac18 + 1 = 2$ | $8\times\tfrac18 + 6\times\tfrac12 = 4$ |
+| Coordination number | 6 | 8 | 12 |
+| Relation of $r$ and $a$ | $a = 2r$ | $a = 4r/\sqrt3$ | $a = 2\sqrt2\,r$ |
+| Packing efficiency | 52.4% | 68% | 74% |
+| Examples | Polonium | Na, K, Fe (at room T) | Cu, Ag, Au, Al |
+
+**Counting rule.** An atom at a **corner** is shared by 8 cells (contributes 1/8), at a **face** by 2 cells (1/2), on an **edge** by 4 cells (1/4) and in the **body** by 1 cell (1).
+
+**Packing efficiency.** $= \dfrac{\text{volume of atoms in the cell}}{\text{volume of the cell}}\times100$. For fcc, $4\times\tfrac43\pi r^{3}/(2\sqrt2\,r)^{3} = \pi/(3\sqrt2) = 0.74$. The fcc and hcp arrangements are called **close-packed**.
+
+**Density of a crystal.**
+
+$$ \rho = \frac{Z\,M}{N_{A}\,a^{3}} $$
+
+where $Z$ is the number of atoms per cell, $M$ the molar mass and $N_{A} = 6.022\times10^{23}$.
+
+**Numerical.** Copper crystallises in an fcc lattice with $a = 3.61\ \text{Å} = 3.61\times10^{-8}\ \text{cm}$ (Cu = 63.5). With $Z = 4$:
+
+$$ \rho = \frac{4\times63.5}{6.022\times10^{23}\times(3.61\times10^{-8})^{3}} = \frac{254}{28.33} = 8.97\ \text{g cm}^{-3} $$
+
+The measured density of copper is $8.96\ \text{g cm}^{-3}$, an excellent match. The atomic radius is $r = a/(2\sqrt2) = 1.28\ \text{Å}$.
+
+**Defects.** Real crystals have defects (Schottky, Frenkel) that affect density, colour and conductivity, and are used in semiconductors.
+
+**Conclusion.** The number of atoms per unit cell is 1, 2 and 4 for sc, bcc and fcc, with packing efficiencies of 52.4%, 68% and 74%. The density formula links the microscopic cell to a macroscopic property that can be measured.

@@ -910,3 +910,125 @@ undigested faeces and in parts never eaten; (v) hence with producers at
 population, so chains stop at four or five links and top carnivores are large,
 few and vulnerable to extinction.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the components of an ecosystem, the flow of energy through it, and ecological pyramids. <span class="marks">[10]</span>
+2. Describe the nitrogen cycle and the carbon cycle with diagrams in words, and give the human effects on them. <span class="marks">[10]</span>
+3. What is global warming? Describe the causes, effects and control measures, with eight points on the effects, and its impact on Nepal. <span class="marks">[10]</span>
+
+### Model answer D1: ecosystem and energy flow (10 marks)
+
+**Introduction.** An **ecosystem** (A. G. Tansley, 1935) is a community of living organisms interacting with each other and with the non-living environment as a functional unit. A pond, a forest of Chitwan and a Himalayan meadow are ecosystems.
+
+**Components.**
+
+1. **Abiotic:** sunlight, temperature, water, soil, air and minerals.
+2. **Biotic:**
+   - **Producers (autotrophs):** green plants and algae that make food by photosynthesis.
+   - **Consumers (heterotrophs):** primary (herbivores), secondary (carnivores that eat herbivores) and tertiary (top carnivores); omnivores eat both.
+   - **Decomposers:** bacteria and fungi that break dead matter and return nutrients.
+
+**Food chain and food web.** A **food chain** is a linear series of feeding: grass → grasshopper → frog → snake → eagle. In nature many chains are linked in a **food web**, which makes the ecosystem more stable.
+
+**Energy flow.**
+
+1. The Sun is the **source**; plants capture only about **1 percent** of the incident solar energy.
+2. Energy moves **one way** (unidirectional) from producers to consumers; unlike nutrients it is not recycled.
+3. At each step, about **90% is lost** as heat in respiration and in other activities, and only about **10% is passed on** (Lindeman's 10% law).
+4. Therefore food chains are short, mostly 4 to 5 links.
+
+**Ecological pyramids.**
+
+- **Pyramid of numbers:** the number of organisms at each level; it can be upright (grassland) or inverted (one tree with many insects).
+- **Pyramid of biomass:** the dry weight; upright in a forest but **inverted in a pond** (the small weight of phytoplankton supports a larger weight of zooplankton).
+- **Pyramid of energy:** always **upright**, since energy is lost at every step.
+
+| Trophic level | Organism | Energy (kJ m⁻² year⁻¹) |
+|---|---|---|
+| Producer | Grass | 10,000 |
+| Primary consumer | Deer | 1,000 |
+| Secondary consumer | Leopard | 100 |
+| Tertiary consumer | Tiger | 10 |
+
+**Productivity.** **Gross primary productivity (GPP)** is the total food made; **net primary productivity (NPP) = GPP minus respiration** is what is available to consumers.
+
+**Conclusion.** An ecosystem is held together by the flow of energy and the cycling of nutrients. Because energy is lost at each step, there are always fewer top predators such as the tiger than herbivores such as deer.
+
+### Model answer D2: nitrogen and carbon cycles (10 marks)
+
+**Introduction.** A **biogeochemical cycle** is the movement of an element between the living world and the non-living environment. The nutrients are recycled, whereas energy is not.
+
+**Nitrogen cycle.** Air is 78% N₂, but most organisms cannot use it directly.
+
+1. **Nitrogen fixation:** N₂ → NH₃ by (a) **biological** fixers (*Rhizobium* in legume nodules, *Azotobacter*, *Anabaena*, *Nostoc*), (b) **lightning** (N₂ + O₂ → NO), and (c) the **Haber process** in industry.
+2. **Ammonification:** decomposers convert the proteins of dead matter and urea into **NH₃/NH₄⁺**.
+3. **Nitrification:** *Nitrosomonas* converts NH₄⁺ to NO₂⁻, then *Nitrobacter* converts NO₂⁻ to **NO₃⁻**, which plants absorb.
+4. **Assimilation:** plants make amino acids and proteins, and animals get nitrogen by eating plants.
+5. **Denitrification:** *Pseudomonas* and *Thiobacillus* change nitrates back to **N₂**, returning it to the air.
+
+**Carbon cycle.** Carbon is the basis of organic matter.
+
+1. **Photosynthesis:** plants absorb CO₂ from the air to make carbohydrates.
+2. **Respiration:** plants, animals and microbes release CO₂.
+3. **Decomposition:** dead matter is broken down, releasing CO₂.
+4. **Combustion:** burning fossil fuels, wood and forests releases CO₂.
+5. **Oceans:** CO₂ dissolves in water, and is used to make carbonate shells and limestone.
+The main stores are the atmosphere (CO₂ at about 420 ppm now), oceans, forests and fossil fuels.
+
+| Feature | Nitrogen cycle | Carbon cycle |
+|---|---|---|
+| Atmospheric form | N₂ (78%) | CO₂ (0.04%) |
+| Key microbes | Nitrogen fixers, nitrifiers | Decomposers |
+| Entry into living things | Nitrate uptake by roots | Photosynthesis |
+| Return to the air | Denitrification | Respiration, combustion |
+
+**Human effects.**
+
+- **Nitrogen:** over-use of fertilisers causes **eutrophication** of lakes (Phewa Lake) and nitrate in the groundwater; vehicle exhausts produce NOₓ and acid rain.
+- **Carbon:** burning of fossil fuel and **deforestation** raise CO₂ and cause **global warming**.
+
+**Conclusion.** Both cycles rely on microbes and plants. Human activity is upsetting them, so sustainable farming, tree planting and a lower use of fossil fuels are important.
+
+### Model answer D3: global warming (10 marks)
+
+**Introduction.** **Global warming** is the gradual rise in the average temperature of the Earth's surface and the lower atmosphere, caused mainly by the increase in **greenhouse gases**. The global temperature has risen by about 1.1 °C since 1850.
+
+**Greenhouse effect.** Short-wave sunlight passes through the atmosphere and warms the Earth. The Earth re-radiates **infrared**, which is absorbed by gases such as CO₂, CH₄, N₂O, water vapour and CFCs, and returned to the surface. A natural greenhouse effect keeps the Earth at about 15 °C (without it, -18 °C), but extra gases **enhance** it.
+
+**Causes.**
+
+1. **Burning of fossil fuels** (coal, petrol, diesel) for power and transport: CO₂.
+2. **Deforestation** reduces the CO₂ absorbed.
+3. **Agriculture:** methane from rice paddies and cattle, N₂O from fertilisers.
+4. **Industry:** CFCs, HFCs.
+5. **Landfills and waste burning:** methane.
+6. **Brick kilns and biomass burning.**
+
+**Eight effects.**
+
+1. **Rising temperatures** and heat waves, which are noticed in the Terai.
+2. **Melting glaciers:** the Himalayan glaciers, including those of Khumbu, are retreating quickly, and glacial lakes such as Imja and Tsho Rolpa are at risk of **outburst floods (GLOF)**.
+3. **Sea-level rise** from melting ice and thermal expansion, threatening coastal cities.
+4. **Changes in rainfall:** both floods and droughts, with more erratic monsoons.
+5. **Loss of biodiversity:** species move to cooler heights, and some go extinct (the pika, the snow leopard's habitat shrinks).
+6. **Reduced crop yield** and food insecurity; new pests.
+7. **Spread of diseases** like malaria and dengue to higher altitudes (dengue now in the hills).
+8. **Ocean acidification** harms corals and shellfish.
+
+**Control measures.**
+
+- Use **renewable energy** (hydro, solar, wind) in place of fossil fuels. Nepal produces almost all of its electricity from hydropower.
+- Plant trees and protect the forests (community forestry).
+- Improve energy efficiency, public transport and electric vehicles.
+- Reduce methane through biogas plants and good waste management.
+- Follow international agreements: the **Kyoto Protocol** (1997), **Paris Agreement** (2015, limit of 1.5 °C).
+
+| Gas | Main source | Global warming potential (100 years) |
+|---|---|---|
+| CO₂ | Fossil fuels, deforestation | 1 |
+| CH₄ | Paddy, cattle, landfill | about 28 |
+| N₂O | Fertilisers | about 270 |
+| CFCs | Old refrigerators | thousands |
+
+**Conclusion.** Human activities have strengthened the greenhouse effect and caused warming. Nepal contributes very little but suffers a lot, so adaptation as well as global cooperation is needed.

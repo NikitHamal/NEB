@@ -525,3 +525,77 @@ $$ K_c = \frac{(0.5)(0.5)}{0.5} = 0.5\ \text{mol L}^{-1} $$
 With $\Delta n = +1$ and $T = 523\ \text{K}$,
 $K_p = 0.5 \times 0.0821 \times 523 = 21.5\ \text{atm}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the law of mass action. Derive the expression for the equilibrium constant, and the relation between $K_{p}$ and $K_{c}$, with numericals. <span class="marks">[10]</span>
+2. State Le Chatelier's principle. Discuss the effect of concentration, pressure, temperature and catalyst, and apply it to Haber's process. <span class="marks">[10]</span>
+
+### Model answer D1: law of mass action, $K_{c}$ and $K_{p}$ (10 marks)
+
+**Introduction.** A reversible reaction reaches a state of **chemical equilibrium** when the rate of the forward reaction equals the rate of the backward reaction. At that point the concentrations stay constant, but the reaction does not stop; it is **dynamic**.
+
+**Law of mass action (Guldberg and Waage, 1864).** *At constant temperature, the rate of a chemical reaction is directly proportional to the product of the active masses (molar concentrations) of the reactants, each raised to the power of its stoichiometric coefficient.*
+
+**Derivation.** For the reaction $a\text{A} + b\text{B} \rightleftharpoons c\text{C} + d\text{D}$:
+
+1. Forward rate $= k_{f}[\text{A}]^{a}[\text{B}]^{b}$.
+2. Backward rate $= k_{r}[\text{C}]^{c}[\text{D}]^{d}$.
+3. At equilibrium the two rates are equal, so
+
+$$ K_{c} = \frac{k_{f}}{k_{r}} = \frac{[\text{C}]^{c}[\text{D}]^{d}}{[\text{A}]^{a}[\text{B}]^{b}} $$
+
+For gases, $K_{p} = \dfrac{p_{\text{C}}^{c}\,p_{\text{D}}^{d}}{p_{\text{A}}^{a}\,p_{\text{B}}^{b}}$.
+
+**Relation between $K_{p}$ and $K_{c}$.** For an ideal gas $p = (n/V)RT = CRT$. Substituting in $K_{p}$:
+
+$$ K_{p} = K_{c}\,(RT)^{\Delta n}, \qquad \Delta n = (c + d) - (a + b) \text{ (gaseous moles only)} $$
+
+| Reaction | $\Delta n$ | Relation |
+|---|---|---|
+| H₂ + I₂ ⇌ 2HI | 0 | $K_{p} = K_{c}$ |
+| N₂ + 3H₂ ⇌ 2NH₃ | -2 | $K_{p} = K_{c}(RT)^{-2}$ |
+| PCl₅ ⇌ PCl₃ + Cl₂ | +1 | $K_{p} = K_{c}(RT)$ |
+
+**Features of K.** It depends only on **temperature**; a **catalyst** changes the rate but not $K$; a large $K$ means a high yield; reversing the reaction gives $1/K$; pure solids and liquids are left out of the expression.
+
+**Numerical 1 ($K_{p}$ from $K_{c}$).** For N₂ + 3H₂ ⇌ 2NH₃, $K_{c} = 0.50\ \text{L}^{2}\text{mol}^{-2}$ at $500\ \text{K}$. Then $RT = 0.0821\times500 = 41.05$, and $K_{p} = 0.50\times(41.05)^{-2} = 2.97\times10^{-4}\ \text{atm}^{-2}$.
+
+**Numerical 2 (equilibrium composition).** 1 mol H₂ and 1 mol I₂ are heated in a 1 L vessel with $K_{c} = 50$. Let $x$ mol of each react: $K_{c} = \dfrac{(2x)^{2}}{(1-x)^{2}} = 50$, so $\dfrac{2x}{1-x} = 7.07$, giving $x = 0.78$. At equilibrium $[\text{HI}] = 1.56\ \text{M}$ and $[\text{H}_2] = [\text{I}_2] = 0.22\ \text{M}$. Check: $1.56^{2}/0.22^{2} = 50$. ✓
+
+**Reaction quotient $Q$.** It has the same form as $K$ but uses the **present** concentrations. If $Q < K$ the reaction goes forward, if $Q > K$ it goes backward, and if $Q = K$ it is at equilibrium.
+
+**Conclusion.** The law of mass action gives the expression of $K_{c}$, and $K_{p} = K_{c}(RT)^{\Delta n}$ connects the two forms. The equilibrium constant tells us the extent and direction of a reaction.
+
+### Model answer D2: Le Chatelier's principle and Haber's process (10 marks)
+
+**Introduction.** **Le Chatelier's principle (1884):** *if a system at equilibrium is disturbed by a change in concentration, pressure or temperature, the system shifts in the direction that tends to oppose (reduce) the change.*
+
+**Effect of the factors.**
+
+1. **Concentration.** Adding a reactant (or removing a product) shifts the equilibrium to the **right**; adding a product shifts it to the left. Example: in Fe³⁺ + SCN⁻ ⇌ FeSCN²⁺ (red), adding more Fe³⁺ deepens the red colour.
+2. **Pressure** (for gases). Increasing the pressure shifts the equilibrium towards the side with **fewer moles of gas**. If $\Delta n = 0$ (H₂ + I₂ ⇌ 2HI) there is no effect.
+3. **Temperature.** Heating favours the **endothermic** direction and cooling favours the **exothermic** direction. Unlike the other changes, a change in temperature **changes the value of $K$**.
+4. **Catalyst.** It speeds up both reactions equally, so the **equilibrium is reached sooner**, but the position and $K$ are unchanged.
+5. **Inert gas** at constant volume has no effect; at constant pressure it acts like a reduction in pressure.
+
+| Change | Shift | Effect on $K$ |
+|---|---|---|
+| Add reactant | Forward | None |
+| Increase pressure | Towards fewer gas moles | None |
+| Raise temperature (exothermic reaction) | Backward | $K$ decreases |
+| Catalyst | None | None |
+
+**Haber's process.** $\text{N}_2(g) + 3\text{H}_2(g) \rightleftharpoons 2\text{NH}_3(g)$, $\Delta H = -92\ \text{kJ}$. There are 4 moles of gas on the left and 2 on the right, and the forward reaction is exothermic.
+
+- **High pressure (200 atm):** favours the side with fewer moles, so more NH₃.
+- **Low temperature** would favour the product, but it makes the reaction too slow. A compromise of **450 °C** is used.
+- **Catalyst:** finely divided **iron** with promoters (Al₂O₃, K₂O) increases the rate.
+- **Removal of NH₃** by liquefaction keeps shifting the equilibrium to the right.
+The yield is about 15% per pass, and the unreacted gas is recycled.
+
+**Contact process.** $2\text{SO}_2 + \text{O}_2 \rightleftharpoons 2\text{SO}_3$, $\Delta H = -197\ \text{kJ}$: V₂O₅ catalyst, 450 °C, 1-2 atm (the yield is already about 98%).
+
+**Importance.** Ammonia from Haber's process makes the urea and DAP fertilisers on which the farmers of Nepal depend; the principle helps industry to choose the conditions of the maximum yield at an economic cost.
+
+**Conclusion.** Le Chatelier's principle predicts the direction of shift, which industries use to maximise the yield: high pressure and a moderate temperature with a catalyst for ammonia.
