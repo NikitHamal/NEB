@@ -469,3 +469,76 @@ $\bar{X} = \frac{685}{40} = 17.125$.
 *Verification:* $3\ Median - 2\ Mean = 3(32.22) - 2(31.67) = 33.32$, which agrees with the computed mode.
 *Shape:* $Mean\ (31.67) < Median\ (32.22) < Mode\ (33.33)$, so the distribution is **negatively skewed** — a few low marks pull the mean below the other two. Inter-quartile range $= 41.00 - 22.14 = 18.86$ marks. State each formula before substituting, and always show the table with the mid-values and the cumulative frequencies, because the marks are awarded for the table.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Find the mean, median and mode of ungrouped data. Explain the uses and limitations of each. <span class="marks">[10]</span>
+2. Form a frequency distribution, find the mean, median and mode of grouped data, and explain how it can be shown by diagrams. <span class="marks">[10]</span>
+
+### Model answer D1: mean, median and mode of raw data (10 marks)
+
+**Introduction.** **Statistics** is the science of collecting, organising, presenting, analysing and interpreting data. A **measure of central tendency** gives one value that represents the whole data.
+
+**Data.** Marks of 10 students: 12, 15, 18, 15, 20, 22, 15, 25, 18, 10.
+
+**Arithmetic mean.** $\bar{x} = \dfrac{\sum x}{n}$. The sum is 170, so $\bar{x} = \dfrac{170}{10} = 17$.
+
+**Median.** The middle value after arranging in order: 10, 12, 15, 15, 15, 18, 18, 20, 22, 25. With $n = 10$ (even), the median is the mean of the 5th and 6th values: $\dfrac{15 + 18}{2} = 16.5$.
+
+**Mode.** The most frequent value is **15** (three times).
+
+| Measure | Result | Meaning |
+|---|---|---|
+| Mean | 17 | Average mark |
+| Median | 16.5 | Half got less than 16.5 and half more |
+| Mode | 15 | Most common mark |
+
+**Uses and limitations.**
+
+| Measure | Uses | Limitation |
+|---|---|---|
+| Mean | Easy, uses every value, best for further work | Spoiled by extreme values |
+| Median | Not affected by extreme values; good for income data | Needs arranging; ignores size of values |
+| Mode | Shows the most common size; shirt and shoe sizes | May be not unique or not exist |
+
+**Relation.** For a moderately skewed distribution, Mode = 3 Median - 2 Mean. Here $3(16.5) - 2(17) = 15.5$, which is close to the mode 15.
+
+**Importance of statistics.** It helps planning, business decisions, school results, health and government policy; its limitations are that it studies groups, not single persons, and that figures can be misused.
+
+**Conclusion.** The mean, median and mode summarise data in a single number, and the best one depends on the nature of the data.
+
+### Model answer D2: frequency distribution, grouped averages and diagrams (10 marks)
+
+**Introduction.** For a large amount of data, the values are grouped into **classes** and the number of observations in each class is the **frequency**.
+
+**Data.** Marks of 40 students.
+
+| Class | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 | Total |
+|---|---|---|---|---|---|---|
+| Frequency $f$ | 5 | 8 | 12 | 10 | 5 | 40 |
+| Mid value $x$ | 5 | 15 | 25 | 35 | 45 | |
+| $fx$ | 25 | 120 | 300 | 350 | 225 | 1020 |
+| Cumulative frequency | 5 | 13 | 25 | 35 | 40 | |
+
+**Mean.** $\bar{x} = \dfrac{\sum fx}{\sum f} = \dfrac{1020}{40} = 25.5$.
+
+**Median.** $N/2 = 20$, which lies in the class 20-30 (cumulative frequency 25). With $L = 20$, $cf = 13$, $f = 12$, $h = 10$:
+
+$$\text{Median} = L + \frac{N/2 - cf}{f} \times h = 20 + \frac{20 - 13}{12} \times 10 = 25.83.$$
+
+**Mode.** The modal class is 20-30 (highest frequency 12). With $f_1 = 12$, $f_0 = 8$, $f_2 = 10$:
+
+$$\text{Mode} = L + \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \times h = 20 + \frac{4}{6} \times 10 = 26.67.$$
+
+**Check.** $3 \times 25.83 - 2 \times 25.5 = 26.5$, close to 26.67.
+
+**Diagrams.**
+
+- **Simple bar diagram:** separate bars for categories, such as the area of different crops.
+- **Multiple bar diagram:** several bars side by side to compare, as exports and imports of years.
+- **Pie chart:** a circle divided into sectors, in which angle $= \dfrac{\text{value}}{\text{total}} \times 360^\circ$.
+- **Histogram:** touching rectangles for a grouped frequency distribution.
+- **Frequency polygon:** join the midpoints of the tops of the bars.
+- **Ogive (cumulative frequency curve):** the median can be read from it.
+
+**Conclusion.** Grouping makes large data easy to handle, and diagrams allow us to see patterns at a glance.
