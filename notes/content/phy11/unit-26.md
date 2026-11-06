@@ -789,3 +789,76 @@ $v_e = \sqrt{2GM/R}$; and putting $v_e = c$ to obtain
 
 $$ R_s = \frac{2GM}{c^{2}} $$
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Classify the elementary particles. Explain quarks, leptons, antiparticles and the four fundamental interactions with their exchange particles. <span class="marks">[10]</span>
+2. Describe the Big Bang theory with its evidence, state Hubble's law, estimate the age of the universe and describe a black hole. <span class="marks">[10]</span>
+
+### Model answer D1: elementary particles and fundamental forces (10 marks)
+
+**Introduction.** Particle physics searches for the smallest building blocks of matter and the forces between them. The Standard Model, tested at CERN (the Large Hadron Collider), summarises our present understanding.
+
+**Classification of matter particles.**
+
+1. **Leptons** are fundamental particles that do not feel the strong force: the electron, muon, tau and their neutrinos ($\nu_e,\nu_\mu,\nu_\tau$). There are **six** leptons.
+2. **Quarks** are fundamental particles with fractional charge. There are **six** flavours: up ($+\tfrac23e$), down ($-\tfrac13e$), charm ($+\tfrac23e$), strange ($-\tfrac13e$), top ($+\tfrac23e$) and bottom ($-\tfrac13e$).
+3. **Hadrons** are particles made of quarks. **Baryons** have three quarks (proton $uud$, charge $\tfrac23+\tfrac23-\tfrac13=+1$; neutron $udd$, charge $\tfrac23-\tfrac13-\tfrac13=0$) and **mesons** have a quark and an antiquark (pion $u\bar d$).
+
+**Antiparticles.** Each particle has an antiparticle with the **same mass** and **opposite charge** (and opposite other quantum numbers): the positron $e^{+}$, antiproton $\bar p$ and antineutron $\bar n$. When a particle meets its antiparticle, they annihilate and release energy as photons.
+
+**Four fundamental interactions.**
+
+| Interaction | Acts on | Exchange particle | Relative strength | Range |
+|---|---|---|---|---|
+| Strong | Quarks, hadrons | Gluon | 1 | about $10^{-15}\ \text{m}$ |
+| Electromagnetic | Charged particles | Photon | $10^{-2}$ | Infinite |
+| Weak | All matter particles | $W^{\pm}$, $Z^{0}$ bosons | $10^{-6}$ | about $10^{-18}\ \text{m}$ |
+| Gravitational | All masses | Graviton (not yet detected) | $10^{-39}$ | Infinite |
+
+**Role of each force.** The strong force holds quarks together in protons and neutrons, and binds nucleons into a nucleus. The electromagnetic force binds electrons to the nucleus and governs chemistry. The weak force is responsible for **beta decay**, $n\to p+e^{-}+\bar\nu_e$. Gravity holds planets, stars and galaxies together.
+
+**Conservation laws.** In every reaction, charge, energy, momentum, lepton number and baryon number are conserved. For beta decay, charge: $0\to+1-1+0$; lepton number: $0\to0+1-1=0$.
+
+**Higgs boson.** Discovered in 2012 at CERN, this particle is linked with the field that gives mass to the other particles.
+
+**Conclusion.** Matter consists of quarks and leptons, held together by four interactions carried by exchange particles; antiparticles exist for each of them.
+
+### Model answer D2: the Big Bang, Hubble's law and black holes (10 marks)
+
+**Introduction.** Cosmology studies the origin, structure and fate of the universe. The most widely accepted theory is the **Big Bang**.
+
+**Big Bang theory.** About $13.8$ billion years ago, all matter, energy, space and time began in an extremely hot, dense state which has been **expanding and cooling** ever since. The universe is not expanding into space: space itself stretches.
+
+**Evidence.**
+
+1. **Expansion of the universe (Hubble's law):** distant galaxies recede from us, and their light is **red-shifted**.
+2. **Cosmic microwave background (CMB):** a uniform radiation at $2.7\ \text{K}$ from every direction, discovered by Penzias and Wilson in 1965, is the cooled glow of the early universe.
+3. **Abundance of light elements:** about $75\%$ hydrogen and $25\%$ helium by mass, as predicted for the first few minutes.
+
+**Hubble's law.** The recession speed of a galaxy is proportional to its distance:
+
+$$ v=H_0\,d $$
+
+where $H_0\approx70\ \text{km s}^{-1}\text{Mpc}^{-1}$ is the **Hubble constant** and $1\ \text{Mpc}=3.09\times10^{22}\ \text{m}$.
+
+**Age of the universe.** If the expansion rate had been constant, the time since all the galaxies were together is $t=\dfrac dv=\dfrac1{H_0}$.
+
+- $t=\dfrac{3.09\times10^{19}\ \text{km}}{70\ \text{km s}^{-1}}=4.4\times10^{17}\ \text{s}\approx1.4\times10^{10}\ \text{years}$, about **14 billion years**, which agrees closely with other estimates.
+
+**Redshift.** For a galaxy at $100\ \text{Mpc}$, $v=70\times100=7000\ \text{km s}^{-1}$ and $z=\dfrac vc=\dfrac{7000}{3\times10^{5}}=0.023$.
+
+**Black holes.** A black hole is a region of space from which not even light can escape, because the escape speed from its surface exceeds $c$. Setting $v_e=\sqrt{2GM/R}=c$, the **Schwarzschild radius** is
+
+$$ R_s=\frac{2GM}{c^{2}} $$
+
+For the Sun, $R_s=\dfrac{2\times6.67\times10^{-11}\times2\times10^{30}}{(3\times10^{8})^{2}}\approx3\ \text{km}$, and for the Earth about $9\ \text{mm}$. Black holes form when massive stars collapse at the end of their lives.
+
+| Concept | Key point |
+|---|---|
+| Big Bang | Universe began about 13.8 billion years ago |
+| Hubble's law | $v=H_0d$ |
+| CMB | $2.7\ \text{K}$ relic radiation |
+| Black hole | $R_s=2GM/c^{2}$ |
+
+**Conclusion.** The Big Bang is supported by the expansion, the microwave background and the abundance of light elements, and Hubble's law gives the age of the universe as about 14 billion years.

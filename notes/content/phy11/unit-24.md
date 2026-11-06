@@ -973,3 +973,110 @@ i.e. about $0.46\ \text{g}$ — less than one part in a thousand of the fuel.
 
 **1.(a), 1.(b), 2.(a)** are bookwork: see §24.5 and §24.7.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe Rutherford's alpha-scattering experiment, give the conclusions and explain nuclear size and nuclear density. <span class="marks">[10]</span>
+2. Explain Einstein's mass-energy relation, mass defect and binding energy, and describe the binding energy per nucleon curve. <span class="marks">[10]</span>
+3. Explain nuclear fission and fusion, giving the energy released, and describe the creation and annihilation of particles. <span class="marks">[10]</span>
+
+### Model answer D1: Rutherford scattering, nuclear size and density (10 marks)
+
+**Introduction.** Early in the twentieth century, J. J. Thomson's model pictured the atom as a sphere of positive charge with electrons embedded in it, like seeds in a watermelon. Rutherford's experiment of 1911 (carried out by Geiger and Marsden) proved this model wrong.
+
+**Experiment.**
+
+1. A narrow beam of $\alpha$-particles from a radioactive source (polonium or radium) was directed at a thin **gold foil** about $10^{-7}\ \text{m}$ thick.
+2. A fluorescent zinc-sulphide screen, which could be rotated around the foil, showed a tiny flash of light for each particle that struck it.
+3. The experiment was done in an evacuated chamber so that air did not stop the $\alpha$-particles.
+
+**Observations and conclusions.**
+
+| Observation | Conclusion |
+|---|---|
+| Most $\alpha$-particles passed straight through | Most of the atom is **empty space** |
+| A few were deflected through small angles | The positive charge exerts a repulsive force |
+| About 1 in 8,000 turned back by more than $90^{\circ}$ | The positive charge and mass are concentrated in a **tiny, dense nucleus** |
+
+Hence the atom has a small, positively charged **nucleus** at its centre, with electrons orbiting around it. The distance of closest approach for a head-on $\alpha$-particle of energy $K$ is $r_0=\dfrac{1}{4\pi\varepsilon_0}\dfrac{2Ze^{2}}{K}$, which gives an upper limit for the nuclear size of about $10^{-14}\ \text{m}$.
+
+**Nuclear size.** Experiments give the nuclear radius
+
+$$ R=R_0A^{1/3},\qquad R_0\approx1.2\times10^{-15}\ \text{m}=1.2\ \text{fm} $$
+
+where $A$ is the mass number. For iron-56, $R=1.2\times56^{1/3}=4.6\ \text{fm}$; for uranium-238, $R=7.4\ \text{fm}$.
+
+**Nuclear density.**
+
+1. Mass of the nucleus $\approx A\times1.66\times10^{-27}\ \text{kg}$ (the atomic mass unit).
+2. Volume $=\tfrac43\pi R^{3}=\tfrac43\pi R_0^{3}A$.
+3. Density $\rho=\dfrac{A\times1.66\times10^{-27}}{\tfrac43\pi(1.2\times10^{-15})^{3}A}\approx2.3\times10^{17}\ \text{kg m}^{-3}$.
+4. The factor $A$ cancels, so the density is **the same for all nuclei**, about $10^{14}$ times that of water. A matchbox of nuclear matter would have a mass of about $10^{9}$ tonnes.
+
+**Conclusion.** Rutherford's experiment replaced the plum-pudding model with the nuclear atom; the nucleus has radius $R_0A^{1/3}$ and an enormous, constant density.
+
+### Model answer D2: mass-energy, mass defect and binding energy (10 marks)
+
+**Introduction.** In 1905 Einstein showed that mass and energy are equivalent. This explains why the mass of a nucleus is less than the sum of the masses of its nucleons.
+
+**Mass-energy relation.** A mass $m$ is equivalent to an energy
+
+$$ E=mc^{2} $$
+
+With $c=3\times10^{8}\ \text{m s}^{-1}$, $1\ \text{kg}$ is equivalent to $9\times10^{16}\ \text{J}$. In nuclear physics, $1\ \text{u}=1.66\times10^{-27}\ \text{kg}\equiv931.5\ \text{MeV}$.
+
+**Mass defect.** The mass defect of a nucleus $^{A}_{Z}X$ is
+
+$$ \Delta m=Zm_p+(A-Z)m_n-M_{\text{nucleus}} $$
+
+**Binding energy.** The energy equivalent of the mass defect, $B=\Delta m\,c^{2}$, is the **binding energy**: the minimum energy required to separate the nucleus into its free nucleons. It is the energy released when the nucleons join.
+
+**Binding energy per nucleon** $=B/A$ measures the stability of a nucleus.
+
+**The curve of $B/A$ against $A$.**
+
+1. The curve rises steeply for light nuclei: $^{2}$H has about $1.1\ \text{MeV}$, and $^{4}$He about $7.1\ \text{MeV}$, which is a particularly stable nucleus.
+2. It reaches a **maximum of about $8.8\ \text{MeV}$ near $A=56$** (iron and nickel), the most stable nuclei.
+3. It falls slowly to about $7.6\ \text{MeV}$ for uranium-238.
+4. **Fusion** of light nuclei (moving up the left side) and **fission** of heavy nuclei (moving up the right side) both release energy, since the products have higher $B/A$.
+
+**Packing fraction.** $f=\dfrac{M-A}{A}$ (with $M$ the isotopic mass in u); a low or negative value means a stable nucleus.
+
+**Numerical.** For helium-4, using atomic masses, $\Delta m=2(1.007825)+2(1.008665)-4.002603=0.030377\ \text{u}$, so $B=0.030377\times931.5=28.3\ \text{MeV}$ and $B/A=7.07\ \text{MeV}$ per nucleon.
+
+**Conclusion.** The binding energy is the energy equivalent of the mass defect, and the $B/A$ curve, peaking near iron, explains why both fission and fusion release energy.
+
+### Model answer D3: fission, fusion, creation and annihilation (10 marks)
+
+**Introduction.** Nuclear reactions release millions of times more energy per atom than chemical ones, because they convert a part of the mass into energy.
+
+**Nuclear fission.** The splitting of a heavy nucleus into two medium nuclei, with the release of neutrons and energy. Example:
+
+$$ {}^{235}_{92}\text{U}+{}^{1}_{0}n\to{}^{141}_{56}\text{Ba}+{}^{92}_{36}\text{Kr}+3\,{}^{1}_{0}n+\text{about }200\ \text{MeV} $$
+
+- The released neutrons cause further fissions in a **chain reaction**; in a reactor it is controlled by control rods (cadmium or boron) and a moderator (water or graphite), and in a bomb it is not controlled.
+- **Energy from 1 kg of U-235:** $\dfrac{1000}{235}\times6.022\times10^{23}\times200\ \text{MeV}\times1.6\times10^{-13}\approx8.2\times10^{13}\ \text{J}$, about 2.7 million times the energy of $1\ \text{kg}$ of coal ($3\times10^{7}\ \text{J}$).
+
+**Nuclear fusion.** The joining of two light nuclei to form a heavier nucleus. Example:
+
+$$ {}^{2}_{1}\text{H}+{}^{3}_{1}\text{H}\to{}^{4}_{2}\text{He}+{}^{1}_{0}n+17.6\ \text{MeV} $$
+
+- It needs temperatures of about $10^{7}$–$10^{8}\ \text{K}$ to overcome the repulsion of the nuclei, so it is called a **thermonuclear** reaction.
+- It powers the Sun, which converts about $4\times10^{9}\ \text{kg}$ of mass into energy every second.
+
+| Feature | Fission | Fusion |
+|---|---|---|
+| Process | Heavy nucleus splits | Light nuclei combine |
+| Energy per reaction | about 200 MeV | about 17.6 MeV |
+| Energy per kg of fuel | Large | Even larger |
+| Conditions | Slow neutrons | Very high temperature |
+| Waste | Radioactive | Little |
+| Example | Nuclear reactor | Sun, hydrogen bomb |
+
+**Creation and annihilation.**
+
+1. **Pair production:** a gamma-ray photon of energy at least $2m_ec^{2}=1.022\ \text{MeV}$, passing close to a nucleus, creates an electron and a positron.
+2. **Annihilation:** a positron meeting an electron destroys both, producing two gamma photons of $0.511\ \text{MeV}$ each, travelling in opposite directions (this is used in PET scans in hospitals).
+3. Energy, momentum and charge are conserved in both processes.
+
+**Conclusion.** Fission and fusion release energy because the products have a higher binding energy per nucleon; creation and annihilation show the interconversion of mass and energy.

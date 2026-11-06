@@ -931,3 +931,78 @@ $$ d = \frac{10 \times 0.1828}{0.9428} = 1.94\ \text{cm} $$
 (c) $\sin C = 1.48/1.52 = 0.9737$, so $C = 76.8^{\circ}$. Any ray meeting the
 wall at more than $76.8^{\circ}$ to the normal stays inside the core.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State the laws of refraction, define refractive index and derive an expression for the lateral shift of a ray through a glass slab. <span class="marks">[10]</span>
+2. What is total internal reflection? Derive the relation between the critical angle and the refractive index, and explain the applications of total internal reflection. <span class="marks">[10]</span>
+
+### Model answer D1: laws of refraction, refractive index and lateral shift (10 marks)
+
+**Introduction.** Refraction is the **bending of light as it passes from one transparent medium into another**, caused by the change in the speed of light. It is the reason a pencil in a glass of water looks bent and why a swimming pool looks shallower than it is.
+
+**Laws of refraction (Snell's laws).**
+
+1. The incident ray, the refracted ray and the normal at the point of incidence all lie in **one plane**.
+2. For two given media and a given colour of light, $\dfrac{\sin i}{\sin r}=\text{constant}={}_1n_2$, the **refractive index of medium 2 with respect to medium 1**.
+
+**Refractive index.**
+
+- Absolute refractive index $n=\dfrac{c}{v}=\dfrac{\text{speed of light in vacuum}}{\text{speed of light in the medium}}$, so $n\geq 1$.
+- Relative index ${}_1n_2=\dfrac{n_2}{n_1}=\dfrac{v_1}{v_2}$, so Snell's law can be written $n_1\sin i=n_2\sin r$.
+- For three media, ${}_1n_2\times{}_2n_3={}_1n_3$ and ${}_2n_1=\dfrac{1}{{}_1n_2}$.
+- For an object in a denser medium viewed from the rarer medium, $n=\dfrac{\text{real depth}}{\text{apparent depth}}$.
+
+**Lateral shift.** When a ray passes through a parallel-sided slab of thickness $t$ and refractive index $n$, it emerges **parallel to the incident ray but displaced sideways**.
+
+1. A ray strikes the slab at angle of incidence $i$ and refracts at angle $r$ inside it, travelling a path of length $AB=\dfrac{t}{\cos r}$.
+2. The emergent ray is parallel to the incident ray, since the angle of emergence equals $i$.
+3. The perpendicular distance between the two rays, the lateral shift, is $d=AB\sin(i-r)$, so
+
+$$ d=\frac{t\,\sin(i-r)}{\cos r} $$
+
+4. The shift increases with thickness $t$, with refractive index $n$ and with the angle of incidence $i$. For normal incidence ($i=0$) there is no shift.
+
+**Numerical.** A glass slab of thickness $6\ \text{cm}$ and $n=1.5$ is struck at $i=60^{\circ}$. Then $\sin r=\sin60^{\circ}/1.5=0.577$, so $r=35.3^{\circ}$, and $d=\dfrac{6\sin(24.7^{\circ})}{\cos35.3^{\circ}}=\dfrac{6\times0.4185}{0.8165}\approx3.07\ \text{cm}$.
+
+| Relation | Formula |
+|---|---|
+| Snell's law | $n_1\sin i=n_2\sin r$ |
+| Speed and index | $n=c/v$ |
+| Real and apparent depth | $n=\text{real}/\text{apparent}$ |
+| Lateral shift | $d=t\sin(i-r)/\cos r$ |
+
+**Conclusion.** Snell's law governs every refraction; the refractive index measures how much a medium slows light, and a slab shifts a ray sideways without changing its direction.
+
+### Model answer D2: total internal reflection and its applications (10 marks)
+
+**Introduction.** When light travels from a denser to a rarer medium, it bends **away** from the normal. If the angle of incidence is large enough, no light is refracted at all and the whole of it is reflected back. This is **total internal reflection (TIR)**.
+
+**Conditions for TIR.**
+
+1. Light must travel from the **denser medium to the rarer medium** (for example glass to air).
+2. The angle of incidence in the denser medium must be **greater than the critical angle** $C$.
+
+**Critical angle.** The **critical angle** is the angle of incidence in the denser medium for which the angle of refraction in the rarer medium is $90^{\circ}$. By Snell's law $n_d\sin C=n_r\sin90^{\circ}$, so
+
+$$ \sin C=\frac{n_r}{n_d}=\frac{1}{n}\quad(\text{rarer medium air}) $$
+
+A larger refractive index means a smaller critical angle.
+
+| Material | $n$ | Critical angle in air |
+|---|---|---|
+| Water | 1.33 | $48.8^{\circ}$ |
+| Crown glass | 1.50 | $41.8^{\circ}$ |
+| Diamond | 2.42 | $24.4^{\circ}$ |
+
+**Applications.**
+
+- **Optical fibre:** light is trapped in a glass core by repeated TIR at the core–cladding boundary. Nepal's broadband and telemedicine links, and endoscopes in hospitals, use bundles of such fibres.
+- **Prisms in binoculars and periscopes:** a $45^{\circ}$–$45^{\circ}$–$90^{\circ}$ glass prism ($C=41.8^{\circ}$) turns light by $90^{\circ}$ or $180^{\circ}$ with no loss, better than a silvered mirror.
+- **Brilliance of a diamond:** its small critical angle makes most light that enters undergo several TIRs before leaving through the top.
+- **Mirage:** on a hot road, the hot air near the ground is rarer, and light from the sky is totally reflected, which looks like water on the road.
+- **Shining of an air bubble or a test tube** in water, because light from the water is totally reflected at the air surface.
+
+**Numerical.** A point source lies at depth $h=1\ \text{m}$ in water ($n=1.33$). Light from it escapes through a circle of radius $R=h\tan C=1\times\tan48.8^{\circ}=1.14\ \text{m}$ at the surface; outside it the light is totally reflected.
+
+**Conclusion.** TIR needs light going from a denser to a rarer medium at an angle above the critical angle, and it underlies fibre optics, prisms and mirages.

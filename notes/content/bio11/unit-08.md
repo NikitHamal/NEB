@@ -3279,3 +3279,134 @@ double, but with one ventricle the streams are not kept wholly apart and the
 systemic arch carries mixed blood. Only birds and mammals, with a four-chambered
 heart, separate them completely.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the structure, locomotion, nutrition, osmoregulation and reproduction of *Paramecium caudatum*. <span class="marks">[10]</span>
+2. Explain the basis of animal classification and describe the nine major phyla with examples. <span class="marks">[10]</span>
+3. Describe the external features and the digestive, circulatory, excretory and reproductive systems of the earthworm *Pheretima posthuma*. <span class="marks">[10]</span>
+4. Describe the external features, digestive, respiratory, circulatory and reproductive systems of the frog *Rana tigrina*, and its economic importance. <span class="marks">[10]</span>
+
+### Model answer D1: *Paramecium caudatum* (10 marks)
+
+**Introduction.** *Paramecium* is a free-living, unicellular protozoan of the phylum Ciliophora (ciliates). It lives in freshwater ponds, ditches and slow rivers rich in decaying matter, and it is a popular specimen to study under the microscope.
+
+**Structure.**
+
+1. **Shape and size:** slipper-shaped, $80$–$300\ \mu\text{m}$ long, with a blunt anterior end and a pointed posterior end.
+2. **Pellicle:** a firm, elastic outer covering that gives a constant shape.
+3. **Cilia:** short hair-like organelles covering the whole body, arranged in rows; they are used for movement and for feeding.
+4. **Oral groove:** a depression on one side leading to the **cytostome** (mouth) and **cytopharynx** (gullet).
+5. **Cytoplasm:** an outer ectoplasm, with trichocysts for defence, and an inner endoplasm with food vacuoles.
+6. **Two contractile vacuoles**, one anterior and one posterior, each with radiating canals.
+7. **Two nuclei:** a large **macronucleus** that controls the daily activities and a small **micronucleus** used in reproduction.
+
+**Locomotion.** The cilia beat in coordinated waves (**metachronal rhythm**), driving the animal forward in a spiral path while it rotates on its axis. On meeting an obstacle, the cilia reverse their beat and the animal backs away and turns (**avoiding reaction**).
+
+**Nutrition (holozoic).** The beating of the oral cilia sweeps bacteria, algae and small protists into the oral groove. A food vacuole forms at the base of the cytopharynx and circulates in the cytoplasm (**cyclosis**), where it is digested by enzymes. The nutrients diffuse into the cytoplasm and the undigested remains are ejected through the **cytopyge** (anal pore).
+
+**Osmoregulation.** Fresh water enters the cell by osmosis. The **contractile vacuoles** collect the excess water through the canals and expel it by pulsing every few seconds. They also remove a little waste, and the rate of pulsation increases in more dilute water.
+
+**Respiration and excretion.** Oxygen enters, and carbon dioxide and ammonia leave, by diffusion through the pellicle.
+
+**Reproduction.**
+
+| Type | Process |
+|---|---|
+| Asexual: **binary fission** | Transverse division. The micronucleus divides by mitosis, the macronucleus elongates and splits, a new oral groove forms and the cell divides into two |
+| Sexual: **conjugation** | Two animals join at the oral surfaces; the micronuclei undergo meiosis, and a haploid micronucleus is exchanged and fuses with the stationary one. They separate and each divides, restoring vigour |
+
+**Importance of protists.** They are food for small animals in the food chain, and clean water by eating bacteria; some protists cause disease, such as *Plasmodium* (malaria) and *Entamoeba* (amoebic dysentery).
+
+**Conclusion.** *Paramecium* is a complete organism in a single cell, with organelles for movement, feeding, osmoregulation and two kinds of nuclei.
+
+### Model answer D2: basis of animal classification and the nine phyla (10 marks)
+
+**Introduction.** More than $1.3$ million animal species are known. They are grouped according to the **fundamental features of the body plan**, not by size or habitat.
+
+**Basis of classification.**
+
+1. **Level of organisation:** cellular (sponges), tissue (cnidarians), organ and organ-system (all higher animals).
+2. **Symmetry:** asymmetrical (sponges), radial (cnidarians, echinoderms) or bilateral (most others).
+3. **Germ layers:** diploblastic (two layers: ectoderm and endoderm) or triploblastic (a mesoderm is added).
+4. **Coelom:** acoelomate (no cavity), pseudocoelomate (cavity not fully lined by mesoderm) or eucoelomate (true coelom).
+5. **Segmentation:** body divided into repeated units (annelids, arthropods).
+6. **Notochord:** present in chordates.
+
+**The nine phyla.**
+
+| Phylum | Key features | Examples |
+|---|---|---|
+| Porifera | Pores, canals, spicules; cellular grade | *Sycon*, bath sponge |
+| Coelenterata (Cnidaria) | Radial; stinging cells; diploblastic | *Hydra*, jellyfish, coral |
+| Platyhelminthes | Flat, unsegmented, acoelomate, flame cells | Tapeworm, liver fluke |
+| Nemathelminthes | Round, pseudocoelomate, complete gut | *Ascaris*, hookworm |
+| Annelida | Segmented, true coelom, setae | Earthworm, leech |
+| Arthropoda | Jointed legs, chitin exoskeleton | Insects, prawn, spider |
+| Mollusca | Soft body, mantle, shell, foot | Snail, *Pila*, octopus |
+| Echinodermata | Spiny skin, radial adult, water-vascular system | Starfish, sea urchin |
+| Chordata | Notochord, dorsal nerve cord, gill slits | Fish, frog, bird, human |
+
+**Notes on chordates.** The subphyla are Urochordata, Cephalochordata and Vertebrata. Vertebrates include fish, amphibians, reptiles, birds and mammals.
+
+**Importance of the classification.** It makes the study of the millions of species manageable, shows the evolutionary relationships, and allows scientists to predict the features of newly found animals.
+
+**Conclusion.** Animals are classified by their level of organisation, symmetry, germ layers, coelom and segmentation, and the nine phyla range from simple sponges to chordates.
+
+### Model answer D3: the earthworm *Pheretima posthuma* (10 marks)
+
+**Introduction.** The earthworm is a segmented annelid that lives in burrows in moist, fertile soil and comes out at night. It is called the "farmer's friend".
+
+**External features.**
+
+1. A long, cylindrical, bilaterally symmetrical body of about $100$–$120$ segments (metameres), up to $15$–$25\ \text{cm}$ long.
+2. The dorsal surface is darker, with a dorsal blood vessel visible as a line.
+3. **Clitellum:** a thick, glandular band on segments $14$–$16$, which forms the cocoon.
+4. Each segment, except the first and the last, has a ring of **setae** (chitinous bristles) that grip the soil during locomotion.
+5. The **mouth** is in the first segment, with a fleshy lobe (prostomium), and the anus is terminal.
+
+**Digestive system.** Mouth → buccal cavity → pharynx (with salivary glands) → oesophagus → **gizzard** (grinds the soil and the food) → stomach → **intestine** (the main site of digestion and absorption), with a fold, the **typhlosole**, that increases the surface → anus. The worm eats soil and decaying leaves.
+
+**Circulatory system (closed).** The red blood, with dissolved haemoglobin in plasma, flows in vessels: a **dorsal vessel** carries blood forward, a **ventral vessel** carries it backward, and **four pairs of hearts** pump it. The blood carries oxygen and nutrients.
+
+**Respiration and excretion.** There are no special respiratory organs; gases diffuse through the **moist skin**, which is kept wet by mucus. Excretion is by **nephridia** (septal, pharyngeal and integumentary) that remove urea and ammonia; the worm is ureotelic.
+
+**Nervous system.** A **brain** (cerebral ganglia) above the pharynx, a nerve ring and a double **ventral nerve cord** with a ganglion in each segment. Sense organs are touch receptors, light cells and chemoreceptors; there are no eyes.
+
+**Reproduction.** Earthworms are **hermaphrodite**, but **cross-fertilisation** takes place by mating, as the sperms are exchanged. The clitellum secretes a **cocoon** that receives the eggs and sperm, and young worms hatch from it by **direct development**, with no larval stage.
+
+**Economic importance.** The worms loosen and aerate the soil, mix organic matter, and improve fertility; **vermicompost** is made by the red wriggler worm and is sold as a farm input in Nepal; they are used as fish bait and in medicines.
+
+**Conclusion.** The earthworm shows annelid features: segmentation, a closed circulation, nephridia and a ventral nerve cord, and it helps agriculture.
+
+### Model answer D4: the frog *Rana tigrina* (10 marks)
+
+**Introduction.** The frog is an amphibian that lives both in water and on land. It is common in the ponds and paddy fields of the Terai and mid-hills during the monsoon.
+
+**External features.**
+
+1. Body divided into **head** and **trunk**; no neck and no tail in the adult.
+2. Smooth, moist **skin**, olive-green above with dark patches and pale below; it protects, helps respiration and takes up water.
+3. A broad head with a wide mouth, two bulging **eyes** with eyelids and a transparent **nictitating membrane**, nostrils and **tympanum** (the ear drum).
+4. Forelimbs with four digits and **hind limbs** with five **webbed** toes for swimming and long jumps.
+
+**Digestive system.** Carnivorous (insects and worms). Mouth (a sticky, forked tongue) → buccal cavity → pharynx → oesophagus → stomach → small intestine (duodenum and ileum) → rectum → **cloaca**. The liver, with a gall bladder, and the pancreas pour juices into the duodenum.
+
+**Respiration.** Three types: **cutaneous** (through the skin, mostly under water and in hibernation), **buccopharyngeal** (through the lining of the mouth) and **pulmonary** (through a pair of lungs on land).
+
+**Circulation.** A **three-chambered heart** with two atria and one ventricle (and a sinus venosus and a truncus arteriosus). Oxygenated and deoxygenated blood mix partly in the ventricle, so the circulation is **single and incomplete double**. The red blood cells are oval and **nucleated**.
+
+**Excretion.** A pair of **kidneys**; urine passes through the ureters to the cloaca and urinary bladder. Frogs are **ureotelic**.
+
+**Nervous system.** A brain with ten pairs of cranial nerves, a spinal cord and ten pairs of spinal nerves.
+
+**Reproduction and life history.** The sexes are separate. In the monsoon, the male croaks with vocal sacs and clasps the female (**amplexus**). The eggs are laid in water and **fertilised externally**. Egg → **tadpole** (gills, tail, a fish-like form) → **metamorphosis**: the gills and the tail are lost and the limbs and lungs develop → young frog → adult.
+
+| Stage | Respiratory organ | Habitat |
+|---|---|---|
+| Tadpole | External, then internal gills | Water |
+| Adult frog | Lungs, skin, mouth lining | Water and land |
+
+**Economic importance.** Frogs feed on insects such as mosquitoes and crop pests, and act as a link in food chains; they are used in dissection and in physiology laboratories; the decline of frogs is also an early warning of pollution.
+
+**Conclusion.** The frog has a skin and lungs for breathing, a three-chambered heart and external fertilisation with metamorphosis, which show its position between fish and reptiles.
