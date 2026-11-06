@@ -271,3 +271,73 @@ When the retention is released:
 *Formats (1).* धरौटी भौचर, धरौटी खाता with one account per party, personal and general retention ledgers, retention bank cash book.
 *Journal vouchers (3).* (i) When the bill is passed and retention withheld: expenditure A/c Dr. (full bill); To Contractors' retention A/c (amount withheld); To Bank/DTCO A/c (net paid). (ii) When released: Contractors' retention A/c Dr.; To Bank A/c. (iii) When forfeited after the defect is not remedied: Contractors' retention A/c Dr.; To Repair and maintenance expenditure A/c (cost of remedying); To Miscellaneous revenue A/c (balance forfeited). Show the figures of a worked example, for instance a bill of Rs. 4,00,000 with 5 per cent retention and a defect costing Rs. 12,000.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. What is a fund? Explain the consolidated fund and the divisible fund, and the importance of revenue sharing. <span class="marks">[10]</span>
+2. What is retention money? A contractor's bill is Rs 4,00,000. Retention of 5% and income tax of 1.5% are deducted at source. Find the net payment and pass the entries, and explain the kinds of retention. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="3" ratio="1.0" caption="Public funds and who controls them. The Federal Parliament passes the appropriation, the Ministry of Finance manages the funds and the old Nepali note recalls that public money has always needed rules."
+@ photo id="acc10/parliament" cap="Federal Parliament"
+@ photo id="acc10/finance-ministry" cap="Ministry of Finance"
+@ photo id="acc10/old-note" cap="Old Nepali note"
+```
+
+### Model answer D1: consolidated fund and divisible fund (10 marks)
+
+**Introduction.** A **fund** is a separate pool of money for a stated purpose. Nepal's government accounting is fund based: the consolidated fund, the contingency fund, the divisible fund, the retention and deposit fund and other funds created by law. Each has its own account, bank account and statement.
+
+**Consolidated fund.** All revenue is paid in; there is no payment without an appropriation act; expenditure is only for the approved purpose; the contingency fund meets unforeseen expenditure, which is regularised later. It is managed by the Ministry of Finance, accounted for by the FCGO, kept with Nepal Rastra Bank and audited by the Auditor General.
+
+**Divisible fund.** The pool of federal revenue, mainly **VAT, internal excise duty, income tax and royalties**, that is shared with the provinces and local levels. The **National Natural Resources and Fiscal Commission** recommends the shares and the formula (population, area, development level and revenue effort). Each recipient credits its share to its own consolidated fund.
+
+**Importance of revenue sharing.**
+
+1. It gives money to the lower levels for their constitutional duties.
+2. It reduces regional inequality.
+3. It strengthens federalism.
+4. It rewards revenue effort at local level.
+5. It brings a uniform tax system.
+6. It makes the planning of the lower levels predictable.
+
+| Basis | Consolidated fund | Divisible fund |
+|---|---|---|
+| Content | All revenue and loans | Shared federal taxes |
+| Use | Government's expenditure | Transfer to provinces and local levels |
+| Control | Appropriation act | Commission's formula and law |
+
+**Conclusion.** The funds divide public money by purpose, so that each rupee can be traced.
+
+### Model answer D2: retention money (10 marks)
+
+**Introduction.** **Retention** is money withheld from a payment due to a contractor, supplier or employee, and held until a condition is met. It is a **liability**, not revenue and not expenditure, until it is released or forfeited.
+
+**Net payment on the contractor's bill.**
+
+| Item | Calculation | Rs |
+|---|---|---|
+| Gross bill | | 4,00,000 |
+| Less: retention money | 5% of 4,00,000 | (20,000) |
+| Less: income tax deducted at source | 1.5% of 4,00,000 | (6,000) |
+| **Net payment to the contractor** | | **3,74,000** |
+
+(The rates are those of the question; the actual rates follow the current law.)
+
+**Journal entries.**
+
+| Particulars | Dr (Rs) | Cr (Rs) |
+|---|---|---|
+| Construction expenditure A/c Dr. | 4,00,000 | |
+| To Bank A/c (net payment) | | 3,74,000 |
+| To Retention money A/c | | 20,000 |
+| To Income tax payable (TDS) A/c | | 6,000 |
+
+The tax of Rs 6,000 must be deposited in the revenue account on time; the retention of Rs 20,000 is paid back after the defects liability period if the work is sound.
+
+**Kinds of retention.**
+
+1. **Goods retention** – held from the supplier until the goods are inspected and accepted.
+2. **Works retention** – held from the contractor until the defects liability period ends.
+3. **Personal retention** – deductions from employees such as provident fund, tax and citizen investment trust, held and paid to the right agency.
+
+**Conclusion.** Retention protects the office from bad work and makes sure that taxes and deductions reach their destination.
