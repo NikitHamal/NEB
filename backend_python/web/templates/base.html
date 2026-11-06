@@ -121,9 +121,12 @@
   }
   </script>
   {% block head_extra %}{% endblock %}
-  <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
+  {# Preload only URLs that fonts.css asks for byte-for-byte (a preload with a different query is fetched twice and used by nobody). The icon font carries ?v= in fonts.css, so it carries it here too. Weights 400-700 are the ones the app paints above the fold. #}
   <link rel="preload" href="{% static 'web/fonts/app/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-500-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{% static 'web/fonts/app/poppins-600-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-700-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}?v=20261105a" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% asset 'web/css/fonts.css' %}">
   <link rel="stylesheet" href="{% asset 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% asset 'web/css/app.css' %}">
@@ -142,7 +145,7 @@
   <link rel="stylesheet" href="{% asset 'web/css/pages/tools.css' %}">
   <link rel="stylesheet" href="{% asset 'web/css/neby-avatar.css' %}">
   <link rel="stylesheet" href="{% asset 'web/css/neby-pixel.css' %}">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% asset 'web/css/ai-widgets.css' %}">
   {% comment %} Reconcile the theme before the first paint. The server renders the session's
@@ -656,9 +659,9 @@
   <script nonce="{{ csp_nonce }}" src="{% asset 'web/js/poll-card.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-insights.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/post-reach.js' %}"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/mhchem.min.js"></script>
-  <script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}" defer></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/mhchem.min.js' %}" defer></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/auto-render.min.js' %}" defer></script>
   <script nonce="{{ csp_nonce }}">
     window.KATEX_CONFIG = {
       delimiters: [
