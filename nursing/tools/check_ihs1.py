@@ -68,6 +68,12 @@ T.update(u4_mv=mv, u4_av=av, u4_fev=f"{fev:.0f}", u4_pbw=f"{pbw:.1f}", u4_tv6=f"
          u4_cao2=f"{cao2:.1f}", u4_patm=f"{patm_ktm:.0f}", u4_pao2_sl=f"{pao2_sl:.0f}", u4_pao2_ktm=f"{pao2_ktm:.0f}",
          u4_winter=f"{winter:.0f}", u4_ag=ag, u4_cyl=f"{cyl:.0f}", u4_fio2=21 + 4 * 4, u4_ds_frac=f"{vd / tv * 100:.0f}",
          u4_mv_fast=f"{tv * 28}", u4_av_fast=f"{(tv - vd) * 28}")
+vc = 500 + 3000 + 1100; tlc = vc + 1200; frc = 1100 + 1200; ic = 500 + 3000
+chk("vc", vc, 4600); chk("tlc", tlc, 5800); chk("frc", frc, 2300); chk("ic", ic, 3500)
+chk("shallow av", (250 - 150) * 28, 2800); chk("shallow mv", 250 * 28, 7000)
+chk("hh resp", round(hh(26, 60), 2), 7.26); chk("fev copd", 1.2 / 2.4 * 100, 50.0)
+T.update(u4_vc=vc, u4_tlc=tlc, u4_frc=frc, u4_ic=ic, u4_shallow=(250 - 150) * 28, u4_ph_resp=f"{hh(26, 60):.2f}",
+         u4_fev_copd=f"{1.2 / 2.4 * 100:.0f}", u4_hco3_ratio=f"{26 / (0.03 * 60):.1f}")
 # ---- Unit 5: digestion and metabolism
 hb_bmr = 655.1 + 9.563 * 54 + 1.850 * 158 - 4.676 * 20
 mif = 10 * 54 + 6.25 * 158 - 5 * 20 - 161
@@ -80,6 +86,8 @@ T.update(u5_hb=f"{hb_bmr:.0f}", u5_mif=f"{mif:.0f}", u5_tee=f"{tee:.0f}", u5_kca
          u5_cho_pct=f"{300 * 4 / kcal * 100:.0f}", u5_pro_pct=f"{70 * 4 / kcal * 100:.0f}", u5_fat_pct=f"{60 * 9 / kcal * 100:.0f}",
          u5_ors=ors_osm, u5_glu=f"{glu_mm:.0f}", u5_fpg=f"{100 / 18.016:.1f}", u5_fpg126=f"{126 / 18.016:.1f}",
          u5_bili=f"{3.0 - 0.8:.1f}", u5_zinc=20 * 10, u5_ors_ml=f"{75 * 4:.0f}", u5_gi_secr=1500 + 1500 + 1500 + 500 + 2000)
+chk("si", round(108 / 98, 2), 1.10); chk("map pud", round((98 + 120) / 3, 1), 72.7); chk("ors ml", 75 * 4, 300)
+T.update(u5_si=f"{108 / 98:.2f}", u5_map=f"{(98 + 120) / 3:.1f}", u5_ppi_days=14 * 2)
 
 def exec_blocks(files):
     """Run every ```python block that is directly followed by a ```text block; stdout must equal that block."""

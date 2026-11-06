@@ -9905,6 +9905,19 @@
   "source": "Wikimedia Commons",
   "title": "Normal posteroanterior (PA) chest radiograph (X-ray)"
  },
+ "nur1/dalbhat": {
+  "author": "Subhashish Panigrahi",
+  "bytes": 609183,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur1/dalbhat.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nepali_dal-bhat-tarkari.jpg",
+  "sha1": "63748849c3357e96",
+  "source": "Wikimedia Commons",
+  "title": "Nepali dal-bhat-tarkari"
+ },
  "nur1/ecg": {
   "author": "Glenlarson",
   "bytes": 99286,
@@ -9918,6 +9931,19 @@
   "source": "Wikimedia Commons",
   "title": "12 lead generated sinus rhythm"
  },
+ "nur1/fundic": {
+  "author": "Carrasco G, Corvalan AH",
+  "bytes": 2615752,
+  "credit": "Carrasco G, Corvalan AH (2013). \" Helicobacter pylori-Induced Chronic Gastritis and Assessing Risks for Gastric Cancer. \". Gastroenterol Res Pract 2013 : 393015",
+  "fetched": "2026-11-06",
+  "file": "nur1/fundic.png",
+  "license": "CC BY 3.0",
+  "license_url": "https://creativecommons.org/licenses/by/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Histology_of_normal_fundic_mucosa.png",
+  "sha1": "551f79b2d27086a3",
+  "source": "Wikimedia Commons",
+  "title": "Histology of normal fundic mucosa"
+ },
  "nur1/ida": {
   "author": "Ed Uthman from Houston, TX, USA",
   "bytes": 868205,
@@ -9930,6 +9956,19 @@
   "sha1": "99a57d33080aec90",
   "source": "Wikimedia Commons",
   "title": "Iron-deficiency Anemia, Peripheral Blood Smear (4422704616)"
+ },
+ "nur1/liver": {
+  "author": "Paulo Abrahamsohn",
+  "bytes": 162723,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur1/liver.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Liver-H%26E.jpg",
+  "sha1": "2c6099050a10e15f",
+  "source": "Wikimedia Commons",
+  "title": "Liver-H&E"
  },
  "nur1/peakflow": {
   "author": "No machine-readable author provided. Tomhannen assumed (based on copyright claims).",
