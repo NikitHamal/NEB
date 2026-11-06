@@ -799,63 +799,17 @@ def _get_valid_token(request):
         return None
 
 def _resolve_ws_public_url():
-    """Resolve the public WebSocket URL (uncached).
+    """Optional self-hosted WebSocket URL (WS_PUBLIC_URL), nothing else.
 
-    Priority:
-       1. WS_PUBLIC_URL env var or settings.WS_PUBLIC_URL (explicit override — stable named tunnel)
-       2. Most-recent trycloudflare.com URL by file mtime (ws_url.txt, start_ws_tunnel.log,
-          cloudflared.log, /tmp/cf_quick*.log). We pick the NEWEST file that contains a
-          URL, not the first match — ws_url.txt can be stale after a reboot while
-          cloudflared.log already has the fresh URL.
-       3. Empty string (realtime.js falls back to polling).
+    Realtime for the site and app goes through Ably (api/realtime_ably.py), so
+    no tunnel is scraped or started any more. Set WS_PUBLIC_URL only if you run
+    Daphne behind a host that can really proxy WebSockets.
     """
     explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
-    if not explicit and hasattr(settings, 'WS_PUBLIC_URL'):
+    if not explicit:
         explicit = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
-    if explicit:
-        return explicit
-    import glob, re
-    candidates = []
-    log_paths = [
-        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-        os.path.join(settings.BASE_DIR, 'logs', 'cloudflared.log'),
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-    ] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
-    for path in log_paths:
-        try:
-            with open(path, 'rb') as f:
-                f.seek(0, 2)
-                f.seek(max(0, f.tell() - 65536))
-                content = f.read().decode('utf-8', 'ignore')
-            matches = re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if matches:
-                host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                url = 'wss://' + host + '/ws/'
-                try:
-                    mtime = os.path.getmtime(path)
-                except OSError:
-                    mtime = 0
-                candidates.append((mtime, url))
-        except OSError:
-            continue
-    if candidates:
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return candidates[0][1]
-    # Fallback: ws_url.txt (written by deploy as cache, not authoritative)
-    try:
-        ws_txt = os.path.join(settings.BASE_DIR, 'ws_url.txt')
-        with open(ws_txt) as f:
-            content = f.read().strip()
-        if content:
-            m = re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
-            if content.startswith('wss://'):
-                return content.strip()
-    except OSError:
-        pass
-    return ''
+    return explicit
+
 
 def _get_ws_public_url():
     """Return the public WebSocket URL, cached for 15s to avoid per-request file I/O.
@@ -871,13 +825,6 @@ def _get_ws_public_url():
         url = _resolve_ws_public_url()
         if url:
             cache.set('ws_public_url_resolved', url, 15)
-    if url:
-        try:
-            from nebians.tunnel_health import is_tunnel_healthy
-            if not is_tunnel_healthy():
-                return ''
-        except Exception:
-            pass
     return url
 
 def _client_ip(request):
