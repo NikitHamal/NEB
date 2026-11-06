@@ -249,7 +249,7 @@ com.neb.ians/
 - **Log File:** `/home/consicac/nebians_api/logs/nebians.log`
 - **Domain:** `nebians.consica.com.np` (also `www.nebians.consica.com.np`)
 - **Daphne (WebSocket server):** `127.0.0.1:8001` (background, managed via crontab `@reboot`). Log: `/home/consicac/nebians_api/logs/daphne.log`
-- **Cloudflared (WS tunnel):** Background process; `~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001`. Log: `/home/consicac/nebians_api/logs/cloudflared.log`
+- **Cloudflared (WS tunnel): RETIRED, do not run it (see PERF_REALTIME_STATUS.md).** Was a background process; `~/.local/bin/cloudflared --protocol http2 --url http://127.0.0.1:8001`. Log: `/home/consicac/nebians_api/logs/cloudflared.log`
 
 ### CRITICAL: How to Deploy
 **ALWAYS use the local deploy script â€” NEVER use manual SCP/SSH commands.**
@@ -718,7 +718,10 @@ data: [DONE]
 
 ---
 
-## Real-Time WebSockets (Channels + Daphne + Cloudflare Tunnel)
+## Real-Time (HISTORICAL: Channels + Daphne + Cloudflare Tunnel)
+
+> **Superseded.** Realtime now runs over Ably SSE with no tunnel and no socket on our server. Read `PERF_REALTIME_STATUS.md` first. The text below is kept only for the optional self-hosted `WS_PUBLIC_URL` path (canvas / study-space collaboration) and for history; do not start cloudflared.
+
 
 The NEBians web frontend (and any future client) gets live updates â€” new posts, replies, likes, notifications, follow changes, message events â€” over a single WebSocket connection. No polling, no FCM for the web.
 

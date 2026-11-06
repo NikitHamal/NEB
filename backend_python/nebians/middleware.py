@@ -24,15 +24,11 @@ def _resolve_ws_public_url():
 
 
 def _get_ws_public_url_cached():
-    """Cached (15s) resolution of the public WS URL — avoids per-request file I/O."""
-    # Don't cache empty — next request should retry immediately to pick up a new tunnel.
-    # A down tunnel resolves to '' so clients use polling instead of a dead host.
-    url = cache.get('ws_public_url_resolved')
-    if url is None:
-        url = _resolve_ws_public_url()
-        if url:
-            cache.set('ws_public_url_resolved', url, 15)
-    return url
+    """The optional self-hosted WS URL. Read straight from the environment: it used to
+    be cached in Redis, which cost a network round trip on every request (this runs
+    for static files and API calls too) to remember a string that is almost always empty."""
+    return _resolve_ws_public_url()
+
 
 SENSITIVE_PATHS_404 = (
     '/.git/',
