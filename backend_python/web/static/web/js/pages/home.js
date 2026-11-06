@@ -25,6 +25,30 @@
       const el = document.getElementById('forum-post-reply-count-' + data.post_id);
       if (el) el.textContent = (parseInt(el.textContent || '0', 10) || 0) + 1;
     });
+    // Live feed: a new post from someone else offers a refresh (never moves what you are reading);
+    // a deleted post leaves the page. After a long gap (hidden tab, lost network) any of it may have
+    // been missed, so the same offer is made once.
+    var pendingPosts = 0;
+    var offerRefresh = function (message) {
+      if (!window.NebToast) return;
+      window.NebToast.show(message, { tone: 'info', duration: 12000, action: { label: 'Show', onClick: function () { window.location.reload(); } } });
+    };
+    window.WS.on('forum.public:post.created', function (data) {
+      if (!data || !data.id) return;
+      var me = (typeof USER_DATA !== 'undefined' && USER_DATA) ? String(USER_DATA.id || '') : '';
+      if (me && String(data.authorId || '') === me) return;
+      pendingPosts += 1;
+      offerRefresh(pendingPosts === 1 ? 'New post' : pendingPosts + ' new posts');
+    });
+    window.WS.on('forum.public:post.deleted', function (data) {
+      if (!data || !data.post_id) return;
+      document.querySelectorAll('[data-post-id="' + data.post_id + '"].post-card, [data-post-id="' + data.post_id + '"].forum-post-card').forEach(function (card) {
+        card.style.transition = 'opacity .2s';
+        card.style.opacity = '0';
+        setTimeout(function () { card.remove(); }, 220);
+      });
+    });
+    window.addEventListener('neb:realtime-resync', function () { offerRefresh('Feed updated'); });
     window.WS.on('user:follow.changed', function (data) {
       if (!data) return;
       // Refresh on next user navigation; for now, a snackbar
