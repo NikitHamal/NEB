@@ -203,3 +203,81 @@ f.text(150, 228, "syllable-timed would need 0.75, 1.5, 2.25 s", size=10.5, color
 **5.** (d) — the initial *p* is not pronounced: /saɪˈkɒlədʒi/.
 **6.** (c) — e-**CON**-o-my.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Describe the English phonemes (vowels and consonants), with the classification of consonants and phonetic transcription of words. <span class="marks">[10]</span>
+2. Explain syllables, word stress and sentence stress, with rules and examples. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="2" ratio="1.6" caption="Sound made visible and audible. (a) A spectrogram of the vowel in see, where each dark band is a formant, a frequency the vocal tract strengthens. (b) A metronome ticks at an even rate, as the stressed syllables of English approximately do."
+@ photo id="ioeeng/spectro" cap="(a) Spectrogram"
+fit 1.6
+focus 0.5 0.5
+@ photo id="ioeeng/metronome" cap="(b) Metronome"
+fit 1.6
+focus 0.5 0.5
+```
+
+### Model answer D1: The English phonemes (10 marks)
+
+**Introduction.** English spelling is not phonetic, so we count **sounds** and not letters. A **phoneme** is the smallest unit of sound that can change meaning: *ship* /ʃɪp/ and *sheep* /ʃiːp/ differ only in one phoneme. Received Pronunciation (RP) has **44 phonemes**: **20 vowels** and **24 consonants**.
+
+**Vowels (20).**
+
+1. **12 monophthongs (pure vowels):** short /ɪ e æ ʌ ɒ ʊ ə/ and long /iː ɑː ɔː uː ɜː/. Examples: *sit* /sɪt/, *bed* /bed/, *cat* /kæt/, *cup* /kʌp/, *hot* /hɒt/, *put* /pʊt/, *about* /əˈbaʊt/, *see* /siː/, *car* /kɑː/, *saw* /sɔː/, *blue* /bluː/, *bird* /bɜːd/.
+2. **8 diphthongs (glides):** /eɪ aɪ ɔɪ əʊ aʊ ɪə eə ʊə/. Examples: *day* /deɪ/, *my* /maɪ/, *boy* /bɔɪ/, *go* /ɡəʊ/, *now* /naʊ/, *here* /hɪə/, *air* /eə/, *tour* /tʊə/.
+
+**Consonants (24)** are described by **manner** and **voicing**.
+
+| Manner | Voiceless | Voiced |
+|---|---|---|
+| Plosives | /p, t, k/ | /b, d, ɡ/ |
+| Affricates | /tʃ/ (church) | /dʒ/ (judge) |
+| Fricatives | /f, θ, s, ʃ, h/ | /v, ð, z, ʒ/ |
+| Nasals | – | /m, n, ŋ/ |
+| Lateral, approximants | – | /l, r, w, j/ |
+
+**Notes.** A sound is **voiced** when the vocal cords vibrate (put a finger on the throat while saying /z/ and /s/). The fricatives /θ/ (*thin*) and /ð/ (*this*) are formed with the tongue tip between the teeth, and Nepali speakers often replace them with /t̪/ and /d̪/.
+
+**Transcription practice.**
+
+| Word | Transcription | Phonemes |
+|---|---|---|
+| thought | /θɔːt/ | 3 |
+| measure | /ˈmeʒə/ | 4 |
+| church | /tʃɜːtʃ/ | 3 |
+| sing | /sɪŋ/ | 3 |
+| judge | /dʒʌdʒ/ | 3 |
+| box | /bɒks/ | 4 |
+
+The word *box* has three letters but four sounds, while *sing* has four letters but three sounds, which shows that letters and phonemes are different.
+
+**Conclusion.** The phoneme chart is the key to correct pronunciation and to dictionary symbols, and minimal pairs prove that each phoneme is distinct.
+
+### Model answer D2: Syllables and stress (10 marks)
+
+**Introduction.** A **syllable** is a unit of speech with one vowel sound, with or without consonants round it. *Book* has one syllable, *teacher* two (/ˈtiː.tʃə/), *information* four (/ˌɪn.fəˈmeɪ.ʃən/). **Stress** is the extra force given to a syllable.
+
+**Word stress rules.**
+
+1. **Two-syllable nouns and adjectives** are usually stressed on the first syllable: *TAble, PRESent* (noun), *HAPpy*.
+2. **Two-syllable verbs** are usually stressed on the second: *preSENT* (verb), *deCIDE*, *beGIN*.
+3. **Noun–verb pairs** change stress: *REcord* (noun) / *reCORD* (verb), *IMport* / *imPORT*.
+4. **Compound nouns** take stress on the first part: *BLACKboard, GREENhouse*; **compound verbs** on the second: *underSTAND*.
+5. **Words ending in -tion, -sion, -ic, -ical, -ial** are stressed on the syllable before the ending: *eduCAtion, ecoNOmic, poLItical, ofFIcial*.
+6. **Words ending in -ity, -graphy, -logy** are stressed on the third syllable from the end: *aBILity, phoTOgraphy, bioLOgy*.
+7. **Prefixes and suffixes** such as *un-, -ness, -ing* usually do not move the stress: *HAPpy → unHAPpy*.
+
+**Sentence stress and rhythm.** In connected speech the **content words** (nouns, main verbs, adjectives, adverbs) are stressed and the **function words** (articles, prepositions, auxiliaries) are weak and often contain /ə/. English is **stress-timed**, so the two sentences below, which have different numbers of syllables, take nearly equal time between the stressed words: *DOGS chase CATS.* *The DOGS are CHASing the CATS.*
+
+**Intonation.** A **falling tone** is used for statements, commands and wh-questions (*Where do you live?*). A **rising tone** is used for yes/no questions (*Are you coming?*) and for lists that are not finished.
+
+| Item | Rule | Example |
+|---|---|---|
+| Noun / verb | First / second syllable | *PREsent / preSENT* |
+| -ic, -tion | Syllable before the ending | *ecoNOmic* |
+| -ity | Third from the end | *aBILity* |
+| Wh-question | Falling tone | *Where is it?* |
+| Yes/no question | Rising tone | *Is it here?* |
+
+**Conclusion.** Correct stress and rhythm help a listener understand speech and decide the meaning and the part of speech of a word.
