@@ -8,7 +8,7 @@
 {% block og_description %}Get free {{ grade }} {{ subject }} study notes, NEB past papers, model questions, and syllabus resources on NEBians.{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
+<link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/subject-page.css' %}">
 {% endblock %}
 
@@ -625,8 +625,8 @@
 {% endblock %}
 
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script nonce="{{ csp_nonce }}" src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/auto-render.min.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus-interactive.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
   if (window.NebiansSyllabus) window.NebiansSyllabus.init(document);
