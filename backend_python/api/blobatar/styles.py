@@ -7,7 +7,6 @@ hexagon, sun, triangle), a shared body/eyes composer and the frozen band table.
 import math
 
 from .shape import blob_path, box, polygon, superellipse, taper
-from .traits import Traits
 
 
 def _poly(b):

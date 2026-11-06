@@ -1,0 +1,7 @@
+{% comment %} The one back affordance. Pass back_href (the page you land on when
+   there is no history), back_label for the accessible name, and back_class for
+   the one variant there is: neb-back-on-art, for a circle sitting on cover art
+   that does not follow the theme. {% endcomment %}
+<a href="{{ back_href }}" class="neb-back {{ back_class }}" data-action="go-back" {% firstof back_label "Go back" as back_name %}title="{{ back_name }}" aria-label="{{ back_name }}">
+  <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+</a>

@@ -16,7 +16,6 @@ anyone mint a valid token for an arbitrary email via our Firebase project.
 import logging
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
-from rest_framework.exceptions import AuthenticationFailed
 from .models import User
 from .security import get_user_by_auth_token, hash_auth_token  # noqa: F401 (re-exported)
 

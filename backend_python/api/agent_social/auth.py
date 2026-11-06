@@ -1,6 +1,5 @@
 """Agent API keys — moltbook-style bearer tokens."""
 import hashlib
-import hmac
 import re
 import secrets
 

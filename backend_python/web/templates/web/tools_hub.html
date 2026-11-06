@@ -1,70 +1,59 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}Free Online Study & Document Tools — NEBians{% endblock %}
-{% block description %}Access free online study tools on NEBians — NEB result checker, PDF document converter, text to speech, and AI study assistants.{% endblock %}
+{% block title %}Free Online Study and Document Tools | NEBians{% endblock %}
+{% block description %}Free online study tools on NEBians: NEB result checker, PDF document converter, text to speech, and AI study assistants.{% endblock %}
 {% block body_class %}tools-page-body{% endblock %}
 
 {% block content %}
 <section class="tools-page">
   <div class="tools-page-shell">
     <header class="tools-page-header">
-      <a href="{% url 'web:home' %}" class="md-btn-icon" title="Back" aria-label="Back to home" data-action="go-back">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
-      <div class="tools-page-header-copy">
-        <p class="tools-page-eyebrow">Available utilities</p>
-        <h1 class="md-headline-large-emphasized tools-page-title">Tools</h1>
-      </div>
+      {% url 'web:home' as back_href %}
+      {% include "web/partials/_back.html" with back_label="Back to Home" %}
+      <h1 class="md-headline-large-emphasized tools-page-title">Tools</h1>
     </header>
 
-    <div class="tools-grid neb-opt-bank">
-      <a href="{% url 'web:result_check' %}" class="tools-card" style="--tool-accent: var(--md-primary);">
-        <div class="tools-card-head">
-          <span class="tools-card-icon md-shape-opt"><span class="material-symbols-outlined">fact_check</span></span>
-          <h2 class="tools-card-title">Result Checker</h2>
-        </div>
-        <p class="tools-card-description">Quickly check and track SEE/Class 11/12 exam gradesheets and statistics.</p>
-        <span class="tools-card-action">Open tool <span class="material-symbols-outlined">arrow_forward</span></span>
+    <div class="tools-grid">
+      <a href="{% url 'web:result_check' %}" class="tools-card" data-tone="primary" style="--i: 0;">
+        <span class="tools-card-icon"><span class="material-symbols-outlined">fact_check</span></span>
+        <span class="tools-card-text">
+          <span class="tools-card-title">Result Checker</span>
+          <span class="tools-card-description">Check and track SEE, Class 11 and Class 12 gradesheets.</span>
+        </span>
+        <span class="tools-card-foot"><span></span><span class="tools-card-go"><span class="material-symbols-outlined">arrow_forward</span></span></span>
       </a>
-
-      <a href="{% url 'web:doc_tools' %}" class="tools-card" style="--tool-accent: var(--md-primary);">
-        <div class="tools-card-head">
-          <span class="tools-card-icon md-shape-opt"><span class="material-symbols-outlined">description</span></span>
-          <h2 class="tools-card-title">Lazy Tools</h2>
-        </div>
-        <p class="tools-card-description">Convert PDFs to pixel-faithful Word, merge, split, rotate, compress, extract images, and build PDFs from photos.</p>
-        <span class="tools-card-action">Open tools <span class="material-symbols-outlined">arrow_forward</span></span>
+      <a href="{% url 'web:doc_tools' %}" class="tools-card" data-tone="secondary" style="--i: 1;">
+        <span class="tools-card-icon"><span class="material-symbols-outlined">description</span></span>
+        <span class="tools-card-text">
+          <span class="tools-card-title">Lazy Tools</span>
+          <span class="tools-card-description">Convert PDFs to Word, merge, split, rotate, compress and build PDFs from photos.</span>
+        </span>
+        <span class="tools-card-foot"><span></span><span class="tools-card-go"><span class="material-symbols-outlined">arrow_forward</span></span></span>
       </a>
-
-      <a href="{% url 'web:intelligence_tools' %}" class="tools-card" style="--tool-accent: var(--md-primary);">
-        <span class="tools-card-badge">ON-DEVICE</span>
-        <div class="tools-card-head">
-          <span class="tools-card-icon md-shape-opt"><span class="material-symbols-outlined">neurology</span></span>
-          <h2 class="tools-card-title">Doc Intelligence</h2>
-        </div>
-        <p class="tools-card-description">Turn scanned paper into clean text, handwritten math into LaTeX, and photos into perfect scans with offline ML.</p>
-        <span class="tools-card-action">Open intelligence <span class="material-symbols-outlined">arrow_forward</span></span>
+      <a href="{% url 'web:intelligence_tools' %}" class="tools-card" data-tone="tertiary" style="--i: 2;">
+        <span class="tools-card-icon"><span class="material-symbols-outlined">neurology</span></span>
+        <span class="tools-card-text">
+          <span class="tools-card-title">Doc Intelligence</span>
+          <span class="tools-card-description">Scans to clean text, handwritten maths to LaTeX, photos to perfect scans.</span>
+        </span>
+        <span class="tools-card-foot"><span class="tools-card-badge">On-device</span><span class="tools-card-go"><span class="material-symbols-outlined">arrow_forward</span></span></span>
       </a>
-
-      <a href="{% url 'web:whisper_tool' %}" class="tools-card tools-card--green" style="--tool-accent: #168447;">
-        <span class="tools-card-badge">STT · ON-DEVICE</span>
-        <div class="tools-card-head">
-          <span class="tools-card-icon md-shape-opt"><span class="material-symbols-outlined">mic</span></span>
-          <h2 class="tools-card-title">Voice → Text</h2>
-        </div>
-        <p class="tools-card-description">Whisper speech recognition for Hindi and English with VAD, timestamps, offline models, and private on-device processing.</p>
-        <span class="tools-card-action">Open Whisper <span class="material-symbols-outlined">arrow_forward</span></span>
+      <a href="{% url 'web:whisper_tool' %}" class="tools-card" data-tone="secondary" style="--i: 3;">
+        <span class="tools-card-icon"><span class="material-symbols-outlined">mic</span></span>
+        <span class="tools-card-text">
+          <span class="tools-card-title">Voice to Text</span>
+          <span class="tools-card-description">Speech recognition with timestamps, running privately in your browser.</span>
+        </span>
+        <span class="tools-card-foot"><span class="tools-card-badge">On-device</span><span class="tools-card-go"><span class="material-symbols-outlined">arrow_forward</span></span></span>
       </a>
-
-      <a href="{% url 'web:tts_tool' %}" class="tools-card tools-card--purple" style="--tool-accent: #7434d6;">
-        <span class="tools-card-badge">TTS · ON-DEVICE</span>
-        <div class="tools-card-head">
-          <span class="tools-card-icon md-shape-opt"><span class="material-symbols-outlined">volume_up</span></span>
-          <h2 class="tools-card-title">Text → Voice</h2>
-        </div>
-        <p class="tools-card-description">Kokoro on-device speech with 11 voices, streaming generation, Hindi support, and WAV, OGG, or MP4 export.</p>
-        <span class="tools-card-action">Open Kokoro <span class="material-symbols-outlined">arrow_forward</span></span>
+      <a href="{% url 'web:tts_tool' %}" class="tools-card" data-tone="primary" style="--i: 4;">
+        <span class="tools-card-icon"><span class="material-symbols-outlined">volume_up</span></span>
+        <span class="tools-card-text">
+          <span class="tools-card-title">Text to Voice</span>
+          <span class="tools-card-description">Natural speech with 11 voices, exported as WAV, OGG or MP4.</span>
+        </span>
+        <span class="tools-card-foot"><span class="tools-card-badge">On-device</span><span class="tools-card-go"><span class="material-symbols-outlined">arrow_forward</span></span></span>
       </a>
     </div>
   </div>

@@ -1,6 +1,6 @@
 # SUBJECT: Computer Science | GRADE: 8
 # EXAM: School annual examination, 2 hr, FM 50 written (+ practical) | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20
-# SOURCE: CDC Computer Education, Grade 8 — the twenty lessons of the CDC course and its teacher's guide (शिक्षक निर्देशिका, कम्प्युटर, कक्षा ८), in the same order. Content is brought up to date where the old course named software that is no longer in use (Office 2007, Windows XP); the QBASIC lesson is kept because it is still taught and examined in grade 8, and each programming lesson shows the same idea in Python, the language of the grade 9-10 CDC course.
+# SOURCE: CDC Computer Education, Grade 8 — the twenty lessons of the CDC course and its teacher's guide (शिक्षक निर्देशिका, कम्प्युटर, कक्षा ८), in the same order. Content is brought up to date where the old course named software that is no longer in use (Office 2007, Windows XP). The programming lesson (20) teaches Python, the language of the grade 9-10 CDC course that follows; the older BASIC lesson was removed from the Class 8 syllabus (confirmed by a Class 8 teacher; see SCHOOL_SOURCES.md).
 # NOTE: computer science at the basic level is examined by the school; the practice sets use the 50-mark shape of the SEE computer science paper (MCQ 1, short 2, long 4) so that grade 8 practice leads straight into grades 9 and 10. The CDC guide sets 4-5 periods for each lesson of the fundamentals part.
 # AREA: Computer Fundamentals
 ## 1. Fundamentals of Computer
@@ -125,13 +125,14 @@
 - Programming languages: low-level (machine and assembly) and high-level languages
 - Language processors: compiler, interpreter and assembler
 - Syntax errors, logical errors and run-time errors; testing and debugging
-- Common high-level languages: QBASIC, Python, C and Java
+- Common high-level languages: Python, C and Java
 - Constants, variables and data types
-## 20. Computer Programming using QBASIC
-- QBASIC: features and the QBASIC screen
-- Character set, constants, variables and operators
-- Statements: CLS, REM, LET, INPUT, PRINT and END
-- Library functions: mathematical and string functions
-- Selection: IF...THEN...ELSE and SELECT CASE
-- Loops: FOR...NEXT, WHILE...WEND and DO...LOOP
-- Writing, running and debugging simple programs
+## 20. Computer Programming using Python
+- Python: features, installing Python, IDLE and the two modes (interactive and script); the first program
+- Character set, keywords, identifiers, comments, constants, variables and data types (int, float, str, bool)
+- Operators and expressions: arithmetic, relational, logical and assignment; order of operations
+- Input and output: print() with sep and end, input(), type conversion and f-strings
+- Built-in functions and the math module; string indexing, slicing and methods
+- Selection: if, if...else, if...elif...else and nested if
+- Loops: for with range(), while, break and nested loops
+- Writing, running and debugging simple programs: syntax, run-time and logical errors; trace tables

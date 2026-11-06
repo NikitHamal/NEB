@@ -1,0 +1,32 @@
+/* Avatar frames and badges, last word.
+   1. A picture frame has no stroke, ring or outline: the shape (clip-path) is the only edge.
+      The two rings that stay are cut from the surface colour behind a badge or camera, not drawn
+      around the picture.
+   2. A badge never leaves the line its name is on. Any element that holds a .role-badge next to a
+      name is a single nowrap row; the name truncates, the badge keeps its size. */
+
+:is(
+  .avatar-ring, .profile-dropdown-avatar, .post-card-avatar, .fp-avatar, .fp-reply-avatar, .fp-thread-avatar,
+  .rcard-avatar, .resource-card-avatar, .forum-contributor-avatar, .user-search-avatar, .leaderboard-avatar,
+  .suggest-post-avatar, .pf-reply-card-avatar, .hf-peer-avatar, .hf-side-avatar, .mkt-hero-avatar,
+  .mkt-member-avatar, .study-join-avatar, .behalf-avatar, .fp-identity-option-avatar, .hf-option-avatar,
+  .notif-avatar-real, .who-avatar-wrap, .pf-avatar-overlap-wrap, .pf-avatar-circle, [data-avatar-seed]
+) {
+  border: 0 !important; outline: 0 !important; box-shadow: none !important;
+}
+:is(.avatar-ring, [data-avatar-seed], [data-shape]) > :is(img, span, div):not(.avatar-badge-overlay, .notif-dot) { border: 0 !important; outline: 0 !important; }
+.avatar-ring { padding: 0; background: none; }
+
+/* ---------- badge on one line ---------- */
+.role-badge { display: inline-flex; flex: none; align-items: center; justify-content: center; vertical-align: middle; }
+:is(.post-card-meta-top, .author-line, .leaderboard-username, .profile-dropdown-name-row, .fp-author-line, .pf-reply-card-meta-top, .rcard-author, .hf-peer-name):has(> .role-badge) { white-space: nowrap; }
+:is(.post-card-meta-top, .author-line, .profile-dropdown-name-row):has(> .role-badge) { display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; min-width: 0; }
+:is(.post-card-meta-top, .author-line, .profile-dropdown-name-row) > :is(a, span):not(.role-badge) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* profile name: the verified tick and role badge ride the name's line, the name shrinks to fit */
+.profile-page .pf-card-body { container-type: inline-size; }
+.profile-page .pf-card-name-row { flex-wrap: nowrap; align-items: center; gap: 8px; min-width: 0; }
+.profile-page .pf-card-name {
+  min-width: 0; font-size: clamp(1.25rem, 8.4cqi, 1.75rem); overflow-wrap: anywhere; text-wrap: balance;
+}
+.profile-page .pf-card-name-row > :is(.pf-verified, .role-badge) { flex: none; }

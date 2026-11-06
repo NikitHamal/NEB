@@ -2,8 +2,15 @@
 <section class="syl-hub" data-syl-hub data-search-url="{% url 'web:syllabus_search' %}" data-base-url="{% url 'web:syllabus_hub' %}">
   <header class="syl-hub-head">
     <div class="syl-hub-intro">
-      <h1 class="syl-hub-title">Syllabus &amp; Study Notes</h1>
-      <p class="syl-hub-sub">Complete CDC &amp; NEB curriculum and entrance preparation with chapters, question banks, and worked examples.</p>
+      <div class="syl-hub-title-row">
+        <h1 class="syl-hub-title">Syllabus &amp; Study Notes</h1>
+        <div class="syl-search" role="search">
+          <button type="button" class="syl-search-toggle" data-syl-search-toggle aria-label="Search the syllabus" aria-expanded="false" aria-controls="syl-search-input"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+          <input type="search" class="syl-search-input" id="syl-search-input" data-syl-search placeholder="Search a topic, chapter or term in any class{% if syllabus_tracks %} or entrance book{% endif %}" aria-label="Search the syllabus" aria-controls="syl-results" aria-expanded="false" autocomplete="off" spellcheck="false" tabindex="-1">
+          <kbd class="syl-kbd" aria-hidden="true">/</kbd>
+          <div class="syl-search-results" id="syl-results" data-syl-results role="listbox" hidden></div>
+        </div>
+      </div>
       <div class="syl-hub-badges">
         <span class="syl-hub-badge"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span> Full Chapters &amp; Notes</span>
         <span class="syl-hub-badge"><span class="material-symbols-outlined" aria-hidden="true">quiz</span> Question Bank &amp; MCQs</span>
@@ -31,16 +38,8 @@
     <span class="material-symbols-outlined syl-continue-go" aria-hidden="true">arrow_forward</span>
   </a>
 
-  <div class="syl-search" role="search">
-    <span class="material-symbols-outlined" aria-hidden="true">search</span>
-    <input type="search" class="syl-search-input" data-syl-search placeholder="Search a topic, chapter or term in any class{% if syllabus_tracks %} or entrance book{% endif %}" aria-label="Search the syllabus" aria-controls="syl-results" aria-expanded="false" autocomplete="off" spellcheck="false">
-    <kbd class="syl-kbd" aria-hidden="true">/</kbd>
-    <div class="syl-search-results" id="syl-results" data-syl-results role="listbox" hidden></div>
-  </div>
-
   {% for g in syllabus_grades %}
   <div class="syl-grade-panel" id="syl-grade-{{ g.grade }}" role="tabpanel" data-syl-panel="{{ g.grade }}" {% if g.grade != syllabus_current_grade %}hidden{% endif %}>
-    <p class="syl-exam-line">{% if g.kind == 'entrance' %}Entrance preparation for {{ g.short }}: chapters written to the official syllabus with its question weightage, and MCQ practice with explained answers{% if syllabus_track_papers %}, plus model papers you can take as a timed test{% endif %}.{% else %}{{ g.label }} · {{ g.exam }}{% endif %}</p>
     {% regroup g.subjects by group as groups %}
     {% for grp in groups %}
     <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% else %}Science stream{% endif %}</h3>

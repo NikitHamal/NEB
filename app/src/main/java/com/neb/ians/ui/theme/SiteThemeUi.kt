@@ -93,7 +93,7 @@ fun SeasonCard(onAction: (String) -> Unit, modifier: Modifier = Modifier) {
         modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(container, primary.copy(alpha = 0.22f).compositeOver(container))))
+            .background(container)
     ) {
         // the festival's motif drifting slowly across the card, a few small and faint, in a layer
         // of its own so each frame redraws five small images and not the card

@@ -1,0 +1,277 @@
+/* m3x composer: the post dialog, its poll builder, the emoji popover.
+   Same recipe as every floating surface: --x-float fill, 1px edge, 28px corner, no shadow, spring entry.
+   Fill and label are always a role pair, so nothing can match its own background. */
+
+.hf-post-dialog {
+  background: var(--x-float); color: var(--md-on-surface);
+  border: 1px solid var(--x-float-line); border-radius: 28px; box-shadow: none;
+  width: min(94vw, 720px); height: min(92dvh, 860px);
+}
+.hf-post-dialog::backdrop {
+  background: color-mix(in srgb, var(--md-inverse-surface) 42%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.hf-post-dialog[open] { animation: hf-pop .5s var(--spring) both; }
+@keyframes hf-pop { from { opacity: 0; transform: scale(.92) translateY(18px); } to { opacity: 1; transform: none; } }
+
+#homePostForm .hf-dialog-header { gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--md-outline-variant); }
+#homePostForm .hf-dialog-header-left, #homePostForm .hf-dialog-header-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
+#homePostForm .hf-dialog-header-left { flex: 1 1 auto; }
+#homePostForm .hf-dialog-header-right { flex: 0 0 auto; }
+#homePostForm .hf-dialog-close-btn, #homePostForm .hf-mode-btn, #homePostForm .hf-format-btn, #homePostForm .hf-c-tool-btn {
+  border-radius: 50%; color: var(--md-on-surface-variant); background: transparent;
+  transition: background-color .15s, border-radius .45s var(--spring), color .15s;
+}
+#homePostForm .hf-dialog-close-btn:hover, #homePostForm .hf-format-btn:hover, #homePostForm .hf-c-tool-btn:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); color: var(--md-on-surface); }
+#homePostForm .hf-identity-trigger, #homePostForm .hf-cat-trigger {
+  min-height: 36px; border-radius: 18px; border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container); color: var(--md-on-surface); max-width: 100%;
+}
+#homePostForm .hf-identity-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+#homePostForm .hf-identity-picker { min-width: 0; }
+#homePostForm .hf-cat-trigger { color: var(--md-on-secondary-container); background: var(--md-secondary-container); border-color: transparent; }
+
+#homePostForm .hf-btn-publish {
+  width: 40px; height: 40px; flex: none; border: 0; border-radius: 50%;
+  background: var(--md-primary); color: var(--md-on-primary);
+  transition: border-radius .5s var(--spring), background-color .2s, transform .3s var(--spring);
+}
+#homePostForm .hf-btn-publish:hover:not(:disabled) { }
+#homePostForm .hf-btn-publish:active:not(:disabled) { transform: scale(.92); }
+#homePostForm .hf-btn-publish:disabled, #homePostForm .hf-btn-publish.is-disabled {
+  background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); color: color-mix(in srgb, var(--md-on-surface) 40%, transparent);
+}
+
+#homePostForm .hf-dialog-title-input {
+  font-family: var(--display, inherit); font-weight: 600; font-size: 1.375rem; letter-spacing: -.02em;
+  color: var(--md-on-surface); background: transparent; caret-color: var(--md-primary);
+}
+#homePostForm .hf-dialog-title-input::placeholder, #homePostForm #homePostContent::placeholder { color: var(--md-on-surface-variant); opacity: .8; }
+#homePostForm .hf-format-toolbar-row { gap: 8px; min-width: 0; }
+#homePostForm .hf-format-toolbar { overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1 1 auto; }
+#homePostForm .hf-format-toolbar::-webkit-scrollbar { display: none; }
+#homePostForm .hf-format-sep { background: var(--md-outline-variant); }
+#homePostForm .hf-mode-toggle { flex: none; display: flex; gap: 2px; padding: 3px; border-radius: 20px; background: var(--md-surface-container); }
+#homePostForm .hf-mode-btn { border-radius: 16px; }
+#homePostForm .hf-mode-btn.is-active { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+
+#homePostForm .hf-dialog-footer { border-top: 1px solid var(--md-outline-variant); background: var(--x-float); gap: 4px; }
+#homePostForm .hf-c-tool-btn.is-active, #homePostForm .hf-c-tool-btn[aria-expanded="true"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+#homePostForm .hf-dialog-hint-wrap, #homePostForm .hf-dialog-hint-text { display: none !important; }
+#homePostForm .hf-dialog-tools-divider { background: var(--md-outline-variant); }
+
+/* ---------- poll builder ---------- */
+#homePostForm #homePostPollPanel {
+  background: var(--md-surface-container); color: var(--md-on-surface);
+  border: 0; border-radius: 24px; padding: 14px; gap: 12px;
+}
+#homePostForm #homePostPollPanel .hf-poll-title, #homePostForm #homePostPollPanel [class*="hf-poll-head"] { color: var(--md-on-surface); }
+#homePostForm .hf-poll-remove-btn {
+  min-height: 36px; padding: 0 14px; border: 0; border-radius: 18px;
+  background: transparent; color: var(--md-on-surface-variant); font-weight: 600;
+  transition: background-color .15s, color .15s, border-radius .45s var(--spring);
+}
+#homePostForm .hf-poll-remove-btn:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+
+#homePostForm .hf-poll-type-row {
+  display: flex; gap: 4px; padding: 4px; width: 100%; border-radius: 28px;
+  background: var(--md-surface-container-highest);
+}
+#homePostForm .hf-poll-type-pill {
+  flex: 1 1 0; justify-content: center; min-height: 40px; border: 0; border-radius: 24px;
+  background: transparent; color: var(--md-on-surface-variant); font-weight: 600;
+  transition: background-color .2s, color .2s, border-radius .5s var(--spring);
+}
+#homePostForm .hf-poll-type-pill:hover { color: var(--md-on-surface); }
+#homePostForm .hf-poll-type-pill.is-active { background: var(--md-primary); color: var(--md-on-primary); }
+
+#homePostForm .hf-poll-question-input, #homePostForm .hf-poll-opt-input, #homePostForm .hf-poll-explanation-input {
+  min-height: 48px; padding: 0 16px; border: 1px solid var(--md-outline-variant); border-radius: 16px;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface); font: inherit; width: 100%;
+  transition: border-color .15s, border-radius .45s var(--spring);
+}
+#homePostForm .hf-poll-question-input { font-weight: 600; }
+#homePostForm .hf-poll-question-input::placeholder, #homePostForm .hf-poll-opt-input::placeholder, #homePostForm .hf-poll-explanation-input::placeholder { color: var(--md-on-surface-variant); opacity: .85; }
+#homePostForm .hf-poll-question-input:focus, #homePostForm .hf-poll-opt-input:focus, #homePostForm .hf-poll-explanation-input:focus {
+  outline: 2px solid var(--md-primary); outline-offset: -1px; border-color: transparent; border-radius: 22px;
+}
+#homePostForm .hf-poll-options { display: flex; flex-direction: column; gap: 8px; }
+#homePostForm .hf-poll-option-row { display: flex; align-items: center; gap: 8px; animation: hf-opt-in .4s var(--spring) both; }
+@keyframes hf-opt-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+#homePostForm .hf-poll-opt-num {
+  flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--md-primary-container); color: var(--md-on-primary-container); font-size: 12px; font-weight: 700;
+}
+#homePostForm .hf-poll-correct-btn, #homePostForm .hf-poll-remove-opt-btn {
+  flex: none; width: 40px; height: 40px; border: 0; border-radius: 50%; align-items: center; justify-content: center;
+  background: var(--md-surface-container-highest); color: var(--md-on-surface-variant);
+  transition: background-color .15s, color .15s, border-radius .45s var(--spring);
+}
+#homePostForm .hf-poll-correct-btn:hover, #homePostForm .hf-poll-remove-opt-btn:hover { color: var(--md-on-surface); }
+#homePostForm .hf-poll-correct-btn.is-correct { background: var(--md-primary); color: var(--md-on-primary); }
+#homePostForm .hf-poll-remove-opt-btn:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+
+#homePostForm .hf-poll-footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+#homePostForm .hf-poll-add-opt-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px; border: 0; border-radius: 20px;
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600;
+  transition: border-radius .5s var(--spring), background-color .15s;
+}
+#homePostForm .hf-poll-add-opt-btn:hover { }
+#homePostForm .hf-poll-settings-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; }
+#homePostForm .hf-poll-duration-label, #homePostForm .hf-poll-duration-select { display: none; }
+#homePostForm .hf-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+#homePostForm .hf-chip {
+  min-height: 36px; padding: 0 14px; border: 1px solid var(--md-outline-variant); border-radius: 18px;
+  background: transparent; color: var(--md-on-surface-variant); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background-color .15s, color .15s, border-radius .45s var(--spring);
+}
+#homePostForm .hf-chip:hover { color: var(--md-on-surface); }
+#homePostForm .hf-chip[aria-pressed="true"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-color: transparent; }
+#homePostForm .hf-poll-mcq-note { color: var(--md-on-surface-variant); }
+
+/* ---------- emoji popover ---------- */
+#homePostForm .hf-emoji-popover {
+  background: var(--x-float); color: var(--md-on-surface); border: 1px solid var(--x-float-line);
+  border-radius: 24px; box-shadow: none; overflow: hidden;
+  transform-origin: bottom left; animation: hf-pop .4s var(--spring) both;
+}
+#homePostForm .hf-emoji-search-wrap { background: var(--md-surface-container); border-radius: 20px; margin: 8px; border: 0; }
+#homePostForm .hf-emoji-search-input { background: transparent; color: var(--md-on-surface); }
+#homePostForm .hf-emoji-tabs { border: 0; padding: 0 8px; gap: 4px; }
+#homePostForm .hf-emoji-tab { border-radius: 16px; transition: background-color .15s, border-radius .45s var(--spring); }
+#homePostForm .hf-emoji-tab:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
+#homePostForm .hf-emoji-tab.is-active { background: var(--md-secondary-container); }
+#homePostForm .hf-emoji-item { border-radius: 12px; transition: background-color .12s, transform .3s var(--spring); }
+#homePostForm .hf-emoji-item:hover { background: var(--md-surface-container-high); transform: scale(1.15); }
+
+@media (max-width: 640px) {
+  .hf-post-dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; border-radius: 0; border: 0; }
+  .hf-post-dialog[open] { animation: hf-sheet .5s var(--spring) both; }
+  #homePostForm .hf-cat-label { max-width: 84px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #homePostForm .hf-emoji-popover { position: fixed; left: 12px; right: 12px; bottom: 76px; width: auto; max-width: none; }
+}
+@keyframes hf-sheet { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hf-post-dialog[open], .hf-emoji-popover, .hf-poll-option-row { animation-duration: .01s; } }
+
+#homePostForm .hf-dialog-divider-bar { padding: 4px 20px 6px; }
+#homePostForm .hf-chip { background: var(--md-surface-container-lowest); }
+#homePostForm .hf-chip[aria-pressed="true"] { background: var(--md-primary); color: var(--md-on-primary); }
+#homePostForm .hf-poll-add-opt-btn { background: var(--md-surface-container-lowest); color: var(--md-primary); }
+
+/* ---------- category menu: pick a tag or write your own ---------- */
+#homePostForm .hf-custom-cat-menu {
+  min-width: 232px; max-width: min(86vw, 300px); max-height: min(60vh, 380px); overflow-y: auto; padding: 6px; gap: 2px;
+  background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 22px; box-shadow: none;
+  transform-origin: top right; animation: hfCatMenuIn .4s var(--spring) both;
+}
+#homePostForm .hf-cat-menu-header { padding: 8px 12px 4px; color: var(--md-on-surface-variant); }
+#homePostForm .hf-cat-menu-item {
+  height: 42px; padding: 0 12px; border-radius: 16px; color: var(--md-on-surface);
+  transition: background-color .15s, border-radius .4s var(--spring), transform .2s var(--spring);
+}
+#homePostForm .hf-cat-menu-item:hover { background: var(--md-surface-container-high); border-radius: 22px; }
+#homePostForm .hf-cat-menu-item:active { transform: scale(.98); }
+#homePostForm .hf-cat-menu-item.is-active { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+#homePostForm .hf-cat-menu-item.is-active .hf-cat-item-hash, #homePostForm .hf-cat-menu-item.is-active .hf-cat-item-check { color: inherit; }
+#homePostForm .hf-cat-item-check { font-size: 18px; transform: scale(.4); transition: transform .4s var(--spring); }
+#homePostForm .hf-cat-menu-item.is-active .hf-cat-item-check { transform: none; }
+.hf-cat-own {
+  display: flex; align-items: center; gap: 6px; margin: 6px 0 2px; padding: 6px 0 0; border-top: 1px solid var(--md-outline-variant);
+}
+.hf-cat-own-field {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: 20px; cursor: text;
+  background: var(--md-surface-container-high); border: 1px solid transparent;
+  transition: border-color .15s, background-color .15s, border-radius .4s var(--spring);
+}
+.hf-cat-own-field:focus-within { border-color: var(--md-primary); background: var(--md-surface-container-lowest); border-radius: 14px; }
+.hf-cat-own-field input {
+  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--md-on-surface); font: inherit; font-size: .8125rem; font-weight: 500;
+}
+.hf-cat-own-field input::placeholder { color: var(--md-on-surface-variant); }
+.hf-cat-own-add {
+  flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--md-primary); color: var(--md-on-primary);
+  transition: border-radius .4s var(--spring), transform .25s var(--spring), background-color .2s, color .2s, opacity .2s;
+}
+.hf-cat-own-add:hover:not(:disabled) { }
+.hf-cat-own-add:active:not(:disabled) { transform: scale(.9); }
+.hf-cat-own-add:disabled { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); opacity: .7; cursor: default; }
+.hf-cat-own-add .material-symbols-outlined { font-size: 20px; }
+@media (prefers-reduced-motion: reduce) { #homePostForm .hf-custom-cat-menu, #homePostForm .hf-cat-menu-item, .hf-cat-own-add, .hf-cat-own-field { animation: none; transition: none; } }
+
+/* ---------- writing surface: no ceiling ----------
+   The field takes the height of its text (composer-editor.js) and the body is the one thing that scrolls, so a long
+   post is one continuous page. Clicking the empty page under the text lands in the field. */
+#homePostForm .hf-dialog-body {
+  padding: 12px 24px 20px; gap: 14px; scrollbar-width: thin; scrollbar-color: var(--md-outline-variant) transparent;
+}
+#homePostForm .hf-dialog-textarea {
+  flex: 1 0 auto; min-height: 200px; overflow: hidden; resize: none; padding: 4px 0;
+  font-size: 1rem; line-height: 1.65; caret-color: var(--md-primary);
+}
+#homePostForm .hf-dialog-preview-box {
+  flex: 1 0 auto; min-height: 200px; max-height: none; overflow: visible; padding: 4px 0;
+  border: 0; border-radius: 0; background: transparent;
+}
+#homePostForm .hf-composer-media-list, #homePostForm .hf-composer-previews, #homePostForm .hf-composer-poll-panel,
+#homePostForm .hf-composer-video-panel, #homePostForm .hf-composer-error { flex: none; }
+
+/* ---------- photo strip + attachments: drag to reorder ---------- */
+#homePostForm .hf-composer-previews { gap: 10px; padding: 2px 0; }
+#homePostForm .hf-preview-item {
+  width: 84px; height: 84px; border: 0; border-radius: 20px; background: var(--md-surface-container-high);
+  cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+  transition: transform .28s var(--spring), opacity .2s, outline-color .15s;
+  outline: 2px solid transparent; outline-offset: 2px;
+}
+#homePostForm .hf-preview-item img { -webkit-user-drag: none; pointer-events: none; }
+#homePostForm .hf-preview-item:focus-visible { outline-color: var(--md-primary); }
+#homePostForm .hf-preview-item.is-dragging, #homePostForm .hf-media-item-card.is-dragging {
+  position: relative; z-index: 6; cursor: grabbing; transition: none; opacity: .94;
+}
+#homePostForm .hf-preview-remove {
+  top: 5px; right: 5px; width: 24px; height: 24px; font-size: 16px; line-height: 1;
+  background: var(--md-inverse-surface); color: var(--md-inverse-on-surface);
+}
+#homePostForm .hf-preview-remove:hover { background: var(--md-error); color: var(--md-on-error); }
+#homePostForm .hf-media-item-card {
+  border: 0; border-radius: 20px; background: var(--md-surface-container); padding: 8px 10px 8px 8px;
+  transition: transform .28s var(--spring), outline-color .15s; outline: 2px solid transparent; outline-offset: 2px;
+}
+#homePostForm .hf-media-item-card:focus-visible { outline-color: var(--md-primary); }
+#homePostForm .hf-media-item-icon { width: 36px; height: 36px; border-radius: 12px; }
+#homePostForm .hf-media-grip {
+  flex: none; width: 28px; height: 36px; display: grid; place-items: center; border-radius: 12px;
+  color: var(--md-on-surface-variant); cursor: grab; touch-action: none;
+}
+#homePostForm .hf-media-grip:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); color: var(--md-on-surface); }
+#homePostForm .hf-media-item-remove { width: 32px; height: 32px; }
+
+/* ---------- mentions ---------- */
+.hf-mention-pop {
+  position: fixed; z-index: 30; max-height: 280px; overflow-y: auto; padding: 6px;
+  background: var(--x-float); color: var(--md-on-surface); border: 1px solid var(--x-float-line);
+  border-radius: 22px; box-shadow: none; animation: hf-pop .3s var(--spring) both; scrollbar-width: thin;
+}
+.hf-mention-pop[hidden] { display: none; }
+.hf-mention-row {
+  width: 100%; display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 6px 10px; border: 0; border-radius: 16px;
+  background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  transition: background-color .15s, border-radius .4s var(--spring);
+}
+.hf-mention-row:hover { background: var(--md-surface-container-high); border-radius: 20px; }
+.hf-mention-row.is-active { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 20px; }
+.hf-mention-av {
+  flex: none; width: 34px; height: 34px; display: grid; place-items: center; overflow: hidden; border: 0; border-radius: 12px;
+  background: var(--md-primary-container); color: var(--md-on-primary-container); font-weight: 700; font-size: .875rem;
+}
+.hf-mention-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hf-mention-av.is-all { background: var(--md-primary); color: var(--md-on-primary); }
+.hf-mention-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.hf-mention-txt b { font-weight: 600; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hf-mention-txt span { font-size: .775rem; opacity: .78; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hf-mention { color: var(--md-primary); font-weight: 600; }
+.hf-mention.is-all { font-weight: 700; }
+@media (max-width: 640px) { #homePostForm .hf-dialog-body { padding: 10px 16px 16px; } }
+@media (prefers-reduced-motion: reduce) { .hf-mention-pop { animation: none; } #homePostForm .hf-preview-item, #homePostForm .hf-media-item-card { transition: none; } }

@@ -1,5 +1,63 @@
 """Views Public extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
+import uuid
+from api.models import (
+    Bookmark,
+    Follow,
+    PaymentVerification,
+    Post,
+    Reply,
+    Resource,
+    ResourceComment,
+    ResourceCommentLike,
+    ResourceLike,
+    ResourceRequest,
+    ResourceRequestUpvote,
+    TakedownRequest,
+    User,
+)
+from api.resource_catalog import EDUCATION_LEVELS, upload_form_options
+from api.security import maybe_autoset_video_thumbnail
+from api.utils import now_ms, uuid_str
+from api.view_helpers import is_global_user
+from django.conf import settings
+from django.contrib import messages
+from django.core.cache import cache
+from django.db.models import Count, F, Q
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from . import curriculum
+from .json_endpoint import signed_in_member
+from api.resource_form import discard_saved_files, read_listing_fields
+from api.view_helpers import parse_paid_fields
+from .resource_upload import (
+    clean_file_url_or_error,
+    clean_source_url_or_error,
+    clean_thumbnail_or_error,
+    create_resources,
+    replace_file,
+    resource_current,
+    resource_form_data,
+    save_uploaded_files,
+)
+from .view_helpers import (
+    _avatar_url,
+    _comment_author,
+    _ctx,
+    _get_user_id,
+    _is_staff_admin,
+    _rate_limit,
+    _request_db_user,
+    _request_db_user_or_raise,
+    _serialize_post,
+    _serialize_posts,
+    _serialize_resource,
+    _serialize_resources,
+    _serialize_users_search,
+    check_user_resource_access,
+    parse_qas,
+    parse_sections,
+)
 
 def _get_library_filter_options():
     """Cached distinct subject/grade/type/faculty/exam_type lists for filter UIs.
@@ -239,6 +297,23 @@ def _home_peer_suggestions(viewer, limit=12):
     cache.set(cache_key, people, 600)
     return people
 
+def _composer_extra_tags(limit=6):
+    from django.core.cache import cache
+    from django.db.models import Count
+    from api.categories import CATEGORIES, TAG_MAX_LEN
+    from api.models import Post
+
+    tags = cache.get('composer_extra_tags_v1')
+    if tags is None:
+        known = {c.lower() for c in CATEGORIES}
+        rows = (Post.objects.filter(is_archived=False).values('category')
+                .annotate(n=Count('id')).order_by('-n')[:40])
+        tags = [r['category'] for r in rows
+                if r['category'] and r['category'].lower() not in known and len(r['category']) <= TAG_MAX_LEN][:limit]
+        cache.set('composer_extra_tags_v1', tags, 300)
+    return tags
+
+
 def home(request):
     user_id = _get_user_id(request)
     needs_profile = False
@@ -390,6 +465,7 @@ def home(request):
         home_unanswered=home_unanswered,
         home_contributors=home_contributors,
         composer_categories=list(CATEGORIES),
+        composer_extra_tags=_composer_extra_tags(),
         feed_next_offset=feed_next_offset,
         feed_has_more=home_stats.get('discussions', 0) > feed_next_offset,
     ))
@@ -599,11 +675,6 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     all_faculties = filter_options['faculties']
     all_exam_types = filter_options['exam_types']
     
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
 
     from .views_syllabus import syllabus_hub_context
     syllabus_ctx = syllabus_hub_context(request.GET.get('grade')) if current_tab == 'categories' else {}
@@ -616,7 +687,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         all_types=all_types,
         all_faculties=all_faculties,
         all_exam_types=all_exam_types,
-        education_levels=education_levels,
+        education_levels=EDUCATION_LEVELS,
         current_subjects=subjects,
         current_grades=grades,
         current_types=types,
@@ -709,6 +780,12 @@ def faq(request):
         faq_schema=schema.replace('</', '<\\/'),
     )
     return render(request, 'web/faq.html', ctx)
+
+POPULAR_SEARCHES = (
+    ('Physics', 'science'), ('Chemistry', 'experiment'), ('Mathematics', 'calculate'), ('Biology', 'biotech'),
+    ('English', 'translate'), ('Computer Science', 'computer'), ('Past papers', 'history_edu'), ('Notes', 'description'),
+)
+
 
 def search(request):
     from api.models import User as _LocalUser
@@ -869,6 +946,7 @@ def search(request):
         current_grade=grade,
         current_type=rtype,
         meilisearch_enabled=meilisearch_enabled() if query else False,
+        popular_searches=POPULAR_SEARCHES,
     )
     if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
         res = render(request, 'web/_search_results.html', ctx)
@@ -973,35 +1051,11 @@ def reader(request, resource_id):
     resource['purchase_status'] = purchase_obj.status if purchase_obj else ''
     resource['purchase_id'] = purchase_obj.id if purchase_obj else ''
 
-    # Validate file URL for "open in new tab" / download links (only if user has access)
-    raw_file_url = resource.get('file_url') or ''
-    safe_file_url = ''
-    file_url_error = ''
-    if has_access and raw_file_url:
-        media_prefix = settings.MEDIA_URL
-        if raw_file_url.startswith(media_prefix) or (request and raw_file_url.startswith(request.build_absolute_uri(media_prefix))):
-            safe_file_url = raw_file_url
-        else:
-            try:
-                safe_file_url = validate_resource_file_url(raw_file_url)
-            except ValidationError as exc:
-                file_url_error = ' '.join(exc.messages)
-    resource['safe_file_url'] = safe_file_url
-    resource['file_url_error'] = file_url_error
-
-    # Classify media type for template
-    rtype_lower = (resource.get('type') or '').lower().strip()
-    if rtype_lower == 'pdf':
-        media_type = 'pdf'
-    elif rtype_lower == 'video':
-        media_type = 'video'
-    elif rtype_lower == 'audio':
-        media_type = 'audio'
-    elif rtype_lower == 'image':
-        media_type = 'image'
-    else:
-        media_type = 'document'
-    resource['media_type'] = media_type
+    from .viewer_parts import build_part, build_parts, PLAY_STORE_URL
+    current_part = build_part(request, resource, has_access, resource_id)
+    resource['safe_file_url'] = current_part['safe_file_url']
+    resource['file_url_error'] = current_part['error']
+    resource['media_type'] = current_part['media_type']
 
     # User-specific state: liked, bookmarked
     is_liked = False
@@ -1096,6 +1150,7 @@ def reader(request, resource_id):
         group_resources = _serialize_resources(group_qs)
 
     resource_files = group_resources if group_resources else [resource]
+    parts = build_parts(request, resource_files, has_access, resource_id) if len(resource_files) > 1 else [current_part]
 
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
@@ -1110,6 +1165,9 @@ def reader(request, resource_id):
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
         resource_files=resource_files,
+        part=current_part,
+        parts=parts,
+        play_store_url=PLAY_STORE_URL,
     ))
 
 
@@ -1139,7 +1197,6 @@ def submit_payment_proof(request, resource_id):
             messages.error(request, "Please provide a transaction reference or upload a payment screenshot proof.")
             return redirect('web:reader', resource_id=resource_id)
 
-        from decimal import Decimal
         from api.marketplace import get_payment_config, compute_commission, seller_earnings_for
         price_dec = resource_obj.price
         _cfg = get_payment_config()
@@ -1268,6 +1325,7 @@ def resource_requests_page(request):
         all_subjects=all_subjects,
         all_grades=all_grades,
         current_status=status_filter,
+        status_options=[('open', 'Open'), ('fulfilled', 'Fulfilled'), ('closed', 'Closed'), ('', 'All')],
         current_subject=subject,
         current_grade=grade,
     ))
@@ -1282,271 +1340,57 @@ def upload_resource(request):
 
     from .views_marketplace import commission_percent
 
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    form_options = upload_form_options()
 
     if request.method == 'POST':
         if _rate_limit(request, 'upload_resource', 10, 3600, by_ip=True):
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
             return render(request, 'web/upload.html', _ctx(request,
-                subjects=subjects, education_levels=education_levels,
-                exam_types=exam_types, pradesh_options=pradesh_options,
-                resource_types=resource_types, common_tags=common_tags,
+                **form_options,
                 errors=['Too many uploads. Please try again later.'],
                 form_data=request.POST,
                 is_authenticated=bool(user),
             ), status=429)
-        title = request.POST.get('title', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        grade_level = request.POST.get('grade_level', '').strip()
-        faculty = request.POST.get('faculty', '').strip()
-        program = request.POST.get('program', '').strip()
-        year = request.POST.get('year', '').strip()
-        exam_type = request.POST.get('exam_type', '').strip()
-        pradesh = request.POST.get('pradesh', '').strip()
-        district = request.POST.get('district', '').strip()
-        school = request.POST.get('school', '').strip()
-        tags = request.POST.get('tags', '').strip()
-        description = request.POST.get('description', '').strip()
-        rtype = request.POST.get('type', 'PDF').strip() or 'PDF'
-        author_name = request.POST.get('author_name', '').strip()
-        source_label = request.POST.get('source_label', '').strip()
-        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        source_url_error = None
-        try:
-            from api.security import clean_source_url
-            source_url = clean_source_url(request.POST.get('source_url', ''))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            source_url_error = ' '.join(messages_list)
-            source_url = ''
+        post = request.POST
+        fields = read_listing_fields(post)
+        errors = []
+        source_url = clean_source_url_or_error(post, errors)
 
         uploaded_files = request.FILES.getlist('file')
-        file_url = request.POST.get('file_url', '').strip()
+        file_url = post.get('file_url', '').strip()
+        is_paid, price = parse_paid_fields(post)
 
-        from decimal import Decimal
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        raw_price_input = request.POST.get('price', '0').strip() or '0'
-        try:
-            price_val = Decimal(raw_price_input)
-            if price_val < 0:
-                price_val = Decimal('0.00')
-        except Exception:
-            price_val = Decimal('0.00')
-
-        errors = []
-        if source_url_error:
-            errors.append(source_url_error)
         if len(uploaded_files) > 5:
             errors.append('You can upload at most 5 files per request.')
             uploaded_files = uploaded_files[:5]
-        if not title:
+        if not fields['title']:
             errors.append('Title is required.')
-        if not subject:
+        if not fields['subject']:
             errors.append('Subject is required.')
-        if is_paid and price_val <= 0:
+        if is_paid and price <= 0:
             errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
         if not uploaded_files and not file_url:
             errors.append('Please upload a file or provide a file URL.')
 
-        saved_files = []
-        if uploaded_files:
-            for f in uploaded_files:
-                path, size, err_resp = validate_and_save_resource_file(request, f)
-                if err_resp:
-                    errors.append(f"{f.name}: {err_resp['error']}")
-                else:
-                    saved_files.append({
-                        'path': path or '',
-                        'size': size,
-                        'name': f.name
-                    })
-
-            # If there were errors, clean up any successfully saved files
-            if errors:
-                from django.core.files.storage import default_storage
-                for sf in saved_files:
-                    if sf['path']:
-                        try:
-                            default_storage.delete(sf['path'])
-                        except Exception:
-                            pass
-
-        safe_file_url = ''
-        if not uploaded_files and file_url:
-            try:
-                safe_file_url = validate_resource_file_url(file_url)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                errors.append(' '.join(messages_list))
-
-        safe_thumbnail_url = ''
-        thumbnail_file = request.FILES.get('thumbnail')
-        if thumbnail_file:
-            try:
-                safe_thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-            except Exception as exc:
-                errors.append(' '.join(getattr(exc, 'messages', [str(exc)])))
-        elif thumbnail_url:
-            try:
-                safe_thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception:
-                errors.append('Invalid thumbnail URL.')
+        saved_files = save_uploaded_files(request, uploaded_files, errors)
+        safe_file_url = clean_file_url_or_error(file_url, errors) if file_url and not uploaded_files else ''
+        thumbnail_url = clean_thumbnail_or_error(request, errors)
 
         if not errors:
-            created_resources = []
-            if saved_files:
-                import os
-                from django.conf import settings
-                
-                group_id = uuid_str() if len(saved_files) > 1 else ''
-                
-                for idx, sf in enumerate(saved_files):
-                    res_title = title
-                    is_lead = True
-                    if len(saved_files) > 1:
-                        if idx > 0:
-                            is_lead = False
-                            display_name = os.path.splitext(sf['name'])[0]
-                            res_title = f"{title} - {display_name}"
-
-                    final_file_url = request.build_absolute_uri(settings.MEDIA_URL + sf['path'])
-                    resource = Resource(
-                        id=uuid_str(),
-                        title=res_title,
-                        description=description,
-                        subject=subject,
-                        grade_level=grade_level,
-                        faculty=faculty,
-                        program=program,
-                        year=year,
-                        exam_type=exam_type,
-                        pradesh=pradesh,
-                        district=district,
-                        school=school,
-                        tags=tags,
-                        type=rtype,
-                        file=sf['path'] or None,
-                        file_url=final_file_url,
-                        thumbnail_url=safe_thumbnail_url,
-                        file_size=sf['size'],
-                        added_at=now_ms() + idx,
-                        author_name=author_name,
-                        source_type='user' if user else 'anonymous',
-                        uploaded_by=user,
-                        source_url=source_url,
-                        source_label=source_label,
-                        approval_status='pending',
-                        upload_group_id=group_id,
-                        is_lead=is_lead,
-                        is_paid=is_paid,
-                        price=price_val if is_paid else Decimal('0.00'),
-                    )
-                    resource.save()
-                    created_resources.append(resource)
-            else:
-                final_file_url = safe_file_url
-                resource = Resource(
-                    id=uuid_str(),
-                    title=title,
-                    description=description,
-                    subject=subject,
-                    grade_level=grade_level,
-                    faculty=faculty,
-                    program=program,
-                    year=year,
-                    exam_type=exam_type,
-                    pradesh=pradesh,
-                    district=district,
-                    school=school,
-                    tags=tags,
-                    type=rtype,
-                    file=None,
-                    file_url=final_file_url,
-                    thumbnail_url=safe_thumbnail_url,
-                    file_size=int(request.POST.get('file_size', '0')),
-                    added_at=now_ms(),
-                    author_name=author_name,
-                    source_type='user' if user else 'anonymous',
-                    uploaded_by=user,
-                    source_url=source_url,
-                    source_label=source_label,
-                    approval_status='pending',
-                    upload_group_id='',
-                    is_lead=True,
-                    is_paid=is_paid,
-                    price=price_val if is_paid else Decimal('0.00'),
-                )
-                resource.save()
-                created_resources.append(resource)
+            file_size = post.get('file_size', '')
+            created_resources = create_resources(
+                request, fields, saved_files,
+                file_url=safe_file_url,
+                file_size=int(file_size) if file_size.isdigit() else 0,
+                thumbnail_url=thumbnail_url,
+                source_type='user' if user else 'anonymous',
+                uploaded_by=user,
+                source_url=source_url,
+                approval_status='pending',
+                is_paid=is_paid,
+                price=price,
+            )
 
             # Videos without an explicit cover get one auto-extracted from the
             # footage (best-effort ffmpeg; silently skipped when unavailable).
@@ -1563,13 +1407,12 @@ def upload_resource(request):
                 count=len(created_resources),
             ))
 
+        discard_saved_files(saved_files)
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'status': 'error', 'errors': errors}, status=400)
 
         return render(request, 'web/upload.html', _ctx(request,
-            subjects=subjects, education_levels=education_levels,
-            exam_types=exam_types, pradesh_options=pradesh_options,
-            resource_types=resource_types, common_tags=common_tags,
+            **form_options,
             errors=errors,
             form_data=request.POST,
             is_authenticated=bool(user),
@@ -1577,9 +1420,7 @@ def upload_resource(request):
         ))
 
     return render(request, 'web/upload.html', _ctx(request,
-        subjects=subjects, education_levels=education_levels,
-        exam_types=exam_types, pradesh_options=pradesh_options,
-        resource_types=resource_types, common_tags=common_tags,
+        **form_options,
         is_authenticated=bool(user),
         commission_percent=commission_percent(),
     ))
@@ -1587,8 +1428,25 @@ def upload_resource(request):
 def upload_success(request):
     return render(request, 'web/upload_success.html', _ctx(request))
 
+def _edit_page(request, resource_obj, form_data, errors=(), status=200):
+    from .views_marketplace import commission_percent
+
+    resource = _serialize_resource(resource_obj)
+    return render(request, 'web/edit_resource.html', _ctx(request,
+        resource=resource,
+        resource_id=resource_obj.id,
+        form_data=form_data,
+        current=resource_current(resource_obj, resource),
+        link_editable=not resource_obj.file,
+        errors=list(errors),
+        **upload_form_options(),
+        is_authenticated=True,
+        commission_percent=commission_percent(),
+    ), status=status)
+
+
 def edit_resource(request, resource_id):
-    """Allow signed-in users who uploaded a resource to edit it."""
+    """The owner's editor (the same composer as the upload page). The composer posts with ajax and gets JSON back."""
     user_id = _get_user_id(request)
     if not user_id:
         return redirect('web:login')
@@ -1599,167 +1457,76 @@ def edit_resource(request, resource_id):
     if resource_obj.uploaded_by_id != user_id:
         return redirect('web:reader', resource_id=resource_id)
 
-    user = User.objects.get(pk=user_id)
-    _default_subjects = [
-        'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Nepali',
-        'Computer Science', 'Economics', 'Accountancy', 'Business Studies',
-        'Social Studies', 'History', 'Geography', 'Civics', 'Health & Physical Education',
-        'Environment Science', 'Science', 'General Science', 'Life Science',
-        'Physical Science', 'Earth Science', 'Applied Mathematics',
-        'Business Mathematics', 'Statistics', 'Probability',
-        'Microeconomics', 'Macroeconomics',
-        'Financial Accounting', 'Cost Accounting', 'Auditing',
-        'Marketing', 'Office Management', 'Hotel Management',
-        'Computer Engineering', 'Electronics', 'Electrical Engineering',
-        'Civil Engineering', 'Mechanical Engineering', 'Architecture',
-        'Mechanics', 'Thermodynamics', 'Optics', 'Electricity & Magnetism',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Botany', 'Zoology', 'Genetics', 'Ecology',
-        'English Grammar', 'English Literature', 'Creative Writing',
-        'Nepali Grammar', 'Nepali Literature', 'Essay Writing',
-        'Population Studies', 'Sociology', 'Psychology', 'Philosophy',
-        'Education', 'Pedagogy', 'Curriculum Development',
-        'Law', 'Constitutional Law', 'International Law',
-        'Medicine', 'Pharmacy', 'Nursing', 'Public Health',
-        'Agriculture', 'Forestry', 'Veterinary Science',
-        'Management', 'Human Resource Management', 'Entrepreneurship',
-        'Information Technology', 'Programming', 'Web Development',
-        'Database Management', 'Networking', 'Cybersecurity',
-        'Machine Learning', 'Artificial Intelligence', 'Data Science',
-        'C Programming', 'C++ Programming', 'Python Programming', 'Java Programming',
-        'Digital Logic', 'Operating Systems', 'Software Engineering',
-        'Surveying', 'Estimating & Costing', 'Building Construction',
-        'Fluid Mechanics', 'Strength of Materials', 'Engineering Drawing',
-        'Purana Veda', 'Upanishad', 'Sanskrit', 'Maithili',
-    ]
-    db_subjects = _get_distinct_subjects()
-    subjects = sorted(set(_default_subjects + db_subjects))
-    common_tags = [
-        'Board Exam', 'SEE', 'Past Paper', 'Model Paper', 'Solution',
-        'Important Questions', 'Numerical', 'Derivation', 'Formula Sheet',
-        'Chapter 1', 'Chapter 2', 'Chapter 3', 'Chapter 4', 'Chapter 5',
-        'Chapter 6', 'Chapter 7', 'Chapter 8', 'Chapter 9', 'Chapter 10',
-        'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5',
-        'Class 11', 'Class 12', 'Grade 11', 'Grade 12',
-        'Science', 'Management', 'Humanities', 'Education', 'Law',
-        'Final Exam', 'Midterm', 'Internal Assessment', 'Practical',
-        'Old Course', 'New Course', 'Revised Syllabus', 'Curriculum',
-        'Textbook', 'Reference Book', 'Guide', 'Notes', 'Summary',
-        'Objective Questions', 'Subjective Questions', 'MCQ', 'Long Answer',
-        'Short Answer', 'Very Short Answer', 'Essay Type',
-        '2080 BS', '2081 BS', '2082 BS', '2079 BS',
-        '2078 BS', '2077 BS', '2076 BS',
-        'Kathmandu', 'Pokhara', 'Chitwan', 'Biratnagar', 'Butwal',
-        'HSEB', 'TU', 'KU', 'PU', 'CTEVT',
-        'Entrance', 'IOE', 'IOM', 'CEEE', 'KUUMAT',
-        'C Programming', 'Python', 'Java', 'Web Development',
-        'Organic Chemistry', 'Inorganic Chemistry', 'Physical Chemistry',
-        'Mechanics', 'Optics', 'Thermodynamics', 'Electricity',
-        'Calculus', 'Algebra', 'Trigonometry', 'Geometry', 'Statistics',
-        'Botany', 'Zoology', 'Ecology', 'Genetics',
-        'Nepali', 'English', 'Social Studies',
-    ]
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    exam_types_list = ['', 'Final', 'Midterm', 'Board', 'Entrance', 'SEE', 'Mock', 'Assignment', 'Notes', 'Reference', 'Other']
-    pradesh_options = [
-        'Province 1', 'Madhesh', 'Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Sudurpashchim',
-    ]
-    resource_types = ['PDF', 'Note', 'Video', 'Audio', 'Image', 'Link', 'Textbook', 'Past Paper', 'Model Paper', 'Guide', 'Solution', 'Presentation']
+    if request.method != 'POST':
+        return _edit_page(request, resource_obj, resource_form_data(resource_obj))
 
-    if request.method == 'POST':
-        resource_obj.title = request.POST.get('title', '').strip() or resource_obj.title
-        resource_obj.subject = request.POST.get('subject', '').strip() or resource_obj.subject
-        resource_obj.grade_level = request.POST.get('grade_level', '').strip()
-        resource_obj.faculty = request.POST.get('faculty', '').strip()
-        resource_obj.program = request.POST.get('program', '').strip()
-        resource_obj.year = request.POST.get('year', '').strip()
-        resource_obj.exam_type = request.POST.get('exam_type', '').strip()
-        resource_obj.pradesh = request.POST.get('pradesh', '').strip()
-        resource_obj.district = request.POST.get('district', '').strip()
-        resource_obj.school = request.POST.get('school', '').strip()
-        resource_obj.tags = request.POST.get('tags', '').strip()
-        resource_obj.type = request.POST.get('type', '').strip() or resource_obj.type
-        resource_obj.description = request.POST.get('description', '').strip()
-        resource_obj.author_name = request.POST.get('author_name', '').strip()
-        resource_obj.source_label = request.POST.get('source_label', '').strip()
-        try:
-            from api.security import clean_source_url
-            resource_obj.source_url = clean_source_url(request.POST.get('source_url', ''))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            messages.error(request, ' '.join(messages_list))
-            return redirect('web:edit_resource', resource_id=resource_id)
+    post = request.POST
+    ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    fields = read_listing_fields(post)
+    errors = []
+    source_url = clean_source_url_or_error(post, errors)
+    is_paid, price = parse_paid_fields(post)
+    uploaded_file = request.FILES.get('file')
+    file_url = post.get('file_url', '').strip()
+    safe_file_url = clean_file_url_or_error(file_url, errors) if file_url and not uploaded_file else ''
+    if not fields['title']:
+        errors.append('Title is required.')
+    if not fields['subject']:
+        errors.append('Subject is required.')
+    if is_paid and price <= 0:
+        errors.append('Please set a valid price (greater than Rs. 0) for paid resources.')
+    new_cover = ''
+    if request.FILES.get('thumbnail') or post.get('thumbnail_url', '').strip():
+        new_cover = clean_thumbnail_or_error(request, errors)
+    clear_cover = 'thumbnail_url' in post and not post.get('thumbnail_url', '').strip() and not request.FILES.get('thumbnail')
 
-        from decimal import Decimal
-        is_paid = request.POST.get('is_paid') in ['on', 'true', '1', True]
-        raw_price_input = request.POST.get('price', '0').strip() or '0'
-        try:
-            price_val = Decimal(raw_price_input)
-            if price_val < 0:
-                price_val = Decimal('0.00')
-        except Exception:
-            price_val = Decimal('0.00')
-
-        resource_obj.is_paid = is_paid
-        resource_obj.price = price_val if is_paid else Decimal('0.00')
-
-        uploaded_file = request.FILES.get('file')
+    if not errors:
+        for name, value in fields.items():
+            setattr(resource_obj, name, value)
+        resource_obj.source_url = source_url
+        resource_obj.is_paid, resource_obj.price = is_paid, price
         if uploaded_file:
-            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-            if not err_resp and path:
-                resource_obj.file = path
-                resource_obj.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
-                resource_obj.file_size = size
-
-        file_url = request.POST.get('file_url', '').strip()
-        if file_url and not uploaded_file:
-            try:
-                resource_obj.file_url = validate_resource_file_url(file_url)
-            except Exception:
-                pass
-
-        thumbnail_file = request.FILES.get('thumbnail')
-        thumbnail_url = request.POST.get('thumbnail_url', '').strip()
-        if thumbnail_file:
-            try:
-                resource_obj.thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-            except Exception:
-                pass
-        elif thumbnail_url:
-            try:
-                resource_obj.thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception:
-                pass
-        elif request.POST.get('thumbnail_url') == '':
+            error = replace_file(request, resource_obj, uploaded_file)
+            if error:
+                errors.append(error)
+        elif safe_file_url:
+            resource_obj.file_url = safe_file_url
+        if new_cover:
+            resource_obj.thumbnail_url = new_cover
+        elif clear_cover:
             resource_obj.thumbnail_url = ''
 
-        if resource_obj.approval_status != 'approved':
-            resource_obj.approval_status = 'pending'
-        resource_obj.save()
-        if not resource_obj.thumbnail_url:
-            maybe_autoset_video_thumbnail(resource_obj, request)
-        cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return JsonResponse({'status': 'success', 'redirect': reverse('web:reader', kwargs={'resource_id': resource_id})})
-        return redirect('web:reader', resource_id=resource_id)
+    if errors:
+        if ajax:
+            return JsonResponse({'status': 'error', 'errors': errors}, status=400)
+        return _edit_page(request, Resource.objects.get(pk=resource_id), post, errors, status=400)
 
-    resource = _serialize_resource(resource_obj)
-    return render(request, 'web/edit_resource.html', _ctx(request,
-        resource=resource,
-        resource_id=resource_id,
-        subjects=subjects,
-        common_tags=common_tags,
-        education_levels=education_levels,
-        exam_types=exam_types_list,
-        pradesh_options=pradesh_options,
-        resource_types=resource_types,
-        is_authenticated=True,
-        commission_percent=commission_percent(),
-    ))
+    if resource_obj.approval_status != 'approved':
+        resource_obj.approval_status = 'pending'
+    resource_obj.save()
+    if not resource_obj.thumbnail_url:
+        maybe_autoset_video_thumbnail(resource_obj, request)
+    cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
+    target = reverse('web:reader', kwargs={'resource_id': resource_id})
+    if ajax:
+        return JsonResponse({'status': 'success', 'redirect': target})
+    return redirect(target)
+
+
+@signed_in_member
+def ajax_resource_delete(request, resource_id, user):
+    """Owners can delete what they shared, unless somebody already paid for it (then the sale would lose its receipt)."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    resource_obj = Resource.objects.filter(pk=resource_id, uploaded_by_id=user.id).first()
+    if resource_obj is None:
+        return JsonResponse({'error': 'Resource not found.'}, status=404)
+    sold = PaymentVerification.objects.filter(resource_id=resource_obj.id, status='approved').count()
+    if sold:
+        return JsonResponse({'error': f'{sold} buyer{"s" if sold != 1 else ""} already unlocked this, so it cannot be deleted.'}, status=409)
+    resource_obj.delete()
+    cache.delete_many(['home_resources', 'library_all_resources', 'library_filter_options', 'distinct_subjects'])
+    return JsonResponse({'status': 'success', 'redirect': reverse('web:library')})
 
 def subject_page(request, grade_slug, subject_slug):
     """Subject details page — groups resources by chapter and links Neby AI + forum."""
@@ -1965,12 +1732,7 @@ def subject_page(request, grade_slug, subject_slug):
                     g_clean = 'Class 11'
                 active_grades.add(g_clean)
             
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    grade_order = {val.lower(): i for i, val in enumerate(education_levels)}
+    grade_order = {val.lower(): i for i, val in enumerate(EDUCATION_LEVELS)}
     sorted_grades = sorted(list(active_grades), key=lambda x: grade_order.get(x.lower(), 999))
     
     grade_list = []
@@ -2068,7 +1830,6 @@ def sitemap_xml(request):
     endpoint is the index that points at them.
     """
     from . import seo
-    from django.utils import timezone
     from xml.sax.saxutils import escape as xml_escape
 
     cached = cache.get('sitemap_index_xml')

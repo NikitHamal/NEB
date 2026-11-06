@@ -26,6 +26,18 @@ android {
         androidResources {
             localeFilters += listOf("en", "ne")
         }
+        ndk {
+            // Whistle (speech to text) ships for arm64 and armv7; Phonon (text to speech)
+            // for arm64. x86_64 builds a stub so emulators still install and run.
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64")
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 
     signingConfigs {

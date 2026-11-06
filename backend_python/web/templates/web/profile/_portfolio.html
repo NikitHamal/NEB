@@ -1,0 +1,109 @@
+{% load static web_extras %}{% comment %} Education situation, open-to, skills and portfolio entries. Rendered for every public profile; the owner also gets add / edit / delete. {% endcomment %}
+<section class="pf-card pf-folio" id="pf-folio" data-own="{{ portfolio.is_own|yesno:'1,0' }}">
+  {% if portfolio.edu.is_set %}
+  <div class="pf-folio-edu">
+    <span class="pf-folio-glyph md-shape-cookie-9"><span class="material-symbols-outlined">school</span></span>
+    <div class="pf-folio-edu-text">
+      <b>{{ portfolio.edu.line|default:portfolio.edu.level_label }}</b>
+      {% if portfolio.edu.program and portfolio.edu.level_label and portfolio.edu.line != portfolio.edu.level_label %}<small>{{ portfolio.edu.level_label }}</small>{% endif %}
+    </div>
+    <div class="pf-folio-tags">
+      {% if portfolio.edu.status_label %}<span class="pf-tag">{{ portfolio.edu.status_label }}</span>{% endif %}
+      {% if portfolio.edu.completed_label %}<span class="pf-tag">Finished {{ portfolio.edu.completed_label }}</span>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if portfolio.open_to %}
+  <div class="pf-folio-block">
+    <h3 class="pf-folio-h">Open to</h3>
+    <div class="pf-folio-chips">{% for o in portfolio.open_to %}<span class="pf-tag pf-tag-open"><span class="material-symbols-outlined">{{ o.icon }}</span>{{ o.label }}</span>{% endfor %}</div>
+  </div>
+  {% endif %}
+
+  {% if portfolio.skills %}
+  <div class="pf-folio-block">
+    <h3 class="pf-folio-h">Skills</h3>
+    <div class="pf-folio-chips">{% for s in portfolio.skills %}<span class="pf-tag">{{ s }}</span>{% endfor %}</div>
+  </div>
+  {% endif %}
+
+  {% for sec in portfolio.sections %}
+  <div class="pf-folio-block" data-kind="{{ sec.value }}">
+    <h3 class="pf-folio-h"><span class="material-symbols-outlined">{{ sec.icon }}</span>{{ sec.label }}
+      {% if portfolio.is_own %}<button type="button" class="pf-folio-add" data-folio-add="{{ sec.value }}" aria-label="Add to {{ sec.label }}"><span class="material-symbols-outlined">add</span></button>{% endif %}
+    </h3>
+    <ol class="pf-timeline">
+      {% for e in sec.items %}
+      <li class="pf-tl-item" data-entry='{{ e|json_entry }}'>
+        <span class="pf-tl-dot"></span>
+        <div class="pf-tl-main">
+          <b>{{ e.title }}</b>
+          {% if e.org %}<span class="pf-tl-org">{{ e.org }}</span>{% endif %}
+          {% if e.start or e.isCurrent %}<span class="pf-tl-when">{{ e.start }}{% if e.isCurrent %} to now{% elif e.end %} to {{ e.end }}{% endif %}</span>{% endif %}
+          {% if e.description %}<p>{{ e.description }}</p>{% endif %}
+          {% if e.url %}<a href="{{ e.url }}" target="_blank" rel="noopener nofollow ugc">{{ e.url|cut:"https://"|cut:"http://"|truncatechars:40 }}</a>{% endif %}
+        </div>
+        {% if portfolio.is_own %}<button type="button" class="pf-tl-edit" data-folio-edit aria-label="Edit {{ e.title }}"><span class="material-symbols-outlined">edit</span></button>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endfor %}
+
+  {% if portfolio.is_own %}
+  <div class="pf-folio-block pf-folio-own">
+    <h3 class="pf-folio-h">Add to your portfolio</h3>
+    <div class="pf-folio-chips">
+      {% for k in portfolio.kinds %}<button type="button" class="pf-tag pf-tag-btn" data-folio-add="{{ k.value }}"><span class="material-symbols-outlined">{{ k.icon }}</span>{{ k.label }}</button>{% endfor %}
+      <a class="pf-tag pf-tag-btn" href="{% url 'web:onboarding' %}"><span class="material-symbols-outlined">tune</span>Edit education and skills</a>
+    </div>
+  </div>
+  <div class="neb-scrim neb-scrim-bottom" id="pf-entry-sheet" data-neb-close hidden>
+    <form class="neb-sheet pf-sheet" id="pf-entry-form" role="dialog" aria-modal="true" aria-labelledby="pf-entry-title" novalidate>
+      <div class="neb-sheet-handle"></div>
+      <div class="neb-sheet-head">
+        <span class="pf-sheet-glyph md-shape-cookie-9"><span class="material-symbols-outlined" id="pf-entry-icon">add</span></span>
+        <div class="neb-sheet-head-text"><h3 class="neb-sheet-title" id="pf-entry-title">Add entry</h3></div>
+        <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="neb-sheet-body pf-fields">
+        <input type="hidden" id="pf-entry-id"><input type="hidden" id="pf-entry-kind">
+        <label class="pf-field pf-wide"><span class="md-label">Title</span>
+          <input class="md-input" id="pf-entry-name" maxlength="150" autocomplete="off" required></label>
+        <label class="pf-field pf-wide"><span class="md-label">Where</span>
+          <input class="md-input" id="pf-entry-org" maxlength="150" autocomplete="off"></label>
+        <div class="pf-field pf-when" role="group" aria-label="From">
+          <span class="md-label">From</span>
+          <div class="pf-when-pair">
+            <select class="md-select" id="pf-entry-start-m" aria-label="From month"></select>
+            <select class="md-select" id="pf-entry-start-y" aria-label="From year"></select>
+          </div>
+        </div>
+        <div class="pf-field pf-when" id="pf-entry-end-wrap" role="group" aria-label="To">
+          <span class="md-label">To</span>
+          <div class="pf-when-pair">
+            <select class="md-select" id="pf-entry-end-m" aria-label="To month"></select>
+            <select class="md-select" id="pf-entry-end-y" aria-label="To year"></select>
+          </div>
+        </div>
+        <div class="pf-wide pf-chip-row">
+          <button type="button" class="neb-choice-chip" id="pf-entry-current" aria-pressed="false"><span class="neb-chip-tick"></span>Still going</button>
+        </div>
+        <label class="pf-field pf-wide"><span class="md-label">Details</span>
+          <textarea class="md-input md-textarea" id="pf-entry-desc" maxlength="600" rows="3"></textarea></label>
+        <label class="pf-field pf-wide"><span class="md-label">Link</span>
+          <input class="md-input" id="pf-entry-url" maxlength="300" placeholder="https://" inputmode="url" autocomplete="off"></label>
+        <p class="pf-error" id="pf-entry-error" role="alert" hidden></p>
+      </div>
+      <div class="neb-sheet-foot pf-foot">
+        <button type="button" class="md-btn md-btn-text pf-delete" id="pf-entry-delete" hidden>Delete</button>
+        <span class="pf-foot-gap"></span>
+        <button type="button" class="md-btn md-btn-text" data-neb-close>Cancel</button>
+        <button type="submit" class="md-btn md-btn-filled" id="pf-entry-save">Save</button>
+      </div>
+    </form>
+  </div>
+  <script src="{% static 'web/js/portfolio.js' %}" defer></script>
+  {% endif %}
+</section>

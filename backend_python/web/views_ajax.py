@@ -1,7 +1,53 @@
 """Views Ajax extracted from views.py."""
 from django.views.decorators.http import require_http_methods
 
-from .view_helpers import *  # noqa: F401,F403
+import json
+from api import cleanup as _cleanup, realtime as _rt, services
+from api.models import (
+    AiFeedback,
+    BlogComment,
+    Bookmark,
+    EditHistory,
+    Follow,
+    Post,
+    PostImage,
+    PostMedia,
+    Reply,
+    Report,
+    Resource,
+    ResourceComment,
+    User,
+)
+from api.security import (
+    get_user_by_auth_token,
+    save_post_image_upload,
+    save_profile_image_upload,
+    validate_profile_photo_url,
+)
+from api.serializers import UserSerializer
+from api.utils import now_ms, uuid_str
+from django.core.cache import cache
+from django.db import transaction
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from . import api_client as api
+from .json_endpoint import signed_in_member
+from .view_helpers import (
+    _avatar_url,
+    _blobatar_url_for,
+    _clear_page_cache,
+    _get_user_id,
+    _get_valid_token,
+    _normalize_user_data,
+    _rate_limit,
+    _serialize_post,
+    _serialize_post_images,
+    _serialize_replies,
+    _serialize_reply,
+    _user_badge_info,
+    _viewer_for_locked_check,
+    logger,
+)
 from api.view_helpers import _can_view_locked_profile
 from api.security import POST_IMAGE_MAX_COUNT, validate_forum_attachments
 from django.core.exceptions import ValidationError
@@ -22,14 +68,8 @@ def _parse_web_attachments(data):
 
 
 @require_POST
-def ajax_like_post(request, post_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_post(request, post_id, user):
     try:
         result = services.toggle_post_like(user, post_id)
     except Post.DoesNotExist:
@@ -38,14 +78,8 @@ def ajax_like_post(request, post_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_like_reply(request, reply_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_reply(request, reply_id, user):
     try:
         result = services.toggle_reply_like(user, reply_id)
     except Reply.DoesNotExist:
@@ -53,16 +87,10 @@ def ajax_like_reply(request, reply_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_create_reply(request, post_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_create_reply(request, post_id, user):
     if _rate_limit(request, 'create_reply', 20, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
         content = data.get('content', '').strip()
@@ -77,25 +105,31 @@ def ajax_create_reply(request, post_id):
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
-    # Voice notes / attachments can be the entire reply.
-    if not attachments and not content:
+    from api import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(data.get('poll'))
+    if poll_error:
+        return JsonResponse({'error': poll_error}, status=400)
+    if poll_data and parent_id:
+        return JsonResponse({'error': 'Polls can only be added to top-level comments'}, status=400)
+    # Voice notes / attachments / a poll can be the entire reply.
+    if not attachments and not content and not poll_data:
         return JsonResponse({'error': 'Content required'}, status=400)
     result = services.create_reply(user, post_id, content, parent_id,
-                                   is_anonymous=is_anonymous, attachments=attachments)
+                                   is_anonymous=is_anonymous, attachments=attachments, poll_data=poll_data)
     if result:
+        from . import forum_labels
+        kind = forum_labels.clean_kind(data.get('kind')) if not parent_id else 'comment'
+        if kind != 'comment' and result.get('id'):
+            Reply.objects.filter(pk=result['id']).update(kind=kind)
+            result['kind'] = kind
+            result['kindInfo'] = forum_labels.kind_info(kind)
         _clear_page_cache()
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)
 
 @require_POST
-def ajax_like_resource(request, resource_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_resource(request, resource_id, user):
     try:
         result = services.toggle_resource_like(user, resource_id)
     except Resource.DoesNotExist:
@@ -103,14 +137,8 @@ def ajax_like_resource(request, resource_id):
     return JsonResponse(result)
 
 @require_POST
-def ajax_like_resource_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_resource_comment(request, comment_id, user):
     try:
         result = services.toggle_resource_comment_like(user, comment_id)
     except ResourceComment.DoesNotExist:
@@ -145,14 +173,8 @@ def ajax_resource_comment(request, resource_id):
     return JsonResponse({'error': 'Failed'}, status=500)
 
 @require_POST
-def ajax_delete_resource_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_delete_resource_comment(request, comment_id, user):
     is_admin = bool(user.is_admin)
     ok = services.delete_resource_comment(user, comment_id, is_admin=is_admin)
     if ok:
@@ -160,14 +182,8 @@ def ajax_delete_resource_comment(request, comment_id):
     return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
 
 @require_POST
-def ajax_like_blog_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_like_blog_comment(request, comment_id, user):
     try:
         result = services.toggle_blog_comment_like(user, comment_id)
     except BlogComment.DoesNotExist:
@@ -177,14 +193,8 @@ def ajax_like_blog_comment(request, comment_id):
 # The NEBians Android app deletes comments with an HTTP DELETE request while
 # the website uses POST, so both verbs must be accepted here.
 @require_http_methods(["POST", "DELETE"])
-def ajax_delete_blog_comment(request, comment_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_delete_blog_comment(request, comment_id, user):
     is_admin = bool(user.is_admin)
     ok = services.delete_blog_comment(user, comment_id, is_admin=is_admin)
     if ok:
@@ -192,16 +202,10 @@ def ajax_delete_blog_comment(request, comment_id):
     return JsonResponse({'error': 'Permission denied or comment not found'}, status=403)
 
 @require_POST
-def ajax_create_post(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_create_post(request, user):
     if _rate_limit(request, 'create_post', 10, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     if not getattr(user, 'email_verified', False):
         return JsonResponse({'error': 'Please verify your email before posting.'}, status=403)
     try:
@@ -219,27 +223,17 @@ def ajax_create_post(request):
         return JsonResponse({'error': 'Content must be 20000 characters or fewer'}, status=400)
     if image_urls and len(image_urls) > POST_IMAGE_MAX_COUNT:
         return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
-    if poll_data:
-        options = poll_data.get('options', [])
-        if len(options) < 2:
-            return JsonResponse({'error': 'Poll must have at least 2 options'}, status=400)
-        if len(options) > 6:
-            return JsonResponse({'error': 'Poll can have at most 6 options'}, status=400)
-        for opt in options:
-            if isinstance(opt, dict):
-                opt_text = opt.get('text', '').strip()
-            else:
-                opt_text = str(opt).strip()
-            if not opt_text:
-                return JsonResponse({'error': 'Poll options cannot be empty'}, status=400)
-            if len(opt_text) > 200:
-                return JsonResponse({'error': 'Poll option must be 200 characters or fewer'}, status=400)
+    from api import polls as _polls
+    poll_data, poll_error = _polls.clean_poll_input(poll_data)
+    if poll_error:
+        return JsonResponse({'error': poll_error}, status=400)
     is_anonymous = bool(data.get('isAnonymous') or data.get('is_anonymous'))
     attachments, attach_error = _parse_web_attachments(data)
     if attach_error:
         return JsonResponse({'error': attach_error}, status=400)
     result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
-                                  is_anonymous=is_anonymous, attachments=attachments)
+                                  is_anonymous=is_anonymous, attachments=attachments,
+                                  own_tag=bool(data.get('custom_category')))
     if result:
         _clear_page_cache()
         try:
@@ -256,14 +250,8 @@ def ajax_create_post(request):
     return JsonResponse({'error': 'Missing fields'}, status=400)
 
 @require_POST
-def ajax_bookmark_toggle(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_bookmark_toggle(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -322,16 +310,10 @@ def ajax_bookmark_check(request):
     return JsonResponse({'isBookmarked': is_bookmarked})
 
 @require_POST
-def ajax_report(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_report(request, user):
     if _rate_limit(request, 'report', 10, 3600):
         return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -426,6 +408,51 @@ def ajax_delete_post(request, post_id):
     _rt.broadcast_post_deleted(post_id)
     return JsonResponse({'success': True})
 
+def _parse_edit_attachments(data):
+    """(cleaned, error_response) for the optional ordered `attachments` list of an edit.
+    None means the client did not send the field, so the stored media stays as it is."""
+    if 'attachments' not in data:
+        return None, None
+    raw = data.get('attachments')
+    try:
+        return validate_forum_attachments(raw if raw else []), None
+    except ValidationError as exc:
+        msg = exc.messages[0] if getattr(exc, 'messages', None) else 'Invalid attachments'
+        return None, JsonResponse({'error': msg}, status=400)
+
+
+def _replace_media(target, cleaned, now, user_id):
+    """Swap a post's or reply's PostMedia for `cleaned`, in order, and log it in the edit history.
+    Rows whose url survives keep their id, so a pure reorder never re-creates a file row."""
+    is_post = isinstance(target, Post)
+    rows = PostMedia.objects.filter(**({'post': target} if is_post else {'reply': target})).order_by('order', 'created_at')
+    old = list(rows)
+    if [m.url for m in old] == [a['url'] for a in cleaned]:
+        return False
+    by_url = {m.url: m for m in old}
+    keep = set()
+    for order, a in enumerate(cleaned):
+        row = by_url.get(a['url'])
+        if row:
+            row.order = order
+            row.name = a['name'] or row.name
+            row.save(update_fields=['order', 'name'])
+            keep.add(row.id)
+        else:
+            PostMedia.objects.create(
+                id=uuid_str(), kind=a['kind'], url=a['url'], thumbnail_url=a.get('thumbnail_url', ''),
+                name=a['name'], mime_type=a['mime_type'], size_bytes=a['size_bytes'], order=order, created_at=now,
+                **({'post': target} if is_post else {'reply': target}))
+    for m in old:
+        if m.id not in keep:
+            m.delete()
+    EditHistory.objects.create(
+        id=uuid_str(), target_type='post' if is_post else 'reply', target_id=target.id, field='attachments',
+        old_value='\n'.join(m.url for m in old), new_value='\n'.join(a['url'] for a in cleaned),
+        edited_by_id=user_id, edited_at=now)
+    return True
+
+
 @require_POST
 def ajax_edit_post(request, post_id):
     user_id = _get_user_id(request)
@@ -454,6 +481,9 @@ def ajax_edit_post(request, post_id):
         if len(cleaned_image_urls) > POST_IMAGE_MAX_COUNT:
             return JsonResponse({'error': f'Maximum {POST_IMAGE_MAX_COUNT} images per post'}, status=400)
 
+    cleaned_media, bad = _parse_edit_attachments(data)
+    if bad:
+        return bad
     now = now_ms()
     if 'title' in data:
         title = str(data['title']).strip()
@@ -493,6 +523,8 @@ def ajax_edit_post(request, post_id):
                 PostImage.objects.create(
                     id=uuid_str(), post=post, image_url=url, order=order, created_at=now
                 )
+    if cleaned_media is not None:
+        _replace_media(post, cleaned_media, now, user_id)
     post.is_edited = True
     post.edited_at = now
     post.save()
@@ -537,10 +569,15 @@ def ajax_edit_reply(request, reply_id):
     if reply.user_id != user_id:
         return JsonResponse({'error': 'Forbidden'}, status=403)
     content = data.get('content', '').strip()
-    if not content:
+    cleaned_media, bad = _parse_edit_attachments(data)
+    if bad:
+        return bad
+    if not content and not (cleaned_media if cleaned_media is not None else PostMedia.objects.filter(reply=reply).exists()):
         return JsonResponse({'error': 'Content required'}, status=400)
-    content = services._prep_inline_images(content)[0]
+    content = services._prep_inline_images(content)[0] if content else ''
     now = now_ms()
+    if cleaned_media is not None:
+        _replace_media(reply, cleaned_media, now, user_id)
     EditHistory.objects.create(
         id=uuid_str(), target_type='reply', target_id=reply.id,
         field='content', old_value=reply.content, new_value=content,
@@ -669,11 +706,17 @@ def ajax_user_search(request):
     if _rate_limit(request, 'user_search', 60, 60, by_ip=by_ip):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
     q = request.GET.get('q', '').strip()
-    if len(q) < 2:
+    if not q:
         return JsonResponse([], safe=False)
+    # One letter is enough for the composer's @mention list: people whose handle starts with it. Longer terms
+    # match anywhere in the handle or the display name; handle-prefix matches come first.
+    from django.db.models import Case, IntegerField, Q, Value, When
+    match = Q(username__istartswith=q) if len(q) < 2 else (Q(username__icontains=q) | Q(display_name__icontains=q))
     users = User.objects.filter(
-        username__icontains=q, is_locked=False, email_verified=True
-    ).values('id', 'username', 'display_name', 'photo_url')[:8]
+        match, is_locked=False, email_verified=True
+    ).annotate(
+        _rank=Case(When(username__istartswith=q, then=Value(0)), default=Value(1), output_field=IntegerField())
+    ).order_by('_rank', 'username').values('id', 'username', 'display_name', 'photo_url')[:8]
     results = []
     for u in users:
         results.append({
@@ -816,14 +859,8 @@ def ajax_user_photos(request):
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 @require_POST
-def ajax_set_password(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_set_password(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -841,14 +878,8 @@ def ajax_set_password(request):
     return JsonResponse({'error': result.get('error', 'Failed to set password')}, status=status_code or 400)
 
 @require_POST
-def ajax_change_password(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_change_password(request, user):
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -867,14 +898,8 @@ def ajax_change_password(request):
     return JsonResponse({'error': result.get('error', 'Failed to change password')}, status=status_code or 400)
 
 @require_POST
-def ajax_activate_photo(request, photo_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_activate_photo(request, photo_id, user):
     result = services.activate_photo(user, photo_id)
     if result:
         new_url = result.get('photo_url') or result.get('url')
@@ -891,16 +916,10 @@ def ajax_activate_photo(request, photo_id):
 
 
 @require_POST
-def ajax_upload_post_image(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_upload_post_image(request, user):
     if _rate_limit(request, 'upload_post_image', 20, 3600):
         return JsonResponse({'error': 'Too many requests. Please try again later.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     file_obj = request.FILES.get('image')
     if not file_obj:
         return JsonResponse({'error': 'No image file provided'}, status=400)
@@ -915,16 +934,10 @@ def ajax_upload_post_image(request):
 
 
 @require_POST
-def ajax_poll_vote(request, poll_id):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
+@signed_in_member
+def ajax_poll_vote(request, poll_id, user):
     if _rate_limit(request, 'poll_vote', 30, 60):
         return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -942,6 +955,94 @@ def ajax_poll_vote(request, poll_id):
         if 'error' in result:
             return JsonResponse(result, status=status_code)
     return JsonResponse(result)
+
+
+@require_POST
+def ajax_poll_option(request, poll_id):
+    """Add an option to a poll that allows it (JSON {text, vote})."""
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    if _rate_limit(request, 'poll_option', 12, 60):
+        return JsonResponse({'error': 'Too many requests. Please slow down.'}, status=429)
+    try:
+        user = User.objects.get(pk=user_id)
+        data = json.loads(request.body or b'{}')
+    except (User.DoesNotExist, json.JSONDecodeError):
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    from api import polls as _polls
+    payload, code = _polls.add_option(user, poll_id, data.get('text', ''), vote=bool(data.get('vote', True)))
+    if code < 300:
+        _clear_page_cache()
+    return JsonResponse(payload, status=code)
+
+
+@require_POST
+@signed_in_member
+def ajax_poll_retract(request, poll_id, user):
+    """Take the viewer's vote back so they can pick again."""
+    from api import polls as _polls
+    payload, code = _polls.retract_vote(user, poll_id)
+    return JsonResponse(payload, status=code)
+
+
+@require_POST
+def ajax_post_view(request, post_id):
+    """Record a view / dwell time for a post (guests and members)."""
+    from api import post_reach
+    from api.models import Post as _Post
+    try:
+        post = _Post.objects.get(pk=post_id)
+    except _Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    try:
+        data = json.loads(request.body or b'{}')
+    except json.JSONDecodeError:
+        data = {}
+    user_id = _get_user_id(request)
+    user = User.objects.filter(pk=user_id).first() if user_id else None
+    try:
+        dwell = int(data.get('dwell_ms') or 0)
+    except (TypeError, ValueError):
+        dwell = 0
+    out = post_reach.record_view(request, post, user, surface=str(data.get('surface') or ''), dwell_ms=dwell)
+    return JsonResponse(out)
+
+
+@require_POST
+def ajax_post_impressions(request):
+    from api import post_reach
+    try:
+        data = json.loads(request.body or b'{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    ids = data.get('ids')
+    if not isinstance(ids, list):
+        return JsonResponse({'error': 'ids must be a list'}, status=400)
+    if _rate_limit(request, 'post_impressions', 60, 60):
+        return JsonResponse({'recorded': 0}, status=429)
+    return JsonResponse({'recorded': post_reach.record_impressions(request, ids)})
+
+
+def ajax_post_insights(request, post_id):
+    """Author (or staff) insights for one post, as JSON."""
+    from api import post_insights
+    from api.models import Post as _Post
+    user_id = _get_user_id(request)
+    if not user_id:
+        return JsonResponse({'error': 'Please log in again.'}, status=401)
+    user = User.objects.filter(pk=user_id).first()
+    try:
+        post = _Post.objects.get(pk=post_id)
+    except _Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+    if not user or (post.user_id != user.id and not user.is_admin):
+        return JsonResponse({'error': 'Only the author can see these insights'}, status=403)
+    try:
+        days = int(request.GET.get('days', 30))
+    except ValueError:
+        days = 30
+    return JsonResponse(post_insights.build(post, days=days, staff=bool(user.is_admin)))
 
 
 @require_POST
@@ -1001,55 +1102,6 @@ def ajax_reject_follow_request(request, request_id):
     
     return JsonResponse({'status': 'success'})
 
-
-@require_POST
-def ajax_convert_credits(request):
-    user_id = _get_user_id(request)
-    if not user_id:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'Please log in again.'}, status=401)
-    if user.is_locked:
-        return JsonResponse({'error': 'Account unavailable.'}, status=403)
-
-    from api.marketplace import convert_points_to_credits
-    from api.credit_views import check_and_reset_monthly_credits
-    from api.models import NebyCreditTransaction
-    import time, uuid as _uuid
-
-    user = check_and_reset_monthly_credits(user)
-    try:
-        data = json.loads(request.body) if request.body else {}
-    except ValueError:
-        return JsonResponse({'error': 'Invalid request body'}, status=400)
-    try:
-        points = int(data.get('points') or 0)
-    except (ValueError, TypeError):
-        return JsonResponse({'error': 'Invalid points amount'}, status=400)
-    try:
-        credits, used = convert_points_to_credits(user, points)
-    except ValueError as exc:
-        return JsonResponse({'error': str(exc)}, status=400)
-
-    NebyCreditTransaction.objects.create(
-        id=str(_uuid.uuid4()),
-        user=user,
-        transaction_type='conversion',
-        amount=credits,
-        points_spent=used,
-        description=f'Converted {used} points to {credits} Neby Credits',
-        created_at=int(time.time() * 1000),
-    )
-    return JsonResponse({
-        'message': f'Successfully converted {used} points to {credits} Neby Credits!',
-        'credits_added': credits,
-        'free_credits': user.free_credits,
-        'ai_credits': user.ai_credits,
-        'total_credits': (user.free_credits or 0) + (user.ai_credits or 0),
-        'nebians_points': user.nebians_points,
-    })
 
 @require_POST
 def ajax_ai_feedback(request):

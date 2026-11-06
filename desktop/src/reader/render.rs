@@ -8,7 +8,7 @@ use egui::{
 
 use super::model::*;
 use crate::actions::Action;
-use crate::data::content::ContentRoot;
+use crate::data::content::ContentRepo;
 use crate::theme::{fonts, mix, Theme};
 use crate::ui::icons::{self, Icon};
 
@@ -16,7 +16,7 @@ pub struct RenderCx<'a> {
     pub th: &'a Theme,
     /// Reading text scale (Settings ▸ text size).
     pub scale: f32,
-    pub content: Option<&'a ContentRoot>,
+    pub content: Option<&'a ContentRepo>,
     /// Heading id the TOC asked us to scroll to.
     pub jump: &'a mut Option<String>,
     /// (heading id, screen y) of every heading drawn this frame — drives TOC highlighting.
@@ -66,10 +66,10 @@ pub fn layout(cx: &RenderCx, spans: &[Span], size: f32, color: Color32, bold: bo
         }
         if s.link.is_some() {
             col = th.p.accent;
-            fmt.underline = Stroke::new(1.0, th.p.accent);
+            fmt.underline = Stroke::new(1.0_f32, th.p.accent);
         }
         if s.underline {
-            fmt.underline = Stroke::new(1.0, col);
+            fmt.underline = Stroke::new(1.0_f32, col);
         }
         fmt.font_id = FontId::new(fsize, fam);
         fmt.color = col;
@@ -111,7 +111,7 @@ fn para(ui: &mut Ui, cx: &mut RenderCx, spans: &[Span], size: f32, color: Color3
             ui.ctx().set_cursor_icon(CursorIcon::PointingHand);
         }
         if resp.clicked() {
-            cx.actions.push(Action::OpenUrl(url));
+            cx.actions.push(Action::Copy(url));
         }
     }
 }
@@ -281,7 +281,7 @@ fn table(ui: &mut Ui, cx: &RenderCx, head: &[Vec<Span>], rows: &[Vec<Vec<Span>>]
     let sum: f32 = weights.iter().sum();
     let widths: Vec<f32> = weights.iter().map(|w| total * w / sum).collect();
 
-    let mut draw_row = |ui: &mut Ui, cells: &[Vec<Span>], header: bool, idx: usize| {
+    let draw_row = |ui: &mut Ui, cells: &[Vec<Span>], header: bool, idx: usize| {
         let bg = ui.painter().add(Shape::Noop);
         let resp = ui.horizontal_top(|ui| {
             ui.spacing_mut().item_spacing.x = 0.0;
@@ -307,7 +307,7 @@ fn table(ui: &mut Ui, cx: &RenderCx, head: &[Vec<Span>], rows: &[Vec<Vec<Span>>]
             Color32::TRANSPARENT
         };
         ui.painter().set(bg, Shape::rect_filled(rect, 0.0, fill));
-        ui.painter().hline(rect.x_range(), rect.bottom(), Stroke::new(1.0, th.p.hairline));
+        ui.painter().hline(rect.x_range(), rect.bottom(), Stroke::new(1.0_f32, th.p.hairline));
     };
     ui.spacing_mut().item_spacing.y = 0.0;
     let start = ui.cursor().min;
@@ -319,7 +319,7 @@ fn table(ui: &mut Ui, cx: &RenderCx, head: &[Vec<Span>], rows: &[Vec<Vec<Span>>]
     }
     let end = ui.cursor().min;
     let outline = Rect::from_min_max(start, egui::pos2(start.x + total, end.y));
-    ui.painter().rect_stroke(outline, Rounding::same(8.0), Stroke::new(1.0, th.p.hairline_strong));
+    ui.painter().rect_stroke(outline, Rounding::same(8.0), Stroke::new(1.0_f32, th.p.hairline_strong));
     ui.spacing_mut().item_spacing.y = 8.0;
 }
 
@@ -328,13 +328,13 @@ fn figure(ui: &mut Ui, cx: &mut RenderCx, src: &str, caption: &[Span], pct: Opti
     let avail = ui.available_width();
     let max_w = (avail * pct.unwrap_or(100.0).clamp(20.0, 100.0) / 100.0).min(avail).min(760.0);
     ui.vertical_centered(|ui| {
-        Frame::none().fill(Color32::WHITE).rounding(Rounding::same(10.0)).stroke(Stroke::new(1.0, th.p.hairline)).inner_margin(Margin::same(10.0)).show(ui, |ui| {
+        Frame::none().fill(Color32::WHITE).rounding(Rounding::same(10.0)).stroke(Stroke::new(1.0_f32, th.p.hairline)).inner_margin(Margin::same(10.0)).show(ui, |ui| {
             match cx.content.and_then(|c| c.asset_uri(src)) {
                 Some(uri) => {
                     ui.add(egui::Image::new(uri).fit_to_original_size(1.3).max_width((max_w - 20.0).max(80.0)));
                 }
                 None => {
-                    ui.add(Label::new(RichText::new("Figure not available offline").color(Color32::GRAY)).selectable(false));
+                    ui.add(Label::new(RichText::new("Figure couldn't be loaded — check your connection").color(Color32::GRAY)).selectable(false));
                 }
             }
         });
@@ -354,7 +354,7 @@ fn mcq_item(ui: &mut Ui, cx: &mut RenderCx, item: &McqItem) {
     let chosen = cx.mcq.get(&idx).copied();
     let w = ui.available_width();
     ui.push_id(("mcq", idx), |ui| {
-        Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline_strong)).rounding(Rounding::same(12.0)).inner_margin(Margin::same(14.0)).show(ui, |ui| {
+        Frame::none().fill(th.p.card).stroke(Stroke::new(1.0_f32, th.p.hairline_strong)).rounding(Rounding::same(12.0)).inner_margin(Margin::same(14.0)).show(ui, |ui| {
             ui.set_width(w - 28.0);
             ui.horizontal_top(|ui| {
                 ui.spacing_mut().item_spacing.x = 8.0;
@@ -412,7 +412,7 @@ fn option(ui: &mut Ui, cx: &mut RenderCx, idx: usize, key: char, label: char, sp
         3 => (th.p.card, th.p.hairline, th.p.field, th.p.ink_faint),
         _ => (th.p.card, th.p.hairline_strong, th.p.field, th.p.ink_muted),
     };
-    let r = Frame::none().fill(fill).stroke(Stroke::new(1.0, stroke)).rounding(Rounding::same(10.0)).inner_margin(Margin::symmetric(10.0, 7.0)).show(ui, |ui| {
+    let r = Frame::none().fill(fill).stroke(Stroke::new(1.0_f32, stroke)).rounding(Rounding::same(10.0)).inner_margin(Margin::symmetric(10.0, 7.0)).show(ui, |ui| {
         ui.set_width(width - 22.0);
         ui.horizontal_top(|ui| {
             ui.spacing_mut().item_spacing.x = 10.0;
@@ -441,7 +441,7 @@ fn option(ui: &mut Ui, cx: &mut RenderCx, idx: usize, key: char, label: char, sp
             ui.painter().rect_filled(r.response.rect, Rounding::same(10.0), th.p.accent.gamma_multiply(0.07));
         }
         if resp.has_focus() {
-            ui.painter().rect_stroke(r.response.rect.expand(2.0), Rounding::same(12.0), Stroke::new(2.0, th.p.accent));
+            ui.painter().rect_stroke(r.response.rect.expand(2.0), Rounding::same(12.0), Stroke::new(2.0_f32, th.p.accent));
         }
         if resp.clicked() {
             cx.mcq.insert(idx, label);

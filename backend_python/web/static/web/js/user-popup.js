@@ -56,7 +56,7 @@
     if (!target || target.nodeType !== 1) return null;
     var el = target.closest('[data-user-popup]');
     if (!el) {
-      var thread = target.closest('.fp-post, .fp-thread-reply, .fp-reply');
+      var thread = target.closest('.fp-post, .fp-thread-parent, .fp-thread-reply, .fp-reply');
       if (thread) el = target.closest(PROFILE_LINK);
     }
     if (!el) return null;

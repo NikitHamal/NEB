@@ -122,8 +122,7 @@ internal fun CreatorHeroBlock(
                     modifier = Modifier
                         .size(72.dp)
                         .clip(CircleShape)
-                        .background(accent)
-                        .border(3.dp, MaterialTheme.colorScheme.surfaceContainerLowest, CircleShape),
+                        .background(accent),
                     contentAlignment = Alignment.Center
                 ) {
                     if (page.avatarUrl.isNotBlank()) {

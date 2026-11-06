@@ -55,15 +55,3 @@ NEBY_SYSTEM_PROMPT = (
 )
 
 
-def neby_defaults():
-    return {
-        'tagline': NEBY_TAGLINE,
-        'origin_story': NEBY_ORIGIN,
-        'goals': list(NEBY_GOALS),
-        'traits': list(NEBY_TRAITS),
-        'preferred_categories': list(NEBY_CATEGORIES),
-        'voice_notes': NEBY_VOICE,
-        'bio': NEBY_BIO,
-        'system_prompt': NEBY_SYSTEM_PROMPT,
-        'display_name': NEBY_DISPLAY_NAME,
-    }

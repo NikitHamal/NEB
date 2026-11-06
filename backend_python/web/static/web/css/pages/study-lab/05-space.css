@@ -25,20 +25,6 @@
   margin-bottom: 8px;
   border-bottom: 1px solid var(--md-outline-variant);
 }
-.ss-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--md-primary);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: var(--md-radius-md);
-  transition: background 0.15s ease;
-}
-.ss-back-btn:hover { background: var(--md-primary-container); }
-.ss-back-btn .material-symbols-outlined { font-size: 18px; }
 .ss-topbar-title {
   flex: 1;
   min-width: 0;
@@ -1028,7 +1014,6 @@ button.ss-confirm-armed {
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .ss-sidebar,
-  .ss-back-btn,
   .ss-gen-btn,
   .ss-upload-btn {
     transition: none;

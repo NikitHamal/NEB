@@ -13,15 +13,14 @@ information.
 from __future__ import annotations
 
 import hashlib
-import math
 import os
 from typing import List, Optional, Sequence, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 
-from . import og_logo
-from .og_art import (H, SS, W, Rng, Stage, face_palette, grain, ground, lift,
-                     mix, radial_glow, saturate)
+from . import og_logo, og_m3x as m3x
+from .og_art import (H, SS, W, Rng, Stage, face_palette, ground, lift, mix,
+                     radial_glow, saturate)
 from .og_heroes import HEROES, set_font_dir, _font
 
 def _hex(value: str):
@@ -178,218 +177,103 @@ def _tracked(d: ImageDraw.ImageDraw, xy, text: str, f, fill, track: float):
     return x
 
 
-def _tracked_width(d: ImageDraw.ImageDraw, text: str, f, track: float) -> float:
-    return sum(d.textlength(ch, font=f) for ch in text) + track * max(0, len(text) - 1)
-
-
-def _pill(d: ImageDraw.ImageDraw, xy, text: str, f, fg, bg, border, pad_x, pad_y):
-    w = d.textlength(text, font=f)
-    h = f.size * 1.02
-    x, y = xy
-    box = (x, y, x + w + pad_x * 2, y + h + pad_y * 2)
-    d.rounded_rectangle(box, radius=(h + pad_y * 2) / 2.0, fill=bg, outline=border,
-                        width=max(1, int(1.2 * SS)))
-    bbox = d.textbbox((0, 0), text, font=f)
-    d.text((x + pad_x - bbox[0], y + pad_y + (h - (bbox[3] - bbox[1])) / 2.0 - bbox[1]),
-           text, font=f, fill=fg)
-    return box[2] - box[0]
-
-
 # ── Pieces ────────────────────────────────────────────────────────────────
 
-def _address(canvas: Image.Image, d: ImageDraw.ImageDraw, accent):
-    """Bottom-left: the mark at lockup weight and the domain, so every card
-    says whose card it is even when the title is cut in a preview."""
-    y = H * SS - MARGIN * SS - 30 * SS
-    art = og_logo.mark(30 * SS)
-    canvas.alpha_composite(art, (MARGIN * SS, int(y)))
-    f = font('bold', 19 * SS)
-    x = MARGIN * SS + art.size[0] + 13 * SS
-    d.text((x, y + 2 * SS), 'NEBians', font=f, fill=mix(PAPER, (255, 255, 255), 0.25))
-    wm = d.textlength('NEBians', font=f)
-    f2 = font('medium', 17 * SS)
-    d.text((x + wm + 11 * SS, y + 4 * SS), 'nebians.consica.com.np', font=f2, fill=DIM)
-
-
-def _bloom(canvas: Image.Image, cx: float, cy: float, r: float, colour, alpha: int):
-    disc = radial_glow(int(r * 2), colour, alpha=alpha, falloff=2.4)
-    canvas.alpha_composite(disc, (int(cx - r), int(cy - r)))
-
-
-def _mark_stage(canvas: Image.Image, accent, rng: Rng):
-    """The home page's hero: the real mark, lit, standing on a hairline plinth."""
-    height = int(HERO_R * 1.58)
-    art = og_logo.mark(height * SS)
-    # Pulled left of centre: the mark is tall and narrow, and at full weight
-    # its right book runs off the frame at this size.
-    x = int((HERO_CX - 8) * SS - art.size[0] / 2)
-    y = int((HERO_CY + 6) * SS - art.size[1] / 2)
-
-    _bloom(canvas, HERO_CX * SS, HERO_CY * SS, 330 * SS, saturate(accent, 1.2), 42)
-    _bloom(canvas, HERO_CX * SS, HERO_CY * SS, 190 * SS,
-           mix(lift(accent, 165), (255, 255, 255), 0.4), 60)
-
-    canvas.alpha_composite(art, (x, y))
-
-    # No plinth line: the mark's own books are a horizontal, and any rule
-    # placed near them reads as a strike-through at thumbnail size. The glow
-    # is what grounds it.
-
-
-def _avatar_stage(canvas: Image.Image, accent, rng: Rng,
-                  avatar: Optional[Image.Image]):
-    """Profile: the portrait on an isometric plinth, or a monogram if there is
-    no photo. The plinth is the same solid as every other hero, so a profile
-    card belongs to the set rather than to a different design."""
-    size = int(HERO_R * 1.58)
-    cx, cy = HERO_CX, HERO_CY
-
-    # Plinth first: one box, seen in plan, sized to the portrait's footprint
-    # plus a lip. Drawn before the portrait so the portrait sits on it.
-    _bloom(canvas, cx * SS, cy * SS, 300 * SS, saturate(accent, 1.2), 30)
-
-    # The plinth sits behind the portrait's lower edge, not under the whole
-    # card: its top face peeks out as a lip below the circle. Half-depth of an
-    # isometric square is 0.5 * sqrt(2) * side / 2, and that is how far down
-    # from the portrait's centre the lip lands.
-    plinth_side = size * 0.74
-    plinth_cy = cy + size * 0.40
-    stage = Stage(canvas, cx * SS, plinth_cy * SS, 1.0)
-    half = plinth_side / 2.0
-    # Height is measured downward from the plinth's top face: the box's base
-    # sits below the lip, so only the lip and a shallow edge show.
-    stage.box(-half, -half, -size * 0.20, plinth_side, plinth_side, size * 0.20,
-              face_palette(accent), rim=(238, 245, 255))
-
-    plate = Image.new('RGBA', (size * SS, size * SS), (0, 0, 0, 0))
-    pd = ImageDraw.Draw(plate)
-    pd.ellipse((0, 0, size * SS - 1, size * SS - 1),
-               fill=mix(accent, (0, 0, 0), 0.52) + (255,))
-
-    if avatar is None:
-        f = font('bold', int(size * SS * 0.58))
-        text = 'N'
-        bbox = pd.textbbox((0, 0), text, font=f)
-        pd.text(((size * SS - (bbox[2] - bbox[0])) / 2 - bbox[0],
-                 (size * SS - (bbox[3] - bbox[1])) / 2 - bbox[1]),
-                text, font=f, fill=mix(accent, (255, 255, 255), 0.78))
+def _chip(d: ImageDraw.ImageDraw, x, y, text, f, fill, ink, pad=(18, 9), track=0.0):
+    """A tonal pill. Returns its right edge in card pixels."""
+    if track:
+        w = sum(d.textlength(ch, font=f) + track for ch in text) / float(SS)
     else:
-        from PIL import ImageOps
-        fitted = ImageOps.fit(avatar.convert('RGBA'), (size * SS, size * SS),
-                              method=Image.LANCZOS, centering=(0.5, 0.36))
-        plate.paste(fitted, (0, 0), fitted)
+        w = d.textlength(text, font=f) / float(SS)
+    h = f.size / float(SS)
+    box = (x, y, x + w + pad[0] * 2, y + h * 1.32 + pad[1] * 2 - 4)
+    d.rounded_rectangle([v * SS for v in box], radius=(box[3] - box[1]) / 2 * SS, fill=tuple(fill) + (255,))
+    tx, ty = (x + pad[0]) * SS, (y + pad[1] - 1) * SS
+    if track:
+        _tracked(d, (tx, ty), text, f, tuple(ink) + (255,), track)
+    else:
+        d.text((tx, ty), text, font=f, fill=tuple(ink) + (255,))
+    return box[2]
 
-    mask = Image.new('L', (size * SS, size * SS), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, size * SS - 1, size * SS - 1), fill=255)
-    plate.putalpha(mask)
-
-    ox = int(cx * SS - size * SS / 2)
-    oy = int(cy * SS - size * SS / 2 - size * 0.02 * SS)
-    canvas.alpha_composite(plate, (ox, oy))
-
-    # Ring last, over the portrait's edge: an accent hairline plus a wider
-    # soft halo, which is what separates a portrait from its ground.
-    ring = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
-    rd = ImageDraw.Draw(ring)
-    rd.ellipse((ox - 2 * SS, oy - 2 * SS, ox + size * SS + 2 * SS - 1,
-                oy + size * SS + 2 * SS - 1),
-               outline=mix(accent, (255, 255, 255), 0.62) + (210,),
-               width=int(2.0 * SS))
-    rd.ellipse((ox - 14 * SS, oy - 14 * SS, ox + size * SS + 13 * SS,
-                oy + size * SS + 13 * SS),
-               outline=mix(accent, (255, 255, 255), 0.30) + (70,),
-               width=int(1.0 * SS))
-    canvas.alpha_composite(ring)
-
-
-# ── The card ──────────────────────────────────────────────────────────────
 
 def render(kind: str, title: str, *, meta: Sequence[str] = (), kicker: str = '',
            subject: str = '', seed: str = '', hero: str = 'mark',
            avatar: Optional[Image.Image] = None, accent_hex: str = '') -> Image.Image:
-    """One card. `kind` seeds the drawing; `hero` picks the sculpture."""
+    """One card, M3 Expressive light: a tonal surface, one big expressive shape
+    on the right holding a solid accent shape and a white glyph, the words on
+    the left. Flat colour only; `kind` and `seed` pick the shape variant."""
     accent = accent_for(subject or '', accent_hex)[0]
-    rng = Rng(seed_of(kind, seed or title, subject))
+    c = m3x.roles(accent)
+    variant = seed_of(kind, seed or title, subject) % 4
 
-    canvas = ground(W * SS, H * SS, accent, rng,
-                    glow_at=((HERO_CX / float(W)) + 0.02, 0.50), glow_r=1.05)
+    canvas = Image.new('RGBA', (W * SS, H * SS), tuple(c['surface']) + (255,))
     d = ImageDraw.Draw(canvas, 'RGBA')
 
-    # Hairline frame, inset. One pixel of white at 10% is the whole difference
-    # between "a picture" and "a card".
-    d.rectangle((12 * SS, 12 * SS, W * SS - 12 * SS - 1, H * SS - 12 * SS - 1),
-                outline=(255, 255, 255, 26), width=1)
-
-    # ── The sculpture ──
-    if hero == 'mark':
-        _mark_stage(canvas, accent, rng)
-    elif hero == 'avatar':
-        _avatar_stage(canvas, accent, rng, avatar)
+    # ── The shapes ──
+    cx, cy = 925, 322
+    big = [(cx, cy, 262, 9, .065, .3),
+           (cx + 8, cy + 6, 258, 8, .08, .1),
+           (cx - 4, cy - 2, 266, 10, .05, .6),
+           (cx + 4, cy + 2, 260, 7, .09, .9)][variant]
+    m3x.poly(d, m3x.cookie(*big), c['container'], SS)
+    small_dx = (-196, 205, -190, 196)[variant]
+    small_dy = (-206, 214, 208, -204)[variant]
+    m3x.poly(d, m3x.squircle(cx + small_dx, cy + small_dy, 52, 4.0, .4), c['container_hi'], SS)
+    m3x.poly(d, m3x.cookie(cx - small_dx * .92, cy + small_dy * .1, 26, 7, .14, .5), c['container_hi'], SS)
+    if hero == 'avatar':
+        m3x.portrait(canvas, avatar, cx, cy, 168, c, SS, font)
     else:
-        # The stage works in canvas pixels, so the origin and the unit are both
-        # at supersample scale. 92 units per card pixel: a 3-unit object then
-        # spans about 480 card pixels, which leaves the sculpture room to sit
-        # inside the frame rather than crowd the title.
-        dx, dy, unit = HERO_TUNING.get(hero, (HERO_R * 0.02, HERO_R * 0.62, 92))
-        stage = Stage(canvas, (HERO_CX + dx) * SS, (HERO_CY + dy) * SS, unit * SS)
-        fn = HEROES.get(hero, HEROES['mark'])
-        fn(accent, rng, stage)
+        if hero not in HEROES:
+            hero = 'mark'
+        m3x.poly(d, m3x.squircle(cx, cy, 172, 4.4, [0.0, .12, -.1, .06][variant]), c['accent'], SS)
+        m3x.glyph(hero, d, canvas, cx, cy, 82, c, SS, font)
+
+    # ── Lockup, top left ──
+    art = og_logo.mark(40 * SS)
+    canvas.alpha_composite(art, (MARGIN * SS, 58 * SS))
+    d = ImageDraw.Draw(canvas, 'RGBA')
+    d.text(((MARGIN + art.size[0] / SS + 14) * SS, 62 * SS), 'NEBians', font=font('bold', 26 * SS),
+           fill=tuple(c['ink']) + (255,))
 
     # ── The words ──
-    d = ImageDraw.Draw(canvas, 'RGBA')
-    f_title, lines = _fit_title(d, title, TEXT_W)
-    size = f_title.size / float(SS)
-    leading = size * 1.10
-    kicker_h = (KICKER_SIZE * 1.9) if kicker else 0
+    kicker_h = 62 if kicker else 0
+    meta_h = 74 if meta else 0
+    budget = H - 132 - 112 - kicker_h - meta_h
+    cap = TITLE_MAX
+    while True:
+        f_title, lines = _fit_title(d, title, TEXT_W, max_size=cap)
+        size = f_title.size / float(SS)
+        leading = size * 1.10
+        if leading * len(lines) <= budget or cap <= TITLE_MIN:
+            break
+        cap = int(min(cap, size)) - 4
     title_h = leading * len(lines)
-    meta_h = (META_SIZE * 2.4) if meta else 0
     block_h = kicker_h + title_h + meta_h
-    top = (H - block_h) / 2.0 - 6
+    top = 132 + (H - 132 - 112 - block_h) / 2.0
 
     y = top
     if kicker:
-        fk = font('bold', KICKER_SIZE * SS)
-        # A short accent bar before the kicker: the cheapest way to put the
-        # subject colour next to the words instead of only behind the picture.
-        bar_w = 22
-        bar_y = y + KICKER_SIZE * 0.42
-        d.rounded_rectangle((MARGIN * SS, bar_y * SS, (MARGIN + bar_w) * SS,
-                             (bar_y + 2.6) * SS), radius=1.3 * SS,
-                            fill=mix(accent, (255, 255, 255), 0.30) + (255,))
-        _tracked(d, ((MARGIN + bar_w + 13) * SS, y * SS), kicker.upper(), fk,
-                 mix(accent, (255, 255, 255), 0.55) + (255,), 2.4 * SS)
+        _chip(d, MARGIN, y, kicker.upper(), font('bold', 18 * SS), c['container_hi'], c['on_container'],
+              pad=(18, 9), track=2.2 * SS)
         y += kicker_h
-
     for line in lines:
         bbox = d.textbbox((0, 0), line, font=f_title)
-        d.text((MARGIN * SS, y * SS - bbox[1]), line, font=f_title,
-               fill=PAPER + (255,))
+        d.text((MARGIN * SS, y * SS - bbox[1]), line, font=f_title, fill=tuple(c['ink']) + (255,))
         y += leading
-
     if meta:
-        fm = font('medium', META_SIZE * SS)
-        mx = MARGIN
-        my = y + 10
-        for i, part in enumerate(meta):
+        fm = font('medium', 20 * SS)
+        mx, my = MARGIN, y + 22
+        for part in meta:
             part = str(part)
             if not part:
                 continue
-            w = d.textlength(part, font=fm) / float(SS)
+            w = d.textlength(part, font=fm) / float(SS) + 36
             if mx + w > MARGIN + TEXT_W:
                 break
-            if i:
-                # Optical centre of the meta text, not its box centre: the
-                # font's ascender space puts a mathematically centred dot low.
-                r = 2.2
-                cy_dot = my + META_SIZE * 0.36
-                d.ellipse(((mx + 9 - r) * SS, (cy_dot - r) * SS,
-                           (mx + 9 + r) * SS, (cy_dot + r) * SS),
-                          fill=mix(accent, (255, 255, 255), 0.45) + (235,))
-                mx += 23
-            d.text((mx * SS, my * SS), part, font=fm, fill=MUTED + (255,))
-            mx += w
+            mx = _chip(d, mx, my, part, fm, c['chip'], c['on_container'], pad=(18, 8)) + 10
 
-    _address(canvas, d, accent)
+    d.text((MARGIN * SS, (H - 62) * SS), 'nebians.consica.com.np', font=font('medium', 19 * SS),
+           fill=tuple(c['muted']) + (255,))
 
     return canvas.convert('RGB').resize((W, H), Image.LANCZOS)
 
@@ -401,6 +285,6 @@ def to_png(img: Image.Image) -> bytes:
     # matters: quantising them flat produces visible rings in the corners where
     # the vignette is softest.
     img.convert('RGB').quantize(colors=256, method=Image.MEDIANCUT,
-                                dither=Image.FLOYDSTEINBERG).save(
+                                dither=Image.NONE).save(
         buf, format='PNG', optimize=True)
     return buf.getvalue()

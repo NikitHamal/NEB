@@ -62,7 +62,7 @@ impl Default for Prefs {
     }
 }
 
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Profile {
     pub role: String,
@@ -134,12 +134,15 @@ pub struct PersistedState {
     pub prefs: Prefs,
     pub profile: Profile,
     pub onboarded: bool,
-    pub guest: bool,
+    /// The animated welcome tour has been seen.
+    pub intro_done: bool,
     pub session: Option<Session>,
     pub bookmarks: Vec<Bookmark>,
     pub progress: HashMap<String, Progress>,
     pub recent: Vec<Recent>,
     pub window: Option<WindowGeom>,
+    /// Last page read per PDF (keyed by file name).
+    pub pdf_pos: HashMap<String, usize>,
 }
 
 pub struct Store {
@@ -186,10 +189,6 @@ impl Store {
         }
         self.dirty = false;
         self.last_save = Instant::now();
-    }
-
-    pub fn path(&self) -> &Path {
-        &self.path
     }
 
     // ---- bookmarks ----

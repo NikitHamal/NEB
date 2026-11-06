@@ -36,7 +36,7 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.SpaceDashboard
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Wifi
@@ -80,7 +80,7 @@ fun SettingsScreen(
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {},
     onNavigateToLegal: (String) -> Unit = {},
-    onNavigateToCanvas: () -> Unit = {}
+    onNavigateToNotes: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
@@ -176,11 +176,11 @@ fun SettingsScreen(
 
             SettingsGroup(title = "Tools") {
                 SettingsRow(
-                    icon = Icons.Outlined.SpaceDashboard,
-                    title = "NEBians Canvas",
-                    subtitle = "Visual concept maps and whiteboards",
+                    icon = Icons.Outlined.EditNote,
+                    title = "Notes",
+                    subtitle = "Write, dictate and listen",
                     badge = "New",
-                    onClick = onNavigateToCanvas
+                    onClick = onNavigateToNotes
                 )
             }
 

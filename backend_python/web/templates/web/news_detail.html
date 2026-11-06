@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news-detail.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}?v=20261103d">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news-detail.css' %}?v=20261103e">
 {% endblock %}
 
 {% block bottomnav %}
@@ -29,18 +29,8 @@
 
 <div class="md-container news-detail-page">
 
-  <nav class="nd-crumbs" aria-label="Breadcrumb">
-    <a href="{% url 'web:home' %}">Home</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <a href="{% url 'web:news_list' %}">Blog</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <span class="nd-crumb-current">{{ announcement.title }}</span>
-  </nav>
-
-  <a href="{% url 'web:news_list' %}" class="back-link nd-back" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to Blog
-  </a>
+  {% url 'web:news_list' as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Blog" %}
 
   <div class="nd-layout">
     <div class="nd-main">
@@ -72,24 +62,51 @@
 
           <div class="news-detail-meta">
             <span class="news-card-author">
-              {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
-              {{ announcement.author_name|mention_links_plain }}
+              {% if announcement.author_photo %}<img loading="lazy" decoding="async" src="{{ announcement.author_photo }}" alt="">{% endif %}
+              {{ announcement.author_name|mention_links_plain }}{% if announcement.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}
             </span>
-            <span>{{ announcement.published_at|time_ago }}</span>
-            <span class="material-symbols-outlined icon-sm">visibility</span>
-            <span>{{ announcement.view_count|short_number }} views</span>
-            <span class="material-symbols-outlined icon-sm">schedule</span>
-            <span>{{ announcement.read_time }} min read</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-when">{{ announcement.published_at|time_ago }}</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ announcement.view_count|short_number }} views</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">schedule</span>{{ announcement.read_time }} min read</span>
           </div>
         </header>
 
         {% if announcement.cover_image_url %}
         <div class="news-detail-cover">
-          <img src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
+          <img loading="lazy" decoding="async" src="{{ announcement.cover_image_url }}" alt="{{ announcement.title }}">
         </div>
         {% endif %}
 
         <div class="news-detail-content md-content" id="news-content">{{ announcement.content|safe }}</div>
+
+        {% if announcement.attachments %}
+        <section class="nd-files" aria-label="Attachments">
+          {% for f in announcement.attachments %}
+          <a class="nd-file" href="{{ f.url }}" target="_blank" rel="noopener nofollow">
+            <span class="material-symbols-outlined nd-file-ic" aria-hidden="true">{{ f.icon }}</span>
+            <span class="nd-file-name">{{ f.name }}</span>
+            <span class="nd-file-kind">{{ f.kind }}</span>
+            <span class="material-symbols-outlined nd-file-go" aria-hidden="true">open_in_new</span>
+          </a>
+          {% endfor %}
+        </section>
+        {% endif %}
+
+        {% if announcement.source_name and announcement.external_url %}
+        <aside class="nd-source">
+          <div class="nd-source-who">
+            <strong>{{ announcement.source_name }}{% if announcement.source_official %}<span class="material-symbols-outlined src-verified" aria-label="Official source">verified</span>{% endif %}</strong>
+            <span>{{ announcement.source_host }}</span>
+          </div>
+          <a class="nd-source-btn" href="{{ announcement.external_url }}" target="_blank" rel="noopener nofollow">
+            {% if announcement.source_official %}Open original{% else %}Read full story{% endif %}
+            <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+          </a>
+        </aside>
+        {% endif %}
 
         <div class="nd-actionbar">
           <button type="button" class="nd-action nd-action-primary" id="share-btn"
@@ -103,7 +120,7 @@
             <span class="nd-label-long">Copy link</span>
           </button>
 
-          {% if announcement.external_url %}
+          {% if announcement.external_url and not announcement.source_name %}
           <a href="{{ announcement.external_url }}" target="_blank" rel="noopener" class="nd-action">
             <span class="material-symbols-outlined">open_in_new</span>
             <span>Source</span>
@@ -151,22 +168,11 @@
           <h2>More in {{ announcement.category_label }}</h2>
           <a href="{% url 'web:news_list' %}?category={{ announcement.category }}">View all</a>
         </div>
-        <div class="nd-related-grid">
+        <div class="bgrid">
           {% for r in related %}
-          <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
-            {% if r.cover_image_url %}
-            <div class="news-card-cover">
-              <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
-            </div>
-            {% else %}
-            <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ r.category_color }}22, {{ r.category_color }}08);">
-              <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ r.category_color }}">{{ r.category_icon }}</span>
-            </div>
-            {% endif %}
-            <div class="news-card-body">
-              <h3 class="news-card-title">{{ r.title }}</h3>
-              <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>
-            </div>
+          <a href="{% url 'web:news_detail' slug=r.slug %}" class="bcard" style="--cc: {{ r.category_color }}">
+            <div class="bcard-art">{% if r.cover_image_url %}<img src="{{ r.cover_image_url }}" alt="" loading="lazy">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ r.category_art }}" data-neb-seed="news|{{ r.id }}"></div>{% endif %}</div>
+            <div class="bcard-body"><h3 class="bcard-title">{{ r.title }}</h3><div class="bcard-meta"><span>{{ r.published_at|time_ago }}</span></div></div>
           </a>
           {% endfor %}
         </div>
@@ -186,8 +192,7 @@
           <span class="material-symbols-outlined">school</span>
         </div>
         <h4>Keep learning</h4>
-        <p>Past papers, notes, and model questions for every NEB subject — all free in the library.</p>
-        <a href="{% url 'web:library' %}" class="md-btn md-btn-tonal">Browse library</a>
+        <a href="{% url 'web:library' %}" class="x-btn">Browse library</a>
       </div>
     </aside>
   </div>

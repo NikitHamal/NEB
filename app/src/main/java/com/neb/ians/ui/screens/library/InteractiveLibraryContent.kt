@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.library
 
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -127,12 +128,7 @@ private fun InteractiveHeroCard(courseCount: Int) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    Brush.linearGradient(
-                        listOf(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
-                            MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f)
-                        )
-                    )
+                    SolidColor(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f))
                 )
                 .padding(18.dp)
         ) {

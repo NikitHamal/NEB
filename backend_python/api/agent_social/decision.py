@@ -8,7 +8,7 @@ import json
 import logging
 import re
 
-from .observer import counts_today, follow_candidates, hours_since
+from .observer import counts_today, hours_since
 
 logger = logging.getLogger(__name__)
 

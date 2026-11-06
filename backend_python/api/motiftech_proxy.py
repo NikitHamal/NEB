@@ -18,6 +18,7 @@ import logging
 from typing import Dict, Generator, List, Optional
 
 from .proxy_http import new_session, resilient_post
+from .model_catalog import model_catalog
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +29,11 @@ REQUEST_TIMEOUT = 300
 MODELS = [
     {"id": "motif-102b", "name": "Motif 3", "reasoning": True, "vision": False, "web_search": False},
 ]
+
+
+def get_models() -> List[Dict]:
+    return model_catalog(MODELS)
+
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
@@ -42,24 +48,6 @@ _BROWSER_HEADERS = {
     "sec-ch-ua-mobile": "?0",
     "sec-ch-ua-platform": '"Windows"',
 }
-
-
-def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": m.get("vision", False),
-                "thinking": m.get("reasoning", False),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
 
 
 def stream_chat(

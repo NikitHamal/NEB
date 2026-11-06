@@ -68,7 +68,7 @@
     "Function"
    ],
    "stats": {
-    "words": 4498,
+    "words": 4813,
     "figures": 5,
     "examples": 14
    },
@@ -118,7 +118,7 @@
     "Equal polynomials"
    ],
    "stats": {
-    "words": 3718,
+    "words": 3896,
     "figures": 4,
     "examples": 16
    },
@@ -163,7 +163,7 @@
     "Series and the sum of n terms"
    ],
    "stats": {
-    "words": 3955,
+    "words": 4145,
     "figures": 4,
     "examples": 13
    },
@@ -212,7 +212,7 @@
     "Limit notation"
    ],
    "stats": {
-    "words": 4137,
+    "words": 4371,
     "figures": 4,
     "examples": 10
    },
@@ -263,7 +263,7 @@
     "Scalar multiple of a matrix"
    ],
    "stats": {
-    "words": 3832,
+    "words": 4008,
     "figures": 5,
     "examples": 15
    },
@@ -311,7 +311,7 @@
     "Slope of a line"
    ],
    "stats": {
-    "words": 4011,
+    "words": 4242,
     "figures": 6,
     "examples": 18
    },
@@ -371,7 +371,7 @@
     "Angle of elevation and angle of depression"
    ],
    "stats": {
-    "words": 4683,
+    "words": 4884,
     "figures": 6,
     "examples": 19
    },
@@ -423,7 +423,7 @@
     "Triangle law and parallelogram law of vector addition"
    ],
    "stats": {
-    "words": 3626,
+    "words": 3831,
     "figures": 4,
     "examples": 13
    },
@@ -472,7 +472,7 @@
     "Isometric and non-isometric transformations"
    ],
    "stats": {
-    "words": 3802,
+    "words": 4046,
     "figures": 5,
     "examples": 11
    },
@@ -522,7 +522,7 @@
     "Range and coefficient of range"
    ],
    "stats": {
-    "words": 3865,
+    "words": 4041,
     "figures": 4,
     "examples": 12
    },

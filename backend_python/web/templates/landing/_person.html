@@ -1,0 +1,6 @@
+{% comment %}One team card. `p` comes from web/about_data.py (team()). The photo slot is the same shape with or without a picture.{% endcomment %}
+<article class="ab-person ab-{{ p.group }} th-{{ p.tone }}" id="{{ p.slug }}" data-reveal style="--i:{{ i }}">
+  <span class="ab-photo shp-{{ p.shape }} g-{{ p.tone }}">{% if p.photo %}<img src="{{ p.photo }}" alt="{{ p.name }}" width="320" height="320" loading="lazy" decoding="async">{% else %}<b aria-hidden="true">{{ p.initial }}</b>{% endif %}</span>
+  <h3 class="ab-name">{{ p.name }}</h3>
+  {% if p.role %}<p class="ab-role">{{ p.role }}</p>{% endif %}
+</article>

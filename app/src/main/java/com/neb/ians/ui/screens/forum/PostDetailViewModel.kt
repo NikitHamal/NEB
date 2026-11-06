@@ -16,6 +16,9 @@ import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.ui.components.PollUi
 import com.neb.ians.ui.components.toPollUi
+import com.neb.ians.ui.components.PostReachHints
+import com.neb.ians.data.api.ApiPoll
+import com.neb.ians.data.api.ApiPollCreate
 import com.neb.ians.ui.components.applyMention
 import com.neb.ians.ui.components.formatVoiceTime
 import com.neb.ians.ui.components.mentionQueryAt
@@ -28,6 +31,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -41,7 +45,7 @@ data class PostDetailUiState(
     val poll: PollUi? = null,
     val replySort: String = "oldest",
     val isLoading: Boolean = true,
-    val isVoting: Boolean = false,
+    val busyPollId: String? = null,
     val error: String? = null,
     val snackbarMessage: String? = null,
     val currentUserId: String? = null
@@ -116,6 +120,17 @@ class PostDetailViewModel @Inject constructor(
         state.copy(currentUserId = userId)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
+    /** Who a reply goes out as, for the identity avatar in the reply composer. */
+    val userName: StateFlow<String> = authRepository.currentUserNameFlow
+    val userPhotoUrl: StateFlow<String?> =
+        authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+    val userHandle: StateFlow<String> =
+        authRepository.currentUsernameHandleFlow.stateIn(viewModelScope, SharingStarted.Eagerly, "")
+    val anonTag: StateFlow<String> =
+        authRepository.currentUserIdFlow
+            .map { com.neb.ians.ui.components.anonTagFor(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
+
     init {
         loadPost()
         unsubscribePost = realtimeClient.subscribe("forum.post.$postId")
@@ -152,7 +167,20 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
+    private var openedAt = 0L
+    private var viewCounted = false
+
+    @OptIn(kotlinx.coroutines.DelicateCoroutinesApi::class)
     override fun onCleared() {
+        if (viewCounted && openedAt > 0L) {
+            val dwell = android.os.SystemClock.elapsedRealtime() - openedAt
+            val repo = forumRepository
+            val id = postId
+            // The view model's scope is already gone here; this is one tiny best-effort request.
+            kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                repo.reportPostView(id, "", dwell.coerceIn(0L, 30 * 60_000L))
+            }
+        }
         unsubscribePost?.invoke()
         unsubscribePost = null
         super.onCleared()
@@ -237,8 +265,10 @@ class PostDetailViewModel @Inject constructor(
                     }
             }
 
-            if (!forceRefresh && !hasPost) {
-                forumRepository.viewPost(postId)
+            if (!viewCounted) {
+                openedAt = android.os.SystemClock.elapsedRealtime()
+                viewCounted = true
+                forumRepository.reportPostView(postId, PostReachHints.take(postId))
             }
             forumRepository.getPost(postId, forceRefresh = forceRefresh)
                 .onSuccess { post ->
@@ -359,23 +389,52 @@ class PostDetailViewModel @Inject constructor(
 
     // ----- Poll voting -----
 
-    fun votePoll(optionIds: List<String>) {
-        val poll = _state.value.poll ?: return
-        if (poll.hasVoted || poll.isExpired || optionIds.isEmpty() || _state.value.isVoting) return
-        _state.update { it.copy(isVoting = true) }
+    /** Folds a fresh poll payload into the post card or the comment it belongs to. */
+    private fun applyPoll(poll: ApiPoll) {
+        _state.update { state ->
+            if (state.poll?.id == poll.id) {
+                state.copy(poll = poll.toPollUi(), post = state.post?.copy(poll = poll), busyPollId = null)
+            } else {
+                state.copy(
+                    replies = state.replies.map { if (it.poll?.id == poll.id) it.copy(poll = poll) else it },
+                    busyPollId = null
+                )
+            }
+        }
+    }
+
+    private fun pollFailure(e: Throwable, fallback: String) {
+        val message = ApiErrorMapper.mapException(e).ifBlank { fallback }
+        _state.update { it.copy(busyPollId = null, snackbarMessage = message) }
+    }
+
+    fun votePoll(pollId: String, optionIds: List<String>, allowMultiple: Boolean) {
+        if (optionIds.isEmpty() || _state.value.busyPollId != null) return
+        _state.update { it.copy(busyPollId = pollId) }
         viewModelScope.launch {
-            forumRepository.votePoll(poll.id, optionIds, poll.allowMultiple)
-                .onSuccess { response ->
-                    _state.update { state ->
-                        state.copy(
-                            poll = response.toPollUi(votedIds = optionIds.toSet()),
-                            isVoting = false
-                        )
-                    }
-                }
-                .onFailure {
-                    _state.update { it.copy(isVoting = false, snackbarMessage = "Couldn't submit vote") }
-                }
+            forumRepository.votePoll(pollId, optionIds, allowMultiple)
+                .onSuccess { applyPoll(it) }
+                .onFailure { pollFailure(it, "Couldn't submit vote") }
+        }
+    }
+
+    fun addPollOption(pollId: String, text: String) {
+        if (text.isBlank() || _state.value.busyPollId != null) return
+        _state.update { it.copy(busyPollId = pollId) }
+        viewModelScope.launch {
+            forumRepository.addPollOption(pollId, text)
+                .onSuccess { applyPoll(it) }
+                .onFailure { pollFailure(it, "Couldn't add that option") }
+        }
+    }
+
+    fun retractPollVote(pollId: String) {
+        if (_state.value.busyPollId != null) return
+        _state.update { it.copy(busyPollId = pollId) }
+        viewModelScope.launch {
+            forumRepository.retractPollVote(pollId)
+                .onSuccess { applyPoll(it) }
+                .onFailure { pollFailure(it, "Couldn't change your vote") }
         }
     }
 
@@ -492,6 +551,44 @@ class PostDetailViewModel @Inject constructor(
 
     private val _mediaAttachments = MutableStateFlow<List<PendingForumAttachment>>(emptyList())
     val mediaAttachments: StateFlow<List<PendingForumAttachment>> = _mediaAttachments.asStateFlow()
+
+    /** The poll being written in the main comment bar, or null when the builder is closed. */
+    private val _composerPoll = MutableStateFlow<com.neb.ians.ui.screens.forum.CommentPollDraft?>(null)
+    val composerPoll: StateFlow<com.neb.ians.ui.screens.forum.CommentPollDraft?> = _composerPoll.asStateFlow()
+
+    fun toggleComposerPoll() {
+        _composerPoll.value = if (_composerPoll.value == null) com.neb.ians.ui.screens.forum.CommentPollDraft() else null
+    }
+
+    fun updateComposerPoll(draft: com.neb.ians.ui.screens.forum.CommentPollDraft) {
+        _composerPoll.value = draft
+    }
+
+    private val _composerKind = MutableStateFlow("comment")
+    val composerKind: StateFlow<String> = _composerKind.asStateFlow()
+
+    fun setComposerKind(kind: String) {
+        _composerKind.value = kind
+    }
+
+    fun labelReply(replyId: String, label: String) {
+        val before = _state.value.replies
+        val current = before.firstOrNull { it.id == replyId } ?: return
+        _state.update { state ->
+            state.copy(replies = state.replies.map {
+                when {
+                    it.id == replyId -> it.copy(label = label)
+                    label == "accepted" && it.label == "accepted" -> it.copy(label = "")
+                    else -> it
+                }
+            })
+        }
+        viewModelScope.launch {
+            forumRepository.labelReply(current.id, label).onFailure { e ->
+                _state.update { it.copy(replies = before, snackbarMessage = ApiErrorMapper.mapException(e)) }
+            }
+        }
+    }
 
     private val _composerAnonymous = MutableStateFlow(false)
     val composerAnonymous: StateFlow<Boolean> = _composerAnonymous.asStateFlow()
@@ -651,13 +748,19 @@ class PostDetailViewModel @Inject constructor(
         onSuccess: () -> Unit
     ) {
         val staged = _mediaAttachments.value
-        if ((content.isBlank() && staged.isEmpty()) || _isSubmittingReply.value) return
+        val pollDraft = if (parentReplyId.isNullOrBlank()) _composerPoll.value else null
+        if (pollDraft != null && !pollDraft.isReady) {
+            _state.update { it.copy(snackbarMessage = "A poll needs a question and two different options") }
+            return
+        }
+        if ((content.isBlank() && staged.isEmpty() && pollDraft == null) || _isSubmittingReply.value) return
         if (staged.any { it.uploading }) {
             _state.update { it.copy(snackbarMessage = "Wait for attachments to finish uploading") }
             return
         }
         val attachments: List<ApiMediaAttachmentInput> = staged.mapNotNull { it.uploaded }
         val isAnonymous = _composerAnonymous.value
+        val kind = if (parentReplyId.isNullOrBlank()) _composerKind.value else "comment"
         viewModelScope.launch {
             _isSubmittingReply.value = true
             forumRepository.createReply(
@@ -665,9 +768,13 @@ class PostDetailViewModel @Inject constructor(
                 content = content.trim(),
                 parentReplyId = parentReplyId,
                 isAnonymous = isAnonymous,
-                attachments = attachments
+                attachments = attachments,
+                kind = kind,
+                poll = pollDraft?.toRequest()
             ).onSuccess { reply ->
                 _isSubmittingReply.value = false
+                if (pollDraft != null) _composerPoll.value = null
+                _composerKind.value = "comment"
                 _mediaAttachments.value = emptyList()
                 if (parentReplyId.isNullOrBlank()) {
                     _mainReplyText.value = TextFieldValue("")

@@ -44,7 +44,7 @@ private fun CommentSortPill(
     Surface(
         shape = WebPillShape,
         color = if (selected) MaterialTheme.colorScheme.secondaryContainer
-        else MaterialTheme.colorScheme.surfaceContainerLow,
+        else androidx.compose.ui.graphics.Color.Transparent,
         modifier = Modifier.clip(WebPillShape).clickable { onSelect(value) }
     ) {
         Text(

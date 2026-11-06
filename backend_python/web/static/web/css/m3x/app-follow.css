@@ -1,0 +1,52 @@
+/* The Follow button: one component for every place a person can be followed (feed, comments, search,
+   people rail, user popup, profile). A small tonal pill with a glyph:
+     not following -> primary-container pill, "+" glyph, "Follow"
+     following     -> quiet outlined pill, check glyph, "Following"
+   The glyph is a CSS mask so scripts that rewrite the label with textContent keep working.
+   Finite radius in every state; it presses in on tap but never changes shape.
+   The profile button already ships real Material Symbols, so it keeps those. */
+
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):not(#_) {
+  --fh: 26px;
+  --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z'/%3E%3C/svg%3E");
+  appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  height: var(--fh); min-height: var(--fh); width: auto; max-width: 100%;
+  padding: 0 11px 0 7px; margin: 0; gap: 3px;
+  border: 1px solid transparent !important; border-radius: 13px; white-space: nowrap;
+  font: 600 .75rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+  transition: background-color .2s, color .2s, border-color .2s, transform .35s var(--spring);
+  -webkit-tap-highlight-color: transparent;
+}
+/* the glyph */
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(#_)::before {
+  content: "" !important; display: block; flex: none; width: 16px; height: 16px; background: currentColor;
+  -webkit-mask: var(--fg) center / contain no-repeat; mask: var(--fg) center / contain no-repeat;
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:not(#_) {
+  --fg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3E%3Cpath d='M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z'/%3E%3C/svg%3E");
+  padding: 0 11px 0 7px;
+  background: transparent; color: var(--md-on-surface-variant);
+  border-color: var(--md-outline-variant) !important;
+}
+
+/* profile: bigger hero action, real glyphs, same two tones */
+.profile-page #btnFollowToggle { --fh: 36px; padding: 0 16px 0 12px; gap: 6px; font-size: .8125rem; border-radius: 18px; }
+.profile-page #btnFollowToggle > .material-symbols-outlined { display: inline-block; font-size: 18px; width: 18px; height: 18px; line-height: 18px; }
+.profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested) {
+  background: transparent; color: var(--md-on-surface-variant); border-color: var(--md-outline-variant) !important;
+}
+
+@media (hover: hover) {
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.following, #_):hover,
+  .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary-container) 82%, var(--md-primary)); }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:not(#_):hover,
+  .profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested):hover { background: var(--md-surface-container-high); }
+}
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):active { transform: scale(.95); }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, :where(.profile-page #btnFollowToggle)):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
+
+/* the suggestion rail stacks the pill under the name: it stays compact and centred */
+.hf-peer .hf-peer-follow { align-self: center; margin-top: 2px; }

@@ -1,7 +1,28 @@
 """Views Forum extracted from views.py."""
 import json as _json  # noqa: F401
 import time
-from .view_helpers import *  # noqa: F401,F403
+import re
+from api.models import Follow, Post, Reply, User
+from api.security import save_post_image_upload
+from api.utils import now_ms
+from api.view_helpers import is_global_user
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db.models import Count, Q
+from django.http import Http404
+from django.shortcuts import redirect, render
+from .view_helpers import (
+    _build_contributors_batch,
+    _clear_page_cache,
+    _compute_hot_score,
+    _ctx,
+    _get_user_id,
+    _request_db_user,
+    _serialize_post,
+    _serialize_posts,
+    _serialize_replies,
+    format_score,
+)
 from api import services
 from api.categories import CATEGORIES, normalize_category
 from api.security import save_forum_media_upload, validate_forum_attachments
@@ -58,13 +79,12 @@ def _collect_web_attachments(request):
     return (videos[:1] + others)[:4]
 
 def forum(request):
-    import math
     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
     user_id = _get_user_id(request)
     sort = request.GET.get('sort', 'hot')
     category = request.GET.get('category', '').strip()
-    if category:
+    if category and not Post.objects.filter(category__iexact=category.strip()).exists():
         category = normalize_category(category)
     search = request.GET.get('q', '').strip()
     page_num = request.GET.get('page', 1)
@@ -295,8 +315,18 @@ def leaderboard(request):
     if contributor_data is None:
         contributor_data = _build_contributors_batch()[:50]
         cache.set('forum_contributors', contributor_data, 300)
+    top_score = max([c.get('score') or 0 for c in contributor_data] or [0]) or 1
+    ranked = []
+    for i, c in enumerate(contributor_data, start=1):
+        row = dict(c)
+        row['rank'] = i
+        row['pct'] = max(4, round(100 * (c.get('score') or 0) / top_score))
+        ranked.append(row)
+    podium = [ranked[i] for i in (1, 0, 2) if i < len(ranked)]
     return render(request, 'web/leaderboard.html', _ctx(request,
-        contributors=contributor_data,
+        contributors=ranked,
+        podium=podium,
+        rest=ranked[3:],
     ))
 
 def forum_post(request, post_id):
@@ -305,11 +335,12 @@ def forum_post(request, post_id):
         post_obj = Post.objects.select_related('user').get(id=post_id)
     except Post.DoesNotExist:
         raise Http404("Post not found")
-    view_key = f'post_viewed_{post_id}'
-    if not request.session.get(view_key):
-        Post.objects.filter(pk=post_id).update(view_count=F('view_count') + 1)
-        request.session[view_key] = True
-        post_obj.view_count += 1
+    from api import post_reach
+    _viewer = User.objects.filter(pk=user_id).first() if user_id else None
+    _surface = request.GET.get('from') or ''
+    _before = post_obj.view_count
+    _res = post_reach.record_view(request, post_obj, _viewer, surface=_surface)
+    post_obj.view_count = _res['view_count']
     if user_id and user_id != post_obj.user_id:
         from api.models import PostView
         recent = PostView.objects.filter(post_id=post_id, user_id=user_id, viewed_at__gt=int(time.time() * 1000) - 300000).exists()
@@ -334,6 +365,12 @@ def forum_post(request, post_id):
             top_level.append(r)
         else:
             children_map.setdefault(r['parentReplyId'], []).append(r)
+    top_level.sort(key=lambda r: 0 if r.get('label') == 'accepted' else 1)
+    label_counts = {}
+    for r in all_replies:
+        if r.get('label'):
+            label_counts[r['label']] = label_counts.get(r['label'], 0) + 1
+    from . import forum_labels
     is_following = False
     is_owner = False
     if user_id:
@@ -368,6 +405,7 @@ def forum_post(request, post_id):
     # fields (text, comment, author.url) that are easy to forget by hand.
     from .schema_forum import breadcrumb_schema, thread_schema
     ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort,
+        label_meta=forum_labels.meta(), label_meta_json=_json.dumps(forum_labels.meta()), label_counts=label_counts,
         home_unanswered=home_unanswered,
         home_contributors=home_contributors,
         feed_entries=feed_entries,

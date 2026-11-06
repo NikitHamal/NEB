@@ -169,44 +169,6 @@ MINDMAP_FULL_PROMPT = (
 )
 
 
-def quiz_outline_prompt(count: int) -> str:
-    return (
-        f"Outline {count} multiple-choice quiz questions from these documents. "
-        "List the topics and key concepts to test. "
-        "Do not write the actual questions yet."
-    )
-
-
-def quiz_full_prompt(count: int, exclusion_text: str = '') -> str:
-    prompt = (
-        f"Create {count} multiple-choice quiz questions from these documents "
-        "based on the outline below. Each question must have exactly 4 options (A-D) "
-        "and one correct answer. Return only a JSON array."
-    )
-    if exclusion_text:
-        prompt += '\n\n' + exclusion_text
-    return prompt
-
-
-def flashcard_outline_prompt(count: int) -> str:
-    return (
-        f"Outline {count} flashcard topics from these documents. "
-        "List the key concepts, terms, and definitions to cover. "
-        "Do not write the actual flashcards yet."
-    )
-
-
-def flashcard_full_prompt(count: int, exclusion_text: str = '') -> str:
-    prompt = (
-        f"Create {count} flashcards from these documents based on the outline below. "
-        "Each flashcard must have a 'front' (question/term) and 'back' (answer/definition). "
-        "Return only a JSON array."
-    )
-    if exclusion_text:
-        prompt += '\n\n' + exclusion_text
-    return prompt
-
-
 def exclusion_block(title: str, items: list) -> str:
     """Format exclusion items as a text block for AI prompts."""
     if not items:

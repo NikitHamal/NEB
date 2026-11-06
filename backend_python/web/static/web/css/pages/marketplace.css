@@ -232,7 +232,7 @@
 .mkt-tone-accent p, .mkt-tone-accent h2, .mkt-tone-accent h3 { color: var(--creator-on-accent) !important; }
 .mkt-tone-accent .md-btn-filled {
   background: var(--creator-on-accent);
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 .mkt-tone-contrast {
   background: var(--creator-ink) !important;
@@ -588,7 +588,7 @@
 
 .mkt-owner-icon {
   font-size: 26px;
-  color: var(--creator-accent, var(--md-primary));
+  color: color-mix(in srgb, var(--creator-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-owner-text {
@@ -730,7 +730,7 @@
 
 .creator-card-verified {
   font-size: 16px;
-  color: var(--creator-accent, var(--md-primary));
+  color: color-mix(in srgb, var(--creator-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .creator-card-tagline {
@@ -910,7 +910,7 @@
 
 .mkt-course-owned {
   margin-left: auto;
-  color: var(--creator-accent, var(--md-primary));
+  color: color-mix(in srgb, var(--creator-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
   font-weight: 600;
 }
 
@@ -1012,7 +1012,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-name {
@@ -1024,7 +1024,7 @@
 
 .mkt-verified {
   font-size: 20px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-tagline {
@@ -1067,7 +1067,7 @@
 
 .mkt-hero-stats b {
   font-size: 1.0625rem;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-hero-stats span {
@@ -1200,7 +1200,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-post-pin .material-symbols-outlined {
@@ -1446,7 +1446,7 @@
 
 .mkt-contact-row .material-symbols-outlined {
   font-size: 18px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 /* Label then value, the way the app's contact rows read -- a row that said only
@@ -1455,7 +1455,7 @@
   min-width: 78px;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-contact-value {
@@ -1691,7 +1691,7 @@
 }
 .mkt-plan-features .material-symbols-outlined {
   font-size: 18px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
   flex-shrink: 0;
 }
 .mkt-plan .md-btn { margin-top: auto; justify-content: center; }
@@ -1743,12 +1743,12 @@
   display: grid;
   place-items: center;
   background: var(--creator-soft);
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
   font-size: 1.5rem;
   font-weight: 700;
 }
 .mkt-member-name { font-weight: 650; }
-.mkt-member-role { font-size: 0.8125rem; color: var(--creator-accent); font-weight: 600; }
+.mkt-member-role { font-size: 0.8125rem; color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface)); font-weight: 600; }
 .mkt-member-note { font-size: 0.8125rem; color: var(--md-on-surface-variant); line-height: 1.5; }
 
 /* ── Logos ─────────────────────────────────────────────────────────────────
@@ -1808,7 +1808,7 @@
 .mkt-tl-label {
   font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
   letter-spacing: 0.02em;
 }
 .mkt-tl-title { font-weight: 650; }
@@ -1847,7 +1847,7 @@
   height: 30px;
   border-radius: 50%;
   background: var(--creator-soft);
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
   font-weight: 800;
   font-size: 0.9375rem;
 }
@@ -1900,7 +1900,7 @@
 .mkt-banner-sub { margin: 0; opacity: 0.88; font-size: 0.9375rem; line-height: 1.5; }
 .mkt-banner .md-btn {
   background: var(--creator-on-accent, #fff);
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
   border: 0;
   flex-shrink: 0;
 }
@@ -2151,7 +2151,7 @@
 
 .mkt-includes .material-symbols-outlined {
   font-size: 18px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-buy {
@@ -2286,7 +2286,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-studio-head h1 {

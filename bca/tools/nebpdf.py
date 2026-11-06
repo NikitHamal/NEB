@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BCA PDF builder — a thin adapter over the NEBians house pipeline (notes/pipeline).
+"""BCA PDF builder: a thin adapter over the NEBians house pipeline (notes/pipeline).
 
 The CEE, IOE and Grade 8-12 books are built by notes/pipeline/build_pdf.py (Markdown -> HTML ->
 WeasyPrint, theme.css, Poppins/Inter/Source Serif 4/JetBrains Mono, N watermark, linked contents,
@@ -41,7 +41,7 @@ COURSE_EN.update(
                "of the syllabus, worked examples, real code or real circuits, formula sheets, "
                "chapter summaries and practice questions with worked answers."),
     hrs=" hrs", teaching_hours="teaching hours", unit="Unit",
-    syl="Syllabus — this unit covers", th=("Content area", "Units", "Teaching hours"),
+    syl="Syllabus: this unit covers", th=("Content area", "Units", "Teaching hours"),
     cover_h="Syllabus at a glance", exam_h="Assessment",
     front_lead=("This book covers {subject} from the TU BCA programme, unit by unit. It is written to "
                 "be studied end to end without a second textbook: concepts first, then worked "
@@ -105,7 +105,7 @@ def _course_spine(rel, meta, d):
     code = meta["code"].replace(" ", "-")   # the cover prints the first token of CODE
     lines = [f"# SUBJECT: {meta['name']} | CODE: {code} | CREDITS: {meta['credits']}",
              "# EXAM: TU assessment: 60% final examination set by the university, 40% internal "
-             "(assignments, lab, attendance) — confirm the split in your college's notice",
+             "(assignments, lab, attendance): confirm the split in your college's notice",
              f"# AREA: {meta['code']} · {meta['name']} (Semester {meta['semester']})"]
     for f in _units(d):
         fm, txt = _front(os.path.join(d, f))

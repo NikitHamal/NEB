@@ -1,12 +1,11 @@
 import json
 import logging
 import os
-import re
 import time
-from typing import Any, Dict, Generator, List, Optional, Set, Tuple
+from typing import Dict, Generator, List, Optional
 
-import requests
 from django.conf import settings
+from .model_catalog import model_catalog
 
 logger = logging.getLogger(__name__)
 
@@ -16,27 +15,14 @@ MODELS = [
     {"id": "metaai-imagine", "name": "Meta AI Imagine (Image)", "reasoning": False, "vision": True, "web_search": False},
 ]
 
+
+def get_models() -> List[Dict]:
+    return model_catalog(MODELS)
+
+
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
 _BROWSER_SESSION = None
-
-
-def get_models() -> List[Dict]:
-    return [
-        {
-            "id": m["id"],
-            "name": m["name"],
-            "capabilities": {
-                "chat": True,
-                "stream": True,
-                "vision": m.get("vision", False),
-                "thinking": m.get("reasoning", False),
-                "tools": False,
-                "web_search": m.get("web_search", False),
-            },
-        }
-        for m in MODELS
-    ]
 
 
 def _get_cookies() -> Dict[str, str]:
@@ -51,13 +37,6 @@ def _get_cookies() -> Dict[str, str]:
     if abra:
         cookies["abra_sess"] = abra
     return cookies
-
-
-def _get_access_token() -> str:
-    token = getattr(settings, "META_AI_ACCESS_TOKEN", "") or os.getenv("META_AI_ACCESS_TOKEN", "")
-    if token.startswith("ecto1:"):
-        token = token[6:]
-    return token
 
 
 class _MetaAIPlaywrightSession:
@@ -366,34 +345,3 @@ def simple_chat(
     return "".join(collected) or None
 
 
-def generate_image(prompt: str, timeout: int = 90) -> List[str]:
-    cookies = _get_cookies()
-    if not (cookies.get("datr") and cookies.get("ecto_1_sess")):
-        return []
-    global _BROWSER_SESSION
-    if _BROWSER_SESSION is None or not _BROWSER_SESSION.ready:
-        try:
-            _BROWSER_SESSION = _MetaAIPlaywrightSession(cookies)
-            _BROWSER_SESSION.start()
-        except Exception:
-            return []
-    if not (_BROWSER_SESSION and _BROWSER_SESSION.ready):
-        return []
-
-    try:
-        # Prompt imagine
-        imagine_prompt = f"/imagine {prompt}" if not prompt.startswith("/imagine") else prompt
-        for _ in _BROWSER_SESSION.prompt(imagine_prompt, timeout=timeout):
-            pass
-        # Extract images
-        image_urls = []
-        elements = _BROWSER_SESSION.page.query_selector_all('img[src]')
-        for el in elements:
-            src = el.get_attribute('src') or ''
-            if 'fbcdn' in src and ('scontent' in src or 'lookaside' in src):
-                if src not in image_urls:
-                    image_urls.append(src)
-        return image_urls
-    except Exception as exc:
-        logger.error("Meta AI image generation failed: %s", exc)
-        return []

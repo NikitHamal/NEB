@@ -21,7 +21,6 @@ from django.db import transaction
 from django.db.models import F
 from django.db.models.functions import Greatest
 
-from django.core.cache import cache
 
 from .models import (
     Post, Reply, PostLike, ReplyLike, Bookmark,

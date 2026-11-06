@@ -13,9 +13,8 @@
 {% block content %}
 <div class="achieve-page">
   <div class="achieve-header">
-    <a href="{% url 'web:profile' username=profile_user.username %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center;" title="Back to Profile" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </a>
+    {% url 'web:profile' username=profile_user.username as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Profile" %}
     <h1>Achievements</h1>
   </div>
 

@@ -3,7 +3,12 @@ package com.neb.ians.data.repository
 import com.neb.ians.data.api.ApiEditHistory
 import com.neb.ians.data.api.ApiPaginatedPosts
 import com.neb.ians.data.api.ApiPaginatedReplies
-import com.neb.ians.data.api.ApiPollVoteResponse
+import com.neb.ians.data.api.ApiPoll
+import com.neb.ians.data.api.ApiPostInsights
+import com.neb.ians.data.api.ApiPollCreate
+import com.neb.ians.data.api.PollAddOptionRequest
+import com.neb.ians.data.api.PostImpressionsRequest
+import com.neb.ians.data.api.PostViewRequest
 import com.neb.ians.data.api.ApiPost
 import com.neb.ians.data.api.ApiReply
 import com.neb.ians.data.api.ApiService
@@ -348,16 +353,27 @@ class ForumRepository @Inject constructor(
         }
     }
 
+    suspend fun labelReply(replyId: String, label: String): Result<ApiReply> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(apiService.labelReply(token, replyId, com.neb.ians.data.api.ReplyLabelRequest(label)))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun createReply(
         postId: String,
         content: String,
         parentReplyId: String? = null,
         isAnonymous: Boolean = false,
-        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList()
+        attachments: List<com.neb.ians.data.api.ApiMediaAttachmentInput> = emptyList(),
+        kind: String = "comment",
+        poll: ApiPollCreate? = null
     ): Result<ApiReply> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
-            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId, isAnonymous, attachments))
+            val reply = apiService.createReply(token, postId, ReplyCreateRequest(content, parentReplyId, isAnonymous, attachments, kind, poll))
             val current = appCache.postReplies[postId].orEmpty()
             if (current.none { it.id == reply.id }) {
                 val updated = current + reply
@@ -477,7 +493,7 @@ class ForumRepository @Inject constructor(
         }
     }
 
-    suspend fun votePoll(pollId: String, optionIds: List<String>, allowMultiple: Boolean): Result<ApiPollVoteResponse> {
+    suspend fun votePoll(pollId: String, optionIds: List<String>, allowMultiple: Boolean): Result<ApiPoll> {
         return try {
             val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
             val request = if (allowMultiple) {
@@ -488,6 +504,55 @@ class ForumRepository @Inject constructor(
             val response = apiService.votePoll(token, pollId, request)
             if (response.error != null) Result.failure(IllegalStateException(response.error))
             else Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Adds a member option to a poll that allows it, and votes for it by default. */
+    suspend fun addPollOption(pollId: String, text: String, vote: Boolean = true): Result<ApiPoll> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(apiService.addPollOption(token, pollId, PollAddOptionRequest(text.trim(), vote)))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun retractPollVote(pollId: String): Result<ApiPoll> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(apiService.retractPollVote(token, pollId))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getPostInsights(postId: String, days: Int): Result<ApiPostInsights> {
+        return try {
+            val token = getBearerToken() ?: return Result.failure(IllegalStateException("Not authenticated"))
+            Result.success(apiService.getPostInsights(token, postId, days))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Best effort: where the reader came from and how long the post stayed on screen. */
+    suspend fun reportPostView(postId: String, surface: String, dwellMs: Long = 0): Result<Unit> {
+        if (!networkMonitor.isOnline()) return Result.failure(OfflineException())
+        return try {
+            apiService.reportPostView(postId, PostViewRequest(surface, dwellMs))
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun reportImpressions(ids: List<String>): Result<Unit> {
+        if (ids.isEmpty() || !networkMonitor.isOnline()) return Result.success(Unit)
+        return try {
+            apiService.reportPostImpressions(PostImpressionsRequest(ids.take(50)))
+            Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }

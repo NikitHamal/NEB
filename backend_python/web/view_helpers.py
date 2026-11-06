@@ -1,34 +1,23 @@
-import json
 import logging
 import os
 import re
 
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth import logout as django_logout
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
-from django.db import transaction
-from django.db.models import Q, Count, F
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.decorators.http import require_GET, require_POST
-from django.http import JsonResponse, Http404, HttpResponse, StreamingHttpResponse
-from . import curriculum
-from django.core.paginator import Paginator
-from django.utils.html import escape
+from django.db.models import Count
+from django.shortcuts import redirect
+from django.views.decorators.http import require_GET
 
-from api.models import User, Resource, ResourceRequest, ResourceRequestUpvote, Post, PostLike, PostImage, PostMedia, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, Bookmark, Notification, Report, BotConfig, TakedownRequest, BlogComment, BlogCommentLike, AiFeedback
-from api.models import ResourceLike, ResourceComment, ResourceCommentLike, PaymentVerification, SellerBalance, WithdrawalRequest
+from api.models import User, Resource, Post, PostLike, PostImage, PostMedia, Reply, ReplyLike, Follow, Bookmark
+from api.models import ResourceLike, PaymentVerification, SellerBalance
 from api.models import CreatorCourseResource
-from api.serializers import UserSerializer, ResourceSerializer, PostSerializer, ReplySerializer
+from api.serializers import UserSerializer
 from api.security import (
-    get_user_by_auth_token, hash_auth_token, issue_auth_token, revoke_auth_token,
-    save_profile_image_upload, save_post_image_upload, validate_profile_photo_url,
-    validate_resource_file_url, validate_and_save_resource_file,
-    save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
+    get_user_by_auth_token, hash_auth_token, issue_auth_token,
 )
+
+from . import forum_labels as _forum_labels
 
 def _make_abs_url(path: str) -> str:
     if not path:
@@ -56,22 +45,14 @@ def _media_src(url: str) -> str:
     if host in allowed:
         return parsed.path + (('?' + parsed.query) if parsed.query else '')
     return url
-from api.authentication import verify_google_token
 
 DELETED_AUTHOR_NAME = 'Deleted user'
-from api.utils import now_ms, uuid_str
-from api import services
-from api import counters as _counters
-from api import notifications as _notif
-from api import cleanup as _cleanup
-from api import realtime as _rt
-from api.view_helpers import map_profile_grade, is_global_user
+from api.utils import now_ms
 from . import api_client as api
 
 logger = logging.getLogger(__name__)
 
-import math
-from urllib.parse import urlparse, parse_qs, quote
+from urllib.parse import urlparse, parse_qs
 
 _VIDEO_EXTS = ('.mp4', '.webm', '.mkv', '.mov', '.m4v', '.3gp', '.ogv', '.avi')
 _AUDIO_EXTS = ('.mp3', '.wav', '.ogg', '.oga', '.flac', '.aac', '.m4a', '.opus', '.wma')
@@ -503,28 +484,8 @@ def _serialize_post_images(post_id):
     return [{'id': img.id, 'imageUrl': img.image_url, 'order': img.order} for img in images]
 
 def _serialize_post_poll(post_id, user_id=None):
-    try:
-        poll = Poll.objects.get(post_id=post_id)
-    except Poll.DoesNotExist:
-        return None
-    options = list(PollOption.objects.filter(poll=poll).order_by('order'))
-    user_vote = None
-    if user_id:
-        vote = PollVote.objects.filter(poll=poll, user_id=user_id).select_related('option').first()
-        if vote:
-            user_vote = vote.option_id
-    return {
-        'id': poll.id,
-        'question': poll.question,
-        'pollType': poll.poll_type,
-        'allowMultiple': poll.allow_multiple,
-        'explanation': poll.explanation,
-        'durationMs': poll.duration_ms,
-        'totalVotes': poll.total_votes,
-        'isExpired': poll.is_expired,
-        'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in options],
-        'userVote': user_vote,
-    }
+    from api import polls as _polls
+    return _polls.for_posts([post_id], user_id).get(post_id)
 
 def _serialize_web_media_item(m):
     import json
@@ -582,23 +543,8 @@ def _serialize_posts(posts_qs, user_id=None):
     all_media = {}
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.post_id, []).append(_serialize_web_media_item(m))
-    all_polls = {}
-    polls = list(Poll.objects.filter(post_id__in=post_ids).prefetch_related('options'))
-    user_votes_by_poll = {}
-    if user_id and polls:
-        for v in PollVote.objects.filter(poll__post_id__in=post_ids, user_id=user_id):
-            user_votes_by_poll.setdefault(v.poll_id, v.option_id)
-    for poll in polls:
-        opts = poll.options.all()
-        user_vote = user_votes_by_poll.get(poll.id)
-        all_polls[poll.post_id] = {
-            'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
-            'allowMultiple': poll.allow_multiple, 'explanation': poll.explanation,
-            'durationMs': poll.duration_ms,
-            'totalVotes': poll.total_votes, 'isExpired': poll.is_expired,
-            'options': [{'id': o.id, 'text': o.text, 'isCorrect': o.is_correct, 'voteCount': o.vote_count, 'order': o.order} for o in opts],
-            'userVote': user_vote,
-        }
+    from api import polls as _polls
+    all_polls = _polls.for_posts(post_ids, user_id)
     result = []
     from api.services import get_user_anon_tag
     for p in posts:
@@ -622,6 +568,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'viewCount': p.view_count, 'view_count': p.view_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
+            'isResolved': bool(p.is_resolved), 'acceptedReplyId': p.accepted_reply_id or '',
             'isThumbedUp': p.id in liked_ids,
             'isFollowingAuthor': False if anon else p.user_id in followed_author_ids,
             'isBookmarked': p.id in bookmarked_ids,
@@ -670,6 +617,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'viewCount': p.view_count, 'view_count': p.view_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
+            'isResolved': bool(p.is_resolved), 'acceptedReplyId': p.accepted_reply_id or '',
         'isThumbedUp': is_thumbed_up,
         'isFollowingAuthor': False if anon else is_following_author,
         'isBookmarked': is_bookmarked,
@@ -680,6 +628,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
 
 def _serialize_replies(replies_qs, user_id=None):
     replies = list(replies_qs)
+    _viewer_is_admin = bool(user_id and User.objects.filter(pk=user_id, is_admin=True).exists())
     liked_ids = set()
     followed_author_ids = set()
     bookmarked_ids = set()
@@ -700,6 +649,8 @@ def _serialize_replies(replies_qs, user_id=None):
     reply_ids = [r.id for r in replies]
     for m in PostMedia.objects.filter(reply_id__in=reply_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.reply_id, []).append(_serialize_web_media_item(m))
+    from api import polls as _polls
+    reply_polls = _polls.for_replies(reply_ids, user_id)
     child_reply_ids = {}
     for r in replies:
         if r.parent_reply_id:
@@ -765,8 +716,14 @@ def _serialize_replies(replies_qs, user_id=None):
             'isFollowed': False if anon else r.user_id in followed_author_ids,
             'isBookmarked': r.id in bookmarked_ids,
             'attachments': all_media.get(r.id, []),
+            'poll': reply_polls.get(r.id),
+            **_forum_labels.reply_extras(r, user_id, _viewer_is_admin),
         })
     return result
+
+def _serialize_reply_poll(reply_id, user_id=None):
+    from api import polls as _polls
+    return _polls.for_replies([reply_id], user_id).get(reply_id)
 
 def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
     is_thumbed_up = False
@@ -802,6 +759,8 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'isThumbedUp': is_thumbed_up,
         'isBookmarked': is_bookmarked,
         'attachments': media,
+        'poll': _serialize_reply_poll(r.id, user_id),
+        **_forum_labels.reply_extras(r, user_id, False),
     }
 
 def _get_user_id(request):
@@ -840,86 +799,24 @@ def _get_valid_token(request):
         return None
 
 def _resolve_ws_public_url():
-    """Resolve the public WebSocket URL (uncached).
+    """Optional self-hosted WebSocket URL (WS_PUBLIC_URL), nothing else.
 
-    Priority:
-       1. WS_PUBLIC_URL env var or settings.WS_PUBLIC_URL (explicit override — stable named tunnel)
-       2. Most-recent trycloudflare.com URL by file mtime (ws_url.txt, start_ws_tunnel.log,
-          cloudflared.log, /tmp/cf_quick*.log). We pick the NEWEST file that contains a
-          URL, not the first match — ws_url.txt can be stale after a reboot while
-          cloudflared.log already has the fresh URL.
-       3. Empty string (realtime.js falls back to polling).
+    Realtime for the site and app goes through Ably (api/realtime_ably.py), so
+    no tunnel is scraped or started any more. Set WS_PUBLIC_URL only if you run
+    Daphne behind a host that can really proxy WebSockets.
     """
     explicit = os.environ.get('WS_PUBLIC_URL', '').strip()
-    if not explicit and hasattr(settings, 'WS_PUBLIC_URL'):
+    if not explicit:
         explicit = (getattr(settings, 'WS_PUBLIC_URL', '') or '').strip()
-    if explicit:
-        return explicit
-    import glob, re
-    candidates = []
-    log_paths = [
-        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-        os.path.join(settings.BASE_DIR, 'logs', 'cloudflared.log'),
-        '/home/consicac/nebians_api/logs/cloudflared.log',
-    ] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
-    for path in log_paths:
-        try:
-            with open(path, 'rb') as f:
-                f.seek(0, 2)
-                f.seek(max(0, f.tell() - 65536))
-                content = f.read().decode('utf-8', 'ignore')
-            matches = re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-            if matches:
-                host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                url = 'wss://' + host + '/ws/'
-                try:
-                    mtime = os.path.getmtime(path)
-                except OSError:
-                    mtime = 0
-                candidates.append((mtime, url))
-        except OSError:
-            continue
-    if candidates:
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return candidates[0][1]
-    # Fallback: ws_url.txt (written by deploy as cache, not authoritative)
-    try:
-        ws_txt = os.path.join(settings.BASE_DIR, 'ws_url.txt')
-        with open(ws_txt) as f:
-            content = f.read().strip()
-        if content:
-            m = re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-            if m:
-                return 'wss://' + m.group(1) + '/ws/'
-            if content.startswith('wss://'):
-                return content.strip()
-    except OSError:
-        pass
-    return ''
+    return explicit
+
 
 def _get_ws_public_url():
-    """Return the public WebSocket URL, cached for 15s to avoid per-request file I/O.
+    """The optional self-hosted WS URL. Read straight from the environment: it used to
+    be cached in Redis, which cost a network round trip on every request (this runs
+    for static files and API calls too) to remember a string that is almost always empty."""
+    return _resolve_ws_public_url()
 
-    Empty results are NOT cached so the next request retries immediately and can
-    pick up a freshly-started tunnel. Short TTL ensures a tunnel restart
-    propagates within seconds instead of a minute. When the tunnel is down
-    (see nebians.tunnel_health) an empty string is returned so clients use the
-    polling fallback instead of hammering a dead host.
-    """
-    url = cache.get('ws_public_url_resolved')
-    if url is None:
-        url = _resolve_ws_public_url()
-        if url:
-            cache.set('ws_public_url_resolved', url, 15)
-    if url:
-        try:
-            from nebians.tunnel_health import is_tunnel_healthy
-            if not is_tunnel_healthy():
-                return ''
-        except Exception:
-            pass
-    return url
 
 def _client_ip(request):
     forwarded = request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -945,19 +842,6 @@ def _rate_limit(request, scope, limit, window_seconds, by_ip=False):
         cache.add(key, 1, window_seconds)
         return False
     return count > limit
-
-def _get_distinct_subjects():
-    """Distinct, comma-split, sorted subject names from the Resource table (cached 10 min)."""
-    def _resolver():
-        subjects = set()
-        for s_str in Resource.objects.values_list('subject', flat=True).distinct():
-            if s_str:
-                for s in s_str.split(','):
-                    s_stripped = s.strip()
-                    if s_stripped:
-                        subjects.add(s_stripped)
-        return sorted(subjects)
-    return cache.get_or_set('distinct_subjects', _resolver, 600)
 
 def _viewer_for_locked_check(user_id, profile_user):
     """The viewer row api.view_helpers._can_view_locked_profile(viewer, profile_user) needs.

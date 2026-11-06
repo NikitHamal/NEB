@@ -3,7 +3,6 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_POST, require_GET
-from django.core.cache import cache
 from .view_helpers import _ctx
 
 from services import result_scraper

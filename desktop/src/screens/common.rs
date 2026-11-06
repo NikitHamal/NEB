@@ -59,18 +59,41 @@ pub fn open_subject(env: &mut Env, track: &str, subject: &str) {
     env.go(Route::Subject { track: track.to_string(), subject: subject.to_string() });
 }
 
-/// Banner shown when the study content folder can't be found.
+/// Shown while the catalogue loads, or when it can't be reached and nothing is cached yet.
 pub fn content_missing(ui: &mut Ui, env: &mut Env) {
     let th = env.theme.clone();
-    let msg = env.content_error.clone().unwrap_or_else(|| "Study content not found.".into());
-    widgets::panel_frame(&th).show(ui, |ui| {
+    match &env.status {
+        crate::env::ContentStatus::Failed(msg) => {
+            let msg = msg.clone();
+            load_state(ui, &th, Some(msg), || env.act(Action::ReloadContent));
+        }
+        _ => load_state(ui, &th, None, || {}),
+    }
+}
+
+/// A loading placeholder, or — with `failed` — an error card with a Retry button.
+pub fn load_state(ui: &mut Ui, th: &crate::theme::Theme, failed: Option<String>, retry: impl FnOnce()) {
+    widgets::panel_frame(th).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        widgets::heading(ui, &th, "Study content not found", 18.0);
-        ui.add_space(4.0);
-        ui.add(egui::Label::new(RichText::new(msg).color(th.p.ink_muted)));
-        ui.add_space(10.0);
-        if widgets::button(ui, &th, "Choose content folder", BtnKind::Primary, Some(Icon::Folder), None).clicked() {
-            env.go(Route::Settings);
+        match failed {
+            None => {
+                ui.add_space(8.0);
+                ui.horizontal(|ui| {
+                    ui.spinner();
+                    ui.add_space(6.0);
+                    widgets::label(ui, RichText::new("Loading from NEBians…").font(fonts::medium(15.0)).color(th.p.ink_muted));
+                });
+                ui.add_space(8.0);
+            }
+            Some(msg) => {
+                widgets::heading(ui, th, "Can't load this right now", 18.0);
+                ui.add_space(4.0);
+                ui.add(egui::Label::new(RichText::new(msg).color(th.p.ink_muted)));
+                ui.add_space(12.0);
+                if widgets::button(ui, th, "Try again", BtnKind::Primary, Some(Icon::Refresh), None).clicked() {
+                    retry();
+                }
+            }
         }
     });
 }
@@ -89,6 +112,10 @@ pub fn right(ui: &mut Ui, f: impl FnOnce(&mut Ui)) {
     ui.with_layout(Layout::right_to_left(Align::Center), f);
 }
 
-pub fn push_toast(env: &mut Env, m: &str) {
-    env.act(Action::Toast(m.to_string()));
+/// Entrance used by every page and tab: content rises 16 px and fades in on the shared ease.
+/// `key` identifies the page; call `motion::reset_enter` with the same id to replay it.
+pub fn rise(ui: &mut Ui, key: egui::Id) {
+    let e = crate::theme::motion::enter(ui.ctx(), key, 0.0, 0.42);
+    ui.set_opacity(e);
+    ui.add_space((1.0 - e) * 16.0);
 }

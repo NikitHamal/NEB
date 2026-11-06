@@ -125,7 +125,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut CompleteState) {
                 ui.add_space(16.0);
                 widgets::label(ui, RichText::new("I am a").font(fonts::medium(13.5)).color(th.p.ink_muted));
                 ui.add_space(6.0);
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for (key, label) in [("student", "Student"), ("teacher", "Teacher"), ("explorer", "Explorer")] {
                         if widgets::chip(ui, &th, label, st.role == key).clicked() {
                             st.role = key.into();

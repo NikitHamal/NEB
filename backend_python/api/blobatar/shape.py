@@ -68,13 +68,6 @@ def blob_path(cx, cy, rx, ry, radii, rot=0):
     return d + "Z"
 
 
-def arc(cx, cy, w, depth):
-    """A quadratic arc, stroked — used only for smiles and frowns."""
-    return "M%s %sQ%s %s %s %s" % (
-        _r2(cx - w), _r2(cy), _r2(cx), _r2(cy + depth), _r2(cx + w), _r2(cy),
-    )
-
-
 def polygon(cx, cy, rx, ry, sides, round_=0.3, rot=0):
     """A regular polygon with rounded corners. round_ is 0 (sharp) to 1 (all curve)."""
     k = round_ / 2 if 0 < round_ < 1 else (0.5 if round_ > 0 else 0)

@@ -26,7 +26,7 @@ import importlib
 import json
 import logging
 import time
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from django.conf import settings
 from django.http import StreamingHttpResponse, JsonResponse
@@ -189,10 +189,6 @@ def _messages_to_prompt(messages: List[Dict]) -> tuple:
     system_prompt = "\n\n".join(sys_parts)
     user_prompt = "\n\n".join(user_parts) if user_parts else (messages[-1].get("content", "") if messages else "")
     return system_prompt, user_prompt
-
-
-def _check_waf_body(text: str) -> bool:
-    return any(k in text for k in ("RGV587_ERROR", "_____tmd_____", "x5secdata"))
 
 
 # ── Chat ──────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.db import connection, ProgrammingError
+from django.db import connection
 from django.core.cache import cache
 
 

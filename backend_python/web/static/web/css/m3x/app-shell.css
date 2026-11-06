@@ -1,0 +1,110 @@
+/* m3x app shell: page frame, top bar, bottom bar, menus, scroll and page-enter motion.
+   Everything here overrides material3/03 + 04 and app/*, which is why it loads after them. */
+
+/* ---------- global rules of the system ---------- */
+/* No elevation anywhere. Layers are told apart by tone, border and shape. Focus rings are
+   outlines (below), never shadows, so nothing a state needs is lost. */
+*, *::before, *::after { box-shadow: none !important; text-shadow: none !important; }
+html { scroll-padding-top: 88px; }
+body {
+  font-family: var(--body);
+  background: var(--md-background);
+  color: var(--md-on-surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-display-small-emphasized,
+.md-headline-large, .md-headline-medium, .md-headline-small,
+[class*="md-headline-"][class*="-emphasized"], [class*="md-display-"][class*="-emphasized"], .md-title-large {
+  font-family: var(--display);
+  letter-spacing: -.02em;
+}
+:is(input, textarea, select, [contenteditable]):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 1px; }
+:is(input, textarea, select):is([class*="md-"], [class*="neb-"]):focus-visible { outline: none; }
+.md-search-bar:focus-within { outline: none; border-color: var(--md-primary); }
+
+/* ---------- scrollbars: thin, tonal ---------- */
+@media (hover: hover) and (pointer: fine) {
+  * { scrollbar-width: thin; scrollbar-color: var(--md-outline-variant) transparent; }
+}
+
+/* ---------- page enter: the main column springs in once per navigation ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .site-main { animation: m3-enter .7s var(--spring-soft) backwards; }
+}
+
+/* ---------- top bar: a floating pill, the same bar as the landing page ----------
+   One row at every width, by construction: three named areas on a single fixed-height track, so a
+   child that is added, hidden or resized can never push the nav onto a second line. The nav gives way
+   by container width (not viewport width), so zoom, split screens and large system fonts collapse it
+   the same way a narrow phone does. */
+.md-topbar {
+  --tb-h: 58px;
+  position: sticky; top: 8px; z-index: 100; container-type: inline-size; container-name: topbar;
+  display: grid; align-items: center; column-gap: 8px;
+  grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: var(--tb-h); grid-template-areas: "brand nav actions";
+  grid-auto-rows: 0; overflow: visible;
+  width: min(1280px, calc(100% - 24px)); height: var(--tb-h); min-height: var(--tb-h); max-height: var(--tb-h);
+  margin: 8px auto 10px; padding: 0 8px; box-sizing: border-box;
+  border: 1px solid var(--md-outline-variant); border-radius: calc(var(--tb-h) / 2);
+  background: color-mix(in srgb, var(--md-surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  transition: background-color .3s, border-color .3s;
+  view-transition-name: m3-topbar;
+}
+.md-topbar > * { min-width: 0; }
+.md-topbar > .brand, .md-topbar > .md-topbar-brand { grid-area: brand; justify-self: start; flex: none; white-space: nowrap; }
+.md-topbar > .md-topbar-nav { grid-area: nav; }
+.md-topbar > .md-topbar-actions { grid-area: actions; }
+.md-topbar .brand-tile { width: 42px; height: 42px; }
+.md-topbar .brand-mark { width: 16px; height: 23px; }
+.md-topbar .brand-name { font-size: 22px; }
+.md-topbar-nav { --h: 42px; position: relative; left: auto; transform: none; justify-self: center; flex-wrap: nowrap; white-space: nowrap; max-width: 100%; }
+.md-topbar-nav > a { padding: 0 18px; font-size: 15px; }
+.md-topbar-nav > a.md-nav-active { background: transparent; color: var(--on-var); }
+.md-topbar-nav > a.md-nav-active.is-target { color: var(--on-pri-c); }
+.md-topbar-actions { justify-self: end; margin-left: 0; display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; }
+.md-topbar-actions .md-btn { min-height: 42px; white-space: nowrap; }
+@container topbar (min-width: 1060px) {
+  .md-topbar-nav { justify-self: center; }
+}
+@container topbar (max-width: 880px) {
+  .md-topbar-nav > a { padding: 0 12px; font-size: 14px; }
+  .md-topbar .brand-name { font-size: 20px; }
+}
+@container topbar (max-width: 690px) {
+  .md-topbar { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand actions"; }
+  .md-topbar-nav { display: none; }
+}
+@media (max-width: 768px) {
+  .md-topbar { --tb-h: 54px; width: calc(100% - 16px); top: 6px; margin: 6px auto 8px; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand actions"; }
+  .md-topbar-nav { display: none; }
+  .md-topbar .brand-name { font-size: 20px; }
+}
+::view-transition-group(m3-topbar) { animation-duration: 0s; }
+
+/* profile menu and any dropdown: tonal sheet, large corners, spring-in */
+.profile-dropdown-menu, .md-dropdown-menu, .more-menu, .md-menu {
+  border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg);
+  background: var(--md-elevated-surface); overflow: hidden;
+}
+.profile-dropdown-menu a, .md-menu a, .more-menu-item { border-radius: var(--md-shape-sm); }
+
+/* ---------- bottom bar (phones): one pill, the current destination grows into a tonal capsule ---------- */
+.md-bottomnav {
+  height: 62px; padding: 0 7px; bottom: 12px;
+  background: color-mix(in srgb, var(--md-surface-container-low) 92%, transparent);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  border: 1px solid var(--md-outline-variant);
+}
+[data-theme="dark"] .md-bottomnav { background: color-mix(in srgb, var(--md-surface-container-high) 92%, transparent); }
+.md-bottomnav-item {
+  padding: 12px 16px; border-radius: 22px;
+  transition: background-color .25s, color .25s, padding .5s var(--spring), border-radius .6s var(--spring), transform .4s var(--spring);
+}
+.md-bottomnav-item.md-nav-active { padding: 12px 20px; border-radius: 26px; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.md-bottomnav-item:active { transform: scale(.9); }
+.md-bottomnav-label { font-family: var(--body); font-weight: 800; }
+
+/* ---------- containers ---------- */
+.md-container { padding-left: clamp(12px, 2vw, 16px); padding-right: clamp(12px, 2vw, 16px); }

@@ -12,11 +12,9 @@
     </a>
   </div>
   <div class="admin-page-header">
-    <div class="admin-eyebrow">{{ syllabus.grade_level }} &middot; {{ syllabus.subject }}</div>
     <div class="admin-page-header-row">
       <div>
         <h1>{{ syllabus.chapter_title }}</h1>
-        <p>Chapter preview with guide content and solved questions.</p>
       </div>
       {% if syllabus.id %}
       <div class="admin-page-actions">
@@ -114,7 +112,6 @@ details[open] > summary .material-symbols-outlined {
 }
 details[open] {
   border-color: var(--md-primary) !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 details > summary:hover {
   background: var(--md-surface-container-high);

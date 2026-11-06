@@ -17,6 +17,8 @@
     <span class="mkt-course-price">
       {% if course.is_free %}
         Free
+      {% elif course.enroll_mode == 'contact' and course.price|floatformat:"0" == "0" %}
+        Contact
       {% else %}
         Rs. {{ course.price|npr }}
       {% endif %}
@@ -33,6 +35,7 @@
     <div class="mkt-course-title">{{ course.title }}</div>
     {% if course.summary %}<p class="mkt-course-summary">{{ course.summary }}</p>{% endif %}
     <div class="mkt-course-tags">
+      <span class="md-chip mkt-course-tag">{% include "web/_marketplace_delivery.html" %}</span>
       {% if course.level %}<span class="md-chip mkt-course-tag">{{ course.level }}</span>{% endif %}
       {% if course.duration_label %}<span class="md-chip mkt-course-tag">{{ course.duration_label }}</span>{% endif %}
       {% if course.lesson_count %}<span class="md-chip mkt-course-tag">{{ course.lesson_count }} lessons</span>{% endif %}

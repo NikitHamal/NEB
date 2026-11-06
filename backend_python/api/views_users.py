@@ -1,9 +1,33 @@
 """Views Users extracted from views.py."""
-from .view_helpers import *  # noqa: F401,F403
-from collections import Counter
-from django.db.models import Count, Q, Sum
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from . import services
+from .models import Follow, Post, Reply, Resource, User, UserPhoto
+from .security import (
+    save_profile_image_upload,
+    validate_external_https_url,
+    validate_profile_photo_url,
+)
+from .serializers import FollowSerializer, UserPhotoSerializer, UserPublicSerializer, UserSerializer
+from .throttles import AuthRateThrottle, SearchRateThrottle
+from .view_helpers import (
+    _build_stats,
+    _can_view_locked_profile,
+    _get_user_from_request,
+    _now_ms,
+    _overlong_field_error,
+    _paginated_response,
+    _require_user,
+    _require_verified_user,
+    logger,
+)
+from django.db.models import Count
 from .services import record_username_change
-from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
+from .profile_education import apply_education
+from .models import NEPAL_DISTRICTS
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -77,6 +101,19 @@ def user_profile_create_or_update(request):
     teaching_subjects = data.get('teachingSubjects', '') or data.get('teaching_subjects', '')
     institution_type = data.get('institutionType', '') or data.get('institution_type', '')
 
+    overlong = _overlong_field_error(User, {
+        'display_name': display_name,
+        'gender': gender,
+        'class_level': class_level,
+        'pradesh': pradesh,
+        'school': school,
+        'school_username': school_username,
+        'institution_type': institution_type,
+        'dob': dob,
+    })
+    if overlong:
+        return overlong
+
     user.username = username
     if email and email.lower() != (user.email or '').lower():
         user.email_verified = False
@@ -98,6 +135,9 @@ def user_profile_create_or_update(request):
         user.role = role
     user.teaching_subjects = teaching_subjects
     user.institution_type = institution_type
+    edu_error = apply_education(user, data)
+    if edu_error:
+        return Response({'error': edu_error}, status=400)
     user.save()
 
     logger.info("user_profile: profile saved for user %s (username=%s)", user.id, user.username)
@@ -175,203 +215,15 @@ def user_profile_stats(request, username):
 
 
 
-def _analytics_counter_rows(counter, limit=5):
-    if not counter:
-        return []
-    rows = counter.most_common(limit)
-    max_count = max([count for _, count in rows] or [1])
-    return [
-        {'label': label or 'General', 'count': count, 'width': max(8, round((count / max_count) * 100))}
-        for label, count in rows
-    ]
-
-
-def _analytics_short_post(post):
-    return {
-        'id': post.id,
-        'title': post.title,
-        'category': post.category,
-        'view_count': post.view_count,
-        'like_count': post.thumbs_up_count,
-        'reply_count': post.reply_count,
-        'created_at': post.created_at,
-    }
-
-
-def _analytics_short_resource(resource):
-    return {
-        'id': resource.id,
-        'title': resource.title,
-        'subject': resource.subject,
-        'type': resource.type,
-        'view_count': resource.view_count,
-        'like_count': resource.like_count,
-        'comment_count': resource.comment_count,
-        'added_at': resource.added_at,
-    }
-
-
-def _day_counts(field, days):
-    """Count(...) aggregates, one per [start, end) window, keyed d0..dN."""
-    return {f'd{i}': Count('pk', filter=Q(**{f'{field}__gte': start, f'{field}__lt': end}))
-            for i, (start, end) in enumerate(days)}
-
-
 @api_view(['GET'])
 def user_private_analytics(request):
+    """GET /api/users/me/analytics/?days=7|30|90 -- the member's own analytics (see user_analytics)."""
     user, err = _require_user(request)
     if err:
         return err
+    from . import user_analytics
+    return Response(user_analytics.build(user, user_analytics.clamp_range(request.query_params.get('days'))))
 
-    now = now_ms()
-    day_ms = 86400000
-    cutoff_30 = now - 30 * day_ms
-    today_start = now - (now % day_ms)
-    # Oldest first: index 0 is 13 days ago, the last one is today.
-    days = [(today_start - i * day_ms, today_start - i * day_ms + day_ms) for i in range(13, -1, -1)]
-
-    posts = Post.objects.filter(user=user, is_archived=False)
-    replies = Reply.objects.filter(user=user, is_archived=False)
-    resources = Resource.objects.filter(uploaded_by=user, is_lead=True)
-    resource_comments = ResourceComment.objects.filter(user=user)
-    study_docs = StudyDocument.objects.filter(user=user)
-    quizzes = StudyQuiz.objects.filter(user=user)
-    quiz_attempts = StudyQuizAttempt.objects.filter(user=user)
-    flashcards = StudyFlashcard.objects.filter(user=user)
-    flash_reviews = StudyFlashcardReview.objects.filter(user=user)
-
-    # One conditional aggregate per table instead of a COUNT/SUM per number (this view
-    # used to run ~110 queries, 70 of them for the 14-day activity chart).
-    post_agg = posts.aggregate(total=Count('pk'), views=Sum('view_count'), likes=Sum('thumbs_up_count'),
-                        replies=Sum('reply_count'), recent=Count('pk', filter=Q(created_at__gte=cutoff_30)),
-                        **_day_counts('created_at', days))
-    reply_agg = replies.aggregate(total=Count('pk'), recent=Count('pk', filter=Q(created_at__gte=cutoff_30)),
-                          **_day_counts('created_at', days))
-    res_agg = resources.aggregate(total=Count('pk'), views=Sum('view_count'), likes=Sum('like_count'),
-                              comments=Sum('comment_count'), **_day_counts('added_at', days))
-    quiz_agg = quiz_attempts.aggregate(total=Count('pk'), xp=Sum('xp_earned'), questions=Sum('total_questions'),
-                                 score=Sum('score'), recent=Count('pk', filter=Q(completed_at__gte=cutoff_30)),
-                                 **_day_counts('completed_at', days))
-    review_agg = flash_reviews.aggregate(easy=Count('pk', filter=Q(confidence='easy')),
-                                 medium=Count('pk', filter=Q(confidence='medium')),
-                                 hard=Count('pk', filter=Q(confidence='hard')),
-                                 recent=Count('pk', filter=Q(last_reviewed_at__gte=cutoff_30)),
-                                 **_day_counts('last_reviewed_at', days))
-    doc_agg = study_docs.aggregate(total=Count('pk'),
-                              summaries=Count('pk', filter=Q(summary_compact__gt='') | Q(summary_detailed__gt='')),
-                              mindmaps=Count('pk', filter=~Q(mindmap_json='')))
-
-    post_views = post_agg['views'] or 0
-    post_likes_received = post_agg['likes'] or 0
-    post_replies_received = post_agg['replies'] or 0
-    resource_views = res_agg['views'] or 0
-    resource_likes_received = res_agg['likes'] or 0
-    resource_comments_received = res_agg['comments'] or 0
-    total_attempt_questions = quiz_agg['questions'] or 0
-    total_attempt_score = quiz_agg['score'] or 0
-    quiz_accuracy = round((total_attempt_score / total_attempt_questions) * 100) if total_attempt_questions else 0
-    has_attempts = quiz_agg['total'] > 0
-
-    easy_reviews = review_agg['easy']
-    medium_reviews = review_agg['medium']
-    hard_reviews = review_agg['hard']
-    reviewed_total = easy_reviews + medium_reviews + hard_reviews
-
-    activity_days = []
-    max_activity = 1
-    for n, i in enumerate(range(13, -1, -1)):
-        key = f'd{n}'
-        counts = {
-            'posts': post_agg[key],
-            'replies': reply_agg[key],
-            'resources': res_agg[key],
-            'study': quiz_agg[key] + review_agg[key],
-        }
-        total = sum(counts.values())
-        max_activity = max(max_activity, total)
-        activity_days.append({
-            'label': 'Today' if i == 0 else f'{i}d',
-            'total': total,
-            'posts': counts['posts'],
-            'replies': counts['replies'],
-            'resources': counts['resources'],
-            'study': counts['study'],
-            'height': 0,
-        })
-    for day in activity_days:
-        day['height'] = max(8, round((day['total'] / max_activity) * 100)) if day['total'] else 8
-
-    category_counter = Counter(posts.values_list('category', flat=True))
-    subject_counter = Counter()
-    for subject in resources.values_list('subject', flat=True):
-        for part in (subject or '').split(','):
-            cleaned = part.strip()
-            if cleaned:
-                subject_counter[cleaned] += 1
-
-    summaries_count = doc_agg['summaries']
-    mindmaps_count = doc_agg['mindmaps']
-    quizzes_count = quizzes.count()
-
-    suggestions = []
-    docs_count = doc_agg['total']
-    if docs_count and summaries_count < docs_count:
-        suggestions.append('Generate compact summaries for documents that still have no summary.')
-    if docs_count and mindmaps_count < docs_count:
-        suggestions.append('Create mindmaps for your main notes to see topic relationships faster.')
-    if quizzes_count and not has_attempts:
-        suggestions.append('Take at least one generated quiz to start tracking exam readiness.')
-    if has_attempts and quiz_accuracy < 70:
-        suggestions.append('Review hard flashcards, then generate a fresh quiz from the same document.')
-    if hard_reviews:
-        suggestions.append(f'Revisit {hard_reviews} hard flashcard review{"" if hard_reviews == 1 else "s"} today.')
-    if not res_agg['total']:
-        suggestions.append('Upload one useful resource to build your contribution footprint.')
-    if not suggestions:
-        suggestions.append('Keep using Study Lab regularly; your recent learning loop looks healthy.')
-
-    return Response({
-        'username': user.username,
-        'stats': {
-            'posts': post_agg['total'],
-            'replies': reply_agg['total'],
-            'postViews': post_views,
-            'postLikesReceived': post_likes_received,
-            'postRepliesReceived': post_replies_received,
-            'resources': res_agg['total'],
-            'resourceViews': resource_views,
-            'resourceLikesReceived': resource_likes_received,
-            'resourceCommentsReceived': resource_comments_received,
-            'resourceCommentsMade': resource_comments.count(),
-            'followers': Follow.objects.filter(following=user).count(),
-            'following': Follow.objects.filter(follower=user).count(),
-            'bookmarks': Bookmark.objects.filter(user=user).count(),
-            'notificationsUnread': Notification.objects.filter(recipient=user, is_read=False).count(),
-            'studyDocs': docs_count,
-            'summaries': summaries_count,
-            'mindmaps': mindmaps_count,
-            'quizzes': quizzes_count,
-            'quizAttempts': quiz_agg['total'],
-            'quizAccuracy': quiz_accuracy,
-            'quizXp': quiz_agg['xp'] or 0,
-            'flashcards': flashcards.count(),
-            'flashReviews': reviewed_total,
-            'easyReviews': easy_reviews,
-            'mediumReviews': medium_reviews,
-            'hardReviews': hard_reviews,
-            'recentPosts': post_agg['recent'],
-            'recentReplies': reply_agg['recent'],
-            'recentStudyActions': quiz_agg['recent'] + review_agg['recent'],
-            'contributionScore': user.contribution_score,
-            'likesGiven': user.likes_given_count,
-        },
-        'activityDays': activity_days,
-        'topCategories': _analytics_counter_rows(category_counter),
-        'topSubjects': _analytics_counter_rows(subject_counter),
-        'topPosts': [_analytics_short_post(p) for p in posts.order_by('-view_count', '-thumbs_up_count')[:5]],
-        'topResources': [_analytics_short_resource(r) for r in resources.order_by('-view_count', '-like_count')[:5]],
-        'suggestions': suggestions[:5],
-    })
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

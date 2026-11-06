@@ -1,9 +1,54 @@
 """Views Resources extracted from views.py."""
 from decimal import Decimal
 from django.conf import settings
-from .view_helpers import *  # noqa: F401,F403
+import uuid
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db.models import Case, F, IntegerField, Q, Value, When
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from . import services
+from .resource_catalog import EDUCATION_LEVELS
+from .resource_form import (
+    InvalidInput,
+    discard_saved_files,
+    media_url,
+    read_file_url,
+    read_listing_fields,
+    read_request_fields,
+    read_source_url,
+    read_thumbnail,
+)
+from .models import Resource, ResourceRequest, ResourceRequestUpvote, User
+from .security import maybe_autoset_video_thumbnail, validate_and_save_resource_file
+from .serializers import ResourceRequestSerializer, ResourceSerializer
+from .throttles import (
+    SearchRateThrottle,
+    UploadRateThrottle,
+    ViewIncrementRateThrottle,
+    WriteActionRateThrottle,
+)
+from .view_helpers import (
+    _get_user_from_request,
+    _now_ms,
+    _paginated_response,
+    _require_user,
+    is_global_user,
+    logger,
+    parse_paid_fields,
+    prime_for_serializers,
+)
 from .security import validate_forum_attachments
 from .models import PaymentVerification
+
+_SORT_ORDERS = {
+    'newest': ('-added_at', '-view_count'),
+    'oldest': ('added_at',),
+    'liked': ('-like_count', '-added_at'),
+    'trending': ('-view_count', '-like_count', '-added_at'),
+}
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -23,8 +68,6 @@ def resources_list(request):
     search = (request.query_params.get('search') or request.query_params.get('q') or '').strip()
     sort = (request.query_params.get('sort') or 'relevant').strip().lower()
 
-    user = request.user
-
     if subject:
         resources = resources.filter(subject__iexact=subject)
     if grade:
@@ -40,20 +83,17 @@ def resources_list(request):
         )
 
     user = request.user
+    personalised = False
     if user and user.is_authenticated and not is_global_user(user):
         grade_pref = user.class_level
         subject_prefs = [s.strip().lower() for s in (user.subjects or '').split(',') if s.strip()]
-        
         if grade_pref or subject_prefs:
             grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
             subject_match = Q(pk__in=[])
             if subject_prefs:
-                q_subj = Q()
+                subject_match = Q()
                 for s in subject_prefs:
-                    q_subj |= Q(subject__icontains=s)
-                subject_match = q_subj
-                
-            from django.db.models import Case, When, Value, IntegerField
+                    subject_match |= Q(subject__icontains=s)
             resources = resources.annotate(
                 relevance_score=Case(
                     When(grade_match & subject_match, then=Value(4)),
@@ -63,38 +103,10 @@ def resources_list(request):
                     output_field=IntegerField(),
                 )
             )
-            if sort == 'newest':
-                resources = resources.order_by('-relevance_score', '-added_at', '-view_count')
-            elif sort == 'oldest':
-                resources = resources.order_by('-relevance_score', 'added_at')
-            elif sort == 'liked':
-                resources = resources.order_by('-relevance_score', '-like_count', '-added_at')
-            elif sort == 'trending':
-                resources = resources.order_by('-relevance_score', '-view_count', '-like_count', '-added_at')
-            else:
-                resources = resources.order_by('-relevance_score', '-added_at', '-view_count')
-        else:
-            if sort == 'newest':
-                resources = resources.order_by('-added_at', '-view_count')
-            elif sort == 'oldest':
-                resources = resources.order_by('added_at')
-            elif sort == 'liked':
-                resources = resources.order_by('-like_count', '-added_at')
-            elif sort == 'trending':
-                resources = resources.order_by('-view_count', '-like_count', '-added_at')
-            else:
-                resources = resources.order_by('-added_at', '-view_count')
-    else:
-        if sort == 'newest':
-            resources = resources.order_by('-added_at', '-view_count')
-        elif sort == 'oldest':
-            resources = resources.order_by('added_at')
-        elif sort == 'liked':
-            resources = resources.order_by('-like_count', '-added_at')
-        elif sort == 'trending':
-            resources = resources.order_by('-view_count', '-like_count', '-added_at')
-        else:
-            resources = resources.order_by('-added_at', '-view_count')
+            personalised = True
+
+    order = _SORT_ORDERS.get(sort, _SORT_ORDERS['newest'])
+    resources = resources.order_by(*(('-relevance_score',) if personalised else ()), *order)
 
     return _paginated_response(
         request,
@@ -318,12 +330,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
                     item = 'Class 11'
                 active_grades.add(item)
 
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    grade_order = {value.lower(): index for index, value in enumerate(education_levels)}
+    grade_order = {value.lower(): index for index, value in enumerate(EDUCATION_LEVELS)}
     grade_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_grades, key=lambda value: grade_order.get(value.lower(), 999))]
     subject_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_subjects)]
 
@@ -418,38 +425,24 @@ def resource_detail(request, resource_id):
     if 'type' in data and _s('type'):
         resource.type = _s('type')
 
-    uploaded_file = request.FILES.get('file')
-    if uploaded_file:
-        path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-        if err_resp:
-            return Response(err_resp, status=400)
-        if path:
-            resource.file = path
-            resource.file_url = request.build_absolute_uri(settings.MEDIA_URL + path)
-            resource.file_size = size
-    elif 'file_url' in data and _s('file_url'):
-        try:
-            resource.file_url = validate_resource_file_url(_s('file_url'))
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            return Response({'error': ' '.join(messages_list)}, status=400)
+    try:
+        uploaded_file = request.FILES.get('file')
+        if uploaded_file:
+            path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if err_resp:
+                return Response(err_resp, status=400)
+            if path:
+                resource.file = path
+                resource.file_url = media_url(request, path)
+                resource.file_size = size
+        elif _s('file_url'):
+            resource.file_url = read_file_url(_s('file_url'))
 
-    thumbnail_file = request.FILES.get('thumbnail')
-    if thumbnail_file:
-        try:
-            resource.thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-        except ValidationError as exc:
-            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
-    elif 'thumbnail_url' in data:
-        thumb = _s('thumbnail_url')
-        if thumb:
-            try:
-                resource.thumbnail_url = validate_resource_file_url(thumb)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                return Response({'error': ' '.join(messages_list)}, status=400)
-        else:
-            resource.thumbnail_url = ''
+        thumbnail_url = read_thumbnail(request, data)
+        if thumbnail_url is not None:
+            resource.thumbnail_url = thumbnail_url
+    except InvalidInput as exc:
+        return Response({'error': exc.message}, status=400)
 
     # Marketplace: owner can toggle paid + price from the app/web edit form.
     if 'is_paid' in data or 'isPaid' in data or 'price' in data:
@@ -714,222 +707,89 @@ def resource_view(request, resource_id):
     Resource.objects.filter(pk=resource_id, approval_status='approved').update(view_count=F('view_count') + 1)
     return Response({'view_count': resource.view_count + 1})
 
-@api_view(['POST'])
-@throttle_classes([UploadRateThrottle])
-def resource_upload(request):
-    """POST /api/resources/upload — authenticated user uploads a resource.
-    Requires auth. Accepts either a file upload or a file_url.
-    Resource is created with approval_status='pending'."""
-    user, err = _require_user(request)
-    if err:
-        return err
+def _declared_size(data):
+    try:
+        return int(float(data.get('file_size') or 0))
+    except (ValueError, TypeError):
+        return 0
 
+
+def _create_pending_resource(request, uploader):
+    """Shared by signed-in (uploader) and anonymous (None) uploads; the resource waits for review."""
     data = request.data
-    title = data.get('title', '').strip()
-    subject = data.get('subject', '').strip()
-
-    if not title or not subject:
+    fields = read_listing_fields(data)
+    if not fields['title'] or not fields['subject']:
         return Response({'error': 'title and subject are required'}, status=400)
 
-    try:
-        source_url = clean_source_url(data.get('source_url', ''))
-    except ValidationError as exc:
-        return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
-
-    uploaded_file = request.FILES.get('file')
-    file_url = data.get('file_url', '').strip()
-
-    if not uploaded_file and not file_url:
-        return Response({'error': 'Either a file upload or file_url is required'}, status=400)
-
     file_path = ''
-    file_size = 0
-    if uploaded_file:
-        path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-        if err_resp:
-            return Response(err_resp, status=400)
-        file_path = path or ''
-        file_size = size
-        file_url = request.build_absolute_uri(settings.MEDIA_URL + file_path) if file_path else ''
+    try:
+        source_url = read_source_url(data)
+        uploaded_file = request.FILES.get('file')
+        file_url = data.get('file_url', '').strip()
+        if not uploaded_file and not file_url:
+            return Response({'error': 'Either a file upload or file_url is required'}, status=400)
 
-    if not uploaded_file and file_url:
-        try:
-            file_url = validate_resource_file_url(file_url)
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            return Response({'error': ' '.join(messages_list)}, status=400)
+        file_size = 0
+        if uploaded_file:
+            path, file_size, err_resp = validate_and_save_resource_file(request, uploaded_file)
+            if err_resp:
+                return Response(err_resp, status=400)
+            file_path = path or ''
+            file_url = media_url(request, file_path)
+        else:
+            file_url = read_file_url(file_url)
 
-    # Cover image: explicit upload wins, then a pasted URL; videos without a
-    # cover get one auto-extracted from the footage (best-effort ffmpeg).
-    thumbnail_url = ''
-    thumbnail_file = request.FILES.get('thumbnail')
-    if thumbnail_file:
-        try:
-            thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-        except ValidationError as exc:
-            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
+        thumbnail_url = read_thumbnail(request, data) or ''
+    except InvalidInput as exc:
+        discard_saved_files([{'path': file_path}])
+        return Response({'error': exc.message}, status=400)
+
+    if uploader is None:
+        origin = {'source_type': 'anonymous', 'author_name': data.get('requester_name', '').strip()[:100]}
     else:
-        thumbnail_url = data.get('thumbnail_url', '').strip()
-        if thumbnail_url:
-            try:
-                thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                return Response({'error': ' '.join(messages_list)}, status=400)
-
-    raw_size = data.get('file_size')
-    parsed_size = 0
-    if raw_size:
-        try:
-            parsed_size = int(float(raw_size))
-        except (ValueError, TypeError):
-            parsed_size = 0
+        is_paid, price = parse_paid_fields(data)
+        origin = {'source_type': 'user', 'uploaded_by': uploader, 'is_paid': is_paid, 'price': price}
 
     try:
         resource = Resource(
+            **{**fields, **origin},
             id=str(uuid.uuid4()),
-            title=title,
-            description=data.get('description', '').strip(),
-            subject=subject,
-            grade_level=data.get('grade_level', '').strip(),
-            faculty=data.get('faculty', '').strip(),
-            program=data.get('program', '').strip(),
-            year=data.get('year', '').strip(),
-            exam_type=data.get('exam_type', '').strip(),
-            pradesh=data.get('pradesh', '').strip(),
-            district=data.get('district', '').strip(),
-            school=data.get('school', '').strip(),
-            tags=data.get('tags', '').strip(),
-            type=data.get('type', 'PDF').strip() or 'PDF',
             file=file_path or None,
             file_url=file_url,
-            thumbnail_url=thumbnail_url or '',
-            file_size=file_size or parsed_size,
+            thumbnail_url=thumbnail_url,
+            file_size=file_size or _declared_size(data),
             added_at=_now_ms(),
-            author_name=data.get('author_name', '').strip(),
-            source_type='user',
-            uploaded_by=user,
-            source_label=data.get('source_label', '').strip(),
             source_url=source_url,
             approval_status='pending',
         )
-        # Marketplace: uploader can list this as paid with a price.
-        is_paid, price_val = parse_paid_fields(data)
-        resource.is_paid = is_paid
-        resource.price = price_val
         resource.save()
         if not resource.thumbnail_url:
             maybe_autoset_video_thumbnail(resource, request)
         cache.delete_many(['home_resources', 'library_all_resources'])
         return Response(ResourceSerializer(resource).data, status=201)
     except Exception as exc:
-        logger.exception("resource_upload failed to save resource: %s", exc)
+        logger.exception("resource upload failed to save resource: %s", exc)
         return Response({'error': f'Failed to save resource: {str(exc)}'}, status=500)
+
+
+@api_view(['POST'])
+@throttle_classes([UploadRateThrottle])
+def resource_upload(request):
+    """POST /api/resources/upload — signed-in upload of a file or a file_url; pending review."""
+    user, err = _require_user(request)
+    if err:
+        return err
+    return _create_pending_resource(request, user)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @throttle_classes([UploadRateThrottle])
 def resource_upload_anonymous(request):
-    """POST /api/resources/upload/anonymous — anonymous resource upload.
-    No auth required. Accepts either a file upload or a file_url.
-    Resource is created with approval_status='pending'."""
-    data = request.data
-    title = data.get('title', '').strip()
-    subject = data.get('subject', '').strip()
+    """POST /api/resources/upload/anonymous — the same upload without sign-in."""
+    return _create_pending_resource(request, None)
 
-    if not title or not subject:
-        return Response({'error': 'title and subject are required'}, status=400)
 
-    try:
-        source_url = clean_source_url(data.get('source_url', ''))
-    except ValidationError as exc:
-        return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
-
-    uploaded_file = request.FILES.get('file')
-    file_url = data.get('file_url', '').strip()
-
-    if not uploaded_file and not file_url:
-        return Response({'error': 'Either a file upload or file_url is required'}, status=400)
-
-    file_path = ''
-    file_size = 0
-    if uploaded_file:
-        path, size, err_resp = validate_and_save_resource_file(request, uploaded_file)
-        if err_resp:
-            return Response(err_resp, status=400)
-        file_path = path or ''
-        file_size = size
-        file_url = request.build_absolute_uri(settings.MEDIA_URL + file_path) if file_path else ''
-
-    if not uploaded_file and file_url:
-        try:
-            file_url = validate_resource_file_url(file_url)
-        except Exception as exc:
-            messages_list = getattr(exc, 'messages', [str(exc)])
-            return Response({'error': ' '.join(messages_list)}, status=400)
-
-    # Cover image: explicit upload wins, then a pasted URL; videos without a
-    # cover get one auto-extracted from the footage (best-effort ffmpeg).
-    thumbnail_url = ''
-    thumbnail_file = request.FILES.get('thumbnail')
-    if thumbnail_file:
-        try:
-            thumbnail_url = save_resource_thumbnail_upload(request, thumbnail_file)
-        except ValidationError as exc:
-            return Response({'error': ' '.join(getattr(exc, 'messages', [str(exc)]))}, status=400)
-    else:
-        thumbnail_url = data.get('thumbnail_url', '').strip()
-        if thumbnail_url:
-            try:
-                thumbnail_url = validate_resource_file_url(thumbnail_url)
-            except Exception as exc:
-                messages_list = getattr(exc, 'messages', [str(exc)])
-                return Response({'error': ' '.join(messages_list)}, status=400)
-
-    requester_name = data.get('requester_name', '').strip()[:100]
-    raw_size = data.get('file_size')
-    parsed_size = 0
-    if raw_size:
-        try:
-            parsed_size = int(float(raw_size))
-        except (ValueError, TypeError):
-            parsed_size = 0
-
-    try:
-        resource = Resource(
-            id=str(uuid.uuid4()),
-            title=title,
-            description=data.get('description', '').strip(),
-            subject=subject,
-            grade_level=data.get('grade_level', '').strip(),
-            faculty=data.get('faculty', '').strip(),
-            program=data.get('program', '').strip(),
-            year=data.get('year', '').strip(),
-            exam_type=data.get('exam_type', '').strip(),
-            pradesh=data.get('pradesh', '').strip(),
-            district=data.get('district', '').strip(),
-            school=data.get('school', '').strip(),
-            tags=data.get('tags', '').strip(),
-            type=data.get('type', 'PDF').strip() or 'PDF',
-            file=file_path or None,
-            file_url=file_url,
-            thumbnail_url=thumbnail_url or '',
-            file_size=file_size or parsed_size,
-            added_at=_now_ms(),
-            author_name=requester_name,
-            source_type='anonymous',
-            approval_status='pending',
-            source_label=data.get('source_label', '').strip(),
-            source_url=source_url,
-        )
-        resource.save()
-        if not resource.thumbnail_url:
-            maybe_autoset_video_thumbnail(resource, request)
-        cache.delete_many(['home_resources', 'library_all_resources'])
-        return Response(ResourceSerializer(resource).data, status=201)
-    except Exception as exc:
-        logger.exception("resource_upload_anonymous failed to save resource: %s", exc)
-        return Response({'error': f'Failed to save resource: {str(exc)}'}, status=500)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -956,6 +816,15 @@ def resource_requests_list(request):
         qs[:50], many=True, context={'request': request, 'upvoted_request_ids': upvoted_ids}
     ).data)
 
+def _save_resource_request(request, **requester):
+    fields = read_request_fields(request.data)
+    if not fields['title']:
+        return Response({'error': 'title is required'}, status=400)
+    req = ResourceRequest(id=str(uuid.uuid4()), **fields, created_at=_now_ms(), **requester)
+    req.save()
+    return Response(ResourceRequestSerializer(req, context={'request': request}).data, status=201)
+
+
 @api_view(['POST'])
 @throttle_classes([WriteActionRateThrottle])
 def resource_request_create(request):
@@ -963,56 +832,21 @@ def resource_request_create(request):
     user, err = _require_user(request)
     if err:
         return err
-    title = request.data.get('title', '').strip()
-    if not title:
-        return Response({'error': 'title is required'}, status=400)
-    req = ResourceRequest(
-        id=str(uuid.uuid4()),
-        title=title,
-        description=request.data.get('description', '').strip(),
-        subject=request.data.get('subject', '').strip(),
-        grade_level=request.data.get('grade_level', '').strip(),
-        faculty=request.data.get('faculty', '').strip(),
-        program=request.data.get('program', '').strip(),
-        year=request.data.get('year', '').strip(),
-        exam_type=request.data.get('exam_type', '').strip(),
-        pradesh=request.data.get('pradesh', '').strip(),
-        district=request.data.get('district', '').strip(),
-        tags=request.data.get('tags', '').strip(),
-        requested_by=user,
-        created_at=_now_ms(),
-    )
-    req.save()
-    return Response(ResourceRequestSerializer(req, context={'request': request}).data, status=201)
+    return _save_resource_request(request, requested_by=user)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @throttle_classes([UploadRateThrottle])
 def resource_request_create_anonymous(request):
     """POST /api/resource-requests/anonymous/ — create a resource request (anonymous)."""
-    title = request.data.get('title', '').strip()
-    if not title:
-        return Response({'error': 'title is required'}, status=400)
-    req = ResourceRequest(
-        id=str(uuid.uuid4()),
-        title=title,
-        description=request.data.get('description', '').strip(),
-        subject=request.data.get('subject', '').strip(),
-        grade_level=request.data.get('grade_level', '').strip(),
-        faculty=request.data.get('faculty', '').strip(),
-        program=request.data.get('program', '').strip(),
-        year=request.data.get('year', '').strip(),
-        exam_type=request.data.get('exam_type', '').strip(),
-        pradesh=request.data.get('pradesh', '').strip(),
-        district=request.data.get('district', '').strip(),
-        tags=request.data.get('tags', '').strip(),
+    return _save_resource_request(
+        request,
         requested_by=None,
         requester_name=request.data.get('requester_name', '').strip()[:100],
         requester_email=request.data.get('requester_email', '').strip(),
-        created_at=_now_ms(),
     )
-    req.save()
-    return Response(ResourceRequestSerializer(req, context={'request': request}).data, status=201)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

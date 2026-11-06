@@ -26,9 +26,7 @@ from typing import List, Optional
 from django.conf import settings
 
 from .crypto import decrypt_key
-from .registry import (
-    OFFICIAL_PRESETS, SCRAPER_PRESETS, ProviderPreset, preset, is_official_slug,
-)
+from .registry import OFFICIAL_PRESETS, ProviderPreset, preset
 
 
 @dataclass
@@ -183,14 +181,6 @@ def _row_models(row) -> List[str]:
         return []
 
 
-def user_custom_provider(user, provider_id: str):
-    user = _real_user(user)
-    if user is None:
-        return None
-    from api.models import UserLLMProvider
-    return UserLLMProvider.objects.filter(pk=provider_id, user=user, provider='custom', enabled=True).first()
-
-
 def _qwen_live_models(bots=None):
     """Merge the live catalog from chat.qwen.ai (via the existing 5-minute
     cached fetcher). Returns (models, default_id). Never raises — fails soft
@@ -222,118 +212,6 @@ def _qwen_live_models(bots=None):
         if default_id is None and caps.get('document') and caps.get('vision'):
             default_id = mid
     return models, default_id
-
-
-def catalog_for_user(user) -> dict:
-    """Everything a picker needs: official presets (with availability), the
-    community models, and the user's own custom providers. No secrets — only
-    masked keys / availability flags."""
-    from api.models import BotConfig, UserLLMProvider
-
-    byok_rows = {}
-    custom_rows = []
-    if _real_user(user) is not None:
-        for row in UserLLMProvider.objects.filter(user=user, enabled=True).order_by('-updated_at'):
-            if row.provider == 'custom':
-                custom_rows.append(row)
-            else:
-                byok_rows.setdefault(row.provider, row)
-
-    bots_by_provider = {}
-    for bot in BotConfig.objects.filter(enabled=True):
-        bots_by_provider.setdefault(bot.provider, []).append(bot)
-
-    official = []
-    for p in OFFICIAL_PRESETS:
-        byok = byok_rows.get(p.slug)
-        bot = (bots_by_provider.get(p.slug) or [None])[0]
-        env_key = _env_key(p.slug)
-        available = bool(not p.key_required) or bool(byok and (byok.api_key or byok.base_url)) or \
-            bool(bot and (bot.api_key.strip() or bot.api_url.strip())) or bool(env_key)
-        key_source = 'byok' if byok else ('bot' if bot and (bot.api_key.strip() or bot.api_url.strip()) else ('env' if env_key else ('free' if not p.key_required else '')))
-        official.append({
-            'slug': p.slug,
-            'label': p.label,
-            'format': p.format,
-            'baseUrl': p.base_url,
-            'contextWindow': p.context_window,
-            'freeNote': p.free_note,
-            'official': True,
-            'available': available,
-            'keySource': key_source,
-            'keyMasked': _masked_row_key(byok) if byok else ('' if not bot else ('set' if bot.api_key.strip() else '')),
-            'byokProviderId': str(byok.id) if byok else '',
-            'defaultModel': byok.default_model if byok and byok.default_model else p.default_model,
-            'models': [{'id': m.id, 'label': m.label, 'note': m.note} for m in p.models],
-        })
-
-    community = []
-    for p in SCRAPER_PRESETS:
-        bots = bots_by_provider.get(p.slug) or []
-        models = [{'id': m.id, 'label': m.label, 'note': m.note} for m in p.models]
-        for bot in bots:
-            if bot.model and all(m['id'].lower() != bot.model.lower() for m in models):
-                models.append({
-                    'id': bot.model,
-                    'label': bot.display_name or bot.name or bot.model,
-                    'note': '',
-                })
-        live_default = None
-        if p.slug == 'qwen':
-            # Live model catalog from chat.qwen.ai (5-min cached upstream),
-            # so new drops like the Qwen 3.8 Max preview appear automatically.
-            live, live_default = _qwen_live_models(bots)
-            for m in live:
-                if all(x['id'].lower() != m['id'].lower() for x in models):
-                    models.append(m)
-        # k2think/poolside/motiftech are direct public web proxies — the agent runner
-        # calls them with no key and no BotConfig row. Everything else
-        # community needs an enabled BotConfig to serve.
-        proxy_served = p.slug in ('k2think', 'poolside', 'motiftech', 'tryingopen', 'longcat', 'geminiweb', 'metaai')
-        community.append({
-            'slug': p.slug,
-            'label': p.label,
-            'format': p.format,
-            'baseUrl': p.base_url,
-            'contextWindow': p.context_window,
-            'freeNote': '',
-            'official': False,
-            'available': bool(bots) or proxy_served,
-            # Community models with a background-agent runner adapter can
-            # drive agent sessions. The other web models serve Neby
-            # bots/arena — pickers must hide them for agent tasks.
-            'selectableForAgent': p.slug in ('qwen', 'tryingopen', 'k2think', 'poolside', 'motiftech', 'metaai', 'longcat', 'geminiweb'),
-            'keySource': 'scraper' if (bots or proxy_served) else '',
-            'keyMasked': '',
-            'byokProviderId': '',
-            'defaultModel': (bots[0].model if bots and bots[0].model else
-                             (live_default or p.default_model)),
-            'models': models,
-        })
-
-    custom = []
-    for row in custom_rows:
-        models = _row_models(row)
-        custom.append({
-            'id': str(row.id),
-            'slug': 'custom',
-            'label': row.name or 'Custom provider',
-            'format': row.api_format,
-            'baseUrl': row.base_url,
-            'contextWindow': row.context_window or 131072,
-            'official': True,
-            'available': bool(row.base_url.strip()),
-            'keyMasked': _masked_row_key(row),
-            'defaultModel': row.default_model or (models[0] if models else ''),
-            'models': [{'id': m, 'label': m, 'note': ''} for m in models],
-        })
-
-    return {
-        'official': official,
-        'community': community,
-        'custom': custom,
-        'defaultSelection': default_selection(user),
-    }
 
 
 def default_selection(user) -> dict:
