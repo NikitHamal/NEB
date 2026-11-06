@@ -36,6 +36,21 @@ if _m <= 0: _m, _y = _m + 12, _y - 1
 _nae = date(_y, _m, _n.day); _d = (_v - _lmp).days; _w, _r = divmod(_d, 7)
 chk("c2", (f"{_e280:%d %b %Y}", f"{_nae:%d %b %Y}", _d, f"{_w} weeks {_r} days", f"{41 / 1.48 ** 2:.1f}", (_e280 - _v).days), ("15 Dec 2025", "17 Dec 2025", 196, "28 weeks 0 days", "18.7", 84))
 T.update(u2_hh="4.37", u2_ward="1094", u2_brides="87", u2_abr="85", u2_gini="0.376", u2_q="7.83", u2_m3="7.8", u2_m4="4.37", c2_edd="15 Dec 2025", c2_naegele="17 Dec 2025", c2_days=196, c2_ga="28 weeks 0 days", c2_bmi="18.7", c2_ifa=84)
+# ---- Unit 3: psychology
+import math as _m
+def _phi(z): return 0.5 * (1 + _m.erf(z / _m.sqrt(2)))
+chk("mem", ([f"{_m.exp(-t / 2) * 100:.1f}" for t in (1, 2, 7)], f"{_m.exp(-7 / 4) * 100:.1f}", 20 // 5), (["60.7", "36.8", "3.0"], "17.4", 4))
+_iq = 60 / 96 * 100
+chk("iq", (f"{_iq:.1f}", f"{(_iq - 100) / 15:.1f}", f"{_phi(-2.5) * 100:.2f}", f"{_phi(-2) * 100:.2f}", f"{_phi(2) * 100:.2f}", f"{(_phi(1) - _phi(-1)) * 100:.2f}", 50 // 10, f"{10 / 12 * 100:.1f}", f"{100 + 15 * -2.5:.1f}"),
+    ("62.5", "-2.5", "0.62", "2.28", "97.72", "68.27", 5, "83.3", "62.5"))
+T.update(u3_r1="60.7", u3_r2="36.8", u3_r7="3.0", u3_r7s="17.4", u3_fr=4, c3_iq="62.5", c3_z="-2.5", c3_pct="0.62", u3_p70="2.28", u3_p130="97.72", u3_mid="68.27", u3_m2=5, u3_m3="83.3", u3_m4="62.5")
+# ---- Unit 4: social psychology and health behaviour
+_raw = [4, 5, 2, 4, 5, 1, 4, 2, 5, 4]
+_sc = [6 - x if i in (2, 5, 7) else x for i, x in enumerate(_raw)]
+chk("lik", (sum(_raw), _sc, sum(_sc), f"{sum(_sc) / 50 * 100:.0f}"), (36, [4, 5, 4, 4, 5, 5, 4, 4, 5, 4], 44, "88"))
+chk("soc", (f"{12 * 0.37:.1f}", f"{26 / 40 * 100:.0f}", f"{(85 - 31) / 85 * 100:.1f}", f"{10 / 20 * 30:.0f}"), ("4.4", "65", "63.5", "15"))
+chk("c4", (20 / 20 * 25, f"{20 * 15 * 365:,}", f"{20 * 15 * 365 * 10:,}", (6 + 2 + 2) * 7, (6 + 2 + 2)), (25, "109,500", "1,095,000", 70, 10))
+T.update(u4_raw=36, u4_score=44, u4_pct=88, u4_cat="good", u4_asch="4.4", u4_mil="65", u4_m3="63.5", u4_m2="15", c4_py=25, c4_cost="109,500", c4_cost10="1,095,000", c4_patches=70, c4_weeks=10)
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):

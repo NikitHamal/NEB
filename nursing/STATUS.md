@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 10. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 11. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -61,8 +61,12 @@ Updated: end of Session 10. Branch `claude/bsc-nursing` (from `main`).
   - `nursing/tools/check_nc.py`: 58 tokens + 14 python blocks + extra asserts (`--verify`). Case tokens prefixed `c1`...`c6`. Sections in `nursing/tools/helpers/session10/` (`asm.sh N`, `pages.sh`).
   - Lessons: the sandbox had no `uv`, pango or poppler: `pip install --break-system-packages uv`, `uv venv --python 3.12 /tmp/v`, add `matplotlib`, `sudo apt-get update && sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 fontconfig poppler-utils`. `credits.json` in this checkout is LF (do NOT convert to CRLF). The file tool needs relative paths (`parts/u1a.md` under `/app`). Units 4-6 were written as one file each (about 3,000-3,800 words); always recompute sums (two mental sums were wrong and were caught by the python blocks: Holmes-Rahe 211, MAP 70).
 
+- **Social and Behavioral Science (BSN 16), Year 2: 4 of ~5-6 units DONE (session 11, partial book).** U1 Sociology, culture, Census 2021 diversity index, LEARN model | U2 Family, marriage law and child marriage (NDHS 2022), institutions, stratification, Lorenz and Gini, social determinants | U3 Psychology: learning, memory curve, Maslow, IQ and normal curve, personality | U4 Social psychology: attitudes and Likert, Asch, Milgram, bystander, HBM, stages of change, tobacco cessation.
+  - `qa_pdf.py` fails=0; 28 Commons photographs (slug `nur10`), 6 plates, 14 SVGs, 11 executed python blocks, 51 tokens in `nursing/tools/check_sbs.py`; helpers and per-unit checker sections in `nursing/tools/helpers/session11/` (`asm.sh N`, `pages.sh`, `contact.py`, `get.sh`, `s.sh`).
+  - Lessons: in the photogrid `focus fx fy` is the crop centre with **y from the bottom** and `0.0` is treated as unset (use 0.01 or pre-crop the file in place); view a contact sheet first (a pottery file was a building, dropped); the file tool root is `/app` so parts live in `/app/parts`; remove `/app/neb` while writing to avoid tsc lint noise; recompute every sum (the un-reversed Likert total was 36, not 38).
+
 ## Next (in this order)
-1. Start **Social and Behavioral Science (BSN 16)** `course/year-2/social-and-behavioral-science` (slug `nur10`; copy `check_nc.py` as `check_sbs.py`, helpers in `nursing/tools/helpers/session10/`): sociology and psychology basics, culture, caste and ethnicity in Nepal, family, social change, deviance, health behaviour, attitudes. Year 2 then closes.
+1. **Finish Social and Behavioral Science (BSN 16)** `course/year-2/social-and-behavioral-science`: add Unit 5 (social problems: poverty, unemployment, migration, substance abuse, trafficking, juvenile delinquency; deviance theories Merton, labelling; social control; applied sociology, social work, project cycle and community assessment) and, if time, Unit 6 (stress, mental hygiene, human relations, Johari window, leadership). Copy helpers from `nursing/tools/helpers/session11/` (paths: `/tmp/h`, `/tmp/h/sbs/uN.py` sections, parts in `/app/parts/uNa.md`, `uNb.md`). Then rebuild the PDF and push.
 2. Then in `books.json` order: Nursing Concepts, Social and Behavioral Science; Year 3 Midwifery I and II, Child Health Nursing, etc.
 3. After that: the five MECEE-BL entrance books (Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 questions).
 4. Optional polish: a few 3-up SVGs still have 5-6 pt text.
