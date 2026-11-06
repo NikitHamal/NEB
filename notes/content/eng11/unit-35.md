@@ -479,3 +479,37 @@ object must come between the verb and the particle.
 **26.** On the second syllable — pho**to**graphy — because *-graphy* pulls the stress
 onto the syllable before it.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended answers (7 to 10 marks each, for deeper revision)**
+
+1. Explain silent letters, word stress, prefixes, suffixes and idioms with examples. <span class="marks">[10]</span>
+
+```photogrid label="35.H" cols="3" ratio="1.0" caption="Words around us. A road sign, a notice board and a train status board: short texts where vocabulary and spelling must be exact."
+@ photo id="eng12/imperative-sign" cap="Warning sign"
+@ photo id="eng11/notice-board" cap="Notice board"
+@ photo id="eng12/train-board" cap="Train status board"
+```
+
+### Model answer D1: vocabulary skills (10 marks)
+
+**Introduction.** Question 8 is **five one-mark items** on vocabulary. Word class and spelling must both be right: there are no part marks.
+
+1. **Silent letters** often reappear when a suffix is added: *sign → signature, bomb → bombard, muscle → muscular*.
+2. **Stress:** in two-syllable noun/verb pairs, the noun is stressed on the first syllable and the verb on the second: *'record (n.) / re'cord (v.)*.
+3. The endings **-ion, -ity, -ic, -ical, -graphy** pull the stress onto the syllable before them: *pho'tography, e'lectric*.
+4. **Prefixes** change meaning: *un-, dis-, mis-, in-* (negative), *re-* (again), *pre-* (before).
+5. **Suffixes** change the class: *-ness* (noun), *-ful* (adjective), *-ly* (adverb), *-ize* (verb).
+6. **Word families:** *decide, decision, decisive, decisively*.
+7. **Idioms** have a meaning different from the words: *a piece of cake* = easy; *break the ice* = start a conversation; *under the weather* = ill.
+8. **Homophones:** *their/there, principal/principle, stationary/stationery*.
+
+| Prefix | Meaning | Example |
+|---|---|---|
+| un- | not | unhappy |
+| re- | again | rewrite |
+| pre- | before | prepare |
+| mis- | wrongly | misunderstand |
+
+**Conclusion.** Learn families of words, not single words.

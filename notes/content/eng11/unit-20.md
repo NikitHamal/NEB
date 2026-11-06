@@ -951,3 +951,44 @@ every subject — and he is thrown out by the collar without a crown, exactly as
 and as unemployable as when he arrived. Nothing about him has improved except his
 grade sheet, which is Karinthy's final comment on what a certificate is worth.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Describe how the school staff deal with Wasserkopf's demand for a refund. <span class="marks">[10]</span>
+2. Discuss the satire in *Refund*. <span class="marks">[10]</span>
+
+```photogrid label="20.H" cols="3" ratio="1.0" caption="Author and school. Frigyes Karinthy (c. 1930), the upper library of a college and children outside a school: the author of the farce and the setting of education."
+@ photo id="eng11/karinthy" cap="Frigyes Karinthy, c. 1930"
+@ photo id="eng12/queens-upper-library" cap="A college library"
+@ photo id="eng8/classroom-sankhu" cap="Students outside a school"
+```
+
+### Model answer D1: the staff and the refund (10 marks)
+
+**Introduction.** *Refund* (1938) is a one-act farce by the Hungarian satirist **Frigyes Karinthy (1887–1938)**, adapted by Percival Wilde.
+
+1. Wasserkopf returns to his school after **eighteen years** and demands his **tuition fees back**, saying he learned nothing and is now good for nothing.
+2. The idea came from his old classmate **Leaderer**, who made money speculating in foreign exchange.
+3. Wasserkopf demands a **re-examination** to prove he knows nothing, and threatens the **Ministry of Education**.
+4. The Principal calls a **staff conference**.
+5. The **Mathematics Master** proposes the plan: whatever his answers, they will **agree beforehand that they are correct**.
+6. His reason: **"if he fails he succeeds"**, and one refund would bring a queue of others.
+7. Before any subject is examined, his rudeness earns **Manners: Excellent**, his refusal of a chair **Physical Culture: Excellent**, and sitting down **Alertness: Very Good**.
+8. In **History** the Thirty Years' War is said to have lasted "exactly seven meters", and the staff praise even such nonsense.
+
+**Conclusion.** The staff protect the school's name, not the truth.
+
+### Model answer D2: satire (10 marks)
+
+1. **Satire** uses humour to criticise: here the target is the **education system**.
+2. The **examination** is absurd, since nonsense answers are marked as excellent.
+3. **Exaggeration** gives the farce its fun.
+4. The teachers are **cowardly and dishonest**.
+5. **Irony:** the more ignorant the answer, the higher the mark.
+6. **Money** is the real value of the school; the fees matter more than learning.
+7. The pace is **fast**, the dialogue **witty**, and the situation turns logic upside down.
+8. **Theme:** a school that fears for its reputation may forget its purpose.
+
+**Conclusion.** Karinthy laughs at a school that rewards appearance over knowledge.

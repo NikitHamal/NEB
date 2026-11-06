@@ -691,3 +691,57 @@ exactly: the old is cleared away, and what was good in it is passed to the new.
 Finally, by repeating the words as his wish for the graduates, he turns a printed
 sign-off into a personal blessing.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Summarise the three stories in Steve Jobs's Stanford speech and the lesson of each. <span class="marks">[10]</span>
+2. Discuss the structure and rhetorical devices of the speech. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="2" ratio="1.4" caption="Speaker and machine. Steve Jobs with the Macintosh computer, January 1984, and an Android smartphone: personal computing from desktop to pocket."
+@ photo id="eng11/steve-jobs-1984" cap="Steve Jobs and the Macintosh, 1984"
+@ photo id="cs8/os-android-phone" cap="A modern smartphone"
+```
+
+### Model answer D1: three stories and lessons (10 marks)
+
+**Introduction.** "How to Live Before You Die" is Steve Jobs's commencement address at **Stanford University** on **12 June 2005**, by a speaker who never graduated from college.
+
+**Story one: connecting the dots.**
+
+1. Jobs was adopted at birth and dropped out of **Reed College**.
+2. He sat in on a **calligraphy class** that had no practical use.
+3. Ten years later he built that typography into the **Macintosh**.
+4. **Lesson:** trust that the dots will connect, because you can only join them looking backward.
+
+**Story two: love and loss.**
+
+5. He built **Apple** from a garage but was publicly **fired at thirty**.
+6. His love of the work survived; he founded **NeXT and Pixar** and later returned to Apple.
+7. **Lesson:** find what you love, and do not settle.
+
+**Story three: death.**
+
+8. A wrong diagnosis of **incurable pancreatic cancer** made him live one day as if it were his last; then a **curable tumour** was found and removed. **Lesson:** remembering death clears away pride, fear and other people's expectations.
+
+| Story | Lesson |
+|---|---|
+| Dots | Trust |
+| Love and loss | Do what you love |
+| Death | Live fully |
+
+**Conclusion.** Jobs's life shows that failure and fear can become the start of something new.
+
+### Model answer D2: structure and devices (10 marks)
+
+1. The speech has a **tripartite structure**: three stories announced in advance.
+2. Each story ends with a **rule for living**.
+3. He uses **personal anecdote**, which wins trust.
+4. **Humour** and modesty ("Truth be told, I never graduated from college") relax the audience.
+5. **Repetition** and parallel phrases make the lessons memorable.
+6. **Direct address** ("You've got to find what you love") speaks to students.
+7. The speech ends with the closing words **"Stay hungry. Stay foolish."**
+8. The **tone** is simple, honest and inspiring.
+
+**Conclusion.** A clear structure and personal stories make the speech powerful.

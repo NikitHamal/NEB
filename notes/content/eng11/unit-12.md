@@ -410,3 +410,54 @@ is spent praising them. The implication is that official honour is a cheap
 substitute offered by the state in place of a life, and that it does not balance
 the account by even a little.
 :::
+
+## Group D: Long answers (10 marks)
+
+**Group D — Extended literature answers (10 marks each, for deeper revision)**
+
+1. Explain how irony and the "exchange of gifts" structure "The Gift in Wartime". <span class="marks">[10]</span>
+2. Discuss the theme and the form of the poem. <span class="marks">[10]</span>
+
+```photogrid label="12.H" cols="2" ratio="1.4" caption="Cost of war. The atomic cloud over Hiroshima and the Martyrs' Gate (Sahid Gate) in Kathmandu: the human cost of war and the memory of those who died for their country."
+@ photo id="soc10/hiroshima" cap="Atomic cloud over Hiroshima"
+@ photo id="nep8/sahid-gate" cap="Martyrs' Gate, Kathmandu"
+```
+
+### Model answer D1: irony and the exchange (10 marks)
+
+**Introduction.** "The Gift in Wartime" by **Tran Mong Tu** (born 1943, Vietnam; in the United States since 1975) is spoken by a **young widow at the grave of her soldier**.
+
+**The exchange of gifts.**
+
+1. She offers **roses**.
+2. She offers her **wedding ring**.
+3. She offers her **youth**.
+4. She offers **the rest of her life**.
+5. He gives back **the smell of blood**, **his body**, **official medals** and a **lifetime of mourning**.
+
+**Irony and devices.**
+
+6. The word **"gift"** is used for both lists; love's gifts meet war's gifts: this is **irony**.
+7. **Anaphora** (repeated sentence openings), **symbolism** (roses, ring) and **understatement** carry the grief.
+8. The poem is in **free verse** with no rhyme, and the rhythm comes from parallel sentences.
+
+| She gives | War gives |
+|---|---|
+| Roses, ring | Blood, medals |
+| Youth | Death |
+| Her life | Mourning |
+
+**Conclusion.** The cruel contrast shows how war turns love into loss.
+
+### Model answer D2: theme and form (10 marks)
+
+1. **Theme:** the cost of war to families, above all to women.
+2. The gifts of the dead man are **not gifts at all**; they are the signs of loss.
+3. The **medals** show how a state pays with honour for a life.
+4. The **tone** moves from tenderness to bitterness.
+5. The poem is read **in translation**, so its power is in meaning and structure, not rhyme.
+6. The speaker is **one widow**, but she stands for many.
+7. **Understatement** makes the pain stronger than loud complaint.
+8. The poem is a quiet **anti-war** statement.
+
+**Conclusion.** Through one grave, the poet speaks for all who lose a loved one in war.
