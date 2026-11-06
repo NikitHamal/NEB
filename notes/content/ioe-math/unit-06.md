@@ -250,56 +250,56 @@ f.text(150, 222, "negative work: gravity opposes the climb", size=10.5, color=SL
 
 **Group D — Model answers for long questions (10 marks each, for deeper revision)**
 
-1. For $\mathbf a=(1,2,3)$ and $\mathbf b=(2,-1,1)$ find the scalar product, angle, vector product, parallelogram area and projection. <span class="marks">[10]</span>
+1. For $\mathbf{a}=(1,2,3)$ and $\mathbf{b}=(2,-1,1)$ find the scalar product, angle, vector product, parallelogram area and projection. <span class="marks">[10]</span>
 2. Use the scalar triple product to test coplanarity and to find volumes; find the work done by a force and the torque of a force. <span class="marks">[10]</span>
 
 ### Model answer D1: Scalar and vector products (10 marks)
 
-**Introduction.** The **scalar (dot) product** is $\mathbf a\cdot\mathbf b=\lvert\mathbf a\rvert\lvert\mathbf b\rvert\cos\theta=a_1b_1+a_2b_2+a_3b_3$; the **vector (cross) product** $\mathbf a\times\mathbf b$ has magnitude $\lvert\mathbf a\rvert\lvert\mathbf b\rvert\sin\theta$ and is perpendicular to both vectors.
+**Introduction.** The **scalar (dot) product** is $\mathbf{a}\cdot\mathbf{b}=\lvert\mathbf{a}\rvert\lvert\mathbf{b}\rvert\cos\theta=a_1b_1+a_2b_2+a_3b_3$; the **vector (cross) product** $\mathbf{a}\times\mathbf{b}$ has magnitude $\lvert\mathbf{a}\rvert\lvert\mathbf{b}\rvert\sin\theta$ and is perpendicular to both vectors.
 
 **Solution.**
 
 | Quantity | Working | Value |
 |---|---|---|
-| $\mathbf a\cdot\mathbf b$ | $2-2+3$ | $3$ |
-| $\lvert\mathbf a\rvert,\ \lvert\mathbf b\rvert$ | $\sqrt{14},\ \sqrt6$ | $3.742,\ 2.449$ |
+| $\mathbf{a}\cdot\mathbf{b}$ | $2-2+3$ | $3$ |
+| $\lvert\mathbf{a}\rvert,\ \lvert\mathbf{b}\rvert$ | $\sqrt{14},\ \sqrt6$ | $3.742,\ 2.449$ |
 | Angle $\theta$ | $\cos\theta=\frac{3}{\sqrt{84}}=0.327$ | $70.9^\circ$ |
-| $\mathbf a\times\mathbf b$ | $(2\cdot1-3(-1),\ 3\cdot2-1\cdot1,\ 1(-1)-2\cdot2)$ | $(5,5,-5)$ |
-| Area of parallelogram | $\lvert\mathbf a\times\mathbf b\rvert=\sqrt{75}$ | $8.66$ |
-| Projection of $\mathbf a$ on $\mathbf b$ | $\frac{\mathbf a\cdot\mathbf b}{\lvert\mathbf b\rvert}=\frac{3}{\sqrt6}$ | $1.22$ |
+| $\mathbf{a}\times\mathbf{b}$ | $(2\cdot1-3(-1),\ 3\cdot2-1\cdot1,\ 1(-1)-2\cdot2)$ | $(5,5,-5)$ |
+| Area of parallelogram | $\lvert\mathbf{a}\times\mathbf{b}\rvert=\sqrt{75}$ | $8.66$ |
+| Projection of $\mathbf{a}$ on $\mathbf{b}$ | $\frac{\mathbf{a}\cdot\mathbf{b}}{\lvert\mathbf{b}\rvert}=\frac{3}{\sqrt6}$ | $1.22$ |
 
-**Checks.** $(\mathbf a\times\mathbf b)\cdot\mathbf a=5+10-15=0$ and $(\mathbf a\times\mathbf b)\cdot\mathbf b=10-5-5=0$, so the result is perpendicular to both. The area of the triangle with these sides is half: $4.33$.
+**Checks.** $(\mathbf{a}\times\mathbf{b})\cdot\mathbf{a}=5+10-15=0$ and $(\mathbf{a}\times\mathbf{b})\cdot\mathbf{b}=10-5-5=0$, so the result is perpendicular to both. The area of the triangle with these sides is half: $4.33$.
 
 **Properties.**
 
-1. $\mathbf a\cdot\mathbf b=\mathbf b\cdot\mathbf a$, but $\mathbf a\times\mathbf b=-\mathbf b\times\mathbf a$.
-2. Two non-zero vectors are perpendicular if $\mathbf a\cdot\mathbf b=0$ and parallel if $\mathbf a\times\mathbf b=\mathbf 0$.
+1. $\mathbf{a}\cdot\mathbf{b}=\mathbf{b}\cdot\mathbf{a}$, but $\mathbf{a}\times\mathbf{b}=-\mathbf{b}\times\mathbf{a}$.
+2. Two non-zero vectors are perpendicular if $\mathbf{a}\cdot\mathbf{b}=0$ and parallel if $\mathbf{a}\times\mathbf{b}=\mathbf{0}$.
 3. $\hat i\cdot\hat i=1$, $\hat i\times\hat j=\hat k$.
-4. Section formula: the point dividing $\mathbf a$ and $\mathbf b$ in the ratio $m:n$ is $\frac{m\mathbf b+n\mathbf a}{m+n}$.
+4. Section formula: the point dividing $\mathbf{a}$ and $\mathbf{b}$ in the ratio $m:n$ is $\frac{m\mathbf{b}+n\mathbf{a}}{m+n}$.
 
 **Conclusion.** The dot product measures how much two vectors point together and the cross product measures the area they span.
 
 ### Model answer D2: Triple product, work and torque (10 marks)
 
-**Introduction.** The **scalar triple product** $[\mathbf a\ \mathbf b\ \mathbf c]=\mathbf a\cdot(\mathbf b\times\mathbf c)$ equals the determinant of the three vectors. Its absolute value is the volume of the parallelepiped.
+**Introduction.** The **scalar triple product** $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=\mathbf{a}\cdot(\mathbf{b}\times\mathbf{c})$ equals the determinant of the three vectors. Its absolute value is the volume of the parallelepiped.
 
-**1. Coplanarity.** Three vectors are coplanar if $[\mathbf a\ \mathbf b\ \mathbf c]=0$. For $\mathbf a=(1,2,3)$, $\mathbf b=(2,-1,1)$, $\mathbf c=(1,1,2)$:
+**1. Coplanarity.** Three vectors are coplanar if $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=0$. For $\mathbf{a}=(1,2,3)$, $\mathbf{b}=(2,-1,1)$, $\mathbf{c}=(1,1,2)$:
 $$\begin{vmatrix}1&2&3\\2&-1&1\\1&1&2\end{vmatrix}=1(-2-1)-2(4-1)+3(2+1)=-3-6+9=0.$$
-So they are **coplanar**: indeed $\mathbf c=\frac35\mathbf a+\frac15\mathbf b$, since $\frac35+\frac25=1$, $\frac65-\frac15=1$ and $\frac95+\frac15=2$.
+So they are **coplanar**: indeed $\mathbf{c}=\frac35\mathbf{a}+\frac15\mathbf{b}$, since $\frac35+\frac25=1$, $\frac65-\frac15=1$ and $\frac95+\frac15=2$.
 
-**2. Volume.** For $\mathbf c=(3,1,0)$: the determinant $=1(0-1)-2(0-3)+3(2+3)=-1+6+15=20$. The parallelepiped has volume $20$ and the tetrahedron has volume $\frac{20}{6}=3.33$.
+**2. Volume.** For $\mathbf{c}=(3,1,0)$: the determinant $=1(0-1)-2(0-3)+3(2+3)=-1+6+15=20$. The parallelepiped has volume $20$ and the tetrahedron has volume $\frac{20}{6}=3.33$.
 
-**3. Work done.** $W=\mathbf F\cdot\mathbf d$. For $\mathbf F=(2,3,1)\ \text{N}$ and $\mathbf d=(3,-1,2)\ \text{m}$: $W=6-3+2=5\ \text{J}$.
+**3. Work done.** $W=\mathbf{F}\cdot\mathbf{d}$. For $\mathbf{F}=(2,3,1)\ \text{N}$ and $\mathbf{d}=(3,-1,2)\ \text{m}$: $W=6-3+2=5\ \text{J}$.
 
-**4. Torque.** $\boldsymbol\tau=\mathbf r\times\mathbf F$. For $\mathbf r=(2,1,0)$ and $\mathbf F=(1,-1,3)$: $\boldsymbol\tau=(1\cdot3-0,\ 0-2\cdot3,\ 2(-1)-1\cdot1)=(3,-6,-3)$, with magnitude $\sqrt{9+36+9}=\sqrt{54}=7.35\ \text{N m}$.
+**4. Torque.** $\tau=\mathbf{r}\times\mathbf{F}$. For $\mathbf{r}=(2,1,0)$ and $\mathbf{F}=(1,-1,3)$: $\tau=(1\cdot3-0,\ 0-2\cdot3,\ 2(-1)-1\cdot1)=(3,-6,-3)$, with magnitude $\sqrt{9+36+9}=\sqrt{54}=7.35\ \text{N m}$.
 
 | Quantity | Formula | Value |
 |---|---|---|
-| Coplanarity test | $[\mathbf a\ \mathbf b\ \mathbf c]=0$ | $0$ (coplanar) |
-| Parallelepiped volume | $\lvert[\mathbf a\ \mathbf b\ \mathbf c]\rvert$ | $20$ |
-| Work | $\mathbf F\cdot\mathbf d$ | $5\ \text{J}$ |
-| Torque | $\mathbf r\times\mathbf F$ | $7.35\ \text{N m}$ |
+| Coplanarity test | $[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]=0$ | $0$ (coplanar) |
+| Parallelepiped volume | $\lvert[\mathbf{a}\ \mathbf{b}\ \mathbf{c}]\rvert$ | $20$ |
+| Work | $\mathbf{F}\cdot\mathbf{d}$ | $5\ \text{J}$ |
+| Torque | $\mathbf{r}\times\mathbf{F}$ | $7.35\ \text{N m}$ |
 
-**Identity.** $\mathbf a\times(\mathbf b\times\mathbf c)=\mathbf b(\mathbf a\cdot\mathbf c)-\mathbf c(\mathbf a\cdot\mathbf b)$.
+**Identity.** $\mathbf{a}\times(\mathbf{b}\times\mathbf{c})=\mathbf{b}(\mathbf{a}\cdot\mathbf{c})-\mathbf{c}(\mathbf{a}\cdot\mathbf{b})$.
 
 **Conclusion.** The triple product gives volume and a coplanarity test, and the two products model work and torque in physics.
