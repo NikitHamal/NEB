@@ -455,3 +455,91 @@ Dibas Dauliya
 **1.** *Outline:* title; materials (water, tea leaves, milk, sugar, pan, strainer, cup); numbered steps — boil water, add tea, add milk and sugar, boil again, strain, serve; use *first, then, after that, finally*.
 **2.** *Outline:* address and date; The Editor; subject (*Shortage of drinking water in Dhankuta-6*); problem and since when; effects (women and children walking far, illness, absence from school); causes (leaking pipes, poor distribution); suggestions (repair pipes, extra tanker supply, rainwater harvesting); polite close.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a set of instructions for a simple experiment and a letter to the editor. <span class="marks">[10]</span>
+2. Explain the four types of conditional sentences and the poem *The Voice of the Rain*. <span class="marks">[10]</span>
+
+```photogrid label="5.H" cols="3" ratio="1.0" caption="Rain, rivers and altitude. Walt Whitman, the poet of 'The Voice of the Rain'; Everest and Nuptse above the Khumbu Glacier, where water boils at a lower temperature; and the Arun River fed by monsoon rain."
+@ photo id="eng10/whitman" cap="Walt Whitman"
+@ photo id="nep12/everest-nuptse" cap="Everest and Nuptse"
+@ photo id="nep11/arun-nadi" cap="Arun River"
+```
+
+### Model answer D1: instructions and a letter to the editor (10 marks)
+
+**Introduction.** **Instructions** use a title, a list of materials, numbered steps with imperative verbs and sequence words. A **letter to the editor** raises a public problem in a newspaper.
+
+**Model instructions: How to show that water boils at a lower pressure.**
+
+::: example Instructions
+**Materials:** a plastic syringe (without needle), warm water at about 50 °C, a cup.  
+**Steps:**  
+1. **First,** pour some warm water into the cup.  
+2. **Then** draw about 10 ml of warm water into the syringe.  
+3. **Next,** hold your finger tightly over the opening.  
+4. **After that,** pull the plunger back quickly.  
+5. **Observe** the bubbles that rise in the water: the water is boiling at room temperature.  
+6. **Finally,** release the plunger and wash your hands.  
+**Caution:** do not use hot water above 60 °C.
+:::
+
+**Why it works.** Water boils when its **vapour pressure equals the external pressure**. Pulling the plunger lowers the pressure, so the water boils at a lower temperature, just as it does on a high mountain.
+
+**Model letter to the editor.**
+
+::: example Letter to the editor
+The Editor  
+*The Kathmandu Post*  
+Kathmandu
+
+**Subject: Plastic waste in our rivers**
+
+Sir,
+
+Through your esteemed newspaper, I wish to draw the attention of the authorities to the growing plastic waste in the Bagmati River. People throw bags and bottles into the river, which blocks the water and harms fish. As a result, the water smells and spreads diseases. The government should ban thin plastic bags, put more dustbins along the bank and organise clean-up campaigns. I hope this letter will be published.
+
+Yours truly,  
+Mina Sharma, Kathmandu
+:::
+
+**Points (8).**
+
+1. Title and materials in instructions.
+2. Numbered steps.
+3. Imperative verbs.
+4. Sequence words.
+5. Warnings.
+6. Letter: address, date and subject.
+7. Problem, causes and effects.
+8. Solutions and thanks.
+
+**Conclusion.** Instructions must be exact and in order; a letter must be factual and polite.
+
+### Model answer D2: conditionals and the poem (10 marks)
+
+| Type | Use | Form | Example |
+|---|---|---|---|
+| Zero | General truth | If + present, present | If you heat water to 100 °C, it boils. |
+| First | Real future | If + present, will + V1 | If it rains, the river will rise. |
+| Second | Unreal present | If + past, would + V1 | If I were a bird, I would fly. |
+| Third | Unreal past | If + had + V3, would have + V3 | If we had left early, we would have caught the bus. |
+
+**Rules.**
+
+1. Never use **will/would** in the *if*-clause.
+2. **Unless** means *if not*.
+3. **Provided that / as long as** mean *only if*.
+4. Use **were** for all persons in formal second conditionals.
+5. A comma separates the clauses when *if* comes first.
+
+**Poem: *The Voice of the Rain* (Walt Whitman, free verse).**
+
+6. The rain says it is the **"Poem of the Earth"**: it rises as vapour, changes form, falls, **revives seeds** and returns, like a song going back to the singer.
+7. **Devices:** personification (the rain speaks), metaphor, free verse (no rhyme or fixed metre), antithesis.
+8. **Theme:** the cycle of nature and the unity of all things.
+
+**Conclusion.** Identify how likely the condition is, then select the type.

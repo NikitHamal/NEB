@@ -430,3 +430,63 @@ The bat, seeing that both sides were happy, wished to join the celebration. But 
 **1.** *Outline for answer:* title; beginning — a poor, honest woodcutter beside a river; middle — axe lost, the fairy tests him, he says only the iron axe is his, the fairy rewards honesty; the greedy neighbour tries the trick, lies and loses his own axe; moral — honesty is the best policy. Past tense, connectives.
 **2.** *Outline:* introduction (heritage = temples, art, festivals, languages); why it matters (identity, tourism, education); threats (earthquake damage, neglect, pollution, theft); what to do (repair using traditional methods, teach children, laws, volunteering); conclusion.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a paragraph on King Pratap Malla's achievements and a short moral story. <span class="marks">[10]</span>
+2. Explain the simple past, past continuous and past perfect with a table. <span class="marks">[10]</span>
+
+```photogrid label="9.H" cols="4" ratio="1.0" caption="Monuments of the Malla age. Hanuman Dhoka at Kathmandu Durbar Square, Nautalle Durbar at Basantapur, Rani Pokhari and Bhaktapur Durbar Square: palaces, temples and ponds that kings such as Pratap Malla built."
+@ photo id="eng10/hanuman-dhoka" cap="Hanuman Dhoka"
+@ photo id="eng12/nautalle-durbar" cap="Nautalle Durbar"
+@ photo id="eng10/rani-pokhari" cap="Rani Pokhari"
+@ photo id="soc10/bhaktapur" cap="Bhaktapur Durbar Square"
+```
+
+### Model answer D1: a historical paragraph and a story (10 marks)
+
+**Introduction.** A **history paragraph** is written in the past tense, in time order, with dates, names, causes and results.
+
+**Model paragraph.**
+
+::: example King Pratap Malla
+**King Pratap Malla** ruled Kantipur (Kathmandu) from about 1641 to 1674. He was a clever ruler who kept his kingdom safe by **diplomacy** with the neighbouring kingdoms of Lalitpur and Bhaktapur. He also became rich by controlling the **trade between Tibet and India**. With this wealth he built and repaired many temples and palaces, including parts of **Hanuman Dhoka**, and he built **Rani Pokhari** in memory of his son. He was also a poet who wrote in several languages and put up inscriptions in many scripts. As a result, he is remembered as a great patron of art and culture.
+:::
+
+**Model story: The Honest Woodcutter (short).** A poor woodcutter dropped his axe into a river. A fairy offered him a golden axe, but he said, "That is not mine." She was pleased by his honesty and gave him all three axes. His greedy neighbour tried the same trick, lied, and lost even his own axe. **Moral:** Honesty is the best policy.
+
+**Points (8).**
+
+1. Name and period.
+2. Position and country.
+3. Main achievements.
+4. Use of exact dates.
+5. Causes and results.
+6. Connectives of time (*then, later, after that*).
+7. Evaluation.
+8. Moral (in a story).
+
+**Conclusion.** A good paragraph has a topic sentence, supporting facts and a concluding sentence.
+
+### Model answer D2: past tenses (10 marks)
+
+| Tense | Form | Use | Example |
+|---|---|---|---|
+| Simple past | V2 / did + V1 | Finished action or sequence | The king built a temple in 1650. |
+| Past continuous | was/were + V-ing | Action in progress, background | He was ruling when the traders came. |
+| Past perfect | had + V3 | The earlier of two past actions | He had built the temple before the war began. |
+
+**Rules.**
+
+1. Use **while** with the past continuous and **when** with a short past action: *While the king was reading, a guard entered.*
+2. Use **before/after/by the time** with the past perfect: *By the time we arrived, the show had started.*
+3. Use the **simple past** for a series of actions in order: *He woke, washed and went to the palace.*
+4. **Questions:** *Did the king build it? Was he sleeping? Had he left?*
+5. **Negatives:** *did not build; was not sleeping; had not left.*
+6. The **past perfect** shows which event happened first, so use it only when order matters.
+7. **Compound words** in the chapter: *gift-giving, heart-warming, newly-wed, fortune-telling.*
+8. **Flowers in Russia:** red carnations show patriotism, a white lily at a wedding is a sign of a split, and yellow flowers suggest a break-up.
+
+**Conclusion.** Pick the tense by the order and length of events.

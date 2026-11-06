@@ -476,3 +476,81 @@ The houses are built of red brick with carved wooden windows and have stood for 
 
 **2.** Name and location; scenery; houses; people's occupations (farming, weaving); festivals; your feelings.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a comparison essay on London and Paris, or on village and city life, and a description of a village. <span class="marks">[10]</span>
+2. Explain adverbs, comparison and the connectives of reason and contrast. <span class="marks">[10]</span>
+
+```photogrid label="17.H" cols="3" ratio="1.0" caption="Two great cities. The Eiffel Tower in Paris, Elizabeth Tower (Big Ben) in London and Westminster Bridge: landmarks used to compare London and Paris."
+@ photo id="eng10/eiffel-tower" cap="Eiffel Tower, Paris"
+@ photo id="eng10/elizabeth-tower" cap="Elizabeth Tower, London"
+@ photo id="eng10/westminster-bridge" cap="Westminster Bridge, London"
+```
+
+### Model answer D1: a comparison essay and a description (10 marks)
+
+**Introduction.** A **comparison essay** can be written in **blocks** (all about one, then all about the other) or **point by point**. Linking words show similarity and difference.
+
+**Model essay (point by point).**
+
+::: example London and Paris
+**London and Paris** are two of the most visited cities of Europe, but they are different in many ways. In **size**, London is almost fifteen times larger than Paris, so Paris is easy to walk across. **Transport:** London has a widespread network of trains, buses and tubes, whereas Paris is compact and has a fast Metro. **Culture:** London has about 240 museums, and many are free, while Paris is famous for art, fashion and cafés. **Food:** Paris is generally better for food and slightly cheaper. **Rivers:** the Thames flows through London and the Seine through Paris. Both cities are crowded, expensive and full of tourists. In my opinion, London is better for a long stay, but Paris is better for a short, romantic visit.
+:::
+
+**Model description of a village.**
+
+::: example A village
+My village, **Ghyakar**, lies on a high, dry plain in Upper Mustang. Brown mountains surround it, and the river flows through a green valley. The houses are made of mud and stone with flat roofs, and the people are friendly and hard-working. In the morning the cold wind carries the sound of yak bells. Whenever I think of it, I feel peaceful.
+:::
+
+**Linking words.**
+
+| Similarity | Difference |
+|---|---|
+| both, also, similarly, like | whereas, while, but, unlike, however, on the other hand |
+
+**Points (8).**
+
+1. Title.
+2. Introduction naming both.
+3. Size.
+4. Transport.
+5. Culture.
+6. Food and cost.
+7. Similarities.
+8. Conclusion with opinion.
+
+**Conclusion.** Compare the same points in the same order.
+
+### Model answer D2: adverbs, comparison and connectives (10 marks)
+
+**Adverbs.**
+
+1. Make adverbs by adding **-ly**: *poor → poorly, quick → quickly*; *happy → happily*.
+2. **Irregular:** *good → well; fast → fast; hard → hard.*
+3. After **linking verbs** (*be, seem, look, feel, taste*) use an **adjective**: *The soup tastes good.*
+
+**Comparison.**
+
+4. **-er/-est** for short adjectives; **more/most** for long ones; irregular: *better/best, worse/worst.*
+5. **as ... as** (equal); **not as ... as**; **than** after a comparative.
+
+**Connectives.**
+
+6. **because + clause**; **because of + noun**.
+7. **although + clause**; **despite + noun/-ing**; **however + comma**.
+8. **but** joins two contrasting clauses.
+
+| Positive | Comparative | Superlative |
+|---|---|---|
+| big | bigger | the biggest |
+| expensive | more expensive | the most expensive |
+| good | better | the best |
+| well | better | best |
+
+**Fable: *The Country Mouse and the City Mouse*.** The country mouse visited the city, ate a rich feast but was frightened by a cat. **Moral:** a simple meal in peace is better than a feast in fear.
+
+**Conclusion.** Choose the correct form: adjective or adverb, and short or long comparison.

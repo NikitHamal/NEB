@@ -474,3 +474,75 @@ Catchy title, every heading asked for, short bullet points, persuasive adjective
 
 **2.** Name; location (Chitwan, Bagmara, Terai); accessibility (road from Kathmandu 5–6 hours, flights to Bharatpur); attractions (one-horned rhino, Bengal tiger, gharial, birds, jeep safari, canoe, Tharu culture); entry (park permit, guide); contact; best season (October–March).
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a travelogue and a brochure for a place in Nepal. <span class="marks">[10]</span>
+2. Explain question tags and the poem *Weathers* by Thomas Hardy. <span class="marks">[10]</span>
+
+```photogrid label="14.H" cols="4" ratio="1.0" caption="Places and poets. Pashupatinath Temple, an elephant safari in Chitwan, Thomas Hardy in 1923 and the lights of Thamel: places in 'Expect the Unexpected' and the poet of 'Weathers'."
+@ photo id="eng10/pashupatinath" cap="Pashupatinath Temple"
+@ photo id="nep11/chitwan-safari" cap="Elephant safari, Chitwan"
+@ photo id="eng10/hardy" cap="Thomas Hardy, 1923"
+@ photo id="eng12/thamel-lights" cap="Thamel at night"
+```
+
+### Model answer D1: a travelogue and a brochure (10 marks)
+
+**Introduction.** A **travelogue** is a personal, past-tense account of a journey with places, people and feelings. A **brochure** uses headings and bullet points to persuade visitors.
+
+**Model travelogue.**
+
+::: example Travelogue
+**Three Days in Chitwan.** Last winter my family travelled to Chitwan by bus. We reached Sauraha at noon, where the green forest, the Rapti River and the cool breeze welcomed us. On the first day we took a jeep safari and saw a one-horned rhinoceros and many deer. On the second day we went canoeing and watched crocodiles lying on the bank like logs. In the evening we enjoyed a Tharu stick dance around a fire. I had never felt so close to nature. It was an unexpected adventure that I will never forget.
+:::
+
+**Model brochure.**
+
+::: example Brochure
+**VISIT CHITWAN NATIONAL PARK: A World Heritage Site**  
+- **Wildlife:** one-horned rhinoceros, Bengal tiger, gharial, more than 500 birds  
+- **Activities:** jeep safari, canoeing, bird watching, Tharu cultural dance  
+- **How to get there:** 5–6 hours by road from Kathmandu or a short flight to Bharatpur  
+- **Best time:** October to March  
+- **Contact:** info@chitwanvisit.example
+:::
+
+**Points (8).**
+
+1. Where, when and with whom.
+2. Journey details.
+3. Places and sights.
+4. Activities.
+5. Food and people.
+6. Feelings.
+7. Brochure: heading and bullets.
+8. Persuasive language and contact information.
+
+**Conclusion.** A travelogue is personal and detailed; a brochure is short and persuasive.
+
+### Model answer D2: question tags and the poem (10 marks)
+
+**Question tags.**
+
+1. A **positive** statement has a **negative** tag; a **negative** statement has a **positive** tag: *It is cold, isn't it? / It isn't cold, is it?*
+2. Repeat the **auxiliary**; use **do/does/did** if there is none: *You like momo, don't you?*
+3. Use the **pronoun** for the subject.
+4. Special tags: *I am late, aren't I? Let's go, shall we? Open the door, will you? Everyone came, didn't they? Nothing happened, did it?*
+5. Words like **hardly, never, seldom, nobody** make the sentence negative, so the tag is positive: *He never lies, does he?*
+
+**Poem: *Weathers* (Thomas Hardy, 1922).**
+
+6. Two nine-line stanzas with the **refrain "And so do I"**.
+7. **Stanza 1:** spring weather (cuckoo, nightingale, chestnut showers, girls in sprig-muslin) is liked by the poet. **Stanza 2:** winter weather (shepherds, blazing logs, the rough wind) is also enjoyed.
+8. **Theme:** love of the varied seasons and simple country life; **tone:** cheerful and affectionate.
+
+| Sentence | Tag |
+|---|---|
+| She plays the madal, | doesn't she? |
+| They haven't left, | have they? |
+| You can't swim, | can you? |
+
+**Conclusion.** Reverse polarity, repeat the auxiliary and choose the right pronoun.

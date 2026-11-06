@@ -448,3 +448,84 @@ Anita: See you!
 
 **2.** Open the dialogue with a greeting and the opening ceremony; give reasons for each choice (e.g. world's best athletes vs. fresh air and exercise); end with a compromise such as watching the evening events and playing in the morning.
 :::
+
+## Group D: Long writing and model answers
+
+**Group D — Extended answers (10 marks each, for deeper revision)**
+
+1. Write a paragraph on the importance of sports and a dialogue about a sport. <span class="marks">[10]</span>
+2. Explain the present perfect, the present perfect continuous and the passive voice with examples. <span class="marks">[10]</span>
+
+```photogrid label="10.H" cols="4" ratio="1.0" caption="From Olympia to Nepal. The ancient stadium at Olympia, the lighting of the Olympic torch, a volleyball match in Nepal and a kabaddi match: sports old and new."
+@ photo id="eng10/olympia-stadium" cap="Olympia stadium"
+@ photo id="eng10/olympic-torch-lighting" cap="Olympic torch lighting"
+@ photo id="health8/volleyball" cap="Volleyball, Nepal"
+@ photo id="health8/kabaddi" cap="Kabaddi match"
+```
+
+### Model answer D1: a paragraph and a dialogue (10 marks)
+
+**Introduction.** A **paragraph** has a topic sentence, supporting sentences and a concluding sentence. A **dialogue** has speaker names and short natural turns, covering every point given.
+
+**Model paragraph.**
+
+::: example The importance of sports
+**The Importance of Sports.** Sports are very important for a healthy life. First, they keep the body fit and strong and reduce the risk of diseases such as diabetes. Second, they teach teamwork, discipline and the spirit of fair play. For example, football and volleyball need players to cooperate. Third, sports bring fame to the nation: when Nepali players win a medal at the South Asian Games, the whole country feels proud. Moreover, they help us to forget stress and make friends. Therefore, every student should play at least one sport.
+:::
+
+**Model dialogue (about cricket).**
+
+::: example Dialogue
+**Ram:** Have you watched the cricket match yesterday?  
+**Sita:** Yes, I have. Nepal played very well, didn't they?  
+**Ram:** Right. I have been following the team since the World Cup qualifiers.  
+**Sita:** Why do you like cricket so much?  
+**Ram:** Because it needs patience and skill, and it is played in many countries. What about you?  
+**Sita:** I prefer football because it needs less equipment, so even poor children can play it.  
+**Ram:** That's true. Let's play a match this Saturday.  
+**Sita:** Great idea!
+:::
+
+**Facts from the chapter.** The ancient Games began at **Olympia in 776 BCE**; the modern Games began in **Athens in 1896**; the torch is lit from the **sun's rays**.
+
+**Points (8).**
+
+1. Topic sentence.
+2. Health benefit.
+3. Social benefit.
+4. National benefit.
+5. Example.
+6. Concluding sentence.
+7. Dialogue: speaker names.
+8. Short turns, questions and answers.
+
+**Conclusion.** Link ideas with *first, second, moreover, therefore*.
+
+### Model answer D2: perfect tenses and the passive (10 marks)
+
+**Present perfect and present perfect continuous.**
+
+1. **Present perfect** = *have/has + V3*: a **result** or experience: *I have finished the book.*
+2. **Present perfect continuous** = *have/has been + V-ing*: **duration**: *I have been reading for two hours.*
+3. **for** + period (*for three years*); **since** + starting point (*since 2078*).
+4. Use the present perfect with **ever, never, already, yet, just**.
+
+**Passive voice.**
+
+5. **be (same tense) + V3**: *The torch is lit at Olympia.*
+6. Questions and modals keep their frame: *Was the match won? The match might have been cancelled.*
+7. **By** + doer: *The Games were founded by the Greeks.*
+8. Use the passive when the doer is unknown, unimportant or obvious.
+
+| Active | Passive |
+|---|---|
+| People play football all over the world. | Football is played all over the world. |
+| Naismith invented basketball. | Basketball was invented by Naismith. |
+| They have lit the torch. | The torch has been lit. |
+
+| Tense | Example |
+|---|---|
+| Present perfect | He has played cricket since 2070. |
+| Present perfect continuous | He has been playing for hours. |
+
+**Conclusion.** Result needs the present perfect; duration needs the continuous form.
