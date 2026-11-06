@@ -43,6 +43,7 @@ drip = 1000 * 20 / (8 * 60); micro = 125 * 60 / 60
 T.update(tabs=500 // 250, liq_ml=f"{125/250*5:.1f}", gent_ml=f"{80/40:.1f}", para_mg=15 * 12,
          para_ml=f"{15*12/120*5:.1f}", drip_macro=round(drip), drip_exact=f"{drip:.2f}", drip_micro=f"{micro:.0f}",
          inf_hrs=f"{500/100:.0f}", young=f"{6/(6+12)*500:.1f}", bsa=f"{math.sqrt(110*18/3600):.2f}")
+chk("drip4h", round(1000*20/(4*60)), 83); chk("drip16h", round(1000*20/(16*60)), 21); chk("recheck", 42*480/20, 1008.0)
 chk("drip", T["drip_macro"], 42); chk("bsa", T["bsa"], "0.74")
 
 def exec_blocks(files):

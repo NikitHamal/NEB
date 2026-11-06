@@ -9853,6 +9853,19 @@
   "source": "Wikimedia Commons",
   "title": "Sahid gate (Martyrs Gate)"
  },
+ "nur4/autoclave": {
+  "author": "U.S. Navy photo by Mass Communication Specialist 2nd Class Eddie Harrison",
+  "bytes": 355867,
+  "credit": "This image was released by the United States Navy with the ID 100605-N-4044H-008 (next) . This tag does not indicate the copyright status of the attached work. ",
+  "fetched": "2026-11-06",
+  "file": "nur4/autoclave.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:US_Navy_100605-N-4044H-008_Hospital_Corpsman_2nd_Class_Paul_Cabalu_arranges_sterilized_surgical_tools_in_an_autoclave_to_be_cleaned.jpg",
+  "sha1": "5bada229fa735f8f",
+  "source": "Wikimedia Commons",
+  "title": "US Navy 100605-N-4044H-008 Hospital Corpsman 2nd Class Paul Cabalu arranges sterilized surgical tools in an autoclave to be cleaned"
+ },
  "nur4/bp": {
   "author": "Jesse K. Alwin, U.S. Marine Corps",
   "bytes": 308907,
@@ -9891,6 +9904,19 @@
   "sha1": "cd705de1b979bf72",
   "source": "Wikimedia Commons",
   "title": "Intravenous cannula decription"
+ },
+ "nur4/handwash": {
+  "author": "Wabyona Bingi",
+  "bytes": 726780,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur4/handwash.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Use_of_a_touchless_hand_washing_tap_and_solid_bar_soap_dispenser.jpg",
+  "sha1": "fe3869fd73f95a4b",
+  "source": "Wikimedia Commons",
+  "title": "Use of a touchless hand washing tap and solid bar soap dispenser"
  },
  "nur4/nightingale": {
   "author": "After Henrietta Rae",
