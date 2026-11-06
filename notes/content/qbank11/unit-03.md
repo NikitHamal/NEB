@@ -207,6 +207,114 @@ Numerical: $\dfrac{1}{f} = \dfrac{1}{20} + \dfrac{1}{60} = \dfrac{4}{60}$, so $f
 | Electricity | Series/parallel mix-up; treating $V = IR$ with internal resistance omitted | Draw the circuit; reduce step by step; add $r$ to the total |
 | Modern | Using mass defect in kg with MeV; counting half-lives wrongly | Use $1\ \text{u} = 931.5\ \text{MeV}$; compute $t/T_{1/2}$ first |
 
+## 3.7 Extended model answers (10 marks)
+
+A Grade 11 Physics long answer earns its marks for a law or derivation, a labelled diagram or table, a numerical with units, and a closing statement. The four models below show the full length expected for a 10-mark question.
+
+**Extended questions**
+
+1. Derive expressions for the time of flight, maximum height and horizontal range of a projectile. A ball is thrown at 20 m/s at 30° above the horizontal; find the three quantities. <span class="marks">[10]</span>
+2. State the principle of calorimetry and explain the method of mixtures. Find the final temperature when a 0.5 kg copper block at 100 °C is dropped into 0.4 kg of water at 20 °C in a 0.1 kg copper calorimeter. <span class="marks">[10]</span>
+3. Explain refraction of light through a prism and derive the prism formula for the refractive index. Find the refractive index of glass if $A = 60°$ and the minimum deviation is $38.4°$. <span class="marks">[10]</span>
+4. State Kirchhoff's laws and apply them to a two-battery network; then explain the photoelectric effect with Einstein's equation and a numerical. <span class="marks">[5 + 5]</span>
+
+```photogrid label="3.H" cols="3" ratio="1.25" caption="Apparatus behind the answers. (a) An analytical balance, used to find the masses in the calorimetry experiment of model answer D2. (b) White light dispersed by a glass prism into its colours, as in D3. (c) A magnifying glass, a convex lens that behaves like two prisms placed base to base."
+@ photo id="phy11/balance" cap="(a) Balance"
+@ photo id="phy11/prism" cap="(b) Prism spectrum"
+@ photo id="phy11/magnifier" cap="(c) Convex lens"
+```
+
+### Model answer D1: projectile motion (10 marks)
+
+**Introduction.** A **projectile** is a body thrown into the air that moves under gravity alone. Its path is a **parabola**. The motion is studied by splitting it into a horizontal part with no acceleration and a vertical part with acceleration $g$ downward. Air resistance is ignored.
+
+**Derivation.** Let the speed of projection be $u$ at angle $\theta$ above the horizontal. The components are $u_x = u\cos\theta$ and $u_y = u\sin\theta$.
+
+1. **Time of flight.** The vertical displacement is zero when the body returns to the ground: $0 = (u\sin\theta)T - \tfrac12 gT^2$, so $T = \dfrac{2u\sin\theta}{g}$.
+2. **Maximum height.** At the top the vertical velocity is zero: $0 = u^2\sin^2\theta - 2gH$, so $H = \dfrac{u^2\sin^2\theta}{2g}$.
+3. **Horizontal range.** The horizontal velocity is constant, so $R = u\cos\theta \times T = \dfrac{u^2\sin 2\theta}{g}$.
+4. **Maximum range.** $R$ is greatest when $\sin 2\theta = 1$, that is $\theta = 45°$, and then $R_{max} = u^2/g$.
+5. **Equal ranges.** Angles $\theta$ and $(90° - \theta)$ give the same range, but different heights and times.
+
+| Angle | Range for $u = 20$ m/s | Height | Time |
+|---|---|---|---|
+| 15° | 20.0 m | 1.3 m | 1.04 s |
+| 30° | 34.6 m | 5.0 m | 2.00 s |
+| 45° | 40.0 m | 10.0 m | 2.83 s |
+| 60° | 34.6 m | 15.0 m | 3.46 s |
+| 75° | 20.0 m | 18.7 m | 3.86 s |
+
+**Numerical.** With $u = 20$ m/s, $\theta = 30°$ and $g = 10$ m/s²: $T = 2 \times 20 \times 0.5 / 10 = 2$ s; $H = 400 \times 0.25 / 20 = 5$ m; $R = 400 \times 0.866 / 10 = 34.6$ m.
+
+**Conclusion.** The time depends only on the vertical motion, and the range depends on both. A football kicked at about 45° travels farthest, while a steep kick stays longer in the air.
+
+### Model answer D2: calorimetry and the method of mixtures (10 marks)
+
+**Introduction.** **Calorimetry** is the measurement of heat. Its principle is the conservation of energy: **when hot and cold bodies are mixed and no heat escapes, the heat lost by the hot body equals the heat gained by the cold body.**
+
+**Method of mixtures.**
+
+1. Find the mass of the empty calorimeter $m_c$, then of the calorimeter with water $m_w$, using a balance.
+2. Read the initial temperature $T_1$ of the water and the calorimeter.
+3. Heat the solid of mass $m_s$ in boiling water to $T_2$, then transfer it quickly to the water.
+4. Stir gently and note the highest steady temperature $T$.
+5. Apply the principle: $m_s s_s (T_2 - T) = (m_w s_w + m_c s_c)(T - T_1)$.
+
+**Precautions.** Keep the calorimeter in an insulated box, transfer the solid fast, stir well, and use a thermometer that reads to 0.1 °C. A polished calorimeter loses less heat by radiation.
+
+**Numerical.** With $s_{Cu} = 390$ J kg⁻¹ K⁻¹ and $s_w = 4200$ J kg⁻¹ K⁻¹:
+
+$0.5 \times 390 \times (100 - T) = (0.4 \times 4200 + 0.1 \times 390)(T - 20)$
+
+$195(100 - T) = 1719(T - 20)$, so $19500 + 34380 = 1914\,T$ and $T = 28.2$ °C.
+
+| Quantity | Value |
+|---|---|
+| Heat lost by copper block | $195 \times 71.85 = 14.0$ kJ |
+| Heat gained by water | $1680 \times 8.15 = 13.7$ kJ |
+| Heat gained by calorimeter | $39 \times 8.15 = 0.32$ kJ |
+
+**Conclusion.** The two sides balance (14.0 kJ), which verifies the principle. The large specific heat capacity of water explains why the final temperature is close to the water's own starting value.
+
+### Model answer D3: refraction through a prism (10 marks)
+
+**Introduction.** A **prism** is a transparent solid with two plane faces inclined at an angle $A$, the **angle of the prism**. A ray entering one face bends towards the base, and the angle between the incident ray and the emergent ray is the **angle of deviation** $\delta$.
+
+**Explanation.**
+
+1. A ray meets the first face at angle $i$ and bends towards the normal, since glass is denser than air.
+2. It meets the second face inside the glass and bends away from the normal, emerging at angle $e$.
+3. From the geometry, $\delta = i + e - A$.
+4. A graph of $\delta$ against $i$ is a curve with a **minimum deviation** $\delta_m$ at the point where $i = e$.
+5. At minimum deviation the ray inside the prism is parallel to the base, and $r_1 = r_2 = A/2$.
+
+**Derivation of the prism formula.** At minimum deviation $i = (A + \delta_m)/2$ and $r = A/2$. By Snell's law, $n = \dfrac{\sin i}{\sin r}$, so
+
+$$n = \frac{\sin\left(\dfrac{A + \delta_m}{2}\right)}{\sin\left(\dfrac{A}{2}\right)}$$
+
+**Dispersion.** Violet light has a larger $n$ than red, so it is deviated more. White light therefore spreads into the spectrum from red to violet, as the photograph shows.
+
+**Numerical.** $n = \sin(49.2°)/\sin(30°) = 0.757/0.5 = 1.51$. The speed of light in this glass is $3 \times 10^8 / 1.51 = 1.98 \times 10^8$ m/s.
+
+**Conclusion.** Measuring $A$ and $\delta_m$ with a spectrometer gives the refractive index accurately, and the same prism action explains the rainbow and the lens.
+
+### Model answer D4: Kirchhoff's laws and the photoelectric effect (5 + 5 marks)
+
+**Kirchhoff's laws.** The **junction rule** states that the sum of currents entering a junction equals the sum leaving it; it expresses conservation of charge. The **loop rule** states that the algebraic sum of the emfs and the potential drops around any closed loop is zero; it expresses conservation of energy.
+
+**Application.** Two cells ($E_1 = 10$ V with $R_1 = 2\ \Omega$, and $E_2 = 4$ V with $R_2 = 3\ \Omega$) feed a common $4\ \Omega$ resistor. With $I_3 = I_1 + I_2$, the loops give $10 = 6I_1 + 4I_2$ and $4 = 4I_1 + 7I_2$. Solving, $I_1 = 2.08$ A, $I_2 = -0.62$ A and $I_3 = 1.46$ A. The **negative sign** shows that the weaker cell is being charged, not discharged.
+
+**Photoelectric effect.** When light of high enough frequency falls on a metal, electrons are emitted at once. Einstein's explanation is $h\nu = \phi + K_{max}$, where each photon gives all its energy to one electron.
+
+1. Emission starts only above the **threshold frequency**, however bright the light.
+2. The maximum kinetic energy depends on the frequency, not on the intensity.
+3. The number of electrons depends on the intensity.
+4. Emission has no measurable delay.
+
+**Numerical.** For $\lambda = 400$ nm and $\phi = 2.0$ eV, the photon energy is $1240/400 = 3.1$ eV, so $K_{max} = 1.1$ eV, the stopping potential is $1.1$ V and $v_{max} = 6.2 \times 10^5$ m/s. The threshold wavelength is $1240/2.0 = 620$ nm.
+
+**Conclusion.** Kirchhoff's laws solve any network, and the photoelectric effect proves that light carries energy in packets, which the wave theory cannot explain.
+
 ## Chapter summary
 
 - Group B and C are $64$ of $75$ marks; a numerical is marked in steps (law, substitution, arithmetic, unit), so show every line.
