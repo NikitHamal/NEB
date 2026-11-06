@@ -1017,3 +1017,108 @@ respectively.
 $T_2 = \dfrac{mv_2^{2}}{r} + mg = \dfrac{2 \times 50}{1} + 20 = 120\ \text{N}$
 (which is $6mg$, as expected when $T_1 = 0$).
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Define angular velocity and centripetal acceleration. Derive $a = v^{2}/r$ and explain centripetal force with examples. <span class="marks">[10]</span>
+2. What is banking of a road? Derive the expression for the angle of banking and the safe speed on a curved road, with a numerical. <span class="marks">[10]</span>
+3. Discuss the motion of a body in a vertical circle, and find the minimum speeds at the top and bottom and the tension at the bottom. <span class="marks">[10]</span>
+
+### Model answer D1: centripetal acceleration and force (10 marks)
+
+**Introduction.** In **uniform circular motion** a body moves on a circle of radius $r$ with constant speed $v$. Although the speed is constant, the **direction** of velocity changes all the time, so there is an acceleration, directed towards the centre.
+
+**Angular quantities.** The **angular displacement** $\theta$ is measured in radian. The **angular velocity** is $\omega = \theta/t = 2\pi/T = 2\pi f$ (rad/s), and the linear speed is $v = r\omega$. The time period is $T = 2\pi r/v$.
+
+**Derivation of $a = v^{2}/r$.** Let a particle move from $A$ to $B$ in a short time $\Delta t$, through a small angle $\Delta\theta$.
+
+1. The velocity vectors at $A$ and $B$ have the same magnitude $v$, but differ in direction by $\Delta\theta$.
+2. The change in velocity $\Delta\vec{v}$ forms the base of an isosceles triangle with equal sides $v$ and apex angle $\Delta\theta$, so for a small angle $|\Delta v| = v\,\Delta\theta$.
+3. The arc $AB = r\,\Delta\theta = v\,\Delta t$, so $\Delta\theta = v\,\Delta t/r$.
+4. The acceleration is therefore $a = \dfrac{\Delta v}{\Delta t} = \dfrac{v\,\Delta\theta}{\Delta t} = \dfrac{v^{2}}{r}$.
+5. As $\Delta t \to 0$, $\Delta\vec{v}$ points to the centre, so $a$ is **radial (centripetal)**.
+
+$$ a_{c} = \frac{v^{2}}{r} = \omega^{2}r = \frac{4\pi^{2}r}{T^{2}} $$
+
+**Centripetal force.** By Newton's second law the force that provides the acceleration is
+
+$$ F_{c} = \frac{mv^{2}}{r} = m\omega^{2}r $$
+
+directed towards the centre. It is **not a new kind of force**, but the name for the net inward force provided by tension, gravity, friction or the normal reaction. It does no work, because it is perpendicular to the velocity.
+
+| Situation | Provides the centripetal force |
+|---|---|
+| Stone whirled on a string | Tension |
+| Moon around the Earth | Gravity |
+| Car on a flat curve | Friction between tyres and road |
+| Electron around a nucleus | Electrostatic attraction |
+| Clothes in a spin dryer | Normal reaction of the drum wall |
+
+**Numerical.** A $0.2\ \text{kg}$ stone is whirled in a horizontal circle of radius $0.5\ \text{m}$ at $3\ \text{rev/s}$. Then $\omega = 2\pi\times3 = 18.85\ \text{rad s}^{-1}$, $v = 9.42\ \text{m s}^{-1}$ and $F = m\omega^{2}r = 0.2\times355\times0.5 = 35.5\ \text{N}$.
+
+**Centrifugal force.** In the rotating frame an apparent outward force $mv^{2}/r$ is felt. It is a **pseudo force**, used for convenience, as when a passenger is thrown outwards in a turning bus.
+
+**Conclusion.** A body in circular motion always has a radial acceleration $v^{2}/r$, which needs a net inward force. If this force vanishes, the body flies off along the tangent.
+
+### Model answer D2: banking of roads (10 marks)
+
+**Introduction.** On a level curve, friction provides the centripetal force, and it is limited: on a wet road a car may skid. To take a turn safely at a higher speed, the outer edge of the road is raised above the inner edge. This is **banking**, as on the curves of the Tribhuvan Highway.
+
+**Safe speed on a level road.** With friction alone, $\mu mg = mv^{2}/r$, so $v_{max} = \sqrt{\mu rg}$. For $\mu = 0.3$ and $r = 100\ \text{m}$ this is $\sqrt{0.3\times100\times9.8} = 17.1\ \text{m s}^{-1}$ (about 62 km/h).
+
+**Banked road without friction.** Let the road be banked at an angle $\theta$. The forces on a car of mass $m$ are its weight $mg$ downward and the normal reaction $N$ perpendicular to the road.
+
+1. Resolve $N$: the vertical component $N\cos\theta$ balances the weight, and $N\cos\theta = mg$.
+2. The horizontal component $N\sin\theta$ points to the centre and provides the centripetal force, $N\sin\theta = mv^{2}/r$.
+3. Dividing the two equations:
+
+$$ \tan\theta = \frac{v^{2}}{rg} \quad\Rightarrow\quad v = \sqrt{rg\tan\theta} $$
+
+This is the **design speed** at which no friction is needed.
+
+**Banked road with friction.** The maximum safe speed is increased:
+
+$$ v_{max} = \sqrt{rg\,\frac{\mu + \tan\theta}{1 - \mu\tan\theta}} $$
+
+**Numerical.** A curve of radius $100\ \text{m}$ is designed for $20\ \text{m s}^{-1}$ (72 km/h). The angle of banking is $\tan\theta = 400/(100\times9.8) = 0.408$, so $\theta = 22.2^{\circ}$. At a gentler bank of $10^{\circ}$ the no-friction speed would be $\sqrt{980\times0.176} = 13.1\ \text{m s}^{-1}$.
+
+| Case | Centripetal force from | Maximum speed |
+|---|---|---|
+| Flat road | Friction | $\sqrt{\mu rg}$ |
+| Banked, smooth | Horizontal part of $N$ | $\sqrt{rg\tan\theta}$ |
+| Banked, rough | $N$ and friction | Larger than both |
+
+**Other examples of banking.** Cyclists lean inward on a turn; aircraft bank their wings; velodromes and railway tracks (where the outer rail is raised) use the same principle.
+
+**Conclusion.** A road banked at $\theta = \tan^{-1}(v^{2}/rg)$ allows a safe turn at the design speed without any reliance on friction. This gives safety in wet or icy conditions.
+
+### Model answer D3: motion in a vertical circle (10 marks)
+
+**Introduction.** When a body, such as a stone on a string, moves in a **vertical circle**, its speed varies, since gravity speeds it up on the way down and slows it on the way up. The tension also changes from point to point.
+
+**Forces.** At any point, the net force towards the centre provides the centripetal force: $T - mg\cos\phi = mv^{2}/r$ (with $\phi$ measured from the lowest point).
+
+**At the top (point $B$).** Both the tension $T_{B}$ and the weight point to the centre:
+$$ T_{B} + mg = \frac{mv_{B}^{2}}{r} $$
+The string stays taut if $T_{B} \geq 0$, so the **minimum speed at the top** is $v_{B} = \sqrt{gr}$.
+
+**At the bottom (point $A$).** The tension is up and the weight is down:
+$$ T_{A} - mg = \frac{mv_{A}^{2}}{r} $$
+
+**Minimum speed at the bottom.** By conservation of energy between $A$ and $B$ (height difference $2r$): $\tfrac12mv_{A}^{2} = \tfrac12mv_{B}^{2} + mg(2r)$. With $v_{B}^{2} = gr$,
+
+$$ v_{A}^{2} = gr + 4gr = 5gr \quad\Rightarrow\quad v_{A} = \sqrt{5gr} $$
+
+**Tension at the bottom.** $T_{A} = mg + \dfrac{m(5gr)}{r} = 6mg$, and at the top, $T_{B} = 0$ for the minimum speed. So the tension at the bottom exceeds that at the top by $6mg$.
+
+| Position | Minimum speed | Tension (at minimum speed) |
+|---|---|---|
+| Top | $\sqrt{gr}$ | 0 |
+| Horizontal level | $\sqrt{3gr}$ | $3mg$ |
+| Bottom | $\sqrt{5gr}$ | $6mg$ |
+
+**Numerical.** A $0.1\ \text{kg}$ stone is whirled on a string of $0.5\ \text{m}$ in a vertical circle. The minimum speed at the top is $\sqrt{9.8\times0.5} = 2.21\ \text{m s}^{-1}$ and at the bottom is $\sqrt{5\times9.8\times0.5} = 4.95\ \text{m s}^{-1}$, when the tension is $6mg = 5.88\ \text{N}$.
+
+**Applications.** A bucket of water whirled in a vertical circle does not spill if $v \geq \sqrt{gr}$ at the top; a motorcyclist in the "well of death" and the loop of a roller coaster work on the same principle.
+
+**Conclusion.** For a vertical circle the body must have a minimum speed of $\sqrt{gr}$ at the top, so $\sqrt{5gr}$ at the bottom, and the tension is greatest at the lowest point.

@@ -534,3 +534,117 @@ formula is **C₃H₆** (propene).
 n(C₃H₆) = 4.2/42 = 0.10 mol, so n(O₂) = 0.10 × 4.5 = 0.45 mol.
 V(O₂) = 0.45 × 22.4 = **10.08 L at STP**.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. State and explain the laws of chemical combination with examples and give the modern explanation by Dalton's atomic theory. <span class="marks">[10]</span>
+2. Define limiting reactant and percentage yield. Solve a full problem on the formation of ammonia from nitrogen and hydrogen. <span class="marks">[10]</span>
+3. How are the empirical and molecular formulae of a compound found from its percentage composition? Work out an example. <span class="marks">[10]</span>
+
+### Model answer D1: laws of chemical combination and Dalton's theory (10 marks)
+
+**Introduction.** Stoichiometry is the study of the **quantitative relationships** between reactants and products. It rests on five laws, found by experiment between 1774 and 1811, and on Dalton's atomic theory (1808), which explained them.
+
+**1. Law of conservation of mass (Lavoisier, 1774).** *Matter can neither be created nor destroyed in a chemical reaction*, so the total mass of the reactants equals that of the products. Example: 2 g of H₂ burns with 16 g of O₂ to give exactly 18 g of H₂O. (In nuclear reactions mass is converted to energy.)
+
+**2. Law of constant (definite) proportions (Proust, 1799).** *A pure compound always contains the same elements in the same ratio by mass*, whatever its source. Water from the Bagmati and from a Himalayan spring is always 11.2% hydrogen and 88.8% oxygen by mass, a ratio of 1 : 8.
+
+**3. Law of multiple proportions (Dalton, 1803).** *When two elements form more than one compound, the masses of one element that combine with a fixed mass of the other are in a simple whole-number ratio.* Example: H₂O has 8 g of oxygen per 1 g of hydrogen, and H₂O₂ has 16 g of oxygen per 1 g of hydrogen; the ratio is **8 : 16 = 1 : 2**. Similarly CO has 12 : 16 and CO₂ has 12 : 32, with oxygen in the ratio 1 : 2.
+
+**4. Gay-Lussac's law of combining volumes (1808).** *Gases react in volumes that bear a simple whole-number ratio to each other and to the volumes of gaseous products at the same temperature and pressure.* Example: 2 volumes of H₂ + 1 volume of O₂ give 2 volumes of steam.
+
+**5. Avogadro's law (1811).** *Equal volumes of all gases at the same temperature and pressure contain the same number of molecules.* It explains Gay-Lussac's law, and shows that gases like H₂ and O₂ are **diatomic**. At STP one mole of any gas occupies 22.4 L.
+
+**Dalton's atomic theory.**
+
+1. Matter is made of indivisible atoms.
+2. Atoms of the same element are identical in mass and properties.
+3. Atoms of different elements differ.
+4. Atoms combine in simple whole-number ratios to form compounds.
+5. Atoms are neither created nor destroyed in a reaction, only rearranged.
+Postulates 4 and 5 explain the laws of constant proportions, multiple proportions and conservation of mass.
+
+| Law | Explained by Dalton's postulate | Example |
+|---|---|---|
+| Conservation of mass | Atoms are not created or destroyed | 2 g H₂ + 16 g O₂ = 18 g H₂O |
+| Constant proportions | Fixed ratio of atoms | H : O = 1 : 8 in water |
+| Multiple proportions | Whole-number ratio of atoms | H₂O and H₂O₂ |
+
+**Limitations of Dalton's theory.** Atoms are divisible (electron, proton, neutron); isotopes of an element differ in mass; isobars of different elements have the same mass; and some compounds, such as sugar, do not combine in simple ratios.
+
+**Numerical.** A sample of CuO from the laboratory has 3.18 g Cu with 0.80 g O (ratio 3.975 : 1) and another from a mine has 15.9 g Cu with 4.0 g O (ratio 3.975 : 1). Both ratios are identical, which proves the law of constant proportions.
+
+**Conclusion.** The five laws fix how the masses and volumes of substances change in a reaction, and Dalton's atomic theory provides a particle-level explanation for them.
+
+### Model answer D2: limiting reactant and percentage yield (10 marks)
+
+**Introduction.** In a real reaction the reactants are rarely taken in the exact ratio of the balanced equation. The reactant that is **used up first** and so limits the product is called the **limiting reactant (limiting reagent)**; the other is in **excess**. The **theoretical yield** is the maximum product predicted from the limiting reactant, and the **actual yield** is what is really obtained.
+
+$$ \text{Percentage yield} = \frac{\text{actual yield}}{\text{theoretical yield}}\times 100 $$
+
+**Problem.** 28 g of N₂ is mixed with 10 g of H₂ to make ammonia, $\text{N}_2 + 3\text{H}_2 \rightarrow 2\text{NH}_3$ (N = 14, H = 1). Find (a) the limiting reactant, (b) the mass of NH₃ formed, (c) the mass of the excess reactant left, (d) the percentage yield if 27.2 g of NH₃ is actually obtained.
+
+**Step 1: moles.**
+
+- N₂: 28 g / 28 g mol⁻¹ = **1 mol**.
+- H₂: 10 g / 2 g mol⁻¹ = **5 mol**.
+
+**Step 2: find the limiting reactant.** The equation needs 3 mol of H₂ for each mole of N₂. For 1 mol N₂ only 3 mol H₂ are needed, but 5 mol is available. So **N₂ is the limiting reactant** and H₂ is in excess.
+
+**Step 3: product.** From the equation, 1 mol N₂ gives 2 mol NH₃, so the theoretical yield is 2 mol × 17 g mol⁻¹ = **34 g of NH₃**.
+
+**Step 4: excess left.** H₂ used = 3 mol; left = 5 - 3 = **2 mol = 4 g**.
+
+**Step 5: percentage yield.** $= 27.2/34 \times 100 = \mathbf{80\%}$.
+
+| Species | Initial (mol) | Used or formed (mol) | Final (mol) |
+|---|---|---|---|
+| N₂ | 1 | -1 | 0 |
+| H₂ | 5 | -3 | 2 |
+| NH₃ | 0 | +2 | 2 |
+
+**Check by mass:** 28 g + 10 g = 38 g before; after the reaction there are 34 g NH₃ + 4 g H₂ = 38 g. ✓
+
+**Why yield is below 100%.** The reaction may be reversible (Haber's process reaches equilibrium), side reactions occur, some product is lost during separation, and the reactants may be impure.
+
+**Importance.** The idea guides industry: Nepal's fertiliser import calculations use it, and a chemical engineer always chooses the cheaper reactant in excess so that the costly one is completely used.
+
+**Conclusion.** The limiting reactant fixes the maximum product. Converting grams to moles, comparing them with the ratio of the equation, and then calculating the yield from the limiting reactant is the standard method.
+
+### Model answer D3: empirical and molecular formula (10 marks)
+
+**Introduction.** The **empirical formula** shows the **simplest whole-number ratio** of atoms in a compound, and the **molecular formula** shows the **actual number** of atoms in a molecule. The molecular formula is a whole-number multiple $n$ of the empirical formula:
+
+$$ \text{Molecular formula} = (\text{Empirical formula})_{n}, \qquad n = \frac{\text{molar mass}}{\text{empirical formula mass}} $$
+
+**Procedure (six steps).**
+
+1. Write the **percentage** of each element (take 100 g of the compound, so the percentages become grams).
+2. Divide each mass by the **atomic mass** to get moles.
+3. Divide all the mole values by the **smallest** one.
+4. If any ratio is not a whole number, multiply all by a small integer (2, 3...) to make them whole (for example 1.5 x 2 = 3).
+5. Write the formula; this is the **empirical formula**.
+6. Find $n$ from the molar mass and multiply to get the molecular formula.
+
+**Worked example.** A compound has 40.0% C, 6.67% H and 53.33% O, and a molar mass of 180 g mol⁻¹ (C = 12, H = 1, O = 16).
+
+| Element | Mass (g in 100 g) | Moles | Divide by smallest (3.33) | Ratio |
+|---|---|---|---|---|
+| C | 40.0 | 40.0/12 = 3.33 | 1.00 | 1 |
+| H | 6.67 | 6.67/1 = 6.67 | 2.00 | 2 |
+| O | 53.33 | 53.33/16 = 3.33 | 1.00 | 1 |
+
+The empirical formula is **CH₂O**, with an empirical mass of 12 + 2 + 16 = 30. Then $n = 180/30 = 6$ and the molecular formula is **C₆H₁₂O₆**, which is glucose.
+
+**Second example (fractions).** A sample of an iron oxide has 69.9% Fe and 30.1% O. Moles: Fe 69.9/55.8 = 1.253, O 30.1/16 = 1.881. Dividing by 1.253 gives 1 : 1.50. Multiplying by 2 gives 2 : 3, so the formula is **Fe₂O₃** (haematite).
+
+**Uses.** The method identifies unknown compounds from a combustion analysis (percent C and H by mass of CO₂ and H₂O produced) and is used in pharmaceutical quality control.
+
+| Compound | Empirical formula | Molecular formula | $n$ |
+|---|---|---|---|
+| Glucose | CH₂O | C₆H₁₂O₆ | 6 |
+| Acetic acid | CH₂O | C₂H₄O₂ | 2 |
+| Benzene | CH | C₆H₆ | 6 |
+| Hydrogen peroxide | HO | H₂O₂ | 2 |
+
+**Conclusion.** The empirical formula comes from the percentage composition, and the molecular formula needs the molar mass in addition. Different compounds can share the same empirical formula, such as glucose and acetic acid.

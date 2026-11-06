@@ -1049,3 +1049,115 @@ vectorially to a non-zero resultant:
 $\mu = 2(1.5)\cos(104.5^{\circ}/2) = 3.0 \times 0.6122 = 1.84$ D, in agreement
 with the measured 1.85 D.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Explain the VSEPR theory and predict the shapes of BeCl₂, BF₃, CH₄, NH₃, H₂O, PCl₅, SF₄, ClF₃, XeF₂ and SF₆. <span class="marks">[10]</span>
+2. What is hybridization? Explain sp, sp², sp³, sp³d and sp³d² hybridization with examples. <span class="marks">[10]</span>
+3. What is hydrogen bonding? Explain its types and effects on the properties of substances, and give eight applications. <span class="marks">[10]</span>
+
+### Model answer D1: VSEPR theory and molecular shapes (10 marks)
+
+**Introduction.** The **valence shell electron pair repulsion (VSEPR) theory** of Gillespie and Nyholm (1957) predicts the shape of a molecule from the number of electron pairs around the **central atom**.
+
+**Postulates.**
+
+1. Electron pairs in the valence shell of the central atom **repel each other** and arrange themselves as far apart as possible.
+2. The shape depends on the total number of **bond pairs (bp)** and **lone pairs (lp)**.
+3. The repulsion order is **lp-lp > lp-bp > bp-bp**, so lone pairs compress the bond angles.
+4. A multiple bond counts like a single bond (one region of electron density).
+
+**Steps to predict the shape.** (1) Find the number of valence electrons of the central atom; (2) add one for each bonded atom (or subtract for a cation); (3) divide by 2 to get the electron pairs; (4) subtract the bond pairs to find the lone pairs; (5) choose the geometry from the table.
+
+| Molecule | bp | lp | Electron geometry | Shape | Bond angle |
+|---|---|---|---|---|---|
+| BeCl₂ | 2 | 0 | Linear | Linear | 180° |
+| BF₃ | 3 | 0 | Trigonal planar | Trigonal planar | 120° |
+| CH₄ | 4 | 0 | Tetrahedral | Tetrahedral | 109.5° |
+| NH₃ | 3 | 1 | Tetrahedral | Trigonal pyramidal | 107° |
+| H₂O | 2 | 2 | Tetrahedral | Bent (V-shaped) | 104.5° |
+| PCl₅ | 5 | 0 | Trigonal bipyramidal | Trigonal bipyramidal | 90°, 120° |
+| SF₄ | 4 | 1 | Trigonal bipyramidal | See-saw | <90°, <120° |
+| ClF₃ | 3 | 2 | Trigonal bipyramidal | T-shaped | <90° |
+| XeF₂ | 2 | 3 | Trigonal bipyramidal | Linear | 180° |
+| SF₆ | 6 | 0 | Octahedral | Octahedral | 90° |
+
+**Explaining the angles.** CH₄ has no lone pair, so its angle is the ideal 109.5°. In NH₃ the one lone pair repels the three bond pairs more strongly, reducing the angle to 107°. In H₂O two lone pairs reduce it further to 104.5°.
+
+**Lone pairs in the trigonal bipyramid.** Lone pairs take the **equatorial** positions, since there they have fewer 90° repulsions. That is why SF₄ is see-saw, ClF₃ is T-shaped and XeF₂ is linear.
+
+**Limitations.** VSEPR gives only the geometry and not the bond energy; it fails to explain the shapes of some transition-metal compounds and gives no reasons for the bond formation (the valence bond theory does that).
+
+**Conclusion.** The shape of a molecule is decided by the repulsion between the electron pairs, with lone pairs having the strongest effect. The theory predicts shapes accurately for main-group molecules.
+
+### Model answer D2: hybridization (10 marks)
+
+**Introduction.** Valence bond theory cannot explain why carbon, with the configuration 2s² 2p², forms **four identical bonds** in CH₄. Pauling (1931) proposed **hybridization**: the mixing of atomic orbitals of slightly different energy on the same atom to form the **same number of new, equivalent hybrid orbitals** with the same energy and a definite shape.
+
+**Features.**
+
+1. The **number of hybrid orbitals equals the number of atomic orbitals mixed**.
+2. The hybrid orbitals are identical in shape and energy.
+3. They are directed in space to give maximum separation, and overlap better than pure orbitals, so the **bonds are stronger**.
+4. Only orbitals of **similar energy** hybridize, and the orbitals (not the electrons) hybridize. Lone pairs may occupy hybrid orbitals.
+
+| Type | Orbitals mixed | % s character | Geometry | Angle | Example |
+|---|---|---|---|---|---|
+| sp | one s + one p | 50 | Linear | 180° | BeCl₂, C₂H₂ |
+| sp² | one s + two p | 33 | Trigonal planar | 120° | BF₃, C₂H₄, C₆H₆ |
+| sp³ | one s + three p | 25 | Tetrahedral | 109.5° | CH₄, NH₃, H₂O |
+| sp³d | one s + three p + one d | 20 | Trigonal bipyramidal | 90°, 120° | PCl₅ |
+| sp³d² | one s + three p + two d | 17 | Octahedral | 90° | SF₆ |
+
+**Examples explained.**
+
+1. **sp, BeCl₂:** Be (2s²) promotes one electron to 2p, then 2s and one 2p hybridize into two sp orbitals that overlap with Cl 3p orbitals at 180°.
+2. **sp², BF₃ and ethene:** B uses three sp² orbitals for three σ bonds. In ethene (C₂H₄) each carbon uses three sp² orbitals for σ bonds and the unhybridized 2p orbital makes the **π bond** by sideways overlap.
+3. **sp³, CH₄:** C promotes 2s → 2p (2s¹ 2p³) and forms four equivalent sp³ orbitals directed to the corners of a tetrahedron. In **NH₃** one sp³ orbital holds the lone pair (107°), and in **H₂O** two do (104.5°).
+4. **sp³d, PCl₅:** the five hybrid orbitals form three equatorial and two axial bonds; axial bonds are longer.
+5. **sp³d², SF₆:** six equivalent orbitals point to the corners of an octahedron.
+
+**Sigma and pi count in ethyne (C₂H₂):** each C is sp, the C≡C triple bond has **1 σ + 2 π**, and the two C-H bonds are σ, so in total 3 σ + 2 π bonds.
+
+**Conclusion.** Hybridization explains the shape, equivalence and strength of bonds. The type can be found easily from the steric number (bonds + lone pairs): 2 is sp, 3 is sp², 4 is sp³, 5 is sp³d and 6 is sp³d².
+
+### Model answer D3: hydrogen bonding (10 marks)
+
+**Introduction.** A **hydrogen bond** is a weak electrostatic attraction between a hydrogen atom covalently bonded to a **highly electronegative atom (F, O or N)** and a lone pair on another electronegative atom. It is shown by a dotted line, X-H···Y. Its strength is 10 to 40 kJ mol⁻¹, much weaker than a covalent bond (about 400 kJ mol⁻¹) but stronger than van der Waals forces.
+
+**Conditions.** (1) H bonded to a small, highly electronegative atom, which makes the H strongly δ+; (2) a lone pair on the acceptor atom.
+
+**Types.**
+
+1. **Intermolecular:** between different molecules, as in water, HF, NH₃ and alcohols.
+2. **Intramolecular (chelation):** within the same molecule, as in o-nitrophenol and salicylaldehyde; it makes the compound **volatile** and less soluble in water than its para isomer.
+
+**Effects on properties.**
+
+1. **Boiling point:** H₂O (100 °C) is far above H₂S (-60 °C), and HF is above HCl, because of hydrogen bonding. Without it, water would boil at about -80 °C.
+2. **Density of ice:** in ice each molecule forms four H-bonds in an open hexagonal lattice with empty spaces, so ice is **less dense** than water (at 4 °C water is the densest) and floats. This protects aquatic life under frozen lakes such as Gosaikunda.
+3. **Solubility:** alcohols, sugar and ammonia dissolve in water because of H-bonding with water.
+4. **High viscosity and surface tension** of water, glycerol.
+5. **Molar mass in the vapour:** acetic acid forms **dimers** (molar mass 120 instead of 60) in benzene.
+
+**Eight applications and examples.**
+
+1. **Structure of DNA:** adenine-thymine (2 bonds) and guanine-cytosine (3 bonds) pairs hold the double helix.
+2. **Protein structure:** the α-helix and β-pleated sheet are stabilised by H-bonds.
+3. **Water as a solvent:** life depends on it; the high heat capacity moderates the climate.
+4. **Cellulose in cotton and wood:** H-bonds between chains give strength.
+5. **Silk and nylon fibres** are strong because of H-bonds between chains.
+6. **Medicines:** the action of drugs on receptors depends on H-bonds.
+7. **Boiling and melting points:** the reason why ethanol (78 °C) boils higher than dimethyl ether (-24 °C).
+8. **Ice-cold water and snow** forming the Himalayan glaciers that feed Nepal's rivers.
+
+| Compound | Hydrogen bonding | Boiling point (°C) |
+|---|---|---|
+| H₂O | Strong | 100 |
+| H₂S | None | -60 |
+| HF | Strong | 19.5 |
+| HCl | Very weak | -85 |
+| C₂H₅OH | Yes | 78 |
+| CH₃OCH₃ | No | -24 |
+
+**Conclusion.** Hydrogen bonds are weak individually, but they are collectively responsible for the anomalous properties of water, the structure of DNA and proteins, and many materials.
