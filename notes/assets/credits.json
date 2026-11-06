@@ -11010,6 +11010,58 @@
   "source": "Wikimedia Commons",
   "title": "Ultrasound of human fetus, 8 weeks and 1 day"
  },
+ "nur12/abrupt": {
+  "author": "Mikael Häggström , M.D. Author info - Reusing images - Conflicts of interest: None Mikael Häggström , M.D. Consent note : Consent from the patient or patient's ",
+  "bytes": 333582,
+  "credit": "Own work",
+  "fetched": "2026-11-06",
+  "file": "nur12/abrupt.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Gross_pathology_of_placental_abruption.jpg",
+  "sha1": "d1d957c3a9e6b685",
+  "source": "Wikimedia Commons",
+  "title": "Gross pathology of placental abruption"
+ },
+ "nur12/ectop": {
+  "author": "Drvgaikwad , Dr. Vilas Gayakwad",
+  "bytes": 473578,
+  "credit": "Own work . Specimen of surgery done by me.",
+  "fetched": "2026-11-06",
+  "file": "nur12/ectop.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ruptured_ectopic_pregnancy.jpg",
+  "sha1": "e66e5205a9c7fc57",
+  "source": "Wikimedia Commons",
+  "title": "Ruptured ectopic pregnancy"
+ },
+ "nur12/mole": {
+  "author": "Ed Uthman from Houston, TX, USA",
+  "bytes": 465297,
+  "credit": "Complete Hydatidiform Mole",
+  "fetched": "2026-11-06",
+  "file": "nur12/mole.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Complete_Hydatidiform_Mole_(39611782015).jpg",
+  "sha1": "e377be38256e8e94",
+  "source": "Wikimedia Commons",
+  "title": "Complete Hydatidiform Mole (39611782015)"
+ },
+ "nur12/tubal": {
+  "author": "Ed Uthman, MD ( Flickr , Wikipedia )",
+  "bytes": 1550667,
+  "credit": "(2014). \"Tubal pregnancy with embryo\". WikiJournal of Medicine 1 (2): 7. DOI : 10.15347/wjm/2014.007 .",
+  "fetched": "2026-11-06",
+  "file": "nur12/tubal.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Tubal_Pregnancy_with_embryo.jpg",
+  "sha1": "b9132f54a78f5447",
+  "source": "Wikimedia Commons",
+  "title": "Tubal Pregnancy with embryo"
+ },
  "nur2/bone": {
   "author": "Berkshire Community College Bioscience Image Library",
   "bytes": 526385,

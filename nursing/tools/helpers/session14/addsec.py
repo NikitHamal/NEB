@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+"""addsec.py N : insert /app/parts/kN.py (checker section for unit N) into check_mw2.py, replacing an older section N."""
+import sys,re
+n=sys.argv[1]; p='/tmp/NEB/nursing/tools/check_mw2.py'; t=open(p).read()
+sec=open(f'/app/parts/k{n}.py').read().rstrip()+"\n"
+t=re.sub(rf"# ---- U{n}-BEGIN.*?# ---- U{n}-END\n","",t,flags=re.S)
+t=t.replace("# ---- END OF UNITS",f"# ---- U{n}-BEGIN\n{sec}# ---- U{n}-END\n# ---- END OF UNITS")
+open(p,'w').write(t)
