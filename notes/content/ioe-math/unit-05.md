@@ -379,3 +379,62 @@ f.text(150, 220, "Euler at t = 10: %.1f (h=5), %.1f (h=1), exact 70" % (euler(5,
 **7.** (a) — IF $=e^x$: $(ye^x)'=1$, so $ye^x=x+C$.
 **8.** (c) — $\int\frac{x}{1+x}dx=x-\ln(1+x)$, so IF $=\frac{e^x}{1+x}$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Evaluate limits (standard forms, L'Hospital's rule), test continuity, and solve an optimisation and a tangent problem. <span class="marks">[10]</span>
+2. Evaluate integrals (by parts), find an area, and solve first-order differential equations including Newton's law of cooling. <span class="marks">[10]</span>
+
+### Model answer D1: Limits, derivatives and applications (10 marks)
+
+**Introduction.** A function is **continuous** at $a$ if $\lim_{x\to a}f(x)=f(a)$. Standard limits: $\lim_{x\to0}\frac{\sin x}{x}=1$, $\lim_{x\to0}\frac{e^x-1}{x}=1$, $\lim_{x\to0}(1+x)^{1/x}=e$.
+
+**Limits.**
+
+1. $\lim_{x\to0}\frac{1-\cos x}{x^2}=\lim\frac{2\sin^2(x/2)}{x^2}=\frac12$.
+2. **L'Hospital's rule** for $\frac00$ or $\frac\infty\infty$: $\lim_{x\to0}\frac{x-\sin x}{x^3}=\lim\frac{1-\cos x}{3x^2}=\lim\frac{\sin x}{6x}=\frac16$.
+
+**Optimisation (open box).** A square sheet of side $12\ \text{cm}$ has corner squares of side $x$ cut off and the sides are folded up.
+
+1. Volume $V=x(12-2x)^2$.
+2. $\frac{dV}{dx}=(12-2x)^2-4x(12-2x)=(12-2x)(12-6x)$.
+3. Setting it to zero: $x=6$ (no box) or $x=2$.
+4. $\frac{d^2V}{dx^2}<0$ at $x=2$, so it is a **maximum**: $V_{\max}=2(8)^2=128\ \text{cm}^3$.
+
+**Tangent.** For $y=x^3-3x+2$ at $x=2$: $y=4$, $\frac{dy}{dx}=3x^2-3=9$, so the tangent is $y-4=9(x-2)$, i.e. $y=9x-14$. The normal has slope $-\frac19$.
+
+| Topic | Rule | Result |
+|---|---|---|
+| Limit | L'Hospital | $\frac16$ |
+| Maximum volume | $V'=0$, $V''<0$ | $128\ \text{cm}^3$ at $x=2$ |
+| Tangent | slope $=y'$ | $y=9x-14$ |
+
+**Conclusion.** Derivatives give slopes and extreme values, and L'Hospital's rule resolves indeterminate forms.
+
+### Model answer D2: Integration and differential equations (10 marks)
+
+**Introduction.** Integration reverses differentiation, and a definite integral gives an area: $\int_a^bf(x)\,dx=F(b)-F(a)$.
+
+**1. Integration by parts.** $\int u\,dv=uv-\int v\,du$. For $\int xe^x\,dx$ let $u=x$, $dv=e^xdx$: $=xe^x-e^x+C=e^x(x-1)+C$.
+
+**2. Area.** The area between $y=x$ and $y=x^2$ (they meet at $x=0$ and $x=1$) is $\int_0^1(x-x^2)\,dx=\left[\frac{x^2}{2}-\frac{x^3}{3}\right]_0^1=\frac12-\frac13=\frac16$ square units. Also $\int_0^1\frac{dx}{1+x^2}=\tan^{-1}1=\frac\pi4$.
+
+**3. Separable equation.** $\frac{dy}{dx}=xy\Rightarrow\int\frac{dy}{y}=\int x\,dx\Rightarrow y=Ce^{x^2/2}$.
+
+**4. Linear equation.** $\frac{dy}{dx}+2y=e^{-x}$ with $y(0)=2$.
+
+1. Integrating factor $=e^{\int2\,dx}=e^{2x}$.
+2. $\frac{d}{dx}(ye^{2x})=e^{x}$, so $ye^{2x}=e^x+C$.
+3. $y=e^{-x}+Ce^{-2x}$, and $y(0)=2\Rightarrow1+C=2\Rightarrow C=1$.
+4. Solution: $y=e^{-x}+e^{-2x}$.
+
+**5. Newton's law of cooling.** $\frac{dT}{dt}=-k(T-T_a)$ gives $T=T_a+(T_0-T_a)e^{-kt}$. A drink at $100^\circ\text{C}$ in a $20^\circ\text{C}$ room: $T=20+80e^{-kt}$. If $T=50$ at $t=10\ \text{min}$: $30=80e^{-10k}$, so $k=\frac{\ln(8/3)}{10}=0.0981\ \text{min}^{-1}$. At $t=20$: $T=20+80e^{-1.962}=20+80(0.1406)=31.25^\circ\text{C}$.
+
+| Problem | Method | Answer |
+|---|---|---|
+| $\int xe^x$ | By parts | $e^x(x-1)+C$ |
+| Area between curves | $\int(\text{top}-\text{bottom})$ | $\frac16$ |
+| Linear ODE | Integrating factor | $e^{-x}+e^{-2x}$ |
+| Cooling | Separate variables | $31.25^\circ\text{C}$ |
+
+**Conclusion.** The choice between substitution, parts, separation and an integrating factor depends on the form of the integrand or equation.

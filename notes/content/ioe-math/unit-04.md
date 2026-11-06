@@ -231,3 +231,52 @@ f = fg
 **5.** (b) — $h=-\frac{5}{2}$, $a=1$, $b=4$: $\frac{2\sqrt{25/4-4}}{5}=\frac{2\cdot1.5}{5}=\frac{3}{5}$ (factors $(x-y)(x-4y)$, slopes $1,\frac{1}{4}$).
 **6.** (c) — same normal $(1,2,3)$; $1+4+9=14$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Find the distance from a point to a line, the angle between a pair of lines, and the tangent and tangent length for a circle. <span class="marks">[10]</span>
+2. Find the foci, eccentricity and latus rectum of a parabola, ellipse and hyperbola, and solve problems in three dimensions. <span class="marks">[10]</span>
+
+### Model answer D1: Lines and circles (10 marks)
+
+**Introduction.** The distance of $(x_1,y_1)$ from $ax+by+c=0$ is $d=\frac{\lvert ax_1+by_1+c\rvert}{\sqrt{a^2+b^2}}$. For $(3,4)$ and $3x+4y-5=0$: $d=\frac{\lvert9+16-5\rvert}{5}=4$.
+
+**Pair of lines.** The equation $ax^2+2hxy+by^2=0$ represents two lines through the origin, and the angle between them is $\tan\theta=\frac{2\sqrt{h^2-ab}}{\lvert a+b\rvert}$. For $2x^2+5xy+2y^2=0$: $a=b=2$, $h=\frac52$, so $\tan\theta=\frac{2\sqrt{6.25-4}}{4}=\frac{2(1.5)}{4}=0.75$, giving $\theta=36.87^\circ$. Also $2x^2+5xy+2y^2=(2x+y)(x+2y)$, so the lines are $y=-2x$ and $y=-\frac x2$, and the check $\tan\theta=\left|\frac{-2+\frac12}{1+1}\right|=0.75$ agrees.
+
+**Circle $x^2+y^2-4x+6y-12=0$.**
+
+1. Centre $(-g,-f)=(2,-3)$.
+2. Radius $r=\sqrt{g^2+f^2-c}=\sqrt{4+9+12}=5$.
+3. **Tangent at $(5,1)$** (the point lies on the circle since $9+16=25$): $(x-2)(5-2)+(y+3)(1+3)=25$, so $3x+4y=19$.
+4. **Length of tangent from $(10,-3)$:** $\sqrt{S_1}=\sqrt{100+9-40-18-12}=\sqrt{39}=6.24$.
+5. **Condition for tangency:** the perpendicular distance from the centre to the line equals the radius. For $3x+4y=19$: $\frac{\lvert6-12-19\rvert}{5}=5$ ✓.
+
+| Result | Formula | Value |
+|---|---|---|
+| Distance to line | $\frac{\lvert ax_1+by_1+c\rvert}{\sqrt{a^2+b^2}}$ | $4$ |
+| Angle of pair | $\frac{2\sqrt{h^2-ab}}{\lvert a+b\rvert}$ | $36.87^\circ$ |
+| Radius | $\sqrt{g^2+f^2-c}$ | $5$ |
+| Tangent length | $\sqrt{S_1}$ | $\sqrt{39}$ |
+
+**Conclusion.** Standard formulae turn each geometric condition into a short calculation.
+
+### Model answer D2: Conics and the plane (10 marks)
+
+**Introduction.** A conic is the locus of a point whose distance from a **focus** is $e$ times its distance from the **directrix**: parabola ($e=1$), ellipse ($e<1$), hyperbola ($e>1$).
+
+| Conic | Equation | Focus | $e$ | Latus rectum |
+|---|---|---|---|---|
+| Parabola | $y^2=8x$ | $(2,0)$; directrix $x=-2$ | $1$ | $8$ |
+| Ellipse | $\frac{x^2}{25}+\frac{y^2}{9}=1$ | $(\pm4,0)$ | $\frac45$ | $\frac{2b^2}{a}=3.6$ |
+| Hyperbola | $\frac{x^2}{16}-\frac{y^2}{9}=1$ | $(\pm5,0)$ | $\frac54$ | $\frac{2b^2}{a}=4.5$ |
+
+**Working.** Ellipse: $a=5$, $b=3$, $c=\sqrt{a^2-b^2}=4$, $e=\frac ca=0.8$. Hyperbola: $a=4$, $b=3$, $c=\sqrt{a^2+b^2}=5$, $e=\frac54$, and the asymptotes are $y=\pm\frac34x$. A parabola $y^2=4ax$ with $4a=8$ has $a=2$. The sum of focal distances in an ellipse is $2a=10$.
+
+**Space geometry.**
+
+1. **Distance** between $(1,2,3)$ and $(4,6,15)$: $\sqrt{9+16+144}=\sqrt{169}=13$.
+2. **Plane in intercept form:** the plane through $(1,0,0)$, $(0,2,0)$ and $(0,0,3)$ is $\frac x1+\frac y2+\frac z3=1$, i.e. $6x+3y+2z=6$.
+3. **Distance of the origin from the plane:** $\frac{6}{\sqrt{36+9+4}}=\frac67$.
+4. **Direction cosines** of a line satisfy $l^2+m^2+n^2=1$; for the join of the first two points the direction ratios are $(3,4,12)$, so the cosines are $\frac{3}{13},\frac{4}{13},\frac{12}{13}$.
+
+**Conclusion.** Identify the conic from its equation, read off $a$, $b$, then calculate $c$, $e$ and the focus, and use intercepts or direction ratios in space.

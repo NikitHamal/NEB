@@ -191,3 +191,77 @@ f.text(150, 218, "rays steeper than 14° leak out", size=10.5, color=SLATE)
 **4.** (d) — $\frac{I_0}{2}\cos^260^\circ=\frac{I_0}{8}$.
 **5.** (a) — $\frac{1/f_w}{1/f_a}=\frac{1.5/(4/3)-1}{0.5}=\frac{0.125}{0.5}=\frac{1}{4}$, so $f_w=4f_a$.
 :::
+
+**Group D — Model answers for long questions (10 marks each, for deeper revision)**
+
+1. Derive the lens maker's formula and the prism formula, and explain total internal reflection and its applications. <span class="marks">[10]</span>
+2. Describe Young's double-slit experiment, diffraction by a grating and polarisation, with numericals. <span class="marks">[10]</span>
+
+```photogrid label="3.H" cols="4" ratio="1.25" caption="Light in practice. (a) A glass prism disperses white light into a spectrum. (b) A rainbow forms by refraction, internal reflection and dispersion in raindrops. (c) Newton's rings are fringes from a thin air film. (d) An optical fibre guides light by total internal reflection."
+@ photo id="phy11/prism" cap="(a) Prism"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ceephy/rainbow" cap="(b) Rainbow"
+fit 1.25
+focus 0.5 0.5
+@ photo id="cee-phy/newtons-rings" cap="(c) Newton's rings"
+fit 1.25
+focus 0.5 0.5
+@ photo id="ioephy/fibre" cap="(d) Optical fibre"
+fit 1.25
+focus 0.5 0.5
+```
+
+### Model answer D1: Refraction, lenses, prisms and total internal reflection (10 marks)
+
+**Introduction.** Refraction is the bending of light when it passes from one medium to another, because its speed changes. **Snell's law:** $n_1\sin i = n_2\sin r$, where $n = c/v$.
+
+**Lens maker's formula.** For a thin lens of refractive index $n$ with surfaces of radii $R_1$ and $R_2$ in air:
+$$\frac{1}{f} = (n-1)\left(\frac{1}{R_1} - \frac{1}{R_2}\right).$$
+It is found by applying the refraction formula $\frac{n_2}{v} - \frac{n_1}{u} = \frac{n_2 - n_1}{R}$ at each surface and adding the two results. For a double-convex lens with $n = 1.5$ and $R = 20\ \text{cm}$ on both sides: $\frac{1}{f} = 0.5\times\frac{2}{20} = 0.05$, so $f = 20\ \text{cm}$. For an object $30\ \text{cm}$ away, $\frac{1}{v} = \frac{1}{20} - \frac{1}{30} = \frac{1}{60}$, so $v = 60\ \text{cm}$ (real, inverted) and $m = -2$.
+
+**Prism formula.** For a prism of angle $A$ at minimum deviation $D_m$:
+$$n = \frac{\sin\frac{A + D_m}{2}}{\sin\frac{A}{2}}.$$
+For $A = 60^\circ$ and $n = 1.5$: $\sin\frac{60 + D_m}{2} = 0.75$, so $D_m = 37.2^\circ$. Because $n$ is greater for violet than for red, **dispersion** occurs.
+
+**Total internal reflection (TIR).** It occurs when light goes from a denser to a rarer medium at an angle of incidence **greater than the critical angle** $C$, where $\sin C = \frac{1}{n}$. For glass ($n = 1.5$), $C = 41.8^\circ$; for water ($n = 1.33$), $C = 48.8^\circ$.
+
+**Applications of TIR.**
+
+1. **Optical fibres** carry telephone and internet signals (as in Nepal's fibre-to-home service) with little loss.
+2. **Totally reflecting prisms** in binoculars and periscopes.
+3. **Mirage** and the sparkle of **diamond** ($n = 2.42$, $C = 24.4^\circ$).
+4. **Endoscopes** that let doctors see inside the body.
+
+| Quantity | Formula | Value in example |
+|---|---|---|
+| Lens focal length | Lens maker's | $20\ \text{cm}$ |
+| Minimum deviation | Prism | $37.2^\circ$ |
+| Critical angle | $\sin C = 1/n$ | $41.8^\circ$ (glass) |
+
+**Conclusion.** The same law of refraction explains lenses, prisms, dispersion and the guiding of light in fibres.
+
+### Model answer D2: Interference, diffraction and polarisation (10 marks)
+
+**Introduction.** These three effects prove that light is a **wave**, and polarisation shows that it is a **transverse** wave.
+
+**Young's double-slit experiment.** Light from a single slit falls on two narrow slits $S_1$ and $S_2$ (distance $d$) and forms bright and dark **fringes** on a screen at distance $D$.
+
+1. **Bright fringes (path difference = $n\lambda$):** $y_n = \frac{n\lambda D}{d}$.
+2. **Dark fringes:** path difference $(2n+1)\frac{\lambda}{2}$.
+3. **Fringe width:** $\beta = \frac{\lambda D}{d}$, equal for all fringes.
+4. Conditions: the sources must be **coherent** and narrow, and close together.
+
+Numerical: $\lambda = 600\ \text{nm}$, $D = 1.5\ \text{m}$, $d = 0.3\ \text{mm}$: $\beta = \frac{600\times10^{-9}\times1.5}{0.3\times10^{-3}} = 3\ \text{mm}$.
+
+**Diffraction.** The bending of light around an edge or slit. For a single slit of width $a$, the minima are at $a\sin\theta = n\lambda$ and the central maximum is twice as wide as the others. A **diffraction grating** with $d$ distance between lines gives maxima at $d\sin\theta = n\lambda$. For a grating of $5000$ lines per cm, $d = 2\ \mu\text{m}$, so for sodium light ($589\ \text{nm}$) the first order is at $\theta = \sin^{-1}(0.2945) = 17.1^\circ$.
+
+**Polarisation.** Light vibrates in one plane after passing through a polaroid. **Malus' law:** $I = I_0\cos^2\theta$; at $\theta = 30^\circ$ the intensity is $0.75\,I_0$. **Brewster's law:** reflected light is fully polarised when $\tan i_p = n$; for $n = \sqrt{3}$, $i_p = 60^\circ$. Uses: polaroid sun glasses and 3-D cinema.
+
+| Effect | Condition | Formula |
+|---|---|---|
+| Interference | Two coherent sources | $\beta = \lambda D/d$ |
+| Diffraction | Slit width near $\lambda$ | $d\sin\theta = n\lambda$ |
+| Polarisation | Transverse waves | $I = I_0\cos^2\theta$ |
+
+**Conclusion.** Interference and diffraction confirm the wave nature of light, and polarisation shows that the waves are transverse.
