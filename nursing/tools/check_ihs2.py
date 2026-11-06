@@ -55,6 +55,25 @@ T.update(u3_litres=f"{lit:.0f}", u3_reab=f"{reab:.1f}", u3_cg=f"{cg:.1f}", u3_cg
          u3_tbw=f"{tbw:.0f}", u3_icf=f"{tbw * 2 / 3:.0f}", u3_ecf=f"{tbw / 3:.0f}", u3_int=f"{tbw / 4:.0f}", u3_plasma=f"{tbw / 12:.0f}",
          u3_m18=m18, u3_m70=m70, u3_uo=f"{uo:.0f}", u3_winter=f"{winter:.0f}", u3_fwd=f"{fwd:.1f}", u3_na8=f"{na8:.0f}",
          c3_crcl=f"{ccg:.1f}", c3_dex=f"{dex:.0f}", c3_ufkg=f"{ufkg:.1f}", c3_fluid=fl)
+# ---- Unit 4: reproductive system and early pregnancy
+from datetime import date, timedelta
+lmp = date(2025, 6, 1); edd = lmp + timedelta(days=280); gdays = (date(2025, 10, 12) - lmp).days
+naeg = date(2026, 3, 8)                       # LMP + 7 days + 9 months
+chk("naegele == 280 d", edd, naeg); chk("ga", (gdays // 7, gdays % 7), (19, 0))
+pearl = 3 * 1200 / (500 * 12); gan = 55 * (11 - 9.5) * 2.4 + 500; left = 280 - gdays
+chk("pearl", pearl, 0.6); chk("ganzoni", round(gan), 698); chk("days left", left, 147); chk("tablets enough", 180 >= left, True)
+chk("ov", (28 - 14, 32 - 14), (14, 18))
+T.update(u4_ov28=28 - 14, u4_ov32=32 - 14, u4_ga_w=gdays // 7, u4_pearl=f"{pearl:.1f}", u4_edd=edd.strftime("%d %b %Y"),
+         c4_ganzoni=f"{gan:.0f}", c4_days=left)
+# ---- Unit 5: musculoskeletal, skin, burns
+park = 4 * 70 * 40; h8 = park / 2 / 8; h16 = park / 2 / 16; tsc = (0.62 - 0.94) / 0.12; crutch = 170 - 40
+chk("park", (park, h8, h16), (11200, 700.0, 350.0)); chk("tscore", round(tsc, 2), -2.67); chk("crutch", crutch, 130)
+chk("osteoporosis", tsc <= -2.5, True)
+tb = 18 + 9 + 9; ctot = 4 * 55 * tb; chalf = ctot / 2; c8 = chalf / 8; c16 = chalf / 16; cgtt = chalf / 6 * 20 / 60; cuo = 0.5 * 55; ccal = 25 * 55 + 40 * tb
+chk("burn", (tb, ctot, chalf, c8, c16), (36, 7920, 3960.0, 495.0, 247.5)); chk("gtt", cgtt, 220.0); chk("uo", cuo, 27.5); chk("curreri", ccal, 2815)
+chk("remaining 6h rate", round(chalf / 6), 660)
+T.update(u5_crutch=crutch, u5_park=park, u5_h8=f"{h8:.0f}", u5_h16=f"{h16:.0f}", u5_t=f"{tsc:.2f}",
+         c5_tbsa=tb, c5_total=ctot, c5_half=f"{chalf:.0f}", c5_h8=f"{c8:.0f}", c5_h16=f"{c16}", c5_gtt=f"{cgtt:.0f}", c5_h6=f"{chalf / 6:.0f}", c5_uo=f"{cuo}", c5_cal=ccal)
 # ---- END OF UNITS (insert new units above this line)
 
 def exec_blocks(files):
