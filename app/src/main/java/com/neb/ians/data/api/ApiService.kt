@@ -294,6 +294,22 @@ data class ReportRequest(
 data class FcmTokenRequest(val token: String)
 
 @Serializable
+data class NotificationPrefsRequest(@SerialName("new_resources") val newResources: Boolean)
+
+@Serializable
+data class NotificationPrefsResponse(
+    val newResources: Boolean = true,
+    val devices: Int = 0,
+    val hasSubjects: Boolean = false
+)
+
+@Serializable
+data class PushOpenedRequest(
+    @SerialName("notification_id") val notificationId: String? = null,
+    @SerialName("campaign_id") val campaignId: String? = null
+)
+
+@Serializable
 data class ResultCheckRequest(
     val exam: String,
     val symbol: String,
@@ -1747,6 +1763,24 @@ interface ApiService {
     suspend fun registerFcmToken(
         @Header("Authorization") bearerToken: String?,
         @Body request: FcmTokenRequest
+    )
+
+    // --- Notification preferences and push opens ---
+    @GET("api/me/notification-prefs/")
+    suspend fun getNotificationPrefs(
+        @Header("Authorization") bearerToken: String?
+    ): NotificationPrefsResponse
+
+    @PATCH("api/me/notification-prefs/")
+    suspend fun setNotificationPrefs(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: NotificationPrefsRequest
+    ): NotificationPrefsResponse
+
+    @POST("api/push/opened/")
+    suspend fun pushOpened(
+        @Header("Authorization") bearerToken: String?,
+        @Body request: PushOpenedRequest
     )
 
     @POST("api/fcm/unregister/")

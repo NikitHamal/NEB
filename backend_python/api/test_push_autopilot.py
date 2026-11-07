@@ -28,7 +28,7 @@ def _res(rid, **kw):
     return r
 
 
-def _fake_send(tokens, title, body, data=None, workers=8):
+def _fake_send(tokens, title, body, data=None, workers=8, **kw):
     return {t: (not t.startswith('bad'), 'ok' if not t.startswith('bad') else 'unregistered') for t in tokens}
 
 
@@ -200,3 +200,51 @@ class CampaignMeasurementTests(TestCase):
         PushCampaign.objects.filter(pk=c.pk).update(scheduled_at=push_engine.now_ms() - 1)
         self.assertEqual(push_engine.run_due_scheduled(), 1)
         self.assertEqual(PushCampaign.objects.get(pk=c.pk).status, 'sent')
+
+
+class PrefsTests(TestCase):
+    def setUp(self):
+        from api.security import issue_auth_token
+        self.u = _user('p1')
+        self.token = issue_auth_token(self.u)
+
+    def _h(self):
+        return {'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
+
+    def test_default_is_on_and_can_be_switched_off_and_on(self):
+        r = self.client.get('/api/me/notification-prefs/', **self._h())
+        self.assertEqual(r.status_code, 200, r.content)
+        self.assertTrue(r.json()['newResources'])
+        self.assertTrue(r.json()['hasSubjects'])
+        r = self.client.patch('/api/me/notification-prefs/', {'new_resources': False}, content_type='application/json', **self._h())
+        self.assertFalse(r.json()['newResources'])
+        self.assertFalse(User.objects.get(pk='p1').notify_new_resources)
+        r = self.client.patch('/api/me/notification-prefs/', {'new_resources': True}, content_type='application/json', **self._h())
+        self.assertTrue(User.objects.get(pk='p1').notify_new_resources)
+
+    def test_requires_sign_in(self):
+        self.assertEqual(self.client.get('/api/me/notification-prefs/').status_code, 401)
+
+    def test_push_opened_endpoint_records_the_tap(self):
+        with mock.patch('api.fcm_utils.send_fcm_detailed', side_effect=_fake_send):
+            c = push_engine.send_manual(title='Hi', body='There', sync=True)
+        nid = Notification.objects.get(recipient=self.u).id
+        r = self.client.post('/api/push/opened/', {'notification_id': nid, 'campaign_id': c.id}, content_type='application/json', **self._h())
+        self.assertTrue(r.json()['recorded'])
+        d = PushDelivery.objects.get(campaign=c)
+        self.assertEqual(d.opened_via, 'push')
+        self.assertTrue(Notification.objects.get(pk=nid).is_read)
+
+    def test_web_switch_and_inbox_read_count_as_open(self):
+        sess = self.client.session
+        sess['auth_token'] = self.token
+        sess.save()
+        r = self.client.post('/ajax/notifications/prefs/', {'new_resources': False}, content_type='application/json')
+        self.assertEqual(r.status_code, 200, r.content)
+        self.assertFalse(r.json()['new_resources'])
+        with mock.patch('api.fcm_utils.send_fcm_detailed', side_effect=_fake_send):
+            c = push_engine.send_manual(title='Hi', body='There', sync=True)
+        nid = Notification.objects.get(recipient=self.u).id
+        r = self.client.post('/ajax/notifications/mark-read/', {'notification_ids': [nid]}, content_type='application/json')
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(PushDelivery.objects.get(campaign=c).opened_via, 'inbox')
