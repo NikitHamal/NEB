@@ -1038,12 +1038,11 @@ def reader(request, resource_id):
 
     has_access, access_reason, purchase_obj = check_user_resource_access(current_user, resource_obj)
 
-    # Increment view count once per session
-    view_key = f'resource_viewed_{resource_id}'
-    if not request.session.get(view_key):
-        Resource.objects.filter(pk=resource_id).update(view_count=F('view_count') + 1)
-        request.session[view_key] = True
-        resource_obj.view_count += 1  # update in-memory
+    # One view per viewer per day (api.resource_reach); a tap from a push also closes the push funnel.
+    from api import resource_reach
+    _res = resource_reach.record_view(
+        request, resource_obj, current_user, surface=request.GET.get('from') or '', src=request.GET.get('src') or '')
+    resource_obj.view_count = _res['view_count']
 
     resource = _serialize_resource(resource_obj)
     resource['has_access'] = has_access
@@ -1137,6 +1136,7 @@ def reader(request, resource_id):
     related_resources = _serialize_resources(related)
 
     can_edit = bool(user_id and user_id == resource_obj.uploaded_by_id)
+    can_see_insights = bool(can_edit or _is_staff_admin(request))
 
     # Fetch bundle files if it belongs to a group
     group_resources = []
@@ -1158,6 +1158,7 @@ def reader(request, resource_id):
         is_liked=is_liked,
         is_bookmarked=is_bookmarked,
         can_edit=can_edit,
+        can_see_insights=can_see_insights,
         top_level_replies=top_level_replies,
         children_map=children_map,
         all_usernames=all_usernames,

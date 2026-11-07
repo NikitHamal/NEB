@@ -1,7 +1,7 @@
 {% load static web_extras %}
 {% if resources %}
 <div class="x-grid">
-  {% for r in resources %}{% include "components/_resource_card.html" with r=r stats=True %}{% endfor %}
+  {% for r in resources %}{% include "components/_resource_card.html" with r=r stats=True from="library" %}{% endfor %}
 
   {% if not page_obj.has_next %}
   <div class="x-more">

@@ -699,13 +699,81 @@ def resource_comment_like(request, resource_id, comment_id):
 @permission_classes([AllowAny])
 @throttle_classes([ViewIncrementRateThrottle])
 def resource_view(request, resource_id):
-    """POST /api/resources/<resourceId>/view — increment view_count."""
+    """POST /api/resources/<resourceId>/view {surface?, dwell_ms?} - one view per viewer per day."""
+    from . import resource_reach
     try:
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
         return Response({'error': 'Resource not found'}, status=404)
-    Resource.objects.filter(pk=resource_id, approval_status='approved').update(view_count=F('view_count') + 1)
-    return Response({'view_count': resource.view_count + 1})
+    try:
+        dwell = int(request.data.get('dwell_ms') or 0)
+    except (TypeError, ValueError):
+        dwell = 0
+    out = resource_reach.record_view(
+        request, resource, _get_user_from_request(request), surface=str(request.data.get('surface') or ''),
+        dwell_ms=dwell, src=str(request.data.get('src') or ''))
+    return Response({'view_count': out['view_count'], 'counted': out['counted']})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([ViewIncrementRateThrottle])
+def resource_action(request, resource_id):
+    """POST /api/resources/<resourceId>/action {action: read|download|share} - reach flags and the download count."""
+    from . import resource_reach
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    out = resource_reach.record_action(request, resource, _get_user_from_request(request),
+                                       str(request.data.get('action') or ''))
+    return Response(out, status=200 if out.get('ok') or 'error' not in out else 400)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@throttle_classes([ViewIncrementRateThrottle])
+def resource_impressions(request):
+    """POST /api/resources/impressions {"ids": [...]} - resource cards that scrolled into view."""
+    from . import resource_reach
+    ids = request.data.get('ids') or []
+    if not isinstance(ids, list):
+        ids = []
+    return Response({'recorded': resource_reach.record_impressions(request, ids)})
+
+
+def _days_param(value) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 30
+
+
+@api_view(['GET'])
+def resource_insights(request, resource_id):
+    """GET /api/resources/<id>/insights/?days=7|30|90 - the uploader and staff only."""
+    from . import resource_insights as ins
+    user, err = _require_user(request)
+    if err:
+        return err
+    try:
+        resource = Resource.objects.get(pk=resource_id)
+    except Resource.DoesNotExist:
+        return Response({'error': 'Resource not found'}, status=404)
+    if resource.uploaded_by_id != user.id and not getattr(user, 'is_admin', False):
+        return Response({'error': 'Only the uploader can see these insights'}, status=403)
+    return Response(ins.build(resource, days=_days_param(request.query_params.get('days', 30))))
+
+
+@api_view(['GET'])
+def uploads_insights(request):
+    """GET /api/uploads/insights/?days=7|30|90 - everything the signed-in member has uploaded, plus their posts."""
+    from . import resource_insights as ins
+    user, err = _require_user(request)
+    if err:
+        return err
+    return Response(ins.overview(user, days=_days_param(request.query_params.get('days', 30))))
+
 
 def _declared_size(data):
     try:

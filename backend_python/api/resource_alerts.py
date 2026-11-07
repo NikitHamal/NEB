@@ -220,7 +220,7 @@ def _build_messages(resources: list[Resource], *, respect_caps: bool, cfg: PushS
             push, hold = False, 'capped'
         messages.append(push_engine.Message(
             user_id=uid, title=title, body=body, target_type=ttype, target_id=tid,
-            url=f'/reader/{tid}/?src=push', push=push, hold=hold))
+            url=f'/app/reader/{tid}/?src=push', push=push, hold=hold))
     return messages, sizes
 
 
