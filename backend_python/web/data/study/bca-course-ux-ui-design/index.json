@@ -1,0 +1,77 @@
+{
+ "book": "bcacourse-semester-2-ux-ui-design",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to UX and UI",
+   "area": "BCA 155 · UX/UI Design · Unit 1",
+   "words": 4228,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "User Interaction Design and UX Research",
+   "area": "BCA 155 · UX/UI Design · Unit 2",
+   "words": 4885,
+   "read_min": 27,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "User Interface Design",
+   "area": "BCA 155 · UX/UI Design · Unit 3",
+   "words": 5394,
+   "read_min": 30,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "UI Components",
+   "area": "BCA 155 · UX/UI Design · Unit 4",
+   "words": 5909,
+   "read_min": 33,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "UI Design Considerations",
+   "area": "BCA 155 · UX/UI Design · Unit 5",
+   "words": 5893,
+   "read_min": 33,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Wireframing and Prototyping",
+   "area": "BCA 155 · UX/UI Design · Unit 6",
+   "words": 5445,
+   "read_min": 30,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Design Evaluation",
+   "area": "BCA 155 · UX/UI Design · Unit 7",
+   "words": 6108,
+   "read_min": 34,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Advanced Techniques: VUI and NLP-based UI",
+   "area": "BCA 155 · UX/UI Design · Unit 8",
+   "words": 6505,
+   "read_min": 36,
+   "figures": 11,
+   "has_questions": true
+  }
+ ]
+}

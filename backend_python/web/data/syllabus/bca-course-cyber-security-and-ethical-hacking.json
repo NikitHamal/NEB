@@ -1,0 +1,418 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "cyber-security-and-ethical-hacking",
+ "name": "Cyber Security and Ethical Hacking",
+ "name_ne": "",
+ "icon": "security",
+ "group": "semester-7",
+ "group_label": "Semester VII",
+ "color": "#7F1D1D",
+ "lang": "en",
+ "code": "BCA 401",
+ "credits": 3,
+ "semester": 7,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundations, the CIA Triad, Threat Modelling and CVSS Scoring",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Vocabulary",
+    "The CIA triad and beyond",
+    "Defence in depth and principles",
+    "Threat modelling",
+    "Rating and ranking risk",
+    "CVSS v3.1: scoring a known vulnerability",
+    "Seeing the ideas: real hardware, the triad, STRIDE and the risk matrix",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Vocabulary"
+    },
+    {
+     "no": "1.2",
+     "title": "The CIA triad and beyond"
+    },
+    {
+     "no": "1.3",
+     "title": "Defence in depth and principles"
+    },
+    {
+     "no": "1.4",
+     "title": "Threat modelling"
+    },
+    {
+     "no": "1.5",
+     "title": "Rating and ranking risk"
+    },
+    {
+     "no": "1.6",
+     "title": "CVSS v3.1: scoring a known vulnerability"
+    },
+    {
+     "no": "1.7",
+     "title": "Seeing the ideas: real hardware, the triad, STRIDE and the risk matrix"
+    },
+    {
+     "no": "1.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2654,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Network Protocol Analysis, TCP Flag Math and Asset Discovery Governance",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Layers and what each reveals",
+    "The TCP header (RFC 793)",
+    "Handshake and sequence arithmetic",
+    "Classifying flag combinations",
+    "Service inventory",
+    "Governance of discovery",
+    "Seeing the ideas: perimeter hardware, the TCP header, the handshake and the flag byte",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Layers and what each reveals"
+    },
+    {
+     "no": "2.2",
+     "title": "The TCP header (RFC 793)"
+    },
+    {
+     "no": "2.3",
+     "title": "Handshake and sequence arithmetic"
+    },
+    {
+     "no": "2.4",
+     "title": "Classifying flag combinations"
+    },
+    {
+     "no": "2.5",
+     "title": "Service inventory"
+    },
+    {
+     "no": "2.6",
+     "title": "Governance of discovery"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the ideas: perimeter hardware, the TCP header, the handshake and the flag byte"
+    },
+    {
+     "no": "2.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2604,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Authentication, Entropy, Key Derivation and Access Control Models",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Authentication factors",
+    "Entropy of a secret",
+    "Work factors and key derivation",
+    "Access control models",
+    "Practical guidance",
+    "Seeing the ideas: factors in hardware, entropy bars and access models",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Authentication factors"
+    },
+    {
+     "no": "3.2",
+     "title": "Entropy of a secret"
+    },
+    {
+     "no": "3.3",
+     "title": "Work factors and key derivation"
+    },
+    {
+     "no": "3.4",
+     "title": "Access control models"
+    },
+    {
+     "no": "3.5",
+     "title": "Practical guidance"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing the ideas: factors in hardware, entropy bars and access models"
+    },
+    {
+     "no": "3.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2662,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Secure Application Engineering",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Secure development lifecycle",
+    "Validate input, encode output",
+    "Parameterised queries",
+    "Content Security Policy",
+    "Cookies, sessions and CSRF",
+    "Further hardening",
+    "Seeing the ideas: the secure lifecycle, safe queries, cookie flags and the validate-encode pipeline",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Secure development lifecycle"
+    },
+    {
+     "no": "4.2",
+     "title": "Validate input, encode output"
+    },
+    {
+     "no": "4.3",
+     "title": "Parameterised queries"
+    },
+    {
+     "no": "4.4",
+     "title": "Content Security Policy"
+    },
+    {
+     "no": "4.5",
+     "title": "Cookies, sessions and CSRF"
+    },
+    {
+     "no": "4.6",
+     "title": "Further hardening"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: the secure lifecycle, safe queries, cookie flags and the validate-encode pipeline"
+    },
+    {
+     "no": "4.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2561,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Network Defence Architecture, DNSSEC, Wi-Fi Keys, Rate Limiting and ACLs",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Architecture of a defended network",
+    "DNS and DNSSEC",
+    "Wi-Fi security: WPA2 and WPA3",
+    "Rate limiting with a token bucket",
+    "First-match ACLs and shadowing",
+    "Operating the controls",
+    "Seeing the ideas: network hardware, zones, the DNSSEC chain, Wi-Fi keys and the token bucket",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Architecture of a defended network"
+    },
+    {
+     "no": "5.2",
+     "title": "DNS and DNSSEC"
+    },
+    {
+     "no": "5.3",
+     "title": "Wi-Fi security: WPA2 and WPA3"
+    },
+    {
+     "no": "5.4",
+     "title": "Rate limiting with a token bucket"
+    },
+    {
+     "no": "5.5",
+     "title": "First-match ACLs and shadowing"
+    },
+    {
+     "no": "5.6",
+     "title": "Operating the controls"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: network hardware, zones, the DNSSEC chain, Wi-Fi keys and the token bucket"
+    },
+    {
+     "no": "5.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2846,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Intrusion Detection, Alert Statistics, Incident Response and Digital Forensics",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Detection systems",
+    "The confusion matrix",
+    "The base-rate fallacy",
+    "Incident response lifecycle",
+    "Digital forensics",
+    "Seeing the ideas: forensic hardware, sensor placement, the confusion matrix, the incident cycle and the custody chain",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Detection systems"
+    },
+    {
+     "no": "6.2",
+     "title": "The confusion matrix"
+    },
+    {
+     "no": "6.3",
+     "title": "The base-rate fallacy"
+    },
+    {
+     "no": "6.4",
+     "title": "Incident response lifecycle"
+    },
+    {
+     "no": "6.5",
+     "title": "Digital forensics"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: forensic hardware, sensor placement, the confusion matrix, the incident cycle and the custody chain"
+    },
+    {
+     "no": "6.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2608,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Security Audits, Penetration Testing Rules of Engagement and Nepal Cyber Law",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Audits, assessments and tests",
+    "The audit process",
+    "Quantifying risk",
+    "Penetration testing: rules of engagement",
+    "Nepal's legal framework",
+    "Seeing the ideas: places under audit, the audit cycle, ALE, the test with its ROE gate and the penalty chart",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Audits, assessments and tests"
+    },
+    {
+     "no": "7.2",
+     "title": "The audit process"
+    },
+    {
+     "no": "7.3",
+     "title": "Quantifying risk"
+    },
+    {
+     "no": "7.4",
+     "title": "Penetration testing: rules of engagement"
+    },
+    {
+     "no": "7.5",
+     "title": "Nepal's legal framework"
+    },
+    {
+     "no": "7.6",
+     "title": "Seeing the ideas: places under audit, the audit cycle, ALE, the test with its ROE gate and the penalty chart"
+    },
+    {
+     "no": "7.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2894,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 53,
+ "notes_ready": 7
+}

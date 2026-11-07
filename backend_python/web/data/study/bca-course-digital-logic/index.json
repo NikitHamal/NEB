@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-1-digital-logic",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction: Digital Signals, Logic Levels and the Clock",
+   "area": "BCA 103 · Digital Logic · Unit 1",
+   "words": 2830,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Number Systems, Binary Arithmetic and Codes",
+   "area": "BCA 103 · Digital Logic · Unit 2",
+   "words": 4446,
+   "read_min": 25,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Combinational Logic Design: Gates, Boolean Algebra, K-Maps and Standard Circuits",
+   "area": "BCA 103 · Digital Logic · Unit 3",
+   "words": 3691,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Flip-Flops, Counters and Registers",
+   "area": "BCA 103 · Digital Logic · Unit 4",
+   "words": 4735,
+   "read_min": 26,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Sequential Logic Design: State Machines",
+   "area": "BCA 103 · Digital Logic · Unit 5",
+   "words": 3295,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

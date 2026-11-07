@@ -23,9 +23,47 @@ Calculus is 6–8 of the 50 questions, shared between this chapter and the next.
 - At infinity divide by the highest power: $\lim_{x\to\infty}\frac{3x^2+2x}{x^2+5}=3$.
 - A limit exists only if the left and right limits agree: $\frac{|\sin x|}{x}$ tends to $-1$ from the left and $+1$ from the right, so it does not exist.
 
+```svgfig label="12.1" caption="Limits as the value a function approaches. (a) sin x / x is undefined at x = 0 but approaches 1: at x = 0.1 it is 0.99833 and at x = 0.01 it is 0.99998 (x in radians). (b) (x^2 - 9)/(x - 3) equals x + 3 for every x except 3, so the graph is the line y = x + 3 with a hole at (3, 6); the limit at 3 is 6 even though the function has no value there. Making f(3) = 6 repairs the hole."
+import math
+sinc = lambda x: math.sin(x) / x
+assert round(sinc(0.1), 5) == 0.99833 and round(sinc(0.01), 5) == 0.99998 and abs(sinc(1e-6) - 1) < 1e-9
+g = lambda x: (x * x - 9) / (x - 3)
+assert all(abs(g(x) - (x + 3)) < 1e-9 for x in (2.9, 2.99, 3.01, 3.1)) and round(g(2.999), 3) == 5.999
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 330, 250, (-10, 10), (-0.4, 1.2))
+ax.grid(5, 0.4, size=10); ax.axes("x", "y")
+ax.curve(lambda x: sinc(x) if abs(x) > 1e-9 else 1, -10, 10, color=NAVY, sw=2.4, n=400)
+ax.pt(0, 1, "", r=4.5, color=RED, hollow=True); f.text(ax.X(0) + 10, ax.Y(1) - 8, "limit 1 at x = 0", size=10.5, color=RED, bold=True, anchor="start")
+f.text(190, 296, "y = sin x / x  (no value at 0, limit 1)", size=10.5, color=NAVY, bold=True)
+ax2 = Axes(f, 400, 20, 250, 250, (-1, 7), (0, 10))
+ax2.grid(1, 2, size=10); ax2.axes("x", "y")
+ax2.curve(lambda x: x + 3, -1, 7, color=TEAL, sw=2.4); ax2.pt(3, 6, "hole (3, 6)", r=5, color=RED, dx=10, dy=18, hollow=True)
+f.text(525, 296, "y = (x^2 - 9)/(x - 3) = x + 3, limit 6 at x = 3", size=10, color=TEAL, bold=True)
+f.text(715, 60, "Standard", size=10.5, color=NAVY, bold=True); f.text(715, 80, "limits", size=10.5, color=NAVY, bold=True)
+for j, t in enumerate(["sin x / x -> 1", "(e^x - 1)/x -> 1", "(1 - cos x)/x^2 -> 1/2", "(x^n - a^n)/(x - a) -> n a^(n-1)", "(1 + 1/x)^x -> e"]):
+    f.text(668, 110 + j * 26, t, size=9.5, color=SLATE, anchor="start")
+```
+
 ## 12.2 Continuity
 
 $f$ is continuous at $a$ if $\lim_{x\to a}f(x)=f(a)$. To make $f(x)=\frac{x^2-9}{x-3}$ continuous at 3, define $f(3)=6$ (the limit).
+
+```svgfig label="12.2" caption="The derivative is the limit of secant slopes. For f(x) = x^2 at x = 1, the secant slope from x = 1 to 1 + h is 2 + h: 3 for h = 1, 2.1 for h = 0.1 and 2.01 for h = 0.01, closing in on f'(1) = 2. The tangent there is y - 1 = 2(x - 1), i.e. y = 2x - 1. The graph shows the parabola, the secant for h = 1 and the tangent."
+fn = lambda x: x * x
+sec = lambda h: (fn(1 + h) - fn(1)) / h
+assert [round(sec(h), 6) for h in (1, 0.1, 0.01)] == [3.0, 2.1, 2.01] and abs(sec(1e-7) - 2) < 1e-6
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 330, 270, (-1, 3.5), (-1, 9))
+ax.grid(1, 1, size=10); ax.axes("x", "y")
+ax.curve(fn, -1, 3, color=NAVY, sw=2.5); ax.curve(lambda x: 3 * x - 2, -0.5, 3.2, color=AMBER, sw=1.8, dash=True); ax.curve(lambda x: 2 * x - 1, -0.5, 3.2, color=RED, sw=2.4)
+ax.pt(1, 1, "(1, 1)", r=5, color=RED, dx=10, dy=18); ax.pt(2, 4, "(2, 4)", r=4, color=AMBER, dx=-8, dy=-8, anchor="end")
+f.text(ax.X(-0.9), ax.Y(8.2), "y = x^2", size=11, color=NAVY, bold=True, anchor="start"); f.text(ax.X(2.3), ax.Y(2.3), "tangent y = 2x - 1", size=10.5, color=RED, bold=True, anchor="start"); f.text(ax.X(0.2), ax.Y(5), "secant (h = 1), slope 3", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(570, 30, "Secant slopes at x = 1", size=11.5, color=NAVY, bold=True)
+for j, h in enumerate([1, 0.5, 0.1, 0.01, 0.001]):
+    f.box(430, 48 + j * 34, 300, 28, "h = %g:  slope = %g" % (h, round(sec(h), 4)), fill=(SOFT if j % 2 else BLUE), stroke="#cbd5e1", size=11, bold=True, color=NAVY, r=3)
+f.text(580, 240, "limit: f'(1) = 2 (h goes to 0)", size=11.5, color=RED, bold=True)
+f.text(580, 266, "f'(x) = lim [f(x+h) - f(x)] / h", size=10.5, color=SLATE)
+```
 
 ## 12.3 Derivatives, rules and standard results
 
@@ -38,6 +76,70 @@ $f$ is continuous at $a$ if $\lim_{x\to a}f(x)=f(a)$. To make $f(x)=\frac{x^2-9}
 | $\sqrt{x}$ | $\frac{1}{2\sqrt{x}}$ | $\frac{1}{x}$ | $-\frac{1}{x^2}$ |
 
 Product: $(uv)'=u'v+uv'$. Quotient: $\left(\frac{u}{v}\right)'=\frac{u'v-uv'}{v^2}$. Chain: $\frac{d}{dx}f(g(x))=f'(g(x))g'(x)$. Example: $\frac{d}{dx}(x^2\cos x)=2x\cos x-x^2\sin x$.
+
+```photogrid label="12.1" cols="3" ratio="1.0" caption="Calculus, invented twice. (a) Gottfried Wilhelm Leibniz (1646-1716), who gave us the notation dy/dx and the integral sign. (b) Sir Isaac Newton (1642-1727, portrait of 1689), who developed the same ideas as fluxions. (c) A speedometer: the dial shows the derivative of distance with respect to time."
+@ photo id="bcamath/leibniz" cap="Leibniz: the notation dy/dx"
+focus 0.5 0.3
+@ photo id="bcamath/newton" cap="Newton: fluxions"
+focus 0.5 0.3
+@ photo id="bca104/speedo" cap="Speedometer: rate of change of distance"
+focus 0.5 0.5
+```
+
+```svgfig label="12.3" caption="A function and its derivative together. f(x) = x^3 - 3x has f'(x) = 3x^2 - 3 = 0 at x = -1 and 1. f''(x) = 6x gives f''(-1) = -6 < 0 (a maximum, f = 2) and f''(1) = 6 > 0 (a minimum, f = -2). Where f' is positive f rises; where f' is negative f falls, and the turning points of f are the zeros of f'."
+fn = lambda x: x ** 3 - 3 * x; d1 = lambda x: 3 * x * x - 3; d2 = lambda x: 6 * x
+assert [d1(-1), d1(1)] == [0, 0] and (fn(-1), fn(1)) == (2, -2) and d2(-1) == -6 and d2(1) == 6
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 350, 270, (-2.5, 2.5), (-4, 6))
+ax.grid(1, 2, size=10); ax.axes("x", "y")
+ax.curve(fn, -2.3, 2.3, color=NAVY, sw=2.6); ax.curve(d1, -2.3, 2.3, color=TEAL, sw=2.2, dash=True)
+ax.pt(-1, 2, "max (-1, 2)", r=5, color=RED, dx=-8, dy=-10, anchor="end"); ax.pt(1, -2, "min (1, -2)", r=5, color=RED, dx=8, dy=20)
+f.text(ax.X(1.9), ax.Y(2.4), "f", size=12, color=NAVY, bold=True); f.text(ax.X(-1.8), ax.Y(5), "f' (dashed)", size=11, color=TEAL, bold=True, anchor="start")
+f.text(600, 30, "Test for turning points", size=11.5, color=NAVY, bold=True)
+for j, (t, c) in enumerate([("f(x) = x^3 - 3x", NAVY), ("f'(x) = 3x^2 - 3 = 0  gives  x = -1, 1", SLATE), ("f''(x) = 6x", SLATE), ("f''(-1) = -6 < 0: MAXIMUM, f = 2", RED), ("f''(1) = 6 > 0: MINIMUM, f = -2", RED), ("f' > 0: f increasing (x < -1, x > 1)", TEAL), ("f' < 0: f decreasing (-1 < x < 1)", TEAL), ("f' = 0 alone is not enough: y = x^3", SLATE)]):
+    f.text(420, 64 + j * 30, t, size=10.5, color=c, anchor="start", bold=(c in (NAVY, RED)))
+```
+
+```svgfig label="12.4" caption="Optimisation and related rates, computed. (a) A rectangle of perimeter 40 has area A = x(20 - x); A' = 20 - 2x = 0 at x = 10, so the maximum area is 100 (a square). (b) A circular ripple with radius 5 cm growing at 2 cm/s: dA/dt = 2 pi r dr/dt = 2 pi x 5 x 2 = 62.83 cm2/s. A balloon of radius 3 cm growing at 0.5 cm/s: dV/dt = 4 pi r^2 dr/dt = 18 pi = 56.55 cm3/s."
+import math
+A = lambda x: x * (20 - x); assert max(A(x / 10) for x in range(0, 201)) == 100 and A(10) == 100
+dA = 2 * math.pi * 5 * 2; dV = 4 * math.pi * 9 * 0.5; assert round(dA, 2) == 62.83 and round(dV, 2) == 56.55 and round(dV, 2) == round(18 * math.pi, 2)
+f = Fig(780, 320)
+ax = Axes(f, 30, 20, 330, 250, (0, 20), (0, 110))
+ax.grid(5, 20, size=10); ax.axes("x", "A")
+ax.curve(A, 0, 20, color=NAVY, sw=2.6); ax.pt(10, 100, "max: x = 10, A = 100", r=5, color=RED, dx=-10, dy=-12, anchor="middle")
+f.text(190, 296, "A = x(20 - x), perimeter 2(x + 20 - x) = 40", size=10.5, color=NAVY, bold=True)
+f.text(560, 30, "Related rates (chain rule)", size=11.5, color=NAVY, bold=True)
+for j, (t, c) in enumerate([("ripple: A = pi r^2", NAVY), ("dA/dt = 2 pi r dr/dt", SLATE), ("r = 5, dr/dt = 2:  dA/dt = 20 pi", SLATE), ("= 62.83 cm2/s", RED), ("balloon: V = (4/3) pi r^3", NAVY), ("dV/dt = 4 pi r^2 dr/dt", SLATE), ("r = 3, dr/dt = 0.5:  dV/dt = 18 pi", SLATE), ("= 56.55 cm3/s", RED), ("two numbers with sum S: max product (S/2)^2", TEAL)]):
+    f.text(410, 64 + j * 27, t, size=10.5, color=c, anchor="start", bold=(c in (NAVY, RED)))
+```
+
+## 12.5 Eight traps in limits and differentiation
+
+Calculus questions in the entrance paper are mostly one-step rules, so the trap is almost always a missed rule or a value substituted too early. These eight traps cover the model questions on limits, derivatives and maxima.
+
+1. **Substitute first, and treat $\frac00$ as a signal.** If direct substitution gives a number, that number is the limit. If it gives $\frac00$, factor and cancel, rationalise or use a standard limit: $\frac{x^2-9}{x-3}=x+3$ so the limit at 3 is 6 (Fig 12.1). A limit describes where $f$ is heading, not what $f$ equals at the point.
+2. **Know the standard limits and their conditions.** $\lim_{x\to0}\frac{\sin x}{x}=1$ only for $x$ in radians and $x\to0$, and $\lim_{x\to0}\frac{\sin kx}{x}=k$. Also $\lim\frac{1-\cos x}{x^2}=\frac12$, $\lim\frac{e^x-1}{x}=1$ and $\lim_{x\to\infty}\left(1+\frac1x\right)^x=e$. A common slip is to say $\lim\frac{\sin x}{x}=1$ as $x\to\infty$, when it is 0.
+3. **At infinity, divide by the highest power.** For $\frac{3x^2+2x}{x^2+5}$ the limit is 3. If the numerator's degree is lower the limit is 0, and if it is higher the limit is infinite. Do not cancel the leading terms without dividing the whole expression.
+4. **Check both sides and the value for continuity.** A limit exists only if the left and right limits agree, so $\frac{|x|}{x}$ has no limit at 0. A function is continuous at $a$ when $f(a)$ exists, $\lim_{x\to a}f(x)$ exists and the two are equal. To repair $\frac{x^2-9}{x-3}$ define $f(3)=6$.
+5. **Apply the right rule, and the chain rule every time.** Product: $(uv)'=u'v+uv'$, quotient: $\frac{u'v-uv'}{v^2}$ with the order $u'v-uv'$, and chain: differentiate the outside, then multiply by the derivative of the inside. So $\frac{d}{dx}\sin2x=2\cos2x$, $\frac{d}{dx}a^x=a^x\ln a$ and $\frac{d}{dx}\tan x=\sec^2x$. The derivative of a constant is 0.
+6. **Tangent uses $f'(a)$; normal uses its negative reciprocal.** The tangent at $x=1$ on $y=x^2$ has slope 2 and equation $y=2x-1$ (Fig 12.2). The normal has slope $-\frac12$. Check that the tangent passes through the point of contact.
+7. **$f'=0$ finds candidates; $f''$ decides.** $f''<0$ means a maximum and $f''>0$ means a minimum (Fig 12.3). If $f''=0$ the test fails: $y=x^3$ has $f'(0)=0$ but no turning point. On a closed interval also compare the end-point values.
+8. **For rates, link the variables by the chain rule, and keep units.** $\frac{dA}{dt}=\frac{dA}{dr}\cdot\frac{dr}{dt}$, so a ripple of radius 5 cm growing at 2 cm/s has $\frac{dA}{dt}=62.83$ cm$^2$/s (Fig 12.4). Write the quantity to optimise in a single variable before differentiating. For two numbers with a fixed sum, the product is greatest when they are equal.
+
+### 12.5.1 Worked checks
+
+**Q. Evaluate $\lim_{x\to2}\frac{x^2-4}{x-2}$ and $\lim_{x\to0}\frac{\sin3x}{x}$.**
+
+**Answer.** Factor: $\frac{(x-2)(x+2)}{x-2}=x+2\to4$. For the second use $\lim\frac{\sin kx}{x}=k$, so the limit is 3. Both would give $\frac00$ if substituted straight in.
+
+**Q. Differentiate $y=x^2\cos x$ and find the tangent to $y=x^2$ at $x=1$.**
+
+**Answer.** Product rule: $y'=2x\cos x-x^2\sin x$. For the tangent, $f'(1)=2$ and $f(1)=1$, so $y-1=2(x-1)$, i.e. $y=2x-1$. This is the red line in Fig 12.2.
+
+**Q. Two positive numbers have sum 20. Find the greatest possible product.**
+
+**Answer.** Let the numbers be $x$ and $20-x$, so $P=20x-x^2$ and $P'=20-2x=0$ gives $x=10$. $P''=-2<0$, so this is a maximum, $P=10\times10=100$. Check: $9\times11=99<100$.
 
 ## 12.4 Tangents, maxima, minima and rates
 

@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-2-principles-of-management",
+ "units": [
+  {
+   "no": 1,
+   "title": "Organisations and Introduction to Management",
+   "area": "BCA 156 · Principles of Management · Unit 1",
+   "words": 3602,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Evolution of Management Thought and the Environment",
+   "area": "BCA 156 · Principles of Management · Unit 2",
+   "words": 3845,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Planning and Decision Making",
+   "area": "BCA 156 · Principles of Management · Unit 3",
+   "words": 4515,
+   "read_min": 25,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Organising",
+   "area": "BCA 156 · Principles of Management · Unit 4",
+   "words": 3903,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Leading: Leadership, Motivation and Communication",
+   "area": "BCA 156 · Principles of Management · Unit 5",
+   "words": 4314,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Controlling, Quality and the Global Context",
+   "area": "BCA 156 · Principles of Management · Unit 6",
+   "words": 4369,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

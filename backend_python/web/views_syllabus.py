@@ -22,7 +22,8 @@ def syllabus_hub_context(grade=None):
         "syllabus_current_grade": syllabus_data.normalize_grade(grade) or fallback,
         "syllabus_totals": syllabus_data.summary(),
         "syllabus_tracks": tracks,
-        "syllabus_track_names": _and_list([t.get("short", t["grade"]) for t in tracks]),
+        "syllabus_track_names": _and_list([t.get("short", t["grade"]) for t in tracks if t.get("kind") != "course"]),
+        "syllabus_has_course": any(t.get("kind") == "course" for t in tracks),
         # the hub promises timed model papers only once a track has its model-papers book
         "syllabus_track_papers": any(s.get("group") == "practice" for t in tracks for s in t.get("subjects", [])),
     }
@@ -34,8 +35,8 @@ def _and_list(items):
 
 
 def _unit_word(data):
-    """Entrance books call their units chapters, as their PDFs do."""
-    return "Unit" if data.get("kind", "school") == "school" else "Chapter"
+    """Entrance books call their units chapters, as their PDFs do; school and course books say unit."""
+    return "Chapter" if data.get("kind", "school") == "entrance" else "Unit"
 
 
 def crumb_pickers(data, study=None, kind=None, number=None):
@@ -142,8 +143,16 @@ def syllabus_subject(request, grade, subject):
     page_url = '%s/app/syllabus/%s/%s/' % (
         'https://nebians.consica.com.np', data["grade"], subject)
     school = data["kind"] == "school"
+    course = data["kind"] == "course"
     word = _unit_word(data)
-    if school:
+    if course:
+        weights = _area_weights(data["units"])
+        seo_title = "%s %s (%s) — TU BCA Notes, Worked Examples and Practice | NEBians" % (
+            data["code"], data["name"], data["group_label"])
+        seo_description = ("%s %s, %s of the Tribhuvan University BCA: all %d units of the syllabus with full notes, "
+                           "worked examples, summaries and practice questions with answers." % (
+                               data["code"], data["name"], data["group_label"], data["unit_count"]))
+    elif school:
         weights = _area_weights(data["units"])
         seo_title = "%s %s — Syllabus, Chapter Notes and Question Bank | NEBians" % (data["grade_label"], data["name"])
         seo_description = "%s %s: all %d units of the syllabus with full chapter notes, worked examples, practice questions with answers and a question bank in the board's pattern." % (
@@ -173,7 +182,7 @@ def syllabus_subject(request, grade, subject):
         syl_exam_head=exam_head,
         syl_exam_rows=exam_rows,
         syl_area_weights=weights,
-        syl_weight_unit="h" if school else "Qs",
+        syl_weight_unit="h" if (school or course) else "Qs",
         syl_unit_word=word,
         syl_read_min=sum(u.get("read_min", 0) for u in study["units"]),
         **crumb_pickers(data),
@@ -213,7 +222,11 @@ def _reader(request, grade, subject, doc, kind, number=None):
         "https://nebians.consica.com.np", data["grade"], subject, suffix)
     word = _unit_word(data)
     label = {"unit": "%s %s" % (word, number), "bank": "Question bank", "guide": "Exam guide"}[kind]
-    if data["kind"] == "school":
+    if data["kind"] == "course":
+        seo_title = "%s — %s %s Notes (TU BCA %s) | NEBians" % (title, data["code"], data["name"], data["group_label"])
+        seo_description = "%s %s, %s: %s. Full notes with worked examples, figures and practice questions with answers." % (
+            data["code"], data["name"], label, title)
+    elif data["kind"] == "school":
         seo_title = "%s — %s %s %s | NEBians" % (title, data["grade_label"], data["name"], "notes" if kind == "unit" else label.lower())
         seo_description = "%s %s, %s: %s. Full notes with worked examples, figures and practice questions with answers." % (
             data["grade_label"], data["name"], label, title)
@@ -307,7 +320,7 @@ def search_payload(q, grade=None, tracks=True):
     grade = syllabus_data.normalize_grade(grade)
     # a class search prefers the classes, an entrance search the entrance books; the selected
     # one first of all (the order among the classes themselves is as it always was)
-    kind = ("school" if syllabus_data.is_school(grade) else "entrance") if grade else None
+    kind = (syllabus_data.grade_entry(grade) or {}).get("kind", "school") if grade else None
     terms = [t for t in _fold(q).split() if t]
     hits = []
     if terms:

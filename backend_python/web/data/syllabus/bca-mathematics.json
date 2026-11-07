@@ -58,6 +58,10 @@
     {
      "no": "1.5",
      "title": "Averages and weighted averages"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight traps in arithmetic questions"
     }
    ],
    "summary": [
@@ -72,7 +76,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2897,
+    "words": 3577,
     "figures": 0,
     "examples": 2
    },
@@ -116,6 +120,10 @@
     {
      "no": "2.6",
      "title": "Area, perimeter and volume of plane and solid figures"
+    },
+    {
+     "no": "2.7",
+     "title": "Eight traps in profit, interest, work, speed and mixture questions"
     }
    ],
    "summary": [
@@ -130,7 +138,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2996,
+    "words": 3668,
     "figures": 0,
     "examples": 1
    },
@@ -159,6 +167,10 @@
     {
      "no": "3.3",
      "title": "Functions, domain, range, composite and inverse functions"
+    },
+    {
+     "no": "3.4",
+     "title": "Eight traps in sets, relations and functions"
     }
    ],
    "summary": [
@@ -172,7 +184,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1902,
+    "words": 2562,
     "figures": 0,
     "examples": 1
    },
@@ -211,6 +223,10 @@
     {
      "no": "4.5",
      "title": "Linear and simultaneous equations, inequalities, equation word problems"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight traps in indices, logarithms, polynomials and equations"
     }
    ],
    "summary": [
@@ -224,7 +240,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1667,
+    "words": 2252,
     "figures": 0,
     "examples": 0
    },
@@ -253,6 +269,10 @@
     {
      "no": "5.3",
      "title": "Special sums and mixed problems"
+    },
+    {
+     "no": "5.4",
+     "title": "Eight traps in sequences and series"
     }
    ],
    "summary": [
@@ -265,7 +285,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1667,
+    "words": 2196,
     "figures": 0,
     "examples": 1
    },
@@ -294,6 +314,10 @@
     {
      "no": "6.3",
      "title": "Adjoint, inverse and linear systems"
+    },
+    {
+     "no": "6.4",
+     "title": "Eight traps in matrices and determinants"
     }
    ],
    "summary": [
@@ -306,7 +330,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1779,
+    "words": 2254,
     "figures": 0,
     "examples": 0
    },
@@ -335,6 +359,10 @@
     {
      "no": "7.3",
      "title": "Mean, median, mode and dispersion"
+    },
+    {
+     "no": "7.4",
+     "title": "Eight traps in counting, probability and statistics"
     }
    ],
    "summary": [
@@ -346,7 +374,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1532,
+    "words": 2085,
     "figures": 0,
     "examples": 0
    },
@@ -380,6 +408,10 @@
     {
      "no": "8.4",
      "title": "Heights and distances, triangle properties"
+    },
+    {
+     "no": "8.5",
+     "title": "Eight traps in trigonometry"
     }
    ],
    "summary": [
@@ -391,7 +423,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1489,
+    "words": 1981,
     "figures": 0,
     "examples": 0
    },
@@ -420,6 +452,10 @@
     {
      "no": "9.3",
      "title": "Angle between lines, parallel and perpendicular lines, distance from a point"
+    },
+    {
+     "no": "9.4",
+     "title": "Eight traps in the straight line"
     }
    ],
    "summary": [
@@ -431,7 +467,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1537,
+    "words": 2048,
     "figures": 0,
     "examples": 0
    },
@@ -455,6 +491,10 @@
     {
      "no": "10.2",
      "title": "Parabola, ellipse and hyperbola in standard form"
+    },
+    {
+     "no": "10.3",
+     "title": "Eight traps in circles and conics"
     }
    ],
    "summary": [
@@ -466,7 +506,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1541,
+    "words": 2043,
     "figures": 0,
     "examples": 0
    },
@@ -490,6 +530,10 @@
     {
      "no": "11.2",
      "title": "Dot product, cross product and their applications"
+    },
+    {
+     "no": "11.3",
+     "title": "Eight traps in vectors"
     }
    ],
    "summary": [
@@ -501,7 +545,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1353,
+    "words": 1890,
     "figures": 0,
     "examples": 0
    },
@@ -533,6 +577,10 @@
      "title": "Derivatives, rules and standard results"
     },
     {
+     "no": "12.5",
+     "title": "Eight traps in limits and differentiation"
+    },
+    {
      "no": "12.4",
      "title": "Tangents, maxima, minima and rates"
     }
@@ -546,7 +594,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1456,
+    "words": 1971,
     "figures": 0,
     "examples": 0
    },
@@ -575,6 +623,10 @@
     {
      "no": "13.3",
      "title": "Definite integrals and area"
+    },
+    {
+     "no": "13.4",
+     "title": "Eight traps in integration"
     }
    ],
    "summary": [
@@ -586,7 +638,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1237,
+    "words": 1648,
     "figures": 0,
     "examples": 0
    },
@@ -620,6 +672,10 @@
     {
      "no": "14.4",
      "title": "Syllogisms and statement–conclusion"
+    },
+    {
+     "no": "14.5",
+     "title": "Eight traps in verbal reasoning"
     }
    ],
    "summary": [
@@ -631,7 +687,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2042,
+    "words": 2755,
     "figures": 0,
     "examples": 0
    },
@@ -665,6 +721,10 @@
     {
      "no": "15.4",
      "title": "Counting figures, dice and cubes"
+    },
+    {
+     "no": "15.5",
+     "title": "Eight traps in reasoning series and counting"
     }
    ],
    "summary": [
@@ -676,7 +736,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1800,
+    "words": 2455,
     "figures": 0,
     "examples": 0
    },

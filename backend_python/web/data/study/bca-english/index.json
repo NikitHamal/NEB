@@ -1,0 +1,68 @@
+{
+ "book": "bca-eng",
+ "units": [
+  {
+   "no": 1,
+   "title": "Synonyms, Antonyms and One-Word Substitution",
+   "area": "Vocabulary",
+   "words": 2039,
+   "read_min": 11,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Idioms, Phrasal Verbs and Prepositions",
+   "area": "Vocabulary",
+   "words": 2051,
+   "read_min": 11,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Articles, Tenses and Subject-Verb Agreement",
+   "area": "Grammar",
+   "words": 2176,
+   "read_min": 12,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Voice, Narration and Question Tags",
+   "area": "Grammar",
+   "words": 2437,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Clauses, Conditionals and Verb Patterns",
+   "area": "Grammar",
+   "words": 2016,
+   "read_min": 11,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Pronouns, Determiners, Modals, Comparison and Error Spotting",
+   "area": "Grammar",
+   "words": 2188,
+   "read_min": 12,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Reading Comprehension",
+   "area": "Reading",
+   "words": 2572,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

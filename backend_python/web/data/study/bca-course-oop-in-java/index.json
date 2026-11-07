@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-2-oop-in-java",
+ "units": [
+  {
+   "no": 1,
+   "title": "Object-Oriented Concepts and Java Fundamentals",
+   "area": "BCA 153 · OOP in Java · Unit 1",
+   "words": 2738,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Classes, Objects, Constructors and Encapsulation",
+   "area": "BCA 153 · OOP in Java · Unit 2",
+   "words": 3246,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Inheritance, Polymorphism, Abstract Classes and Interfaces",
+   "area": "BCA 153 · OOP in Java · Unit 3",
+   "words": 2927,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Exception Handling, Strings and Wrapper Classes",
+   "area": "BCA 153 · OOP in Java · Unit 4",
+   "words": 2770,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Generics, Collections, Lambdas, Streams and File I/O",
+   "area": "BCA 153 · OOP in Java · Unit 5",
+   "words": 3010,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Multithreading, GUI Event Handling and Database Access",
+   "area": "BCA 153 · OOP in Java · Unit 6",
+   "words": 2959,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

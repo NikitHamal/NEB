@@ -1,0 +1,502 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "computer-networking",
+ "name": "Computer Networking",
+ "name_ne": "",
+ "icon": "lan",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#0E7490",
+ "lang": "en",
+ "code": "BCA 301",
+ "credits": 3,
+ "semester": 5,
+ "hours": 46,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Computer Networks",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "What a network is",
+    "Types of networks",
+    "Topologies",
+    "Network devices",
+    "Layered architecture and protocol stacks",
+    "The OSI reference model",
+    "The TCP/IP model",
+    "Performance: bandwidth, delay and throughput",
+    "Standards and organisations",
+    "Seeing the ideas: networks, topologies, layers and delay"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What a network is"
+    },
+    {
+     "no": "1.2",
+     "title": "Types of networks"
+    },
+    {
+     "no": "1.3",
+     "title": "Topologies"
+    },
+    {
+     "no": "1.4",
+     "title": "Network devices"
+    },
+    {
+     "no": "1.5",
+     "title": "Layered architecture and protocol stacks"
+    },
+    {
+     "no": "1.6",
+     "title": "The OSI reference model"
+    },
+    {
+     "no": "1.7",
+     "title": "The TCP/IP model"
+    },
+    {
+     "no": "1.8",
+     "title": "Performance: bandwidth, delay and throughput"
+    },
+    {
+     "no": "1.9",
+     "title": "Standards and organisations"
+    },
+    {
+     "no": "1.10",
+     "title": "Seeing the ideas: networks, topologies, layers and delay"
+    }
+   ],
+   "summary": [
+    "A network moves data between hosts using agreed protocols, addresses and media. LAN, MAN and WAN differ by span; the Internet is a network of networks.",
+    "Topology affects cost and reliability; today's LANs are physical stars built around switches.",
+    "Layering divides the work: each layer serves the one above and talks to its peer. OSI has seven layers, TCP/IP four.",
+    "Data is encapsulated on the way down and decapsulated on the way up; headers are overhead.",
+    "Latency = transmission + propagation + queuing + processing; BDP tells how much data fills the pipe."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5415,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "The Physical Layer",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Functions of the physical layer",
+    "Data and signals",
+    "Data rate limits",
+    "Line coding and digital signalling",
+    "Transmission media",
+    "Multiplexing",
+    "Switching",
+    "Telephone, cable and mobile data networks",
+    "Seeing the ideas: signals, media, multiplexing and switching"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Functions of the physical layer"
+    },
+    {
+     "no": "2.2",
+     "title": "Data and signals"
+    },
+    {
+     "no": "2.3",
+     "title": "Data rate limits"
+    },
+    {
+     "no": "2.4",
+     "title": "Line coding and digital signalling"
+    },
+    {
+     "no": "2.5",
+     "title": "Transmission media"
+    },
+    {
+     "no": "2.6",
+     "title": "Multiplexing"
+    },
+    {
+     "no": "2.7",
+     "title": "Switching"
+    },
+    {
+     "no": "2.8",
+     "title": "Telephone, cable and mobile data networks"
+    },
+    {
+     "no": "2.9",
+     "title": "Seeing the ideas: signals, media, multiplexing and switching"
+    }
+   ],
+   "summary": [
+    "The physical layer moves raw bits as signals. Impairments are attenuation, distortion and noise.",
+    "Nyquist limits a noiseless channel by bandwidth and levels; Shannon limits a noisy one by bandwidth and SNR.",
+    "Line codes trade bandwidth against clock recovery: Manchester is self-clocking, NRZI and AMI are simpler.",
+    "Fibre outperforms copper in bandwidth, distance and noise immunity; UTP dominates the last 100 m.",
+    "Multiplexing shares a link by frequency, time or wavelength; switching shares a network by circuits or packets, and bursty data favours packets."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5811,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "The Data Link Layer and LANs",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Services of the data link layer",
+    "Framing",
+    "Error detection",
+    "Error correction: Hamming codes",
+    "Flow control and error control",
+    "HDLC and PPP",
+    "Multiple access protocols",
+    "Ethernet",
+    "Wireless LAN (IEEE 802.11)",
+    "Seeing the ideas: frames, checks, windows and shared media"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Services of the data link layer"
+    },
+    {
+     "no": "3.2",
+     "title": "Framing"
+    },
+    {
+     "no": "3.3",
+     "title": "Error detection"
+    },
+    {
+     "no": "3.4",
+     "title": "Error correction: Hamming codes"
+    },
+    {
+     "no": "3.5",
+     "title": "Flow control and error control"
+    },
+    {
+     "no": "3.6",
+     "title": "HDLC and PPP"
+    },
+    {
+     "no": "3.7",
+     "title": "Multiple access protocols"
+    },
+    {
+     "no": "3.8",
+     "title": "Ethernet"
+    },
+    {
+     "no": "3.9",
+     "title": "Wireless LAN (IEEE 802.11)"
+    },
+    {
+     "no": "3.10",
+     "title": "Seeing the ideas: frames, checks, windows and shared media"
+    }
+   ],
+   "summary": [
+    "The data link layer frames the bit stream, detects (and may correct) errors, controls flow and arbitrates access to shared media.",
+    "Bit stuffing (HDLC) and byte stuffing (PPP) keep flags out of data. Parity is weak, the Internet checksum is cheap, CRC is strong against bursts.",
+    "Hamming codes place parity bits at powers of two; the syndrome points at the faulty bit.",
+    "Sliding-window protocols keep the pipe full; Go-Back-N is simple, Selective Repeat is efficient.",
+    "Random access (ALOHA, CSMA/CD, CSMA/CA) trades collisions for simplicity; switched Ethernet has replaced shared Ethernet, and Wi-Fi uses collision avoidance."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7230,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "The Network Layer: Addressing and Routing",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Network layer services",
+    "The IPv4 datagram",
+    "IPv4 addressing",
+    "Subnetting, VLSM and supernetting",
+    "Supporting protocols",
+    "IPv6",
+    "Routing: concepts",
+    "Seeing the ideas: addresses, routes and the boxes that follow them"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Network layer services"
+    },
+    {
+     "no": "4.2",
+     "title": "The IPv4 datagram"
+    },
+    {
+     "no": "4.3",
+     "title": "IPv4 addressing"
+    },
+    {
+     "no": "4.4",
+     "title": "Subnetting, VLSM and supernetting"
+    },
+    {
+     "no": "4.5",
+     "title": "Supporting protocols"
+    },
+    {
+     "no": "4.6",
+     "title": "IPv6"
+    },
+    {
+     "no": "4.7",
+     "title": "Routing: concepts"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing the ideas: addresses, routes and the boxes that follow them"
+    }
+   ],
+   "summary": [
+    "IP is a best-effort, connectionless service; routers forward by longest-prefix match on the destination address and split oversize datagrams into fragments.",
+    "CIDR, subnetting, VLSM and aggregation allow addresses to be allocated and summarised flexibly; ARP, ICMP, DHCP and NAT make IPv4 usable; IPv6 restores the address space.",
+    "Link-state routing (Dijkstra) gives every router the same map; distance-vector routing (Bellman–Ford) shares tables with neighbours and risks count-to-infinity.",
+    "OSPF and RIP route inside an AS, BGP between ASes."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7313,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "The Transport Layer",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Functions of the transport layer",
+    "UDP",
+    "Principles of reliable data transfer",
+    "TCP services and the segment",
+    "Flow control",
+    "Error control and timers",
+    "Congestion control",
+    "Elements of transport protocols",
+    "Sockets in practice",
+    "Seeing the ideas: ports, segments, windows and congestion"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Functions of the transport layer"
+    },
+    {
+     "no": "5.2",
+     "title": "UDP"
+    },
+    {
+     "no": "5.3",
+     "title": "Principles of reliable data transfer"
+    },
+    {
+     "no": "5.4",
+     "title": "TCP services and the segment"
+    },
+    {
+     "no": "5.5",
+     "title": "Flow control"
+    },
+    {
+     "no": "5.6",
+     "title": "Error control and timers"
+    },
+    {
+     "no": "5.7",
+     "title": "Congestion control"
+    },
+    {
+     "no": "5.8",
+     "title": "Elements of transport protocols"
+    },
+    {
+     "no": "5.9",
+     "title": "Sockets in practice"
+    },
+    {
+     "no": "5.10",
+     "title": "Seeing the ideas: ports, segments, windows and congestion"
+    }
+   ],
+   "summary": [
+    "The transport layer gives process-to-process delivery with ports. UDP is a thin, fast, unreliable service; TCP is a reliable byte stream.",
+    "TCP sets up with a three-way handshake, numbers bytes, acknowledges cumulatively, retransmits on timeout or three duplicate ACKs and tears down with FINs.",
+    "Flow control uses the receiver's window; congestion control uses cwnd with slow start, additive increase and multiplicative decrease.",
+    "Throughput is bounded by window / RTT, which is why high-speed long-delay paths need window scaling."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5859,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "The Application Layer",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "Functions and architectures",
+    "The Domain Name System",
+    "DHCP and the bootstrap sequence",
+    "The World Wide Web and HTTP",
+    "Remote login and file transfer",
+    "Electronic mail",
+    "Network management and analysis tools",
+    "Peer-to-peer and content delivery",
+    "Seeing the ideas: names, pages, mail, transfers and monitors"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Functions and architectures"
+    },
+    {
+     "no": "6.2",
+     "title": "The Domain Name System"
+    },
+    {
+     "no": "6.3",
+     "title": "DHCP and the bootstrap sequence"
+    },
+    {
+     "no": "6.4",
+     "title": "The World Wide Web and HTTP"
+    },
+    {
+     "no": "6.5",
+     "title": "Remote login and file transfer"
+    },
+    {
+     "no": "6.6",
+     "title": "Electronic mail"
+    },
+    {
+     "no": "6.7",
+     "title": "Network management and analysis tools"
+    },
+    {
+     "no": "6.8",
+     "title": "Peer-to-peer and content delivery"
+    },
+    {
+     "no": "6.9",
+     "title": "Seeing the ideas: names, pages, mail, transfers and monitors"
+    }
+   ],
+   "summary": [
+    "Application protocols are agreements over sockets: client–server or peer-to-peer, over TCP or UDP.",
+    "DNS maps names to addresses with a distributed hierarchy of servers, caching by TTL and typed records.",
+    "HTTP is a stateless text protocol; cookies add state, caching and persistent connections reduce load time; HTTPS adds TLS.",
+    "FTP separates control and data connections; SMTP pushes mail, POP3 and IMAP pull it; MIME carries binary content as Base64.",
+    "SNMP, MRTG, PRTG, Packet Tracer and Wireshark are the tools to monitor, simulate and analyse."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5882,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Network Security",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "Security goals and threats",
+    "Cryptography basics",
+    "Secure protocols",
+    "Firewalls and intrusion detection",
+    "Good practice",
+    "Seeing the ideas: ciphers, keys, hashes, handshakes and firewalls"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Security goals and threats"
+    },
+    {
+     "no": "7.2",
+     "title": "Cryptography basics"
+    },
+    {
+     "no": "7.3",
+     "title": "Secure protocols"
+    },
+    {
+     "no": "7.4",
+     "title": "Firewalls and intrusion detection"
+    },
+    {
+     "no": "7.5",
+     "title": "Good practice"
+    },
+    {
+     "no": "7.6",
+     "title": "Seeing the ideas: ciphers, keys, hashes, handshakes and firewalls"
+    }
+   ],
+   "summary": [
+    "Security aims at confidentiality, integrity, availability, authentication and non-repudiation; attacks are passive or active.",
+    "Symmetric ciphers (AES) are fast but need key distribution; public-key systems (RSA, Diffie–Hellman) solve distribution and give signatures; hashes provide integrity.",
+    "Certificates bind keys to names through CAs; TLS combines all of them to secure the web; IPsec and WPA2 do it at the IP and Wi-Fi layers.",
+    "Firewalls filter by policy, IDS/IPS detect and block attacks, and good practice (patching, least privilege, segmentation, MFA) matters more than any single device."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5617,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 62,
+ "notes_ready": 7
+}

@@ -1,0 +1,481 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "software-engineering",
+ "name": "Software Engineering",
+ "name_ne": "",
+ "icon": "engineering",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#BE123C",
+ "lang": "en",
+ "code": "BCA 252",
+ "credits": 3,
+ "semester": 4,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Software Engineering",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "What is software?",
+    "Attributes of good software",
+    "Software engineering defined",
+    "Software engineering costs",
+    "Key challenges",
+    "Professional practice and ethics",
+    "Software failures, real photographs and the cost of change"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is software?"
+    },
+    {
+     "no": "1.2",
+     "title": "Attributes of good software"
+    },
+    {
+     "no": "1.3",
+     "title": "Software engineering defined"
+    },
+    {
+     "no": "1.4",
+     "title": "Software engineering costs"
+    },
+    {
+     "no": "1.5",
+     "title": "Key challenges"
+    },
+    {
+     "no": "1.6",
+     "title": "Professional practice and ethics"
+    },
+    {
+     "no": "1.7",
+     "title": "Software failures, real photographs and the cost of change"
+    }
+   ],
+   "summary": [
+    "Software is more than code, and comes in system, application, embedded, web and AI forms; it can be generic or custom.",
+    "Good software is maintainable, dependable, efficient and acceptable.",
+    "Software engineering is a systematic engineering approach to the whole life cycle; it sits inside the broader field of system engineering.",
+    "Costs are dominated by maintenance and testing; major challenges are heterogeneity, change, security, scale and delivery time.",
+    "Professional practice demands competence, confidentiality and public-interest ethics."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2890,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Software Development Process Models",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Software processes",
+    "The waterfall model",
+    "Evolutionary development",
+    "Component-based software engineering (CBSE)",
+    "Process iteration: incremental delivery and spiral",
+    "Rapid software development",
+    "The Rational Unified Process (RUP)",
+    "Computer-aided software engineering (CASE)",
+    "Choosing a model",
+    "Pictures of the process models, and the people behind them"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Software processes"
+    },
+    {
+     "no": "2.2",
+     "title": "The waterfall model"
+    },
+    {
+     "no": "2.3",
+     "title": "Evolutionary development"
+    },
+    {
+     "no": "2.4",
+     "title": "Component-based software engineering (CBSE)"
+    },
+    {
+     "no": "2.5",
+     "title": "Process iteration: incremental delivery and spiral"
+    },
+    {
+     "no": "2.6",
+     "title": "Rapid software development"
+    },
+    {
+     "no": "2.7",
+     "title": "The Rational Unified Process (RUP)"
+    },
+    {
+     "no": "2.8",
+     "title": "Computer-aided software engineering (CASE)"
+    },
+    {
+     "no": "2.9",
+     "title": "Choosing a model"
+    },
+    {
+     "no": "2.10",
+     "title": "Pictures of the process models, and the people behind them"
+    }
+   ],
+   "summary": [
+    "All software processes contain specification, development, validation and evolution.",
+    "Plan-driven models (waterfall) suit stable requirements; iterative models (evolutionary, incremental, spiral, RUP) accommodate change; agile methods (Scrum, XP) and RAD give speed at the price of documentation.",
+    "CBSE builds from existing components; prototyping reduces requirement risk.",
+    "CASE tools support all phases but do not replace sound engineering."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3822,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Software Requirement Analysis and Specification",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "System and software requirements",
+    "Types of software requirements",
+    "Requirements engineering process",
+    "Elicitation and analysis",
+    "Requirements validation",
+    "Software requirements specification (SRS)",
+    "Feasibility study",
+    "Requirements in pictures: a lesson from the year 2000"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "System and software requirements"
+    },
+    {
+     "no": "3.2",
+     "title": "Types of software requirements"
+    },
+    {
+     "no": "3.3",
+     "title": "Requirements engineering process"
+    },
+    {
+     "no": "3.4",
+     "title": "Elicitation and analysis"
+    },
+    {
+     "no": "3.5",
+     "title": "Requirements validation"
+    },
+    {
+     "no": "3.6",
+     "title": "Software requirements specification (SRS)"
+    },
+    {
+     "no": "3.7",
+     "title": "Feasibility study"
+    },
+    {
+     "no": "3.8",
+     "title": "Requirements in pictures: a lesson from the year 2000"
+    }
+   ],
+   "summary": [
+    "Requirements are written at user and system levels and divided into functional, non-functional and domain requirements.",
+    "Elicitation uses viewpoints, interviews, scenarios, use cases and ethnography, followed by prioritisation and negotiation.",
+    "Validation uses reviews, prototypes and test-case writing to catch errors early.",
+    "The SRS records the agreed requirements in a standard structure; the feasibility study decides whether to proceed."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3786,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Software Design",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Design concepts",
+    "Architectural design",
+    "Procedural design with structured methods",
+    "User interface design",
+    "Design in pictures: people, patterns and diagrams"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Design concepts"
+    },
+    {
+     "no": "4.2",
+     "title": "Architectural design"
+    },
+    {
+     "no": "4.3",
+     "title": "Procedural design with structured methods"
+    },
+    {
+     "no": "4.4",
+     "title": "User interface design"
+    },
+    {
+     "no": "4.5",
+     "title": "Design in pictures: people, patterns and diagrams"
+    }
+   ],
+   "summary": [
+    "Design concepts (abstraction, modularity, information hiding, refinement, functional independence) aim at modules with high cohesion and low coupling.",
+    "Architectural styles organise the system: repository, client-server, layered, MVC; modules are decomposed by objects or functions.",
+    "Structured design maps DFDs to structure charts by transform or transaction analysis, with fan-in/fan-out metrics and pseudo-code for the detail.",
+    "UI design follows HCI principles; the choice of interaction style and presentation depends on users and tasks, and is validated by evaluation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3931,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Coding",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "Programming languages and development tools",
+    "Good programming practices",
+    "Code metrics",
+    "Coding in pictures: from punched cards to code review"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Programming languages and development tools"
+    },
+    {
+     "no": "5.2",
+     "title": "Good programming practices"
+    },
+    {
+     "no": "5.3",
+     "title": "Code metrics"
+    },
+    {
+     "no": "5.4",
+     "title": "Coding in pictures: from punched cards to code review"
+    }
+   ],
+   "summary": [
+    "Language and tool selection depends on problem, performance, team skill, platform, ecosystem and cost.",
+    "Good code follows a standard, uses clear names, is short and cohesive, handles errors, and is reviewed and tested.",
+    "LOC and Halstead measures describe size and effort but must be interpreted with care."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2504,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Software Testing and Quality Assurance",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Verification and validation",
+    "Black-box testing",
+    "White-box (structural) testing",
+    "Levels of testing",
+    "Design of test cases",
+    "Quality management",
+    "Testing in pictures: from the first bug to the V-model"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Verification and validation"
+    },
+    {
+     "no": "6.2",
+     "title": "Black-box testing"
+    },
+    {
+     "no": "6.3",
+     "title": "White-box (structural) testing"
+    },
+    {
+     "no": "6.4",
+     "title": "Levels of testing"
+    },
+    {
+     "no": "6.5",
+     "title": "Design of test cases"
+    },
+    {
+     "no": "6.6",
+     "title": "Quality management"
+    },
+    {
+     "no": "6.7",
+     "title": "Testing in pictures: from the first bug to the V-model"
+    }
+   ],
+   "summary": [
+    "Verification checks conformance to the specification; validation checks fitness for the user's needs. Inspections are the most cost-effective defect finders.",
+    "Black-box tests (equivalence classes, boundaries) come from the specification; white-box tests from the structure; cyclomatic complexity gives the minimum number of independent-path tests.",
+    "Testing proceeds from units to integration, system and acceptance (alpha, beta), with regression testing after every change.",
+    "Quality management combines product and process quality, measured by reliability numbers and improved through ISO 9001 and CMM maturity levels."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4014,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Software Maintenance",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "The evolving nature of software",
+    "Types of maintenance",
+    "Maintenance cost and its factors",
+    "Re-engineering and reverse engineering",
+    "Configuration management (CM)",
+    "Maintenance in pictures: old machines, new demands"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "The evolving nature of software"
+    },
+    {
+     "no": "7.2",
+     "title": "Types of maintenance"
+    },
+    {
+     "no": "7.3",
+     "title": "Maintenance cost and its factors"
+    },
+    {
+     "no": "7.4",
+     "title": "Re-engineering and reverse engineering"
+    },
+    {
+     "no": "7.5",
+     "title": "Configuration management (CM)"
+    },
+    {
+     "no": "7.6",
+     "title": "Maintenance in pictures: old machines, new demands"
+    }
+   ],
+   "summary": [
+    "Used software must evolve; ignoring evolution causes decay (Lehman's laws).",
+    "Maintenance is corrective, adaptive, perfective or preventive, with most effort spent on new or changed functionality, not on fixing faults.",
+    "Maintenance is costly, and effort can be estimated from annual change traffic; re-engineering or replacement is chosen by comparing value and cost.",
+    "Configuration management with baselines, versions and controlled change keeps releases reproducible and traceable."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3236,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Managing Software Projects",
+   "hours": 2,
+   "area": "",
+   "topics": [
+    "Management activities and the need for management",
+    "Project planning",
+    "Estimating cost and effort",
+    "Project scheduling",
+    "Risk management",
+    "Managing people",
+    "Project management in pictures: estimates, networks and earned value"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Management activities and the need for management"
+    },
+    {
+     "no": "8.2",
+     "title": "Project planning"
+    },
+    {
+     "no": "8.3",
+     "title": "Estimating cost and effort"
+    },
+    {
+     "no": "8.4",
+     "title": "Project scheduling"
+    },
+    {
+     "no": "8.5",
+     "title": "Risk management"
+    },
+    {
+     "no": "8.6",
+     "title": "Managing people"
+    },
+    {
+     "no": "8.7",
+     "title": "Project management in pictures: estimates, networks and earned value"
+    }
+   ],
+   "summary": [
+    "Software projects are hard to manage because the product is intangible, one-off and changing; management comprises planning, scheduling, costing, monitoring, people and risk.",
+    "COCOMO and function points give effort estimates from size or functionality; they are uncertain and should be re-run as knowledge grows.",
+    "CPM finds the critical path and slack; PERT turns three-point estimates into probabilities of meeting a deadline; EVM measures real progress with CPI and SPI and forecasts the final cost.",
+    "Risk is managed by ranking exposure; people and communication determine more projects than tools do."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5034,
+    "figures": 0,
+    "examples": 7
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 8,
+ "topic_count": 54,
+ "notes_ready": 8
+}

@@ -30,6 +30,161 @@ The reading section has four or five questions on one or two passages; the Dean'
 About 8 minutes for a 120-word passage with five questions: 2 minutes reading, 1 minute per question, and leave the hardest inference for last.
 :::
 
+## 7.2 One passage, annotated
+
+Passage 1 in Set A is about glaciers and rivers. Before you answer any question, split the passage into sentences and give each sentence a job: topic, detail, set-up, pivot or conclusion. The pictures below show the real places the passage talks about, and Fig 7.1 marks up the text.
+
+```photogrid label="7.1" cols="3" ratio="1.0" caption="The places in Passage 1. (a) The debris-covered Ngozumpa Glacier in the Khumbu region: the ice stores winter water. (b) The Kali Gandaki valley, where the Gandaki begins its run from the high Himalaya. (c) The Koshi River at the barrage, where the water reaches boatmen and farmers on the plains. Pictures help you hold the topic in mind: snow and ice, then rivers, then people (Fig 7.1)."
+@ photo id="bcaeng/glacier" cap="(a) glacier: stored ice"
+focus 0.4 0.5
+@ photo id="bcaeng/gandaki" cap="(b) river: slow release"
+focus 0.5 0.5
+@ photo id="bcaeng/barrage" cap="(c) plains: people downstream"
+focus 0.35 0.45
+```
+
+```svgfig label="7.1" caption="Passage 1 annotated. The cell splits the passage into its six sentences, counts the words (123 in all), finds the four proper names (Himalaya, Koshi, Gandaki, Karnali) and the signal words, and gives each sentence a job. The first sentence names the topic, the pivot sentence starts with But, and the last sentence (with therefore) states the main idea, which is why Question 1 is answered from the first and last sentences."
+import textwrap
+S = ["Nepal's rivers begin as snow and ice.",
+     "In the high Himalaya, glaciers store water in winter and release it slowly through the warm months, so that the Koshi, the Gandaki and the Karnali keep flowing long after the monsoon has ended.",
+     "Scientists who study these glaciers report that most of them are shrinking as the climate warms.",
+     "For a few decades the melt may even raise river flows, which can look like good news.",
+     "But a glacier that has thinned cannot be refilled quickly, and in the long run less ice means less water in the dry season.",
+     "Farmers in the hills and the plains therefore have a stake in what happens on the peaks, even if they have never seen a glacier."]
+roles = [("topic", NAVY, BLUE), ("detail + names", TEAL, MINT), ("detail: who says", TEAL, MINT),
+         ("set-up (hedge)", AMBER, SAND), ("pivot: But", RED, ROSE), ("conclusion =\nmain idea", NAVY, BLUE)]
+words = [len(s.split()) for s in S]
+assert len(S) == 6 and words == [7, 34, 16, 17, 24, 25] and sum(words) == 123
+names = []
+for s in S:
+    for k, w in enumerate(s.replace(",", "").replace(".", "").split()):
+        if w[0].isupper() and k > 0: names.append(w)
+assert names == ["Himalaya", "Koshi", "Gandaki", "Karnali"], names
+SIG = ("but", "therefore", "even", "may", "can", "most")
+rows = []
+for s in S:
+    lines = textwrap.wrap(s, 70)
+    rows.append((lines, max(38, 14 * len(lines) + 14)))
+H = 40 + sum(h + 6 for _, h in rows) + 54
+f = Fig(780, H)
+f.box(14, 6, 112, 24, "job", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+f.box(130, 6, 500, 24, "sentence", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+f.box(634, 6, 132, 24, "words, clues", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+y = 36
+for i, (lines, h) in enumerate(rows):
+    r, c, bg = roles[i]
+    f.box(14, y, 112, h, r, fill=bg, stroke=c, color=c, size=10.5, bold=True)
+    f.box(130, y, 500, h, "", fill=SOFT, stroke="#cbd5e1")
+    f.text(138, y + h / 2, "\n".join(lines), size=10.5, color=SLATE, anchor="start", vmid=True)
+    sig = [w for w in SIG if w in [x.strip(",.").lower() for x in S[i].split()]]
+    clue = str(words[i]) + " words" + ("\n" + ", ".join(sig) if sig else "")
+    f.box(634, y, 132, h, clue, fill=SOFT, stroke="#cbd5e1", color=NAVY, size=10.5)
+    y += h + 6
+f.box(14, y + 2, 752, 40, "", fill=BLUE, stroke=NAVY, r=5)
+f.text(28, y + 22, "Main idea = sentence 1 (topic) + sentence 6 (therefore): shrinking glaciers matter to farmers downstream.", size=10.5, color=NAVY, anchor="start", bold=True, vmid=True)
+```
+
+```svgfig label="7.2" caption="An 8-minute plan for one passage with five questions: 2 minutes reading, 1 minute for each question, 1 minute to check (2 + 5 + 1 = 8). Below it, the four options of Question 1 are filtered. The cell checks that beauty, climb and length never appear in the passage, and that the correct option (c) uses the word downstream, which is not in the passage either: a correct answer paraphrases, so do not hunt for the same words."
+P = ("Nepal's rivers begin as snow and ice. In the high Himalaya, glaciers store water in winter and release it slowly through the warm months, "
+     "so that the Koshi, the Gandaki and the Karnali keep flowing long after the monsoon has ended. Scientists who study these glaciers report that most of them are shrinking as the climate warms. "
+     "For a few decades the melt may even raise river flows, which can look like good news. But a glacier that has thinned cannot be refilled quickly, and in the long run less ice means less water in the dry season. "
+     "Farmers in the hills and the plains therefore have a stake in what happens on the peaks, even if they have never seen a glacier.").lower()
+plan = [("read\nquestions,\nthen passage", 2)] + [("Q%d" % k, 1) for k in range(1, 6)] + [("check", 1)]
+assert sum(m for _, m in plan) == 8
+for w in ("beauty", "climb", "length", "downstream"):
+    assert w not in P, w
+assert "glaciers" in P and "farmers" in P
+f = Fig(780, 330)
+f.text(390, 14, "8 minutes for 5 questions: hardest inference last", size=11.5, color=NAVY, bold=True)
+x = 20
+cols = [NAVY, TEAL, TEAL, TEAL, TEAL, TEAL, AMBER]
+for (lab, m), c in zip(plan, cols):
+    w = m * 92
+    f.box(x, 26, w - 4, 52, lab, fill=c, stroke=c, color="#ffffff", size=10.5, bold=True)
+    x += w
+f.text(20, 98, "0", size=10.5)
+f.text(204, 98, "2 min", size=10.5)
+f.text(756, 98, "8 min", size=10.5, anchor="end")
+f.text(390, 130, "Filter Question 1: The passage is mainly about ...", size=11.5, color=NAVY, bold=True)
+opts = [("(a) the beauty of\nHimalayan peaks", "off topic: beauty is\nnot in the text", ROSE, RED),
+        ("(b) how to climb\nglaciers", "off topic: climbing is\nnot in the text", ROSE, RED),
+        ("(c) why shrinking glaciers\nmatter to people downstream", "paraphrase of sentences\n1 and 6: CORRECT", MINT, TEAL),
+        ("(d) the length of\nNepal's rivers", "too narrow: length is\nnever stated", SAND, AMBER)]
+for i, (o, v, bg, c) in enumerate(opts):
+    x = 14 + i * 190
+    f.box(x, 144, 182, 64, o, fill=bg, stroke=c, color=SLATE, size=10.5, bold=(i == 2))
+    f.box(x, 214, 182, 54, v, fill=SOFT, stroke=c, color=c, size=10.5, bold=True)
+f.text(390, 296, "Too narrow (one detail), too broad (the whole subject) or off topic: reject. Keep the paraphrase.", size=10.5, color=SLATE)
+```
+
+## 7.3 Vocabulary in context and the extreme-word filter
+
+Two quick tests settle many questions. For a word in context, put each option into the sentence and keep the one that fits both grammar and meaning. For an inference or detail question, scan the options for extreme words such as *only*, *always*, *never* and *all*: if the passage does not say it, the option is probably wrong.
+
+```svgfig label="7.3" caption="Two tests. Top: the word stake in the last sentence, tried with each option; only interest gives a sentence that makes sense and fits therefore. Bottom: the extreme-word scan applied to Question 2 and Question 4 of Passage 1. The cell flags every option that contains only, always, never or all; all four flagged options are wrong and the unflagged answers (a) and (b) are correct. A flag is a warning, not a proof, so always check the text."
+import re
+tests = [("a pole", "Farmers have a pole in what happens on the peaks.", "no: farmers do not hold a pole", False),
+         ("a bet", "Farmers have a bet in what happens on the peaks.", "odd: you bet ON something", False),
+         ("an interest", "Farmers have an interest in what happens on the peaks.", "yes: a share in the outcome", True),
+         ("a danger", "Farmers have a danger in what happens on the peaks.", "no: breaks the sense", False)]
+assert [t[0] for t in tests if t[3]] == ["an interest"]
+Q2 = ["after the monsoon has ended", "only during the monsoon", "only in winter", "only on the plains"]
+Q4 = ["more floods only", "less water in the dry season", "more snow", "no change"]
+flag = lambda s: bool(re.search(r"\b(only|always|never|all)\b", s))
+assert [flag(o) for o in Q2] == [False, True, True, True]
+assert [flag(o) for o in Q4] == [True, False, False, False]
+f = Fig(780, 380)
+f.text(390, 14, "Test 1: put each option in place of stake", size=11.5, color=NAVY, bold=True)
+for i, (o, s, v, ok) in enumerate(tests):
+    y = 28 + i * 40
+    c = TEAL if ok else RED
+    f.box(14, y, 96, 34, o, fill=MINT if ok else ROSE, stroke=c, color=c, size=11, bold=True)
+    f.box(114, y, 380, 34, s, fill=SOFT, stroke="#cbd5e1", color=SLATE, size=10.5, anchor="start")
+    f.box(498, y, 268, 34, v, fill=SOFT, stroke=c, color=c, size=10.5)
+f.text(390, 206, "Test 2: scan the options for extreme words (Q2 and Q4)", size=11.5, color=NAVY, bold=True)
+for r, (lab, Q, ans) in enumerate([("Q2", Q2, 0), ("Q4", Q4, 1)]):
+    y = 222 + r * 70
+    for i, o in enumerate(Q):
+        x = 14 + i * 190
+        fl = flag(o)
+        c = RED if fl else (TEAL if i == ans else SLATE)
+        bg = ROSE if fl else (MINT if i == ans else SOFT)
+        f.box(x, y, 182, 40, __import__("textwrap").fill("(%s) %s" % ("abcd"[i], o), 24), fill=bg, stroke=c, color=c, size=10.5, bold=(i == ans))
+        f.text(x + 91, y + 54, "flag: extreme word" if fl else ("correct" if i == ans else "no flag"), size=10, color=c)
+```
+
+## 7.4 Eight traps in reading comprehension
+
+Each trap below is a way the paper makes a wrong option look right. The examples use Passage 1 from Set A.
+
+1. **Read the questions before the passage.** Two minutes of reading and one minute for each question is enough for a 120-word passage (Fig 7.2). Knowing the questions tells you what to underline: names, numbers and the words *but* and *therefore*.
+2. **The correct main idea is a paraphrase.** Question 1 is answered by "why shrinking glaciers matter to people downstream", yet the word *downstream* is not in the passage (Fig 7.2). Join the first and last sentences, then pick the option that says the same thing in other words.
+3. **Reject options that are too narrow or too broad.** "The length of Nepal's rivers" picks up a detail the text never states, and "the beauty of Himalayan peaks" is another subject. A main idea covers the whole passage, no more and no less.
+4. **Compare detail options word by word.** The text says *most* glaciers are shrinking, not all of them, and rivers keep flowing *after* the monsoon, not *only during* it (Fig 7.3). One changed word makes an option false.
+5. **A NOT question has three true options.** For "Which river is NOT mentioned?" check each river against the sentence: Koshi, Gandaki and Karnali are named, so the answer is the Brahmaputra (Fig 7.1). Do not choose an option just because it is true in real life.
+6. **Do not go beyond the text in an inference.** The melt "may even raise" river flows; it does not always do so. An inference must follow from the words, so hedges such as *may* and *can* matter, and options with *only* or *always* are suspect (Fig 7.3).
+7. **Test vocabulary in context by substitution.** *Stake* has several meanings, but only *interest* fits "have a stake in what happens on the peaks" (Fig 7.3). Do not choose the meaning you know best; choose the one the sentence needs.
+8. **Read tone from the signal words.** *Scientists report*, *good news*, *But* and *therefore* show a concerned and informative tone. An angry, humorous or indifferent tone needs words in the text that show it, and none appear here.
+
+### 7.4.1 Worked checks
+
+**Q. Which river is NOT mentioned in Passage 1? (Koshi / Gandaki / Karnali / Brahmaputra)**
+
+**Answer.** The names in the text are the Koshi, the Gandaki and the Karnali, so the answer is the **Brahmaputra** (Fig 7.1).
+
+**Q. In the sentence "Farmers ... have a stake in what happens on the peaks", the word stake means (a pole / a bet / an interest / a danger).**
+
+**Answer.** Substituting each option shows that only **an interest** gives a sensible sentence (Fig 7.3).
+
+**Q. Why might the melt look like good news for a few decades?**
+
+**Answer.** Because the melt **may raise river flows** for a while (sentence 4, Fig 7.1). The next sentence begins with *But* and explains why this is only temporary.
+
+**Q. Choose the main idea: (a) beauty of peaks / (b) how to climb glaciers / (c) why shrinking glaciers matter downstream / (d) length of rivers.**
+
+**Answer.** Option **(c)** joins sentence 1 (snow and ice feed rivers) and sentence 6 (farmers have a stake); the other options are off topic or too narrow (Fig 7.2).
+
+
 ## Formula and fact sheet
 
 | Question type | Where the answer is |

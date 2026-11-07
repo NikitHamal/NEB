@@ -1,0 +1,437 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "distributed-system",
+ "name": "Distributed System",
+ "name_ne": "",
+ "icon": "hub",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 355",
+ "credits": 3,
+ "semester": 6,
+ "hours": 50,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction, Goals, Architectures and Naming",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "What is a distributed system?",
+    "Goals",
+    "The eight fallacies",
+    "System architectures",
+    "Processes, threads and servers",
+    "Naming and the Chord DHT",
+    "System models",
+    "Seeing distributed systems: hardware, architecture and numbers"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is a distributed system?"
+    },
+    {
+     "no": "1.2",
+     "title": "Goals"
+    },
+    {
+     "no": "1.3",
+     "title": "The eight fallacies"
+    },
+    {
+     "no": "1.4",
+     "title": "System architectures"
+    },
+    {
+     "no": "1.5",
+     "title": "Processes, threads and servers"
+    },
+    {
+     "no": "1.6",
+     "title": "Naming and the Chord DHT"
+    },
+    {
+     "no": "1.7",
+     "title": "System models"
+    },
+    {
+     "no": "1.8",
+     "title": "Seeing distributed systems: hardware, architecture and numbers"
+    }
+   ],
+   "summary": [
+    "A distributed system is autonomous nodes cooperating by messages to look like one system; it has concurrency, no global clock and independent failures.",
+    "Goals: resource sharing, transparency (access, location, migration, replication, concurrency, failure), openness, scalability (size, geography, administration) and dependability.",
+    "Serial availability multiplies (five 99.9% services give 99.5010%); parallel replicas raise it as 1 − (1 − a)ⁿ; latency is bounded by distance.",
+    "Architectures: client-server (tiers), P2P (unstructured, structured DHT, hybrid); middleware hides heterogeneity.",
+    "Chord places keys on a ring with O(log N) lookup; DNS combines partitioning and replication.",
+    "Models: synchronous, asynchronous, partially synchronous; failures: crash, omission, timing, Byzantine. FLP forbids guaranteed deterministic consensus under asynchrony."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3721,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Communication: Sockets, RPC, RMI, gRPC and Message Queues",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Sockets",
+    "Marshalling and serialization",
+    "Remote procedure call",
+    "Remote method invocation (RMI)",
+    "gRPC",
+    "Message-oriented communication",
+    "Seeing communication: wires, handshakes, stubs and queues"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Sockets"
+    },
+    {
+     "no": "2.2",
+     "title": "Marshalling and serialization"
+    },
+    {
+     "no": "2.3",
+     "title": "Remote procedure call"
+    },
+    {
+     "no": "2.4",
+     "title": "Remote method invocation (RMI)"
+    },
+    {
+     "no": "2.5",
+     "title": "gRPC"
+    },
+    {
+     "no": "2.6",
+     "title": "Message-oriented communication"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing communication: wires, handshakes, stubs and queues"
+    }
+   ],
+   "summary": [
+    "Sockets expose TCP streams (reliable, ordered, need framing) and UDP datagrams (lossy, message-preserving); TCP's reliability does not replace end-to-end application acknowledgements.",
+    "Marshalling fixes byte order and layout: the 11-byte fixed record and the 35-byte JSON for the same data; protobuf varints encode 150 as 96 01 and 300 as ac 02.",
+    "RPC hides communication behind stubs, but the caller must still handle timeouts; at-least-once plus a request ID gives at-most-once. The retry experiment charged 300 instead of 100 without dedup.",
+    "RMI passes remote references; gRPC uses protobuf over HTTP/2 with unary and streaming calls and deadlines.",
+    "Message queues decouple sender and receiver in time and space; at-least-once delivery means duplicates and reordering, so handlers must be idempotent."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3722,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Time, Clocks and Global State",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Physical clocks, drift and skew",
+    "Cristian's algorithm",
+    "The Berkeley algorithm",
+    "The Network Time Protocol",
+    "Happened-before and Lamport clocks",
+    "Vector clocks",
+    "Seeing time: clocks, clock servers and event diagrams"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Physical clocks, drift and skew"
+    },
+    {
+     "no": "3.2",
+     "title": "Cristian's algorithm"
+    },
+    {
+     "no": "3.3",
+     "title": "The Berkeley algorithm"
+    },
+    {
+     "no": "3.4",
+     "title": "The Network Time Protocol"
+    },
+    {
+     "no": "3.5",
+     "title": "Happened-before and Lamport clocks"
+    },
+    {
+     "no": "3.6",
+     "title": "Vector clocks"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing time: clocks, clock servers and event diagrams"
+    }
+   ],
+   "summary": [
+    "Physical clocks drift at ρ (about 10 ppm = 0.864 s/day); synchronisation must repeat about every δ/2ρ.",
+    "Cristian: estimate = Tₛ + RTT/2, accuracy ± (RTT/2 − min). Berkeley: average clock differences and send each node its adjustment. NTP: θ = ((t₁−t₀)+(t₂−t₃))/2, δ = (t₃−t₀) − (t₂−t₁); path asymmetry remains as error.",
+    "Happened-before is a partial order; Lamport clocks give L(a) < L(b) whenever a → b but not the converse; vector clocks give a → b ⇔ V(a) < V(b) and expose concurrency."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3401,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Coordination: Mutual Exclusion and Leader Election",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "The mutual exclusion problem",
+    "Centralised algorithm",
+    "Ricart–Agrawala (distributed, timestamp-based)",
+    "Maekawa's quorum algorithm",
+    "Token-ring algorithm",
+    "Leader election",
+    "In practice: leases and coordination services",
+    "Seeing coordination: shared hardware, quorums and elections"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The mutual exclusion problem"
+    },
+    {
+     "no": "4.2",
+     "title": "Centralised algorithm"
+    },
+    {
+     "no": "4.3",
+     "title": "Ricart–Agrawala (distributed, timestamp-based)"
+    },
+    {
+     "no": "4.4",
+     "title": "Maekawa's quorum algorithm"
+    },
+    {
+     "no": "4.5",
+     "title": "Token-ring algorithm"
+    },
+    {
+     "no": "4.6",
+     "title": "Leader election"
+    },
+    {
+     "no": "4.7",
+     "title": "In practice: leases and coordination services"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing coordination: shared hardware, quorums and elections"
+    }
+   ],
+   "summary": [
+    "Mutual exclusion must be safe, live and fair; compare algorithms by messages and delay.",
+    "Centralised: 3 messages; Ricart–Agrawala: 2(N − 1) messages and a timestamp order (24 messages for N = 4 in the simulation); Maekawa: about 3√N messages using intersecting quorums; token ring: token hops, with loss to handle.",
+    "Bully: highest live id wins; best case 6 messages, worst case 41 for N = 7 with the top process dead. Ring: 2 × live processes = 12 messages.",
+    "Leases and fencing tokens plus consensus-backed services replace hand-written algorithms in practice."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3318,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Distributed Transactions and Concurrency Control",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Transactions and ACID",
+    "Atomic commit: two-phase commit",
+    "Three-phase commit",
+    "Concurrency control: serializability",
+    "Distributed deadlocks",
+    "Sagas for microservices",
+    "Seeing transactions: logs, graphs and compensations"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Transactions and ACID"
+    },
+    {
+     "no": "5.2",
+     "title": "Atomic commit: two-phase commit"
+    },
+    {
+     "no": "5.3",
+     "title": "Three-phase commit"
+    },
+    {
+     "no": "5.4",
+     "title": "Concurrency control: serializability"
+    },
+    {
+     "no": "5.5",
+     "title": "Distributed deadlocks"
+    },
+    {
+     "no": "5.6",
+     "title": "Sagas for microservices"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing transactions: logs, graphs and compensations"
+    }
+   ],
+   "summary": [
+    "Distributed atomic commit uses a coordinator; 2PC votes then decides and costs 4N messages for N participants (12 for N = 3), but blocks when the coordinator crashes in the READY state.",
+    "3PC adds PRE-COMMIT and avoids blocking only under synchrony; modern systems use consensus-replicated commit instead.",
+    "A schedule is conflict-serializable iff its precedence graph is acyclic; strict 2PL guarantees it; timestamp ordering and optimistic control are alternatives.",
+    "Distributed deadlocks are cycles in the global wait-for graph; edge chasing detects them with probes; wait-die and wound-wait prevent them.",
+    "Sagas replace distributed ACID with local transactions plus compensation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3251,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Replication, Consistency Models and Consensus",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Replication",
+    "Consistency models",
+    "The CAP theorem and PACELC",
+    "Quorums",
+    "Consensus and Paxos",
+    "Raft",
+    "Seeing replication: copies, quorums, proposals and logs"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Replication"
+    },
+    {
+     "no": "6.2",
+     "title": "Consistency models"
+    },
+    {
+     "no": "6.3",
+     "title": "The CAP theorem and PACELC"
+    },
+    {
+     "no": "6.4",
+     "title": "Quorums"
+    },
+    {
+     "no": "6.5",
+     "title": "Consensus and Paxos"
+    },
+    {
+     "no": "6.6",
+     "title": "Raft"
+    },
+    {
+     "no": "6.7",
+     "title": "Seeing replication: copies, quorums, proposals and logs"
+    }
+   ],
+   "summary": [
+    "Replicate for availability, performance and fault tolerance; state machine replication keeps replicas identical by ordering commands through consensus.",
+    "Models: linearizable ⊃ sequential ⊃ causal ⊃ eventual (in strength). A stale read after a completed write is sequentially consistent but not linearizable (H2).",
+    "CAP: under partition choose consistency or availability; PACELC adds latency vs consistency otherwise.",
+    "Quorums: R + W > N forces intersection; enumeration found 10 disjoint pairs for (N, W, R) = (5, 2, 3) and none for (5, 3, 3).",
+    "Paxos is safe because a new proposer must adopt the highest accepted value from its majority; Raft uses terms, randomised timeouts, majority commit and the current-term rule."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3292,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Fault Tolerance and Distributed File Systems",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Dependability and failure detection",
+    "Byzantine agreement",
+    "Recovery: checkpoints and snapshots",
+    "Distributed file systems",
+    "Seeing failure: walls, disks, racks and snapshots"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Dependability and failure detection"
+    },
+    {
+     "no": "7.2",
+     "title": "Byzantine agreement"
+    },
+    {
+     "no": "7.3",
+     "title": "Recovery: checkpoints and snapshots"
+    },
+    {
+     "no": "7.4",
+     "title": "Distributed file systems"
+    },
+    {
+     "no": "7.5",
+     "title": "Seeing failure: walls, disks, racks and snapshots"
+    }
+   ],
+   "summary": [
+    "Redundancy is the basis of fault tolerance; failure detectors suspect silent nodes by timeout; crash tolerance needs 2f + 1 replicas for majorities, Byzantine tolerance 3f + 1.",
+    "OM(1) works for n = 4 and fails validity for n = 3 with one traitor; PBFT quorums are 2f + 1 of 3f + 1.",
+    "Chandy–Lamport records a consistent global state (90 + 55 + 5 = 150 here); checkpointing avoids the domino effect when coordinated.",
+    "NFS is stateless with close-to-open consistency; AFS caches whole files with callbacks; GFS/HDFS use a master plus large replicated blocks with rack-aware placement."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3181,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 49,
+ "notes_ready": 7
+}

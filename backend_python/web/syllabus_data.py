@@ -19,6 +19,7 @@ SCHOOL_GRADES = ("8", "10", "11", "12")
 GRADES = SCHOOL_GRADES   # the school grades; grade_keys() adds the tracks present in index.json
 LIBRARY_GRADE = {"8": "Class 8", "10": "Class 10 / SEE", "11": "Class 11", "12": "Class 12"}
 TRACK_LIBRARY_GRADE = "Entrance Prep"
+COURSE_LIBRARY_GRADE = "Bachelor"       # the BCA course books (kind "course") sit under Bachelor
 
 
 def _defaults(entry):
@@ -80,7 +81,8 @@ def subject(grade, subject_key):
         data = json.load(fh)
     _defaults(data)
     data.setdefault("questions", None)
-    data["library_grade"] = LIBRARY_GRADE.get(grade, TRACK_LIBRARY_GRADE)
+    data["library_grade"] = LIBRARY_GRADE.get(grade) or (
+        COURSE_LIBRARY_GRADE if data.get("kind") == "course" else TRACK_LIBRARY_GRADE)
     return data
 
 

@@ -1,0 +1,304 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "system-analysis-and-design",
+ "name": "System Analysis and Design",
+ "name_ne": "",
+ "icon": "analytics",
+ "group": "semester-3",
+ "group_label": "Semester III",
+ "color": "#6D28D9",
+ "lang": "en",
+ "code": "BCA 204",
+ "credits": 3,
+ "semester": 3,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "System Development Fundamentals",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "The systems development environment",
+    "Modern approaches to systems analysis and design",
+    "The systems development life cycle (SDLC)",
+    "CASE tools",
+    "Service-oriented architecture",
+    "Agile methodologies and Extreme Programming",
+    "Object-oriented analysis and design",
+    "The origins of software and system acquisition",
+    "Managing the information systems project",
+    "The life cycle as a picture, and agile practice in the field",
+    "Eight reasons why a systematic life cycle matters"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "The systems development environment"
+    },
+    {
+     "no": "1.2",
+     "title": "Modern approaches to systems analysis and design"
+    },
+    {
+     "no": "1.3",
+     "title": "The systems development life cycle (SDLC)"
+    },
+    {
+     "no": "1.4",
+     "title": "CASE tools"
+    },
+    {
+     "no": "1.5",
+     "title": "Service-oriented architecture"
+    },
+    {
+     "no": "1.6",
+     "title": "Agile methodologies and Extreme Programming"
+    },
+    {
+     "no": "1.7",
+     "title": "Object-oriented analysis and design"
+    },
+    {
+     "no": "1.8",
+     "title": "The origins of software and system acquisition"
+    },
+    {
+     "no": "1.9",
+     "title": "Managing the information systems project"
+    },
+    {
+     "no": "1.10",
+     "title": "The life cycle as a picture, and agile practice in the field"
+    },
+    {
+     "no": "1.11",
+     "title": "Eight reasons why a systematic life cycle matters"
+    }
+   ],
+   "summary": [
+    "Information systems come in several types and are built through an SDLC under a chosen model; each model trades predictability for flexibility.",
+    "CASE tools, SOA and OOAD/UML are supporting technologies; agile methods and XP emphasise short iterations.",
+    "Software may be built, bought, outsourced or reused; the project manager schedules with Gantt charts and the critical path method."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3225,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Planning",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Identifying and selecting systems development projects",
+    "Corporate and information systems planning",
+    "Initiating and planning a project",
+    "Assessing project feasibility",
+    "Building and reviewing the baseline project plan",
+    "Seeing the payback, and planning the schedule",
+    "Eight reasons to do a feasibility study first"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Identifying and selecting systems development projects"
+    },
+    {
+     "no": "2.2",
+     "title": "Corporate and information systems planning"
+    },
+    {
+     "no": "2.3",
+     "title": "Initiating and planning a project"
+    },
+    {
+     "no": "2.4",
+     "title": "Assessing project feasibility"
+    },
+    {
+     "no": "2.5",
+     "title": "Building and reviewing the baseline project plan"
+    },
+    {
+     "no": "2.6",
+     "title": "Seeing the payback, and planning the schedule"
+    },
+    {
+     "no": "2.7",
+     "title": "Eight reasons to do a feasibility study first"
+    }
+   ],
+   "summary": [
+    "Projects are identified from many sources and selected with explicit criteria aligned to corporate strategy.",
+    "Initiation sets up the team, charter, scope and management procedures.",
+    "Feasibility tests, especially cost-benefit measures (NPV, ROI, payback), decide whether to proceed.",
+    "The baseline project plan is reviewed by walkthrough and becomes the standard for later phases."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2538,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Analysis",
+   "hours": 13,
+   "area": "",
+   "topics": [
+    "System requirements and how to determine them",
+    "Process modelling: data flow diagrams",
+    "System data requirements: conceptual data modelling",
+    "Three models drawn out: context, level-0 and entity-relationship",
+    "Eight benefits of modelling before building"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "System requirements and how to determine them"
+    },
+    {
+     "no": "3.2",
+     "title": "Process modelling: data flow diagrams"
+    },
+    {
+     "no": "3.3",
+     "title": "System data requirements: conceptual data modelling"
+    },
+    {
+     "no": "3.4",
+     "title": "Three models drawn out: context, level-0 and entity-relationship"
+    },
+    {
+     "no": "3.5",
+     "title": "Eight benefits of modelling before building"
+    }
+   ],
+   "summary": [
+    "Requirements are gathered by interviews, questionnaires, observation, documents, JAD, prototyping and, in agile projects, user stories; BPR rethinks processes.",
+    "DFDs model processes in levels with strict rules and balancing; decision tables, structured English and trees model complex logic.",
+    "Conceptual data models use E-R notation with supertypes, subtypes, business rules and reusable patterns."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3256,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Design",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Designing databases",
+    "Physical file and database design",
+    "Designing forms and reports",
+    "Designing interfaces and dialogues",
+    "Normalisation and screen design, drawn out",
+    "Eight rules for good forms, reports and interfaces"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Designing databases"
+    },
+    {
+     "no": "4.2",
+     "title": "Physical file and database design"
+    },
+    {
+     "no": "4.3",
+     "title": "Designing forms and reports"
+    },
+    {
+     "no": "4.4",
+     "title": "Designing interfaces and dialogues"
+    },
+    {
+     "no": "4.5",
+     "title": "Normalisation and screen design, drawn out"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight rules for good forms, reports and interfaces"
+    }
+   ],
+   "summary": [
+    "Logical design normalises user views, converts E-R diagrams to relations and merges them.",
+    "Physical design chooses field formats, tables, file organisations and indexes, trading storage and update cost for speed.",
+    "Forms and reports follow consistent, logical, accurate-and-usable guidelines and are assessed with usability testing.",
+    "Interface and dialogue design uses the interaction method suited to the user, consistent GUI controls and clear feedback and error messages."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3264,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Implementation and Maintenance",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "System implementation",
+    "System maintenance",
+    "Testing levels, installation strategies and maintenance types, in pictures",
+    "Eight reasons why testing and maintenance planning pay off"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "System implementation"
+    },
+    {
+     "no": "5.2",
+     "title": "System maintenance"
+    },
+    {
+     "no": "5.3",
+     "title": "Testing levels, installation strategies and maintenance types, in pictures"
+    },
+    {
+     "no": "5.4",
+     "title": "Eight reasons why testing and maintenance planning pay off"
+    }
+   ],
+   "summary": [
+    "Implementation covers coding, multi-level testing, installation, documentation, training and support, and must manage organisational change.",
+    "Installation strategies trade risk against cost; documentation serves maintainers and users.",
+    "Maintenance (corrective, adaptive, perfective, preventive) is the longest and costliest phase, governed by change control and configuration management."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2499,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 33,
+ "notes_ready": 5
+}

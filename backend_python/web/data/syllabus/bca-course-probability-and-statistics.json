@@ -1,0 +1,394 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "probability-and-statistics",
+ "name": "Probability and Statistics",
+ "name_ne": "",
+ "icon": "analytics",
+ "group": "semester-3",
+ "group_label": "Semester III",
+ "color": "#BE185D",
+ "lang": "en",
+ "code": "BCA 205",
+ "credits": 3,
+ "semester": 3,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Statistics",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "Meaning, scope and limitations",
+    "Types of data and variables",
+    "Sources of data",
+    "Methods of collecting primary data",
+    "Seeing the structure of data",
+    "Eight reasons why every computing student needs statistics"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Meaning, scope and limitations"
+    },
+    {
+     "no": "1.2",
+     "title": "Types of data and variables"
+    },
+    {
+     "no": "1.3",
+     "title": "Sources of data"
+    },
+    {
+     "no": "1.4",
+     "title": "Methods of collecting primary data"
+    },
+    {
+     "no": "1.5",
+     "title": "Seeing the structure of data"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight reasons why every computing student needs statistics"
+    }
+   ],
+   "summary": [
+    "Statistics collects, organises, analyses and interprets data; it is powerful but limited to aggregates and can be misused.",
+    "Data are qualitative or quantitative and measured on nominal, ordinal, interval or ratio scales.",
+    "Primary data come from surveys, interviews, observation and experiments; secondary data from existing records; each has typical problems."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2126,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Descriptive Statistics",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Measures of central tendency",
+    "Measures of dispersion",
+    "Pictures of centre and spread",
+    "Eight uses of averages and measures of spread"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Measures of central tendency"
+    },
+    {
+     "no": "2.2",
+     "title": "Measures of dispersion"
+    },
+    {
+     "no": "2.3",
+     "title": "Pictures of centre and spread"
+    },
+    {
+     "no": "2.4",
+     "title": "Eight uses of averages and measures of spread"
+    }
+   ],
+   "summary": [
+    "Mean, median and mode locate the centre; quartiles, deciles and percentiles split the data.",
+    "Range, QD, MD, variance, standard deviation and CV measure spread; CV compares different data sets.",
+    "The median resists outliers; the standard deviation is the standard measure of spread."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2834,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Correlation and Regression Analysis",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Correlation",
+    "Regression analysis",
+    "Seeing correlation and regression",
+    "Eight uses of correlation and regression"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Correlation"
+    },
+    {
+     "no": "3.2",
+     "title": "Regression analysis"
+    },
+    {
+     "no": "3.3",
+     "title": "Seeing correlation and regression"
+    },
+    {
+     "no": "3.4",
+     "title": "Eight uses of correlation and regression"
+    }
+   ],
+   "summary": [
+    "Correlation measures linear association with r from −1 to +1; correlation does not prove causation.",
+    "Least squares regression gives the best-fitting line for predicting y from x; the two regression lines meet at the means and their slopes multiply to r^2."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2530,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Probability",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Basic definitions",
+    "Two basic laws",
+    "Conditional probability and Bayes' theorem",
+    "Random variables and probability distributions",
+    "Pictures of probability",
+    "Eight uses of probability and distributions"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Basic definitions"
+    },
+    {
+     "no": "4.2",
+     "title": "Two basic laws"
+    },
+    {
+     "no": "4.3",
+     "title": "Conditional probability and Bayes' theorem"
+    },
+    {
+     "no": "4.4",
+     "title": "Random variables and probability distributions"
+    },
+    {
+     "no": "4.5",
+     "title": "Pictures of probability"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight uses of probability and distributions"
+    }
+   ],
+   "summary": [
+    "Probability follows the addition and multiplication laws; conditioning updates probabilities and Bayes' rule inverts them.",
+    "Binomial models fixed trials, Poisson rare events, normal measurements, which are standardised to Z for table lookup."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2937,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Sample Survey",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Population and sample; census versus sample survey",
+    "Organising a sample survey",
+    "Sample selection and determining the sample size",
+    "Sampling and non-sampling errors",
+    "Pictures of a sample survey",
+    "Eight rules of a good sample survey"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Population and sample; census versus sample survey"
+    },
+    {
+     "no": "5.2",
+     "title": "Organising a sample survey"
+    },
+    {
+     "no": "5.3",
+     "title": "Sample selection and determining the sample size"
+    },
+    {
+     "no": "5.4",
+     "title": "Sampling and non-sampling errors"
+    },
+    {
+     "no": "5.5",
+     "title": "Pictures of a sample survey"
+    },
+    {
+     "no": "5.6",
+     "title": "Eight rules of a good sample survey"
+    }
+   ],
+   "summary": [
+    "A sample survey is faster and cheaper than a census; its quality depends on the frame, the design, the questionnaire, the sample size and the control of errors.",
+    "Sample size for a proportion follows n0 = fracz^2 p (1 - p)e^2 with a finite-population correction.",
+    "Sampling error is random and shrinks with n; non-sampling errors are systematic and need careful procedures."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2571,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Sample Survey Methods",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Types of sampling",
+    "Simple random sampling (SRS)",
+    "Stratified random sampling",
+    "Systematic sampling",
+    "Cluster and multistage sampling",
+    "Probability proportional to size (PPS) sampling",
+    "Ratio and regression methods of estimation",
+    "Sampling distributions: z, t and χ²",
+    "Pictures of sampling designs and sampling distributions",
+    "Eight sampling designs and tools, and what each is used for"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Types of sampling"
+    },
+    {
+     "no": "6.2",
+     "title": "Simple random sampling (SRS)"
+    },
+    {
+     "no": "6.3",
+     "title": "Stratified random sampling"
+    },
+    {
+     "no": "6.4",
+     "title": "Systematic sampling"
+    },
+    {
+     "no": "6.5",
+     "title": "Cluster and multistage sampling"
+    },
+    {
+     "no": "6.6",
+     "title": "Probability proportional to size (PPS) sampling"
+    },
+    {
+     "no": "6.7",
+     "title": "Ratio and regression methods of estimation"
+    },
+    {
+     "no": "6.8",
+     "title": "Sampling distributions: z, t and χ²"
+    },
+    {
+     "no": "6.9",
+     "title": "Pictures of sampling designs and sampling distributions"
+    },
+    {
+     "no": "6.10",
+     "title": "Eight sampling designs and tools, and what each is used for"
+    }
+   ],
+   "summary": [
+    "SRS is the baseline; stratification gains precision from homogeneous strata; systematic sampling is simple but pattern-sensitive; cluster and multistage designs cut cost; PPS handles unequal clusters.",
+    "Ratio and regression estimators exploit an auxiliary variable.",
+    "The CLT justifies z ; t replaces z for small n with unknown σ ; chi^2 tests counts."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3370,
+    "figures": 0,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Design of Experiment",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Concept of analysis of variance",
+    "The F statistic and its distribution",
+    "The linear model",
+    "One-way classification",
+    "Two-way classification (one observation per cell)",
+    "Pictures of ANOVA and experimental design",
+    "Eight uses of ANOVA and designed experiments"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Concept of analysis of variance"
+    },
+    {
+     "no": "7.2",
+     "title": "The F statistic and its distribution"
+    },
+    {
+     "no": "7.3",
+     "title": "The linear model"
+    },
+    {
+     "no": "7.4",
+     "title": "One-way classification"
+    },
+    {
+     "no": "7.5",
+     "title": "Two-way classification (one observation per cell)"
+    },
+    {
+     "no": "7.6",
+     "title": "Pictures of ANOVA and experimental design"
+    },
+    {
+     "no": "7.7",
+     "title": "Eight uses of ANOVA and designed experiments"
+    }
+   ],
+   "summary": [
+    "ANOVA compares several means by splitting total variation into between and within parts and testing their ratio with the F distribution.",
+    "One-way ANOVA handles one factor; two-way ANOVA adds a blocking factor to reduce error.",
+    "A significant F says means differ somewhere; follow-up tests locate the difference."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2711,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 43,
+ "notes_ready": 7
+}

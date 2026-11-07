@@ -1,0 +1,312 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "project-1",
+ "name": "Project I",
+ "name_ne": "",
+ "icon": "assignment",
+ "group": "semester-4",
+ "group_label": "Semester IV",
+ "color": "#7C3AED",
+ "lang": "en",
+ "code": "BCA 256",
+ "credits": 2,
+ "semester": 4,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Choosing, Scoping and Justifying a Project",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What Project I is, and what it is not",
+    "Where good ideas come from",
+    "Writing the problem statement",
+    "Scope: what is in, and what is out",
+    "Feasibility: can this really be finished?",
+    "The project life cycle used in this book",
+    "Eight reasons student projects fail, and the cure"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What Project I is, and what it is not"
+    },
+    {
+     "no": "1.2",
+     "title": "Where good ideas come from"
+    },
+    {
+     "no": "1.3",
+     "title": "Writing the problem statement"
+    },
+    {
+     "no": "1.4",
+     "title": "Scope: what is in, and what is out"
+    },
+    {
+     "no": "1.5",
+     "title": "Feasibility: can this really be finished?"
+    },
+    {
+     "no": "1.6",
+     "title": "The project life cycle used in this book"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight reasons student projects fail, and the cure"
+    }
+   ],
+   "summary": [
+    "A good Project I is small, finished and explained; it is judged on method, not size.",
+    "Ideas come from real problems; a funnel with three gates leaves one project.",
+    "The problem statement carries numbers; objectives are SMART; the scope table says what is out.",
+    "Feasibility is technical, economic, operational and schedule; a weighted score makes the decision."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2561,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Planning, Teamwork and Version Control",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Work breakdown and estimates",
+    "Critical path: the tasks that cannot slip",
+    "Task boards, stand-ups and pair programming",
+    "Roles in a student team",
+    "Version control with Git",
+    "Eight practices of a team that finishes"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Work breakdown and estimates"
+    },
+    {
+     "no": "2.2",
+     "title": "Critical path: the tasks that cannot slip"
+    },
+    {
+     "no": "2.3",
+     "title": "Task boards, stand-ups and pair programming"
+    },
+    {
+     "no": "2.4",
+     "title": "Roles in a student team"
+    },
+    {
+     "no": "2.5",
+     "title": "Version control with Git"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight practices of a team that finishes"
+    }
+   ],
+   "summary": [
+    "A WBS with durations and dependencies gives a schedule; the critical path shows what cannot slip.",
+    "A Gantt chart shows the plan, a Kanban or Scrum board shows today.",
+    "Roles are shared but every member must know every module.",
+    "Git gives history, branches, merges and backup; main always works."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2285,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Analysis and Design: Requirements, DFD, ER and Screens",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Requirements: what the system must do",
+    "Use-case diagram",
+    "Data-flow diagrams: how data moves",
+    "The ER diagram and the database schema",
+    "Screen design: wireframes",
+    "Eight benefits of designing before coding"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Requirements: what the system must do"
+    },
+    {
+     "no": "3.2",
+     "title": "Use-case diagram"
+    },
+    {
+     "no": "3.3",
+     "title": "Data-flow diagrams: how data moves"
+    },
+    {
+     "no": "3.4",
+     "title": "The ER diagram and the database schema"
+    },
+    {
+     "no": "3.5",
+     "title": "Screen design: wireframes"
+    },
+    {
+     "no": "3.6",
+     "title": "Eight benefits of designing before coding"
+    }
+   ],
+   "summary": [
+    "Requirements are written as testable functional and non-functional statements.",
+    "Use-case diagrams show actors and functions; DFDs show data movement at level 0 and level 1.",
+    "The ER diagram becomes the schema; foreign keys protect the data (a real script proved it).",
+    "Wireframes and a design-first habit save weeks of rework and help in the viva."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2232,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Building and Testing: Code, Test Cases and Defects",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Structure: three layers",
+    "The CampusShelf logic layer",
+    "Kinds of testing",
+    "Test cases linked to requirements",
+    "Automated tests with unittest",
+    "Defects and the bug life cycle",
+    "Eight reasons to test early and often"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Structure: three layers"
+    },
+    {
+     "no": "4.2",
+     "title": "The CampusShelf logic layer"
+    },
+    {
+     "no": "4.3",
+     "title": "Kinds of testing"
+    },
+    {
+     "no": "4.4",
+     "title": "Test cases linked to requirements"
+    },
+    {
+     "no": "4.5",
+     "title": "Automated tests with unittest"
+    },
+    {
+     "no": "4.6",
+     "title": "Defects and the bug life cycle"
+    },
+    {
+     "no": "4.7",
+     "title": "Eight reasons to test early and often"
+    }
+   ],
+   "summary": [
+    "Separate screen, logic and data so that parts can be built and tested alone.",
+    "The CampusShelf logic layer runs: hashed login, 14-day loans, Rs 2 fines, overdue list.",
+    "Test cases are tied to requirements; unittest automates them (8 of 8 pass).",
+    "A bug log with steps to reproduce, severity and status keeps fixing organised."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2494,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "The Report, the Presentation and the Viva",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The shape of a project report",
+    "Budgeting the writing",
+    "Writing, figures and references",
+    "The ten-minute presentation",
+    "The demo script",
+    "Twelve viva questions, with model answers",
+    "An illustrative marking rubric",
+    "Eight habits of a good viva"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The shape of a project report"
+    },
+    {
+     "no": "5.2",
+     "title": "Budgeting the writing"
+    },
+    {
+     "no": "5.3",
+     "title": "Writing, figures and references"
+    },
+    {
+     "no": "5.4",
+     "title": "The ten-minute presentation"
+    },
+    {
+     "no": "5.5",
+     "title": "The demo script"
+    },
+    {
+     "no": "5.6",
+     "title": "Twelve viva questions, with model answers"
+    },
+    {
+     "no": "5.7",
+     "title": "An illustrative marking rubric"
+    },
+    {
+     "no": "5.8",
+     "title": "Eight habits of a good viva"
+    }
+   ],
+   "summary": [
+    "The report mirrors the phases of the project; write each chapter when its phase ends.",
+    "Number figures and tables, use one reference style, and never copy without credit.",
+    "A ten-minute talk has about eight slides and a rehearsed demo with a backup.",
+    "In the viva, speak in numbers, explain from whole to part, admit limits and know every module."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2876,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 34,
+ "notes_ready": 5
+}
