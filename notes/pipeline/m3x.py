@@ -122,3 +122,31 @@ def cover_art(slug, accent):
     parts = "".join(f'<path d="{d}" fill="{c}"/>' for d, c in s)
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
             f'width="{W}mm" height="{H}mm" style="position:absolute;left:0;top:0">{parts}</svg>')
+
+
+def thumb_art(slug, accent, W=1280, H=720):
+    """Landscape (16:9) flat art for library thumbnails: M3E shapes in tonal steps, kept to the
+    right of the title column and clear of the card's top-left PDF badge. Same four
+    arrangements and the same slug hash as cover_art, so a book keeps its look in both."""
+    t = tones(accent)
+    k = int(hashlib.md5(slug.encode()).hexdigest(), 16) % 4
+    hi, lo, tint, pale = t["cover_hi"], t["cover_lo"], t["cover_tint"], t["cover_pale"]
+    if k == 0:
+        s = [(cookie(1090, 150, 330, 9, .07, .3), hi), (squircle(1210, 700, 230, 4.4, .4), lo),
+             (flower(900, 590, 78, 6, .2, .2), tint), (cookie(820, 90, 30, 8, .1), pale),
+             (squircle(40, 790, 190, 4.2, -.3), lo)]
+    elif k == 1:
+        s = [(squircle(1120, 130, 300, 4.0, .5), hi), (cookie(1160, 760, 250, 10, .06), lo),
+             (cookie(870, 610, 66, 7, .14, .5), tint), (flower(790, 120, 28, 5, .24), pale),
+             (cookie(30, 770, 170, 9, .05), lo)]
+    elif k == 2:
+        s = [(flower(1060, 130, 330, 7, .13, .1), hi), (squircle(1150, 720, 210, 4.6, -.3), lo),
+             (squircle(880, 600, 70, 3.6, .3), tint), (cookie(800, 100, 28, 9, .09), pale),
+             (flower(50, 780, 170, 6, .15, .2), lo)]
+    else:
+        s = [(cookie(1130, 190, 360, 12, .045, .2), hi), (flower(1000, 760, 220, 8, .12, .4), lo),
+             (squircle(860, 600, 72, 4.2, .6), tint), (cookie(790, 100, 28, 6, .14), pale),
+             (squircle(20, 790, 180, 4.4, .5), lo)]
+    parts = "".join(f'<path d="{d}" fill="{c}"/>' for d, c in s)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}px" height="{H}px" '
+            f'style="position:absolute;left:0;top:0">{parts}</svg>')
