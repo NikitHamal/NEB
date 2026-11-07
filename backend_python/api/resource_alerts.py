@@ -179,8 +179,11 @@ def compose(resources: list[Resource]) -> tuple[str, str, str, str]:
     for r in resources:
         if r.subject and r.subject not in subjects:
             subjects.append(r.subject)
+    levels = {norm_level(r.grade_level) for r in resources if r.grade_level}
     if len(subjects) == 1:
         title = f'{len(resources)} new {subjects[0]} resources'
+        if len(levels) == 1:
+            title += f' added for {_level_label(first.grade_level)}'
     else:
         title = f'{len(resources)} new resources for you'
     shown = [r.title for r in resources[:2]]
@@ -285,6 +288,18 @@ def announce(resource_ids, created_by=None, sync=False) -> PushCampaign | None:
     else:
         push_engine.run_in_background(lambda: run())
     return campaign
+
+
+def unannounced_ids(limit: int = 2000) -> list[str]:
+    """Live library resources the autopilot never saw (uploaded before it shipped) or skipped as a bulk upload."""
+    return list(Resource.objects.filter(approval_status='approved', is_lead=True, alert__isnull=True)
+                .order_by('-added_at').values_list('id', flat=True)[:limit])
+
+
+def announce_unnotified(created_by=None, sync=False) -> PushCampaign | None:
+    """One tap batch mode: every never announced live resource, one digest per person."""
+    ids = unannounced_ids()
+    return announce(ids, created_by=created_by, sync=sync) if ids else None
 
 
 def flush_pending(force: bool = False, now_ms: int | None = None) -> PushCampaign | None:

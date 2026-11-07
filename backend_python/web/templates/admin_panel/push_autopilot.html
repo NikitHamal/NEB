@@ -19,6 +19,14 @@
   <div class="admin-kpi"><div class="admin-kpi-label">Never announced</div><div class="admin-kpi-value">{{ stats.unannounced }}</div><div class="admin-kpi-sub">live resources</div></div>
 </div>
 
+{% if stats.unannounced %}
+<form method="post" class="pn-card pn-batch" id="unnotifiedForm">
+  {% csrf_token %}<input type="hidden" name="action" value="announce_unnotified">
+  <div class="pn-batch-text"><h2>Announce unnotified library uploads</h2><p>{{ stats.unannounced }} live resources, one message per person</p></div>
+  <button type="submit" class="md-btn md-btn-filled" data-action="confirm-submit" data-confirm-title="Announce {{ stats.unannounced }} uploads?" data-confirm-msg="Everyone whose class and subjects match gets one digest, not one message per file." data-confirm-label="Announce" data-confirm-tone="primary"><span class="material-symbols-outlined" aria-hidden="true">campaign</span>Announce now</button>
+</form>
+{% endif %}
+
 <div class="pn-grid" style="margin-bottom:20px;">
   <form method="post" class="pn-card" id="settingsForm">
     {% csrf_token %}<input type="hidden" name="action" value="settings">
