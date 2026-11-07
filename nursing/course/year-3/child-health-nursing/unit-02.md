@@ -125,8 +125,8 @@ for i, s in enumerate(ac):
     f.box(15 + (i % 2) * 182, 58 + (i // 2) * 84, 176, 76, s, fill=BLUE, stroke=NAVY, size=10, bold=True)
 for i, s in enumerate(cy):
     f.box(385, 58 + i * 56, 360, 52, s, fill=SAND, stroke=AMBER, size=10, bold=True)
-f.box(15, 232, 360, 76, "NURSING: weigh and feed small, frequent meals; give digoxin and diuretic as ordered; count the pulse for 1 full minute; watch for heart failure (fast breathing, liver enlarged, sweating on feeding)", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
-f.box(385, 232, 360, 76, "TET SPELL: knee-chest position, oxygen, calm, IV fluids, morphine or propranolol as ordered. SCREEN: right hand and foot SpO2 at 24 hours", fill=ROSE, stroke=RED, size=10, bold=True)
+f.box(15, 232, 360, 76, "NURSING: weigh and feed small, frequent meals; give digoxin and\ndiuretic as ordered; count the pulse for 1 full minute; watch\nfor heart failure (fast breathing, liver enlarged, sweating on\nfeeding)", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(385, 232, 360, 76, "TET SPELL: knee-chest position, oxygen, calm, IV fluids,\nmorphine or propranolol as ordered. SCREEN: right hand and\nfoot SpO2 at 24 hours", fill=ROSE, stroke=RED, size=10, bold=True)
 ```
 
 **Gastrointestinal and other anomalies.** **Oesophageal atresia with tracheo-oesophageal fistula**: frothing, choking and cyanosis on first feed, and an NG tube that will not pass; keep the baby nil by mouth, head up, with continuous suction. **Imperforate anus**: no meconium in 24-48 hours; check the anus in every newborn. **Hirschsprung disease**: no meconium for over 48 hours and a distended abdomen. **Gastroschisis** (bowel outside, no sac) and **omphalocele** (sac present): cover with warm, saline-moist gauze and a plastic wrap or bowel bag, nil by mouth, NG tube, and urgent referral. **Hypospadias**: no circumcision, because the foreskin is needed for repair.

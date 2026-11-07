@@ -123,7 +123,7 @@ for i, (s, fl, sk) in enumerate(st):
 st2 = [("REFER\nOCMC, hospital social\nservice, Childline 1098,\nCCWB, police", MINT, TEAL), ("PROTECT\nsafe place, court order if\nneeded, follow-up visit,\nFCHV and ward member", MINT, TEAL), ("PREVENT\nparent education, ban\non corporal punishment,\nschool and community", SAND, AMBER)]
 for i, (s, fl, sk) in enumerate(st2):
     f.box(15 + i * 248, 124, 235, 92, s, fill=fl, stroke=sk, size=10.5, bold=True)
-f.box(15, 232, 730, 56, "KEEP CONFIDENTIAL, do not confront the family in front of the child, never promise secrecy, document facts only (NNC Code of Ethics)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(15, 232, 730, 56, "KEEP CONFIDENTIAL, do not confront the family in front of the child, never promise secrecy, document facts only\n(NNC Code of Ethics)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
 ```
 
 ### Seven points of nursing response to child abuse

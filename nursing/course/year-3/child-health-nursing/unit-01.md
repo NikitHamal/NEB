@@ -158,7 +158,7 @@ for i, s in enumerate(sym):
     x = 15 + i * 123
     f.box(x, 72, 112, 70, s, fill=BLUE, stroke=NAVY, size=10, bold=True)
     f.arrow([(x + 56, 142), (x + 56, 158)], color=SLATE, sw=2)
-f.box(15, 160, 235, 50, "PINK\nrefer urgently: first dose, then hospital", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.box(15, 160, 235, 50, "PINK\nrefer urgently: first dose, then\nhospital", fill=ROSE, stroke=RED, size=10.5, bold=True)
 f.box(262, 160, 235, 50, "YELLOW\ntreat at the facility and follow up", fill=SAND, stroke=AMBER, size=10.5, bold=True)
 f.box(510, 160, 235, 50, "GREEN\nhome care and counselling", fill=MINT, stroke=TEAL, size=10.5, bold=True)
 f.box(15, 224, 730, 66, "TREAT: oral amoxicillin (dispersible), ORS and zinc, paracetamol, vitamin A;\nfirst dose before referral. COUNSEL the mother on feeding and fluids.\nFOLLOW UP in 2 days (pneumonia), 5 days (diarrhoea, fever), 14 days (ear).", fill=BLUE, stroke=NAVY, size=10.5, bold=True)

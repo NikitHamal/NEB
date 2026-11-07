@@ -43,7 +43,7 @@ f.box(385, 134, 360, 34, "... to 4 days after the rash starts (isolate)", fill=S
 comp = ["OTITIS\nMEDIA", "PNEUMONIA\n(main killer)", "DIARRHOEA,\nmalnutrition", "ENCEPHALITIS,\nSSPE", "BLINDNESS\n(vitamin A)"]
 for i, c in enumerate(comp):
     f.box(15 + i * 148, 184, 140, 56, c, fill=ROSE, stroke=RED, size=10.5, bold=True)
-f.box(15, 254, 730, 56, "CARE: isolate, vitamin A on 2 days, feed and fluids, treat fever, eye and mouth care, antibiotics only for complications, report the case, vaccinate contacts with MR within 72 hours", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(15, 254, 730, 56, "CARE: isolate, vitamin A on 2 days, feed and fluids, treat fever, eye and mouth care, antibiotics only for\ncomplications, report the case, vaccinate contacts with MR within 72 hours", fill=MINT, stroke=TEAL, size=10.5, bold=True)
 ```
 
 ```photogrid label="4.2" cols="4" ratio="1.0" caption="Rash illnesses of childhood. (a) Measles rash: red, flat and raised spots that join on the back and buttocks. (b) Koplik spots: tiny white dots on a red cheek lining, seen before the rash. (c) Chickenpox in a girl: vesicles and scabs on the face in different stages. (d) Mumps: swelling of the parotid gland that lifts the earlobe."
