@@ -166,6 +166,18 @@ class AutopilotTests(TestCase):
         self.assertEqual((c.kind, c.users_targeted, c.users_pushed), ('library', 1, 1))
         self.assertEqual(set(ResourceAlert.objects.values_list('state', flat=True)), {'manual'})
 
+    def test_one_tap_batch_announces_every_unnotified_upload_once(self, _s):
+        Resource.objects.bulk_create([Resource(id=f'old{i}', title=f'Old {i}', subject='Science and Technology',
+                                               grade_level='Class 10 / SEE', added_at=NOW - 9 * 86400000) for i in range(5)])
+        self.assertEqual(len(resource_alerts.unannounced_ids()), 5)
+        c = resource_alerts.announce_unnotified(sync=True)
+        self.assertEqual((c.kind, c.users_targeted), ('library', 1))
+        self.assertEqual(Notification.objects.filter(recipient=self.a).count(), 1)
+        self.assertTrue(Notification.objects.get(recipient=self.a).message.startswith(
+            '5 new Science and Technology resources added for Class 10'))
+        self.assertEqual(resource_alerts.unannounced_ids(), [])
+        self.assertIsNone(resource_alerts.announce_unnotified(sync=True))
+
 
 @mock.patch('api.fcm_utils.send_fcm_detailed', side_effect=_fake_send)
 class CampaignMeasurementTests(TestCase):
