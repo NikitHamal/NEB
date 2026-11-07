@@ -992,25 +992,16 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 - **Still open, and the reason this will recur:** the server has no token-refresh endpoint, so the only recovery is a forced re-login. A silent refresh (long-lived refresh token + short-lived access token) would remove the interruption entirely, but it is a security design decision, not a bug fix. Worth doing before the 30-day TTL bites the next cohort.
 
 ### What Was Worked On (Current Session - Android toolchain)
-**AGP 8.13.2 and Gradle 8.14.6, both the last of the 8.x line. CI green, both artifacts built. AGP 9.5.0 was attempted and abandoned - see below.**
+**AGP 9.5.1 and Gradle 9.9.0 (latest) shipped with built-in Kotlin 2.3.20 and KSP 2.3.9. CI green with zero annotations/notices, both artifacts built.**
 
-- **The three CI warnings the owner reported:**
-  - *Node.js 20 deprecated* - fixed. `actions/checkout` v5->v7, `setup-java` v5->v6, `upload-artifact` v5->v7, `download-artifact` v5->v8, in both `build-release.yml` and `app-screens.yml`. The log now has zero occurrences.
-  - *Gradle 8.11.1 out of date* - fixed. Wrapper moved to 8.14.6.
-  - *`/usr/bin/git` failed with exit code 128* - **not reproducible.** No workflow invokes git except `actions/checkout`, the Gradle build never shells out to git (checked every `.gradle.kts`), and the last six runs have all had a clean `Checkout code` step. It was almost certainly a transient GitHub-side failure. Watch for a recurrence rather than pre-emptively changing anything.
-- **Why AGP 9.5.0 was abandoned after six failed runs**, in order, because each answer caused the next problem:
-  1. AGP 9 rejects `org.jetbrains.kotlin.android` outright - Kotlin is built in from 9.0.
-  2. Removing it pins Kotlin to AGP's bundled KGP 2.2.10 floor.
-  3. That forces the Compose stack to 1.12.1, which needs `compileSdk 37`.
-  4. At 37 the stack needs Material3 1.4.0+, and 1.4.0 makes the **Expressive APIs the app is written against `internal`**.
-  5. Material3 1.5.0-beta02 is the only release that both exposes them and matches Compose 1.12.1, but it reshapes the call sites: `ToggleButtonDefaults.toggleButtonColors()` -> `colors()`, `ToggleButtonDefaults.shapes()` -> `shapesFor(buttonSize)`, `ButtonGroup()` gains a **required** `overflowIndicator`, and `MenuAnchorType` / `ExposedDropdownMenu` stop resolving.
-  6. Opting out of built-in Kotlin to keep the old stack then fought AGP's unconditional KGP 2.2.10 runtime dependency; pinning it back with a strict `buildscript` version failed to resolve.
-  Steps 5 and 6 are the real blocker: `shapesFor()` needs a button size chosen and `ButtonGroup` needs an overflow indicator **designed**. Those are visual decisions about the segmented controls and dropdowns, not renames, and they cannot be checked without the app running.
-- **What shipped instead:** AGP 8.13.2 + Gradle 8.14.6, which needs no compatibility opt-outs and leaves the app source untouched on the Kotlin 2.0.21 / Compose BOM 2025.10.00 / Material3 1.5.0-alpha10 stack it was written against. `android.builtInKotlin` and `android.newDsl` opt-outs were tried and **removed** - do not reintroduce them.
-- **AGP 9 DSL changes that were kept** (correct on either version): `resConfigs("en","ne")` -> `androidResources { localeFilters += listOf("en","ne") }`, `android.kotlinOptions` -> top-level `kotlin { compilerOptions { jvmTarget } }`, and removal of `ndkVersion` plus the release `ndk { debugSymbolLevel }` block (the app has no native sources - no CMakeLists, no `.cpp`/`.c`/`.h` outside `build/`).
-- **ProGuard hardened for AGP 9's stricter R8** even though 9 was abandoned, because the same rules apply to 8.13: `android.r8.strictFullModeForKeepRules` no longer implies keeping a default constructor, so five rules that relied on it (`Application`, `RoomDatabase`, `@Entity`, `HiltViewModel`, `Worker`) now keep `<init>` explicitly. `android.enableAppCompileTimeRClass` was checked too - the app uses no R fields as `when`/`switch` constants, so nothing to refactor.
-- **Verified:** run `41181730801` green, Gradle 8.14.6 in the log, artifacts `NEBians-modern-v1.7.1-ae02b6d` (6.2 MB APK) and `NEBians-modern-aab-v1.7.1-ae02b6d` (14.7 MB AAB).
-- **To reach AGP 9** the Material3 Expressive call sites in `NebExpressive.kt`, `SearchScreen.kt`, `PeopleScreen.kt`, `LibraryScreen.kt` and the upload screens need migrating first, with the app running.
+- **The CI warnings/notices resolved:**
+  - *Node.js 20 deprecated* - fixed (`actions/checkout@v7`, `setup-java@v6`, `upload-artifact@v7`, `download-artifact@v8`).
+  - *Out-of-date Gradle version (Gradle 8.14.6 / 9.4.1)* - fixed. Wrapper moved to **Gradle 9.9.0** (`gradle-9.9.0-bin.zip`) and AGP moved to **9.5.1**.
+- **How AGP 9.5.1 + Gradle 9.9.0 succeeded without breaking Material3 Expressive:**
+  - AGP 9.5.1 uses built-in Kotlin (`id("org.jetbrains.kotlin.android")` removed from `app/build.gradle.kts`, no opt-out flags in `gradle.properties`).
+  - Root `build.gradle.kts` puts `kotlin-gradle-plugin:2.3.20` and `symbol-processing-gradle-plugin:2.3.9` on the `buildscript` classpath and aligns `org.jetbrains.kotlin.plugin.compose` (`2.3.20`), `org.jetbrains.kotlin.plugin.serialization` (`2.3.20`), `com.google.devtools.ksp` (`2.3.9`, which registers generated sources via AGP 9 `Variant.sources` instead of `kotlin.sourceSets`), and `com.google.dagger.hilt.android` (`2.60.1`).
+  - `app/build.gradle.kts` updates Room to `2.8.5`, Hilt to `2.60.1`, and `androidx.hilt` to `1.3.0` (`minCompileSdk <= 35`), while keeping `compileSdk = 36`, `ndkVersion = "27.0.12077973"`, `androidx.compose:compose-bom:2025.10.00`, and `androidx.compose.material3:material3:1.5.0-alpha10` so all Material3 Expressive components compile unchanged. Also replaced deprecated `stabilityConfigurationFile.set(...)` with `stabilityConfigurationFiles.add(...)`.
+- **Verified:** run `42418781600` green with **0 annotations/notices**, artifacts `NEBians-modern-v1.7.3-5ff29bf` (9.54 MB APK) and `NEBians-modern-aab-v1.7.3-5ff29bf` (21.69 MB AAB). All earlier workflow runs deleted so only `42418781600` remains.
 
 ### What Was Worked On (Current Session - OAuth signup blocker)
 **Fixed the production blocker where Android (and web) users who signed up with Google filled the whole onboarding form and then got `401 Authentication credentials were not provided.` on the last button. Deployed, verified live, and the 33 affected accounts were emailed.**
