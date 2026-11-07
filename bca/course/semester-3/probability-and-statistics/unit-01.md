@@ -17,7 +17,7 @@ area: BCA 205 · Probability and Statistics · Unit 1
 
 ## 1.1 Meaning, scope and limitations
 
-In the **singular** sense statistics is a subject (a method of studying data); in the **plural** sense it means numerical facts (the statistics of exam results). Two branches: **descriptive statistics** summarises the data you have (mean, charts); **inferential statistics** draws conclusions about a **population** from a **sample** (estimation and testing). **Population** is the complete set of units of interest; a **sample** is a part of it; a number describing a population is a **parameter** (μ, σ), a number computed from a sample is a **statistic** (x̄, s).
+In the **singular** sense statistics is a subject (a method of studying data); in the **plural** sense it means numerical facts (the statistics of exam results). Two branches: **descriptive statistics** summarises the data you have (mean, charts); **inferential statistics** draws conclusions about a **population** from a **sample** (estimation and testing). **Population** is the complete set of units of interest; a **sample** is a part of it; a number describing a population is a **parameter** $(\mu ,\  \sigma)$, a number computed from a sample is a **statistic** $(\bar{x} ,\  s)$.
 
 **Scope:** business and economics (demand forecasting), industry (quality control), government (census, planning), health (clinical trials), computing (benchmarking, network traffic modelling, data science), and research in every science.
 
@@ -30,13 +30,13 @@ In the **singular** sense statistics is a subject (a method of studying data); i
 | **Qualitative (categorical)** | **nominal** (no order), **ordinal** (ordered) | gender, district (nominal); grade A/B/C, satisfaction level (ordinal) |
 | **Quantitative (numerical)** | **discrete** (countable, gaps) and **continuous** (any value in a range) | students in a class, errors in a program (discrete); height, response time (continuous) |
 
-**Levels of measurement:** *nominal* (labels), *ordinal* (order but no meaningful differences), *interval* (equal differences, no true zero: temperature in °C), *ratio* (true zero, ratios meaningful: income, weight). The level decides which statistics make sense: you can compute a mean of ratio data but only a mode for nominal data.
+**Levels of measurement:** *nominal* (labels), *ordinal* (order but no meaningful differences), *interval* (equal differences, no true zero: temperature in $^{\circ} C$), *ratio* (true zero, ratios meaningful: income, weight). The level decides which statistics make sense: you can compute a mean of ratio data but only a mode for nominal data.
 
 By time: **cross-sectional** data (many units at one time, e.g. today's marks of all students), **time-series** data (one unit over time, e.g. monthly rainfall), **panel** data (both).
 
 ## 1.3 Sources of data
 
-| | Primary data | Secondary data |
+|  | Primary data | Secondary data |
 |---|---|---|
 | Definition | collected first-hand for the present purpose | already collected by someone else |
 | Examples | your own survey, experiment, observation | census reports, Nepal Rastra Bank bulletins, published research, company records |
@@ -87,11 +87,11 @@ for i, (t, d) in enumerate([("1 Plan", "aim, population,\nvariables"), ("2 Colle
 3. **Machine learning and data science.** Regression, classification and clustering are statistical ideas in code. Without knowing variance, bias and sampling, a student cannot tell a good model from a lucky one. Nepal's Election Commission and NRB data sets are natural practice material.
 4. **Quality control in industry.** Factories sample a few items from each batch and judge the whole batch from them. A Biratnagar noodle mill or a Bhaktapur brick kiln uses this to keep defects low at low cost. Software teams do the same with bug counts per release.
 5. **Government planning and the census.** The National Statistics Office counts people, houses and farms to plan schools, hospitals and roads. The 2078 BS census used handheld digital collection, so statistics and computing met in one project. Policies such as the allocation of seats and budgets depend on these figures.
-6. **A/B testing and product research.** Two versions of an app screen are shown to two random groups, and a statistical test says whether the difference is real. Fonepay and eSewa-type wallets run such experiments on button text and offers. Only a test, not opinion, shows what actually works.
+6. **A/B testing and product research.** Two versions of an $a p p$ screen are shown to two random groups, and a statistical test says whether the difference is real. Fonepay and eSewa-type wallets run such experiments on button text and offers. Only a test, not opinion, shows what actually works.
 7. **Health, agriculture and environment.** Clinical trials, crop-yield trials and river-pollution monitoring all depend on sampling and comparison. A trial of a new paddy variety in the Terai compares yields on many plots, not one. The same logic protects patients and farmers from false claims.
 8. **Reading the news critically.** Graphs with cut axes, tiny samples and selective percentages are common in advertisements and politics. A student who knows what the sample was, how it was chosen and what the margin of error is can spot a weak claim at once. This is the everyday use of the subject.
 
-```photogrid label="1.2" cols="2" ratio="1.2" caption="Never trust a summary you have not drawn. (a) Florence Nightingale, a pioneer of statistical graphics: in 1858 she used a coloured diagram of deaths by month to convince the British government that most soldiers in the Crimean War died of disease, not wounds. (b) Anscombe's four data sets (Francis Anscombe, 1973) each have 11 points, and each has mean of x equal to 9, mean of y equal to 7.50, correlation r = 0.82 and the same regression line y = 3 + 0.5x. Yet the pictures are a straight scatter, a smooth curve, a line with one outlier and a vertical stack with one far point. The numbers are identical and the stories are completely different, so always plot the data first. All statistics are recomputed in the figure."
+```photogrid label="1.2" cols="2" ratio="1.2" caption="Never trust a summary you have not drawn. (a) Florence Nightingale, a pioneer of statistical graphics: in 1858 she used a coloured diagram of deaths by month to convince the British government that most soldiers in the Crimean War died of disease, not wounds. (b) Anscombe's four data sets (Francis Anscombe, 1973) each have 11 points, and each has mean of *x* equal to 9, mean of *y* equal to 7.50, correlation $r = 0.82$ and the same regression line $y = 3$ + 0.5x. Yet the pictures are a straight scatter, a smooth curve, a line with one outlier and a vertical stack with one far point. The numbers are identical and the stories are completely different, so always plot the data first. All statistics are recomputed in the figure."
 @ photo id="bcamath/nightingale" cap="Florence Nightingale (statistical graphics)"
 fit 1.2
 focus 0.5 0.35
@@ -116,7 +116,7 @@ for k, (X, Y) in enumerate(sets):
 f.text(150, 226, "all: mean x 9, mean y 7.50, r = 0.82, y = 3 + 0.5x", size=10.5, color=NAVY, bold=True)
 ```
 
-```photogrid label="1.3" cols="2" ratio="1.2" caption="How many people must a poll ask? (a) A ballot drop box: an election is a census of voters, but an opinion poll before it is a sample. (b) For a proportion with the worst case p = 0.5 and 95 percent confidence (z = 1.96) the sample size is n = z^2 p (1 - p) / e^2. A margin of error e = 5 percent needs 385 people, 3 percent needs 1,068, 2 percent needs 2,401 and 1 percent needs 9,604: to cut the error in half you must ask four times as many. These numbers hardly depend on the size of the country: for the whole of Nepal (about 29 million people) 1,068 are still enough for 3 percent, while for a college of N = 1,000 students the finite-population correction n / (1 + (n - 1) / N) brings the 5 percent sample down from 385 to 278, and for N = 500 to 218."
+```photogrid label="1.3" cols="2" ratio="1.2" caption="How many people must a poll $a s k$? (a) A ballot drop box: an election is a census of voters, but an opinion poll before it is a sample. (b) For a proportion with the worst case $p = 0.5$ and 95 percent confidence $(z = 1.96)$ the sample size is $n = \frac{z^{2} p (1 - p)}{e^{2}}$. A margin of error $e = 5$ percent needs 385 people, 3 percent needs 1,068, 2 percent needs 2,401 and 1 percent needs 9,604: to cut the error in half you must $a s k$ four times as many. These numbers hardly depend on the size of the country: for the whole of Nepal (about 29 million people) 1,068 are still enough for 3 percent, while for a college of N = 1,000 students the finite-population correction $\frac{n}{1 + \frac{n - 1}{N}}$ brings the 5 percent sample down from 385 to 278, and for $N = 500$ to 218."
 @ photo id="bcamath/dropbox" cap="A ballot drop box"
 fit 1.2
 focus 0.5 0.55
@@ -143,7 +143,7 @@ f.text(150, 228, "Nepal (29 million) at 3%: still 1,068", size=10.5, color=SLATE
 
 ## Formula and fact sheet
 
-- Descriptive vs inferential; population/parameter vs sample/statistic.
+- Descriptive $v s$ inferential; population/parameter $v s$ sample/statistic.
 - Qualitative: nominal, ordinal. Quantitative: discrete, continuous. Scales: nominal, ordinal, interval, ratio.
 - Primary: first-hand. Secondary: existing sources.
 
@@ -156,18 +156,23 @@ f.text(150, 228, "Nepal (29 million) at 3%: still 1,068", size=10.5, color=SLATE
 ## Practice
 
 1. Differentiate descriptive and inferential statistics; population and sample; parameter and statistic.
-2. Classify: blood group, number of bugs, server response time, exam grade, temperature in °C.
+2. Classify: blood group, number of bugs, server response time, exam grade, temperature in $^{\circ} C$.
 3. State four limitations of statistics.
 4. Compare primary and secondary data.
 5. What is the difference between a questionnaire and a schedule?
 6. List four problems in data collection.
 
 ::: note Answers and worked solutions
-**1.** Descriptive summarises observed data; inferential generalises from sample to population. Population: all units; sample: part of it. A parameter describes a population (μ); a statistic describes a sample (x̄).
-**2.** Blood group: nominal; number of bugs: discrete ratio; response time: continuous ratio; exam grade: ordinal; temperature in °C: continuous interval.
+**1.** Descriptive summarises observed data; inferential generalises from sample to population. Population: all units; sample: part of it. A parameter describes a population $(\mu)$; a statistic describes a sample $(\bar{x})$.
+
+**2.** Blood group: nominal; number of bugs: discrete ratio; response time: continuous ratio; exam grade: ordinal; temperature in $^{\circ} C$: continuous interval.
+
 **3.** Deals with groups not individuals; only quantitative; true on average; can be misused; depends on data quality.
+
 **4.** See 1.3: primary is first-hand, exact but costly; secondary is existing, cheap but possibly unsuitable.
+
 **5.** A questionnaire is completed by the respondents themselves; a schedule is filled in by an enumerator who asks the questions.
+
 **6.** Non-response, biased questions, inaccurate answers, unrepresentative sample, cost/time.
 :::
 
@@ -199,7 +204,7 @@ f.text(150, 228, "Nepal (29 million) at 3%: still 1,068", size=10.5, color=SLATE
 
 1. **Nominal:** labels with no order, such as blood group or district. Only counting and the **mode** make sense.
 2. **Ordinal:** labels with a meaningful order but unequal gaps, such as grade A, B, C or a satisfaction rating. The **median** and percentiles are allowed; averaging the codes is doubtful.
-3. **Interval:** equal differences but no true zero, such as temperature in °C. The **mean** and standard deviation are valid, but 40 °C is not "twice as hot" as 20 °C.
+3. **Interval:** equal differences but no true zero, such as temperature in $^{\circ} C$. The **mean** and standard deviation are valid, but 40 $^{\circ} C$ is not "twice as hot" as 20 $^{\circ} C$.
 4. **Ratio:** equal differences and a true zero, such as income, weight or response time. Every statistic and ratio is valid: 60 ms is twice as slow as 30 ms.
 
 *Why it matters.* The scale picks the average (mode, median, mean), the chart (bar chart for nominal, histogram for ratio) and the test. Averaging student roll numbers is arithmetic but statistical nonsense, because roll numbers are only labels.

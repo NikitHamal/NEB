@@ -30,7 +30,7 @@ def localise_marks(html):
 # Devanagari conjuncts break when tracked, and uppercasing is meaningless for
 # it. Nepali books get this sheet appended after theme.css, so every tracked
 # label in the furniture reverts to normal spacing and mixed case.
-DEVA_FONT_NE = 'font-family:"Noto Sans Devanagari",Inter,sans-serif'
+DEVA_FONT_NE = 'font-family:"Noto Sans Devanagari",Poppins,sans-serif'
 DEVA_CSS = """
 .chip, .cover .lockup, .cover .foot, .ch-eyebrow, .toc .area, .syllabus .t,
 .box .bt, .qs .grp, .chapsum h2, th, .runhead, .tile, .toc .hrs, figcaption .n
