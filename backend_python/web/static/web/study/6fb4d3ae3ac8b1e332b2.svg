@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="291.54pt" height="178.73pt" viewBox="0 0 291.54 178.73" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 178.73 
+L 291.54 178.73 
+L 291.54 0 
+L 0 0 
+L 0 178.73 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 70.56 164.57 
+L 220.97 164.57 
+L 220.97 14.16 
+L 70.56 14.16 
+L 70.56 164.57 
+z
+" clip-path="url(#pe5b5cc2725)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 70.56 164.57 
+L 220.97 14.16 
+" clip-path="url(#pe5b5cc2725)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 70.56 14.16 
+L 220.97 164.57 
+" clip-path="url(#pe5b5cc2725)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 145.77 164.57 
+L 220.97 89.36 
+L 145.77 14.16 
+L 70.56 89.36 
+L 145.77 164.57 
+" clip-path="url(#pe5b5cc2725)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pe5b5cc2725">
+   <rect x="2.88" y="2.88" width="285.78" height="172.97"/>
+  </clipPath>
+ </defs>
+</svg>

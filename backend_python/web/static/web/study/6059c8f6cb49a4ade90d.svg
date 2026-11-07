@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="273.58pt" height="178.73pt" viewBox="0 0 273.58 178.73" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 178.73 
+L 273.58 178.73 
+L 273.58 0 
+L 0 0 
+L 0 178.73 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 25.19 142.37 
+L 248.38 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 136.79 30.77 
+L 25.19 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 136.79 30.77 
+L 69.83 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 136.79 30.77 
+L 120.05 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 136.79 30.77 
+L 175.85 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 136.79 30.77 
+L 248.38 142.37 
+" clip-path="url(#p022b817ade)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #14181f" transform="translate(21.90 162.91) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2b5" d="M 3117 2304 
+Q 3507 2221 3744 1917 
+Q 3981 1613 3981 1222 
+Q 3981 659 3587 329 
+Q 3194 0 2490 0 
+L 397 0 
+L 397 4493 
+L 2419 4493 
+Q 3104 4493 3491 4179 
+Q 3878 3866 3878 3328 
+Q 3878 2931 3670 2668 
+Q 3462 2406 3117 2304 
+z
+M 1491 2675 
+L 2208 2675 
+Q 2477 2675 2621 2793 
+Q 2765 2912 2765 3142 
+Q 2765 3373 2621 3494 
+Q 2477 3616 2208 3616 
+L 1491 3616 
+L 1491 2675 
+z
+M 2298 883 
+Q 2573 883 2723 1008 
+Q 2874 1133 2874 1370 
+Q 2874 1606 2717 1740 
+Q 2560 1875 2285 1875 
+L 1491 1875 
+L 1491 883 
+L 2298 883 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2b5"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #14181f" transform="translate(66.71 162.91) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2c3" d="M 3821 3046 
+Q 3821 2656 3641 2333 
+Q 3462 2010 3091 1811 
+Q 2720 1613 2170 1613 
+L 1491 1613 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 2170 4493 
+Q 2707 4493 3078 4307 
+Q 3450 4122 3635 3795 
+Q 3821 3469 3821 3046 
+z
+M 2086 2483 
+Q 2400 2483 2553 2630 
+Q 2707 2778 2707 3046 
+Q 2707 3315 2553 3462 
+Q 2400 3610 2086 3610 
+L 1491 3610 
+L 1491 2483 
+L 2086 2483 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2c3"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #14181f" transform="translate(116.11 162.91) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2c4" d="M 3597 -768 
+L 3021 6 
+Q 2765 -45 2522 -45 
+Q 1888 -45 1360 249 
+Q 832 544 521 1072 
+Q 211 1600 211 2259 
+Q 211 2918 521 3443 
+Q 832 3968 1360 4262 
+Q 1888 4557 2522 4557 
+Q 3155 4557 3683 4262 
+Q 4211 3968 4515 3443 
+Q 4819 2918 4819 2259 
+Q 4819 1683 4585 1206 
+Q 4352 730 3936 416 
+L 4922 -768 
+L 3597 -768 
+z
+M 1331 2259 
+Q 1331 1664 1654 1309 
+Q 1978 954 2522 954 
+Q 3059 954 3382 1312 
+Q 3706 1670 3706 2259 
+Q 3706 2854 3382 3209 
+Q 3059 3565 2522 3565 
+Q 1978 3565 1654 3213 
+Q 1331 2861 1331 2259 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2c4"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #14181f" transform="translate(172.59 162.91) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2c5" d="M 2688 0 
+L 1754 1696 
+L 1491 1696 
+L 1491 0 
+L 397 0 
+L 397 4493 
+L 2234 4493 
+Q 2765 4493 3139 4307 
+Q 3514 4122 3699 3798 
+Q 3885 3475 3885 3078 
+Q 3885 2630 3632 2278 
+Q 3379 1926 2886 1779 
+L 3923 0 
+L 2688 0 
+z
+M 1491 2470 
+L 2170 2470 
+Q 2470 2470 2620 2617 
+Q 2771 2765 2771 3034 
+Q 2771 3290 2620 3437 
+Q 2470 3584 2170 3584 
+L 1491 3584 
+L 1491 2470 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2c5"/>
+    </g>
+   </g>
+   <g id="text_5">
+    
+    <g style="fill: #14181f" transform="translate(244.57 162.91) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2b6" d="M 211 2253 
+Q 211 2918 499 3440 
+Q 787 3962 1302 4253 
+Q 1818 4544 2470 4544 
+Q 3270 4544 3840 4121 
+Q 4410 3699 4602 2970 
+L 3398 2970 
+Q 3264 3251 3017 3398 
+Q 2771 3546 2458 3546 
+Q 1952 3546 1638 3194 
+Q 1325 2842 1325 2253 
+Q 1325 1664 1638 1312 
+Q 1952 960 2458 960 
+Q 2771 960 3017 1107 
+Q 3264 1254 3398 1536 
+L 4602 1536 
+Q 4410 806 3840 387 
+Q 3270 -32 2470 -32 
+Q 1818 -32 1302 259 
+Q 787 550 499 1068 
+Q 211 1587 211 2253 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2b6"/>
+    </g>
+   </g>
+   <g id="text_6">
+    
+    <g style="fill: #14181f" transform="translate(133.10 20.58) scale(0.1 -0.1)">
+     <defs>
+      <path id="Poppins-Bold-2b4" d="M 3194 794 
+L 1517 794 
+L 1248 0 
+L 102 0 
+L 1728 4493 
+L 2995 4493 
+L 4621 0 
+L 3462 0 
+L 3194 794 
+z
+M 2912 1638 
+L 2355 3283 
+L 1805 1638 
+L 2912 1638 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Bold-2b4"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p022b817ade">
+   <rect x="2.88" y="2.88" width="267.82" height="172.97"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,3284 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="334.98pt" height="239.88pt" viewBox="0 0 334.98 239.88" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 239.88 
+L 334.98 239.88 
+L 334.98 0 
+L 0 0 
+L 0 239.88 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 19.76 203.12 
+L 121.06 203.12 
+L 121.06 109.02 
+L 19.76 109.02 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: #1d6fb8; opacity: 0.12"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 60.56 173.18 
+L 80.26 173.18 
+L 80.26 153.93 
+L 60.56 153.93 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: #14181f"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 61.97 128.69 
+C 62.79 128.69 63.57 128.20 64.15 127.32 
+C 64.73 126.43 65.06 125.24 65.06 123.99 
+C 65.06 122.74 64.73 121.54 64.15 120.66 
+C 63.57 119.78 62.79 119.28 61.97 119.28 
+C 61.14 119.28 60.36 119.78 59.78 120.66 
+C 59.20 121.54 58.87 122.74 58.87 123.99 
+C 58.87 125.24 59.20 126.43 59.78 127.32 
+C 60.36 128.20 61.14 128.69 61.97 128.69 
+L 61.97 128.69 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 76.04 118.00 
+C 76.86 118.00 77.64 117.50 78.22 116.62 
+C 78.80 115.74 79.13 114.54 79.13 113.30 
+C 79.13 112.05 78.80 110.85 78.22 109.97 
+C 77.64 109.09 76.86 108.59 76.04 108.59 
+C 75.21 108.59 74.43 109.09 73.85 109.97 
+C 73.27 110.85 72.94 112.05 72.94 113.30 
+C 72.94 114.54 73.27 115.74 73.85 116.62 
+C 74.43 117.50 75.21 118.00 76.04 118.00 
+L 76.04 118.00 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 67.59 100.89 
+C 68.41 100.89 69.20 100.40 69.78 99.51 
+C 70.36 98.63 70.69 97.43 70.69 96.19 
+C 70.69 94.94 70.36 93.74 69.78 92.86 
+C 69.20 91.98 68.41 91.48 67.59 91.48 
+C 66.77 91.48 65.99 91.98 65.40 92.86 
+C 64.82 93.74 64.50 94.94 64.50 96.19 
+C 64.50 97.43 64.82 98.63 65.40 99.51 
+C 65.99 100.40 66.77 100.89 67.59 100.89 
+L 67.59 100.89 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 78.85 85.92 
+C 79.67 85.92 80.46 85.42 81.04 84.54 
+C 81.62 83.66 81.94 82.46 81.94 81.21 
+C 81.94 79.97 81.62 78.77 81.04 77.89 
+C 80.46 77.01 79.67 76.51 78.85 76.51 
+C 78.03 76.51 77.24 77.01 76.66 77.89 
+C 76.08 78.77 75.75 79.97 75.75 81.21 
+C 75.75 82.46 76.08 83.66 76.66 84.54 
+C 77.24 85.42 78.03 85.92 78.85 85.92 
+L 78.85 85.92 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 63.37 70.95 
+C 64.19 70.95 64.98 70.45 65.56 69.57 
+C 66.14 68.69 66.47 67.49 66.47 66.24 
+C 66.47 65.00 66.14 63.80 65.56 62.92 
+C 64.98 62.03 64.19 61.54 63.37 61.54 
+C 62.55 61.54 61.76 62.03 61.18 62.92 
+C 60.60 63.80 60.28 65.00 60.28 66.24 
+C 60.28 67.49 60.60 68.69 61.18 69.57 
+C 61.76 70.45 62.55 70.95 63.37 70.95 
+L 63.37 70.95 
+z
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 19.76 70.52 
+L 19.76 203.12 
+L 121.06 203.12 
+L 121.06 70.52 
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #14181f; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 50.71 34.16 
+L 50.71 179.60 
+L 90.10 179.60 
+L 90.10 34.16 
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #5b6472; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 90.10 42.72 
+L 135.13 42.72 
+" clip-path="url(#p7ca2ebab52)" style="fill: none; stroke: #14181f; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #14181f" transform="translate(60.26 143.24) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2c3" d="M 3475 3155 
+Q 3475 2598 3094 2230 
+Q 2714 1862 1933 1862 
+L 1075 1862 
+L 1075 0 
+L 493 0 
+L 493 4461 
+L 1933 4461 
+Q 2688 4461 3081 4096 
+Q 3475 3731 3475 3155 
+z
+M 1933 2342 
+Q 2419 2342 2649 2553 
+Q 2880 2765 2880 3155 
+Q 2880 3981 1933 3981 
+L 1075 3981 
+L 1075 2342 
+L 1933 2342 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e7" d="M 1203 3027 
+L 1203 960 
+Q 1203 704 1312 598 
+Q 1421 493 1690 493 
+L 2118 493 
+L 2118 0 
+L 1594 0 
+Q 1107 0 864 224 
+Q 621 448 621 960 
+L 621 3027 
+L 166 3027 
+L 166 3507 
+L 621 3507 
+L 621 4390 
+L 1203 4390 
+L 1203 3507 
+L 2118 3507 
+L 2118 3027 
+L 1203 3027 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-3" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d9" d="M 1920 3027 
+L 1184 3027 
+L 1184 0 
+L 602 0 
+L 602 3027 
+L 147 3027 
+L 147 3507 
+L 602 3507 
+L 602 3757 
+Q 602 4346 906 4618 
+Q 1210 4890 1882 4890 
+L 1882 4403 
+Q 1498 4403 1341 4252 
+Q 1184 4102 1184 3757 
+L 1184 3507 
+L 1920 3507 
+L 1920 3027 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e2" d="M 2022 -58 
+Q 1530 -58 1130 166 
+Q 730 390 502 803 
+Q 275 1216 275 1760 
+Q 275 2298 508 2710 
+Q 742 3123 1145 3344 
+Q 1549 3565 2048 3565 
+Q 2547 3565 2950 3344 
+Q 3354 3123 3587 2713 
+Q 3821 2304 3821 1760 
+Q 3821 1216 3581 803 
+Q 3341 390 2931 166 
+Q 2522 -58 2022 -58 
+z
+M 2022 454 
+Q 2336 454 2611 601 
+Q 2886 749 3056 1043 
+Q 3226 1338 3226 1760 
+Q 3226 2182 3059 2476 
+Q 2893 2771 2624 2915 
+Q 2355 3059 2042 3059 
+Q 1722 3059 1456 2915 
+Q 1190 2771 1030 2476 
+Q 870 2182 870 1760 
+Q 870 1331 1027 1036 
+Q 1184 742 1446 598 
+Q 1709 454 2022 454 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2dc" d="M 794 4077 
+Q 627 4077 512 4192 
+Q 397 4307 397 4474 
+Q 397 4640 512 4755 
+Q 627 4870 794 4870 
+Q 954 4870 1066 4755 
+Q 1178 4640 1178 4474 
+Q 1178 4307 1066 4192 
+Q 954 4077 794 4077 
+z
+M 1075 3507 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2df" d="M 1075 4736 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2c3"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(57.90 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(94.31 0)"/>
+     <use xlink:href="#Poppins-Regular-2d9" transform="translate(121.01 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(153.92 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(217.92 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(242.51 0)"/>
+    </g>
+   </g>
+   <g id="patch_9">
+    <path d="M 26.85 33.38 
+Q 38.05 43.79 48.18 53.20 
+" style="fill: none; stroke: #14181f; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 46.45 48.59 
+L 48.18 53.20 
+L 43.46 51.82 
+z
+" style="fill: #14181f; stroke: #14181f; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #14181f" transform="translate(23.98 25.61) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2bb" d="M 3930 4461 
+L 3930 0 
+L 3347 0 
+L 3347 2022 
+L 1075 2022 
+L 1075 0 
+L 493 0 
+L 493 4461 
+L 1075 4461 
+L 1075 2502 
+L 3347 2502 
+L 3347 4461 
+L 3930 4461 
+z
+" transform="scale(0.01)"/>
+      <path id="DejaVuSans-b5d" d="M 838 356 
+L 2163 356 
+L 2163 0 
+L 294 0 
+L 294 343 
+Q 400 440 597 615 
+Q 1672 1568 1672 1862 
+Q 1672 2068 1509 2194 
+Q 1347 2321 1081 2321 
+Q 919 2321 728 2266 
+Q 538 2212 313 2103 
+L 313 2487 
+Q 553 2575 761 2618 
+Q 969 2662 1147 2662 
+Q 1600 2662 1872 2456 
+Q 2144 2250 2144 1912 
+Q 2144 1478 1109 590 
+Q 934 440 838 356 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d4" d="M 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1939 3565 
+Q 2400 3565 2739 3366 
+Q 3078 3168 3245 2867 
+L 3245 3507 
+L 3834 3507 
+L 3834 0 
+L 3245 0 
+L 3245 653 
+Q 3072 346 2729 144 
+Q 2387 -58 1933 -58 
+Q 1466 -58 1088 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2a4" d="M 243 4096 
+L 243 4627 
+L 1446 4627 
+L 1446 0 
+L 858 0 
+L 858 4096 
+L 243 4096 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d5" d="M 1075 2854 
+Q 1254 3168 1600 3366 
+Q 1946 3565 2387 3565 
+Q 2861 3565 3238 3341 
+Q 3616 3117 3833 2710 
+Q 4051 2304 4051 1766 
+Q 4051 1235 3833 819 
+Q 3616 403 3235 172 
+Q 2854 -58 2387 -58 
+Q 1933 -58 1590 140 
+Q 1248 339 1075 646 
+L 1075 0 
+L 493 0 
+L 493 4736 
+L 1075 4736 
+L 1075 2854 
+z
+M 3456 1766 
+Q 3456 2163 3296 2457 
+Q 3136 2752 2864 2905 
+Q 2592 3059 2266 3059 
+Q 1946 3059 1674 2902 
+Q 1402 2746 1238 2448 
+Q 1075 2150 1075 1760 
+Q 1075 1363 1238 1065 
+Q 1402 768 1674 611 
+Q 1946 454 2266 454 
+Q 2592 454 2864 611 
+Q 3136 768 3296 1065 
+Q 3456 1363 3456 1766 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e5" d="M 1075 2938 
+Q 1229 3238 1513 3404 
+Q 1798 3571 2208 3571 
+L 2208 2970 
+L 2054 2970 
+Q 1075 2970 1075 1907 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+L 1075 2938 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2bb"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(69.20 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(109.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(136 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(203.59 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(240 0)"/>
+     <use xlink:href="#Poppins-Regular-2a4" transform="translate(266.70 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(298.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2d5" transform="translate(325.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(393 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(460.59 0)"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #14181f" transform="translate(95.35 98.32) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2c0" d="M 5018 4429 
+L 5018 0 
+L 4435 0 
+L 4435 3302 
+L 2963 0 
+L 2554 0 
+L 1075 3309 
+L 1075 0 
+L 493 0 
+L 493 4429 
+L 1120 4429 
+L 2758 768 
+L 4397 4429 
+L 5018 4429 
+z
+" transform="scale(0.01)"/>
+      <path id="DejaVuSans-b55" d="M 1853 4334 
+L 1853 3359 
+L 2950 3359 
+L 2950 3063 
+L 1853 3063 
+L 1853 2088 
+L 1525 2088 
+L 1525 3063 
+L 428 3063 
+L 428 3359 
+L 1525 3359 
+L 1525 4334 
+L 1853 4334 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2a4"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(32 0)"/>
+     <use xlink:href="#Poppins-Regular-2c0" transform="translate(58.70 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(144.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2bb" transform="translate(171.5 0)"/>
+     <use xlink:href="#DejaVuSans-b55" transform="translate(240.70 0)"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #5b6472" transform="translate(112.40 36.30) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2d6" d="M 275 1760 
+Q 275 2304 492 2710 
+Q 710 3117 1097 3341 
+Q 1485 3565 1984 3565 
+Q 2630 3565 3049 3251 
+Q 3469 2938 3603 2381 
+L 2976 2381 
+Q 2886 2701 2627 2886 
+Q 2368 3072 1984 3072 
+Q 1485 3072 1177 2729 
+Q 870 2387 870 1760 
+Q 870 1126 1177 780 
+Q 1485 435 1984 435 
+Q 2368 435 2624 614 
+Q 2880 794 2976 1126 
+L 3603 1126 
+Q 3462 589 3040 265 
+Q 2618 -58 1984 -58 
+Q 1485 -58 1097 166 
+Q 710 390 492 800 
+Q 275 1210 275 1760 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d8" d="M 3693 1888 
+Q 3693 1722 3674 1536 
+L 870 1536 
+Q 902 1018 1225 726 
+Q 1549 435 2010 435 
+Q 2387 435 2640 611 
+Q 2893 787 2995 1082 
+L 3622 1082 
+Q 3482 576 3059 259 
+Q 2637 -58 2010 -58 
+Q 1510 -58 1116 166 
+Q 723 390 499 803 
+Q 275 1216 275 1760 
+Q 275 2304 492 2713 
+Q 710 3123 1104 3344 
+Q 1498 3565 2010 3565 
+Q 2509 3565 2893 3347 
+Q 3277 3130 3485 2749 
+Q 3693 2368 3693 1888 
+z
+M 3091 2010 
+Q 3091 2342 2944 2582 
+Q 2797 2822 2544 2947 
+Q 2291 3072 1984 3072 
+Q 1542 3072 1232 2790 
+Q 922 2509 877 2010 
+L 3091 2010 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e7"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(36.40 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(100.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d6" transform="translate(127.10 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(187.81 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(249.81 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(274.40 0)"/>
+    </g>
+   </g>
+   <g id="text_5">
+    
+    <g style="fill: #14181f" transform="translate(40.89 221.30) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-Regular-2a5" d="M 326 467 
+Q 1139 1120 1600 1539 
+Q 2061 1958 2377 2416 
+Q 2694 2874 2694 3315 
+Q 2694 3731 2492 3971 
+Q 2291 4211 1843 4211 
+Q 1408 4211 1168 3939 
+Q 928 3667 909 3213 
+L 346 3213 
+Q 371 3930 780 4320 
+Q 1190 4710 1837 4710 
+Q 2496 4710 2883 4345 
+Q 3270 3981 3270 3341 
+Q 3270 2810 2953 2307 
+Q 2637 1805 2233 1424 
+Q 1830 1043 1203 538 
+L 3405 538 
+L 3405 51 
+L 326 51 
+L 326 467 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-29e" d="M 3821 2093 
+L 2458 2093 
+L 2458 710 
+L 1914 710 
+L 1914 2093 
+L 557 2093 
+L 557 2586 
+L 1914 2586 
+L 1914 3974 
+L 2458 3974 
+L 2458 2586 
+L 3821 2586 
+L 3821 2093 
+z
+" transform="scale(0.01)"/>
+      <path id="DejaVuSans-b56" d="M 428 3359 
+L 2950 3359 
+L 2950 3063 
+L 428 3063 
+L 428 3359 
+z
+" transform="scale(0.01)"/>
+      <path id="DejaVuSans-c1c" d="M 5050 2147 
+L 5050 1866 
+L 3822 638 
+L 3447 1013 
+L 4175 1741 
+L 366 1741 
+L 366 2272 
+L 4175 2272 
+L 3447 3000 
+L 3822 3375 
+L 5050 2147 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2a5"/>
+     <use xlink:href="#Poppins-Regular-2bb" transform="translate(57.5 0)"/>
+     <use xlink:href="#DejaVuSans-b55" transform="translate(126.70 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(179.48 0)"/>
+     <use xlink:href="#Poppins-Regular-29e" transform="translate(206.18 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(274.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(301.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(358.68 0)"/>
+     <use xlink:href="#DejaVuSans-b56" transform="translate(420.68 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(473.46 0)"/>
+     <use xlink:href="#DejaVuSans-c1c" transform="translate(500.17 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(583.96 0)"/>
+     <use xlink:href="#Poppins-Regular-2bb" transform="translate(610.67 0)"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(679.87 0)"/>
+    </g>
+   </g>
+   <g id="text_6">
+    
+    <g style="fill: #14181f" transform="translate(46.44 234.13) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-Regular-2b8" d="M 1075 3987 
+L 1075 2496 
+L 2701 2496 
+L 2701 2016 
+L 1075 2016 
+L 1075 480 
+L 2893 480 
+L 2893 0 
+L 493 0 
+L 493 4467 
+L 2893 4467 
+L 2893 3987 
+L 1075 3987 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-302" d="M 179 3354 
+Q 179 3859 496 4166 
+Q 813 4474 1312 4474 
+Q 1811 4474 2124 4166 
+Q 2438 3859 2438 3354 
+Q 2438 3014 2291 2758 
+Q 2144 2502 1885 2361 
+Q 1626 2221 1299 2221 
+Q 800 2221 489 2531 
+Q 179 2842 179 3354 
+z
+M 1971 3354 
+Q 1971 3718 1782 3926 
+Q 1594 4134 1306 4134 
+Q 1024 4134 835 3926 
+Q 646 3718 646 3354 
+Q 646 2976 828 2774 
+Q 1011 2573 1299 2573 
+Q 1587 2573 1779 2777 
+Q 1971 2982 1971 3354 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2b0" d="M 3974 3277 
+L 3974 2784 
+L 646 2784 
+L 646 3277 
+L 3974 3277 
+z
+M 3974 1901 
+L 3974 1408 
+L 646 1408 
+L 646 1901 
+L 3974 1901 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2a3" d="M 397 2362 
+Q 397 3462 755 4080 
+Q 1114 4698 2010 4698 
+Q 2899 4698 3257 4080 
+Q 3616 3462 3616 2362 
+Q 3616 1242 3257 621 
+Q 2899 0 2010 0 
+Q 1114 0 755 621 
+Q 397 1242 397 2362 
+z
+M 3040 2362 
+Q 3040 2918 2966 3305 
+Q 2893 3693 2665 3929 
+Q 2438 4166 2010 4166 
+Q 1574 4166 1347 3929 
+Q 1120 3693 1046 3305 
+Q 973 2918 973 2362 
+Q 973 1786 1046 1395 
+Q 1120 1005 1347 768 
+Q 1574 531 2010 531 
+Q 2438 531 2665 768 
+Q 2893 1005 2966 1395 
+Q 3040 1786 3040 2362 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2a1" d="M 678 -38 
+Q 512 -38 397 77 
+Q 282 192 282 358 
+Q 282 525 397 640 
+Q 512 755 678 755 
+Q 838 755 950 640 
+Q 1062 525 1062 358 
+Q 1062 192 950 77 
+Q 838 -38 678 -38 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2c9" d="M 4179 4461 
+L 2496 0 
+L 1824 0 
+L 141 4461 
+L 762 4461 
+L 2163 614 
+L 3565 4461 
+L 4179 4461 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2b8"/>
+     <use xlink:href="#Poppins-Regular-302" transform="translate(51.29 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(92.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2b0" transform="translate(119 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(191.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2a3" transform="translate(218 0)"/>
+     <use xlink:href="#Poppins-Regular-2a1" transform="translate(280.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2a3" transform="translate(301.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2a3" transform="translate(364.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2a3" transform="translate(427.39 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(490.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2c9" transform="translate(516.89 0)"/>
+    </g>
+   </g>
+   <g id="text_7">
+    
+    <g style="fill: #14181f" transform="translate(8.59 11.91) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-SemiBold-2c6" d="M 1984 -45 
+Q 1517 -45 1142 115 
+Q 768 275 550 576 
+Q 333 877 326 1286 
+L 1286 1286 
+Q 1306 1011 1482 851 
+Q 1658 691 1965 691 
+Q 2278 691 2457 841 
+Q 2637 992 2637 1235 
+Q 2637 1434 2515 1562 
+Q 2394 1690 2211 1763 
+Q 2029 1837 1709 1926 
+Q 1274 2054 1002 2179 
+Q 730 2304 534 2557 
+Q 339 2810 339 3232 
+Q 339 3629 537 3923 
+Q 736 4218 1094 4374 
+Q 1453 4531 1914 4531 
+Q 2605 4531 3037 4195 
+Q 3469 3859 3514 3258 
+L 2528 3258 
+Q 2515 3488 2332 3638 
+Q 2150 3789 1850 3789 
+Q 1587 3789 1430 3654 
+Q 1274 3520 1274 3264 
+Q 1274 3085 1392 2966 
+Q 1510 2848 1686 2774 
+Q 1862 2701 2182 2605 
+Q 2618 2477 2893 2349 
+Q 3168 2221 3366 1965 
+Q 3565 1709 3565 1293 
+Q 3565 934 3379 627 
+Q 3194 320 2835 137 
+Q 2477 -45 1984 -45 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2e7" d="M 1485 2810 
+L 1485 1094 
+Q 1485 915 1571 835 
+Q 1658 755 1862 755 
+L 2278 755 
+L 2278 0 
+L 1715 0 
+Q 582 0 582 1101 
+L 582 2810 
+L 160 2810 
+L 160 3546 
+L 582 3546 
+L 582 4422 
+L 1485 4422 
+L 1485 3546 
+L 2278 3546 
+L 2278 2810 
+L 1485 2810 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2d4" d="M 211 1786 
+Q 211 2323 425 2739 
+Q 640 3155 1008 3379 
+Q 1376 3603 1830 3603 
+Q 2227 3603 2524 3443 
+Q 2822 3283 3002 3040 
+L 3002 3546 
+L 3904 3546 
+L 3904 0 
+L 3002 0 
+L 3002 518 
+Q 2829 269 2525 105 
+Q 2221 -58 1824 -58 
+Q 1376 -58 1008 172 
+Q 640 403 425 822 
+Q 211 1242 211 1786 
+z
+M 3002 1773 
+Q 3002 2099 2874 2332 
+Q 2746 2566 2528 2691 
+Q 2310 2816 2061 2816 
+Q 1811 2816 1600 2694 
+Q 1389 2573 1257 2339 
+Q 1126 2106 1126 1786 
+Q 1126 1466 1257 1226 
+Q 1389 986 1603 858 
+Q 1818 730 2061 730 
+Q 2310 730 2528 854 
+Q 2746 979 2874 1212 
+Q 3002 1446 3002 1773 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2e1" d="M 2406 3597 
+Q 3040 3597 3430 3197 
+Q 3821 2797 3821 2080 
+L 3821 0 
+L 2925 0 
+L 2925 1958 
+Q 2925 2381 2713 2608 
+Q 2502 2835 2138 2835 
+Q 1766 2835 1552 2608 
+Q 1338 2381 1338 1958 
+L 1338 0 
+L 442 0 
+L 442 3546 
+L 1338 3546 
+L 1338 3104 
+Q 1517 3334 1795 3465 
+Q 2074 3597 2406 3597 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2d7" d="M 211 1786 
+Q 211 2323 425 2739 
+Q 640 3155 1011 3379 
+Q 1382 3603 1837 3603 
+Q 2182 3603 2496 3452 
+Q 2810 3302 2995 3053 
+L 2995 4736 
+L 3904 4736 
+L 3904 0 
+L 2995 0 
+L 2995 525 
+Q 2829 262 2528 102 
+Q 2227 -58 1830 -58 
+Q 1382 -58 1011 172 
+Q 640 403 425 822 
+Q 211 1242 211 1786 
+z
+M 3002 1773 
+Q 3002 2099 2874 2332 
+Q 2746 2566 2528 2691 
+Q 2310 2816 2061 2816 
+Q 1811 2816 1600 2694 
+Q 1389 2573 1257 2339 
+Q 1126 2106 1126 1786 
+Q 1126 1466 1257 1226 
+Q 1389 986 1603 858 
+Q 1818 730 2061 730 
+Q 2310 730 2528 854 
+Q 2746 979 2874 1212 
+Q 3002 1446 3002 1773 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2e5" d="M 1338 2995 
+Q 1510 3277 1788 3437 
+Q 2067 3597 2426 3597 
+L 2426 2656 
+L 2189 2656 
+Q 1766 2656 1552 2457 
+Q 1338 2259 1338 1766 
+L 1338 0 
+L 442 0 
+L 442 3546 
+L 1338 3546 
+L 1338 2995 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-3" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2db" d="M 2438 3597 
+Q 2842 3597 3155 3421 
+Q 3469 3245 3645 2902 
+Q 3821 2560 3821 2080 
+L 3821 0 
+L 2925 0 
+L 2925 1958 
+Q 2925 2381 2713 2608 
+Q 2502 2835 2138 2835 
+Q 1766 2835 1552 2608 
+Q 1338 2381 1338 1958 
+L 1338 0 
+L 442 0 
+L 442 4736 
+L 1338 4736 
+L 1338 3104 
+Q 1510 3334 1798 3465 
+Q 2086 3597 2438 3597 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2ec" d="M 3834 3546 
+L 1638 -1677 
+L 685 -1677 
+L 1453 90 
+L 32 3546 
+L 1037 3546 
+L 1952 1069 
+L 2880 3546 
+L 3834 3546 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2e2" d="M 2016 -58 
+Q 1504 -58 1094 169 
+Q 685 397 451 813 
+Q 218 1229 218 1773 
+Q 218 2317 458 2733 
+Q 698 3149 1114 3376 
+Q 1530 3603 2042 3603 
+Q 2554 3603 2970 3376 
+Q 3386 3149 3626 2733 
+Q 3866 2317 3866 1773 
+Q 3866 1229 3619 813 
+Q 3373 397 2953 169 
+Q 2534 -58 2016 -58 
+z
+M 2016 723 
+Q 2259 723 2473 841 
+Q 2688 960 2816 1197 
+Q 2944 1434 2944 1773 
+Q 2944 2278 2678 2550 
+Q 2413 2822 2029 2822 
+Q 1645 2822 1385 2550 
+Q 1126 2278 1126 1773 
+Q 1126 1267 1379 995 
+Q 1632 723 2016 723 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2da" d="M 1830 3603 
+Q 2227 3603 2528 3446 
+Q 2829 3290 3002 3040 
+L 3002 3546 
+L 3904 3546 
+L 3904 -26 
+Q 3904 -518 3705 -905 
+Q 3507 -1293 3110 -1520 
+Q 2714 -1747 2150 -1747 
+Q 1395 -1747 912 -1395 
+Q 429 -1043 365 -435 
+L 1254 -435 
+Q 1325 -678 1558 -822 
+Q 1792 -966 2125 -966 
+Q 2515 -966 2758 -732 
+Q 3002 -499 3002 -26 
+L 3002 525 
+Q 2829 275 2525 108 
+Q 2221 -58 1830 -58 
+Q 1382 -58 1011 172 
+Q 640 403 425 822 
+Q 211 1242 211 1786 
+Q 211 2323 425 2739 
+Q 640 3155 1008 3379 
+Q 1376 3603 1830 3603 
+z
+M 3002 1773 
+Q 3002 2099 2874 2332 
+Q 2746 2566 2528 2691 
+Q 2310 2816 2061 2816 
+Q 1811 2816 1600 2694 
+Q 1389 2573 1257 2339 
+Q 1126 2106 1126 1786 
+Q 1126 1466 1257 1226 
+Q 1389 986 1603 858 
+Q 1818 730 2061 730 
+Q 2310 730 2528 854 
+Q 2746 979 2874 1212 
+Q 3002 1446 3002 1773 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2d8" d="M 3738 1850 
+Q 3738 1658 3712 1504 
+L 1120 1504 
+Q 1152 1120 1389 902 
+Q 1626 685 1971 685 
+Q 2470 685 2682 1114 
+L 3648 1114 
+Q 3494 602 3059 272 
+Q 2624 -58 1990 -58 
+Q 1478 -58 1072 169 
+Q 666 397 438 813 
+Q 211 1229 211 1773 
+Q 211 2323 435 2739 
+Q 659 3155 1062 3379 
+Q 1466 3603 1990 3603 
+Q 2496 3603 2896 3385 
+Q 3296 3168 3517 2768 
+Q 3738 2368 3738 1850 
+z
+M 2810 2106 
+Q 2803 2451 2560 2659 
+Q 2317 2867 1965 2867 
+Q 1632 2867 1405 2665 
+Q 1178 2464 1126 2106 
+L 2810 2106 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2df" d="M 1338 4736 
+L 1338 0 
+L 442 0 
+L 442 4736 
+L 1338 4736 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2d6" d="M 211 1773 
+Q 211 2323 435 2736 
+Q 659 3149 1056 3376 
+Q 1453 3603 1965 3603 
+Q 2624 3603 3056 3273 
+Q 3488 2944 3635 2349 
+L 2669 2349 
+Q 2592 2579 2409 2710 
+Q 2227 2842 1958 2842 
+Q 1574 2842 1350 2563 
+Q 1126 2285 1126 1773 
+Q 1126 1267 1350 988 
+Q 1574 710 1958 710 
+Q 2502 710 2669 1197 
+L 3635 1197 
+Q 3488 621 3053 281 
+Q 2618 -58 1965 -58 
+Q 1453 -58 1056 169 
+Q 659 397 435 809 
+Q 211 1222 211 1773 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2c6"/>
+     <use xlink:href="#Poppins-SemiBold-2e7" transform="translate(60.90 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d4" transform="translate(99.70 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e1" transform="translate(167.5 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(233.59 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d4" transform="translate(301.39 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e5" transform="translate(369.18 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(409.59 0)"/>
+     <use xlink:href="#Poppins-SemiBold-3" transform="translate(477.39 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2db" transform="translate(501.18 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2ec" transform="translate(567.28 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(627.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e5" transform="translate(695.57 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e2" transform="translate(735.98 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2da" transform="translate(799.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(867.57 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e1" transform="translate(929.28 0)"/>
+     <use xlink:href="#Poppins-SemiBold-3" transform="translate(995.37 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(1019.17 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2df" transform="translate(1080.87 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(1108.67 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d6" transform="translate(1170.37 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e7" transform="translate(1230.57 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e5" transform="translate(1269.37 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e2" transform="translate(1309.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(1373.57 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(1441.37 0)"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_10">
+    <path d="M 225.17 207.40 
+L 281.45 207.40 
+L 281.45 70.52 
+L 225.17 70.52 
+z
+" clip-path="url(#p3fe3e4288f)" style="fill: #1d6fb8; opacity: 0.12"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 225.17 207.40 
+L 281.45 207.40 
+L 281.45 188.15 
+L 225.17 188.15 
+z
+" clip-path="url(#p3fe3e4288f)" style="fill: #8f97a4"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 225.17 188.15 
+L 281.45 188.15 
+L 281.45 168.90 
+L 225.17 168.90 
+z
+" clip-path="url(#p3fe3e4288f)" style="fill: #cfd5de"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 310.99 207.40 
+L 316.62 207.40 
+L 316.62 194.57 
+L 310.99 194.57 
+z
+" clip-path="url(#p3fe3e4288f)" style="fill: url(#h805de5d124); stroke: #14181f; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 225.17 44.86 
+L 225.17 207.40 
+L 281.45 207.40 
+L 281.45 44.86 
+" clip-path="url(#p3fe3e4288f)" style="fill: none; stroke: #14181f; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 253.31 197.77 
+L 253.31 27.75 
+" clip-path="url(#p3fe3e4288f)" style="fill: none; stroke: #5b6472; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 281.45 194.57 
+L 316.62 194.57 
+" clip-path="url(#p3fe3e4288f)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 281.45 207.40 
+L 316.62 207.40 
+" clip-path="url(#p3fe3e4288f)" style="fill: none; stroke: #14181f; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_8">
+    
+    <g style="fill: #ffffff" transform="translate(247.84 201.22) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-Regular-2da" d="M 1939 3565 
+Q 2394 3565 2736 3366 
+Q 3078 3168 3245 2867 
+L 3245 3507 
+L 3834 3507 
+L 3834 -77 
+Q 3834 -557 3629 -931 
+Q 3424 -1306 3043 -1517 
+Q 2662 -1728 2157 -1728 
+Q 1466 -1728 1005 -1401 
+Q 544 -1075 461 -512 
+L 1037 -512 
+Q 1133 -832 1433 -1027 
+Q 1734 -1222 2157 -1222 
+Q 2637 -1222 2941 -921 
+Q 3245 -621 3245 -77 
+L 3245 659 
+Q 3072 352 2733 147 
+Q 2394 -58 1939 -58 
+Q 1472 -58 1091 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1939 3565 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2bb"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(69.20 0)"/>
+    </g>
+   </g>
+   <g id="text_9">
+    
+    <g style="fill: #14181f" transform="translate(229.95 181.76) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2b6" d="M 275 2234 
+Q 275 2886 569 3408 
+Q 864 3930 1373 4224 
+Q 1882 4518 2502 4518 
+Q 3232 4518 3776 4166 
+Q 4320 3814 4570 3168 
+L 3872 3168 
+Q 3686 3571 3337 3788 
+Q 2989 4006 2502 4006 
+Q 2035 4006 1664 3788 
+Q 1293 3571 1081 3171 
+Q 870 2771 870 2234 
+Q 870 1702 1081 1302 
+Q 1293 902 1664 684 
+Q 2035 467 2502 467 
+Q 2989 467 3337 681 
+Q 3686 896 3872 1299 
+L 4570 1299 
+Q 4320 659 3776 310 
+Q 3232 -38 2502 -38 
+Q 1882 -38 1373 253 
+Q 864 544 569 1062 
+Q 275 1581 275 2234 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e3" d="M 1075 2861 
+Q 1248 3162 1590 3363 
+Q 1933 3565 2387 3565 
+Q 2854 3565 3235 3341 
+Q 3616 3117 3833 2710 
+Q 4051 2304 4051 1766 
+Q 4051 1235 3833 819 
+Q 3616 403 3235 172 
+Q 2854 -58 2387 -58 
+Q 1939 -58 1596 144 
+Q 1254 346 1075 646 
+L 1075 -1664 
+L 493 -1664 
+L 493 3507 
+L 1075 3507 
+L 1075 2861 
+z
+M 3456 1766 
+Q 3456 2163 3296 2457 
+Q 3136 2752 2864 2905 
+Q 2592 3059 2266 3059 
+Q 1946 3059 1674 2902 
+Q 1402 2746 1238 2448 
+Q 1075 2150 1075 1760 
+Q 1075 1363 1238 1065 
+Q 1402 768 1674 611 
+Q 1946 454 2266 454 
+Q 2592 454 2864 611 
+Q 3136 768 3296 1065 
+Q 3456 1363 3456 1766 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e6" d="M 1734 -58 
+Q 1331 -58 1011 80 
+Q 691 218 505 464 
+Q 320 710 301 1030 
+L 902 1030 
+Q 928 768 1149 601 
+Q 1370 435 1728 435 
+Q 2061 435 2253 582 
+Q 2445 730 2445 954 
+Q 2445 1184 2240 1296 
+Q 2035 1408 1606 1517 
+Q 1216 1619 969 1724 
+Q 723 1830 547 2038 
+Q 371 2246 371 2586 
+Q 371 2854 531 3078 
+Q 691 3302 985 3433 
+Q 1280 3565 1658 3565 
+Q 2240 3565 2598 3270 
+Q 2957 2976 2982 2464 
+L 2400 2464 
+Q 2381 2739 2179 2905 
+Q 1978 3072 1638 3072 
+Q 1325 3072 1139 2937 
+Q 954 2803 954 2586 
+Q 954 2413 1066 2301 
+Q 1178 2189 1347 2121 
+Q 1517 2054 1818 1971 
+Q 2195 1869 2432 1769 
+Q 2669 1670 2838 1472 
+Q 3008 1274 3014 954 
+Q 3014 666 2854 435 
+Q 2694 205 2403 73 
+Q 2112 -58 1734 -58 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2bb"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(69.20 0)"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(136.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2b6" transform="translate(176.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(254.09 0)"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(278.68 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(318.78 0)"/>
+     <use xlink:href="#Poppins-Regular-2e3" transform="translate(345.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(413.07 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(480.67 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(532.87 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(569.28 0)"/>
+    </g>
+   </g>
+   <g id="text_10">
+    
+    <g style="fill: #14181f" transform="translate(234.15 105.87) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2e8" d="M 3603 3507 
+L 3603 0 
+L 3021 0 
+L 3021 518 
+Q 2854 250 2556 99 
+Q 2259 -51 1901 -51 
+Q 1491 -51 1164 118 
+Q 838 288 649 627 
+Q 461 966 461 1453 
+L 461 3507 
+L 1037 3507 
+L 1037 1530 
+Q 1037 1011 1299 732 
+Q 1562 454 2016 454 
+Q 2483 454 2752 742 
+Q 3021 1030 3021 1581 
+L 3021 3507 
+L 3603 3507 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2d7" d="M 275 1766 
+Q 275 2304 492 2710 
+Q 710 3117 1091 3341 
+Q 1472 3565 1946 3565 
+Q 2355 3565 2707 3376 
+Q 3059 3187 3245 2880 
+L 3245 4736 
+L 3834 4736 
+L 3834 0 
+L 3245 0 
+L 3245 659 
+Q 3072 346 2733 144 
+Q 2394 -58 1939 -58 
+Q 1472 -58 1091 172 
+Q 710 403 492 819 
+Q 275 1235 275 1766 
+z
+M 3245 1760 
+Q 3245 2157 3085 2451 
+Q 2925 2746 2653 2902 
+Q 2381 3059 2054 3059 
+Q 1728 3059 1459 2905 
+Q 1190 2752 1030 2457 
+Q 870 2163 870 1766 
+Q 870 1363 1030 1065 
+Q 1190 768 1459 611 
+Q 1728 454 2054 454 
+Q 2381 454 2653 611 
+Q 2925 768 3085 1065 
+Q 3245 1363 3245 1760 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2e6"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(52.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(119.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(156.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(220.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(257.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(325.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(361.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(423.5 0)"/>
+    </g>
+    
+    <g style="fill: #14181f" transform="translate(230.60 117.57) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2be" d="M 2912 0 
+L 1075 2035 
+L 1075 0 
+L 493 0 
+L 493 4461 
+L 1075 4461 
+L 1075 2394 
+L 2918 4461 
+L 3654 4461 
+L 1632 2227 
+L 3674 0 
+L 2912 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-2e1" d="M 2202 3571 
+Q 2842 3571 3238 3184 
+Q 3635 2797 3635 2067 
+L 3635 0 
+L 3059 0 
+L 3059 1984 
+Q 3059 2509 2796 2787 
+Q 2534 3066 2080 3066 
+Q 1619 3066 1347 2778 
+Q 1075 2490 1075 1939 
+L 1075 0 
+L 493 0 
+L 493 3507 
+L 1075 3507 
+L 1075 3008 
+Q 1248 3277 1545 3424 
+Q 1843 3571 2202 3571 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2be"/>
+     <use xlink:href="#Poppins-Regular-2b6" transform="translate(59.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(137.10 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(161.70 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(188.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(240.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(304.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(329.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(393.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(429.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(454.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e1" transform="translate(518.20 0)"/>
+    </g>
+   </g>
+   <g id="text_11">
+    
+    <g style="fill: #5b6472" transform="translate(258.23 34.16) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2ea" d="M 5165 3507 
+L 4070 0 
+L 3469 0 
+L 2624 2784 
+L 1779 0 
+L 1178 0 
+L 77 3507 
+L 672 3507 
+L 1478 563 
+L 2349 3507 
+L 2944 3507 
+L 3795 557 
+L 4589 3507 
+L 5165 3507 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2c3"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(57.90 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(94.31 0)"/>
+     <use xlink:href="#Poppins-Regular-2ea" transform="translate(121.01 0)"/>
+     <use xlink:href="#Poppins-Regular-2dc" transform="translate(203.01 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(227.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(264.90 0)"/>
+    </g>
+   </g>
+   <g id="patch_14">
+    <path d="M 320.38 164.43 
+Q 317.32 177.46 314.52 189.39 
+" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+    <path d="M 317.09 186.30 
+L 314.52 189.39 
+L 313.59 185.48 
+z
+" style="fill: #5b6472; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="text_12">
+    
+    <g style="fill: #5b6472" transform="translate(299.93 147.41) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2e3"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(67.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(131.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2e2" transform="translate(168.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(232.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(296.89 0)"/>
+    </g>
+    
+    <g style="fill: #5b6472" transform="translate(308.95 158.21) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2e3"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(67.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(92.18 0)"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(156.18 0)"/>
+    </g>
+   </g>
+   <g id="text_13">
+    
+    <g style="fill: #14181f" transform="translate(203.46 221.30) scale(0.07 -0.07)">
+     <use xlink:href="#Poppins-Regular-2bb"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(69.20 0)"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(136.79 0)"/>
+     <use xlink:href="#Poppins-Regular-2b6" transform="translate(176.89 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(254.09 0)"/>
+     <use xlink:href="#DejaVuSans-b5d" transform="translate(278.68 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(318.78 0)"/>
+     <use xlink:href="#Poppins-Regular-29e" transform="translate(345.48 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(413.78 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(440.48 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(497.98 0)"/>
+     <use xlink:href="#DejaVuSans-b56" transform="translate(559.98 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(612.76 0)"/>
+     <use xlink:href="#DejaVuSans-c1c" transform="translate(639.46 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(723.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(749.96 0)"/>
+     <use xlink:href="#Poppins-Regular-2bb" transform="translate(807.46 0)"/>
+     <use xlink:href="#Poppins-Regular-2da" transform="translate(876.67 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(944.26 0)"/>
+     <use xlink:href="#Poppins-Regular-29e" transform="translate(970.96 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(1039.26 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(1065.96 0)"/>
+     <use xlink:href="#Poppins-Regular-2b6" transform="translate(1123.46 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(1200.67 0)"/>
+     <use xlink:href="#DejaVuSans-b56" transform="translate(1225.26 0)"/>
+    </g>
+   </g>
+   <g id="text_14">
+    
+    <g style="fill: #14181f" transform="translate(198.77 234.13) scale(0.07 -0.07)">
+     <defs>
+      <path id="Poppins-Regular-2a7" d="M 256 1030 
+L 256 1472 
+L 2502 4582 
+L 3200 4582 
+L 3200 1536 
+L 3840 1536 
+L 3840 1030 
+L 3200 1030 
+L 3200 0 
+L 2624 0 
+L 2624 1030 
+L 256 1030 
+z
+M 2650 3974 
+L 928 1536 
+L 2650 1536 
+L 2650 3974 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-29b" d="M 1990 -1190 
+Q 1376 -589 1033 339 
+Q 691 1267 691 2342 
+Q 691 3443 1052 4400 
+Q 1414 5357 2086 5978 
+L 2694 5978 
+L 2694 5920 
+Q 1978 5248 1616 4304 
+Q 1254 3360 1254 2342 
+Q 1254 1350 1596 448 
+Q 1939 -454 2598 -1133 
+L 2598 -1190 
+L 1990 -1190 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-Regular-29c" d="M 307 -1190 
+L 307 -1133 
+Q 966 -454 1308 448 
+Q 1651 1350 1651 2342 
+Q 1651 3360 1289 4304 
+Q 928 5248 211 5920 
+L 211 5978 
+L 819 5978 
+Q 1491 5357 1852 4400 
+Q 2214 3443 2214 2342 
+Q 2214 1267 1872 339 
+Q 1530 -589 915 -1190 
+L 307 -1190 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-Regular-2b8"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(51.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2b0" transform="translate(78 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(150.29 0)"/>
+     <use xlink:href="#Poppins-Regular-29e" transform="translate(177 0)"/>
+     <use xlink:href="#Poppins-Regular-2a3" transform="translate(245.29 0)"/>
+     <use xlink:href="#Poppins-Regular-2a1" transform="translate(308.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(329.09 0)"/>
+     <use xlink:href="#Poppins-Regular-2a7" transform="translate(386.59 0)"/>
+     <use xlink:href="#Poppins-Regular-2a5" transform="translate(449.5 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(507 0)"/>
+     <use xlink:href="#Poppins-Regular-2c9" transform="translate(533.70 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(601.29 0)"/>
+     <use xlink:href="#Poppins-Regular-29b" transform="translate(628 0)"/>
+     <use xlink:href="#Poppins-Regular-2e6" transform="translate(673.40 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(725.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(793.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2e8" transform="translate(829.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2e5" transform="translate(893.60 0)"/>
+     <use xlink:href="#Poppins-Regular-2d4" transform="translate(930.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2e7" transform="translate(998.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2d8" transform="translate(1034.90 0)"/>
+     <use xlink:href="#Poppins-Regular-2d7" transform="translate(1096.90 0)"/>
+     <use xlink:href="#Poppins-Regular-3" transform="translate(1164.5 0)"/>
+     <use xlink:href="#Poppins-Regular-2be" transform="translate(1191.20 0)"/>
+     <use xlink:href="#Poppins-Regular-2b6" transform="translate(1251.10 0)"/>
+     <use xlink:href="#Poppins-Regular-2df" transform="translate(1328.31 0)"/>
+     <use xlink:href="#Poppins-Regular-29c" transform="translate(1352.90 0)"/>
+    </g>
+   </g>
+   <g id="text_15">
+    
+    <g style="fill: #14181f" transform="translate(199.16 11.91) scale(0.08 -0.08)">
+     <defs>
+      <path id="Poppins-SemiBold-2e8" d="M 3789 3546 
+L 3789 0 
+L 2886 0 
+L 2886 448 
+Q 2714 218 2435 86 
+Q 2157 -45 1830 -45 
+Q 1414 -45 1094 131 
+Q 774 307 592 649 
+Q 410 992 410 1466 
+L 410 3546 
+L 1306 3546 
+L 1306 1594 
+Q 1306 1171 1517 944 
+Q 1728 717 2093 717 
+Q 2464 717 2675 944 
+Q 2886 1171 2886 1594 
+L 2886 3546 
+L 3789 3546 
+z
+" transform="scale(0.01)"/>
+      <path id="Poppins-SemiBold-2e0" d="M 4845 3597 
+Q 5498 3597 5898 3197 
+Q 6298 2797 6298 2080 
+L 6298 0 
+L 5402 0 
+L 5402 1958 
+Q 5402 2374 5190 2595 
+Q 4979 2816 4614 2816 
+Q 4250 2816 4035 2595 
+Q 3821 2374 3821 1958 
+L 3821 0 
+L 2925 0 
+L 2925 1958 
+Q 2925 2374 2713 2595 
+Q 2502 2816 2138 2816 
+Q 1766 2816 1552 2595 
+Q 1338 2374 1338 1958 
+L 1338 0 
+L 442 0 
+L 442 3546 
+L 1338 3546 
+L 1338 3117 
+Q 1510 3341 1782 3469 
+Q 2054 3597 2381 3597 
+Q 2797 3597 3123 3421 
+Q 3450 3245 3629 2918 
+Q 3802 3226 4131 3411 
+Q 4461 3597 4845 3597 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2c6"/>
+     <use xlink:href="#Poppins-SemiBold-2d4" transform="translate(60.90 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e7" transform="translate(128.70 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e8" transform="translate(167.5 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e5" transform="translate(233.59 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d4" transform="translate(274 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e7" transform="translate(341.79 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(380.59 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(442.29 0)"/>
+     <use xlink:href="#Poppins-SemiBold-3" transform="translate(510.09 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d6" transform="translate(533.89 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d4" transform="translate(594.09 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2df" transform="translate(661.89 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e2" transform="translate(689.68 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e0" transform="translate(753.48 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(858.28 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2df" transform="translate(919.98 0)"/>
+     <use xlink:href="#Poppins-SemiBold-3" transform="translate(947.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(971.57 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2df" transform="translate(1033.28 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(1061.07 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d6" transform="translate(1122.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e7" transform="translate(1182.98 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e5" transform="translate(1221.78 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2e2" transform="translate(1262.18 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d7" transform="translate(1325.98 0)"/>
+     <use xlink:href="#Poppins-SemiBold-2d8" transform="translate(1393.78 0)"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7ca2ebab52">
+   <rect x="2.88" y="14.92" width="140.69" height="213.87"/>
+  </clipPath>
+  <clipPath id="p3fe3e4288f">
+   <rect x="191.40" y="14.92" width="140.69" height="213.87"/>
+  </clipPath>
+ </defs>
+ <defs>
+  <pattern id="h805de5d124" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+   <rect x="0" y="0" width="73" height="73" fill="#cfd5de"/>
+   <path d="M 0 72.6 
+C 0.15 72.6 0.31 72.53 0.42 72.42 
+C 0.53 72.31 0.6 72.15 0.6 72 
+C 0.6 71.84 0.53 71.68 0.42 71.57 
+C 0.31 71.46 0.15 71.4 0 71.4 
+C -0.15 71.4 -0.31 71.46 -0.42 71.57 
+C -0.53 71.68 -0.6 71.84 -0.6 72 
+C -0.6 72.15 -0.53 72.31 -0.42 72.42 
+C -0.31 72.53 -0.15 72.6 0 72.6 
+z
+M 6 72.6 
+C 6.15 72.6 6.31 72.53 6.42 72.42 
+C 6.53 72.31 6.6 72.15 6.6 72 
+C 6.6 71.84 6.53 71.68 6.42 71.57 
+C 6.31 71.46 6.15 71.4 6 71.4 
+C 5.84 71.4 5.68 71.46 5.57 71.57 
+C 5.46 71.68 5.4 71.84 5.4 72 
+C 5.4 72.15 5.46 72.31 5.57 72.42 
+C 5.68 72.53 5.84 72.6 6 72.6 
+z
+M 12 72.6 
+C 12.15 72.6 12.31 72.53 12.42 72.42 
+C 12.53 72.31 12.6 72.15 12.6 72 
+C 12.6 71.84 12.53 71.68 12.42 71.57 
+C 12.31 71.46 12.15 71.4 12 71.4 
+C 11.84 71.4 11.68 71.46 11.57 71.57 
+C 11.46 71.68 11.4 71.84 11.4 72 
+C 11.4 72.15 11.46 72.31 11.57 72.42 
+C 11.68 72.53 11.84 72.6 12 72.6 
+z
+M 18 72.6 
+C 18.15 72.6 18.31 72.53 18.42 72.42 
+C 18.53 72.31 18.6 72.15 18.6 72 
+C 18.6 71.84 18.53 71.68 18.42 71.57 
+C 18.31 71.46 18.15 71.4 18 71.4 
+C 17.84 71.4 17.68 71.46 17.57 71.57 
+C 17.46 71.68 17.4 71.84 17.4 72 
+C 17.4 72.15 17.46 72.31 17.57 72.42 
+C 17.68 72.53 17.84 72.6 18 72.6 
+z
+M 24 72.6 
+C 24.15 72.6 24.31 72.53 24.42 72.42 
+C 24.53 72.31 24.6 72.15 24.6 72 
+C 24.6 71.84 24.53 71.68 24.42 71.57 
+C 24.31 71.46 24.15 71.4 24 71.4 
+C 23.84 71.4 23.68 71.46 23.57 71.57 
+C 23.46 71.68 23.4 71.84 23.4 72 
+C 23.4 72.15 23.46 72.31 23.57 72.42 
+C 23.68 72.53 23.84 72.6 24 72.6 
+z
+M 30 72.6 
+C 30.15 72.6 30.31 72.53 30.42 72.42 
+C 30.53 72.31 30.6 72.15 30.6 72 
+C 30.6 71.84 30.53 71.68 30.42 71.57 
+C 30.31 71.46 30.15 71.4 30 71.4 
+C 29.84 71.4 29.68 71.46 29.57 71.57 
+C 29.46 71.68 29.4 71.84 29.4 72 
+C 29.4 72.15 29.46 72.31 29.57 72.42 
+C 29.68 72.53 29.84 72.6 30 72.6 
+z
+M 36 72.6 
+C 36.15 72.6 36.31 72.53 36.42 72.42 
+C 36.53 72.31 36.6 72.15 36.6 72 
+C 36.6 71.84 36.53 71.68 36.42 71.57 
+C 36.31 71.46 36.15 71.4 36 71.4 
+C 35.84 71.4 35.68 71.46 35.57 71.57 
+C 35.46 71.68 35.4 71.84 35.4 72 
+C 35.4 72.15 35.46 72.31 35.57 72.42 
+C 35.68 72.53 35.84 72.6 36 72.6 
+z
+M 42 72.6 
+C 42.15 72.6 42.31 72.53 42.42 72.42 
+C 42.53 72.31 42.6 72.15 42.6 72 
+C 42.6 71.84 42.53 71.68 42.42 71.57 
+C 42.31 71.46 42.15 71.4 42 71.4 
+C 41.84 71.4 41.68 71.46 41.57 71.57 
+C 41.46 71.68 41.4 71.84 41.4 72 
+C 41.4 72.15 41.46 72.31 41.57 72.42 
+C 41.68 72.53 41.84 72.6 42 72.6 
+z
+M 48 72.6 
+C 48.15 72.6 48.31 72.53 48.42 72.42 
+C 48.53 72.31 48.6 72.15 48.6 72 
+C 48.6 71.84 48.53 71.68 48.42 71.57 
+C 48.31 71.46 48.15 71.4 48 71.4 
+C 47.84 71.4 47.68 71.46 47.57 71.57 
+C 47.46 71.68 47.4 71.84 47.4 72 
+C 47.4 72.15 47.46 72.31 47.57 72.42 
+C 47.68 72.53 47.84 72.6 48 72.6 
+z
+M 54 72.6 
+C 54.15 72.6 54.31 72.53 54.42 72.42 
+C 54.53 72.31 54.6 72.15 54.6 72 
+C 54.6 71.84 54.53 71.68 54.42 71.57 
+C 54.31 71.46 54.15 71.4 54 71.4 
+C 53.84 71.4 53.68 71.46 53.57 71.57 
+C 53.46 71.68 53.4 71.84 53.4 72 
+C 53.4 72.15 53.46 72.31 53.57 72.42 
+C 53.68 72.53 53.84 72.6 54 72.6 
+z
+M 60 72.6 
+C 60.15 72.6 60.31 72.53 60.42 72.42 
+C 60.53 72.31 60.6 72.15 60.6 72 
+C 60.6 71.84 60.53 71.68 60.42 71.57 
+C 60.31 71.46 60.15 71.4 60 71.4 
+C 59.84 71.4 59.68 71.46 59.57 71.57 
+C 59.46 71.68 59.4 71.84 59.4 72 
+C 59.4 72.15 59.46 72.31 59.57 72.42 
+C 59.68 72.53 59.84 72.6 60 72.6 
+z
+M 66 72.6 
+C 66.15 72.6 66.31 72.53 66.42 72.42 
+C 66.53 72.31 66.6 72.15 66.6 72 
+C 66.6 71.84 66.53 71.68 66.42 71.57 
+C 66.31 71.46 66.15 71.4 66 71.4 
+C 65.84 71.4 65.68 71.46 65.57 71.57 
+C 65.46 71.68 65.4 71.84 65.4 72 
+C 65.4 72.15 65.46 72.31 65.57 72.42 
+C 65.68 72.53 65.84 72.6 66 72.6 
+z
+M 72 72.6 
+C 72.15 72.6 72.31 72.53 72.42 72.42 
+C 72.53 72.31 72.6 72.15 72.6 72 
+C 72.6 71.84 72.53 71.68 72.42 71.57 
+C 72.31 71.46 72.15 71.4 72 71.4 
+C 71.84 71.4 71.68 71.46 71.57 71.57 
+C 71.46 71.68 71.4 71.84 71.4 72 
+C 71.4 72.15 71.46 72.31 71.57 72.42 
+C 71.68 72.53 71.84 72.6 72 72.6 
+z
+M 3 66.6 
+C 3.15 66.6 3.31 66.53 3.42 66.42 
+C 3.53 66.31 3.6 66.15 3.6 66 
+C 3.6 65.84 3.53 65.68 3.42 65.57 
+C 3.31 65.46 3.15 65.4 3 65.4 
+C 2.84 65.4 2.68 65.46 2.57 65.57 
+C 2.46 65.68 2.4 65.84 2.4 66 
+C 2.4 66.15 2.46 66.31 2.57 66.42 
+C 2.68 66.53 2.84 66.6 3 66.6 
+z
+M 9 66.6 
+C 9.15 66.6 9.31 66.53 9.42 66.42 
+C 9.53 66.31 9.6 66.15 9.6 66 
+C 9.6 65.84 9.53 65.68 9.42 65.57 
+C 9.31 65.46 9.15 65.4 9 65.4 
+C 8.84 65.4 8.68 65.46 8.57 65.57 
+C 8.46 65.68 8.4 65.84 8.4 66 
+C 8.4 66.15 8.46 66.31 8.57 66.42 
+C 8.68 66.53 8.84 66.6 9 66.6 
+z
+M 15 66.6 
+C 15.15 66.6 15.31 66.53 15.42 66.42 
+C 15.53 66.31 15.6 66.15 15.6 66 
+C 15.6 65.84 15.53 65.68 15.42 65.57 
+C 15.31 65.46 15.15 65.4 15 65.4 
+C 14.84 65.4 14.68 65.46 14.57 65.57 
+C 14.46 65.68 14.4 65.84 14.4 66 
+C 14.4 66.15 14.46 66.31 14.57 66.42 
+C 14.68 66.53 14.84 66.6 15 66.6 
+z
+M 21 66.6 
+C 21.15 66.6 21.31 66.53 21.42 66.42 
+C 21.53 66.31 21.6 66.15 21.6 66 
+C 21.6 65.84 21.53 65.68 21.42 65.57 
+C 21.31 65.46 21.15 65.4 21 65.4 
+C 20.84 65.4 20.68 65.46 20.57 65.57 
+C 20.46 65.68 20.4 65.84 20.4 66 
+C 20.4 66.15 20.46 66.31 20.57 66.42 
+C 20.68 66.53 20.84 66.6 21 66.6 
+z
+M 27 66.6 
+C 27.15 66.6 27.31 66.53 27.42 66.42 
+C 27.53 66.31 27.6 66.15 27.6 66 
+C 27.6 65.84 27.53 65.68 27.42 65.57 
+C 27.31 65.46 27.15 65.4 27 65.4 
+C 26.84 65.4 26.68 65.46 26.57 65.57 
+C 26.46 65.68 26.4 65.84 26.4 66 
+C 26.4 66.15 26.46 66.31 26.57 66.42 
+C 26.68 66.53 26.84 66.6 27 66.6 
+z
+M 33 66.6 
+C 33.15 66.6 33.31 66.53 33.42 66.42 
+C 33.53 66.31 33.6 66.15 33.6 66 
+C 33.6 65.84 33.53 65.68 33.42 65.57 
+C 33.31 65.46 33.15 65.4 33 65.4 
+C 32.84 65.4 32.68 65.46 32.57 65.57 
+C 32.46 65.68 32.4 65.84 32.4 66 
+C 32.4 66.15 32.46 66.31 32.57 66.42 
+C 32.68 66.53 32.84 66.6 33 66.6 
+z
+M 39 66.6 
+C 39.15 66.6 39.31 66.53 39.42 66.42 
+C 39.53 66.31 39.6 66.15 39.6 66 
+C 39.6 65.84 39.53 65.68 39.42 65.57 
+C 39.31 65.46 39.15 65.4 39 65.4 
+C 38.84 65.4 38.68 65.46 38.57 65.57 
+C 38.46 65.68 38.4 65.84 38.4 66 
+C 38.4 66.15 38.46 66.31 38.57 66.42 
+C 38.68 66.53 38.84 66.6 39 66.6 
+z
+M 45 66.6 
+C 45.15 66.6 45.31 66.53 45.42 66.42 
+C 45.53 66.31 45.6 66.15 45.6 66 
+C 45.6 65.84 45.53 65.68 45.42 65.57 
+C 45.31 65.46 45.15 65.4 45 65.4 
+C 44.84 65.4 44.68 65.46 44.57 65.57 
+C 44.46 65.68 44.4 65.84 44.4 66 
+C 44.4 66.15 44.46 66.31 44.57 66.42 
+C 44.68 66.53 44.84 66.6 45 66.6 
+z
+M 51 66.6 
+C 51.15 66.6 51.31 66.53 51.42 66.42 
+C 51.53 66.31 51.6 66.15 51.6 66 
+C 51.6 65.84 51.53 65.68 51.42 65.57 
+C 51.31 65.46 51.15 65.4 51 65.4 
+C 50.84 65.4 50.68 65.46 50.57 65.57 
+C 50.46 65.68 50.4 65.84 50.4 66 
+C 50.4 66.15 50.46 66.31 50.57 66.42 
+C 50.68 66.53 50.84 66.6 51 66.6 
+z
+M 57 66.6 
+C 57.15 66.6 57.31 66.53 57.42 66.42 
+C 57.53 66.31 57.6 66.15 57.6 66 
+C 57.6 65.84 57.53 65.68 57.42 65.57 
+C 57.31 65.46 57.15 65.4 57 65.4 
+C 56.84 65.4 56.68 65.46 56.57 65.57 
+C 56.46 65.68 56.4 65.84 56.4 66 
+C 56.4 66.15 56.46 66.31 56.57 66.42 
+C 56.68 66.53 56.84 66.6 57 66.6 
+z
+M 63 66.6 
+C 63.15 66.6 63.31 66.53 63.42 66.42 
+C 63.53 66.31 63.6 66.15 63.6 66 
+C 63.6 65.84 63.53 65.68 63.42 65.57 
+C 63.31 65.46 63.15 65.4 63 65.4 
+C 62.84 65.4 62.68 65.46 62.57 65.57 
+C 62.46 65.68 62.4 65.84 62.4 66 
+C 62.4 66.15 62.46 66.31 62.57 66.42 
+C 62.68 66.53 62.84 66.6 63 66.6 
+z
+M 69 66.6 
+C 69.15 66.6 69.31 66.53 69.42 66.42 
+C 69.53 66.31 69.6 66.15 69.6 66 
+C 69.6 65.84 69.53 65.68 69.42 65.57 
+C 69.31 65.46 69.15 65.4 69 65.4 
+C 68.84 65.4 68.68 65.46 68.57 65.57 
+C 68.46 65.68 68.4 65.84 68.4 66 
+C 68.4 66.15 68.46 66.31 68.57 66.42 
+C 68.68 66.53 68.84 66.6 69 66.6 
+z
+M 0 60.6 
+C 0.15 60.6 0.31 60.53 0.42 60.42 
+C 0.53 60.31 0.6 60.15 0.6 60 
+C 0.6 59.84 0.53 59.68 0.42 59.57 
+C 0.31 59.46 0.15 59.4 0 59.4 
+C -0.15 59.4 -0.31 59.46 -0.42 59.57 
+C -0.53 59.68 -0.6 59.84 -0.6 60 
+C -0.6 60.15 -0.53 60.31 -0.42 60.42 
+C -0.31 60.53 -0.15 60.6 0 60.6 
+z
+M 6 60.6 
+C 6.15 60.6 6.31 60.53 6.42 60.42 
+C 6.53 60.31 6.6 60.15 6.6 60 
+C 6.6 59.84 6.53 59.68 6.42 59.57 
+C 6.31 59.46 6.15 59.4 6 59.4 
+C 5.84 59.4 5.68 59.46 5.57 59.57 
+C 5.46 59.68 5.4 59.84 5.4 60 
+C 5.4 60.15 5.46 60.31 5.57 60.42 
+C 5.68 60.53 5.84 60.6 6 60.6 
+z
+M 12 60.6 
+C 12.15 60.6 12.31 60.53 12.42 60.42 
+C 12.53 60.31 12.6 60.15 12.6 60 
+C 12.6 59.84 12.53 59.68 12.42 59.57 
+C 12.31 59.46 12.15 59.4 12 59.4 
+C 11.84 59.4 11.68 59.46 11.57 59.57 
+C 11.46 59.68 11.4 59.84 11.4 60 
+C 11.4 60.15 11.46 60.31 11.57 60.42 
+C 11.68 60.53 11.84 60.6 12 60.6 
+z
+M 18 60.6 
+C 18.15 60.6 18.31 60.53 18.42 60.42 
+C 18.53 60.31 18.6 60.15 18.6 60 
+C 18.6 59.84 18.53 59.68 18.42 59.57 
+C 18.31 59.46 18.15 59.4 18 59.4 
+C 17.84 59.4 17.68 59.46 17.57 59.57 
+C 17.46 59.68 17.4 59.84 17.4 60 
+C 17.4 60.15 17.46 60.31 17.57 60.42 
+C 17.68 60.53 17.84 60.6 18 60.6 
+z
+M 24 60.6 
+C 24.15 60.6 24.31 60.53 24.42 60.42 
+C 24.53 60.31 24.6 60.15 24.6 60 
+C 24.6 59.84 24.53 59.68 24.42 59.57 
+C 24.31 59.46 24.15 59.4 24 59.4 
+C 23.84 59.4 23.68 59.46 23.57 59.57 
+C 23.46 59.68 23.4 59.84 23.4 60 
+C 23.4 60.15 23.46 60.31 23.57 60.42 
+C 23.68 60.53 23.84 60.6 24 60.6 
+z
+M 30 60.6 
+C 30.15 60.6 30.31 60.53 30.42 60.42 
+C 30.53 60.31 30.6 60.15 30.6 60 
+C 30.6 59.84 30.53 59.68 30.42 59.57 
+C 30.31 59.46 30.15 59.4 30 59.4 
+C 29.84 59.4 29.68 59.46 29.57 59.57 
+C 29.46 59.68 29.4 59.84 29.4 60 
+C 29.4 60.15 29.46 60.31 29.57 60.42 
+C 29.68 60.53 29.84 60.6 30 60.6 
+z
+M 36 60.6 
+C 36.15 60.6 36.31 60.53 36.42 60.42 
+C 36.53 60.31 36.6 60.15 36.6 60 
+C 36.6 59.84 36.53 59.68 36.42 59.57 
+C 36.31 59.46 36.15 59.4 36 59.4 
+C 35.84 59.4 35.68 59.46 35.57 59.57 
+C 35.46 59.68 35.4 59.84 35.4 60 
+C 35.4 60.15 35.46 60.31 35.57 60.42 
+C 35.68 60.53 35.84 60.6 36 60.6 
+z
+M 42 60.6 
+C 42.15 60.6 42.31 60.53 42.42 60.42 
+C 42.53 60.31 42.6 60.15 42.6 60 
+C 42.6 59.84 42.53 59.68 42.42 59.57 
+C 42.31 59.46 42.15 59.4 42 59.4 
+C 41.84 59.4 41.68 59.46 41.57 59.57 
+C 41.46 59.68 41.4 59.84 41.4 60 
+C 41.4 60.15 41.46 60.31 41.57 60.42 
+C 41.68 60.53 41.84 60.6 42 60.6 
+z
+M 48 60.6 
+C 48.15 60.6 48.31 60.53 48.42 60.42 
+C 48.53 60.31 48.6 60.15 48.6 60 
+C 48.6 59.84 48.53 59.68 48.42 59.57 
+C 48.31 59.46 48.15 59.4 48 59.4 
+C 47.84 59.4 47.68 59.46 47.57 59.57 
+C 47.46 59.68 47.4 59.84 47.4 60 
+C 47.4 60.15 47.46 60.31 47.57 60.42 
+C 47.68 60.53 47.84 60.6 48 60.6 
+z
+M 54 60.6 
+C 54.15 60.6 54.31 60.53 54.42 60.42 
+C 54.53 60.31 54.6 60.15 54.6 60 
+C 54.6 59.84 54.53 59.68 54.42 59.57 
+C 54.31 59.46 54.15 59.4 54 59.4 
+C 53.84 59.4 53.68 59.46 53.57 59.57 
+C 53.46 59.68 53.4 59.84 53.4 60 
+C 53.4 60.15 53.46 60.31 53.57 60.42 
+C 53.68 60.53 53.84 60.6 54 60.6 
+z
+M 60 60.6 
+C 60.15 60.6 60.31 60.53 60.42 60.42 
+C 60.53 60.31 60.6 60.15 60.6 60 
+C 60.6 59.84 60.53 59.68 60.42 59.57 
+C 60.31 59.46 60.15 59.4 60 59.4 
+C 59.84 59.4 59.68 59.46 59.57 59.57 
+C 59.46 59.68 59.4 59.84 59.4 60 
+C 59.4 60.15 59.46 60.31 59.57 60.42 
+C 59.68 60.53 59.84 60.6 60 60.6 
+z
+M 66 60.6 
+C 66.15 60.6 66.31 60.53 66.42 60.42 
+C 66.53 60.31 66.6 60.15 66.6 60 
+C 66.6 59.84 66.53 59.68 66.42 59.57 
+C 66.31 59.46 66.15 59.4 66 59.4 
+C 65.84 59.4 65.68 59.46 65.57 59.57 
+C 65.46 59.68 65.4 59.84 65.4 60 
+C 65.4 60.15 65.46 60.31 65.57 60.42 
+C 65.68 60.53 65.84 60.6 66 60.6 
+z
+M 72 60.6 
+C 72.15 60.6 72.31 60.53 72.42 60.42 
+C 72.53 60.31 72.6 60.15 72.6 60 
+C 72.6 59.84 72.53 59.68 72.42 59.57 
+C 72.31 59.46 72.15 59.4 72 59.4 
+C 71.84 59.4 71.68 59.46 71.57 59.57 
+C 71.46 59.68 71.4 59.84 71.4 60 
+C 71.4 60.15 71.46 60.31 71.57 60.42 
+C 71.68 60.53 71.84 60.6 72 60.6 
+z
+M 3 54.6 
+C 3.15 54.6 3.31 54.53 3.42 54.42 
+C 3.53 54.31 3.6 54.15 3.6 54 
+C 3.6 53.84 3.53 53.68 3.42 53.57 
+C 3.31 53.46 3.15 53.4 3 53.4 
+C 2.84 53.4 2.68 53.46 2.57 53.57 
+C 2.46 53.68 2.4 53.84 2.4 54 
+C 2.4 54.15 2.46 54.31 2.57 54.42 
+C 2.68 54.53 2.84 54.6 3 54.6 
+z
+M 9 54.6 
+C 9.15 54.6 9.31 54.53 9.42 54.42 
+C 9.53 54.31 9.6 54.15 9.6 54 
+C 9.6 53.84 9.53 53.68 9.42 53.57 
+C 9.31 53.46 9.15 53.4 9 53.4 
+C 8.84 53.4 8.68 53.46 8.57 53.57 
+C 8.46 53.68 8.4 53.84 8.4 54 
+C 8.4 54.15 8.46 54.31 8.57 54.42 
+C 8.68 54.53 8.84 54.6 9 54.6 
+z
+M 15 54.6 
+C 15.15 54.6 15.31 54.53 15.42 54.42 
+C 15.53 54.31 15.6 54.15 15.6 54 
+C 15.6 53.84 15.53 53.68 15.42 53.57 
+C 15.31 53.46 15.15 53.4 15 53.4 
+C 14.84 53.4 14.68 53.46 14.57 53.57 
+C 14.46 53.68 14.4 53.84 14.4 54 
+C 14.4 54.15 14.46 54.31 14.57 54.42 
+C 14.68 54.53 14.84 54.6 15 54.6 
+z
+M 21 54.6 
+C 21.15 54.6 21.31 54.53 21.42 54.42 
+C 21.53 54.31 21.6 54.15 21.6 54 
+C 21.6 53.84 21.53 53.68 21.42 53.57 
+C 21.31 53.46 21.15 53.4 21 53.4 
+C 20.84 53.4 20.68 53.46 20.57 53.57 
+C 20.46 53.68 20.4 53.84 20.4 54 
+C 20.4 54.15 20.46 54.31 20.57 54.42 
+C 20.68 54.53 20.84 54.6 21 54.6 
+z
+M 27 54.6 
+C 27.15 54.6 27.31 54.53 27.42 54.42 
+C 27.53 54.31 27.6 54.15 27.6 54 
+C 27.6 53.84 27.53 53.68 27.42 53.57 
+C 27.31 53.46 27.15 53.4 27 53.4 
+C 26.84 53.4 26.68 53.46 26.57 53.57 
+C 26.46 53.68 26.4 53.84 26.4 54 
+C 26.4 54.15 26.46 54.31 26.57 54.42 
+C 26.68 54.53 26.84 54.6 27 54.6 
+z
+M 33 54.6 
+C 33.15 54.6 33.31 54.53 33.42 54.42 
+C 33.53 54.31 33.6 54.15 33.6 54 
+C 33.6 53.84 33.53 53.68 33.42 53.57 
+C 33.31 53.46 33.15 53.4 33 53.4 
+C 32.84 53.4 32.68 53.46 32.57 53.57 
+C 32.46 53.68 32.4 53.84 32.4 54 
+C 32.4 54.15 32.46 54.31 32.57 54.42 
+C 32.68 54.53 32.84 54.6 33 54.6 
+z
+M 39 54.6 
+C 39.15 54.6 39.31 54.53 39.42 54.42 
+C 39.53 54.31 39.6 54.15 39.6 54 
+C 39.6 53.84 39.53 53.68 39.42 53.57 
+C 39.31 53.46 39.15 53.4 39 53.4 
+C 38.84 53.4 38.68 53.46 38.57 53.57 
+C 38.46 53.68 38.4 53.84 38.4 54 
+C 38.4 54.15 38.46 54.31 38.57 54.42 
+C 38.68 54.53 38.84 54.6 39 54.6 
+z
+M 45 54.6 
+C 45.15 54.6 45.31 54.53 45.42 54.42 
+C 45.53 54.31 45.6 54.15 45.6 54 
+C 45.6 53.84 45.53 53.68 45.42 53.57 
+C 45.31 53.46 45.15 53.4 45 53.4 
+C 44.84 53.4 44.68 53.46 44.57 53.57 
+C 44.46 53.68 44.4 53.84 44.4 54 
+C 44.4 54.15 44.46 54.31 44.57 54.42 
+C 44.68 54.53 44.84 54.6 45 54.6 
+z
+M 51 54.6 
+C 51.15 54.6 51.31 54.53 51.42 54.42 
+C 51.53 54.31 51.6 54.15 51.6 54 
+C 51.6 53.84 51.53 53.68 51.42 53.57 
+C 51.31 53.46 51.15 53.4 51 53.4 
+C 50.84 53.4 50.68 53.46 50.57 53.57 
+C 50.46 53.68 50.4 53.84 50.4 54 
+C 50.4 54.15 50.46 54.31 50.57 54.42 
+C 50.68 54.53 50.84 54.6 51 54.6 
+z
+M 57 54.6 
+C 57.15 54.6 57.31 54.53 57.42 54.42 
+C 57.53 54.31 57.6 54.15 57.6 54 
+C 57.6 53.84 57.53 53.68 57.42 53.57 
+C 57.31 53.46 57.15 53.4 57 53.4 
+C 56.84 53.4 56.68 53.46 56.57 53.57 
+C 56.46 53.68 56.4 53.84 56.4 54 
+C 56.4 54.15 56.46 54.31 56.57 54.42 
+C 56.68 54.53 56.84 54.6 57 54.6 
+z
+M 63 54.6 
+C 63.15 54.6 63.31 54.53 63.42 54.42 
+C 63.53 54.31 63.6 54.15 63.6 54 
+C 63.6 53.84 63.53 53.68 63.42 53.57 
+C 63.31 53.46 63.15 53.4 63 53.4 
+C 62.84 53.4 62.68 53.46 62.57 53.57 
+C 62.46 53.68 62.4 53.84 62.4 54 
+C 62.4 54.15 62.46 54.31 62.57 54.42 
+C 62.68 54.53 62.84 54.6 63 54.6 
+z
+M 69 54.6 
+C 69.15 54.6 69.31 54.53 69.42 54.42 
+C 69.53 54.31 69.6 54.15 69.6 54 
+C 69.6 53.84 69.53 53.68 69.42 53.57 
+C 69.31 53.46 69.15 53.4 69 53.4 
+C 68.84 53.4 68.68 53.46 68.57 53.57 
+C 68.46 53.68 68.4 53.84 68.4 54 
+C 68.4 54.15 68.46 54.31 68.57 54.42 
+C 68.68 54.53 68.84 54.6 69 54.6 
+z
+M 0 48.6 
+C 0.15 48.6 0.31 48.53 0.42 48.42 
+C 0.53 48.31 0.6 48.15 0.6 48 
+C 0.6 47.84 0.53 47.68 0.42 47.57 
+C 0.31 47.46 0.15 47.4 0 47.4 
+C -0.15 47.4 -0.31 47.46 -0.42 47.57 
+C -0.53 47.68 -0.6 47.84 -0.6 48 
+C -0.6 48.15 -0.53 48.31 -0.42 48.42 
+C -0.31 48.53 -0.15 48.6 0 48.6 
+z
+M 6 48.6 
+C 6.15 48.6 6.31 48.53 6.42 48.42 
+C 6.53 48.31 6.6 48.15 6.6 48 
+C 6.6 47.84 6.53 47.68 6.42 47.57 
+C 6.31 47.46 6.15 47.4 6 47.4 
+C 5.84 47.4 5.68 47.46 5.57 47.57 
+C 5.46 47.68 5.4 47.84 5.4 48 
+C 5.4 48.15 5.46 48.31 5.57 48.42 
+C 5.68 48.53 5.84 48.6 6 48.6 
+z
+M 12 48.6 
+C 12.15 48.6 12.31 48.53 12.42 48.42 
+C 12.53 48.31 12.6 48.15 12.6 48 
+C 12.6 47.84 12.53 47.68 12.42 47.57 
+C 12.31 47.46 12.15 47.4 12 47.4 
+C 11.84 47.4 11.68 47.46 11.57 47.57 
+C 11.46 47.68 11.4 47.84 11.4 48 
+C 11.4 48.15 11.46 48.31 11.57 48.42 
+C 11.68 48.53 11.84 48.6 12 48.6 
+z
+M 18 48.6 
+C 18.15 48.6 18.31 48.53 18.42 48.42 
+C 18.53 48.31 18.6 48.15 18.6 48 
+C 18.6 47.84 18.53 47.68 18.42 47.57 
+C 18.31 47.46 18.15 47.4 18 47.4 
+C 17.84 47.4 17.68 47.46 17.57 47.57 
+C 17.46 47.68 17.4 47.84 17.4 48 
+C 17.4 48.15 17.46 48.31 17.57 48.42 
+C 17.68 48.53 17.84 48.6 18 48.6 
+z
+M 24 48.6 
+C 24.15 48.6 24.31 48.53 24.42 48.42 
+C 24.53 48.31 24.6 48.15 24.6 48 
+C 24.6 47.84 24.53 47.68 24.42 47.57 
+C 24.31 47.46 24.15 47.4 24 47.4 
+C 23.84 47.4 23.68 47.46 23.57 47.57 
+C 23.46 47.68 23.4 47.84 23.4 48 
+C 23.4 48.15 23.46 48.31 23.57 48.42 
+C 23.68 48.53 23.84 48.6 24 48.6 
+z
+M 30 48.6 
+C 30.15 48.6 30.31 48.53 30.42 48.42 
+C 30.53 48.31 30.6 48.15 30.6 48 
+C 30.6 47.84 30.53 47.68 30.42 47.57 
+C 30.31 47.46 30.15 47.4 30 47.4 
+C 29.84 47.4 29.68 47.46 29.57 47.57 
+C 29.46 47.68 29.4 47.84 29.4 48 
+C 29.4 48.15 29.46 48.31 29.57 48.42 
+C 29.68 48.53 29.84 48.6 30 48.6 
+z
+M 36 48.6 
+C 36.15 48.6 36.31 48.53 36.42 48.42 
+C 36.53 48.31 36.6 48.15 36.6 48 
+C 36.6 47.84 36.53 47.68 36.42 47.57 
+C 36.31 47.46 36.15 47.4 36 47.4 
+C 35.84 47.4 35.68 47.46 35.57 47.57 
+C 35.46 47.68 35.4 47.84 35.4 48 
+C 35.4 48.15 35.46 48.31 35.57 48.42 
+C 35.68 48.53 35.84 48.6 36 48.6 
+z
+M 42 48.6 
+C 42.15 48.6 42.31 48.53 42.42 48.42 
+C 42.53 48.31 42.6 48.15 42.6 48 
+C 42.6 47.84 42.53 47.68 42.42 47.57 
+C 42.31 47.46 42.15 47.4 42 47.4 
+C 41.84 47.4 41.68 47.46 41.57 47.57 
+C 41.46 47.68 41.4 47.84 41.4 48 
+C 41.4 48.15 41.46 48.31 41.57 48.42 
+C 41.68 48.53 41.84 48.6 42 48.6 
+z
+M 48 48.6 
+C 48.15 48.6 48.31 48.53 48.42 48.42 
+C 48.53 48.31 48.6 48.15 48.6 48 
+C 48.6 47.84 48.53 47.68 48.42 47.57 
+C 48.31 47.46 48.15 47.4 48 47.4 
+C 47.84 47.4 47.68 47.46 47.57 47.57 
+C 47.46 47.68 47.4 47.84 47.4 48 
+C 47.4 48.15 47.46 48.31 47.57 48.42 
+C 47.68 48.53 47.84 48.6 48 48.6 
+z
+M 54 48.6 
+C 54.15 48.6 54.31 48.53 54.42 48.42 
+C 54.53 48.31 54.6 48.15 54.6 48 
+C 54.6 47.84 54.53 47.68 54.42 47.57 
+C 54.31 47.46 54.15 47.4 54 47.4 
+C 53.84 47.4 53.68 47.46 53.57 47.57 
+C 53.46 47.68 53.4 47.84 53.4 48 
+C 53.4 48.15 53.46 48.31 53.57 48.42 
+C 53.68 48.53 53.84 48.6 54 48.6 
+z
+M 60 48.6 
+C 60.15 48.6 60.31 48.53 60.42 48.42 
+C 60.53 48.31 60.6 48.15 60.6 48 
+C 60.6 47.84 60.53 47.68 60.42 47.57 
+C 60.31 47.46 60.15 47.4 60 47.4 
+C 59.84 47.4 59.68 47.46 59.57 47.57 
+C 59.46 47.68 59.4 47.84 59.4 48 
+C 59.4 48.15 59.46 48.31 59.57 48.42 
+C 59.68 48.53 59.84 48.6 60 48.6 
+z
+M 66 48.6 
+C 66.15 48.6 66.31 48.53 66.42 48.42 
+C 66.53 48.31 66.6 48.15 66.6 48 
+C 66.6 47.84 66.53 47.68 66.42 47.57 
+C 66.31 47.46 66.15 47.4 66 47.4 
+C 65.84 47.4 65.68 47.46 65.57 47.57 
+C 65.46 47.68 65.4 47.84 65.4 48 
+C 65.4 48.15 65.46 48.31 65.57 48.42 
+C 65.68 48.53 65.84 48.6 66 48.6 
+z
+M 72 48.6 
+C 72.15 48.6 72.31 48.53 72.42 48.42 
+C 72.53 48.31 72.6 48.15 72.6 48 
+C 72.6 47.84 72.53 47.68 72.42 47.57 
+C 72.31 47.46 72.15 47.4 72 47.4 
+C 71.84 47.4 71.68 47.46 71.57 47.57 
+C 71.46 47.68 71.4 47.84 71.4 48 
+C 71.4 48.15 71.46 48.31 71.57 48.42 
+C 71.68 48.53 71.84 48.6 72 48.6 
+z
+M 3 42.6 
+C 3.15 42.6 3.31 42.53 3.42 42.42 
+C 3.53 42.31 3.6 42.15 3.6 42 
+C 3.6 41.84 3.53 41.68 3.42 41.57 
+C 3.31 41.46 3.15 41.4 3 41.4 
+C 2.84 41.4 2.68 41.46 2.57 41.57 
+C 2.46 41.68 2.4 41.84 2.4 42 
+C 2.4 42.15 2.46 42.31 2.57 42.42 
+C 2.68 42.53 2.84 42.6 3 42.6 
+z
+M 9 42.6 
+C 9.15 42.6 9.31 42.53 9.42 42.42 
+C 9.53 42.31 9.6 42.15 9.6 42 
+C 9.6 41.84 9.53 41.68 9.42 41.57 
+C 9.31 41.46 9.15 41.4 9 41.4 
+C 8.84 41.4 8.68 41.46 8.57 41.57 
+C 8.46 41.68 8.4 41.84 8.4 42 
+C 8.4 42.15 8.46 42.31 8.57 42.42 
+C 8.68 42.53 8.84 42.6 9 42.6 
+z
+M 15 42.6 
+C 15.15 42.6 15.31 42.53 15.42 42.42 
+C 15.53 42.31 15.6 42.15 15.6 42 
+C 15.6 41.84 15.53 41.68 15.42 41.57 
+C 15.31 41.46 15.15 41.4 15 41.4 
+C 14.84 41.4 14.68 41.46 14.57 41.57 
+C 14.46 41.68 14.4 41.84 14.4 42 
+C 14.4 42.15 14.46 42.31 14.57 42.42 
+C 14.68 42.53 14.84 42.6 15 42.6 
+z
+M 21 42.6 
+C 21.15 42.6 21.31 42.53 21.42 42.42 
+C 21.53 42.31 21.6 42.15 21.6 42 
+C 21.6 41.84 21.53 41.68 21.42 41.57 
+C 21.31 41.46 21.15 41.4 21 41.4 
+C 20.84 41.4 20.68 41.46 20.57 41.57 
+C 20.46 41.68 20.4 41.84 20.4 42 
+C 20.4 42.15 20.46 42.31 20.57 42.42 
+C 20.68 42.53 20.84 42.6 21 42.6 
+z
+M 27 42.6 
+C 27.15 42.6 27.31 42.53 27.42 42.42 
+C 27.53 42.31 27.6 42.15 27.6 42 
+C 27.6 41.84 27.53 41.68 27.42 41.57 
+C 27.31 41.46 27.15 41.4 27 41.4 
+C 26.84 41.4 26.68 41.46 26.57 41.57 
+C 26.46 41.68 26.4 41.84 26.4 42 
+C 26.4 42.15 26.46 42.31 26.57 42.42 
+C 26.68 42.53 26.84 42.6 27 42.6 
+z
+M 33 42.6 
+C 33.15 42.6 33.31 42.53 33.42 42.42 
+C 33.53 42.31 33.6 42.15 33.6 42 
+C 33.6 41.84 33.53 41.68 33.42 41.57 
+C 33.31 41.46 33.15 41.4 33 41.4 
+C 32.84 41.4 32.68 41.46 32.57 41.57 
+C 32.46 41.68 32.4 41.84 32.4 42 
+C 32.4 42.15 32.46 42.31 32.57 42.42 
+C 32.68 42.53 32.84 42.6 33 42.6 
+z
+M 39 42.6 
+C 39.15 42.6 39.31 42.53 39.42 42.42 
+C 39.53 42.31 39.6 42.15 39.6 42 
+C 39.6 41.84 39.53 41.68 39.42 41.57 
+C 39.31 41.46 39.15 41.4 39 41.4 
+C 38.84 41.4 38.68 41.46 38.57 41.57 
+C 38.46 41.68 38.4 41.84 38.4 42 
+C 38.4 42.15 38.46 42.31 38.57 42.42 
+C 38.68 42.53 38.84 42.6 39 42.6 
+z
+M 45 42.6 
+C 45.15 42.6 45.31 42.53 45.42 42.42 
+C 45.53 42.31 45.6 42.15 45.6 42 
+C 45.6 41.84 45.53 41.68 45.42 41.57 
+C 45.31 41.46 45.15 41.4 45 41.4 
+C 44.84 41.4 44.68 41.46 44.57 41.57 
+C 44.46 41.68 44.4 41.84 44.4 42 
+C 44.4 42.15 44.46 42.31 44.57 42.42 
+C 44.68 42.53 44.84 42.6 45 42.6 
+z
+M 51 42.6 
+C 51.15 42.6 51.31 42.53 51.42 42.42 
+C 51.53 42.31 51.6 42.15 51.6 42 
+C 51.6 41.84 51.53 41.68 51.42 41.57 
+C 51.31 41.46 51.15 41.4 51 41.4 
+C 50.84 41.4 50.68 41.46 50.57 41.57 
+C 50.46 41.68 50.4 41.84 50.4 42 
+C 50.4 42.15 50.46 42.31 50.57 42.42 
+C 50.68 42.53 50.84 42.6 51 42.6 
+z
+M 57 42.6 
+C 57.15 42.6 57.31 42.53 57.42 42.42 
+C 57.53 42.31 57.6 42.15 57.6 42 
+C 57.6 41.84 57.53 41.68 57.42 41.57 
+C 57.31 41.46 57.15 41.4 57 41.4 
+C 56.84 41.4 56.68 41.46 56.57 41.57 
+C 56.46 41.68 56.4 41.84 56.4 42 
+C 56.4 42.15 56.46 42.31 56.57 42.42 
+C 56.68 42.53 56.84 42.6 57 42.6 
+z
+M 63 42.6 
+C 63.15 42.6 63.31 42.53 63.42 42.42 
+C 63.53 42.31 63.6 42.15 63.6 42 
+C 63.6 41.84 63.53 41.68 63.42 41.57 
+C 63.31 41.46 63.15 41.4 63 41.4 
+C 62.84 41.4 62.68 41.46 62.57 41.57 
+C 62.46 41.68 62.4 41.84 62.4 42 
+C 62.4 42.15 62.46 42.31 62.57 42.42 
+C 62.68 42.53 62.84 42.6 63 42.6 
+z
+M 69 42.6 
+C 69.15 42.6 69.31 42.53 69.42 42.42 
+C 69.53 42.31 69.6 42.15 69.6 42 
+C 69.6 41.84 69.53 41.68 69.42 41.57 
+C 69.31 41.46 69.15 41.4 69 41.4 
+C 68.84 41.4 68.68 41.46 68.57 41.57 
+C 68.46 41.68 68.4 41.84 68.4 42 
+C 68.4 42.15 68.46 42.31 68.57 42.42 
+C 68.68 42.53 68.84 42.6 69 42.6 
+z
+M 0 36.6 
+C 0.15 36.6 0.31 36.53 0.42 36.42 
+C 0.53 36.31 0.6 36.15 0.6 36 
+C 0.6 35.84 0.53 35.68 0.42 35.57 
+C 0.31 35.46 0.15 35.4 0 35.4 
+C -0.15 35.4 -0.31 35.46 -0.42 35.57 
+C -0.53 35.68 -0.6 35.84 -0.6 36 
+C -0.6 36.15 -0.53 36.31 -0.42 36.42 
+C -0.31 36.53 -0.15 36.6 0 36.6 
+z
+M 6 36.6 
+C 6.15 36.6 6.31 36.53 6.42 36.42 
+C 6.53 36.31 6.6 36.15 6.6 36 
+C 6.6 35.84 6.53 35.68 6.42 35.57 
+C 6.31 35.46 6.15 35.4 6 35.4 
+C 5.84 35.4 5.68 35.46 5.57 35.57 
+C 5.46 35.68 5.4 35.84 5.4 36 
+C 5.4 36.15 5.46 36.31 5.57 36.42 
+C 5.68 36.53 5.84 36.6 6 36.6 
+z
+M 12 36.6 
+C 12.15 36.6 12.31 36.53 12.42 36.42 
+C 12.53 36.31 12.6 36.15 12.6 36 
+C 12.6 35.84 12.53 35.68 12.42 35.57 
+C 12.31 35.46 12.15 35.4 12 35.4 
+C 11.84 35.4 11.68 35.46 11.57 35.57 
+C 11.46 35.68 11.4 35.84 11.4 36 
+C 11.4 36.15 11.46 36.31 11.57 36.42 
+C 11.68 36.53 11.84 36.6 12 36.6 
+z
+M 18 36.6 
+C 18.15 36.6 18.31 36.53 18.42 36.42 
+C 18.53 36.31 18.6 36.15 18.6 36 
+C 18.6 35.84 18.53 35.68 18.42 35.57 
+C 18.31 35.46 18.15 35.4 18 35.4 
+C 17.84 35.4 17.68 35.46 17.57 35.57 
+C 17.46 35.68 17.4 35.84 17.4 36 
+C 17.4 36.15 17.46 36.31 17.57 36.42 
+C 17.68 36.53 17.84 36.6 18 36.6 
+z
+M 24 36.6 
+C 24.15 36.6 24.31 36.53 24.42 36.42 
+C 24.53 36.31 24.6 36.15 24.6 36 
+C 24.6 35.84 24.53 35.68 24.42 35.57 
+C 24.31 35.46 24.15 35.4 24 35.4 
+C 23.84 35.4 23.68 35.46 23.57 35.57 
+C 23.46 35.68 23.4 35.84 23.4 36 
+C 23.4 36.15 23.46 36.31 23.57 36.42 
+C 23.68 36.53 23.84 36.6 24 36.6 
+z
+M 30 36.6 
+C 30.15 36.6 30.31 36.53 30.42 36.42 
+C 30.53 36.31 30.6 36.15 30.6 36 
+C 30.6 35.84 30.53 35.68 30.42 35.57 
+C 30.31 35.46 30.15 35.4 30 35.4 
+C 29.84 35.4 29.68 35.46 29.57 35.57 
+C 29.46 35.68 29.4 35.84 29.4 36 
+C 29.4 36.15 29.46 36.31 29.57 36.42 
+C 29.68 36.53 29.84 36.6 30 36.6 
+z
+M 36 36.6 
+C 36.15 36.6 36.31 36.53 36.42 36.42 
+C 36.53 36.31 36.6 36.15 36.6 36 
+C 36.6 35.84 36.53 35.68 36.42 35.57 
+C 36.31 35.46 36.15 35.4 36 35.4 
+C 35.84 35.4 35.68 35.46 35.57 35.57 
+C 35.46 35.68 35.4 35.84 35.4 36 
+C 35.4 36.15 35.46 36.31 35.57 36.42 
+C 35.68 36.53 35.84 36.6 36 36.6 
+z
+M 42 36.6 
+C 42.15 36.6 42.31 36.53 42.42 36.42 
+C 42.53 36.31 42.6 36.15 42.6 36 
+C 42.6 35.84 42.53 35.68 42.42 35.57 
+C 42.31 35.46 42.15 35.4 42 35.4 
+C 41.84 35.4 41.68 35.46 41.57 35.57 
+C 41.46 35.68 41.4 35.84 41.4 36 
+C 41.4 36.15 41.46 36.31 41.57 36.42 
+C 41.68 36.53 41.84 36.6 42 36.6 
+z
+M 48 36.6 
+C 48.15 36.6 48.31 36.53 48.42 36.42 
+C 48.53 36.31 48.6 36.15 48.6 36 
+C 48.6 35.84 48.53 35.68 48.42 35.57 
+C 48.31 35.46 48.15 35.4 48 35.4 
+C 47.84 35.4 47.68 35.46 47.57 35.57 
+C 47.46 35.68 47.4 35.84 47.4 36 
+C 47.4 36.15 47.46 36.31 47.57 36.42 
+C 47.68 36.53 47.84 36.6 48 36.6 
+z
+M 54 36.6 
+C 54.15 36.6 54.31 36.53 54.42 36.42 
+C 54.53 36.31 54.6 36.15 54.6 36 
+C 54.6 35.84 54.53 35.68 54.42 35.57 
+C 54.31 35.46 54.15 35.4 54 35.4 
+C 53.84 35.4 53.68 35.46 53.57 35.57 
+C 53.46 35.68 53.4 35.84 53.4 36 
+C 53.4 36.15 53.46 36.31 53.57 36.42 
+C 53.68 36.53 53.84 36.6 54 36.6 
+z
+M 60 36.6 
+C 60.15 36.6 60.31 36.53 60.42 36.42 
+C 60.53 36.31 60.6 36.15 60.6 36 
+C 60.6 35.84 60.53 35.68 60.42 35.57 
+C 60.31 35.46 60.15 35.4 60 35.4 
+C 59.84 35.4 59.68 35.46 59.57 35.57 
+C 59.46 35.68 59.4 35.84 59.4 36 
+C 59.4 36.15 59.46 36.31 59.57 36.42 
+C 59.68 36.53 59.84 36.6 60 36.6 
+z
+M 66 36.6 
+C 66.15 36.6 66.31 36.53 66.42 36.42 
+C 66.53 36.31 66.6 36.15 66.6 36 
+C 66.6 35.84 66.53 35.68 66.42 35.57 
+C 66.31 35.46 66.15 35.4 66 35.4 
+C 65.84 35.4 65.68 35.46 65.57 35.57 
+C 65.46 35.68 65.4 35.84 65.4 36 
+C 65.4 36.15 65.46 36.31 65.57 36.42 
+C 65.68 36.53 65.84 36.6 66 36.6 
+z
+M 72 36.6 
+C 72.15 36.6 72.31 36.53 72.42 36.42 
+C 72.53 36.31 72.6 36.15 72.6 36 
+C 72.6 35.84 72.53 35.68 72.42 35.57 
+C 72.31 35.46 72.15 35.4 72 35.4 
+C 71.84 35.4 71.68 35.46 71.57 35.57 
+C 71.46 35.68 71.4 35.84 71.4 36 
+C 71.4 36.15 71.46 36.31 71.57 36.42 
+C 71.68 36.53 71.84 36.6 72 36.6 
+z
+M 3 30.6 
+C 3.15 30.6 3.31 30.53 3.42 30.42 
+C 3.53 30.31 3.6 30.15 3.6 30 
+C 3.6 29.84 3.53 29.68 3.42 29.57 
+C 3.31 29.46 3.15 29.4 3 29.4 
+C 2.84 29.4 2.68 29.46 2.57 29.57 
+C 2.46 29.68 2.4 29.84 2.4 30 
+C 2.4 30.15 2.46 30.31 2.57 30.42 
+C 2.68 30.53 2.84 30.6 3 30.6 
+z
+M 9 30.6 
+C 9.15 30.6 9.31 30.53 9.42 30.42 
+C 9.53 30.31 9.6 30.15 9.6 30 
+C 9.6 29.84 9.53 29.68 9.42 29.57 
+C 9.31 29.46 9.15 29.4 9 29.4 
+C 8.84 29.4 8.68 29.46 8.57 29.57 
+C 8.46 29.68 8.4 29.84 8.4 30 
+C 8.4 30.15 8.46 30.31 8.57 30.42 
+C 8.68 30.53 8.84 30.6 9 30.6 
+z
+M 15 30.6 
+C 15.15 30.6 15.31 30.53 15.42 30.42 
+C 15.53 30.31 15.6 30.15 15.6 30 
+C 15.6 29.84 15.53 29.68 15.42 29.57 
+C 15.31 29.46 15.15 29.4 15 29.4 
+C 14.84 29.4 14.68 29.46 14.57 29.57 
+C 14.46 29.68 14.4 29.84 14.4 30 
+C 14.4 30.15 14.46 30.31 14.57 30.42 
+C 14.68 30.53 14.84 30.6 15 30.6 
+z
+M 21 30.6 
+C 21.15 30.6 21.31 30.53 21.42 30.42 
+C 21.53 30.31 21.6 30.15 21.6 30 
+C 21.6 29.84 21.53 29.68 21.42 29.57 
+C 21.31 29.46 21.15 29.4 21 29.4 
+C 20.84 29.4 20.68 29.46 20.57 29.57 
+C 20.46 29.68 20.4 29.84 20.4 30 
+C 20.4 30.15 20.46 30.31 20.57 30.42 
+C 20.68 30.53 20.84 30.6 21 30.6 
+z
+M 27 30.6 
+C 27.15 30.6 27.31 30.53 27.42 30.42 
+C 27.53 30.31 27.6 30.15 27.6 30 
+C 27.6 29.84 27.53 29.68 27.42 29.57 
+C 27.31 29.46 27.15 29.4 27 29.4 
+C 26.84 29.4 26.68 29.46 26.57 29.57 
+C 26.46 29.68 26.4 29.84 26.4 30 
+C 26.4 30.15 26.46 30.31 26.57 30.42 
+C 26.68 30.53 26.84 30.6 27 30.6 
+z
+M 33 30.6 
+C 33.15 30.6 33.31 30.53 33.42 30.42 
+C 33.53 30.31 33.6 30.15 33.6 30 
+C 33.6 29.84 33.53 29.68 33.42 29.57 
+C 33.31 29.46 33.15 29.4 33 29.4 
+C 32.84 29.4 32.68 29.46 32.57 29.57 
+C 32.46 29.68 32.4 29.84 32.4 30 
+C 32.4 30.15 32.46 30.31 32.57 30.42 
+C 32.68 30.53 32.84 30.6 33 30.6 
+z
+M 39 30.6 
+C 39.15 30.6 39.31 30.53 39.42 30.42 
+C 39.53 30.31 39.6 30.15 39.6 30 
+C 39.6 29.84 39.53 29.68 39.42 29.57 
+C 39.31 29.46 39.15 29.4 39 29.4 
+C 38.84 29.4 38.68 29.46 38.57 29.57 
+C 38.46 29.68 38.4 29.84 38.4 30 
+C 38.4 30.15 38.46 30.31 38.57 30.42 
+C 38.68 30.53 38.84 30.6 39 30.6 
+z
+M 45 30.6 
+C 45.15 30.6 45.31 30.53 45.42 30.42 
+C 45.53 30.31 45.6 30.15 45.6 30 
+C 45.6 29.84 45.53 29.68 45.42 29.57 
+C 45.31 29.46 45.15 29.4 45 29.4 
+C 44.84 29.4 44.68 29.46 44.57 29.57 
+C 44.46 29.68 44.4 29.84 44.4 30 
+C 44.4 30.15 44.46 30.31 44.57 30.42 
+C 44.68 30.53 44.84 30.6 45 30.6 
+z
+M 51 30.6 
+C 51.15 30.6 51.31 30.53 51.42 30.42 
+C 51.53 30.31 51.6 30.15 51.6 30 
+C 51.6 29.84 51.53 29.68 51.42 29.57 
+C 51.31 29.46 51.15 29.4 51 29.4 
+C 50.84 29.4 50.68 29.46 50.57 29.57 
+C 50.46 29.68 50.4 29.84 50.4 30 
+C 50.4 30.15 50.46 30.31 50.57 30.42 
+C 50.68 30.53 50.84 30.6 51 30.6 
+z
+M 57 30.6 
+C 57.15 30.6 57.31 30.53 57.42 30.42 
+C 57.53 30.31 57.6 30.15 57.6 30 
+C 57.6 29.84 57.53 29.68 57.42 29.57 
+C 57.31 29.46 57.15 29.4 57 29.4 
+C 56.84 29.4 56.68 29.46 56.57 29.57 
+C 56.46 29.68 56.4 29.84 56.4 30 
+C 56.4 30.15 56.46 30.31 56.57 30.42 
+C 56.68 30.53 56.84 30.6 57 30.6 
+z
+M 63 30.6 
+C 63.15 30.6 63.31 30.53 63.42 30.42 
+C 63.53 30.31 63.6 30.15 63.6 30 
+C 63.6 29.84 63.53 29.68 63.42 29.57 
+C 63.31 29.46 63.15 29.4 63 29.4 
+C 62.84 29.4 62.68 29.46 62.57 29.57 
+C 62.46 29.68 62.4 29.84 62.4 30 
+C 62.4 30.15 62.46 30.31 62.57 30.42 
+C 62.68 30.53 62.84 30.6 63 30.6 
+z
+M 69 30.6 
+C 69.15 30.6 69.31 30.53 69.42 30.42 
+C 69.53 30.31 69.6 30.15 69.6 30 
+C 69.6 29.84 69.53 29.68 69.42 29.57 
+C 69.31 29.46 69.15 29.4 69 29.4 
+C 68.84 29.4 68.68 29.46 68.57 29.57 
+C 68.46 29.68 68.4 29.84 68.4 30 
+C 68.4 30.15 68.46 30.31 68.57 30.42 
+C 68.68 30.53 68.84 30.6 69 30.6 
+z
+M 0 24.6 
+C 0.15 24.6 0.31 24.53 0.42 24.42 
+C 0.53 24.31 0.6 24.15 0.6 24 
+C 0.6 23.84 0.53 23.68 0.42 23.57 
+C 0.31 23.46 0.15 23.4 0 23.4 
+C -0.15 23.4 -0.31 23.46 -0.42 23.57 
+C -0.53 23.68 -0.6 23.84 -0.6 24 
+C -0.6 24.15 -0.53 24.31 -0.42 24.42 
+C -0.31 24.53 -0.15 24.6 0 24.6 
+z
+M 6 24.6 
+C 6.15 24.6 6.31 24.53 6.42 24.42 
+C 6.53 24.31 6.6 24.15 6.6 24 
+C 6.6 23.84 6.53 23.68 6.42 23.57 
+C 6.31 23.46 6.15 23.4 6 23.4 
+C 5.84 23.4 5.68 23.46 5.57 23.57 
+C 5.46 23.68 5.4 23.84 5.4 24 
+C 5.4 24.15 5.46 24.31 5.57 24.42 
+C 5.68 24.53 5.84 24.6 6 24.6 
+z
+M 12 24.6 
+C 12.15 24.6 12.31 24.53 12.42 24.42 
+C 12.53 24.31 12.6 24.15 12.6 24 
+C 12.6 23.84 12.53 23.68 12.42 23.57 
+C 12.31 23.46 12.15 23.4 12 23.4 
+C 11.84 23.4 11.68 23.46 11.57 23.57 
+C 11.46 23.68 11.4 23.84 11.4 24 
+C 11.4 24.15 11.46 24.31 11.57 24.42 
+C 11.68 24.53 11.84 24.6 12 24.6 
+z
+M 18 24.6 
+C 18.15 24.6 18.31 24.53 18.42 24.42 
+C 18.53 24.31 18.6 24.15 18.6 24 
+C 18.6 23.84 18.53 23.68 18.42 23.57 
+C 18.31 23.46 18.15 23.4 18 23.4 
+C 17.84 23.4 17.68 23.46 17.57 23.57 
+C 17.46 23.68 17.4 23.84 17.4 24 
+C 17.4 24.15 17.46 24.31 17.57 24.42 
+C 17.68 24.53 17.84 24.6 18 24.6 
+z
+M 24 24.6 
+C 24.15 24.6 24.31 24.53 24.42 24.42 
+C 24.53 24.31 24.6 24.15 24.6 24 
+C 24.6 23.84 24.53 23.68 24.42 23.57 
+C 24.31 23.46 24.15 23.4 24 23.4 
+C 23.84 23.4 23.68 23.46 23.57 23.57 
+C 23.46 23.68 23.4 23.84 23.4 24 
+C 23.4 24.15 23.46 24.31 23.57 24.42 
+C 23.68 24.53 23.84 24.6 24 24.6 
+z
+M 30 24.6 
+C 30.15 24.6 30.31 24.53 30.42 24.42 
+C 30.53 24.31 30.6 24.15 30.6 24 
+C 30.6 23.84 30.53 23.68 30.42 23.57 
+C 30.31 23.46 30.15 23.4 30 23.4 
+C 29.84 23.4 29.68 23.46 29.57 23.57 
+C 29.46 23.68 29.4 23.84 29.4 24 
+C 29.4 24.15 29.46 24.31 29.57 24.42 
+C 29.68 24.53 29.84 24.6 30 24.6 
+z
+M 36 24.6 
+C 36.15 24.6 36.31 24.53 36.42 24.42 
+C 36.53 24.31 36.6 24.15 36.6 24 
+C 36.6 23.84 36.53 23.68 36.42 23.57 
+C 36.31 23.46 36.15 23.4 36 23.4 
+C 35.84 23.4 35.68 23.46 35.57 23.57 
+C 35.46 23.68 35.4 23.84 35.4 24 
+C 35.4 24.15 35.46 24.31 35.57 24.42 
+C 35.68 24.53 35.84 24.6 36 24.6 
+z
+M 42 24.6 
+C 42.15 24.6 42.31 24.53 42.42 24.42 
+C 42.53 24.31 42.6 24.15 42.6 24 
+C 42.6 23.84 42.53 23.68 42.42 23.57 
+C 42.31 23.46 42.15 23.4 42 23.4 
+C 41.84 23.4 41.68 23.46 41.57 23.57 
+C 41.46 23.68 41.4 23.84 41.4 24 
+C 41.4 24.15 41.46 24.31 41.57 24.42 
+C 41.68 24.53 41.84 24.6 42 24.6 
+z
+M 48 24.6 
+C 48.15 24.6 48.31 24.53 48.42 24.42 
+C 48.53 24.31 48.6 24.15 48.6 24 
+C 48.6 23.84 48.53 23.68 48.42 23.57 
+C 48.31 23.46 48.15 23.4 48 23.4 
+C 47.84 23.4 47.68 23.46 47.57 23.57 
+C 47.46 23.68 47.4 23.84 47.4 24 
+C 47.4 24.15 47.46 24.31 47.57 24.42 
+C 47.68 24.53 47.84 24.6 48 24.6 
+z
+M 54 24.6 
+C 54.15 24.6 54.31 24.53 54.42 24.42 
+C 54.53 24.31 54.6 24.15 54.6 24 
+C 54.6 23.84 54.53 23.68 54.42 23.57 
+C 54.31 23.46 54.15 23.4 54 23.4 
+C 53.84 23.4 53.68 23.46 53.57 23.57 
+C 53.46 23.68 53.4 23.84 53.4 24 
+C 53.4 24.15 53.46 24.31 53.57 24.42 
+C 53.68 24.53 53.84 24.6 54 24.6 
+z
+M 60 24.6 
+C 60.15 24.6 60.31 24.53 60.42 24.42 
+C 60.53 24.31 60.6 24.15 60.6 24 
+C 60.6 23.84 60.53 23.68 60.42 23.57 
+C 60.31 23.46 60.15 23.4 60 23.4 
+C 59.84 23.4 59.68 23.46 59.57 23.57 
+C 59.46 23.68 59.4 23.84 59.4 24 
+C 59.4 24.15 59.46 24.31 59.57 24.42 
+C 59.68 24.53 59.84 24.6 60 24.6 
+z
+M 66 24.6 
+C 66.15 24.6 66.31 24.53 66.42 24.42 
+C 66.53 24.31 66.6 24.15 66.6 24 
+C 66.6 23.84 66.53 23.68 66.42 23.57 
+C 66.31 23.46 66.15 23.4 66 23.4 
+C 65.84 23.4 65.68 23.46 65.57 23.57 
+C 65.46 23.68 65.4 23.84 65.4 24 
+C 65.4 24.15 65.46 24.31 65.57 24.42 
+C 65.68 24.53 65.84 24.6 66 24.6 
+z
+M 72 24.6 
+C 72.15 24.6 72.31 24.53 72.42 24.42 
+C 72.53 24.31 72.6 24.15 72.6 24 
+C 72.6 23.84 72.53 23.68 72.42 23.57 
+C 72.31 23.46 72.15 23.4 72 23.4 
+C 71.84 23.4 71.68 23.46 71.57 23.57 
+C 71.46 23.68 71.4 23.84 71.4 24 
+C 71.4 24.15 71.46 24.31 71.57 24.42 
+C 71.68 24.53 71.84 24.6 72 24.6 
+z
+M 3 18.6 
+C 3.15 18.6 3.31 18.53 3.42 18.42 
+C 3.53 18.31 3.6 18.15 3.6 18 
+C 3.6 17.84 3.53 17.68 3.42 17.57 
+C 3.31 17.46 3.15 17.4 3 17.4 
+C 2.84 17.4 2.68 17.46 2.57 17.57 
+C 2.46 17.68 2.4 17.84 2.4 18 
+C 2.4 18.15 2.46 18.31 2.57 18.42 
+C 2.68 18.53 2.84 18.6 3 18.6 
+z
+M 9 18.6 
+C 9.15 18.6 9.31 18.53 9.42 18.42 
+C 9.53 18.31 9.6 18.15 9.6 18 
+C 9.6 17.84 9.53 17.68 9.42 17.57 
+C 9.31 17.46 9.15 17.4 9 17.4 
+C 8.84 17.4 8.68 17.46 8.57 17.57 
+C 8.46 17.68 8.4 17.84 8.4 18 
+C 8.4 18.15 8.46 18.31 8.57 18.42 
+C 8.68 18.53 8.84 18.6 9 18.6 
+z
+M 15 18.6 
+C 15.15 18.6 15.31 18.53 15.42 18.42 
+C 15.53 18.31 15.6 18.15 15.6 18 
+C 15.6 17.84 15.53 17.68 15.42 17.57 
+C 15.31 17.46 15.15 17.4 15 17.4 
+C 14.84 17.4 14.68 17.46 14.57 17.57 
+C 14.46 17.68 14.4 17.84 14.4 18 
+C 14.4 18.15 14.46 18.31 14.57 18.42 
+C 14.68 18.53 14.84 18.6 15 18.6 
+z
+M 21 18.6 
+C 21.15 18.6 21.31 18.53 21.42 18.42 
+C 21.53 18.31 21.6 18.15 21.6 18 
+C 21.6 17.84 21.53 17.68 21.42 17.57 
+C 21.31 17.46 21.15 17.4 21 17.4 
+C 20.84 17.4 20.68 17.46 20.57 17.57 
+C 20.46 17.68 20.4 17.84 20.4 18 
+C 20.4 18.15 20.46 18.31 20.57 18.42 
+C 20.68 18.53 20.84 18.6 21 18.6 
+z
+M 27 18.6 
+C 27.15 18.6 27.31 18.53 27.42 18.42 
+C 27.53 18.31 27.6 18.15 27.6 18 
+C 27.6 17.84 27.53 17.68 27.42 17.57 
+C 27.31 17.46 27.15 17.4 27 17.4 
+C 26.84 17.4 26.68 17.46 26.57 17.57 
+C 26.46 17.68 26.4 17.84 26.4 18 
+C 26.4 18.15 26.46 18.31 26.57 18.42 
+C 26.68 18.53 26.84 18.6 27 18.6 
+z
+M 33 18.6 
+C 33.15 18.6 33.31 18.53 33.42 18.42 
+C 33.53 18.31 33.6 18.15 33.6 18 
+C 33.6 17.84 33.53 17.68 33.42 17.57 
+C 33.31 17.46 33.15 17.4 33 17.4 
+C 32.84 17.4 32.68 17.46 32.57 17.57 
+C 32.46 17.68 32.4 17.84 32.4 18 
+C 32.4 18.15 32.46 18.31 32.57 18.42 
+C 32.68 18.53 32.84 18.6 33 18.6 
+z
+M 39 18.6 
+C 39.15 18.6 39.31 18.53 39.42 18.42 
+C 39.53 18.31 39.6 18.15 39.6 18 
+C 39.6 17.84 39.53 17.68 39.42 17.57 
+C 39.31 17.46 39.15 17.4 39 17.4 
+C 38.84 17.4 38.68 17.46 38.57 17.57 
+C 38.46 17.68 38.4 17.84 38.4 18 
+C 38.4 18.15 38.46 18.31 38.57 18.42 
+C 38.68 18.53 38.84 18.6 39 18.6 
+z
+M 45 18.6 
+C 45.15 18.6 45.31 18.53 45.42 18.42 
+C 45.53 18.31 45.6 18.15 45.6 18 
+C 45.6 17.84 45.53 17.68 45.42 17.57 
+C 45.31 17.46 45.15 17.4 45 17.4 
+C 44.84 17.4 44.68 17.46 44.57 17.57 
+C 44.46 17.68 44.4 17.84 44.4 18 
+C 44.4 18.15 44.46 18.31 44.57 18.42 
+C 44.68 18.53 44.84 18.6 45 18.6 
+z
+M 51 18.6 
+C 51.15 18.6 51.31 18.53 51.42 18.42 
+C 51.53 18.31 51.6 18.15 51.6 18 
+C 51.6 17.84 51.53 17.68 51.42 17.57 
+C 51.31 17.46 51.15 17.4 51 17.4 
+C 50.84 17.4 50.68 17.46 50.57 17.57 
+C 50.46 17.68 50.4 17.84 50.4 18 
+C 50.4 18.15 50.46 18.31 50.57 18.42 
+C 50.68 18.53 50.84 18.6 51 18.6 
+z
+M 57 18.6 
+C 57.15 18.6 57.31 18.53 57.42 18.42 
+C 57.53 18.31 57.6 18.15 57.6 18 
+C 57.6 17.84 57.53 17.68 57.42 17.57 
+C 57.31 17.46 57.15 17.4 57 17.4 
+C 56.84 17.4 56.68 17.46 56.57 17.57 
+C 56.46 17.68 56.4 17.84 56.4 18 
+C 56.4 18.15 56.46 18.31 56.57 18.42 
+C 56.68 18.53 56.84 18.6 57 18.6 
+z
+M 63 18.6 
+C 63.15 18.6 63.31 18.53 63.42 18.42 
+C 63.53 18.31 63.6 18.15 63.6 18 
+C 63.6 17.84 63.53 17.68 63.42 17.57 
+C 63.31 17.46 63.15 17.4 63 17.4 
+C 62.84 17.4 62.68 17.46 62.57 17.57 
+C 62.46 17.68 62.4 17.84 62.4 18 
+C 62.4 18.15 62.46 18.31 62.57 18.42 
+C 62.68 18.53 62.84 18.6 63 18.6 
+z
+M 69 18.6 
+C 69.15 18.6 69.31 18.53 69.42 18.42 
+C 69.53 18.31 69.6 18.15 69.6 18 
+C 69.6 17.84 69.53 17.68 69.42 17.57 
+C 69.31 17.46 69.15 17.4 69 17.4 
+C 68.84 17.4 68.68 17.46 68.57 17.57 
+C 68.46 17.68 68.4 17.84 68.4 18 
+C 68.4 18.15 68.46 18.31 68.57 18.42 
+C 68.68 18.53 68.84 18.6 69 18.6 
+z
+M 0 12.6 
+C 0.15 12.6 0.31 12.53 0.42 12.42 
+C 0.53 12.31 0.6 12.15 0.6 12 
+C 0.6 11.84 0.53 11.68 0.42 11.57 
+C 0.31 11.46 0.15 11.4 0 11.4 
+C -0.15 11.4 -0.31 11.46 -0.42 11.57 
+C -0.53 11.68 -0.6 11.84 -0.6 12 
+C -0.6 12.15 -0.53 12.31 -0.42 12.42 
+C -0.31 12.53 -0.15 12.6 0 12.6 
+z
+M 6 12.6 
+C 6.15 12.6 6.31 12.53 6.42 12.42 
+C 6.53 12.31 6.6 12.15 6.6 12 
+C 6.6 11.84 6.53 11.68 6.42 11.57 
+C 6.31 11.46 6.15 11.4 6 11.4 
+C 5.84 11.4 5.68 11.46 5.57 11.57 
+C 5.46 11.68 5.4 11.84 5.4 12 
+C 5.4 12.15 5.46 12.31 5.57 12.42 
+C 5.68 12.53 5.84 12.6 6 12.6 
+z
+M 12 12.6 
+C 12.15 12.6 12.31 12.53 12.42 12.42 
+C 12.53 12.31 12.6 12.15 12.6 12 
+C 12.6 11.84 12.53 11.68 12.42 11.57 
+C 12.31 11.46 12.15 11.4 12 11.4 
+C 11.84 11.4 11.68 11.46 11.57 11.57 
+C 11.46 11.68 11.4 11.84 11.4 12 
+C 11.4 12.15 11.46 12.31 11.57 12.42 
+C 11.68 12.53 11.84 12.6 12 12.6 
+z
+M 18 12.6 
+C 18.15 12.6 18.31 12.53 18.42 12.42 
+C 18.53 12.31 18.6 12.15 18.6 12 
+C 18.6 11.84 18.53 11.68 18.42 11.57 
+C 18.31 11.46 18.15 11.4 18 11.4 
+C 17.84 11.4 17.68 11.46 17.57 11.57 
+C 17.46 11.68 17.4 11.84 17.4 12 
+C 17.4 12.15 17.46 12.31 17.57 12.42 
+C 17.68 12.53 17.84 12.6 18 12.6 
+z
+M 24 12.6 
+C 24.15 12.6 24.31 12.53 24.42 12.42 
+C 24.53 12.31 24.6 12.15 24.6 12 
+C 24.6 11.84 24.53 11.68 24.42 11.57 
+C 24.31 11.46 24.15 11.4 24 11.4 
+C 23.84 11.4 23.68 11.46 23.57 11.57 
+C 23.46 11.68 23.4 11.84 23.4 12 
+C 23.4 12.15 23.46 12.31 23.57 12.42 
+C 23.68 12.53 23.84 12.6 24 12.6 
+z
+M 30 12.6 
+C 30.15 12.6 30.31 12.53 30.42 12.42 
+C 30.53 12.31 30.6 12.15 30.6 12 
+C 30.6 11.84 30.53 11.68 30.42 11.57 
+C 30.31 11.46 30.15 11.4 30 11.4 
+C 29.84 11.4 29.68 11.46 29.57 11.57 
+C 29.46 11.68 29.4 11.84 29.4 12 
+C 29.4 12.15 29.46 12.31 29.57 12.42 
+C 29.68 12.53 29.84 12.6 30 12.6 
+z
+M 36 12.6 
+C 36.15 12.6 36.31 12.53 36.42 12.42 
+C 36.53 12.31 36.6 12.15 36.6 12 
+C 36.6 11.84 36.53 11.68 36.42 11.57 
+C 36.31 11.46 36.15 11.4 36 11.4 
+C 35.84 11.4 35.68 11.46 35.57 11.57 
+C 35.46 11.68 35.4 11.84 35.4 12 
+C 35.4 12.15 35.46 12.31 35.57 12.42 
+C 35.68 12.53 35.84 12.6 36 12.6 
+z
+M 42 12.6 
+C 42.15 12.6 42.31 12.53 42.42 12.42 
+C 42.53 12.31 42.6 12.15 42.6 12 
+C 42.6 11.84 42.53 11.68 42.42 11.57 
+C 42.31 11.46 42.15 11.4 42 11.4 
+C 41.84 11.4 41.68 11.46 41.57 11.57 
+C 41.46 11.68 41.4 11.84 41.4 12 
+C 41.4 12.15 41.46 12.31 41.57 12.42 
+C 41.68 12.53 41.84 12.6 42 12.6 
+z
+M 48 12.6 
+C 48.15 12.6 48.31 12.53 48.42 12.42 
+C 48.53 12.31 48.6 12.15 48.6 12 
+C 48.6 11.84 48.53 11.68 48.42 11.57 
+C 48.31 11.46 48.15 11.4 48 11.4 
+C 47.84 11.4 47.68 11.46 47.57 11.57 
+C 47.46 11.68 47.4 11.84 47.4 12 
+C 47.4 12.15 47.46 12.31 47.57 12.42 
+C 47.68 12.53 47.84 12.6 48 12.6 
+z
+M 54 12.6 
+C 54.15 12.6 54.31 12.53 54.42 12.42 
+C 54.53 12.31 54.6 12.15 54.6 12 
+C 54.6 11.84 54.53 11.68 54.42 11.57 
+C 54.31 11.46 54.15 11.4 54 11.4 
+C 53.84 11.4 53.68 11.46 53.57 11.57 
+C 53.46 11.68 53.4 11.84 53.4 12 
+C 53.4 12.15 53.46 12.31 53.57 12.42 
+C 53.68 12.53 53.84 12.6 54 12.6 
+z
+M 60 12.6 
+C 60.15 12.6 60.31 12.53 60.42 12.42 
+C 60.53 12.31 60.6 12.15 60.6 12 
+C 60.6 11.84 60.53 11.68 60.42 11.57 
+C 60.31 11.46 60.15 11.4 60 11.4 
+C 59.84 11.4 59.68 11.46 59.57 11.57 
+C 59.46 11.68 59.4 11.84 59.4 12 
+C 59.4 12.15 59.46 12.31 59.57 12.42 
+C 59.68 12.53 59.84 12.6 60 12.6 
+z
+M 66 12.6 
+C 66.15 12.6 66.31 12.53 66.42 12.42 
+C 66.53 12.31 66.6 12.15 66.6 12 
+C 66.6 11.84 66.53 11.68 66.42 11.57 
+C 66.31 11.46 66.15 11.4 66 11.4 
+C 65.84 11.4 65.68 11.46 65.57 11.57 
+C 65.46 11.68 65.4 11.84 65.4 12 
+C 65.4 12.15 65.46 12.31 65.57 12.42 
+C 65.68 12.53 65.84 12.6 66 12.6 
+z
+M 72 12.6 
+C 72.15 12.6 72.31 12.53 72.42 12.42 
+C 72.53 12.31 72.6 12.15 72.6 12 
+C 72.6 11.84 72.53 11.68 72.42 11.57 
+C 72.31 11.46 72.15 11.4 72 11.4 
+C 71.84 11.4 71.68 11.46 71.57 11.57 
+C 71.46 11.68 71.4 11.84 71.4 12 
+C 71.4 12.15 71.46 12.31 71.57 12.42 
+C 71.68 12.53 71.84 12.6 72 12.6 
+z
+M 3 6.6 
+C 3.15 6.6 3.31 6.53 3.42 6.42 
+C 3.53 6.31 3.6 6.15 3.6 6 
+C 3.6 5.84 3.53 5.68 3.42 5.57 
+C 3.31 5.46 3.15 5.4 3 5.4 
+C 2.84 5.4 2.68 5.46 2.57 5.57 
+C 2.46 5.68 2.4 5.84 2.4 6 
+C 2.4 6.15 2.46 6.31 2.57 6.42 
+C 2.68 6.53 2.84 6.6 3 6.6 
+z
+M 9 6.6 
+C 9.15 6.6 9.31 6.53 9.42 6.42 
+C 9.53 6.31 9.6 6.15 9.6 6 
+C 9.6 5.84 9.53 5.68 9.42 5.57 
+C 9.31 5.46 9.15 5.4 9 5.4 
+C 8.84 5.4 8.68 5.46 8.57 5.57 
+C 8.46 5.68 8.4 5.84 8.4 6 
+C 8.4 6.15 8.46 6.31 8.57 6.42 
+C 8.68 6.53 8.84 6.6 9 6.6 
+z
+M 15 6.6 
+C 15.15 6.6 15.31 6.53 15.42 6.42 
+C 15.53 6.31 15.6 6.15 15.6 6 
+C 15.6 5.84 15.53 5.68 15.42 5.57 
+C 15.31 5.46 15.15 5.4 15 5.4 
+C 14.84 5.4 14.68 5.46 14.57 5.57 
+C 14.46 5.68 14.4 5.84 14.4 6 
+C 14.4 6.15 14.46 6.31 14.57 6.42 
+C 14.68 6.53 14.84 6.6 15 6.6 
+z
+M 21 6.6 
+C 21.15 6.6 21.31 6.53 21.42 6.42 
+C 21.53 6.31 21.6 6.15 21.6 6 
+C 21.6 5.84 21.53 5.68 21.42 5.57 
+C 21.31 5.46 21.15 5.4 21 5.4 
+C 20.84 5.4 20.68 5.46 20.57 5.57 
+C 20.46 5.68 20.4 5.84 20.4 6 
+C 20.4 6.15 20.46 6.31 20.57 6.42 
+C 20.68 6.53 20.84 6.6 21 6.6 
+z
+M 27 6.6 
+C 27.15 6.6 27.31 6.53 27.42 6.42 
+C 27.53 6.31 27.6 6.15 27.6 6 
+C 27.6 5.84 27.53 5.68 27.42 5.57 
+C 27.31 5.46 27.15 5.4 27 5.4 
+C 26.84 5.4 26.68 5.46 26.57 5.57 
+C 26.46 5.68 26.4 5.84 26.4 6 
+C 26.4 6.15 26.46 6.31 26.57 6.42 
+C 26.68 6.53 26.84 6.6 27 6.6 
+z
+M 33 6.6 
+C 33.15 6.6 33.31 6.53 33.42 6.42 
+C 33.53 6.31 33.6 6.15 33.6 6 
+C 33.6 5.84 33.53 5.68 33.42 5.57 
+C 33.31 5.46 33.15 5.4 33 5.4 
+C 32.84 5.4 32.68 5.46 32.57 5.57 
+C 32.46 5.68 32.4 5.84 32.4 6 
+C 32.4 6.15 32.46 6.31 32.57 6.42 
+C 32.68 6.53 32.84 6.6 33 6.6 
+z
+M 39 6.6 
+C 39.15 6.6 39.31 6.53 39.42 6.42 
+C 39.53 6.31 39.6 6.15 39.6 6 
+C 39.6 5.84 39.53 5.68 39.42 5.57 
+C 39.31 5.46 39.15 5.4 39 5.4 
+C 38.84 5.4 38.68 5.46 38.57 5.57 
+C 38.46 5.68 38.4 5.84 38.4 6 
+C 38.4 6.15 38.46 6.31 38.57 6.42 
+C 38.68 6.53 38.84 6.6 39 6.6 
+z
+M 45 6.6 
+C 45.15 6.6 45.31 6.53 45.42 6.42 
+C 45.53 6.31 45.6 6.15 45.6 6 
+C 45.6 5.84 45.53 5.68 45.42 5.57 
+C 45.31 5.46 45.15 5.4 45 5.4 
+C 44.84 5.4 44.68 5.46 44.57 5.57 
+C 44.46 5.68 44.4 5.84 44.4 6 
+C 44.4 6.15 44.46 6.31 44.57 6.42 
+C 44.68 6.53 44.84 6.6 45 6.6 
+z
+M 51 6.6 
+C 51.15 6.6 51.31 6.53 51.42 6.42 
+C 51.53 6.31 51.6 6.15 51.6 6 
+C 51.6 5.84 51.53 5.68 51.42 5.57 
+C 51.31 5.46 51.15 5.4 51 5.4 
+C 50.84 5.4 50.68 5.46 50.57 5.57 
+C 50.46 5.68 50.4 5.84 50.4 6 
+C 50.4 6.15 50.46 6.31 50.57 6.42 
+C 50.68 6.53 50.84 6.6 51 6.6 
+z
+M 57 6.6 
+C 57.15 6.6 57.31 6.53 57.42 6.42 
+C 57.53 6.31 57.6 6.15 57.6 6 
+C 57.6 5.84 57.53 5.68 57.42 5.57 
+C 57.31 5.46 57.15 5.4 57 5.4 
+C 56.84 5.4 56.68 5.46 56.57 5.57 
+C 56.46 5.68 56.4 5.84 56.4 6 
+C 56.4 6.15 56.46 6.31 56.57 6.42 
+C 56.68 6.53 56.84 6.6 57 6.6 
+z
+M 63 6.6 
+C 63.15 6.6 63.31 6.53 63.42 6.42 
+C 63.53 6.31 63.6 6.15 63.6 6 
+C 63.6 5.84 63.53 5.68 63.42 5.57 
+C 63.31 5.46 63.15 5.4 63 5.4 
+C 62.84 5.4 62.68 5.46 62.57 5.57 
+C 62.46 5.68 62.4 5.84 62.4 6 
+C 62.4 6.15 62.46 6.31 62.57 6.42 
+C 62.68 6.53 62.84 6.6 63 6.6 
+z
+M 69 6.6 
+C 69.15 6.6 69.31 6.53 69.42 6.42 
+C 69.53 6.31 69.6 6.15 69.6 6 
+C 69.6 5.84 69.53 5.68 69.42 5.57 
+C 69.31 5.46 69.15 5.4 69 5.4 
+C 68.84 5.4 68.68 5.46 68.57 5.57 
+C 68.46 5.68 68.4 5.84 68.4 6 
+C 68.4 6.15 68.46 6.31 68.57 6.42 
+C 68.68 6.53 68.84 6.6 69 6.6 
+z
+M 0 0.6 
+C 0.15 0.6 0.31 0.53 0.42 0.42 
+C 0.53 0.31 0.6 0.15 0.6 0 
+C 0.6 -0.15 0.53 -0.31 0.42 -0.42 
+C 0.31 -0.53 0.15 -0.6 0 -0.6 
+C -0.15 -0.6 -0.31 -0.53 -0.42 -0.42 
+C -0.53 -0.31 -0.6 -0.15 -0.6 0 
+C -0.6 0.15 -0.53 0.31 -0.42 0.42 
+C -0.31 0.53 -0.15 0.6 0 0.6 
+z
+M 6 0.6 
+C 6.15 0.6 6.31 0.53 6.42 0.42 
+C 6.53 0.31 6.6 0.15 6.6 0 
+C 6.6 -0.15 6.53 -0.31 6.42 -0.42 
+C 6.31 -0.53 6.15 -0.6 6 -0.6 
+C 5.84 -0.6 5.68 -0.53 5.57 -0.42 
+C 5.46 -0.31 5.4 -0.15 5.4 0 
+C 5.4 0.15 5.46 0.31 5.57 0.42 
+C 5.68 0.53 5.84 0.6 6 0.6 
+z
+M 12 0.6 
+C 12.15 0.6 12.31 0.53 12.42 0.42 
+C 12.53 0.31 12.6 0.15 12.6 0 
+C 12.6 -0.15 12.53 -0.31 12.42 -0.42 
+C 12.31 -0.53 12.15 -0.6 12 -0.6 
+C 11.84 -0.6 11.68 -0.53 11.57 -0.42 
+C 11.46 -0.31 11.4 -0.15 11.4 0 
+C 11.4 0.15 11.46 0.31 11.57 0.42 
+C 11.68 0.53 11.84 0.6 12 0.6 
+z
+M 18 0.6 
+C 18.15 0.6 18.31 0.53 18.42 0.42 
+C 18.53 0.31 18.6 0.15 18.6 0 
+C 18.6 -0.15 18.53 -0.31 18.42 -0.42 
+C 18.31 -0.53 18.15 -0.6 18 -0.6 
+C 17.84 -0.6 17.68 -0.53 17.57 -0.42 
+C 17.46 -0.31 17.4 -0.15 17.4 0 
+C 17.4 0.15 17.46 0.31 17.57 0.42 
+C 17.68 0.53 17.84 0.6 18 0.6 
+z
+M 24 0.6 
+C 24.15 0.6 24.31 0.53 24.42 0.42 
+C 24.53 0.31 24.6 0.15 24.6 0 
+C 24.6 -0.15 24.53 -0.31 24.42 -0.42 
+C 24.31 -0.53 24.15 -0.6 24 -0.6 
+C 23.84 -0.6 23.68 -0.53 23.57 -0.42 
+C 23.46 -0.31 23.4 -0.15 23.4 0 
+C 23.4 0.15 23.46 0.31 23.57 0.42 
+C 23.68 0.53 23.84 0.6 24 0.6 
+z
+M 30 0.6 
+C 30.15 0.6 30.31 0.53 30.42 0.42 
+C 30.53 0.31 30.6 0.15 30.6 0 
+C 30.6 -0.15 30.53 -0.31 30.42 -0.42 
+C 30.31 -0.53 30.15 -0.6 30 -0.6 
+C 29.84 -0.6 29.68 -0.53 29.57 -0.42 
+C 29.46 -0.31 29.4 -0.15 29.4 0 
+C 29.4 0.15 29.46 0.31 29.57 0.42 
+C 29.68 0.53 29.84 0.6 30 0.6 
+z
+M 36 0.6 
+C 36.15 0.6 36.31 0.53 36.42 0.42 
+C 36.53 0.31 36.6 0.15 36.6 0 
+C 36.6 -0.15 36.53 -0.31 36.42 -0.42 
+C 36.31 -0.53 36.15 -0.6 36 -0.6 
+C 35.84 -0.6 35.68 -0.53 35.57 -0.42 
+C 35.46 -0.31 35.4 -0.15 35.4 0 
+C 35.4 0.15 35.46 0.31 35.57 0.42 
+C 35.68 0.53 35.84 0.6 36 0.6 
+z
+M 42 0.6 
+C 42.15 0.6 42.31 0.53 42.42 0.42 
+C 42.53 0.31 42.6 0.15 42.6 0 
+C 42.6 -0.15 42.53 -0.31 42.42 -0.42 
+C 42.31 -0.53 42.15 -0.6 42 -0.6 
+C 41.84 -0.6 41.68 -0.53 41.57 -0.42 
+C 41.46 -0.31 41.4 -0.15 41.4 0 
+C 41.4 0.15 41.46 0.31 41.57 0.42 
+C 41.68 0.53 41.84 0.6 42 0.6 
+z
+M 48 0.6 
+C 48.15 0.6 48.31 0.53 48.42 0.42 
+C 48.53 0.31 48.6 0.15 48.6 0 
+C 48.6 -0.15 48.53 -0.31 48.42 -0.42 
+C 48.31 -0.53 48.15 -0.6 48 -0.6 
+C 47.84 -0.6 47.68 -0.53 47.57 -0.42 
+C 47.46 -0.31 47.4 -0.15 47.4 0 
+C 47.4 0.15 47.46 0.31 47.57 0.42 
+C 47.68 0.53 47.84 0.6 48 0.6 
+z
+M 54 0.6 
+C 54.15 0.6 54.31 0.53 54.42 0.42 
+C 54.53 0.31 54.6 0.15 54.6 0 
+C 54.6 -0.15 54.53 -0.31 54.42 -0.42 
+C 54.31 -0.53 54.15 -0.6 54 -0.6 
+C 53.84 -0.6 53.68 -0.53 53.57 -0.42 
+C 53.46 -0.31 53.4 -0.15 53.4 0 
+C 53.4 0.15 53.46 0.31 53.57 0.42 
+C 53.68 0.53 53.84 0.6 54 0.6 
+z
+M 60 0.6 
+C 60.15 0.6 60.31 0.53 60.42 0.42 
+C 60.53 0.31 60.6 0.15 60.6 0 
+C 60.6 -0.15 60.53 -0.31 60.42 -0.42 
+C 60.31 -0.53 60.15 -0.6 60 -0.6 
+C 59.84 -0.6 59.68 -0.53 59.57 -0.42 
+C 59.46 -0.31 59.4 -0.15 59.4 0 
+C 59.4 0.15 59.46 0.31 59.57 0.42 
+C 59.68 0.53 59.84 0.6 60 0.6 
+z
+M 66 0.6 
+C 66.15 0.6 66.31 0.53 66.42 0.42 
+C 66.53 0.31 66.6 0.15 66.6 0 
+C 66.6 -0.15 66.53 -0.31 66.42 -0.42 
+C 66.31 -0.53 66.15 -0.6 66 -0.6 
+C 65.84 -0.6 65.68 -0.53 65.57 -0.42 
+C 65.46 -0.31 65.4 -0.15 65.4 0 
+C 65.4 0.15 65.46 0.31 65.57 0.42 
+C 65.68 0.53 65.84 0.6 66 0.6 
+z
+M 72 0.6 
+C 72.15 0.6 72.31 0.53 72.42 0.42 
+C 72.53 0.31 72.6 0.15 72.6 0 
+C 72.6 -0.15 72.53 -0.31 72.42 -0.42 
+C 72.31 -0.53 72.15 -0.6 72 -0.6 
+C 71.84 -0.6 71.68 -0.53 71.57 -0.42 
+C 71.46 -0.31 71.4 -0.15 71.4 0 
+C 71.4 0.15 71.46 0.31 71.57 0.42 
+C 71.68 0.53 71.84 0.6 72 0.6 
+z
+" style="fill: #14181f; stroke: #14181f; stroke-width: 1.0; stroke-linecap: butt; stroke-linejoin: miter"/>
+  </pattern>
+ </defs>
+</svg>
