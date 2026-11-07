@@ -25,15 +25,15 @@ Rina Tamang, **24 years old**, is **16 weeks pregnant** and attends her second A
 **Other syndromes** (examples follow WHO 2021 and national charts; always use the current MoHP chart): **Urethral discharge** (men): ceftriaxone 1 g IM once **plus** doxycycline 100 mg twice daily for 7 days. **Genital ulcer:** **benzathine penicillin 2.4 million units IM once** for syphilis (3 weekly doses for late or unknown duration), plus **acyclovir 400 mg three times daily for 7 days** for herpes; penicillin allergy needs doxycycline (not in pregnancy) or referral. **Lower abdominal pain (PID):** ceftriaxone 500 mg IM once **plus** doxycycline 100 mg twice daily **plus** metronidazole 400 mg twice daily for 14 days; refer if pregnant, peritonitis or no response in 72 hours. **Inguinal bubo:** treat for chancroid and lymphogranuloma venereum (azithromycin or doxycycline) and aspirate, do not incise. **Every STI patient** receives **condoms, partner notification and treatment, abstinence until both are treated, and offers of HIV, syphilis and hepatitis B testing**.
 
 ```svgfig label="5.1" caption="The syndromic management chart. The nurse recognises the syndrome, treats the common causes together at the first visit, and always adds condoms, partner treatment, counselling and testing. Doses are examples; use the current MoHP chart."
-f = Fig(760, 340)
-sy = [("VAGINAL DISCHARGE", "metronidazole 400 mg bd x 7 d\n+ clotrimazole pessary or\nfluconazole 150 mg\n(+ cervicitis cover)", MINT, TEAL), ("URETHRAL DISCHARGE", "ceftriaxone 1 g IM once\n+ doxycycline 100 mg bd x 7 d", BLUE, NAVY), ("GENITAL ULCER", "benzathine penicillin 2.4 MU IM\n+ acyclovir 400 mg tds x 7 d", SAND, AMBER), ("LOWER ABDOMINAL PAIN (PID)", "ceftriaxone 500 mg IM\n+ doxycycline + metronidazole\nx 14 days; refer if severe", ROSE, RED), ("INGUINAL BUBO", "azithromycin or doxycycline\naspirate the node,\ndo not incise", MINT, TEAL)]
+f = Fig(760, 372)
+sy = [("VAGINAL DISCHARGE", "metronidazole 400 mg bd x 7 d + clotrimazole 500 mg pessary or fluconazole 150 mg;\nadd cefixime or azithromycin if cervicitis signs", MINT, TEAL), ("URETHRAL DISCHARGE", "ceftriaxone 1 g IM once + doxycycline 100 mg bd x 7 days", BLUE, NAVY), ("GENITAL ULCER", "benzathine penicillin 2.4 MU IM once + acyclovir 400 mg tds x 7 days", SAND, AMBER), ("LOWER ABDOMINAL PAIN (PID)", "ceftriaxone 500 mg IM + doxycycline + metronidazole x 14 days; refer if severe", ROSE, RED), ("INGUINAL BUBO", "azithromycin or doxycycline; aspirate the node, do not incise", MINT, TEAL)]
 for i, (a_, b_, fc, sc) in enumerate(sy):
-    x = 15 + i * 147
-    f.box(x, 12, 140, 44, a_, fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True)
-    f.box(x, 66, 140, 110, b_, fill=fc, stroke=sc, size=9.5)
-f.box(15, 192, 730, 36, "FOR EVERY PATIENT: condoms | partner notification and treatment | HIV and syphilis test | hepatitis B vaccine", fill=SAND, stroke=AMBER, size=10.5, bold=True)
-f.box(15, 240, 730, 36, "PREGNANT WOMAN: avoid doxycycline; test every woman for syphilis and HIV at ANC", fill=ROSE, stroke=RED, size=10.5, bold=True)
-f.box(15, 288, 730, 40, "Record in the STI register; report to HMIS monthly; review in 7 days", fill=BLUE, stroke=NAVY, size=10.5)
+    y = 10 + i * 50
+    f.box(15, y, 225, 42, a_, fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+    f.box(250, y, 495, 42, b_, fill=fc, stroke=sc, size=10)
+f.box(15, 266, 730, 34, "FOR EVERY PATIENT: condoms | partner notification and treatment | HIV and syphilis test | hepatitis B vaccine", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(15, 308, 730, 28, "PREGNANT WOMAN: avoid doxycycline; test every woman for syphilis and HIV at ANC", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.box(15, 342, 730, 26, "Record in the STI register; report to HMIS monthly; review in 7 days", fill=BLUE, stroke=NAVY, size=10.5)
 ```
 
 **Syphilis** (*Treponema pallidum*) passes by sex and across the placenta. **Primary:** a painless hard **chancre** after 3 weeks with painless nodes; **secondary:** rash on palms and soles, condylomata lata, fever (6-8 weeks); **latent:** no symptoms; **tertiary:** gummas, aortitis, neurosyphilis. In pregnancy untreated syphilis causes **stillbirth, preterm birth and congenital syphilis** (rhinitis, rash, bone lesions, hepatosplenomegaly). Test with a **treponemal rapid test** and **RPR** (titre in doubling dilutions 1:1, 1:2, 1:4 ... ; a **four-fold fall (two dilutions) after treatment** means success). Treat the mother and partner with benzathine penicillin and the newborn as advised.
