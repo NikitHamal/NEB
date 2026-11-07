@@ -2075,3 +2075,6 @@ All 13 built nursing PDFs were rebuilt with the m3x print system from `main` (pi
 
 ### BSc Nursing update (session 18)
 - Child Health Nursing (BSN 21-22) is complete (5 units, 63-page PDF, qa fails=0, `nursing/tools/check_ch.py`). Next: Family and Reproductive Health Nursing (see `nursing/STATUS.md`, section Next). SVG box text does not wrap (use `\\n` lines). Never commit the PAT; use `/tmp/gitenv.sh` with GIT_ASKPASS.
+
+### BSc Nursing update (session 19)
+- Family and Reproductive Health Nursing (BSN 23-24) is complete (5 units, 65-page PDF, qa fails=0, `nursing/tools/check_frh.py`, 30 licensed photos slug `nur14`, 15 SVGs). Next: Year 4 Management and Health Economics unit 1 (see `nursing/STATUS.md` Next). Helpers in `nursing/tools/helpers/session19/` (`asm.sh N`, `figtile.py`, `where.py`); write unit parts in `/tmp/parts` and keep each part to about 1,500 words. Remove `/app/neb` and `/app/shots` before final `/app` checks.
