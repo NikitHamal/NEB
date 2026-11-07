@@ -1,5 +1,6 @@
 package com.neb.ians.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -21,6 +22,8 @@ data class NoteEntity(
     val tags: String,
     val createdAt: Long,
     val updatedAt: Long,
+    /** The note as blocks (JSON). Empty for notes written before blocks; they open from [body]. */
+    @ColumnInfo(defaultValue = "") val doc: String = "",
 ) {
     val tagList: List<String>
         get() = tags.split(' ').filter { it.isNotBlank() }

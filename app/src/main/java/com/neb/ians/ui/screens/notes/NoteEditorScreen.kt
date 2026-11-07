@@ -154,13 +154,14 @@ fun NoteEditorScreen(
 
     val ready by vm.ready.collectAsStateWithLifecycle()
     val title by vm.title.collectAsStateWithLifecycle()
-    val body by vm.body.collectAsStateWithLifecycle()
+    val blocks by vm.blocks.collectAsStateWithLifecycle()
+    val notice by vm.notice.collectAsStateWithLifecycle()
+    val registry = remember { BlockFieldRegistry() }
     val toneIndex by vm.tone.collectAsStateWithLifecycle()
     val tags by vm.tags.collectAsStateWithLifecycle()
     val pinned by vm.pinned.collectAsStateWithLifecycle()
     val archived by vm.archived.collectAsStateWithLifecycle()
     val trashed by vm.trashed.collectAsStateWithLifecycle()
-    val preview by vm.preview.collectAsStateWithLifecycle()
     val canUndo by vm.canUndo.collectAsStateWithLifecycle()
     val canRedo by vm.canRedo.collectAsStateWithLifecycle()
     val dictation by vm.dictation.collectAsStateWithLifecycle()
@@ -177,7 +178,6 @@ fun NoteEditorScreen(
     var toneSheet by remember { mutableStateOf(false) }
     var tagDialog by remember { mutableStateOf(false) }
     var confirmDelete by remember { mutableStateOf(false) }
-    val bodyFocus = remember { FocusRequester() }
     val titleFocus = remember { FocusRequester() }
 
     val listening = dictation is DictationState.Listening || dictation is DictationState.Preparing
@@ -219,7 +219,7 @@ fun NoteEditorScreen(
         Row(Modifier.fillMaxWidth().padding(horizontal = 4.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { leave() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = fg) }
             Spacer(Modifier.weight(1f))
-            if (!preview && !trashed) {
+            if (!trashed) {
                 IconButton(onClick = vm::undo, enabled = canUndo) { Icon(Icons.Outlined.Undo, "Undo", tint = fg.copy(alpha = if (canUndo) 1f else 0.35f)) }
                 IconButton(onClick = vm::redo, enabled = canRedo) { Icon(Icons.Outlined.Redo, "Redo", tint = fg.copy(alpha = if (canRedo) 1f else 0.35f)) }
             }
@@ -230,9 +230,6 @@ fun NoteEditorScreen(
                 IconButton(onClick = vm::togglePin) {
                     Icon(Icons.Outlined.PushPin, if (pinned) "Unpin" else "Pin", tint = if (pinned) c.primary else fg)
                 }
-                IconButton(onClick = { focusManager.clearFocus(); vm.togglePreview() }) {
-                    Icon(if (preview) Icons.Outlined.Edit else Icons.Outlined.Visibility, if (preview) "Edit" else "Preview", tint = fg)
-                }
             }
             Box {
                 IconButton(onClick = { menu = true }) { Icon(Icons.Outlined.MoreVert, "More", tint = fg) }
@@ -241,7 +238,7 @@ fun NoteEditorScreen(
                     shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh,
                     tonalElevation = 0.dp, shadowElevation = 0.dp,
                 ) {
-                    val words = NoteFormatting.wordCount(body.text)
+                    val words = NoteDoc.wordCount(blocks)
                     DropdownMenuItem(
                         text = { Text("$words words \u00B7 ${max(1, words / 200)} min", color = c.onSurfaceVariant, style = MaterialTheme.typography.labelLarge) },
                         onClick = {}, enabled = false,
@@ -273,7 +270,7 @@ fun NoteEditorScreen(
                 textStyle = MaterialTheme.typography.headlineSmall.copy(color = fg, fontWeight = FontWeight.SemiBold),
                 cursorBrush = SolidColor(c.primary),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = { runCatching { bodyFocus.requestFocus() } }),
+                keyboardActions = KeyboardActions(onNext = { vm.focusFirst() }),
                 decorationBox = { inner ->
                     Box {
                         if (title.isEmpty()) Text("Title", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = fg.copy(alpha = 0.4f))
@@ -309,25 +306,8 @@ fun NoteEditorScreen(
                 }
             }
             Spacer(Modifier.height(6.dp))
-            if (preview || trashed) {
-                if (body.text.isBlank()) Text("Nothing here yet", color = fg.copy(alpha = 0.5f), style = MaterialTheme.typography.bodyLarge)
-                else NoteMarkdownView(body.text, onToggleCheck = { if (!trashed) vm.toggleCheck(it) })
-                Spacer(Modifier.height(120.dp))
-            } else {
-                BasicTextField(
-                    value = body, onValueChange = vm::onBodyChange,
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(color = fg, lineHeight = 26.sp),
-                    cursorBrush = SolidColor(c.primary),
-                    decorationBox = { inner ->
-                        Box {
-                            if (body.text.isEmpty()) Text("Start writing", style = MaterialTheme.typography.bodyLarge, color = fg.copy(alpha = 0.4f))
-                            inner()
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 320.dp).focusRequester(bodyFocus),
-                )
-                Spacer(Modifier.height(80.dp))
-            }
+            NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp))
+            Spacer(Modifier.height(40.dp))
         }
 
         // ---- dock
@@ -343,22 +323,12 @@ fun NoteEditorScreen(
                 enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                 DictationStrip(vm)
             }
-            if (!preview && !trashed) {
-                Row(
-                    Modifier.fillMaxWidth().padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+            notice?.let { ErrorBar(it, vm::clearNotice) }
+            if (!trashed) {
+                BlockFormatBar(
+                    blocks = blocks, vm = vm, registry = registry, fg = fg,
+                    modifier = Modifier.padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
                 ) {
-                    Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                        ToolButton(Icons.Outlined.FormatBold, "Bold", fg) { vm.format { NoteFormatting.wrap(it, "**") } }
-                        ToolButton(Icons.Outlined.FormatItalic, "Italic", fg) { vm.format { NoteFormatting.wrap(it, "*") } }
-                        ToolButton(Icons.Outlined.Title, "Heading", fg) { vm.format(NoteFormatting::heading) }
-                        ToolButton(Icons.Outlined.Checklist, "Checklist", fg) { vm.format(NoteFormatting::checklist) }
-                        ToolButton(Icons.Outlined.FormatListBulleted, "Bullets", fg) { vm.format(NoteFormatting::bullet) }
-                        ToolButton(Icons.Outlined.FormatListNumbered, "Numbers", fg) { vm.format(NoteFormatting::numbered) }
-                        ToolButton(Icons.Outlined.FormatQuote, "Quote", fg) { vm.format(NoteFormatting::quote) }
-                        ToolButton(Icons.Outlined.Code, "Code", fg) { vm.format(NoteFormatting::code) }
-                        ToolButton(Icons.Outlined.HorizontalRule, "Divider", fg) { vm.format(NoteFormatting::divider) }
-                    }
                     Spacer(Modifier.width(8.dp))
                     MicButton(listening = listening, level = vm.level) {
                         tactile.perform(TactileType.LightTap)

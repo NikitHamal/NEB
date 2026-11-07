@@ -69,6 +69,7 @@ class NotesRepository @Inject constructor(
             title = if (src.title.isBlank()) "" else "${src.title} copy",
             tone = src.tone,
             tags = src.tags,
+            doc = src.doc,
         )
         dao.upsert(copy)
         return copy.id

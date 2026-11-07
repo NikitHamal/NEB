@@ -289,6 +289,7 @@ private fun ComposerInput(
         maxLines = 5,
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = scheme.onSurface),
         cursorBrush = SolidColor(scheme.primary),
+        visualTransformation = LiveMarkdown.rememberTransformation(),
         modifier = modifier,
         decorationBox = { inner -> ComposerInputRow(value.isEmpty(), placeholder, leadingContent, inner) }
     )
