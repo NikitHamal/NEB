@@ -149,6 +149,9 @@ class User(models.Model):
 
     # Denormalized notification counter
     unread_notification_count = models.PositiveIntegerField(default=0)
+    # Library autopilot: tell me when a resource lands for my class and subjects. On by
+    # default, one switch on web and in the app (api/resource_alerts.py).
+    notify_new_resources = models.BooleanField(default=True)
 
     # Marketplace economy — Nebians points, AI credits (persistent + monthly free), spend
     nebians_points = models.PositiveIntegerField(default=0)
@@ -268,6 +271,7 @@ class Resource(models.Model):
     view_count = models.IntegerField(default=0)
     like_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
+    download_count = models.PositiveIntegerField(default=0)
     author_name = models.CharField(max_length=100, blank=True, default='')  # credit/attribution
     # Source tracking
     source_type = models.CharField(max_length=20, choices=SOURCE_TYPES, default='admin')
@@ -764,6 +768,7 @@ class Notification(models.Model):
         ('mention', 'Mentioned you'),
         ('resource_approved', 'Your resource was approved'),
         ('resource_rejected', 'Your resource was rejected'),
+        ('new_resource', 'New resource for you'),
         ('system', 'System notification'),
     ]
     TARGET_TYPES = [
@@ -784,6 +789,8 @@ class Notification(models.Model):
     reference_type = models.CharField(max_length=20, blank=True, default='')
     reference_id = models.CharField(max_length=36, blank=True, default='')
     message = models.TextField(blank=True, default='')
+    # Push campaign this row belongs to (api.push_engine); '' for ordinary activity.
+    campaign_id = models.CharField(max_length=36, blank=True, default='')
     is_read = models.BooleanField(default=False, db_index=True)
     created_at = models.BigIntegerField()
 
@@ -2588,3 +2595,145 @@ class ActorSignal(models.Model):
             models.Index(fields=['actor', 'kind']),
             models.Index(fields=['ref', 'kind']),
         ]
+
+
+# ---------------------------------------------------------------------------
+# Push campaigns, deliveries, library autopilot (api.push_engine, api.resource_alerts)
+# ---------------------------------------------------------------------------
+class PushCampaign(models.Model):
+    """One push send: a hand-written broadcast, an announced batch of library uploads, or an
+    autopilot digest. Counters are filled by api.push_engine as the send runs."""
+    KIND_CHOICES = [('manual', 'Broadcast'), ('library', 'Library announcement'), ('autopilot', 'Autopilot'), ('test', 'Test')]
+    STATUS_CHOICES = [('scheduled', 'Scheduled'), ('sending', 'Sending'), ('sent', 'Sent'),
+                      ('failed', 'Failed'), ('canceled', 'Canceled')]
+    id = models.CharField(max_length=36, primary_key=True)
+    kind = models.CharField(max_length=12, choices=KIND_CHOICES, default='manual', db_index=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sending', db_index=True)
+    title = models.CharField(max_length=120)
+    body = models.TextField(blank=True, default='')
+    url = models.CharField(max_length=300, blank=True, default='')
+    target_type = models.CharField(max_length=20, blank=True, default='system')
+    target_id = models.CharField(max_length=36, blank=True, default='')
+    audience = models.JSONField(default=dict, blank=True)
+    audience_label = models.CharField(max_length=240, blank=True, default='')
+    also_inbox = models.BooleanField(default=True)
+    resource_ids = models.JSONField(default=list, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='push_campaigns')
+    created_at = models.BigIntegerField()
+    scheduled_at = models.BigIntegerField(default=0)
+    started_at = models.BigIntegerField(default=0)
+    finished_at = models.BigIntegerField(default=0)
+    users_targeted = models.PositiveIntegerField(default=0)
+    users_pushed = models.PositiveIntegerField(default=0)
+    users_inbox_only = models.PositiveIntegerField(default=0)
+    users_suppressed = models.PositiveIntegerField(default=0)
+    devices_targeted = models.PositiveIntegerField(default=0)
+    devices_accepted = models.PositiveIntegerField(default=0)
+    devices_failed = models.PositiveIntegerField(default=0)
+    tokens_pruned = models.PositiveIntegerField(default=0)
+    errors = models.JSONField(default=dict, blank=True)
+    note = models.CharField(max_length=240, blank=True, default='')
+
+    class Meta:
+        db_table = 'push_campaigns'
+        ordering = ['-created_at']
+        indexes = [models.Index(fields=['kind', '-created_at'], name='pushc_kind_created_idx'),
+                   models.Index(fields=['status', 'scheduled_at'], name='pushc_status_sched_idx')]
+
+
+class PushDelivery(models.Model):
+    """What one campaign did for one person. Aggregated only; never shown with a name."""
+    campaign = models.ForeignKey(PushCampaign, on_delete=models.CASCADE, related_name='deliveries')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='push_deliveries')
+    notification_id = models.CharField(max_length=36, blank=True, default='')
+    status = models.CharField(max_length=12, default='queued')   # sent|inbox|failed|capped|quiet|queued
+    devices = models.PositiveSmallIntegerField(default=0)
+    accepted = models.PositiveSmallIntegerField(default=0)
+    error = models.CharField(max_length=60, blank=True, default='')
+    class_level = models.CharField(max_length=40, blank=True, default='')
+    created_at = models.BigIntegerField(default=0)
+    opened_at = models.BigIntegerField(default=0)
+    opened_via = models.CharField(max_length=8, blank=True, default='')   # push|inbox
+    clicked_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'push_deliveries'
+        unique_together = ('campaign', 'user')
+        indexes = [models.Index(fields=['user', '-created_at'], name='pushd_user_created_idx'),
+                   models.Index(fields=['notification_id'], name='pushd_notif_idx'),
+                   models.Index(fields=['campaign', 'opened_at'], name='pushd_camp_open_idx')]
+
+
+class PushSettings(models.Model):
+    """Singleton (id=1): how the library autopilot behaves."""
+    id = models.PositiveSmallIntegerField(primary_key=True, default=1)
+    autopilot_enabled = models.BooleanField(default=True)
+    daily_cap = models.PositiveSmallIntegerField(default=2)
+    quiet_start_hour = models.PositiveSmallIntegerField(default=21)
+    quiet_end_hour = models.PositiveSmallIntegerField(default=7)
+    settle_minutes = models.PositiveSmallIntegerField(default=5)
+    max_wait_minutes = models.PositiveSmallIntegerField(default=30)
+    include_paid = models.BooleanField(default=False)
+    updated_at = models.BigIntegerField(default=0)
+
+    class Meta:
+        db_table = 'push_settings'
+
+
+class ResourceAlert(models.Model):
+    """Autopilot queue: one row per library resource that went live. `sent`/`manual` mean the
+    audience was told; `skipped` says why not. Resources that predate the autopilot have no row."""
+    resource = models.OneToOneField(Resource, on_delete=models.CASCADE, related_name='alert')
+    state = models.CharField(max_length=10, default='pending', db_index=True)   # pending|sending|sent|manual|skipped
+    reason = models.CharField(max_length=60, blank=True, default='')
+    queued_at = models.BigIntegerField(default=0)
+    processed_at = models.BigIntegerField(default=0)
+    audience_size = models.PositiveIntegerField(default=0)
+    campaign_id = models.CharField(max_length=36, blank=True, default='')
+
+    class Meta:
+        db_table = 'resource_alerts'
+        indexes = [models.Index(fields=['state', 'queued_at'], name='resalert_state_q_idx')]
+
+
+class ResourceReach(models.Model):
+    """One viewer's opens of one resource on one local day (the PostReach twin).
+    `viewer` is a keyed hash, never a user id or an IP."""
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='reach_rows')
+    viewer = models.CharField(max_length=24)
+    day = models.CharField(max_length=10)
+    first_at = models.BigIntegerField()
+    last_at = models.BigIntegerField()
+    hits = models.PositiveIntegerField(default=1)
+    dwell_ms = models.PositiveIntegerField(default=0)
+    surface = models.CharField(max_length=12, blank=True, default='')   # library|search|subject|profile|share|direct|notification|related
+    source = models.CharField(max_length=6, default='web')
+    device_class = models.CharField(max_length=10, blank=True, default='')
+    os_family = models.CharField(max_length=16, blank=True, default='')
+    country = models.CharField(max_length=60, blank=True, default='')
+    channel = models.CharField(max_length=12, blank=True, default='')
+    class_level = models.CharField(max_length=40, blank=True, default='')
+    is_member = models.BooleanField(default=False)
+    is_owner = models.BooleanField(default=False)
+    read = models.BooleanField(default=False)
+    downloaded = models.BooleanField(default=False)
+    shared = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'resource_reach'
+        unique_together = ('resource', 'viewer', 'day')
+        indexes = [models.Index(fields=['resource', 'day'], name='resreach_res_day_idx'),
+                   models.Index(fields=['day'], name='resreach_day_idx')]
+
+
+class ResourceImpression(models.Model):
+    """Daily count of times a resource card scrolled into view in a list."""
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='impression_rows')
+    day = models.CharField(max_length=10)
+    source = models.CharField(max_length=6, default='web')
+    count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'resource_impressions'
+        unique_together = ('resource', 'day', 'source')
+        indexes = [models.Index(fields=['day'], name='resimp_day_idx')]
