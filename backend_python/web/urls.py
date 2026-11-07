@@ -218,6 +218,7 @@ urlpatterns = [
     path('app/notifications/', views_notifications.notifications, name='notifications'),
     path('ajax/notifications/', views_notifications.ajax_notifications, name='ajax_notifications'),
     path('ajax/notifications/mark-read/', views_notifications.ajax_notifications_mark_read, name='ajax_notifications_mark_read'),
+    path('ajax/notifications/prefs/', views_notifications.ajax_notification_prefs, name='ajax_notification_prefs'),
     path('ajax/notifications/unread-count/', views_notifications.ajax_notifications_unread_count, name='ajax_notifications_unread_count'),
 
     path('admin/', views_admin.admin_login, name='admin_login'),

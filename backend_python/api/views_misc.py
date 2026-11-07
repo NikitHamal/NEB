@@ -373,7 +373,9 @@ def notifications_mark_read(request):
     mark_all = request.data.get('mark_all', False)
     notification_ids = request.data.get('notification_ids', [])
 
+    from . import push_engine
     if mark_all:
+        push_engine.mark_all_opened_for_user(user.id, 'inbox')
         count = Notification.objects.filter(recipient=user, is_read=False).update(is_read=True)
         _counters.reset_user_unread_notification_count(user.id)
         logger.info("notifications_mark_read: user %s marked all %d notifications as read", user.username, count)
@@ -383,6 +385,7 @@ def notifications_mark_read(request):
         return Response({'status': 'error', 'message': 'Provide notification_ids or mark_all=true'}, status=400)
 
     notifs = Notification.objects.filter(recipient=user, pk__in=notification_ids, is_read=False)
+    push_engine.mark_opened(list(notifs.exclude(campaign_id='').values_list('id', flat=True)), 'inbox')
     count = notifs.update(is_read=True)
     # Recalculate unread count from DB
     unread = Notification.objects.filter(recipient=user, is_read=False).count()
