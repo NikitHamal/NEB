@@ -201,7 +201,3 @@
 -keep class com.neb.ians.speech.NativeSpeech { *; }
 -keep class com.neb.ians.speech.PcmSink { *; }
 -keep class * implements com.neb.ians.speech.PcmSink { public boolean onPcm(float[]); }
-
-# ONNX Runtime talks to its native library through JNI
--keep class ai.onnxruntime.** { *; }
--dontwarn ai.onnxruntime.**

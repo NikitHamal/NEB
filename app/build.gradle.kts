@@ -16,8 +16,8 @@ android {
         applicationId = "com.neb.ians"
         minSdk = 24
         targetSdk = 36
-        versionCode = 26
-        versionName = "1.7.2"
+        versionCode = 27
+        versionName = "1.7.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -93,7 +93,21 @@ android {
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "/META-INF/{AL2.0,LGPL2.1}",
+                "/META-INF/*.version",
+                "/META-INF/com/android/build/gradle/**",
+                "/META-INF/DEPENDENCIES",
+                "/META-INF/LICENSE*",
+                "/META-INF/NOTICE*",
+                "DebugProbesKt.bin",
+                "kotlin-tooling-metadata.json"
+            )
+        }
+        jniLibs {
+            // Compress native libraries inside the APK: the 7 MB Phonon library shrinks the
+            // download by about two thirds. Android extracts them once at install time.
+            useLegacyPackaging = true
         }
     }
 }
@@ -178,8 +192,6 @@ dependencies {
 
 // Kotlinx Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    // On-device ONNX voices (Paradee, Leokani, Supertonic 3): downloaded by the user, never bundled
-    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
 
 // Retrofit & OkHttp
     implementation("com.squareup.retrofit2:retrofit:2.11.0")

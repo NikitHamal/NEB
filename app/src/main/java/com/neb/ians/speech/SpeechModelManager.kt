@@ -39,7 +39,7 @@ sealed interface ModelState {
     data class Failed(val message: String) : ModelState
 }
 
-data class ModelFile(val name: String, val url: String, val bytes: Long, val shared: Boolean = false)
+data class ModelFile(val name: String, val url: String, val bytes: Long)
 
 /** A voice from Gradium's public catalog (`gradium/phonon-voices`). */
 data class PhononVoice(
@@ -131,123 +131,6 @@ class SpeechModelManager @Inject constructor(
     val removed: SharedFlow<SpeechModelId> = _removed.asSharedFlow()
 
     private val jobs = HashMap<SpeechModelId, Job>()
-
-    // ---- Local ONNX voices (Paradee, Leokani, Supertonic 3): download and remove on demand ----
-
-    val sharedDir: File get() = File(root, "shared")
-    fun localDir(id: LocalTtsId): File = File(root, id.dir)
-
-    private fun localFile(id: LocalTtsId, f: ModelFile): File = if (f.shared) File(sharedDir, f.name) else File(localDir(id), f.name)
-
-    private fun localInitial(id: LocalTtsId): ModelState {
-        val files = LocalTtsCatalog.info(id).files
-        val present = files.all { f -> localFile(id, f).let { it.exists() && it.length() > 0 } }
-        return if (present) ModelState.Installed(files.sumOf { localFile(id, it).length() }) else ModelState.NotInstalled
-    }
-
-    private val _local = MutableStateFlow(LocalTtsId.values().associateWith { localInitial(it) })
-    val local: StateFlow<Map<LocalTtsId, ModelState>> = _local.asStateFlow()
-
-    private val _engine = MutableStateFlow(prefs.getString("tts_engine", "phonon") ?: "phonon")
-    /** Which voice engine reads aloud: "phonon" or a [LocalTtsId.key]. */
-    val engine: StateFlow<String> = _engine.asStateFlow()
-
-    private val _localVoices = MutableStateFlow(
-        LocalTtsId.values().associateWith { id ->
-            val info = LocalTtsCatalog.info(id)
-            prefs.getString("voice_" + id.key, info.defaultVoice)?.takeIf { v -> info.voices.any { it.key == v } } ?: info.defaultVoice
-        }
-    )
-    val localVoices: StateFlow<Map<LocalTtsId, String>> = _localVoices.asStateFlow()
-
-    private val _localRemoved = MutableSharedFlow<LocalTtsId>(extraBufferCapacity = 4)
-    val localRemoved: SharedFlow<LocalTtsId> = _localRemoved.asSharedFlow()
-
-    private val localJobs = HashMap<LocalTtsId, Job>()
-
-    fun setEngine(key: String) {
-        _engine.value = key
-        prefs.edit().putString("tts_engine", key).apply()
-    }
-
-    fun setLocalVoice(id: LocalTtsId, voice: String) {
-        _localVoices.update { it + (id to voice) }
-        prefs.edit().putString("voice_" + id.key, voice).apply()
-    }
-
-    fun localVoice(id: LocalTtsId): String = _localVoices.value[id] ?: LocalTtsCatalog.info(id).defaultVoice
-
-    fun isLocalInstalled(id: LocalTtsId) = _local.value[id] is ModelState.Installed
-
-    /** The engine that will speak now: the chosen one if it is on the phone, else any that is. */
-    fun resolveEngine(): String? {
-        val chosen = _engine.value
-        val chosenLocal = LocalTtsId.fromKey(chosen)
-        if (chosenLocal == null && chosen == "phonon" && isInstalled(SpeechModelId.Phonon)) return "phonon"
-        if (chosenLocal != null && isLocalInstalled(chosenLocal)) return chosen
-        if (isInstalled(SpeechModelId.Phonon)) return "phonon"
-        return LocalTtsId.values().firstOrNull { isLocalInstalled(it) }?.key
-    }
-
-    fun anyTtsInstalled(): Boolean = isInstalled(SpeechModelId.Phonon) || LocalTtsId.values().any { isLocalInstalled(it) }
-
-    fun downloadLocal(id: LocalTtsId) {
-        if (localJobs[id]?.isActive == true) return
-        val info = LocalTtsCatalog.info(id)
-        val total = info.bytes
-        localJobs[id] = scope.launch {
-            try {
-                val free = StatFs(context.filesDir.path).availableBytes
-                if (free < total * 12 / 10) throw IOException("Not enough free storage")
-                setLocal(id, ModelState.Downloading(0, total))
-                var finished = 0L
-                for (file in info.files) {
-                    val dest = localFile(id, file)
-                    if (dest.exists() && dest.length() > 0) {
-                        finished += file.bytes
-                        setLocal(id, ModelState.Downloading(finished.coerceAtMost(total), total))
-                        continue
-                    }
-                    val base = finished
-                    fetch(file.url, dest) { current -> setLocal(id, ModelState.Downloading((base + current).coerceAtMost(total), total)) }
-                    finished += file.bytes
-                }
-                setLocal(id, localInitial(id))
-                // The first voice a person installs becomes the one that reads their notes.
-                if (resolveEngine() == null || !isInstalled(SpeechModelId.Phonon)) setEngine(id.key)
-            } catch (e: CancellationException) {
-                setLocal(id, localInitial(id))
-                throw e
-            } catch (e: Exception) {
-                setLocal(id, ModelState.Failed(friendly(e)))
-            }
-        }
-    }
-
-    fun cancelLocal(id: LocalTtsId) {
-        localJobs[id]?.cancel()
-    }
-
-    fun removeLocal(id: LocalTtsId) {
-        localJobs[id]?.cancel()
-        scope.launch {
-            _localRemoved.emit(id)
-            kotlinx.coroutines.delay(150)
-            val info = LocalTtsCatalog.info(id)
-            info.files.filter { !it.shared }.forEach { localFile(id, it).delete() }
-            localDir(id).deleteRecursively()
-            setLocal(id, ModelState.NotInstalled)
-            // The shared dictionary goes when no model that reads it is left.
-            val stillUsed = LocalTtsCatalog.all.any { other ->
-                other.id != id && other.files.any { it.shared } && isLocalInstalled(other.id)
-            }
-            if (!stillUsed) sharedDir.deleteRecursively()
-        }
-    }
-
-    private fun setLocal(id: LocalTtsId, state: ModelState) {
-        _local.update { it + (id to state) }
-    }
 
     fun isInstalled(id: SpeechModelId) = (if (id == SpeechModelId.Whistle) stt.value else tts.value) is ModelState.Installed
 
