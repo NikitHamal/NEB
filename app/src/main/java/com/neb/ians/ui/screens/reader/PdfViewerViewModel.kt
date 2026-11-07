@@ -70,6 +70,7 @@ class PdfViewerViewModel @Inject constructor(
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
     private var searchJob: Job? = null
+    private var scanJob: Job? = null
     private var file: File? = null
 
     init {
@@ -204,6 +205,7 @@ class PdfViewerViewModel @Inject constructor(
     private suspend fun openPdf(file: File) {
         withContext(Dispatchers.IO) {
             runCatching {
+                scanJob?.cancel()
                 engine?.close()
                 engine = null
                 val opened = PdfDocumentEngine.open(file)
@@ -222,6 +224,13 @@ class PdfViewerViewModel @Inject constructor(
                         canReadText = opened.canReadText,
                         error = null
                     )
+                }
+                // the layout starts from the first page's shape; the rest are read in the background
+                scanJob?.cancel()
+                scanJob = viewModelScope.launch(Dispatchers.IO) {
+                    opened.scanShapes(last) { shapes ->
+                        _uiState.update { state -> if (engine === opened) state.copy(pageAspects = shapes) else state }
+                    }
                 }
             }.onFailure {
                 _uiState.update { state -> state.copy(isLoading = false, isDownloading = false, error = "Unable to open PDF") }
@@ -286,6 +295,7 @@ class PdfViewerViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        scanJob?.cancel()
         engine?.close()
         engine = null
         super.onCleared()

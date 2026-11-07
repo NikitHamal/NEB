@@ -28,11 +28,16 @@ import java.io.File
 class PdfDocumentEngine private constructor(
     private val descriptor: ParcelFileDescriptor,
     private val renderer: PdfRenderer,
-    /** Height / width of every page, in document order. */
-    val pageAspects: List<Float>
+    /** Height / width of every page. Starts as the first page's shape for all pages; [scanShapes] corrects it in the background. */
+    initialAspects: FloatArray
 ) : Closeable {
 
-    val pageCount: Int get() = pageAspects.size
+    private val aspects: FloatArray = initialAspects
+
+    /** Height / width of every page, in document order (a snapshot; see [scanShapes]). */
+    val pageAspects: List<Float> get() = aspects.toList()
+
+    val pageCount: Int get() = aspects.size
 
     private val mutex = Mutex()
     @Volatile private var closed = false
@@ -57,6 +62,7 @@ class PdfDocumentEngine private constructor(
                 if (closed) return@withLock null
                 val bitmap = runCatching {
                     renderer.openPage(index).use { page ->
+                        if (page.width > 0) aspects[index] = page.height.toFloat() / page.width
                         val height = (width * page.height.toFloat() / page.width).toInt().coerceAtLeast(1)
                         // zoomed renders are large: 16-bit colour halves their memory, and text stays crisp
                         val config = if (width.toLong() * height > BASE_PIXELS) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
@@ -71,6 +77,46 @@ class PdfDocumentEngine private constructor(
                 bitmap
             }
         }
+    }
+
+    /**
+     * Reads the real shape of every page without holding up rendering: the document opens knowing
+     * only the first page (a 1000 page book used to open every page up front, which took ages on
+     * slow phones), and this fills in the rest in small batches, releasing the renderer between
+     * batches so a visible page never waits for more than a few pages. Calls [onChange] with a
+     * fresh list only when some page differs from what the layout already assumes.
+     */
+    suspend fun scanShapes(first: Int, onChange: (List<Float>) -> Unit) {
+        val order = ArrayList<Int>(pageCount)
+        val start = first.coerceIn(0, (pageCount - 1).coerceAtLeast(0))
+        for (i in start until pageCount) order.add(i)
+        for (i in 0 until start) order.add(i)
+        var changed = false
+        var done = 0
+        while (done < order.size && !closed) {
+            val batchEnd = minOf(done + SCAN_BATCH, order.size)
+            mutex.withLock {
+                if (closed) return
+                for (k in done until batchEnd) {
+                    val index = order[k]
+                    val shape = runCatching {
+                        renderer.openPage(index).use { page -> if (page.width > 0) page.height.toFloat() / page.width else 0f }
+                    }.getOrDefault(0f)
+                    if (shape > 0f && kotlin.math.abs(shape - aspects[index]) > 0.002f) {
+                        aspects[index] = shape
+                        changed = true
+                    }
+                }
+            }
+            done = batchEnd
+            if (changed && (done % (SCAN_BATCH * 8) == 0 || done >= order.size)) {
+                changed = false
+                onChange(aspects.toList())
+            }
+            kotlinx.coroutines.yield()
+            kotlinx.coroutines.delay(4)
+        }
+        if (changed) onChange(aspects.toList())
     }
 
     suspend fun thumbnail(index: Int): Bitmap? = render(index, THUMB_WIDTH)
@@ -127,7 +173,7 @@ class PdfDocumentEngine private constructor(
      */
     private fun widthFor(index: Int, widthPx: Int): Int {
         val width = bucket(widthPx)
-        val aspect = pageAspects[index].coerceAtLeast(0.1f)
+        val aspect = aspects[index].coerceAtLeast(0.1f)
         val cap = kotlin.math.sqrt(hiResPixels / aspect).toInt()
         return if (width <= cap) width else (cap / BUCKET * BUCKET).coerceAtLeast(THUMB_WIDTH)
     }
@@ -152,6 +198,9 @@ class PdfDocumentEngine private constructor(
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.R) >= 13
 
         const val THUMB_WIDTH = 240
+        /** Width of the quick first paint of a page while its sharp render is still queued. */
+        const val PREVIEW_WIDTH = 320
+        private const val SCAN_BATCH = 6
         private const val BUCKET = 160
         private const val MAX_WIDTH = 4200
         private const val BASE_PIXELS = 6_000_000L
@@ -166,7 +215,7 @@ class PdfDocumentEngine private constructor(
 
         private fun cacheBudgetKb(): Int {
             val maxKb = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-            return (maxKb / 6).coerceIn(16 * 1024, 96 * 1024)
+            return (maxKb / 5).coerceIn(24 * 1024, 112 * 1024)
         }
 
         /** Opens [file] and reads every page's size. Call off the main thread. */
@@ -174,12 +223,11 @@ class PdfDocumentEngine private constructor(
             val descriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
             try {
                 val renderer = PdfRenderer(descriptor)
-                val aspects = List(renderer.pageCount) { i ->
-                    renderer.openPage(i).use { page ->
-                        if (page.width > 0) page.height.toFloat() / page.width else 1.414f
-                    }
-                }
-                return PdfDocumentEngine(descriptor, renderer, aspects)
+                val count = renderer.pageCount
+                val firstShape = if (count > 0) {
+                    renderer.openPage(0).use { page -> if (page.width > 0) page.height.toFloat() / page.width else 1.414f }
+                } else 1.414f
+                return PdfDocumentEngine(descriptor, renderer, FloatArray(count) { firstShape })
             } catch (t: Throwable) {
                 runCatching { descriptor.close() }
                 throw t
