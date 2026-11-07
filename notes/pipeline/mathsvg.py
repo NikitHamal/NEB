@@ -166,7 +166,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False, color: str =
     s = _clean(tex)
     if not s:
         return None, 0, 0
-    key = hashlib.sha1(f"{s}|{fontsize}|{display}|{color}|v7".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{s}|{fontsize}|{display}|{color}|v8".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
@@ -189,15 +189,16 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False, color: str =
     if display and w / 100.0 > COLUMN_IN:
         OVERWIDE.append((tex, w / 100.0 * 25.4))
     try:
-        fig = plt.figure(figsize=(max(w, 1) / 100.0, max(h, 1) / 100.0), dpi=100)
+        pad = 1.2   # px; md2html and svgkit lower the image by exactly this pad plus the depth
+        W, H = max(w, 1) + 2 * pad, max(h, 1) + 2 * pad
+        fig = plt.figure(figsize=(W / 100.0, H / 100.0), dpi=100)
         fig.patch.set_alpha(0.0)
-        fig.text(0, d / h if h else 0, expr, fontsize=fontsize,
+        fig.text(pad / W, (d + pad) / H, expr, fontsize=fontsize,
                  va="baseline", ha="left", color=color)
         # Write both files atomically: a reader in another process must never
         # observe a half-written SVG or an empty .meta.
         tmp = f"{out}.{os.getpid()}.tmp"
-        fig.savefig(tmp, format="svg", transparent=True,
-                    bbox_inches="tight", pad_inches=0.005)
+        fig.savefig(tmp, format="svg", transparent=True)
         plt.close(fig)
         os.replace(tmp, out)
     except Exception as e:
