@@ -138,13 +138,11 @@ If $\lim \frac{f}{g}$ gives **$\frac{0}{0}$ or $\frac{\infty}{\infty}$** and $\l
 
 **(d)** $\lim_{x \to 0^{+}} x^{x}$: $\ln y = x \ln x \to 0$, so $y \to e^{0}$ = **1**.
 
-**(e)** $\lim_{x \to \infty} \frac{\ln x}{x} = \lim_{x \to \infty} \frac{1}{x} = 0$ (a logarithm grows slower than any power).
+**(e)** $\lim_{x \to \infty} \frac{\ln x}{x}$: $\frac{\infty}{\infty} \to \frac{1/x}{1}$ → **0**. A logarithm grows slower than any power.
 
-**(f)** $\lim_{x \to \infty} \left(1 + \frac{1}{x}\right)^{x}$ has the form $1^{\infty}$. Put $y = \left(1 + \frac{1}{x}\right)^{x}$, so $\ln y = \frac{\ln(1 + 1/x)}{1/x}$, which is $\frac{0}{0}$.
+**(f)** $\lim_{x \to \infty} (1 + \frac{1}{x})^{x}$ has the form $1^{\infty}$. Put $y = (1 + \frac{1}{x})^{x}$.
 
-Differentiate top and bottom: the top gives $\frac{-1/x^{2}}{1 + 1/x}$, the bottom gives $-\frac{1}{x^{2}}$, so $\ln y \to \frac{1}{1 + 1/x} \to 1$.
-
-Hence $y \to e^{1} = e$.
+$\ln y = \frac{\ln(1 + 1/x)}{1/x}$: $\frac{0}{0} \to \frac{1}{1 + 1/x} \to 1$, so $y \to e^{1}$ = **e**.
 :::
 
 ## 4.7 Taylor and Maclaurin series

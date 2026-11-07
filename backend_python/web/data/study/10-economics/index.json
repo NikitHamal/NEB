@@ -5,53 +5,53 @@
    "no": 1,
    "title": "Basic Concepts of Economics and Allocation of Resources (अर्थशास्त्रको आधारभूत अवधारणा र साधनको बाँडफाँट)",
    "area": "Basic Concepts",
-   "words": 5040,
-   "read_min": 28,
-   "figures": 6,
+   "words": 5976,
+   "read_min": 33,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Microeconomics (व्यष्टि अर्थशास्त्र)",
    "area": "Microeconomics",
-   "words": 7468,
-   "read_min": 41,
-   "figures": 7,
+   "words": 8451,
+   "read_min": 47,
+   "figures": 8,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Macroeconomics (समष्टि अर्थशास्त्र)",
    "area": "Macroeconomics",
-   "words": 5554,
-   "read_min": 31,
-   "figures": 4,
+   "words": 6225,
+   "read_min": 35,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Development Economics (विकास अर्थशास्त्र)",
    "area": "Development Economics",
-   "words": 5377,
-   "read_min": 30,
-   "figures": 1,
+   "words": 6087,
+   "read_min": 34,
+   "figures": 2,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Nepal's Economy (नेपालको अर्थतन्त्र)",
    "area": "Nepal's Economy",
-   "words": 5798,
-   "read_min": 32,
-   "figures": 6,
+   "words": 6379,
+   "read_min": 35,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "Quantitative Methods in Economics (अर्थशास्त्रमा परिमाणात्मक पद्धति)",
    "area": "Quantitative Methods",
-   "words": 5940,
-   "read_min": 33,
+   "words": 6489,
+   "read_min": 36,
    "figures": 3,
    "has_questions": true
   }
@@ -62,15 +62,15 @@
    "no": 1,
    "kind": "subjective",
    "title": "Economics: Unit-wise Group A and Group B Question Bank",
-   "words": 5064,
+   "words": 5040,
    "read_min": 28
   },
   {
    "no": 2,
    "kind": "model",
    "title": "Economics: Numerical Practice, Group C Bank and Model Question Sets",
-   "words": 4098,
-   "read_min": 23
+   "words": 5350,
+   "read_min": 30
   }
  ],
  "guide": "The SEE Commerce Papers: Pattern, Grid and Strategy"

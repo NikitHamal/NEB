@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Neighbours",
    "area": "Literature - Short Stories",
-   "words": 9324,
-   "read_min": 52,
+   "words": 9170,
+   "read_min": 51,
    "figures": 4,
    "has_questions": true
   },
@@ -14,8 +14,8 @@
    "no": 2,
    "title": "A Respectable Woman",
    "area": "Literature - Short Stories",
-   "words": 9488,
-   "read_min": 53,
+   "words": 9335,
+   "read_min": 52,
    "figures": 4,
    "has_questions": true
   },
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "A Devoted Son",
    "area": "Literature - Short Stories",
-   "words": 9505,
-   "read_min": 53,
+   "words": 9356,
+   "read_min": 52,
    "figures": 4,
    "has_questions": true
   },
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "The Treasure in the Forest",
    "area": "Literature - Short Stories",
-   "words": 7963,
+   "words": 7834,
    "read_min": 44,
    "figures": 4,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "My Old Home",
    "area": "Literature - Short Stories",
-   "words": 8893,
+   "words": 8757,
    "read_min": 49,
    "figures": 6,
    "has_questions": true
@@ -50,8 +50,8 @@
    "no": 6,
    "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
    "area": "Literature - Short Stories",
-   "words": 8978,
-   "read_min": 50,
+   "words": 8842,
+   "read_min": 49,
    "figures": 6,
    "has_questions": true
   },
@@ -59,8 +59,8 @@
    "no": 7,
    "title": "A Very Old Man with Enormous Wings",
    "area": "Literature - Short Stories",
-   "words": 8910,
-   "read_min": 50,
+   "words": 8775,
+   "read_min": 49,
    "figures": 5,
    "has_questions": true
   },
@@ -68,8 +68,8 @@
    "no": 8,
    "title": "A Day",
    "area": "Literature - Poems",
-   "words": 7181,
-   "read_min": 40,
+   "words": 7091,
+   "read_min": 39,
    "figures": 4,
    "has_questions": true
   },
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Every Morning I Wake",
    "area": "Literature - Poems",
-   "words": 7584,
+   "words": 7492,
    "read_min": 42,
    "figures": 4,
    "has_questions": true
@@ -86,8 +86,8 @@
    "no": 10,
    "title": "I Was My Own Route",
    "area": "Literature - Poems",
-   "words": 8956,
-   "read_min": 50,
+   "words": 8839,
+   "read_min": 49,
    "figures": 4,
    "has_questions": true
   },
@@ -95,8 +95,8 @@
    "no": 11,
    "title": "The Awakening Age",
    "area": "Literature - Poems",
-   "words": 8460,
-   "read_min": 47,
+   "words": 8348,
+   "read_min": 46,
    "figures": 4,
    "has_questions": true
   },
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "Soft Storm",
    "area": "Literature - Poems",
-   "words": 10493,
+   "words": 10372,
    "read_min": 58,
    "figures": 4,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "On Libraries",
    "area": "Literature - Essays",
-   "words": 7621,
+   "words": 7506,
    "read_min": 42,
    "figures": 6,
    "has_questions": true
@@ -122,8 +122,8 @@
    "no": 14,
    "title": "Marriage as a Social Institution",
    "area": "Literature - Essays",
-   "words": 6639,
-   "read_min": 37,
+   "words": 6530,
+   "read_min": 36,
    "figures": 6,
    "has_questions": true
   },
@@ -131,8 +131,8 @@
    "no": 15,
    "title": "Knowledge and Wisdom",
    "area": "Literature - Essays",
-   "words": 6973,
-   "read_min": 39,
+   "words": 6865,
+   "read_min": 38,
    "figures": 7,
    "has_questions": true
   },
@@ -140,8 +140,8 @@
    "no": 16,
    "title": "Humility",
    "area": "Literature - Essays",
-   "words": 6840,
-   "read_min": 38,
+   "words": 6749,
+   "read_min": 37,
    "figures": 5,
    "has_questions": true
   },
@@ -149,8 +149,8 @@
    "no": 17,
    "title": "Human Rights and the Age of Inequality",
    "area": "Literature - Essays",
-   "words": 7120,
-   "read_min": 40,
+   "words": 7029,
+   "read_min": 39,
    "figures": 6,
    "has_questions": true
   },
@@ -158,7 +158,7 @@
    "no": 18,
    "title": "A Matter of Husbands",
    "area": "Literature - One Act Plays",
-   "words": 7067,
+   "words": 6984,
    "read_min": 39,
    "figures": 5,
    "has_questions": true
@@ -167,7 +167,7 @@
    "no": 19,
    "title": "Facing Death",
    "area": "Literature - One Act Plays",
-   "words": 8108,
+   "words": 8011,
    "read_min": 45,
    "figures": 6,
    "has_questions": true
@@ -176,8 +176,8 @@
    "no": 20,
    "title": "The Bull",
    "area": "Literature - One Act Plays",
-   "words": 7489,
-   "read_min": 42,
+   "words": 7381,
+   "read_min": 41,
    "figures": 5,
    "has_questions": true
   },
@@ -185,7 +185,7 @@
    "no": 21,
    "title": "Question Tags and Questions",
    "area": "Grammar",
-   "words": 3583,
+   "words": 3571,
    "read_min": 20,
    "figures": 3,
    "has_questions": true
@@ -194,7 +194,7 @@
    "no": 22,
    "title": "Modal Verbs",
    "area": "Grammar",
-   "words": 3530,
+   "words": 3528,
    "read_min": 20,
    "figures": 2,
    "has_questions": true
@@ -203,7 +203,7 @@
    "no": 23,
    "title": "Determiners and Quantifiers",
    "area": "Grammar",
-   "words": 3325,
+   "words": 3319,
    "read_min": 18,
    "figures": 2,
    "has_questions": true
@@ -212,7 +212,7 @@
    "no": 24,
    "title": "Subject-Verb Agreement and Miscellaneous Agreements",
    "area": "Grammar",
-   "words": 3148,
+   "words": 3144,
    "read_min": 17,
    "figures": 2,
    "has_questions": true
@@ -221,7 +221,7 @@
    "no": 25,
    "title": "Connectives and Discourse Markers",
    "area": "Grammar",
-   "words": 3149,
+   "words": 3142,
    "read_min": 17,
    "figures": 2,
    "has_questions": true
@@ -230,7 +230,7 @@
    "no": 26,
    "title": "Adjectives, Adverbs and Adjective Order",
    "area": "Grammar",
-   "words": 3032,
+   "words": 3029,
    "read_min": 17,
    "figures": 2,
    "has_questions": true
@@ -239,7 +239,7 @@
    "no": 27,
    "title": "Reported Speech",
    "area": "Grammar",
-   "words": 2958,
+   "words": 2956,
    "read_min": 16,
    "figures": 2,
    "has_questions": true
@@ -248,7 +248,7 @@
    "no": 28,
    "title": "Conditional Sentences",
    "area": "Grammar",
-   "words": 2868,
+   "words": 2860,
    "read_min": 16,
    "figures": 2,
    "has_questions": true
@@ -257,7 +257,7 @@
    "no": 29,
    "title": "Passive Voice",
    "area": "Grammar",
-   "words": 2910,
+   "words": 2907,
    "read_min": 16,
    "figures": 4,
    "has_questions": true
@@ -266,7 +266,7 @@
    "no": 30,
    "title": "Prepositions, Tenses and Relative Clauses",
    "area": "Grammar",
-   "words": 3143,
+   "words": 3138,
    "read_min": 17,
    "figures": 2,
    "has_questions": true
@@ -275,7 +275,7 @@
    "no": 31,
    "title": "Guided Writing: Charts, Graphs and Outlines",
    "area": "Writing and Skills",
-   "words": 4393,
+   "words": 4373,
    "read_min": 24,
    "figures": 7,
    "has_questions": true
@@ -284,7 +284,7 @@
    "no": 32,
    "title": "Functional Writing: Letters to the Editor, Emails, CVs and Applications",
    "area": "Writing and Skills",
-   "words": 3861,
+   "words": 3845,
    "read_min": 21,
    "figures": 5,
    "has_questions": true
@@ -293,8 +293,8 @@
    "no": 33,
    "title": "Free Writing: Essays and Memoirs",
    "area": "Writing and Skills",
-   "words": 4083,
-   "read_min": 23,
+   "words": 4048,
+   "read_min": 22,
    "figures": 3,
    "has_questions": true
   },
@@ -302,8 +302,8 @@
    "no": 34,
    "title": "Unseen Reading Comprehension Strategy",
    "area": "Writing and Skills",
-   "words": 4425,
-   "read_min": 25,
+   "words": 4393,
+   "read_min": 24,
    "figures": 2,
    "has_questions": true
   },
@@ -311,7 +311,7 @@
    "no": 35,
    "title": "Vocabulary, Sounds, Spelling and Idioms",
    "area": "Writing and Skills",
-   "words": 4142,
+   "words": 4124,
    "read_min": 23,
    "figures": 4,
    "has_questions": true
@@ -323,21 +323,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Compulsory English: Unit-wise Objective Question Bank",
-   "words": 1611,
+   "words": 1608,
    "read_min": 9
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Compulsory English: Unit-wise Subjective Question Bank",
-   "words": 1910,
-   "read_min": 11
+   "words": 3104,
+   "read_min": 17
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Compulsory English: Model Question Sets and Predicted Questions",
-   "words": 1923,
+   "words": 1913,
    "read_min": 11
   }
  ],
