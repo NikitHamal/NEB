@@ -12,7 +12,7 @@ from api.security import issue_auth_token
 NOW = int(time.time() * 1000)
 
 
-def _fake(tokens, title, body, data=None, workers=8):
+def _fake(tokens, title, body, data=None, workers=8, **kw):
     return {t: (True, 'ok') for t in tokens}
 
 

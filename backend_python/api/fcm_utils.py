@@ -146,7 +146,7 @@ def _classify(resp):
     return False, (code or f'HTTP_{resp.status_code}').lower()
 
 
-def send_fcm_detailed(tokens, title, body, data=None, workers=8):
+def send_fcm_detailed(tokens, title, body, data=None, workers=8, channel_id=''):
     """Send now, wait, and report. Returns {token: (accepted: bool, code: str)}.
 
     Dead tokens (unregistered, wrong sender) are removed here so every caller prunes the same way.
@@ -167,6 +167,8 @@ def send_fcm_detailed(tokens, title, body, data=None, workers=8):
         payload = {"message": {"token": tok, "notification": {"title": title, "body": body}}}
         if fcm_data:
             payload["message"]["data"] = fcm_data
+        if channel_id:
+            payload["message"]["android"] = {"notification": {"channel_id": channel_id}}
         try:
             resp = requests.post(url, json=payload, headers=headers, timeout=8)
             ok, code = _classify(resp)

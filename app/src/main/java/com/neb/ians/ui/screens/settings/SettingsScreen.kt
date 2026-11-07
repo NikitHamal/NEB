@@ -84,6 +84,7 @@ fun SettingsScreen(
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
     val notificationsEnabled by settingsViewModel.notificationsEnabled.collectAsStateWithLifecycle()
+    val newResourceAlerts by settingsViewModel.newResourceAlerts.collectAsStateWithLifecycle()
     val downloadWifiOnly by settingsViewModel.downloadWifiOnly.collectAsStateWithLifecycle()
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
 
@@ -211,6 +212,14 @@ fun SettingsScreen(
                             settingsViewModel.setNotificationsEnabled(enabled)
                         }
                     }
+                )
+                SettingsDivider()
+                SettingsToggleRow(
+                    icon = Icons.Outlined.Notifications,
+                    title = "New resource alerts",
+                    subtitle = if (newResourceAlerts) "On" else "Off",
+                    checked = newResourceAlerts,
+                    onCheckedChange = { settingsViewModel.setNewResourceAlerts(it) }
                 )
                 SettingsDivider()
                 SettingsToggleRow(
