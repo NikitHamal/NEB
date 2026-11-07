@@ -2545,3 +2545,8 @@ Role, education situation and the portfolio header are chosen once, in `/welcome
 ## BCA maths sources use LaTeX
 
 Write maths in `bca/course/**/unit-*.md` as `$...$` / `$$...$$` (never plain `x²`, `d/dx`, `^{}` in prose). `bca/tools/plainmath.py` converts legacy text; `Fig.math()` typesets maths inside `svgfig`. Details in `PDF_M3X_STATUS.md`.
+
+## Session 94 (uploader insights in the app, richer resource beacons)
+
+- **Done:** Android `ResourceInsightsScreen` (per resource and all uploads, reads `/api/resources/<id>/insights/` and `/api/uploads/insights/`), entry points in the owner's resource menu and on Analytics; resource detail reports surface, dwell on leave and share taps. Backend untouched (44 push/reach tests pass). Details and open items: `PUSH_AUTOPILOT_STATUS.md`.
+- **Setup:** `pip3 install --user --break-system-packages -r backend_python/requirements.txt` makes the Django tests run; out-of-repo `/tmp/gitenv.sh` GIT_ASKPASS (PAT never in the repo; the owner should rotate the PAT pasted in the prompt).
