@@ -25,25 +25,6 @@ Canvas is out of the app (routes, tab, home tile, settings and tools rows remove
   before the model exists opens a setup sheet that downloads it and then continues.
 - Phonon 40m is CC BY-NC and gated, so it is not offered.
 
-## More local voices (ONNX Runtime)
-
-`speech/LocalTts.kt` (catalog, runner, English front end) and `onnxruntime-android` in `app/build.gradle.kts`. Same rules as Phonon: nothing bundled,
-the Voice screen downloads and removes each one (resume, progress, storage check), `SpeechModelManager.downloadLocal/removeLocal`, one `PhononEngine`
-reads with whichever engine is chosen (`models.engine`, `resolveEngine()`; the first voice installed becomes the active one).
-
-| Voice | Files | Notes |
-| --- | --- | --- |
-| Paradee 8M v1.2 | int8 ONNX (8.5 MB) + config | Four voices (Heart, Puck, Isabella, Fable). Phoneme ids, speed, voice index in; 24 kHz audio out. Apache-2.0 |
-| Leokani 7M Dala / Pono | int8 ONNX (7.8 MB) or fp32 (28 MB) + config | Magnitude and phase out, inverse STFT done in Kotlin (`KokoroModel.istft`). CC BY-NC 4.0, non-commercial |
-| Supertonic 3 | 4 ONNX graphs (about 400 MB) + 10 voice styles | 31 languages; the app picks English, or Hindi for Devanagari text. 8 denoising steps, 44.1 kHz. OpenRAIL-M |
-
-Paradee and Leokani both read Kokoro phonemes. `EnglishPhonemizer` turns text into them with the CMU dictionary (one shared 3.6 MB download, removed with the
-last model that uses it), a number reader, suffix rules and a letter-sound guess for unknown words. It is not misaki or espeak-ng, so rare words can differ.
-
-Not shipped yet: PiVo 1.4M (four ONNX graphs, a per-frame FARGAN vocoder loop and a CMU front end with ARPAbet overrides) and Underdog Woof (numpy-only
-runtime over a 40 MB int8 `.npz`, its own text normaliser). Both need a port of the Python runtime, not just a model file, and its license is non-commercial.
-Nothing here was run on a device; the GitHub Actions build is the first check, then listen to each voice and compare with the model card samples.
-
 ## Limits and decisions
 
 - Phonon needs arm64 with ARMv8.2 dotprod + fp16 (checked in `/proc/cpuinfo`); otherwise the card says it is unsupported. Whistle works on arm64 and armv7.

@@ -44,7 +44,7 @@ class PhononEngine @Inject constructor(
     @ApplicationContext private val context: Context,
     private val models: SpeechModelManager,
 ) {
-    private class Run(val segments: List<String>, val voice: String?, val engine: String?) {
+    private class Run(val segments: List<String>, val voice: String?) {
         @Volatile var cancelled = false
         @Volatile var paused = false
         @Volatile var jump = -1
@@ -62,7 +62,6 @@ class PhononEngine @Inject constructor(
     @Volatile private var run: Run? = null
     @Volatile private var track: AudioTrack? = null
     private var handle = 0L
-    private val local = LocalTtsRunner()
     private var loadedVoices: List<String> = emptyList()
     private var appliedVoice: String? = null
     private var idleJob: Job? = null
@@ -79,25 +78,18 @@ class PhononEngine @Inject constructor(
                 }
             }
         }
-        scope.launch {
-            models.localRemoved.collect {
-                stop()
-                scope.launch(engineThread) { release() }
-            }
-        }
     }
 
     fun clearError() {
         if (_state.value is ReadState.Error) _state.value = ReadState.Idle
     }
 
-    fun play(segments: List<String>, from: Int = 0, voice: String? = null, engine: String? = null) {
+    fun play(segments: List<String>, from: Int = 0, voice: String? = null) {
         if (segments.isEmpty()) return
-        val chosen = engine ?: models.resolveEngine()
-        if (chosen == null) { _state.value = ReadState.Error("Download a text to speech voice first"); return }
-        if (chosen == "phonon" && !supported) { _state.value = ReadState.Error("Text to speech is not available on this device"); return }
+        if (!supported) { _state.value = ReadState.Error("Text to speech is not available on this device"); return }
+        if (!models.isInstalled(SpeechModelId.Phonon)) { _state.value = ReadState.Error("Download the text to speech model first"); return }
         run?.cancelled = true
-        val r = Run(segments, voice, chosen)
+        val r = Run(segments, voice)
         run = r
         idleJob?.cancel()
         _state.value = ReadState.Loading
@@ -147,7 +139,6 @@ class PhononEngine @Inject constructor(
     /** Releases the model; a later [play] reloads it. */
     private fun release() {
         if (handle != 0L) NativeSpeech.ttsFree(handle)
-        local.close()
         handle = 0L
         loadedVoices = emptyList()
         appliedVoice = null
@@ -172,15 +163,9 @@ class PhononEngine @Inject constructor(
     private fun loop(r: Run, from: Int) {
         var audioTrack: AudioTrack? = null
         try {
-            val localId = LocalTtsId.fromKey(r.engine)
-            if (localId != null) {
-                local.open(localId, models.localDir(localId), models.sharedDir)
-            } else {
-                ensureLoaded(r.voice ?: models.voice.value)
-            }
+            ensureLoaded(r.voice ?: models.voice.value)
             if (r.cancelled) return
-            val localVoice = localId?.let { r.voice ?: models.localVoice(it) }
-            audioTrack = buildTrack(if (localId != null) local.sampleRate else 24_000)
+            audioTrack = buildTrack()
             track = audioTrack
             requestFocus()
             audioTrack.play()
@@ -190,14 +175,9 @@ class PhononEngine @Inject constructor(
             while (!r.cancelled && i < r.segments.size) {
                 _progress.value = ReadProgress(i, r.segments.size, r.segments[i])
                 val t = audioTrack
-                val sink = object : PcmSink {
+                val ok = NativeSpeech.ttsSpeak(handle, r.segments[i], object : PcmSink {
                     override fun onPcm(pcm: FloatArray): Boolean = !r.cancelled && r.jump < 0 && writeAll(t, pcm, r, counter)
-                }
-                val ok = if (localId != null) {
-                    local.speak(r.segments[i], localVoice ?: "", 1f, sink)
-                } else {
-                    NativeSpeech.ttsSpeak(handle, r.segments[i], sink)
-                }
+                })
                 if (r.cancelled) break
                 val jump = r.jump
                 if (jump >= 0) {
@@ -206,9 +186,7 @@ class PhononEngine @Inject constructor(
                     runCatching { t.pause(); t.flush(); counter[0] = 0; if (!r.paused) t.play() }
                     continue
                 }
-                if (!ok) throw IllegalStateException(
-                    (if (localId != null) "" else NativeSpeech.ttsError(handle)).ifBlank { "Speech stopped unexpectedly" }
-                )
+                if (!ok) throw IllegalStateException(NativeSpeech.ttsError(handle).ifBlank { "Speech stopped unexpectedly" })
                 i++
             }
             if (!r.cancelled) drain(audioTrack, r, counter[0])
@@ -258,7 +236,8 @@ class PhononEngine @Inject constructor(
         }
     }
 
-    private fun buildTrack(rate: Int): AudioTrack {
+    private fun buildTrack(): AudioTrack {
+        val rate = 24_000
         val minBytes = AudioTrack.getMinBufferSize(rate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_FLOAT)
         return AudioTrack.Builder()
             .setAudioAttributes(

@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -58,9 +57,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.speech.ModelState
-import com.neb.ians.speech.LocalTtsCatalog
-import com.neb.ians.speech.LocalTtsId
-import com.neb.ians.speech.LocalTtsInfo
 import com.neb.ians.speech.PhononVoice
 import com.neb.ians.speech.ReadState
 import com.neb.ians.speech.SpeechCatalog
@@ -126,7 +122,6 @@ fun VoiceModelsScreen(
         ) {
             item { SttModelCard(vm, showLanguages = true) }
             item { TtsModelCard(vm, showVoices = true) }
-            items(LocalTtsCatalog.all, key = { it.id.key }) { info -> LocalTtsCard(vm, info) }
         }
     }
 }
@@ -260,7 +255,7 @@ fun SttModelCard(vm: SpeechViewModel, showLanguages: Boolean) {
 
 @Composable
 fun TtsModelCard(vm: SpeechViewModel, showVoices: Boolean) {
-    val state by vm.phononState.collectAsStateWithLifecycle()
+    val state by vm.tts.collectAsStateWithLifecycle()
     ModelShell(
         icon = Icons.Outlined.RecordVoiceOver,
         title = "Text to speech",
@@ -281,9 +276,7 @@ private fun VoiceList(vm: SpeechViewModel) {
     val installed by vm.installedVoices.collectAsStateWithLifecycle()
     val catalog by vm.catalog.collectAsStateWithLifecycle()
     val busy by vm.voiceBusy.collectAsStateWithLifecycle()
-    val chosen by vm.voice.collectAsStateWithLifecycle()
-    val engine by vm.engine.collectAsStateWithLifecycle()
-    val selected = if (engine == "phonon") chosen else ""
+    val selected by vm.voice.collectAsStateWithLifecycle()
     val reading by vm.readState.collectAsStateWithLifecycle()
     val remote = (catalog as? VoiceCatalog.Ready)?.voices.orEmpty()
     val remoteByName = remote.associateBy { it.name }
@@ -323,46 +316,6 @@ private fun VoiceList(vm: SpeechViewModel) {
                     onUse = {},
                     onPreview = {},
                     onDownload = { vm.downloadVoice(v) },
-                    onRemove = null,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun LocalTtsCard(vm: SpeechViewModel, info: LocalTtsInfo) {
-    val states by vm.local.collectAsStateWithLifecycle()
-    val voices by vm.localVoices.collectAsStateWithLifecycle()
-    val engine by vm.engine.collectAsStateWithLifecycle()
-    val reading by vm.readState.collectAsStateWithLifecycle()
-    val state = states[info.id] ?: ModelState.NotInstalled
-    ModelShell(
-        icon = Icons.Outlined.RecordVoiceOver,
-        title = info.title,
-        meta = "${info.meta} \u00B7 ${formatBytes(info.bytes)}",
-        state = state,
-        supported = true,
-        onDownload = { vm.downloadLocal(info.id) },
-        onCancel = { vm.cancelLocal(info.id) },
-        onRemove = { vm.removeLocal(info.id) },
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            info.voices.forEach { v ->
-                val selected = engine == info.id.key && voices[info.id] == v.key
-                VoiceRow(
-                    title = v.label,
-                    subtitle = null,
-                    selected = selected,
-                    installed = true,
-                    busy = false,
-                    previewing = reading != ReadState.Idle && selected,
-                    onUse = { vm.useLocalVoice(info.id, v.key) },
-                    onPreview = {
-                        vm.useLocalVoice(info.id, v.key)
-                        vm.previewLocal(info.id, v.key)
-                    },
-                    onDownload = {},
                     onRemove = null,
                 )
             }
@@ -436,14 +389,7 @@ fun VoiceSetupSheet(
     }
     NebModalSheet(onDismiss = onDismiss, title = if (forDictation) "Dictate your notes" else "Listen to your notes") {
         Column(Modifier.padding(bottom = 24.dp)) {
-            if (forDictation) {
-                SttModelCard(vm, showLanguages = false)
-            } else {
-                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    LocalTtsCard(vm, LocalTtsCatalog.info(LocalTtsId.Paradee))
-                    TtsModelCard(vm, showVoices = false)
-                }
-            }
+            if (forDictation) SttModelCard(vm, showLanguages = false) else TtsModelCard(vm, showVoices = false)
         }
     }
 }
