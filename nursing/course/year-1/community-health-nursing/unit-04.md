@@ -12,7 +12,7 @@ Nepal's greatest public health success is the fall in maternal and child deaths:
 ::: key What this unit gives you
 - A real blood-pressure check at antenatal-type visit, a real MUAC tape in use, and a MUAC colour-band schematic.
 - Safe Motherhood and the Aama programme, the ANC contacts, birth preparedness and the continuum of care.
-- IMNCI classification by colour, the three ORS plans with calculations for an 8-kg infant, zinc, Z-score and IFA supply, all computed.
+- IMNCI classification by colour, the three ORS plans with calculations for an 8-kg infant, zinc, Z-score and IFA supply, all worked step by step.
 - Eight points on the nurse's role in Safe Motherhood and model answers with a child case and care plan.
 :::
 

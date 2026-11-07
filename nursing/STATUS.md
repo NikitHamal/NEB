@@ -86,6 +86,14 @@ Updated: end of Session 15. Branch `claude/bsc-nursing` (from `main`).
 - Lesson: a fixed-layout table with percentage widths plus padding overflows the right margin unless cells are `box-sizing:border-box` (QA caught 30-50 right-margin fails per book).
 - Rebuild any book with `/tmp/v/bin/python nursing/tools/nebpdf.py course/year-N/<slug>`; the fill/verify steps in `build_book.sh` are only needed when unit text changes.
 
+## Session 17: code removed from every student PDF (user review: "why is there programming in BSc Nursing?")
+- Defect: the executed ```python block + its ```text output (used only to machine-verify the maths) was printed as monospace code in all 13 PDFs (135 blocks). Nursing students must never see code.
+- Fix (in `nursing/tools/nebpdf.py`, function `hide_code`, applied in `stage()`): the staged copy drops every ```python fence and typesets the output block as a `::: example Worked calculation` box (x -> multiplication sign, sqrt -> root sign, m2 -> m squared, `->` arrow, subscripts, real minus, `label value` -> `label = value`). SOURCE unit files keep the python blocks, so `check_*.py --verify` and `fill_text.py` still verify every number.
+- Prose fixed: intro bullets that said "by script", "in Python", "executed block" now say "worked step by step" (20 unit files).
+- Guard added to `build_book.sh`: build fails (exit 6) if the PDF text contains `import x`, `print(`, `def f(` at line start or an unfilled `{{token}}`.
+- All 13 verify scripts pass; all 13 PDFs rebuilt, `qa_pdf.py` fails=0, 0 code lines in any PDF text.
+- Rule for new units: write python blocks as before (verification), but phrase output lines as complete facts ("Mean arterial pressure = 93.3 mmHg"), because they print as the Worked calculation box; never mention scripts, Python or code in prose.
+
 ## Next (in this order)
 1. **Start Year 3 Child Health Nursing (BSN 21-22, T90+P150 h)**: register already in `books.json`. Plan 5 units: growth and development with immunisation and IMNCI, newborn and neonatal disorders, nutrition disorders and paediatric respiratory/GI illness (pneumonia, diarrhoea, dehydration Plans A-C), paediatric infections and haematology/renal/cardiac, paediatric emergencies, congenital anomalies, child rights and drug dose maths (BSA, Clark, mg/kg). Research first (IMNCI Nepal, NIP 2024-25, WHO pocket book 2013). Use a new photo slug `nur13`; copy `nursing/tools/helpers/session14/` to `session15`, set the dir and `check_ch.py`.
 2. Then Family and Reproductive Health Nursing (Year 3); Year 4 books; then the five MECEE-BL entrance books.

@@ -126,6 +126,49 @@ _theme = os.path.join(STAGE, "theme-nursing.css")
 open(_theme, "w", encoding="utf-8").write(open(build_pdf.THEME, encoding="utf-8").read() + NURSING_CSS)
 build_pdf.THEME = _theme
 
+
+# ---------------------------------------------------------------- hide verification code from the student PDF
+# Every number in a unit is re-computed by a ```python block and its output is stored in the ```text block that
+# follows (nursing/tools/check_*.py --verify and fill_text.py read the SOURCE files). A student must never see
+# code, so the staged copy drops the python fence and typesets the output as a "Worked calculation" box.
+_CODE_PAIR = re.compile(r"```python\n.*?```[ \t]*\n(?:[ \t]*\n)*```text\n(.*?)```[ \t]*\n", re.S)
+_LONE_CODE = re.compile(r"```python\n.*?```[ \t]*\n", re.S)
+_SUB = {"PaCO2": "PaCO₂", "PaO2": "PaO₂", "SpO2": "SpO₂", "FiO2": "FiO₂", "HCO3": "HCO₃", "SaO2": "SaO₂",
+        "CO2": "CO₂", "O2": "O₂", "H2O": "H₂O", "Na2": "Na₂"}
+
+
+def _pretty_line(l):
+    l = l.strip()
+    if not l:
+        return ""
+    l = re.sub(r"\[([^\[\]]*)\]", r"\1", l)                       # python list brackets
+    l = re.sub(r"sqrt\(([^()]*)\)", r"√(\1)", l)
+    l = re.sub(r"(?<=\S)\s+x\s+(?=[\d(])", " × ", l)                 # 5 x 3 -> 5 × 3
+    l = l.replace("->", "→").replace(" ~ ", " ≈ ").replace("~", "≈").replace("+/-", "±")
+    l = re.sub(r"\b(m|cm|mm|km)2\b", r"\1²", l)
+    l = re.sub(r"\bmmol/L2\b", "mmol/L²", l)
+    for k, v in _SUB.items():
+        l = re.sub(rf"\b{k}\b", v, l)
+    l = re.sub(r"\b([A-Za-z]{1,3})_([A-Za-z0-9]{1,3})\b", r"\1<sub>\2</sub>", l)
+    l = re.sub(r"(?<![\w)])-(?=\d)", "−", l)                        # real minus sign
+    l = re.sub(r"\s{2,}", " ", l)
+    if not re.search(r"[=:→≈]", l):                                  # "MAP 93.3" -> "MAP = 93.3"
+        m = re.fullmatch(r"(.+?\S)\s+(-?[\d,]*\.?\d+%?)", l)
+        if m:
+            l = f"{m.group(1)} = {m.group(2)}"
+    return l[0].upper() + l[1:] if l[0].islower() and not re.match(r"(pH|pKa|mmol|mEq|g/|kg)", l) else l
+
+
+def hide_code(txt):
+    def box(m):
+        rows = [r for r in (_pretty_line(x) for x in m.group(1).splitlines()) if r]
+        if not rows:
+            return ""
+        return "::: example Worked calculation\n" + "\n\n".join(rows) + "\n:::\n\n"
+    txt = _CODE_PAIR.sub(box, txt)
+    return _LONE_CODE.sub("", txt)
+
+
 # ---------------------------------------------------------------- discovery and staging
 def _units(d):
     return sorted(f for f in os.listdir(d) if re.fullmatch(r"unit-\d+\.md", f))
@@ -179,7 +222,8 @@ def stage(kind, slug, d):
     os.makedirs(cdir)
     os.makedirs(os.path.join(STAGE, "curriculum"), exist_ok=True)
     for f in _units(d):
-        shutil.copy(os.path.join(d, f), cdir)
+        t = open(os.path.join(d, f), encoding="utf-8").read()
+        open(os.path.join(cdir, f), "w", encoding="utf-8").write(hide_code(t))
     for extra in ("model-questions.md", "formula-sheet.md", "answer-key.md"):
         if os.path.exists(os.path.join(d, extra)):
             shutil.copy(os.path.join(d, extra), cdir)

@@ -13,7 +13,7 @@ Hormones are chemical messengers that run growth, metabolism, stress response, w
 - A feedback-loop diagram of the hypothalamus-pituitary-thyroid axis paired with a real thyroid micrograph.
 - A real pancreatic micrograph, an illustrated glucometer sequence and an insulin-glucagon schematic in one three-up strip.
 - The HPA stress axis as a flow diagram.
-- HbA1c to average glucose, insulin total daily dose, correction factor, anion gap and corrected sodium, all computed by script.
+- HbA1c to average glucose, insulin total daily dose, correction factor, anion gap and corrected sodium, all worked step by step.
 - Eight points of diabetes self-care education and model answers with a full care plan for diabetic ketoacidosis.
 :::
 

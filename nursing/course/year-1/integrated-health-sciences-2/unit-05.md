@@ -12,7 +12,7 @@ Bones, muscles and skin give shape, movement and the first barrier against infec
 ::: key What this unit gives you
 - A real bone micrograph, a real knee X-ray with a joint schematic, a real skin micrograph, a burn photograph and the rule-of-nines figure.
 - Bone remodelling and fracture healing, joint types, and the muscle contraction cycle.
-- Parkland burn fluid, rate per hour, drip rate, Curreri calories, T-score and crutch length, all computed and checked.
+- Parkland burn fluid, rate per hour, drip rate, Curreri calories, T-score and crutch length, all worked step by step.
 - Eight points on preventing osteoporosis and falls, and model answers with a full care plan for a patient with major burns.
 :::
 

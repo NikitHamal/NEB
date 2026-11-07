@@ -12,7 +12,7 @@ Kalpana Rai, 24, walks into a municipal health post in Ilam with a missed period
 ::: key What this unit gives you
 - Real images: a **urine hCG test** with two lines, a **linea nigra** on a pregnant abdomen, a **Doppler fetal heart detector**, a midwife using a **Pinard horn** and a bottle of **prenatal tablets**; plus SVG figures on the signs of pregnancy, fundal height by week and the hormone-to-system map of pregnancy.
 - **Eight points on pre-conception care** and **eight minor disorders** with remedies, each in 3-4 plain sentences.
-- Dating maths verified by Python: **Naegele's rule and EDD**, gestational age, **McDonald's rule**, GTPAL, blood-volume change, BMI and weight-gain target.
+- Dating maths worked step by step: **Naegele's rule and EDD**, gestational age, **McDonald's rule**, GTPAL, blood-volume change, BMI and weight-gain target.
 - MCQs, short, medium and long answers and a 5-column NANDA-I plan for Kalpana (nausea, heartburn, backache, anaemia).
 :::
 

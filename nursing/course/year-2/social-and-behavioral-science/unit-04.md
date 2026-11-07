@@ -12,7 +12,7 @@ A junior nurse sees a senior prepare a drug dose that looks ten times too large.
 ::: key What this unit gives you
 - Real images: **Albert Bandura**, the **Asch line cards** and the **original 1962 Milgram recruitment notice**; SVG figures on the ABC model and cognitive dissonance, a bar chart of the classic experiments, and the stages-of-change model.
 - **Social cognition**: schema, attribution, stereotype, prejudice, discrimination; self, identity and **gender**.
-- **Attitudes**: components, formation, change, Festinger's dissonance, **Likert scale scoring** and KAP categories computed in Python.
+- **Attitudes**: components, formation, change, Festinger's dissonance, **Likert scale scoring** and KAP categories worked out step by step.
 - **Social influence**: Asch, Sherif, Milgram, Zimbardo and what they teach about **speaking up** in a ward; **bystander effect**, **aggression** and groups.
 - **Health behaviour**: Health Belief Model, **Transtheoretical Model**, the 5 A's; eight nursing lessons; a long tobacco-cessation case with pack-year and cost maths.
 :::

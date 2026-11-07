@@ -11,7 +11,7 @@ The two kidneys filter about 180 litres of plasma a day and turn it into 1.5 lit
 
 ::: key What this unit gives you
 - A real kidney micrograph with a nephron schematic, and a three-up strip with the juxtaglomerular figure, a urine dipstick photograph and a fluid-compartment diagram.
-- GFR (Cockcroft-Gault), filtration and reabsorption, body water, maintenance fluid (4-2-1 rule) and urine output targets, computed and checked.
+- GFR (Cockcroft-Gault), filtration and reabsorption, body water, maintenance fluid (4-2-1 rule) and urine output targets, worked step by step.
 - ADH, aldosterone and the RAAS as a control diagram; an electrolyte and an acid-base table with Winter's formula.
 - Eight points on protecting the kidney, and model answers with a care plan for chronic kidney disease with hyperkalaemia.
 :::

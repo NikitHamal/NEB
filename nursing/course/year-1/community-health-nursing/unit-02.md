@@ -11,7 +11,7 @@ Epidemiology is the basic science of public health: the study of how disease is 
 
 ::: key What this unit gives you
 - A real copy of John Snow's cholera map with marked clusters, paired with the epidemiological triad.
-- Incidence, prevalence, IMR, NMR, MMR, relative risk, odds ratio, attributable risk, sensitivity, specificity, PPV and NPV, all computed in an executed block.
+- Incidence, prevalence, IMR, NMR, MMR, relative risk, odds ratio, attributable risk, sensitivity, specificity, PPV and NPV, all worked step by step.
 - Mean, SD, standard error, confidence interval, t-test, chi-square and sample size, with worked numbers.
 - Eight steps of an outbreak investigation and model answers, including a screening-camp case with a care plan.
 :::

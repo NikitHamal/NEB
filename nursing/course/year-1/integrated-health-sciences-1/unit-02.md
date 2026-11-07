@@ -12,7 +12,7 @@ Blood is the tissue a nurse handles most: it is drawn, tested, transfused and wa
 ::: key What this unit gives you
 - Composition and functions of blood, and haemopoiesis in a diagram.
 - Real stained blood smears: normal, iron-deficiency and sickle cell, labelled.
-- Red-cell indices (MCV, MCH, MCHC), corrected reticulocyte count, absolute neutrophil count and the Ganzoni iron deficit, all computed.
+- Red-cell indices (MCV, MCH, MCHC), corrected reticulocyte count, absolute neutrophil count and the Ganzoni iron deficit, all worked step by step.
 - The coagulation cascade, ABO and Rh groups, innate and adaptive immunity.
 - Eight points on nursing responsibilities in blood transfusion, and model answers with a full care plan for anaemia in pregnancy.
 :::

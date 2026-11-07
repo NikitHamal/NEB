@@ -12,7 +12,7 @@ Food becomes energy, growth and repair through digestion, absorption and metabol
 ::: key What this unit gives you
 - The wall of the gut, the stomach, the small-intestinal villus and the liver, shown in real micrographs.
 - A table of enzymes, sites and end products for carbohydrate, protein and fat.
-- BMR, total energy expenditure, the energy value of a Nepali meal and glucose unit conversions, all computed.
+- BMR, total energy expenditure, the energy value of a Nepali meal and glucose unit conversions, all worked step by step.
 - Why ORS works: sodium-glucose co-transport, the WHO osmolarity and the zinc course.
 - Eight points on nursing care of a patient with a nasogastric tube, and model answers with a full care plan for peptic ulcer disease.
 :::

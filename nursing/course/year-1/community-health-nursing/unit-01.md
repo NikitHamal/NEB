@@ -12,7 +12,7 @@ A community health nurse works where people live: in the home, the ward office, 
 ::: key What this unit gives you
 - Real photographs of a Nepal health post, a blood-pressure check and an FCHV group session, with labelled marks.
 - Community health, the levels of prevention, the Alma-Ata principles and the eight elements of Primary Health Care (PHC).
-- The Nepal health system pyramid, HMIS and DHIS2, and community diagnosis with population estimates, a 30-cluster sample and coverage gaps, all computed.
+- The Nepal health system pyramid, HMIS and DHIS2, and community diagnosis with population estimates, a 30-cluster sample and coverage gaps, all worked step by step.
 - Eight points on the elements of PHC as the nurse delivers them, and model answers with a full community care plan.
 :::
 

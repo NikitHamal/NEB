@@ -12,7 +12,7 @@ Sunita, 19, is a first-time mother from a hill village in Dolakha. She is 143 cm
 ::: key What this unit gives you
 - Real images: a **hysterosalpingogram** of the uterus and tubes, an engraving of the **female pelvis**, human **sperm** under the microscope, a delivered **placenta with cord**, and **ultrasound scans** at the embryo and 20-week stages; each with numbered marks.
 - SVG figures: the **pelvic inlet and its diameters**, the **fetal skull** with sutures, fontanelles and diameters, and the **fetal circulation** with the three shunts.
-- Pelvic types (Caldwell-Moloy), obstetric conjugate maths, ovulation and implantation dates, amniotic fluid index and placental ratio, all verified by Python.
+- Pelvic types (Caldwell-Moloy), obstetric conjugate maths, ovulation and implantation dates, amniotic fluid index and placental ratio, all worked step by step.
 - **Eight functions of the placenta** and **eight effects of the pelvis and pelvic floor on labour**, each in 3-4 plain sentences; MCQs, short, medium and long answers, and a 5-column NANDA-I care plan for a short-statured primigravida.
 :::
 

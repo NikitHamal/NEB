@@ -12,7 +12,7 @@ A five-year-old in Dang cries the moment she sees the white coat at the immunisa
 ::: key What this unit gives you
 - Real images: **portraits of Wundt, Pavlov, Freud and Maslow**; a **preserved Pavlov dog**, a **Skinner-type operant chamber** and **Kohs blocks** used in Wechsler tests; SVG figures on conditioning, Maslow's pyramid and the forgetting and IQ curves.
 - Definition, goals, **schools of psychology** and methods; relevance to nursing.
-- **Learning**: classical and operant conditioning, reinforcement schedules, social learning; **memory** stages and the Ebbinghaus forgetting curve (computed).
+- **Learning**: classical and operant conditioning, reinforcement schedules, social learning; **memory** stages and the Ebbinghaus forgetting curve (worked out).
 - **Motivation and emotion** (Maslow, drive, James-Lange and Cannon-Bard); **intelligence** (ratio and deviation IQ, normal curve, intellectual disability); **personality** (Freud, Erikson, Big Five).
 - Eight applications of learning in nursing, eight ways to make teaching stick, model answers and a 5-column NANDA-I plan for a child with mild intellectual disability.
 :::

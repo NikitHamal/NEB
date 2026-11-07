@@ -12,7 +12,7 @@ Infectious disease is still the daily work of a Nepali health post: diarrhoea, p
 ::: key What this unit gives you
 - Real photographs of a vaccine carrier with temperature loggers, a Nepal immunisation clinic, an AFB-stained sputum smear and the mosquito vectors of malaria and dengue.
 - The chain of infection, the current NIP schedule, the cold chain and the shake test.
-- Vaccine efficacy, herd immunity threshold, vaccine need with wastage, coverage and dropout, DOTS tablet counts, and vector indices, all computed.
+- Vaccine efficacy, herd immunity threshold, vaccine need with wastage, coverage and dropout, DOTS tablet counts, and vector indices, all worked step by step.
 - Eight points on the nurse's responsibilities in an immunisation session, and model answers with a measles outbreak case and care plan.
 :::
 

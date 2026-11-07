@@ -12,6 +12,8 @@ $PY nursing/tools/nebpdf.py $rel 2>&1 | tail -6
 pdf=$(ls -t nursing/pdfs/*.pdf 2>/dev/null | head -1); echo "PDF: $pdf"
 [ -n "$pdf" ] && [ "$(stat -c %Y "$pdf")" -ge "$t0" ] || { echo "NO FRESH PDF BUILT"; exit 5; }
 qa=$($PY nursing/tools/qa_pdf.py $pdf 2>&1); echo "$qa" | tail -8
+# guard: a student PDF must never show code (python fences are hidden by nebpdf.hide_code)
+if pdftotext "$pdf" - | grep -qE "^(import [a-z]+|print\(|def [a-z_]+\()|\{\{[a-z0-9_]+\}\}"; then echo "CODE OR TOKEN LEAK IN PDF"; exit 6; fi
 echo "$qa" | grep -E "^\[" | grep -q "fails=0" && ! echo "$qa" | grep -E "^\[" | grep -q "fails=[1-9]" || { echo "QA NOT CLEAN"; exit 3; }
 cat $d/unit-*.md | wc -w
 git add -A nursing AGENTS.md notes/assets

@@ -12,7 +12,7 @@ The heart pumps about 7,000 litres of blood a day through two circuits. Nurses c
 ::: key What this unit gives you
 - Heart chambers, valves and the two circulations in a flow diagram, with the conduction system.
 - A real 12-lead ECG paired with a labelled waveform schematic, and a stethoscope photograph with auscultation areas.
-- Cardiac output, stroke volume, ejection fraction, cardiac index, SVR, MAP and QTc computed and checked.
+- Cardiac output, stroke volume, ejection fraction, cardiac index, SVR, MAP and QTc worked step by step.
 - Heart rate from an ECG strip by three methods.
 - Eight points of health education against hypertension and heart disease, and model answers with a full care plan for heart failure.
 :::

@@ -12,7 +12,7 @@ A nurse in a district hospital meets, in one week, a boy of 12 with a burned han
 ::: key What this unit gives you
 - Real images: **Robert K. Merton** and **Howard S. Becker**, a **Kathmandu riverbank settlement**, women carrying bricks, **children in a brick kiln**, a **foreign-employment agency**, **raksi** brewing and a village meeting; SVG figures on Merton's strain typology, poverty by province, STEPS 2019 bars, the trafficking response pathway, social control and the project cycle.
 - **Social problems and deviance**: functionalist, conflict and interactionist views; Merton's five adaptations, labelling, differential association.
-- **Poverty and unemployment** with **NLSS-IV 2022/23** figures; headcount, **poverty gap** and unemployment rate computed in Python.
+- **Poverty and unemployment** with **NLSS-IV 2022/23** figures; headcount, **poverty gap** and unemployment rate worked out step by step.
 - **Migration, substance use, trafficking, child labour and delinquency** with Nepal's laws (Foreign Employment Act, Human Trafficking and Transportation (Control) Act 2064, Children's Act 2075).
 - **Social control, social work and community assessment**; eight nursing responses to each major problem; a long case on a returned migrant with alcohol use.
 :::

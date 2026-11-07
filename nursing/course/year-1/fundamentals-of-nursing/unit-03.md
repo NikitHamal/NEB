@@ -12,7 +12,7 @@ Vital signs are the first numbers a nurse collects and the first warning of a pa
 ::: key What this unit gives you
 - Normal adult ranges and the equipment, with real photographs of a sphygmomanometer, pulse oximeter and two thermometers.
 - Correct technique and common errors for each vital sign.
-- MAP, pulse pressure, shock index, BMI, GCS, temperature conversion and intake-output balance, every one computed and checked.
+- MAP, pulse pressure, shock index, BMI, GCS, temperature conversion and intake-output balance, every one worked step by step.
 - Eight points on nursing care of a patient with fever.
 - Model answers, including a full care plan for hyperthermia.
 :::

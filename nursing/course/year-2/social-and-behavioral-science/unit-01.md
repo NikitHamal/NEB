@@ -14,7 +14,7 @@ A nurse in Banke asks a young mother to start breastfeeding within one hour of b
 - Definition, nature and **scope of sociology**, its link with anthropology and social work, and **eight reasons it matters in nursing**.
 - **Functionalism, conflict theory and symbolic interactionism** applied to a hospital, with a one-page comparison table.
 - **Culture, subculture, norms (folkways, mores, laws), values, status and role**, role strain and role conflict, with Nepali examples.
-- **Census 2021 maths:** religious shares and a diversity index, both computed in Python and checked.
+- **Census 2021 maths:** religious shares and a diversity index, both worked out and checked.
 - Eight points on culture and health in Nepal, model answers and a 5-column NANDA-I plan for a culturally sensitive postnatal case.
 :::
 

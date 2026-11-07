@@ -11,7 +11,7 @@ It is the fourth night duty in a row. A staff nurse in a busy Kathmandu ward has
 
 ::: key What this unit gives you
 - Real images: **Hans Selye**, **Clifford Beers**, a bronze relief of **Kurt Lewin**, the **Hawthorne Works** plant, a **historical portrait of a Nepali nurse** and a group gathering in Nepal; SVG figures on the General Adaptation Syndrome, Nepali nurse burnout data, the Johari window and the Blake-Mouton leadership grid.
-- **Stress**: Selye's alarm-resistance-exhaustion, Lazarus's appraisal and coping, the **PSS-10** scored in Python.
+- **Stress**: Selye's alarm-resistance-exhaustion, Lazarus's appraisal and coping, the **PSS-10** scored step by step.
 - **Burnout** (Maslach) with **Nepali studies** (TUTH, Birtamode), a confidence interval and eight stress-management actions.
 - **Mental hygiene**, mental health in Nepal, Jahoda's criteria; **human relations**, Hawthorne, Berne, assertiveness, Johari, conflict modes.
 - **Leadership**: Lewin's styles, Blake-Mouton, Hersey-Blanchard, delegation and a **ward staffing calculation**; a long burnout case with a NANDA-I plan.

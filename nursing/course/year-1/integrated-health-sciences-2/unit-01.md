@@ -12,7 +12,7 @@ Every nursing assessment begins with the nervous system: Is the patient awake, d
 ::: key What this unit gives you
 - A real MRI of the brain, labelled, paired with a lobe-function schematic.
 - The neuron, action potential and reflex arc as clean diagrams, with the Nernst potassium potential computed.
-- Intracranial pressure, MAP, cerebral perfusion pressure, GCS scoring and mannitol dose, all checked by script.
+- Intracranial pressure, MAP, cerebral perfusion pressure, GCS scoring and mannitol dose, all worked step by step.
 - The eye: a labelled photograph, a Snellen chart and a refraction diagram with dioptre arithmetic; the ear and balance.
 - Eight points of stroke prevention and first aid, and model answers with a full care plan for raised ICP after head injury.
 :::

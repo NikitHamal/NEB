@@ -12,7 +12,7 @@ Every Nepali nurse counsels on menstruation, family planning and pregnancy, and 
 ::: key What this unit gives you
 - A real ovary micrograph with a hormone-curve schematic, and a real testis micrograph with a sperm pathway diagram.
 - The menstrual cycle in days, the ovulation date for 28- and 32-day cycles and the fertile window.
-- Naegele's rule, the 280-day count, gestational age and fundal height, Ganzoni iron deficit and the Pearl Index, all computed.
+- Naegele's rule, the 280-day count, gestational age and fundal height, Ganzoni iron deficit and the Pearl Index, all worked step by step.
 - The path from fertilisation to implantation as a timeline.
 - Eight points of family planning counselling and model answers with a care plan for anaemia in pregnancy.
 :::
