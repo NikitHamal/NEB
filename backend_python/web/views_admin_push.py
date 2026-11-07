@@ -234,6 +234,11 @@ def admin_push_autopilot(request):
             ResourceAlert.objects.filter(pk=request.POST.get('alert_id') or 0, state='pending').update(
                 state='skipped', reason='skipped_by_staff', processed_at=push_engine.now_ms())
             flash = 'Removed from the queue.'
+        elif action == 'announce_unnotified':
+            camp = resource_alerts.announce_unnotified(created_by=_current_admin(request))
+            if camp:
+                return redirect('web:admin_push_detail', campaign_id=camp.id)
+            flash = 'Every live resource has already been announced.'
         elif action == 'announce':
             ids = [i for i in request.POST.getlist('resource_ids') if i][:400]
             camp = resource_alerts.announce(ids, created_by=_current_admin(request)) if ids else None

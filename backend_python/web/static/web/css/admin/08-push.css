@@ -138,5 +138,8 @@
 @media (hover: hover) { .pn-pick label:hover { background: var(--md-surface-container); } }
 .pn-pick input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--md-primary); }
 .pn-pick .sub { display: block; font-size: 0.75rem; color: var(--md-on-surface-variant); }
+.pn-batch { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.pn-batch h2 { margin: 0 0 4px; color: inherit; }
+.pn-batch p { margin: 0; font-size: 0.875rem; }
 .pn-sum { margin-top: 14px; }
 .pn-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
