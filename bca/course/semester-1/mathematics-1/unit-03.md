@@ -141,7 +141,7 @@ For products and quotients with many factors, or for variable exponents $f (x)^{
 
 ## 3.5 Parametric differentiation
 
-If $x = x (t) ,\  y = y (t)$, then **$\frac{d y}{d x}$ = (dy/dt)/(dx/dt)** and **$\frac{d^{2} y}{d x^{2}} = \frac{\frac{d}{d t} \left( \frac{d y}{d x} \right)}{\frac{d x}{d t}}$**.
+If $x = x (t) ,\  y = y (t)$, then **$\dfrac{dy}{dx} = \dfrac{dy/dt}{dx/dt}$** and **$\frac{d^{2} y}{d x^{2}} = \frac{\frac{d}{d t} \left( \frac{d y}{d x} \right)}{\frac{d x}{d t}}$**.
 
 ::: example Worked example
 $x = t^{2} ,\  y = t^{3}$. $\frac{d x}{d t} = 2 t ,\  \frac{d y}{d t} = 3 t^{2}$, so $\frac{d y}{d x} = \frac{3 t}{2}$. Then $\frac{d^{2} y}{d x^{2}} = \frac{\frac{3}{2}}{2 t}$ = **$\frac{3}{4 t}$**.
@@ -178,7 +178,7 @@ $$(uv)^{(n)} = \sum_{k=0}^{n} \binom{n}{k}\, u^{(n-k)}\, v^{(k)}$$
 
 For $(x^2 e^x)''$: take $u = x^2$ and $v = e^x$. Then $(x^2 e^x)'' = x^2 e^x + 2(2x)\,e^x + 2\,e^x = (x^2 + 4x + 2)\,e^x$.
 
-```svgfig label="3.3" caption="Implicit differentiation on the circle $x^{2} + y^{2} = 25$. Differentiating both sides gives $2 x$ + 2y·dy/dx = 0, so $\frac{d y}{d x} = - \frac{x}{y}$. At $P ( 3$, 4) the slope is $- \frac{3}{4}$, and the tangent is perpendicular to the radius OP (whose slope is $\frac{4}{3}$)."
+```svgfig label="3.3" caption="Implicit differentiation on the circle $x^{2} + y^{2} = 25$. Differentiating both sides gives $2x + 2y\,\dfrac{dy}{dx} = 0$, so $\frac{d y}{d x} = - \frac{x}{y}$. At $P(3, 4)$ the slope is $- \frac{3}{4}$, and the tangent is perpendicular to the radius OP (whose slope is $\frac{4}{3}$)."
 f = Fig(740, 300)
 a = Axes(f, 20, 10, 280, 280, (-7, 7), (-7, 7)); a.grid(1, 1, labels=False).axes()
 a.curve(lambda x: math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300); a.curve(lambda x: -math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300)
@@ -296,11 +296,11 @@ The point (3, 3) lies on the curve $(27 + 27 = 54 = 6 \times 9)$, so the questio
 
 **Standard derivatives.** $(\sin x)' = \cos x ,\  (\cos x)' = - \sin x ,\  (e^{x})' = e^{x} ,\  (\ln x)' = \frac{1}{x} ,\  (\tan x)' = \sec^{2} x$.
 
-**Implicit differentiation.** For $x^{2} + y^{2} = 25$ differentiate both sides: $2 x$ + 2y·dy/dx = 0, so $\frac{d y}{d x} = - \frac{x}{y}$; at (3, 4) the slope is $- \frac{3}{4}$ (Figure 3.3).
+**Implicit differentiation.** For $x^{2} + y^{2} = 25$ differentiate both sides: $2x + 2y\,\dfrac{dy}{dx} = 0$, so $\frac{d y}{d x} = - \frac{x}{y}$; at (3, 4) the slope is $- \frac{3}{4}$ (Figure 3.3).
 
 **Logarithmic differentiation.** For $y = x^{x}$ take logarithms: $\ln y = x \ln x$. Differentiate: $\frac{y'}{y} = \ln x + 1$, so **$y' = x^{x} (\ln x + 1)$**. It is the method for variable exponents and long products.
 
-**Parametric differentiation.** If $x = a \cos t ,\  y = a \sin t$, then $\frac{d y}{d x}$ = (dy/dt)/(dx/dt) = $\frac{a \cos t}{- a \sin t}$ = **$- \cot t$**, and the second derivative is $\frac{d^{2} y}{d x^{2}} = ( \frac{d}{d t}$ of dy/dx)/(dx/dt) = $\frac{\csc^{2} t}{- a \sin t}$ = **$- \frac{1}{a \sin^{3} t}$**.
+**Parametric differentiation.** If $x = a \cos t ,\  y = a \sin t$, then $\dfrac{dy}{dx} = \dfrac{dy/dt}{dx/dt} = \dfrac{a \cos t}{- a \sin t}$ = **$- \cot t$**, and the second derivative is $\frac{d^{2} y}{d x^{2}} = ( \frac{d}{d t}$ of dy/dx)/(dx/dt) = $\frac{\csc^{2} t}{- a \sin t}$ = **$- \frac{1}{a \sin^{3} t}$**.
 
 **Higher derivatives.** Differentiating again gives $f''$, which measures curvature: $f'' > 0$ means the graph bends upward, $f'' < 0$ downward. If *s* is position, then $s''$ is acceleration.
 

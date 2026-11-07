@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n, svgkit, readflow
+import devaeqn, figrun, photo, assets, i18n, svgkit, readflow, plainlift
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -573,6 +573,7 @@ def _layout_fixes(htm):
 
 def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
+    body = plainlift.lift(body)
     store = []
     body = _extract_figures(body, store, chapter_id)
     body = _extract_svgfigs(body, store, chapter_id)
