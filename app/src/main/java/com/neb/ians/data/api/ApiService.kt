@@ -1415,8 +1415,26 @@ interface ApiService {
         @Part paymentProof: okhttp3.MultipartBody.Part?
     ): ApiPurchaseResponse
 
+    /** One view per person per day. `surface` is where they came from (library, search, notification...),
+     *  `dwellMs` how long the page stayed open. Signed-in so the uploader's class breakdown is right. */
+    @FormUrlEncoded
     @POST("api/resources/{resourceId}/view/")
-    suspend fun viewResource(@Path("resourceId") resourceId: String)
+    suspend fun viewResource(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String,
+        @Field("surface") surface: String = "",
+        @Field("src") src: String = "",
+        @Field("dwell_ms") dwellMs: Long = 0L
+    )
+
+    /** `action` is read, download or share. Feeds the uploader's insights and the download count. */
+    @FormUrlEncoded
+    @POST("api/resources/{resourceId}/action/")
+    suspend fun resourceAction(
+        @Header("Authorization") bearerToken: String?,
+        @Path("resourceId") resourceId: String,
+        @Field("action") action: String
+    )
 
     @POST("api/resources/{resourceId}/like/")
     suspend fun toggleLikeResource(
