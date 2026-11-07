@@ -154,6 +154,7 @@ class ResourceDetailViewModel @Inject constructor(
             return
         }
         downloadManager.downloadResourceFromApi(resource)
+        viewModelScope.launch { resourceRepository.resourceAction(resourceId, "download") }
         _uiState.update { it.copy(snackbarMessage = "Downloading inside NEBians") }
     }
 
