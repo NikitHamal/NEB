@@ -12,6 +12,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
+from django.db import IntegrityError, transaction
 from django.db.models import F
 
 from . import signals
@@ -46,6 +47,15 @@ def _channel(request, info) -> str:
         return 'referral'
 
 
+def _get_or_create_row(post, viewer, day, defaults):
+    """get_or_create that survives two requests racing on the unique (post, viewer, day)."""
+    try:
+        with transaction.atomic():
+            return PostReach.objects.get_or_create(post=post, viewer=viewer, day=day, defaults=defaults)
+    except IntegrityError:
+        return PostReach.objects.get(post=post, viewer=viewer, day=day), False
+
+
 def record_view(request, post: Post, user=None, *, surface: str = '', dwell_ms: int = 0) -> dict:
     """Count a view. Returns {'counted': bool, 'view_count': int}."""
     info = signals.describe(request)
@@ -59,9 +69,9 @@ def record_view(request, post: Post, user=None, *, surface: str = '', dwell_ms: 
     surface = surface if surface in SURFACES else ('direct' if not request.META.get('HTTP_REFERER') else 'share')
     dwell_ms = max(0, min(int(dwell_ms or 0), MAX_DWELL_MS))
 
-    row, created = PostReach.objects.get_or_create(
-        post=post, viewer=viewer, day=day,
-        defaults=dict(
+    row, created = _get_or_create_row(
+        post, viewer, day,
+        dict(
             first_at=now, last_at=now, hits=1, dwell_ms=dwell_ms, surface=surface,
             source=info['source'], device_class=info['device_class'], os_family=info['os_family'],
             country=info['country'], channel=_channel(request, info), is_member=bool(uid),
