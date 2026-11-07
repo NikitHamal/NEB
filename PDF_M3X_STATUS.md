@@ -39,7 +39,7 @@ See the table at the bottom (updated as batches are pushed).
 
 | batch | books | state |
 | --- | --- | --- |
-| claim | all 96 books (51 in `notes/pdf`, BCA entrance + course, IOE copies) | a second session is rebuilding every book with this theme in 3-wide batches and pushing each batch; do not start a parallel full rebuild, check `git log` for `pdf rebuild batch` first |
+| done | all 96 books | rebuilt with the MathJax session below; run at most 2 builds in parallel (3 get OOM-killed on 4 GB) |
 
 ## Session: typeset maths, figure fonts, contents rows (read this before touching BCA maths sources)
 - **Maths was plain text in four BCA course books** (Mathematics I and II, Discrete Structure, Probability and Statistics, Numerical Methods): `lim (x→a)`, `x²`, `d/dx`, `e^{2x}` and `Σ C(n, k)` printed as typed. The school, CEE and IOE books already used `$...$`.
@@ -54,3 +54,31 @@ See the table at the bottom (updated as batches are pushed).
 - Math images are now rendered in an exact box (`mathsvg.render` pad 1.2 px) so `md2html` and `Fig.math` can lower them by depth + pad; the old tight bbox left formulas without descenders floating above the text line.
 - Rebuilt in this session: all 41 BCA course books, the 4 BCA entrance books, Python Programming (needs `pandas` in the venv). Not rebuilt: Grade 8-12, CEE and IOE books in `notes/pdf` (they pick up Poppins figures and the exact math boxes on their next rebuild; run a sweep with `build_pdf.py <slug>`).
 
+
+## Session: MathJax typesetter and readable solutions (read this before touching maths in the pipeline)
+Mathtext (matplotlib) is gone. `notes/pipeline/mathsvg.py` now talks to one Node process (`mathjax/mj_server.cjs`, MathJax 3 SVG,
+Computer Modern outlines, no font dependency in the PDF). One-time setup: `cd notes/pipeline/mathjax && npm ci` (node_modules is ignored).
+Cache key is versioned (`VERSION = "mj3"` in `mathsvg.py`); bump it when you change sizes or macros. Real TeX now works: `aligned`, `cases`,
+`array`, matrices, `\text`, `\ce{}` (mhchem), `\cancel`, `\boxed`, `\begin{vmatrix}`. API unchanged: `render()` returns `(path, height_px, depth_px)`,
+`render_info()` also returns the width, `width_mm()`, `derive()`, `split_sheet()`, `chain_links()` are the layout helpers.
+
+What `md2html.py` does with maths now (every book, no source change needed):
+- **Fact sheets.** Authors and the maths migration chained a whole sheet into one `$a=b ;\ c=d ;\ ...$`. A formula with 3 or more top-level `;`
+  parts (or 3 `$..$` in a row) becomes `.fxs`: one tonal cell per formula on an equal 3, 2 or 1 column grid chosen from the widest cell
+  (`_sheet`). The sentence mark after a sheet is swallowed. Never write a sheet as one long inline formula.
+- **Derivations.** `a = b = c = d` (2 or more links, 26+ characters) and implication chains (`\Rightarrow`, `\iff`) are set as an aligned block (`.dv`)
+  on their own lines; an inline formula wider than 150 mm is broken at its `=`. Display `$$..$$` chains are aligned the same way. The
+  conclusion that follows (`, so x < 2.`) goes on its own line under the working (`.dvt`). A stray `.` after a block is dropped.
+- **Answer keys** (`_answer_parts`): `1. (a) .. (b) .. (c) ..` becomes one line per part with the number in the margin (`.ansline.np`); an
+  answer with several statements gets one line per statement (`.stp`).
+- **Ragged maths paragraphs.** Any `<p>` or `<li>` holding a formula is `.hm` (left aligned, manual hyphens). Justified text stretched
+  words around an unbreakable formula and cut the line.
+- **Options** (`.opt`) are `inline-flex` with the badge and the formula centred on one line; column count comes from the real formula
+  width (`data-w` on each image, `_mm_len`) with 4, 3, 2 or 1 columns.
+- Sizes: inline 10.7 pt, display 13.6 pt, derivations 12 pt, sheet cells 11.2 pt, table cells 9.3 pt, `SCALE = 1.06` for Computer Modern beside Source Serif.
+- Source fixes done: `\pi r a d` spacing, `(det | a&b ; c&d |)` in the IOE books became `vmatrix`, Mathematics I figure 4.3 labels moved off the lines.
+- Scan of every `$..$` in every book (`125,801` formulas): no MathJax failures besides code snippets that merely contain `$`.
+
+Rebuild state: Mathematics I plus every BCA, Grade 8-12, CEE and IOE book was rebuilt with this (see the pushed `pdf rebuild` commits).
+Known leftovers: figure labels still use matplotlib text (a few Greek or arrow glyphs in figures warn `Font 'default' does not have a glyph`);
+authored prose with `plain text` maths inside captions (`S(r) = 2 pi r^2` in photo captions) needs rewriting at the source.
