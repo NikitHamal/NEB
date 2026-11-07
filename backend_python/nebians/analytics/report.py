@@ -25,7 +25,7 @@ from django.core.cache import cache
 from django.db.models import BigIntegerField, Count, ExpressionWrapper, F, Max, Min, Q
 from django.db.models.functions import Mod
 
-from . import report_devices, rules
+from . import report_devices, report_library, rules
 from .rules import MS_DAY, MS_HOUR
 
 PRESETS = {'today': 1, '7d': 7, '30d': 30, '90d': 90}
@@ -574,7 +574,7 @@ def _donut(rows: list[dict]) -> str:
 # --------------------------------------------------------------------------
 
 def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> dict:
-    ck = f'an:report:v3:{rng["start"]}:{rng["end"]}:{source}'
+    ck = f'an:report:v4:{rng["start"]}:{rng["end"]}:{source}'
     if use_cache:
         hit = cache.get(ck)
         if hit is not None:
@@ -647,6 +647,7 @@ def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> d
         'retention': retention,
         'content': _content(qs),
         'devices': report_devices.build(rng, source),
+        'library': report_library.build(rng, source),
         'generated_at': int(time.time() * 1000),
     }
     report['chart_json'] = {

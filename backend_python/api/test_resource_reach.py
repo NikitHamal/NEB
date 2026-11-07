@@ -143,3 +143,17 @@ class InsightsTests(TestCase):
     def test_detail_page_shows_insights_button_only_to_uploader(self):
         self.assertContains(_login(self.up).get('/app/reader/r1/'), 'open-resource-insights')
         self.assertNotContains(_login(self.other).get('/app/reader/r1/'), 'open-resource-insights')
+
+
+class AdminLibraryReportTests(TestCase):
+    def test_analytics_page_has_a_library_section(self):
+        cache.clear()
+        adm = _user('adm', is_admin=True)
+        up = _user('up')
+        Resource.objects.create(id='r1', title='Notes', subject='Science', grade_level='Class 10 / SEE', added_at=NOW,
+                                uploaded_by=up, source_type='user')
+        _login(_user('s1', class_level='Class 10 / SEE')).post('/api/resources/r1/view/', content_type='application/json')
+        r = _login(adm).get('/admin/analytics/?range=7d&refresh=1')
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'id="an-library"')
+        self.assertContains(r, 'Most opened resources')
