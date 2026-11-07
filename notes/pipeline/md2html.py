@@ -192,22 +192,10 @@ def _inline_math_html(text: str) -> str:
             out.append(devaeqn.html(m.group(1)))
             pos = m.end()
             continue
-        path, h, d = mathsvg.render(m.group(1), 10.7)
-        out.append(f'<img class="im" src="{_svg_data_uri(path)}" '
-                   f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">'
-                   if path else "<code>" + _html.escape(m.group(1)) + "</code>")
+        out.append(_inline_one(m.group(1)))
         pos = m.end()
     out.append(_html.escape(text[pos:]))
     return "".join(out)
-
-def _unused_inline_math_html(text: str) -> str:
-    def rep(m):
-        path, h, d = mathsvg.render(m.group(1), 10.7)
-        if not path:
-            return "<code>" + _html.escape(m.group(1)) + "</code>"
-        return (f'<img class="im" src="{_svg_data_uri(path)}" '
-                f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
-    return _IMATH.sub(rep, text)
 
 # Regions where $...$ must NOT be treated as math: fenced code blocks and
 # inline code spans (PHP, shell and JS all use $ as ordinary syntax).
@@ -221,6 +209,47 @@ def _outside_code(body, fn):
         parts[i] = fn(parts[i])
     return "".join(parts)
 
+def _math_img(tex, size, display=False, cls="im", derive_min=None):
+    """One formula as an inline SVG <img>, or None when MathJax rejects it.
+    `derive_min`: break `a = b = c` into aligned lines when it chains at least this many signs."""
+    src = mathsvg.derive(tex, derive_min) if derive_min else tex
+    path, h, d, w = mathsvg.render_info(src, size, display)
+    if not path:
+        return None
+    ca = f' class="{cls}"' if cls else ""
+    return (f'<img{ca} data-w="{w / 100.0 * 25.4:.1f}" src="{_svg_data_uri(path)}" '
+            f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
+
+
+# A formula that is long enough to need several lines is a derivation, not a clause.
+_DERIVE_CHARS = 26
+_WRAP_MM = 150.0     # an inline formula wider than this would run off the line
+
+
+def _inline_one(tex):
+    """HTML for one $...$ span. Short formulas stay in the sentence; chains of `=` and long
+    formulas become an aligned block so a step reads as working, not as one long line."""
+    if devaeqn.DEVA.search(tex):
+        return devaeqn.html(tex)
+    parts = mathsvg.split_sheet(tex)
+    if parts:
+        html = _sheet(parts)
+        if html:
+            return html
+    links = mathsvg.chain_links(tex)
+    plain = re.sub(r"\\[a-zA-Z]+|[{}\s]", "", tex)
+    if links >= 2 and len(plain) >= _DERIVE_CHARS:
+        img = _math_img(tex, 11.4, display=True, cls="dvi", derive_min=2)
+        if img:
+            return f'<span class="dv">{img}</span>'
+    elif links >= 1 and mathsvg.width_mm(tex, 10.7) > _WRAP_MM:
+        img = _math_img(tex, 11.4, display=True, cls="dvi", derive_min=1)
+        if img:
+            return f'<span class="dv">{img}</span>'
+    img = _math_img(tex, 10.7)
+    return img or f'<code>{_html.escape(tex)}</code>'
+
+
 def _extract_display_math(body, store):
     def rep(m):
         tex = m.group(1)
@@ -230,32 +259,63 @@ def _extract_display_math(body, store):
             # typeset it in the book's Devanagari font (see devaeqn.py).
             store.append('<div class="dm">%s</div>' % devaeqn.html(tex, True))
             return "\n\n" + _PLACE.format(i) + "\n\n"
-        path, h, d = mathsvg.render(tex, 15.4, display=True)
-        if not path:
+        wide = mathsvg.width_mm(tex, 15.4, display=True) > mathsvg.COLUMN_MM * 0.92
+        img = _math_img(tex, 15.4, display=True, cls="", derive_min=1 if wide else 2)
+        if not img:
             store.append(f'<div class="dm"><code>{_html.escape(tex.strip())}</code></div>')
         else:
-            store.append(f'<div class="dm"><img src="{_svg_data_uri(path)}" '
-                         f'alt="equation"></div>')
+            store.append(f'<div class="dm">{img}</div>')
         return "\n\n" + _PLACE.format(i) + "\n\n"
     return _outside_code(body, lambda t: re.sub(r"\$\$(.+?)\$\$", rep, t, flags=re.S))
 
+
+def _sheet(parts):
+    """A fact sheet: every formula in its own cell, on a grid of equal columns."""
+    cells, widest = [], 0.0
+    for t in parts:
+        if devaeqn.DEVA.search(t):
+            return None
+        img = _math_img(t, 11.2, display=True, cls="fxm", derive_min=2)
+        if not img:
+            return None
+        widest = max(widest, mathsvg.width_mm(mathsvg.derive(t, 2), 11.2, display=True))
+        cells.append(f"<span>{img}</span>")
+    cols = "c3" if widest <= 50 else ("c2" if widest <= 80 else "c1")
+    return f'<span class="fxs {cols}">' + "".join(cells) + "</span>"
+
+
+# Three or more formulas in a row, separated only by spaces ("$a^m a^n=a^{m+n}$ $(a^m)^n=a^{mn}$ ..."),
+# are a formula sheet as well.
+_FRUN = re.compile(r"(?<![\w$])((?:(?<!\$)\$(?!\$)[^$\n]+?(?<!\$)\$(?!\$)[ \t]+){2,}(?<!\$)\$(?!\$)[^$\n]+?(?<!\$)\$(?!\$))(?![\w$])")
+_FONE = re.compile(r"(?<!\$)\$(?!\$)([^$\n]+?)(?<!\$)\$(?!\$)")
+SHEETS = set()
+
+
+def _extract_formula_runs(body, store):
+    def rep(m):
+        html = _sheet(_FONE.findall(m.group(1)))
+        if not html:
+            return m.group(0)
+        i = len(store)
+        store.append(html); SHEETS.add(i)
+        return _PLACE.format(i)
+    def line(t):
+        return "\n".join(ln if ln.lstrip().startswith("|") else _FRUN.sub(rep, ln) for ln in t.split("\n"))
+    return _outside_code(body, line)
+
+
 def _extract_inline_math(body, store):
     def rep(m):
-        tex = m.group(1)
         i = len(store)
-        if devaeqn.DEVA.search(tex):
-            store.append(devaeqn.html(tex))
-            return _PLACE.format(i)
-        path, h, d = mathsvg.render(tex, 10.7)
-        if not path:
-            store.append(f'<code>{_html.escape(tex)}</code>')
-        else:
-            store.append(f'<img class="im" src="{_svg_data_uri(path)}" '
-                         f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
+        store.append(_inline_one(m.group(1)))
         return _PLACE.format(i)
-    return _outside_code(
-        body,
-        lambda t: _IMATH.sub(rep, t))
+    body = _extract_formula_runs(body, store)
+    body = _outside_code(body, lambda t: _IMATH.sub(rep, t))
+    # the sentence-ending mark after a sheet would hang alone on the next line
+    for i, frag in enumerate(store):
+        if frag.startswith('<span class="fxs'):
+            body = re.sub(re.escape(_PLACE.format(i)) + r"[ \t]*[.,;:](?=\s|$)", _PLACE.format(i), body)
+    return body
 
 LEAKS = []   # unpaired `$` left in the body: raw LaTeX would reach the PDF
 
@@ -310,6 +370,12 @@ _LABEL = re.compile(r"\(([a-e])\)")
 _TAGS = re.compile(r"<[^>]+>")
 
 
+def _mm_len(frag):
+    """Printed width of an option in mm: 1.8 mm a character plus the real width of each formula."""
+    w = sum(float(x) for x in re.findall(r'data-w="([0-9.]+)"', frag))
+    return w + 1.8 * len(_TAGS.sub("", re.sub(r"<img[^>]*>", "", frag)).strip()) + 7
+
+
 def _plain_len(frag):
     """Visible length, counting each math image as the glyphs it stands for."""
     return len(_TAGS.sub("\u00b7\u00b7\u00b7", frag).strip())
@@ -344,8 +410,9 @@ def _split_question(inner):
         parts = "".join(f'<span class="part"><i>({l})</i> {o}</span>'
                         for l, o in zip(labels, opts))
         return f'{stem}<span class="parts">{parts}</span>'
-    cols = "c4" if longest <= 15 else ("c2" if longest <= 38 else "c1")
-    cells = "".join(f'<span class="opt"><i>{l}</i>{o}</span>'
+    mm = max(_mm_len(o) for o in opts)
+    cols = "c4" if mm <= 36 else ("c3" if mm <= 50 and len(run) % 3 == 0 else ("c2" if mm <= 80 else "c1"))
+    cells = "".join(f'<span class="opt"><i>{l}</i><span class="ob">{o}</span></span>'
                     for l, o in zip(labels, opts))
     return f'{stem}<span class="opts {cols}">{cells}</span>'
 
@@ -392,6 +459,78 @@ def _frame_summary(htm):
     return re.sub(
         r'(<h2[^>]*>\s*(?:' + i18n.CUR["summary_re"] + r')\s*</h2>)'
         r'(.*?)(?=<h2|<section|\Z)', rep, htm, flags=re.S | re.I)
+
+
+# ---------- solutions: parts, derivation tails, ragged maths paragraphs ----------
+_ANSLINE = re.compile(r'<p(?: class="[^"]*")?>(<strong>\d+\.(?:</strong>|\s).*?)</p>', re.S)
+
+
+_SENT = re.compile(r"(?<!\bRs)(?<!e\.g)(?<!i\.e)(?<!\bNo)(?<!\bvs)(?<!etc)(?<!\bFig)\.\s+(?=<img class=\"(?:im|dvi)\"|<em>|<strong>|[A-Z])")
+
+
+def _sentences(text):
+    """An answer that makes several statements gets one line per statement."""
+    if "dvt" in text or "fxs" in text:
+        return text
+    bits = _SENT.split(text.strip())
+    if len(bits) < 2 or sum(1 for b in bits if "<img" in b) < 2:
+        return text
+    last = len(bits) - 1
+    return "".join(f'<span class="stp">{b}{"." if i < last else ""}</span>' for i, b in enumerate(bits))
+
+
+def _answer_parts(htm):
+    """`1. (a) ... (b) ... (c) ...` in an answer key: one line per part."""
+    def one(m):
+        inner = m.group(1)
+        run = _label_run(inner)
+        if not run:
+            mm = re.match(r"(<strong>\d+\.</strong>)\s*(.*)$", inner, re.S)
+            if not mm:
+                return m.group(0)
+            body = _sentences(mm.group(2))
+            if body == mm.group(2):
+                return m.group(0)
+            return f'<p class="ansline np hm">{mm.group(1)}<span class="stps">{body}</span></p>'
+        stem = inner[:run[0].start()].rstrip()
+        opts = [inner[run[i].end():(run[i + 1].start() if i + 1 < len(run) else len(inner))].strip()
+                for i in range(len(run))]
+        if not all(opts):
+            return m.group(0)
+        parts = "".join(f'<span class="part"><i>({r.group(1)})</i> {_sentences(o)}</span>'
+                        for r, o in zip(run, opts))
+        np_ = " np" if re.fullmatch(r"<strong>\d+\.</strong>", stem) else ""
+        return f'<p class="ansline{np_} hm">{stem}<span class="parts">{parts}</span></p>'
+    return _ANSLINE.sub(one, htm)
+
+
+_TAIL = re.compile(
+    r'(<span class="dv"><img[^>]*></span>)'
+    r'((?:[^<]|<img\b[^>]*>|</?(?:strong|em|b|i)>)*?)'
+    r'(?:(\.)(?=\s|<|$)|(?=</p>|</li>|</span>|<span class="(?:dv|part)|<br|<div|</div|$))')
+
+
+def _derivation_tails(htm):
+    """`<derivation> , so x < 2.` -> the conclusion sits on its own line under the working
+    instead of dangling after a comma."""
+    htm = re.sub(r'(<span class="dv"><img[^>]*></span>)\s*[.,;]+\s*', r'\1', htm)
+
+    def one(m):
+        tail = m.group(2).strip().lstrip(",;: ").strip()
+        plain = _TAGS.sub("", tail).strip()
+        if not plain or len(plain) > 170 or m.group(0).count("<img") > 6:
+            return m.group(0)
+        return f'{m.group(1)}<span class="dvt">{tail}{m.group(3) or ""}</span>'
+    return _TAIL.sub(one, htm)
+
+
+_HM = re.compile(r'<(p|li)>((?:(?!</\1>).)*?class="(?:im|dvi|fxm)".*?)</\1>', re.S)
+
+
+def _ragged_maths(htm):
+    """A paragraph holding formulas is set ragged-right (a justified line stretches its words
+    around the unbreakable formula)."""
+    return _HM.sub(lambda m: f'<{m.group(1)} class="hm">{m.group(2)}</{m.group(1)}>', htm)
 
 
 def _layout_fixes(htm):
@@ -448,6 +587,9 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
+    htm = _derivation_tails(htm)
+    htm = _answer_parts(htm)
+    htm = _ragged_maths(htm)
     # WeasyPrint ignores <ol start="N">: a list resumed after a display
     # equation would restart at 1. Mirror the attribute with a counter reset.
     htm = re.sub(r'<ol start="(\d+)"(?![^>]*style=)>',

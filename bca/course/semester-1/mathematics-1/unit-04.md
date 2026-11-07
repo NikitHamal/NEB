@@ -120,7 +120,7 @@ a = Axes(f, 40, 12, 490, 230, (-0.4, 2.5), (-1.5, 10)); a.grid(0.5, 2).axes()
 a.curve(lambda x: x**3, color=NAVY, sw=2.6); a.curve(lambda x: 4 * x, -0.3, 2.4, color=AMBER, sw=1.8, dash=True)
 c = 2 / math.sqrt(3); a.curve(lambda x: c**3 + 4 * (x - c), 0.2, 2.2, color=RED, sw=2.2)
 a.pt(0, 0, "A(0, 0)", dx=10, dy=-8); a.pt(2, 8, "B(2, 8)", dx=-10, dy=-6, anchor="end"); a.pt(c, c**3, "c ≈ 1.155", color=RED, dx=10, dy=18)
-f.text(a.X(0.3), a.Y(2.9), "secant AB: slope 4", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(a.X(1.55), a.Y(2.3), "tangent at c: slope 4", size=10.5, color=RED, bold=True, anchor="start")
+f.text(a.X(0.06), a.Y(5.6), "secant AB: slope 4", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(a.X(1.62), a.Y(0.95), "tangent at c: slope 4", size=10.5, color=RED, bold=True, anchor="start")
 ```
 
 ## 4.6 L'Hôpital's rule
