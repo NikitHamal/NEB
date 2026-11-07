@@ -225,6 +225,17 @@
 
     var titleInput = document.getElementById('homePostTitle');
     var contentInput = document.getElementById('homePostContent');
+    /* write the way it will look: the textarea becomes a formatted surface that still answers as Markdown */
+    if (contentInput && window.NebLive) {
+      var liveEd = window.NebLive.attach(contentInput);
+      if (liveEd) {
+        liveEd.addEventListener('click', function () { if (window.NebComposerEditor) { /* mentions listen on the surface */ } });
+        var liveToggle = document.querySelector('#homePostForm .hf-mode-toggle');
+        if (liveToggle) liveToggle.classList.add('is-live');
+        var liveHelper = document.getElementById('homePostMathHelper');
+        if (liveHelper) liveHelper.classList.add('is-live');
+      }
+    }
     var charCounter = document.getElementById('homePostCharCounter');
     var submitBtn = document.getElementById('homePostSubmit');
     var errorEl = document.getElementById('homePostError');
@@ -502,6 +513,11 @@
 
     function applyFormat(type) {
       if (!contentInput) return;
+      if (contentInput.__neb && window.NebLive && window.NebLive.format(contentInput, type)) {
+        updateCharCounter();
+        updateSubmitState();
+        return;
+      }
       if (previewBox && previewBox.style.display !== 'none') {
         setEditorMode('write');
       }
@@ -646,6 +662,7 @@
           if (!contentInput) return;
           var latex = keyBtn.getAttribute('data-latex') || '';
           if (!latex) return;
+          if (contentInput && contentInput.__neb && window.NebLive) { window.NebLive.insertMath(contentInput, latex, '', false); return; }
           contentInput.focus();
           var start = contentInput.selectionStart;
           var end = contentInput.selectionEnd;
@@ -1448,6 +1465,12 @@
       var end = field.selectionEnd != null ? field.selectionEnd : pos;
       var room = field.maxLength > 0 ? field.maxLength - (field.value.length - (end - pos)) : Infinity;
       if (room < em.length) return;
+      if (field.__neb && window.NebLive) {
+        window.NebLive.insertText(field, em);
+        updateCharCounter();
+        updateSubmitState();
+        return;
+      }
       var val = field.value;
       field.value = val.slice(0, pos) + em + val.slice(end);
       var newPos = pos + em.length;

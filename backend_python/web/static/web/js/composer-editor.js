@@ -49,7 +49,7 @@
   }
 
   function enhanceField(ta) {
-    if (ta.__editor) return;
+    if (ta.__editor || ta.__neb) return;
     ta.__editor = true;
     var tick = function () { grow(ta); follow(ta); };
     ta.addEventListener('input', tick);
@@ -92,6 +92,11 @@
     function close() { pop.hidden = true; rows = []; }
 
     function query() {
+      if (ta.__neb && window.NebLive) {
+        var before = window.NebLive.textBefore(ta);
+        var lm = before == null ? null : before.match(TRIGGER);
+        return lm ? { q: lm[2], at: before.length - lm[2].length - 1, pos: before.length, live: true } : null;
+      }
       var pos = ta.selectionStart;
       if (pos !== ta.selectionEnd) return null;
       var m = ta.value.substring(0, pos).match(TRIGGER);
@@ -113,7 +118,12 @@
     function place(info) {
       /* The popup lives inside the dialog, which may or may not be the containing block for fixed children (it is
          while its entry animation or a transform is active), so measure where (0,0) really is and correct for it. */
-      var pt = caretPoint(ta, info.at), r = ta.getBoundingClientRect();
+      var pt, r;
+      if (info.live) {
+        var cr = window.NebLive.caretRect(ta) || { left: 0, top: 0, height: 20 };
+        r = { left: 0, top: 0 };
+        pt = { x: cr.left, y: cr.top, h: cr.height || 20 };
+      } else { pt = caretPoint(ta, info.at); r = ta.getBoundingClientRect(); }
       var hb = host === document.body ? { left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight } : host.getBoundingClientRect();
       var lo = Math.max(hb.left, 0) + 8, hi = Math.min(hb.right, window.innerWidth) - 8;
       var top0 = Math.max(hb.top, 0) + 8, bot0 = Math.min(hb.bottom, window.innerHeight) - 8;
@@ -142,7 +152,8 @@
       var info = query(), u = rows[i];
       if (!info || !u) { close(); return; }
       var ins = '@' + u.username + ' ';
-      ta.setRangeText(ins, info.at, info.pos, 'end');
+      if (info.live) window.NebLive.replaceBefore(ta, info.q.length + 1, ins);
+      else ta.setRangeText(ins, info.at, info.pos, 'end');
       close();
       ta.focus();
       ta.dispatchEvent(new Event('input', { bubbles: true }));
@@ -177,6 +188,7 @@
 
     ta.addEventListener('input', function () { sel = 0; update(); });
     ta.addEventListener('click', update);
+    if (ta.__neb) ta.__neb.ed.addEventListener('click', update);
     ta.addEventListener('blur', function () { setTimeout(close, 160); });
     ta.addEventListener('keydown', function (e) {
       if (pop.hidden || !rows.length) return;

@@ -146,6 +146,7 @@
   <link rel="stylesheet" href="{% asset 'web/css/neby-avatar.css' %}">
   <link rel="stylesheet" href="{% asset 'web/css/neby-pixel.css' %}">
   <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
+  <link rel="stylesheet" href="{% static 'web/css/neb-live.css' %}">
   {% block extra_css %}{% endblock %}
   <link rel="stylesheet" href="{% asset 'web/css/ai-widgets.css' %}">
   {% comment %} Reconcile the theme before the first paint. The server renders the session's
@@ -631,6 +632,7 @@
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/media-player.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/htmx.min.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marked.min.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-live.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}"></script>
