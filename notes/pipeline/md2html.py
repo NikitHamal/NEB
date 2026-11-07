@@ -195,7 +195,10 @@ def _inline_math_html(text: str) -> str:
         out.append(_inline_one(m.group(1)))
         pos = m.end()
     out.append(_html.escape(text[pos:]))
-    return "".join(out)
+    res = "".join(out)
+    # captions are not run through Markdown: honour *emphasis* and **strong** here
+    res = re.sub(r"\*\*([^*\s][^*]*?)\*\*", r"<strong>\1</strong>", res)
+    return re.sub(r"(?<![\w*])\*([^*\s][^*]*?)\*(?![\w*])", r"<em>\1</em>", res)
 
 # Regions where $...$ must NOT be treated as math: fenced code blocks and
 # inline code spans (PHP, shell and JS all use $ as ordinary syntax).
@@ -236,6 +239,9 @@ def _inline_one(tex):
         html = _sheet(parts)
         if html:
             return html
+    facts = readflow.split_commas(tex)
+    if facts:
+        return '<span class="cl">' + ", ".join(_inline_one(f) for f in facts) + "</span>"
     links = mathsvg.chain_links(tex)
     plain = re.sub(r"\\[a-zA-Z]+|[{}\s]", "", tex)
     if links >= 2 and len(plain) >= _DERIVE_CHARS:

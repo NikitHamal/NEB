@@ -40,7 +40,7 @@ a.curve(lambda x: x * x, color=NAVY, sw=2.6)
 a.curve(lambda x: 1 + 3.5 * (x - 1), -0.2, 2.9, color=AMBER, sw=1.6, dash=True)
 a.curve(lambda x: 1 + 2.75 * (x - 1), -0.2, 2.9, color=TEAL, sw=1.6, dash=True)
 a.curve(lambda x: 2 * x - 1, -0.3, 2.9, color=RED, sw=2.4)
-a.pt(1, 1, "P(1, 1)", dx=8, dy=18); a.pt(2.5, 6.25, "Q₁", color=AMBER, dx=-8, dy=-2, anchor="end"); a.pt(1.75, 3.0625, "Q₂", color=TEAL, dx=-10, dy=6, anchor="end")
+a.pt(1, 1, "P(1, 1)", dx=8, dy=18); a.pt(2.5, 6.25, "Q₁", color=AMBER, dx=10, dy=-10, anchor="start"); a.pt(1.75, 3.0625, "Q₂", color=TEAL, dx=16, dy=24, anchor="start")
 f.text(a.X(1.9), a.Y(2.0), "tangent: slope 2", size=10.5, color=RED, bold=True, anchor="start")
 f.text(430, 28, "Slope of the secant PQ", size=12, color=NAVY, bold=True, anchor="start")
 rows = [("h = 1.5", "Q = (2.5, 6.25)", "3.5"), ("h = 0.75", "Q = (1.75, 3.0625)", "2.75"), ("h = 0.1", "Q = (1.1, 1.21)", "2.1"), ("h = 0.01", "Q = (1.01, 1.0201)", "2.01"), ("h → 0", "Q → P", "2  (derivative)")]

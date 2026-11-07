@@ -80,7 +80,8 @@ def _chunks(text, limit=235):
         groups.append(cur)
     # never leave a one-word orphan block at the end
     if len(groups) > 1 and _weight(groups[-1]) < 38:
-        groups[-2] += " " + groups.pop()
+        last = groups.pop()
+        groups[-1] += " " + last
     return groups
 
 
@@ -100,7 +101,7 @@ def _label(part):
 
 
 _PARA = re.compile(r'<p(?: class="hm")?>((?:(?!</p>).)*)</p>', re.S)
-_SKIP = ('class="opts', 'class="parts', 'class="part"', 'class="opt"', 'class="fxs', 'ansline', "<table")
+_SKIP = ('class="opts', 'class="parts', 'class="part"', 'class="opt"', 'class="fxs', 'ansline', "<table", "<figure")
 
 
 def structure_prose(htm):
@@ -132,7 +133,7 @@ def structure_prose(htm):
 # ---------------------------------------------------------------- tall formulas on their own line
 _TALL_IMG = re.compile(r'<img data-t="([^"]*)" class="im" data-w="([0-9.]+)" src="[^"]*" style="[^"]*" alt="math">')
 _BLOCK = re.compile(r'<(p|li)(?: class="hm")?>((?:(?!</\1>).)*?data-t=.*?)</\1>', re.S)
-_NOPROMOTE = ('class="opts', 'class="parts', 'class="part"', 'class="opt"', 'class="fxs', "ansline", "<table")
+_NOPROMOTE = ('class="opts', 'class="parts', 'class="part"', 'class="opt"', 'class="fxs', "ansline", "<table", "<figure")
 
 
 def promote_tall(htm):
@@ -237,3 +238,42 @@ def keep_with_next(htm):
     htm = _LEADONLY.sub(lambda m: '<p class="kn">%s</p>' % m.group(1), htm)
     # a label paragraph followed by a table whose rows are all kept together
     return htm
+
+
+# ---------------------------------------------------------------- comma lists of facts
+_REL = re.compile(r"=|<|>|\\le\b|\\ge\b|\\leq\b|\\geq\b|\\approx|\\ne\b|\\neq\b|\\in\b|\\Rightarrow|\\to\b|\\equiv|\\sim")
+
+
+def split_commas(tex):
+    """`a = 1, b = 2, c = 3` is three facts, not a chain: [a = 1, b = 2, c = 3]. Empty when the
+    formula is a single statement (coordinates, arguments and sets keep their commas)."""
+    s = tex.strip()
+    if "\\begin" in s or "\\\\" in s or "&" in s:
+        return []
+    parts, depth, last, i, n = [], 0, 0, 0, len(s)
+    while i < n:
+        c = s[i]
+        if c == "\\":
+            m = re.match(r"\\(?:left|right)\s*[\\|(\[\].{}]?|\\[a-zA-Z]+", s[i:])
+            if m and m.group().startswith("\\left"):
+                depth += 1
+            elif m and m.group().startswith("\\right"):
+                depth -= 1
+            i += len(m.group()) if m else 2
+            continue
+        if c in "{([":
+            depth += 1
+        elif c in "})]":
+            depth -= 1
+        elif c in ",;" and depth == 0:
+            parts.append(s[last:i])
+            last = i + 1
+        i += 1
+    parts.append(s[last:])
+    clean = []
+    for p in parts:
+        p = re.sub(r"^(?:\\[ ,;:!]|\\quad|\\qquad|\s)+|(?:\\[ ,;:!]|\\quad|\\qquad|\s)+$", "", p)
+        clean.append(p)
+    if len(clean) < 2 or not all(clean) or not all(_REL.search(p) for p in clean):
+        return []
+    return clean
