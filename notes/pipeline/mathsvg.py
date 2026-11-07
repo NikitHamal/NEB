@@ -161,12 +161,12 @@ def _clean(tex: str) -> str:
     s = s.replace("&", "").replace("\\\\", "\\ \\ ")
     return s.strip()
 
-def render(tex: str, fontsize: float = 11.0, display: bool = False):
+def render(tex: str, fontsize: float = 11.0, display: bool = False, color: str = "#14181f"):
     """Return (svg_path, height_px, depth_px) or (None, 0, 0) if unrenderable."""
     s = _clean(tex)
     if not s:
         return None, 0, 0
-    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v6".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{s}|{fontsize}|{display}|{color}|v7".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
@@ -192,7 +192,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         fig = plt.figure(figsize=(max(w, 1) / 100.0, max(h, 1) / 100.0), dpi=100)
         fig.patch.set_alpha(0.0)
         fig.text(0, d / h if h else 0, expr, fontsize=fontsize,
-                 va="baseline", ha="left", color="#14181f")
+                 va="baseline", ha="left", color=color)
         # Write both files atomically: a reader in another process must never
         # observe a half-written SVG or an empty .meta.
         tmp = f"{out}.{os.getpid()}.tmp"

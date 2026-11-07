@@ -16,27 +16,31 @@ Integration reverses differentiation and also adds up infinitely many infinitesi
 
 ## 5.1 Indefinite integrals
 
-F is an **antiderivative** of f if F′ = f. The family of all antiderivatives is the **indefinite integral** ∫ f(x) dx = F(x) + C, where C is an arbitrary constant.
+F is an **antiderivative** of *f* if $F' = f$. The family of all antiderivatives is the **indefinite integral** $\int f (x) \,d x = F (x) + C$, where C is an arbitrary constant.
 
-| f(x) | ∫ f dx | f(x) | ∫ f dx |
+| $f (x)$ | $\int f \,d x$ | $f (x)$ | $\int f \,d x$ |
 |---|---|---|---|
-| xⁿ (n ≠ −1) | xⁿ⁺¹/(n + 1) | 1/x | ln\|x\| |
-| eˣ | eˣ | aˣ | aˣ/ln a |
-| sin x | −cos x | cos x | sin x |
-| sec²x | tan x | cosec²x | −cot x |
-| sec x tan x | sec x | 1/(1 + x²) | tan⁻¹x |
-| 1/√(1 − x²) | sin⁻¹x | tan x | ln\|sec x\| |
-| 1/√(x² + a²) | ln\|x + √(x² + a²)\| | 1/(x² − a²) | (1/2a) ln\|(x − a)/(x + a)\| |
+| $x^{n} (n \neq - 1)$ | $\frac{x^{n+1}}{n + 1}$ | $\frac{1}{x}$ | ln\|x\| |
+| $e^{x}$ | $e^{x}$ | $a^{x}$ | $\frac{a^{x}}{\ln}$ a |
+| $\sin x$ | $- \cos x$ | $\cos x$ | $\sin x$ |
+| $\sec^{2} x$ | $\tan x$ | $\csc^{2} x$ | $- \cot x$ |
+| $\sec x \tan x$ | $\sec x$ | $\frac{1}{(1 + x^{2})}$ | $\tan^{-1} x$ |
+| $\frac{1}{\sqrt{1 - x^{2}}}$ | $\sin^{-1} x$ | $\tan x$ | ln\|sec x\| |
+| $\frac{1}{\sqrt{x^{2} + a^{2}}}$ | ln\|x + $\sqrt{x^{2} + a^{2}} \mid$ | $\frac{1}{(x^{2} - a^{2})}$ | $\left( \frac{1}{2 a} \right)$ ln\|(x − $a ) / ( x$ + a)\| |
 
-Linearity: ∫ (af + bg) = a∫ f + b∫ g. Always check an answer by differentiating it.
+Linearity: *∫* (af + bg) = $a \int f + b \int g$. Always check an answer by differentiating it.
 
 ::: example Worked example
-∫ (3x² + 2x + 1) dx = x³ + x² + x + C.
-∫ (√x + 1/x²) dx = (2/3)x^{3/2} − 1/x + C.
-∫ sin²x dx = ∫ (1 − cos 2x)/2 dx = x/2 − (sin 2x)/4 + C.
+
+$$\int (3 x^{2} + 2 x + 1) \,d x = x^{3} + x^{2} + x + C$$
+
+$$\int \left( \sqrt{x} + \frac{1}{x^{2}} \right) \,d x = \left( \frac{2}{3} \right) x^{\frac{3}{2}} - \frac{1}{x} + C$$
+
+$$\int \sin^{2} x \,d x = \frac{\int (1 - \cos 2 x)}{2} \,d x = \frac{x}{2} - \frac{\sin 2 x}{4} + C$$
+
 :::
 
-```photogrid label="5.1" cols="3" ratio="1.2" caption="Integration in history and in Nepal. (a) Archimedes of Syracuse (c. 287-212 BC) found areas and volumes by the method of exhaustion, the ancestor of the integral. (b) Bernhard Riemann (1826-1866) gave the definition by sums that we use today. (c) The reservoir wall of the Kaligandaki A hydropower station in Syangja: the force of water on the wall is an integral of pressure over depth."
+```photogrid label="5.1" cols="3" ratio="1.2" caption="Integration in history and in Nepal. (a) Archimedes of Syracuse (*c*. 287-212 BC) found areas and volumes by the method of exhaustion, the ancestor of the integral. (b) Bernhard Riemann (1826-1866) gave the definition by sums that we use today. (c) The reservoir wall of the Kaligandaki A hydropower station in Syangja: the force of water on the wall is an integral of pressure over depth."
 @ photo id="bca104/archimedes" cap="Archimedes (painting by D. Fetti, 1620)"
 fit 1.2
 focus 0.5 0.7
@@ -50,59 +54,76 @@ call 0.5 0.93 0.5 0.6 "F = ∫ ρ g h w dh"
 
 ## 5.2 Integration by substitution
 
-If an integral has the form ∫ f(g(x)) g′(x) dx, put u = g(x), du = g′(x) dx, and integrate in u.
+If an integral has the form $\int f (g (x)) g' (x) \,d x$, put $u = g (x) ,\  d u = g' (x) d x$, and integrate in *u*.
 
 ::: example Worked example
-**(a)** ∫ 2x e^{x²} dx: u = x², du = 2x dx, so ∫ eᵘ du = e^{x²} + C.
-**(b)** ∫ x/(x² + 1) dx: u = x² + 1, du = 2x dx, so ½ ∫ du/u = **½ ln(x² + 1) + C**.
-**(c)** ∫ tan x dx = ∫ sin x/cos x dx: u = cos x, du = −sin x dx, so −ln|cos x| + C = ln|sec x| + C.
-**(d)** ∫ cos³x dx = ∫ (1 − sin²x) cos x dx: u = sin x, so sin x − sin³x/3 + C.
-**(e)** ∫ 1/(x ln x) dx: u = ln x, so ln|ln x| + C.
-**(f)** ∫ (2x + 3)⁵ dx = (2x + 3)⁶/12 + C.
+**(a)** $\int 2 x e^{x^{2}} \,d x$: $u = x^{2} ,\  d u = 2 x d x$, so $\int e^{u} \,d u = e^{x^{2}} + C$.
+
+**(b)** $\frac{\int x}{x^{2} + 1} \,d x$: $u = x^{2} + 1 ,\  d u = 2 x d x$, so $\frac{1}{2} \frac{\int d u}{u}$ = **$\frac{1}{2} \ln (x^{2} + 1) + C$**.
+
+**(c)** $\int \tan x \,d x = \frac{\int \sin x}{\cos x} \,d x$: $u = \cos x ,\  d u = - \sin x d x$, so −ln|cos x| + C = ln|sec x| + C.
+
+**(d)** $\int \cos^{3} x \,d x = \int (1 - \sin^{2} x) \cos x \,d x$: $u = \sin x$, so $\sin x - \frac{\sin^{3} x}{3} + C$.
+
+**(e)** $\frac{\int 1}{x \ln x} \,d x$: $u = \ln x$, so ln|ln x| + C.
+
+**(f)** $\int (2 x + 3)^{5} \,d x = \frac{(2 x + 3)^{6}}{12} + C$.
 :::
 
 ## 5.3 Integration by parts
 
-From (uv)′ = u′v + uv′: **∫ u dv = uv − ∫ v du**. Choose u in the order **LIATE** (Logarithmic, Inverse trig, Algebraic, Trig, Exponential): the first type that appears becomes u.
+From $(u v)' = u' v + u v'$: **$\int u \,d v = u v - \int v \,d u$**. Choose *u* in the order **LIATE** (Logarithmic, Inverse trig, Algebraic, Trig, Exponential): the first type that appears becomes *u*.
 
 ::: example Worked example
-**(a)** ∫ x eˣ dx: u = x, dv = eˣ dx ⇒ x eˣ − ∫ eˣ dx = **(x − 1)eˣ + C**.
-**(b)** ∫ x² ln x dx: u = ln x, dv = x² dx ⇒ (x³/3) ln x − ∫ x²/3 dx = **(x³/3) ln x − x³/9 + C**.
-**(c)** ∫ ln x dx: u = ln x, dv = dx ⇒ x ln x − x + C.
-**(d)** ∫ x sin x dx = −x cos x + sin x + C.
-**(e)** ∫ eˣ sin x dx = I. By parts twice, I = eˣ sin x − eˣ cos x − I, so **I = eˣ(sin x − cos x)/2 + C**.
-**(f)** ∫ tan⁻¹x dx = x tan⁻¹x − ½ ln(1 + x²) + C.
+**(a)** $\int x e^{x} \,d x$: $u = x ,\  \,d v = e^{x} \,d x \Rightarrow x e^{x} - \int e^{x} \,d x$ = **$(x - 1) e^{x} + C$**.
+
+**(b)** $\int x^{2} \ln x \,d x$: $u = \ln x ,\  \,d v = x^{2} \,d x \Rightarrow \left( \frac{x^{3}}{3} \right) \ln x - \frac{\int x^{2}}{3} \,d x$ = **$\left( \frac{x^{3}}{3} \right) \ln x - \frac{x^{3}}{9} + C$**.
+
+**(c)** $\int \ln x \,d x$: $u = \ln x ,\  d v = d x \Rightarrow x \ln x - x + C$.
+
+**(d)** $\int x \sin x \,d x = - x \cos x + \sin x + C$.
+
+**(e)** $\int e^{x} \sin x \,d x = I$. By parts twice, $I = e^{x} \sin x - e^{x} \cos x - I$, so **$I = \frac{e^{x} (\sin x - \cos x)}{2} + C$**.
+
+**(f)** $\int \tan^{-1} x \,d x = x \tan^{-1} x - \frac{1}{2} \ln (1 + x^{2}) + C$.
 :::
 
 ## 5.4 Partial fractions
 
-A proper rational function P(x)/Q(x) (degree P < degree Q) is split into simpler fractions by factors of Q: a linear factor (x − a) gives A/(x − a); a repeated factor (x − a)² gives A/(x − a) + B/(x − a)²; an irreducible quadratic gives (Ax + B)/(x² + px + q). If the degree of P ≥ degree of Q, divide first.
+A proper rational function $\frac{P (x)}{Q (x)}$ (degree P < degree Q) is split into simpler fractions by factors of Q: a linear factor $(x - a)$ gives $\frac{A}{x - a}$; a repeated factor $(x - a)^{2}$ gives $\frac{A}{x - a} + \frac{B}{(x - a)^{2}}$; an irreducible quadratic gives (Ax + $B ) / ( x^{2} + p x + q$). If the degree of P ≥ degree of Q, divide first.
 
 ::: example Worked example
-**(a)** 1/((x − 1)(x + 2)) = A/(x − 1) + B/(x + 2). Then 1 = A(x + 2) + B(x − 1); x = 1 gives A = 1/3; x = −2 gives B = −1/3. So ∫ = ⅓ ln|x − 1| − ⅓ ln|x + 2| = **⅓ ln|(x − 1)/(x + 2)| + C**.
-**(b)** (3x + 5)/((x + 1)²) = 3/(x + 1) + 2/(x + 1)². ∫ = 3 ln|x + 1| − 2/(x + 1) + C.
-**(c)** ∫ (x² + 1)/(x − 1) dx: divide, x² + 1 = (x − 1)(x + 1) + 2, so ∫ (x + 1 + 2/(x − 1)) dx = x²/2 + x + 2 ln|x − 1| + C.
+**(a)** $\frac{1}{(x - 1) (x + 2)} = \frac{A}{x - 1} + \frac{B}{x + 2}$. Then $1 = A (x + 2) + B (x - 1) ;\  x = 1$ gives $A = \frac{1}{3} ;\  x = - 2$ gives $B = - \frac{1}{3}$. So $\int = \frac{1}{3}$ ln|x − 1| − $\frac{1}{3}$ ln|x + 2| = **$\frac{1}{3}$ ln|(x − $1 ) / ( x$ + 2)| + C**.
+
+**(b)** $\frac{3 x + 5}{((x + 1)^{2})} = \frac{3}{x + 1} + \frac{2}{(x + 1)^{2}}$. $\int = 3$ ln|x + 1| − $\frac{2}{x + 1} + C$.
+
+**(c)** $\frac{\int (x^{2} + 1)}{x - 1} \,d x$: divide, $x^{2} + 1 = (x - 1) (x + 1) + 2$, so $\int \left( x + 1 + \frac{2}{x - 1} \right) \,d x = \frac{x^{2}}{2} + x + 2$ ln|x − 1| + C.
 :::
 
 ## 5.5 The definite integral and the Fundamental Theorem
 
-The **definite integral** ∫ₐᵇ f(x) dx is the limit of Riemann sums Σ f(xᵢ) Δx, the signed area between the graph and the x-axis from a to b. The **Fundamental Theorem of Calculus** connects it to antiderivatives:
+The **definite integral** $\int_{a}^{b} f (x) \,d x$ is the limit of Riemann sums $\sum f (x_{i}) \Delta x$, the signed area between the graph and the x-axis from a to *b*. The **Fundamental Theorem of Calculus** connects it to antiderivatives:
 
-- **Part 1**: if F(x) = ∫ₐˣ f(t) dt then F′(x) = f(x).
-- **Part 2**: **∫ₐᵇ f(x) dx = F(b) − F(a)** for any antiderivative F.
+- **Part 1**: if $F (x) = \int_{a}^{x} f (t) \,d t$ then $F' (x) = f (x)$.
+- **Part 2**: **$\int_{a}^{b} f (x) \,d x = F (b) - F (a)$** for any antiderivative F.
 
-**Properties.** ∫ₐᵇ f = −∫ᵇₐ f; ∫ₐᵃ f = 0; ∫ₐᵇ f = ∫ₐᶜ f + ∫ᶜᵇ f; ∫ₐᵇ f(x) dx = ∫ₐᵇ f(a + b − x) dx; for even f, ∫₋ₐᵃ f = 2∫₀ᵃ f; for odd f, ∫₋ₐᵃ f = 0. When substituting in a definite integral, change the limits too.
+**Properties.** $\int_{a}^{b} f = - \int_{a}^{b} f ;\  \int_{a}^{a} f = 0 ;\  \int_{a}^{b} f = \int_{a}^{c} f + \int^{cb} f ;\  \int_{a}^{b} f (x) \,d x = \int_{a}^{b} f (a + b - x) \,d x$; for even $f ,\  \int_{-a}^{a} f = 2 \int_{0}^{a} f$; for odd $f ,\  \int_{-a}^{a} f = 0$. When substituting in a definite integral, change the limits too.
 
 ::: example Worked example
-**(a)** ∫₀^π sin x dx = [−cos x]₀^π = 1 + 1 = **2**.
-**(b)** ∫₁² dx/x = ln 2 − ln 1 = **ln 2 ≈ 0.693**.
-**(c)** ∫₀¹ 2x e^{x²} dx: u = x², limits 0 → 1: ∫₀¹ eᵘ du = **e − 1 ≈ 1.718**.
-**(d)** ∫₀^{π/2} sin³x dx = ∫₀^{π/2} (1 − cos²x) sin x dx, u = cos x: ∫₀¹ (1 − u²) du = 1 − 1/3 = **2/3**.
-**(e)** ∫₋₁¹ x³ dx = **0** (odd function).
-**(f)** ∫₀¹ x eˣ dx = [(x − 1)eˣ]₀¹ = 0 − (−1) = **1**.
+**(a)** $\int_{0}^{\pi} \sin x \,d x = [- \cos x]_{0}^{\pi} = 1 + 1$ = **2**.
+
+**(b)** $\frac{\int_{1}^{2} d x}{x} = \ln 2 - \ln 1$ = **$\ln 2 \approx 0.693$**.
+
+**(c)** $\int_{0}^{1} 2 x e^{x^{2}} \,d x$: $u = x^{2}$, limits $0 \to 1$: $\int_{0}^{1} e^{u} \,d u$ = **$e - 1 \approx 1.718$**.
+
+**(d)** $\int_{0}^{\frac{\pi}{2}} \sin^{3} x \,d x = \int_{0}^{\frac{\pi}{2}} (1 - \cos^{2} x) \sin x \,d x ,\  u = \cos x$: $\int_{0}^{1} (1 - u^{2}) \,d u = 1 - \frac{1}{3}$ = **$\frac{2}{3}$**.
+
+**(e)** $\int_{-1}^{1} x^{3} \,d x$ = **0** (odd function).
+
+**(f)** $\int_{0}^{1} x e^{x} \,d x = [(x - 1) e^{x}]_{0}^{1} = 0 - (- 1)$ = **1**.
 :::
 
-```svgfig label="5.1" caption="Riemann sums for the area under f(x) = x² on [0, 2]. (a) Four left rectangles under-estimate (1.75). (b) Four right rectangles over-estimate (3.75). (c) Twenty mid-point rectangles are almost exact. As n → ∞ every version tends to the definite integral ∫₀² x² dx = 8/3 ≈ 2.6667."
+```svgfig label="5.1" caption="Riemann sums for the area under $f (x) = x^{2}$ on [0, 2]. (a) Four left rectangles under-estimate (1.75). (b) Four right rectangles over-estimate (3.75). (c) Twenty mid-point rectangles are almost exact. As $n \to \infty$ every version tends to the definite integral $\int_{0}^{2} x^{2} \,d x = \frac{8}{3} \approx 2.6667$."
 f = Fig(780, 250)
 fx = lambda x: x * x
 mid = sum(fx(0.05 + 0.1 * k) * 0.1 for k in range(20))
@@ -117,21 +138,25 @@ for i, (mode, n, t, val) in enumerate([("left", 4, "(a) left sum, n = 4", "1.75"
 
 ## 5.6 Applications
 
-**Area between curves.** If f ≥ g on [a, b]: A = ∫ₐᵇ [f(x) − g(x)] dx. If the curves cross, split at the intersections.
+**Area between curves.** If $f \geq g$ on $[a ,\  b]$: $A = \int_{a}^{b} [f (x) - g (x)] \,d x$. If the curves cross, split at the intersections.
 
-**Volume of revolution** about the x-axis (disc method): V = π ∫ₐᵇ [f(x)]² dx; with a hole (washer): V = π ∫ (R² − r²) dx. About the y-axis (shell method): V = 2π ∫ x f(x) dx.
+**Volume of revolution** about the x-axis (disc method): $V = \pi \int_{a}^{b} [f (x)]^{2} \,d x$; with a hole (washer): $V = \pi \int (R^{2} - r^{2}) \,d x$. About the y-axis (shell method): $V = 2 \pi \int x f (x) \,d x$.
 
-**Average value** of f on [a, b]: (1/(b − a)) ∫ₐᵇ f dx. **Arc length**: L = ∫ₐᵇ √(1 + (f′)²) dx. **Total change**: ∫ of a rate gives the net change (distance = ∫ speed dt).
+**Average value** of *f* on $[a ,\  b]$: $\left( \frac{1}{b - a} \right) \int_{a}^{b} f \,d x$. **Arc length**: $L = \int_{a}^{b} \sqrt{1 + (f')^{2}} \,d x$. **Total change**: *∫* of a rate gives the net change (distance = *∫* speed $d t$).
 
 ::: example Worked example
-**Area** between y = x and y = x²: intersections x = 0, 1; A = ∫₀¹ (x − x²) dx = ½ − ⅓ = **1/6**.
-**Area** under y = sin x from 0 to π: **2**.
-**Volume** of y = x² about the x-axis from 0 to 1: V = π ∫₀¹ x⁴ dx = **π/5**. For y = √x on [0, 4]: V = π ∫₀⁴ x dx = **8π**.
-**Average value** of f(x) = x² on [0, 3]: (1/3)(27/3) = **3**.
-**Net displacement** for velocity v(t) = 3t² − 6t + 2 from t = 0 to 2: [t³ − 3t² + 2t]₀² = 8 − 12 + 4 = **0** (the body returns to its start; the *distance* travelled is ∫|v| dt, which is larger).
+**Area** between $y = x$ and $y = x^{2}$: intersections $x = 0 ,\  1 ;\  A = \int_{0}^{1} (x - x^{2}) \,d x = \frac{1}{2} - \frac{1}{3}$ = **$\frac{1}{6}$**.
+
+**Area** under $y = \sin x$ from 0 to *π*: **2**.
+
+**Volume** of $y = x^{2}$ about the x-axis from 0 to 1: $V = \pi \int_{0}^{1} x^{4} \,d x$ = **$\frac{\pi}{5}$**. For $y = \sqrt{x}$ on [0, 4]: $V = \pi \int_{0}^{4} x \,d x$ = **$8 \pi$**.
+
+**Average value** of $f (x) = x^{2}$ on [0, 3]: $\left( \frac{1}{3} \right) \left( \frac{27}{3} \right)$ = **3**.
+
+**Net displacement** for velocity $v (t) = 3 t^{2} - 6 t + 2$ from $t = 0$ to 2: $[t^{3} - 3 t^{2} + 2 t]_{0}^{2} = 8 - 12 + 4$ = **0** (the body returns to its start; the *distance* travelled is $\int |v| \,d t$, which is larger).
 :::
 
-```svgfig label="5.2" caption="Two applications of the definite integral. (a) The area between y = x and y = x² on [0, 1] is ∫₀¹ (x − x²) dx = 1/2 − 1/3 = 1/6. (b) Rotating y = √x about the x-axis for 0 ≤ x ≤ 4 sweeps out a solid made of thin discs of radius √x, so V = π∫₀⁴ x dx = 8π ≈ 25.13 cubic units."
+```svgfig label="5.2" caption="Two applications of the definite integral. (a) The area between $y = x$ and $y = x^{2}$ on [0, 1] is $\int_{0}^{1} (x - x^{2}) \,d x = \frac{1}{2} - \frac{1}{3} = \frac{1}{6}$. (b) Rotating $y = \sqrt{x}$ about the x-axis for $0 \leq x \leq 4$ sweeps out a solid made of thin discs of radius $\sqrt{x}$, so $V = \pi \int_{0}^{4} x \,d x = 8 \pi \approx 25.13$ cubic units."
 f = Fig(780, 270)
 f.box(8, 4, 330, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(173, 22, "(a) area between two curves", size=11, color=NAVY, bold=True)
 a = Axes(f, 40, 36, 270, 190, (-0.1, 1.2), (-0.1, 1.2)); a.grid(0.5, 0.5, size=8.5)
@@ -151,14 +176,18 @@ f.text(b.X(1.0), b.Y(1.9), "y = √x, rotated", size=11, color=NAVY, bold=True, 
 An integral with an infinite limit or an infinite integrand is defined as a limit.
 
 ::: example Worked example
-**(a)** ∫₁^∞ x⁻² dx = lim (b→∞) [−1/x]₁ᵇ = 1 − 0 = **1** (converges).
-**(b)** ∫₁^∞ 1/x dx = lim ln b = ∞ (**diverges**).
-**(c)** ∫₀¹ x^{−1/2} dx = lim (a→0⁺) [2√x]ₐ¹ = **2** (converges).
-**(d)** ∫₀^∞ e^{−x} dx = **1**.
-**Rule:** ∫₁^∞ x^{−p} dx converges iff p > 1; ∫₀¹ x^{−p} dx converges iff p < 1.
+**(a)** $\int_{1}^{\infty} x^{-2} \,d x = \lim_{b \to \infty} \left[ - \frac{1}{x} \right]_{1}^{b} = 1 - 0$ = **1** (converges).
+
+**(b)** $\frac{\int_{1}^{\infty} 1}{x} \,d x = \lim \ln b = \infty$ (**diverges**).
+
+**(c)** $\int_{0}^{1} x^{- \frac{1}{2}} \,d x = \lim_{a \to 0^{+}} \left[ 2 \sqrt{x} \right]_{a}^{1}$ = **2** (converges).
+
+**(d)** $\int_{0}^{\infty} e^{- x} \,d x$ = **1**.
+
+**Rule:** $\int_{1}^{\infty} x^{- p} \,d x$ converges iff $p > 1 ;\  \int_{0}^{1} x^{- p} \,d x$ converges iff $p < 1$.
 :::
 
-```svgfig label="5.3" caption="Improper integrals over an infinite interval. (a) The area under y = 1/x² from 1 to infinity is finite: ∫₁^b dx/x² = 1 − 1/b → 1. (b) The area under y = 1/x is infinite: ∫₁^b dx/x = ln b → ∞. Both curves tend to 0, yet only the first area is finite."
+```svgfig label="5.3" caption="Improper integrals over an infinite interval. (a) The area under $y = \frac{1}{x^{2}}$ from 1 to infinity is finite: $\frac{\int_{1}^{b} d x}{x^{2}} = 1 - \frac{1}{b} \to 1$. (b) The area under $y = \frac{1}{x}$ is infinite: $\frac{\int_{1}^{b} d x}{x} = \ln b \to \infty$. Both curves tend to 0, yet only the first area is finite."
 f = Fig(780, 240)
 for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "converges: area = 1", TEAL), (lambda x: 1 / x, "(b) y = 1/x", "diverges: area = ∞", RED)]):
     cx = 8 + i * 388
@@ -171,21 +200,21 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
 ## 5.8 Eight uses of integration
 
 1. **Area of irregular land.** The area under a curve is a definite integral, so surveyors and map software can find the area of a plot with a curved boundary. In Nepal land is measured in ropani and kattha, and the same idea converts a measured outline into area. A smaller strip width gives a more exact answer (Figure 5.1).
-2. **Volume of tanks and solids.** Cutting a solid into thin discs and adding them gives volume (Figure 5.2b). Water tank, bottle and dam designers use it to know how much each shape holds. The reservoir of a hydropower plant is estimated this way.
-3. **Distance from speed.** If the speed v(t) of a bus is known, the distance travelled is ∫v dt. A GPS tracker adds many small distances to give the trip length. This is the reverse of differentiation: position is the integral of speed.
-4. **Work, force and pressure.** The pressure on a dam wall increases with depth, so the total force is an integral of pressure over the wall (Plate 5.1c). Engineers of the Kaligandaki and Marsyangdi plants need this to make the wall strong enough. A constant-force formula alone would be wrong.
-5. **Probability and statistics.** For a continuous variable, the probability that a value lies between a and b is the area under its density curve. The normal curve of exam marks is integrated to find how many students score above 60. Tribhuvan University result analysis is built on such areas.
+2. **Volume of tanks and solids.** Cutting a solid into thin discs and adding them gives volume (Figure 5.2b). Water tank, bottle and $d a m$ designers use it to know how much each shape holds. The reservoir of a hydropower plant is estimated this way.
+3. **Distance from speed.** If the speed $v (t)$ of a bus is known, the distance travelled is $\int v \,d t$. A GPS tracker adds many small distances to give the trip length. This is the reverse of differentiation: position is the integral of speed.
+4. **Work, force and pressure.** The pressure on a $d a m$ wall increases with depth, so the total force is an integral of pressure over the wall (Plate 5.1c). Engineers of the Kaligandaki and Marsyangdi plants need this to make the wall strong enough. A constant-force formula alone would be wrong.
+5. **Probability and statistics.** For a continuous variable, the probability that a value lies between a and *b* is the area under its density curve. The normal curve of exam marks is integrated to find how many students score above 60. Tribhuvan University result analysis is built on such areas.
 6. **Electricity and signals.** The charge stored in a capacitor is the integral of the current, and the energy used by a house is the integral of power over time. Nepal Electricity Authority meters add power over hours in the same way. Digital signal processing also integrates signals to find their average and energy.
 7. **Computer graphics and numerical methods.** Computers cannot do symbolic integration for every function, so they use Riemann-type sums such as the trapezoidal and Simpson's rules. These give an accurate area with a fast loop. Games and simulations use them for physics.
-8. **Average value and economics.** The average value of a function on [a, b] is (1/(b − a))∫f dx. An economist finds the average daily electricity demand or the total revenue from a marginal revenue curve. The consumer surplus in a market is also an area between two curves.
+8. **Average value and economics.** The average value of a function on $[a ,\  b]$ is $\left( \frac{1}{b - a} \right) \int f \,d x$. An economist finds the average daily electricity demand or the total revenue from a marginal revenue curve. The consumer surplus in a market is also an area between two curves.
 
 ## Formula and fact sheet
 
-- ∫ xⁿ dx = xⁿ⁺¹/(n + 1); ∫ dx/x = ln|x|; ∫ eˣ = eˣ; ∫ sin = −cos; ∫ cos = sin.
-- Substitution: u = g(x). Parts: ∫u dv = uv − ∫v du, LIATE.
-- FTC: ∫ₐᵇ f = F(b) − F(a). Even: 2∫₀ᵃ; odd: 0.
-- Area = ∫ (top − bottom). Disc volume = π∫ f². Average = (1/(b − a))∫ f.
-- Improper: ∫₁^∞ x^{−p} converges for p > 1.
+- $\int x^{n} \,d x = \frac{x^{n+1}}{n + 1} ;\  \frac{\int d x}{x}$ = ln|x|; $\int e^{x} = e^{x} ;\  \int \sin = - \cos ;\  \int \cos = \sin$.
+- Substitution: $u = g (x)$. Parts: $\int u \,d v = u v - \int v \,d u$, LIATE.
+- FTC: $\int_{a}^{b} f = F (b) - F (a)$. Even: $2 \int_{0}^{a}$; odd: 0.
+- Area = *∫* (top − bottom). Disc volume = $\pi \int f^{2}$. Average = $\left( \frac{1}{b - a} \right) \int f$.
+- Improper: $\int_{1}^{\infty} x^{- p}$ converges for $p > 1$.
 
 ## Chapter summary
 
@@ -196,74 +225,83 @@ for i, (fn, t, s, c) in enumerate([(lambda x: 1 / (x * x), "(a) y = 1/x²", "con
 
 ## Practice
 
-1. Evaluate (a) ∫ (4x³ − 3/x + eˣ) dx, (b) ∫ (x² + 1)² dx, (c) ∫ cos²x dx.
-2. Evaluate by substitution (a) ∫ x√(x² + 4) dx, (b) ∫ e^{3x + 1} dx, (c) ∫ sin x cos⁴x dx.
-3. Evaluate by parts (a) ∫ x cos x dx, (b) ∫ x e^{2x} dx, (c) ∫ x ln x dx.
-4. Evaluate ∫ (2x + 3)/((x − 1)(x + 2)) dx.
-5. Evaluate (a) ∫₀² (3x² − 2x) dx, (b) ∫₀^{π/4} sec²x dx, (c) ∫₁^e (ln x)/x dx.
-6. Find the area enclosed by y = x² and y = 4x − x².
-7. Find the volume generated by revolving y = x² about the x-axis between x = 1 and x = 2.
-8. Find the average value of sin x on [0, π].
-9. Does ∫₁^∞ 1/√x dx converge? Does ∫₁^∞ 1/x^{3/2} dx?
-10. If F(x) = ∫₀ˣ t e^{t} dt find F′(x) and F(1).
+1. Evaluate (a) $\int \left( 4 x^{3} - \frac{3}{x} + e^{x} \right) \,d x$, (b) $\int (x^{2} + 1)^{2} \,d x$, (c) $\int \cos^{2} x \,d x$.
+2. Evaluate by substitution (a) $\int x \sqrt{x^{2} + 4} \,d x$, (b) $\int e^{3 x + 1} \,d x$, (c) $\int \sin x \cos^{4} x \,d x$.
+3. Evaluate by parts (a) $\int x \cos x \,d x$, (b) $\int x e^{2 x} \,d x$, (c) $\int x \ln x \,d x$.
+4. Evaluate $\frac{\int (2 x + 3)}{(x - 1) (x + 2)} \,d x$.
+5. Evaluate (a) $\int_{0}^{2} (3 x^{2} - 2 x) \,d x$, (b) $\int_{0}^{\frac{\pi}{4}} \sec^{2} x \,d x$, (c) $\frac{\int_{1}^{e} (\ln x)}{x} \,d x$.
+6. Find the area enclosed by $y = x^{2}$ and $y = 4 x - x^{2}$.
+7. Find the volume generated by revolving $y = x^{2}$ about the x-axis between $x = 1$ and $x = 2$.
+8. Find the average value of $\sin x$ on $[0 ,\  \pi]$.
+9. Does $\frac{\int_{1}^{\infty} 1}{\sqrt{x}} \,d x$ converge? Does $\frac{\int_{1}^{\infty} 1}{x^{\frac{3}{2}}} \,d x$?
+10. If $F (x) = \int_{0}^{x} t e^{t} \,d t$ find $F' (x)$ and $F (1)$.
 
 ::: note Answers and worked solutions
-**1.** (a) x⁴ − 3 ln|x| + eˣ + C. (b) x⁵/5 + 2x³/3 + x + C. (c) x/2 + (sin 2x)/4 + C.
-**2.** (a) u = x² + 4: ⅓(x² + 4)^{3/2} + C. (b) ⅓ e^{3x + 1} + C. (c) u = cos x: −cos⁵x/5 + C.
-**3.** (a) x sin x + cos x + C. (b) (x/2)e^{2x} − e^{2x}/4 + C. (c) (x²/2) ln x − x²/4 + C.
-**4.** (2x + 3)/((x − 1)(x + 2)) = A/(x − 1) + B/(x + 2): A = 5/3, B = 1/3. ∫ = **(5/3) ln|x − 1| + (1/3) ln|x + 2| + C**.
-**5.** (a) [x³ − x²]₀² = 8 − 4 = **4**. (b) tan(π/4) − 0 = **1**. (c) [ (ln x)²/2 ]₁^e = **1/2**.
-**6.** Intersections: x² = 4x − x² ⇒ x = 0, 2. A = ∫₀² (4x − 2x²) dx = [2x² − 2x³/3]₀² = 8 − 16/3 = **8/3**.
-**7.** V = π ∫₁² x⁴ dx = π (32 − 1)/5 = **31π/5 ≈ 19.48**.
-**8.** (1/π)[−cos x]₀^π = 2/π ≈ **0.637**.
-**9.** ∫₁^∞ x^{−1/2} diverges (p = 1/2 ≤ 1). ∫₁^∞ x^{−3/2} = [−2x^{−1/2}]₁^∞ = **2**, converges.
-**10.** F′(x) = x eˣ. F(1) = ∫₀¹ t eᵗ dt = [(t − 1)eᵗ]₀¹ = **1**.
+**1.** (a) $x^{4} - 3$ ln|x| + $e^{x} + C$. (b) $\frac{x^{5}}{5} + \frac{2 x^{3}}{3} + x + C$. (c) $\frac{x}{2} + \frac{\sin 2 x}{4} + C$.
+
+**2.** (a) $u = x^{2} + 4$: $\frac{1}{3} (x^{2} + 4)^{\frac{3}{2}} + C$. (b) $\frac{1}{3} e^{3 x + 1} + C$. (c) $u = \cos x$: $- \frac{\cos^{5} x}{5} + C$.
+
+**3.** (a) $x \sin x + \cos x + C$. (b) $\left( \frac{x}{2} \right) e^{2 x} - \frac{e^{2 x}}{4} + C$. (c) $\left( \frac{x^{2}}{2} \right) \ln x - \frac{x^{2}}{4} + C$.
+
+**4.** $\frac{2 x + 3}{(x - 1) (x + 2)} = \frac{A}{x - 1} + \frac{B}{x + 2}$: $A = \frac{5}{3} ,\  B = \frac{1}{3}$. *∫* = **$\left( \frac{5}{3} \right)$ ln|x − 1| + $\left( \frac{1}{3} \right)$ ln|x + 2| + C**.
+
+**5.** (a) $[x^{3} - x^{2}]_{0}^{2} = 8 - 4$ = **4**. (b) $\tan \left( \frac{\pi}{4} \right) - 0$ = **1**. (c) [ (ln x)²/2 ]₁^e = **$\frac{1}{2}$**.
+
+**6.** Intersections: $x^{2} = 4 x - x^{2} \Rightarrow x = 0 ,\  2$. $A = \int_{0}^{2} (4 x - 2 x^{2}) \,d x = \left[ 2 x^{2} - \frac{2 x^{3}}{3} \right]_{0}^{2} = 8 - \frac{16}{3}$ = **$\frac{8}{3}$**.
+
+**7.** $V = \pi \int_{1}^{2} x^{4} \,d x = \frac{\pi (32 - 1)}{5}$ = **$\frac{31 \pi}{5} \approx 19.48$**.
+
+**8.** $\left( \frac{1}{\pi} \right) [- \cos x]_{0}^{\pi} = \frac{2}{\pi}$ ≈ **0.637**.
+
+**9.** $\int_{1}^{\infty} x^{- \frac{1}{2}}$ diverges $\left( p = \frac{1}{2} \leq 1 \right)$. $\int_{1}^{\infty} x^{- \frac{3}{2}} = \left[ - 2 x^{- \frac{1}{2}} \right]_{1}^{\infty}$ = **2**, converges.
+
+**10.** $F' (x) = x e^{x}$. $F (1) = \int_{0}^{1} t e^{t} \,d t = [(t - 1) e^{t}]_{0}^{1}$ = **1**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q (5 marks). Evaluate ∫ x eˣ dx by parts and hence find ∫₀¹ x eˣ dx.**
+**Q (5 marks). Evaluate $\int x e^{x} \,d x$ by parts and hence find $\int_{0}^{1} x e^{x} \,d x$.**
 
-**Integration by parts** comes from the product rule: ∫u dv = uv − ∫v du. The skill is to choose u so that du is simpler than u. The order of preference is *LIATE*: Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential.
+**Integration by parts** comes from the product rule: $\int u \,d v = u v - \int v \,d u$. The skill is to choose *u* so that $d u$ is simpler than *u*. The order of preference is *LIATE*: Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential.
 
-1. In x eˣ the algebraic factor x comes before the exponential, so let u = x and dv = eˣ dx.
-2. Then du = dx and v = eˣ.
-3. Apply the formula: ∫ x eˣ dx = x eˣ − ∫ eˣ dx.
-4. The remaining integral is eˣ, so ∫ x eˣ dx = x eˣ − eˣ + C = **(x − 1)eˣ + C**.
-5. Check by differentiating: d/dx[(x − 1)eˣ] = eˣ + (x − 1)eˣ = x eˣ ✓.
+1. In $x e^{x}$ the algebraic factor *x* comes before the exponential, so let $u = x$ and $d v = e^{x} d x$.
+2. Then $d u = d x$ and $v = e^{x}$.
+3. Apply the formula: $\int x e^{x} \,d x = x e^{x} - \int e^{x} \,d x$.
+4. The remaining integral is $e^{x}$, so $\int x e^{x} \,d x = x e^{x} - e^{x} + C$ = **$(x - 1) e^{x} + C$**.
+5. Check by differentiating: $\frac{d}{d x} [(x - 1) e^{x}] = e^{x} + (x - 1) e^{x} = x e^{x}$ ✓.
 
-For the definite integral use the Fundamental Theorem: ∫₀¹ x eˣ dx = [(x − 1)eˣ]₀¹ = (0)(e) − (−1)(1) = **1**. The area under the curve y = x eˣ between x = 0 and x = 1 is exactly one square unit.
+For the definite integral use the Fundamental Theorem: $\int_{0}^{1} x e^{x} \,d x = [(x - 1) e^{x}]_{0}^{1} = (0) (e) - (- 1) (1)$ = **1**. The area under the curve $y = x e^{x}$ between $x = 0$ and $x = 1$ is exactly one square unit.
 
-**Q (5 marks). Find the area between y = x and y = x² and the volume generated when the curve y = √x, 0 ≤ x ≤ 4, is rotated about the x-axis.**
+**Q (5 marks). Find the area between $y = x$ and $y = x^{2}$ and the volume generated when the curve $y = \sqrt{x} ,\  0 \leq x \leq 4$, is rotated about the x-axis.**
 
-*Area (Figure 5.2a).* The curves meet where x = x², that is x = 0 and x = 1. Between them the line is above the parabola (at x = 0.5: 0.5 > 0.25). The area is the integral of (upper − lower): ∫₀¹ (x − x²) dx = [x²/2 − x³/3]₀¹ = 1/2 − 1/3 = **1/6 square unit**.
+*Area (Figure $5.2 a ) . \ast$ The curves meet where $x = x^{2}$, that is $x = 0$ and $x = 1$. Between them the line is above the parabola (at $x = 0.5$: $0.5 > 0.25$). The area is the integral of (upper − lower): $\int_{0}^{1} (x - x^{2}) \,d x = \left[ \frac{x^{2}}{2} - \frac{x^{3}}{3} \right]_{0}^{1} = \frac{1}{2} - \frac{1}{3}$ = **$\frac{1}{6}$ square unit**.
 
-*Volume (Figure 5.2b).* A thin slice at position x is a disc of radius y = √x and thickness dx, so its volume is πy² dx = πx dx. Adding all slices from 0 to 4:
+*Volume (Figure $5.2 b ) . \ast$ A thin slice at position *x* is a disc of radius $y = \sqrt{x}$ and thickness $d x$, so its volume is $\pi y^{2} d x = \pi x d x$. Adding all slices from 0 to 4:
 
-V = π ∫₀⁴ x dx = π [x²/2]₀⁴ = π × 8 = **8π ≈ 25.13 cubic units**.
+$V = \pi \int_{0}^{4} x \,d x = \pi \left[ \frac{x^{2}}{2} \right]_{0}^{4} = \pi \times 8$ = **$8 \pi \approx 25.13$ cubic units**.
 
-*Remark.* The disc formula is V = π∫ y² dx. If the region lies between two curves a washer (a disc with a hole) is used: V = π∫ (R² − r²) dx. Always sketch the region first and write which curve is on top.
+*Remark.* The disc formula is $V = \pi \int y^{2} \,d x$. If the region lies between two curves a washer (a disc with a hole) is used: $V = \pi \int (R^{2} - r^{2}) \,d x$. Always sketch the region first and write which curve is on top.
 
 **Q (10 marks). Define the definite integral through Riemann sums. State the Fundamental Theorem of Calculus. Explain the methods of integration (substitution, parts, partial fractions) with an example of each, and explain improper integrals.**
 
-**Introduction.** Integration reverses differentiation and also measures accumulated quantities such as area, distance and volume. The **indefinite integral** ∫f dx is the family of antiderivatives F(x) + C, and the **definite integral** ∫ₐᵇ f dx is a number, the signed area under the curve.
+**Introduction.** Integration reverses differentiation and also measures accumulated quantities such as area, distance and volume. The **indefinite integral** $\int f \,d x$ is the family of antiderivatives $F (x) + C$, and the **definite integral** $\int_{a}^{b} f \,d x$ is a number, the signed area under the curve.
 
-**Riemann sums (Figure 5.1).** Divide [a, b] into n strips of width Δx = (b − a)/n, build a rectangle of height f(xᵢ) on each, and add: Σ f(xᵢ)Δx. The definite integral is the limit of this sum as n → ∞. For f = x² on [0, 2] the sums are 1.75 (left, n = 4), 3.75 (right, n = 4) and tend to **8/3**.
+**Riemann sums (Figure 5.1).** Divide $[a ,\  b]$ into *n* strips of width $\Delta x = \frac{b - a}{n}$, build a rectangle of height $f (x_{i})$ on each, and add: $\sum f (x_{i}) \Delta x$. The definite integral is the limit of this sum as $n \to \infty$. For $f = x^{2}$ on [0, 2] the sums are 1.75 (left, $n = 4$), 3.75 (right, $n = 4$) and tend to **$\frac{8}{3}$**.
 
-**Fundamental Theorem of Calculus.** (1) If F(x) = ∫ₐˣ f(t) dt then F′(x) = f(x). (2) If G′ = f then ∫ₐᵇ f dx = G(b) − G(a). Example: ∫₀² x² dx = [x³/3]₀² = 8/3 ✓.
+**Fundamental Theorem of Calculus.** (1) If $F (x) = \int_{a}^{x} f (t) \,d t$ then $F' (x) = f (x)$. (2) If $G' = f$ then $\int_{a}^{b} f \,d x = G (b) - G (a)$. Example: $\int_{0}^{2} x^{2} \,d x = \left[ \frac{x^{3}}{3} \right]_{0}^{2} = \frac{8}{3}$ ✓.
 
 **Methods of integration.**
 
 | Method | When used | Example | Result |
 |---|---|---|---|
-| Substitution | a function and its derivative appear | ∫ 2x cos(x²) dx, u = x² | sin(x²) + C |
-| By parts | product of different types | ∫ x eˣ dx, u = x | (x − 1)eˣ + C |
-| Partial fractions | rational function with factorable denominator | ∫ (3x + 5)/((x + 1)(x + 2)) dx | 2 ln\|x + 1\| + ln\|x + 2\| + C |
+| Substitution | a function and its derivative appear | $\int 2 x \cos (x^{2}) \,d x ,\  u = x^{2}$ | $\sin (x^{2}) + C$ |
+| By parts | product of different types | $\int x e^{x} \,d x ,\  u = x$ | $(x - 1) e^{x} + C$ |
+| Partial fractions | rational function with factorable denominator | $\frac{\int (3 x + 5)}{(x + 1) (x + 2)} \,d x$ | 2 ln\|x + 1\| + ln\|x + 2\| + C |
 
-For the last example write (3x + 5)/((x + 1)(x + 2)) = A/(x + 1) + B/(x + 2). Then 3x + 5 = A(x + 2) + B(x + 1); putting x = −1 gives A = 2 and x = −2 gives B = 1.
+For the last example write $\frac{3 x + 5}{(x + 1) (x + 2)} = \frac{A}{x + 1} + \frac{B}{x + 2}$. Then $3 x + 5 = A (x + 2) + B (x + 1)$; putting $x = - 1$ gives $A = 2$ and $x = - 2$ gives $B = 1$.
 
-**Applications (Figure 5.2).** Area between curves is ∫(upper − lower)dx, volume of revolution is π∫y² dx, and average value is (1/(b − a))∫f dx.
+**Applications (Figure 5.2).** Area between curves is $\int ( \mathrm{upper}$ − lower)dx, volume of revolution is $\pi \int y^{2} \,d x$, and average value is $\left( \frac{1}{b - a} \right) \int f \,d x$.
 
-**Improper integrals (Figure 5.3).** An integral with an infinite limit is defined by a limit: ∫₁^∞ dx/x² = lim (b→∞) (1 − 1/b) = **1** (converges), but ∫₁^∞ dx/x = lim ln b = ∞ (diverges). The p-test: ∫₁^∞ dx/xᵖ converges if and only if p > 1.
+**Improper integrals (Figure 5.3).** An integral with an infinite limit is defined by a limit: $\frac{\int_{1}^{\infty} d x}{x^{2}} = \lim_{b \to \infty} \left( 1 - \frac{1}{b} \right)$ = **1** (converges), but $\frac{\int_{1}^{\infty} d x}{x} = \lim \ln b = \infty$ (diverges). The p-test: $\frac{\int_{1}^{\infty} d x}{x^{p}}$ converges if and only if $p > 1$.
 
 **Conclusion.** Integration accumulates small pieces into a total. The Fundamental Theorem makes it practical by connecting it with antiderivatives, and the three methods cover most examination problems.
