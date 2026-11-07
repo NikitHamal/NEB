@@ -5,63 +5,63 @@
    "no": 1,
    "title": "Database Management System (DBMS)",
    "area": "",
-   "words": 5825,
-   "read_min": 32,
-   "figures": 10,
+   "words": 7361,
+   "read_min": 41,
+   "figures": 11,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Data Communication and Networking",
    "area": "",
-   "words": 4784,
-   "read_min": 27,
-   "figures": 19,
+   "words": 7499,
+   "read_min": 42,
+   "figures": 14,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Web Technology II",
    "area": "",
-   "words": 5349,
-   "read_min": 30,
-   "figures": 9,
+   "words": 6907,
+   "read_min": 38,
+   "figures": 10,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Programming in C",
    "area": "",
-   "words": 4670,
-   "read_min": 26,
-   "figures": 10,
+   "words": 6274,
+   "read_min": 35,
+   "figures": 11,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Object-Oriented Programming (OOP)",
    "area": "",
-   "words": 4742,
-   "read_min": 26,
-   "figures": 7,
+   "words": 6618,
+   "read_min": 37,
+   "figures": 8,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "Software Process Model (SPM)",
    "area": "",
-   "words": 4774,
-   "read_min": 27,
-   "figures": 10,
+   "words": 6345,
+   "read_min": 35,
+   "figures": 11,
    "has_questions": true
   },
   {
    "no": 7,
    "title": "Recent Trends in Technology",
    "area": "",
-   "words": 4070,
-   "read_min": 23,
-   "figures": 9,
+   "words": 7551,
+   "read_min": 42,
+   "figures": 12,
    "has_questions": true
   }
  ],
@@ -71,21 +71,21 @@
    "no": 1,
    "kind": "objective",
    "title": "Computer Science: Unit-wise Objective Question Bank",
-   "words": 7020,
+   "words": 7001,
    "read_min": 39
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 11927,
-   "read_min": 66
+   "words": 13401,
+   "read_min": 74
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Computer Science: Model Question Sets and Predicted Questions",
-   "words": 14113,
+   "words": 14034,
    "read_min": 78
   }
  ],

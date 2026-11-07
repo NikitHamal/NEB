@@ -5,27 +5,27 @@
    "no": 1,
    "title": "Physical Chemistry",
    "area": "Chemistry",
-   "words": 2362,
-   "read_min": 13,
-   "figures": 0,
+   "words": 3699,
+   "read_min": 21,
+   "figures": 5,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Inorganic Chemistry",
    "area": "Chemistry",
-   "words": 2038,
-   "read_min": 11,
-   "figures": 0,
+   "words": 2882,
+   "read_min": 16,
+   "figures": 4,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Organic Chemistry",
    "area": "Chemistry",
-   "words": 2174,
-   "read_min": 12,
-   "figures": 0,
+   "words": 2991,
+   "read_min": 17,
+   "figures": 3,
    "has_questions": true
   }
  ]

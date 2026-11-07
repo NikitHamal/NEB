@@ -5,90 +5,90 @@
    "no": 1,
    "title": "Plant Anatomy",
    "area": "Botany",
-   "words": 7565,
-   "read_min": 42,
-   "figures": 16,
+   "words": 9142,
+   "read_min": 51,
+   "figures": 18,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Plant Physiology",
    "area": "Botany",
-   "words": 11970,
-   "read_min": 66,
-   "figures": 11,
+   "words": 13426,
+   "read_min": 75,
+   "figures": 14,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Genetics",
    "area": "Botany",
-   "words": 8982,
-   "read_min": 50,
-   "figures": 15,
+   "words": 10167,
+   "read_min": 56,
+   "figures": 17,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Embryology",
    "area": "Botany",
-   "words": 4986,
-   "read_min": 28,
-   "figures": 7,
+   "words": 6406,
+   "read_min": 36,
+   "figures": 9,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Biotechnology",
    "area": "Botany",
-   "words": 6231,
-   "read_min": 35,
-   "figures": 5,
+   "words": 7524,
+   "read_min": 42,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "Animal Tissues",
    "area": "Zoology",
-   "words": 5057,
-   "read_min": 28,
-   "figures": 20,
+   "words": 6584,
+   "read_min": 37,
+   "figures": 23,
    "has_questions": true
   },
   {
    "no": 7,
    "title": "Developmental Biology",
    "area": "Zoology",
-   "words": 4511,
-   "read_min": 25,
-   "figures": 10,
+   "words": 5894,
+   "read_min": 33,
+   "figures": 12,
    "has_questions": true
   },
   {
    "no": 8,
    "title": "Human Biology",
    "area": "Zoology",
-   "words": 13524,
-   "read_min": 75,
-   "figures": 25,
+   "words": 15247,
+   "read_min": 85,
+   "figures": 28,
    "has_questions": true
   },
   {
    "no": 9,
    "title": "Human Population and Health Disorders",
    "area": "Zoology",
-   "words": 4716,
-   "read_min": 26,
-   "figures": 8,
+   "words": 6234,
+   "read_min": 35,
+   "figures": 10,
    "has_questions": true
   },
   {
    "no": 10,
    "title": "Applied Biology",
    "area": "Zoology",
-   "words": 10441,
-   "read_min": 58,
-   "figures": 18,
+   "words": 12270,
+   "read_min": 68,
+   "figures": 21,
    "has_questions": true
   }
  ],
@@ -98,22 +98,22 @@
    "no": 1,
    "kind": "objective",
    "title": "Biology: Unit-wise Objective Question Bank",
-   "words": 10992,
+   "words": 10964,
    "read_min": 61
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Biology: Unit-wise Subjective Question Bank",
-   "words": 15222,
-   "read_min": 85
+   "words": 16527,
+   "read_min": 92
   },
   {
    "no": 3,
    "kind": "model",
    "title": "Biology: Model Question Sets and Predicted Questions",
-   "words": 9460,
-   "read_min": 53
+   "words": 9356,
+   "read_min": 52
   }
  ],
  "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"

@@ -43,6 +43,42 @@ matplotlib.rcParams.update({
 })
 
 
+# Symbols typed as Unicode inside $...$ are missing from the maths font and print as a box;
+# TeX names come from STIX. Text outside $...$ keeps the per-glyph Poppins / DejaVu fallback.
+_TEXSYM = {"\u2192": r"\rightarrow ", "\u2190": r"\leftarrow ", "\u21d2": r"\Rightarrow ",
+           "\u21d4": r"\Leftrightarrow ", "\u21cc": r"\rightleftharpoons ", "\u2191": r"\uparrow ",
+           "\u2193": r"\downarrow ", "\u0394": r"\Delta ", "\u03b4": r"\delta ", "\u03b1": r"\alpha ",
+           "\u03b2": r"\beta ", "\u03b3": r"\gamma ", "\u03b8": r"\theta ", "\u03bb": r"\lambda ",
+           "\u03bc": r"\mu ", "\u03c0": r"\pi ", "\u03c3": r"\sigma ", "\u03c9": r"\omega ",
+           "\u03a3": r"\Sigma ", "\u03a9": r"\Omega ", "\u03c6": r"\phi ", "\u03c1": r"\rho ",
+           "\u03c4": r"\tau ", "\u03b5": r"\epsilon ", "\u2264": r"\leq ", "\u2265": r"\geq ",
+           "\u2260": r"\neq ", "\u2248": r"\approx ", "\u00b1": r"\pm ", "\u00d7": r"\times ",
+           "\u00b7": r"\cdot ", "\u221e": r"\infty ", "\u2212": "-", "\u00b0": r"^{\circ}"}
+
+
+def _texsyms(text):
+    if "$" not in text or "\\$" in text:
+        return text
+    parts = text.split("$")
+    for i in range(len(parts)):
+        if i % 2:
+            parts[i] = "".join(_TEXSYM.get(c, c) for c in parts[i])
+        else:   # text between formulas is drawn by mathtext too, which has no glyph fallback
+            parts[i] = "".join("$%s$" % _TEXSYM[c].strip() if c in _TEXSYM and c != "\u2212" else c
+                               for c in parts[i]).replace("\u2212", "-")
+    return "$".join(parts)
+
+
+_set_text = matplotlib.text.Text.set_text
+
+
+def _set_text_tex(self, s):
+    return _set_text(self, _texsyms(s) if isinstance(s, str) else s)
+
+
+matplotlib.text.Text.set_text = _set_text_tex
+
+
 def _style():
     matplotlib.rcParams.update({
         "font.family": FAMILY,
