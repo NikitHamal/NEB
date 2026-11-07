@@ -1559,6 +1559,21 @@ interface ApiService {
     @POST("api/posts/impressions/")
     suspend fun reportPostImpressions(@Body body: PostImpressionsRequest)
 
+    /** Uploader-only (and staff) insights for one library resource. */
+    @GET("api/resources/{resourceId}/insights/")
+    suspend fun getResourceInsights(
+        @Header("Authorization") bearerToken: String,
+        @Path("resourceId") resourceId: String,
+        @Query("days") days: Int
+    ): ApiResourceInsights
+
+    /** Everything the signed-in member has uploaded to the library, plus their posts. */
+    @GET("api/uploads/insights/")
+    suspend fun getUploadsInsights(
+        @Header("Authorization") bearerToken: String,
+        @Query("days") days: Int
+    ): ApiResourceInsights
+
     /** Author-only (and staff) per-post insights. */
     @GET("api/posts/{postId}/insights/")
     suspend fun getPostInsights(
