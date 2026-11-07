@@ -130,3 +130,14 @@ A poll belongs to a post or to a top-level comment (`Poll.reply`). `allow_add_op
 signed-in member append an option (max 12 total, 100 chars, case-insensitive duplicates refused,
 voting polls only; quizzes stay locked). `POST /api/polls/<id>/options/`, `DELETE` same URL
 retracts a vote. Web card: `_poll_card.html` + `poll-card.js` + `m3x/app-poll.css`.
+
+## Library reach and push funnel
+
+* `ResourceReach` / `ResourceImpression` are written by `api/resource_reach.py`, the `PostReach` twin: one row per viewer per local
+  day, `Resource.view_count` moves only for a new non-owner, non-bot viewer-day and only while the resource is approved.
+  `download_count` moves on the first `download` action of a viewer-day (app only). Writes never fail a request.
+* A resource page opened with `?src=push` (or `surface=notification`) marks the matching `PushDelivery` clicked through
+  `ResourceAlert.campaign_id` and `PushCampaign.target_id`. That closes the funnel sent -> opened -> went on to the resource.
+* `api/resource_insights.py`: `build(resource)` and `overview(user)`. Uploaders see their own, staff see all. Admin > Analytics >
+  Library (`report_library.py`) is the staff roll-up. Push delivery and open analytics live in Admin > Push > History.
+* Tests: `api.test_resource_reach`, `api.test_push_autopilot`, `web.test_admin_push_pages`.
