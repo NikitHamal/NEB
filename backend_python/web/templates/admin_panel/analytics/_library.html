@@ -1,0 +1,35 @@
+{% load web_extras %}{# Library reach. Staff-only; fed by nebians/analytics/report_library.py. #}
+{% with l=r.library %}
+<section class="an-section" id="an-library" data-section>
+  <h2 class="an-h">Library</h2>
+  {% if l.views or l.impressions %}
+  <div class="an-kpis">
+    <article class="an-kpi"><div class="an-kpi-top"><span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span></span><span class="an-kpi-label">Opens</span></div><div class="an-kpi-value">{{ l.views }}</div><div class="an-kpi-foot"><span class="an-tag">{{ l.people }} people</span></div></article>
+    <article class="an-kpi"><div class="an-kpi-top"><span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">visibility</span></span><span class="an-kpi-label">Seen in lists</span></div><div class="an-kpi-value">{{ l.impressions }}</div><div class="an-kpi-foot">{% if l.ctr != None %}<span class="an-tag">{{ l.ctr }}% opened</span>{% endif %}</div></article>
+    <article class="an-kpi"><div class="an-kpi-top"><span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">auto_stories</span></span><span class="an-kpi-label">Read or played</span></div><div class="an-kpi-value">{{ l.reads }}</div><div class="an-kpi-foot">{% if l.read_rate != None %}<span class="an-tag">{{ l.read_rate }}% of opens</span>{% endif %}</div></article>
+    <article class="an-kpi"><div class="an-kpi-top"><span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">download</span></span><span class="an-kpi-label">Downloads</span></div><div class="an-kpi-value">{{ l.downloads }}</div><div class="an-kpi-foot">{% if l.download_rate != None %}<span class="an-tag">{{ l.download_rate }}% of opens</span>{% endif %}</div></article>
+    <article class="an-kpi"><div class="an-kpi-top"><span class="an-kpi-icon"><span class="material-symbols-outlined" aria-hidden="true">notifications_active</span></span><span class="an-kpi-label">Opened from a push</span></div><div class="an-kpi-value">{{ l.from_push }}</div><div class="an-kpi-foot">{% if l.push_share != None %}<span class="an-tag">{{ l.push_share }}% of opens</span>{% endif %}</div></article>
+  </div>
+  <div class="an-grid">
+    <div class="an-card an-span-12">
+      <div class="an-card-head"><h3>Most opened resources</h3></div>
+      <table class="an-tbl">
+        <thead><tr><th>Resource</th><th>Level</th><th>Uploader</th><th>Opens</th><th>People</th><th>Read</th><th>Saved</th><th>From push</th></tr></thead>
+        <tbody>
+        {% for t in l.top %}
+          <tr><td><a href="{% url 'web:reader' resource_id=t.id %}" target="_blank" rel="noopener">{{ t.title }}</a></td><td>{{ t.level }}</td><td>{{ t.by }}</td><td>{{ t.views }}</td><td>{{ t.people }}</td><td>{{ t.reads }}</td><td>{{ t.downloads }}</td><td>{{ t.push }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="an-card an-span-6"><div class="an-card-head"><h3>How people found resources</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=l.surfaces swatch=True %}</div>
+    <div class="an-card an-span-6"><div class="an-card-head"><h3>Opens by subject</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=l.subjects %}</div>
+    <div class="an-card an-span-4"><div class="an-card-head"><h3>Reader class</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=l.classes %}</div>
+    <div class="an-card an-span-4"><div class="an-card-head"><h3>Device</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=l.devices swatch=True %}</div>
+    <div class="an-card an-span-4"><div class="an-card-head"><h3>Website or app</h3></div>{% include "admin_panel/analytics/_rank.html" with rows=l.sources swatch=True %}</div>
+  </div>
+  {% else %}
+  <div class="an-card"><p>Library opens are counted from now on. They show here after the first students open a resource.</p></div>
+  {% endif %}
+</section>
+{% endwith %}
