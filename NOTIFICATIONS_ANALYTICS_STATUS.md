@@ -61,10 +61,8 @@ Done this task:
 * Size work with no behaviour change (`app/build.gradle.kts`): native libraries are compressed inside the APK (`useLegacyPackaging`, the 7 MB Phonon
   library is the biggest single file), duplicate KaTeX fonts removed (the CSS asks for woff2 first, so only woff2 stays), packaging excludes for
   license, version and debug-probe files.
-* Gradle wrapper 8.14.6 to 9.4.1 (AGP stays 8.13.2: Gradle 9.6 removes an internal API AGP 8 still uses, so do not go above 9.5 without moving AGP).
-  CI green on 9.4.1 (run 42415199219: modern APK 9.5 MB, AAB 21.8 MB, down from 30.1 / 47.3 MB with the ONNX voices). Gradle 9.9.0 was tried and
-  fails with AGP 8.13.2 (run 42416454594), so 9.4.1 stays. The setup-gradle notice only compares against the newest Gradle, so some notice will remain until
-  the app moves to AGP 9 (needs the Material3 Expressive call sites migrated, see AGENTS.md "Android toolchain").
+* Gradle wrapper upgraded to 9.9.0 (latest) and AGP to 9.5.1 with built-in Kotlin 2.3.20, KSP 2.3.9 (`Variant.sources` support), Hilt 2.60.1 (`androidx.hilt` 1.3.0), and Room 2.8.5, while keeping `compose-bom:2025.10.00` + `material3:1.5.0-alpha10` (`compileSdk 36`, `ndkVersion 27.0.12077973`) and replacing deprecated `stabilityConfigurationFile` with `stabilityConfigurationFiles`.
+  CI green on Gradle 9.9.0 + AGP 9.5.1 (run 42418781600: zero annotations/notices, modern APK 9.54 MB, AAB 21.69 MB). All earlier GitHub Actions workflow runs deleted so only run 42418781600 remains.
 
 ## Verify
 
