@@ -209,6 +209,15 @@ sealed class Screen(val route: String) {
     }
 }
 
+/** Screens that come before the app proper; a notification target waits until the app has left them. */
+private val PRE_APP_ROUTES = setOf(
+    Screen.Splash.route,
+    Screen.Intro.route,
+    Screen.Login.route,
+    Screen.EmailAuth.route,
+    Screen.CompleteProfile.route,
+)
+
 val glassNavItems = listOf(
     NebNavItem(
         route = Screen.Home.route,
@@ -291,16 +300,18 @@ fun NEBiansNavHost(
 
     val deepLinkScope = rememberCoroutineScope()
     val pendingDeepLink by DeepLinkBus.pendingDeepLink.collectAsState()
-    LaunchedEffect(pendingDeepLink, isAuthenticated) {
-        if (!isAuthenticated) return@LaunchedEffect
-        val deepLink = pendingDeepLink ?: return@LaunchedEffect
+    // A tapped notification lands on a synthetic back stack (Home, then the target) so Back goes
+    // to Home and never to the splash or a sign-in screen. Applied once the app is on a real screen.
+    val openDeepLink: () -> Unit = openDeepLink@{
+        val deepLink = DeepLinkBus.pendingDeepLink.value ?: return@openDeepLink
         DeepLinkBus.clear()
-        val route = deepLink.route ?: return@LaunchedEffect
-
-        navController.navigate(route) {
-            launchSingleTop = true
+        val route = deepLink.route
+        if (route != null) {
+            navController.navigate(route) {
+                popUpTo(Screen.Home.route) { inclusive = false }
+                launchSingleTop = true
+            }
         }
-
         if (!deepLink.notificationId.isNullOrBlank()) {
             deepLinkScope.launch {
                 try {
@@ -313,6 +324,12 @@ fun NEBiansNavHost(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route?.substringBefore("?")
+    LaunchedEffect(pendingDeepLink, isAuthenticated, currentRoute) {
+        if (!isAuthenticated || pendingDeepLink == null) return@LaunchedEffect
+        val route = currentRoute ?: return@LaunchedEffect
+        if (route in PRE_APP_ROUTES) return@LaunchedEffect
+        openDeepLink()
+    }
     var hideLibraryDetailChrome by remember { mutableStateOf(false) }
     LaunchedEffect(currentRoute) {
         if (currentRoute != "library") hideLibraryDetailChrome = false
@@ -420,6 +437,8 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
                         }
+                        // Opened from a notification: go straight to its screen, Home stays underneath.
+                        openDeepLink()
                     },
                     onNavigateToLogin = {
                         navController.navigate(Screen.Login.route) {
