@@ -43,6 +43,9 @@ def front_html(subject, grade, head, units, exam_notes):
             areas.append((u["area"], []))
         if areas:
             areas[-1][1].append(u)
+    if not areas and units:
+        # spine without `# AREA:` headings: one row for the whole book, never an empty table
+        areas = [(subject, list(units))]
     rows = "".join(
         f'<tr><td>{esc(a)}</td><td>{i18n.num(len(us))}</td>'
         f'<td>{i18n.num(sum(int(x["hours"]) for x in us if x["hours"])) if any(x["hours"] for x in us) else "·"}</td></tr>'

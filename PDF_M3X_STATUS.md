@@ -41,7 +41,18 @@ See the table at the bottom (updated as batches are pushed).
 | --- | --- | --- |
 | done | all 96 books | rebuilt with the MathJax session below; run at most 2 builds in parallel (3 get OOM-killed on 4 GB) |
 
-## Session: stale PDF sweep and 16:9 library covers (latest, read first)
+## Session: full-library rebuild sweep (latest, read first)
+- **Method (reuse it).** Audits that only look at fonts miss old builds. The authoritative check is: rebuild every book into the tree, then compare each file with `HEAD`.
+  A file whose page count is unchanged is line-break noise (the Pango version differs a little between machines): `git checkout` it so the repo does not grow.
+  A file whose page count changed is a stale build: keep it. Contents rows (3.6 mm padding, no split) and MathJax figures changed pagination in every book that was built before them.
+- **Result.** All 51 school, CEE, IOE and BCA-entrance slugs and all 41 BCA course books were rebuilt and compared. Fresh (identical page count) and left untouched: the 41 BCA course books, BCA entrance (4), CEE Mental Agility, CEE Mock, CEE Zoology, CEE Botany, CEE Chemistry, Nepali 8, Health 8.
+  Stale and now rebuilt, in two batches: (1) Computer Science 11 and 12, IOE Chemistry, Physics, Model Papers (Inter figures); (2) Accountancy 10, Commerce Question Bank 10, Compulsory English 8, 10, 11, 12, Computer Science 8 and 10, Economics 10, Mathematics 8 and 10, Optional Mathematics 8 and 10, Question Bank 8, 10 and 11, Science and Technology 8 and 10, Nepali 10, 11 and 12, Social Studies 8 and 10 (old contents rows and figures; page counts grew 3 to 20 percent).
+- **Pipeline fix.** `furniture.front_html`: a spine without `# AREA:` headings (Computer Science 10 to 12, Optional Mathematics 8) printed "Syllabus coverage at a glance" with a header and no rows. It now prints one row for the whole book (subject, chapters, hours). Those four books were rebuilt after the fix.
+- **Not touched on purpose.** `claude/bsc-nursing` (15 BSN books built on the pre-M3X theme, 19 sessions of work by another agent) and `resources/past-papers-class12` (source papers). Merge `main` into the nursing branch, then rebuild its books there with its own build tools.
+- **Left as is.** Inter spans that remain are specimens or code on purpose: UX/UI Design font sample, Web Technology I result table, Mobile Programming code, one circled-letter glyph (Question Bank 11, fallback face).
+- For the local agent: re-upload only the books whose page count changed in this session's commits (`manifest.json` carries the new pages and sizes).
+
+## Session: stale PDF sweep and 16:9 library covers
 - **Audit, do not guess.** A built PDF is stale when its cover or furniture still uses Inter (old theme) or a figure label still uses Inter
   (pre-Poppins figures). `/tmp/audit`-style check with pymupdf: `page.get_text("dict")` spans whose font starts with `Inter` on pages 1-4
   (furniture) and on every 7th page (figures); the old cover also prints the `Complete study notes ...` blurb.
