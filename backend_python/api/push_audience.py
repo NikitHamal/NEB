@@ -17,7 +17,7 @@ FILTER_KEYS = ('class_level', 'gender', 'min_age', 'max_age', 'pradesh', 'distri
                'role', 'subject', 'joined_days', 'active_days', 'inactive_days', 'device',
                'usernames_or_ids')
 ROLES = (('student', 'Students'), ('teacher', 'Teachers'), ('institution', 'Institutions'), ('explorer', 'Explorers'))
-DEVICE_CHOICES = (('', 'Everyone'), ('with', 'Has the app'), ('without', 'Inbox only'))
+DEVICE_CHOICES = (('', 'Web and Android'), ('with', 'Android app'), ('without', 'Web only'))
 DAY_MS = 86400000
 
 
@@ -110,9 +110,9 @@ def describe(filters: dict) -> str:
     if f.get('inactive_days'):
         parts.append(f"away {f['inactive_days']} days")
     if f.get('device') == 'with':
-        parts.append('has the app')
+        parts.append('Android')
     elif f.get('device') == 'without':
-        parts.append('inbox only')
+        parts.append('Web only')
     return ', '.join(parts)[:240] or 'Everyone'
 
 

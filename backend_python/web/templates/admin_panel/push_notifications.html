@@ -13,34 +13,19 @@
 <div class="pn-alert error" role="alert"><span class="material-symbols-outlined" aria-hidden="true">error</span><div>{{ error_message }}</div></div>
 {% endif %}
 
-<form method="post" id="pushForm" class="pn-grid" data-count-url="{% url 'web:admin_push_notifications' %}" data-title-max="{{ title_max }}" data-body-max="{{ body_max }}">
+<form method="post" id="pushForm" class="pn-grid" data-count-url="{% url 'web:admin_push_notifications' %}" data-title-max="{{ title_max }}" data-body-max="{{ body_max }}" data-mode="{{ mode }}">
   {% csrf_token %}
   <div class="pn-col">
     <section class="pn-card">
-      <h2>Message</h2>
-      <label class="pn-field" for="title">Title <span class="pn-count" id="titleCount">0/{{ title_max }}</span>
-        <input type="text" id="title" name="title" class="md-input" maxlength="{{ title_max }}" value="{{ title_val }}" required autocomplete="off" placeholder="New Class 10 Science notes">
-      </label>
-      <label class="pn-field" for="body">Message <span class="pn-count" id="bodyCount">0/{{ body_max }}</span>
-        <textarea id="body" name="body" class="md-input" rows="3" maxlength="{{ body_max }}" required placeholder="Chapter-wise notes with solved questions are live in the library.">{{ body_val }}</textarea>
-      </label>
-      <div class="pn-field" role="radiogroup" aria-label="Opens">
-        Opens
-        <div class="pn-chips" style="margin-top:8px;">
-          {% for key, label in destinations %}
-          <label class="pn-chip"><input type="radio" name="dest" value="{{ key }}" {% if dest == key %}checked{% endif %}><span>{{ label }}</span></label>
-          {% endfor %}
-        </div>
-      </div>
-      <label class="pn-field" id="destIdWrap" for="dest_id" hidden>Resource or post link, or id
-        <input type="text" id="dest_id" name="dest_id" class="md-input" value="{{ dest_id }}" autocomplete="off">
-      </label>
-    </section>
-
-    <section class="pn-card">
       <h2>Audience</h2>
-      <div class="pn-row">
-        <label class="pn-field" for="class_level">Class
+      <div class="pn-chips pn-gap-bottom-s" role="radiogroup" aria-label="Audience">
+        {% for key, label in modes %}
+        <label class="pn-chip"><input type="radio" name="mode" value="{{ key }}" {% if mode == key %}checked{% endif %}><span>{{ label }}</span></label>
+        {% endfor %}
+      </div>
+
+      <div class="pn-row" data-modes="class subject">
+        <label class="pn-field" for="class_level">Class or level
           <select id="class_level" name="class_level" class="md-input">
             <option value="" {% if not filters.class_level %}selected{% endif %}>All classes</option>
             <option value="Class 8" {% if filters.class_level == "Class 8" %}selected{% endif %}>Class 8</option>
@@ -57,24 +42,36 @@
             <option value="Other" {% if filters.class_level == "Other" %}selected{% endif %}>Other</option>
           </select>
         </label>
+      </div>
+      <div class="pn-row" data-modes="subject">
         <label class="pn-field" for="subject">Subject
           <input type="text" id="subject" name="subject" class="md-input" value="{{ filters.subject }}" placeholder="Physics" autocomplete="off">
         </label>
-        <label class="pn-field" for="role">Role
-          <select id="role" name="role" class="md-input">
-            <option value="">Everyone</option>
-            {% for value, label in roles %}<option value="{{ value }}" {% if filters.role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
-          </select>
-        </label>
-        <label class="pn-field" for="device">Reach
-          <select id="device" name="device" class="md-input">
-            {% for value, label in devices_choices %}<option value="{{ value }}" {% if filters.device == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
-          </select>
-        </label>
       </div>
-      <details class="pn-more" {% if filters.gender or filters.min_age or filters.max_age or filters.pradesh or filters.district or filters.school or filters.joined_days or filters.active_days or filters.inactive_days or filters.usernames_or_ids %}open{% endif %}>
-        <summary><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">tune</span>More filters</summary>
+      <div class="pn-field" data-modes="platform" role="radiogroup" aria-label="Platform">
+        <div class="pn-chips">
+          {% for value, label in devices_choices %}
+          <label class="pn-chip"><input type="radio" name="device" value="{{ value }}" {% if filters.device == value or not filters.device and not value %}checked{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pn-batch-box" data-modes="unnotified">
+        <div class="pn-tiles pn-tiles-2">
+          <div class="pn-tile"><strong id="cResources">{{ counts.resources|default:0 }}</strong><span>Unannounced resources</span></div>
+          <div class="pn-tile"><strong id="cSingles">{{ counts.singles|default:0 }}</strong><span>Messages as singles</span></div>
+        </div>
+      </div>
+
+      <details class="pn-more" data-hide-modes="unnotified" {% if filters.role or filters.gender or filters.min_age or filters.max_age or filters.pradesh or filters.district or filters.school or filters.joined_days or filters.active_days or filters.inactive_days or filters.usernames_or_ids %}open{% endif %}>
+        <summary><span class="material-symbols-outlined pn-icon-s" aria-hidden="true">tune</span>More filters</summary>
         <div class="pn-row">
+          <label class="pn-field" for="role">Role
+            <select id="role" name="role" class="md-input">
+              <option value="">Everyone</option>
+              {% for value, label in roles %}<option value="{{ value }}" {% if filters.role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+            </select>
+          </label>
           <label class="pn-field" for="active_days">Active in the last
             <select id="active_days" name="active_days" class="md-input">
               <option value="">Any time</option>
@@ -120,27 +117,61 @@
       </details>
     </section>
 
+    <section class="pn-card" data-hide-modes="unnotified">
+      <h2>Message</h2>
+      <label class="pn-field" for="title">Title <span class="pn-count" id="titleCount">0/{{ title_max }}</span>
+        <input type="text" id="title" name="title" class="md-input" maxlength="{{ title_max }}" value="{{ title_val }}" required autocomplete="off" placeholder="New Class 10 Science notes">
+      </label>
+      <label class="pn-field" for="body">Message <span class="pn-count" id="bodyCount">0/{{ body_max }}</span>
+        <textarea id="body" name="body" class="md-input" rows="3" maxlength="{{ body_max }}" required placeholder="Chapter-wise notes with solved questions are live in the library.">{{ body_val }}</textarea>
+      </label>
+      <div class="pn-field" role="radiogroup" aria-label="Opens">
+        Opens
+        <div class="pn-chips pn-gap-top-s">
+          {% for key, label in destinations %}
+          <label class="pn-chip"><input type="radio" name="dest" value="{{ key }}" {% if dest == key %}checked{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
+        </div>
+      </div>
+      <label class="pn-field" id="destIdWrap" for="dest_id" hidden>Resource or post link, or id
+        <input type="text" id="dest_id" name="dest_id" class="md-input" value="{{ dest_id }}" autocomplete="off">
+      </label>
+    </section>
+
     <section class="pn-card">
       <h2>Delivery</h2>
-      <label class="pn-switch" for="also_inbox">
-        <span>Also put it in the notification inbox<small>Reaches people without the app and lets us count opens on the web.</small></span>
-        <span class="md-switch"><input type="checkbox" id="also_inbox" name="also_inbox" value="1" {% if also_inbox %}checked{% endif %}><span class="slider"></span></span>
-      </label>
-      <label class="pn-field" for="send_at" style="margin-top:16px;">Send later (Nepal time, optional)
-        <input type="datetime-local" id="send_at" name="send_at" class="md-input" value="{{ send_at }}">
-      </label>
-      <div class="pn-actions" style="margin-top:20px;">
+      <div data-hide-modes="unnotified">
+        <label class="pn-switch" for="also_inbox">
+          <span>Also put it in the notification inbox</span>
+          <span class="md-switch"><input type="checkbox" id="also_inbox" name="also_inbox" value="1" {% if also_inbox %}checked{% endif %}><span class="slider"></span></span>
+        </label>
+        <label class="pn-field pn-gap-top" for="send_at">Send later (Nepal time)
+          <input type="datetime-local" id="send_at" name="send_at" class="md-input" value="{{ send_at }}">
+        </label>
+      </div>
+      <div class="pn-actions pn-gap-top">
         <button type="submit" name="action" value="send" id="sendBtn" class="md-btn md-btn-filled"
                 data-action="confirm-submit" data-confirm-title="Send this notification?"
                 data-confirm-msg="It goes to the people matching these filters." data-confirm-label="Send" data-confirm-tone="primary">
-          <span class="material-symbols-outlined" aria-hidden="true">send</span>Send
+          <span class="material-symbols-outlined" aria-hidden="true" id="sendIcon">send</span><span id="sendLabel">Send</span>
         </button>
-        <button type="submit" name="action" value="test" class="md-btn md-btn-outlined"><span class="material-symbols-outlined" aria-hidden="true">phone_android</span>Send test to me</button>
+        <button type="submit" name="action" value="test" id="testBtn" class="md-btn md-btn-outlined" data-hide-modes="unnotified"><span class="material-symbols-outlined" aria-hidden="true">phone_android</span>Send test to me</button>
       </div>
     </section>
   </div>
 
   <aside class="pn-col pn-sticky" aria-label="Preview">
+    <section class="pn-card">
+      <h2>Recipients</h2>
+      <div class="pn-tiles">
+        <div class="pn-tile"><strong id="cUsers">{{ counts.users }}</strong><span>People</span></div>
+        <div class="pn-tile"><strong id="cApp">{{ counts.device_users }}</strong><span>Android</span></div>
+        <div class="pn-tile"><strong id="cInbox">{{ counts.inbox_only }}</strong><span>Web only</span></div>
+      </div>
+      <div class="pn-sum" id="cClasses">
+        {% for c in counts.classes %}<div class="pn-meter-row"><span>{{ c.label }}</span><b>{{ c.count }}</b></div>{% endfor %}
+      </div>
+    </section>
     <section class="pn-card">
       <h2>Preview</h2>
       <div class="pn-phone">
@@ -154,22 +185,11 @@
         </div>
       </div>
     </section>
-    <section class="pn-card">
-      <h2>Who gets it</h2>
-      <div class="pn-tiles">
-        <div class="pn-tile"><strong id="cUsers">{{ counts.users }}</strong><span>People</span></div>
-        <div class="pn-tile"><strong id="cApp">{{ counts.device_users }}</strong><span>With the app</span></div>
-        <div class="pn-tile"><strong id="cInbox">{{ counts.inbox_only }}</strong><span>Inbox only</span></div>
-      </div>
-      <div class="pn-sum" id="cClasses">
-        {% for c in counts.classes %}<div class="pn-meter-row"><span>{{ c.label }}</span><b>{{ c.count }}</b></div>{% endfor %}
-      </div>
-    </section>
     {% if recent %}
     <section class="pn-card">
       <h2>Recent sends</h2>
       {% for r in recent %}
-      <div class="pn-meter-row"><a class="pn-link" style="color:var(--md-on-surface);text-decoration:none;font-weight:600;" href="{% url 'web:admin_push_detail' campaign_id=r.id %}">{{ r.title }}</a><b>{{ r.users_targeted }}</b></div>
+      <div class="pn-meter-row"><a class="pn-link pn-link-plain" href="{% url 'web:admin_push_detail' campaign_id=r.id %}">{{ r.title }}</a><b>{{ r.users_targeted }}</b></div>
       {% endfor %}
     </section>
     {% endif %}

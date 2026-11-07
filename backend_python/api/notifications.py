@@ -58,6 +58,8 @@ def get_notification_url(n, actor_name=None):
                 pass
         if post_id:
             url = f'/forum/post/{post_id}/#thread-{n.target_id}'
+    if getattr(n, 'campaign_id', '') and url.startswith('/reader/') and '?' not in url:
+        url += '?src=push'
     return url
 
 def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id,

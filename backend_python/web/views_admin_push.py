@@ -31,8 +31,23 @@ CLASS_OPTIONS = (
 DESTINATIONS = (('none', 'Just the message'), ('library', 'Library'), ('resource', 'One resource'), ('post', 'One forum post'))
 
 
+MODES = ('all', 'class', 'subject', 'platform', 'unnotified')
+MODE_LABELS = (('all', 'All users'), ('class', 'Class or level'), ('subject', 'Subject'),
+               ('platform', 'Platform'), ('unnotified', 'Unnotified library'))
+
+
 def _tabs(active):
     return {'push_tab': active}
+
+
+def _batch_counts():
+    """Live numbers for the unnotified library batch, in the same shape as the audience counts."""
+    ids = resource_alerts.unannounced_ids()
+    pv = resource_alerts.preview(ids) if ids else {'people': 0, 'devices_people': 0, 'inbox_only': 0, 'sample': None,
+                                                   'would_send_as_singles': 0}
+    return {'users': pv['people'], 'device_users': pv['devices_people'], 'devices': pv['devices_people'],
+            'inbox_only': pv['inbox_only'], 'classes': [], 'resources': len(ids), 'sample': pv['sample'],
+            'singles': pv['would_send_as_singles']}
 
 
 def _filters_from(source):
@@ -78,8 +93,17 @@ def admin_push_notifications(request):
         return redirect_response
     resource_alerts.tick()
     src = request.POST if request.method == 'POST' else request.GET
+    mode = src.get('mode', '')
     filters = _filters_from(src)
-    counts = push_audience.counts(filters)
+    if mode not in MODES:
+        mode = 'class' if filters.get('class_level') else 'subject' if filters.get('subject') else \
+            'platform' if filters.get('device') else 'all'
+    elif mode == 'all':
+        filters = {k: v for k, v in filters.items() if k not in ('class_level', 'subject', 'device')}
+    elif mode == 'unnotified':
+        filters = {}
+    batch = _batch_counts() if mode == 'unnotified' else None
+    counts = batch if batch is not None else push_audience.counts(filters)
 
     if request.GET.get('count_only') == '1' or (
             request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'GET'):
@@ -88,7 +112,12 @@ def admin_push_notifications(request):
     title = (request.POST.get('title') or '').strip()
     body = (request.POST.get('body') or '').strip()
     error = None
-    if request.method == 'POST':
+    if request.method == 'POST' and mode == 'unnotified':
+        camp = resource_alerts.announce_unnotified(created_by=_current_admin(request))
+        if camp:
+            return redirect('web:admin_push_detail', campaign_id=camp.id)
+        error = 'Every live resource has already been announced.'
+    elif request.method == 'POST':
         action = request.POST.get('action') or 'send'
         ttype, tid, url, derr = _resolve_destination(request.POST)
         also_inbox = request.POST.get('also_inbox') == '1'
@@ -120,7 +149,8 @@ def admin_push_notifications(request):
     recent = list(PushCampaign.objects.exclude(status='canceled').order_by('-created_at')[:4])
     return render(request, 'admin_panel/push_notifications.html', {
         'is_admin': True, 'active_page': 'push_notifications', **_tabs('compose'),
-        'counts': counts, 'filters': filters, 'error_message': error,
+        'counts': counts, 'filters': filters, 'error_message': error, 'mode': mode, 'modes': MODE_LABELS,
+        'batch': batch,
         'title_val': title, 'body_val': body, 'title_max': TITLE_MAX, 'body_max': BODY_MAX,
         'class_options': CLASS_OPTIONS, 'roles': push_audience.ROLES, 'devices_choices': push_audience.DEVICE_CHOICES,
         'destinations': DESTINATIONS, 'dest': request.POST.get('dest', 'none'), 'dest_id': request.POST.get('dest_id', ''),
@@ -154,17 +184,15 @@ def admin_push_history(request):
     if kind:
         qs = qs.filter(kind=kind)
     page = Paginator(qs, 25).get_page(request.GET.get('page'))
-    ids = [c.id for c in page.object_list]
-    opened = dict(PushDelivery.objects.filter(campaign_id__in=ids).exclude(opened_at=0)
-                  .values_list('campaign_id').annotate(n=Count('id')))
+    roll = push_stats.rollup(page.object_list)
     rows = []
     for c in page.object_list:
-        o = opened.get(c.id, 0)
-        rows.append({
-            'c': c, 'kind_label': push_stats.KIND_LABEL.get(c.kind, c.kind), 'opens': o,
-            'open_rate': round(o * 100.0 / c.users_targeted, 1) if c.users_targeted else None,
-            'delivery': round(c.devices_accepted * 100.0 / c.devices_targeted, 1) if c.devices_targeted else None,
-        })
+        a = c.audience or {}
+        target = ' / '.join(x for x in (a.get('class_level', ''), a.get('subject', '')) if x)
+        if not target and c.kind in ('autopilot', 'library'):
+            target = 'By class and subject'
+        rows.append({'c': c, 'kind_label': push_stats.KIND_LABEL.get(c.kind, c.kind), 'm': roll[c.id],
+                     'target': target or c.audience_label or 'All users'})
     max_bar = max([max(s['accepted'], s['opens'], 1) for s in ov['series']] + [1])
     for s in ov['series']:
         s['ha'] = max(2, round(s['accepted'] * 100 / max_bar)) if s['accepted'] else 2
@@ -174,6 +202,7 @@ def admin_push_history(request):
     return render(request, 'admin_panel/push_history.html', {
         'is_admin': True, 'active_page': 'push_notifications', **_tabs('history'),
         'ov': ov, 'rows': rows, 'page': page, 'kind': kind, 'days': ov['days'], 'max_bar': max_bar,
+        'ranges': (7, 30, 90),
         'kinds': [('', 'All')] + [(k, v) for k, v in push_stats.KIND_LABEL.items()],
     })
 
