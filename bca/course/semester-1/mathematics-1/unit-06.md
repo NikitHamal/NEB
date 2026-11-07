@@ -159,7 +159,7 @@ call 0.5 0.93 0.5 0.62 "m y″ + k y = 0"
 
 ## 6.7 Modelling with differential equations
 
-**Growth and decay**: dN/dt = kN ⇒ $N = N_{0} e^{k t}$. ($k > 0$ growth, $k < 0$ decay.)
+**Growth and decay**: $\dfrac{dN}{dt} = kN \Rightarrow N = N_{0} e^{kt}$. ($k > 0$ growth, $k < 0$ decay.)
 
 **Newton's law of cooling**: dT/dt = $- k (T - T_{s}) \Rightarrow T (t) = T_{s} + (T_{0} - T_{s}) e^{- k t}$.
 
@@ -181,7 +181,7 @@ Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 
 
 1. **Cooling and heating.** Newton's law dT/dt = $- k (T - T_{s})$ tells how fast tea, a motor or a server cools (Figure 6.4a). A hostel kitchen can use it to know when soup is safe to serve. Forensic doctors use the same law to estimate the time of death.
 2. **Population and bacteria growth.** Simple growth dP/dt = kP gives exponential growth, and the logistic equation adds a limit (Figure 6.4b). Health workers use these models to predict how fast an infection spreads in a ward. City planners use them for the population of Kathmandu Valley.
-3. **Money and finance.** Interest compounded continuously satisfies dA/dt = rA, so $A = A_{0} e^{rt}$. A bank in Nepal can compare a deposit that earns 8% yearly with one that compounds daily. Loan repayments with continuous payments are also modelled by a linear first-order equation.
+3. **Money and finance.** Interest compounded continuously satisfies $\dfrac{dA}{dt} = rA$, so $A = A_{0} e^{rt}$. A bank in Nepal can compare a deposit that earns 8% yearly with one that compounds daily. Loan repayments with continuous payments are also modelled by a linear first-order equation.
 4. **Spring and vibration systems.** A mass on a spring obeys $m y'' + c y' + k y = 0$, and the roots of its characteristic equation decide the motion (Figure 6.3). Vehicle shock absorbers on rough Nepali roads are designed as critically damped systems. Earthquake engineers study the same equation for buildings.
 5. **Electric circuits.** An RC circuit obeys $\frac{R d q}{d t} + \frac{q}{C} = V$ and an RLC circuit is a second-order equation like the spring. The charging curve of a capacitor in a phone charger has the same shape as a cooling curve. Circuit designers use these to select resistor and capacitor values.
 6. **Mixing and pollution problems.** If polluted water flows into a lake and clean water flows out, the amount of pollutant satisfies a linear first-order equation. Environmental officers estimate how long the Phewa lake takes to recover. A tank of salt solution in the laboratory is the classic exercise.
