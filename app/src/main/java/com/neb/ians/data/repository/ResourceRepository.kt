@@ -233,6 +233,17 @@ class ResourceRepository @Inject constructor(
         }
     }
 
+    /** Cards that scrolled into view. Best effort, batched by the list tracker. */
+    suspend fun reportImpressions(ids: List<String>): Result<Unit> {
+        if (ids.isEmpty() || !networkMonitor.isOnline()) return Result.success(Unit)
+        return try {
+            apiService.reportResourceImpressions(com.neb.ians.data.api.PostImpressionsRequest(ids.take(40)))
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     /** read | download | share. Best effort: a failed beacon never surfaces to the student. */
     suspend fun resourceAction(resourceId: String, action: String): Result<Unit> {
         if (!networkMonitor.isOnline()) return Result.success(Unit)

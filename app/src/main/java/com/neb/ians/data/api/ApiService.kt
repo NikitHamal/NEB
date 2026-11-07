@@ -1559,6 +1559,10 @@ interface ApiService {
     @POST("api/posts/impressions/")
     suspend fun reportPostImpressions(@Body body: PostImpressionsRequest)
 
+    /** Library resource cards that scrolled into view in a list. */
+    @POST("api/resources/impressions/")
+    suspend fun reportResourceImpressions(@Body body: PostImpressionsRequest)
+
     /** Uploader-only (and staff) insights for one library resource. */
     @GET("api/resources/{resourceId}/insights/")
     suspend fun getResourceInsights(

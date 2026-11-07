@@ -44,7 +44,7 @@
     <div class="pn-bars" role="img" aria-label="Pushes accepted and opens per day">
       {% for s in ov.series %}<div class="col" title="{{ s.date }}: {{ s.accepted }} accepted, {{ s.opens }} opens"><i class="{% if not s.accepted %}zero{% endif %}" data-h="{{ s.ha }}"></i><i class="b {% if not s.opens %}zero{% endif %}" data-h="{{ s.ho }}"></i></div>{% endfor %}
     </div>
-    <div class="pn-axis"><span>{{ ov.series.0.date }}</span><span>{{ ov.series|last|default:ov.series.0 }}</span></div>
+    {% with end=ov.series|last %}<div class="pn-axis"><span>{{ ov.series.0.date }}</span><span>{{ end.date }}</span></div>{% endwith %}
     <div class="pn-legend"><span><i></i>Delivered</span><span><i class="b"></i>Opened</span></div>
   </section>
   <section class="pn-card">
@@ -85,7 +85,7 @@
         <td class="pn-col-title"><a class="pn-link" href="{% url 'web:admin_push_detail' campaign_id=r.c.id %}">{{ r.c.title }}</a>
           <span class="sub">{{ r.c.created_at|ms_when }}</span></td>
         <td><span class="pn-pill kind">{{ r.kind_label }}</span></td>
-        <td>{{ r.target }}</td>
+        <td class="pn-nowrap">{{ r.target }}</td>
         <td class="num">{{ r.m.targeted }}</td>
         <td class="num">{{ r.m.sent }}</td>
         <td class="num">{{ r.m.delivered }}</td>
