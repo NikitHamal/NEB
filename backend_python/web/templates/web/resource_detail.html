@@ -425,7 +425,7 @@ registerActions({
     var box = document.createElement('div');
     box.className = 'rd-inline-reply-box';
     box.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:8px;';
-    box.innerHTML = '<div class="neb-composer" style="flex:1;"><div class="neb-composer-body"><textarea placeholder="Write something..." rows="1" data-autoheight data-autoheight-max="120"></textarea><div class="neb-composer-actions"><button class="reply-send-btn" disabled aria-label="Post reply"><span class="material-symbols-outlined">arrow_upward</span></button></div></div></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
+    box.innerHTML = '<div class="neb-composer" style="flex:1;"><div class="neb-composer-body"><textarea placeholder="Write something..." rows="1" data-live data-autoheight data-autoheight-max="120"></textarea><div class="neb-composer-actions"><button class="reply-send-btn" disabled aria-label="Post reply"><span class="material-symbols-outlined">arrow_upward</span></button></div></div></div><button class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:32px;height:32px;font-size:.75rem;padding:0 8px;align-self:flex-end;">Cancel</button>';
     var actionRow = parentCard.querySelector('.fp-reply-actions');
     if (actionRow) {
       actionRow.after(box);

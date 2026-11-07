@@ -14,6 +14,8 @@
   var categoryDisplay = document.getElementById('cp-category-display');
   var categorySelected = document.getElementById('cp-category-selected');
   var editorBody = document.getElementById('cp-body');
+  if (window.NebLive) window.NebLive.bind(editorBody);
+  var liveMd = function () { return window.NebLive ? window.NebLive.toMarkdown(editorBody) : null; };
   var charCount = document.getElementById('cp-char-count');
   var errorDiv = document.getElementById('cp-error');
   var submitBtn = document.getElementById('cp-submit');
@@ -42,6 +44,8 @@
 
   function updateCharCount() {
     var len = (function () {
+      var md = liveMd();
+      if (md != null) return md.length;
       if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function' && editorBody && editorBody.querySelector) {
         try { return window.InlineMedia.serializeEditor(editorBody).length; } catch (_) {}
       }
@@ -53,6 +57,8 @@
   editorBody.addEventListener('input', updateCharCount);
 
   function getContentText() {
+    var md = liveMd();
+    if (md != null) return md;
     if (window.InlineMedia && typeof window.InlineMedia.serializeEditor === 'function') {
       try { return window.InlineMedia.serializeEditor(editorBody); } catch (_) {}
     }
@@ -99,6 +105,9 @@
     var btn = e.target.closest('[data-action]');
     if (!btn) return;
     var action = btn.dataset.action;
+    var liveCmd = { 'format-bold': 'bold', 'format-italic': 'italic', 'format-code': 'code', 'format-strikethrough': 'strike', 'format-h2': 'h2',
+      'format-ul': 'ul', 'format-ol': 'ol', 'format-blockquote': 'quote', 'format-link': 'link', 'format-math': 'math' }[action];
+    if (liveCmd && window.NebLive && window.NebLive.format(editorBody, liveCmd)) { updateCharCount(); return; }
     editorBody.focus();
     switch (action) {
       case 'format-bold': formatText('**', '**', 'bold text'); break;
