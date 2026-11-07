@@ -31,7 +31,7 @@
   <form method="post" class="pn-card" id="settingsForm">
     {% csrf_token %}<input type="hidden" name="action" value="settings">
     <h2>Rules</h2>
-    <label class="pn-switch" for="autopilot_enabled"><span>Tell members when a resource lands for their class and subjects<small>Each person gets one message per round, never one per file.</small></span>
+    <label class="pn-switch" for="autopilot_enabled"><span>Tell members when a resource lands for their class and subjects</span>
       <span class="md-switch"><input type="checkbox" id="autopilot_enabled" name="autopilot_enabled" value="1" {% if cfg.autopilot_enabled %}checked{% endif %}><span class="slider"></span></span></label>
     <label class="pn-switch" for="include_paid" style="margin-top:12px;"><span>Include paid resources</span>
       <span class="md-switch"><input type="checkbox" id="include_paid" name="include_paid" value="1" {% if cfg.include_paid %}checked{% endif %}><span class="slider"></span></span></label>
