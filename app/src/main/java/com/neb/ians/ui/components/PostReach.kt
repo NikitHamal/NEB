@@ -1,6 +1,7 @@
 package com.neb.ians.ui.components
 
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberUpdatedState
@@ -24,9 +25,30 @@ object PostReachHints {
 }
 
 /**
- * Reports posts that scrolled into view. A post counts once per list session, ids are batched
- * for a couple of seconds, and the server turns them into one impression per viewer per day.
+ * Shared batcher behind every list tracker. An id counts once per list session, only what is
+ * still on screen after a short pause counts (a fast fling does not), and the server turns the
+ * batch into one impression per viewer per day.
  */
+private suspend fun collectImpressions(
+    visibleIds: () -> List<String>,
+    onVisible: (List<String>) -> Unit
+) {
+    val seen = HashSet<String>()
+    snapshotFlow { visibleIds() }
+        .distinctUntilChanged()
+        .collect { visible ->
+            val fresh = visible.filter { seen.add(it) }
+            if (fresh.isNotEmpty()) {
+                delay(1200)
+                val stillThere = visibleIds().toSet()
+                val kept = fresh.filter { it in stillThere }
+                (fresh - kept.toSet()).forEach { seen.remove(it) }
+                if (kept.isNotEmpty()) onVisible(kept)
+            }
+        }
+}
+
+/** Reports posts that scrolled into view in a lazy column. */
 @Composable
 fun TrackPostImpressions(
     listState: LazyListState,
@@ -36,23 +58,26 @@ fun TrackPostImpressions(
     val latest = rememberUpdatedState(onVisible)
     val mapKey = rememberUpdatedState(postIdForKey)
     LaunchedEffect(listState) {
-        val seen = HashSet<String>()
-        snapshotFlow {
-            listState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) }
-        }
-            .distinctUntilChanged()
-            .collect { visible ->
-                val fresh = visible.filter { seen.add(it) }
-                if (fresh.isNotEmpty()) {
-                    // Let a fast fling settle: only what is still on screen after the pause counts.
-                    delay(1200)
-                    val stillThere = listState.layoutInfo.visibleItemsInfo
-                        .mapNotNull { info -> info.key.let(mapKey.value) }
-                        .toSet()
-                    val kept = fresh.filter { it in stillThere }
-                    (fresh - kept.toSet()).forEach { seen.remove(it) }
-                    if (kept.isNotEmpty()) latest.value(kept)
-                }
-            }
+        collectImpressions(
+            visibleIds = { listState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) } },
+            onVisible = { latest.value(it) }
+        )
+    }
+}
+
+/** Reports library resource cards that scrolled into view in a grid. */
+@Composable
+fun TrackGridImpressions(
+    gridState: LazyGridState,
+    idForKey: (Any) -> String?,
+    onVisible: (List<String>) -> Unit
+) {
+    val latest = rememberUpdatedState(onVisible)
+    val mapKey = rememberUpdatedState(idForKey)
+    LaunchedEffect(gridState) {
+        collectImpressions(
+            visibleIds = { gridState.layoutInfo.visibleItemsInfo.mapNotNull { info -> info.key.let(mapKey.value) } },
+            onVisible = { latest.value(it) }
+        )
     }
 }

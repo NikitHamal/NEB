@@ -33,7 +33,15 @@ Done this task:
 
 ## Milestone 3: resource analytics
 
-(see below, updated as it ships)
+Done this task:
+
+* Android sends library list impressions (`POST /api/resources/impressions/`) from the Library grid: `ui/components/PostReach.kt` has one shared batcher
+  (`collectImpressions`, an id counts once per list session and only if still on screen after 1.2 s) behind `TrackPostImpressions` (feeds) and the new
+  `TrackGridImpressions` (library). `LibraryViewModel.reportImpressions` to `ResourceRepository.reportImpressions`. This closes the open item in
+  `PUSH_AUTOPILOT_STATUS.md`: the uploader's "Seen in lists" and the list-to-open funnel now include app traffic.
+* Admin push history: axis end label fixed (it printed a raw dict), target column no longer wraps; autopilot rules lost a helper line.
+* Visual check: admin Compose, History and Autopilot rendered with seeded data in light (1366) and dark (420) widths, no shadows, no emoji, no gradients.
+* Not built locally (Android): the GitHub Actions run is the check.
 
 ## Android: notification taps
 

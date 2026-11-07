@@ -228,6 +228,7 @@ fun LibraryScreen(
                         onRetry = { viewModel.refresh() },
                         onSortSelected = viewModel::selectSort,
                         onLoadMore = viewModel::loadNextPage,
+                        onImpressions = viewModel::reportImpressions,
                         onRequestResourceClick = onRequestResourceClick
                     )
                 }
@@ -352,6 +353,7 @@ private fun LibraryContent(
     onRetry: () -> Unit,
     onSortSelected: (String) -> Unit,
     onLoadMore: () -> Unit,
+    onImpressions: (List<String>) -> Unit,
     onRequestResourceClick: () -> Unit
 ) {
     when {
@@ -386,6 +388,11 @@ private fun LibraryContent(
                 }
 
                 val gridState = rememberLazyGridState()
+                com.neb.ians.ui.components.TrackGridImpressions(
+                    gridState = gridState,
+                    idForKey = { (it as? String)?.takeIf { k -> !k.endsWith("_footer") } },
+                    onVisible = onImpressions
+                )
                 LaunchedEffect(gridState) {
                     snapshotFlow {
                         val layoutInfo = gridState.layoutInfo
