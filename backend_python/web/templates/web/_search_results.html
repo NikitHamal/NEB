@@ -31,7 +31,7 @@
     <div class="section">
       <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
       <div class="x-grid">
-        {% for r in resource_results %}{% include "components/_resource_card.html" with r=r stats=True hl=True %}{% endfor %}
+        {% for r in resource_results %}{% include "components/_resource_card.html" with r=r stats=True hl=True from="search" %}{% endfor %}
       </div>
     </div>
     {% else %}
@@ -199,7 +199,7 @@
           <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-btn md-btn-text">View all</a>
         </div>
         <div class="x-grid">
-          {% for r in resource_results|slice:":6" %}{% include "components/_resource_card.html" with r=r stats=True hl=True %}{% endfor %}
+          {% for r in resource_results|slice:":6" %}{% include "components/_resource_card.html" with r=r stats=True hl=True from="search" %}{% endfor %}
         </div>
       </div>
       {% endif %}

@@ -1,6 +1,6 @@
-{% load static web_extras %}{% comment %}The one resource card: library, search, related, profile. Params: r, stats (show views/author footer), hl (use search highlight).{% endcomment %}
+{% load static web_extras %}{% comment %}The one resource card: library, search, related, profile. Params: r, from (surface for reach: library|search|related), stats (show views/author footer), hl (use search highlight).{% endcomment %}
 {% with subj=r.subject|split:','|first %}
-<a href="{% url 'web:reader' resource_id=r.id %}" class="rcard" style="--sc: {{ subj|subject_color }}">
+<a href="{% url 'web:reader' resource_id=r.id %}{% if from %}?from={{ from }}{% endif %}" class="rcard" data-resource-id="{{ r.id }}" style="--sc: {{ subj|subject_color }}">
   <div class="rcard-art">
     <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ subj }}" data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
     {% if r.thumbnail_url %}<img src="{{ r.thumbnail_url }}" alt="" loading="lazy">{% endif %}
