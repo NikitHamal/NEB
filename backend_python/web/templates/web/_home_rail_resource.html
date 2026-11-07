@@ -4,7 +4,7 @@
    "Suggested for you" deck and "New in Library" all include this, where before
    the same ninety lines were pasted into home.html and _home_suggested.html and
    had already drifted apart. Expects `r`. {% endcomment %}
-<a href="{% url 'web:reader' resource_id=r.id %}"
+<a href="{% url 'web:reader' resource_id=r.id %}?from=home" data-resource-id="{{ r.id }}"
   class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
   <div class="resource-card-art">
     {# Generative banner art. Same seed, same drawing as the Android app. #}

@@ -5,6 +5,7 @@ from . import views_admin_analytics
 from . import views_admin_push
 from . import views_admin_news
 from . import views_ajax
+from . import views_resource_reach
 from . import views_arena
 from . import views_auth
 from . import views_forum
@@ -168,6 +169,11 @@ urlpatterns = [
     path('ajax/poll/<str:poll_id>/option/', views_ajax.ajax_poll_option, name='ajax_poll_option'),
     path('ajax/poll/<str:poll_id>/retract/', views_ajax.ajax_poll_retract, name='ajax_poll_retract'),
     path('ajax/post/impressions/', views_ajax.ajax_post_impressions, name='ajax_post_impressions'),
+    path('ajax/resource/impressions/', views_resource_reach.ajax_resource_impressions, name='ajax_resource_impressions'),
+    path('ajax/resource/<str:resource_id>/view/', views_resource_reach.ajax_resource_view, name='ajax_resource_view'),
+    path('ajax/resource/<str:resource_id>/action/', views_resource_reach.ajax_resource_action, name='ajax_resource_action'),
+    path('ajax/resource/<str:resource_id>/insights/', views_resource_reach.ajax_resource_insights, name='ajax_resource_insights'),
+    path('ajax/uploads/insights/', views_resource_reach.ajax_uploads_insights, name='ajax_uploads_insights'),
     path('ajax/post/<str:post_id>/view/', views_ajax.ajax_post_view, name='ajax_post_view'),
     path('ajax/post/<str:post_id>/insights/', views_ajax.ajax_post_insights, name='ajax_post_insights'),
     path('ajax/delete/post/<str:post_id>/', views_ajax.ajax_delete_post, name='ajax_delete_post'),
