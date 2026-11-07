@@ -1,0 +1,103 @@
+{% extends "admin_panel/base.html" %}
+{% load static admin_extras %}
+
+{% block title %}{{ c.title }}{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div class="admin-page-header-row">
+    <h1>Push notifications</h1>
+    <div class="admin-page-actions">
+      <a href="{% url 'web:admin_push_history' %}" class="md-btn md-btn-outlined"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>History</a>
+    </div>
+  </div>
+</div>
+{% include "admin_panel/_push_tabs.html" %}
+
+{% if test_sent %}
+<div class="pn-alert info" role="status"><span class="material-symbols-outlined" aria-hidden="true">phone_android</span>
+  <div>{% if test_devices and test_devices != '0' %}Test sent to your {{ test_devices }} device{{ test_devices|pluralize }} and your inbox.{% else %}No device of yours is registered, so the test went to your inbox only. Open the app once while signed in.{% endif %}</div></div>
+{% endif %}
+
+<section class="pn-card pn-head-card" style="margin-bottom:20px;">
+  <div class="pn-actions">
+    <span class="pn-pill kind">{{ kind_label }}</span>
+    <span class="pn-pill {{ c.status }}">{{ c.get_status_display }}</span>
+    {% if c.status == 'scheduled' %}
+    <form method="post" style="margin-left:auto;">{% csrf_token %}<input type="hidden" name="action" value="cancel">
+      <button type="submit" class="md-btn md-btn-outlined" data-action="confirm-submit" data-confirm-title="Cancel this send?" data-confirm-msg="Nothing will be delivered." data-confirm-label="Cancel send"><span class="material-symbols-outlined" aria-hidden="true">cancel</span>Cancel send</button>
+    </form>
+    {% endif %}
+  </div>
+  <h2>{{ c.title }}</h2>
+  {% if c.body %}<p>{{ c.body }}</p>{% endif %}
+  <div class="pn-meta">
+    <span>{{ c.audience_label|default:"Everyone" }}</span>
+    <span>{% if c.status == 'scheduled' %}Goes out {{ c.scheduled_at|ms_when }}{% else %}Sent {{ c.created_at|ms_when }}{% endif %}</span>
+    <span>By {{ sender }}</span>
+    {% if d.durationSec is not None %}<span>Took {{ d.durationSec }} s</span>{% endif %}
+    {% if c.note %}<span>{{ c.note }}</span>{% endif %}
+  </div>
+</section>
+
+<div class="admin-kpi-grid">
+  <div class="admin-kpi"><div class="admin-kpi-label">People</div><div class="admin-kpi-value">{{ c.users_targeted }}</div><div class="admin-kpi-sub">{{ c.users_pushed }} pushed, {{ c.users_inbox_only }} inbox only{% if c.users_suppressed %}, {{ c.users_suppressed }} held back{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Devices accepted</div><div class="admin-kpi-value">{{ c.devices_accepted }}</div><div class="admin-kpi-sub">{% if d.deliveryRate is not None %}{{ d.deliveryRate }}% of {{ c.devices_targeted }}{% else %}No devices{% endif %}</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Open rate</div><div class="admin-kpi-value">{% if d.openRate is not None %}{{ d.openRate }}%{% else %}None{% endif %}</div><div class="admin-kpi-sub">{{ d.opensVia.push }} from the push, {{ d.opensVia.inbox }} from the inbox</div></div>
+  <div class="admin-kpi"><div class="admin-kpi-label">Failed devices</div><div class="admin-kpi-value">{{ c.devices_failed }}</div><div class="admin-kpi-sub">{{ c.tokens_pruned }} dead removed</div></div>
+</div>
+
+<div class="pn-grid" style="margin-bottom:20px;">
+  <section class="pn-card"><h2>From send to open</h2>
+    <div class="pn-funnel">
+      {% for f in d.funnel %}
+      <div class="pn-funnel-row"><span>{{ f.label }}</span><div class="pn-funnel-bar"><i style="width:{{ f.pct }}%"></i></div><b>{{ f.count }}<small>{{ f.pct }}%</small></b></div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="pn-card"><h2>How fast they opened</h2>
+    {% for r in d.delays %}<div class="pn-meter-row"><span>{{ r.label }}</span><b>{{ r.count }}<small>{{ r.pct }}%</small></b><div class="pn-meter"><i style="width:{{ r.pct }}%"></i></div></div>{% endfor %}
+  </section>
+</div>
+
+<div class="pn-grid" style="margin-bottom:20px;">
+  <section class="pn-card"><h2>Opens in the first 48 hours</h2>
+    <div class="pn-bars single">{% for b in first48_bars %}<div class="col" title="Hour {{ b.i }}: {{ b.n }} opens"><i class="{% if not b.n %}zero{% endif %}" style="height:{{ b.h }}%"></i></div>{% endfor %}</div>
+    <div class="pn-axis"><span>Sent</span><span>+12 h</span><span>+24 h</span><span>+36 h</span><span>+48 h</span></div>
+  </section>
+  <section class="pn-card"><h2>Time of day</h2>
+    <div class="pn-bars single">{% for b in day_bars %}<div class="col" title="{{ b.label }}: {{ b.n }} opens"><i class="{% if not b.n %}zero{% endif %}" style="height:{{ b.h }}%"></i></div>{% endfor %}</div>
+    <div class="pn-axis"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>
+  </section>
+</div>
+
+<div class="pn-grid" style="margin-bottom:20px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));">
+  <section class="pn-card"><h2>By class</h2>
+    {% for r in d.classes %}<div class="pn-meter-row"><span>{{ r.label }}<small>{{ r.opened }} of {{ r.targeted }}</small></span><b>{{ r.rate }}%</b><div class="pn-meter"><i style="width:{{ r.rate }}%"></i></div></div>
+    {% empty %}<p class="pn-empty">No people yet.</p>{% endfor %}
+  </section>
+  <section class="pn-card"><h2>Why pushes failed</h2>
+    {% for e in d.errors %}<div class="pn-meter-row"><span>{{ e.label }}</span><b>{{ e.count }}</b><div class="pn-meter warn"><i style="width:{{ e.pct }}%"></i></div></div>
+    {% empty %}<p class="pn-empty">{% if c.devices_targeted %}Every device accepted it.{% else %}No devices were targeted.{% endif %}</p>{% endfor %}
+  </section>
+</div>
+
+{% if d.resources %}
+<section class="pn-card">
+  <h2>Resources in this send</h2>
+  <div class="pn-scroll">
+  <table class="pn-table">
+    <thead><tr><th>Resource</th><th class="num">Matched people</th><th class="num">Views since</th><th class="num">From the push</th></tr></thead>
+    <tbody>{% for r in d.resources %}
+      <tr><td style="min-width:240px;"><a class="pn-link" href="/reader/{{ r.id }}/">{{ r.title }}</a><span class="sub">{{ r.level }}, {{ r.subject }}</span></td>
+        <td class="num">{{ r.audience }}</td><td class="num">{{ r.views }}</td><td class="num">{{ r.fromPush }}</td></tr>
+    {% endfor %}</tbody>
+  </table>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if live %}<script nonce="{{ csp_nonce }}">setTimeout(function () { location.reload(); }, 3000);</script>{% endif %}
+{% endblock %}

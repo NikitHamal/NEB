@@ -119,3 +119,19 @@ def admin_nav(active_page=''):
         }
         for label, items in NAV_GROUPS
     ]
+
+
+@register.filter
+def ms_when(value):
+    """Epoch milliseconds as '7 Nov, 3:20 PM' in site time. Blank for 0."""
+    try:
+        ms = int(value)
+    except (TypeError, ValueError):
+        return ''
+    if not ms:
+        return ''
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    from django.conf import settings
+    dt = datetime.fromtimestamp(ms / 1000.0, ZoneInfo(settings.TIME_ZONE))
+    return f"{dt.day} {dt.strftime('%b')}, {(dt.hour % 12) or 12}:{dt.minute:02d} {'AM' if dt.hour < 12 else 'PM'}"

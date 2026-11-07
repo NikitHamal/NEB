@@ -1,243 +1,182 @@
 {% extends "admin_panel/base.html" %}
-{% load web_extras %}
+{% load static %}
 
-{% block title %}Push Notifications{% endblock %}
+{% block title %}Push notifications{% endblock %}
 
 {% block content %}
 <div class="admin-page-header">
-  <div>
-    <h1>Push notifications</h1>
-  </div>
+  <div class="admin-page-header-row"><h1>Push notifications</h1></div>
 </div>
-
-{% if success_message %}
-  <div class="md-alert md-alert-success" style="margin-bottom:20px; background:#DEF7EC; color:#03543F; border:1px solid #BCF0DA; padding:16px; border-radius:12px; display:flex; align-items:center; gap:8px;">
-    <span class="material-symbols-outlined">check_circle</span>
-    <div>{{ success_message }}</div>
-  </div>
-{% endif %}
+{% include "admin_panel/_push_tabs.html" %}
 
 {% if error_message %}
-  <div class="md-alert md-alert-error" style="margin-bottom:20px; background:#FDE8E8; color:#9B1C1C; border:1px solid #FBD5D5; padding:16px; border-radius:12px; display:flex; align-items:center; gap:8px;">
-    <span class="material-symbols-outlined">error</span>
-    <div>{{ error_message }}</div>
-  </div>
+<div class="pn-alert error" role="alert"><span class="material-symbols-outlined" aria-hidden="true">error</span><div>{{ error_message }}</div></div>
 {% endif %}
 
-<div class="admin-panel-grid" style="grid-template-columns: 2fr 1fr; align-items: start;">
-  <!-- Left Side: Compose and Filter Form -->
-  <form method="post" id="pushForm" class="admin-form-card">
-    {% csrf_token %}
-
-    <p class="admin-form-section-title">1. Compose message</p>
-    
-    <div style="margin-bottom: 16px;">
-      <label for="title" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Notification Title</label>
-      <input type="text" id="title" name="title" value="{{ title_val|default:'' }}" required placeholder="e.g. New Syllabus Released!" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-    </div>
-    
-    <div style="margin-bottom: 24px;">
-      <label for="body" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Message Body</label>
-      <textarea id="body" name="body" rows="3" required placeholder="Type the message to send to users..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box; resize: vertical;">{{ body_val|default:'' }}</textarea>
-    </div>
-
-    <div class="md-divider" style="margin: 24px 0;"></div>
-
-    <p class="admin-form-section-title">2. Target audience filters</p>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-      <div>
-        <label for="class_level" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Class Level</label>
-        <select id="class_level" name="class_level" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-          <option value="" {% if not class_level %}selected{% endif %}>All Classes</option>
-          <option value="Class 8" {% if class_level == "Class 8" %}selected{% endif %}>Class 8</option>
-          <option value="Class 9" {% if class_level == "Class 9" %}selected{% endif %}>Class 9</option>
-          <option value="Class 10 / SEE" {% if class_level == "Class 10 / SEE" %}selected{% endif %}>Class 10 / SEE</option>
-          <option value="11" {% if class_level == "11" %}selected{% endif %}>Class 11</option>
-          <option value="12" {% if class_level == "12" %}selected{% endif %}>Class 12</option>
-          <option value="+2 Passout" {% if class_level == "+2 Passout" %}selected{% endif %}>+2 Passout</option>
-          <option value="Diploma" {% if class_level == "Diploma" %}selected{% endif %}>Diploma</option>
-          <option value="Bachelors" {% if class_level == "Bachelors" %}selected{% endif %}>Bachelors</option>
-          <option value="Masters" {% if class_level == "Masters" %}selected{% endif %}>Masters</option>
-          <option value="PhD" {% if class_level == "PhD" %}selected{% endif %}>PhD</option>
-          <option value="Teacher" {% if class_level == "Teacher" %}selected{% endif %}>Teacher / Educator</option>
-          <option value="Other" {% if class_level == "Other" %}selected{% endif %}>Other</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="gender" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Gender</label>
-        <select id="gender" name="gender" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-          <option value="" {% if not gender %}selected{% endif %}>All Genders</option>
-          <option value="Male" {% if gender == "Male" %}selected{% endif %}>Male</option>
-          <option value="Female" {% if gender == "Female" %}selected{% endif %}>Female</option>
-          <option value="Other" {% if gender == "Other" %}selected{% endif %}>Other</option>
-        </select>
-      </div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-      <div>
-        <label for="min_age" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Minimum Age</label>
-        <input type="number" id="min_age" name="min_age" value="{{ min_age|default:'' }}" min="0" max="100" placeholder="Any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-      </div>
-
-      <div>
-        <label for="max_age" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Maximum Age</label>
-        <input type="number" id="max_age" name="max_age" value="{{ max_age|default:'' }}" min="0" max="100" placeholder="Any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-      </div>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-      <div>
-        <label for="pradesh" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Pradesh (Province)</label>
-        <select id="pradesh" name="pradesh" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-          <option value="" {% if not pradesh %}selected{% endif %}>All Provinces</option>
-          <option value="Province 1" {% if pradesh == "Province 1" %}selected{% endif %}>Koshi (Province 1)</option>
-          <option value="Madhesh" {% if pradesh == "Madhesh" %}selected{% endif %}>Madhesh</option>
-          <option value="Bagmati" {% if pradesh == "Bagmati" %}selected{% endif %}>Bagmati</option>
-          <option value="Gandaki" {% if pradesh == "Gandaki" %}selected{% endif %}>Gandaki</option>
-          <option value="Lumbini" {% if pradesh == "Lumbini" %}selected{% endif %}>Lumbini</option>
-          <option value="Karnali" {% if pradesh == "Karnali" %}selected{% endif %}>Karnali</option>
-          <option value="Sudurpashchim" {% if pradesh == "Sudurpashchim" %}selected{% endif %}>Sudurpashchim</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="district" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">District</label>
-        <input type="text" id="district" name="district" value="{{ district|default:'' }}" placeholder="e.g. Kathmandu" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-      </div>
-    </div>
-
-    <div style="margin-bottom: 16px;">
-      <label for="school" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">School / College</label>
-      <input type="text" id="school" name="school" value="{{ school|default:'' }}" placeholder="e.g. St. Xavier's" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box;">
-    </div>
-
-    <div style="margin-bottom: 24px;">
-      <label for="usernames_or_ids" style="display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.875rem;">Specific Usernames / IDs (comma-separated)</label>
-      <textarea id="usernames_or_ids" name="usernames_or_ids" rows="2" placeholder="e.g. admin, user123, 5f9b4c2..." style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font-size: 0.9375rem; box-sizing: border-box; resize: vertical;">{{ usernames_or_ids|default:'' }}</textarea>
-    </div>
-
-    <button type="submit" class="md-btn md-btn-filled" style="padding: 12px 24px; font-size: 0.9375rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
-      <span class="material-symbols-outlined">send</span> Send Push Notification
-    </button>
-  </form>
-
-  <!-- Right Side: Real-time Counts -->
-  <div style="display: flex; flex-direction: column; gap: 16px; position: sticky; top: 16px;">
-    <!-- Audience Card -->
-    <div class="admin-card">
-      <div class="admin-card-head">
-        <h3>Target audience</h3>
-      </div>
-
-      <div class="admin-kpi-grid">
-        <div class="admin-kpi">
-          <span class="admin-kpi-label">Target users</span>
-          <span class="admin-kpi-value" id="count-matching-users">{{ matching_users }}</span>
-        </div>
-
-        <div class="admin-kpi">
-          <span class="admin-kpi-label">Active devices</span>
-          <span class="admin-kpi-value" id="count-matching-tokens">{{ matching_tokens }}</span>
+<form method="post" id="pushForm" class="pn-grid" data-count-url="{% url 'web:admin_push_notifications' %}" data-title-max="{{ title_max }}" data-body-max="{{ body_max }}">
+  {% csrf_token %}
+  <div class="pn-col">
+    <section class="pn-card">
+      <h2>Message</h2>
+      <label class="pn-field" for="title">Title <span class="pn-count" id="titleCount">0/{{ title_max }}</span>
+        <input type="text" id="title" name="title" class="md-input" maxlength="{{ title_max }}" value="{{ title_val }}" required autocomplete="off" placeholder="New Class 10 Science notes">
+      </label>
+      <label class="pn-field" for="body">Message <span class="pn-count" id="bodyCount">0/{{ body_max }}</span>
+        <textarea id="body" name="body" class="md-input" rows="3" maxlength="{{ body_max }}" required placeholder="Chapter-wise notes with solved questions are live in the library.">{{ body_val }}</textarea>
+      </label>
+      <div class="pn-field" role="radiogroup" aria-label="Opens">
+        Opens
+        <div class="pn-chips" style="margin-top:8px;">
+          {% for key, label in destinations %}
+          <label class="pn-chip"><input type="radio" name="dest" value="{{ key }}" {% if dest == key %}checked{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
         </div>
       </div>
+      <label class="pn-field" id="destIdWrap" for="dest_id" hidden>Resource or post link, or id
+        <input type="text" id="dest_id" name="dest_id" class="md-input" value="{{ dest_id }}" autocomplete="off">
+      </label>
+    </section>
 
-      <p class="admin-row-sub" style="white-space:normal;margin-top:12px;">
-        Matches are updated in real-time as you modify filters. Active devices represent registered FCM push tokens.
-      </p>
-    </div>
-
-    <!-- Info / Warning Card -->
-    <div class="admin-card">
-      <div class="admin-card-head">
-        <h3>Important note</h3>
+    <section class="pn-card">
+      <h2>Audience</h2>
+      <div class="pn-row">
+        <label class="pn-field" for="class_level">Class
+          <select id="class_level" name="class_level" class="md-input">
+            <option value="" {% if not filters.class_level %}selected{% endif %}>All classes</option>
+            <option value="Class 8" {% if filters.class_level == "Class 8" %}selected{% endif %}>Class 8</option>
+            <option value="Class 9" {% if filters.class_level == "Class 9" %}selected{% endif %}>Class 9</option>
+            <option value="Class 10 / SEE" {% if filters.class_level == "Class 10 / SEE" %}selected{% endif %}>Class 10 / SEE</option>
+            <option value="11" {% if filters.class_level == "11" %}selected{% endif %}>Class 11</option>
+            <option value="12" {% if filters.class_level == "12" %}selected{% endif %}>Class 12</option>
+            <option value="+2 Passout" {% if filters.class_level == "+2 Passout" %}selected{% endif %}>+2 Passout</option>
+            <option value="Diploma" {% if filters.class_level == "Diploma" %}selected{% endif %}>Diploma</option>
+            <option value="Bachelors" {% if filters.class_level == "Bachelors" %}selected{% endif %}>Bachelors</option>
+            <option value="Masters" {% if filters.class_level == "Masters" %}selected{% endif %}>Masters</option>
+            <option value="PhD" {% if filters.class_level == "PhD" %}selected{% endif %}>PhD</option>
+            <option value="Teacher" {% if filters.class_level == "Teacher" %}selected{% endif %}>Teacher</option>
+            <option value="Other" {% if filters.class_level == "Other" %}selected{% endif %}>Other</option>
+          </select>
+        </label>
+        <label class="pn-field" for="subject">Subject
+          <input type="text" id="subject" name="subject" class="md-input" value="{{ filters.subject }}" placeholder="Physics" autocomplete="off">
+        </label>
+        <label class="pn-field" for="role">Role
+          <select id="role" name="role" class="md-input">
+            <option value="">Everyone</option>
+            {% for value, label in roles %}<option value="{{ value }}" {% if filters.role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </label>
+        <label class="pn-field" for="device">Reach
+          <select id="device" name="device" class="md-input">
+            {% for value, label in devices_choices %}<option value="{{ value }}" {% if filters.device == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </label>
       </div>
-      <ul style="margin: 0; padding-left: 18px; font-size: 0.8125rem; line-height: 1.5; color: var(--md-on-surface-variant);">
-        <li style="margin-bottom: 8px;">Notifications will be delivered instantly to active mobile devices.</li>
-        <li style="margin-bottom: 8px;">Ensure the Google Service Account credentials are active. If missing, notifications will be skipped without error.</li>
-        <li>Expired or inactive push tokens are automatically pruned from the database when FCM returns delivery failures.</li>
-      </ul>
-    </div>
+      <details class="pn-more" {% if filters.gender or filters.min_age or filters.max_age or filters.pradesh or filters.district or filters.school or filters.joined_days or filters.active_days or filters.inactive_days or filters.usernames_or_ids %}open{% endif %}>
+        <summary><span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">tune</span>More filters</summary>
+        <div class="pn-row">
+          <label class="pn-field" for="active_days">Active in the last
+            <select id="active_days" name="active_days" class="md-input">
+              <option value="">Any time</option>
+              <option value="7" {% if filters.active_days == '7' %}selected{% endif %}>7 days</option>
+              <option value="30" {% if filters.active_days == '30' %}selected{% endif %}>30 days</option>
+              <option value="90" {% if filters.active_days == '90' %}selected{% endif %}>90 days</option>
+            </select>
+          </label>
+          <label class="pn-field" for="inactive_days">Away for more than
+            <select id="inactive_days" name="inactive_days" class="md-input">
+              <option value="">Any</option>
+              <option value="14" {% if filters.inactive_days == '14' %}selected{% endif %}>14 days</option>
+              <option value="30" {% if filters.inactive_days == '30' %}selected{% endif %}>30 days</option>
+              <option value="90" {% if filters.inactive_days == '90' %}selected{% endif %}>90 days</option>
+            </select>
+          </label>
+          <label class="pn-field" for="joined_days">Joined in the last
+            <select id="joined_days" name="joined_days" class="md-input">
+              <option value="">Any time</option>
+              <option value="7" {% if filters.joined_days == '7' %}selected{% endif %}>7 days</option>
+              <option value="30" {% if filters.joined_days == '30' %}selected{% endif %}>30 days</option>
+            </select>
+          </label>
+          <label class="pn-field" for="gender">Gender
+            <select id="gender" name="gender" class="md-input">
+              <option value="">Any</option>
+              <option value="Male" {% if filters.gender == 'Male' %}selected{% endif %}>Male</option>
+              <option value="Female" {% if filters.gender == 'Female' %}selected{% endif %}>Female</option>
+              <option value="Other" {% if filters.gender == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+          </label>
+        </div>
+        <div class="pn-row">
+          <label class="pn-field" for="min_age">Age from<input type="number" min="5" max="99" id="min_age" name="min_age" class="md-input" value="{{ filters.min_age }}"></label>
+          <label class="pn-field" for="max_age">Age to<input type="number" min="5" max="99" id="max_age" name="max_age" class="md-input" value="{{ filters.max_age }}"></label>
+          <label class="pn-field" for="pradesh">Province<input type="text" id="pradesh" name="pradesh" class="md-input" value="{{ filters.pradesh }}" autocomplete="off"></label>
+          <label class="pn-field" for="district">District<input type="text" id="district" name="district" class="md-input" value="{{ filters.district }}" autocomplete="off"></label>
+          <label class="pn-field" for="school">School<input type="text" id="school" name="school" class="md-input" value="{{ filters.school }}" autocomplete="off"></label>
+        </div>
+        <label class="pn-field" for="usernames_or_ids">Only these people (usernames or ids, comma separated)
+          <input type="text" id="usernames_or_ids" name="usernames_or_ids" class="md-input" value="{{ filters.usernames_or_ids }}" autocomplete="off">
+        </label>
+      </details>
+    </section>
+
+    <section class="pn-card">
+      <h2>Delivery</h2>
+      <label class="pn-switch" for="also_inbox">
+        <span>Also put it in the notification inbox<small>Reaches people without the app and lets us count opens on the web.</small></span>
+        <span class="md-switch"><input type="checkbox" id="also_inbox" name="also_inbox" value="1" {% if also_inbox %}checked{% endif %}><span class="slider"></span></span>
+      </label>
+      <label class="pn-field" for="send_at" style="margin-top:16px;">Send later (Nepal time, optional)
+        <input type="datetime-local" id="send_at" name="send_at" class="md-input" value="{{ send_at }}">
+      </label>
+      <div class="pn-actions" style="margin-top:20px;">
+        <button type="submit" name="action" value="send" id="sendBtn" class="md-btn md-btn-filled"
+                data-action="confirm-submit" data-confirm-title="Send this notification?"
+                data-confirm-msg="It goes to the people matching these filters." data-confirm-label="Send" data-confirm-tone="primary">
+          <span class="material-symbols-outlined" aria-hidden="true">send</span>Send
+        </button>
+        <button type="submit" name="action" value="test" class="md-btn md-btn-outlined"><span class="material-symbols-outlined" aria-hidden="true">phone_android</span>Send test to me</button>
+      </div>
+    </section>
   </div>
-</div>
 
-<script nonce="{{ csp_nonce }}">
-  document.addEventListener('DOMContentLoaded', function() {
-    const fields = ['class_level', 'gender', 'min_age', 'max_age', 'pradesh', 'district', 'school', 'usernames_or_ids'];
-    const elements = fields.map(f => document.getElementById(f)).filter(Boolean);
-    let timeoutId = null;
+  <aside class="pn-col pn-sticky" aria-label="Preview">
+    <section class="pn-card">
+      <h2>Preview</h2>
+      <div class="pn-phone">
+        <div class="pn-toast">
+          <div class="pn-toast-icon" aria-hidden="true">N</div>
+          <div>
+            <div class="pn-toast-app">NEBians, now</div>
+            <div class="pn-toast-title" id="pvTitle">Title</div>
+            <div class="pn-toast-body" id="pvBody">Your message appears here.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="pn-card">
+      <h2>Who gets it</h2>
+      <div class="pn-tiles">
+        <div class="pn-tile"><strong id="cUsers">{{ counts.users }}</strong><span>People</span></div>
+        <div class="pn-tile"><strong id="cApp">{{ counts.device_users }}</strong><span>With the app</span></div>
+        <div class="pn-tile"><strong id="cInbox">{{ counts.inbox_only }}</strong><span>Inbox only</span></div>
+      </div>
+      <div class="pn-sum" id="cClasses">
+        {% for c in counts.classes %}<div class="pn-meter-row"><span>{{ c.label }}</span><b>{{ c.count }}</b></div>{% endfor %}
+      </div>
+    </section>
+    {% if recent %}
+    <section class="pn-card">
+      <h2>Recent sends</h2>
+      {% for r in recent %}
+      <div class="pn-meter-row"><a class="pn-link" style="color:var(--md-on-surface);text-decoration:none;font-weight:600;" href="{% url 'web:admin_push_detail' campaign_id=r.id %}">{{ r.title }}</a><b>{{ r.users_targeted }}</b></div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </aside>
+</form>
+{% endblock %}
 
-    function updateCounts() {
-      const params = new URLSearchParams();
-      params.set('count_only', '1');
-      fields.forEach(f => {
-        const el = document.getElementById(f);
-        if (el && el.value) {
-          params.set(f, el.value.trim());
-        }
-      });
-
-      const countUsersEl = document.getElementById('count-matching-users');
-      const countTokensEl = document.getElementById('count-matching-tokens');
-      
-      if (countUsersEl) countUsersEl.textContent = '...';
-      if (countTokensEl) countTokensEl.textContent = '...';
-
-      fetch('?' + params.toString(), {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (countUsersEl) countUsersEl.textContent = data.matching_users;
-        if (countTokensEl) countTokensEl.textContent = data.matching_tokens;
-      })
-      .catch(err => {
-        console.error('Error fetching target counts:', err);
-      });
-    }
-
-    elements.forEach(el => {
-      el.addEventListener('input', function() {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(updateCounts, 300); // Debounce typing
-      });
-      el.addEventListener('change', updateCounts);
-    });
-
-    // Handle submit confirmation
-    const form = document.getElementById('pushForm');
-    if (form) {
-      let confirmed = false;
-      form.addEventListener('submit', function(e) {
-        if (confirmed) return;
-        e.preventDefault();
-        const titleVal = document.getElementById('title').value.trim();
-        const bodyVal = document.getElementById('body').value.trim();
-        if (!titleVal || !bodyVal) {
-          showSnackbar('Enter a title and a message first.');
-          return;
-        }
-        const countTokensEl = document.getElementById('count-matching-tokens');
-        const tokenCount = countTokensEl ? countTokensEl.textContent : '0';
-        const nobody = tokenCount === '0' || tokenCount === '...';
-        adminConfirm({
-          title: nobody ? 'No devices match' : 'Send to ' + tokenCount + ' devices?',
-          message: nobody
-            ? 'The target has 0 devices, so nobody will receive this message.'
-            : 'This push notification goes out immediately and cannot be recalled.',
-          confirmLabel: nobody ? 'Send anyway' : 'Send now',
-          tone: nobody ? 'danger' : 'primary'
-        }).then(function(yes) {
-          if (!yes) return;
-          confirmed = true;
-          form.requestSubmit();
-        });
-      });
-    }
-  });
-</script>
+{% block extra_js %}
+<script src="{% static 'web/js/admin-push.js' %}" nonce="{{ csp_nonce }}" defer></script>
 {% endblock %}
