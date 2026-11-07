@@ -2067,3 +2067,6 @@ Branch `claude/bsc-nursing`. Midwifery II (`nursing/course/year-3/midwifery-2`) 
 
 ### BSc Nursing: Session 15 handover
 Midwifery II (BSN 19-20) is complete (5 units, 71-page PDF). Next: Child Health Nursing unit 1 (see `nursing/STATUS.md` Next). Helpers in `nursing/tools/helpers/session14/` (`asm.sh N` joins u{N}a-d.md). Keep apostrophes out of photogrid `key` lines. The GitHub PAT used in this session must be rotated by the owner.
+
+### BSc Nursing: Session 16 handover (m3x print system)
+All 13 built nursing PDFs were rebuilt with the m3x print system from `main` (pipeline files copied from `origin/main`, never hand-edited here). `nursing/tools/nebpdf.py` adds a nursing-only `table.careplan` style for NANDA-I care plans; `qa_pdf.py` fails=0 everywhere. See `nursing/STATUS.md` "Session 16". Next unit of work is unchanged: Year 3 Child Health Nursing (BSN 21-22), new photo slug `nur13`, then Family and Reproductive Health Nursing, Year 4, entrance books. Toolchain: `uv venv --python 3.12 /tmp/v` plus weasyprint pymupdf pypdf markdown pygments pillow numpy requests matplotlib fonttools sympy scipy cryptography pandas; `bash notes/pipeline/fonts/install.sh`.

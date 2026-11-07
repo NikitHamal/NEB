@@ -2,11 +2,12 @@
 
 Arrowheads are drawn as polygons (no <marker>), so every renderer shows them. Text is wrapped by
 hand with newlines; Fig.lint() estimates text width and reports labels that overflow their box."""
-import html, math
+import base64, html, math, re
 
 NAVY, SLATE, TEAL, AMBER, RED = "#1e3a8a", "#334155", "#0f766e", "#b45309", "#b91c1c"
 SOFT, BLUE, MINT, SAND, ROSE = "#f8fafc", "#eff6ff", "#ecfdf5", "#fffbeb", "#fef2f2"
-FONT = "Inter, 'DejaVu Sans', Arial, sans-serif"
+FONT = "Poppins, 'DejaVu Sans', Arial, sans-serif"
+MONO = "'JetBrains Mono', 'DejaVu Sans Mono', monospace"
 WARN = []
 
 
@@ -37,8 +38,26 @@ class Fig:
         wt = ' font-weight="700"' if bold else ""
         it = ' font-style="italic"' if italic else ""
         for i, ln in enumerate(lines):
-            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{FONT}" font-size="{size}" '
+            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{MONO if "$" in ln else FONT}" font-size="{size}" '
                           f'fill="{color}" text-anchor="{anchor}"{wt}{it}>{_e(ln)}</text>')
+        return self
+
+    def math(self, x, y, tex, size=11, color=SLATE, anchor="start", vmid=False):
+        """Typeset TeX (real fractions, exponents) at baseline y, as an embedded vector image."""
+        import mathsvg
+        path, h, d = mathsvg.render(tex, size, color=color)
+        if not path:
+            return self.text(x, y, tex, size=size, color=color, anchor=anchor, vmid=vmid)
+        raw = open(path, "rb").read()
+        m = re.search(rb'width="([\d.]+)pt" height="([\d.]+)pt"', raw)
+        w, hh = float(m.group(1)), float(m.group(2))
+        dd = d / 100.0 * 72.0
+        if vmid:
+            y = y + (hh - dd) / 2 - dd / 2 + dd / 2
+        left = x - (w / 2 if anchor == "middle" else w if anchor == "end" else 0)
+        top = y - (hh - dd - 0.86)
+        self.o.append(f'<image x="{left:.2f}" y="{top:.2f}" width="{w:.2f}" height="{hh:.2f}" '
+                      f'href="data:image/svg+xml;base64,{base64.b64encode(raw).decode()}"/>')
         return self
 
     def line(self, x1, y1, x2, y2, color=SLATE, sw=1.4, dash=False):
@@ -233,3 +252,18 @@ class Axes:
     def tag(self, x, y, s, size=10.5, color=SLATE, bold=False, anchor="middle"):
         self.f.text(self.X(x), self.Y(y), s, size=size, color=color, bold=bold, anchor=anchor)
         return self
+
+
+def hbars(f, rows, x0=100, y0=34, bw=150, gap=None, vmax=None, fmt="%.2f", colors=None, size=10):
+    """Horizontal bar chart inside a Fig: rows = [(name, value), ...]; bars are scaled to vmax."""
+    gap = gap or min(32, 150 // max(1, len(rows)))
+    vmax = vmax or max(v for _, v in rows)
+    pal = colors or [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED), (SOFT, SLATE)]
+    for i, (n, v) in enumerate(rows):
+        y = y0 + i * gap
+        fl, st = pal[i % len(pal)]
+        w = max(2, round(bw * v / vmax, 1))
+        f.text(x0 - 6, y + 8, n, size=size, color=SLATE, bold=True, anchor="end", vmid=True)
+        f.box(x0, y, w, 16, fill=fl, stroke=st, r=2)
+        f.text(x0 + w + 4, y + 8, fmt % v, size=size, color=st, bold=True, anchor="start", vmid=True)
+    return f

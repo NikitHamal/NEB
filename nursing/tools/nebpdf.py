@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BSc Nursing PDF builder — a thin adapter over the NEBians house pipeline (notes/pipeline).
+"""BSc Nursing PDF builder: a thin adapter over the NEBians house pipeline (notes/pipeline).
 
 The CEE, IOE and Grade 8-12 books are built by notes/pipeline/build_pdf.py (Markdown -> HTML ->
 WeasyPrint, theme.css, Poppins/Inter/Source Serif 4/JetBrains Mono, N watermark, linked contents,
@@ -41,7 +41,7 @@ COURSE_EN.update(
                "of the syllabus, real photographs, labelled diagrams, machine-verified clinical calculations, "
                "chapter summaries and practice questions with worked answers."),
     hrs=" hrs", teaching_hours="teaching hours", unit="Unit",
-    syl="Syllabus — this unit covers", th=("Content area", "Units", "Teaching hours"),
+    syl="Syllabus: this unit covers", th=("Content area", "Units", "Teaching hours"),
     cover_h="Syllabus at a glance", exam_h="Assessment",
     front_lead=("This book covers {subject} from the Nepal BSc Nursing programme, unit by unit. It is written to "
                 "be studied end to end without a second textbook: concepts first, then worked "
@@ -92,6 +92,39 @@ def _pdf_name(slug):
 
 i18n.set_book, spine.meta_for, spine.pdf_name = _set_book, _meta_for, _pdf_name
 # `i18n.set_book` imports spine lazily and calls spine.track_of on slugs it knows; course slugs never reach it.
+
+
+# ---------------------------------------------------------------- nursing-only table style
+# The 5-column NANDA-I care plan (Assessment | Diagnosis | Goal | Interventions | Evaluation) gets fixed column
+# widths and no hyphenation, so narrow cells do not break words ("diag-nosis"). Everything else is the m3x theme.
+import md2html  # noqa: E402
+NURSING_CSS = """
+table.careplan { table-layout:fixed; font-size:8.3pt; width:100%; }
+table.careplan th, table.careplan td { box-sizing:border-box; }
+table.careplan th, table.careplan td { hyphens:manual; -weasy-hyphens:manual; overflow-wrap:break-word; padding-left:1.8mm; padding-right:1.8mm; }
+table.careplan th:nth-child(1) { width:18%; } table.careplan th:nth-child(2) { width:17%; }
+table.careplan th:nth-child(3) { width:17%; } table.careplan th:nth-child(4) { width:34%; }
+table.careplan th:nth-child(5) { width:14%; }
+table.careplan tr { break-inside:avoid; }
+"""
+_orig_layout = md2html._layout_fixes
+
+
+def _layout(htm):
+    def tag(m):
+        t = m.group(0)
+        head = re.sub(r"<[^>]+>", " ", t[:900])
+        if 'class="' not in t[:30] and "NANDA" in head and len(re.findall(r"<th\b", t.split("</tr>")[0])) == 5:
+            return t.replace("<table", '<table class="careplan"', 1)
+        return t
+    return _orig_layout(re.sub(r"<table\b.*?</table>", tag, htm, flags=re.S))
+
+
+md2html._layout_fixes = _layout
+os.makedirs(STAGE, exist_ok=True)
+_theme = os.path.join(STAGE, "theme-nursing.css")
+open(_theme, "w", encoding="utf-8").write(open(build_pdf.THEME, encoding="utf-8").read() + NURSING_CSS)
+build_pdf.THEME = _theme
 
 # ---------------------------------------------------------------- discovery and staging
 def _units(d):
