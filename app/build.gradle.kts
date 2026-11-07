@@ -178,6 +178,8 @@ dependencies {
 
 // Kotlinx Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    // On-device ONNX voices (Paradee, Leokani, Supertonic 3): downloaded by the user, never bundled
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
 
 // Retrofit & OkHttp
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
