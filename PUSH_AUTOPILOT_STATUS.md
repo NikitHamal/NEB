@@ -54,6 +54,6 @@ python3 manage.py test api.test_push_autopilot api.test_resource_reach web.test_
 
 ## Open / next
 
-* The app still does not send list impressions (`POST /api/resources/impressions/`) for library / search cards.
+* The app sends list impressions for the Library grid (see `NOTIFICATIONS_ANALYTICS_STATUS.md`); search cards still do not.
 * Resources opened from a push notification arrive with the notification surface only on web (`?src=push`); the app reports push taps
   through the push-opened endpoint.
