@@ -138,6 +138,7 @@ class PdfViewerViewModel @Inject constructor(
                     resource = loaded
                     _uiState.update { it.copy(title = loaded.title) }
                     resourceRepository.viewResource(resourceId)
+                    resourceRepository.resourceAction(resourceId, "read")
                     val localFile = downloadManager.getLocalFile(loaded.id, loaded.fileUrl)
                     if (localFile?.exists() == true) {
                         openPdf(localFile)

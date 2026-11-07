@@ -16,6 +16,12 @@ Read `ANDROID_NOTES_STATUS.md` before touching `app/.../ui/screens/notes/`, `app
 
 The app has no AI chat, Study Lab or Study Space (removed in session 8, see `ANDROID_M3X_STATUS.md`); the only Neby AI is the PDF reader's overlay (`ui/screens/reader/PdfAssistantOverlay.kt`, rows in `NebyAnswer.kt`) and `@neby` in the forum. Do not add their endpoints back to `ApiService`. The Analytics screen (`ui/screens/analytics/`) reads one v2 payload from `api/user_analytics.py` (`docs/ANALYTICS.md`, member section); change both sides and `data/api/AnalyticsModels.kt` together and run `api.test_user_analytics`.
 
+## Push, autopilot and library reach
+
+Read `PUSH_AUTOPILOT_STATUS.md` before touching `api/push_engine.py`, `api/resource_alerts.py`, `api/resource_reach.py`,
+`api/resource_insights.py` or the admin Push pages. The library autopilot only announces resources that go live after it shipped;
+older uploads are announced by hand from Admin > Push > Autopilot. Opt-out is `User.notify_new_resources` (default on).
+
 ## Admin panel
 
 Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/css/admin/`. One nav list (`admin_extras.NAV_GROUPS`), M3 confirm dialog instead of `confirm()`, tonal surfaces, finite radii on every hover shape; `web/test_admin_shell.py` enforces it. Analytics: `docs/ANALYTICS.md`.

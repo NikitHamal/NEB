@@ -210,10 +210,21 @@ class ResourceRepository @Inject constructor(
         }
     }
 
-    suspend fun viewResource(resourceId: String): Result<Unit> {
+    suspend fun viewResource(resourceId: String, surface: String = "", src: String = ""): Result<Unit> {
         if (!networkMonitor.isOnline()) return Result.success(Unit)
         return try {
-            apiService.viewResource(resourceId)
+            apiService.viewResource(getBearerToken(), resourceId, surface, src)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** read | download | share. Best effort: a failed beacon never surfaces to the student. */
+    suspend fun resourceAction(resourceId: String, action: String): Result<Unit> {
+        if (!networkMonitor.isOnline()) return Result.success(Unit)
+        return try {
+            apiService.resourceAction(getBearerToken(), resourceId, action)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
