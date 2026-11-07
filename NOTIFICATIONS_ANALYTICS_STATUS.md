@@ -35,6 +35,20 @@ Done this task:
 
 (see below, updated as it ships)
 
+## Android: notification taps
+
+* Root cause of the splash on Back: the deep link navigated as soon as the session was signed in, which is before the splash finishes, so the target
+  sat on top of `splash` in the back stack.
+* Fix (`ui/Navigation.kt`): the link waits until the app is on a real screen (not splash, intro, sign-in, email auth, complete profile). On a cold start the
+  splash hand-off to Home calls `openDeepLink()` right away (Home, then the target in one go). The target is pushed with `popUpTo(Home)` so the back stack is
+  always Home then target, and Back goes Home, then out of the app.
+* `worker/NotificationWorker.kt`: foreground taps use `NEW_TASK | SINGLE_TOP` (no more `CLEAR_TASK`), so a tap reuses the running app through `onNewIntent`
+  instead of tearing it down and replaying the splash.
+
+## Android: more local voices
+
+See `ANDROID_NOTES_STATUS.md` (section "More local voices").
+
 ## Verify
 
 ```
