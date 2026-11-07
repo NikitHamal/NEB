@@ -10,6 +10,7 @@ plugins {
 android {
     namespace = "com.neb.ians"
     compileSdk = 36
+    ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.neb.ians"
@@ -122,7 +123,7 @@ ksp {
 }
 
 composeCompiler {
-    stabilityConfigurationFile.set(rootProject.layout.projectDirectory.file("compose_stability.conf"))
+    stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose_stability.conf"))
 }
 
 dependencies {
@@ -164,8 +165,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.8.5")
 
 // Hilt
-    implementation("com.google.dagger:hilt-android:2.59.2")
-    ksp("com.google.dagger:hilt-android-compiler:2.59.2")
+    implementation("com.google.dagger:hilt-android:2.60.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.60.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
     implementation("androidx.hilt:hilt-work:1.3.0")
     ksp("androidx.hilt:hilt-compiler:1.3.0")
