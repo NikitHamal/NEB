@@ -166,6 +166,30 @@ img.im { vertical-align:baseline; }
 .dm { display:block; text-align:center; margin:3.4mm 0; break-inside:avoid; }
 .dm img { max-width:96%; }
 
+/* A paragraph that carries formulas is set ragged-right: justification would stretch the
+   words around an unbreakable formula (the "Trigonometric   facts   used   in" bug). */
+p.hm, li.hm { text-align:left; -weasy-hyphens:manual; hyphens:manual; }
+
+/* Derivation: a chain of equalities typeset as aligned working, on its own lines. */
+.dv { display:block; margin:1.6mm 0 1.8mm 4mm; padding:1.4mm 0 1.4mm 3.4mm;
+      border-left:0.5mm solid var(--container); text-align:left; break-inside:avoid; }
+.dv img { vertical-align:top !important; max-width:100%; }
+.dv { text-indent:0; }
+.dvt { display:block; margin:0 0 2mm 7.4mm; text-indent:0; text-align:left; }
+.opt img.im, .opt img.dvi, .part img.dvi { vertical-align:middle !important; }
+.opt .dv { display:inline; border:0; margin:0; padding:0; }
+.opt .dvt { display:inline; margin:0; }
+
+/* Formula sheet: each formula in its own tonal cell, on a grid of equal columns. */
+.fxs { display:flex; flex-wrap:wrap; margin:2.4mm -1.1mm 2.8mm -1.1mm; text-align:center; line-height:1; }
+.fxs > span { display:flex; align-items:center; justify-content:center; box-sizing:border-box;
+              margin:1.1mm; padding:2.6mm 2.4mm; border-radius:2.6mm; background:var(--surface);
+              line-height:1; break-inside:avoid; }
+.fxs.c3 > span { width:calc(33.333% - 2.2mm); }
+.fxs.c2 > span { width:calc(50% - 2.2mm); }
+.fxs.c1 > span { width:calc(100% - 2.2mm); }
+.fxs img { vertical-align:middle !important; max-width:100%; }
+
 /* Nepali formulas are typeset as text (devaeqn.py), not as a mathtext image:
    the script needs real shaping. Only the fraction needs geometry. */
 .eqx { font-family:"Noto Sans Devanagari",Poppins,sans-serif; font-size:10.3pt;
@@ -293,14 +317,17 @@ ol.q > li { margin:2.4mm 0; }
 
 /* ---------- MCQ options and multi-part questions ---------- */
 .opts { display:block; margin:1.6mm 0 0 0; text-align:left; }
-.opt  { display:inline-block; vertical-align:top; box-sizing:border-box;
+.opt  { display:inline-flex; align-items:center; vertical-align:top; box-sizing:border-box;
         padding:0 3mm 0 0; margin:.5mm 0; font-size:9.6pt; text-align:left;
         -weasy-hyphens:none; }
 .opt > i { font-family:Poppins,sans-serif; font-style:normal; font-weight:600;
            font-size:7.2pt; color:var(--on-container); background:var(--container);
            border-radius:50%; width:4mm; height:4mm; line-height:4mm;
            text-align:center; display:inline-block; margin-right:1.5mm; }
+.opt .ob { flex:1 1 auto; min-width:0; }
+.opt > i { flex:none; }
 .opts.c4 .opt { width:25%; }
+.opts.c3 .opt { width:33.333%; }
 .opts.c2 .opt { width:50%; }
 .opts.c1 .opt { width:100%; }
 
@@ -345,3 +372,11 @@ table.dense td { padding:1.6mm 1.2mm; overflow-wrap:anywhere; }
 table.dense2 { font-size:7pt; }
 table.dense2 th { font-size:6pt; padding:1.5mm .9mm; }
 table.dense2 td { padding:1.3mm .9mm; overflow-wrap:anywhere; }
+
+/* answer key: number in the margin, parts and statements stacked beside it */
+.ansline.np { padding-left:0; text-indent:0; }
+.ansline.np > strong:first-child { float:left; width:6mm; }
+.ansline.np > .parts, .ansline.np > .stps { display:block; margin:0 0 0 6mm; }
+.ansline.np > .parts .part:first-child { margin-top:0; }
+.stp { display:block; margin:0 0 .9mm 0; }
+.part .stp { margin-left:0; }
