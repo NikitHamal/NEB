@@ -41,7 +41,26 @@ See the table at the bottom (updated as batches are pushed).
 | --- | --- | --- |
 | done | all 96 books | rebuilt with the MathJax session below; run at most 2 builds in parallel (3 get OOM-killed on 4 GB) |
 
-## Session: figure symbols, web re-export, publish manifest (latest, read first)
+## Session: stale PDF sweep and 16:9 library covers (latest, read first)
+- **Audit, do not guess.** A built PDF is stale when its cover or furniture still uses Inter (old theme) or a figure label still uses Inter
+  (pre-Poppins figures). `/tmp/audit`-style check with pymupdf: `page.get_text("dict")` spans whose font starts with `Inter` on pages 1-4
+  (furniture) and on every 7th page (figures); the old cover also prints the `Complete study notes ...` blurb.
+  Found with the old theme: `math11`, `math12`, `phy12`, `qbank12` (Inter furniture + blurb on the cover; this is the Mathematics card in the library screenshot).
+  Found with Inter figures only: `phy11`, `chem11`, `chem12`, `bio11`, `bio12`, `cee-phy`, `ioe-math`, `ioe-eng`.
+  All twelve were rebuilt with `build_pdf.py <slug>`; the IOE copies in `ioe/pdfs/` are the same files as `notes/pdf/` and were refreshed together.
+  Every other book (BCA course and entrance, remaining school, CEE and IOE) already passes the audit.
+- **Library covers are 16:9 now.** The cards (`.rcard-art`, `.bcard-art`) are `aspect-ratio: 16 / 9; object-fit: cover`. The old thumbnail was the A4 first page
+  at 420 px, so a card showed a slice of the title (see the Mathematics card: tagline and half a word). `notes/pipeline/thumb.py` draws the cover again at card shape:
+  1280 x 720 JPEG, flat accent field, `m3x.thumb_art` shapes (same slug hash and tones as the printed cover), grade / level chips, the title
+  (largest size that fits 3 lines in a 700 px column, short last word tied to the one before), NEBians lockup. Safe area: the card puts the PDF badge top-left and a
+  price badge top-right, so everything sits lower-left, 80 px from the edges, 110 px below the top. No tagline, no URL, no shadow, no gradient.
+  It is a pure function of the spine and `bca/course/books.json`; it never opens a PDF, so a rebuild does not change it.
+- **Files.** `python notes/pipeline/thumb.py [slug ...] [--out DIR]` writes `tools/publish/covers/<slug>.jpg` (92 files, about 50-70 KB each).
+  `build_manifest.py` calls it, so `manifest.json` `cover` always points at a 16:9 file. `tools/publish/update_covers.py` PATCHes the new cover onto books that are already
+  in the library (by `published.json` or exact title); `--dry-run` first. The local agent that owns the live account runs that script.
+- **Not done on purpose:** BSN books (separate branch); web reader layout classes (see the older note below).
+
+## Session: figure symbols, web re-export, publish manifest
 - **Figure glyphs.** `figrun.py` patches `Text.set_text`: a Unicode arrow, Greek letter or sign inside `$..$` becomes its TeX name, and a symbol in the text *between* formulas of a mixed label becomes its own `$..$` (mathtext has no per-glyph fallback, so the old build printed boxes and warned `Font 'default' does not have a glyph`). Plain labels still fall back Poppins -> DejaVu -> Noto. Rebuilt with it: every book whose figure code mixes `$` and a symbol (math8, math12, omath8, sci8, sci10, bio12, phy11, chem11, cs10, cs11, eco10, acc10, qbank8, cee-phy, cee-mat, cee-chem, bca-math).
 - **Reaction arrows** (plainlift, `--Cu, 573 K-->`) are in chem11, chem12, sci8, sci10, bio12, cs8, cs11, cs12, cee-bot: rebuilt.
 - **Mathematics I** L'Hopital examples (e) and (f) are inline steps like (a) to (d), not stacked display blocks. A lone inline formula built with `\left( \right)` is set tall and the box breaks around it; use plain parentheses in step rows.
