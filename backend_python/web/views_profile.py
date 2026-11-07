@@ -891,7 +891,8 @@ def settings_page(request):
         status=AccountDeletionRequest.STATUS_PENDING
     ).first()
 
-    return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request))
+    return render(request, 'web/settings.html', _ctx(request, has_password=has_password, pending_request=pending_request,
+                                                       notify_new_resources=bool(db_user.notify_new_resources)))
 
 
 @require_POST

@@ -115,6 +115,11 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                     NotificationManager.IMPORTANCE_DEFAULT
                 ).apply { description = "Replies and activity on your forum posts" },
                 NotificationChannel(
+                    "library_alerts",
+                    "Library alerts",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply { description = "New resources for your class and subjects" },
+                NotificationChannel(
                     "downloads",
                     "Downloads",
                     NotificationManager.IMPORTANCE_LOW

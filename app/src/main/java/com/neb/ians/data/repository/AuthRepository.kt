@@ -407,6 +407,40 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    /** The account's "new resource alerts" switch (on unless switched off), or null if it cannot be read. */
+    suspend fun newResourceAlerts(): Boolean? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            withContext(Dispatchers.IO) { apiService.getNotificationPrefs(bearer) }.newResources
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /** Saves the switch on the account. Returns the stored value, or null if the save failed. */
+    suspend fun setNewResourceAlerts(enabled: Boolean): Boolean? {
+        return try {
+            val bearer = getBearerToken() ?: return null
+            withContext(Dispatchers.IO) {
+                apiService.setNotificationPrefs(bearer, com.neb.ians.data.api.NotificationPrefsRequest(enabled))
+            }.newResources
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /** A push was tapped. Best effort: it feeds the open rate in the admin push history. */
+    suspend fun reportPushOpened(notificationId: String?, campaignId: String?) {
+        if (notificationId.isNullOrBlank() && campaignId.isNullOrBlank()) return
+        try {
+            val bearer = getBearerToken() ?: return
+            withContext(Dispatchers.IO) {
+                apiService.pushOpened(bearer, com.neb.ians.data.api.PushOpenedRequest(notificationId, campaignId))
+            }
+        } catch (_: Exception) {
+        }
+    }
+
     /** What Account security needs to draw itself, or null if it cannot be read. */
     suspend fun accountSecurity(): AccountSecurityInfo? {
         return try {

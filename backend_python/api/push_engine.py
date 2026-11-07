@@ -133,6 +133,7 @@ def deliver(campaign: PushCampaign, messages: list[Message]) -> PushCampaign:
     # bulk_create leaves primary keys unset on some databases; read the rows back.
     deliveries = {d.user_id: d for d in PushDelivery.objects.filter(campaign=campaign)}
 
+    channel = 'library_alerts' if campaign.kind in INBOX_VERBS else 'announcements'
     errors = Counter()
     sent_users = devices_ok = devices_bad = devices_total = 0
     for chunk in _chunks([u for u in ids if deliveries[u].status == 'queued'], CHUNK):
@@ -143,7 +144,7 @@ def deliver(campaign: PushCampaign, messages: list[Message]) -> PushCampaign:
                 'url': m.url, 'campaign_id': campaign.id, 'notification_id': d.notification_id,
                 'kind': campaign.kind, **m.extra,
             }
-            result = fcm_utils.send_fcm_detailed(tokens[uid], m.title, m.body, payload)
+            result = fcm_utils.send_fcm_detailed(tokens[uid], m.title, m.body, payload, channel_id=channel)
             ok = sum(1 for a, _c in result.values() if a)
             bad = len(result) - ok
             devices_total += len(result)
