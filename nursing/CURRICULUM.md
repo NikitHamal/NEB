@@ -33,7 +33,7 @@ Branch `claude/bsc-nursing`. Registry for the build tools is `nursing/books.json
 | 2 | BSN 16 | Social and Behavioral Science | T60 h | `course/year-2/social-and-behavioral-science` | **done (session 12)** |
 | 3 | BSN 17-18 | Midwifery I | T70+P180 h | `course/year-3/midwifery-1` | queued |
 | 3 | BSN 19-20 | Midwifery II | T130+P420 h | `course/year-3/midwifery-2` | queued |
-| 3 | BSN 21-22 | Child Health Nursing | T90+P150 h | `course/year-3/child-health-nursing` | queued |
+| 3 | BSN 21-22 | Child Health Nursing | T90+P150 h | `course/year-3/child-health-nursing` | **done (session 18)** |
 | 3 | BSN 23-24 | Family and Reproductive Health Nursing | T100+P240 h | `course/year-3/family-and-reproductive-health-nursing` | queued |
 | 4 | BSN 25-26 | Management and Health Economics | T150+P360 h | `course/year-4/management-and-health-economics` | queued |
 | 4 | BSN 27-28 | Educational Science | T90+P360 h | `course/year-4/educational-science` | queued |

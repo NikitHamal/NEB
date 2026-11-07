@@ -1,6 +1,6 @@
 # BSc Nursing - STATUS
 
-Updated: end of Session 15. Branch `claude/bsc-nursing` (from `main`).
+Updated: end of Session 18. Branch `claude/bsc-nursing` (from `main`).
 
 ## Done
 - Scaffold: `nursing/CURRICULUM.md`, `nursing/books.json` (registry: 18 course books + 5 entrance books), tools in `nursing/tools/`.
@@ -94,9 +94,16 @@ Updated: end of Session 15. Branch `claude/bsc-nursing` (from `main`).
 - All 13 verify scripts pass; all 13 PDFs rebuilt, `qa_pdf.py` fails=0, 0 code lines in any PDF text.
 - Rule for new units: write python blocks as before (verification), but phrase output lines as complete facts ("Mean arterial pressure = 93.3 mmHg"), because they print as the Worked calculation box; never mention scripts, Python or code in prose.
 
+## Session 18: Child Health Nursing (BSN 21-22), Year 3: DONE
+- 5 units, 63-page PDF (`nursing/pdfs/NEBians-BScNursing-Year-3-Child-Health-Nursing.pdf`), `qa_pdf.py` fails=0 (warns are 6.2 pt photo-credit lines). U1 Child health in Nepal, growth, development, NIP immunisation, cold chain, AEFI, IMNCI | U2 Newborn assessment, Silverman-Anderson, RDS, birth injuries, NTD, cleft, clubfoot, Down syndrome, CHD, 8+7 point lists | U3 SAM/MAM (MUAC, IMAM, RUTF), IMNCI pneumonia, asthma, Plans A/B/C, zinc, worms | U4 Measles and rash illnesses, dengue, meningitis, febrile seizure, rheumatic fever, nephrotic syndrome (BSA), ALL, thalassaemia | U5 ETAT, paediatric BLS, poisoning, burns, injury prevention, hospitalised child (FLACC), Act Relating to Children 2075, Childline 1098, OCMC.
+- 24 new Commons photographs (slug `nur13`; 5 downloaded but unused: crawl, playroom, starved, muac sign, cp 3D render) plus reuse of `nur3/muac`, `nur4/kwash`, `nur4/rutf`, `nur4/spo2`; 6 plates with numbered marks; 14 SVGs; 10 executed python blocks; 5-column NANDA-I plans in every unit; 8-point and 7-point lists in every unit.
+- `nursing/tools/check_ch.py` (`--verify`), helpers in `nursing/tools/helpers/session18/` (`asm.sh N` joins `/app/parts/uNa/b/c.md` + checker section `kN.py`; `get.sh`, `s.sh`, `contact.py`, `pages.sh`).
+- Lessons: SVG `f.box` text does NOT wrap; a long single line is clipped (about 0.6 x font size px per character), so use `\n` lines (a wrap script was run over all parts); the SVG text can be checked by cropping the page with pymupdf `search_for("Figure N.M.")`; reuse licensed images from earlier books by writing `id="nur4/kwash"`; `uv`, pango and poppler had to be installed again (`pip install --user --break-system-packages uv`, `sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 fontconfig poppler-utils`).
+- Facts searched this session: NIP schedule (pharmainfonepal Aug 2025, NEPAS 2025 guidebook, HPV single dose from Feb 2025), WHO 2024 pneumonia and diarrhoea guideline, IMNCI Nepal chart (fast breathing 50/40, zinc 10 mg under 6 months and 20 mg from 6 months). Verify zinc duration and JE and PCV details against the current MoHP circular.
+
 ## Next (in this order)
-1. **Start Year 3 Child Health Nursing (BSN 21-22, T90+P150 h)**: register already in `books.json`. Plan 5 units: growth and development with immunisation and IMNCI, newborn and neonatal disorders, nutrition disorders and paediatric respiratory/GI illness (pneumonia, diarrhoea, dehydration Plans A-C), paediatric infections and haematology/renal/cardiac, paediatric emergencies, congenital anomalies, child rights and drug dose maths (BSA, Clark, mg/kg). Research first (IMNCI Nepal, NIP 2024-25, WHO pocket book 2013). Use a new photo slug `nur13`; copy `nursing/tools/helpers/session14/` to `session15`, set the dir and `check_ch.py`.
-2. Then Family and Reproductive Health Nursing (Year 3); Year 4 books; then the five MECEE-BL entrance books.
+1. **Start Year 3 Family and Reproductive Health Nursing (BSN 23-24, T100+P240 h)**: register in `books.json`. Plan 5 units: reproductive health and Nepal policy (NHSP, Safe Abortion, adolescent and sexual health, gender-based violence), family planning methods (Nepal basket: Depo, implants, IUCD, pills, condoms, sterilisation, MEC wheel, Pearl index and CYP maths), infertility and menopause, gynaecological disorders and cancers (cervical screening VIA, HPV, breast), STI/HIV/PMTCT and the Nepal national protocols. Research first. New photo slug `nur14`; copy `nursing/tools/helpers/session18/` to `session19`, set the dir and `check_frh.py`.
+2. Then Year 4 books (Management and Health Economics, Educational Science, Research and Biostatistics); then the five MECEE-BL entrance books.
 3. Optional polish: Midwifery I Unit 4 SVG 4.1 mnemonic line is 6 pt text.
 
 ## How to continue (Session 2+)
