@@ -24,7 +24,7 @@ A matrix is an array of $m\times n$ numbers. **Types:** square, row, column, dia
 
 **Operations.** Add / subtract same-size matrices; $AB$ exists when columns of $A$ = rows of $B$ and is in general $AB\ne BA$. $(AB)^T=B^TA^T$, $(AB)^{-1}=B^{-1}A^{-1}$. Every square matrix is a sum of a symmetric and a skew-symmetric matrix, $A=\tfrac{1}{2}(A+A^T)+\tfrac{1}{2}(A-A^T)$.
 
-**Determinant.** For $(det | a&b ; c&d |)=ad-bc$; for 3×3 expand along a row with the signs $+-+$. Properties:
+**Determinant.** For $\begin{vmatrix}a&b \\ c&d\end{vmatrix}=ad-bc$; for 3×3 expand along a row with the signs $+-+$. Properties:
 - swapping two rows changes the sign; two equal (or proportional) rows give 0;
 - a common factor of a row comes out; so $|kA|=k^n|A|$ for an $n\times n$ matrix;
 - adding a multiple of one row to another changes nothing;
@@ -203,7 +203,7 @@ f.text(150, 226, "so three figures at best", size=10.5, color=SLATE)
 
 1. If $A$ is $3\times3$ with $|A|=-3$, then $|\mathrm{adj}A|$ is
    (a) $-9$ (b) 9 (c) $-3$ (d) 27
-2. The value of $(det | 1&2&3 ; 4&5&6 ; 7&8&9 |)$ is
+2. The value of $\begin{vmatrix}1&2&3 \\ 4&5&6 \\ 7&8&9\end{vmatrix}$ is
    (a) 0 (b) 1 (c) $-1$ (d) 45
 3. The value of $(1+i)^8$ is
    (a) 8 (b) $16i$ (c) 16 (d) $-16$
