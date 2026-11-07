@@ -100,10 +100,101 @@ def _plain(seg):
     return _CMP_RE.sub(lambda m: _CMP[m.group(1)], seg)
 
 
+# ---- reactions typed as  A + B --cond--> C  (chemistry, every grade) ----------------------------
+_SUBS = dict(zip("₀₁₂₃₄₅₆₇₈₉", "0123456789"))
+_SUPS = {"⁺": "+", "⁻": "-", "²": "2", "³": "3"}
+_RXN = re.compile(r"--([^>\n$`|]{0,60}?)-->")
+_SPECIES = re.compile(
+    r"^\d*(?:[A-Z][a-z]?[0-9₀-₉]*|\((?:[A-Za-z0-9₀-₉=]+)\)[0-9₀-₉]*|[=≡·.\-])+(?:[⁺⁻]|\^?\d*[+-])?[↑↓]?$")
+
+
+def _cond(c):
+    """Condition over the arrow: 'Cu, 573 K', 'Δ, −H₂O', 'dil. NaOH, 280 K' -> TeX."""
+    out = []
+    for piece in [x.strip() for x in re.split(r",(?![^()]*\))", c) if x.strip()]:
+        piece = piece.replace("−", "-")
+        if piece == "Δ":
+            out.append(r"\Delta")
+            continue
+        t, buf = "", ""
+        for ch in piece:
+            if ch in _SUBS:
+                t += (r"\text{%s}" % buf if buf else "") + "_{%s}" % _SUBS[ch]
+                buf = ""
+            else:
+                buf += ch
+        t += r"\text{%s}" % buf if buf else ""
+        out.append(t)
+    return r",\ ".join(out)
+
+
+def _rxn_side(side):
+    """One side of a reaction -> mhchem, or None when it holds anything but formulas."""
+    toks = side.split()
+    if not toks:
+        return None
+    for t in toks:
+        if t in ("+", "→", "⇌", "<=>", "->"):
+            continue
+        if not _SPECIES.match(t):
+            return None
+    return side
+
+
+def _ce(seg):
+    if seg.count("-->") < 1:
+        return None
+    parts = _RXN.split(seg)       # side, cond, side, cond, side ...
+    if len(parts) < 3 or len(parts) % 2 == 0:
+        return None
+    sides = parts[0::2]
+    note = ""
+    m = re.search(r"\s{2,}\(.*\)\s*$|\s\([a-z][^()]*\)\s*$", sides[-1])
+    if m:
+        note, sides[-1] = m.group(0).strip(), sides[-1][:m.start()]
+    if any(_rxn_side(x.strip()) is None for x in sides):
+        return None
+    out = ""
+    for i, sd in enumerate(sides):
+        sd = sd.strip().replace("−", "-").replace("·", ".").replace("⇌", "<=>").replace("→", "->")
+        sd = "".join(_SUBS.get(c, c) for c in sd)
+        sd = re.sub(r"([A-Za-z0-9)])([⁺⁻])", lambda m: "%s^%s" % (m.group(1), _SUPS[m.group(2)]), sd)
+        sd = sd.replace("↑", "^").replace("↓", "v")
+        out += sd + (" " if i < len(sides) - 1 else "")
+        if i < len(sides) - 1:
+            out += "->[%s] " % _cond(parts[2 * i + 1])
+    tex = r"\ce{%s}" % out.strip()
+    return tex, note
+
+
+def _arrow_inline(seg):
+    return _RXN.sub(lambda m: r"$\xrightarrow{%s}$" % _cond(m.group(1)), seg)
+
+
+def _react(seg):
+    """Reaction lines become a display equation; any other `--cond-->` becomes a typeset arrow."""
+    if "-->" not in seg:
+        return seg
+    cells = seg.split("|")
+    if len(cells) > 1:
+        return "|".join(_react(c) if "-->" in c else c for c in cells)
+    m = re.match(r"^(\s*(?:[-*]\s+|\d+\.\s+)?)(.*?)\s*$", seg)
+    lead, core = m.group(1), m.group(2)
+    r = _ce(core)
+    if r and not lead.strip():
+        tex, note = r
+        return "$$%s$$" % tex + (("\n\n" + note) if note else "")
+    if r:
+        return lead + "$%s$" % r[0] + ((" " + r[1]) if r[1] else "")
+    return _arrow_inline(seg)
+
+
 def _line(seg):
     if _SKIP_LINE.match(seg) or "$" in seg:     # a stray $ (money) would pair with ours
         return seg
-    return _plain(seg)
+    if "-->" in seg:
+        seg = _react(seg)
+    return _plain(seg) if "$" not in seg else seg
 
 
 def lift(body):
