@@ -2,43 +2,30 @@
 
 Read this before touching the books film or re-rendering it. One doc, update it in place.
 
-## What exists (v2, replaces the 38 s v1)
-A 46 s motion film announcing the books library: hook (**92 books, 19,874 pages, Rs 0**), the cover wall with per-class counts, then **three slow
-page showcases with real pages held ~1.4 s each**: Class 12 (Physics, Mathematics, Chemistry, Question Bank 12), **IOE** (all 5 books on a title card, then
-Physics, Mathematics, Chemistry, Mock Tests pages) and **CEE** (all 6 books, then Physics, Chemistry, Zoology, Mock Tests pages); then the
-36/15/41 count, a tapped Download PDF button (`Saved`), `Free.` and the NEBians lockup with `nebians.consica.com.np`.
-Formats: `Film9x16` (post this) and `Film16x9` only, 60 fps with motion blur, -14 LUFS. No 1:1.
-The score and SFX are new and procedural (D major pads, kalimba and bells, felt drums, paper swishes, UI taps, glass chime on `Saved`, plate reverb),
-placed from the same `timeline.json` as the picture.
+## What exists (`v1`, `v2`, and `v3` in `dist/`)
+All three versions of the books announcement film (9:16 and 16:9 only, no 1:1) are preserved side-by-side in `NikitHamal/Video` under `neb/tools/video/books-launch/dist/`:
+- **v1 (`nebians-books-v1-Film9x16.mp4`, `nebians-books-v1-Film16x9.mp4`):** 38 s original launch film recovered from commit `1285d66b`.
+- **v2 (`nebians-books-v2-Film9x16.mp4`, `nebians-books-v2-Film16x9.mp4`):** 46 s v2 film preserved from commit `9face976`.
+- **v3 (`nebians-books-v3-Film9x16.mp4`, `nebians-books-v3-Film16x9.mp4`):** 46 s complete motion & sound overhaul:
+  1. **Hook (`0.0–4.5 s`):** High-speed 14-page **Riffle Blitz** flipping through real content pages across 14 books (Physics 12, CEE Zoology, IOE Physics, Chemistry 12, Mathematics 10, BCA Data Structures, CEE Botany, Mathematics 12, IOE Chemistry, Biology 12, Science 10, Computer Science 12, CEE Chemistry, Question Bank 12) with live stream/page chips and a tabular counter climbing to `19,874 pages.`, followed by `92 books.` (`36 School · 15 Entrance · 41 Bachelors`) and an electric blue M3E cookie burst into `Rs 0.` (`Every single book. Free.`).
+  2. **Wall (`4.5–9.5 s`):** Tilted 92-cover matrix decelerating while all **8 stream spotlight cards** (`Class 8`, `Class 10 · SEE`, `Class 11`, `Class 12`, `CEE Entrance`, `IOE Entrance`, `BCA Entrance`, `BCA Semesters`) pop in — each displaying 3 real 16:9 covers from that stream — before the `Physics 12` hero cover rises.
+  3. **Class 12 / School Showcase (`9.5–17.5 s`):** Uncropped 1:1 page deck (zero zoom-in on pages) with a live progress pill bar across `Physics 12` (`contents` — the **only** Table of Contents page shown in the entire film, followed by `opener` Unit 1 Rotational Dynamics), `Mathematics 12` (`worked`), `Chemistry 12` (`figure`), `Biology 12` (`figure`), and `Question Bank 12` (`practice`, 1,010 pages).
+  4. **IOE Showcase (`17.5–24.5 s`):** Bento title card displaying all **5 IOE covers** (`5 books · 293 pages`), followed by 1:1 content pages for `IOE Physics` (`figure`), `IOE Mathematics` (`worked`), `IOE Chemistry` (`figure`), and `IOE Mock Tests` (`practice`).
+  5. **CEE Showcase (`24.5–31.5 s`):** Bento title card displaying all **6 CEE covers** (`6 books · 2,246 pages`), followed by 1:1 content pages for `CEE Physics` (`figure`), `CEE Chemistry` (`figure`), `CEE Zoology` (`figure`), and `CEE Botany` (`figure`).
+  6. **Count (`31.5–36.5 s`):** 3 M3E Bento cards (`36 School books · Class 8 to 12`, `15 Entrance prep · CEE · IOE · BCA`, `41 BCA semesters · Semester 1 to 8`), each with 3 fanned book covers, resolving to `19,874 pages.` and `Class 8 to Bachelors.`.
+  7. **Get (`36.5–41.0 s`):** `Read it.` -> `Download PDF` button tap (`Keep it.`) with pages flying into the `Mathematics 12` cover -> `Saved` -> `Free.` (`Rs 0 · No login wall`).
+  8. **End (`41.0–46.0 s`):** The **official 4-facet isometric NEBians `N` logo** (`public/brand/n.svg`) assembles facet-by-facet on `C.paper`, followed by `NEBians`, `Study materials. Study mates.`, and `nebians.consica.com.np`.
 
-- **Where it lives:** private repo `NikitHamal/Video`, `neb/tools/video/books-launch/` (Remotion project, `README.md` has the story and the build).
-  MP4s: `neb/tools/video/books-launch/dist/nebians-books-<Format>.mp4`. Nothing for it lives in this repo (same rule as the launch films).
-- **Source of truth for numbers and pictures:** this repo. `tools/publish/manifest.json` (counts, pages), `tools/publish/covers/*.jpg`,
-  the 12 featured PDFs in `notes/pdf/` and `ioe/pdfs/` (`scripts/pages.py <NEB checkout>` picks and renders 4 pages of each: contents, worked example,
-  figure, practice), `css/m3x/tokens.css` (palette), Poppins woff2. `scripts/assets.py <NEB checkout>` re-imports covers, books.json and fonts.
+## Sound (`audio/score.py`, stereo 48 kHz, -14 LUFS)
+Warm, soothing **F Major / D Minor** (`Fmaj9 / Dm11 / Bbmaj9 / C13sus4`). Acoustic felt-piano / Rhodes voicings, 5-voice detuned PolyBLEP analog pad, modal wooden marimba arpeggio, warm sub bass, soft felt kick + modal wooden clave rim + brushed pink-brown shaker, and dual-room stereo convolution reverb (`room` 0.42 s + `hall` 2.5 s).
+100% modal & foley sound effects: state-continuous time-varying filter sweeps (`sweep` with carried filter state `zi` on $1/f^{1.65}$ pink-brown noise) for paper riffles and silk scene whooshes, damped free-bar modal wooden taps climbing the F-major pentatonic scale, delicate escapement watch ticks, tactile double-transient UI button press/release, and a warm `Fmaj9` felt-piano confirmation arpeggio and resolve chord.
 
-## When to re-render
-After books are added or removed, a cover is redrawn, or the Physics 12 PDF is rebuilt: run `assets.py`, check `src/data.ts`
-(`HERO`, `GET`) and the covers named in `scenes/Count.tsx` still exist, run `drift`-style sanity by eye on a draft
-(`render.sh Film9x16 out/draft.mp4 --draft`, ~1 min), then the final. After a brand palette change, update `src/theme.ts` too.
-
-## How it was rendered (molab, not the VM)
-The 1 GB checkout never leaves this VM; the box only gets a 3 MB project tarball and the assets. The box (20 cores, 160 GB, ffmpeg 7,
-Node 22, no Chrome until `npx remotion browser ensure`) is driven with `marimo pair execute`; helpers are in
-`books-launch/scripts/molab/` and the lessons learned (5-minute idle reclaim, `Python-urllib` 403, detached jobs, stdout cap) are in
-`neb/docs/RENDER_RIGS.md` in the Video repo. A keeper GETting `/api/status` every 20 s kept the sandbox alive for the whole job.
-A final 120 fps motion-blur render takes ~8 min per format on that box; a 30 fps draft ~1 min.
+## Where it lives & source of truth
+- **Repo:** private repo `NikitHamal/Video`, `neb/tools/video/books-launch/`.
+- **Source of truth for numbers and pictures:** this repo (`NikitHamal/NEB`). `tools/publish/manifest.json` (counts, pages), `tools/publish/covers/*.jpg`, and the 19 featured PDFs in `notes/pdf/`, `ioe/pdfs/`, `bca/entrance/pdfs/`, and `bca/course/semester-3/pdfs/` (`scripts/pages.py <NEB checkout>` picks and renders `opener`, `worked`, `figure`, `practice`, plus `contents` only for `phy12`).
 
 ## Rules the film follows (same as the product)
-Poppins, M3X blue/navy/sky/paper, flat fills only, no shadows, no gradients, no emoji, no live badge, no strokes on frames,
-no sharp-corner morphs, fragments of 1-4 words. The scene change is a rotating M3E cookie shape that grows from the middle.
+Poppins, M3X blue/navy/sky/paper, flat fills only, no shadows, no gradients, no emoji, no live badge, no strokes on frames, no sharp-corner morphs, no zoom-in on book pages, Table of Contents shown only once (`phy12`), and the official 4-facet NEBians `N` logo at the end.
 
 ## Security note
-The GitHub PAT and the molab token were pasted into a chat (again for v2, via a `/tmp` out-of-repo askpass helper and token file that were never committed). Neither is stored in any repo or in the sandbox. Rotate the PAT, and
-treat the molab notebook token as burned once the box is released.
-
-## Deliverables (Video repo `main`)
-Source commit 006759ec (v2 film), renders 9face976 (both on Video `main`; sha256 of the pulled MP4s was checked against the box). 46.0 s, 60 fps, H.264 + AAC,
-`nebians-books-Film9x16.mp4` (1080x1920) and `nebians-books-Film16x9.mp4` (1920x1080); a final render takes ~4 min per format on the molab box.
-Visual checks were done on contact sheets cut from stills of the composition and from the final encodes (see the Video repo commit message).
-Not done: a listen-through (the score is checked by spectrum, RMS and clipping only) and a real-device preview.
+The GitHub PAT and the molab token were provided in chat (used via an out-of-repo `/tmp` askpass helper and token file that were never committed). Rotate the PAT, and treat the molab notebook token as burned once the box is released.
