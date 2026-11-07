@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-4-project-1",
+ "units": [
+  {
+   "no": 1,
+   "title": "Choosing, Scoping and Justifying a Project",
+   "area": "BCA 256 · Project I · Unit 1",
+   "words": 2734,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Planning, Teamwork and Version Control",
+   "area": "BCA 256 · Project I · Unit 2",
+   "words": 2578,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Analysis and Design: Requirements, DFD, ER and Screens",
+   "area": "BCA 256 · Project I · Unit 3",
+   "words": 2552,
+   "read_min": 14,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Building and Testing: Code, Test Cases and Defects",
+   "area": "BCA 256 · Project I · Unit 4",
+   "words": 3280,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "The Report, the Presentation and the Viva",
+   "area": "BCA 256 · Project I · Unit 5",
+   "words": 3008,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

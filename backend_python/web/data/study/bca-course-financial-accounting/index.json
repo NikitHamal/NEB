@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-7-financial-accounting",
+ "units": [
+  {
+   "no": 1,
+   "title": "Conceptual Framework of Accounting, GAAP, NFRS and the Accounting Equation",
+   "area": "BCA 403 · Financial Accounting · Unit 1",
+   "words": 2645,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Recording Transactions: Journal, VAT and TDS Entries, Ledger and T-Accounts",
+   "area": "BCA 403 · Financial Accounting · Unit 2",
+   "words": 2599,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Subsidiary Books, Trial Balance and Error Rectification",
+   "area": "BCA 403 · Financial Accounting · Unit 3",
+   "words": 2899,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Bank Reconciliation Statement",
+   "area": "BCA 403 · Financial Accounting · Unit 4",
+   "words": 2467,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Depreciation and Inventory Valuation",
+   "area": "BCA 403 · Financial Accounting · Unit 5",
+   "words": 2816,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Final Accounts with Year-End Adjustments",
+   "area": "BCA 403 · Financial Accounting · Unit 6",
+   "words": 2671,
+   "read_min": 15,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Ratio Analysis and a Computerised Ledger in SQLite",
+   "area": "BCA 403 · Financial Accounting · Unit 7",
+   "words": 2968,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

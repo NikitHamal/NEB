@@ -1,0 +1,380 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "principles-of-management",
+ "name": "Principles of Management",
+ "name_ne": "",
+ "icon": "work",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#B45309",
+ "lang": "en",
+ "code": "BCA 156",
+ "credits": 1,
+ "semester": 2,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Organisations and Introduction to Management",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The nature of organisations",
+    "What is management?",
+    "The management process and functions",
+    "Managerial hierarchy and types of managers",
+    "Managerial skills and roles",
+    "Emerging challenges for management"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "The nature of organisations"
+    },
+    {
+     "no": "1.2",
+     "title": "What is management?"
+    },
+    {
+     "no": "1.3",
+     "title": "The management process and functions"
+    },
+    {
+     "no": "1.4",
+     "title": "Managerial hierarchy and types of managers"
+    },
+    {
+     "no": "1.5",
+     "title": "Managerial skills and roles"
+    },
+    {
+     "no": "1.6",
+     "title": "Emerging challenges for management"
+    }
+   ],
+   "summary": [
+    "An organisation is a structured group pursuing common goals; effective goals are SMART, accepted and consistent; goals can be displaced or succeeded.",
+    "Management is the process of planning, organising, leading and controlling to achieve goals efficiently and effectively; it is universal, goal-directed and both an art and a science.",
+    "Fayol's fourteen principles guide structure and behaviour as flexible rules.",
+    "There are three levels of managers needing different mixes of technical, human and conceptual skills; Mintzberg describes ten roles.",
+    "Globalisation, technology, diversity, ethics and change are the main challenges."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3666,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Evolution of Management Thought and the Environment",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Classical theory",
+    "Human relations and behavioural science theories",
+    "System, decision, management science and contingency theories",
+    "The business environment",
+    "Social responsibility and business ethics"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Classical theory"
+    },
+    {
+     "no": "2.2",
+     "title": "Human relations and behavioural science theories"
+    },
+    {
+     "no": "2.3",
+     "title": "System, decision, management science and contingency theories"
+    },
+    {
+     "no": "2.4",
+     "title": "The business environment"
+    },
+    {
+     "no": "2.5",
+     "title": "Social responsibility and business ethics"
+    }
+   ],
+   "summary": [
+    "Classical thinkers (Taylor, Fayol, Weber) sought efficiency through method, principles and rules; the Hawthorne studies and behavioural scientists discovered people's social and psychological needs.",
+    "Systems, decision, management-science and contingency theories add holistic, rational, quantitative and situational views — no single best way.",
+    "Diversity, outsourcing, knowledge management and learning organisations are current concepts.",
+    "Organisations operate in internal, task and general environments; scanning economic, socio-cultural, political and technological factors guides decisions, including in Nepal's changing context.",
+    "Social responsibility and business ethics are now part of managerial duty."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3750,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Planning and Decision Making",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Concept and importance of planning",
+    "Types and hierarchy of plans",
+    "The planning process",
+    "Strategic planning",
+    "Quantitative tools for planning",
+    "Decision making",
+    "Problem solving"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Concept and importance of planning"
+    },
+    {
+     "no": "3.2",
+     "title": "Types and hierarchy of plans"
+    },
+    {
+     "no": "3.3",
+     "title": "The planning process"
+    },
+    {
+     "no": "3.4",
+     "title": "Strategic planning"
+    },
+    {
+     "no": "3.5",
+     "title": "Quantitative tools for planning"
+    },
+    {
+     "no": "3.6",
+     "title": "Decision making"
+    },
+    {
+     "no": "3.7",
+     "title": "Problem solving"
+    }
+   ],
+   "summary": [
+    "Planning gives direction and a basis for control; strategic, tactical and operational plans fit into a hierarchy from mission to rules; the planning process runs from premises to evaluated, controlled implementation.",
+    "MBO makes planning participative; strategic planning uses environmental scanning and SWOT.",
+    "Break-even, decision trees, PERT/CPM and EOQ are practical quantitative tools.",
+    "Decisions are programmed or non-programmed and made under certainty, risk or uncertainty, each with its own criteria; real managers satisfice.",
+    "Problem solving finds root causes with fishbone, 5 Whys and Pareto analysis."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4272,
+    "figures": 0,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Organising",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Concept and principles of organising",
+    "Approaches to organising",
+    "Departmentalisation",
+    "Span of management and organisation shape",
+    "Authority, responsibility and accountability",
+    "Delegation of authority",
+    "Centralisation, decentralisation and devolution",
+    "Organic and mechanistic organisations (Burns and Stalker)",
+    "Modern organisational structures",
+    "Staffing (the human side of organising)"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Concept and principles of organising"
+    },
+    {
+     "no": "4.2",
+     "title": "Approaches to organising"
+    },
+    {
+     "no": "4.3",
+     "title": "Departmentalisation"
+    },
+    {
+     "no": "4.4",
+     "title": "Span of management and organisation shape"
+    },
+    {
+     "no": "4.5",
+     "title": "Authority, responsibility and accountability"
+    },
+    {
+     "no": "4.6",
+     "title": "Delegation of authority"
+    },
+    {
+     "no": "4.7",
+     "title": "Centralisation, decentralisation and devolution"
+    },
+    {
+     "no": "4.8",
+     "title": "Organic and mechanistic organisations (Burns and Stalker)"
+    },
+    {
+     "no": "4.9",
+     "title": "Modern organisational structures"
+    },
+    {
+     "no": "4.10",
+     "title": "Staffing (the human side of organising)"
+    }
+   ],
+   "summary": [
+    "Organising divides work, groups it into departments, assigns authority and responsibility and coordinates people through a structure.",
+    "Classical, behavioural and contingency views give different designs; the choice depends on the situation.",
+    "Span of management shapes tall or flat structures; Graicunas shows why spans are limited.",
+    "Line authority commands, staff authority advises; delegation passes authority but not accountability; decentralisation spreads authority by policy and devolution transfers it fully.",
+    "Mechanistic structures suit stable environments, organic ones turbulent; matrix, team and network structures answer modern needs."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3757,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Leading: Leadership, Motivation and Communication",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Leadership",
+    "Groups",
+    "Conflict",
+    "Motivation",
+    "Communication"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Leadership"
+    },
+    {
+     "no": "5.2",
+     "title": "Groups"
+    },
+    {
+     "no": "5.3",
+     "title": "Conflict"
+    },
+    {
+     "no": "5.4",
+     "title": "Motivation"
+    },
+    {
+     "no": "5.5",
+     "title": "Communication"
+    }
+   ],
+   "summary": [
+    "Leadership influences people to pursue goals; trait, behavioural and situational approaches explain it, and the best style adapts to followers and tasks.",
+    "Groups pass through predictable stages and are shaped by norms and cohesion; conflict can be constructive when managed with the right mode.",
+    "Motivation theories — Maslow, Herzberg, McGregor, Vroom, equity — guide rewards, job enrichment, participation and self-managed teams.",
+    "Communication is a two-way process of encoding, transmitting, decoding and feedback; barriers are semantic, physical, psychological and organisational; active listening and feedback improve it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4207,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Controlling, Quality and the Global Context",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Concept and process of control",
+    "Types of control",
+    "Characteristics of an effective control system",
+    "Control tools and techniques",
+    "Quality",
+    "Total Quality Management (TQM)",
+    "Kaizen, Six Sigma and 5S",
+    "The global context of management",
+    "Management trends and scenario in Nepal"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Concept and process of control"
+    },
+    {
+     "no": "6.2",
+     "title": "Types of control"
+    },
+    {
+     "no": "6.3",
+     "title": "Characteristics of an effective control system"
+    },
+    {
+     "no": "6.4",
+     "title": "Control tools and techniques"
+    },
+    {
+     "no": "6.5",
+     "title": "Quality"
+    },
+    {
+     "no": "6.6",
+     "title": "Total Quality Management (TQM)"
+    },
+    {
+     "no": "6.7",
+     "title": "Kaizen, Six Sigma and 5S"
+    },
+    {
+     "no": "6.8",
+     "title": "The global context of management"
+    },
+    {
+     "no": "6.9",
+     "title": "Management trends and scenario in Nepal"
+    }
+   ],
+   "summary": [
+    "Control compares performance with standards and corrects deviations; feedforward, concurrent and feedback controls act before, during and after the work; effective control is timely, economical, flexible and accepted.",
+    "Tools include budgets and variance, ratios, audits, Gantt/PERT, control charts and inventory control.",
+    "Quality is meeting customer needs; TQM involves everyone in continuous improvement using the seven basic tools, Deming's PDCA and 14 points, Kaizen, Six Sigma and 5S.",
+    "Globalisation brings opportunities and challenges that demand cultural intelligence.",
+    "Nepal's management scene is shifting from family-run, relationship-based practice to more professional, digital and quality-conscious management, against infrastructure, political and skill-shortage challenges."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4105,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 42,
+ "notes_ready": 6
+}

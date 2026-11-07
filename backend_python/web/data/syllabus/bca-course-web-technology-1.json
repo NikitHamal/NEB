@@ -1,0 +1,477 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "web-technology-1",
+ "name": "Web Technology I",
+ "name_ne": "",
+ "icon": "web",
+ "group": "semester-3",
+ "group_label": "Semester III",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 203",
+ "credits": 3,
+ "semester": 3,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Internet and the World Wide Web",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Internet versus Web",
+    "Addresses: IP, domain, DNS",
+    "URL anatomy",
+    "HTTP",
+    "Web server, browser, search engine and hosting",
+    "Other Internet protocols and services",
+    "Seeing the Web: machines, messages and addresses"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Internet versus Web"
+    },
+    {
+     "no": "1.2",
+     "title": "Addresses: IP, domain, DNS"
+    },
+    {
+     "no": "1.3",
+     "title": "URL anatomy"
+    },
+    {
+     "no": "1.4",
+     "title": "HTTP"
+    },
+    {
+     "no": "1.5",
+     "title": "Web server, browser, search engine and hosting"
+    },
+    {
+     "no": "1.6",
+     "title": "Other Internet protocols and services"
+    },
+    {
+     "no": "1.7",
+     "title": "Seeing the Web: machines, messages and addresses"
+    }
+   ],
+   "summary": [
+    "The Web is a service on the Internet built from URLs, HTTP and HTML; clients request and servers respond.",
+    "DNS turns names into IP addresses; HTTP is stateless and uses methods and status codes; cookies carry sessions.",
+    "Browsers render; servers serve static or dynamic content; mail uses SMTP, POP3 and IMAP."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2879,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "HTML and Graphics",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Document structure",
+    "Text, links, images, lists",
+    "Tables",
+    "Forms",
+    "Semantic HTML5 layout",
+    "Multimedia and frames",
+    "Graphics: images, image maps, canvas and SVG",
+    "Seeing HTML: browsers, trees and boxes"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Document structure"
+    },
+    {
+     "no": "2.2",
+     "title": "Text, links, images, lists"
+    },
+    {
+     "no": "2.3",
+     "title": "Tables"
+    },
+    {
+     "no": "2.4",
+     "title": "Forms"
+    },
+    {
+     "no": "2.5",
+     "title": "Semantic HTML5 layout"
+    },
+    {
+     "no": "2.6",
+     "title": "Multimedia and frames"
+    },
+    {
+     "no": "2.7",
+     "title": "Graphics: images, image maps, canvas and SVG"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing HTML: browsers, trees and boxes"
+    }
+   ],
+   "summary": [
+    "HTML structures content with nested elements; the head describes the page and the body shows it.",
+    "Text, links, images, lists and tables carry content; forms collect input with typed, validated controls.",
+    "Semantic elements give meaning; video, audio and iframe embed media; SVG and canvas draw graphics."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2307,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Scripting Language (JavaScript)",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Embedding JavaScript",
+    "Variables, data types, operators",
+    "Control flow",
+    "Functions",
+    "Arrays, objects, strings, Math, Date, JSON",
+    "Regular expressions",
+    "The DOM and events",
+    "Timers, errors and asynchronous code",
+    "Seeing JavaScript: people, scope, events and the loop"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Embedding JavaScript"
+    },
+    {
+     "no": "3.2",
+     "title": "Variables, data types, operators"
+    },
+    {
+     "no": "3.3",
+     "title": "Control flow"
+    },
+    {
+     "no": "3.4",
+     "title": "Functions"
+    },
+    {
+     "no": "3.5",
+     "title": "Arrays, objects, strings, Math, Date, JSON"
+    },
+    {
+     "no": "3.6",
+     "title": "Regular expressions"
+    },
+    {
+     "no": "3.7",
+     "title": "The DOM and events"
+    },
+    {
+     "no": "3.8",
+     "title": "Timers, errors and asynchronous code"
+    },
+    {
+     "no": "3.9",
+     "title": "Seeing JavaScript: people, scope, events and the loop"
+    }
+   ],
+   "summary": [
+    "JavaScript adds behaviour: variables and types, control flow, functions and closures, arrays, objects and JSON.",
+    "The DOM and events let scripts read and change the page; forms are validated before submission.",
+    "Errors use try/catch/finally; timers and promises handle work that finishes later."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2237,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "CSS (Cascading Style Sheets)",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Syntax and ways to add CSS",
+    "Selectors, specificity and the cascade",
+    "The box model, units, colours",
+    "Text, fonts, lists, backgrounds",
+    "Display and positioning",
+    "Flexbox and Grid",
+    "Pseudo-classes, transitions, responsive design",
+    "Seeing CSS: the box, the cascade and the layout"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Syntax and ways to add CSS"
+    },
+    {
+     "no": "4.2",
+     "title": "Selectors, specificity and the cascade"
+    },
+    {
+     "no": "4.3",
+     "title": "The box model, units, colours"
+    },
+    {
+     "no": "4.4",
+     "title": "Text, fonts, lists, backgrounds"
+    },
+    {
+     "no": "4.5",
+     "title": "Display and positioning"
+    },
+    {
+     "no": "4.6",
+     "title": "Flexbox and Grid"
+    },
+    {
+     "no": "4.7",
+     "title": "Pseudo-classes, transitions, responsive design"
+    },
+    {
+     "no": "4.8",
+     "title": "Seeing CSS: the box, the cascade and the layout"
+    }
+   ],
+   "summary": [
+    "CSS styles HTML through selectors; the cascade resolves conflicts by importance, specificity and order.",
+    "The box model determines element size and spacing; units can be absolute or relative.",
+    "display, position, Flexbox and Grid build layouts; transitions and media queries add polish and responsiveness."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2490,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "XML (Extensible Markup Language)",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Why XML? Syntax",
+    "Well-formed rules",
+    "Valid XML: DTD",
+    "XML Schema (XSD)",
+    "Namespaces",
+    "Displaying XML: CSS and XSLT",
+    "Parsing XML",
+    "XML versus HTML and JSON",
+    "Seeing XML: trees, errors, validation and size"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Why XML? Syntax"
+    },
+    {
+     "no": "5.2",
+     "title": "Well-formed rules"
+    },
+    {
+     "no": "5.3",
+     "title": "Valid XML: DTD"
+    },
+    {
+     "no": "5.4",
+     "title": "XML Schema (XSD)"
+    },
+    {
+     "no": "5.5",
+     "title": "Namespaces"
+    },
+    {
+     "no": "5.6",
+     "title": "Displaying XML: CSS and XSLT"
+    },
+    {
+     "no": "5.7",
+     "title": "Parsing XML"
+    },
+    {
+     "no": "5.8",
+     "title": "XML versus HTML and JSON"
+    },
+    {
+     "no": "5.9",
+     "title": "Seeing XML: trees, errors, validation and size"
+    }
+   ],
+   "summary": [
+    "XML describes data with custom tags under strict well-formedness rules.",
+    "DTDs and XML Schemas make a document valid against a grammar; namespaces avoid name clashes.",
+    "CSS and XSLT present XML; DOM and SAX parse it; JSON has taken over most web-API use."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2312,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Introduction to jQuery",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Setting up",
+    "Selectors and filtering",
+    "Getting and setting content, attributes, CSS, classes",
+    "Adding, removing and cloning elements",
+    "Events",
+    "Effects and chaining",
+    "AJAX with jQuery",
+    "jQuery versus plain JavaScript",
+    "Seeing jQuery: selection, chaining, effects and traversal"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Setting up"
+    },
+    {
+     "no": "6.2",
+     "title": "Selectors and filtering"
+    },
+    {
+     "no": "6.3",
+     "title": "Getting and setting content, attributes, CSS, classes"
+    },
+    {
+     "no": "6.4",
+     "title": "Adding, removing and cloning elements"
+    },
+    {
+     "no": "6.5",
+     "title": "Events"
+    },
+    {
+     "no": "6.6",
+     "title": "Effects and chaining"
+    },
+    {
+     "no": "6.7",
+     "title": "AJAX with jQuery"
+    },
+    {
+     "no": "6.8",
+     "title": "jQuery versus plain JavaScript"
+    },
+    {
+     "no": "6.9",
+     "title": "Seeing jQuery: selection, chaining, effects and traversal"
+    }
+   ],
+   "summary": [
+    "jQuery selects elements with CSS selectors and applies short methods to all matches.",
+    "It reads and writes content, attributes and styles, builds and removes DOM nodes, and handles events (including delegated ones).",
+    "Effects and chaining make UI code compact; AJAX helpers load data without a page reload."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2115,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Website Page Layout and Design Issues",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Planning a website",
+    "Layout types and page patterns",
+    "Navigation",
+    "Typography, colour and contrast",
+    "Accessibility",
+    "Performance",
+    "SEO and browser compatibility",
+    "Security and publishing",
+    "Seeing design issues: access, contrast, weight and structure"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Planning a website"
+    },
+    {
+     "no": "7.2",
+     "title": "Layout types and page patterns"
+    },
+    {
+     "no": "7.3",
+     "title": "Navigation"
+    },
+    {
+     "no": "7.4",
+     "title": "Typography, colour and contrast"
+    },
+    {
+     "no": "7.5",
+     "title": "Accessibility"
+    },
+    {
+     "no": "7.6",
+     "title": "Performance"
+    },
+    {
+     "no": "7.7",
+     "title": "SEO and browser compatibility"
+    },
+    {
+     "no": "7.8",
+     "title": "Security and publishing"
+    },
+    {
+     "no": "7.9",
+     "title": "Seeing design issues: access, contrast, weight and structure"
+    }
+   ],
+   "summary": [
+    "Good sites start with purpose, audience, site map and wireframes.",
+    "Layout, navigation, typography and colour must support reading and finding things; contrast can be measured.",
+    "Accessibility, performance, SEO and compatibility are design requirements, not extras.",
+    "Security basics and a final checklist precede publishing."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2729,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 59,
+ "notes_ready": 7
+}

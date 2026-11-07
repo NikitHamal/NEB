@@ -42,7 +42,7 @@
   <div class="syl-grade-panel" id="syl-grade-{{ g.grade }}" role="tabpanel" data-syl-panel="{{ g.grade }}" {% if g.grade != syllabus_current_grade %}hidden{% endif %}>
     {% regroup g.subjects by group as groups %}
     {% for grp in groups %}
-    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% else %}Science stream{% endif %}</h3>
+    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% elif grp.list.0.group_label %}{{ grp.list.0.group_label }}{% else %}Science stream{% endif %}</h3>
     <div class="syl-card-grid">
       {% for s in grp.list %}
       <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}">
@@ -54,7 +54,7 @@
             <span class="syl-card-name">{{ s.name }}</span>
             {% if s.name_ne %}<span class="syl-card-nepali" lang="ne">{{ s.name_ne }}</span>{% endif %}
           </div>
-          <div class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} chapters{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</div>
+          <div class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} {% if s.credits %}units{% else %}chapters{% endif %}{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.credits %} · {{ s.code }} · {{ s.credits }} cr{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</div>
         </div>
         <div class="syl-card-action">
           <span class="syl-card-pct" data-syl-pct></span>

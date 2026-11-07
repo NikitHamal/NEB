@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-8-internship",
+ "units": [
+  {
+   "no": 1,
+   "title": "The Internship: Purpose, Placement Search, CV and Interview",
+   "area": "BCA 452 · Internship · Unit 1",
+   "words": 3012,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Workplace Conduct: First Day, Etiquette, Confidentiality and Safety",
+   "area": "BCA 452 · Internship · Unit 2",
+   "words": 2921,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Working the Weeks: Learning Plan, Daily Log and Weekly Review",
+   "area": "BCA 452 · Internship · Unit 3",
+   "words": 2773,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Technical Contribution: Tickets, Code Review, Testing and Hand-over",
+   "area": "BCA 452 · Internship · Unit 4",
+   "words": 2895,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Report, Presentation and Viva: Proving What You Did and Learned",
+   "area": "BCA 452 · Internship · Unit 5",
+   "words": 3192,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

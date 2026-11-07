@@ -1,0 +1,41 @@
+{
+ "book": "bcacourse-semester-1-hardware-workshop",
+ "units": [
+  {
+   "no": 1,
+   "title": "Safety, Tools and the Components of a PC",
+   "area": "BCA 106 · Hardware Workshop · Unit 1",
+   "words": 3134,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Assembling a Desktop PC, Step by Step",
+   "area": "BCA 106 · Hardware Workshop · Unit 2",
+   "words": 2873,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "BIOS/UEFI, Disk Partitioning and Operating System Installation",
+   "area": "BCA 106 · Hardware Workshop · Unit 3",
+   "words": 2609,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Troubleshooting, Maintenance, Peripherals and Network Cabling",
+   "area": "BCA 106 · Hardware Workshop · Unit 4",
+   "words": 2948,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

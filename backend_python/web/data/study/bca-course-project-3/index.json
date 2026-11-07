@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-6-project-3",
+ "units": [
+  {
+   "no": 1,
+   "title": "From Web to IoT: Scope, Architecture and Hardware Choice",
+   "area": "BCA 356 · Project III · Unit 1",
+   "words": 3060,
+   "read_min": 17,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Sensors, Calibration, Noise and Messaging",
+   "area": "BCA 356 · Project III · Unit 2",
+   "words": 3485,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Storing and Analysing Sensor Data: Cleaning, Anomalies and a Forecast",
+   "area": "BCA 356 · Project III · Unit 3",
+   "words": 3806,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "The Mobile Client: Offline-first Sync, Screens and Testing",
+   "area": "BCA 356 · Project III · Unit 4",
+   "words": 3351,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Field Test, Report, Demo and Viva for Project III",
+   "area": "BCA 356 · Project III · Unit 5",
+   "words": 3446,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

@@ -1,0 +1,405 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "society-and-technology",
+ "name": "Society and Technology",
+ "name_ne": "",
+ "icon": "public",
+ "group": "semester-5",
+ "group_label": "Semester V",
+ "color": "#9333EA",
+ "lang": "en",
+ "code": "BCA 305",
+ "credits": 3,
+ "semester": 5,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Technology and Society - Theories and History",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Society, culture and social change",
+    "Does technology drive society? Four views",
+    "A short history of the information revolutions",
+    "The pace of change: Moore's law",
+    "Social impacts of computing",
+    "Seeing the ideas: four information revolutions, the timeline and Moore's law"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Society, culture and social change"
+    },
+    {
+     "no": "1.2",
+     "title": "Does technology drive society? Four views"
+    },
+    {
+     "no": "1.3",
+     "title": "A short history of the information revolutions"
+    },
+    {
+     "no": "1.4",
+     "title": "The pace of change: Moore's law"
+    },
+    {
+     "no": "1.5",
+     "title": "Social impacts of computing"
+    },
+    {
+     "no": "1.6",
+     "title": "Seeing the ideas: four information revolutions, the timeline and Moore's law"
+    }
+   ],
+   "summary": [
+    "Society, culture and structure change under many forces, technology among them; technology comprises artefacts, knowledge and organisation.",
+    "Determinism, SCOT, co-production and ANT give four lenses; Winner's point is that designs carry politics.",
+    "Information revolutions run from writing and printing to mobile, data and AI; Nepal leapfrogged fixed lines.",
+    "Moore's law (doubling every ~2 years, √2 − 1 = 41.4% per year) explains the rapid fall in cost of computing; it is a trend, with physical limits.",
+    "Social impacts are mixed in every domain; ask who benefits, who pays and who is absent."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3088,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Technology Adoption and Diffusion of Innovations",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "The Technology Acceptance Model",
+    "Diffusion of innovations",
+    "The S-curve: logistic growth",
+    "The Bass diffusion model",
+    "Barriers and resistance",
+    "Seeing the ideas: adoption in hardware, TAM, adopter categories and the two growth curves"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "The Technology Acceptance Model"
+    },
+    {
+     "no": "2.2",
+     "title": "Diffusion of innovations"
+    },
+    {
+     "no": "2.3",
+     "title": "The S-curve: logistic growth"
+    },
+    {
+     "no": "2.4",
+     "title": "The Bass diffusion model"
+    },
+    {
+     "no": "2.5",
+     "title": "Barriers and resistance"
+    },
+    {
+     "no": "2.6",
+     "title": "Seeing the ideas: adoption in hardware, TAM, adopter categories and the two growth curves"
+    }
+   ],
+   "summary": [
+    "TAM: PU and PEOU drive intention; UTAUT adds social influence and facilitating conditions; trust matters in Nepal.",
+    "Cronbach's alpha checks scale reliability; correlated predictors (multicollinearity) limit what a small regression can tell.",
+    "Rogers' categories come from the normal curve (2.5, 13.5, 34, 34, 16%); the five attributes of innovations predict speed.",
+    "The logistic curve peaks in rate at t₀; the Bass model combines innovation (p) and imitation (q) with peak time ln(q/p)/(p+q).",
+    "Barriers are individual, organisational, technical, social and policy-related; respect and participation lower resistance."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3380,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "The Digital Divide and Digital Nepal",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "What is the digital divide?",
+    "Measuring the divide",
+    "Language, script and content",
+    "The Digital Nepal Framework",
+    "Closing the divide",
+    "Seeing the ideas: the infrastructure, the three levels, the Lorenz curve and the index"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "What is the digital divide?"
+    },
+    {
+     "no": "3.2",
+     "title": "Measuring the divide"
+    },
+    {
+     "no": "3.3",
+     "title": "Language, script and content"
+    },
+    {
+     "no": "3.4",
+     "title": "The Digital Nepal Framework"
+    },
+    {
+     "no": "3.5",
+     "title": "Closing the divide"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing the ideas: the infrastructure, the three levels, the Lorenz curve and the index"
+    }
+   ],
+   "summary": [
+    "The divide has three levels (access, skills, outcomes) and many dimensions: geography, income, gender, age, disability, language and caste.",
+    "Gaps, ratios, the gender parity index, Lorenz/Gini and min-max composite indices measure it; the unit of analysis and the method must be stated.",
+    "Unicode, Nepali-language tools and local content are conditions for benefit, not extras.",
+    "The Digital Nepal Framework (2019) has eight sectors: Digital Foundation, Agriculture, Health, Education, Energy, Tourism, Finance and Urban Infrastructure.",
+    "Closing the divide needs infrastructure, affordability, skills, local content, inclusive design and trust, and assisted channels."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3311,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Cyber and IT Law in Nepal",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The need for cyber law",
+    "The Electronic Transactions Act, 2063",
+    "Privacy: the Individual Privacy Act, 2075",
+    "Copyright and software",
+    "National Cyber Security Policy, 2080",
+    "Professional duties",
+    "Seeing the ideas: the institutions, the penalty ceilings, the trust chain and the first hour"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The need for cyber law"
+    },
+    {
+     "no": "4.2",
+     "title": "The Electronic Transactions Act, 2063"
+    },
+    {
+     "no": "4.3",
+     "title": "Privacy: the Individual Privacy Act, 2075"
+    },
+    {
+     "no": "4.4",
+     "title": "Copyright and software"
+    },
+    {
+     "no": "4.5",
+     "title": "National Cyber Security Policy, 2080"
+    },
+    {
+     "no": "4.6",
+     "title": "Professional duties"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: the institutions, the penalty ceilings, the trust chain and the first hour"
+    }
+   ],
+   "summary": [
+    "Cyber law supplies recognition (records, signatures), crime definitions and rights; jurisdiction and evidence are enduring difficulties.",
+    "The ETA 2063 recognises electronic records and digital signatures, creates the Controller of Certification and Certifying Authorities, and defines computer offences.",
+    "Sections 44, 45 and 46 carry up to 3 years and Rs 2,00,000; section 47 up to 5 years and Rs 1,00,000; section 52 (computer fraud) up to 2 years and Rs 1,00,000.",
+    "The Individual Privacy Act 2075, the Copyright Act 2059, the Criminal Code 2074 and the 2080 cyber security policy complete the framework.",
+    "Professionals act within authorisation, protect data, respect licences and preserve evidence."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3499,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "e-Governance in Nepal",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Concepts",
+    "Building blocks in Nepal",
+    "Digital signatures and PKI",
+    "Challenges and good practice",
+    "Seeing the ideas: the front desks, the four models, the index, the savings and the signature"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Concepts"
+    },
+    {
+     "no": "5.2",
+     "title": "Building blocks in Nepal"
+    },
+    {
+     "no": "5.3",
+     "title": "Digital signatures and PKI"
+    },
+    {
+     "no": "5.4",
+     "title": "Challenges and good practice"
+    },
+    {
+     "no": "5.5",
+     "title": "Seeing the ideas: the front desks, the four models, the index, the savings and the signature"
+    }
+   ],
+   "summary": [
+    "e-Governance covers service delivery, transparency and participation; models are G2C, G2B, G2G and G2E; maturity runs from emerging to connected.",
+    "EGDI-style indices average service, infrastructure and human-capital components; cost-benefit estimates should count citizens' time and access.",
+    "Nepali building blocks: National ID, Nagarik App, GIDC and office systems, tax, customs and procurement portals, and Palika software.",
+    "A digital signature hashes the document and transforms the digest with the private key; a CA's certificate binds the public key to the identity.",
+    "Success depends on inclusion, security, interoperability, legal safeguards and reengineered processes."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3173,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Cyberethics, Privacy and Algorithmic Fairness",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Ethical frameworks",
+    "Everyday cyberethics",
+    "Algorithmic bias: where it comes from",
+    "Measuring fairness",
+    "Transparency and accountability",
+    "Seeing the ideas: faces, pipelines, rates and trade-offs"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Ethical frameworks"
+    },
+    {
+     "no": "6.2",
+     "title": "Everyday cyberethics"
+    },
+    {
+     "no": "6.3",
+     "title": "Algorithmic bias: where it comes from"
+    },
+    {
+     "no": "6.4",
+     "title": "Measuring fairness"
+    },
+    {
+     "no": "6.5",
+     "title": "Transparency and accountability"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: faces, pipelines, rates and trade-offs"
+    }
+   ],
+   "summary": [
+    "Utilitarian, duty, virtue and care frameworks, plus the ACM and IEEE codes, structure ethical decisions; refuse, document and escalate when asked to do wrong.",
+    "Everyday cyberethics covers privacy, misinformation, harassment, plagiarism, piracy and netiquette.",
+    "Bias enters through history, sampling, measurement, labels, aggregation and deployment; proxies defeat attribute removal.",
+    "Fairness metrics (demographic parity, disparate impact, equal opportunity, equalized odds, predictive parity) are computed from group confusion matrices and can conflict when base rates differ.",
+    "Responsible systems are transparent, explainable, contestable, accountable and audited."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3103,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "E-Waste, Green Computing and Sustainable Technology",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "What is e-waste?",
+    "The life cycle of a device",
+    "Managing e-waste",
+    "Green computing",
+    "Responsibility of the computing professional",
+    "Seeing the ideas: the fires, the sorting line, the aisle, the flows and the footprint"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "What is e-waste?"
+    },
+    {
+     "no": "7.2",
+     "title": "The life cycle of a device"
+    },
+    {
+     "no": "7.3",
+     "title": "Managing e-waste"
+    },
+    {
+     "no": "7.4",
+     "title": "Green computing"
+    },
+    {
+     "no": "7.5",
+     "title": "Responsibility of the computing professional"
+    },
+    {
+     "no": "7.6",
+     "title": "Seeing the ideas: the fires, the sorting line, the aisle, the flows and the footprint"
+    }
+   ],
+   "summary": [
+    "E-waste contains hazardous and valuable materials; informal burning harms health; most Nepali e-waste is stored or processed informally.",
+    "A device's footprint is front-loaded (manufacture), so longer life, repair and reuse beat recycling, which beats disposal.",
+    "Manage e-waste by reduce, reuse, recycle, EPR and the Basel framework; sanitise data before disposal.",
+    "PUE = total ÷ IT power (DCiE is its reciprocal); energy = power × hours; carbon = energy × emission factor.",
+    "Extending a laptop's service life from 3 to 5 years cuts its annual footprint by a quarter in the example."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3146,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 42,
+ "notes_ready": 7
+}
