@@ -208,7 +208,9 @@
           </button>
           {% endif %}
           <button class="x-icon-btn" data-action="share-resource" aria-label="Share"><span class="material-symbols-outlined">share</span></button>
+          {% if can_see_insights %}<button type="button" class="x-icon-btn" data-action="open-resource-insights" data-resource-id="{{ resource.id }}" aria-label="Insights"><span class="material-symbols-outlined">insights</span></button>{% endif %}
           {% if can_edit %}<a href="{% url 'web:edit_resource' resource_id=resource.id %}" class="x-icon-btn" aria-label="Edit"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+          <span data-reach-resource="{{ resource.id }}" hidden></span>
         </div>
       </div>
 
@@ -238,7 +240,7 @@
   <div class="rd-related">
     <h2 class="x-sub">More in {{ resource.subject }}</h2>
     <div class="x-grid">
-      {% for r in related_resources %}{% include "components/_resource_card.html" with r=r %}{% endfor %}
+      {% for r in related_resources %}{% include "components/_resource_card.html" with r=r from="related" %}{% endfor %}
     </div>
   </div>
   {% endif %}
