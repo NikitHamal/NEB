@@ -17,21 +17,23 @@ The **derivative** measures the instantaneous rate of change of a function: the 
 
 ## 3.1 The derivative from first principles
 
-The **derivative** of f at x is
+The **derivative** of *f* at *x* is
 
-**f′(x) = lim (h→0) [f(x + h) − f(x)] / h**
+$$f' (x) = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$$
 
-if the limit exists. Geometrically it is the slope of the tangent to y = f(x) at x; it is also written dy/dx or Df(x).
+if the limit exists. Geometrically it is the slope of the tangent to $y = f (x)$ at *x*; it is also written $\frac{d y}{d x}$ or Df(x).
 
 ::: example Worked example: first principles
-**f(x) = x².** [f(x + h) − f(x)]/h = [(x + h)² − x²]/h = (2xh + h²)/h = 2x + h → **2x**.
-**f(x) = √x.** [√(x + h) − √x]/h = h/(h(√(x + h) + √x)) = 1/(√(x + h) + √x) → **1/(2√x)**.
-**f(x) = sin x.** [sin(x + h) − sin x]/h = sin x (cos h − 1)/h + cos x (sin h)/h → sin x · 0 + cos x · 1 = **cos x**.
+**$f (x) = x^{2}$.** $\frac{f (x + h) - f (x)}{h} = \frac{[(x + h)^{2} - x^{2}]}{h} = \frac{(2 x h + h^{2})}{h} = 2 x + h$ → **$2 x$**.
+
+**$f (x) = \sqrt{x}$.** $\frac{\sqrt{x + h} - \sqrt{x}}{h} = \frac{h}{h \left( \sqrt{x + h} + \sqrt{x} \right)} = \frac{1}{\sqrt{x + h} + \sqrt{x}}$ → **$\frac{1}{2 \sqrt{x}}$**.
+
+**$f (x) = \sin x$.** $\frac{\sin (x + h) - \sin x}{h} = \frac{\sin x (\cos h - 1)}{h} + \frac{\cos x (\sin h)}{h} \to \sin x \cdot 0 + \cos x \cdot 1$ = **$\cos x$**.
 :::
 
-**Differentiability.** If f is differentiable at a, it is continuous at a. The converse is false: f(x) = |x| is continuous at 0 but has a corner there. The left slope is −1 and the right slope is +1, so f′(0) does not exist. A function also fails to be differentiable at a vertical tangent or a discontinuity.
+**Differentiability.** If *f* is differentiable at a, it is continuous at a. The converse is false: $f (x) = |x|$ is continuous at 0 but has a corner there. The left slope is −1 and the right slope is +1, so $f' (0)$ does not exist. A function also fails to be differentiable at a vertical tangent or a discontinuity.
 
-```svgfig label="3.1" caption="From secant to tangent for f(x) = x² at P(1, 1). The slope of the secant PQ is (f(1 + h) − f(1))/h. As h shrinks, Q slides down the curve towards P and the secant turns into the tangent, whose slope 2 is the derivative f′(1)."
+```svgfig label="3.1" caption="From secant to tangent for $f (x) = x^{2}$ at $P (1 ,\  1)$. The slope of the secant PQ is $\frac{f (1 + h) - f (1)}{h}$. As *h* shrinks, Q slides down the curve towards P and the secant turns into the tangent, whose slope 2 is the derivative $f' (1)$."
 f = Fig(740, 290)
 a = Axes(f, 30, 14, 350, 255, (-0.5, 3.2), (-0.5, 7.5)); a.grid(1, 1).axes()
 a.curve(lambda x: x * x, color=NAVY, sw=2.6)
@@ -49,7 +51,7 @@ for i, (h, q, s) in enumerate(rows):
 f.text(430, 270, "slope = ((1 + h)² − 1)/h = 2 + h  →  2", size=11, color=SLATE, anchor="start")
 ```
 
-```photogrid label="3.1" cols="3" ratio="1.0" caption="Derivative = rate of change. (a) The speedometer of a car shows the derivative of distance with respect to time. (b) Isaac Newton (1643-1727) and (c) Gottfried Wilhelm Leibniz (1646-1716) developed calculus independently; the notation dy/dx is Leibniz's, the dot notation is Newton's."
+```photogrid label="3.1" cols="3" ratio="1.0" caption="Derivative = rate of change. (a) The speedometer of a car shows the derivative of distance with respect to time. (b) Isaac Newton (1643-1727) and (c) Gottfried Wilhelm Leibniz (1646-1716) developed calculus independently; the notation $\frac{d y}{d x}$ is Leibniz's, the dot notation is Newton's."
 @ photo id="bca104/speedo" cap="Speedometer: v = ds/dt"
 fit 1.0
 focus 0.5 0.5
@@ -66,38 +68,44 @@ focus 0.5 0.62
 
 | Rule | Statement |
 |---|---|
-| Constant | (c)′ = 0 |
-| Power | (xⁿ)′ = n xⁿ⁻¹ (any real n) |
-| Constant multiple, sum | (c f)′ = c f′; (f ± g)′ = f′ ± g′ |
-| Product | (fg)′ = f′g + fg′ |
-| Quotient | (f/g)′ = (f′g − fg′)/g² |
-| Chain | (f(g(x)))′ = f′(g(x)) · g′(x) |
+| Constant | $(c)' = 0$ |
+| Power | $(x^{n})' = n x^{n-1}$ (any real *n*) |
+| Constant multiple, sum | $(c f)' = c f' ;\  (f \pm g)' = f' \pm g'$ |
+| Product | $(f g)' = f' g + f g'$ |
+| Quotient | $\left( \frac{f}{g} \right)' = \frac{f' g - f g'}{g^{2}}$ |
+| Chain | $(f (g (x)))' = f' (g (x)) \cdot g' (x)$ |
 
 **Table of standard derivatives**
 
-| f(x) | f′(x) | f(x) | f′(x) |
+| $f (x)$ | $f' (x)$ | $f (x)$ | $f' (x)$ |
 |---|---|---|---|
-| eˣ | eˣ | aˣ | aˣ ln a |
-| ln x | 1/x | logₐ x | 1/(x ln a) |
-| sin x | cos x | cos x | −sin x |
-| tan x | sec²x | cot x | −cosec²x |
-| sec x | sec x tan x | cosec x | −cosec x cot x |
-| sin⁻¹x | 1/√(1 − x²) | cos⁻¹x | −1/√(1 − x²) |
-| tan⁻¹x | 1/(1 + x²) | \|x\| | x/\|x\| (x ≠ 0) |
+| $e^{x}$ | $e^{x}$ | $a^{x}$ | $a^{x} \ln a$ |
+| $\ln x$ | $\frac{1}{x}$ | $\log_{a} x$ | $\frac{1}{x \ln a}$ |
+| $\sin x$ | $\cos x$ | $\cos x$ | $- \sin x$ |
+| $\tan x$ | $\sec^{2} x$ | $\cot x$ | $- \csc^{2} x$ |
+| $\sec x$ | $\sec x \tan x$ | $\csc x$ | $- \csc x \cot x$ |
+| $\sin^{-1} x$ | $\frac{1}{\sqrt{1 - x^{2}}}$ | $\cos^{-1} x$ | $- \frac{1}{\sqrt{1 - x^{2}}}$ |
+| $\tan^{-1} x$ | $\frac{1}{(1 + x^{2})}$ | $|x|$ | $\frac{x}{|x|} (x \neq 0)$ |
 
 ::: example Worked example: product, quotient, chain
-**(a)** d/dx (x² sin x) = 2x sin x + x² cos x.
-**(b)** d/dx [(x² + 1)/(x − 1)] = [2x(x − 1) − (x² + 1)]/(x − 1)² = **(x² − 2x − 1)/(x − 1)²**.
-**(c)** d/dx sin(3x²) = cos(3x²) · 6x = **6x cos 3x²**.
-**(d)** d/dx e^{x² + 1} = **2x e^{x² + 1}**.
-**(e)** d/dx ln(x² + 4) = 2x/(x² + 4).
-**(f)** d/dx √(1 + x³) = (1/2)(1 + x³)^{−1/2} · 3x² = **3x²/(2√(1 + x³))**.
-**(g)** d/dx tan⁻¹(2x) = 2/(1 + 4x²).
+**(a)** $\frac{d}{d x} (x^{2} \sin x) = 2 x \sin x + x^{2} \cos x$.
+
+**(b)** $\frac{d}{d x} \left[ \frac{x^{2} + 1}{x - 1} \right] = \frac{2 x (x - 1) - (x^{2} + 1)}{(x - 1)^{2}}$ = **$\frac{x^{2} - 2 x - 1}{(x - 1)^{2}}$**.
+
+**(c)** $\frac{d}{d x} \sin (3 x^{2}) = \cos (3 x^{2}) \cdot 6 x$ = **$6 x \cos 3 x^{2}$**.
+
+**(d)** $\frac{d}{d x} e^{x^{2} + 1}$ = **$2 x e^{x^{2} + 1}$**.
+
+**(e)** $\frac{d}{d x} \ln (x^{2} + 4) = \frac{2 x}{x^{2} + 4}$.
+
+**(f)** $\frac{d}{d x} \sqrt{1 + x^{3}} = \left( \frac{1}{2} \right) (1 + x^{3})^{- \frac{1}{2}} \cdot 3 x^{2}$ = **$\frac{3 x^{2}}{2 \sqrt{1 + x^{3}}}$**.
+
+**(g)** $\frac{d}{d x} \tan^{-1} (2 x) = \frac{2}{(1 + 4 x^{2})}$.
 :::
 
-**Chain rule in layers.** For y = sin³(2x): outer cube, middle sine, inner 2x. y′ = 3 sin²(2x) · cos(2x) · 2 = 6 sin²(2x) cos(2x).
+**Chain rule in layers.** For $y = \sin^{3} (2 x)$: outer cube, middle sine, inner $2 x$. $y' = 3 \sin^{2} (2 x) \cdot \cos (2 x) \cdot 2 = 6 \sin^{2} (2 x) \cos (2 x)$.
 
-```svgfig label="3.2" caption="A function and its derivative, read together. For f(x) = x³ − 3x (top) the derivative is f′(x) = 3x² − 3 (bottom). Where f′ is positive f rises, where f′ is negative f falls, and where f′ = 0 (x = ±1) the graph of f has a flat tangent: a local maximum at x = −1 and a local minimum at x = 1."
+```svgfig label="3.2" caption="A function and its derivative, read together. For $f (x) = x^{3} - 3 x$ (top) the derivative is $f' (x) = 3 x^{2} - 3$ (bottom). Where $f'$ is positive *f* rises, where $f'$ is negative *f* falls, and where $f' = 0 (x = \pm 1)$ the graph of *f* has a flat tangent: a local maximum at $x = - 1$ and a local minimum at $x = 1$."
 f = Fig(740, 330)
 a = Axes(f, 40, 12, 660, 140, (-2.3, 2.3), (-3.2, 3.2)); a.grid(1, 1).axes()
 a.curve(lambda x: x**3 - 3 * x, color=NAVY, sw=2.6); a.pt(-1, 2, "local max (−1, 2)", dx=8, dy=-6); a.pt(1, -2, "local min (1, −2)", dx=-8, dy=18, anchor="end")
@@ -111,172 +119,191 @@ f.text(a.X(-1.9), b.Y(-1.7), "f′ > 0: f rising", size=10, color=TEAL, bold=Tru
 
 ## 3.3 Implicit differentiation
 
-When y is defined implicitly by an equation in x and y, differentiate both sides with respect to x, treating y as a function of x (so d/dx y² = 2y y′), then solve for y′.
+When *y* is defined implicitly by an equation in *x* and *y*, differentiate both sides with respect to *x*, treating *y* as a function of *x* (so $\frac{d}{d x} y^{2} = 2 y y'$), then solve for $y'$.
 
 ::: example Worked example
-**x² + y² = 25.** 2x + 2y y′ = 0, so y′ = −x/y. At (3, 4): slope −3/4, so the tangent is y − 4 = −(3/4)(x − 3), i.e. 3x + 4y = 25.
+**$x^{2} + y^{2} = 25$.** $2 x + 2 y y' = 0$, so $y' = - \frac{x}{y}$. At (3, 4): slope $- \frac{3}{4}$, so the tangent is $y - 4 = - \left( \frac{3}{4} \right) (x - 3)$, i.e. $3 x + 4 y = 25$.
 
-**x³ + y³ = 6xy.** 3x² + 3y² y′ = 6y + 6x y′, so y′(3y² − 6x) = 6y − 3x², giving **y′ = (2y − x²)/(y² − 2x)**.
+**$x^{3} + y^{3} = 6 x y$.** $3 x^{2} + 3 y^{2} y' = 6 y + 6 x y'$, so $y' (3 y^{2} - 6 x) = 6 y - 3 x^{2}$, giving **$y' = \frac{(2 y - x^{2})}{y^{2} - 2 x}$**.
 :::
 
 ## 3.4 Logarithmic differentiation
 
-For products and quotients with many factors, or for variable exponents f(x)^{g(x)}, take ln first: ln y = g ln f, then differentiate: y′/y = …
+For products and quotients with many factors, or for variable exponents $f (x)^{g (x)}$, take ln first: $\ln y = g \ln f$, then differentiate: $\frac{y'}{y} = \ldots$
 
 ::: example Worked example
-**y = xˣ.** ln y = x ln x, so y′/y = ln x + 1 and **y′ = xˣ (ln x + 1)**.
-**y = x² (x + 1)³ / √(x − 2).** ln y = 2 ln x + 3 ln(x + 1) − ½ ln(x − 2), so y′/y = 2/x + 3/(x + 1) − 1/(2(x − 2)).
-**y = (sin x)^{x}.** ln y = x ln sin x; y′ = (sin x)^x [ln sin x + x cot x].
+**$y = x^{x}$.** $\ln y = x \ln x$, so $\frac{y'}{y} = \ln x + 1$ and **$y' = x^{x} (\ln x + 1)$**.
+
+**$y = \frac{x^{2} (x + 1)^{3}}{\sqrt{x - 2}}$.** $\ln y = 2 \ln x + 3 \ln (x + 1) - \frac{1}{2} \ln (x - 2)$, so $\frac{y'}{y} = \frac{2}{x} + \frac{3}{x + 1} - \frac{1}{2 (x - 2)}$.
+
+**$y = (\sin x)^{x}$.** $\ln y = x \ln \sin x ;\  y' = (\sin x)^{x} [\ln \sin x + x \cot x]$.
 :::
 
 ## 3.5 Parametric differentiation
 
-If x = x(t), y = y(t), then **dy/dx = (dy/dt)/(dx/dt)** and **d²y/dx² = (d/dt (dy/dx)) / (dx/dt)**.
+If $x = x (t) ,\  y = y (t)$, then **$\frac{d y}{d x}$ = (dy/dt)/(dx/dt)** and **$\frac{d^{2} y}{d x^{2}} = \frac{\frac{d}{d t} \left( \frac{d y}{d x} \right)}{\frac{d x}{d t}}$**.
 
 ::: example Worked example
-x = t², y = t³. dx/dt = 2t, dy/dt = 3t², so dy/dx = 3t/2. Then d²y/dx² = (3/2)/(2t) = **3/(4t)**.
-For x = a cos t, y = a sin t (a circle): dy/dx = −cot t.
+$x = t^{2} ,\  y = t^{3}$. $\frac{d x}{d t} = 2 t ,\  \frac{d y}{d t} = 3 t^{2}$, so $\frac{d y}{d x} = \frac{3 t}{2}$. Then $\frac{d^{2} y}{d x^{2}} = \frac{\frac{3}{2}}{2 t}$ = **$\frac{3}{4 t}$**.
+
+For $x = a \cos t ,\  y = a \sin t ( a$ circle): $\frac{d y}{d x} = - \cot t$.
 :::
 
 ## 3.6 Higher-order derivatives
 
-The second derivative f″ = d/dx(f′) measures how the slope itself changes (concavity, acceleration). In general f⁽ⁿ⁾ is the nth derivative.
+The second derivative $f'' = \frac{d}{d x} (f')$ measures how the slope itself changes (concavity, acceleration). In general $f^{(n)}$ is the nth derivative.
 
-| y | yⁿ-th derivative |
+| *y* | $y^{n} - t h$ derivative |
 |---|---|
-| eᵃˣ | aⁿ eᵃˣ |
-| sin x | sin(x + nπ/2) |
-| cos x | cos(x + nπ/2) |
-| (ax + b)ᵐ | m(m − 1)…(m − n + 1) aⁿ (ax + b)^{m − n} |
-| ln(ax + b) | (−1)ⁿ⁻¹ (n − 1)! aⁿ/(ax + b)ⁿ |
-| 1/(x + a) | (−1)ⁿ n!/(x + a)ⁿ⁺¹ |
+| $e^{ax}$ | $a^{n} e^{ax}$ |
+| $\sin x$ | $\sin \left( x + \frac{n \pi}{2} \right)$ |
+| $\cos x$ | $\cos \left( x + \frac{n \pi}{2} \right)$ |
+| $(a x + b)^{m}$ | $m (m - 1) \ldots (m - n + 1) a^{n} (a x + b)^{m - n}$ |
+| $\ln (a x + b)$ | $\frac{(- 1)^{n-1} (n - 1) ! a^{n}}{(a x + b)^{n}}$ |
+| $\frac{1}{x + a}$ | $\frac{(- 1)^{n} n !}{(x + a)^{n+1}}$ |
 
 ::: example Worked example
-**y = x³ − 4x² + 5x:** y′ = 3x² − 8x + 5, y″ = 6x − 8, y‴ = 6, y⁽⁴⁾ = 0.
-**y = e^{2x}:** y⁽ⁿ⁾ = 2ⁿ e^{2x}; the 5th derivative is 32 e^{2x}.
-**y = sin x:** y″ = −sin x, y⁗ = sin x (period 4).
-**If y = a cos(ln x) + b sin(ln x), show x² y″ + x y′ + y = 0.** y′ = (−a sin(ln x) + b cos(ln x))/x, so x y′ = −a sin + b cos. Differentiate: y′ + x y″ = (−a cos − b sin)/x, so x y′ + x² y″ = −y. Hence x² y″ + x y′ + y = 0. ∎
+**$y = x^{3} - 4 x^{2} + 5 x$:** $y' = 3 x^{2} - 8 x + 5 ,\  y'' = 6 x - 8 ,\  y''' = 6 ,\  y^{(4)} = 0$.
+
+**$y = e^{2 x}$:** $y^{(n)} = 2^{n} e^{2 x}$; the 5th derivative is 32 $e^{2 x}$.
+
+**$y = \sin x$:** $y'' = - \sin x ,\  y'''' = \sin x$ (period 4).
+
+**If $y = a \cos (\ln x) + b \sin (\ln x)$, show $x^{2} y'' + x y' + y = 0$.** $y' = \frac{- a \sin (\ln x) + b \cos (\ln x)}{x}$, so $x y' = - a \sin + b \cos$. Differentiate: $y' + x y'' = ( - a \cos - b$ sin)/x, so $x y' + x^{2} y'' = - y$. Hence $x^{2} y'' + x y' + y = 0$. ∎
 :::
 
-**Leibniz's theorem** for the nth derivative of a product: (uv)⁽ⁿ⁾ = Σ C(n, k) u⁽ⁿ⁻ᵏ⁾ v⁽ᵏ⁾. For (x² e^{x})″: u = x², v = eˣ, giving x² eˣ + 2(2x) eˣ + 2 eˣ = (x² + 4x + 2) eˣ.
+**Leibniz's theorem** for the nth derivative of a product:
 
-```svgfig label="3.3" caption="Implicit differentiation on the circle x² + y² = 25. Differentiating both sides gives 2x + 2y·dy/dx = 0, so dy/dx = −x/y. At P(3, 4) the slope is −3/4, and the tangent is perpendicular to the radius OP (whose slope is 4/3)."
+$$(uv)^{(n)} = \sum_{k=0}^{n} \binom{n}{k}\, u^{(n-k)}\, v^{(k)}$$
+
+For $(x^2 e^x)''$: take $u = x^2$ and $v = e^x$. Then $(x^2 e^x)'' = x^2 e^x + 2(2x)\,e^x + 2\,e^x = (x^2 + 4x + 2)\,e^x$.
+
+```svgfig label="3.3" caption="Implicit differentiation on the circle $x^{2} + y^{2} = 25$. Differentiating both sides gives $2 x$ + 2y·dy/dx = 0, so $\frac{d y}{d x} = - \frac{x}{y}$. At $P ( 3$, 4) the slope is $- \frac{3}{4}$, and the tangent is perpendicular to the radius OP (whose slope is $\frac{4}{3}$)."
 f = Fig(740, 300)
 a = Axes(f, 20, 10, 280, 280, (-7, 7), (-7, 7)); a.grid(1, 1, labels=False).axes()
 a.curve(lambda x: math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300); a.curve(lambda x: -math.sqrt(25 - x * x), -5, 5, color=NAVY, sw=2.6, n=300)
 a.curve(lambda x: 4 - 0.75 * (x - 3), -1.5, 7, color=RED, sw=2.2); a.curve(lambda x: 4 * x / 3, 0, 3, color=TEAL, sw=2, dash=True)
 a.pt(3, 4, "P(3, 4)", dx=8, dy=-8); a.pt(0, 0, "O", r=3, color=SLATE, dx=-8, dy=14, anchor="end")
-f.text(a.X(4.2), a.Y(1.2), "tangent", size=11, color=RED, bold=True, anchor="start")
-steps = [("1. Differentiate both sides with respect to x", "d/dx (x²) + d/dx (y²) = d/dx (25)"), ("2. Treat y as a function of x (chain rule)", "2x + 2y · dy/dx = 0"), ("3. Solve for dy/dx", "dy/dx = −x / y"), ("4. Put in the point (3, 4)", "slope m = −3/4"), ("5. Tangent line: y − 4 = m(x − 3)", "3x + 4y = 25")]
+f.text(a.X(5.0), a.Y(3.5), "tangent", size=11, color=RED, bold=True, anchor="start")
+steps = [("1. Differentiate both sides with respect to x", r"\frac{d}{dx}(x^2) + \frac{d}{dx}(y^2) = \frac{d}{dx}(25)"), ("2. Treat y as a function of x (chain rule)", r"2x + 2y \cdot \frac{dy}{dx} = 0"), ("3. Solve for dy/dx", r"\frac{dy}{dx} = -\frac{x}{y}"), ("4. Put in the point (3, 4)", r"m = -\frac{3}{4}"), ("5. Tangent line: y - 4 = m(x - 3)", r"3x + 4y = 25")]
 for i, (s, e) in enumerate(steps):
-    y = 24 + i * 54
-    f.box(330, y, 395, 46, "", fill=BLUE if i % 2 == 0 else SOFT, stroke="#cbd5e1")
-    f.text(342, y + 18, s, size=10.5, color=NAVY, bold=True, anchor="start"); f.text(342, y + 36, e, size=11.5, color=SLATE, anchor="start")
+    y = 18 + i * 56
+    f.box(330, y, 395, 50, "", fill=BLUE if i % 2 == 0 else SOFT, stroke="#cbd5e1", r=12)
+    f.text(344, y + 17, s, size=10.5, color=NAVY, bold=True, anchor="start"); f.math(344, y + 41, e, size=12.5, color=SLATE)
 ```
 
 ## 3.7 Eight uses of derivatives
 
-1. **Speed and acceleration.** If s(t) is the position of a vehicle, then v = ds/dt is its speed and a = dv/dt = d²s/dt² is its acceleration. A Kathmandu microbus driver feels the second derivative when the bus brakes at Koteshwor. Traffic engineers use these to set safe speed limits.
-2. **Finding maximum profit and minimum cost.** A business writes profit as a function P(x) of the number of items and solves P′(x) = 0. A bakery in Butwal can find the number of cakes that earns most. The second derivative then confirms that the point is a maximum and not a minimum.
-3. **Tangent lines and linear approximation.** Near a point a curve looks like its tangent, so f(x) ≈ f(a) + f′(a)(x − a). Calculators use this to find √4.02 ≈ 2 + 0.02/4 = 2.005 quickly. Graphics software draws smooth curves in the same way.
+1. **Speed and acceleration.** If $s (t)$ is the position of a vehicle, then $v = \frac{d s}{d t}$ is its speed and $a = \frac{d v}{d t} = \frac{d^{2} s}{d t^{2}}$ is its acceleration. A Kathmandu microbus driver feels the second derivative when the bus brakes at Koteshwor. Traffic engineers use these to set safe speed limits.
+2. **Finding maximum profit and minimum cost.** A business writes profit as a function $P (x)$ of the number of items and solves $P' (x) = 0$. A bakery in Butwal can find the number of cakes that earns most. The second derivative then confirms that the point is a maximum and not a minimum.
+3. **Tangent lines and linear approximation.** Near a point a curve looks like its tangent, so $f (x) \approx f (a) + f' (a) (x - a)$. Calculators use this to find $\sqrt{4.02} \approx 2 + 0.02 / 4 = 2.005$ quickly. Graphics software draws smooth curves in the same way.
 4. **Machine learning and gradient descent.** To train a model, a computer finds the minimum of an error function by moving against the derivative. A positive slope means "go left", a negative slope means "go right". This is how recommendation and speech systems learn.
 5. **Related rates.** When one quantity changes, others linked to it change too. If water is pumped into a tank at a known rate, the derivative tells how fast the level rises. Municipal water engineers use it for the tanks of the Melamchi supply.
-6. **Growth and decay models.** The derivative of a population or an investment tells how fast it grows. For P = P₀eᵏᵗ we get dP/dt = kP, so growth is proportional to size. This links directly to the differential equations in Unit 6.
+6. **Growth and decay models.** The derivative of a population or an investment tells how fast it grows. For $P = P_{0} e^{kt}$ we get $\frac{dP}{dt} = kP$, so growth is proportional to size. This links directly to the differential equations in Unit 6.
 7. **Curve sketching and optimisation in design.** The first derivative shows where a graph rises and falls, and the second shows its curvature (Figure 3.2). Designers use these to shape road curves, bridge cables and the packaging of a drink can.
 8. **Sensitivity and economics.** The derivative of cost with respect to quantity is the marginal cost, the extra cost of one more unit. A hydropower plant uses marginal cost to decide how many turbines to run. In any formula, a large derivative warns that a small error in input gives a large error in output.
 
 ## Formula and fact sheet
 
-- f′(x) = lim [f(x + h) − f(x)]/h.
-- (xⁿ)′ = nxⁿ⁻¹; (eˣ)′ = eˣ; (ln x)′ = 1/x; (sin x)′ = cos x; (cos x)′ = −sin x; (tan x)′ = sec²x.
-- (fg)′ = f′g + fg′; (f/g)′ = (f′g − fg′)/g²; chain: f′(g)·g′.
-- Implicit: differentiate both sides, y′ appears with each y.
-- Log differentiation for f^g: y′ = y (g′ ln f + g f′/f).
-- Parametric: dy/dx = ẏ/ẋ.
+- $f' (x) = \lim \frac{f (x + h) - f (x)}{h}$.
+- $(x^{n})' = n x^{n-1} ;\  (e^{x})' = e^{x} ;\  (\ln x)' = \frac{1}{x} ;\  (\sin x)' = \cos x ;\  (\cos x)' = - \sin x ;\  (\tan x)' = \sec^{2} x$.
+- $(f g)' = f' g + f g' ;\  \left( \frac{f}{g} \right)' = \frac{f' g - f g'}{g^{2}}$; chain: $f' (g) \cdot g'$.
+- Implicit: differentiate both sides, $y'$ appears with each *y*.
+- Log differentiation for $f^{g}$: $y' = y \left( g' \ln f + \frac{g f'}{f} \right)$.
+- Parametric: $\frac{d y}{d x}$ = ẏ/ẋ.
 - Differentiable ⇒ continuous (not conversely).
 
 ## Chapter summary
 
 - The derivative is the limit of difference quotients, equal to the slope of the tangent.
 - A small table plus four rules (sum, product, quotient, chain) handles nearly every function.
-- Implicit, logarithmic and parametric methods cover curves not written as y = f(x).
+- Implicit, logarithmic and parametric methods cover curves not written as $y = f (x)$.
 - Higher derivatives and nth-derivative formulas appear in series and in applications.
 
 ## Practice
 
-1. Differentiate from first principles f(x) = 1/x.
-2. Differentiate: (a) x³ e^{x}, (b) (ln x)/x², (c) sin(x²) cos(3x), (d) tan⁻¹(x²).
-3. Differentiate y = (1 + x²)^{5} and y = √(sin x + cos x).
-4. Find dy/dx if x² y + y³ = 10 at (1, 2).
-5. Differentiate y = x^{sin x}.
-6. If x = 2 cos t, y = 3 sin t find dy/dx and d²y/dx².
-7. Find the nth derivative of y = 1/(x + 2) and of y = sin 3x.
-8. Prove that if y = e^{x} sin x then y″ − 2y′ + 2y = 0.
-9. Find the point on y = x² − 4x + 5 where the tangent is parallel to the x-axis.
-10. Is f(x) = |x − 1| differentiable at 1? Justify.
+1. Differentiate from first principles $f (x) = \frac{1}{x}$.
+2. Differentiate: (a) $x^{3} e^{x}$, (b) $\frac{\ln x}{x^{2}}$, (c) $\sin (x^{2}) \cos (3 x)$, (d) $\tan^{-1} (x^{2})$.
+3. Differentiate $y = (1 + x^{2})^{5}$ and $y = \sqrt{\sin x + \cos x}$.
+4. Find $\frac{d y}{d x}$ if $x^{2} y + y^{3} = 10$ at (1, 2).
+5. Differentiate $y = x^{\sin x}$.
+6. If $x = 2 \cos t ,\  y = 3 \sin t$ find $\frac{d y}{d x}$ and $\frac{d^{2} y}{d x^{2}}$.
+7. Find the nth derivative of $y = \frac{1}{x + 2}$ and of $y = \sin 3 x$.
+8. Prove that if $y = e^{x} \sin x$ then $y'' - 2 y' + 2 y = 0$.
+9. Find the point on $y = x^{2} - 4 x + 5$ where the tangent is parallel to the x-axis.
+10. Is $f (x)$ = |x − 1| differentiable at 1? Justify.
 
 ::: note Answers and worked solutions
-**1.** [1/(x + h) − 1/x]/h = −h/(h x(x + h)) = −1/(x(x + h)) → **−1/x²**.
-**2.** (a) **x²eˣ(3 + x)**. (b) (1/x · x² − ln x · 2x)/x⁴ = **(1 − 2 ln x)/x³**. (c) **2x cos(x²) cos 3x − 3 sin(x²) sin 3x**. (d) **2x/(1 + x⁴)**.
-**3.** **10x(1 + x²)⁴**; **(cos x − sin x)/(2√(sin x + cos x))**.
-**4.** 2xy + x² y′ + 3y² y′ = 0, so y′ = −2xy/(x² + 3y²). At (1, 2): −4/(1 + 12) = **−4/13**. (Check: 1·2 + 8 = 10 ✓.)
-**5.** ln y = sin x · ln x, y′ = x^{sin x} [cos x ln x + sin x / x].
-**6.** dy/dx = 3 cos t/(−2 sin t) = **−(3/2) cot t**. d²y/dx² = [(3/2) cosec²t]/(−2 sin t) = **−(3/4) cosec³t**.
-**7.** (−1)ⁿ n!/(x + 2)ⁿ⁺¹; **3ⁿ sin(3x + nπ/2)**.
-**8.** y′ = eˣ(sin x + cos x), y″ = eˣ(2 cos x). Then y″ − 2y′ + 2y = eˣ[2 cos x − 2 sin x − 2 cos x + 2 sin x] = 0. ∎
-**9.** y′ = 2x − 4 = 0 ⇒ x = 2, y = 1: **(2, 1)**.
-**10.** No. Left slope −1, right slope +1, so the two one-sided derivatives differ at the corner x = 1 although f is continuous there.
+**1.** $\frac{\frac{1}{x + h} - \frac{1}{x}}{h} = - \frac{h}{h x (x + h)} = - \frac{1}{x (x + h)}$ → **$- \frac{1}{x^{2}}$**.
+
+**2.** (a) **$x^{2} e^{x} (3 + x)$**. (b) $\frac{\frac{1}{x} \cdot x^{2} - \ln x \cdot 2 x}{x^{4}}$ = **$\frac{1 - 2 \ln x}{x^{3}}$**. (c) **$2 x \cos (x^{2}) \cos 3 x - 3 \sin (x^{2}) \sin 3 x$**. (d) **$\frac{2 x}{(1 + x^{4})}$**.
+
+**3.** **$10 x (1 + x^{2})^{4}$**; **$\frac{\cos x - \sin x}{2 \sqrt{\sin x + \cos x}}$**.
+
+**4.** $2 x y + x^{2} y' + 3 y^{2} y' = 0$, so $y' = - \frac{2 x y}{(x^{2} + 3 y^{2})}$. At (1, 2): $- \frac{4}{1 + 12}$ = **$- \frac{4}{13}$**. (Check: 1·2 + $8 = 10$ ✓.)
+
+**5.** $\ln y = \sin x \cdot \ln x ,\  y' = x^{\sin x} \left[ \cos x \ln x + \frac{\sin x}{x} \right]$.
+
+**6.** $\frac{d y}{d x} = \frac{3 \cos t}{- 2 \sin t}$ = **$- \left( \frac{3}{2} \right) \cot t$**. $\frac{d^{2} y}{d x^{2}} = \frac{\left( \frac{3}{2} \right) \csc^{2} t}{- 2 \sin t}$ = **$- \left( \frac{3}{4} \right) \csc^{3} t$**.
+
+**7.** $\frac{(- 1)^{n} n !}{(x + 2)^{n+1}}$; **$3^{n} \sin \left( 3 x + \frac{n \pi}{2} \right)$**.
+
+**8.** $y' = e^{x} (\sin x + \cos x) ,\  y'' = e^{x} (2 \cos x)$. Then $y'' - 2 y' + 2 y = e^{x} [2 \cos x - 2 \sin x - 2 \cos x + 2 \sin x] = 0$. ∎
+
+**9.** $y' = 2 x - 4 = 0 \Rightarrow x = 2 ,\  y = 1$: **(2, 1)**.
+
+**10.** No. Left slope −1, right slope +1, so the two one-sided derivatives differ at the corner $x = 1$ although *f* is continuous there.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q (5 marks). Find the derivative of f(x) = √x from first principles. Find also the slope of the curve at x = 4.**
+**Q (5 marks). Find the derivative of $f (x) = \sqrt{x}$ from first principles. Find also the slope of the curve at $x = 4$.**
 
-The **derivative** of f at x is defined by the limit f′(x) = lim (h→0) [f(x + h) − f(x)] / h, provided the limit exists. It is the slope of the tangent line (Figure 3.1).
+The **derivative** of *f* at *x* is defined by the limit $f' (x) = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$, provided the limit exists. It is the slope of the tangent line (Figure 3.1).
 
-1. Write the difference quotient: [√(x + h) − √x] / h. Putting h = 0 gives 0/0, so we rationalise.
-2. Multiply top and bottom by the conjugate √(x + h) + √x. The numerator becomes (x + h) − x = h.
-3. The quotient is h / [h(√(x + h) + √x)] = 1 / (√(x + h) + √x) for h ≠ 0.
-4. Let h → 0: the denominator tends to √x + √x = 2√x.
+1. Write the difference quotient: $\frac{\sqrt{x + h} - \sqrt{x}}{h}$. Putting $h = 0$ gives $\frac{0}{0}$, so we rationalise.
+2. Multiply top and bottom by the conjugate $\sqrt{x + h} + \sqrt{x}$. The numerator becomes $(x + h) - x = h$.
+3. The quotient is $\frac{h}{h \left( \sqrt{x + h} + \sqrt{x} \right)} = \frac{1}{\sqrt{x + h} + \sqrt{x}}$ for $h \neq 0$.
+4. Let $h \to 0$: the denominator tends to $\sqrt{x} + \sqrt{x} = 2 \sqrt{x}$.
 
-So **f′(x) = 1/(2√x)** for x > 0. At x = 4 the slope is 1/(2 × 2) = **1/4**, and the tangent line is y − 2 = ¼(x − 4). *Check:* between x = 4 and x = 4.04, √4.04 − √4 = 2.00998 − 2 = 0.00998, and 0.00998/0.04 ≈ 0.2495, close to 1/4.
+So **$f' (x) = \frac{1}{2 \sqrt{x}}$** for $x > 0$. At $x = 4$ the slope is $\frac{1}{2 \times 2}$ = **$\frac{1}{4}$**, and the tangent line is $y - 2 = \frac{1}{4} (x - 4)$. *Check:* between $x = 4$ and $x = 4.04 ,\  \sqrt{4.04} - \sqrt{4} = 2.00998 - 2 = 0.00998$, and $0.00998 / 0.04 \approx 0.2495$, close to $\frac{1}{4}$.
 
-**Q (5 marks). If x³ + y³ = 6xy, find dy/dx by implicit differentiation and the slope of the tangent at (3, 3).**
+**Q (5 marks). If $x^{3} + y^{3} = 6 x y$, find $\frac{d y}{d x}$ by implicit differentiation and the slope of the tangent at (3, 3).**
 
-When y cannot be easily written as a function of x we differentiate both sides with respect to x, remembering that y depends on x, so d(y³)/dx = 3y² · dy/dx (chain rule).
+When *y* cannot be easily written as a function of *x* we differentiate both sides with respect to *x*, remembering that *y* depends on *x*, so $\frac{d (y^{3})}{d x} = 3 y^{2} \cdot \frac{d y}{d x}$ (chain rule).
 
-1. Differentiate: 3x² + 3y² · dy/dx = 6y + 6x · dy/dx (the product rule is used on 6xy).
-2. Collect the dy/dx terms on one side: 3y² · dy/dx − 6x · dy/dx = 6y − 3x².
-3. Factor: dy/dx (3y² − 6x) = 6y − 3x².
-4. Divide: **dy/dx = (2y − x²) / (y² − 2x)**.
-5. At (3, 3): the numerator is 6 − 9 = −3 and the denominator is 9 − 6 = 3, so the slope is **−1**.
+1. Differentiate: $3 x^{2} + 3 y^{2} \cdot \frac{d y}{d x} = 6 y + 6 x \cdot \frac{d y}{d x}$ (the product rule is used on $6 x y$).
+2. Collect the $\frac{d y}{d x}$ terms on one side: $3 y^{2} \cdot \frac{d y}{d x} - 6 x \cdot \frac{d y}{d x} = 6 y - 3 x^{2}$.
+3. Factor: $\frac{d y}{d x} (3 y^{2} - 6 x) = 6 y - 3 x^{2}$.
+4. Divide: **$\frac{d y}{d x} = \frac{(2 y - x^{2})}{y^{2} - 2 x}$**.
+5. At (3, 3): the numerator is $6 - 9 = - 3$ and the denominator is $9 - 6 = 3$, so the slope is **−1**.
 
-The point (3, 3) lies on the curve (27 + 27 = 54 = 6 × 9), so the question is valid. The tangent there is y − 3 = −(x − 3), that is x + y = 6. This curve is the *folium of Descartes*, and the symmetry about y = x explains the slope −1 at its point on that line.
+The point (3, 3) lies on the curve $(27 + 27 = 54 = 6 \times 9)$, so the question is valid. The tangent there is $y - 3 = - (x - 3)$, that is $x + y = 6$. This curve is the *folium of Descartes*, and the symmetry about $y = x$ explains the slope −1 at its point on that line.
 
 **Q (10 marks). Define the derivative and explain its geometrical meaning. State and illustrate the main rules of differentiation, and explain implicit, logarithmic and parametric differentiation with one example each.**
 
-**Introduction.** The derivative of y = f(x) is f′(x) = dy/dx = lim (h→0) [f(x + h) − f(x)]/h. Geometrically it is the **slope of the tangent** at the point (x, f(x)), the limit of secant slopes as the second point approaches the first (Figure 3.1). Physically it is the instantaneous rate of change, such as speed from distance (Plate 3.1a).
+**Introduction.** The derivative of $y = f (x)$ is $f' (x) = \frac{d y}{d x} = \lim_{h \to 0} \frac{f (x + h) - f (x)}{h}$. Geometrically it is the **slope of the tangent** at the point $(x ,\  f (x))$, the limit of secant slopes as the second point approaches the first (Figure 3.1). Physically it is the instantaneous rate of change, such as speed from distance (Plate 3.1a).
 
 **Rules of differentiation.**
 
 | Rule | Formula | Example |
 |---|---|---|
-| Constant, power | d(xⁿ)/dx = nxⁿ⁻¹ | d(x⁴ − 2x³)/dx = 4x³ − 6x² |
-| Sum | (u + v)′ = u′ + v′ | |
-| Product | (uv)′ = u′v + uv′ | d(x² eˣ)/dx = eˣ(x² + 2x) |
-| Quotient | (u/v)′ = (u′v − uv′)/v² | d((x + 1)/(x − 1))/dx = −2/(x − 1)² |
-| Chain | d f(g(x))/dx = f′(g(x)) g′(x) | d(sin x²)/dx = 2x cos x² |
+| Constant, power | $\frac{d (x^{n})}{d x} = n x^{n-1}$ | $\frac{d (x^{4} - 2 x^{3})}{d x} = 4 x^{3} - 6 x^{2}$ |
+| Sum | $(u + v)' = u' + v'$ |  |
+| Product | $(u v)' = u' v + u v'$ | $\frac{d (x^{2} e^{x})}{d x} = e^{x} (x^{2} + 2 x)$ |
+| Quotient | $\left( \frac{u}{v} \right)' = \frac{u' v - u v'}{v^{2}}$ | $\frac{d \left( \frac{x + 1}{x - 1} \right)}{d x} = - \frac{2}{(x - 1)^{2}}$ |
+| Chain | $\frac{d f (g (x))}{d x} = f' (g (x)) g' (x)$ | $\frac{d (\sin x^{2})}{d x} = 2 x \cos x^{2}$ |
 
-**Standard derivatives.** (sin x)′ = cos x, (cos x)′ = −sin x, (eˣ)′ = eˣ, (ln x)′ = 1/x, (tan x)′ = sec² x.
+**Standard derivatives.** $(\sin x)' = \cos x ,\  (\cos x)' = - \sin x ,\  (e^{x})' = e^{x} ,\  (\ln x)' = \frac{1}{x} ,\  (\tan x)' = \sec^{2} x$.
 
-**Implicit differentiation.** For x² + y² = 25 differentiate both sides: 2x + 2y·dy/dx = 0, so dy/dx = −x/y; at (3, 4) the slope is −3/4 (Figure 3.3).
+**Implicit differentiation.** For $x^{2} + y^{2} = 25$ differentiate both sides: $2 x$ + 2y·dy/dx = 0, so $\frac{d y}{d x} = - \frac{x}{y}$; at (3, 4) the slope is $- \frac{3}{4}$ (Figure 3.3).
 
-**Logarithmic differentiation.** For y = xˣ take logarithms: ln y = x ln x. Differentiate: y′/y = ln x + 1, so **y′ = xˣ(ln x + 1)**. It is the method for variable exponents and long products.
+**Logarithmic differentiation.** For $y = x^{x}$ take logarithms: $\ln y = x \ln x$. Differentiate: $\frac{y'}{y} = \ln x + 1$, so **$y' = x^{x} (\ln x + 1)$**. It is the method for variable exponents and long products.
 
-**Parametric differentiation.** If x = a cos t, y = a sin t, then dy/dx = (dy/dt)/(dx/dt) = a cos t / (−a sin t) = **−cot t**, and the second derivative is d²y/dx² = (d/dt of dy/dx)/(dx/dt) = csc² t / (−a sin t) = **−1/(a sin³ t)**.
+**Parametric differentiation.** If $x = a \cos t ,\  y = a \sin t$, then $\frac{d y}{d x}$ = (dy/dt)/(dx/dt) = $\frac{a \cos t}{- a \sin t}$ = **$- \cot t$**, and the second derivative is $\frac{d^{2} y}{d x^{2}} = ( \frac{d}{d t}$ of dy/dx)/(dx/dt) = $\frac{\csc^{2} t}{- a \sin t}$ = **$- \frac{1}{a \sin^{3} t}$**.
 
-**Higher derivatives.** Differentiating again gives f″, which measures curvature: f″ > 0 means the graph bends upward, f″ < 0 downward. If s is position, then s″ is acceleration.
+**Higher derivatives.** Differentiating again gives $f''$, which measures curvature: $f'' > 0$ means the graph bends upward, $f'' < 0$ downward. If *s* is position, then $s''$ is acceleration.
 
-**Relation to the graph.** Where f′ > 0 the function rises; where f′ = 0 the tangent is flat, giving a possible maximum or minimum (Figure 3.2).
+**Relation to the graph.** Where $f' > 0$ the function rises; where $f' = 0$ the tangent is flat, giving a possible maximum or minimum (Figure 3.2).
 
 **Conclusion.** The derivative is a limit, and the rules allow us to compute it quickly without returning to the limit each time. In Unit 4 it will be used to optimise, approximate and sketch.

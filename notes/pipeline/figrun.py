@@ -21,7 +21,7 @@ GRID     = "#dfe3ea"
 ACCENT   = "#1d6fb8"     # primary
 SERIES   = ["#1d6fb8", "#d9534f", "#2e8b57", "#b8860b", "#6a5acd", "#008b8b"]
 
-FAMILY   = ["Inter", "DejaVu Sans", "Noto Sans Devanagari"]
+FAMILY   = ["Poppins", "DejaVu Sans", "Noto Sans Devanagari"]
 TARGET_W = 5.9          # inches; the text column is 6.93 in
 
 fonts.ensure()   # static bold instances, so fontweight="bold" is actually bold
@@ -29,7 +29,7 @@ fonts.ensure()   # static bold instances, so fontweight="bold" is actually bold
 matplotlib.rcParams.update({
     # A family *list* (not the "sans-serif" generic) is what turns on
     # matplotlib's per-glyph fallback, so a Nepali label falls through to Noto
-    # while arrows and maths signs still come from Inter/DejaVu.
+    # while arrows and maths signs still come from Poppins/DejaVu.
     "font.family": FAMILY,
     "mathtext.fontset": "stix",
     "font.size": 8.6,

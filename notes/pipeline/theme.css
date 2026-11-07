@@ -96,14 +96,14 @@ body { margin:0; }
 .toc .area .chip { background:var(--container); color:var(--on-container); font-weight:600;
                    font-size:7.4pt; letter-spacing:.09em; text-transform:uppercase; margin:0; }
 .toc a { position:relative; display:block; text-decoration:none; color:var(--ink);
-         font-family:Poppins,sans-serif; font-weight:500; font-size:9.3pt; line-height:1.38;
-         padding:2.4mm 14mm 2.4mm 13mm; border-bottom:.2mm solid var(--rule);
+         font-family:Poppins,sans-serif; font-weight:500; font-size:9.4pt; line-height:1.35;
+         padding:3.6mm 15mm 3.6mm 14.5mm; border-bottom:.25mm solid var(--rule);
          text-align:left; break-inside:avoid; -weasy-hyphens:none; }
-.toc a .n { position:absolute; left:0; top:1.9mm; width:8.2mm; height:8.2mm; line-height:8.2mm;
-            border-radius:2.9mm; text-align:center; background:var(--container);
-            color:var(--accent); font-weight:600; font-size:9pt; }
-.toc a::after { content: target-counter(attr(href), page); position:absolute; right:0; top:2.7mm;
-                font-weight:600; color:var(--muted); font-size:9pt; }
+.toc a .n { position:absolute; left:0; top:50%; margin-top:-4.4mm; width:8.8mm; height:8.8mm; line-height:8.8mm;
+            border-radius:3mm; text-align:center; background:var(--container);
+            color:var(--accent); font-weight:600; font-size:9.2pt; }
+.toc a::after { content: target-counter(attr(href), page); position:absolute; right:0; top:50%;
+                margin-top:-.62em; line-height:1.2; font-weight:600; color:var(--muted); font-size:9.2pt; }
 .toc a .hrs { display:inline-block; font-weight:500; font-size:6.8pt; color:var(--muted);
               background:var(--surface); border-radius:3mm; padding:.3mm 2mm; margin-left:1.4mm;
               vertical-align:1px; white-space:nowrap; }
