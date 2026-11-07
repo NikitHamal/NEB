@@ -15,7 +15,10 @@ import com.neb.ians.ui.screens.forum.PendingForumAttachment
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -91,6 +94,27 @@ class ResourceDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val resourceId: String = savedStateHandle.get<String>("resourceId") ?: ""
+
+    /** Where the student came from (home, library, search, profile...). Set by the nav host before the first response. */
+    @Volatile var surface: String = ""
+    private val openedAt = android.os.SystemClock.elapsedRealtime()
+    @Volatile private var viewReported = false
+    private val beaconScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    /** A share-sheet tap, counted for the uploader's insights. */
+    fun onShared() {
+        viewModelScope.launch { resourceRepository.resourceAction(resourceId, "share") }
+    }
+
+    override fun onCleared() {
+        // The server keeps the longest dwell of the day, so a late beacon can only improve the number.
+        val dwell = android.os.SystemClock.elapsedRealtime() - openedAt
+        if (viewReported && dwell >= 1500L) {
+            val shown = surface
+            beaconScope.launch { resourceRepository.viewResource(resourceId, shown, "", dwell) }
+        }
+        super.onCleared()
+    }
     private val downloadedResource = downloadManager.findDownloaded(resourceId)?.let { item ->
         ApiResource(
             id = item.resourceId,
@@ -179,7 +203,8 @@ class ResourceDetailViewModel @Inject constructor(
                             error = null
                         )
                     }
-                    resourceRepository.viewResource(resourceId)
+                    viewReported = true
+                    resourceRepository.viewResource(resourceId, surface)
                     if (resource.type.contains("video", ignoreCase = true) || resource.fileUrl.contains(".mp4", ignoreCase = true)) {
                         loadSuggestedVideos(resource)
                     }

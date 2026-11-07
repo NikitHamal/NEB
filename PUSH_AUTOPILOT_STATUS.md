@@ -41,9 +41,19 @@ export DEBUG=True DB_ENGINE=sqlite SECRET_KEY=x PYTHONPATH=.
 python3 manage.py test api.test_push_autopilot api.test_resource_reach web.test_admin_push_pages
 ```
 
+## Android insights and richer beacons (this session)
+
+* `ui/screens/analytics/ResourceInsightsScreen.kt` + `ResourceInsightsViewModel.kt` + `data/api/ResourceInsightsModels.kt`: one screen for both
+  `GET /api/resources/<id>/insights/` (opened from the owner's "See insights" item in the resource menu) and `GET /api/uploads/insights/`
+  (the "Library insights" button on Analytics). Route `library/insights?resourceId=` (optional arg), opened through `ResourceInsightsNav.open`.
+  KPIs with change vs the previous period, tips, opens per day, list-to-download funnel, push alert reach, per-upload table, posts block,
+  audience, classes, subjects, surfaces, devices, time on page, busiest hour, all-time totals.
+* Resource detail now sends the surface (home, library, search, profile, related; taken from the previous nav entry), a dwell beacon when the
+  screen is left (the server keeps the longest dwell of the day) and a share beacon on the share sheet.
+* Not built locally (the Android build is too heavy for the sandbox): the GitHub Actions run is the check.
+
 ## Open / next
 
-* Android has no insights screen for uploaders yet. The payloads are ready (`/api/uploads/insights/`, `/api/resources/<id>/insights/`);
-  mirror `ui/screens/analytics/PostInsightsScreen.kt`. Never build locally, push and read the GitHub Actions run.
-* The app does not send the list surface (`library`, `search`) or dwell time for resources yet, only view / read / download.
-* Share taps in the app are not reported (web reports them).
+* The app still does not send list impressions (`POST /api/resources/impressions/`) for library / search cards.
+* Resources opened from a push notification arrive with the notification surface only on web (`?src=push`); the app reports push taps
+  through the push-opened endpoint.

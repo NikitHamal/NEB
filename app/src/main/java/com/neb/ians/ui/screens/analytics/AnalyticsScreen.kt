@@ -139,6 +139,18 @@ private fun AnalyticsContent(
         item(key = "helpfulness") { HelpfulnessCard(data.helpfulness, data.stats) }
         item(key = "community") { CommunityCard(data.stats, data.library) }
         item(key = "topPosts") { TopPostsCard(data.topPosts, onPostClick) }
+        ResourceInsightsNav.open?.let { open ->
+            item(key = "libraryInsights") {
+                Box(Modifier.padding(horizontal = AnalyticsGutter)) {
+                    NebButton(
+                        text = "Library insights",
+                        onClick = { open(null) },
+                        tone = NebButtonTone.Outlined,
+                        size = NebButtonSize.Small
+                    )
+                }
+            }
+        }
         item(key = "topResources") { TopResourcesCard(data.topResources, onResourceClick) }
         item(key = "topics") { TopicsCard(data.topCategories, data.topSubjects) }
         item(key = "milestones") { MilestonesCard(data.milestones) }
