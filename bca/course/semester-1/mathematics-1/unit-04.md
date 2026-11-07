@@ -34,7 +34,7 @@ A 10 *m* ladder leans on a wall; the foot slides away at 2 $\frac{m}{s}$. How fa
 :::
 
 ::: example Worked example: expanding circle
-The radius of a circular oil slick grows at 3 cm/s. At $r = 10$ cm, dA/dt = $\frac{2 \pi r d r}{d t} = 2 \pi (10) (3)$ = **$60 \pi \approx \frac{188.5 c m^{2}}{s}$**.
+The radius of a circular oil slick grows at 3 cm/s. At $r = 10$ cm, $\dfrac{dA}{dt} = 2\pi r\,\dfrac{dr}{dt} = 2\pi (10)(3) = \mathbf{60\pi \approx 188.5\ \mathrm{cm^{2}/s}}$.
 :::
 
 ```svgfig label="4.1" caption="A related-rates problem. A 10 *m* ladder leans on a wall; its foot is pulled away at 1 $\frac{m}{s}$. The distances satisfy $x^{2} + y^{2} = 100$, so differentiating with respect to time gives 2x·dx/dt + 2y·dy/dt = 0. When $x = 6 m$ we have $y = 8 m$, and the top slides down at 0.75 $\frac{m}{s}$."
@@ -74,7 +74,7 @@ On [0, 4]: $f (0) = 1 ,\  f (1) = 5 ,\  f (3) = 1 ,\  f (4) = 5$. Absolute max 5
 Steps: (1) draw and name variables; (2) write the quantity to optimise; (3) use the constraint to reduce it to one variable; (4) find critical points and test; (5) answer the question asked, with units.
 
 ::: example Worked example: open box
-From a 12 cm × 12 cm square, cut equal squares of side *x* from the corners and fold up an open box. $V = x (12 - 2 x)^{2}$ for $0 < x < 6$. $V' = (12 - 2 x)^{2} - 4 x (12 - 2 x) = (12 - 2 x) (12 - 6 x) = 0 \Rightarrow x = 2 ( x = 6$ gives $V = 0$). $V''$ at $x = 2$ is negative ($V'$ goes + to −), so maximum **$V = 2 \times 8^{2} = 128 c m^{3}$**.
+From a 12 cm × 12 cm square, cut equal squares of side *x* from the corners and fold up an open box. $V = x (12 - 2 x)^{2}$ for $0 < x < 6$. $V' = (12 - 2 x)^{2} - 4 x (12 - 2 x) = (12 - 2 x) (12 - 6 x) = 0 \Rightarrow x = 2 ( x = 6$ gives $V = 0$). $V''$ at $x = 2$ is negative ($V'$ goes + to −), so maximum **$V = 2 \times 8^{2} = 128 \mathrm{cm}^{3}$**.
 :::
 
 ::: example Worked example: fixed perimeter
@@ -82,10 +82,10 @@ A rectangle has perimeter 40 *m*. Width *w*, length $20 - w ;\  A = w (20 - w) ,
 :::
 
 ::: example Worked example: minimum cost can
-A closed cylindrical can must hold 500 $c m^{3}$. Minimise surface area $S = 2 \pi r^{2} + 2 \pi r h$ with $h = \frac{500}{(\pi r^{2})}$: $S = 2 \pi r^{2} + \frac{1000}{r}$. $S' = 4 \pi r - \frac{1000}{r^{2}} = 0 \Rightarrow r^{3} = \frac{250}{\pi} ,\  r \approx 4.30$ cm, *h* = 2r ≈ 8.60 cm. The best can has height equal to its diameter.
+A closed cylindrical can must hold 500 $\mathrm{cm}^{3}$. Minimise surface area $S = 2 \pi r^{2} + 2 \pi r h$ with $h = \frac{500}{(\pi r^{2})}$: $S = 2 \pi r^{2} + \frac{1000}{r}$. $S' = 4 \pi r - \frac{1000}{r^{2}} = 0 \Rightarrow r^{3} = \frac{250}{\pi} ,\  r \approx 4.30$ cm, *h* = 2r ≈ 8.60 cm. The best can has height equal to its diameter.
 :::
 
-```svgfig label="4.2" caption="Optimisation: the closed cylindrical can of volume 1000 $c m^{3}$ with least material. With $h = \frac{1000}{(\pi r^{2})}$ the surface area is $S (r) = 2 \pi r^{2} + \frac{2000}{r}$. Setting $S' (r) = 4 \pi r - \frac{2000}{r^{2}} = 0$ gives $r = \left( \frac{500}{\pi} \right)^{\frac{1}{3}} \approx 5.42$ cm, *h* = 2r ≈ 10.84 cm and $S \approx 553.6 c m^{2}$. Too thin a can (small *r*) or too wide a can (large *r*) wastes metal."
+```svgfig label="4.2" caption="Optimisation: the closed cylindrical can of volume 1000 $\mathrm{cm}^{3}$ with least material. With $h = \frac{1000}{(\pi r^{2})}$ the surface area is $S (r) = 2 \pi r^{2} + \frac{2000}{r}$. Setting $S' (r) = 4 \pi r - \frac{2000}{r^{2}} = 0$ gives $r = \left( \frac{500}{\pi} \right)^{\frac{1}{3}} \approx 5.42$ cm, *h* = 2r ≈ 10.84 cm and $S \approx 553.6 \mathrm{cm}^{2}$. Too thin a can (small *r*) or too wide a can (large *r*) wastes metal."
 f = Fig(740, 270)
 S = lambda r: 2 * math.pi * r * r + 2000 / r
 a = Axes(f, 60, 14, 380, 220, (2, 10), (450, 1050)); a.grid(2, 100).axes("r (cm)", "S (cm²)")
@@ -270,7 +270,7 @@ f.text(150, 238, "optimum is flat: only %.1f%% saving" % sav, size=10.5, color=S
 ::: note Answers and worked solutions
 **1.** $y (2) = 0 ,\  y' = 2 x - 3 = 1$. Tangent $y = x - 2$; normal $y = - (x - 2) = 2 - x$.
 
-**2.** $V = \left( \frac{4}{3} \right) \pi r^{3}$, dV/dt = $\frac{4 \pi r^{2} d r}{d t} = 4 \pi \cdot 25 \cdot 2$ = **$200 \pi \approx \frac{628.3 c m^{3}}{s}$**.
+**2.** $V = \left( \frac{4}{3} \right) \pi r^{3}$, $\dfrac{dV}{dt} = 4\pi r^{2}\,\dfrac{dr}{dt} = 4\pi \cdot 25 \cdot 2 = \mathbf{200\pi \approx 628.3\ \mathrm{cm^{3}/s}}$.
 
 **3.** $f' = 6 x^{2} - 18 x + 12 = 6 (x - 1) (x - 2) ;\  f'' = 12 x - 18$. $x = 1$: $f'' = - 6$, **max** $f (1) = 5$. $x = 2$: $f'' = 6$, **min** $f (2) = 4$. Inflection at $x = 1.5 ,\  f (1.5) = 4.5$.
 
@@ -320,7 +320,7 @@ The **Maclaurin series** of *f* is $f (0) + f' (0) x + \frac{f'' (0) x^{2}}{2 !}
 
 *Conclusion:* four terms give three correct decimals. More terms give more accuracy, and for small $|x|$ the series converges very fast, which is how calculators evaluate $e^{x}$.
 
-**Q (10 marks). State the Mean Value Theorem with its geometrical meaning and verify it for $f (x) = x^{3}$ on [0, 2]. Explain the steps of an optimisation problem with the example of a closed can of volume 1000 $c m^{3}$, and state L'Hôpital's rule with an example.**
+**Q (10 marks). State the Mean Value Theorem with its geometrical meaning and verify it for $f (x) = x^{3}$ on [0, 2]. Explain the steps of an optimisation problem with the example of a closed can of volume 1000 $\mathrm{cm}^{3}$, and state L'Hôpital's rule with an example.**
 
 **Introduction.** The derivative tells how a function changes, so it can describe, estimate and optimise real systems. Three results of this unit are the Mean Value Theorem, optimisation and L'Hôpital's rule.
 
@@ -332,7 +332,7 @@ The **Maclaurin series** of *f* is $f (0) + f' (0) x + \frac{f'' (0) x^{2}}{2 !}
 3. Use the constraint $V = \pi r^{2} h = 1000$ to remove *h*: $S (r) = 2 \pi r^{2} + \frac{2000}{r}$.
 4. Differentiate and solve $S' (r) = 4 \pi r - \frac{2000}{r^{2}} = 0$, giving $r^{3} = \frac{500}{\pi}$, so **$r \approx 5.42$ cm**.
 5. Check it is a minimum: $S'' = 4 \pi + \frac{4000}{r^{3}} > 0$.
-6. State the answer: $h = \frac{1000}{(\pi r^{2})} \approx 10.84$ cm = 2r, and S ≈ **553.6 $c m^{2}$**. The best can has height equal to its diameter.
+6. State the answer: $h = \frac{1000}{(\pi r^{2})} \approx 10.84$ cm = 2r, and S ≈ **553.6 $\mathrm{cm}^{2}$**. The best can has height equal to its diameter.
 
 **L'Hôpital's rule.** If $\lim \frac{f}{g}$ has the form $\frac{0}{0}$ or $\frac{\infty}{\infty}$, then $\lim \frac{f}{g} = \lim \frac{f'}{g'}$ provided the latter exists. Example: $\lim_{x \to 0} \frac{x - \sin x}{x^{3}}$ is $\frac{0}{0}$; differentiating gives $\frac{1 - \cos x}{(3 x^{2})}$, still $\frac{0}{0}$; again gives $\frac{\sin x}{6 x}$ → **$\frac{1}{6}$**. Another: $\lim_{x \to \infty} \frac{\ln x}{x}$ is $\frac{\infty}{\infty}$ and equals $\lim \frac{\frac{1}{x}}{1} = 0$, so logarithms grow slower than any power.
 
