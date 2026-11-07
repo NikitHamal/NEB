@@ -172,7 +172,7 @@ area: Practice
     (a) $y=\pm\frac{4x}{3}$ (b) $y=\pm\frac{3x}{4}$ (c) $y=\pm\frac{16x}{9}$ (d) $y=\pm\frac{9x}{16}$
 68. The angle between $\vec a=\hat i-\hat j+2\hat k$ and $\vec b=2\hat i+\hat j-\hat k$ is
     (a) $\cos^{-1}(-\frac{1}{6})$ (b) $\cos^{-1}(\frac{1}{6})$ (c) $\cos^{-1}(-\frac{1}{3})$ (d) $90^\circ$
-69. If $A=(det | 1&2 ; 2&1 |)$, the trace of $A^2$ is
+69. If $A=\begin{vmatrix}1&2 \\ 2&1\end{vmatrix}$, the trace of $A^2$ is
     (a) 5 (b) 8 (c) 10 (d) 4
 70. The sum of the series $1\cdot2+2\cdot3+3\cdot4+\cdots+10\cdot11$ is
     (a) 385 (b) 440 (c) 330 (d) 550
@@ -373,7 +373,7 @@ f.text(150, 228, "", size=10)
 **66.** (d) — $\frac{x^2}{25}+\frac{y^2}{9}=1$, $2a=10$.
 **67.** (a) — $y=\pm\frac{b}{a}x=\pm\frac{4}{3}x$.
 **68.** (a) — $\vec a\cdot\vec b=2-1-2=-1$, $|\vec a||\vec b|=6$.
-**69.** (c) — $A^2=(det | 5&4 ; 4&5 |)$, trace 10.
+**69.** (c) — $A^2=\begin{vmatrix}5&4 \\ 4&5\end{vmatrix}$, trace 10.
 **70.** (b) — $\frac{n(n+1)(n+2)}{3}=\frac{10\cdot11\cdot12}{3}=440$.
 **71.** (d) — $^5C_2\cdot2^2=10\times4$.
 **72.** (a) — $z=2e^{i\pi/3}$, $z^6=64e^{2\pi i}=64$.

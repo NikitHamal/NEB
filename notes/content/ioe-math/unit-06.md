@@ -36,7 +36,7 @@ $\cos\theta=\dfrac{\vec a\cdot\vec b}{|\vec a||\vec b|}$. **Projection** of $\ve
 ### Vector (cross) product
 
 $\vec a\times\vec b=ab\sin\theta\,\hat n$ (right-hand rule), anticommutative; $\hat i\times\hat j=\hat k$, $\hat j\times\hat k=\hat i$, $\hat k\times\hat i=\hat j$.
-$$\vec a\times\vec b=(det | \hat i&\hat j&\hat k ; a_1&a_2&a_3 ; b_1&b_2&b_3 |).$$
+$$\vec a\times\vec b=\begin{vmatrix}\hat i&\hat j&\hat k \\ a_1&a_2&a_3 \\ b_1&b_2&b_3\end{vmatrix}.$$
 $|\vec a\times\vec b|^2=a^2b^2-(\vec a\cdot\vec b)^2$ (Lagrange). **Parallel iff $\vec a\times\vec b=\vec 0$.** Area of a parallelogram with sides $\vec a,\vec b$ is $|\vec a\times\vec b|$; of the triangle, half. A unit vector perpendicular to both: $\pm\dfrac{\vec a\times\vec b}{|\vec a\times\vec b|}$. Moment of a force: $\vec r\times\vec F$.
 
 ### Triple products
@@ -219,7 +219,7 @@ f.text(150, 222, "negative work: gravity opposes the climb", size=10.5, color=SL
 **2.** (c) — $3\cdot4\sin30^\circ=6$.
 **3.** (d) — the determinant is $28+7\lambda=0$.
 **4.** (a) — $\overrightarrow{AB}\times\overrightarrow{AC}=(1,1,1)$; half of $\sqrt{3}$.
-**5.** (c) — $(det | 1&1&0 ; 0&1&1 ; 1&0&1 |)=1+1=2$.
+**5.** (c) — $\begin{vmatrix}1&1&0 \\ 0&1&1 \\ 1&0&1\end{vmatrix}=1+1=2$.
 **6.** (b) — $(\hat i+\hat j)\times(\hat j+\hat k)=\hat i-\hat j+\hat k$, magnitude $\sqrt{3}$.
 **7.** (a) — $\hat j\times\hat i=-\hat k$, and $\hat i\times(-\hat k)=\hat j$. Check with BAC–CAB: $\hat j(\hat i\cdot\hat i)-\hat i(\hat i\cdot\hat j)=\hat j$.
 :::

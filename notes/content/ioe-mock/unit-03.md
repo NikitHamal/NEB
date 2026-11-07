@@ -32,7 +32,7 @@ area: Practice
    (a) 1 (b) $e$ (c) 0 (d) $e-1$
 6. The sum of the first 20 natural numbers is
    (a) 200 (b) 190 (c) 420 (d) 210
-7. The determinant of $(det | 2&-1 ; 4&3 |)$ is
+7. The determinant of $\begin{vmatrix}2&-1 \\ 4&3\end{vmatrix}$ is
    (a) 2 (b) 6 (c) 10 (d) 14
 8. The value of $i^{-1}$ is
    (a) $i$ (b) $-i$ (c) 1 (d) $-1$
@@ -168,7 +168,7 @@ area: Practice
     (a) $2x-y+3z=4$ (b) $2x-y+3z=6$ (c) $2x+y-3z=0$ (d) $x+y+z=3$
 68. For $\vec a=2\hat i+\hat j-\hat k$ and $\vec b=\hat i-\hat j+2\hat k$, $|\vec a\times\vec b|$ is
     (a) $\sqrt{11}$ (b) 5 (c) $\sqrt{35}$ (d) $\sqrt{26}$
-69. For $A=(det | 2&1 ; 5&3 |)$, the element in the second row, first column of $A^{-1}$ is
+69. For $A=\begin{vmatrix}2&1 \\ 5&3\end{vmatrix}$, the element in the second row, first column of $A^{-1}$ is
     (a) 5 (b) $-3$ (c) 2 (d) $-5$
 70. The sum $1^2+2^2+\cdots+10^2$ equals
     (a) 330 (b) 385 (c) 440 (d) 3025
@@ -357,7 +357,7 @@ f.text(150, 221, "bars are logarithmic: each step is 10 times", size=10.5, color
 **66.** (d) — $e=\sqrt{1-\frac{7}{16}}=\frac{3}{4}$.
 **67.** (a) — $2(x-1)-(y-1)+3(z-1)=0\Rightarrow2x-y+3z=4$.
 **68.** (c) — $\vec a\times\vec b=(1,-5,-3)$, magnitude $\sqrt{35}$.
-**69.** (d) — $|A|=1$; $A^{-1}=(det | 3&-1 ; -5&2 |)$.
+**69.** (d) — $|A|=1$; $A^{-1}=\begin{vmatrix}3&-1 \\ -5&2\end{vmatrix}$.
 **70.** (b) — $\frac{10\cdot11\cdot21}{6}=385$.
 **71.** (a) — $^7C_3-{}^4C_3=35-4$.
 **72.** (d) — equal distance from $2$ and $-2$: $x=0$.
