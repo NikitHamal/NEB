@@ -190,6 +190,10 @@ sealed class Screen(val route: String) {
     data object PostInsights : Screen("forum/post/{postId}/insights") {
         fun createRoute(postId: String) = "forum/post/$postId/insights"
     }
+    data object ResourceInsights : Screen("library/insights?resourceId={resourceId}") {
+        fun createRoute(resourceId: String?) =
+            if (resourceId.isNullOrBlank()) "library/insights" else "library/insights?resourceId=${java.net.URLEncoder.encode(resourceId, "UTF-8")}"
+    }
     data object CreatePost : Screen("forum/create")
     data object EditPost : Screen("forum/edit/{postId}") {
         fun createRoute(postId: String) = "forum/edit/${java.net.URLEncoder.encode(postId, "UTF-8")}"
@@ -365,6 +369,13 @@ fun NEBiansNavHost(
             navController.navigate(Screen.PostInsights.createRoute(id))
         }
         onDispose { com.neb.ians.ui.components.PostInsightsNav.open = null }
+    }
+
+    androidx.compose.runtime.DisposableEffect(navController) {
+        com.neb.ians.ui.screens.analytics.ResourceInsightsNav.open = { id ->
+            navController.navigate(Screen.ResourceInsights.createRoute(id))
+        }
+        onDispose { com.neb.ians.ui.screens.analytics.ResourceInsightsNav.open = null }
     }
 
     val glassBackdrop = com.neb.ians.ui.components.rememberGlassBackdrop()
@@ -921,7 +932,18 @@ fun NEBiansNavHost(
                 arguments = listOf(navArgument("resourceId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val resourceId = backStackEntry.arguments?.getString("resourceId") ?: return@composable
+                val detailViewModel: com.neb.ians.ui.screens.resource.ResourceDetailViewModel =
+                    androidx.hilt.navigation.compose.hiltViewModel()
+                detailViewModel.surface = when {
+                    navController.previousBackStackEntry?.destination?.route?.startsWith("library") == true -> "library"
+                    navController.previousBackStackEntry?.destination?.route?.startsWith("search") == true -> "search"
+                    navController.previousBackStackEntry?.destination?.route?.startsWith("profile") == true -> "profile"
+                    navController.previousBackStackEntry?.destination?.route == "home" -> "home"
+                    navController.previousBackStackEntry?.destination?.route?.startsWith("resource/") == true -> "related"
+                    else -> ""
+                }
                 ResourceDetailScreen(
+                    viewModel = detailViewModel,
                     onNavigateBack = {
                         val keepPlayback = mediaPlayerState.resource?.id == resourceId &&
                             (mediaPlayerState.isPlaying || mediaPlayerState.currentTimeMs > 0L)
@@ -993,6 +1015,22 @@ fun NEBiansNavHost(
             ) {
                 com.neb.ians.ui.screens.analytics.PostInsightsScreen(
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(
+                route = Screen.ResourceInsights.route,
+                arguments = listOf(
+                    navArgument("resourceId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    }
+                )
+            ) {
+                com.neb.ians.ui.screens.analytics.ResourceInsightsScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onResourceClick = { id -> navController.navigate(Screen.ResourceDetail.createRoute(id)) },
+                    onPostClick = { id -> navController.navigate(Screen.ForumPostDetail.createRoute(id)) }
                 )
             }
             composable(Screen.CreatePost.route) {

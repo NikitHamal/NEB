@@ -145,6 +145,7 @@ fun ResourceDetailScreen(
             putExtra(Intent.EXTRA_TEXT, "$title\nhttps://nebians.consica.com.np/app/reader/$id/")
         }
         runCatching { context.startActivity(Intent.createChooser(intent, "Share resource")) }
+        viewModel.onShared()
     }
 
     fun enterFullscreen() {
@@ -229,6 +230,14 @@ fun ResourceDetailScreen(
                                 }
                                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                                     if (isOwner) {
+                                        DropdownMenuItem(
+                                            text = { Text("See insights") },
+                                            leadingIcon = { Icon(Icons.Filled.Info, contentDescription = null) },
+                                            onClick = {
+                                                menuOpen = false
+                                                uiState.resource?.let { com.neb.ians.ui.screens.analytics.ResourceInsightsNav.open?.invoke(it.id) }
+                                            }
+                                        )
                                         DropdownMenuItem(
                                             text = { Text("Edit resource") },
                                             leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = null) },
