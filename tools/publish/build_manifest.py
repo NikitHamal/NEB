@@ -20,6 +20,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(REPO, "notes", "pipeline"))
 import spine  # noqa: E402
+import thumb  # noqa: E402,F401
 
 YEAR = "2082"
 SCIENCE_PHYSICAL = {"phy", "chem", "math", "cs"}
@@ -40,13 +41,10 @@ def pdf_info(path):
 
 
 def cover(pdf, slug):
-    import fitz
-    out = os.path.join(HERE, "covers", slug + ".jpg")
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    page = fitz.open(pdf)[0]
-    pix = page.get_pixmap(matrix=fitz.Matrix(420 / page.rect.width, 420 / page.rect.width), alpha=False)
-    pix.save(out, jpg_quality=82)
-    return os.path.relpath(out, HERE)
+    """16:9 library thumbnail (notes/pipeline/thumb.py), not the portrait first page: cards crop to 16:9."""
+    import thumb
+    path, _, _ = thumb.render(slug, os.path.join(HERE, "covers"))
+    return os.path.relpath(path, HERE)
 
 
 def span(titles, n=4):
