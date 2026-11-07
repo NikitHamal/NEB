@@ -109,17 +109,19 @@ for i, (r, c) in enumerate([(3.5, "thin: r = 3.5, h = 26.0, S = 648"), (r0, "bes
 ::: example Worked example
 **Rolle:** $f (x) = x^{2} - 4 x + 3$ on [1, 3]: $f (1) = f (3) = 0 ;\  f' (x) = 2 x - 4 = 0$ at $c = 2$, inside the interval ✓.
 
-**MVT:** $f (x) = x^{3}$ on [0, 2]: slope of chord = $\frac{8 - 0}{2} = 4 = 3 c^{2} \Rightarrow c = \frac{2}{\sqrt{3}} \approx 1.155$ ✓.
+**MVT:** $f (x) = x^{3}$ on [0, 2]: slope of chord $= \frac{8 - 0}{2} = 4$.
 
-**Use:** MVT proves that if $f' = 0$ on an interval then *f* is constant, and gives inequalities such as |sin $a - \sin$ b| ≤ |a − b|.
+Set $f' (c) = 3 c^{2} = 4$, so $c = \frac{2}{\sqrt{3}} \approx 1.155$, which lies in $(0, 2)$ ✓.
+
+**Use:** MVT proves that if $f' = 0$ on an interval then *f* is constant, and gives inequalities such as $|\sin a - \sin b| \le |a - b|$.
 :::
 
-```svgfig label="4.3" caption="Mean Value Theorem for $f (x) = x^{3}$ on [0, 2]. The secant through (0, 0) and (2, 8) has slope 4. Somewhere between, the tangent has the same slope: $f' (c) = 3 c^{2} = 4$ gives $c = \frac{2}{\sqrt{3}} \approx 1.155$. The tangent at *c* is parallel to the secant."
+```svgfig label="4.3" caption="Mean Value Theorem for $f (x) = x^{3}$ on [0, 2]. The secant through (0, 0) and (2, 8) has slope 4. Somewhere between, the tangent has the same slope: $f' (c) = 3 c^{2} = 4$ gives $c = \frac{2}{\sqrt{3}} \approx 1.155$. The tangent at c is parallel to the secant."
 f = Fig(560, 270)
 a = Axes(f, 40, 12, 490, 230, (-0.4, 2.5), (-1.5, 10)); a.grid(0.5, 2).axes()
 a.curve(lambda x: x**3, color=NAVY, sw=2.6); a.curve(lambda x: 4 * x, -0.3, 2.4, color=AMBER, sw=1.8, dash=True)
 c = 2 / math.sqrt(3); a.curve(lambda x: c**3 + 4 * (x - c), 0.2, 2.2, color=RED, sw=2.2)
-a.pt(0, 0, "A(0, 0)", dx=10, dy=-8); a.pt(2, 8, "B(2, 8)", dx=-10, dy=-6, anchor="end"); a.pt(c, c**3, "c ≈ 1.155", color=RED, dx=10, dy=18)
+a.pt(0, 0, "A(0, 0)", dx=12, dy=-16); a.pt(2, 8, "B(2, 8)", dx=-10, dy=-6, anchor="end"); a.pt(c, c**3, "c ≈ 1.155", color=RED, dx=10, dy=18)
 f.text(a.X(0.06), a.Y(5.6), "secant AB: slope 4", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(a.X(1.62), a.Y(0.95), "tangent at c: slope 4", size=10.5, color=RED, bold=True, anchor="start")
 ```
 
