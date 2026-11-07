@@ -208,6 +208,11 @@ class MainActivity : ComponentActivity() {
 
         val notificationDeepLink = NotificationDeepLink.fromIntent(intent)
         if (notificationDeepLink != null) {
+            val tappedCampaign = intent.getStringExtra("campaign_id")
+            val tappedNotification = notificationDeepLink.notificationId
+            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                authRepository.reportPushOpened(tappedNotification, tappedCampaign)
+            }
             DeepLinkBus.emit(notificationDeepLink)
             setIntent(Intent())
         }
