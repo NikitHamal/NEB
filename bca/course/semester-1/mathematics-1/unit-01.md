@@ -55,11 +55,25 @@ $f (x) = x^{2} - 4 x + 5 = (x - 2)^{2} + 1$. Since $(x - 2)^{2} \geq 0 ,\  f (x)
 | Piecewise | different formulas on different intervals | check the join points |
 | Floor / step | $\lfloor x \rfloor$ | greatest integer ≤ *x* |
 
-**Exponent laws** $(a ,\  b > 0)$: $a^{m} \cdot a^{n} = a^{m+n} ;\  \frac{a^{m}}{a^{n}} = a^{m-n} ;\  (a^{m})^{n} = a^{mn} ;\  (a b)^{n} = a^{n} b^{n} ;\  a^{0} = 1 ;\  a^{-n} = \frac{1}{a^{n}} ;\  a^{\frac{1}{n}} = \sqrt[n]{a}$.
+**Exponent laws** $(a ,\  b > 0)$:
 
-**Logarithm laws.** $\log_{a} (x y) = \log_{a} x + \log_{a} y ;\  \log_{a} \left( \frac{x}{y} \right) = \log_{a} x - \log_{a} y ;\  \log_{a} (x^{p}) = p \log_{a} x$; change of base $\log_{a} x = \frac{\ln x}{\ln a} ;\  \log_{a} a = 1 ;\  \log_{a} 1 = 0$. ***e*** ≈ 2.71828 is the base of the natural logarithm ln.
+$a^{m} \cdot a^{n} = a^{m+n} ;\  \frac{a^{m}}{a^{n}} = a^{m-n} ;\  (a^{m})^{n} = a^{mn} ;\  (a b)^{n} = a^{n} b^{n} ;\  a^{0} = 1 ;\  a^{-n} = \frac{1}{a^{n}} ;\  a^{\frac{1}{n}} = \sqrt[n]{a}$
 
-**Trigonometric facts used in calculus.** $\sin^{2} \theta + \cos^{2} \theta = 1 ;\  1 + \tan^{2} \theta = \sec^{2} \theta ;\  \sin 2 \theta = 2 \sin \theta \cos \theta ;\  \cos 2 \theta = \cos^{2} \theta - \sin^{2} \theta = 1 - 2 \sin^{2} \theta = 2 \cos^{2} \theta - 1 ;\  \sin (A \pm B) = \sin A \cos B \pm \cos A \sin B ;\  \cos (A \pm B) = \cos A \cos B \mp \sin A \sin B$. Angles in calculus are always in **radians** $(\pi\,\mathrm{rad} = 180 ^{\circ})$.
+**Logarithm laws.**
+
+$\log_{a} (x y) = \log_{a} x + \log_{a} y ;\  \log_{a} \left( \frac{x}{y} \right) = \log_{a} x - \log_{a} y ;\  \log_{a} (x^{p}) = p \log_{a} x$
+
+**Change of base and special values.**
+
+$\log_{a} x = \frac{\ln x}{\ln a} ;\  \log_{a} a = 1 ;\  \log_{a} 1 = 0$
+
+The number ***e*** ≈ 2.71828 is the base of the natural logarithm ln.
+
+**Trigonometric facts used in calculus.**
+
+$\sin^{2} \theta + \cos^{2} \theta = 1 ;\  1 + \tan^{2} \theta = \sec^{2} \theta ;\  \sin 2 \theta = 2 \sin \theta \cos \theta ;\  \cos 2 \theta = \cos^{2} \theta - \sin^{2} \theta = 1 - 2 \sin^{2} \theta = 2 \cos^{2} \theta - 1 ;\  \sin (A \pm B) = \sin A \cos B \pm \cos A \sin B ;\  \cos (A \pm B) = \cos A \cos B \mp \sin A \sin B$
+
+Angles in calculus are always in **radians** $(\pi\,\mathrm{rad} = 180 ^{\circ})$.
 
 | *θ* | 0 | $\frac{\pi}{6}$ | $\frac{\pi}{4}$ | $\frac{\pi}{3}$ | $\frac{\pi}{2}$ |
 |---|---|---|---|---|---|
