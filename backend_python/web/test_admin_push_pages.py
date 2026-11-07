@@ -87,6 +87,68 @@ class AdminPushPageTests(TestCase):
         self.assertEqual(set(ResourceAlert.objects.values_list('state', flat=True)), {'manual'})
         self.assertContains(self.client.get(f'/admin/push-notifications/history/{c.id}/'), 'Old 0')
 
+    def _old_science(self, n=3):
+        Resource.objects.bulk_create([Resource(id=f'o{i}', title=f'Old {i}', subject='Science and Technology',
+                                               grade_level='Class 10 / SEE', added_at=NOW - 9 * 86400000) for i in range(n)])
+
+    def test_unnotified_mode_counts_and_sends_one_digest(self, _f):
+        self._old_science()
+        d = self.client.get('/admin/push-notifications/', {'count_only': '1', 'mode': 'unnotified'}).json()
+        self.assertEqual((d['users'], d['device_users'], d['resources'], d['singles']), (1, 1, 3, 3))
+        self.assertEqual(d['sample']['title'], '3 new Science and Technology resources added for Class 10')
+        with mock.patch('api.push_engine.run_in_background', side_effect=lambda fn, *a, **k: fn(*a, **k)):
+            r = self.client.post('/admin/push-notifications/', {'mode': 'unnotified', 'action': 'send'})
+        self.assertEqual(r.status_code, 302)
+        c = PushCampaign.objects.get(kind='library')
+        self.assertEqual(c.users_targeted, 1)
+        self.assertEqual(self.client.get('/admin/push-notifications/', {'count_only': '1', 'mode': 'unnotified'}).json()['resources'], 0)
+
+    def test_platform_mode_splits_android_and_web(self, _f):
+        User.objects.create(id='w1', username='w1', created_at=1, email='w1@x.com')
+        a = self.client.get('/admin/push-notifications/', {'count_only': '1', 'mode': 'platform', 'device': 'with'}).json()
+        w = self.client.get('/admin/push-notifications/', {'count_only': '1', 'mode': 'platform', 'device': 'without'}).json()
+        self.assertEqual(a['users'], 1)
+        self.assertEqual(w['users'], 2)
+
+    def test_all_mode_ignores_stale_class_filter(self, _f):
+        d = self.client.get('/admin/push-notifications/', {'count_only': '1', 'mode': 'all', 'class_level': 'PhD'}).json()
+        self.assertEqual(d['users'], 2)
+
+    def test_one_tap_batch_on_the_autopilot_page(self, _f):
+        self._old_science(2)
+        page = self.client.get('/admin/push-notifications/autopilot/')
+        self.assertContains(page, 'Announce unnotified library uploads')
+        with mock.patch('api.push_engine.run_in_background', side_effect=lambda fn, *a, **k: fn(*a, **k)):
+            r = self.client.post('/admin/push-notifications/autopilot/', {'action': 'announce_unnotified'})
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(PushCampaign.objects.get(kind='library').users_targeted, 1)
+
+    def test_history_has_trigger_labels_ctr_and_resource_views(self, _f):
+        self._old_science(1)
+        with mock.patch('api.push_engine.run_in_background', side_effect=lambda fn, *a, **k: fn(*a, **k)):
+            self.client.post('/admin/push-notifications/autopilot/', {'action': 'announce_unnotified'})
+        c = PushCampaign.objects.get(kind='library')
+        d = PushDelivery.objects.get(campaign=c)
+        from api import push_engine, push_stats
+        push_engine.record_push_open(self.s, notification_id=d.notification_id)
+        push_engine.record_push_open(self.s, notification_id=d.notification_id)
+        m = push_stats.rollup([c])[c.id]
+        self.assertEqual((m['targeted'], m['sent'], m['delivered'], m['failed'], m['opened'], m['clicked']), (1, 1, 1, 0, 1, 1))
+        self.assertEqual(m['ctr'], 100.0)
+        page = self.client.get('/admin/push-notifications/history/')
+        self.assertContains(page, 'Batch Digest')
+        self.assertContains(page, 'CTR')
+        self.assertContains(self.client.get('/admin/push-notifications/history/', {'kind': 'library'}), 'Old 0'[:0] + 'Batch Digest')
+
+    def test_inbox_link_of_a_campaign_carries_the_push_source(self, _f):
+        from api.notifications import get_notification_url
+        from api.models import Notification
+        n = Notification(id='n1', recipient_id='s1', verb='new_resource', target_type='resource', target_id='r9',
+                         campaign_id='c1', created_at=1)
+        self.assertEqual(get_notification_url(n), '/reader/r9/?src=push')
+        n.campaign_id = ''
+        self.assertEqual(get_notification_url(n), '/reader/r9/')
+
     def test_autopilot_settings_save(self, _f):
         self.client.post('/admin/push-notifications/autopilot/', {'action': 'settings', 'daily_cap': '3', 'quiet_start_hour': '22',
                                                                    'quiet_end_hour': '6', 'settle_minutes': '10', 'max_wait_minutes': '60'})
