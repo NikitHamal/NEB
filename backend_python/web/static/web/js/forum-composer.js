@@ -71,6 +71,8 @@
   }
 
   function apply(ta, tool) {
+    /* the writing surface formats what you see; no Markdown is typed or shown */
+    if (ta.__neb && window.NebLive && window.NebLive.format(ta, tool.id)) return;
     var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
     var sel = v.slice(s, e);
     if (tool.wrap) {
@@ -124,6 +126,7 @@
     if (ta._fc) return ta._fc;
     opts = opts || {};
     var id = ++seq;
+    var live = window.NebLive ? window.NebLive.attach(ta) : null;
     var host = ta.closest('.neb-composer-body') || ta.parentElement;
     var key = opts.key || ta.getAttribute('data-fc-key') || ta.id || ('f' + id);
     var kinds = opts.kinds !== undefined ? opts.kinds : ta.getAttribute('data-fc') === 'kinds';
@@ -134,6 +137,7 @@
     var root = document.createElement('div');
     root.className = 'fc';
     ta.classList.add('fc-field');
+    if (live) { live.classList.add('fc-field'); host.classList.add('fc-live'); }
     host.classList.add('fc-host');
     host.classList.add(compact ? 'is-compact' : 'is-open');
 
@@ -153,7 +157,7 @@
       '<div class="neb-menu fc-pop" hidden role="menu" data-neb-align="start" aria-label="Symbols">' + SYMBOLS.map(function (c) {
         return '<button type="button" class="fc-sym" role="menuitem" data-sym="' + c + '">' + c + '</button>';
       }).join('') + '</div>';
-    host.insertBefore(root, ta);
+    host.insertBefore(root, live || ta);
 
     var preview = document.createElement('div');
     preview.className = 'fc-preview';
@@ -276,6 +280,7 @@
       growBtn.title = l;
       if (capBase || ta.hasAttribute('data-autoheight-max')) {
         ta.setAttribute('data-autoheight-max', state.tall ? '460' : capBase);
+        if (live) live.style.maxHeight = (state.tall ? 460 : (parseInt(capBase, 10) || 460)) + 'px';
       }
       regrow();
     }

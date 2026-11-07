@@ -30,7 +30,7 @@ Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
   {% include "web/partials/_fp_identity_chooser.html" with fp_anon_id=cc_anon_id %}
   {% endif %}
   <div class="neb-composer-body">
-    <textarea id="{{ cc_textarea_id }}" placeholder="{{ cc_placeholder }}" rows="1" data-autoheight data-autoheight-max="{{ cc_max|default:'120' }}"
+    <textarea id="{{ cc_textarea_id }}" placeholder="{{ cc_placeholder }}" rows="1" {% if not cc_fc %}data-live {% endif %}data-autoheight data-autoheight-max="{{ cc_max|default:'120' }}"
             {% if cc_fc %}data-fc="{{ cc_fc }}" data-fc-key="{{ cc_compose_key|default:cc_id }}" {% endif %}
             {% if cc_keydown %}data-keydown-action="{{ cc_keydown }}" {% endif %}{% if cc_autofocus %}data-neb-autofocus {% endif %}{% if cc_maxlength %}maxlength="{{ cc_maxlength }}" {% endif %}></textarea>
     <div class="neb-composer-actions">
