@@ -45,9 +45,16 @@ Done this task:
 * `worker/NotificationWorker.kt`: foreground taps use `NEW_TASK | SINGLE_TOP` (no more `CLEAR_TASK`), so a tap reuses the running app through `onNewIntent`
   instead of tearing it down and replaying the splash.
 
-## Android: more local voices
+## Android: local voices reverted, lighter APK
 
-See `ANDROID_NOTES_STATUS.md` (section "More local voices").
+* The ONNX Runtime voices (commit 3e4f5b6) took the APK from about 22 MB to 70 MB+ (multi-ABI `onnxruntime-android`), so the commit is reverted: no
+  `LocalTts.kt`, no `onnxruntime-android`, the Voice screen is back to Phonon and Whistle only. Do not add an ONNX dependency to the app again; a new
+  voice has to run on the existing native engine or be an optional download that ships its own runtime outside the APK.
+* Size work with no behaviour change (`app/build.gradle.kts`): native libraries are compressed inside the APK (`useLegacyPackaging`, the 7 MB Phonon
+  library is the biggest single file), duplicate KaTeX fonts removed (the CSS asks for woff2 first, so only woff2 stays), packaging excludes for
+  license, version and debug-probe files.
+* Gradle wrapper 8.14.6 to 9.4.1 (AGP stays 8.13.2: Gradle 9.6 removes an internal API AGP 8 still uses, so do not go above 9.5 without moving AGP).
+  This clears the "Gradle 8.14.6 is out of date" CI annotation. If the CI run breaks on Gradle 9, go back to 8.14.6 and say so here.
 
 ## Verify
 
