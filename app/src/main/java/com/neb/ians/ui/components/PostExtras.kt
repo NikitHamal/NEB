@@ -969,9 +969,10 @@ fun insertMarkdown(value: TextFieldValue, prefix: String, suffix: String = ""): 
 }
 
 /**
- * Markdown formatting toolbar. Full mode: Bold, Italic, Code, Strikethrough,
- * H2, Bullet list, Numbered list, Quote, Link. Compact mode: Bold/Italic/Code.
+ * Formatting toolbar for the composers. The text underneath is Markdown, but the writer never sees it: each button
+ * writes the markers and the field draws the result live (see [LiveMarkdown]). Buttons light up where the caret is.
  */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun MarkdownToolbar(
     value: TextFieldValue,
@@ -979,32 +980,95 @@ fun MarkdownToolbar(
     modifier: Modifier = Modifier,
     compact: Boolean = false
 ) {
+    var linkDialog by remember { mutableStateOf(false) }
+    var symbolDialog by remember { mutableStateOf(false) }
+    val live = remember(value.text) { LiveMarkdown.transform(value.text) }
+    val sel = value.selection
+    fun on(kind: String) = live.kinds.any { it.kind == kind && it.start <= sel.min && it.end >= sel.max }
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ToolbarButton(NebIcons.Bold, "Bold") { onValueChange(insertMarkdown(value, "**", "**")) }
-        ToolbarButton(NebIcons.Italic, "Italic") { onValueChange(insertMarkdown(value, "*", "*")) }
-        ToolbarButton(NebIcons.Code, "Code") { onValueChange(insertMarkdown(value, "`", "`")) }
+        ToolbarButton(NebIcons.Bold, "Bold", on("bold")) { onValueChange(LiveMarkdown.toggleInline(value, "**")) }
+        ToolbarButton(NebIcons.Italic, "Italic", on("italic")) { onValueChange(LiveMarkdown.toggleInline(value, "*")) }
+        ToolbarButton(NebIcons.Code, "Code", on("code")) { onValueChange(LiveMarkdown.toggleInline(value, "`")) }
         if (!compact) {
-            ToolbarButton(NebIcons.Strike, "Strikethrough") { onValueChange(insertMarkdown(value, "~~", "~~")) }
-            ToolbarButton(NebIcons.Heading, "Heading") { onValueChange(insertMarkdown(value, "\n## ")) }
-            ToolbarButton(NebIcons.ListBullet, "Bullet list") { onValueChange(insertMarkdown(value, "\n- ")) }
-            ToolbarButton(NebIcons.ListNumber, "Numbered list") { onValueChange(insertMarkdown(value, "\n1. ")) }
-            ToolbarButton(NebIcons.Quote, "Quote") { onValueChange(insertMarkdown(value, "\n> ")) }
-            ToolbarButton(NebIcons.Link, "Link") { onValueChange(insertMarkdown(value, "[text](", ")")) }
-            ToolbarButton(NebIcons.Math, "Math formula") { onValueChange(insertMarkdown(value, "$$", "$$")) }
-            ToolbarButton(NebIcons.CodeBlock, "Code block") { onValueChange(insertMarkdown(value, "\n```\n", "\n```\n")) }
-            ToolbarButton(NebIcons.Divider, "Divider") { onValueChange(insertMarkdown(value, "\n---\n")) }
+            ToolbarButton(NebIcons.Strike, "Strikethrough", on("strike")) { onValueChange(LiveMarkdown.toggleInline(value, "~~")) }
+            ToolbarButton(NebIcons.Heading, "Heading", on("heading")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Heading)) }
+            ToolbarButton(NebIcons.ListBullet, "Bullet list", on("bullet")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Bullet)) }
+            ToolbarButton(NebIcons.ListNumber, "Numbered list", on("number")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Number)) }
+            ToolbarButton(NebIcons.Quote, "Quote", on("quote")) { onValueChange(LiveMarkdown.toggleLine(value, LineKind.Quote)) }
+            ToolbarButton(NebIcons.Link, "Link", on("link")) { linkDialog = true }
+            ToolbarButton(NebIcons.Math, "Maths symbols", false) { symbolDialog = true }
+            ToolbarButton(NebIcons.CodeBlock, "Code block", false) { onValueChange(LiveMarkdown.insertCodeBlock(value)) }
+            ToolbarButton(NebIcons.Divider, "Divider", false) { onValueChange(LiveMarkdown.insertDivider(value)) }
         }
     }
+    if (linkDialog) {
+        var url by remember { mutableStateOf("") }
+        AlertDialog(
+            onDismissRequest = { linkDialog = false },
+            shape = RoundedCornerShape(28.dp),
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            title = { Text("Add link") },
+            text = {
+                OutlinedTextField(
+                    value = url, onValueChange = { url = it }, singleLine = true, shape = RoundedCornerShape(16.dp),
+                    placeholder = { Text("Paste a link") }
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { onValueChange(LiveMarkdown.insertLink(value, url)); linkDialog = false },
+                    enabled = url.isNotBlank()
+                ) { Text("Add") }
+            },
+            dismissButton = { TextButton(onClick = { linkDialog = false }) { Text("Cancel") } }
+        )
+    }
+    if (symbolDialog) {
+        AlertDialog(
+            onDismissRequest = { symbolDialog = false },
+            shape = RoundedCornerShape(28.dp),
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            title = { Text("Symbols") },
+            text = {
+                androidx.compose.foundation.layout.FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    MathSymbols.forEach { sym ->
+                        Box(
+                            modifier = Modifier
+                                .size(44.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .clickable { onValueChange(LiveMarkdown.insertSymbol(value, sym)) },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(sym, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSecondaryContainer)
+                        }
+                    }
+                }
+            },
+            confirmButton = { TextButton(onClick = { symbolDialog = false }) { Text("Done") } }
+        )
+    }
 }
+
+/** Maths and science characters writers reach for; they are plain text, so they show everywhere. */
+private val MathSymbols = listOf(
+    "\u00B2", "\u00B3", "\u221A", "\u03C0", "\u00B1", "\u00D7", "\u00F7", "\u2260", "\u2264", "\u2265", "\u2248", "\u221E",
+    "\u2192", "\u21CC", "\u00B0", "\u2234", "\u00BD", "\u00BC", "\u2211", "\u222B", "\u0394", "\u03B1", "\u03B2", "\u03B3",
+    "\u03B8", "\u03BB", "\u03BC", "\u03C3", "\u03C6", "\u03C9", "\u03A9", "\u2082", "\u2083", "\u207F", "\u2208", "\u2229", "\u222A"
+)
 
 @Composable
 private fun ToolbarButton(
     @androidx.annotation.DrawableRes icon: Int,
     contentDescription: String,
+    active: Boolean = false,
     onClick: () -> Unit
 ) {
     // A tonal rounded square that springs under the thumb and ticks; never a bare ripple.
@@ -1012,6 +1076,7 @@ private fun ToolbarButton(
         modifier = Modifier
             .size(36.dp)
             .clip(RoundedCornerShape(12.dp))
+            .background(if (active) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent)
             .nebPressable(scale = 0.88f, tactile = TactileType.LightTap, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
@@ -1019,7 +1084,7 @@ private fun ToolbarButton(
             id = icon,
             contentDescription = contentDescription,
             size = 19.dp,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = if (active) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
