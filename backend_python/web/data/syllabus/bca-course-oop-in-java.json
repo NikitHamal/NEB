@@ -1,0 +1,367 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "oop-in-java",
+ "name": "OOP in Java",
+ "name_ne": "",
+ "icon": "code",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#B91C1C",
+ "lang": "en",
+ "code": "BCA 153",
+ "credits": 3,
+ "semester": 2,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Object-Oriented Concepts and Java Fundamentals",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Object-oriented programming",
+    "How Java works",
+    "Types, operators and conversions",
+    "Control flow and arrays",
+    "Input and output",
+    "From idea to running program",
+    "Eight features of Java"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Object-oriented programming"
+    },
+    {
+     "no": "1.2",
+     "title": "How Java works"
+    },
+    {
+     "no": "1.3",
+     "title": "Types, operators and conversions"
+    },
+    {
+     "no": "1.4",
+     "title": "Control flow and arrays"
+    },
+    {
+     "no": "1.5",
+     "title": "Input and output"
+    },
+    {
+     "no": "1.6",
+     "title": "From idea to running program"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight features of Java"
+    }
+   ],
+   "summary": [
+    "OOP organises programs around objects that combine state and behaviour, with four guiding pillars.",
+    "Java compiles to bytecode that the JVM runs; the garbage collector manages memory.",
+    "Primitive types are fixed-size and overflow silently; reference types are objects on the heap.",
+    "Control statements, arrays and formatted I/O are the foundation for the class design of the next unit."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2295,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Classes, Objects, Constructors and Encapsulation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Defining a class",
+    "Members, this, static and final",
+    "Access control and packages",
+    "References, parameter passing and memory",
+    "toString, equals and hashCode",
+    "Enums, records and nested classes",
+    "Seeing references: stack and heap",
+    "Eight benefits of good class design"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Defining a class"
+    },
+    {
+     "no": "2.2",
+     "title": "Members, this, static and final"
+    },
+    {
+     "no": "2.3",
+     "title": "Access control and packages"
+    },
+    {
+     "no": "2.4",
+     "title": "References, parameter passing and memory"
+    },
+    {
+     "no": "2.5",
+     "title": "toString, equals and hashCode"
+    },
+    {
+     "no": "2.6",
+     "title": "Enums, records and nested classes"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing references: stack and heap"
+    },
+    {
+     "no": "2.8",
+     "title": "Eight benefits of good class design"
+    }
+   ],
+   "summary": [
+    "A class defines the state and behaviour of its objects; constructors create valid objects.",
+    "Encapsulation through private fields and validated methods keeps objects consistent.",
+    "Static members belong to the class; instance members belong to each object.",
+    "References explain aliasing, parameter passing and why equals/hashCode must be overridden for value-like classes.",
+    "Enums, records and nested classes express fixed sets, data carriers and helper types."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2481,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Inheritance, Polymorphism, Abstract Classes and Interfaces",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Inheritance",
+    "Polymorphism and dynamic dispatch",
+    "Abstract classes",
+    "Interfaces",
+    "The Object class and design guidance",
+    "One call, many behaviours",
+    "Eight uses of inheritance, polymorphism and interfaces"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Inheritance"
+    },
+    {
+     "no": "3.2",
+     "title": "Polymorphism and dynamic dispatch"
+    },
+    {
+     "no": "3.3",
+     "title": "Abstract classes"
+    },
+    {
+     "no": "3.4",
+     "title": "Interfaces"
+    },
+    {
+     "no": "3.5",
+     "title": "The Object class and design guidance"
+    },
+    {
+     "no": "3.6",
+     "title": "One call, many behaviours"
+    },
+    {
+     "no": "3.7",
+     "title": "Eight uses of inheritance, polymorphism and interfaces"
+    }
+   ],
+   "summary": [
+    "Inheritance reuses and specialises; constructors chain upward.",
+    "Overridden methods are chosen at run time by the object's class, which is what lets one loop handle many shapes.",
+    "Abstract classes share implementation among related types; interfaces define capabilities and enable lambdas.",
+    "Good designs favour small interfaces and composition, keeping subclasses substitutable for their parents."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2280,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Exception Handling, Strings and Wrapper Classes",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Exceptions",
+    "Strings",
+    "Wrapper classes, Math, dates",
+    "Two pictures: the exception family and the string pool",
+    "Eight benefits of exception handling and of immutable strings"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Exceptions"
+    },
+    {
+     "no": "4.2",
+     "title": "Strings"
+    },
+    {
+     "no": "4.3",
+     "title": "Wrapper classes, Math, dates"
+    },
+    {
+     "no": "4.4",
+     "title": "Two pictures: the exception family and the string pool"
+    },
+    {
+     "no": "4.5",
+     "title": "Eight benefits of exception handling and of immutable strings"
+    }
+   ],
+   "summary": [
+    "Exceptions separate error handling from normal logic; the compiler enforces handling of checked ones.",
+    "try-with-resources and finally guarantee clean-up.",
+    "Strings are immutable shared objects; builders make repeated modification efficient.",
+    "Wrapper classes bridge primitives and objects, with pitfalls around null and ==."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2085,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Generics, Collections, Lambdas, Streams and File I/O",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Generics",
+    "The Collections Framework",
+    "Lambdas and method references",
+    "Streams",
+    "File I/O",
+    "The framework map and the stream pipeline",
+    "Eight uses of collections, lambdas and streams"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Generics"
+    },
+    {
+     "no": "5.2",
+     "title": "The Collections Framework"
+    },
+    {
+     "no": "5.3",
+     "title": "Lambdas and method references"
+    },
+    {
+     "no": "5.4",
+     "title": "Streams"
+    },
+    {
+     "no": "5.5",
+     "title": "File I/O"
+    },
+    {
+     "no": "5.6",
+     "title": "The framework map and the stream pipeline"
+    },
+    {
+     "no": "5.7",
+     "title": "Eight uses of collections, lambdas and streams"
+    }
+   ],
+   "summary": [
+    "Generics make collections type-safe, and the framework offers the right structure for each access pattern.",
+    "Choosing between list, set, map, queue and their implementations is a question of ordering, uniqueness and cost.",
+    "Lambdas and streams express filter-map-reduce logic concisely and safely.",
+    "File I/O is done with buffered, closed-after-use readers and writers or the Files helpers."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2282,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Multithreading, GUI Event Handling and Database Access",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Threads",
+    "GUI programming with Swing",
+    "Database access with JDBC",
+    "Putting it together: a small project design",
+    "Threads, servers and databases in pictures",
+    "Eight uses of threads, GUI and JDBC"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Threads"
+    },
+    {
+     "no": "6.2",
+     "title": "GUI programming with Swing"
+    },
+    {
+     "no": "6.3",
+     "title": "Database access with JDBC"
+    },
+    {
+     "no": "6.4",
+     "title": "Putting it together: a small project design"
+    },
+    {
+     "no": "6.5",
+     "title": "Threads, servers and databases in pictures"
+    },
+    {
+     "no": "6.6",
+     "title": "Eight uses of threads, GUI and JDBC"
+    }
+   ],
+   "summary": [
+    "Threads give concurrency, but shared mutable state needs synchronisation to avoid races and deadlocks.",
+    "Executors, atomics and concurrent collections are safer than raw threads and locks.",
+    "GUI programs are event driven: components register listeners and long work moves off the UI thread.",
+    "JDBC connects Java to SQL databases; prepared statements and transactions make it safe.",
+    "A real project combines classes, interfaces, generics, collections, exceptions, I/O, threads and a database."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2245,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 40,
+ "notes_ready": 6
+}

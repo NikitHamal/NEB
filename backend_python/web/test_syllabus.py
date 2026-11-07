@@ -22,7 +22,7 @@ class SyllabusTests(TestCase):
         kinds = [g['kind'] for g in entries]
         self.assertEqual(kinds, sorted(kinds, key=lambda k: k != 'school'))
         for t in syllabus_data.track_entries():
-            self.assertEqual(t['kind'], 'entrance')
+            self.assertIn(t['kind'], ('entrance', 'course'))
             self.assertTrue(t['subjects'], t['grade'])
             for s in t['subjects']:
                 self.assertGreaterEqual(s['notes_ready'], 1, (t['grade'], s['subject']))
@@ -55,6 +55,47 @@ class SyllabusTests(TestCase):
         legacy = self.client.get('/api/syllabus/subjects/class-10/science/').json()
         self.assertTrue(legacy['chapters'][0]['guide_sections'])
         self.assertEqual(legacy['grade_slug'], 'class-10')
+
+
+class BcaCourseTests(TestCase):
+    """The TU BCA course (41 subjects, 8 semesters) is a track of kind "course"."""
+
+    def course(self):
+        return next(g for g in syllabus_data.index()['grades'] if g['grade'] == 'bca-course')
+
+    def test_all_semesters_and_subjects(self):
+        track = self.course()
+        self.assertEqual(track['kind'], 'course')
+        self.assertEqual(track['short'], 'BCA Course')
+        self.assertEqual(len(track['subjects']), 41)
+        self.assertEqual(sorted({s['semester'] for s in track['subjects']}), list(range(1, 9)))
+        order = [(s['semester'], s['code']) for s in track['subjects']]
+        self.assertEqual(order, sorted(order))
+        for s in track['subjects']:
+            self.assertEqual(s['notes_ready'], s['unit_count'], s['subject'])
+            self.assertTrue(s['credits'])
+
+    def test_subject_and_chapter_pages(self):
+        hub = self.client.get('/app/syllabus/bca-course/')
+        self.assertContains(hub, 'Semester I')
+        self.assertContains(hub, 'Semester VIII')
+        page = self.client.get('/app/syllabus/bca-course/programming-in-c/')
+        self.assertContains(page, 'BCA 102')
+        self.assertContains(page, '3 credits')
+        self.assertContains(page, 'href="/app/syllabus/bca-course/programming-in-c/unit-1/"')
+        chapter = self.client.get('/app/syllabus/bca-course/programming-in-c/unit-1/')
+        self.assertEqual(chapter.status_code, 200)
+        self.assertContains(chapter, 'Unit 1')
+        self.assertEqual(self.client.get('/app/syllabus/bca-course/nothing/').status_code, 404)
+
+    def test_search_finds_course_chapters(self):
+        data = self.client.get('/app/syllabus/search/', {'q': 'flowchart', 'grade': 'bca-course'}).json()
+        self.assertTrue(any(r['grade'] == 'bca-course' for r in data['results']))
+
+    def test_entrance_bca_is_untouched(self):
+        self.assertEqual(self.client.get('/app/syllabus/bca/mathematics/').status_code, 200)
+        entry = syllabus_data.grade_entry('bca')
+        self.assertEqual(entry['kind'], 'entrance')
 
 
 class StudyReaderTests(TestCase):

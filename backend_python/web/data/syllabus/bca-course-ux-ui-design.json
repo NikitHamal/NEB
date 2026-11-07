@@ -1,0 +1,501 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "ux-ui-design",
+ "name": "UX/UI Design",
+ "name_ne": "",
+ "icon": "palette",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#BE185D",
+ "lang": "en",
+ "code": "BCA 155",
+ "credits": 3,
+ "semester": 2,
+ "hours": 38,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to UX and UI",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "What is UX? What is UI?",
+    "Why design matters",
+    "Core UX principles",
+    "The core disciplines of UX",
+    "Types of user interface",
+    "Properties of good UX/UI design",
+    "UX/UI tools",
+    "Seeing the ideas: interface types, the honeycomb, contrast, the UX loop and a good form"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is UX? What is UI?"
+    },
+    {
+     "no": "1.2",
+     "title": "Why design matters"
+    },
+    {
+     "no": "1.3",
+     "title": "Core UX principles"
+    },
+    {
+     "no": "1.4",
+     "title": "The core disciplines of UX"
+    },
+    {
+     "no": "1.5",
+     "title": "Types of user interface"
+    },
+    {
+     "no": "1.6",
+     "title": "Properties of good UX/UI design"
+    },
+    {
+     "no": "1.7",
+     "title": "UX/UI tools"
+    },
+    {
+     "no": "1.8",
+     "title": "Seeing the ideas: interface types, the honeycomb, contrast, the UX loop and a good form"
+    }
+   ],
+   "summary": [
+    "UX is the entire experience; UI is its visible and tangible layer. UX designers work on research, flows and structure; UI designers on visual and component design.",
+    "The three guiding principles are usability, accessibility and simplicity, supported by consistency, feedback, affordance and error prevention.",
+    "UX has six disciplines that feed each other in a loop.",
+    "Interfaces range from CLI to GUI, menu-driven, voice and conversational; the right type depends on users and context.",
+    "Good designs are useful, usable, findable, credible, accessible, desirable and valuable.",
+    "Figma, Adobe XD and Sketch are the standard design tools."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4104,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "User Interaction Design and UX Research",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "The UX design process",
+    "Mind maps",
+    "UX research",
+    "User personas",
+    "User journey maps",
+    "Ideation techniques",
+    "Seeing the ideas: the process, mind map, sample sizes, persona, journey map and Crazy 8s"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "The UX design process"
+    },
+    {
+     "no": "2.2",
+     "title": "Mind maps"
+    },
+    {
+     "no": "2.3",
+     "title": "UX research"
+    },
+    {
+     "no": "2.4",
+     "title": "User personas"
+    },
+    {
+     "no": "2.5",
+     "title": "User journey maps"
+    },
+    {
+     "no": "2.6",
+     "title": "Ideation techniques"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the ideas: the process, mind map, sample sizes, persona, journey map and Crazy 8s"
+    }
+   ],
+   "summary": [
+    "UX design is an iterative loop; user-centred design involves users at every stage.",
+    "A mind map explores a problem; research methods (interviews, surveys, competitive analysis) provide evidence, qualitative and quantitative.",
+    "Personas and journey maps turn research into shared, human, visual artefacts; opportunities appear at the pain points.",
+    "Ideation produces many options using mood boards, brainstorming and sketching before anything is built."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4596,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "User Interface Design",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Graphical and web user interfaces",
+    "Interaction styles",
+    "Principles of UI design",
+    "The UI design process",
+    "Human considerations in interface and screen design",
+    "Technological considerations in interface design",
+    "Seeing the ideas: interaction styles, Fitts and Hick, touch targets, the process, breakpoints and response time"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Graphical and web user interfaces"
+    },
+    {
+     "no": "3.2",
+     "title": "Interaction styles"
+    },
+    {
+     "no": "3.3",
+     "title": "Principles of UI design"
+    },
+    {
+     "no": "3.4",
+     "title": "The UI design process"
+    },
+    {
+     "no": "3.5",
+     "title": "Human considerations in interface and screen design"
+    },
+    {
+     "no": "3.6",
+     "title": "Technological considerations in interface design"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: interaction styles, Fitts and Hick, touch targets, the process, breakpoints and response time"
+    }
+   ],
+   "summary": [
+    "GUIs use windows, icons, menus and a pointer; web UIs add browser conventions, unknown screens and scanning behaviour.",
+    "Five interaction styles each fit a task and user: command line, menus, forms, direct manipulation, anthropomorphic.",
+    "UI principles stress consistency, feedback, affordance, error prevention and control; Fitts's and Hick's laws quantify pointing and choosing.",
+    "The UI process runs from understanding and structure through wireframes, visual design, prototype, test and hand-off.",
+    "Design must respect human limits (perception, memory, attention, motor skill, culture) and technical limits (devices, platforms, performance, network, accessibility technology)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5054,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "UI Components",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Menus",
+    "Windows",
+    "Screen-based controls",
+    "Graphics, icons and images",
+    "Seeing the ideas: menus, windows, controls, icons and images"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Menus"
+    },
+    {
+     "no": "4.2",
+     "title": "Windows"
+    },
+    {
+     "no": "4.3",
+     "title": "Screen-based controls"
+    },
+    {
+     "no": "4.4",
+     "title": "Graphics, icons and images"
+    },
+    {
+     "no": "4.5",
+     "title": "Seeing the ideas: menus, windows, controls, icons and images"
+    }
+   ],
+   "summary": [
+    "Menus let users recognise commands; format them consistently, keep them short and well grouped, and pick the type — bar, pull-down, cascading, pop-up, tear-off, iconic — by the task.",
+    "Windows may be tiled, overlapping or cascading; primary, secondary windows and dialog boxes serve different roles; modal dialogs should be rare.",
+    "Controls are operable, text-entry, selection or other; choosing the proper control for the task prevents errors and speeds use.",
+    "Icons and images must be meaningful, consistent, accessible and technically optimised."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5618,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "UI Design Considerations",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Page layout",
+    "Colour",
+    "Font selection and typography",
+    "Screen size and responsive design",
+    "Visual hierarchy",
+    "Navigation",
+    "Seeing the ideas: grids, Gestalt, colour, type, hierarchy and navigation"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Page layout"
+    },
+    {
+     "no": "5.2",
+     "title": "Colour"
+    },
+    {
+     "no": "5.3",
+     "title": "Font selection and typography"
+    },
+    {
+     "no": "5.4",
+     "title": "Screen size and responsive design"
+    },
+    {
+     "no": "5.5",
+     "title": "Visual hierarchy"
+    },
+    {
+     "no": "5.6",
+     "title": "Navigation"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: grids, Gestalt, colour, type, hierarchy and navigation"
+    }
+   ],
+   "summary": [
+    "Layout uses grids, reading patterns, Gestalt principles and white space to make structure visible.",
+    "Colour schemes are built from a primary, secondary, neutral and semantic palette; contrast must meet WCAG ratios and colour must never be the sole signal.",
+    "Typography chooses one or two legible families, readable sizes, line height, line length and a consistent type scale; Devanagari needs extra leading.",
+    "Responsive design combines fluid grids, flexible media and media queries, designed mobile-first.",
+    "Visual hierarchy ranks elements through alignment, colour, contrast, proximity, size, texture and time.",
+    "Navigation comes in global, local, utility, associative and inline forms and follows a model — hub-and-spoke, fully connected, tree, stepwise, pyramid or flat — chosen to fit the content."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5806,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Wireframing and Prototyping",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "From idea to product: the fidelity ladder",
+    "Wireframes",
+    "Prototyping",
+    "UX storyboarding",
+    "Transitions and animation in prototypes",
+    "Creating a simple clickable prototype (the lab method)",
+    "Seeing the ideas: sketches, wireframes, prototypes, storyboards and motion"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "From idea to product: the fidelity ladder"
+    },
+    {
+     "no": "6.2",
+     "title": "Wireframes"
+    },
+    {
+     "no": "6.3",
+     "title": "Prototyping"
+    },
+    {
+     "no": "6.4",
+     "title": "UX storyboarding"
+    },
+    {
+     "no": "6.5",
+     "title": "Transitions and animation in prototypes"
+    },
+    {
+     "no": "6.6",
+     "title": "Creating a simple clickable prototype (the lab method)"
+    },
+    {
+     "no": "6.7",
+     "title": "Seeing the ideas: sketches, wireframes, prototypes, storyboards and motion"
+    }
+   ],
+   "summary": [
+    "Wireframes show structure and priority without style; mock-ups add the visual design; prototypes make them interactive so they can be tested.",
+    "Low-fidelity prototypes (paper, grey boxes) test concepts early and cheaply; high-fidelity ones test visuals and detailed interaction late.",
+    "Prototyping tools such as Figma link frames with triggers, actions and transitions; software prototypes may be throwaway or evolutionary.",
+    "Storyboards tell the user's story in context and reveal needs that screens alone hide.",
+    "Animation should orient, give feedback and focus attention, with sensible duration and easing and respect for accessibility."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5180,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Design Evaluation",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Why and when to evaluate",
+    "Usability testing",
+    "Analysing test results",
+    "Evaluation through expert analysis and user participation",
+    "The DECIDE framework",
+    "Heuristic evaluation",
+    "Task analysis and performance metrics",
+    "Seeing the ideas: tests, numbers, heuristics and task models"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Why and when to evaluate"
+    },
+    {
+     "no": "7.2",
+     "title": "Usability testing"
+    },
+    {
+     "no": "7.3",
+     "title": "Analysing test results"
+    },
+    {
+     "no": "7.4",
+     "title": "Evaluation through expert analysis and user participation"
+    },
+    {
+     "no": "7.5",
+     "title": "The DECIDE framework"
+    },
+    {
+     "no": "7.6",
+     "title": "Heuristic evaluation"
+    },
+    {
+     "no": "7.7",
+     "title": "Task analysis and performance metrics"
+    },
+    {
+     "no": "7.8",
+     "title": "Seeing the ideas: tests, numbers, heuristics and task models"
+    }
+   ],
+   "summary": [
+    "Evaluate iteratively: formative evaluation improves a design while it is made, summative evaluation judges the result.",
+    "Usability tests observe representative users on realistic tasks; moderated tests give depth, unmoderated tests give scale; five users per round find most problems.",
+    "Analyse with success rate, time, errors, SUS and severity-rated findings, then recommend fixes by priority.",
+    "Expert methods (heuristic evaluation, walkthroughs) and user methods complement each other; paradigms range from quick-and-dirty to field studies and predictive models.",
+    "DECIDE structures an evaluation plan; Nielsen's ten heuristics structure an expert review.",
+    "Task analysis (HTA) and KLM predict and compare task effort."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5877,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Advanced Techniques: VUI and NLP-based UI",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Voice and NLP-based interfaces",
+    "Command and control versus conversational UI",
+    "Personas, avatars, actors and video games",
+    "Speech recognition technology",
+    "Dialog management",
+    "Designing for wearable devices",
+    "Seeing the ideas: voices, speech, dialogs, characters and wearables"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Voice and NLP-based interfaces"
+    },
+    {
+     "no": "8.2",
+     "title": "Command and control versus conversational UI"
+    },
+    {
+     "no": "8.3",
+     "title": "Personas, avatars, actors and video games"
+    },
+    {
+     "no": "8.4",
+     "title": "Speech recognition technology"
+    },
+    {
+     "no": "8.5",
+     "title": "Dialog management"
+    },
+    {
+     "no": "8.6",
+     "title": "Designing for wearable devices"
+    },
+    {
+     "no": "8.7",
+     "title": "Seeing the ideas: voices, speech, dialogs, characters and wearables"
+    }
+   ],
+   "summary": [
+    "VUI and NLP-based UIs give hands-free and natural interaction but hide their options and suffer from recognition and ambiguity errors.",
+    "Command-and-control uses fixed commands and is reliable; conversational UIs use intents, slots and context and are flexible but less predictable.",
+    "A designed persona gives a voice or chatbot a consistent personality; avatars and game-style characters can engage users when their realism matches their ability.",
+    "Speech recognition converts speech to text through acoustic and language models; Nepali is a low-resource language with higher error rates.",
+    "Dialog management tracks state, chooses the next action, confirms risk, and repairs errors with a human fallback.",
+    "Wearables demand glanceable, minimal, context-aware, haptic-rich design."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5877,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 8,
+ "topic_count": 56,
+ "notes_ready": 8
+}

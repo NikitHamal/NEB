@@ -48,6 +48,10 @@
     {
      "no": "1.4",
      "title": "Literature, art, national symbols and Miss Nepal"
+    },
+    {
+     "no": "1.5",
+     "title": "Eight traps in Nepal GK questions"
     }
    ],
    "summary": [
@@ -59,7 +63,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2027,
+    "words": 2691,
     "figures": 0,
     "examples": 0
    },
@@ -93,6 +97,10 @@
     {
      "no": "2.4",
      "title": "Inventions, discoveries and awards"
+    },
+    {
+     "no": "2.5",
+     "title": "Eight traps in world GK questions"
     }
    ],
    "summary": [
@@ -104,7 +112,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1642,
+    "words": 2326,
     "figures": 0,
     "examples": 0
    },
@@ -133,6 +141,10 @@
     {
      "no": "3.3",
      "title": "System and application software, operating systems, number systems"
+    },
+    {
+     "no": "3.4",
+     "title": "Eight traps in computer-fundamentals questions"
     }
    ],
    "summary": [
@@ -144,7 +156,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1556,
+    "words": 2263,
     "figures": 0,
     "examples": 0
    },
@@ -178,6 +190,10 @@
     {
      "no": "4.4",
      "title": "Important full forms and inventors"
+    },
+    {
+     "no": "4.5",
+     "title": "Eight traps in Internet, HTML and programming questions"
     }
    ],
    "summary": [
@@ -189,7 +205,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1730,
+    "words": 2359,
     "figures": 0,
     "examples": 0
    },

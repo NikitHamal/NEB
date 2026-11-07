@@ -1,0 +1,364 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "technical-writing",
+ "name": "Technical Writing",
+ "name_ne": "",
+ "icon": "edit_note",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#CA8A04",
+ "lang": "en",
+ "code": "BCA 354",
+ "credits": 2,
+ "semester": 6,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Audience, Purpose and the Writing Process",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "What is technical writing?",
+    "Know your audience",
+    "Define the purpose",
+    "Organise: the pyramid and the outline",
+    "The writing process",
+    "Document design",
+    "Testing documents with readers",
+    "Seeing the ideas: tools, manuals, signs and the shape of a message"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What is technical writing?"
+    },
+    {
+     "no": "1.2",
+     "title": "Know your audience"
+    },
+    {
+     "no": "1.3",
+     "title": "Define the purpose"
+    },
+    {
+     "no": "1.4",
+     "title": "Organise: the pyramid and the outline"
+    },
+    {
+     "no": "1.5",
+     "title": "The writing process"
+    },
+    {
+     "no": "1.6",
+     "title": "Document design"
+    },
+    {
+     "no": "1.7",
+     "title": "Testing documents with readers"
+    },
+    {
+     "no": "1.8",
+     "title": "Seeing the ideas: tools, manuals, signs and the shape of a message"
+    }
+   ],
+   "summary": [
+    "Technical writing serves the reader's task; qualities are clarity, concision, correctness, completeness, coherence, courtesy and concreteness.",
+    "Profile the audience (knowledge, task, environment, language) and state the purpose in one sentence with a verb.",
+    "Put the answer first (inverted pyramid), organise by the reader's tasks, use outlines, chunking, lists and tables.",
+    "Process: plan, draft, revise, edit and proofread in separate passes, then test with real readers.",
+    "Design (headings, warnings, steps, accessibility) is part of the message."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3126,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Style, Clarity and Readability",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Rules of clear technical sentences",
+    "Parallelism, lists and consistency",
+    "Measuring readability",
+    "Common problems in Nepali English writing",
+    "Seeing the ideas: scores and sentence surgery"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Rules of clear technical sentences"
+    },
+    {
+     "no": "2.2",
+     "title": "Parallelism, lists and consistency"
+    },
+    {
+     "no": "2.3",
+     "title": "Measuring readability"
+    },
+    {
+     "no": "2.4",
+     "title": "Common problems in Nepali English writing"
+    },
+    {
+     "no": "2.5",
+     "title": "Seeing the ideas: scores and sentence surgery"
+    }
+   ],
+   "summary": [
+    "Write short, active sentences with strong verbs, concrete words, specific numbers and consistent terms; cut deadwood and noun stacks.",
+    "Use parallel structure in lists and headings; stay consistent in terms, numbers, dates and units.",
+    "Flesch Reading Ease = 206.835 − 1.015(w/s) − 84.6(y/w); FK = 0.39(w/s) + 11.8(y/w) − 15.59; Fog = 0.4[(w/s) + 100(c/w)]. They measure sentence and word length only.",
+    "The heavy sentence scores FK 19.0 and Fog 21.7; its seven-word rewrite scores FK 4.0 and Fog 8.5.",
+    "Common errors by Nepali writers include articles, over-formal phrases, prepositions and ambiguous dates."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3059,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Software Documentation - SRS, README, API Reference, Runbooks and Postmortems",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "The documents of a software project",
+    "Writing requirements",
+    "README files, tutorials and user guides",
+    "API documentation and OpenAPI",
+    "Runbooks and postmortems",
+    "The small documents",
+    "Seeing the ideas: the four kinds of documents and the life of an incident"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "The documents of a software project"
+    },
+    {
+     "no": "3.2",
+     "title": "Writing requirements"
+    },
+    {
+     "no": "3.3",
+     "title": "README files, tutorials and user guides"
+    },
+    {
+     "no": "3.4",
+     "title": "API documentation and OpenAPI"
+    },
+    {
+     "no": "3.5",
+     "title": "Runbooks and postmortems"
+    },
+    {
+     "no": "3.6",
+     "title": "The small documents"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: the four kinds of documents and the life of an incident"
+    }
+   ],
+   "summary": [
+    "Each document serves a reader at a time: SRS (agree), README (start), guide (do), reference (look up), runbook (respond), postmortem (learn).",
+    "Requirements use \"shall\", one idea each, with testable numbers; vague words (fast, user-friendly, etc.) are defects; a linter can flag them.",
+    "A README gets a reader to a first success in minutes; user guides are task-based numbered procedures; error messages say what, why and what to do.",
+    "OpenAPI makes API documentation machine-checkable; the example checker found missing summaries and undocumented 4xx responses.",
+    "Runbooks give exact steps for on-call; blameless postmortems end in owned, dated action items."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3154,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Research Proposals, Academic Writing and Citation",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The research proposal",
+    "The structure of a paper or report: IMRaD",
+    "The literature review",
+    "Citing sources",
+    "Plagiarism and academic integrity",
+    "Seeing the ideas: the library, the hourglass and two citation styles"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The research proposal"
+    },
+    {
+     "no": "4.2",
+     "title": "The structure of a paper or report: IMRaD"
+    },
+    {
+     "no": "4.3",
+     "title": "The literature review"
+    },
+    {
+     "no": "4.4",
+     "title": "Citing sources"
+    },
+    {
+     "no": "4.5",
+     "title": "Plagiarism and academic integrity"
+    },
+    {
+     "no": "4.6",
+     "title": "Seeing the ideas: the library, the hourglass and two citation styles"
+    }
+   ],
+   "summary": [
+    "A proposal states a specific problem, answerable research questions, a review ending in a gap, a method, scope, timeline and references.",
+    "Papers follow IMRaD; a structured abstract has background, objective, method, results with numbers and conclusion.",
+    "A literature review synthesises by theme; record sources in a table.",
+    "Cite in one consistent style (IEEE numeric, APA author–date); store reference data once and let tools format it.",
+    "Quote, paraphrase or summarise with citation; patchwork copying is plagiarism; similarity scores screen, humans judge; disclose and verify AI assistance."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2947,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Visual Communication - Tables, Charts, Diagrams and Slides",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Words, tables, charts or diagrams?",
+    "Tables",
+    "Charts: choose by the question",
+    "Colour and accessibility",
+    "Technical diagrams",
+    "Slides and posters",
+    "Seeing the ideas: honest axes, chart choice and contrast"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Words, tables, charts or diagrams?"
+    },
+    {
+     "no": "5.2",
+     "title": "Tables"
+    },
+    {
+     "no": "5.3",
+     "title": "Charts: choose by the question"
+    },
+    {
+     "no": "5.4",
+     "title": "Colour and accessibility"
+    },
+    {
+     "no": "5.5",
+     "title": "Technical diagrams"
+    },
+    {
+     "no": "5.6",
+     "title": "Slides and posters"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: honest axes, chart choice and contrast"
+    }
+   ],
+   "summary": [
+    "Choose the medium by purpose: tables for exact values, charts for patterns, diagrams for structure; every graphic is referred to, numbered, captioned and self-explanatory.",
+    "Chart type follows the question; bars start at zero; the lie factor measures distortion (a truncated bar chart showing 5% as 100% has a lie factor of 20.0).",
+    "Never rely on colour alone; WCAG contrast needs 4.5:1 for body text; #999999 on white gives 2.85:1 and fails.",
+    "Diagrams carry one message with consistent notation; slides carry one idea with a headline sentence."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3163,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Editing, Professional Communication and Ethics",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Levels of editing",
+    "A concision edit, executed",
+    "Professional email and messages",
+    "Reports, minutes, CVs and cover letters",
+    "Ethics in technical communication",
+    "Seeing the ideas: the four edits, the handwritten letter and the first meeting"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Levels of editing"
+    },
+    {
+     "no": "6.2",
+     "title": "A concision edit, executed"
+    },
+    {
+     "no": "6.3",
+     "title": "Professional email and messages"
+    },
+    {
+     "no": "6.4",
+     "title": "Reports, minutes, CVs and cover letters"
+    },
+    {
+     "no": "6.5",
+     "title": "Ethics in technical communication"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: the four edits, the handwritten letter and the first meeting"
+    }
+   ],
+   "summary": [
+    "Edit in levels (substantive, copy, proofread, technical) from large to small; use a checklist, rest, read aloud and verify every number.",
+    "Scripted replacements remove deadwood: the sample paragraph fell from 44 to 22 words (50.0% shorter); a human must still review them.",
+    "Emails need an action-oriented subject, the main point first and a clear next step; minutes record decisions and owned actions; CVs show measurable results.",
+    "Ethical communication is honest, credits sources, protects confidentiality, warns of risk and is accessible."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2864,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 39,
+ "notes_ready": 6
+}

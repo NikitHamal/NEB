@@ -1,0 +1,312 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "project-3",
+ "name": "Project III",
+ "name_ne": "",
+ "icon": "assignment",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 356",
+ "credits": 3,
+ "semester": 6,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "From Web to IoT: Scope, Architecture and Hardware Choice",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What changes in Project III",
+    "The running example: KhetSense",
+    "The four-layer IoT architecture",
+    "Choosing the sensors and the board",
+    "Requirements as user stories and measurable checks",
+    "Eight reasons sensor projects fail, and the cure"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What changes in Project III"
+    },
+    {
+     "no": "1.2",
+     "title": "The running example: KhetSense"
+    },
+    {
+     "no": "1.3",
+     "title": "The four-layer IoT architecture"
+    },
+    {
+     "no": "1.4",
+     "title": "Choosing the sensors and the board"
+    },
+    {
+     "no": "1.5",
+     "title": "Requirements as user stories and measurable checks"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight reasons sensor projects fail, and the cure"
+    }
+   ],
+   "summary": [
+    "A sensor project adds noisy real-world data, batteries, weak networks and costly failures to the concerns of Project II.",
+    "KhetSense is the running example; its objectives are measurable, including an accuracy target (O2) and a budget (O5).",
+    "The four-layer architecture separates sensing, edge processing, cloud storage and the phone app.",
+    "Hardware is chosen from requirements and checked against the budget; the plan is revised with numbers.",
+    "The eight failure causes (calibration, battery, gaps, noise, weather, offline, clocks, desk-only testing) guide Units 2 to 5."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2830,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Sensors, Calibration, Noise and Messaging",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "From soil to count: the ADC",
+    "Calibration: turning counts into moisture",
+    "Noise and filters",
+    "Messaging: publish-subscribe with retry",
+    "How long does the battery last?",
+    "Eight rules for reliable sensor data"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "From soil to count: the ADC"
+    },
+    {
+     "no": "2.2",
+     "title": "Calibration: turning counts into moisture"
+    },
+    {
+     "no": "2.3",
+     "title": "Noise and filters"
+    },
+    {
+     "no": "2.4",
+     "title": "Messaging: publish-subscribe with retry"
+    },
+    {
+     "no": "2.5",
+     "title": "How long does the battery last?"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight rules for reliable sensor data"
+    }
+   ],
+   "summary": [
+    "The ADC turns a voltage into a count; calibration turns the count into a useful unit and gives a measurable error.",
+    "The simulated calibration reached 0.32 points of mean error on new samples; the uncalibrated vendor index was 36 points off.",
+    "A moving median removed spikes best (0.58 against 1.67 for raw data).",
+    "QoS 1 with ids delivered 96 of 96 readings on a link that lost 30 percent of packets; QoS 0 delivered 64.",
+    "Batching the radio lengthened battery life from 87.8 to 165.1 days in the calculation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2806,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Storing and Analysing Sensor Data: Cleaning, Anomalies and a Forecast",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The pipeline from message to advice",
+    "Storing readings safely",
+    "Cleaning a series",
+    "Anomaly detection and silent nodes",
+    "Forecasting tomorrow's moisture",
+    "From forecast to advice",
+    "Eight uses of data analysis in KhetSense"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "The pipeline from message to advice"
+    },
+    {
+     "no": "3.2",
+     "title": "Storing readings safely"
+    },
+    {
+     "no": "3.3",
+     "title": "Cleaning a series"
+    },
+    {
+     "no": "3.4",
+     "title": "Anomaly detection and silent nodes"
+    },
+    {
+     "no": "3.5",
+     "title": "Forecasting tomorrow's moisture"
+    },
+    {
+     "no": "3.6",
+     "title": "From forecast to advice"
+    },
+    {
+     "no": "3.7",
+     "title": "Eight uses of data analysis in KhetSense"
+    }
+   ],
+   "summary": [
+    "The pipeline validates, stores once, cleans, analyses and then advises; each step is testable.",
+    "Constraints in the database refused 78 duplicates and the impossible value; 8 to 9 percent of readings were missing and recorded as such.",
+    "The cleaning rules flagged exactly the three true spikes and left the long gap missing.",
+    "Stuck, silent and jumping nodes are detected by three simple rules, with rain used to explain jumps.",
+    "The exponential forecast beat persistence (0.58 against 1.31 points) on a small simulated test, and the rule engine turns it into four plain messages."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2685,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "The Mobile Client: Offline-first Sync, Screens and Testing",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Choosing the client technology",
+    "The screens",
+    "Offline-first synchronisation",
+    "Showing stale data honestly",
+    "Permissions, privacy and security on the phone",
+    "Testing the client logic",
+    "Eight features of a good field-ready mobile client"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Choosing the client technology"
+    },
+    {
+     "no": "4.2",
+     "title": "The screens"
+    },
+    {
+     "no": "4.3",
+     "title": "Offline-first synchronisation"
+    },
+    {
+     "no": "4.4",
+     "title": "Showing stale data honestly"
+    },
+    {
+     "no": "4.5",
+     "title": "Permissions, privacy and security on the phone"
+    },
+    {
+     "no": "4.6",
+     "title": "Testing the client logic"
+    },
+    {
+     "no": "4.7",
+     "title": "Eight features of a good field-ready mobile client"
+    }
+   ],
+   "summary": [
+    "Native Android with Room and a background worker suits field users best; Flutter or a PWA are alternatives.",
+    "Three screens (home advice, plot detail, alerts) answer three questions, and wireframes come before code.",
+    "Offline-first design needs a queue, retry and idempotence; the simulation stored 6 unique actions and ignored 5 duplicates.",
+    "Stale data must be labelled, and advice must be withheld when data are older than 2 hours.",
+    "Test the logic in code and the screens on a device matrix; turn each fixed bug into a permanent test."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2686,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Field Test, Report, Demo and Viva for Project III",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The field-test plan",
+    "The report",
+    "The demo: ten minutes, with a plan B",
+    "Honesty, consent and ethics",
+    "Twelve viva questions with short model answers",
+    "An illustrative marking rubric",
+    "Eight habits of teams that finish Project III well"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The field-test plan"
+    },
+    {
+     "no": "5.2",
+     "title": "The report"
+    },
+    {
+     "no": "5.3",
+     "title": "The demo: ten minutes, with a plan B"
+    },
+    {
+     "no": "5.4",
+     "title": "Honesty, consent and ethics"
+    },
+    {
+     "no": "5.5",
+     "title": "Twelve viva questions with short model answers"
+    },
+    {
+     "no": "5.6",
+     "title": "An illustrative marking rubric"
+    },
+    {
+     "no": "5.7",
+     "title": "Eight habits of teams that finish Project III well"
+    }
+   ],
+   "summary": [
+    "A field test turns claims into evidence: the simulated 48-hour log passed four of five objectives and honestly failed O1.",
+    "The failed objective is diagnosed (far node, weak link) and a fix is proposed; hiding it would be dishonest.",
+    "The report map highlights the sensor-specific chapters; the page budget came to 80 pages with 62 percent technical content.",
+    "The demo is rehearsed with a plan B for every live step, including an offline run.",
+    "Honesty, consent, licensing and the law apply to sensor data and photographs as much as to code."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2934,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 33,
+ "notes_ready": 5
+}

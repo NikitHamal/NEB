@@ -331,7 +331,12 @@ def main():
             "label": info["label"], "label_ne": track_label_ne(track), "exam": info["exam"],
             "short": info["short"], "kind": info["kind"], "grade": track,
             "subjects": [s for _, s in sorted(tracks[track], key=lambda t: t[0])]})
-    with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8", newline="\n") as fh:
+    # the BCA course track is written by bca/tools/export_course_web.py: keep what it wrote
+    path = os.path.join(OUT, "index.json")
+    if os.path.exists(path):
+        kept = [g for g in json.load(open(path, encoding="utf-8")).get("grades", []) if g.get("kind") == "course"]
+        index["grades"] += kept
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(index, fh, ensure_ascii=False, indent=1)
 
 

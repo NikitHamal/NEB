@@ -1,0 +1,423 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "cloud-computing",
+ "name": "Cloud Computing",
+ "name_ne": "",
+ "icon": "cloud",
+ "group": "semester-8",
+ "group_label": "Semester VIII",
+ "color": "#0369A1",
+ "lang": "en",
+ "code": "BCA 451",
+ "credits": 3,
+ "semester": 8,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Cloud Foundations, the NIST Model, Service and Deployment Models",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Definition and history",
+    "Five essential characteristics",
+    "Service models",
+    "Deployment models",
+    "Benefits and risks",
+    "The economics of elasticity",
+    "Cloud architecture at a glance",
+    "Seeing the ideas: the physical cloud, the NIST model and who manages what",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Definition and history"
+    },
+    {
+     "no": "1.2",
+     "title": "Five essential characteristics"
+    },
+    {
+     "no": "1.3",
+     "title": "Service models"
+    },
+    {
+     "no": "1.4",
+     "title": "Deployment models"
+    },
+    {
+     "no": "1.5",
+     "title": "Benefits and risks"
+    },
+    {
+     "no": "1.6",
+     "title": "The economics of elasticity"
+    },
+    {
+     "no": "1.7",
+     "title": "Cloud architecture at a glance"
+    },
+    {
+     "no": "1.8",
+     "title": "Seeing the ideas: the physical cloud, the NIST model and who manages what"
+    },
+    {
+     "no": "1.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2555,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Virtualization Internals and Containers",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Why virtualize",
+    "CPU virtualization with VT-x",
+    "Memory virtualization",
+    "KVM, QEMU and virtio",
+    "Containers",
+    "Images, layers and OCI digests",
+    "Virtual machines versus containers",
+    "Seeing the ideas: hypervisors, nested page tables and image layers",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Why virtualize"
+    },
+    {
+     "no": "2.2",
+     "title": "CPU virtualization with VT-x"
+    },
+    {
+     "no": "2.3",
+     "title": "Memory virtualization"
+    },
+    {
+     "no": "2.4",
+     "title": "KVM, QEMU and virtio"
+    },
+    {
+     "no": "2.5",
+     "title": "Containers"
+    },
+    {
+     "no": "2.6",
+     "title": "Images, layers and OCI digests"
+    },
+    {
+     "no": "2.7",
+     "title": "Virtual machines versus containers"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: hypervisors, nested page tables and image layers"
+    },
+    {
+     "no": "2.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2446,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Cloud Storage, Erasure Coding, Consistent Hashing and Quorums",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Three kinds of cloud storage",
+    "Replication versus erasure coding",
+    "Consistent hashing",
+    "Replication and quorums",
+    "Seeing the ideas: storage media, erasure coding, the hash ring and quorums",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Three kinds of cloud storage"
+    },
+    {
+     "no": "3.2",
+     "title": "Replication versus erasure coding"
+    },
+    {
+     "no": "3.3",
+     "title": "Consistent hashing"
+    },
+    {
+     "no": "3.4",
+     "title": "Replication and quorums"
+    },
+    {
+     "no": "3.5",
+     "title": "Seeing the ideas: storage media, erasure coding, the hash ring and quorums"
+    },
+    {
+     "no": "3.6",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2334,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Cloud Networking, VPC Addressing, VXLAN, Load Balancing and CDN",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The virtual private cloud",
+    "CIDR planning",
+    "Overlay networks and VXLAN",
+    "Load balancing",
+    "Content delivery networks",
+    "DNS-based routing",
+    "Seeing the ideas: the physical network, a VPC, VXLAN packets and the CDN path",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The virtual private cloud"
+    },
+    {
+     "no": "4.2",
+     "title": "CIDR planning"
+    },
+    {
+     "no": "4.3",
+     "title": "Overlay networks and VXLAN"
+    },
+    {
+     "no": "4.4",
+     "title": "Load balancing"
+    },
+    {
+     "no": "4.5",
+     "title": "Content delivery networks"
+    },
+    {
+     "no": "4.6",
+     "title": "DNS-based routing"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: the physical network, a VPC, VXLAN packets and the CDN path"
+    },
+    {
+     "no": "4.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2314,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Microservices, Kubernetes, Autoscaling and Queueing Theory",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Monolith to microservices",
+    "Kubernetes architecture",
+    "Horizontal Pod Autoscaler",
+    "Little's Law and the M/M/1 queue",
+    "Serverless and concurrency",
+    "Seeing the ideas: the cluster, the autoscaler, the monolith and the queue",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Monolith to microservices"
+    },
+    {
+     "no": "5.2",
+     "title": "Kubernetes architecture"
+    },
+    {
+     "no": "5.3",
+     "title": "Horizontal Pod Autoscaler"
+    },
+    {
+     "no": "5.4",
+     "title": "Little's Law and the M/M/1 queue"
+    },
+    {
+     "no": "5.5",
+     "title": "Serverless and concurrency"
+    },
+    {
+     "no": "5.6",
+     "title": "Seeing the ideas: the cluster, the autoscaler, the monolith and the queue"
+    },
+    {
+     "no": "5.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2611,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Cloud Security, IAM Evaluation and Envelope Encryption",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Shared responsibility",
+    "Identity and Access Management",
+    "Data protection and key management",
+    "Zero Trust",
+    "Defensive monitoring and compliance",
+    "Seeing the ideas: shared responsibility, policy evaluation and envelope encryption",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Shared responsibility"
+    },
+    {
+     "no": "6.2",
+     "title": "Identity and Access Management"
+    },
+    {
+     "no": "6.3",
+     "title": "Data protection and key management"
+    },
+    {
+     "no": "6.4",
+     "title": "Zero Trust"
+    },
+    {
+     "no": "6.5",
+     "title": "Defensive monitoring and compliance"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the ideas: shared responsibility, policy evaluation and envelope encryption"
+    },
+    {
+     "no": "6.7",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2527,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Cloud Economics, SLA Mathematics and FinOps",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Pricing models",
+    "Total cost of ownership",
+    "SLI, SLO and SLA",
+    "Composite availability",
+    "Reserved versus on-demand: break-even",
+    "FinOps",
+    "Seeing the ideas: metered billing, pricing models, break-even and the nines",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Pricing models"
+    },
+    {
+     "no": "7.2",
+     "title": "Total cost of ownership"
+    },
+    {
+     "no": "7.3",
+     "title": "SLI, SLO and SLA"
+    },
+    {
+     "no": "7.4",
+     "title": "Composite availability"
+    },
+    {
+     "no": "7.5",
+     "title": "Reserved versus on-demand: break-even"
+    },
+    {
+     "no": "7.6",
+     "title": "FinOps"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing the ideas: metered billing, pricing models, break-even and the nines"
+    },
+    {
+     "no": "7.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2567,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 54,
+ "notes_ready": 7
+}

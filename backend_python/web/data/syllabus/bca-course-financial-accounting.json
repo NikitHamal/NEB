@@ -1,0 +1,453 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "financial-accounting",
+ "name": "Financial Accounting",
+ "name_ne": "",
+ "icon": "account_balance",
+ "group": "semester-7",
+ "group_label": "Semester VII",
+ "color": "#047857",
+ "lang": "en",
+ "code": "BCA 403",
+ "credits": 2,
+ "semester": 7,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Conceptual Framework of Accounting, GAAP, NFRS and the Accounting Equation",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Accounting, book-keeping and users",
+    "Branches and the nature of business transactions",
+    "Accounting concepts and GAAP",
+    "Accounting standards, NFRS and IFRS in Nepal",
+    "The accounting equation",
+    "Double-entry principle and account types",
+    "Seeing the ideas: records, equation and cycle",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Accounting, book-keeping and users"
+    },
+    {
+     "no": "1.2",
+     "title": "Branches and the nature of business transactions"
+    },
+    {
+     "no": "1.3",
+     "title": "Accounting concepts and GAAP"
+    },
+    {
+     "no": "1.4",
+     "title": "Accounting standards, NFRS and IFRS in Nepal"
+    },
+    {
+     "no": "1.5",
+     "title": "The accounting equation"
+    },
+    {
+     "no": "1.6",
+     "title": "Double-entry principle and account types"
+    },
+    {
+     "no": "1.7",
+     "title": "Seeing the ideas: records, equation and cycle"
+    },
+    {
+     "no": "1.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2536,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "\"Recording Transactions: Journal, VAT and TDS Entries, Ledger and T-Accounts\"",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Source documents and the journal",
+    "Rules of debit and credit",
+    "VAT in the books",
+    "TDS entries",
+    "Ledger posting and T-accounts",
+    "A journal and ledger engine in Python",
+    "Opening, closing and compound entries",
+    "Seeing the ideas: debit and credit, the VAT invoice and the cash T-account",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Source documents and the journal"
+    },
+    {
+     "no": "2.2",
+     "title": "Rules of debit and credit"
+    },
+    {
+     "no": "2.3",
+     "title": "VAT in the books"
+    },
+    {
+     "no": "2.4",
+     "title": "TDS entries"
+    },
+    {
+     "no": "2.5",
+     "title": "Ledger posting and T-accounts"
+    },
+    {
+     "no": "2.6",
+     "title": "A journal and ledger engine in Python"
+    },
+    {
+     "no": "2.7",
+     "title": "Opening, closing and compound entries"
+    },
+    {
+     "no": "2.8",
+     "title": "Seeing the ideas: debit and credit, the VAT invoice and the cash T-account"
+    },
+    {
+     "no": "2.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2291,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Subsidiary Books, Trial Balance and Error Rectification",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Purchases, sales and returns books",
+    "Cash books",
+    "Petty cash and the imprest system",
+    "The trial balance",
+    "Locating errors and the suspense account",
+    "Rectification principles",
+    "Seeing the ideas: books of prime entry, the three-column cash book and the hunt for a difference",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Purchases, sales and returns books"
+    },
+    {
+     "no": "3.2",
+     "title": "Cash books"
+    },
+    {
+     "no": "3.3",
+     "title": "Petty cash and the imprest system"
+    },
+    {
+     "no": "3.4",
+     "title": "The trial balance"
+    },
+    {
+     "no": "3.5",
+     "title": "Locating errors and the suspense account"
+    },
+    {
+     "no": "3.6",
+     "title": "Rectification principles"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: books of prime entry, the three-column cash book and the hunt for a difference"
+    },
+    {
+     "no": "3.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2574,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Bank Reconciliation Statement",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Cash book versus pass book",
+    "Causes of difference",
+    "Preparing the BRS: step by step",
+    "Worked schedule",
+    "Journal entries after the BRS",
+    "Stale cheques and good practice",
+    "Seeing the ideas: the cheque, the two balances and the bridge between them",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Cash book versus pass book"
+    },
+    {
+     "no": "4.2",
+     "title": "Causes of difference"
+    },
+    {
+     "no": "4.3",
+     "title": "Preparing the BRS: step by step"
+    },
+    {
+     "no": "4.4",
+     "title": "Worked schedule"
+    },
+    {
+     "no": "4.5",
+     "title": "Journal entries after the BRS"
+    },
+    {
+     "no": "4.6",
+     "title": "Stale cheques and good practice"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing the ideas: the cheque, the two balances and the bridge between them"
+    },
+    {
+     "no": "4.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2307,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Depreciation and Inventory Valuation",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "What depreciation is",
+    "Methods",
+    "Accounting entries",
+    "Disposal of an asset",
+    "Inventory valuation",
+    "Periodic and perpetual systems",
+    "Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "What depreciation is"
+    },
+    {
+     "no": "5.2",
+     "title": "Methods"
+    },
+    {
+     "no": "5.3",
+     "title": "Accounting entries"
+    },
+    {
+     "no": "5.4",
+     "title": "Disposal of an asset"
+    },
+    {
+     "no": "5.5",
+     "title": "Inventory valuation"
+    },
+    {
+     "no": "5.6",
+     "title": "Periodic and perpetual systems"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing the ideas: the two depreciation curves, the warehouse and the FIFO layers"
+    },
+    {
+     "no": "5.8",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2382,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Final Accounts with Year-End Adjustments",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Trading Account",
+    "Profit and Loss Account",
+    "Balance Sheet",
+    "Year-end adjustments",
+    "A complete worked example",
+    "Provision for doubtful debts",
+    "Final accounts of a company",
+    "Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Trading Account"
+    },
+    {
+     "no": "6.2",
+     "title": "Profit and Loss Account"
+    },
+    {
+     "no": "6.3",
+     "title": "Balance Sheet"
+    },
+    {
+     "no": "6.4",
+     "title": "Year-end adjustments"
+    },
+    {
+     "no": "6.5",
+     "title": "A complete worked example"
+    },
+    {
+     "no": "6.6",
+     "title": "Provision for doubtful debts"
+    },
+    {
+     "no": "6.7",
+     "title": "Final accounts of a company"
+    },
+    {
+     "no": "6.8",
+     "title": "Seeing the ideas: from sales to net profit, the balance sheet and the five adjustments"
+    },
+    {
+     "no": "6.9",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2386,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Ratio Analysis and a Computerised Ledger in SQLite",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Why ratios, and their limits",
+    "Data used",
+    "Liquidity ratios",
+    "Solvency (leverage) ratios",
+    "Profitability ratios",
+    "Turnover (activity) ratios",
+    "The DuPont identity",
+    "A computerised double-entry ledger",
+    "Seeing the ideas: the ratio dashboard, the DuPont tree and the database ledger",
+    "Summary and exercises"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Why ratios, and their limits"
+    },
+    {
+     "no": "7.2",
+     "title": "Data used"
+    },
+    {
+     "no": "7.3",
+     "title": "Liquidity ratios"
+    },
+    {
+     "no": "7.4",
+     "title": "Solvency (leverage) ratios"
+    },
+    {
+     "no": "7.5",
+     "title": "Profitability ratios"
+    },
+    {
+     "no": "7.6",
+     "title": "Turnover (activity) ratios"
+    },
+    {
+     "no": "7.7",
+     "title": "The DuPont identity"
+    },
+    {
+     "no": "7.8",
+     "title": "A computerised double-entry ledger"
+    },
+    {
+     "no": "7.9",
+     "title": "Seeing the ideas: the ratio dashboard, the DuPont tree and the database ledger"
+    },
+    {
+     "no": "7.10",
+     "title": "Summary and exercises"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2432,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 60,
+ "notes_ready": 7
+}

@@ -1,0 +1,425 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "mobile-programming",
+ "name": "Mobile Programming",
+ "name_ne": "",
+ "icon": "smartphone",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#0EA5E9",
+ "lang": "en",
+ "code": "BCA 352",
+ "credits": 3,
+ "semester": 6,
+ "hours": 48,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Mobile Platforms and Application Architecture",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The mobile landscape",
+    "Android architecture",
+    "iOS architecture in outline",
+    "Constraints that shape mobile design",
+    "Screen density arithmetic",
+    "Setting up an Android project",
+    "The platform you can see: hardware, pixels and screens"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "The mobile landscape"
+    },
+    {
+     "no": "1.2",
+     "title": "Android architecture"
+    },
+    {
+     "no": "1.3",
+     "title": "iOS architecture in outline"
+    },
+    {
+     "no": "1.4",
+     "title": "Constraints that shape mobile design"
+    },
+    {
+     "no": "1.5",
+     "title": "Screen density arithmetic"
+    },
+    {
+     "no": "1.6",
+     "title": "Setting up an Android project"
+    },
+    {
+     "no": "1.7",
+     "title": "The platform you can see: hardware, pixels and screens"
+    }
+   ],
+   "summary": [
+    "Android and iOS dominate; native, web, PWA, hybrid and cross-platform approaches trade cost against fidelity.",
+    "Android layers: Linux kernel, HAL, native libraries and ART, Java API framework, apps; each app is sandboxed in its own process and can be killed in the background.",
+    "iOS layers: Core OS, Core Services, Media, Cocoa Touch; concepts map one-to-one to Android.",
+    "Mobile constraints (battery, memory, screens, intermittent network, interruptions) shape design; in Nepal, low-end devices, offline use and Nepali support matter most.",
+    "px = dp × dpi/160; image memory = width × height × bytes per pixel; sample down large images."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3414,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Android Components, Intents and the Activity Lifecycle",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Application components",
+    "Intents",
+    "The Activity lifecycle",
+    "Configuration changes and saving state",
+    "Tasks, back stack and launch modes",
+    "Services, receivers and providers in outline",
+    "Seeing the lifecycle: states, stacks and intents"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Application components"
+    },
+    {
+     "no": "2.2",
+     "title": "Intents"
+    },
+    {
+     "no": "2.3",
+     "title": "The Activity lifecycle"
+    },
+    {
+     "no": "2.4",
+     "title": "Configuration changes and saving state"
+    },
+    {
+     "no": "2.5",
+     "title": "Tasks, back stack and launch modes"
+    },
+    {
+     "no": "2.6",
+     "title": "Services, receivers and providers in outline"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the lifecycle: states, stacks and intents"
+    }
+   ],
+   "summary": [
+    "An app is a set of components (Activity, Service, BroadcastReceiver, ContentProvider) declared in the manifest and started by the system.",
+    "Intents are messages; explicit Intents name a class, implicit Intents describe an action matched by intent filters; extras must be small.",
+    "The Activity lifecycle (onCreate … onDestroy) is driven by the system; the back stack keeps stopped activities; rotation destroys and recreates the activity.",
+    "Survive rotation with ViewModel and onSaveInstanceState; survive everything with persistent storage.",
+    "Launch modes control instance reuse; services, receivers and providers have narrow, battery-aware roles."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3246,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "User Interface - Layouts, RecyclerView and Fragments",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Views and layouts",
+    "Handling events and input",
+    "RecyclerView",
+    "Fragments",
+    "Jetpack Compose in outline",
+    "Seeing the interface: tools, trees, lists and panes"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Views and layouts"
+    },
+    {
+     "no": "3.2",
+     "title": "Handling events and input"
+    },
+    {
+     "no": "3.3",
+     "title": "RecyclerView"
+    },
+    {
+     "no": "3.4",
+     "title": "Fragments"
+    },
+    {
+     "no": "3.5",
+     "title": "Jetpack Compose in outline"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing the interface: tools, trees, lists and panes"
+    }
+   ],
+   "summary": [
+    "UIs are trees of Views in ViewGroups; ConstraintLayout gives flat, responsive screens; resource qualifiers supply Nepali text, dark mode, tablets and density-specific assets.",
+    "All UI work runs on the main thread; blocking it risks an ANR, so I/O goes to background threads.",
+    "RecyclerView recycles a handful of ViewHolders (15 here instead of 10,000); DiffUtil computes the minimal list updates (n + m − 2·LCS operations).",
+    "Fragments are lifecycle-aware UI pieces; drop view references in onDestroyView; Navigation manages destinations.",
+    "Compose describes UI as functions of state."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3162,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Data Storage - Preferences, Files, SQLite and Room",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Choosing a storage mechanism",
+    "Preferences and files",
+    "SQLite and SQL",
+    "Room",
+    "Testing business logic off the device",
+    "Security of stored data",
+    "Seeing where data lives: flash, files, tables and keys"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Choosing a storage mechanism"
+    },
+    {
+     "no": "4.2",
+     "title": "Preferences and files"
+    },
+    {
+     "no": "4.3",
+     "title": "SQLite and SQL"
+    },
+    {
+     "no": "4.4",
+     "title": "Room"
+    },
+    {
+     "no": "4.5",
+     "title": "Testing business logic off the device"
+    },
+    {
+     "no": "4.6",
+     "title": "Security of stored data"
+    },
+    {
+     "no": "4.7",
+     "title": "Seeing where data lives: flash, files, tables and keys"
+    }
+   ],
+   "summary": [
+    "Match storage to data: DataStore for settings, files for blobs, Room/SQLite for records, content providers for sharing, a server for the source of truth.",
+    "SQL queries use parameter binding; transactions roll back on failure (the executed example left row 1 at 450).",
+    "Room provides Entity, DAO and Database with compile-time-checked queries, Flow updates and migrations.",
+    "Pure business logic is testable on a JVM (the EMI example); keep Android classes thin.",
+    "Encrypt sensitive data and keep secrets off the device."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2870,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Networking, JSON and Background Work",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "HTTP and REST in brief",
+    "JSON",
+    "Keeping the main thread free",
+    "Retry and backoff",
+    "Background work that must finish",
+    "Seeing the network: towers, requests, states and retries"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "HTTP and REST in brief"
+    },
+    {
+     "no": "5.2",
+     "title": "JSON"
+    },
+    {
+     "no": "5.3",
+     "title": "Keeping the main thread free"
+    },
+    {
+     "no": "5.4",
+     "title": "Retry and backoff"
+    },
+    {
+     "no": "5.5",
+     "title": "Background work that must finish"
+    },
+    {
+     "no": "5.6",
+     "title": "Seeing the network: towers, requests, states and retries"
+    }
+   ],
+   "summary": [
+    "HTTP methods, status codes and REST resources; use HTTPS, tokens and timeouts.",
+    "JSON is parsed into objects defensively (missing fields, pagination, compression); the sample parse gave 3 items totalling Rs 1570.",
+    "Network and disk run off the main thread: coroutines with ViewModel and a Loading/Ok/Error state.",
+    "Retry only transient, idempotent failures with exponential backoff (1, 2, 4, 8, 16, 30, 30 seconds).",
+    "WorkManager runs deferrable work reliably under constraints; respect Doze and battery."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2967,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Sensors, Location, Permissions and Notifications",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Permissions",
+    "Sensors",
+    "Location",
+    "Camera, media and sensors of the environment",
+    "Notifications",
+    "Seeing the sensors: chips, satellites, curves and prompts"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Permissions"
+    },
+    {
+     "no": "6.2",
+     "title": "Sensors"
+    },
+    {
+     "no": "6.3",
+     "title": "Location"
+    },
+    {
+     "no": "6.4",
+     "title": "Camera, media and sensors of the environment"
+    },
+    {
+     "no": "6.5",
+     "title": "Notifications"
+    },
+    {
+     "no": "6.6",
+     "title": "Seeing the sensors: chips, satellites, curves and prompts"
+    }
+   ],
+   "summary": [
+    "Permissions are normal, dangerous (runtime), special or signature; ask minimally, in context, with a rationale and a fallback.",
+    "Sensors deliver noisy values at chosen rates; unregister listeners in onPause; a magnitude-threshold step detector counted 20 steps in the simulated walk.",
+    "Location uses GPS, network and fused providers; the haversine formula gives great-circle distance; trade accuracy against battery.",
+    "CameraX, photo picker, QR scanning and Bluetooth/NFC extend the device's reach with their own permissions.",
+    "Notifications need channels, a PendingIntent and (recent Android) a runtime permission; FCM delivers push messages."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3165,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Cross-Platform Development, Testing and Publishing",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Cross-platform frameworks",
+    "Testing and quality",
+    "Packaging: APK, AAB and shrinking",
+    "Signing",
+    "Versioning and release",
+    "A development checklist",
+    "Seeing the release: frameworks, tests, packages and keys"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Cross-platform frameworks"
+    },
+    {
+     "no": "7.2",
+     "title": "Testing and quality"
+    },
+    {
+     "no": "7.3",
+     "title": "Packaging: APK, AAB and shrinking"
+    },
+    {
+     "no": "7.4",
+     "title": "Signing"
+    },
+    {
+     "no": "7.5",
+     "title": "Versioning and release"
+    },
+    {
+     "no": "7.6",
+     "title": "A development checklist"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing the release: frameworks, tests, packages and keys"
+    }
+   ],
+   "summary": [
+    "Cross-platform frameworks (Flutter, React Native, Kotlin Multiplatform, PWAs) trade one code base against size, fidelity and plugin dependence; choose by team skills and requirements.",
+    "Test mostly with fast JVM unit tests, some integration tests and few UI tests; test on low-end devices, slow networks and Nepali locale.",
+    "Release as a shrunk (R8) AAB; Play generates device-specific APKs; keep download size low.",
+    "Signing proves authorship and integrity; v2 signs chunk digests of the whole file (tampering flips the root digest); protect the key.",
+    "versionCode must increase (major × 10,000 + minor × 100 + patch); publish through staged tracks with a complete listing."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3687,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 46,
+ "notes_ready": 7
+}

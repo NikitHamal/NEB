@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-5-mis-and-e-business",
+ "units": [
+  {
+   "no": 1,
+   "title": "Information Systems in the Enterprise",
+   "area": "BCA 304 · MIS and e-Business · Unit 1",
+   "words": 3699,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Strategy and Competitive Advantage",
+   "area": "BCA 304 · MIS and e-Business · Unit 2",
+   "words": 3529,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Enterprise Applications - ERP, CRM and Supply Chain Management",
+   "area": "BCA 304 · MIS and e-Business · Unit 3",
+   "words": 3797,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Decision Support, Business Intelligence and Knowledge Management",
+   "area": "BCA 304 · MIS and e-Business · Unit 4",
+   "words": 3344,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "e-Business, e-Commerce and Digital Payments in Nepal",
+   "area": "BCA 304 · MIS and e-Business · Unit 5",
+   "words": 3465,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Security and Control of Information Systems",
+   "area": "BCA 304 · MIS and e-Business · Unit 6",
+   "words": 2894,
+   "read_min": 16,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Developing and Justifying Information Systems",
+   "area": "BCA 304 · MIS and e-Business · Unit 7",
+   "words": 3121,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

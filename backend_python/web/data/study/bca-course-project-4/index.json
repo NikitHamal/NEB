@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-7-project-4",
+ "units": [
+  {
+   "no": 1,
+   "title": "From Idea to Capstone: Framing a Data Project, Scope and Ethics",
+   "area": "BCA 404 · Project IV · Unit 1",
+   "words": 3554,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Data: Collection, Cleaning, Features and Leakage",
+   "area": "BCA 404 · Project IV · Unit 2",
+   "words": 4260,
+   "read_min": 24,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Modelling: Logistic Regression from Scratch, Evaluation and Fairness",
+   "area": "BCA 404 · Project IV · Unit 3",
+   "words": 5016,
+   "read_min": 28,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Deployment: Serving, Testing, Monitoring Drift and Privacy",
+   "area": "BCA 404 · Project IV · Unit 4",
+   "words": 5027,
+   "read_min": 28,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Final Defence: Report, Poster, Demo, Viva and Reflection",
+   "area": "BCA 404 · Project IV · Unit 5",
+   "words": 3949,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

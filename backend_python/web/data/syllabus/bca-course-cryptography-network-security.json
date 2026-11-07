@@ -1,0 +1,432 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "cryptography-network-security",
+ "name": "Cryptography and Network Security",
+ "name_ne": "",
+ "icon": "lock",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#B91C1C",
+ "lang": "en",
+ "code": "BCA 353",
+ "credits": 3,
+ "semester": 6,
+ "hours": 50,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Security Goals and Classical Ciphers",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Security goals and attacks",
+    "Caesar, affine and Vigenère ciphers",
+    "Playfair",
+    "The Hill cipher",
+    "The programs",
+    "Breaking classical ciphers",
+    "The one-time pad",
+    "Seeing the ciphers: machines, frequencies and keyspaces"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Security goals and attacks"
+    },
+    {
+     "no": "1.2",
+     "title": "Caesar, affine and Vigenère ciphers"
+    },
+    {
+     "no": "1.3",
+     "title": "Playfair"
+    },
+    {
+     "no": "1.4",
+     "title": "The Hill cipher"
+    },
+    {
+     "no": "1.5",
+     "title": "The programs"
+    },
+    {
+     "no": "1.6",
+     "title": "Breaking classical ciphers"
+    },
+    {
+     "no": "1.7",
+     "title": "The one-time pad"
+    },
+    {
+     "no": "1.8",
+     "title": "Seeing the ciphers: machines, frequencies and keyspaces"
+    }
+   ],
+   "summary": [
+    "Security services are confidentiality, integrity, authentication, non-repudiation and availability; attacks are passive or active; security must rest on the key (Kerckhoffs).",
+    "Substitution ciphers (Caesar, affine, Vigenère, Playfair, Hill) and transposition ciphers (rail fence) are all breakable by exploiting language structure or linearity.",
+    "Hill encryption is C = K·P mod 26 and needs gcd(det K, 26) = 1; here det K = 441 ≡ 25 (mod 26), and ACT encrypts to POH.",
+    "A one-time pad is perfectly secret but impractical; key reuse destroys it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3275,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Number Theory for Cryptography",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Modular arithmetic",
+    "The Euclidean and extended Euclidean algorithms",
+    "Euler's totient, Fermat and Euler",
+    "Primality testing",
+    "Primitive roots and the discrete logarithm",
+    "Why the arithmetic is feasible and the inverse is hard",
+    "Seeing the arithmetic: portraits, clocks, cycles and chains"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Modular arithmetic"
+    },
+    {
+     "no": "2.2",
+     "title": "The Euclidean and extended Euclidean algorithms"
+    },
+    {
+     "no": "2.3",
+     "title": "Euler's totient, Fermat and Euler"
+    },
+    {
+     "no": "2.4",
+     "title": "Primality testing"
+    },
+    {
+     "no": "2.5",
+     "title": "Primitive roots and the discrete logarithm"
+    },
+    {
+     "no": "2.6",
+     "title": "Why the arithmetic is feasible and the inverse is hard"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the arithmetic: portraits, clocks, cycles and chains"
+    }
+   ],
+   "summary": [
+    "a mod n arithmetic is closed under + − ×; an inverse exists iff gcd(a, n) = 1; the extended Euclidean algorithm finds it (240·(−9) + 46·47 = 2; 7⁻¹ ≡ 15 mod 26).",
+    "φ(p) = p − 1, φ(pq) = (p − 1)(q − 1); Fermat a^(p−1) ≡ 1; Euler a^φ(n) ≡ 1; CRT combines congruences (x ≡ 2, 3, 2 mod 3, 5, 7 gives 23).",
+    "Square-and-multiply makes huge powers cheap; Miller–Rabin finds primes where the Fermat test is fooled by Carmichael numbers such as 561.",
+    "Primitive roots and the hard discrete log underlie Diffie–Hellman and ElGamal."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3323,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Symmetric Ciphers - Feistel, DES, AES and Modes of Operation",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Block and stream ciphers, confusion and diffusion",
+    "The Feistel structure",
+    "DES",
+    "AES",
+    "Modes of operation",
+    "Comparison",
+    "Seeing symmetric ciphers: hardware, rounds and chaining"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Block and stream ciphers, confusion and diffusion"
+    },
+    {
+     "no": "3.2",
+     "title": "The Feistel structure"
+    },
+    {
+     "no": "3.3",
+     "title": "DES"
+    },
+    {
+     "no": "3.4",
+     "title": "AES"
+    },
+    {
+     "no": "3.5",
+     "title": "Modes of operation"
+    },
+    {
+     "no": "3.6",
+     "title": "Comparison"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing symmetric ciphers: hardware, rounds and chaining"
+    }
+   ],
+   "summary": [
+    "Confusion (substitution) and diffusion (permutation) are combined over many rounds; a Feistel network's rounds are invertible even if F is not.",
+    "DES: 64-bit block, 56-bit key, 16 rounds, 8 S-boxes; exhaustive search takes 20.0 hours at 10¹² keys/s, so it is obsolete; 3DES is deprecated.",
+    "AES: 128-bit block, 10/12/14 rounds of SubBytes, ShiftRows, MixColumns, AddRoundKey over GF(2⁸); {57}•{83} = {c1}; verified here against the FIPS-197 vector.",
+    "ECB leaks patterns (equal blocks → equal ciphertext); CBC needs a random IV; CTR needs a unique nonce; GCM adds authentication and is the modern default."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3260,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Public-Key Cryptography - RSA, Diffie-Hellman, ElGamal and ECC",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "The public-key idea",
+    "RSA",
+    "Diffie–Hellman key exchange",
+    "Elliptic-curve cryptography",
+    "Comparing key sizes and uses",
+    "Seeing public-key cryptography: pioneers, keys and curves"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The public-key idea"
+    },
+    {
+     "no": "4.2",
+     "title": "RSA"
+    },
+    {
+     "no": "4.3",
+     "title": "Diffie–Hellman key exchange"
+    },
+    {
+     "no": "4.4",
+     "title": "Elliptic-curve cryptography"
+    },
+    {
+     "no": "4.5",
+     "title": "Comparing key sizes and uses"
+    },
+    {
+     "no": "4.6",
+     "title": "Seeing public-key cryptography: pioneers, keys and curves"
+    }
+   ],
+   "summary": [
+    "Public-key cryptography removes the shared-secret problem: n users need n key pairs instead of n(n − 1)/2, and it is used to exchange symmetric keys (hybrid encryption).",
+    "RSA: n = pq, d = e⁻¹ mod φ(n), c = mᵉ mod n, m = cᵈ mod n; the example n = 3233, d = 2753 encrypts 65 to 2790; real RSA needs OAEP/PSS padding and ≥ 2048-bit keys.",
+    "Diffie–Hellman agrees gᵃᵇ mod p and needs authentication against man-in-the-middle; ElGamal encrypts with a fresh k.",
+    "Elliptic curves give the same security with far smaller keys; the example curve has a point of order 19."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3654,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Hash Functions, MACs, Digital Signatures and PKI",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Cryptographic hash functions",
+    "Message authentication codes and HMAC",
+    "Digital signatures",
+    "Certificates and PKI",
+    "Password hashing",
+    "Seeing hashes, signatures and certificates"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Cryptographic hash functions"
+    },
+    {
+     "no": "5.2",
+     "title": "Message authentication codes and HMAC"
+    },
+    {
+     "no": "5.3",
+     "title": "Digital signatures"
+    },
+    {
+     "no": "5.4",
+     "title": "Certificates and PKI"
+    },
+    {
+     "no": "5.5",
+     "title": "Password hashing"
+    },
+    {
+     "no": "5.7",
+     "title": "Seeing hashes, signatures and certificates"
+    }
+   ],
+   "summary": [
+    "A cryptographic hash is preimage-, second-preimage- and collision-resistant with avalanche; MD5 and SHA-1 are broken, SHA-256 and SHA-3 are secure.",
+    "Birthday bound: collisions appear after about 1.1774·√N messages: 23 people give 0.5073 for N = 365; a 64-bit digest falls after about 5,056,894,494 messages.",
+    "HMAC(K, m) = H((K ⊕ opad) ‖ H((K ⊕ ipad) ‖ m)) authenticates with a shared key; checked here against RFC 4231.",
+    "Digital signatures (RSA-PSS, ECDSA, Ed25519) give authenticity, integrity and non-repudiation; reusing the ECDSA nonce reveals the key.",
+    "X.509 certificates, CAs and chains of trust bind keys to identities; revocation by CRL/OCSP; Nepal's CCA licenses CAs under the ETA 2063.",
+    "Passwords need salts and slow hashes (Argon2id, bcrypt)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3285,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Authentication and Secure Network Protocols",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Authentication and its attacks",
+    "Kerberos",
+    "TLS and HTTPS",
+    "IPsec",
+    "PGP, S/MIME and SSH",
+    "Comparing the layers",
+    "Seeing the protocols: tickets, handshakes and tunnels"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Authentication and its attacks"
+    },
+    {
+     "no": "6.2",
+     "title": "Kerberos"
+    },
+    {
+     "no": "6.3",
+     "title": "TLS and HTTPS"
+    },
+    {
+     "no": "6.4",
+     "title": "IPsec"
+    },
+    {
+     "no": "6.5",
+     "title": "PGP, S/MIME and SSH"
+    },
+    {
+     "no": "6.6",
+     "title": "Comparing the layers"
+    },
+    {
+     "no": "6.7",
+     "title": "Seeing the protocols: tickets, handshakes and tunnels"
+    }
+   ],
+   "summary": [
+    "Authentication uses what you know, have or are; protocols need nonces or timestamps against replay and authenticated key exchange against man-in-the-middle; TOTP = HMAC over a time counter.",
+    "Kerberos issues a TGT then service tickets; passwords never travel, but clocks and the KDC are critical.",
+    "TLS 1.3 completes its handshake in one round trip with ephemeral DH (forward secrecy): time to first byte at 80 ms RTT is 240 ms against 320 ms for TLS 1.2.",
+    "IPsec ESP in tunnel mode adds 64 bytes to a 1400-byte packet; AH is rarely used; IKEv2 sets up SAs.",
+    "PGP uses a hybrid signed-and-encrypted design with a web of trust; SSH uses host and user keys."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3514,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Network and System Security - Firewalls, IDS, VPN and Wireless",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Firewalls",
+    "Intrusion detection and prevention",
+    "VPNs",
+    "Wireless security",
+    "Common attacks and defences",
+    "Key management and a security checklist",
+    "Seeing network defences: walls, zones, sensors and radios"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Firewalls"
+    },
+    {
+     "no": "7.2",
+     "title": "Intrusion detection and prevention"
+    },
+    {
+     "no": "7.3",
+     "title": "VPNs"
+    },
+    {
+     "no": "7.4",
+     "title": "Wireless security"
+    },
+    {
+     "no": "7.5",
+     "title": "Common attacks and defences"
+    },
+    {
+     "no": "7.6",
+     "title": "Key management and a security checklist"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing network defences: walls, zones, sensors and radios"
+    }
+   ],
+   "summary": [
+    "Firewalls enforce ordered, first-match, default-deny rules; types range from packet filters to NGFWs and WAFs; DMZs isolate public servers.",
+    "IDS/IPS use signatures or anomaly detection; with a rare attack (0.1%), a 99%-detecting, 1%-false-alarm IDS gives alerts that are about 91.0% false.",
+    "VPNs tunnel traffic with IPsec, TLS or WireGuard; zero-trust assumes no trusted inside.",
+    "WPA3 (SAE) replaces WPA2-PSK; WEP is broken; enterprise Wi-Fi uses 802.1X.",
+    "Key management (secure generation, storage in HSMs/keystores, rotation, envelope encryption) decides whether the cryptography protects anything."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3357,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 48,
+ "notes_ready": 7
+}

@@ -1,0 +1,50 @@
+{
+ "book": "bcacourse-semester-3-system-analysis-and-design",
+ "units": [
+  {
+   "no": 1,
+   "title": "System Development Fundamentals",
+   "area": "BCA 204 · System Analysis and Design · Unit 1",
+   "words": 2999,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Planning",
+   "area": "BCA 204 · System Analysis and Design · Unit 2",
+   "words": 2715,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Analysis",
+   "area": "BCA 204 · System Analysis and Design · Unit 3",
+   "words": 3294,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Design",
+   "area": "BCA 204 · System Analysis and Design · Unit 4",
+   "words": 3121,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Implementation and Maintenance",
+   "area": "BCA 204 · System Analysis and Design · Unit 5",
+   "words": 2420,
+   "read_min": 13,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}
