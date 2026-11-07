@@ -2,6 +2,7 @@ from django.urls import path, re_path
 from django.views.generic import RedirectView
 from . import views_admin
 from . import views_admin_analytics
+from . import views_admin_push
 from . import views_admin_news
 from . import views_ajax
 from . import views_arena
@@ -225,7 +226,11 @@ urlpatterns = [
     path('admin/dashboard/', views_admin.admin_dashboard, name='admin_dashboard'),
     path('admin/analytics/', views_admin_analytics.admin_analytics, name='admin_analytics'),
     path('admin/analytics/export/csv/', views_admin_analytics.admin_analytics_export_csv, name='admin_analytics_export_csv'),
-    path('admin/push-notifications/', views_admin.admin_push_notifications, name='admin_push_notifications'),
+    path('admin/push-notifications/', views_admin_push.admin_push_notifications, name='admin_push_notifications'),
+    path('admin/push-notifications/history/', views_admin_push.admin_push_history, name='admin_push_history'),
+    path('admin/push-notifications/history/<str:campaign_id>/', views_admin_push.admin_push_detail, name='admin_push_detail'),
+    path('admin/push-notifications/autopilot/', views_admin_push.admin_push_autopilot, name='admin_push_autopilot'),
+    path('admin/push-notifications/autopilot/preview/', views_admin_push.admin_push_autopilot_preview, name='admin_push_autopilot_preview'),
     path('admin/logout/', views_admin.admin_logout, name='admin_logout'),
     path('admin/users/', views_admin.admin_users, name='admin_users'),
     path('admin/deletions/', views_admin.admin_deletions, name='admin_deletions'),
