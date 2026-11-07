@@ -8,7 +8,7 @@ Canvas is out of the app (routes, tab, home tile, settings and tools rows remove
 - **Notes** (`ui/screens/notes/`, Room table `notes`, DB v3, migration 2 to 3, `NotesRepository`). Offline only.
   - List: staggered grid or list, search, filters (All, Pinned, Archive, Bin), tag chips from the notes, sort (edited, created, title),
     long-press multi-select (pin, colour, archive, bin, restore, delete forever), undo snackbar, 30 day bin, checklist progress on cards.
-  - Editor: borderless title, tags, Markdown body, autosave (500 ms) and flush on leave, undo/redo, list continuation on Enter,
+  - Editor (replaced by the block editor, see `LIVE_EDITING_PDF_STATUS.md`; the text below describes the old Markdown editor): borderless title, tags, Markdown body, autosave (500 ms) and flush on leave, undo/redo, list continuation on Enter,
     toolbar (bold, italic, heading, checklist, bullets, numbers, quote, code, divider), preview with tappable checkboxes,
     tonal colours (7), pin, archive, duplicate, share, word count, bin/restore.
   - Empty notes are never kept.
