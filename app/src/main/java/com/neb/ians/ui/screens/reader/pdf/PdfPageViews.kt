@@ -116,7 +116,11 @@ fun PdfPage(
     marks: List<RectF> = emptyList(),
     activeMark: RectF? = null
 ) {
-    val bitmap by produceState(initialValue = source.cached(index, widthPx), index, widthPx) {
+    val bitmap by produceState(initialValue = source.cached(index, widthPx) ?: source.cached(index, PdfDocumentEngine.PREVIEW_WIDTH), index, widthPx) {
+        // a small render lands almost at once, so a fast scroll shows the page rather than blank paper
+        if (value == null && widthPx > PdfDocumentEngine.PREVIEW_WIDTH * 2) {
+            source.render(index, PdfDocumentEngine.PREVIEW_WIDTH)?.let { if (value == null) value = it }
+        }
         source.render(index, widthPx)?.let { value = it }
     }
     val image = remember(bitmap) { bitmap?.asImageBitmap() }
