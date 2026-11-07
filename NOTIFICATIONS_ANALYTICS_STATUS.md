@@ -62,7 +62,9 @@ Done this task:
   library is the biggest single file), duplicate KaTeX fonts removed (the CSS asks for woff2 first, so only woff2 stays), packaging excludes for
   license, version and debug-probe files.
 * Gradle wrapper 8.14.6 to 9.4.1 (AGP stays 8.13.2: Gradle 9.6 removes an internal API AGP 8 still uses, so do not go above 9.5 without moving AGP).
-  This clears the "Gradle 8.14.6 is out of date" CI annotation. If the CI run breaks on Gradle 9, go back to 8.14.6 and say so here.
+  CI green on 9.4.1 (run 42415199219: modern APK 9.5 MB, AAB 21.8 MB, down from 30.1 / 47.3 MB with the ONNX voices). Gradle 9.9.0 was tried and
+  fails with AGP 8.13.2 (run 42416454594), so 9.4.1 stays. The setup-gradle notice only compares against the newest Gradle, so some notice will remain until
+  the app moves to AGP 9 (needs the Material3 Expressive call sites migrated, see AGENTS.md "Android toolchain").
 
 ## Verify
 
