@@ -51,3 +51,6 @@ See the table at the bottom (updated as batches are pushed).
 - **Contents**: rows are `padding 3.6mm`, badge and page number are centred with `top:50%` so both sit inside the divider.
 - Rebuilt with this: the five maths books above. Remaining books keep their older figures until a sweep rebuilds them; every rebuild now picks up Poppins figures automatically.
 - Known leftovers: a few headings and `::: example` titles keep Unicode maths (titles cannot hold `$`); `Df(x)`-style two-letter operators stay text.
+- Math images are now rendered in an exact box (`mathsvg.render` pad 1.2 px) so `md2html` and `Fig.math` can lower them by depth + pad; the old tight bbox left formulas without descenders floating above the text line.
+- Rebuilt in this session: all 41 BCA course books, the 4 BCA entrance books, Python Programming (needs `pandas` in the venv). Not rebuilt: Grade 8-12, CEE and IOE books in `notes/pdf` (they pick up Poppins figures and the exact math boxes on their next rebuild; run a sweep with `build_pdf.py <slug>`).
+

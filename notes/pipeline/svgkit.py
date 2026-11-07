@@ -55,7 +55,7 @@ class Fig:
         if vmid:
             y = y + (hh - dd) / 2 - dd / 2 + dd / 2
         left = x - (w / 2 if anchor == "middle" else w if anchor == "end" else 0)
-        top = y - (hh - dd)
+        top = y - (hh - dd - 0.86)
         self.o.append(f'<image x="{left:.2f}" y="{top:.2f}" width="{w:.2f}" height="{hh:.2f}" '
                       f'href="data:image/svg+xml;base64,{base64.b64encode(raw).decode()}"/>')
         return self
