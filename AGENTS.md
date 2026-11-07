@@ -2534,3 +2534,7 @@ Role, education situation and the portfolio header are chosen once, in `/welcome
 - **Done:** `claude/bca-entrance-complete` merged with `main` (only 7 PDFs conflicted; rebuilt `eng10/11/12`, `nep8/10/11/12` with the m3x print system, qa fails=0); `qa_pdf.py` no longer requires Inter; syllabus and study JSON re-exported (`notes/tools/export_syllabus.py`, `export_study.py`). Details in `bca/POLISH_STATUS.md` (Session 93). The whole queue is complete.
 - **Setup:** shallow clone, `git fetch --shallow-since=<date> origin +refs/heads/main:refs/remotes/origin/main` to get a merge base; out-of-repo GIT_ASKPASS helper reading `$NEB_PAT` (never commit the PAT).
 - **Session 93 addendum:** fresh-clone sweep found 8 m3x layout regressions (stranded headings, 7+ column tables overflowing); fixed in `notes/pipeline/md2html.py::_layout_fixes` + `theme.css` (`.hk`, `table.dense`, `table.dense2`) and the 8 PDFs rebuilt (qa fails=0). `notes/sources/` PDFs are third-party and always fail `qa_pdf.py`; ignore them. Branch and main were merged and pushed together.
+
+## BCA maths sources use LaTeX
+
+Write maths in `bca/course/**/unit-*.md` as `$...$` / `$$...$$` (never plain `x²`, `d/dx`, `^{}` in prose). `bca/tools/plainmath.py` converts legacy text; `Fig.math()` typesets maths inside `svgfig`. Details in `PDF_M3X_STATUS.md`.

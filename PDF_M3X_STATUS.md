@@ -40,3 +40,14 @@ See the table at the bottom (updated as batches are pushed).
 | batch | books | state |
 | --- | --- | --- |
 | claim | all 96 books (51 in `notes/pdf`, BCA entrance + course, IOE copies) | a second session is rebuilding every book with this theme in 3-wide batches and pushing each batch; do not start a parallel full rebuild, check `git log` for `pdf rebuild batch` first |
+
+## Session: typeset maths, figure fonts, contents rows (read this before touching BCA maths sources)
+- **Maths was plain text in four BCA course books** (Mathematics I and II, Discrete Structure, Probability and Statistics, Numerical Methods): `lim (x→a)`, `x²`, `d/dx`, `e^{2x}` and `Σ C(n, k)` printed as typed. The school, CEE and IOE books already used `$...$`.
+  `bca/tools/plainmath.py` migrated the sources once (idempotent, lines holding `$` are skipped, every expression is test-parsed by mathtext and kept as text if it fails). It builds real fractions, roots, exponents, limits, sums, integrals, matrices (`[[1, 2], [3, 4]]` becomes `bmatrix`), `\bar{x}`, and puts a lone formula line in `$$...$$`. A lone variable becomes `*x*` (Source Serif italic), because a one-glyph SVG sits on the wrong baseline.
+  In `:::` boxes every line is its own paragraph, so worked examples read as steps instead of one wall of text.
+  For new BCA maths text write LaTeX directly. `$\frac{dy}{dx}$`, `$$...$$`. The viewer app renders the same sources with KaTeX.
+- **Figures** use Poppins (`svgkit.FONT`, `figrun.FAMILY`). `Fig.math(x, y, tex, size, color)` in an `svgfig` block embeds typeset maths (see unit-03 figure 3.3). `mathsvg.render(..., color=)` takes a colour.
+- **Fonts**: `fonts/install.sh` now also installs Source Serif 4 Italic (without it every `*emphasis*` printed upright).
+- **Contents**: rows are `padding 3.6mm`, badge and page number are centred with `top:50%` so both sit inside the divider.
+- Rebuilt with this: the five maths books above. Remaining books keep their older figures until a sweep rebuilds them; every rebuild now picks up Poppins figures automatically.
+- Known leftovers: a few headings and `::: example` titles keep Unicode maths (titles cannot hold `$`); `Df(x)`-style two-letter operators stay text.
