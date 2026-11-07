@@ -51,6 +51,7 @@ def cover(pdf, slug):
 
 def span(titles, n=4):
     """'A, B, C and D' (all of them when few), else the first n and 'more'."""
+    titles = list(dict.fromkeys(titles))     # a question bank repeats a subject name per chapter
     if not titles:
         return ""
     if len(titles) <= n:
@@ -96,13 +97,13 @@ def school_entry(slug, pdf):
     basis = "the NEB and CDC curriculum" if grade >= 11 else "the CDC curriculum" + (" for SEE" if grade == 10 else "")
     if bank:
         subject = {"qbank": "Question Bank", "qbankc": "Commerce", "qbankacc": "Accountancy", "qbankeco": "Economics"}[key]
-        title = f"{klass} Question Bank: Chapter-wise Practice with Solutions" if key == "qbank" else \
-                f"{subject} Question Bank {klass}: Chapter-wise Practice with Solutions"
+        title = f"{klass} Question Bank: Practice with Solutions" if key == "qbank" else \
+                f"{subject} Question Bank {klass}: Practice with Solutions"
         tags = [klass, "question bank", "practice questions", "model questions", seen, "Nepal"]
         exam = "SEE" if grade == 10 else "Board" if grade >= 11 else "Final"
     else:
         subject = en
-        title = f"{en} {klass} Notes ({seen}): Complete Chapter-wise Study Book"
+        title = f"{en} {klass} Notes ({seen}): Chapter-wise"
         tags = [en, klass, "notes", "chapter-wise", seen, "Nepal"]
         exam = "Notes"
     if nepali:
@@ -130,7 +131,7 @@ def entrance_entry(slug, pdf):
         title = f"{short} Entrance Model Papers and Mock Tests"
         exam = "Mock"
     else:
-        title = f"{short} Entrance {name}: Chapter-wise Notes and Practice Questions"
+        title = f"{short} Entrance {name}: Notes and Practice"
         exam = "Entrance"
     tags = [f"{short} entrance", name, exam_name, "entrance preparation", "Nepal"] + extra.split(", ")[:3]
     return dict(slug=slug, kind="entrance", title=title, subject=name, grade_level="Entrance Prep", program=program,

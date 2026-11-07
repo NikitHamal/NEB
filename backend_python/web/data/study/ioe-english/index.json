@@ -5,36 +5,36 @@
    "no": 1,
    "title": "Grammar I",
    "area": "English",
-   "words": 2099,
-   "read_min": 12,
-   "figures": 0,
+   "words": 3628,
+   "read_min": 20,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Grammar II",
    "area": "English",
-   "words": 2095,
-   "read_min": 12,
-   "figures": 0,
+   "words": 3609,
+   "read_min": 20,
+   "figures": 4,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Phonetics",
    "area": "English",
-   "words": 1208,
-   "read_min": 7,
-   "figures": 0,
+   "words": 2169,
+   "read_min": 12,
+   "figures": 3,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Comprehension",
    "area": "English",
-   "words": 1788,
-   "read_min": 10,
-   "figures": 0,
+   "words": 2816,
+   "read_min": 16,
+   "figures": 2,
    "has_questions": true
   }
  ]

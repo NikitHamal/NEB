@@ -453,7 +453,7 @@ Au and Al are fcc; NaCl has 4 formula units per cubic cell.
 cell. Find its density (NaCl = 58.5 g mol⁻¹, N_A = 6.02 × 10²³ mol⁻¹).
 
 **Solution.** a = 5.64 × 10⁻⁸ cm, a³ = 1.794 × 10⁻²² cm³.
-ρ = (4 × 58.5)/(1.794 × 10⁻²² × 6.02 × 10²³) = 234/108 = **2.17 g cm⁻³** — the measured
+$\rho = \frac{4 \times 58.5}{1.794 \times 10^{-22} \times 6.02 \times 10^{23}} = \frac{234}{108} =$ **2.17 g cm⁻³** — the measured
 value, which confirms the structure.
 :::
 

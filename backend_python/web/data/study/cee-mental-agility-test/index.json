@@ -5,45 +5,45 @@
    "no": 1,
    "title": "Verbal Reasoning",
    "area": "Mental Agility Test",
-   "words": 6530,
-   "read_min": 36,
-   "figures": 4,
+   "words": 7821,
+   "read_min": 43,
+   "figures": 7,
    "has_questions": true
   },
   {
    "no": 2,
    "title": "Numerical Reasoning",
    "area": "Mental Agility Test",
-   "words": 5415,
-   "read_min": 30,
-   "figures": 2,
+   "words": 6442,
+   "read_min": 36,
+   "figures": 4,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Logical Sequencing",
    "area": "Mental Agility Test",
-   "words": 4328,
-   "read_min": 24,
-   "figures": 6,
+   "words": 5514,
+   "read_min": 31,
+   "figures": 9,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Spatial Relation and Abstract Reasoning",
    "area": "Mental Agility Test",
-   "words": 5775,
-   "read_min": 32,
-   "figures": 24,
+   "words": 7148,
+   "read_min": 40,
+   "figures": 28,
    "has_questions": true
   },
   {
    "no": 5,
    "title": "Mixed MAT Practice Sets",
    "area": "Mental Agility Test",
-   "words": 4051,
+   "words": 4186,
    "read_min": 23,
-   "figures": 14,
+   "figures": 15,
    "has_questions": true
   }
  ]
