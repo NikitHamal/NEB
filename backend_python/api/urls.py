@@ -5,6 +5,7 @@ All paths are relative to /api/ (prefix added in nebians/urls.py).
 from django.urls import path, include
 from . import views_auth
 from . import views_feed
+from . import views_push
 from . import views_forum
 from . import views_misc
 from . import views_resources
@@ -142,6 +143,8 @@ urlpatterns = [
     path('edit-history/<str:target_type>/<str:target_id>/', views_forum.edit_history, name='edit-history'),
 
     # FCM
+    path('me/notification-prefs/', views_push.notification_prefs, name='notification-prefs'),
+    path('push/opened/', views_push.push_opened, name='push-opened'),
     path('fcm/register/', views_misc.fcm_register, name='fcm-register'),
     path('fcm/unregister/', views_misc.fcm_unregister, name='fcm-unregister'),
 
