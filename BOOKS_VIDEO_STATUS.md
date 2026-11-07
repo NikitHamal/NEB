@@ -29,3 +29,11 @@ Poppins, M3X blue/navy/sky/paper, flat fills only, no shadows, no gradients, no 
 
 ## Security note
 The GitHub PAT and the molab token were provided in chat (used via an out-of-repo `/tmp` askpass helper and token file that were never committed). Rotate the PAT, and treat the molab notebook token as burned once the box is released.
+
+## Deliverables (Video repo `main`)
+- **v1 recovery + v2 preservation:** commit `281dbd96` (`nebians-books-v1-Film9x16.mp4`, `nebians-books-v1-Film16x9.mp4`, `nebians-books-v2-Film9x16.mp4`, `nebians-books-v2-Film16x9.mp4`).
+- **v3 source & audio overhaul:** commits `97bf6559` and `e428c5cb`.
+- **v3 final renders (46.0 s, 60 fps motion blur, H.264 + AAC, -14 LUFS):**
+  * `nebians-books-v3-Film9x16.mp4` (1080x1920, 49,232,280 bytes, sha256 `4d3b67e57df1b783b2147a30a1ca0ee8a0082b672cc3becef65aa898d753f61a`, commit `d638212f`)
+  * `nebians-books-v3-Film16x9.mp4` (1920x1080, 42,784,172 bytes, sha256 `3ab6bc29e4e80574c06aea214f61c706b6f247cfe5ed23a3fbe0ba3565663ff0`, commit `80ee4d8d`)
+- Visual checks completed on 24-frame still contact sheets (`v3_9x16_b.jpg`, `v3_16x9_b.jpg`) and final encode contact sheets (`fin_v3_9x16.jpg`, `fin_v3_16x9.jpg`).
