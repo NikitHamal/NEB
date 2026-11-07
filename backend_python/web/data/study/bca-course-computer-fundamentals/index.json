@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-1-computer-fundamentals",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Computer System",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 1",
+   "words": 8219,
+   "read_min": 46,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Computer Software",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 2",
+   "words": 6086,
+   "read_min": 34,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Operating System",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 3",
+   "words": 4000,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Database Management System",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 4",
+   "words": 5650,
+   "read_min": 31,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Data Communication and Computer Network",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 5",
+   "words": 6849,
+   "read_min": 38,
+   "figures": 14,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Internet and the World Wide Web",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 6",
+   "words": 5438,
+   "read_min": 30,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Contemporary Technologies",
+   "area": "BCA 101 · Computer Fundamentals and Applications · Unit 7",
+   "words": 5298,
+   "read_min": 29,
+   "figures": 9,
+   "has_questions": true
+  }
+ ]
+}

@@ -1,0 +1,376 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "discrete-structure",
+ "name": "Discrete Structure",
+ "name_ne": "",
+ "icon": "account_tree",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#9A3412",
+ "lang": "en",
+ "code": "BCA 151",
+ "credits": 3,
+ "semester": 2,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Logic and Proof Techniques",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Propositions and connectives",
+    "Tautologies and equivalences",
+    "Predicates and quantifiers",
+    "Rules of inference",
+    "Proof techniques",
+    "Which proof technique should I try?",
+    "Eight uses of logic in computing"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Propositions and connectives"
+    },
+    {
+     "no": "1.2",
+     "title": "Tautologies and equivalences"
+    },
+    {
+     "no": "1.3",
+     "title": "Predicates and quantifiers"
+    },
+    {
+     "no": "1.4",
+     "title": "Rules of inference"
+    },
+    {
+     "no": "1.5",
+     "title": "Proof techniques"
+    },
+    {
+     "no": "1.6",
+     "title": "Which proof technique should I try?"
+    },
+    {
+     "no": "1.7",
+     "title": "Eight uses of logic in computing"
+    }
+   ],
+   "summary": [
+    "Propositions combine through connectives; the truth table decides equivalence, tautology or contradiction.",
+    "Quantifiers extend logic to properties of many objects; negation swaps ∀ and ∃.",
+    "Valid arguments chain inference rules; invalid ones commit fallacies.",
+    "Proof techniques are templates; choose by the shape of the statement."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3661,
+    "figures": 0,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Sets, Relations and Functions",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Sets and their operations",
+    "Relations",
+    "Functions",
+    "Cardinality and countability",
+    "Three kinds of function in one picture",
+    "Eight uses of sets, relations and functions"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Sets and their operations"
+    },
+    {
+     "no": "2.2",
+     "title": "Relations"
+    },
+    {
+     "no": "2.3",
+     "title": "Functions"
+    },
+    {
+     "no": "2.4",
+     "title": "Cardinality and countability"
+    },
+    {
+     "no": "2.5",
+     "title": "Three kinds of function in one picture"
+    },
+    {
+     "no": "2.6",
+     "title": "Eight uses of sets, relations and functions"
+    }
+   ],
+   "summary": [
+    "Sets and bit strings: union, intersection and complement are the logical operators applied to membership.",
+    "Relations capture structure (equivalence → partitions, order → posets); closures add forced pairs.",
+    "Functions classified as injective, surjective, bijective; counting uses powers, falling factorials and inclusion–exclusion.",
+    "Cardinality separates countable from uncountable infinities, with consequences for computability."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3003,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Counting: Permutations, Combinations and the Pigeonhole Principle",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The basic rules",
+    "Permutations",
+    "Combinations",
+    "The binomial theorem",
+    "Inclusion–exclusion and derangements",
+    "The pigeonhole principle",
+    "Counting and probability",
+    "Pascal's triangle: all the binomial coefficients in one picture",
+    "Eight uses of counting"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "The basic rules"
+    },
+    {
+     "no": "3.2",
+     "title": "Permutations"
+    },
+    {
+     "no": "3.3",
+     "title": "Combinations"
+    },
+    {
+     "no": "3.4",
+     "title": "The binomial theorem"
+    },
+    {
+     "no": "3.5",
+     "title": "Inclusion–exclusion and derangements"
+    },
+    {
+     "no": "3.6",
+     "title": "The pigeonhole principle"
+    },
+    {
+     "no": "3.7",
+     "title": "Counting and probability"
+    },
+    {
+     "no": "3.8",
+     "title": "Pascal's triangle: all the binomial coefficients in one picture"
+    },
+    {
+     "no": "3.9",
+     "title": "Eight uses of counting"
+    }
+   ],
+   "summary": [
+    "Product and sum rules solve most counting problems; subtract overlaps with inclusion–exclusion.",
+    "Order matters → permutations; order does not → combinations; repetition changes the formula.",
+    "The binomial theorem links combinations to powers and subsets.",
+    "The pigeonhole principle proves existence without finding the object."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3232,
+    "figures": 0,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Induction, Recursion and Recurrence Relations",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Mathematical induction",
+    "Recursive definitions",
+    "Linear recurrence relations",
+    "Divide-and-conquer recurrences",
+    "The recursion tree of merge sort",
+    "Eight uses of induction and recursion"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Mathematical induction"
+    },
+    {
+     "no": "4.2",
+     "title": "Recursive definitions"
+    },
+    {
+     "no": "4.3",
+     "title": "Linear recurrence relations"
+    },
+    {
+     "no": "4.4",
+     "title": "Divide-and-conquer recurrences"
+    },
+    {
+     "no": "4.5",
+     "title": "The recursion tree of merge sort"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight uses of induction and recursion"
+    }
+   ],
+   "summary": [
+    "Induction proves infinitely many statements with two finite checks; strong induction is the right tool when the step needs several earlier cases.",
+    "Recursive definitions give structures and programs; structural induction proves their properties.",
+    "Linear recurrences are solved through the characteristic equation; non-homogeneous ones add a particular solution.",
+    "The master theorem gives the cost of divide-and-conquer algorithms at a glance."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3654,
+    "figures": 0,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Graphs and Trees",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Graph terminology",
+    "Traversal, connectivity and Euler/Hamilton",
+    "Planarity and colouring",
+    "Weighted graphs: shortest paths and spanning trees",
+    "Trees",
+    "One graph, three answers",
+    "Eight uses of graphs and trees"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Graph terminology"
+    },
+    {
+     "no": "5.2",
+     "title": "Traversal, connectivity and Euler/Hamilton"
+    },
+    {
+     "no": "5.3",
+     "title": "Planarity and colouring"
+    },
+    {
+     "no": "5.4",
+     "title": "Weighted graphs: shortest paths and spanning trees"
+    },
+    {
+     "no": "5.5",
+     "title": "Trees"
+    },
+    {
+     "no": "5.6",
+     "title": "One graph, three answers"
+    },
+    {
+     "no": "5.7",
+     "title": "Eight uses of graphs and trees"
+    }
+   ],
+   "summary": [
+    "Graphs are vertices and edges; degree, paths and connectivity answer structural questions, and the handshake lemma constrains degrees.",
+    "Euler's theorem decides Euler circuits by degrees; Hamilton circuits have no simple test.",
+    "Planarity and colouring have formulas and applications in scheduling.",
+    "Dijkstra gives shortest paths and Kruskal/Prim give minimum spanning trees.",
+    "Trees are acyclic connected graphs; traversals, search trees and Huffman codes are their main uses."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3930,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Number Theory, Modular Arithmetic and Algebraic Structures",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Divisibility, primes and gcd",
+    "Modular arithmetic",
+    "Applications",
+    "Algebraic structures",
+    "Lattices and Boolean algebra",
+    "Clock arithmetic and the RSA message path",
+    "Eight uses of number theory and algebraic structures"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Divisibility, primes and gcd"
+    },
+    {
+     "no": "6.2",
+     "title": "Modular arithmetic"
+    },
+    {
+     "no": "6.3",
+     "title": "Applications"
+    },
+    {
+     "no": "6.4",
+     "title": "Algebraic structures"
+    },
+    {
+     "no": "6.5",
+     "title": "Lattices and Boolean algebra"
+    },
+    {
+     "no": "6.6",
+     "title": "Clock arithmetic and the RSA message path"
+    },
+    {
+     "no": "6.7",
+     "title": "Eight uses of number theory and algebraic structures"
+    }
+   ],
+   "summary": [
+    "The Euclidean algorithm computes gcds quickly and the extended version yields inverses.",
+    "Modular arithmetic lets us compute with remainders; Fermat, Euler and the CRT are its workhorses.",
+    "RSA turns the difficulty of factoring into public-key encryption.",
+    "Groups, rings and fields classify structures by their axioms; Boolean algebras unify logic, sets and circuits."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4086,
+    "figures": 0,
+    "examples": 6
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 42,
+ "notes_ready": 6
+}

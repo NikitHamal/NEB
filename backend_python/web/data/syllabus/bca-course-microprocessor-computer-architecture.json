@@ -1,0 +1,539 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "microprocessor-computer-architecture",
+ "name": "Microprocessor and Computer Architecture",
+ "name_ne": "",
+ "icon": "memory",
+ "group": "semester-2",
+ "group_label": "Semester II",
+ "color": "#0F766E",
+ "lang": "en",
+ "code": "BCA 152",
+ "credits": 3,
+ "semester": 2,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Microprocessors and the Intel 8085",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "What a microprocessor is",
+    "A microprocessor system and its buses",
+    "The 8085 at a glance",
+    "The flag register",
+    "Pins and signal groups",
+    "Instruction cycle, machine cycle, T-state",
+    "Interrupts (introduction)",
+    "A first look at the 8086",
+    "Seeing the ideas: real chips, buses, multiplexing, timing and flags"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "What a microprocessor is"
+    },
+    {
+     "no": "1.2",
+     "title": "A microprocessor system and its buses"
+    },
+    {
+     "no": "1.3",
+     "title": "The 8085 at a glance"
+    },
+    {
+     "no": "1.4",
+     "title": "The flag register"
+    },
+    {
+     "no": "1.5",
+     "title": "Pins and signal groups"
+    },
+    {
+     "no": "1.6",
+     "title": "Instruction cycle, machine cycle, T-state"
+    },
+    {
+     "no": "1.7",
+     "title": "Interrupts (introduction)"
+    },
+    {
+     "no": "1.8",
+     "title": "A first look at the 8086"
+    },
+    {
+     "no": "1.9",
+     "title": "Seeing the ideas: real chips, buses, multiplexing, timing and flags"
+    }
+   ],
+   "summary": [
+    "A microprocessor is a CPU on a chip; a system joins CPU, memory and I/O with address, data and control buses.",
+    "The 8085 has an accumulator, six general registers (pairs BC, DE, HL; M = byte at HL), PC, SP and five flags S, Z, AC, P, CY.",
+    "AD0–AD7 are multiplexed; ALE and a latch separate the low address byte from the data.",
+    "An instruction cycle consists of machine cycles (opcode fetch plus reads/writes), each of 3–6 T-states.",
+    "Five hardware interrupts with fixed priority and eight software RSTs.",
+    "The 8086 adds a wider bus, a prefetch queue (BIU/EU), segmentation and hardware multiply/divide."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4653,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "8085 Instruction Set and Assembly Programming",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Instruction format and addressing modes",
+    "The instruction groups",
+    "Writing a program",
+    "Counters and time-delay routines",
+    "The stack and subroutines",
+    "Interfacing concepts",
+    "Seeing the ideas: opcodes, addressing modes, loops, delays and the stack"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Instruction format and addressing modes"
+    },
+    {
+     "no": "2.2",
+     "title": "The instruction groups"
+    },
+    {
+     "no": "2.3",
+     "title": "Writing a program"
+    },
+    {
+     "no": "2.4",
+     "title": "Counters and time-delay routines"
+    },
+    {
+     "no": "2.5",
+     "title": "The stack and subroutines"
+    },
+    {
+     "no": "2.6",
+     "title": "Interfacing concepts"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the ideas: opcodes, addressing modes, loops, delays and the stack"
+    }
+   ],
+   "summary": [
+    "Instructions are 1–3 bytes; five addressing modes: immediate, register, direct, register-indirect, implied.",
+    "Instruction groups: data transfer, arithmetic, logical/compare/rotate, branching, stack/I/O/machine control.",
+    "Typical programs follow initialise → loop (process, advance pointer, count) → store → HLT; M with HL walks arrays.",
+    "Delay loops use known T-states; one loop gives 14n + 4 T.",
+    "The stack is LIFO in RAM; CALL/RET use it for return addresses.",
+    "I/O may be memory-mapped or I/O-mapped; decoders create chip selects; the 8255 gives three programmable parallel ports."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5098,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Basic Computer Architecture",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Architecture, organisation and a little history",
+    "The stored-program organisation",
+    "The registers of the basic computer",
+    "The instruction set of the basic computer",
+    "Timing and control",
+    "The instruction cycle",
+    "Seeing the ideas: stored programs, buses, instruction cycle and interrupts"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Architecture, organisation and a little history"
+    },
+    {
+     "no": "3.2",
+     "title": "The stored-program organisation"
+    },
+    {
+     "no": "3.3",
+     "title": "The registers of the basic computer"
+    },
+    {
+     "no": "3.4",
+     "title": "The instruction set of the basic computer"
+    },
+    {
+     "no": "3.5",
+     "title": "Timing and control"
+    },
+    {
+     "no": "3.6",
+     "title": "The instruction cycle"
+    },
+    {
+     "no": "3.7",
+     "title": "Seeing the ideas: stored programs, buses, instruction cycle and interrupts"
+    }
+   ],
+   "summary": [
+    "Architecture is what the programmer sees; organisation is how it is built. The von Neumann machine stores program and data together; the memory hierarchy exploits locality.",
+    "The basic computer has AR, PC, DR, AC, IR, TR, INPR, OUTR, a 16-bit common bus and a ripple of load/increment/clear controls.",
+    "Instructions are I + 3-bit opcode + 12-bit address; seven memory-reference, twelve register-reference and six I/O instructions.",
+    "The control unit derives timing T0–T15 from a sequence counter and D0–D7 from the opcode.",
+    "Fetch takes T0–T2, indirect addressing adds a read, and each instruction clears SC when done; an interrupt replaces fetch with the three-step interrupt cycle."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4732,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Microprogrammed and Hardwired Control",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Micro-operations and control signals",
+    "Hardwired control",
+    "Microprogrammed control",
+    "The microprogrammed control unit",
+    "A microinstruction format (the Mano example)",
+    "Symbolic and binary microprograms",
+    "Design of the control unit",
+    "Control of the AC register and the ALU",
+    "Seeing the ideas: control units, microinstructions and real control words"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Micro-operations and control signals"
+    },
+    {
+     "no": "4.2",
+     "title": "Hardwired control"
+    },
+    {
+     "no": "4.3",
+     "title": "Microprogrammed control"
+    },
+    {
+     "no": "4.4",
+     "title": "The microprogrammed control unit"
+    },
+    {
+     "no": "4.5",
+     "title": "A microinstruction format (the Mano example)"
+    },
+    {
+     "no": "4.6",
+     "title": "Symbolic and binary microprograms"
+    },
+    {
+     "no": "4.7",
+     "title": "Design of the control unit"
+    },
+    {
+     "no": "4.8",
+     "title": "Control of the AC register and the ALU"
+    },
+    {
+     "no": "4.9",
+     "title": "Seeing the ideas: control units, microinstructions and real control words"
+    }
+   ],
+   "summary": [
+    "A micro-operation is one register-level action; a microinstruction packs those of one clock period plus the next-address information; a microprogram is the routine for one machine instruction.",
+    "Hardwired control uses gates, is fast and hard to change; microprogrammed control uses a control memory, is flexible and slower.",
+    "The sequencer chooses the next address by increment, jump, conditional jump, opcode mapping, or subroutine return.",
+    "Mano's 20-bit microinstruction has three micro-operation fields, a condition field, a branch field and a 7-bit address.",
+    "FETCH is three microinstructions, and each machine instruction's routine ends by branching back to FETCH."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4504,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Central Processing Unit and Computer Arithmetic",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "General register organisation",
+    "Stack organisation",
+    "Instruction formats",
+    "Addressing modes",
+    "Data transfer and manipulation",
+    "Program control",
+    "RISC and CISC",
+    "Computer arithmetic",
+    "Seeing the ideas: RISC and CISC chips, stack, addressing, Booth, floating point and division"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "General register organisation"
+    },
+    {
+     "no": "5.2",
+     "title": "Stack organisation"
+    },
+    {
+     "no": "5.3",
+     "title": "Instruction formats"
+    },
+    {
+     "no": "5.4",
+     "title": "Addressing modes"
+    },
+    {
+     "no": "5.5",
+     "title": "Data transfer and manipulation"
+    },
+    {
+     "no": "5.6",
+     "title": "Program control"
+    },
+    {
+     "no": "5.7",
+     "title": "RISC and CISC"
+    },
+    {
+     "no": "5.8",
+     "title": "Computer arithmetic"
+    },
+    {
+     "no": "5.9",
+     "title": "Seeing the ideas: RISC and CISC chips, stack, addressing, Booth, floating point and division"
+    }
+   ],
+   "summary": [
+    "A register-organised CPU selects ALU operands with two multiplexers and a control word SELA/SELB/SELD/OPR.",
+    "A stack gives LIFO storage, supports calls and interrupts, and evaluates postfix expressions.",
+    "Instruction formats range from three-address to zero-address; addressing modes locate operands flexibly.",
+    "Program control uses flags C, S, Z, V; subroutine calls and interrupts save the return state on the stack.",
+    "RISC: simple, fixed-length, load/store, hardwired, pipeline-friendly; CISC: complex, microprogrammed.",
+    "The ALU adds/subtracts with 2's complement, multiplies with shift-and-add or Booth, divides by restoring/non-restoring, and handles reals as IEEE 754 floating point."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5490,
+    "figures": 0,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Input–Output Organisation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The I/O interface",
+    "Asynchronous data transfer",
+    "Modes of transfer",
+    "Priority interrupts",
+    "Direct memory access",
+    "I/O processors and communication processors",
+    "Seeing the ideas: interface chips, handshaking, serial frames, priority chain, DMA and bit stuffing"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "The I/O interface"
+    },
+    {
+     "no": "6.2",
+     "title": "Asynchronous data transfer"
+    },
+    {
+     "no": "6.3",
+     "title": "Modes of transfer"
+    },
+    {
+     "no": "6.4",
+     "title": "Priority interrupts"
+    },
+    {
+     "no": "6.5",
+     "title": "Direct memory access"
+    },
+    {
+     "no": "6.6",
+     "title": "I/O processors and communication processors"
+    },
+    {
+     "no": "6.7",
+     "title": "Seeing the ideas: interface chips, handshaking, serial frames, priority chain, DMA and bit stuffing"
+    }
+   ],
+   "summary": [
+    "An interface adapts the peripheral to the CPU through data, status and control registers; I/O is isolated or memory-mapped.",
+    "Strobe and handshake coordinate data transfer between unsynchronised units; handshake confirms delivery.",
+    "Programmed I/O polls; interrupt-driven I/O signals; DMA moves blocks with one interrupt at the end.",
+    "Priority is resolved by software polling, daisy chain or a priority encoder; the 8259 extends the 8085's interrupt lines.",
+    "IOPs run their own channel programs; communication processors offload character- and bit-oriented protocols."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4635,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Memory Organisation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The memory hierarchy",
+    "Primary memory: RAM and ROM",
+    "Secondary memory: the magnetic disk",
+    "Cache memory",
+    "Virtual memory",
+    "Memory management hardware",
+    "Seeing the ideas: memory chips, the hierarchy, cache mapping, paging and replacement"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "The memory hierarchy"
+    },
+    {
+     "no": "7.2",
+     "title": "Primary memory: RAM and ROM"
+    },
+    {
+     "no": "7.3",
+     "title": "Secondary memory: the magnetic disk"
+    },
+    {
+     "no": "7.4",
+     "title": "Cache memory"
+    },
+    {
+     "no": "7.5",
+     "title": "Virtual memory"
+    },
+    {
+     "no": "7.6",
+     "title": "Memory management hardware"
+    },
+    {
+     "no": "7.7",
+     "title": "Seeing the ideas: memory chips, the hierarchy, cache mapping, paging and replacement"
+    }
+   ],
+   "summary": [
+    "The hierarchy trades size, speed and cost; locality makes it work.",
+    "SRAM for cache, DRAM for main memory, ROM family for non-volatile code; the address map and chip-select decode place chips in the address space.",
+    "A disk's access time is dominated by seek and rotation.",
+    "Caches map blocks by direct, fully associative or set-associative rules, replace by LRU/FIFO/random and write by write-through or write-back.",
+    "Virtual memory pages programs on demand; page faults are handled by the OS using FIFO/LRU-like replacement; TLBs speed translation.",
+    "Segmentation and segmented paging structure memory; base/limit registers and protection bits enforce isolation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5820,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Pipelining, Vector Processing and Multiprocessors",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Parallel processing and Flynn's classification",
+    "Pipelining",
+    "Arithmetic pipeline",
+    "Instruction pipeline",
+    "Pipeline hazards",
+    "Vector processing",
+    "Multiprocessors",
+    "Seeing the ideas: assembly lines, parallel machines, hazards, branch prediction and Amdahl's law"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Parallel processing and Flynn's classification"
+    },
+    {
+     "no": "8.2",
+     "title": "Pipelining"
+    },
+    {
+     "no": "8.3",
+     "title": "Arithmetic pipeline"
+    },
+    {
+     "no": "8.4",
+     "title": "Instruction pipeline"
+    },
+    {
+     "no": "8.5",
+     "title": "Pipeline hazards"
+    },
+    {
+     "no": "8.6",
+     "title": "Vector processing"
+    },
+    {
+     "no": "8.7",
+     "title": "Multiprocessors"
+    },
+    {
+     "no": "8.8",
+     "title": "Seeing the ideas: assembly lines, parallel machines, hazards, branch prediction and Amdahl's law"
+    }
+   ],
+   "summary": [
+    "Flynn classifies computers by instruction and data streams; modern machines are mostly MIMD with SIMD units.",
+    "A k-stage pipeline gives up to k-fold speed-up, reduced by fill time, unbalanced stages and hazards.",
+    "Arithmetic pipelines segment operations like floating-point add; the four-segment instruction pipeline overlaps FI, DA, FO and EX.",
+    "Structural, data and control hazards are handled by resources, forwarding/interlocks and branch prediction.",
+    "Vector processors apply one operation to arrays, removing loop overhead; matrix multiplication is the model workload.",
+    "Multiprocessors share memory over a bus, crossbar or network; caches need coherence protocols; Amdahl's law bounds the gain."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5543,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 8,
+ "topic_count": 63,
+ "notes_ready": 8
+}

@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-3-web-technology-1",
+ "units": [
+  {
+   "no": 1,
+   "title": "Internet and the World Wide Web",
+   "area": "BCA 203 · Web Technology I · Unit 1",
+   "words": 3231,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "HTML and Graphics",
+   "area": "BCA 203 · Web Technology I · Unit 2",
+   "words": 2990,
+   "read_min": 17,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Scripting Language (JavaScript)",
+   "area": "BCA 203 · Web Technology I · Unit 3",
+   "words": 3534,
+   "read_min": 20,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "CSS (Cascading Style Sheets)",
+   "area": "BCA 203 · Web Technology I · Unit 4",
+   "words": 3328,
+   "read_min": 18,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "XML (Extensible Markup Language)",
+   "area": "BCA 203 · Web Technology I · Unit 5",
+   "words": 2998,
+   "read_min": 17,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Introduction to jQuery",
+   "area": "BCA 203 · Web Technology I · Unit 6",
+   "words": 2990,
+   "read_min": 17,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Website Page Layout and Design Issues",
+   "area": "BCA 203 · Web Technology I · Unit 7",
+   "words": 3357,
+   "read_min": 19,
+   "figures": 7,
+   "has_questions": true
+  }
+ ]
+}

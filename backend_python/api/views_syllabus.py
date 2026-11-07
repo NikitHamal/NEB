@@ -111,7 +111,7 @@ def legacy_subject_detail(grade_slug, subject_slug):
     if not data:
         return None
     chapters = []
-    word = 'Unit' if data.get('kind', 'school') == 'school' else 'Chapter'
+    word = 'Chapter' if data.get('kind', 'school') == 'entrance' else 'Unit'
     for u in data['units']:
         guide = [{'id': 'topics', 'title': 'Topics', 'content': _bullets(u['topics'])}]
         if u['summary']:

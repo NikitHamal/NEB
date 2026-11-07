@@ -1,0 +1,476 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "computer-fundamentals",
+ "name": "Computer Fundamentals and Applications",
+ "name_ne": "",
+ "icon": "computer",
+ "group": "semester-1",
+ "group_label": "Semester I",
+ "color": "#2F6B3A",
+ "lang": "en",
+ "code": "BCA 101",
+ "credits": 3,
+ "semester": 1,
+ "hours": 60,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Computer System",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Introduction to computer",
+    "Generations of computers",
+    "Characteristics of a computer",
+    "Applications of computers",
+    "Classification of computers",
+    "Mobile computing",
+    "Anatomy of a digital computer",
+    "Computer architecture",
+    "Memory and its classification",
+    "Input devices",
+    "Output devices",
+    "Interfaces"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Introduction to computer"
+    },
+    {
+     "no": "1.2",
+     "title": "Generations of computers"
+    },
+    {
+     "no": "1.3",
+     "title": "Characteristics of a computer"
+    },
+    {
+     "no": "1.4",
+     "title": "Applications of computers"
+    },
+    {
+     "no": "1.5",
+     "title": "Classification of computers"
+    },
+    {
+     "no": "1.6",
+     "title": "Mobile computing"
+    },
+    {
+     "no": "1.7",
+     "title": "Anatomy of a digital computer"
+    },
+    {
+     "no": "1.8",
+     "title": "Computer architecture"
+    },
+    {
+     "no": "1.9",
+     "title": "Memory and its classification"
+    },
+    {
+     "no": "1.10",
+     "title": "Input devices"
+    },
+    {
+     "no": "1.11",
+     "title": "Output devices"
+    },
+    {
+     "no": "1.12",
+     "title": "Interfaces"
+    }
+   ],
+   "summary": [
+    "A computer takes input, processes it under a stored program, stores data and produces output.",
+    "Computers are classified by size, purpose and the kind of data they handle; five generations are marked by tube, transistor, IC, microprocessor and ULSI/AI.",
+    "The CPU contains the ALU, control unit and registers; buses join CPU, memory and I/O.",
+    "Instructions and data share one memory in the von Neumann design; the CPU repeats fetch–decode–execute–store.",
+    "Memory is a hierarchy: speed and cost fall and capacity rises from registers to cache to RAM to disks and tape.",
+    "RAM is volatile and read–write; ROM is non-volatile and holds start-up firmware; flash is erasable ROM.",
+    "Input devices, output devices and interfaces (USB, HDMI, SATA, PCIe, wireless) connect the machine to the user."
+   ],
+   "terms": [
+    "Motherboard"
+   ],
+   "stats": {
+    "words": 8493,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Computer Software",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "Software and its classification",
+    "Language translators",
+    "Generations of programming languages",
+    "Algorithms and flowcharts",
+    "Software licensing and development basics"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Software and its classification"
+    },
+    {
+     "no": "2.2",
+     "title": "Language translators"
+    },
+    {
+     "no": "2.3",
+     "title": "Generations of programming languages"
+    },
+    {
+     "no": "2.4",
+     "title": "Algorithms and flowcharts"
+    },
+    {
+     "no": "2.5",
+     "title": "Software licensing and development basics"
+    }
+   ],
+   "summary": [
+    "Software is divided into system software (OS, drivers, utilities, translators) and application software (general-purpose or custom).",
+    "Translators convert human-readable code to machine code; compilers do it once, interpreters do it each run.",
+    "Languages progress from machine code to assembly to high-level to declarative.",
+    "An algorithm is a finite, precise procedure; a flowchart draws it; sequence, selection and iteration are enough to express any algorithm.",
+    "Licences decide what you may do with software; open source gives freedoms, not freedom from conditions."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6179,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Operating System",
+   "hours": 4,
+   "area": "",
+   "topics": [
+    "What an OS does",
+    "Types of operating system",
+    "Process management",
+    "Memory management",
+    "File and device management",
+    "User interfaces and the boot process",
+    "Some operating systems"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "What an OS does"
+    },
+    {
+     "no": "3.2",
+     "title": "Types of operating system"
+    },
+    {
+     "no": "3.3",
+     "title": "Process management"
+    },
+    {
+     "no": "3.4",
+     "title": "Memory management"
+    },
+    {
+     "no": "3.5",
+     "title": "File and device management"
+    },
+    {
+     "no": "3.6",
+     "title": "User interfaces and the boot process"
+    },
+    {
+     "no": "3.7",
+     "title": "Some operating systems"
+    }
+   ],
+   "summary": [
+    "The OS manages processes, memory, files and devices and provides the user interface.",
+    "Multiprogramming keeps the CPU busy; time-sharing gives interactivity; real-time guarantees deadlines.",
+    "Scheduling algorithms trade fairness, throughput and waiting time; SJF is optimal for average wait but needs knowledge of burst lengths.",
+    "Paging maps pages to frames, virtual memory uses disk to extend RAM, and page faults cost time.",
+    "Files live in a directory tree on a file system; booting loads the kernel through firmware and a boot loader."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4135,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Database Management System",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Data, database and DBMS",
+    "Architecture and data independence",
+    "Data models",
+    "The relational model",
+    "Entity–relationship modelling",
+    "Normalisation (introduction)",
+    "SQL: structured query language"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Data, database and DBMS"
+    },
+    {
+     "no": "4.2",
+     "title": "Architecture and data independence"
+    },
+    {
+     "no": "4.3",
+     "title": "Data models"
+    },
+    {
+     "no": "4.4",
+     "title": "The relational model"
+    },
+    {
+     "no": "4.5",
+     "title": "Entity–relationship modelling"
+    },
+    {
+     "no": "4.6",
+     "title": "Normalisation (introduction)"
+    },
+    {
+     "no": "4.7",
+     "title": "SQL: structured query language"
+    }
+   ],
+   "summary": [
+    "A DBMS replaces scattered files with one controlled, shared and secure store.",
+    "The three-level architecture gives data independence.",
+    "Relational databases organise data into tables linked by keys, with integrity rules the DBMS enforces.",
+    "ER modelling designs the database; normalisation removes redundancy and anomalies.",
+    "SQL creates, queries and updates; transactions obey ACID."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5581,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Data Communication and Computer Network",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Data communication fundamentals",
+    "Transmission media",
+    "Network types and topologies",
+    "Network devices",
+    "Layered models: OSI and TCP/IP",
+    "Addressing: MAC and IP",
+    "Wireless and mobile networks",
+    "Advantages, limitations and uses of computer networks"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Data communication fundamentals"
+    },
+    {
+     "no": "5.2",
+     "title": "Transmission media"
+    },
+    {
+     "no": "5.3",
+     "title": "Network types and topologies"
+    },
+    {
+     "no": "5.4",
+     "title": "Network devices"
+    },
+    {
+     "no": "5.5",
+     "title": "Layered models: OSI and TCP/IP"
+    },
+    {
+     "no": "5.6",
+     "title": "Addressing: MAC and IP"
+    },
+    {
+     "no": "5.7",
+     "title": "Wireless and mobile networks"
+    },
+    {
+     "no": "5.8",
+     "title": "Advantages, limitations and uses of computer networks"
+    }
+   ],
+   "summary": [
+    "Communication needs a sender, receiver, message, medium and protocol; capacity is limited by bandwidth and noise.",
+    "Media may be guided (twisted pair, coax, fibre) or unguided (radio, microwave, satellite).",
+    "Networks are classified by scale (PAN, LAN, MAN, WAN) and by topology (bus, ring, star, mesh, tree).",
+    "Switches work on MAC addresses; routers on IP addresses; layered models (OSI, TCP/IP) divide the work.",
+    "IPv4 addresses split into network and host parts by a mask; subnetting divides a network into smaller ones."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6696,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Internet and the World Wide Web",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The Internet: history and structure",
+    "Names, addresses and the journey of a web page",
+    "The World Wide Web",
+    "Internet services",
+    "Security and safe use",
+    "Eight uses of the Internet in Nepal"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "The Internet: history and structure"
+    },
+    {
+     "no": "6.2",
+     "title": "Names, addresses and the journey of a web page"
+    },
+    {
+     "no": "6.3",
+     "title": "The World Wide Web"
+    },
+    {
+     "no": "6.4",
+     "title": "Internet services"
+    },
+    {
+     "no": "6.5",
+     "title": "Security and safe use"
+    },
+    {
+     "no": "6.6",
+     "title": "Eight uses of the Internet in Nepal"
+    }
+   ],
+   "summary": [
+    "The Internet grew from ARPANET; the Web was added by Tim Berners-Lee around 1990.",
+    "DNS turns names into IP addresses; HTTP/HTTPS carries requests and responses over TCP.",
+    "Browsers render HTML, CSS and JavaScript; search engines crawl, index and rank.",
+    "Email, VoIP, streaming and cloud services all ride on the Internet.",
+    "Malware, phishing and weak passwords are the commonest threats; encryption, updates, 2FA and caution are the commonest defences.",
+    "Bandwidth sets how fast bulk data moves; distance sets the delay (a geostationary satellite adds about 0.48 s of round trip).",
+    "Nepal's main Internet uses: communication, education, payments, e-governance, e-commerce, health, maps and IoT."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5458,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Contemporary Technologies",
+   "hours": 13,
+   "area": "",
+   "topics": [
+    "E-commerce, e-business and digital payments",
+    "E-governance",
+    "Multimedia",
+    "Artificial intelligence and machine learning",
+    "Internet of Things (IoT)",
+    "Big data",
+    "Cloud computing",
+    "Blockchain and cryptocurrency",
+    "Virtual, augmented and mixed reality; robotics; 5G",
+    "Green computing, e-waste and cyber ethics"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "E-commerce, e-business and digital payments"
+    },
+    {
+     "no": "7.2",
+     "title": "E-governance"
+    },
+    {
+     "no": "7.3",
+     "title": "Multimedia"
+    },
+    {
+     "no": "7.4",
+     "title": "Artificial intelligence and machine learning"
+    },
+    {
+     "no": "7.5",
+     "title": "Internet of Things (IoT)"
+    },
+    {
+     "no": "7.6",
+     "title": "Big data"
+    },
+    {
+     "no": "7.7",
+     "title": "Cloud computing"
+    },
+    {
+     "no": "7.8",
+     "title": "Blockchain and cryptocurrency"
+    },
+    {
+     "no": "7.9",
+     "title": "Virtual, augmented and mixed reality; robotics; 5G"
+    },
+    {
+     "no": "7.10",
+     "title": "Green computing, e-waste and cyber ethics"
+    }
+   ],
+   "summary": [
+    "E-commerce and e-governance move trade and public service online; Nepali payment wallets and QR have made small payments digital.",
+    "Multimedia is digitised media; compression (lossless or lossy) makes it practical.",
+    "AI and ML learn from data; IoT collects data; big data and the cloud store and process it at scale.",
+    "Blockchain provides a tamper-evident shared ledger; VR/AR, robotics and 5G extend where computing reaches.",
+    "Every technology brings ethical and environmental responsibilities."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5262,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 55,
+ "notes_ready": 7
+}

@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-1-mathematics-1",
+ "units": [
+  {
+   "no": 1,
+   "title": "Functions and Graphs",
+   "area": "BCA 104 · Mathematics I · Unit 1",
+   "words": 3779,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Limits and Continuity",
+   "area": "BCA 104 · Mathematics I · Unit 2",
+   "words": 3532,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Differentiation",
+   "area": "BCA 104 · Mathematics I · Unit 3",
+   "words": 3358,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Applications of Derivatives",
+   "area": "BCA 104 · Mathematics I · Unit 4",
+   "words": 3957,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Integration",
+   "area": "BCA 104 · Mathematics I · Unit 5",
+   "words": 3674,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Differential Equations",
+   "area": "BCA 104 · Mathematics I · Unit 6",
+   "words": 3874,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

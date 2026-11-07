@@ -1,0 +1,282 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "digital-logic",
+ "name": "Digital Logic",
+ "name_ne": "",
+ "icon": "memory",
+ "group": "semester-1",
+ "group_label": "Semester I",
+ "color": "#B4531A",
+ "lang": "en",
+ "code": "BCA 103",
+ "credits": 3,
+ "semester": 1,
+ "hours": 46,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction: Digital Signals, Logic Levels and the Clock",
+   "hours": 3,
+   "area": "",
+   "topics": [
+    "Analog and digital signals",
+    "Logic levels and logic polarity",
+    "Pulses and the clock waveform",
+    "Digital logic operations and integrated circuits",
+    "Advantages and applications of digital systems"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Analog and digital signals"
+    },
+    {
+     "no": "1.2",
+     "title": "Logic levels and logic polarity"
+    },
+    {
+     "no": "1.3",
+     "title": "Pulses and the clock waveform"
+    },
+    {
+     "no": "1.4",
+     "title": "Digital logic operations and integrated circuits"
+    },
+    {
+     "no": "1.5",
+     "title": "Advantages and applications of digital systems"
+    }
+   ],
+   "summary": [
+    "Digital signals resist noise because they are decided by thresholds.",
+    "Logic levels have guaranteed bands and a forbidden zone; noise margin measures the safety.",
+    "Clocks are described by period, frequency, duty cycle and edges; setup and hold times limit speed.",
+    "ICs range from SSI gates to ULSI processors; CMOS is the dominant family."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2872,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Number Systems, Binary Arithmetic and Codes",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Positional number systems and conversions",
+    "Binary arithmetic",
+    "Signed numbers",
+    "Floating-point (IEEE-754 single precision)",
+    "Binary codes",
+    "Why computers use binary and codes: eight reasons"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Positional number systems and conversions"
+    },
+    {
+     "no": "2.2",
+     "title": "Binary arithmetic"
+    },
+    {
+     "no": "2.3",
+     "title": "Signed numbers"
+    },
+    {
+     "no": "2.4",
+     "title": "Floating-point (IEEE-754 single precision)"
+    },
+    {
+     "no": "2.5",
+     "title": "Binary codes"
+    },
+    {
+     "no": "2.6",
+     "title": "Why computers use binary and codes: eight reasons"
+    }
+   ],
+   "summary": [
+    "Any base converts through the place-value rule; hex and octal are compact binary.",
+    "2's complement lets one adder do addition and subtraction; watch for overflow.",
+    "Floating-point splits a number into sign, biased exponent and fraction.",
+    "Codes serve different goals: BCD for decimal displays, Gray for one-bit change, ASCII for text, parity and Hamming for error control."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4306,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Combinational Logic Design: Gates, Boolean Algebra, K-Maps and Standard Circuits",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Logic gates",
+    "Boolean algebra",
+    "Simplification with Karnaugh maps",
+    "Arithmetic circuits",
+    "Encoders, decoders, multiplexers",
+    "Basic ideas of programmable logic",
+    "Where combinational circuits are used: eight applications"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Logic gates"
+    },
+    {
+     "no": "3.2",
+     "title": "Boolean algebra"
+    },
+    {
+     "no": "3.3",
+     "title": "Simplification with Karnaugh maps"
+    },
+    {
+     "no": "3.4",
+     "title": "Arithmetic circuits"
+    },
+    {
+     "no": "3.5",
+     "title": "Encoders, decoders, multiplexers"
+    },
+    {
+     "no": "3.6",
+     "title": "Basic ideas of programmable logic"
+    },
+    {
+     "no": "3.7",
+     "title": "Where combinational circuits are used: eight applications"
+    }
+   ],
+   "summary": [
+    "Gates → Boolean algebra → minimal expressions (K-map) → standard building blocks.",
+    "NAND and NOR alone are enough for any circuit.",
+    "Adders chain into n-bit arithmetic; the same adder subtracts with XORs on B.",
+    "Decoders, encoders, multiplexers and demultiplexers route data; any function is one MUX or decoder plus gates."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3789,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Flip-Flops, Counters and Registers",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Latches and flip-flops",
+    "Counters",
+    "Registers",
+    "Applications of flip-flops, counters and registers: eight uses"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Latches and flip-flops"
+    },
+    {
+     "no": "4.2",
+     "title": "Counters"
+    },
+    {
+     "no": "4.3",
+     "title": "Registers"
+    },
+    {
+     "no": "4.4",
+     "title": "Applications of flip-flops, counters and registers: eight uses"
+    }
+   ],
+   "summary": [
+    "Flip-flops store one bit and change on a clock edge; JK toggles on 11, D delays, T toggles.",
+    "Excitation tables turn a wanted state change into flip-flop inputs.",
+    "Ripple counters are simple and slow; synchronous counters are fast and need design.",
+    "Counters count and divide frequency; registers store and shift words."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4688,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Sequential Logic Design: State Machines",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Models of sequential machines",
+    "Design procedure",
+    "State reduction by partitioning",
+    "Worked design: a \"101\" sequence detector (Mealy, overlapping)",
+    "Counter design as a special case",
+    "Eight applications of finite state machines"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Models of sequential machines"
+    },
+    {
+     "no": "5.2",
+     "title": "Design procedure"
+    },
+    {
+     "no": "5.3",
+     "title": "State reduction by partitioning"
+    },
+    {
+     "no": "5.4",
+     "title": "Worked design: a \"101\" sequence detector (Mealy, overlapping)"
+    },
+    {
+     "no": "5.5",
+     "title": "Counter design as a special case"
+    },
+    {
+     "no": "5.6",
+     "title": "Eight applications of finite state machines"
+    }
+   ],
+   "summary": [
+    "An FSM is a state register plus next-state and output logic.",
+    "Mealy outputs react to the input directly; Moore outputs change only with the state.",
+    "State reduction and sensible assignment shrink the circuit.",
+    "Always check the unused states and test the design with a sample input stream."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3327,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 28,
+ "notes_ready": 5
+}

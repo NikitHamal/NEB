@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-3-probability-and-statistics",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction to Statistics",
+   "area": "BCA 205 · Probability and Statistics · Unit 1",
+   "words": 2389,
+   "read_min": 13,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Descriptive Statistics",
+   "area": "BCA 205 · Probability and Statistics · Unit 2",
+   "words": 3102,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Correlation and Regression Analysis",
+   "area": "BCA 205 · Probability and Statistics · Unit 3",
+   "words": 2884,
+   "read_min": 16,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Probability",
+   "area": "BCA 205 · Probability and Statistics · Unit 4",
+   "words": 3206,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Sample Survey",
+   "area": "BCA 205 · Probability and Statistics · Unit 5",
+   "words": 2812,
+   "read_min": 16,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Sample Survey Methods",
+   "area": "BCA 205 · Probability and Statistics · Unit 6",
+   "words": 3491,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Design of Experiment",
+   "area": "BCA 205 · Probability and Statistics · Unit 7",
+   "words": 3112,
+   "read_min": 17,
+   "figures": 6,
+   "has_questions": true
+  }
+ ]
+}

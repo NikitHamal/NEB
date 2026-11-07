@@ -52,6 +52,10 @@
     {
      "no": "1.5",
      "title": "How to use the books"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight traps in preparing for the paper"
     }
    ],
    "summary": [
@@ -63,7 +67,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1353,
+    "words": 1808,
     "figures": 0,
     "examples": 0
    },
@@ -82,7 +86,7 @@
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2943,
+    "words": 3093,
     "figures": 0,
     "examples": 0
    },
@@ -101,7 +105,7 @@
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 2963,
+    "words": 3113,
     "figures": 0,
     "examples": 0
    },
@@ -120,7 +124,7 @@
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 3007,
+    "words": 3157,
     "figures": 0,
     "examples": 0
    },

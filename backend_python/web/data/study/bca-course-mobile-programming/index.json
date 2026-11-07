@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-6-mobile-programming",
+ "units": [
+  {
+   "no": 1,
+   "title": "Mobile Platforms and Application Architecture",
+   "area": "BCA 352 · Mobile Programming · Unit 1",
+   "words": 3646,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Android Components, Intents and the Activity Lifecycle",
+   "area": "BCA 352 · Mobile Programming · Unit 2",
+   "words": 3888,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "User Interface - Layouts, RecyclerView and Fragments",
+   "area": "BCA 352 · Mobile Programming · Unit 3",
+   "words": 3932,
+   "read_min": 22,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Data Storage - Preferences, Files, SQLite and Room",
+   "area": "BCA 352 · Mobile Programming · Unit 4",
+   "words": 3599,
+   "read_min": 20,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Networking, JSON and Background Work",
+   "area": "BCA 352 · Mobile Programming · Unit 5",
+   "words": 3564,
+   "read_min": 20,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Sensors, Location, Permissions and Notifications",
+   "area": "BCA 352 · Mobile Programming · Unit 6",
+   "words": 3771,
+   "read_min": 21,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Cross-Platform Development, Testing and Publishing",
+   "area": "BCA 352 · Mobile Programming · Unit 7",
+   "words": 4143,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  }
+ ]
+}

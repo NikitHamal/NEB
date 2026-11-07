@@ -1,0 +1,59 @@
+{
+ "book": "bcacourse-semester-4-numerical-methods",
+ "units": [
+  {
+   "no": 1,
+   "title": "Solution of Nonlinear Equations",
+   "area": "BCA 253 · Numerical Methods · Unit 1",
+   "words": 4862,
+   "read_min": 27,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Interpolation and Approximation",
+   "area": "BCA 253 · Numerical Methods · Unit 2",
+   "words": 4243,
+   "read_min": 24,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Numerical Differentiation and Integration",
+   "area": "BCA 253 · Numerical Methods · Unit 3",
+   "words": 3717,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Solution of Linear Algebraic Equations",
+   "area": "BCA 253 · Numerical Methods · Unit 4",
+   "words": 3902,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Solution of Ordinary Differential Equations",
+   "area": "BCA 253 · Numerical Methods · Unit 5",
+   "words": 4167,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Solution of Partial Differential Equations",
+   "area": "BCA 253 · Numerical Methods · Unit 6",
+   "words": 3526,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

@@ -1,0 +1,234 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "hardware-workshop",
+ "name": "Hardware Workshop",
+ "name_ne": "",
+ "icon": "build",
+ "group": "semester-1",
+ "group_label": "Semester I",
+ "color": "#475569",
+ "lang": "en",
+ "code": "BCA 106",
+ "credits": 1,
+ "semester": 1,
+ "hours": null,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Safety, Tools and the Components of a PC",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Safety first",
+    "The toolkit",
+    "Inside the PC: components and what their specs mean",
+    "Compatibility checklist",
+    "Calculations for choosing parts",
+    "Eight rules of safe and careful workshop practice"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Safety first"
+    },
+    {
+     "no": "1.2",
+     "title": "The toolkit"
+    },
+    {
+     "no": "1.3",
+     "title": "Inside the PC: components and what their specs mean"
+    },
+    {
+     "no": "1.4",
+     "title": "Compatibility checklist"
+    },
+    {
+     "no": "1.5",
+     "title": "Calculations for choosing parts"
+    },
+    {
+     "no": "1.6",
+     "title": "Eight rules of safe and careful workshop practice"
+    }
+   ],
+   "summary": [
+    "Protect yourself and the parts: unplug, discharge static, never open a PSU.",
+    "The toolkit is small and cheap; a multimeter, crimper and a bootable USB solve most jobs.",
+    "Every component has a few specifications that decide compatibility and performance.",
+    "Simple arithmetic selects the PSU, UPS and storage layout and explains real speeds and capacities."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3179,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Assembling a Desktop PC, Step by Step",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Before you start",
+    "Step-by-step build",
+    "If it does not start",
+    "Lab sign-off table",
+    "Eight common assembly mistakes and how to avoid them"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Before you start"
+    },
+    {
+     "no": "2.2",
+     "title": "Step-by-step build"
+    },
+    {
+     "no": "2.3",
+     "title": "If it does not start"
+    },
+    {
+     "no": "2.4",
+     "title": "Lab sign-off table"
+    },
+    {
+     "no": "2.5",
+     "title": "Eight common assembly mistakes and how to avoid them"
+    }
+   ],
+   "summary": [
+    "Build in a fixed order, handling the CPU and RAM carefully and tightening screws evenly.",
+    "Front-panel headers need the manual; LEDs have polarity, switches do not.",
+    "Check twice before power-on: no loose screws, all power connected, monitor on the right port.",
+    "If it fails, use beep codes, debug LEDs and a minimum-configuration test to isolate the part."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2858,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "BIOS/UEFI, Disk Partitioning and Operating System Installation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "BIOS and UEFI",
+    "Disks, partitions and file systems",
+    "Installing Windows",
+    "Installing Ubuntu Linux (and dual boot)",
+    "Drivers, updates, imaging and recovery",
+    "Eight tips for a safe operating-system installation"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "BIOS and UEFI"
+    },
+    {
+     "no": "3.2",
+     "title": "Disks, partitions and file systems"
+    },
+    {
+     "no": "3.3",
+     "title": "Installing Windows"
+    },
+    {
+     "no": "3.4",
+     "title": "Installing Ubuntu Linux (and dual boot)"
+    },
+    {
+     "no": "3.5",
+     "title": "Drivers, updates, imaging and recovery"
+    },
+    {
+     "no": "3.6",
+     "title": "Eight tips for a safe operating-system installation"
+    }
+   ],
+   "summary": [
+    "UEFI replaces BIOS and brings GPT, Secure Boot and speed; the settings to master are boot order, SATA mode, virtualisation and Secure Boot.",
+    "Partition tables and file systems have hard limits that explain real-world behaviour (2 TiB MBR, 4 GiB FAT32).",
+    "A clean install follows a fixed routine, and the work is not finished until drivers, updates and a backup are done.",
+    "Virtual machines and live USBs are the safest places to practise and repair."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2719,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Troubleshooting, Maintenance, Peripherals and Network Cabling",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "The troubleshooting method",
+    "Fault-finding table",
+    "Preventive maintenance",
+    "Printers, monitors and input devices",
+    "Network cabling lab",
+    "Eight preventive maintenance tasks"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The troubleshooting method"
+    },
+    {
+     "no": "4.2",
+     "title": "Fault-finding table"
+    },
+    {
+     "no": "4.3",
+     "title": "Preventive maintenance"
+    },
+    {
+     "no": "4.4",
+     "title": "Printers, monitors and input devices"
+    },
+    {
+     "no": "4.5",
+     "title": "Network cabling lab"
+    },
+    {
+     "no": "4.6",
+     "title": "Eight preventive maintenance tasks"
+    }
+   ],
+   "summary": [
+    "Methodical troubleshooting beats guessing: simplest cause first, one change at a time, known-good parts.",
+    "Preventive maintenance (cleaning, updates, backups, UPS) avoids most failures.",
+    "Printers, monitors and input devices have well-known faults with simple remedies.",
+    "A good Ethernet cable follows one colour standard on both ends, and a tester proves it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3075,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 4,
+ "topic_count": 23,
+ "notes_ready": 4
+}

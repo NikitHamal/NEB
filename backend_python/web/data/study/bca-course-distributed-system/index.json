@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-6-distributed-system",
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction, Goals, Architectures and Naming",
+   "area": "BCA 355 · Distributed System · Unit 1",
+   "words": 4129,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Communication: Sockets, RPC, RMI, gRPC and Message Queues",
+   "area": "BCA 355 · Distributed System · Unit 2",
+   "words": 4207,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Time, Clocks and Global State",
+   "area": "BCA 355 · Distributed System · Unit 3",
+   "words": 4140,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Coordination: Mutual Exclusion and Leader Election",
+   "area": "BCA 355 · Distributed System · Unit 4",
+   "words": 3889,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Distributed Transactions and Concurrency Control",
+   "area": "BCA 355 · Distributed System · Unit 5",
+   "words": 3802,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Replication, Consistency Models and Consensus",
+   "area": "BCA 355 · Distributed System · Unit 6",
+   "words": 4048,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Fault Tolerance and Distributed File Systems",
+   "area": "BCA 355 · Distributed System · Unit 7",
+   "words": 3994,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

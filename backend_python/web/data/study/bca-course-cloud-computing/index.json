@@ -1,0 +1,68 @@
+{
+ "book": "bcacourse-semester-8-cloud-computing",
+ "units": [
+  {
+   "no": 1,
+   "title": "Cloud Foundations, the NIST Model, Service and Deployment Models",
+   "area": "BCA 451 · Cloud Computing · Unit 1",
+   "words": 2720,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Virtualization Internals and Containers",
+   "area": "BCA 451 · Cloud Computing · Unit 2",
+   "words": 2817,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Cloud Storage, Erasure Coding, Consistent Hashing and Quorums",
+   "area": "BCA 451 · Cloud Computing · Unit 3",
+   "words": 2696,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Cloud Networking, VPC Addressing, VXLAN, Load Balancing and CDN",
+   "area": "BCA 451 · Cloud Computing · Unit 4",
+   "words": 2635,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Microservices, Kubernetes, Autoscaling and Queueing Theory",
+   "area": "BCA 451 · Cloud Computing · Unit 5",
+   "words": 3089,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Cloud Security, IAM Evaluation and Envelope Encryption",
+   "area": "BCA 451 · Cloud Computing · Unit 6",
+   "words": 2781,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Cloud Economics, SLA Mathematics and FinOps",
+   "area": "BCA 451 · Cloud Computing · Unit 7",
+   "words": 3007,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

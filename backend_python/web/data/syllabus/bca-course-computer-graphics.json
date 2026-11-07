@@ -1,0 +1,388 @@
+{
+ "grade": "bca-course",
+ "grade_label": "BCA Course",
+ "grade_label_ne": "बीसीए पाठ्यक्रम",
+ "short": "BCA Course",
+ "kind": "course",
+ "subject": "computer-graphics",
+ "name": "Computer Graphics and Animation",
+ "name_ne": "",
+ "icon": "draw",
+ "group": "semester-6",
+ "group_label": "Semester VI",
+ "color": "#DB2777",
+ "lang": "en",
+ "code": "BCA 351",
+ "credits": 3,
+ "semester": 6,
+ "hours": 45,
+ "questions": null,
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Introduction and Graphics Hardware",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Applications and areas",
+    "Display devices",
+    "The frame buffer and its arithmetic",
+    "The graphics pipeline and the GPU",
+    "Seeing the ideas: pixels, tubes, tables and the pipeline"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Applications and areas"
+    },
+    {
+     "no": "1.2",
+     "title": "Display devices"
+    },
+    {
+     "no": "1.3",
+     "title": "The frame buffer and its arithmetic"
+    },
+    {
+     "no": "1.4",
+     "title": "The graphics pipeline and the GPU"
+    },
+    {
+     "no": "1.5",
+     "title": "Seeing the ideas: pixels, tubes, tables and the pipeline"
+    }
+   ],
+   "summary": [
+    "Graphics covers modelling, rendering, animation and image processing; applications range from CAD to games to maps.",
+    "Raster displays store every pixel and give filled colour images with aliasing; vector displays store lines and scale perfectly.",
+    "Frame-buffer size = width × height × bits ÷ 8: 1920 × 1080 × 24 bits needs 62,20,800 bytes and about 373.2 MB/s at 60 Hz.",
+    "A look-up table trades colour range for memory; double buffering prevents flicker.",
+    "The pipeline runs from modelling through viewing, projection, clipping and rasterisation to display, and GPUs execute it in parallel."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2963,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Scan Conversion - Lines, Circles, Ellipses and Area Filling",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Requirements for line drawing",
+    "The DDA algorithm",
+    "Bresenham's line algorithm",
+    "The midpoint circle algorithm",
+    "The midpoint ellipse algorithm",
+    "Filling areas",
+    "Seeing the ideas: pixel grids, decisions and symmetry"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Requirements for line drawing"
+    },
+    {
+     "no": "2.2",
+     "title": "The DDA algorithm"
+    },
+    {
+     "no": "2.3",
+     "title": "Bresenham's line algorithm"
+    },
+    {
+     "no": "2.4",
+     "title": "The midpoint circle algorithm"
+    },
+    {
+     "no": "2.5",
+     "title": "The midpoint ellipse algorithm"
+    },
+    {
+     "no": "2.6",
+     "title": "Filling areas"
+    },
+    {
+     "no": "2.7",
+     "title": "Seeing the ideas: pixel grids, decisions and symmetry"
+    }
+   ],
+   "summary": [
+    "Scan conversion picks pixels for primitives; step along the major axis and update an error term.",
+    "DDA: steps = max(|Δx|, |Δy|), increments Δ/steps, round at each step; Bresenham uses p₀ = 2Δy − Δx and integer updates 2Δy or 2(Δy − Δx).",
+    "Midpoint circle: p₀ = 1 − r, update by 2x + 1 (inside) or 2(x − y) + 1 (outside) with eight-way symmetry; midpoint ellipse uses two regions with four-way symmetry.",
+    "Scan-line fill uses the odd–even rule; boundary and flood fill spread from a seed; antialiasing uses supersampling or coverage."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4036,
+    "figures": 0,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Two-Dimensional Transformations and Viewing",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Points, vectors and homogeneous coordinates",
+    "The basic transformations",
+    "Transforming an object",
+    "Composite transformations",
+    "Coordinate systems and the window-to-viewport transformation",
+    "Seeing the ideas: moving shapes, order and the viewport"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Points, vectors and homogeneous coordinates"
+    },
+    {
+     "no": "3.2",
+     "title": "The basic transformations"
+    },
+    {
+     "no": "3.3",
+     "title": "Transforming an object"
+    },
+    {
+     "no": "3.4",
+     "title": "Composite transformations"
+    },
+    {
+     "no": "3.5",
+     "title": "Coordinate systems and the window-to-viewport transformation"
+    },
+    {
+     "no": "3.6",
+     "title": "Seeing the ideas: moving shapes, order and the viewport"
+    }
+   ],
+   "summary": [
+    "Homogeneous coordinates (x, y, 1) turn translation into matrix multiplication; sequences collapse into one matrix applied right to left.",
+    "Translation, scaling, rotation, reflection and shear have standard 3 × 3 matrices; rotation matrices are orthogonal with determinant 1.",
+    "Order matters: translate-then-rotate differs from rotate-then-translate.",
+    "Rotation or scaling about a point is T(p) · R or S · T(−p).",
+    "Window-to-viewport mapping scales and shifts with sx and sy; unequal factors distort."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3148,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Clipping",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "The clipping problem",
+    "The Cohen–Sutherland line-clipping algorithm",
+    "The Liang–Barsky algorithm",
+    "Polygon clipping: Sutherland–Hodgman",
+    "Seeing the ideas: region codes, parameters and polygon clipping"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "The clipping problem"
+    },
+    {
+     "no": "4.2",
+     "title": "The Cohen–Sutherland line-clipping algorithm"
+    },
+    {
+     "no": "4.3",
+     "title": "The Liang–Barsky algorithm"
+    },
+    {
+     "no": "4.4",
+     "title": "Polygon clipping: Sutherland–Hodgman"
+    },
+    {
+     "no": "4.5",
+     "title": "Seeing the ideas: region codes, parameters and polygon clipping"
+    }
+   ],
+   "summary": [
+    "Clipping discards geometry outside the window; efficient algorithms accept or reject trivially before computing intersections.",
+    "Cohen–Sutherland: a 4-bit outcode per endpoint; OR = 0 accepts, AND ≠ 0 rejects; otherwise cut at one boundary and repeat.",
+    "Liang–Barsky: pₖt ≤ qₖ; t₀ = max of entering r, t₁ = min of leaving r; at most two intersections.",
+    "Sutherland–Hodgman clips a polygon against each boundary in turn with four in/out cases; concave polygons need Weiler–Atherton."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3405,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Three-Dimensional Transformations, Projection and Viewing",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Three-dimensional homogeneous transformations",
+    "Projection",
+    "Viewing",
+    "Back-face detection",
+    "Seeing the ideas: axes, perspective, frustum and culling"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Three-dimensional homogeneous transformations"
+    },
+    {
+     "no": "5.2",
+     "title": "Projection"
+    },
+    {
+     "no": "5.3",
+     "title": "Viewing"
+    },
+    {
+     "no": "5.4",
+     "title": "Back-face detection"
+    },
+    {
+     "no": "5.5",
+     "title": "Seeing the ideas: axes, perspective, frustum and culling"
+    }
+   ],
+   "summary": [
+    "3D transformations are 4 × 4 matrices; rotations about x, y, z are orthogonal matrices with determinant 1; order of composition matters.",
+    "Orthographic projection drops z; perspective projection divides by depth: x′ = x·d/z, y′ = y·d/z, via a matrix and a perspective divide.",
+    "Perspective causes foreshortening and vanishing points; parallel projection preserves parallel lines and sizes.",
+    "Viewing needs an eye, a look-at point and an up vector, a view volume (frustum) and a pipeline ending in the viewport transform.",
+    "Back-face culling tests N · V > 0 using the polygon normal."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3966,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Visible Surfaces, Illumination and Shading",
+   "hours": 7,
+   "area": "",
+   "topics": [
+    "Hidden-surface removal",
+    "Illumination models",
+    "Surface shading methods",
+    "Beyond local shading",
+    "Seeing the ideas: depth buffers, vectors, highlights and shading"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Hidden-surface removal"
+    },
+    {
+     "no": "6.2",
+     "title": "Illumination models"
+    },
+    {
+     "no": "6.3",
+     "title": "Surface shading methods"
+    },
+    {
+     "no": "6.4",
+     "title": "Beyond local shading"
+    },
+    {
+     "no": "6.5",
+     "title": "Seeing the ideas: depth buffers, vectors, highlights and shading"
+    }
+   ],
+   "summary": [
+    "The Z-buffer keeps the nearest depth per pixel and works for any surface; painter's algorithm sorts and overwrites; back-face culling removes rear faces.",
+    "The Phong model is ambient + diffuse (N · L) + specular (R · V)ⁿ; Blinn–Phong uses N · H.",
+    "Flat shading uses one intensity per polygon, Gouraud interpolates vertex intensities, Phong interpolates normals and lights every pixel.",
+    "Gouraud shading can miss a highlight inside a polygon; Phong shading captures it.",
+    "Textures, shadow maps, alpha blending and ray tracing add realism."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4445,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Curves, Surfaces and Computer Animation",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Representing curves",
+    "Bézier curves",
+    "B-spline curves",
+    "Surfaces and 3D models",
+    "Computer animation",
+    "Seeing the ideas: curves, continuity, easing and morphing"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Representing curves"
+    },
+    {
+     "no": "7.2",
+     "title": "Bézier curves"
+    },
+    {
+     "no": "7.3",
+     "title": "B-spline curves"
+    },
+    {
+     "no": "7.4",
+     "title": "Surfaces and 3D models"
+    },
+    {
+     "no": "7.5",
+     "title": "Computer animation"
+    },
+    {
+     "no": "7.6",
+     "title": "Seeing the ideas: curves, continuity, easing and morphing"
+    }
+   ],
+   "summary": [
+    "Parametric curves with control points give designers local, predictable shape control; continuity is described as C⁰, C¹, C².",
+    "Bézier curves use Bernstein weights, pass through the end points, lie in the convex hull and are evaluated by de Casteljau subdivision; the cubic B-spline gives C² continuity and local control but does not pass through the end points.",
+    "3D shapes are polygon meshes, patches, subdivision surfaces, CSG or procedural models.",
+    "Animation uses keyframes and interpolation; easing (smoothstep 3t² − 2t³) replaces robotic constant speed; morphing interpolates corresponding vertices.",
+    "A 90-second 24 fps full-HD clip is 2,160 frames and 13.44 GB uncompressed."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4657,
+    "figures": 0,
+    "examples": 2
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 39,
+ "notes_ready": 7
+}
