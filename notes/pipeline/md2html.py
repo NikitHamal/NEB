@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n, svgkit
+import devaeqn, figrun, photo, assets, i18n, svgkit, readflow
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -247,7 +247,14 @@ def _inline_one(tex):
         if img:
             return f'<span class="dv">{img}</span>'
     img = _math_img(tex, 10.7)
+    if img and _TALL.search(tex):
+        w = float(re.search(r'data-w="([0-9.]+)"', img).group(1))
+        if w >= 24:          # readflow.promote_tall may set it on its own line
+            img = img.replace("<img ", f'<img data-t="{_html.escape(tex, quote=True)}" ', 1)
     return img or f'<code>{_html.escape(tex)}</code>'
+
+
+_TALL = re.compile(r"\\(?:frac|dfrac|int|sum|prod|lim|binom|begin)")
 
 
 def _extract_display_math(body, store):
@@ -281,6 +288,12 @@ def _sheet(parts):
         widest = max(widest, mathsvg.width_mm(mathsvg.derive(t, 2), 11.2, display=True))
         cells.append(f"<span>{img}</span>")
     cols = "c3" if widest <= 50 else ("c2" if widest <= 80 else "c1")
+    n, k = len(cells), int(cols[1])
+    r = n % k if k > 1 else 0
+    # the last row is filled edge to edge: a lone cell spans the row, two cells share it
+    for j in range(n - r, n):
+        if r:
+            cells[j] = cells[j].replace("<span>", f'<span class="w{r}">', 1)
     return f'<span class="fxs {cols}">' + "".join(cells) + "</span>"
 
 
@@ -562,6 +575,7 @@ def convert(text, chapter_id="", fig_no_start=1):
     body = _extract_display_math(body, store)
     body = _extract_inline_math(body, store)
     _find_leaks(body)
+    body = readflow.blank_before_lists(body)
     body = _callouts(body)
     # Python-Markdown's list regex uses \d, which also matches Devanagari
     # digits, so a bullet written "- १. text" became a nested <ol> that
@@ -587,8 +601,14 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
+    htm = readflow.promote_tall(htm)
     htm = _derivation_tails(htm)
     htm = _answer_parts(htm)
+    htm = readflow.example_steps(htm)
+    htm = readflow.structure_prose(htm)
+    htm = readflow.sheet_paragraphs(htm)
+    htm = readflow.keep_with_next(htm)
+    htm = readflow.align_tables(htm)
     htm = _ragged_maths(htm)
     # WeasyPrint ignores <ol start="N">: a list resumed after a display
     # equation would restart at 1. Mirror the attribute with a counter reset.
