@@ -2,7 +2,7 @@
 
 `manifest.json` holds one listing per built PDF (92 books): title, description, level, program, tags, file, cover.
 `build_manifest.py` writes it from the spines, the BCA registry and the built PDFs, so a rebuilt book refreshes its
-own page count. `covers/` are the first pages as 420 px JPEGs, sent as the resource thumbnail.
+own page count. `covers/` are 16:9 JPEGs (1280 x 720, drawn by `notes/pipeline/thumb.py`, not the portrait first page) and are sent as the resource thumbnail.
 
 ```bash
 # 1. on the machine that has the repo and the PDFs
@@ -21,3 +21,6 @@ account already has in the library is skipped. Uploads are throttled by the serv
 Delete a line of `published.json` to upload a book again after rebuilding it (delete the old resource first).
 
 Regenerate the manifest after any PDF rebuild: `python tools/publish/build_manifest.py` (needs `pypdf` and `pymupdf`).
+
+Books already in the library keep the thumbnail they were uploaded with. To give them the 16:9 cover: `python tools/publish/update_covers.py --dry-run`, then without `--dry-run`
+(same credentials; matches `published.json` or the exact title; changes only the thumbnail).
