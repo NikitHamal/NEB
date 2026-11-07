@@ -14,7 +14,7 @@ from .models import FCMToken, PushCampaign, PushDelivery, Resource, ResourceAler
 from .post_insights import _change, _day_of, _days, _hour_label, _hour_of, _kpi
 
 DAY_MS = 86400000
-KIND_LABEL = {'manual': 'Broadcast', 'library': 'Library announcement', 'autopilot': 'Autopilot', 'test': 'Test'}
+KIND_LABEL = {'manual': 'Manual Admin', 'library': 'Batch Digest', 'autopilot': 'Autopilot Library', 'test': 'Test'}
 ERROR_LABEL = {
     'unregistered': 'App was uninstalled or the token expired',
     'sender_id_mismatch': 'Token belongs to another Firebase project',
@@ -50,6 +50,49 @@ def _window(days: int, now: int):
     return cur_from, cur_from - days * DAY_MS
 
 
+def _resource_ids(c: PushCampaign) -> list[str]:
+    ids = list(c.resource_ids or [])
+    if c.target_type == 'resource' and c.target_id and c.target_id not in ids:
+        ids.append(c.target_id)
+    return ids
+
+
+def rollup(campaigns) -> dict:
+    """Per campaign numbers for the history table, from the delivery rows (one query for all).
+
+    sent = people a push or inbox row was handed to; delivered = the push was accepted by Firebase or the
+    inbox row exists; failed = push refused; opened / clicked are deduplicated per person; ctr = clicked
+    over delivered; views = opens of the campaign's resources that came from a notification afterwards."""
+    campaigns = list(campaigns)
+    out = {c.id: {'targeted': c.users_targeted, 'sent': 0, 'delivered': 0, 'failed': 0, 'opened': 0,
+                  'clicked': 0, 'ctr': None, 'openRate': None, 'views': 0} for c in campaigns}
+    if not campaigns:
+        return out
+    for cid, status, opened, clicked in PushDelivery.objects.filter(campaign_id__in=list(out)).values_list(
+            'campaign_id', 'status', 'opened_at', 'clicked_at'):
+        o = out[cid]
+        if status in ('sent', 'failed', 'inbox'):
+            o['sent'] += 1
+        if status in ('sent', 'inbox'):
+            o['delivered'] += 1
+        if status == 'failed':
+            o['failed'] += 1
+        if opened:
+            o['opened'] += 1
+        if clicked:
+            o['clicked'] += 1
+    for c in campaigns:
+        o = out[c.id]
+        o['ctr'] = _pct(o['clicked'], o['delivered'])
+        o['openRate'] = _pct(o['opened'], o['delivered'])
+        rids = _resource_ids(c)
+        if rids:
+            t0 = c.started_at or c.created_at
+            o['views'] = ResourceReach.objects.filter(resource_id__in=rids, is_owner=False, surface='notification',
+                                                      first_at__gte=t0).count()
+    return out
+
+
 def _agg(qs):
     a = qs.aggregate(c=Count('id'), users=Sum('users_targeted'), pushed=Sum('users_pushed'), dt=Sum('devices_targeted'),
                      da=Sum('devices_accepted'), df=Sum('devices_failed'), pruned=Sum('tokens_pruned'))
@@ -71,6 +114,8 @@ def overview(days: int = 30, kind: str = '') -> dict:
 
     cur_opens, prev_opens = opens_of(cur_qs).count(), opens_of(prev_qs).count()
     clicks = PushDelivery.objects.filter(campaign__in=cur_qs.values('id')).exclude(clicked_at=0).count()
+    delivered = PushDelivery.objects.filter(campaign__in=cur_qs.values('id'), status__in=('sent', 'inbox')).count()
+    views = ResourceReach.objects.filter(is_owner=False, surface='notification', first_at__gte=cur_from).count()
     open_rows = list(opens_of(cur_qs).values_list('opened_at', 'opened_via'))
     via = Counter(v or 'inbox' for _t, v in open_rows)
 
@@ -114,6 +159,7 @@ def overview(days: int = 30, kind: str = '') -> dict:
         'openRate': _pct(cur_opens, cur['users']),
         'openRatePrev': _pct(prev_opens, prev['users']),
         'clickRate': _pct(clicks, cur['users']),
+        'clicks': clicks, 'delivered': delivered, 'ctr': _pct(clicks, delivered), 'resourceViews': views,
         'opensVia': {'push': via.get('push', 0), 'inbox': via.get('inbox', 0)},
         'series': series,
         'errors': error_rows(errors),

@@ -23,7 +23,13 @@ Done this task:
 
 ## Milestone 2: console and history
 
-(see below, updated as it ships)
+Done this task:
+
+* Compose (`admin_panel/push_notifications.html`, `js/admin-push.js`): audience modes All users, Class or level, Subject, Platform (Android app / Web only), Unnotified library. Hidden mode fields are disabled so they are never sent; live recipient tiles (people, Android, web only) update on every change; the unnotified mode shows the unannounced resource count and a sample digest, and its button reads Announce. No inline styles, no helper text.
+* Trigger labels: `manual` Manual Admin, `library` Batch Digest, `autopilot` Autopilot Library (`push_stats.KIND_LABEL`).
+* History (`push_history.html`): per campaign time, trigger, target class and subject, targeted, sent, delivered, failed, opened, clicked, CTR, resource views, status. Numbers come from `push_stats.rollup()` over `PushDelivery` rows. Sent = push or inbox row handed over, delivered = push accepted or inbox row present, CTR = clicked over delivered, views = notification-surface opens of the campaign's resources after it started.
+* Tracking: Android tap `POST /api/push/opened/`; web inbox read marks opened; web inbox links for campaign rows now carry `?src=push` so the resource open counts as a notification view and marks the delivery clicked. Opens and clicks are first-write-wins per person.
+* Tests: `web.test_admin_push_pages` (modes, platform split, batch, history, source link).
 
 ## Milestone 3: resource analytics
 
