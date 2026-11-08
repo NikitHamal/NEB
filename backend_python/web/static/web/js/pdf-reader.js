@@ -17,6 +17,16 @@
     return lib;
   }
 
+  /* One document per file, shared by the classic reader and the book reader, so switching modes never downloads twice. */
+  var docs = {};
+  function open(src) {
+    if (!docs[src]) {
+      docs[src] = load().then(function (m) { return m.getDocument({ url: src, withCredentials: false }).promise; });
+      docs[src].catch(function () { delete docs[src]; });
+    }
+    return docs[src];
+  }
+
   function el(tag, cls, html) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -133,10 +143,7 @@
       }).observe(scroll);
     }
 
-    var ready = load().then(function (m) {
-      var task = m.getDocument({ url: src, withCredentials: false });
-      return task.promise;
-    }).then(function (doc) {
+    var ready = open(src).then(function (doc) {
       state.doc = doc;
       total.textContent = doc.numPages;
       return doc.getPage(1).then(function (page) {
@@ -155,8 +162,12 @@
       });
     });
 
-    return { node: root, ready: ready };
+    function goto(n) {
+      var p = state.pages[Math.max(1, Math.min(state.pages.length, n)) - 1];
+      if (p) scroll.scrollTop = p.box.offsetTop - 12;
+    }
+    return { node: root, ready: ready, goto: goto, page: function () { return state.current; } };
   }
 
-  window.NebPdf = { mount: mount };
+  window.NebPdf = { mount: mount, open: open };
 })();
