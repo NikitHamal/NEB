@@ -120,6 +120,23 @@ class BookReaderTests(TestCase):
 
     def test_book_follows_the_design_bans(self):
         from pathlib import Path
-        css = (Path(__file__).parent / 'static' / 'web' / 'css' / 'm3x' / 'app-book.css').read_text(encoding='utf-8')
-        self.assertNotIn('box-shadow', css)
-        self.assertNotIn('border-radius: 0;', css)
+        css_dir = Path(__file__).parent / 'static' / 'web' / 'css' / 'm3x'
+        for name in ('app-book.css', 'app-pdfkit.css', 'app-classic.css'):
+            css = (css_dir / name).read_text(encoding='utf-8')
+            self.assertNotIn('box-shadow', css, name)
+            self.assertNotIn('border-radius: 0;', css, name)
+
+    def test_shared_kit_loads_first_and_both_readers_use_it(self):
+        from pathlib import Path
+        web = Path(__file__).parent / 'static' / 'web'
+        html = self.page()
+        self.assertLess(html.index('web/js/pdf-core.js'), html.index('web/js/pdf-reader.js'))
+        kit = (web / 'js' / 'pdf-core.js').read_text(encoding='utf-8')
+        for api in ('K.sfx', 'K.speech', 'K.ink', 'K.panels', 'K.scrubber', 'K.thumbs', 'K.text'):
+            self.assertIn(api, kit)
+        for name in ('pdf-book.js', 'pdf-reader.js'):
+            js = (web / 'js' / name).read_text(encoding='utf-8')
+            self.assertIn('NebPdfKit', js, name)
+            self.assertNotIn('`', js, name)  # the static bundle is minified without template literal support
+        self.assertIn('.nx-inkbar', (web / 'css' / 'm3x-app.css').read_text(encoding='utf-8'))
+        self.assertIn('.cl-scroll', (web / 'css' / 'm3x-app.css').read_text(encoding='utf-8'))

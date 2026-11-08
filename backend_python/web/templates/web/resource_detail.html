@@ -258,6 +258,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'web/js/pdf-core.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/js/pdf-reader.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/js/pdf-book.js' %}" nonce="{{ csp_nonce }}"></script>
 <script src="{% static 'web/js/resource-viewer.js' %}" nonce="{{ csp_nonce }}"></script>

@@ -14,7 +14,9 @@
 @import url("m3x/app-surfaces.css");
 @import url("m3x/app-screens.css");
 @import url("m3x/app-viewer.css");
+@import url("m3x/app-pdfkit.css");
 @import url("m3x/app-book.css");
+@import url("m3x/app-classic.css");
 @import url("m3x/app-reader.css");
 @import url("m3x/app-news-source.css");
 @import url("m3x/app-mobile.css");
