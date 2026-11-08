@@ -31,6 +31,12 @@
     <div class="vw-bar">
       <button type="button" class="x-icon-btn" data-vw-close aria-label="Close reader"><span class="material-symbols-outlined" aria-hidden="true">close</span></button>
       <span class="vw-bar-title">{{ part.title }}</span>
+      {% if part.kind == 'pdf' %}
+      <div class="vw-mode" role="group" aria-label="Reader style" data-vw-mode>
+        <button type="button" data-mode="book" aria-pressed="true" title="Book reader: turn pages"><span class="material-symbols-outlined" aria-hidden="true">auto_stories</span><span>Book</span></button>
+        <button type="button" data-mode="classic" aria-pressed="false" title="Classic reader: scroll"><span class="material-symbols-outlined" aria-hidden="true">article</span><span>Classic</span></button>
+      </div>
+      {% endif %}
       {% if part.kind != 'link' %}<button type="button" class="x-icon-btn" data-neb-open="get-app-dialog" aria-haspopup="dialog" aria-label="Download"><span class="material-symbols-outlined" aria-hidden="true">download</span></button>{% endif %}
       <button type="button" class="x-icon-btn" id="vw-fs" aria-label="Full screen"><span class="material-symbols-outlined" aria-hidden="true">fullscreen</span></button>
     </div>

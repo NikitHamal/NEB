@@ -85,3 +85,41 @@ class PdfReaderAssetsTests(TestCase):
         home = (web / 'static/web/js/pages/home.js').read_text(encoding='utf-8')
         self.assertIn('emojiTarget', home)
         self.assertNotIn('contentInput.selectionStart', home.split('function insertEmoji')[1].split('if (emojiBtn')[0])
+
+
+class BookReaderTests(TestCase):
+    """The page-turning reader ships, is wired, and the classic reader stays one click away."""
+
+    def page(self):
+        return self.client.get('/app/reader/%s/' % make('B', file_url='/media/resources/fixture.pdf').id).content.decode()
+
+    def test_book_assets_are_wired(self):
+        from pathlib import Path
+        web = Path(__file__).parent / 'static' / 'web'
+        self.assertTrue((web / 'js' / 'pdf-book.js').exists())
+        self.assertTrue((web / 'css' / 'm3x' / 'app-book.css').exists())
+        self.assertIn('.bk-flip', (web / 'css' / 'm3x-app.css').read_text(encoding='utf-8'))
+        html = self.page()
+        self.assertIn('web/js/pdf-book.js', html)
+        self.assertLess(html.index('web/js/pdf-reader.js'), html.index('web/js/pdf-book.js'))
+        self.assertLess(html.index('web/js/pdf-book.js'), html.index('web/js/resource-viewer.js'))
+
+    def test_pdf_has_a_style_switch_and_other_kinds_do_not(self):
+        html = self.page()
+        self.assertIn('data-vw-mode', html)
+        self.assertIn('data-mode="classic"', html)
+        other = self.client.get('/app/reader/%s/' % make('A', file_url='/media/x/a.mp3', type='Audio').id).content.decode()
+        self.assertNotIn('data-vw-mode', other)
+
+    def test_viewer_keeps_both_readers(self):
+        from pathlib import Path
+        js = (Path(__file__).parent / 'static' / 'web' / 'js' / 'resource-viewer.js').read_text(encoding='utf-8')
+        self.assertIn('NebBook.mount', js)
+        self.assertIn('NebPdf.mount', js)
+        self.assertIn('neb.reader.mode', js)
+
+    def test_book_follows_the_design_bans(self):
+        from pathlib import Path
+        css = (Path(__file__).parent / 'static' / 'web' / 'css' / 'm3x' / 'app-book.css').read_text(encoding='utf-8')
+        self.assertNotIn('box-shadow', css)
+        self.assertNotIn('border-radius: 0;', css)
