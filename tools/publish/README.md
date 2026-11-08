@@ -20,6 +20,19 @@ A run is resumable: `published.json` (slug to resource id) is written after ever
 account already has in the library is skipped. Uploads are throttled by the server; the script waits on a 429.
 Delete a line of `published.json` to upload a book again after rebuilding it (delete the old resource first).
 
+## Updating rebuilt PDFs and covers
+
+```bash
+python tools/publish/build_manifest.py                 # refresh listings (and covers/) from the rebuilt PDFs
+python tools/publish/update_books.py --seed            # once, after the first publish run
+python tools/publish/update_books.py --dry-run         # what changed since the last run
+python tools/publish/update_books.py                   # PATCH only the changed files
+python manage.py approve_book_uploads <username> --yes # on the server, the edit puts them back to pending
+```
+
+`update_books.py` compares each PDF and cover with `published_files.json` (the versions last uploaded) and sends
+only what changed; listing text stays untouched. Re-run it after every batch of rebuilds.
+
 Regenerate the manifest after any PDF rebuild: `python tools/publish/build_manifest.py` (needs `pypdf` and `pymupdf`).
 
 Books already in the library keep the thumbnail they were uploaded with. To give them the 16:9 cover: `python tools/publish/update_covers.py --dry-run`, then without `--dry-run`
