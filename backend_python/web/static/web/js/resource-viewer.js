@@ -74,7 +74,7 @@
     if (mode === 'book' && window.NebBook && window.NebPdf) {
       h = window.NebBook.mount(src, title, { page: page, onClassic: function () { setMode('classic'); } });
     } else if (window.NebPdf && 'IntersectionObserver' in window) {
-      h = window.NebPdf.mount(src, title);
+      h = window.NebPdf.mount(src, title, { page: page, onBook: window.NebBook ? function () { setMode('book'); } : null });
     } else return pdfFallback();
     handle = h;
     h.node._ready = h.ready;
@@ -101,7 +101,6 @@
     view.appendChild(node);
     if (node._ready) {
       node._ready.then(function () {
-        if (mode === 'classic' && page > 1 && handle && handle.goto) setTimeout(function () { handle.goto(page); }, 80);
         settle(null);
         if (node.focus) node.focus({ preventScroll: true });
       }, function () {
@@ -177,10 +176,10 @@
     reader.hidden = true;
     cover.hidden = false;
     view.querySelectorAll('video, audio').forEach(function (m) { m.pause(); });
-    if (kind === 'pdf' && mode === 'book' && handle) {
-      // The book stops its timers and keys when closed; opening again resumes at the saved page.
+    if (kind === 'pdf' && handle) {
+      // Either reader stops its timers, sound and voice and frees its page canvases when closed; opening again resumes at the saved page.
       dropPdf();
-      view.querySelectorAll('.bk').forEach(function (n) { n.remove(); });
+      view.querySelectorAll('.bk, .vw-pdf').forEach(function (n) { n.remove(); });
       if (loading) loading.classList.remove('is-done');
       mounted = false;
     }

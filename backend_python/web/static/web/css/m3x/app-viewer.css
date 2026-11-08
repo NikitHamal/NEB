@@ -166,16 +166,6 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .vw-pdf-page.is-ready::after { display: none; }
 .vw-pdf-page canvas { display: block; user-select: none; -webkit-user-drag: none; }
 @keyframes vw-pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
-.vw-pdf-dock {
-  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 4px; padding: 6px;
-  border-radius: 28px; background: var(--x-float); border: 1px solid var(--x-float-line); color: var(--md-on-surface);
-}
-.vw-pdf-btn { width: 44px; height: 44px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--md-secondary-container); color: var(--md-on-secondary-container); transition: border-radius .45s var(--spring), transform .3s var(--spring); }
-.vw-pdf-btn:hover { }
-.vw-pdf-btn:active { transform: scale(.9); }
-.vw-pdf-count { min-width: 72px; text-align: center; font-weight: 600; font-size: .9375rem; font-variant-numeric: tabular-nums; }
-.vw-pdf-count b { font-weight: 700; }
-.vw-pdf-count i { font-style: normal; color: var(--md-on-surface-variant); }
 @media (min-width: 640px) { .vw-pdf-scroll { padding-inline: 20px; } }
 @media (prefers-reduced-motion: reduce) { .vw-pdf-page::after { animation: none; } }
 
