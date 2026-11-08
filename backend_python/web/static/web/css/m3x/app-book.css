@@ -24,7 +24,7 @@
 .bk-book { position: relative; flex: none; margin: auto; isolation: isolate; perspective: 2200px; perspective-origin: 50% 45%; will-change: transform; }
 
 /* a soft contact shade on the desk under the book: neutral, no drop shadow */
-.bk-ao { position: absolute; left: -3%; right: -3%; bottom: -22px; height: 44px; z-index: -1; pointer-events: none; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, .26), transparent); }
+.bk-ao { position: absolute; bottom: -22px; height: 44px; z-index: -1; pointer-events: none; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, .26), transparent); }
 .bk[data-tone="night"] .bk-ao { background: radial-gradient(closest-side, rgba(0, 0, 0, .5), transparent); }
 
 .bk-board {

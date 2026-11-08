@@ -107,7 +107,7 @@
     function widthFor(p, g) {
       var n = natural(p);
       if (st.mode === 'pct') return Math.max(80, Math.floor(n.w * 4 / 3 * st.pct));
-      if (st.mode === 'fitp') return Math.max(120, Math.floor(Math.min(g.avail, (g.ch - 118) / (n.h / n.w))));
+      if (st.mode === 'fitp') return Math.max(120, Math.floor(Math.min(g.avail, (g.ch - 132) / (n.h / n.w))));
       return Math.floor(g.avail);
     }
     function pctOf(p) { var n = natural(p); return p.w / (n.w * 4 / 3); }
