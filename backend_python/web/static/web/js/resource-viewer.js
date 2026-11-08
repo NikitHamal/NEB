@@ -55,14 +55,75 @@
     return f;
   }
 
+  /* PDF styles: the page-turning book (default) or the classic scrolling reader. The choice is remembered; switching
+     keeps the page you are on, and both share one downloaded document (NebPdf.open). */
+  var MODE_KEY = 'neb.reader.mode';
+  var mode = 'book';
+  try { mode = localStorage.getItem(MODE_KEY) === 'classic' ? 'classic' : 'book'; } catch (e) { /* storage blocked */ }
+  var handle = null;
+  var modeBox = stage.querySelector('[data-vw-mode]');
+
+  function paintMode() {
+    if (kind !== 'pdf') return;
+    stage.setAttribute('data-mode', mode);
+    if (modeBox) modeBox.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mode') === mode ? 'true' : 'false'); });
+  }
+
+  function pdfNode(page) {
+    var h;
+    if (mode === 'book' && window.NebBook && window.NebPdf) {
+      h = window.NebBook.mount(src, title, { page: page, onClassic: function () { setMode('classic'); } });
+    } else if (window.NebPdf && 'IntersectionObserver' in window) {
+      h = window.NebPdf.mount(src, title);
+    } else return pdfFallback();
+    handle = h;
+    h.node._ready = h.ready;
+    return h.node;
+  }
+
+  function dropPdf() {
+    if (!handle) return;
+    if (handle.destroy) handle.destroy(); else if (handle.node) handle.node.remove();
+    handle = null;
+  }
+
+  function setMode(next) {
+    if (kind !== 'pdf' || next === mode) return;
+    var page = handle && handle.page ? handle.page() : 0;
+    mode = next;
+    try { localStorage.setItem(MODE_KEY, mode); } catch (e) { /* storage blocked */ }
+    paintMode();
+    if (!mounted) return;
+    dropPdf();
+    view.querySelectorAll('.vw-pdf, .vw-iframe, .vw-fallback').forEach(function (n) { n.remove(); });
+    if (loading) loading.classList.remove('is-done');
+    var node = pdfNode(page);
+    view.appendChild(node);
+    if (node._ready) {
+      node._ready.then(function () {
+        if (mode === 'classic' && page > 1 && handle && handle.goto) setTimeout(function () { handle.goto(page); }, 80);
+        settle(null);
+        if (node.focus) node.focus({ preventScroll: true });
+      }, function () {
+        var alt = pdfFallback();
+        if (node.parentNode) view.replaceChild(alt, node); else view.appendChild(alt);
+        settle(alt);
+      });
+    } else settle(node);
+  }
+
+  if (modeBox) {
+    modeBox.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-mode]');
+      if (b) setMode(b.getAttribute('data-mode'));
+    });
+    paintMode();
+  }
+
   function build() {
     var node;
     if (kind === 'pdf') {
-      if (window.NebPdf && 'IntersectionObserver' in window) {
-        var pdf = window.NebPdf.mount(src, title);
-        node = pdf.node;
-        node._ready = pdf.ready;
-      } else node = pdfFallback();
+      node = pdfNode(0);
     } else if (kind === 'image') {
       node = el('div', 'vw-image');
       var img = el('img', '', { alt: title, draggable: 'false' });
@@ -96,7 +157,7 @@
         if (window.NebMedia) window.NebMedia.mount(node);
         settle(null);
       } else if (node._ready) {
-        node._ready.then(function () { settle(null); }, function () {
+        node._ready.then(function () { settle(null); if (node.focus) node.focus({ preventScroll: true }); }, function () {
           var alt = pdfFallback();
           view.replaceChild(alt, node);
           settle(alt);
@@ -116,6 +177,13 @@
     reader.hidden = true;
     cover.hidden = false;
     view.querySelectorAll('video, audio').forEach(function (m) { m.pause(); });
+    if (kind === 'pdf' && mode === 'book' && handle) {
+      // The book stops its timers and keys when closed; opening again resumes at the saved page.
+      dropPdf();
+      view.querySelectorAll('.bk').forEach(function (n) { n.remove(); });
+      if (loading) loading.classList.remove('is-done');
+      mounted = false;
+    }
     if (!reduced && cover.animate) cover.animate([{ opacity: 0, transform: 'scale(.98)' }, { opacity: 1, transform: 'none' }], { duration: 360, easing: 'cubic-bezier(.2,1.1,.3,1)' });
   }
 
