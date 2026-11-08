@@ -1,100 +1,103 @@
-/* NebBook: the page-turning PDF reader. A PDF becomes a hardcover book: a closed cover that opens, two-page spreads
-   on wide screens and single pages on phones, leaves that bend and turn in 3D (drag a corner, swipe, click an edge,
-   use the keys), page stacks that grow and shrink as you read, and a reading desk around it: thumbnails, contents,
-   full-text search with highlights, bookmarks with notes, a resume point, paper / sepia / night tones, zoom, auto-turn
-   and an optional page sound.  Pages are drawn by PDF.js (shared with the classic reader through NebPdf.open) and only
-   the few pages around the spread live in memory.
+/* NebBook: the page-turning PDF reader. A PDF becomes a hardcover book on a reading desk: a spine, boards and page stacks that
+   grow and shrink as you read, leaves that bend and turn in 3D with a moving sheen and a cast shade (drag a corner, swipe,
+   click an edge, keys), a book that tilts toward the pointer, pinch / wheel zoom to 400%, pen and highlighter on the pages,
+   read aloud, paper sounds, search with highlights, contents, thumbnails, bookmarks with notes, resume point, paper / sepia /
+   night tones and auto-turn.  Pages are drawn by PDF.js (shared through NebPdf.open); a byte budget decides how many canvases
+   stay in memory, the turning leaf is one pooled DOM that is repainted, never rebuilt.
+   Shared parts (sound, ink, search, panels, scrubber, settings) live in pdf-core.js.
 
    window.NebBook.mount(src, title, { page, onClassic }) -> { node, ready, goto(n), page(), destroy() }
-   `ready` rejects when the file cannot be drawn so the caller can fall back to the classic reader.
+   ready rejects when the file cannot be drawn so the caller can fall back to the classic reader.
    Everything is flat: no shadows, shading is a neutral overlay that follows the leaf angle. */
 (function () {
   'use strict';
-
-  var D = document;
-  var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var K = window.NebPdfKit;
+  if (!K) return;
+  var D = document, el = K.el, icon = K.icon, clamp = K.clamp, btn = K.btn, setLabel = K.setLabel, sfx = K.sfx;
+  var reduced = K.reduced;
   var PREFS_KEY = 'neb.book.prefs';
-  var DEFAULTS = { tone: 'paper', bright: 100, layout: 'auto', speed: 'normal', curl: true, sound: false, interval: 8 };
+  var DEFAULTS = { tone: 'paper', bright: 100, warm: 0, layout: 'auto', cover: 'subject', speed: 'normal', curl: 'rich', tilt: true, hide: true, interval: 8, rate: 1 };
   var SPEED = { slow: 1250, normal: 820, fast: 520 };
-  var STRIPS = 14, CURL = 34, PEEK = 13, CACHE = 14;
-
-  function el(tag, cls, html) {
-    var n = D.createElement(tag);
-    if (cls) n.className = cls;
-    if (html) n.innerHTML = html;
-    return n;
-  }
-  function icon(name) { return '<span class="material-symbols-outlined" aria-hidden="true">' + name + '</span>'; }
-  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
-  function jget(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
-  function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* private mode */ } }
-  function easeInOut(k) { return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
-  function easeOut(k) { return 1 - Math.pow(1 - k, 3); }
-  function btn(cls, ic, label, extra) {
-    return '<button type="button" class="' + cls + '" aria-label="' + label + '" title="' + label + '"' + (extra || '') + '>' + icon(ic) + '</button>';
-  }
-  function setLabel(b, t) { b.title = t; b.setAttribute('aria-label', t); }
+  var STRIPN = { off: 1, soft: 9, rich: 18 };
+  var CURL = 34, PEEK = 13, ZMAX = 4;
+  var CTXF = (function () { try { return 'filter' in CanvasRenderingContext2D.prototype; } catch (e) { return false; } })();
+  var easeInOut = K.ease.inOut, easeOut = K.ease.out;
 
   function mount(src, title, opts) {
     opts = opts || {};
     var alive = true;
-    var prefs = Object.assign({}, DEFAULTS, jget(PREFS_KEY) || {});
-    var docKey = 'neb.book.doc:' + src;
-    var store = Object.assign({ last: 1, max: 1, time: 0, marks: [] }, jget(docKey) || {});
+    var prefs = Object.assign({}, DEFAULTS, K.jget(PREFS_KEY) || {});
+    if (prefs.curl === true) prefs.curl = 'rich'; else if (prefs.curl === false) prefs.curl = 'off';
+    if (!STRIPN[prefs.curl]) prefs.curl = 'rich';
+    prefs.sound = sfx.state.on; prefs.vol = Math.round(sfx.state.vol * 100);
+    var store = K.store(src), ink = K.ink(src);
     var S = {
-      doc: null, N: 0, ratio: 1.414, W: 0, H: 0, spread: true, pos: 0, zoom: 1, F: null, busy: false, queue: [], tok: 0,
-      hlq: '', panel: '', drag: null, peek: 0, auto: 0, idle: Date.now(), dirty: false, bare: false
+      doc: null, N: 0, ratio: 1.414, W: 0, H: 0, spread: true, pos: 0, zoom: 1, F: null, busy: false, queue: [], tok: 0, pending: null,
+      hlq: '', drag: null, peek: 0, auto: 0, moved: Date.now(), bare: false, inking: false, reading: false, readPage: 0, overUi: false,
+      tx: 0, ty: 0, gx: 0, gy: 0, shift: 0, pts: {}, pinch: null, rend: 0, lastTap: 0, text: null, thumbs: null
     };
-    var cache = new Map();
-    var texts = {};
-    var timers = [];
+    var cache = new Map(), bytes = 0, BUDGET = K.budget(), timers = [], leaf = null, text = null, thumbs = null, panels = null, session = null, scr = null;
 
     /* ---------------------------------------------------------------- DOM */
     var root = el('div', 'bk');
     root.tabIndex = 0;
     root.setAttribute('role', 'application');
     root.setAttribute('aria-label', (title || 'Book') + ', page turning reader');
+    function page() { return '<div class="bk-pg"><div class="nx-hls"></div><canvas class="nx-ink"></canvas></div>'; }
     root.innerHTML =
       '<div class="bk-desk"><div class="bk-zoom"><div class="bk-book">' +
-        '<div class="bk-board bk-bl"></div><div class="bk-board bk-br"></div>' +
+        '<div class="bk-ao"></div><div class="bk-board bk-bl"></div><div class="bk-board bk-br"></div><div class="bk-spine"></div>' +
         '<div class="bk-stack bk-sl"></div><div class="bk-stack bk-sr"></div>' +
-        '<div class="bk-cell bk-l is-empty"><div class="bk-pg"><div class="bk-hls"></div></div></div>' +
-        '<div class="bk-cell bk-r is-empty"><div class="bk-pg"><div class="bk-hls"></div></div></div>' +
+        '<div class="bk-cell bk-l is-empty">' + page() + '</div><div class="bk-cell bk-r is-empty">' + page() + '</div>' +
         '<div class="bk-castw"><div class="bk-cast"></div></div>' +
       '</div></div></div>' +
-      '<div class="bk-top bk-ui" role="toolbar" aria-label="Reader tools">' +
-        '<div class="bk-grp">' +
-          btn('bk-ib', 'grid_view', 'Pages', ' data-panel="pages"') + btn('bk-ib', 'toc', 'Contents', ' data-panel="toc"') +
-          btn('bk-ib', 'search', 'Search', ' data-panel="search"') + btn('bk-ib', 'bookmarks', 'Bookmarks', ' data-panel="marks"') +
-        '</div>' +
-        '<div class="bk-grp">' +
-          btn('bk-ib', 'bookmark_add', 'Bookmark this page', ' data-act="mark"') + btn('bk-ib', 'tune', 'Reading settings', ' data-act="settings"') +
-          btn('bk-ib bk-hide-s', 'keyboard', 'Keyboard shortcuts', ' data-act="help"') +
-        '</div>' +
+      '<div class="bk-top nx-ui" role="toolbar" aria-label="Reader tools">' +
+        '<div class="nx-grp">' + btn('nx-ib', 'grid_view', 'Pages', ' data-panel="pages"') + btn('nx-ib', 'toc', 'Contents', ' data-panel="toc"') +
+          btn('nx-ib', 'search', 'Search', ' data-panel="search"') + btn('nx-ib', 'bookmarks', 'Bookmarks', ' data-panel="marks"') + '</div>' +
+        '<div class="nx-grp">' + btn('nx-ib', 'bookmark_add', 'Bookmark this page', ' data-act="mark"') + btn('nx-ib', 'draw', 'Annotate', ' data-act="ink"') +
+          (K.speech.ok ? btn('nx-ib nx-hide-s', 'record_voice_over', 'Read aloud', ' data-act="read"') : '') +
+          btn('nx-ib nx-hide-s', 'volume_up', 'Page sound', ' data-act="sound"') + btn('nx-ib', 'tune', 'Reading settings', ' data-act="settings"') +
+          btn('nx-ib nx-hide-s', 'keyboard', 'Keyboard shortcuts', ' data-act="help"') + '</div>' +
       '</div>' +
-      '<div class="bk-dock bk-ui">' +
-        '<div class="bk-grp bk-nav">' + btn('bk-ib bk-hide-s', 'first_page', 'First page', ' data-act="first"') + btn('bk-ib', 'chevron_left', 'Previous page', ' data-act="prev"') + '</div>' +
-        '<div class="bk-scrub"><div class="bk-track"><i class="bk-fill"></i><span class="bk-ticks"></span></div><input type="range" class="bk-range" min="1" max="1" value="1" aria-label="Go to page"><span class="bk-tip" hidden></span></div>' +
-        '<button type="button" class="bk-pill" data-act="goto" aria-label="Go to page"><b>1</b><i>/ 1</i></button>' +
-        '<div class="bk-grp bk-nav">' + btn('bk-ib', 'chevron_right', 'Next page', ' data-act="next"') + btn('bk-ib bk-hide-s bk-mirror', 'first_page', 'Last page', ' data-act="last"') + '</div>' +
-        '<div class="bk-sep bk-hide-s"></div>' +
-        '<div class="bk-grp bk-hide-s">' + btn('bk-ib', 'remove', 'Zoom out', ' data-act="zout"') + '<button type="button" class="bk-zl" data-act="zreset" aria-label="Reset zoom">100%</button>' + btn('bk-ib', 'add', 'Zoom in', ' data-act="zin"') + btn('bk-ib', 'play_arrow', 'Turn pages automatically', ' data-auto="1"') + '</div>' +
+      '<div class="bk-dock nx-ui">' +
+        '<div class="nx-grp">' + btn('nx-ib nx-hide-s', 'first_page', 'First page', ' data-act="first"') + btn('nx-ib', 'chevron_left', 'Previous page', ' data-act="prev"') + '</div>' + K.SCRUB +
+        '<button type="button" class="nx-pill" data-act="goto" aria-label="Go to page"><b>1</b><i>/ 1</i></button>' +
+        '<div class="nx-grp">' + btn('nx-ib', 'chevron_right', 'Next page', ' data-act="next"') + btn('nx-ib nx-hide-s nx-mirror', 'first_page', 'Last page', ' data-act="last"') + '</div>' +
+        '<div class="nx-sep nx-hide-s"></div>' +
+        '<div class="nx-grp nx-hide-s">' + btn('nx-ib', 'remove', 'Zoom out', ' data-act="zout"') + '<button type="button" class="nx-zl" data-act="zreset" aria-label="Reset zoom">100%</button>' +
+          btn('nx-ib', 'add', 'Zoom in', ' data-act="zin"') + btn('nx-ib', 'play_arrow', 'Turn pages automatically', ' data-auto="1"') + '</div>' +
       '</div>' +
-      '<aside class="bk-panel bk-ui" hidden aria-label="Book panel"></aside>' +
-      '<div class="bk-pop bk-ui" hidden role="dialog" aria-label="Reading settings"></div>' +
-      '<div class="bk-help bk-ui" hidden role="dialog" aria-label="Keyboard shortcuts"></div>' +
-      '<div class="bk-toast" hidden role="status"></div>' +
-      '<div class="bk-load"><span class="bk-spin"></span></div>';
+      '<aside class="nx-panel nx-ui bk-panel" hidden aria-label="Book panel"></aside>' +
+      '<div class="nx-pop nx-ui" hidden role="dialog" aria-label="Reading settings"></div>' +
+      '<div class="nx-help nx-ui" hidden role="dialog" aria-label="Keyboard shortcuts"></div>' +
+      '<div class="nx-load"><span class="nx-spin"></span></div>';
 
     function $(s) { return root.querySelector(s); }
     var desk = $('.bk-desk'), zoomBox = $('.bk-zoom'), book = $('.bk-book');
-    var boardL = $('.bk-bl'), boardR = $('.bk-br'), stackL = $('.bk-sl'), stackR = $('.bk-sr');
+    var boardL = $('.bk-bl'), boardR = $('.bk-br'), stackL = $('.bk-sl'), stackR = $('.bk-sr'), spine = $('.bk-spine');
     var cells = { l: { el: $('.bk-l'), n: 0 }, r: { el: $('.bk-r'), n: 0 } };
-    var cast = $('.bk-cast');
-    var panel = $('.bk-panel'), pop = $('.bk-pop'), help = $('.bk-help'), toastEl = $('.bk-toast'), loadEl = $('.bk-load');
-    var range = $('.bk-range'), track = $('.bk-ticks'), scrub = $('.bk-scrub'), tip = $('.bk-tip');
-    var pill = $('.bk-pill'), markBtn = $('[data-act="mark"]'), autoBtn = $('[data-auto]'), zl = $('.bk-zl');
-    var settingsBtn = $('[data-act="settings"]');
+    [cells.l, cells.r].forEach(function (c) { c.ink = c.el.querySelector('.nx-ink'); c.hls = c.el.querySelector('.nx-hls'); });
+    var cast = $('.bk-cast'), panelEl = $('.nx-panel'), pop = $('.nx-pop'), help = $('.nx-help'), loadEl = $('.nx-load');
+    var pill = $('.nx-pill'), markBtn = $('[data-act="mark"]'), autoBtn = $('[data-auto]'), zl = $('.nx-zl'), settingsBtn = $('[data-act="settings"]');
+    var inkBtn = $('[data-act="ink"]'), readBtn = $('[data-act="read"]'), soundBtn = $('[data-act="sound"]');
+    var toast = K.toast(root);
+    var inkBar = K.inkBar({
+      onTool: function () { },
+      onAct: function (a) {
+        var n = cur();
+        if (a === 'done') toggleInk(false);
+        else if (a === 'undo') { if (!(ink.undo(cells.r.n || n) || ink.undo(cells.l.n))) toast('Nothing to undo'); }
+        else if (a === 'clear') { var any = ink.clear(cells.l.n) | ink.clear(cells.r.n); if (any) sfx.erase(); }
+      }
+    });
+    root.appendChild(inkBar.el);
+    [cells.l, cells.r].forEach(function (c) {
+      K.inkBind(c.ink, { n: function () { return c.n; }, ink: ink, tool: inkBar.tool, active: function () { return S.inking && c.n; }, ratio: function () { return S.ratio; } });
+    });
+    ink.on(function (n) {
+      [cells.l, cells.r].forEach(function (c) { if (c.n === n) paintInk(c); });
+      if (panels) panels.sync();
+    });
 
     /* ---------------------------------------------------------------- small model helpers */
     function pg(n) { return n >= 1 && n <= S.N ? n : 0; }
@@ -116,62 +119,81 @@
       return shiftFor(a) * (1 - f) + shiftFor(Math.min(a + 1, maxPos())) * f;
     }
 
-    /* ---------------------------------------------------------------- rendering */
+    /* ---------------------------------------------------------------- rendering: byte-budgeted canvas cache */
     function dims() {
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      var k = Math.min(dpr, 2800 / Math.max(S.W, 1));
+      var k = Math.min(dpr, 2800 / Math.max(S.W, 1), Math.sqrt(9e6 / Math.max(1, S.W * S.H)));
       return { pw: Math.max(2, Math.round(S.W * k)), ph: Math.max(2, Math.round(S.H * k)) };
     }
     function keyOf(n, d) { return n + '@' + d.pw; }
     function cachedCanvas(n) { var e = cache.get(keyOf(n, dims())); return e && e.c || null; }
-    function near(n) { var c = cur(); return n >= c - 6 && n <= c + 8; }
+    function drop(k, e) { if (e.c) { bytes -= e.pw * e.ph * 4; e.c.width = 0; e.c = null; } cache.delete(k); }
     function trim() {
-      if (cache.size <= CACHE) return;
-      var d = dims();
+      var d = dims(), c = cur(), list = [];
       cache.forEach(function (e, k) {
-        if (cache.size <= CACHE || !e.c || e.c.isConnected) return;
-        if (e.pw !== d.pw || !near(e.n)) { e.c.width = 0; cache.delete(k); }
+        if (!e.c || e.c.isConnected) return;
+        if (e.pw !== d.pw) { drop(k, e); return; }
+        list.push({ k: k, e: e, far: Math.abs(e.n - c) });
       });
+      if (bytes <= BUDGET) return;
+      list.sort(function (a, b) { return b.far - a.far; });
+      for (var i = 0; i < list.length && bytes > BUDGET; i++) drop(list[i].k, list[i].e);
+    }
+    var idleT = 0;
+    function idleCleanup() {
+      clearTimeout(idleT);
+      idleT = setTimeout(function () { if (alive && !S.rend && S.doc) { try { S.doc.cleanup(true); } catch (e) { /* busy */ } } }, 6000);
     }
     function renderPage(n) {
       var d = dims(), key = keyOf(n, d), hit = cache.get(key);
-      if (hit) { cache.delete(key); cache.set(key, hit); return hit.p; }
-      var entry = { n: n, pw: d.pw, c: null, p: null };
-      entry.p = S.doc.getPage(n).then(function (page) {
-        var v1 = page.getViewport({ scale: 1 });
-        var vp = page.getViewport({ scale: Math.min(d.pw / v1.width, d.ph / v1.height) });
+      if (hit) return hit.p;
+      var entry = { n: n, pw: d.pw, ph: d.ph, c: null, p: null };
+      S.rend++;
+      entry.p = S.doc.getPage(n).then(function (pgObj) {
+        var v1 = pgObj.getViewport({ scale: 1 });
+        var vp = pgObj.getViewport({ scale: Math.min(d.pw / v1.width, d.ph / v1.height) });
         var c = D.createElement('canvas');
         c.width = d.pw; c.height = d.ph;
-        var ctx = c.getContext('2d');
+        var ctx = c.getContext('2d', { alpha: false });
         ctx.fillStyle = '#fff';
         ctx.fillRect(0, 0, d.pw, d.ph);
-        return page.render({ canvasContext: ctx, viewport: vp, transform: [1, 0, 0, 1, (d.pw - vp.width) / 2, (d.ph - vp.height) / 2] }).promise.then(function () {
-          entry.c = c;
+        return pgObj.render({ canvasContext: ctx, viewport: vp, transform: [1, 0, 0, 1, (d.pw - vp.width) / 2, (d.ph - vp.height) / 2] }).promise.then(function () {
+          try { pgObj.cleanup(); } catch (e) { /* released */ }
+          if (!alive) { c.width = 0; return c; }
+          entry.c = c; bytes += d.pw * d.ph * 4;
           trim();
           return c;
         });
       });
-      entry.p.catch(function () { cache.delete(key); });
+      entry.p.then(function () { S.rend--; idleCleanup(); }, function () { S.rend--; cache.delete(key); });
       cache.set(key, entry);
       return entry.p;
     }
 
+    function paintInk(cell) {
+      var cv = cell.ink;
+      if (!cell.n) { K.paintInk(cv, []); return; }
+      K.paintInk(cv, ink.get(cell.n));
+    }
     function fillCell(cell, n) {
       cell.n = n;
-      var box = cell.el, page = box.firstChild, old = page.querySelector('canvas');
+      var box = cell.el, pgEl = box.firstChild, old = pgEl.querySelector('canvas:not(.nx-ink)');
       box.classList.toggle('is-empty', !n);
-      if (!n) { if (old) old.remove(); clearHL(page); box.classList.remove('is-wait'); return; }
+      paintInk(cell);
+      if (!n) { if (old) old.remove(); cell.hls.innerHTML = ''; box.classList.remove('is-wait'); return; }
       var c = cachedCanvas(n);
       if (c) { attach(cell, c, n); return; }
       box.classList.add('is-wait');
+      var lo = thumbs && thumbs.peek(n);
+      if (lo) { lo.className = 'bk-lo'; if (old) old.remove(); pgEl.insertBefore(lo, pgEl.firstChild); }
       renderPage(n).then(function (cv) { if (alive && cell.n === n) attach(cell, cv, n); }, function () { box.classList.remove('is-wait'); });
     }
     function attach(cell, c, n) {
-      var page = cell.el.firstChild, old = page.querySelector('canvas');
+      var pgEl = cell.el.firstChild, old = pgEl.querySelector('canvas:not(.nx-ink)');
       if (old && old !== c) old.remove();
-      if (c.parentNode !== page) page.insertBefore(c, page.firstChild);
+      if (c.parentNode !== pgEl) pgEl.insertBefore(c, pgEl.firstChild);
       cell.el.classList.remove('is-wait');
-      drawHL(cell, n);
+      drawHL(cell);
     }
     function refreshCells() {
       var p = pagesAt(S.pos);
@@ -181,10 +203,10 @@
 
     var preToken = 0;
     function prefetch() {
-      var tok = ++preToken, c = cur(), list = [];
-      var span = S.spread ? [1, 2, 3, 4, 5, 6] : [1, 2, 3];
-      span.forEach(function (i) { list.push(c + i); });
-      [1, 2, 3].forEach(function (i) { list.push(c - i); });
+      var tok = ++preToken, c = cur(), list = [], i;
+      var ahead = S.zoom > 1.5 ? 1 : (S.spread ? 6 : 3), back = S.zoom > 1.5 ? 1 : 3;
+      for (i = 1; i <= ahead; i++) list.push(c + i);
+      for (i = 1; i <= back; i++) list.push(c - i);
       list = list.filter(pg).filter(function (n) { return !cachedCanvas(n); });
       (function next() {
         if (!list.length || tok !== preToken || !alive) return;
@@ -193,7 +215,7 @@
     }
 
     /* ---------------------------------------------------------------- layout */
-    function leftPad() { return S.panel && root.clientWidth >= 720 ? 344 : 0; }
+    function leftPad() { return panels && panels.current() && root.clientWidth >= 720 ? 344 : 0; }
     function measure() {
       var dw = desk.clientWidth, dh = desk.clientHeight, lay = prefs.layout, pad = leftPad();
       var spread = S.N > 1 && (lay === 'two' || (lay === 'auto' && dw - pad >= 700));
@@ -205,29 +227,37 @@
       return { spread: spread, W: w, H: Math.round(w * S.ratio), pad: pad };
     }
     function applyLayout() {
-      var m = measure();
-      var page = cur();
-      var changed = m.spread !== S.spread;
+      var m = measure(), pageNo = cur(), changed = m.spread !== S.spread, sized = m.W !== S.W || m.H !== S.H;
       if (S.F) discardFlip();
+      if (sized || changed) destroyLeaf();
       S.spread = m.spread; S.W = m.W; S.H = m.H;
-      if (changed) S.pos = posOf(page);
+      if (changed) S.pos = posOf(pageNo);
       S.pos = clamp(S.pos, 0, maxPos());
       book.style.width = (S.spread ? S.W * 2 : S.W) + 'px';
       book.style.height = S.H + 'px';
       zoomBox.style.paddingLeft = (m.pad + (S.zoom > 1 ? S.W / 2 : 0)) + 'px';
       zoomBox.style.paddingRight = (S.zoom > 1 ? S.W / 2 : 0) + 'px';
-      [cells.l, cells.r].forEach(function (c) { c.el.style.width = S.W + 'px'; c.el.style.height = S.H + 'px'; });
+      [cells.l, cells.r].forEach(function (c) {
+        c.el.style.width = S.W + 'px'; c.el.style.height = S.H + 'px';
+        var ik = Math.min(window.devicePixelRatio || 1, 1.5), iw = Math.round(S.W * ik), ih = Math.round(S.H * ik);
+        if (c.ink.width !== iw || c.ink.height !== ih) { c.ink.width = iw; c.ink.height = ih; paintInk(c); }
+      });
       cells.l.el.style.left = '0px';
       cells.r.el.style.left = (S.spread ? S.W : 0) + 'px';
       cells.l.el.style.display = S.spread ? '' : 'none';
       root.dataset.spread = S.spread ? '1' : '0';
-      if (changed || S.W !== applyLayout.lastW) { applyLayout.lastW = S.W; refreshCells(); }
+      if (changed || sized) refreshCells();
       visuals(S.pos);
       syncUI();
     }
 
-    /* Stacks, boards, shift and the shade cast on the page below: all a function of "tf", how many leaves are over. */
-    function visuals(tf, theta, leaf) {
+    /* The whole book follows "tf" (how many leaves are over): stacks, boards, spine, shift and the shade cast on the page below. */
+    function applyBook() {
+      var t = 'translateX(' + S.shift.toFixed(2) + 'px)';
+      if (prefs.tilt && !reduced && S.zoom === 1 && (Math.abs(S.tx) > 0.02 || Math.abs(S.ty) > 0.02)) t += ' perspective(2600px) rotateX(' + S.ty.toFixed(2) + 'deg) rotateY(' + S.tx.toFixed(2) + 'deg)';
+      book.style.transform = t;
+    }
+    function visuals(tf, theta, leafIx) {
       var Lc = S.spread ? Math.ceil(S.N / 2) : S.N;
       var unit = Math.min(0.9, S.W * 0.0028), cap = Math.min(18, S.W * 0.05);
       var tl = clamp(tf * unit, 0, cap), tr = clamp((Lc - tf) * unit, 0, cap);
@@ -243,55 +273,111 @@
       boardR.style.width = (S.W + 16) + 'px'; boardR.style.height = (S.H + 16) + 'px'; boardR.style.left = ((S.spread ? S.W : 0) - 8) + 'px';
       boardR.style.transform = 'scaleX(' + Math.max(br, 0.001) + ')'; boardR.style.opacity = br > 0.01 ? 1 : 0;
       boardR.style.transformOrigin = S.spread ? '0 50%' : '50% 50%';
-      book.style.transform = 'translateX(' + shiftAt(tf).toFixed(2) + 'px)';
+      spine.style.left = (S.W - 9) + 'px'; spine.style.height = (S.H + 16) + 'px';
+      S.shift = shiftAt(tf);
+      applyBook();
       if (theta == null) { cast.style.opacity = 0; return; }
-      var rad = theta * Math.PI / 180, spine = S.spread ? S.W : 0, reach = S.W * 0.34;
-      var tipX = spine + S.W * Math.cos(rad);
+      var rad = theta * Math.PI / 180, sp = S.spread ? S.W : 0, reach = S.W * 0.34;
+      var tipX = sp + S.W * Math.cos(rad);
       cast.style.width = reach + 'px';
       if (theta < 90) { cast.style.left = tipX + 'px'; cast.dataset.side = 'r'; }
       else { cast.style.left = (tipX - reach) + 'px'; cast.dataset.side = 'l'; }
       cast.style.height = S.H + 'px';
       // A shade only falls on a page that is there: not on the empty side of a closed cover.
-      var under = theta < 90 ? !!pg(S.spread ? 2 * leaf + 3 : leaf + 2) : (S.spread && leaf > 0);
+      var under = theta < 90 ? !!pg(S.spread ? 2 * leafIx + 3 : leafIx + 2) : (S.spread && leafIx > 0);
       cast.style.opacity = under ? (0.55 * Math.sin(rad)).toFixed(3) : 0;
     }
 
-    /* ---------------------------------------------------------------- the turning leaf */
-    function slice(src, x0, w) {
-      var k = src.width / S.W, c = D.createElement('canvas');
-      c.width = Math.max(1, Math.ceil(w * k)); c.height = src.height;
-      c.style.width = w + 'px'; c.style.height = S.H + 'px';
-      c.getContext('2d').drawImage(src, x0 * k, 0, w * k, src.height, 0, 0, c.width, c.height);
-      return c;
+    /* the book tilts a few degrees toward the pointer: depth without a shadow */
+    var tiltRaf = 0;
+    function tiltTo(px, py) {
+      S.gx = (px - 0.5) * 2 * 3.2; S.gy = -(py - 0.5) * 2 * 2;
+      if (!tiltRaf && prefs.tilt && !reduced) tiltRaf = requestAnimationFrame(tiltStep);
+    }
+    function tiltStep() {
+      tiltRaf = 0;
+      if (!alive) return;
+      S.tx += (S.gx - S.tx) * 0.1; S.ty += (S.gy - S.ty) * 0.1;
+      applyBook();
+      if (Math.abs(S.gx - S.tx) > 0.02 || Math.abs(S.gy - S.ty) > 0.02) tiltRaf = requestAnimationFrame(tiltStep);
+    }
+
+    /* ---------------------------------------------------------------- the turning leaf (pooled, repainted per turn) */
+    function toneF() { return K.toneFilter(prefs); }
+    function destroyLeaf() {
+      if (!leaf) return;
+      leaf.holder.remove();
+      leaf.strips.forEach(function (s) { s.fc.width = 0; s.bc.width = 0; });
+      leaf = null;
+    }
+    function getLeaf() {
+      var n = STRIPN[prefs.curl], key = n + '|' + S.W + '|' + S.H;
+      if (leaf && leaf.key === key) return leaf;
+      destroyLeaf();
+      var lk = Math.min(Math.min(window.devicePixelRatio || 1, 2), 1100 / Math.max(S.W, 1));
+      var sw = S.W / n, ov = n > 1 ? 1 : 0;
+      var holder = el('div', 'bk-flip');
+      holder.style.width = S.W + 'px'; holder.style.height = S.H + 'px'; holder.style.display = 'none';
+      var strips = [], parent = holder, i;
+      for (i = 0; i < n; i++) {
+        var st = el('div', 'bk-s');
+        st.style.width = (sw + ov) + 'px'; st.style.height = S.H + 'px';
+        if (i > 0) st.style.left = sw + 'px';
+        var f = el('div', 'bk-sf'), b = el('div', 'bk-sb'), fc = D.createElement('canvas'), bc = D.createElement('canvas');
+        [fc, bc].forEach(function (c) {
+          c.width = Math.max(1, Math.ceil((sw + ov) * lk)); c.height = Math.max(1, Math.ceil(S.H * lk));
+          c.style.width = (sw + ov) + 'px'; c.style.height = S.H + 'px';
+        });
+        f.appendChild(fc); b.appendChild(bc);
+        var fs = el('i', 'bk-sh'), bs = el('i', 'bk-sh'), fg = el('i', 'bk-gl'), bg = el('i', 'bk-gl');
+        f.appendChild(fs); f.appendChild(fg); b.appendChild(bs); b.appendChild(bg);
+        if (i === 0) { f.classList.add('is-gut'); b.classList.add('is-gut'); }
+        st.appendChild(f); st.appendChild(b);
+        parent.appendChild(st);
+        strips.push({ st: st, fs: fs, bs: bs, fg: fg, bg: bg, fc: fc, bc: bc, fx: fc.getContext('2d'), bx: bc.getContext('2d') });
+        parent = st;
+      }
+      book.appendChild(holder);
+      leaf = { key: key, n: n, sw: sw, ov: ov, holder: holder, strips: strips };
+      return leaf;
+    }
+    function withInk(c, n) {
+      if (!n || !ink.has(n)) return { c: c, tmp: false };
+      var t = D.createElement('canvas'); t.width = c.width; t.height = c.height;
+      var x = t.getContext('2d'); x.drawImage(c, 0, 0);
+      K.drawStrokes(x, ink.get(n), t.width, t.height);
+      return { c: t, tmp: true };
+    }
+    function paintLeaf(L, fSrc, bSrc, fn, bn) {
+      var fi = withInk(fSrc, fn), bi = bSrc ? withInk(bSrc, bn) : null, flt = toneF();
+      L.strips.forEach(function (s, i) {
+        var w = L.sw + L.ov, fk = fi.c.width / S.W, ctx = s.fx;
+        ctx.clearRect(0, 0, s.fc.width, s.fc.height);
+        if (CTXF) ctx.filter = flt;
+        ctx.drawImage(fi.c, L.sw * i * fk, 0, w * fk, fi.c.height, 0, 0, s.fc.width, s.fc.height);
+        if (CTXF) ctx.filter = 'none';
+        ctx = s.bx;
+        ctx.clearRect(0, 0, s.bc.width, s.bc.height);
+        if (bi) {
+          var bk = bi.c.width / S.W;
+          if (CTXF) ctx.filter = flt;
+          ctx.drawImage(bi.c, (S.W - (i + 1) * L.sw - L.ov) * bk, 0, w * bk, bi.c.height, 0, 0, s.bc.width, s.bc.height);
+          if (CTXF) ctx.filter = 'none';
+        }
+      });
+      if (fi.tmp) fi.c.width = 0;
+      if (bi && bi.tmp) bi.c.width = 0;
+      root.dataset.leaf = CTXF ? 'baked' : 'css';
     }
     function makeFlip(dir, cb) {
       var s = dir > 0 ? S.pos : S.pos - 1, lp = leafPages(s), tok = ++S.tok;
       Promise.all([renderPage(lp.f), lp.b ? renderPage(lp.b) : null]).then(function (cv) {
         if (!alive || tok !== S.tok) return;
-        var n = prefs.curl ? STRIPS : 1, sw = S.W / n, ov = n > 1 ? 1 : 0;
-        var holder = el('div', 'bk-flip');
-        holder.style.left = (S.spread ? S.W : 0) + 'px';
-        holder.style.width = S.W + 'px';
-        holder.style.height = S.H + 'px';
-        var strips = [], parent = holder;
-        for (var i = 0; i < n; i++) {
-          var st = el('div', 'bk-s');
-          st.style.width = (sw + ov) + 'px';
-          st.style.height = S.H + 'px';
-          if (i > 0) st.style.left = sw + 'px';
-          var f = el('div', 'bk-sf'), b = el('div', 'bk-sb');
-          f.appendChild(slice(cv[0], sw * i, sw + ov));
-          if (cv[1]) b.appendChild(slice(cv[1], S.W - (i + 1) * sw - ov, sw + ov));
-          var fs = el('i', 'bk-sh'), bs = el('i', 'bk-sh');
-          f.appendChild(fs); b.appendChild(bs);
-          if (i === 0) { f.classList.add('is-gut'); b.classList.add('is-gut'); }
-          st.appendChild(f); st.appendChild(b);
-          parent.appendChild(st);
-          strips.push({ st: st, fs: fs, bs: bs });
-          parent = st;
-        }
-        book.appendChild(holder);
-        var F = { s: s, dir: dir, theta: dir > 0 ? 0 : 180, el: holder, strips: strips, raf: 0, mode: 'drag' };
+        var L = getLeaf();
+        paintLeaf(L, cv[0], cv[1], lp.f, lp.b);
+        L.holder.style.left = (S.spread ? S.W : 0) + 'px';
+        L.holder.style.display = '';
+        var F = { s: s, dir: dir, theta: dir > 0 ? 0 : 180, el: L.holder, strips: L.strips, raf: 0, mode: 'drag' };
         S.F = F;
         // The page the leaf uncovers is put in place straight away.
         if (dir > 0) fillCell(cells.r, S.spread ? pg(2 * S.pos + 3) : pg(S.pos + 2));
@@ -302,18 +388,21 @@
     }
     function shade(a, front) {
       var r = (front ? clamp(a, 0, 90) : clamp(180 - a, 0, 90)) * Math.PI / 180;
-      return (0.36 * Math.pow(Math.sin(r), 1.45)).toFixed(3);
+      return (0.38 * Math.pow(Math.sin(r), 1.45)).toFixed(3);
+    }
+    function gloss(a, front) {
+      var r = front ? clamp(a, 0, 180) : clamp(180 - a, 0, 180), d = (r - 42) / 16;
+      return (0.24 * Math.exp(-d * d)).toFixed(3);
     }
     function setTheta(F, theta) {
       F.theta = theta;
       var n = F.strips.length, rad = theta * Math.PI / 180;
       var local = n > 1 ? (CURL * Math.sin(rad)) / n : 0;
       for (var i = 0; i < n; i++) {
-        var deg = i === 0 ? -theta : local;
-        F.strips[i].st.style.transform = 'rotateY(' + deg.toFixed(3) + 'deg)';
-        var a = theta - i * local;
-        F.strips[i].fs.style.opacity = shade(a, true);
-        F.strips[i].bs.style.opacity = shade(a, false);
+        var deg = i === 0 ? -theta : local, s = F.strips[i], a = theta - i * local;
+        s.st.style.transform = 'rotateY(' + deg.toFixed(3) + 'deg)';
+        s.fs.style.opacity = shade(a, true); s.bs.style.opacity = shade(a, false);
+        s.fg.style.opacity = gloss(a, true); s.bg.style.opacity = gloss(a, false);
       }
       F.el.style.opacity = !S.spread && theta > 140 ? clamp(1 - (theta - 140) / 40, 0, 1) : 1;
       visuals(F.s + theta / 180, theta, F.s);
@@ -328,12 +417,13 @@
         if (k < 1) F.raf = requestAnimationFrame(step); else { F.raf = 0; if (done) done(); }
       })(t0);
     }
+    function hideLeaf(F) { F.el.style.display = 'none'; F.el.style.opacity = 1; }
     function discardFlip() {
       var F = S.F;
       S.tok++;
       if (!F) return;
       cancelAnimationFrame(F.raf);
-      F.el.remove();
+      hideLeaf(F);
       S.F = null;
       refreshCells();
       visuals(S.pos);
@@ -343,24 +433,28 @@
       if (S.F) discardFlip();
       makeFlip(dir, cb);
     }
+    function isCover(F) { return S.spread && ((F.dir > 0 && S.pos === 0) || (F.dir < 0 && S.pos === 1)); }
     function land(F, completed) {
       cancelAnimationFrame(F.raf);
+      var cover = completed && isCover(F);
       if (completed) S.pos = clamp(S.pos + F.dir, 0, maxPos());
       S.tok++;
       refreshCells();
-      F.el.remove();
+      hideLeaf(F);
       S.F = null;
       S.busy = false;
       visuals(S.pos);
+      if (completed && !cover) sfx.land(F.dir);
       onMoved();
+      if (S.pending != null) { var t = S.pending; S.pending = null; goPos(t); return; }
       if (S.queue.length) runQueue();
     }
     function finish(F, completed, ms, ease) {
       S.busy = true;
       F.mode = 'go';
-      var to = completed ? (F.dir > 0 ? 180 : 0) : (F.dir > 0 ? 0 : 180);
-      if (completed) chirp();
-      tween(F, to, ms || SPEED[prefs.speed], ease || easeInOut, function () { land(F, completed); });
+      var to = completed ? (F.dir > 0 ? 180 : 0) : (F.dir > 0 ? 0 : 180), dur = ms || SPEED[prefs.speed];
+      if (completed) { if (isCover(F)) sfx.cover(F.dir > 0); else sfx.turn(SPEED.normal / dur, F.dir); }
+      tween(F, to, dur, ease || easeInOut, function () { land(F, completed); });
     }
     function turn(dir, fast) {
       if (S.busy) { S.queue.push(dir); return; }
@@ -374,23 +468,26 @@
       turn(d, S.queue.length > 0);
     }
     function nudge(dir) {
+      sfx.bump(dir);
       if (!book.animate || reduced) return;
-      book.animate([{ translate: '0 0' }, { translate: (dir > 0 ? '-10px' : '10px') + ' 0' }, { translate: '0 0' }], { duration: 300, easing: 'cubic-bezier(.2,1.2,.3,1)' });
+      book.animate([{ translate: '0 0' }, { translate: (dir > 0 ? '-12px' : '12px') + ' 0' }, { translate: '0 0' }], { duration: 320, easing: 'cubic-bezier(.2,1.2,.3,1)' });
     }
     function jump(t) {
+      var d = t - S.pos;
       if (S.F) discardFlip();
       S.queue = [];
       S.pos = clamp(t, 0, maxPos());
       book.style.transition = reduced ? '' : 'transform .5s cubic-bezier(.2,1,.3,1)';
       refreshCells();
       visuals(S.pos);
+      sfx.flurry(6, d > 0 ? 1 : -1);
       timers.push(setTimeout(function () { book.style.transition = ''; }, 560));
       if (book.animate && !reduced) book.animate([{ opacity: 0.2, scale: '.97' }, { opacity: 1, scale: '1' }], { duration: 380, easing: 'cubic-bezier(.2,1,.3,1)' });
       onMoved();
     }
     function goPos(t) {
       t = clamp(t, 0, maxPos());
-      if (S.busy) { S.queue = []; return; }
+      if (S.busy) { S.pending = t; S.queue = []; return; }
       if (S.F) discardFlip();
       var d = t - S.pos, n = Math.abs(d);
       if (!n) return;
@@ -400,31 +497,13 @@
         turn(d > 0 ? 1 : -1, n > 1);
       } else jump(t);
     }
-    function goto(page) { goPos(posOf(clamp(Math.round(page) || 1, 1, S.N))); }
-
-    /* ---------------------------------------------------------------- page sound */
-    var actx = null, noise = null;
-    function chirp() {
-      if (!prefs.sound) return;
-      try {
-        actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-        if (actx.state === 'suspended') actx.resume();
-        if (!noise) {
-          var len = Math.floor(actx.sampleRate * 0.32), buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0);
-          for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
-          noise = buf;
-        }
-        var src2 = actx.createBufferSource(), flt = actx.createBiquadFilter(), g = actx.createGain(), t = actx.currentTime;
-        src2.buffer = noise;
-        flt.type = 'bandpass'; flt.Q.value = 0.7;
-        flt.frequency.setValueAtTime(2600, t); flt.frequency.exponentialRampToValueAtTime(700, t + 0.3);
-        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.04); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
-        src2.connect(flt); flt.connect(g); g.connect(actx.destination);
-        src2.start(t);
-      } catch (e) { /* audio is optional */ }
+    function goto(pageNo, quiet) {
+      var from = S.N ? cur() : 1, to = clamp(Math.round(pageNo) || 1, 1, S.N);
+      goPos(posOf(to));
+      if (!quiet && Math.abs(to - from) > 4) toast('Page ' + to, 'Back', function () { goto(from, true); });
     }
 
-    /* ---------------------------------------------------------------- pointer: peek, drag, tap */
+    /* ---------------------------------------------------------------- pointer: peek, drag, tap, pinch */
     function bookRect() { return book.getBoundingClientRect(); }
     function zoneAt(e) {
       var r = bookRect();
@@ -449,7 +528,7 @@
         desk.style.cursor = '';
         return;
       }
-      if (!canTurn(dir) || S.busy || S.drag || S.zoom > 1) { S.peek = 0; return; }
+      if (!canTurn(dir) || S.busy || S.drag || S.zoom > 1 || S.inking) { S.peek = 0; return; }
       desk.style.cursor = 'pointer';
       getFlip(dir, function (F2) {
         if (S.peek !== dir) { if (F2.mode !== 'go') discardFlip(); return; }
@@ -457,7 +536,17 @@
         tween(F2, dir > 0 ? PEEK : 180 - PEEK, 520, easeOut);
       });
     }
+    function ptCount() { return Object.keys(S.pts).length; }
+    function pinchDist() { var k = Object.keys(S.pts), a = S.pts[k[0]], b = S.pts[k[1]]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; }
     desk.addEventListener('pointerdown', function (e) {
+      if (S.inking) return;
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      if (ptCount() === 2) {
+        S.pinch = { d0: pinchDist(), z0: S.zoom };
+        S.drag = null; S.peek = 0;
+        if (S.F) discardFlip();
+        return;
+      }
       if (e.button > 0 || S.busy) return;
       stopAuto();
       root.focus({ preventScroll: true });
@@ -465,9 +554,15 @@
       try { desk.setPointerCapture(e.pointerId); } catch (x) { /* ok */ }
     });
     desk.addEventListener('pointermove', function (e) {
+      if (S.pts[e.pointerId]) { S.pts[e.pointerId].x = e.clientX; S.pts[e.pointerId].y = e.clientY; }
+      if (S.pinch && ptCount() === 2) { setZoom(S.pinch.z0 * pinchDist() / S.pinch.d0, true); return; }
       var d = S.drag;
       if (!d) {
-        if (e.pointerType === 'mouse' && S.zoom === 1 && !S.busy) peekTo(zoneAt(e));
+        if (e.pointerType === 'mouse' && !S.inking) {
+          var r = desk.getBoundingClientRect();
+          tiltTo((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height);
+          if (S.zoom === 1 && !S.busy) peekTo(zoneAt(e));
+        }
         return;
       }
       if (e.pointerId !== d.id) return;
@@ -497,6 +592,8 @@
       if (d.mode === 'flip') setTheta(d.F, clamp(d.th0 - ((e.clientX - d.xs) / (S.W * 1.1)) * 180, 0, 180));
     });
     function release(e) {
+      delete S.pts[e.pointerId];
+      if (ptCount() < 2) S.pinch = null;
       var d = S.drag;
       if (!d || e.pointerId !== d.id) return;
       S.drag = null;
@@ -517,8 +614,13 @@
     }
     desk.addEventListener('pointerup', release);
     desk.addEventListener('pointercancel', release);
-    desk.addEventListener('pointerleave', function (e) { if (!S.drag && e.pointerType === 'mouse') peekTo(0); });
+    desk.addEventListener('pointerleave', function (e) {
+      if (!S.drag && e.pointerType === 'mouse') { peekTo(0); S.gx = 0; S.gy = 0; if (!tiltRaf && prefs.tilt) tiltRaf = requestAnimationFrame(tiltStep); }
+    });
     function tap(e, d) {
+      var now = Date.now();
+      if (d.touch && e.target.closest && e.target.closest('.bk-cell') && now - S.lastTap < 320) { S.lastTap = 0; setZoom(S.zoom > 1 ? 1 : 2); return; }
+      S.lastTap = now;
       var r = bookRect(), x = e.clientX - r.left, bw = r.width, dir = 0;
       if (S.spread) { if (x >= 0 && x <= bw) dir = x < bw / 2 ? -1 : 1; }
       else dir = x < bw * 0.33 ? -1 : (x > bw * 0.67 ? 1 : 0);
@@ -527,17 +629,17 @@
         else { S.peek = 0; if (S.F) discardFlip(); turn(dir); }
         return;
       }
-      if (!dir && d.touch) toggleBare();
+      if (!dir && d.touch) setBare(!S.bare);
     }
-    function toggleBare() { S.bare = !S.bare; root.classList.toggle('is-bare', S.bare); }
+    function setBare(v) { S.bare = v; root.classList.toggle('is-bare', v); }
     desk.addEventListener('dblclick', function (e) {
-      if (!e.target.closest || !e.target.closest('.bk-cell')) return;
+      if (S.inking || !e.target.closest || !e.target.closest('.bk-cell')) return;
       setZoom(S.zoom > 1 ? 1 : 2);
       e.preventDefault();
     });
     var wheelAcc = 0, wheelT = 0;
     desk.addEventListener('wheel', function (e) {
-      if (e.ctrlKey) { e.preventDefault(); setZoom(S.zoom + (e.deltaY < 0 ? 0.25 : -0.25)); return; }
+      if (e.ctrlKey) { e.preventDefault(); setZoom(S.zoom * (e.deltaY < 0 ? 1.12 : 0.89), true); return; }
       if (S.zoom > 1 || Math.abs(e.deltaX) < Math.abs(e.deltaY) * 1.2) return;
       e.preventDefault();
       wheelAcc += e.deltaX;
@@ -546,38 +648,36 @@
       if (Math.abs(wheelAcc) > 70 && !S.busy) { var dir = wheelAcc > 0 ? 1 : -1; wheelAcc = 0; turn(dir); }
     }, { passive: false });
     root.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    root.addEventListener('pointermove', function (e) {
+      S.moved = Date.now();
+      S.overUi = !!(e.target.closest && e.target.closest('.nx-ui'));
+      if (S.bare && e.pointerType === 'mouse') setBare(false);
+      if (session) session.touch();
+    });
 
     /* ---------------------------------------------------------------- zoom, tones, preferences */
-    function setZoom(z) {
-      z = clamp(Math.round(z * 4) / 4, 1, 3);
+    var zoomT = 0;
+    function setZoom(z, quiet) {
+      z = clamp(Math.round(z * 20) / 20, 1, ZMAX);
       if (z === S.zoom) return;
+      var up = z > S.zoom, fx = (desk.scrollLeft + desk.clientWidth / 2) / Math.max(1, desk.scrollWidth), fy = (desk.scrollTop + desk.clientHeight / 2) / Math.max(1, desk.scrollHeight);
       S.zoom = z;
       root.classList.toggle('is-zoomed', z > 1);
+      if (z > 1) { S.tx = 0; S.ty = 0; }
       applyLayout();
       zl.textContent = Math.round(z * 100) + '%';
-      desk.scrollLeft = (desk.scrollWidth - desk.clientWidth) / 2;
-      desk.scrollTop = (desk.scrollHeight - desk.clientHeight) / 2;
+      desk.scrollLeft = fx * desk.scrollWidth - desk.clientWidth / 2;
+      desk.scrollTop = fy * desk.scrollHeight - desk.clientHeight / 2;
+      if (!quiet) sfx.zoom(up);
+      clearTimeout(zoomT);
+      zoomT = setTimeout(function () { if (alive) { prefetch(); refreshCells(); } }, 160);
     }
     function applyPrefs() {
       root.dataset.tone = prefs.tone;
-      root.style.setProperty('--bk-bright', (prefs.bright / 100).toFixed(2));
-      jset(PREFS_KEY, prefs);
-    }
-    function toast(msg, action, fn) {
-      toastEl.innerHTML = '';
-      var sp = el('span');
-      sp.textContent = msg;
-      toastEl.appendChild(sp);
-      if (action) {
-        var b = el('button');
-        b.type = 'button'; b.textContent = action;
-        b.addEventListener('click', function () { fn(); toastEl.hidden = true; });
-        toastEl.appendChild(b);
-      }
-      toastEl.hidden = false;
-      toastEl.classList.remove('is-in'); void toastEl.offsetWidth; toastEl.classList.add('is-in');
-      clearTimeout(toast.t);
-      toast.t = setTimeout(function () { toastEl.hidden = true; }, action ? 6500 : 2600);
+      root.dataset.cover = prefs.cover;
+      root.style.setProperty('--nx-filter', K.toneFilter(prefs));
+      var save = Object.assign({}, prefs); delete save.sound; delete save.vol;
+      K.jset(PREFS_KEY, save);
     }
 
     /* ---------------------------------------------------------------- reading state and chrome */
@@ -586,14 +686,12 @@
       if (p.l && p.r) return p.l + '\u2013' + p.r;
       return String(p.l || p.r || 1);
     }
-    function isMarked(n) { return store.marks.some(function (m) { return m.p === n; }); }
     function syncUI() {
       if (!S.N) return;
-      var c = cur(), marked = visible().some(isMarked);
+      var c = cur(), marked = visible().some(store.isMarked);
       pill.firstChild.textContent = label();
       pill.lastChild.textContent = '/ ' + S.N;
-      range.max = S.N; range.value = c;
-      scrub.style.setProperty('--p', S.N > 1 ? ((c - 1) / (S.N - 1) * 100).toFixed(2) + '%' : '0%');
+      if (scr) scr.set(c);
       markBtn.classList.toggle('is-on', marked);
       markBtn.firstChild.textContent = marked ? 'bookmark_check' : 'bookmark_add';
       setLabel(markBtn, marked ? 'Remove bookmark' : 'Bookmark this page');
@@ -602,39 +700,20 @@
       $('[data-act="next"]').disabled = S.pos >= maxPos();
       $('[data-act="last"]').disabled = S.pos >= maxPos();
       zl.textContent = Math.round(S.zoom * 100) + '%';
-      drawTicks();
-      if (S.panel === 'pages') markThumbs();
-      if (S.panel === 'marks') renderMarks();
-    }
-    function drawTicks() {
-      track.innerHTML = '';
-      if (S.N < 2) return;
-      store.marks.forEach(function (m) {
-        var t = el('i', 'bk-tick');
-        t.style.left = ((m.p - 1) / (S.N - 1) * 100) + '%';
-        track.appendChild(t);
-      });
+      soundBtn.classList.toggle('is-on', sfx.state.on);
+      inkBtn.classList.toggle('is-on', S.inking);
+      if (panels) panels.sync();
     }
     function onMoved() {
-      S.idle = Date.now();
+      S.moved = Date.now();
       var c = cur(), hi = Math.max.apply(null, visible());
-      store.last = c; store.max = Math.max(store.max || 1, hi); S.dirty = true;
+      store.d.last = c; store.d.max = Math.max(store.d.max || 1, hi); store.soon();
+      if (session) session.touch();
       syncUI();
       refreshHL();
       prefetch();
-      saveSoon();
+      if (S.reading && S.readPage !== c) readStep();
     }
-    var saveT = 0;
-    function saveSoon() { if (!saveT) saveT = setTimeout(save, 1500); }
-    function save() { clearTimeout(saveT); saveT = 0; if (S.dirty) { jset(docKey, store); S.dirty = false; } }
-    timers.push(setInterval(function () {
-      if (!alive) return;
-      if (!D.hidden && root.isConnected && Date.now() - S.idle < 90000) { store.time++; S.dirty = true; }
-      if (S.panel === 'marks' && store.time % 30 === 0) renderMarks();
-      save();
-    }, 1000));
-    function onHide() { save(); }
-    window.addEventListener('pagehide', onHide);
 
     function startAuto() {
       stopAuto();
@@ -652,369 +731,125 @@
       autoBtn.classList.remove('is-on'); autoBtn.firstChild.textContent = 'play_arrow';
       setLabel(autoBtn, 'Turn pages automatically');
     }
-    function toggleAuto() { if (S.auto) stopAuto(); else { startAuto(); turn(1); } }
+    function toggleAuto() { if (S.auto) stopAuto(); else { stopRead(); startAuto(); turn(1); } }
 
-    /* ---------------------------------------------------------------- text, search, highlights */
-    function textInfo(n) {
-      if (!texts[n]) {
-        texts[n] = S.doc.getPage(n).then(function (page) {
-          var vp = page.getViewport({ scale: 1 });
-          return page.getTextContent().then(function (tc) {
-            var items = [], offs = [], str = '', i, it;
-            for (i = 0; i < tc.items.length; i++) {
-              it = tc.items[i];
-              if (typeof it.str !== 'string') continue;
-              offs.push(str.length); items.push(it);
-              str += it.str + ' ';
-            }
-            return { vp: vp, items: items, offs: offs, str: str, low: str.toLowerCase(), styles: tc.styles || {} };
-          });
-        }).catch(function () { return { vp: null, items: [], offs: [], str: '', low: '', styles: {} }; });
-      }
-      return texts[n];
+    /* ---------------------------------------------------------------- read aloud */
+    function setReadUI(on) {
+      if (!readBtn) return;
+      readBtn.classList.toggle('is-on', on);
+      readBtn.firstChild.textContent = on ? 'stop' : 'record_voice_over';
+      setLabel(readBtn, on ? 'Stop reading aloud' : 'Read aloud');
     }
-    var mctx = D.createElement('canvas').getContext('2d');
-    function clearHL(page) { var h = page.querySelector('.bk-hls'); if (h) h.innerHTML = ''; }
-    function drawHL(cell, n) {
-      var box = cell.el.firstChild.querySelector('.bk-hls'), q = S.hlq;
-      if (!box) return;
-      box.innerHTML = '';
-      if (!q || q.length < 2) return;
-      textInfo(n).then(function (info) {
-        if (!alive || cell.n !== n || S.hlq !== q || !info.vp) return;
-        box.innerHTML = '';
-        var from = 0, idx, ql = q.toLowerCase(), vp = info.vp, k, it, s0, e0, f0, f1, p1, p2, h, m;
-        while ((idx = info.low.indexOf(ql, from)) !== -1 && box.childNodes.length < 80) {
-          from = idx + ql.length;
-          for (k = 0; k < info.items.length; k++) {
-            it = info.items[k]; s0 = info.offs[k]; e0 = s0 + it.str.length;
-            if (!it.str.length || e0 <= idx || s0 >= from) continue;
-            var ia = Math.max(idx, s0) - s0, ib = Math.min(from, e0) - s0;
-            f0 = ia / it.str.length; f1 = ib / it.str.length;
-            // The line is one text item; measure with its own font so a match in the middle lands on the right letters.
-            mctx.font = Math.abs(it.transform[3] || it.height || 10) + 'px ' + ((info.styles[it.fontName] || {}).fontFamily || 'sans-serif');
-            var full = mctx.measureText(it.str).width;
-            if (full > 0) { f0 = mctx.measureText(it.str.slice(0, ia)).width / full; f1 = mctx.measureText(it.str.slice(0, ib)).width / full; }
-            h = it.height || Math.hypot(it.transform[2], it.transform[3]) || 10;
-            p1 = vp.convertToViewportPoint(it.transform[4] + f0 * it.width, it.transform[5] - 0.2 * h);
-            p2 = vp.convertToViewportPoint(it.transform[4] + f1 * it.width, it.transform[5] + 0.85 * h);
-            m = el('i', 'bk-hl');
-            m.style.left = (Math.min(p1[0], p2[0]) / vp.width * 100) + '%';
-            m.style.top = (Math.min(p1[1], p2[1]) / vp.height * 100) + '%';
-            m.style.width = (Math.abs(p2[0] - p1[0]) / vp.width * 100) + '%';
-            m.style.height = (Math.abs(p2[1] - p1[1]) / vp.height * 100) + '%';
-            box.appendChild(m);
-          }
+    function stopRead() {
+      if (!S.reading) return;
+      S.reading = false;
+      K.speech.stop();
+      setReadUI(false);
+    }
+    function readStep() {
+      if (!S.reading || !alive) return;
+      var pages = visible(), c = cur();
+      S.readPage = c;
+      Promise.all(pages.map(function (n) { return text.plain(n); })).then(function (parts) {
+        if (!S.reading || S.readPage !== c) return;
+        var t = parts.join(' ').trim();
+        if (t.length < 3) {
+          if (canTurn(1)) { turn(1); return; }
+          stopRead(); toast('No text to read here'); return;
         }
-      });
-    }
-    function refreshHL() { if (S.hlq) { drawHL(cells.l, cells.l.n); drawHL(cells.r, cells.r.n); } }
-
-    /* ---------------------------------------------------------------- panels */
-    var P = { thumbs: null, thQ: [], thBusy: false, outline: null, sIndexed: 0, sRunning: false, sResults: [], sInput: null, sList: null, sStat: null, mStats: null, mList: null, mAdd: null };
-    var TITLES = { pages: 'Pages', toc: 'Contents', search: 'Search', marks: 'Bookmarks' };
-
-    function openPanel(name) {
-      togglePop(false);
-      if (S.panel === name) { closePanel(); return; }
-      S.panel = name;
-      panel.hidden = false;
-      panel.innerHTML = '<div class="bk-ph"><b></b>' + btn('bk-ib', 'close', 'Close panel', ' data-act="closepanel"') + '</div><div class="bk-pb"></div>';
-      panel.firstChild.firstChild.textContent = TITLES[name];
-      panel.classList.remove('is-in'); void panel.offsetWidth; panel.classList.add('is-in');
-      root.dataset.open = name;
-      root.querySelectorAll('[data-panel]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.panel === name); });
-      var body = panel.lastChild;
-      if (name === 'pages') buildThumbs(body);
-      else if (name === 'toc') buildToc(body);
-      else if (name === 'search') buildSearch(body);
-      else buildMarks(body);
-      relayoutSoon();
-    }
-    function closePanel() {
-      S.panel = '';
-      panel.hidden = true;
-      panel.innerHTML = '';
-      P.thumbs = null; P.thQ = []; P.sList = null; P.mList = null;
-      root.dataset.open = '';
-      root.querySelectorAll('[data-panel]').forEach(function (b) { b.classList.remove('is-on'); });
-      relayoutSoon();
-    }
-    var relT = 0;
-    function relayoutSoon() { clearTimeout(relT); relT = setTimeout(function () { if (alive) applyLayout(); }, 40); }
-    function leavePanelOnPhone() { if (root.clientWidth < 720) closePanel(); }
-
-    function buildThumbs(body) {
-      var grid = el('div', 'bk-thumbs'), io = null, n, b;
-      P.thumbs = grid;
-      if ('IntersectionObserver' in window) {
-        io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); queueThumb(e.target); } });
-        }, { root: body, rootMargin: '300px 0px' });
-      }
-      for (n = 1; n <= S.N; n++) {
-        b = el('button', 'bk-th');
-        b.type = 'button'; b.dataset.n = n;
-        b.setAttribute('aria-label', 'Page ' + n);
-        b.innerHTML = '<span class="bk-thp" style="aspect-ratio: 1 / ' + S.ratio.toFixed(3) + '"></span><span class="bk-thn">' + n + '</span>';
-        grid.appendChild(b);
-        if (io) io.observe(b); else queueThumb(b);
-      }
-      grid.addEventListener('click', function (e) {
-        var t = e.target.closest('.bk-th');
-        if (t) { goto(+t.dataset.n); leavePanelOnPhone(); }
-      });
-      body.appendChild(grid);
-      markThumbs(true);
-    }
-    function markThumbs(scroll) {
-      if (!P.thumbs) return;
-      var vis = visible(), first = null;
-      P.thumbs.querySelectorAll('.bk-th').forEach(function (b) {
-        var n = +b.dataset.n, on = vis.indexOf(n) !== -1;
-        b.classList.toggle('is-cur', on);
-        b.classList.toggle('is-marked', isMarked(n));
-        if (on && !first) first = b;
-      });
-      if (first && scroll) first.scrollIntoView({ block: 'center' });
-    }
-    function queueThumb(b) { P.thQ.push(b); pumpThumbs(); }
-    function pumpThumbs() {
-      if (P.thBusy || !P.thQ.length || !P.thumbs) return;
-      var b = P.thQ.shift();
-      if (!b.isConnected) { pumpThumbs(); return; }
-      P.thBusy = true;
-      S.doc.getPage(+b.dataset.n).then(function (page) {
-        var v1 = page.getViewport({ scale: 1 }), w = 150 * Math.min(window.devicePixelRatio || 1, 2);
-        var vp = page.getViewport({ scale: w / v1.width });
-        var c = D.createElement('canvas');
-        c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-        return page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise.then(function () {
-          var slot = b.firstChild;
-          if (slot) { slot.appendChild(c); slot.classList.add('is-ready'); }
+        K.speech.speak(t, prefs.rate, function () {
+          if (!S.reading || S.readPage !== c) return;
+          if (!canTurn(1)) { stopRead(); toast('End of the book'); return; }
+          turn(1);
         });
-      }).catch(function () { /* thumbnail stays blank */ }).then(function () { P.thBusy = false; timers.push(setTimeout(pumpThumbs, 10)); });
+      });
+    }
+    function toggleRead() {
+      if (S.reading) { stopRead(); return; }
+      if (!K.speech.ok) { toast('This browser cannot read aloud'); return; }
+      stopAuto();
+      S.reading = true; setReadUI(true);
+      readStep();
     }
 
-    function buildToc(body) {
-      body.innerHTML = '<div class="bk-empty"><span>Reading the contents</span></div>';
-      var load = P.outline ? Promise.resolve(P.outline) : S.doc.getOutline().then(function (o) { P.outline = o || []; return P.outline; }).catch(function () { P.outline = []; return P.outline; });
-      load.then(function (items) {
-        if (S.panel !== 'toc') return;
-        body.innerHTML = '';
-        if (!items.length) { body.appendChild(el('div', 'bk-empty', icon('menu_book') + '<span>No contents in this file</span>')); return; }
-        body.appendChild(tocList(items, 0));
-      });
-    }
-    function tocList(items, depth) {
-      var ul = el('ul', 'bk-toc');
-      items.forEach(function (it) {
-        var li = el('li'), row = el('div', 'bk-tr'), kids = it.items && it.items.length;
-        row.style.paddingLeft = (4 + depth * 14) + 'px';
-        var tg = el('button', 'bk-tt' + (kids ? '' : ' is-leaf'), kids ? icon('chevron_right') : '');
-        tg.type = 'button'; tg.setAttribute('aria-label', 'Expand');
-        var go = el('button', 'bk-tl'); go.type = 'button'; go.textContent = it.title || 'Untitled';
-        row.appendChild(tg); row.appendChild(go); li.appendChild(row);
-        if (kids) {
-          var sub = tocList(it.items, depth + 1); sub.hidden = true; li.appendChild(sub);
-          tg.addEventListener('click', function () { sub.hidden = !sub.hidden; tg.classList.toggle('is-open', !sub.hidden); });
-        }
-        go.addEventListener('click', function () { destPage(it.dest).then(function (n) { if (n) { goto(n); leavePanelOnPhone(); } }); });
-        ul.appendChild(li);
-      });
-      return ul;
-    }
-    function destPage(dest) {
-      if (!dest) return Promise.resolve(0);
-      var get = typeof dest === 'string' ? S.doc.getDestination(dest) : Promise.resolve(dest);
-      return get.then(function (d) {
-        if (!d) return 0;
-        var ref = d[0];
-        if (typeof ref === 'number') return ref + 1;
-        return S.doc.getPageIndex(ref).then(function (i) { return i + 1; });
-      }).catch(function () { return 0; });
+    /* ---------------------------------------------------------------- annotate */
+    function toggleInk(on) {
+      S.inking = on == null ? !S.inking : on;
+      root.classList.toggle('is-inking', S.inking);
+      inkBar.show(S.inking);
+      if (S.inking) { stopAuto(); peekTo(0); if (S.F) discardFlip(); }
+      sfx.pop(S.inking);
+      syncUI();
     }
 
-    function buildSearch(body) {
-      var box = el('div', 'bk-sbox', icon('search')), input = el('input', 'bk-sin');
-      input.type = 'search'; input.placeholder = 'Search the book'; input.value = S.hlq; input.autocomplete = 'off';
-      input.setAttribute('aria-label', 'Search the book');
-      box.appendChild(input);
-      var stat = el('div', 'bk-sstat'), list = el('div', 'bk-sres');
-      body.appendChild(box); body.appendChild(stat); body.appendChild(list);
-      P.sInput = input; P.sList = list; P.sStat = stat;
-      var t = 0;
-      input.addEventListener('input', function () { clearTimeout(t); t = setTimeout(function () { setQuery(input.value); }, 220); });
-      input.addEventListener('keydown', function (e) {
-        e.stopPropagation();
-        if (e.key === 'Escape') { if (input.value) { input.value = ''; setQuery(''); } else { closePanel(); root.focus(); } }
-        if (e.key === 'Enter' && P.sResults.length) jumpResult(P.sResults[0]);
-      });
-      indexAll();
-      runSearch();
-      timers.push(setTimeout(function () { input.focus(); }, 80));
+    /* ---------------------------------------------------------------- search highlights on the page */
+    function drawHL(cell) {
+      var n = cell.n, q = S.hlq;
+      if (!n || !text) return;
+      text.paintHits(cell.hls, n, q, function () { return cell.n === n && S.hlq === q; });
     }
-    function setQuery(v) {
-      S.hlq = (v || '').trim();
-      runSearch();
-      refreshHL();
-    }
-    function indexAll() {
-      if (P.sRunning || P.sIndexed >= S.N) return;
-      P.sRunning = true;
-      (function next() {
-        if (!alive || P.sIndexed >= S.N) { P.sRunning = false; runSearch(); return; }
-        var n = ++P.sIndexed;
-        textInfo(n).then(function () {
-          if (n % 25 === 0 || n === S.N) runSearch();
-          if (n % 4 === 0) timers.push(setTimeout(next, 0)); else next();
-        });
-      })();
-    }
-    function runSearch() {
-      if (!P.sList || S.panel !== 'search') return;
-      var q = S.hlq.toLowerCase(), n, jobs = [];
-      var done = P.sIndexed >= S.N;
-      if (q.length < 2) { P.sResults = []; P.sList.innerHTML = ''; P.sStat.textContent = ''; return; }
-      for (n = 1; n <= P.sIndexed; n++) jobs.push(n);
-      Promise.all(jobs.map(textInfo)).then(function (infos) {
-        if (S.hlq.toLowerCase() !== q || !P.sList) return;
-        var res = [];
-        infos.forEach(function (info, i) {
-          var from = 0, idx, count = 0;
-          while ((idx = info.low.indexOf(q, from)) !== -1 && count < 3 && res.length < 400) {
-            res.push({ p: jobs[i], idx: idx, str: info.str });
-            from = idx + q.length; count++;
-          }
-        });
-        P.sResults = res;
-        P.sList.innerHTML = '';
-        res.forEach(function (r) {
-          var b = el('button', 'bk-sri'); b.type = 'button';
-          var chip = el('span', 'bk-chip'); chip.textContent = 'p. ' + r.p;
-          var txt = el('span', 'bk-snip');
-          var a = Math.max(0, r.idx - 34), z = Math.min(r.str.length, r.idx + q.length + 70);
-          txt.appendChild(D.createTextNode((a > 0 ? '\u2026' : '') + r.str.slice(a, r.idx)));
-          var mk = el('mark'); mk.textContent = r.str.slice(r.idx, r.idx + q.length); txt.appendChild(mk);
-          txt.appendChild(D.createTextNode(r.str.slice(r.idx + q.length, z) + (z < r.str.length ? '\u2026' : '')));
-          b.appendChild(chip); b.appendChild(txt);
-          b.addEventListener('click', function () { jumpResult(r); });
-          P.sList.appendChild(b);
-        });
-        var pct = Math.round(P.sIndexed / S.N * 100);
-        P.sStat.textContent = (res.length ? res.length + (res.length >= 400 ? '+ matches' : (res.length === 1 ? ' match' : ' matches')) : (done ? 'No matches' : 'Searching')) + (done ? '' : ' \u00b7 ' + pct + '%');
-      });
-    }
-    function jumpResult(r) { goto(r.p); leavePanelOnPhone(); }
+    function refreshHL() { drawHL(cells.l); drawHL(cells.r); }
 
-    function buildMarks(body) {
-      var stats = el('div', 'bk-stats'), add = el('button', 'x-btn x-btn-tonal bk-addmark');
-      add.type = 'button'; add.setAttribute('data-act', 'mark');
-      add.innerHTML = icon('bookmark_add') + '<span>Bookmark this page</span>';
-      var list = el('div', 'bk-marks');
-      body.appendChild(stats); body.appendChild(add); body.appendChild(list);
-      P.mStats = stats; P.mList = list; P.mAdd = add;
-      renderMarks();
-    }
-    function renderMarks() {
-      if (!P.mList || S.panel !== 'marks') return;
-      var pct = Math.round((store.max || 1) / S.N * 100), mins = Math.floor(store.time / 60);
-      var left = Math.max(0, S.N - (store.max || 1));
-      P.mStats.innerHTML = '<div class="bk-bar"><i style="width:' + pct + '%"></i></div>' +
-        '<div class="bk-srow"><span><b>' + pct + '%</b> read</span><span><b>' + left + '</b> pages left</span><span><b>' + (mins < 1 ? '<1' : mins) + '</b> min</span></div>';
-      P.mAdd.lastChild.textContent = visible().some(isMarked) ? 'Remove bookmark here' : 'Bookmark this page';
-      P.mList.innerHTML = '';
-      if (!store.marks.length) { P.mList.appendChild(el('div', 'bk-empty', icon('bookmarks') + '<span>No bookmarks yet</span>')); return; }
-      store.marks.slice().sort(function (a, b) { return a.p - b.p; }).forEach(function (m) {
-        var row = el('div', 'bk-mark'), g = el('button', 'bk-chip bk-chip-go'); g.type = 'button'; g.textContent = 'p. ' + m.p;
-        g.addEventListener('click', function () { goto(m.p); leavePanelOnPhone(); });
-        var inp = el('input', 'bk-note'); inp.type = 'text'; inp.placeholder = 'Add a note'; inp.value = m.note || ''; inp.maxLength = 160;
-        inp.setAttribute('aria-label', 'Note for page ' + m.p);
-        inp.addEventListener('keydown', function (e) { e.stopPropagation(); });
-        inp.addEventListener('input', function () { m.note = inp.value; S.dirty = true; saveSoon(); });
-        var del = el('button', 'bk-ib bk-del', icon('delete')); del.type = 'button'; del.setAttribute('aria-label', 'Delete bookmark');
-        del.addEventListener('click', function () { store.marks = store.marks.filter(function (x) { return x !== m; }); S.dirty = true; save(); syncUI(); });
-        row.appendChild(g); row.appendChild(inp); row.appendChild(del);
-        P.mList.appendChild(row);
-      });
-    }
+    /* ---------------------------------------------------------------- bookmarks */
     function toggleMark() {
-      var on = visible().filter(isMarked);
-      if (on.length) {
-        store.marks = store.marks.filter(function (m) { return on.indexOf(m.p) === -1; });
-        toast('Bookmark removed');
-      } else {
-        store.marks.push({ p: cur(), note: '', at: Date.now() });
-        toast('Bookmarked page ' + cur());
-      }
-      S.dirty = true; save(); syncUI();
+      var r = store.toggle(visible(), cur());
+      toast(r === 'added' ? 'Bookmarked page ' + cur() : 'Bookmark removed');
+      sfx.chime(r === 'added');
+      syncUI();
     }
 
-    /* settings */
-    function buildPop() {
-      function seg(k, list) {
-        return '<div class="bk-seg" role="radiogroup" data-k="' + k + '">' + list.map(function (o) {
-          return '<button type="button" role="radio" data-v="' + o[0] + '" aria-checked="' + (String(prefs[k]) === String(o[0])) + '">' + (o[2] ? icon(o[2]) : '') + '<span>' + o[1] + '</span></button>';
-        }).join('') + '</div>';
-      }
-      function sw(k, text, ic) {
-        return '<button type="button" class="bk-sw" role="switch" data-k="' + k + '" aria-checked="' + !!prefs[k] + '">' + icon(ic) + '<span>' + text + '</span><i class="bk-knob"></i></button>';
-      }
-      pop.innerHTML =
-        '<div class="bk-ps"><h4>Page tone</h4>' + seg('tone', [['paper', 'Paper', 'light_mode'], ['sepia', 'Sepia', 'wb_twilight'], ['night', 'Night', 'dark_mode']]) + '</div>' +
-        '<div class="bk-ps"><h4>Brightness</h4><input type="range" class="bk-bright" min="60" max="110" value="' + prefs.bright + '" aria-label="Brightness"></div>' +
-        '<div class="bk-ps"><h4>Layout</h4>' + seg('layout', [['auto', 'Auto', 'devices'], ['one', 'One page', 'smartphone'], ['two', 'Two pages', 'auto_stories']]) + '</div>' +
-        '<div class="bk-ps"><h4>Turn speed</h4>' + seg('speed', [['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']]) + '</div>' +
-        '<div class="bk-ps"><h4>Auto turn every</h4>' + seg('interval', [[5, '5 s'], [8, '8 s'], [15, '15 s'], [30, '30 s']]) + '</div>' +
-        '<div class="bk-ps bk-sws">' + sw('curl', 'Page curl', 'swipe') + sw('sound', 'Page sound', 'volume_up') + '</div>' +
-        '<button type="button" class="x-btn x-btn-tonal bk-classic" data-classic="1">' + icon('article') + 'Switch to classic reader</button>';
+    /* ---------------------------------------------------------------- settings and help */
+    function schema() {
+      return [
+        { t: 'seg', k: 'tone', h: 'Page tone', o: [['paper', 'Paper', 'light_mode'], ['sepia', 'Sepia', 'wb_twilight'], ['night', 'Night', 'dark_mode']] },
+        { t: 'range', k: 'bright', h: 'Brightness', min: 60, max: 110 },
+        { t: 'range', k: 'warm', h: 'Warmth', min: 0, max: 60 },
+        { t: 'seg', k: 'layout', h: 'Layout', o: [['auto', 'Auto', 'devices'], ['one', 'One page', 'smartphone'], ['two', 'Two pages', 'auto_stories']] },
+        { t: 'seg', k: 'cover', h: 'Cover', o: [['subject', 'Subject'], ['navy', 'Navy'], ['forest', 'Forest'], ['crimson', 'Crimson'], ['charcoal', 'Ink']] },
+        { t: 'seg', k: 'speed', h: 'Turn speed', o: [['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']] },
+        { t: 'seg', k: 'curl', h: 'Page bend', o: [['off', 'Flat'], ['soft', 'Soft'], ['rich', 'Rich']] },
+        { t: 'seg', k: 'interval', h: 'Auto turn every', o: [[5, '5 s'], [8, '8 s'], [15, '15 s'], [30, '30 s']] },
+        { t: 'seg', k: 'rate', h: 'Reading voice speed', o: [[0.8, '0.8x'], [1, '1x'], [1.25, '1.25x'], [1.5, '1.5x']] },
+        { t: 'range', k: 'vol', h: 'Volume', min: 0, max: 100 },
+        { t: 'sw', k: 'sound', label: 'Page sound', icon: 'volume_up' },
+        { t: 'sw', k: 'tilt', label: 'Book tilt', icon: 'flip' },
+        { t: 'sw', k: 'hide', label: 'Hide controls while reading', icon: 'visibility_off' },
+        { t: 'btn', act: 'classic', label: 'Switch to classic reader', icon: 'article' }
+      ];
     }
     function togglePop(force) {
       var show = force == null ? pop.hidden : force;
-      if (show) { buildPop(); pop.hidden = false; pop.classList.remove('is-in'); void pop.offsetWidth; pop.classList.add('is-in'); }
+      if (show) { pop.innerHTML = K.settingsHTML(schema(), prefs); pop.hidden = false; K.restart(pop, 'is-in'); }
       else pop.hidden = true;
       settingsBtn.classList.toggle('is-on', show);
     }
-    pop.addEventListener('click', function (e) {
-      var s = e.target.closest('.bk-seg button'), w = e.target.closest('.bk-sw');
-      if (s) {
-        var k = s.parentNode.dataset.k, v = s.dataset.v;
-        prefs[k] = (k === 'interval') ? +v : v;
-        s.parentNode.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-checked', b === s ? 'true' : 'false'); });
-        applyPrefs();
-        if (k === 'layout') applyLayout();
-        if (k === 'interval' && S.auto) startAuto();
-      } else if (w) {
-        var kk = w.dataset.k;
-        prefs[kk] = !prefs[kk];
-        w.setAttribute('aria-checked', String(!!prefs[kk]));
-        applyPrefs();
-        if (kk === 'sound' && prefs.sound) chirp();
-      } else if (e.target.closest('[data-classic]')) {
-        if (opts.onClassic) opts.onClassic();
-      }
+    K.bindSettings(pop, prefs, function (k, v) {
+      if (k === '@classic') { if (opts.onClassic) opts.onClassic(); return; }
+      if (k === 'sound') { sfx.set('on', v); prefs.sound = v; syncUI(); return; }
+      if (k === 'vol') { sfx.set('vol', v / 100); prefs.vol = v; clearTimeout(onPrefVol.t); onPrefVol.t = setTimeout(function () { sfx.turn(1.4, 1); }, 200); return; }
+      prefs[k] = v;
+      applyPrefs();
+      if (k === 'layout') applyLayout();
+      if (k === 'interval' && S.auto) startAuto();
+      if (k === 'curl' || k === 'tone' || k === 'bright' || k === 'warm') destroyLeaf();
+      if (k === 'tilt') { S.gx = 0; S.gy = 0; S.tx = 0; S.ty = 0; applyBook(); }
+      if (k === 'hide' && !v) setBare(false);
     });
-    pop.addEventListener('input', function (e) {
-      if (e.target.classList.contains('bk-bright')) { prefs.bright = +e.target.value; applyPrefs(); }
-    });
+    function onPrefVol() { }
 
     var HELP = [
-      ['Turn the page', 'Left Right'], ['Turn by dragging', 'Pull a corner'], ['First or last page', 'Home End'],
-      ['Go to page', 'G'], ['Search', 'S'], ['Pages / contents', 'T  C'], ['Bookmark', 'B'],
-      ['Zoom', '+  \u2212  0'], ['Auto turn', 'P'], ['Full screen', 'F'], ['Close', 'Esc']
+      ['Turn the page', 'Left Right'], ['Jump ten pages', 'Shift + Left Right'], ['Turn by dragging', 'Pull a corner'], ['First or last page', 'Home End'],
+      ['Go to page', 'G'], ['Search', 'S'], ['Pages / contents', 'T  C'], ['Bookmark', 'B'], ['Annotate', 'A'], ['Read aloud', 'R'],
+      ['Zoom', '+  \u2212  0'], ['Auto turn', 'P'], ['Sound', 'M'], ['Hide controls', 'H'], ['Full screen', 'F'], ['Close', 'Esc']
     ];
     function toggleHelp(force) {
       var show = force == null ? help.hidden : force;
-      if (show) {
-        help.innerHTML = '<div class="bk-hc"><div class="bk-hh"><b>Keyboard</b>' + btn('bk-ib', 'close', 'Close', ' data-act="closehelp"') + '</div>' +
-          HELP.map(function (r) { return '<div class="bk-hr"><span>' + r[0] + '</span><kbd>' + r[1] + '</kbd></div>'; }).join('') + '</div>';
-        help.hidden = false;
-      } else help.hidden = true;
+      if (show) { help.innerHTML = K.helpHTML(HELP); help.hidden = false; } else help.hidden = true;
     }
 
     /* ---------------------------------------------------------------- commands */
     function gotoPrompt() {
-      var finished = false, inp = el('input', 'bk-gin');
+      var finished = false, inp = el('input', 'bk-gin nx-pill');
       inp.type = 'number'; inp.min = 1; inp.max = S.N; inp.value = cur();
       inp.setAttribute('aria-label', 'Page number');
       pill.hidden = true;
@@ -1033,69 +868,71 @@
       inp.addEventListener('blur', function () { end(false); });
     }
     function act(a) {
-      stopAuto();
+      if (a !== 'ink' && a !== 'sound') stopAuto();
       switch (a) {
         case 'prev': turn(-1); break;
         case 'next': turn(1); break;
         case 'first': goPos(0); break;
         case 'last': goPos(maxPos()); break;
         case 'goto': gotoPrompt(); break;
-        case 'zin': setZoom(S.zoom + 0.25); break;
-        case 'zout': setZoom(S.zoom - 0.25); break;
+        case 'zin': setZoom(Math.round((S.zoom + 0.25) * 4) / 4); break;
+        case 'zout': setZoom(Math.round((S.zoom - 0.25) * 4) / 4); break;
         case 'zreset': setZoom(1); break;
         case 'mark': toggleMark(); break;
+        case 'ink': toggleInk(); break;
+        case 'read': toggleRead(); break;
+        case 'sound': sfx.set('on', !sfx.state.on); prefs.sound = sfx.state.on; if (sfx.state.on) sfx.pop(true); toast(sfx.state.on ? 'Page sound on' : 'Page sound off'); syncUI(); break;
         case 'settings': togglePop(); break;
         case 'help': toggleHelp(true); break;
         case 'closehelp': toggleHelp(false); break;
-        case 'closepanel': closePanel(); break;
+        case 'closepanel': panels.close(); break;
         default: break;
       }
     }
     root.addEventListener('click', function (e) {
       var pb = e.target.closest('[data-panel]');
-      if (pb) { openPanel(pb.dataset.panel); return; }
+      if (pb) { togglePop(false); panels.open(pb.dataset.panel); sfx.tick(); return; }
       if (e.target.closest('[data-auto]')) { toggleAuto(); return; }
       var a = e.target.closest('[data-act]');
-      if (a) act(a.dataset.act);
-      if (!pop.hidden && !e.target.closest('.bk-pop') && !e.target.closest('[data-act="settings"]')) togglePop(false);
+      if (a && !a.closest('.nx-pop')) act(a.dataset.act);
+      if (!pop.hidden && !e.target.closest('.nx-pop') && !e.target.closest('[data-act="settings"]')) togglePop(false);
       if (e.target === help) toggleHelp(false);
     });
-    range.addEventListener('input', function () {
-      var v = +range.value, pct = S.N > 1 ? (v - 1) / (S.N - 1) * 100 : 0;
-      scrub.style.setProperty('--p', pct.toFixed(2) + '%');
-      tip.hidden = false; tip.textContent = v;
-      tip.style.left = 'calc(' + pct + '% + ' + (10 - pct * 0.2) + 'px)';
-    });
-    range.addEventListener('change', function () { tip.hidden = true; stopAuto(); goto(+range.value); root.focus({ preventScroll: true }); });
-    range.addEventListener('keydown', function (e) { e.stopPropagation(); });
-    range.addEventListener('blur', function () { tip.hidden = true; });
 
     root.addEventListener('keydown', function (e) {
       if (e.target.matches && e.target.matches('input, textarea')) return;
       if (e.altKey || e.metaKey || e.key === 'Tab' || e.key === 'Shift' || e.key === 'Control') return;
       var k = e.key, handled = true;
+      S.moved = Date.now();
+      if (S.bare) setBare(false);
       if (e.ctrlKey) {
-        if (k === 'f' || k === 'F') { e.preventDefault(); if (S.panel !== 'search') openPanel('search'); else if (P.sInput) P.sInput.focus(); }
+        if (k === 'f' || k === 'F') { e.preventDefault(); panels.focusSearch(); }
+        else if (k === 'z' || k === 'Z') { if (S.inking) { e.preventDefault(); ink.undo(cells.r.n || cells.l.n); } }
         return;
       }
       if (k !== 'p' && k !== 'P') stopAuto();
-      if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) turn(1);
+      if (e.shiftKey && (k === 'ArrowRight' || k === 'ArrowLeft')) goto(cur() + (k === 'ArrowRight' ? 10 : -10));
+      else if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) turn(1);
       else if (k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey)) turn(-1);
       else if (k === 'Home') goPos(0);
       else if (k === 'End') goPos(maxPos());
-      else if (k === '+' || k === '=') setZoom(S.zoom + 0.25);
-      else if (k === '-' || k === '_') setZoom(S.zoom - 0.25);
+      else if (k === '+' || k === '=') setZoom(Math.round((S.zoom + 0.25) * 4) / 4);
+      else if (k === '-' || k === '_') setZoom(Math.round((S.zoom - 0.25) * 4) / 4);
       else if (k === '0') setZoom(1);
       else if (k === 'b' || k === 'B') toggleMark();
-      else if (k === 's' || k === 'S' || k === '/') openPanel('search');
-      else if (k === 't' || k === 'T') openPanel('pages');
-      else if (k === 'c' || k === 'C') openPanel('toc');
+      else if (k === 'a' || k === 'A') toggleInk();
+      else if (k === 'r' || k === 'R') toggleRead();
+      else if (k === 'm' || k === 'M') act('sound');
+      else if (k === 'h' || k === 'H') setBare(!S.bare);
+      else if (k === 's' || k === 'S' || k === '/') panels.open('search');
+      else if (k === 't' || k === 'T') panels.open('pages');
+      else if (k === 'c' || k === 'C') panels.open('toc');
       else if (k === 'g' || k === 'G') gotoPrompt();
       else if (k === 'p' || k === 'P') toggleAuto();
       else if (k === 'f' || k === 'F') { var fs = D.getElementById('vw-fs'); if (fs) fs.click(); }
       else if (k === '?') toggleHelp();
       else if (k === 'Escape') {
-        if (!help.hidden) toggleHelp(false); else if (!pop.hidden) togglePop(false); else if (S.panel) closePanel(); else handled = false;
+        if (!help.hidden) toggleHelp(false); else if (!pop.hidden) togglePop(false); else if (S.inking) toggleInk(false); else if (S.reading) stopRead(); else if (panels.current()) panels.close(); else handled = false;
       } else if (k === 'ArrowDown' || k === 'ArrowUp') { handled = S.zoom === 1; if (handled) turn(k === 'ArrowDown' ? 1 : -1); }
       else handled = false;
       if (handled) e.preventDefault();
@@ -1110,40 +947,69 @@
     }) : null;
     if (ro) ro.observe(desk);
 
+    /* controls fade away while reading, and come back on any movement */
+    timers.push(setInterval(function () {
+      if (!alive || !prefs.hide || S.bare || S.panelBusy) return;
+      var open = panels && panels.current(), idle = Date.now() - S.moved;
+      if (idle > 4500 && !open && pop.hidden && help.hidden && !S.inking && !S.overUi && D.activeElement !== root.querySelector('input')) setBare(true);
+    }, 800));
+
     /* ---------------------------------------------------------------- start */
     applyPrefs();
     var ready = openDoc(src).then(function (doc) {
       S.doc = doc; S.N = doc.numPages;
-      return doc.getPage(1).then(function (page) {
-        var v = page.getViewport({ scale: 1 });
+      text = K.text(doc);
+      thumbs = K.thumbs(doc, 140);
+      var hthumbs = K.thumbs(doc, 96);
+      panels = K.panels({
+        host: panelEl, root: root, doc: doc, N: function () { return S.N; }, ratio: function () { return S.ratio; }, text: text, thumbs: thumbs, store: store, ink: ink,
+        visible: visible, cur: cur, go: function (n) { goto(n); }, query: { get: function () { return S.hlq; }, set: function (q) { S.hlq = q; refreshHL(); } },
+        relayout: function () { clearTimeout(relT); relT = setTimeout(function () { if (alive) applyLayout(); }, 40); }, phone: function () { return root.clientWidth < 720; },
+        mark: toggleMark, toast: toast, changed: syncUI
+      });
+      scr = K.scrubber($('.nx-scrub'), { N: function () { return S.N; }, go: function (n) { stopAuto(); goto(n, true); }, thumbs: hthumbs, marks: function () { return store.d.marks.map(function (m) { return m.p; }); }, ratio: function () { return S.ratio; }, focus: function () { root.focus({ preventScroll: true }); } });
+      S.hthumbs = hthumbs;
+      session = K.session(store, root, function (t) { if (panels.current() === 'marks' && t % 30 === 0) panels.renderMarks(); });
+      return doc.getPage(1).then(function (p1) {
+        var v = p1.getViewport({ scale: 1 });
         S.ratio = clamp(v.height / v.width, 0.6, 2.2);
         lastDW = desk.clientWidth; lastDH = desk.clientHeight;
         S.spread = measure().spread;
-        var start = opts.page || (store.last > 1 && store.last < S.N ? store.last : 1);
+        var start = opts.page || (store.d.last > 1 && store.d.last < S.N ? store.d.last : 1);
         S.pos = clamp(posOf(start), 0, maxPos());
         applyLayout();
         return Promise.all(visible().map(renderPage)).then(function () {
           loadEl.classList.add('is-done');
           onMoved();
           if (start > 1 && !opts.page) toast('Continued on page ' + start, 'From the start', function () { goPos(0); });
-          if (!reduced && book.animate) book.animate([{ opacity: 0, scale: '.94', translate: '0 14px' }, { opacity: 1, scale: '1', translate: '0 0' }], { duration: 650, easing: 'cubic-bezier(.2,1,.3,1)' });
+          if (!reduced && book.animate) book.animate([{ opacity: 0, scale: '.92', translate: '0 22px' }, { opacity: 1, scale: '1', translate: '0 0' }], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)' });
+          if (start === 1) sfx.cover(true);
+          root.focus({ preventScroll: true });
         });
       });
     });
+    var relT = 0;
 
     function destroy() {
       alive = false;
-      save();
-      stopAuto();
+      stopAuto(); stopRead();
+      if (session) session.stop(); else store.save();
+      ink.flush();
       timers.forEach(function (t) { clearTimeout(t); clearInterval(t); });
+      clearTimeout(idleT); clearTimeout(relT); clearTimeout(zoomT); clearTimeout(resizeT);
+      cancelAnimationFrame(tiltRaf);
       if (ro) ro.disconnect();
-      window.removeEventListener('pagehide', onHide);
+      if (text) text.stop();
+      if (thumbs) thumbs.destroy();
+      if (S.hthumbs) S.hthumbs.destroy();
+      if (panels) panels.destroy();
+      destroyLeaf();
       cache.forEach(function (e) { if (e.c) e.c.width = 0; });
-      cache.clear();
-      if (actx) { try { actx.close(); } catch (e) { /* already closed */ } }
+      cache.clear(); bytes = 0;
+      sfx.close();
       root.remove();
     }
-    return { node: root, ready: ready, goto: goto, page: function () { return S.N ? cur() : (opts.page || 1); }, destroy: destroy };
+    return { node: root, ready: ready, goto: function (n) { goto(n, true); }, page: function () { return S.N ? cur() : (opts.page || 1); }, destroy: destroy };
   }
 
   function openDoc(src) {
