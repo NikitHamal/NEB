@@ -1014,16 +1014,18 @@
 
     /* ---------------------------------------------------------------- commands */
     function gotoPrompt() {
-      var inp = el('input', 'bk-gin');
+      var finished = false, inp = el('input', 'bk-gin');
       inp.type = 'number'; inp.min = 1; inp.max = S.N; inp.value = cur();
       inp.setAttribute('aria-label', 'Page number');
       pill.hidden = true;
       pill.parentNode.insertBefore(inp, pill);
       inp.focus(); inp.select();
       function end(go) {
-        if (!inp.parentNode) return;
+        if (finished) return;
+        finished = true;
         var v = +inp.value;
-        inp.remove(); pill.hidden = false;
+        pill.hidden = false;
+        if (inp.parentNode) inp.parentNode.removeChild(inp);
         if (go && v) goto(v);
         root.focus({ preventScroll: true });
       }
