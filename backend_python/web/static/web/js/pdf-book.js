@@ -77,7 +77,7 @@
     var boardL = $('.bk-bl'), boardR = $('.bk-br'), stackL = $('.bk-sl'), stackR = $('.bk-sr'), spine = $('.bk-spine');
     var cells = { l: { el: $('.bk-l'), n: 0 }, r: { el: $('.bk-r'), n: 0 } };
     [cells.l, cells.r].forEach(function (c) { c.ink = c.el.querySelector('.nx-ink'); c.hls = c.el.querySelector('.nx-hls'); });
-    var cast = $('.bk-cast'), panelEl = $('.nx-panel'), pop = $('.nx-pop'), help = $('.nx-help'), loadEl = $('.nx-load');
+    var ao = $('.bk-ao'), cast = $('.bk-cast'), panelEl = $('.nx-panel'), pop = $('.nx-pop'), help = $('.nx-help'), loadEl = $('.nx-load');
     var pill = $('.nx-pill'), markBtn = $('[data-act="mark"]'), autoBtn = $('[data-auto]'), zl = $('.nx-zl'), settingsBtn = $('[data-act="settings"]');
     var inkBtn = $('[data-act="ink"]'), readBtn = $('[data-act="read"]'), soundBtn = $('[data-act="sound"]');
     var toast = K.toast(root);
@@ -274,6 +274,9 @@
       boardR.style.transform = 'scaleX(' + Math.max(br, 0.001) + ')'; boardR.style.opacity = br > 0.01 ? 1 : 0;
       boardR.style.transformOrigin = S.spread ? '0 50%' : '50% 50%';
       spine.style.left = (S.W - 9) + 'px'; spine.style.height = (S.H + 16) + 'px';
+      // the contact shade only spans the pages that are showing
+      var ax0 = S.spread ? S.W * (1 - bl) : 0, ax1 = bw - (S.spread && S.N % 2 === 0 ? S.W * (1 - br) : 0);
+      ao.style.left = (ax0 - 8) + 'px'; ao.style.width = Math.max(0, ax1 - ax0 + 16) + 'px';
       S.shift = shiftAt(tf);
       applyBook();
       if (theta == null) { cast.style.opacity = 0; return; }
