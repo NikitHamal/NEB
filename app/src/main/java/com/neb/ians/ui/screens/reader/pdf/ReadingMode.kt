@@ -19,6 +19,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.icons.outlined.TextDecrease
+import androidx.compose.material.icons.outlined.TextIncrease
+import androidx.compose.ui.semantics.CustomAccessibilityAction
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.text.BasicTextField
@@ -283,15 +291,9 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
             val m = Modifier.fillMaxWidth().searchAnchor(ctx, activeNth).padding(top = topGap)
             val callout = remember(block) { if (block.jump < 0) CalloutPattern.find(block.text) else null }
             if (callout != null) {
-                val styled = remember(text, callout, p) {
-                    buildAnnotatedString {
-                        append(text)
-                        addStyle(SpanStyle(fontWeight = FontWeight.Bold, color = p.accent), 0, callout.range.last + 1)
-                    }
-                }
-                Box(m.clip(RoundedCornerShape(18.dp)).background(p.tonal).padding(horizontal = 16.dp, vertical = 14.dp)) {
-                    SelectionContainer { Text(styled, style = t.body) }
-                }
+                val label = remember(callout) { calloutLabel(callout.groupValues[1]) }
+                val body = remember(text, callout) { text.subSequence(callout.range.last + 1, text.length) }
+                RdCallout(label, body, t.body, p, foldable = isAnswerCallout(label), folded = t.settings.hideAnswers, forceOpen = q.isNotEmpty(), modifier = m)
             } else if (block.jump >= 0) {
                 Text(text, style = t.body.copy(color = p.accent), modifier = m.clickable { ctx.onJump(block.jump) })
             } else {
@@ -423,7 +425,7 @@ private fun RdTableBody(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, acti
 }
 
 @Composable
-private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
+private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp, alignStart: Boolean = false) {
     val p = t.p
     val density = LocalDensity.current
     val dpPerPoint = t.base.value / ctx.source.bodyPoints().coerceAtLeast(4f)
@@ -435,7 +437,7 @@ private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topG
         ctx.source.loadCrop(b.page, b.rect, widthPx)?.let { value = it }
     }
     val image = remember(bitmap) { bitmap?.asImageBitmap() }
-    Box(Modifier.fillMaxWidth().padding(top = topGap + if (b.equation) 0.dp else 4.dp), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxWidth().padding(top = topGap + if (b.equation) 0.dp else 4.dp), contentAlignment = if (alignStart) Alignment.CenterStart else Alignment.Center) {
         Box(
             Modifier
                 .width(width)
@@ -445,7 +447,7 @@ private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topG
                 .clickable { ctx.onZoom(RdZoomItem.Figure(b)) }
         ) {
             if (image != null) {
-                Image(image, "Figure from page ${b.page + 1}", Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
+                Image(image, (if (b.equation) "Equation from page " else "Figure from page ") + (b.page + 1), Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
             }
         }
     }
@@ -482,11 +484,11 @@ private fun RdPage(
                 var i = 0
                 while (i < blocks.size) {
                     val gap = if (i == 0) 0.dp else t.gap
-                    val run = optionRunLength(blocks, i)
+                    val run = optionRun(blocks, i)
                     val at = i
-                    if (run >= 2) {
-                        key(page, at) { RdOptions(blocks.subList(at, at + run).map { it as ItemBlock }, page, at, t, ctx, gap) }
-                        i += run
+                    if (run != null) {
+                        key(page, at) { RdOptions(run.rows, page, t, ctx, maxWidth, gap) }
+                        i += run.length
                     } else {
                         key(page, at) { RdBlock(blocks[at], page, at, t, ctx, maxWidth, gap) }
                         i++
@@ -498,14 +500,18 @@ private fun RdPage(
     }
 }
 
-/** Lettered choices as tappable tonal rows: a tap marks your pick (kept while the page is on screen), a second tap clears it. */
+/**
+ * Lettered choices as tappable tonal rows: a tap marks your pick (kept while the page is on screen), a second tap clears it.
+ * Typeset maths that print sets as an image sits inside its own row.
+ */
 @Composable
-private fun RdOptions(items: List<ItemBlock>, page: Int, start: Int, t: ReadType, ctx: RdCtx, topGap: Dp) {
+private fun RdOptions(rows: List<OptionRow>, page: Int, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
     val p = t.p
-    var picked by remember(page, start) { mutableIntStateOf(-1) }
+    var picked by remember(page, rows.first().at) { mutableIntStateOf(-1) }
     Column(Modifier.fillMaxWidth().padding(top = topGap * 0.6f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        items.forEachIndexed { k, b ->
-            val activeNth = ctx.activeIn(page, start + k)
+        rows.forEachIndexed { k, row ->
+            val b = row.item
+            val activeNth = ctx.activeIn(page, row.at)
             val on = picked == k
             val text = remember(b, p, ctx.query, activeNth) { annotate(b.spans, p).marked(ctx.query, activeNth) }
             val letter = b.marker.trim().trim('(', ')', '.', ':').uppercase()
@@ -515,7 +521,7 @@ private fun RdOptions(items: List<ItemBlock>, page: Int, start: Int, t: ReadType
                     .searchAnchor(ctx, activeNth)
                     .clip(RoundedCornerShape(18.dp))
                     .background(if (on) p.accent.copy(alpha = 0.14f) else p.tonal)
-                    .clickable { picked = if (on) -1 else k }
+                    .selectable(selected = on, role = Role.RadioButton, onClick = { picked = if (on) -1 else k })
                     .padding(horizontal = 12.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -529,7 +535,10 @@ private fun RdOptions(items: List<ItemBlock>, page: Int, start: Int, t: ReadType
                         style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = if (on) p.bg else p.ink)
                     )
                 }
-                Text(text, style = t.body, modifier = Modifier.weight(1f))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    if (b.text.isNotBlank() || row.figures.isEmpty()) Text(text, style = t.body)
+                    row.figures.forEach { f -> RdFigure(f, t, ctx, maxWidth - 72.dp, 0.dp, alignStart = true) }
+                }
             }
         }
     }
@@ -658,6 +667,12 @@ fun ReadingMode(
                 state = listState,
                 modifier = Modifier
                     .fillMaxSize()
+                    .semantics {
+                        customActions = listOf(
+                            CustomAccessibilityAction("Larger text") { onFontScale(((settings.fontScale + 0.1f).coerceIn(0.7f, 3f) * 20).roundToInt() / 20f); true },
+                            CustomAccessibilityAction("Smaller text") { onFontScale(((settings.fontScale - 0.1f).coerceIn(0.7f, 3f) * 20).roundToInt() / 20f); true }
+                        )
+                    }
                     .pinchTextSize(settings.fontScale, onFontScale, { pinchLive = it })
                     .pointerInput(showBars, zen) {
                         detectTapGestures { offset ->
@@ -785,10 +800,17 @@ fun ReadingMode(
                                 onValueChangeFinished = { dragging?.let { v -> scope.launch { listState.scrollToItem(v.roundToInt()) } }; dragging = null },
                                 valueRange = 0f..(pageCount - 1).toFloat(),
                                 colors = SliderDefaults.colors(thumbColor = palette.ink, activeTrackColor = palette.ink, inactiveTrackColor = palette.line),
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f).semantics { stateDescription = "Page ${(dragging ?: current.toFloat()).roundToInt() + 1} of $pageCount" }
                             )
                         } else Spacer(Modifier.weight(1f))
-                        Spacer(Modifier.width(8.dp))
+                        NebIconButton(
+                            Icons.Outlined.TextDecrease, "Smaller text",
+                            { onFontScale(((settings.fontScale - 0.1f).coerceIn(0.7f, 3f) * 20).roundToInt() / 20f) }, tint = palette.ink
+                        )
+                        NebIconButton(
+                            Icons.Outlined.TextIncrease, "Larger text",
+                            { onFontScale(((settings.fontScale + 0.1f).coerceIn(0.7f, 3f) * 20).roundToInt() / 20f) }, tint = palette.ink
+                        )
                     }
                     Text(
                         "Page ${current + 1} of $pageCount" + if (minutesLeft > 0) "   \u00B7   ${if (minutesLeft >= 60) "${minutesLeft / 60} h ${minutesLeft % 60} min" else "$minutesLeft min"} left" else "",
@@ -929,6 +951,7 @@ fun ReadingSheet(
             RdSliderRow("Brightness", if (auto) "Auto" else "${(settings.brightness * 100).roundToInt()}%", if (auto) 0.5f else settings.brightness, 0.05f..1f) { v -> onSettings { it.copy(brightness = v) } }
             if (!auto) NebButton("Use system brightness", { onSettings { it.copy(brightness = -1f) } }, tone = NebButtonTone.Text)
             NebToggleRow("Zen mode", null, settings.zen, { v -> onSettings { it.copy(zen = v) }; if (v) onDismiss() })
+            NebToggleRow("Hide answers until tapped", null, settings.hideAnswers, { v -> onSettings { it.copy(hideAnswers = v) } })
             NebToggleRow("Neby AI button", null, !assistantHidden, { v -> onAssistantHidden(!v) })
         }
     }

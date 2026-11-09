@@ -17,7 +17,9 @@ data class ReadingSettings(
     val margin: Int = 1,
     val justify: Boolean = false,
     val zen: Boolean = false,
-    val brightness: Float = -1f
+    val brightness: Float = -1f,
+    /** Answer and solution cards start folded; a tap on the card opens them. */
+    val hideAnswers: Boolean = false
 )
 
 /**
@@ -63,19 +65,20 @@ class ReaderPrefs(context: Context) {
 
     var reading: ReadingSettings
         get() = ReadingSettings(
-            fontScale = prefs.getFloat("rd_scale", 1f).coerceIn(0.7f, 2.2f),
+            fontScale = prefs.getFloat("rd_scale", 1f).coerceIn(0.7f, 3f),
             font = runCatching { ReadingFont.valueOf(prefs.getString("rd_font", null) ?: "") }.getOrDefault(ReadingFont.Serif),
             lineSpacing = prefs.getFloat("rd_line", 1f).coerceIn(0.8f, 1.6f),
             margin = prefs.getInt("rd_margin", 1).coerceIn(0, 2),
             justify = prefs.getBoolean("rd_justify", false),
             zen = prefs.getBoolean("rd_zen", false),
-            brightness = prefs.getFloat("rd_bright", -1f)
+            brightness = prefs.getFloat("rd_bright", -1f),
+            hideAnswers = prefs.getBoolean("rd_hide_ans", false)
         )
         set(v) {
             prefs.edit()
                 .putFloat("rd_scale", v.fontScale).putString("rd_font", v.font.name).putFloat("rd_line", v.lineSpacing)
                 .putInt("rd_margin", v.margin).putBoolean("rd_justify", v.justify).putBoolean("rd_zen", v.zen)
-                .putFloat("rd_bright", v.brightness).apply()
+                .putFloat("rd_bright", v.brightness).putBoolean("rd_hide_ans", v.hideAnswers).apply()
         }
 
     /** The Neby AI button can be dragged away; it comes back from the menu. */

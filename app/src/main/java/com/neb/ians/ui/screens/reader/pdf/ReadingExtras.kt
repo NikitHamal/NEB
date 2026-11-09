@@ -1,6 +1,21 @@
 package com.neb.ians.ui.screens.reader.pdf
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.Functions
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.Notes
+import androidx.compose.material.icons.outlined.TaskAlt
+import androidx.compose.material.icons.outlined.WarningAmber
+import androidx.compose.material3.Icon
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
@@ -231,17 +246,42 @@ private fun RdZoomTable(b: TableBlock, p: ReadingPalette) {
 internal fun isOptionMarker(marker: String): Boolean = OptionMarker.matches(marker.trim())
 private val OptionMarker = Regex("^\\(?[A-Ha-h]\\)?[.):]?$")
 
-/** How many list items from [start] form one run of lettered choices that begins at a (at least two). */
-internal fun optionRunLength(blocks: List<Block>, start: Int): Int {
-    val first = blocks.getOrNull(start) as? ItemBlock ?: return 0
-    if (!isOptionMarker(first.marker) || first.marker.trim().trim('(', ')', '.', ':').lowercase() != "a") return 0
-    var n = 0
-    while (start + n < blocks.size) {
-        val b = blocks[start + n] as? ItemBlock ?: break
+/** One lettered choice: its text and the pictures (typeset maths, small diagrams) that follow it on the page. */
+internal class OptionRow(val item: ItemBlock, val at: Int, val figures: List<FigureBlock>)
+
+/** A run of lettered choices that begins at a. [length] is how many blocks it swallows, pictures included. */
+internal class OptionRun(val rows: List<OptionRow>, val length: Int)
+
+/**
+ * The lettered choices that start at [start], or null. A picture right after a choice belongs to it (print sets maths
+ * as small images); after the last choice only an equation does, so a figure that follows the question stays a figure.
+ */
+internal fun optionRun(blocks: List<Block>, start: Int): OptionRun? {
+    val first = blocks.getOrNull(start) as? ItemBlock ?: return null
+    if (!isOptionMarker(first.marker) || first.marker.trim().trim('(', ')', '.', ':').lowercase() != "a") return null
+    val rows = ArrayList<OptionRow>()
+    var i = start
+    while (i < blocks.size) {
+        val b = blocks[i] as? ItemBlock ?: break
         if (!isOptionMarker(b.marker)) break
-        n++
+        var j = i + 1
+        val figs = ArrayList<FigureBlock>()
+        while (j < blocks.size) {
+            val f = blocks[j] as? FigureBlock ?: break
+            figs += f
+            j++
+        }
+        rows += OptionRow(b, i, figs)
+        i = j
     }
-    return if (n >= 2) n else 0
+    if (rows.size < 2) return null
+    val last = rows.last()
+    val keep = last.figures.takeWhile { it.equation }
+    if (keep.size != last.figures.size) {
+        rows[rows.lastIndex] = OptionRow(last.item, last.at, keep)
+        i -= last.figures.size - keep.size
+    }
+    return OptionRun(rows, i - start)
 }
 
 /** Labels that open a worked answer, hint, note or definition; shown as a tonal card instead of a plain paragraph. */
@@ -249,3 +289,65 @@ internal val CalloutPattern = Regex(
     "^(Answer|Ans|Solution|Hint|Note|Example|Definition|Remember|Tip|Caution|Warning|Key point|Explanation|Formula)s?\\s*(?:\\d+\\s*)?[:.\\u2013\\u2014-]\\s*",
     RegexOption.IGNORE_CASE
 )
+
+/** The word that opens a callout paragraph, as it is shown on the card: Ans becomes Answer. */
+internal fun calloutLabel(raw: String): String {
+    val l = raw.trim().lowercase()
+    return if (l == "ans") "Answer" else l.replaceFirstChar { it.uppercase() }
+}
+
+/** Answers and worked solutions can be folded away for practice. */
+internal fun isAnswerCallout(label: String): Boolean = label.lowercase() in setOf("answer", "solution", "explanation")
+
+private fun calloutIcon(label: String) = when (label.lowercase()) {
+    "hint", "tip" -> Icons.Outlined.Lightbulb
+    "answer", "solution", "explanation" -> Icons.Outlined.TaskAlt
+    "caution", "warning" -> Icons.Outlined.WarningAmber
+    "formula" -> Icons.Outlined.Functions
+    "example" -> Icons.Outlined.Notes
+    else -> Icons.Outlined.Info
+}
+
+/**
+ * The print `.box`: a tonal card with its label on a small header row and the text under it. Answer cards can be
+ * folded (the header is the button); [forceOpen] keeps them open while a search is running.
+ */
+@Composable
+internal fun RdCallout(
+    label: String,
+    body: AnnotatedString,
+    style: TextStyle,
+    p: ReadingPalette,
+    foldable: Boolean,
+    folded: Boolean,
+    forceOpen: Boolean,
+    modifier: Modifier = Modifier
+) {
+    var open by remember(foldable, folded) { mutableStateOf(!(foldable && folded)) }
+    val shown = open || forceOpen
+    val turn by animateFloatAsState(if (shown) 180f else 0f, label = "callout-chevron")
+    Column(modifier.clip(RoundedCornerShape(18.dp)).background(p.tonal).animateContentSize()) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .then(
+                    if (foldable) Modifier.clickable(role = Role.Button, onClickLabel = if (shown) "Hide the $label" else "Show the $label") { open = !open }
+                    else Modifier
+                )
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(calloutIcon(label), null, tint = p.accent, modifier = Modifier.size(18.dp))
+            Text(
+                label.uppercase(),
+                style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 0.8.sp, color = p.accent),
+                modifier = Modifier.weight(1f)
+            )
+            if (foldable) Icon(Icons.Outlined.ExpandMore, null, tint = p.muted, modifier = Modifier.size(20.dp).graphicsLayer { rotationZ = turn })
+        }
+        if (shown) Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)) {
+            SelectionContainer { Text(body, style = style) }
+        }
+    }
+}
