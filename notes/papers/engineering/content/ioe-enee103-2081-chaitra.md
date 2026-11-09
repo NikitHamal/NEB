@@ -232,9 +232,9 @@ for a in np.linspace(0,2*np.pi,12,endpoint=False): ax.plot([cx+0.45*np.cos(a),cx
 ax.add_patch(Circle((cx,0),0.45,fc="#f6f8fc",ec=INK,lw=1)); ax.add_patch(Rectangle((cx-0.4,1.0),0.8,0.55,fc="#2a2f3a",ec=INK)); ax.add_patch(Rectangle((cx-0.4,-1.55),0.8,0.55,fc="#2a2f3a",ec=INK))
 def lab(txt,xy,xt):
     ax.annotate(txt,xy=xy,xytext=xt,fontsize=7.6,color=INK,arrowprops=dict(arrowstyle="-",color=MUTED,lw=0.8),va="center",ha="left")
-lab("yoke (frame)",(2.3,1.6),(3.3,2.8)); lab("pole core + pole shoe",(0.6,1.7),(1.9,2.4))
-lab("field winding",(0.85,1.6),(3.3,1.9)); lab("armature core with slots",(1.0,-0.45),(3.0,-1.1)); lab("armature conductors",(0.95,0.1),(3.0,-2.0))
-ax.text(cx,-2.15,"commutator segments, mica-insulated",ha='center',fontsize=7.4,color=INK); ax.text(cx,2.0,"carbon brushes",ha='center',fontsize=7.6,color=INK)
+lab("yoke (frame)",(2.3,1.6),(3.3,2.8)); lab("pole core + pole shoe",(0.6,1.75),(3.3,2.15))
+lab("field winding",(0.85,1.6),(3.3,1.5)); lab("armature core with slots",(1.0,-0.45),(3.3,-0.5)); lab("armature conductors",(0.95,0.1),(3.3,0.3))
+ax.text(cx,-2.2,"commutator segments\n(mica-insulated)",ha='center',fontsize=7.4,color=INK); ax.text(cx,2.0,"carbon brushes",ha='center',fontsize=7.6,color=INK)
 ```
 
 **Main parts.**
