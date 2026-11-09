@@ -7,8 +7,8 @@ Branch `claude/engineering`. Phase 1 (download) is in `../PAPERS_TRACKER.md`. Th
 |---|---|---|
 | Catalog of every paper on disk (4,086 files) by university / semester / subject / year / kind | `catalog.json`, `catalog-tree.json`, `CATALOG.md` | DONE. Regenerate: `python3 tools/catalog.py && python3 tools/catalog_md.py` |
 | Paper pipeline (`../build_paper.py`, `../paper.css`, `../../pipeline`) | `notes/papers/` | DONE. Takes `level:`, `cal:`; env `PAPERS_CONTENT`, `PAPERS_OUT` |
-| 14 papers typeset with full worked solutions (every question and every OR) | `content/*.md` -> `pdf/NEBians-IOE-Past-Paper-*.pdf` | DONE (see table below; session 3 added 8) |
-| Subject bundles + master All-in-One book | `bundle_engineering.py` -> `pdf/bundles/`, `bundles.json` | DONE for the 5 subjects that have 2+ papers (Maths I, II, III, Physics, Chemistry), master book has 14 papers / 176 pp; re-run after each new paper |
+| 18 papers typeset with full worked solutions (every question and every OR) | `content/*.md` -> `pdf/NEBians-IOE-Past-Paper-*.pdf` | DONE (see table below; session 4 added 4 Physics ENSH/SH 152 papers) |
+| Subject bundles + master All-in-One book | `bundle_engineering.py` -> `pdf/bundles/`, `bundles.json` | DONE for the 5 subjects that have 2+ papers (Maths I, II, III, Physics 2081-2083 with 6 papers (Part I + II merged), Chemistry), master book has 18 papers / 242 pp; re-run after each new paper |
 
 ### Papers finished
 | id (content/<id>.md) | Paper | Source scan | Pages |
@@ -27,12 +27,19 @@ Branch `claude/engineering`. Phase 1 (download) is in `../PAPERS_TRACKER.md`. Th
 | ioe-ensh201-2081-chaitra | Eng. Maths III, regular (ENSH 201) | `3rd-semester/3rd-Semester-Engineering-Mathematics-III-New-Course__.pdf` p5-6 | 14 |
 | ioe-ensh201-2082-kartik | Eng. Maths III, back paper | same PDF p3-4 | 14 |
 | ioe-ensh201-2082-chaitra | Eng. Maths III, regular | same PDF p1-2 | 13 |
+| ioe-ensh152-2083-baishakh | Eng. Physics (Part II), back paper (ENSH 152) | `2nd-semester/2nd-Semester-Engineering-Physics-New-Course__.pdf` p1-2 | 17 |
+| ioe-ensh152-2082-bhadra | Eng. Physics (Part II), regular (ENSH 152) | same PDF p3-4 | 16 |
+| ioe-sh152-2082-baishakh | Eng. Physics (Part II), back paper (SH 152) | same PDF p5-6 | 17 |
+| ioe-sh152-2081-ashwin | Eng. Physics (Part II), regular, 2080 batch (SH 152) | same PDF p7-8 | 16 |
 
 Reading notes (session 3): Physics 2081 Baishakh Q7(b) solved for a charged, isolated capacitor (battery-connected result also given). Chemistry 2081 Baishakh Q10 is cut off at the bottom of the scan. Chemistry 2081 Kartik Q10(b) carries no marks on the scan. Maths III 2082 Kartik Q5(b) prints sum e^{ak} for a>0 (divergent); both the divergent case and the convergent e^{-ak} are answered. Maths III 2082 Chaitra Q11 prints '2zx - px^2 - 2xy + pq' (q lost); read as 2qxy like the Kartik paper.
 
 Reading notes (earlier): the 2083 Baishakh year is printed as such on the scan (checked at 300 dpi). In that paper Q2(a) has an illegible outer upper limit (solved as x from 1 to 2, general result given) and Q14's cross-term was read as 4x1x2 (gives eigenvalues 1,1,7). In 2081 Kartik Q11 the plane line is cut off by the scan edge and was read as x-2y+2z=3.
 
+Reading notes (session 4, Physics 2nd sem): ENSH 152 2082 Bhadra Q5 prints 'specific heat of solid and its saturated vapor', answered for the condensed phase and saturated vapour (Clausius equation by an entropy cycle). SH 152 2082 Baishakh Q6(b): lens radius taken R = 2(mu-1)f = 100 cm. SH 152 2081 Ashwin Q2(b): both total (5/2 RT) and translational (3/2 RT) energies given. 2083 Baishakh Q2(b): Einstein temperature 100 C taken as 373 K.
+
 ## Next paper candidates
+DONE in session 4: `2nd-semester/...Engineering-Physics-New-Course` (all 4 sittings). NEXT: `2nd-semester/...Engineering-Chemistry-New-Course__.pdf` (8 pp), fetch with `git checkout HEAD -- notes/papers/engineering/sources/tu-ioe/past-questions-bani/2nd-semester/<file>`; then Basic Electrical, Numerical Methods (3rd), Probability and Statistics (4th), Engineering Mechanics.
 Scan page order caveat: in the IOE 'bani' compilations the continuation page of a paper can come BEFORE its first page (Maths III: p1 is the tail of p2). Read all pages before pairing.
 - `1st-semester/`: Basic Electrical and Electronics (6 pp), Fundamental of Electrical and Electronics (4), Engineering Drawing (needs figures), Engineering Mechanics (9), Engineering Geology I (3).
 - `2nd-semester/`: Engineering Physics new (8 pp, other sittings), Electrical Circuits and Machines (12), Electronic Device and Circuits (5), Object Oriented Programming (4), Strength of Materials (4), Survey I (8).
@@ -53,6 +60,9 @@ PATH=/tmp/menv/bin:$PATH FONTCONFIG_PATH=/tmp/menv/etc/fonts PAPERS_CONTENT=$PWD
 Tesseract 5 with 125 languages is in that env (use `-l eng`) for scans whose page images are too small to read.
 
 ## Gotchas learned
+- Session 4 sandbox could not create `/app` (permission denied), so the repo was cloned to `/home/user/app`. The file tools only take paths relative to the sandbox root, so symlink it (`ln -s /home/user/app /home/user/sandbox/app`) and write to `app/notes/...`.
+- `tools/fixq.py <md...>` rewrites every single-line `$$ a, \qquad b $$` display into a `gathered` block. Run it on each new md before building; it prevents the aligned-splitter mangling.
+- `bundle_engineering.py` now groups by `BE · Year I` (not Part I/II), so Physics/Chemistry sittings from both parts share one bundle (`engineering-physics-2081-2083.pdf`).
 - Sparse clone: `git checkout` without sparse rules downloads ALL blobs (~2 GB). Set `git sparse-checkout set --no-cone '/*' '!/notes/papers/engineering/sources/' ...` BEFORE the first checkout. Read single files with `git show origin/claude/engineering:<path>`.
 - A math expression containing `\begin{...}` is exempt from the pipeline's auto "a = b = c" aligned splitter (wrap an inline chain in `\begin{gathered}...\end{gathered}`).
 - Do not write `### Question N` headings in solutions: `@s N` already prints one.
