@@ -23,9 +23,9 @@ java -cp /tmp/out:kotlin-stdlib.jar com.neb.ians.ui.screens.reader.pdf.PdfReflow
 A sweep over 227 pages takes about 1.5 s, worst page 54 ms, no failures on 6 sample files.
 
 ## Not verified on a device (read this)
-The Compose side (`ReadingMode.kt`, `PdfAssistantFab.kt`, screen wiring, sheets, chrome) was written without an Android SDK in the sandbox: it was reviewed by hand but **not compiled**. First step next session: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :app:compileModernDebugKotlin` and fix whatever the compiler finds, then look at it on a device (reading mode on a book page with a table and a figure, tapping the contents page, dragging the Neby button).
+The Compose side (`ReadingMode.kt`, `PdfAssistantFab.kt`, screen wiring, sheets, chrome) was first written without an Android SDK; session 2 type-checked it with the Kotlin front end (see above) but it has **not run on a device**. Still worth doing: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :app:compileModernDebugKotlin` and fix whatever the compiler finds, then look at it on a device (reading mode on a book page with a table and a figure, tapping the contents page, dragging the Neby button).
 
 ## Known gaps
-- Reading mode keeps one column: two column papers interleave. Search is not available inside reading mode (page mode search is unchanged and still needs the platform text API).
+- Reading mode keeps one column: two column papers interleave. Page mode search marks hits only where the platform text API exists (Android 15 / R-ext 13); elsewhere search runs in reading mode.
 - Password protected files have no links or reading mode (the renderer cannot open them either).
 - Crops come from `PdfRenderer` pages, so tables made of vector math are shown as pictures, not text.
