@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709060,
+  "bytes": 709058,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606310,
+  "bytes": 1606309,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272198,
+  "bytes": 3272196,
   "kind": "subject-bundle"
  },
  {
@@ -71,7 +71,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762980,
+  "bytes": 2762979,
   "kind": "subject-bundle"
  },
  {
@@ -89,7 +89,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095711,
+  "bytes": 3095713,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792102,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -189,7 +189,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645018,
+  "bytes": 1645019,
   "kind": "subject-bundle"
  },
  {
@@ -206,6 +206,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-communication-english-part-ii-2082-2083.pdf",
+  "subject": "Communication English (Part II)",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ensh251-2083-baishakh",
+   "ioe-ensh251-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 341542,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-computer-graphics-and-visualization-2081-2082.pdf",
   "subject": "Computer Graphics and Visualization",
   "level": "BE \u00b7 Year II",
@@ -215,7 +228,7 @@
    "ioe-enct201-2081-chaitra"
   ],
   "pages": 25,
-  "bytes": 942161,
+  "bytes": 942162,
   "kind": "subject-bundle"
  },
  {
@@ -228,7 +241,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710383,
+  "bytes": 710382,
   "kind": "subject-bundle"
  },
  {
@@ -241,7 +254,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582017,
+  "bytes": 1582016,
   "kind": "subject-bundle"
  },
  {
@@ -254,7 +267,7 @@
    "ioe-enct253-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1081969,
+  "bytes": 1081968,
   "kind": "subject-bundle"
  },
  {
@@ -307,7 +320,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116672,
+  "bytes": 2116671,
   "kind": "subject-bundle"
  },
  {
@@ -321,7 +334,7 @@
    "ioe-enex201-2081-chaitra"
   ],
   "pages": 38,
-  "bytes": 929276,
+  "bytes": 929274,
   "kind": "subject-bundle"
  },
  {
@@ -361,7 +374,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537016,
+  "bytes": 537015,
   "kind": "subject-bundle"
  },
  {
@@ -387,7 +400,7 @@
    "ioe-enex255-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1482742,
+  "bytes": 1482740,
   "kind": "subject-bundle"
  },
  {
@@ -401,7 +414,7 @@
    "ioe-enct203-2081-chaitra"
   ],
   "pages": 51,
-  "bytes": 1775478,
+  "bytes": 1775479,
   "kind": "subject-bundle"
  },
  {
@@ -479,6 +492,8 @@
    "ioe-ensh202-2082-kartik",
    "ioe-ensh204-2081-chaitra",
    "ioe-ensh204-2082-kartik",
+   "ioe-ensh251-2082-bhadra",
+   "ioe-ensh251-2083-baishakh",
    "ioe-ensh253-2082-bhadra",
    "ioe-ensh253-2083-baishakh",
    "ioe-ex101-2081-baishakh",
@@ -497,8 +512,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1235,
-  "bytes": 44943993,
+  "pages": 1266,
+  "bytes": 45267519,
   "kind": "master-book"
  }
 ]
