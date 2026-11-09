@@ -274,6 +274,23 @@ def transformer(ax, x, y, w=3.0, h=2.4, turns=7, lc="#1d6fb8", rc="#d9534f"):
             "s_top": (x + w + 0.25, ys[-1]), "s_bot": (x + w + 0.25, ys[0])}
 
 
+def bjt(ax, x, y, kind="npn", text=None):
+    """BJT symbol, base bar at x, centred on y. Returns dict of terminal points B, C, E."""
+    sg = 1 if kind == "npn" else -1
+    _pl(ax, [(x, y - 0.5), (x, y + 0.5)], lw=2.6)
+    B = (x - 0.7, y); _pl(ax, [B, (x, y)])
+    C = (x + 0.6, y + 1.1); E = (x + 0.6, y - 1.1)
+    _pl(ax, [(x, y + 0.22), (x + 0.6, y + 0.62), C])
+    _pl(ax, [(x, y - 0.22), (x + 0.6, y - 0.62), E])
+    ax.annotate("", xy=(x + 0.5, y - 0.55) if kind == "npn" else (x + 0.05, y - 0.25),
+                xytext=(x + 0.3, y - 0.4) if kind == "npn" else (x + 0.3, y - 0.4), zorder=5,
+                arrowprops=dict(arrowstyle="-|>", color=_INK, lw=1.4, mutation_scale=9))
+    ax.add_patch(_mp.Circle((x + 0.25, y), 0.95, fc="none", ec=_INK, lw=1.0, zorder=0))
+    if text:
+        ax.text(x + 1.4, y, text, fontsize=8.4, va="center")
+    return {"B": B, "C": C, "E": E}
+
+
 def blockchain(steps, cols=3, figsize=(5.8, 2.5), colors=None):
     """Rows of rounded boxes joined by arrows (snake order, left to right then next row).
     steps: list of (title, subtitle). Returns the Figure."""
@@ -309,7 +326,7 @@ def blockchain(steps, cols=3, figsize=(5.8, 2.5), colors=None):
 
 
 NAMES = ["ckt_canvas", "wire", "node", "terminal", "label", "res", "ind", "cap", "batt",
-         "vsrc", "acsrc", "isrc", "diode", "gnd", "arrow", "switch", "mesh", "gate", "transformer", "blockchain"]
+         "vsrc", "acsrc", "isrc", "diode", "gnd", "arrow", "switch", "mesh", "gate", "transformer", "blockchain", "bjt"]
 
 
 def namespace():
