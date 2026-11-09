@@ -68,6 +68,11 @@ TM_REV = T([
     "cl A -> cl a L", "cl B -> cl b L", "cl _ -> qf _ S",
 ])
 
+# ---------------------------------------------------------------- TM with storage in states: first symbol == last symbol over {a,b}
+TM_FL = T(["q0 a -> q1a a R", "q0 b -> q1b b R",
+           "q1a a -> q1a a R", "q1a b -> q1a b R", "q1a _ -> q2a _ L", "q1b a -> q1b a R", "q1b b -> q1b b R", "q1b _ -> q2b _ L",
+           "q2a a -> qf a S", "q2b b -> qf b S"])
+
 # ---------------------------------------------------------------- PDAs
 # L = { a^n b a^n : n >= 0 } (accept by final state)
 PDA_ANBAN = [("q0", "a", "Z", "q0", "aZ"), ("q0", "a", "a", "q0", "aa"),
@@ -94,6 +99,7 @@ def verify():
     def anbncndn(s): m = re.fullmatch(r"(a*)(b*)(c*)(d*)", s); return bool(m) and len(m[1]) == len(m[2]) == len(m[3]) == len(m[4])
     chk("a^n b^n c^n", TM_ABC, "qf", anbncn, "abc", 9)
     chk("a^n b^n c^n d^n", TM_ABCD, "qf", anbncndn, "abcd", 8)
+    chk("first=last", TM_FL, "qf", lambda s: s != "" and s[0] == s[-1], "ab", 10)
     chk("odd binary", TM_ODD, "qf", lambda s: s != "" and s[-1] == "1", "01", 10)
     chk("a^n c b^n", TM_ACB, "qf", lambda s: bool(re.fullmatch(r"a*cb*", s)) and s.count("a") == s.count("b"), "abc", 9)
     for s in strings("01", 9):

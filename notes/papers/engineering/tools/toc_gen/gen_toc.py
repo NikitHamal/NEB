@@ -7,7 +7,7 @@ import machines as M
 
 TMS = {"ABC": (M.TM_ABC, "q0", {"qf"}), "ABCD": (M.TM_ABCD, "q0", {"qf"}), "ODD": (M.TM_ODD, "q0", {"qf"}),
        "COMP": (M.TM_COMP, "q0", {"qf"}), "ACB": (M.TM_ACB, "q0", {"qf"}), "DBL": (M.TM_DBL, "q0", {"qh"}),
-       "REV": (M.TM_REV, "sL", {"qf"})}
+       "REV": (M.TM_REV, "sL", {"qf"}), "FL": (M.TM_FL, "q0", {"qf"})}
 PDAS = {"ANBAN": (M.PDA_ANBAN, {"q2"}), "MGEN": (M.PDA_MGEN, {"q2"})}
 
 
@@ -29,6 +29,15 @@ def sub(m):
     if kind == "PDA":
         d, fin = PDAS[args[0]]; w = args[1]; a, p = pda_run(d, "q0", fin, w); assert a
         return pda_trace_md(w, p, per=3)
+    if kind == "TT":
+        rows = ["| $P$ | $Q$ | $R$ | $P\\to Q$ | $Q\\to R$ | $(P\\to Q)\\land(Q\\to R)$ | $P\\to R$ | whole formula |", "|---|---|---|---|---|---|---|---|"]
+        imp = lambda a, b: (not a) or b; T_ = lambda x: "T" if x else "F"
+        for P in (True, False):
+            for Q in (True, False):
+                for R in (True, False):
+                    a, b = imp(P, Q), imp(Q, R); c = a and b; d = imp(P, R); e = imp(c, d); assert e
+                    rows.append("| %s | %s | %s | %s | %s | %s | %s | **%s** |" % tuple(T_(x) for x in (P, Q, R, a, b, c, d, e)))
+        return "\n".join(rows)
     if kind == "TMTAB":
         return tm_table(TMS[args[0]][0])
     if kind == "ENC":
@@ -48,6 +57,6 @@ def sub(m):
 
 if __name__ == "__main__":
     s = open(sys.argv[1]).read()
-    s = re.sub(r"\{\{(TMTAB|TM|PDA|ENC):?([^}]*)\}\}", sub, s)
+    s = re.sub(r"\{\{(TMTAB|TM|PDA|ENC|TT):?([^}]*)\}\}", sub, s)
     open(sys.argv[2], "w").write(s)
     print("wrote", sys.argv[2], len(s))
