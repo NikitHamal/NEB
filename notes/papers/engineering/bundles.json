@@ -1,16 +1,20 @@
 [
  {
-  "file": "bundles/engineering-chemistry-2081.pdf",
+  "file": "bundles/engineering-chemistry-2081-2083.pdf",
   "subject": "Engineering Chemistry",
   "level": "BE \u00b7 Year I",
-  "years_bs": "2081",
+  "years_bs": "2081-2083",
   "papers": [
+   "ioe-ensh153-2083-baishakh",
+   "ioe-ensh153-2082-bhadra",
+   "ioe-sh153-2082-baishakh",
    "ioe-ensh103-2081-chaitra",
    "ioe-sh103-2081-kartik",
+   "ioe-sh153-2081-ashwin",
    "ioe-sh103-2081-baishakh"
   ],
-  "pages": 33,
-  "bytes": 1155457,
+  "pages": 81,
+  "bytes": 3095714,
   "kind": "subject-bundle"
  },
  {
@@ -24,7 +28,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823188,
+  "bytes": 1823187,
   "kind": "subject-bundle"
  },
  {
@@ -38,7 +42,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704449,
+  "bytes": 1704450,
   "kind": "subject-bundle"
  },
  {
@@ -84,6 +88,8 @@
    "ioe-ensh151-2083-baishakh",
    "ioe-ensh152-2082-bhadra",
    "ioe-ensh152-2083-baishakh",
+   "ioe-ensh153-2082-bhadra",
+   "ioe-ensh153-2083-baishakh",
    "ioe-ensh201-2081-chaitra",
    "ioe-ensh201-2082-chaitra",
    "ioe-ensh201-2082-kartik",
@@ -94,10 +100,12 @@
    "ioe-sh103-2081-kartik",
    "ioe-sh151-2081-ashwin",
    "ioe-sh152-2081-ashwin",
-   "ioe-sh152-2082-baishakh"
+   "ioe-sh152-2082-baishakh",
+   "ioe-sh153-2081-ashwin",
+   "ioe-sh153-2082-baishakh"
   ],
-  "pages": 242,
-  "bytes": 10819840,
+  "pages": 290,
+  "bytes": 12757119,
   "kind": "master-book"
  }
 ]
