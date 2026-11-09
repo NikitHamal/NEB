@@ -157,3 +157,11 @@ Brief: the reading mode / sheet / system bars / splash / composer plus / notes /
 - **Checked, unchanged:** Reading sheet matches the bento reference (sp values, no page colour names, thick visible sliders, scroll, zen and the other switches); splash 1.2 s; notes header plus tile and empty state with no floating buttons; backend `web.test_institutions` and `web.test_institution_sites` pass (30 tests).
 - Not run on a device. Look for: a toast over the composer with the keyboard open, the news identity menu with a signed out user (disabled).
 - CI: `Build Student Release APKs & AAB` passed on `517c9e9` (the first push `d9a6dcf` failed on one missing import of the `BoxScope` extension `NebToastBusHost`, fixed).
+
+## Session 13: audit, one composer (CI-verified only)
+
+Brief: the reading, sheet, bars, splash, composer, plus menu, notes and toast brief came back a third time. Everything in sessions 5, 11 and 12 was re-checked on `main` first and left alone.
+
+- **One composer:** the full-screen reply page (`ReplyScreen`, `ReplyViewModel`, route `forum/reply`) had no caller left (the thread sheet and the main bar already use `NebCommentComposerBar`). Removed it and the unused `onReplyClick` parameter of `ForumPostDetailScreen`. `NebCommentComposerBar` is now the only comment input (forum post, forum thread, resource, resource thread, news).
+- **Copy:** the home feed filter "All Feed" lost its decorative glyph.
+- **Still open, in order of value:** two column papers and fact sheet grids in reading mode (`PDF_ANDROID_STATUS.md`), a device pass on the sheet, splash and toast.

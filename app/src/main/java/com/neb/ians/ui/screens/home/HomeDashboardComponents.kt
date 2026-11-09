@@ -579,7 +579,7 @@ internal fun HomeFeedFilterStrip(
 ) {
     val filters = remember {
         listOf(
-            HomeFeedFilter("all", "✦ All Feed", Icons.Outlined.AllInclusive),
+            HomeFeedFilter("all", "All feed", Icons.Outlined.AllInclusive),
             HomeFeedFilter("discussions", "Discussions", Icons.Outlined.ChatBubbleOutline),
             HomeFeedFilter("resources", "Resource Stacks", Icons.AutoMirrored.Filled.MenuBook),
             HomeFeedFilter("questions", "Model Sets", Icons.Outlined.Poll),
