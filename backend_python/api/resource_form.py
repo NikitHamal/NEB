@@ -37,6 +37,8 @@ def checked(fn, *args):
 def read_listing_fields(data):
     fields = {name: data.get(name, '').strip() for name in LISTING_FIELDS}
     fields['type'] = data.get('type', 'PDF').strip() or 'PDF'
+    from .education_catalog import canonical_level
+    fields['grade_level'] = canonical_level(fields['grade_level'])
     return fields
 
 

@@ -711,3 +711,11 @@ def json_entry(entry):
     """A portfolio entry as compact JSON for a data attribute (escaped by the template)."""
     import json as _json
     return _json.dumps(entry, separators=(',', ':'))
+
+
+@register.filter
+def level_label(value):
+    """The label a stored level value is shown under: '11' reads 'Class 11'."""
+    from api.education_catalog import LEVEL_LABELS, canonical_level
+    canon = canonical_level(value)
+    return LEVEL_LABELS.get(canon, canon or value)

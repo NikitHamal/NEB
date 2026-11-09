@@ -46,9 +46,9 @@
         <div class="neb-menu-label">Switch class</div>
         {% for g in grade_list %}
         <a href="{% url 'web:subject_page' grade_slug=g.slug subject_slug=subject_slug %}" class="neb-menu-item" role="menuitemradio"
-           aria-checked="{% if g.name == grade %}true{% else %}false{% endif %}">
+           aria-checked="{% if g.value == grade %}true{% else %}false{% endif %}">
           <span class="neb-menu-item-label">{{ g.name }}</span>
-          {% if g.name == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
+          {% if g.value == grade %}<span class="material-symbols-outlined">check</span>{% endif %}
         </a>
         {% endfor %}
       </div>

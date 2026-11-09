@@ -207,9 +207,10 @@ def admin_resources_list(request):
 
     import uuid
     data = request.data
+    from .education_catalog import canonical_level
     title = data.get('title', '').strip()
     subject = data.get('subject', '').strip()
-    grade_level = data.get('grade_level', '').strip()
+    grade_level = canonical_level(data.get('grade_level', ''))
     file_url = data.get('file_url', '').strip()
     if not title or not subject or not grade_level or not file_url:
         return Response({'error': 'title, subject, grade_level, and file_url are required'}, status=400)

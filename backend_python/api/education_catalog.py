@@ -248,6 +248,52 @@ LEVEL_VALUES = [lv['value'] for lv in LEVELS]
 LEVEL_BY_VALUE = {lv['value']: lv for lv in LEVELS}
 LEVEL_LABELS = {lv['value']: lv['label'] for lv in LEVELS}
 
+# Every spelling seen in uploads, old profiles and app builds, folded onto one value.
+# `canonical_level` is the only way a level reaches the database; `level_match_values`
+# keeps queries working for rows written before that rule existed.
+LEVEL_ALIASES = {
+    'see': 'Class 10 / SEE', 'slc': 'Class 10 / SEE', 'class 10': 'Class 10 / SEE',
+    'grade 10': 'Class 10 / SEE', '10th': 'Class 10 / SEE', '10': 'Class 10 / SEE',
+    'class 11': '11', 'grade 11': '11', '11th': '11', 'xi': '11',
+    'class 12': '12', 'grade 12': '12', '12th': '12', 'xii': '12',
+    '+2': '+2 Passout', '2 passout': '+2 Passout', 'passout': '+2 Passout',
+    'pass out': '+2 Passout', '+2 passed': '+2 Passout', '+2 pass': '+2 Passout',
+    'a level': 'A-Levels / IB', 'a levels': 'A-Levels / IB', 'a-level': 'A-Levels / IB',
+    'ib': 'A-Levels / IB',
+    'bachelor': 'Bachelors', "bachelor's": 'Bachelors', 'bachelors degree': 'Bachelors',
+    'undergraduate': 'Bachelors', 'graduation': 'Bachelors',
+    'master': 'Masters', "master's": 'Masters', 'masters degree': 'Masters',
+    'postgraduate': 'Masters', 'doctorate': 'PhD', 'doctoral': 'PhD',
+    'entrance': 'Entrance Prep', 'entrance exam': 'Entrance Prep', 'entrance exams': 'Entrance Prep',
+}
+for _n in range(1, 10):
+    for _alias in ('%d' % _n, 'class %d' % _n, 'grade %d' % _n, '%dth' % _n):
+        LEVEL_ALIASES[_alias] = 'Class %d' % _n
+_CANON_BY_LOWER = {v.lower(): v for v in LEVEL_VALUES}
+
+
+def canonical_level(value):
+    """One stored spelling per level: 'Class 11' -> '11', 'Bachelor' -> 'Bachelors'."""
+    raw = str(value or '').strip()
+    if not raw:
+        return ''
+    low = ' '.join(raw.lower().split())
+    if low in _CANON_BY_LOWER:
+        return _CANON_BY_LOWER[low]
+    return LEVEL_ALIASES.get(low, raw)
+
+
+def level_match_values(value):
+    """Every spelling of a level, canonical first, for tolerant queries on old rows."""
+    canon = canonical_level(value)
+    if not canon:
+        return []
+    out = [canon]
+    for alias, target in LEVEL_ALIASES.items():
+        if target == canon and alias not in out:
+            out.append(alias)
+    return out
+
 # Levels that are not a class, so filtering by grade makes no sense for them.
 GLOBAL_LEVELS = {
     '+2 passout', 'a-levels / ib', 'tslc', 'diploma', 'bachelors', 'masters', 'phd',

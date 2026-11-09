@@ -293,6 +293,7 @@ urlpatterns = [
     path('admin/media-test/', views_admin_media.admin_media_test, name='admin_media_test'),
     path('ajax/admin/media/tts/', views_admin_media.ajax_admin_media_tts, name='ajax_admin_media_tts'),
     path('ajax/admin/media/airy-voices/', views_admin_media.ajax_admin_media_airy_voices, name='ajax_admin_media_airy_voices'),
+    path('ajax/admin/media/smallest-voices/', views_admin_media.ajax_admin_media_smallest_voices, name='ajax_admin_media_smallest_voices'),
     path('ajax/admin/media/stt/', views_admin_media.ajax_admin_media_stt, name='ajax_admin_media_stt'),
     path('ajax/admin/media/voice/', views_admin_media.ajax_admin_media_voice, name='ajax_admin_media_voice'),
     path('admin/themes/', views_admin_themes.admin_site_themes, name='admin_site_themes'),

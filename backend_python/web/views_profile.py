@@ -716,7 +716,8 @@ def edit_profile(request):
         display_name = request.POST.get('display_name', '').strip()
         gender = request.POST.get('gender', '').strip()
         role = request.POST.get('role', db_user.role).strip().lower()
-        class_level = request.POST.get('class_level', '').strip()
+        from api.education_catalog import canonical_level
+        class_level = canonical_level(request.POST.get('class_level', ''))
         if role not in ('student', 'teacher', 'institution', 'explorer'):
             role = db_user.role or 'student'
         if not username or not dob:

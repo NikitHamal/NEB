@@ -59,6 +59,14 @@ from .view_helpers import (
     parse_sections,
 )
 
+def _ordered_levels(values):
+    """One chip per level, canonical spelling, in the order the education catalog lists them."""
+    from api.education_catalog import LEVEL_VALUES, canonical_level
+    canon = {canonical_level(v) for v in values if v}
+    order = {v: i for i, v in enumerate(LEVEL_VALUES)}
+    return sorted(canon, key=lambda v: (order.get(v, len(order)), v))
+
+
 def _get_library_filter_options():
     """Cached distinct subject/grade/type/faculty/exam_type lists for filter UIs.
 
@@ -87,7 +95,7 @@ def _get_library_filter_options():
                 exam_types_set.add(exam_type)
         options = {
             'subjects': sorted(subjects_set),
-            'grades': sorted(grades_set),
+            'grades': _ordered_levels(grades_set),
             'types': sorted(types_set),
             'faculties': sorted(faculties_set),
             'exam_types': sorted(exam_types_set),
@@ -347,11 +355,12 @@ def home(request):
     all_posts.sort(key=_post_hot, reverse=True)
 
     if user_profile and not is_global_user(user_profile) and (user_profile.class_level or user_profile.subjects):
-        grade_pref = (user_profile.class_level or '').strip().lower()
+        from api.education_catalog import canonical_level
+        grade_pref = canonical_level(user_profile.class_level).strip().lower()
         subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
         
         def get_relevance_score(r):
-            r_grade = (r.get('grade_level') or '').strip().lower()
+            r_grade = canonical_level(r.get('grade_level')).strip().lower()
             r_subject = (r.get('subject') or '').strip().lower()
             
             grade_match = (r_grade == grade_pref) if grade_pref else False
@@ -566,9 +575,11 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
                 q |= Q(subject__iexact=s)
             qs = qs.filter(q)
         if grades:
+            from api.education_catalog import level_match_values
             q = Q()
             for g in grades:
-                q |= Q(grade_level__iexact=g)
+                for v in level_match_values(g) or [g]:
+                    q |= Q(grade_level__iexact=v)
             qs = qs.filter(q)
         if types:
             q = Q()
@@ -605,7 +616,10 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
             grade_pref = user_profile.class_level
             subject_prefs = [s.strip().lower() for s in (user_profile.subjects or '').split(',') if s.strip()]
 
-            grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
+            from api.education_catalog import level_match_values
+            grade_match = Q(pk__in=[])
+            for v in level_match_values(grade_pref):
+                grade_match |= Q(grade_level__iexact=v)
             subject_match = Q(pk__in=[])
             if subject_prefs:
                 q_subj = Q()
@@ -915,7 +929,11 @@ def search(request):
                 resource_qs = resource_qs.filter(subject=subject)
                 post_qs = post_qs.filter(category__iexact=subject)
             if grade:
-                resource_qs = resource_qs.filter(grade_level=grade)
+                from api.education_catalog import level_match_values
+                gq = Q()
+                for v in level_match_values(grade) or [grade]:
+                    gq |= Q(grade_level__iexact=v)
+                resource_qs = resource_qs.filter(gq)
             if rtype:
                 resource_qs = resource_qs.filter(type=rtype)
 
@@ -1541,19 +1559,22 @@ def subject_page(request, grade_slug, subject_slug):
                         subject=syllabus_key)
     grade_db_val = curriculum.get_grade_db_value(grade_slug)
     subject_db_val = curriculum.get_subject_db_value(subject_slug)
-    
+    from api.education_catalog import level_match_values
+    grade_q = Q()
+    for _v in level_match_values(grade_db_val) or [grade_db_val]:
+        grade_q |= Q(grade_level__iexact=_v)
     # Query approved lead resources
     resources_qs = Resource.objects.select_related('uploaded_by').filter(
+        grade_q,
         approval_status='approved',
         is_lead=True,
-        grade_level__iexact=grade_db_val,
         subject__icontains=subject_db_val
     )
     
     # Fetch database syllabus content entries
     from api.models import SyllabusContent
     syllabus_entries = SyllabusContent.objects.filter(
-        grade_level__iexact=grade_db_val,
+        grade_q,
         subject__iexact=subject_db_val
     ).order_by('order')
     
@@ -1713,34 +1734,30 @@ def subject_page(request, grade_slug, subject_slug):
 
     active_grades = {grade_db_val}
     if has_syllabus:
-        # Driven solely by admin-created SyllabusContent
+        from api.education_catalog import canonical_level
         for g in SyllabusContent.objects.values_list('grade_level', flat=True).distinct():
-            g_clean = g.strip() if g else ''
+            g_clean = canonical_level(g)
             if g_clean:
-                if g_clean.lower() == 'grade 12':
-                    g_clean = 'Class 12'
-                elif g_clean.lower() == 'grade 11':
-                    g_clean = 'Class 11'
                 active_grades.add(g_clean)
     else:
-        # Fallback to CURRICULUM_MAP keys
+        from api.education_catalog import canonical_level
         for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-            g_clean = g_val.strip()
+            g_clean = canonical_level(g_val)
             if g_clean:
-                if g_clean.lower() == 'grade 12':
-                    g_clean = 'Class 12'
-                elif g_clean.lower() == 'grade 11':
-                    g_clean = 'Class 11'
                 active_grades.add(g_clean)
             
-    grade_order = {val.lower(): i for i, val in enumerate(EDUCATION_LEVELS)}
-    sorted_grades = sorted(list(active_grades), key=lambda x: grade_order.get(x.lower(), 999))
+    from api.education_catalog import LEVEL_LABELS, LEVEL_VALUES
+    grade_order = {v.lower(): i for i, v in enumerate(LEVEL_VALUES)}
+    sorted_grades = sorted(list(active_grades),
+                           key=lambda x: (grade_order.get(canonical_level(x).lower(), 999), x))
     
     grade_list = []
     for g in sorted_grades:
+        label = LEVEL_LABELS.get(g, g)
         grade_list.append({
-            'name': g,
-            'slug': g.lower().replace(' / see', '-see').replace(' ', '-')
+            'name': label,
+            'value': g,
+            'slug': label.lower().replace(' / see', '-see').replace(' ', '-')
         })
     
     ctx = _ctx(request,

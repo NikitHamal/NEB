@@ -40,23 +40,34 @@ CURRICULUM_MAP = {
     ]
 }
 
+from api.education_catalog import canonical_level as _canonical_level
+CURRICULUM_MAP = {(_canonical_level(grade), subject): chapters
+                  for (grade, subject), chapters in CURRICULUM_MAP.items()}
+
+
 def get_grade_db_value(grade_slug):
-    """Normalize URL grade slugs to DB values."""
+    """Normalize URL grade slugs to the education catalog's stored values."""
+    from api.education_catalog import canonical_level
     mapping = {
-        "class-12": "Class 12",
-        "class-11": "Class 11",
+        "class-12": "12",
+        "class-11": "11",
         "class-10-see": "Class 10 / SEE",
         "class-10": "Class 10 / SEE",
         "class-9": "Class 9",
         "class-8": "Class 8",
         "diploma": "Diploma",
-        "bachelor": "Bachelor",
-        "master": "Master",
+        "bachelor": "Bachelors",
+        "master": "Masters",
         "phd": "PhD",
         "entrance-prep": "Entrance Prep",
         "competitive-exam": "Competitive Exam",
     }
-    return mapping.get(grade_slug.lower().strip(), "Other")
+    value = mapping.get(grade_slug.lower().strip())
+    if value:
+        return value
+    guess = canonical_level(grade_slug.replace('-', ' '))
+    from api.education_catalog import LEVEL_VALUES
+    return guess if guess in LEVEL_VALUES else "Other"
 
 def get_subject_db_value(subject_slug):
     """Normalize subject slug to exact DB case or name."""
@@ -85,7 +96,8 @@ def get_chapters_for_subject(grade_db_val, subject_db_val):
     
     Returns predefined chapters from CURRICULUM_MAP or empty list.
     """
-    key = (grade_db_val, subject_db_val)
+    from api.education_catalog import canonical_level
+    key = (canonical_level(grade_db_val), subject_db_val)
     if key in CURRICULUM_MAP:
         return CURRICULUM_MAP[key]
     return []
