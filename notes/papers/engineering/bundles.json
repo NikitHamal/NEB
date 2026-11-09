@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709059,
+  "bytes": 709058,
   "kind": "subject-bundle"
  },
  {
@@ -54,7 +54,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606311,
+  "bytes": 1606309,
   "kind": "subject-bundle"
  },
  {
@@ -85,7 +85,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762981,
+  "bytes": 2762980,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095711,
+  "bytes": 3095712,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792102,
   "kind": "subject-bundle"
  },
  {
@@ -131,7 +131,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823187,
   "kind": "subject-bundle"
  },
  {
@@ -145,7 +145,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704451,
+  "bytes": 1704450,
   "kind": "subject-bundle"
  },
  {
@@ -158,7 +158,7 @@
    "ioe-ce101-2081-baishakh"
   ],
   "pages": 33,
-  "bytes": 1635320,
+  "bytes": 1635318,
   "kind": "subject-bundle"
  },
  {
@@ -242,7 +242,7 @@
    "ioe-ensh251-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 341544,
+  "bytes": 341542,
   "kind": "subject-bundle"
  },
  {
@@ -255,7 +255,7 @@
    "ioe-enct201-2081-chaitra"
   ],
   "pages": 25,
-  "bytes": 942162,
+  "bytes": 942161,
   "kind": "subject-bundle"
  },
  {
@@ -268,7 +268,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710383,
+  "bytes": 710382,
   "kind": "subject-bundle"
  },
  {
@@ -281,7 +281,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582018,
+  "bytes": 1582017,
   "kind": "subject-bundle"
  },
  {
@@ -351,6 +351,20 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-fluid-mechanics-2081-2082.pdf",
+  "subject": "Fluid Mechanics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence201-2082-chaitra",
+   "ioe-ence201-2082-kartik",
+   "ioe-ence201-2081-chaitra"
+  ],
+  "pages": 44,
+  "bytes": 2220293,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-microprocessor-2081-2082.pdf",
   "subject": "Microprocessor",
   "level": "BE \u00b7 Year II",
@@ -361,7 +375,7 @@
    "ioe-enex201-2081-chaitra"
   ],
   "pages": 38,
-  "bytes": 929275,
+  "bytes": 929274,
   "kind": "subject-bundle"
  },
  {
@@ -374,7 +388,7 @@
    "ioe-enex251-2082-bhadra"
   ],
   "pages": 27,
-  "bytes": 715089,
+  "bytes": 715090,
   "kind": "subject-bundle"
  },
  {
@@ -388,7 +402,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981775,
+  "bytes": 1981776,
   "kind": "subject-bundle"
  },
  {
@@ -401,7 +415,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537014,
+  "bytes": 537015,
   "kind": "subject-bundle"
  },
  {
@@ -414,7 +428,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296671,
+  "bytes": 1296668,
   "kind": "subject-bundle"
  },
  {
@@ -427,7 +441,7 @@
    "ioe-enex255-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1482742,
+  "bytes": 1482741,
   "kind": "subject-bundle"
  },
  {
@@ -441,7 +455,7 @@
    "ioe-enct203-2081-chaitra"
   ],
   "pages": 51,
-  "bytes": 1775478,
+  "bytes": 1775479,
   "kind": "subject-bundle"
  },
  {
@@ -470,6 +484,9 @@
    "ioe-ence102-2081-chaitra",
    "ioe-ence103-2081-chaitra",
    "ioe-ence151-2082-bhadra",
+   "ioe-ence201-2081-chaitra",
+   "ioe-ence201-2082-chaitra",
+   "ioe-ence201-2082-kartik",
    "ioe-enct151-2082-bhadra",
    "ioe-enct151-2083-baishakh",
    "ioe-enct153-2082-bhadra",
@@ -549,8 +566,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1411,
-  "bytes": 51168551,
+  "pages": 1454,
+  "bytes": 53370072,
   "kind": "master-book"
  }
 ]
