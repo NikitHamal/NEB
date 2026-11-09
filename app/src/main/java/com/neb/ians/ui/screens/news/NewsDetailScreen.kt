@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.news
 
+import com.neb.ians.ui.components.nebToast
 import com.neb.ians.ui.components.NebToastHost
 import android.content.Intent
 import androidx.compose.foundation.BorderStroke
@@ -77,6 +78,11 @@ fun NewsDetailScreen(
     // read only where the composers draw, so typing redraws the composer and not the article
     val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
     val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
+    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+    val identityName by viewModel.identityName.collectAsStateWithLifecycle()
+    val identityPhoto by viewModel.identityPhoto.collectAsStateWithLifecycle()
+    val identityHandle by viewModel.identityHandle.collectAsStateWithLifecycle()
+    val identityAnonTag by viewModel.identityAnonTag.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
@@ -127,6 +133,18 @@ fun NewsDetailScreen(
                     canSend = uiState.isAuthenticated && commentDraft.isNotBlank() && !uiState.isPostingComment,
                     posting = uiState.isPostingComment,
                     sendContentDescription = "Post comment",
+                    leadingContent = {
+                        com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                            isAnonymous = composerAnonymous,
+                            userName = identityName,
+                            handle = identityHandle,
+                            photoUrl = identityPhoto,
+                            anonTag = identityAnonTag,
+                            onSelect = viewModel::setComposerAnonymous,
+                            enabled = uiState.isAuthenticated && !uiState.isPostingComment,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    },
                     onSend = viewModel::postComment
                 )
             }
@@ -661,12 +679,12 @@ private fun safeOpenUri(uriHandler: androidx.compose.ui.platform.UriHandler, con
             if (intent.resolveActivity(context.packageManager) != null) {
                 context.startActivity(intent)
             } else {
-                android.widget.Toast.makeText(context, "No app found to open link", android.widget.Toast.LENGTH_SHORT).show()
+                context.nebToast("No app found to open link")
             }
         }
     } catch (e: Exception) {
         try {
-            android.widget.Toast.makeText(context, "Invalid link", android.widget.Toast.LENGTH_SHORT).show()
+            context.nebToast("Invalid link")
         } catch (_: Exception) {}
     }
 }

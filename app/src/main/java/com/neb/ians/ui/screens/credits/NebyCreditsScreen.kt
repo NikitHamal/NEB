@@ -5,6 +5,7 @@
 
 package com.neb.ians.ui.screens.credits
 
+import com.neb.ians.ui.components.nebToast
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -141,8 +142,8 @@ fun NebyCreditsScreen(
                     onConvert = {
                         viewModel.convertPoints(
                             points = requested,
-                            onSuccess = { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() },
-                            onError = { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                            onSuccess = { context.nebToast(it) },
+                            onError = { context.nebToast(it) }
                         )
                     }
                 )

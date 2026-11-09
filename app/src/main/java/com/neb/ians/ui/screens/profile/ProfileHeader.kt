@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.profile
 
+import com.neb.ians.ui.components.nebToast
 import com.neb.ians.ui.components.rememberAvatarShape
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -322,7 +323,7 @@ private fun PrimaryAction(
                 text = if (profile.isBot) "Ask" else "Mention",
                 onClick = {
                     clipboard.setText(AnnotatedString("@${profile.username}"))
-                    Toast.makeText(context, "Mention handle copied", Toast.LENGTH_SHORT).show()
+                    context.nebToast("Mention handle copied")
                 },
                 icon = Icons.Outlined.AlternateEmail,
                 tone = NebButtonTone.Outlined,
@@ -495,7 +496,7 @@ private fun SocialLinkRow(
                         try {
                             uriHandler.openUri(link.url)
                         } catch (_: Exception) {
-                            Toast.makeText(context, "Invalid link", Toast.LENGTH_SHORT).show()
+                            context.nebToast("Invalid link")
                         }
                     },
                 contentAlignment = Alignment.Center

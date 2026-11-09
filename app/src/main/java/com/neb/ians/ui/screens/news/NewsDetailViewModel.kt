@@ -9,6 +9,9 @@ import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -81,6 +84,20 @@ class NewsDetailViewModel @Inject constructor(
     private val _threadDraft = MutableStateFlow("")
     val threadDraft: StateFlow<String> = _threadDraft.asStateFlow()
 
+    /** Who a comment goes out as; the news composer has only this switch (no media, no poll). */
+    private val _composerAnonymous = MutableStateFlow(false)
+    val composerAnonymous: StateFlow<Boolean> = _composerAnonymous.asStateFlow()
+    fun setComposerAnonymous(anonymous: Boolean) { _composerAnonymous.value = anonymous }
+    val identityName: StateFlow<String> = authRepository.currentUserNameFlow
+    val identityPhoto: StateFlow<String?> =
+        authRepository.currentUserPhotoUrlFlow.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+    val identityHandle: StateFlow<String> =
+        authRepository.currentUsernameHandleFlow.stateIn(viewModelScope, SharingStarted.Eagerly, "")
+    val identityAnonTag: StateFlow<String> =
+        authRepository.currentUserIdFlow
+            .map { com.neb.ians.ui.components.anonTagFor(it) }
+            .stateIn(viewModelScope, SharingStarted.Eagerly, "Anonymous")
+
     // One in-flight like per comment: rapid taps are ignored instead of
     // stacking server toggles that flip the liked state back and forth.
     private val processingCommentLikes = mutableSetOf<String>()
@@ -133,7 +150,7 @@ class NewsDetailViewModel @Inject constructor(
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
-            newsRepository.postComment(slug, text)
+            newsRepository.postComment(slug, text, null, _composerAnonymous.value)
                 .onSuccess { comment ->
                     _uiState.update {
                         it.copy(
@@ -160,7 +177,7 @@ class NewsDetailViewModel @Inject constructor(
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
-            newsRepository.postComment(slug, text, parentCommentId)
+            newsRepository.postComment(slug, text, parentCommentId, _composerAnonymous.value)
                 .onSuccess { comment ->
                     _uiState.update { state ->
                         val bumped = state.comments.map { existing ->

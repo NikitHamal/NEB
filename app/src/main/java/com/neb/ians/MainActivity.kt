@@ -1,5 +1,6 @@
 package com.neb.ians
 
+import com.neb.ians.ui.components.nebToast
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -113,6 +114,7 @@ class MainActivity : ComponentActivity() {
                             settingsViewModel = settingsViewModel,
                             authRepository = authRepository
                         )
+                        com.neb.ians.ui.components.NebToastBusHost()
                     }
                 }
             }
@@ -204,12 +206,12 @@ class MainActivity : ComponentActivity() {
                 lifecycleScope.launch {
                     val success = authRepository.signInWithWebToken(authToken, isNewUser, username)
                     if (!success) {
-                        Toast.makeText(this@MainActivity, "Sign-in failed. Please try again.", Toast.LENGTH_SHORT).show()
+                        this@MainActivity.nebToast("Sign-in failed. Please try again.")
                     }
                 }
             } else if (error != null) {
                 if (error != "cancelled") {
-                    Toast.makeText(this, "Sign-in error: $error", Toast.LENGTH_LONG).show()
+                    this.nebToast("Sign-in error: $error", long = true)
                 }
             }
 
