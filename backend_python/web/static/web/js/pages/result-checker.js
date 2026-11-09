@@ -130,6 +130,9 @@
 
   reexamToggle.addEventListener('change', function(e) {
     isReexam = e.target.value === 'reexam';
+    reexamToggle.querySelectorAll('.rc-chip').forEach(function(l) {
+      l.classList.toggle('md-chip-active', l.querySelector('input').checked);
+    });
     updateFieldsForMode();
     updateBulkHint();
     resetOutputs();
