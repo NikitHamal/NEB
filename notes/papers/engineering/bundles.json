@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709059,
+  "bytes": 709056,
   "kind": "subject-bundle"
  },
  {
@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606311,
+  "bytes": 1606310,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272199,
+  "bytes": 3272197,
   "kind": "subject-bundle"
  },
  {
@@ -71,7 +71,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762979,
+  "bytes": 2762978,
   "kind": "subject-bundle"
  },
  {
@@ -89,7 +89,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095711,
+  "bytes": 3095713,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823188,
+  "bytes": 1823189,
   "kind": "subject-bundle"
  },
  {
@@ -148,7 +148,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095316,
+  "bytes": 4095315,
   "kind": "subject-bundle"
  },
  {
@@ -193,6 +193,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-data-structure-and-algorithm-2082-2083.pdf",
+  "subject": "Data Structure and Algorithm",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct252-2083-baishakh",
+   "ioe-enct252-2082-bhadra"
+  ],
+  "pages": 38,
+  "bytes": 735111,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-discrete-structure-2082-2083.pdf",
   "subject": "Discrete Structure",
   "level": "BE \u00b7 Year II",
@@ -230,7 +243,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981775,
+  "bytes": 1981776,
   "kind": "subject-bundle"
  },
  {
@@ -243,7 +256,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537016,
+  "bytes": 537015,
   "kind": "subject-bundle"
  },
  {
@@ -256,7 +269,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296668,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -286,6 +299,8 @@
    "ioe-enct153-2083-baishakh",
    "ioe-enct251-2082-bhadra",
    "ioe-enct251-2083-baishakh",
+   "ioe-enct252-2082-bhadra",
+   "ioe-enct252-2083-baishakh",
    "ioe-enct254-2082-bhadra",
    "ioe-enct254-2083-baishakh",
    "ioe-enee103-2081-chaitra",
@@ -327,8 +342,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 875,
-  "bytes": 32528272,
+  "pages": 912,
+  "bytes": 33247039,
   "kind": "master-book"
  }
 ]
