@@ -29,7 +29,7 @@ def one(t):
             r = requests.get(url, headers={'User-Agent': UA, 'Referer': t.get('referer', url)}, timeout=60, allow_redirects=True)
             data = r.content
             if r.status_code != 200: rec['status'] = f'http{r.status_code}'; return rec
-            if not (data[:5] == b'%PDF-' or data[:4] in (b'PK\x03\x04', b'\xd0\xcf\x11\xe0') ): rec['status'] = 'notfile:' + r.headers.get('content-type', '')[:30]; return rec
+            if not (data[:5] == b'%PDF-' or data[:4] in (b'PK\x03\x04', b'\xd0\xcf\x11\xe0', b'\x89PNG') or data[:3] == b'\xff\xd8\xff'): rec['status'] = 'notfile:' + r.headers.get('content-type', '')[:30]; return rec
             os.makedirs(os.path.dirname(dest), exist_ok=True); open(dest, 'wb').write(data); rec['status'] = 'ok'
         except Exception as e:
             rec['status'] = 'err:' + str(e)[:50]; return rec
