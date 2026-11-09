@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,20 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606309,
+  "bytes": 1606310,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electric-circuits-and-machines-2080-2081.pdf",
+  "subject": "Electric Circuits and Machines",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2080-2081",
+  "papers": [
+   "ioe-ee460-2081-chaitra",
+   "ioe-ee460-2080-chaitra"
+  ],
+  "pages": 31,
+  "bytes": 1395886,
   "kind": "subject-bundle"
  },
  {
@@ -55,7 +68,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762977,
+  "bytes": 2762979,
   "kind": "subject-bundle"
  },
  {
@@ -73,7 +86,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095713,
+  "bytes": 3095712,
   "kind": "subject-bundle"
  },
  {
@@ -160,7 +173,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581579,
+  "bytes": 581580,
   "kind": "subject-bundle"
  },
  {
@@ -173,7 +186,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645018,
+  "bytes": 1645019,
   "kind": "subject-bundle"
  },
  {
@@ -220,7 +233,7 @@
  {
   "file": "bundles/NEBians-Engineering-All-In-One-Book.pdf",
   "subject": "ALL",
-  "years_bs": "2081-2083",
+  "years_bs": "2080-2083",
   "papers": [
    "ioe-ce102-2081-baishakh",
    "ioe-ce102-2081-kartik",
@@ -231,6 +244,8 @@
    "ioe-ct153-2082-baishakh",
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
+   "ioe-ee460-2080-chaitra",
+   "ioe-ee460-2081-chaitra",
    "ioe-ence102-2081-chaitra",
    "ioe-ence151-2082-bhadra",
    "ioe-enct151-2082-bhadra",
@@ -276,8 +291,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 747,
-  "bytes": 27673038,
+  "pages": 777,
+  "bytes": 29054040,
   "kind": "master-book"
  }
 ]
