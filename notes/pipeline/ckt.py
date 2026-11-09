@@ -291,6 +291,45 @@ def bjt(ax, x, y, kind="npn", text=None):
     return {"B": B, "C": C, "E": E}
 
 
+def opamp(ax, x, y, w=2.4, h=2.4, text=None):
+    """Op-amp triangle, left edge at x, centred on y. Inverting (-) input is the upper one.
+    Returns dict of terminal points inv, non, out (all on the triangle boundary)."""
+    ax.add_patch(_mp.Polygon([(x, y - h / 2), (x, y + h / 2), (x + w, y)], closed=True,
+                             fc="#eaf1ff", ec=_INK, lw=_LW, zorder=3))
+    dy = h * 0.25
+    ax.text(x + 0.22, y + dy, "−", fontsize=11, ha="center", va="center", zorder=4)
+    ax.text(x + 0.22, y - dy, "+", fontsize=10, ha="center", va="center", zorder=4)
+    if text:
+        ax.text(x + w * 0.42, y, text, fontsize=8, ha="center", va="center", zorder=4)
+    return {"inv": (x, y + dy), "non": (x, y - dy), "out": (x + w, y)}
+
+
+def mosfet(ax, x, y, kind="n", mode="enh", text=None):
+    """MOSFET symbol (gate bar at x, channel bar to its right, centred on y).
+    mode 'enh' = broken channel, 'dep' = continuous channel. Returns dict G, D, S, B (substrate)."""
+    cx = x + 0.3
+    _pl(ax, [(x, y - 0.6), (x, y + 0.6)], lw=2.4)
+    G = (x - 0.7, y); _pl(ax, [G, (x, y)])
+    if mode == "enh":
+        for a0, b0 in ((0.6, 0.32), (0.18, -0.18), (-0.32, -0.6)):
+            _pl(ax, [(cx, y + a0), (cx, y + b0)], lw=2.4)
+    else:
+        _pl(ax, [(cx, y - 0.6), (cx, y + 0.6)], lw=2.4)
+    D = (cx + 0.7, y + 1.1); S = (cx + 0.7, y - 1.1)
+    _pl(ax, [(cx, y + 0.5), (cx + 0.7, y + 0.5), D])
+    _pl(ax, [(cx, y - 0.5), (cx + 0.7, y - 0.5), S])
+    _pl(ax, [(cx, y), (cx + 0.7, y), (cx + 0.7, y - 0.5)])
+    if kind == "n":
+        ax.annotate("", xy=(cx + 0.02, y), xytext=(cx + 0.4, y), zorder=5,
+                    arrowprops=dict(arrowstyle="-|>", color=_INK, lw=1.3, mutation_scale=8))
+    else:
+        ax.annotate("", xy=(cx + 0.4, y), xytext=(cx + 0.02, y), zorder=5,
+                    arrowprops=dict(arrowstyle="-|>", color=_INK, lw=1.3, mutation_scale=8))
+    if text:
+        ax.text(cx + 1.2, y, text, fontsize=8.4, va="center")
+    return {"G": G, "D": D, "S": S, "B": (cx + 0.7, y)}
+
+
 def blockchain(steps, cols=3, figsize=(5.8, 2.5), colors=None):
     """Rows of rounded boxes joined by arrows (snake order, left to right then next row).
     steps: list of (title, subtitle). Returns the Figure."""
@@ -326,7 +365,7 @@ def blockchain(steps, cols=3, figsize=(5.8, 2.5), colors=None):
 
 
 NAMES = ["ckt_canvas", "wire", "node", "terminal", "label", "res", "ind", "cap", "batt",
-         "vsrc", "acsrc", "isrc", "diode", "gnd", "arrow", "switch", "mesh", "gate", "transformer", "blockchain", "bjt"]
+         "vsrc", "acsrc", "isrc", "diode", "gnd", "arrow", "switch", "mesh", "gate", "transformer", "blockchain", "bjt", "opamp", "mosfet"]
 
 
 def namespace():
