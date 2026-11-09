@@ -4,7 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.RectF
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -49,7 +52,10 @@ import androidx.compose.ui.unit.dp
 @Immutable
 class PageSource(
     val cached: (index: Int, widthPx: Int) -> Bitmap?,
-    val render: suspend (index: Int, widthPx: Int) -> Bitmap?
+    val render: suspend (index: Int, widthPx: Int) -> Bitmap?,
+    val links: suspend (index: Int) -> List<PdfLink> = { emptyList() },
+    val cachedLinks: (index: Int) -> List<PdfLink>? = { null },
+    val onLink: (PdfLink) -> Unit = {}
 )
 
 /** How a reading theme paints: the backdrop, the page before it loads, and the page filter. */
@@ -124,10 +130,13 @@ fun PdfPage(
         source.render(index, widthPx)?.let { value = it }
     }
     val image = remember(bitmap) { bitmap?.asImageBitmap() }
+    // links and the table of contents are tappable, as in any other viewer
+    val links by produceState(source.cachedLinks(index) ?: emptyList(), index) { value = source.links(index) }
     Box(
         modifier
             .aspectRatio(1f / aspect.coerceAtLeast(0.1f))
             .background(look.paper)
+            .linkTaps(links, source.onLink)
     ) {
         if (image != null) {
             Image(
@@ -262,3 +271,25 @@ fun PagedReader(
         }
     }
 }
+
+/**
+ * Taps on a link area of the page. A tap elsewhere is left alone (it toggles the bars, or is half of a
+ * double tap), a drag is never a tap, and the tap that lands on a link is consumed so nothing else reacts.
+ */
+internal fun Modifier.linkTaps(links: List<PdfLink>, onLink: (PdfLink) -> Unit): Modifier =
+    if (links.isEmpty()) this else this.pointerInput(links) {
+        awaitEachGesture {
+            val down = awaitFirstDown(requireUnconsumed = false)
+            val up = waitForUpOrCancellation()
+            if (up != null && !up.isConsumed && size.width > 0 && size.height > 0) {
+                val fx = down.position.x / size.width
+                val fy = down.position.y / size.height
+                val pad = 0.004f
+                val hit = links.firstOrNull { fx >= it.rect.l - pad && fx <= it.rect.r + pad && fy >= it.rect.t - pad && fy <= it.rect.b + pad }
+                if (hit != null) {
+                    up.consume()
+                    onLink(hit)
+                }
+            }
+        }
+    }

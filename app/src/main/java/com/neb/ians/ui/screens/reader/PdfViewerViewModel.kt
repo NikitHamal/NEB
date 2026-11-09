@@ -13,6 +13,11 @@ import com.neb.ians.ui.screens.reader.pdf.ReaderPrefs
 import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
 import com.neb.ians.ui.screens.reader.pdf.ReadingTheme
 import com.neb.ians.ui.screens.reader.pdf.ReaderSearch
+import com.neb.ians.ui.screens.reader.pdf.OutlineItem
+import com.neb.ians.ui.screens.reader.pdf.PdfLink
+import com.neb.ians.ui.screens.reader.pdf.ReadingSettings
+import com.neb.ians.ui.screens.reader.pdf.ReflowPage
+import com.neb.ians.ui.screens.reader.pdf.FRect
 import com.neb.ians.ui.screens.reader.pdf.SearchHit
 import com.neb.ians.util.ResourceDownloadManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +57,14 @@ data class PdfViewerUiState(
     val keepScreenOn: Boolean = true,
     /** Whether this device can read the document's text (search). */
     val canReadText: Boolean = false,
-    val search: ReaderSearch = ReaderSearch()
+    val search: ReaderSearch = ReaderSearch(),
+    /** The document's own table of contents, empty when it has none. */
+    val outline: List<OutlineItem> = emptyList(),
+    val readingMode: Boolean = false,
+    val reading: ReadingSettings = ReadingSettings(),
+    val assistantHidden: Boolean = false,
+    val assistantX: Float = -1f,
+    val assistantY: Float = -1f
 )
 
 @HiltViewModel
@@ -79,7 +91,12 @@ class PdfViewerViewModel @Inject constructor(
                 bookmarks = prefs.bookmarks(resourceId),
                 theme = prefs.theme,
                 layout = prefs.layout,
-                keepScreenOn = prefs.keepScreenOn
+                keepScreenOn = prefs.keepScreenOn,
+                readingMode = prefs.readingMode(resourceId),
+                reading = prefs.reading,
+                assistantHidden = prefs.assistantHidden,
+                assistantX = prefs.assistantX,
+                assistantY = prefs.assistantY
             )
         }
         load()
@@ -115,6 +132,41 @@ class PdfViewerViewModel @Inject constructor(
         prefs.keepScreenOn = on
         _uiState.update { it.copy(keepScreenOn = on) }
     }
+
+    fun setReadingMode(on: Boolean) {
+        prefs.setReadingMode(resourceId, on)
+        _uiState.update { it.copy(readingMode = on) }
+    }
+
+    fun updateReading(change: (ReadingSettings) -> ReadingSettings) {
+        val next = change(_uiState.value.reading)
+        prefs.reading = next
+        _uiState.update { it.copy(reading = next) }
+    }
+
+    fun setAssistantHidden(hidden: Boolean) {
+        prefs.assistantHidden = hidden
+        _uiState.update { it.copy(assistantHidden = hidden) }
+    }
+
+    fun moveAssistant(x: Float, y: Float) {
+        prefs.assistantX = x; prefs.assistantY = y
+        _uiState.update { it.copy(assistantX = x, assistantY = y) }
+    }
+
+    suspend fun links(page: Int): List<PdfLink> = engine?.structure?.links(page).orEmpty()
+
+    fun cachedLinks(page: Int): List<PdfLink>? = engine?.structure?.cachedLinks(page)
+
+    suspend fun reflow(page: Int): ReflowPage? = engine?.structure?.reflow(page)
+
+    fun cachedReflow(page: Int): ReflowPage? = engine?.structure?.cachedReflow(page)
+
+    fun bodyPoints(): Float = engine?.structure?.bodyPoints() ?: 10.5f
+
+    suspend fun crop(page: Int, rect: FRect, widthPx: Int): Bitmap? = engine?.crop(page, rect, widthPx)
+
+    fun cachedCrop(page: Int, rect: FRect, widthPx: Int): Bitmap? = engine?.cachedCrop(page, rect, widthPx)
 
     fun cachedPage(index: Int, widthPx: Int): Bitmap? = engine?.cached(index, widthPx)
 
@@ -224,6 +276,10 @@ class PdfViewerViewModel @Inject constructor(
                         canReadText = opened.canReadText,
                         error = null
                     )
+                }
+                viewModelScope.launch(Dispatchers.IO) {
+                    val items = opened.structure.outline()
+                    _uiState.update { state -> if (engine === opened) state.copy(outline = items) else state }
                 }
                 // the layout starts from the first page's shape; the rest are read in the background
                 scanJob?.cancel()

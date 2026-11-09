@@ -472,3 +472,6 @@ profile and to measure Home's scroll jank before and after.
   opens 3/3, `scrollWidth` 412. Compiled by CI on `f886b24` (green); later commits on the same branch were
   queued when this was written — check `Build Student Release APKs & AAB` for the branch head.
 
+## 15. PDF reader links, reading mode, draggable Neby AI
+
+See `PDF_ANDROID_STATUS.md` (own PDF structure reader, tappable links and contents, reading mode, zen, read aloud, drag-to-dismiss Neby AI button). Compose side not yet compiled.

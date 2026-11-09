@@ -21,6 +21,12 @@
     <!-- Tactile / haptic feedback -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:name=".NEBiansApp"
         android:allowBackup="true"

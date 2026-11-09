@@ -81,21 +81,19 @@ import com.neb.ians.ui.components.NebLoader
 fun PdfAssistantOverlay(
     documentTitle: String,
     modifier: Modifier = Modifier,
+    fabHidden: Boolean = false,
+    fabX: Float = -1f,
+    fabY: Float = -1f,
+    onFabMoved: (Float, Float) -> Unit = { _, _ -> },
+    onFabDismissed: () -> Unit = {},
     viewModel: PdfAssistantViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     Box(modifier = modifier.fillMaxSize()) {
         if (!state.isPromptOpen) {
-            FloatingActionButton(
-                onClick = viewModel::openPrompt,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(18.dp),
-                shape = CircleShape,
-                containerColor = MaterialTheme.colorScheme.primary
-            ) {
-                Icon(Icons.Filled.AutoAwesome, contentDescription = "Ask AI about this PDF")
+            if (!fabHidden) {
+                AssistantFab(x = fabX, y = fabY, onClick = viewModel::openPrompt, onMoved = onFabMoved, onDismissed = onFabDismissed)
             }
         } else {
             Box(
