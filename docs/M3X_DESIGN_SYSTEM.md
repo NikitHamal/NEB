@@ -460,3 +460,11 @@ surface role is a neutral grey (no blue in a card, popup or background), and sha
 12. Screenshots of light and dark are looked at, not assumed.
 13. Android only: light surfaces are neutral grey (grep `0xFF[EF][0-9A-F]FE`-style blue-white values in Kotlin finds nothing), every menu, dialog and sheet uses `nebFloatColor()`, the comment bar matches the web composer, and a screen compared with its web twin at 390 px shows the same structure.
 
+
+## Android additions (session 11)
+
+- **System bars:** the app is edge to edge. Every screen whose top or bottom is not the app surface calls `NebSystemBars(darkIcons)` with what is behind the bars (reader page, video, photo, splash). The root keeps horizontal touch targets clear of a landscape navigation bar and the camera cut-out with `Modifier.nebSafeSides()`. Never hide and re-show the status bar to make room: the next screen jumps by its height.
+- **Toast:** one component, `NebToast` through `NebToastHost`. Inverse surface card, 24 dp corners, a 38 dp tonal tile (tertiary for done, error for a problem, primary for information), a medium weight message, an optional action pill in `inversePrimary`, a 2 dp timer line along the bottom edge. Spring in from below, swipe sideways away. No shadow, no emoji.
+- **Plus menu:** where a field can take more than text there is one plus tool, not a row of icons. It opens a compact popup of tonal tiles with a word each (image, PDF, audio, video, poll), and the plus turns into a cross while it is open. Web `neb-plus`, Android `ComposerAttachMenu`.
+- **Slider:** thick 14 dp rail, strong fill to a 30 dp round thumb, haptic tick on every step, `setProgress` semantics. Values are in real units (sp), never percentages, where the unit is something the reader can feel.
+- **Bento sheet:** a settings sheet is one scrolling column of tonal cards, each with its own hue (blue, amber, green, violet, indigo, rose; each with a dark mode partner), a bold value, and the control inside. A selected choice becomes the strong colour and rounds further (24 dp, never to a square).
