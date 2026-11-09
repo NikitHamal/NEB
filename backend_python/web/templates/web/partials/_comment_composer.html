@@ -1,11 +1,11 @@
-{% load web_extras %}
+{% load web_extras static %}
 {% comment %}The one comment composer — every surface where you post to other
 people includes this: a reply to a discussion, a reply inside a thread, a
 comment on a resource, a comment on a news post.
 
 An outlined field holding the identity chooser and a textarea that grows to a
-fixed cap, with the attach tool and the send button on a row of their own under
-it. Staged media and the hidden file input sit below the field, outside its
+fixed cap, with one plus tool (image, PDF, audio, video, poll in a small popup)
+and the send button on a row of their own under it. Staged media and the hidden file input sit below the field, outside its
 stroke.
 
 Params
@@ -24,6 +24,7 @@ Params
 Hooks other scripts depend on, so they belong to the component: the field holds
 a bare `textarea`, the send button carries `reply-send-btn` with one Material
 Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
+{% if cc_attach_action or cc_poll %}<script src="{% static 'web/js/composer-plus.js' %}" defer></script>{% endif %}
 {% if cc_poll %}<div class="pb-scope" data-poll-scope>{% endif %}
 <div class="neb-composer" id="{{ cc_id }}">
   {% if cc_anon_id and is_authenticated %}
@@ -34,17 +35,26 @@ Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
             {% if cc_fc %}data-fc="{{ cc_fc }}" data-fc-key="{{ cc_compose_key|default:cc_id }}" {% endif %}
             {% if cc_keydown %}data-keydown-action="{{ cc_keydown }}" {% endif %}{% if cc_autofocus %}data-neb-autofocus {% endif %}{% if cc_maxlength %}maxlength="{{ cc_maxlength }}" {% endif %}></textarea>
     <div class="neb-composer-actions">
-      {% if cc_attach_action %}
-      <button type="button" class="fp-inline-tool" data-action="{{ cc_attach_action }}"
-              {% if cc_compose_key %}data-compose-key="{{ cc_compose_key }}"{% endif %}
-              title="{{ cc_attach_label|default:'Add video, audio or file' }}" aria-label="{{ cc_attach_label|default:'Add video, audio or file' }}">
-        <span class="material-symbols-outlined">attach_file</span>
-      </button>
-      {% endif %}
-      {% if cc_poll %}
-      <button type="button" class="fp-inline-tool" data-action="toggle-poll-builder" title="Add a poll" aria-label="Add a poll">
-        {% include "components/_poll_icon.html" %}
-      </button>
+      {% if cc_attach_action or cc_poll %}
+      <div class="neb-plus" data-neb-plus data-plus-input="{{ cc_input_id|default:'replyMediaInput' }}">
+        <button type="button" class="fp-inline-tool neb-plus-btn" data-plus-toggle aria-haspopup="menu" aria-expanded="false"
+                title="Add to your message" aria-label="Add to your message">
+          <span class="material-symbols-outlined">add</span>
+        </button>
+        <div class="neb-plus-menu" role="menu">
+          {% if cc_attach_action %}
+          <button type="button" class="fp-inline-tool" data-plus-proxy hidden data-action="{{ cc_attach_action }}"
+                  {% if cc_compose_key %}data-compose-key="{{ cc_compose_key }}"{% endif %} tabindex="-1" aria-hidden="true"></button>
+          <button type="button" class="neb-plus-item" role="menuitem" data-plus-pick="image/*"><span class="neb-plus-ico"><span class="material-symbols-outlined">image</span></span>Image</button>
+          <button type="button" class="neb-plus-item" role="menuitem" data-plus-pick="application/pdf,.pdf"><span class="neb-plus-ico"><span class="material-symbols-outlined">picture_as_pdf</span></span>PDF</button>
+          <button type="button" class="neb-plus-item" role="menuitem" data-plus-pick="audio/*,.m4a"><span class="neb-plus-ico"><span class="material-symbols-outlined">music_note</span></span>Audio</button>
+          <button type="button" class="neb-plus-item" role="menuitem" data-plus-pick="video/*,.m4v,.mov"><span class="neb-plus-ico"><span class="material-symbols-outlined">videocam</span></span>Video</button>
+          {% endif %}
+          {% if cc_poll %}
+          <button type="button" class="neb-plus-item" role="menuitem" data-action="toggle-poll-builder"><span class="neb-plus-ico">{% include "components/_poll_icon.html" %}</span>Poll</button>
+          {% endif %}
+        </div>
+      </div>
       {% endif %}
       <button type="button" class="reply-send-btn" id="{{ cc_send_id }}"
               {% if cc_send_action %}data-action="{{ cc_send_action }}" {% endif %}disabled

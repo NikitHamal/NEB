@@ -345,22 +345,22 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
         is ParaBlock -> {
             val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val m = Modifier.fillMaxWidth().searchAnchor(ctx, activeNth).padding(top = topGap)
-            val inline = rememberInline(page, block.text, t, ctx)
+            val math = rememberInline(page, block.text, t, ctx)
             val callout = remember(block) { if (block.jump < 0) CalloutPattern.find(block.text) else null }
             if (callout != null) {
                 val label = remember(callout) { calloutLabel(callout.groupValues[1]) }
                 val body = remember(text, callout) { text.subSequence(callout.range.last + 1, text.length) }
-                RdCallout(label, body, t.body, p, foldable = isAnswerCallout(label), folded = t.settings.hideAnswers, forceOpen = q.isNotEmpty(), modifier = m, inline = inline)
+                RdCallout(label, body, t.body, p, foldable = isAnswerCallout(label), folded = t.settings.hideAnswers, forceOpen = q.isNotEmpty(), modifier = m, math = math)
             } else if (block.jump >= 0) {
-                Text(text, style = t.body.copy(color = p.accent), inlineContent = inline, modifier = m.clickable { ctx.onJump(block.jump) })
+                Text(text, style = t.body.copy(color = p.accent), inlineContent = math, modifier = m.clickable { ctx.onJump(block.jump) })
             } else {
-                SelectionContainer { Text(text, style = t.body, inlineContent = inline, modifier = m) }
+                SelectionContainer { Text(text, style = t.body, inlineContent = math, modifier = m) }
             }
         }
         is ItemBlock -> {
             val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val numbered = block.marker.firstOrNull()?.isLetterOrDigit() == true || block.marker.startsWith("(")
-            val inline = rememberInline(page, block.text, t, ctx)
+            val math = rememberInline(page, block.text, t, ctx)
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -374,7 +374,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
                     modifier = Modifier.width(if (numbered) 30.dp else 22.dp)
                 )
                 Spacer(Modifier.width(8.dp))
-                SelectionContainer(Modifier.weight(1f)) { Text(text, style = t.body, inlineContent = inline) }
+                SelectionContainer(Modifier.weight(1f)) { Text(text, style = t.body, inlineContent = math) }
             }
         }
         is CodeBlock -> {
@@ -441,7 +441,7 @@ private fun RdTable(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: D
 private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     val p = t.p
     val hasMath = remember(b) { b.rows.any { r -> r.cells.any { c -> c.any { isMathChar(it) } } } }
-    val inline = rememberInline(page, if (hasMath) "\uE000" else "", t, ctx)
+    val math = rememberInline(page, if (hasMath) "\uE000" else "", t, ctx)
     val cols = b.rows.maxOfOrNull { it.cells.size } ?: return
     val q = ctx.query
     // how many matches come before each cell, so the current one can be found inside the table
@@ -474,7 +474,7 @@ private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGa
                     val local = activeNth - before[i][c]
                     Text(
                         mathText(cell).marked(q, if (local >= 0 && local < occurrences(cell, q).size) local else -1),
-                        inlineContent = inline,
+                        inlineContent = math,
                         style = cellStyle.copy(fontWeight = if (b.header && i == 0) FontWeight.SemiBold else FontWeight.Normal, color = if (row.jump >= 0 && c == 0) p.accent else p.ink),
                         modifier = if (wide) Modifier.width(132.dp) else Modifier.weight(weights[c])
                     )
