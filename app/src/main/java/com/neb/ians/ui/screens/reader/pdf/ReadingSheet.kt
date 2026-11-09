@@ -146,7 +146,7 @@ fun ReadingSheet(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Text("A", style = TextStyle(fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = sizeTone.ink))
                     RdSlider(
-                        sp, 12f..54f, 1f, sizeTone, "Text size", "${sp.roundToInt()} sp", Modifier.weight(1f)
+                        sp, 13f..54f, 1f, sizeTone, "Text size", "${sp.roundToInt()} sp", Modifier.weight(1f)
                     ) { v -> onSettings { it.copy(fontScale = v / READING_BASE_SP) } }
                     Text("A", style = TextStyle(fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 30.sp, color = sizeTone.ink))
                 }

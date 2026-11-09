@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.notes
 
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.graphics.graphicsLayer
