@@ -42,7 +42,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792102,
+  "bytes": 792103,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -70,7 +70,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704451,
+  "bytes": 1704449,
   "kind": "subject-bundle"
  },
  {
@@ -87,7 +87,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095318,
+  "bytes": 4095316,
   "kind": "subject-bundle"
  },
  {
@@ -100,7 +100,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868471,
+  "bytes": 1868472,
   "kind": "subject-bundle"
  },
  {
@@ -115,7 +115,20 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581580,
+  "bytes": 581579,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-strength-of-materials-2081-2082.pdf",
+  "subject": "Strength of Materials",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ence151-2082-bhadra",
+   "ioe-ce151-2081-ashwin"
+  ],
+  "pages": 36,
+  "bytes": 1645019,
   "kind": "subject-bundle"
  },
  {
@@ -156,7 +169,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296668,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -166,11 +179,13 @@
   "papers": [
    "ioe-ce102-2081-baishakh",
    "ioe-ce102-2081-kartik",
+   "ioe-ce151-2081-ashwin",
    "ioe-ct151-2081-ashwin",
    "ioe-ct151-2082-baishakh",
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
    "ioe-ence102-2081-chaitra",
+   "ioe-ence151-2082-bhadra",
    "ioe-enct151-2082-bhadra",
    "ioe-enct151-2083-baishakh",
    "ioe-enee103-2081-chaitra",
@@ -204,8 +219,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 544,
-  "bytes": 21027945,
+  "pages": 579,
+  "bytes": 22651778,
   "kind": "master-book"
  }
 ]
