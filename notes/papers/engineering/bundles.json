@@ -10,7 +10,22 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853066,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-digital-logic-2081-2083.pdf",
+  "subject": "Digital Logic",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enex152-2083-baishakh",
+   "ioe-enex152-2082-bhadra",
+   "ioe-ex152-2082-baishakh",
+   "ioe-ex152-2081-ashwin"
+  ],
+  "pages": 64,
+  "bytes": 1606311,
   "kind": "subject-bundle"
  },
  {
@@ -28,7 +43,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095712,
+  "bytes": 3095713,
   "kind": "subject-bundle"
  },
  {
@@ -42,7 +57,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792105,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +71,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823188,
+  "bytes": 1823189,
   "kind": "subject-bundle"
  },
  {
@@ -70,7 +85,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704449,
+  "bytes": 1704451,
   "kind": "subject-bundle"
  },
  {
@@ -87,7 +102,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095316,
+  "bytes": 4095317,
   "kind": "subject-bundle"
  },
  {
@@ -100,7 +115,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868472,
+  "bytes": 1868473,
   "kind": "subject-bundle"
  },
  {
@@ -115,7 +130,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581579,
+  "bytes": 581582,
   "kind": "subject-bundle"
  },
  {
@@ -128,7 +143,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645019,
+  "bytes": 1645020,
   "kind": "subject-bundle"
  },
  {
@@ -142,7 +157,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116671,
+  "bytes": 2116672,
   "kind": "subject-bundle"
  },
  {
@@ -156,7 +171,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981774,
+  "bytes": 1981775,
   "kind": "subject-bundle"
  },
  {
@@ -169,7 +184,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296669,
+  "bytes": 1296671,
   "kind": "subject-bundle"
  },
  {
@@ -190,6 +205,8 @@
    "ioe-enct151-2083-baishakh",
    "ioe-enee103-2081-chaitra",
    "ioe-enex101-2081-chaitra",
+   "ioe-enex152-2082-bhadra",
+   "ioe-enex152-2083-baishakh",
    "ioe-ensh101-2081-chaitra",
    "ioe-ensh102-2081-chaitra",
    "ioe-ensh103-2081-chaitra",
@@ -208,6 +225,8 @@
    "ioe-ensh253-2082-bhadra",
    "ioe-ensh253-2083-baishakh",
    "ioe-ex101-2081-baishakh",
+   "ioe-ex152-2081-ashwin",
+   "ioe-ex152-2082-baishakh",
    "ioe-sh101-2081-baishakh",
    "ioe-sh101-2081-kartik",
    "ioe-sh102-2081-baishakh",
@@ -219,8 +238,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 579,
-  "bytes": 22651778,
+  "pages": 642,
+  "bytes": 24241844,
   "kind": "master-book"
  }
 ]
