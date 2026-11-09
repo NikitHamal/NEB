@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709058,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606310,
+  "bytes": 1606309,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272198,
+  "bytes": 3272196,
   "kind": "subject-bundle"
  },
  {
@@ -71,7 +71,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762980,
+  "bytes": 2762979,
   "kind": "subject-bundle"
  },
  {
@@ -89,7 +89,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095712,
+  "bytes": 3095711,
   "kind": "subject-bundle"
  },
  {
@@ -161,7 +161,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868471,
+  "bytes": 1868473,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581579,
+  "bytes": 581580,
   "kind": "subject-bundle"
  },
  {
@@ -189,7 +189,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645018,
+  "bytes": 1645020,
   "kind": "subject-bundle"
  },
  {
@@ -202,7 +202,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710381,
+  "bytes": 710383,
   "kind": "subject-bundle"
  },
  {
@@ -219,6 +219,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-data-communication-2082-2083.pdf",
+  "subject": "Data Communication",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct253-2083-baishakh",
+   "ioe-enct253-2082-bhadra"
+  ],
+  "pages": 31,
+  "bytes": 1081969,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-data-structure-and-algorithm-2082-2083.pdf",
   "subject": "Data Structure and Algorithm",
   "level": "BE \u00b7 Year II",
@@ -228,7 +241,7 @@
    "ioe-enct252-2082-bhadra"
   ],
   "pages": 38,
-  "bytes": 735110,
+  "bytes": 735114,
   "kind": "subject-bundle"
  },
  {
@@ -254,7 +267,7 @@
    "ioe-enex254-2082-bhadra"
   ],
   "pages": 29,
-  "bytes": 1777021,
+  "bytes": 1777022,
   "kind": "subject-bundle"
  },
  {
@@ -268,7 +281,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116671,
+  "bytes": 2116672,
   "kind": "subject-bundle"
  },
  {
@@ -281,7 +294,7 @@
    "ioe-enex251-2082-bhadra"
   ],
   "pages": 27,
-  "bytes": 715090,
+  "bytes": 715089,
   "kind": "subject-bundle"
  },
  {
@@ -295,7 +308,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981776,
+  "bytes": 1981775,
   "kind": "subject-bundle"
  },
  {
@@ -308,7 +321,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537016,
+  "bytes": 537015,
   "kind": "subject-bundle"
  },
  {
@@ -321,7 +334,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296668,
   "kind": "subject-bundle"
  },
  {
@@ -353,6 +366,8 @@
    "ioe-enct251-2083-baishakh",
    "ioe-enct252-2082-bhadra",
    "ioe-enct252-2083-baishakh",
+   "ioe-enct253-2082-bhadra",
+   "ioe-enct253-2083-baishakh",
    "ioe-enct254-2082-bhadra",
    "ioe-enct254-2083-baishakh",
    "ioe-enee103-2081-chaitra",
@@ -402,8 +417,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1021,
-  "bytes": 37963567,
+  "pages": 1051,
+  "bytes": 39026373,
   "kind": "master-book"
  }
 ]
