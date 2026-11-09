@@ -165,3 +165,4 @@ Brief: the reading, sheet, bars, splash, composer, plus menu, notes and toast br
 - **One composer:** the full-screen reply page (`ReplyScreen`, `ReplyViewModel`, route `forum/reply`) had no caller left (the thread sheet and the main bar already use `NebCommentComposerBar`). Removed it and the unused `onReplyClick` parameter of `ForumPostDetailScreen`. `NebCommentComposerBar` is now the only comment input (forum post, forum thread, resource, resource thread, news).
 - **Copy:** the home feed filter "All Feed" lost its decorative glyph.
 - **Still open, in order of value:** two column papers and fact sheet grids in reading mode (`PDF_ANDROID_STATUS.md`), a device pass on the sheet, splash and toast.
+- CI: `Build Student Release APKs & AAB` passed on `d2a9f2c`.
