@@ -10,7 +10,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -42,7 +42,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823188,
+  "bytes": 1823187,
   "kind": "subject-bundle"
  },
  {
@@ -77,6 +77,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-fundamental-of-electrical-and-electronics-engineering-2081.pdf",
+  "subject": "Fundamental of Electrical and Electronics Engineering",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-enex101-2081-chaitra",
+   "ioe-ex101-2081-baishakh"
+  ],
+  "pages": 41,
+  "bytes": 1868472,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-mathematics-iii-2081-2082.pdf",
   "subject": "Engineering Mathematics III",
   "level": "BE \u00b7 Year II",
@@ -87,7 +100,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116671,
+  "bytes": 2116670,
   "kind": "subject-bundle"
  },
  {
@@ -114,7 +127,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296668,
   "kind": "subject-bundle"
  },
  {
@@ -125,6 +138,7 @@
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
    "ioe-enee103-2081-chaitra",
+   "ioe-enex101-2081-chaitra",
    "ioe-ensh101-2081-chaitra",
    "ioe-ensh102-2081-chaitra",
    "ioe-ensh103-2081-chaitra",
@@ -142,6 +156,7 @@
    "ioe-ensh202-2082-kartik",
    "ioe-ensh253-2082-bhadra",
    "ioe-ensh253-2083-baishakh",
+   "ioe-ex101-2081-baishakh",
    "ioe-sh101-2081-baishakh",
    "ioe-sh101-2081-kartik",
    "ioe-sh102-2081-baishakh",
@@ -153,8 +168,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 408,
-  "bytes": 17838433,
+  "pages": 448,
+  "bytes": 19689374,
   "kind": "master-book"
  }
 ]
