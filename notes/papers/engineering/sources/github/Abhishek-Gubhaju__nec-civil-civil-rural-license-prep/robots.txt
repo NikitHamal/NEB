@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abhishek-gubhaju.github.io/nec-civil-civil-rural-license-prep/sitemap.xml

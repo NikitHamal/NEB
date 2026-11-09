@@ -1,0 +1,38 @@
+name: Deploy server to VM
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/server/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Deploy to VM via SSH
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.VM_HOST }}       
+          username: ${{ secrets.VM_USER }}   
+          key: ${{ secrets.VM_SSH_KEY }}     
+          port: 22
+          script: |
+            set -e
+            
+            cd ~/ioe-drive/apps/server
+            git pull origin main
+
+            npm install
+            npm run lint
+            npm run build
+            npm run db:migrate
+
+            pm2 reload ecosystem.config.cjs --env production
+            echo "Deployment completed successfully."

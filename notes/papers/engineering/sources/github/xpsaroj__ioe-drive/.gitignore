@@ -1,0 +1,9 @@
+# Ignore all temporary text files
+notes.txt
+
+# env files
+.env
+.env*
+
+# except .env.example
+!.env.example

@@ -1,0 +1,15 @@
+{
+    "scripts": {
+        "docker:up": "docker compose up -d --build",
+        "docker:start": "docker compose start",
+        "docker:stop": "docker compose stop",
+        "docker:down": "docker compose down",
+        "docker:logs": "docker compose logs -f",
+        "db:generate": "docker compose exec server npm run db:generate",
+        "db:migrate": "docker compose exec server npm run db:migrate",
+        "db:push": "docker compose exec server npm run db:push",
+        "db:seed-programs": "docker compose exec server npm run db:seed-programs",
+        "db:seed-subjects": "docker compose exec server npm run db:seed-subjects",
+        "db:seed-resources": "docker compose exec server npm run db:seed-resources"
+    }
+}

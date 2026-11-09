@@ -1,0 +1,41 @@
+name: Server PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'apps/server/**'
+
+jobs:
+  server-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/server
+
+      - name: Run lint
+        run: npm run lint
+        working-directory: apps/server
+
+      - name: Run typecheck
+        run: npm run typecheck
+        working-directory: apps/server
+
+      - name: Run tests
+        run: npm test
+        working-directory: apps/server
+
+      - name: Build server
+        run: npm run build
+        working-directory: apps/server
