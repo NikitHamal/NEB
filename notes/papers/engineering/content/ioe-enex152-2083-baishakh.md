@@ -1971,10 +1971,10 @@ def mux(ax,x,y,n,labels,sels,out="Y",sp=0.5,w=1.3,name=None):
     return dict(ins=ins,sel=sp_,out=(x+w+0.4,y))
 def bubble(ax,x,y): ax.add_patch(mp.Circle((x,y),0.07,fc="white",ec=INK,lw=1.3,zorder=4))
 
-fig,ax=ckt_canvas(5.9,4.6,xlim=(-3.6,8.6),ylim=(-1.9,8.6))
-m1=mux(ax,3.0,5.6,4,['B$_{in}$', '$\\overline{B_{in}}$', '$\\overline{B_{in}}$', 'B$_{in}$'],["A","B"],out="Diff",name="4:1 MUX (difference)")
-m2=mux(ax,3.0,1.4,4,['B$_{in}$', '1', '0', 'B$_{in}$'],["A","B"],out="Bout",name="4:1 MUX (borrow)")
-T(ax,5.5,3.5,"select lines A (S1) and B (S0) are common to both multiplexers",size=7.6,color=MUTED)
+fig,ax=ckt_canvas(5.9,2.3,xlim=(-3.2,17.4),ylim=(-2.2,3.2))
+m1=mux(ax,3.0,0.6,4,['B$_{in}$', '$\\overline{B_{in}}$', '$\\overline{B_{in}}$', 'B$_{in}$'],["A","B"],out="Diff",name="4:1 MUX (difference)")
+m2=mux(ax,12.0,0.6,4,['B$_{in}$', '1', '0', 'B$_{in}$'],["A","B"],out="Bout",name="4:1 MUX (borrow)")
+T(ax,7.5,-2.0,"select lines A (S1) and B (S0) are common to both multiplexers",size=7.6,color=MUTED)
 ```
 
 Two 4:1 multiplexers and one NOT gate realise the full subtractor.
@@ -3235,7 +3235,7 @@ L(ax,[(Ps[1]["Q"][0]+0.3,Ps[1]["Q"][1]),(Ps[1]["Q"][0]+0.3,ins[1][1]),ins[1]]); 
 L(ax,[(Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1]),(Ps[3]["Q"][0]+0.3,-2.2),(8.3,-2.2),(8.3,ins[0][1]),ins[0]]) if False else None
 L(ax,[(Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1]),(Ps[3]["Q"][0]+0.3,-2.0),(7.7,-2.0),(7.7,ins[0][1]),ins[0]]); dot(ax,Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1])
 T(ax,o[0]+0.15,o[1],"to CLR of\nall four FFs",ha="left",size=7.8)
-T(ax,13.2,2.55,"clear (active low) when Q3Q2Q1Q0 = 1010",size=7.8,color=MUTED)
+T(ax,13.0,-1.3,"clear (active low) when Q3Q2Q1Q0 = 1010",size=7.8,color=MUTED)
 ```
 
 **Operation.**

@@ -94,7 +94,7 @@ T(ax,ck[0]-0.1,ck[1],"CLK",ha="right")
             "\n*Step 3 - K-maps* (rows $J$, columns $KQ$ in Gray order $00, 01, 11, 10$):\n\n"
             "| S | KQ=00 | 01 | 11 | 10 |\n|---|---|---|---|---|\n| J=0 | 0 | X | 0 | 0 |\n| J=1 | 1 | X | 0 | 1 |\n\n"
             "| R | KQ=00 | 01 | 11 | 10 |\n|---|---|---|---|---|\n| J=0 | X | 0 | 1 | X |\n| J=1 | 0 | 0 | 1 | 0 |\n\n"
-            "Looping the 1s with the don't-cares: for S the cells $J\\overline{Q}$ (J = 1, Q = 0: columns 00 and 10, using the X for Q = 1 in the K = 0 column is not needed); for R the pair $KQ=11$ in both rows:\n\n"
+            "Looping the 1s together with the X cells: for S the two cells with $J=1$, $Q=0$ (columns 00 and 10) form one pair, giving $J\\overline{Q}$; for R the two cells with $K=1$, $Q=1$ (column 11, both rows) form a pair, giving $KQ$:\n\n"
             "$$\\boxed{S = J\\,\\overline{Q}} \\qquad \\boxed{R = K\\,Q}$$\n\n"
             "*Step 4 - circuit.* Two 2-input AND gates fed back from the outputs:\n\n" +
             figblock("JK flip-flop from an SR flip-flop: S = J Q', R = K Q.", code, canvas=False) +
@@ -169,8 +169,6 @@ for i in range(4):
     ins,o=gn(ax,"AND",P["D"][0]-1.45-1.0+0.2,2.95,n=2,w=0.7,lead=0.15) if False else (None,None)
     T(ax,P["D"][0]-0.25,P["D"][1]+0.27,"mux",size=7,color=MUTED) if False else None
     # data inputs
-    T(ax,P["D"][0]-0.9,3.9,"P"+"ABCD"[i],size=8.4)
-    L(ax,[(P["D"][0]-0.9,3.65),(P["D"][0]-0.9,3.15)])
     mux(ax,P["D"][0]-1.6,2.62,2,[None,None],[],out="",sp=0.55,w=0.9,name="2:1") if False else None
 # draw tiny 2:1 selectors as boxes
 for i,P in enumerate(Ps):
@@ -294,7 +292,7 @@ L(ax,[(Ps[1]["Q"][0]+0.3,Ps[1]["Q"][1]),(Ps[1]["Q"][0]+0.3,ins[1][1]),ins[1]]); 
 L(ax,[(Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1]),(Ps[3]["Q"][0]+0.3,-2.2),(8.3,-2.2),(8.3,ins[0][1]),ins[0]]) if False else None
 L(ax,[(Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1]),(Ps[3]["Q"][0]+0.3,-2.0),(7.7,-2.0),(7.7,ins[0][1]),ins[0]]); dot(ax,Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1])
 T(ax,o[0]+0.15,o[1],"to CLR of\nall four FFs",ha="left",size=7.8)
-T(ax,13.2,2.55,"clear (active low) when Q3Q2Q1Q0 = 1010",size=7.8,color=MUTED)
+T(ax,13.0,-1.3,"clear (active low) when Q3Q2Q1Q0 = 1010",size=7.8,color=MUTED)
 '''
     seq = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2]
     tm = timing_fig("Timing diagram of the asynchronous BCD counter: counts 0 to 9 and returns to 0 at the tenth pulse (the 1010 state lasts only a few nanoseconds, so it is not seen as a valid count).", seq, ["Q3", "Q2", "Q1", "Q0"], ripple=True, d=0.07)
@@ -323,7 +321,7 @@ ins,o=gn(ax,"NAND",9.0,-1.3,n=2,w=0.9,lead=0.3)
 L(ax,[(Ps[2]["Q"][0]+0.3,Ps[2]["Q"][1]),(Ps[2]["Q"][0]+0.3,ins[1][1]),ins[1]]); dot(ax,Ps[2]["Q"][0]+0.3,Ps[2]["Q"][1])
 L(ax,[(Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1]),(Ps[3]["Q"][0]+0.3,-2.0),(7.7,-2.0),(7.7,ins[0][1]),ins[0]]); dot(ax,Ps[3]["Q"][0]+0.3,Ps[3]["Q"][1])
 T(ax,o[0]+0.15,o[1],"to CLR of\nall four FFs",ha="left",size=7.8)
-T(ax,13.2,2.55,"clear (active low) when Q3Q2Q1Q0 = 1100",size=7.8,color=MUTED)
+T(ax,13.0,-1.3,"clear (active low) when Q3Q2Q1Q0 = 1100",size=7.8,color=MUTED)
 '''
     seq = list(range(12)) + [0, 1, 2]
     tm = timing_fig("Timing diagram of the mod-12 asynchronous counter (rising-edge clock): the state 1100 is momentary and clears the counter to 0000.", seq, ["Q3", "Q2", "Q1", "Q0"], ripple=True, d=0.07)
