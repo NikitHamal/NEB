@@ -75,11 +75,11 @@ Phase 1 (research + download) is DONE for the sources below. Phase 2 (extract/no
 | Abhishek-Gubhaju/nec-civil-civil-rural-license-prep | 2 MB | 0 | new | Nepal Engineering Council (NEC) licence exam preparation for Civil and |
 ## F. Phase 2 progress (see `engineering/PHASE2_STATUS.md`)
 - Catalog built: `engineering/catalog.json`, `catalog-tree.json`, `CATALOG.md` (4,086 papers indexed).
-- Typeset + fully solved (`engineering/content/*.md` -> `engineering/pdf/`), 22 papers:
+- Typeset + fully solved (`engineering/content/*.md` -> `engineering/pdf/`), 27 papers (session 5 added Numerical Methods ENSH 202 x3 [2082 Chaitra, 2082 Kartik, 2081 Chaitra] and Probability and Statistics ENSH 253 x2 [2083 Baishakh, 2082 Bhadra]); first 22:
   - IOE Engineering Mathematics I: 2081 Baishakh (SH 101), 2081 Kartik (SH 101), 2081 Chaitra (ENSH 101).
   - IOE Engineering Mathematics II: 2081 Ashwin (SH 151), 2082 Bhadra (ENSH 151), 2083 Baishakh (ENSH 151).
   - IOE Engineering Physics: 2081 Baishakh (SH 102), 2081 Chaitra (ENSH 102); Part II: 2081 Ashwin (SH 152), 2082 Baishakh (SH 152, back), 2082 Bhadra (ENSH 152), 2083 Baishakh (ENSH 152, back).
   - IOE Engineering Chemistry: 2081 Baishakh (SH 103), 2081 Kartik (SH 103, back), 2081 Chaitra (ENSH 103); Part II: 2081 Ashwin (SH 153), 2082 Baishakh (SH 153, back), 2082 Bhadra (ENSH 153), 2083 Baishakh (ENSH 153, back).
   - IOE Engineering Mathematics III: 2081 Chaitra, 2082 Kartik (back), 2082 Chaitra (ENSH 201).
-- Bundles (`engineering/bundle_engineering.py` -> `engineering/pdf/bundles/`): `engineering-mathematics-i-2081.pdf`, `engineering-mathematics-ii-2081-2083.pdf`, `engineering-mathematics-iii-2081-2082.pdf`, `engineering-physics-2081-2083.pdf`, `engineering-chemistry-2081-2083.pdf`, `NEBians-Engineering-All-In-One-Book.pdf` (master, 14 papers, regenerated on every run).
-- Next: see "Next paper candidates" in `engineering/PHASE2_STATUS.md` (Basic Electrical and Electronics, Engineering Mechanics, Numerical Methods, Probability and Statistics, Fluid Mechanics, ...).
+- Bundles (`engineering/bundle_engineering.py` -> `engineering/pdf/bundles/`): `engineering-mathematics-i-2081.pdf`, `engineering-mathematics-ii-2081-2083.pdf`, `engineering-mathematics-iii-2081-2082.pdf`, `engineering-physics-2081-2083.pdf`, `engineering-chemistry-2081-2083.pdf`, `engineering-numerical-methods-2081-2082.pdf`, `engineering-probability-and-statistics-2082-2083.pdf`, `NEBians-Engineering-All-In-One-Book.pdf` (master, 27 papers / 366 pp, regenerated on every run).
+- Next: see "Next paper candidates" in `engineering/PHASE2_STATUS.md` (Basic Electrical and Electronics, Engineering Mechanics, Fluid Mechanics, Hydraulics, Soil Mechanics, ...).

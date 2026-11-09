@@ -35,6 +35,13 @@ Branch `claude/engineering`. Phase 1 (download) is in `../PAPERS_TRACKER.md`. Th
 | ioe-ensh153-2082-bhadra | Eng. Chemistry (Part II), regular (ENSH 153) | same PDF p3-4 | 14 |
 | ioe-sh153-2082-baishakh | Eng. Chemistry (Part II), back paper (SH 153) | same PDF p5-6 | see pdf |
 | ioe-sh153-2081-ashwin | Eng. Chemistry (Part II), regular, 2080 batch (SH 153) | same PDF p7-8 | see pdf |
+| ioe-ensh202-2082-chaitra | Eng. Numerical Methods, regular (ENSH 202) | `3rd-semester/3rd-Semester-Numerical-Methods-New-Course__.pdf` p1-2 | 14 |
+| ioe-ensh202-2082-kartik | Eng. Numerical Methods, back paper (ENSH 202) | same PDF p3 (tail Q11-12) + p4 (first page) | 15 |
+| ioe-ensh202-2081-chaitra | Eng. Numerical Methods, regular (ENSH 202) | same PDF p5 (tail) + p6 (first page) | 16 |
+| ioe-ensh253-2083-baishakh | Eng. Probability and Statistics, back paper (ENSH 253), incl. the Q5 OR | `4th-semester/4th-Semester-Probability-Statistics-New-Course__.pdf` p1-2 | 16 |
+| ioe-ensh253-2082-bhadra | Eng. Probability and Statistics, regular (ENSH 253), incl. the Q5 OR | same PDF p3-4 | 15 |
+
+Reading notes (session 5): Numerical Methods PDF page order is tail-before-first (p3 is the end of the Kartik paper in p4; p5 is the end of 2081 Chaitra in p6). Kartik Q9 y(0.5) continues the RK4 from x = 0.2 with h = 0.3. P&S 2082 Bhadra Q1 quartiles use the median-of-halves method (girls' 5 is a low outlier by the 1.5 IQR rule); 2083 Baishakh Q12 uses R-bar = 0.62 (the mean of the printed ranges); Q10 TDS data give r = 0.9999. The 4th-semester P&S scan prints 'Necessary tables are attached' but the tables are not in the file; standard z, t, chi-square values were used. All numerical answers were computed in Python (numpy/scipy) before writing.
 
 Reading notes (session 3): Physics 2081 Baishakh Q7(b) solved for a charged, isolated capacitor (battery-connected result also given). Chemistry 2081 Baishakh Q10 is cut off at the bottom of the scan. Chemistry 2081 Kartik Q10(b) carries no marks on the scan. Maths III 2082 Kartik Q5(b) prints sum e^{ak} for a>0 (divergent); both the divergent case and the convergent e^{-ak} are answered. Maths III 2082 Chaitra Q11 prints '2zx - px^2 - 2xy + pq' (q lost); read as 2qxy like the Kartik paper.
 
@@ -43,6 +50,7 @@ Reading notes (earlier): the 2083 Baishakh year is printed as such on the scan (
 Reading notes (session 4, Physics 2nd sem): ENSH 152 2082 Bhadra Q5 prints 'specific heat of solid and its saturated vapor', answered for the condensed phase and saturated vapour (Clausius equation by an entropy cycle). SH 152 2082 Baishakh Q6(b): lens radius taken R = 2(mu-1)f = 100 cm. SH 152 2081 Ashwin Q2(b): both total (5/2 RT) and translational (3/2 RT) energies given. 2083 Baishakh Q2(b): Einstein temperature 100 C taken as 373 K.
 
 ## Next paper candidates
+DONE in session 5: Numerical Methods (3 sittings) and Probability and Statistics (2 sittings), bundles `engineering-numerical-methods-2081-2082.pdf` and `engineering-probability-and-statistics-2082-2083.pdf`, master All-in-One now 27 papers / 366 pp. Remove them from the lists below. Session 5 setup: `git config user.name/email` must be set before committing; the sparse checkout `/notes/papers/**` pulls ALL sources (~3 GB); `bundle_engineering.py` now prefixes bundle names with `engineering-`.
 DONE in session 4: `2nd-semester/...Engineering-Physics-New-Course` (all 4 sittings). DONE too: `2nd-semester/...Engineering-Chemistry-New-Course` (4 sittings). NEXT (fetch with `git checkout HEAD -- notes/papers/engineering/sources/tu-ioe/past-questions-bani/<sem>/<file>`): Basic Electrical, Numerical Methods (3rd), Probability and Statistics (4th), Engineering Mechanics.
 Scan page order caveat: in the IOE 'bani' compilations the continuation page of a paper can come BEFORE its first page (Maths III: p1 is the tail of p2). Read all pages before pairing.
 - `1st-semester/`: Basic Electrical and Electronics (6 pp), Fundamental of Electrical and Electronics (4), Engineering Drawing (needs figures), Engineering Mechanics (9), Engineering Geology I (3).

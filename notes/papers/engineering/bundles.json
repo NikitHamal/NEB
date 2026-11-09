@@ -59,7 +59,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095315,
+  "bytes": 4095314,
   "kind": "subject-bundle"
  },
  {
@@ -91,6 +91,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-probability-and-statistics-2082-2083.pdf",
+  "subject": "Probability and Statistics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ensh253-2083-baishakh",
+   "ioe-ensh253-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 1296669,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/NEBians-Engineering-All-In-One-Book.pdf",
   "subject": "ALL",
   "years_bs": "2081-2083",
@@ -110,6 +123,8 @@
    "ioe-ensh202-2081-chaitra",
    "ioe-ensh202-2082-chaitra",
    "ioe-ensh202-2082-kartik",
+   "ioe-ensh253-2082-bhadra",
+   "ioe-ensh253-2083-baishakh",
    "ioe-sh101-2081-baishakh",
    "ioe-sh101-2081-kartik",
    "ioe-sh102-2081-baishakh",
@@ -121,8 +136,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 335,
-  "bytes": 14723011,
+  "pages": 366,
+  "bytes": 16001840,
   "kind": "master-book"
  }
 ]
