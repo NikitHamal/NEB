@@ -80,6 +80,7 @@ fun SettingsScreen(
     onNavigateToLogin: () -> Unit = {},
     onNavigateToWebPortal: (String) -> Unit = {},
     onNavigateToLegal: (String) -> Unit = {},
+    onNavigateToAbout: () -> Unit = {},
     onNavigateToNotes: () -> Unit = {}
 ) {
     val isDarkMode by settingsViewModel.isDarkMode.collectAsStateWithLifecycle()
@@ -238,6 +239,13 @@ fun SettingsScreen(
             }
 
             SettingsGroup(title = "About") {
+                SettingsRow(
+                    icon = Icons.Outlined.Info,
+                    title = "About NEBians",
+                    subtitle = "The team and the company",
+                    onClick = onNavigateToAbout
+                )
+                SettingsDivider()
                 SettingsRow(
                     icon = Icons.Outlined.Lock,
                     title = "Privacy policy",

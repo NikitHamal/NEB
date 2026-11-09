@@ -30,7 +30,6 @@ import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -401,7 +400,7 @@ fun ForumVideoPlayer(attachment: ApiMediaAttachment, modifier: Modifier = Modifi
                                         fontWeight = FontWeight.Bold
                                     )
                                 }
-                                DropdownMenu(
+                                NebDropdownMenu(
                                     expanded = qualityMenuExpanded,
                                     onDismissRequest = { qualityMenuExpanded = false }
                                 ) {

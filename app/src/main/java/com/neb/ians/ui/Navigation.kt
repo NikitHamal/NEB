@@ -159,6 +159,7 @@ sealed class Screen(val route: String) {
     }
     data object EditProfile : Screen("profile/edit")
     data object Settings : Screen("settings")
+    data object About : Screen("about")
     data object Notes : Screen("notes")
     data object NoteEditor : Screen("notes/edit/{noteId}?dictate={dictate}") {
         fun createRoute(noteId: String = "new", dictate: Boolean = false) = "notes/edit/$noteId?dictate=$dictate"
@@ -863,6 +864,12 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
+            composable(Screen.About.route) {
+                com.neb.ians.ui.screens.about.AboutScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenLibrary = { navController.navigate(Screen.Library.createRoute(null)) }
+                )
+            }
             composable(Screen.Settings.route) {
                 SettingsScreen(
                     onNavigateBack = { navController.popBackStack() },
@@ -886,6 +893,7 @@ fun NEBiansNavHost(
                     onNavigateToLegal = { doc ->
                         navController.navigate(Screen.Legal.createRoute(doc))
                     },
+                    onNavigateToAbout = { navController.navigate(Screen.About.route) },
                     onNavigateToNotes = {
                         navController.navigate(Screen.Notes.route)
                     }

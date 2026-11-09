@@ -110,7 +110,6 @@ import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
 import com.neb.ians.ui.components.ComposerAnonymousButton
-import com.neb.ians.ui.components.ReplyKindPicker
 import com.neb.ians.ui.components.ReplyLabelSheet
 import com.neb.ians.ui.components.ComposerAttachButton
 import com.neb.ians.ui.components.ComposerPollButton
@@ -210,6 +209,8 @@ fun ForumPostDetailScreen(
                 posting = isSubmittingReply,
                 voiceNote = voiceNote,
                 docked = false,
+                kind = composerKind,
+                onKindChange = viewModel::setComposerKind,
                 textFieldModifier = Modifier.focusRequester(mainFocusRequester),
                 visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
                     leadingContent = {
@@ -246,11 +247,6 @@ fun ForumPostDetailScreen(
                     )
                 }
             ) {
-                ReplyKindPicker(
-                    selected = composerKind,
-                    onSelect = viewModel::setComposerKind,
-                    enabled = !isSubmittingReply
-                )
                 composerPoll?.let { draft ->
                     CommentPollBuilder(
                         draft = draft,

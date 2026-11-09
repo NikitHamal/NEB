@@ -267,7 +267,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     }
 
     if (showToc && doc != null) {
-        ModalBottomSheet(onDismissRequest = { showToc = false }, containerColor = MaterialTheme.colorScheme.surfaceContainer) {
+        ModalBottomSheet(onDismissRequest = { showToc = false }, containerColor = com.neb.ians.ui.theme.nebFloatColor()) {
             Text("Contents", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 20.dp, bottom = 8.dp))
             LazyColumn(Modifier.fillMaxWidth().navigationBarsPadding()) {
                 items(doc.toc) { item ->

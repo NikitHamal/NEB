@@ -16,7 +16,18 @@ PALETTE = ROOT / "app/src/main/java/com/neb/ians/ui/theme/Palette.kt"
 
 # The app's light page is paper white; the web keeps its blue-tinted page and lifts
 # raised surfaces to white instead. Cards on Android are outlined or tonal on white.
-ANDROID_LIGHT_OVERRIDES = {"background": "FFFFFF", "surface": "FFFFFF"}
+# Android light is neutral paper: no blue in any page, card, sheet, menu or dialog fill.
+# The web keeps its blue-tinted page ramp but floats white (--x-float), so the app pins the whole
+# surface ramp to neutral greys. Brand blue stays in primary, the tonal containers (chips, tags,
+# selected rows) and links. See docs/M3X_DESIGN_SYSTEM.md section 11.
+ANDROID_LIGHT_OVERRIDES = {
+    "background": "FFFFFF", "surface": "FFFFFF", "surfaceBright": "FFFFFF",
+    "surfaceDim": "E2E3E6", "surfaceContainerLowest": "FFFFFF",
+    "surfaceContainerLow": "F7F7F8", "surfaceContainer": "F1F2F4",
+    "surfaceContainerHigh": "EBECEF", "surfaceContainerHighest": "E5E6EA",
+    "surfaceVariant": "E7E8EC", "outlineVariant": "D9DBE0", "outline": "767A84",
+    "onSurface": "101216", "onBackground": "101216", "onSurfaceVariant": "44474F",
+}
 
 
 def camel(name):

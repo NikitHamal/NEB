@@ -16,6 +16,34 @@ Read `ANDROID_NOTES_STATUS.md` before touching `app/.../ui/screens/notes/`, `app
 
 The app has no AI chat, Study Lab or Study Space (removed in session 8, see `ANDROID_M3X_STATUS.md`); the only Neby AI is the PDF reader's overlay (`ui/screens/reader/PdfAssistantOverlay.kt`, rows in `NebyAnswer.kt`) and `@neby` in the forum. Do not add their endpoints back to `ApiService`. The Analytics screen (`ui/screens/analytics/`) reads one v2 payload from `api/user_analytics.py` (`docs/ANALYTICS.md`, member section); change both sides and `data/api/AnalyticsModels.kt` together and run `api.test_user_analytics`.
 
+## Android surface and parity rules (read before any Android UI work)
+
+The Android app is the web's m3x, not a separate look. Session 9 found the app still painting blue-tinted cards, menus
+and sheets and a comment bar the web does not have, because none of this was written down. It is now the contract:
+
+1. **Light is paper, never blue.** `tools/design/sync_android_palette.py` pins the whole light surface ramp to neutral
+   greys (`ANDROID_LIGHT_OVERRIDES`: background, surface, bright, dim, all five containers, surfaceVariant, outline,
+   outlineVariant, onSurface, onSurfaceVariant). Blue lives only in `primary`, the tonal containers (selected row, chip,
+   tag) and links. Run the script after any token change, `--check` must pass. Never hard-code a bluish hex in Kotlin.
+2. **Everything that floats is white.** Menus, popovers, dialogs and sheets take `nebFloatColor()` (`ui/theme/NebFloat.kt`:
+   white in light, `surfaceContainerHigh` in dark) with a 1dp `nebFloatLine()` hairline and no elevation. Use
+   `NebDropdownMenu` (`ui/components/NebMenu.kt`), `NebModalSheet`, `NebDialog`; never a bare `DropdownMenu`,
+   `ModalBottomSheet` or `AlertDialog` without `containerColor = nebFloatColor()`.
+3. **Cards are white with a hairline**, fields are white with one stroke, chips and tags are the tonal containers.
+   A card is not `surfaceContainerLow` on a white page.
+4. **Comment bar = web `neb-composer`** (`ui/components/CommentComposerBar.kt`): one outlined container, avatar with the
+   identity chevron, field, then tools and a round send button. The A tool opens the formatting row, a tool row and the
+   expand tool; the reply type (Comment, Answer, Solution, Hint, Formula) is a tool that opens `ReplyKindSheet`, a
+   bottom sheet with a tick on the current one. There are no type chips above the field, no hint chips, and no mic
+   button. If a web composer changes, change this file with it.
+5. **Copy the web screen, then compare.** Run the Django site on sqlite, open the same screen at 390 px with Playwright and
+   put it beside the app's layout before and after the change. A feature the web does not have is removed, not restyled.
+6. **Reading mode** (`ui/screens/reader/pdf/ReadingMode.kt`, `ReadingExtras.kt`): two fingers resize the text live,
+   figures and tables open full screen (`RdZoomDialog`: pinch, pan, double tap), lettered choices become tappable option
+   rows, `Answer:` `Hint:` `Note:` paragraphs become tonal cards. See `PDF_ANDROID_STATUS.md` for the content types the
+   print pipeline produces and what is still unmapped.
+7. **About** (`ui/screens/about/AboutScreen.kt`) mirrors `web/about_data.py` word for word. Edit the team in both places.
+
 ## Push, autopilot and library reach
 
 Read `PUSH_AUTOPILOT_STATUS.md` before touching `api/push_engine.py`, `api/resource_alerts.py`, `api/resource_reach.py`,

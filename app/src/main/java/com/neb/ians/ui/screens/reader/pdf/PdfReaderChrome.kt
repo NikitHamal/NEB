@@ -34,7 +34,7 @@ import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Toc
 import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.widthIn
@@ -131,7 +131,7 @@ fun ReaderTopBar(
                 var menu by remember { mutableStateOf(false) }
                 Box {
                     NebIconButton(Icons.Outlined.MoreVert, "More", { menu = true })
-                    DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                    NebDropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                         DropdownMenuItem(
                             text = { Text("Reading mode") },
                             leadingIcon = { Icon(Icons.Outlined.MenuBook, null) },
