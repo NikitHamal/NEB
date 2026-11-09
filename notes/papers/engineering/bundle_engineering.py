@@ -100,7 +100,7 @@ def build():
     os.makedirs(OUT, exist_ok=True)
     groups = collections.defaultdict(list)
     for r in papers:
-        groups[(r["level"], r["subject"])].append(r)
+        groups[(r["level"].split(" / ")[0], r["subject"])].append(r)
     records, tmp = [], os.path.join(OUT, "_cover.pdf")
     for (level, subject), rs in sorted(groups.items()):
         if len(rs) < 2:
@@ -123,8 +123,8 @@ def build():
         print(f"{name}: {len(rs)} papers, {pages} pages")
     # ---- master all-in-one book
     subj = collections.OrderedDict()
-    for r in sorted(papers, key=lambda r: (r["level"], r["subject"])):
-        subj.setdefault((r["level"], r["subject"]), []).append(r)
+    for r in sorted(papers, key=lambda r: (r["level"].split(" / ")[0], r["subject"])):
+        subj.setdefault((r["level"].split(" / ")[0], r["subject"]), []).append(r)
     n_cover = 1
     for _ in range(3):
         page, secs = n_cover + 1, []
