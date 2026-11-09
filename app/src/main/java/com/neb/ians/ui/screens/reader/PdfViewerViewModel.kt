@@ -12,7 +12,10 @@ import com.neb.ians.ui.screens.reader.pdf.PdfDocumentEngine
 import com.neb.ians.ui.screens.reader.pdf.ReaderPrefs
 import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
 import com.neb.ians.ui.screens.reader.pdf.ReadingTheme
+import com.neb.ians.ui.screens.reader.pdf.ReadSearch
+import com.neb.ians.ui.screens.reader.pdf.ReadHit
 import com.neb.ians.ui.screens.reader.pdf.ReaderSearch
+import com.neb.ians.ui.screens.reader.pdf.findReadHits
 import com.neb.ians.ui.screens.reader.pdf.OutlineItem
 import com.neb.ians.ui.screens.reader.pdf.PdfLink
 import com.neb.ians.ui.screens.reader.pdf.ReadingSettings
@@ -61,6 +64,7 @@ data class PdfViewerUiState(
     /** The document's own table of contents, empty when it has none. */
     val outline: List<OutlineItem> = emptyList(),
     val readingMode: Boolean = false,
+    val readSearch: ReadSearch = ReadSearch(),
     val reading: ReadingSettings = ReadingSettings(),
     val assistantHidden: Boolean = false,
     val assistantX: Float = -1f,
@@ -82,6 +86,8 @@ class PdfViewerViewModel @Inject constructor(
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
     private var searchJob: Job? = null
+    private var readSearchJob: Job? = null
+    private var readJumps = 0
     private var scanJob: Job? = null
     private var file: File? = null
 
@@ -135,6 +141,7 @@ class PdfViewerViewModel @Inject constructor(
 
     fun setReadingMode(on: Boolean) {
         prefs.setReadingMode(resourceId, on)
+        if (!on) closeReadSearch()
         _uiState.update { it.copy(readingMode = on) }
     }
 
@@ -340,6 +347,57 @@ class PdfViewerViewModel @Inject constructor(
                 }
             }
             _uiState.update { it.copy(search = it.search.copy(running = false)) }
+        }
+    }
+
+    fun openReadSearch() {
+        _uiState.update { it.copy(readSearch = it.readSearch.copy(open = true)) }
+    }
+
+    fun closeReadSearch() {
+        readSearchJob?.cancel()
+        _uiState.update { it.copy(readSearch = ReadSearch()) }
+    }
+
+    /**
+     * Search for reading mode: reads the reflowed text of every page, starting at the one on screen
+     * and wrapping round. It does not need the platform's text API, so it works on every device.
+     */
+    fun readSearch(query: String) {
+        readSearchJob?.cancel()
+        val q = query.trim()
+        _uiState.update { it.copy(readSearch = it.readSearch.copy(query = query, running = q.length >= 2, scanned = 0, hits = emptyList(), index = -1)) }
+        val structure = engine?.structure ?: return
+        if (q.length < 2) return
+        val start = _uiState.value.currentPage
+        val n = _uiState.value.pageCount
+        readSearchJob = viewModelScope.launch {
+            delay(260)
+            val hits = ArrayList<ReadHit>()
+            for (k in 0 until n) {
+                val page = (start + k) % n
+                val before = hits.size
+                structure.reflow(page)?.let { hits.addAll(findReadHits(it, q)) }
+                val found = hits.size != before
+                if (found || k % 8 == 7 || k == n - 1) {
+                    val first = hits.isNotEmpty() && _uiState.value.readSearch.index < 0
+                    _uiState.update {
+                        it.copy(readSearch = it.readSearch.copy(
+                            scanned = k + 1, hits = hits.toList(),
+                            index = if (first) 0 else it.readSearch.index,
+                            jump = if (first) ++readJumps else it.readSearch.jump
+                        ))
+                    }
+                }
+            }
+            _uiState.update { it.copy(readSearch = it.readSearch.copy(running = false)) }
+        }
+    }
+
+    fun stepReadSearch(delta: Int) {
+        _uiState.update {
+            val s = it.readSearch
+            if (s.hits.isEmpty()) it else it.copy(readSearch = s.copy(index = Math.floorMod(s.index + delta, s.hits.size), jump = ++readJumps))
         }
     }
 

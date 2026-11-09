@@ -19,6 +19,20 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -213,8 +227,28 @@ private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString {
 private class RdCtx(
     val source: ReadSource,
     val onJump: (Int) -> Unit,
-    val onOpenPage: (Int) -> Unit
-)
+    val onOpenPage: (Int) -> Unit,
+    /** The text being searched for (empty: nothing is marked) and the occurrence that is current. */
+    val query: String = "",
+    val active: ReadHit? = null,
+    val jumpId: Int = 0,
+    val onActiveShown: (Float, Int) -> Unit = { _, _ -> }
+) {
+    /** Which occurrence inside block [index] of [page] is the current hit, or -1. */
+    fun activeIn(page: Int, index: Int): Int = active?.takeIf { it.page == page && it.block == index }?.nth ?: -1
+}
+
+/** Reports where the current search hit sits on screen once, so the list can bring it to the eye. */
+@Composable
+private fun Modifier.searchAnchor(ctx: RdCtx, activeNth: Int): Modifier {
+    if (activeNth < 0) return this
+    var coords by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    LaunchedEffect(ctx.jumpId, coords) {
+        val c = coords ?: return@LaunchedEffect
+        if (c.isAttached) ctx.onActiveShown(c.positionInRoot().y, ctx.jumpId)
+    }
+    return this.onGloballyPositioned { coords = it }
+}
 
 private sealed interface RdLoad {
     data object Loading : RdLoad
@@ -223,23 +257,27 @@ private sealed interface RdLoad {
 }
 
 @Composable
-private fun RdBlock(block: Block, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
+private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
     val p = t.p
+    val q = ctx.query
+    val activeNth = ctx.activeIn(page, index)
     when (block) {
         is HeadingBlock -> {
             val extra = when (block.level) { 1 -> t.gap * 1.6f; 2 -> t.gap * 1.0f; else -> t.gap * 0.4f }
+            val text = remember(block, q, activeNth) { AnnotatedString(block.text).marked(q, activeNth) }
             Text(
-                block.text,
+                text,
                 style = t.heading(block.level),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .searchAnchor(ctx, activeNth)
                     .padding(top = extra + topGap)
                     .then(if (block.jump >= 0) Modifier.clickable { ctx.onJump(block.jump) } else Modifier)
             )
         }
         is ParaBlock -> {
-            val text = remember(block, p) { annotate(block.spans, p) }
-            val m = Modifier.fillMaxWidth().padding(top = topGap)
+            val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
+            val m = Modifier.fillMaxWidth().searchAnchor(ctx, activeNth).padding(top = topGap)
             if (block.jump >= 0) {
                 Text(text, style = t.body.copy(color = p.accent), modifier = m.clickable { ctx.onJump(block.jump) })
             } else {
@@ -247,11 +285,12 @@ private fun RdBlock(block: Block, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap:
             }
         }
         is ItemBlock -> {
-            val text = remember(block, p) { annotate(block.spans, p) }
+            val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val numbered = block.marker.firstOrNull()?.isLetterOrDigit() == true || block.marker.startsWith("(")
             Row(
                 Modifier
                     .fillMaxWidth()
+                    .searchAnchor(ctx, activeNth)
                     .padding(top = topGap, start = (block.depth * 18).dp)
                     .then(if (block.jump >= 0) Modifier.clickable { ctx.onJump(block.jump) } else Modifier)
             ) {
@@ -265,9 +304,11 @@ private fun RdBlock(block: Block, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap:
             }
         }
         is CodeBlock -> {
+            val code = remember(block, q, activeNth) { AnnotatedString(block.text).marked(q, activeNth) }
             Box(
                 Modifier
                     .fillMaxWidth()
+                    .searchAnchor(ctx, activeNth)
                     .padding(top = topGap)
                     .clip(RoundedCornerShape(16.dp))
                     .background(p.tonal)
@@ -276,7 +317,7 @@ private fun RdBlock(block: Block, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap:
             ) {
                 SelectionContainer {
                     Text(
-                        block.text,
+                        code,
                         style = t.body.copy(fontFamily = FontFamily.Monospace, fontSize = t.base * 0.82f, lineHeight = t.lineHeight * 0.86f, textAlign = TextAlign.Start),
                         softWrap = false
                     )
@@ -297,21 +338,28 @@ private fun RdBlock(block: Block, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap:
                 )
             }
         }
-        is TableBlock -> RdTable(block, t, ctx, topGap)
+        is TableBlock -> RdTable(block, t, ctx, topGap, activeNth)
         is FigureBlock -> RdFigure(block, t, ctx, maxWidth, topGap)
     }
 }
 
 @Composable
-private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp) {
+private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     val p = t.p
     val cols = b.rows.maxOfOrNull { it.cells.size } ?: return
+    val q = ctx.query
+    // how many matches come before each cell, so the current one can be found inside the table
+    val before = remember(b, q) {
+        var n = 0
+        b.rows.map { r -> (0 until cols).map { c -> n.also { n += occurrences(r.cells.getOrElse(c) { "" }, q).size } } }
+    }
     val weights = remember(b) { (0 until cols).map { c -> b.rows.map { it.cells.getOrNull(c)?.length ?: 0 }.average().toFloat().coerceIn(3f, 40f) } }
     val cellStyle = t.body.copy(fontSize = t.base * 0.86f, lineHeight = t.lineHeight * 0.88f, textAlign = TextAlign.Start)
     val wide = cols >= 5
     Column(
         Modifier
             .fillMaxWidth()
+            .searchAnchor(ctx, activeNth)
             .padding(top = topGap)
             .clip(RoundedCornerShape(18.dp))
             .background(p.tonal)
@@ -326,8 +374,10 @@ private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp) {
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 for (c in 0 until cols) {
+                    val cell = row.cells.getOrElse(c) { "" }
+                    val local = activeNth - before[i][c]
                     Text(
-                        row.cells.getOrElse(c) { "" },
+                        AnnotatedString(cell).marked(q, if (local >= 0 && local < occurrences(cell, q).size) local else -1),
                         style = cellStyle.copy(fontWeight = if (b.header && i == 0) FontWeight.SemiBold else FontWeight.Normal, color = if (row.jump >= 0 && c == 0) p.accent else p.ink),
                         modifier = if (wide) Modifier.width(132.dp) else Modifier.weight(weights[c])
                     )
@@ -397,7 +447,7 @@ private fun RdPage(
                 if (!joins && page > 0) RdPageMark(page, p) { ctx.onOpenPage(page) }
                 blocks.forEachIndexed { i, block ->
                     val gap = if (i == 0 && joins) 0.dp else if (i == 0) 0.dp else t.gap
-                    RdBlock(block, t, ctx, maxWidth, gap)
+                    RdBlock(block, page, i, t, ctx, maxWidth, gap)
                 }
                 if (blocks.isEmpty()) Spacer(Modifier.height(8.dp))
             }
@@ -435,6 +485,11 @@ fun ReadingMode(
     source: ReadSource,
     chromeVisible: Boolean,
     assistantHidden: Boolean,
+    search: ReadSearch,
+    onSearchOpen: () -> Unit,
+    onSearchQuery: (String) -> Unit,
+    onSearchStep: (Int) -> Unit,
+    onSearchClose: () -> Unit,
     onChromeToggle: () -> Unit,
     onPage: (Int) -> Unit,
     onBack: () -> Unit,
@@ -451,7 +506,21 @@ fun ReadingMode(
     val t = remember(settings, palette) { ReadType(settings, palette) }
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = startPage.coerceIn(0, (pageCount - 1).coerceAtLeast(0)))
     val scope = rememberCoroutineScope()
-    val ctx = remember(source) { RdCtx(source, { onJumpPage(it) }, { onOriginal(it) }) }
+    var handledJump by remember { mutableIntStateOf(0) }
+    val ctx = remember(source, search.marking, search.current, search.jump) {
+        RdCtx(source, { onJumpPage(it) }, { onOriginal(it) }, search.marking, search.current, search.jump) { y, id ->
+            // the hit is on screen now: bring it to the upper third, once per request
+            if (id != handledJump) {
+                handledJump = id
+                scope.launch { listState.animateScrollBy(y - listState.layoutInfo.viewportSize.height * 0.3f) }
+            }
+        }
+    }
+    LaunchedEffect(search.jump) {
+        val hit = search.current ?: return@LaunchedEffect
+        val page = hit.page.coerceIn(0, pageCount - 1)
+        if (search.jump > 0 && listState.layoutInfo.visibleItemsInfo.none { it.index == page }) listState.scrollToItem(page)
+    }
 
     val current by remember(listState) {
         derivedStateOf {
@@ -496,7 +565,7 @@ fun ReadingMode(
     val topInset = WindowInsets.statusBarsIgnoringVisibility.asPaddingValues().calculateTopPadding()
     val bottomInset = WindowInsets.navigationBarsIgnoringVisibility.asPaddingValues().calculateBottomPadding()
     val zen = settings.zen
-    val showBars = chromeVisible && !zen
+    val showBars = (chromeVisible && !zen) || search.open
     val chapter = remember(outline, current) { outline.lastOrNull { it.page <= current }?.title }
     val progress = if (pageCount > 1) current / (pageCount - 1f) else 1f
 
@@ -554,7 +623,7 @@ fun ReadingMode(
             exit = slideOutVertically(nebSpatialSpec()) { -it } + fadeOut(nebEffectsSpec())
         ) {
             Column(Modifier.fillMaxWidth().background(palette.bg.copy(alpha = 0.97f))) {
-                Row(
+                if (search.open) RdSearchRow(search, pageCount, palette, onSearchQuery, onSearchStep, onSearchClose) else Row(
                     Modifier.windowInsetsPadding(WindowInsets.statusBarsIgnoringVisibility).height(ReaderBarHeight).padding(horizontal = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -563,6 +632,7 @@ fun ReadingMode(
                         Text(title.ifBlank { "Document" }, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = palette.ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(chapter ?: "Reading mode", style = MaterialTheme.typography.labelMedium, color = palette.muted, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
+                    NebIconButton(Icons.Outlined.Search, "Search", onSearchOpen, tint = palette.ink)
                     NebIconButton(Icons.Outlined.Toc, "Contents", onContents, tint = palette.ink)
                     NebIconButton(Icons.Outlined.FormatSize, "Text and page settings", onTypography, tint = palette.ink)
                     var menu by remember { mutableStateOf(false) }
@@ -603,7 +673,7 @@ fun ReadingMode(
 
         // bottom bar
         AnimatedVisibility(
-            visible = showBars,
+            visible = showBars && !search.open,
             modifier = Modifier.align(Alignment.BottomCenter),
             enter = slideInVertically(nebSpatialSpec()) { it } + fadeIn(nebEffectsSpec()),
             exit = slideOutVertically(nebSpatialSpec()) { it } + fadeOut(nebEffectsSpec())
@@ -642,7 +712,7 @@ fun ReadingMode(
 
         // leaving zen mode
         AnimatedVisibility(
-            visible = chromeVisible && zen,
+            visible = chromeVisible && zen && !search.open,
             modifier = Modifier.align(Alignment.BottomCenter),
             enter = fadeIn(nebEffectsSpec()), exit = fadeOut(nebEffectsSpec())
         ) {
@@ -660,6 +730,58 @@ fun ReadingMode(
                 Spacer(Modifier.width(8.dp))
                 Text("Leave zen mode", style = MaterialTheme.typography.labelLarge, color = palette.bg)
             }
+        }
+    }
+}
+
+/** The top bar while searching: a field in the page's own colours, the match count and previous and next. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun RdSearchRow(
+    search: ReadSearch,
+    pageCount: Int,
+    p: ReadingPalette,
+    onQuery: (String) -> Unit,
+    onStep: (Int) -> Unit,
+    onClose: () -> Unit
+) {
+    val focus = remember { FocusRequester() }
+    LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
+    Column(Modifier.fillMaxWidth()) {
+        Row(
+            Modifier.windowInsetsPadding(WindowInsets.statusBarsIgnoringVisibility).height(ReaderBarHeight).padding(horizontal = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            NebIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Close search", onClose, tint = p.ink)
+            Box(Modifier.weight(1f).padding(horizontal = 6.dp), contentAlignment = Alignment.CenterStart) {
+                if (search.query.isEmpty()) Text("Search", style = MaterialTheme.typography.bodyLarge, color = p.muted)
+                BasicTextField(
+                    value = search.query,
+                    onValueChange = onQuery,
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(color = p.ink),
+                    cursorBrush = SolidColor(p.ink),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = { onStep(1) }),
+                    modifier = Modifier.fillMaxWidth().focusRequester(focus)
+                )
+            }
+            val label = when {
+                search.query.trim().length < 2 -> ""
+                search.hits.isNotEmpty() -> "${search.index + 1} / ${search.hits.size}${if (search.running) "+" else ""}"
+                search.running -> "\u2026"
+                else -> "None"
+            }
+            Text(label, style = MaterialTheme.typography.labelLarge, color = p.muted, modifier = Modifier.padding(horizontal = 4.dp))
+            NebIconButton(Icons.Outlined.KeyboardArrowUp, "Previous match", { onStep(-1) }, tint = p.ink)
+            NebIconButton(Icons.Outlined.KeyboardArrowDown, "Next match", { onStep(1) }, tint = p.ink)
+        }
+        if (search.running && pageCount > 0) {
+            LinearProgressIndicator(
+                progress = { search.scanned / pageCount.toFloat() },
+                color = p.ink, trackColor = Color.Transparent,
+                modifier = Modifier.fillMaxWidth().height(2.dp)
+            )
         }
     }
 }

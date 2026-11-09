@@ -10,6 +10,10 @@ Read this before touching `app/.../ui/screens/reader/` (PdfViewerScreen, `pdf/`)
 - **Neby AI button:** `PdfAssistantFab.kt`: drag anywhere (settles against the nearest side, position saved), drag onto the target at the bottom to dismiss, "Undo" pill, and it returns from the three dots menu ("Show Neby AI button") or the Page options and Reading sheets. No shadow on it.
 - Top bar: back, title, bookmark, search, three dots (Reading mode, Contents, Page options, Neby AI button).
 
+## Session 2 (compile check and search in reading mode)
+- **Toolchain in the sandbox:** JDK 17 + Android SDK 36 from dl.google.com / adoptium into `/tmp`, `local.properties` (`sdk.dir`) and `app/google-services.json` copied from the `.example` (both git-excluded). The 2 GB box cannot finish the full `:app:compileModernDebugKotlin` (codegen runs out of memory at 1.1 GB heap), but the Kotlin front end (all type checking) runs in under two minutes and reports every `e:` line, so it is a real compile check of the new code: the first run found one error (`viewportSize / 3`, fixed), the next runs are clean. CI (`Build Student Release APKs & AAB`) still does the full build.
+- **Search in reading mode** (`pdf/ReadingSearch.kt`, `PdfViewerViewModel.readSearch`): scans the reflowed text of every page from the one on screen, wraps round, marks every match in the text (the current one in amber), previous / next, count, progress hairline; the hit scrolls to the upper third. Works on every Android version. On devices without the platform text API the page mode search button opens reading mode with search open (before, it was hidden there).
+
 ## Tools
 `tools/android/PdfReflowDump.kt` and `PdfReflowSweep.kt` (JVM harnesses). Build and run:
 ```
