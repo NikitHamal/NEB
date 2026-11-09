@@ -1,0 +1,71 @@
+name: ioedrive
+services:
+  pg:
+    image: postgres:16-alpine
+    container_name: ioedrive_pg
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ioedrive_pg_data:/var/lib/postgresql/data
+    networks:
+      - ioedrive_network
+
+  server:
+    build: apps/server
+    container_name: ioedrive_server
+    environment:
+      DATABASE_URL: ${DATABASE_URL_DOCKER:?DATABASE_URL_DOCKER is required}
+      PORT: 4000
+      CLERK_WEBHOOK_SIGNING_SECRET: ${CLERK_WEBHOOK_SIGNING_SECRET:?CLERK_WEBHOOK_SIGNING_SECRET is required}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?CLERK_SECRET_KEY is required}
+      CLERK_PUBLISHABLE_KEY: ${CLERK_PUBLISHABLE_KEY:?CLERK_PUBLISHABLE_KEY is required}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?ALLOWED_ORIGINS is required}
+      AZURE_STORAGE_CONNECTION_STRING: ${AZURE_STORAGE_CONNECTION_STRING:?AZURE_STORAGE_CONNECTION_STRING is required}
+      AZURE_STORAGE_CONTAINER: ${AZURE_STORAGE_CONTAINER:?AZURE_STORAGE_CONTAINER is required}
+    volumes:
+      - ./apps/server:/app
+      - /app/node_modules
+    ports:
+      - "4000:4000"
+    depends_on:
+      - pg
+    networks:
+      - ioedrive_network
+
+  web:
+    build: apps/web
+    container_name: ioedrive_web
+    environment:
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is required}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:?CLERK_SECRET_KEY is required}
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: ${NEXT_PUBLIC_CLERK_SIGN_UP_URL:?NEXT_PUBLIC_CLERK_SIGN_UP_URL is required}
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: ${NEXT_PUBLIC_CLERK_SIGN_IN_URL:?NEXT_PUBLIC_CLERK_SIGN_IN_URL is required}
+      NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: ${NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL:?NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL is required}
+      NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: ${NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL:?NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL is required}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:?NEXT_PUBLIC_API_BASE_URL is required}
+      # Server-side code (generateMetadata, sitemap.ts) runs inside this container, where
+      # "localhost" doesn't reach the server container the way NEXT_PUBLIC_API_BASE_URL's
+      # host-facing address does - this points it at the server's Compose service name
+      # instead. Hardcoded (not sourced from .env) since it's purely a Compose-internal
+      # networking detail, not something that varies by environment/host.
+      API_INTERNAL_URL: http://server:4000/api
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://ioedrive.vercel.app}
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - ioedrive_network
+
+volumes:
+  ioedrive_pg_data:
+
+networks:
+  ioedrive_network:

@@ -1,0 +1,78 @@
+{
+  "name": "ioe-drive-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
+    "db:migrate": "drizzle-kit migrate",
+    "db:generate": "drizzle-kit generate",
+    "db:seed-programs": "tsx src/database/seeders/seed-programs.ts",
+    "db:seed-subjects": "tsx src/database/seeders/seed-subjects.ts",
+    "db:seed-resources": "tsx src/database/seeders/seed-resources.ts",
+    "db:sync-clerk-users": "tsx src/database/seeders/sync-clerk-users.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpsaroj/ioe-drive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xpsaroj/ioe-drive/issues"
+  },
+  "homepage": "https://github.com/xpsaroj/ioe-drive#readme",
+  "dependencies": {
+    "@azure/storage-blob": "^12.30.0",
+    "@clerk/backend": "^3.10.0",
+    "@nestjs/common": "^11.1.27",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.1.27",
+    "@nestjs/platform-express": "^11.1.27",
+    "@nestjs/platform-socket.io": "^11.1.28",
+    "@nestjs/throttler": "^6.5.0",
+    "@nestjs/websockets": "^11.1.28",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.2",
+    "multer": "^2.1.1",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@nestjs/cli": "^11.0.23",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
+    "drizzle-kit": "^0.31.8",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "jest": "^30.4.2",
+    "jiti": "^2.6.1",
+    "ts-jest": "^29.4.12",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
+  }
+}

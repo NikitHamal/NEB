@@ -1,0 +1,1 @@
+ALTER TABLE "resources" ALTER COLUMN "status" DROP DEFAULT;

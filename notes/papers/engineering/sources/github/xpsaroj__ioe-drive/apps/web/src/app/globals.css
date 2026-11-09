@@ -1,0 +1,544 @@
+@import "tailwindcss";
+
+/* Tailwind v4 defaults dark: to prefers-color-scheme; we toggle a .dark class via next-themes instead. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* ===== Background Colors ===== */
+    --color-background: #ffffff;
+    /* Main background - pure white */
+    --color-background-secondary: #fafafa;
+    /* Secondary background - slight gray */
+    --color-background-tertiary: #f5f5f5;
+    /* Tertiary background - cards, sections */
+    --color-background-hover: #f0f0f0;
+    /* Hover states for light backgrounds */
+    --color-background-active: #e5e5e5;
+    /* Active/pressed states */
+
+    /* ===== Foreground/Text Colors ===== */
+    --color-foreground: #000000;
+    /* Primary text - pure black */
+    --color-foreground-secondary: #666666;
+    /* Secondary text - medium gray */
+    --color-foreground-tertiary: #999999;
+    /* Tertiary text - light gray */
+    --color-foreground-muted: #b3b3b3;
+    /* Muted text - very light gray */
+    --color-foreground-inverse: #ffffff;
+    /* Text on dark backgrounds */
+
+    /* ===== Border Colors ===== */
+    --color-border: #e5e5e5;
+    /* Default borders */
+    --color-border-secondary: #d4d4d4;
+    /* Slightly darker borders */
+    --color-border-hover: #000000;
+    /* Border on hover - black */
+    --color-border-focus: #000000;
+    /* Border on focus - black */
+
+    /* ===== Accent Colors ===== */
+    /* Copper/rust accent - restrained, not a brand wash. */
+    --color-accent: #a85a17;
+    --color-accent-hover: #8f4c13;
+    --color-accent-active: #763e10;
+    --color-accent-foreground: #ffffff;
+    /* Soft tinted background wash for accent-colored active/selected states. */
+    --color-accent-soft: rgba(168, 90, 23, 0.08);
+
+    /* ===== Status/Semantic Colors ===== */
+    /* Success - Green */
+    --color-success: #16a34a;
+    /* Success state - green 600 */
+    --color-success-hover: #15803d;
+    /* Success hover - green 700 */
+    --color-success-light: #dcfce7;
+    /* Success background - green 100 */
+    --color-success-foreground: #ffffff;
+    /* Text on success background */
+
+    /* Error - Red */
+    --color-error: #dc2626;
+    /* Error state - red 600 */
+    --color-error-hover: #b91c1c;
+    /* Error hover - red 700 */
+    --color-error-light: #fee2e2;
+    /* Error background - red 100 */
+    --color-error-foreground: #ffffff;
+    /* Text on error background */
+
+    /* Warning - Amber/Yellow */
+    --color-warning: #f59e0b;
+    /* Warning state - amber 500 */
+    --color-warning-hover: #d97706;
+    /* Warning hover - amber 600 */
+    --color-warning-light: #fef3c7;
+    /* Warning background - amber 100 */
+    --color-warning-foreground: #000000;
+    /* Text on warning background */
+
+    /* Info - Blue */
+    --color-info: #0ea5e9;
+    /* Info state - sky 500 */
+    --color-info-hover: #0284c7;
+    /* Info hover - sky 600 */
+    --color-info-light: #e0f2fe;
+    /* Info background - sky 100 */
+    --color-info-foreground: #ffffff;
+    /* Text on info background */
+
+    /* ===== Interactive Elements ===== */
+    --color-link: #0070f3;
+    /* Link color */
+    --color-link-hover: #0761d1;
+    /* Link hover - darker blue */
+    --color-link-visited: #551a8b;
+    /* Visited links - purple */
+
+    /* ===== Component-Specific Colors ===== */
+    --color-input-background: #ffffff;
+    /* Input fields background */
+    --color-input-border: #e5e5e5;
+    /* Input borders */
+    --color-input-focus: #000000;
+    /* Input focus border */
+    --color-input-disabled: #f5f5f5;
+    /* Disabled input background */
+    --color-input-placeholder: #999999;
+    /* Placeholder text */
+
+    /* Primary Button - Black */
+    --color-button-primary: #000000;
+    /* Primary button background */
+    --color-button-primary-hover: #1a1a1a;
+    /* Primary button hover */
+    --color-button-primary-active: #333333;
+    /* Primary button active */
+    --color-button-primary-text: #ffffff;
+    /* Primary button text */
+
+    /* Secondary Button - White with border */
+    --color-button-secondary: #ebebeb;
+    /* Secondary button background */
+    --color-button-secondary-hover: #fafafa;
+    /* Secondary button hover */
+    --color-button-secondary-active: #f0f0f0;
+    /* Secondary button active */
+    --color-button-secondary-text: #000000;
+    /* Secondary button text */
+
+    /* Ghost Button */
+    --color-button-ghost-hover: #f5f5f5;
+    /* Ghost button hover background */
+
+    /* Destructive Button - Red */
+    --color-button-destructive: #dc2626;
+    /* Destructive button background */
+    --color-button-destructive-hover: #b91c1c;
+    /* Destructive button hover */
+    --color-button-destructive-active: #991b1b;
+    /* Destructive button active */
+    --color-button-destructive-text: #ffffff;
+    /* Destructive button text */
+
+    /* ===== Overlay & Shadow Colors ===== */
+    --color-overlay: rgba(0, 0, 0, 0.5);
+    /* Modal/drawer overlays */
+    --color-overlay-light: rgba(0, 0, 0, 0.1);
+    /* Light overlays */
+
+    --color-shadow: rgba(0, 0, 0, 0.08);
+    /* Box shadows */
+    --color-shadow-md: rgba(0, 0, 0, 0.12);
+    /* Medium shadows */
+    --color-shadow-lg: rgba(0, 0, 0, 0.16);
+    /* Large shadows */
+
+    /* ===== Divider Colors ===== */
+    --color-divider: #e5e5e5;
+    /* Horizontal rules, dividers */
+    --color-divider-strong: #d4d4d4;
+    /* Stronger dividers */
+
+    /* ===== Selection Colors ===== */
+    --color-selection-background: #000000;
+    /* Text selection background */
+    --color-selection-foreground: #ffffff;
+    /* Text selection text */
+
+    /* ===== Badge/Tag Colors ===== */
+    --color-badge-background: #f5f5f5;
+    /* Badge background */
+    --color-badge-foreground: #000000;
+    /* Badge text */
+    --color-badge-border: #e5e5e5;
+    /* Badge border */
+
+    /* Colored Badges */
+    --color-badge-success: #dcfce7;
+    /* Success badge background */
+    --color-badge-success-text: #15803d;
+    /* Success badge text */
+    --color-badge-error: #fee2e2;
+    /* Error badge background */
+    --color-badge-error-text: #b91c1c;
+    /* Error badge text */
+    --color-badge-warning: #fef3c7;
+    /* Warning badge background */
+    --color-badge-warning-text: #d97706;
+    /* Warning badge text */
+    --color-badge-info: #e0f2fe;
+    /* Info badge background */
+    --color-badge-info-text: #0284c7;
+    /* Info badge text */
+
+    /* ===== Tag Colors ===== */
+    /* Categorical tagging (resource type, marketplace category), not status. */
+    --color-tag-sepia-bg: #f4e8cf;
+    --color-tag-sepia-text: #8a6323;
+    --color-tag-slate-bg: #e4e7ec;
+    --color-tag-slate-text: #3d4759;
+    --color-tag-teal-bg: #dcf3f1;
+    --color-tag-teal-text: #0f6e67;
+    --color-tag-olive-bg: #e7f0da;
+    --color-tag-olive-text: #52681e;
+    --color-tag-clay-bg: #f5e1d8;
+    --color-tag-clay-text: #9c4a2e;
+    --color-tag-blue-bg: #e3eefb;
+    --color-tag-blue-text: #1d5fa8;
+    --color-tag-violet-bg: #eee4fb;
+    --color-tag-violet-text: #6b3fa0;
+    --color-tag-rose-bg: #fbe4ec;
+    --color-tag-rose-text: #a83d66;
+
+    /* ===== Card Colors ===== */
+    /* One step lighter than the page background, so a card doesn't blend into the page. */
+    --color-card-background: #fafafa;
+    /* Card background */
+    --color-card-border: #e5e5e5;
+    /* Card border */
+    --color-card-hover: #f5f5f5;
+    /* Card hover state - matches --color-background-tertiary */
+
+    /* ===== Header/Footer Colors ===== */
+    --color-header-background: rgba(255, 255, 255, 0.8);
+    /* Header background - slightly transparent */
+    --color-header-border: #e5e5e5;
+    /* Header bottom border */
+    --color-footer-background: #fafafa;
+    /* Footer background */
+
+    /* ===== Code Block Colors ===== */
+    --color-code-background: #f5f5f5;
+    /* Inline code background */
+    --color-code-foreground: #eb5757;
+    /* Code text */
+    --color-code-block-background: #fafafa;
+    /* Code block background */
+    --color-code-block-border: #e5e5e5;
+    /* Code block border */
+
+    /* ===== Focus Ring ===== */
+    --color-focus-ring: #0070f3;
+    /* Focus ring color */
+    --color-focus-ring-offset: #ffffff;
+    /* Focus ring offset color */
+
+    /* ===== Loading/Skeleton ===== */
+    --color-skeleton-base: #f5f5f5;
+    /* Skeleton loading background */
+    --color-skeleton-highlight: #ececec;
+    /* Skeleton loading highlight */
+
+    /* ===== Typography ===== */
+    /* Plex Sans: body copy and headings. Plex Mono: wordmark/eyebrow labels/data. */
+    --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+    --font-display: var(--font-plex-mono), ui-monospace, monospace;
+
+    /* ===== Animations ===== */
+    /* Used by Modal (backdrop fade + panel scale-in). Kept short/subtle on purpose. */
+    --animate-fade-in: fade-in 0.15s ease-out;
+    --animate-scale-in: scale-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes scale-in {
+        from {
+            opacity: 0;
+            transform: scale(0.96);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+/* ===== Dark theme ===== */
+/* Re-themes the whole site via tokens - no component-level dark: classes needed. */
+.dark {
+    /* ===== Background Colors ===== */
+    --color-background: #0a0a0a;
+    --color-background-secondary: #141414;
+    --color-background-tertiary: #1c1c1c;
+    --color-background-hover: #242424;
+    --color-background-active: #2e2e2e;
+
+    /* ===== Foreground/Text Colors ===== */
+    --color-foreground: #fafafa;
+    --color-foreground-secondary: #a3a3a3;
+    --color-foreground-tertiary: #757575;
+    --color-foreground-muted: #595959;
+    --color-foreground-inverse: #0a0a0a;
+
+    /* ===== Border Colors ===== */
+    --color-border: #2e2e2e;
+    --color-border-secondary: #3d3d3d;
+    --color-border-hover: #ffffff;
+    --color-border-focus: #ffffff;
+
+    /* ===== Accent Colors ===== */
+    --color-accent: #e1874a;
+    --color-accent-hover: #d1743a;
+    --color-accent-active: #c06530;
+    --color-accent-foreground: #1a0f00;
+    --color-accent-soft: rgba(225, 135, 74, 0.12);
+
+    /* ===== Status/Semantic Colors ===== */
+    /* Success - Green (one step lighter than the light theme for contrast on dark bg) */
+    --color-success: #22c55e;
+    --color-success-hover: #16a34a;
+    --color-success-light: #052e16;
+    --color-success-foreground: #ffffff;
+
+    /* Error - Red */
+    --color-error: #ef4444;
+    --color-error-hover: #dc2626;
+    --color-error-light: #450a0a;
+    --color-error-foreground: #ffffff;
+
+    /* Warning - Amber/Yellow */
+    --color-warning: #fbbf24;
+    --color-warning-hover: #f59e0b;
+    --color-warning-light: #451a03;
+    --color-warning-foreground: #000000;
+
+    /* Info - Blue */
+    --color-info: #38bdf8;
+    --color-info-hover: #0ea5e9;
+    --color-info-light: #082f49;
+    --color-info-foreground: #ffffff;
+
+    /* ===== Interactive Elements ===== */
+    --color-link: #4c9aff;
+    --color-link-hover: #7db8ff;
+    --color-link-visited: #b088f9;
+
+    /* ===== Component-Specific Colors ===== */
+    --color-input-background: #141414;
+    --color-input-border: #2e2e2e;
+    --color-input-focus: #ffffff;
+    --color-input-disabled: #1c1c1c;
+    --color-input-placeholder: #757575;
+
+    /* Primary Button - White (inverted from black in light theme) */
+    --color-button-primary: #ffffff;
+    --color-button-primary-hover: #e5e5e5;
+    --color-button-primary-active: #cccccc;
+    --color-button-primary-text: #0a0a0a;
+
+    /* Secondary Button - Dark surface with light text */
+    --color-button-secondary: #1f1f1f;
+    --color-button-secondary-hover: #292929;
+    --color-button-secondary-active: #333333;
+    --color-button-secondary-text: #fafafa;
+
+    /* Ghost Button */
+    --color-button-ghost-hover: #1f1f1f;
+
+    /* Destructive Button - Red */
+    --color-button-destructive: #ef4444;
+    --color-button-destructive-hover: #dc2626;
+    --color-button-destructive-active: #b91c1c;
+    --color-button-destructive-text: #ffffff;
+
+    /* ===== Overlay & Shadow Colors ===== */
+    /* Overlays stay black - they dim the backdrop regardless of theme */
+    --color-overlay: rgba(0, 0, 0, 0.5);
+    --color-overlay-light: rgba(0, 0, 0, 0.1);
+
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-shadow-md: rgba(0, 0, 0, 0.5);
+    --color-shadow-lg: rgba(0, 0, 0, 0.6);
+
+    /* ===== Divider Colors ===== */
+    --color-divider: #2e2e2e;
+    --color-divider-strong: #3d3d3d;
+
+    /* ===== Selection Colors ===== */
+    --color-selection-background: #ffffff;
+    --color-selection-foreground: #0a0a0a;
+
+    /* ===== Badge/Tag Colors ===== */
+    --color-badge-background: #1c1c1c;
+    --color-badge-foreground: #fafafa;
+    --color-badge-border: #2e2e2e;
+
+    /* Colored Badges - dark-tinted background with a light, matching text color */
+    --color-badge-success: #052e16;
+    --color-badge-success-text: #4ade80;
+    --color-badge-error: #450a0a;
+    --color-badge-error-text: #f87171;
+    --color-badge-warning: #451a03;
+    --color-badge-warning-text: #fbbf24;
+    --color-badge-info: #082f49;
+    --color-badge-info-text: #38bdf8;
+
+    /* ===== Tag Colors ===== */
+    --color-tag-sepia-bg: #2b2110;
+    --color-tag-sepia-text: #d9b876;
+    --color-tag-slate-bg: #1c2128;
+    --color-tag-slate-text: #9daac0;
+    --color-tag-teal-bg: #0c2624;
+    --color-tag-teal-text: #4fcfc4;
+    --color-tag-olive-bg: #1e2412;
+    --color-tag-olive-text: #a8c46b;
+    --color-tag-clay-bg: #2b180f;
+    --color-tag-clay-text: #e0a182;
+    --color-tag-blue-bg: #112640;
+    --color-tag-blue-text: #7eb6f0;
+    --color-tag-violet-bg: #241b36;
+    --color-tag-violet-text: #b48ae0;
+    --color-tag-rose-bg: #331823;
+    --color-tag-rose-text: #e893b3;
+
+    /* ===== Card Colors ===== */
+    --color-card-background: #141414;
+    --color-card-border: #2e2e2e;
+    --color-card-hover: #1c1c1c;
+
+    /* ===== Header/Footer Colors ===== */
+    --color-header-background: rgba(10, 10, 10, 0.8);
+    --color-header-border: #2e2e2e;
+    --color-footer-background: #141414;
+
+    /* ===== Code Block Colors ===== */
+    --color-code-background: #1c1c1c;
+    --color-code-foreground: #eb5757;
+    --color-code-block-background: #141414;
+    --color-code-block-border: #2e2e2e;
+
+    /* ===== Focus Ring ===== */
+    --color-focus-ring: #4c9aff;
+    --color-focus-ring-offset: #0a0a0a;
+
+    /* ===== Loading/Skeleton ===== */
+    --color-skeleton-base: #1c1c1c;
+    --color-skeleton-highlight: #262626;
+}
+
+/* ===== Global Styles ===== */
+@layer base {
+    * {
+        @apply border-border;
+    }
+}
+
+body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+::selection {
+    background-color: var(--color-selection-background);
+    color: var(--color-selection-foreground);
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-secondary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-foreground-tertiary);
+}
+
+/* ===== Docx Preview ===== */
+/* mammoth's output is plain semantic HTML with no fixed widths of its own - these rules
+   just restore readable heading/list/table spacing that Tailwind's preflight reset strips,
+   and cap tables/images at 100% width so wide content can't overflow the preview pane. */
+.docx-preview-content :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 600;
+    margin-top: 1.25em;
+    margin-bottom: 0.5em;
+}
+
+.docx-preview-content h1 {
+    font-size: 1.5rem;
+}
+
+.docx-preview-content h2 {
+    font-size: 1.25rem;
+}
+
+.docx-preview-content h3 {
+    font-size: 1.125rem;
+}
+
+.docx-preview-content p {
+    margin-bottom: 0.75em;
+}
+
+.docx-preview-content ul,
+.docx-preview-content ol {
+    margin-bottom: 0.75em;
+    padding-left: 1.5em;
+}
+
+.docx-preview-content ul {
+    list-style: disc;
+}
+
+.docx-preview-content ol {
+    list-style: decimal;
+}
+
+.docx-preview-content table {
+    border-collapse: collapse;
+    margin-bottom: 0.75em;
+    max-width: 100%;
+}
+
+.docx-preview-content td,
+.docx-preview-content th {
+    border: 1px solid var(--color-border);
+    padding: 0.375em 0.625em;
+}
+
+.docx-preview-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.docx-preview-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}

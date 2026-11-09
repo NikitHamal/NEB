@@ -1,0 +1,1 @@
+ALTER TABLE "role_changes" ALTER COLUMN "changed_by" DROP NOT NULL;

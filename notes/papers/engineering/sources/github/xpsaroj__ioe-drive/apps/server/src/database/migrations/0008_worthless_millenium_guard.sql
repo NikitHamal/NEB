@@ -1,0 +1,1 @@
+ALTER TABLE "subjects" ALTER COLUMN "code" SET DATA TYPE varchar(15);

@@ -1,0 +1,9 @@
+# don't bring next cache into the container
+.next
+
+# Clerk cache
+.clerk
+
+# env files
+.env*
+
