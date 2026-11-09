@@ -14,7 +14,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095714,
+  "bytes": 3095712,
   "kind": "subject-bundle"
  },
  {
@@ -59,7 +59,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095316,
+  "bytes": 4095315,
   "kind": "subject-bundle"
  },
  {
@@ -74,6 +74,20 @@
   ],
   "pages": 42,
   "bytes": 2116670,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-numerical-methods-2081-2082.pdf",
+  "subject": "Numerical Methods",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ensh202-2082-chaitra",
+   "ioe-ensh202-2082-kartik",
+   "ioe-ensh202-2081-chaitra"
+  ],
+  "pages": 46,
+  "bytes": 1981774,
   "kind": "subject-bundle"
  },
  {
@@ -93,6 +107,9 @@
    "ioe-ensh201-2081-chaitra",
    "ioe-ensh201-2082-chaitra",
    "ioe-ensh201-2082-kartik",
+   "ioe-ensh202-2081-chaitra",
+   "ioe-ensh202-2082-chaitra",
+   "ioe-ensh202-2082-kartik",
    "ioe-sh101-2081-baishakh",
    "ioe-sh101-2081-kartik",
    "ioe-sh102-2081-baishakh",
@@ -104,8 +121,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 290,
-  "bytes": 12757119,
+  "pages": 335,
+  "bytes": 14723011,
   "kind": "master-book"
  }
 ]

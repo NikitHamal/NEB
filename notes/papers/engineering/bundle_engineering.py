@@ -107,7 +107,8 @@ def build():
             continue
         rs = newest_first(rs)
         yr = yr_range(rs)
-        name = f"{slug(subject)}-{yr}.pdf"
+        sg = slug(subject); sg = sg if sg.startswith("engineering-") else "engineering-" + sg
+        name = f"{sg}-{yr}.pdf"
         # cover length is unknown before rendering: render once, then fix page numbers
         n_cover = 1
         for _ in range(2):
