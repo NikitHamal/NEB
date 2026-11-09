@@ -2,7 +2,7 @@
 import hashlib, os, io, traceback, warnings
 import matplotlib
 import matplotlib.patches as mpatches
-import fonts
+import fonts, ckt
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -104,7 +104,7 @@ def namespace() -> dict:
     """What every ```figure block can use without importing it. Common patch
     classes are included so a figure never fails on a missing import;
     `plt.Ellipse` and friends do not exist on pyplot."""
-    return {"plt": plt, "np": np, "matplotlib": matplotlib,
+    return {**ckt.namespace(), "plt": plt, "np": np, "matplotlib": matplotlib,
             "INK": INK, "MUTED": MUTED, "GRID": GRID, "ACCENT": ACCENT, "SERIES": SERIES,
             "matrix": matrix, "mateq": mateq,
             "flow": flow, "cycle": cycle, "cards": cards,
