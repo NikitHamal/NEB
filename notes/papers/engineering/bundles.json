@@ -10,7 +10,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853064,
+  "bytes": 1853065,
   "kind": "subject-bundle"
  },
  {
@@ -28,7 +28,21 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095712,
+  "bytes": 3095713,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-geology-i-2081.pdf",
+  "subject": "Engineering Geology I",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-ence102-2081-chaitra",
+   "ioe-ce102-2081-kartik",
+   "ioe-ce102-2081-baishakh"
+  ],
+  "pages": 35,
+  "bytes": 792103,
   "kind": "subject-bundle"
  },
  {
@@ -42,7 +56,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823187,
+  "bytes": 1823189,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +70,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704450,
+  "bytes": 1704449,
   "kind": "subject-bundle"
  },
  {
@@ -73,7 +87,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095316,
+  "bytes": 4095317,
   "kind": "subject-bundle"
  },
  {
@@ -114,7 +128,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981774,
+  "bytes": 1981777,
   "kind": "subject-bundle"
  },
  {
@@ -135,8 +149,11 @@
   "subject": "ALL",
   "years_bs": "2081-2083",
   "papers": [
+   "ioe-ce102-2081-baishakh",
+   "ioe-ce102-2081-kartik",
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
+   "ioe-ence102-2081-chaitra",
    "ioe-enee103-2081-chaitra",
    "ioe-enex101-2081-chaitra",
    "ioe-ensh101-2081-chaitra",
@@ -168,8 +185,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 448,
-  "bytes": 19689374,
+  "pages": 483,
+  "bytes": 20465636,
   "kind": "master-book"
  }
 ]
