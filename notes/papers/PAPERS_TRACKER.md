@@ -73,3 +73,6 @@ Phase 1 (research + download) is DONE for the sources below. Phase 2 (extract/no
 | Sandesh3769/NEC-License-Exam-Portal | 0 MB | 0 | new | Engineering license preparation questions mcq with detailed explanatio |
 | gautamsudip/NEC_Exam_Preparation_App | 40 MB | 0 | new | 🚀 NEC Quiz App – A simple quiz app to help you prepare for the Nepal E |
 | Abhishek-Gubhaju/nec-civil-civil-rural-license-prep | 2 MB | 0 | new | Nepal Engineering Council (NEC) licence exam preparation for Civil and |
+## F. Phase 2 progress (see `engineering/PHASE2_STATUS.md`)
+- Catalog built: `engineering/catalog.json`, `catalog-tree.json`, `CATALOG.md` (4,086 papers indexed).
+- Typeset + solved: IOE Engineering Mathematics I (ENSH 101) 2081 Chaitra (`engineering/pdf/`). Next: 2081 Baishakh and 2081 Kartik from the same PDF, then IOE sem 1 folder.
