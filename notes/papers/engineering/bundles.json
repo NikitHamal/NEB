@@ -2,7 +2,7 @@
  {
   "file": "bundles/engineering-chemistry-2081.pdf",
   "subject": "Engineering Chemistry",
-  "level": "BE \u00b7 Year I / Part I",
+  "level": "BE \u00b7 Year I",
   "years_bs": "2081",
   "papers": [
    "ioe-ensh103-2081-chaitra",
@@ -10,13 +10,13 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 33,
-  "bytes": 1155560,
+  "bytes": 1155457,
   "kind": "subject-bundle"
  },
  {
   "file": "bundles/engineering-mathematics-i-2081.pdf",
   "subject": "Engineering Mathematics I",
-  "level": "BE \u00b7 Year I / Part I",
+  "level": "BE \u00b7 Year I",
   "years_bs": "2081",
   "papers": [
    "ioe-ensh101-2081-chaitra",
@@ -24,26 +24,13 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823290,
-  "kind": "subject-bundle"
- },
- {
-  "file": "bundles/engineering-physics-2081.pdf",
-  "subject": "Engineering Physics",
-  "level": "BE \u00b7 Year I / Part I",
-  "years_bs": "2081",
-  "papers": [
-   "ioe-ensh102-2081-chaitra",
-   "ioe-sh102-2081-baishakh"
-  ],
-  "pages": 32,
-  "bytes": 1415335,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
   "file": "bundles/engineering-mathematics-ii-2081-2083.pdf",
   "subject": "Engineering Mathematics II",
-  "level": "BE \u00b7 Year I / Part II",
+  "level": "BE \u00b7 Year I",
   "years_bs": "2081-2083",
   "papers": [
    "ioe-ensh151-2083-baishakh",
@@ -51,13 +38,30 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704561,
+  "bytes": 1704449,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-physics-2081-2083.pdf",
+  "subject": "Engineering Physics",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh152-2083-baishakh",
+   "ioe-ensh152-2082-bhadra",
+   "ioe-sh152-2082-baishakh",
+   "ioe-ensh102-2081-chaitra",
+   "ioe-sh152-2081-ashwin",
+   "ioe-sh102-2081-baishakh"
+  ],
+  "pages": 98,
+  "bytes": 4095316,
   "kind": "subject-bundle"
  },
  {
   "file": "bundles/engineering-mathematics-iii-2081-2082.pdf",
   "subject": "Engineering Mathematics III",
-  "level": "BE \u00b7 Year II / Part I",
+  "level": "BE \u00b7 Year II",
   "years_bs": "2081-2082",
   "papers": [
    "ioe-ensh201-2082-chaitra",
@@ -65,7 +69,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116782,
+  "bytes": 2116670,
   "kind": "subject-bundle"
  },
  {
@@ -78,6 +82,8 @@
    "ioe-ensh103-2081-chaitra",
    "ioe-ensh151-2082-bhadra",
    "ioe-ensh151-2083-baishakh",
+   "ioe-ensh152-2082-bhadra",
+   "ioe-ensh152-2083-baishakh",
    "ioe-ensh201-2081-chaitra",
    "ioe-ensh201-2082-chaitra",
    "ioe-ensh201-2082-kartik",
@@ -86,10 +92,12 @@
    "ioe-sh102-2081-baishakh",
    "ioe-sh103-2081-baishakh",
    "ioe-sh103-2081-kartik",
-   "ioe-sh151-2081-ashwin"
+   "ioe-sh151-2081-ashwin",
+   "ioe-sh152-2081-ashwin",
+   "ioe-sh152-2082-baishakh"
   ],
-  "pages": 176,
-  "bytes": 8139858,
+  "pages": 242,
+  "bytes": 10819840,
   "kind": "master-book"
  }
 ]
