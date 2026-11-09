@@ -75,4 +75,8 @@ Phase 1 (research + download) is DONE for the sources below. Phase 2 (extract/no
 | Abhishek-Gubhaju/nec-civil-civil-rural-license-prep | 2 MB | 0 | new | Nepal Engineering Council (NEC) licence exam preparation for Civil and |
 ## F. Phase 2 progress (see `engineering/PHASE2_STATUS.md`)
 - Catalog built: `engineering/catalog.json`, `catalog-tree.json`, `CATALOG.md` (4,086 papers indexed).
-- Typeset + solved: IOE Engineering Mathematics I (ENSH 101) 2081 Chaitra (`engineering/pdf/`). Next: 2081 Baishakh and 2081 Kartik from the same PDF, then IOE sem 1 folder.
+- Typeset + fully solved (`engineering/content/*.md` -> `engineering/pdf/`), 6 papers:
+  - IOE Engineering Mathematics I: 2081 Baishakh (SH 101), 2081 Kartik (SH 101), 2081 Chaitra (ENSH 101).
+  - IOE Engineering Mathematics II: 2081 Ashwin (SH 151), 2082 Bhadra (ENSH 151), 2083 Baishakh (ENSH 151).
+- Bundles (`engineering/bundle_engineering.py` -> `engineering/pdf/bundles/`): `engineering-mathematics-i-2081.pdf`, `engineering-mathematics-ii-2081-2083.pdf`, `NEBians-Engineering-All-In-One-Book.pdf` (master, regenerated on every run).
+- Next: Engineering Physics (new) 4 pp, Engineering Chemistry (new) 3 pp (both already rendered in the last session, not yet transcribed), then the rest of the folder list in PHASE2_STATUS.md.

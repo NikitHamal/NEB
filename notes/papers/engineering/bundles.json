@@ -1,0 +1,46 @@
+[
+ {
+  "file": "bundles/engineering-mathematics-i-2081.pdf",
+  "subject": "Engineering Mathematics I",
+  "level": "BE \u00b7 Year I / Part I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-ensh101-2081-chaitra",
+   "ioe-sh101-2081-kartik",
+   "ioe-sh101-2081-baishakh"
+  ],
+  "pages": 39,
+  "bytes": 1823290,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mathematics-ii-2081-2083.pdf",
+  "subject": "Engineering Mathematics II",
+  "level": "BE \u00b7 Year I / Part II",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh151-2083-baishakh",
+   "ioe-ensh151-2082-bhadra",
+   "ioe-sh151-2081-ashwin"
+  ],
+  "pages": 33,
+  "bytes": 1704562,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/NEBians-Engineering-All-In-One-Book.pdf",
+  "subject": "ALL",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-ensh101-2081-chaitra",
+   "ioe-ensh151-2082-bhadra",
+   "ioe-ensh151-2083-baishakh",
+   "ioe-sh101-2081-baishakh",
+   "ioe-sh101-2081-kartik",
+   "ioe-sh151-2081-ashwin"
+  ],
+  "pages": 71,
+  "bytes": 3510560,
+  "kind": "master-book"
+ }
+]
