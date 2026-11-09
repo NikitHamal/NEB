@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709058,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823188,
+  "bytes": 1823190,
   "kind": "subject-bundle"
  },
  {
@@ -148,7 +148,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095317,
+  "bytes": 4095316,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581579,
+  "bytes": 581578,
   "kind": "subject-bundle"
  },
  {
@@ -189,7 +189,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645018,
+  "bytes": 1645019,
   "kind": "subject-bundle"
  },
  {
@@ -228,7 +228,20 @@
    "ioe-enct251-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1095029,
+  "bytes": 1095028,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electromagnetics-2082-2083.pdf",
+  "subject": "Electromagnetics",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex254-2083-baishakh",
+   "ioe-enex254-2082-bhadra"
+  ],
+  "pages": 29,
+  "bytes": 1777021,
   "kind": "subject-bundle"
  },
  {
@@ -282,7 +295,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296671,
   "kind": "subject-bundle"
  },
  {
@@ -324,6 +337,8 @@
    "ioe-enex152-2083-baishakh",
    "ioe-enex253-2082-bhadra",
    "ioe-enex253-2083-baishakh",
+   "ioe-enex254-2082-bhadra",
+   "ioe-enex254-2083-baishakh",
    "ioe-ensh101-2081-chaitra",
    "ioe-ensh102-2081-chaitra",
    "ioe-ensh103-2081-chaitra",
@@ -357,8 +372,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 937,
-  "bytes": 33939404,
+  "pages": 966,
+  "bytes": 35700611,
   "kind": "master-book"
  }
 ]
