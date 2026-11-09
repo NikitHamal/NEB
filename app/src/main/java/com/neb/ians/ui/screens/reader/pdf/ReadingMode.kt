@@ -456,7 +456,7 @@ fun ReadingMode(
     val current by remember(listState) {
         derivedStateOf {
             val info = listState.layoutInfo
-            val mid = info.viewportStartOffset + info.viewportSize / 3
+            val mid = info.viewportStartOffset + info.viewportSize.height / 3
             info.visibleItemsInfo.firstOrNull { it.offset + it.size > mid }?.index ?: listState.firstVisibleItemIndex
         }
     }
