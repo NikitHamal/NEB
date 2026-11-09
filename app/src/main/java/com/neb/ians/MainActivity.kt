@@ -1,5 +1,6 @@
 package com.neb.ians
 
+import com.neb.ians.ui.components.NebToastBusHost
 import com.neb.ians.ui.components.nebToast
 import android.Manifest
 import android.content.Intent
@@ -114,7 +115,7 @@ class MainActivity : ComponentActivity() {
                             settingsViewModel = settingsViewModel,
                             authRepository = authRepository
                         )
-                        com.neb.ians.ui.components.NebToastBusHost()
+                        NebToastBusHost()
                     }
                 }
             }
