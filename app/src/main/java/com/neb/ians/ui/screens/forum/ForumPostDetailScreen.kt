@@ -128,7 +128,6 @@ import com.neb.ians.ui.components.NebLoader
 fun ForumPostDetailScreen(
     postId: String,
     onNavigateBack: () -> Unit,
-    onReplyClick: (String?) -> Unit,
     onEditPostClick: (String) -> Unit = {},
     onProfileClick: (String) -> Unit = {},
     viewModel: PostDetailViewModel = hiltViewModel()
