@@ -13,6 +13,10 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.runtime.key
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,6 +60,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsIgnoringVisibility
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.width
@@ -201,6 +209,54 @@ private class ReadType(val settings: ReadingSettings, val p: ReadingPalette) {
 
 private val UrlPattern = Regex("(https?://[^\\s]+|\\b(?:[a-z0-9-]+\\.)+(?:com|org|net|edu|gov|np|io|info|co|in)\\b(?:/[^\\s]*)?)", RegexOption.IGNORE_CASE)
 
+/** Text where each private use character (a formula set as a picture) becomes a slot the picture is drawn in. */
+private fun AnnotatedString.Builder.putMath(text: String) {
+    var from = 0
+    for (i in text.indices) {
+        if (isMathChar(text[i])) {
+            if (i > from) append(text.substring(from, i))
+            appendInlineContent("m${text[i].code - MATH_BASE}", " ")
+            from = i + 1
+        }
+    }
+    if (from < text.length) append(text.substring(from))
+}
+
+private fun mathText(text: String): AnnotatedString = buildAnnotatedString { putMath(text) }
+
+internal fun plainText(text: String): String = if (text.any { isMathChar(it) }) text.filterNot { isMathChar(it) } else text
+
+/** The slots of a block's text, each filled with the crop of its formula at the size of the text around it. */
+@Composable
+private fun rememberInline(page: Int, text: String, t: ReadType, ctx: RdCtx): Map<String, InlineTextContent> {
+    val has = text.any { isMathChar(it) }
+    val inl = if (has) ctx.source.cached(page)?.inlines else null
+    val factor = t.base.value / ctx.source.bodyPoints().coerceAtLeast(4f)
+    val p = t.p
+    return remember(inl, factor, p, has) {
+        val map = HashMap<String, InlineTextContent>()
+        inl?.forEachIndexed { k, img ->
+            val w = (img.widthPts * factor).coerceAtLeast(2f)
+            val h = (img.heightPts * factor).coerceAtLeast(2f)
+            map["m$k"] = InlineTextContent(Placeholder(w.sp, h.sp, PlaceholderVerticalAlign.TextCenter)) { RdInlineMath(img, w, ctx, p) }
+        }
+        map
+    }
+}
+
+@Composable
+private fun RdInlineMath(img: InlineImg, widthSp: Float, ctx: RdCtx, p: ReadingPalette) {
+    val density = LocalDensity.current
+    val px = (with(density) { widthSp.sp.toPx() } * 2f).roundToInt().coerceIn(24, 1500)
+    val bitmap by produceState(ctx.source.cachedCrop(img.page, img.rect, px), img, px) {
+        ctx.source.loadCrop(img.page, img.rect, px)?.let { value = it }
+    }
+    val image = remember(bitmap) { bitmap?.asImageBitmap() }
+    if (image != null) {
+        Image(image, "Formula", Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
+    }
+}
+
 private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString {
     val linkStyle = TextLinkStyles(SpanStyle(color = p.accent, textDecoration = TextDecoration.Underline))
     return buildAnnotatedString {
@@ -215,7 +271,7 @@ private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString {
             )
             val href = s.href
             if (href != null) {
-                withLink(LinkAnnotation.Url(href, linkStyle)) { withStyle(style) { append(s.text) } }
+                withLink(LinkAnnotation.Url(href, linkStyle)) { withStyle(style) { putMath(s.text) } }
                 continue
             }
             var last = 0
@@ -224,12 +280,12 @@ private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString {
                 while (value.isNotEmpty() && value.last() in ".,;:!?)]\"'") value = value.dropLast(1)
                 if (value.length < 4) continue
                 val start = m.range.first
-                withStyle(style) { append(s.text.substring(last, start)) }
+                withStyle(style) { putMath(s.text.substring(last, start)) }
                 val url = if (value.startsWith("http", ignoreCase = true)) value else "https://$value"
-                withLink(LinkAnnotation.Url(url, linkStyle)) { withStyle(style) { append(value) } }
+                withLink(LinkAnnotation.Url(url, linkStyle)) { withStyle(style) { putMath(value) } }
                 last = start + value.length
             }
-            withStyle(style) { append(s.text.substring(last)) }
+            withStyle(style) { putMath(s.text.substring(last)) }
         }
     }
 }
@@ -275,7 +331,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
     when (block) {
         is HeadingBlock -> {
             val extra = when (block.level) { 1 -> t.gap * 1.6f; 2 -> t.gap * 1.0f; else -> t.gap * 0.4f }
-            val text = remember(block, q, activeNth) { AnnotatedString(block.text).marked(q, activeNth) }
+            val text = remember(block, q, activeNth) { AnnotatedString(plainText(block.text)).marked(q, activeNth) }
             Text(
                 text,
                 style = t.heading(block.level),
@@ -289,20 +345,22 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
         is ParaBlock -> {
             val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val m = Modifier.fillMaxWidth().searchAnchor(ctx, activeNth).padding(top = topGap)
+            val inline = rememberInline(page, block.text, t, ctx)
             val callout = remember(block) { if (block.jump < 0) CalloutPattern.find(block.text) else null }
             if (callout != null) {
                 val label = remember(callout) { calloutLabel(callout.groupValues[1]) }
                 val body = remember(text, callout) { text.subSequence(callout.range.last + 1, text.length) }
-                RdCallout(label, body, t.body, p, foldable = isAnswerCallout(label), folded = t.settings.hideAnswers, forceOpen = q.isNotEmpty(), modifier = m)
+                RdCallout(label, body, t.body, p, foldable = isAnswerCallout(label), folded = t.settings.hideAnswers, forceOpen = q.isNotEmpty(), modifier = m, inline = inline)
             } else if (block.jump >= 0) {
-                Text(text, style = t.body.copy(color = p.accent), modifier = m.clickable { ctx.onJump(block.jump) })
+                Text(text, style = t.body.copy(color = p.accent), inlineContent = inline, modifier = m.clickable { ctx.onJump(block.jump) })
             } else {
-                SelectionContainer { Text(text, style = t.body, modifier = m) }
+                SelectionContainer { Text(text, style = t.body, inlineContent = inline, modifier = m) }
             }
         }
         is ItemBlock -> {
             val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val numbered = block.marker.firstOrNull()?.isLetterOrDigit() == true || block.marker.startsWith("(")
+            val inline = rememberInline(page, block.text, t, ctx)
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -316,7 +374,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
                     modifier = Modifier.width(if (numbered) 30.dp else 22.dp)
                 )
                 Spacer(Modifier.width(8.dp))
-                SelectionContainer(Modifier.weight(1f)) { Text(text, style = t.body) }
+                SelectionContainer(Modifier.weight(1f)) { Text(text, style = t.body, inlineContent = inline) }
             }
         }
         is CodeBlock -> {
@@ -354,15 +412,15 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
                 )
             }
         }
-        is TableBlock -> RdTable(block, t, ctx, topGap, activeNth)
+        is TableBlock -> RdTable(block, page, t, ctx, topGap, activeNth)
         is FigureBlock -> RdFigure(block, t, ctx, maxWidth, topGap)
     }
 }
 
 @Composable
-private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
+private fun RdTable(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     Column(Modifier.fillMaxWidth()) {
-        RdTableBody(b, t, ctx, topGap, activeNth)
+        RdTableBody(b, page, t, ctx, topGap, activeNth)
         Row(
             Modifier
                 .align(Alignment.End)
@@ -380,8 +438,10 @@ private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNt
 }
 
 @Composable
-private fun RdTableBody(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
+private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     val p = t.p
+    val hasMath = remember(b) { b.rows.any { r -> r.cells.any { c -> c.any { isMathChar(it) } } } }
+    val inline = rememberInline(page, if (hasMath) "\uE000" else "", t, ctx)
     val cols = b.rows.maxOfOrNull { it.cells.size } ?: return
     val q = ctx.query
     // how many matches come before each cell, so the current one can be found inside the table
@@ -413,7 +473,8 @@ private fun RdTableBody(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, acti
                     val cell = row.cells.getOrElse(c) { "" }
                     val local = activeNth - before[i][c]
                     Text(
-                        AnnotatedString(cell).marked(q, if (local >= 0 && local < occurrences(cell, q).size) local else -1),
+                        mathText(cell).marked(q, if (local >= 0 && local < occurrences(cell, q).size) local else -1),
+                        inlineContent = inline,
                         style = cellStyle.copy(fontWeight = if (b.header && i == 0) FontWeight.SemiBold else FontWeight.Normal, color = if (row.jump >= 0 && c == 0) p.accent else p.ink),
                         modifier = if (wide) Modifier.width(132.dp) else Modifier.weight(weights[c])
                     )
@@ -536,7 +597,7 @@ private fun RdOptions(rows: List<OptionRow>, page: Int, t: ReadType, ctx: RdCtx,
                     )
                 }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    if (b.text.isNotBlank() || row.figures.isEmpty()) Text(text, style = t.body)
+                    if (b.text.isNotBlank() || row.figures.isEmpty()) Text(text, style = t.body, inlineContent = rememberInline(page, b.text, t, ctx))
                     row.figures.forEach { f -> RdFigure(f, t, ctx, maxWidth - 72.dp, 0.dp, alignStart = true) }
                 }
             }
@@ -718,6 +779,10 @@ fun ReadingMode(
                 Box(Modifier.fillMaxWidth(progress.coerceIn(0f, 1f)).height(2.dp).background(palette.muted.copy(alpha = 0.7f)))
             }
         }
+
+        // what the system draws over the page (status icons, the navigation buttons) always sits on the page colour
+        Spacer(Modifier.align(Alignment.TopCenter).fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars).background(palette.bg))
+        Spacer(Modifier.align(Alignment.BottomCenter).fillMaxWidth().windowInsetsBottomHeight(WindowInsets.navigationBars).background(palette.bg))
 
         // top bar
         AnimatedVisibility(
@@ -902,107 +967,13 @@ private fun BoxWithConstraintsContent(t: ReadType, content: @Composable (Dp) -> 
     androidx.compose.foundation.layout.BoxWithConstraints(Modifier.fillMaxSize()) { content(maxWidth) }
 }
 
-/** Text size, type, margins and page colour; also the zen and Neby AI switches. */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ReadingSheet(
-    settings: ReadingSettings,
-    theme: ReadingTheme,
-    assistantHidden: Boolean,
-    onSettings: ((ReadingSettings) -> ReadingSettings) -> Unit,
-    onTheme: (ReadingTheme) -> Unit,
-    onAssistantHidden: (Boolean) -> Unit,
-    onDismiss: () -> Unit
-) {
-    NebModalSheet(onDismiss = onDismiss, title = "Reading") {
-        Column(Modifier.padding(horizontal = 22.dp).padding(bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
-            RdSliderRow("Text size", "${(settings.fontScale * 100).roundToInt()}%", settings.fontScale, 0.7f..3f) { v -> onSettings { it.copy(fontScale = (v * 20).roundToInt() / 20f) } }
-            RdSliderRow("Line spacing", "${(settings.lineSpacing * 100).roundToInt()}%", settings.lineSpacing, 0.8f..1.6f) { v -> onSettings { it.copy(lineSpacing = (v * 10).roundToInt() / 10f) } }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                RdLabel("Typeface")
-                NebSegmentedChoice(
-                    listOf(NebSegment(ReadingFont.Serif.name, "Serif"), NebSegment(ReadingFont.Sans.name, "Sans")),
-                    settings.font.name, { v -> onSettings { it.copy(font = ReadingFont.valueOf(v)) } }, minHeight = 48.dp
-                )
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                RdLabel("Margins")
-                NebSegmentedChoice(
-                    listOf(NebSegment("0", "Narrow"), NebSegment("1", "Normal"), NebSegment("2", "Wide")),
-                    settings.margin.toString(), { v -> onSettings { it.copy(margin = v.toInt()) } }, minHeight = 48.dp
-                )
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                RdLabel("Alignment")
-                NebSegmentedChoice(
-                    listOf(NebSegment("left", "Left"), NebSegment("justify", "Justified")),
-                    if (settings.justify) "justify" else "left", { v -> onSettings { it.copy(justify = v == "justify") } }, minHeight = 48.dp
-                )
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                RdLabel("Page colour")
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    RdThemeTile("Paper", Color.White, Color(0xFF1C1B1A), theme == ReadingTheme.Paper, Modifier.weight(1f)) { onTheme(ReadingTheme.Paper) }
-                    RdThemeTile("Sepia", Color(0xFFF4ECD8), Color(0xFF3B2F23), theme == ReadingTheme.Sepia, Modifier.weight(1f)) { onTheme(ReadingTheme.Sepia) }
-                    RdThemeTile("Night", Color(0xFF141414), Color(0xFFE2E0DA), theme == ReadingTheme.Night, Modifier.weight(1f)) { onTheme(ReadingTheme.Night) }
-                }
-            }
-            val auto = settings.brightness < 0f
-            RdSliderRow("Brightness", if (auto) "Auto" else "${(settings.brightness * 100).roundToInt()}%", if (auto) 0.5f else settings.brightness, 0.05f..1f) { v -> onSettings { it.copy(brightness = v) } }
-            if (!auto) NebButton("Use system brightness", { onSettings { it.copy(brightness = -1f) } }, tone = NebButtonTone.Text)
-            NebToggleRow("Zen mode", null, settings.zen, { v -> onSettings { it.copy(zen = v) }; if (v) onDismiss() })
-            NebToggleRow("Hide answers until tapped", null, settings.hideAnswers, { v -> onSettings { it.copy(hideAnswers = v) } })
-            NebToggleRow("Neby AI button", null, !assistantHidden, { v -> onAssistantHidden(!v) })
-        }
-    }
-}
-
-@Composable
-private fun RdLabel(text: String) {
-    Text(text, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-}
-
-@Composable
-private fun RdSliderRow(label: String, value: String, current: Float, range: ClosedFloatingPointRange<Float>, onChange: (Float) -> Unit) {
-    Column {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            RdLabel(label)
-            Spacer(Modifier.weight(1f))
-            Text(value, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
-        }
-        val ink = MaterialTheme.colorScheme.onSurface
-        Slider(
-            value = current.coerceIn(range.start, range.endInclusive), onValueChange = onChange, valueRange = range,
-            colors = SliderDefaults.colors(thumbColor = ink, activeTrackColor = ink, inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant)
-        )
-    }
-}
-
-@Composable
-private fun RdThemeTile(label: String, paper: Color, ink: Color, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
-    val shape = RoundedCornerShape(16.dp)
-    Column(
-        modifier
-            .clip(shape)
-            .background(paper)
-            .then(if (selected) Modifier.border(2.dp, MaterialTheme.colorScheme.onSurface, shape) else Modifier)
-            .nebPressable(onClick = onClick)
-            .padding(vertical = 14.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Text("Aa", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = ink)
-        Text(label, style = MaterialTheme.typography.labelMedium, color = ink.copy(alpha = if (selected) 1f else 0.7f), fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal)
-    }
-}
-
 private fun rdSpeechText(page: ReflowPage): String = buildString {
     for (b in page.blocks) {
         when (b) {
             is HeadingBlock -> append(b.text).append(".\n")
-            is ParaBlock -> append(b.text).append('\n')
-            is ItemBlock -> append(b.text).append('\n')
-            is TableBlock -> b.rows.forEach { append(it.cells.joinToString(", ")).append(".\n") }
+            is ParaBlock -> append(plainText(b.text)).append('\n')
+            is ItemBlock -> append(plainText(b.text)).append('\n')
+            is TableBlock -> b.rows.forEach { append(plainText(it.cells.joinToString(", "))).append(".\n") }
             else -> {}
         }
     }

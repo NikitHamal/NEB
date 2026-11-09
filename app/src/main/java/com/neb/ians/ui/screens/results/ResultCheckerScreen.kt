@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.results
 
+import com.neb.ians.ui.components.NebToastHost
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.BorderStroke
@@ -115,7 +116,7 @@ fun ResultCheckerScreen(
                 onBackClick = onNavigateBack
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         LazyColumn(

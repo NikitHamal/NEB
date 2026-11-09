@@ -2,6 +2,11 @@
 
 package com.neb.ians.ui.screens.notes
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.offset
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.foundation.shape.CircleShape
+import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -117,32 +122,7 @@ fun NotesScreen(
 
     Scaffold(
         containerColor = c.surface,
-        snackbarHost = { SnackbarHost(snack, Modifier.padding(bottom = 76.dp)) },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = !selecting && (ui.filter == NoteFilter.All || ui.filter == NoteFilter.Pinned),
-                enter = fadeIn(), exit = fadeOut(),
-            ) {
-                Column(Modifier.padding(bottom = 76.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    SmallFloatingActionButton(
-                        onClick = { tactile.perform(TactileType.LightTap); onNewNote(true) },
-                        containerColor = c.secondaryContainer,
-                        contentColor = c.onSecondaryContainer,
-                        shape = RoundedCornerShape(16.dp),
-                        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
-                    ) { Icon(Icons.Outlined.Mic, "Dictate a note") }
-                    ExtendedFloatingActionButton(
-                        onClick = { tactile.perform(TactileType.LightTap); onNewNote(false) },
-                        containerColor = c.primaryContainer,
-                        contentColor = c.onPrimaryContainer,
-                        shape = RoundedCornerShape(20.dp),
-                        elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
-                        icon = { Icon(Icons.Outlined.Add, null) },
-                        text = { Text("New note", fontWeight = FontWeight.SemiBold) },
-                    )
-                }
-            }
-        },
+        snackbarHost = { NebToastHost(snack, Modifier.padding(bottom = 76.dp)) },
     ) { inner ->
         Column(Modifier.fillMaxSize().padding(inner).statusBarsPadding()) {
             if (selecting) {
@@ -164,7 +144,7 @@ fun NotesScreen(
                     onDeleteForever = vm::deleteSelectedForever,
                 )
             } else {
-                Header(ui, vm, onOpenVoice)
+                Header(ui, vm, onOpenVoice, showAdd = ui.filter != NoteFilter.Trash) { tactile.perform(TactileType.LightTap); onNewNote(false) }
             }
             AnimatedVisibility(ui.searching && !selecting, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                 SearchField(ui.query, vm::setQuery)
@@ -178,14 +158,18 @@ fun NotesScreen(
             Box(Modifier.weight(1f).fillMaxWidth()) {
                 when {
                     !ui.loaded -> Unit
+                    ui.notes.isEmpty() && ui.query.isBlank() && ui.tag == null && ui.filter == NoteFilter.All -> NotesEmptyState(
+                        onWrite = { tactile.perform(TactileType.LightTap); onNewNote(false) },
+                        onDictate = { tactile.perform(TactileType.LightTap); onNewNote(true) },
+                        modifier = Modifier.align(Alignment.Center),
+                    )
                     ui.notes.isEmpty() -> NebEmptyState(
                         icon = Icons.Outlined.EditNote,
                         title = when {
                             ui.query.isNotBlank() || ui.tag != null -> "No matches"
                             ui.filter == NoteFilter.Trash -> "The bin is empty"
                             ui.filter == NoteFilter.Archive -> "Nothing archived"
-                            ui.filter == NoteFilter.Pinned -> "Nothing pinned"
-                            else -> "No notes yet"
+                            else -> "Nothing pinned"
                         },
                         modifier = Modifier.align(Alignment.Center),
                     )
@@ -219,7 +203,7 @@ fun NotesScreen(
 }
 
 @Composable
-private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit) {
+private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit, showAdd: Boolean, onAdd: () -> Unit) {
     var sortMenu by remember { mutableStateOf(false) }
     Row(
         Modifier.fillMaxWidth().padding(start = 20.dp, end = 8.dp, top = 12.dp, bottom = 4.dp),
@@ -245,6 +229,78 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit) {
             }
         }
         IconButton(onClick = onOpenVoice) { Icon(Icons.Outlined.GraphicEq, "Voice") }
+        if (showAdd) {
+            // the one way to start a note from here: a tonal tile at the end of the header
+            val c = MaterialTheme.colorScheme
+            Box(
+                Modifier
+                    .padding(start = 4.dp, end = 4.dp)
+                    .size(44.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(c.primary)
+                    .clickable(onClickLabel = "New note", onClick = onAdd),
+                contentAlignment = Alignment.Center,
+            ) { Icon(Icons.Outlined.Add, "New note", tint = c.onPrimary) }
+        }
+    }
+}
+
+/** No notes yet: a small stack of paper that floats, and the two ways to begin. */
+@Composable
+private fun NotesEmptyState(onWrite: () -> Unit, onDictate: () -> Unit, modifier: Modifier = Modifier) {
+    val c = MaterialTheme.colorScheme
+    val transition = androidx.compose.animation.core.rememberInfiniteTransition(label = "notes-empty")
+    val bob by transition.animateFloat(
+        initialValue = -5f, targetValue = 5f,
+        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
+            androidx.compose.animation.core.tween(2600, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+            androidx.compose.animation.core.RepeatMode.Reverse
+        ),
+        label = "bob",
+    )
+    Column(
+        modifier.fillMaxWidth().padding(horizontal = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(22.dp),
+    ) {
+        Box(Modifier.size(width = 200.dp, height = 160.dp), contentAlignment = Alignment.Center) {
+            PaperCard(c.tertiaryContainer, c.onTertiaryContainer, -13f, (-46).dp, 8.dp - bob.dp * 0.6f)
+            PaperCard(c.secondaryContainer, c.onSecondaryContainer, 11f, 46.dp, 10.dp + bob.dp * 0.6f)
+            Box(Modifier.offset(y = bob.dp)) {
+                PaperCard(c.primaryContainer, c.onPrimaryContainer, 0f, 0.dp, 0.dp, front = true)
+            }
+        }
+        Text("No notes yet", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+            com.neb.ians.ui.components.NebButton("Write a note", onWrite)
+            com.neb.ians.ui.components.NebButton("Dictate", onDictate, tone = com.neb.ians.ui.components.NebButtonTone.Tonal)
+        }
+    }
+}
+
+@Composable
+private fun PaperCard(color: androidx.compose.ui.graphics.Color, ink: androidx.compose.ui.graphics.Color, tilt: Float, x: androidx.compose.ui.unit.Dp, y: androidx.compose.ui.unit.Dp, front: Boolean = false) {
+    Box(
+        Modifier
+            .offset(x = x, y = y)
+            .graphicsLayer { rotationZ = tilt }
+            .size(width = if (front) 104.dp else 88.dp, height = if (front) 132.dp else 112.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(color)
+            .padding(16.dp),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Box(Modifier.fillMaxWidth(0.7f).height(7.dp).clip(CircleShape).background(ink.copy(alpha = 0.55f)))
+            Box(Modifier.fillMaxWidth().height(6.dp).clip(CircleShape).background(ink.copy(alpha = 0.25f)))
+            Box(Modifier.fillMaxWidth(0.85f).height(6.dp).clip(CircleShape).background(ink.copy(alpha = 0.25f)))
+            if (front) Box(Modifier.fillMaxWidth(0.5f).height(6.dp).clip(CircleShape).background(ink.copy(alpha = 0.25f)))
+        }
+        if (front) {
+            Icon(
+                Icons.Outlined.Add, null, tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.align(Alignment.BottomEnd).size(34.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.primary).padding(7.dp),
+            )
+        }
     }
 }
 

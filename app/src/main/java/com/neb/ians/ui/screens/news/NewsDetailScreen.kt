@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.news
 
+import com.neb.ians.ui.components.NebToastHost
 import android.content.Intent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -130,7 +131,7 @@ fun NewsDetailScreen(
                 )
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
     ) { innerPadding ->
         when {

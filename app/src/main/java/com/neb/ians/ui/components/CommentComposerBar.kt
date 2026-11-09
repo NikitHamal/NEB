@@ -1,11 +1,32 @@
 package com.neb.ians.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material.icons.outlined.CloseFullscreen
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.MusicNote
+import androidx.compose.material.icons.outlined.PictureAsPdf
+import androidx.compose.material.icons.outlined.Poll
+import androidx.compose.material.icons.outlined.Videocam
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.material.icons.outlined.FormatColorText
 import androidx.compose.material.icons.outlined.OpenInFull
 import com.neb.ians.ui.theme.nebSpatialSpec
@@ -99,16 +120,18 @@ fun NebCommentComposerBar(
         kind = kind,
         onKindChange = onKindChange,
         formatBar = null,
+        leadingContent = leadingContent,
         trailingContent = trailingContent,
         extraContent = extraContent
-    ) { fieldModifier: Modifier, minHeight ->
+    ) { fieldModifier: Modifier, minHeight, leadingVisible ->
         ComposerInput(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
             placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
-            leadingContent = leadingContent
+            leadingContent = leadingContent,
+            leadingVisible = leadingVisible
         )
     }
 }
@@ -148,9 +171,10 @@ fun NebCommentComposerBar(
         kind = kind,
         onKindChange = onKindChange,
         formatBar = { MarkdownToolbar(value = value, onValueChange = onValueChange) },
+        leadingContent = leadingContent,
         trailingContent = trailingContent,
         extraContent = extraContent
-    ) { fieldModifier: Modifier, minHeight ->
+    ) { fieldModifier: Modifier, minHeight, leadingVisible ->
         ComposerInput(
             value = value,
             onValueChange = onValueChange,
@@ -158,7 +182,8 @@ fun NebCommentComposerBar(
             placeholder = placeholder,
             modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
             visualTransformation = visualTransformation,
-            leadingContent = leadingContent
+            leadingContent = leadingContent,
+            leadingVisible = leadingVisible
         )
     }
 }
@@ -177,9 +202,10 @@ private fun NebCommentComposerBarFrame(
     kind: String?,
     onKindChange: ((String) -> Unit)?,
     formatBar: (@Composable () -> Unit)?,
+    leadingContent: (@Composable RowScope.() -> Unit)?,
     trailingContent: (@Composable RowScope.() -> Unit)?,
     extraContent: @Composable () -> Unit,
-    textField: @Composable (Modifier, androidx.compose.ui.unit.Dp) -> Unit
+    textField: @Composable (Modifier, androidx.compose.ui.unit.Dp, Boolean) -> Unit
 ) {
     val recording = voiceNote?.isRecording == true
     val active = enabled && canSend && !posting
@@ -216,9 +242,13 @@ private fun NebCommentComposerBarFrame(
         ) {
             extraContent()
 
-            // One outlined container, as on the web `neb-composer`: the stroke turns primary
-            // while anything inside it has focus. Collapsed it is one row (field, tools, send);
-            // opened by the A tool it grows a formatting row on top and a tool row underneath.
+            // One outlined container, as on the web `neb-composer`: the stroke turns primary while anything inside
+            // it has focus. Collapsed it is one row: the profile picture, the field, the tools, send. Opened by the A
+            // tool it grows a row on top with the picture first and the formatting after it, the field gets the full
+            // width below, and the tools and send move to a row underneath. Each part slides and fades in its place.
+            val writing = open && canFormat
+            val spatial = nebSpatialSpec<IntSize>()
+            val effects = nebEffectsSpec<Float>()
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -228,13 +258,24 @@ private fun NebCommentComposerBarFrame(
                     .animateContentSize(nebSpatialSpec())
                     .padding(start = 4.dp, end = 6.dp, top = 6.dp, bottom = 6.dp)
             ) {
-                if (open && canFormat) {
+                AnimatedVisibility(
+                    visible = writing,
+                    enter = expandVertically(spatial) + fadeIn(effects),
+                    exit = shrinkVertically(spatial) + fadeOut(effects)
+                ) {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState())
-                            .padding(start = 44.dp, top = 2.dp, bottom = 2.dp)
-                    ) { formatBar?.invoke() }
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        leadingContent?.invoke(this)
+                        Row(
+                            modifier = Modifier
+                                .weight(1f)
+                                .horizontalScroll(rememberScrollState())
+                                .padding(start = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) { formatBar?.invoke() }
+                    }
                 }
                 Row(
                     modifier = Modifier
@@ -254,26 +295,37 @@ private fun NebCommentComposerBarFrame(
                             Modifier
                                 .weight(1f)
                                 .onFocusChanged { focused = it.hasFocus },
-                            if (!open) 0.dp else if (expanded) 200.dp else 72.dp
+                            if (!writing) 0.dp else if (expanded) 200.dp else 72.dp,
+                            !writing
                         )
                     }
-                    if (!open) {
-                        ComposerTools(
-                            formatOpen = false,
-                            canFormat = canFormat,
-                            onFormat = { open = true },
-                            enabled = enabled,
-                            kind = null,
-                            onKind = null,
-                            trailingContent = if (recording) null else trailingContent
-                        )
-                        Spacer(Modifier.width(4.dp))
-                        ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
-                            if (recording) voiceNote?.stop() else onSend()
+                    AnimatedVisibility(
+                        visible = !writing,
+                        enter = fadeIn(effects) + expandHorizontally(spatial),
+                        exit = fadeOut(effects) + shrinkHorizontally(spatial)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            ComposerTools(
+                                formatOpen = false,
+                                canFormat = canFormat,
+                                onFormat = { open = true },
+                                enabled = enabled,
+                                kind = null,
+                                onKind = null,
+                                trailingContent = if (recording) null else trailingContent
+                            )
+                            Spacer(Modifier.width(4.dp))
+                            ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
+                                if (recording) voiceNote?.stop() else onSend()
+                            }
                         }
                     }
                 }
-                if (open) {
+                AnimatedVisibility(
+                    visible = writing,
+                    enter = expandVertically(spatial) + fadeIn(effects),
+                    exit = shrinkVertically(spatial) + fadeOut(effects)
+                ) {
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -421,7 +473,8 @@ private fun ComposerInput(
     enabled: Boolean,
     placeholder: String,
     modifier: Modifier,
-    leadingContent: (@Composable RowScope.() -> Unit)?
+    leadingContent: (@Composable RowScope.() -> Unit)?,
+    leadingVisible: Boolean = true
 ) {
     val scheme = MaterialTheme.colorScheme
     BasicTextField(
@@ -433,7 +486,7 @@ private fun ComposerInput(
         cursorBrush = SolidColor(scheme.primary),
         visualTransformation = LiveMarkdown.rememberTransformation(),
         modifier = modifier,
-        decorationBox = { inner -> ComposerInputRow(value.isEmpty(), placeholder, leadingContent, inner) }
+        decorationBox = { inner -> ComposerInputRow(value.isEmpty(), placeholder, leadingContent, leadingVisible, inner) }
     )
 }
 
@@ -445,7 +498,8 @@ private fun ComposerInput(
     placeholder: String,
     modifier: Modifier,
     visualTransformation: VisualTransformation,
-    leadingContent: (@Composable RowScope.() -> Unit)?
+    leadingContent: (@Composable RowScope.() -> Unit)?,
+    leadingVisible: Boolean = true
 ) {
     val scheme = MaterialTheme.colorScheme
     BasicTextField(
@@ -457,7 +511,7 @@ private fun ComposerInput(
         cursorBrush = SolidColor(scheme.primary),
         visualTransformation = visualTransformation,
         modifier = modifier,
-        decorationBox = { inner -> ComposerInputRow(value.text.isEmpty(), placeholder, leadingContent, inner) }
+        decorationBox = { inner -> ComposerInputRow(value.text.isEmpty(), placeholder, leadingContent, leadingVisible, inner) }
     )
 }
 
@@ -466,14 +520,25 @@ private fun ComposerInputRow(
     empty: Boolean,
     placeholder: String,
     leadingContent: (@Composable RowScope.() -> Unit)?,
+    leadingVisible: Boolean,
     inner: @Composable () -> Unit
 ) {
+    val shown = leadingContent != null && leadingVisible
+    val gap by animateDpAsState(if (shown) 4.dp else 12.dp, nebSpatialSpec(), label = "composerGap")
     Row(verticalAlignment = Alignment.CenterVertically) {
-        if (leadingContent != null) leadingContent()
+        if (leadingContent != null) {
+            AnimatedVisibility(
+                visible = leadingVisible,
+                enter = fadeIn(nebEffectsSpec()) + expandHorizontally(nebSpatialSpec()),
+                exit = fadeOut(nebEffectsSpec()) + shrinkHorizontally(nebSpatialSpec())
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) { leadingContent() }
+            }
+        }
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = if (leadingContent != null) 4.dp else 12.dp, vertical = 8.dp)
+                .padding(horizontal = gap, vertical = 8.dp)
         ) {
             if (empty) {
                 Text(
@@ -487,42 +552,77 @@ private fun ComposerInputRow(
     }
 }
 
-/** The web's paperclip, in the composer's tool slot (inside the stroke). */
-@Composable
-fun ComposerAttachButton(enabled: Boolean, onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = Modifier.size(38.dp)
-    ) {
-        NebIcon(
-            NebIcons.Attach,
-            "Attach media",
-            size = 20.dp,
-            tint = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant
-            else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-        )
-    }
-}
+/** The poll entry of the plus menu: whether one is being written and how to open or remove it. */
+class ComposerPoll(val active: Boolean, val onToggle: () -> Unit)
 
-/** Opens or closes the poll builder in the comment bar; tinted while a poll is being written. */
+private class PlusOption(val icon: ImageVector, val label: String, val active: Boolean, val onClick: () -> Unit)
+
+/**
+ * The one plus button of every comment composer. It opens a compact popup: image, PDF, audio, video and, where the
+ * screen takes polls, a poll. [onPick] receives the MIME types for the system file picker. The plus turns into a
+ * cross while the popup is open.
+ */
 @Composable
-fun ComposerPollButton(active: Boolean, enabled: Boolean, onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = Modifier.size(38.dp)
-    ) {
-        NebIcon(
-            NebIcons.Poll,
-            if (active) "Remove poll" else "Add poll",
-            size = 20.dp,
-            tint = when {
-                !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                active -> MaterialTheme.colorScheme.primary
-                else -> MaterialTheme.colorScheme.onSurfaceVariant
+fun ComposerAttachMenu(
+    enabled: Boolean,
+    onPick: (Array<String>) -> Unit,
+    modifier: Modifier = Modifier,
+    poll: ComposerPoll? = null
+) {
+    var open by remember { mutableStateOf(false) }
+    val turn by animateFloatAsState(if (open) 45f else 0f, nebSpatialSpec(), label = "composerPlusTurn")
+    val scheme = MaterialTheme.colorScheme
+    val options = buildList {
+        add(PlusOption(Icons.Outlined.Image, "Image", false) { onPick(arrayOf("image/*")) })
+        add(PlusOption(Icons.Outlined.PictureAsPdf, "PDF", false) { onPick(arrayOf("application/pdf")) })
+        add(PlusOption(Icons.Outlined.MusicNote, "Audio", false) { onPick(arrayOf("audio/*")) })
+        add(PlusOption(Icons.Outlined.Videocam, "Video", false) { onPick(arrayOf("video/*")) })
+        if (poll != null) add(PlusOption(Icons.Outlined.Poll, if (poll.active) "Remove poll" else "Poll", poll.active) { poll.onToggle() })
+    }
+    Box(modifier) {
+        val bg by animateColorAsState(if (open || poll?.active == true) scheme.secondaryContainer else Color.Transparent, nebEffectsSpec(), label = "composerPlusBg")
+        Box(
+            Modifier
+                .size(38.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(bg)
+                .nebPressable(enabled = enabled, onClick = { open = true }),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Add to your message",
+                tint = if (enabled) (if (open) scheme.onSecondaryContainer else scheme.onSurfaceVariant) else scheme.onSurfaceVariant.copy(alpha = 0.4f),
+                modifier = Modifier.size(22.dp).graphicsLayer { rotationZ = turn }
+            )
+        }
+        NebDropdownMenu(
+            expanded = open,
+            onDismissRequest = { open = false },
+            offset = DpOffset(0.dp, 6.dp)
+        ) {
+            options.forEach { option ->
+                Row(
+                    Modifier
+                        .widthIn(min = 176.dp)
+                        .clickable(role = Role.Button) { open = false; option.onClick() }
+                        .padding(horizontal = 10.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Box(
+                        Modifier
+                            .size(34.dp)
+                            .clip(RoundedCornerShape(11.dp))
+                            .background(if (option.active) scheme.primary else scheme.secondaryContainer),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(option.icon, null, tint = if (option.active) scheme.onPrimary else scheme.onSecondaryContainer, modifier = Modifier.size(19.dp))
+                    }
+                    Text(option.label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, color = scheme.onSurface)
+                }
             }
-        )
+        }
     }
 }
 
