@@ -1,0 +1,152 @@
+[
+ {
+  "name": "GEMS",
+  "kind": "school",
+  "district": "Lalitpur",
+  "website": "https://gems.edu.np"
+ },
+ {
+  "name": "Ullens School",
+  "kind": "school",
+  "district": "Lalitpur",
+  "website": "https://ullens.edu.np"
+ },
+ {
+  "name": "Trinity International College",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://www.trinity.edu.np"
+ },
+ {
+  "name": "Rato Bangala School",
+  "kind": "school",
+  "district": "Lalitpur",
+  "website": "https://ratobangala.edu.np"
+ },
+ {
+  "name": "Galaxy Public School",
+  "kind": "school",
+  "district": "Kathmandu",
+  "website": "https://www.galaxy.edu.np"
+ },
+ {
+  "name": "Malpi International School",
+  "kind": "school",
+  "district": "Kavrepalanchok",
+  "website": "https://malpi.edu.np"
+ },
+ {
+  "name": "Padma Kanya Multiple Campus",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://padmakanya.edu.np"
+ },
+ {
+  "name": "Kathford International College",
+  "kind": "college",
+  "district": "Lalitpur",
+  "website": "https://kathford.edu.np"
+ },
+ {
+  "name": "Himalaya College of Engineering",
+  "kind": "college",
+  "district": "Lalitpur",
+  "website": "https://hcoe.edu.np"
+ },
+ {
+  "name": "Nepal Engineering College",
+  "kind": "college",
+  "district": "Bhaktapur",
+  "website": "https://nec.edu.np"
+ },
+ {
+  "name": "Texas International College",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://texascollege.edu.np"
+ },
+ {
+  "name": "Pokhara Engineering College",
+  "kind": "college",
+  "district": "Kaski",
+  "website": "https://pec.edu.np"
+ },
+ {
+  "name": "Gandaki College of Engineering and Science",
+  "kind": "college",
+  "district": "Kaski",
+  "website": "https://gces.edu.np"
+ },
+ {
+  "name": "Western Region Campus",
+  "kind": "college",
+  "district": "Kaski",
+  "website": "https://wrc.edu.np"
+ },
+ {
+  "name": "Advanced College of Engineering and Management",
+  "kind": "college",
+  "district": "Lalitpur",
+  "website": "https://www.acem.edu.np"
+ },
+ {
+  "name": "Nepal College of Information Technology",
+  "kind": "college",
+  "district": "Lalitpur",
+  "website": "https://ncit.edu.np"
+ },
+ {
+  "name": "Herald College Kathmandu",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://heraldcollege.edu.np"
+ },
+ {
+  "name": "Softwarica College of IT and E-Commerce",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://softwarica.edu.np"
+ },
+ {
+  "name": "Lumbini Medical College",
+  "kind": "college",
+  "district": "Palpa",
+  "website": "https://lmc.edu.np"
+ },
+ {
+  "name": "National Academy of Medical Sciences",
+  "kind": "institute",
+  "district": "Kathmandu",
+  "website": "https://nams.edu.np"
+ },
+ {
+  "name": "Kathmandu University School of Management",
+  "kind": "college",
+  "district": "Lalitpur",
+  "website": "https://som.ku.edu.np"
+ },
+ {
+  "name": "St. Mary's High School",
+  "kind": "school",
+  "district": "Lalitpur",
+  "website": "https://stmarys.edu.np"
+ },
+ {
+  "name": "Gandaki Boarding School",
+  "kind": "school",
+  "district": "Kaski",
+  "website": "https://gbs.edu.np"
+ },
+ {
+  "name": "Nepal Law Campus",
+  "kind": "college",
+  "district": "Kathmandu",
+  "website": "https://nlc.edu.np"
+ },
+ {
+  "name": "Janapriya Multiple Campus",
+  "kind": "college",
+  "district": "Kaski",
+  "website": "https://janapriya.edu.np"
+ }
+]

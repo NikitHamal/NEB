@@ -231,7 +231,8 @@ def main():
         added += len(recs) - before
     print('wikidata items', len(items), 'new', added)
 
-    for c in json.loads((HERE / 'curated.json').read_text()):
+    extra = json.loads((HERE.parent.parent / 'api' / 'data' / 'institution_sites.json').read_text())
+    for c in json.loads((HERE / 'curated.json').read_text()) + extra:
         hit = merge_or_add({'name': c['name'], 'name_ne': '', 'kind': c['kind'], 'place': c.get('place', ''),
                             'website': clean_url(c['website']), 'phone': c.get('phone', ''), 'lat': c.get('lat'),
                             'lon': c.get('lon'), 'est': c.get('est', ''), 'source': 'curated', 'osm': 0,
