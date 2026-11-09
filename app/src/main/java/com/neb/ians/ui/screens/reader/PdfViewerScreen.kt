@@ -202,6 +202,7 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
     KeepScreenOn(state.keepScreenOn)
     BackHandler(enabled = zoomedIn) { zoom.reset() }
     BackHandler(enabled = state.search.open && !zoomedIn) { viewModel.closeSearch() }
+    BackHandler(enabled = state.readSearch.open && state.readingMode) { viewModel.closeReadSearch() }
     LaunchedEffect(state.search.jump) {
         val hit = state.search.current ?: return@LaunchedEffect
         goTo(hit.page, hit.rect.top, false)
@@ -222,6 +223,11 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                 source = readSource,
                 chromeVisible = chromeVisible,
                 assistantHidden = state.assistantHidden,
+                search = state.readSearch,
+                onSearchOpen = viewModel::openReadSearch,
+                onSearchQuery = viewModel::readSearch,
+                onSearchStep = viewModel::stepReadSearch,
+                onSearchClose = viewModel::closeReadSearch,
                 onChromeToggle = toggleChrome,
                 onPage = viewModel::onPageVisible,
                 onBack = onBack,
@@ -319,7 +325,12 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onToggleBookmark = { viewModel.toggleBookmark() },
             onOptions = { sheet = ReaderSheet.Options },
             modifier = Modifier.align(Alignment.TopCenter),
-            onSearch = if (state.canReadText) ({ chromeVisible = true; viewModel.openSearch() }) else null,
+            // devices without the platform text API search in reading mode, which reads the text itself
+            onSearch = {
+                chromeVisible = true
+                if (state.canReadText) viewModel.openSearch()
+                else { viewModel.setReadingMode(true); viewModel.openReadSearch() }
+            },
             onReadingMode = { viewModel.setReadingMode(true) },
             onContents = { sheet = ReaderSheet.Contents },
             assistantHidden = state.assistantHidden,
