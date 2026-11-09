@@ -28,7 +28,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095713,
+  "bytes": 3095712,
   "kind": "subject-bundle"
  },
  {
@@ -42,7 +42,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792102,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -70,7 +70,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704449,
+  "bytes": 1704450,
   "kind": "subject-bundle"
  },
  {
@@ -100,7 +100,20 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868472,
+  "bytes": 1868474,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-object-oriented-programming-2082-2083.pdf",
+  "subject": "Object Oriented Programming",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enct151-2083-baishakh",
+   "ioe-enct151-2082-bhadra"
+  ],
+  "pages": 32,
+  "bytes": 296442,
   "kind": "subject-bundle"
  },
  {
@@ -114,7 +127,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116670,
+  "bytes": 2116671,
   "kind": "subject-bundle"
  },
  {
@@ -128,7 +141,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981777,
+  "bytes": 1981775,
   "kind": "subject-bundle"
  },
  {
@@ -141,7 +154,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296668,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -154,6 +167,8 @@
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
    "ioe-ence102-2081-chaitra",
+   "ioe-enct151-2082-bhadra",
+   "ioe-enct151-2083-baishakh",
    "ioe-enee103-2081-chaitra",
    "ioe-enex101-2081-chaitra",
    "ioe-ensh101-2081-chaitra",
@@ -185,8 +200,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 483,
-  "bytes": 20465636,
+  "pages": 514,
+  "bytes": 20743069,
   "kind": "master-book"
  }
 ]
