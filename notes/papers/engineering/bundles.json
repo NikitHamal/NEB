@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709060,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -44,18 +44,19 @@
   "kind": "subject-bundle"
  },
  {
-  "file": "bundles/engineering-electric-circuits-and-machines-2078-2081.pdf",
+  "file": "bundles/engineering-electric-circuits-and-machines-2077-2081.pdf",
   "subject": "Electric Circuits and Machines",
   "level": "BE \u00b7 Year I",
-  "years_bs": "2078-2081",
+  "years_bs": "2077-2081",
   "papers": [
    "ioe-ee460-2081-chaitra",
    "ioe-ee460-2080-chaitra",
    "ioe-ee460-2079-chaitra",
-   "ioe-ee460-2078-chaitra"
+   "ioe-ee460-2078-chaitra",
+   "ioe-ee460-2077-chaitra"
   ],
-  "pages": 56,
-  "bytes": 2484759,
+  "pages": 72,
+  "bytes": 3272198,
   "kind": "subject-bundle"
  },
  {
@@ -147,7 +148,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095315,
+  "bytes": 4095317,
   "kind": "subject-bundle"
  },
  {
@@ -160,7 +161,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868471,
+  "bytes": 1868473,
   "kind": "subject-bundle"
  },
  {
@@ -188,7 +189,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645019,
+  "bytes": 1645018,
   "kind": "subject-bundle"
  },
  {
@@ -229,13 +230,13 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296668,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
   "file": "bundles/NEBians-Engineering-All-In-One-Book.pdf",
   "subject": "ALL",
-  "years_bs": "2078-2083",
+  "years_bs": "2077-2083",
   "papers": [
    "ioe-ce102-2081-baishakh",
    "ioe-ce102-2081-kartik",
@@ -246,6 +247,7 @@
    "ioe-ct153-2082-baishakh",
    "ioe-ee103-2081-baishakh",
    "ioe-ee103-2081-kartik",
+   "ioe-ee460-2077-chaitra",
    "ioe-ee460-2078-chaitra",
    "ioe-ee460-2079-chaitra",
    "ioe-ee460-2080-chaitra",
@@ -295,8 +297,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 802,
-  "bytes": 30141555,
+  "pages": 818,
+  "bytes": 30928920,
   "kind": "master-book"
  }
 ]
