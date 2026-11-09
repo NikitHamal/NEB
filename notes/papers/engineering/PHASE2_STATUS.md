@@ -7,8 +7,8 @@ Branch `claude/engineering`. Phase 1 (download) is in `../PAPERS_TRACKER.md`. Th
 |---|---|---|
 | Catalog of every paper on disk (4,086 files) by university / semester / subject / year / kind | `catalog.json`, `catalog-tree.json`, `CATALOG.md` | DONE. Regenerate: `python3 tools/catalog.py && python3 tools/catalog_md.py` |
 | Paper pipeline (`../build_paper.py`, `../paper.css`, `../../pipeline`) | `notes/papers/` | DONE. Takes `level:`, `cal:`; env `PAPERS_CONTENT`, `PAPERS_OUT` |
-| 6 papers typeset with full worked solutions (every question and every OR) | `content/*.md` -> `pdf/NEBians-IOE-Past-Paper-*.pdf` | DONE (see table below) |
-| Subject bundles + master All-in-One book | `bundle_engineering.py` -> `pdf/bundles/`, `bundles.json` | DONE for the 2 subjects that have 2+ papers; re-run after each new paper |
+| 14 papers typeset with full worked solutions (every question and every OR) | `content/*.md` -> `pdf/NEBians-IOE-Past-Paper-*.pdf` | DONE (see table below; session 3 added 8) |
+| Subject bundles + master All-in-One book | `bundle_engineering.py` -> `pdf/bundles/`, `bundles.json` | DONE for the 5 subjects that have 2+ papers (Maths I, II, III, Physics, Chemistry), master book has 14 papers / 176 pp; re-run after each new paper |
 
 ### Papers finished
 | id (content/<id>.md) | Paper | Source scan | Pages |
@@ -19,14 +19,27 @@ Branch `claude/engineering`. Phase 1 (download) is in `../PAPERS_TRACKER.md`. Th
 | ioe-sh151-2081-ashwin | Eng. Maths II, regular | `2nd-semester/2nd-Semester-Engineering-Mathematics-II-New-Course__.pdf` p5-6 | 11 |
 | ioe-ensh151-2082-bhadra | Eng. Maths II, regular | same PDF p3-4 | 11 |
 | ioe-ensh151-2083-baishakh | Eng. Maths II, back paper | same PDF p1-2 | 10 |
+| ioe-sh102-2081-baishakh | Eng. Physics, regular new course (SH 102) | `1st-semester/1st-Semester-Engineering-Physics-New-Course__1Wr5rbLk.pdf` p1-2 | 16 |
+| ioe-ensh102-2081-chaitra | Eng. Physics, regular (ENSH 102) | same PDF p3-4 | 15 |
+| ioe-sh103-2081-baishakh | Eng. Chemistry, regular new course (SH 103) | `1st-semester/1st-Semester-Engineering-Chemistry-New-Course__1yEQFgi0.pdf` p1 | 10 |
+| ioe-sh103-2081-kartik | Eng. Chemistry, back paper (SH 103) | same PDF p2 | 11 |
+| ioe-ensh103-2081-chaitra | Eng. Chemistry, regular (ENSH 103) | same PDF p3 | 11 |
+| ioe-ensh201-2081-chaitra | Eng. Maths III, regular (ENSH 201) | `3rd-semester/3rd-Semester-Engineering-Mathematics-III-New-Course__.pdf` p5-6 | 14 |
+| ioe-ensh201-2082-kartik | Eng. Maths III, back paper | same PDF p3-4 | 14 |
+| ioe-ensh201-2082-chaitra | Eng. Maths III, regular | same PDF p1-2 | 13 |
 
-Reading notes: the 2083 Baishakh year is printed as such on the scan (checked at 300 dpi). In that paper Q2(a) has an illegible outer upper limit (solved as x from 1 to 2, general result given) and Q14's cross-term was read as 4x1x2 (gives eigenvalues 1,1,7). In 2081 Kartik Q11 the plane line is cut off by the scan edge and was read as x-2y+2z=3.
+Reading notes (session 3): Physics 2081 Baishakh Q7(b) solved for a charged, isolated capacitor (battery-connected result also given). Chemistry 2081 Baishakh Q10 is cut off at the bottom of the scan. Chemistry 2081 Kartik Q10(b) carries no marks on the scan. Maths III 2082 Kartik Q5(b) prints sum e^{ak} for a>0 (divergent); both the divergent case and the convergent e^{-ak} are answered. Maths III 2082 Chaitra Q11 prints '2zx - px^2 - 2xy + pq' (q lost); read as 2qxy like the Kartik paper.
+
+Reading notes (earlier): the 2083 Baishakh year is printed as such on the scan (checked at 300 dpi). In that paper Q2(a) has an illegible outer upper limit (solved as x from 1 to 2, general result given) and Q14's cross-term was read as 4x1x2 (gives eigenvalues 1,1,7). In 2081 Kartik Q11 the plane line is cut off by the scan edge and was read as x-2y+2z=3.
 
 ## Next paper candidates
-- `1st-semester/1st-Semester-Engineering-Physics-New-Course__1Wr5rbLk.pdf` (4 pp) and `1st-Semester-Engineering-Chemistry-New-Course__1yEQFgi0.pdf` (3 pp): next in line.
-- Then new-course small files: Basic Electrical and Electronics (6 pp), Fundamental of Electrical and Electronics (4), Digital Logic, OOP, Advanced Computer Programming, Electronic Circuits, Applied Mechanics (new, 71 pp compilation), Engineering Drawing (needs figures).
-- Then old-course compilations (36-60 pp each): split by sitting, one md per sitting.
-- Workflow per batch: `git show HEAD:<path> > src/x.pdf`, `pdftoppm -r 100 -png`, read pages, verify answers with sympy, write md (questions + `<!-- SOLUTIONS -->` + `@s N`), `/tmp/b.sh <id>` build, push, then `python3 bundle_engineering.py`.
+Scan page order caveat: in the IOE 'bani' compilations the continuation page of a paper can come BEFORE its first page (Maths III: p1 is the tail of p2). Read all pages before pairing.
+- `1st-semester/`: Basic Electrical and Electronics (6 pp), Fundamental of Electrical and Electronics (4), Engineering Drawing (needs figures), Engineering Mechanics (9), Engineering Geology I (3).
+- `2nd-semester/`: Engineering Physics new (8 pp, other sittings), Electrical Circuits and Machines (12), Electronic Device and Circuits (5), Object Oriented Programming (4), Strength of Materials (4), Survey I (8).
+- `3rd-semester/`: Numerical Methods (6), Fluid Mechanics (8), Communication English (4), Microprocessors (3), Theory of Structures I (4).
+- `4th-semester/`: Probability and Statistics (4), Hydraulics (5), Soil Mechanics (4), Operating System (4), Communication English (4).
+- Then old-course compilations (36-60 pp each): split by sitting, one md per sitting. Pokhara DOC/DOCX need LibreOffice conversion first.
+- Workflow per batch: `git show HEAD:<path> > src/x.pdf`, `pdftoppm -r 110 -png`, read pages, verify answers (sympy or by hand), write md (questions + `<!-- SOLUTIONS -->` + `@s N`), `/tmp/b.sh <id>` (wraps build_paper.py with the env below), then `python3 notes/papers/engineering/bundle_engineering.py`, then commit and push. Run `python3 fixq.py`-style fix (see Gotchas) on each md before building.
 
 ## Environment recipe (no root, no apt; worked in this sandbox)
 ```
@@ -48,5 +61,9 @@ Tesseract 5 with 125 languages is in that env (use `-l eng`) for scans whose pag
 - Sparse checkout must include `/notes/papers/*.py`, `/notes/papers/*.css`, `/notes/papers/engineering/content/**`, `/notes/papers/engineering/pdf/**`, `/notes/papers/tools/**` or the build scripts are missing.
 - Conic/lines in scans: crop at 200-300 dpi (`pdftoppm -x -y -W -H`) before guessing a digit.
 
+- Display equations with 2+ relation signs are auto-split into an aligned derivation. A line like `$$x = ..., \qquad y = ...$$` (two statements) gets mangled: put it in `\begin{gathered} a \\ b \end{gathered}`. Matplotlib figure text must use mathtext (`H$^+$`, `h$\nu$`), not Unicode super/subscripts or nu, or the glyph is missing.
+- Git push to the private repo failed once with `remote rejected` and passed on an immediate retry.
+- Bundle naming: `engineering-<subject>-<yearA>-<yearB>.pdf`, e.g. `engineering-mathematics-iii-2081-2082.pdf`.
+
 ## Honest scope note
-The repo holds 4,086 papers but only SIX (IOE Maths I and II) have been re-typeset with worked solutions so far. The rest are the original scans/DOCs, catalogued and ready. Pokhara DOC/DOCX (2,559 files) need LibreOffice conversion first (not installed; try `micromamba install libreoffice` into /tmp/menv).
+The repo holds 4,086 papers; 14 (IOE Maths I, II, III, Physics, Chemistry; 2081-2083) have been re-typeset with worked solutions. The rest are the original scans/DOCs, catalogued and ready. Pokhara DOC/DOCX (2,559 files) need LibreOffice conversion first (not installed; try `micromamba install libreoffice` into /tmp/menv).
