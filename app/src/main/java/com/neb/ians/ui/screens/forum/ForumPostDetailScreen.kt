@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.forum
 
+import com.neb.ians.ui.components.NebToastHost
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -111,8 +112,8 @@ import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
 import com.neb.ians.ui.components.ComposerAnonymousButton
 import com.neb.ians.ui.components.ReplyLabelSheet
-import com.neb.ians.ui.components.ComposerAttachButton
-import com.neb.ians.ui.components.ComposerPollButton
+import com.neb.ians.ui.components.ComposerAttachMenu
+import com.neb.ians.ui.components.ComposerPoll
 import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ForumAttachmentChip
 import com.neb.ians.ui.components.ForumMediaAttachments
@@ -226,16 +227,10 @@ fun ForumPostDetailScreen(
                         )
                     },
                     trailingContent = {
-                        ComposerPollButton(
-                            active = composerPoll != null,
+                        ComposerAttachMenu(
                             enabled = !isSubmittingReply,
-                            onClick = viewModel::toggleComposerPoll
-                        )
-                        ComposerAttachButton(
-                            enabled = !isSubmittingReply,
-                            onClick = {
-                                composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
-                            }
+                            onPick = { composerMediaPicker.launch(it) },
+                            poll = ComposerPoll(active = composerPoll != null, onToggle = viewModel::toggleComposerPoll)
                         )
                     },
                 onSend = {
@@ -276,7 +271,7 @@ fun ForumPostDetailScreen(
                 onBack = onNavigateBack
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         when {
@@ -715,11 +710,9 @@ fun ForumPostDetailScreen(
                             )
                         },
                         trailingContent = {
-                            ComposerAttachButton(
+                            ComposerAttachMenu(
                                 enabled = !isSubmittingReply,
-                                onClick = {
-                                    composerMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*"))
-                                }
+                                onPick = { composerMediaPicker.launch(it) }
                             )
                         },
                         onSend = {

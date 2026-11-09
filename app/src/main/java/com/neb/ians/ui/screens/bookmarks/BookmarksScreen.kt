@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.bookmarks
 
+import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -114,7 +115,7 @@ fun BookmarksScreen(
                 )
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {

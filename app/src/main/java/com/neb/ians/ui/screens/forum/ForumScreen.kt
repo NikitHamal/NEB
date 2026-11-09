@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.forum
 
+import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -231,7 +232,7 @@ fun ForumScreen(
                 )
             }
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { NebToastHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
         com.neb.ians.ui.components.NebRefreshBox(

@@ -58,6 +58,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.compose.ui.graphics.luminance
+import com.neb.ians.ui.screens.reader.pdf.readingPalette
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -199,6 +201,13 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
 
     ImmersiveWhileHidden(hidden = !chromeVisible || (state.readingMode && state.reading.zen))
     ReadingBrightness(if (state.readingMode) state.reading.brightness else -1f)
+    // the icons of the status and navigation bars follow what is behind them: the reading page, the canvas, or the app surface
+    val behindBars = when {
+        state.readingMode -> readingPalette(state.theme, look).bg
+        chromeVisible -> MaterialTheme.colorScheme.surface
+        else -> look.canvas
+    }
+    com.neb.ians.util.NebSystemBars(darkIcons = behindBars.luminance() > 0.5f)
     KeepScreenOn(state.keepScreenOn)
     BackHandler(enabled = zoomedIn) { zoom.reset() }
     BackHandler(enabled = state.search.open && !zoomedIn) { viewModel.closeSearch() }

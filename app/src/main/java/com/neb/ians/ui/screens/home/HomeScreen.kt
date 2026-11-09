@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.components.NebToastHost
 import com.neb.ians.ui.theme.seasonAmbience
 import com.neb.ians.ui.theme.hasGarland
 import androidx.compose.foundation.layout.Arrangement
@@ -111,7 +112,7 @@ fun HomeScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        snackbarHost = { NebToastHost(hostState = snackbarHostState) },
         topBar = {
             WebTopBar(
                 onSearchClick = onSearchClick,

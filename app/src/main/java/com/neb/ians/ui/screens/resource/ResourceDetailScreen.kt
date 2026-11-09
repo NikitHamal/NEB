@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.NebToastHost
 import com.neb.ians.ui.components.NebDropdownMenu
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -66,7 +67,7 @@ import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
-import com.neb.ians.ui.components.ComposerAttachButton
+import com.neb.ians.ui.components.ComposerAttachMenu
 import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ExpandableText
@@ -282,13 +283,11 @@ fun ResourceDetailScreen(
                         posting = uiState.isPostingComment,
                         sendContentDescription = "Post comment",
                         voiceNote = if (uiState.isAuthenticated) voiceNote else null,
-                        leadingContent = if (uiState.isAuthenticated) {
+                        trailingContent = if (uiState.isAuthenticated) {
                             {
-                                ComposerAttachButton(
+                                ComposerAttachMenu(
                                     enabled = !uiState.isPostingComment,
-                                    onClick = {
-                                        commentMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*", "image/*"))
-                                    }
+                                    onPick = { commentMediaPicker.launch(it) }
                                 )
                             }
                         } else null,
@@ -302,7 +301,7 @@ fun ResourceDetailScreen(
                     }
                 }
             },
-            snackbarHost = { if (!isFullscreen) SnackbarHost(snackbarHostState) },
+            snackbarHost = { if (!isFullscreen) NebToastHost(snackbarHostState) },
             containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
         ) { padding ->
             if (!isFullscreen) {
@@ -603,12 +602,10 @@ fun ResourceDetailScreen(
                                 posting = uiState.isPostingComment,
                                 sendContentDescription = "Post reply",
                                 voiceNote = voiceNote,
-                                leadingContent = {
-                                    ComposerAttachButton(
+                                trailingContent = {
+                                    ComposerAttachMenu(
                                         enabled = !uiState.isPostingComment,
-                                        onClick = {
-                                            commentMediaPicker.launch(arrayOf("video/*", "audio/*", "application/*", "text/*", "image/*"))
-                                        }
+                                        onPick = { commentMediaPicker.launch(it) }
                                     )
                                 },
                                 onSend = {

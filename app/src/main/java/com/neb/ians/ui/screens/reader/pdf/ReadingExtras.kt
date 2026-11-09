@@ -226,7 +226,7 @@ private fun RdZoomTable(b: TableBlock, p: ReadingPalette) {
                 Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     for (c in 0 until cols) {
                         Text(
-                            row.cells.getOrElse(c) { "" },
+                            plainText(row.cells.getOrElse(c) { "" }),
                             style = androidx.compose.ui.text.TextStyle(
                                 fontFamily = Poppins, fontSize = (15f * zoom).sp, lineHeight = (21f * zoom).sp,
                                 fontWeight = if (b.header && i == 0) FontWeight.SemiBold else FontWeight.Normal,
@@ -321,7 +321,8 @@ internal fun RdCallout(
     foldable: Boolean,
     folded: Boolean,
     forceOpen: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    inline: Map<String, androidx.compose.foundation.text.InlineTextContent> = emptyMap()
 ) {
     var open by remember(foldable, folded) { mutableStateOf(!(foldable && folded)) }
     val shown = open || forceOpen
@@ -347,7 +348,7 @@ internal fun RdCallout(
             if (foldable) Icon(Icons.Outlined.ExpandMore, null, tint = p.muted, modifier = Modifier.size(20.dp).graphicsLayer { rotationZ = turn })
         }
         if (shown) Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)) {
-            SelectionContainer { Text(body, style = style) }
+            SelectionContainer { Text(body, style = style, inlineContent = inline) }
         }
     }
 }

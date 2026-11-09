@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.avatar
 
+import com.neb.ians.ui.components.NebToastHost
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -80,7 +81,7 @@ fun MyAvatarScreen(
                 }
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { NebToastHost(snackbarHostState) }
     ) { padding ->
         if (uiState.loading && uiState.username.isBlank()) {
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {

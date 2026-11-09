@@ -52,7 +52,10 @@ class PdfDocumentEngine private constructor(
         if (index !in 0 until pageCount || widthPx <= 0 || rect.w <= 0.001f || rect.h <= 0.001f) return null
         val key = cropKey(index, rect, widthPx)
         crops.get(key)?.let { return it }
-        val pageWidth = (widthPx / rect.w).toInt().coerceIn(THUMB_WIDTH, MAX_WIDTH)
+        // page renders are shared between crops: the width is rounded up to a step so the dozens of small
+        // pictures on one page (typeset maths set inside the text) come out of one render, not one each
+        val wanted = (widthPx / rect.w).toInt().coerceIn(THUMB_WIDTH, MAX_WIDTH)
+        val pageWidth = (((wanted + 255) / 256) * 256).coerceAtMost(MAX_WIDTH)
         val page = render(index, pageWidth) ?: return null
         return withContext(Dispatchers.Default) {
             val x = (rect.l * page.width).toInt().coerceIn(0, page.width - 1)

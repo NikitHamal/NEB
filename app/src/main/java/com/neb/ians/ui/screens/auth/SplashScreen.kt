@@ -38,8 +38,8 @@ import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.md_theme_light_primaryContainer
 import com.neb.ians.ui.theme.nebAnimationsReduced
 import com.neb.ians.ui.theme.nebEffectsSpec
-import com.neb.ians.ui.theme.nebSlowSpatialSpec
-import com.neb.ians.util.HideStatusBarEffect
+import com.neb.ians.ui.theme.nebSpatialSpec
+import com.neb.ians.util.NebSystemBars
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -71,10 +71,11 @@ fun SplashScreen(
     onNavigateToCompleteProfile: () -> Unit,
     onNavigateToIntro: () -> Unit = onNavigateToLogin
 ) {
-    HideStatusBarEffect()
+    // the status bar stays where it is (hiding it moved the next screen by its height); dark icons on the white splash
+    NebSystemBars(darkIcons = true)
 
     val reduced = nebAnimationsReduced()
-    val spatial = nebSlowSpatialSpec<Float>()
+    val spatial = nebSpatialSpec<Float>()
     val effects = nebEffectsSpec<Float>()
 
     val bloom = remember { Animatable(0f) }
@@ -98,33 +99,33 @@ fun SplashScreen(
                 assembly.snapTo(1f)
                 tiles.forEach { it.snapTo(1f) }
                 letters.forEach { it.snapTo(1f) }
-                delay(450)
+                delay(300)
             } else {
                 launch { bloom.animateTo(1f, spatial) }
                 launch {
                     morph.animateTo(
                         SPLASH_BLOB.size - 1f,
-                        spring(Spring.DampingRatioLowBouncy, Spring.StiffnessVeryLow)
+                        spring(Spring.DampingRatioLowBouncy, Spring.StiffnessMediumLow)
                     )
                 }
-                delay(160)
-                launch { assembly.animateTo(1f, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow)) }
+                delay(70)
+                launch { assembly.animateTo(1f, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessMedium)) }
                 tiles.forEachIndexed { i, tile ->
                     launch {
-                        delay(i * 90L)
+                        delay(i * 50L)
                         tile.animateTo(1f, spatial)
                     }
                 }
-                delay(620)
+                delay(300)
                 letters.forEachIndexed { i, letter ->
                     launch {
-                        delay(i * 45L)
+                        delay(i * 26L)
                         letter.animateTo(1f, spatial)
                     }
                 }
-                delay(520)
-                delay(900)
-                exit.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 520f, visibilityThreshold = 0.002f))
+                delay(200)
+                delay(260)
+                exit.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 800f, visibilityThreshold = 0.002f))
             }
 
             val (auth, seen) = destination.await()
