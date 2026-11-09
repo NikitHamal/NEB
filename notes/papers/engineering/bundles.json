@@ -51,7 +51,21 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704562,
+  "bytes": 1704561,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-mathematics-iii-2081-2082.pdf",
+  "subject": "Engineering Mathematics III",
+  "level": "BE \u00b7 Year II / Part I",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ensh201-2082-chaitra",
+   "ioe-ensh201-2082-kartik",
+   "ioe-ensh201-2081-chaitra"
+  ],
+  "pages": 42,
+  "bytes": 2116782,
   "kind": "subject-bundle"
  },
  {
@@ -64,6 +78,9 @@
    "ioe-ensh103-2081-chaitra",
    "ioe-ensh151-2082-bhadra",
    "ioe-ensh151-2083-baishakh",
+   "ioe-ensh201-2081-chaitra",
+   "ioe-ensh201-2082-chaitra",
+   "ioe-ensh201-2082-kartik",
    "ioe-sh101-2081-baishakh",
    "ioe-sh101-2081-kartik",
    "ioe-sh102-2081-baishakh",
@@ -71,8 +88,8 @@
    "ioe-sh103-2081-kartik",
    "ioe-sh151-2081-ashwin"
   ],
-  "pages": 134,
-  "bytes": 6047651,
+  "pages": 176,
+  "bytes": 8139858,
   "kind": "master-book"
  }
 ]
