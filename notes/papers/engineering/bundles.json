@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709061,
+  "bytes": 709060,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792104,
+  "bytes": 792103,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823190,
+  "bytes": 1823189,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581581,
+  "bytes": 581580,
   "kind": "subject-bundle"
  },
  {
@@ -190,6 +190,19 @@
   ],
   "pages": 36,
   "bytes": 1645018,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-communication-english-2081-2082.pdf",
+  "subject": "Communication English",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-ensh204-2082-kartik",
+   "ioe-ensh204-2081-chaitra"
+  ],
+  "pages": 34,
+  "bytes": 358211,
   "kind": "subject-bundle"
  },
  {
@@ -241,7 +254,7 @@
    "ioe-enct253-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1081968,
+  "bytes": 1081969,
   "kind": "subject-bundle"
  },
  {
@@ -280,7 +293,7 @@
    "ioe-enex254-2082-bhadra"
   ],
   "pages": 29,
-  "bytes": 1777020,
+  "bytes": 1777021,
   "kind": "subject-bundle"
  },
  {
@@ -308,7 +321,7 @@
    "ioe-enex201-2081-chaitra"
   ],
   "pages": 38,
-  "bytes": 929275,
+  "bytes": 929276,
   "kind": "subject-bundle"
  },
  {
@@ -361,7 +374,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -388,7 +401,7 @@
    "ioe-enct203-2081-chaitra"
   ],
   "pages": 51,
-  "bytes": 1775479,
+  "bytes": 1775478,
   "kind": "subject-bundle"
  },
  {
@@ -464,6 +477,8 @@
    "ioe-ensh202-2081-chaitra",
    "ioe-ensh202-2082-chaitra",
    "ioe-ensh202-2082-kartik",
+   "ioe-ensh204-2081-chaitra",
+   "ioe-ensh204-2082-kartik",
    "ioe-ensh253-2082-bhadra",
    "ioe-ensh253-2083-baishakh",
    "ioe-ex101-2081-baishakh",
@@ -482,8 +497,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1202,
-  "bytes": 44601821,
+  "pages": 1235,
+  "bytes": 44943993,
   "kind": "master-book"
  }
 ]
