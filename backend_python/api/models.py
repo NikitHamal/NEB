@@ -103,6 +103,7 @@ class User(models.Model):
     district = models.CharField(max_length=100, blank=True, null=True)
     school = models.CharField(max_length=200, blank=True, null=True)
     school_username = models.CharField(max_length=50, blank=True, default='')
+    school_slug = models.CharField(max_length=90, blank=True, default='', db_index=True)
     bio = models.TextField(blank=True, default='')
     is_locked = models.BooleanField(default=False)
     # Administrative ban. DISTINCT from is_locked (which is the user's own
@@ -2737,3 +2738,5 @@ class ResourceImpression(models.Model):
         db_table = 'resource_impressions'
         unique_together = ('resource', 'day', 'source')
         indexes = [models.Index(fields=['day'], name='resimp_day_idx')]
+
+from .models_institutions import Institution, InstitutionVerification, InstitutionDocument  # noqa: E402,F401
