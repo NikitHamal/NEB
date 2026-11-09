@@ -48,3 +48,13 @@ Brief: reading mode had no finger controls, weak figure, table and MCQ handling.
 - Callout card has no collapse for answers; every answer is visible.
 - Two column papers still interleave; scanned pages have no text, so they stay crops.
 - Not run on a device.
+
+## Session 4 (reading mode: maths inside choices, folded answers, text size controls, accessibility)
+
+- **Choices with pictures:** `optionRun` (`ReadingExtras.kt`) takes the figures that follow a lettered choice into that choice's row (print sets maths as small images). After the last choice only equations are taken, so a figure that belongs to the next paragraph stays a figure. Rows are `selectable` with the radio role, so TalkBack reads "selected".
+- **Callout cards:** `RdCallout` is the print `.box`: icon and uppercase label on a header row, the text under it. Hint and Tip get a bulb, Answer, Solution and Explanation a tick, Caution and Warning a triangle, Formula a function sign, Example a notes mark, the rest an info mark. Search marks survive (the label is cut off the annotated string, not rebuilt).
+- **Hide answers until tapped:** Reading sheet toggle (`ReadingSettings.hideAnswers`, pref `rd_hide_ans`). Answer, Solution and Explanation cards start folded; the header is a button with a chevron. A running search opens them.
+- **Text size buttons:** the bottom bar has Smaller and Larger text (5 % steps, 70 to 300 %). The page slider announces "Page N of M". The text list exposes "Larger text" and "Smaller text" as TalkBack custom actions.
+- **Bug fixed:** the saved text size was clamped to 220 % on load while the slider and pinch allow 300 %.
+- Still unmapped: fact sheet grids (`.fxs`) read as figures and short paragraphs, two column papers interleave, scanned pages stay crops.
+- Not compiled locally (a 2 GB box cannot hold the Compose compile) and not run on a device; the GitHub Actions build is the check.

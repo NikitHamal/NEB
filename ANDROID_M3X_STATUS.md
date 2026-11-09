@@ -131,3 +131,11 @@ Brief: the app still read blue next to the web (cards, popups, backgrounds), the
 - Nothing here has run on a device. First look on hardware: the composer open and closed states, the kind sheet, the About hero morph, menus in light and dark.
 - Some `surfaceContainerLow` fills on white pages (55 sites) are now very light grey instead of blue; if any card reads flat, give it the hairline card treatment instead of a darker fill.
 - Replies in a thread sheet still post comments only (no type tool on nested replies, matching the API).
+
+## Session 10: reading mode second pass, audit of the session 9 surface rules
+
+Brief: session 9's brief repeated with "go all out". `main` already had the palette pin, `NebFloat`, the web composer and About, so this session audited first.
+
+- Audit: no bare `DropdownMenu` outside `NebMenu.kt`; every `ModalBottomSheet` and `AlertDialog` takes `nebFloatColor()` (`NebPickerSheet` takes its picker palette's page colour, `AuthLegalSheet` pins white or near-black itself). No light bluish hex values are hard-coded outside data colours, simulations and festival art.
+- Reading mode: see `PDF_ANDROID_STATUS.md` session 4.
+- Toolchain on a 2 GB box with no swap and no root: the whole-module Compose compile is killed (exit 137) even with `-Xmx1200m`. Use a bigger pod, or rely on CI.
