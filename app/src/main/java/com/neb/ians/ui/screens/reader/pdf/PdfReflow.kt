@@ -1,0 +1,712 @@
+package com.neb.ians.ui.screens.reader.pdf
+
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+
+/*
+ * Turns what a page draws into what a person reads: headings, paragraphs, lists, code, tables, and
+ * the pictures (diagrams, equations drawn as outlines, photos) kept as crops of the real page.
+ * The reading mode shows these blocks in a column that reflows to the screen and the type size.
+ * Pure Kotlin on purpose; see PdfSyntax.kt.
+ */
+
+const val SPAN_SUP = 8
+const val SPAN_SUB = 16
+
+data class Span(val text: String, val flags: Int = 0, val href: String? = null) {
+    val bold get() = flags and ST_BOLD != 0
+    val italic get() = flags and ST_ITALIC != 0
+    val mono get() = flags and ST_MONO != 0
+    val sup get() = flags and SPAN_SUP != 0
+    val sub get() = flags and SPAN_SUB != 0
+}
+
+sealed class Block
+class HeadingBlock(val level: Int, val text: String, val jump: Int) : Block()
+class ParaBlock(val spans: List<Span>, val jump: Int, val startsLower: Boolean, val endsOpen: Boolean) : Block() {
+    val text: String by lazy(LazyThreadSafetyMode.NONE) { spans.joinToString("") { it.text } }
+}
+class ItemBlock(val marker: String, val spans: List<Span>, val depth: Int, val jump: Int) : Block() {
+    val text: String by lazy(LazyThreadSafetyMode.NONE) { spans.joinToString("") { it.text } }
+}
+class CodeBlock(val text: String) : Block()
+class LabelBlock(val text: String) : Block()
+class TableRow(val cells: List<String>, val jump: Int)
+class TableBlock(val rows: List<TableRow>, val header: Boolean) : Block()
+
+/** A crop of the page. [widthPts] and [heightPts] are its size on the page, so it can scale with the text. */
+class FigureBlock(val page: Int, val rect: FRect, val widthPts: Float, val heightPts: Float, val equation: Boolean) : Block()
+
+class ReflowPage(val page: Int, val blocks: List<Block>, val words: Int)
+
+class ReflowStats(val body: Float, val headSizes: List<Float>, val furniture: Set<String>, val leading: Float)
+
+internal class Cell(val x0: Float, val x1: Float, val spans: List<Span>) {
+    val text: String get() = spans.joinToString("") { it.text }.trim()
+}
+
+internal class Line(val runs: List<Run>, val size: Float, val base: Float) {
+    val x0 = runs.minOf { it.x0 }
+    val x1 = runs.maxOf { it.x1 }
+    val top get() = base - size * 0.95f
+    val bottom get() = base + size * 0.32f
+    var cells: List<Cell> = emptyList()
+    var bold = false
+    var mono = false
+    var unmapped = false
+    var jump = -1
+    val text: String get() = cells.joinToString(" ") { it.text }
+    val spans: List<Span> get() = cells.flatMap { it.spans }
+    val chars: Int get() = runs.sumOf { it.text.length }
+}
+
+private class Box(var l: Float, var t: Float, var r: Float, var b: Float) {
+    fun union(o: Box) { l = min(l, o.l); t = min(t, o.t); r = max(r, o.r); b = max(b, o.b) }
+    fun intersects(o: Box, pad: Float = 0f) = l - pad <= o.r && r + pad >= o.l && t - pad <= o.b && b + pad >= o.t
+    fun contains(o: Box) = l <= o.l + 1 && r >= o.r - 1 && t <= o.t + 1 && b >= o.b - 1
+    val w get() = r - l
+    val h get() = b - t
+    val area get() = max(0f, w) * max(0f, h)
+}
+
+internal object PdfReflow {
+
+    // ----------------------------------------------------------------- lines
+
+    private fun clean(s: String): String {
+        val sb = StringBuilder(s.length)
+        for (ch in s) {
+            when {
+                ch == '\u00A0' || ch == '\u2009' || ch == '\u202F' || ch == '\u2002' || ch == '\u2003' -> sb.append(' ')
+                ch == '\u00AD' || ch == '\uFFFC' || ch == '\u200B' || ch == '\u200C' || ch == '\u200D' || ch == '\uFEFF' -> {}
+                ch < ' ' -> {}
+                else -> sb.append(ch)
+            }
+        }
+        return sb.toString()
+    }
+
+    internal fun groupLines(runs: List<Run>): List<Line> {
+        if (runs.isEmpty()) return emptyList()
+        val sorted = runs.sortedWith(compareBy<Run>({ it.base }, { it.x0 }))
+        val groups = ArrayList<ArrayList<Run>>()
+        var cur: ArrayList<Run>? = null
+        var curBase = 0f
+        var curSize = 0f
+        for (r in sorted) {
+            val c = cur
+            val mx = max(r.size, curSize)
+            val differ = c != null && (r.size < curSize * 0.82f || curSize < r.size * 0.82f)
+            val tol = if (differ) 0.55f * mx else 0.3f * mx
+            if (c != null && abs(r.base - curBase) <= tol) {
+                c.add(r)
+                if (r.size > curSize) { curSize = r.size; curBase = r.base }
+            } else {
+                cur = arrayListOf(r); groups.add(cur)
+                curBase = r.base; curSize = r.size
+            }
+        }
+        val lines = ArrayList<Line>(groups.size)
+        for (g in groups) {
+            val big = g.maxByOrNull { it.size * (1 + it.text.length.coerceAtMost(8) * 0.01f) }!!
+            val line = Line(g.sortedBy { it.x0 }, big.size, big.base)
+            buildCells(line)
+            if (line.text.isNotBlank()) lines.add(line)
+        }
+        return lines.sortedBy { it.base }
+    }
+
+    private fun buildCells(line: Line) {
+        val cells = ArrayList<Cell>()
+        var spans = ArrayList<Span>()
+        var cellX0 = 0f
+        var prev: Run? = null
+        var prevEndsSpace = true
+        var boldAll = true
+        var monoAll = true
+        var any = false
+        var jump = -1
+        fun add(text: String, flags: Int, href: String?) {
+            if (text.isEmpty()) return
+            val last = spans.lastOrNull()
+            if (last != null && last.flags == flags && last.href == href) spans[spans.size - 1] = Span(last.text + text, flags, href)
+            else spans.add(Span(text, flags, href))
+        }
+        for (r in line.runs) {
+            val text = clean(r.text)
+            if (r.unmapped) line.unmapped = true
+            if (text.isBlank()) {
+                if (prev != null && spans.isNotEmpty() && !prevEndsSpace) add(" ", spans.last().flags, null)
+                if (prev != null) prevEndsSpace = true
+                continue
+            }
+            any = true
+            if (r.style and ST_BOLD == 0) boldAll = false
+            if (r.style and ST_MONO == 0) monoAll = false
+            if (r.jump >= 0 && jump < 0) jump = r.jump
+            var flags = r.style
+            if (r.size < line.size * 0.82f) {
+                if (r.base < line.base - line.size * 0.12f) flags = flags or SPAN_SUP
+                else if (r.base > line.base + line.size * 0.12f) flags = flags or SPAN_SUB
+            }
+            val p = prev
+            if (p == null) {
+                cellX0 = r.x0
+            } else {
+                val gap = r.x0 - p.x1
+                val ref = max(p.size, r.size)
+                if (gap > 2.0f * ref && gap > 12f) {
+                    cells.add(Cell(cellX0, p.x1, spans)); spans = ArrayList(); cellX0 = r.x0; prevEndsSpace = true
+                } else if (gap > 0.15f * ref && !prevEndsSpace && !text.startsWith(" ")) {
+                    add(" ", spans.lastOrNull()?.flags ?: 0, null)
+                }
+            }
+            val lead = if (spans.isEmpty()) text.trimStart() else text
+            add(lead, flags, r.href)
+            prevEndsSpace = text.endsWith(" ")
+            prev = r
+        }
+        if (prev != null) cells.add(Cell(cellX0, prev.x1, spans))
+        line.cells = cells
+        line.bold = any && boldAll
+        line.mono = any && monoAll
+        line.jump = jump
+    }
+
+    // ----------------------------------------------------------------- stats
+
+    private fun norm(t: String) = t.lowercase().replace(Regex("[0-9]+"), "#").replace(Regex("\\s+"), " ").trim()
+
+    private fun inBand(l: Line, h: Float) = l.base < 0.085f * h || l.base > 0.925f * h
+
+    fun stats(samples: List<PageContent>): ReflowStats {
+        val sizeChars = HashMap<Int, Int>()
+        val furn = HashMap<String, Int>()
+        val diffs = ArrayList<Float>()
+        for (c in samples) {
+            val lines = groupLines(c.runs.filter { !it.hidden })
+            val seen = HashSet<String>()
+            val mid = ArrayList<Line>()
+            for (l in lines) {
+                if (inBand(l, c.height)) { for (cell in l.cells) seen.add(norm(cell.text)); continue }
+                mid.add(l)
+                val key = Math.round(l.size * 2f)
+                sizeChars[key] = (sizeChars[key] ?: 0) + l.chars
+            }
+            for (s in seen) furn[s] = (furn[s] ?: 0) + 1
+            for (i in 1 until mid.size) {
+                val a = mid[i - 1]; val b = mid[i]
+                val d = b.base - a.base
+                if (abs(a.size - b.size) < 0.6f && d > a.size * 1.0f && d < a.size * 2.4f) diffs.add(d / a.size)
+            }
+        }
+        val bodyKey = sizeChars.maxByOrNull { it.value }?.key ?: 22
+        val body = bodyKey / 2f
+        val heads = sizeChars.filter { it.key / 2f >= body * 1.15f && it.value >= 3 }.keys.sortedDescending().map { it / 2f }
+        val merged = ArrayList<Float>()
+        for (h in heads) if (merged.isEmpty() || merged.last() - h > 0.12f * h) merged.add(h)
+        val need = max(2, Math.ceil(samples.size * 0.34).toInt())
+        val furniture = furn.filter { it.value >= need && it.key.isNotBlank() }.keys
+        val leading = if (diffs.isEmpty()) 1.45f else diffs.sorted()[diffs.size / 2]
+        return ReflowStats(body, merged.take(4), furniture, leading.coerceIn(1.1f, 2.0f))
+    }
+
+    // ----------------------------------------------------------------- build
+
+    private val BULLET = Regex("^([\\u2022\\u00B7\\u25AA\\u25E6\\u2023\\u25CF\\u25CB\\u25A0\\u25A1\\u2013\\u2014\\u2713\\u2714*]|-)\\s+")
+    private val NUMBERED = Regex("^(\\(?\\d{1,3}[.)]|\\(?[a-z]\\)|\\(?[ivx]{1,4}[.)])\\s+")
+    private val TERMINAL = Regex("[.!?:;\\u201D\")\\u2026]$")
+
+    fun build(page: Int, c: PageContent, st: ReflowStats, links: List<PdfLink>): ReflowPage {
+        val W = c.width; val H = c.height
+        assignLinks(c.runs, links, W, H)
+        var runs = c.runs.filter { !it.hidden }
+        val visibleChars = runs.sumOf { it.text.length }
+        val hiddenRuns = c.runs.filter { it.hidden }
+        val ocr = visibleChars < 10 && hiddenRuns.sumOf { it.text.length } >= 10
+        if (ocr) runs = hiddenRuns
+        val all = groupLines(runs)
+        val body = st.body
+
+        // pictures first: they take the text that is part of them
+        val figs = figures(c, all, st, ocr || visibleChars > 200)
+        val absorbed = HashSet<Line>()
+        val items = ArrayList<Pair<Float, Block>>()
+        for (f in figs) {
+            val r = f.box
+            for (l in all) {
+                val cx = (l.x0 + l.x1) / 2f
+                val cy = l.base - l.size * 0.3f
+                if (cx >= r.l - 2 && cx <= r.r + 2 && cy >= r.t - 2 && cy <= r.b + 2) absorbed.add(l)
+            }
+        }
+        for (f in figs) {
+            val r = f.box
+            val rect = FRect((r.l / W).coerceIn(0f, 1f), (r.t / H).coerceIn(0f, 1f), (r.r / W).coerceIn(0f, 1f), (r.b / H).coerceIn(0f, 1f))
+            if (rect.w < 0.01f || rect.h < 0.004f) continue
+            items.add(r.t to FigureBlock(page, rect, rect.w * W, rect.h * H, f.equation))
+        }
+
+        val lines = all.filter { it !in absorbed && !(inBand(it, H) && (isPageNumber(it.text) || it.cells.any { c -> norm(c.text) in st.furniture || isPageNumber(c.text) })) }
+        val body10 = lines.filter { abs(it.size - body) < body * 0.15f && it.text.length > 24 }
+        val left = if (body10.isNotEmpty()) body10.map { it.x0 }.sorted()[body10.size / 10] else (lines.minOfOrNull { it.x0 } ?: 0f)
+
+        var i = 0
+        val n = lines.size
+        while (i < n) {
+            val line = lines[i]
+            val top = line.top
+            // table
+            if (line.cells.size >= 2 && !line.mono) {
+                val t = table(lines, i, 0)
+                if (t != null) { items.add(top to t.first); i = t.second; continue }
+            } else if (line.cells.size == 1 && !line.mono && i + 1 < n && lines[i + 1].cells.size >= 2 && !lines[i + 1].mono &&
+                lines[i + 1].base - line.base < 1.2f * line.size && line.size <= body * 1.02f
+            ) {
+                val t = table(lines, i + 1, 1)
+                if (t != null) { items.add(top to t.first); i = t.second; continue }
+            }
+            // code
+            if (line.mono && line.text.length >= 2) {
+                var j = i
+                val sb = StringBuilder()
+                val unit = line.size * 0.6f
+                var minX = Float.MAX_VALUE
+                while (j < n && lines[j].mono && (j == i || lines[j].base - lines[j - 1].base < lines[j - 1].size * 2.4f)) { minX = min(minX, lines[j].x0); j++ }
+                for (k in i until j) {
+                    val l = lines[k]
+                    if (k > i) {
+                        val blank = ((l.base - lines[k - 1].base) / (lines[k - 1].size * 1.5f)).toInt() - 1
+                        repeat(blank.coerceIn(0, 2)) { sb.append('\n') }
+                        sb.append('\n')
+                    }
+                    repeat(((l.x0 - minX) / unit).toInt().coerceIn(0, 40)) { sb.append(' ') }
+                    sb.append(l.cells.joinToString("  ") { it.text })
+                }
+                items.add(top to CodeBlock(sb.toString())); i = j; continue
+            }
+            // heading by size
+            val level = headingLevel(line, st)
+            if (level > 0) {
+                var j = i + 1
+                val sb = StringBuilder(line.text)
+                while (j < n && headingLevel(lines[j], st) > 0 && lines[j].size >= line.size * 0.84f && lines[j].size <= line.size * 1.06f && lines[j].base - lines[j - 1].base < line.size * 1.7f && lines[j].cells.size == 1) { sb.append(' ').append(lines[j].text); j++ }
+                items.add(top to HeadingBlock(level, sb.toString().trim(), jumpOf(lines, i, j)))
+                i = j; continue
+            }
+            // label: short bold capitals
+            if (line.bold && isCaps(line.text) && line.text.length in 3..80 && line.size <= body * 1.05f) {
+                items.add(top to LabelBlock(line.text)); i++; continue
+            }
+            // list item
+            val marker = markerOf(line)
+            if (marker != null) {
+                val first = line.runs.firstOrNull { clean(it.text).isNotBlank() }
+                val second = line.runs.firstOrNull { it !== first && it.x0 >= (first?.x1 ?: 0f) - 0.5f && clean(it.text).isNotBlank() }
+                val textX = if (first != null && clean(first.text).trim() == marker && second != null) second.x0 else line.x0 + line.size * 1.3f
+                var j = i + 1
+                val spans = ArrayList<Span>(stripMarker(line, marker))
+                while (j < n) {
+                    val l = lines[j]
+                    val gap = l.base - lines[j - 1].base
+                    if (gap > st.leading * line.size * 1.22f || abs(l.size - line.size) > line.size * 0.15f) break
+                    if (l.cells.size != 1 || markerOf(l) != null || l.mono || l.x0 < textX - line.size * 0.8f) break
+                    if (headingLevel(l, st) > 0) break
+                    joinInto(spans, l.spans)
+                    j++
+                }
+                val depth = ((line.x0 - left) / (line.size * 1.8f)).let { Math.round(it) }.coerceIn(0, 3)
+                items.add(top to ItemBlock(marker.trim(), spans, depth, jumpOf(lines, i, j)))
+                i = j; continue
+            }
+            // bold-only short line: a sub heading
+            if (line.bold && line.cells.size == 1 && line.text.length <= 100 && !TERMINAL.containsMatchIn(line.text.trim()) &&
+                (i + 1 >= n || lines[i + 1].base - line.base > line.size * 1.05f) && line.size >= body * 0.9f
+            ) {
+                // only when what follows is not more of the same line
+                val lvl = min(st.headSizes.size + 1, 4).coerceAtLeast(2)
+                items.add(top to HeadingBlock(lvl, line.text.trim(), jumpOf(lines, i, i + 1)))
+                i++; continue
+            }
+            // paragraph
+            var j = i + 1
+            val spans = ArrayList<Span>(line.spans)
+            var prevLine = line
+            val paraLeft = line.x0
+            val rightEdge = lines.filter { abs(it.size - body) < body * 0.15f }.maxOfOrNull { it.x1 } ?: line.x1
+            while (j < n) {
+                val l = lines[j]
+                val gap = l.base - prevLine.base
+                if (gap > st.leading * max(line.size, l.size) * 1.22f) break
+                if (abs(l.size - line.size) > line.size * 0.12f) break
+                if (l.cells.size != 1 || l.mono || markerOf(l) != null) break
+                if (headingLevel(l, st) > 0) break
+                if (l.bold && !line.bold && isCaps(l.text)) break
+                val prevShort = prevLine.x1 < rightEdge - line.size * 3f
+                val prevEnds = TERMINAL.containsMatchIn(prevLine.text.trim())
+                if (prevShort && prevEnds && gap > st.leading * line.size * 1.05f) break
+                if (l.x0 - paraLeft > line.size * 1.2f && prevEnds && prevShort) break
+                if (paraLeft - l.x0 > line.size * 2.5f) break
+                joinInto(spans, l.spans)
+                prevLine = l
+                j++
+            }
+            val text = spans.joinToString("") { it.text }.trim()
+            if (text.isNotEmpty()) {
+                val firstLetter = text.firstOrNull { it.isLetter() }
+                items.add(top to ParaBlock(
+                    spans, jumpOf(lines, i, j),
+                    startsLower = firstLetter != null && firstLetter.isLowerCase() && !(text.length > 1 && text[0].isDigit()),
+                    endsOpen = !TERMINAL.containsMatchIn(text) && text.length > 40
+                ))
+            }
+            i = j
+        }
+        val blocks = items.sortedBy { it.first }.map { it.second }
+        val words = blocks.sumOf {
+            when (it) {
+                is ParaBlock -> wordCount(it.text)
+                is ItemBlock -> wordCount(it.text)
+                is HeadingBlock -> wordCount(it.text)
+                is TableBlock -> it.rows.sumOf { r -> r.cells.sumOf { c -> wordCount(c) } }
+                else -> 0
+            }
+        }
+        return ReflowPage(page, blocks, words)
+    }
+
+    private fun isHyphen(c: Char?) = c == '-' || c == '\u2010' || c == '\u2011'
+
+    private fun wordCount(s: String): Int {
+        var n = 0; var inWord = false
+        for (ch in s) { if (ch.isWhitespace()) inWord = false else if (!inWord) { inWord = true; n++ } }
+        return n
+    }
+
+    private fun jumpOf(lines: List<Line>, from: Int, to: Int): Int {
+        for (k in from until min(to, lines.size)) if (lines[k].jump >= 0) return lines[k].jump
+        return -1
+    }
+
+    private fun isPageNumber(t: String): Boolean {
+        val s = t.trim().lowercase()
+        return s.matches(Regex("(page\\s*)?[0-9]{1,4}(\\s*(/|of)\\s*[0-9]{1,4})?")) || s.matches(Regex("[ivxlc]{1,6}")) || s.matches(Regex("-\\s*[0-9]{1,4}\\s*-"))
+    }
+
+    private fun isCaps(t: String): Boolean {
+        var letters = 0
+        for (ch in t) if (ch.isLetter()) { letters++; if (ch.isLowerCase()) return false }
+        return letters >= 3
+    }
+
+    private fun headingLevel(l: Line, st: ReflowStats): Int {
+        if (l.cells.size != 1 || l.mono) return 0
+        if (l.size < st.body * 1.15f) return 0
+        if (l.text.length > 180) return 0
+        val idx = st.headSizes.indexOfFirst { l.size >= it - 0.45f }
+        return when {
+            idx < 0 -> 3
+            idx == 0 -> 1
+            idx == 1 -> 2
+            else -> 3
+        }
+    }
+
+    private fun markerOf(l: Line): String? {
+        if (l.cells.isEmpty() || l.mono) return null
+        val t = l.cells[0].text
+        BULLET.find(t + " ")?.let { return it.groupValues[1] }
+        NUMBERED.find(t)?.let { return it.groupValues[1] }
+        // a bullet drawn alone in its own run
+        val first = l.runs.firstOrNull { clean(it.text).isNotBlank() }?.let { clean(it.text).trim() }
+        if (first != null && first.length == 1 && first in "\u2022\u00B7\u25AA\u25E6\u2023\u25CF\u25CB\u25A0\u25A1\u2713\u2714" && t.length > 1) return first
+        return null
+    }
+
+    private fun stripMarker(l: Line, marker: String): List<Span> {
+        val spans = ArrayList(l.spans)
+        if (spans.isEmpty()) return spans
+        var first = spans[0]
+        var t = first.text
+        if (t.startsWith(marker)) t = t.substring(marker.length).trimStart()
+        if (t.isEmpty()) spans.removeAt(0) else { first = Span(t, first.flags, first.href); spans[0] = first }
+        return spans
+    }
+
+    private fun joinInto(spans: MutableList<Span>, more: List<Span>) {
+        if (more.isEmpty()) return
+        val last = spans.lastOrNull()
+        val firstNew = more[0]
+        var startIndex = 0
+        if (last != null) {
+            val lt = last.text
+            if (isHyphen(lt.lastOrNull()) && lt.length > 1 && firstNew.text.firstOrNull()?.isLowerCase() == true) {
+                val soft = lt[lt.length - 2].isLetter()
+                spans[spans.size - 1] = Span((if (soft) lt.dropLast(1) else lt) + firstNew.text, last.flags, last.href)
+                startIndex = 1
+            } else if (!lt.endsWith(" ") && !firstNew.text.startsWith(" ")) {
+                spans[spans.size - 1] = Span(lt + " ", last.flags, last.href)
+            }
+        }
+        for (k in startIndex until more.size) {
+            val s = more[k]
+            val l2 = spans.lastOrNull()
+            if (l2 != null && l2.flags == s.flags && l2.href == s.href) spans[spans.size - 1] = Span(l2.text + s.text, s.flags, s.href)
+            else spans.add(s)
+        }
+    }
+
+    private fun assignLinks(runs: List<Run>, links: List<PdfLink>, w: Float, h: Float) {
+        if (links.isEmpty()) return
+        for (r in runs) {
+            val cx = (r.x0 + r.x1) / 2f / w
+            val cy = (r.base - r.size * 0.3f) / h
+            for (l in links) {
+                if (l.rect.contains(cx, cy)) {
+                    if (l.page >= 0) r.jump = l.page else if (l.uri != null) r.href = l.uri
+                    break
+                }
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------- tables
+
+    /**
+     * A table starting at [start] (a line with several cells). [pre] single-cell lines just above it belong to
+     * the first row: cells are centred in their row, so a tall cell's first line sits above the row's other cells.
+     */
+    private fun table(lines: List<Line>, start: Int, pre: Int): Pair<TableBlock, Int>? {
+        val first = lines[start]
+        val head = lines.subList(start - pre, start + 1)
+        val cols = ArrayList<Float>()
+        for (l in head) for (c in l.cells) if (cols.none { abs(it - c.x0) <= max(6f, l.size * 0.9f) }) cols.add(c.x0)
+        cols.sort()
+        class Row(val cells: Array<StringBuilder>, var jump: Int, var bold: Boolean)
+        val rows = ArrayList<Row>()
+        fun colOf(c: Cell, size: Float): Int {
+            var best = -1; var bd = Float.MAX_VALUE
+            for ((k, x) in cols.withIndex()) { val d = abs(c.x0 - x); if (d < bd) { bd = d; best = k } }
+            return if (bd <= max(6f, size * 0.9f)) best else -1
+        }
+        fun put(row: Row, l: Line): Boolean {
+            val idx = l.cells.map { colOf(it, l.size) }
+            if (idx.any { it < 0 }) return false
+            for ((k, c) in l.cells.withIndex()) {
+                val sb = row.cells[idx[k]]
+                val t = c.text
+                if (sb.isNotEmpty() && isHyphen(sb.last()) && t.firstOrNull()?.isLowerCase() == true) {
+                    if (sb.length > 1 && sb[sb.length - 2].isLetter()) sb.setLength(sb.length - 1)
+                } else if (sb.isNotEmpty()) sb.append(' ')
+                sb.append(t)
+            }
+            if (row.jump < 0) row.jump = l.jump
+            return true
+        }
+        var row = Row(Array(cols.size) { StringBuilder() }, -1, first.bold)
+        for (l in head) if (!put(row, l)) return null
+        rows.add(row)
+        var j = start + 1
+        while (j < lines.size) {
+            val l = lines[j]
+            val prev = lines[j - 1]
+            val gap = l.base - prev.base
+            if (gap > 4.6f * prev.size || abs(l.size - first.size) > first.size * 0.35f || l.mono) break
+            val multi = l.cells.size >= 2
+            if (!multi) {
+                val c = l.cells[0]
+                val k = colOf(c, l.size)
+                if (k < 0) break
+                val colWidth = (cols.getOrNull(k + 1) ?: (c.x0 + 200f)) - cols[k]
+                if (c.x1 - c.x0 > colWidth * 1.15f) break
+                if (markerOf(l) != null && k == 0 && gap > 1.9f * l.size) break
+            }
+            // a single cell line right above a multi cell line belongs to that next row
+            val nextMulti = j + 1 < lines.size && lines[j + 1].cells.size >= 2 && lines[j + 1].base - l.base < 1.2f * l.size
+            val isNew = gap > 1.9f * prev.size || (!multi && nextMulti && gap > 1.1f * prev.size)
+            if (isNew) {
+                row = Row(Array(cols.size) { StringBuilder() }, -1, l.bold)
+                if (!put(row, l)) break
+                rows.add(row)
+            } else if (!put(row, l)) break
+            j++
+        }
+        if (rows.size < 2 && first.cells.size < 3) return null
+        val out = rows.map { r -> TableRow(r.cells.map { it.toString().trim() }, r.jump) }
+        return TableBlock(out, rows[0].bold && rows.size > 1) to j
+    }
+
+    // --------------------------------------------------------------- figures
+
+    private class Fig(val box: Box, val equation: Boolean)
+
+    private fun figures(c: PageContent, lines: List<Line>, st: ReflowStats, hasText: Boolean): List<Fig> {
+        val W = c.width; val H = c.height
+        val body = st.body
+        val pageArea = W * H
+        val inks = ArrayList<Box>()
+        val decor = ArrayList<Box>()
+        for (g in c.gfx) {
+            if (g.w <= 0f && g.h <= 0f) continue
+            val box = Box(g.x0, g.y0, g.x1, g.y1)
+            if (g.kind == G_IMAGE) {
+                if (g.w < 4f || g.h < 4f) continue
+                if (box.area > 0.6f * pageArea && hasText) continue
+                inks.add(box); continue
+            }
+            if (box.area > 0.7f * pageArea) continue
+            val axis = g.curves == 0 && g.diag == 0
+            val boxLike = g.diag == 0 && g.curves <= 12 && g.straight >= 3 && min(g.w, g.h) >= 0.9f * body
+            val circle = g.diag == 0 && g.curves in 1..8 && g.straight == 0 && g.w >= 1.1f * body && g.h >= 1.1f * body && abs(g.w - g.h) < 0.25f * max(g.w, g.h)
+            if (axis || boxLike || circle) decor.add(box) else inks.add(box)
+        }
+        if (inks.isEmpty()) return emptyList()
+
+        // group inks that touch (within half a text size)
+        val cell = max(6f, body * 0.9f)
+        val gw = (W / cell).toInt() + 2
+        val gh = (H / cell).toInt() + 2
+        val parent = IntArray(gw * gh) { it }
+        fun find(x: Int): Int { var a = x; while (parent[a] != a) { parent[a] = parent[parent[a]]; a = parent[a] }; return a }
+        val firstCell = IntArray(inks.size)
+        val tol = body * 0.5f
+        for ((k, b) in inks.withIndex()) {
+            val cx0 = ((b.l - tol) / cell).toInt().coerceIn(0, gw - 1); val cx1 = ((b.r + tol) / cell).toInt().coerceIn(0, gw - 1)
+            val cy0 = ((b.t - tol) / cell).toInt().coerceIn(0, gh - 1); val cy1 = ((b.b + tol) / cell).toInt().coerceIn(0, gh - 1)
+            val root = cy0 * gw + cx0
+            firstCell[k] = root
+            for (y in cy0..cy1) for (x in cx0..cx1) {
+                val a = find(root); val b2 = find(y * gw + x)
+                if (a != b2) parent[b2] = a
+            }
+        }
+        val byRoot = HashMap<Int, Box>()
+        for ((k, b) in inks.withIndex()) {
+            val r = find(firstCell[k])
+            val ex = byRoot[r]
+            if (ex == null) byRoot[r] = Box(b.l, b.t, b.r, b.b) else ex.union(b)
+        }
+        val clusters = ArrayList(byRoot.values)
+
+        // decoration that touches a cluster belongs to it (arrows' boxes, fraction bars, axes)
+        val used = BooleanArray(decor.size)
+        repeat(3) {
+            for (cl in clusters) {
+                for ((k, d) in decor.withIndex()) {
+                    if (used[k]) continue
+                    if (!cl.intersects(d, 3f)) continue
+                    if (d.contains(cl) && d.area > cl.area * 1.1f) continue
+                    if (d.w > 0.6f * W) continue
+                    cl.union(d); used[k] = true
+                }
+            }
+        }
+        // clusters that now overlap are one picture
+        var merged = true
+        while (merged) {
+            merged = false
+            loop@ for (a in 0 until clusters.size) for (b in a + 1 until clusters.size) {
+                if (clusters[a].intersects(clusters[b], 2f)) { clusters[a].union(clusters[b]); clusters.removeAt(b); merged = true; break@loop }
+            }
+        }
+
+        // pieces of one drawing (labels beside a diagram, rows of a figure) sit a few characters apart
+        run {
+            var guard = 0
+            var changed = true
+            while (changed && guard++ < 60) {
+                changed = false
+                loop@ for (a in 0 until clusters.size) for (b in a + 1 until clusters.size) {
+                    val ca = clusters[a]; val cb = clusters[b]
+                    val gx = max(ca.l, cb.l) - min(ca.r, cb.r)
+                    val gy = max(ca.t, cb.t) - min(ca.b, cb.b)
+                    val near = (gx <= 5.6f * body && gy < 0 && -gy >= 0.3f * min(ca.h, cb.h)) ||
+                        (gy <= 3.4f * body && gx < 0 && -gx >= 0.2f * min(ca.w, cb.w)) ||
+                        (gx <= 2.0f * body && gy <= 2.0f * body)
+                    if (!near) continue
+                    val u = Box(min(ca.l, cb.l), min(ca.t, cb.t), max(ca.r, cb.r), max(ca.b, cb.b))
+                    if (u.h > 2.6f * body) {
+                        // never swallow the middle of a paragraph
+                        val swallows = lines.any { l ->
+                            val ov = min(l.bottom, u.b) - max(l.top, u.t)
+                            ov > 0.35f * (l.bottom - l.top) && (l.x0 < u.l - 2f * body || l.x1 > u.r + 2f * body) && l.text.length > 12
+                        }
+                        if (swallows) continue
+                    }
+                    ca.union(cb); clusters.removeAt(b); changed = true
+                    break@loop
+                }
+            }
+        }
+
+        // content bounds, for pictures that stand in for whole lines
+        val bodyLines = lines.filter { abs(it.size - body) < body * 0.15f && it.text.length > 20 }
+        val contentL = if (bodyLines.isNotEmpty()) bodyLines.minOf { it.x0 } else W * 0.07f
+        val contentR = if (bodyLines.isNotEmpty()) bodyLines.maxOf { it.x1 } else W * 0.93f
+
+        val result = ArrayList<Fig>()
+        val bands = ArrayList<Box>()
+        for (cl in clusters) {
+            if (cl.w < 0.7f * body && cl.h < 0.7f * body) continue
+            if (cl.area > 0.7f * pageArea && hasText) continue
+            if (cl.h <= 2.6f * body && cl.w <= 0.95f * W) {
+                val over = lines.filter { l ->
+                    val ov = min(l.bottom, cl.b) - max(l.top, cl.t)
+                    ov > 0.35f * min(l.bottom - l.top, cl.h) && l.x1 > cl.l - W && true
+                }.filter { l -> abs(l.size - body) < body * 0.5f || l.size < body * 1.6f }
+                if (over.isNotEmpty()) {
+                    val t = min(cl.t, over.minOf { it.top }) - 1.5f
+                    val b = max(cl.b, over.maxOf { it.bottom }) + 1.5f
+                    bands.add(Box(min(contentL, cl.l) - 4f, t, max(contentR, cl.r) + 4f, b))
+                } else {
+                    result.add(Fig(Box(cl.l - 3f, cl.t - 3f, cl.r + 3f, cl.b + 3f), true))
+                }
+            } else {
+                // big picture: take nearby short, small labels
+                val fb = Box(cl.l - 3f, cl.t - 3f, cl.r + 3f, cl.b + 3f)
+                repeat(2) {
+                    for (l in lines) {
+                        val cy = l.base - l.size * 0.3f
+                        val small = l.size <= body * 1.02f
+                        val short = (l.x1 - l.x0) < 0.62f * max(fb.w, 1f) || (l.x1 - l.x0) < 0.4f * W
+                        val sameBand = cy >= fb.t - l.size * 2.4f && cy <= fb.b + l.size * 2.4f
+                        val xNear = l.x1 >= fb.l - 0.35f * W && l.x0 <= fb.r + 0.35f * W
+                        val inside = (l.x0 + l.x1) / 2f in fb.l..fb.r && cy in fb.t..fb.b
+                        val abovBelow = l.x0 >= fb.l - 8f && l.x1 <= fb.r + 8f && (cy < fb.t || cy > fb.b)
+                        val beside = cy in fb.t..fb.b && (l.x1 < fb.l || l.x0 > fb.r)
+                        if (inside) continue
+                        if (small && short && sameBand && xNear && l.cells.size == 1 && l.text.length < 90 && (abovBelow || beside) && !l.bold) {
+                            fb.union(Box(l.x0 - 2f, l.top, l.x1 + 2f, l.bottom))
+                        }
+                    }
+                }
+                result.add(Fig(fb, false))
+            }
+        }
+        // consecutive bands are one picture
+        bands.sortBy { it.t }
+        val joined = ArrayList<Box>()
+        for (b in bands) {
+            val last = joined.lastOrNull()
+            if (last != null && b.t - last.b < body * 0.9f) last.union(b) else joined.add(b)
+        }
+        for (b in joined) result.add(Fig(Box(max(0f, b.l), max(0f, b.t), min(W, b.r), min(H, b.b)), false))
+        // unmapped text (no way to know what it says) is shown as it is drawn
+        val extra = ArrayList<Box>()
+        for (l in lines) {
+            if (!l.unmapped) continue
+            val cx = (l.x0 + l.x1) / 2f; val cy = l.base - l.size * 0.3f
+            if (result.any { cx >= it.box.l && cx <= it.box.r && cy >= it.box.t && cy <= it.box.b }) continue
+            extra.add(Box(min(contentL, l.x0) - 4f, l.top - 1.5f, max(contentR, l.x1) + 4f, l.bottom + 1.5f))
+        }
+        extra.sortBy { it.t }
+        val ej = ArrayList<Box>()
+        for (b in extra) {
+            val last = ej.lastOrNull()
+            if (last != null && b.t - last.b < body * 0.9f) last.union(b) else ej.add(b)
+        }
+        for (b in ej) result.add(Fig(Box(max(0f, b.l), max(0f, b.t), min(W, b.r), min(H, b.b)), false))
+        return result
+    }
+}
