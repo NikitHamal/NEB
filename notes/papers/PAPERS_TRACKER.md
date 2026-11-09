@@ -102,3 +102,5 @@ Phase 1 (research + download) is DONE for the sources below. Phase 2 (extract/no
 - Session 13: Discrete Structure (ENCT 251) 2082 Bhadra (regular) added; Discrete Structure complete (2 papers); bundle `engineering-discrete-structure-2082-2083.pdf`; master All-in-One 62 papers / 875 pp. Next: DSA, Computer Organization, Electromagnetics (see PHASE2_STATUS.md).
 - Session 13b: Data Structure and Algorithm (ENCT 252) 2083 Baishakh (back) and 2082 Bhadra (regular) added with compiled C programs, AVL/B-tree/heap/hash/graph figures; bundle `engineering-data-structure-and-algorithm-2082-2083.pdf`; master All-in-One 64 papers.
 - Session 13c: Computer Organization and Architecture (ENEX 253) 2083 Baishakh (back) and 2082 Bhadra (regular) added with Booth traces, cache/page-replacement traces and 8 block diagrams; bundle `engineering-computer-organization-and-architecture-2082-2083.pdf`; master All-in-One 66 papers.
+
+- Session 14: IOE Electromagnetics ENEX 254 (2083 Baishakh, 2082 Bhadra) and Control System ENEE 251 (2083 Baishakh, 2082 Bhadra) solved and bundled; master All-in-One book now 70 papers. See `engineering/PHASE2_STATUS.md`.
