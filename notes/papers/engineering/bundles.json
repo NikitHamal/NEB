@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709058,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853064,
+  "bytes": 1853065,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,22 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606310,
+  "bytes": 1606309,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electronic-device-and-circuits-2081-2083.pdf",
+  "subject": "Electronic Device and Circuits",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081-2083",
+  "papers": [
+   "ioe-enex151-2083-baishakh",
+   "ioe-enex151-2082-bhadra",
+   "ioe-ex151-2082-baishakh",
+   "ioe-ex151-2081-ashwin"
+  ],
+  "pages": 58,
+  "bytes": 2762977,
   "kind": "subject-bundle"
  },
  {
@@ -58,7 +73,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095712,
+  "bytes": 3095713,
   "kind": "subject-bundle"
  },
  {
@@ -72,7 +87,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792102,
+  "bytes": 792103,
   "kind": "subject-bundle"
  },
  {
@@ -86,7 +101,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +132,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095315,
+  "bytes": 4095316,
   "kind": "subject-bundle"
  },
  {
@@ -145,7 +160,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581580,
+  "bytes": 581579,
   "kind": "subject-bundle"
  },
  {
@@ -158,7 +173,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645019,
+  "bytes": 1645018,
   "kind": "subject-bundle"
  },
  {
@@ -172,7 +187,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116671,
+  "bytes": 2116672,
   "kind": "subject-bundle"
  },
  {
@@ -199,7 +214,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296669,
+  "bytes": 1296670,
   "kind": "subject-bundle"
  },
  {
@@ -224,6 +239,8 @@
    "ioe-enct153-2083-baishakh",
    "ioe-enee103-2081-chaitra",
    "ioe-enex101-2081-chaitra",
+   "ioe-enex151-2082-bhadra",
+   "ioe-enex151-2083-baishakh",
    "ioe-enex152-2082-bhadra",
    "ioe-enex152-2083-baishakh",
    "ioe-ensh101-2081-chaitra",
@@ -244,6 +261,8 @@
    "ioe-ensh253-2082-bhadra",
    "ioe-ensh253-2083-baishakh",
    "ioe-ex101-2081-baishakh",
+   "ioe-ex151-2081-ashwin",
+   "ioe-ex151-2082-baishakh",
    "ioe-ex152-2081-ashwin",
    "ioe-ex152-2082-baishakh",
    "ioe-sh101-2081-baishakh",
@@ -257,8 +276,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 689,
-  "bytes": 24929932,
+  "pages": 747,
+  "bytes": 27673038,
   "kind": "master-book"
  }
 ]
