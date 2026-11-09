@@ -272,8 +272,8 @@ private fun NotesEmptyState(onWrite: () -> Unit, onDictate: () -> Unit, modifier
         }
         Text("No notes yet", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-            com.neb.ians.ui.components.NebButton("Write a note", onWrite)
-            com.neb.ians.ui.components.NebButton("Dictate", onDictate, tone = com.neb.ians.ui.components.NebButtonTone.Tonal)
+            com.neb.ians.ui.components.NebButton("Write a note", onWrite, icon = Icons.Outlined.Add)
+            com.neb.ians.ui.components.NebButton("Dictate", onDictate, tone = com.neb.ians.ui.components.NebButtonTone.Tonal, icon = Icons.Outlined.Mic)
         }
     }
 }

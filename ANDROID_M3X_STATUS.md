@@ -139,3 +139,11 @@ Brief: session 9's brief repeated with "go all out". `main` already had the pale
 - Audit: no bare `DropdownMenu` outside `NebMenu.kt`; every `ModalBottomSheet` and `AlertDialog` takes `nebFloatColor()` (`NebPickerSheet` takes its picker palette's page colour, `AuthLegalSheet` pins white or near-black itself). No light bluish hex values are hard-coded outside data colours, simulations and festival art.
 - Reading mode: see `PDF_ANDROID_STATUS.md` session 4.
 - Toolchain on a 2 GB box with no swap and no root: the whole-module Compose compile is killed (exit 137) even with `-Xmx1200m`. Use a bigger pod, or rely on CI.
+
+## Session 11: system bars, splash, toast, composer, notes (CI-verified only)
+
+- **Edges:** `MainActivity` wraps the nav host in a box with `nebSafeSides()` (system bars as if shown, plus the display cut-out, horizontal only), so a side navigation bar or a camera cut-out in landscape never sits on a touch target. `NebSystemBars(darkIcons)` sets and restores the status and navigation icon colour per screen (used by the splash and the PDF viewer).
+- **Splash:** about 1.2 s instead of 2.4 s (faster springs, shorter holds), and the status bar is no longer hidden and shown again, which moved the first screen by its height.
+- **Toast:** `NebToast` / `NebToastHost` replace every `SnackbarHost`: inverse surface card, a tonal tile by kind (done, problem, info, picked from the message), optional action pill, a timer hairline, spring in, swipe sideways to dismiss. Same `SnackbarHostState` calls. `Toast.makeText` calls (15) are still the system toast.
+- **Composer (`CommentComposerBar.kt`):** the profile picture moves into the formatting row, before the tools, while writing (no longer under them); every part slides and fades (`AnimatedVisibility`). One plus button (`ComposerAttachMenu`: image, PDF, audio, video, poll where the screen takes polls) replaces the attach and poll buttons in the forum and resource composers and on the web (`composer-plus.js`, `18-comment-composer.css`). News keeps the minimal bar (field and send, no attachments); its identity switcher is not done because the news comment API and view model have no anonymous option.
+- **Notes:** both floating buttons are gone. A tonal plus tile ends the header, and the empty list shows floating paper cards with Write a note and Dictate.

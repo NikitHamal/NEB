@@ -322,7 +322,7 @@ internal fun RdCallout(
     folded: Boolean,
     forceOpen: Boolean,
     modifier: Modifier = Modifier,
-    inline: Map<String, androidx.compose.foundation.text.InlineTextContent> = emptyMap()
+    math: Map<String, androidx.compose.foundation.text.InlineTextContent> = emptyMap()
 ) {
     var open by remember(foldable, folded) { mutableStateOf(!(foldable && folded)) }
     val shown = open || forceOpen
@@ -348,7 +348,7 @@ internal fun RdCallout(
             if (foldable) Icon(Icons.Outlined.ExpandMore, null, tint = p.muted, modifier = Modifier.size(20.dp).graphicsLayer { rotationZ = turn })
         }
         if (shown) Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)) {
-            SelectionContainer { Text(body, style = style, inlineContent = inline) }
+            SelectionContainer { Text(body, style = style, inlineContent = math) }
         }
     }
 }
