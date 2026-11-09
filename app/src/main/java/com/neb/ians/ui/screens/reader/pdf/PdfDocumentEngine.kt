@@ -29,8 +29,39 @@ class PdfDocumentEngine private constructor(
     private val descriptor: ParcelFileDescriptor,
     private val renderer: PdfRenderer,
     /** Height / width of every page. Starts as the first page's shape for all pages; [scanShapes] corrects it in the background. */
-    initialAspects: FloatArray
+    initialAspects: FloatArray,
+    file: File
 ) : Closeable {
+
+    /** Links, contents and reflowed text; opened on first use. */
+    val structure = PdfStructureEngine(file, initialAspects.size)
+
+    private val crops = object : LruCache<String, Bitmap>(12 * 1024) {
+        override fun sizeOf(key: String, value: Bitmap): Int = value.allocationByteCount / 1024
+    }
+
+    fun cachedCrop(index: Int, rect: FRect, widthPx: Int): Bitmap? = crops.get(cropKey(index, rect, widthPx))
+
+    private fun cropKey(index: Int, rect: FRect, widthPx: Int) = "$index:${rect.l},${rect.t},${rect.r},${rect.b}@${widthPx / 32}"
+
+    /**
+     * A picture cut out of a page: the page is rendered just large enough for the cut to be [widthPx] wide,
+     * the part is copied out and the page left to the cache. Used by reading mode for diagrams and equations.
+     */
+    suspend fun crop(index: Int, rect: FRect, widthPx: Int): Bitmap? {
+        if (index !in 0 until pageCount || widthPx <= 0 || rect.w <= 0.001f || rect.h <= 0.001f) return null
+        val key = cropKey(index, rect, widthPx)
+        crops.get(key)?.let { return it }
+        val pageWidth = (widthPx / rect.w).toInt().coerceIn(THUMB_WIDTH, MAX_WIDTH)
+        val page = render(index, pageWidth) ?: return null
+        return withContext(Dispatchers.Default) {
+            val x = (rect.l * page.width).toInt().coerceIn(0, page.width - 1)
+            val y = (rect.t * page.height).toInt().coerceIn(0, page.height - 1)
+            val w = (rect.w * page.width).toInt().coerceIn(1, page.width - x)
+            val h = (rect.h * page.height).toInt().coerceIn(1, page.height - y)
+            runCatching { Bitmap.createBitmap(page, x, y, w, h) }.getOrNull()?.also { crops.put(key, it) }
+        }
+    }
 
     private val aspects: FloatArray = initialAspects
 
@@ -150,6 +181,8 @@ class PdfDocumentEngine private constructor(
     override fun close() {
         closed = true
         cache.evictAll()
+        crops.evictAll()
+        structure.close()
         // PdfRenderer must not be closed while a page is open; a render in flight releases it.
         if (mutex.tryLock()) {
             try { release() } finally { mutex.unlock() }
@@ -227,7 +260,7 @@ class PdfDocumentEngine private constructor(
                 val firstShape = if (count > 0) {
                     renderer.openPage(0).use { page -> if (page.width > 0) page.height.toFloat() / page.width else 1.414f }
                 } else 1.414f
-                return PdfDocumentEngine(descriptor, renderer, FloatArray(count) { firstShape })
+                return PdfDocumentEngine(descriptor, renderer, FloatArray(count) { firstShape }, file)
             } catch (t: Throwable) {
                 runCatching { descriptor.close() }
                 throw t
