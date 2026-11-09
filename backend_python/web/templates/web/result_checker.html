@@ -12,210 +12,187 @@
 
 {% block content %}
 <div class="rc-page">
-  <div class="rc-hero" style="text-align:left;padding:16px 16px 24px;">
+  <header class="rc-head">
     {% url 'web:home' as back_href %}
-    {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Home" %}
-    <h1 class="md-headline-medium-emphasized">Result Checker</h1>
-    <p>Access your exam marksheet instantly. We cache lookup results so you can retrieve them even when the official boards are down.</p>
-  </div>
+    {% include "web/partials/_back.html" with back_label="Back to Home" %}
+    <h1 class="rc-title">Result Checker</h1>
+  </header>
 
-  <div class="rc-card">
-    <div class="rc-tabs" id="rc-tabs">
-      <button class="rc-tab active" data-exam="neb" type="button">
-        <span class="material-symbols-outlined rc-tab-icon">school</span>
-        12
+  <section class="rc-card rc-check" aria-label="Check a result">
+    <div class="rc-seg" id="rc-tabs" data-i="0" role="tablist" aria-label="Exam">
+      <span class="rc-seg-ind" aria-hidden="true"></span>
+      <button class="rc-tab active" data-exam="neb" type="button" role="tab" aria-selected="true">
+        <span class="material-symbols-outlined">school</span>Class 12
       </button>
-      <button class="rc-tab" data-exam="see" type="button">
-        <span class="material-symbols-outlined rc-tab-icon">auto_stories</span>
-        10
+      <button class="rc-tab" data-exam="see" type="button" role="tab" aria-selected="false">
+        <span class="material-symbols-outlined">auto_stories</span>Class 10
       </button>
     </div>
 
-    <div class="rc-reexam-toggle" id="rc-reexam-toggle">
-      <label class="rc-radio-label rc-radio-regular">
-        <input type="radio" name="examType" value="regular" checked>
-        <span class="rc-radio-dot"></span>
-        Regular
-      </label>
-      <label class="rc-radio-label rc-radio-reexam">
-        <input type="radio" name="examType" value="reexam">
-        <span class="rc-radio-dot"></span>
-        Re-exam
-      </label>
+    <div class="rc-options">
+      <div class="rc-chips" id="rc-reexam-toggle" role="radiogroup" aria-label="Attempt">
+        <label class="md-chip rc-chip">
+          <input type="radio" name="examType" value="regular" checked>
+          <span class="material-symbols-outlined" aria-hidden="true">check</span>Regular
+        </label>
+        <label class="md-chip rc-chip">
+          <input type="radio" name="examType" value="reexam">
+          <span class="material-symbols-outlined" aria-hidden="true">check</span>Re-exam
+        </label>
+      </div>
+      <div class="rc-chips" id="rc-sub-tabs" role="group" aria-label="Mode">
+        <button class="md-chip rc-chip md-chip-active" data-mode="single" type="button" aria-pressed="true">
+          <span class="material-symbols-outlined" aria-hidden="true">check</span>Single
+        </button>
+        <button class="md-chip rc-chip" data-mode="bulk" type="button" aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">check</span>Bulk
+        </button>
+      </div>
     </div>
 
-    <!-- Mode Selector: Single vs Bulk -->
-    <div class="rc-sub-tabs" id="rc-sub-tabs">
-      <button class="rc-sub-tab active" data-mode="single" type="button">Single Check</button>
-      <button class="rc-sub-tab" data-mode="bulk" type="button">Bulk Check</button>
-    </div>
-
-    <form id="rc-form" class="rc-form">
+    <form id="rc-form" class="rc-form" novalidate>
       {% csrf_token %}
-      <div class="rc-field">
-        <label for="batch">Exam Batch</label>
-        <select id="batch" name="batch">
-          <option value="2083">2083 (Current)</option>
-          <option value="2082">2082</option>
-          <option value="2081">2081</option>
-          <option value="2080">2080</option>
-        </select>
-      </div>
+      <div class="rc-grid">
+        <div class="rc-field">
+          <label for="batch">Batch</label>
+          <select id="batch" name="batch" class="md-select">
+            <option value="2083">2083</option>
+            <option value="2082">2082</option>
+            <option value="2081">2081</option>
+            <option value="2080">2080</option>
+          </select>
+        </div>
 
-      <!-- Single Check Input Fields -->
-      <div class="rc-field">
-        <label for="symbol">Symbol Number</label>
-        <input type="text" id="symbol" name="symbol" placeholder="e.g. 12013825" maxlength="20" required autocomplete="off" autocorrect="off" spellcheck="false">
-        <div class="hint">Enter the symbol number on your admit card.</div>
-      </div>
+        <div class="rc-field">
+          <label for="symbol">Symbol number</label>
+          <input type="text" id="symbol" name="symbol" class="md-input" placeholder="12013825" maxlength="20" required inputmode="numeric" autocomplete="off" autocorrect="off" spellcheck="false">
+        </div>
 
-      <div class="rc-field-dob-wrapper" id="rc-field-dob-wrapper">
-        <div class="rc-field" style="margin-bottom: 20px;">
-          <label for="dob">Date of Birth</label>
-          <input type="text" id="dob" name="dob" placeholder="YYYY/MM/DD" maxlength="10" autocomplete="off">
-          <div class="hint">Required for Class 12. Format: BS (e.g. 2065/03/15)</div>
+        <div class="rc-field rc-field-dob" id="rc-field-dob-wrapper">
+          <label for="dob">Date of birth (BS)</label>
+          <input type="text" id="dob" name="dob" class="md-input" placeholder="2065/03/15" maxlength="10" inputmode="numeric" autocomplete="off">
+        </div>
+
+        <div class="rc-field rc-field-bulk" id="rc-field-bulk-wrapper" hidden>
+          <label for="bulk-input">Symbol numbers</label>
+          <textarea id="bulk-input" class="md-textarea" rows="6" data-neb-skip placeholder=""></textarea>
+          <p class="rc-hint" id="rc-bulk-hint"></p>
         </div>
       </div>
 
-      <!-- Bulk Check Input Fields -->
-      <div class="rc-field" id="rc-field-bulk-wrapper" style="display: none;">
-        <label for="bulk-input">Symbol Numbers (Bulk List)</label>
-        <textarea id="bulk-input" rows="6" placeholder=""></textarea>
-        <div class="hint" id="rc-bulk-hint"></div>
-      </div>
-
-      <button type="submit" class="rc-submit" id="rc-submit-btn">
+      <button type="submit" class="md-btn md-btn-filled rc-submit" id="rc-submit-btn">
         <span class="rc-spinner md-loader md-loader-inline md-loader-plain"></span>
         <span class="material-symbols-outlined">search</span>
-        <span class="rc-submit-text" id="rc-submit-text">Check Result</span>
+        <span id="rc-submit-text">Check result</span>
       </button>
     </form>
 
-    <!-- Progress indicator for Bulk Checking -->
-    <div class="rc-progress-container" id="rc-progress-container">
-      <div class="rc-progress-bar" id="rc-progress-bar"></div>
+    <div class="rc-progress" id="rc-progress-container" hidden>
+      <div class="rc-progress-track"><div class="rc-progress-bar" id="rc-progress-bar"></div></div>
+      <span class="rc-progress-text" id="rc-progress-text"></span>
     </div>
-    <div class="rc-progress-text" id="rc-progress-text">Checking results...</div>
 
-    <div id="rc-error" class="rc-error">
-      <span class="material-symbols-outlined" style="font-size: 20px;">error</span>
+    <div id="rc-error" class="rc-error" role="alert" hidden>
+      <span class="material-symbols-outlined">error</span>
       <span id="rc-error-msg"></span>
     </div>
-  </div>
+  </section>
 
-  <!-- Single Result Container -->
-  <div id="rc-result-container" class="rc-result-container" style="display:none">
-    <div class="rc-card" style="margin-top: 24px;">
-      <div class="rc-result-header">
-        <h2>Your Marksheet</h2>
-      </div>
-
-      <div class="rc-gpa-container">
+  <!-- Single result -->
+  <section id="rc-result-container" class="rc-result" hidden aria-live="polite">
+    <div class="rc-card rc-sheet">
+      <div class="rc-hero">
         <div class="rc-gpa-card" id="rc-gpa-card">
           <span class="rc-gpa-label">GPA</span>
           <span class="rc-gpa-num" id="rc-gpa-num">·</span>
+        </div>
+        <div class="rc-hero-body">
+          <h2 class="rc-name" id="rc-name">·</h2>
           <span class="rc-gpa-grade" id="rc-grade">·</span>
         </div>
       </div>
 
-      <div class="rc-student-details">
-        <div class="rc-detail-item full-width">
-          <span class="rc-detail-label">Student Name</span>
-          <span class="rc-detail-value" id="rc-name">·</span>
+      <dl class="rc-details">
+        <div class="rc-detail rc-detail-wide">
+          <dt>School or college</dt>
+          <dd id="rc-school">·</dd>
         </div>
-        <div class="rc-detail-item">
-          <span class="rc-detail-label">Exam Board</span>
-          <span class="rc-detail-value" id="rc-exam">·</span>
+        <div class="rc-detail">
+          <dt>Symbol number</dt>
+          <dd id="rc-symbol">·</dd>
         </div>
-        <div class="rc-detail-item">
-          <span class="rc-detail-label">Exam Year (BS)</span>
-          <span class="rc-detail-value" id="rc-batch">·</span>
+        <div class="rc-detail">
+          <dt>Exam</dt>
+          <dd id="rc-exam">·</dd>
         </div>
-        <div class="rc-detail-item">
-          <span class="rc-detail-label">Symbol Number</span>
-          <span class="rc-detail-value" id="rc-symbol">·</span>
+        <div class="rc-detail">
+          <dt>Batch (BS)</dt>
+          <dd id="rc-batch">·</dd>
         </div>
-        <div class="rc-detail-item">
-          <span class="rc-detail-label">School / College</span>
-          <span class="rc-detail-value" id="rc-school">·</span>
-        </div>
+      </dl>
+
+      <h3 class="rc-h3">Subjects</h3>
+      <div class="rc-table-wrap">
+        <table class="rc-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Credit</th>
+              <th>Grade</th>
+              <th>GP</th>
+            </tr>
+          </thead>
+          <tbody id="rc-subjects-body"></tbody>
+        </table>
       </div>
 
-      <span class="rc-results-title">
-        <span class="material-symbols-outlined" style="font-size:16px;">receipt_long</span>
-        Subject-wise Grades
-      </span>
+      <p class="rc-source">Source <a id="rc-official-link" href="#" target="_blank" rel="noopener">official site</a></p>
 
-      <table class="rc-subjects-table">
-        <thead>
-          <tr>
-            <th>Subject</th>
-            <th>Credit</th>
-            <th>Grade</th>
-            <th>GP</th>
-          </tr>
-        </thead>
-        <tbody id="rc-subjects-body"></tbody>
-      </table>
-
-      <div class="rc-footer">
-        <div class="rc-footer-info">
-          <span class="material-symbols-outlined" style="font-size: 16px;">info</span>
-          <span>Result cached. Source page: <a id="rc-official-link" href="#" target="_blank" rel="noopener">official site</a></span>
-        </div>
-        <div class="rc-attribution">
-          <span>Powered by</span>
-          <a href="https://neb.ntc.net.np/" target="_blank" rel="noopener">Nepal Telecom / NEB</a>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
-        <button type="button" class="rc-submit" id="rc-share-btn" style="flex: 1; min-width: 160px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none; margin-top: 0;">
-          <span class="rc-submit-text">Generate Share Card</span>
+      <div class="rc-actions">
+        <button type="button" class="md-btn md-btn-tonal" id="rc-share-btn">
+          <span class="material-symbols-outlined">share</span>
+          Share card
         </button>
-        <button type="button" class="rc-submit" id="rc-gradesheet-btn" style="flex: 1; min-width: 160px; background: var(--md-primary); color: var(--md-on-primary); box-shadow: none; margin-top: 0;">
-          <span class="rc-submit-text">View & Print Gradesheet</span>
+        <button type="button" class="md-btn md-btn-filled" id="rc-gradesheet-btn">
+          <span class="material-symbols-outlined">description</span>
+          Gradesheet
         </button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Bulk Results Container -->
-  <div id="rc-bulk-results-container" class="rc-result-container" style="display:none">
-    <div class="rc-card" style="margin-top: 24px; max-width: 100%;">
-      <div class="rc-result-header">
-        <h2>Bulk Results</h2>
-        <button id="rc-btn-export" class="rc-badge rc-badge-fresh" style="border: none; cursor: pointer; font-weight: 700; padding: 6px 12px; font-size: 11px;" type="button">
-          <span class="material-symbols-outlined" style="font-size: 14px; margin-right: 4px; vertical-align: middle;">download</span>
+  <!-- Bulk results -->
+  <section id="rc-bulk-results-container" class="rc-result" hidden>
+    <div class="rc-card rc-sheet">
+      <div class="rc-bulk-head">
+        <h2 class="rc-h2">Bulk results</h2>
+        <button id="rc-btn-export" class="md-btn md-btn-tonal md-btn-small" type="button">
+          <span class="material-symbols-outlined">download</span>
           Export CSV
         </button>
       </div>
-      <table class="rc-subjects-table" style="margin-bottom: 0;">
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Student Name</th>
-            <th>GPA</th>
-            <th>Grade</th>
-          </tr>
-        </thead>
-        <tbody id="rc-bulk-results-body"></tbody>
-      </table>
+      <div class="rc-table-wrap">
+        <table class="rc-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Name</th>
+              <th>GPA</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody id="rc-bulk-results-body"></tbody>
+        </table>
+      </div>
     </div>
-  </div>
+  </section>
 </div>
 
-{% comment %}
-  The share card, in the site's dialog. This page carried its own modal,
-  its own rgba(0,0,0,0.6) scrim, its own scale transition, its own header and
-  close button, and a click handler per overlay, with no focus trap, no
-  scroll lock and no Escape.
-{% endcomment %}
 <div class="neb-scrim" id="rc-share-modal" data-neb-close hidden>
   <div class="neb-dialog" role="dialog" aria-modal="true" aria-labelledby="rc-share-title">
     <div class="neb-dialog-head neb-sheet-head">
       <div class="neb-sheet-head-text">
-        <h3 class="neb-sheet-title" id="rc-share-title">Share your result card</h3>
+        <h3 class="neb-sheet-title" id="rc-share-title">Share card</h3>
       </div>
       <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
@@ -229,20 +206,18 @@
     <div class="neb-dialog-actions">
       <button type="button" class="md-btn md-btn-filled neb-foot-major" id="rc-download-card-btn" data-neb-autofocus>
         <span class="material-symbols-outlined">download</span>
-        Download 1080&#215;1080
+        Download
       </button>
     </div>
   </div>
 </div>
 
-{% comment %} The gradesheet, in the same dialog at document width. {% endcomment %}
 <div class="neb-scrim" id="rc-gradesheet-modal" data-neb-close hidden>
   <div class="neb-dialog rc-gradesheet-dialog" role="dialog" aria-modal="true"
        aria-labelledby="rc-gradesheet-title">
     <div class="neb-dialog-head neb-sheet-head">
       <div class="neb-sheet-head-text">
-        <h3 class="neb-sheet-title" id="rc-gradesheet-title">Unofficial gradesheet</h3>
-        <p class="neb-sheet-sub">A preview you can print or save. It is not an official document.</p>
+        <h3 class="neb-sheet-title" id="rc-gradesheet-title">Gradesheet</h3>
       </div>
       <button type="button" class="neb-sheet-close" data-neb-close aria-label="Close">
         <span class="material-symbols-outlined">close</span>
@@ -251,13 +226,13 @@
     <div class="neb-dialog-body">
 
     <div class="rc-gradesheet-actions">
-      <button type="button" class="rc-submit" id="rc-print-gradesheet-btn" style="flex: 1;" data-neb-autofocus>
+      <button type="button" class="md-btn md-btn-filled" id="rc-print-gradesheet-btn" data-neb-autofocus>
         <span class="material-symbols-outlined">print</span>
-        Print / Save as PDF
+        Print or save PDF
       </button>
-      <button type="button" class="rc-submit" id="rc-save-image-btn" style="flex: 1; background: var(--md-secondary-container); color: var(--md-on-secondary-container); box-shadow: none;">
+      <button type="button" class="md-btn md-btn-tonal" id="rc-save-image-btn">
         <span class="material-symbols-outlined">photo_camera</span>
-        Save as Image
+        Save as image
       </button>
     </div>
 
@@ -281,19 +256,11 @@
               <div class="gs-logo-container">
                 <!-- NEBians Logo SVG -->
                 <svg class="gs-gov-logo" viewBox="50 30 900 1330" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="frontGrad_cert" x1="40" y1="220" x2="800" y2="1350" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0058df"/><stop offset="0.48" stop-color="#004bd4"/><stop offset="1" stop-color="#003cc3"/></linearGradient>
-                    <linearGradient id="darkGrad_cert" x1="505" y1="30" x2="960" y2="1290" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07337f"/><stop offset="0.55" stop-color="#052566"/><stop offset="1" stop-color="#021b54"/></linearGradient>
-                    <linearGradient id="innerGrad_cert" x1="435" y1="180" x2="780" y2="890" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#06327c"/><stop offset="1" stop-color="#04215e"/></linearGradient>
-                    <linearGradient id="lightGrad_cert" x1="305" y1="320" x2="615" y2="705" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a8c5ff"/><stop offset="0.52" stop-color="#90b4fb"/><stop offset="1" stop-color="#82a8f5"/></linearGradient>
-                    <linearGradient id="frontShadowGrad_cert" x1="690" y1="780" x2="780" y2="1050" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0030a5" stop-opacity="0.35"/><stop offset="1" stop-color="#001e77" stop-opacity="0"/></linearGradient>
-                  </defs>
                   <g stroke-linejoin="round" stroke-linecap="round">
-                    <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="url(#darkGrad_cert)" stroke="#eef5ff" stroke-width="8" />
-                    <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="url(#innerGrad_cert)" stroke="#eef5ff" stroke-width="8" />
-                    <path d="M306 320 L307 377 L613 706 L613 485 Z" fill="url(#lightGrad_cert)" stroke="#eef5ff" stroke-width="8" />
-                    <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="url(#frontGrad_cert)" stroke="#eef5ff" stroke-width="8" />
-                    <path d="M691 800 L775 887 L775 1052 L691 958 Z" fill="url(#frontShadowGrad_cert)" stroke="none" />
+                    <path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#052566" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="#06327c" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M306 320 L307 377 L613 706 L613 485 Z" fill="#a8c5ff" stroke="#eef5ff" stroke-width="8" />
+                    <path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#0058df" stroke="#eef5ff" stroke-width="8" />
                   </g>
                 </svg>
               </div>
@@ -308,16 +275,16 @@
 
             <!-- Exam Info -->
             <div class="gs-exam-info">
-              THE GRADE SECURED BY THE STUDENT IN THE <span id="gs-exam-type-desc" style="font-weight: 700;">SECONDARY EDUCATION EXAMINATION</span> HELD IN THE YEAR <span id="gs-exam-year" style="font-weight: 700;">2083</span> BS IS GIVEN BELOW.
+              THE GRADE SECURED BY THE STUDENT IN THE <span id="gs-exam-type-desc" class="gs-strong">SECONDARY EDUCATION EXAMINATION</span> HELD IN THE YEAR <span id="gs-exam-year" class="gs-strong">2083</span> BS IS GIVEN BELOW.
             </div>
 
             <!-- Student Details Section -->
             <table class="gs-details-table">
               <tr>
-                <td style="width: 18%;" class="label">Name of Student:</td>
-                <td style="width: 52%; font-weight: 700;" id="gs-student-name">·</td>
-                <td style="width: 14%;" class="label">Symbol No:</td>
-                <td style="width: 16%; font-weight: 700;" id="gs-student-symbol">·</td>
+                <td class="label gs-w18">Name of Student:</td>
+                <td class="gs-w52 gs-strong" id="gs-student-name">·</td>
+                <td class="label gs-w14">Symbol No:</td>
+                <td class="gs-w16 gs-strong" id="gs-student-symbol">·</td>
               </tr>
               <tr>
                 <td class="label">School/College:</td>
@@ -337,12 +304,12 @@
             <table class="gs-grades-table">
               <thead>
                 <tr>
-                  <th style="width: 8%;">S.N.</th>
-                  <th style="width: 15%;">Subject Code</th>
-                  <th style="width: 45%;">Subject Title</th>
-                  <th style="width: 12%;" id="gs-th-credit-hour">Credit Hour</th>
-                  <th style="width: 10%;">Final Grade</th>
-                  <th style="width: 10%;">Grade Point</th>
+                  <th class="gs-w8">S.N.</th>
+                  <th class="gs-w15">Subject Code</th>
+                  <th class="gs-w45">Subject Title</th>
+                  <th class="gs-w12" id="gs-th-credit-hour">Credit Hour</th>
+                  <th class="gs-w10">Final Grade</th>
+                  <th class="gs-w10">Grade Point</th>
                 </tr>
               </thead>
               <tbody id="gs-grades-body">
@@ -366,7 +333,7 @@
 
             <!-- Issue Date Info -->
             <div class="gs-issue-date-row">
-              Date of Issue: <span id="gs-issue-date" style="font-weight: 600;">2083/03/15 BS</span>
+              Date of Issue: <span id="gs-issue-date" class="gs-strong">2083/03/15 BS</span>
             </div>
 
           </div>
@@ -374,13 +341,11 @@
 
       </div>
     </div>
-
     </div>
   </div>
 </div>
 
-<!-- Offscreen Canvas for share card rendering -->
-<canvas id="rc-share-canvas" width="1080" height="1080" style="display: none;"></canvas>
+<canvas id="rc-share-canvas" width="1080" height="1080" hidden></canvas>
 {% endblock %}
 
 {% block extra_js %}

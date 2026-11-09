@@ -32,9 +32,14 @@
     currentExam = exam;
 
     // Toggle active state in tabs
-    tabs.querySelectorAll('.rc-tab').forEach(function(t) {
-      t.classList.toggle('active', t.dataset.exam === exam);
+    var examIndex = 0;
+    tabs.querySelectorAll('.rc-tab').forEach(function(t, i) {
+      var on = t.dataset.exam === exam;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      if (on) examIndex = i;
     });
+    tabs.dataset.i = examIndex;
 
     updateFieldsForMode();
     updateBulkHint();
@@ -46,17 +51,13 @@
   function switchMode(mode) {
     if (currentMode === mode) return;
 
-    if (isCheckingBulk) {
-      if (confirm('Cancel current bulk operation?')) {
-        bulkCancel = true;
-      } else {
-        return;
-      }
-    }
+    if (isCheckingBulk) bulkCancel = true;
 
     currentMode = mode;
-    subTabs.querySelectorAll('.rc-sub-tab').forEach(function(t) {
-      t.classList.toggle('active', t.dataset.mode === mode);
+    subTabs.querySelectorAll('[data-mode]').forEach(function(t) {
+      var on = t.dataset.mode === mode;
+      t.classList.toggle('md-chip-active', on);
+      t.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
     updateFieldsForMode();
@@ -69,32 +70,32 @@
     if (currentMode === 'bulk') {
       // Hide single inputs
       document.getElementById('symbol').required = false;
-      document.getElementById('symbol').parentElement.style.display = 'none';
-      dobWrapper.classList.remove('visible');
+      document.getElementById('symbol').parentElement.hidden = true;
+      dobWrapper.hidden = true;
       dobInput.required = false;
 
       // Show bulk input
-      bulkField.style.display = 'block';
+      bulkField.hidden = false;
       bulkInput.required = true;
-      submitText.textContent = 'Run Bulk Check';
+      submitText.textContent = 'Run bulk check';
     } else {
       // Show single inputs
       document.getElementById('symbol').required = true;
-      document.getElementById('symbol').parentElement.style.display = 'block';
+      document.getElementById('symbol').parentElement.hidden = false;
       
       if (needsDob()) {
-        dobWrapper.classList.add('visible');
+        dobWrapper.hidden = false;
         dobInput.required = true;
       } else {
-        dobWrapper.classList.remove('visible');
+        dobWrapper.hidden = true;
         dobInput.required = false;
         dobInput.value = '';
       }
 
       // Hide bulk input
-      bulkField.style.display = 'none';
+      bulkField.hidden = true;
       bulkInput.required = false;
-      submitText.textContent = 'Check Result';
+      submitText.textContent = 'Check result';
     }
   }
 
@@ -110,11 +111,10 @@
   }
 
   function resetOutputs() {
-    document.getElementById('rc-result-container').style.display = 'none';
-    document.getElementById('rc-bulk-results-container').style.display = 'none';
-    document.getElementById('rc-progress-container').style.display = 'none';
-    document.getElementById('rc-progress-text').style.display = 'none';
-    document.getElementById('rc-error').style.display = 'none';
+    document.getElementById('rc-result-container').hidden = true;
+    document.getElementById('rc-bulk-results-container').hidden = true;
+    document.getElementById('rc-progress-container').hidden = true;
+    document.getElementById('rc-error').hidden = true;
     window.currentResultData = null;
   }
 
@@ -124,7 +124,7 @@
   });
 
   subTabs.addEventListener('click', function(e) {
-    var tab = e.target.closest('.rc-sub-tab');
+    var tab = e.target.closest('[data-mode]');
     if (tab) switchMode(tab.dataset.mode);
   });
 
@@ -161,8 +161,8 @@
 
       submitBtn.disabled = true;
       submitBtn.classList.add('loading');
-      errorDiv.style.display = 'none';
-      resultContainer.style.display = 'none';
+      errorDiv.hidden = true;
+      resultContainer.hidden = true;
 
       var csrf = document.querySelector('[name=csrfmiddlewaretoken]');
       var headers = { 'Content-Type': 'application/json' };
@@ -180,7 +180,7 @@
 
         if (!resp.success) {
           document.getElementById('rc-error-msg').textContent = resp.error || 'Failed to check result.';
-          errorDiv.style.display = 'flex';
+          errorDiv.hidden = false;
           return;
         }
 
@@ -191,20 +191,18 @@
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
         document.getElementById('rc-error-msg').textContent = 'Network error. Please try again later.';
-        errorDiv.style.display = 'flex';
+        errorDiv.hidden = false;
       });
     }
   });
 
   function showResult(data, cached) {
     var container = document.getElementById('rc-result-container');
-    container.style.display = 'block';
-
-    // No status badge shown in app
+    container.hidden = false;
 
     var gpa = data.gpa || '·';
     document.getElementById('rc-gpa-num').textContent = gpa;
-    document.getElementById('rc-grade').textContent = data.grade ? 'Grade: ' + data.grade : '·';
+    document.getElementById('rc-grade').textContent = data.grade ? 'Grade ' + data.grade : '·';
 
     var gpaCard = document.getElementById('rc-gpa-card');
     gpaCard.className = 'rc-gpa-card';
@@ -264,18 +262,17 @@
     tbody.innerHTML = '';
     
     var container = document.getElementById('rc-bulk-results-container');
-    container.style.display = 'block';
+    container.hidden = false;
     
     var progressContainer = document.getElementById('rc-progress-container');
     var progressBar = document.getElementById('rc-progress-bar');
     var progressText = document.getElementById('rc-progress-text');
     var exportBtn = document.getElementById('rc-btn-export');
 
-    progressContainer.style.display = 'block';
-    progressText.style.display = 'block';
+    progressContainer.hidden = false;
     progressBar.style.width = '0%';
+    progressText.textContent = '0 of ' + lines.length;
     exportBtn.disabled = true;
-    exportBtn.style.opacity = '0.5';
 
     var resultsData = [];
     var total = lines.length;
@@ -293,8 +290,7 @@
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
         exportBtn.disabled = false;
-        exportBtn.style.opacity = '1';
-        progressText.textContent = bulkCancel ? 'Bulk check cancelled.' : 'Done. ' + completed + ' checked.';
+        progressText.textContent = bulkCancel ? 'Stopped' : 'Done';
         return;
       }
 
@@ -329,7 +325,7 @@
       tr.id = 'bulk-row-' + index;
       tr.innerHTML = 
         '<td>' + escapeHtml(symbol) + '</td>' +
-        '<td class="bulk-name" style="opacity: 0.5;">Checking...</td>' +
+        '<td class="bulk-name is-pending">Checking</td>' +
         '<td class="bulk-gpa">-</td>' +
         '<td class="bulk-grade">-</td>';
       tbody.appendChild(tr);
@@ -362,7 +358,7 @@
           });
           
           row.querySelector('.bulk-name').textContent = d.student_name || '·';
-          row.querySelector('.bulk-name').style.opacity = '1';
+          row.querySelector('.bulk-name').classList.remove('is-pending');
           row.querySelector('.bulk-gpa').textContent = d.gpa || '·';
           row.querySelector('.bulk-gpa').classList.remove('is-failed');
           row.querySelector('.bulk-grade').textContent = d.grade || '·';
@@ -375,7 +371,7 @@
             status: resp.error || 'Failed'
           });
           row.querySelector('.bulk-name').textContent = '·';
-          row.querySelector('.bulk-name').style.opacity = '1';
+          row.querySelector('.bulk-name').classList.remove('is-pending');
           row.querySelector('.bulk-gpa').textContent = resp.error || 'Failed';
           row.querySelector('.bulk-gpa').classList.add('is-failed');
           row.querySelector('.bulk-grade').textContent = '·';
@@ -469,7 +465,7 @@
     if (!el) return;
 
     saveImageBtn.disabled = true;
-    saveImageBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Rendering...';
+    saveImageBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Rendering';
 
     var oldTransform = el.style.transform;
     var oldTransformOrigin = el.style.transformOrigin;
@@ -512,7 +508,7 @@
       }
 
       saveImageBtn.disabled = false;
-      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
+      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as image';
     }).catch(function(err) {
       console.error('html2canvas error:', err);
       if (wrapper) {
@@ -523,7 +519,7 @@
         wrapper.style.overflowX = oldWrapperOverflowX;
       }
       saveImageBtn.disabled = false;
-      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as Image';
+      saveImageBtn.innerHTML = '<span class="material-symbols-outlined">photo_camera</span> Save as image';
     });
   });
 
@@ -616,7 +612,7 @@
     } else {
       var tr = document.createElement('tr');
       var colspan = isSee ? 5 : 6;
-      tr.innerHTML = '<td colspan="' + colspan + '" style="text-align:center;padding:24px;color:#78716c">No subject-wise details available.</td>';
+      tr.innerHTML = '<td colspan="' + colspan + '" class="gs-none">No subjects listed.</td>';
       tbody.appendChild(tr);
     }
 
@@ -700,7 +696,7 @@
     var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
     var values = [
       data.symbol || '·',
-      (data.exam || '12') + '  •  ' + (data.batch || document.getElementById('batch').value) + ' BS',
+      (data.exam || '12') + '  /  ' + (data.batch || document.getElementById('batch').value) + ' BS',
       data.school || '·'
     ];
     
@@ -756,7 +752,7 @@
     ctx.textAlign = 'center';
     ctx.fillStyle = '#64748b';
     ctx.font = '500 13px "Poppins", sans-serif';
-    ctx.fillText('Verify result online at nebians.consica.com.np/app/results/check  •  NEBians Study Community', 540, 920);
+    ctx.fillText('Check yours at nebians.consica.com.np/app/results/check', 540, 920);
 
     var imgUrl = canvas.toDataURL('image/png');
     previewImg.src = imgUrl;
