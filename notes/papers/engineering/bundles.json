@@ -1,5 +1,19 @@
 [
  {
+  "file": "bundles/engineering-basic-electrical-and-electronics-engineering-2081.pdf",
+  "subject": "Basic Electrical and Electronics Engineering",
+  "level": "BE \u00b7 Year I",
+  "years_bs": "2081",
+  "papers": [
+   "ioe-enee103-2081-chaitra",
+   "ioe-ee103-2081-kartik",
+   "ioe-ee103-2081-baishakh"
+  ],
+  "pages": 43,
+  "bytes": 1852832,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-chemistry-2081-2083.pdf",
   "subject": "Engineering Chemistry",
   "level": "BE \u00b7 Year I",
@@ -42,7 +56,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704450,
+  "bytes": 1704449,
   "kind": "subject-bundle"
  },
  {
@@ -59,7 +73,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095314,
+  "bytes": 4095316,
   "kind": "subject-bundle"
  },
  {
@@ -73,7 +87,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116670,
+  "bytes": 2116671,
   "kind": "subject-bundle"
  },
  {
@@ -108,6 +122,9 @@
   "subject": "ALL",
   "years_bs": "2081-2083",
   "papers": [
+   "ioe-ee103-2081-baishakh",
+   "ioe-ee103-2081-kartik",
+   "ioe-enee103-2081-chaitra",
    "ioe-ensh101-2081-chaitra",
    "ioe-ensh102-2081-chaitra",
    "ioe-ensh103-2081-chaitra",
@@ -136,8 +153,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 366,
-  "bytes": 16001840,
+  "pages": 408,
+  "bytes": 17838204,
   "kind": "master-book"
  }
 ]
