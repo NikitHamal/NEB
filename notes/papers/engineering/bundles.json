@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853064,
+  "bytes": 1853065,
   "kind": "subject-bundle"
  },
  {
@@ -40,7 +40,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606309,
+  "bytes": 1606310,
   "kind": "subject-bundle"
  },
  {
@@ -56,7 +56,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272196,
+  "bytes": 3272197,
   "kind": "subject-bundle"
  },
  {
@@ -71,7 +71,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762979,
+  "bytes": 2762980,
   "kind": "subject-bundle"
  },
  {
@@ -131,7 +131,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704450,
+  "bytes": 1704448,
   "kind": "subject-bundle"
  },
  {
@@ -148,7 +148,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095316,
+  "bytes": 4095315,
   "kind": "subject-bundle"
  },
  {
@@ -161,7 +161,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868473,
+  "bytes": 1868472,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581580,
+  "bytes": 581579,
   "kind": "subject-bundle"
  },
  {
@@ -189,7 +189,7 @@
    "ioe-ce151-2081-ashwin"
   ],
   "pages": 36,
-  "bytes": 1645020,
+  "bytes": 1645018,
   "kind": "subject-bundle"
  },
  {
@@ -202,7 +202,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710383,
+  "bytes": 710381,
   "kind": "subject-bundle"
  },
  {
@@ -215,7 +215,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582018,
+  "bytes": 1582016,
   "kind": "subject-bundle"
  },
  {
@@ -241,7 +241,7 @@
    "ioe-enct252-2082-bhadra"
   ],
   "pages": 38,
-  "bytes": 735114,
+  "bytes": 735110,
   "kind": "subject-bundle"
  },
  {
@@ -267,7 +267,7 @@
    "ioe-enex254-2082-bhadra"
   ],
   "pages": 29,
-  "bytes": 1777022,
+  "bytes": 1777021,
   "kind": "subject-bundle"
  },
  {
@@ -281,7 +281,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116672,
+  "bytes": 2116671,
   "kind": "subject-bundle"
  },
  {
@@ -308,7 +308,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981775,
+  "bytes": 1981774,
   "kind": "subject-bundle"
  },
  {
@@ -334,7 +334,20 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296668,
+  "bytes": 1296667,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-signals-and-systems-2082-2083.pdf",
+  "subject": "Signals and Systems",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enex255-2083-baishakh",
+   "ioe-enex255-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 1482741,
   "kind": "subject-bundle"
  },
  {
@@ -384,6 +397,8 @@
    "ioe-enex253-2083-baishakh",
    "ioe-enex254-2082-bhadra",
    "ioe-enex254-2083-baishakh",
+   "ioe-enex255-2082-bhadra",
+   "ioe-enex255-2083-baishakh",
    "ioe-ensh101-2081-chaitra",
    "ioe-ensh102-2081-chaitra",
    "ioe-ensh103-2081-chaitra",
@@ -417,8 +432,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1051,
-  "bytes": 39026373,
+  "pages": 1076,
+  "bytes": 40493058,
   "kind": "master-book"
  }
 ]
