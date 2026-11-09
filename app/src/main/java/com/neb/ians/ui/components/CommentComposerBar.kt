@@ -1,6 +1,14 @@
 package com.neb.ians.ui.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material.icons.outlined.CloseFullscreen
+import androidx.compose.material.icons.outlined.FormatColorText
+import androidx.compose.material.icons.outlined.OpenInFull
+import com.neb.ians.ui.theme.nebSpatialSpec
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -73,6 +81,8 @@ fun NebCommentComposerBar(
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
     voiceNote: VoiceNoteRecorder? = null,
     docked: Boolean = true,
+    kind: String? = null,
+    onKindChange: ((String) -> Unit)? = null,
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
@@ -86,15 +96,18 @@ fun NebCommentComposerBar(
         sendIcon = sendIcon,
         voiceNote = voiceNote,
         docked = docked,
+        kind = kind,
+        onKindChange = onKindChange,
+        formatBar = null,
         trailingContent = trailingContent,
         extraContent = extraContent
-    ) { fieldModifier: Modifier ->
+    ) { fieldModifier: Modifier, minHeight ->
         ComposerInput(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
             placeholder = placeholder,
-            modifier = fieldModifier.then(textFieldModifier),
+            modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
             leadingContent = leadingContent
         )
     }
@@ -117,6 +130,8 @@ fun NebCommentComposerBar(
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
     voiceNote: VoiceNoteRecorder? = null,
     docked: Boolean = true,
+    kind: String? = null,
+    onKindChange: ((String) -> Unit)? = null,
     trailingContent: (@Composable RowScope.() -> Unit)? = null,
     extraContent: @Composable () -> Unit = {}
 ) {
@@ -130,15 +145,18 @@ fun NebCommentComposerBar(
         sendIcon = sendIcon,
         voiceNote = voiceNote,
         docked = docked,
+        kind = kind,
+        onKindChange = onKindChange,
+        formatBar = { MarkdownToolbar(value = value, onValueChange = onValueChange) },
         trailingContent = trailingContent,
         extraContent = extraContent
-    ) { fieldModifier: Modifier ->
+    ) { fieldModifier: Modifier, minHeight ->
         ComposerInput(
             value = value,
             onValueChange = onValueChange,
             enabled = enabled,
             placeholder = placeholder,
-            modifier = fieldModifier.then(textFieldModifier),
+            modifier = fieldModifier.then(textFieldModifier).defaultMinSize(minHeight = minHeight),
             visualTransformation = visualTransformation,
             leadingContent = leadingContent
         )
@@ -156,17 +174,20 @@ private fun NebCommentComposerBarFrame(
     sendIcon: ImageVector,
     voiceNote: VoiceNoteRecorder?,
     docked: Boolean,
+    kind: String?,
+    onKindChange: ((String) -> Unit)?,
+    formatBar: (@Composable () -> Unit)?,
     trailingContent: (@Composable RowScope.() -> Unit)?,
     extraContent: @Composable () -> Unit,
-    textField: @Composable (Modifier) -> Unit
+    textField: @Composable (Modifier, androidx.compose.ui.unit.Dp) -> Unit
 ) {
     val recording = voiceNote?.isRecording == true
     val active = enabled && canSend && !posting
-    // Mic shows only when there's nothing to send yet (empty text, no staged
-    // attachment — canSend already accounts for those at call sites).
-    val showMic = !recording && !active && !posting && voiceNote != null && enabled
 
     var focused by remember { mutableStateOf(false) }
+    var open by rememberSaveable { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var kindSheet by remember { mutableStateOf(false) }
     val scheme = MaterialTheme.colorScheme
     val stroke by animateColorAsState(
         targetValue = when {
@@ -177,7 +198,9 @@ private fun NebCommentComposerBarFrame(
         animationSpec = nebEffectsSpec(),
         label = "composerStroke"
     )
-    val shape = RoundedCornerShape(28.dp)
+    val shape = RoundedCornerShape(24.dp)
+    val canFormat = formatBar != null
+    val canKind = kind != null && onKindChange != null
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -193,80 +216,199 @@ private fun NebCommentComposerBarFrame(
         ) {
             extraContent()
 
-            // One container, as on the web: the stroke turns primary while anything inside
-            // it has focus, and the send button lives inside the same outline.
-            Row(
+            // One outlined container, as on the web `neb-composer`: the stroke turns primary
+            // while anything inside it has focus. Collapsed it is one row (field, tools, send);
+            // opened by the A tool it grows a formatting row on top and a tool row underneath.
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = 52.dp)
                     .clip(shape)
-                    .background(scheme.surfaceContainerLowest)
+                    .background(scheme.surface)
                     .border(1.dp, stroke, shape)
-                    .padding(start = 4.dp, end = 6.dp, top = 6.dp, bottom = 6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+                    .animateContentSize(nebSpatialSpec())
+                    .padding(start = 4.dp, end = 6.dp, top = 6.dp, bottom = 6.dp)
             ) {
-                if (recording && voiceNote != null) {
-                    VoiceRecordingStrip(
-                        recorder = voiceNote,
+                if (open && canFormat) {
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(horizontal = 10.dp, vertical = 2.dp)
-                    )
-                } else {
-                    textField(
-                        Modifier
-                            .weight(1f)
-                            .onFocusChanged { focused = it.hasFocus }
-                    )
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(start = 44.dp, top = 2.dp, bottom = 2.dp)
+                    ) { formatBar?.invoke() }
                 }
-                if (trailingContent != null && !recording) trailingContent()
-                Spacer(modifier = Modifier.width(6.dp))
-
-                val trailingActive = recording || active || showMic
-                val trailingColor by animateColorAsState(
-                    targetValue = when {
-                        recording -> scheme.error
-                        active || showMic -> scheme.primary
-                        else -> scheme.secondaryContainer
-                    },
-                    animationSpec = nebEffectsSpec(),
-                    label = "sendFill"
-                )
-                IconButton(
-                    onClick = {
-                        when {
-                            recording -> voiceNote?.stop()
-                            showMic -> voiceNote?.micClick?.invoke()
-                            else -> onSend()
-                        }
-                    },
-                    enabled = trailingActive,
+                Row(
                     modifier = Modifier
-                        .size(40.dp)
-                        .background(color = trailingColor, shape = CircleShape)
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 44.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    when {
-                        posting -> NebLoader(size = NebLoaderSize.Inline, color = scheme.onPrimary)
-                        recording -> Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = "Finish recording",
-                            tint = scheme.onError
+                    if (recording && voiceNote != null) {
+                        VoiceRecordingStrip(
+                            recorder = voiceNote,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 10.dp, vertical = 2.dp)
                         )
-                        showMic -> Icon(
-                            imageVector = Icons.Filled.Mic,
-                            contentDescription = "Record a voice note",
-                            tint = scheme.onPrimary
+                    } else {
+                        textField(
+                            Modifier
+                                .weight(1f)
+                                .onFocusChanged { focused = it.hasFocus },
+                            if (!open) 0.dp else if (expanded) 200.dp else 72.dp
                         )
-                        else -> Icon(
-                            imageVector = sendIcon,
-                            contentDescription = sendContentDescription,
-                            tint = if (active) scheme.onPrimary
-                            else scheme.onSecondaryContainer
+                    }
+                    if (!open) {
+                        ComposerTools(
+                            formatOpen = false,
+                            canFormat = canFormat,
+                            onFormat = { open = true },
+                            enabled = enabled,
+                            kind = null,
+                            onKind = null,
+                            trailingContent = if (recording) null else trailingContent
                         )
+                        Spacer(Modifier.width(4.dp))
+                        ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
+                            if (recording) voiceNote?.stop() else onSend()
+                        }
+                    }
+                }
+                if (open) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(start = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        ComposerTools(
+                            formatOpen = true,
+                            canFormat = canFormat,
+                            onFormat = { open = false },
+                            enabled = enabled,
+                            kind = if (canKind) kind else null,
+                            onKind = if (canKind) ({ kindSheet = true }) else null,
+                            trailingContent = trailingContent
+                        )
+                        Spacer(Modifier.weight(1f))
+                        ComposerToolButton(
+                            icon = {
+                                Icon(
+                                    if (expanded) Icons.Outlined.CloseFullscreen else Icons.Outlined.OpenInFull,
+                                    contentDescription = if (expanded) "Shrink the field" else "Expand the field",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            },
+                            active = false,
+                            enabled = enabled,
+                            onClick = { expanded = !expanded }
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
+                            if (recording) voiceNote?.stop() else onSend()
+                        }
                     }
                 }
             }
+        }
+    }
+    if (kindSheet && kind != null && onKindChange != null) {
+        ReplyKindSheet(selected = kind, onSelect = onKindChange, onDismiss = { kindSheet = false })
+    }
+}
+
+/** Tool row shared by the collapsed and the opened composer: A, the kind picker, then the call site's tools. */
+@Composable
+private fun RowScope.ComposerTools(
+    formatOpen: Boolean,
+    canFormat: Boolean,
+    onFormat: () -> Unit,
+    enabled: Boolean,
+    kind: String?,
+    onKind: (() -> Unit)?,
+    trailingContent: (@Composable RowScope.() -> Unit)?
+) {
+    if (canFormat) {
+        ComposerToolButton(
+            icon = {
+                Icon(
+                    Icons.Outlined.FormatColorText,
+                    contentDescription = if (formatOpen) "Hide formatting" else "Show formatting",
+                    modifier = Modifier.size(20.dp)
+                )
+            },
+            active = formatOpen,
+            enabled = enabled,
+            onClick = onFormat
+        )
+    }
+    trailingContent?.invoke(this)
+    if (kind != null && onKind != null) {
+        val spec = REPLY_KINDS.firstOrNull { it.key == kind } ?: REPLY_KINDS.first()
+        ComposerToolButton(
+            icon = { Icon(spec.icon, contentDescription = "Reply type: ${spec.label}", modifier = Modifier.size(20.dp)) },
+            active = kind != "comment",
+            enabled = enabled,
+            onClick = onKind
+        )
+    }
+}
+
+/** A 38dp tool: ghost at rest, a tonal rounded square while it is on. */
+@Composable
+fun ComposerToolButton(icon: @Composable () -> Unit, active: Boolean, enabled: Boolean, onClick: () -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    val bg by animateColorAsState(if (active) scheme.secondaryContainer else Color.Transparent, nebEffectsSpec(), label = "toolBg")
+    val fg = when {
+        !enabled -> scheme.onSurfaceVariant.copy(alpha = 0.4f)
+        active -> scheme.onSecondaryContainer
+        else -> scheme.onSurfaceVariant
+    }
+    Box(
+        modifier = Modifier
+            .size(38.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(bg)
+            .nebPressable(enabled = enabled, onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.runtime.CompositionLocalProvider(androidx.compose.material3.LocalContentColor provides fg) { icon() }
+    }
+}
+
+/** The round send button inside the stroke: tonal while there is nothing to send, brand blue once there is. */
+@Composable
+private fun ComposerSendButton(
+    recording: Boolean,
+    active: Boolean,
+    posting: Boolean,
+    sendIcon: ImageVector,
+    description: String,
+    onClick: () -> Unit
+) {
+    val scheme = MaterialTheme.colorScheme
+    val live = recording || active
+    val fill by animateColorAsState(
+        targetValue = when {
+            recording -> scheme.error
+            active -> scheme.primary
+            else -> scheme.secondaryContainer
+        },
+        animationSpec = nebEffectsSpec(),
+        label = "sendFill"
+    )
+    IconButton(
+        onClick = onClick,
+        enabled = live,
+        modifier = Modifier
+            .size(40.dp)
+            .background(color = fill, shape = CircleShape)
+    ) {
+        when {
+            posting -> NebLoader(size = NebLoaderSize.Inline, color = scheme.onPrimary)
+            recording -> Icon(Icons.Filled.Check, contentDescription = "Finish recording", tint = scheme.onError)
+            else -> Icon(
+                imageVector = sendIcon,
+                contentDescription = description,
+                tint = if (active) scheme.onPrimary else scheme.onSecondaryContainer
+            )
         }
     }
 }

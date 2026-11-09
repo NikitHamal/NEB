@@ -113,3 +113,21 @@ Brief: remove AI chat, Study Lab and the other dead study surfaces from the app 
 
 - The screen has not been seen on a device or emulator: production still serves the old payload until the backend is deployed, so a capture flow would only show the "updating" state. After deploying, add a flow to `tools/app-screens/flows` (Profile, Analytics icon) and run `App screen captures (reel)`.
 - PageView rows are not read for members (no index on the member column); likes and replies received come from notifications.
+
+## Session 9: neutral surfaces, web composer, About (compile checked on the Kotlin front end)
+
+Brief: the app still read blue next to the web (cards, popups, backgrounds), the comment bar had hint and type chips and a mic that the web does not have, there was no About screen, and none of the surface rules were written down for agents.
+
+- **Palette:** `ANDROID_LIGHT_OVERRIDES` now pins the whole light surface ramp, `outline`, `outlineVariant`, `onSurface` and `onSurfaceVariant` to neutral greys (see the script). Dark is unchanged. `Palette.kt` regenerated, `--check` passes.
+- **Floating surfaces:** `ui/theme/NebFloat.kt` (`nebFloatColor`, `nebFloatLine`) and `ui/components/NebMenu.kt` (`NebDropdownMenu`). Every `DropdownMenu` in the app is now `NebDropdownMenu`; `NebModalSheet`, `NebDialog`, the raw `ModalBottomSheet` and `AlertDialog` call sites take `nebFloatColor()`. White in light, hairline, no elevation.
+- **Comment bar** (`CommentComposerBar.kt`): rebuilt as the web `neb-composer`. Collapsed: avatar with identity chevron, field, A tool, poll and attach tools, round send. Opened with A: markdown row on top (from `MarkdownToolbar`), field, tool row with the reply type tool, expand and send. The reply type is `ReplyKindSheet` (bottom sheet, tick on the current one). The chip row (`ReplyKindPicker`) is deleted, the mic button is gone (voice notes were reachable only through it; `voiceNote` is still accepted so a recording in progress shows its strip). New params `kind` and `onKindChange` on both overloads; Forum post detail passes them.
+- **Identity menu:** white popup with hairline, uppercase section labels like the web.
+- **About** (`ui/screens/about/AboutScreen.kt`, route `about`, Settings > About > About NEBians): hero with a morphing mark (cookie, sunny, flower, clover) that squeezes on tap and three lines that land one by one, four pillar cards with shape tiles, four steps, four promises, the team in their own expressive shapes (tap turns the shape), Consica Labs card with a mailto. Copy is `web/about_data.py`. Entrances use `Reveal`; reduced motion snaps. Team photos do not exist on the web either, so initials sit in the shapes.
+- **Docs:** `AGENTS.md` ("Android surface and parity rules"), `docs/M3X_DESIGN_SYSTEM.md` section 11 and checklist item 13, `ANDROID_UI_CONTINUITY.md` marks the old mono contract superseded.
+- **Compile check on the sandbox:** swap file 3 GB, JDK 17, SDK 36 in `/tmp`, `local.properties` and `app/google-services.json` (both git-excluded), then `./gradlew :app:compileModernDebugKotlin --no-daemon --no-parallel -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs=-Xmx2600m` takes under two minutes and prints every `e:` line.
+
+## Not done yet (after session 9)
+
+- Nothing here has run on a device. First look on hardware: the composer open and closed states, the kind sheet, the About hero morph, menus in light and dark.
+- Some `surfaceContainerLow` fills on white pages (55 sites) are now very light grey instead of blue; if any card reads flat, give it the hairline card treatment instead of a darker fill.
+- Replies in a thread sheet still post comments only (no type tool on nested replies, matching the API).

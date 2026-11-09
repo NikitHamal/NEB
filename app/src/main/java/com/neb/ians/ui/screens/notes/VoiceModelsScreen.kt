@@ -202,7 +202,7 @@ private fun ModelShell(
         AlertDialog(
             onDismissRequest = { confirm = false },
             shape = RoundedCornerShape(28.dp),
-            containerColor = c.surfaceContainerHigh,
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             title = { Text("Remove $title?") },
             text = { Text("You can download it again at any time.") },
             confirmButton = { TextButton(onClick = { confirm = false; onRemove() }) { Text("Remove", color = c.error) } },

@@ -34,7 +34,7 @@ import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -282,7 +282,7 @@ private fun StudioBlockRow(
                 contentDescription = "More for ${blockLabel(block.type)}",
                 onClick = { menuOpen = true }
             )
-            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            NebDropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                 DropdownMenuItem(
                     text = { Text("Edit") },
                     leadingIcon = { Icon(Icons.Outlined.Edit, null) },
@@ -337,7 +337,8 @@ internal fun StudioSectionPickerSheet(
     val byType = remember(uiState.schema) { uiState.schema.blocks.associateBy { it.type } }
     ModalBottomSheet(
         onDismissRequest = viewModel::closeSectionPicker,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        containerColor = com.neb.ians.ui.theme.nebFloatColor()
     ) {
         Column(
             modifier = Modifier
@@ -409,7 +410,8 @@ internal fun StudioBlockEditorSheet(
     val schemaBlock = uiState.schema.blocks.firstOrNull { it.type == block.type }
     ModalBottomSheet(
         onDismissRequest = viewModel::closeBlockEditor,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        containerColor = com.neb.ians.ui.theme.nebFloatColor()
     ) {
         Column(
             modifier = Modifier

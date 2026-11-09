@@ -1010,7 +1010,7 @@ fun MarkdownToolbar(
         AlertDialog(
             onDismissRequest = { linkDialog = false },
             shape = RoundedCornerShape(28.dp),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             title = { Text("Add link") },
             text = {
                 OutlinedTextField(
@@ -1031,7 +1031,7 @@ fun MarkdownToolbar(
         AlertDialog(
             onDismissRequest = { symbolDialog = false },
             shape = RoundedCornerShape(28.dp),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             title = { Text("Symbols") },
             text = {
                 androidx.compose.foundation.layout.FlowRow(

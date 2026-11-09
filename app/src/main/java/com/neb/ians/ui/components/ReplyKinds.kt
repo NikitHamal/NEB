@@ -117,48 +117,46 @@ fun ReplyLabelTag(label: String, modifier: Modifier = Modifier) {
     TonalTag(spec.icon, spec.label, container, content, modifier)
 }
 
-/** The composer's kind chips: one row, scrolls sideways, the chosen one fills with the primary container. */
+/**
+ * The reply type sheet, opened from the composer's type tool: one row per kind, the chosen one on
+ * the primary container with a tick, the web's `fc-kindsheet`. It replaces the old chip row above
+ * the field, which the web does not have.
+ */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-fun ReplyKindPicker(
-    selected: String,
-    onSelect: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(bottom = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        REPLY_KINDS.forEach { spec ->
-            KindChip(spec, selected == spec.key, enabled) { onSelect(spec.key) }
-        }
-    }
-}
-
-@Composable
-private fun KindChip(spec: ReplyKindSpec, selected: Boolean, enabled: Boolean, onClick: () -> Unit) {
+fun ReplyKindSheet(selected: String, onSelect: (String) -> Unit, onDismiss: () -> Unit) {
     val cs = MaterialTheme.colorScheme
-    val bg by animateColorAsState(if (selected) cs.secondaryContainer else cs.surfaceContainerHigh, nebEffectsSpec())
-    val fg by animateColorAsState(if (selected) cs.onSecondaryContainer else cs.onSurfaceVariant, nebEffectsSpec())
-    Row(
-        modifier = Modifier
-            .clip(ChipShape)
-            .background(bg)
-            .nebPressable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = if (selected) Icons.Outlined.Check else spec.icon,
-            contentDescription = null,
-            tint = fg,
-            modifier = Modifier.size(16.dp)
-        )
-        Spacer(Modifier.width(6.dp))
-        Text(spec.label, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = fg)
+    NebModalSheet(onDismiss = onDismiss, horizontalPadding = 12.dp) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            REPLY_KINDS.forEach { spec ->
+                val chosen = spec.key == selected
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(if (chosen) cs.primaryContainer else Color.Transparent)
+                        .nebPressable(onClick = { onSelect(spec.key); onDismiss() })
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        spec.icon,
+                        contentDescription = null,
+                        tint = if (chosen) cs.onPrimaryContainer else cs.onSurfaceVariant,
+                        modifier = Modifier.size(22.dp)
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Text(
+                        spec.label,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (chosen) cs.onPrimaryContainer else cs.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (chosen) NebIcon(NebIcons.Check, "Selected", size = 20.dp, tint = cs.onPrimaryContainer)
+                }
+            }
+        }
     }
 }
 

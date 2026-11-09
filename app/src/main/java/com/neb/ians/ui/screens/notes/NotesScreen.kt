@@ -49,7 +49,7 @@ import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Sort
 import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material.icons.outlined.ViewAgenda
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -232,10 +232,8 @@ private fun Header(ui: NotesUi, vm: NotesViewModel, onOpenVoice: () -> Unit) {
         }
         Box {
             IconButton(onClick = { sortMenu = true }) { Icon(Icons.Outlined.Sort, "Sort") }
-            DropdownMenu(
+            NebDropdownMenu(
                 expanded = sortMenu, onDismissRequest = { sortMenu = false },
-                shape = RoundedCornerShape(20.dp), containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                tonalElevation = 0.dp, shadowElevation = 0.dp,
             ) {
                 NoteSort.entries.forEach { s ->
                     DropdownMenuItem(

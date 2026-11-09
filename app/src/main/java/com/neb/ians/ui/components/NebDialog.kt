@@ -102,7 +102,7 @@ fun NebDialog(
         ) {
             Surface(
                 shape = RoundedCornerShape(30.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                color = com.neb.ians.ui.theme.nebFloatColor(),
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 tonalElevation = 0.dp,
                 modifier = Modifier

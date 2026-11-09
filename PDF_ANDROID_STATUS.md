@@ -29,3 +29,22 @@ The Compose side (`ReadingMode.kt`, `PdfAssistantFab.kt`, screen wiring, sheets,
 - Reading mode keeps one column: two column papers interleave. Page mode search marks hits only where the platform text API exists (Android 15 / R-ext 13); elsewhere search runs in reading mode.
 - Password protected files have no links or reading mode (the renderer cannot open them either).
 - Crops come from `PdfRenderer` pages, so tables made of vector math are shown as pictures, not text.
+
+## Session 3 (reading mode: finger controls, figures, choices, callouts)
+
+Brief: reading mode had no finger controls, weak figure, table and MCQ handling. What the print pipeline produces (`PDF_M3X_STATUS.md`): tonal `.box` cards with a label, typeset maths as small images (inline and display), fact sheets (`.fxs` grids of formulas), derivations (`.dv`), options (`.opt`, badge A to D with text or a maths image), answer keys (`1. (a) .. (b) ..`), rounded tables, `svgfig` diagrams and photo grids, code, contents rows.
+
+- **Pinch:** two fingers anywhere on the text change the size live in 5 % steps (70 to 300 %), with a percentage badge (`pinchTextSize`, `RdSizeBadge` in `ReadingExtras.kt`). One finger still scrolls; a tap toggles the bars. The size is the same `fontScale` as the settings slider (slider range now 70 to 300 %), remembered per the usual prefs.
+- **Figures and equations:** tap opens `RdZoomDialog` full screen: pinch to 8x, drag to pan inside the bounds, double tap to 2.5x and back, a crop rendered at 1800 px, and a button to open the original page (the old tap behaviour).
+- **Tables:** an Expand control under every table opens the table full screen, scrollable both ways, pinch changes the type size; the in-page table still scrolls sideways for wide ones.
+- **Choices:** a run of list items marked (a) a. A) (B) and so on, starting at a with at least two items, becomes tonal option rows with a letter tile; a tap marks your pick (kept while the page is composed), a second tap clears it. Search marks still work in them.
+- **Callouts:** paragraphs that start with Answer, Ans, Solution, Hint, Note, Example, Definition, Remember, Tip, Caution, Warning, Key point, Explanation or Formula followed by a colon, full stop or dash are drawn as a tonal card with the label in the accent colour (the print `.box`).
+- **Palette:** Paper is neutral white and grey (brand blue accent), no cream tint; Sepia and Night unchanged.
+- **Compile:** type checked with the Kotlin front end (see `ANDROID_M3X_STATUS.md`, session 9).
+
+### Still unmapped
+- Maths images inside option rows and fact sheets arrive as figure crops after the option badge, so they sit under the option instead of inside it.
+- Fact sheet cells (`.fxs`) read as a run of figures or short paragraphs; no grid yet.
+- Callout card has no collapse for answers; every answer is visible.
+- Two column papers still interleave; scanned pages have no text, so they stay crops.
+- Not run on a device.

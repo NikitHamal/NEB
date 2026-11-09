@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.security.MessageDigest
 
 /**
@@ -166,13 +166,9 @@ private fun IdentityDropdown(
     onSelect: (anonymous: Boolean) -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
-    DropdownMenu(
+    NebDropdownMenu(
         expanded = open,
         onDismissRequest = onDismiss,
-        shape = RoundedCornerShape(24.dp),
-        containerColor = nebMenuColor(),
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp
     ) {
         Column(modifier = Modifier.widthIn(min = 264.dp)) {
             IdentitySection("Post anonymously as")
@@ -204,7 +200,10 @@ private fun IdentityDropdown(
 
 /** The menu fill: tonal in light (the page is white), a raised step in dark. */
 @Composable
-fun nebMenuColor(): Color {
+fun nebMenuColor(): Color = com.neb.ians.ui.theme.nebFloatColor()
+
+@Composable
+private fun nebMenuColorLegacy(): Color {
     val scheme = MaterialTheme.colorScheme
     return if (scheme.surface.luminance() > 0.5f) scheme.surfaceContainerLow else scheme.surfaceContainerHigh
 }
@@ -212,8 +211,8 @@ fun nebMenuColor(): Color {
 @Composable
 private fun IdentitySection(label: String) {
     Text(
-        text = label,
-        style = MaterialTheme.typography.labelMedium,
+        text = label.uppercase(),
+        style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp),
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 4.dp)
     )

@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.resource
 
+import com.neb.ians.ui.components.NebDropdownMenu
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -228,7 +229,7 @@ fun ResourceDetailScreen(
                                 IconButton(onClick = { menuOpen = true }) {
                                     Icon(Icons.Filled.MoreVert, contentDescription = "Options", tint = MaterialTheme.colorScheme.onSurface)
                                 }
-                                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                                NebDropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                                     if (isOwner) {
                                         DropdownMenuItem(
                                             text = { Text("See insights") },

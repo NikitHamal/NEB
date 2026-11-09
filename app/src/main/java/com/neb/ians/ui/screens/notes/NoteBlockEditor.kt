@@ -37,7 +37,7 @@ import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -175,9 +175,8 @@ private fun BlockMenuButton(block: NoteBlock, vm: NoteEditorViewModel, onSurface
             Modifier.size(32.dp).clip(CircleShape).then(if (onSurface) Modifier.background(c.surface.copy(alpha = 0.85f)) else Modifier).clickable { open = true },
             contentAlignment = Alignment.Center,
         ) { Icon(Icons.Outlined.MoreVert, "Block options", tint = c.onSurfaceVariant, modifier = Modifier.size(20.dp)) }
-        DropdownMenu(
+        NebDropdownMenu(
             expanded = open, onDismissRequest = { open = false },
-            shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh, tonalElevation = 0.dp, shadowElevation = 0.dp,
         ) {
             if (block.type.hasText) {
                 listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
@@ -310,10 +309,9 @@ private fun TextBlockRow(
                         } else false
                     },
             )
-            DropdownMenu(
+            NebDropdownMenu(
                 expanded = focused && slash.isNotEmpty(), onDismissRequest = {},
                 properties = PopupProperties(focusable = false),
-                shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh, tonalElevation = 0.dp, shadowElevation = 0.dp,
             ) {
                 slash.forEach { t -> DropdownMenuItem(text = { Text(t.label) }, onClick = { vm.applySlash(block.id, t) }) }
             }
@@ -354,9 +352,8 @@ fun BlockFormatBar(
         Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(2.dp), verticalAlignment = Alignment.CenterVertically) {
             Box {
                 BarButton(Icons.Outlined.Add, "Add a block", fg, false) { insertMenu = true }
-                DropdownMenu(
+                NebDropdownMenu(
                     expanded = insertMenu, onDismissRequest = { insertMenu = false },
-                    shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh, tonalElevation = 0.dp, shadowElevation = 0.dp,
                 ) {
                     listOf(BlockType.Image, BlockType.Audio, BlockType.Drawing, BlockType.Table, BlockType.Callout, BlockType.Code, BlockType.Divider).forEach { t ->
                         DropdownMenuItem(
@@ -391,7 +388,7 @@ fun BlockFormatBar(
         var url by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { linkDialog = false },
-            shape = RoundedCornerShape(28.dp), containerColor = c.surfaceContainerHigh,
+            shape = RoundedCornerShape(28.dp), containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             title = { Text("Add link") },
             text = { OutlinedTextField(value = url, onValueChange = { url = it }, singleLine = true, shape = RoundedCornerShape(16.dp), placeholder = { Text("Paste a link") }) },
             confirmButton = {

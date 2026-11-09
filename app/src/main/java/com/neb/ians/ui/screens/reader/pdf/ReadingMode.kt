@@ -12,6 +12,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.key
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -72,7 +74,7 @@ import androidx.compose.material.icons.outlined.PictureAsPdf
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Toc
 import androidx.compose.material.icons.outlined.VolumeUp
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -149,7 +151,7 @@ class ReadingPalette(
 )
 
 fun readingPalette(theme: ReadingTheme, look: ReaderLook): ReadingPalette = when (theme) {
-    ReadingTheme.Paper -> ReadingPalette(Color.White, Color(0xFF1C1B1A), Color(0xFF66635C), Color(0xFF1F5FBF), Color(0xFFF1EFEA), Color(0xFFE0DDD5), null)
+    ReadingTheme.Paper -> ReadingPalette(Color.White, Color(0xFF16171A), Color(0xFF62656C), Color(0xFF0058DF), Color(0xFFF3F4F6), Color(0xFFE2E4E8), null)
     ReadingTheme.Sepia -> ReadingPalette(Color(0xFFF4ECD8), Color(0xFF3B2F23), Color(0xFF86775F), Color(0xFF2F5D9B), Color(0xFFEADFC6), Color(0xFFD9CCAC), look.filter)
     ReadingTheme.Night -> ReadingPalette(Color(0xFF141414), Color(0xFFE2E0DA), Color(0xFF9B9890), Color(0xFF8AB4F8), Color(0xFF212120), Color(0xFF30302E), look.filter)
 }
@@ -232,6 +234,7 @@ private class RdCtx(
     val query: String = "",
     val active: ReadHit? = null,
     val jumpId: Int = 0,
+    val onZoom: (RdZoomItem) -> Unit = {},
     val onActiveShown: (Float, Int) -> Unit = { _, _ -> }
 ) {
     /** Which occurrence inside block [index] of [page] is the current hit, or -1. */
@@ -278,7 +281,18 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
         is ParaBlock -> {
             val text = remember(block, p, q, activeNth) { annotate(block.spans, p).marked(q, activeNth) }
             val m = Modifier.fillMaxWidth().searchAnchor(ctx, activeNth).padding(top = topGap)
-            if (block.jump >= 0) {
+            val callout = remember(block) { if (block.jump < 0) CalloutPattern.find(block.text) else null }
+            if (callout != null) {
+                val styled = remember(text, callout, p) {
+                    buildAnnotatedString {
+                        append(text)
+                        addStyle(SpanStyle(fontWeight = FontWeight.Bold, color = p.accent), 0, callout.range.last + 1)
+                    }
+                }
+                Box(m.clip(RoundedCornerShape(18.dp)).background(p.tonal).padding(horizontal = 16.dp, vertical = 14.dp)) {
+                    SelectionContainer { Text(styled, style = t.body) }
+                }
+            } else if (block.jump >= 0) {
                 Text(text, style = t.body.copy(color = p.accent), modifier = m.clickable { ctx.onJump(block.jump) })
             } else {
                 SelectionContainer { Text(text, style = t.body, modifier = m) }
@@ -345,6 +359,26 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
 
 @Composable
 private fun RdTable(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
+    Column(Modifier.fillMaxWidth()) {
+        RdTableBody(b, t, ctx, topGap, activeNth)
+        Row(
+            Modifier
+                .align(Alignment.End)
+                .padding(top = 6.dp)
+                .clip(RoundedCornerShape(50))
+                .clickable { ctx.onZoom(RdZoomItem.Table(b)) }
+                .padding(horizontal = 10.dp, vertical = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Icon(Icons.Outlined.Fullscreen, null, Modifier.size(16.dp), tint = t.p.muted)
+            Text("Expand", style = MaterialTheme.typography.labelMedium, color = t.p.muted)
+        }
+    }
+}
+
+@Composable
+private fun RdTableBody(b: TableBlock, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     val p = t.p
     val cols = b.rows.maxOfOrNull { it.cells.size } ?: return
     val q = ctx.query
@@ -408,7 +442,7 @@ private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topG
                 .aspectRatio(1f / aspect)
                 .clip(RoundedCornerShape(if (b.equation) 4.dp else 14.dp))
                 .background(if (image == null) p.tonal else Color.Transparent)
-                .clickable { ctx.onOpenPage(b.page) }
+                .clickable { ctx.onZoom(RdZoomItem.Figure(b)) }
         ) {
             if (image != null) {
                 Image(image, "Figure from page ${b.page + 1}", Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
@@ -445,11 +479,57 @@ private fun RdPage(
             }
             Column(Modifier.fillMaxWidth()) {
                 if (!joins && page > 0) RdPageMark(page, p) { ctx.onOpenPage(page) }
-                blocks.forEachIndexed { i, block ->
-                    val gap = if (i == 0 && joins) 0.dp else if (i == 0) 0.dp else t.gap
-                    RdBlock(block, page, i, t, ctx, maxWidth, gap)
+                var i = 0
+                while (i < blocks.size) {
+                    val gap = if (i == 0) 0.dp else t.gap
+                    val run = optionRunLength(blocks, i)
+                    val at = i
+                    if (run >= 2) {
+                        key(page, at) { RdOptions(blocks.subList(at, at + run).map { it as ItemBlock }, page, at, t, ctx, gap) }
+                        i += run
+                    } else {
+                        key(page, at) { RdBlock(blocks[at], page, at, t, ctx, maxWidth, gap) }
+                        i++
+                    }
                 }
                 if (blocks.isEmpty()) Spacer(Modifier.height(8.dp))
+            }
+        }
+    }
+}
+
+/** Lettered choices as tappable tonal rows: a tap marks your pick (kept while the page is on screen), a second tap clears it. */
+@Composable
+private fun RdOptions(items: List<ItemBlock>, page: Int, start: Int, t: ReadType, ctx: RdCtx, topGap: Dp) {
+    val p = t.p
+    var picked by remember(page, start) { mutableIntStateOf(-1) }
+    Column(Modifier.fillMaxWidth().padding(top = topGap * 0.6f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        items.forEachIndexed { k, b ->
+            val activeNth = ctx.activeIn(page, start + k)
+            val on = picked == k
+            val text = remember(b, p, ctx.query, activeNth) { annotate(b.spans, p).marked(ctx.query, activeNth) }
+            val letter = b.marker.trim().trim('(', ')', '.', ':').uppercase()
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .searchAnchor(ctx, activeNth)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(if (on) p.accent.copy(alpha = 0.14f) else p.tonal)
+                    .clickable { picked = if (on) -1 else k }
+                    .padding(horizontal = 12.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Box(
+                    Modifier.size(32.dp).clip(RoundedCornerShape(11.dp)).background(if (on) p.accent else p.bg),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        letter,
+                        style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = if (on) p.bg else p.ink)
+                    )
+                }
+                Text(text, style = t.body, modifier = Modifier.weight(1f))
             }
         }
     }
@@ -500,6 +580,7 @@ fun ReadingMode(
     onJumpPage: (Int) -> Unit,
     onZen: () -> Unit,
     onToggleAssistant: () -> Unit,
+    onFontScale: (Float) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val palette = remember(theme, look) { readingPalette(theme, look) }
@@ -507,8 +588,10 @@ fun ReadingMode(
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = startPage.coerceIn(0, (pageCount - 1).coerceAtLeast(0)))
     val scope = rememberCoroutineScope()
     var handledJump by remember { mutableIntStateOf(0) }
+    var zoomItem by remember { mutableStateOf<RdZoomItem?>(null) }
+    var pinchLive by remember { mutableStateOf<Float?>(null) }
     val ctx = remember(source, search.marking, search.current, search.jump) {
-        RdCtx(source, { onJumpPage(it) }, { onOriginal(it) }, search.marking, search.current, search.jump) { y, id ->
+        RdCtx(source, { onJumpPage(it) }, { onOriginal(it) }, search.marking, search.current, search.jump, onZoom = { zoomItem = it }) { y, id ->
             // the hit is on screen now: bring it to the upper third, once per request
             if (id != handledJump) {
                 handledJump = id
@@ -575,6 +658,7 @@ fun ReadingMode(
                 state = listState,
                 modifier = Modifier
                     .fillMaxSize()
+                    .pinchTextSize(settings.fontScale, onFontScale, { pinchLive = it })
                     .pointerInput(showBars, zen) {
                         detectTapGestures { offset ->
                             val h = size.height
@@ -608,6 +692,11 @@ fun ReadingMode(
             }
         }
 
+        pinchLive?.let { RdSizeBadge(it, palette, Modifier.align(Alignment.Center)) }
+        zoomItem?.let { item ->
+            RdZoomDialog(item, palette, source, onClose = { zoomItem = null }, onOpenPage = onOriginal)
+        }
+
         // a hairline of progress while the bars are away
         if (!showBars) {
             Box(Modifier.fillMaxWidth().windowInsetsPadding(WindowInsets.statusBarsIgnoringVisibility).height(2.dp)) {
@@ -638,7 +727,7 @@ fun ReadingMode(
                     var menu by remember { mutableStateOf(false) }
                     Box {
                         NebIconButton(Icons.Outlined.MoreVert, "More", { menu = true }, tint = palette.ink)
-                        DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                        NebDropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                             DropdownMenuItem(
                                 text = { Text(if (bookmarked) "Remove bookmark" else "Bookmark this page") },
                                 leadingIcon = { Icon(if (bookmarked) Icons.Outlined.Bookmark else Icons.Outlined.BookmarkBorder, null) },
@@ -805,7 +894,7 @@ fun ReadingSheet(
 ) {
     NebModalSheet(onDismiss = onDismiss, title = "Reading") {
         Column(Modifier.padding(horizontal = 22.dp).padding(bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
-            RdSliderRow("Text size", "${(settings.fontScale * 100).roundToInt()}%", settings.fontScale, 0.7f..2.2f) { v -> onSettings { it.copy(fontScale = (v * 20).roundToInt() / 20f) } }
+            RdSliderRow("Text size", "${(settings.fontScale * 100).roundToInt()}%", settings.fontScale, 0.7f..3f) { v -> onSettings { it.copy(fontScale = (v * 20).roundToInt() / 20f) } }
             RdSliderRow("Line spacing", "${(settings.lineSpacing * 100).roundToInt()}%", settings.lineSpacing, 0.8f..1.6f) { v -> onSettings { it.copy(lineSpacing = (v * 10).roundToInt() / 10f) } }
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 RdLabel("Typeface")

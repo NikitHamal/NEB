@@ -234,6 +234,7 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                 onToggleBookmark = { viewModel.toggleBookmark() },
                 onContents = { sheet = ReaderSheet.Contents },
                 onTypography = { sheet = ReaderSheet.Reading },
+                onFontScale = { v -> viewModel.updateReading { it.copy(fontScale = v) } },
                 onOriginal = openOriginal,
                 onJumpPage = goToPage,
                 onZen = { viewModel.updateReading { it.copy(zen = !it.zen) }; chromeVisible = state.reading.zen },

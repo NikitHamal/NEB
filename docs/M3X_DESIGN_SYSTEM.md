@@ -428,12 +428,19 @@ Teacher, Admin, Moderator: text or icon in a role ink colour, no pill, no tint. 
 
 ## 11. Android (Jetpack Compose)
 
-- Palette: generate `Palette.kt` from `tokens.css` with `tools/design/sync_android_palette.py` (copies every `--md-*` role, light and dark; `--check` fails on drift). Light background and surface may be pinned to `#FFFFFF`.
-- Type: Poppins via `FontFamily`; same scale as section 4.
-- Shapes: `RoundedCornerShape` only with the section 5 radii; expressive silhouettes by a `GenericShape` built from the same polygon points, morphed with `animateFloatAsState` between two point arrays of equal length.
-- Motion: `spring(dampingRatio = 0.5f to 0.7f, stiffness = Spring.StiffnessMediumLow)`; press scale .95; respect the system animation scale.
-- No `.shadow()` and no non-zero `shadowElevation`. Cards are `Surface` with a 1dp `outlineVariant` border.
-- No emojis in strings.xml or Kotlin. Icons: Material Symbols Rounded or Outlined only.
+The app is the same system, with three deliberate differences from the web page: the light page is pure white, every
+surface role is a neutral grey (no blue in a card, popup or background), and shapes are drawn with `MaterialShapes`.
+
+- **Palette:** generate `Palette.kt` from `tokens.css` with `tools/design/sync_android_palette.py` (copies every `--md-*` role, light and dark; `--check` fails on drift). `ANDROID_LIGHT_OVERRIDES` in that script pins the light surface ramp to neutral greys and `onSurface` to near-black. Brand blue stays in `primary`, the tonal containers (chips, tags, selected rows) and links.
+- **Floating surfaces** (menu, popover, dialog, bottom sheet): `nebFloatColor()` (white in light, a raised tone in dark), hairline `nebFloatLine()`, no elevation. Components: `NebDropdownMenu`, `NebModalSheet`, `NebDialog`. A raw Material `DropdownMenu`, `ModalBottomSheet` or `AlertDialog` must pass `containerColor = nebFloatColor()` and no shadow.
+- **Cards and fields:** card = `surface` + 1dp `outlineVariant` hairline + 24 to 28dp radius. Field = white + one 1dp stroke, primary on focus. Tonal fills are for chips, tags, selected rows and quiet panels only.
+- **Composer:** one outlined container (24dp), avatar with chevron identity menu, field, ghost tool buttons (38dp, tonal rounded square while on), round send button (tonal when empty, primary when ready). The A tool reveals the markdown row, tools row and expand. Reply type is a sheet, never chips above the field. No mic.
+- **Type:** Poppins via `FontFamily`; same scale as section 4. Reading mode may use a serif body, headings stay Poppins.
+- **Shapes:** `RoundedCornerShape` with the section 5 radii for containers; expressive silhouettes (cookie, sunny, flower, clover, gem, burst) for profile pictures and tiles through `nebShape(polygon)`; morph with `NebMorphBlob`. Never a circle tile where the web has a shape, never a stroke on a profile picture.
+- **Motion:** springs only (`nebSpatialSpec`, `nebEffectsSpec`, `nebAnimationsReduced()` collapses to a snap); press scale .95 through `nebPressable`; entrances through `Reveal(index)` (rise and settle, staggered 80 ms). Pointer-driven change (pinch, drag) follows the finger with no easing.
+- **No** `.shadow()`, no non-zero `shadowElevation` or `tonalElevation` on a floating surface, no gradient other than a photo scrim, no emoji in strings or Kotlin, no `RoundedCornerShape(0.dp)` on press.
+- **Icons:** the web's own glyphs through `NebIcon(NebIcons.X)` where one exists (`tools/design/svg_to_vector.py`), otherwise Material Symbols Outlined.
+- **Parity method:** run the site locally, screenshot the same screen at 390 px, compare before you build. Whatever the web does not have, the app does not have.
 
 ---
 
@@ -451,3 +458,5 @@ Teacher, Admin, Moderator: text or icon in a role ink colour, no pill, no tint. 
 10. Fields are white with a single 1.5px stroke; focus changes the stroke colour only.
 11. Dialogs trap focus, close on Escape, become bottom sheets under 600px.
 12. Screenshots of light and dark are looked at, not assumed.
+13. Android only: light surfaces are neutral grey (grep `0xFF[EF][0-9A-F]FE`-style blue-white values in Kotlin finds nothing), every menu, dialog and sheet uses `nebFloatColor()`, the comment bar matches the web composer, and a screen compared with its web twin at 390 px shows the same structure.
+

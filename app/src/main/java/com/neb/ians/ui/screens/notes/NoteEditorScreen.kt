@@ -85,7 +85,7 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VolumeUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
+import com.neb.ians.ui.components.NebDropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -233,10 +233,8 @@ fun NoteEditorScreen(
             }
             Box {
                 IconButton(onClick = { menu = true }) { Icon(Icons.Outlined.MoreVert, "More", tint = fg) }
-                DropdownMenu(
+                NebDropdownMenu(
                     expanded = menu, onDismissRequest = { menu = false },
-                    shape = RoundedCornerShape(20.dp), containerColor = c.surfaceContainerHigh,
-                    tonalElevation = 0.dp, shadowElevation = 0.dp,
                 ) {
                     val words = NoteDoc.wordCount(blocks)
                     DropdownMenuItem(
@@ -360,7 +358,7 @@ fun NoteEditorScreen(
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            shape = RoundedCornerShape(28.dp), containerColor = c.surfaceContainerHigh,
+            shape = RoundedCornerShape(28.dp), containerColor = com.neb.ians.ui.theme.nebFloatColor(),
             title = { Text("Delete forever?") },
             text = { Text("This note will be gone for good.") },
             confirmButton = { TextButton(onClick = { confirmDelete = false; vm.deleteForever(onNavigateBack) }) { Text("Delete", color = c.error) } },
@@ -526,7 +524,7 @@ private fun TagDialog(onAdd: (String) -> Unit, onDismiss: () -> Unit) {
     val c = MaterialTheme.colorScheme
     AlertDialog(
         onDismissRequest = onDismiss,
-        shape = RoundedCornerShape(28.dp), containerColor = c.surfaceContainerHigh,
+        shape = RoundedCornerShape(28.dp), containerColor = com.neb.ians.ui.theme.nebFloatColor(),
         title = { Text("Add tag") },
         text = {
             OutlinedTextField(
