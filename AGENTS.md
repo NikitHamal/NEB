@@ -95,6 +95,8 @@ Contents always starts on a new page, chapters start on a new page, cards are to
 ## Handoff Documents
 
 - **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
+- **`docs/M3X_DESIGN_SYSTEM.md`** — the full m3x design system as one paste-able document (prompt, tokens, type, shape generator, springs, components, bans, checklist) for any new app or site. Update it when `m3x/tokens.css` or a component rule changes.
+- **`INSTITUTIONS_STATUS.md`** — schools directory, verification flow and the result checker revamp: what shipped, commits, what is open.
 - **`ANDROID_M3X_STATUS.md`** — Android parity with the web m3x system (palette sync script, splash, intro, reply kinds and labels), what is shipped and what is still open.
 - **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
 - **`docs/OG_CARDS.md`** — the drawn link-preview cards (`web/og_cards.py`, `og_art`, `og_heroes`, `og_logo`): the design language, the grid, how to add a card kind or a sculpture, and the two rules that bite — **bump `CARD_VERSION` whenever the drawing changes**, and a card must never 404. Preview with `python3 tools/og/preview.py`.
