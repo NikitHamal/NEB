@@ -252,6 +252,7 @@
           <span class="material-symbols-outlined">expand_more</span>
         </button>
         <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
+        <input type="hidden" id="school_slug" name="school_slug" value="{{ user.school_slug|default:'' }}">
         <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
       </div>
     </section>
@@ -1045,133 +1046,119 @@ registerActions({
   var schoolInput = document.getElementById('school');
   var schoolUsernameInput = document.getElementById('school_username');
   var schoolText = document.getElementById('school_selected_text');
-  var _cachedInstitutions = null;
+  var schoolSlugInput = document.getElementById('school_slug');
 
   function openSchoolPicker(title) {
-    function doOpen(institutions) {
-      var overlay = document.getElementById('generic-picker-overlay');
-      var titleEl = document.getElementById('generic-picker-title');
-      var searchInput = document.getElementById('generic-picker-search');
-      var searchContainer = document.getElementById('generic-picker-search-container');
-      var listContainer = document.getElementById('generic-picker-list');
-      var addContainer = document.getElementById('generic-picker-add-container');
-      var customInput = document.getElementById('generic-picker-custom');
-      var addBtn = document.getElementById('generic-picker-add-btn');
-      var closeBtn = document.getElementById('generic-picker-close');
-      var cancelBtn = document.getElementById('generic-picker-cancel');
+    var overlay = document.getElementById('generic-picker-overlay');
+    var titleEl = document.getElementById('generic-picker-title');
+    var searchInput = document.getElementById('generic-picker-search');
+    var searchContainer = document.getElementById('generic-picker-search-container');
+    var listContainer = document.getElementById('generic-picker-list');
+    var addContainer = document.getElementById('generic-picker-add-container');
+    var customInput = document.getElementById('generic-picker-custom');
+    var addBtn = document.getElementById('generic-picker-add-btn');
+    var closeBtn = document.getElementById('generic-picker-close');
+    var cancelBtn = document.getElementById('generic-picker-cancel');
+    var timer = null, seq = 0;
 
-      titleEl.textContent = title || 'Select School / Institution';
-      searchInput.placeholder = 'Search institutions...';
-      searchInput.value = '';
-      customInput.value = '';
-      searchContainer.style.display = 'flex';
-      addContainer.style.display = 'flex';
-      customInput.placeholder = 'Type custom school name...';
+    titleEl.textContent = title || 'Select School / Institution';
+    searchInput.placeholder = 'Search schools, colleges, universities';
+    searchInput.value = '';
+    customInput.value = '';
+    searchContainer.style.display = 'flex';
+    addContainer.style.display = 'flex';
+    customInput.placeholder = 'Not listed? Type its name';
 
-      function renderList(filterText) {
-        listContainer.innerHTML = '';
-        var query = (filterText || '').toLowerCase().trim();
-        var filtered = institutions.filter(function(inst) {
-          return inst.displayName.toLowerCase().indexOf(query) >= 0 ||
-                 inst.username.toLowerCase().indexOf(query) >= 0;
-        });
-
-        if (filtered.length === 0 && query) {
-          var emptyMsg = document.createElement('p');
-          emptyMsg.className = 'neb-picker-empty';
-          emptyMsg.textContent = 'No institution on the platform matches. Add yours below.';
-          listContainer.appendChild(emptyMsg);
-          return;
-        }
-
-        filtered.forEach(function(inst) {
-          var isSelected = inst.displayName === schoolInput.value;
-          var item = document.createElement('button');
-          item.type = 'button';
-          item.className = 'neb-picker-row' + (isSelected ? ' is-selected' : '');
-          item.setAttribute('role', 'option');
-          item.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-
-          /* NebShapes.Avatar is the nine-sided cookie everywhere else in the
-             app, including this list. A circle here would be the only round
-             avatar in the product. */
-          var avatar = document.createElement('img');
-          avatar.className = 'neb-picker-row-avatar';
-          avatar.src = (inst.photoUrl && inst.photoUrl.trim())
-            ? inst.photoUrl
-            : '{% static "web/images/default_avatar.png" %}';
-          avatar.alt = '';
-          item.appendChild(avatar);
-
-          var info = document.createElement('span');
-          info.className = 'neb-picker-row-text';
-          var nameEl = document.createElement('span');
-          nameEl.className = 'neb-picker-row-label';
-          nameEl.textContent = inst.displayName;
-          var usernameEl = document.createElement('span');
-          usernameEl.className = 'neb-picker-row-sub';
-          usernameEl.textContent = '@' + inst.username;
-          info.appendChild(nameEl);
-          info.appendChild(usernameEl);
-          item.appendChild(info);
-
-          var mark = document.createElement('span');
-          mark.className = 'neb-mark neb-mark-sm';
-          mark.setAttribute('aria-hidden', 'true');
-          item.appendChild(mark);
-
-          item.addEventListener('click', function() {
-            schoolInput.value = inst.displayName;
-            schoolUsernameInput.value = inst.username;
-            schoolText.textContent = inst.displayName;
-            closeOverlay();
-          });
-          listContainer.appendChild(item);
-        });
-      }
-
-      function closeOverlay() {
-        NebUI.close(overlay);
-        searchInput.removeEventListener('input', onSearch);
-        addBtn.removeEventListener('click', onCustomAdd);
-        closeBtn.removeEventListener('click', closeOverlay);
-        cancelBtn.removeEventListener('click', closeOverlay);
-      }
-      function onSearch() { renderList(searchInput.value); }
-      function onCustomAdd() {
-        var val = customInput.value.trim();
-        if (val) {
-          schoolInput.value = val;
-          schoolUsernameInput.value = '';
-          schoolText.textContent = val;
-          closeOverlay();
-        }
-      }
-      searchInput.addEventListener('input', onSearch);
-      addBtn.addEventListener('click', onCustomAdd);
-      closeBtn.addEventListener('click', closeOverlay);
-      cancelBtn.addEventListener('click', closeOverlay);
-      overlay.addEventListener('click', function(e) { if (e.target === overlay) closeOverlay(); });
-
-      renderList('');
-      NebUI.open(overlay);
-      setTimeout(function() { searchInput.focus(); }, 50);
+    function pick(name, slug, username) {
+      schoolInput.value = name;
+      schoolSlugInput.value = slug || '';
+      schoolUsernameInput.value = username || '';
+      schoolText.textContent = name;
+      closeOverlay();
     }
 
-    if (_cachedInstitutions) {
-      doOpen(_cachedInstitutions);
-    } else {
-      fetch('/api/users/institutions/', { credentials: 'same-origin' })
+    function render(items, query) {
+      listContainer.innerHTML = '';
+      if (!items.length) {
+        var empty = document.createElement('p');
+        empty.className = 'neb-picker-empty';
+        empty.textContent = query ? 'No match. Add yours below.' : 'Type to search.';
+        listContainer.appendChild(empty);
+        return;
+      }
+      items.forEach(function(inst) {
+        var selected = inst.slug === schoolSlugInput.value && inst.name === schoolInput.value;
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'neb-picker-row' + (selected ? ' is-selected' : '');
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', selected ? 'true' : 'false');
+
+        var glyph = document.createElement('span');
+        glyph.className = 'sch-pick-glyph';
+        glyph.innerHTML = '<span class="material-symbols-outlined"></span>';
+        glyph.firstChild.textContent = inst.kind === 'university' ? 'domain' : (inst.kind === 'college' ? 'account_balance' : (inst.kind === 'institute' ? 'science' : 'school'));
+        item.appendChild(glyph);
+
+        var info = document.createElement('span');
+        info.className = 'neb-picker-row-text';
+        var nameEl = document.createElement('span');
+        nameEl.className = 'neb-picker-row-label';
+        nameEl.textContent = inst.name;
+        if (inst.verified) {
+          var tick = document.createElement('span');
+          tick.className = 'material-symbols-outlined sch-tick';
+          tick.textContent = 'verified';
+          nameEl.appendChild(tick);
+        }
+        var sub = document.createElement('span');
+        sub.className = 'neb-picker-row-sub';
+        var bits = [inst.kindLabel];
+        if (inst.location) bits.push(inst.location);
+        if (inst.students) bits.push(inst.students + (inst.students === 1 ? ' student' : ' students'));
+        sub.textContent = bits.join(', ');
+        info.appendChild(nameEl);
+        info.appendChild(sub);
+        item.appendChild(info);
+
+        var mark = document.createElement('span');
+        mark.className = 'neb-mark neb-mark-sm';
+        mark.setAttribute('aria-hidden', 'true');
+        item.appendChild(mark);
+        item.addEventListener('click', function() { pick(inst.name, inst.slug, inst.username); });
+        listContainer.appendChild(item);
+      });
+    }
+
+    function load(query) {
+      var mine = ++seq;
+      fetch('/ajax/institutions/search/?limit=30&q=' + encodeURIComponent(query), { credentials: 'same-origin' })
         .then(function(r) { return r.json(); })
-        .then(function(data) {
-          _cachedInstitutions = data.institutions || [];
-          doOpen(_cachedInstitutions);
-        })
-        .catch(function() {
-          _cachedInstitutions = [];
-          doOpen([]);
-        });
+        .then(function(data) { if (mine === seq) render(data.items || [], query); })
+        .catch(function() { if (mine === seq) render([], query); });
     }
+
+    function closeOverlay() {
+      NebUI.close(overlay);
+      searchInput.removeEventListener('input', onSearch);
+      addBtn.removeEventListener('click', onCustomAdd);
+      closeBtn.removeEventListener('click', closeOverlay);
+      cancelBtn.removeEventListener('click', closeOverlay);
+    }
+    function onSearch() { clearTimeout(timer); timer = setTimeout(function() { load(searchInput.value.trim()); }, 160); }
+    function onCustomAdd() {
+      var val = customInput.value.trim();
+      if (val) pick(val, '', '');
+    }
+    searchInput.addEventListener('input', onSearch);
+    addBtn.addEventListener('click', onCustomAdd);
+    closeBtn.addEventListener('click', closeOverlay);
+    cancelBtn.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeOverlay(); });
+
+    load('');
+    NebUI.open(overlay);
+    setTimeout(function() { searchInput.focus(); }, 50);
   }
 
   if (schoolTrigger) {

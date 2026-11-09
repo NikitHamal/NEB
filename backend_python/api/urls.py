@@ -10,6 +10,7 @@ from . import views_forum
 from . import views_misc
 from . import views_resources
 from . import views_users
+from . import views_institutions
 from . import pdf_assistant_views
 from . import views_wallet
 from . import views_marketplace
@@ -61,6 +62,8 @@ urlpatterns = [
     path('users/profile/<str:username>/', views_users.user_profile_get, name='profile-get'),
     path('users/profile/<str:username>/stats/', views_users.user_profile_stats, name='profile-stats'),
     path('users/institutions/', views_users.institutions_list, name='institutions-list'),
+    path('institutions/', views_institutions.institutions_search, name='institutions-search'),
+    path('institutions/<slug:slug>/', views_institutions.institution_detail, name='institution-detail'),
 
     # Users — avatar customization (auth required)
     path('users/me/avatar/', views_avatar_api.avatar_style_get, name='avatar-style-get'),

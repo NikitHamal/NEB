@@ -127,8 +127,9 @@ def user_profile_create_or_update(request):
     user.subjects = subjects
     user.pradesh = pradesh
     user.district = district
-    user.school = school
-    user.school_username = school_username
+    from .institutions import apply_school
+    user.role = role if role in ('student', 'teacher', 'institution', 'explorer') else user.role
+    apply_school(user, data.get('schoolSlug', data.get('school_slug', '')), school, school_username)
     user.bio = bio
     user.is_locked = is_locked
     if role in ('student', 'teacher', 'institution', 'explorer'):

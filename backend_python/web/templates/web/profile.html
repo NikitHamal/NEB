@@ -228,9 +228,15 @@
                 {% if profile_user.school %}
                   <span class="pf-meta-item">
                     <span class="material-symbols-outlined">school</span>
-                    {% if profile_user.school_username %}<a href="/app/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
+                    {% if profile_user.school_url %}<a href="{{ profile_user.school_url }}" class="pf-meta-school-link"{% if profile_user.school_external %} target="_blank" rel="noopener nofollow"{% endif %}>{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
                   </span>
                 {% endif %}
+              {% endif %}
+              {% if profile_user.institution_people %}
+                <a class="pf-meta-item pf-meta-school-link" href="{% url 'web:school_detail' slug=profile_user.institution_people.slug %}">
+                  <span class="material-symbols-outlined">groups</span>
+                  {{ profile_user.institution_people.counts.total }} on NEBians
+                </a>
               {% endif %}
               <span class="pf-meta-item">
                 <span class="material-symbols-outlined">calendar_month</span>
@@ -833,6 +839,25 @@
                 <span class="material-symbols-outlined">info</span>
                 Details
               </h3>
+              {% if profile_user.institution_people %}
+              <section class="inst-people" aria-label="People">
+                <div class="inst-people-stats">
+                  <div class="ov-stat"><div class="ov-stat-value">{{ profile_user.institution_people.counts.students }}</div><div class="ov-stat-label">Students</div></div>
+                  <div class="ov-stat"><div class="ov-stat-value">{{ profile_user.institution_people.counts.teachers }}</div><div class="ov-stat-label">Teachers</div></div>
+                </div>
+                {% if profile_user.institution_people.people %}
+                <ul class="inst-people-list">
+                  {% for p in profile_user.institution_people.people %}
+                  <li><a class="inst-person" href="{% url 'web:profile' username=p.username %}">
+                    <span class="sch-avatar" data-avatar-seed="{{ p.username }}"><img src="{{ p.photo }}" alt="" loading="lazy" decoding="async"></span>
+                    <span class="inst-person-text"><span class="inst-person-name">{{ p.name }}</span><span class="inst-person-role">{{ p.role }}</span></span>
+                  </a></li>
+                  {% endfor %}
+                </ul>
+                <a class="md-btn md-btn-tonal inst-people-all" href="{% url 'web:school_detail' slug=profile_user.institution_people.slug %}">See everyone</a>
+                {% endif %}
+              </section>
+              {% endif %}
               <div class="about-details">
                 {% if profile_user.class_level %}
                 <div class="about-detail-row">
@@ -860,8 +885,8 @@
                 <div class="about-detail-row">
                   <span class="material-symbols-outlined">apartment</span>
                   <span class="about-detail-label">School</span>
-                  {% if profile_user.school_username %}
-                    <a href="/app/profile/{{ profile_user.school_username }}/" class="about-detail-value about-detail-link">{{ profile_user.school }}</a>
+                  {% if profile_user.school_url %}
+                    <a href="{{ profile_user.school_url }}" class="about-detail-value about-detail-link"{% if profile_user.school_external %} target="_blank" rel="noopener nofollow"{% endif %}>{{ profile_user.school }}</a>
                   {% else %}
                     <span class="about-detail-value">{{ profile_user.school }}</span>
                   {% endif %}

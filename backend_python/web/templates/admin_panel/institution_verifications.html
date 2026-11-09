@@ -1,0 +1,49 @@
+{% extends 'admin_panel/base.html' %}
+{% load static web_extras %}
+
+{% block title %}Institution verification{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/schools.css' %}">{% endblock %}
+
+{% block content %}
+<div class="admin-page-header">
+  <div><h1>Institution verification</h1></div>
+</div>
+
+<div class="admin-tabs" role="tablist">
+  {% for key, label in tabs %}
+  <a class="admin-tab{% if tab == key %} active{% endif %}" href="?tab={{ key }}">{{ label }} <span class="admin-status neutral">{% if key == 'open' %}{{ counts.open }}{% elif key == 'approved' %}{{ counts.approved }}{% elif key == 'rejected' %}{{ counts.rejected }}{% else %}{{ counts.verified }}{% endif %}</span></a>
+  {% endfor %}
+</div>
+
+<div class="admin-card">
+  {% if tab == 'verified' %}
+    {% for inst in verified %}
+    <div class="admin-card-head">
+      <div class="admin-row-main">
+        <div class="admin-row-title"><a href="{% url 'web:school_detail' slug=inst.slug %}" target="_blank">{{ inst.name }}</a></div>
+        <div class="admin-row-sub">{% if inst.claimed_by %}@{{ inst.claimed_by.username }}{% endif %}{% if inst.district %} in {{ inst.district }}{% endif %}</div>
+      </div>
+      <form method="post" action="{% url 'web:admin_institution_revoke' institution_id=inst.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="md-btn md-btn-outlined md-btn-small">Revoke</button>
+      </form>
+    </div>
+    {% empty %}
+    <div class="admin-empty"><p>No verified institutions yet.</p></div>
+    {% endfor %}
+  {% else %}
+    {% for a in items %}
+    <a class="admin-card-head admin-link-row" href="{% url 'web:admin_institution_verification_detail' app_id=a.pk %}">
+      <div class="admin-row-main">
+        <div class="admin-row-title">{{ a.name }}</div>
+        <div class="admin-row-sub">{{ a.contact_name }}, {{ a.contact_role }} · @{{ a.applicant.username }} · {{ a.created_at|time_ago }}</div>
+      </div>
+      <span class="admin-status {% if a.status == 'approved' %}success{% elif a.status == 'rejected' %}error{% else %}info{% endif %}">{{ a.get_status_display }}</span>
+    </a>
+    {% empty %}
+    <div class="admin-empty"><p>Nothing here.</p></div>
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}
