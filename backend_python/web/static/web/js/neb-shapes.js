@@ -11,7 +11,7 @@
     '.suggest-post-avatar', '.pf-reply-card-avatar', '.hf-peer-avatar', '.hf-side-avatar',
     '.mkt-hero-avatar', '.mkt-member-avatar', '.study-join-avatar', '.behalf-avatar',
     '.profile-dropdown-avatar', '.fp-identity-option-avatar', '.hf-option-avatar',
-    '.notif-avatar-real', '.who-avatar-wrap', '.pf-avatar-overlap-wrap', '[data-avatar-seed]'
+    '.notif-avatar-real', '.who-avatar-wrap', '.pf-avatar-overlap-wrap', '.sch-avatar', '[data-avatar-seed]'
   ].join(',');
 
   function hash(s) {

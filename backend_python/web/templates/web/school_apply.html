@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static web_extras %}
+
+{% block title %}Get your institution verified | NEBians{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/schools.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="sch-page sch-page-narrow">
+  <header class="sch-head">
+    {% if inst %}{% url 'web:school_detail' slug=inst.slug as back_href %}{% else %}{% url 'web:schools' as back_href %}{% endif %}
+    {% include "web/partials/_back.html" with back_label="Back" %}
+    <h1 class="sch-title">Get verified</h1>
+  </header>
+
+  {% if sent or open_app %}
+  {% with a=open_app %}
+  <section class="sch-card sch-status">
+    <span class="sch-glyph sch-glyph-xl"><span class="material-symbols-outlined">{% if a.status == 'needs_info' %}error{% else %}hourglass_empty{% endif %}</span></span>
+    <div>
+      <h2 class="sch-h2">{% if a.status == 'needs_info' %}We need more from you{% else %}Request received{% endif %}</h2>
+      {% if a %}<p class="sch-meta">{{ a.name }}</p>{% endif %}
+      {% if a.reviewer_note %}<p class="sch-note">{{ a.reviewer_note }}</p>{% endif %}
+    </div>
+  </section>
+  {% endwith %}
+  {% elif is_verified %}
+  <section class="sch-card sch-status">
+    <span class="sch-glyph sch-glyph-xl"><span class="material-symbols-outlined">verified</span></span>
+    <div>
+      <h2 class="sch-h2">{{ approved.name }} is verified</h2>
+      {% if approved.institution %}<a class="md-btn md-btn-tonal" href="{% url 'web:school_detail' slug=approved.institution.slug %}">View school page</a>{% endif %}
+    </div>
+  </section>
+  {% elif wrong_role %}
+  <section class="sch-card sch-status">
+    <span class="sch-glyph sch-glyph-xl"><span class="material-symbols-outlined">apartment</span></span>
+    <div>
+      <h2 class="sch-h2">Verification is for institution accounts</h2>
+      <a class="md-btn md-btn-filled" href="{% url 'web:edit_profile' %}">Switch account type</a>
+    </div>
+  </section>
+  {% elif taken %}
+  <section class="sch-card sch-status">
+    <span class="sch-glyph sch-glyph-xl"><span class="material-symbols-outlined">verified</span></span>
+    <div>
+      <h2 class="sch-h2">{{ inst.name }} already has a verified account</h2>
+      <a class="md-btn md-btn-tonal" href="{% url 'web:school_detail' slug=inst.slug %}">View school page</a>
+    </div>
+  </section>
+  {% else %}
+
+  {% if errors.form %}<div class="sch-alert" role="alert">{{ errors.form }}</div>{% endif %}
+  {% for a in applications %}{% if a.status == 'rejected' and forloop.first %}
+  <div class="sch-alert" role="status">
+    <span class="material-symbols-outlined">error</span>
+    <span>Your last request for {{ a.name }} was not approved.{% if a.reviewer_note %} {{ a.reviewer_note }}{% endif %}</span>
+  </div>
+  {% endif %}{% endfor %}
+
+  <form class="sch-form" method="post" enctype="multipart/form-data" id="sch-apply-form" novalidate>
+    {% csrf_token %}
+    {% if inst %}<input type="hidden" name="institution" value="{{ inst.slug }}">{% endif %}
+
+    <section class="sch-card">
+      <h2 class="sch-h2"><span class="sch-step">1</span> Institution</h2>
+      {% if inst %}
+      <div class="sch-claim">
+        <span class="sch-glyph"><span class="material-symbols-outlined">{{ inst.kind_icon }}</span></span>
+        <span class="sch-row-body"><span class="sch-name">{{ inst.name }}</span><span class="sch-meta">{{ inst.kind_label }}{% if inst.location %} in {{ inst.location }}{% endif %}</span></span>
+        <a class="md-btn md-btn-text md-btn-small" href="{% url 'web:school_apply' %}">Change</a>
+      </div>
+      {% endif %}
+      <div class="form-group">
+        <label class="md-label" for="f-name">Official name</label>
+        <input class="md-input" id="f-name" name="name" value="{{ values.name }}" maxlength="200" required{% if errors.name %} aria-invalid="true"{% endif %}>
+        {% if errors.name %}<p class="sch-error">{{ errors.name }}</p>{% endif %}
+      </div>
+      <div class="form-group">
+        <span class="md-label">Type</span>
+        <div class="sch-choices" role="radiogroup" aria-label="Type">
+          {% for value, label in kinds %}
+          <label class="md-chip sch-choice"><input type="radio" name="kind" value="{{ value }}"{% if values.kind == value %} checked{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="sch-grid">
+        <div class="form-group">
+          <label class="md-label" for="f-district">District</label>
+          <select class="md-select" id="f-district" name="district">
+            <option value="">Select</option>
+            {% for d in districts %}<option value="{{ d }}"{% if d == values.district %} selected{% endif %}>{{ d }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="f-address">Address</label>
+          <input class="md-input" id="f-address" name="address" value="{{ values.address }}" maxlength="250" required{% if errors.address %} aria-invalid="true"{% endif %}>
+          {% if errors.address %}<p class="sch-error">{{ errors.address }}</p>{% endif %}
+        </div>
+      </div>
+      <div class="sch-grid">
+        <div class="form-group">
+          <label class="md-label" for="f-reg">Registration number</label>
+          <input class="md-input" id="f-reg" name="registration_no" value="{{ values.registration_no }}" maxlength="80" required{% if errors.registration_no %} aria-invalid="true"{% endif %}>
+          {% if errors.registration_no %}<p class="sch-error">{{ errors.registration_no }}</p>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="f-web">Website</label>
+          <input class="md-input" id="f-web" name="website" value="{{ values.website }}" maxlength="300" inputmode="url" placeholder="https://"{% if errors.website %} aria-invalid="true"{% endif %}>
+          {% if errors.website %}<p class="sch-error">{{ errors.website }}</p>{% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="sch-card">
+      <h2 class="sch-h2"><span class="sch-step">2</span> Contact</h2>
+      <div class="sch-grid">
+        <div class="form-group">
+          <label class="md-label" for="f-cname">Contact person</label>
+          <input class="md-input" id="f-cname" name="contact_name" value="{{ values.contact_name }}" maxlength="120" autocomplete="name" required{% if errors.contact_name %} aria-invalid="true"{% endif %}>
+          {% if errors.contact_name %}<p class="sch-error">{{ errors.contact_name }}</p>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="f-crole">Role at the institution</label>
+          <input class="md-input" id="f-crole" name="contact_role" value="{{ values.contact_role }}" maxlength="80" placeholder="Principal, Director" required{% if errors.contact_role %} aria-invalid="true"{% endif %}>
+          {% if errors.contact_role %}<p class="sch-error">{{ errors.contact_role }}</p>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="f-cmail">Official email</label>
+          <input class="md-input" id="f-cmail" type="email" name="contact_email" value="{{ values.contact_email }}" maxlength="120" autocomplete="email" required{% if errors.contact_email %} aria-invalid="true"{% endif %}>
+          {% if errors.contact_email %}<p class="sch-error">{{ errors.contact_email }}</p>{% endif %}
+        </div>
+        <div class="form-group">
+          <label class="md-label" for="f-cphone">Phone</label>
+          <input class="md-input" id="f-cphone" type="tel" name="contact_phone" value="{{ values.contact_phone }}" maxlength="40" autocomplete="tel" required{% if errors.contact_phone %} aria-invalid="true"{% endif %}>
+          {% if errors.contact_phone %}<p class="sch-error">{{ errors.contact_phone }}</p>{% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="sch-card">
+      <h2 class="sch-h2"><span class="sch-step">3</span> Documents</h2>
+      <div id="sch-docs" class="sch-docs" data-max="6">
+        <div class="sch-doc">
+          <select class="md-select" name="doc_type" aria-label="Document type">
+            {% for value, label in doc_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+          </select>
+          <label class="sch-file">
+            <span class="material-symbols-outlined">upload_file</span>
+            <span class="sch-file-name" data-empty="PDF, JPG or PNG, up to 8 MB">PDF, JPG or PNG, up to 8 MB</span>
+            <input type="file" name="documents" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/*">
+          </label>
+          <button type="button" class="md-btn-icon sch-doc-remove" aria-label="Remove document" hidden><span class="material-symbols-outlined">close</span></button>
+        </div>
+      </div>
+      {% if errors.documents %}<p class="sch-error">{{ errors.documents }}</p>{% endif %}
+      <button type="button" class="md-btn md-btn-tonal md-btn-small" id="sch-add-doc"><span class="material-symbols-outlined">add</span>Add document</button>
+    </section>
+
+    <section class="sch-card">
+      <h2 class="sch-h2"><span class="sch-step">4</span> Note</h2>
+      <div class="form-group">
+        <textarea class="md-textarea" name="message" maxlength="1500" rows="3" aria-label="Note to the review team" data-neb-skip>{{ values.message }}</textarea>
+      </div>
+    </section>
+
+    <div class="sch-submit">
+      <button type="submit" class="md-btn md-btn-filled"><span class="material-symbols-outlined">verified</span>Submit for review</button>
+    </div>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/pages/schools.js' %}"></script>
+{% endblock %}

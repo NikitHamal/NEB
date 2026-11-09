@@ -191,10 +191,13 @@ def profile(request, username):
         'achievement_info': _user_achievement_badges(profile_user),
     }
 
+    from web.views_institutions_profile import school_context
+    profile_data.update(school_context(profile_user))
+
     if profile_private:
         profile_data.update({
             'email': '', 'dob': '', 'gender': '', 'class_level': '', 'class': '',
-            'subjects': '', 'pradesh': '', 'district': '', 'school': '',
+            'subjects': '', 'pradesh': '', 'district': '', 'school': '', 'school_url': '', 'school_slug': '',
         })
 
     stats = _build_local_stats(profile_user, exclude_anonymous=True) if not profile_private else {
@@ -765,8 +768,9 @@ def edit_profile(request):
         if district_val and district_val not in NEPAL_DISTRICTS:
             district_val = ''
         db_user.district = district_val or db_user.district or ''
-        db_user.school = request.POST.get('school', '').strip() or db_user.school or ''
-        db_user.school_username = request.POST.get('school_username', '').strip() or ''
+        from api.institutions import apply_school
+        apply_school(db_user, request.POST.get('school_slug', ''), request.POST.get('school', ''),
+                     request.POST.get('school_username', ''))
         db_user.bio = request.POST.get('bio', '').strip()
         db_user.is_locked = request.POST.get('is_locked') == 'on'
         edu_error = apply_education(db_user, request.POST)
@@ -792,6 +796,7 @@ def edit_profile(request):
             'district': db_user.district,
             'school': db_user.school,
             'school_username': db_user.school_username,
+            'school_slug': db_user.school_slug,
             'bio': db_user.bio,
             'is_locked': 1 if db_user.is_locked else 0,
             'created_at': db_user.created_at,

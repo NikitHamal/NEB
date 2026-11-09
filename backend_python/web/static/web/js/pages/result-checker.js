@@ -101,10 +101,10 @@
   function updateBulkHint() {
     var hint = document.getElementById('rc-bulk-hint');
     if (needsDob()) {
-      hint.textContent = '12: Enter symbol,dob on each line. Format: symbol,YYYY/MM/DD (e.g. 20404641,2065/03/15)';
+      hint.textContent = 'One per line: symbol,YYYY/MM/DD';
       bulkInput.placeholder = 'e.g. 20404641,2065/03/15\n20404642,2065/03/16';
     } else {
-      hint.textContent = '10: Enter one symbol number per line.';
+      hint.textContent = 'One symbol number per line';
       bulkInput.placeholder = 'e.g. 12013825\n12013826';
     }
   }
@@ -246,7 +246,7 @@
         tbody.appendChild(tr);
       });
     } else {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--md-on-surface-variant)">No subject-wise details available.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" class="rc-none">No subjects listed.</td></tr>';
     }
 
     var link = document.getElementById('rc-official-link');
@@ -294,7 +294,7 @@
         submitBtn.classList.remove('loading');
         exportBtn.disabled = false;
         exportBtn.style.opacity = '1';
-        progressText.textContent = bulkCancel ? 'Bulk check cancelled.' : 'Bulk check complete! ' + completed + ' records processed.';
+        progressText.textContent = bulkCancel ? 'Bulk check cancelled.' : 'Done. ' + completed + ' checked.';
         return;
       }
 
@@ -364,7 +364,7 @@
           row.querySelector('.bulk-name').textContent = d.student_name || '·';
           row.querySelector('.bulk-name').style.opacity = '1';
           row.querySelector('.bulk-gpa').textContent = d.gpa || '·';
-          row.querySelector('.bulk-gpa').style.color = ''; // reset color
+          row.querySelector('.bulk-gpa').classList.remove('is-failed');
           row.querySelector('.bulk-grade').textContent = d.grade || '·';
         } else {
           resultsData.push({
@@ -377,7 +377,7 @@
           row.querySelector('.bulk-name').textContent = '·';
           row.querySelector('.bulk-name').style.opacity = '1';
           row.querySelector('.bulk-gpa').textContent = resp.error || 'Failed';
-          row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for failure
+          row.querySelector('.bulk-gpa').classList.add('is-failed');
           row.querySelector('.bulk-grade').textContent = '·';
         }
 
@@ -401,7 +401,7 @@
         if (row) {
           row.querySelector('.bulk-name').textContent = '·';
           row.querySelector('.bulk-gpa').textContent = 'Error';
-          row.querySelector('.bulk-gpa').style.color = '#dc2626'; // Red color for error
+          row.querySelector('.bulk-gpa').classList.add('is-failed');
           row.querySelector('.bulk-grade').textContent = '·';
         }
         setTimeout(function() {
@@ -413,7 +413,7 @@
     function updateProgress() {
       var pct = Math.round((completed / total) * 100);
       progressBar.style.width = pct + '%';
-      progressText.textContent = 'Checking: ' + completed + ' of ' + total + ' (' + pct + '%)';
+      progressText.textContent = completed + ' of ' + total;
     }
 
     checkNext(0);
@@ -654,32 +654,14 @@
   function drawCardWithLogoImage(logoImg, data, canvas, ctx) {
     ctx.clearRect(0, 0, 1080, 1080);
 
-    var grad = ctx.createLinearGradient(0, 0, 1080, 1080);
-    grad.addColorStop(0, '#ffffff');
-    grad.addColorStop(0.5, '#f8fafc');
-    grad.addColorStop(1, '#edf2f7');
-    ctx.fillStyle = grad;
+    ctx.fillStyle = '#f6f8ff';
     ctx.fillRect(0, 0, 1080, 1080);
 
-    var radial1 = ctx.createRadialGradient(900, 100, 50, 900, 100, 400);
-    radial1.addColorStop(0, 'rgba(0, 88, 223, 0.05)');
-    radial1.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = radial1;
-    ctx.beginPath();
-    ctx.arc(900, 100, 400, 0, Math.PI * 2);
-    ctx.fill();
-
-    var radial2 = ctx.createRadialGradient(100, 900, 50, 100, 900, 400);
-    radial2.addColorStop(0, 'rgba(16, 185, 129, 0.04)');
-    radial2.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = radial2;
-    ctx.beginPath();
-    ctx.arc(100, 900, 400, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = 'rgba(0, 74, 198, 0.08)';
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#c6d0ea';
     ctx.lineWidth = 2;
-    drawRoundedRect(ctx, 40, 40, 1000, 1000, 32);
+    drawRoundedRect(ctx, 40, 40, 1000, 1000, 44);
+    ctx.fill();
     ctx.stroke();
 
     if (logoImg) {
@@ -710,15 +692,9 @@
     ctx.fillText((data.student_name || 'STUDENT RESULT').toUpperCase(), 540, 355);
 
     ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = 'rgba(0, 74, 198, 0.06)';
-    ctx.lineWidth = 1;
-    ctx.shadowColor = 'rgba(0, 74, 198, 0.04)';
-    ctx.shadowBlur = 24;
-    ctx.shadowOffsetY = 8;
-    drawRoundedRect(ctx, 100, 420, 880, 360, 24);
+    ctx.fillStyle = '#e9eefb';
+    drawRoundedRect(ctx, 100, 420, 880, 360, 32);
     ctx.fill();
-    ctx.stroke();
     ctx.restore();
 
     var labels = ['Symbol Number', 'Exam / Batch', 'School / College'];
@@ -749,53 +725,33 @@
     }
 
     var gpa = parseFloat(data.gpa) || 0.0;
-    var gpaColor = '#16a34a';
+    var gpaColor = gpa < 2.0 ? '#ba1a1a' : '#0058df';
     var gradeLabel = data.grade || 'A+';
-    if (gpa < 2.0) {
-      gpaColor = '#dc2626';
-    } else if (gpa < 3.2) {
-      gpaColor = '#d97706';
-    }
 
     var cx = 760;
     var cy = 600;
 
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(0,0,0,0.06)';
-    ctx.shadowBlur = 12;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 95, 0, Math.PI * 2);
+    ctx.fillStyle = gpaColor;
+    drawRoundedRect(ctx, cx - 112, cy - 112, 224, 224, 72);
     ctx.fill();
-    ctx.restore();
-
-    ctx.strokeStyle = gpaColor;
-    ctx.lineWidth = 6;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 95, 0, Math.PI * 2);
-    ctx.stroke();
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#64748b';
-    ctx.font = 'bold 12px "Poppins", sans-serif';
-    ctx.letterSpacing = '1px';
-    ctx.fillText('GPA', cx, cy - 35);
-
-    ctx.fillStyle = '#0f172a';
-    ctx.font = 'bold 56px "Poppins", sans-serif';
-    ctx.letterSpacing = '0px';
-    ctx.fillText(data.gpa || '·', cx, cy + 18);
-
-    ctx.save();
-    ctx.fillStyle = gpaColor;
-    ctx.beginPath();
-    drawRoundedRect(ctx, cx - 40, cy + 42, 80, 24, 12);
-    ctx.fill();
+    ctx.fillStyle = '#dbe4ff';
+    ctx.font = 'bold 13px "Poppins", sans-serif';
+    ctx.letterSpacing = '1.5px';
+    ctx.fillText('GPA', cx, cy - 52);
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 12px "Poppins", sans-serif';
-    ctx.fillText(gradeLabel, cx, cy + 58);
-    ctx.restore();
+    ctx.font = 'bold 60px "Poppins", sans-serif';
+    ctx.letterSpacing = '0px';
+    ctx.fillText(data.gpa || '·', cx, cy + 10);
+
+    ctx.fillStyle = '#dbe4ff';
+    drawRoundedRect(ctx, cx - 42, cy + 34, 84, 30, 15);
+    ctx.fill();
+    ctx.fillStyle = '#001a52';
+    ctx.font = 'bold 14px "Poppins", sans-serif';
+    ctx.fillText(gradeLabel, cx, cy + 55);
 
     ctx.textAlign = 'center';
     ctx.fillStyle = '#64748b';

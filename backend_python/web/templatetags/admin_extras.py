@@ -27,6 +27,7 @@ def admin_nav_badges():
         ResourceRequest,
         WithdrawalRequest,
     )
+    from api.models_institutions import InstitutionVerification
 
     return {
         'pending_resources': _safe_count(
@@ -48,6 +49,10 @@ def admin_nav_badges():
         'pending_withdrawals': _safe_count(
             'admin_nav:pending_withdrawals',
             lambda: WithdrawalRequest.objects.filter(status='pending').count(),
+        ),
+        'pending_institutions': _safe_count(
+            'admin_nav:pending_institutions',
+            lambda: InstitutionVerification.objects.filter(status__in=('pending', 'needs_info')).count(),
         ),
         'open_requests': _safe_count(
             'admin_nav:open_requests',
@@ -76,6 +81,7 @@ NAV_GROUPS = (
         ('payments', 'admin_pending_payments', 'payments', 'Payments', 'pending_payments'),
         ('withdrawals', 'admin_withdrawals', 'account_balance_wallet', 'Withdrawals', 'pending_withdrawals'),
         ('reports', 'admin_reports', 'flag', 'Reports', 'open_reports'),
+        ('institution_verifications', 'admin_institution_verifications', 'verified', 'Institutions', 'pending_institutions'),
     )),
     ('Community', (
         ('posts', 'admin_posts', 'forum', 'Forum posts', None),

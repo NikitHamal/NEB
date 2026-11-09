@@ -132,7 +132,7 @@ def clean_query(q):
     return re.sub(r'\s+', ' ', (q or '').strip())[:80]
 
 
-def search(q='', kind='', district='', limit=30, offset=0, verified_only=False):
+def search(q='', kind='', district='', limit=30, offset=0, verified_only=False, unverified_only=False):
     qs = Institution.objects.all()
     for token in search_key(clean_query(q)).split():
         qs = qs.filter(search_text__contains=token)
@@ -142,6 +142,8 @@ def search(q='', kind='', district='', limit=30, offset=0, verified_only=False):
         qs = qs.filter(district__iexact=district)
     if verified_only:
         qs = qs.filter(verified=True)
+    elif unverified_only:
+        qs = qs.filter(verified=False)
     qs = qs.annotate(
         has_site=Case(When(~Q(website=''), then=Value(0)), default=Value(1), output_field=IntegerField())
     ).order_by('-verified', 'has_site', 'name')
@@ -334,6 +336,27 @@ def _notify(user, actor, message):
         return
     try:
         from .notifications import create_notification
-        create_notification(recipient=user, actor=actor, verb='system', target=None, message=message)
+        create_notification(recipient=user, actor=actor or user, verb='system', target=None, message=message)
     except Exception:
         pass
+
+
+def apply_school(user, slug='', name='', username=''):
+    """Store a person's school choice. Keeps the old value when nothing was sent."""
+    slug = (slug or '').strip()[:90]
+    name = (name or '').strip()[:200]
+    username = (username or '').strip()
+    if user.role == 'institution':
+        if name:
+            user.school = name
+        user.school_slug = ''
+        user.school_username = ''
+        return None
+    if not slug and username:
+        found = Institution.objects.filter(claimed_by__username=username, verified=True).first()
+        slug = found.slug if found else ''
+    if slug:
+        return select_school(user, slug, name)
+    if name:
+        return select_school(user, '', name)
+    return None

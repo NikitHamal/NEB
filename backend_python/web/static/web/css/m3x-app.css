@@ -2698,6 +2698,22 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .photo-url-row .photo-url-input { flex: 1; min-width: 0; }
 @media (prefers-reduced-motion: reduce) { .follow-list-empty.is-loading span { animation: none; } .photo-thumb, .pf-people .follow-list-user { transition: none; } }
 
+/* institution profile: who studies and teaches here */
+.profile-page .inst-people { margin: 0 0 16px; display: grid; gap: 12px; }
+.profile-page .inst-people-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.profile-page .inst-people-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.profile-page .inst-person { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 20px; text-decoration: none; color: var(--md-on-surface); background: var(--md-surface-container-low); }
+.profile-page .inst-person-text { display: flex; flex-direction: column; min-width: 0; }
+.profile-page .inst-person-name { font-weight: 600; font-size: .875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-page .inst-person-role { font-size: .75rem; color: var(--md-on-surface-variant); }
+.profile-page .inst-people-all { justify-self: start; }
+.profile-page .inst-person .sch-avatar { width: 40px; height: 40px; flex: none; overflow: hidden; display: block; background: var(--md-surface-container); }
+.profile-page .inst-person .sch-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* school picker rows */
+.sch-pick-glyph { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 14px; background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.neb-picker-row .sch-tick { font-size: 18px; margin-left: 4px; color: var(--md-primary); font-variation-settings: 'FILL' 1; vertical-align: -4px; }
+
 /* ---- m3x/app-profile-feed.css ---- */
 /* Profile feed cards. Each card is a post and says whose it is, compactly: a 36px shaped avatar, the
    name with its badge on one line, then category and time beneath. No Follow button here (the
