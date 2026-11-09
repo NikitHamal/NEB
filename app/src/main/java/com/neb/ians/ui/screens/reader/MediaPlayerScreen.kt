@@ -125,6 +125,8 @@ fun MediaPlayerScreen(
     viewModel: MediaPlayerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    // the player is black edge to edge: light icons in the status and navigation bars
+    com.neb.ians.util.NebSystemBars(darkIcons = false)
     val context = LocalContext.current
     val activity = context as? android.app.Activity
     val player = viewModel.getPlayer()

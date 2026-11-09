@@ -53,6 +53,7 @@ fun NebSystemBars(darkIcons: Boolean) {
  * navigation), a camera cut-out, rounded corners. The top and bottom stay with each screen, which already pads for
  * the status and navigation bars. Uses the insets as if the bars were shown, so the layout does not move when they hide.
  */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun Modifier.nebSafeSides(): Modifier = this.windowInsetsPadding(
     WindowInsets.systemBarsIgnoringVisibility.union(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal)
