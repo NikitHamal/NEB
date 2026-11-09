@@ -38,7 +38,7 @@ class SyllabusFormTests(TestCase):
         response = self._post('/admin/syllabus/new/')
         self.assertEqual(response.status_code, 302)
         row = SyllabusContent.objects.get(chapter_id='units')
-        self.assertEqual((row.grade_level, row.order, row.text_content), ('Class 11', 2, 'body'))
+        self.assertEqual((row.grade_level, row.order, row.text_content), ('11', 2, 'body'))
         self.assertEqual(row.created_at, row.updated_at)
 
     def test_create_rejects_duplicate_chapter_id(self):

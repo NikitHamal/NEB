@@ -411,7 +411,8 @@ def admin_resources(request):
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
         subject = request.POST.get('subject', '').strip()
-        grade_level = request.POST.get('grade_level', '').strip()
+        from api.education_catalog import canonical_level
+        grade_level = canonical_level(request.POST.get('grade_level', ''))
         rtype = request.POST.get('type', '').strip() or 'PDF'
         file_url = request.POST.get('file_url', '').strip()
         thumbnail_url = request.POST.get('thumbnail_url', '').strip()
@@ -1212,7 +1213,8 @@ def _syllabus_form(request, syllabus_obj=None):
     if request.method != 'POST':
         return render(request, 'admin_panel/syllabus_form.html', context)
 
-    grade_level = request.POST.get('grade_level', '').strip()
+    from api.education_catalog import canonical_level
+    grade_level = canonical_level(request.POST.get('grade_level', ''))
     subject = request.POST.get('subject', '').strip()
     chapter_title = request.POST.get('chapter_title', '').strip()
     chapter_id = request.POST.get('chapter_id', '').strip()
@@ -1452,7 +1454,11 @@ def admin_syllabus_export(request):
     
     qs = SyllabusContent.objects.all().order_by('grade_level', 'subject', 'order')
     if grade:
-        qs = qs.filter(grade_level=grade)
+        from api.education_catalog import level_match_values
+        gq = Q()
+        for v in level_match_values(grade) or [grade]:
+            gq |= Q(grade_level__iexact=v)
+        qs = qs.filter(gq)
     if subject:
         qs = qs.filter(subject__iexact=subject)
     

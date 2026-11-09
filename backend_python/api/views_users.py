@@ -87,7 +87,8 @@ def user_profile_create_or_update(request):
             return Response({'error': ' '.join(exc.messages)}, status=400)
     display_name = data.get('displayName', '') or data.get('display_name', '') or user.display_name or ''
     gender = data.get('gender', '')
-    class_level = data.get('classLevel', '') or data.get('class_level', '')
+    from .education_catalog import canonical_level
+    class_level = canonical_level(data.get('classLevel', '') or data.get('class_level', ''))
     subjects = data.get('subjects', '')
     pradesh = data.get('pradesh', '')
     district = data.get('district', '')

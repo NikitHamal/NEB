@@ -71,7 +71,11 @@ def resources_list(request):
     if subject:
         resources = resources.filter(subject__iexact=subject)
     if grade:
-        resources = resources.filter(grade_level__iexact=grade)
+        from .education_catalog import level_match_values
+        gq = Q()
+        for v in level_match_values(grade) or [grade]:
+            gq |= Q(grade_level__iexact=v)
+        resources = resources.filter(gq)
     if rtype:
         resources = resources.filter(type__iexact=rtype)
     if search:
@@ -88,7 +92,10 @@ def resources_list(request):
         grade_pref = user.class_level
         subject_prefs = [s.strip().lower() for s in (user.subjects or '').split(',') if s.strip()]
         if grade_pref or subject_prefs:
-            grade_match = Q(grade_level__iexact=grade_pref) if grade_pref else Q(pk__in=[])
+            from .education_catalog import level_match_values
+            grade_match = Q(pk__in=[])
+            for v in level_match_values(grade_pref):
+                grade_match |= Q(grade_level__iexact=v)
             subject_match = Q(pk__in=[])
             if subject_prefs:
                 subject_match = Q()
@@ -170,15 +177,19 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
             return []
         return parse_qas(value or '')
 
+    from .education_catalog import level_match_values
+    grade_q = Q()
+    for _v in level_match_values(grade_db_val) or [grade_db_val]:
+        grade_q |= Q(grade_level__iexact=_v)
     resources_qs = Resource.objects.filter(
+        grade_q,
         approval_status='approved',
         is_lead=True,
-        grade_level__iexact=grade_db_val,
         subject__icontains=subject_db_val,
     )
 
     syllabus_entries = SyllabusContent.objects.filter(
-        grade_level__iexact=grade_db_val,
+        grade_q,
         subject__iexact=subject_db_val,
     ).order_by('order')
 
@@ -310,28 +321,24 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
             if grade_value.lower() == grade_db_val.lower():
                 active_subjects.add(subject_value)
 
+    from .education_catalog import canonical_level
     active_grades = {grade_db_val}
     if has_syllabus:
         for grade_value in SyllabusContent.objects.values_list('grade_level', flat=True).distinct():
-            item = (grade_value or '').strip()
+            item = canonical_level(grade_value)
             if item:
-                if item.lower() == 'grade 12':
-                    item = 'Class 12'
-                elif item.lower() == 'grade 11':
-                    item = 'Class 11'
                 active_grades.add(item)
     elif curriculum is not None:
         for grade_value, _ in curriculum.CURRICULUM_MAP.keys():
-            item = (grade_value or '').strip()
+            item = canonical_level(grade_value)
             if item:
-                if item.lower() == 'grade 12':
-                    item = 'Class 12'
-                elif item.lower() == 'grade 11':
-                    item = 'Class 11'
                 active_grades.add(item)
 
-    grade_order = {value.lower(): index for index, value in enumerate(EDUCATION_LEVELS)}
-    grade_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_grades, key=lambda value: grade_order.get(value.lower(), 999))]
+    from .education_catalog import LEVEL_LABELS, LEVEL_VALUES
+    grade_order = {canonical_level(v).lower(): index for index, v in enumerate(LEVEL_VALUES)}
+    label_of = lambda v: LEVEL_LABELS.get(v, v)
+    grade_list = [{'name': label_of(item), 'value': item, 'slug': slugify(label_of(item))}
+                  for item in sorted(active_grades, key=lambda value: (grade_order.get(canonical_level(value).lower(), 999), value))]
     subject_list = [{'name': item, 'slug': slugify(item)} for item in sorted(active_subjects)]
 
     def clean_chapter(chapter):
@@ -351,7 +358,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
     return Response({
         'grade': grade_db_val,
         'subject': subject_db_val,
-        'grade_slug': slugify(grade_db_val),
+        'grade_slug': slugify(LEVEL_LABELS.get(grade_db_val, grade_db_val)),
         'subject_slug': slugify(subject_db_val),
         'grade_list': grade_list,
         'subject_list': subject_list,
@@ -872,7 +879,11 @@ def resource_requests_list(request):
         qs = qs.filter(subject__iexact=subject)
     grade = request.query_params.get('grade')
     if grade:
-        qs = qs.filter(grade_level__iexact=grade)
+        from .education_catalog import level_match_values
+        gq = Q()
+        for v in level_match_values(grade) or [grade]:
+            gq |= Q(grade_level__iexact=v)
+        qs = qs.filter(gq)
     qs = qs.order_by('-upvote_count', '-created_at')
     user = _get_user_from_request(request)
     upvoted_ids = set()

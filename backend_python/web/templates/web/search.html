@@ -103,7 +103,7 @@
             {% for v in all_grades %}
             <button type="button" class="neb-choice-chip filter-chip-select{% if v == current_grade %} is-selected{% endif %}"
                     aria-pressed="{% if v == current_grade %}true{% else %}false{% endif %}"
-                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v }}</button>
+                    data-value="{{ v }}" data-action="toggle-search-filter">{{ v|level_label }}</button>
             {% endfor %}
           </div>
         </div>

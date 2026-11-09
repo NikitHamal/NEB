@@ -30,7 +30,7 @@ FORMAT_SCRAPER = 'scraper'      # Existing NEBians web proxies (qwen & friends)
 
 OFFICIAL_FORMATS = (FORMAT_OPENAI, FORMAT_ANTHROPIC, FORMAT_GEMINI)
 
-SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'paradee', 'chatterbox', 'fishaudio', 'airy')
+SCRAPER_PROVIDERS = ('qwen', 'qwencloud', 'deepai', 'inception', 'k2think', 'poolside', 'motiftech', 'metaai', 'tryingopen', 'longcat', 'geminiweb', 'yqcloud', 'chatjimmy', 'unikey', 'ptero', 'lazypy', 'googletts', 'moetts', 'kokoro', 'paradee', 'chatterbox', 'fishaudio', 'airy', 'smallest')
 
 
 @dataclass(frozen=True)
@@ -444,6 +444,18 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         ],
         context_window=4800, max_output_tokens=0,
         key_required=False, official=False, scraper_module='airy_proxy',
+    ),
+    ProviderPreset(
+        slug='smallest', label='Smallest AI (smallest.ai — Lightning v3.1 Pro)', format=FORMAT_SCRAPER,
+        base_url='https://api.smallest.ai', default_model='smallest/lightning-v3.1-pro',
+        models=[
+            ModelSpec('smallest/lightning-v3.1-pro', 'Lightning v3.1 Pro', '269 voices · 31 languages · needs SMALLEST_API_KEY'),
+            ModelSpec('smallest/lightning-v3.1-pro-10-26', 'Lightning v3.1 Pro (Oct 26 preview)', 'Newest checkpoint · en/es/hi · preview ID retires 2026-12-28'),
+            ModelSpec('smallest/lightning-v3.1', 'Lightning v3.1', '234 voices · 20 languages · retires 2026-11-30'),
+        ],
+        context_window=2400, max_output_tokens=0,
+        key_env='SMALLEST_API_KEY',
+        key_required=False, official=False, scraper_module='smallest_proxy',
     ),
 ]
 
