@@ -62,7 +62,8 @@ data class NewsCommentsResponse(
 data class NewsCommentRequest(
     val slug: String,
     val text: String,
-    @SerialName("parentCommentId") val parentCommentId: String? = null
+    @SerialName("parentCommentId") val parentCommentId: String? = null,
+    @SerialName("isAnonymous") val isAnonymous: Boolean = false
 )
 
 @Serializable

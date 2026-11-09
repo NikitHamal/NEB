@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.web
 
+import com.neb.ians.ui.components.nebToast
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
@@ -145,8 +146,8 @@ private fun enqueueDownload(
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
         val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         manager.enqueue(request)
-        Toast.makeText(context, "Downloading $fileName", Toast.LENGTH_SHORT).show()
+        context.nebToast("Downloading $fileName")
     }.onFailure {
-        Toast.makeText(context, "Couldn't start download", Toast.LENGTH_SHORT).show()
+        context.nebToast("Couldn't start download")
     }
 }

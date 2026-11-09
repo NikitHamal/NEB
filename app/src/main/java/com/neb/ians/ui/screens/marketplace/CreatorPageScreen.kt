@@ -5,6 +5,7 @@
 
 package com.neb.ians.ui.screens.marketplace
 
+import com.neb.ians.ui.components.nebToast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -274,7 +275,7 @@ internal fun openCreatorLink(context: android.content.Context, url: String) {
                 .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }.onFailure {
-        android.widget.Toast.makeText(context, "No app found to open that link", android.widget.Toast.LENGTH_SHORT).show()
+        context.nebToast("No app found to open that link")
     }
 }
 

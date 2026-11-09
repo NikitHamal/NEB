@@ -70,3 +70,6 @@ Brief: reading mode treated question banks badly (choices in a row became a tabl
 - **System bars:** `util/NebSystemBars.kt` (`NebSystemBars(darkIcons)`, `Modifier.nebSafeSides()`). The viewer sets the icon colour from the page it sits on; reading mode paints the status and navigation inset strips in the page colour so text never runs under the icons or the buttons.
 - Not run on a device. Look for: option rows after a question on a model paper, a formula inline in a sentence, the sheet on a 360 dp wide phone.
 - CI: `Build Student Release APKs & AAB` passed on `0116c92` (the first push, `17d5245`, failed on a missing `animateFloat` import and a layout API opt-in, both fixed). The backend tests passed on both.
+
+## Session 6
+Audit only for the reader: sheet, reflow, system bars unchanged. See `ANDROID_M3X_STATUS.md` session 12 for the toast bus and the news identity switch that came from the same brief.

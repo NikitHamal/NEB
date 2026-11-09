@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.reader
 
+import com.neb.ians.ui.components.nebToast
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
@@ -161,7 +162,7 @@ private fun PdfAiPanel(
     val context = LocalContext.current
     val actions = remember {
         ChatActions(
-            onCopy = { clipboard.setText(AnnotatedString(it)); Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show() },
+            onCopy = { clipboard.setText(AnnotatedString(it)); context.nebToast("Copied") },
             onShare = { text -> runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }, "Share Neby's answer")) } },
             onRegenerate = {}
         )
