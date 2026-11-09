@@ -107,3 +107,4 @@ __pycache__/
 .agents
 *.egg-info/
 /scratch/
+backend_python/private_media/
