@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Bulk downloader with manifest.
 Usage: fetch.py TASKS.json MANIFEST.jsonl [--root DIR]
-TASKS.json: list of {"url","dest" (relative to repo root /app/notes/papers/engineering/sources),"meta":{...}}
+TASKS.json: list of {"url","dest" (relative to repo root notes/papers/engineering/sources),"meta":{...}}
 Downloads in parallel (8), validates %PDF/office magic, dedupes by sha256, appends manifest lines:
  {url,dest,sha256,bytes,pages,title,meta,status}
 """
@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 warnings.filterwarnings('ignore')
 import requests
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
-ROOT = '/app/notes/papers/engineering/sources'
+ROOT = os.environ.get('PAPERS_ROOT', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sources'))
 def info(path):
     try:
         import pymupdf
