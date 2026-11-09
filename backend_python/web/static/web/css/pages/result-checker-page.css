@@ -48,8 +48,8 @@
 .rc-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .rc-field-dob, .rc-field-bulk { grid-column: 1 / -1; }
 .rc-field label { font-size: .8125rem; font-weight: 600; color: var(--md-on-surface-variant); padding: 0 4px; }
-.rc-field :is(input, select) { width: 100%; min-height: 52px; padding: 0 16px; border-radius: 20px; font-size: .9375rem; font-weight: 500; box-sizing: border-box; }
-.rc-field select { padding-right: 42px; }
+:root .rc-field :is(input, select) { width: 100%; min-height: 52px; padding: 0 16px; border-radius: 20px; font-size: .9375rem; font-weight: 500; box-sizing: border-box; }
+:root .rc-field select { padding-right: 42px; }
 .rc-field textarea { width: 100%; box-sizing: border-box; border-radius: 20px; font-family: var(--body); font-size: .9375rem; line-height: 1.6; min-height: 140px; }
 .rc-hint { margin: 2px 4px 0; font-size: .8125rem; color: var(--md-on-surface-variant); }
 
