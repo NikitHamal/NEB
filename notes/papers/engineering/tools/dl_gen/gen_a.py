@@ -33,10 +33,10 @@ def fs_mux():
     d_lab = ["B$_{in}$", "$\\overline{B_{in}}$", "$\\overline{B_{in}}$", "B$_{in}$"]
     b_lab = ["B$_{in}$", "1", "0", "B$_{in}$"]
     code = f'''
-fig,ax=ckt_canvas(5.9,4.6,xlim=(-3.6,8.6),ylim=(-1.9,8.6))
-m1=mux(ax,3.0,5.6,4,{d_lab!r},["A","B"],out="Diff",name="4:1 MUX (difference)")
-m2=mux(ax,3.0,1.4,4,{b_lab!r},["A","B"],out="Bout",name="4:1 MUX (borrow)")
-T(ax,5.5,3.5,"select lines A (S1) and B (S0) are common to both multiplexers",size=7.6,color=MUTED)
+fig,ax=ckt_canvas(5.9,2.3,xlim=(-3.2,17.4),ylim=(-2.2,3.2))
+m1=mux(ax,3.0,0.6,4,{d_lab!r},["A","B"],out="Diff",name="4:1 MUX (difference)")
+m2=mux(ax,12.0,0.6,4,{b_lab!r},["A","B"],out="Bout",name="4:1 MUX (borrow)")
+T(ax,7.5,-2.0,"select lines A (S1) and B (S0) are common to both multiplexers",size=7.6,color=MUTED)
 '''
     return figblock("Full subtractor with two 4:1 multiplexers (A = S1, B = S0; the data inputs are Bin, its complement, 0 or 1).", code, canvas=False)
 
