@@ -56,7 +56,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272197,
+  "bytes": 3272198,
   "kind": "subject-bundle"
  },
  {
@@ -89,7 +89,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095711,
+  "bytes": 3095712,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792104,
   "kind": "subject-bundle"
  },
  {
@@ -131,7 +131,7 @@
    "ioe-sh151-2081-ashwin"
   ],
   "pages": 33,
-  "bytes": 1704448,
+  "bytes": 1704451,
   "kind": "subject-bundle"
  },
  {
@@ -148,7 +148,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095315,
+  "bytes": 4095317,
   "kind": "subject-bundle"
  },
  {
@@ -161,7 +161,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868472,
+  "bytes": 1868474,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581579,
+  "bytes": 581581,
   "kind": "subject-bundle"
  },
  {
@@ -202,7 +202,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710381,
+  "bytes": 710383,
   "kind": "subject-bundle"
  },
  {
@@ -215,7 +215,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582016,
+  "bytes": 1582018,
   "kind": "subject-bundle"
  },
  {
@@ -241,7 +241,7 @@
    "ioe-enct252-2082-bhadra"
   ],
   "pages": 38,
-  "bytes": 735110,
+  "bytes": 735111,
   "kind": "subject-bundle"
  },
  {
@@ -254,7 +254,7 @@
    "ioe-enct251-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1095028,
+  "bytes": 1095029,
   "kind": "subject-bundle"
  },
  {
@@ -281,7 +281,7 @@
    "ioe-ensh201-2081-chaitra"
   ],
   "pages": 42,
-  "bytes": 2116671,
+  "bytes": 2116672,
   "kind": "subject-bundle"
  },
  {
@@ -294,7 +294,7 @@
    "ioe-enex251-2082-bhadra"
   ],
   "pages": 27,
-  "bytes": 715089,
+  "bytes": 715090,
   "kind": "subject-bundle"
  },
  {
@@ -308,7 +308,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981774,
+  "bytes": 1981775,
   "kind": "subject-bundle"
  },
  {
@@ -334,7 +334,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296667,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -347,7 +347,21 @@
    "ioe-enex255-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1482741,
+  "bytes": 1482742,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-theory-of-computation-2081-2082.pdf",
+  "subject": "Theory of Computation",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2081-2082",
+  "papers": [
+   "ioe-enct203-2082-chaitra",
+   "ioe-enct203-2082-kartik",
+   "ioe-enct203-2081-chaitra"
+  ],
+  "pages": 51,
+  "bytes": 1775478,
   "kind": "subject-bundle"
  },
  {
@@ -375,6 +389,9 @@
    "ioe-enct151-2083-baishakh",
    "ioe-enct153-2082-bhadra",
    "ioe-enct153-2083-baishakh",
+   "ioe-enct203-2081-chaitra",
+   "ioe-enct203-2082-chaitra",
+   "ioe-enct203-2082-kartik",
    "ioe-enct251-2082-bhadra",
    "ioe-enct251-2083-baishakh",
    "ioe-enct252-2082-bhadra",
@@ -432,8 +449,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1076,
-  "bytes": 40493058,
+  "pages": 1126,
+  "bytes": 42250731,
   "kind": "master-book"
  }
 ]
