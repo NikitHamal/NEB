@@ -29,6 +29,15 @@ internal class Gfx(
 ) {
     val w: Float get() = x1 - x0
     val h: Float get() = y1 - y0
+
+    /** The outline itself (see PdfVector.kt) for small paths, null for big ones and images. */
+    var cmds: FloatArray? = null
+    var fill = false
+    var stroke = false
+    var fillRgb = 0
+    var strokeRgb = 0
+    var lineWidth = 0f
+    var evenOdd = false
 }
 
 internal class PageContent(val width: Float, val height: Float, val runs: List<Run>, val gfx: List<Gfx>)
@@ -44,9 +53,10 @@ internal class PdfTextExtractor(private val file: PdfFile) {
 
     private class GS(
         var ctm: DoubleArray, var font: PdfFont? = null, var fs: Double = 0.0, var tc: Double = 0.0, var tw: Double = 0.0,
-        var th: Double = 1.0, var tl: Double = 0.0, var rise: Double = 0.0, var tr: Int = 0
+        var th: Double = 1.0, var tl: Double = 0.0, var rise: Double = 0.0, var tr: Int = 0,
+        var fillRgb: Int = 0, var strokeRgb: Int = 0, var lw: Double = 1.0
     ) {
-        fun copy() = GS(ctm.copyOf(), font, fs, tc, tw, th, tl, rise, tr)
+        fun copy() = GS(ctm.copyOf(), font, fs, tc, tw, th, tl, rise, tr, fillRgb, strokeRgb, lw)
     }
 
     private lateinit var geom: PageGeom
@@ -54,11 +64,13 @@ internal class PdfTextExtractor(private val file: PdfFile) {
     private val gfx = ArrayList<Gfx>()
     private var forms = 0
     private var opCount = 0
+    /** Floats of outline kept on this page so far; a drawing with thousands of paths stops being kept past the budget. */
+    private var vecFloats = 0
 
     fun extract(index: Int): PageContent? {
         val node = file.pages().getOrNull(index) ?: return null
         geom = node.geom
-        runs.clear(); gfx.clear(); forms = 0; opCount = 0
+        runs.clear(); gfx.clear(); forms = 0; opCount = 0; vecFloats = 0
         val contents = file.resolve(node.dict["Contents"])
         val parts = when (contents) {
             is PdfStreamObj -> listOf(contents)
@@ -110,23 +122,59 @@ internal class PdfTextExtractor(private val file: PdfFile) {
             if (x < minX) minX = x; if (x > maxX) maxX = x
             if (y < minY) minY = y; if (y > maxY) maxY = y
         }
-        fun resetPath() { minX = Float.MAX_VALUE; minY = Float.MAX_VALUE; maxX = -Float.MAX_VALUE; maxY = -Float.MAX_VALUE; curves = 0; diag = 0; straight = 0; maxCurve = 0f; segs = 0 }
-        fun paint() {
-            if (segs > 0 && minX <= maxX && gfx.size < 20000) gfx.add(Gfx(minX, minY, maxX, maxY, G_PATH, curves, diag, straight, maxCurve))
+        // the outline of the path being built, kept for small paths (typeset maths) so it can be drawn again
+        var rec = FloatArray(128); var recN = 0; var recOver = false
+        fun put(v: Float) {
+            if (recN >= 3000) { recOver = true; return }
+            if (recN == rec.size) rec = rec.copyOf(rec.size * 2)
+            rec[recN++] = v
+        }
+        fun resetPath() { minX = Float.MAX_VALUE; minY = Float.MAX_VALUE; maxX = -Float.MAX_VALUE; maxY = -Float.MAX_VALUE; curves = 0; diag = 0; straight = 0; maxCurve = 0f; segs = 0; recN = 0; recOver = false }
+        fun paint(fill: Boolean, stroke: Boolean, evenOdd: Boolean) {
+            if (segs > 0 && minX <= maxX && gfx.size < 20000) {
+                val g = Gfx(minX, minY, maxX, maxY, G_PATH, curves, diag, straight, maxCurve)
+                if (!recOver && recN > 0 && maxX - minX < 0.9f * geom.width && vecFloats + recN < 900_000) {
+                    g.cmds = rec.copyOf(recN); vecFloats += recN
+                }
+                g.fill = fill; g.stroke = stroke; g.evenOdd = evenOdd
+                g.fillRgb = gs.fillRgb; g.strokeRgb = gs.strokeRgb
+                val k = Math.sqrt(abs(gs.ctm[0] * gs.ctm[3] - gs.ctm[1] * gs.ctm[2]))
+                g.lineWidth = (gs.lw * k).toFloat()
+                gfx.add(g)
+            }
             resetPath()
         }
-        fun lineTo(x: Double, y: Double) {
-            val nx = px(x, y); val ny = py(x, y)
+        fun lineToDev(nx: Float, ny: Float) {
             if (abs(nx - cx) > 0.4f && abs(ny - cy) > 0.4f) diag++ else straight++
             expand(cx, cy); expand(nx, ny); cx = nx; cy = ny; segs++
+            put(V_LINE.toFloat()); put(nx); put(ny)
         }
-        fun curveTo(x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double) {
-            val xs = floatArrayOf(cx, px(x1, y1), px(x2, y2), px(x3, y3)); val ys = floatArrayOf(cy, py(x1, y1), py(x2, y2), py(x3, y3))
+        fun lineTo(x: Double, y: Double) = lineToDev(px(x, y), py(x, y))
+        fun curveToDev(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float) {
+            val xs = floatArrayOf(cx, x1, x2, x3); val ys = floatArrayOf(cy, y1, y2, y3)
             var a = Float.MAX_VALUE; var b = -Float.MAX_VALUE; var c = Float.MAX_VALUE; var d = -Float.MAX_VALUE
             for (k in 0 until 4) { a = minOf(a, xs[k]); b = maxOf(b, xs[k]); c = minOf(c, ys[k]); d = maxOf(d, ys[k]); expand(xs[k], ys[k]) }
             curves++; segs++
             maxCurve = maxOf(maxCurve, maxOf(b - a, d - c))
-            cx = xs[3]; cy = ys[3]
+            put(V_CUBIC.toFloat()); put(x1); put(y1); put(x2); put(y2); put(x3); put(y3)
+            cx = x3; cy = y3
+        }
+        fun curveTo(x1: Double, y1: Double, x2: Double, y2: Double, x3: Double, y3: Double) =
+            curveToDev(px(x1, y1), py(x1, y1), px(x2, y2), py(x2, y2), px(x3, y3), py(x3, y3))
+        fun packRgb(r: Double, g: Double, b: Double): Int =
+            (Math.round(r.coerceIn(0.0, 1.0) * 255).toInt() shl 16) or (Math.round(g.coerceIn(0.0, 1.0) * 255).toInt() shl 8) or Math.round(b.coerceIn(0.0, 1.0) * 255).toInt()
+        fun cmyk(c: Double, m: Double, y: Double, k: Double): Int = packRgb((1 - c) * (1 - k), (1 - m) * (1 - k), (1 - y) * (1 - k))
+        fun colorFrom(stroke: Boolean) {
+            val last = ops.lastOrNull()
+            if (last is PdfName) return
+            val nums = ops.count { it is Int || it is Double }
+            val v = when (nums) {
+                1 -> packRgb(ops[0].num(), ops[0].num(), ops[0].num())
+                3 -> packRgb(ops[0].num(), ops[1].num(), ops[2].num())
+                4 -> cmyk(ops[0].num(), ops[1].num(), ops[2].num(), ops[3].num())
+                else -> return
+            }
+            if (stroke) gs.strokeRgb = v else gs.fillRgb = v
         }
         fun imageBox() {
             val xs = floatArrayOf(px(0.0, 0.0), px(1.0, 0.0), px(0.0, 1.0), px(1.0, 1.0))
@@ -229,19 +277,41 @@ internal class PdfTextExtractor(private val file: PdfFile) {
                     }
                     flushRun()
                 }
-                "m" -> { cx = px(num(0), num(1)); cy = py(num(0), num(1)) }
+                "m" -> { cx = px(num(0), num(1)); cy = py(num(0), num(1)); put(V_MOVE.toFloat()); put(cx); put(cy) }
                 "l" -> lineTo(num(0), num(1))
                 "c" -> curveTo(num(0), num(1), num(2), num(3), num(4), num(5))
-                "v" -> curveTo(0.0, 0.0, num(0), num(1), num(2), num(3))
+                "v" -> curveToDev(cx, cy, px(num(0), num(1)), py(num(0), num(1)), px(num(2), num(3)), py(num(2), num(3)))
                 "y" -> curveTo(num(0), num(1), num(2), num(3), num(2), num(3))
+                "h" -> put(V_CLOSE.toFloat())
                 "re" -> {
                     val x = num(0); val y = num(1); val w = num(2); val h = num(3)
                     expand(px(x, y), py(x, y)); expand(px(x + w, y), py(x + w, y))
                     expand(px(x, y + h), py(x, y + h)); expand(px(x + w, y + h), py(x + w, y + h))
                     straight += 4; segs += 4
+                    put(V_MOVE.toFloat()); put(px(x, y)); put(py(x, y))
+                    put(V_LINE.toFloat()); put(px(x + w, y)); put(py(x + w, y))
+                    put(V_LINE.toFloat()); put(px(x + w, y + h)); put(py(x + w, y + h))
+                    put(V_LINE.toFloat()); put(px(x, y + h)); put(py(x, y + h))
+                    put(V_CLOSE.toFloat())
+                    cx = px(x, y); cy = py(x, y)
                 }
-                "f", "F", "f*", "B", "B*", "b", "b*", "S", "s" -> paint()
+                "f", "F" -> paint(true, false, false)
+                "f*" -> paint(true, false, true)
+                "B" -> paint(true, true, false)
+                "B*" -> paint(true, true, true)
+                "b" -> paint(true, true, false)
+                "b*" -> paint(true, true, true)
+                "S", "s" -> paint(false, true, false)
                 "n" -> resetPath()
+                "w" -> gs.lw = num(0)
+                "g" -> { val v = num(0); gs.fillRgb = packRgb(v, v, v) }
+                "G" -> { val v = num(0); gs.strokeRgb = packRgb(v, v, v) }
+                "rg" -> gs.fillRgb = packRgb(num(0), num(1), num(2))
+                "RG" -> gs.strokeRgb = packRgb(num(0), num(1), num(2))
+                "k" -> gs.fillRgb = cmyk(num(0), num(1), num(2), num(3))
+                "K" -> gs.strokeRgb = cmyk(num(0), num(1), num(2), num(3))
+                "sc", "scn" -> colorFrom(false)
+                "SC", "SCN" -> colorFrom(true)
                 "Do" -> {
                     val name = (ops.getOrNull(0) as? PdfName)?.v
                     val xo = if (name != null) file.resolve(file.dict(res?.get("XObject"))?.get(name)) as? PdfStreamObj else null

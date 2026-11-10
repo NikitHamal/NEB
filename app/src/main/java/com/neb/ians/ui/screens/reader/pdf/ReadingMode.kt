@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.TextDecrease
 import androidx.compose.material.icons.outlined.TextIncrease
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
@@ -214,7 +215,7 @@ private class ReadType(val settings: ReadingSettings, val p: ReadingPalette) {
 private val UrlPattern = Regex("(https?://[^\\s]+|\\b(?:[a-z0-9-]+\\.)+(?:com|org|net|edu|gov|np|io|info|co|in)\\b(?:/[^\\s]*)?)", RegexOption.IGNORE_CASE)
 
 /** Text where each private use character (a formula set as a picture) becomes a slot the picture is drawn in. */
-private fun AnnotatedString.Builder.putMath(text: String) {
+internal fun AnnotatedString.Builder.putMath(text: String) {
     var from = 0
     for (i in text.indices) {
         if (isMathChar(text[i])) {
@@ -237,23 +238,40 @@ private fun rememberInline(page: Int, text: String, t: ReadType, ctx: RdCtx): Ma
     val inl = if (has) ctx.source.cached(page)?.inlines else null
     val factor = t.base.value / ctx.source.bodyPoints().coerceAtLeast(4f)
     val p = t.p
-    return remember(inl, factor, p, has) {
-        val map = HashMap<String, InlineTextContent>()
-        inl?.forEachIndexed { k, img ->
-            val w = (img.widthPts * factor).coerceAtLeast(2f)
+    return remember(inl, factor, p, has) { inlineMap(inl, factor, p, ctx.source) }
+}
+
+/**
+ * The slot of every formula in a page's text. A formula drawn from outlines gets a slot centred on the text's middle
+ * and tall enough for it, so its baseline lines up with the words; one that needs the page (text or a picture in it)
+ * is a crop of the page.
+ */
+internal fun inlineMap(inl: List<InlineImg>?, factor: Float, p: ReadingPalette, source: ReadSource): Map<String, InlineTextContent> {
+    val map = HashMap<String, InlineTextContent>()
+    inl?.forEachIndexed { k, img ->
+        val w = (img.widthPts * factor).coerceAtLeast(2f)
+        val art = img.vec
+        if (art != null) {
+            val half = img.half
+            val h = (2f * half * factor).coerceAtLeast(2f)
+            val shift = half - img.center
+            map["m$k"] = InlineTextContent(Placeholder(w.sp, h.sp, PlaceholderVerticalAlign.TextCenter)) {
+                RdVector(art, p.ink, Modifier.fillMaxSize(), shift)
+            }
+        } else {
             val h = (img.heightPts * factor).coerceAtLeast(2f)
-            map["m$k"] = InlineTextContent(Placeholder(w.sp, h.sp, PlaceholderVerticalAlign.TextCenter)) { RdInlineMath(img, w, ctx, p) }
+            map["m$k"] = InlineTextContent(Placeholder(w.sp, h.sp, PlaceholderVerticalAlign.TextCenter)) { RdInlineMath(img, w, source, p) }
         }
-        map
     }
+    return map
 }
 
 @Composable
-private fun RdInlineMath(img: InlineImg, widthSp: Float, ctx: RdCtx, p: ReadingPalette) {
+private fun RdInlineMath(img: InlineImg, widthSp: Float, source: ReadSource, p: ReadingPalette) {
     val density = LocalDensity.current
     val px = (with(density) { widthSp.sp.toPx() } * 2f).roundToInt().coerceIn(24, 1500)
-    val bitmap by produceState(ctx.source.cachedCrop(img.page, img.rect, px), img, px) {
-        ctx.source.loadCrop(img.page, img.rect, px)?.let { value = it }
+    val bitmap by produceState(source.cachedCrop(img.page, img.rect, px), img, px) {
+        source.loadCrop(img.page, img.rect, px)?.let { value = it }
     }
     val image = remember(bitmap) { bitmap?.asImageBitmap() }
     if (image != null) {
@@ -445,7 +463,7 @@ private fun RdTable(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: D
                 .align(Alignment.End)
                 .padding(top = 6.dp)
                 .clip(RoundedCornerShape(50))
-                .clickable { ctx.onZoom(RdZoomItem.Table(b)) }
+                .clickable { ctx.onZoom(RdZoomItem.Table(b, page)) }
                 .padding(horizontal = 10.dp, vertical = 5.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -484,6 +502,7 @@ private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGa
             Row(
                 Modifier
                     .then(if (wide) Modifier else Modifier.fillMaxWidth())
+                    .then(if (b.header && i == 0) Modifier.background(p.line.copy(alpha = 0.55f)) else Modifier)
                     .then(if (row.jump >= 0) Modifier.clickable { ctx.onJump(row.jump) } else Modifier)
                     .padding(horizontal = 14.dp, vertical = 11.dp),
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
@@ -512,6 +531,17 @@ private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topG
     val natural = (b.widthPts * dpPerPoint).dp
     val width = minOf(maxWidth, natural.coerceAtLeast(if (b.equation) 24.dp else 120.dp))
     val aspect = (b.heightPts / b.widthPts.coerceAtLeast(1f)).coerceIn(0.02f, 6f)
+    val art = b.vec
+    if (art != null) {
+        Box(Modifier.fillMaxWidth().padding(top = topGap), contentAlignment = if (alignStart) Alignment.CenterStart else Alignment.Center) {
+            RdVector(
+                art, p.ink,
+                Modifier.width(width).aspectRatio(1f / aspect).clickable { ctx.onZoom(RdZoomItem.Figure(b)) }
+                    .semantics { contentDescription = "Equation from page ${b.page + 1}" }
+            )
+        }
+        return
+    }
     val widthPx = with(density) { width.roundToPx() }.coerceIn(64, 1500)
     val bitmap by produceState(ctx.source.cachedCrop(b.page, b.rect, widthPx), b, widthPx) {
         ctx.source.loadCrop(b.page, b.rect, widthPx)?.let { value = it }
