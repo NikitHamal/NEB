@@ -355,7 +355,8 @@ internal object PdfReflow {
             var head = false
             g.rows.forEachIndexed { ri, row ->
                 val cellLines = row.indices.map { ci -> groupLines(cellRuns[gi][ri][ci]) }
-                if (ri == 0) head = cellLines.filter { it.isNotEmpty() }.let { ls -> ls.isNotEmpty() && ls.all { l -> l.all { it.bold } } }
+                if (ri == 0) head = cellLines.filter { it.isNotEmpty() }.let { ls -> ls.isNotEmpty() && ls.all { l -> l.all { it.bold } } } ||
+                    (g.rows.size > 2 && g.rows[0][0].rgb != g.rows[1][0].rgb && g.rows[1][0].rgb == g.rows[2][0].rgb.takeIf { g.rows.size > 3 } ?: g.rows[1][0].rgb)
                 out.add(TableRow(cellLines.map { ls -> ls.joinToString(" ") { it.text.trim() }.replace(Regex("\\s+"), " ").trim() }, -1))
             }
             if (out.any { r -> r.cells.any { it.isNotEmpty() } }) items.add(g.rows[0][0].t to TableBlock(out, head))
@@ -827,7 +828,7 @@ internal object PdfReflow {
 
     // --------------------------------------------------------------- grid tables
 
-    private class GridCell(val l: Float, val t: Float, val r: Float, val b: Float)
+    private class GridCell(val l: Float, val t: Float, val r: Float, val b: Float, val rgb: Int = 0)
     private class Grid(val rows: List<List<GridCell>>)
 
     /**
@@ -841,7 +842,7 @@ internal object PdfReflow {
             if (g.kind != G_PATH || !g.fill || g.curves != 0 || g.diag != 0) continue
             if (g.w < 1.5f * body || g.h < 0.9f * body || g.h > 60f * body || g.w > 0.97f * c.width) continue
             if (g.straight < 3 || !seen.add("${Math.round(g.x0)}_${Math.round(g.y0)}_${Math.round(g.x1)}_${Math.round(g.y1)}")) continue
-            cells.add(GridCell(g.x0, g.y0, g.x1, g.y1))
+            cells.add(GridCell(g.x0, g.y0, g.x1, g.y1, g.fillRgb))
         }
         if (cells.size < 4) return emptyList()
         // rows: boxes with the same top and bottom
@@ -1003,6 +1004,17 @@ internal object PdfReflow {
         val contentL = if (bodyLines.isNotEmpty()) bodyLines.minOf { it.x0 } else W * 0.07f
         val contentR = if (bodyLines.isNotEmpty()) bodyLines.maxOf { it.x1 } else W * 0.93f
 
+        // a block made only of glyph sized outlines (a derivation, a fraction stack, a matrix) is maths, not a drawing: the
+        // words near it are the text of the page, not its labels
+        fun isDrawing(cl: Box): Boolean {
+            for (g in c.gfx) {
+                if (g.x0 < cl.l - 2f || g.x1 > cl.r + 2f || g.y0 < cl.t - 2f || g.y1 > cl.b + 2f) continue
+                if (g.kind == G_IMAGE) return true
+                if (g.curves > 0 && max(g.w, g.h) > 4.8f * body) return true
+                if (g.curves == 0 && g.diag > 0 && max(g.w, g.h) > 6f * body) return true
+            }
+            return false
+        }
         val result = ArrayList<Fig>()
         val bands = ArrayList<Box>()
         for (cl in clusters) {
@@ -1012,6 +1024,8 @@ internal object PdfReflow {
             if (cl.h <= 4.6f * body && cl.w <= 0.95f * W) {
                 val owner = ownerOf(cl)
                 result.add(Fig(Box(cl.l - 1f, cl.t - 1f, cl.r + 1f, cl.b + 1f), true, owner))
+            } else if (cl.w <= 0.95f * W && cl.h <= 14f * body && !isDrawing(cl)) {
+                result.add(Fig(Box(cl.l - 1f, cl.t - 1f, cl.r + 1f, cl.b + 1f), true))
             } else {
                 // big picture: take nearby short, small labels
                 val fb = Box(cl.l - 3f, cl.t - 3f, cl.r + 3f, cl.b + 3f)
