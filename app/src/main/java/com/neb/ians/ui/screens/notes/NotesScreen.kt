@@ -39,7 +39,14 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Archive
+import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Notes
+import androidx.compose.material.icons.outlined.Quiz
+import androidx.compose.material.icons.outlined.School
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
@@ -111,6 +118,7 @@ fun NotesScreen(
     val scope = rememberCoroutineScope()
     val tactile = rememberTactileFeedback()
     var toneSheet by remember { mutableStateOf(false) }
+    var templateSheet by remember { mutableStateOf(false) }
     val selecting = ui.selection.isNotEmpty()
 
     fun undoable(message: String, ids: List<String>, undo: (List<String>) -> Unit) {
@@ -145,7 +153,7 @@ fun NotesScreen(
                     onDeleteForever = vm::deleteSelectedForever,
                 )
             } else {
-                Header(ui, vm, onOpenVoice, showAdd = ui.filter != NoteFilter.Trash) { tactile.perform(TactileType.LightTap); onNewNote(false) }
+                Header(ui, vm, onOpenVoice, showAdd = ui.filter != NoteFilter.Trash) { tactile.perform(TactileType.LightTap); templateSheet = true }
             }
             AnimatedVisibility(ui.searching && !selecting, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                 SearchField(ui.query, vm::setQuery)
@@ -160,7 +168,7 @@ fun NotesScreen(
                 when {
                     !ui.loaded -> Unit
                     ui.notes.isEmpty() && ui.query.isBlank() && ui.tag == null && ui.filter == NoteFilter.All -> NotesEmptyState(
-                        onWrite = { tactile.perform(TactileType.LightTap); onNewNote(false) },
+                        onWrite = { tactile.perform(TactileType.LightTap); templateSheet = true },
                         onDictate = { tactile.perform(TactileType.LightTap); onNewNote(true) },
                         modifier = Modifier.align(Alignment.Center),
                     )
@@ -196,9 +204,62 @@ fun NotesScreen(
         }
     }
 
+    if (templateSheet) {
+        NebModalSheet(onDismiss = { templateSheet = false }, title = "New note") {
+            TemplateGrid(onPick = { t ->
+                NoteTemplate.pending = t
+                templateSheet = false
+                onNewNote(false)
+            })
+        }
+    }
+
     if (toneSheet) {
         NebModalSheet(onDismiss = { toneSheet = false }, title = "Colour") {
             ToneSwatches(current = -1, onPick = { vm.toneSelected(it); toneSheet = false })
+        }
+    }
+}
+
+private fun templateIcon(t: NoteTemplate) = when (t) {
+    NoteTemplate.Blank -> Icons.Outlined.Notes
+    NoteTemplate.Class -> Icons.Outlined.School
+    NoteTemplate.Tasks -> Icons.Outlined.Checklist
+    NoteTemplate.Exam -> Icons.Outlined.Quiz
+    NoteTemplate.Week -> Icons.Outlined.CalendarMonth
+    NoteTemplate.Reading -> Icons.Outlined.MenuBook
+    NoteTemplate.Journal -> Icons.Outlined.EditNote
+    NoteTemplate.Outline -> Icons.Outlined.ChevronRight
+}
+
+/** Where a note starts: a blank page, or one already shaped like what it is for. */
+@Composable
+private fun TemplateGrid(onPick: (NoteTemplate) -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Column(Modifier.fillMaxWidth().padding(bottom = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        NoteTemplate.entries.chunked(2).forEach { pair ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                pair.forEach { t ->
+                    val blank = t == NoteTemplate.Blank
+                    Row(
+                        Modifier.weight(1f).clip(RoundedCornerShape(24.dp))
+                            .background(if (blank) c.primaryContainer else c.surfaceContainerLow)
+                            .clickable { onPick(t) }.padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        Box(
+                            Modifier.size(40.dp).clip(RoundedCornerShape(14.dp)).background(if (blank) c.primary else c.secondaryContainer),
+                            contentAlignment = Alignment.Center,
+                        ) { Icon(templateIcon(t), null, tint = if (blank) c.onPrimary else c.onSecondaryContainer, modifier = Modifier.size(22.dp)) }
+                        Text(
+                            t.label, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold,
+                            color = if (blank) c.onPrimaryContainer else c.onSurface, modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
+                if (pair.size == 1) Box(Modifier.weight(1f))
+            }
         }
     }
 }

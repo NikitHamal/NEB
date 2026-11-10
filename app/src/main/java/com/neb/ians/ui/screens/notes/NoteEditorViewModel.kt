@@ -99,6 +99,8 @@ class NoteEditorViewModel @Inject constructor(
                 _pinned.value = existing.pinned
                 _archived.value = existing.archived
                 _trashed.value = existing.isTrashed
+            } else if (noteId == "new") {
+                NoteTemplate.take()?.takeIf { it != NoteTemplate.Blank }?.let { _blocks.value = it.blocks() }
             }
             _ready.value = true
         }
@@ -172,15 +174,21 @@ class NoteEditorViewModel @Inject constructor(
         // Enter on an empty list item, quote or callout steps out of it
         if (cur.type != BlockType.Text && cur.type != BlockType.Code && cur.text.isBlank() && before.isBlank() && after.all { it.isBlank() } &&
             (cur.type.isList || cur.type == BlockType.Quote || cur.type == BlockType.Callout)) {
-            update(id) { it.copy(type = BlockType.Text, checked = false) }
+            // an empty item first steps back out one level, then out of the list
+            if (cur.indent > 0) indent(id, -1)
+            else update(id) { it.copy(type = BlockType.Text, checked = false) }
             _focusRequest.value = id
             return
         }
         val nextType = when (cur.type) {
             BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Callout -> BlockType.Text
+            BlockType.Toggle -> if (cur.open && before.isNotBlank() && after.size == 1 && after[0].isEmpty()) BlockType.Text else BlockType.Toggle
             else -> cur.type
         }
-        val created = after.map { NoteBlock(type = nextType, text = it) }
+        // Enter at the end of an open toggle writes inside it; anywhere else the new line sits level with this one
+        val intoToggle = cur.type == BlockType.Toggle && cur.open && nextType == BlockType.Text
+        val nextIndent = if (intoToggle) (cur.indent + 1).coerceAtMost(NoteDoc.MAX_INDENT) else cur.indent
+        val created = after.map { NoteBlock(type = nextType, text = it, indent = nextIndent) }
         val out = list.toMutableList()
         out[i] = cur.copy(text = before)
         out.addAll(i + 1, created)
@@ -195,6 +203,7 @@ class NoteEditorViewModel @Inject constructor(
         val i = indexOf(id)
         if (i < 0) return
         val cur = list[i]
+        if (cur.indent > 0) { indent(id, -1); return }
         if (cur.type != BlockType.Text) { update(id) { it.copy(type = BlockType.Text, checked = false) }; return }
         if (i == 0) return
         val prev = list[i - 1]
@@ -231,6 +240,28 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     fun toggleTodo(id: String) = update(id) { it.copy(checked = !it.checked) }
+
+    /** Folds or unfolds a toggle block; what sits under it hides with it. */
+    fun toggleOpen(id: String) = update(id) { it.copy(open = !it.open) }
+
+    /**
+     * Moves a block one level in or out. A block can sit at most one level deeper than the one above it, and the blocks
+     * nested under it travel with it so a toggle keeps its contents.
+     */
+    fun indent(id: String, delta: Int) {
+        val list = _blocks.value
+        val i = indexOf(id)
+        if (i < 0 || !list[i].type.hasText) return
+        val cur = list[i]
+        val ceiling = if (i == 0) 0 else (list[i - 1].indent + 1).coerceAtMost(NoteDoc.MAX_INDENT)
+        val target = (cur.indent + delta).coerceIn(0, ceiling)
+        val shift = target - cur.indent
+        if (shift == 0) return
+        val kids = NoteDoc.childCount(list, i)
+        val out = list.toMutableList()
+        for (j in i..i + kids) out[j] = out[j].copy(indent = (out[j].indent + shift).coerceIn(0, NoteDoc.MAX_INDENT))
+        commit(out, force = true)
+    }
 
     fun delete(id: String) {
         val list = _blocks.value
