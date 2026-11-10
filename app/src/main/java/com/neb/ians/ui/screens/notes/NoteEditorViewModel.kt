@@ -59,6 +59,10 @@ class NoteEditorViewModel @Inject constructor(
     val tone: StateFlow<Int> = _tone.asStateFlow()
     private val _tags = MutableStateFlow<List<String>>(emptyList())
     val tags: StateFlow<List<String>> = _tags.asStateFlow()
+    private val _icon = MutableStateFlow("")
+    val icon: StateFlow<String> = _icon.asStateFlow()
+    private val _cover = MutableStateFlow(0)
+    val cover: StateFlow<Int> = _cover.asStateFlow()
     private val _pinned = MutableStateFlow(false)
     val pinned: StateFlow<Boolean> = _pinned.asStateFlow()
     private val _archived = MutableStateFlow(false)
@@ -95,6 +99,8 @@ class NoteEditorViewModel @Inject constructor(
                 _title.value = existing.title
                 _blocks.value = if (existing.doc.isNotBlank()) NoteDoc.fromJson(existing.doc) else NoteDoc.fromMarkdown(existing.body)
                 _tone.value = existing.tone
+                _icon.value = existing.icon
+                _cover.value = existing.cover
                 _tags.value = existing.tagList
                 _pinned.value = existing.pinned
                 _archived.value = existing.archived
@@ -459,6 +465,16 @@ class NoteEditorViewModel @Inject constructor(
         scheduleSave()
     }
 
+    fun setIcon(key: String) {
+        _icon.value = key
+        scheduleSave()
+    }
+
+    fun setCover(index: Int) {
+        _cover.value = index
+        scheduleSave()
+    }
+
     fun togglePin() {
         _pinned.value = !_pinned.value
         if (_pinned.value) _archived.value = false
@@ -520,11 +536,13 @@ class NoteEditorViewModel @Inject constructor(
             body = body,
             doc = doc,
             tone = _tone.value,
+            icon = _icon.value,
+            cover = _cover.value,
             tags = _tags.value.joinToString(" "),
             pinned = _pinned.value,
             archived = _archived.value,
         )
-        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags)
+        val textChanged = existsInDb && (base.title != updated.title || base.doc != updated.doc || base.tags != updated.tags || base.icon != updated.icon || base.cover != updated.cover)
         repo.save(updated, touch = !existsInDb || textChanged)
         note = updated.copy(updatedAt = if (!existsInDb || textChanged) System.currentTimeMillis() else base.updatedAt)
         existsInDb = true
