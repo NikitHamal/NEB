@@ -1,0 +1,12 @@
+      PROGRAM VARS
+      INTEGER COUNT
+      REAL RADIUS, AREA
+      CHARACTER*1 GRADE
+      PARAMETER (PI = 3.14159)
+      COUNT = 5
+      RADIUS = 2.5
+      GRADE = 'A'
+      AREA = PI * RADIUS * RADIUS
+      WRITE(*,*) COUNT, GRADE
+      WRITE(*,*) AREA
+      END
