@@ -3486,6 +3486,9 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 .ax-social-btn:hover { background: var(--md-surface-container-highest); border-radius: 18px; }
 .ax-social-btn:focus-visible { outline: 0; border-color: var(--md-primary); }
 .ax-social-btn:active { transform: scale(.97); }
+.ax-legal { margin: 18px 0 0; text-align: center; font-size: .78rem; font-weight: 500; line-height: 1.5; color: var(--md-on-surface-variant); }
+.ax-legal a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
+.ax-legal a:hover { text-decoration: underline; }
 
 .ax-spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: axSpin .7s linear infinite; }
 @keyframes axSpin { to { transform: rotate(360deg); } }
