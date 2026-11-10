@@ -121,3 +121,6 @@ Built with full worked solutions and pushed: Soil Mechanics ENCE 253 (2083 Baish
 
 ### Section F addendum (session 22, IOE/BE last 5 years only)
 Built with full worked solutions and pushed: Engineering Survey I (ENCE 153 2083 Baishakh back, CE 153 2082 Baishakh back, CE 153 2081 Ashwin regular, ENCE 153 2082 Bhadra regular): Survey I is COMPLETE (4 papers). Bundle engineering-survey-i-2081-2083; master All-in-One book now 113 papers. Next: Survey II, Water Supply, Building Tech, Concrete Tech. See engineering/PHASE2_STATUS.md Session 22.
+
+### Section F addendum (session 23, IOE/BE last 5 years only)
+- Engineering Survey II (ENCE 203, BE Civil Year II / Part I): 2082 Chaitra (regular), 2082 Kartik (back) and 2081 Chaitra (regular) typeset with full solutions (every question and sub-question, Python-checked: traverse balancing and DMD area, Tienstra resection, Rankine curve tables, parabolic vertical curves). Bundle `engineering-survey-ii-2081-2082.pdf` (3 papers); master All-in-One now 116 papers / 1656 pp. Next in `engineering/PHASE2_STATUS.md` (Water Supply, Building Technology, Concrete Technology, Theory of Structures II, ...).
