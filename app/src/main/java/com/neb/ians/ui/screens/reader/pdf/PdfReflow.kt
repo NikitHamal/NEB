@@ -22,12 +22,14 @@ data class Span(val text: String, val flags: Int = 0, val href: String? = null) 
     val sub get() = flags and SPAN_SUB != 0
 }
 
-sealed class Block
+/** [box] is the id of the tonal card (callout, answer key, note) the block sits in, 0 when it is on the page itself. */
+sealed class Block { var box: Int = 0 }
 class HeadingBlock(val level: Int, val text: String, val jump: Int) : Block()
 class ParaBlock(val spans: List<Span>, val jump: Int, val startsLower: Boolean, val endsOpen: Boolean) : Block() {
     val text: String by lazy(LazyThreadSafetyMode.NONE) { spans.joinToString("") { it.text } }
 }
-class ItemBlock(val marker: String, val spans: List<Span>, val depth: Int, val jump: Int) : Block() {
+/** [choiceCols] is above 0 for a lettered choice (a to h): how many choices stood side by side on the printed line. */
+class ItemBlock(val marker: String, val spans: List<Span>, val depth: Int, val jump: Int, val choiceCols: Int = 0) : Block() {
     val text: String by lazy(LazyThreadSafetyMode.NONE) { spans.joinToString("") { it.text } }
 }
 class CodeBlock(val text: String) : Block()
@@ -171,7 +173,9 @@ internal object PdfReflow {
             } else {
                 val gap = r.x0 - p.x1
                 val ref = max(p.size, r.size)
-                if (gap > 2.0f * ref && gap > 12f) {
+                val badge = text.trim().length == 1 && text.trim()[0].lowercaseChar() in 'a'..'h' && r.size < p.size * 0.85f &&
+                    abs(r.base - line.base) < 0.14f * line.size && gap > 0.5f * ref && !p.unmapped && clean(p.text).isNotBlank()
+                if (badge || (gap > 2.0f * ref && gap > 12f)) {
                     cells.add(Cell(cellX0, p.x1, spans)); spans = ArrayList(); cellX0 = r.x0; prevEndsSpace = true
                 } else if (gap > 0.15f * ref && !prevEndsSpace && !text.startsWith(" ")) {
                     add(" ", spans.lastOrNull()?.flags ?: 0, null)
@@ -231,6 +235,7 @@ internal object PdfReflow {
 
     private val BULLET = Regex("^([\\u2022\\u00B7\\u25AA\\u25E6\\u2023\\u25CF\\u25CB\\u25A0\\u25A1\\u2013\\u2014\\u2713\\u2714*]|-)\\s+")
     private val NUMBERED = Regex("^(\\(?\\d{1,3}[.)]|\\(?[a-z]\\)|\\(?[ivx]{1,4}[.)])\\s+")
+    private val DASHES = setOf("\u2013", "\u2014", "-")
     private val TERMINAL = Regex("[.!?:;\\u201D\")\\u2026]$")
 
     fun build(page: Int, c: PageContent, st: ReflowStats, links: List<PdfLink>): ReflowPage {
@@ -249,6 +254,7 @@ internal object PdfReflow {
         val absorbed = HashSet<Line>()
         val items = ArrayList<Pair<Float, Block>>()
         for (f in figs) {
+            if (f.owner != null) continue
             val r = f.box
             for (l in grouped) {
                 val cx = (l.x0 + l.x1) / 2f
@@ -359,7 +365,8 @@ internal object PdfReflow {
                 while (j < n) {
                     val l = lines[j]
                     val gap = l.base - lines[j - 1].base
-                    if (gap > st.leading * line.size * 1.22f || abs(l.size - line.size) > line.size * 0.15f) break
+                    val chip = isMarkChip(l.text)
+                    if (gap > st.leading * line.size * 1.22f || (!chip && abs(l.size - line.size) > line.size * 0.15f)) break
                     if (l.cells.size != 1 || markerOf(l) != null || l.mono || l.x0 < textX - line.size * 0.8f) break
                     if (headingLevel(l, st) > 0) break
                     joinInto(spans, l.spans)
@@ -388,8 +395,11 @@ internal object PdfReflow {
                 val l = lines[j]
                 val gap = l.base - prevLine.base
                 if (gap > st.leading * max(line.size, l.size) * 1.22f) break
-                if (abs(l.size - line.size) > line.size * 0.12f) break
-                if (l.mono || markerOf(l) != null) break
+                if (abs(l.size - line.size) > line.size * 0.12f && !isMarkChip(l.text)) break
+                if (l.mono) break
+                val mk = markerOf(l)
+                // a dash opening a line inside a sentence is punctuation, not a bullet
+                if (mk != null && !(mk in DASHES && !TERMINAL.containsMatchIn(prevLine.text.trim()))) break
                 if (l.cells.size != 1) {
                     // gaps in a line are usually a formula set as a picture; only a real table or a row of choices ends the paragraph
                     if (optionCells(l) != null || table(lines, j, 0) != null) break
@@ -413,7 +423,7 @@ internal object PdfReflow {
                 if (headText.isNotEmpty()) {
                     items.add(top to ParaBlock(runIn.first, jumpOf(lines, i, j), startsLower = false, endsOpen = false))
                 }
-                for (o in runIn.second) items.add(top to ItemBlock(o.first, o.second, 0, -1))
+                for (o in runIn.second) items.add(top to ItemBlock(o.first, o.second, 0, -1, 1))
                 i = j; continue
             }
             if (text.isNotEmpty()) {
@@ -426,7 +436,9 @@ internal object PdfReflow {
             }
             i = j
         }
-        val blocks = items.sortedBy { it.first }.map { it.second }
+        val sorted = items.sortedBy { it.first }
+        assignCards(sorted, c, body)
+        val blocks = sorted.map { it.second }
         val words = blocks.sumOf {
             when (it) {
                 is ParaBlock -> wordCount(it.text)
@@ -437,6 +449,32 @@ internal object PdfReflow {
             }
         }
         return ReflowPage(page, blocks, words, inlines)
+    }
+
+
+    /**
+     * Tonal cards of the page (the print `.box`: notes, answer keys, how-to-read panels). A painted rounded box wide
+     * enough to be a panel gives its id to the blocks that start inside it, smallest box first. Boxes behind a table, a
+     * code block or a lone picture are not cards.
+     */
+    private fun assignCards(items: List<Pair<Float, Block>>, c: PageContent, body: Float) {
+        val W = c.width; val H = c.height
+        val cards = c.gfx.filter {
+            it.kind == G_PATH && it.diag == 0 && it.curves <= 12 && it.straight >= 3 &&
+                it.w >= 0.45f * W && it.w < 0.97f * W && it.h >= 2.2f * body && it.h < 0.85f * H
+        }.sortedBy { it.w * it.h }
+        if (cards.isEmpty()) return
+        val taken = BooleanArray(items.size)
+        var id = 0
+        for (card in cards) {
+            val inside = items.indices.filter { items[it].first >= card.y0 - 1f && items[it].first <= card.y1 - 2f }
+            if (inside.isEmpty()) continue
+            if (inside.any { items[it].second is TableBlock || items[it].second is CodeBlock }) continue
+            val free = inside.filter { !taken[it] }
+            if (free.isEmpty() || free.all { items[it].second is FigureBlock }) continue
+            id++
+            for (k in free) { items[k].second.box = id; taken[k] = true }
+        }
     }
 
     // --------------------------------------------------------------- lettered choices
@@ -520,7 +558,7 @@ internal object PdfReflow {
                 w.cells.forEachIndexed { n, cell -> joinInto(texts[cols[n]], cell.spans) }
                 e++
             }
-            cells.forEachIndexed { n, c -> out.add(ItemBlock(c.letter.toString(), texts[n], 0, -1)) }
+            cells.forEachIndexed { n, c -> out.add(ItemBlock(c.letter.toString(), texts[n], 0, -1, cells.size)) }
             want = cells.last().letter + 1
             j = e
         }
@@ -549,6 +587,9 @@ internal object PdfReflow {
         }
         return head to opts
     }
+
+    /** A mark chip or exam tag that wrapped onto a line of its own: [1] or (NEB 2078). */
+    private fun isMarkChip(t: String): Boolean = t.trim().matches(Regex("^(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\))(\\s+(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\)))*$"))
 
     private fun isHyphen(c: Char?) = c == '-' || c == '\u2010' || c == '\u2011'
 
@@ -665,7 +706,13 @@ internal object PdfReflow {
             return if (bd <= max(6f, size * 0.9f)) best else -1
         }
         fun put(row: Row, l: Line): Boolean {
-            val idx = l.cells.map { colOf(it, l.size) }
+            val idx = ArrayList<Int>()
+            for ((k, c) in l.cells.withIndex()) {
+                var ix = colOf(c, l.size)
+                // a cell that lands between columns (a formula set after a comma) continues the one before it
+                if (ix < 0 && k > 0 && idx[k - 1] >= 0 && c.x0 > cols[idx[k - 1]]) ix = idx[k - 1]
+                idx.add(ix)
+            }
             if (idx.any { it < 0 }) return false
             for ((k, c) in l.cells.withIndex()) {
                 val sb = row.cells[idx[k]]
@@ -740,27 +787,35 @@ internal object PdfReflow {
         }
         if (inks.isEmpty()) return emptyList()
 
-        // group inks that touch (within half a text size)
-        val cell = max(6f, body * 0.9f)
+        // group inks that touch: half a text size sideways, a fifth up and down, so two rows of maths stay two
+        val tolX = body * 0.5f
+        val tolY = body * 0.2f
+        val parent = IntArray(inks.size) { it }
+        fun find(x: Int): Int { var a = x; while (parent[a] != a) { parent[a] = parent[parent[a]]; a = parent[a] }; return a }
+        val cell = max(24f, body * 2.4f)
         val gw = (W / cell).toInt() + 2
         val gh = (H / cell).toInt() + 2
-        val parent = IntArray(gw * gh) { it }
-        fun find(x: Int): Int { var a = x; while (parent[a] != a) { parent[a] = parent[parent[a]]; a = parent[a] }; return a }
-        val firstCell = IntArray(inks.size)
-        val tol = body * 0.5f
+        val buckets = HashMap<Int, ArrayList<Int>>()
         for ((k, b) in inks.withIndex()) {
-            val cx0 = ((b.l - tol) / cell).toInt().coerceIn(0, gw - 1); val cx1 = ((b.r + tol) / cell).toInt().coerceIn(0, gw - 1)
-            val cy0 = ((b.t - tol) / cell).toInt().coerceIn(0, gh - 1); val cy1 = ((b.b + tol) / cell).toInt().coerceIn(0, gh - 1)
-            val root = cy0 * gw + cx0
-            firstCell[k] = root
-            for (y in cy0..cy1) for (x in cx0..cx1) {
-                val a = find(root); val b2 = find(y * gw + x)
-                if (a != b2) parent[b2] = a
+            val cx0 = ((b.l - tolX) / cell).toInt().coerceIn(0, gw - 1); val cx1 = ((b.r + tolX) / cell).toInt().coerceIn(0, gw - 1)
+            val cy0 = ((b.t - tolY) / cell).toInt().coerceIn(0, gh - 1); val cy1 = ((b.b + tolY) / cell).toInt().coerceIn(0, gh - 1)
+            for (y in cy0..cy1) for (x in cx0..cx1) buckets.getOrPut(y * gw + x) { ArrayList() }.add(k)
+        }
+        for (list in buckets.values) {
+            for (u in 0 until list.size) {
+                val a = inks[list[u]]
+                for (v in u + 1 until list.size) {
+                    val c = inks[list[v]]
+                    if (a.l - tolX <= c.r && a.r + tolX >= c.l && a.t - tolY <= c.b && a.b + tolY >= c.t) {
+                        val ra = find(list[u]); val rb = find(list[v])
+                        if (ra != rb) parent[rb] = ra
+                    }
+                }
             }
         }
         val byRoot = HashMap<Int, Box>()
         for ((k, b) in inks.withIndex()) {
-            val r = find(firstCell[k])
+            val r = find(k)
             val ex = byRoot[r]
             if (ex == null) byRoot[r] = Box(b.l, b.t, b.r, b.b) else ex.union(b)
         }
@@ -788,6 +843,19 @@ internal object PdfReflow {
             }
         }
 
+        // the line of text a picture sits in (typeset maths inside a sentence, a choice, a table cell)
+        fun ownerOf(cl: Box): Line? {
+            val cyImg = (cl.t + cl.b) / 2f
+            return lines.filter { l ->
+                val ov = min(l.bottom, cl.b) - max(l.top, cl.t)
+                ov > 0.3f * min(l.bottom - l.top, cl.h) && l.size < body * 1.6f &&
+                    cyImg >= l.top - 0.5f * body && cyImg <= l.bottom + 0.5f * body &&
+                    ((l.x0 - 2.5f * body <= cl.r && l.x1 + 2.5f * body >= cl.l) ||
+                        // a table row: the label on the left owns the formulas set in the cells to its right
+                        (cl.h <= 4.6f * body && l.size <= body * 1.2f && l.x1 - l.x0 < 0.5f * W && l.x1 <= cl.l && cl.l - l.x1 <= 0.7f * W))
+            }.maxByOrNull { min(it.bottom, cl.b) - max(it.top, cl.t) }
+        }
+
         // pieces of one drawing (labels beside a diagram, rows of a figure) sit a few characters apart
         run {
             var guard = 0
@@ -801,11 +869,13 @@ internal object PdfReflow {
                     val u = Box(min(ca.l, cb.l), min(ca.t, cb.t), max(ca.r, cb.r), max(ca.b, cb.b))
                     // pictures that fit one line of text are formulas set inside it: only glyph sized pieces of one
                     // formula join, never two formulas with words between them
-                    val near = if (u.h <= 2.2f * body) (gx <= 0.7f * body && gy < 0) else (
+                    val near = if (u.h <= 4.4f * body) (gx <= 0.7f * body && gy < 0) else (
                         (gx <= 5.6f * body && gy < 0 && -gy >= 0.3f * min(ca.h, cb.h)) ||
                             (gy <= 3.4f * body && gx < 0 && -gx >= 0.2f * min(ca.w, cb.w)) ||
                             (gx <= 2.0f * body && gy <= 2.0f * body))
                     if (!near) continue
+                    // two formulas in different rows (table cells, choices) are never one picture
+                    if (u.h > 4.4f * body && ca.h <= 4.6f * body && cb.h <= 4.6f * body && gy >= 0f && ownerOf(ca) != null && ownerOf(cb) != null) continue
                     if (u.h > 2.6f * body) {
                         // never swallow the middle of a paragraph
                         val swallows = lines.any { l ->
@@ -828,19 +898,11 @@ internal object PdfReflow {
         val result = ArrayList<Fig>()
         val bands = ArrayList<Box>()
         for (cl in clusters) {
-            if (cl.w < 0.7f * body && cl.h < 0.7f * body) continue
+            val tiny = cl.w < 0.7f * body && cl.h < 0.7f * body
+            if (tiny && (max(cl.w, cl.h) < 0.35f * body || ownerOf(cl) == null)) continue
             if (cl.area > 0.7f * pageArea && hasText) continue
-            if (cl.h <= 2.6f * body && cl.w <= 0.95f * W) {
-                val cyImg = (cl.t + cl.b) / 2f
-                val owner = lines.filter { l ->
-                    val ov = min(l.bottom, cl.b) - max(l.top, cl.t)
-                    val cx = (l.x0 + l.x1) / 2f
-                    val cy = l.base - l.size * 0.3f
-                    val centreIn = cx >= cl.l && cx <= cl.r && cy >= cl.t && cy <= cl.b
-                    ov > 0.3f * min(l.bottom - l.top, cl.h) && !centreIn && l.size < body * 1.6f &&
-                        cyImg >= l.top - 0.5f * body && cyImg <= l.bottom + 0.5f * body &&
-                        l.x0 - 2.5f * body <= cl.r && l.x1 + 2.5f * body >= cl.l
-                }.maxByOrNull { min(it.bottom, cl.b) - max(it.top, cl.t) }
+            if (cl.h <= 4.6f * body && cl.w <= 0.95f * W) {
+                val owner = ownerOf(cl)
                 result.add(Fig(Box(cl.l - 1f, cl.t - 1f, cl.r + 1f, cl.b + 1f), true, owner))
             } else {
                 // big picture: take nearby short, small labels

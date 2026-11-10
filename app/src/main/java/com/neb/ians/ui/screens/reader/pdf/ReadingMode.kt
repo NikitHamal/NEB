@@ -18,6 +18,10 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.runtime.key
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.animateScrollBy
@@ -257,7 +261,22 @@ private fun RdInlineMath(img: InlineImg, widthSp: Float, ctx: RdCtx, p: ReadingP
     }
 }
 
-private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString {
+private val MarkChip = Regex("\\[\\d+(?:\\.\\d+)?\\]")
+private val ExamTag = Regex("\\((?:NEB|HSEB|SEE|CDC|TU|IOE|CEE|NEET|JEE)\\b[^)]{0,32}\\)")
+
+/** The marks chip [1] and exam tags (NEB 2081) are quieter than the question they follow, as they are in print. */
+private fun AnnotatedString.withTags(p: ReadingPalette): AnnotatedString {
+    val t = text
+    if (t.indexOf('[') < 0 && t.indexOf('(') < 0) return this
+    val b = AnnotatedString.Builder(this)
+    for (m in MarkChip.findAll(t)) b.addStyle(SpanStyle(fontSize = 0.78.em, fontWeight = FontWeight.Medium, color = p.muted, background = p.muted.copy(alpha = 0.14f)), m.range.first, m.range.last + 1)
+    for (m in ExamTag.findAll(t)) b.addStyle(SpanStyle(fontSize = 0.86.em, fontWeight = FontWeight.Medium, color = p.muted), m.range.first, m.range.last + 1)
+    return b.toAnnotatedString()
+}
+
+private fun annotate(spans: List<Span>, p: ReadingPalette): AnnotatedString = annotateRaw(spans, p).withTags(p)
+
+private fun annotateRaw(spans: List<Span>, p: ReadingPalette): AnnotatedString {
     val linkStyle = TextLinkStyles(SpanStyle(color = p.accent, textDecoration = TextDecoration.Underline))
     return buildAnnotatedString {
         for (s in spans) {
@@ -370,7 +389,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
             ) {
                 Text(
                     if (numbered) block.marker else "\u2022",
-                    style = t.body.copy(color = p.muted, fontWeight = FontWeight.Medium, textAlign = TextAlign.End),
+                    style = t.body.copy(color = if (numbered) p.accent else p.muted, fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = t.base * 0.92f, textAlign = TextAlign.End),
                     modifier = Modifier.width(if (numbered) 30.dp else 22.dp)
                 )
                 Spacer(Modifier.width(8.dp))
@@ -403,7 +422,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
                 Modifier
                     .padding(top = t.gap * 0.6f + topGap)
                     .clip(RoundedCornerShape(50))
-                    .background(p.tonal)
+                    .background(if (LocalRdInCard.current) p.bg else p.tonal)
                     .padding(horizontal = 12.dp, vertical = 5.dp)
             ) {
                 Text(
@@ -538,69 +557,152 @@ private fun RdPage(
             LaunchedEffect(page, state) { onWords(page, state.page.words) }
             val blocks = state.page.blocks
             val joins = blocks.firstOrNull().let { first ->
-                first is ParaBlock && first.startsLower && (previous?.blocks?.lastOrNull() as? ParaBlock)?.endsOpen == true
+                (first is ParaBlock && first.startsLower && (previous?.blocks?.lastOrNull() as? ParaBlock)?.endsOpen == true) ||
+                    // the choices of a question that began at the foot of the page before
+                    (first is ItemBlock && first.choiceCols > 0 && first.marker.trim().trim('(', ')', '.', ':').equals("a", true) &&
+                        (previous?.blocks?.lastOrNull() as? ItemBlock)?.let { it.choiceCols == 0 } == true)
             }
             Column(Modifier.fillMaxWidth()) {
                 if (!joins && page > 0) RdPageMark(page, p) { ctx.onOpenPage(page) }
-                var i = 0
-                while (i < blocks.size) {
-                    val gap = if (i == 0) 0.dp else t.gap
-                    val run = optionRun(blocks, i)
-                    val at = i
-                    if (run != null) {
-                        key(page, at) { RdOptions(run.rows, page, t, ctx, maxWidth, gap) }
-                        i += run.length
-                    } else {
-                        key(page, at) { RdBlock(blocks[at], page, at, t, ctx, maxWidth, gap) }
-                        i++
-                    }
-                }
+                RdBlocks(blocks, 0, blocks.size, page, t, ctx, maxWidth, if (joins) t.gap * 0.5f else 0.dp)
                 if (blocks.isEmpty()) Spacer(Modifier.height(8.dp))
             }
         }
     }
 }
 
-/**
- * Lettered choices as tappable tonal rows: a tap marks your pick (kept while the page is on screen), a second tap clears it.
- * Typeset maths that print sets as an image sits inside its own row.
- */
+private val LocalRdInCard = androidx.compose.runtime.compositionLocalOf { false }
+private val AnswerKeyLabel = Regex("^(answers?|solutions?|answer key|marking scheme|mark scheme)\\b", RegexOption.IGNORE_CASE)
+
+/** Blocks [from] until [to] of a page: tonal cards for blocks that share a box id, choice grids for lettered choices. */
 @Composable
-private fun RdOptions(rows: List<OptionRow>, page: Int, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
+private fun RdBlocks(blocks: List<Block>, from: Int, to: Int, page: Int, t: ReadType, ctx: RdCtx, maxWidth: Dp, firstGap: Dp) {
+    val inCard = LocalRdInCard.current
+    var i = from
+    while (i < to) {
+        val gap = if (i == from) firstGap else t.gap
+        val at = i
+        val box = blocks[i].box
+        if (box > 0 && !inCard) {
+            var j = i + 1
+            while (j < to && blocks[j].box == box) j++
+            val end = j
+            key(page, at) { RdCard(blocks, at, end, page, t, ctx, maxWidth, gap) }
+            i = j
+            continue
+        }
+        val run = optionRun(blocks, i)
+        if (run != null && i + run.length <= to) {
+            key(page, at) { RdChoices(run, page, t, ctx, gap) }
+            i += run.length
+        } else {
+            key(page, at) { RdBlock(blocks[at], page, at, t, ctx, maxWidth, gap) }
+            i++
+        }
+    }
+}
+
+/** The print `.box` as a tonal card. An answer key folds under its title when "Hide answers" is on. */
+@Composable
+private fun RdCard(blocks: List<Block>, from: Int, to: Int, page: Int, t: ReadType, ctx: RdCtx, maxWidth: Dp, topGap: Dp) {
     val p = t.p
-    var picked by remember(page, rows.first().at) { mutableIntStateOf(-1) }
-    Column(Modifier.fillMaxWidth().padding(top = topGap * 0.6f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        rows.forEachIndexed { k, row ->
-            val b = row.item
-            val activeNth = ctx.activeIn(page, row.at)
-            val on = picked == k
-            val text = remember(b, p, ctx.query, activeNth) { annotate(b.spans, p).marked(ctx.query, activeNth) }
-            val letter = b.marker.trim().trim('(', ')', '.', ':').uppercase()
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .searchAnchor(ctx, activeNth)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(if (on) p.accent.copy(alpha = 0.14f) else p.tonal)
-                    .selectable(selected = on, role = Role.RadioButton, onClick = { picked = if (on) -1 else k })
-                    .padding(horizontal = 12.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Box(
-                    Modifier.size(32.dp).clip(RoundedCornerShape(11.dp)).background(if (on) p.accent else p.bg),
-                    contentAlignment = Alignment.Center
+    val first = blocks[from]
+    val key = first as? LabelBlock
+    val answerKey = key != null && AnswerKeyLabel.containsMatchIn(key.text.trim())
+    var open by remember(page, from, answerKey, t.settings.hideAnswers) { mutableStateOf(!(answerKey && t.settings.hideAnswers)) }
+    val shown = open || ctx.query.isNotEmpty() || !answerKey
+    val turn by animateFloatAsState(if (shown) 180f else 0f, label = "card-chevron")
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = topGap)
+            .clip(RoundedCornerShape(22.dp))
+            .background(p.tonal)
+            .animateContentSize()
+            .padding(horizontal = 16.dp, vertical = 14.dp)
+    ) {
+        androidx.compose.runtime.CompositionLocalProvider(LocalRdInCard provides true) {
+            if (answerKey && key != null) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .clickable(role = Role.Button, onClickLabel = if (shown) "Hide the answers" else "Show the answers") { open = !open }
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        letter,
-                        style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = 13.sp, color = if (on) p.bg else p.ink)
-                    )
-                }
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    if (b.text.isNotBlank() || row.figures.isEmpty()) Text(text, style = t.body, inlineContent = rememberInline(page, b.text, t, ctx))
-                    row.figures.forEach { f -> RdFigure(f, t, ctx, maxWidth - 72.dp, 0.dp, alignStart = true) }
+                    Box(Modifier.clip(RoundedCornerShape(50)).background(p.bg).padding(horizontal = 12.dp, vertical = 5.dp)) {
+                        Text(
+                            key.text,
+                            style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = (11.5f * t.settings.fontScale.coerceAtMost(1.4f)).sp, letterSpacing = 0.6.sp, color = p.ink)
+                        )
+                    }
+                    Spacer(Modifier.weight(1f))
+                    Icon(Icons.Outlined.ExpandMore, null, tint = p.muted, modifier = Modifier.size(22.dp).graphicsLayer { rotationZ = turn })
                 }
             }
+            if (shown) RdBlocks(blocks, if (answerKey) from + 1 else from, to, page, t, ctx, maxWidth - 32.dp, if (answerKey) t.gap * 0.45f else 0.dp)
+        }
+    }
+}
+
+/**
+ * Lettered choices, set the way print sets them and not as buttons: a letter tile and the text, in a grid that follows the
+ * printed layout (four across, two by two, or one under another) and gives way to fewer columns when the type is large.
+ */
+@Composable
+private fun RdChoices(run: OptionRun, page: Int, t: ReadType, ctx: RdCtx, topGap: Dp) {
+    val density = LocalDensity.current
+    val colGap = with(density) { 16.dp.roundToPx() }
+    val rowGap = with(density) { (t.gap.value * 0.42f).dp.roundToPx() }
+    androidx.compose.ui.layout.Layout(
+        content = { run.rows.forEach { row -> RdChoice(row, page, t, ctx) } },
+        modifier = Modifier.fillMaxWidth().padding(top = topGap * 0.45f, start = 38.dp)
+    ) { ms, c ->
+        val n = ms.size
+        val maxW = c.maxWidth
+        val natural = ms.map { it.maxIntrinsicWidth(0) }
+        var cols = minOf(run.cols, n)
+        while (cols > 1) {
+            val cw = (maxW - colGap * (cols - 1)) / cols
+            if (natural.all { it <= cw }) break
+            cols--
+        }
+        if (cols == 3 && n == 4) cols = 2
+        val cw = ((maxW - colGap * (cols - 1)) / cols).coerceAtLeast(0)
+        val placeables = ms.map { it.measure(androidx.compose.ui.unit.Constraints.fixedWidth(cw)) }
+        val rowsH = placeables.chunked(cols).map { r -> r.maxOf { it.height } }
+        val height = rowsH.sum() + rowGap * (rowsH.size - 1).coerceAtLeast(0)
+        layout(maxW, height) {
+            var y = 0
+            placeables.chunked(cols).forEachIndexed { r, items ->
+                items.forEachIndexed { k, pl -> pl.placeRelative(k * (cw + colGap), y) }
+                y += rowsH[r] + rowGap
+            }
+        }
+    }
+}
+
+@Composable
+private fun RdChoice(row: OptionRow, page: Int, t: ReadType, ctx: RdCtx) {
+    val p = t.p
+    val b = row.item
+    val activeNth = ctx.activeIn(page, row.at)
+    val text = remember(b, p, ctx.query, activeNth) { annotate(b.spans, p).marked(ctx.query, activeNth) }
+    val letter = b.marker.trim().trim('(', ')', '.', ':').uppercase()
+    val tile = with(LocalDensity.current) { (t.lineHeight.toDp() * 0.8f).coerceIn(22.dp, 40.dp) }
+    val pad = with(LocalDensity.current) { ((t.lineHeight.toDp() - tile) / 2).coerceAtLeast(0.dp) }
+    val inCard = LocalRdInCard.current
+    Row(
+        Modifier.searchAnchor(ctx, activeNth).semantics(mergeDescendants = true) { },
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Box(Modifier.padding(top = pad).size(tile).clip(RoundedCornerShape(tile * 0.34f)).background(if (inCard) p.bg else p.tonal), contentAlignment = Alignment.Center) {
+            Text(letter, style = TextStyle(fontFamily = Poppins, fontWeight = FontWeight.SemiBold, fontSize = t.base * 0.66f, color = p.accent))
+        }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            if (b.text.isNotBlank() || row.figures.isEmpty()) Text(text, style = t.body.copy(textAlign = TextAlign.Start), inlineContent = rememberInline(page, b.text, t, ctx))
+            row.figures.forEach { f -> RdFigure(f, t, ctx, 260.dp, 0.dp, alignStart = true) }
         }
     }
 }
