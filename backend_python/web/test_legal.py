@@ -25,6 +25,7 @@ DELETE_OK_TPL = WEB_DIR / 'templates' / 'web' / 'delete_account_success.html'
 LEGAL_CSS = WEB_DIR / 'static' / 'web' / 'css' / 'pages' / 'web-legal.css'
 TAKEDOWN_CSS = WEB_DIR / 'static' / 'web' / 'css' / 'pages' / 'web-takedown.css'
 ANDROID_LEGAL = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'legal' / 'LegalContent.kt'
+ANDROID_COMPONENTS = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'legal' / 'LegalComponents.kt'
 ANDROID_SCREEN = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'legal' / 'LegalScreen.kt'
 ANDROID_SHEET = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'auth' / 'AuthLegalSheet.kt'
 ANDROID_DELETE = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'settings' / 'DeleteAccountScreen.kt'
@@ -82,13 +83,16 @@ class LegalM3XSourceTests(SimpleTestCase):
             self.assertEqual(EMOJI_RE.findall(raw), [], css_file.name)
 
     def test_android_legal_files_follow_m3x_rules(self):
-        for kt_file in (ANDROID_LEGAL, ANDROID_SCREEN, ANDROID_SHEET, ANDROID_DELETE):
+        for kt_file in (ANDROID_LEGAL, ANDROID_COMPONENTS, ANDROID_SCREEN, ANDROID_SHEET, ANDROID_DELETE):
             src = kt_file.read_text(encoding='utf-8')
             self.assertEqual(EMOJI_RE.findall(src), [], kt_file.name)
             self.assertNotIn('Icons.Default.', src, kt_file.name)
             self.assertNotIn('Icons.AutoMirrored.Filled.', src, kt_file.name)
         self.assertIn('LegalDocSwitcher', ANDROID_SCREEN.read_text(encoding='utf-8'))
         self.assertIn('LegalDocSwitcher', ANDROID_SHEET.read_text(encoding='utf-8'))
+        delete_src = ANDROID_DELETE.read_text(encoding='utf-8')
+        self.assertIn('NebLegal.PRIVACY', delete_src)
+        self.assertIn('NebLegal.TERMS', delete_src)
 
     def test_web_android_and_desktop_legal_content_are_in_lockstep(self):
         kt_src = ANDROID_LEGAL.read_text(encoding='utf-8')
@@ -188,7 +192,12 @@ class LegalPagesRenderTests(TestCase):
     def test_copyright_takedown_renders_and_submits(self):
         get_res = self.client.get(reverse('web:copyright_takedown'))
         self.assertEqual(get_res.status_code, 200)
-        self.assertIn('Copyright Takedown Request', get_res.content.decode())
+        html = get_res.content.decode()
+        self.assertIn('Copyright Takedown Request', html)
+        ld_blocks = re.findall(r'<script type="application/ld\+json"[^>]*>(.*?)</script>', html, re.S)
+        graph = json.loads(ld_blocks[-1])['@graph']
+        self.assertEqual(graph[0]['@type'], 'WebPage')
+        self.assertEqual(graph[0]['url'], 'https://nebians.consica.com.np/copyright-takedown/')
 
         post_res = self.client.post(reverse('web:copyright_takedown'), {
             'name': 'Ram Bahadur',
@@ -203,3 +212,41 @@ class LegalPagesRenderTests(TestCase):
         self.assertEqual(post_res.status_code, 200)
         self.assertIn('Takedown Request Submitted', post_res.content.decode())
         self.assertEqual(TakedownRequest.objects.filter(email='ram@example.com').count(), 1)
+
+    def test_settings_and_delete_account_pages_link_to_legal_docs(self):
+        from api.models import AccountDeletionRequest
+        from web.test_onboarding import _make, _sign_in
+
+        user = _make(role='student', display_name='Legal Tester')
+        _sign_in(self.client, user)
+
+        st_res = self.client.get(reverse('web:settings'))
+        self.assertEqual(st_res.status_code, 200)
+        st_html = st_res.content.decode()
+        self.assertIn('href="/privacy/"', st_html)
+        self.assertIn('href="/terms/"', st_html)
+        self.assertIn('href="/copyright-takedown/"', st_html)
+
+        da_res = self.client.get(reverse('web:delete_account'))
+        self.assertEqual(da_res.status_code, 200)
+        da_html = da_res.content.decode()
+        self.assertIn('/privacy/#sec-data-retention-account-deletion', da_html)
+        self.assertIn('/terms/#sec-termination-account-deletion', da_html)
+
+        req_res = self.client.post(reverse('web:delete_account'), {
+            'action': 'request',
+            'reason': 'Testing grace period',
+        })
+        self.assertEqual(req_res.status_code, 200)
+        self.assertIn('Deletion Request Received', req_res.content.decode())
+        self.assertEqual(
+            AccountDeletionRequest.objects.filter(user=user, status='pending').count(),
+            1,
+        )
+
+        cancel_res = self.client.post(reverse('web:delete_account'), {'action': 'cancel'})
+        self.assertEqual(cancel_res.status_code, 302)
+        self.assertEqual(
+            AccountDeletionRequest.objects.filter(user=user, status='pending').count(),
+            0,
+        )

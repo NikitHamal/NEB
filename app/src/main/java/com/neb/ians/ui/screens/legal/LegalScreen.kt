@@ -107,7 +107,7 @@ fun LegalScreen(
                 .padding(top = innerPadding.calculateTopPadding())
                 .navigationBarsPadding(),
             contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 4.dp, bottom = 40.dp),
-            verticalArrangement = Arrangement.spacedBy(22.dp)
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item(key = "meta") {
                 LegalMetaRow(
@@ -123,7 +123,15 @@ fun LegalScreen(
                 )
             }
             items(document.sections, key = { "${document.key}_${it.number}" }) { section ->
-                LegalSectionBlock(section = section, colors = colors)
+                LegalSectionBlock(
+                    section = section,
+                    colors = colors,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                        .padding(18.dp)
+                )
             }
             item(key = "contact") {
                 LegalContactCard(email = document.contactEmail)
