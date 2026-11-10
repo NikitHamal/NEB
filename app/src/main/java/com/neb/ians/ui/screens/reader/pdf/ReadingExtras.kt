@@ -213,7 +213,7 @@ private fun RdZoomFigure(b: FigureBlock, p: ReadingPalette, source: ReadSource) 
                     scaleX = scale; scaleY = scale
                     translationX = offset.x; translationY = offset.y
                 },
-                contentScale = ContentScale.Fit, colorFilter = p.filter
+                contentScale = ContentScale.Fit, colorFilter = if (b.equation) inkMask(p.ink) else p.filter
             )
         } else {
             Text("Loading", style = MaterialTheme.typography.bodyMedium, color = p.muted)
