@@ -11,8 +11,13 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,7 +42,6 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -69,6 +73,7 @@ import com.neb.ians.ui.components.NebLoader
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebEffectsSpec
+import com.neb.ians.ui.theme.nebSpatialSpec
 import java.io.File
 
 /**
@@ -159,139 +164,161 @@ fun UploadScreen(
 
     BackHandler(enabled = stepIndex > 0) { stepIndex-- }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = if (uiState.isEditMode) "Edit resource" else "New upload",
-                        style = MaterialTheme.typography.titleLargeEmphasized,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { if (stepIndex > 0) stepIndex-- else onNavigateBack() }) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            )
-        },
-        bottomBar = {
-            UploadActionBar(
-                state = uiState,
-                step = step,
-                onBack = { if (stepIndex > 0) stepIndex-- },
-                onAdvance = { stepIndex = (stepIndex + 1).coerceAtMost(UploadStep.entries.lastIndex) },
-                onSubmit = { viewModel.submit(context) }
-            )
-        }
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .imePadding(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            item(key = "header") {
-                UploadStepHeader(
-                    stepIndex = stepIndex,
-                    total = UploadStep.entries.size,
-                    title = when (step) {
-                        UploadStep.Basics -> if (uiState.isEditMode) "The resource" else "Bring the file in"
-                        UploadStep.Details -> "More details"
-                        UploadStep.Review -> if (uiState.isEditMode) "Check the changes" else "Ready to publish"
+    val working = uiState.isSubmitting || uiState.isPreparing
+    val publishProgress = if (uiState.isPreparing && !uiState.isSubmitting) {
+        uiState.pagesPrepared.toFloat() / uiState.selectedFiles.size.coerceAtLeast(1)
+    } else {
+        uiState.uploadProgress
+    }
+    val publishLabel = when {
+        uiState.isPreparing && !uiState.isSubmitting ->
+            "Page ${uiState.pagesPrepared} of ${uiState.selectedFiles.size}"
+        uiState.isEditMode -> "Saving changes"
+        else -> "Uploading"
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = if (uiState.isEditMode) "Edit resource" else "New upload",
+                            style = MaterialTheme.typography.titleLargeEmphasized,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
                     },
-                    caption = when (step) {
-                        UploadStep.Basics -> "The file, a title and a subject. Nothing else is required."
-                        UploadStep.Details -> "All optional. Everything here helps people find it later."
-                        UploadStep.Review -> "This is how the library will show it."
-                    }
+                    navigationIcon = {
+                        IconButton(onClick = { if (stepIndex > 0) stepIndex-- else onNavigateBack() }) {
+                            Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Back")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                )
+            },
+            bottomBar = {
+                UploadActionBar(
+                    state = uiState,
+                    step = step,
+                    onBack = { if (stepIndex > 0) stepIndex-- },
+                    onAdvance = { stepIndex = (stepIndex + 1).coerceAtMost(UploadStep.entries.lastIndex) },
+                    onSubmit = { viewModel.submit(context) }
                 )
             }
+        ) { padding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .imePadding(),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item(key = "header") {
+                    UploadStepper(
+                        stepIndex = stepIndex,
+                        onJump = { stepIndex = it },
+                        title = when (step) {
+                            UploadStep.Basics -> if (uiState.isEditMode) "The resource" else "Bring the file in"
+                            UploadStep.Details -> "More details"
+                            UploadStep.Review -> if (uiState.isEditMode) "Check the changes" else "Ready to publish"
+                        }
+                    )
+                }
 
-            item(key = "problem") {
-                ProblemBanner(
-                    message = uiState.submitError ?: uiState.fileError,
-                    onDismiss = viewModel::dismissError
-                )
-            }
+                item(key = "problem") {
+                    ProblemBanner(
+                        message = uiState.submitError ?: uiState.fileError,
+                        onDismiss = viewModel::dismissError
+                    )
+                }
 
-            when (step) {
-                UploadStep.Basics -> {
-                    item(key = "source") {
-                        if (linkMode) {
-                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                UploadLinkField(uiState, viewModel)
-                                SwitchSourceRow(
-                                    label = "Attach the file instead",
-                                    onClick = { linkMode = false }
+                item(key = "step") {
+                    AnimatedContent(
+                        targetState = step,
+                        transitionSpec = {
+                            val forward = targetState.ordinal > initialState.ordinal
+                            (slideInHorizontally(nebSpatialSpec()) { width -> if (forward) width / 5 else -width / 5 } +
+                                fadeIn(nebEffectsSpec())) togetherWith
+                                (slideOutHorizontally(nebSpatialSpec()) { width -> if (forward) -width / 5 else width / 5 } +
+                                    fadeOut(nebEffectsSpec()))
+                        },
+                        label = "upload_step_body"
+                    ) { shown ->
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            when (shown) {
+                                UploadStep.Basics -> {
+                                    if (linkMode) {
+                                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                            UploadLinkField(uiState, viewModel)
+                                            SwitchSourceRow(
+                                                label = "Attach the file instead",
+                                                onClick = { linkMode = false }
+                                            )
+                                        }
+                                    } else {
+                                        UploadSourceSection(
+                                            state = uiState,
+                                            onCapturePages = { captureTick++ },
+                                            onPickPhotos = {
+                                                photoPicker.launch(
+                                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                                )
+                                            },
+                                            onPickFiles = { filePicker.launch("*/*") },
+                                            onUseLink = { linkMode = true },
+                                            onRemovePage = viewModel::removeFileAt,
+                                            onCombineChange = viewModel::setCombinePages
+                                        )
+                                    }
+                                    UploadEssentials(
+                                        state = uiState,
+                                        viewModel = viewModel,
+                                        onOpenSubjectPicker = { sheet = UploadSheet.Subject },
+                                        onOpenLevelPicker = { sheet = UploadSheet.Level }
+                                    )
+                                }
+
+                                UploadStep.Details -> UploadMoreDetails(
+                                    state = uiState,
+                                    viewModel = viewModel,
+                                    onOpenTagPicker = { sheet = UploadSheet.Tags },
+                                    onOpenTypePicker = { sheet = UploadSheet.Type },
+                                    onOpenExamPicker = { sheet = UploadSheet.Exam },
+                                    onOpenProvincePicker = { sheet = UploadSheet.Province },
+                                    onPickCover = {
+                                        coverPicker.launch(
+                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        )
+                                    },
+                                    commissionPercent = uiState.commissionPercent
+                                )
+
+                                UploadStep.Review -> UploadReviewStep(
+                                    state = uiState,
+                                    onEditBasics = { stepIndex = 0 },
+                                    onEditDetails = { stepIndex = 1 }
                                 )
                             }
-                        } else {
-                            UploadSourceSection(
-                                state = uiState,
-                                onCapturePages = { captureTick++ },
-                                onPickPhotos = {
-                                    photoPicker.launch(
-                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                    )
-                                },
-                                onPickFiles = { filePicker.launch("*/*") },
-                                onUseLink = { linkMode = true },
-                                onRemovePage = viewModel::removeFileAt,
-                                onCombineChange = viewModel::setCombinePages
-                            )
                         }
                     }
-
-                    item(key = "essentials") {
-                        UploadEssentials(
-                            state = uiState,
-                            viewModel = viewModel,
-                            onOpenSubjectPicker = { sheet = UploadSheet.Subject },
-                            onOpenLevelPicker = { sheet = UploadSheet.Level }
-                        )
-                    }
                 }
 
-                UploadStep.Details -> {
-                    item(key = "details") {
-                        UploadMoreDetails(
-                            state = uiState,
-                            viewModel = viewModel,
-                            onOpenTagPicker = { sheet = UploadSheet.Tags },
-                            onOpenTypePicker = { sheet = UploadSheet.Type },
-                            onOpenExamPicker = { sheet = UploadSheet.Exam },
-                            onOpenProvincePicker = { sheet = UploadSheet.Province },
-                            onPickCover = {
-                                coverPicker.launch(
-                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                )
-                            },
-                            commissionPercent = uiState.commissionPercent
-                        )
-                    }
-                }
-
-                UploadStep.Review -> {
-                    item(key = "review") {
-                        UploadReviewStep(
-                            state = uiState,
-                            onEditBasics = { stepIndex = 0 },
-                            onEditDetails = { stepIndex = 1 }
-                        )
-                    }
-                }
+                item(key = "tail") { Spacer(Modifier.height(24.dp)) }
             }
-
-            item(key = "tail") { Spacer(Modifier.height(24.dp)) }
         }
+
+        UploadPublishingOverlay(
+            visible = working,
+            progress = publishProgress,
+            label = publishLabel
+        )
     }
 
     UploadSheets(
@@ -396,59 +423,6 @@ private fun UploadSheets(
     }
 }
 
-/** Where you are, what this step is for. Three bars, filled as you go. */
-@Composable
-private fun UploadStepHeader(
-    stepIndex: Int,
-    total: Int,
-    title: String,
-    caption: String
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 2.dp, bottom = 2.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
-        ) {
-            repeat(total) { index ->
-                val filled = index <= stepIndex
-                val color by animateColorAsState(
-                    targetValue = if (filled) {
-                        MaterialTheme.colorScheme.onSurface
-                    } else {
-                        MaterialTheme.colorScheme.outlineVariant
-                    },
-                    animationSpec = nebEffectsSpec(),
-                    label = "upload_step_$index"
-                )
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(4.dp)
-                        .clip(RoundedCornerShape(50))
-                        .background(color)
-                )
-            }
-        }
-        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineSmallEmphasized,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = caption,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-    }
-}
-
 /**
  * The one action for the step you are on.
  *
@@ -467,8 +441,6 @@ private fun UploadActionBar(
 ) {
     val working = state.isSubmitting || state.isPreparing
     val status = when {
-        state.isPreparing -> "Preparing page ${state.pagesPrepared} of ${state.selectedFiles.size}"
-        state.isSubmitting -> "Uploading…"
         step == UploadStep.Basics && state.missing.isNotEmpty() ->
             "Add ${state.missing.filterNot { it == "a price" }.joinToString(", ")}"
         step == UploadStep.Review && state.missing.isNotEmpty() ->
@@ -484,12 +456,6 @@ private fun UploadActionBar(
                 .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            AnimatedVisibility(visible = working) {
-                LinearProgressIndicator(
-                    progress = { state.uploadProgress.coerceIn(0f, 1f) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
             if (status != null && status.isNotBlank()) {
                 Text(
                     text = status,

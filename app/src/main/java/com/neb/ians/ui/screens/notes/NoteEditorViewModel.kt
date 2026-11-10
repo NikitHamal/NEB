@@ -283,6 +283,26 @@ class NoteEditorViewModel @Inject constructor(
         commit(out, force = true)
     }
 
+    /**
+     * Drag and drop: [id] and everything nested under it land where [overId] is. Dropped on a block further down it
+     * goes after it, dropped on one further up it goes before it. A drop inside its own group changes nothing.
+     */
+    fun moveBlock(id: String, overId: String) {
+        val list = _blocks.value
+        val from = indexOf(id)
+        val over = indexOf(overId)
+        if (from < 0 || over < 0 || from == over) return
+        val size = 1 + NoteDoc.childCount(list, from)
+        if (over in from until from + size) return
+        val group = list.subList(from, from + size).toList()
+        val rest = list.toMutableList().also { for (k in 0 until size) it.removeAt(from) }
+        val anchor = rest.indexOfFirst { it.id == overId }
+        if (anchor < 0) return
+        val at = if (over > from) anchor + 1 else anchor
+        rest.addAll(at, group)
+        commit(rest, force = true)
+    }
+
     fun duplicate(id: String) {
         val list = _blocks.value
         val i = indexOf(id)
