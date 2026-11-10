@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709058,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -39,20 +39,22 @@
    "ioe-ce103-2081-baishakh"
   ],
   "pages": 27,
-  "bytes": 413724,
+  "bytes": 413722,
   "kind": "subject-bundle"
  },
  {
-  "file": "bundles/engineering-computer-programming-2082.pdf",
+  "file": "bundles/engineering-computer-programming-2081-2082.pdf",
   "subject": "Computer Programming",
   "level": "BE \u00b7 Year I",
-  "years_bs": "2082",
+  "years_bs": "2081-2082",
   "papers": [
    "ioe-ct401-2082-shrawan",
-   "ioe-ct401-2082-baishakh"
+   "ioe-ct401-2082-baishakh",
+   "ioe-ct401-2081-bhadra",
+   "ioe-ct401-2081-baishakh"
   ],
-  "pages": 27,
-  "bytes": 386497,
+  "pages": 55,
+  "bytes": 793024,
   "kind": "subject-bundle"
  },
  {
@@ -67,7 +69,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606311,
+  "bytes": 1606310,
   "kind": "subject-bundle"
  },
  {
@@ -83,7 +85,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272199,
+  "bytes": 3272198,
   "kind": "subject-bundle"
  },
  {
@@ -98,7 +100,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762981,
+  "bytes": 2762979,
   "kind": "subject-bundle"
  },
  {
@@ -111,7 +113,7 @@
    "ioe-ex154-2081-ashwin"
   ],
   "pages": 29,
-  "bytes": 1286059,
+  "bytes": 1286058,
   "kind": "subject-bundle"
  },
  {
@@ -128,10 +130,12 @@
    "ioe-ensh103-2081-chaitra",
    "ioe-sh103-2081-kartik",
    "ioe-sh153-2081-ashwin",
-   "ioe-sh103-2081-baishakh"
+   "ioe-sh403-2081-bhadra",
+   "ioe-sh103-2081-baishakh",
+   "ioe-sh403-2081-baishakh"
   ],
-  "pages": 110,
-  "bytes": 4258642,
+  "pages": 143,
+  "bytes": 5624506,
   "kind": "subject-bundle"
  },
  {
@@ -159,7 +163,7 @@
    "ioe-ce152-2081-ashwin"
   ],
   "pages": 21,
-  "bytes": 718362,
+  "bytes": 718361,
   "kind": "subject-bundle"
  },
  {
@@ -194,7 +198,7 @@
    "ioe-sh451-2080-ashwin"
   ],
   "pages": 68,
-  "bytes": 3395162,
+  "bytes": 3395161,
   "kind": "subject-bundle"
  },
  {
@@ -227,7 +231,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 136,
-  "bytes": 5662885,
+  "bytes": 5662886,
   "kind": "subject-bundle"
  },
  {
@@ -242,7 +246,7 @@
    "ioe-ce153-2081-ashwin"
   ],
   "pages": 52,
-  "bytes": 1860495,
+  "bytes": 1860496,
   "kind": "subject-bundle"
  },
  {
@@ -270,7 +274,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581581,
+  "bytes": 581579,
   "kind": "subject-bundle"
  },
  {
@@ -296,7 +300,7 @@
    "ioe-ence255-2082-bhadra"
   ],
   "pages": 15,
-  "bytes": 242398,
+  "bytes": 242399,
   "kind": "subject-bundle"
  },
  {
@@ -362,7 +366,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710382,
+  "bytes": 710384,
   "kind": "subject-bundle"
  },
  {
@@ -376,7 +380,7 @@
    "ioe-ence205-2081-chaitra"
   ],
   "pages": 18,
-  "bytes": 571049,
+  "bytes": 571050,
   "kind": "subject-bundle"
  },
  {
@@ -389,7 +393,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582017,
+  "bytes": 1582018,
   "kind": "subject-bundle"
  },
  {
@@ -402,7 +406,7 @@
    "ioe-enct253-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1081969,
+  "bytes": 1081970,
   "kind": "subject-bundle"
  },
  {
@@ -428,7 +432,7 @@
    "ioe-enct251-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1095028,
+  "bytes": 1095029,
   "kind": "subject-bundle"
  },
  {
@@ -441,7 +445,7 @@
    "ioe-enee203-2081-chaitra"
   ],
   "pages": 28,
-  "bytes": 1252601,
+  "bytes": 1252602,
   "kind": "subject-bundle"
  },
  {
@@ -454,7 +458,7 @@
    "ioe-enee202-2081-chaitra"
   ],
   "pages": 28,
-  "bytes": 1102255,
+  "bytes": 1102256,
   "kind": "subject-bundle"
  },
  {
@@ -467,7 +471,7 @@
    "ioe-enee253-2082-bhadra"
   ],
   "pages": 23,
-  "bytes": 1241845,
+  "bytes": 1241844,
   "kind": "subject-bundle"
  },
  {
@@ -508,7 +512,7 @@
    "ioe-ence203-2081-chaitra"
   ],
   "pages": 50,
-  "bytes": 1881547,
+  "bytes": 1881545,
   "kind": "subject-bundle"
  },
  {
@@ -522,7 +526,7 @@
    "ioe-ence201-2081-chaitra"
   ],
   "pages": 44,
-  "bytes": 2220294,
+  "bytes": 2220293,
   "kind": "subject-bundle"
  },
  {
@@ -588,7 +592,7 @@
    "ioe-enex201-2081-chaitra"
   ],
   "pages": 38,
-  "bytes": 929275,
+  "bytes": 929277,
   "kind": "subject-bundle"
  },
  {
@@ -617,7 +621,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 75,
-  "bytes": 3496160,
+  "bytes": 3496161,
   "kind": "subject-bundle"
  },
  {
@@ -630,7 +634,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537016,
+  "bytes": 537014,
   "kind": "subject-bundle"
  },
  {
@@ -643,7 +647,7 @@
    "ioe-enee205-2081-chaitra"
   ],
   "pages": 26,
-  "bytes": 1289852,
+  "bytes": 1289853,
   "kind": "subject-bundle"
  },
  {
@@ -656,7 +660,7 @@
    "ioe-enee252-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1277402,
+  "bytes": 1277403,
   "kind": "subject-bundle"
  },
  {
@@ -669,7 +673,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296669,
   "kind": "subject-bundle"
  },
  {
@@ -682,7 +686,7 @@
    "ioe-enex255-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1482742,
+  "bytes": 1482743,
   "kind": "subject-bundle"
  },
  {
@@ -695,7 +699,7 @@
    "ioe-ence253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1304638,
+  "bytes": 1304641,
   "kind": "subject-bundle"
  },
  {
@@ -748,7 +752,7 @@
    "ioe-ence254-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 845915,
+  "bytes": 845914,
   "kind": "subject-bundle"
  },
  {
@@ -770,6 +774,8 @@
    "ioe-ct151-2082-baishakh",
    "ioe-ct153-2081-ashwin",
    "ioe-ct153-2082-baishakh",
+   "ioe-ct401-2081-baishakh",
+   "ioe-ct401-2081-bhadra",
    "ioe-ct401-2082-baishakh",
    "ioe-ct401-2082-shrawan",
    "ioe-ee103-2081-baishakh",
@@ -922,14 +928,16 @@
    "ioe-sh401-2082-shrawan",
    "ioe-sh402-2082-baishakh",
    "ioe-sh402-2082-shrawan",
+   "ioe-sh403-2081-baishakh",
+   "ioe-sh403-2081-bhadra",
    "ioe-sh403-2082-baishakh",
    "ioe-sh403-2082-shrawan",
    "ioe-sh451-2080-ashwin",
    "ioe-sh451-2080-chaitra",
    "ioe-sh451-2081-chaitra"
   ],
-  "pages": 2347,
-  "bytes": 90712724,
+  "pages": 2408,
+  "bytes": 92483828,
   "kind": "master-book"
  }
 ]
