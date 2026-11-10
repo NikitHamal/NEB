@@ -6,18 +6,18 @@
 @font-face{font-family:Poppins;font-weight:600;src:url(f/poppins_semibold.ttf)}
 @font-face{font-family:Poppins;font-weight:700;src:url(f/poppins_bold.ttf)}
 
-html{--fs:18;--lh:1.62;--side:22px;--top:76px;--bottom:150px;--accent:#0058df;--on-accent:#fff;
+html{--fs:18;--lh:1.62;--side:22px;--top:76px;--bottom:150px;--ba:#0058df;
   --ff-serif:"Source Serif 4","Noto Serif",Georgia,serif;--ff-sans:Poppins,"Noto Sans",system-ui,sans-serif;
   --ff:var(--ff-serif);font-size:calc(var(--fs) * 1px);-webkit-text-size-adjust:100%;
   -webkit-tap-highlight-color:transparent;scroll-behavior:auto}
-html[data-theme=paper]{--bg:#fff;--ink:#16171a;--body:#1d1f24;--muted:#5c6068;--faint:#797d86;--rule:#e2e4e8;
+html[data-theme=paper]{--accent:var(--ba);--on-accent:#fff;--bg:#fff;--ink:#16171a;--body:#1d1f24;--muted:#5c6068;--faint:#797d86;--rule:#e2e4e8;
   --surface:#f3f4f6;--surface-hi:#e8eaee;--container:color-mix(in srgb,var(--accent) 10%,#fff);
   --container-hi:color-mix(in srgb,var(--accent) 20%,#fff);--on-container:color-mix(in srgb,var(--accent) 80%,#000);--wash:#f3f4f6;--mark:#ffe08a;--markon:#ffb04a}
-html[data-theme=sepia]{--bg:#f4ecd8;--ink:#3b2f23;--body:#3b2f23;--muted:#7d6e57;--faint:#8f805f;--rule:#d9ccac;
+html[data-theme=sepia]{--accent:var(--ba);--on-accent:#fff;--bg:#f4ecd8;--ink:#3b2f23;--body:#3b2f23;--muted:#7d6e57;--faint:#8f805f;--rule:#d9ccac;
   --surface:#eadfc6;--surface-hi:#e0d3b5;--container:color-mix(in srgb,var(--accent) 12%,#f4ecd8);
   --container-hi:color-mix(in srgb,var(--accent) 22%,#f4ecd8);--on-container:color-mix(in srgb,var(--accent) 70%,#2a1f12);--wash:#eadfc6;--mark:#f2c75c;--markon:#e49a2c}
 html[data-theme=night]{--bg:#141414;--ink:#ece9e2;--body:#e2e0da;--muted:#a09d95;--faint:#8b8880;--rule:#30302e;
-  --surface:#212120;--surface-hi:#2a2a28;--accent:#8ab4f8;--on-accent:#0b1b33;--container:color-mix(in srgb,var(--accent) 20%,#141414);
+  --surface:#212120;--surface-hi:#2a2a28;--accent:color-mix(in srgb,var(--ba) 45%,#fff);--on-accent:#0b1b33;--container:color-mix(in srgb,var(--accent) 20%,#141414);
   --container-hi:color-mix(in srgb,var(--accent) 30%,#141414);--on-container:#d6e4ff;--wash:#212120;--mark:#7a5d00;--markon:#b88100}
 html[data-font=sans]{--ff:var(--ff-sans)}
 html[data-margin="0"]{--side:12px}html[data-margin="2"]{--side:38px}
@@ -190,3 +190,5 @@ mark.hit.on{background:var(--markon);color:#000}
 #ov .bar button{border:0;background:var(--surface);color:var(--ink);min-width:44px;min-height:44px;border-radius:1.4rem;font:600 .85rem var(--ff-sans);padding:0 1rem}
 #ov .bar button.x{width:44px;padding:0;font-size:1.3rem}
 #ov .stage .more{display:none}
+
+html[lang=ne]{--ff:"Noto Sans Devanagari","Noto Serif Devanagari",var(--ff-sans);--lh:1.74}
