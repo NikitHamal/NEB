@@ -99,3 +99,4 @@ Compose (`ReadingMode.kt`, `ReadingExtras.kt`):
 - Not compiled locally: CI is the compile check.
 
 Still open: two column papers, fact sheet grids (`.fxs`) read as table rows, the left rule of explanation lines in answer keys is dropped.
+- CI: `Build Student Release APKs & AAB` passed on `2203f62` (full Compose compile). Not yet looked at on a device: check a question bank page with four-across choices at 100 % and 200 % text, the answer card with Hide answers on, and a table whose cells are formulas.
