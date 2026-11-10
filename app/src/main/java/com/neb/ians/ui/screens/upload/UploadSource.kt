@@ -3,6 +3,21 @@
 package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.runtime.getValue
+import androidx.graphics.shapes.RoundedPolygon
+import com.neb.ians.ui.components.NebMorphBlob
+import com.neb.ians.ui.components.NebShapedBox
+import com.neb.ians.ui.components.NebTone
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -125,35 +140,29 @@ private fun EmptySource(
             }
         }
 
+        SourceHero(
+            icon = Icons.Rounded.PhotoCamera,
+            label = "Scan pages",
+            onClick = onCapturePages
+        )
+
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-            HeroSourceTile(
-                icon = Icons.Rounded.PhotoCamera,
-                label = "Scan pages",
-                detail = "Shoot page after page",
-                onClick = onCapturePages,
+            SourceTile(
+                icon = Icons.Rounded.PhotoLibrary,
+                label = "Gallery",
+                tone = NebTone.Sky,
+                glyph = MaterialShapes.Cookie9Sided,
+                onClick = onPickPhotos,
                 modifier = Modifier.weight(1f)
             )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(SourceTileHeight),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                CompactSourceTile(
-                    icon = Icons.Rounded.PhotoLibrary,
-                    label = "Gallery",
-                    detail = "Photos you took",
-                    onClick = onPickPhotos,
-                    modifier = Modifier.weight(1f)
-                )
-                CompactSourceTile(
-                    icon = Icons.Rounded.FolderOpen,
-                    label = "Files",
-                    detail = "PDF, video, more",
-                    onClick = onPickFiles,
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            SourceTile(
+                icon = Icons.Rounded.FolderOpen,
+                label = "Files",
+                tone = NebTone.Aqua,
+                glyph = MaterialShapes.Gem,
+                onClick = onPickFiles,
+                modifier = Modifier.weight(1f)
+            )
         }
 
         Row(
@@ -180,122 +189,128 @@ private fun EmptySource(
     }
 }
 
-private val SourceTileHeight = 186.dp
+private const val SourceHeroHeight = 196
 
 /**
  * The tile that does the thing most people came here to do.
  *
- * It is solid ink and it is the tallest thing on the screen, because scanning a
- * set of pages is the upload this app exists for. The other two sit beside it
- * at half height and stay quiet.
+ * It runs the full width and a shape keeps turning into other shapes behind its
+ * label, because scanning a set of pages is the upload this app exists for. The
+ * two quieter tiles under it are the same family in other tones.
  */
 @Composable
-private fun HeroSourceTile(
+private fun SourceHero(
     icon: ImageVector,
     label: String,
-    detail: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    val dark = isSystemInDarkTheme()
+    val tone = NebTone.Azure
+    val transition = rememberInfiniteTransition(label = "source_hero")
+    val position by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = HeroShapes.size - 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 5200, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "source_hero_morph"
+    )
+    val turn by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 20000, easing = LinearEasing)
+        ),
+        label = "source_hero_turn"
+    )
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(SourceTileHeight)
+            .height(SourceHeroHeight.dp)
             .nebPressable(onClick = onClick)
-            .clip(RoundedCornerShape(26.dp))
-            .background(MaterialTheme.colorScheme.onSurface)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.Bottom)
+            .clip(RoundedCornerShape(32.dp))
+            .background(tone.container(dark))
     ) {
-        Box(
+        NebMorphBlob(
+            shapes = HeroShapes,
+            color = tone.vivid.copy(alpha = if (dark) 0.34f else 0.62f),
             modifier = Modifier
-                .size(42.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.16f)),
-            contentAlignment = Alignment.Center
+                .align(Alignment.CenterEnd)
+                .offset(x = 64.dp)
+                .size(240.dp),
+            rotation = { turn },
+            position = { position }
+        )
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.surface,
-                modifier = Modifier.size(22.dp)
+            NebShapedBox(
+                polygon = MaterialShapes.Clover4Leaf,
+                diameter = 56.dp,
+                fill = tone.deep(dark)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = tone.container(dark),
+                    modifier = Modifier.size(26.dp)
+                )
+            }
+            Text(
+                text = label,
+                style = MaterialTheme.typography.headlineSmallEmphasized,
+                color = tone.deep(dark),
+                maxLines = 1
             )
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.titleLargeEmphasized,
-            color = MaterialTheme.colorScheme.surface,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(
-            text = detail,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
     }
 }
 
-/**
- * Gallery and Files.
- *
- * Laid out sideways so the label and its line of explanation sit next to the
- * glyph instead of stacking under it — stacked, the third line fell off the
- * bottom of the tile and the screen looked broken.
- */
+private val HeroShapes by lazy {
+    listOf(MaterialShapes.Cookie9Sided, MaterialShapes.SoftBurst, MaterialShapes.Flower)
+}
+
+/** Gallery and Files: one line each, a glyph cut to its own shape, a tone of its own. */
 @Composable
-private fun CompactSourceTile(
+private fun SourceTile(
     icon: ImageVector,
     label: String,
-    detail: String,
+    tone: NebTone,
+    glyph: RoundedPolygon,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val shape = RoundedCornerShape(20.dp)
+    val dark = isSystemInDarkTheme()
     Row(
         modifier = modifier
-            .fillMaxWidth()
+            .height(84.dp)
             .nebPressable(onClick = onClick)
-            .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, shape)
-            .padding(horizontal = 12.dp),
+            .clip(RoundedCornerShape(28.dp))
+            .background(tone.container(dark))
+            .padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .size(34.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-            contentAlignment = Alignment.Center
-        ) {
+        NebShapedBox(polygon = glyph, diameter = 42.dp, fill = tone.deep(dark)) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.size(18.dp)
+                tint = tone.container(dark),
+                modifier = Modifier.size(20.dp)
             )
         }
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.titleSmallEmphasized,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = detail,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+        Text(
+            text = label,
+            style = MaterialTheme.typography.titleSmallEmphasized,
+            color = tone.deep(dark),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
@@ -318,28 +333,34 @@ private fun PageStrip(
         contentPadding = PaddingValues(end = 4.dp)
     ) {
         itemsIndexed(files, key = { _, file -> file.uri.toString() }) { index, file ->
-            PageTile(file = file, index = index, onRemove = { onRemove(index) })
+            PageTile(
+                file = file,
+                index = index,
+                onRemove = { onRemove(index) },
+                modifier = Modifier.animateItem()
+            )
         }
         item(key = "add") {
             Column(
                 modifier = Modifier
+                    .animateItem()
                     .width(96.dp)
                     .height(128.dp)
                     .nebPressable(onClick = onAdd)
                     .clip(RoundedCornerShape(18.dp))
-                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(18.dp)),
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
                     contentDescription = "Add more pages",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
                     text = "Add",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -347,9 +368,9 @@ private fun PageStrip(
 }
 
 @Composable
-private fun PageTile(file: SelectedFile, index: Int, onRemove: () -> Unit) {
+private fun PageTile(file: SelectedFile, index: Int, onRemove: () -> Unit, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(96.dp)
             .height(128.dp)
             .clip(RoundedCornerShape(18.dp))

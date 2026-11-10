@@ -152,24 +152,6 @@
           </div>
         </div>
 
-        {% if user_detail.is_bot %}
-        <div class="form-group">
-          <label class="md-label">Bot avatar presets</label>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
-            <button type="button" class="bot-preset-avatar" data-seed="neby" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=neby&size=256" title="Nebby bot">N</button>
-            <button type="button" class="bot-preset-avatar" data-seed="nova" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=nova&size=256" title="Nova">N</button>
-            <button type="button" class="bot-preset-avatar" data-seed="atlas" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=atlas&size=256" title="Atlas">A</button>
-            <button type="button" class="bot-preset-avatar" data-seed="orion" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=orion&size=256" title="Orion">O</button>
-            <button type="button" class="bot-preset-avatar" data-seed="cosmo" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=cosmo&size=256" title="Cosmo">C</button>
-            <button type="button" class="bot-preset-avatar" data-seed="echo" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=echo&size=256" title="Echo">E</button>
-            <button type="button" class="bot-preset-avatar" data-seed="lyra" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=lyra&size=256" title="Lyra">L</button>
-            <button type="button" class="bot-preset-avatar" data-seed="vega" data-action="select-avatar" data-url="https://api.dicebear.com/7.x/bottts/png?seed=vega&size=256" title="Vega">V</button>
-          </div>
-          <div class="md-body-small" style="color:var(--md-on-surface-variant);margin-top:4px;">
-            Click a preset to set the URL (still need to hit <em>Save User</em> below).
-          </div>
-        </div>
-        {% endif %}
       </div>
 
       <div class="admin-form-card">
@@ -469,19 +451,6 @@
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 registerActions({
-  'select-avatar': function(el, e) {
-    var url = el.dataset.url;
-    document.getElementById('photo_url').value = url;
-    var preview = document.getElementById('photoUrlPreview');
-    if (preview) {
-      preview.src = url;
-      preview.style.display = '';
-    }
-    el.parentNode.querySelectorAll('.bot-preset-avatar').forEach(function(b) {
-      b.classList.remove('active');
-    });
-    el.classList.add('active');
-  },
   'preview-photo-upload': function(el, e) {
     if (el.files[0]) {
       var p = document.getElementById('photoUrlPreview');

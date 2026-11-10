@@ -3,6 +3,26 @@
 package com.neb.ians.ui.screens.upload
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialShapes
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.graphicsLayer
+import com.neb.ians.ui.components.NebMorphBlob
+import com.neb.ians.ui.components.NebTone
+import com.neb.ians.ui.theme.nebSpatialSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -249,6 +269,26 @@ fun UploadLinkField(state: UploadFormState, viewModel: UploadViewModel, modifier
 
 @Composable
 fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit) {
+    val dark = isSystemInDarkTheme()
+    val transition = rememberInfiniteTransition(label = "upload_done")
+    val position by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 3600, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "upload_done_morph"
+    )
+    val turn by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(animation = tween(durationMillis = 16000, easing = LinearEasing)),
+        label = "upload_done_turn"
+    )
+    val entrance = remember { Animatable(0f) }
+    LaunchedEffect(Unit) { entrance.animateTo(1f, nebSpatialSpec()) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -256,28 +296,51 @@ fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Neby hops: the notes are in, and the next student will find them
-        com.neb.ians.ui.pixel.PixelSpriteView(sprite = com.neb.ians.ui.pixel.PixelUiSprites.nebyHop, modifier = Modifier.size(150.dp))
-        Spacer(Modifier.height(20.dp))
+        Box(
+            modifier = Modifier
+                .size(220.dp)
+                .graphicsLayer {
+                    scaleX = entrance.value
+                    scaleY = entrance.value
+                    alpha = entrance.value.coerceIn(0f, 1f)
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            NebMorphBlob(
+                shapes = listOf(MaterialShapes.Cookie9Sided, MaterialShapes.SoftBurst, MaterialShapes.Flower),
+                color = NebTone.Azure.container(dark),
+                modifier = Modifier.fillMaxSize(),
+                rotation = { turn },
+                position = { position }
+            )
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = null,
+                tint = NebTone.Azure.deep(dark),
+                modifier = Modifier.size(72.dp)
+            )
+        }
+        Spacer(Modifier.height(28.dp))
         Text(
             text = "Sent for review",
-            style = MaterialTheme.typography.headlineSmallEmphasized,
+            style = MaterialTheme.typography.headlineMediumEmphasized,
             textAlign = TextAlign.Center,
             maxLines = 1
         )
         Spacer(Modifier.height(8.dp))
         Text(
-            text = "A moderator checks every upload before it reaches the library. Yours will appear once it passes.",
+            text = "It shows up in the library once a moderator clears it.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.height(32.dp))
         NebButton(
             text = "Upload another",
             onClick = onUploadAnother,
             icon = Icons.Rounded.Add,
-            size = NebButtonSize.Hero
+            size = NebButtonSize.Hero,
+            fillWidth = true
         )
         Spacer(Modifier.height(8.dp))
         NebButton(

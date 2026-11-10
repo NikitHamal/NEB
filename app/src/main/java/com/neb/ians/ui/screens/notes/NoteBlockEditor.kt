@@ -56,6 +56,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.material.icons.outlined.DragIndicator
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.zIndex
+import androidx.compose.animation.core.animateFloatAsState as animateShift
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -135,6 +144,113 @@ class BlockFieldRegistry {
     }
 }
 
+/**
+ * Drag to reorder. A handle on every block starts a drag; the block follows the finger, the blocks it passes slide out of
+ * the way, and the drop moves it (and whatever is nested under it) to the slot it was over.
+ */
+@Stable
+class BlockReorder {
+    var dragId by mutableStateOf<String?>(null)
+        private set
+    var offset by mutableFloatStateOf(0f)
+        private set
+    var gap = 0f
+    var order: List<String> = emptyList()
+    var commit: (String, String) -> Unit = { _, _ -> }
+    private val heights = HashMap<String, Int>()
+
+    fun measured(id: String, height: Int) { heights[id] = height }
+    fun heightOf(id: String): Float = (heights[id] ?: 0).toFloat()
+
+    fun start(id: String) { dragId = id; offset = 0f }
+    fun drag(dy: Float) { offset += dy }
+    fun cancel() { dragId = null; offset = 0f }
+
+    /** The slot, as an index into [order], the dragged block is hovering over. */
+    fun target(): Int {
+        val id = dragId ?: return -1
+        val from = order.indexOf(id)
+        if (from < 0) return -1
+        var target = from
+        var travelled = 0f
+        if (offset > 0f) {
+            var i = from + 1
+            while (i < order.size) {
+                val step = heightOf(order[i]) + gap
+                if (offset > travelled + step / 2f) { travelled += step; target = i; i++ } else break
+            }
+        } else {
+            var i = from - 1
+            while (i >= 0) {
+                val step = heightOf(order[i]) + gap
+                if (-offset > travelled + step / 2f) { travelled += step; target = i; i-- } else break
+            }
+        }
+        return target
+    }
+
+    fun finish(slot: Int) {
+        val id = dragId
+        val over = order.getOrNull(slot)
+        cancel()
+        if (id != null && over != null && over != id) commit(id, over)
+    }
+}
+
+/** How far a block that is not being dragged should sit from its place while [slot] is hovered. */
+private fun BlockReorder.shiftFor(id: String, slot: Int): Float {
+    val dragged = dragId ?: return 0f
+    if (id == dragged) return 0f
+    val from = order.indexOf(dragged)
+    val at = order.indexOf(id)
+    if (from < 0 || at < 0 || slot < 0) return 0f
+    val room = heightOf(dragged) + gap
+    return when {
+        slot > from && at in (from + 1)..slot -> -room
+        slot < from && at in slot until from -> room
+        else -> 0f
+    }
+}
+
+@Composable
+private fun DragHandle(block: NoteBlock, reorder: BlockReorder, onSurface: Boolean = false) {
+    val c = MaterialTheme.colorScheme
+    Box(
+        Modifier.size(32.dp).clip(CircleShape)
+            .then(if (onSurface) Modifier.background(c.surface.copy(alpha = 0.85f)) else Modifier)
+            .pointerInput(block.id) {
+                detectDragGestures(
+                    onDragStart = { reorder.start(block.id) },
+                    onDrag = { change, amount -> change.consume(); reorder.drag(amount.y) },
+                    onDragEnd = { reorder.finish(reorder.target()) },
+                    onDragCancel = { reorder.cancel() },
+                )
+            },
+        contentAlignment = Alignment.Center,
+    ) { Icon(Icons.Outlined.DragIndicator, "Drag to move", tint = c.onSurfaceVariant, modifier = Modifier.size(20.dp)) }
+}
+
+@Composable
+private fun ReorderSlot(id: String, reorder: BlockReorder, slot: Int, content: @Composable () -> Unit) {
+    val dragging = reorder.dragId == id
+    val shift by animateShift(
+        targetValue = reorder.shiftFor(id, slot),
+        label = "block_shift",
+    )
+    Box(
+        Modifier
+            .onSizeChanged { reorder.measured(id, it.height) }
+            .zIndex(if (dragging) 1f else 0f)
+            .graphicsLayer {
+                translationY = if (dragging) reorder.offset else shift
+                val lift = if (dragging) 1.02f else 1f
+                scaleX = lift
+                scaleY = lift
+                alpha = if (dragging) 0.94f else 1f
+            },
+    ) { content() }
+}
+
 @Composable
 fun NoteBlockEditor(
     blocks: List<NoteBlock>,
@@ -160,19 +276,26 @@ fun NoteBlockEditor(
         }
     }
     val hidden = remember(blocks) { NoteDoc.hiddenIndexes(blocks) }
+    val reorder = remember { BlockReorder() }
+    reorder.order = blocks.filterIndexed { i, _ -> i !in hidden }.map { it.id }
+    reorder.gap = with(LocalDensity.current) { 6.dp.toPx() }
+    reorder.commit = { id, over -> vm.moveBlock(id, over) }
+    val slot by remember { derivedStateOf { reorder.target() } }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         blocks.forEachIndexed { index, block ->
             if (index in hidden) return@forEachIndexed
             key(block.id) {
-                when (block.type) {
-                    BlockType.Divider -> MediaFrame(block, vm, readOnly, always = false) {
-                        Box(Modifier.fillMaxWidth().padding(vertical = 10.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(fg.copy(alpha = 0.2f)))
+                ReorderSlot(block.id, reorder, slot) {
+                    when (block.type) {
+                        BlockType.Divider -> MediaFrame(block, vm, readOnly, reorder, always = false) {
+                            Box(Modifier.fillMaxWidth().padding(vertical = 10.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(fg.copy(alpha = 0.2f)))
+                        }
+                        BlockType.Image -> MediaFrame(block, vm, readOnly, reorder) { ImageBlockView(block, vm, readOnly) }
+                        BlockType.Audio -> MediaFrame(block, vm, readOnly, reorder) { AudioBlockView(block, vm, readOnly) }
+                        BlockType.Table -> MediaFrame(block, vm, readOnly, reorder) { TableBlockView(block, vm, readOnly, fg) }
+                        BlockType.Drawing -> MediaFrame(block, vm, readOnly, reorder) { DrawingBlockView(block, vm, readOnly) }
+                        else -> TextBlockRow(block, numbers[index], blocks.size == 1, vm, registry, readOnly, fg, focusRequest == block.id, if (block.type == BlockType.Toggle && !block.open) NoteDoc.childCount(blocks, index) else 0, reorder)
                     }
-                    BlockType.Image -> MediaFrame(block, vm, readOnly) { ImageBlockView(block, vm, readOnly) }
-                    BlockType.Audio -> MediaFrame(block, vm, readOnly) { AudioBlockView(block, vm, readOnly) }
-                    BlockType.Table -> MediaFrame(block, vm, readOnly) { TableBlockView(block, vm, readOnly, fg) }
-                    BlockType.Drawing -> MediaFrame(block, vm, readOnly) { DrawingBlockView(block, vm, readOnly) }
-                    else -> TextBlockRow(block, numbers[index], blocks.size == 1, vm, registry, readOnly, fg, focusRequest == block.id, if (block.type == BlockType.Toggle && !block.open) NoteDoc.childCount(blocks, index) else 0)
                 }
             }
         }
@@ -184,10 +307,13 @@ fun NoteBlockEditor(
 
 /** A media block with its menu pinned top-right. */
 @Composable
-private fun MediaFrame(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean, always: Boolean = true, content: @Composable () -> Unit) {
+private fun MediaFrame(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean, reorder: BlockReorder, always: Boolean = true, content: @Composable () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
         content()
-        if (!readOnly && always) Box(Modifier.align(Alignment.TopEnd).padding(4.dp)) { BlockMenuButton(block, vm, onSurface = true) }
+        if (!readOnly && always) Row(Modifier.align(Alignment.TopEnd).padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            DragHandle(block, reorder, onSurface = true)
+            BlockMenuButton(block, vm, onSurface = true)
+        }
     }
 }
 
@@ -234,6 +360,7 @@ private fun TextBlockRow(
     fg: Color,
     wantsFocus: Boolean,
     hiddenKids: Int = 0,
+    reorder: BlockReorder,
 ) {
     val c = MaterialTheme.colorScheme
     val type = block.type
@@ -378,7 +505,10 @@ private fun TextBlockRow(
                 modifier = Modifier.padding(start = 6.dp, top = 4.dp).clip(RoundedCornerShape(8.dp)).background(c.secondaryContainer).padding(horizontal = 8.dp, vertical = 2.dp),
             )
         }
-        if (!readOnly && focused) Box(Modifier.padding(start = 4.dp)) { BlockMenuButton(block, vm) }
+        if (!readOnly && (focused || reorder.dragId == block.id)) Row(Modifier.padding(start = 4.dp)) {
+            DragHandle(block, reorder)
+            BlockMenuButton(block, vm)
+        }
     }
 }
 
