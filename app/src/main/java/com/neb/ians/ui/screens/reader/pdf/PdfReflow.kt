@@ -964,19 +964,52 @@ internal object PdfReflow {
             if (last != null && b.t - last.b < body * 0.9f) last.union(b) else ej.add(b)
         }
         for (b in ej) result.add(Fig(Box(max(0f, b.l), max(0f, b.t), min(W, b.r), min(H, b.b)), false))
-        // display equations stacked on each other with no words between (a worked line by line, = 17.25 - 16.0, = 1.25 cm) are one block
-        val drop = HashSet<Fig>()
-        var cur: Fig? = null
-        for (f in result.filter { it.owner == null && it.equation }.sortedBy { it.box.t }) {
-            val c0 = cur
-            if (c0 != null) {
-                val gy = f.box.t - c0.box.b
-                val ox = min(c0.box.r, f.box.r) - max(c0.box.l, f.box.l)
-                if (gy <= 1.1f * body && ox >= 0.4f * min(c0.box.w, f.box.w)) { c0.box.union(f.box); drop.add(f); continue }
+        // a picture that sits inside another one (labels pulled in around a drawing swallowed pieces of its maths) is part of it
+        run {
+            var again = true
+            var guard = 0
+            while (again && guard++ < 80) {
+                again = false
+                loop@ for (a in 0 until result.size) for (b in 0 until result.size) {
+                    if (a == b) continue
+                    val big = result[a].box; val small = result[b].box
+                    if (result[a].owner != null || result[b].owner != null) continue
+                    val iw = min(big.r, small.r) - max(big.l, small.l); val ih = min(big.b, small.b) - max(big.t, small.t)
+                    if (iw > 0f && ih > 0f && iw * ih >= 0.5f * small.area && big.area >= small.area) {
+                        big.union(small); result.removeAt(b); again = true; break@loop
+                    }
+                }
             }
-            cur = f
         }
-        result.removeAll(drop)
+        // display equations are one block: a fraction (numerator, bar, denominator, the "=" beside it), a derivation line by
+        // line, a limit, a matrix come out of the outlines as several small pieces; with no word between them they are one picture
+        run {
+            var again = true
+            var guard = 0
+            while (again && guard++ < 120) {
+                again = false
+                val eq = result.filter { it.owner == null && it.equation }
+                loop@ for (a in eq.indices) for (b in a + 1 until eq.size) {
+                    val fa = eq[a].box; val fb = eq[b].box
+                    val gy = max(fa.t, fb.t) - min(fa.b, fb.b)
+                    val gx = max(fa.l, fb.l) - min(fa.r, fb.r)
+                    val ox = min(fa.r, fb.r) - max(fa.l, fb.l)
+                    val stacked = gy <= 1.1f * body && (ox >= 0.4f * min(fa.w, fb.w) || gx <= 2.6f * body)
+                    val sameRow = gy < 0f && gx <= 1.2f * body
+                    if (!stacked && !sameRow) continue
+                    val u = Box(min(fa.l, fb.l), min(fa.t, fb.t), max(fa.r, fb.r), max(fa.b, fb.b))
+                    if (u.w > 0.95f * W || u.h > 16f * body) continue
+                    val textInside = lines.any { l ->
+                        val cx = (l.x0 + l.x1) / 2f; val cy = l.base - l.size * 0.3f
+                        cx >= u.l && cx <= u.r && cy >= u.t && cy <= u.b &&
+                            !(cx >= fa.l && cx <= fa.r && cy >= fa.t && cy <= fa.b) && !(cx >= fb.l && cx <= fb.r && cy >= fb.t && cy <= fb.b)
+                    }
+                    if (textInside) continue
+                    fa.union(fb); result.remove(eq[b]); again = true
+                    break@loop
+                }
+            }
+        }
         return result
     }
 }

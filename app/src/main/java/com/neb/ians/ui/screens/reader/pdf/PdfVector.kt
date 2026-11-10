@@ -21,7 +21,8 @@ internal const val V_CLOSE = 3
  */
 class VShape(
     val cmds: FloatArray, val fill: Boolean, val stroke: Boolean,
-    val fillRgb: Int, val strokeRgb: Int, val width: Float, val evenOdd: Boolean
+    val fillRgb: Int, val strokeRgb: Int, val width: Float, val evenOdd: Boolean,
+    val fillA: Float = 1f, val strokeA: Float = 1f
 )
 
 /** A formula or drawing as outlines: [width] by [height] points. A [diagram] keeps its own colours (only neutral darks follow the ink). */
@@ -45,7 +46,8 @@ internal object PdfVector {
             val bottom = run.base + run.size * 0.2f
             val ox = min(run.x1, r) - max(run.x0, l)
             val oy = min(bottom, b) - max(top, t)
-            if (ox > 0.6f && oy > 0.3f * (bottom - top)) return null
+            // a word that only brushes the box (the text next to a formula) is not in it
+            if (ox > 0.6f && oy > 0.3f * (bottom - top) && ox > 0.3f * min(run.x1 - run.x0, r - l)) return null
         }
         val slack = 1.5f
         val shapes = ArrayList<VShape>()
@@ -55,7 +57,7 @@ internal object PdfVector {
             val inside = g.x0 >= l - slack && g.x1 <= r + slack && g.y0 >= t - slack && g.y1 <= b + slack
             if (!inside) continue
             val cmds = g.cmds ?: return null
-            if (g.fill && !g.stroke && rgbLuma(g.fillRgb) > 0.93f) continue
+            if (g.fill && !g.stroke && rgbLuma(g.fillRgb) > 0.93f && g.fillA > 0.9f) continue
             val out = FloatArray(cmds.size)
             var i = 0
             while (i < cmds.size) {
@@ -65,7 +67,7 @@ internal object PdfVector {
                 for (k in 0 until n) { out[i + 1 + 2 * k] = cmds[i + 1 + 2 * k] - l; out[i + 2 + 2 * k] = cmds[i + 2 + 2 * k] - t }
                 i += 1 + 2 * n
             }
-            shapes.add(VShape(out, g.fill, g.stroke, g.fillRgb, g.strokeRgb, max(g.lineWidth, 0.3f), g.evenOdd))
+            shapes.add(VShape(out, g.fill, g.stroke, g.fillRgb, g.strokeRgb, max(g.lineWidth, 0.3f), g.evenOdd, g.fillA, g.strokeA))
         }
         if (shapes.isEmpty() || shapes.size > 2500) return null
         return VectorArt(r - l, b - t, shapes, diagram)

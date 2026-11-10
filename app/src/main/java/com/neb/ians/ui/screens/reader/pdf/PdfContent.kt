@@ -38,6 +38,9 @@ internal class Gfx(
     var strokeRgb = 0
     var lineWidth = 0f
     var evenOdd = false
+    /** Fill and stroke opacity (the graphics state's ca and CA): a tinted disc in a diagram is a pale wash, not a solid. */
+    var fillA = 1f
+    var strokeA = 1f
 }
 
 internal class PageContent(val width: Float, val height: Float, val runs: List<Run>, val gfx: List<Gfx>)
@@ -54,9 +57,9 @@ internal class PdfTextExtractor(private val file: PdfFile) {
     private class GS(
         var ctm: DoubleArray, var font: PdfFont? = null, var fs: Double = 0.0, var tc: Double = 0.0, var tw: Double = 0.0,
         var th: Double = 1.0, var tl: Double = 0.0, var rise: Double = 0.0, var tr: Int = 0,
-        var fillRgb: Int = 0, var strokeRgb: Int = 0, var lw: Double = 1.0
+        var fillRgb: Int = 0, var strokeRgb: Int = 0, var lw: Double = 1.0, var fa: Float = 1f, var sa: Float = 1f
     ) {
-        fun copy() = GS(ctm.copyOf(), font, fs, tc, tw, th, tl, rise, tr, fillRgb, strokeRgb, lw)
+        fun copy() = GS(ctm.copyOf(), font, fs, tc, tw, th, tl, rise, tr, fillRgb, strokeRgb, lw, fa, sa)
     }
 
     private lateinit var geom: PageGeom
@@ -137,7 +140,7 @@ internal class PdfTextExtractor(private val file: PdfFile) {
                     g.cmds = rec.copyOf(recN); vecFloats += recN
                 }
                 g.fill = fill; g.stroke = stroke; g.evenOdd = evenOdd
-                g.fillRgb = gs.fillRgb; g.strokeRgb = gs.strokeRgb
+                g.fillRgb = gs.fillRgb; g.strokeRgb = gs.strokeRgb; g.fillA = gs.fa; g.strokeA = gs.sa
                 val k = Math.sqrt(abs(gs.ctm[0] * gs.ctm[3] - gs.ctm[1] * gs.ctm[2]))
                 g.lineWidth = (gs.lw * k).toFloat()
                 gfx.add(g)
@@ -304,6 +307,14 @@ internal class PdfTextExtractor(private val file: PdfFile) {
                 "S", "s" -> paint(false, true, false)
                 "n" -> resetPath()
                 "w" -> gs.lw = num(0)
+                "gs" -> {
+                    val name = (ops.getOrNull(0) as? PdfName)?.v
+                    val eg = if (name != null) file.dict(file.dict(res?.get("ExtGState"))?.get(name)) else null
+                    if (eg != null) {
+                        eg["ca"]?.let { v -> runCatching { gs.fa = file.resolve(v).num().toFloat().coerceIn(0f, 1f) } }
+                        eg["CA"]?.let { v -> runCatching { gs.sa = file.resolve(v).num().toFloat().coerceIn(0f, 1f) } }
+                    }
+                }
                 "g" -> { val v = num(0); gs.fillRgb = packRgb(v, v, v) }
                 "G" -> { val v = num(0); gs.strokeRgb = packRgb(v, v, v) }
                 "rg" -> gs.fillRgb = packRgb(num(0), num(1), num(2))
