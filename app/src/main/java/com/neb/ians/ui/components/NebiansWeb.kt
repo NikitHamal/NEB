@@ -79,7 +79,6 @@ import androidx.compose.ui.platform.testTag
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
 import androidx.compose.ui.res.painterResource
-import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
@@ -1069,7 +1068,6 @@ fun Avatar(
         }
     }
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
-    val avatarAnim = remember(resolvedUrl) { if (animate) com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) else null }
     val hasImageBg = !isNeby && !resolvedUrl.isNullOrBlank() && !isError && !isAnon && !isNebians
     val avatarShape: androidx.compose.ui.graphics.Shape =
         if (isNeby || isAnon || isNebians) CircleShape else rememberAvatarShape(name)
@@ -1108,7 +1106,7 @@ fun Avatar(
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.fillMaxSize().then(if (animate && avatarAnim != null) Modifier.blobatarAnim(avatarAnim) else Modifier),
+                    modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )

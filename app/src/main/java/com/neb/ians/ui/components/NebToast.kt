@@ -1,7 +1,6 @@
 package com.neb.ians.ui.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -37,10 +35,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
@@ -87,7 +81,7 @@ fun NebToastHost(hostState: SnackbarHostState, modifier: Modifier = Modifier) {
 
 /**
  * A toast in the app's own language: a dark (in dark mode light) rounded card, a tonal tile that says what kind of
- * message it is, the message, an optional action as a pill, and a thin timer running down its bottom edge. It springs
+ * message it is, the message, an optional action as a pill. It springs
  * in from below, and a swipe sideways throws it away.
  */
 @Composable
@@ -107,18 +101,10 @@ fun NebToast(data: SnackbarData) {
         NebToastKind.Problem -> { tileColor = scheme.errorContainer; tileInk = scheme.onErrorContainer }
         NebToastKind.Info -> { tileColor = scheme.primaryContainer; tileInk = scheme.onPrimaryContainer }
     }
-    val timer = when (visuals.duration) {
-        SnackbarDuration.Short -> if (visuals.actionLabel != null) 10000 else 4000
-        SnackbarDuration.Long -> 10000
-        SnackbarDuration.Indefinite -> 0
-    }
-
     val appear = remember { Animatable(0f) }
-    val left = remember { Animatable(1f) }
     val drag = remember { Animatable(0f) }
     val scope = rememberCoroutineScope()
     LaunchedEffect(Unit) { appear.animateTo(1f, spring(dampingRatio = 0.7f, stiffness = 480f)) }
-    LaunchedEffect(timer) { if (timer > 0) left.animateTo(0f, tween(timer, easing = LinearEasing)) }
 
     val shape = RoundedCornerShape(24.dp)
     Row(
@@ -153,20 +139,8 @@ fun NebToast(data: SnackbarData) {
             .semantics { liveRegion = LiveRegionMode.Polite }
             .clip(shape)
             .background(scheme.inverseSurface)
-            .drawBehind {
-                if (timer > 0) {
-                    val inset = 22.dp.toPx()
-                    val full = size.width - inset * 2f
-                    drawRoundRect(
-                        color = tileColor.copy(alpha = 0.9f),
-                        topLeft = Offset(inset, size.height - 3.dp.toPx()),
-                        size = Size((full * left.value).coerceAtLeast(0f), 2.dp.toPx()),
-                        cornerRadius = CornerRadius(1.dp.toPx())
-                    )
-                }
-            }
             .heightIn(min = 56.dp)
-            .padding(start = 10.dp, end = 10.dp, top = 9.dp, bottom = 11.dp),
+            .padding(horizontal = 10.dp, vertical = 9.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

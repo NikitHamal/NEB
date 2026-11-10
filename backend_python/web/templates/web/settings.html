@@ -26,7 +26,7 @@
   </div>
 
   <a href="{% url 'web:edit_profile' %}" class="st-identity">
-    <img class="st-identity-avatar" src="{{ user.avatar_url }}" alt="" width="52" height="52" loading="lazy" decoding="async">
+    {% if user.avatar_url %}<img class="st-identity-avatar" src="{{ user.avatar_url }}" alt="" width="52" height="52" loading="lazy" decoding="async">{% else %}<span class="st-identity-avatar neb-letter">{{ user.display_name|default:user.username|slice:":1"|upper }}</span>{% endif %}
     <div class="st-identity-text">
       <div class="st-identity-name">{{ user.display_name|default:user.username }}</div>
       <div class="st-identity-sub">@{{ user.username }} — edit your profile</div>
@@ -74,15 +74,6 @@
         <div class="st-row-text">
           <p class="st-row-title">Neby credits</p>
           <p class="st-row-sub">Balance, top-ups and point conversion</p>
-        </div>
-        <span class="material-symbols-outlined st-chevron">chevron_right</span>
-      </a>
-
-      <a href="{% url 'web:my_avatar' %}" class="st-row">
-        <span class="st-row-icon"><span class="material-symbols-outlined">palette</span></span>
-        <div class="st-row-text">
-          <p class="st-row-title">My avatar</p>
-          <p class="st-row-sub">Shape, mood and colours</p>
         </div>
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>
@@ -206,7 +197,7 @@
         <span class="st-row-icon"><span class="material-symbols-outlined">info</span></span>
         <div class="st-row-text">
           <p class="st-row-title">About NEBians</p>
-          <p class="st-row-sub">Version 1.0.5</p>
+
         </div>
         <span class="material-symbols-outlined st-chevron">chevron_right</span>
       </a>

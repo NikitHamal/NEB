@@ -34,7 +34,6 @@ from . import api_client as api
 from .json_endpoint import signed_in_member
 from .view_helpers import (
     _avatar_url,
-    _blobatar_url_for,
     _clear_page_cache,
     _get_user_id,
     _get_valid_token,
@@ -723,7 +722,7 @@ def ajax_user_search(request):
             'id': u['id'],
             'username': u['username'],
             'displayName': u['display_name'] or u['username'],
-            'photoUrl': u['photo_url'] or _blobatar_url_for(u),
+            'photoUrl': u['photo_url'] or '',
         })
     return JsonResponse(results, safe=False)
 

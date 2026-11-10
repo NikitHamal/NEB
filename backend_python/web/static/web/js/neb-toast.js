@@ -59,11 +59,6 @@
     clearTimeout(t.timer);
     t.left = ms;
     t.started = Date.now();
-    t.toast.style.setProperty('--toast-ms', ms + 'ms');
-    t.toast.classList.remove('is-paused');
-    t.bar.style.animation = 'none';
-    void t.bar.offsetWidth;
-    t.bar.style.animation = '';
     t.timer = setTimeout(function () { dismiss(t); }, ms);
   }
 
@@ -72,14 +67,12 @@
     t.paused = true;
     clearTimeout(t.timer);
     t.left = Math.max(800, t.left - (Date.now() - t.started));
-    t.toast.classList.add('is-paused');
   }
 
   function resume(t) {
     if (t.gone || !t.paused) return;
     t.paused = false;
     t.started = Date.now();
-    t.toast.classList.remove('is-paused');
     t.timer = setTimeout(function () { dismiss(t); }, t.left);
   }
 
@@ -157,9 +150,6 @@
     x.setAttribute('aria-label', 'Dismiss');
     x.addEventListener('click', function () { dismiss(t); });
     t.toast.appendChild(x);
-    t.bar = el('span', 'neb-toast-bar');
-    t.bar.setAttribute('aria-hidden', 'true');
-    t.toast.appendChild(t.bar);
     fit.appendChild(t.toast);
     t.slot.appendChild(fit);
     root().appendChild(t.slot);

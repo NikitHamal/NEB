@@ -23,7 +23,7 @@ from .view_helpers import _get_user_id
 LEGACY_PREFIXES = (
     'library', 'forum', 'marketplace', 'interactive', 'subject', 'search', 'news', 'results',
     'tools', 'reader', 'resource', 'upload', 'requests', 'profile', 'settings', 'bookmarks',
-    'analytics', 'credits', 'my-avatar', 'past-papers', 'model-questions',
+    'analytics', 'credits', 'past-papers', 'model-questions',
     'online-learning', 'faq', 'study-space', 'study-lab', 'canvas', 'notifications',
 )
 

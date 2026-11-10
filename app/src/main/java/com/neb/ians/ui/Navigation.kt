@@ -164,7 +164,6 @@ sealed class Screen(val route: String) {
         fun createRoute(noteId: String = "new", dictate: Boolean = false) = "notes/edit/$noteId?dictate=$dictate"
     }
     data object VoiceModels : Screen("notes/voice")
-    data object MyAvatar : Screen("my_avatar")
     data object DeleteAccount : Screen("delete_account")
     data object AccountSecurity : Screen("account_security")
     data object PdfViewer : Screen("pdf/{resourceId}") {
@@ -873,7 +872,6 @@ fun NEBiansNavHost(
                     onNavigateToEditProfile = { navController.navigate(Screen.EditProfile.route) },
                     onNavigateToBookmarks = { navController.navigate(Screen.Bookmarks.route) },
                     onNavigateToNebyCredits = { navController.navigate(Screen.NebyCredits.route) },
-                    onNavigateToMyAvatar = { navController.navigate(Screen.MyAvatar.route) },
                     onNavigateToDeleteAccount = { navController.navigate(Screen.DeleteAccount.route) },
                     onNavigateToAccountSecurity = {
                         navController.navigate(Screen.AccountSecurity.route)
@@ -924,11 +922,6 @@ fun NEBiansNavHost(
             }
             composable(route = Screen.VoiceModels.route) {
                 VoiceModelsScreen(onNavigateBack = { navController.popBackStack() })
-            }
-            composable(Screen.MyAvatar.route) {
-                com.neb.ians.ui.screens.avatar.MyAvatarScreen(
-                    onNavigateBack = { navController.popBackStack() }
-                )
             }
             composable(Screen.AccountSecurity.route) {
                 com.neb.ians.ui.screens.settings.AccountSecurityScreen(

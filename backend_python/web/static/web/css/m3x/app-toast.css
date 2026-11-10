@@ -19,7 +19,6 @@
   transition: transform .4s var(--spring), opacity .25s, border-radius .4s var(--spring);
 }
 .neb-toast.is-dragging { transition: none; }
-.neb-toast:hover { border-radius: 22px; }
 .neb-toast[data-tone="success"] { --tone-bg: var(--fl-good, #d3f1de); --tone-fg: var(--fl-on-good, #0a3a1c); }
 .neb-toast[data-tone="error"] { --tone-bg: var(--md-error-container); --tone-fg: var(--md-on-error-container); }
 .neb-toast[data-tone="warn"] { --tone-bg: var(--fl-warn, #fde8bd); --tone-fg: var(--fl-on-warn, #432b00); }
@@ -41,22 +40,15 @@
 .neb-toast-action:hover, .neb-toast-x:hover { background: var(--md-surface-container-high); }
 .neb-toast-action:active, .neb-toast-x:active { transform: scale(.92); }
 
-.neb-toast-bar {
-  position: absolute; left: 18px; right: 18px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0;
-  background: var(--tone-fg); opacity: .35; transform-origin: left center;
-  animation: neb-toast-bar var(--toast-ms, 3600ms) linear both;
-}
-.neb-toast.is-paused .neb-toast-bar { animation-play-state: paused; }
 .neb-toast.is-bump { animation: neb-toast-bump .5s var(--spring); }
 
 @keyframes neb-toast-in { from { opacity: 0; transform: translateY(28px) scale(.9); } }
 @keyframes neb-toast-icon { from { opacity: 0; transform: scale(.3) rotate(-50deg); } }
-@keyframes neb-toast-bar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 @keyframes neb-toast-bump { 0% { transform: scale(1); } 35% { transform: scale(1.04); } 100% { transform: scale(1); } }
 
 @media (max-width: 768px) {
   #snackbar-container { bottom: calc(88px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .neb-toast, .neb-toast-icon, .neb-toast-slot, .neb-toast-bar { animation: none; transition: none; }
+  .neb-toast, .neb-toast-icon, .neb-toast-slot { animation: none; transition: none; }
 }
