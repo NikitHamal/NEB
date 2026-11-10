@@ -38,10 +38,23 @@ class TableRow(val cells: List<String>, val jump: Int)
 class TableBlock(val rows: List<TableRow>, val header: Boolean) : Block()
 
 /** A crop of the page. [widthPts] and [heightPts] are its size on the page, so it can scale with the text. */
-class FigureBlock(val page: Int, val rect: FRect, val widthPts: Float, val heightPts: Float, val equation: Boolean) : Block()
+class FigureBlock(
+    val page: Int, val rect: FRect, val widthPts: Float, val heightPts: Float, val equation: Boolean,
+    /** The equation as outlines when it can be drawn from them; null: show the crop of the page. */
+    val vec: VectorArt? = null
+) : Block()
 
 /** A small picture (typeset maths) that sits inside a line of text. Its place in the text is [MATH_BASE] plus its index. */
-class InlineImg(val page: Int, val rect: FRect, val widthPts: Float, val heightPts: Float)
+class InlineImg(
+    val page: Int, val rect: FRect, val widthPts: Float, val heightPts: Float,
+    /** The formula as outlines (null: use the crop), the baseline of its line measured from the formula's top, and that line's type size. */
+    val vec: VectorArt? = null, val base: Float = 0f, val em: Float = 0f
+) {
+    /** Where the middle of the text of the line sits inside the formula's box, in points from its top. */
+    val center: Float get() = base - 0.36f * em
+    /** Half the height of the slot: the formula sits centred on the text's middle, so it lines up with the baseline. */
+    val half: Float get() = PdfVector.half(center, heightPts)
+}
 
 class ReflowPage(val page: Int, val blocks: List<Block>, val words: Int, val inlines: List<InlineImg> = emptyList())
 
@@ -276,7 +289,8 @@ internal object PdfReflow {
                 continue
             }
             val k = inlines.size
-            inlines.add(InlineImg(page, rect, rect.w * W, rect.h * H))
+            val vec = PdfVector.of(c, r.l, r.t, r.r, r.b)
+            inlines.add(InlineImg(page, rect, rect.w * W, rect.h * H, vec, owner.base - r.t, owner.size))
             marks.getOrPut(owner) { ArrayList() }.add(Run((MATH_BASE + k).toChar().toString(), r.l, r.r, owner.base, owner.size, 0, false, false))
         }
         val all = grouped.map { l ->
@@ -292,7 +306,8 @@ internal object PdfReflow {
             val r = f.box
             val rect = FRect((r.l / W).coerceIn(0f, 1f), (r.t / H).coerceIn(0f, 1f), (r.r / W).coerceIn(0f, 1f), (r.b / H).coerceIn(0f, 1f))
             if (rect.w < 0.01f || rect.h < 0.004f) continue
-            items.add(r.t to FigureBlock(page, rect, rect.w * W, rect.h * H, f.equation))
+            val vec = PdfVector.of(c, r.l, r.t, r.r, r.b, !f.equation)
+            items.add(r.t to FigureBlock(page, rect, rect.w * W, rect.h * H, f.equation, vec))
         }
 
         val lines = all.filter { it !in absorbed && !(inBand(it, H) && (isPageNumber(it.text) || it.cells.any { c -> norm(c.text) in st.furniture || isPageNumber(c.text) })) }
@@ -949,6 +964,19 @@ internal object PdfReflow {
             if (last != null && b.t - last.b < body * 0.9f) last.union(b) else ej.add(b)
         }
         for (b in ej) result.add(Fig(Box(max(0f, b.l), max(0f, b.t), min(W, b.r), min(H, b.b)), false))
+        // display equations stacked on each other with no words between (a worked line by line, = 17.25 - 16.0, = 1.25 cm) are one block
+        val drop = HashSet<Fig>()
+        var cur: Fig? = null
+        for (f in result.filter { it.owner == null && it.equation }.sortedBy { it.box.t }) {
+            val c0 = cur
+            if (c0 != null) {
+                val gy = f.box.t - c0.box.b
+                val ox = min(c0.box.r, f.box.r) - max(c0.box.l, f.box.l)
+                if (gy <= 1.1f * body && ox >= 0.4f * min(c0.box.w, f.box.w)) { c0.box.union(f.box); drop.add(f); continue }
+            }
+            cur = f
+        }
+        result.removeAll(drop)
         return result
     }
 }

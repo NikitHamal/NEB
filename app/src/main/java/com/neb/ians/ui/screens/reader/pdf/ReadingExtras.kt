@@ -14,7 +14,9 @@ import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.Icon
 import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -79,7 +81,7 @@ import kotlin.math.roundToInt
 /** Something in the text that opens full screen to be pinched, panned and read closely. */
 internal sealed interface RdZoomItem {
     class Figure(val block: FigureBlock) : RdZoomItem
-    class Table(val block: TableBlock) : RdZoomItem
+    class Table(val block: TableBlock, val page: Int) : RdZoomItem
 }
 
 /**
@@ -154,7 +156,7 @@ internal fun RdZoomDialog(
             HorizontalDivider(color = p.line)
             when (item) {
                 is RdZoomItem.Figure -> RdZoomFigure(item.block, p, source)
-                is RdZoomItem.Table -> RdZoomTable(item.block, p)
+                is RdZoomItem.Table -> RdZoomTable(item.block, item.page, p, source)
             }
         }
     }
@@ -162,6 +164,7 @@ internal fun RdZoomDialog(
 
 @Composable
 private fun RdZoomFigure(b: FigureBlock, p: ReadingPalette, source: ReadSource) {
+    val art = b.vec
     val bitmap by produceState(source.cachedCrop(b.page, b.rect, 1800), b) {
         source.loadCrop(b.page, b.rect, 1800)?.let { value = it }
     }
@@ -193,7 +196,16 @@ private fun RdZoomFigure(b: FigureBlock, p: ReadingPalette, source: ReadSource) 
         contentAlignment = Alignment.Center
     ) {
         val image = remember(bitmap) { bitmap?.asImageBitmap() }
-        if (image != null) {
+        if (art != null) {
+            RdVector(
+                art, p.ink,
+                Modifier.fillMaxWidth().aspectRatio(art.width / art.height.coerceAtLeast(1f)).graphicsLayer {
+                    transformOrigin = TransformOrigin(0f, 0f)
+                    scaleX = scale; scaleY = scale
+                    translationX = offset.x; translationY = offset.y
+                }
+            )
+        } else if (image != null) {
             Image(
                 image, "Figure from page ${b.page + 1}",
                 Modifier.fillMaxSize().graphicsLayer {
@@ -210,9 +222,11 @@ private fun RdZoomFigure(b: FigureBlock, p: ReadingPalette, source: ReadSource) 
 }
 
 @Composable
-private fun RdZoomTable(b: TableBlock, p: ReadingPalette) {
+private fun RdZoomTable(b: TableBlock, page: Int, p: ReadingPalette, source: ReadSource) {
     val cols = b.rows.maxOfOrNull { it.cells.size } ?: return
     var zoom by remember { mutableFloatStateOf(1f) }
+    val inl = source.cached(page)?.inlines
+    val math = remember(inl, zoom, p) { inlineMap(inl, 15f * zoom / source.bodyPoints().coerceAtLeast(4f), p, source) }
     Box(
         Modifier
             .fillMaxSize()
@@ -226,7 +240,8 @@ private fun RdZoomTable(b: TableBlock, p: ReadingPalette) {
                 Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     for (c in 0 until cols) {
                         Text(
-                            plainText(row.cells.getOrElse(c) { "" }),
+                            remember(row, c) { buildAnnotatedString { putMath(row.cells.getOrElse(c) { "" }) } },
+                            inlineContent = math,
                             style = androidx.compose.ui.text.TextStyle(
                                 fontFamily = Poppins, fontSize = (15f * zoom).sp, lineHeight = (21f * zoom).sp,
                                 fontWeight = if (b.header && i == 0) FontWeight.SemiBold else FontWeight.Normal,

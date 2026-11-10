@@ -100,3 +100,18 @@ Compose (`ReadingMode.kt`, `ReadingExtras.kt`):
 
 Still open: two column papers, fact sheet grids (`.fxs`) read as table rows, the left rule of explanation lines in answer keys is dropped.
 - CI: `Build Student Release APKs & AAB` passed on `2203f62` (full Compose compile). Not yet looked at on a device: check a question bank page with four-across choices at 100 % and 200 % text, the answer card with Hide answers on, and a table whose cells are formulas.
+
+## Session 8 (reading mode: maths and drawings drawn from the page's own outlines)
+
+Brief: after session 7 the question bank still read badly: formulas were crops of a `PdfRenderer` render, so they sat in white boxes inside tonal cards (answer keys), were cut off at the edges ("ertia 0.5 kg m2"), arrived late (bitmap load) and needed a colour filter on Night. Pick this up from here, do not rebuild the reflow.
+
+What changed (all picked up from session 7, nothing duplicated):
+- **Outlines are kept** (`PdfContent.kt`): `Gfx` now carries the path itself (`cmds`: move, line, cubic, close in page points), fill or stroke, even-odd, fill and stroke colour (`g rg k sc scn` and the stroke forms) and line width. Small paths only (under 3000 floats each, 900k per page, narrower than 90 % of the page). Also fixed `v` curves, whose first control point was taken as the page origin and inflated boxes.
+- **`PdfVector.kt`** (pure Kotlin): `VectorArt` / `VShape`, and `PdfVector.of(page, box)` returns the outlines inside a figure box, or null (then the old crop is used) when text, an image or a path too big to keep lies inside it.
+- **Reflow:** `InlineImg` and `FigureBlock` carry `vec`. Inline slots also carry the baseline of their line and its type size, so the slot is centred on the text middle and the formula's baseline lines up with the words. Display equations stacked line by line with no words between are merged into one figure (the `.dv` derivation).
+- **Drawing** (`ReadingMath.kt`, `RdVector`): paths drawn on a Canvas at the reading size. Black and neutral dark fills take the theme ink (so maths is light on Night, no filter), white knock-outs are skipped (no white boxes), a diagram keeps its own colours. `inlineMap` builds the slots for text, table cells and the table zoom (the zoom view used to drop maths with `plainText`). Figure zoom draws the outlines too.
+- **Tables:** header row has its own tonal band.
+- **Verified on the JVM** against the printed pages: `tools/android/PdfVectorPng.kt` draws only the kept outlines to a PNG; Question Bank Grade 12 page 26 (choices of four formulas, units, fractions, answer key) and page 121 (line by line derivations, roots, sub and superscripts) match the print glyph for glyph. Sweep (`PdfReflowSweep.kt` now prints `vector` and `crops`): Grade 12 bank 1010 pages 0 failures, 12212 vector, 263 crops; Grade 10 bank 358 pages, 2647 vector, 84 crops; Programming in C 103 pages, 16 vector, 41 crops (diagrams with text or images keep the crop).
+- **Compile:** `:app:compileModernDebugKotlin` run locally (JDK 17, SDK 36 in /tmp, 3 GB swap, see `ANDROID_M3X_STATUS.md` session 9).
+
+Still open: text inside a drawing (labels) is not drawn from outlines, such drawings stay crops; TalkBack cannot read a formula (the outlines carry no text); two column papers; the left rule of explanation lines in answer keys. Not run on a device.
