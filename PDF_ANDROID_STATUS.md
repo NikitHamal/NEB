@@ -115,3 +115,24 @@ What changed (all picked up from session 7, nothing duplicated):
 - **Compile:** `:app:compileModernDebugKotlin` run locally (JDK 17, SDK 36 in /tmp, 3 GB swap, see `ANDROID_M3X_STATUS.md` session 9).
 
 Still open: text inside a drawing (labels) is not drawn from outlines, such drawings stay crops; TalkBack cannot read a formula (the outlines carry no text); two column papers; the left rule of explanation lines in answer keys. Not run on a device.
+
+## Session 9 (reading mode: equations in one piece, tables read cell by cell, tinted washes, no white boxes)
+
+Brief: the same complaint a fifth time (equations torn into lines, tables with lost formulas, white boxes, a blue disc where the print has a pale one, page dividers inside sentences, bars the text shows through). Pick this up from here; the build and test box was the Molab notebook (20 cores, JDK 21, Android SDK in `/opt/asdk`, Kotlin 2.0.21 in `/opt/kt`, no KVM so no emulator). Method: `PdfReflowDump` on the real printed books (`notes/pdf`), then `:app:compileModernDebugKotlin` (`KEYSTORE_PASSWORD=x KEY_PASSWORD=x`, `sdk.dir`, a copy of `google-services.json.example`). The Gradle build needs the NDK 27.0.12077973 and CMake 3.22.1 from `sdkmanager` first.
+
+Found by reading the printed pages, not guessed:
+- **Display maths came out in pieces.** A fraction (numerator, bar, denominator, the `=` beside it) is several outline groups; the old merge needed them to overlap sideways. `PdfReflow.figures` now joins equation pieces that are one text size apart with no words between (stacked: gap under 1.1 body, sideways gap under 2.6 body, 3.4 when the rows overlap), also a tall derivation block with the piece under it, and folds a figure that lies inside another (labels pulled in around a drawing had swallowed maths pieces, which were then drawn twice). `theta = s / r` is one 41 x 31 pt figure now (it was three).
+- **Maths was swallowing text.** Pieces of maths merged across body size text lines that sat inside their box (the `(b) ...` lines of a worked example became one cropped picture, clipped on the left). A block made only of glyph sized outlines (`isDrawing` false) is an equation: no words are taken in as labels, and body size text between pieces stops the merge.
+- **Opacity.** `PdfContent` reads `ca` / `CA` from the graphics state (`gs`); `Gfx.fillA`, `VShape.fillA`, `RdVector` draws with it. The disc in the rotation figure is an 8 % wash, not a solid blue.
+- **Tables are boxes.** Fact sheets and tonal tables are printed as one filled box per cell, rows touching. `findGrids` reads those boxes (same top and bottom side by side = a row, touching rows = a table); every run and every formula whose centre lies in a box is that cell's. Multi line cells, wrapped headers, formulas, formula only cells and stacked formulas work with no column guessing. The header row is the one in bold or in a different fill. The old line based `table()` stays for tables without boxes.
+- **Formula next to a word kept its outlines** (`PdfVector.of` ignores a word that only brushes the box), so fewer crops. Sweep over Physics 12, Chemistry 12, Computer Science 12, Question Bank 12, Question Bank 8, Mathematics 12, IOE Physics: 0 failures, crops 1.5 to 3.5 %, 5 to 19 ms a page.
+- **Crops have no white box.** `inkMask(ink)` turns black on white into the theme ink with the white transparent (inline formulas, equation crops, equation zoom); a diagram crop inside a card is multiplied with the card colour on Paper.
+- **Chrome.** Top and bottom bars are opaque (they were 97 %). The "Page N" divider inside the text is gone (a quiet gap instead; the bar still says Page N of M). The Expand control shows only on tables of four columns or more. Table columns weigh a formula as nine characters.
+
+Not done, in order of value:
+- Run it on a device. `tools/app-screens` (Maestro, CI emulator) has no reading mode flow yet: add one that opens Physics Class 12 Notes (resource id from the library), turns on Reading mode and takes `rm-physics-5`, `rm-qbank-33`.
+- Tables printed without cell boxes (plain lines, markdown tables in some books) still use the line based reader.
+- Diagrams that hold text labels stay crops (101 in Physics 12). Drawing the text of a figure as part of `VectorArt` would remove them.
+- TalkBack cannot read a formula (outlines carry no text); a LaTeX alt text from the pipeline (`aria-label` of the MathJax SVG) would fix it for newly built books.
+- The page heights of lazily loaded pages are a 380 dp guess until they load, so a fast scroll can jump.
+
