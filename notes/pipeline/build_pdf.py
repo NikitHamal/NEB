@@ -106,8 +106,7 @@ def attach_reading(path, rendered, slug, subject, grade, accent, L, units, prese
             chapters.append({"id": cid, "no": "", "title": title, "page": pages.get(cid, 1),
                              "html": reading.chapter(sec, pages, pics)})
         title = f"{subject} {L['grade'].split(' ·')[0].format(g=i18n.num(grade))}"
-        data = reading.payload(title, L["lang"], accent, len(rendered.pages), chapters, pics)
-        size = reading.attach(path, data)
+        size = reading.attach(path, title, L["lang"], accent, len(rendered.pages), chapters, pics)
         print(f"   reading payload {size / 1e6:.1f} MB, {len(chapters)} chapters, {len(pics.res)} pictures")
     except Exception as e:                       # noqa: BLE001
         import traceback

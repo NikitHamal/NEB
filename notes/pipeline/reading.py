@@ -2,18 +2,19 @@
 
 The Android reader used to rebuild paragraphs, tables, choices and maths from the drawn PDF page
 (guessing from glyph positions and outlines). Every guess failed somewhere. The pipeline already has
-the real structure, so each built PDF now carries it as an attachment, `neb-reading.json.gz`:
+the real structure, so each built PDF now carries it as an attachment, `neb-reading.zip`
+(random access, so the phone never parses the whole book):
 
-    {"v": 1, "title", "lang", "accent", "pages",
-     "res":      {"r1": "<svg ...>" | "data:image/jpeg;base64,..."},    pictures, shared, by hash
-     "chapters": [{"id", "no", "title", "page", "html"}]}
+    meta.json     {"v": 1, "title", "lang", "accent", "pages", "chapters": [{"id", "no", "title", "area", "page"}]}
+    c/<n>.html    chapter n, as typeset
+    r/<hash>.svg  pictures (formulas, figures) and r/<hash>.jpg (photos), shared by every chapter
 
-`html` is the chapter exactly as it was typeset (same classes: .box, .opts/.opt, .fxs, .dv, tables,
+Each chapter html is the chapter exactly as it was typeset (same classes: .box, .opts/.opt, .fxs, .dv, tables,
 figures) with three changes for a phone:
 
 * every block carries `data-pg`, the PDF page it landed on (found from WeasyPrint's anchors), so
   the reader can show "Page N of M", jump from the page slider and open the original page;
-* a picture is `<img data-r="r12" ...>` (the bytes live once in `res`) with its size, so layout does not
+* a picture is `<img src="r/<hash>.svg" ...>` (the bytes live once in `r/`) with its size, so layout does not
   jump while it loads; a typeset formula is sized in `em` relative to the body text and keeps its
   TeX in `data-tex` (screen readers, copy, search);
 * nothing else is rewritten. The reader (`app/src/main/assets/reader/`) styles those classes.
@@ -22,7 +23,7 @@ Flow in `build_pdf.build`: `anchor()` the chapter html before typesetting (ids o
 render, read the page of each anchor, `chapter()` to produce the payload, `attach()` into the file.
 """
 import base64
-import gzip
+import zipfile
 import hashlib
 import html as _html
 import io
@@ -34,7 +35,7 @@ from html.parser import HTMLParser
 
 BODY_PT = 10.7            # body size in the print theme; formulas are sized relative to it
 PT_PER_MM = 72.0 / 25.4
-NAME = "neb-reading.json.gz"
+NAME = "neb-reading.zip"
 VERSION = 1
 
 TEX = {}                  # svg data uri -> the TeX it was typeset from (filled by md2html)
@@ -145,14 +146,14 @@ def _raster(path):
         im = im.resize((1100, round(im.height * 1100 / im.width)))
     buf = io.BytesIO()
     im.save(buf, "JPEG", quality=78, optimize=True)
-    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode(), im.width, im.height
+    return buf.getvalue(), im.width, im.height
 
 
 class Pictures:
     """Shared resource table: one entry per distinct picture."""
 
     def __init__(self):
-        self.res, self.size, self._seen = {}, {}, {}
+        self.res, self.size, self._seen = {}, {}, {}      # res: file name -> bytes
 
     def put(self, src):
         """-> (resource id, width, height) or None when the source cannot be read."""
@@ -161,22 +162,19 @@ class Pictures:
         got = None
         try:
             if src.startswith("data:image/svg+xml;base64,"):
-                body = base64.b64decode(src.split(",", 1)[1]).decode("utf-8", "replace")
-                w, h = _svg_size(body)
-                got = (body, w, h)
-            elif src.startswith("file://"):
-                got = _raster(src[7:])
-            elif src.startswith("data:"):
-                got = (src, 0.0, 0.0)
-            elif os.path.exists(src):
-                got = _raster(src)
+                raw = base64.b64decode(src.split(",", 1)[1])
+                w, h = _svg_size(raw.decode("utf-8", "replace"))
+                got = (raw, "svg", w, h)
+            elif src.startswith("file://") or os.path.exists(src):
+                raw, w, h = _raster(src[7:] if src.startswith("file://") else src)
+                got = (raw, "jpg", w, h)
         except Exception:
             got = None
         if not got:
             self._seen[src] = None
             return None
-        data, w, h = got
-        rid = "r" + hashlib.sha1(data.encode("utf-8", "replace")).hexdigest()[:10]
+        data, ext, w, h = got
+        rid = hashlib.sha1(data).hexdigest()[:12] + "." + ext
         self.res[rid] = data
         self.size[rid] = (w, h)
         self._seen[src] = (rid, w, h)
@@ -192,7 +190,7 @@ def _img(m, pics):
     rid, w, h = got
     cls = a.get("class", "")
     tex = _html.escape(TEX.get(src, "") or _html.unescape(a.get("data-t", "")), quote=True)
-    out = [f'<img data-r="{rid}"']
+    out = [f'<img src="r/{rid}"']
     if cls:
         out.append(f' class="{cls}"')
     if a.get("alt") == "math" or "data-w" in a:
@@ -235,15 +233,20 @@ def chapter(html, pages, pics):
 
 # ------------------------------------------------------------------ payload
 
-def payload(title, lang, accent, page_count, chapters, pics):
-    return {"v": VERSION, "title": title, "lang": lang, "accent": accent, "pages": page_count,
-            "res": pics.res, "chapters": chapters}
-
-
-def attach(pdf_path, data):
-    """Write the payload into the PDF as an embedded file (no change to pages)."""
+def attach(pdf_path, title, lang, accent, page_count, chapters, pics):
+    """Write the payload into the PDF as an embedded zip (no change to pages). -> bytes written."""
     from pypdf import PdfWriter
-    raw = gzip.compress(json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8"), 9)
+    meta = {"v": VERSION, "title": title, "lang": lang, "accent": accent, "pages": page_count,
+            "chapters": [{k: c[k] for k in ("id", "no", "title", "area", "page")} for c in chapters]}
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        z.writestr("meta.json", json.dumps(meta, ensure_ascii=False, separators=(",", ":")))
+        for i, c in enumerate(chapters):
+            z.writestr(f"c/{i}.html", c["html"])
+        for name, data in pics.res.items():
+            z.writestr(f"r/{name}", data, compress_type=zipfile.ZIP_STORED if name.endswith("jpg")
+                       else zipfile.ZIP_DEFLATED)
+    raw = buf.getvalue()
     w = PdfWriter(clone_from=pdf_path)
     w.add_attachment(NAME, raw)
     tmp = pdf_path + ".tmp"
