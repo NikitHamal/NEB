@@ -19,6 +19,7 @@ enum class BlockType(val label: String, val keywords: String) {
     H2("Heading 2", "heading h2 subtitle"),
     H3("Heading 3", "heading h3 small"),
     Todo("To-do", "todo checklist check task"),
+    Toggle("Toggle list", "toggle collapse fold expand outline dropdown"),
     Bullet("Bulleted list", "bullet list unordered"),
     Number("Numbered list", "number list ordered"),
     Quote("Quote", "quote cite"),
@@ -30,8 +31,29 @@ enum class BlockType(val label: String, val keywords: String) {
     Audio("Audio", "audio voice record sound"),
     Drawing("Drawing", "drawing sketch draw pen");
 
+    /** One line of what the block is, shown beside it in the "/" list. */
+    val hint: String
+        get() = when (this) {
+            Text -> "Plain writing"
+            H1 -> "Big section title"
+            H2 -> "Medium section title"
+            H3 -> "Small section title"
+            Todo -> "Track tasks with checkboxes"
+            Toggle -> "Hide and show what is under it"
+            Bullet -> "A simple list"
+            Number -> "A list that counts"
+            Quote -> "Set a line apart"
+            Callout -> "Make a point stand out"
+            Code -> "Monospace snippet"
+            Divider -> "Split the page"
+            Table -> "Rows and columns"
+            Image -> "A photo from your gallery or camera"
+            Audio -> "Record or add a sound"
+            Drawing -> "Sketch with a pen"
+        }
+
     val hasText: Boolean get() = this != Divider && this != Table && this != Image && this != Audio && this != Drawing
-    val isList: Boolean get() = this == Todo || this == Bullet || this == Number
+    val isList: Boolean get() = this == Todo || this == Bullet || this == Number || this == Toggle
 }
 
 /** One pen stroke. [points] is x0, y0, x1, y1... with x as a fraction of the canvas width and y of its height. */
@@ -52,6 +74,10 @@ data class NoteBlock(
     val strokes: List<Stroke> = emptyList(),
     /** Height of a drawing, in dp. */
     val height: Float = 260f,
+    /** How far in the block sits (0 to [NoteDoc.MAX_INDENT]); blocks deeper than a toggle belong to it. */
+    val indent: Int = 0,
+    /** Toggle blocks: false hides everything nested under it. */
+    val open: Boolean = true,
 ) {
     val isBlank: Boolean
         get() = when (type) {
@@ -64,6 +90,31 @@ data class NoteBlock(
 }
 
 object NoteDoc {
+    const val MAX_INDENT = 3
+
+    /** Positions of the blocks hidden because a closed toggle above them is their parent. */
+    fun hiddenIndexes(blocks: List<NoteBlock>): Set<Int> {
+        val hidden = HashSet<Int>()
+        var i = 0
+        while (i < blocks.size) {
+            val b = blocks[i]
+            if (b.type == BlockType.Toggle && !b.open) {
+                var j = i + 1
+                while (j < blocks.size && blocks[j].indent > b.indent) { hidden.add(j); j++ }
+                i = j
+            } else i++
+        }
+        return hidden
+    }
+
+    /** How many blocks sit under [index] (the ones deeper than it, straight after it). */
+    fun childCount(blocks: List<NoteBlock>, index: Int): Int {
+        val base = blocks.getOrNull(index)?.indent ?: return 0
+        var j = index + 1
+        while (j < blocks.size && blocks[j].indent > base) j++
+        return j - index - 1
+    }
+
     fun starter(): List<NoteBlock> = listOf(NoteBlock())
 
     fun isBlank(blocks: List<NoteBlock>): Boolean = blocks.all { it.isBlank }
@@ -100,6 +151,8 @@ object NoteDoc {
                 o.put("k", ss)
             }
             if (b.type == BlockType.Drawing) o.put("h", b.height.toDouble())
+            if (b.indent > 0) o.put("i", b.indent)
+            if (!b.open) o.put("o", false)
             arr.put(o)
         }
         return arr.toString()
@@ -145,6 +198,8 @@ object NoteDoc {
                         rows = rows,
                         strokes = strokes,
                         height = o.optDouble("h", 260.0).toFloat(),
+                        indent = o.optInt("i", 0).coerceIn(0, MAX_INDENT),
+                        open = o.optBoolean("o", true),
                     )
                 )
             }
@@ -160,17 +215,25 @@ object NoteDoc {
         val sb = StringBuilder()
         var number = 0
         var prev: BlockType? = null
+        val counters = HashMap<Int, Int>()
         blocks.forEach { b ->
             if (b.isBlank && b.type != BlockType.Divider) return@forEach
-            number = if (b.type == BlockType.Number) (if (prev == BlockType.Number) number + 1 else 1) else 0
+            if (b.type == BlockType.Number) {
+                number = (counters[b.indent] ?: 0) + 1
+                counters[b.indent] = number
+                counters.keys.filter { it > b.indent }.forEach { counters[it] = 0 }
+            } else {
+                number = 0
+                counters.keys.filter { it >= b.indent }.forEach { counters[it] = 0 }
+            }
             val piece = when (b.type) {
                 BlockType.Text -> b.text
                 BlockType.H1 -> "# ${b.text}"
                 BlockType.H2 -> "## ${b.text}"
                 BlockType.H3 -> "### ${b.text}"
-                BlockType.Bullet -> "- ${b.text}"
-                BlockType.Number -> "$number. ${b.text}"
-                BlockType.Todo -> "- [${if (b.checked) "x" else " "}] ${b.text}"
+                BlockType.Bullet, BlockType.Toggle -> "${pad(b)}- ${b.text}"
+                BlockType.Number -> "${pad(b)}$number. ${b.text}"
+                BlockType.Todo -> "${pad(b)}- [${if (b.checked) "x" else " "}] ${b.text}"
                 BlockType.Quote, BlockType.Callout -> b.text.lines().joinToString("\n") { "> $it" }
                 BlockType.Code -> "```\n${b.text}\n```"
                 BlockType.Divider -> "---"
@@ -186,6 +249,8 @@ object NoteDoc {
         return sb.toString()
     }
 
+    private fun pad(b: NoteBlock): String = "  ".repeat(b.indent)
+
     private fun tableMarkdown(rows: List<List<String>>): String {
         if (rows.isEmpty()) return ""
         val cols = rows.maxOf { it.size }.coerceAtLeast(1)
@@ -199,6 +264,8 @@ object NoteDoc {
     private val bulletRe = Regex("^\\s*[-*+] ")
     private val headRe = Regex("^(#{1,3}) ")
     private val hrRe = Regex("^(-{3,}|\\*{3,}|_{3,})$")
+
+    private fun depth(line: String): Int = (line.takeWhile { it == ' ' }.length / 2).coerceIn(0, MAX_INDENT)
 
     /** Notes saved as Markdown (older ones, or text pasted in) become blocks. */
     fun fromMarkdown(md: String): List<NoteBlock> {
@@ -223,10 +290,10 @@ object NoteDoc {
                 }
                 todoRe.containsMatchIn(line) -> {
                     val m = todoRe.find(line)!!
-                    out.add(NoteBlock(type = BlockType.Todo, checked = m.groupValues[1] != " ", text = line.removePrefix(m.value)))
+                    out.add(NoteBlock(type = BlockType.Todo, checked = m.groupValues[1] != " ", text = line.removePrefix(m.value).trimStart(), indent = depth(line)))
                 }
-                bulletRe.containsMatchIn(line) -> out.add(NoteBlock(type = BlockType.Bullet, text = line.replaceFirst(bulletRe, "")))
-                numberRe.containsMatchIn(line) -> out.add(NoteBlock(type = BlockType.Number, text = line.replaceFirst(numberRe, "")))
+                bulletRe.containsMatchIn(line) -> out.add(NoteBlock(type = BlockType.Bullet, text = line.replaceFirst(bulletRe, ""), indent = depth(line)))
+                numberRe.containsMatchIn(line) -> out.add(NoteBlock(type = BlockType.Number, text = line.replaceFirst(numberRe, ""), indent = depth(line)))
                 line.startsWith("> ") -> out.add(NoteBlock(type = BlockType.Quote, text = line.removePrefix("> ")))
                 line.trimStart().startsWith("|") -> {
                     val rows = ArrayList<List<String>>()
@@ -247,4 +314,75 @@ object NoteDoc {
 
     fun wordCount(blocks: List<NoteBlock>): Int =
         NoteFormatting.wordCount(toMarkdown(blocks.filter { it.type != BlockType.Code }))
+}
+
+
+/**
+ * Starting points for a new note. Each one is a few real blocks, so the page opens already shaped like the thing it is for
+ * and the writer fills in the gaps.
+ */
+enum class NoteTemplate(val label: String) {
+    Blank("Blank"),
+    Class("Class notes"),
+    Tasks("To-do list"),
+    Exam("Exam revision"),
+    Week("Weekly plan"),
+    Reading("Reading log"),
+    Journal("Daily review"),
+    Outline("Chapter outline");
+
+    fun blocks(): List<NoteBlock> {
+        fun t(type: BlockType, text: String = "", indent: Int = 0, open: Boolean = true) = NoteBlock(type = type, text = text, indent = indent, open = open)
+        return when (this) {
+            Blank -> NoteDoc.starter()
+            Class -> listOf(
+                t(BlockType.H2, "Topic"), t(BlockType.Text),
+                t(BlockType.H2, "Key points"), t(BlockType.Bullet), t(BlockType.Bullet), t(BlockType.Bullet),
+                t(BlockType.H2, "Questions"), t(BlockType.Todo),
+                t(BlockType.H2, "Summary"), t(BlockType.Text),
+            )
+            Tasks -> listOf(
+                t(BlockType.H2, "Today"), t(BlockType.Todo), t(BlockType.Todo), t(BlockType.Todo),
+                t(BlockType.H2, "Later"), t(BlockType.Todo), t(BlockType.Todo),
+            )
+            Exam -> listOf(
+                t(BlockType.Callout, "Exam date and paper"),
+                t(BlockType.H2, "Chapters"),
+                NoteBlock(type = BlockType.Table, rows = listOf(listOf("Subject", "Chapter", "Status"), listOf("", "", ""), listOf("", "", ""), listOf("", "", ""))),
+                t(BlockType.H2, "Before the exam"), t(BlockType.Todo, "Past papers"), t(BlockType.Todo, "Formula sheet"), t(BlockType.Todo, "Sleep early"),
+                t(BlockType.H2, "Weak spots"), t(BlockType.Bullet),
+            )
+            Week -> listOf(
+                NoteBlock(
+                    type = BlockType.Table,
+                    rows = listOf(listOf("Day", "Plan")) + listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat").map { listOf(it, "") }
+                ),
+                t(BlockType.H2, "This week"), t(BlockType.Todo), t(BlockType.Todo),
+            )
+            Reading -> listOf(
+                NoteBlock(type = BlockType.Table, rows = listOf(listOf("Book", "Pages", "Done"), listOf("", "", ""), listOf("", "", ""))),
+                t(BlockType.H2, "Lines worth keeping"), t(BlockType.Quote),
+            )
+            Journal -> listOf(
+                t(BlockType.H2, "Learned today"), t(BlockType.Text),
+                t(BlockType.H2, "Still confusing"), t(BlockType.Bullet),
+                t(BlockType.H2, "Tomorrow"), t(BlockType.Todo), t(BlockType.Todo),
+            )
+            Outline -> listOf(
+                t(BlockType.Toggle, "Chapter 1", open = true),
+                t(BlockType.Bullet, "Main idea", indent = 1), t(BlockType.Bullet, "Definitions", indent = 1), t(BlockType.Bullet, "Examples", indent = 1),
+                t(BlockType.Toggle, "Chapter 2", open = true),
+                t(BlockType.Bullet, "Main idea", indent = 1), t(BlockType.Bullet, "Definitions", indent = 1),
+                t(BlockType.Toggle, "Chapter 3", open = false),
+                t(BlockType.Bullet, "Main idea", indent = 1),
+            )
+        }
+    }
+
+    companion object {
+        /** The template the notes list picked, read once by the editor that opens next. */
+        @Volatile var pending: NoteTemplate? = null
+
+        fun take(): NoteTemplate? = pending.also { pending = null }
+    }
 }

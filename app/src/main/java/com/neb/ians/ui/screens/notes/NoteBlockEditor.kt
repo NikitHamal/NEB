@@ -2,6 +2,7 @@
 
 package com.neb.ians.ui.screens.notes
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +26,16 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.ChevronRight
+import androidx.compose.material.icons.outlined.FormatIndentDecrease
+import androidx.compose.material.icons.outlined.FormatIndentIncrease
+import androidx.compose.material.icons.outlined.HorizontalRule
+import androidx.compose.material.icons.outlined.Image
+import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.Mic
+import androidx.compose.material.icons.outlined.Notes
+import androidx.compose.material.icons.outlined.TableChart
+import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.FormatBold
@@ -61,10 +72,12 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isShiftPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
@@ -132,12 +145,24 @@ fun NoteBlockEditor(
     modifier: Modifier = Modifier,
 ) {
     val focusRequest by vm.focusRequest.collectAsStateWithLifecycle()
+    // numbers count per level: a nested list starts again at 1 and does not break the one around it
     val numbers = remember(blocks) {
-        var run = 0
-        blocks.map { if (it.type == BlockType.Number) ++run else { run = 0; 0 } }
+        val counters = IntArray(NoteDoc.MAX_INDENT + 2)
+        blocks.map { b ->
+            if (b.type == BlockType.Number) {
+                counters[b.indent]++
+                for (j in b.indent + 1 until counters.size) counters[j] = 0
+                counters[b.indent]
+            } else {
+                for (j in b.indent until counters.size) counters[j] = 0
+                0
+            }
+        }
     }
+    val hidden = remember(blocks) { NoteDoc.hiddenIndexes(blocks) }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         blocks.forEachIndexed { index, block ->
+            if (index in hidden) return@forEachIndexed
             key(block.id) {
                 when (block.type) {
                     BlockType.Divider -> MediaFrame(block, vm, readOnly, always = false) {
@@ -147,7 +172,7 @@ fun NoteBlockEditor(
                     BlockType.Audio -> MediaFrame(block, vm, readOnly) { AudioBlockView(block, vm, readOnly) }
                     BlockType.Table -> MediaFrame(block, vm, readOnly) { TableBlockView(block, vm, readOnly, fg) }
                     BlockType.Drawing -> MediaFrame(block, vm, readOnly) { DrawingBlockView(block, vm, readOnly) }
-                    else -> TextBlockRow(block, numbers[index], blocks.size == 1, vm, registry, readOnly, fg, focusRequest == block.id)
+                    else -> TextBlockRow(block, numbers[index], blocks.size == 1, vm, registry, readOnly, fg, focusRequest == block.id, if (block.type == BlockType.Toggle && !block.open) NoteDoc.childCount(blocks, index) else 0)
                 }
             }
         }
@@ -179,12 +204,16 @@ private fun BlockMenuButton(block: NoteBlock, vm: NoteEditorViewModel, onSurface
             expanded = open, onDismissRequest = { open = false },
         ) {
             if (block.type.hasText) {
-                listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
+                listOf(BlockType.Text, BlockType.H1, BlockType.H2, BlockType.H3, BlockType.Todo, BlockType.Toggle, BlockType.Bullet, BlockType.Number, BlockType.Quote, BlockType.Callout, BlockType.Code).forEach { t ->
                     DropdownMenuItem(
                         text = { Text(t.label, color = if (block.type == t) c.primary else c.onSurface, fontWeight = if (block.type == t) FontWeight.SemiBold else FontWeight.Normal) },
                         onClick = { open = false; vm.convert(block.id, t) },
                     )
                 }
+            }
+            if (block.type.hasText) {
+                DropdownMenuItem(text = { Text("Indent") }, leadingIcon = { Icon(Icons.Outlined.FormatIndentIncrease, null) }, onClick = { open = false; vm.indent(block.id, 1) })
+                DropdownMenuItem(text = { Text("Outdent") }, leadingIcon = { Icon(Icons.Outlined.FormatIndentDecrease, null) }, onClick = { open = false; vm.indent(block.id, -1) })
             }
             DropdownMenuItem(text = { Text("Move up") }, onClick = { open = false; vm.move(block.id, -1) })
             DropdownMenuItem(text = { Text("Move down") }, onClick = { open = false; vm.move(block.id, 1) })
@@ -204,6 +233,7 @@ private fun TextBlockRow(
     readOnly: Boolean,
     fg: Color,
     wantsFocus: Boolean,
+    hiddenKids: Int = 0,
 ) {
     val c = MaterialTheme.colorScheme
     val type = block.type
@@ -239,6 +269,7 @@ private fun TextBlockRow(
         BlockType.Text -> if (onlyBlock) "Start writing, or type / for blocks" else if (focused) "Type / for blocks" else ""
         BlockType.H1, BlockType.H2, BlockType.H3 -> "Heading"
         BlockType.Todo -> "To-do"
+        BlockType.Toggle -> "Toggle"
         BlockType.Bullet, BlockType.Number -> "List"
         BlockType.Quote -> "Quote"
         BlockType.Callout -> "Callout"
@@ -247,7 +278,7 @@ private fun TextBlockRow(
     }
     val slash = if (type == BlockType.Text && block.text.startsWith("/") && !block.text.contains(' ')) {
         val q = block.text.drop(1)
-        BlockType.entries.filter { q.isBlank() || it.label.contains(q, true) || it.keywords.contains(q, true) }.take(8)
+        BlockType.entries.filter { q.isBlank() || it.label.contains(q, true) || it.keywords.contains(q, true) }.take(9)
     } else emptyList()
 
     val container: Modifier = when (type) {
@@ -258,7 +289,7 @@ private fun TextBlockRow(
     val topPad = when (type) { BlockType.H1 -> 14.dp; BlockType.H2 -> 10.dp; BlockType.H3 -> 6.dp; else -> 0.dp }
 
     Row(
-        Modifier.fillMaxWidth().padding(top = topPad).then(if (type == BlockType.Quote) Modifier.height(IntrinsicSize.Min) else Modifier).then(container),
+        Modifier.fillMaxWidth().padding(start = (block.indent * 24).dp, top = topPad).then(if (type == BlockType.Quote) Modifier.height(IntrinsicSize.Min) else Modifier).then(container),
         verticalAlignment = Alignment.Top,
     ) {
         when (type) {
@@ -270,6 +301,18 @@ private fun TextBlockRow(
                     .clickable(enabled = !readOnly) { vm.toggleTodo(block.id) },
                 contentAlignment = Alignment.Center,
             ) { if (block.checked) Icon(Icons.Outlined.Check, "Done", tint = c.onPrimary, modifier = Modifier.size(14.dp)) }
+            BlockType.Toggle -> {
+                val turn by animateFloatAsState(if (block.open) 90f else 0f, label = "toggle")
+                Box(
+                    Modifier.padding(end = 4.dp).size(28.dp).clip(CircleShape).clickable { vm.toggleOpen(block.id) },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        Icons.Outlined.ChevronRight, if (block.open) "Fold" else "Unfold", tint = fg.copy(alpha = 0.75f),
+                        modifier = Modifier.size(22.dp).graphicsLayer { rotationZ = turn },
+                    )
+                }
+            }
             BlockType.Quote -> Box(Modifier.padding(end = 12.dp).width(3.dp).fillMaxHeight().clip(RoundedCornerShape(2.dp)).background(c.primary))
             else -> {}
         }
@@ -304,7 +347,9 @@ private fun TextBlockRow(
                     }
                     .onPreviewKeyEvent { ev ->
                         val sel = registry.valueOf(block).selection
-                        if (ev.type == KeyEventType.KeyDown && ev.key == Key.Backspace && sel.collapsed && sel.start == 0 && !readOnly) {
+                        if (ev.type == KeyEventType.KeyDown && ev.key == Key.Tab && !readOnly) {
+                            vm.indent(block.id, if (ev.isShiftPressed) -1 else 1); true
+                        } else if (ev.type == KeyEventType.KeyDown && ev.key == Key.Backspace && sel.collapsed && sel.start == 0 && !readOnly) {
                             vm.backspaceAtStart(block.id); true
                         } else false
                     },
@@ -313,8 +358,25 @@ private fun TextBlockRow(
                 expanded = focused && slash.isNotEmpty(), onDismissRequest = {},
                 properties = PopupProperties(focusable = false),
             ) {
-                slash.forEach { t -> DropdownMenuItem(text = { Text(t.label) }, onClick = { vm.applySlash(block.id, t) }) }
+                slash.forEach { t ->
+                    DropdownMenuItem(
+                        text = {
+                            Column {
+                                Text(t.label, fontWeight = FontWeight.Medium)
+                                Text(t.hint, style = MaterialTheme.typography.labelSmall, color = c.onSurfaceVariant)
+                            }
+                        },
+                        leadingIcon = { Icon(blockIcon(t), null, tint = c.primary, modifier = Modifier.size(22.dp)) },
+                        onClick = { vm.applySlash(block.id, t) },
+                    )
+                }
             }
+        }
+        if (hiddenKids > 0) {
+            Text(
+                "$hiddenKids", style = MaterialTheme.typography.labelSmall, color = c.onSecondaryContainer,
+                modifier = Modifier.padding(start = 6.dp, top = 4.dp).clip(RoundedCornerShape(8.dp)).background(c.secondaryContainer).padding(horizontal = 8.dp, vertical = 2.dp),
+            )
         }
         if (!readOnly && focused) Box(Modifier.padding(start = 4.dp)) { BlockMenuButton(block, vm) }
     }
@@ -355,14 +417,15 @@ fun BlockFormatBar(
                 NebDropdownMenu(
                     expanded = insertMenu, onDismissRequest = { insertMenu = false },
                 ) {
-                    listOf(BlockType.Image, BlockType.Audio, BlockType.Drawing, BlockType.Table, BlockType.Callout, BlockType.Code, BlockType.Divider).forEach { t ->
+                    listOf(BlockType.Image, BlockType.Audio, BlockType.Drawing, BlockType.Table, BlockType.Toggle, BlockType.Callout, BlockType.Code, BlockType.Divider).forEach { t ->
                         DropdownMenuItem(
                             text = { Text(t.label) },
+                            leadingIcon = { Icon(blockIcon(t), null, tint = c.primary) },
                             onClick = {
                                 insertMenu = false
                                 when (t) {
                                     BlockType.Table -> vm.newTable()
-                                    BlockType.Callout, BlockType.Code -> vm.insert(t)
+                                    BlockType.Callout, BlockType.Code, BlockType.Toggle -> vm.insert(t)
                                     else -> vm.insert(t)
                                 }
                             },
@@ -380,6 +443,8 @@ fun BlockFormatBar(
             BarButton(Icons.Outlined.FormatListBulleted, "Bullets", fg, block?.type == BlockType.Bullet) { turn(BlockType.Bullet) }
             BarButton(Icons.Outlined.FormatListNumbered, "Numbers", fg, block?.type == BlockType.Number) { turn(BlockType.Number) }
             BarButton(Icons.Outlined.FormatQuote, "Quote", fg, block?.type == BlockType.Quote) { turn(BlockType.Quote) }
+            BarButton(Icons.Outlined.FormatIndentDecrease, "Outdent", fg, false) { (block?.id ?: vm.focusedId)?.let { vm.indent(it, -1) } }
+            BarButton(Icons.Outlined.FormatIndentIncrease, "Indent", fg, false) { (block?.id ?: vm.focusedId)?.let { vm.indent(it, 1) } }
         }
         trailing()
     }
@@ -411,4 +476,23 @@ private fun BarButton(icon: ImageVector, label: String, tint: Color, active: Boo
             .clickable { tactile.perform(TactileType.LightTap); onClick() },
         contentAlignment = Alignment.Center,
     ) { Icon(icon, label, tint = if (active) c.onPrimaryContainer else tint, modifier = Modifier.size(22.dp)) }
+}
+
+
+/** The glyph a block kind carries in the "/" list, the insert menu and the template sheet. */
+internal fun blockIcon(type: BlockType): ImageVector = when (type) {
+    BlockType.Text -> Icons.Outlined.Notes
+    BlockType.H1, BlockType.H2, BlockType.H3 -> Icons.Outlined.Title
+    BlockType.Todo -> Icons.Outlined.Checklist
+    BlockType.Toggle -> Icons.Outlined.ChevronRight
+    BlockType.Bullet -> Icons.Outlined.FormatListBulleted
+    BlockType.Number -> Icons.Outlined.FormatListNumbered
+    BlockType.Quote -> Icons.Outlined.FormatQuote
+    BlockType.Callout -> Icons.Outlined.Lightbulb
+    BlockType.Code -> Icons.Outlined.Code
+    BlockType.Divider -> Icons.Outlined.HorizontalRule
+    BlockType.Table -> Icons.Outlined.TableChart
+    BlockType.Image -> Icons.Outlined.Image
+    BlockType.Audio -> Icons.Outlined.Mic
+    BlockType.Drawing -> Icons.Outlined.Draw
 }

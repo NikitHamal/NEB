@@ -265,13 +265,13 @@ fun NoteEditorScreen(
         ) {
             BasicTextField(
                 value = title, onValueChange = vm::setTitle, readOnly = trashed,
-                textStyle = MaterialTheme.typography.headlineSmall.copy(color = fg, fontWeight = FontWeight.SemiBold),
+                textStyle = MaterialTheme.typography.headlineLarge.copy(color = fg, fontWeight = FontWeight.Bold),
                 cursorBrush = SolidColor(c.primary),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(onNext = { vm.focusFirst() }),
                 decorationBox = { inner ->
                     Box {
-                        if (title.isEmpty()) Text("Title", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.SemiBold, color = fg.copy(alpha = 0.4f))
+                        if (title.isEmpty()) Text("Untitled", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, color = fg.copy(alpha = 0.35f))
                         inner()
                     }
                 },
