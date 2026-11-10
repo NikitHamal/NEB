@@ -21,7 +21,8 @@ fun main(args: Array<String>) {
             is CodeBlock -> println("CODE: ${b.text.replace("\n", "\\n").take(130)}")
             is LabelBlock -> println("[box${b.box}] LABEL ${b.text}")
             is TableBlock -> { println("TABLE hdr=${b.header}"); b.rows.forEach { println("   | " + it.cells.joinToString(" | ") + if (it.jump>=0) "  ->${it.jump}" else "") } }
-            is FigureBlock -> println("FIG eq=${b.equation} ${"%.2f %.2f %.2f %.2f".format(b.rect.l,b.rect.t,b.rect.r,b.rect.b)} ${b.widthPts.toInt()}x${b.heightPts.toInt()}")
+            is FigureBlock -> println("FIG vec=${b.vec != null} eq=${b.equation} ${"%.2f %.2f %.2f %.2f".format(b.rect.l,b.rect.t,b.rect.r,b.rect.b)} ${b.widthPts.toInt()}x${b.heightPts.toInt()}")
         }
+        println("  inlines: " + rp.inlines.mapIndexed { k, i -> "<$k>" + (if (i.vec != null) "v" else "CROP") + "${i.widthPts.toInt()}x${i.heightPts.toInt()}" }.joinToString(" "))
     }
 }
