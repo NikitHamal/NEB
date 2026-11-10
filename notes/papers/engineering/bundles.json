@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853065,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -39,7 +39,7 @@
    "ioe-ce103-2081-baishakh"
   ],
   "pages": 27,
-  "bytes": 413722,
+  "bytes": 413723,
   "kind": "subject-bundle"
  },
  {
@@ -54,7 +54,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606311,
+  "bytes": 1606310,
   "kind": "subject-bundle"
  },
  {
@@ -85,7 +85,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762980,
+  "bytes": 2762979,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095712,
+  "bytes": 3095710,
   "kind": "subject-bundle"
  },
  {
@@ -131,7 +131,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -258,7 +258,7 @@
    "ioe-ensh251-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 341541,
+  "bytes": 341542,
   "kind": "subject-bundle"
  },
  {
@@ -284,7 +284,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710383,
+  "bytes": 710382,
   "kind": "subject-bundle"
  },
  {
@@ -297,7 +297,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582017,
+  "bytes": 1582018,
   "kind": "subject-bundle"
  },
  {
@@ -323,7 +323,7 @@
    "ioe-enct252-2082-bhadra"
   ],
   "pages": 38,
-  "bytes": 735112,
+  "bytes": 735111,
   "kind": "subject-bundle"
  },
  {
@@ -349,7 +349,7 @@
    "ioe-enex254-2082-bhadra"
   ],
   "pages": 29,
-  "bytes": 1777021,
+  "bytes": 1777020,
   "kind": "subject-bundle"
  },
  {
@@ -391,7 +391,7 @@
    "ioe-ence201-2081-chaitra"
   ],
   "pages": 44,
-  "bytes": 2220293,
+  "bytes": 2220292,
   "kind": "subject-bundle"
  },
  {
@@ -404,7 +404,7 @@
    "ioe-ence251-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1404694,
+  "bytes": 1404695,
   "kind": "subject-bundle"
  },
  {
@@ -431,7 +431,7 @@
    "ioe-enex251-2082-bhadra"
   ],
   "pages": 27,
-  "bytes": 715089,
+  "bytes": 715088,
   "kind": "subject-bundle"
  },
  {
@@ -471,7 +471,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296671,
   "kind": "subject-bundle"
  },
  {
@@ -484,7 +484,7 @@
    "ioe-enex255-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 1482742,
+  "bytes": 1482741,
   "kind": "subject-bundle"
  },
  {
@@ -497,7 +497,7 @@
    "ioe-ence253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1304641,
+  "bytes": 1304643,
   "kind": "subject-bundle"
  },
  {
@@ -511,7 +511,7 @@
    "ioe-enct203-2081-chaitra"
   ],
   "pages": 51,
-  "bytes": 1775479,
+  "bytes": 1775480,
   "kind": "subject-bundle"
  },
  {
@@ -524,7 +524,20 @@
    "ioe-ence202-2081-chaitra"
   ],
   "pages": 27,
-  "bytes": 1558213,
+  "bytes": 1558212,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-water-supply-engineering-2082-2083.pdf",
+  "subject": "Water Supply Engineering",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-ence254-2083-baishakh",
+   "ioe-ence254-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 845914,
   "kind": "subject-bundle"
  },
  {
@@ -570,6 +583,8 @@
    "ioe-ence251-2083-baishakh",
    "ioe-ence253-2082-bhadra",
    "ioe-ence253-2083-baishakh",
+   "ioe-ence254-2082-bhadra",
+   "ioe-ence254-2083-baishakh",
    "ioe-enct151-2082-bhadra",
    "ioe-enct151-2083-baishakh",
    "ioe-enct153-2082-bhadra",
@@ -649,8 +664,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1656,
-  "bytes": 62071577,
+  "pages": 1681,
+  "bytes": 62902444,
   "kind": "master-book"
  }
 ]
