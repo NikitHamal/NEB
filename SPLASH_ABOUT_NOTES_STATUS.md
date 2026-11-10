@@ -34,3 +34,8 @@ No shadows, no emojis, no gradients, no ring on photos, no fills on role badges,
 - No leftover generated-avatar code or options (searched Kotlin, Python, templates, JS). Neby the AI bot keeps its mascot, it is a bot identity.
 - No timer line left in `NebToast.kt`, `neb-toast.js`, `app-toast.css`.
 - `docs/M3X_DESIGN_SYSTEM.md` now carries the rules from this batch: toast without progress, no generated avatars, splash, About, no scroll motion on Android, upload stepper.
+
+## Verified (session 4)
+
+- Django suite: 908 tests OK. Android CI build green on `df8c395` (Room 5, note icon and cover).
+- Splash, About, avatar removal, toast without progress and upload stepper were re-checked in the code and left as built in sessions 1 to 3.
