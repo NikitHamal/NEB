@@ -31,6 +31,21 @@ private fun buildPath(s: VShape): Path {
 }
 
 /**
+ * Turns a picture of black ink on white paper (a crop of the page: a formula that could not be drawn from its outlines)
+ * into the theme's ink with the white made transparent, so it has no white box on a tonal card, a table row or Night.
+ */
+internal fun inkMask(ink: Color): androidx.compose.ui.graphics.ColorFilter = androidx.compose.ui.graphics.ColorFilter.colorMatrix(
+    androidx.compose.ui.graphics.ColorMatrix(
+        floatArrayOf(
+            0f, 0f, 0f, 0f, ink.red * 255f,
+            0f, 0f, 0f, 0f, ink.green * 255f,
+            0f, 0f, 0f, 0f, ink.blue * 255f,
+            -0.299f, -0.587f, -0.114f, 0f, 255f
+        )
+    )
+)
+
+/**
  * The colour a printed colour takes in the reading theme: black and near black become the theme's ink (so maths
  * is light on Night), white knock-outs are not drawn, anything else keeps its own colour.
  */

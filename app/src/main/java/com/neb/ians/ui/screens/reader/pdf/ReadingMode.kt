@@ -275,7 +275,7 @@ private fun RdInlineMath(img: InlineImg, widthSp: Float, source: ReadSource, p: 
     }
     val image = remember(bitmap) { bitmap?.asImageBitmap() }
     if (image != null) {
-        Image(image, "Formula", Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
+        Image(image, "Formula", Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = inkMask(p.ink))
     }
 }
 
@@ -458,7 +458,7 @@ private fun RdBlock(block: Block, page: Int, index: Int, t: ReadType, ctx: RdCtx
 private fun RdTable(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGap: Dp, activeNth: Int) {
     Column(Modifier.fillMaxWidth()) {
         RdTableBody(b, page, t, ctx, topGap, activeNth)
-        Row(
+        if ((b.rows.maxOfOrNull { it.cells.size } ?: 0) >= 4) Row(
             Modifier
                 .align(Alignment.End)
                 .padding(top = 6.dp)
@@ -486,7 +486,7 @@ private fun RdTableBody(b: TableBlock, page: Int, t: ReadType, ctx: RdCtx, topGa
         var n = 0
         b.rows.map { r -> (0 until cols).map { c -> n.also { n += occurrences(r.cells.getOrElse(c) { "" }, q).size } } }
     }
-    val weights = remember(b) { (0 until cols).map { c -> b.rows.map { it.cells.getOrNull(c)?.length ?: 0 }.average().toFloat().coerceIn(3f, 40f) } }
+    val weights = remember(b) { (0 until cols).map { c -> b.rows.map { it.cells.getOrNull(c)?.sumOf { ch -> if (isMathChar(ch)) 9 else 1 } ?: 0 }.average().toFloat().coerceIn(3f, 40f) } }
     val cellStyle = t.body.copy(fontSize = t.base * 0.86f, lineHeight = t.lineHeight * 0.88f, textAlign = TextAlign.Start)
     val wide = cols >= 5
     Column(
@@ -557,7 +557,8 @@ private fun RdFigure(b: FigureBlock, t: ReadType, ctx: RdCtx, maxWidth: Dp, topG
                 .clickable { ctx.onZoom(RdZoomItem.Figure(b)) }
         ) {
             if (image != null) {
-                Image(image, (if (b.equation) "Equation from page " else "Figure from page ") + (b.page + 1), Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds, colorFilter = p.filter)
+                Image(image, (if (b.equation) "Equation from page " else "Figure from page ") + (b.page + 1), Modifier.fillMaxSize(), contentScale = ContentScale.FillBounds,
+                    colorFilter = if (b.equation) inkMask(p.ink) else if (LocalRdInCard.current && p.filter == null) androidx.compose.ui.graphics.ColorFilter.tint(p.tonal, androidx.compose.ui.graphics.BlendMode.Multiply) else p.filter)
             }
         }
     }
@@ -593,7 +594,7 @@ private fun RdPage(
                         (previous?.blocks?.lastOrNull() as? ItemBlock)?.let { it.choiceCols == 0 } == true)
             }
             Column(Modifier.fillMaxWidth()) {
-                if (!joins && page > 0) RdPageMark(page, p) { ctx.onOpenPage(page) }
+                if (!joins && page > 0) Spacer(Modifier.height(t.gap * 0.7f))
                 RdBlocks(blocks, 0, blocks.size, page, t, ctx, maxWidth, if (joins) t.gap * 0.5f else 0.dp)
                 if (blocks.isEmpty()) Spacer(Modifier.height(8.dp))
             }
@@ -923,7 +924,7 @@ fun ReadingMode(
             enter = slideInVertically(nebSpatialSpec()) { -it } + fadeIn(nebEffectsSpec()),
             exit = slideOutVertically(nebSpatialSpec()) { -it } + fadeOut(nebEffectsSpec())
         ) {
-            Column(Modifier.fillMaxWidth().background(palette.bg.copy(alpha = 0.97f))) {
+            Column(Modifier.fillMaxWidth().background(palette.bg)) {
                 if (search.open) RdSearchRow(search, pageCount, palette, onSearchQuery, onSearchStep, onSearchClose) else Row(
                     Modifier.windowInsetsPadding(WindowInsets.statusBarsIgnoringVisibility).height(ReaderBarHeight).padding(horizontal = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -979,7 +980,7 @@ fun ReadingMode(
             enter = slideInVertically(nebSpatialSpec()) { it } + fadeIn(nebEffectsSpec()),
             exit = slideOutVertically(nebSpatialSpec()) { it } + fadeOut(nebEffectsSpec())
         ) {
-            Column(Modifier.fillMaxWidth().background(palette.bg.copy(alpha = 0.97f))) {
+            Column(Modifier.fillMaxWidth().background(palette.bg)) {
                 HorizontalDivider(color = palette.line)
                 Column(Modifier.windowInsetsPadding(WindowInsets.navigationBarsIgnoringVisibility).padding(horizontal = 6.dp, vertical = 4.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
