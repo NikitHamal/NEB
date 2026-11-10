@@ -225,8 +225,7 @@ CATEGORIES: List[Dict] = [
             },
             {
                 'q': 'How do I change my username or photo?',
-                'a': "From <a href=\"/app/profile/edit/\" rel=\"nofollow\">edit profile</a>. You can also "
-                     "build a NEBians avatar there instead of uploading a photo.",
+                'a': "From <a href=\"/app/profile/edit/\" rel=\"nofollow\">edit profile</a>.",
             },
             {
                 'q': 'How do I delete my account?',

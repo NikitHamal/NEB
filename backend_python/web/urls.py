@@ -28,7 +28,6 @@ from . import views_admin_media
 from . import views_admin_neby
 from . import views_monitor
 from . import views_needle
-from . import views_avatar
 from . import views_content_images
 from . import views_canvas
 from . import views_canvas_features
@@ -127,11 +126,6 @@ urlpatterns = [
     path('app/profile/edit/', views_profile.edit_profile, name='edit_profile'),
     path('app/credits/', views_profile.credits_page, name='credits'),
     path('app/settings/', views_profile.settings_page, name='settings'),
-    path('app/my-avatar/', views_avatar.my_avatar, name='my_avatar'),
-    path('avatar/', views_avatar.avatar_svg_index, name='avatar_index'),
-    path('avatar/<str:name>/', views_avatar.avatar_svg, name='avatar_svg'),
-    path('ajax/avatar/change-username/', views_avatar.ajax_avatar_change_username, name='ajax_avatar_change_username'),
-    path('ajax/avatar/customize/', views_avatar.ajax_avatar_customize, name='ajax_avatar_customize'),
     path('app/settings/delete-account/', views_profile.delete_account_page, name='delete_account'),
     path('app/analytics/', views_study_lab.analytics, name='analytics'),
     path('app/bookmarks/', views_profile.bookmarks, name='bookmarks'),

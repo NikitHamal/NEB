@@ -890,15 +890,8 @@ def _ctx(request, **extra):
                 user['moderator_level'] = db_user.moderator_level
                 user['enable_inline_images'] = getattr(db_user, 'enable_inline_images', True)
                 user['enableInlineImages'] = getattr(db_user, 'enable_inline_images', True)
-                if db_user.avatar_use_pp:
-                    user['photo_url'] = _blobatar_url_for(db_user)
-                    user['avatar_url'] = _blobatar_url_for(db_user)
-                elif db_user.photo_url:
-                    user['photo_url'] = db_user.photo_url
-                    user['avatar_url'] = db_user.photo_url
-                else:
-                    user['photo_url'] = _blobatar_url_for(db_user)
-                    user['avatar_url'] = _blobatar_url_for(db_user)
+                user['photo_url'] = db_user.photo_url or ''
+                user['avatar_url'] = user['photo_url']
                 badge_info = _user_badge_info(db_user)
     dark_mode = request.session.get('theme') == 'dark'
     unread_notifications = 0
@@ -1182,15 +1175,9 @@ def _normalize_user_data(user):
         if old_key in user and new_key not in user:
             user[new_key] = user[old_key]
     
-    # Ensure avatar_url is populated for base.html navbar compatibility
-    if user.get('avatar_use_pp'):
-        user['avatar_url'] = _blobatar_url_for(user)
-    elif 'photo_url' in user:
-        user['avatar_url'] = user['photo_url'] or _blobatar_url_for(user)
-    elif 'photoUrl' in user:
-        user['avatar_url'] = user['photoUrl'] or _blobatar_url_for(user)
-    else:
-        user['avatar_url'] = _blobatar_url_for(user)
+    # Ensure avatar_url is populated for base.html navbar compatibility. Empty means
+    # the template draws the initial (no generated avatars).
+    user['avatar_url'] = user.get('photo_url') or user.get('photoUrl') or ''
 
     if 'enable_inline_images' not in user:
         user['enable_inline_images'] = True
@@ -1203,60 +1190,6 @@ def _normalize_user_data(user):
         user['anon_tag'] = get_user_anon_tag(user['id'])
 
     return user
-
-
-def _avatar_prefs_from(obj):
-    from api.services import avatar_options_for
-    if hasattr(obj, 'username'):
-        return avatar_options_for(obj)
-    prefs = {}
-    try:
-        hue = obj.get('avatar_hue', -1)
-        tone = obj.get('avatar_tone', -1.0)
-        bg = obj.get('avatar_bg', '') or ''
-        anim = obj.get('avatar_anim', '') or ''
-        shape = obj.get('avatar_shape', '') or ''
-        expression = obj.get('avatar_expression', '') or ''
-        color = obj.get('avatar_color', '') or ''
-        bgcolor = obj.get('avatar_bg_color', '') or ''
-        eyecolor = obj.get('avatar_eye_color', '') or ''
-    except AttributeError:
-        return prefs
-    if hue >= 0:
-        prefs['hue'] = int(hue)
-    if tone >= 0:
-        prefs['tone'] = float(tone)
-    if bg:
-        prefs['background'] = bg
-    if anim:
-        prefs['anim'] = anim
-    if shape:
-        prefs['shape'] = shape
-    if expression:
-        prefs['expression'] = expression
-    if color:
-        prefs['color'] = color
-    if bgcolor:
-        prefs['bgcolor'] = bgcolor
-    if eyecolor:
-        prefs['eyecolor'] = eyecolor
-    return prefs
-
-
-def _blobatar_url_for(user_or_username, prefs=None):
-    from urllib.parse import quote as _q
-    if prefs is None and not isinstance(user_or_username, str):
-        prefs = _avatar_prefs_from(user_or_username)
-        if isinstance(user_or_username, dict):
-            username = user_or_username.get('username', '') or ''
-        else:
-            username = getattr(user_or_username, 'username', '') or ''
-    else:
-        username = user_or_username
-    url = '/avatar/%s/' % _q((username or ''), safe='')
-    if prefs:
-        url += '?' + '&'.join('%s=%s' % (k, _q(str(v), safe='')) for k, v in sorted(prefs.items()))
-    return url
 
 
 def _comment_author(user, is_anonymous):
@@ -1278,17 +1211,16 @@ def _comment_author(user, is_anonymous):
 
 
 def _avatar_url(u):
+    """The profile photo URL, or '' (templates and apps draw the initial)."""
     from api.services import avatar_or_photo_url
     if not u:
         return ''
     if hasattr(u, 'username'):
         return avatar_or_photo_url(u)
-    if getattr(u, 'avatar_use_pp', False):
-        return _blobatar_url_for(u)
     photo = getattr(u, 'photo_url', None) or getattr(u, 'photoUrl', None) or ''
-    if photo:
-        return photo
-    return _blobatar_url_for(u)
+    if isinstance(u, dict):
+        photo = u.get('photo_url') or u.get('photoUrl') or ''
+    return avatar_or_photo_url(type('P', (), {'photo_url': photo})())
 
 def _clear_page_cache():
     cache.delete_many([

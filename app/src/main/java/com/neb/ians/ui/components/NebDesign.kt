@@ -34,7 +34,6 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.ui.res.painterResource
 import com.neb.ians.R
 import androidx.compose.material3.Icon
-import com.neb.ians.ui.avatar.blobatarAnim
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -261,7 +260,6 @@ fun NebAvatar(
 
     var isError by remember(resolvedUrl) { mutableStateOf(false) }
     val isNeby = remember(name) { name.equals("Neby", ignoreCase = true) || name.equals("neby", ignoreCase = true) }
-    val nebAnim = remember(resolvedUrl) { com.neb.ians.ui.avatar.avatarAnimFromUrl(resolvedUrl) }
     val hasImageBgNeb = !isNeby && !resolvedUrl.isNullOrBlank() && !isError
     val avatarShape: androidx.compose.ui.graphics.Shape =
         if (isNeby) CircleShape else rememberAvatarShape(name)
@@ -287,7 +285,7 @@ fun NebAvatar(
                 AsyncImage(
                     model = resolvedUrl,
                     contentDescription = name,
-                    modifier = Modifier.size(size).clip(avatarShape).blobatarAnim(nebAnim),
+                    modifier = Modifier.size(size).clip(avatarShape),
                     contentScale = ContentScale.Crop,
                     onError = { isError = true }
                 )

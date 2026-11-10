@@ -163,7 +163,7 @@ class CompleteProfileViewModel @Inject constructor(
             return
         }
         try {
-            apiService.getAvatarStyle(bearer)
+            apiService.getUserPhotos(bearer)
         } catch (e: retrofit2.HttpException) {
             if (e.code() == 401) markSessionExpired()
         } catch (_: Exception) {

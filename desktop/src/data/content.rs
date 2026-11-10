@@ -469,7 +469,7 @@ impl ContentRepo {
 
     // ---------------------------------------------------------- remote images
 
-    /// Avatars and other server images, cached by URL hash. `url` may be site-relative (`/avatar/x/`).
+    /// Avatars and other server images, cached by URL hash. `url` may be site-relative (`/media/...`).
     pub fn image_bytes(&self, url: &str) -> Result<Vec<u8>> {
         use sha2::{Digest, Sha256};
         let abs = if url.starts_with("http://") || url.starts_with("https://") {

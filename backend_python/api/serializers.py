@@ -20,7 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
             'email_verified', 'hasPassword',
             'verification_level', 'moderator_level', 'is_admin', 'achievement_badges',
             'is_bot', 'teacher_verified', 'institution_verified',
-            'avatar_use_pp',
             'social_links',
         ]
         read_only_fields = ['id', 'created_at', 'email_verified', 'hasPassword',

@@ -16,7 +16,6 @@ from . import views_wallet
 from . import views_marketplace
 from nebians.features import marketplace_gate, app_features
 from . import credit_views
-from . import views_avatar_api
 from . import views_content_images
 from . import views_site_theme
 from . import views_syllabus
@@ -64,10 +63,6 @@ urlpatterns = [
     path('users/institutions/', views_users.institutions_list, name='institutions-list'),
     path('institutions/', views_institutions.institutions_search, name='institutions-search'),
     path('institutions/<slug:slug>/', views_institutions.institution_detail, name='institution-detail'),
-
-    # Users — avatar customization (auth required)
-    path('users/me/avatar/', views_avatar_api.avatar_style_get, name='avatar-style-get'),
-    path('users/me/avatar/customize/', views_avatar_api.avatar_style_update, name='avatar-style-update'),
 
     # Users — photo history (auth required)
     path('users/me/photos/', views_users.user_photos, name='user-photos'),

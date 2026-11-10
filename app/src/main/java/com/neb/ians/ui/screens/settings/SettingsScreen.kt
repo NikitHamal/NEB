@@ -74,7 +74,6 @@ fun SettingsScreen(
     onNavigateToEditProfile: () -> Unit,
     onNavigateToBookmarks: () -> Unit = {},
     onNavigateToNebyCredits: () -> Unit = {},
-    onNavigateToMyAvatar: () -> Unit = {},
     onNavigateToDeleteAccount: () -> Unit = {},
     onNavigateToAccountSecurity: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
@@ -166,13 +165,6 @@ fun SettingsScreen(
                         subtitle = "Balance, top-ups and point conversion",
                         onClick = onNavigateToNebyCredits
                     )
-                    SettingsDivider()
-                    SettingsRow(
-                        icon = Icons.Outlined.Palette,
-                        title = "My avatar",
-                        subtitle = "Shape, mood and colours",
-                        onClick = onNavigateToMyAvatar
-                    )
                 }
             }
 
@@ -232,17 +224,11 @@ fun SettingsScreen(
                 )
             }
 
-            val appVersionName = remember(context) {
-                runCatching {
-                    context.packageManager.getPackageInfo(context.packageName, 0).versionName
-                }.getOrNull() ?: "1.0.5"
-            }
-
             SettingsGroup(title = "About") {
                 SettingsRow(
                     icon = Icons.Outlined.Info,
                     title = "About NEBians",
-                    subtitle = "The team and the company",
+                    subtitle = "Version, credits and open source",
                     onClick = onNavigateToAbout
                 )
                 SettingsDivider()
@@ -258,12 +244,6 @@ fun SettingsScreen(
                     title = "Terms of service",
                     subtitle = "Rules and guidelines for usage",
                     onClick = { onNavigateToLegal(NebLegal.TERMS) }
-                )
-                SettingsDivider()
-                SettingsRow(
-                    icon = Icons.Outlined.Info,
-                    title = "Version",
-                    subtitle = appVersionName
                 )
             }
 
