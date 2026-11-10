@@ -118,3 +118,6 @@ Phase 1 (research + download) is DONE for the sources below. Phase 2 (extract/no
 
 ### Section F addendum (session 21, IOE/BE last 5 years only)
 Built with full worked solutions and pushed: Soil Mechanics ENCE 253 (2083 Baishakh, 2082 Bhadra), Hydraulics ENCE 251 (2083 Baishakh, 2082 Bhadra), Theory of Structures I ENCE 202 (2082 Chaitra, 2081 Chaitra). New bundles: engineering-soil-mechanics-2082-2083, engineering-hydraulics-2082-2083, engineering-theory-of-structures-i-2081-2082; master All-in-One book regenerated. See engineering/PHASE2_STATUS.md for what is next (Survey I/II, Water Supply, Building Technology, Concrete Technology, PSA, 5th-semester scans).
+
+### Section F addendum (session 22, IOE/BE last 5 years only)
+Built with full worked solutions and pushed: Engineering Survey I (ENCE 153 2083 Baishakh back, CE 153 2082 Baishakh back). New bundle engineering-survey-i-2082-2083; master All-in-One book now 111 papers / 1583 pp. Scan p5-8 of the same Survey I PDF (2 more papers) are next. See engineering/PHASE2_STATUS.md Session 22.
