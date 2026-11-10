@@ -134,3 +134,4 @@ Built with full worked solutions and pushed: Engineering Survey I (ENCE 153 2083
 
 ### Section F addendum (session 26, IOE/BE last 5 years only)
 DONE: Design of Timber and Masonry Structures ENCE 301 (2082 Chaitra) and Design of Steel Structures ENCE 303 (2082 Chaitra), both worked in full; master All-in-One book regenerated. Open: Hydrology, Thermodynamics and Heat Transfer, Project Engineering Management, Sanitary Engineering, Electric Machine Design, CAD drawing (5th-sem / 3rd-sem scans, see PHASE2_STATUS.md Session 26 and CLAIMS.md).
+- Session 27: Engineering Hydrology ENCE 306, Engineering Thermodynamics and Heat Transfer ENME 310, Project Engineering and Management ENEE 301 and Sanitary Engineering ENCE 305 (all 2082 Chaitra regular) typeset with full worked solutions; master All-in-One now 139 papers / 1938 pp. See `engineering/PHASE2_STATUS.md` (Session 27) for the assumptions to review (notably the infeasible ENCE 305 Q16 as printed).
