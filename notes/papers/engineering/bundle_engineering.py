@@ -122,33 +122,54 @@ def build():
         records.append({"file": "bundles/" + name, "subject": subject, "level": level, "years_bs": yr,
                         "papers": [r["id"] for r in rs], "pages": pages, "bytes": os.path.getsize(path), "kind": "subject-bundle"})
         print(f"{name}: {len(rs)} papers, {pages} pages")
-    # ---- master all-in-one book
+    # ---- master all-in-one book (GitHub caps a file at 100 MB: split into volumes of <= ~70 MB when needed)
     subj = collections.OrderedDict()
     for r in sorted(papers, key=lambda r: (r["level"].split(" / ")[0], r["subject"])):
         subj.setdefault((r["level"].split(" / ")[0], r["subject"]), []).append(r)
-    n_cover = 1
-    for _ in range(3):
-        page, secs = n_cover + 1, []
-        for (level, subject), rs in subj.items():
-            rows = []
+    total = sum(os.path.getsize(r["pdfpath"]) for r in papers)
+    nvol = max(1, -(-total // 70_000_000))
+    target, vols, cur, acc = total / nvol, [], [], 0
+    for key, rs in subj.items():
+        sz = sum(os.path.getsize(r["pdfpath"]) for r in rs)
+        if cur and acc + sz / 2 > target * (len(vols) + 1) - 0 and len(vols) < nvol - 1:
+            vols.append(cur); cur = []
+        cur.append((key, rs)); acc += sz
+    vols.append(cur)
+    for old in glob.glob(os.path.join(OUT, "NEBians-Engineering-All-In-One-Book*.pdf")):
+        os.remove(old)
+    for vi, items in enumerate(vols, 1):
+        multi = len(vols) > 1
+        vname = f"Volume {vi} of {len(vols)}" if multi else ""
+        btitle = "Engineering Past Papers, All-in-One Book" + (f", {vname}" if multi else "")
+        vpapers = [r for _, rs in items for r in rs]
+        n_cover = 1
+        for _ in range(3):
+            page, secs = n_cover + 1, []
+            for (level, subject), rs in items:
+                rows = []
+                for r in newest_first(rs):
+                    rows.append((r, page)); page += r["pages"]
+                secs.append((f"{subject}  \u00b7  {level}  \u00b7  {yr_range(rs)} BS", rows))
+            where = ""
+            if multi:
+                where = " Volumes: " + "; ".join(
+                    f"Vol {k}: {v[0][0][1]} to {v[-1][0][1]}" for k, v in enumerate(vols, 1)) + "."
+            n_cover = cover_pdf(tmp, btitle,
+                                "Tribhuvan University, Institute of Engineering \u00b7 every solved paper \u00b7 free forever", secs,
+                                f"{len(vpapers)} papers across {len(items)} subjects in this {'volume' if multi else 'book'}, {page - 1} pages "
+                                f"({len(papers)} papers in the whole book). Each paper is the full question paper reconstructed from the official scan, "
+                                f"followed by complete worked solutions. Free for every student.{where}", 1)
+        entries = []
+        for (level, subject), rs in items:
+            entries.append((1, f"{subject} ({yr_range(rs)})", None))
             for r in newest_first(rs):
-                rows.append((r, page)); page += r["pages"]
-            secs.append((f"{subject}  ·  {level}  ·  {yr_range(rs)} BS", rows))
-        n_cover = cover_pdf(tmp, "Engineering Past Papers, All-in-One Book",
-                            "Tribhuvan University, Institute of Engineering · every solved paper · free forever", secs,
-                            f"{len(papers)} papers across {len(subj)} subjects, {page - 1} pages. Each paper is the full question paper "
-                            "reconstructed from the official scan, followed by complete worked solutions. Free for every student.", 1)
-    entries = []
-    for (level, subject), rs in subj.items():
-        entries.append((1, f"{subject} ({yr_range(rs)})", None))
-        for r in newest_first(rs):
-            entries.append((2, f"{r['year_bs']} · {r['code']}", r["pdfpath"]))
-    name = "NEBians-Engineering-All-In-One-Book.pdf"
-    path = os.path.join(OUT, name)
-    pages = assemble(path, tmp, entries, "Engineering Past Papers, All-in-One Book")
-    records.append({"file": "bundles/" + name, "subject": "ALL", "years_bs": yr_range(papers), "papers": [r["id"] for r in papers],
-                    "pages": pages, "bytes": os.path.getsize(path), "kind": "master-book"})
-    print(f"{name}: {len(papers)} papers, {pages} pages")
+                entries.append((2, f"{r['year_bs']} \u00b7 {r['code']}", r["pdfpath"]))
+        name = "NEBians-Engineering-All-In-One-Book" + (f"-Vol-{vi}-of-{len(vols)}" if multi else "") + ".pdf"
+        path = os.path.join(OUT, name)
+        pages = assemble(path, tmp, entries, btitle)
+        records.append({"file": "bundles/" + name, "subject": "ALL", "years_bs": yr_range(vpapers), "papers": [r["id"] for r in vpapers],
+                        "pages": pages, "bytes": os.path.getsize(path), "kind": "master-book", "volume": vi, "volumes": len(vols)})
+        print(f"{name}: {len(vpapers)} papers, {pages} pages, {os.path.getsize(path)/1e6:.1f} MB")
     os.remove(tmp)
     json.dump(records, open(os.path.join(HERE, "bundles.json"), "w"), indent=1)
 
