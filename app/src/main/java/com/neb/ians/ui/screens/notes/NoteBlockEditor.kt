@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -61,7 +62,9 @@ import androidx.compose.material.icons.outlined.DragIndicator
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.zIndex
 import androidx.compose.animation.core.animateFloatAsState as animateShift
@@ -72,6 +75,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -162,9 +166,29 @@ class BlockReorder {
     fun measured(id: String, height: Int) { heights[id] = height }
     fun heightOf(id: String): Float = (heights[id] ?: 0).toFloat()
 
-    fun start(id: String) { dragId = id; offset = 0f }
-    fun drag(dy: Float) { offset += dy }
+    /** The scrolling column the blocks live in: its edges (window coordinates) and how far it is scrolled. */
+    var scroller: ScrollState? = null
+    var viewTop = 0f
+    var viewBottom = 0f
+    private var startY = 0f
+    private var travelled = 0f
+    var fingerY by mutableFloatStateOf(0f)
+        private set
+
+    fun start(id: String, handleY: Float) { dragId = id; offset = 0f; startY = handleY; travelled = 0f; fingerY = handleY }
+    fun drag(dy: Float) { offset += dy; travelled += dy; fingerY = startY + travelled }
     fun cancel() { dragId = null; offset = 0f }
+
+    /** The column scrolled by [by] while the finger stayed put: the block has to travel the same way to stay under it. */
+    fun follow(by: Float) { offset += by }
+
+    /** Pixels per frame the column should scroll right now: faster the closer the finger is to an edge, 0 away from them. */
+    fun edgeSpeed(edge: Float, top: Float): Float = when {
+        viewBottom <= viewTop -> 0f
+        fingerY < viewTop + edge -> -top * ((viewTop + edge - fingerY) / edge).coerceIn(0f, 1.5f)
+        fingerY > viewBottom - edge -> top * ((fingerY - (viewBottom - edge)) / edge).coerceIn(0f, 1.5f)
+        else -> 0f
+    }
 
     /** The slot, as an index into [order], the dragged block is hovering over. */
     fun target(): Int {
@@ -215,12 +239,14 @@ private fun BlockReorder.shiftFor(id: String, slot: Int): Float {
 @Composable
 private fun DragHandle(block: NoteBlock, reorder: BlockReorder, onSurface: Boolean = false) {
     val c = MaterialTheme.colorScheme
+    val centreY = remember { FloatArray(1) }
     Box(
         Modifier.size(32.dp).clip(CircleShape)
+            .onGloballyPositioned { centreY[0] = it.positionInWindow().y + it.size.height / 2f }
             .then(if (onSurface) Modifier.background(c.surface.copy(alpha = 0.85f)) else Modifier)
             .pointerInput(block.id) {
                 detectDragGestures(
-                    onDragStart = { reorder.start(block.id) },
+                    onDragStart = { reorder.start(block.id, centreY[0]) },
                     onDrag = { change, amount -> change.consume(); reorder.drag(amount.y) },
                     onDragEnd = { reorder.finish(reorder.target()) },
                     onDragCancel = { reorder.cancel() },
@@ -259,6 +285,7 @@ fun NoteBlockEditor(
     readOnly: Boolean,
     fg: Color,
     modifier: Modifier = Modifier,
+    reorder: BlockReorder = remember { BlockReorder() },
 ) {
     val focusRequest by vm.focusRequest.collectAsStateWithLifecycle()
     // numbers count per level: a nested list starts again at 1 and does not break the one around it
@@ -276,11 +303,24 @@ fun NoteBlockEditor(
         }
     }
     val hidden = remember(blocks) { NoteDoc.hiddenIndexes(blocks) }
-    val reorder = remember { BlockReorder() }
     reorder.order = blocks.filterIndexed { i, _ -> i !in hidden }.map { it.id }
     reorder.gap = with(LocalDensity.current) { 6.dp.toPx() }
     reorder.commit = { id, over -> vm.moveBlock(id, over) }
     val slot by remember { derivedStateOf { reorder.target() } }
+    // holding a block near the top or bottom edge scrolls the note under it, and the block keeps up with the finger
+    val edge = with(LocalDensity.current) { 96.dp.toPx() }
+    val top = with(LocalDensity.current) { 18.dp.toPx() }
+    LaunchedEffect(reorder.dragId) {
+        if (reorder.dragId == null) return@LaunchedEffect
+        while (true) {
+            withFrameNanos { }
+            val state = reorder.scroller ?: continue
+            val speed = reorder.edgeSpeed(edge, top)
+            if (speed != 0f) {
+                reorder.follow(state.dispatchRawDelta(speed))
+            }
+        }
+    }
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
         blocks.forEachIndexed { index, block ->
             if (index in hidden) return@forEachIndexed

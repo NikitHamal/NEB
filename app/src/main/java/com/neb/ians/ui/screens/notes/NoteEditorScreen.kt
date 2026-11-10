@@ -97,6 +97,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -260,8 +262,17 @@ fun NoteEditorScreen(
         }
 
         // ---- content
+        val bodyScroll = rememberScrollState()
+        val reorder = remember { BlockReorder() }
+        reorder.scroller = bodyScroll
         Column(
-            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 22.dp),
+            Modifier.weight(1f).fillMaxWidth()
+                .onGloballyPositioned {
+                    val at = it.positionInWindow().y
+                    reorder.viewTop = at
+                    reorder.viewBottom = at + it.size.height
+                }
+                .verticalScroll(bodyScroll).padding(horizontal = 22.dp),
         ) {
             BasicTextField(
                 value = title, onValueChange = vm::setTitle, readOnly = trashed,
@@ -304,7 +315,7 @@ fun NoteEditorScreen(
                 }
             }
             Spacer(Modifier.height(6.dp))
-            NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp))
+            NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp), reorder = reorder)
             Spacer(Modifier.height(40.dp))
         }
 

@@ -14,9 +14,11 @@ Nothing under `app/` is built locally (no JDK or SDK in the agent sandbox). The 
 | 5 | **Notes**: block editor with toggle lists, nested indent, slash menu with icons, starter templates, large title. New: **drag to reorder**. Every block has a drag handle (shown on the focused text block and on media blocks); the block follows the finger, the blocks it passes slide aside, and the drop moves it with everything nested under it (`NoteEditorViewModel.moveBlock`). | `ui/screens/notes/NoteBlockEditor.kt`, `NoteEditorViewModel.kt` |
 | 6 | **Upload (Android)**: three pill stepper (the open pill carries its name, finished steps become ticks and tap back), steps slide in the direction you are going, no captions. Source step: a full width Scan tile with a morphing shape behind it, Gallery and Files in their own tones and glyph shapes, page strip items animate in and out. Publishing covers the screen with a morphing shape, the percentage and a flat bar (no bar in the bottom of the screen). Success screen: morphing shape and a tick, spring in. | `ui/screens/upload/UploadChrome.kt`, `UploadScreen.kt`, `UploadSource.kt`, `UploadDetails.kt` |
 
+| 7 | **Compile fix**: `nebSpatialSpec()` / `nebEffectsSpec()` are composable; the upload stepper, step body and success screen called them inside `transitionSpec` / `LaunchedEffect` lambdas (CI run on 2149719 failed). They are hoisted into composable scope now. Rule: read a motion spec in the composable body, pass the value into the lambda. | `UploadChrome.kt`, `UploadScreen.kt`, `UploadDetails.kt` |
+| 8 | **Notes: auto scroll while dragging.** Hold a block within 96dp of the top or bottom of the note and the page scrolls under it, faster nearer the edge; the block keeps following the finger. `BlockReorder` now owns the viewport edges and the finger position; `NoteEditorScreen` creates it and hands it to `NoteBlockEditor`. | `NoteBlockEditor.kt`, `NoteEditorScreen.kt` |
+
 ## Next
 
-- Auto scroll while dragging a note block near the screen edge.
 - Page icon and cover for notes (needs a Room migration).
 - Web upload composer is untouched in this batch (it already follows the `.fe` surface, see `UPLOADS_SELLING_STATUS.md`).
 
