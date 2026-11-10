@@ -155,3 +155,13 @@ private fun PdfFile.searchNameTree(node: PdfDict, key: String, depth: Int): Any?
     }
     return null
 }
+
+/** An embedded file (PDF attachment) by name: the reading payload the print pipeline puts in every book. */
+internal fun PdfFile.embeddedFile(name: String): ByteArray? {
+    val cat = catalog ?: return null
+    val tree = dict(dict(cat["Names"])?.get("EmbeddedFiles")) ?: return null
+    val spec = dict(searchNameTree(tree, name, 0)) ?: return null
+    val ef = dict(spec["EF"]) ?: return null
+    val stream = resolve(ef["UF"] ?: ef["F"]) as? PdfStreamObj ?: return null
+    return decode(stream)
+}

@@ -1113,7 +1113,7 @@ private fun rdSpeechText(page: ReflowPage): String = buildString {
 }
 
 /** Text to speech for read aloud: one page at a time, calls [onFinished] when the page has been spoken. */
-private class RdSpeaker(context: Context, private val onFinished: () -> Unit) {
+internal class RdSpeaker(context: Context, private val onFinished: () -> Unit) {
     private var tts: TextToSpeech? = null
     private val main = Handler(Looper.getMainLooper())
     @Volatile private var ready = false

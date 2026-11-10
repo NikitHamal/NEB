@@ -44,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
@@ -82,6 +83,8 @@ import com.neb.ians.ui.screens.reader.pdf.ReadJump
 import com.neb.ians.ui.screens.reader.pdf.ReadSource
 import com.neb.ians.ui.screens.reader.pdf.ReaderPill
 import com.neb.ians.ui.screens.reader.pdf.ReadingMode
+import com.neb.ians.ui.screens.reader.pdf.ReadingBookMode
+import com.neb.ians.ui.screens.reader.pdf.BookState
 import com.neb.ians.ui.screens.reader.pdf.ReadingSheet
 import com.neb.ians.ui.screens.reader.pdf.BookmarksSheet
 import com.neb.ians.ui.screens.reader.pdf.FloatingPageBadge
@@ -218,7 +221,41 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
     }
 
     Box(Modifier.fillMaxSize()) {
-        if (state.readingMode) {
+        // A book built by our pipeline carries its own structure: read that. Anything else is reflowed from the page.
+        val appContext = androidx.compose.ui.platform.LocalContext.current
+        val book by produceState<BookState>(BookState.Loading, state.readingMode, state.title, state.pageCount) {
+            value = if (!state.readingMode) BookState.Loading
+            else viewModel.readingBook(appContext.cacheDir)?.let { BookState.Ready(it) } ?: BookState.None
+        }
+        if (state.readingMode && book is BookState.Loading) {
+            Box(Modifier.fillMaxSize().background(readingPalette(state.theme, look).bg))
+        } else if (state.readingMode && book is BookState.Ready) {
+            ReadingBookMode(
+                title = state.title,
+                pageCount = state.pageCount,
+                startPage = state.currentPage,
+                jump = readJump,
+                settings = state.reading,
+                theme = state.theme,
+                look = look,
+                dir = (book as BookState.Ready).dir,
+                bookmarked = state.currentPage in state.bookmarks,
+                chromeVisible = chromeVisible,
+                assistantHidden = state.assistantHidden,
+                chapterTitle = { p -> state.outline.lastOrNull { it.page <= p }?.title },
+                onChromeToggle = toggleChrome,
+                onPage = viewModel::onPageVisible,
+                onBack = onBack,
+                onToggleBookmark = { viewModel.toggleBookmark() },
+                onContents = { sheet = ReaderSheet.Contents },
+                onTypography = { sheet = ReaderSheet.Reading },
+                onOriginal = openOriginal,
+                onZen = { viewModel.updateReading { it.copy(zen = !it.zen) }; chromeVisible = state.reading.zen },
+                onToggleAssistant = { viewModel.setAssistantHidden(!state.assistantHidden) },
+                onFontScale = { v -> viewModel.updateReading { it.copy(fontScale = v) } },
+                onOpenLink = { url -> runCatching { appContext.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)) } }
+            )
+        } else if (state.readingMode) {
             ReadingMode(
                 title = state.title,
                 pageCount = state.pageCount,

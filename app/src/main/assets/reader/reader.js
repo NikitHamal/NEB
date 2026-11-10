@@ -449,7 +449,7 @@
   }
   window.NebReader = {
     apply: apply, goPage: goPage, search: search, step: function (d) { showHit(cur + d); }, clear: clearMarks,
-    closeViewer: closeViewer, speechBegin: speechBegin, speechNext: speechNext, speechStop: speechStop,
+    closeViewer: closeViewer, scrollPage: function (d) { window.scrollBy(0, d * window.innerHeight * 0.85); }, speechBegin: speechBegin, speechNext: speechNext, speechStop: speechStop,
     pageNow: function () { return pageNow; }, words: words,
     start: function (page, settings) {
       apply(settings || {});

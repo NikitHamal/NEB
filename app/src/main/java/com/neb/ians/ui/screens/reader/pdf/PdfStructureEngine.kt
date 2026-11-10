@@ -43,6 +43,21 @@ class PdfStructureEngine(private val file: File, private val renderedPages: Int)
         return pdf
     }
 
+    /**
+     * The book's own structure (see `notes/pipeline/reading.py`) unpacked into [cacheRoot], or null when this
+     * file carries none (an older build, or someone else's PDF): then reading mode reflows the drawn page.
+     */
+    suspend fun readingBook(cacheRoot: File): File? = withContext(Dispatchers.IO) {
+        val dir = File(cacheRoot, "reading/" + file.name.replace(Regex("[^A-Za-z0-9._-]"), "_") + "-" + file.length())
+        if (File(dir, "meta.json").exists()) return@withContext dir
+        mutex.withLock {
+            if (closed) return@withLock null
+            val f = ensureOpen() ?: return@withLock null
+            val bytes = runCatching { f.embeddedFile(ReadingBookFiles.ATTACHMENT) }.getOrNull() ?: return@withLock null
+            runCatching { ReadingBookFiles.unpack(bytes, dir) }.getOrNull()
+        }
+    }
+
     /** Links on [page]; empty when there are none or the file cannot be read. */
     suspend fun links(page: Int): List<PdfLink> {
         linkCache.get(page)?.let { return it }
