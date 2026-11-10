@@ -11,7 +11,7 @@
    "ioe-ct153-2081-ashwin"
   ],
   "pages": 48,
-  "bytes": 709061,
+  "bytes": 709059,
   "kind": "subject-bundle"
  },
  {
@@ -25,7 +25,7 @@
    "ioe-ee103-2081-baishakh"
   ],
   "pages": 43,
-  "bytes": 1853066,
+  "bytes": 1853064,
   "kind": "subject-bundle"
  },
  {
@@ -39,7 +39,7 @@
    "ioe-ce103-2081-baishakh"
   ],
   "pages": 27,
-  "bytes": 413723,
+  "bytes": 413722,
   "kind": "subject-bundle"
  },
  {
@@ -54,7 +54,7 @@
    "ioe-ex152-2081-ashwin"
   ],
   "pages": 64,
-  "bytes": 1606311,
+  "bytes": 1606310,
   "kind": "subject-bundle"
  },
  {
@@ -70,7 +70,7 @@
    "ioe-ee460-2077-chaitra"
   ],
   "pages": 72,
-  "bytes": 3272197,
+  "bytes": 3272198,
   "kind": "subject-bundle"
  },
  {
@@ -85,7 +85,7 @@
    "ioe-ex151-2081-ashwin"
   ],
   "pages": 58,
-  "bytes": 2762979,
+  "bytes": 2762978,
   "kind": "subject-bundle"
  },
  {
@@ -103,7 +103,7 @@
    "ioe-sh103-2081-baishakh"
   ],
   "pages": 81,
-  "bytes": 3095713,
+  "bytes": 3095711,
   "kind": "subject-bundle"
  },
  {
@@ -117,7 +117,7 @@
    "ioe-ce102-2081-baishakh"
   ],
   "pages": 35,
-  "bytes": 792103,
+  "bytes": 792102,
   "kind": "subject-bundle"
  },
  {
@@ -131,7 +131,7 @@
    "ioe-sh101-2081-baishakh"
   ],
   "pages": 39,
-  "bytes": 1823189,
+  "bytes": 1823188,
   "kind": "subject-bundle"
  },
  {
@@ -176,7 +176,7 @@
    "ioe-sh102-2081-baishakh"
   ],
   "pages": 98,
-  "bytes": 4095318,
+  "bytes": 4095317,
   "kind": "subject-bundle"
  },
  {
@@ -204,7 +204,7 @@
    "ioe-ex101-2081-baishakh"
   ],
   "pages": 41,
-  "bytes": 1868473,
+  "bytes": 1868472,
   "kind": "subject-bundle"
  },
  {
@@ -219,7 +219,7 @@
    "ioe-ct151-2081-ashwin"
   ],
   "pages": 62,
-  "bytes": 581581,
+  "bytes": 581579,
   "kind": "subject-bundle"
  },
  {
@@ -245,7 +245,7 @@
    "ioe-ence255-2082-bhadra"
   ],
   "pages": 15,
-  "bytes": 242400,
+  "bytes": 242398,
   "kind": "subject-bundle"
  },
  {
@@ -258,7 +258,7 @@
    "ioe-ensh204-2081-chaitra"
   ],
   "pages": 34,
-  "bytes": 358212,
+  "bytes": 358211,
   "kind": "subject-bundle"
  },
  {
@@ -271,7 +271,7 @@
    "ioe-ensh251-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 341542,
+  "bytes": 341544,
   "kind": "subject-bundle"
  },
  {
@@ -297,7 +297,7 @@
    "ioe-enex253-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 710383,
+  "bytes": 710382,
   "kind": "subject-bundle"
  },
  {
@@ -324,7 +324,7 @@
    "ioe-enee251-2082-bhadra"
   ],
   "pages": 30,
-  "bytes": 1582016,
+  "bytes": 1582017,
   "kind": "subject-bundle"
  },
  {
@@ -337,7 +337,7 @@
    "ioe-enct253-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1081969,
+  "bytes": 1081968,
   "kind": "subject-bundle"
  },
  {
@@ -363,7 +363,7 @@
    "ioe-enct251-2082-bhadra"
   ],
   "pages": 31,
-  "bytes": 1095028,
+  "bytes": 1095027,
   "kind": "subject-bundle"
  },
  {
@@ -390,6 +390,19 @@
   ],
   "pages": 28,
   "bytes": 1102255,
+  "kind": "subject-bundle"
+ },
+ {
+  "file": "bundles/engineering-electrical-machine-ii-2082-2083.pdf",
+  "subject": "Electrical Machine II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee253-2083-baishakh",
+   "ioe-enee253-2082-bhadra"
+  ],
+  "pages": 23,
+  "bytes": 1241845,
   "kind": "subject-bundle"
  },
  {
@@ -430,7 +443,7 @@
    "ioe-ence203-2081-chaitra"
   ],
   "pages": 50,
-  "bytes": 1881544,
+  "bytes": 1881546,
   "kind": "subject-bundle"
  },
  {
@@ -444,7 +457,7 @@
    "ioe-ence201-2081-chaitra"
   ],
   "pages": 44,
-  "bytes": 2220291,
+  "bytes": 2220292,
   "kind": "subject-bundle"
  },
  {
@@ -461,6 +474,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-instrumentation-2082-2083.pdf",
+  "subject": "Instrumentation",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee252-2083-baishakh",
+   "ioe-enex252-2082-bhadra"
+  ],
+  "pages": 29,
+  "bytes": 905680,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-logic-circuit-2081-2082.pdf",
   "subject": "Logic Circuit",
   "level": "BE \u00b7 Year II",
@@ -470,7 +496,7 @@
    "ioe-enex203-2081-chaitra"
   ],
   "pages": 21,
-  "bytes": 782337,
+  "bytes": 782339,
   "kind": "subject-bundle"
  },
  {
@@ -497,7 +523,7 @@
    "ioe-enex251-2082-bhadra"
   ],
   "pages": 27,
-  "bytes": 715091,
+  "bytes": 715090,
   "kind": "subject-bundle"
  },
  {
@@ -511,7 +537,7 @@
    "ioe-ensh202-2081-chaitra"
   ],
   "pages": 46,
-  "bytes": 1981773,
+  "bytes": 1981776,
   "kind": "subject-bundle"
  },
  {
@@ -524,7 +550,7 @@
    "ioe-enct254-2082-bhadra"
   ],
   "pages": 28,
-  "bytes": 537017,
+  "bytes": 537015,
   "kind": "subject-bundle"
  },
  {
@@ -541,6 +567,19 @@
   "kind": "subject-bundle"
  },
  {
+  "file": "bundles/engineering-power-system-analysis-ii-2082-2083.pdf",
+  "subject": "Power System Analysis II",
+  "level": "BE \u00b7 Year II",
+  "years_bs": "2082-2083",
+  "papers": [
+   "ioe-enee252-2083-baishakh-psa2",
+   "ioe-enee252-2082-bhadra"
+  ],
+  "pages": 26,
+  "bytes": 1277401,
+  "kind": "subject-bundle"
+ },
+ {
   "file": "bundles/engineering-probability-and-statistics-2082-2083.pdf",
   "subject": "Probability and Statistics",
   "level": "BE \u00b7 Year II",
@@ -550,7 +589,7 @@
    "ioe-ensh253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1296670,
+  "bytes": 1296671,
   "kind": "subject-bundle"
  },
  {
@@ -576,7 +615,7 @@
    "ioe-ence253-2082-bhadra"
   ],
   "pages": 32,
-  "bytes": 1304642,
+  "bytes": 1304641,
   "kind": "subject-bundle"
  },
  {
@@ -603,7 +642,7 @@
    "ioe-ence202-2081-chaitra"
   ],
   "pages": 27,
-  "bytes": 1558211,
+  "bytes": 1558213,
   "kind": "subject-bundle"
  },
  {
@@ -616,7 +655,7 @@
    "ioe-ence252-2082-bhadra"
   ],
   "pages": 36,
-  "bytes": 1754667,
+  "bytes": 1754665,
   "kind": "subject-bundle"
  },
  {
@@ -629,7 +668,7 @@
    "ioe-ence254-2082-bhadra"
   ],
   "pages": 26,
-  "bytes": 845914,
+  "bytes": 845913,
   "kind": "subject-bundle"
  },
  {
@@ -715,6 +754,11 @@
    "ioe-enee205-2082-kartik",
    "ioe-enee251-2082-bhadra",
    "ioe-enee251-2083-baishakh",
+   "ioe-enee252-2082-bhadra",
+   "ioe-enee252-2083-baishakh-psa2",
+   "ioe-enee252-2083-baishakh",
+   "ioe-enee253-2082-bhadra",
+   "ioe-enee253-2083-baishakh",
    "ioe-enee301-2082-chaitra",
    "ioe-enee304-2082-chaitra",
    "ioe-enex101-2081-chaitra",
@@ -729,6 +773,7 @@
    "ioe-enex203-2082-kartik",
    "ioe-enex251-2082-bhadra",
    "ioe-enex251-2083-baishakh",
+   "ioe-enex252-2082-bhadra",
    "ioe-enex253-2082-bhadra",
    "ioe-enex253-2083-baishakh",
    "ioe-enex254-2082-bhadra",
@@ -777,8 +822,8 @@
    "ioe-sh153-2081-ashwin",
    "ioe-sh153-2082-baishakh"
   ],
-  "pages": 1938,
-  "bytes": 73731592,
+  "pages": 2014,
+  "bytes": 77094785,
   "kind": "master-book"
  }
 ]
