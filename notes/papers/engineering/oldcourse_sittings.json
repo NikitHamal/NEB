@@ -1,0 +1,3529 @@
+{
+ "note": "Old-course (pre-2081 syllabus) IOE back/regular sittings dated 2078 or later, found by header OCR of past-questions-bani/*Old-Course*.pdf (page = first page of the sitting; sittings are usually 1-2 pages, some tail pages come first). done = page numbers already typeset. Session 31.",
+ "done": {
+  "1st-semester/1st-Semester-Engineering-Mathematics-I-Old-Course__1xHfO-9p.pdf": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "2nd-semester/2nd-Semester-Engineering-Mathematics-II-Old-Course__1nfA-1eP.pdf": [
+   1,
+   2
+  ]
+ },
+ "files": {
+  "1st-semester/1st-Semester-Basic-Electrical-Engineering-Old-Course__1-NaO9nP.pdf": {
+   "pages": 63,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2082 Baishakh"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2081 Baishakh"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2080 Ilhadra"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Basic-Electrical-Engineering-Old-Course__15vH4Ute.pdf": {
+   "pages": 46,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Ciraitra"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-C-Programming-Old-Course__1JY4F1z_.pdf": {
+   "pages": 38,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2082 Baishakh"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Digital-Logic-BEI-Old-Course__169gfsid.pdf": {
+   "pages": 12,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2082 Baishakh"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhtdra"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ],
+    [
+     9,
+     "2078 Knrtik"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Chemistry-Old-Course__1wXry0Dw.pdf": {
+   "pages": 47,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2082 Baishakh"
+    ],
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2081 Baishakh"
+    ],
+    [
+     8,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     12,
+     "2078 Bhadra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Chemistry-Old-Course__1ysX1gvm.pdf": {
+   "pages": 39,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Drawing-I-Old-Course__1wvuScNO.pdf": {
+   "pages": 41,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Baishakh"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Mathematics-I-Old-Course__1xHfO-9p.pdf": {
+   "pages": 38,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2082 Baishakh"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2079 Baishakh"
+    ],
+    [
+     10,
+     "2079 Bhadra"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ],
+    [
+     12,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Physics-Old-Course__1kz7wgTW.pdf": {
+   "pages": 58,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2082 Baishakh"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     9,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2080 Baishakh"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Engineering-Thermodynamics-Old-Course__1s_P-Vxv.pdf": {
+   "pages": 46,
+   "sittings_2078_plus": [
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "1st-semester/1st-Semester-Thermodynamics-Old-Course__1nYTd7-C.pdf": {
+   "pages": 56,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     7,
+     "2081 Baishakh"
+    ],
+    [
+     9,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2080 Baishakh"
+    ],
+    [
+     13,
+     "2079 Bhadr"
+    ],
+    [
+     17,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Applied-Mechanics-Old-Course__1XLDiJEu.pdf": {
+   "pages": 56,
+   "sittings_2078_plus": [
+    [
+     4,
+     "2080 Ashwin"
+    ],
+    [
+     6,
+     "2079 Ashwin"
+    ],
+    [
+     8,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Basic-Electronics-Engineering-Old-Course__1XATa3ni.pdf": {
+   "pages": 36,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Engineering-Drawing-II-Old-Course__1gXoqkSO.pdf": {
+   "pages": 59,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Engineering-Mathematics-II-Old-Course__1nfA-1eP.pdf": {
+   "pages": 43,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2080 Ashwin"
+    ],
+    [
+     5,
+     "2079 Chaitrn"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Engineering-Physics-Old-Course__1AebHCUi.pdf": {
+   "pages": 46,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Micro-Processor-Old-Course__1G_R0etd.pdf": {
+   "pages": 5,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "2nd-semester/2nd-Semester-Object-Oriented-Programming-Old-Course__1x-PLCB1.pdf": {
+   "pages": 5,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Applied-Dynamics-Old-Course__1zhSTGKh.pdf": {
+   "pages": 31,
+   "sittings_2078_plus": [
+    [
+     5,
+     "2080 llhndra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Civil-Engineering-Material-Old-Course__1BXkg8-X.pdf": {
+   "pages": 23,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ],
+    [
+     7,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Control-System-Old-Course__1xBH3FFw.pdf": {
+   "pages": 16,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Digital-Logic-Old-Course__1B1F9kPa.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Rhadna"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ],
+    [
+     7,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Electric-Circuit-Theory-Old-Course__1G-hCKUP.pdf": {
+   "pages": 48,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Electrical-Engineering-Materials-Old-Course__1P4LdpjL.pdf": {
+   "pages": 20,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     6,
+     "2078 Kartik"
+    ],
+    [
+     7,
+     "2078 tshadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Electromagnetics-Old-Course__1Alny0d2.pdf": {
+   "pages": 41,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Electronic-Devices-and-Circuits-Old-Course__1H7jttvI.pdf": {
+   "pages": 35,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2080 Bhadra"
+    ],
+    [
+     5,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Engineering-Geology-Old-Course__1x4itmDV.pdf": {
+   "pages": 26,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Engineering-Mathematics-III-Old-Course__1enktdnu.pdf": {
+   "pages": 43,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baish"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Fluid-Mechanics-Old-Course__1IVK_1Im.pdf": {
+   "pages": 57,
+   "sittings_2078_plus": [
+    [
+     4,
+     "2081 tsaishakh"
+    ],
+    [
+     6,
+     "2080 Bhadra"
+    ],
+    [
+     8,
+     "2080 Baishakh"
+    ],
+    [
+     10,
+     "2079 Bhadra"
+    ],
+    [
+     12,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Instrumentation-Old-Course__1YaP2Fvv.pdf": {
+   "pages": 8,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ],
+    [
+     7,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Object-Oriented-programming-Old-Course__1DtwEsz_.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 llaishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ],
+    [
+     7,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Probability-and-Statistics-Old-Course__1sQ-MZb0.pdf": {
+   "pages": 18,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     13,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Strength-of-Material-Old-Course__1bCdHHR8.pdf": {
+   "pages": 50,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Surveying-I-Old-Course__1TrYLbrK.pdf": {
+   "pages": 51,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "3rd-semester/3rd-Semester-Theory-of-Computation-Old-Course__.pdf": {
+   "pages": 1,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Advanced-Electronics-Old-Course__1gW1CH4o.pdf": {
+   "pages": 6,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chnitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Applied-Mathematics-Old-Course__1xl4CawI.pdf": {
+   "pages": 28,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitr"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Building-Technology-Old-Course__1wzxyNVQ.pdf": {
+   "pages": 34,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Computer-Graphics-Old-Course__1Lfqx-pd.pdf": {
+   "pages": 5,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chairra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Cbaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Data-Structure-and-Algorithum-Old-Course__1kcYBbMj.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Discrete-Structure-Old-Course__1oohPCpP.pdf": {
+   "pages": 35,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaftra"
+    ],
+    [
+     6,
+     "2078 Chatra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Electrical-Machine-I-Old-Course__1EqUPQ5L.pdf": {
+   "pages": 25,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Electrical-Machines-Old-Course__1wScRQVq.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Engineering-Geology-II-Old-Course__1bz1hmWT.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Hydraulics-Old-Course__1bUV5QtP.pdf": {
+   "pages": 49,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Kartik"
+    ],
+    [
+     5,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Instrumentation-I-Old-Course__1aoo0xdD.pdf": {
+   "pages": 28,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitrn"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Microprocessor-Old-Course__1ov8mOqz.pdf": {
+   "pages": 29,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Numerical-Methods-Old-Course__1SOf-0NK.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Power-System-Analysis-I-Old-Course__1rCmfu7b.pdf": {
+   "pages": 44,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Power-System-Old-Course__13s8hfmp.pdf": {
+   "pages": 2,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Probability-Statistics-Old-Course__1Qzyl7K1.pdf": {
+   "pages": 80,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Chaitra"
+    ],
+    [
+     5,
+     "2080 Ashwin"
+    ],
+    [
+     9,
+     "2079 Ashwin"
+    ],
+    [
+     13,
+     "2079 Jestha"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Soil-Mechanics-Old-Course__1w6TNGLh.pdf": {
+   "pages": 37,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitr"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Surveying-II-Old-Course__1y6iecNM.pdf": {
+   "pages": 38,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chairra"
+    ]
+   ]
+  },
+  "4th-semester/4th-Semester-Theory-of-Structure-I-Old-Course__1XWLpRLK.pdf": {
+   "pages": 51,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Communication-English-Old-Course__1QXh4eBr.pdf": {
+   "pages": 41,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2081 Baishakh"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     13,
+     "2078 Bhadra"
+    ],
+    [
+     15,
+     "2078 Kariik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Computer-Graphics-Old-Course__1_2MvAfb.pdf": {
+   "pages": 25,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Baishakh"
+    ],
+    [
+     4,
+     "2080 Bhadra"
+    ],
+    [
+     5,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ],
+    [
+     7,
+     "2078 Bhadra"
+    ],
+    [
+     8,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Computer-Network-Old-Course__16yZCuCR.pdf": {
+   "pages": 7,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Computer-Organization-Architecture-Old-Course__1Xd6m2Ns.pdf": {
+   "pages": 25,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Concrete-Technology-Old-Course__1w1MfmNr.pdf": {
+   "pages": 35,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2081 Baishakh"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2078 Bhadra"
+    ],
+    [
+     10,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Control-System-Old-Course__1MPVLRGM.pdf": {
+   "pages": 53,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Baishalih"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     13,
+     "2078 Bhadra"
+    ],
+    [
+     15,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Data-Communication-Old-Course__1iRSbRmy.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ],
+    [
+     9,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Database-Management-Systems-Old-Course__1HPMZQrz.pdf": {
+   "pages": 13,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2081 Baishakh"
+    ],
+    [
+     9,
+     "2080 Bhadra"
+    ],
+    [
+     11,
+     "2080 Baishakh"
+    ],
+    [
+     13,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Electrical-Machine-Design-Old-Course__1WMW4q4R.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2078 Bhadra"
+    ],
+    [
+     10,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Electrical-Machine-II-Old-Course__1DQ66O8F.pdf": {
+   "pages": 20,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Baishat"
+    ],
+    [
+     2,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2079 Bhadra"
+    ],
+    [
+     5,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Engineering-Economics-BEI-Old-Course__1nI-nxFr.pdf": {
+   "pages": 14,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     11,
+     "2080 Baishakh"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Engineering-Hydrology-Old-Course__1r7ihD6g.pdf": {
+   "pages": 49,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     2,
+     "2082 Brishal"
+    ],
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     8,
+     "2080 Bhadra"
+    ],
+    [
+     10,
+     "2080 Baishakh"
+    ],
+    [
+     16,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Foundation-Engineering-Old-Course__1qO_yGyQ.pdf": {
+   "pages": 28,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 tshadra"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     12,
+     "2078 Kartik"
+    ],
+    [
+     14,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Instrumentation-II-Old-Course__1VIPvWyt.pdf": {
+   "pages": 31,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Numerical-Methods-Old-Course__1e5i6g4A.pdf": {
+   "pages": 42,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2082 Baishakh"
+    ],
+    [
+     6,
+     "2081 Eaishakh"
+    ],
+    [
+     8,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     12,
+     "2078 llhadra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Operating-System-Old-Course__19jW4ArZ.pdf": {
+   "pages": 13,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2081 Baishakh"
+    ],
+    [
+     8,
+     "2080 Rhadra"
+    ],
+    [
+     10,
+     "2080 Baishakh"
+    ],
+    [
+     12,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Power-Syatem-Analysis-II-Old-Course__1XUtbAqt.pdf": {
+   "pages": 43,
+   "sittings_2078_plus": [
+    [
+     5,
+     "2081 Ehadra"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2079 Bharlra"
+    ],
+    [
+     13,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Probability-and-Statistics-Old-Course__1Qz5NGj_.pdf": {
+   "pages": 46,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2082 Baishakh"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2081 tsaishakh"
+    ],
+    [
+     10,
+     "2080 Bhadra"
+    ],
+    [
+     12,
+     "2080 Baishakh"
+    ],
+    [
+     19,
+     "2078 Karfik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Software-Engineering-Old-Course__1dqgqjfD.pdf": {
+   "pages": 29,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2081 Baishakh"
+    ],
+    [
+     6,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2078 Karrik"
+    ],
+    [
+     10,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Theory-of-Structure-II-Old-Course__1Wy8rauC.pdf": {
+   "pages": 66,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2081 Baishakh"
+    ],
+    [
+     9,
+     "2080 llhadr"
+    ],
+    [
+     11,
+     "2080 Baishakh"
+    ],
+    [
+     13,
+     "2079 Bhadra"
+    ],
+    [
+     15,
+     "2078 Bhadra"
+    ],
+    [
+     17,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "5th-semester/5th-Semester-Water-Supply-Engineering-Old-Course__1U_a81as.pdf": {
+   "pages": 34,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2078 Bhadra"
+    ],
+    [
+     10,
+     "2078 Kartik"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Artificial-Intelligence-Old-Course__1XKoZrUT.pdf": {
+   "pages": 23,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Building-Technology-Old-Course__1D-dEnC3.pdf": {
+   "pages": 19,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Communication-English-Old-Course__.pdf": {
+   "pages": 40,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Chaitra"
+    ],
+    [
+     7,
+     "2079 Chaitra"
+    ],
+    [
+     9,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Communication-System-I-Old-Course__1tOgNk_7.pdf": {
+   "pages": 18,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Communication-Systems-Old-Course__1-zhGUcI.pdf": {
+   "pages": 4,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Computer-Network-Old-Course__11Vacvpj.pdf": {
+   "pages": 17,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Database-Management-System-Old-Course__1KPQb5tk.pdf": {
+   "pages": 41,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Design-of-Steel-and-Timber-Structure-Old-Course__1sR_9CEC.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Digital-Control-System-Old-Course__1YXaaR-Q.pdf": {
+   "pages": 34,
+   "sittings_2078_plus": [
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Engineering-Economics-Old-Course__12iMduQ_.pdf": {
+   "pages": 50,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2081 Ashr"
+    ],
+    [
+     5,
+     "2080 Chaitra"
+    ],
+    [
+     7,
+     "2079 Chaitra"
+    ],
+    [
+     9,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Hydropower-Old-Course__1WKcw-b9.pdf": {
+   "pages": 19,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Industrial-Power-Distribution-Old-Course__1ndgbFO1.pdf": {
+   "pages": 25,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Irrigation-and-Drainage-Engineering-Old-Course__1AhAk2Wi.pdf": {
+   "pages": 33,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Object-Oriented-Analysis-and-Design-Old-Course__1TaZWFoj.pdf": {
+   "pages": 33,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Object-Oriented-Software-Engineering-Old-Course__1w5nOua8.pdf": {
+   "pages": 4,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Operating-System-Old-Course__1ue6OjOF.pdf": {
+   "pages": 31,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Project-Management-BEI-Old-Course__1aNJfmYp.pdf": {
+   "pages": 5,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Propagation-and-Antenna-Old-Course__13hppR3a.pdf": {
+   "pages": 19,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Sanitary-Engineering-Old-Course__1In3F73R.pdf": {
+   "pages": 30,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Signal-Analysis-Old-Course__1UsoRGbF.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "6th-semester/6th-Semester-Transportation-Engineering-Old-Course__10CEFNq9.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Aero_nautical-TeJecom-munication-Old-Course__1TyExrsq.pdf": {
+   "pages": 7,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Artificial-Intelligence-Old-Course__1JzeHQSN.pdf": {
+   "pages": 7,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhaelra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Communication-Systems-II-Old-Course__1zvbMZ1s.pdf": {
+   "pages": 20,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bbadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Computer-Network-Old-Course__1Z4MglrE.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Design-of-RCC-Structure-Old-Course__1iAwlQ0D.pdf": {
+   "pages": 25,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Digital-Signai-Analysis-Processing-Old-Course__1vaErecW.pdf": {
+   "pages": 30,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ],
+    [
+     10,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Distributed-System-Old-Course__1pZYQ-va.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Earth-Hazard-Old-Course__1BP43YWg.pdf": {
+   "pages": 1,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Energy-Environment-Society-Old-Course__1wYR6A1v.pdf": {
+   "pages": 22,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Enterprise-Computing-Old-Course__1BJe_goi.pdf": {
+   "pages": 2,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Bhadra"
+    ],
+    [
+     2,
+     "2080 Baishakh"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Estimating-Costing-Old-Course__1gI0T16h.pdf": {
+   "pages": 53,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     6,
+     "2081 Bhadra"
+    ],
+    [
+     10,
+     "2080 Bhadra"
+    ],
+    [
+     13,
+     "2080 Baishakh"
+    ],
+    [
+     16,
+     "2079 Bhadra"
+    ],
+    [
+     18,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Filter-Design-Old-Course__1rA5ZzPC.pdf": {
+   "pages": 37,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     5,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ],
+    [
+     8,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Hydropower-Engineering-Old-Course__1OAJh3Fg.pdf": {
+   "pages": 39,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     9,
+     "2080 Bhadra"
+    ],
+    [
+     10,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ],
+    [
+     13,
+     "2079 Baishakh"
+    ],
+    [
+     15,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Organization-and-Management-Old-Course__1m54-acF.pdf": {
+   "pages": 37,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Power-Electronics-Old-Course__1zBBtoBb.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baish"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ],
+    [
+     9,
+     "2079 Baishakh"
+    ],
+    [
+     10,
+     "2078 Bhadra"
+    ],
+    [
+     11,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Power-Plant-Equipment-Old-Course__1hxQzwnx.pdf": {
+   "pages": 24,
+   "sittings_2078_plus": [
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2080 Bhadra"
+    ],
+    [
+     10,
+     "2079 Bhadra"
+    ],
+    [
+     12,
+     "2079 Baishakh"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Project-Engineering-Old-Course__189Wsl8w.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 tshadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     6,
+     "2080 Bhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ],
+    [
+     10,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Project-Management-Old-Course__1FkI8CQL.pdf": {
+   "pages": 34,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadru"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2081 Baishakh"
+    ],
+    [
+     8,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     14,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-RF-and-Microwave-Engineering-Old-Course__1CMA_Ds8.pdf": {
+   "pages": 11,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Technology-Environment-and-Society-Old-Course__1Jh4xDH1.pdf": {
+   "pages": 14,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2080 Bhadra"
+    ],
+    [
+     5,
+     "2079 Baishalih"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ],
+    [
+     7,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Telecommunication-Old-Course__1VfUSWtc.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Transportation-Engineering-II-Old-Course__1excqlny.pdf": {
+   "pages": 37,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2081 Baishakh"
+    ],
+    [
+     8,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Utilization-of-Electrical-Energy-Old-Course__1fi4dGfO.pdf": {
+   "pages": 12,
+   "sittings_2078_plus": [
+    [
+     4,
+     "2081 Bhadra"
+    ],
+    [
+     6,
+     "2080 Bhadr"
+    ],
+    [
+     8,
+     "2080 Baishakh"
+    ],
+    [
+     9,
+     "2079 Bhadra"
+    ],
+    [
+     11,
+     "2079 Baishakh"
+    ]
+   ]
+  },
+  "7th-semester/7th-Semester-Wireless-Communication-Old-Course__1cz5ZYvz.pdf": {
+   "pages": 7,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     7,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Computational-Techniques-in-Civil-Engineering-Old-Course__.pdf": {
+   "pages": 44,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2083 Shrawan"
+    ],
+    [
+     3,
+     "2082 Chaitra"
+    ],
+    [
+     5,
+     "2082 Shrawan"
+    ],
+    [
+     7,
+     "2081 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Digital-Signal-Processing-Old-Course__1QUD-K1p.pdf": {
+   "pages": 17,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Energy-Environment-and-Society-Old-Course__1nbN76Me.pdf": {
+   "pages": 3,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Engineering-Professional-Practice-Old-Course__.pdf": {
+   "pages": 23,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-High-Voltage-Engineering-Old-Course__1xSKrWPc.pdf": {
+   "pages": 26,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrat"
+    ],
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Information-System-Old-Course__1Eb_3Ed2.pdf": {
+   "pages": 15,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ],
+    [
+     3,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Internet-and-Intranet-Old-Course__1EWxjYp_.pdf": {
+   "pages": 7,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chattra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Power-Plant-Design-Old-Course__1NP0wV4C.pdf": {
+   "pages": 33,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-RF-and-Microwave-Engineering-Old-Course__1wqQL33I.pdf": {
+   "pages": 26,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Simulation-and-Modeling-Old-Course__1YwMZdfj.pdf": {
+   "pages": 17,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Technology-Environment-and-Society-Old-Course__.pdf": {
+   "pages": 19,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Chaitra"
+    ],
+    [
+     3,
+     "2081 Chaitra"
+    ],
+    [
+     4,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Telecommunication-Old-Course__17g2sjvM.pdf": {
+   "pages": 3,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2080 Chaitra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Transmission-and-Distribution-Old-Course__1e9m_Gez.pdf": {
+   "pages": 44,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chattra"
+    ],
+    [
+     3,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "8th-semester/8th-Semester-Wireless-Communication-Old-Course__12ql5puo.pdf": {
+   "pages": 16,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ],
+    [
+     3,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Bio-Engineering-Old-Course__1V4XKM6A.pdf": {
+   "pages": 17,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ],
+    [
+     2,
+     "2081 Baishakh"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Biomedical-Instruction-Old-Course__1f5TLTG7.pdf": {
+   "pages": 13,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     2,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     6,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Data-Mining-Old-Course__1m7mIRZy.pdf": {
+   "pages": 28,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     4,
+     "2081 Baishakh"
+    ],
+    [
+     5,
+     "2080 llhadra"
+    ],
+    [
+     7,
+     "2080 Baishakh"
+    ],
+    [
+     13,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Earth-Hazard-Old-Course__1bsX_CI2.pdf": {
+   "pages": 1,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Electrical-Energy-System-Management-Old-Course__1TvD3W1r.pdf": {
+   "pages": 21,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Enterprise-Computing-Old-Course__1r3aU_Y1.pdf": {
+   "pages": 2,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Rock-Engineering-Old-Course__1hCCsAoP.pdf": {
+   "pages": 19,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2080 Baishakh"
+    ],
+    [
+     8,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Rural-Electrification-Old-Course__14WHNJOp.pdf": {
+   "pages": 29,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Structural-Dynamics-Old-Course__1AgCxnPz.pdf": {
+   "pages": 41,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Bhadra"
+    ],
+    [
+     5,
+     "2081 Baishakh"
+    ],
+    [
+     7,
+     "2080 Bhadra"
+    ],
+    [
+     9,
+     "2080 Baishakh"
+    ],
+    [
+     11,
+     "2079 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Transportation-planning-and-engineering-Old-Course__11N2t1so.pdf": {
+   "pages": 23,
+   "sittings_2078_plus": [
+    [
+     2,
+     "2081 Bhadra"
+    ],
+    [
+     3,
+     "2080 Bhadra"
+    ],
+    [
+     4,
+     "2080 Baishakh"
+    ],
+    [
+     5,
+     "2079 Bhadra"
+    ],
+    [
+     7,
+     "2078 Bhadra"
+    ]
+   ]
+  },
+  "elective-i/Elective-I-Web-Technologies-and-Applications-BEX-BCT-Old-Course__1zB-rkdP.pdf": {
+   "pages": 11,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Bhadra"
+    ],
+    [
+     3,
+     "2081 Baishakh"
+    ],
+    [
+     4,
+     "2080 Bhadra"
+    ],
+    [
+     5,
+     "2080 Baishakh"
+    ],
+    [
+     6,
+     "2079 Bhadra"
+    ],
+    [
+     7,
+     "2078 Ilhadra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Advanced-Power-System-Analysis-Old-Course__1cFaxW81.pdf": {
+   "pages": 32,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     8,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Applied-Photovoltaic-Engineering-Old-Course__1nEsD5q4.pdf": {
+   "pages": 10,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Big-Data-Technologies-Old-Course__1xdvi5ub.pdf": {
+   "pages": 18,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chritra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ],
+    [
+     7,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Biomedical-Instrumentation-Old-Course__1u4ZnGCm.pdf": {
+   "pages": 12,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Broadcast-Engineering-Old-Course__158a9TOZ.pdf": {
+   "pages": 12,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Database-Management-System-Old-Course__1Y7ynaiY.pdf": {
+   "pages": 9,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Earlhquake-Resistance-Design-of-structure-Old-Course__1eaqFmK7.pdf": {
+   "pages": 27,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2081 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Geotechnical-Earthquake-Engineering-Old-Course__1UY1g2Qh.pdf": {
+   "pages": 2,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2080 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Ground-Water-Engineering-Old-Course__1ZX16tLC.pdf": {
+   "pages": 10,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Optical-Fiber-Communication-Old-Course__1R9X--JX.pdf": {
+   "pages": 20,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ],
+    [
+     2,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Rock-Slope-Engineering-Old-Course__1HazcQRu.pdf": {
+   "pages": 11,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     4,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Rural-Road-Engineering-Old-Course__1DooDMn3.pdf": {
+   "pages": 13,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-ii/Elective-II-Traffic-Transportation-and-Modeling-Old-Course__1IMmbhmV.pdf": {
+   "pages": 24,
+   "sittings_2078_plus": [
+    [
+     3,
+     "2079 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Construction-Safety-Management-Old-Course__1HWNP5cy.pdf": {
+   "pages": 9,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chnitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Disaster-Risk-Management-Old-Course__1shlBQST.pdf": {
+   "pages": 15,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Enterprise-Application-Design-and-Development-Old-Course__1gcizacB.pdf": {
+   "pages": 4,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2081 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Environment-Impact-Assessment-Old-Course__1Aj30cnD.pdf": {
+   "pages": 17,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2081 Ckaitna"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ],
+    [
+     6,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-GIS-and-Remote-Sensing-Old-Course__1ZqGzT-E.pdf": {
+   "pages": 15,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Micro-Hydro-Power-Old-Course__1tFCY9XO.pdf": {
+   "pages": 28,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Multimedia-System-Old-Course__1IBlrX1V.pdf": {
+   "pages": 14,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     5,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Procurement-Management-Old-Course__1J4NKoiJ.pdf": {
+   "pages": 10,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrarvan"
+    ],
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chaitra"
+    ],
+    [
+     4,
+     "2079 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Remote-Sensing-Old-Course__114ksUn1.pdf": {
+   "pages": 15,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2078 Chaitra"
+    ]
+   ]
+  },
+  "elective-iii/Elective-III-Time-Series-Analysis-Old-Course__1Nx4LTmz.pdf": {
+   "pages": 14,
+   "sittings_2078_plus": [
+    [
+     1,
+     "2082 Shrawan"
+    ],
+    [
+     2,
+     "2081 Chaitra"
+    ],
+    [
+     3,
+     "2080 Chairra"
+    ]
+   ]
+  }
+ }
+}
