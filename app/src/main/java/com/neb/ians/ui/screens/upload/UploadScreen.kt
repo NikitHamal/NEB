@@ -61,6 +61,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -237,14 +238,16 @@ fun UploadScreen(
                 }
 
                 item(key = "step") {
+                    val slideSpec = nebSpatialSpec<IntOffset>()
+                    val fadeSpec = nebEffectsSpec<Float>()
                     AnimatedContent(
                         targetState = step,
                         transitionSpec = {
                             val forward = targetState.ordinal > initialState.ordinal
-                            (slideInHorizontally(nebSpatialSpec()) { width -> if (forward) width / 5 else -width / 5 } +
-                                fadeIn(nebEffectsSpec())) togetherWith
-                                (slideOutHorizontally(nebSpatialSpec()) { width -> if (forward) -width / 5 else width / 5 } +
-                                    fadeOut(nebEffectsSpec()))
+                            (slideInHorizontally(slideSpec) { width -> if (forward) width / 5 else -width / 5 } +
+                                fadeIn(fadeSpec)) togetherWith
+                                (slideOutHorizontally(slideSpec) { width -> if (forward) -width / 5 else width / 5 } +
+                                    fadeOut(fadeSpec))
                         },
                         label = "upload_step_body"
                     ) { shown ->
