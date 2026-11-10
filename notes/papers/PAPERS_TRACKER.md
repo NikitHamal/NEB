@@ -127,3 +127,6 @@ Built with full worked solutions and pushed: Engineering Survey I (ENCE 153 2083
 - Water Supply Engineering (ENCE 254, BE Civil Year II / Part II): 2083 Baishakh (back) and 2082 Bhadra (regular) typeset with full solutions; bundle `engineering-water-supply-engineering-2082-2083.pdf`.
 - Building Technology (ENCE 255, BE Civil Year II / Part II, 30 marks): 2083 Baishakh (back) and 2082 Bhadra (regular) typeset with full answers; bundle `engineering-building-technology-2082-2083.pdf`.
 - Concrete Technology (ENCE 205, BE Civil Year II / Part I, 30 marks): 2082 Chaitra, 2082 Kartik (back) and 2081 Chaitra typeset with full answers; bundle `engineering-concrete-technology-2081-2082.pdf`. Master All-in-One now 123 papers.
+
+### Section F addendum (session 24, IOE/BE last 5 years only)
+- Theory of Structures II (ENCE 252, BE Civil Year II / Part II): 2083 Baishakh (back) and 2082 Bhadra (regular) typeset with full worked solutions (force method, Castigliano, two-hinged arches, slope deflection, moment distribution with settlement and sway, direct stiffness, influence lines, plastic collapse). Bundle `engineering-theory-of-structures-ii-2082-2083.pdf`; master All-in-One now 125 papers / 1748 pp. See engineering/PHASE2_STATUS.md Session 24.
