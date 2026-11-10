@@ -2,8 +2,9 @@
 
 The Android reader used to rebuild paragraphs, tables, choices and maths from the drawn PDF page
 (guessing from glyph positions and outlines). Every guess failed somewhere. The pipeline already has
-the real structure, so each built PDF now carries it as an attachment, `neb-reading.zip`
-(random access, so the phone never parses the whole book):
+the real structure, so each built PDF now carries it as an attachment, `neb-reading.tgz`
+(a solid gzip tar: formulas share most of their outlines, so it is half the size of a zip; the phone
+unpacks it once into its cache and serves the files to the reader page):
 
     meta.json     {"v": 1, "title", "lang", "accent", "pages", "chapters": [{"id", "no", "title", "area", "page"}]}
     c/<n>.html    chapter n, as typeset
@@ -23,7 +24,7 @@ Flow in `build_pdf.build`: `anchor()` the chapter html before typesetting (ids o
 render, read the page of each anchor, `chapter()` to produce the payload, `attach()` into the file.
 """
 import base64
-import zipfile
+import tarfile
 import hashlib
 import html as _html
 import io
@@ -35,7 +36,7 @@ from html.parser import HTMLParser
 
 BODY_PT = 10.7            # body size in the print theme; formulas are sized relative to it
 PT_PER_MM = 72.0 / 25.4
-NAME = "neb-reading.zip"
+NAME = "neb-reading.tgz"
 VERSION = 1
 
 TEX = {}                  # svg data uri -> the TeX it was typeset from (filled by md2html)
@@ -239,16 +240,23 @@ def attach(pdf_path, title, lang, accent, page_count, chapters, pics):
     meta = {"v": VERSION, "title": title, "lang": lang, "accent": accent, "pages": page_count,
             "chapters": [{k: c[k] for k in ("id", "no", "title", "area", "page")} for c in chapters]}
     buf = io.BytesIO()
-    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        z.writestr("meta.json", json.dumps(meta, ensure_ascii=False, separators=(",", ":")))
+    with tarfile.open(fileobj=buf, mode="w:gz", format=tarfile.USTAR_FORMAT, compresslevel=9) as t:
+        def add(name, data):
+            ti = tarfile.TarInfo(name)
+            ti.size, ti.mtime = len(data), 0
+            t.addfile(ti, io.BytesIO(data))
+        add("meta.json", json.dumps(meta, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
         for i, c in enumerate(chapters):
-            z.writestr(f"c/{i}.html", c["html"])
+            add(f"c/{i}.html", c["html"].encode("utf-8"))
         for name, data in pics.res.items():
-            z.writestr(f"r/{name}", data, compress_type=zipfile.ZIP_STORED if name.endswith("jpg")
-                       else zipfile.ZIP_DEFLATED)
+            add(f"r/{name}", data)
     raw = buf.getvalue()
     w = PdfWriter(clone_from=pdf_path)
     w.add_attachment(NAME, raw)
+    try:
+        w.compress_identical_objects(remove_identicals=True, remove_orphans=True)
+    except Exception:
+        pass
     tmp = pdf_path + ".tmp"
     with open(tmp, "wb") as f:
         w.write(f)
