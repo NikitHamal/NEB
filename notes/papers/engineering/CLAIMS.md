@@ -4,5 +4,5 @@ Two sessions have been working the same NEXT list and duplicated Electrical Engi
 
 | Session | Claimed block (do not start these elsewhere) | State |
 |---|---|---|
-| A (this file's author, session 26) | 5th-sem scans: Design of Steel Structures, Design of Timber and Masonry, Engineering Hydrology, Engineering Thermodynamics and Heat Transfer, Project Engineering Management, Sanitary Engineering, Electric Machine Design; plus CAD drawing (3rd sem) | ENCE 301 + ENCE 303 DONE and pushed; Hydrology, Thermodynamics, PEM, Sanitary, Electric Machine Design, CAD drawing released (unclaimed) |
+| A (sessions 26 and 27) | 5th-sem scans: Design of Steel Structures, Design of Timber and Masonry, Engineering Hydrology, Engineering Thermodynamics and Heat Transfer, Project Engineering Management, Sanitary Engineering, Electric Machine Design; plus CAD drawing (3rd sem) | ENCE 301 + ENCE 303 DONE and pushed; Hydrology, Thermodynamics, PEM and Sanitary DONE in session 27 and pushed; Electric Machine Design and CAD drawing released (unclaimed) |
 | B (other session) | suggested: Electric Machine II, Instrumentation 3rd + 4th, PSA II, 4th-sem Numerical Methods (add your row if you take these) | unclaimed |
