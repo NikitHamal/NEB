@@ -20,11 +20,14 @@ PRIVACY_TPL = WEB_DIR / 'templates' / 'web' / 'legal' / 'privacy.html'
 TERMS_TPL = WEB_DIR / 'templates' / 'web' / 'legal' / 'terms.html'
 DOC_PARTIAL = WEB_DIR / 'templates' / 'web' / 'legal' / '_document.html'
 TAKEDOWN_TPL = WEB_DIR / 'templates' / 'web' / 'takedown.html'
+DELETE_TPL = WEB_DIR / 'templates' / 'web' / 'delete_account.html'
+DELETE_OK_TPL = WEB_DIR / 'templates' / 'web' / 'delete_account_success.html'
 LEGAL_CSS = WEB_DIR / 'static' / 'web' / 'css' / 'pages' / 'web-legal.css'
 TAKEDOWN_CSS = WEB_DIR / 'static' / 'web' / 'css' / 'pages' / 'web-takedown.css'
 ANDROID_LEGAL = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'legal' / 'LegalContent.kt'
 ANDROID_SCREEN = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'legal' / 'LegalScreen.kt'
 ANDROID_SHEET = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'auth' / 'AuthLegalSheet.kt'
+ANDROID_DELETE = REPO_ROOT / 'app' / 'src' / 'main' / 'java' / 'com' / 'neb' / 'ians' / 'ui' / 'screens' / 'settings' / 'DeleteAccountScreen.kt'
 DESKTOP_LEGAL = REPO_ROOT / 'desktop' / 'src' / 'screens' / 'legal_data.rs'
 
 EMOJI_RE = re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B50\u2705\u274C]')
@@ -63,7 +66,7 @@ def _parse_rust_sections(block: str) -> list[dict]:
 
 class LegalM3XSourceTests(SimpleTestCase):
     def test_templates_and_css_have_no_inline_styles_shadows_gradients_or_emojis(self):
-        for tpl in (PRIVACY_TPL, TERMS_TPL, DOC_PARTIAL, TAKEDOWN_TPL):
+        for tpl in (PRIVACY_TPL, TERMS_TPL, DOC_PARTIAL, TAKEDOWN_TPL, DELETE_TPL, DELETE_OK_TPL):
             src = tpl.read_text(encoding='utf-8')
             self.assertNotRegex(src, r'\sstyle="', f'inline style in {tpl.name}')
             self.assertEqual(EMOJI_RE.findall(src), [], f'emoji in {tpl.name}')
@@ -79,10 +82,11 @@ class LegalM3XSourceTests(SimpleTestCase):
             self.assertEqual(EMOJI_RE.findall(raw), [], css_file.name)
 
     def test_android_legal_files_follow_m3x_rules(self):
-        for kt_file in (ANDROID_LEGAL, ANDROID_SCREEN, ANDROID_SHEET):
+        for kt_file in (ANDROID_LEGAL, ANDROID_SCREEN, ANDROID_SHEET, ANDROID_DELETE):
             src = kt_file.read_text(encoding='utf-8')
             self.assertEqual(EMOJI_RE.findall(src), [], kt_file.name)
-            self.assertNotIn('Icons.Default.Close', src, kt_file.name)
+            self.assertNotIn('Icons.Default.', src, kt_file.name)
+            self.assertNotIn('Icons.AutoMirrored.Filled.', src, kt_file.name)
         self.assertIn('LegalDocSwitcher', ANDROID_SCREEN.read_text(encoding='utf-8'))
         self.assertIn('LegalDocSwitcher', ANDROID_SHEET.read_text(encoding='utf-8'))
 

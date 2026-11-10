@@ -1,27 +1,37 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static web_extras %}
 
 {% block title %}Account Deletion Scheduled — NEBians{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/web-legal.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="md-container-narrow" style="padding-top:48px; text-align: center;">
-  <div class="md-card p-4" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
-    <div style="width: 64px; height: 64px; border-radius: 50%; background-color: var(--md-error-container, #F9DEDC); color: var(--md-error, #B3261E); display: flex; align-items: center; justify-content: center;">
-      <span class="material-symbols-outlined" style="font-size: 36px;">done</span>
+<div class="da-page">
+  <header class="da-head">
+    {% url 'web:settings' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Settings" %}
+    <h1 class="da-title">Deletion Scheduled</h1>
+  </header>
+
+  <div class="da-card da-card-center">
+    <div class="da-icon-tile" aria-hidden="true">
+      <span class="material-symbols-outlined">done</span>
     </div>
-    
-    <h1 class="md-headline-small" style="margin-bottom: 8px;">Deletion Request Received</h1>
-    
-    <p style="font-size: 0.9375rem; color: var(--md-on-surface-variant); max-width: 400px; line-height: 1.6; margin-bottom: 24px;">
-      Your request to delete your account has been submitted. Your account data is scheduled to be permanently removed on <strong>{{ scheduled_date }}</strong>.
+
+    <h2 class="lg-h2">Deletion Request Received</h2>
+
+    <p class="da-lead">
+      Your request to delete your account has been recorded. Your personal profile and activity are scheduled to be permanently removed on <strong>{{ scheduled_date }}</strong>.
     </p>
 
-    <p style="font-size: 0.8125rem; color: var(--md-outline); margin-bottom: 24px;">
-      You can cancel this request at any time by visiting your profile settings before the scheduled deletion date.
+    <p class="da-note">
+      Changed your mind? Visit <a href="{% url 'web:delete_account' %}">Account Deletion Settings</a> at any time before {{ scheduled_date }} to cancel this request.
     </p>
-    
-    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled" style="text-decoration: none;">
+
+    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled da-btn-flex">
       Back to Home
     </a>
   </div>
