@@ -15,6 +15,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -59,6 +60,8 @@ import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.FormatBold
 import androidx.compose.material.icons.outlined.FormatItalic
 import androidx.compose.material.icons.outlined.FormatListBulleted
@@ -97,6 +100,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.runtime.DisposableEffect
@@ -160,6 +164,8 @@ fun NoteEditorScreen(
     val notice by vm.notice.collectAsStateWithLifecycle()
     val registry = remember { BlockFieldRegistry() }
     val toneIndex by vm.tone.collectAsStateWithLifecycle()
+    val iconKey by vm.icon.collectAsStateWithLifecycle()
+    val coverIndex by vm.cover.collectAsStateWithLifecycle()
     val tags by vm.tags.collectAsStateWithLifecycle()
     val pinned by vm.pinned.collectAsStateWithLifecycle()
     val archived by vm.archived.collectAsStateWithLifecycle()
@@ -178,6 +184,8 @@ fun NoteEditorScreen(
     var setup by remember { mutableStateOf<Setup?>(null) }
     var menu by remember { mutableStateOf(false) }
     var toneSheet by remember { mutableStateOf(false) }
+    var iconSheet by remember { mutableStateOf(false) }
+    var coverSheet by remember { mutableStateOf(false) }
     var tagDialog by remember { mutableStateOf(false) }
     var confirmDelete by remember { mutableStateOf(false) }
     val titleFocus = remember { FocusRequester() }
@@ -248,6 +256,8 @@ fun NoteEditorScreen(
                         MenuItem("Delete forever", Icons.Outlined.DeleteForever, danger = true) { menu = false; confirmDelete = true }
                     } else {
                         MenuItem("Colour", Icons.Outlined.Palette) { menu = false; toneSheet = true }
+                        MenuItem(if (iconKey.isEmpty()) "Add icon" else "Change icon", Icons.Outlined.Category) { menu = false; iconSheet = true }
+                        MenuItem(if (coverIndex == 0) "Add cover" else "Change cover", Icons.Outlined.Image) { menu = false; coverSheet = true }
                         MenuItem("Add tag", Icons.Outlined.Add) { menu = false; tagDialog = true }
                         MenuItem("Share", Icons.Outlined.Share) { menu = false; shareText(context, vm.shareText()) }
                         MenuItem("Duplicate", Icons.Outlined.ContentCopy) { menu = false; vm.duplicate(onOpenNote) }
@@ -272,8 +282,14 @@ fun NoteEditorScreen(
                     reorder.viewTop = at
                     reorder.viewBottom = at + it.size.height
                 }
-                .verticalScroll(bodyScroll).padding(horizontal = 22.dp),
+                .verticalScroll(bodyScroll),
         ) {
+            NotePageHeader(
+                icon = iconKey, cover = coverIndex, fg = fg, container = if (toneIndex == 0) c.surfaceContainerHigh else fg.copy(alpha = 0.12f),
+                editable = !trashed, onIcon = { iconSheet = true }, onCover = { coverSheet = true },
+                onClearCover = { vm.setCover(0) },
+            )
+            Column(Modifier.fillMaxWidth().padding(horizontal = 22.dp)) {
             BasicTextField(
                 value = title, onValueChange = vm::setTitle, readOnly = trashed,
                 textStyle = MaterialTheme.typography.headlineLarge.copy(color = fg, fontWeight = FontWeight.Bold),
@@ -317,6 +333,7 @@ fun NoteEditorScreen(
             Spacer(Modifier.height(6.dp))
             NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp), reorder = reorder)
             Spacer(Modifier.height(40.dp))
+            }
         }
 
         // ---- dock
@@ -348,6 +365,12 @@ fun NoteEditorScreen(
         }
     }
 
+    if (iconSheet) {
+        NoteIconSheet(current = iconKey, onPick = { vm.setIcon(it); iconSheet = false }, onDismiss = { iconSheet = false })
+    }
+    if (coverSheet) {
+        NoteCoverSheet(current = coverIndex, onPick = { vm.setCover(it); coverSheet = false }, onDismiss = { coverSheet = false })
+    }
     if (toneSheet) {
         NebModalSheet(onDismiss = { toneSheet = false }, title = "Colour") {
             ToneSwatches(current = toneIndex, onPick = { vm.setTone(it); toneSheet = false })
@@ -375,6 +398,84 @@ fun NoteEditorScreen(
             confirmButton = { TextButton(onClick = { confirmDelete = false; vm.deleteForever(onNavigateBack) }) { Text("Delete", color = c.error) } },
             dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Keep") } },
         )
+    }
+}
+
+/**
+ * The top of the page: the cover runs edge to edge, the icon tile overlaps its lower edge, and a
+ * page with neither shows two quiet actions. Changing the cover or icon springs the new one in.
+ */
+@Composable
+private fun NotePageHeader(
+    icon: String, cover: Int, fg: Color, container: Color,
+    editable: Boolean, onIcon: () -> Unit, onCover: () -> Unit, onClearCover: () -> Unit,
+) {
+    val c = MaterialTheme.colorScheme
+    val hasIcon = icon.isNotEmpty()
+    val hasCover = cover > 0
+    Column(Modifier.fillMaxWidth().animateContentSize(spring(dampingRatio = 0.8f, stiffness = 380f))) {
+        if (hasCover) {
+            Box(Modifier.fillMaxWidth().height(148.dp)) {
+                NoteCoverBanner(cover, Modifier.matchParentSize())
+                if (editable) {
+                    Row(
+                        Modifier.align(Alignment.BottomEnd).padding(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        HeaderPill("Change", Icons.Outlined.Image, onCover)
+                        HeaderPill("Remove", Icons.Outlined.Close, onClearCover)
+                    }
+                }
+            }
+        }
+        if (hasIcon) {
+            Box(
+                Modifier.padding(start = 22.dp, top = if (hasCover) 0.dp else 8.dp)
+                    .then(
+                        if (hasCover) Modifier.layout { m, constraints ->
+                            val placeable = m.measure(constraints)
+                            val pull = 30.dp.roundToPx()
+                            layout(placeable.width, placeable.height - pull) { placeable.place(0, -pull) }
+                        } else Modifier
+                    )
+                    .let { if (editable) it.clickable(onClick = onIcon) else it },
+            ) {
+                NoteIconTile(icon, 64.dp, container = if (hasCover) c.surface else container, content = fg)
+            }
+        }
+        if (editable && (!hasIcon || !hasCover)) {
+            Row(
+                Modifier.padding(start = 18.dp, top = if (hasIcon && hasCover) 0.dp else 6.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                if (!hasIcon) GhostAction("Add icon", Icons.Outlined.Category, fg, onIcon)
+                if (!hasCover) GhostAction("Add cover", Icons.Outlined.Image, fg, onCover)
+            }
+        }
+    }
+}
+
+@Composable
+private fun HeaderPill(label: String, icon: ImageVector, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
+    Row(
+        Modifier.clip(RoundedCornerShape(50)).background(c.surface).clickable(onClick = onClick)
+            .padding(start = 10.dp, end = 14.dp, top = 8.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Icon(icon, null, tint = c.onSurface, modifier = Modifier.size(16.dp))
+        Text(label, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = c.onSurface)
+    }
+}
+
+@Composable
+private fun GhostAction(label: String, icon: ImageVector, fg: Color, onClick: () -> Unit) {
+    Row(
+        Modifier.clip(RoundedCornerShape(50)).clickable(onClick = onClick).padding(horizontal = 10.dp, vertical = 7.dp),
+        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Icon(icon, null, tint = fg.copy(alpha = 0.6f), modifier = Modifier.size(18.dp))
+        Text(label, style = MaterialTheme.typography.labelLarge, color = fg.copy(alpha = 0.6f))
     }
 }
 

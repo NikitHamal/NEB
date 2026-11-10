@@ -17,9 +17,11 @@ Nothing under `app/` is built locally (no JDK or SDK in the agent sandbox). The 
 | 7 | **Compile fix**: `nebSpatialSpec()` / `nebEffectsSpec()` are composable; the upload stepper, step body and success screen called them inside `transitionSpec` / `LaunchedEffect` lambdas (CI run on 2149719 failed). They are hoisted into composable scope now. Rule: read a motion spec in the composable body, pass the value into the lambda. | `UploadChrome.kt`, `UploadScreen.kt`, `UploadDetails.kt` |
 | 8 | **Notes: auto scroll while dragging.** Hold a block within 96dp of the top or bottom of the note and the page scrolls under it, faster nearer the edge; the block keeps following the finger. `BlockReorder` now owns the viewport edges and the finger position; `NoteEditorScreen` creates it and hands it to `NoteBlockEditor`. | `NoteBlockEditor.kt`, `NoteEditorScreen.kt` |
 
+| 9 | **Notes: page icon and cover** (session 4). Room 4 to 5 adds `icon` (key into `NoteIcons`, 31 vector glyphs, no emoji) and `cover` (0 none, 1..8 flat tonal banners built from two big Material shapes). The editor header runs the cover edge to edge, the icon tile overlaps its lower edge, and a bare page shows quiet "Add icon" / "Add cover" actions; changing a cover springs its shapes in. Pickers are bottom sheets, also in the overflow menu. Note cards show the cover strip and icon. Duplicate copies both. | `NotePage.kt`, `NoteEntity.kt`, `DatabaseMigrations.kt`, `NoteEditorScreen.kt`, `NotesScreen.kt`, `NoteEditorViewModel.kt`, `NotesRepository.kt` |
+
 ## Next
 
-- Page icon and cover for notes (needs a Room migration).
+- Notes: cover from a photo, page templates gallery in the empty state.
 - Web upload composer is untouched in this batch (it already follows the `.fe` surface, see `UPLOADS_SELLING_STATUS.md`).
 
 ## Rules kept

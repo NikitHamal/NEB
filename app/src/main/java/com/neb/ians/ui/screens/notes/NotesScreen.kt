@@ -522,11 +522,12 @@ private fun NoteCard(
     Column(
         Modifier.fillMaxWidth().clip(shape).background(tone.container)
             .then(if (border != null) Modifier.border(border, shape) else Modifier)
-            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick),
     ) {
-        Row(verticalAlignment = Alignment.Top) {
+    if (note.cover > 0) NoteCoverBanner(note.cover, Modifier.fillMaxWidth().height(if (compact) 56.dp else 72.dp), animate = false)
+    Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (note.icon.isNotEmpty()) NoteIconTile(note.icon, 32.dp, container = tone.content.copy(alpha = 0.12f), content = tone.content)
             if (note.title.isNotBlank()) {
                 Text(
                     note.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
@@ -570,5 +571,6 @@ private fun NoteCard(
             Text(dateLabel(note.updatedAt), style = MaterialTheme.typography.labelSmall, color = tone.content.copy(alpha = 0.6f), modifier = Modifier.weight(1f))
             if (total > 0) Text("$done/$total", style = MaterialTheme.typography.labelSmall, color = tone.content.copy(alpha = 0.6f))
         }
+    }
     }
 }

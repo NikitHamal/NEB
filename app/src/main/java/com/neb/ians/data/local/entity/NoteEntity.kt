@@ -24,6 +24,10 @@ data class NoteEntity(
     val updatedAt: Long,
     /** The note as blocks (JSON). Empty for notes written before blocks; they open from [body]. */
     @ColumnInfo(defaultValue = "") val doc: String = "",
+    /** Page icon key from `NoteIcons`; empty for none. */
+    @ColumnInfo(defaultValue = "") val icon: String = "",
+    /** Page cover index from `NoteCovers`; 0 for none. */
+    @ColumnInfo(defaultValue = "0") val cover: Int = 0,
 ) {
     val tagList: List<String>
         get() = tags.split(' ').filter { it.isNotBlank() }
