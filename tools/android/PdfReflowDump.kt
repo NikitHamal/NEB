@@ -12,6 +12,8 @@ fun main(args: Array<String>) {
     for (p in args.drop(1).map { it.toInt() }) {
         val t1 = System.nanoTime()
         val c = ex.extract(p)!!
+        if (System.getenv("GFX") != null) for (g in c.gfx) if (g.w > 60f && g.h < 3f && g.kind == G_PATH) println("RULE y=%.1f x=%.1f..%.1f h=%.2f fill=%b stroke=%b rgb=%06x/%06x lw=%.2f".format(g.y0, g.x0, g.x1, g.h, g.fill, g.stroke, g.fillRgb, g.strokeRgb, g.lineWidth))
+        if (System.getenv("GFX") != null) for (g in c.gfx) if (g.w > 150f && g.h > 12f && g.kind == G_PATH && g.fill) println("BOX y=%.1f..%.1f x=%.1f..%.1f curves=%d rgb=%06x a=%.2f".format(g.y0, g.y1, g.x0, g.x1, g.curves, g.fillRgb, g.fillA))
         val rp = PdfReflow.build(p, c, st, f.links(p))
         println("=== page $p  ${(System.nanoTime()-t1)/1e6}ms  words=${rp.words}")
         for (b in rp.blocks) when (b) {
