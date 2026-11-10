@@ -287,7 +287,8 @@ fun UploadSuccessScreen(onUploadAnother: () -> Unit, onBrowseLibrary: () -> Unit
         label = "upload_done_turn"
     )
     val entrance = remember { Animatable(0f) }
-    LaunchedEffect(Unit) { entrance.animateTo(1f, nebSpatialSpec()) }
+    val entranceSpec = nebSpatialSpec<Float>()
+    LaunchedEffect(Unit) { entrance.animateTo(1f, entranceSpec) }
 
     Column(
         modifier = Modifier

@@ -141,9 +141,10 @@ internal fun UploadStepper(
                 }
             }
         }
+        val titleFade = nebEffectsSpec<Float>()
         AnimatedContent(
             targetState = title,
-            transitionSpec = { fadeIn(nebEffectsSpec()) togetherWith fadeOut(nebEffectsSpec()) },
+            transitionSpec = { fadeIn(titleFade) togetherWith fadeOut(titleFade) },
             label = "upload_title"
         ) { text ->
             Text(
