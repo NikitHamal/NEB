@@ -122,12 +122,13 @@ def build():
         records.append({"file": "bundles/" + name, "subject": subject, "level": level, "years_bs": yr,
                         "papers": [r["id"] for r in rs], "pages": pages, "bytes": os.path.getsize(path), "kind": "subject-bundle"})
         print(f"{name}: {len(rs)} papers, {pages} pages")
-    # ---- master all-in-one book (GitHub caps a file at 100 MB: split into volumes of <= ~70 MB when needed)
+    # ---- master all-in-one book (GitHub caps a file at 100 MB: ONE book while it fits under 97 MB, otherwise split into balanced volumes)
     subj = collections.OrderedDict()
     for r in sorted(papers, key=lambda r: (r["level"].split(" / ")[0], r["subject"])):
         subj.setdefault((r["level"].split(" / ")[0], r["subject"]), []).append(r)
     total = sum(os.path.getsize(r["pdfpath"]) for r in papers)
-    nvol = max(1, -(-total // 70_000_000))
+    MAXV = int(os.environ.get('MASTER_MAX_BYTES', 97_000_000))
+    nvol = max(1, -(-int(total * 1.12) // MAXV))  # merged file is ~ sum of papers + cover; 12% safety
     target, vols, cur, acc = total / nvol, [], [], 0
     for key, rs in subj.items():
         sz = sum(os.path.getsize(r["pdfpath"]) for r in rs)

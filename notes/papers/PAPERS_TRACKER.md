@@ -148,3 +148,6 @@ DONE: Design of Timber and Masonry Structures ENCE 301 (2082 Chaitra) and Design
 
 ### Section F addendum (session 33, IOE/BE last 5 years only)
 - Old-course 1st-semester sittings solved in full (every question and sub-question): Engineering Chemistry SH 403 2081 Bhadra and 2081 Baishakh; Computer Programming CT 401 2081 Bhadra, 2081 Baishakh and 2080 Bhadra. Bundles refreshed: `engineering-chemistry-2081-2083.pdf` (11 papers), new `engineering-computer-programming-2080-2082.pdf` (4 papers), master All-in-One (176 papers, 2422 pp, 92.7 MB: split by year before adding more). Details and NEXT list in `engineering/PHASE2_STATUS.md` (Session 33).
+
+### Section F addendum (session 34, IOE/BE last 5 years only)
+DONE and pushed: Physics SH 402 2081 Bhadra, Maths I SH 401 2080 Bhadra, Maths II SH 451 2079 Chaitra and 2078 Chaitra (all old-course regular/back sittings, every question and OR solved). Master All-in-One book (180 papers, 2486 pp) is now published as 2 volumes of about 48 MB each because one file would be 95.6 MB, too close to GitHub's 100 MB limit. Subject bundles renamed: `engineering-mathematics-i-2080-2082.pdf`, `engineering-mathematics-ii-2078-2083.pdf`. Details and the NEXT list are in `engineering/PHASE2_STATUS.md` (Session 34).
