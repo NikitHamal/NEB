@@ -130,3 +130,4 @@ Built with full worked solutions and pushed: Engineering Survey I (ENCE 153 2083
 
 ### Section F addendum (session 24, IOE/BE last 5 years only)
 - Theory of Structures II (ENCE 252, BE Civil Year II / Part II): 2083 Baishakh (back) and 2082 Bhadra (regular) typeset with full worked solutions (force method, Castigliano, two-hinged arches, slope deflection, moment distribution with settlement and sway, direct stiffness, influence lines, plastic collapse). Bundle `engineering-theory-of-structures-ii-2082-2083.pdf`; master All-in-One now 125 papers / 1748 pp. See engineering/PHASE2_STATUS.md Session 24.
+- Logic Circuit (ENEX 203, BE Electronics Year II / Part I): 2082 Kartik (back) and 2081 Chaitra (regular) typeset with full solutions (K-map/NAND/NOR designs, MUX/DEMUX, flip-flop conversions, counters, sequence detectors, shift registers). Bundle `engineering-logic-circuit-2081-2082.pdf`; master All-in-One now 127 papers.
