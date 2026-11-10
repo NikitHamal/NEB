@@ -25,3 +25,10 @@ Nothing under `app/` is built locally (no JDK or SDK in the agent sandbox). The 
 ## Rules kept
 
 No shadows, no emojis, no gradients, no ring on photos, no fills on role badges, no hover that squares a rounded button.
+
+## Verified (session 3)
+
+- Django suite: 908 tests OK (`cd backend_python && DEBUG=True DB_ENGINE=sqlite python3 manage.py test`).
+- No leftover generated-avatar code or options (searched Kotlin, Python, templates, JS). Neby the AI bot keeps its mascot, it is a bot identity.
+- No timer line left in `NebToast.kt`, `neb-toast.js`, `app-toast.css`.
+- `docs/M3X_DESIGN_SYSTEM.md` now carries the rules from this batch: toast without progress, no generated avatars, splash, About, no scroll motion on Android, upload stepper.
