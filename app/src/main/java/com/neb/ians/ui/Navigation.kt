@@ -938,7 +938,10 @@ fun NEBiansNavHost(
             composable(Screen.DeleteAccount.route) {
                 com.neb.ians.ui.screens.settings.DeleteAccountScreen(
                     viewModel = settingsViewModel,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToLegal = { doc ->
+                        navController.navigate(Screen.Legal.createRoute(doc))
+                    }
                 )
             }
 

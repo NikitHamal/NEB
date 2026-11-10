@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% load static web_extras %}
 
-{% block title %}Copyright Takedown Request — NEBians{% endblock %}
-{% block description %}File a copyright takedown request under Nepal's Copyright Act, 2059 for any materials hosted on NEBians without authorization.{% endblock %}
-{% block canonical %}https://nebians.consica.com.np/copyright-takedown/{% endblock %}
+{% block title %}{{ takedown_doc.seo_title }}{% endblock %}
+{% block description %}{{ takedown_doc.description }}{% endblock %}
+{% block og_title %}{{ takedown_doc.seo_title }}{% endblock %}
+{% block og_description %}{{ takedown_doc.description }}{% endblock %}
+{% block tw_title %}{{ takedown_doc.seo_title }}{% endblock %}
+{% block tw_description %}{{ takedown_doc.description }}{% endblock %}
+{% block canonical %}{{ takedown_doc.canonical }}{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ takedown_doc.jsonld|safe }}</script>
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-takedown.css' %}">

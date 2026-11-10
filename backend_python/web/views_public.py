@@ -1834,8 +1834,10 @@ def copyright_takedown(request):
             takedown.save()
             success = True
             
+    from .legal_data import get_takedown_document
     ctx = _ctx(request)
     ctx.update({
+        'takedown_doc': get_takedown_document(),
         'errors': errors,
         'success': success,
         'form_data': request.POST if request.method == 'POST' and not success else {}

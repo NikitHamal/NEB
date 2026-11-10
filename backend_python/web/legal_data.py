@@ -304,8 +304,24 @@ def get_legal_document(key: str, *, takedown_url: str = '/copyright-takedown/') 
     return doc
 
 
+def get_takedown_document() -> dict:
+    doc = {
+        'key': 'takedown',
+        'title': 'Copyright Takedown Request',
+        'seo_title': "Copyright Takedown Request — Nepal's Learning Community | NEBians",
+        'description': (
+            "File a copyright takedown request under Nepal's Copyright Act, 2059 and Electronic "
+            'Transactions Act, 2063 for any materials hosted on NEBians without authorization.'
+        ),
+        'path': '/copyright-takedown/',
+        'canonical': f'{SITE}/copyright-takedown/',
+    }
+    doc['jsonld'] = jsonld(doc)
+    return doc
+
+
 def jsonld(doc: dict) -> str:
-    """schema.org @graph for /privacy/ and /terms/."""
+    """schema.org @graph for /privacy/, /terms/, and /copyright-takedown/."""
     url = doc['canonical']
     graph = [
         {

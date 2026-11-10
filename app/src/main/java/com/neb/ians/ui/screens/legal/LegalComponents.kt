@@ -39,11 +39,14 @@ data class LegalTextColors(
 fun legalTextColors(): LegalTextColors = LegalTextColors(
     heading = MaterialTheme.colorScheme.onSurface,
     body = MaterialTheme.colorScheme.onSurfaceVariant,
-    marker = MaterialTheme.colorScheme.onSurface,
-    markerBackground = MaterialTheme.colorScheme.surfaceContainerHigh
+    marker = MaterialTheme.colorScheme.onSecondaryContainer,
+    markerBackground = MaterialTheme.colorScheme.secondaryContainer
 )
 
-fun legalAnnotated(raw: String): AnnotatedString = buildAnnotatedString {
+fun legalAnnotated(
+    raw: String,
+    strongColor: Color = Color.Unspecified
+): AnnotatedString = buildAnnotatedString {
     var cursor = 0
     while (true) {
         val open = raw.indexOf("**", cursor)
@@ -51,7 +54,7 @@ fun legalAnnotated(raw: String): AnnotatedString = buildAnnotatedString {
         val close = raw.indexOf("**", open + 2)
         if (close < 0) break
         append(raw.substring(cursor, open))
-        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) {
+        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = strongColor)) {
             append(raw.substring(open + 2, close))
         }
         cursor = close + 2
@@ -69,8 +72,8 @@ fun LegalSectionBlock(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
-                    .size(26.dp)
-                    .background(colors.markerBackground, RoundedCornerShape(9.dp)),
+                    .size(28.dp)
+                    .background(colors.markerBackground, RoundedCornerShape(10.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -92,10 +95,12 @@ fun LegalSectionBlock(
                 color = colors.heading
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             section.paragraphs.forEach { paragraph ->
-                val text = remember(paragraph) { legalAnnotated(paragraph) }
+                val text = remember(paragraph, colors.heading) {
+                    legalAnnotated(paragraph, strongColor = colors.heading)
+                }
                 Text(
                     text = text,
                     style = MaterialTheme.typography.bodyMedium.copy(
@@ -103,7 +108,7 @@ fun LegalSectionBlock(
                         lineHeight = 21.sp
                     ),
                     color = colors.body,
-                    modifier = Modifier.padding(start = 36.dp)
+                    modifier = Modifier.padding(start = 38.dp)
                 )
             }
         }
