@@ -776,7 +776,7 @@ internal object PdfReflow {
 
     // --------------------------------------------------------------- figures
 
-    private class Fig(val box: Box, val equation: Boolean, val owner: Line? = null) {
+    private class Fig(val box: Box, var equation: Boolean, val owner: Line? = null) {
         var inlineFailed = false
     }
 
@@ -988,13 +988,14 @@ internal object PdfReflow {
             var guard = 0
             while (again && guard++ < 120) {
                 again = false
-                val eq = result.filter { it.owner == null && it.equation }
+                val eq = result.filter { it.owner == null && (it.equation || (it.box.h <= 12f * body && it.box.w <= 0.7f * W)) }
                 loop@ for (a in eq.indices) for (b in a + 1 until eq.size) {
+                    if (!eq[a].equation && !eq[b].equation) continue
                     val fa = eq[a].box; val fb = eq[b].box
                     val gy = max(fa.t, fb.t) - min(fa.b, fb.b)
                     val gx = max(fa.l, fb.l) - min(fa.r, fb.r)
                     val ox = min(fa.r, fb.r) - max(fa.l, fb.l)
-                    val stacked = gy <= 1.1f * body && (ox >= 0.4f * min(fa.w, fb.w) || gx <= 2.6f * body)
+                    val stacked = gy <= 1.1f * body && (ox >= 0.4f * min(fa.w, fb.w) || gx <= (if (gy < 0f) 3.4f else 2.6f) * body)
                     val sameRow = gy < 0f && gx <= 1.2f * body
                     if (!stacked && !sameRow) continue
                     val u = Box(min(fa.l, fb.l), min(fa.t, fb.t), max(fa.r, fb.r), max(fa.b, fb.b))
@@ -1005,7 +1006,7 @@ internal object PdfReflow {
                             !(cx >= fa.l && cx <= fa.r && cy >= fa.t && cy <= fa.b) && !(cx >= fb.l && cx <= fb.r && cy >= fb.t && cy <= fb.b)
                     }
                     if (textInside) continue
-                    fa.union(fb); result.remove(eq[b]); again = true
+                    fa.union(fb); eq[a].equation = eq[a].equation && eq[b].equation; result.remove(eq[b]); again = true
                     break@loop
                 }
             }
