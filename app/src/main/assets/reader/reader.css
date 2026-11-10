@@ -192,3 +192,6 @@ mark.hit.on{background:var(--markon);color:#000}
 #ov .stage .more{display:none}
 
 html[lang=ne]{--ff:"Noto Sans Devanagari","Noto Serif Devanagari",var(--ff-sans);--lh:1.74}
+
+/* the print rule beside each paragraph of a worked example is page furniture; the cards carry the structure here */
+#doc p.hm,#doc li.hm{border-left:0;padding-left:0}
