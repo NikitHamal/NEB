@@ -59,8 +59,8 @@ internal fun RdVector(art: VectorArt, ink: Color, modifier: Modifier, shiftPts: 
         }) {
             for (s in shapes) {
                 val v = s.shape
-                if (v.fill) rdInk(v.fillRgb, ink, art.diagram)?.let { drawPath(s.path, it) }
-                if (v.stroke) rdInk(v.strokeRgb, ink, art.diagram)?.let { drawPath(s.path, it, style = Stroke(width = v.width)) }
+                if (v.fill) rdInk(v.fillRgb, ink, art.diagram)?.let { drawPath(s.path, it.copy(alpha = it.alpha * v.fillA)) }
+                if (v.stroke) rdInk(v.strokeRgb, ink, art.diagram)?.let { drawPath(s.path, it.copy(alpha = it.alpha * v.strokeA), style = Stroke(width = v.width)) }
             }
         }
     }
