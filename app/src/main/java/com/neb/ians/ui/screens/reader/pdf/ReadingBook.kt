@@ -231,6 +231,7 @@ private fun settingsJs(s: ReadingSettings, theme: ReadingTheme, top: Int, bottom
  * choices, formulas as typeset vectors, folded solutions), with the same bars, sheet and controls as the
  * reflowed view. Page numbers are the PDF's, so the slider, bookmarks and "original page" agree.
  */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 internal fun ReadingBookMode(
     title: String,
