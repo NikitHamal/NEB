@@ -965,6 +965,17 @@ internal object PdfReflow {
             }.maxByOrNull { min(it.bottom, cl.b) - max(it.top, cl.t) }
         }
 
+        // a block made only of glyph sized outlines (a derivation, a fraction stack, a matrix) is maths, not a drawing: the
+        // words near it are the text of the page, not its labels
+        fun isDrawing(cl: Box): Boolean {
+            for (g in c.gfx) {
+                if (g.x0 < cl.l - 2f || g.x1 > cl.r + 2f || g.y0 < cl.t - 2f || g.y1 > cl.b + 2f) continue
+                if (g.kind == G_IMAGE) return true
+                if (g.curves > 0 && max(g.w, g.h) > 4.8f * body) return true
+                if (g.curves == 0 && g.diag > 0 && max(g.w, g.h) > 6f * body) return true
+            }
+            return false
+        }
         // pieces of one drawing (labels beside a diagram, rows of a figure) sit a few characters apart
         run {
             var guard = 0
@@ -989,7 +1000,8 @@ internal object PdfReflow {
                         // never swallow the middle of a paragraph
                         val swallows = lines.any { l ->
                             val ov = min(l.bottom, u.b) - max(l.top, u.t)
-                            ov > 0.35f * (l.bottom - l.top) && (l.x0 < u.l - 2f * body || l.x1 > u.r + 2f * body) && l.text.length > 12
+                            ov > 0.35f * (l.bottom - l.top) && l.text.length > 3 && ((l.x0 < u.l - 2f * body || l.x1 > u.r + 2f * body) && l.text.length > 12 ||
+                                (l.size >= body * 0.95f && !isDrawing(ca) && !isDrawing(cb)))
                         }
                         if (swallows) continue
                     }
@@ -1004,17 +1016,6 @@ internal object PdfReflow {
         val contentL = if (bodyLines.isNotEmpty()) bodyLines.minOf { it.x0 } else W * 0.07f
         val contentR = if (bodyLines.isNotEmpty()) bodyLines.maxOf { it.x1 } else W * 0.93f
 
-        // a block made only of glyph sized outlines (a derivation, a fraction stack, a matrix) is maths, not a drawing: the
-        // words near it are the text of the page, not its labels
-        fun isDrawing(cl: Box): Boolean {
-            for (g in c.gfx) {
-                if (g.x0 < cl.l - 2f || g.x1 > cl.r + 2f || g.y0 < cl.t - 2f || g.y1 > cl.b + 2f) continue
-                if (g.kind == G_IMAGE) return true
-                if (g.curves > 0 && max(g.w, g.h) > 4.8f * body) return true
-                if (g.curves == 0 && g.diag > 0 && max(g.w, g.h) > 6f * body) return true
-            }
-            return false
-        }
         val result = ArrayList<Fig>()
         val bands = ArrayList<Box>()
         for (cl in clusters) {
