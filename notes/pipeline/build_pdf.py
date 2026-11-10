@@ -1,7 +1,7 @@
 """Assemble a subject PDF from authored chapter files."""
 import os, re, sys, html as _html, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import spine, md2html, mathsvg, figrun, photo, assets, i18n, furniture, m3x
+import spine, md2html, mathsvg, figrun, photo, assets, i18n, furniture, m3x, reading
 from furniture import cover_html, front_html, toc_html, chapter_html
 from weasyprint import HTML, CSS
 
@@ -86,6 +86,35 @@ def credits_html(asset_ids):
 </section>"""
 
 
+def attach_reading(path, rendered, slug, subject, grade, accent, L, units, present, chap_print,
+                   extras, extra_meta):
+    """Put the book's structure into the PDF (see reading.py). A failure here never fails the build."""
+    try:
+        pages = {}
+        for i, pg in enumerate(rendered.pages, 1):
+            for name in pg.anchors:
+                pages.setdefault(name, i)
+        pics = reading.Pictures()
+        chapters = []
+        for u in units:
+            if u["no"] not in present:
+                continue
+            chapters.append({"id": f"u{u['no']}", "no": i18n.num(u["no"]), "title": u["title"],
+                             "area": u.get("area") or "", "page": pages.get(f"u{u['no']}", 1),
+                             "html": reading.chapter(chap_print[u["no"]], pages, pics)})
+        for sec, (cid, title) in zip(extras, extra_meta):
+            chapters.append({"id": cid, "no": "", "title": title, "page": pages.get(cid, 1),
+                             "html": reading.chapter(sec, pages, pics)})
+        title = f"{subject} {L['grade'].split(' ·')[0].format(g=i18n.num(grade))}"
+        data = reading.payload(title, L["lang"], accent, len(rendered.pages), chapters, pics)
+        size = reading.attach(path, data)
+        print(f"   reading payload {size / 1e6:.1f} MB, {len(chapters)} chapters, {len(pics.res)} pictures")
+    except Exception as e:                       # noqa: BLE001
+        import traceback
+        traceback.print_exc()
+        print(f"   reading payload FAILED: {type(e).__name__}: {e}")
+
+
 def build(slug, verbose=True):
     head, units = spine.load(slug)
     L = i18n.set_book(slug)
@@ -110,14 +139,23 @@ def build(slug, verbose=True):
     i18n.CUR = L
     if not present:
         return None, 0, 0
-    extras = []
+    extras, extra_meta = [], []
     for name, title in L["extras"]:
         p = os.path.join(cdir, name + ".md")
         if os.path.exists(p) and len(open(p, encoding="utf-8").read().strip()) > 400:
             _, htm, figno = md2html.convert(open(p, encoding="utf-8").read(),
                                             f"{slug}-{name}", figno)
-            extras.append(f'<section class="chapter paper"><div class="ch-head">'
-                          f'<div class="ch-eyebrow">{L["appendix"]}</div><h1>{title}</h1></div>{htm}</section>')
+            sec, _ids = reading.anchor(
+                f'<section class="chapter paper" id="x-{name}"><div class="ch-head">'
+                f'<div class="ch-eyebrow">{L["appendix"]}</div><h1>{title}</h1></div>{htm}</section>',
+                f"nbx{len(extras)}x")
+            extras.append(sec)
+            extra_meta.append((f"x-{name}", title))
+    chap_print = {}        # chapter html with block anchors (ids only: the print layout is unchanged)
+    for u in units:
+        if u["no"] in present:
+            chap_print[u["no"]], _ids = reading.anchor(
+                chapter_html_for(u, bodies[u["no"]], subject, grade, L), f"nb{u['no']}x")
     exam_notes = [n for n in head["notes"] if n.startswith(("EXAM", "PATTERN", "GRID"))]
     exam_notes = [re.sub(r"^(EXAM|PATTERN|GRID):\s*", "", n) for n in exam_notes] or \
                  [L["no_grid"]]
@@ -133,15 +171,17 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
 {cover_html(slug, subject, grade, accent, code, head)}
 {front_html(subject, grade, head, units, exam_notes)}
 {toc_html(units, present)}
-{''.join(chapter_html_for(u, bodies[u['no']], subject, grade, L) for u in units if u['no'] in present)}
+{''.join(chap_print[u['no']] for u in units if u['no'] in present)}
 {''.join(extras)}
 {credits_html(list(photo.USED))}
 </body></html>"""
     os.makedirs(OUT, exist_ok=True)
     name = spine.pdf_name(slug)
     path = os.path.join(OUT, name)
-    HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)],
-                                             optimize_images=True, jpeg_quality=80, dpi=170)
+    rendered = HTML(string=doc, base_url=HERE).render(stylesheets=[CSS(filename=THEME)])
+    rendered.write_pdf(path, optimize_images=True, jpeg_quality=80, dpi=170)
+    attach_reading(path, rendered, slug, subject, grade, accent, L, units, present, chap_print,
+                   extras, extra_meta)
     import pypdf_pages
     pages = pypdf_pages.count(path)
     if verbose:

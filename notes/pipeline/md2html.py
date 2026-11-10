@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n, svgkit, readflow, plainlift
+import devaeqn, figrun, photo, assets, i18n, svgkit, readflow, plainlift, reading
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -220,7 +220,9 @@ def _math_img(tex, size, display=False, cls="im", derive_min=None):
     if not path:
         return None
     ca = f' class="{cls}"' if cls else ""
-    return (f'<img{ca} data-w="{w / 100.0 * 25.4:.1f}" src="{_svg_data_uri(path)}" '
+    uri = _svg_data_uri(path)
+    reading.TEX[uri] = tex.strip()       # the reading payload keeps the TeX as alt text
+    return (f'<img{ca} data-w="{w / 100.0 * 25.4:.1f}" src="{uri}" '
             f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
 
 
