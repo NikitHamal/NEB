@@ -80,7 +80,7 @@ $$\begin{gathered}u(x, 0) = x(4 - x)\\ u(0, t) = u(4, t) = 0\end{gathered}$$
 @s 1
 **Secant method.** Replace the tangent of Newton's method by the chord through the last two iterates:
 
-$$x_{i+1} = x_i - f(x_i)\,\frac{x_i - x_{i-1}}{f(x_i) - f(x_{i-1})} = \frac{x_{i-1}f(x_i) - x_i f(x_{i-1})}{f(x_i) - f(x_{i-1})}.$$
+$$\begin{gathered}x_{i+1} = x_i - f(x_i)\,\frac{x_i - x_{i-1}}{f(x_i) - f(x_{i-1})} = \frac{x_{i-1}f(x_i) - x_i f(x_{i-1})}{f(x_i) - f(x_{i-1})}.\end{gathered}$$
 
 Let $f(x) = x\,e^{2x} + \cos 2x - 1.5$ (radians). Then $f(0) = 0 + 1 - 1.5 = -0.5$ and $f(1) = 7.389 - 0.416 - 1.5 = 5.473$, so a root lies in $(0, 1)$. Start with $x_0 = 0,\ x_1 = 0.5$; $f(0.5) = 1.35914 + 0.54030 - 1.5 = 0.39944$.
 
@@ -213,7 +213,7 @@ $$\begin{gathered}\sum Y = nA + b\sum x \\ \sum xY = A\sum x + b\sum x^2.\end{ga
 
 With $n = 6$:
 
-$$b = \frac{n\sum xY - \sum x\sum Y}{n\sum x^2 - (\sum x)^2} = \frac{6(201.6446) - 42(23.6494)}{6(364) - 42^2} = \frac{216.592}{420} = 0.51570$$
+$$\begin{gathered}b = \frac{n\sum xY - \sum x\sum Y}{n\sum x^2 - (\sum x)^2} = \frac{6(201.6446) - 42(23.6494)}{6(364) - 42^2} = \frac{216.592}{420} = 0.51570\end{gathered}$$
 
 $$\begin{gathered}A = \frac{23.6494 - 0.51570(42)}{6} = 0.33170 \\ a = e^{0.33170} = 1.3933\end{gathered}$$
 
@@ -246,7 +246,7 @@ $$y(x) = 4.72 + 1.19\,x - 0.33\,x(x-2) + 0.06\,x(x-2)(x-5)$$
 
 At $x = 9$:
 
-$$y(9) = 4.72 + 1.19(9) - 0.33(9)(7) + 0.06(9)(7)(4) = 4.72 + 10.71 - 20.79 + 15.12$$
+$$\begin{gathered}y(9) = 4.72 + 1.19(9) - 0.33(9)(7) + 0.06(9)(7)(4) = 4.72 + 10.71 - 20.79 + 15.12\end{gathered}$$
 
 $$\boxed{y(9) = 9.76}$$
 
@@ -271,11 +271,11 @@ Since $\dfrac{dp}{dx} = \dfrac1h$, differentiate term by term with respect to $p
 
 **First derivative**
 
-$$\frac{dy}{dx} = \frac{1}{h}\frac{dy}{dp} = \frac1h\left[\Delta y_0 + \frac{2p - 1}{2}\Delta^2 y_0 + \frac{3p^2 - 6p + 2}{6}\Delta^3 y_0 + \frac{4p^3 - 18p^2 + 22p - 6}{24}\Delta^4 y_0 + \cdots\right]$$
+$$\begin{gathered}\frac{dy}{dx} = \frac{1}{h}\frac{dy}{dp} = \frac1h\left[\Delta y_0 + \frac{2p - 1}{2}\Delta^2 y_0 + \frac{3p^2 - 6p + 2}{6}\Delta^3 y_0 + \frac{4p^3 - 18p^2 + 22p - 6}{24}\Delta^4 y_0 + \cdots\right]\end{gathered}$$
 
 **Second derivative**
 
-$$\frac{d^2y}{dx^2} = \frac{1}{h^2}\frac{d^2y}{dp^2} = \frac1{h^2}\left[\Delta^2 y_0 + (p - 1)\Delta^3 y_0 + \frac{6p^2 - 18p + 11}{12}\Delta^4 y_0 + \cdots\right]$$
+$$\begin{gathered}\frac{d^2y}{dx^2} = \frac{1}{h^2}\frac{d^2y}{dp^2} = \frac1{h^2}\left[\Delta^2 y_0 + (p - 1)\Delta^3 y_0 + \frac{6p^2 - 18p + 11}{12}\Delta^4 y_0 + \cdots\right]\end{gathered}$$
 
 **At the initial point** $x = x_0$ ($p = 0$) these reduce to the working formulas
 
@@ -314,7 +314,7 @@ $$\begin{gathered}(y_0 + y_{12}) = 1.500000\\ 5(y_1 + y_5 + y_7 + y_{11}) = 5(2.
 
 Total $= 27.725886$, so
 
-$$I \approx \frac{3(1/12)}{10}(27.725886) = 0.025 \times 27.725886 = 0.693147$$
+$$\begin{gathered}I \approx \frac{3(1/12)}{10}(27.725886) = 0.025 \times 27.725886 = 0.693147\end{gathered}$$
 
 $$\boxed{\int_0^1 \frac{dx}{1+x} \approx 0.693147}$$
 

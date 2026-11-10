@@ -226,9 +226,9 @@ $$\begin{gathered}\sum Y = nA + B\sum x \\ \sum xY = A\sum x + B\sum x^2.\end{ga
 
 With $n = 6$:
 
-$$B = \frac{6(27.8465) - 42(4.87136)}{6(364) - 42^2} = \frac{-37.518}{420} = -0.089329$$
+$$\begin{gathered}B = \frac{6(27.8465) - 42(4.87136)}{6(364) - 42^2} = \frac{-37.518}{420} = -0.089329\end{gathered}$$
 
-$$A = \frac{4.87136 + 0.089329(42)}{6} = 1.43720$$
+$$\begin{gathered}A = \frac{4.87136 + 0.089329(42)}{6} = 1.43720\end{gathered}$$
 
 Therefore $a = 10^{1.43720} = 27.365$ and $b = 10^{-0.089329} = 0.8141$.
 
@@ -266,7 +266,7 @@ At $x = 7$:
 
 $$S(7) = \frac{0.669643}{12} + \frac{-2.678571}{12} + \left(2.5 - 0.223214\right) + \left(4 + 0.892857\right)$$
 
-$$= 0.055804 - 0.223214 + 2.276786 + 4.892857 = 7.0022$$
+$$\begin{gathered}= 0.055804 - 0.223214 + 2.276786 + 4.892857 = 7.0022\end{gathered}$$
 
 $$\boxed{y(7) \approx 7.002}$$
 
@@ -299,13 +299,13 @@ $$\frac{dy}{dx} = \frac1h\left[\Delta y_0 + \frac{2p-1}{2}\Delta^2y_0 + \frac{3p
 
 At $p = 1$ the coefficients are $\tfrac12,\ -\tfrac16,\ \tfrac1{12},\ -\tfrac1{20}$:
 
-$$\frac{dy}{dx}\Big|_{1.1} = \frac1{0.1}\left[0.414 + \tfrac12(-0.036) - \tfrac16(0.006) + \tfrac1{12}(-0.002) - \tfrac1{20}(0.001)\right] = 10\,[0.414 - 0.018 - 0.001 - 0.000167 - 0.00005]$$
+$$\begin{gathered}\frac{dy}{dx}\Big|_{1.1} = \frac1{0.1}\left[0.414 + \tfrac12(-0.036) - \tfrac16(0.006) + \tfrac1{12}(-0.002) - \tfrac1{20}(0.001)\right] = 10\,[0.414 - 0.018 - 0.001 - 0.000167 - 0.00005]\end{gathered}$$
 
 $$\frac{d^2y}{dx^2} = \frac1{h^2}\left[\Delta^2y_0 + (p-1)\Delta^3y_0 + \frac{6p^2 - 18p + 11}{12}\Delta^4y_0 + \frac{2p^3 - 12p^2 + 21p - 10}{12}\Delta^5y_0\right]$$
 
 At $p = 1$ the coefficients are $0,\ -\tfrac1{12},\ \tfrac1{12}$:
 
-$$\frac{d^2y}{dx^2}\Big|_{1.1} = \frac1{0.01}\left[-0.036 + 0 - \tfrac1{12}(-0.002) + \tfrac1{12}(0.001)\right] = 100\,[-0.036 + 0.000167 + 0.000083]$$
+$$\begin{gathered}\frac{d^2y}{dx^2}\Big|_{1.1} = \frac1{0.01}\left[-0.036 + 0 - \tfrac1{12}(-0.002) + \tfrac1{12}(0.001)\right] = 100\,[-0.036 + 0.000167 + 0.000083]\end{gathered}$$
 
 $$\boxed{\frac{dy}{dx}\Big|_{x=1.1} \approx 3.948,\qquad \frac{d^2y}{dx^2}\Big|_{x=1.1} \approx -3.575}$$
 
@@ -370,9 +370,9 @@ $$\begin{gathered}k_1 = 0.5[\cos(0.810211) + 0.991455] = 0.5(1.680801) = 0.84040
 
 (for $k_2, l_2$ the arguments are $x = 1,\ y = 1.620422 + 0.840400 = 2.460822,\ z = 1.982910 + 2.024987 = 4.007897$.)
 
-$$y_2 = 1.620422 + \tfrac12(0.840400 + 1.615404) = 2.848324$$
+$$\begin{gathered}y_2 = 1.620422 + \tfrac12(0.840400 + 1.615404) = 2.848324\end{gathered}$$
 
-$$z_2 = 1.982910 + \tfrac12(2.024987 + 4.550391) = 5.270599$$
+$$\begin{gathered}z_2 = 1.982910 + \tfrac12(2.024987 + 4.550391) = 5.270599\end{gathered}$$
 
 | $x$ | $y$ | $z$ |
 |---|---|---|
