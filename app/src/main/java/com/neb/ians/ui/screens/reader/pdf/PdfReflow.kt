@@ -259,8 +259,24 @@ internal object PdfReflow {
         val hiddenRuns = c.runs.filter { it.hidden }
         val ocr = visibleChars < 10 && hiddenRuns.sumOf { it.text.length } >= 10
         if (ocr) runs = hiddenRuns
-        val grouped = groupLines(runs)
         val body = st.body
+
+        // tables the print draws cell by cell (a filled box per cell): the text and formulas inside each box belong to that cell
+        val grids = if (ocr) emptyList() else findGrids(c, body)
+        val cellRuns = grids.map { g -> g.rows.map { r -> r.map { ArrayList<Run>() } } }
+        if (grids.isNotEmpty()) {
+            val keep = ArrayList<Run>()
+            for (r in runs) {
+                val cx = (r.x0 + r.x1) / 2f; val cy = r.base - r.size * 0.3f
+                var placed = false
+                loop@ for ((gi, g) in grids.withIndex()) for ((ri, row) in g.rows.withIndex()) for ((ci, cell) in row.withIndex()) {
+                    if (cx >= cell.l - 1f && cx <= cell.r + 1f && cy >= cell.t - 1f && cy <= cell.b + 1f) { cellRuns[gi][ri][ci].add(r); placed = true; break@loop }
+                }
+                if (!placed) keep.add(r)
+            }
+            runs = keep
+        }
+        val grouped = groupLines(runs)
 
         // pictures first: they take the text that is part of them
         val figs = figures(c, grouped, st, ocr || visibleChars > 200)
@@ -279,8 +295,31 @@ internal object PdfReflow {
         // line stays a line: a question with a formula in it is one paragraph, not text, a figure, text
         val inlines = ArrayList<InlineImg>()
         val marks = LinkedHashMap<Line, ArrayList<Run>>()
+        // a formula inside a table cell is a character in that cell's text
+        val cellFigs = HashSet<Fig>()
+        if (grids.isNotEmpty()) for (f in figs) {
+            val r = f.box
+            val cx = (r.l + r.r) / 2f; val cy = (r.t + r.b) / 2f
+            var hit: Triple<Int, Int, Int>? = null
+            loop@ for ((gi, g) in grids.withIndex()) for ((ri, row) in g.rows.withIndex()) for ((ci, cell) in row.withIndex()) {
+                if (cx >= cell.l && cx <= cell.r && cy >= cell.t && cy <= cell.b) { hit = Triple(gi, ri, ci); break@loop }
+            }
+            val h = hit ?: continue
+            val rect = FRect((r.l / W).coerceIn(0f, 1f), (r.t / H).coerceIn(0f, 1f), (r.r / W).coerceIn(0f, 1f), (r.b / H).coerceIn(0f, 1f))
+            if (rect.w < 0.002f || rect.h < 0.002f || inlines.size >= 0x3F0) continue
+            val cellList = cellRuns[h.first][h.second][h.third]
+            val near = cellList.filter { it.text.isNotBlank() && !isMathChar(it.text[0]) }.minByOrNull { abs((it.base - it.size * 0.3f) - cy) }
+            val em = near?.size ?: body
+            val base = if (near != null && abs((near.base - near.size * 0.3f) - cy) < 0.9f * near.size) near.base else cy + 0.36f * em
+            val k = inlines.size
+            val vec = PdfVector.of(c, r.l, r.t, r.r, r.b, !f.equation && r.h > 4.6f * body)
+            inlines.add(InlineImg(page, rect, rect.w * W, rect.h * H, vec, base - r.t, em))
+            cellList.add(Run((MATH_BASE + k).toChar().toString(), r.l, r.r, base, em, 0, false, false))
+            cellFigs.add(f)
+        }
         for (f in figs) {
             val owner = f.owner
+            if (f in cellFigs) continue
             if (owner == null || owner in absorbed) continue
             val r = f.box
             val rect = FRect((r.l / W).coerceIn(0f, 1f), (r.t / H).coerceIn(0f, 1f), (r.r / W).coerceIn(0f, 1f), (r.b / H).coerceIn(0f, 1f))
@@ -302,12 +341,24 @@ internal object PdfReflow {
             }
         }
         for (f in figs) {
+            if (f in cellFigs) continue
             if (f.owner != null && !f.inlineFailed && f.owner !in absorbed) continue
             val r = f.box
             val rect = FRect((r.l / W).coerceIn(0f, 1f), (r.t / H).coerceIn(0f, 1f), (r.r / W).coerceIn(0f, 1f), (r.b / H).coerceIn(0f, 1f))
             if (rect.w < 0.01f || rect.h < 0.004f) continue
             val vec = PdfVector.of(c, r.l, r.t, r.r, r.b, !f.equation)
             items.add(r.t to FigureBlock(page, rect, rect.w * W, rect.h * H, f.equation, vec))
+        }
+
+        for ((gi, g) in grids.withIndex()) {
+            val out = ArrayList<TableRow>()
+            var head = false
+            g.rows.forEachIndexed { ri, row ->
+                val cellLines = row.indices.map { ci -> groupLines(cellRuns[gi][ri][ci]) }
+                if (ri == 0) head = cellLines.filter { it.isNotEmpty() }.let { ls -> ls.isNotEmpty() && ls.all { l -> l.all { it.bold } } }
+                out.add(TableRow(cellLines.map { ls -> ls.joinToString(" ") { it.text.trim() }.replace(Regex("\\s+"), " ").trim() }, -1))
+            }
+            if (out.any { r -> r.cells.any { it.isNotEmpty() } }) items.add(g.rows[0][0].t to TableBlock(out, head))
         }
 
         val lines = all.filter { it !in absorbed && !(inBand(it, H) && (isPageNumber(it.text) || it.cells.any { c -> norm(c.text) in st.furniture || isPageNumber(c.text) })) }
@@ -772,6 +823,48 @@ internal object PdfReflow {
         if (rows.count { r -> r.cells.count { it.isNotEmpty() } >= 2 } < 2) return null
         val out = rows.map { r -> TableRow(r.cells.map { it.toString().trim() }, r.jump) }
         return TableBlock(out, rows[0].bold && rows.size > 1) to j
+    }
+
+    // --------------------------------------------------------------- grid tables
+
+    private class GridCell(val l: Float, val t: Float, val r: Float, val b: Float)
+    private class Grid(val rows: List<List<GridCell>>)
+
+    /**
+     * Tables the print draws as one filled box per cell (fact sheets, tonal tables): boxes of the same height side by
+     * side make a row, rows that touch make a table. Each box is a cell, however many lines or formulas it holds.
+     */
+    private fun findGrids(c: PageContent, body: Float): List<Grid> {
+        val seen = HashSet<String>()
+        val cells = ArrayList<GridCell>()
+        for (g in c.gfx) {
+            if (g.kind != G_PATH || !g.fill || g.curves != 0 || g.diag != 0) continue
+            if (g.w < 1.5f * body || g.h < 0.9f * body || g.h > 60f * body || g.w > 0.97f * c.width) continue
+            if (g.straight < 3 || !seen.add("${Math.round(g.x0)}_${Math.round(g.y0)}_${Math.round(g.x1)}_${Math.round(g.y1)}")) continue
+            cells.add(GridCell(g.x0, g.y0, g.x1, g.y1))
+        }
+        if (cells.size < 4) return emptyList()
+        // rows: boxes with the same top and bottom
+        val rows = ArrayList<ArrayList<GridCell>>()
+        for (cell in cells.sortedWith(compareBy({ it.t }, { it.l }))) {
+            val row = rows.firstOrNull { abs(it[0].t - cell.t) <= 1.5f && abs(it[0].b - cell.b) <= 1.5f }
+            if (row != null) row.add(cell) else rows.add(arrayListOf(cell))
+        }
+        rows.sortBy { it[0].t }
+        for (r in rows) r.sortBy { it.l }
+        // a row is boxes that sit edge to edge; one box alone is a card, not a table row
+        val good = rows.filter { r -> r.size >= 2 && (1 until r.size).all { r[it].l - r[it - 1].r in -1.5f..3f } }
+        val tables = ArrayList<Grid>()
+        var chain = ArrayList<List<GridCell>>()
+        fun flush() { if (chain.size >= 2) tables.add(Grid(chain.toList())); chain = ArrayList() }
+        for (r in good) {
+            val last = chain.lastOrNull()
+            val joins = last != null && r[0].t - last[0].b in -1.5f..3.5f && r.size == last.size && r.indices.all { abs(r[it].l - last[it].l) <= 3f }
+            if (!joins) flush()
+            chain.add(r)
+        }
+        flush()
+        return tables
     }
 
     // --------------------------------------------------------------- figures
