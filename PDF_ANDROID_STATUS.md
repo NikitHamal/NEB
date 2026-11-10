@@ -73,3 +73,29 @@ Brief: reading mode treated question banks badly (choices in a row became a tabl
 
 ## Session 6
 Audit only for the reader: sheet, reflow, system bars unchanged. See `ANDROID_M3X_STATUS.md` session 12 for the toast bus and the news identity switch that came from the same brief.
+
+## Session 7 (reading mode: question banks, maths in choices and tables, no tappable choices)
+
+Brief: the Class 12 Question Bank in reading mode showed choices glued to the next question, maths as loose pictures stacked under the text, mark chips as stray paragraphs and tappable option rows. Checked against `NEBians-Question-Bank-Grade-12.pdf` (1010 pages, `git show HEAD:notes/pdf/...`), Physics 12, Computer Science 12 and the IOE model papers with the JVM harness (`tools/android/PdfReflowDump.kt` now prints a formula slot as `<n>` and a block's card and choice columns). Sweep: 0 failures, 9 to 18 ms a page.
+
+What the print pipeline really draws (found by reading the PDF, not guessed): typeset maths is **vector outlines** (one filled path per glyph), never an image. Text is Source Serif 4 and Poppins with a ToUnicode map, choices are a Poppins letter badge then text on one baseline, four across when short.
+
+Root causes fixed in `PdfReflow.figures`:
+- Outlines were grouped on a 24 pt grid with a half text size slack, so the formula in one row merged with the formula in the row below and the whole block became one "figure" that swallowed the sentence. Grouping is now exact boxes with 0.5 body sideways and 0.2 body vertical slack.
+- Two formulas in different rows (choices, table cells) never merge; only pieces on one line do. Formulas up to 4.6 body sizes tall (fractions, roots, limits) are inline slots, not figures; a lone glyph in a line (omega, I, M) is a slot too.
+- A formula's owning line may be a table label far to its left (cells of formulas).
+- Inline formulas no longer make the whole line a figure ("absorbed") when the formula box contains the line centre.
+
+New in the model:
+- `ItemBlock.choiceCols` (above 0 for a lettered choice: how many stood side by side) and `Block.box` (the id of the tonal card a block sits in; cards are painted rounded boxes at least 45 % of the page wide, smallest first, never behind a table, code or a lone picture).
+- A letter badge that follows text closely starts a new cell ("c angular momentum d force" was one choice).
+- A wrapped mark chip `[1]` or exam tag `(NEB 2078)` joins the question; a dash opening a line inside a sentence is not a bullet; table cells that land between columns continue the cell before.
+
+Compose (`ReadingMode.kt`, `ReadingExtras.kt`):
+- Choices are **not buttons any more**: `RdChoices` sets letter tile + text in a grid that follows the print (four across, two by two, one under another) and drops columns when the type is large (measured with intrinsic widths). No selection, no click.
+- `RdCard`: blocks with one `box` id are a tonal card. An answer key card (`ANSWERS`, `SOLUTIONS`) folds under its title when "Hide answers" is on; search opens it.
+- `[1]` marks are a small tonal chip, `(NEB 2081)` tags are muted; question numbers are accent coloured Poppins.
+- A page that starts with the choices of a question printed at the foot of the page before has no page rule between them.
+- Not compiled locally: CI is the compile check.
+
+Still open: two column papers, fact sheet grids (`.fxs`) read as table rows, the left rule of explanation lines in answer keys is dropped.

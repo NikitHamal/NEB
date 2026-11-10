@@ -246,24 +246,30 @@ private fun RdZoomTable(b: TableBlock, p: ReadingPalette) {
 internal fun isOptionMarker(marker: String): Boolean = OptionMarker.matches(marker.trim())
 private val OptionMarker = Regex("^\\(?[A-Ha-h]\\)?[.):]?$")
 
-/** One lettered choice: its text and the pictures (typeset maths, small diagrams) that follow it on the page. */
+/** One lettered choice: its text and the pictures (diagrams) that follow it on the page. */
 internal class OptionRow(val item: ItemBlock, val at: Int, val figures: List<FigureBlock>)
 
-/** A run of lettered choices that begins at a. [length] is how many blocks it swallows, pictures included. */
-internal class OptionRun(val rows: List<OptionRow>, val length: Int)
+/** A run of lettered choices. [length] is how many blocks it swallows, pictures included; [cols] how many stood side by side in print. */
+internal class OptionRun(val rows: List<OptionRow>, val length: Int, val cols: Int)
+
+private fun optionLetter(b: ItemBlock): Char = b.marker.trim().trim('(', ')', '.', ':').lowercase().firstOrNull() ?: ' '
+
+private fun isChoice(b: Block?): Boolean = b is ItemBlock && b.choiceCols > 0 && isOptionMarker(b.marker)
 
 /**
- * The lettered choices that start at [start], or null. A picture right after a choice belongs to it (print sets maths
- * as small images); after the last choice only an equation does, so a figure that follows the question stays a figure.
+ * The lettered choices that start at [start], or null. The reflow marks them (ItemBlock.choiceCols); a run ends where the
+ * letters start again at a (the next question). A picture between two choices belongs to the choice before it.
  */
 internal fun optionRun(blocks: List<Block>, start: Int): OptionRun? {
-    val first = blocks.getOrNull(start) as? ItemBlock ?: return null
-    if (!isOptionMarker(first.marker) || first.marker.trim().trim('(', ')', '.', ':').lowercase() != "a") return null
+    val first = blocks.getOrNull(start)
+    if (!isChoice(first)) return null
+    val box = first!!.box
     val rows = ArrayList<OptionRow>()
     var i = start
     while (i < blocks.size) {
         val b = blocks[i] as? ItemBlock ?: break
-        if (!isOptionMarker(b.marker)) break
+        if (!isChoice(b) || b.box != box) break
+        if (rows.isNotEmpty() && optionLetter(b) == 'a') break
         var j = i + 1
         val figs = ArrayList<FigureBlock>()
         while (j < blocks.size) {
@@ -271,17 +277,14 @@ internal fun optionRun(blocks: List<Block>, start: Int): OptionRun? {
             figs += f
             j++
         }
-        rows += OptionRow(b, i, figs)
+        val next = blocks.getOrNull(j)
+        val more = isChoice(next) && (next as ItemBlock).let { optionLetter(it) != 'a' && it.box == box }
+        if (!more) { j = i + 1; figs.clear() }
+        rows += OptionRow(b, i, figs.toList())
         i = j
     }
     if (rows.size < 2) return null
-    val last = rows.last()
-    val keep = last.figures.takeWhile { it.equation }
-    if (keep.size != last.figures.size) {
-        rows[rows.lastIndex] = OptionRow(last.item, last.at, keep)
-        i -= last.figures.size - keep.size
-    }
-    return OptionRun(rows, i - start)
+    return OptionRun(rows, i - start, rows.maxOf { it.item.choiceCols }.coerceIn(1, 4))
 }
 
 /** Labels that open a worked answer, hint, note or definition; shown as a tonal card instead of a plain paragraph. */
