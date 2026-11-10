@@ -161,6 +161,8 @@ class PdfViewerViewModel @Inject constructor(
         _uiState.update { it.copy(assistantX = x, assistantY = y) }
     }
 
+    suspend fun readingBook(cacheRoot: java.io.File): java.io.File? = engine?.structure?.readingBook(cacheRoot)
+
     suspend fun links(page: Int): List<PdfLink> = engine?.structure?.links(page).orEmpty()
 
     fun cachedLinks(page: Int): List<PdfLink>? = engine?.structure?.cachedLinks(page)
