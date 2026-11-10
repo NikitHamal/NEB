@@ -1776,10 +1776,15 @@ def subject_page(request, grade_slug, subject_slug):
     return render(request, 'web/subject_page.html', ctx)
 
 def privacy_policy(request):
-    return render(request, 'web/legal/privacy.html', _ctx(request))
+    from .legal_data import get_legal_document
+    doc = get_legal_document('privacy', takedown_url=reverse('web:copyright_takedown'))
+    return render(request, 'web/legal/privacy.html', _ctx(request, legal_doc=doc))
+
 
 def terms_of_service(request):
-    return render(request, 'web/legal/terms.html', _ctx(request))
+    from .legal_data import get_legal_document
+    doc = get_legal_document('terms', takedown_url=reverse('web:copyright_takedown'))
+    return render(request, 'web/legal/terms.html', _ctx(request, legal_doc=doc))
 
 def copyright_takedown(request):
     errors = {}
@@ -1809,7 +1814,7 @@ def copyright_takedown(request):
         if not statement_accurate:
             errors['statement_accurate'] = 'You must check this box to confirm accuracy.'
         if not signature:
-            errors['signature'] = 'Electronic signature signature is required.'
+            errors['signature'] = 'Electronic signature is required.'
             
         if not errors:
             # Save the takedown request

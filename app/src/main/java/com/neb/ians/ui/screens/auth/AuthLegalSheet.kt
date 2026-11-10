@@ -6,20 +6,25 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.neb.ians.ui.screens.legal.LegalDocSwitcher
 import com.neb.ians.ui.screens.legal.LegalSectionBlock
 import com.neb.ians.ui.screens.legal.LegalTextColors
 import com.neb.ians.ui.screens.legal.NebLegal
+import com.neb.ians.ui.theme.nebFloatColor
+import com.neb.ians.ui.theme.nebFloatLine
 import com.neb.ians.util.TactileType
 import com.neb.ians.util.rememberTactileFeedback
 
@@ -38,26 +43,32 @@ fun AuthLegalSheet(
     if (sheetType == null) return
 
     val tactile = rememberTactileFeedback()
-    val document = remember(sheetType) {
-        NebLegal.documentFor(if (sheetType == LegalSheetType.TERMS) NebLegal.TERMS else NebLegal.PRIVACY)
+    var activeKey by remember(sheetType) {
+        mutableStateOf(
+            if (sheetType == LegalSheetType.TERMS) NebLegal.TERMS else NebLegal.PRIVACY
+        )
     }
-    val colors = remember(isDark) {
+    val document = remember(activeKey) {
+        NebLegal.documentFor(activeKey)
+    }
+    val scheme = MaterialTheme.colorScheme
+    val colors = remember(isDark, scheme) {
         LegalTextColors(
-            heading = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B),
-            body = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61),
-            marker = if (isDark) Color(0xFFC9C9CD) else Color(0xFF313136),
-            markerBackground = if (isDark) Color(0xFF26262A) else Color(0xFFF1F1F3)
+            heading = scheme.onSurface,
+            body = scheme.onSurfaceVariant,
+            marker = scheme.onSecondaryContainer,
+            markerBackground = scheme.secondaryContainer
         )
     }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
-        containerColor = if (isDark) Color(0xFF131315) else Color(0xFFFFFFFF),
-        contentColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF0A0A0B),
+        containerColor = nebFloatColor(),
+        contentColor = scheme.onSurface,
         shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
         dragHandle = {
             BottomSheetDefaults.DragHandle(
-                color = if (isDark) Color(0xFF3A3A3F) else Color(0xFFDCDCE0)
+                color = nebFloatLine()
             )
         }
     ) {
@@ -81,12 +92,12 @@ fun AuthLegalSheet(
                             fontWeight = FontWeight.Bold,
                             fontSize = 22.sp
                         ),
-                        color = if (isDark) Color(0xFFFAFAFB) else Color(0xFF0A0A0B)
+                        color = scheme.onSurface
                     )
                     Text(
                         text = document.subtitle,
                         style = MaterialTheme.typography.labelMedium,
-                        color = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
+                        color = scheme.onSurfaceVariant
                     )
                 }
 
@@ -97,30 +108,41 @@ fun AuthLegalSheet(
                     }
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Close,
+                        imageVector = Icons.Outlined.Close,
                         contentDescription = "Close",
-                        tint = if (isDark) Color(0xFF9B9BA1) else Color(0xFF5C5C61)
+                        tint = scheme.onSurfaceVariant
                     )
                 }
             }
 
             Row(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50))
-                    .background(colors.markerBackground)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(scheme.surfaceContainerHigh)
                     .padding(horizontal = 12.dp, vertical = 6.dp)
             ) {
                 Text(
                     text = document.lastUpdated,
                     style = MaterialTheme.typography.labelMedium.copy(fontSize = 12.sp),
-                    color = colors.body
+                    color = scheme.onSurfaceVariant
                 )
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            LegalDocSwitcher(
+                activeKey = activeKey,
+                onSelectKey = { nextKey ->
+                    if (nextKey != activeKey) {
+                        activeKey = nextKey
+                    }
+                }
+            )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             HorizontalDivider(
-                color = if (isDark) Color(0xFF26262A) else Color(0xFFE9E9EB),
+                color = nebFloatLine(),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -128,7 +150,7 @@ fun AuthLegalSheet(
                 modifier = Modifier.weight(1f, fill = false),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                items(document.sections, key = { it.number }) { section ->
+                items(document.sections, key = { "${document.key}_${it.number}" }) { section ->
                     LegalSectionBlock(section = section, colors = colors)
                 }
                 item(key = "footer") {
@@ -152,8 +174,8 @@ fun AuthLegalSheet(
                     .height(48.dp),
                 shape = RoundedCornerShape(24.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isDark) Color(0xFFF5F5F6) else Color(0xFF101012),
-                    contentColor = if (isDark) Color(0xFF0A0A0B) else Color(0xFFFFFFFF)
+                    containerColor = scheme.primary,
+                    contentColor = scheme.onPrimary
                 )
             ) {
                 Text(
