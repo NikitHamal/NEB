@@ -1,14 +1,17 @@
 """PDF assistant tests: the Qwen-to-Neby-chain fallback.
 
 The assistant used to hard-502 whenever Qwen's anonymous browser session pool
-ran dry — which it does in bulk, because the pool refill fails against
+ran dry, which it does in bulk, because the pool refill fails against
 chat.qwen.ai. These tests pin the degrade-to-fallback behaviour:
 
-* ``test_qwen_failure_falls_back_to_the_neby_chain`` — Qwen returns nothing,
+* ``test_qwen_failure_falls_back_to_the_neby_chain``: Qwen returns nothing,
   the Neby chain answers, the caller sees 200 and a credit is still spent.
-* ``test_qwen_answer_skips_the_fallback`` — a healthy Qwen never calls out.
-* ``test_total_failure_still_502s`` — nothing answers, the error is honest.
-* ``test_private_profile_can_use_the_assistant`` — ``is_locked`` is the user's
+* ``test_qwen_answer_skips_the_fallback``: a healthy Qwen never calls out.
+* ``test_total_failure_answers_503_with_retry_after``: nothing answers, the
+  reader can retry and the owner is not emailed.
+* ``test_a_database_blip_is_reported_as_a_blip_not_an_ai_failure``: a MariaDB
+  restart is not an AI outage.
+* ``test_private_profile_can_use_the_assistant``: ``is_locked`` is the user's
   own private-profile toggle, not a ban; it used to answer 401 "Please sign in".
 
 Run: ``python manage.py test api.test_pdf_assistant -v 2``
@@ -17,6 +20,7 @@ import uuid
 from unittest.mock import patch
 
 from django.core.cache import cache
+from django.db import OperationalError
 from django.test import TestCase
 
 from api.models import Resource, User, UserAuthToken
@@ -99,19 +103,44 @@ class PdfAssistantFallbackTests(TestCase):
         self.assertEqual(response.json()['answer'], 'Qwen answer')
         chain.assert_not_called()
 
-    def test_total_failure_still_502s(self):
+    def test_total_failure_answers_503_with_retry_after(self):
         with patch('api.qwen_utils.client.QwenClient.simple_chat', return_value=(None, 'qwen pool empty')), \
                 patch('api.neby.call_ai_api', return_value=None):
             response = self._post()
-        self.assertEqual(response.status_code, 502)
+        # 502 used to reach django.request as an error, which is one admin email
+        # per question typed for as long as the providers are down.
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response['Retry-After'], '20')
+        self.assertEqual(response.json()['code'], 'UPSTREAM_UNAVAILABLE')
         self.user.refresh_from_db()
         self.assertEqual(self.user.free_credits, 10)
+
+    def test_a_provider_outage_is_not_emailed_to_the_owner(self):
+        with patch('api.qwen_utils.client.QwenClient.simple_chat', return_value=(None, 'qwen pool empty')), \
+                patch('api.neby.call_ai_api', return_value=None):
+            with self.assertNoLogs('django.request', level='ERROR'):
+                self._post()
 
     def test_fallback_chain_exception_is_swallowed(self):
         with patch('api.qwen_utils.client.QwenClient.simple_chat', return_value=(None, 'qwen pool empty')), \
                 patch('api.neby.call_ai_api', side_effect=RuntimeError('registry exploded')):
             response = self._post()
-        self.assertEqual(response.status_code, 502)
+        # a provider bug degrades to "busy", it does not 500 the reader
+        self.assertEqual(response.status_code, 503)
+
+    def test_a_database_blip_is_reported_as_a_blip_not_an_ai_failure(self):
+        # Seen live on 2026-11-11: the chain's first BotConfig read hit pymysql
+        # 2013, the broad except swallowed it, and the reader got "AI could not
+        # answer" plus an admin email. The 503 and its Retry-After: 5 come from
+        # DbBlipMiddleware, which only ever sees the exception if it is re-raised.
+        blip = OperationalError((2013, 'Lost connection to MySQL server during query'))
+        with patch('api.qwen_utils.client.QwenClient.simple_chat', return_value=(None, 'qwen pool empty')), \
+                patch('api.neby.call_ai_api', side_effect=blip):
+            with self.assertNoLogs('django.request', level='ERROR'):
+                response = self._post()
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response['Retry-After'], '5')
+        self.assertNotIn('AI could not answer', str(response.json().get('error', '')))
 
     def test_prompt_is_required(self):
         response = self._post(prompt='')
