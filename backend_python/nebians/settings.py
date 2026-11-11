@@ -113,6 +113,9 @@ MIDDLEWARE = [
     'nebians.middleware.PageViewTrackingMiddleware',
     'api.signals.SignalContextMiddleware',
     'nebians.middleware.ApiUnhandledExceptionMiddleware',
+    # Below ApiUnhandledExceptionMiddleware so it takes the exception first: a
+    # host-side MariaDB restart must become a 503, not a 500 and an email.
+    'nebians.db_blip.DbBlipMiddleware',
     'nebians.page_cache.AnonPageCacheMiddleware',
     'nebians.news_autopilot.NewsAutopilotMiddleware',
 ]
