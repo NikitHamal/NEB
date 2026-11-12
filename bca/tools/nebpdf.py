@@ -141,6 +141,14 @@ def discover(selector=None):
     return books
 
 
+FORMULA_BOOKS = {
+    "mathematics-1", "mathematics-2", "numerical-methods", "probability-and-statistics",
+    "discrete-structure", "digital-logic", "computer-graphics", "microprocessor-computer-architecture",
+    "cryptography-network-security", "financial-accounting", "applied-economics", "operating-systems",
+    "computer-networking", "artificial-intelligence",
+}
+
+
 def stage(kind, slug, d):
     cdir = os.path.join(STAGE, "content", slug)
     shutil.rmtree(cdir, ignore_errors=True)
@@ -148,6 +156,15 @@ def stage(kind, slug, d):
     os.makedirs(os.path.join(STAGE, "curriculum"), exist_ok=True)
     for f in _units(d):
         shutil.copy(os.path.join(d, f), cdir)
+    # Only quantitative subjects have a "formula" sheet; elsewhere it is a key-facts page.
+    if not any(slug.endswith("-" + b) for b in FORMULA_BOOKS):
+        for f in os.listdir(cdir):
+            if f.endswith(".md"):
+                fp = os.path.join(cdir, f)
+                t = open(fp, encoding="utf-8").read()
+                if "## Formula and fact sheet" in t:
+                    open(fp, "w", encoding="utf-8").write(
+                        t.replace("## Formula and fact sheet", "## Key facts at a glance"))
     for extra in ("model-questions.md", "formula-sheet.md", "answer-key.md"):
         if os.path.exists(os.path.join(d, extra)):
             shutil.copy(os.path.join(d, extra), cdir)

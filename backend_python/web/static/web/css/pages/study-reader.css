@@ -65,7 +65,7 @@ body.rd-mode .site-main { animation: none; }
 /* One card per section: the row you are reading is filled in the subject's
    colour, the rest sit on the surface and lift on hover. */
 .rd-toc { display: flex; flex-direction: column; gap: 2px; list-style: none; margin: 0; padding: 0; overflow-y: auto; scrollbar-width: thin; }
-.rd-toc a { display: block; padding: 8px 11px; border: 1px solid transparent; border-radius: 10px; font-size: 13.5px; line-height: 1.4; color: var(--md-on-surface-variant); text-decoration: none; transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+.rd-toc a { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; padding: 8px 11px; border: 1px solid transparent; border-radius: 10px; font-size: 13.5px; line-height: 1.4; color: var(--md-on-surface-variant); text-decoration: none; transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
 .rd-toc a:hover { background: var(--md-surface-container-high); color: var(--md-on-surface); }
 .rd-toc a.is-current { background: color-mix(in srgb, var(--syl-c, var(--md-primary)) 10%, transparent); border-color: color-mix(in srgb, var(--syl-c, var(--md-primary)) 24%, transparent); color: color-mix(in srgb, var(--syl-c, var(--md-primary)) 68%, var(--md-on-surface)); font-weight: 600; }
 .rd-toc a.rd-toc-qs::before { content: "quiz"; font-family: 'Material Symbols Outlined'; font-size: 15px; vertical-align: -3px; margin-right: 6px; }
@@ -195,11 +195,12 @@ body.rd-mode .site-main { animation: none; }
 .rd-body h2.qs { padding-top: 1.2em; border-top: 1px solid var(--md-outline-variant); }
 .rd-body h2.qs::before { content: "quiz"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.05em; vertical-align: -.15em; margin-right: .35em; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-body .marks { margin-left: .35em; padding: .05em .5em; border-radius: 99px; font-size: .74em; font-weight: 600; color: var(--md-on-surface-variant); background: var(--md-surface-container-high); white-space: nowrap; vertical-align: .08em; }
-.rd-body .opts { display: grid; gap: .45em; margin: .6em 0 .2em; }
+.rd-body .opts { display: grid; gap: .45em; margin: .6em 0 .2em; align-items: start; grid-auto-rows: auto; height: auto; min-height: 0; }
+.rd-body .opts.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .rd-body .opts.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .rd-body .opts.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .rd-body .opts.c1 { grid-template-columns: 1fr; }
-.rd-body .opt { display: flex; align-items: baseline; gap: .55em; padding: .45em .7em; border-radius: 10px; border: 1px solid var(--md-outline-variant); background: var(--md-surface); line-height: 1.45; }
+.rd-body .opt { min-height: 0; height: auto; display: flex; align-items: baseline; gap: .55em; padding: .45em .7em; border-radius: 10px; border: 1px solid var(--md-outline-variant); background: var(--md-surface); line-height: 1.45; }
 .rd-body .opt > i { flex: none; font-style: normal; font-weight: 700; font-size: .85em; color: var(--md-on-surface-variant); }
 .rd-body .opt > i::after { content: "."; }
 .rd-body .mcq-p { margin: 0 0 1.2em; }
