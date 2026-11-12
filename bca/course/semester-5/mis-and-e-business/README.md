@@ -2,15 +2,18 @@
 
 Information systems in the enterprise (TPS, MIS, DSS, ESS, KMS), strategy and competitive advantage (Porter's five forces, value chain), enterprise applications (ERP, CRM, SCM and the bullwhip effect), decision support (decision tables, EMV, decision trees, business intelligence, knowledge management), e-business models and Nepal's digital payment architecture, security and control, and the financial justification of information systems (NPV, IRR, payback, ROI, TCO, break-even). 45 teaching hours (TU CACS301 carries the same subject name in the old list; the revised list numbers it BCA 304).
 
-| Unit | Title | Hours |
-|---|---|---|
-| 1 | Information Systems in the Enterprise | 6 |
-| 2 | Strategy and Competitive Advantage | 7 |
-| 3 | Enterprise Applications: ERP, CRM and Supply Chain Management | 8 |
-| 4 | Decision Support, Business Intelligence and Knowledge Management | 8 |
-| 5 | e-Business, e-Commerce and Digital Payments in Nepal | 8 |
-| 6 | Security and Control of Information Systems | 4 |
-| 7 | Developing and Justifying Information Systems | 4 |
+| Unit | Title | Hours | TU CACS outline unit |
+|---|---|---|---|
+| 1 | Introduction to E-Commerce  | 7 | TU unit 1 |
+| 2 | The Network Infrastructure for E-Commerce (I-Way, WAP, wireless technologies, wireless security) | 8 | TU unit 2 |
+| 3 | Information Systems in the Enterprise (data, CBIS, TPS, MIS, DSS, EIS) | 6 | TU unit 3 |
+| 4 | Strategy and Competitive Advantage | 7 | extension |
+| 5 | Enterprise Applications: ERP, CRM, SCM; international systems, outsourcing and offshoring; implementation challenges | 8 | TU unit 3 |
+| 6 | Decision Support, Business Intelligence and Knowledge Management | 8 | extension |
+| 7 | e-Business, Digital Payments: cards, micropayments, e-checks, ACH, wallets, crypto, Nepal case study | 8 | TU unit 5 |
+| 8 | Security and Control: terminology, requirements, malware, Heartbleed, DDoS, botnets, social engineering, fraud | 6 | TU unit 4 |
+| 9 | Developing and Justifying Information Systems | 4 | extension |
+| 10 | Launching a Successful E-Commerce Website (plan, domain, hosting, cPanel, content, design, SEO) | 10 | TU unit 6 |
 
 ## Verification
 
@@ -18,4 +21,4 @@ Information systems in the enterprise (TPS, MIS, DSS, ESS, KMS), strategy and co
 
 ## Source and honesty
 
-No TU unit list for BCA 304 / CACS301 was retrieved in this session. The seven units follow the standard shape of an MIS-and-e-business course (the topics named in the course brief) with a reconstructed 45-hour split. The Nepali payment-system description (NRB under the Payment and Settlement Act 2075, PSO/PSP licences, NCHL's NPI and ConnectIPS, Fonepay, wallets) is from general knowledge of the sector and is flagged in the text as subject to change; the figures in all worked examples are **invented for teaching** and are not Nepali market data.
+Session 25 retrieved the TU unit list for BCA 304 (six units: Introduction to E-Commerce, Network Infrastructure for E-Commerce, Introduction to MIS with SCM/CRM/international systems, E-Commerce Security and Fraud, E-payment Systems, Launching a Successful EC Website) and the book now covers every topic named there (Units 2 and 10 are new; Units 5, 7 and 8 were extended). Units 4, 6 and 9 are extensions beyond the TU list. The Nepali payment-system description (NRB under the Payment and Settlement Act 2075, PSO/PSP licences, NCHL's NPI and ConnectIPS, Fonepay, wallets) is from general knowledge of the sector and is flagged in the text as subject to change; the figures in all worked examples are **invented for teaching** and are not Nepali market data.

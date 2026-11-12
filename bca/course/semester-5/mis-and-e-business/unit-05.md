@@ -11,6 +11,7 @@ A distributor in Birgunj keeps stock in one program, invoices in another and cus
 
 ::: key What this unit gives you
 - ERP modules, implementation approaches and reasons for failure; vendor selection with a weighted score.
+- International information systems, outsourcing and offshoring, and the challenges of managing an enterprise-system implementation.
 - CRM types and customer-value analysis.
 - SCM flows, EOQ, safety stock and reorder point, and the bullwhip effect with variance numbers.
 - Integration technologies: middleware, APIs, master data.
@@ -134,7 +135,67 @@ A single one-week bump of 20 units in demand (week 3) becomes orders of **140** 
 
 Enterprise applications are rarely bought from one vendor, so they must exchange data. Approaches: **point-to-point interfaces** (simple, but n systems may need n(n − 1)/2 interfaces); **middleware** or an **enterprise service bus** (each system connects once to the bus); **APIs** (REST/JSON web services); **file exchange** (CSV or EDI through a scheduled job); and **master data management**, which keeps one authoritative customer, product and vendor list. Integration failures are mostly *data* failures: different codes for the same item, mismatched units, duplicate customers. Before connecting anything, define who owns each data item.
 
-## 5.6 Seeing enterprise systems: one database, costs and the bullwhip
+## 5.6 International information systems, outsourcing and offshoring
+
+A firm that sells, buys or produces in more than one country needs an **international information system (IIS)**: a system that serves business units across borders. Building one is harder than building a national system because of differences in language, law, currency, time zone, culture and infrastructure.
+
+### Challenges of an international system
+
+| Challenge | Example |
+|---|---|
+| **Language and culture** | Screens, reports and help in several languages; date formats (day-month-year or month-day-year); names and addresses that do not fit a single form |
+| **Law and regulation** | Data-protection rules that limit transfer of personal data abroad; tax and invoice formats; e-signature and record-keeping laws |
+| **Currency and accounting** | Multi-currency prices, exchange-rate changes, different accounting standards and tax years |
+| **Infrastructure** | Unequal bandwidth, power cuts, different mobile and payment networks |
+| **Time zones and support** | Batch jobs, backups and help desks must cover many time zones |
+| **Political and economic risk** | Sanctions, border controls, local ownership rules |
+
+**Architectures for global firms.** A **centralised** system runs in one place (strong control, same data everywhere, weak local fit); a **decentralised** system lets each country run its own (local fit, hard consolidation); a **federated** or hybrid system shares core data and a common standard but lets countries adapt. The usual answer is a global core (finance, customer master data, product master data) with local modules for tax, language and payment.
+
+### Outsourcing and offshoring
+
+**Outsourcing** means paying another organisation to perform a business function or IT service that was or could be done in house. **Offshoring** means moving work to another country, whether to a company's own foreign unit (captive) or to a vendor. The two are different: a Kathmandu bank that gives its help desk to a Kathmandu vendor outsources but does not offshore; a US firm that moves software testing to its own Nepali branch offshores but does not outsource.
+
+| | Advantages | Risks |
+|---|---|---|
+| **Outsourcing** | Lower cost, access to skills, focus on core business, flexible scale | Loss of control, dependence on one vendor, hidden costs, leakage of confidential data |
+| **Offshoring** | Large wage savings, round-the-clock work with time zones, new markets | Communication and cultural gaps, political and legal risk, quality control, public criticism for job loss |
+
+Nepal is a destination for offshored software, design and back-office work, and its own firms outsource payroll, hosting and support. A sensible outsourcing decision follows steps: define the function and the service levels (**SLA**), compare the total cost with in-house cost, assess vendor capability and security, protect data in the contract (confidentiality, audit rights, exit and transfer plan) and monitor performance.
+
+::: example Is outsourcing the help desk cheaper?
+In house: 6 staff at Rs 45,000 a month, plus Rs 60,000 for space and tools: 6 × 45,000 + 60,000 = Rs 3,30,000 a month. A vendor charges Rs 2,40,000 a month plus Rs 30,000 for management and monitoring on the firm's side: Rs 2,70,000. Saving = 3,30,000 − 2,70,000 = **Rs 60,000 a month (about 18 percent)**. The decision also weighs service quality and data risk, not cost alone.
+:::
+
+## 5.7 Challenges of enterprise system implementation and managing the implementation
+
+Enterprise systems (ERP, CRM, SCM) change how an entire organisation works, so their failures are famous and costly. The causes are mostly organisational, not technical.
+
+| Challenge | What goes wrong |
+|---|---|
+| **Cost and time overruns** | Customisation, data cleaning, training and consulting cost more than the licence |
+| **Business process mismatch** | The software embeds one way of working; the firm must change its processes or pay for heavy customisation |
+| **Resistance to change** | Staff fear loss of status or extra work and keep using old spreadsheets |
+| **Poor data quality** | Duplicate customers and wrong item codes are migrated into the new system |
+| **Weak top-management support** | No one settles disputes between departments |
+| **Unclear requirements and scope creep** | New demands during the project |
+| **Integration and vendor dependence** | Linking with older systems; lock-in to one vendor |
+| **Inadequate training and support** | Users cannot do their daily work on go-live day |
+
+### Managing the implementation
+
+1. **Secure executive sponsorship** and form a steering committee with business owners from each department.
+2. **Define the scope and the business case**: goals, measurable benefits, budget, timeline, and what will not be done.
+3. **Redesign processes first** (see business process reengineering in Unit 4); adopt the system's standard processes wherever possible and customise only for real competitive need.
+4. **Choose the strategy** (big bang, phased, parallel or pilot) from the risk the firm can accept.
+5. **Clean and migrate data** with checks and sign-off by data owners.
+6. **Test and train**: unit, integration and user-acceptance tests; role-based training before go-live.
+7. **Manage change**: communicate early, involve users, appoint change champions and handle resistance.
+8. **Go live with support** (war room, help desk) and then measure the benefits against the business case; keep improving.
+
+A useful check at go-live: if the business case planned a saving of Rs 20,00,000 a year and the system cost Rs 60,00,000 in total, the simple payback is 60,00,000 ÷ 20,00,000 = **3 years**. If cost overruns raise the cost to Rs 90,00,000 the payback grows to **4.5 years**, and the project may no longer be attractive; this is why scope control matters.
+
+## 5.8 Seeing enterprise systems: one database, costs and the bullwhip
 
 Enterprise systems are about flows: goods, information and money, and the stock that sits between them. The plate shows a real warehouse and the three flows of a supply chain; the figures give the numbers of Section 5.3 and 3.4 a shape: the cost curve of the EOQ model, the stock cycle with its safety buffer and the growth of order variance up the chain.
 
@@ -249,7 +310,7 @@ f.text(150, 220, "count A weekly, B monthly, C yearly", size=10, color=NAVY)
 facts = dict(valA="%.1f" % valA, valC="%.1f" % valC, total=total)
 ```
 
-### 3.6.1 Eight benefits of an ERP system for a growing company
+### 5.8.1 Eight benefits of an ERP system for a growing company
 
 1. **One version of the truth.** All departments use the same database, so a sale entered once appears in stock, accounts and delivery at once. Managers no longer argue about whose spreadsheet is correct. A trading company in Birgunj can close its monthly books in days instead of weeks.
 2. **Less duplication of work.** Data is typed once and reused by every module. Clerks stop copying the same order into three registers. The time saved goes to checking and serving customers.
@@ -279,6 +340,10 @@ facts = dict(valA="%.1f" % valA, valC="%.1f" % valC, total=total)
 8. Why does 1 + 2L/p + 2L²/p² decrease when p is increased?
 9. How many point-to-point interfaces connect 8 systems fully, and how many connections does a bus need?
 10. Distinguish push from pull supply chains.
+11. Differentiate outsourcing from offshoring with an example of each.
+12. List five challenges of an international information system.
+13. A firm planned an ERP saving of Rs 25,00,000 a year at a cost of Rs 75,00,000. After overruns the cost is Rs 100,00,000. Find the payback before and after.
+14. Give five reasons why ERP implementations fail and four steps for managing one.
 
 ::: note Answers and worked solutions
 **1.** Finance, sales, procurement, inventory, manufacturing (also HR, CRM). One database means one version of the truth and no re-keying.
@@ -291,6 +356,10 @@ facts = dict(valA="%.1f" % valA, valC="%.1f" % valC, total=total)
 **8.** A longer moving average reacts less to the latest demand, so the order-up-to level moves less (the terms 2L/p and 2L²/p² shrink).
 **9.** 8 × 7 / 2 = 28 interfaces; a bus needs 8 connections.
 **10.** Push produces from forecasts; pull produces in response to actual orders.
+**11.** Outsourcing: a bank gives its help desk to a local vendor. Offshoring: a foreign firm moves testing to its own Nepali branch. A task can be both, one, or neither.
+**12.** Language and culture, law and data protection, currency and accounting, infrastructure, time zones, political risk.
+**13.** Before: 75 ÷ 25 = **3 years**. After: 100 ÷ 25 = **4 years**.
+**14.** Cost overruns, process mismatch, resistance to change, poor data, weak sponsorship. Steps: sponsorship, scope and business case, data cleaning and training, phased go-live with support.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
