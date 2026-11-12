@@ -22,303 +22,339 @@
  "units": [
   {
    "no": 1,
-   "title": "The Communication Process and Its Barriers",
+   "title": "Foundation of Professional Communication",
    "hours": null,
    "area": "",
    "topics": [
-    "What communication is",
-    "Forms of communication",
-    "Barriers to communication",
-    "Principles: the 7 Cs",
-    "Measuring readability",
-    "Cross-cultural and digital communication",
-    "Eight reasons why communication skills matter to a computing professional"
+    "Fundamentals of language",
+    "A brief history of professional communication",
+    "Principles of professional communication",
+    "The communication process",
+    "Non-verbal communication in the workplace",
+    "Barriers to effective communication",
+    "Vocabulary and grammar",
+    "Readings"
    ],
    "sections": [
     {
      "no": "1.1",
-     "title": "What communication is"
+     "title": "Fundamentals of language"
     },
     {
      "no": "1.2",
-     "title": "Forms of communication"
+     "title": "A brief history of professional communication"
     },
     {
      "no": "1.3",
-     "title": "Barriers to communication"
+     "title": "Principles of professional communication"
     },
     {
      "no": "1.4",
-     "title": "Principles: the 7 Cs"
+     "title": "The communication process"
     },
     {
      "no": "1.5",
-     "title": "Measuring readability"
+     "title": "Non-verbal communication in the workplace"
     },
     {
      "no": "1.6",
-     "title": "Cross-cultural and digital communication"
+     "title": "Barriers to effective communication"
     },
     {
      "no": "1.7",
-     "title": "Eight reasons why communication skills matter to a computing professional"
+     "title": "Vocabulary and grammar"
+    },
+    {
+     "no": "1.8",
+     "title": "Readings"
     }
    ],
-   "summary": [
-    "Communication succeeds only when the intended meaning is understood; feedback confirms it.",
-    "Messages travel in verbal, non-verbal and visual forms and along formal and informal channels.",
-    "Barriers can be removed by plain language, good channel choice, listening and cultural awareness.",
-    "The 7 Cs and a readability check are a practical test for any message before you send it."
-   ],
+   "summary": [],
    "terms": [],
    "stats": {
-    "words": 2760,
+    "words": 7052,
     "figures": 0,
-    "examples": 1
+    "examples": 2
    },
    "has_notes": true
   },
   {
    "no": 2,
-   "title": "Listening, Speaking and Presentation Skills",
+   "title": "Oral Communication",
    "hours": null,
    "area": "",
    "topics": [
-    "Listening",
-    "Speaking clearly",
-    "Presentations",
-    "Group discussion and meetings",
-    "Job interviews",
-    "Eight habits of a good presenter and listener"
+    "Telephone conversation",
+    "Public speaking and presentation skills",
+    "Meetings, agendas and minutes",
+    "Elevator pitches",
+    "Interviewing and professional dialogue",
+    "Vocabulary and grammar",
+    "Readings"
    ],
    "sections": [
     {
      "no": "2.1",
-     "title": "Listening"
+     "title": "Telephone conversation"
     },
     {
      "no": "2.2",
-     "title": "Speaking clearly"
+     "title": "Public speaking and presentation skills"
     },
     {
      "no": "2.3",
-     "title": "Presentations"
+     "title": "Meetings, agendas and minutes"
     },
     {
      "no": "2.4",
-     "title": "Group discussion and meetings"
+     "title": "Elevator pitches"
     },
     {
      "no": "2.5",
-     "title": "Job interviews"
+     "title": "Interviewing and professional dialogue"
     },
     {
      "no": "2.6",
-     "title": "Eight habits of a good presenter and listener"
+     "title": "Vocabulary and grammar"
+    },
+    {
+     "no": "2.7",
+     "title": "Readings"
     }
    ],
-   "summary": [
-    "Listening is an active skill built on attention, paraphrasing and questions.",
-    "Clear speaking comes from structure, pace, voice, body language and rehearsal.",
-    "A presentation starts from the audience and one key message; slides support rather than replace the speaker.",
-    "Group discussions and interviews reward preparation, honest and specific answers, and respect for others."
-   ],
+   "summary": [],
    "terms": [],
    "stats": {
-    "words": 2688,
-    "figures": 0,
-    "examples": 1
-   },
-   "has_notes": true
-  },
-  {
-   "no": 3,
-   "title": "Professional Writing: Emails, Letters, CVs and Reports",
-   "hours": null,
-   "area": "",
-   "topics": [
-    "Writing well: paragraphs and sentences",
-    "Professional email",
-    "Business letters",
-    "Job application letter and CV",
-    "Notices, memos, agendas and minutes",
-    "Reports and proposals",
-    "Referencing and plagiarism",
-    "Eight rules of good professional writing"
-   ],
-   "sections": [
-    {
-     "no": "3.1",
-     "title": "Writing well: paragraphs and sentences"
-    },
-    {
-     "no": "3.2",
-     "title": "Professional email"
-    },
-    {
-     "no": "3.3",
-     "title": "Business letters"
-    },
-    {
-     "no": "3.4",
-     "title": "Job application letter and CV"
-    },
-    {
-     "no": "3.5",
-     "title": "Notices, memos, agendas and minutes"
-    },
-    {
-     "no": "3.6",
-     "title": "Reports and proposals"
-    },
-    {
-     "no": "3.7",
-     "title": "Referencing and plagiarism"
-    },
-    {
-     "no": "3.8",
-     "title": "Eight rules of good professional writing"
-    }
-   ],
-   "summary": [
-    "Good writing is organised into one-idea paragraphs, active sentences and lists where steps are listed.",
-    "Emails state the purpose and the required action in the first lines; letters and CVs follow standard layouts tailored to the reader.",
-    "Notices, agendas and minutes record who decides and who acts.",
-    "Reports lead with a summary; every borrowed idea or line of code needs a citation."
-   ],
-   "terms": [],
-   "stats": {
-    "words": 3148,
+    "words": 7081,
     "figures": 0,
     "examples": 5
    },
    "has_notes": true
   },
   {
-   "no": 4,
-   "title": "Workplace Communication, Teamwork and Etiquette",
+   "no": 3,
+   "title": "Writing Professionally",
    "hours": null,
    "area": "",
    "topics": [
-    "Teams and teamwork",
-    "Conflict and negotiation",
-    "Feedback",
-    "Time management",
-    "Customer communication and support",
-    "Workplace etiquette and remote work",
-    "Eight characteristics of an effective team"
+    "Rules of professional writing",
+    "Text messages, emails and memos",
+    "Notice writing",
+    "Informal and formal letters",
+    "Resumes and cover letters",
+    "Vocabulary and grammar",
+    "Readings"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Rules of professional writing"
+    },
+    {
+     "no": "3.2",
+     "title": "Text messages, emails and memos"
+    },
+    {
+     "no": "3.3",
+     "title": "Notice writing"
+    },
+    {
+     "no": "3.4",
+     "title": "Informal and formal letters"
+    },
+    {
+     "no": "3.5",
+     "title": "Resumes and cover letters"
+    },
+    {
+     "no": "3.6",
+     "title": "Vocabulary and grammar"
+    },
+    {
+     "no": "3.7",
+     "title": "Readings"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 7594,
+    "figures": 0,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Interpersonal and Group Communication",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Interpersonal communication in the workplace",
+    "Listening environment in the workplace",
+    "Intercultural communication",
+    "Effective communication in teams",
+    "Leadership and communication",
+    "Adapting communication styles for diverse audiences",
+    "Vocabulary and grammar",
+    "Readings"
    ],
    "sections": [
     {
      "no": "4.1",
-     "title": "Teams and teamwork"
+     "title": "Interpersonal communication in the workplace"
     },
     {
      "no": "4.2",
-     "title": "Conflict and negotiation"
+     "title": "Listening environment in the workplace"
     },
     {
      "no": "4.3",
-     "title": "Feedback"
+     "title": "Intercultural communication"
     },
     {
      "no": "4.4",
-     "title": "Time management"
+     "title": "Effective communication in teams"
     },
     {
      "no": "4.5",
-     "title": "Customer communication and support"
+     "title": "Leadership and communication"
     },
     {
      "no": "4.6",
-     "title": "Workplace etiquette and remote work"
+     "title": "Adapting communication styles for diverse audiences"
     },
     {
      "no": "4.7",
-     "title": "Eight characteristics of an effective team"
+     "title": "Vocabulary and grammar"
+    },
+    {
+     "no": "4.8",
+     "title": "Readings"
     }
    ],
-   "summary": [
-    "Teams pass through predictable stages; clear goals, owners, rituals and early reporting make them productive.",
-    "Conflicts are managed by listening, focusing on interests and agreeing on written actions.",
-    "Feedback is most useful when specific, timely and about behaviour, not personality.",
-    "Time management is the art of choosing what matters and protecting time for it.",
-    "Courtesy, confidentiality and punctuality define professional reputation, in office and online."
-   ],
+   "summary": [],
    "terms": [],
    "stats": {
-    "words": 2713,
+    "words": 8239,
     "figures": 0,
-    "examples": 1
+    "examples": 5
    },
    "has_notes": true
   },
   {
    "no": 5,
-   "title": "Professional Ethics, Intellectual Property and Cyber Law",
+   "title": "Digital Communication",
    "hours": null,
    "area": "",
    "topics": [
-    "Ethics and professionalism",
-    "A method for ethical decisions",
-    "Codes of ethics",
-    "Intellectual property (IP)",
-    "Privacy, security and responsible data use",
-    "Cyber law in Nepal",
-    "Case studies",
-    "Eight responsibilities of an IT professional"
+    "Virtual etiquette (netiquette)",
+    "Online professionalism",
+    "Communicating via social media and collaborative tools",
+    "Plagiarism and online plagiarism",
+    "Visuals in communication (maps, tables, charts, infographics, icons, photographs, diagrams)",
+    "Vocabulary and grammar",
+    "Readings"
    ],
    "sections": [
     {
      "no": "5.1",
-     "title": "Ethics and professionalism"
+     "title": "Virtual etiquette (netiquette)"
     },
     {
      "no": "5.2",
-     "title": "A method for ethical decisions"
+     "title": "Online professionalism"
     },
     {
      "no": "5.3",
-     "title": "Codes of ethics"
+     "title": "Communicating via social media and collaborative tools"
     },
     {
      "no": "5.4",
-     "title": "Intellectual property (IP)"
+     "title": "Plagiarism and online plagiarism"
     },
     {
      "no": "5.5",
-     "title": "Privacy, security and responsible data use"
+     "title": "Visuals in communication (maps, tables, charts, infographics, icons, photographs, diagrams)"
     },
     {
      "no": "5.6",
-     "title": "Cyber law in Nepal"
+     "title": "Vocabulary and grammar"
     },
     {
      "no": "5.7",
-     "title": "Case studies"
-    },
-    {
-     "no": "5.8",
-     "title": "Eight responsibilities of an IT professional"
+     "title": "Readings"
     }
    ],
-   "summary": [
-    "Ethics asks what we ought to do; law sets the minimum, and professionals are expected to exceed it.",
-    "A structured method and a code such as ACM's turn vague unease into a defensible decision.",
-    "Copyright, patents, trademarks, trade secrets and licences define what you may do with others' work; plagiarism and piracy violate them.",
-    "Responsible practice means protecting privacy, securing data, testing for bias and speaking up about danger.",
-    "Real failures (Therac-25, VW, 737 MAX, Equifax) show what happens when these duties are ignored."
-   ],
+   "summary": [],
    "terms": [],
    "stats": {
-    "words": 3758,
+    "words": 8656,
     "figures": 0,
-    "examples": 1
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Professional Ethics",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Professional ethics in computing",
+    "Professional code of ethics",
+    "Responsibilities of IT professionals",
+    "Ethical decision-making in IT",
+    "Whistle-blowing and professional integrity",
+    "Workplace ethical challenges in IT",
+    "Vocabulary and grammar",
+    "Readings"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Professional ethics in computing"
+    },
+    {
+     "no": "6.2",
+     "title": "Professional code of ethics"
+    },
+    {
+     "no": "6.3",
+     "title": "Responsibilities of IT professionals"
+    },
+    {
+     "no": "6.4",
+     "title": "Ethical decision-making in IT"
+    },
+    {
+     "no": "6.5",
+     "title": "Whistle-blowing and professional integrity"
+    },
+    {
+     "no": "6.6",
+     "title": "Workplace ethical challenges in IT"
+    },
+    {
+     "no": "6.7",
+     "title": "Vocabulary and grammar"
+    },
+    {
+     "no": "6.8",
+     "title": "Readings"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 10385,
+    "figures": 0,
+    "examples": 3
    },
    "has_notes": true
   }
  ],
- "unit_count": 5,
- "topic_count": 36,
- "notes_ready": 5
+ "unit_count": 6,
+ "topic_count": 45,
+ "notes_ready": 6
 }

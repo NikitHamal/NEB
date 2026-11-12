@@ -3,47 +3,56 @@
  "units": [
   {
    "no": 1,
-   "title": "The Communication Process and Its Barriers",
+   "title": "Foundation of Professional Communication",
    "area": "BCA 105 · Professional Communication and Ethics · Unit 1",
-   "words": 2610,
-   "read_min": 14,
+   "words": 6466,
+   "read_min": 36,
    "figures": 2,
    "has_questions": true
   },
   {
    "no": 2,
-   "title": "Listening, Speaking and Presentation Skills",
+   "title": "Oral Communication",
    "area": "BCA 105 · Professional Communication and Ethics · Unit 2",
-   "words": 2773,
-   "read_min": 15,
-   "figures": 3,
+   "words": 6579,
+   "read_min": 37,
+   "figures": 1,
    "has_questions": true
   },
   {
    "no": 3,
-   "title": "Professional Writing: Emails, Letters, CVs and Reports",
+   "title": "Writing Professionally",
    "area": "BCA 105 · Professional Communication and Ethics · Unit 3",
-   "words": 3182,
-   "read_min": 18,
-   "figures": 3,
+   "words": 7033,
+   "read_min": 39,
+   "figures": 1,
    "has_questions": true
   },
   {
    "no": 4,
-   "title": "Workplace Communication, Teamwork and Etiquette",
+   "title": "Interpersonal and Group Communication",
    "area": "BCA 105 · Professional Communication and Ethics · Unit 4",
-   "words": 2809,
-   "read_min": 16,
-   "figures": 3,
+   "words": 7635,
+   "read_min": 42,
+   "figures": 1,
    "has_questions": true
   },
   {
    "no": 5,
-   "title": "Professional Ethics, Intellectual Property and Cyber Law",
+   "title": "Digital Communication",
    "area": "BCA 105 · Professional Communication and Ethics · Unit 5",
-   "words": 3727,
-   "read_min": 21,
-   "figures": 3,
+   "words": 7962,
+   "read_min": 44,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Professional Ethics",
+   "area": "BCA 105 · Professional Communication and Ethics · Unit 6",
+   "words": 9466,
+   "read_min": 53,
+   "figures": 1,
    "has_questions": true
   }
  ]
