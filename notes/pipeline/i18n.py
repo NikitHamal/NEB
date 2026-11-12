@@ -11,7 +11,7 @@ EN = dict(
                "question papers."),
     code="Subject code", edition="Edition 1.0 · 2082 BS (2025–26 AD)",
     contents="Contents", hrs=" hrs", teaching_hours="teaching hours", unit="Unit",
-    syl="CDC syllabus — this unit must cover", appendix="Appendix",
+    syl="CDC syllabus: this unit must cover", appendix="Appendix",
     figure="Figure", source="Source:", back="Model Question Papers",
     extras=(("model-questions", "Model Question Papers"), ("formula-sheet", "Formula Sheet"),
             ("answer-key", "Answer Key")),
@@ -23,7 +23,7 @@ EN = dict(
     boxes={"key": "Key point", "example": "Worked example", "caution": "Common mistake",
            "tip": "Exam tip", "definition": "Definition", "derivation": "Derivation",
            "note": "Note", "memory": "Remember"},
-    footer="NEBians — nebians.consica.com.np", digits=False,
+    footer="NEBians · nebians.consica.com.np", digits=False,
     front_title="About this book",
     front_lead=("These notes cover the complete official curriculum for {subject}, Grade {g}, "
                 "as published by the Curriculum Development Centre (CDC), Sanothimi, and "
@@ -84,19 +84,19 @@ NE.update(
     boxes={"key": "मुख्य बुँदा", "example": "हल गरिएको उदाहरण", "caution": "सामान्य त्रुटि",
            "tip": "परीक्षा सुझाव", "definition": "परिभाषा", "derivation": "व्युत्पत्ति",
            "note": "टिपोट", "memory": "सम्झनुहोस्"},
-    footer="नेबियन्स — nebians.consica.com.np", digits=True,
+    footer="नेबियन्स · nebians.consica.com.np", digits=True,
     front_title="यस पुस्तकबारे",
     front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको र राष्ट्रिय परीक्षा बोर्डले "
                 "परीक्षा लिने {subject}, कक्षा {g} को सम्पूर्ण आधिकारिक पाठ्यक्रम समेट्छन्।"),
     org_h="पुस्तक कसरी व्यवस्थित गरिएको छ",
     org_p=("प्रत्येक अध्याय पाठ्यक्रमको एक एकाइसँग मिल्छ र त्यस एकाइले समेट्नुपर्ने पाठ्यक्रमका बुँदाहरूबाट "
            "सुरु हुन्छ, ताकि पढ्दै जाँदा तपाईँले पाठ्यक्रम पूरा भएको जाँच गर्न सक्नुहुन्छ। अध्यायभित्र यी कुरा पाउनुहुनेछ:"),
-    org_li=["<strong>अवधारणा खण्ड</strong> — आधिकारिक पाठ्यक्रमको क्रममा।",
-            "<strong>स्पष्टीकरण</strong> — पूर्णाङ्क पाउने उत्तर जसरी लेखिनुपर्छ, त्यसरी चरणबद्ध रूपमा।",
-            "<strong>हल गरिएका उदाहरण</strong> — उत्तर मात्र होइन, पूर्ण हल गर्ने विधिसहित।",
-            "<strong>चित्र, तालिका र ग्राफ</strong> — परीक्षा हलमा आफैँ बनाउन सकिने गरी तयार पारिएका।",
-            "<strong>मुख्य बुँदा, परीक्षा सुझाव र सामान्य त्रुटि</strong> — मूल पाठबाट छुट्याइएका।",
-            "<strong>अध्यायको सारांश</strong> र <strong>उत्तरसहित अभ्यास प्रश्न</strong> — राष्ट्रिय परीक्षा बोर्डको प्रश्न शैलीमा।"],
+    org_li=["<strong>अवधारणा खण्ड</strong>: आधिकारिक पाठ्यक्रमको क्रममा।",
+            "<strong>स्पष्टीकरण</strong>: पूर्णाङ्क पाउने उत्तर जसरी लेखिनुपर्छ, त्यसरी चरणबद्ध रूपमा।",
+            "<strong>हल गरिएका उदाहरण</strong>: उत्तर मात्र होइन, पूर्ण हल गर्ने विधिसहित।",
+            "<strong>चित्र, तालिका र ग्राफ</strong>: परीक्षा हलमा आफैँ बनाउन सकिने गरी तयार पारिएका।",
+            "<strong>मुख्य बुँदा, परीक्षा सुझाव र सामान्य त्रुटि</strong>: मूल पाठबाट छुट्याइएका।",
+            "<strong>अध्यायको सारांश</strong> र <strong>उत्तरसहित अभ्यास प्रश्न</strong>: राष्ट्रिय परीक्षा बोर्डको प्रश्न शैलीमा।"],
     cover_h="पाठ्यक्रम समावेश एक नजरमा",
     th=("विषयक्षेत्र", "अध्याय सङ्ख्या", "शिक्षण घण्टा"), exam_h="परीक्षा ढाँचा",
     read="कृपया यो पढ्नुहोस्",
@@ -144,7 +144,7 @@ BASIC_EN = dict(
 BASIC_NE = dict(
     grade="कक्षा {g} · आधारभूत तह (कक्षा १–८)",
     cover_sub=("पाठ्यक्रम विकास केन्द्रको आधारभूत तह (कक्षा १–८) पाठ्यक्रममा "
-               "आधारित सम्पूर्ण अध्ययन टिपोट — हल गरिएका उदाहरण, चित्र, तालिका, "
+               "आधारित सम्पूर्ण अध्ययन टिपोट: हल गरिएका उदाहरण, चित्र, तालिका, "
                "सारांश, अभ्यास प्रश्न र पूर्ण उत्तरकुञ्जीसहित।"),
     front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको "
                 "{subject}, कक्षा {g} को सम्पूर्ण आधिकारिक पाठ्यक्रम समेट्छन्। "
@@ -174,7 +174,7 @@ SEC_EN = dict(
 SEC_NE = dict(
     grade="कक्षा {g} · माध्यमिक तह (कक्षा ९–१०)",
     cover_sub=("पाठ्यक्रम विकास केन्द्रको माध्यमिक तह (कक्षा ९–१०) पाठ्यक्रममा "
-               "आधारित सम्पूर्ण अध्ययन टिपोट — व्युत्पत्ति, हल गरिएका उदाहरण, "
+               "आधारित सम्पूर्ण अध्ययन टिपोट: व्युत्पत्ति, हल गरिएका उदाहरण, "
                "चित्र, तालिका, सारांश र पूर्ण नमुना प्रश्नपत्रसहित अभ्यास प्रश्न।"),
     front_lead=("यी टिपोटले पाठ्यक्रम विकास केन्द्र, सानोठिमीले प्रकाशन गरेको र "
                 "राष्ट्रिय परीक्षा बोर्डको माध्यमिक शिक्षा परीक्षाबाट "
@@ -184,7 +184,7 @@ SEC_NE = dict(
 
 
 # Books the CDC publishes and the boards examine in Nepali. Their furniture,
-# their cover and every label the pipeline prints must be Nepali too — a
+# their cover and every label the pipeline prints must be Nepali too: a
 # student reading सामाजिक अध्ययन should not meet a single Latin word.
 NEPALI_MEDIUM = ("nep", "soc", "health")
 
@@ -199,7 +199,7 @@ ENTRANCE_EN = dict(
                "methods, common traps, and hundreds of multiple-choice questions with the "
                "reasoning behind every answer."),
     hrs=" Qs", teaching_hours="questions in the paper", unit="Chapter",
-    syl="Official syllabus — this chapter covers",
+    syl="Official syllabus: this chapter covers",
     th=("Content area", "Chapters", "Questions in the paper"),
     cover_h="Syllabus and weightage at a glance",
     front_lead=("This book covers {subject} for the {g} entrance examination, topic by topic, "

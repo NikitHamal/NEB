@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n
+import devaeqn, figrun, photo, assets, i18n, svgkit, readflow, plainlift, reading
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -55,6 +55,87 @@ def _extract_figures(body, store, chapter_id):
     return re.sub(r"^```figure([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
 
 
+def _extract_svgfigs(body, store, chapter_id):
+    """```svgfig label="1.1" caption="…"  + svgkit code -> numbered vector figure (no matplotlib)."""
+    def rep(m):
+        info, code = m.group(1) or "", m.group(2)
+        cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
+        lab = re.search(r'label\s*=\s*"([^"]*)"', info)
+        try:
+            svg = svgkit.render(code, f"{chapter_id}:{lab.group(1) if lab else '?'}")
+        except Exception as e:
+            svgkit.WARN.append(f"{chapter_id}: svgfig failed: {e}")
+            raise
+        uri = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+        i = len(store)
+        c = (f'<figcaption><b>{_html.escape(("Figure " + lab.group(1) + ".") if lab else "Figure.")}</b> '
+             f'{_inline_math_html(cap.group(1))}</figcaption>') if cap else ""
+        store.append(f'<figure class="nobreak diagram"><img src="{uri}" alt="diagram">{c}</figure>')
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```svgfig([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
+def _extract_photogrids(body, store, chapter_id):
+    """```photogrid cols="3" caption="…" ratio="1.25"  — N-up horizontal strip / grid.
+
+    Items are separated by lines starting with ``@``::
+        @ photo id="bca101/ram" cap="DDR4 DIMM" fit="1.3"   (then overlay directives)
+        @ svg cap="Block diagram"                           (then svgkit code)
+    Photos are rendered through photo.render (crop/fit/mark/call/label/key), so a
+    cell can carry numbered callouts; svg cells draw with svgkit.
+    """
+    def rep(m):
+        info, code = m.group(1) or "", m.group(2)
+        at = photo.parse_attrs(info)
+        cols = max(1, int(at.get("cols", "3")))
+        ratio = at.get("ratio", "1.3")
+        parts = re.split(r"(?m)^@\s+", code)[1:]
+        cells, credits, keys_all = [], [], []
+        per_w = 100.0 / cols * 0.96
+        for k, part in enumerate(parts):
+            head, _, script = part.partition("\n")
+            kind, _, rest = head.partition(" ")
+            a = photo.parse_attrs(rest)
+            cap = a.get("cap", "")
+            if kind.strip() == "svg":
+                svg = svgkit.render(script, f"{chapter_id}:grid{k}")
+                uri = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+                img = f'<img src="{uri}" alt="diagram">'
+            else:
+                aid = a.get("id", "")
+                fit = a.get("fit", ratio)
+                sc = f"fit {fit}\n" + script
+                path = photo.render(aid, sc, a.get("w", per_w))
+                if not path:
+                    return ""
+                img = f'<img class="gp" src="{_png_uri(path)}" alt="photograph">'
+                rec = assets.record(aid) or {}
+                if rec:
+                    credits.append(f'({chr(97 + k)}) {_html.escape(re.sub(r"\s*\(.*?\)\s*|\s*:.*$", " ", rec.get("author") or "unknown").strip()[:42])}, '
+                                   f'{_html.escape(rec.get("license", ""))}')
+                _, keys, _o = photo.parse_script(script)
+                keys_all += keys
+            cap = re.sub(r"^\(" + chr(97 + k) + r"\)\s*", "", cap)   # the letter is added below; drop a hand-typed duplicate
+            cells.append(f'<td class="gc">{img}<div class="gcap"><b>({chr(97 + k)})</b> '
+                         f'{_inline_math_html(cap)}</div></td>')
+        rows = [cells[i:i + cols] for i in range(0, len(cells), cols)]
+        trs = ""
+        for r in rows:
+            r += ['<td class="gc"></td>'] * (cols - len(r))
+            trs += "<tr>" + "".join(r) + "</tr>"
+        cap = at.get("caption", "")
+        i = len(store)
+        store.append(
+            f'<figure class="nobreak photo grid"><table class="pgrid"><tbody>{trs}</tbody></table>'
+            + photo.key_html(keys_all)
+            + (f'<figcaption>' + (f'<b>Plate {_html.escape(at["label"])}.</b> ' if at.get("label") else "{CAP}") + f'{_inline_math_html(cap)}'
+               + (f'<span class="src">Photo credits: {"; ".join(credits)}.</span>' if credits else "")
+               + "</figcaption>" if cap else "")
+            + "</figure>")
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```photogrid([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
 def _extract_photos(body, store, chapter_id):
     """```photo id="slug/name" caption="…" width="86"  + overlay directives."""
     def rep(m):
@@ -76,7 +157,7 @@ def _extract_photos(body, store, chapter_id):
         src_note = ""
         if rec:
             who = rec.get("author") or "unknown"
-            src_note = (f'<span class="src">{i18n.CUR["source"]} {_html.escape(who[:70])} / '
+            src_note = (f'<span class="src">{i18n.CUR['source']} {_html.escape(who[:70])} / '
                         f'{_html.escape(rec.get("source", ""))} '
                         f'({_html.escape(rec.get("license", ""))})</span>')
         cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
@@ -111,22 +192,13 @@ def _inline_math_html(text: str) -> str:
             out.append(devaeqn.html(m.group(1)))
             pos = m.end()
             continue
-        path, h, d = mathsvg.render(m.group(1), 10.7)
-        out.append(f'<img class="im" src="{_svg_data_uri(path)}" '
-                   f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">'
-                   if path else "<code>" + _html.escape(m.group(1)) + "</code>")
+        out.append(_inline_one(m.group(1)))
         pos = m.end()
     out.append(_html.escape(text[pos:]))
-    return "".join(out)
-
-def _unused_inline_math_html(text: str) -> str:
-    def rep(m):
-        path, h, d = mathsvg.render(m.group(1), 10.7)
-        if not path:
-            return "<code>" + _html.escape(m.group(1)) + "</code>"
-        return (f'<img class="im" src="{_svg_data_uri(path)}" '
-                f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
-    return _IMATH.sub(rep, text)
+    res = "".join(out)
+    # captions are not run through Markdown: honour *emphasis* and **strong** here
+    res = re.sub(r"\*\*([^*\s][^*]*?)\*\*", r"<strong>\1</strong>", res)
+    return re.sub(r"(?<![\w*])\*([^*\s][^*]*?)\*(?![\w*])", r"<em>\1</em>", res)
 
 # Regions where $...$ must NOT be treated as math: fenced code blocks and
 # inline code spans (PHP, shell and JS all use $ as ordinary syntax).
@@ -140,6 +212,59 @@ def _outside_code(body, fn):
         parts[i] = fn(parts[i])
     return "".join(parts)
 
+def _math_img(tex, size, display=False, cls="im", derive_min=None):
+    """One formula as an inline SVG <img>, or None when MathJax rejects it.
+    `derive_min`: break `a = b = c` into aligned lines when it chains at least this many signs."""
+    src = mathsvg.derive(tex, derive_min) if derive_min else tex
+    path, h, d, w = mathsvg.render_info(src, size, display)
+    if not path:
+        return None
+    ca = f' class="{cls}"' if cls else ""
+    uri = _svg_data_uri(path)
+    reading.TEX[uri] = tex.strip()       # the reading payload keeps the TeX as alt text
+    return (f'<img{ca} data-w="{w / 100.0 * 25.4:.1f}" src="{uri}" '
+            f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
+
+
+# A formula that is long enough to need several lines is a derivation, not a clause.
+_DERIVE_CHARS = 26
+_WRAP_MM = 150.0     # an inline formula wider than this would run off the line
+
+
+def _inline_one(tex):
+    """HTML for one $...$ span. Short formulas stay in the sentence; chains of `=` and long
+    formulas become an aligned block so a step reads as working, not as one long line."""
+    if devaeqn.DEVA.search(tex):
+        return devaeqn.html(tex)
+    parts = mathsvg.split_sheet(tex)
+    if parts:
+        html = _sheet(parts)
+        if html:
+            return html
+    facts = readflow.split_commas(tex)
+    if facts:
+        return '<span class="cl">' + ", ".join(_inline_one(f) for f in facts) + "</span>"
+    links = mathsvg.chain_links(tex)
+    plain = re.sub(r"\\[a-zA-Z]+|[{}\s]", "", tex)
+    if links >= 2 and len(plain) >= _DERIVE_CHARS:
+        img = _math_img(tex, 11.4, display=True, cls="dvi", derive_min=2)
+        if img:
+            return f'<span class="dv">{img}</span>'
+    elif links >= 1 and mathsvg.width_mm(tex, 10.7) > _WRAP_MM:
+        img = _math_img(tex, 11.4, display=True, cls="dvi", derive_min=1)
+        if img:
+            return f'<span class="dv">{img}</span>'
+    img = _math_img(tex, 10.7)
+    if img and _TALL.search(tex):
+        w = float(re.search(r'data-w="([0-9.]+)"', img).group(1))
+        if w >= 24:          # readflow.promote_tall may set it on its own line
+            img = img.replace("<img ", f'<img data-t="{_html.escape(tex, quote=True)}" ', 1)
+    return img or f'<code>{_html.escape(tex)}</code>'
+
+
+_TALL = re.compile(r"\\(?:frac|dfrac|int|sum|prod|lim|binom|begin)")
+
+
 def _extract_display_math(body, store):
     def rep(m):
         tex = m.group(1)
@@ -149,32 +274,69 @@ def _extract_display_math(body, store):
             # typeset it in the book's Devanagari font (see devaeqn.py).
             store.append('<div class="dm">%s</div>' % devaeqn.html(tex, True))
             return "\n\n" + _PLACE.format(i) + "\n\n"
-        path, h, d = mathsvg.render(tex, 15.4, display=True)
-        if not path:
+        wide = mathsvg.width_mm(tex, 15.4, display=True) > mathsvg.COLUMN_MM * 0.92
+        img = _math_img(tex, 15.4, display=True, cls="", derive_min=1 if wide else 2)
+        if not img:
             store.append(f'<div class="dm"><code>{_html.escape(tex.strip())}</code></div>')
         else:
-            store.append(f'<div class="dm"><img src="{_svg_data_uri(path)}" '
-                         f'alt="equation"></div>')
+            store.append(f'<div class="dm">{img}</div>')
         return "\n\n" + _PLACE.format(i) + "\n\n"
     return _outside_code(body, lambda t: re.sub(r"\$\$(.+?)\$\$", rep, t, flags=re.S))
 
+
+def _sheet(parts):
+    """A fact sheet: every formula in its own cell, on a grid of equal columns."""
+    cells, widest = [], 0.0
+    for t in parts:
+        if devaeqn.DEVA.search(t):
+            return None
+        img = _math_img(t, 11.2, display=True, cls="fxm", derive_min=2)
+        if not img:
+            return None
+        widest = max(widest, mathsvg.width_mm(mathsvg.derive(t, 2), 11.2, display=True))
+        cells.append(f"<span>{img}</span>")
+    cols = "c3" if widest <= 50 else ("c2" if widest <= 80 else "c1")
+    n, k = len(cells), int(cols[1])
+    r = n % k if k > 1 else 0
+    # the last row is filled edge to edge: a lone cell spans the row, two cells share it
+    for j in range(n - r, n):
+        if r:
+            cells[j] = cells[j].replace("<span>", f'<span class="w{r}">', 1)
+    return f'<span class="fxs {cols}">' + "".join(cells) + "</span>"
+
+
+# Three or more formulas in a row, separated only by spaces ("$a^m a^n=a^{m+n}$ $(a^m)^n=a^{mn}$ ..."),
+# are a formula sheet as well.
+_FRUN = re.compile(r"(?<![\w$])((?:(?<!\$)\$(?!\$)[^$\n]+?(?<!\$)\$(?!\$)[ \t]+){2,}(?<!\$)\$(?!\$)[^$\n]+?(?<!\$)\$(?!\$))(?![\w$])")
+_FONE = re.compile(r"(?<!\$)\$(?!\$)([^$\n]+?)(?<!\$)\$(?!\$)")
+SHEETS = set()
+
+
+def _extract_formula_runs(body, store):
+    def rep(m):
+        html = _sheet(_FONE.findall(m.group(1)))
+        if not html:
+            return m.group(0)
+        i = len(store)
+        store.append(html); SHEETS.add(i)
+        return _PLACE.format(i)
+    def line(t):
+        return "\n".join(ln if ln.lstrip().startswith("|") else _FRUN.sub(rep, ln) for ln in t.split("\n"))
+    return _outside_code(body, line)
+
+
 def _extract_inline_math(body, store):
     def rep(m):
-        tex = m.group(1)
         i = len(store)
-        if devaeqn.DEVA.search(tex):
-            store.append(devaeqn.html(tex))
-            return _PLACE.format(i)
-        path, h, d = mathsvg.render(tex, 10.7)
-        if not path:
-            store.append(f'<code>{_html.escape(tex)}</code>')
-        else:
-            store.append(f'<img class="im" src="{_svg_data_uri(path)}" '
-                         f'style="vertical-align:-{d * 0.72 + 0.86:.2f}pt" alt="math">')
+        store.append(_inline_one(m.group(1)))
         return _PLACE.format(i)
-    return _outside_code(
-        body,
-        lambda t: _IMATH.sub(rep, t))
+    body = _extract_formula_runs(body, store)
+    body = _outside_code(body, lambda t: _IMATH.sub(rep, t))
+    # the sentence-ending mark after a sheet would hang alone on the next line
+    for i, frag in enumerate(store):
+        if frag.startswith('<span class="fxs'):
+            body = re.sub(re.escape(_PLACE.format(i)) + r"[ \t]*[.,;:](?=\s|$)", _PLACE.format(i), body)
+    return body
 
 LEAKS = []   # unpaired `$` left in the body: raw LaTeX would reach the PDF
 
@@ -229,6 +391,12 @@ _LABEL = re.compile(r"\(([a-e])\)")
 _TAGS = re.compile(r"<[^>]+>")
 
 
+def _mm_len(frag):
+    """Printed width of an option in mm: 1.8 mm a character plus the real width of each formula."""
+    w = sum(float(x) for x in re.findall(r'data-w="([0-9.]+)"', frag))
+    return w + 1.8 * len(_TAGS.sub("", re.sub(r"<img[^>]*>", "", frag)).strip()) + 7
+
+
 def _plain_len(frag):
     """Visible length, counting each math image as the glyphs it stands for."""
     return len(_TAGS.sub("\u00b7\u00b7\u00b7", frag).strip())
@@ -263,8 +431,9 @@ def _split_question(inner):
         parts = "".join(f'<span class="part"><i>({l})</i> {o}</span>'
                         for l, o in zip(labels, opts))
         return f'{stem}<span class="parts">{parts}</span>'
-    cols = "c4" if longest <= 15 else ("c2" if longest <= 38 else "c1")
-    cells = "".join(f'<span class="opt"><i>{l}</i>{o}</span>'
+    mm = max(_mm_len(o) for o in opts)
+    cols = "c4" if mm <= 36 else ("c3" if mm <= 50 and len(run) % 3 == 0 else ("c2" if mm <= 80 else "c1"))
+    cells = "".join(f'<span class="opt"><i>{l}</i><span class="ob">{o}</span></span>'
                     for l, o in zip(labels, opts))
     return f'{stem}<span class="opts {cols}">{cells}</span>'
 
@@ -313,14 +482,109 @@ def _frame_summary(htm):
         r'(.*?)(?=<h2|<section|\Z)', rep, htm, flags=re.S | re.I)
 
 
+# ---------- solutions: parts, derivation tails, ragged maths paragraphs ----------
+_ANSLINE = re.compile(r'<p(?: class="[^"]*")?>(<strong>\d+\.(?:</strong>|\s).*?)</p>', re.S)
+
+
+_SENT = re.compile(r"(?<!\bRs)(?<!e\.g)(?<!i\.e)(?<!\bNo)(?<!\bvs)(?<!etc)(?<!\bFig)\.\s+(?=<img class=\"(?:im|dvi)\"|<em>|<strong>|[A-Z])")
+
+
+def _sentences(text):
+    """An answer that makes several statements gets one line per statement."""
+    if "dvt" in text or "fxs" in text:
+        return text
+    bits = _SENT.split(text.strip())
+    if len(bits) < 2 or sum(1 for b in bits if "<img" in b) < 2:
+        return text
+    last = len(bits) - 1
+    return "".join(f'<span class="stp">{b}{"." if i < last else ""}</span>' for i, b in enumerate(bits))
+
+
+def _answer_parts(htm):
+    """`1. (a) ... (b) ... (c) ...` in an answer key: one line per part."""
+    def one(m):
+        inner = m.group(1)
+        run = _label_run(inner)
+        if not run:
+            mm = re.match(r"(<strong>\d+\.</strong>)\s*(.*)$", inner, re.S)
+            if not mm:
+                return m.group(0)
+            body = _sentences(mm.group(2))
+            if body == mm.group(2):
+                return m.group(0)
+            return f'<p class="ansline np hm">{mm.group(1)}<span class="stps">{body}</span></p>'
+        stem = inner[:run[0].start()].rstrip()
+        opts = [inner[run[i].end():(run[i + 1].start() if i + 1 < len(run) else len(inner))].strip()
+                for i in range(len(run))]
+        if not all(opts):
+            return m.group(0)
+        parts = "".join(f'<span class="part"><i>({r.group(1)})</i> {_sentences(o)}</span>'
+                        for r, o in zip(run, opts))
+        np_ = " np" if re.fullmatch(r"<strong>\d+\.</strong>", stem) else ""
+        return f'<p class="ansline{np_} hm">{stem}<span class="parts">{parts}</span></p>'
+    return _ANSLINE.sub(one, htm)
+
+
+_TAIL = re.compile(
+    r'(<span class="dv"><img[^>]*></span>)'
+    r'((?:[^<]|<img\b[^>]*>|</?(?:strong|em|b|i)>)*?)'
+    r'(?:(\.)(?=\s|<|$)|(?=</p>|</li>|</span>|<span class="(?:dv|part)|<br|<div|</div|$))')
+
+
+def _derivation_tails(htm):
+    """`<derivation> , so x < 2.` -> the conclusion sits on its own line under the working
+    instead of dangling after a comma."""
+    htm = re.sub(r'(<span class="dv"><img[^>]*></span>)\s*[.,;]+\s*', r'\1', htm)
+
+    def one(m):
+        tail = m.group(2).strip().lstrip(",;: ").strip()
+        plain = _TAGS.sub("", tail).strip()
+        if not plain or len(plain) > 170 or m.group(0).count("<img") > 6:
+            return m.group(0)
+        return f'{m.group(1)}<span class="dvt">{tail}{m.group(3) or ""}</span>'
+    return _TAIL.sub(one, htm)
+
+
+_HM = re.compile(r'<(p|li)>((?:(?!</\1>).)*?class="(?:im|dvi|fxm)".*?)</\1>', re.S)
+
+
+def _ragged_maths(htm):
+    """A paragraph holding formulas is set ragged-right (a justified line stretches its words
+    around the unbreakable formula)."""
+    return _HM.sub(lambda m: f'<{m.group(1)} class="hm">{m.group(2)}</{m.group(1)}>', htm)
+
+
+def _layout_fixes(htm):
+    """m3x print fixes: (1) a heading never strands at a page foot before an unbreakable
+    figure or table (wrap the pair in .hk, break-inside:avoid); (2) tables with many
+    columns get a denser class so they stay inside the page."""
+    def dense(m):
+        tbl = m.group(0)
+        if 'class="pgrid"' in tbl[:60]:
+            return tbl
+        first = re.search(r"<tr>.*?</tr>", tbl, flags=re.S)
+        cols = len(re.findall(r"<t[hd]\b", first.group(0))) if first else 0
+        cls = "dense2" if cols >= 9 else ("dense" if cols >= 7 else "")
+        if cls and 'class="' not in tbl[:30]:
+            return tbl.replace("<table", '<table class="%s"' % cls, 1)
+        return tbl
+    htm = re.sub(r"<table\b.*?</table>", dense, htm, flags=re.S)
+    pat = re.compile(r"(<h[234]\b[^>]*>(?:(?!</h[234]>).)*</h[234]>\s*)((?:<p>\s*)?(?:<(?:figure|table)\b.*?</(?:figure|table)>|<div class=.dm.>.*?</div>)(?:\s*</p>)?)", re.S)
+    htm = pat.sub(lambda m: '<div class="hk">' + m.group(1) + m.group(2) + '</div>', htm)
+    return htm
+
 def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
+    body = plainlift.lift(body)
     store = []
     body = _extract_figures(body, store, chapter_id)
+    body = _extract_svgfigs(body, store, chapter_id)
+    body = _extract_photogrids(body, store, chapter_id)
     body = _extract_photos(body, store, chapter_id)
     body = _extract_display_math(body, store)
     body = _extract_inline_math(body, store)
     _find_leaks(body)
+    body = readflow.blank_before_lists(body)
     body = _callouts(body)
     # Python-Markdown's list regex uses \d, which also matches Devanagari
     # digits, so a bullet written "- १. text" became a nested <ol> that
@@ -346,4 +610,19 @@ def convert(text, chapter_id="", fig_no_start=1):
     htm = _frame_summary(htm)
     htm = _restructure_questions(htm)
     htm = _split_answer_runs(htm)
+    htm = readflow.promote_tall(htm)
+    htm = _derivation_tails(htm)
+    htm = _answer_parts(htm)
+    htm = readflow.example_steps(htm)
+    htm = readflow.structure_prose(htm)
+    htm = readflow.sheet_paragraphs(htm)
+    htm = readflow.keep_with_next(htm)
+    htm = readflow.align_tables(htm)
+    htm = _ragged_maths(htm)
+    # WeasyPrint ignores <ol start="N">: a list resumed after a display
+    # equation would restart at 1. Mirror the attribute with a counter reset.
+    htm = re.sub(r'<ol start="(\d+)"(?![^>]*style=)>',
+                 lambda m: f'<ol start="{m.group(1)}" style="counter-reset:list-item {int(m.group(1)) - 1}">',
+                 htm)
+    htm = _layout_fixes(htm)
     return meta, htm, n[0]
