@@ -2,348 +2,267 @@
 subject: Mathematics I
 grade: BCA Semester 1
 unit: 4
-title: Applications of Derivatives
+title: Systems of Linear Equations
 area: BCA 104 · Mathematics I · Unit 4
 ---
 
-Derivatives are used to describe tangents, rates, optimum values and approximations. This unit turns the differentiation rules of Unit 3 into tools for solving problems: tangent lines, related rates, maxima and minima, the mean value theorems, L'Hôpital's rule and Taylor/Maclaurin series.
+Systems of linear equations appear everywhere: balancing circuits, fitting curves, balancing chemical equations, solving for the weights in a model. This unit gives the systematic method (Gaussian elimination), the theory of when solutions exist (rank), and the alternatives (Cramer's rule, inverse).
 
 ::: key What this unit gives you
-- Tangent and normal lines; rates of change and related rates.
-- Increasing/decreasing functions, maxima and minima, optimisation, concavity.
-- Rolle's theorem, the mean value theorem, L'Hôpital's rule.
-- Maclaurin and Taylor series, with numerical approximation.
+- Matrix form $A X = B$; augmented matrix; row-echelon forms.
+- Gaussian and Gauss–Jordan elimination with worked examples.
+- Rank and the consistency test: unique, infinitely many, or no solution.
+- Cramer's rule; homogeneous systems; computational cost.
 :::
 
-## 4.1 Tangent and normal
+## 4.1 Systems and their solutions
 
-The tangent to $y = f (x)$ at $(a ,\  f (a))$ has slope $m = f' (a)$: **$y - f (a) = f' (a) (x - a)$**. The normal is perpendicular, with slope $- \frac{1}{f' (a)}$ (if $f' (a) \neq 0$).
+A system of *m* linear equations in *n* unknowns can be written **$A X = B$**, where A is the coefficient matrix, X the unknowns, B the right-hand side. The **augmented matrix** is [A | B]. Geometrically, in two variables each equation is a line (unique solution: lines meet at a point; none: parallel; infinitely many: the same line); in three variables each equation is a plane.
+
+**Elementary row operations** (do not change the solution set): swap two rows; multiply a row by a non-zero constant; add a multiple of one row to another.
+
+## 4.2 Gaussian elimination
+
+**Row echelon form**: all-zero rows at the bottom; each leading entry (pivot) is to the right of the one above. **Reduced** row echelon form (Gauss–Jordan): pivots are 1 and are the only non-zero entry in their column. Method: use a pivot to clear the entries below it (forward elimination), then solve upward (**back-substitution**).
+
+::: example Worked example: unique solution
+
+$$x + y + z = 6 ,\  2 x - y + z = 3 ,\  x + 2 y - z = 2$$
+
+Augmented $\begin{bmatrix} 1 & 1 & 1 \mid 6 \\ 2 & - 1 & 1 \mid 3 \\ 1 & 2 & - 1 \mid 2 \end{bmatrix}$.
+
+$R_{2} \to R_{2} - 2 R_{1}$: [0, −3, −1 | −9]. $R_{3} \to R_{3} - R_{1}$: [0, 1, −2 | −4].
+
+Swap $R_{2}$ and $R_{3}$: [0, 1, −2 | −4], [0, −3, −1 | −9]. $R_{3} \to R_{3} + 3 R_{2}$: [0, 0, −7 | −21].
+
+Back-substitute: $z = 3 ;\  y - 2 (3) = - 4 \Rightarrow y = 2 ;\  x + 2 + 3 = 6 \Rightarrow x = 1$. **$(x ,\  y ,\  z) = (1 ,\  2 ,\  3)$.** Check in the 2nd equation: $2 - 2 + 3 = 3$ ✓.
+:::
+
+::: example Worked example: infinitely many solutions
+$x + y + z = 3 ,\  x - y = 1$. Augmented $\begin{bmatrix} 1 & 1 & 1 \mid 3 \\ 1 & - 1 & 0 \mid 1 \end{bmatrix} \to R_{2} - R_{1}$: [0, −2, −1 | −2]. So $y = 1 - \frac{z}{2}$ (from $- 2 y - z = - 2$), and $x = 1 + y = 2 - \frac{z}{2}$. Let $z = t ( a$ **free variable**): **$(x ,\  y ,\  z) = \left( 2 - \frac{t}{2} ,\  1 - \frac{t}{2} ,\  t \right)$**, a line of solutions. Two equations in three unknowns can never have a unique solution.
+:::
+
+::: example Worked example: no solution
+$x + y = 1 ,\  2 x + 2 y = 3$. $R_{2} - 2 R_{1}$: [0, 0 | 1], i.e. $0 = 1$, a contradiction. **Inconsistent**: the lines are parallel.
+:::
+
+## 4.3 Rank and consistency
+
+The **rank** of a matrix is the number of non-zero rows in its echelon form (the number of pivots), i.e. the number of independent rows (equal to the number of independent columns).
 
 ::: example Worked example
-For $y = x^{3} - 2 x + 1$ at $x = 1$: $y (1) = 0$ and $y' = 3 x^{2} - 2 = 1$. Tangent: $y = x - 1$. Normal: slope −1, so $y = - (x - 1) = 1 - x$.
+$A = \begin{bmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 0 & 1 \end{bmatrix}$: $R_{2} - 2 R_{1} = [0 ,\  0 ,\  0] ;\  R_{3} - R_{1} = [0 ,\  - 2 ,\  - 2]$. Two non-zero rows, so **rank $A = 2$**. (Row 2 is twice row 1.)
 :::
 
-## 4.2 Rates of change and related rates
+**Rouché–Capelli theorem** for $A X = B$ with *n* unknowns:
 
-$\frac{d y}{d x}$ is the rate of change of *y* with respect to *x*. For a position function $s (t)$: velocity $v = \frac{d s}{d t}$, acceleration $a = \frac{d v}{d t} = \frac{d^{2} s}{d t^{2}}$.
+| Condition | Result |
+|---|---|
+| rank A < rank [A \| B] | **inconsistent** (no solution) |
+| rank A = rank [A \| $B ] = n$ | **unique** solution |
+| rank A = rank [A \| $B ] = r < n$ | **infinitely many**, with $n - r$ free parameters |
 
-**Related rates**: two quantities are tied by an equation; differentiate it with respect to time.
+**Homogeneous systems $A X = 0$** always have the trivial solution $X = 0$; a non-trivial solution exists iff rank $A < n$, equivalently (for square $A ) \det A = 0$. Example: $x + y = 0 ,\  2 x + 2 y = 0$ has the non-trivial solutions $(t ,\  - t)$.
 
-::: example Worked example: sliding ladder
-A 10 *m* ladder leans on a wall; the foot slides away at 2 $\frac{m}{s}$. How fast does the top fall when the foot is 6 *m* from the wall? $x^{2} + y^{2} = 100 \Rightarrow 2 x x' + 2 y y' = 0 \Rightarrow y' = - \left( \frac{x}{y} \right) x'$. When $x = 6 ,\  y = 8$, so $y' = - \left( \frac{6}{8} \right) (2)$ = **$- \frac{1.5 m}{s}$** (the top slides down at 1.5 $\frac{m}{s}$).
-:::
+**Square system** with $\det A \neq 0$: the unique solution $X = A^{-1} B$.
 
-::: example Worked example: expanding circle
-The radius of a circular oil slick grows at 3 cm/s. At $r = 10$ cm, $\dfrac{dA}{dt} = 2\pi r\,\dfrac{dr}{dt} = 2\pi (10)(3) = \mathbf{60\pi \approx 188.5\ \mathrm{cm^{2}/s}}$.
-:::
+## 4.4 Cramer's rule
 
-```svgfig label="4.1" caption="A related-rates problem. A 10 *m* ladder leans on a wall; its foot is pulled away at 1 $\frac{m}{s}$. The distances satisfy $x^{2} + y^{2} = 100$, so differentiating with respect to time gives 2x·dx/dt + 2y·dy/dt = 0. When $x = 6 m$ we have $y = 8 m$, and the top slides down at 0.75 $\frac{m}{s}$."
-f = Fig(740, 250)
-f.line(60, 20, 60, 225, color=SLATE, sw=3); f.line(40, 225, 300, 225, color=SLATE, sw=3)
-for k in range(0, 9): f.line(60, 40 + k * 22, 48, 52 + k * 22, color="#94a3b8", sw=1)
-f.line(60, 65, 180, 225, color=NAVY, sw=5); f.poly([(180, 225), (170, 225), (180, 213)], fill=AMBER, stroke=AMBER)
-f.circle(60, 65, 4, fill=RED, stroke=RED); f.circle(180, 225, 4, fill=RED, stroke=RED)
-f.text(135, 130, "ladder 10 m", size=11, color=NAVY, bold=True, anchor="start"); f.text(38, 150, "y = 8 m", size=11, color=TEAL, bold=True, anchor="end"); f.text(120, 243, "x = 6 m", size=11, color=TEAL, bold=True)
-f.arrow([(185, 238), (245, 238)], color=RED, sw=2, label="dx/dt = 1 m/s", lpos=(250, 242)); f.arrow([(75, 80), (75, 120)], color=RED, sw=2, label="dy/dt = ?", lpos=(80, 104))
-steps = [("Relation", "x² + y² = 10²"), ("Differentiate w.r.t. time t", "2x (dx/dt) + 2y (dy/dt) = 0"), ("Solve", "dy/dt = −(x/y)(dx/dt)"), ("Substitute x = 6, y = 8, dx/dt = 1", "dy/dt = −(6/8)(1) = −0.75 m/s")]
-for i, (s, e) in enumerate(steps):
-    y = 20 + i * 58
-    f.box(400, y, 330, 50, "", fill=BLUE if i % 2 == 0 else SOFT, stroke="#cbd5e1")
-    f.text(412, y + 20, s, size=10.5, color=NAVY, bold=True, anchor="start"); f.text(412, y + 39, e, size=12, color=SLATE, anchor="start")
-```
-
-## 4.3 Increasing, decreasing, maxima and minima
-
-- $f' (x) > 0$ on an interval ⇒ *f* increasing; $f' (x) < 0$ ⇒ decreasing.
-- A **critical point** is where $f' (x) = 0$ or $f'$ does not exist. Local maxima and minima occur only at critical points.
-- **First-derivative test**: $f'$ changes + to − ⇒ local max; − to + ⇒ local min; no change ⇒ neither.
-- **Second-derivative test**: at $f' (c) = 0$, if $f'' (c) > 0$ then local min; $f'' (c) < 0$ ⇒ local max; $f'' (c) = 0$ ⇒ test fails.
-- **Concavity**: $f'' > 0$ concave up (holds water); $f'' < 0$ concave down. A **point of inflection** is where concavity changes ($f'' = 0$ and changes sign).
-- On a closed interval $[a ,\  b]$ the **absolute** extremes occur at critical points or the endpoints, so compare all candidates.
-
-::: example Worked example: full analysis of a cubic
-$f (x) = x^{3} - 6 x^{2} + 9 x + 1$. $f' = 3 x^{2} - 12 x + 9 = 3 (x - 1) (x - 3)$. $f'' = 6 x - 12$.
-
-At $x = 1$: $f'' = - 6 < 0$, local **maximum**, $f (1) = 5$. At $x = 3$: $f'' = 6 > 0$, local **minimum**, $f (3) = 1$. Inflection at $f'' = 0 ,\  x = 2 ,\  f (2) = 3$. *f* is increasing on ($- \infty$, 1) and $(3 ,\  \infty)$, decreasing on (1, 3).
-
-On [0, 4]: $f (0) = 1 ,\  f (1) = 5 ,\  f (3) = 1 ,\  f (4) = 5$. Absolute max 5 (at $x = 1$ and $x = 4$), absolute min 1 (at $x = 0$ and $x = 3$).
-:::
-
-## 4.4 Optimisation
-
-Steps: (1) draw and name variables; (2) write the quantity to optimise; (3) use the constraint to reduce it to one variable; (4) find critical points and test; (5) answer the question asked, with units.
-
-::: example Worked example: open box
-From a 12 cm × 12 cm square, cut equal squares of side *x* from the corners and fold up an open box. $V = x (12 - 2 x)^{2}$ for $0 < x < 6$. $V' = (12 - 2 x)^{2} - 4 x (12 - 2 x) = (12 - 2 x) (12 - 6 x) = 0 \Rightarrow x = 2 ( x = 6$ gives $V = 0$). $V''$ at $x = 2$ is negative ($V'$ goes + to −), so maximum **$V = 2 \times 8^{2} = 128 \mathrm{cm}^{3}$**.
-:::
-
-::: example Worked example: fixed perimeter
-A rectangle has perimeter 40 *m*. Width *w*, length $20 - w ;\  A = w (20 - w) ,\  A' = 20$ − 2w = $0 \Rightarrow w = 10 ,\  A'' = - 2 < 0$. Maximum area 100 $m^{2}$, a square.
-:::
-
-::: example Worked example: minimum cost can
-A closed cylindrical can must hold 500 $\mathrm{cm}^{3}$. Minimise surface area $S = 2 \pi r^{2} + 2 \pi r h$ with $h = \frac{500}{(\pi r^{2})}$: $S = 2 \pi r^{2} + \frac{1000}{r}$. $S' = 4 \pi r - \frac{1000}{r^{2}} = 0 \Rightarrow r^{3} = \frac{250}{\pi} ,\  r \approx 4.30$ cm, *h* = 2r ≈ 8.60 cm. The best can has height equal to its diameter.
-:::
-
-```svgfig label="4.2" caption="Optimisation: the closed cylindrical can of volume 1000 $\mathrm{cm}^{3}$ with least material. With $h = \frac{1000}{(\pi r^{2})}$ the surface area is $S (r) = 2 \pi r^{2} + \frac{2000}{r}$. Setting $S' (r) = 4 \pi r - \frac{2000}{r^{2}} = 0$ gives $r = \left( \frac{500}{\pi} \right)^{\frac{1}{3}} \approx 5.42$ cm, *h* = 2r ≈ 10.84 cm and $S \approx 553.6 \mathrm{cm}^{2}$. Too thin a can (small *r*) or too wide a can (large *r*) wastes metal."
-f = Fig(740, 270)
-S = lambda r: 2 * math.pi * r * r + 2000 / r
-a = Axes(f, 60, 14, 380, 220, (2, 10), (450, 1050)); a.grid(2, 100).axes("r (cm)", "S (cm²)")
-a.curve(S, color=NAVY, sw=2.6); r0 = (500 / math.pi) ** (1 / 3)
-a.pt(r0, S(r0), "minimum: r = 5.42 cm, S = 553.6 cm²", dx=10, dy=-14); a.vline(r0, 450, S(r0), color=AMBER)
-for i, (r, c) in enumerate([(3.5, "thin: r = 3.5, h = 26.0, S = 648"), (r0, "best: r = 5.42, h = 10.84, S = 553.6"), (8.5, "wide: r = 8.5, h = 4.4, S = 689")]):
-    y = 40 + i * 62
-    h = 1000 / (math.pi * r * r); wpx = r * 6.5; hpx = min(h * 2.4, 56)
-    cx = 500
-    f.box(cx - wpx / 2 + 40, y + 56 - hpx, wpx, hpx, "", fill=MINT if i == 1 else SOFT, stroke=TEAL if i == 1 else SLATE)
-    a1, a2 = c.split(", S = ")[0], "S = " + c.split(", S = ")[1] + " cm²"
-    f.text(cx + 90, y + 24, a1, size=10, color=TEAL if i == 1 else SLATE, bold=(i == 1), anchor="start"); f.text(cx + 90, y + 40, a2, size=10, color=TEAL if i == 1 else SLATE, bold=(i == 1), anchor="start")
-```
-
-## 4.5 Mean value theorems
-
-**Rolle's theorem.** If *f* is continuous on $[a ,\  b]$, differentiable on $(a ,\  b)$ and $f (a) = f (b)$, then $f' (c) = 0$ for some *c* in $(a ,\  b)$.
-
-**Mean value theorem (MVT).** If *f* is continuous on $[a ,\  b]$ and differentiable on $(a ,\  b)$, there is *c* in $(a ,\  b)$ with **$f' (c) = \frac{f (b) - f (a)}{b - a}$**, a tangent parallel to the chord.
+For a square system with $\det A \neq 0$, **$x_{i} = \frac{\det A_{i}}{\det A}$**, where $A_{i}$ is A with column *i* replaced by B.
 
 ::: example Worked example
-**Rolle:** $f (x) = x^{2} - 4 x + 3$ on [1, 3]: $f (1) = f (3) = 0 ;\  f' (x) = 2 x - 4 = 0$ at $c = 2$, inside the interval ✓.
-
-**MVT:** $f (x) = x^{3}$ on [0, 2]: slope of chord $= \frac{8 - 0}{2} = 4$.
-
-Set $f' (c) = 3 c^{2} = 4$, so $c = \frac{2}{\sqrt{3}} \approx 1.155$, which lies in $(0, 2)$ ✓.
-
-**Use:** MVT proves that if $f' = 0$ on an interval then *f* is constant, and gives inequalities such as $|\sin a - \sin b| \le |a - b|$.
+$2 x + y = 5 ,\  x - y = 1$. $\det A = - 2 - 1 = - 3$. $A_{x} = \begin{bmatrix} 5 & 1 \\ 1 & - 1 \end{bmatrix}$: $\det = - 5 - 1 = - 6$, so $x = - 6 / - 3$ = **2**. $A_{y} = \begin{bmatrix} 2 & 5 \\ 1 & 1 \end{bmatrix}$: $\det = 2 - 5 = - 3$, so *y* = **1**.
 :::
 
-```svgfig label="4.3" caption="Mean Value Theorem for $f (x) = x^{3}$ on [0, 2]. The secant through (0, 0) and (2, 8) has slope 4. Somewhere between, the tangent has the same slope: $f' (c) = 3 c^{2} = 4$ gives $c = \frac{2}{\sqrt{3}} \approx 1.155$. The tangent at c is parallel to the secant."
-f = Fig(560, 270)
-a = Axes(f, 40, 12, 490, 230, (-0.4, 2.5), (-1.5, 10)); a.grid(0.5, 2).axes()
-a.curve(lambda x: x**3, color=NAVY, sw=2.6); a.curve(lambda x: 4 * x, -0.3, 2.4, color=AMBER, sw=1.8, dash=True)
-c = 2 / math.sqrt(3); a.curve(lambda x: c**3 + 4 * (x - c), 0.2, 2.2, color=RED, sw=2.2)
-a.pt(0, 0, "A(0, 0)", dx=12, dy=-16); a.pt(2, 8, "B(2, 8)", dx=-10, dy=-6, anchor="end"); a.pt(c, c**3, "c ≈ 1.155", color=RED, dx=10, dy=18)
-f.text(a.X(0.06), a.Y(5.6), "secant AB: slope 4", size=10.5, color=AMBER, bold=True, anchor="start"); f.text(a.X(1.62), a.Y(0.95), "tangent at c: slope 4", size=10.5, color=RED, bold=True, anchor="start")
+Cramer's rule is useful for small systems and for theory (it shows the solution depends continuously on the data); it is **far too slow** for large ones: it needs $n + 1$ determinants, each about $n^{3}$ operations or worse by cofactors, whereas elimination costs about $\left( \frac{2}{3} \right) n^{3}$ operations in total. For $n = 1000$ that is about $6.7 \times 10^{8}$ operations: a fraction of a second.
+
+## 4.5 Applications and numerical issues
+
+- **Curve fitting:** find the parabola $y = a x^{2} + b x + c$ through (1, 2), (2, 3), (3, 6): $a + b + c = 2 ,\  4 a + 2 b + c = 3 ,\  9 a + 3 b + c = 6$. Subtracting: $3 a + b = 1$ and $5 a + b = 3 \Rightarrow a = 1 ,\  b = - 2 ,\  c = 3$. **$y = x^{2} - 2 x + 3$.**
+- **Balancing a chemical equation:** $C_{2} H_{6} + O_{2} \to C O_{2} + H_{2} O$: unknowns for each coefficient, carbon: $2 a = c$; hydrogen: $6 a = 2 d$; oxygen: $2 b = 2 c + d$. With $a = 2$: $c = 4 ,\  d = 6 ,\  b = 7$. **$2 C_{2} H_{6} + 7 O_{2} \to 4 C O_{2} + 6 H_{2} O$.**
+- **Circuits (Kirchhoff):** current and voltage laws give linear systems in the currents.
+- **Networks and traffic flow:** conservation at each node gives a system, usually with free variables.
+- **Partial pivoting:** choose the largest available pivot in a column to limit rounding error. A system like 0.0001x + $y = 1 ,\  x + y = 2$ solved without pivoting in low precision can give badly wrong *x*. **Ill-conditioned** systems (nearly parallel lines or planes) amplify small data errors; the **condition number** measures this.
+- **LU decomposition:** factor $A = L U$ (lower × upper triangular) once, then solve many right-hand sides cheaply; **least squares** solves overdetermined systems (more equations than unknowns) by $A^{T} A X = A^{T} B$, the basis of linear regression.
+
+## 4.6 Three pictures of a linear system
+
+Every system of two equations in two unknowns is a pair of lines, and the lines can meet in exactly three ways (Figure 4.1). Rank says which: **rank A = rank [A | *b*] = number of unknowns** gives one solution; **rank A = rank [A | *b*] < unknowns** gives infinitely many; **rank A < rank [A | *b*]** gives none. The same trichotomy holds for three planes in space and for systems with thousands of unknowns.
+
+```svgfig label="4.1" caption="Three outcomes for two equations. (a) $x + y = 2$ and $x - y = 0$ cross at (1, 1): rank 2 = rank 2, one solution. (b) $x + y = 2$ and $x + y = 2.5$ are parallel: rank $A = 1$ but rank [A|b] = 2, no solution. (c) $x + y = 2$ and $2 x + 2 y = 4$ are the same line: rank 1 = rank $1 < 2$, infinitely many solutions."
+f = Fig(580, 205)
+for k, (title, l2, note) in enumerate([("(a) unique", lambda t: t, "(1, 1)"), ("(b) none", lambda t: 2.5 - t, "parallel"), ("(c) infinite", lambda t: 2 - t, "same line")]):
+    ax = Axes(f, 14 + k * 192, 28, 168, 150, (-1, 4), (-1, 4))
+    ax.grid(1, 1, labels=False)
+    ax.curve(lambda t: 2 - t, -1, 4, color=NAVY, sw=2.4)
+    ax.curve(l2, -1, 4, color=RED, sw=2.4, dash=(k == 2))
+    if k == 0:
+        ax.pt(1, 1, "(1, 1)", dx=8, dy=-10)
+    f.text(98 + k * 192, 16, title, size=11, color=NAVY, bold=True)
+    f.text(98 + k * 192, 194, note, size=10.5, color=SLATE, italic=True)
 ```
 
-## 4.6 L'Hôpital's rule
+## 4.7 Eight uses of linear systems
 
-If $\lim \frac{f}{g}$ gives **$\frac{0}{0}$ or $\frac{\infty}{\infty}$** and $\lim \frac{f'}{g'}$ exists (or is $\pm \infty$), then **$\lim \frac{f}{g} = \lim \frac{f'}{g'}$**. It can be applied repeatedly. Other forms $(0 \cdot \infty ,\  \infty - \infty ,\  1^{\infty} ,\  0^{0} ,\  \infty^{0})$ are first rewritten as a quotient, using ln for exponent forms.
+1. **Electric circuits.** Kirchhoff's laws turn a network of resistors into a system of linear equations in the currents. Engineers solve it to size wires and fuses. The Nepal Electricity Authority's load-flow studies are huge systems of this kind.
+2. **Traffic and network flow.** The cars entering and leaving each junction must balance, which gives one equation per junction. Solving the system shows the flow on every road. Ring Road planning in Kathmandu uses the same idea.
+3. **Balancing chemical equations.** The number of atoms of each element on both sides must match, giving a linear system for the coefficients. The solution gives the smallest whole numbers. Chemistry software does this automatically.
+4. **Diet and mixing problems.** A feed mix must supply given amounts of protein, fat and minerals from several ingredients. The unknowns are the quantities. A dairy cooperative uses this to design cattle feed at the lowest cost.
+5. **Curve fitting.** To pass a quadratic through three measured points, write $y = a x^{2} + b x + c$ for each point and solve for $a ,\  b ,\  c$. Sensors and calibration charts use this daily.
+6. **GPS positioning.** Distances to several satellites give equations whose solution is your position and clock error. Your phone solves such a system many times a second.
+7. **Economic planning.** An input-output model asks how much each industry must produce so that supply meets demand. This is a linear system with a matrix of industry links. Planners solve it with Gaussian elimination.
+8. **Computer graphics and simulation.** Finding where a ray meets a plane, or the shape of a loaded bridge in a simulation, leads to linear systems with thousands of unknowns. Computers solve them with the same elimination steps you learn here, tuned for speed.
 
-::: example Worked example
-**(a)** $\lim_{x \to 0} \frac{e^{x} - 1 - x}{x^{2}}$: $\frac{0}{0} \to \frac{e^{x} - 1}{2 x}$: $\frac{0}{0} \to \frac{e^{x}}{2}$ → **$\frac{1}{2}$**.
-
-**(b)** $\lim_{x \to 0} \frac{\sin x - x}{x^{3}} \to \frac{\cos x - 1}{(3 x^{2})} \to \frac{- \sin x}{6 x} \to \frac{- \cos x}{6}$ → **$- \frac{1}{6}$**.
-
-**(c)** $\lim_{x \to 0^{+}} x \ln x = \lim \frac{\ln x}{\frac{1}{x}} = \lim \frac{\frac{1}{x}}{- \frac{1}{x^{2}}} = \lim (- x)$ = **0**.
-
-**(d)** $\lim_{x \to 0^{+}} x^{x}$: $\ln y = x \ln x \to 0$, so $y \to e^{0}$ = **1**.
-
-**(e)** $\lim_{x \to \infty} \frac{\ln x}{x}$: $\frac{\infty}{\infty} \to \frac{1/x}{1}$ → **0**. A logarithm grows slower than any power.
-
-**(f)** $\lim_{x \to \infty} (1 + \frac{1}{x})^{x}$ has the form $1^{\infty}$. Put $y = (1 + \frac{1}{x})^{x}$.
-
-$\ln y = \frac{\ln(1 + 1/x)}{1/x}$: $\frac{0}{0} \to \frac{1}{1 + 1/x} \to 1$, so $y \to e^{1}$ = **e**.
-:::
-
-## 4.7 Taylor and Maclaurin series
-
-If *f* has derivatives of all orders at a, its **Taylor series** is
-
-$$f (x) = f (a) + f' (a) (x - a) + \frac{f'' (a) (x - a)^{2}}{2 !} + \frac{f''' (a) (x - a)^{3}}{3 !} + \ldots$$
-
-With $a = 0$ it is the **Maclaurin series**. The first *n* terms form a polynomial approximation, the remainder is the error.
-
-| Function | Maclaurin series | Valid for |
-|---|---|---|
-| $e^{x}$ | $1 + x + \frac{x^{2}}{2 !} + \frac{x^{3}}{3 !} + \ldots$ | all *x* |
-| $\sin x$ | $x - \frac{x^{3}}{3 !} + \frac{x^{5}}{5 !} - \ldots$ | all *x* |
-| $\cos x$ | $1 - \frac{x^{2}}{2 !} + \frac{x^{4}}{4 !} - \ldots$ | all *x* |
-| $\ln (1 + x)$ | $x - \frac{x^{2}}{2} + \frac{x^{3}}{3} - \ldots$ | $- 1 < x \leq 1$ |
-| $\frac{1}{1 - x}$ | $1 + x + x^{2} + x^{3} + \ldots$ | $|x| < 1$ |
-| $(1 + x)^{n}$ | $1 + n x + \frac{n (n - 1) x^{2}}{2 !} + \ldots$ | $|x| < 1$ |
-
-::: example Worked example: approximation
-$\sin (0.1) \approx 0.1 - \frac{(0.1)^{3}}{6} = 0.1 - 0.000167$ = **0.099833** (true value 0.0998334). $\sqrt{1.02} = (1 + 0.02)^{\frac{1}{2}} \approx 1 + 0.01 - 0.00005$ = **1.00995**. Also $e^{0.2} \approx 1 + 0.2 + 0.02 + 0.001333 + 0.0000667 = 1.221400$ (true 1.221403).
-:::
-
-**Linear approximation (differentials).** $f (x + \Delta x) \approx f (x) + f' (x) \Delta x$. For ∛8.1: $f (x) = x^{\frac{1}{3}} ,\  f' (8) = \frac{1}{12}$, so ∛8.1 ≈ $2 + 0.1 / 12 = 2.00833$.
-
-```photogrid label="4.1" cols="3" ratio="1.0" caption="Taylor and Maclaurin series. (a) Brook Taylor (1685-1731) published the general series in 1715; Colin Maclaurin made the case $x = 0$ famous. (b) The polynomials $P_{1} = x ,\  P_{3} = x - \frac{x^{3}}{6}$ and $P_{5} = x - \frac{x^{3}}{6} + \frac{x^{5}}{120}$ hug $\sin x$ near 0, and each extra term widens the match. (c) The same idea for $e^{x}$: the first terms $1 + x + \frac{x^{2}}{2}$ give $e^{0} . 1$ correct to three decimals."
-@ photo id="bca104/taylor" cap="Brook Taylor, 1720"
-fit 1.0
-focus 0.5 0.7
-@ svg cap="Maclaurin polynomials of sin x"
-f = Fig(250, 250)
-a = Axes(f, 28, 12, 205, 200, (-4.5, 4.5), (-2.5, 2.5)); a.grid(2, 1, size=8.5).axes("", "")
-a.curve(math.sin, color=NAVY, sw=2.6)
-a.curve(lambda x: x, color=AMBER, sw=1.4); a.curve(lambda x: x - x**3 / 6, color=TEAL, sw=1.4); a.curve(lambda x: x - x**3 / 6 + x**5 / 120, color=RED, sw=1.4)
-f.text(125, 232, "navy sin x · amber P₁ · teal P₃ · red P₅", size=8.5, color=SLATE)
-@ svg cap="Error of e^0.1 by Maclaurin terms"
-f = Fig(250, 250)
-vals = [("1", 1.0), ("1 + x", 1.1), ("+ x²/2", 1.105), ("+ x³/6", 1.105167)]
-f.text(125, 22, "e^0.1 = 1.105171 (exact)", size=11, color=NAVY, bold=True)
-for i, (t, v) in enumerate(vals):
-    y = 40 + i * 48; err = abs(1.105171 - v)
-    f.box(14, y, 92, 40, t, fill=BLUE, stroke=NAVY, color=NAVY, size=11, bold=True); f.box(112, y, 126, 40, "", fill=SOFT, stroke="#94a3b8")
-    f.text(175, y + 18, f"{v:.6f}", size=11.5, color=NAVY, bold=True); f.text(175, y + 33, f"error {err:.6f}", size=8.5, color=RED)
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Elimination is cheap, cofactors are not. (a) Carl Friedrich Gauss, whose name is attached to the method of elimination (it was known in China two thousand years earlier, in the Nine Chapters). (b) The system $2 x + y - z = 8 ,\  - 3 x - y + 2 z = - 11 ,\  - 2 x + y + 2 z = - 3$ is reduced to triangular form by R2 + $\left( \frac{3}{2} \right) R 1$ and R3 + R1, then R3 - 4R2, giving $z = - 1$, then $y = 3$, then $x = 2$ by back substitution, all checked in exact fractions. Counting every multiplication and division, elimination on an $n x n$ system costs $\frac{n^{3} + 3 n^{2} - n}{3}$ operations: 17 for $n = 3$ and 430, 3,060, 22,920, 177,040 for $n = 10 ,\  20 ,\  40 ,\  80$. Doubling *n* multiplies the cost by about 8."
+@ photo id="bcamath/gauss" cap="Carl Friedrich Gauss"
+fit 1.2
+focus 0.5 0.4
+@ svg cap="Gaussian elimination: one example and its cost"
+from fractions import Fraction as Fr
+M = [[Fr(2), Fr(1), Fr(-1), Fr(8)], [Fr(-3), Fr(-1), Fr(2), Fr(-11)], [Fr(-2), Fr(1), Fr(2), Fr(-3)]]
+S0 = [r[:] for r in M]
+def addrow(M, i, k, c): M[i] = [a + c * b for a, b in zip(M[i], M[k])]
+addrow(M, 1, 0, Fr(3, 2)); addrow(M, 2, 0, Fr(1)); S1 = [r[:] for r in M]
+addrow(M, 2, 1, Fr(-4)); S2 = [r[:] for r in M]
+z = S2[2][3] / S2[2][2]; y = (S2[1][3] - S2[1][2] * z) / S2[1][1]; x = (S2[0][3] - S2[0][1] * y - S2[0][2] * z) / S2[0][0]
+assert (x, y, z) == (2, 3, -1) and S1[1] == [0, Fr(1, 2), Fr(1, 2), 1] and S2[2] == [0, 0, -1, 1]
+def count(n):
+    c = 0
+    for k in range(n - 1):
+        for i in range(k + 1, n): c += 1 + (n - k)
+    for i in range(n - 1, -1, -1): c += (n - 1 - i) + 1
+    return c
+cs = {n: count(n) for n in (3, 10, 20, 40, 80)}
+assert all(cs[n] == (n ** 3 + 3 * n ** 2 - n) // 3 for n in cs) and cs[3] == 17 and cs[10] == 430 and cs[80] == 177040
+f = Fig(300, 240)
+def show(x, y, S, title):
+    f.text(x + 48, y - 8, title, size=10.5, color=NAVY, bold=True)
+    for i in range(3):
+        for j in range(4):
+            v = S[i][j]
+            f.box(x + j * 24, y + i * 20, 24, 20, str(v), fill=(SAND if j == 3 else BLUE), stroke=(AMBER if j == 3 else NAVY), size=10.5, r=0)
+show(4, 22, S0, "start"); show(102, 22, S1, "R2+3/2R1, R3+R1"); show(200, 22, S2, "R3-4R2")
+f.text(150, 104, "back substitution: z = -1, y = 3, x = 2", size=10.5, color=TEAL, bold=True)
+f.text(10, 128, "n", size=10.5, color=SLATE, bold=True, anchor="start"); f.text(150, 128, "operations (mult + div)", size=10.5, color=SLATE, bold=True)
+mx = cs[80]
+for i, n in enumerate((10, 20, 40, 80)):
+    y = 138 + i * 22
+    f.text(10, y + 9, str(n), size=10.5, color=SLATE, anchor="start", vmid=True)
+    w = max(3, cs[n] / mx * 190)
+    f.box(40, y, w, 18, "", fill=MINT, stroke=TEAL, r=2)
+    f.text(40 + w + 6, y + 9, f"{cs[n]:,}", size=10.5, color=TEAL, bold=True, anchor="start", vmid=True)
+f.text(150, 236, "doubling n costs about 8 times more", size=10.5, color=SLATE)
 ```
 
-## 4.8 Eight uses of the applications of derivatives
-
-1. **Cheapest and strongest designs.** Engineers minimise material for a fixed volume, as in the can of Figure 4.2. A ghee or soft-drink company saves thousands of rupees of metal by using the best radius-to-height ratio. The same method is used for tanks, pipes and packaging.
-2. **Maximum profit and revenue.** If the price per ticket falls, more people buy, so revenue is price × number and has a maximum. Setting the derivative to zero finds the best price. Cinema halls in Kathmandu and bus companies use the idea when setting fares.
-3. **Related rates in construction and water supply.** The ladder problem (Figure 4.1) shows how one moving distance forces others to change. The same chain-rule thinking tells how fast the level in a tank rises while it is filled. It is needed for safe design of dams and reservoirs.
-4. **Speeding cars and safety.** Speed is the derivative of position, and the Mean Value Theorem (Figure 4.3) guarantees that a car covering 120 km in 2 hours was going exactly 60 km/h at some moment. Highway cameras in some countries use average speed over a stretch for this reason. It is a simple proof from calculus.
-5. **Curve sketching and graph reading.** The first derivative shows where a function rises, falls or turns, and the second shows how it bends. Data analysts use this to find peaks in sales, demand or website traffic. Software draws a good graph automatically in the same way.
-6. **Finding roots with Newton's method.** To solve $f (x) = 0$ start from a guess $x_{0}$ and repeat $x_{1} = x_{0} - \frac{f (x_{0})}{f' (x_{0})}$. Each step uses the tangent line, and the sequence converges very fast. Calculators and computers find square roots this way.
-7. **Indeterminate limits by L'Hôpital's rule.** When a limit is $\frac{0}{0}$ or $\frac{\infty}{\infty}$ we can differentiate the top and bottom separately. For example $\lim_{x \to 0} \frac{e^{x} - 1 - x}{x^{2}} = \frac{1}{2}$. This saves long algebra in examination problems and in algorithm analysis.
-8. **Approximation by Taylor series.** Calculators compute $\sin x ,\  \cos x$ and $e^{x}$ by adding the first few terms of a Maclaurin series (Plate 4.1). The error is small because the terms shrink quickly. Without Taylor series, computers could not evaluate these functions at all.
-
-```photogrid label="4.2" cols="2" ratio="1.2" caption="Optimisation with a number you can feel. (a) The aluminium top of a drinks can: the metal used for a can is a surface-area problem with a fixed volume. (b) For a 330 millilitre can the surface area is $S (r) = 2$ pi *r* squared + 2V / *r*. Setting the derivative to zero gives $r = ( \frac{V}{2}$ pi) to the one-third power = 3.74 centimetres and a height of exactly twice the radius, 7.49 centimetres, with surface 264.4 square centimetres; a numerical minimiser confirmed the result. A can of the common radius 3.3 centimetres has height 9.65 centimetres and surface 268.4, only 1.5 per cent more, because the curve is very flat near its minimum. Real cans are taller than the optimum for grip, stacking and printing, so the calculus answer is the cheapest, not always the best, design."
-@ photo id="bcamath/can" cap="The top of a drinks can"
+```photogrid label="4.2" cols="2" ratio="1.2" caption="A circuit is a linear system. (a) A resistor circuit built on a breadboard: Kirchhoff's voltage law gives one equation for each loop. (b) Two loops share a 6 ohm resistor. Loop 1 (12 V battery, 2 ohm, shared 6 ohm): 8 I1 - 6 I2 = 12. Loop 2 (6 V battery in opposition, 3 ohm, shared 6 ohm): -6 I1 + 9 I2 = -6. The determinant is 8 $x 9 - 36 = 36$, so Cramer's rule gives I1 = $\frac{72}{36} = 2$ A and I2 = $\frac{24}{36} = \frac{2}{3} A$, and the shared resistor carries I1 - I2 = $\frac{4}{3} A$. Energy balances exactly: the 12 V battery supplies 24 W, the three resistors dissipate $8 + \frac{4}{3} + \frac{32}{3} = 20 W$ and the second battery absorbs 4 W (it is being charged)."
+@ photo id="bcamath/breadboard" cap="Resistors on a breadboard"
 fit 1.2
 focus 0.5 0.5
-@ svg cap="330 mL can: surface area vs radius"
-import math
-from scipy.optimize import minimize_scalar
-V = 330.0
-S = lambda r: 2 * math.pi * r * r + 2 * V / r
-res = minimize_scalar(S, bounds=(1, 10), method="bounded")
-ropt = (V / (2 * math.pi)) ** (1 / 3)
-assert abs(res.x - ropt) < 1e-3
-hopt = V / (math.pi * ropt ** 2)
-assert abs(hopt - 2 * ropt) < 1e-6
-rreal = 3.3
-hreal = V / (math.pi * rreal ** 2)
-sav = 100 * (S(rreal) - S(ropt)) / S(rreal)
-facts = dict(r=round(ropt, 2), h=round(hopt, 2), smin=round(S(ropt), 1), sreal=round(S(rreal), 1), hreal=round(hreal, 2), sav=round(sav, 1))
-f = Fig(300, 246)
-f.text(150, 12, "S(r) = 2 pi r^2 + 2V/r, V = 330 cm3", size=10.5, color=NAVY, bold=True)
-x0, y0, W, H = 40, 160, 240, 110
-X = lambda r: x0 + (r - 2) / 4 * W
-Y = lambda s: y0 - (s - 250) / 150 * H
-prev = None
-for i in range(0, 101):
-    r = 2 + i * 0.04
-    p = (X(r), Y(min(S(r), 400)))
-    if prev: f.line(prev[0], prev[1], p[0], p[1], color=NAVY, sw=2)
-    prev = p
-f.line(x0, y0, x0 + W, y0, color=SLATE)
-for r in (2, 3, 4, 5, 6):
-    f.text(X(r), y0 + 13, str(r), size=10.5, color=SLATE)
-f.text(x0 + W / 2, y0 + 28, "radius r (cm)", size=10.5, color=SLATE)
-f.circle(X(ropt), Y(S(ropt)), 5, fill="#bbf7d0", stroke=TEAL)
-f.text(x0 + 6, 40, "min %.1f at r=%.2f" % (S(ropt), ropt), size=10.5, color=TEAL, bold=True, anchor="start")
-f.circle(X(rreal), Y(S(rreal)), 5, fill="#fecaca", stroke=RED)
-f.text(x0 + 6, 56, "real can r=3.3: %.1f" % S(rreal), size=10.5, color=RED, bold=True, anchor="start")
-f.text(150, 222, "best can: h = 2r = %.2f cm" % hopt, size=10.5, color=NAVY, bold=True)
-f.text(150, 238, "optimum is flat: only %.1f%% saving" % sav, size=10.5, color=SLATE)
+@ svg cap="Two-loop circuit solved with Cramer's rule"
+from fractions import Fraction as Fr
+a, b, c, d, e, g = Fr(8), Fr(-6), Fr(-6), Fr(9), Fr(12), Fr(-6)
+D = a * d - b * c
+I1 = (e * d - b * g) / D; I2 = (a * g - e * c) / D; I3 = I1 - I2
+assert D == 36 and I1 == 2 and I2 == Fr(2, 3) and I3 == Fr(4, 3)
+P1 = 12 * I1; Pr = 2 * I1 ** 2 + 3 * I2 ** 2 + 6 * I3 ** 2; P2 = 6 * I2
+assert P1 == 24 and Pr == 20 and P2 == 4 and P1 == Pr + P2
+f = Fig(300, 240)
+for (x1, y1, x2, y2) in [(30, 24, 270, 24), (30, 124, 270, 124), (30, 24, 30, 124), (270, 24, 270, 124), (150, 24, 150, 124)]:
+    f.line(x1, y1, x2, y2, color=SLATE, sw=1.8)
+f.box(14, 62, 32, 24, "12 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(254, 62, 32, 24, "6 V", fill=SAND, stroke=AMBER, size=10.5, bold=True, r=3)
+f.box(66, 12, 48, 24, "2 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(186, 12, 48, 24, "3 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.box(126, 62, 48, 24, "6 ohm", fill=BLUE, stroke=NAVY, size=10.5, bold=True, r=3)
+f.text(90, 78, "I1 = 2 A", size=10.5, color=TEAL, bold=True); f.text(210, 78, "I2 = 2/3 A", size=10.5, color=RED, bold=True)
+f.text(150, 112, "I1 - I2 = 4/3 A", size=10.5, color=NAVY, bold=True)
+f.text(150, 150, "8 I1 - 6 I2 = 12;  -6 I1 + 9 I2 = -6", size=10.5, color=SLATE)
+f.text(150, 170, "det = 36, I1 = 72/36, I2 = 24/36", size=10.5, color=SLATE)
+f.text(150, 196, "battery 24 W = resistors 20 W + charging 4 W", size=10.5, color=NAVY, bold=True)
+f.text(150, 216, "all values exact fractions", size=10.5, color=SLATE)
 ```
 
 ## Formula and fact sheet
 
-- Tangent at a: $y - f (a) = f' (a) (x - a)$; normal slope $- \frac{1}{f' (a)}$.
-- Critical point: $f' = 0$ or undefined. $f'' > 0$ min, $f'' < 0$ max.
-- MVT: $f' (c) = \frac{f (b) - f (a)}{b - a}$; Rolle is the case $f (a) = f (b)$.
-- L'Hôpital: $\frac{0}{0}$ or $\frac{\infty}{\infty}$ → differentiate top and bottom separately.
-- Maclaurin: $e^{x} ,\  \sin x ,\  \cos x ,\  \ln (1 + x) ,\  (1 + x)^{n}$ as in the table.
-- Related rates: write the relation, differentiate with respect to *t*, substitute.
+- $A X = B$; augmented [A | B]; three row operations.
+- Rank = number of pivots. rank A < rank [A | B]: none; = *n*: unique; < *n*: infinite with $n - r$ parameters.
+- Homogeneous: non-trivial solutions iff rank < $n ( \det = 0$ when square).
+- Cramer: $x_{i} = \frac{\det A_{i}}{\det A}$. Gaussian elimination ≈ $\left( \frac{2}{3} \right) n^{3}$ operations.
 
 ## Chapter summary
 
-- The derivative gives tangents, rates, and the shape of a graph (increasing, decreasing, concave).
-- Optimisation reduces a real problem to one variable and tests critical points and endpoints.
-- Rolle and the MVT link the average slope to an instantaneous slope; L'Hôpital turns indeterminate limits into derivative quotients.
-- Taylor series replace a function by polynomials and enable numerical approximation.
+- Elimination reduces any system to echelon form and then solves by back-substitution.
+- Rank decides the number of solutions; free variables parametrise infinite families.
+- Cramer's rule and inverses give formulas but elimination is the practical method.
+- Applications range from curve fitting to chemistry, circuits and regression.
 
 ## Practice
 
-1. Find the tangent and normal to $y = x^{2} - 3 x + 2$ at $x = 2$.
-2. A balloon's radius grows at 2 cm/s. Find the rate at which its volume grows when $r = 5$ cm.
-3. Find the local extrema and inflection point of $f (x) = 2 x^{3} - 9 x^{2} + 12 x$.
-4. Find the dimensions of the rectangle of maximum area inscribed in a circle of radius R.
-5. A farmer has 200 *m* of fence for a rectangular pen against a river wall (no fence along the river). Find the maximum area.
-6. Verify the MVT for $f (x) = x^{2}$ on [1, 3].
-7. Evaluate (a) $\lim_{x \to 0} \frac{e^{x} - e^{- x}}{\sin x}$, (b) $\lim_{x \to 0} \frac{\tan x - x}{x^{3}}$, (c) $\lim_{x \to 0} (\cos x)^{\frac{1}{x^{2}}}$.
-8. Write the Maclaurin series of $\cos x$ up to $x^{4}$ and use it to estimate $\cos (0.2)$.
-9. Use a linear approximation for $\sqrt{26}$.
-10. Show that $x - \frac{x^{2}}{2} < \ln (1 + x) < x$ for $x > 0$.
+1. Solve by Gaussian elimination: $x + 2 y + z = 8 ,\  2 x + y - z = 1 ,\  x - y + 2 z = 5$.
+2. Solve $x + y - z = 1 ,\  2 x + 2 y - 2 z = 2 ,\  x - y + z = 3$ and describe the solution set.
+3. For what values of *k* does $x + y = 2 ,\  2 x + k y = 5$ have no solution? A unique one?
+4. Find the rank of $\begin{bmatrix} 1 & 2 & 3 & 4 \\ 2 & 4 & 6 & 8 \\ 1 & 0 & 1 & 0 \end{bmatrix}$.
+5. Solve by Cramer's rule: $3 x + 2 y = 7 ,\  x - y = 1$.
+6. Find all solutions of the homogeneous system $x + 2 y + 3 z = 0 ,\  2 x + 4 y + 6 z = 0$.
+7. Fit $y = a x^{2} + b x + c$ through (0, 1), (1, 4), (2, 9).
+8. Balance: Fe + $O_{2} \to F e_{2} O_{3}$.
+9. Determine whether the system $x + y = 2 ,\  x - y = 0 ,\  2 x + y = 3$ is consistent.
+10. A 400-equation system takes 1 *s* on a computer. Estimate the time for 4000 equations.
 
 ::: note Answers and worked solutions
-**1.** $y (2) = 0 ,\  y' = 2 x - 3 = 1$. Tangent $y = x - 2$; normal $y = - (x - 2) = 2 - x$.
+**1.** $R_{2} - 2 R_{1}$: [0, −3, −3 | $- 15 ] ;\  R_{3} - R_{1}$: [0, −3, 1 | −3]. $R_{3} - R_{2}$: [0, 0, 4 | $12 ] \Rightarrow z = 3 ;\  - 3 y - 9 = - 15 \Rightarrow y = 2 ;\  x + 4 + 3 = 8 \Rightarrow x = 1$. **(1, 2, 3).**
 
-**2.** $V = \left( \frac{4}{3} \right) \pi r^{3}$, $\dfrac{dV}{dt} = 4\pi r^{2}\,\dfrac{dr}{dt} = 4\pi \cdot 25 \cdot 2 = \mathbf{200\pi \approx 628.3\ \mathrm{cm^{3}/s}}$.
+**2.** Equation 2 is twice equation 1. Adding eqs 1 and 3: $2 x = 4 \Rightarrow x = 2$; then $2 + y - z = 1 \Rightarrow y - z = - 1$. Solutions **$(2 ,\  t - 1 ,\  t)$**: infinitely many (one free parameter).
 
-**3.** $f' = 6 x^{2} - 18 x + 12 = 6 (x - 1) (x - 2) ;\  f'' = 12 x - 18$. $x = 1$: $f'' = - 6$, **max** $f (1) = 5$. $x = 2$: $f'' = 6$, **min** $f (2) = 4$. Inflection at $x = 1.5 ,\  f (1.5) = 4.5$.
+**3.** Eliminate: $R_{2} - 2 R_{1} = [ 0 ,\  k - 2$ | 1]. If $k = 2$: $0 = 1$, **no solution**. If $k \neq 2$: **unique** solution.
 
-**4.** With sides *x* and $y ,\  x^{2} + y^{2} = 4 R^{2}$ and $A = x y$. Maximising $A^{2} = x^{2} (4 R^{2} - x^{2})$ gives $x^{2} = 2 R^{2}$, so $x = y = R \sqrt{2}$: a **square** of area $2 R^{2}$.
+**4.** $R_{2} - 2 R_{1} = 0 ;\  R_{3} - R_{1} = [0 ,\  - 2 ,\  - 2 ,\  - 4]$. Two independent rows: **rank 2**.
 
-**5.** Width *w* (two sides), length 200 − 2w: $A = w ( 200$ − 2w), $A' = 200$ − 4w = $0 \Rightarrow w = 50$, length 100, **$A = 5000 m^{2}$**.
+**5.** $\det A = - 3 - 2 = - 5 ;\  x = \det \begin{bmatrix} 7 & 2 \\ 1 & - 1 \end{bmatrix} / - 5 = (- 7 - 2) / - 5$ = **$\frac{9}{5}$**; $y = \det \begin{bmatrix} 3 & 7 \\ 1 & 1 \end{bmatrix} / - 5 = (3 - 7) / - 5$ = **$\frac{4}{5}$**. Check: $3 \left( \frac{9}{5} \right) + 2 \left( \frac{4}{5} \right) = \frac{35}{5} = 7$ ✓.
 
-**6.** Chord slope ($9 - 1 ) / 2 = 4 ;\  f' (c) = 2 c = 4 \Rightarrow c = 2 \in ( 1$, 3) ✓.
+**6.** Row 2 is twice row 1, so one equation: $x = - 2 y - 3 z$ with $y = s ,\  z = t$ free: **$(- 2 s - 3 t ,\  s ,\  t)$**, a plane through the origin (rank 1, 2 free parameters).
 
-**7.** (a) $\frac{0}{0} \to \frac{e^{x} + e^{- x}}{\cos x}$ → **2**. (b) → $\frac{\sec^{2} x - 1}{(3 x^{2})} = \frac{\tan^{2} x}{(3 x^{2})}$ → **$\frac{1}{3}$**. (c) $\ln y = \frac{\ln \cos x}{x^{2}} \to \frac{- \tan x}{2 x}$ → **$- \frac{1}{2}$**, so the limit is **$e^{- \frac{1}{2}}$**.
+**7.** $c = 1 ;\  a + b + 1 = 4 ;\  4 a + 2 b + 1 = 9 \Rightarrow a + b = 3 ,\  2 a + b = 4 \Rightarrow a = 1 ,\  b = 2$: **$y = x^{2} + 2 x + 1 = (x + 1)^{2}$**.
 
-**8.** $\cos x \approx 1 - \frac{x^{2}}{2} + \frac{x^{4}}{24} ;\  \cos 0.2 \approx 1 - 0.02 + 0.0000667$ = **0.980067** (true 0.980067).
+**8.** a Fe + $b O_{2} \to c F e_{2} O_{3}$: Fe: $a = 2 c ;\  O$: $2 b = 3 c$. With $c = 2$: $a = 4 ,\  b = 3$. **4Fe + $3 O_{2} \to 2 F e_{2} O_{3}$.**
 
-**9.** $f (x) = \sqrt{x}$ at 25: $f'$ = 1/(2·5) = $0.1 ;\  \sqrt{26} \approx 5 + 0.1$ = **5.1** (true 5.0990).
+**9.** From the first two: $x = 1 ,\  y = 1$; the third gives $2 (1) + 1 = 3$ ✓. **Consistent**, unique solution (1, 1) (rank 2 = rank of the augmented matrix).
 
-**10.** Let $g (x) = \ln (1 + x) - x + \frac{x^{2}}{2}$. $g (0) = 0$ and $g' = \frac{1}{1 + x} - 1 + x = \frac{x^{2}}{1 + x} > 0$, so $g > 0$ for $x > 0$. Let $h (x) = x - \ln (1 + x) ;\  h (0) = 0 ,\  h' = \frac{x}{1 + x} > 0$, so $h > 0$. ∎
+**10.** Elimination is $O (n^{3})$: 10 times more equations is 1000 times more work, about **1000 $s \approx 17$ minutes**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q (5 marks). Find the local maximum and minimum values of $f (x) = 2 x^{3} - 9 x^{2} + 12 x + 1$ and say where the function is increasing.**
+**Q1 (5 marks). Solve by Gaussian elimination: $x + y + z = 6 ,\  2 x - y + z = 3 ,\  x + 2 y - z = 2$.**
 
-A local extreme can occur only at a **critical point**, where $f' (x) = 0$ (or $f'$ does not exist). The **second derivative test** then decides: $f'' < 0$ gives a local maximum and $f'' > 0$ a local minimum.
+*Introduction.* Gaussian elimination reduces the augmented matrix to upper-triangular form by row operations, then back-substitutes.
 
-1. Differentiate: $f' (x) = 6 x^{2} - 18 x + 12 = 6 (x^{2} - 3 x + 2) = 6 (x - 1) (x - 2)$.
-2. Critical points: $f' = 0$ gives $x = 1$ and $x = 2$.
-3. Second derivative: $f'' (x) = 12 x - 18$. At $x = 1 ,\  f'' = - 6 < 0$, so $x = 1$ is a **local maximum**. At $x = 2 ,\  f'' = 6 > 0$, so $x = 2$ is a **local minimum**.
-4. Values: $f (1) = 2 - 9 + 12 + 1$ = **6** (maximum) and $f (2) = 16 - 36 + 24 + 1$ = **5** (minimum).
-5. Sign of $f'$: positive for $x < 1$, negative for $1 < x < 2$, positive for $x > 2$.
+*Augmented matrix.* $\begin{bmatrix} 1 & 1 & 1 \mid 6 \\ 2 & - 1 & 1 \mid 3 \\ 1 & 2 & - 1 \mid 2 \end{bmatrix}$.
 
-| Interval | $x < 1$ | $1 < x < 2$ | $x > 2$ |
-|---|---|---|---|
-| $f' (x)$ | + | − | + |
-| *f* | increasing | decreasing | increasing |
+*Elimination.* R2 → R2 − 2R1 gives [0, −3, −1 | −9]. R3 → R3 − R1 gives [0, 1, −2 | −4]. Swap to use the simple row: R2 ↔ R3, so [0, 1, −2 | −4] and [0, −3, −1 | −9]. Then R3 → R3 + 3R2 gives [0, 0, −7 | −21].
 
-So *f* is increasing on ($- \infty$, 1) and $(2 ,\  \infty)$ and decreasing on (1, 2). The "maximum" 6 is only *local*: the cubic has no global maximum, because $f \to \infty$ as $x \to \infty$.
+*Back-substitution.* $- 7 z = - 21$, so **$z = 3$**. Then $y - 2 (3) = - 4$ gives **$y = 2$**. Then $x + 2 + 3 = 6$ gives **$x = 1$**.
 
-**Q (5 marks). Write the Maclaurin series of $e^{x}$ up to the term in $x^{4}$ and use it to estimate $e^{0} . 5$. Find the error.**
+*Check.* $2 (1) - 2 + 3 = 3$ and $1 + 2 (2) - 3 = 2$, both correct. *Conclusion.* The unique solution is $(x ,\  y ,\  z) = (1 ,\  2 ,\  3)$; the pivots 1, 1, −7 are all non-zero, so the rank is 3.
 
-The **Maclaurin series** of *f* is $f (0) + f' (0) x + \frac{f'' (0) x^{2}}{2 !} + \frac{f''' (0) x^{3}}{3 !} + \ldots$, the Taylor series about 0 (Plate 4.1).
+**Q2 (10 marks). State and explain the conditions for consistency of a linear system using rank, with an example of each case, and mention Cramer's rule.**
 
-1. For $f (x) = e^{x}$ every derivative is $e^{x}$, so every derivative at 0 equals 1.
-2. Therefore $e^{x} = 1 + x + \frac{x^{2}}{2 !} + \frac{x^{3}}{3 !} + \frac{x^{4}}{4 !} + \ldots$
-3. Put $x = 0.5$: $1 + 0.5 + 0.125 + 0.5^{3} / 6 + 0.5^{4} / 24 = 1 + 0.5 + 0.125 + 0.020833 + 0.002604$.
-4. The sum is **1.648438**.
-5. The true value is $e^{0} . 5 = 1.648721$, so the error is about **0.00028**, less than the first omitted term $\frac{x^{5}}{5 !} = 0.000260$ (plus smaller ones).
+*Introduction.* A system $A X = b$ with *n* unknowns is **consistent** if it has at least one solution. The rank of a matrix is the number of non-zero rows after elimination (equivalently, the number of independent rows). Rank settles consistency completely.
 
-*Conclusion:* four terms give three correct decimals. More terms give more accuracy, and for small $|x|$ the series converges very fast, which is how calculators evaluate $e^{x}$.
+*The rank test (Rouché–Capelli).*
 
-**Q (10 marks). State the Mean Value Theorem with its geometrical meaning and verify it for $f (x) = x^{3}$ on [0, 2]. Explain the steps of an optimisation problem with the example of a closed can of volume 1000 $\mathrm{cm}^{3}$, and state L'Hôpital's rule with an example.**
+1. **Compare ranks.** Compute rank A and the rank of the augmented matrix [A | *b*].
+2. **Inconsistent.** If rank A < rank [A | *b*], there is no solution. Example: $x + y = 2$ and $2 x + 2 y = 5$ give rank $A = 1$ but rank [A | $b ] = 2$.
+3. **Unique solution.** If rank A = rank [A | $b ] = n$, there is exactly one solution. Example: $x + y = 2 ,\  x - y = 0$ gives $x = y = 1$.
+4. **Infinitely many.** If rank A = rank [A | $b ] < n$, there are *n* − rank free parameters. Example: $x + y = 2$ and $2 x + 2 y = 4$ give $y = t ,\  x = 2 - t$.
+5. **Geometry.** Cases (a), (b) and (c) of Figure 4.1 are lines that meet once, are parallel, or coincide.
 
-**Introduction.** The derivative tells how a function changes, so it can describe, estimate and optimise real systems. Three results of this unit are the Mean Value Theorem, optimisation and L'Hôpital's rule.
+*Cramer's rule.* When A is square and $\det A \neq 0 ,\  x_{i} = \det A_{i} \div \det A$, where $A_{i}$ has column *i* replaced by *b*. For $x + y = 2 ,\  x - y = 0$: $\det A = - 2 ,\  \det A_{1} = \det \begin{bmatrix} 2 & 1 \\ 0 & - 1 \end{bmatrix} = - 2$, so $x = (- 2) \div (- 2) = 1$. It is elegant but costly for large systems, where elimination is preferred.
 
-**Mean Value Theorem (MVT).** If *f* is continuous on $[a ,\  b]$ and differentiable on $(a ,\  b)$, there is at least one *c* in $(a ,\  b)$ with $f' (c) = \frac{f (b) - f (a)}{b - a}$. *Geometrically*, some tangent is parallel to the secant joining the end points (Figure 4.3). *Verification:* for $f (x) = x^{3}$ on [0, 2] the secant slope is $\frac{8 - 0}{2} = 4$. Solve $f' (c) = 3 c^{2} = 4$, so $c = \frac{2}{\sqrt{3}} \approx 1.155$, which lies in (0, 2). ✓ Rolle's theorem is the special case $f (a) = f (b)$, where $f' (c) = 0$.
-
-**Optimisation steps (Figure 4.2).**
-1. Draw a picture and name the variables (radius *r*, height *h*).
-2. Write the quantity to optimise: $S = 2 \pi r^{2} + 2 \pi r h$.
-3. Use the constraint $V = \pi r^{2} h = 1000$ to remove *h*: $S (r) = 2 \pi r^{2} + \frac{2000}{r}$.
-4. Differentiate and solve $S' (r) = 4 \pi r - \frac{2000}{r^{2}} = 0$, giving $r^{3} = \frac{500}{\pi}$, so **$r \approx 5.42$ cm**.
-5. Check it is a minimum: $S'' = 4 \pi + \frac{4000}{r^{3}} > 0$.
-6. State the answer: $h = \frac{1000}{(\pi r^{2})} \approx 10.84$ cm = 2r, and S ≈ **553.6 $\mathrm{cm}^{2}$**. The best can has height equal to its diameter.
-
-**L'Hôpital's rule.** If $\lim \frac{f}{g}$ has the form $\frac{0}{0}$ or $\frac{\infty}{\infty}$, then $\lim \frac{f}{g} = \lim \frac{f'}{g'}$ provided the latter exists. Example: $\lim_{x \to 0} \frac{x - \sin x}{x^{3}}$ is $\frac{0}{0}$; differentiating gives $\frac{1 - \cos x}{(3 x^{2})}$, still $\frac{0}{0}$; again gives $\frac{\sin x}{6 x}$ → **$\frac{1}{6}$**. Another: $\lim_{x \to \infty} \frac{\ln x}{x}$ is $\frac{\infty}{\infty}$ and equals $\lim \frac{\frac{1}{x}}{1} = 0$, so logarithms grow slower than any power.
-
-**Comparison of the three tools.**
-
-| Tool | Needs | Gives |
+| Rank condition | Meaning | Example |
 |---|---|---|
-| MVT | continuity on $[a ,\  b]$, differentiable inside | a point where the slope equals the average slope |
-| Optimisation | a function of one variable | the best $\left( \frac{\max}{\min} \right)$ value |
-| L'Hôpital | an indeterminate form $\frac{0}{0}$ or $\frac{\infty}{\infty}$ | the value of the limit |
+| rank A < rank [A\|b] | no solution | $x + y = 2 ,\  2 x + 2 y = 5$ |
+| rank A = rank [A\|b] = *n* | one solution | $x + y = 2 ,\  x - y = 0$ |
+| rank A = rank [A\|b] < *n* | infinitely many | $x + y = 2 ,\  2 x + 2 y = 4$ |
 
-**Conclusion.** The derivative is a practical tool: it finds the cheapest can, proves facts about speed, and evaluates difficult limits. These three results are the standard long questions of this unit.
+*Conclusion.* Two numbers, rank A and rank [A | *b*], decide whether a system has no, one or infinitely many solutions, and elimination then finds them.

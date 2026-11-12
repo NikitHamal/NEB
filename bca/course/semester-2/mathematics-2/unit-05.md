@@ -2,262 +2,286 @@
 subject: Mathematics II
 grade: BCA Semester 2
 unit: 5
-title: Vectors in Space, Lines and Planes
+title: Differential Equations
 area: BCA 154 · Mathematics II · Unit 5
 ---
 
-Three-dimensional geometry is the mathematics of games, graphics engines, robotics and CAD. Vectors describe positions, directions, lines and planes with simple algebra. This unit completes the course with the products of vectors and their geometry.
+A **differential equation (DE)** relates a function to its derivatives. Populations, cooling, circuits, vibrations and algorithms' running times all obey differential equations. This unit covers the methods that solve the common first-order types and second-order linear equations with constant coefficients, and shows how to model with them.
 
 ::: key What this unit gives you
-- Vectors in $\mathbb{R}^{3}$: components, length, direction cosines, dot and cross products.
-- Areas, volumes and the scalar triple product.
-- Equations of lines and planes; distances and angles; intersections.
-- Applications in graphics: normals, lighting, back-face culling.
+- Order, degree, general and particular solutions; forming a DE.
+- First-order methods: separable, homogeneous, linear (integrating factor), exact.
+- Second-order linear homogeneous equations with constant coefficients.
+- Models: growth and decay, Newton's law of cooling.
 :::
 
-## 5.1 Vectors in three dimensions
+## 5.1 Basic terms
 
-A vector **a** = $(a_{1} ,\  a_{2} ,\  a_{3}) = a_{1}$***i*** + $a_{2}$***j*** + $a_{3}$***k***, with length |**a**| = $\sqrt{a_{1}^{2} + a_{2}^{2} + a_{3}^{2}}$. The vector from $P (x_{1} ,\  y_{1} ,\  z_{1})$ to $Q (x_{2} ,\  y_{2} ,\  z_{2})$ is $P Q = (x_{2} - x_{1} ,\  y_{2} - y_{1} ,\  z_{2} - z_{1})$. A **unit vector** has length 1: â = **a**/|**a**|. **Direction cosines** are $\cos \alpha = \frac{a_{1}}{|a|} ,\  \cos \beta = \frac{a_{2}}{|a|} ,\  \cos \gamma = \frac{a_{3}}{|a|}$, with $\cos^{2} \alpha + \cos^{2} \beta + \cos^{2} \gamma = 1$.
+The **order** of a DE is the order of the highest derivative; the **degree** is the power of that derivative once the equation is a polynomial in derivatives. $\frac{d y}{d x} = x y$ is order 1, degree $1 ;\  (y'')^{2} + y' = 0$ is order 2, degree 2.
 
-**Dot (scalar) product:** **$a \cdot b$** = $a_{1} b_{1} + a_{2} b_{2} + a_{3} b_{3} = |a| |b| \cos \theta$. It is zero iff the vectors are perpendicular; it gives angles, projections (scalar projection of a on *b* = a·b/|b|) and work $(W = F \cdot d)$.
+The **general solution** has as many arbitrary constants as the order. A **particular solution** fixes them with **initial conditions**, giving an initial-value problem (IVP).
 
-**Cross (vector) product:** **$a \times b$** = $(a_{2} b_{3} - a_{3} b_{2} ,\  a_{3} b_{1} - a_{1} b_{3} ,\  a_{1} b_{2} - a_{2} b_{1})$, written as the determinant of $\begin{bmatrix} i & j & k \\ a_{1} & a_{2} & a_{3} \\ b_{1} & b_{2} & b_{3} \end{bmatrix}$. Its direction is perpendicular to both a and *b* (right-hand rule); its length is **$|a| |b| \sin \theta$**, the **area of the parallelogram** spanned by a and *b*. $a \times b = - (b \times a) ;\  a \times a = 0$; the cross product is *not* commutative or associative.
+**Forming a DE** from a family of curves: differentiate to eliminate the constants. For $y = A e^{2 x} + B e^{- x}$: $y' = 2 A e^{2 x} - B e^{- x} ,\  y'' = 4 A e^{2 x} + B e^{- x}$. Then $y'' - y' - 2 y = 0$ (check: coefficient of A: $4 - 2 - 2 = 0$, of B: $1 + 1 - 2 = 0$ ✓).
 
-::: example Worked example
-
-$$a = (1 ,\  2 ,\  3) ,\  b = (4 ,\  - 5 ,\  6)$$
-
-**$a \cdot b$** = $4 - 10 + 18$ = **12**; $|a| = \sqrt{14} \approx 3.742 ,\  |b| = \sqrt{77} \approx 8.775 ;\  \cos \theta = \frac{12}{\sqrt{1078}} = 0.3655$ ⇒ **$\theta \approx 68.6 ^{\circ}$**.
-
-**$a \times b$** = (2·6 − 3·(−5), 3·4 − 1·6, 1·(−5) − 2·4) = **(27, 6, −13)**. Check perpendicularity: $(27 ,\  6 ,\  - 13) \cdot a = 27 + 12 - 39 = 0$ ✓ and · $b = 108 - 30 - 78 = 0$ ✓.
-
-**Area of the triangle** with sides a and *b* from a common vertex = $\frac{1}{2}$ |a × b| = $\frac{1}{2} \sqrt{729 + 36 + 169} = \frac{1}{2} \sqrt{934}$ ≈ **15.28**.
-:::
-
-**Scalar triple product** $[a ,\  b ,\  c] = a \cdot (b \times c) = \det$ of the $3 \times 3$ matrix with rows $a ,\  b ,\  c$. Its absolute value is the **volume of the parallelepiped** on $a ,\  b ,\  c$; the volume of a tetrahedron is one sixth of that. The three vectors are **coplanar** iff the triple product is 0. Example: $a = (1 ,\  0 ,\  0) ,\  b = (1 ,\  1 ,\  0) ,\  c = (1 ,\  1 ,\  1)$: $\det = 1$, so the volume is 1 and the tetrahedron has volume $\frac{1}{6}$.
-
-## 5.2 Lines in space
-
-A line through the point $P_{0} = (x_{0} ,\  y_{0} ,\  z_{0})$ with direction ***d*** = $(l ,\  m ,\  n)$:
-
-- **Vector form:** ***r*** = **$r_{0}$** + *t****d***.
-- **Parametric:** $x = x_{0}$ + lt, $y = y_{0} + m t ,\  z = z_{0} + n t$.
-- **Symmetric:** $\frac{(x - x_{0})}{l} = \frac{(y - y_{0})}{m} = \frac{(z - z_{0})}{n}$.
-
-Through two points A and B, take $d = B - A$. **Angle between two lines** = angle between their direction vectors. Lines are parallel if their directions are proportional; perpendicular if $d_{1} \cdot d_{2} = 0$. In $3 - D$ two lines may also be **skew** (neither parallel nor intersecting).
-
-**Shortest distance from a point P to a line** (through A, direction *d*): **|AP × d| / $|d|$**. **Distance between skew lines** through $A_{1} ,\  A_{2}$ with directions $d_{1} ,\  d_{2}$: $\frac{|(A_{2} - A_{1}) \cdot (d_{1} \times d_{2})|}{|d_{1} \times d_{2}|}$.
-
-::: example Worked example
-Line L: $r = (1 ,\  2 ,\  3) + t (2 ,\  - 1 ,\  0)$. Distance of the point $P = ( 3 ,\  1$, 3) from L: $A P = (2 ,\  - 1 ,\  0) ,\  d = (2 ,\  - 1 ,\  0) ;\  A P \times d$ = **0**, so the distance is 0, and P lies on $L (t = 1)$. For $P = (1 ,\  2 ,\  5)$: $A P = (0 ,\  0 ,\  2) ;\  A P \times d$ = (0·0 − $2 (- 1)$, 2·2 − 0·0, $0 ) = ( 2 ,\  4 ,\  0$); |AP × d| = $\sqrt{20} ,\  |d| = \sqrt{5}$, distance = $\frac{\sqrt{20}}{\sqrt{5}}$ = **2**.
-:::
-
-## 5.3 Planes
-
-A plane through $P_{0}$ with **normal** vector $n = (A ,\  B ,\  C)$: **$n \cdot (r - r_{0}) = 0$**, i.e. **Ax + By + Cz = D** with $D = n \cdot r_{0}$. Through three points A, B, C: the normal is $n = (B - A) \times (C - A)$.
-
-::: example Worked example
-The plane through (1, 0, 0), (0, 1, 0), (0, 0, 1): $A B = (- 1 ,\  1 ,\  0) ,\  A C = (- 1 ,\  0 ,\  1) ;\  n = A B \times A C$ = (1·1 − 0·0, 0·(−1) − (−1)·1, (−1)·0 − 1·(−1)) = (1, 1, 1). Equation: **$x + y + z = 1$** (check each point ✓).
-:::
-
-**Distance from a point $(x_{1} ,\  y_{1} ,\  z_{1})$ to the plane Ax + By + Cz = D:** **$\mid A x_{1} + B y_{1} + C z_{1}$ − D| / $\sqrt{A^{2} + B^{2} + C^{2}}$**. Example: the point (1, 2, 3) and the plane $2 x - y + 2 z = 5$: |2 − $2 + 6 - 5 \mid / \sqrt{9}$ = **$\frac{1}{3}$**.
-
-**Angle between two planes** = angle between their normals: $\cos \theta = \frac{|n_{1} \cdot n_{2}|}{(|n_{1}| |n_{2}|)}$. Planes are parallel if the normals are proportional, perpendicular if $n_{1} \cdot n_{2} = 0$. **Intersection of two planes** is a line with direction $n_{1} \times n_{2}$. **Line and plane:** substitute the parametric line into the plane equation; one solution for *t* gives the intersection point, no solution means parallel, any *t* means the line lies in the plane. Example: line $(t ,\  2 t ,\  3 t)$ meets $x + y + z = 12$ when $6 t = 12$, so $t = 2$ and the point is (2, 4, 6).
-
-Three planes meet at a point, along a line, or not at all: this is exactly the $3 \times 3$ linear system of Unit 2 (rank 3, rank 2 consistent, or inconsistent).
-
-## 5.4 Spheres and applications
-
-A **sphere** with centre $(a ,\  b ,\  c)$ and radius *r*: $(x - a)^{2} + (y - b)^{2} + (z - c)^{2} = r^{2}$. Example: $x^{2} + y^{2} + z^{2} - 2 x + 4 y - 6 z = 11$ becomes $(x - 1)^{2} + (y + 2)^{2} + (z - 3)^{2} = 11 + 1 + 4 + 9 = 25$, so the centre is (1, −2, 3) and the radius is **5**.
-
-**In computer graphics:**
-- The **normal** to a triangle $(v_{1} ,\  v_{2} ,\  v_{3})$ is $(v_{2} - v_{1}) \times (v_{3} - v_{1})$; normalise it for lighting.
-- **Diffuse lighting:** brightness ∝ $\max ( 0$, n̂ · l̂), where l̂ is the unit vector towards the light (Lambert's law): a surface facing the light $(\theta = 0)$ gets full brightness, at $60 ^{\circ}$ it gets $\cos 60 ^{\circ} = 0.5$, at $90 ^{\circ}$ it gets 0.
-- **Back-face culling:** skip a triangle whose normal has a non-positive dot product with the view direction.
-- **Reflection:** $r = d - 2 ( d$ · n̂) n̂ for incoming direction *d* and unit normal n̂.
-- **Ray–plane intersection** (ray tracing): $t = \frac{D - n \cdot o}{n \cdot d}$.
-- **Physics:** work $W = F \cdot d$; torque $\tau = r \times F$; magnetic force $F = q v \times B$.
-
-## 5.5 A plane, its normal and the distance to a point
-
-A plane is fixed by one point $P_{0}$ and one **normal vector *n*** that is perpendicular to every direction inside the plane. A point X lies on the plane exactly when $(X - P_{0}) \cdot n = 0$, which expands to $a x$ + by + $c z = d$ with $n = (a ,\  b ,\  c)$. The same normal gives the distance from any point Q to the plane, *d* = |(Q − $P_{0}$) · n| ÷ $|n|$ (Figure 5.1). In graphics, the normal tells which way a surface faces and therefore how bright it looks under a lamp.
-
-```svgfig label="5.1" caption="A plane with normal *n* at the point P0. The foot F is the closest point of the plane to Q; the length of QF is the distance from Q to the plane, which equals the projection of (Q - P0) on the unit normal."
-f = Fig(580, 220)
-f.poly([(130, 180), (390, 180), (470, 130), (210, 130)], fill=BLUE, stroke=NAVY)
-f.text(150, 196, "plane  ax + by + cz = d", size=11, color=NAVY, bold=True, anchor="start")
-f.circle(300, 155, 4.5, fill=NAVY, stroke=NAVY)
-f.text(285, 172, "P0", size=11, color=NAVY, bold=True)
-f.arrow([(300, 155), (300, 55)], color=RED, sw=2.4)
-f.text(312, 70, "n (normal)", size=11, color=RED, bold=True, anchor="start")
-f.circle(390, 150, 4, fill=TEAL, stroke=TEAL)
-f.text(400, 160, "F", size=11, color=TEAL, bold=True, anchor="start")
-f.circle(390, 50, 4.5, fill=AMBER, stroke=AMBER)
-f.text(402, 48, "Q", size=11, color=AMBER, bold=True, anchor="start")
-f.line(390, 54, 390, 146, color=AMBER, sw=1.8, dash=True)
-f.text(480, 98, "d = |(Q - P0) . n| / |n|", size=11, color=NAVY, bold=True, anchor="middle")
-f.arrow([(300, 155), (386, 151)], color=SLATE, sw=1.4)
+```svgfig label="5.1" caption="A slope field for $\frac{d y}{d x} = x - y$. At each grid point a short segment shows the slope that the equation demands, so a solution is a curve that follows the segments. The general solution is $y = x - 1 + C e^{-x}$; the three curves drawn have $C = - 1$, 0 and 2. The IVP $y (0) = 1$ selects $C = 2$."
+f = Fig(740, 300)
+a = Axes(f, 30, 10, 280, 280, (-2, 4), (-2, 4)); a.grid(1, 1, size=8.5)
+for i in range(13):
+    for j in range(13):
+        x, y = -2 + i * 0.5, -2 + j * 0.5; s = x - y; n = math.hypot(1, s)
+        dx, dy = 8 / n, -8 * s / n; cx, cy = a.X(x), a.Y(y)
+        f.line(cx - dx, cy - dy, cx + dx, cy + dy, color="#94a3b8", sw=1.3)
+a.axes()
+for C, col in [(-1, TEAL), (0, AMBER), (2, RED)]: a.curve(lambda x, C=C: x - 1 + C * math.exp(-x), color=col, sw=2.4)
+a.pt(0, 1, "y(0) = 1", dx=8, dy=-10)
+rows = [("y = x − 1 + 2e⁻ˣ", "C = 2 (red): passes through (0, 1)", RED), ("y = x − 1", "C = 0 (amber): the straight-line solution", AMBER), ("y = x − 1 − e⁻ˣ", "C = −1 (teal)", TEAL)]
+f.text(350, 30, "Check the red curve against the equation", size=12, color=NAVY, bold=True, anchor="start")
+for i, (e, d, col) in enumerate(rows):
+    f.box(350, 44 + i * 56, 370, 46, "", fill=SOFT, stroke=col); f.text(362, 64 + i * 56, e, size=12, color=col, bold=True, anchor="start"); f.text(362, 82 + i * 56, d, size=10, color=SLATE, anchor="start")
+f.text(350, 232, "y′ = 1 − 2e⁻ˣ and x − y = 1 − 2e⁻ˣ  ✓", size=11.5, color=TEAL, bold=True, anchor="start")
+f.text(350, 252, "A DE has a family of solutions; initial conditions pick one.", size=10.5, color=SLATE, anchor="start")
 ```
 
-## 5.6 Eight uses of vectors in space
+```svgfig label="5.2" caption="Which method? A decision chain for first-order equations: test the equation against each form in turn. If none fits, $t r y$ an integrating factor or a substitution, or solve numerically."
+f = Fig(740, 270)
+qs = [("Can it be written dy/dx = f(x)·g(y)?", "Separable: dy/g(y) = f(x) dx, integrate both sides"), ("Is it dy/dx + P(x)y = Q(x)?", "Linear: multiply by μ = e^(∫P dx), then (μy)′ = μQ"), ("Is M dx + N dy = 0 with ∂M/∂y = ∂N/∂x?", "Exact: find F with F_x = M, F_y = N; F = C"), ("Is dy/dx = F(y/x) (all terms of same degree)?", "Homogeneous: put y = vx, then it becomes separable")]
+for i, (q, ans) in enumerate(qs):
+    y = 10 + i * 64
+    f.box(10, y, 330, 46, q, fill=BLUE, stroke=NAVY, size=11, bold=True)
+    f.arrow([(340, y + 23), (385, y + 23)], color=TEAL, sw=2, label="yes", lpos=(362, y + 14))
+    f.box(390, y, 340, 46, ans, fill=MINT, stroke=TEAL, size=10.5)
+    if i < 3: f.arrow([(175, y + 46), (175, y + 64)], color=RED, sw=1.8, label="no", lpos=(190, y + 58))
+```
 
-1. **3D graphics and games.** Every object is a mesh of triangles with normal vectors. The dot product of the normal with the light direction gives the brightness of each triangle. A phone game does millions of these products per second.
-2. **GPS and surveying.** A position in space is a vector, and distances between points are vector lengths. Survey teams on mountain routes compute heights and slopes with vector methods. Everest height measurements combine many such vectors.
-3. **Physics and work.** Work done by a force is the dot product $F \cdot d$; torque is the cross product $r \times F$. Engineers use them to size motors and cranes. A tractor pulling at an angle does less useful work, as the cosine shows.
-4. **Aviation and navigation.** Velocity of an aircraft is the sum of its air velocity and the wind vector. Pilots compute heading and ground speed by vector addition. Flights to Lukla depend on exactly this calculation.
-5. **Robotics and CNC machines.** A tool path is a series of lines in space given by a point and a direction. The machine follows the parametric equation of each line. 3D printers work the same way layer by layer.
-6. **Collision detection.** To know whether a ball hits a wall, the program finds where a line meets a plane or computes the distance to it. A game engine does this for every object at every frame.
-7. **Architecture and structures.** Forces in a truss are vectors that must sum to zero at each joint. Planes describe roofs, walls and slopes. Earthquake-resistant design checks these vector balances.
-8. **Computer vision and AR.** An augmented-reality $a p p$ finds a flat surface in the camera image (a plane) and places a virtual object on it using the normal. The camera's position and direction are vectors in space.
+## 5.2 Separable equations
 
-```photogrid label="5.1" cols="2" ratio="1.2" caption="A landing is a line meeting a plane. (a) A Buddha Air ATR 42 landing at Pokhara. (b) Treat the runway as the plane $z = 0$ and the aeroplane as the point ($- 5000 ,\  300 ,\  300 ) m ( x$ along the runway, *y* sideways, *z* height) moving with velocity $\frac{(50 ,\  - 3 ,\  - 2.6) m}{s}$. Its path is $r (t) = (- 5000 + 50 t ,\  300 - 3 t ,\  300 - 2.6 t)$. The path meets the plane when $300 - 2.6 t = 0$, that is $t = 115.4 s$, at the point (769, -46, 0): 769 *m* beyond the origin mark and 46 *m* to one side. The speed is $|v| = \mathrm{sqrt} (50^{2} + 3^{2} + 2.6^{2}) = \frac{50.2 m}{s}$ (180.6 km/h) and the descent angle is arctan(2.6 / $50.09 ) = 2.97$ degrees, close to the 3 degree glide slope pilots follow. The numbers are illustrative, not from a flight record."
-@ photo id="bcamath/atr42" cap="ATR 42 landing at Pokhara"
+If $\frac{d y}{d x} = f (x) g (y)$, separate: $\frac{d y}{g (y)} = f (x) d x$ and integrate both sides.
+
+::: example Worked example
+**$\frac{d y}{d x} = x y$.** $\frac{d y}{y} = x d x$ ⇒ ln|y| = $\frac{x^{2}}{2} + c$ ⇒ **$y = C e^{\frac{x^{2}}{2}}$**.
+
+**$\frac{d y}{d x} = \frac{(1 + y^{2})}{(1 + x^{2})} ,\  y (0) = 1$.** $\tan^{-1} y = \tan^{-1} x + c ;\  y (0) = 1$ gives $c = \frac{\pi}{4}$, so $y = \tan \left( \tan^{-1} x + \frac{\pi}{4} \right) = \frac{x + 1}{1 - x}$.
+
+**$(1 + x^{2}) d y = (1 + y) x d x$.** Separate: $\frac{d y}{1 + y} = \frac{x d x}{(1 + x^{2})}$ ⇒ ln|1 + y| = $\frac{1}{2} \ln (1 + x^{2}) + c \Rightarrow 1 + y = C \sqrt{1 + x^{2}}$.
+:::
+
+## 5.3 Homogeneous equations
+
+$\frac{d y}{d x} = F \left( \frac{y}{x} \right)$, or more generally M and N homogeneous of the same degree. Substitute **$y = v x$**, $\frac{d y}{d x} = v + \frac{x d v}{d x}$; it becomes separable in *v* and *x*.
+
+::: example Worked example
+**$\frac{d y}{d x} = \frac{x + y}{x}$.** With $y = v x$: $v + x v' = 1 + v \Rightarrow x v' = 1 \Rightarrow v$ = ln|x| + C. So **$y = x (\ln |x| + C)$**.
+
+**$\frac{d y}{d x} = \frac{(x^{2} + y^{2})}{2 x y}$.** $v + x v' = \frac{(1 + v^{2})}{2 v} \Rightarrow x v' = \frac{(1 - v^{2})}{2 v}$ ⇒ 2v $\frac{d v}{(1 - v^{2})} = \frac{d x}{x}$ ⇒ −ln|1 − $v^{2} \mid$ = ln|x| + $c \Rightarrow x (1 - v^{2}) = C$ ⇒ **$x^{2} - y^{2}$ = Cx**.
+:::
+
+## 5.4 Linear first-order equations
+
+Standard form **$\frac{d y}{d x} + P (x) y = Q (x)$**. Multiply by the **integrating factor** $\mu = e^{\int P \,d x}$; the left side becomes $(\mu y)'$, so **$\mu y = \int \mu Q \,d x + C$**.
+
+::: example Worked example
+**$\frac{d y}{d x} + 2 y = e^{- x}$.** $\mu = e^{2 x}$. $(y e^{2 x})' = e^{x} \Rightarrow y e^{2 x} = e^{x} + C$ ⇒ **$y = e^{- x} + C e^{- 2 x}$**. Check: $y' + 2 y = - e^{- x} - 2 C e^{- 2 x} + 2 e^{- x} + 2 C e^{- 2 x} = e^{- x}$ ✓.
+
+**$\frac{x d y}{d x} + y = x^{2}$.** Divide by *x*: $y' + \frac{y}{x} = x ,\  \mu = e^{\ln x} = x ,\  (x y)' = x^{2} \Rightarrow x y = \frac{x^{3}}{3} + C$ ⇒ **$y = \frac{x^{2}}{3} + \frac{C}{x}$**.
+
+**$\frac{d y}{d x} - y \tan x = \sec x$.** $\mu = e^{- \int \tan x \,d x} = \cos x ;\  (y \cos x)' = 1 \Rightarrow y \cos x = x + C \Rightarrow y = (x + C) \sec x$.
+:::
+
+## 5.5 Exact equations
+
+$M (x ,\  y) d x + N (x ,\  y) d y = 0$ is **exact** if $\frac{\partial M}{\partial y} = \frac{\partial N}{\partial x}$. Then there is F with $F_{x} = M ,\  F_{y} = N$ and the solution is $F (x ,\  y) = C$. Find F by integrating M with respect to *x* (treating *y* as constant), adding a function $g (y)$, and matching $F_{y} = N$.
+
+::: example Worked example
+$(2 x y + 3) d x + (x^{2} + 4 y) d y = 0$. $M_{y} = 2 x = N_{x}$ ✓ exact. $F = \int (2 x y + 3) \,d x = x^{2} y + 3 x + g (y) ;\  F_{y} = x^{2} + g' (y) = x^{2} + 4 y \Rightarrow g = 2 y^{2}$. Solution: **$x^{2} y + 3 x + 2 y^{2} = C$**.
+:::
+
+## 5.6 Second-order linear equations with constant coefficients
+
+**a $y'' + b y' + c y = 0$.** Try $y = e^{m x}$: it gives the **auxiliary (characteristic) equation** a $m^{2} + b m + c = 0$. The roots decide the solution:
+
+| Roots | General solution |
+|---|---|
+| Real, distinct $m_{1} \neq m_{2}$ | $y = C_{1} e^{m_{1} x} + C_{2} e^{m_{2} x}$ |
+| Real, repeated *m* | $y = (C_{1} + C_{2} x) e^{m x}$ |
+| Complex $\alpha \pm i \beta$ | $y = e^{\alpha x} (C_{1} \cos \beta x + C_{2} \sin \beta x)$ |
+
+::: example Worked example
+**$y'' - 5 y' + 6 y = 0$.** $m^{2}$ − 5m + $6 = 0 \Rightarrow m = 2$, 3 ⇒ **$y = C_{1} e^{2 x} + C_{2} e^{3 x}$**.
+
+**$y'' - 4 y' + 4 y = 0$.** $(m - 2)^{2} = 0$ ⇒ **$y = (C_{1} + C_{2} x) e^{2 x}$**.
+
+**$y'' + 4 y = 0$.** $m = \pm 2 i$ ⇒ **$y = C_{1} \cos 2 x + C_{2} \sin 2 x$** (simple harmonic motion).
+
+**$y'' + 2 y' + 5 y = 0$.** $m = - 1$ ± 2i ⇒ $y = e^{- x} (C_{1} \cos 2 x + C_{2} \sin 2 x)$, a decaying oscillation.
+
+**IVP: $y'' - 3 y' + 2 y = 0 ,\  y (0) = 1 ,\  y' (0) = 0$.** $m = 1 ,\  2$: $y = C_{1} e^{x} + C_{2} e^{2 x}$. $y (0)$: $C_{1} + C_{2} = 1 ;\  y' (0)$: $C_{1} + 2 C_{2} = 0 \Rightarrow C_{2} = - 1 ,\  C_{1} = 2$. So **$y = 2 e^{x} - e^{2 x}$**.
+:::
+
+**Non-homogeneous equation** a $y'' + b y' + c y = f (x)$: the general solution is $y = y_{c} + y_{p}$, where $y_{c}$ is the solution of the homogeneous equation and $y_{p}$ is any particular solution (found by trial form). For $y'' - 3 y' + 2 y = 4$: $t r y y_{p} = k$, so $2 k = 4 ,\  k = 2$ and $y = C_{1} e^{x} + C_{2} e^{2 x} + 2$.
+
+```svgfig label="5.3" caption="The three cases of $y'' + b y' + c y = 0$ with $y (0) = 1 ,\  y' (0) = 0$, as the motion of a mass on a spring with a shock absorber. Complex roots give a decaying wave (under-damped), a repeated root gives the fastest return without overshoot (critically damped), and two distinct real roots give a slow creep back (over-damped)."
+f = Fig(780, 280)
+a = Axes(f, 44, 14, 400, 235, (0, 6), (-0.4, 1.15)); a.grid(1, 0.2, size=8.5).axes("t", "y")
+a.curve(lambda t: math.exp(-t) * (math.cos(2 * t) + 0.5 * math.sin(2 * t)), color=NAVY, sw=2.6)
+a.curve(lambda t: (1 + t) * math.exp(-t), color=TEAL, sw=2.6); a.curve(lambda t: 2 * math.exp(-t) - math.exp(-2 * t), color=RED, sw=2.6)
+rows = [("Under-damped", "y″ + 2y′ + 5y = 0", "m = −1 ± 2i", "y = e⁻ᵗ(cos 2t + ½ sin 2t)", NAVY), ("Critically damped", "y″ + 2y′ + y = 0", "m = −1 (repeated)", "y = (1 + t)e⁻ᵗ", TEAL), ("Over-damped", "y″ + 3y′ + 2y = 0", "m = −1, −2", "y = 2e⁻ᵗ − e⁻²ᵗ", RED)]
+for i, (n, eq, r, sol, c) in enumerate(rows):
+    y = 14 + i * 84
+    f.box(470, y, 300, 76, "", fill=SOFT, stroke=c); f.text(482, y + 18, n, size=12, color=c, bold=True, anchor="start"); f.text(482, y + 36, eq + "   " + r, size=10, color=SLATE, anchor="start"); f.text(482, y + 60, sol, size=11.5, color=c, bold=True, anchor="start")
+```
+
+```svgfig label="5.4" caption="Two models from the chapter. (a) Newton's law of cooling, dT/dt = $- k (T - 25)$: a cup of tea at 80 $^{\circ} C$ in a 25 $^{\circ} C$ room follows $T = 25 + 55 e^{-kt}$ with $k = 0.0452$ per minute (60 $^{\circ} C$ after 10 min). (b) Logistic growth, dP/dt = $0.5 P \left( 1 - \frac{P}{1000} \right)$: a colony starting at 100 levels off at the carrying capacity 1000."
+f = Fig(780, 270)
+f.box(8, 4, 380, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(198, 22, "(a) cooling of tea", size=11.5, color=NAVY, bold=True)
+k = math.log(55 / 35) / 10
+a = Axes(f, 50, 34, 316, 190, (0, 60), (0, 90)); a.grid(10, 20, size=8.5).axes("t (min)", "T (°C)")
+a.curve(lambda t: 25 + 55 * math.exp(-k * t), color=NAVY, sw=2.6); a.hline(25, color=AMBER)
+a.pt(0, 80, "80 °C", dx=8, dy=-6); a.pt(10, 60, "60 °C at 10 min", color=TEAL, dx=10, dy=-8); a.pt(28.7, 40, "40 °C at 28.7 min", color=RED, dx=10, dy=-10)
+f.text(a.X(42), a.Y(25) + 14, "room 25 °C", size=10, color=AMBER, bold=True, anchor="start"); f.text(198, 254, "T = 25 + 55e^(−0.0452t)", size=11, color=TEAL, bold=True)
+f.box(396, 4, 376, 262, "", fill=SOFT, stroke="#cbd5e1"); f.text(584, 22, "(b) logistic growth", size=11.5, color=NAVY, bold=True)
+b = Axes(f, 436, 34, 316, 190, (0, 20), (0, 1100)); b.grid(5, 250, size=8.5).axes("t", "P")
+b.curve(lambda t: 1000 / (1 + 9 * math.exp(-0.5 * t)), color=NAVY, sw=2.6); b.hline(1000, color=AMBER)
+b.pt(0, 100, "P₀ = 100", dx=8, dy=-8); b.pt(math.log(9) / 0.5, 500, "fastest growth at P = 500", color=RED, dx=10, dy=18)
+f.text(b.X(11), b.Y(1000) - 6, "carrying capacity K = 1000", size=10, color=AMBER, bold=True, anchor="start"); f.text(584, 254, "P = 1000 / (1 + 9e^(−0.5t))", size=11, color=TEAL, bold=True)
+```
+
+```photogrid label="5.1" cols="3" ratio="1.2" caption="Differential equations in the real world. (a) A hot cup cools at a rate proportional to the temperature difference with the room, dT/dt = $- k (T - T_{s})$. (b) Bacterial colonies on an agar plate grow almost exponentially at first and then slow down as food runs out (logistic). (c) A coil spring obeys Hooke's law, so a mass on it satisfies $m y'' + k y = 0$, simple harmonic motion."
+@ photo id="bca104/coffee" cap="Hot drink: Newton's cooling law"
 fit 1.2
-focus 0.5 0.55
-@ svg cap="Line r(t) meets the runway plane z = 0"
-import math
-x0, y0, z0 = -5000.0, 300.0, 300.0; vx, vy, vz = 50.0, -3.0, -2.6
-t = -z0 / vz; X = x0 + vx * t; Y = y0 + vy * t
-assert round(t, 1) == 115.4 and round(X) == 769 and round(Y) == -46
-sp = math.sqrt(vx ** 2 + vy ** 2 + vz ** 2); ang = math.degrees(math.atan2(-vz, math.hypot(vx, vy)))
-assert round(sp, 1) == 50.2 and round(sp * 3.6, 1) == 180.6 and round(ang, 2) == 2.97
-f = Fig(300, 240)
-sx = 250 / 6000.0; zx = 0.28; gx = 20; gy = 150
-px = lambda x: gx + (x + 5000) * sx
-f.line(gx, gy, 280, gy, color=SLATE, sw=2.4)
-f.box(px(0) - 1, gy - 1, 2, 12, "", fill=AMBER, stroke=AMBER, r=0)
-f.arrow([(px(x0), gy - z0 * zx), (px(X), gy)], color=TEAL, sw=2.2)
-f.circle(px(x0), gy - z0 * zx, 5, fill=NAVY, stroke=NAVY)
-f.circle(px(X), gy, 5, fill=RED, stroke=RED)
-f.text(px(x0) + 6, gy - z0 * zx - 10, "start (-5000, 300, 300)", size=10.5, color=NAVY, bold=True, anchor="start")
-f.text(px(0), gy + 26, "mark x = 0", size=10.5, color=AMBER, bold=True)
-f.text(px(X) + 4, gy - 12, "touchdown", size=10.5, color=RED, bold=True)
-f.text(150, 192, "side view (height drawn 4x larger than length)", size=10.5, color=SLATE)
-f.text(150, 210, "t = 115.4 s, point (769, -46, 0) m", size=10.5, color=TEAL, bold=True)
-f.text(150, 228, "speed 50.2 m/s, descent angle 2.97 degrees", size=10.5, color=NAVY, bold=True)
+call 0.5 0.93 0.5 0.6 "dT/dt = −k(T − 25)"
+@ photo id="bca104/ecoli" cap="E. coli colonies on agar: growth"
+fit 1.2
+call 0.5 0.93 0.5 0.6 "dP/dt = rP(1 − P/K)"
+@ photo id="bca104/spring" cap="Coil spring: oscillation"
+fit 1.2
+call 0.5 0.93 0.5 0.62 "m y″ + k y = 0"
 ```
 
-```photogrid label="5.2" cols="2" ratio="1.2" caption="Planes, normals and areas on a pyramid. (a) The Great Pyramid of Giza. (b) Take the original base 230.3 *m* by 230.3 *m* and height 146.6 *m*, with the base centred at the origin. A face passes through $A = (115.15 ,\  - 115.15 ,\  0) ,\  B = ( 115.15 ,\  115.15$, 0) and the apex $C = (0 ,\  0 ,\  146.6)$. The normal is $n = A B x$ AC = (33,762, 0, 26,519), whose length is 42,931.7. The face leans at $\arccos \left( \frac{n_{z}}{|n|} \right) = 51.85$ degrees to the ground, the same as arctan(146.6 / 115.15). Half the length of the cross product is the face area, 21,466 square metres; four faces cover 85,863 square metres. The volume $\left( \frac{1}{3} \right) x$ base area *x* height is 2,591,795 cubic metres, and the centre of the base is 90.6 *m* from each face plane."
-@ photo id="bcamath/pyramid" cap="The Great Pyramid of Giza"
-fit 1.2
-focus 0.5 0.5
-@ svg cap="Face normal, slope and area of the pyramid"
-import numpy as np, math
-b = 230.3; h = 146.6
-A = np.array([b / 2, -b / 2, 0]); B = np.array([b / 2, b / 2, 0]); C = np.array([0, 0, h])
-n = np.cross(B - A, C - A); L = np.linalg.norm(n)
-phi = math.degrees(math.acos(n[2] / L))
-assert np.allclose(n, [33761.98, 0, 26519.045], atol=0.01) and round(L, 1) == 42931.7
-assert round(phi, 2) == 51.85 == round(math.degrees(math.atan(h / (b / 2))), 2)
-assert round(L / 2) == 21466 and round(2 * L) == 85863 and round(b * b * h / 3) == 2591795
-assert round(abs(n @ (-A)) / L, 1) == 90.6
-f = Fig(300, 240)
-x0, x1, ax = 30, 250, 140; yb = 150; yt = 150 - 146.6 / 115.15 * 110
-f.poly([(x0, yb), (x1, yb), (ax, yt)], fill=SAND, stroke=AMBER, sw=2)
-mx, my = (x1 + ax) / 2, (yb + yt) / 2
-nx, ny = n[0] / L, n[2] / L
-f.arrow([(mx, my), (mx + nx * 46, my - ny * 46)], color=RED, sw=2.4)
-f.text(mx + nx * 46 + 4, my - ny * 46 - 6, "n", size=12, color=RED, bold=True, anchor="start")
-f.text(x1 - 34, yb - 8, "51.85 deg", size=10.5, color=NAVY, bold=True)
-f.text(ax - 12, yt + 14, "C", size=11, color=AMBER, bold=True)
-f.line(ax, yb, ax, yt, color=SLATE, sw=1, dash=True)
-f.text(ax - 28, (yb + yt) / 2, "146.6 m", size=10.5, color=SLATE, bold=True)
-f.text(ax, yb + 16, "230.3 m", size=10.5, color=SLATE, bold=True)
-f.text(150, 192, "n = AB x AC = (33,762, 0, 26,519), |n| = 42,931.7", size=10.5, color=RED, bold=True)
-f.text(150, 210, "face 21,466 m2; four faces 85,863 m2", size=10.5, color=NAVY, bold=True)
-f.text(150, 228, "volume 2,591,795 m3; centre to face 90.6 m", size=10.5, color=SLATE)
-```
+## 5.7 Modelling with differential equations
+
+**Growth and decay**: $\dfrac{dN}{dt} = kN \Rightarrow N = N_{0} e^{kt}$. ($k > 0$ growth, $k < 0$ decay.)
+
+**Newton's law of cooling**: dT/dt = $- k (T - T_{s}) \Rightarrow T (t) = T_{s} + (T_{0} - T_{s}) e^{- k t}$.
+
+::: example Worked example: radioactive decay
+A sample of 80 *g* has half-life 5 years. $N = 80 e^{- k t}$, and $N (5) = 40 \Rightarrow e^{- 5 k} = \frac{1}{2}$. After 15 years: $N = 80 \left( \frac{1}{2} \right)^{3}$ = **10 *g***.
+:::
+
+::: example Worked example: population
+A population doubles in 10 years. $N = N_{0} e^{k t} ,\  e^{10 k} = 2 ,\  k = \frac{\ln 2}{10}$. Tripling: $e^{k t} = 3 \Rightarrow t = \frac{\ln 3}{k} = \frac{10 \ln 3}{\ln}$ 2 ≈ **15.85 years**.
+:::
+
+::: example Worked example: cooling coffee
+Coffee at 90 $^{\circ} C$ in a 30 $^{\circ} C$ room cools to 70 $^{\circ} C$ in 5 minutes. $T = 30 + 60 e^{- k t} ;\  70 = 30 + 60 e^{- 5 k} \Rightarrow e^{- 5 k} = \frac{2}{3}$. At 10 min: $T = 30 + 60 \left( \frac{2}{3} \right)^{2} = 30 + 26.67$ = **56.7 $^{\circ} C$**.
+:::
+
+**Algorithms and recurrence.** The divide-and-conquer recurrence $T (n) = 2 T \left( \frac{n}{2} \right) + n$ has the continuous analogue whose solution is $T (n) = n \log_{2} n$; the same exponential patterns $(e^{k t})$ appear in compound interest, cache decay and network traffic models.
+
+## 5.8 Eight uses of differential equations
+
+1. **Cooling and heating.** Newton's law dT/dt = $- k (T - T_{s})$ tells how fast tea, a motor or a server cools (Figure 5.4a). A hostel kitchen can use it to know when soup is safe to serve. Forensic doctors use the same law to estimate the time of death.
+2. **Population and bacteria growth.** Simple growth dP/dt = kP gives exponential growth, and the logistic equation adds a limit (Figure 5.4b). Health workers use these models to predict how fast an infection spreads in a ward. City planners use them for the population of Kathmandu Valley.
+3. **Money and finance.** Interest compounded continuously satisfies $\dfrac{dA}{dt} = rA$, so $A = A_{0} e^{rt}$. A bank in Nepal can compare a deposit that earns 8% yearly with one that compounds daily. Loan repayments with continuous payments are also modelled by a linear first-order equation.
+4. **Spring and vibration systems.** A mass on a spring obeys $m y'' + c y' + k y = 0$, and the roots of its characteristic equation decide the motion (Figure 5.3). Vehicle shock absorbers on rough Nepali roads are designed as critically damped systems. Earthquake engineers study the same equation for buildings.
+5. **Electric circuits.** An RC circuit obeys $\frac{R d q}{d t} + \frac{q}{C} = V$ and an RLC circuit is a second-order equation like the spring. The charging curve of a capacitor in a phone charger has the same shape as a cooling curve. Circuit designers use these to select resistor and capacitor values.
+6. **Mixing and pollution problems.** If polluted water flows into a lake and clean water flows out, the amount of pollutant satisfies a linear first-order equation. Environmental officers estimate how long the Phewa lake takes to recover. A tank of salt solution in the laboratory is the classic exercise.
+7. **Motion with resistance.** A parachutist or a vehicle with air drag obeys $\frac{m d v}{d t}$ = mg − $k v$, which is separable. The speed rises towards a terminal value mg/k. This is why a hanging-glider pilot reaches a steady speed.
+8. **Computer simulation and games.** Weather forecasts, flight simulators and physics engines in games solve differential equations step by step on a computer (Euler's and Runge-Kutta methods). Each step uses the slope field idea of Figure 5.1. The results are the animations we see on a weather map.
 
 ## Formula and fact sheet
 
-- $a \cdot b = \sum a_{i} b_{i}$ = |a||b|cos $\theta ;\  a \times b$ has length $|a| |b| \sin \theta$, direction perpendicular.
-- Triangle area = $\frac{1}{2} \mid a$ × b|; parallelepiped volume = |a · (*b* × c)|; coplanar iff the triple product is 0.
-- Line: $r = r_{0} + t d$. Distance point–line = |AP × $d |/| d \mid$.
-- Plane: $n \cdot r = D$. Distance point–plane = |n · $P - D |/| n \mid$. Planes meet along direction $n_{1} \times n_{2}$.
-- Sphere: $(x - a)^{2} + (y - b)^{2} + (z - c)^{2} = r^{2}$.
-- Reflection $r = d - 2 ( d$ · n̂)n̂.
+- Separable: $\frac{\int d y}{g} = \int f \,d x$. Homogeneous: $y = v x$.
+- Linear: $\mu = e^{\int P} ;\  \mu y = \int \mu Q + C$.
+- Exact: $M_{y} = N_{x} ;\  F = C$.
+- a $m^{2} + b m + c = 0$: distinct → $e^{m1x} ,\  e^{m2x}$; repeated → $(C_{1} + C_{2} x) e^{mx}$; complex → eᵅˣ(cos, sin).
+- Growth: $N = N_{0} e^{k t}$. Half-life $t \frac{1}{2} = \frac{\ln 2}{k}$. Cooling: $T = T_{s} + (T_{0} - T_{s}) e^{- k t}$.
 
 ## Chapter summary
 
-- The dot product measures alignment and angles; the cross product measures area and gives normals.
-- The triple product measures volume and tests coplanarity.
-- Lines and planes have vector, parametric and Cartesian forms, with simple distance and angle formulas.
-- The same operations drive lighting, culling and reflection in graphics, and torque and work in physics.
+- The order sets the number of constants; initial conditions pick a particular solution.
+- Separable, homogeneous, linear and exact first-order equations each have a systematic method.
+- Constant-coefficient second-order equations reduce to an auxiliary quadratic whose roots give exponentials, polynomial-times-exponential, or oscillations.
+- Growth, decay and cooling are first-order linear models with exponential solutions.
 
 ## Practice
 
-1. For $a = (2 ,\  - 1 ,\  3) ,\  b = (1 ,\  4 ,\  - 2)$ find $a \cdot b ,\  a \times b$, the angle between them and the area of the parallelogram.
-2. Find the volume of the parallelepiped with edges (1, 2, 3), (0, 1, 4), (5, 6, 0).
-3. Are the vectors (1, 2, 3), (2, 4, 6) and (1, 0, 1) coplanar? Is (1, 0, 0), (0, 1, 0), (0, 0, 1) coplanar?
-4. Write the equation of the line through $A ( 1 ,\  2$, 3) and $B ( 3 ,\  2$, 1) and find where it meets the plane $x + y + z = 10$.
-5. Find the plane through (1, 1, 1), (2, 0, 1) and (0, 1, 3).
-6. Find the distance from (2, 3, 4) to the plane $x + 2 y + 2 z = 3$.
-7. Find the angle between the planes $x + y + z = 1$ and $x - y + 2 z = 3$.
-8. Find the centre and radius of $x^{2} + y^{2} + z^{2} - 4 x + 6 y - 2 z - 2 = 0$.
-9. A light shines along direction l̂ = (0, 0, 1) at a surface with unit normal (0.6, 0, 0.8). Find the diffuse brightness factor.
-10. Find the reflection of $d = ( 1 ,\  - 1$, 0) off a surface with unit normal (0, 1, 0).
+1. Solve $\frac{d y}{d x} = \frac{y}{x} ,\  y (1) = 3$.
+2. Solve $\frac{d y}{d x} = (1 + y^{2}) x$.
+3. Solve the homogeneous equation $\frac{d y}{d x} = \frac{(x^{2} + y^{2})}{x y}$.
+4. Solve $\frac{d y}{d x} + \frac{y}{x} = x^{3}$ and find the solution with $y (1) = 1$.
+5. Check exactness and solve $(3 x^{2} y + 2) d x + (x^{3} + 4 y) d y = 0$.
+6. Solve $y'' + y' - 6 y = 0 ,\  y'' - 6 y' + 9 y = 0$ and $y'' + 9 y = 0$.
+7. Solve $y'' - 4 y = 0 ,\  y (0) = 2 ,\  y' (0) = 0$.
+8. A culture of 1000 bacteria grows to 3000 in 4 hours. How many after 10 hours?
+9. A body at 100 $^{\circ} C$ is placed in 20 $^{\circ} C$ surroundings and cools to 60 $^{\circ} C$ in 10 minutes. When does it reach 30 $^{\circ} C$?
+10. Form the differential equation of the family $y = A \cos x + B \sin x$.
 
 ::: note Answers and worked solutions
-**1.** $a \cdot b = 2 - 4 - 6$ = **−8**. $a \times b = ( (- 1) (- 2)$ − 3·4, 3·1 − 2·(−2), 2·4 − (−1)·1) = $(2 - 12 ,\  3 + 4 ,\  8 + 1)$ = **(−10, 7, 9)**. $|a| = \sqrt{14} ,\  |b| = \sqrt{21} ;\  \cos \theta = - \frac{8}{\sqrt{294}} = - 0.4666$ ⇒ **$\theta \approx 117.8 ^{\circ}$**. Area = |a × b| = $\sqrt{100 + 49 + 81}$ = **$\sqrt{230} \approx 15.17$**.
+**1.** $\frac{d y}{y} = \frac{d x}{x} \Rightarrow y$ = Cx; $y (1) = 3$ ⇒ **$y = 3 x$**.
 
-**2.** $\det \begin{bmatrix} 1 & 2 & 3 \\ 0 & 1 & 4 \\ 5 & 6 & 0 \end{bmatrix} = 1$ (this matrix has $\det 1$, Unit 1): volume **1**.
+**2.** $\frac{d y}{(1 + y^{2})} = x d x \Rightarrow \tan^{-1} y = \frac{x^{2}}{2} + c$ ⇒ **$y = \tan \left( \frac{x^{2}}{2} + c \right)$**.
 
-**3.** First set: the triple product is 0 because the second vector is twice the first, so **coplanar**. Second set: $\det = 1 \neq 0$, so **not** coplanar.
+**3.** Put $y = v x$: $v + x v' = \frac{(1 + v^{2})}{v} \Rightarrow x v' = \frac{1}{v} \Rightarrow v d v = \frac{d x}{x} \Rightarrow \frac{v^{2}}{2}$ = ln|x| + *c* ⇒ **$y^{2} = 2 x^{2} (\ln |x| + C)$**. Check by differentiating: $2 y y' = 4 x$ ln|x| + $2 x$ + 2Cx, which equals $2 y \cdot \frac{(x^{2} + y^{2})}{x y} = \frac{2 (x^{2} + y^{2})}{x}$ once $y^{2}$ is substituted ✓.
 
-**4.** $d = B - A = (2 ,\  0 ,\  - 2)$. Line: $(1 + 2 t ,\  2 ,\  3 - 2 t)$. Substituting: $(1 + 2 t) + 2 + (3 - 2 t) = 6$, which is never 10, so the line is **parallel** to the plane and never meets it.
+**4.** $\mu = x ;\  (x y)' = x^{4} \Rightarrow x y = \frac{x^{5}}{5} + C \Rightarrow y = \frac{x^{4}}{5} + \frac{C}{x}$. $y (1) = 1$: $\frac{1}{5} + C = 1 \Rightarrow C = \frac{4}{5}$: **$y = \frac{x^{4}}{5} + \frac{4}{5 x}$**.
 
-**5.** $u = (1 ,\  - 1 ,\  0) ,\  v = (- 1 ,\  0 ,\  2) ;\  n = u \times v = ( (- 1) (2)$ − 0·0, 0·(−1) − 1·2, 1·0 − $(- 1) (- 1) ) = ( - 2 ,\  - 2 ,\  - 1$) ⇒ use (2, 2, 1). Plane: $2 x + 2 y + z = 5$ (check (1,1,1): 5 ✓; (2,0,1): 5 ✓; (0,1,3): 5 ✓).
+**5.** $M_{y} = 3 x^{2} = N_{x}$ ✓. $F = x^{3} y + 2 x + g (y) ;\  F_{y} = x^{3} + g' = x^{3} + 4 y \Rightarrow g = 2 y^{2}$. **$x^{3} y + 2 x + 2 y^{2} = C$**.
 
-**6.** |2 + $6 + 8 - 3 \mid / \sqrt{1 + 4 + 4} = \frac{13}{3}$ ≈ **4.33**.
+**6.** $m^{2} + m - 6 = (m + 3) (m - 2)$: **$y = C_{1} e^{- 3 x} + C_{2} e^{2 x}$**. $(m - 3)^{2} = 0$: **$y = (C_{1} + C_{2} x) e^{3 x}$**. $m = \pm 3 i$: **$y = C_{1} \cos 3 x + C_{2} \sin 3 x$**.
 
-**7.** $n_{1} = (1 ,\  1 ,\  1) ,\  n_{2} = (1 ,\  - 1 ,\  2)$: $n_{1} \cdot n_{2} = 2 ;\  |n_{1}| = \sqrt{3} ,\  |n_{2}| = \sqrt{6} ;\  \cos \theta = \frac{2}{\sqrt{18}} = 0.4714$ ⇒ **$\theta \approx 61.9 ^{\circ}$**.
+**7.** $m = \pm 2$: $y = C_{1} e^{2 x} + C_{2} e^{- 2 x} ;\  C_{1} + C_{2} = 2 ,\  2 C_{1} - 2 C_{2} = 0 \Rightarrow C_{1} = C_{2} = 1$: **$y = 2 \cosh 2 x = e^{2 x} + e^{- 2 x}$**.
 
-**8.** $(x - 2)^{2} + (y + 3)^{2} + (z - 1)^{2} = 2 + 4 + 9 + 1 = 16$: centre **(2, −3, 1)**, radius **4**.
+**8.** $N = 1000 e^{k t} ,\  e^{4 k} = 3 ,\  k = \frac{\ln 3}{4}$. $N (10) = 1000 \cdot 3^{2.5} = 1000 \times 15.59$ ≈ **15,588**.
 
-**9.** n̂ · l̂ = 0.8, so brightness factor **0.8** (surface faces the light at about $36.9 ^{\circ}$).
+**9.** $T = 20 + 80 e^{- k t} ;\  60 = 20 + 80 e^{- 10 k} \Rightarrow e^{- 10 k} = \frac{1}{2} ,\  k = \frac{\ln 2}{10}$. $T = 30$: 80 $e^{- k t} = 10 \Rightarrow e^{- k t} = \frac{1}{8} \Rightarrow t = 3 \times 10$ = **30 minutes**.
 
-**10.** *d* · n̂ = −1; r = d − 2(−1)n̂ = (1, −1, 0) + 2(0, 1, 0) = **(1, 1, 0)** (the vertical component flips, as a ball bouncing off a floor).
+**10.** $y'' = - A \cos x - B \sin x = - y$, so **$y'' + y = 0$**.
 :::
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Find the equation of the line through $A ( 1 ,\  2$, 3) and $B ( 4 ,\  6$, 8) in vector, parametric and symmetric form, and find where it meets the plane $z = 0$.**
+**Q (5 marks). Solve the linear equation $\frac{d y}{d x} + 2 y = x$ by the integrating-factor method.**
 
-*Introduction.* A line in space is fixed by a point and a direction vector.
+A **first-order linear** equation has the form $\frac{d y}{d x} + P (x) y = Q (x)$. Multiplying by a suitable factor $\mu (x)$ turns the left side into the derivative of a product, which can then be integrated.
 
-*Direction.* $A B = B - A = (3 ,\  4 ,\  5)$.
+1. Here $P = 2$ and $Q = x$. The **integrating factor** is $\mu = e^{\int P \,d x} = e^{2 x}$.
+2. Multiply the equation by $e^{2 x}$: $e^{2 x} y' + 2 e^{2 x} y = x e^{2 x}$, and the left side is exactly $\frac{d}{d x} (e^{2 x} y)$.
+3. Integrate both sides: $e^{2 x} y = \int x e^{2 x} \,d x$.
+4. By parts $(u = x ,\  d v = e^{2 x} d x)$ this is $\frac{x e^{2 x}}{2} - \frac{e^{2 x}}{4} + C$.
+5. Divide by $e^{2 x}$: **$y = \frac{x}{2} - \frac{1}{4} + C e^{- 2 x}$**.
 
-*Forms.* Vector form: $r = (1 ,\  2 ,\  3) + t (3 ,\  4 ,\  5)$. Parametric: $x = 1 + 3 t ,\  y = 2 + 4 t ,\  z = 3 + 5 t$. Symmetric: $(x - 1) \div 3 = (y - 2) \div 4 = (z - 3) \div 5$.
+*Check:* $y' = \frac{1}{2} - 2 C e^{- 2 x}$, so $y' + 2 y = \frac{1}{2} - 2 C e^{- 2 x} + x - \frac{1}{2} + 2 C e^{- 2 x} = x$ ✓. The term $C e^{- 2 x}$ dies away, so every solution approaches the line $y = \frac{x}{2} - \frac{1}{4}$ for large *x*.
 
-*Intersection with $z = 0 . \ast 3 + 5 t = 0$ gives $t = - \frac{3}{5}$. Then $x = 1 - \frac{9}{5} = - \frac{4}{5}$ and $y = 2 - \frac{12}{5} = - \frac{2}{5}$, so the line meets the plane $z = 0$ at $\left( - \frac{4}{5} ,\  - \frac{2}{5} ,\  0 \right)$.
+**Q (5 marks). A cup of tea at 80 $^{\circ} C$ is placed in a room at 25 $^{\circ} C$ and cools to 60 $^{\circ} C$ in 10 minutes. Use Newton's law of cooling to find when it reaches 40 $^{\circ} C$.**
 
-*Check.* B is reached at $t = 1$: (4, 6, 8). *Conclusion.* The line is $r = (1 ,\  2 ,\  3) + t (3 ,\  4 ,\  5)$, meeting $z = 0$ at (−0.8, −0.4, 0).
+**Newton's law:** the rate of cooling is proportional to the difference between the body and its surroundings, dT/dt = $- k (T - 25)$, with $k > 0$ (Figure 5.4a). It is separable.
 
-**Q2 (10 marks). Find the equation of the plane through $P (1 ,\  0 ,\  0) ,\  Q ( 0 ,\  2$, 0) and $R (0 ,\  0 ,\  3)$, the distance of (1, 1, 1) from it and the area of triangle PQR. State the properties of the dot and cross products used.**
+1. Separate and integrate: dT/(T − $25 ) = - k d t$, so $\ln (T - 25) = - k t + c$, that is $T = 25 + A e^{- k t}$.
+2. At $t = 0 ,\  T = 80$: $A = 55$, so $T = 25 + 55 e^{- k t}$.
+3. At $t = 10 ,\  T = 60$: $35 = 55 e^{- 10 k}$, so $e^{- 10 k} = \frac{7}{11}$ and $k = \left( \frac{1}{10} \right) \ln \left( \frac{11}{7} \right)$ = **0.0452 per minute**.
+4. For $T = 40$: $15 = 55 e^{- k t}$, so $t = \left( \frac{1}{k} \right) \ln \left( \frac{55}{15} \right) = \frac{\ln (3.667)}{0.0452} = 1.2993 / 0.0452$ ≈ **28.7 minutes**.
 
-*Introduction.* Dot and cross products give the angle, the area and the normal that define a plane. They are the main tools of vectors in space.
+*Check:* at $t = 30$ the formula gives $25 + 55 e^{- 1.356} = 39.2 ^{\circ} C$, consistent with 40 $^{\circ} C$ near 28.7 min. The tea never goes below 25 $^{\circ} C$, the room temperature.
 
-*Dot and cross product.*
+**Q (10 marks). Define order, degree and the general and particular solutions of a differential equation. Describe the methods for solving first-order equations with one example each, and solve a second-order equation with constant coefficients including an initial-value problem.**
 
-1. **Dot product.** $a \cdot b = |a| |b| \cos \theta = a_{1} b_{1} + a_{2} b_{2} + a_{3} b_{3}$. It is zero exactly when a and *b* are perpendicular.
-2. **Cross product.** $a \times b$ is perpendicular to both a and *b*, with length $|a| |b| \sin \theta$ equal to the area of the parallelogram they span.
-3. **Direction rule.** $a \times b = - (b \times a)$, so order matters.
+**Introduction.** A **differential equation (DE)** is an equation involving an unknown function and its derivatives. The **order** is that of the highest derivative and the **degree** is its power. The **general solution** has as many arbitrary constants as the order; a **particular solution** fixes them by initial conditions (Figure 5.1). Many laws of physics, biology and finance are DEs (Plate 5.1).
 
-*Step 1: two vectors in the plane.* $P Q = ( - 1 ,\  2$, 0) and $P R = (- 1 ,\  0 ,\  3)$.
+**First-order methods (Figure 5.2).**
 
-*Step 2: normal.* $n = P Q \times P R$ = (2·3 − 0·0, 0·(−1) − (−1)·3, (−1)·0 − 2·(−1)) = (6, 3, 2).
+| Type | Form | Example | Solution |
+|---|---|---|---|
+| Separable | $\frac{d y}{d x} = f (x) g (y)$ | $\frac{d y}{d x} = x y$ | $y = C e^{\frac{x^{2}}{2}}$ |
+| Homogeneous | $\frac{d y}{d x} = F \left( \frac{y}{x} \right)$ | $\frac{d y}{d x} = \frac{x + y}{x}$, put $y = v x$ | $y = x (\ln |x| + C)$ |
+| Linear | $y'$ + Py = Q | $y' + 2 y = x$ | $y = \frac{x}{2} - \frac{1}{4} + C e^{- 2 x}$ |
+| Exact | $M d x + N d y = 0 ,\  M_{y} = N_{x}$ | ($2 x y$ + 1)dx + ($x^{2}$ + y)dy = 0 | $x^{2} y + x + \frac{y^{2}}{2} = C$ |
 
-*Step 3: equation.* $6 (x - 1) + 3 y + 2 z = 0$, so **$6 x + 3 y + 2 z = 6$**. Check Q: $6 \times 0 + 3 \times 2 = 6$, and R: $2 \times 3 = 6$.
+For the exact example $M = 2 x y + 1$ and $N = x^{2} + y$; since $\frac{\partial M}{\partial y} = 2 x = \frac{\partial N}{\partial x}$ it is exact. Find F with $F_{x} = M$: $F = x^{2} y + x + g (y)$; then $F_{y} = x^{2} + g' (y) = x^{2} + y$ gives $g = \frac{y^{2}}{2}$.
 
-*Step 4: distance of $(1 ,\  1 ,\  1) . \ast$ |6 + $3 + 2$ − 6| ÷ $\sqrt{36 + 9 + 4} = 5 \div 7 \approx 0.714$.
+**Second-order equation with constant coefficients.** For $a y'' + b y' + c y = 0 t r y y = e^{m x}$, giving the auxiliary equation $a m^{2} + b m + c = 0$. The roots decide the solution: real and distinct gives $C_{1} e^{m_{1} x} + C_{2} e^{m_{2} x}$; repeated gives $(C_{1} + C_{2} x) e^{m x}$; complex $\alpha \pm i \beta$ gives $e^{\alpha x} (C_{1} \cos \beta x + C_{2} \sin \beta x)$ (Figure 5.3).
 
-*Step 5: area of triangle PQR.* $\frac{1}{2} |n| = \frac{1}{2} \times 7$ = **3.5** square units.
+*Example (IVP).* $y'' + 4 y' + 3 y = 0 ,\  y (0) = 2 ,\  y' (0) = 0$. The auxiliary equation $m^{2}$ + 4m + $3 = 0$ gives $m = - 1 ,\  - 3$, so $y = C_{1} e^{- x} + C_{2} e^{- 3 x}$. From $y (0) = 2$: $C_{1} + C_{2} = 2$. From $y' (0) = 0$: $- C_{1} - 3 C_{2} = 0$. Hence $C_{2} = - 1$ and $C_{1} = 3$, so **$y = 3 e^{- x} - e^{- 3 x}$**. *Check:* $y (0) = 3 - 1 = 2$ ✓ and $y' (0) = - 3 + 3 = 0$ ✓.
 
-| Quantity | Formula | Value here |
-|---|---|---|
-| Normal | $P Q \times P R$ | (6, 3, 2) |
-| Plane | $n \cdot (X - P) = 0$ | $6 x + 3 y + 2 z = 6$ |
-| Distance | $\mid a x_{0} + b y_{0} + c z_{0}$ − d\| ÷ $|n|$ | $\frac{5}{7}$ |
-| Triangle area | $\frac{1}{2}$ \|PQ × PR\| | 3.5 |
+**Modelling.** Cooling, growth and spring motion lead to dT/dt = $- k (T - T_{s})$, dP/dt = rP(1 − P/K) and $m y'' + k y = 0$ respectively (Figure 5.4).
 
-*Conclusion.* The cross product gives the plane and the area, and the dot product gives the distance; the plane is $6 x + 3 y + 2 z = 6$, the point is $\frac{5}{7}$ away and the triangle has area 3.5.
+**Conclusion.** Identify the type first (Figure 5.2), then apply its method, then check by substituting back. This routine solves nearly every examination problem in the unit.
