@@ -2,294 +2,151 @@
 subject: Society and Technology
 grade: BCA Semester 5
 unit: 3
-title: The Digital Divide and Digital Nepal
-hours: 7
+title: Social System and Social Stratification of Nepalese Societies
+hours: 9
 area: BCA 305 · Society and Technology · Unit 3
 ---
 
-Two students in the same country sit the same national examination. One lives in Kathmandu with fibre broadband, a laptop and parents who use online banking; the other lives in a Karnali village where the 4G signal reaches only the hilltop, electricity cuts out for days, and the only phone is shared by the family. Both are "connected" in the national statistics, yet their digital lives are of different kinds. The **digital divide** names this gap, and this unit shows how to define it, how to *measure* it (shares, ratios, a Lorenz curve with a Gini coefficient, a composite index), and what Nepal's policy response, the **Digital Nepal Framework**, tries to do about it.
+A **social system** is not only a list of institutions; it is a set of *processes* by which people interact and a *structure of unequal positions* in which they live. This unit has two halves. The first half covers social processes, socialisation and social and cultural change in Nepal. The second half studies social stratification in Nepal: caste and ethnicity, gender, religion and ecology, and finally how a diverse country holds together (national integration). This is the unit in which the course speaks most directly about Nepal. Use the facts with care: laws are cited by name and year; census numbers are approximate and from the 2021 census unless said otherwise.
 
 ::: key What this unit gives you
-- Three levels of the divide (access, skills, outcomes) and its dimensions: urban/rural, gender, income, age, disability, language.
-- Measurement: ratios, Lorenz curve and Gini, a composite min-max index, with worked tables.
-- Local-language computing, Unicode and Nepali content.
-- The Digital Nepal Framework and its eight sectors; community and school initiatives; indicators and their sources.
+- Social processes (cooperation, competition, conflict, accommodation, assimilation) and socialisation (agents, theories of Cooley, Mead, Freud).
+- Social and cultural change: types, theories and factors in Nepal, from the 1951 revolution to the 2015 constitution and digital media.
+- Stratification: caste, class, status and power; the Muluki Ain of 1854 and caste, ethnic, gender, religious and ecological stratification in Nepal.
+- National integration: the historical process of nationhood; cultural integration through language, rituals and customs.
 :::
 
-*All province-level figures in this unit are **invented for teaching** so that the arithmetic can be followed; real figures come from the National Statistics Office, the Nepal Telecommunications Authority (NTA) monthly MIS reports and the Ministry of Communication and Information Technology. Always check the latest publication.*
+## 3.1 Social system and social processes
 
-## 3.1 What is the digital divide?
+A **social system** is an *organised pattern of interrelated statuses, roles, groups and institutions* that works as a whole (Talcott Parsons). **Social structure** is the framework of positions and the relationships between them; **social process** is the *dynamic* side: the repeated forms of interaction by which structure is made, kept and changed. Sociologists classify social processes as *associative* (bringing people together) or *dissociative* (driving them apart).
 
-The **digital divide** is the gap between those who have effective access to digital technologies and those who do not, and between those who *benefit* from them and those who do not. Researchers describe three levels:
-
-1. **First-level divide (access):** devices, connectivity, electricity, affordability.
-2. **Second-level divide (skills and use):** digital literacy, language, confidence; the difference between scrolling a feed and filing a tax return.
-3. **Third-level divide (outcomes):** who actually gains income, education, health or political voice from being online.
-
-Closing the first level does not close the others: a smartphone gives access, but a farmer who cannot read the interface in her language or does not trust mobile money gains little.
-
-| Dimension | How the gap appears in Nepal |
-|---|---|
-| Geography | Urban valleys and the Terai towns have fibre and 4G; remote hill and mountain districts have thin coverage and costly backhaul |
-| Income and cost | Data and device costs are a larger share of a low income; second-hand phones; no home computer |
-| Gender | Women have fewer personal phones and lower use; norms, literacy and safety concerns |
-| Age and disability | Older people and people with disabilities find interfaces and services inaccessible |
-| Language and script | Most content is English; Nepali Unicode support, voice and local-language interfaces are limited; many mother-tongue communities have almost none |
-| Caste and ethnicity | Historical disadvantage compounds access barriers |
-| Skills | Low digital and financial literacy limits safe use |
-
-## 3.2 Measuring the divide
-
-### Simple ratios and gaps
-
-Compare two groups with a **gap** (difference in percentage points) or a **ratio** (relative disadvantage). Suppose 38% of women and 52% of men use the internet: the gap is **14 points** and the **gender parity index** (female ÷ male) is **0.731**; parity is 1.0. Reporting both avoids mistakes: a 14-point gap sounds small if both groups are near 90%, but is large when use is 38% versus 52%.
-
-### An example data set
-
-| Province (invented data) | Population (million) | Internet use % | Fixed broadband per 100 homes | Smartphone % | Digital-skills % |
-|---|---|---|---|---|---|
-| Koshi | 4.97 | 62 | 21 | 48 | 42 |
-| Madhesh | 6.1 | 41 | 9 | 35 | 25 |
-| Bagmati | 6.1 | 82 | 40 | 70 | 68 |
-| Gandaki | 2.4 | 70 | 25 | 58 | 50 |
-| Lumbini | 5.1 | 55 | 15 | 45 | 38 |
-| Karnali | 1.7 | 28 | 4 | 24 | 20 |
-| Sudurpashchim | 2.7 | 36 | 6 | 30 | 27 |
-
-Totals: population 29.07 million, of whom **16.52 million** use the internet, a national rate of **56.8%**. Bagmati's internet-use rate is **2.93 times** Karnali's, and its fixed broadband penetration is **10.0 times** higher. The national average hides these differences, which is why disaggregated data matter.
-
-### Lorenz curve and Gini coefficient
-
-Borrowed from the study of income inequality, the **Lorenz curve** plots the cumulative share of the population (poorest access first) against the cumulative share of internet users. Perfect equality is the diagonal; the farther the curve bends below it, the greater the inequality. The **Gini coefficient** is the area between the diagonal and the curve divided by the area under the diagonal: G = 1 − Σ (Xᵢ − Xᵢ₋₁)(Yᵢ + Yᵢ₋₁), summing over groups with cumulative population share X and cumulative user share Y. 0 is equality; 1 is one group having everything. Sorting provinces by users per head:
-
-| Province (poorest access first) | Population share | Internet-user share | Cumulative population | Cumulative users |
-|---|---|---|---|---|
-| Karnali | 5.8% | 2.9% | 5.8% | 2.9% |
-| Sudurpashchim | 9.3% | 5.9% | 15.1% | 8.8% |
-| Madhesh | 21.0% | 15.1% | 36.1% | 23.9% |
-| Lumbini | 17.5% | 17.0% | 53.7% | 40.9% |
-| Koshi | 17.1% | 18.7% | 70.8% | 59.5% |
-| Gandaki | 8.3% | 10.2% | 79.0% | 69.7% |
-| Bagmati | 21.0% | 30.3% | 100.0% | 100.0% |
-
-The Gini is **0.171**. This is low because the province is a coarse grouping; the divide inside provinces (urban against rural municipalities) and between households would be larger. Always state the unit of analysis before comparing Gini values.
-
-### A composite digital divide index
-
-No single indicator captures the divide, so analysts combine several. A common method is **min-max normalisation**: for each indicator, score = (value − minimum) / (maximum − minimum), so the lowest province gets 0 and the highest 1, then average the scores with equal weights (or chosen weights).
-
-| Province | Internet | Broadband | Smartphone | Skills | DDI (mean of 4) |
-|---|---|---|---|---|---|
-| Koshi | 0.63 | 0.47 | 0.52 | 0.46 | 0.520 |
-| Madhesh | 0.24 | 0.14 | 0.24 | 0.10 | 0.181 |
-| Bagmati | 1.00 | 1.00 | 1.00 | 1.00 | 1.000 |
-| Gandaki | 0.78 | 0.58 | 0.74 | 0.62 | 0.681 |
-| Lumbini | 0.50 | 0.31 | 0.46 | 0.38 | 0.409 |
-| Karnali | 0.00 | 0.00 | 0.00 | 0.00 | 0.000 |
-| Sudurpashchim | 0.15 | 0.06 | 0.13 | 0.15 | 0.120 |
-
-**Bagmati** ranks first (index 1.000) and **Karnali** last (0.000). Min-max scores are *relative*: a score of 0 means "lowest of these seven", not "no access". Changing the indicators or weights can change the middle ranks; publish the method with the result.
-
-## 3.3 Language, script and content
-
-A person cannot benefit from technology that does not speak their language. **Unicode** encodes Devanagari so that Nepali text, with its conjuncts and vowel signs, is stored and searched consistently; before Unicode, legacy fonts such as Preeti stored text in ways incompatible with search, email and the web, leaving much older government content unsearchable. Needs: Nepali keyboard layouts (Romanized and traditional), fonts that render conjuncts correctly, **spell-checkers and OCR** for Devanagari, **text-to-speech and speech recognition** in Nepali and other languages, and interfaces and government forms in the languages of the country (Nepal has over a hundred languages). **Local content** (agriculture advice, health information, news, education material) increases the relevance of connectivity. Accessibility standards (WCAG: text alternatives, contrast, keyboard operation, captions) address disability.
-
-## 3.4 The Digital Nepal Framework
-
-The Government of Nepal launched the **Digital Nepal Framework** in 2019 as a national roadmap to use digital technology for economic growth and better services. It identifies **eight sectors** where digital technology can have the largest effect and a set of enabling **"digital foundation" building blocks**:
-
-| Sector | Examples of the digital focus |
-|---|---|
-| **Digital Foundation** | Connectivity and broadband, national data centre and cloud, digital ID, digital payments, cyber security, legal and regulatory reform, skills |
-| **Agriculture** | Information and advisory services for farmers, market prices, supply-chain digitisation, e-agriculture |
-| **Health** | Health information systems, electronic records, telemedicine |
-| **Education** | Digital learning content, connectivity of schools, e-learning platforms |
-| **Energy** | Smart metering, digital management of generation and distribution, electric mobility planning |
-| **Tourism** | Online services for visitors, digital promotion, reservation and information systems |
-| **Finance** | Digital payments and financial inclusion, interoperability, digital banking |
-| **Urban Infrastructure** | Smart city and municipal digital services, traffic and utility management |
-
-The framework lists many initiatives (on the order of eighty) with agencies and timelines; its progress depends on funding, coordination across ministries and the three tiers of government, and the legal reforms discussed in Unit 4. Complementary programmes: community information centres and **community learning centres**, school computer-lab and connectivity programmes, **rural telecommunication development** funded through the universal service fund of the NTA, and the expansion of optical-fibre backbones by the national utilities and private operators. Evaluate any programme by the three divides: did it provide access, build skills, *and* produce outcomes?
-
-## 3.5 Closing the divide
-
-- **Infrastructure and affordability:** shared towers, universal service funding, tax treatment of devices and data, community Wi-Fi, solar-powered access points where the grid is weak.
-- **Skills:** digital literacy in schools and in community centres, training for women and older people, *train-the-trainer* networks.
-- **Content and services:** services that work in Nepali and local languages, on low-end phones, offline or by USSD/SMS, with human help desks.
-- **Inclusive design:** consult the excluded, test with real users, accessibility by default.
-- **Trust and safety:** consumer protection for digital money and clear complaint channels; safe online spaces for women and girls.
-- **Measurement:** collect gender-, age-, location- and disability-disaggregated data and publish it.
-
-::: caution E-government can widen the divide
-Moving a service online helps those connected and can *exclude* everyone else if the counter is closed. Keep an assisted channel (a ward office or help desk) until access is genuinely universal.
-:::
-
-## 3.6 Seeing the ideas: the infrastructure, the three levels, the Lorenz curve and the index
-
-The divide starts with physical infrastructure. Plate 3.1 shows what connectivity is made of: a fibre cable that carries the bandwidth, a router that shares it, a basic handset and a smartphone, the devices at the end of the line.
-
-```photogrid label="3.1" cols="4" ratio="1.0" caption="What access is made of. (a) Optical fibre cable: the backbone that is rich in valleys and thin in remote districts. (b) A broadband router that shares one connection among a home or office. (c) A feature phone: voice and SMS only. (d) A smartphone: the first-level divide is closed only when the device, the data plan and the signal are all present."
-@ photo id="bca101/fibre-cable" cap="Fibre backbone"
-fit 1.0
-focus 0.5 0.5
-@ photo id="bca101/router" cap="Broadband router"
-fit 1.0
-focus 0.5 0.5
-@ photo id="bca-st/nokia1100" cap="Feature phone"
-fit 1.0
-focus 0.5 0.45
-@ photo id="bca101/android" cap="Smartphone"
-fit 1.0
-focus 0.5 0.5
-```
-
-```svgfig label="3.1" caption="The three levels of the digital divide. Closing the access gap does not close the skills gap, and closing the skills gap does not guarantee that people gain income, learning or a voice from being online."
-f = Fig(580, 200)
-lv = [("Level 1: ACCESS", "devices, signal, electricity,\naffordability", BLUE, NAVY, 0), ("Level 2: SKILLS AND USE", "digital literacy, language,\nconfidence, trust", SAND, AMBER, 1), ("Level 3: OUTCOMES", "income, education, health,\npolitical voice gained", MINT, TEAL, 2)]
-for t, s, fl, st, i in lv:
-    x = 8 + i * 190
-    f.box(x, 12 + i * 0, 176, 74, t + "\n" + s, fill=fl, stroke=st, size=10, bold=True)
-    if i < 2:
-        f.arrow([(x + 176, 49), (x + 190, 49)], color=RED)
-f.box(8, 102, 564, 42, "Example: a farmer has a smartphone (level 1) but the app is in English and\nshe fears fraud (level 2), so her income does not change (level 3).", fill="#f8fafc", stroke=SLATE, size=9.8)
-f.box(8, 152, 564, 42, "Policy must therefore combine networks, low-cost devices, Nepali-language\ncontent, training and trust-building together.", fill=ROSE, stroke=RED, size=9.8)
-```
-
-```svgfig label="3.2" caption="Lorenz curve of internet users by province (invented example data of section 3.2). The curve bends below the diagonal of perfect equality; the Gini coefficient, the area between them divided by the area under the diagonal, is 0.171. The coarse province grouping hides larger divides inside provinces."
-f = Fig(580, 232)
-X = lambda v: 50 + v * 200
-Y = lambda v: 200 - v * 170
-f.line(50, 200, 250, 200, color=SLATE); f.line(50, 200, 50, 30, color=SLATE)
-f.arrow([(X(0), Y(0)), (X(1), Y(1))], color=SLATE, dash=True)
-cp = [0, .058, .151, .361, .537, .708, .79, 1.0]; cu = [0, .029, .088, .239, .409, .595, .697, 1.0]
-f.arrow([(X(a), Y(b)) for a, b in zip(cp, cu)], color=RED, sw=2.4)
-for a, b in list(zip(cp, cu))[1:-1]:
-    f.circle(X(a), Y(b), 3.4, fill=RED, stroke=RED)
-f.text(150, 216, "cumulative population share (poorest access first)", size=9.5, color=SLATE)
-f.text(150, 24, "cumulative share of internet users", size=9.5, color=SLATE)
-f.text(150, 138, "line of equality", size=9, color=SLATE, bold=True)
-f.box(290, 30, 280, 46, "Gini = 0.171\nlow only because provinces are a coarse unit", fill=MINT, stroke=TEAL, bold=True, size=10.5)
-f.box(290, 88, 280, 54, "Karnali: 5.8% of people, 2.9% of users\nBagmati: 21.0% of people, 30.3% of users", fill=SAND, stroke=AMBER, size=10)
-f.box(290, 154, 280, 46, "Reporting rule: always state the unit of\nanalysis before comparing Gini values", fill=BLUE, stroke=NAVY, size=10)
-```
-
-```svgfig label="3.3" caption="The composite digital divide index (mean of four min-max scores, invented provincial data). Bagmati scores 1.000 and Karnali 0.000. A score of 0 means lowest of these seven provinces, not no access. Publish the indicators and weights with the ranking."
-f = Fig(580, 214)
-rows = [("Bagmati", 1.000, MINT, TEAL), ("Gandaki", 0.681, MINT, TEAL), ("Koshi", 0.520, BLUE, NAVY), ("Lumbini", 0.409, BLUE, NAVY), ("Madhesh", 0.181, SAND, AMBER), ("Sudurpashchim", 0.120, SAND, AMBER), ("Karnali", 0.000, ROSE, RED)]
-for i, (n, v, fl, st) in enumerate(rows):
-    y = 10 + i * 28
-    f.text(8, y + 14, n, size=10, color=NAVY, bold=True, anchor="start")
-    if v > 0:
-        f.box(120, y, v * 320, 22, "", fill=fl, stroke=st)
-    f.text(120 + v * 320 + 6, y + 13, "%.3f" % v, size=10, color=SLATE, bold=True, anchor="start")
-f.text(290, 208, "DDI = mean of (value - min) / (max - min) over internet, broadband, smartphone, skills", size=9.5, color=SLATE)
-```
-
-### 3.6.1 Eight ways to close the digital divide
-
-1. **Extend networks to remote areas.** Fibre, towers and community networks must reach hill and mountain districts. The cost per user is high, so a shared universal service fund helps. Karnali needs connections before apps.
-2. **Make devices and data affordable.** Lower taxes on basic smartphones and cheaper data packs widen access. Instalment plans and refurbished devices help low-income families. Public Wi-Fi in wards and libraries serves those without a plan.
-3. **Provide reliable electricity.** A phone or router is useless without power. Solar charging points in remote schools and health posts keep services running. Power and connectivity must be planned together.
-4. **Teach digital skills.** Schools, campuses and ward offices can offer short practical courses. A volunteer who shows a grandmother how to scan a QR code does real good. Skills lead to safe and confident use.
-5. **Create Nepali and local-language content.** Interfaces, voice assistants and forms in Nepali and mother tongues remove the language barrier. Unicode support must work on cheap phones. People trust what they can read.
-6. **Include women, older people and persons with disabilities.** Design for screen readers, large text and voice. Women-only training groups and safe reporting channels raise confidence. Inclusive design benefits everyone.
-7. **Offer e-services that save time.** Online tax, licence and certificate services give people a reason to join. Service centres with trained staff help those who cannot use them alone. Real benefits drive demand.
-8. **Measure and publish the gaps.** Collect data by province, gender, age and disability, and compute gaps, ratios and indices. Public numbers keep governments accountable. What is measured is more likely to be fixed.
-
-## Chapter summary
-
-- The divide has three levels (access, skills, outcomes) and many dimensions: geography, income, gender, age, disability, language and caste.
-- Gaps, ratios, the gender parity index, Lorenz/Gini and min-max composite indices measure it; the unit of analysis and the method must be stated.
-- Unicode, Nepali-language tools and local content are conditions for benefit, not extras.
-- The Digital Nepal Framework (2019) has eight sectors: Digital Foundation, Agriculture, Health, Education, Energy, Tourism, Finance and Urban Infrastructure.
-- Closing the divide needs infrastructure, affordability, skills, local content, inclusive design and trust, and assisted channels.
-
-## Practice
-
-1. Name the three levels of the digital divide.
-2. State two ways the divide appears for women in Nepal.
-3. With 45% of women and 60% of men online, compute the gap and the gender parity index.
-4. In the example data, how many times higher is Madhesh's internet-use rate than Karnali's? (Use the table.)
-5. Explain how the Lorenz curve and Gini coefficient are computed.
-6. Why is a min-max index a relative, not absolute, measure?
-7. Why did legacy fonts such as Preeti harm digital inclusion?
-8. List the eight sectors of the Digital Nepal Framework.
-9. Name four measures to reduce the divide in a remote municipality.
-10. Why should e-government keep an assisted channel?
-
-::: note Answers and worked solutions
-**1.** Access, skills/use, outcomes.
-**2.** Fewer women own a personal phone; lower literacy and safety concerns restrict use (also family norms and content not in their language).
-**3.** Gap = 15 points; parity index = 45/60 = **0.75**.
-**4.** 41 / 28 = **1.46 times**.
-**5.** Sort groups by access per head; plot cumulative population share against cumulative user share; Gini = 1 − Σ(Xᵢ − Xᵢ₋₁)(Yᵢ + Yᵢ₋₁), the area between the diagonal and the curve over the area below the diagonal.
-**6.** The scores rank places against the best and worst *in the sample*; a score of 0 only means lowest of those places.
-**7.** Their encoding was not standard, so text could not be searched, copied between systems or displayed reliably on the web or phones.
-**8.** Digital Foundation, Agriculture, Health, Education, Energy, Tourism, Finance, Urban Infrastructure.
-**9.** Shared or community connectivity (solar-powered), digital-literacy training, services in local language and offline/USSD, subsidised devices or community access centres.
-**10.** People without access or skills would otherwise be excluded from essential services.
-:::
-
-## Model answers: medium (5 marks) and long (10 marks) questions
-
-**Q1 (5 marks). What is the digital divide? Explain its three levels with Nepali examples.**
-
-*Introduction.* The digital divide is the gap between those who have effective access to digital technologies and those who do not, and between those who benefit from them and those who do not (section 3.1 and Figure 3.1).
-
-1. **First level: access.** Devices, connectivity, electricity and affordability. Example: a remote village in Karnali with thin 4G coverage and costly data.
-2. **Second level: skills and use.** Digital literacy, language, confidence and trust. Example: a farmer who has a smartphone but cannot read the English interface or does not trust mobile money.
-3. **Third level: outcomes.** Who actually gains income, learning, health or political voice. Example: two students with the same phone, only one of whom uses it to learn and earn.
-
-| Level | Barrier | Possible remedy |
+| Process | Meaning | Example |
 |---|---|---|
-| Access | No signal, cost | Networks, subsidies |
-| Skills | Language, fear | Training, Nepali content |
-| Outcomes | No useful services | E-services, jobs |
+| **Cooperation** | People work together for a common goal | *Parma* labour exchange; an open-source project |
+| **Accommodation** | Adjustment that settles a conflict without removing it; compromise, arbitration, toleration | Wage settlement; a code of conduct after a dispute |
+| **Assimilation** | Groups with different cultures merge into one; gradual and often one-way | Migrants adopting the language of the host town |
+| **Competition** | Rivalry for scarce goods within rules | Students competing for scholarships; firms for customers |
+| **Conflict** | Open struggle to defeat or remove the other party | Land disputes; communal violence; strikes |
 
-*Dimensions.* The gap appears along geography, income, gender, age and disability, language and script, caste and ethnicity, and skills.
+Competition is impersonal and continuous; conflict is personal and intermittent. Georg Simmel showed that conflict may also *integrate*: a strike can settle rules that later keep peace.
 
-*Conclusion.* Closing level 1 does not close levels 2 and 3, so policy must address all three.
+### Socialisation
 
-**Q2 (5 marks). Explain how the digital divide is measured with gap and ratio. Use the example data to compute the national internet-use rate and compare Bagmati with Karnali.**
+**Socialisation** is *the lifelong process by which a person learns the culture, norms, values and roles of their society and develops a self.* Without it, humans do not become social beings (cases of children raised in isolation show the lack of language and social ability).
 
-*Introduction.* Measurement turns a vague concern into numbers that can be tracked (section 3.2).
+**Agents of socialisation:** *family* (the first and strongest: language, basic values), *peer group* (equals; norms of dress, slang, risk), *school* (formal knowledge, discipline, time), *religion* (moral order, rituals), *mass media and the internet* (examples and role models), *workplace* (occupational norms). Today social media competes with all of them. **Primary socialisation** occurs in childhood in the family; **secondary** socialisation in later life through schools and work; **anticipatory** socialisation prepares for a future role (BCA students rehearsing professional behaviour); **resocialisation** replaces earlier patterns (training in military, or migration).
 
-*Gap and ratio.* A **gap** is a difference in percentage points and a **ratio** shows relative disadvantage. If 38% of women and 52% of men use the internet, the gap is 14 points and the gender parity index is 38 / 52 = **0.731** (parity is 1.0). Report both, because a 14-point gap means different things at 90% and at 38%.
+| Theorist | Idea |
+|---|---|
+| **Charles Horton Cooley** | *Looking-glass self*: we imagine how others see us, imagine their judgement, and respond with pride or shame. |
+| **George Herbert Mead** | The self arises in interaction. Stages: *imitation* (copying), *play stage* (taking the role of one significant other), *game stage* (taking the role of many, the *generalised other*). The self has an impulsive "I" and a socially aware "Me". |
+| **Sigmund Freud** | Personality has *id* (instinct), *ego* (reality) and *superego* (internalised norms), with socialisation as the control of the id. |
+| **Jean Piaget** | Cognitive development in stages: sensorimotor, preoperational, concrete operational, formal operational. |
 
-*Provincial data (invented).* The seven provinces have 29.07 million people, of whom 16.52 million use the internet, a national rate of 16.52 / 29.07 = **56.8%**.
+## 3.2 Social and cultural change in Nepal
 
-| Indicator | Bagmati | Karnali | Ratio |
-|---|---|---|---|
-| Internet use | 82% | 28% | 2.93 |
-| Fixed broadband per 100 homes | 40 | 4 | 10.0 |
-| Smartphone | 70% | 24% | 2.92 |
+**Social change** is a *change in social structure and relationships*, whereas **cultural change** is a change in beliefs, values, language, art and technology. They go together but are not identical: a village may adopt mobile phones (material change) while caste norms remain (cultural continuity). Change can be *evolutionary* (gradual), *revolutionary* (rapid and structural), *planned* (development programmes) or *unplanned*, and *progressive* or *regressive* depending on values.
 
-*Interpretation.* The national average of 56.8% hides a provincial range from 28% to 82%, so disaggregated data are essential. The Lorenz curve and Gini coefficient (0.171 for provinces) summarise the inequality, but a coarse unit hides divides inside provinces.
+**Theories of change in brief.** *Evolutionary* (Spencer, Comte): societies move from simple to complex. *Cyclical* (Sorokin, Pareto): societies repeat phases. *Functionalist*: change restores balance after strain. *Conflict* (Marx): change comes from class struggle. *Modernisation theory*: traditional societies move to modern ones through economic growth, education, urbanisation and secular values; *dependency theory* answers that poor countries are held back by their position in the world economy. Two Indian sociologists' ideas are widely applied to South Asia: **M. N. Srinivas's Sanskritisation** (lower groups adopting the rituals and customs of higher castes in order to rise) and **Westernisation** (adoption of Western technology, dress, institutions, ideas).
 
-**Q3 (10 marks). Explain how a composite digital divide index is built using min-max normalisation. Work out the index for Madhesh from the example data and discuss the limits of such an index.**
+### Factors of social and cultural change in Nepal
 
-*Introduction.* No single indicator captures the digital divide, so analysts combine several into a composite index. Min-max normalisation makes indicators with different units comparable (section 3.2 and Figure 3.3).
+| Factor | How it changes Nepali society | Examples |
+|---|---|---|
+| **Political events** | Changes of regime rewrite rights and institutions | 1951 end of Rana rule; 1990 Jana Andolan and a multi-party constitution; 2006 People's Movement II; 2008 abolition of monarchy and a republic; 2015 federal, secular constitution |
+| **Law and state policy** | Formal rules change what is acceptable | New Muluki Ain 1963 abolished legal caste hierarchy; caste untouchability criminalised by the 2011 Act; Civil Code 2074 |
+| **Education** | Literacy, mobility, new aspirations and professions | Literacy (age 5 and above) 76.2 per cent in 2021; growth in colleges and BCA programmes |
+| **Economy and migration** | Remittances change household income and land use; urbanisation shifts population | Large numbers of workers abroad; growth of Kathmandu, Pokhara, Biratnagar, Butwal |
+| **Technology and media** | New communication, ideas and consumption | Radio (community radio from 1997), television, mobile phones, mobile data and social media |
+| **Development and infrastructure** | Roads, electricity and internet link remote areas | Rural road networks, hydropower, fibre links |
+| **Natural events and disasters** | Force relocation and new institutions | 2015 earthquake and reconstruction |
+| **Ideas and movements** | Rights movements change values | Dalit, Janajati, Madhesi, women's movements; inclusion |
 
-*Method.*
+**Resistance to change.** Habit, fear of loss, vested interests, rigid norms and lack of resources slow change. The result is cultural lag (Unit 2): new institutions exist on paper while attitudes follow later.
 
-1. Choose indicators: internet use, fixed broadband per 100 homes, smartphone share and digital-skills share.
-2. For each indicator, score = (value - minimum) / (maximum - minimum), so the lowest province gets 0 and the highest gets 1.
-3. Average the four scores with equal weights, or with chosen weights.
-4. Rank the units and publish the method.
+```svgfig label="3.1" caption="Factors of social and cultural change in Nepal. Each outer factor acts on the central social system; most changes need several factors at once, for example migration, mobile phones and education together."
+f = Fig(580, 260)
+f.box(205, 108, 170, 46, "Nepali social system\nand culture", fill=SAND, stroke=AMBER, size=11, bold=True)
+items = [(20, 14, "Politics and\nconstitution", BLUE, NAVY), (210, 14, "Law and\nstate policy", BLUE, NAVY), (400, 14, "Education", BLUE, NAVY),
+         (20, 108, "Economy and\nmigration", MINT, TEAL), (400, 108, "Technology\nand media", MINT, TEAL),
+         (20, 200, "Infrastructure", ROSE, RED), (210, 200, "Disasters", ROSE, RED), (400, 200, "Movements\nand ideas", ROSE, RED)]
+for x, y, t, fl, st in items:
+    f.box(x, y, 160, 46, t, fill=fl, stroke=st, size=10.5, bold=True)
+f.arrow([(180, 46), (225, 108)], color=SLATE)
+f.arrow([(290, 60), (290, 108)], color=SLATE)
+f.arrow([(400, 46), (355, 108)], color=SLATE)
+f.arrow([(180, 131), (205, 131)], color=SLATE)
+f.arrow([(400, 131), (375, 131)], color=SLATE)
+f.arrow([(180, 200), (225, 154)], color=SLATE)
+f.arrow([(290, 200), (290, 154)], color=SLATE)
+f.arrow([(400, 200), (355, 154)], color=SLATE)
+```
 
-*Worked example for Madhesh.* Minimum and maximum values come from Karnali and Bagmati.
+::: example Change through a phone
+Within two decades a Nepali village may have moved from letters and landlines to mobile phones, then to mobile money and Facebook video calls. The *material* change is quick. The *non-material* change follows more slowly: who is allowed to own a phone, who controls remittance money, how young people choose spouses, which language is used in messages. Studying change means tracking both layers.
+:::
 
-| Indicator | Value | Min | Max | Score |
-|---|---|---|---|---|
-| Internet use % | 41 | 28 | 82 | (41 - 28) / 54 = 0.241 |
-| Broadband per 100 | 9 | 4 | 40 | (9 - 4) / 36 = 0.139 |
-| Smartphone % | 35 | 24 | 70 | (35 - 24) / 46 = 0.239 |
-| Skills % | 25 | 20 | 68 | (25 - 20) / 48 = 0.104 |
+## 3.3 Social stratification
 
-The index is (0.241 + 0.139 + 0.239 + 0.104) / 4 = 0.723 / 4 = **0.181**, which matches the table in section 3.2. Bagmati scores 1.000, Karnali 0.000, Gandaki 0.681, Koshi 0.520, Lumbini 0.409 and Sudurpashchim 0.120, so Madhesh ranks fifth of seven.
+**Social stratification** is the *structured ranking of individuals and groups into layers (strata) according to wealth, power and prestige*, so that some get more of society's rewards. It is a feature of society, not of individuals; it persists across generations; it is universal but variable; and it is supported by beliefs that justify it.
 
-*Use.* The index shows where to invest first, here Karnali, Sudurpashchim and Madhesh, and the four columns show what kind of help each needs. For example, Madhesh's broadband score of 0.139 is lower than its internet score of 0.241, which points to fixed-line infrastructure.
+**Systems of stratification.** *Slavery* (people owned as property), *caste* (closed, ascribed, hereditary, ritual ranking), *estate* (legally defined orders such as nobles and commoners) and *class* (open, based on economic position and achievement, with mobility possible). Nepal has a unique blend: caste hierarchy, ethnic hierarchy, class, gender and region operate together, which is why sociologists use the word **intersectionality**: a Dalit woman in a remote district faces more than the sum of the separate disadvantages.
 
-*Limits.* Min-max scores are relative: 0 means the lowest of these seven provinces, not no access. Changing the indicators, the weights or the units can change the middle ranks, and province averages hide divides inside provinces. The data in the book are invented for teaching, so real values from NTA and census sources must be used for policy.
+| Theory | Claim |
+|---|---|
+| **Functionalist** (Davis and Moore) | Stratification is *necessary*: society must motivate talented people to fill important and demanding positions, using unequal rewards. Critics say it ignores inheritance of advantage. |
+| **Marxist** | Stratification rests on ownership of the means of production; two main classes (bourgeoisie and proletariat) with conflicting interests. |
+| **Weberian** | Three dimensions: *class* (economic position), *status* (prestige and honour) and *party* (political power). A person can rank high on one and low on another. |
 
-*Conclusion.* A composite index is a useful summary if the method is transparent and the user remembers that the scores are relative.
+**Social mobility** is movement between strata: *vertical* (up or down), *horizontal* (same level, new job), *intergenerational* (children's position compared with parents') and *intragenerational* (within one career). Education, migration and jobs in IT create mobility in Nepal, but caste, region and family wealth still decide who gets the chance.
+
+## 3.4 Caste and ethnicity based stratification
+
+### The traditional hierarchy and the Muluki Ain of 1854
+
+Hindu **caste** (*jat*) divides society into ranked, hereditary, endogamous groups with rules of purity, occupation and contact. The traditional *varna* scheme has four orders (Brahmin, Kshatriya, Vaishya, Shudra) and thousands of *jati*. In 1854 Prime Minister **Jung Bahadur Rana** promulgated the **Muluki Ain** (Country Code), the first comprehensive legal code of Nepal, which *wrote the caste order into state law*, with different punishments for the same offence depending on the caste of the offender and victim. It ranked the population into five broad layers that included the non-Hindu ethnic groups as well:
+
+```svgfig label="3.2" caption="The caste and ethnic ranking in the Muluki Ain of 1854 (simplified). Rank decided legal rights and punishments; the new Muluki Ain of 1963 abolished legal caste distinctions, and the 2011 Act made caste-based untouchability a crime."
+f = Fig(580, 270)
+rows = [("Tagadhari (wearers of the sacred thread)", "Upper hill Brahmin, Chhetri, some Newar and Madhesi castes", BLUE, NAVY, 330),
+        ("Namasinya Matwali (non-enslavable alcohol-drinkers)", "Magar, Gurung, Sunuwar and other hill ethnic groups", MINT, TEAL, 380),
+        ("Masinya Matwali (enslavable alcohol-drinkers)", "Rai, Limbu, Tamang, Bhote, Tharu and others", SAND, AMBER, 430),
+        ("Water-unacceptable, no purification needed", "Muslims, Europeans (in the code)", SOFT, SLATE, 480),
+        ("Water-unacceptable, purification needed (untouchable)", "Kami, Damai, Sarki, Badi, Chyame, Pode and others", ROSE, RED, 530)]
+for i, (a, b, fl, st, w) in enumerate(rows):
+    y = 14 + i * 50
+    x = 30 + (530 - w) / 2 + 0
+    f.box(x - 0, y, w + 20 if w < 540 else w, 42, a, fill=fl, stroke=st, size=9, bold=True)
+    f.text(290, y + 52 - 6, "", size=8)
+f.text(290, 262, "highest at the top; the lowest layer faced legal untouchability", size=9.5, color=SLATE)
+```
+
+The text of the code names specific groups under each layer; the figure keeps only the layer names, because the names have changed, and some terms are now offensive. What matters for the exam is the *structure*: caste ranking was legal, hereditary and included ethnic groups through the categories of *matwali* (alcohol-drinkers); the lowest groups, today called **Dalits**, were treated as untouchable.
+
+### Present-day situation
+
+- **Legal change.** The new *Muluki Ain* of 1963 (2020 BS) abolished legal caste discrimination. The **Caste-Based Discrimination and Untouchability (Offence and Punishment) Act, 2011 (2068 BS)** criminalises untouchability and discrimination; the **Constitution of Nepal 2015 (2072 BS)** guarantees the right against untouchability (Article 24), the right to equality (Article 18), and inclusion of Dalits in state bodies.
+- **Ethnic groups.** The 2021 census recorded about **142 caste and ethnic groups** and about **124 languages**. The government recognises **59 Adivasi Janajati** (indigenous nationalities) under the *National Foundation for Development of Indigenous Nationalities Act, 2002 (2058 BS)*. Large groups include Chhetri, Hill Brahmin, Magar, Tharu, Tamang, Newar and the Dalit group.
+- **Discrimination persists.** Dalits still report denial of temple and water access, restrictions in hotels and houses, and caste violence in some areas; their rates of poverty, landlessness and school dropout are higher than the national average. Janajati groups often face language loss and loss of land and forest rights. Madhesi communities have raised demands for citizenship, representation and identity (movements of 2007 and 2015).
+- **Inclusion policy.** Civil service open competition seats are reserved in a quota: women 33 per cent, Adivasi Janajati 27, Madhesi 22, Dalit 9, persons with disability 5, backward regions 4. The Constitution (Article 42) provides the right to social justice and inclusion; the House of Representatives has mixed first-past-the-post and proportional inclusive seats.
+
+::: note Caste, class and technology
+Caste is not a code in a database, yet systems encode it silently: a surname field can reveal caste; face recognition and recruitment tools trained on unequal data can repeat historic exclusions; information is not equally available in Nepali, Maithili or Tharu. Digital inclusion work (Units 6 and 7) is a social-justice task as well as a technical one.
+:::
+
+## 3.5 Gender based stratification
+
+**Sex** is biological; **gender** is the *social meaning* attached to being male or female: roles, expectations and unequal access to resources. *Patriarchy* is a social system in which men hold primary power. In Nepal patriarchal norms have shaped property, marriage, education, mobility and work.
+
+| Area | Situation and change |
+|---|---|
+| **Law** | The Constitution (2015) guarantees equality, the rights of women (Article 38), and at least 33 per cent women in the federal parliament. The Country Code's reforms from 2002 and the **Civil Code 2074** give daughters equal inheritance rights; marriage age is 20 for both. **Domestic Violence (Offence and Punishment) Act 2066**, the criminalisation of **chhaupadi** (menstrual seclusion) in the Criminal Code 2074 (in force 2018). |
+| **Education** | Girls' enrolment has risen, nearly equal in basic education; gaps persist in science and technology streams and in higher education. |
+| **Work** | Women do much unpaid care and farm labour; formal ownership of land and houses by women is low (rises with tax incentives on registration). Women are a small minority in IT jobs. |
+| **Politics** | Local-level elections of 2017 brought a large number of women, including 40 per cent of ward-level reserved seats, to local government. |
+| **Violence** | Domestic violence, trafficking, dowry harassment, witchcraft accusations and online abuse remain concerns. |
+| **Third gender** | The Supreme Court (2007, Sunil Babu Pant case) recognised a third gender; the 2015 constitution recognises sexual and gender minorities' rights and citizenship certificates with "other". |
+
+::: example Gender and digital
+A women's group in a hill municipality uses a mobile app to manage savings. The app works well, but the phone belongs to the household head and charging, data and the PIN are controlled by him. The *social* conditions of access decide whether the technology empowers or not. Sociologists call this the *gender digital divide* (Unit 6).
+:::

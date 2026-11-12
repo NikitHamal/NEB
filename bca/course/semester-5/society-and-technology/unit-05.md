@@ -2,292 +2,315 @@
 subject: Society and Technology
 grade: BCA Semester 5
 unit: 5
-title: e-Governance in Nepal
+title: Technology Adoption and Diffusion of Innovations
 hours: 7
 area: BCA 305 · Society and Technology · Unit 5
 ---
 
-Getting a citizenship-linked service used to mean a journey to the district office, a queue, a photocopy and a stamp. **e-Governance** replaces some of that with a verified record, an online form and a digital signature. This unit explains what e-governance is, how it is measured, the main Nepali systems (the National ID, the Nagarik App, the government data centre and office systems, local-level software) and the cryptographic idea that makes electronic documents trustworthy: the **digital signature**, which you will run on a toy example.
+Why did mobile wallets spread through Nepali towns in a few years while some excellent software tools never left the lab? Technology does not spread because it is good; it spreads when people *choose* to use it, and they choose through perceptions, peers and circumstances. Two research traditions explain this. The **Technology Acceptance Model (TAM)** looks at the individual's decision. **Diffusion of innovations** looks at the whole population over time and gives the S-shaped adoption curve. Both can be made quantitative, and this unit does so with a small survey (reliability and regression) and with logistic and Bass curves.
 
 ::: key What this unit gives you
-- e-Government, e-governance and m-government; stages of maturity; the G2C, G2B, G2G and G2E models.
-- An index calculation (UN-style EGDI) and a simple cost-benefit estimate for a service.
-- Nepali building blocks: National ID, Nagarik App, GIDC and office systems, Palika IT systems, taxes, procurement and payments.
-- Digital signatures and PKI shown with a runnable example; challenges and good practice.
+- TAM (perceived usefulness, perceived ease of use) and its extensions; Cronbach's alpha and a regression on survey data.
+- Rogers' adopter categories derived from the normal curve; characteristics of innovations.
+- Logistic S-curve and the Bass model with peak-time calculations.
+- Barriers to adoption, resistance and the role of change agents.
 :::
 
-*System names and status below are described in general terms from public sources; features and rollouts change, so verify current services on the official portals.*
+## 5.1 The Technology Acceptance Model
 
-## 5.1 Concepts
+Fred Davis (1989) proposed that a person's **behavioural intention (BI)** to use a system depends on two beliefs:
 
-**e-Government** is the use of ICT by government to deliver services and information. **e-Governance** is wider: using ICT to improve the *process of governing*, including transparency, participation and accountability, not only service delivery. **m-Government** delivers services by mobile. Interaction models: **G2C** (government to citizen: certificates, tax filing), **G2B** (to business: company registration, customs), **G2G** (between agencies: data sharing, office systems) and **G2E** (to employees: payroll, leave). Benefits: faster and cheaper services, fewer visits and less corruption through traceable processes, better data for planning, and wider access. Risks: exclusion of the offline, privacy and surveillance, security failures, vendor dependence and projects that digitise a bad process.
+- **Perceived usefulness (PU):** the degree to which the person believes the system will improve their job or life performance.
+- **Perceived ease of use (PEOU):** the degree to which the person believes using it will be free of effort.
 
-**Maturity stages** (UN-style): **emerging** (information websites), **enhanced** (two-way interaction, downloadable forms), **transactional** (complete services and payments online) and **connected** (integrated, seamless services across agencies). A single department site that lists office hours is stage 1; a person who registers a birth online, pays the fee through a wallet and receives a verifiable certificate is at stage 3 or 4.
+PEOU affects PU (an easier system is more useful) and both affect attitude and intention, which lead to actual use. External variables (training, design, social influence) work through PU and PEOU. **TAM2** adds *subjective norm* (what important others think), *image*, *job relevance* and *voluntariness*. **UTAUT** (Venkatesh et al.) unifies several models into four determinants: **performance expectancy**, **effort expectancy**, **social influence** and **facilitating conditions** (infrastructure and support), moderated by age, gender, experience and voluntariness. For Nepal, facilitating conditions (data price, electricity, trusted help) and *trust* are especially important additions, which is why wallet adoption often depends on a family member teaching the first transaction.
 
-### Measuring e-government: an EGDI-style index
+### A worked survey
 
-The UN **E-Government Development Index (EGDI)** averages three normalised components: the **Online Service Index (OSI)**, the **Telecommunication Infrastructure Index (TII)** and the **Human Capital Index (HCI)**. For a country with OSI = 0.52, TII = 0.41 and HCI = 0.63 (invented), the sum is 1.56 and EGDI = 1.56/3 = **0.520**. The decomposition tells policy: here, infrastructure (TII) is the weakest component, so the investment priority is connectivity, not more online forms.
+Eight respondents rate a new bus-ticketing app on 1–5 scales: four items for PU, three for PEOU, and one for intention to use (BI).
 
-### A simple cost-benefit estimate
+| Resp. | PU1 | PU2 | PU3 | PU4 | PEOU1 | PEOU2 | PEOU3 | BI | PU mean | PEOU mean |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 5 | 5 | 4 | 5 | 4 | 4 | 5 | 5 | 4.75 | 4.33 |
+| 2 | 4 | 4 | 4 | 3 | 3 | 4 | 3 | 3 | 3.75 | 3.33 |
+| 3 | 2 | 3 | 2 | 2 | 2 | 2 | 3 | 2 | 2.25 | 2.33 |
+| 4 | 5 | 4 | 5 | 5 | 5 | 5 | 4 | 5 | 4.75 | 4.67 |
+| 5 | 3 | 3 | 4 | 3 | 3 | 2 | 3 | 3 | 3.25 | 2.67 |
+| 6 | 4 | 5 | 4 | 4 | 4 | 4 | 4 | 4 | 4.25 | 4.00 |
+| 7 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 1 | 1.75 | 1.67 |
+| 8 | 3 | 4 | 3 | 3 | 4 | 3 | 3 | 4 | 3.25 | 3.33 |
 
-Suppose a service moves online so that each of 1,20,000 applicants avoids 2 visits and each visit costs 3.5 hours of lost time valued at Rs 60 an hour. Visits avoided = **2,40,000**; hours saved = 2,40,000 × 3.5 = **8,40,000**; value = 8,40,000 × 60 = **Rs 5,04,00,000**. If the system costs Rs 45,00,000 a year, the net benefit is **Rs 4,59,00,000**. The benefit is to citizens, not to the agency's budget, which is why such projects need central funding and a shared view of value; the estimate also assumes that every applicant has access, which is rarely true.
+**Reliability.** Do the items of one scale measure the same thing? **Cronbach's alpha** for k items is α = k/(k − 1) × (1 − Σσᵢ² / σ²_total), where σᵢ² is each item's sample variance and σ²_total the variance of the sum score. For PU, α = **0.949**; for PEOU, α = **0.903**. A value above 0.7 is conventionally acceptable, so both scales are reliable (with only eight respondents, that is a classroom illustration, not evidence).
 
-## 5.2 Building blocks in Nepal
+**Relationships.** The Pearson correlation between PU mean and BI is **0.944**, between PEOU mean and BI **0.964**, and between PU and PEOU **0.975**. PU and PEOU are very strongly correlated here, which is TAM's PEOU → PU link but also a warning: with such **multicollinearity** the regression below cannot separate their effects reliably. Regressing intention on both means gives
 
-**National ID (NID).** The National Identity Card programme issues a unique **National Identification Number** to each person, linked to demographic and **biometric** data (fingerprints and photograph) in a national database kept by the Department of National ID and Civil Registration. The aim is a trusted identity for service access, benefit transfers and financial inclusion, reducing duplicate and fake identities. *Design issues:* a single high-value database is a security and privacy risk (breach, misuse, function creep); exclusion of those who lack documents or whose fingerprints cannot be read; and the need for legal safeguards.
+BI = -0.969 + 0.090 × PU + 1.224 × PEOU,  R² = **0.930**.
 
-**Civil registration and the Nagarik App.** Vital events (birth, death, marriage, migration) are registered at the local level, and digital registration with online verification is being extended. The **Nagarik App** is the Government of Nepal's mobile application that gives citizens access to verified documents and services in one place (with identity verified through the National ID or other official credentials), so that a document shown on the phone can be verified by a service provider. It is an example of *citizen-centric integration* and a G2C front end.
+For a user who scores both PU and PEOU at 4, the model predicts BI = **4.29**. The small coefficient on PU despite its high correlation is the multicollinearity effect; a larger sample would be needed before claiming that ease of use matters more than usefulness.
 
-**Government data centre and integration.** The **Government Integrated Data Centre (GIDC)** hosts government applications and a disaster-recovery site so that agencies do not each run their own server room; a **government cloud** and **interoperability framework** (agreed standards for exchanging data between systems) reduce duplicate systems. **Office systems** for digital file movement and decision tracking, such as the Government Integrated Office Management System (GIOMS) named in policy documents, aim to replace paper files with traceable electronic workflows. *Check the current rollout status; the learning point is the architecture: shared hosting, shared identity, shared standards.*
+## 5.2 Diffusion of innovations
 
-**Taxes, customs, procurement and payments.** The **Inland Revenue Department's** online taxpayer portal handles registration, returns (including VAT) and payment; customs uses an electronic clearance system; **e-procurement** through the **Public Procurement Monitoring Office's** portal publishes tenders and receives bids online, reducing collusion and increasing competition; and bill and fee payments run through the interbank and wallet networks described in *MIS and e-Business*. **Treasury** and budget systems (the Financial Management Information System) track spending across the three tiers.
+Everett Rogers defined **diffusion** as the process by which an **innovation** is communicated through **channels** over **time** among the members of a **social system**. Four elements: the innovation, communication channels, time and the social system. Five perceived **attributes of an innovation** predict its speed:
 
-**Local level (Palika) systems.** Since federalism, the 753 local governments hold most day-to-day citizen services: vital registration, recommendation letters, social security allowance, property and business tax. Municipal software handles registration, taxation and the **social security payment** list (with biometric or bank-account payment replacing cash distribution). Typical difficulties: different software in each Palika that cannot exchange data, thin IT staff, intermittent connectivity at ward offices, and dependence on external vendors.
+| Attribute | Meaning | Mobile-wallet example |
+|---|---|---|
+| Relative advantage | Better than what it replaces | No queue to pay the electricity bill |
+| Compatibility | Fits values, habits, needs | Works with Nepali interface and existing bank account |
+| Complexity | Hard to understand (slows adoption) | Registration needing many steps |
+| Trialability | Can be tried on a small scale | Rs 10 first top-up |
+| Observability | Results visible to others | Shopkeepers displaying QR codes |
 
-| Service | Technology | Benefit | Typical weakness |
+The **innovation-decision process** has five stages: knowledge, persuasion, decision, implementation and confirmation. **Opinion leaders** (respected people in a community) and **change agents** (the professionals who promote the innovation: extension workers, bank agents) speed adoption; **homophily** (people trust others like themselves) means the message must come from similar people.
+
+### Adopter categories from the normal curve
+
+Rogers observed that the time to adopt is roughly bell-shaped in the population and cut the curve at multiples of the standard deviation σ from the mean adoption time:
+
+| Category | Cut-offs (σ from mean adoption time) | Normal-curve area | Rogers' rounded share |
 |---|---|---|---|
-| Identity | National ID database | One trusted identity | Privacy and exclusion risk |
-| Citizen services | Nagarik App | One place, verified documents | Needs a smartphone and ID |
-| Hosting | GIDC, government cloud | Shared, secure infrastructure | Single point of failure unless replicated |
-| Tax and customs | Online portals | Faster, traceable | Training of small businesses |
-| Procurement | e-bidding portal | Transparency | Bid-rigging outside the system |
-| Local government | Palika software | Services near citizens | Non-interoperable systems |
+| Innovators | below −2σ | 2.28% | 2.5% |
+| Early adopters | −2σ to −1σ | 13.59% | 13.5% |
+| Early majority | −1σ to mean | 34.13% | 34% |
+| Late majority | mean to +1σ | 34.13% | 34% |
+| Laggards | above +1σ | 15.87% | 16% |
 
-## 5.3 Digital signatures and PKI
+Innovators are the adventurous few (2.28% exactly, 2.5% rounded); innovators plus early adopters together are **15.87%**. Marketers speak of a **chasm** (Moore) between the early adopters and the early majority: techniques that work for enthusiasts (novelty) do not persuade pragmatists (references, support), and many products die in the gap. **Critical mass** is the point after which adoption becomes self-sustaining because each adopter makes the next one likelier, which is where network effects enter.
 
-Paper documents are authenticated by a handwritten signature and a stamp. An electronic document is only a file, easy to copy and alter; trust needs cryptography. A **digital signature** has three properties: **authentication** (it came from the signer), **integrity** (the document was not changed) and **non-repudiation** (the signer cannot credibly deny it). It combines a **hash** and **public-key cryptography**:
+## 5.3 The S-curve: logistic growth
 
-1. **Hash** the document with a one-way function (for example SHA-256) to produce a short fixed-size digest. Any change in the document changes the digest completely.
-2. **Sign:** the signer encrypts (transforms) the digest with their **private key**.
-3. **Verify:** anyone applies the signer's **public key** to the signature, obtaining a digest, and compares it with a digest freshly computed from the received document. If they match, the document is intact and the signer's private key was used.
+Cumulative adoption over time is S-shaped: slow, then rapid, then saturating. A simple model is the **logistic function** N(t) = K / (1 + e^(−r(t − t₀))), where K is the saturation level, r the growth rate and t₀ the inflection time at which N = K/2. With K = 100%, r = 0.9 per year and t₀ = 6:
 
-To know that a public key *really belongs* to Sita and not an impostor, a **Certifying Authority (CA)** issues a **certificate**: a document, itself signed by the CA, that binds Sita's name to her public key. In Nepal the Controller of Certification licenses the CAs (Unit 4); a **PKI (public-key infrastructure)** is the whole system of keys, certificates, CAs, revocation lists and policies. Verification of a certificate follows the **chain of trust** from the user's certificate up to a trusted root.
+| Year t | Adoption % = 100/(1 + e^(−0.9(t−6))) | New adopters this year (points) |
+|---|---|---|
+| 0 | 0.4 |  |
+| 2 | 2.7 | 1.6 |
+| 4 | 14.2 | 7.9 |
+| 6 | 50.0 | 21.1 |
+| 8 | 85.8 | 14.7 |
+| 10 | 97.3 | 3.6 |
+| 12 | 99.6 | 0.6 |
 
-The following program signs a message with a **toy RSA key** (about 20 bits, trivially breakable) so that every number can be followed; a real key has 2,048 bits or more and a padding scheme such as RSA-PSS.
+At t = 0 only 0.4% have adopted. The fastest growth occurs at t₀ = 6, where the rate is K·r/4 = **22.5 percentage points a year**. The curve is symmetric about t₀, so the first half takes as long as the second. Planning use: before the inflection point, spending on awareness shows little result; the manager must be patient, or the project is cancelled just before takeoff.
 
-```python
-import hashlib
-p, q = 1009, 1013
-n = p * q
-phi = (p - 1) * (q - 1)
-e = 65537
-d = pow(e, -1, phi)
-def digest(msg):
-    return int.from_bytes(hashlib.sha256(msg.encode()).digest(), "big") % n
-doc = "Pay Rs 5,000 to Ram Bahadur"
-h = digest(doc)
-s = pow(h, d, n)
-print("n =", n, " phi =", phi, " d =", d)
-print("sha256 mod n =", h)
-print("signature =", s)
-print("verify original:", pow(s, e, n) == h)
-forged = "Pay Rs 50,000 to Ram Bahadur"
-print("verify forged :", pow(s, e, n) == digest(forged))
-```
-```output
-n = 1022117  phi = 1020096  d = 832193
-sha256 mod n = 563523
-signature = 766706
-verify original: True
-verify forged : False
-```
-The signature checks against the original but not against the changed amount; with a real hash the chance of a forged document matching is negligible, while with this toy modulus a collision has probability about 1 in a million per attempt. The signing *speed* point: signing the short digest rather than the whole document is why digital signatures are practical.
+## 5.4 The Bass diffusion model
 
-## 5.4 Challenges and good practice
+Frank Bass (1969) built the S-curve from behaviour: adopters are driven by **innovation** (external influence, advertising, coefficient p) and **imitation** (word of mouth, coefficient q). The cumulative fraction of adopters is
 
-- **Digital divide and exclusion:** keep assisted channels; design for low-end phones and Nepali.
-- **Security and resilience:** hardened systems, regular audits, backups and a disaster-recovery site; security of identity databases above all.
-- **Interoperability:** open standards and APIs so that agencies share data instead of asking citizens for the same document repeatedly (*once-only principle*).
-- **Privacy and legal basis:** data collected only for a stated purpose and protected by law (Unit 4).
-- **Process reengineering:** simplify the procedure before digitising it.
-- **Capacity and sustainability:** train staff, budget for maintenance, avoid vendor lock-in, publish open data.
-- **Measure outcomes:** time, cost, complaints and corruption, not just the number of online forms.
+F(t) = (1 − e^(−(p+q)t)) / (1 + (q/p)·e^(−(p+q)t)),
 
-## 5.5 Seeing the ideas: the front desks, the four models, the index, the savings and the signature
+and the number of new adopters in a period is m × (F(t) − F(t − 1)), where m is the total market potential. The peak of new adoptions occurs at **t\* = ln(q/p) / (p + q)**.
 
-e-Governance is delivered at real counters. Plate 5.1 shows two of them, the gate of the Kathmandu Metropolitan City Office and a rural-municipality ward office, and the kind of cash machine that already connects ordinary people to digital payment rails. A service is only "online" when the counter, the network and the citizen's phone all work.
+Take p = 0.03, q = 0.40 (typical orders of magnitude for consumer technology) and m = 5,00,000 eventual users of a regional wallet:
 
-```photogrid label="5.1" cols="3" ratio="1.25" caption="Where governance meets the citizen. (a) The entrance of the Kathmandu Metropolitan City Office, Bagh Durbar: a local government that issues recommendations, registers vital events and collects taxes. (b) A ward office of a rural municipality: the nearest government counter for most Nepalis, often with thin staff and unstable connectivity. (c) A bank ATM in Nepal: payment infrastructure that e-government fees and allowances can ride on."
-@ photo id="bca-st/kmc" cap="Metropolitan City Office"
-fit 1.25
+| Year t | Cumulative F(t) | Cumulative adopters | New adopters in year |
+|---|---|---|---|
+| 0 | 0.0% | 0 | 0 |
+| 1 | 3.6% | 18,064 | 18,064 |
+| 2 | 8.7% | 43,422 | 25,358 |
+| 3 | 15.5% | 77,590 | 34,167 |
+| 4 | 24.2% | 121,169 | 43,580 |
+| 5 | 34.6% | 173,027 | 51,857 |
+| 6 | 46.0% | 229,870 | 56,844 |
+| 7 | 57.4% | 286,838 | 56,968 |
+| 8 | 67.8% | 339,025 | 52,187 |
+| 9 | 76.6% | 383,042 | 44,018 |
+| 10 | 83.5% | 417,656 | 34,614 |
+| 11 | 88.7% | 443,404 | 25,748 |
+| 12 | 92.4% | 461,777 | 18,373 |
+
+The theoretical peak time is t\* = ln(0.40/0.03)/(0.43) = **6.02 years**, when 46.2% of the market has adopted; the largest whole-year increment is in year **7** with about **56,968** new users (the continuous formula m(p+q)²/(4q) gives 57,781 users per year at the instant of peak). In year 1 the model gives 18,064 adopters; innovation (advertising) alone accounts for only 7.0% of the total pull (p/(p+q)), so *word of mouth dominates*; by year 12, 92.4% have adopted. For a manager, the actions are different at the two ends: push advertising and free trials at the start (p), and referral schemes and social proof in the middle (q).
+
+## 5.5 Barriers and resistance
+
+People resist technology for reasons that deserve respect. **Individual:** fear of losing a job or status, low skills, habit, distrust, cost. **Organisational:** inertia, unclear benefit, lack of leadership, inadequate training. **Technical and infrastructural:** unreliable power and connectivity, no Nepali-language interface, poor support. **Social and cultural:** norms about women's phone use, fear of fraud, low trust in digital money. **Policy:** unclear rules, high taxes on devices or data. Strategies: involve users early (participatory design), train and provide local help, run pilots, start with a visible quick benefit, build trust through consumer protection, and adopt **gradual migration** instead of forcing a sudden switch. A change agent who respects the existing practice is more effective than one who insists the old way is wrong.
+
+## 5.6 Seeing the ideas: adoption in hardware, TAM, adopter categories and the two growth curves
+
+Adoption is visible on the street. Plate 5.1 shows three devices that spread through Nepal in different eras: the basic mobile handset, the smartphone and the bank ATM.
+
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Technologies that diffused through Nepal. (a) A Nokia 1100 feature phone: cheap, rugged and easy to use, it made mobile telephony a mass technology (high perceived ease of use). (b) An Android smartphone: perceived usefulness grew with mobile wallets and social media. (c) An ATM in Nepal: adoption depended on trust and on bank networks."
+@ photo id="bca-st/nokia1100" cap="Feature phone"
+fit 1.0
+focus 0.5 0.45
+@ photo id="bca101/android" cap="Smartphone"
+fit 1.0
 focus 0.5 0.5
-@ photo id="bca-st/wardoffice" cap="Ward office"
-fit 1.25
-focus 0.5 0.55
-@ photo id="bca101/atm-nepal" cap="Bank ATM"
-fit 1.25
+@ photo id="bca101/atm-nepal" cap="ATM in Nepal"
+fit 1.0
 focus 0.5 0.5
 ```
 
-```svgfig label="5.1" caption="The four interaction models of e-government. G2C faces people, G2B faces firms, G2G joins agencies and G2E serves the government's own staff. The examples are typical services, not a list of live systems."
-f = Fig(580, 196)
-c = [("G2C", "Government to Citizen", "certificates,\ntax filing,\nallowances", MINT, TEAL), ("G2B", "to Business", "company\nregistration,\ncustoms, bids", BLUE, NAVY), ("G2G", "between Agencies", "shared data,\ne-file movement,\ntreasury", SAND, AMBER), ("G2E", "to Employees", "payroll,\nleave, training\nrecords", ROSE, RED)]
-f.circle(290, 98, 36, fill="#ffffff", stroke=SLATE, label="Govern-\nment", size=9.5)
-pos = [(6, 6), (334, 6), (6, 108), (334, 108)]
-for (a, b, s, fl, sk), (x, y) in zip(c, pos):
-    f.box(x, y, 240, 82, a + " : " + b + "\n" + s, fill=fl, stroke=sk, size=10.2, bold=True)
-```
-
-```svgfig label="5.2" caption="Four stages of maturity (UN-style). Each stage adds a capability. Moving up needs back-office integration, not only a better website: stage 4 is impossible while each agency keeps its own isolated database."
-f = Fig(580, 210)
-s = [("1 Emerging", "information only:\noffice hours, notices", BLUE, NAVY), ("2 Enhanced", "two-way: download\nforms, e-mail queries", BLUE, NAVY), ("3 Transactional", "complete service and\nfee payment online", MINT, TEAL), ("4 Connected", "one request, many\nagencies, data shared", MINT, TEAL)]
-for i, (t, d, fl, sk) in enumerate(s):
-    x = 8 + i * 142; h = 50 + i * 28; y = 190 - h - 14
-    f.box(x, y, 130, h + 14, "", fill=fl, stroke=sk)
-    f.text(x + 65, y + 16, t, size=10.5, color=sk, bold=True)
-    f.text(x + 65, y + 36, d, size=9.2, color=SLATE)
-f.text(290, 204, "Example: office hours on a website = stage 1; birth registered online, fee paid by wallet, certificate verifiable = stage 3 or 4", size=9, color=RED, bold=True)
-```
-
-```svgfig label="5.3" caption="The EGDI-style index of section 5.1 (invented values). EGDI is the mean of the three components: (0.52 + 0.41 + 0.63) / 3 = 0.520. The weakest component, telecommunication infrastructure at 0.41, shows where investment should go first."
-f = Fig(580, 168)
-rows = [("Online Service Index (OSI)", 0.52, BLUE, NAVY), ("Telecom Infrastructure (TII)", 0.41, ROSE, RED), ("Human Capital (HCI)", 0.63, BLUE, NAVY), ("EGDI = mean of the three", 0.52, MINT, TEAL)]
-for i, (n, v, fl, sk) in enumerate(rows):
-    y = 12 + i * 36
-    f.text(8, y + 14, n, size=10, color=NAVY, bold=True, anchor="start")
-    f.box(220, y, v * 330, 24, "", fill=fl, stroke=sk)
-    f.text(220 + v * 330 + 6, y + 13, "%.2f" % v, size=10.5, color=sk, bold=True, anchor="start")
-f.line(220 + 0.52 * 330, 4, 220 + 0.52 * 330, 156, color=AMBER, dash=True)
-f.text(290, 162, "dashed line = EGDI 0.52; TII is the only component below it by a wide margin", size=9.4, color=SLATE)
-```
-
-```svgfig label="5.4" caption="Citizen time saved by one online service, from section 5.1: 1,20,000 applicants avoid 2 visits of 3.5 hours at Rs 60 an hour. Benefit Rs 5,04,00,000, cost Rs 45,00,000, net Rs 4,59,00,000 (bars to scale in crore rupees). The benefit goes to citizens, the cost to the agency's budget."
-f = Fig(580, 184)
-sc = 320 / 5.04
-def row(i, n, v, fl, sk, lab):
-    y = 12 + i * 46
-    f.text(8, y + 16, n, size=10.5, color=NAVY, bold=True, anchor="start")
-    f.box(130, y, max(v * sc, 3), 30, "", fill=fl, stroke=sk)
-    f.text(130 + v * sc + 8, y + 16, lab, size=10.5, color=sk, bold=True, anchor="start")
-row(0, "Benefit", 5.04, MINT, TEAL, "Rs 5.04 crore")
-row(1, "Cost a year", 0.45, ROSE, RED, "Rs 0.45 crore")
-row(2, "Net benefit", 4.59, BLUE, NAVY, "Rs 4.59 crore")
-f.text(290, 172, "benefit / cost = 5.04 / 0.45 = 11.2 to 1, if every applicant can really use the service", size=9.6, color=SLATE)
-```
-
-```svgfig label="5.5" caption="The toy RSA signature of section 5.3 with the real numbers printed by the program. The signer hashes the message (563523 after reduction mod n) and raises it to the private exponent d, giving 766706. The verifier raises the signature to e and compares with a fresh hash: true for the original, false for the forged amount."
+```svgfig label="5.1" caption="The Technology Acceptance Model (Davis, 1989). Perceived usefulness and perceived ease of use shape the attitude and the intention to use, which leads to actual use. Ease of use also raises perceived usefulness. External variables such as training, cost and trust act on both beliefs."
 f = Fig(580, 200)
-f.box(6, 12, 150, 56, "Message\nPay Rs 5,000 to Ram", fill=SAND, stroke=AMBER, size=9.8, bold=True)
-f.box(206, 12, 150, 56, "Hash (SHA-256 mod n)\nh = 563523", fill=BLUE, stroke=NAVY, size=9.8, bold=True)
-f.box(406, 12, 168, 56, "Signature s = h^d mod n\ns = 766706", fill=MINT, stroke=TEAL, size=9.8, bold=True)
-f.arrow([(156, 40), (206, 40)], color=SLATE); f.arrow([(356, 40), (406, 40)], color=SLATE, label="private d", lpos=(381, 30))
-f.box(6, 104, 268, 46, "Verify original: s^e mod n = 563523\nequals fresh hash  =>  True", fill=MINT, stroke=TEAL, size=9.8, bold=True)
-f.box(306, 104, 268, 46, "Verify forged (Rs 50,000): hash differs\ns^e mod n does not match  =>  False", fill=ROSE, stroke=RED, size=9.8, bold=True)
-f.arrow([(490, 68), (490, 104)], color=SLATE, dash=True)
-f.text(290, 176, "n = 1009 x 1013 = 1022117, e = 65537, d = 832193 (toy key; real keys have 2,048 bits or more)", size=9.4, color=SLATE)
+f.box(6, 78, 104, 44, "External variables\ntraining, cost, trust", fill="#e2e8f0", stroke=SLATE, size=9.5, bold=True)
+f.box(150, 26, 118, 44, "Perceived\nusefulness", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(150, 130, 118, 44, "Perceived\nease of use", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(308, 78, 100, 44, "Attitude and\nintention to use", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(452, 78, 122, 44, "Actual\nsystem use", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(110, 90), (150, 50)]); f.arrow([(110, 110), (150, 150)])
+f.arrow([(268, 48), (308, 90)]); f.arrow([(268, 152), (308, 110)]); f.arrow([(408, 100), (452, 100)])
+f.arrow([(209, 130), (209, 70)], color=RED, label="raises", lpos=(236, 100))
+f.arrow([(268, 40), (452, 84)], color=TEAL, dash=True)
 ```
 
-### 5.5.1 Eight benefits of e-governance
+```svgfig label="5.2" caption="Rogers' adopter categories on a bell curve: innovators 2.5%, early adopters 13.5%, early majority 34%, late majority 34% and laggards 16%. The curve of new adopters is bell-shaped; its running total is the S-curve."
+f = Fig(580, 214)
+cats = [("Innovators", 2.5, 60), ("Early\nadopters", 13.5, 72), ("Early\nmajority", 34, 120), ("Late\nmajority", 34, 120), ("Laggards", 16, 90)]
+x = 20
+cols = [(ROSE, RED), (SAND, AMBER), (MINT, TEAL), (BLUE, NAVY), ("#e2e8f0", SLATE)]
+widths = [56, 100, 140, 140, 100]
+heights = [14, 48, 112, 112, 60]
+x = 20
+for (t, p, _), w, h, (fl, st) in zip(cats, widths, heights, cols):
+    f.box(x, 150 - h, w, h, "%s%%" % p, fill=fl, stroke=st, bold=True, size=11)
+    f.text(x + w / 2, 168, t, size=9.5, color=st, bold=True)
+    x += w
+f.text(290, 14, "share of all eventual adopters, by order of adoption", size=10.5, color=NAVY, bold=True)
+f.text(290, 206, "Chasm: a product must cross the gap between early adopters and the early majority", size=9.5, color=RED, bold=True)
+```
 
-1. **Faster services.** A citizen who used to wait days for a stamped paper can get a verified document in minutes. Fewer manual steps mean fewer delays. A recommendation letter requested through a ward system can be ready the same day.
-2. **Lower cost for citizens.** Each avoided trip saves bus fare, lost wages and time, as the Rs 5,04,00,000 estimate shows. People in distant hill villages gain the most. The saving is real even when the agency's own budget does not change.
-3. **Transparency.** An online tender portal publishes bids for everyone to see. Records with times and user names are hard to hide. Public procurement becomes easier to monitor and compare.
-4. **Less corruption.** Fewer face-to-face contacts reduce the chance to ask for a small payment. A queue number, a fee receipt and a status page make the process traceable. Complaints can be tied to a record.
-5. **Better data for planning.** Digital records show how many people apply, where and how long they wait. Planners can place staff and money where needs are highest. Social security lists with bank payment reduce ghost beneficiaries.
-6. **Wider access.** A mobile service reaches people who cannot visit an office easily, such as migrant workers, the elderly and persons with disabilities. Apps like the Nagarik App put verified documents in a pocket. Access still needs a phone, a signal and some skill.
-7. **Accountability and trust.** When a service has a published time limit and a digital log, officials can be held to it. Citizens see the status of their file. Trust grows when promises are visible and kept.
-8. **Integration across agencies.** Shared identity and shared standards let agencies reuse data instead of asking for the same copy again and again. This is the once-only principle. It saves effort for the citizen and removes duplicate systems.
+```svgfig label="5.3" caption="Logistic S-curve with K = 100%, r = 0.9 per year and t0 = 6. Adoption is 0.4% at t = 0, 14.2% at t = 4, 50.0% at t = 6, 85.8% at t = 8 and 99.6% at t = 12. The fastest growth is K r / 4 = 22.5 points a year at t0."
+f = Fig(580, 216)
+import math
+X = lambda t: 60 + t * 24
+Y = lambda v: 180 - v * 1.5
+f.line(60, 180, 360, 180, color=SLATE); f.line(60, 180, 60, 28, color=SLATE)
+for t in range(0, 13, 2):
+    f.text(X(t), 194, str(t), size=9.5, color=SLATE)
+for v in (0, 50, 100):
+    f.text(52, Y(v) + 3, "%d%%" % v, size=9.5, color=SLATE, anchor="end")
+pts = [(X(t / 2), Y(100 / (1 + math.exp(-0.9 * (t / 2 - 6))))) for t in range(0, 25)]
+f.arrow(pts, color=TEAL, sw=2.4)
+f.line(X(6), 180, X(6), Y(50), color=AMBER, dash=True); f.line(60, Y(50), X(6), Y(50), color=AMBER, dash=True)
+f.circle(X(6), Y(50), 5, fill=RED, stroke=RED)
+f.text(X(6) + 10, Y(50) + 18, "inflection t0 = 6, 50%", size=9.5, color=RED, bold=True, anchor="start")
+f.box(392, 26, 182, 44, "Slow start: 0.4% to 14.2%\nin the first 4 years", fill=SAND, stroke=AMBER, size=10)
+f.box(392, 82, 182, 44, "Rapid growth around t0:\n22.5 points a year at most", fill=MINT, stroke=TEAL, size=10)
+f.box(392, 138, 182, 44, "Saturation: 97.3% at t = 10,\n99.6% at t = 12", fill=BLUE, stroke=NAVY, size=10)
+f.text(210, 208, "year t", size=9.5, color=SLATE)
+```
+
+```svgfig label="5.4" caption="Bass model new adopters per year for p = 0.03, q = 0.40 and a market of 5,00,000 users of a regional wallet. New adopters rise from 18,064 in year 1 to a peak of 56,968 in year 7 and then fall; the continuous peak is at t* = ln(q/p)/(p+q) = 6.02 years."
+f = Fig(580, 216)
+vals = [18064, 25358, 34167, 43580, 51857, 56844, 56968, 52187, 44018, 34614, 25748, 18373]
+f.line(50, 170, 560, 170, color=SLATE)
+for i, v in enumerate(vals):
+    h = v / 56968 * 120
+    fl, st = (ROSE, RED) if i == 6 else (BLUE, NAVY)
+    f.box(58 + i * 42, 170 - h, 34, h, "", fill=fl, stroke=st)
+    f.text(75 + i * 42, 184, str(i + 1), size=9.5, color=SLATE)
+    f.text(75 + i * 42, 164 - h, "%dk" % round(v / 1000), size=8.5, color=SLATE)
+f.text(300, 202, "year t (new adopters in thousands above each bar)", size=9.5, color=SLATE)
+f.text(300, 18, "Peak in year 7: 56,968 new users", size=11, color=RED, bold=True)
+```
+
+### 5.6.1 Eight barriers to technology adoption
+
+1. **Cost.** Devices, data packs and subscriptions must fit a family budget. A smartphone that costs a month's income is out of reach for many. Lower prices and instalment plans widen adoption.
+2. **Low perceived usefulness.** People adopt only when the tool solves a problem they have. A farmer will use a price app if it shows today's market rate. If it does not, the app stays unused.
+3. **Poor ease of use.** Complex menus and foreign-language screens push users away. Nepali-language interfaces and voice options help new users. Simple design often matters more than extra features.
+4. **Lack of trust.** People fear fraud, lost money and misuse of data. Early ATMs and wallets grew slowly until trust was built. Clear rules, receipts and complaint channels build it.
+5. **Weak infrastructure.** Electricity, signal and bandwidth must be reliable. A rural clinic with frequent power cuts cannot depend on an online system. Investment in networks comes first.
+6. **Skills gap.** Users need digital skills and confidence. Training programmes in schools and municipalities reduce fear. Peer helpers are very effective.
+7. **Resistance to change.** Habits, jobs and power structures resist new systems. Staff may fear that automation will replace them. Involving them early and explaining benefits lowers resistance.
+8. **Lack of network effects.** A wallet is useful only if shops and friends accept it. Until enough people join, each person sees little value. Shared standards such as common QR codes solve this.
 
 ## Chapter summary
 
-- e-Governance covers service delivery, transparency and participation; models are G2C, G2B, G2G and G2E; maturity runs from emerging to connected.
-- EGDI-style indices average service, infrastructure and human-capital components; cost-benefit estimates should count citizens' time and access.
-- Nepali building blocks: National ID, Nagarik App, GIDC and office systems, tax, customs and procurement portals, and Palika software.
-- A digital signature hashes the document and transforms the digest with the private key; a CA's certificate binds the public key to the identity.
-- Success depends on inclusion, security, interoperability, legal safeguards and reengineered processes.
+- TAM: PU and PEOU drive intention; UTAUT adds social influence and facilitating conditions; trust matters in Nepal.
+- Cronbach's alpha checks scale reliability; correlated predictors (multicollinearity) limit what a small regression can tell.
+- Rogers' categories come from the normal curve (2.5, 13.5, 34, 34, 16%); the five attributes of innovations predict speed.
+- The logistic curve peaks in rate at t₀; the Bass model combines innovation (p) and imitation (q) with peak time ln(q/p)/(p+q).
+- Barriers are individual, organisational, technical, social and policy-related; respect and participation lower resistance.
 
 ## Practice
 
-1. Differentiate e-government from e-governance and give examples of G2C, G2B, G2G and G2E.
-2. Describe the four maturity stages.
-3. With OSI = 0.60, TII = 0.30, HCI = 0.75, compute the EGDI. Which component should be improved first?
-4. A service avoids 50,000 visits, each costing 4 hours at Rs 50 an hour. Compute the value of time saved.
-5. List two benefits and two risks of a biometric National ID.
-6. What does the Nagarik App do for a citizen?
-7. Explain the three steps of signing and verifying a document.
-8. What does a CA certificate prove?
-9. Why does the signature program print "False" for the forged document?
-10. State the "once-only principle" and why it needs interoperability.
+1. Define PU and PEOU and state the TAM links.
+2. What does UTAUT add to TAM?
+3. Cronbach's alpha uses which two variance quantities?
+4. Why is a regression on two highly correlated predictors unreliable?
+5. List Rogers' five adopter categories with their percentages.
+6. Which attribute of innovation does a free trial address?
+7. For the logistic curve with r = 0.6, what is the maximum growth rate in percentage points per year (K = 100%)?
+8. For Bass p = 0.02, q = 0.3, compute the time of peak adoption.
+9. Explain the "chasm" between early adopters and the early majority.
+10. Give four barriers to adoption of digital payments in rural Nepal and one remedy for each.
 
 ::: note Answers and worked solutions
-**1.** e-Government delivers services by ICT; e-governance also covers transparency and participation. G2C: online tax filing; G2B: company registration; G2G: shared data between agencies; G2E: payroll portal.
-**2.** Emerging (information), enhanced (two-way interaction), transactional (full services with payment), connected (integrated across agencies).
-**3.** (0.60 + 0.30 + 0.75)/3 = 1.65/3 = **0.55**; TII (0.30) is weakest, so improve infrastructure.
-**4.** 50,000 × 4 × 50 = **Rs 1,00,00,000**.
-**5.** Benefits: unique trusted identity; fewer fake or duplicate beneficiaries. Risks: breach of a central biometric database; exclusion of people whose prints cannot be read or who lack documents.
-**6.** It provides verified documents and access to government services from one mobile application.
-**7.** Hash the document; transform the digest with the private key (signature); the verifier applies the public key to the signature and compares with a fresh hash of the document.
-**8.** That the named person (or organisation) holds the private key that matches the public key in the certificate, as vouched by the CA's own signature.
-**9.** Changing the amount changes the SHA-256 digest, so the digest recovered from the signature no longer equals the new one.
-**10.** Government should ask citizens for a given piece of data only once and reuse it; agencies can do that only if their systems can securely exchange the data.
+**1.** PU: belief that the system improves performance. PEOU: belief that it is effortless. PEOU → PU; PU and PEOU → attitude/intention → use.
+**2.** Social influence, facilitating conditions (and moderators such as age, gender, experience), alongside performance and effort expectancy.
+**3.** The sum of the item variances and the variance of the total (sum) score.
+**4.** The predictors move together, so the data cannot say which one causes the effect; coefficients become unstable.
+**5.** Innovators 2.5%, early adopters 13.5%, early majority 34%, late majority 34%, laggards 16%.
+**6.** Trialability.
+**7.** K·r/4 = 100 × 0.6 / 4 = **15 points per year**.
+**8.** t\* = ln(0.3/0.02)/(0.32) = ln 15 / 0.32 = 2.708/0.32 = **8.46 years**.
+**9.** Enthusiasts accept an unfinished product for novelty; pragmatists need references, support and reliability, so firms that cannot provide them stall after the early adopters.
+**10.** Low digital skills (training by agents); no trust (consumer protection, small first transaction); poor connectivity (offline/USSD options); low incentive (cashback, utility-bill convenience).
 :::
-
 
 ## Model answers: medium (5 marks) and long (10 marks) questions
 
-**Q1 (5 marks). Explain the four interaction models and the four maturity stages of e-government with Nepali examples.**
+**Q1 (5 marks). Explain the Technology Acceptance Model with a diagram description and a Nepali example.**
 
-*Introduction.* e-Government is the use of ICT by government to deliver services and information. Two classifications describe it: who the service is for (models) and how advanced it is (stages) (section 5.1, Figures 5.1 and 5.2).
+*Introduction.* The Technology Acceptance Model (TAM), proposed by Fred Davis in 1989, explains why people accept or reject a new information system (section 5.1 and Figure 5.1).
 
-1. **G2C (government to citizen).** Certificates, tax filing and allowances, for example verified documents on the Nagarik App.
-2. **G2B (government to business).** Company registration, customs clearance and e-procurement bids.
-3. **G2G (government to government).** Data sharing and electronic file movement between agencies, hosted on shared infrastructure such as the Government Integrated Data Centre.
-4. **G2E (government to employees).** Payroll, leave and training records of staff.
+1. **Perceived usefulness (PU).** The degree to which a person believes the system will improve performance.
+2. **Perceived ease of use (PEOU).** The degree to which the person believes using it will be free of effort. PEOU also raises PU, because an easy tool seems more useful.
+3. **Attitude and behavioural intention.** PU and PEOU shape the attitude to the system and the intention to use it.
+4. **Actual use.** Intention leads to real use.
+5. **External variables.** Training, cost, trust and support act on both beliefs.
 
-| Stage | Capability | Example |
+| Construct | Question the user asks | Example |
 |---|---|---|
-| 1 Emerging | Information only | Website with office hours |
-| 2 Enhanced | Two-way: forms, queries | Downloadable application form |
-| 3 Transactional | Full service and payment | Online tax return with fee |
-| 4 Connected | Integrated across agencies | One request, data reused |
+| PU | Will it help me? | A wallet that pays bills without queues |
+| PEOU | Is it simple? | Scan a QR and enter a PIN |
+| Intention | Will I use it? | I will pay my electricity bill this way |
 
-*Remark.* Reaching stage 4 needs shared identity, shared standards and a simplified process, not only a nicer website.
+*Nepali example.* A taxpayer will use an online tax portal only if it saves time (PU) and the forms are simple and in Nepali (PEOU). Training and trust, the external variables, decide the rest.
 
-*Conclusion.* Models show whom a service serves; stages show how far it has matured; good planning uses both.
+*Conclusion.* To raise adoption, improve usefulness and ease of use together.
 
-**Q2 (5 marks). A country has OSI = 0.52, TII = 0.41 and HCI = 0.63. Compute its EGDI and say what policy follows. A service moves online for 1,20,000 applicants who each avoid 2 visits of 3.5 hours valued at Rs 60 an hour; it costs Rs 45,00,000 a year. Find the net benefit.**
+**Q2 (5 marks). A technology follows the logistic curve with K = 100%, r = 0.9 per year and t0 = 6. Calculate the adoption at t = 4 and t = 8 and the maximum yearly growth.**
 
-*Introduction.* Indices and cost-benefit estimates turn e-government into numbers that can be compared (section 5.1, Figures 5.3 and 5.4).
+*Introduction.* Cumulative adoption over time is S-shaped, and the logistic function models it as N(t) = K / (1 + e^(-r(t - t0))) (section 5.3 and Figure 5.3).
 
-*EGDI.* EGDI = (OSI + TII + HCI) / 3 = (0.52 + 0.41 + 0.63) / 3 = 1.56 / 3 = **0.520**.
+*Calculation at t = 4.* The exponent is -0.9 x (4 - 6) = 1.8, so N = 100 / (1 + e^1.8) = 100 / (1 + 6.0496) = **14.2%**.
 
-*Policy.* The weakest component is TII at 0.41, so investment should go first to connectivity (fibre, towers, affordable data) rather than more online forms. Human capital is the strongest at 0.63.
+*Calculation at t = 8.* The exponent is -0.9 x (8 - 6) = -1.8, so N = 100 / (1 + e^-1.8) = 100 / (1 + 0.1653) = **85.8%**. The curve is symmetric about t0, so 14.2% + 85.8% = 100%.
 
-*Cost-benefit.*
+*Maximum growth.* It occurs at t0 = 6, where N = 50% and the rate is K x r / 4 = 100 x 0.9 / 4 = **22.5 percentage points a year**.
 
-| Step | Calculation | Result |
+| t | 0 | 2 | 4 | 6 | 8 | 10 | 12 |
+|---|---|---|---|---|---|---|---|
+| Adoption % | 0.4 | 2.7 | 14.2 | 50.0 | 85.8 | 97.3 | 99.6 |
+
+*Planning use.* Before the inflection point, spending on awareness shows little visible result, but it prepares the take-off. After saturation, growth must come from new products.
+
+**Q3 (10 marks). Explain the Bass diffusion model. For p = 0.03, q = 0.40 and a market of 5,00,000 users, find the time of peak adoption and discuss what it tells a planner.**
+
+*Introduction.* Frank Bass (1969) built the S-curve from human behaviour. Adopters are influenced in two ways: by **innovation** (external influence such as advertising, coefficient p) and by **imitation** (word of mouth, coefficient q) (section 5.4 and Figure 5.4).
+
+*The model.* The cumulative fraction of adopters is F(t) = (1 - e^(-(p+q)t)) / (1 + (q/p) e^(-(p+q)t)). New adopters in a year are m x (F(t) - F(t - 1)), where m is the market potential.
+
+*Peak time.* The peak of new adoptions occurs at t* = ln(q/p) / (p + q) = ln(0.40 / 0.03) / 0.43 = 2.590 / 0.43 = **6.02 years**. At that time F = (1 - p/q) / 2 = 46.2% of the market has adopted. The continuous peak rate is m (p + q)^2 / (4q) = 5,00,000 x 0.1849 / 1.6, about 57,781 users per year.
+
+*Year-by-year result.*
+
+| Year | Cumulative adopters | New adopters |
 |---|---|---|
-| Visits avoided | 1,20,000 x 2 | 2,40,000 |
-| Hours saved | 2,40,000 x 3.5 | 8,40,000 |
-| Value | 8,40,000 x Rs 60 | Rs 5,04,00,000 |
-| Net benefit | 5,04,00,000 - 45,00,000 | Rs 4,59,00,000 |
+| 1 | 18,064 | 18,064 |
+| 4 | 1,21,169 | 43,580 |
+| 7 | 2,86,838 | 56,968 |
+| 10 | 4,17,656 | 34,614 |
+| 12 | 4,61,777 | 18,373 |
 
-The benefit-cost ratio is 5.04 crore / 0.45 crore = **11.2**.
+The largest whole-year increase is in year 7, with 56,968 new users, close to the continuous estimate.
 
-*Caution.* The benefit goes to citizens while the cost falls on the agency's budget, and the estimate assumes every applicant can use the service. An assisted channel is needed for those who cannot.
+*Interpretation of p and q.* A large p means a fast start driven by advertising; a large q means growth depends on word of mouth, so early users become the marketing channel. When q is much larger than p, the curve is strongly S-shaped with a late, high peak.
 
-*Conclusion.* EGDI shows where to invest; the cost-benefit calculation shows why the project is worth funding.
+*Use for a planner.* A regional wallet company can see that year 1 brings only 3.6% of the market, so it should expect slow early numbers and plan servers, agents and support for about 57,000 new users a year around the peak. Referral rewards act on q, and advertising acts on p. After year 10, new-user growth falls, so revenue must come from new services.
 
-**Q3 (10 marks). Describe e-governance in Nepal. Explain its concepts, the main building blocks, its benefits, the role of digital signatures and the main challenges, with suitable examples.**
+*Limitations.* The model assumes a fixed market size and constant p and q. Price changes, competitors and regulation can change both.
 
-*Introduction.* e-Governance uses ICT not only to deliver services but to improve how government works: transparency, participation and accountability. Nepal is building it on identity, shared hosting, integrated services and local-level systems (sections 5.1 to 5.5).
-
-*Concepts.* Interaction models are G2C, G2B, G2G and G2E; maturity runs from emerging to connected (Figures 5.1, 5.2).
-
-*Building blocks.* (1) **National ID**: a unique number linked to biometric data, kept by the Department of National ID and Civil Registration. (2) **Nagarik App**: verified documents and services on a phone, a G2C front end. (3) **GIDC and government cloud**: shared hosting and disaster recovery with agreed data-exchange standards. (4) **Tax, customs and procurement portals**: online returns, electronic clearance and e-bidding. (5) **Palika systems**: the 753 local governments that deliver most daily services.
-
-| Block | Benefit | Typical weakness |
-|---|---|---|
-| National ID | One trusted identity | Privacy and exclusion |
-| Nagarik App | Documents in one place | Needs smartphone and ID |
-| GIDC | Shared secure hosting | Single point of failure |
-| Procurement portal | Transparency | Bid-rigging outside system |
-| Palika software | Services near people | Systems do not interoperate |
-
-*Benefits.* Faster, cheaper and more transparent services, less corruption, better planning data, wider access, accountability and integration (section 5.5.1).
-
-*Digital signatures.* A hash of the document is signed with the private key; anyone verifies with the public key, and a Certifying Authority licensed by the Controller of Certification binds the key to a name. A changed amount fails verification (Figure 5.5).
-
-*Challenges.* Exclusion of the offline, security of high-value identity databases, non-interoperable systems, privacy and legal basis, digitising bad processes, thin staff and vendor lock-in.
-
-*Conclusion.* Nepal's e-governance is moving from isolated websites toward shared identity and services, but its success depends on connectivity, security, privacy safeguards, simplified procedures and keeping an assisted channel for people who are offline.
+*Conclusion.* The Bass model explains the S-curve through imitation and gives practical numbers for planning.
