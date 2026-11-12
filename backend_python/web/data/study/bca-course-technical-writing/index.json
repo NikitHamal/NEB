@@ -54,6 +54,15 @@
    "read_min": 15,
    "figures": 3,
    "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Writing for the Web, Information Reports, Proposals and Group Work",
+   "area": "BCA 354 · Technical Writing · Unit 7",
+   "words": 3873,
+   "read_min": 22,
+   "figures": 1,
+   "has_questions": true
   }
  ]
 }
