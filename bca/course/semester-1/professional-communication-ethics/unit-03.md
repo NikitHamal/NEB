@@ -412,48 +412,49 @@ Do not use the passive for the sake of sounding formal: "It is requested by the 
 
 #### Summary
 
-1. **The gateman.** Govind Singh was for twenty-five years the gateman of Engladia's Insurance Company in Malgudi. A former soldier who had served in Mesopotamia, he was proud of his khaki uniform and was punctual and obedient. He retired on a small pension and spent his time at home.
-2. **A hobby.** One day a neighbour's child brings a broken doll to be mended. Govind Singh repairs it, finds that he has a talent, and begins to make small clay models (including a model of the Engladia building and its people). The models earn praise from the neighbours and he is happy and absorbed.
-3. **The letter.** After he sends models to the company or shows them to its officers, a **registered letter** arrives from his old employer. Having spent his life obeying orders and being afraid of "the Sahib" and official papers, he is sure it is a complaint or a threat to his pension, which is all he has. He is unable to read it himself.
-4. **Fear and refusal.** He will not open the letter and also will not let anyone else open it. He carries it, keeps it in his turban or pocket, and imagines the worst: that he will lose the pension, or be punished for the models. His wife and friends urge him to open it; he refuses.
-5. **He behaves like a madman.** His fear grows into strange behaviour: he talks wildly, stops making his models, breaks things, and neglects his duties at home. People start to say he is mad. He even consults a doctor or institution, which only adds to the confusion. He half believes that he is going mad and, in his fear, behaves accordingly.
-6. **A street scene.** He is taken by a policeman after an outburst (breaking a street lamp), and in the street he tries to give orders to traffic, claiming experience from "Mesopotamia".
-7. **The letter is opened.** A man from the old office (an accountant) meets him, sees the letter, and persuades or forces him to open it. The letter contains **good news**: the company has admired the models and sends a reward (money) with a note of appreciation.
-8. **The ending.** Govind Singh's fear dissolves and he returns to his senses. But he now feels that making clay toys is not a "sensible" occupation for a normal man and decides not to make models again. The gift that brought him recognition also ends his art.
+1. **The gateman.** **Govind Singh** was for **twenty-five years** the gateman (gatekeeper) of **Engladia's Insurance Company** in Malgudi. A former soldier, he was proud of his khaki uniform and gave the company's British "Sahib" a smart military salute whenever the Sahib's car stopped at the gate. He was punctual, obedient and loyal, and he retired on a small pension.
+2. **A new hobby.** In retirement he takes up the hobby of making **small clay figures and models**. He does it for pleasure, and it gives him something to do after a lifetime of standing at a gate.
+3. **The gifts to the accountant.** Whenever he goes to the company's office to collect his **pension**, he leaves one of his clay models for the office **accountant**, who admires them. Through the accountant, the models reach the company's top officer.
+4. **The registered letter.** One day Govind Singh receives a **registered letter** from his old employer. A lifetime of fear of the Sahib and of official papers makes him certain that it brings **bad news**: that his pension has been stopped, or that he has offended the company by playing with clay. He cannot read English easily and dare not open it.
+5. **Panic.** He will not open it. He runs about the town looking for someone who can tell him what is in the letter **without opening it**, becoming more and more frightened and acting so oddly that people think he has lost his mind. In his confusion he even breaks street lamps and is picked up by the police.
+6. **The accountant explains.** On the way to the police station he meets the **accountant** of the company by chance. The accountant tells him what the letter contains: it is a **commendation** (a letter of appreciation) from the Sahib for the models, with a **cheque** (a reward of a hundred rupees). Govind Singh is released.
+7. **The ending.** Relief should have made him happy. Instead, he now decides that **making clay models is not an occupation for a sane man** and gives it up. The one thing that gave him pleasure and recognition ends just when it is praised.
+
+*Check your textbook copy for small details (the exact sum, what he breaks, what he says). The shape of the story above is the same in the standard summaries.*
 
 #### Characters
 
-- **Govind Singh:** simple, honest, obedient, proud of his service; he is respectful to authority to the point of fear.
-- **The Sahib / the company:** an unseen authority whose power exists mostly in the gateman's imagination.
-- **His wife, neighbours and friends:** ordinary people who are puzzled by his behaviour and urge him to open the letter.
-- **The accountant:** a kind man who solves the mystery by opening the letter.
+- **Govind Singh:** simple, honest, loyal and obedient; proud of his service; fearful of authority; creative without knowing it.
+- **The Sahib / the company:** an unseen authority; the gateman's imagination makes it terrifying, although it is kind in fact.
+- **The accountant:** kind and practical; he values the models and solves the mystery.
+- **The townspeople and police:** ordinary people who see only a madman.
 
 #### Themes
 
-- **Fear of authority and the class divide.** A lifetime of obedience has taught the gateman to see official letters as threats; the story shows how hierarchy lives in the mind of the powerless.
-- **Fear distorts behaviour.** A sane man behaves like a madman only because of anxiety; the story shows how much of "madness" is social.
-- **Art, creativity and recognition.** Govind Singh's talent appears late and by accident; recognition is both a joy and, ironically, the end of the hobby.
-- **Communication.** The entire problem comes from one unopened letter: a message not read, not decoded, becomes a fear. This ties directly to Unit 1: feedback and decoding.
-- **Dependence and insecurity of old age.** His pension of a few rupees is the only security he has.
-- **Humour and irony.** The tone is light, but the issues (poverty, dignity, mental health) are serious.
+- **Fear of authority and the class divide.** A lifetime of obedience has taught the gateman to see every official paper as a threat.
+- **Fear distorts behaviour.** A sensible man behaves like a madman because of anxiety.
+- **Art, recognition and self-doubt.** His talent appears late and by accident; praise, ironically, makes him ashamed of it.
+- **Communication.** The entire problem comes from one letter that was **not read**: a message not decoded becomes a fear (Unit 1: decoding and feedback).
+- **Insecurity of old age.** The small pension is his only security.
+- **Humour and pathos.** The tone is light but the subject (poverty, dignity, mental health) is serious.
 
 #### Critical analysis and literary devices
 
-- **Irony:** the letter he dreads contains a reward; verbal and situational irony shape the plot. *Dramatic irony:* the reader suspects the letter is harmless before he does.
-- **Narrative voice:** an objective, gently amused third-person narrator who never mocks Govind Singh; this is Narayan's typical *humane humour*.
-- **Setting and symbol:** the **gate** is a symbol of the boundary between the powerful inside and the powerless outside; the **letter** is a symbol of authority and of unspoken communication; the **clay model** stands for creativity and the self.
-- **Structure:** a simple plot with a central mystery (what is in the letter?) that builds suspense, with a quick resolution and a quiet, ironic close.
-- **Critical view:** some critics read it as a story of marginalised people and class anxiety; others see an allegory of the artist who gives up art when the audience recognises it. Both readings are valid. Narayan does not preach; he lets the situation speak.
+- **Irony:** the letter he dreads contains praise and a reward (situational irony); the reader suspects this before he does (dramatic irony); he gives up the hobby at the moment of recognition.
+- **Narrative voice:** a gently amused third-person narrator who never mocks Govind Singh: Narayan's typical **humane humour** (humour with pathos).
+- **Symbols:** the **gate** (boundary between powerful inside and powerless outside), the **letter** (authority and unspoken communication), the **clay models** (creativity).
+- **Structure:** simple, with a mystery (what is in the letter?), rising panic, a quick explanation and a quiet, ironic close.
+- **Critical views:** a story of class anxiety and the marginalised; an allegory of the artist who gives up when recognised; a study of how fear is made by silence. All are valid; Narayan does not preach.
 - **Link to professional communication:** read your mail; do not let fear fill the gap left by silence; managers should write clear, reassuring messages so that employees do not guess the worst.
 
 #### Key vocabulary
 
-*gateman, pension, registered letter, miniature, clay, eccentric, bewildered, anxiety, misunderstanding, insanity, appreciation, humble.*
+*gateman, pension, registered letter, commendation, cheque, clay model, bewildered, anxiety, misunderstanding, appreciation, humble, eccentric.*
 
 ### Exercise: "Gateman's Gift"
 
 1. Who is Govind Singh and what was his job?
-2. How did he discover his talent for making models?
+2. What was his hobby after retirement and what did he do with the models?
 3. Why was he afraid of the registered letter?
 4. How did his behaviour change after receiving it?
 5. How was the mystery of the letter solved, and what did the letter contain?
@@ -463,13 +464,13 @@ Do not use the passive for the sake of sounding formal: "It is requested by the 
 
 ::: note Answers and worked solutions
 **1.** A retired gateman of Engladia's Insurance Company in Malgudi, with twenty-five years of service, an ex-soldier living on a small pension.
-**2.** A neighbour's child brought him a damaged doll to repair; he not only repaired it but found that he could model clay figures and miniature buildings and enjoyed doing so.
-**3.** The letter was an official registered letter from his old employer; he had spent his life in fear of authority and official papers and believed it could take away his pension, his only security.
-**4.** He refused to open it, grew anxious, stopped his modelling, behaved wildly, became the subject of gossip that he was mad, and even half believed it himself.
-**5.** A man from the company's office (the accountant) met him and had the letter opened; it contained appreciation of his models and a reward in money.
-**6.** He feels that the occupation of making clay models is not suitable for a sensible person, because it led to his embarrassing fear and madness; recognition made him self-conscious and ends the innocent pleasure of his art.
-**7.** Introduction: the antagonist is not a person but fear. Body: (i) fear of authority is built by years of obedience as a gateman; (ii) fear stops him from simply reading the letter; (iii) it makes a sane man act like a lunatic and the community believes it; (iv) the cure is just information: when the letter is read, fear vanishes. Conclusion: Narayan shows that anxiety and silence do more harm than the thing feared, and that powerless people carry authority within themselves.
-**8.** The letter he fears is a message of praise and reward (situational irony); he gives up modelling at the moment he is recognised for it; and the "mad" man was behaving sensibly in his craft but madly out of fear.
+**2.** He made small clay figures and models; whenever he went for his pension he left one for the office accountant.
+**3.** It was an official registered letter from his old employer; he had spent his life in fear of authority and official papers and believed it meant bad news, perhaps loss of his pension, his only security.
+**4.** He refused to open it, grew frightened, ran about town trying to find someone to tell him the contents without opening it, acted wildly (even breaking street lamps) and was thought mad.
+**5.** The company's accountant met him by chance on the way to the police station and told him that the letter contained the Sahib's appreciation of the models and a cheque as a reward.
+**6.** Once the fear passed he concluded that making clay toys was not work for a sane man; recognition made him self-conscious and ended the innocent pleasure of his art.
+**7.** Introduction: the antagonist is not a person but fear. Body: (i) fear of authority built by years of obedience; (ii) fear stops him from reading the letter; (iii) it makes a sane man act like a lunatic and the community believes it; (iv) the cure is just information: once the letter is explained, fear vanishes. Conclusion: anxiety and silence do more harm than the thing feared, and the powerless carry authority within themselves.
+**8.** The letter he fears is praise and reward (situational irony); the reader senses this before he does (dramatic irony); and he gives up modelling at the moment he is recognised for it.
 :::
 
 ### 3.7.2 "My School" by Rabindranath Tagore
