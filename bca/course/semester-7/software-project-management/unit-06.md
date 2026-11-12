@@ -62,7 +62,7 @@ chars = [("Functionality", ["suitability", "accuracy", "interoperability", "secu
          ("Portability", ["adaptability", "installability", "co-existence", "replaceability"])]
 for i, (c, subs) in enumerate(chars):
     x = 6 + i * 105
-    f.box(x, 74, 100, 32, c, fill=BLUE, color=NAVY, size=10.5, bold=True)
+    f.box(x, 74, 100, 32, c, fill=BLUE, color=NAVY, size=10, bold=True)
     f.arrow([(320, 42), (320, 58), (x + 50, 58), (x + 50, 74)], color=SLATE, sw=1.2)
     for k, s in enumerate(subs):
         f.box(x + 3, 118 + k * 34, 94, 28, s, fill="#fde68a", stroke=AMBER, color=NAVY, size=9)

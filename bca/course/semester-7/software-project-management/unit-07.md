@@ -62,7 +62,7 @@ f.text(455, 52, "test", size=10.5, color=SLATE)
 for x in (230, 380, 530):
     f.arrow([(x, 150), (x, 188)], color=RED, sw=1.8)
     f.text(x, 205, "change request", size=10.5, color=RED)
-f.box(30, 150, 140, 36, "Approved items are frozen", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(30, 150, 140, 36, "Approved items\nare frozen", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=10.5, bold=True)
 ```
 
 ### The SCM repository
@@ -141,16 +141,16 @@ Changes are inevitable: bugs are found, users ask for new features, laws change.
 
 ```svgfig label="7.2" caption="The change control process. A change request is evaluated by the Change Control Board; approved changes are implemented, tested, reviewed and then baselined again."
 f = Fig(640, 250)
-f.box(10, 90, 100, 46, "Change request raised", fill=BLUE, color=NAVY, size=11, bold=True)
-f.box(140, 90, 100, 46, "Impact analysis", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(10, 90, 100, 46, "Change request\nraised", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(140, 90, 100, 46, "Impact\nanalysis", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
 f.box(270, 90, 100, 46, "CCB decision", fill="#fde68a", stroke=AMBER, color=NAVY, size=11.5, bold=True)
-f.box(400, 90, 100, 46, "Implement change", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
-f.box(530, 90, 100, 46, "Test and review", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(400, 90, 100, 46, "Implement\nchange", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(530, 90, 100, 46, "Test and\nreview", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
 for x in (110, 240, 370, 500):
     f.arrow([(x, 113), (x + 30, 113)], color=NAVY, sw=1.8)
-f.box(270, 8, 100, 40, "Rejected or deferred", fill="#fecaca", stroke=RED, color=NAVY, size=10.5, bold=True)
+f.box(270, 8, 100, 40, "Rejected or\ndeferred", fill="#fecaca", stroke=RED, color=NAVY, size=10.5, bold=True)
 f.arrow([(320, 90), (320, 48)], color=RED, sw=1.6)
-f.box(400, 190, 230, 44, "Update baseline, tag new version, record in status report", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(400, 190, 230, 44, "Update baseline, tag new version,\nrecord in status report", fill="#ccfbf1", stroke=TEAL, color=NAVY, size=10.5, bold=True)
 f.arrow([(580, 136), (580, 190)], color=NAVY, sw=1.8)
 ```
 
@@ -202,7 +202,7 @@ Git (created by Linus Torvalds in 2005 for the Linux kernel) is the dominant **d
 
 ```svgfig label="7.3" caption="Git areas and commands. A change moves from the working directory to the staging area (add), to the local repository (commit), and to the remote repository (push)."
 f = Fig(640, 210)
-areas = [(20, "Working directory"), (180, "Staging area (index)"), (340, "Local repository"), (500, "Remote repository")]
+areas = [(20, "Working directory"), (180, "Staging area\n(index)"), (340, "Local repository"), (500, "Remote repository")]
 for x, t in areas:
     f.box(x, 40, 120, 60, t, fill=BLUE if x < 340 else "#bbf7d0", stroke=NAVY if x < 340 else TEAL, color=NAVY, size=11, bold=True)
 for x, t in [(140, "git add"), (300, "git commit"), (460, "git push")]:

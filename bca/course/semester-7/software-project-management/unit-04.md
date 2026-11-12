@@ -240,10 +240,10 @@ f.line(70, 230, 530, 230, color=SLATE, sw=1.6)
 f.text(300, 255, "Technology uncertainty (low to high)", size=11, color=NAVY, bold=True)
 f.text(20, 125, "Req.", size=11, color=NAVY, bold=True)
 f.text(20, 140, "unc.", size=11, color=NAVY, bold=True)
-f.box(80, 28, 200, 90, "Prototyping, then incremental delivery\n(clarify what to build)", fill=BLUE, color=NAVY, size=11, bold=True)
-f.box(290, 28, 230, 90, "Spiral or agile with early risk spikes\n(unknown what and how)", fill="#fecaca", stroke=RED, color=NAVY, size=11, bold=True)
+f.box(80, 28, 200, 90, "Prototyping, then\nincremental delivery\n(clarify what to build)", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(290, 28, 230, 90, "Spiral or agile with\nearly risk spikes\n(unknown what and how)", fill="#fecaca", stroke=RED, color=NAVY, size=11, bold=True)
 f.box(80, 128, 200, 92, "Waterfall or V-model\n(plan-driven, predictable)", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
-f.box(290, 128, 230, 92, "Incremental with a technical prototype\n(prove the technology first)", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(290, 128, 230, 92, "Incremental with a\ntechnical prototype\n(prove the technology first)", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
 ```
 
 ### Agile in brief: Scrum and Extreme Programming
