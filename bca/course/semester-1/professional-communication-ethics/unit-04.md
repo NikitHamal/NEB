@@ -51,6 +51,27 @@ The **Johari Window** (Joseph Luft and Harrington Ingham, 1955) is a simple mode
 
 Trust grows when the **open** area expands: you *disclose* appropriate information about yourself (shrinking the hidden area) and you *ask for and accept feedback* (shrinking the blind spot). In a new project team, a student who says "I am strong in front end but weak in databases; please review my SQL" enlarges the open area and helps the team plan.
 
+```svgfig label="4.2" caption="The Johari Window. Asking for feedback shrinks the blind spot and appropriate self-disclosure shrinks the hidden area; both enlarge the open area, where communication is easiest and trust is highest."
+f = Fig(760, 290)
+f.text(255, 20, "Known to self", size=11.5, color=NAVY, bold=True)
+f.text(425, 20, "Not known to self", size=11.5, color=NAVY, bold=True)
+f.text(110, 82, "Known to others", size=11.5, color=NAVY, bold=True)
+f.text(110, 192, "Not known to others", size=11.5, color=NAVY, bold=True)
+cells = [(170, 34, "OPEN", "free to all", MINT), (340, 34, "BLIND SPOT", "others see it, you do not", ROSE),
+         (170, 144, "HIDDEN", "you know, others do not", BLUE), (340, 144, "UNKNOWN", "neither side knows yet", SAND)]
+for x, y, t, s, col in cells:
+    f.box(x, y, 168, 106, "", fill=col, stroke=NAVY)
+    f.text(x + 84, y + 44, t, size=13, color=NAVY, bold=True)
+    f.text(x + 84, y + 66, s, size=10, color=SLATE)
+f.arrow([(520, 70), (560, 70)], color=TEAL, sw=2)
+f.text(572, 66, "feedback", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(572, 80, "shrinks blind spot", size=10, color=SLATE, anchor="start")
+f.arrow([(520, 196), (560, 196)], color=TEAL, sw=2)
+f.text(572, 192, "disclosure", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(572, 206, "shrinks hidden area", size=10, color=SLATE, anchor="start")
+f.text(425, 280, "Aim: a larger open area.", size=10.5, color=SLATE)
+```
+
 ### Interpersonal skills for professionals
 
 - **Active listening** (4.2) and **empathy**: understand the other person's feelings before replying.
@@ -185,6 +206,21 @@ The number of **possible pairs** in a team of n people is **n(n - 1)/2**: 3 peop
 
 **Forming** (polite, unsure) → **storming** (conflict about roles and methods) → **norming** (rules and trust form) → **performing** (high productivity) → **adjourning** (project ends). Leaders help teams pass through storming by naming it as normal and agreeing on working rules.
 
+```svgfig label="4.3" caption="Tuckman's five stages of team development. The leader's style should change with the stage: direct in forming, coaching in storming, facilitating in norming, delegating in performing and recognising in adjourning."
+f = Fig(760, 270)
+st = [("Forming", "polite, unsure,\nrely on leader", "Direct", 80), ("Storming", "conflict over roles\nand methods", "Coach", 105), ("Norming", "rules agreed,\ncohesion grows", "Facilitate", 130),
+      ("Performing", "high trust,\nresults flow", "Delegate", 155), ("Adjourning", "work ends,\nmixed feelings", "Recognise", 105)]
+for i, (a, b, c, h) in enumerate(st):
+    x = 10 + i * 150
+    f.box(x, 215 - h, 140, h, "", fill=[BLUE, ROSE, MINT, SAND, SOFT][i], stroke=NAVY)
+    f.text(x + 70, 215 - h + 20, a, size=12.5, color=NAVY, bold=True)
+    for k, ln in enumerate(b.split("\n")): f.text(x + 70, 215 - h + 42 + k * 14, ln, size=10, color=SLATE)
+    f.text(x + 70, 238, "Leader: " + c, size=10.5, color=TEAL, bold=True)
+f.arrow([(30, 36), (640, 36)], color=AMBER, sw=2)
+f.text(30, 22, "productivity and cohesion rise with each stage (adjourning is the planned end)", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(380, 262, "A new member or a new goal can send the team back to an earlier stage.", size=10, color=SLATE)
+```
+
 ### Communication practices that make teams effective
 
 - **A shared goal and definition of done**, written where everyone can see it.
@@ -209,6 +245,32 @@ A **virtual team** works across locations, and often time zones, mainly through 
 | inclusion of people who cannot relocate | cultural and language misunderstandings |
 
 **Best practices for virtual teams:** hold regular video meetings, with cameras on where bandwidth permits; define **core overlap hours**; prefer **asynchronous** updates (written status notes) so people in other time zones are not blocked; state response-time expectations (for example, "within one working day"); use one tool per purpose (chat for quick questions, a board for tasks, a repository for code, a wiki for decisions); begin calls with a short personal check-in; rotate unfriendly meeting times; send agendas in advance and notes afterwards; celebrate wins online; and meet in person when possible.
+
+```svgfig label="4.4" caption="Four communication networks in a team of five. Chain and wheel are centralised and fast for simple tasks but depend on one person; circle and all-channel suit complex problems and give the highest morale, at the cost of speed and more messages."
+import math
+f = Fig(760, 290)
+def node(x, y, t=""): f.circle(x, y, 12, fill=BLUE, stroke=NAVY, sw=1.4, label=t, size=9)
+def ring(cx, cy, r, n=5): return [(cx + r * math.cos(-math.pi / 2 + 2 * math.pi * k / n), cy + r * math.sin(-math.pi / 2 + 2 * math.pi * k / n)) for k in range(n)]
+cx = [100, 290, 480, 670]
+pts = [(cx[0] - 60 + 30 * k, 120) for k in range(5)]
+for a, b in zip(pts, pts[1:]): f.line(a[0], a[1], b[0], b[1], color=SLATE, sw=1.6)
+for p in pts: node(*p)
+c = (cx[1], 120); outer = ring(c[0], c[1], 62, 4)
+for p in outer: f.line(c[0], c[1], p[0], p[1], color=SLATE, sw=1.6)
+node(*c, "L")
+for p in outer: node(*p)
+pr = ring(cx[2], 120, 62)
+for k in range(5): f.line(pr[k][0], pr[k][1], pr[(k + 1) % 5][0], pr[(k + 1) % 5][1], color=SLATE, sw=1.6)
+for p in pr: node(*p)
+pa = ring(cx[3], 120, 62)
+for i in range(5):
+    for j in range(i + 1, 5): f.line(pa[i][0], pa[i][1], pa[j][0], pa[j][1], color=SLATE, sw=1.2)
+for p in pa: node(*p)
+caps = [("Chain", "follows the hierarchy\nslow, message distorts"), ("Wheel", "all via the leader (L)\nfast, low morale"), ("Circle", "talk to neighbours only\nmoderate speed"), ("All-channel", "everyone talks to all\nslow but highest morale")]
+for x, (a, b) in zip(cx, caps):
+    f.text(x, 220, a, size=12.5, color=NAVY, bold=True)
+    for k, ln in enumerate(b.split("\n")): f.text(x, 240 + k * 15, ln, size=10, color=SLATE)
+```
 
 ## 4.5 Defining successful teams
 

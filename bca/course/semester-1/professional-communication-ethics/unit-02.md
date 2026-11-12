@@ -151,6 +151,20 @@ The meeting ended at 10:55 am. The next meeting will be on 21 March 2025.
 Signed: ____________ (Chair) ____________ (Secretary)
 :::
 
+```svgfig label="2.2" caption="The three phases of a meeting. Most failed meetings fail in the first phase (no agenda, wrong people) or the last (no minutes, no follow-up on actions)."
+f = Fig(760, 250)
+ph = [("BEFORE", "Prepare", "state the purpose\ncirculate agenda early\ninvite only needed people\nbook room, link, papers", BLUE),
+      ("DURING", "Run", "start on time, check quorum\nchair keeps to the agenda\none voice at a time\nrecord decisions, actions", MINT),
+      ("AFTER", "Follow up", "send minutes in 24 to 48 h\nlist action, owner, deadline\ntrack open actions\nreview at the next meeting", SAND)]
+for i, (a, b, c, col) in enumerate(ph):
+    x = 10 + i * 252
+    f.box(x, 30, 236, 180, "", fill=col, stroke=NAVY)
+    f.text(x + 118, 56, a + ": " + b, size=13.5, color=NAVY, bold=True)
+    for k, ln in enumerate(c.split("\n")): f.text(x + 118, 92 + k * 24, ln, size=10.5, color=SLATE)
+    if i < 2: f.arrow([(x + 236, 120), (x + 252, 120)], color=TEAL, sw=2.2)
+f.text(380, 232, "Agenda in, minutes out: the document trail turns talk into accountable action.", size=11, color=TEAL, bold=True)
+```
+
 ## 2.4 Elevator pitches
 
 An **elevator pitch** is a 30 to 60 second spoken summary (about 80 to 150 words) of who you are or what your idea is, short enough to deliver in a lift ride. It is used at job fairs, networking events, start-up competitions and in everyday introductions. Its purpose is not to tell everything but to make the listener say, "Tell me more."
@@ -163,6 +177,22 @@ An **elevator pitch** is a 30 to 60 second spoken summary (about 80 to 150 words
 :::
 
 **Tips:** write it out, cut it to 120 words, remove jargon, speak at a natural pace, practise until it sounds conversational, prepare three versions (10, 30, 60 seconds) and always carry a card or QR code.
+
+```svgfig label="2.3" caption="A 30-second elevator pitch drawn to scale. The bar is split by time; the ask at the end is what turns a polite chat into a next step such as an email address or an interview."
+f = Fig(760, 260)
+segs = [("Hook", 5, "a question or\nstriking fact", BLUE), ("Who", 5, "name, course,\nfocus", MINT), ("Value", 10, "the problem you solve\nand how", SAND),
+        ("Proof", 5, "project, result,\nnumber", MINT), ("Ask", 5, "what you want\nnext", ROSE)]
+x = 30
+for t, sec, d, col in segs:
+    w = sec * 23.3
+    f.box(x, 50, w - 4, 58, "", fill=col, stroke=NAVY)
+    f.text(x + w / 2 - 2, 70, t, size=12.5, color=NAVY, bold=True)
+    f.text(x + w / 2 - 2, 90, "%d s" % sec, size=11, color=TEAL, bold=True)
+    for k, ln in enumerate(d.split("\n")): f.text(x + w / 2 - 2, 126 + k * 14, ln, size=9.5, color=SLATE)
+    x += w
+f.text(380, 28, "30 seconds is roughly 75 words at a natural speaking pace", size=11.5, color=NAVY, bold=True)
+f.box(30, 168, 700, 72, "Example: \"I'm Sita, a BCA student who builds small inventory apps for local shops.\nMy last one cut a pharmacy's stock-count time from two hours to twenty minutes.\nI am looking for a summer internship; may I send you my one-page CV today?\"", fill=SOFT, stroke=SLATE, color=SLATE, size=10.5, anchor="start")
+```
 
 ## 2.5 Interviewing and professional dialogue
 

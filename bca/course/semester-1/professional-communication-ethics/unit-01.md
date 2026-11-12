@@ -213,6 +213,26 @@ call 0.5 0.93 0.5 0.42 "Written record"
 
 **Applying it.** *Interview:* arrive early, greet with a smile, sit upright, keep hands visible. *Presentation:* face the audience, vary the voice, avoid pacing. *Video call:* camera at eye level, look at the lens when speaking, keep the background neutral and the microphone muted when not talking. *Phone call:* only voice carries the message, so smile, slow down and confirm points aloud. *Culture:* the Nepali *namaste* with joined palms, the Japanese bow and the Western handshake are all correct in their setting; pointing with a finger or the foot, or touching the head, can offend. When in doubt, observe, then follow the local custom.
 
+```svgfig label="1.2" caption="Hall's four distance zones (proxemics), shown as rings around you. The distances are typical for North American and European offices and are not to scale; in Nepal people often stand closer in crowded places, which is why a professional watches the other person's reaction before adjusting."
+f = Fig(760, 300)
+cx, cy = 170, 150
+for r, fill in [(142, SAND), (108, MINT), (74, BLUE), (40, ROSE)]:
+    f.circle(cx, cy, r, fill=fill, stroke=NAVY, sw=1.2)
+f.text(cx, cy + 5, "you", size=12, color=NAVY, bold=True)
+for dy, t in [(-128, "public"), (-94, "social"), (-60, "personal"), (-27, "intimate")]:
+    f.text(cx, cy + dy, t, size=10, color=SLATE, bold=True)
+rows = [("Intimate", "up to about 0.5 m", "family, very close friends; a stranger here feels threatened", ROSE),
+        ("Personal", "0.5 m to 1.2 m", "friends and colleagues in a chat; handshake distance", BLUE),
+        ("Social", "1.2 m to 3.6 m", "meetings, interviews, a customer at the counter", MINT),
+        ("Public", "beyond 3.6 m", "lectures, presentations, addressing a hall", SAND)]
+for i, (a, b, c, col) in enumerate(rows):
+    y = 24 + i * 66
+    f.box(350, y, 400, 56, "", fill=col, stroke=NAVY)
+    f.text(362, y + 18, a + ":  " + b, size=12, color=NAVY, bold=True, anchor="start")
+    f.text(362, y + 40, c, size=10.5, color=SLATE, anchor="start")
+f.text(560, 292, "Zone sizes vary with culture, gender, age and setting.", size=10, color=SLATE)
+```
+
 ## 1.6 Barriers to effective communication
 
 A **barrier** is anything that prevents the message from being understood as intended.
@@ -232,6 +252,25 @@ A **barrier** is anything that prevents the message from being understood as int
 ::: key How to overcome barriers
 Know your audience; choose the right channel; use the 7 Cs; ask for and give feedback; listen actively; respect cultural differences; check understanding by asking the receiver to say it back.
 :::
+
+```svgfig label="1.3" caption="Six families of communication barriers. Fixing a barrier starts with naming its family: noise needs a better channel, jargon needs plainer words, bias needs awareness, overload needs fewer and shorter messages."
+f = Fig(760, 290)
+cats = [("Physical", "noise, distance, poor network,\nbad lighting, faulty projector", 10, 10),
+        ("Language (semantic)", "jargon, ambiguity, accents,\nweak vocabulary, long sentences", 10, 100),
+        ("Psychological", "stress, fear, bias, prejudice,\nlack of attention or interest", 10, 190),
+        ("Organisational", "rigid hierarchy, overload, no\nfeedback channel, unclear roles", 520, 10),
+        ("Cultural", "stereotypes, gestures, high and\nlow context, different time habits", 520, 100),
+        ("Technological", "wrong tool, no access, spam,\nfile format or security limits", 520, 190)]
+f.box(300, 110, 160, 60, "Barrier to\nmeaning", fill=ROSE, stroke=RED, color=RED, size=13, bold=True)
+for t, s, x, y in cats:
+    f.box(x, y, 230, 82, "", fill=BLUE, stroke=NAVY)
+    f.text(x + 115, y + 20, t, size=12.5, color=NAVY, bold=True)
+    for i, ln in enumerate(s.split("\n")): f.text(x + 115, y + 44 + i * 16, ln, size=10.5, color=SLATE)
+    xa = x + 230 if x < 300 else x
+    xb = 300 if x < 300 else 460
+    f.arrow([(xa, y + 41), (xb, 140)], color=TEAL, sw=1.6)
+f.text(380, 280, "Overcome: choose the right channel, use plain words, check feedback, and listen before replying.", size=10.5, color=SLATE)
+```
 
 ## Exercise (Sections 1.1 to 1.6)
 
@@ -325,6 +364,25 @@ A **tense** shows the time of an action and its aspect (simple, continuous, perf
 **Rules to remember.** (1) Use present tense for general truths and for timetables ("The meeting starts at 10"). (2) Use present perfect when *time is not stated* ("I have completed it") and simple past when it is ("I completed it yesterday"). (3) Do not use *will* after *if*, *when*, *as soon as* in a time or condition clause: "If it *rains*, we will cancel." (4) State-of-mind verbs (*know*, *like*, *want*, *believe*) are not normally used in continuous forms. (5) Keep tense consistent within a paragraph unless time really changes. (6) In minutes use past tense; in reports of facts use present tense; in plans use future.
 
 **Common errors.** *I am working here since 2022* should be *I have been working here since 2022*. *He said he will come* should be *he would come* (reported speech, Unit 2). *I am knowing the answer* should be *I know the answer*.
+
+```svgfig label="1.4" caption="The twelve tenses of English with the verb write. Rows give the time (past, present, future); columns give the aspect: simple for facts and habits, continuous for actions in progress, perfect for actions completed before a point, perfect continuous for duration up to a point."
+f = Fig(760, 270)
+heads = ["Simple", "Continuous", "Perfect", "Perfect continuous"]
+rows = [("Past", ["I wrote", "I was writing", "I had written", "I had been writing"]),
+        ("Present", ["I write", "I am writing", "I have written", "I have been writing"]),
+        ("Future", ["I will write", "I will be writing", "I will have written", "I will have been writing"])]
+uses = ["finished action,\nfact, habit", "in progress at\na moment", "completed before\na point in time", "duration up to\na point in time"]
+for j, h in enumerate(heads):
+    f.box(100 + j * 165, 8, 158, 30, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=11.5, bold=True)
+for i, (r, cells) in enumerate(rows):
+    y = 46 + i * 74
+    f.box(8, y, 84, 66, r, fill=TEAL, stroke=TEAL, color="#ffffff", size=12, bold=True)
+    for j, c in enumerate(cells):
+        x = 100 + j * 165
+        f.box(x, y, 158, 66, "", fill=[ROSE, BLUE, MINT][i], stroke=NAVY)
+        f.text(x + 79, y + 20, c, size=11.5, color=NAVY, bold=True)
+        for k, ln in enumerate(uses[j].split("\n")): f.text(x + 79, y + 38 + k * 13, ln, size=9.5, color=SLATE)
+```
 
 ### Exercise 1.7
 
